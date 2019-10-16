@@ -1,15 +1,22 @@
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import cx from 'classnames';
+
 import Icon from './Icon';
+import { isKeyboardSelectionEvent } from '../util/browser';
 
 class Modal extends React.Component {
   static propTypes = {
     allowClicks: PropTypes.bool,
     children: PropTypes.node,
+    disableScrolling: PropTypes.bool,
     open: PropTypes.bool,
     title: PropTypes.node,
     toggleVisibility: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    disableScrolling: false,
   };
 
   stopClickPropagation = e => {
@@ -20,47 +27,62 @@ class Modal extends React.Component {
   };
 
   render() {
+    const {
+      children,
+      disableScrolling,
+      open,
+      toggleVisibility,
+      title,
+    } = this.props;
     const isActive = {
-      'is-active': this.props.open,
-    };
-
-    const modalClasses = {
-      modal: true,
-      'small-11': true,
-      column: true,
+      'is-active': open,
     };
 
     const overlayStyle = {
       zIndex: 1400,
     };
 
-    /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/anchor-is-valid */
     return (
       <div
         className={cx('modal-overlay', 'cursor-pointer', isActive)}
+        onClick={toggleVisibility}
+        onKeyPress={e => isKeyboardSelectionEvent(e) && toggleVisibility()}
+        role="button"
         style={overlayStyle}
-        onClick={this.props.toggleVisibility}
+        tabIndex="0"
       >
         <div
           data-closable
-          className={cx(modalClasses, isActive)}
+          className={cx('modal', isActive)}
           onClick={this.stopClickPropagation}
+          onKeyPress={e =>
+            isKeyboardSelectionEvent(e) && this.stopClickPropagation(e)
+          }
+          role="button"
+          tabIndex="0"
         >
-          <div className="row">
-            <h2 className="left">{this.props.title}</h2>
-            <div className="small-1 columns right text-right modal-top-nav">
-              <a
-                onClick={this.props.toggleVisibility}
+          <div className="modal-top-nav">
+            <h2>{title}</h2>
+            <div className="text-right">
+              <div
                 className="close-button cursor-pointer"
+                onClick={toggleVisibility}
+                onKeyPress={e =>
+                  isKeyboardSelectionEvent(e) && toggleVisibility()
+                }
+                role="button"
+                tabIndex="0"
               >
                 <Icon img="icon-icon_close" />
-              </a>
+              </div>
             </div>
           </div>
-          <div className="modal-wrapper">
-            <div className="modal-content momentum-scroll">
-              {this.props.children}
-            </div>
+          <div
+            className={cx('modal-content', {
+              'momentum-scroll': !disableScrolling,
+            })}
+          >
+            {children}
           </div>
         </div>
       </div>

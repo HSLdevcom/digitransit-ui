@@ -4,13 +4,17 @@ import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
 
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 import Icon from './Icon';
 import Select from './Select';
 import { isIe, isKeyboardSelectionEvent } from '../util/browser';
 import { navigateTo, PREFIX_ITINERARY_SUMMARY } from '../util/path';
+import { getIntermediatePlaces } from '../util/queryUtils';
+import updateViaPointsFromMap from '../action/ViaPointsActions';
 import { dtLocationShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
+import { withCurrentTime } from '../util/searchUtils';
 
 export const getEmptyViaPointPlaceHolder = () => ({});
 
@@ -57,6 +61,7 @@ class DTAutosuggestPanel extends React.Component {
     router: routerShape.isRequired,
     location: locationShape.isRequired,
     intl: intlShape.isRequired,
+    getStore: PropTypes.func.isRequired,
   };
 
   static propTypes = {
@@ -71,6 +76,7 @@ class DTAutosuggestPanel extends React.Component {
     updateViaPoints: PropTypes.func,
     breakpoint: PropTypes.string.isRequired,
     swapOrder: PropTypes.func,
+    getViaPointsFromMap: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -81,6 +87,7 @@ class DTAutosuggestPanel extends React.Component {
     searchType: 'endpoint',
     swapOrder: undefined,
     updateViaPoints: () => {},
+    getViaPointsFromMap: false,
   };
 
   constructor(props) {
@@ -92,6 +99,15 @@ class DTAutosuggestPanel extends React.Component {
       viaPoints: this.props.initialViaPoints.map(vp => ({ ...vp })),
     };
   }
+
+  componentWillReceiveProps = () => {
+    if (this.props.getViaPointsFromMap) {
+      this.setState({
+        viaPoints: getIntermediatePlaces(this.context.location.query),
+      });
+      this.context.executeAction(updateViaPointsFromMap, false);
+    }
+  };
 
   getSlackTimeOptions = () => {
     const timeOptions = [];
@@ -265,6 +281,10 @@ class DTAutosuggestPanel extends React.Component {
     const { breakpoint, isItinerary, origin } = this.props;
     const { activeSlackInputs, isDraggingOverIndex, viaPoints } = this.state;
     const slackTime = this.getSlackTimeOptions();
+    const locationWithTime = withCurrentTime(
+      this.context.getStore,
+      this.context.location,
+    );
 
     const defaultSlackTimeValue = 0;
     const getViaPointSlackTimeOrDefault = (
@@ -319,7 +339,7 @@ class DTAutosuggestPanel extends React.Component {
               }
 
               navigateTo({
-                base: this.context.location,
+                base: locationWithTime,
                 origin: newOrigin,
                 destination,
                 context: this.props.isItinerary ? PREFIX_ITINERARY_SUMMARY : '',
@@ -480,7 +500,7 @@ class DTAutosuggestPanel extends React.Component {
                 }
 
                 navigateTo({
-                  base: this.context.location,
+                  base: locationWithTime,
                   origin: updatedOrigin,
                   destination,
                   context: isItinerary ? PREFIX_ITINERARY_SUMMARY : '',
@@ -512,7 +532,14 @@ class DTAutosuggestPanel extends React.Component {
   };
 }
 
-const DTAutosuggestPanelWithBreakpoint = withBreakpoint(DTAutosuggestPanel);
+const DTAutosuggestPanelWithBreakpoint = connectToStores(
+  withBreakpoint(DTAutosuggestPanel),
+  ['ViaPointsStore'],
+  context => ({
+    getViaPointsFromMap: context.getStore('ViaPointsStore').getViaPoints(),
+  }),
+);
+
 export {
   DTAutosuggestPanel as component,
   DTAutosuggestPanelWithBreakpoint as default,

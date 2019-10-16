@@ -94,6 +94,7 @@ export const station = {
   lon: 24.939603788199364,
   lat: 60.1626075196532,
   state: 'Station on',
+  networks: ['Smoove'],
 };
 
 export const favouriteLocation = {
@@ -153,7 +154,7 @@ export const plan = {
           type: 'regular',
           cents: 320,
           currency: 'EUR',
-          components: [{ fareId: 'HSL:hki' }],
+          components: [{ fareId: 'HSL:AB' }],
         },
       ],
       legs: [
@@ -799,3 +800,5 @@ export const twoRoutePatterns = {
     },
   ],
 };
+
+export const cityBikeUrl = 'https://www.hsl.fi/kaupunkipyorat';

@@ -16,7 +16,9 @@ import {
   BIKESTATION_ON,
   BIKESTATION_OFF,
   BIKESTATION_CLOSED,
+  getCityBikeNetworkConfig,
   getCityBikeNetworkIcon,
+  getCityBikeNetworkId,
 } from '../../../util/citybikes';
 
 const timeOfLastFetch = {};
@@ -65,7 +67,7 @@ class CityBikes {
 
           this.features.forEach(actionFn);
         },
-        err => console.log(err),
+        err => console.log(err), // eslint-disable-line no-console
       );
     });
 
@@ -104,7 +106,12 @@ class CityBikes {
             return drawRoundIcon(this.tile, geom, mode);
           }
 
-          const iconName = getCityBikeNetworkIcon(result.networks);
+          const iconName = getCityBikeNetworkIcon(
+            getCityBikeNetworkConfig(
+              getCityBikeNetworkId(result.networks),
+              this.config,
+            ),
+          );
 
           if (result.state === BIKESTATION_CLOSED) {
             // Draw just plain grey base icon
@@ -141,25 +148,14 @@ class CityBikes {
               geom,
               this.citybikeImageSize,
             ).then(() => {
-              if (result.bikesAvailable === 0) {
-                drawAvailabilityBadge(
-                  'no',
-                  this.tile,
-                  geom,
-                  this.citybikeImageSize,
-                  this.availabilityImageSize,
-                  this.scaleratio,
-                );
-              } else {
-                drawAvailabilityValue(
-                  this.tile,
-                  geom,
-                  result.bikesAvailable,
-                  this.citybikeImageSize,
-                  this.availabilityImageSize,
-                  this.scaleratio,
-                );
-              }
+              drawAvailabilityValue(
+                this.tile,
+                geom,
+                result.bikesAvailable,
+                this.citybikeImageSize,
+                this.availabilityImageSize,
+                this.scaleratio,
+              );
             });
           }
         }

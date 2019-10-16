@@ -6,6 +6,7 @@ const APP_TITLE = 'Nyssen reittiopas';
 const APP_DESCRIPTION = 'Nyssen reittiopas';
 
 const walttiConfig = require('./waltti').default;
+const tampereTimetables = require('./timetableConfigUtils').default.tampere;
 
 const minLat = 61.16;
 const maxLat = 62.31;
@@ -37,54 +38,60 @@ export default configMerger(walttiConfig, {
 
   feedIds: ['tampere'],
 
+  geoJson: {
+    layers: [
+      {
+        name: {
+          fi: 'Vyöhykkeet',
+          sv: 'Zoner',
+          en: 'Zones',
+        },
+        url: '/assets/geojson/tre_zone_lines_20190603.geojson',
+        isOffByDefault: true,
+      },
+    ],
+    zones: {
+      url: '/assets/geojson/tre_zone_areas_20190603.geojson',
+    },
+  },
+
+  mapLayers: {
+    tooltip: {
+      fi:
+        'Uutta! Saat nyt vyöhykkeet ja lähellä olevat bussit kartalle asetuksista.',
+      en:
+        'New! You can now get zones and nearby busses on the map from the settings.',
+      sv:
+        'Nytt! I inställningarna kan du nu välja att se zoner och närliggande bussar på kartan.',
+    },
+  },
+
+  itinerary: {
+    showZoneLimits: true,
+  },
+
+  stopCard: {
+    header: {
+      showZone: true,
+      virtualMonitorBaseUrl: 'https://tremonitori.digitransit.fi/stop/tampere:',
+    },
+  },
+
   showTicketInformation: true,
+
+  useTicketIcons: true,
+
+  ticketInformation: {
+    primaryAgencyName: 'Tampereen seudun joukkoliikenne',
+  },
+
   ticketLink: 'http://joukkoliikenne.tampere.fi/liput-ja-hinnat.html',
 
-  // mapping (string, lang) from OTP fare identifiers to human readable form
-  fareMapping: function mapFareId(fareId, lang) {
-    const count = {
-      fi: ['kaksi', 'kolme', 'neljä', 'viisi', 'kuusi'],
-      en: ['two', 'three', 'four', 'five', 'six'],
-      sv: ['två', 'tre', 'fyra', 'fem', 'sex'],
-    };
-
-    const zone = {
-      fi: 'vyöhykettä',
-      en: 'zones',
-      sv: 'zoner',
-    };
-
-    const ticketType = {
-      fi: 'Kertalippu',
-      en: 'Single ticket',
-      sv: 'Enkelbiljett',
-    };
-
-    if (fareId && fareId.substring) {
-      const index = Number.parseInt(
-        fareId.substring(fareId.indexOf(':F') + 2),
-        10,
-      );
-      if (Number.isNaN(index)) {
-        return '';
-      }
-      let zoneCount;
-      if (index < 6) {
-        zoneCount = 0;
-      } else if (index < 10) {
-        zoneCount = 1;
-      } else if (index < 13) {
-        zoneCount = 2;
-      } else if (index < 15) {
-        zoneCount = 3;
-      } else {
-        zoneCount = 4;
-      }
-      return (
-        ticketType[lang] + ', ' + count[lang][zoneCount] + ' ' + zone[lang]
-      );
-    }
-    return '';
+  // mapping fareId from OTP fare identifiers to human readable form
+  fareMapping: function mapFareId(fareId) {
+    return fareId && fareId.substring
+      ? fareId.substring(fareId.indexOf(':') + 1)
+      : '';
   },
 
   searchParams: {
@@ -155,6 +162,8 @@ export default configMerger(walttiConfig, {
         paragraphs: [
           'Tervetuloa reittioppaaseen! Tämän palvelun tarjoaa Tampereen seudun joukkoliikenne (Nysse) reittisuunnittelua varten Tampereen kaupunkiseudun alueella (Kangasala, Lempäälä, Nokia, Orivesi, Pirkkala, Tampere, Vesilahti ja Ylöjärvi). Palvelu perustuu Digitransit-palvelualustaan.',
         ],
+        link:
+          'http://joukkoliikenne.tampere.fi/ohjeita-ja-tietoa/digipalvelut/ohje-repa-reittiopas.html',
       },
       {
         header: 'Digitransit-palvelualusta',
@@ -212,4 +221,12 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
+  showAllBusses: true,
+  showVehiclesOnStopPage: true,
+  timetables: {
+    tampere: tampereTimetables,
+  },
+
+  // Number of days to include to the service time range from the future (DT-3175)
+  itineraryFutureDays: 60,
 });

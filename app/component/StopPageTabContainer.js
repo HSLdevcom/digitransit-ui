@@ -2,18 +2,24 @@ import cx from 'classnames';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import Relay from 'react-relay/classic';
 import { Link } from 'react-router';
 import some from 'lodash/some';
 
 import Icon from './Icon';
-import { RouteAlertsQuery, StopAlertsQuery } from '../util/alertQueries';
+import {
+  RouteAlertsQuery,
+  StopAlertsQuery,
+  RouteAlertsWithContentQuery,
+  StopAlertsWithContentQuery,
+} from '../util/alertQueries';
 import {
   getCancelationsForStop,
   getServiceAlertsForStop,
   getServiceAlertsForStopRoutes,
   isAlertActive,
+  getActiveAlertSeverityLevel,
 } from '../util/alertUtils';
 import withBreakpoint from '../util/withBreakpoint';
 
@@ -37,18 +43,13 @@ const getActiveTab = pathname => {
   return Tab.RightNow;
 };
 
-function StopPageTabContainer({
-  children,
-  params,
-  routes,
-  breakpoint,
-  location: { pathname },
-  stop,
-}) {
+function StopPageTabContainer(
+  { children, params, routes, breakpoint, location: { pathname }, stop },
+  { intl },
+) {
   if (!stop || (some(routes, 'fullscreenMap') && breakpoint !== 'large')) {
     return null;
   }
-
   const activeTab = getActiveTab(pathname);
   const isTerminal = params.terminalId != null;
   const urlBase = `/${
@@ -63,6 +64,20 @@ function StopPageTabContainer({
     [...getServiceAlertsForStop(stop), ...getServiceAlertsForStopRoutes(stop)],
     currentTime,
   );
+
+  const hasActiveServiceAlerts =
+    getActiveAlertSeverityLevel(
+      getServiceAlertsForStop(stop, intl),
+      currentTime,
+    ) ||
+    getActiveAlertSeverityLevel(
+      getServiceAlertsForStopRoutes(stop, intl),
+      currentTime,
+    );
+
+  const disruptionClassName =
+    (hasActiveAlert && 'active-disruption-alert') ||
+    (hasActiveServiceAlerts && 'active-service-alert');
 
   return (
     <div className="stop-page-content-wrapper">
@@ -113,8 +128,16 @@ function StopPageTabContainer({
               </div>
               <div>
                 <FormattedMessage
-                  id="routes-platforms"
-                  defaultMessage="routes-platforms"
+                  id={
+                    stop.vehicleMode === 'RAIL' || stop.vehicleMode === 'SUBWAY'
+                      ? 'routes-tracks'
+                      : 'routes-platforms'
+                  }
+                  defaultMessage={
+                    stop.vehicleMode === 'RAIL' || stop.vehicleMode === 'SUBWAY'
+                      ? 'routes-tracks'
+                      : 'routes-platforms'
+                  }
                 />
               </div>
             </div>
@@ -124,16 +147,18 @@ function StopPageTabContainer({
             className={cx('stop-tab-singletab', {
               active: activeTab === Tab.Disruptions,
               'alert-active': hasActiveAlert,
+              'service-alert-active': hasActiveServiceAlerts,
             })}
           >
             <div className="stop-tab-singletab-container">
               <div>
                 <Icon
-                  className="stop-page-tab_icon"
+                  className={`stop-page-tab_icon ${disruptionClassName ||
+                    `no-alerts`}`}
                   img={hasActiveAlert ? 'icon-icon_caution' : 'icon-icon_info'}
                 />
               </div>
-              <div>
+              <div className={`${disruptionClassName || `no-alerts`}`}>
                 <FormattedMessage id="disruptions" />
               </div>
             </div>
@@ -167,6 +192,7 @@ StopPageTabContainer.propTypes = {
   }).isRequired,
   stop: PropTypes.shape({
     alerts: alertArrayShape,
+    vehicleMode: PropTypes.string,
     stoptimes: PropTypes.arrayOf(
       PropTypes.shape({
         realtimeState: PropTypes.string,
@@ -192,6 +218,10 @@ StopPageTabContainer.defaultProps = {
   stop: undefined,
 };
 
+StopPageTabContainer.contextTypes = {
+  intl: intlShape.isRequired,
+};
+
 const containerComponent = Relay.createContainer(
   withBreakpoint(StopPageTabContainer),
   {
@@ -199,6 +229,8 @@ const containerComponent = Relay.createContainer(
       stop: () => Relay.QL`
         fragment on Stop {
           ${StopAlertsQuery}
+          ${StopAlertsWithContentQuery}
+          vehicleMode
           stoptimes: stoptimesWithoutPatterns(
             startTime:$startTime,
             timeRange:$timeRange,
@@ -212,6 +244,7 @@ const containerComponent = Relay.createContainer(
               }
               route {
                 ${RouteAlertsQuery}
+                ${RouteAlertsWithContentQuery}
               }
             }
           }

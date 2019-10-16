@@ -4,6 +4,7 @@ import moment from 'moment';
 import { filterModes, getDefaultModes, getModes } from './modeUtils';
 import { otpToLocation } from './otpStrings';
 import { getIntermediatePlaces, getQuerySettings } from './queryUtils';
+import { getDefaultNetworks } from './citybikes';
 import {
   getCustomizedSettings,
   getRoutingSettings,
@@ -18,7 +19,11 @@ export const getDefaultSettings = config => {
   if (!config) {
     return {};
   }
-  return { ...config.defaultSettings, modes: getDefaultModes(config) };
+  return {
+    ...config.defaultSettings,
+    modes: getDefaultModes(config),
+    allowedBikeRentalNetworks: getDefaultNetworks(config),
+  };
 };
 
 /**
@@ -69,6 +74,16 @@ function getTicketTypes(ticketType, settingsTicketType, defaultTicketType) {
   return defaultTicketType && isRestriction(defaultTicketType)
     ? remap(defaultTicketType)
     : null;
+}
+
+function getBikeNetworks(allowedBikeRentalNetworks) {
+  if (allowedBikeRentalNetworks) {
+    if (Array.isArray(allowedBikeRentalNetworks)) {
+      return allowedBikeRentalNetworks;
+    }
+    return allowedBikeRentalNetworks.split(',').map(o => o.toLowerCase());
+  }
+  return undefined;
 }
 
 function nullOrUndefined(val) {
@@ -225,6 +240,7 @@ export const getSettings = () => {
     airplaneWeight: getNumberValueOrDefault(routingSettings.airplaneWeight),
     preferredRoutes: custSettings.preferredRoutes,
     unpreferredRoutes: custSettings.unpreferredRoutes,
+    allowedBikeRentalNetworks: custSettings.allowedBikeRentalNetworks,
   };
 };
 
@@ -252,6 +268,8 @@ export const preparePlanParams = config => (
         walkBoardCost,
         walkReluctance,
         walkSpeed,
+        allowedBikeRentalNetworks,
+        locale,
       },
     },
   },
@@ -270,6 +288,12 @@ export const preparePlanParams = config => (
     intermediatePlaceLocations,
   );
   const defaultSettings = { ...getDefaultSettings(config) };
+
+  const allowedBikeRentalNetworksMapped =
+    (allowedBikeRentalNetworks &&
+      (getBikeNetworks(allowedBikeRentalNetworks) ||
+        settings.allowedBikeRentalNetworks.map(o => o.toLowerCase()))) ||
+    defaultSettings.allowedBikeRentalNetworks.map(o => o.toLowerCase());
 
   return {
     ...defaultSettings,
@@ -378,6 +402,7 @@ export const preparePlanParams = config => (
           settings,
           intermediatePlaceLocations,
         ),
+        locale,
       },
       nullOrUndefined,
     ),
@@ -387,5 +412,6 @@ export const preparePlanParams = config => (
       settings.ticketTypes,
       defaultSettings.ticketTypes,
     ),
+    allowedBikeRentalNetworks: allowedBikeRentalNetworksMapped,
   };
 };

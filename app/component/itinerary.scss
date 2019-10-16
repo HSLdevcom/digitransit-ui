@@ -110,6 +110,63 @@ $itinerary-tab-switch-height: 48px;
     flex-shrink: 0;
   }
 
+  .disclaimer-container {
+    background-color: rgba(254, 209, 0, 0.1);
+    border: 1px solid #fed100;
+    border-radius: 3px;
+    display: flex;
+    font-size: $font-size-xsmall;
+    padding: $padding-medium;
+    white-space: normal;
+
+    &.unknown-fare-disclaimer__leg {
+      @include font-book;
+      color: $gray;
+      flex-direction: column;
+      margin-bottom: $padding-large;
+      margin-top: $padding-medium;
+
+      .accent {
+        @include font-medium;
+        color: $black;
+      }
+
+      .ticket-info {
+        margin-top: $padding-medium;
+
+        .agency-link {
+          color: $primary-color;
+          display: block;
+          margin-top: $padding-medium;
+
+          a {
+            color: $primary-color;
+          }
+        }
+      }
+    }
+
+    &.unknown-fare-disclaimer__top {
+      @include font-medium;
+      margin-bottom: $padding-large;
+      margin-top: $padding-small;
+
+      .icon-container {
+        flex: 0;
+        font-size: 20px;
+
+        .icon {
+          color: $primary-color;
+        }
+      }
+
+      .description-container {
+        flex: 1;
+        margin-left: $padding-medium;
+      }
+    }
+  }
+
   div.itinerary-ticket-information {
     flex-grow: 0;
     flex-shrink: 0;
@@ -215,7 +272,6 @@ $itinerary-tab-switch-height: 48px;
   @mixin itineraryTableIcons() {
     margin: 0 auto;
     font-size: $font-size-normal;
-    //font-size: $font-size-large;
     width: 20px;
     height: 20px;
     margin-left: -0.1em;
@@ -268,36 +324,25 @@ $itinerary-tab-switch-height: 48px;
 .itinerary-ticket-information {
   display: flex;
   color: $gray;
+  flex-direction: column;
   font-weight: $font-weight-book;
-  font-size: $font-size-xxsmall;
+  font-size: $font-size-small;
   margin: 0;
   border: 0px;
   border-top: 1px solid #ddd;
   padding: $padding-medium;
-  .itinerary-ticket-layout-left {
-    display: inline-block;
-    font-size: 2.4em;
-    padding-right: 10px;
-  }
-
-  .itinerary-ticket-layout-right {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 0;
-  }
 
   .itinerary-ticket-external-link {
+    align-self: flex-end;
     flex-shrink: 0;
-    .external-link-container {
-      margin-top: 0;
-      margin-right: 0;
-    }
+    margin-top: $padding-medium;
+
     a {
       color: $link-color;
       text-decoration: none;
       @include font-medium;
     }
+
     .external-link-icon-outer {
       color: white;
     }
@@ -308,50 +353,55 @@ $itinerary-tab-switch-height: 48px;
   }
 
   .itinerary-ticket-type {
-    display: inline;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
     flex-shrink: 1;
-    margin-left: 0.3em;
-    padding-right: 1em;
     white-space: normal;
 
-    .ticket-type-title {
-      color: $black;
-      font-weight: $font-weight-medium;
-    }
-
-    .ticket-type-group,
     .ticket-type-zone {
       @include font-book;
+      align-items: center;
       color: $gray;
+      display: flex;
+      justify-content: space-between;
+      margin-top: $padding-small;
 
-      &.multi-component {
-        display: list-item;
-        margin-left: 1.5em;
+      &.multi-component + .multi-component {
+        border-top: 1px solid $light-gray;
+        padding-top: $padding-medium;
+      }
 
-        & + .multi-component {
-          margin-top: $padding-xsmall;
+      div {
+        flex-shrink: 1;
+        .ticket-identifier {
+          @include font-medium;
+          color: $black;
         }
       }
-
-      .zone-ticket-multiple-options {
-        display: flex;
-
-        span + span {
-          margin-left: $padding-xsmall;
-        }
+      .ticket-type-agency-link {
+        flex-grow: 0;
       }
-
-      .zone-ticket-icon {
-        display: block;
-        font-size: 1.25em;
-      }
-    }
-
-    .ticket-type-fare {
-      color: $black;
-      font-weight: $font-weight-bold;
     }
   }
+}
+
+.zone-ticket-multiple-options {
+
+  span + span {
+    margin-left: $padding-xsmall;
+  }
+}
+
+.zone-ticket {
+  /* !important is needed because of print page */
+  background: $primary-color !important;
+  border-radius: 25px;
+  color: #fff;
+  letter-spacing: 9px;
+  padding: 1px 0px 1px 7px;
+  text-align: center;
+  font-size: 14px;
 }
 
 .desktop {
@@ -605,6 +655,10 @@ $itinerary-tab-switch-height: 48px;
     .itinerary-leg-text-gray {
       @include font-book;
       color: $gray;
+    }
+
+    .itinerary-transit-leg-route span {
+      white-space: initial;
     }
 
     .itinerary-transit-leg-route,
@@ -978,6 +1032,16 @@ div.itinerary-container-content {
     mask-image: none;
     max-width: none;
   }
+}
+
+.route-number.hasNoShortName {
+  flex-direction: row;
+  display: flex;
+}
+
+.vehicle-number.hasNoShortName {
+  font-size: 0.4em;
+  word-wrap: break-word;
 }
 
 .print-itinerary-button-container {

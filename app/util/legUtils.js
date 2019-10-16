@@ -232,8 +232,26 @@ export const getLegBadgeProps = (leg, config) => {
   };
 };
 
+export const getNewMinMaxCharCodes = (
+  newCharCode,
+  minCharCode,
+  maxCharCode,
+) => {
+  let newMin = minCharCode;
+  let newMax = maxCharCode;
+  if (newMin === undefined || newMin > newCharCode) {
+    newMin = newCharCode;
+  }
+  if (newMax === undefined || newMax < newCharCode) {
+    newMax = newCharCode;
+  }
+  return [newMin, newMax];
+};
+
 /**
  * Retrieves all zones from the legs (from & to points) and the legs' stops.
+ * This only works if zones have alphabetically continuous one letter zone names
+ * and skipping a zone is not possible.
  *
  * @param {*} legs The legs to retrieve the zones from.
  */
@@ -242,24 +260,70 @@ export const getZones = legs => {
     return [];
   }
 
-  const zones = {};
+  let minCharCode;
+  let maxCharCode;
   legs.forEach(leg => {
     if (leg.from && leg.from.stop && leg.from.stop.zoneId) {
-      zones[leg.from.stop.zoneId] = true;
+      const zoneCharCode = leg.from.stop.zoneId.charCodeAt(0);
+      [minCharCode, maxCharCode] = getNewMinMaxCharCodes(
+        zoneCharCode,
+        minCharCode,
+        maxCharCode,
+      );
     }
     if (leg.to && leg.to.stop && leg.to.stop.zoneId) {
-      zones[leg.to.stop.zoneId] = true;
+      const zoneCharCode = leg.to.stop.zoneId.charCodeAt(0);
+      [minCharCode, maxCharCode] = getNewMinMaxCharCodes(
+        zoneCharCode,
+        minCharCode,
+        maxCharCode,
+      );
     }
     if (Array.isArray(leg.intermediatePlaces)) {
       leg.intermediatePlaces
         .filter(place => place.stop && place.stop.zoneId)
         .forEach(place => {
-          zones[place.stop.zoneId] = true;
+          const zoneCharCode = place.stop.zoneId.charCodeAt(0);
+          [minCharCode, maxCharCode] = getNewMinMaxCharCodes(
+            zoneCharCode,
+            minCharCode,
+            maxCharCode,
+          );
         });
     }
   });
-  if (zones.A && zones.C) {
-    zones.B = true;
+
+  // Add zones starting from the alphabetically first zone and ending in the alphabetically last.
+  // This way zones, that are between other zones but never stopped at, will be also added.
+  const zones = {};
+  if (minCharCode !== undefined) {
+    for (let charCode = minCharCode; charCode <= maxCharCode; charCode++) {
+      zones[String.fromCharCode(charCode)] = true;
+    }
   }
   return Object.keys(zones).sort();
+};
+
+export const getRoutes = legs => {
+  if (!Array.isArray(legs)) {
+    return [];
+  }
+
+  const routes = {};
+  legs.forEach(leg => {
+    if (leg.route && leg.route.agency && leg.transitLeg) {
+      const { route } = leg;
+      const { agency } = route;
+      routes[route.gtfsId] = {
+        agency: {
+          fareUrl: agency.fareUrl,
+          gtfsId: agency.gtfsId,
+          name: agency.name,
+        },
+        gtfsId: route.gtfsId,
+        longName: route.longName,
+      };
+    }
+  });
+  return Object.keys(routes).map(key => ({ ...routes[key] }));
 };

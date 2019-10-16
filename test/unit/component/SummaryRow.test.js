@@ -119,7 +119,10 @@ describe('<SummaryRow />', () => {
       refTime: dcw12.cityBikeRouteWithIntermediatePlaces.refTime,
     };
     const wrapper = mountWithIntl(<SummaryRow {...props} />, {
-      context: { ...mockContext },
+      context: {
+        ...mockContext,
+        config: { cityBike: { fewAvailableCount: 3 } },
+      },
       childContextTypes: { ...mockChildContextTypes },
     });
 
@@ -347,9 +350,9 @@ describe('<SummaryRow />', () => {
       context: { ...mockContext },
       childContextTypes: { ...mockChildContextTypes },
     });
-    expect(wrapper.find(RouteNumberContainer).props().hasDisruption).to.equal(
-      false,
-    );
+    expect(
+      wrapper.find(RouteNumberContainer).props().alertSeverityLevel,
+    ).to.equal(undefined);
   });
 
   it('should not indicate that there is a disruption if the alert is not in effect', () => {
@@ -380,9 +383,9 @@ describe('<SummaryRow />', () => {
       context: { ...mockContext },
       childContextTypes: { ...mockChildContextTypes },
     });
-    expect(wrapper.find(RouteNumberContainer).props().hasDisruption).to.equal(
-      false,
-    );
+    expect(
+      wrapper.find(RouteNumberContainer).props().alertSeverityLevel,
+    ).to.equal(undefined);
   });
 
   it('should indicate that there is a disruption due to a trip alert', () => {
@@ -422,9 +425,9 @@ describe('<SummaryRow />', () => {
       context: { ...mockContext },
       childContextTypes: { ...mockChildContextTypes },
     });
-    expect(wrapper.find(RouteNumberContainer).props().hasDisruption).to.equal(
-      true,
-    );
+    expect(
+      wrapper.find(RouteNumberContainer).props().alertSeverityLevel,
+    ).to.equal(AlertSeverityLevelType.Warning);
   });
 
   it('should indicate that there is a disruption due to a route alert', () => {
@@ -455,9 +458,9 @@ describe('<SummaryRow />', () => {
       context: { ...mockContext },
       childContextTypes: { ...mockChildContextTypes },
     });
-    expect(wrapper.find(RouteNumberContainer).props().hasDisruption).to.equal(
-      true,
-    );
+    expect(
+      wrapper.find(RouteNumberContainer).props().alertSeverityLevel,
+    ).to.equal(AlertSeverityLevelType.Warning);
   });
 
   it('should indicate that there is a disruption due to a stop alert at the "from" stop', () => {
@@ -492,9 +495,9 @@ describe('<SummaryRow />', () => {
       context: { ...mockContext },
       childContextTypes: { ...mockChildContextTypes },
     });
-    expect(wrapper.find(RouteNumberContainer).props().hasDisruption).to.equal(
-      true,
-    );
+    expect(
+      wrapper.find(RouteNumberContainer).props().alertSeverityLevel,
+    ).to.equal(AlertSeverityLevelType.Warning);
   });
 
   it('should indicate that there is a disruption due to a stop alert at the "to" stop', () => {
@@ -529,9 +532,9 @@ describe('<SummaryRow />', () => {
       context: { ...mockContext },
       childContextTypes: { ...mockChildContextTypes },
     });
-    expect(wrapper.find(RouteNumberContainer).props().hasDisruption).to.equal(
-      true,
-    );
+    expect(
+      wrapper.find(RouteNumberContainer).props().alertSeverityLevel,
+    ).to.equal(AlertSeverityLevelType.Warning);
   });
 
   it('should indicate that there is a disruption due to a stop alert at an intermediate stop', () => {
@@ -576,8 +579,8 @@ describe('<SummaryRow />', () => {
       context: { ...mockContext },
       childContextTypes: { ...mockChildContextTypes },
     });
-    expect(wrapper.find(RouteNumberContainer).props().hasDisruption).to.equal(
-      true,
-    );
+    expect(
+      wrapper.find(RouteNumberContainer).props().alertSeverityLevel,
+    ).to.equal(AlertSeverityLevelType.Warning);
   });
 });

@@ -123,8 +123,8 @@ function drawIconImageBadge(
 }
 
 /* eslint-disable no-param-reassign */
-export function drawRoundIcon(tile, geom, type, large, platformNumber) {
-  const scale = large ? 2 : 1;
+export function drawRoundIcon(tile, geom, type, customScale, platformNumber) {
+  const scale = customScale || 1;
   const caseRadius = getCaseRadius(tile.coords.z) * scale;
   const stopRadius = getStopRadius(tile.coords.z) * scale;
   const hubRadius = getHubRadius(tile.coords.z) * scale;
@@ -166,7 +166,9 @@ export function drawRoundIcon(tile, geom, type, large, platformNumber) {
 
       // The text requires 14 pixels in width, so we draw if the hub radius is at least half of that
       if (platformNumber && hubRadius > 7) {
-        tile.ctx.font = `${1.2 *
+        const { length } = `${platformNumber}`;
+        const multiplier = (length > 3 && 1.2) || (length === 3 && 1.4) || 1.6;
+        tile.ctx.font = `${multiplier *
           hubRadius *
           tile.scaleratio}px Gotham XNarrow SSm A, Gotham XNarrow SSm B, Arial, sans-serif`;
         tile.ctx.fillStyle = '#333';
@@ -329,7 +331,8 @@ export function drawAvailabilityValue(
     calculateIconBadgePosition(geom.y, tile, imageSize, radius, scaleratio) + 1;
 
   tile.ctx.beginPath();
-  tile.ctx.fillStyle = value > 3 ? '#4EA700' : '#FF6319';
+  tile.ctx.fillStyle =
+    (value > 3 && '#4EA700') || (value > 0 && '#FF6319') || '#DC0451';
   tile.ctx.arc(x, y, radius, 0, FULL_CIRCLE);
   tile.ctx.fill();
 

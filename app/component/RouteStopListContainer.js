@@ -89,7 +89,7 @@ class RouteStopListContainer extends React.PureComponent {
               ? `#${this.props.pattern.route.color}`
               : null
           }
-          key={stop.gtfsId}
+          key={`${stop.gtfsId}-${this.props.pattern}`}
           stop={stop}
           mode={mode}
           vehicle={

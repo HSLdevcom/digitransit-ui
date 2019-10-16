@@ -6,7 +6,7 @@ import Relay from 'react-relay/classic';
 
 import AlertList from './AlertList';
 import DepartureCancelationInfo from './DepartureCancelationInfo';
-import { DATE_FORMAT, AlertSeverityLevelType } from '../constants';
+import { DATE_FORMAT } from '../constants';
 import {
   RouteAlertsWithContentQuery,
   StopAlertsWithContentQuery,
@@ -16,6 +16,7 @@ import {
   getServiceAlertsForStop,
   otpServiceAlertShape,
   getServiceAlertsForStopRoutes,
+  getServiceAlertsForTerminalStops,
 } from '../util/alertUtils';
 
 const StopAlertsContainer = ({ stop }, { intl }) => {
@@ -37,19 +38,25 @@ const StopAlertsContainer = ({ stop }, { intl }) => {
         mode,
         shortName,
       },
-      severityLevel: AlertSeverityLevelType.Warning,
       validityPeriod: {
         startTime: departureTime,
       },
     };
   });
+  const isTerminal = !stop.code;
   const serviceAlerts = [
+    // Alerts for terminal's stops.
+    ...getServiceAlertsForTerminalStops(isTerminal, stop, intl.locale),
     ...getServiceAlertsForStop(stop, intl.locale),
     ...getServiceAlertsForStopRoutes(stop, intl.locale),
   ];
 
   return (
-    <AlertList cancelations={cancelations} serviceAlerts={serviceAlerts} />
+    <AlertList
+      showRouteNameLink={false}
+      cancelations={cancelations}
+      serviceAlerts={serviceAlerts}
+    />
   );
 };
 

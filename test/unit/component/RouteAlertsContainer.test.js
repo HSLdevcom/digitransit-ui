@@ -41,6 +41,7 @@ describe('<RouteAlertsContainer />', () => {
     expect(wrapper.find(AlertList).props()).to.deep.equal({
       cancelations: [],
       serviceAlerts: [],
+      showRouteNameLink: false,
     });
   });
 
@@ -77,6 +78,7 @@ describe('<RouteAlertsContainer />', () => {
     expect(wrapper.find(AlertList).props()).to.deep.equal({
       cancelations: [],
       serviceAlerts: [],
+      showRouteNameLink: false,
     });
   });
 

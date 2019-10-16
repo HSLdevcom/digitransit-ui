@@ -9,7 +9,7 @@ import LocalTime from './LocalTime';
 import RelativeDuration from './RelativeDuration';
 import RouteNumber from './RouteNumber';
 import RouteNumberContainer from './RouteNumberContainer';
-import { legHasActiveAlert } from '../util/alertUtils';
+import { getActiveLegAlertSeverityLevel } from '../util/alertUtils';
 import { displayDistance } from '../util/geo-utils';
 import {
   containsBiking,
@@ -22,6 +22,10 @@ import {
 import { sameDay, dateOrEmpty } from '../util/timeUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { isKeyboardSelectionEvent } from '../util/browser';
+import {
+  getCityBikeNetworkIcon,
+  getCityBikeNetworkConfig,
+} from '../util/citybikes';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import {
@@ -70,11 +74,11 @@ export const RouteLeg = ({ leg, large, intl }) => {
   } else {
     routeNumber = (
       <RouteNumberContainer
+        alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
         route={leg.route}
         className={cx('line', leg.mode.toLowerCase())}
         vertical
         withBar
-        hasDisruption={legHasActiveAlert(leg)}
       />
     );
   }
@@ -89,6 +93,12 @@ RouteLeg.propTypes = {
 };
 
 export const ModeLeg = ({ leg, mode, large }, { config }) => {
+  const networkIcon =
+    leg.from.bikeRentalStation &&
+    getCityBikeNetworkIcon(
+      getCityBikeNetworkConfig(leg.from.bikeRentalStation.networks[0], config),
+    );
+
   const routeNumber = (
     <RouteNumber
       mode={mode}
@@ -96,6 +106,7 @@ export const ModeLeg = ({ leg, mode, large }, { config }) => {
       className={cx('line', mode.toLowerCase())}
       vertical
       withBar
+      icon={networkIcon}
       {...getLegBadgeProps(leg, config)}
     />
   );

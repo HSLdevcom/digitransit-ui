@@ -3,12 +3,14 @@ import Relay from 'react-relay/classic';
 /**
  * Query for retrieving the full textual content of an Alert.
  */
-const AlertContentQuery = Relay.QL`
+export const AlertContentQuery = Relay.QL`
   fragment on Alert {
+    id
     alertDescriptionText
     alertHash
     alertHeaderText
     alertSeverityLevel
+    alertUrl
     effectiveEndDate
     effectiveStartDate
     alertDescriptionTextTranslations {
@@ -16,6 +18,10 @@ const AlertContentQuery = Relay.QL`
       text
     }
     alertHeaderTextTranslations {
+      language
+      text
+    }
+    alertUrlTranslations {
       language
       text
     }
@@ -74,6 +80,16 @@ export const StopAlertsQuery = Relay.QL`
  */
 export const StopAlertsWithContentQuery = Relay.QL`
   fragment on Stop {
+    id
+    gtfsId
+    code
+    stops {
+      id
+      gtfsId
+      alerts {
+      ${AlertContentQuery}
+      }
+    }
     alerts {
       ${AlertContentQuery}
     }

@@ -26,7 +26,7 @@ export default function LocationMarker({ position, className, isLarge, type }) {
       className={cx(validType, className)}
       icon={{
         className: cx(validType, className),
-        element: <Icon img={`icon-icon_mapMarker-${validType}`} />,
+        element: <Icon img={`icon-icon_mapMarker-${validType}-map`} />,
         iconAnchor: [sideLength / 2, sideLength],
         iconSize: [sideLength, sideLength],
       }}

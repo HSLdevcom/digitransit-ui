@@ -27,11 +27,19 @@ describe('<MarkerSelectPopup />', () => {
           layer: 'citybike',
           feature: {
             geom: { x: 2948, y: 3452 },
-            properties: { id: '114', name: 'Ratapihantie' },
+            properties: {
+              id: '114',
+              name: 'Ratapihantie',
+              networks: ['foobar'],
+            },
           },
         },
       ],
       selectRow: () => {},
+      location: {
+        lat: 60.169525626502484,
+        lng: 24.933235645294193,
+      },
     };
     const wrapper = shallowWithIntl(<MarkerSelectPopup {...props} />);
     expect(wrapper.isEmptyRender()).to.equal(false);

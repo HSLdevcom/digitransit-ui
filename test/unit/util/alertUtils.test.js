@@ -3,6 +3,7 @@ import {
   AlertSeverityLevelType,
   RealtimeStateType,
 } from '../../../app/constants';
+import { disruptions, serviceAlerts } from '../test-data/dt3138';
 import * as utils from '../../../app/util/alertUtils';
 
 describe('alertUtils', () => {
@@ -404,6 +405,32 @@ describe('alertUtils', () => {
     });
   });
 
+  describe('getServiceAlertUrl', () => {
+    it('should return an empty string if there are no translations and no alertUrl', () => {
+      const alert = {};
+      expect(utils.getServiceAlertUrl(alert)).to.equal('');
+    });
+
+    it('should return alertUrl if there are no translations', () => {
+      const alert = {
+        alertUrl: 'foo',
+      };
+      expect(utils.getServiceAlertUrl(alert)).to.equal('foo');
+    });
+
+    it('should return the localized alertUrl', () => {
+      const alert = {
+        alertUrlTranslations: [
+          {
+            text: 'bar',
+            language: 'en',
+          },
+        ],
+      };
+      expect(utils.getServiceAlertUrl(alert)).to.equal('bar');
+    });
+  });
+
   describe('getServiceAlertsForRoute', () => {
     it('should return an empty array if the route does not exist', () => {
       expect(utils.getServiceAlertsForRoute(undefined)).to.deep.equal([]);
@@ -447,6 +474,17 @@ describe('alertUtils', () => {
               },
             ],
             alertSeverityLevel: 'foo',
+            alertUrl: 'https://www.hsl.fi',
+            alertUrlTranslations: [
+              {
+                language: 'fi',
+                text: 'https://www.hsl.fi',
+              },
+              {
+                language: 'en',
+                text: 'https://www.hsl.fi/en',
+              },
+            ],
             effectiveEndDate: 1577829548,
             effectiveStartDate: 1543183208,
           },
@@ -467,6 +505,7 @@ describe('alertUtils', () => {
             shortName: 'foobar',
           },
           severityLevel: 'foo',
+          url: 'https://www.hsl.fi/en',
           validityPeriod: {
             endTime: 1577829548,
             startTime: 1543183208,
@@ -621,35 +660,100 @@ describe('alertUtils', () => {
     });
   });
 
-  describe('alertHasExpired', () => {
-    it('should mark an alert in the past as expired', () => {
-      expect(
-        utils.alertHasExpired({ startTime: 1000, endTime: 2000 }, 2500),
-      ).to.equal(true);
-    });
-
-    it('should not mark a current alert as expired', () => {
-      expect(
-        utils.alertHasExpired({ startTime: 1000, endTime: 2000 }, 1500),
-      ).to.equal(false);
-    });
-
-    it('should not mark a current alert within DEFAULT_VALIDITY period as expired', () => {
-      expect(utils.alertHasExpired({ startTime: 1000 }, 1100, 200)).to.equal(
-        false,
-      );
-    });
-
-    it('should mark an alert after the DEFAULT_VALIDITY period as expired', () => {
-      expect(utils.alertHasExpired({ startTime: 1000 }, 1300, 200)).to.equal(
+  describe('isAlertValid', () => {
+    it('should mark an alert missing its validity period as valid', () => {
+      expect(utils.isAlertValid({ validityPeriod: undefined }, 1)).to.equal(
         true,
       );
     });
 
-    it('should not mark an alert in the future as expired', () => {
+    it('should mark an alert missing its validity start and end times as valid', () => {
       expect(
-        utils.alertHasExpired({ startTime: 1000, endTime: 2000 }, 500),
+        utils.isAlertValid(
+          { validityPeriod: { startTime: null, endTime: null } },
+          1000,
+        ),
+      ).to.equal(true);
+    });
+
+    it('should mark an alert in the past as invalid', () => {
+      expect(
+        utils.isAlertValid(
+          { validityPeriod: { startTime: 1000, endTime: 2000 } },
+          2500,
+        ),
       ).to.equal(false);
+    });
+
+    it('should mark a current alert as valid', () => {
+      expect(
+        utils.isAlertValid(
+          { validityPeriod: { startTime: 1000, endTime: 2000 } },
+          1500,
+        ),
+      ).to.equal(true);
+    });
+
+    it('should mark a current alert within DEFAULT_VALIDITY period as valid', () => {
+      expect(
+        utils.isAlertValid({ validityPeriod: { startTime: 1000 } }, 1100, {
+          defaultValidity: 200,
+        }),
+      ).to.equal(true);
+    });
+
+    it('should mark an alert after the DEFAULT_VALIDITY period as invalid', () => {
+      expect(
+        utils.isAlertValid({ validityPeriod: { startTime: 1000 } }, 1300, {
+          defaultValidity: 200,
+        }),
+      ).to.equal(false);
+    });
+
+    it('should mark an alert in the future as invalid', () => {
+      expect(
+        utils.isAlertValid(
+          { validityPeriod: { startTime: 1000, endTime: 2000 } },
+          500,
+        ),
+      ).to.equal(false);
+    });
+
+    it('should mark an alert as valid if the given reference time is not a number', () => {
+      expect(
+        utils.isAlertValid(
+          { validityPeriod: { startTime: 0, endTime: 1000 } },
+          undefined,
+        ),
+      ).to.equal(true);
+    });
+
+    it('should accept non-integer numbers', () => {
+      expect(
+        utils.isAlertValid(
+          {
+            validityPeriod: {
+              endTime: 1559941140,
+              startTime: 1558904400,
+            },
+          },
+          1558678507424 / 1000,
+        ),
+      ).to.equal(false);
+    });
+
+    it('should return false if the alert itself is falsy', () => {
+      expect(utils.isAlertValid(undefined, 0)).to.equal(false);
+    });
+
+    it('should return true if the alert is in the future when configured', () => {
+      expect(
+        utils.isAlertValid(
+          { validityPeriod: { startTime: 100, endTime: 100 } },
+          99,
+          { isFutureValid: true },
+        ),
+      ).to.equal(true);
     });
   });
 
@@ -842,6 +946,15 @@ describe('alertUtils', () => {
       };
       expect(utils.cancelationHasExpired(cancelation, 15)).to.equal(false);
     });
+
+    it('should return false for a future cancelation', () => {
+      const cancelation = {
+        scheduledArrival: 10,
+        scheduledDeparture: 10,
+        serviceDay: 0,
+      };
+      expect(utils.cancelationHasExpired(cancelation, 5)).to.equal(false);
+    });
   });
 
   describe('getCancelationsForStop', () => {
@@ -879,34 +992,42 @@ describe('alertUtils', () => {
     });
   });
 
-  describe('legHasActiveAlert', () => {
-    it('should return false if the leg is falsy', () => {
-      expect(utils.legHasActiveAlert(undefined)).to.equal(false);
+  describe('getActiveLegAlertSeverityLevel', () => {
+    it('should return undefined if the leg is falsy', () => {
+      expect(utils.getActiveLegAlertSeverityLevel(undefined)).to.equal(
+        undefined,
+      );
     });
 
-    it('should return true if the leg is canceled', () => {
+    it('should return "WARNING" if the leg is canceled', () => {
       const leg = {
         realtimeState: RealtimeStateType.Canceled,
       };
-      expect(utils.legHasActiveAlert(leg)).to.equal(true);
+      expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(
+        AlertSeverityLevelType.Warning,
+      );
     });
 
-    it('should return true if there is an active route alert', () => {
+    it('should return "WARNING" if there is an active route alert', () => {
+      const alertEffectiveStartDate = 1553754595;
       const leg = {
         route: {
           alerts: [
             {
               alertSeverityLevel: AlertSeverityLevelType.Warning,
               effectiveEndDate: 1553778000,
-              effectiveStartDate: 1553754595,
+              effectiveStartDate: alertEffectiveStartDate,
             },
           ],
         },
+        startTime: (alertEffectiveStartDate + 1) * 1000, // * 1000 due to ms format
       };
-      expect(utils.legHasActiveAlert(leg)).to.equal(true);
+      expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(
+        AlertSeverityLevelType.Warning,
+      );
     });
 
-    it('should return false if there is an inactive route alert', () => {
+    it('should return undefined if there is an inactive route alert', () => {
       const alertEffectiveEndDate = 1553778000;
       const leg = {
         route: {
@@ -920,10 +1041,10 @@ describe('alertUtils', () => {
         },
         startTime: (alertEffectiveEndDate + 1) * 1000, // * 1000 due to ms format
       };
-      expect(utils.legHasActiveAlert(leg)).to.equal(false);
+      expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(undefined);
     });
 
-    it('should return true if there is an active trip alert', () => {
+    it('should return "WARNING" if there is an active trip alert', () => {
       const leg = {
         route: {
           alerts: [
@@ -946,10 +1067,12 @@ describe('alertUtils', () => {
           },
         },
       };
-      expect(utils.legHasActiveAlert(leg)).to.equal(true);
+      expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(
+        AlertSeverityLevelType.Warning,
+      );
     });
 
-    it('should return false if there is an active trip alert for another trip', () => {
+    it('should return undefined if there is an active trip alert for another trip', () => {
       const leg = {
         route: {
           alerts: [
@@ -972,10 +1095,10 @@ describe('alertUtils', () => {
           },
         },
       };
-      expect(utils.legHasActiveAlert(leg)).to.equal(false);
+      expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(undefined);
     });
 
-    it('should return true if there is an active stop alert at the "from" stop', () => {
+    it('should return "WARNING" if there is an active stop alert at the "from" stop', () => {
       const leg = {
         from: {
           stop: {
@@ -990,10 +1113,12 @@ describe('alertUtils', () => {
         },
         startTime: 1553769600000,
       };
-      expect(utils.legHasActiveAlert(leg)).to.equal(true);
+      expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(
+        AlertSeverityLevelType.Warning,
+      );
     });
 
-    it('should return true if there is an active stop alert at the "to" stop', () => {
+    it('should return "WARNING" if there is an active stop alert at the "to" stop', () => {
       const leg = {
         to: {
           stop: {
@@ -1008,10 +1133,12 @@ describe('alertUtils', () => {
         },
         startTime: 1553769600000,
       };
-      expect(utils.legHasActiveAlert(leg)).to.equal(true);
+      expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(
+        AlertSeverityLevelType.Warning,
+      );
     });
 
-    it('should return true if there is an active stop alert at an intermediate stop', () => {
+    it('should return "WARNING" if there is an active stop alert at an intermediate stop', () => {
       const leg = {
         intermediatePlaces: [
           {
@@ -1028,7 +1155,138 @@ describe('alertUtils', () => {
         ],
         startTime: 1553769600000,
       };
-      expect(utils.legHasActiveAlert(leg)).to.equal(true);
+      expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(
+        AlertSeverityLevelType.Warning,
+      );
+    });
+
+    it('should return the given alertSeverityLevel', () => {
+      const leg = {
+        route: {
+          alerts: [
+            {
+              alertSeverityLevel: AlertSeverityLevelType.Info,
+              effectiveEndDate: 1553778000,
+              effectiveStartDate: 1553754595,
+            },
+          ],
+        },
+        startTime: 1553769600000,
+      };
+      expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(
+        AlertSeverityLevelType.Info,
+      );
+    });
+  });
+
+  describe('getActiveAlertSeverityLevel', () => {
+    it('should return undefined if there are no current alerts', () => {
+      const alerts = [
+        {
+          alertSeverityLevel: AlertSeverityLevelType.Info,
+          effectiveEndDate: 1559941140,
+          effectiveStartDate: 1558904400,
+        },
+      ];
+      const currentTime = 1558599526;
+      expect(utils.getActiveAlertSeverityLevel(alerts, currentTime)).to.equal(
+        undefined,
+      );
+    });
+
+    it('should return the severity level if there are no effective dates available', () => {
+      const alerts = [
+        {
+          alertSeverityLevel: AlertSeverityLevelType.Info,
+          effectiveEndDate: null,
+          effectiveStartDate: null,
+        },
+      ];
+      const currentTime = 1558599526;
+      expect(utils.getActiveAlertSeverityLevel(alerts, currentTime)).to.equal(
+        AlertSeverityLevelType.Info,
+      );
+    });
+
+    it('should also work for mapped service alerts', () => {
+      const currentTime = 1000;
+      const alerts = [
+        {
+          severityLevel: AlertSeverityLevelType.Info,
+          validityPeriod: {
+            endTime: currentTime + 100,
+            startTime: currentTime - 100,
+          },
+        },
+      ];
+      expect(utils.getActiveAlertSeverityLevel(alerts, currentTime)).to.equal(
+        AlertSeverityLevelType.Info,
+      );
+    });
+
+    it('should ignore falsy alerts', () => {
+      const currentTime = 1000;
+      const alerts = [
+        undefined,
+        {
+          severityLevel: AlertSeverityLevelType.Info,
+          validityPeriod: {
+            endTime: currentTime + 100,
+            startTime: currentTime - 100,
+          },
+        },
+      ];
+      expect(utils.getActiveAlertSeverityLevel(alerts, currentTime)).to.equal(
+        AlertSeverityLevelType.Info,
+      );
+    });
+  });
+
+  describe('patternIdPredicate', () => {
+    it('should return true if alert exists but patternId does not', () => {
+      expect(utils.patternIdPredicate({}, undefined)).to.equal(true);
+    });
+
+    it('should return false if patternId exists but alert does not', () => {
+      expect(utils.patternIdPredicate(undefined, 'foobar')).to.equal(false);
+    });
+
+    it('should return true if the path alert.trip.pattern.code matches the given patternId', () => {
+      expect(
+        utils.patternIdPredicate(
+          { trip: { pattern: { code: 'foobar' } } },
+          'foobar',
+        ),
+      ).to.equal(true);
+    });
+
+    it('should return false if the path alert.trip.pattern.code does not match the given patternId', () => {
+      expect(
+        utils.patternIdPredicate(
+          { trip: { pattern: { code: 'foobaz' } } },
+          'foobar',
+        ),
+      ).to.equal(false);
+    });
+
+    it('should return true if trip information is not available', () => {
+      expect(utils.patternIdPredicate({ trip: undefined }, 'foobar')).to.equal(
+        true,
+      );
+    });
+  });
+  describe('createUniqueAlertList', () => {
+    it('should group disruptions under unique headers', () => {
+      expect(
+        utils.createUniqueAlertList(disruptions, false, 1566199501, true)
+          .length,
+      ).to.equal(1);
+    });
+    it('should group service alerts under unique headers', () => {
+      expect(
+        utils.createUniqueAlertList(serviceAlerts, false, 1566199501, true)
+          .length,
+      ).to.equal(11);
     });
   });
 });

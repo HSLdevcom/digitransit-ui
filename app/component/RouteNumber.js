@@ -6,37 +6,45 @@ import IconWithBigCaution from './IconWithBigCaution';
 import IconWithIcon from './IconWithIcon';
 import ComponentUsageExample from './ComponentUsageExample';
 import { realtimeDeparture as exampleRealtimeDeparture } from './ExampleData';
+import { isMobile } from '../util/browser';
 
 const LONG_ROUTE_NUMBER_LENGTH = 6;
 
 function RouteNumber(props, context) {
   let mode = props.mode.toLowerCase();
-  const { color } = props;
+  const { alertSeverityLevel, color } = props;
 
   if (mode === 'bicycle' || mode === 'car') {
     mode += '-withoutBox';
   }
 
   const longText = props.text && props.text.length >= LONG_ROUTE_NUMBER_LENGTH;
+  // Checks if route only has letters without identifying numbers and
+  // length doesn't fit in the tab view
+  const hasNoShortName =
+    props.text &&
+    new RegExp(/^([^0-9]*)$/).test(props.text) &&
+    props.text.length > 3;
 
-  const icon = (isCallAgency, hasDisruption, badgeFill, badgeText) => {
+  const getIcon = (icon, isCallAgency, hasDisruption, badgeFill, badgeText) => {
     if (isCallAgency) {
       return (
         <IconWithIcon
           color={color}
           className={`${mode} call`}
-          img={`icon-icon_${mode}`}
+          img={icon || `icon-icon_${mode}`}
           subIcon="icon-icon_call"
         />
       );
     }
 
-    if (hasDisruption) {
+    if (hasDisruption || !!alertSeverityLevel) {
       return (
         <IconWithBigCaution
+          alertSeverityLevel={alertSeverityLevel}
           color={color}
           className={mode}
-          img={`icon-icon_${mode}`}
+          img={icon || `icon-icon_${mode}`}
         />
       );
     }
@@ -47,7 +55,7 @@ function RouteNumber(props, context) {
         badgeText={badgeText}
         color={color}
         className={mode}
-        img={`icon-icon_${mode}`}
+        img={icon || `icon-icon_${mode}`}
         subIcon=""
       />
     );
@@ -57,9 +65,11 @@ function RouteNumber(props, context) {
   // props.vertical is TRUE in itinerary view
   return (
     <span
+      style={{ display: longText && isMobile ? 'block' : null }}
       className={cx('route-number', {
         'overflow-fade': longText && props.fadeLong,
         vertical: props.vertical,
+        hasNoShortName: hasNoShortName && longText && !props.vertical,
       })}
     >
       <span
@@ -72,7 +82,8 @@ function RouteNumber(props, context) {
       >
         {props.vertical === true ? (
           <div className={`special-icon ${mode}`}>
-            {icon(
+            {getIcon(
+              props.icon,
               props.isCallAgency,
               props.hasDisruption,
               props.badgeFill,
@@ -80,7 +91,7 @@ function RouteNumber(props, context) {
             )}
           </div>
         ) : (
-          icon(props.isCallAgency, props.hasDisruption)
+          getIcon(props.icon, props.isCallAgency, props.hasDisruption)
         )}
         {props.withBar && (
           <div className="bar-container">
@@ -98,10 +109,14 @@ function RouteNumber(props, context) {
       {props.text &&
         (props.vertical === false ? (
           <span
-            style={{ color: props.color ? props.color : null }}
+            style={{
+              color: props.color ? props.color : null,
+              fontSize: longText && isMobile ? '17px' : null,
+            }}
             className={cx('vehicle-number', mode, {
               'overflow-fade': longText && props.fadeLong,
               long: longText,
+              hasNoShortName: hasNoShortName && longText && props.isRouteView,
             })}
           >
             {props.text}
@@ -181,6 +196,7 @@ RouteNumber.description = () => (
 );
 
 RouteNumber.propTypes = {
+  alertSeverityLevel: PropTypes.string,
   mode: PropTypes.string.isRequired,
   color: PropTypes.string,
   text: PropTypes.node,
@@ -192,9 +208,12 @@ RouteNumber.propTypes = {
   isCallAgency: PropTypes.bool,
   badgeFill: PropTypes.string,
   badgeText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  icon: PropTypes.string,
+  isRouteView: PropTypes.bool,
 };
 
 RouteNumber.defaultProps = {
+  alertSeverityLevel: undefined,
   badgeFill: undefined,
   badgeText: undefined,
   className: '',
@@ -204,10 +223,12 @@ RouteNumber.defaultProps = {
   text: '',
   withBar: false,
   isCallAgency: false,
+  isRouteView: false,
+  icon: undefined,
 };
 
 RouteNumber.contextTypes = {
-  intl: intlShape.isRequired, // eslint-disable-line react/no-typos
+  intl: intlShape.isRequired,
 };
 
 RouteNumber.displayName = 'RouteNumber';

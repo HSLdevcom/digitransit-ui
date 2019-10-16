@@ -17,11 +17,11 @@ import {
 } from './ExampleData';
 
 function Departure({
+  alertSeverityLevel,
   canceled,
   className,
   currentTime,
   departure,
-  hasDisruption,
   isArrival,
   isLastStop,
   showPlatformCode,
@@ -29,12 +29,15 @@ function Departure({
   useUTC,
 }) {
   const mode = departure.pattern.route.mode.toLowerCase();
-
   let platformNumber = false;
   if (showPlatformCode && departure.stop.platformCode) {
-    platformNumber = <PlatformNumber number={departure.stop.platformCode} />;
+    platformNumber = (
+      <PlatformNumber
+        number={departure.stop.platformCode}
+        isRailOrSubway={mode === 'rail' || mode === 'subway'}
+      />
+    );
   }
-
   return (
     <p className={cx('departure', 'route-detail-text', className)}>
       {!staticDeparture && (
@@ -47,8 +50,8 @@ function Departure({
         />
       )}
       <RouteNumberContainer
+        alertSeverityLevel={alertSeverityLevel}
         route={departure.pattern.route}
-        hasDisruption={hasDisruption}
         isCallAgency={isCallAgencyDeparture(departure)}
         fadeLong
       />
@@ -127,9 +130,9 @@ Departure.description = () => (
 Departure.displayName = 'Departure';
 
 Departure.propTypes = {
+  alertSeverityLevel: PropTypes.string,
   canceled: PropTypes.bool,
   className: PropTypes.string,
-  hasDisruption: PropTypes.bool,
   currentTime: PropTypes.number.isRequired,
   departure: PropTypes.shape({
     headsign: PropTypes.string,
@@ -155,6 +158,7 @@ Departure.propTypes = {
 };
 
 Departure.defaultProps = {
+  alertSeverityLevel: undefined,
   showPlatformCode: false,
 };
 

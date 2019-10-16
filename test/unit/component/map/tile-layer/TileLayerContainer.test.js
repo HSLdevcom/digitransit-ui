@@ -23,6 +23,7 @@ describe('<TileLayerContainer />', () => {
           map: {
             addEventParent: () => {},
             addLayer: () => {},
+            closePopup: () => {},
             on: () => {},
             openPopup: () => {},
             options: {

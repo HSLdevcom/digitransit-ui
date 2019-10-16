@@ -55,6 +55,7 @@ const getLocationListener = () => event => {
       PUSH(event);
       break;
     default:
+      // eslint-disable-next-line no-console
       console.error('unhandled history event:', event);
   }
   if (this && this[event.action] !== undefined) {

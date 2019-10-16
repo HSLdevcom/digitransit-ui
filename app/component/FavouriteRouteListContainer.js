@@ -2,9 +2,14 @@ import Relay from 'react-relay/classic';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import NextDeparturesList from './NextDeparturesList';
+import { RouteAlertsQuery } from '../util/alertQueries';
+import {
+  getActiveAlertSeverityLevel,
+  patternIdPredicate,
+} from '../util/alertUtils';
 import { getDistanceToNearestStop } from '../util/geo-utils';
 
-export const getNextDepartures = (routes, lat, lon) => {
+export const getNextDepartures = (routes, lat, lon, currentTime) => {
   const nextDepartures = [];
   const seenDepartures = {};
 
@@ -13,9 +18,14 @@ export const getNextDepartures = (routes, lat, lon) => {
       return;
     }
 
-    const hasDisruption = route.alerts.length > 0;
-
     route.patterns.forEach(pattern => {
+      const patternAlerts =
+        Array.isArray(route.alerts) &&
+        route.alerts.filter(alert => patternIdPredicate(alert, pattern.code));
+      const alertSeverityLevel = getActiveAlertSeverityLevel(
+        patternAlerts || [],
+        currentTime,
+      );
       const closest = getDistanceToNearestStop(lat, lon, pattern.stops);
       closest.stop.stoptimes
         .filter(stoptime => {
@@ -35,9 +45,9 @@ export const getNextDepartures = (routes, lat, lon) => {
         })
         .forEach(stoptime => {
           nextDepartures.push({
+            alertSeverityLevel,
             distance: closest.distance,
             stoptime,
-            hasDisruption,
           });
         });
     });
@@ -50,13 +60,21 @@ export const getNextDepartures = (routes, lat, lon) => {
 const FavouriteRouteListContainer = connectToStores(
   NextDeparturesList,
   ['TimeStore'],
-  (context, { routes, origin }) => ({
-    currentTime: context
+  (context, { routes, origin }) => {
+    const currentTime = context
       .getStore('TimeStore')
       .getCurrentTime()
-      .unix(),
-    departures: getNextDepartures(routes, origin.lat, origin.lon),
-  }),
+      .unix();
+    return {
+      currentTime,
+      departures: getNextDepartures(
+        routes,
+        origin.lat,
+        origin.lon,
+        currentTime,
+      ),
+    };
+  },
 );
 
 // TODO: Add filtering in stoptimesForPatterns for route gtfsId
@@ -64,9 +82,7 @@ export default Relay.createContainer(FavouriteRouteListContainer, {
   fragments: {
     routes: () => Relay.QL`
       fragment on Route @relay(plural:true) {
-        alerts {
-          id
-        }
+        ${RouteAlertsQuery}
         patterns {
           headsign
           stops {
@@ -91,10 +107,6 @@ export default Relay.createContainer(FavouriteRouteListContainer, {
                 scheduledDeparture
                 realtime
                 serviceDay
-              }
-              pattern {
-                headsign
-                route { gtfsId }
               }
             }
           }

@@ -10,7 +10,8 @@ const route2 = {
   arrayBuffer: converter.decode(
     'Cg0KAzEuMBABGMa+6OQFEmgKBjEzMDIxMBAAIlwKKwoKNTY0NTkzNDY0NhIIMTQ6MzU6MDAaCDIwMTkwMzI2IAAqBTg2OTIxMAESFA1OCHZCFc1OvUEdKWNcQi1TCXM9KMW+6OQFMABCDwoGMTMwMjEwEgVBdGFsYQ==',
   ),
-  topic: '/gtfsrt/vp/tampere////8/1/Atala/5645934646//14:35/130210',
+  topic:
+    '/gtfsrt/vp/tampere////8/1/Atala/5645934646//14:35/130210/61;23/47/62/47/',
   agency: 'tampere',
   mode: 'bus',
 };
@@ -20,7 +21,8 @@ const route32 = {
   arrayBuffer: converter.decode(
     'Cg0KAzEuMBABGPa+6OQFEmsKBlRLTF8yMxAAIl8KLAoKNTY2MDM2NDY0NhIIMTQ6MzA6MDAaCDIwMTkwMzI2IAAqBjE1NjkyMTAAEhQN4Qd2QhVKU75BHQAAgEItAADgQCj0vujkBTAAQhEKBlRLTF8yMxIHUGV0c2Ftbw==',
   ),
-  topic: '/gtfsrt/vp/tampere////15/0/Petsamo/5660364646//14:30/TKL_23',
+  topic:
+    '/gtfsrt/vp/tampere////15/0/Petsamo/5660364646//14:30/TKL_23/61;23/47/62/47/',
   agency: 'tampere',
   mode: 'tram',
 };
@@ -50,6 +52,37 @@ describe('gtfsRtParser', () => {
           long: 23.66348,
           heading: 55,
           headsign: 'Atala',
+          tripId: '5645934646',
+          geoHash: ['61;23', '47', '62', '47'],
+        },
+      ]);
+    });
+
+    it('GTFS RT vehicle position data for a bus route without headsign should be parsed correctly', () => {
+      const result = parseFeedMQTT(
+        bindings.FeedMessage.read,
+        route2.arrayBuffer,
+        '/gtfsrt/vp/tampere////8/1//5645934646//14:35/130210/61;23/47/62/47/',
+        route2.agency,
+        route2.mode,
+      );
+
+      expect(result).to.deep.equal([
+        {
+          id: 'tampere:130210',
+          route: 'tampere:8',
+          direction: 1,
+          tripStartTime: '1435',
+          operatingDay: '20190326',
+          mode: 'bus',
+          next_stop: undefined,
+          timestamp: 1553604421,
+          lat: 61.50812,
+          long: 23.66348,
+          heading: 55,
+          headsign: undefined,
+          tripId: '5645934646',
+          geoHash: ['61;23', '47', '62', '47'],
         },
       ]);
     });
@@ -77,6 +110,8 @@ describe('gtfsRtParser', () => {
           long: 23.79067,
           heading: 64,
           headsign: 'Petsamo',
+          tripId: '5660364646',
+          geoHash: ['61;23', '47', '62', '47'],
         },
       ]);
     });

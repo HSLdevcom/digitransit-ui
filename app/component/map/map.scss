@@ -111,9 +111,6 @@ div.leaflet-marker-icon.via {
   > span {
     > svg.icon {
       height: auto;
-      paint-order: stroke;
-      stroke: white;
-      stroke-width: 1;
       width: auto;
     }
   }
@@ -190,8 +187,9 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
   font-size: 24px;
 }
 
-.popup {
-  left: -21px !important;
+.vehicle-popup {
+  left: -19px !important;
+
   .route-header {
     height: auto;
     border: none;
@@ -254,6 +252,85 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
 
       &:first-child {
         border-right: 1px solid $light-gray;
+      }
+    }
+  }
+
+  .leaflet-popup-tip-container {
+    margin: -5px 0px;
+    left: 0px;
+    .leaflet-popup-tip {
+      background: $background-color;
+    }
+  }
+}
+
+.popup {
+  left: -21px !important;
+  .route-header {
+    height: auto;
+    border: none;
+  }
+
+  .leaflet-popup-content-wrapper {
+    border-radius: $border-radius;
+    padding: 0;
+    margin-bottom: 5px;
+  }
+  .leaflet-popup-content {
+    margin: 0;
+    width: 20rem !important;
+    &.leaflet-popup-scrolled {
+      overflow: inherit;
+      height: auto !important;
+    }
+  }
+  .card {
+    border: none;
+    > a {
+      display: block;
+    }
+    hr {
+      height: 1px;
+      color: #ddd;
+      background: #ddd;
+      font-size: 0;
+      border: 0;
+    }
+
+    .card-row .no-margin:last-child hr {
+      display: none;
+    }
+  }
+  .card-header {
+    border-radius: $border-radius;
+  }
+
+  .bottom {
+    @include font-medium;
+    font-size: $font-size-xsmall;
+    line-height: $line-height-normal;
+    color: $link-color;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 0;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    background: $white;
+    border-top: solid 1px #ddd;
+
+    div,
+    a {
+      display: block;
+      padding: 1em;
+      flex-grow: 1;
+      text-align: center;
+      text-decoration: none;
+      border-left: 1px solid $light-gray;
+
+      &:first-child {
+        border-right: none;
       }
     }
   }
