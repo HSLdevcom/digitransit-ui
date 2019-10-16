@@ -164,6 +164,7 @@ export const RouteMapFragments = {
       stoptimesForDate {
         scheduledDeparture
       }
+      gtfsId
     }
   `,
 };
@@ -179,7 +180,15 @@ const RouteMapContainerWithVehicles = connectToStores(
       );
       const vehiclesWithCorrectStartTime = Object.keys(vehicles)
         .map(key => vehicles[key])
-        .filter(vehicle => vehicle.tripStartTime === tripStart);
+        .filter(
+          vehicle =>
+            vehicle.tripStartTime === undefined ||
+            vehicle.tripStartTime === tripStart,
+        )
+        .filter(
+          vehicle =>
+            vehicle.tripId === undefined || vehicle.tripId === trip.gtfsId,
+        );
 
       const selectedVehicle =
         vehiclesWithCorrectStartTime &&

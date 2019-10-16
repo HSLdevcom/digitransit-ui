@@ -83,19 +83,9 @@ class TripStopListContainer extends React.PureComponent {
     const mode = trip.route.mode.toLowerCase();
 
     const vehicles = groupBy(
-      values(propVehicles)
-        .filter(
-          vehicle => currentTime - vehicle.timestamp * 1000 < 5 * 60 * 1000,
-        )
-        .filter(
-          vehicle =>
-            vehicle.tripStartTime && vehicle.tripStartTime !== 'undefined',
-        ),
-      vehicle => vehicle.direction,
-    );
-
-    const vehicleStops = groupBy(
-      vehicles[trip.pattern.directionId],
+      values(propVehicles).filter(
+        vehicle => currentTime - vehicle.timestamp * 1000 < 5 * 60 * 1000,
+      ),
       vehicle => vehicle.next_stop,
     );
 
@@ -127,7 +117,7 @@ class TripStopListContainer extends React.PureComponent {
         stopPassed = false;
       } else if (
         stoptime.realtimeDeparture + stoptime.serviceDay > currentTime.unix() &&
-        isEmpty(vehicle)
+        (isEmpty(vehicle) || (vehicle && vehicle.next_stop === undefined))
       ) {
         stopPassed = false;
       }
@@ -139,7 +129,7 @@ class TripStopListContainer extends React.PureComponent {
           stop={stoptime.stop}
           mode={mode}
           color={trip.route && trip.route.color ? `#${trip.route.color}` : null}
-          vehicles={vehicleStops[stoptime.stop.gtfsId]}
+          vehicles={vehicles[stoptime.stop.gtfsId]}
           selectedVehicle={vehicle}
           stopPassed={stopPassed}
           realtime={stoptime.realtime}
