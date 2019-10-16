@@ -746,10 +746,7 @@ export default {
     hameenlinna: 'hameenlinna',
     matka: 'matka',
     hb: 'hb',
-<<<<<<< HEAD
     salo: 'salo',
-=======
->>>>>>> 0ddc12699... hb: add basic config
     rovaniemi: 'rovaniemi',
     kouvola: 'kouvola',
     tampere: 'tampere',
