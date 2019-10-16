@@ -4,7 +4,7 @@ import React from 'react';
 import { shallowWithIntl } from './helpers/mock-intl-enzyme';
 import { mockContext } from './helpers/mock-context';
 
-import { component as ItineraryTab } from '../../app/component/ItineraryTab';
+import { Component as ItineraryTab } from '../../app/component/ItineraryTab';
 import dt2831 from './test-data/dt2831';
 
 describe('<ItineraryTab />', () => {

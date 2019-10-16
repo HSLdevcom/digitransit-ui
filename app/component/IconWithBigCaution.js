@@ -2,16 +2,22 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import IconWithIcon from './IconWithIcon';
 import ComponentUsageExample from './ComponentUsageExample';
+import { AlertSeverityLevelType } from '../constants';
 
-const IconWithBigCaution = ({ img, className, color }) => (
-  <IconWithIcon
-    className={className}
-    color={color}
-    img={img}
-    subIcon="icon-icon_caution"
-    subIconClassName="subicon-caution"
-  />
-);
+const IconWithBigCaution = ({ alertSeverityLevel, className, color, img }) => {
+  const iconType =
+    alertSeverityLevel === AlertSeverityLevelType.Info ? 'info' : 'caution';
+  return (
+    <IconWithIcon
+      className={className}
+      color={color}
+      img={img}
+      subIcon={`icon-icon_${iconType}`}
+      subIconClassName={`subicon-${iconType}`}
+      subIconShape={(iconType === 'info' && 'circle') || undefined}
+    />
+  );
+};
 
 IconWithBigCaution.displayName = 'IconWithBigCaution';
 
@@ -24,12 +30,14 @@ IconWithBigCaution.description = () => (
 );
 
 IconWithBigCaution.propTypes = {
+  alertSeverityLevel: PropTypes.string,
   color: PropTypes.string,
   className: PropTypes.string,
   img: PropTypes.string.isRequired,
 };
 
 IconWithBigCaution.defaultProps = {
+  alertSeverityLevel: undefined,
   className: '',
 };
 

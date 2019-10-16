@@ -1,5 +1,4 @@
 import cx from 'classnames';
-import filter from 'lodash/filter';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -10,7 +9,7 @@ import LocalTime from './LocalTime';
 import RelativeDuration from './RelativeDuration';
 import RouteNumber from './RouteNumber';
 import RouteNumberContainer from './RouteNumberContainer';
-import { legHasCancelation } from '../util/alertUtils';
+import { getActiveLegAlertSeverityLevel } from '../util/alertUtils';
 import { displayDistance } from '../util/geo-utils';
 import {
   containsBiking,
@@ -23,6 +22,10 @@ import {
 import { sameDay, dateOrEmpty } from '../util/timeUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { isKeyboardSelectionEvent } from '../util/browser';
+import {
+  getCityBikeNetworkIcon,
+  getCityBikeNetworkConfig,
+} from '../util/citybikes';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import {
@@ -33,19 +36,6 @@ import {
   exampleDataVia,
   exampleDataCanceled,
 } from './data/SummaryRow.ExampleData';
-
-/*
-const dummyalerts = [{
-  effectiveStartDate: new Date().getTime() - 9000000,
-  effectiveEndDate: new Date().getTime() + 9000000,
-}];
-*/
-
-const hasActiveDisruption = (t1, t2, alerts) =>
-  filter(
-    alerts,
-    alert => !(alert.effectiveStartDate > t2 || alert.effectiveEndDate < t1),
-  ).length > 0;
 
 const Leg = ({ routeNumber, leg, large }) => (
   <div className="leg">
@@ -65,9 +55,7 @@ Leg.propTypes = {
 };
 
 export const RouteLeg = ({ leg, large, intl }) => {
-  const getTripAlerts = trip => (trip && trip.alerts) || [];
   const isCallAgency = isCallAgencyPickupType(leg);
-
   let routeNumber;
   if (isCallAgency) {
     const message = intl.formatMessage({
@@ -86,19 +74,11 @@ export const RouteLeg = ({ leg, large, intl }) => {
   } else {
     routeNumber = (
       <RouteNumberContainer
+        alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
         route={leg.route}
         className={cx('line', leg.mode.toLowerCase())}
         vertical
         withBar
-        hasDisruption={
-          legHasCancelation(leg) ||
-          hasActiveDisruption(
-            leg.startTime / 1000,
-            leg.endTime / 1000,
-            getTripAlerts(leg.trip),
-            // dummyalerts,
-          )
-        }
       />
     );
   }
@@ -113,6 +93,12 @@ RouteLeg.propTypes = {
 };
 
 export const ModeLeg = ({ leg, mode, large }, { config }) => {
+  const networkIcon =
+    leg.from.bikeRentalStation &&
+    getCityBikeNetworkIcon(
+      getCityBikeNetworkConfig(leg.from.bikeRentalStation.networks[0], config),
+    );
+
   const routeNumber = (
     <RouteNumber
       mode={mode}
@@ -120,6 +106,7 @@ export const ModeLeg = ({ leg, mode, large }, { config }) => {
       className={cx('line', mode.toLowerCase())}
       vertical
       withBar
+      icon={networkIcon}
       {...getLegBadgeProps(leg, config)}
     />
   );
@@ -375,11 +362,6 @@ const SummaryRow = (
     },
   ]);
 
-  const itineraryLabel = formatMessage({
-    id: 'itinerary-page.title',
-    defaultMessage: 'Itinerary',
-  });
-
   const isDefaultPosition = breakpoint !== 'large' && !onlyBiking(data);
   const renderBikingDistance = itinerary =>
     containsBiking(itinerary) && (
@@ -397,6 +379,10 @@ const SummaryRow = (
       style={{
         display: props.isCancelled && !props.showCancelled ? 'none' : 'flex',
       }}
+      aria-label={formatMessage(
+        { id: 'summary-page.row-label' },
+        { number: props.hash + 1 },
+      )}
     >
       {props.open || props.children
         ? [
@@ -410,7 +396,9 @@ const SummaryRow = (
             <div
               tabIndex="0"
               role="button"
-              title={itineraryLabel}
+              title={formatMessage({
+                id: 'itinerary-page.hide-details',
+              })}
               key="arrow"
               className="action-arrow-click-area noborder flex-vertical"
               onClick={e => {
@@ -473,7 +461,9 @@ const SummaryRow = (
             <div
               tabIndex="0"
               role="button"
-              title={itineraryLabel}
+              title={formatMessage({
+                id: 'itinerary-page.show-details',
+              })}
               key="arrow"
               className="action-arrow-click-area flex-vertical noborder"
               onClick={e => {

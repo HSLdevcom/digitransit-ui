@@ -33,6 +33,8 @@ import ComponentUsageExample from './ComponentUsageExample';
 import exampleData from './data/SummaryPage.ExampleData';
 import { isBrowser } from '../util/browser';
 import { itineraryHasCancelation } from '../util/alertUtils';
+import triggerMessage from '../util/messageUtils';
+import MessageStore from '../store/MessageStore';
 
 export const ITINERARYFILTERING_DEFAULT = 1.5;
 
@@ -88,10 +90,10 @@ class SummaryPage extends React.Component {
     config: PropTypes.object,
     executeAction: PropTypes.func.isRequired,
     headers: PropTypes.object.isRequired,
+    getStore: PropTypes.func,
   };
 
   static propTypes = {
-    printPage: PropTypes.object,
     location: PropTypes.shape({
       state: PropTypes.object,
     }).isRequired,
@@ -116,7 +118,7 @@ class SummaryPage extends React.Component {
     routes: PropTypes.arrayOf(
       PropTypes.shape({
         fullscreenMap: PropTypes.bool,
-        printPage: PropTypes.object,
+        printPage: PropTypes.bool,
       }).isRequired,
     ).isRequired,
     breakpoint: PropTypes.string.isRequired,
@@ -183,6 +185,19 @@ class SummaryPage extends React.Component {
     } = this.context;
     const itineraries = (plan && plan.itineraries) || [];
     const activeIndex = getActiveIndex(location, itineraries);
+    triggerMessage(
+      from.lat,
+      from.lon,
+      this.context,
+      this.context.getStore(MessageStore).getMessages(),
+    );
+
+    triggerMessage(
+      to.lat,
+      to.lon,
+      this.context,
+      this.context.getStore(MessageStore).getMessages(),
+    );
 
     const leafletObjs = sortBy(
       itineraries.map((itinerary, i) => (
@@ -200,33 +215,19 @@ class SummaryPage extends React.Component {
 
     if (from.lat && from.lon) {
       leafletObjs.push(
-        <LocationMarker
-          className="from"
-          key="fromMarker"
-          position={from}
-          type="from"
-        />,
+        <LocationMarker key="fromMarker" position={from} type="from" />,
       );
     }
 
     if (to.lat && to.lon) {
       leafletObjs.push(
-        <LocationMarker
-          className="to"
-          key="toMarker"
-          position={to}
-          type="to"
-        />,
+        <LocationMarker isLarge key="toMarker" position={to} type="to" />,
       );
     }
 
     getIntermediatePlaces(query).forEach((intermediatePlace, i) => {
       leafletObjs.push(
-        <LocationMarker
-          className="via"
-          key={`via_${i}`}
-          position={intermediatePlace}
-        />,
+        <LocationMarker key={`via_${i}`} position={intermediatePlace} />,
       );
     });
 
@@ -314,7 +315,9 @@ class SummaryPage extends React.Component {
       latestArrivalTime = Math.max(...itineraries.map(i => i.endTime));
     }
 
+    // added itineraryFutureDays parameter (DT-3175)
     const serviceTimeRange = validateServiceTimeRange(
+      get(this.context, 'config.itineraryFutureDays'),
       this.props.serviceTimeRange,
     );
     if (this.props.breakpoint === 'large') {
@@ -480,7 +483,9 @@ const containerComponent = Relay.createContainer(SummaryPageWithBreakpoint, {
           itineraryFiltering: $itineraryFiltering,
           modeWeight: $modeWeight
           preferred: $preferred,
-          unpreferred: $unpreferred),
+          unpreferred: $unpreferred,
+          allowedBikeRentalNetworks: $allowedBikeRentalNetworks,
+          ),
         {
           ${SummaryPlanContainer.getFragment('plan')}
           ${ItineraryTab.getFragment('searchTime')}
@@ -536,6 +541,7 @@ const containerComponent = Relay.createContainer(SummaryPageWithBreakpoint, {
       walkReluctance: null,
       walkSpeed: null,
       wheelchair: null,
+      allowedBikeRentalNetworks: null,
     },
     ...defaultRoutingSettings,
   },

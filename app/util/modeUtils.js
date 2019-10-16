@@ -312,3 +312,27 @@ export const toggleTransportMode = (transportMode, config, router) => {
   ]).join(',');
   replaceQueryParams(router, { modes });
 };
+
+/**
+ * Updates the browser's url to enable citybikes WITH all networks
+ *
+ * @param {*} transportMode The transport mode to select
+ * @param {*} config The configuration for the software installation
+ * @param {*} router The router
+ * @param {*} networks The citybike networks to be allowed
+ */
+export const toggleCitybikesAndNetworks = (
+  transportMode,
+  config,
+  router,
+  networks,
+) => {
+  const currentLocation = router.getCurrentLocation();
+  if (isBikeRestricted(router.location, config, transportMode)) {
+    return;
+  }
+  const modes = xor(getModes(currentLocation, config), [
+    transportMode.toUpperCase(),
+  ]).join(',');
+  replaceQueryParams(router, { modes, allowedBikeRentalNetworks: networks });
+};

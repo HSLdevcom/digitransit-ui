@@ -92,6 +92,10 @@ $content-background-color: $background-color;
 
 #skip-to-content-link {
   height: 0px;
+
+  @media print {
+    display: none;
+  }
 }
 
 .flex-horizontal {
@@ -113,7 +117,7 @@ $content-background-color: $background-color;
     margin: 0px 2px;
     &.selected {
       border-radius: 3px;
-      background-color: rgba($white, 0.15);
+      background-color: hsla(0, 0%, 100%, 0.15);
     }
   }
 }
@@ -123,7 +127,7 @@ $content-background-color: $background-color;
   #lang-select {
     border-bottom: 0px;
     .lang.selected {
-      background: rgba(0, 0, 0, 0.15);
+      background: $selected-lang-background;
     }
   }
 }
@@ -137,6 +141,10 @@ $content-background-color: $background-color;
     font-size: 1.8em;
     color: $primary-color;
     fill: $top-navigation-icon-color;
+    &.caution-topbar {
+      fill: $caution-icon-color;
+      color: $caution-icon-font-color;
+    }
   }
   width: 50px;
 }
@@ -307,7 +315,7 @@ section.content {
 }
 
 .desktop-title {
-  background: $primary-color;
+  background: $desktop-title-color;
 
   a {
     color: $primary-font-color;
@@ -327,7 +335,7 @@ section.content {
   .arrow-icon {
     font-size: 0.6em;
     margin: 2px 1em;
-    color: $secondary-color;
+    color: $desktop-title-arrow-icon-color;
   }
 }
 
@@ -341,7 +349,6 @@ section.content {
   display: block;
   @include font-book;
   font-size: $font-size-small;
-  background: $white;
   color: $black;
   text-align: left;
   cursor: pointer;
@@ -350,8 +357,25 @@ section.content {
     display: flex;
     max-height: 100%;
 
-    .message-bar-info {
+    .message-bar-content {
+      flex-basis: auto;
+      flex-grow: 1;
       width: 60%;
+    }
+
+    &.banner-disruption {
+      background: $disruption-color;
+
+      .icon {
+        color: $disruption-color;
+        fill: white;
+      }
+
+      .message-bar-content,
+      a,
+      h2 {
+        color: white;
+      }
     }
   }
 
@@ -374,7 +398,13 @@ section.content {
 
   a {
     @include font-medium;
-    padding: 0 4px;
+    padding: 0px 4px;
+  }
+
+  svg.message-bar-link-icon {
+    margin: 0 0 0 $padding-small;
+    position: relative;
+    top: 0.125em;
   }
 }
 

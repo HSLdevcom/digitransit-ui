@@ -27,13 +27,6 @@ const getIcons = features => {
     return {};
   }
 
-  const CustomIcon = L.Icon.extend({
-    options: {
-      iconSize: [30, 30],
-      iconAnchor: [15, 15],
-    },
-  });
-
   return features
     .filter(
       feature =>
@@ -51,10 +44,20 @@ const getIcons = features => {
       const url = `data:image/svg+xml;charset=utf-8,${encodeURI(
         icon.svg,
       ).replace(/#/g, '%23')}`;
-      icons[icon.id] = new CustomIcon({ iconUrl: url }); // eslint-disable-line no-param-reassign
+      icons[icon.id] = url; // eslint-disable-line no-param-reassign
       return icons;
     }, {});
 };
+
+/**
+ * The icon template to use for drawing custom icons on the map.
+ */
+const MapIcon = L.Icon.extend({
+  options: {
+    iconSize: [30, 30],
+    iconAnchor: [15, 15],
+  },
+});
 
 /**
  * Generates a suitable leaflet marker with a tooltip and a popup attached (if applicable)
@@ -71,7 +74,7 @@ const getMarker = (feature, latlng, icons = {}) => {
 
   if (properties.icon) {
     marker = L.marker(latlng, {
-      icon: icons[properties.icon.id],
+      icon: new MapIcon({ iconUrl: icons[properties.icon.id] }),
       interactive,
     });
   } else if (properties.textOnly) {
@@ -134,6 +137,7 @@ class GeoJSON extends React.Component {
   styler = feature => {
     const { config } = this.context;
     const defaultLineStyle = {
+      className: 'cursor-grab',
       color: config.colors.primary,
       weight: 3,
       opacity: 0.8,

@@ -30,6 +30,35 @@ describe('<SelectMapLayersDialog />', () => {
     );
   });
 
+  it('should update the vehicles layer', () => {
+    let mapLayers = {
+      showAllBusses: false,
+      stop: {},
+      terminal: {},
+      ticketSales: {},
+    };
+    const props = {
+      config: {
+        showAllBusses: true,
+      },
+      mapLayers,
+      updateMapLayers: layers => {
+        mapLayers = { ...layers };
+      },
+    };
+    const wrapper = mountWithIntl(<SelectMapLayersDialog isOpen {...props} />, {
+      context: { ...mockContext },
+      childContextTypes: { ...mockChildContextTypes },
+    });
+
+    wrapper
+      .find('.option-checkbox input')
+      .at(0)
+      .simulate('change', { target: { checked: true } });
+
+    expect(mapLayers.showAllBusses).to.equal(true);
+  });
+
   it('should update the bus stop layer', () => {
     let mapLayers = {
       stop: {

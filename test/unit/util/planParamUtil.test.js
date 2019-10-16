@@ -37,6 +37,19 @@ describe('planParamUtil', () => {
           },
         },
         modePolygons: {},
+        cityBike: {
+          networks: {
+            smoove: {
+              icon: 'citybike',
+              name: {
+                fi: 'Helsinki ja Espoo',
+                sv: 'Helsingfors och Esbo',
+                en: 'Helsinki and Espoo',
+              },
+              type: 'citybike',
+            },
+          },
+        },
       };
       const params = utils.preparePlanParams(config)(...defaultProps);
       const { modes } = params;
@@ -95,7 +108,10 @@ describe('planParamUtil', () => {
         },
       );
       const { unpreferred } = params;
-      expect(unpreferred).to.deep.equal({ routes: 'HSL__7480' });
+      expect(unpreferred).to.deep.equal({
+        routes: 'HSL__7480',
+        useUnpreferredRoutesPenalty: 1200,
+      });
     });
 
     it('should use the preferred routes from localStorage', () => {
@@ -105,11 +121,52 @@ describe('planParamUtil', () => {
       expect(preferred).to.deep.equal({ routes: 'HSL__1052' });
     });
 
-    it('should use the preferred routes from localStorage', () => {
+    it('should use the unpreferred routes from localStorage', () => {
       setCustomizedSettings({ unpreferredRoutes: 'HSL__7480' });
       const params = utils.preparePlanParams(defaultConfig)(...defaultProps);
       const { unpreferred } = params;
-      expect(unpreferred).to.deep.equal({ routes: 'HSL__7480' });
+      expect(unpreferred).to.deep.equal({
+        routes: 'HSL__7480',
+        useUnpreferredRoutesPenalty: 1200,
+      });
+    });
+
+    it('should ignore the preferred routes from localstorage when query contains empty string', () => {
+      setCustomizedSettings({ preferredRoutes: 'HSL__1052' });
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: {
+            query: {
+              preferredRoutes: '',
+            },
+          },
+        },
+      );
+      const { preferred } = params;
+      expect(preferred).to.deep.equal({});
+    });
+
+    it('should ignore the unpreferred routes from localstorage when query contains empty string', () => {
+      setCustomizedSettings({ unpreferredRoutes: 'HSL__7480' });
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: {
+            query: {
+              unpreferredRoutes: '',
+            },
+          },
+        },
+      );
+      const { unpreferred } = params;
+      expect(unpreferred).to.deep.equal({ useUnpreferredRoutesPenalty: 1200 });
     });
 
     it('should use bikeSpeed from query', () => {

@@ -10,26 +10,36 @@ class RealTimeInformationStore extends Store {
 
   storeClient(data) {
     this.client = data.client;
+    this.topics = data.topics;
   }
 
   clearClient() {
     this.client = undefined;
+    this.topics = undefined;
     this.vehicles = {};
   }
 
   resetClient() {
+    this.topics = undefined;
     this.vehicles = {};
+    this.emitChange();
   }
 
   handleMessage(message) {
-    if (Array.isArray(message)) {
-      message.forEach(msg => {
-        this.vehicles[msg.id] = msg;
-      });
-    } else {
-      this.vehicles[message.id] = message;
+    if (message) {
+      if (Array.isArray(message)) {
+        message.forEach(msg => {
+          this.vehicles[msg.id] = msg;
+        });
+      } else {
+        this.vehicles[message.id] = message;
+      }
+      this.emitChange();
     }
-    this.emitChange();
+  }
+
+  setTopics(topics) {
+    this.topics = topics;
   }
 
   getVehicle = id => this.vehicles[id];
@@ -39,6 +49,7 @@ class RealTimeInformationStore extends Store {
     RealTimeClientStopped: 'clearClient',
     RealTimeClientMessage: 'handleMessage',
     RealTimeClientReset: 'resetClient',
+    RealTimeClientNewTopics: 'setTopics',
   };
 }
 

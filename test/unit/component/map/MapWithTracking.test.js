@@ -1,6 +1,7 @@
 import React from 'react';
 import sinon from 'sinon';
 
+import { mockContext } from '../../helpers/mock-context';
 import { shallowWithIntl } from '../../helpers/mock-intl-enzyme';
 import { Component as MapWithTracking } from '../../../../app/component/map/MapWithTracking';
 
@@ -8,6 +9,7 @@ const defaultProps = {
   getGeoJsonConfig: () => {},
   getGeoJsonData: () => {},
   origin: {},
+  destination: {},
   position: {
     hasLocation: false,
     isLocationingInProgress: false,
@@ -16,18 +18,40 @@ const defaultProps = {
   },
   config: {
     defaultEndpoint: {},
+    realTime: {},
+    feedIds: [],
+    stopsMinZoom: 0,
+    showAllBusses: false,
   },
   mapLayers: {
     geoJson: {},
     stop: {},
     terminal: {},
     ticketSales: {},
+    showAllBusses: false,
   },
+};
+
+const defaultContext = {
+  ...mockContext,
+  config: {
+    realTime: {
+      tampere: {
+        gtfsRt: 'foobar',
+        routeSelector: () => '32',
+        active: false,
+      },
+    },
+    showAllBusses: false,
+  },
+  executeAction: sinon.stub(),
 };
 
 describe('<MapWithTracking />', () => {
   it('should render', () => {
-    const wrapper = shallowWithIntl(<MapWithTracking {...defaultProps} />);
+    const wrapper = shallowWithIntl(<MapWithTracking {...defaultProps} />, {
+      context: { ...defaultContext },
+    });
     expect(wrapper.isEmptyRender()).to.equal(false);
   });
 
@@ -52,19 +76,23 @@ describe('<MapWithTracking />', () => {
                 en: 'Test',
               },
               url: layerUrl,
+              isOffByDefault: false,
             },
           ],
         },
       },
     };
 
-    const wrapper = shallowWithIntl(<MapWithTracking {...props} />);
+    const wrapper = shallowWithIntl(<MapWithTracking {...props} />, {
+      context: { ...defaultContext },
+    });
     await wrapper.instance().componentDidMount();
 
     expect(props.getGeoJsonConfig.called).to.equal(false);
     expect(wrapper.state().geoJson).to.deep.equal({
       [layerUrl]: {
         type: 'FeatureCollection',
+        isOffByDefault: false,
         features: [],
       },
     });
@@ -99,12 +127,15 @@ describe('<MapWithTracking />', () => {
       },
     };
 
-    const wrapper = shallowWithIntl(<MapWithTracking {...props} />);
+    const wrapper = shallowWithIntl(<MapWithTracking {...props} />, {
+      context: { ...defaultContext },
+    });
     await wrapper.instance().componentDidMount();
 
     expect(wrapper.state().geoJson).to.deep.equal({
       [layerUrl]: {
         type: 'FeatureCollection',
+        isOffByDefault: undefined,
         features: [],
       },
     });
@@ -113,7 +144,9 @@ describe('<MapWithTracking />', () => {
   it('should update the current bounds', () => {
     const bounds = [1, 2];
 
-    const wrapper = shallowWithIntl(<MapWithTracking {...defaultProps} />);
+    const wrapper = shallowWithIntl(<MapWithTracking {...defaultProps} />, {
+      context: { ...defaultContext },
+    });
     const instance = wrapper.instance();
     instance.mapElement = {
       leafletElement: {
@@ -134,7 +167,9 @@ describe('<MapWithTracking />', () => {
       value: 'foobar',
     };
 
-    const wrapper = shallowWithIntl(<MapWithTracking {...defaultProps} />);
+    const wrapper = shallowWithIntl(<MapWithTracking {...defaultProps} />, {
+      context: { ...defaultContext },
+    });
     wrapper.setState({ bounds: initialBounds });
 
     const instance = wrapper.instance();

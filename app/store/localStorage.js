@@ -34,6 +34,7 @@ function setItem(key, value) {
       localStorage.setItem(key, JSON.stringify(value));
     } catch (error) {
       if (error.name === 'QuotaExceededError') {
+        // eslint-disable-next-line no-console
         console.log(
           '[localStorage]' + // eslint-disable-line no-console
             ' Unable to save state; localStorage is not available in Safari private mode',
@@ -130,6 +131,10 @@ export function setCustomizedSettings(data) {
       oldSettings.walkReluctance,
     ),
     walkSpeed: getNumberValueOrDefault(data.walkSpeed, oldSettings.walkSpeed),
+    allowedBikeRentalNetworks: getValueOrDefault(
+      data.allowedBikeRentalNetworks,
+      oldSettings.allowedBikeRentalNetworks,
+    ),
   };
   if (optimize === OptimizeType.Triangle) {
     newSettings.safetyFactor = getNumberValueOrDefault(
@@ -148,6 +153,18 @@ export function setCustomizedSettings(data) {
     delete newSettings.safetyFactor;
     delete newSettings.slopeFactor;
     delete newSettings.timeFactor;
+  }
+  if (
+    newSettings.preferredRoutes !== undefined &&
+    newSettings.preferredRoutes.length === 0
+  ) {
+    delete newSettings.preferredRoutes;
+  }
+  if (
+    newSettings.unpreferredRoutes !== undefined &&
+    newSettings.unpreferredRoutes.length === 0
+  ) {
+    delete newSettings.unpreferredRoutes;
   }
 
   setItem('customizedSettings', newSettings);

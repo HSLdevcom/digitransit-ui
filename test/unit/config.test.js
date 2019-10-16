@@ -3,6 +3,7 @@ import { describe, it } from 'mocha';
 
 import { getConfiguration } from '../../app/config';
 import { isModeAvailableInsidePolygons } from '../../app/util/modeUtils';
+import defaultConfig from '../../app/configurations/config.default';
 
 const intermediatePlacesFerry = [
   {
@@ -88,6 +89,18 @@ describe('config', () => {
       const config = getConfiguration(request);
       expect(config.modePolygons).to.be.empty; // eslint-disable-line no-unused-expressions
       expect(config.modeBoundingBoxes).to.be.undefined; // eslint-disable-line no-unused-expressions
+    });
+
+    /* eslint-disable no-unused-expressions */
+    it('should return default configuration with empty realTimePatch and unchanged realTime.HSL', () => {
+      const request = {
+        headers: {},
+      };
+      const config = getConfiguration(request);
+      expect(config.realTimePatch).to.be.empty; // eslint-disable-line no-unused-expressions
+      expect(config.realTime.HSL.mqtt).to.equal(
+        defaultConfig.realTime.HSL.mqtt,
+      ); // eslint-disable-line no-unused-expressions
     });
 
     it('should return hsl configuration with modePolygons and modeBoundingBoxes when using www.reittiopas.fi as request header', () => {

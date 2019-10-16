@@ -142,7 +142,7 @@ function watchPosition(actionContext) {
     }
     actionContext.dispatch('GeolocationNotSupported');
     updateGeolocationMessage(actionContext, 'failed');
-    console.error(error);
+    console.error(error); // eslint-disable-line no-console
   }
 }
 

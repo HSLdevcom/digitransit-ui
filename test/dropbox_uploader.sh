@@ -2,7 +2,7 @@
 #
 # Dropbox Uploader
 #
-# Copyright (C) 2010-2016 Andrea Fabrizi <andrea.fabrizi@gmail.com>
+# Copyright (C) 2010-2017 Andrea Fabrizi <andrea.fabrizi@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -38,9 +38,9 @@ QUIET=0
 SHOW_PROGRESSBAR=0
 SKIP_EXISTING_FILES=0
 ERROR_STATUS=0
+EXCLUDE=()
 
 #Don't edit these...
-API_MIGRATE_V2="https://api.dropboxapi.com/1/oauth2/token_from_oauth1"
 API_LONGPOLL_FOLDER="https://notify.dropboxapi.com/2/files/list_folder/longpoll"
 API_CHUNKED_UPLOAD_START_URL="https://content.dropboxapi.com/2/files/upload_session/start"
 API_CHUNKED_UPLOAD_FINISH_URL="https://content.dropboxapi.com/2/files/upload_session/finish"
@@ -87,7 +87,7 @@ if [[ ! -d "$TMP_DIR" ]]; then
 fi
 
 #Look for optional config file parameter
-while getopts ":qpskdhf:" opt; do
+while getopts ":qpskdhf:x:" opt; do
     case $opt in
 
     f)
@@ -116,6 +116,10 @@ while getopts ":qpskdhf:" opt; do
 
     h)
       HUMAN_READABLE_SIZE=1
+    ;;
+
+    x)
+      EXCLUDE+=( $OPTARG )
     ;;
 
     \?)
@@ -280,6 +284,7 @@ function usage
     echo -e "\t-h            Show file sizes in human readable format"
     echo -e "\t-p            Show cURL progress meter"
     echo -e "\t-k            Doesn't check for SSL certificates (insecure)"
+    echo -e "\t-x            Ignores/excludes directories or files from syncing. -x filename -x directoryname. example: -x .git"
 
     echo -en "\nFor more info and examples, please see the README file.\n\n"
     remove_temp_files
@@ -308,7 +313,7 @@ function check_http_response
         ;;
 
         #Missing CA certificates
-        60|58)
+        60|58|77)
             print "\nError: cURL is not able to performs peer SSL certificate verification.\n"
             print "Please, install the default ca-certificates bundle.\n"
             print "To do this in a Debian/Ubuntu based system, try:\n"
@@ -336,7 +341,7 @@ function check_http_response
     esac
 
     #Checking response file for generic errors
-    if grep -q "HTTP/1.1 400" "$RESPONSE_FILE"; then
+    if grep -q "^HTTP/[12].* 400" "$RESPONSE_FILE"; then
         ERROR_MSG=$(sed -n -e 's/{"error": "\([^"]*\)"}/\1/p' "$RESPONSE_FILE")
 
         case $ERROR_MSG in
@@ -434,6 +439,14 @@ function db_upload
     local SRC=$(normalize_path "$1")
     local DST=$(normalize_path "$2")
 
+    for j in "${EXCLUDE[@]}"
+        do :
+            if [[ $(echo "$SRC" | grep "$j" | wc -l) -gt 0 ]]; then
+                print "Skipping excluded file/dir: "$j
+                return
+            fi
+    done
+
     #Checking if the file/dir exists
     if [[ ! -e $SRC && ! -d $SRC ]]; then
         print " > No such file or directory: $SRC\n"
@@ -519,6 +532,16 @@ function db_upload_file
         return
     fi
 
+    # Checking if the file has the correct check sum
+    if [[ $TYPE != "ERR" ]]; then
+        sha_src=$(db_sha_local "$FILE_SRC")
+        sha_dst=$(db_sha "$FILE_DST")
+        if [[ $sha_src == $sha_dst && $sha_src != "ERR" ]]; then
+            print "> Skipping file \"$FILE_SRC\", file exists with the same hash\n"
+            return
+        fi
+    fi
+
     if [[ $FILE_SIZE -gt 157286000 ]]; then
         #If the file is greater than 150Mb, the chunked_upload API will be used
         db_chunked_upload_file "$FILE_SRC" "$FILE_DST"
@@ -549,7 +572,7 @@ function db_simple_upload_file
     check_http_response
 
     #Check
-    if grep -q "^HTTP/1.1 200 OK" "$RESPONSE_FILE"; then
+    if grep -q "^HTTP/[12].* 200" "$RESPONSE_FILE"; then
         print "DONE\n"
     else
         print "FAILED\n"
@@ -566,7 +589,16 @@ function db_chunked_upload_file
     local FILE_SRC=$(normalize_path "$1")
     local FILE_DST=$(normalize_path "$2")
 
-    print " > Uploading \"$FILE_SRC\" to \"$FILE_DST\""
+
+    if [[ $SHOW_PROGRESSBAR == 1 && $QUIET == 0 ]]; then
+        VERBOSE=1
+        CURL_PARAMETERS="--progress-bar"
+    else
+        VERBOSE=0
+        CURL_PARAMETERS="-L -s"
+    fi
+
+
 
     local FILE_SIZE=$(file_size "$FILE_SRC")
     local OFFSET=0
@@ -574,12 +606,22 @@ function db_chunked_upload_file
     local UPLOAD_ERROR=0
     local CHUNK_PARAMS=""
 
+    ## Ceil division
+    let NUMBEROFCHUNK=($FILE_SIZE/1024/1024+$CHUNK_SIZE-1)/$CHUNK_SIZE
+
+    if [[ $VERBOSE == 1 ]]; then
+        print " > Uploading \"$FILE_SRC\" to \"$FILE_DST\" by $NUMBEROFCHUNK chunks ...\n"
+    else
+        print " > Uploading \"$FILE_SRC\" to \"$FILE_DST\" by $NUMBEROFCHUNK chunks "
+    fi
+
     #Starting a new upload session
     $CURL_BIN $CURL_ACCEPT_CERTIFICATES -X POST -L -s --show-error --globoff -i -o "$RESPONSE_FILE" --header "Authorization: Bearer $OAUTH_ACCESS_TOKEN" --header "Dropbox-API-Arg: {\"close\": false}" --header "Content-Type: application/octet-stream" --data-binary @/dev/null "$API_CHUNKED_UPLOAD_START_URL" 2> /dev/null
     check_http_response
 
     SESSION_ID=$(sed -n 's/{"session_id": *"*\([^"]*\)"*.*/\1/p' "$RESPONSE_FILE")
 
+    chunkNumber=1
     #Uploading chunks...
     while ([[ $OFFSET != "$FILE_SIZE" ]]); do
 
@@ -589,19 +631,27 @@ function db_chunked_upload_file
         dd if="$FILE_SRC" of="$CHUNK_FILE" bs=1048576 skip=$OFFSET_MB count=$CHUNK_SIZE 2> /dev/null
         local CHUNK_REAL_SIZE=$(file_size "$CHUNK_FILE")
 
+        if [[ $VERBOSE == 1 ]]; then
+            print " >> Uploading chunk $chunkNumber of $NUMBEROFCHUNK\n"
+        fi
+
         #Uploading the chunk...
         echo > "$RESPONSE_FILE"
-        $CURL_BIN $CURL_ACCEPT_CERTIFICATES -X POST -L -s --show-error --globoff -i -o "$RESPONSE_FILE" --header "Authorization: Bearer $OAUTH_ACCESS_TOKEN" --header "Dropbox-API-Arg: {\"cursor\": {\"session_id\": \"$SESSION_ID\",\"offset\": $OFFSET},\"close\": false}" --header "Content-Type: application/octet-stream" --data-binary @"$CHUNK_FILE" "$API_CHUNKED_UPLOAD_APPEND_URL" 2> /dev/null
+        $CURL_BIN $CURL_ACCEPT_CERTIFICATES -X POST $CURL_PARAMETERS --show-error --globoff -i -o "$RESPONSE_FILE" --header "Authorization: Bearer $OAUTH_ACCESS_TOKEN" --header "Dropbox-API-Arg: {\"cursor\": {\"session_id\": \"$SESSION_ID\",\"offset\": $OFFSET},\"close\": false}" --header "Content-Type: application/octet-stream" --data-binary @"$CHUNK_FILE" "$API_CHUNKED_UPLOAD_APPEND_URL"
         #check_http_response not needed, because we have to retry the request in case of error
 
-        let OFFSET=$OFFSET+$CHUNK_REAL_SIZE
-
         #Check
-        if grep -q "^HTTP/1.1 200 OK" "$RESPONSE_FILE"; then
-            print "."
+        if grep -q "^HTTP/[12].* 200" "$RESPONSE_FILE"; then
+            let OFFSET=$OFFSET+$CHUNK_REAL_SIZE
             UPLOAD_ERROR=0
+            if [[ $VERBOSE != 1 ]]; then
+                print "."
+            fi
+            ((chunkNumber=chunkNumber+1))
         else
-            print "*"
+            if [[ $VERBOSE != 1 ]]; then
+                print "*"
+            fi
             let UPLOAD_ERROR=$UPLOAD_ERROR+1
 
             #On error, the upload is retried for max 3 times
@@ -625,8 +675,7 @@ function db_chunked_upload_file
         #check_http_response not needed, because we have to retry the request in case of error
 
         #Check
-        if grep -q "^HTTP/1.1 200 OK" "$RESPONSE_FILE"; then
-            print "."
+        if grep -q "^HTTP/[12].* 200" "$RESPONSE_FILE"; then
             UPLOAD_ERROR=0
             break
         else
@@ -712,6 +761,12 @@ function db_download
         fi
 
         OUT_FILE=$(db_list_outfile "$SRC_REQ")
+        if [ $? -ne 0 ]; then
+            # When db_list_outfile fail, the error message is OUT_FILE
+            print "$OUT_FILE\n"
+            ERROR_STATUS=1
+            return
+        fi
 
         #For each entry...
         while read -r line; do
@@ -779,6 +834,16 @@ function db_download_file
         return
     fi
 
+    # Checking if the file has the correct check sum
+    if [[ $TYPE != "ERR" ]]; then
+        sha_src=$(db_sha "$FILE_SRC")
+        sha_dst=$(db_sha_local "$FILE_DST")
+        if [[ $sha_src == $sha_dst && $sha_src != "ERR" ]]; then
+            print "> Skipping file \"$FILE_SRC\", file exists with the same hash\n"
+            return
+        fi
+    fi
+
     #Creating the empty file, that for two reasons:
     #1) In this way I can check if the destination file is writable or not
     #2) Curl doesn't automatically creates files with 0 bytes size
@@ -794,7 +859,7 @@ function db_download_file
     check_http_response
 
     #Check
-    if grep -q "^HTTP/1.1 200 OK" "$RESPONSE_FILE"; then
+    if grep -q "^HTTP/[12].* 200" "$RESPONSE_FILE"; then
         print "DONE\n"
     else
         print "FAILED\n"
@@ -864,7 +929,7 @@ function db_account_info
     check_http_response
 
     #Check
-    if grep -q "^HTTP/1.1 200 OK" "$RESPONSE_FILE"; then
+    if grep -q "^HTTP/[12].* 200" "$RESPONSE_FILE"; then
 
         name=$(sed -n 's/.*"display_name": "\([^"]*\).*/\1/p' "$RESPONSE_FILE")
         echo -e "\n\nName:\t\t$name"
@@ -895,7 +960,7 @@ function db_account_space
     check_http_response
 
     #Check
-    if grep -q "^HTTP/1.1 200 OK" "$RESPONSE_FILE"; then
+    if grep -q "^HTTP/[12].* 200" "$RESPONSE_FILE"; then
 
         quota=$(sed -n 's/.*"allocated": \([0-9]*\).*/\1/p' "$RESPONSE_FILE")
         let quota_mb=$quota/1024/1024
@@ -938,7 +1003,7 @@ function db_delete
     check_http_response
 
     #Check
-    if grep -q "^HTTP/1.1 200 OK" "$RESPONSE_FILE"; then
+    if grep -q "^HTTP/[12].* 200" "$RESPONSE_FILE"; then
         print "DONE\n"
     else
         print "FAILED\n"
@@ -965,9 +1030,9 @@ function db_move
     print " > Moving \"$FILE_SRC\" to \"$FILE_DST\" ... "
     $CURL_BIN $CURL_ACCEPT_CERTIFICATES -X POST -L -s --show-error --globoff -i -o "$RESPONSE_FILE" --header "Authorization: Bearer $OAUTH_ACCESS_TOKEN" --header "Content-Type: application/json" --data "{\"from_path\": \"$FILE_SRC\", \"to_path\": \"$FILE_DST\"}" "$API_MOVE_URL" 2> /dev/null
     check_http_response
-
+ 
     #Check
-    if grep -q "^HTTP/1.1 200 OK" "$RESPONSE_FILE"; then
+    if grep -q "^HTTP/[12].* 200" "$RESPONSE_FILE"; then
         print "DONE\n"
     else
         print "FAILED\n"
@@ -996,7 +1061,7 @@ function db_copy
     check_http_response
 
     #Check
-    if grep -q "^HTTP/1.1 200 OK" "$RESPONSE_FILE"; then
+    if grep -q "^HTTP/[12].* 200" "$RESPONSE_FILE"; then
         print "DONE\n"
     else
         print "FAILED\n"
@@ -1015,9 +1080,9 @@ function db_mkdir
     check_http_response
 
     #Check
-    if grep -q "^HTTP/1.1 200 OK" "$RESPONSE_FILE"; then
+    if grep -q "^HTTP/[12].* 200" "$RESPONSE_FILE"; then
         print "DONE\n"
-    elif grep -q "^HTTP/1.1 403 Forbidden" "$RESPONSE_FILE"; then
+    elif grep -q "^HTTP/[12].* 403" "$RESPONSE_FILE"; then
         print "ALREADY EXISTS\n"
     else
         print "FAILED\n"
@@ -1056,7 +1121,7 @@ function db_list_outfile
         CURSOR=$(sed -n 's/.*"cursor": *"\([^"]*\)".*/\1/p' "$RESPONSE_FILE")
 
         #Check
-        if grep -q "^HTTP/1.1 200 OK" "$RESPONSE_FILE"; then
+        if grep -q "^HTTP/[12].* 200" "$RESPONSE_FILE"; then
 
             #Extracting directory content [...]
             #and replacing "}, {" with "}\n{"
@@ -1179,14 +1244,14 @@ function db_monitor_nonblock
     $CURL_BIN $CURL_ACCEPT_CERTIFICATES -X POST -L -s --show-error --globoff -i -o "$RESPONSE_FILE" --header "Authorization: Bearer $OAUTH_ACCESS_TOKEN" --header "Content-Type: application/json" --data "{\"path\": \"$DIR_DST\",\"include_media_info\": false,\"include_deleted\": false,\"include_has_explicit_shared_members\": false}" "$API_LIST_FOLDER_URL" 2> /dev/null
     check_http_response
 
-    if grep -q "^HTTP/1.1 200 OK" "$RESPONSE_FILE"; then
+    if grep -q "^HTTP/[12].* 200" "$RESPONSE_FILE"; then
 
         local CURSOR=$(sed -n 's/.*"cursor": *"\([^"]*\)".*/\1/p' "$RESPONSE_FILE")
 
         $CURL_BIN $CURL_ACCEPT_CERTIFICATES -X POST -L -s --show-error --globoff -i -o "$RESPONSE_FILE" --header "Content-Type: application/json" --data "{\"cursor\": \"$CURSOR\",\"timeout\": ${TIMEOUT}}" "$API_LONGPOLL_FOLDER" 2> /dev/null
         check_http_response
 
-        if grep -q "^HTTP/1.1 200 OK" "$RESPONSE_FILE"; then
+        if grep -q "^HTTP/[12].* 200" "$RESPONSE_FILE"; then
             local CHANGES=$(sed -n 's/.*"changes" *: *\([a-z]*\).*/\1/p' "$RESPONSE_FILE")
         else
             ERROR_MSG=$(grep "Error in call" "$RESPONSE_FILE")
@@ -1268,7 +1333,7 @@ function db_share
     check_http_response
 
     #Check
-    if grep -q "^HTTP/1.1 200 OK" "$RESPONSE_FILE"; then
+    if grep -q "^HTTP/[12].* 200" "$RESPONSE_FILE"; then
         print " > Share link: "
         SHARE_LINK=$(sed -n 's/.*"url": "\([^"]*\).*/\1/p' "$RESPONSE_FILE")
         echo "$SHARE_LINK"
@@ -1282,11 +1347,11 @@ function db_share
 function get_Share
 {
     local FILE_DST=$(normalize_path "$1")
-    $CURL_BIN $CURL_ACCEPT_CERTIFICATES -X POST -L -s --show-error --globoff -i -o "$RESPONSE_FILE" --header "Authorization: Bearer $OAUTH_ACCESS_TOKEN" --header "Content-Type: application/json" --data "{\"path\": \"$FILE_DST\"}" "$API_SHARE_LIST"
+    $CURL_BIN $CURL_ACCEPT_CERTIFICATES -X POST -L -s --show-error --globoff -i -o "$RESPONSE_FILE" --header "Authorization: Bearer $OAUTH_ACCESS_TOKEN" --header "Content-Type: application/json" --data "{\"path\": \"$FILE_DST\",\"direct_only\": true}" "$API_SHARE_LIST"
     check_http_response
 
     #Check
-    if grep -q "^HTTP/1.1 200 OK" "$RESPONSE_FILE"; then
+    if grep -q "^HTTP/[12].* 200" "$RESPONSE_FILE"; then
         print " > Share link: "
         SHARE_LINK=$(sed -n 's/.*"url": "\([^"]*\).*/\1/p' "$RESPONSE_FILE")
         echo "$SHARE_LINK"
@@ -1310,7 +1375,7 @@ function db_search
     check_http_response
 
     #Check
-    if grep -q "^HTTP/1.1 200 OK" "$RESPONSE_FILE"; then
+    if grep -q "^HTTP/[12].* 200" "$RESPONSE_FILE"; then
         print "DONE\n"
     else
         print "FAILED\n"
@@ -1383,6 +1448,62 @@ function db_search
 
 }
 
+#Query the sha256-dropbox-sum of a remote file
+#see https://www.dropbox.com/developers/reference/content-hash for more information
+#$1 = Remote file
+function db_sha
+{
+    local FILE=$(normalize_path "$1")
+
+    if [[ $FILE == "/" ]]; then
+        echo "ERR"
+        return
+    fi
+
+    #Checking if it's a file or a directory and get the sha-sum
+    $CURL_BIN $CURL_ACCEPT_CERTIFICATES -X POST -L -s --show-error --globoff -i -o "$RESPONSE_FILE" --header "Authorization: Bearer $OAUTH_ACCESS_TOKEN" --header "Content-Type: application/json" --data "{\"path\": \"$FILE\"}" "$API_METADATA_URL" 2> /dev/null
+    check_http_response
+
+    local TYPE=$(sed -n 's/{".tag": *"*\([^"]*\)"*.*/\1/p' "$RESPONSE_FILE")
+    if [[ $TYPE == "folder" ]]; then
+        echo "ERR"
+        return
+    fi
+
+    local SHA256=$(sed -n 's/.*"content_hash": "\([^"]*\).*/\1/p' "$RESPONSE_FILE")
+    echo "$SHA256"
+}
+
+#Query the sha256-dropbox-sum of a local file
+#see https://www.dropbox.com/developers/reference/content-hash for more information
+#$1 = Local file
+function db_sha_local
+{
+    local FILE=$(normalize_path "$1")
+    local FILE_SIZE=$(file_size "$FILE")
+    local OFFSET=0
+    local SKIP=0
+    local SHA_CONCAT=""
+
+    which shasum > /dev/null
+    if [[ $? != 0 ]]; then
+        echo "ERR"
+        return
+    fi
+
+    while ([[ $OFFSET -lt "$FILE_SIZE" ]]); do
+        dd if="$FILE" of="$CHUNK_FILE" bs=4194304 skip=$SKIP count=1 2> /dev/null
+        local SHA=$(shasum -a 256 "$CHUNK_FILE" | awk '{print $1}')
+        SHA_CONCAT="${SHA_CONCAT}${SHA}"
+
+        let OFFSET=$OFFSET+4194304
+        let SKIP=$SKIP+1
+    done
+
+    shaHex=$(echo $SHA_CONCAT | sed 's/\([0-9A-F]\{2\}\)/\\x\1/gI')
+    echo -ne $shaHex | shasum -a 256 | awk '{print $1}'
+}
+
 ################
 #### SETUP  ####
 ################
@@ -1397,19 +1518,10 @@ if [[ -e $CONFIG_FILE ]]; then
 
     #Checking if it's still a v1 API configuration file
     if [[ $APPKEY != "" || $APPSECRET != "" ]]; then
-        echo -ne "The config file contains the old v1 oauth tokens. A new oauth v2 token will be requested.\n"
-        echo -ne "Requesting new oauth2 token... "
-        $CURL_BIN $CURL_ACCEPT_CERTIFICATES -X POST -L -s --show-error --globoff -i -o "$RESPONSE_FILE" "$API_MIGRATE_V2/?oauth_consumer_key=$APPKEY&oauth_token=$OAUTH_ACCESS_TOKEN&oauth_signature_method=PLAINTEXT&oauth_signature=$APPSECRET%26$OAUTH_ACCESS_TOKEN_SECRET&oauth_timestamp=$(utime)&oauth_nonce=$RANDOM" 2> /dev/null
-        OAUTH_ACCESS_TOKEN=$(sed -n 's/.*access_token": "\([^"]*\).*/\1/p' "$RESPONSE_FILE")
-
-        if [[ $OAUTH_ACCESS_TOKEN == "" ]]; then
-            echo "Error getting access tocken, please try again!"
-            remove_temp_files
-            exit 1
-        fi
-
-        echo "DONE"
-        echo "OAUTH_ACCESS_TOKEN=$OAUTH_ACCESS_TOKEN" > "$CONFIG_FILE"
+        echo -ne "The config file contains the old deprecated v1 oauth tokens.\n"
+        echo -ne "Please run again the script and follow the configuration wizard. The old configuration file has been backed up to $CONFIG_FILE.old\n"
+        mv "$CONFIG_FILE" "$CONFIG_FILE".old
+        exit 1
     fi
 
     #Checking loaded data
@@ -1455,9 +1567,9 @@ fi
 #### START  ####
 ################
 
-COMMAND=${*:$OPTIND:1}
-ARG1=${*:$OPTIND+1:1}
-ARG2=${*:$OPTIND+2:1}
+COMMAND="${*:$OPTIND:1}"
+ARG1="${*:$OPTIND+1:1}"
+ARG2="${*:$OPTIND+2:1}"
 
 let argnum=$#-$OPTIND
 
@@ -1470,10 +1582,10 @@ case $COMMAND in
             usage
         fi
 
-        FILE_DST=${*:$#:1}
+        FILE_DST="${*:$#:1}"
 
         for (( i=OPTIND+1; i<$#; i++ )); do
-            FILE_SRC=${*:$i:1}
+            FILE_SRC="${*:$i:1}"
             db_upload "$FILE_SRC" "/$FILE_DST"
         done
 
@@ -1485,8 +1597,8 @@ case $COMMAND in
             usage
         fi
 
-        FILE_SRC=$ARG1
-        FILE_DST=$ARG2
+        FILE_SRC="$ARG1"
+        FILE_DST="$ARG2"
 
         db_download "/$FILE_SRC" "$FILE_DST"
 
@@ -1499,7 +1611,7 @@ case $COMMAND in
         fi
 
         URL=$ARG1
-        FILE_DST=$ARG2
+        FILE_DST="$ARG2"
 
         db_saveurl "$URL" "/$FILE_DST"
 
@@ -1511,7 +1623,7 @@ case $COMMAND in
             usage
         fi
 
-        FILE_DST=$ARG1
+        FILE_DST="$ARG1"
 
         db_share "/$FILE_DST"
 
@@ -1535,7 +1647,7 @@ case $COMMAND in
             usage
         fi
 
-        FILE_DST=$ARG1
+        FILE_DST="$ARG1"
 
         db_delete "/$FILE_DST"
 
@@ -1547,8 +1659,8 @@ case $COMMAND in
             usage
         fi
 
-        FILE_SRC=$ARG1
-        FILE_DST=$ARG2
+        FILE_SRC="$ARG1"
+        FILE_DST="$ARG2"
 
         db_move "/$FILE_SRC" "/$FILE_DST"
 
@@ -1560,8 +1672,8 @@ case $COMMAND in
             usage
         fi
 
-        FILE_SRC=$ARG1
-        FILE_DST=$ARG2
+        FILE_SRC="$ARG1"
+        FILE_DST="$ARG2"
 
         db_copy "/$FILE_SRC" "/$FILE_DST"
 
@@ -1573,7 +1685,7 @@ case $COMMAND in
             usage
         fi
 
-        DIR_DST=$ARG1
+        DIR_DST="$ARG1"
 
         db_mkdir "/$DIR_DST"
 
@@ -1593,7 +1705,7 @@ case $COMMAND in
 
     list)
 
-        DIR_DST=$ARG1
+        DIR_DST="$ARG1"
 
         #Checking DIR_DST
         if [[ $DIR_DST == "" ]]; then
@@ -1606,7 +1718,7 @@ case $COMMAND in
 
     monitor)
 
-        DIR_DST=$ARG1
+        DIR_DST="$ARG1"
         TIMEOUT=$ARG2
 
         #Checking DIR_DST
@@ -1643,4 +1755,9 @@ case $COMMAND in
 esac
 
 remove_temp_files
+
+if [[ $ERROR_STATUS -ne 0 ]]; then
+    echo "Some error occured. Please check the log."
+fi
+
 exit $ERROR_STATUS

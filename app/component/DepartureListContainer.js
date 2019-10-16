@@ -1,19 +1,24 @@
+import cx from 'classnames';
+import get from 'lodash/get';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Relay from 'react-relay/classic';
-import filter from 'lodash/filter';
-import moment from 'moment';
 import { Link } from 'react-router';
-import cx from 'classnames';
+
 import Departure from './Departure';
+import { RouteAlertsQuery } from '../util/alertQueries';
+import {
+  getActiveAlertSeverityLevel,
+  patternIdPredicate,
+} from '../util/alertUtils';
 import { isBrowser } from '../util/browser';
 import { PREFIX_ROUTES } from '../util/path';
-
-const hasActiveDisruption = (t, alerts) =>
-  filter(
-    alerts,
-    alert => alert.effectiveStartDate < t && t < alert.effectiveEndDate,
-  ).length > 0;
+import {
+  stopRealTimeClient,
+  startRealTimeClient,
+  changeRealTimeClientTopics,
+} from '../action/realTimeClientAction';
 
 const asDepartures = stoptimes =>
   !stoptimes
@@ -39,14 +44,18 @@ const asDepartures = stoptimes =>
             : stoptime.scheduledDeparture);
         const stoptimeTime = isArrival ? arrivalTime : departureTime;
 
+        const { pattern } = stoptime.trip;
         return {
+          alerts: get(pattern, 'route.alerts', []).filter(alert =>
+            patternIdPredicate(alert, get(pattern, 'code', undefined)),
+          ),
           canceled,
           isArrival,
           isLastStop,
           stoptime: stoptimeTime,
           stop: stoptime.stop,
           realtime: stoptime.realtime,
-          pattern: stoptime.trip.pattern,
+          pattern,
           headsign: stoptime.stopHeadsign,
           trip: stoptime.trip,
           pickupType: stoptime.pickupType,
@@ -65,10 +74,107 @@ class DepartureListContainer extends Component {
     className: PropTypes.string,
     isTerminal: PropTypes.bool,
     showPlatformCodes: PropTypes.bool,
+    isStopPage: PropTypes.bool,
   };
 
   static defaultProps = {
     showPlatformCodes: false,
+  };
+
+  constructor(props) {
+    super(props);
+    this.startClient = this.startClient.bind(this);
+    this.updateClient = this.updateClient.bind(this);
+  }
+
+  componentDidMount() {
+    if (this.context.config.showVehiclesOnStopPage && this.props.isStopPage) {
+      const departures = asDepartures(this.props.stoptimes)
+        .filter(departure => !(this.props.isTerminal && departure.isArrival))
+        .filter(departure => this.props.currentTime < departure.stoptime);
+      this.startClient(departures);
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.context.config.showVehiclesOnStopPage && this.props.isStopPage) {
+      const departures = asDepartures(this.props.stoptimes)
+        .filter(departure => !(this.props.isTerminal && departure.isArrival))
+        .filter(departure => this.props.currentTime < departure.stoptime)
+        .filter(departure => departure.realtime);
+
+      this.updateClient(departures);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.context.config.showVehiclesOnStopPage && this.props.isStopPage) {
+      const { client } = this.context.getStore('RealTimeInformationStore');
+      if (client) {
+        this.context.executeAction(stopRealTimeClient, client);
+      }
+    }
+  }
+
+  startClient = departures => {
+    const trips = departures
+      .filter(departure => departure.realtime)
+      .filter(
+        departure =>
+          departure.pattern.stops
+            .map(stop => stop.code)
+            .indexOf(departure.stop.code) >= 0,
+      )
+      .map(departure => ({
+        headsign: '+',
+        mode: '+',
+        tripId: departure.trip.gtfsId.split(':')[1],
+      }));
+
+    const { realTime } = this.context.config;
+    const agency = this.context.config.feedIds[0];
+    const source = realTime[agency];
+    if (source && source.active) {
+      this.context.executeAction(startRealTimeClient, {
+        ...source,
+        agency,
+        options: trips,
+      });
+    }
+  };
+
+  updateClient = departures => {
+    const { client, topics } = this.context.getStore(
+      'RealTimeInformationStore',
+    );
+    if (client) {
+      const trips = departures
+        .filter(departure => departure.realtime)
+        .filter(
+          departure =>
+            departure.pattern.stops
+              .map(stop => stop.code)
+              .indexOf(departure.stop.code) >= 0,
+        )
+        .map(departure => ({
+          headsign: '+',
+          mode: '+',
+          tripId: departure.trip.gtfsId.split(':')[1],
+        }));
+
+      const { realTime } = this.context.config;
+      const agency = this.context.config.feedIds[0];
+      const source = realTime[agency];
+      if (source && source.active) {
+        this.context.executeAction(changeRealTimeClientTopics, {
+          ...source,
+          agency,
+          options: trips,
+          client,
+          oldTopics: topics,
+        });
+      }
+    }
   };
 
   onScroll = () => {
@@ -80,7 +186,8 @@ class DepartureListContainer extends Component {
 
   render() {
     const departureObjs = [];
-    const { currentTime } = this.props;
+    const { currentTime, limit, isTerminal, stoptimes } = this.props;
+
     let currentDate = moment
       .unix(currentTime)
       .startOf('day')
@@ -91,10 +198,10 @@ class DepartureListContainer extends Component {
       .startOf('day')
       .unix();
 
-    const departures = asDepartures(this.props.stoptimes)
-      .filter(departure => !(this.props.isTerminal && departure.isArrival))
+    const departures = asDepartures(stoptimes)
+      .filter(departure => !(isTerminal && departure.isArrival))
       .filter(departure => currentTime < departure.stoptime)
-      .slice(0, this.props.limit);
+      .slice(0, limit);
 
     departures.forEach(departure => {
       if (departure.stoptime >= tomorrow) {
@@ -117,18 +224,21 @@ class DepartureListContainer extends Component {
 
       const id = `${departure.pattern.code}:${departure.stoptime}`;
 
-      const classes = {
-        disruption: hasActiveDisruption(departure.stoptime, departure.alerts),
-      };
-
+      const alertSeverityLevel = getActiveAlertSeverityLevel(
+        departure.alerts,
+        currentTime,
+      );
       const departureObj = (
         <Departure
+          alertSeverityLevel={alertSeverityLevel}
           key={id}
           departure={departure}
           showStop={this.props.showStops}
           currentTime={currentTime}
-          hasDisruption={classes.disruption}
-          className={cx(classes, this.props.rowClasses)}
+          className={cx(
+            { disruption: !!alertSeverityLevel },
+            this.props.rowClasses,
+          )}
           canceled={departure.canceled}
           isArrival={departure.isArrival}
           isLastStop={departure.isLastStop}
@@ -163,7 +273,13 @@ class DepartureListContainer extends Component {
   }
 }
 
-export default Relay.createContainer(DepartureListContainer, {
+DepartureListContainer.contextTypes = {
+  executeAction: PropTypes.func.isRequired,
+  getStore: PropTypes.func.isRequired,
+  config: PropTypes.object.isRequired,
+};
+
+const containerComponent = Relay.createContainer(DepartureListContainer, {
   fragments: {
     stoptimes: () => Relay.QL`
       fragment on Stoptime @relay(plural:true) {
@@ -182,11 +298,8 @@ export default Relay.createContainer(DepartureListContainer, {
             platformCode
           }
           trip {
-            alerts {
-              effectiveStartDate
-              effectiveEndDate
-            }
             gtfsId
+            directionId
             tripHeadsign
             stops {
               id
@@ -201,11 +314,22 @@ export default Relay.createContainer(DepartureListContainer, {
                 agency {
                   name
                 }
+                ${RouteAlertsQuery}
               }
               code
+              stops {
+                gtfsId
+                code
+              }
             }
           }
         }
     `,
   },
 });
+
+export {
+  containerComponent as default,
+  DepartureListContainer as Component,
+  asDepartures,
+};

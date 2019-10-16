@@ -35,6 +35,7 @@ import SelectStopRow from './map/tile-layer/SelectStopRow';
 import SelectTerminalRow from './map/tile-layer/SelectTerminalRow';
 import TicketInformation from './TicketInformation';
 import DateSelect from './DateSelect';
+import { Component as RoutePatternSelect } from './RoutePatternSelect';
 import RouteScheduleHeader from './RouteScheduleHeader';
 import RouteScheduleStopSelect from './RouteScheduleStopSelect';
 import RouteScheduleTripRow from './RouteScheduleTripRow';
@@ -94,6 +95,7 @@ import OriginDestinationBar from './OriginDestinationBar';
 import { Component as IndexPage } from './IndexPage';
 import { Component as AlertList } from './AlertList';
 import { Component as SummaryPage } from './SummaryPage';
+import { Component as ItineraryTab } from './ItineraryTab';
 
 const components = {
   Icon,
@@ -132,6 +134,7 @@ const components = {
   SelectTerminalRow,
   TicketInformation,
   DateSelect,
+  RoutePatternSelect,
   RouteScheduleHeader,
   RouteScheduleStopSelect,
   RouteScheduleTripRow,
@@ -183,6 +186,7 @@ const components = {
   StopMarkerPopup,
   SelectStreetModeDialog,
   AlertList,
+  ItineraryTab,
 };
 
 const fullscreenComponents = {

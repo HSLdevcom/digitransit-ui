@@ -79,7 +79,7 @@ export default class TicketSales {
             }
           }
         },
-        err => console.log(err),
+        err => console.log(err), // eslint-disable-line no-console
       );
     });
   }
