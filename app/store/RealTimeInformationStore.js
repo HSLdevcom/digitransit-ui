@@ -1,4 +1,5 @@
 import Store from 'fluxible/addons/BaseStore';
+import debounce from 'lodash/debounce';
 
 class RealTimeInformationStore extends Store {
   static storeName = 'RealTimeInformationStore';
@@ -6,6 +7,9 @@ class RealTimeInformationStore extends Store {
   constructor(dispatcher) {
     super(dispatcher);
     this.vehicles = {};
+    this.debounceEmit = debounce(this.emitChange, 1000, {
+      leading: true,
+    });
   }
 
   storeClient(data) {
@@ -34,7 +38,7 @@ class RealTimeInformationStore extends Store {
       } else {
         this.vehicles[message.id] = message;
       }
-      this.emitChange();
+      this.debounceEmit();
     }
   }
 
