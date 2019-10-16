@@ -68,7 +68,7 @@ export const RouteLeg = ({ leg, large, intl }) => {
         text={message}
         className={cx('line', 'call')}
         vertical
-        withBar
+        // withBar
       />
     );
   } else {
@@ -78,7 +78,7 @@ export const RouteLeg = ({ leg, large, intl }) => {
         route={leg.route}
         className={cx('line', leg.mode.toLowerCase())}
         vertical
-        withBar
+        // withBar
       />
     );
   }
@@ -105,7 +105,7 @@ export const ModeLeg = ({ leg, mode, large }, { config }) => {
       text=""
       className={cx('line', mode.toLowerCase())}
       vertical
-      withBar
+      // withBar
       icon={networkIcon}
       {...getLegBadgeProps(leg, config)}
     />
@@ -267,7 +267,7 @@ const SummaryRow = (
     if (leg.intermediatePlace) {
       legs.push(<ViaLeg key={`via_${leg.mode}_${leg.startTime}`} />);
       if (
-        (noTransitLegs && isThresholdMet) ||
+        isThresholdMet ||
         isViaPointConnectingLeg(leg, nextLeg, intermediatePlaces) ||
         isLastLeg
       ) {
@@ -289,7 +289,6 @@ const SummaryRow = (
     if (leg.route) {
       if (
         previousLeg &&
-        !previousLeg.intermediatePlace &&
         connectsFromViaPoint()
       ) {
         legs.push(<ViaLeg key={`via_${leg.mode}_${leg.startTime}`} />);
@@ -312,7 +311,7 @@ const SummaryRow = (
       intermediatePlaces.length - 1;
 
     if (
-      (noTransitLegs && isThresholdMet) ||
+      isThresholdMet ||
       (isFirstLeg && connectsToFirstViaPoint()) ||
       (isLastLeg && connectsFromLastViaPoint())
     ) {
