@@ -155,9 +155,9 @@
         "name": "Taxi Winter",
         "name_en": "Taxi Winter",
         "name_de": "Taxi Winter",
-        "address": "Telefon: +49 7034 7494, ",
-        "address_de": "Telefon: +49 7034 7494, ",
-        "address_en": "Phone: +49 7034 7494, ",
+        "address": "Telefon: +49 7034 7494",
+        "address_de": "Telefon: +49 7034 7494",
+        "address_en": "Phone: +49 7034 7494",
         "icon": {
           "id": "taxiIcon"
         }

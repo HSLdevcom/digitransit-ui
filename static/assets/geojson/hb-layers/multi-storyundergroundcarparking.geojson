@@ -7,9 +7,9 @@
         "name": "ZOB",
         "name_en": "ZOB",
         "name_de": "ZOB",
-        "address": "Kapazit\u00e4t: 287, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja, ",
-        "address_de": "Kapazit\u00e4t: 287, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja, ",
-        "address_en": "Capacity: 287, Fee: yes, Opening hours: 24/7, Wheelchair: yes, ",
+        "address": "Kapazit\u00e4t: 287, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address_de": "Kapazit\u00e4t: 287, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address_en": "Capacity: 287, Fee: yes, Opening hours: 24/7, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon",
           "svg": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><svg   xmlns:dc=\"http://purl.org/dc/elements/1.1/\"   xmlns:cc=\"http://creativecommons.org/ns#\"   xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"   xmlns:svg=\"http://www.w3.org/2000/svg\"   xmlns=\"http://www.w3.org/2000/svg\"   xmlns:sodipodi=\"http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd\"   xmlns:inkscape=\"http://www.inkscape.org/namespaces/inkscape\"   width=\"24\"   height=\"24\"   viewBox=\"0 0 24 24\"   version=\"1.1\"   id=\"svg5193\"   sodipodi:docname=\"coveredcarpark.svg\"   inkscape:version=\"0.92.1 r15371\">  <metadata     id=\"metadata5199\">    <rdf:RDF>      <cc:Work         rdf:about=\"\">        <dc:format>image/svg+xml</dc:format>        <dc:type           rdf:resource=\"http://purl.org/dc/dcmitype/StillImage\" />      </cc:Work>    </rdf:RDF>  </metadata>  <defs     id=\"defs5197\" />  <sodipodi:namedview     pagecolor=\"#ffffff\"     bordercolor=\"#666666\"     borderopacity=\"1\"     objecttolerance=\"10\"     gridtolerance=\"10\"     guidetolerance=\"10\"     inkscape:pageopacity=\"0\"     inkscape:pageshadow=\"2\"     inkscape:window-width=\"1203\"     inkscape:window-height=\"713\"     id=\"namedview5195\"     showgrid=\"false\"     inkscape:zoom=\"2.4583333\"     inkscape:cx=\"26.489572\"     inkscape:cy=\"16.245724\"     inkscape:window-x=\"1750\"     inkscape:window-y=\"151\"     inkscape:window-maximized=\"0\"     inkscape:current-layer=\"layer2\" />  <path     d=\"M19.688 5.176c0 .82-.603 1.109-1.423 1.109h-.509v-2.178h.704c.775 0 1.228.283 1.228 1.069zm4.312-1.884v6.417c0 1.265-1.026 2.291-2.292 2.291h-6.417c-1.265 0-2.291-1.026-2.291-2.292v-6.416c0-1.266 1.026-2.292 2.292-2.292h6.417c1.265 0 2.291 1.026 2.291 2.292zm-2.75 1.829c0-.759-.231-1.33-.691-1.713-.461-.383-1.134-.574-2.019-.574h-2.331v7.333h1.547v-2.609h.664c.905 0 1.603-.209 2.094-.627.49-.418.736-1.021.736-1.81zm-4.25 11.378c0 .828.672 1.5 1.5 1.5s1.5-.672 1.5-1.5-.672-1.5-1.5-1.5-1.5.671-1.5 1.5zm-8.5.501c-.276 0-.5.223-.5.499s.224.5.5.5h7c.276 0 .5-.224.5-.5s-.224-.499-.5-.499h-7zm-4.5-.501c0 .828.672 1.5 1.5 1.5s1.5-.672 1.5-1.5-.672-1.5-1.5-1.5-1.5.671-1.5 1.5zm-1.298-6.5h-2.202c-.276 0-.5.224-.5.5v.511c0 .793.926.989 1.616.989l1.086-2zm19.006 4.001h-1.511c.474.89.803 1.655.803 2.972 0 1.673-1.355 3.028-3.026 3.028h-11.948c-1.671 0-3.026-1.355-3.026-3.028 0-1.641.506-2.421 1.184-3.678 1.041.206 3.967.705 7.816.705.877 0 1.728-.029 2.532-.076-1.203-.217-2.227-.933-2.859-1.929-2.895-.023-5.237-.339-6.478-.55.382-.686.779-1.386 1.184-2.061.67-1.117.852-1.149 1.39-1.246 1.011-.181 1.984-.272 3.231-.302v-2.002c-1.382.031-2.451.132-3.585.335-1.381.248-1.965.875-2.751 2.187-.981 1.637-1.913 3.382-2.684 4.812-.687 1.273-.98 2.411-.98 3.805 0 1.318.42 2.415 1 3.817v2.209c0 .553.448 1.002 1 1.002h1.5c.552 0 1-.449 1-1.001v-1h13v1c0 .552.448 1.001 1 1.001h1.5c.552 0 1-.449 1-1.001v-2.209c.58-1.403 1-2.499 1-3.817 0-1.109-.196-2.058-.618-3.041-.221.035-.443.068-.674.068z\"     id=\"path5191\" />  <g     inkscape:groupmode=\"layer\"     id=\"layer2\"     inkscape:label=\"roof\"     sodipodi:insensitive=\"true\">    <path       style=\"fill:none;stroke:#000000;stroke-width:2.59200001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1\"       d=\"M 14.252004,-0.62099809 -1.5959909,8.7833212\"       id=\"path5766\"       inkscape:connector-curvature=\"0\" />  </g></svg>"
@@ -71,9 +71,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -92,9 +92,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -113,9 +113,9 @@
         "name": "Sportplatz Altdorf",
         "name_en": "Sportplatz Altdorf",
         "name_de": "Sportplatz Altdorf",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -134,9 +134,9 @@
         "name": "Parkplatz Waldstadion",
         "name_en": "Parkplatz Waldstadion",
         "name_de": "Parkplatz Waldstadion",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -155,9 +155,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -344,9 +344,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -365,9 +365,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -386,9 +386,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -407,9 +407,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -491,9 +491,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -512,9 +512,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -533,9 +533,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -554,9 +554,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: nein, ",
-        "address_de": "Barrierefrei: nein, ",
-        "address_en": "Wheelchair: no, ",
+        "address": "Barrierefrei: nein",
+        "address_de": "Barrierefrei: nein",
+        "address_en": "Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -575,9 +575,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: nein, ",
-        "address_de": "Barrierefrei: nein, ",
-        "address_en": "Wheelchair: no, ",
+        "address": "Barrierefrei: nein",
+        "address_de": "Barrierefrei: nein",
+        "address_en": "Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -596,9 +596,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -617,9 +617,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -638,9 +638,9 @@
         "name": "Parkhaus",
         "name_en": "Parkhaus",
         "name_de": "Parkhaus",
-        "address": "Geb\u00fchr: ja, ",
-        "address_de": "Geb\u00fchr: ja, ",
-        "address_en": "Fee: yes, ",
+        "address": "Geb\u00fchr: ja",
+        "address_de": "Geb\u00fchr: ja",
+        "address_en": "Fee: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -680,9 +680,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -701,9 +701,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -806,9 +806,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: begrenzt, ",
-        "address_de": "Barrierefrei: begrenzt, ",
-        "address_en": "Wheelchair: limited, ",
+        "address": "Barrierefrei: begrenzt",
+        "address_de": "Barrierefrei: begrenzt",
+        "address_en": "Wheelchair: limited",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -848,9 +848,9 @@
         "name": "POCO Parkhaus",
         "name_en": "POCO Parkhaus",
         "name_de": "POCO Parkhaus",
-        "address": "Barrierefrei: nein, ",
-        "address_de": "Barrierefrei: nein, ",
-        "address_en": "Wheelchair: no, ",
+        "address": "Barrierefrei: nein",
+        "address_de": "Barrierefrei: nein",
+        "address_en": "Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -932,9 +932,9 @@
         "name": "Parkhaus 303",
         "name_en": "Parkhaus 303",
         "name_de": "Parkhaus 303",
-        "address": "Barrierefrei: nein, ",
-        "address_de": "Barrierefrei: nein, ",
-        "address_en": "Wheelchair: no, ",
+        "address": "Barrierefrei: nein",
+        "address_de": "Barrierefrei: nein",
+        "address_en": "Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -974,9 +974,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 120, Geb\u00fchr: nein, Barrierefrei: ja, ",
-        "address_de": "Kapazit\u00e4t: 120, Geb\u00fchr: nein, Barrierefrei: ja, ",
-        "address_en": "Capacity: 120, Fee: no, Wheelchair: yes, ",
+        "address": "Kapazit\u00e4t: 120, Geb\u00fchr: nein, Barrierefrei: ja",
+        "address_de": "Kapazit\u00e4t: 120, Geb\u00fchr: nein, Barrierefrei: ja",
+        "address_en": "Capacity: 120, Fee: no, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -1079,9 +1079,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: nein, Barrierefrei: ja, ",
-        "address_de": "Geb\u00fchr: nein, Barrierefrei: ja, ",
-        "address_en": "Fee: no, Wheelchair: yes, ",
+        "address": "Geb\u00fchr: nein, Barrierefrei: ja",
+        "address_de": "Geb\u00fchr: nein, Barrierefrei: ja",
+        "address_en": "Fee: no, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -1100,9 +1100,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: nein, ",
-        "address_de": "Barrierefrei: nein, ",
-        "address_en": "Wheelchair: no, ",
+        "address": "Barrierefrei: nein",
+        "address_de": "Barrierefrei: nein",
+        "address_en": "Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -1121,9 +1121,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: nein, ",
-        "address_de": "Barrierefrei: nein, ",
-        "address_en": "Wheelchair: no, ",
+        "address": "Barrierefrei: nein",
+        "address_de": "Barrierefrei: nein",
+        "address_en": "Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -1142,9 +1142,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -1163,9 +1163,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -1184,9 +1184,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -1415,9 +1415,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 100, Geb\u00fchr: ja, Barrierefrei: ja, ",
-        "address_de": "Kapazit\u00e4t: 100, Geb\u00fchr: ja, Barrierefrei: ja, ",
-        "address_en": "Capacity: 100, Fee: yes, Wheelchair: yes, ",
+        "address": "Kapazit\u00e4t: 100, Geb\u00fchr: ja, Barrierefrei: ja",
+        "address_de": "Kapazit\u00e4t: 100, Geb\u00fchr: ja, Barrierefrei: ja",
+        "address_en": "Capacity: 100, Fee: yes, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -1457,9 +1457,9 @@
         "name": "Kreiskrankenhaus",
         "name_en": "Kreiskrankenhaus",
         "name_de": "Kreiskrankenhaus",
-        "address": "Geb\u00fchr: ja, ",
-        "address_de": "Geb\u00fchr: ja, ",
-        "address_en": "Fee: yes, ",
+        "address": "Geb\u00fchr: ja",
+        "address_de": "Geb\u00fchr: ja",
+        "address_en": "Fee: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -1478,9 +1478,9 @@
         "name": "Innenstadt Ost",
         "name_en": "Innenstadt Ost",
         "name_de": "Innenstadt Ost",
-        "address": "Geb\u00fchr: ja, ",
-        "address_de": "Geb\u00fchr: ja, ",
-        "address_en": "Fee: yes, ",
+        "address": "Geb\u00fchr: ja",
+        "address_de": "Geb\u00fchr: ja",
+        "address_en": "Fee: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -1520,9 +1520,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: nein, ",
-        "address_de": "Geb\u00fchr: nein, ",
-        "address_en": "Fee: no, ",
+        "address": "Geb\u00fchr: nein",
+        "address_de": "Geb\u00fchr: nein",
+        "address_en": "Fee: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -1562,9 +1562,9 @@
         "name": "S-Bahn Goldberg",
         "name_en": "S-Bahn Goldberg",
         "name_de": "S-Bahn Goldberg",
-        "address": "Geb\u00fchr: ja@(Mo-So 06:00-18:00), Barrierefrei: ja, ",
-        "address_de": "Geb\u00fchr: ja@(Mo-So 06:00-18:00), Barrierefrei: ja, ",
-        "address_en": "Fee: yes@(Mo-Sa 06:00-18:00), Wheelchair: yes, ",
+        "address": "Geb\u00fchr: ja@(Mo-So 06:00-18:00), Barrierefrei: ja",
+        "address_de": "Geb\u00fchr: ja@(Mo-So 06:00-18:00), Barrierefrei: ja",
+        "address_en": "Fee: yes@(Mo-Sa 06:00-18:00), Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -1583,9 +1583,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -1646,9 +1646,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -1709,9 +1709,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -1730,9 +1730,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -1751,9 +1751,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -1772,9 +1772,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -1835,9 +1835,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -1898,9 +1898,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -1940,9 +1940,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -1982,9 +1982,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 7, ",
-        "address_de": "Kapazit\u00e4t: 7, ",
-        "address_en": "Capacity: 7, ",
+        "address": "Kapazit\u00e4t: 7",
+        "address_de": "Kapazit\u00e4t: 7",
+        "address_en": "Capacity: 7",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -2045,9 +2045,9 @@
         "name": "Parkplatz K\u00f6mpf",
         "name_en": "Parkplatz K\u00f6mpf",
         "name_de": "Parkplatz K\u00f6mpf",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -2066,9 +2066,9 @@
         "name": "Kaufland",
         "name_en": "Kaufland",
         "name_de": "Kaufland",
-        "address": "Kapazit\u00e4t: 480, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja, ",
-        "address_de": "Kapazit\u00e4t: 480, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja, ",
-        "address_en": "Capacity: 480, Fee: yes, Opening hours: 24/7, Wheelchair: yes, ",
+        "address": "Kapazit\u00e4t: 480, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address_de": "Kapazit\u00e4t: 480, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address_en": "Capacity: 480, Fee: yes, Opening hours: 24/7, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -2129,9 +2129,9 @@
         "name": "Parkhaus Flugfeld",
         "name_en": "Parkhaus Flugfeld",
         "name_de": "Parkhaus Flugfeld",
-        "address": "Telefon: +49 7031 6116500, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: begrenzt, ",
-        "address_de": "Telefon: +49 7031 6116500, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: begrenzt, ",
-        "address_en": "Phone: +49 7031 6116500, Fee: yes, Opening hours: 24/7, Wheelchair: limited, ",
+        "address": "Telefon: +49 7031 6116500, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: begrenzt",
+        "address_de": "Telefon: +49 7031 6116500, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: begrenzt",
+        "address_en": "Phone: +49 7031 6116500, Fee: yes, Opening hours: 24/7, Wheelchair: limited",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -2192,9 +2192,9 @@
         "name": "Stadion Darmsheim",
         "name_en": "Stadion Darmsheim",
         "name_de": "Stadion Darmsheim",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -2213,9 +2213,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -2234,9 +2234,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -2276,9 +2276,9 @@
         "name": "Friedhof",
         "name_en": "Friedhof",
         "name_de": "Friedhof",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -2297,9 +2297,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -2318,9 +2318,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -2339,9 +2339,9 @@
         "name": "Kliniken B\u00f6blingen",
         "name_en": "Kliniken B\u00f6blingen",
         "name_de": "Kliniken B\u00f6blingen",
-        "address": "Geb\u00fchr: ja, Barrierefrei: ja, ",
-        "address_de": "Geb\u00fchr: ja, Barrierefrei: ja, ",
-        "address_en": "Fee: yes, Wheelchair: yes, ",
+        "address": "Geb\u00fchr: ja, Barrierefrei: ja",
+        "address_de": "Geb\u00fchr: ja, Barrierefrei: ja",
+        "address_en": "Fee: yes, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -2402,9 +2402,9 @@
         "name": "Parkplatz Sporthalle Wildberg",
         "name_en": "Parkplatz Sporthalle Wildberg",
         "name_de": "Parkplatz Sporthalle Wildberg",
-        "address": "Kapazit\u00e4t: 150, ",
-        "address_de": "Kapazit\u00e4t: 150, ",
-        "address_en": "Capacity: 150, ",
+        "address": "Kapazit\u00e4t: 150",
+        "address_de": "Kapazit\u00e4t: 150",
+        "address_en": "Capacity: 150",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -2444,9 +2444,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 260, Geb\u00fchr: ja, ",
-        "address_de": "Kapazit\u00e4t: 260, Geb\u00fchr: ja, ",
-        "address_en": "Capacity: 260, Fee: yes, ",
+        "address": "Kapazit\u00e4t: 260, Geb\u00fchr: ja",
+        "address_de": "Kapazit\u00e4t: 260, Geb\u00fchr: ja",
+        "address_en": "Capacity: 260, Fee: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -2465,9 +2465,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 20, Barrierefrei: nein, ",
-        "address_de": "Kapazit\u00e4t: 20, Barrierefrei: nein, ",
-        "address_en": "Capacity: 20, Wheelchair: no, ",
+        "address": "Kapazit\u00e4t: 20, Barrierefrei: nein",
+        "address_de": "Kapazit\u00e4t: 20, Barrierefrei: nein",
+        "address_en": "Capacity: 20, Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -2486,9 +2486,9 @@
         "name": "Calwer Markt",
         "name_en": "Calwer Markt",
         "name_de": "Calwer Markt",
-        "address": "Kapazit\u00e4t: 234, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: begrenzt, ",
-        "address_de": "Kapazit\u00e4t: 234, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: begrenzt, ",
-        "address_en": "Capacity: 234, Fee: yes, Opening hours: 24/7, Wheelchair: limited, ",
+        "address": "Kapazit\u00e4t: 234, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: begrenzt",
+        "address_de": "Kapazit\u00e4t: 234, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: begrenzt",
+        "address_en": "Capacity: 234, Fee: yes, Opening hours: 24/7, Wheelchair: limited",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -2528,9 +2528,9 @@
         "name": "Haggasse",
         "name_en": "Haggasse",
         "name_de": "Haggasse",
-        "address": "Kapazit\u00e4t: 119, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: begrenzt, ",
-        "address_de": "Kapazit\u00e4t: 119, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: begrenzt, ",
-        "address_en": "Capacity: 119, Fee: yes, Opening hours: 24/7, Wheelchair: limited, ",
+        "address": "Kapazit\u00e4t: 119, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: begrenzt",
+        "address_de": "Kapazit\u00e4t: 119, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: begrenzt",
+        "address_en": "Capacity: 119, Fee: yes, Opening hours: 24/7, Wheelchair: limited",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -2591,9 +2591,9 @@
         "name": "Sportheim Emmingen",
         "name_en": "Sportheim Emmingen",
         "name_de": "Sportheim Emmingen",
-        "address": "Kapazit\u00e4t: 30, ",
-        "address_de": "Kapazit\u00e4t: 30, ",
-        "address_en": "Capacity: 30, ",
+        "address": "Kapazit\u00e4t: 30",
+        "address_de": "Kapazit\u00e4t: 30",
+        "address_en": "Capacity: 30",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -2675,9 +2675,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 12, ",
-        "address_de": "Kapazit\u00e4t: 12, ",
-        "address_en": "Capacity: 12, ",
+        "address": "Kapazit\u00e4t: 12",
+        "address_de": "Kapazit\u00e4t: 12",
+        "address_en": "Capacity: 12",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -2738,9 +2738,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -2822,9 +2822,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -2843,9 +2843,9 @@
         "name": "Schulzentrum",
         "name_en": "Schulzentrum",
         "name_de": "Schulzentrum",
-        "address": "Kapazit\u00e4t: 25, Barrierefrei: ja, ",
-        "address_de": "Kapazit\u00e4t: 25, Barrierefrei: ja, ",
-        "address_en": "Capacity: 25, Wheelchair: yes, ",
+        "address": "Kapazit\u00e4t: 25, Barrierefrei: ja",
+        "address_de": "Kapazit\u00e4t: 25, Barrierefrei: ja",
+        "address_en": "Capacity: 25, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -2864,9 +2864,9 @@
         "name": "Sporthalle",
         "name_en": "Sporthalle",
         "name_de": "Sporthalle",
-        "address": "Kapazit\u00e4t: 42, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja, ",
-        "address_de": "Kapazit\u00e4t: 42, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja, ",
-        "address_en": "Capacity: 42, Opening hours: 24/7, Wheelchair: yes, ",
+        "address": "Kapazit\u00e4t: 42, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address_de": "Kapazit\u00e4t: 42, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address_en": "Capacity: 42, Opening hours: 24/7, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -2885,9 +2885,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 6, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja, ",
-        "address_de": "Kapazit\u00e4t: 6, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja, ",
-        "address_en": "Capacity: 6, Opening hours: 24/7, Wheelchair: yes, ",
+        "address": "Kapazit\u00e4t: 6, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address_de": "Kapazit\u00e4t: 6, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address_en": "Capacity: 6, Opening hours: 24/7, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -2906,9 +2906,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -2927,9 +2927,9 @@
         "name": "Friedhofsparkplatz",
         "name_en": "Friedhofsparkplatz",
         "name_de": "Friedhofsparkplatz",
-        "address": "Kapazit\u00e4t: 8, ",
-        "address_de": "Kapazit\u00e4t: 8, ",
-        "address_en": "Capacity: 8, ",
+        "address": "Kapazit\u00e4t: 8",
+        "address_de": "Kapazit\u00e4t: 8",
+        "address_en": "Capacity: 8",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -2948,9 +2948,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 30, Barrierefrei: ja, ",
-        "address_de": "Kapazit\u00e4t: 30, Barrierefrei: ja, ",
-        "address_en": "Capacity: 30, Wheelchair: yes, ",
+        "address": "Kapazit\u00e4t: 30, Barrierefrei: ja",
+        "address_de": "Kapazit\u00e4t: 30, Barrierefrei: ja",
+        "address_en": "Capacity: 30, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -2969,9 +2969,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -2990,9 +2990,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 6, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja, ",
-        "address_de": "Kapazit\u00e4t: 6, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja, ",
-        "address_en": "Capacity: 6, Opening hours: 24/7, Wheelchair: yes, ",
+        "address": "Kapazit\u00e4t: 6, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address_de": "Kapazit\u00e4t: 6, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address_en": "Capacity: 6, Opening hours: 24/7, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -3011,9 +3011,9 @@
         "name": "Festhalle",
         "name_en": "Festhalle",
         "name_de": "Festhalle",
-        "address": "\u00d6ffnungszeiten: 24/7, Barrierefrei: ja, ",
-        "address_de": "\u00d6ffnungszeiten: 24/7, Barrierefrei: ja, ",
-        "address_en": "Opening hours: 24/7, Wheelchair: yes, ",
+        "address": "\u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address_de": "\u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address_en": "Opening hours: 24/7, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -3032,9 +3032,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -3053,9 +3053,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -3074,9 +3074,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -3095,9 +3095,9 @@
         "name": "Festhalle",
         "name_en": "Festhalle",
         "name_de": "Festhalle",
-        "address": "\u00d6ffnungszeiten: 24/7, Barrierefrei: ja, ",
-        "address_de": "\u00d6ffnungszeiten: 24/7, Barrierefrei: ja, ",
-        "address_en": "Opening hours: 24/7, Wheelchair: yes, ",
+        "address": "\u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address_de": "\u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address_en": "Opening hours: 24/7, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -3116,9 +3116,9 @@
         "name": "Festhalle",
         "name_en": "Festhalle",
         "name_de": "Festhalle",
-        "address": "\u00d6ffnungszeiten: 24/7, Barrierefrei: ja, ",
-        "address_de": "\u00d6ffnungszeiten: 24/7, Barrierefrei: ja, ",
-        "address_en": "Opening hours: 24/7, Wheelchair: yes, ",
+        "address": "\u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address_de": "\u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address_en": "Opening hours: 24/7, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -3158,9 +3158,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: nein, ",
-        "address_de": "Barrierefrei: nein, ",
-        "address_en": "Wheelchair: no, ",
+        "address": "Barrierefrei: nein",
+        "address_de": "Barrierefrei: nein",
+        "address_en": "Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -3200,9 +3200,9 @@
         "name": "Parkplatz Sporthalle Wildberg",
         "name_en": "Parkplatz Sporthalle Wildberg",
         "name_de": "Parkplatz Sporthalle Wildberg",
-        "address": "Kapazit\u00e4t: 50, ",
-        "address_de": "Kapazit\u00e4t: 50, ",
-        "address_en": "Capacity: 50, ",
+        "address": "Kapazit\u00e4t: 50",
+        "address_de": "Kapazit\u00e4t: 50",
+        "address_en": "Capacity: 50",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -3221,9 +3221,9 @@
         "name": "Parkhaus Ebenhalde",
         "name_en": "Parkhaus Ebenhalde",
         "name_de": "Parkhaus Ebenhalde",
-        "address": "Kapazit\u00e4t: 500, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, ",
-        "address_de": "Kapazit\u00e4t: 500, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, ",
-        "address_en": "Capacity: 500, Fee: yes, Opening hours: 24/7, ",
+        "address": "Kapazit\u00e4t: 500, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7",
+        "address_de": "Kapazit\u00e4t: 500, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7",
+        "address_en": "Capacity: 500, Fee: yes, Opening hours: 24/7",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -3263,9 +3263,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -3284,9 +3284,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 4, Barrierefrei: ja, ",
-        "address_de": "Kapazit\u00e4t: 4, Barrierefrei: ja, ",
-        "address_en": "Capacity: 4, Wheelchair: yes, ",
+        "address": "Kapazit\u00e4t: 4, Barrierefrei: ja",
+        "address_de": "Kapazit\u00e4t: 4, Barrierefrei: ja",
+        "address_en": "Capacity: 4, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -3305,9 +3305,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -3326,9 +3326,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -3347,9 +3347,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -3368,9 +3368,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -3389,9 +3389,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -3410,9 +3410,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 4, ",
-        "address_de": "Kapazit\u00e4t: 4, ",
-        "address_en": "Capacity: 4, ",
+        "address": "Kapazit\u00e4t: 4",
+        "address_de": "Kapazit\u00e4t: 4",
+        "address_en": "Capacity: 4",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -3431,9 +3431,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: nein, ",
-        "address_de": "Barrierefrei: nein, ",
-        "address_en": "Wheelchair: no, ",
+        "address": "Barrierefrei: nein",
+        "address_de": "Barrierefrei: nein",
+        "address_en": "Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -3452,9 +3452,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -3473,9 +3473,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 5, ",
-        "address_de": "Kapazit\u00e4t: 5, ",
-        "address_en": "Capacity: 5, ",
+        "address": "Kapazit\u00e4t: 5",
+        "address_de": "Kapazit\u00e4t: 5",
+        "address_en": "Capacity: 5",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -3494,9 +3494,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: begrenzt, ",
-        "address_de": "Barrierefrei: begrenzt, ",
-        "address_en": "Wheelchair: limited, ",
+        "address": "Barrierefrei: begrenzt",
+        "address_de": "Barrierefrei: begrenzt",
+        "address_en": "Wheelchair: limited",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -3515,9 +3515,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: begrenzt, ",
-        "address_de": "Barrierefrei: begrenzt, ",
-        "address_en": "Wheelchair: limited, ",
+        "address": "Barrierefrei: begrenzt",
+        "address_de": "Barrierefrei: begrenzt",
+        "address_en": "Wheelchair: limited",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -3536,9 +3536,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 5, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja, ",
-        "address_de": "Kapazit\u00e4t: 5, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja, ",
-        "address_en": "Capacity: 5, Opening hours: 24/7, Wheelchair: yes, ",
+        "address": "Kapazit\u00e4t: 5, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address_de": "Kapazit\u00e4t: 5, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address_en": "Capacity: 5, Opening hours: 24/7, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -3557,9 +3557,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: ja, Barrierefrei: ja, ",
-        "address_de": "Geb\u00fchr: ja, Barrierefrei: ja, ",
-        "address_en": "Fee: yes, Wheelchair: yes, ",
+        "address": "Geb\u00fchr: ja, Barrierefrei: ja",
+        "address_de": "Geb\u00fchr: ja, Barrierefrei: ja",
+        "address_en": "Fee: yes, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -3578,9 +3578,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 24, Geb\u00fchr: nein, Barrierefrei: begrenzt, ",
-        "address_de": "Kapazit\u00e4t: 24, Geb\u00fchr: nein, Barrierefrei: begrenzt, ",
-        "address_en": "Capacity: 24, Fee: no, Wheelchair: limited, ",
+        "address": "Kapazit\u00e4t: 24, Geb\u00fchr: nein, Barrierefrei: begrenzt",
+        "address_de": "Kapazit\u00e4t: 24, Geb\u00fchr: nein, Barrierefrei: begrenzt",
+        "address_en": "Capacity: 24, Fee: no, Wheelchair: limited",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -3662,9 +3662,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 24, ",
-        "address_de": "Kapazit\u00e4t: 24, ",
-        "address_en": "Capacity: 24, ",
+        "address": "Kapazit\u00e4t: 24",
+        "address_de": "Kapazit\u00e4t: 24",
+        "address_en": "Capacity: 24",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -3767,9 +3767,9 @@
         "name": "Festhalle",
         "name_en": "Festhalle",
         "name_de": "Festhalle",
-        "address": "\u00d6ffnungszeiten: 24/7, Barrierefrei: ja, ",
-        "address_de": "\u00d6ffnungszeiten: 24/7, Barrierefrei: ja, ",
-        "address_en": "Opening hours: 24/7, Wheelchair: yes, ",
+        "address": "\u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address_de": "\u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address_en": "Opening hours: 24/7, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -3809,9 +3809,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 4, Geb\u00fchr: nein, Barrierefrei: ja, ",
-        "address_de": "Kapazit\u00e4t: 4, Geb\u00fchr: nein, Barrierefrei: ja, ",
-        "address_en": "Capacity: 4, Fee: no, Wheelchair: yes, ",
+        "address": "Kapazit\u00e4t: 4, Geb\u00fchr: nein, Barrierefrei: ja",
+        "address_de": "Kapazit\u00e4t: 4, Geb\u00fchr: nein, Barrierefrei: ja",
+        "address_en": "Capacity: 4, Fee: no, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -3956,9 +3956,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 2, ",
-        "address_de": "Kapazit\u00e4t: 2, ",
-        "address_en": "Capacity: 2, ",
+        "address": "Kapazit\u00e4t: 2",
+        "address_de": "Kapazit\u00e4t: 2",
+        "address_en": "Capacity: 2",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -3977,9 +3977,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 6, Barrierefrei: ja, ",
-        "address_de": "Kapazit\u00e4t: 6, Barrierefrei: ja, ",
-        "address_en": "Capacity: 6, Wheelchair: yes, ",
+        "address": "Kapazit\u00e4t: 6, Barrierefrei: ja",
+        "address_de": "Kapazit\u00e4t: 6, Barrierefrei: ja",
+        "address_en": "Capacity: 6, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -3998,9 +3998,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -4040,9 +4040,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -4061,9 +4061,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -4082,9 +4082,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -4103,9 +4103,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: nein, ",
-        "address_de": "Geb\u00fchr: nein, ",
-        "address_en": "Fee: no, ",
+        "address": "Geb\u00fchr: nein",
+        "address_de": "Geb\u00fchr: nein",
+        "address_en": "Fee: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -4145,9 +4145,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 3, ",
-        "address_de": "Kapazit\u00e4t: 3, ",
-        "address_en": "Capacity: 3, ",
+        "address": "Kapazit\u00e4t: 3",
+        "address_de": "Kapazit\u00e4t: 3",
+        "address_en": "Capacity: 3",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -4166,9 +4166,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 3, ",
-        "address_de": "Kapazit\u00e4t: 3, ",
-        "address_en": "Capacity: 3, ",
+        "address": "Kapazit\u00e4t: 3",
+        "address_de": "Kapazit\u00e4t: 3",
+        "address_en": "Capacity: 3",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -4187,9 +4187,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 3, ",
-        "address_de": "Kapazit\u00e4t: 3, ",
-        "address_en": "Capacity: 3, ",
+        "address": "Kapazit\u00e4t: 3",
+        "address_de": "Kapazit\u00e4t: 3",
+        "address_en": "Capacity: 3",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -4208,9 +4208,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 2, Geb\u00fchr: nein, Barrierefrei: nein, ",
-        "address_de": "Kapazit\u00e4t: 2, Geb\u00fchr: nein, Barrierefrei: nein, ",
-        "address_en": "Capacity: 2, Fee: no, Wheelchair: no, ",
+        "address": "Kapazit\u00e4t: 2, Geb\u00fchr: nein, Barrierefrei: nein",
+        "address_de": "Kapazit\u00e4t: 2, Geb\u00fchr: nein, Barrierefrei: nein",
+        "address_en": "Capacity: 2, Fee: no, Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -4229,9 +4229,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 4, Geb\u00fchr: nein, ",
-        "address_de": "Kapazit\u00e4t: 4, Geb\u00fchr: nein, ",
-        "address_en": "Capacity: 4, Fee: no, ",
+        "address": "Kapazit\u00e4t: 4, Geb\u00fchr: nein",
+        "address_de": "Kapazit\u00e4t: 4, Geb\u00fchr: nein",
+        "address_en": "Capacity: 4, Fee: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -4250,9 +4250,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: nein, ",
-        "address_de": "Geb\u00fchr: nein, ",
-        "address_en": "Fee: no, ",
+        "address": "Geb\u00fchr: nein",
+        "address_de": "Geb\u00fchr: nein",
+        "address_en": "Fee: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -4292,9 +4292,9 @@
         "name": "Missionsgemeinde Pfalzgrafenweiler e.V.",
         "name_en": "Missionsgemeinde Pfalzgrafenweiler e.V.",
         "name_de": "Missionsgemeinde Pfalzgrafenweiler e.V.",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -4334,9 +4334,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: nein, ",
-        "address_de": "Barrierefrei: nein, ",
-        "address_en": "Wheelchair: no, ",
+        "address": "Barrierefrei: nein",
+        "address_de": "Barrierefrei: nein",
+        "address_en": "Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -4397,9 +4397,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 7, Geb\u00fchr: nein, Barrierefrei: ja, ",
-        "address_de": "Kapazit\u00e4t: 7, Geb\u00fchr: nein, Barrierefrei: ja, ",
-        "address_en": "Capacity: 7, Fee: no, Wheelchair: yes, ",
+        "address": "Kapazit\u00e4t: 7, Geb\u00fchr: nein, Barrierefrei: ja",
+        "address_de": "Kapazit\u00e4t: 7, Geb\u00fchr: nein, Barrierefrei: ja",
+        "address_en": "Capacity: 7, Fee: no, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -4418,9 +4418,9 @@
         "name": "katholische Kirche",
         "name_en": "katholische Kirche",
         "name_de": "katholische Kirche",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -4439,9 +4439,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 4, ",
-        "address_de": "Kapazit\u00e4t: 4, ",
-        "address_en": "Capacity: 4, ",
+        "address": "Kapazit\u00e4t: 4",
+        "address_de": "Kapazit\u00e4t: 4",
+        "address_en": "Capacity: 4",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -4460,9 +4460,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 6, ",
-        "address_de": "Kapazit\u00e4t: 6, ",
-        "address_en": "Capacity: 6, ",
+        "address": "Kapazit\u00e4t: 6",
+        "address_de": "Kapazit\u00e4t: 6",
+        "address_en": "Capacity: 6",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -4481,9 +4481,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 4, ",
-        "address_de": "Kapazit\u00e4t: 4, ",
-        "address_en": "Capacity: 4, ",
+        "address": "Kapazit\u00e4t: 4",
+        "address_de": "Kapazit\u00e4t: 4",
+        "address_en": "Capacity: 4",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -4502,9 +4502,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 4, ",
-        "address_de": "Kapazit\u00e4t: 4, ",
-        "address_en": "Capacity: 4, ",
+        "address": "Kapazit\u00e4t: 4",
+        "address_de": "Kapazit\u00e4t: 4",
+        "address_en": "Capacity: 4",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -4523,9 +4523,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -4544,9 +4544,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -4565,9 +4565,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 3, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja, ",
-        "address_de": "Kapazit\u00e4t: 3, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja, ",
-        "address_en": "Capacity: 3, Opening hours: 24/7, Wheelchair: yes, ",
+        "address": "Kapazit\u00e4t: 3, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address_de": "Kapazit\u00e4t: 3, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address_en": "Capacity: 3, Opening hours: 24/7, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -4586,9 +4586,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: nein, ",
-        "address_de": "Barrierefrei: nein, ",
-        "address_en": "Wheelchair: no, ",
+        "address": "Barrierefrei: nein",
+        "address_de": "Barrierefrei: nein",
+        "address_en": "Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -4649,9 +4649,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -4712,9 +4712,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -4733,9 +4733,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -4754,9 +4754,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -4775,9 +4775,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: nein, Barrierefrei: begrenzt, ",
-        "address_de": "Geb\u00fchr: nein, Barrierefrei: begrenzt, ",
-        "address_en": "Fee: no, Wheelchair: limited, ",
+        "address": "Geb\u00fchr: nein, Barrierefrei: begrenzt",
+        "address_de": "Geb\u00fchr: nein, Barrierefrei: begrenzt",
+        "address_en": "Fee: no, Wheelchair: limited",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -4817,9 +4817,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: nein, ",
-        "address_de": "Barrierefrei: nein, ",
-        "address_en": "Wheelchair: no, ",
+        "address": "Barrierefrei: nein",
+        "address_de": "Barrierefrei: nein",
+        "address_en": "Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -5132,9 +5132,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -5615,9 +5615,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: nein, Barrierefrei: ja, ",
-        "address_de": "Geb\u00fchr: nein, Barrierefrei: ja, ",
-        "address_en": "Fee: no, Wheelchair: yes, ",
+        "address": "Geb\u00fchr: nein, Barrierefrei: ja",
+        "address_de": "Geb\u00fchr: nein, Barrierefrei: ja",
+        "address_en": "Fee: no, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -5636,9 +5636,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: nein, Barrierefrei: ja, ",
-        "address_de": "Geb\u00fchr: nein, Barrierefrei: ja, ",
-        "address_en": "Fee: no, Wheelchair: yes, ",
+        "address": "Geb\u00fchr: nein, Barrierefrei: ja",
+        "address_de": "Geb\u00fchr: nein, Barrierefrei: ja",
+        "address_en": "Fee: no, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -5678,9 +5678,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -5720,9 +5720,9 @@
         "name": "Parkhaus Waldach-Passage",
         "name_en": "Parkhaus Waldach-Passage",
         "name_de": "Parkhaus Waldach-Passage",
-        "address": "Kapazit\u00e4t: 300, Geb\u00fchr: ja, Barrierefrei: ja, ",
-        "address_de": "Kapazit\u00e4t: 300, Geb\u00fchr: ja, Barrierefrei: ja, ",
-        "address_en": "Capacity: 300, Fee: yes, Wheelchair: yes, ",
+        "address": "Kapazit\u00e4t: 300, Geb\u00fchr: ja, Barrierefrei: ja",
+        "address_de": "Kapazit\u00e4t: 300, Geb\u00fchr: ja, Barrierefrei: ja",
+        "address_en": "Capacity: 300, Fee: yes, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -5741,9 +5741,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -5846,9 +5846,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 9, Geb\u00fchr: nein, Barrierefrei: begrenzt, ",
-        "address_de": "Kapazit\u00e4t: 9, Geb\u00fchr: nein, Barrierefrei: begrenzt, ",
-        "address_en": "Capacity: 9, Fee: no, Wheelchair: limited, ",
+        "address": "Kapazit\u00e4t: 9, Geb\u00fchr: nein, Barrierefrei: begrenzt",
+        "address_de": "Kapazit\u00e4t: 9, Geb\u00fchr: nein, Barrierefrei: begrenzt",
+        "address_en": "Capacity: 9, Fee: no, Wheelchair: limited",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -5909,9 +5909,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 6, ",
-        "address_de": "Kapazit\u00e4t: 6, ",
-        "address_en": "Capacity: 6, ",
+        "address": "Kapazit\u00e4t: 6",
+        "address_de": "Kapazit\u00e4t: 6",
+        "address_en": "Capacity: 6",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -5930,9 +5930,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 5, ",
-        "address_de": "Kapazit\u00e4t: 5, ",
-        "address_en": "Capacity: 5, ",
+        "address": "Kapazit\u00e4t: 5",
+        "address_de": "Kapazit\u00e4t: 5",
+        "address_en": "Capacity: 5",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -5993,9 +5993,9 @@
         "name": "Oberer Schnarrenberg",
         "name_en": "Oberer Schnarrenberg",
         "name_de": "Oberer Schnarrenberg",
-        "address": "Geb\u00fchr: ja, ",
-        "address_de": "Geb\u00fchr: ja, ",
-        "address_en": "Fee: yes, ",
+        "address": "Geb\u00fchr: ja",
+        "address_de": "Geb\u00fchr: ja",
+        "address_en": "Fee: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -6035,9 +6035,9 @@
         "name": "Kindergarten",
         "name_en": "Kindergarten",
         "name_de": "Kindergarten",
-        "address": "Kapazit\u00e4t: 6, Geb\u00fchr: nein, Barrierefrei: nein, ",
-        "address_de": "Kapazit\u00e4t: 6, Geb\u00fchr: nein, Barrierefrei: nein, ",
-        "address_en": "Capacity: 6, Fee: no, Wheelchair: no, ",
+        "address": "Kapazit\u00e4t: 6, Geb\u00fchr: nein, Barrierefrei: nein",
+        "address_de": "Kapazit\u00e4t: 6, Geb\u00fchr: nein, Barrierefrei: nein",
+        "address_en": "Capacity: 6, Fee: no, Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -6056,9 +6056,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: nein, Barrierefrei: ja, ",
-        "address_de": "Geb\u00fchr: nein, Barrierefrei: ja, ",
-        "address_en": "Fee: no, Wheelchair: yes, ",
+        "address": "Geb\u00fchr: nein, Barrierefrei: ja",
+        "address_de": "Geb\u00fchr: nein, Barrierefrei: ja",
+        "address_en": "Fee: no, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -6077,9 +6077,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 5, Geb\u00fchr: nein, ",
-        "address_de": "Kapazit\u00e4t: 5, Geb\u00fchr: nein, ",
-        "address_en": "Capacity: 5, Fee: no, ",
+        "address": "Kapazit\u00e4t: 5, Geb\u00fchr: nein",
+        "address_de": "Kapazit\u00e4t: 5, Geb\u00fchr: nein",
+        "address_en": "Capacity: 5, Fee: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -6098,9 +6098,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 5, Geb\u00fchr: nein, ",
-        "address_de": "Kapazit\u00e4t: 5, Geb\u00fchr: nein, ",
-        "address_en": "Capacity: 5, Fee: no, ",
+        "address": "Kapazit\u00e4t: 5, Geb\u00fchr: nein",
+        "address_de": "Kapazit\u00e4t: 5, Geb\u00fchr: nein",
+        "address_en": "Capacity: 5, Fee: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -6161,9 +6161,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 5, Geb\u00fchr: nein, ",
-        "address_de": "Kapazit\u00e4t: 5, Geb\u00fchr: nein, ",
-        "address_en": "Capacity: 5, Fee: no, ",
+        "address": "Kapazit\u00e4t: 5, Geb\u00fchr: nein",
+        "address_de": "Kapazit\u00e4t: 5, Geb\u00fchr: nein",
+        "address_en": "Capacity: 5, Fee: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -6539,9 +6539,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: nein, ",
-        "address_de": "Geb\u00fchr: nein, ",
-        "address_en": "Fee: no, ",
+        "address": "Geb\u00fchr: nein",
+        "address_de": "Geb\u00fchr: nein",
+        "address_en": "Fee: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -6980,9 +6980,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 1, ",
-        "address_de": "Kapazit\u00e4t: 1, ",
-        "address_en": "Capacity: 1, ",
+        "address": "Kapazit\u00e4t: 1",
+        "address_de": "Kapazit\u00e4t: 1",
+        "address_en": "Capacity: 1",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -7022,9 +7022,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: nein, ",
-        "address_de": "Geb\u00fchr: nein, ",
-        "address_en": "Fee: no, ",
+        "address": "Geb\u00fchr: nein",
+        "address_de": "Geb\u00fchr: nein",
+        "address_en": "Fee: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -7190,9 +7190,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 7, ",
-        "address_de": "Kapazit\u00e4t: 7, ",
-        "address_en": "Capacity: 7, ",
+        "address": "Kapazit\u00e4t: 7",
+        "address_de": "Kapazit\u00e4t: 7",
+        "address_en": "Capacity: 7",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -7211,9 +7211,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 9, ",
-        "address_de": "Kapazit\u00e4t: 9, ",
-        "address_en": "Capacity: 9, ",
+        "address": "Kapazit\u00e4t: 9",
+        "address_de": "Kapazit\u00e4t: 9",
+        "address_en": "Capacity: 9",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -7568,9 +7568,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 8, ",
-        "address_de": "Kapazit\u00e4t: 8, ",
-        "address_en": "Capacity: 8, ",
+        "address": "Kapazit\u00e4t: 8",
+        "address_de": "Kapazit\u00e4t: 8",
+        "address_en": "Capacity: 8",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -7589,9 +7589,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 3, ",
-        "address_de": "Kapazit\u00e4t: 3, ",
-        "address_en": "Capacity: 3, ",
+        "address": "Kapazit\u00e4t: 3",
+        "address_de": "Kapazit\u00e4t: 3",
+        "address_en": "Capacity: 3",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -7673,9 +7673,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 4, ",
-        "address_de": "Kapazit\u00e4t: 4, ",
-        "address_en": "Capacity: 4, ",
+        "address": "Kapazit\u00e4t: 4",
+        "address_de": "Kapazit\u00e4t: 4",
+        "address_en": "Capacity: 4",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -7715,9 +7715,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: nein, ",
-        "address_de": "Geb\u00fchr: nein, ",
-        "address_en": "Fee: no, ",
+        "address": "Geb\u00fchr: nein",
+        "address_de": "Geb\u00fchr: nein",
+        "address_en": "Fee: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -7736,9 +7736,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: nein, ",
-        "address_de": "Geb\u00fchr: nein, ",
-        "address_en": "Fee: no, ",
+        "address": "Geb\u00fchr: nein",
+        "address_de": "Geb\u00fchr: nein",
+        "address_en": "Fee: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -7841,9 +7841,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 4, ",
-        "address_de": "Kapazit\u00e4t: 4, ",
-        "address_en": "Capacity: 4, ",
+        "address": "Kapazit\u00e4t: 4",
+        "address_de": "Kapazit\u00e4t: 4",
+        "address_en": "Capacity: 4",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -8072,9 +8072,9 @@
         "name": "Traube-Center",
         "name_en": "Traube-Center",
         "name_de": "Traube-Center",
-        "address": "Geb\u00fchr: ja, Barrierefrei: begrenzt, ",
-        "address_de": "Geb\u00fchr: ja, Barrierefrei: begrenzt, ",
-        "address_en": "Fee: yes, Wheelchair: limited, ",
+        "address": "Geb\u00fchr: ja, Barrierefrei: begrenzt",
+        "address_de": "Geb\u00fchr: ja, Barrierefrei: begrenzt",
+        "address_en": "Fee: yes, Wheelchair: limited",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -8135,9 +8135,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: ja, ",
-        "address_de": "Geb\u00fchr: ja, ",
-        "address_en": "Fee: yes, ",
+        "address": "Geb\u00fchr: ja",
+        "address_de": "Geb\u00fchr: ja",
+        "address_en": "Fee: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -8282,9 +8282,9 @@
         "name": "Nufringer Tor",
         "name_en": "Nufringer Tor",
         "name_de": "Nufringer Tor",
-        "address": "Geb\u00fchr: ja, Barrierefrei: ja, ",
-        "address_de": "Geb\u00fchr: ja, Barrierefrei: ja, ",
-        "address_en": "Fee: yes, Wheelchair: yes, ",
+        "address": "Geb\u00fchr: ja, Barrierefrei: ja",
+        "address_de": "Geb\u00fchr: ja, Barrierefrei: ja",
+        "address_en": "Fee: yes, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -8303,9 +8303,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -8366,9 +8366,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: nein, ",
-        "address_de": "Barrierefrei: nein, ",
-        "address_en": "Wheelchair: no, ",
+        "address": "Barrierefrei: nein",
+        "address_de": "Barrierefrei: nein",
+        "address_en": "Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -8387,9 +8387,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -8408,9 +8408,9 @@
         "name": "Parkhaus Congresshalle",
         "name_en": "Parkhaus Congresshalle",
         "name_de": "Parkhaus Congresshalle",
-        "address": "Kapazit\u00e4t: 370, Geb\u00fchr: ja, Barrierefrei: ja, ",
-        "address_de": "Kapazit\u00e4t: 370, Geb\u00fchr: ja, Barrierefrei: ja, ",
-        "address_en": "Capacity: 370, Fee: yes, Wheelchair: yes, ",
+        "address": "Kapazit\u00e4t: 370, Geb\u00fchr: ja, Barrierefrei: ja",
+        "address_de": "Kapazit\u00e4t: 370, Geb\u00fchr: ja, Barrierefrei: ja",
+        "address_en": "Capacity: 370, Fee: yes, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -8450,9 +8450,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -8513,9 +8513,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -8534,9 +8534,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -8597,9 +8597,9 @@
         "name": "Bronntor",
         "name_en": "Bronntor",
         "name_de": "Bronntor",
-        "address": "Kapazit\u00e4t: 120, Geb\u00fchr: ja, Barrierefrei: ja, ",
-        "address_de": "Kapazit\u00e4t: 120, Geb\u00fchr: ja, Barrierefrei: ja, ",
-        "address_en": "Capacity: 120, Fee: yes, Wheelchair: yes, ",
+        "address": "Kapazit\u00e4t: 120, Geb\u00fchr: ja, Barrierefrei: ja",
+        "address_de": "Kapazit\u00e4t: 120, Geb\u00fchr: ja, Barrierefrei: ja",
+        "address_en": "Capacity: 120, Fee: yes, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -8618,9 +8618,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: ja, Barrierefrei: nein, ",
-        "address_de": "Geb\u00fchr: ja, Barrierefrei: nein, ",
-        "address_en": "Fee: yes, Wheelchair: no, ",
+        "address": "Geb\u00fchr: ja, Barrierefrei: nein",
+        "address_de": "Geb\u00fchr: ja, Barrierefrei: nein",
+        "address_en": "Fee: yes, Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -8639,9 +8639,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -8660,9 +8660,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -8723,9 +8723,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: nein, ",
-        "address_de": "Barrierefrei: nein, ",
-        "address_en": "Wheelchair: no, ",
+        "address": "Barrierefrei: nein",
+        "address_de": "Barrierefrei: nein",
+        "address_en": "Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -8744,9 +8744,9 @@
         "name": "Im H\u00f6fle",
         "name_en": "Im H\u00f6fle",
         "name_de": "Im H\u00f6fle",
-        "address": "Geb\u00fchr: ja, Barrierefrei: ja, ",
-        "address_de": "Geb\u00fchr: ja, Barrierefrei: ja, ",
-        "address_en": "Fee: yes, Wheelchair: yes, ",
+        "address": "Geb\u00fchr: ja, Barrierefrei: ja",
+        "address_de": "Geb\u00fchr: ja, Barrierefrei: ja",
+        "address_en": "Fee: yes, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -8765,9 +8765,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -8786,9 +8786,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -8807,9 +8807,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: begrenzt, ",
-        "address_de": "Barrierefrei: begrenzt, ",
-        "address_en": "Wheelchair: limited, ",
+        "address": "Barrierefrei: begrenzt",
+        "address_de": "Barrierefrei: begrenzt",
+        "address_en": "Wheelchair: limited",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -8828,9 +8828,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: begrenzt, ",
-        "address_de": "Barrierefrei: begrenzt, ",
-        "address_en": "Wheelchair: limited, ",
+        "address": "Barrierefrei: begrenzt",
+        "address_de": "Barrierefrei: begrenzt",
+        "address_en": "Wheelchair: limited",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -8849,9 +8849,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -8870,9 +8870,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -8933,9 +8933,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: nein, ",
-        "address_de": "Barrierefrei: nein, ",
-        "address_en": "Wheelchair: no, ",
+        "address": "Barrierefrei: nein",
+        "address_de": "Barrierefrei: nein",
+        "address_en": "Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -9038,9 +9038,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: begrenzt, ",
-        "address_de": "Barrierefrei: begrenzt, ",
-        "address_en": "Wheelchair: limited, ",
+        "address": "Barrierefrei: begrenzt",
+        "address_de": "Barrierefrei: begrenzt",
+        "address_en": "Wheelchair: limited",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -9080,9 +9080,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 4, Barrierefrei: ja, ",
-        "address_de": "Kapazit\u00e4t: 4, Barrierefrei: ja, ",
-        "address_en": "Capacity: 4, Wheelchair: yes, ",
+        "address": "Kapazit\u00e4t: 4, Barrierefrei: ja",
+        "address_de": "Kapazit\u00e4t: 4, Barrierefrei: ja",
+        "address_en": "Capacity: 4, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -9101,9 +9101,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: nein, ",
-        "address_de": "Barrierefrei: nein, ",
-        "address_en": "Wheelchair: no, ",
+        "address": "Barrierefrei: nein",
+        "address_de": "Barrierefrei: nein",
+        "address_en": "Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -9122,9 +9122,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -9143,9 +9143,9 @@
         "name": "Einkaufszentrum",
         "name_en": "Einkaufszentrum",
         "name_de": "Einkaufszentrum",
-        "address": "Barrierefrei: nein, ",
-        "address_de": "Barrierefrei: nein, ",
-        "address_en": "Wheelchair: no, ",
+        "address": "Barrierefrei: nein",
+        "address_de": "Barrierefrei: nein",
+        "address_en": "Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -9227,9 +9227,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -9332,9 +9332,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: ja, Barrierefrei: nein, ",
-        "address_de": "Geb\u00fchr: ja, Barrierefrei: nein, ",
-        "address_en": "Fee: yes, Wheelchair: no, ",
+        "address": "Geb\u00fchr: ja, Barrierefrei: nein",
+        "address_de": "Geb\u00fchr: ja, Barrierefrei: nein",
+        "address_en": "Fee: yes, Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -9458,9 +9458,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -9479,9 +9479,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -9500,9 +9500,9 @@
         "name": "Rewe Parkhaus",
         "name_en": "Rewe Parkhaus",
         "name_de": "Rewe Parkhaus",
-        "address": "Geb\u00fchr: nein, Barrierefrei: ja, ",
-        "address_de": "Geb\u00fchr: nein, Barrierefrei: ja, ",
-        "address_en": "Fee: no, Wheelchair: yes, ",
+        "address": "Geb\u00fchr: nein, Barrierefrei: ja",
+        "address_de": "Geb\u00fchr: nein, Barrierefrei: ja",
+        "address_en": "Fee: no, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -9542,9 +9542,9 @@
         "name": "Hotel Berlin",
         "name_en": "Hotel Berlin",
         "name_de": "Hotel Berlin",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -9563,9 +9563,9 @@
         "name": "Sterncenter",
         "name_en": "Sterncenter",
         "name_de": "Sterncenter",
-        "address": "Geb\u00fchr: ja, Barrierefrei: ja, ",
-        "address_de": "Geb\u00fchr: ja, Barrierefrei: ja, ",
-        "address_en": "Fee: yes, Wheelchair: yes, ",
+        "address": "Geb\u00fchr: ja, Barrierefrei: ja",
+        "address_de": "Geb\u00fchr: ja, Barrierefrei: ja",
+        "address_en": "Fee: yes, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -9584,9 +9584,9 @@
         "name": "Bronntor",
         "name_en": "Bronntor",
         "name_de": "Bronntor",
-        "address": "Kapazit\u00e4t: 90, Geb\u00fchr: ja, Barrierefrei: ja, ",
-        "address_de": "Kapazit\u00e4t: 90, Geb\u00fchr: ja, Barrierefrei: ja, ",
-        "address_en": "Capacity: 90, Fee: yes, Wheelchair: yes, ",
+        "address": "Kapazit\u00e4t: 90, Geb\u00fchr: ja, Barrierefrei: ja",
+        "address_de": "Kapazit\u00e4t: 90, Geb\u00fchr: ja, Barrierefrei: ja",
+        "address_en": "Capacity: 90, Fee: yes, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -9605,9 +9605,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -9689,9 +9689,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 10, Barrierefrei: ja, ",
-        "address_de": "Kapazit\u00e4t: 10, Barrierefrei: ja, ",
-        "address_en": "Capacity: 10, Wheelchair: yes, ",
+        "address": "Kapazit\u00e4t: 10, Barrierefrei: ja",
+        "address_de": "Kapazit\u00e4t: 10, Barrierefrei: ja",
+        "address_en": "Capacity: 10, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -9773,9 +9773,9 @@
         "name": "Ev. Kirche",
         "name_en": "Ev. Kirche",
         "name_de": "Ev. Kirche",
-        "address": "Kapazit\u00e4t: 3, ",
-        "address_de": "Kapazit\u00e4t: 3, ",
-        "address_en": "Capacity: 3, ",
+        "address": "Kapazit\u00e4t: 3",
+        "address_de": "Kapazit\u00e4t: 3",
+        "address_en": "Capacity: 3",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -9815,9 +9815,9 @@
         "name": "Postplatz",
         "name_en": "Postplatz",
         "name_de": "Postplatz",
-        "address": "Geb\u00fchr: ja, Barrierefrei: ja, ",
-        "address_de": "Geb\u00fchr: ja, Barrierefrei: ja, ",
-        "address_en": "Fee: yes, Wheelchair: yes, ",
+        "address": "Geb\u00fchr: ja, Barrierefrei: ja",
+        "address_de": "Geb\u00fchr: ja, Barrierefrei: ja",
+        "address_en": "Fee: yes, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -9962,9 +9962,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -10025,9 +10025,9 @@
         "name": "Wanderparkplatz Vorderer Katzensteig",
         "name_en": "Wanderparkplatz Vorderer Katzensteig",
         "name_de": "Wanderparkplatz Vorderer Katzensteig",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -10046,9 +10046,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 3, ",
-        "address_de": "Kapazit\u00e4t: 3, ",
-        "address_en": "Capacity: 3, ",
+        "address": "Kapazit\u00e4t: 3",
+        "address_de": "Kapazit\u00e4t: 3",
+        "address_en": "Capacity: 3",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -10088,9 +10088,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 8, ",
-        "address_de": "Kapazit\u00e4t: 8, ",
-        "address_en": "Capacity: 8, ",
+        "address": "Kapazit\u00e4t: 8",
+        "address_de": "Kapazit\u00e4t: 8",
+        "address_en": "Capacity: 8",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -10130,9 +10130,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -10193,9 +10193,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: begrenzt, ",
-        "address_de": "Barrierefrei: begrenzt, ",
-        "address_en": "Wheelchair: limited, ",
+        "address": "Barrierefrei: begrenzt",
+        "address_de": "Barrierefrei: begrenzt",
+        "address_en": "Wheelchair: limited",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -10214,9 +10214,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -10235,9 +10235,9 @@
         "name": "Parkhaus BG Unfallklinik",
         "name_en": "Parkhaus BG Unfallklinik",
         "name_de": "Parkhaus BG Unfallklinik",
-        "address": "Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja, ",
-        "address_de": "Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja, ",
-        "address_en": "Fee: yes, Opening hours: 24/7, Wheelchair: yes, ",
+        "address": "Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address_de": "Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address_en": "Fee: yes, Opening hours: 24/7, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -10298,9 +10298,9 @@
         "name": "Kundenparkplatz von handundpfoten.de",
         "name_en": "Kundenparkplatz von handundpfoten.de",
         "name_de": "Kundenparkplatz von handundpfoten.de",
-        "address": "Kapazit\u00e4t: 3, Barrierefrei: begrenzt, ",
-        "address_de": "Kapazit\u00e4t: 3, Barrierefrei: begrenzt, ",
-        "address_en": "Capacity: 3, Wheelchair: limited, ",
+        "address": "Kapazit\u00e4t: 3, Barrierefrei: begrenzt",
+        "address_de": "Kapazit\u00e4t: 3, Barrierefrei: begrenzt",
+        "address_en": "Capacity: 3, Wheelchair: limited",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -10319,9 +10319,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: nein, ",
-        "address_de": "Geb\u00fchr: nein, ",
-        "address_en": "Fee: no, ",
+        "address": "Geb\u00fchr: nein",
+        "address_de": "Geb\u00fchr: nein",
+        "address_en": "Fee: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -10382,9 +10382,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: nein, ",
-        "address_de": "Barrierefrei: nein, ",
-        "address_en": "Wheelchair: no, ",
+        "address": "Barrierefrei: nein",
+        "address_de": "Barrierefrei: nein",
+        "address_en": "Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -10403,9 +10403,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: nein, ",
-        "address_de": "Barrierefrei: nein, ",
-        "address_en": "Wheelchair: no, ",
+        "address": "Barrierefrei: nein",
+        "address_de": "Barrierefrei: nein",
+        "address_en": "Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -10424,9 +10424,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -10445,9 +10445,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -10508,9 +10508,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 6, ",
-        "address_de": "Kapazit\u00e4t: 6, ",
-        "address_en": "Capacity: 6, ",
+        "address": "Kapazit\u00e4t: 6",
+        "address_de": "Kapazit\u00e4t: 6",
+        "address_en": "Capacity: 6",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -10529,9 +10529,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 2, Geb\u00fchr: nein, Barrierefrei: ja, ",
-        "address_de": "Kapazit\u00e4t: 2, Geb\u00fchr: nein, Barrierefrei: ja, ",
-        "address_en": "Capacity: 2, Fee: no, Wheelchair: yes, ",
+        "address": "Kapazit\u00e4t: 2, Geb\u00fchr: nein, Barrierefrei: ja",
+        "address_de": "Kapazit\u00e4t: 2, Geb\u00fchr: nein, Barrierefrei: ja",
+        "address_en": "Capacity: 2, Fee: no, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -10550,9 +10550,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -10613,9 +10613,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: nein, ",
-        "address_de": "Geb\u00fchr: nein, ",
-        "address_en": "Fee: no, ",
+        "address": "Geb\u00fchr: nein",
+        "address_de": "Geb\u00fchr: nein",
+        "address_en": "Fee: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -10634,9 +10634,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: nein, ",
-        "address_de": "Barrierefrei: nein, ",
-        "address_en": "Wheelchair: no, ",
+        "address": "Barrierefrei: nein",
+        "address_de": "Barrierefrei: nein",
+        "address_en": "Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -10676,9 +10676,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: begrenzt, ",
-        "address_de": "Barrierefrei: begrenzt, ",
-        "address_en": "Wheelchair: limited, ",
+        "address": "Barrierefrei: begrenzt",
+        "address_de": "Barrierefrei: begrenzt",
+        "address_en": "Wheelchair: limited",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -10697,9 +10697,9 @@
         "name": "Altstadtgarage",
         "name_en": "Altstadtgarage",
         "name_de": "Altstadtgarage",
-        "address": "Geb\u00fchr: ja, Barrierefrei: ja, ",
-        "address_de": "Geb\u00fchr: ja, Barrierefrei: ja, ",
-        "address_en": "Fee: yes, Wheelchair: yes, ",
+        "address": "Geb\u00fchr: ja, Barrierefrei: ja",
+        "address_de": "Geb\u00fchr: ja, Barrierefrei: ja",
+        "address_en": "Fee: yes, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -10760,9 +10760,9 @@
         "name": "Behindertenparkplatz",
         "name_en": "Behindertenparkplatz",
         "name_de": "Behindertenparkplatz",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -10781,9 +10781,9 @@
         "name": "Tiefgarage Porsche-Zentrum",
         "name_en": "Tiefgarage Porsche-Zentrum",
         "name_de": "Tiefgarage Porsche-Zentrum",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -10802,9 +10802,9 @@
         "name": "Parkplatz",
         "name_en": "Parkplatz",
         "name_de": "Parkplatz",
-        "address": "Barrierefrei: begrenzt, ",
-        "address_de": "Barrierefrei: begrenzt, ",
-        "address_en": "Wheelchair: limited, ",
+        "address": "Barrierefrei: begrenzt",
+        "address_de": "Barrierefrei: begrenzt",
+        "address_en": "Wheelchair: limited",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -10823,9 +10823,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -10844,9 +10844,9 @@
         "name": "Parkplatz",
         "name_en": "Parkplatz",
         "name_de": "Parkplatz",
-        "address": "Geb\u00fchr: nein, Barrierefrei: ja, ",
-        "address_de": "Geb\u00fchr: nein, Barrierefrei: ja, ",
-        "address_en": "Fee: no, Wheelchair: yes, ",
+        "address": "Geb\u00fchr: nein, Barrierefrei: ja",
+        "address_de": "Geb\u00fchr: nein, Barrierefrei: ja",
+        "address_en": "Fee: no, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -10865,9 +10865,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 4, Geb\u00fchr: nein, Barrierefrei: nein, ",
-        "address_de": "Kapazit\u00e4t: 4, Geb\u00fchr: nein, Barrierefrei: nein, ",
-        "address_en": "Capacity: 4, Fee: no, Wheelchair: no, ",
+        "address": "Kapazit\u00e4t: 4, Geb\u00fchr: nein, Barrierefrei: nein",
+        "address_de": "Kapazit\u00e4t: 4, Geb\u00fchr: nein, Barrierefrei: nein",
+        "address_en": "Capacity: 4, Fee: no, Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -10886,9 +10886,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: nein, ",
-        "address_de": "Geb\u00fchr: nein, ",
-        "address_en": "Fee: no, ",
+        "address": "Geb\u00fchr: nein",
+        "address_de": "Geb\u00fchr: nein",
+        "address_en": "Fee: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -10907,9 +10907,9 @@
         "name": "Parkplatz",
         "name_en": "Parkplatz",
         "name_de": "Parkplatz",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -10928,9 +10928,9 @@
         "name": "Parkplatz",
         "name_en": "Parkplatz",
         "name_de": "Parkplatz",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -10949,9 +10949,9 @@
         "name": "Parkplatz",
         "name_en": "Parkplatz",
         "name_de": "Parkplatz",
-        "address": "Barrierefrei: nein, ",
-        "address_de": "Barrierefrei: nein, ",
-        "address_en": "Wheelchair: no, ",
+        "address": "Barrierefrei: nein",
+        "address_de": "Barrierefrei: nein",
+        "address_en": "Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -10970,9 +10970,9 @@
         "name": "Parkplatz",
         "name_en": "Parkplatz",
         "name_de": "Parkplatz",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -10991,9 +10991,9 @@
         "name": "AOK PARKPLATZ",
         "name_en": "AOK PARKPLATZ",
         "name_de": "AOK PARKPLATZ",
-        "address": "Barrierefrei: nein, ",
-        "address_de": "Barrierefrei: nein, ",
-        "address_en": "Wheelchair: no, ",
+        "address": "Barrierefrei: nein",
+        "address_de": "Barrierefrei: nein",
+        "address_en": "Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -11012,9 +11012,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -11054,9 +11054,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -11075,9 +11075,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -11117,9 +11117,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: nein, ",
-        "address_de": "Geb\u00fchr: nein, ",
-        "address_en": "Fee: no, ",
+        "address": "Geb\u00fchr: nein",
+        "address_de": "Geb\u00fchr: nein",
+        "address_en": "Fee: no",
         "icon": {
           "id": "carParkCovIcon"
         }
@@ -11180,9 +11180,9 @@
         "name_en": "Multi-story/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 1, ",
-        "address_de": "Kapazit\u00e4t: 1, ",
-        "address_en": "Capacity: 1, ",
+        "address": "Kapazit\u00e4t: 1",
+        "address_de": "Kapazit\u00e4t: 1",
+        "address_en": "Capacity: 1",
         "icon": {
           "id": "carParkCovIcon"
         }

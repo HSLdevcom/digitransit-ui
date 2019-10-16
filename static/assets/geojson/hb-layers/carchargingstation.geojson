@@ -7,9 +7,9 @@
         "name_en": "Car charging station",
         "name_de": "Elktroauto-Ladestation",
         "name": "Elktroauto-Ladestation",
-        "address": "Kapazit\u00e4t: 1, ",
-        "address_de": "Kapazit\u00e4t: 1, ",
-        "address_en": "Capacity: 1, ",
+        "address": "Kapazit\u00e4t: 1",
+        "address_de": "Kapazit\u00e4t: 1",
+        "address_en": "Capacity: 1",
         "icon": {
           "id": "carChargeIcon",
           "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\">    <path d=\"M21.739 13.921c-1.347-.39-1.885-.538-3.552-.921 0 0-2.379-2.359-2.832-2.816-.568-.572-1.043-1.184-2.949-1.184h-7.894c-.511 0-.735.547-.069 1-.743.602-1.62 1.38-2.258 2.027-1.436 1.455-2.185 2.385-2.185 4.255 0 1.76 1.042 3.718 3.174 3.718h.01c.413 1.162 1.512 2 2.816 2 1.304 0 2.403-.838 2.816-2h6.367c.413 1.162 1.512 2 2.816 2s2.403-.838 2.816-2h.685c1.994 0 2.5-1.776 2.5-3.165 0-2.041-1.123-2.584-2.261-2.914zm-15.739 6.279c-.662 0-1.2-.538-1.2-1.2s.538-1.2 1.2-1.2 1.2.538 1.2 1.2-.538 1.2-1.2 1.2zm3.576-6.2c-1.071 0-3.5-.106-5.219-.75.578-.75.998-1.222 1.27-1.536.318-.368.873-.714 1.561-.714h2.388v3zm1-3h1.835c.882 0 1.428.493 2.022 1.105.452.466 1.732 1.895 1.732 1.895h-5.588v-3zm7.424 9.2c-.662 0-1.2-.538-1.2-1.2s.538-1.2 1.2-1.2 1.2.538 1.2 1.2-.538 1.2-1.2 1.2zm-3.625-14.7c0 .276-.224.5-.5.5h-1.875v1h-1.889c-.843 0-1.588-.417-2.041-1.057-.418-.59-1.099-.943-1.822-.943h-.019c-4.017 0-5.255 3.215-3.502 5.254l-.735.677c-2.341-2.679-.663-6.931 4.237-6.931h.019c.724 0 1.404-.352 1.822-.943.453-.64 1.198-1.057 2.041-1.057h1.889v1h1.875c.276 0 .5.224.5.5s-.224.5-.5.5h-1.875v1h1.875c.276 0 .5.224.5.5z\"/></svg>"
@@ -29,9 +29,9 @@
         "name_en": "Car charging station",
         "name_de": "Elktroauto-Ladestation",
         "name": "Elktroauto-Ladestation",
-        "address": "\u00d6ffnungszeiten: 24/7, ",
-        "address_de": "\u00d6ffnungszeiten: 24/7, ",
-        "address_en": "Opening hours: 24/7, ",
+        "address": "\u00d6ffnungszeiten: 24/7",
+        "address_de": "\u00d6ffnungszeiten: 24/7",
+        "address_en": "Opening hours: 24/7",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -50,9 +50,9 @@
         "name_en": "Car charging station",
         "name_de": "Elktroauto-Ladestation",
         "name": "Elktroauto-Ladestation",
-        "address": "Kapazit\u00e4t: 2, Geb\u00fchr: nein, \u00d6ffnungszeiten: 24/7, ",
-        "address_de": "Kapazit\u00e4t: 2, Geb\u00fchr: nein, \u00d6ffnungszeiten: 24/7, ",
-        "address_en": "Capacity: 2, Fee: no, Opening hours: 24/7, ",
+        "address": "Kapazit\u00e4t: 2, Geb\u00fchr: nein, \u00d6ffnungszeiten: 24/7",
+        "address_de": "Kapazit\u00e4t: 2, Geb\u00fchr: nein, \u00d6ffnungszeiten: 24/7",
+        "address_en": "Capacity: 2, Fee: no, Opening hours: 24/7",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -71,9 +71,9 @@
         "name_en": "Car charging station",
         "name_de": "Elktroauto-Ladestation",
         "name": "Elktroauto-Ladestation",
-        "address": "Kapazit\u00e4t: 2, ",
-        "address_de": "Kapazit\u00e4t: 2, ",
-        "address_en": "Capacity: 2, ",
+        "address": "Kapazit\u00e4t: 2",
+        "address_de": "Kapazit\u00e4t: 2",
+        "address_en": "Capacity: 2",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -92,9 +92,9 @@
         "name_en": "Car charging station",
         "name_de": "Elktroauto-Ladestation",
         "name": "Elktroauto-Ladestation",
-        "address": "Kapazit\u00e4t: 2, ",
-        "address_de": "Kapazit\u00e4t: 2, ",
-        "address_en": "Capacity: 2, ",
+        "address": "Kapazit\u00e4t: 2",
+        "address_de": "Kapazit\u00e4t: 2",
+        "address_en": "Capacity: 2",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -113,9 +113,9 @@
         "name_en": "Car charging station",
         "name_de": "Elktroauto-Ladestation",
         "name": "Elktroauto-Ladestation",
-        "address": "Kapazit\u00e4t: 2, \u00d6ffnungszeiten: 24/7, ",
-        "address_de": "Kapazit\u00e4t: 2, \u00d6ffnungszeiten: 24/7, ",
-        "address_en": "Capacity: 2, Opening hours: 24/7, ",
+        "address": "Kapazit\u00e4t: 2, \u00d6ffnungszeiten: 24/7",
+        "address_de": "Kapazit\u00e4t: 2, \u00d6ffnungszeiten: 24/7",
+        "address_en": "Capacity: 2, Opening hours: 24/7",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -134,9 +134,9 @@
         "name_en": "Car charging station",
         "name_de": "Elktroauto-Ladestation",
         "name": "Elktroauto-Ladestation",
-        "address": "Kapazit\u00e4t: 12, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, ",
-        "address_de": "Kapazit\u00e4t: 12, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, ",
-        "address_en": "Capacity: 12, Fee: yes, Opening hours: 24/7, ",
+        "address": "Kapazit\u00e4t: 12, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7",
+        "address_de": "Kapazit\u00e4t: 12, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7",
+        "address_en": "Capacity: 12, Fee: yes, Opening hours: 24/7",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -155,9 +155,9 @@
         "name": "Aldi S\u00fcd Ladestation",
         "name_en": "Aldi S\u00fcd Ladestation",
         "name_de": "Aldi S\u00fcd Ladestation",
-        "address": "Kapazit\u00e4t: 2, Geb\u00fchr: nein, ",
-        "address_de": "Kapazit\u00e4t: 2, Geb\u00fchr: nein, ",
-        "address_en": "Capacity: 2, Fee: no, ",
+        "address": "Kapazit\u00e4t: 2, Geb\u00fchr: nein",
+        "address_de": "Kapazit\u00e4t: 2, Geb\u00fchr: nein",
+        "address_en": "Capacity: 2, Fee: no",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -176,9 +176,9 @@
         "name": "Sch\u00f6nbuch West",
         "name_en": "Sch\u00f6nbuch West",
         "name_de": "Sch\u00f6nbuch West",
-        "address": "\u00d6ffnungszeiten: 24/7, ",
-        "address_de": "\u00d6ffnungszeiten: 24/7, ",
-        "address_en": "Opening hours: 24/7, ",
+        "address": "\u00d6ffnungszeiten: 24/7",
+        "address_de": "\u00d6ffnungszeiten: 24/7",
+        "address_en": "Opening hours: 24/7",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -197,9 +197,9 @@
         "name": "Sch\u00f6nbuch West",
         "name_en": "Sch\u00f6nbuch West",
         "name_de": "Sch\u00f6nbuch West",
-        "address": "\u00d6ffnungszeiten: 24/7, ",
-        "address_de": "\u00d6ffnungszeiten: 24/7, ",
-        "address_en": "Opening hours: 24/7, ",
+        "address": "\u00d6ffnungszeiten: 24/7",
+        "address_de": "\u00d6ffnungszeiten: 24/7",
+        "address_en": "Opening hours: 24/7",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -218,9 +218,9 @@
         "name": "Sch\u00f6nbuch Ost",
         "name_en": "Sch\u00f6nbuch Ost",
         "name_de": "Sch\u00f6nbuch Ost",
-        "address": "\u00d6ffnungszeiten: 24/7, ",
-        "address_de": "\u00d6ffnungszeiten: 24/7, ",
-        "address_en": "Opening hours: 24/7, ",
+        "address": "\u00d6ffnungszeiten: 24/7",
+        "address_de": "\u00d6ffnungszeiten: 24/7",
+        "address_en": "Opening hours: 24/7",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -239,9 +239,9 @@
         "name": "Sch\u00f6nbuch Ost",
         "name_en": "Sch\u00f6nbuch Ost",
         "name_de": "Sch\u00f6nbuch Ost",
-        "address": "\u00d6ffnungszeiten: 24/7, ",
-        "address_de": "\u00d6ffnungszeiten: 24/7, ",
-        "address_en": "Opening hours: 24/7, ",
+        "address": "\u00d6ffnungszeiten: 24/7",
+        "address_de": "\u00d6ffnungszeiten: 24/7",
+        "address_en": "Opening hours: 24/7",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -281,9 +281,9 @@
         "name": "Weiler W\u00e4rem",
         "name_en": "Weiler W\u00e4rem",
         "name_de": "Weiler W\u00e4rem",
-        "address": "Geb\u00fchr: nein, ",
-        "address_de": "Geb\u00fchr: nein, ",
-        "address_en": "Fee: no, ",
+        "address": "Geb\u00fchr: nein",
+        "address_de": "Geb\u00fchr: nein",
+        "address_en": "Fee: no",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -302,9 +302,9 @@
         "name_en": "Car charging station",
         "name_de": "Elktroauto-Ladestation",
         "name": "Elktroauto-Ladestation",
-        "address": "Kapazit\u00e4t: 1, ",
-        "address_de": "Kapazit\u00e4t: 1, ",
-        "address_en": "Capacity: 1, ",
+        "address": "Kapazit\u00e4t: 1",
+        "address_de": "Kapazit\u00e4t: 1",
+        "address_en": "Capacity: 1",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -323,9 +323,9 @@
         "name_en": "Car charging station",
         "name_de": "Elktroauto-Ladestation",
         "name": "Elktroauto-Ladestation",
-        "address": "Kapazit\u00e4t: 2, ",
-        "address_de": "Kapazit\u00e4t: 2, ",
-        "address_en": "Capacity: 2, ",
+        "address": "Kapazit\u00e4t: 2",
+        "address_de": "Kapazit\u00e4t: 2",
+        "address_en": "Capacity: 2",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -344,9 +344,9 @@
         "name_en": "Car charging station",
         "name_de": "Elktroauto-Ladestation",
         "name": "Elktroauto-Ladestation",
-        "address": "Kapazit\u00e4t: 4, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, ",
-        "address_de": "Kapazit\u00e4t: 4, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, ",
-        "address_en": "Capacity: 4, Fee: yes, Opening hours: 24/7, ",
+        "address": "Kapazit\u00e4t: 4, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7",
+        "address_de": "Kapazit\u00e4t: 4, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7",
+        "address_en": "Capacity: 4, Fee: yes, Opening hours: 24/7",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -365,9 +365,9 @@
         "name_en": "Car charging station",
         "name_de": "Elktroauto-Ladestation",
         "name": "Elktroauto-Ladestation",
-        "address": "Kapazit\u00e4t: 2, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, ",
-        "address_de": "Kapazit\u00e4t: 2, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, ",
-        "address_en": "Capacity: 2, Fee: yes, Opening hours: 24/7, ",
+        "address": "Kapazit\u00e4t: 2, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7",
+        "address_de": "Kapazit\u00e4t: 2, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7",
+        "address_en": "Capacity: 2, Fee: yes, Opening hours: 24/7",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -386,9 +386,9 @@
         "name_en": "Car charging station",
         "name_de": "Elktroauto-Ladestation",
         "name": "Elktroauto-Ladestation",
-        "address": "Geb\u00fchr: nein, ",
-        "address_de": "Geb\u00fchr: nein, ",
-        "address_en": "Fee: no, ",
+        "address": "Geb\u00fchr: nein",
+        "address_de": "Geb\u00fchr: nein",
+        "address_en": "Fee: no",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -407,9 +407,9 @@
         "name_en": "Car charging station",
         "name_de": "Elktroauto-Ladestation",
         "name": "Elktroauto-Ladestation",
-        "address": "Geb\u00fchr: nein, ",
-        "address_de": "Geb\u00fchr: nein, ",
-        "address_en": "Fee: no, ",
+        "address": "Geb\u00fchr: nein",
+        "address_de": "Geb\u00fchr: nein",
+        "address_en": "Fee: no",
         "icon": {
           "id": "carChargeIcon"
         }
@@ -428,9 +428,9 @@
         "name_en": "Car charging station",
         "name_de": "Elktroauto-Ladestation",
         "name": "Elktroauto-Ladestation",
-        "address": "Kapazit\u00e4t: 2, ",
-        "address_de": "Kapazit\u00e4t: 2, ",
-        "address_en": "Capacity: 2, ",
+        "address": "Kapazit\u00e4t: 2",
+        "address_de": "Kapazit\u00e4t: 2",
+        "address_en": "Capacity: 2",
         "icon": {
           "id": "carChargeIcon"
         }

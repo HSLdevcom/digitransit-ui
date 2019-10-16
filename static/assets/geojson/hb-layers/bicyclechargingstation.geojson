@@ -92,9 +92,9 @@
         "name": "bike-energy",
         "name_en": "bike-energy",
         "name_de": "bike-energy",
-        "address": "Kapazit\u00e4t: 2, Geb\u00fchr: nein, ",
-        "address_de": "Kapazit\u00e4t: 2, Geb\u00fchr: nein, ",
-        "address_en": "Capacity: 2, Fee: no, ",
+        "address": "Kapazit\u00e4t: 2, Geb\u00fchr: nein",
+        "address_de": "Kapazit\u00e4t: 2, Geb\u00fchr: nein",
+        "address_en": "Capacity: 2, Fee: no",
         "icon": {
           "id": "bikeChargeIcon"
         }
@@ -113,9 +113,9 @@
         "name": "bike-energy",
         "name_en": "bike-energy",
         "name_de": "bike-energy",
-        "address": "Kapazit\u00e4t: 2, Geb\u00fchr: nein, ",
-        "address_de": "Kapazit\u00e4t: 2, Geb\u00fchr: nein, ",
-        "address_en": "Capacity: 2, Fee: no, ",
+        "address": "Kapazit\u00e4t: 2, Geb\u00fchr: nein",
+        "address_de": "Kapazit\u00e4t: 2, Geb\u00fchr: nein",
+        "address_en": "Capacity: 2, Fee: no",
         "icon": {
           "id": "bikeChargeIcon"
         }
@@ -134,9 +134,9 @@
         "name_en": "Bicycle charging station",
         "name_de": "Fahrradladestation",
         "name": "Fahrradladestation",
-        "address": "Kapazit\u00e4t: 2, ",
-        "address_de": "Kapazit\u00e4t: 2, ",
-        "address_en": "Capacity: 2, ",
+        "address": "Kapazit\u00e4t: 2",
+        "address_de": "Kapazit\u00e4t: 2",
+        "address_en": "Capacity: 2",
         "icon": {
           "id": "bikeChargeIcon"
         }

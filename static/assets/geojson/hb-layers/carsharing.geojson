@@ -29,9 +29,9 @@
         "name": "stadtmobil",
         "name_en": "stadtmobil",
         "name_de": "stadtmobil",
-        "address": "Kapazit\u00e4t: 4, ",
-        "address_de": "Kapazit\u00e4t: 4, ",
-        "address_en": "Capacity: 4, ",
+        "address": "Kapazit\u00e4t: 4",
+        "address_de": "Kapazit\u00e4t: 4",
+        "address_en": "Capacity: 4",
         "icon": {
           "id": "carShareIcon"
         }
@@ -50,9 +50,9 @@
         "name": "Mariengarage Herrenberg",
         "name_en": "Mariengarage Herrenberg",
         "name_de": "Mariengarage Herrenberg",
-        "address": "Kapazit\u00e4t: 1, ",
-        "address_de": "Kapazit\u00e4t: 1, ",
-        "address_en": "Capacity: 1, ",
+        "address": "Kapazit\u00e4t: 1",
+        "address_de": "Kapazit\u00e4t: 1",
+        "address_en": "Capacity: 1",
         "icon": {
           "id": "carShareIcon"
         }

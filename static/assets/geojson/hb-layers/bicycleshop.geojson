@@ -29,9 +29,9 @@
         "name": "Radzentrum Nagold",
         "name_en": "Radzentrum Nagold",
         "name_de": "Radzentrum Nagold",
-        "address": "\u00d6ffnungszeiten: Mo 13:00-18:30;Di-Fr 09:30-18:30;So 09:00-16:00, Barrierefrei: ja, ",
-        "address_de": "\u00d6ffnungszeiten: Mo 13:00-18:30;Di-Fr 09:30-18:30;So 09:00-16:00, Barrierefrei: ja, ",
-        "address_en": "Opening hours: Mo 13:00-18:30;Tu-Fr 09:30-18:30;Sa 09:00-16:00, Wheelchair: yes, ",
+        "address": "\u00d6ffnungszeiten: Mo 13:00-18:30;Di-Fr 09:30-18:30;So 09:00-16:00, Barrierefrei: ja",
+        "address_de": "\u00d6ffnungszeiten: Mo 13:00-18:30;Di-Fr 09:30-18:30;So 09:00-16:00, Barrierefrei: ja",
+        "address_en": "Opening hours: Mo 13:00-18:30;Tu-Fr 09:30-18:30;Sa 09:00-16:00, Wheelchair: yes",
         "icon": {
           "id": "bikeShopIcon"
         }
@@ -92,9 +92,9 @@
         "name": "Holczer Radsport Specialized concept store",
         "name_en": "Holczer Radsport Specialized concept store",
         "name_de": "Holczer Radsport Specialized concept store",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "bikeShopIcon"
         }
@@ -134,9 +134,9 @@
         "name": "Radhof Schill",
         "name_en": "Radhof Schill",
         "name_de": "Radhof Schill",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "bikeShopIcon"
         }
@@ -155,9 +155,9 @@
         "name": "Radhaus",
         "name_en": "Radhaus",
         "name_de": "Radhaus",
-        "address": "Barrierefrei: nein, ",
-        "address_de": "Barrierefrei: nein, ",
-        "address_en": "Wheelchair: no, ",
+        "address": "Barrierefrei: nein",
+        "address_de": "Barrierefrei: nein",
+        "address_en": "Wheelchair: no",
         "icon": {
           "id": "bikeShopIcon"
         }
@@ -218,9 +218,9 @@
         "name": "Sportivo",
         "name_en": "Sportivo",
         "name_de": "Sportivo",
-        "address": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; So 10:00-18:00, Barrierefrei: ja, ",
-        "address_de": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; So 10:00-18:00, Barrierefrei: ja, ",
-        "address_en": "Opening hours: Mo-Fr 10:00-19:00; Sa 10:00-18:00, Wheelchair: yes, ",
+        "address": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; So 10:00-18:00, Barrierefrei: ja",
+        "address_de": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; So 10:00-18:00, Barrierefrei: ja",
+        "address_en": "Opening hours: Mo-Fr 10:00-19:00; Sa 10:00-18:00, Wheelchair: yes",
         "icon": {
           "id": "bikeShopIcon"
         }
@@ -239,9 +239,9 @@
         "name_en": "Bicycle shop",
         "name_de": "Fahrradgesch\u00e4ft",
         "name": "Fahrradgesch\u00e4ft",
-        "address": "Barrierefrei: begrenzt, ",
-        "address_de": "Barrierefrei: begrenzt, ",
-        "address_en": "Wheelchair: limited, ",
+        "address": "Barrierefrei: begrenzt",
+        "address_de": "Barrierefrei: begrenzt",
+        "address_en": "Wheelchair: limited",
         "icon": {
           "id": "bikeShopIcon"
         }
@@ -260,9 +260,9 @@
         "name": "D\u00fcll",
         "name_en": "D\u00fcll",
         "name_de": "D\u00fcll",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "bikeShopIcon"
         }
@@ -344,9 +344,9 @@
         "name": "HAICO",
         "name_en": "HAICO",
         "name_de": "HAICO",
-        "address": "Telefon: +49 7073 852520, \u00d6ffnungszeiten: Mo-Di 17:00-20:00, Do-Fr 17:00-20:00, So 10:00-14:00;Barrierefrei: nein, ",
-        "address_de": "Telefon: +49 7073 852520, \u00d6ffnungszeiten: Mo-Di 17:00-20:00, Do-Fr 17:00-20:00, So 10:00-14:00;Barrierefrei: nein, ",
-        "address_en": "Phone: +49 7073 852520, Opening hours: Mo-Tu 17:00-20:00, Th-Fr 17:00-20:00, Sa 10:00-14:00;Wheelchair: no, ",
+        "address": "Telefon: +49 7073 852520, \u00d6ffnungszeiten: Mo-Di 17:00-20:00, Do-Fr 17:00-20:00, So 10:00-14:00;Barrierefrei: nein",
+        "address_de": "Telefon: +49 7073 852520, \u00d6ffnungszeiten: Mo-Di 17:00-20:00, Do-Fr 17:00-20:00, So 10:00-14:00;Barrierefrei: nein",
+        "address_en": "Phone: +49 7073 852520, Opening hours: Mo-Tu 17:00-20:00, Th-Fr 17:00-20:00, Sa 10:00-14:00;Wheelchair: no",
         "icon": {
           "id": "bikeShopIcon"
         }
@@ -365,9 +365,9 @@
         "name": "Bruderhausdiakonie T\u00fcbingen Werkst\u00e4tten Radstall",
         "name_en": "Bruderhausdiakonie T\u00fcbingen Werkst\u00e4tten Radstall",
         "name_de": "Bruderhausdiakonie T\u00fcbingen Werkst\u00e4tten Radstall",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "bikeShopIcon"
         }
@@ -407,9 +407,9 @@
         "name": "Weigl GmbH Zweiradzentrale",
         "name_en": "Weigl GmbH Zweiradzentrale",
         "name_de": "Weigl GmbH Zweiradzentrale",
-        "address": "\u00d6ffnungszeiten: Mo-So 08:30-13:00; Mo 14:00-18:30, Tue 14:00-18:30, Thu 14:00-18:30, Fr 14:00-18:30, Telefon: +49 7031 700922, ",
-        "address_de": "\u00d6ffnungszeiten: Mo-So 08:30-13:00; Mo 14:00-18:30, Tue 14:00-18:30, Thu 14:00-18:30, Fr 14:00-18:30, Telefon: +49 7031 700922, ",
-        "address_en": "Opening hours: Mo-Sa 08:30-13:00; Mo 14:00-18:30, Tue 14:00-18:30, Thu 14:00-18:30, Fr 14:00-18:30, Phone: +49 7031 700922, ",
+        "address": "\u00d6ffnungszeiten: Mo-So 08:30-13:00; Mo 14:00-18:30, Tue 14:00-18:30, Thu 14:00-18:30, Fr 14:00-18:30, Telefon: +49 7031 700922",
+        "address_de": "\u00d6ffnungszeiten: Mo-So 08:30-13:00; Mo 14:00-18:30, Tue 14:00-18:30, Thu 14:00-18:30, Fr 14:00-18:30, Telefon: +49 7031 700922",
+        "address_en": "Opening hours: Mo-Sa 08:30-13:00; Mo 14:00-18:30, Tue 14:00-18:30, Thu 14:00-18:30, Fr 14:00-18:30, Phone: +49 7031 700922",
         "icon": {
           "id": "bikeShopIcon"
         }
@@ -428,9 +428,9 @@
         "name": "ZEG Pfrommer",
         "name_en": "ZEG Pfrommer",
         "name_de": "ZEG Pfrommer",
-        "address": "Barrierefrei: ja, ",
-        "address_de": "Barrierefrei: ja, ",
-        "address_en": "Wheelchair: yes, ",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "bikeShopIcon"
         }
@@ -470,9 +470,9 @@
         "name_en": "Bicycle shop",
         "name_de": "Fahrradgesch\u00e4ft",
         "name": "Fahrradgesch\u00e4ft",
-        "address": "Barrierefrei: nein, ",
-        "address_de": "Barrierefrei: nein, ",
-        "address_en": "Wheelchair: no, ",
+        "address": "Barrierefrei: nein",
+        "address_de": "Barrierefrei: nein",
+        "address_en": "Wheelchair: no",
         "icon": {
           "id": "bikeShopIcon"
         }
@@ -512,9 +512,9 @@
         "name": "Radhof Schill",
         "name_en": "Radhof Schill",
         "name_de": "Radhof Schill",
-        "address": "Barrierefrei: begrenzt, ",
-        "address_de": "Barrierefrei: begrenzt, ",
-        "address_en": "Wheelchair: limited, ",
+        "address": "Barrierefrei: begrenzt",
+        "address_de": "Barrierefrei: begrenzt",
+        "address_en": "Wheelchair: limited",
         "icon": {
           "id": "bikeShopIcon"
         }

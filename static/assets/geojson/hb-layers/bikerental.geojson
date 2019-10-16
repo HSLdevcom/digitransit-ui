@@ -29,9 +29,9 @@
         "name": "Bahnhof B\u00f6blingen/Talstra\u00dfe",
         "name_en": "Bahnhof B\u00f6blingen/Talstra\u00dfe",
         "name_de": "Bahnhof B\u00f6blingen/Talstra\u00dfe",
-        "address": "Kapazit\u00e4t: 12, ",
-        "address_de": "Kapazit\u00e4t: 12, ",
-        "address_en": "Capacity: 12, ",
+        "address": "Kapazit\u00e4t: 12",
+        "address_de": "Kapazit\u00e4t: 12",
+        "address_en": "Capacity: 12",
         "icon": {
           "id": "bikeRentIcon"
         }
@@ -92,9 +92,9 @@
         "name": "Bahnhof Goldberg/Leipziger Stra\u00dfe",
         "name_en": "Bahnhof Goldberg/Leipziger Stra\u00dfe",
         "name_de": "Bahnhof Goldberg/Leipziger Stra\u00dfe",
-        "address": "Kapazit\u00e4t: 6, ",
-        "address_de": "Kapazit\u00e4t: 6, ",
-        "address_en": "Capacity: 6, ",
+        "address": "Kapazit\u00e4t: 6",
+        "address_de": "Kapazit\u00e4t: 6",
+        "address_en": "Capacity: 6",
         "icon": {
           "id": "bikeRentIcon"
         }
