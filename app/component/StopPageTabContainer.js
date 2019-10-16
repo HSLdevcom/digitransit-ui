@@ -17,6 +17,7 @@ import {
   getServiceAlertsForStop,
   getServiceAlertsForStopRoutes,
   isAlertActive,
+  isAlertValid,
   getActiveAlertSeverityLevel,
   getCancelationsForRoute,
   getServiceAlertsForRoute,
@@ -65,7 +66,6 @@ function StopPageTabContainer(
     [...getServiceAlertsForStop(stop), ...getServiceAlertsForStopRoutes(stop)],
     currentTime,
   );
-
   const hasActiveServiceAlerts =
     getActiveAlertSeverityLevel(
       getServiceAlertsForStop(stop, intl),
@@ -75,24 +75,34 @@ function StopPageTabContainer(
       getServiceAlertsForStopRoutes(stop, intl),
       currentTime,
     );
-
   const stopRoutesWithAlerts = [];
 
   if (stop.routes && stop.routes.length > 0) {
     stop.routes.forEach(route => {
+      const alerts = [...route.alerts];
       return (
-        isAlertActive(
-          getCancelationsForRoute(route),
-          [
-            ...getServiceAlertsForRoute(route),
-            ...getServiceAlertsForRouteStops(route),
-          ],
-          currentTime,
-        ) && stopRoutesWithAlerts.push(...route.alerts)
+        route.alerts.some(alert => isAlertValid(alert, currentTime)) &&
+        stopRoutesWithAlerts.push(...route.alerts)
       );
+      // return (
+      //   isAlertActive(
+      //     getCancelationsForRoute(route),
+      //     [
+      //       ...getServiceAlertsForRoute(route),
+      //       ...getServiceAlertsForRouteStops(route),
+      //     ],
+      //     currentTime,
+      //   ) && stopRoutesWithAlerts.push(...route.alerts)
+      // );
     });
   }
-
+  console.log(
+    stopRoutesWithAlerts.find(
+      alert =>
+        alert.severityLevel !==
+        (AlertSeverityLevelType.Severe || AlertSeverityLevelType.Warning),
+    ),
+  );
   const disruptionClassName =
     ((hasActiveAlert ||
       stopRoutesWithAlerts.find(
