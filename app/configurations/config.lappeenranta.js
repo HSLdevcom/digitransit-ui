@@ -70,9 +70,6 @@ export default configMerger(walttiConfig, {
     },
   ],
 
-  showAllBusses: true,
-  showVehiclesOnStopPage: true,
-
   footer: {
     content: [
       { label: `© Lappeenranta ${walttiConfig.YEAR}` },
