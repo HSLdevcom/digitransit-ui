@@ -68,7 +68,6 @@ describe('RealtimeInformationStore', () => {
       };
       store.handleMessage(message);
       expect(store.vehicles.foo).to.equal(message);
-      expect(emitChange.called).to.equal(true);
     });
 
     it('should handle an array of messages', () => {
@@ -85,7 +84,6 @@ describe('RealtimeInformationStore', () => {
       store.handleMessage(messages);
       expect(store.vehicles.foo1).to.equal(messages[0]);
       expect(store.vehicles.foo2).to.equal(messages[1]);
-      expect(emitChange.called).to.equal(true);
     });
   });
 
