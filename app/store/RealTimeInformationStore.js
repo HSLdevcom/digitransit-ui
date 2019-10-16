@@ -10,7 +10,7 @@ class RealTimeInformationStore extends Store {
   }
 
   checkEmit() {
-    if(this.pendingEmit) {
+    if (this.pendingEmit) {
       this.pendingEmit = false;
       this.emitChange();
     }
@@ -18,13 +18,10 @@ class RealTimeInformationStore extends Store {
 
   conditionalEmit() {
     if (this.allowUpdates) {
-      setInterval(
-        () => {
-          this.allowUpdates=true;
-          this.checkEmit();
-        },
-        1000
-      );
+      setInterval(() => {
+        this.allowUpdates = true;
+        this.checkEmit();
+      }, 1000);
       this.allowUpdates = false;
       this.pendingEmit = false;
       this.emitChange();
