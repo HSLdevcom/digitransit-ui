@@ -56,6 +56,8 @@ export default configMerger(walttiConfig, {
     dynamicParkingLotsMinZoom: 14
   },
 
+  mergeStopsByCode: true,
+
   title: APP_TITLE,
 
   meta: {
