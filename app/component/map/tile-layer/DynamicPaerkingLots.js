@@ -6,7 +6,7 @@ import pick from 'lodash/pick';
 import { isBrowser } from '../../../util/browser';
 import {
   drawRoundIcon,
-  drawDynamicParkLotIcon,
+  drawIcon,
   drawAvailabilityValue,
 } from '../../../util/mapIconUtils';
 import glfun from '../../../util/glfun';
@@ -73,7 +73,8 @@ class DynamicParkingLots {
     }
 
 
-    return drawDynamicParkLotIcon(
+    return drawIcon(
+      "icon-icon_car",
       this.tile,
       geom,
       this.citybikeImageSize,
