@@ -52,7 +52,7 @@ describe('gtfsRtParser', () => {
           long: 23.66348,
           heading: 55,
           headsign: 'Atala',
-          tripId: '5645934646',
+          tripId: 'tampere:5645934646',
           geoHash: ['61;23', '47', '62', '47'],
         },
       ]);
@@ -81,7 +81,7 @@ describe('gtfsRtParser', () => {
           long: 23.66348,
           heading: 55,
           headsign: undefined,
-          tripId: '5645934646',
+          tripId: 'tampere:5645934646',
           geoHash: ['61;23', '47', '62', '47'],
         },
       ]);
@@ -110,7 +110,7 @@ describe('gtfsRtParser', () => {
           long: 23.79067,
           heading: 64,
           headsign: 'Petsamo',
-          tripId: '5660364646',
+          tripId: 'tampere:5660364646',
           geoHash: ['61;23', '47', '62', '47'],
         },
       ]);
