@@ -139,7 +139,7 @@ class RouteStop extends React.PureComponent {
     const vehicleTripLink = vehicle && (
       <Relay.RootContainer
         key={vehicle.id}
-        Component={TripLink}
+        Component={vehicle.tripId ? TripLink : FuzzyTripLink}
         route={
           vehicle.tripId
             ? new TripRoute({
