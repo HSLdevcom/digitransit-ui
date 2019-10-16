@@ -7,12 +7,10 @@ import RealTimeInformationStore from '../../../app/store/RealTimeInformationStor
 describe('RealtimeInformationStore', () => {
   let store;
   let dispatcher;
-  let emitChange;
 
   beforeEach(() => {
     dispatcher = sinon.stub();
     store = new RealTimeInformationStore(dispatcher);
-    emitChange = sinon.stub(store, 'emitChange');
   });
 
   describe('storeClient', () => {
