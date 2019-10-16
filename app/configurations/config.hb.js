@@ -131,23 +131,6 @@ export default configMerger(walttiConfig, {
         ],
       },
     ],
-    fi: [
-      {
-        header: 'Tietoja palvelusta',
-        paragraphs: [
-          'Tämän palvelun tarjoaa Hb reittisuunnittelua varten Hb alueella. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit-palvelualustaan.',
-        ],
-      },
-    ],
-
-    sv: [
-      {
-        header: 'Om tjänsten',
-        paragraphs: [
-          'Den här tjänsten erbjuds av Hb för reseplanering inom Hb region. Reseplaneraren täcker med vissa begränsningar kollektivtrafik, promenad, cykling samt privatbilism. Tjänsten baserar sig på Digitransit-plattformen.',
-        ],
-      },
-    ],
     en: [
       {
         header: 'About this service',
