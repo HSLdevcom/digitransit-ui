@@ -37,16 +37,17 @@ export const parseFeedMQTT = (feedParser, data, topic, agency, mode) => {
           route: `${agency}:${routeId}`,
           direction:
             directionId === '' ? undefined : parseInt(directionId, 10) || 0,
-          tripStartTime: startTime.replace(/:/g, ''),
+          tripStartTime:
+            startTime === '' ? undefined : startTime.replace(/:/g, ''),
           operatingDay: trip.start_date,
           mode: mode || 'bus',
-          next_stop: stopId === '' ? undefined : stopId,
+          next_stop: stopId === '' ? undefined : `${agency}:${stopId}`,
           timestamp: vehiclePos.timestamp || feed.header.timestamp,
           lat: ceil(position.latitude, 5),
           long: ceil(position.longitude, 5),
           heading: position.bearing ? Math.floor(position.bearing) : undefined,
           headsign: headsign === '' ? undefined : headsign,
-          tripId: tripId === '' ? undefined : tripId,
+          tripId: tripId === '' ? undefined : `${agency}:${tripId}`,
           geoHash: [geoHashDeg1, geoHashDeg2, geoHashDeg3, geoHashDeg4],
         };
         messages.push(message);

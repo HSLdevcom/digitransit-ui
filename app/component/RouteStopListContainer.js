@@ -72,8 +72,6 @@ class RouteStopListContainer extends React.PureComponent {
             this.context.config.nearestStopDistance.maxShownDistance &&
           nearest.stop.gtfsId) === stop.gtfsId;
 
-      const stopWithoutFeedId = stop.gtfsId.split(':')[1];
-
       return (
         <RouteStop
           color={
@@ -84,9 +82,7 @@ class RouteStopListContainer extends React.PureComponent {
           key={`${stop.gtfsId}-${this.props.pattern}`}
           stop={stop}
           mode={mode}
-          vehicle={
-            vehicles[stopWithoutFeedId] ? vehicles[stopWithoutFeedId][0] : null
-          }
+          vehicle={vehicles[stop.gtfsId] ? vehicles[stop.gtfsId][0] : null}
           distance={isNearest ? nearest.distance : null}
           ref={isNearest ? this.setNearestStop : null}
           currentTime={this.props.currentTime.unix()}

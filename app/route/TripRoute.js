@@ -7,6 +7,7 @@ export default class TripRoute extends Route {
         viewer {
           ${Component.getFragment('trip', {
             id: variables.id,
+            route: variables.route,
           })}
         }
       }
@@ -15,6 +16,7 @@ export default class TripRoute extends Route {
 
   static paramDefinitions = {
     id: { required: true },
+    route: { required: false },
   };
 
   static routeName = 'TripRoute';

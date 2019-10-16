@@ -143,7 +143,7 @@ class RouteStop extends React.PureComponent {
         route={
           vehicle.tripId
             ? new TripRoute({
-                id: `${stop.gtfsId.split(':')[0]}:${vehicle.tripId}`,
+                id: vehicle.tripId,
               })
             : new FuzzyTripRoute({
                 route: vehicle.route,
