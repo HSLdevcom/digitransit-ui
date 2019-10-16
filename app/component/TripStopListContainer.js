@@ -8,6 +8,7 @@ import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
 
 import TripRouteStop from './TripRouteStop';
+import { StopAlertsQuery } from '../util/alertQueries';
 import { getDistanceToNearestStop } from '../util/geo-utils';
 import withBreakpoint from '../util/withBreakpoint';
 
@@ -98,8 +99,8 @@ class TripStopListContainer extends React.PureComponent {
       vehicle => `HSL:${vehicle.next_stop}`,
     );
 
-    const vehiclesWithCorrectStartTime = Object.keys(vehicles)
-      .map(key => vehicles[key])
+    const vehiclesWithCorrectStartTime = Object.keys(propVehicles)
+      .map(key => propVehicles[key])
       .filter(vehicle => vehicle.direction === trip.pattern.directionId)
       .filter(vehicle => vehicle.tripStartTime === tripStart);
 
@@ -202,9 +203,7 @@ const connectedComponent = Relay.createContainer(
             code
             lat
             lon
-            alerts {
-              alertSeverityLevel
-            }
+            ${StopAlertsQuery}
           }
           realtimeDeparture
           realtime

@@ -6,8 +6,8 @@ import { FormattedMessage } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import SanitizedHTML from 'react-sanitized-html';
 
-const AboutPage = ({ currentLanguage }, context) => {
-  const about = context.config.aboutThisService[currentLanguage];
+const AboutPage = ({ currentLanguage }, { config }) => {
+  const about = config.aboutThisService[currentLanguage];
   const allowedTags = ['a', 'b', 'i', 'strong', 'em', 'img', 'br'];
   return (
     <div className="about-page fullscreen">
@@ -22,7 +22,14 @@ const AboutPage = ({ currentLanguage }, context) => {
                   section.paragraphs.map((p, j) => (
                     <p key={`about-section-${i}-p-${j}`}><SanitizedHTML allowedTags={ allowedTags } html={ p } /></p>
                   ))}
-                {section.link && <Link to={section.link}>{section.link}</Link>}
+                {section.link && (
+                  <a href={section.link}>
+                    <FormattedMessage
+                      id="extra-info"
+                      defaultMessage="More information"
+                    />
+                  </a>
+                )}
               </div>
             ) : (
               false
@@ -49,6 +56,12 @@ AboutPage.contextTypes = {
   config: PropTypes.object.isRequired,
 };
 
-export default connectToStores(AboutPage, ['PreferencesStore'], context => ({
+const connectedComponent = connectToStores(
+  AboutPage,
+  ['PreferencesStore'],
+  context => ({
   currentLanguage: context.getStore('PreferencesStore').getLanguage(),
-}));
+  }),
+);
+
+export { connectedComponent as default, AboutPage as Component };

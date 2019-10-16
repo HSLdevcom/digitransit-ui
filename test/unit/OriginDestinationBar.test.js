@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { createMemoryHistory } from 'react-router';
+import moment from 'moment';
 
 import { mockContext, mockChildContextTypes } from './helpers/mock-context';
 import { mountWithIntl } from './helpers/mock-intl-enzyme';
@@ -36,6 +37,21 @@ describe('<OriginDestinationBar />', () => {
       const comp = mountWithIntl(<OriginDestinationBar {...props} />, {
         context: {
           ...mockContext,
+          getStore: () => ({
+            getCurrentTime: () => moment(),
+            getViaPoints: () => {},
+            getLocationState: () => {
+              return {
+                lat: 0,
+                lon: 0,
+                status: 'no-location',
+                hasLocation: false,
+                isLocationingInProgress: false,
+                locationingFailed: false,
+              };
+            },
+            on: () => {},
+          }),
           router,
         },
         childContextTypes: mockChildContextTypes,

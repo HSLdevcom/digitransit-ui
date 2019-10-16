@@ -14,6 +14,8 @@ const zopfli = require('node-zopfli-es');
 const WebpackAssetsManifest = require('webpack-assets-manifest');
 const StatsPlugin = require('stats-webpack-plugin');
 
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 const {
   languages,
   themeEntries,
@@ -45,13 +47,13 @@ const productionPlugins = [
       '**/*.br',
       'js/*_theme.*.js',
       'js/*_sprite.*.js',
-      'iconstats-*.json',
-      'icons-*/*',
+      'assets/iconstats-*.json',
+      'assets/icons-*/*',
     ],
     caches: {
       main: [':rest:'],
       additional: [],
-      optional: ['*.png', 'css/*.css', '*.svg', ':externals:'],
+      optional: ['*.png', 'css/*.css', 'assets/*.svg', ':externals:'],
     },
     // src for google fonts might change so https://fonts.gstatic.com addresses might require
     // some maintenance in this list to still keep them cached by service worker in the future.
@@ -136,6 +138,15 @@ const productionPlugins = [
     minRatio: 0.95,
     algorithm: iltorb.compress,
   }),
+  new CopyWebpackPlugin([
+    {
+      from: path.join(__dirname, 'static/assets/geojson'),
+      transform: function minify(content) {
+        return JSON.stringify(JSON.parse(content.toString()));
+      },
+      to: path.join(__dirname, '_static/assets/geojson'),
+    },
+  ]),
   new StatsPlugin('../stats.json', { chunkModules: true }),
   new WebpackAssetsManifest({ output: '../manifest.json' }),
 ];
@@ -211,7 +222,7 @@ module.exports = {
       {
         test: /\.(eot|png|ttf|woff|svg|jpeg|jpg)$/,
         loader: isDevelopment ? 'file-loader' : 'url-loader',
-        options: { limit: 10000 },
+        options: { limit: 10000, outputPath: 'assets' },
       },
     ],
   },

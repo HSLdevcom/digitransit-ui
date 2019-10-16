@@ -1,13 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { intlShape } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 
 import CardHeader from './CardHeader';
 import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import ZoneIcon from './ZoneIcon';
-import { getMaximumAlertSeverityLevel } from '../util/alertUtils';
+import { getActiveAlertSeverityLevel } from '../util/alertUtils';
+import ExternalLink from './ExternalLink';
 
 class StopCardHeader extends React.Component {
   get headerConfig() {
@@ -28,8 +29,34 @@ class StopCardHeader extends React.Component {
     return description;
   }
 
+  getExternalLink(code, isPopUp) {
+    // Check for popup from stopMarkerPopup, should the external link be visible
+    if (!code || isPopUp || !this.headerConfig.virtualMonitorBaseUrl) {
+      return null;
+    }
+    const url = `${this.headerConfig.virtualMonitorBaseUrl}${code}`;
+    return (
+      <ExternalLink className="external-stop-link" href={url}>
+        {' '}
+        {
+          <FormattedMessage
+            id="stop-virtual-monitor"
+            defaultMessage="Virtual monitor"
+          />
+        }{' '}
+      </ExternalLink>
+    );
+  }
+
   render() {
-    const { className, headingStyle, icons, stop } = this.props;
+    const {
+      className,
+      currentTime,
+      headingStyle,
+      icons,
+      stop,
+      isPopUp,
+    } = this.props;
     if (!stop) {
       return false;
     }
@@ -40,13 +67,17 @@ class StopCardHeader extends React.Component {
         headerIcon={
           <ServiceAlertIcon
             className="inline-icon"
-            severityLevel={getMaximumAlertSeverityLevel(stop.alerts)}
+            severityLevel={getActiveAlertSeverityLevel(
+              stop.alerts,
+              currentTime,
+            )}
           />
         }
         headingStyle={headingStyle}
         name={stop.name}
         description={this.getDescription()}
         code={this.headerConfig.showStopCode && stop.code ? stop.code : null}
+        externalLink={this.getExternalLink(stop.code, isPopUp)}
         icons={icons}
       >
         {this.headerConfig.showZone &&
@@ -57,20 +88,27 @@ class StopCardHeader extends React.Component {
 }
 
 StopCardHeader.propTypes = {
+  currentTime: PropTypes.number,
   stop: PropTypes.shape({
     gtfsId: PropTypes.string,
     name: PropTypes.string,
     code: PropTypes.string,
     desc: PropTypes.string,
+    isPopUp: PropTypes.bool,
     zoneId: PropTypes.string,
     alerts: PropTypes.arrayOf(
-      PropTypes.shape({ alertSeverityLevel: PropTypes.string }),
+      PropTypes.shape({
+        alertSeverityLevel: PropTypes.string,
+        effectiveEndDate: PropTypes.number,
+        effectiveStartDate: PropTypes.number,
+      }),
     ),
   }),
   distance: PropTypes.number,
   className: PropTypes.string,
   headingStyle: PropTypes.string,
   icons: PropTypes.arrayOf(PropTypes.node),
+  isPopUp: PropTypes.bool,
 };
 
 StopCardHeader.defaultProps = {
@@ -85,6 +123,7 @@ StopCardHeader.contextTypes = {
         showDistance: PropTypes.bool,
         showStopCode: PropTypes.bool,
         showZone: PropTypes.bool,
+        virtualMonitorBaseUrl: PropTypes.string,
       }).isRequired,
     }).isRequired,
   }).isRequired,

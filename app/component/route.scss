@@ -155,6 +155,16 @@ $route-schedule-date-height: 36px;
     margin-left: 0.57em;
     transform: scale(3.5);
   }
+  .allVehicles {
+    width: 24px;
+    height: 24px;
+    color: $gray-blue;
+    position: absolute;
+    pointer-events: none;
+  }
+  .large-icon {
+    transform: scale(2.86);
+  }
 }
 
 .location-details_container {
@@ -665,6 +675,40 @@ div.route-tabs {
         display: none;
       }
 
+      .no-alerts span {
+        color:rgb(183, 183, 183);
+      }
+
+      .route-page-tab_icon {
+        &.no-alerts.icon {
+          fill: rgb(183, 183, 183);
+        }
+        &.active-disruption-alert.icon {
+          fill: $cancelation-red;
+        }
+        &.active-service-alert {
+          &.icon {
+            stroke: $primary-color;
+            fill: $primary-color;
+          }
+      }
+    }
+
+      .active-service-alert {
+        &:hover {
+          .icon {
+          stroke: lighten($black, 20%);
+          fill: lighten($black, 20%);
+        }
+      }
+    }
+    .tab-route-disruption {
+      &:hover span {
+        fill: lighten($black, 20%);
+        color: lighten($black, 20%);
+      }
+    }
+
       &.activeAlert,
       &.activeAlert.is-active,
       &.activeAlert:hover {
@@ -679,6 +723,31 @@ div.route-tabs {
 
         .icon {
           fill: $black;
+        }
+        .no-alerts span {
+          color: $black;
+        }
+        .route-page-tab_icon {
+          &.no-alerts.icon {
+            fill: $black;
+          }
+          &.active-disruption-alert.icon {
+            fill: $black;
+          }
+          &.active-service-alert {
+            &.icon {
+            stroke: $black;
+            fill: $black;
+            }
+        }
+      }
+        .active-service-alert {
+            &:hover {
+              .icon {
+              stroke: lighten($black, 20%);
+              fill: lighten($black, 20%);
+            }
+          }
         }
       }
 
@@ -748,7 +817,51 @@ div.route-tabs {
   position: relative;
   min-height: 49px;
 
-  select {
+  .route-option {
+    background: $white;
+    font-weight: 500;
+  }
+  #select-route-pattern {
+    cursor: pointer;
+  }
+
+  button.toggle-direction,
+  button.toggle-direction:hover {
+    background: $white;
+    padding: 0;
+    position: absolute;
+    top: 0.5em;
+    right: 1.3em;
+    display: block;
+    cursor: pointer;
+    pointer-events: all;
+    transform: rotate(90deg);
+    font-size: 1.5em;
+    .icon {
+      color: $link-color;
+      position: static;
+    }
+  }
+
+  button.toggle-direction:hover .icon {
+    color: #0062a1;
+  }
+
+  .route-option option {
+    margin-top: 0.4em;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.75);
+    cursor: pointer;
+  }
+
+  .route-option-togglable {
+    margin-top: 0.4em;
+    max-height: 1.4em;
+    overflow: hidden;
+  }
+
+  select,
+  .route-option {
     padding: 0 35px 0 10px;
     -webkit-padding-end: 35px;
     -webkit-padding-start: 10px;
@@ -757,6 +870,11 @@ div.route-tabs {
     border-radius: 5px;
     border: 1px solid $light-gray;
     appearance: none;
+
+    option {
+      max-height: 1.4em;
+      overflow: hidden;
+    }
 
     &:focus {
       outline: none;
@@ -784,7 +902,13 @@ div.route-tabs {
       padding-left: 0;
     }
 
-    select {
+    .route-option option {
+      font-size: 18px;
+      margin-top: 0.5em;
+    }
+
+    select,
+    .route-option {
       height: 40px;
       font-size: 18px;
       padding: 0 48px 0 20px;
@@ -806,10 +930,16 @@ div.route-tabs {
   background: $white;
 
   .route-alert-row {
-    border-bottom: 1px solid $light-gray;
     display: flex;
     padding: 0.8em 0.8em 0.8em 0.8em;
     position: relative;
+    .route-alert-row-link {
+       padding-right: 1px;
+       padding-left: 1px;
+    }
+    + .route-alert-row {
+      border-top: 1px solid $light-gray;
+    }
 
     .subicon-caution {
       stroke: $white;
@@ -817,7 +947,21 @@ div.route-tabs {
     }
 
     .route-alert-contents {
+      flex-grow: 1;
       vertical-align: bottom;
+
+      .route-alert-top-row {
+        display: flex;
+
+        .route-alert-url {
+          color: $primary-color;
+          margin-left: auto;
+
+          .external-link {
+            color: $primary-color;
+          }
+        }
+      }
     }
 
     .route-number {

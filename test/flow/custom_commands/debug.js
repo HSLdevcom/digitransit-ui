@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 exports.command = function debug(...args) {
   try {
     this.perform(() => {

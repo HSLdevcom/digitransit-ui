@@ -17,9 +17,20 @@ import {
   realtimeDeparture as exampleRealtimeDeparture,
   vehicle as exampleVehicle,
 } from './ExampleData';
-import { getMaximumAlertSeverityLevel } from '../util/alertUtils';
+import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 
 const TripRouteStop = props => {
+  const {
+    className,
+    color,
+    currentTime,
+    distance,
+    mode,
+    stop,
+    stopPassed,
+    stoptime,
+  } = props;
+
   const vehicles =
     props.vehicles &&
     props.vehicles.map(vehicle => (
@@ -38,56 +49,58 @@ const TripRouteStop = props => {
     <div
       className={cx(
         'route-stop location-details_container',
-        { passed: props.stopPassed },
-        props.className,
+        { passed: stopPassed },
+        className,
       )}
     >
       <div className=" route-stop-now">{vehicles}</div>
-      <div className={cx('route-stop-now_circleline', props.mode)}>
+      <div className={cx('route-stop-now_circleline', mode)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width={15}
           height={30}
-          style={{ fill: props.color, stroke: props.color }}
+          style={{ fill: color, stroke: color }}
         >
           <circle
             strokeWidth="2"
-            stroke={props.color || 'currentColor'}
+            stroke={color || 'currentColor'}
             fill="white"
             cx="6"
             cy="13"
             r="5"
           />
         </svg>
-        <div className={cx('route-stop-now_line', props.mode)} />
+        <div className={cx('route-stop-now_line', mode)} />
       </div>
       <div className="route-stop-row_content-container">
-        <Link to={`/${PREFIX_STOPS}/${encodeURIComponent(props.stop.gtfsId)}`}>
-          <div className={`route-details_container ${props.mode}`}>
+        <Link to={`/${PREFIX_STOPS}/${encodeURIComponent(stop.gtfsId)}`}>
+          <div className={`route-details_container ${mode}`}>
             <div>
-              <span>{props.stop.name}</span>
+              <span>{stop.name}</span>
               <ServiceAlertIcon
                 className="inline-icon"
-                severityLevel={getMaximumAlertSeverityLevel(props.stop.alerts)}
+                severityLevel={getActiveAlertSeverityLevel(
+                  stop.alerts,
+                  currentTime,
+                )}
               />
             </div>
             <div>
-              {props.stop.code && <StopCode code={props.stop.code} />}
-              <span className="route-stop-address">{props.stop.desc}</span>
+              {stop.code && <StopCode code={stop.code} />}
+              <span className="route-stop-address">{stop.desc}</span>
               {'\u2002'}
-              {props.distance && (
+              {distance && (
                 <WalkDistance
                   className="nearest-route-stop"
                   icon="icon_location-with-user"
-                  walkDistance={props.distance}
+                  walkDistance={distance}
                 />
               )}
             </div>
           </div>
           <div className="departure-times-container">
             <div className="route-stop-time">
-              {props.stoptime &&
-                fromStopTime(props.stoptime, props.currentTime)}
+              {stoptime && fromStopTime(stoptime, currentTime)}
             </div>
           </div>
         </Link>

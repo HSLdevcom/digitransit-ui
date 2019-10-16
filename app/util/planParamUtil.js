@@ -4,6 +4,7 @@ import moment from 'moment';
 import { filterModes, getDefaultModes, getModes } from './modeUtils';
 import { otpToLocation } from './otpStrings';
 import { getIntermediatePlaces, getQuerySettings } from './queryUtils';
+import { getDefaultNetworks } from './citybikes';
 import {
   getCustomizedSettings,
   getRoutingSettings,
@@ -18,7 +19,11 @@ export const getDefaultSettings = config => {
   if (!config) {
     return {};
   }
-  return { ...config.defaultSettings, modes: getDefaultModes(config) };
+  return {
+    ...config.defaultSettings,
+    modes: getDefaultModes(config),
+    allowedBikeRentalNetworks: getDefaultNetworks(config),
+  };
 };
 
 /**
@@ -71,6 +76,16 @@ function getTicketTypes(ticketType, settingsTicketType, defaultTicketType) {
     : null;
 }
 
+function getBikeNetworks(allowedBikeRentalNetworks) {
+  if (allowedBikeRentalNetworks) {
+    if (Array.isArray(allowedBikeRentalNetworks)) {
+      return allowedBikeRentalNetworks;
+    }
+    return allowedBikeRentalNetworks.split(',').map(o => o.toLowerCase());
+  }
+  return undefined;
+}
+
 function nullOrUndefined(val) {
   return val === null || val === undefined;
 }
@@ -115,6 +130,33 @@ function getDisableRemainingWeightHeuristic(
     ({ disableRemainingWeightHeuristic } = settings);
   }
   return disableRemainingWeightHeuristic;
+}
+
+function getPreferredorUnpreferredRoutes(
+  queryRoutes,
+  isPreferred,
+  settings,
+  unpreferredPenalty,
+) {
+  const preferenceObject = {};
+  if (!isPreferred) {
+    // adds penalty weight to unpreferred routes, there might be default unpreferred routes even if user has not defined any
+    preferenceObject.useUnpreferredRoutesPenalty = unpreferredPenalty;
+  }
+  // queryRoutes is undefined if query params dont contain routes and empty string if user has removed all routes
+  if (queryRoutes === '') {
+    return preferenceObject;
+  }
+  if (queryRoutes !== undefined && queryRoutes !== '') {
+    // queryRoutes contains routes found in query params
+    return { ...preferenceObject, routes: queryRoutes };
+  }
+  if (isPreferred) {
+    // default or localstorage preferredRoutes
+    return { ...preferenceObject, routes: settings.preferredRoutes };
+  }
+  // default or localstorage unpreferredRoutes
+  return { ...preferenceObject, routes: settings.unpreferredRoutes };
 }
 
 const getNumberValueOrDefault = (value, defaultValue = undefined) =>
@@ -198,6 +240,7 @@ export const getSettings = () => {
     airplaneWeight: getNumberValueOrDefault(routingSettings.airplaneWeight),
     preferredRoutes: custSettings.preferredRoutes,
     unpreferredRoutes: custSettings.unpreferredRoutes,
+    allowedBikeRentalNetworks: custSettings.allowedBikeRentalNetworks,
   };
 };
 
@@ -225,6 +268,8 @@ export const preparePlanParams = config => (
         walkBoardCost,
         walkReluctance,
         walkSpeed,
+        allowedBikeRentalNetworks,
+        locale,
       },
     },
   },
@@ -243,6 +288,12 @@ export const preparePlanParams = config => (
     intermediatePlaceLocations,
   );
   const defaultSettings = { ...getDefaultSettings(config) };
+
+  const allowedBikeRentalNetworksMapped =
+    (allowedBikeRentalNetworks &&
+      (getBikeNetworks(allowedBikeRentalNetworks) ||
+        settings.allowedBikeRentalNetworks.map(o => o.toLowerCase()))) ||
+    defaultSettings.allowedBikeRentalNetworks.map(o => o.toLowerCase());
 
   return {
     ...defaultSettings,
@@ -334,17 +385,24 @@ export const preparePlanParams = config => (
                 nullOrUndefined,
               )
             : null,
-        preferred: {
-          routes: preferredRoutes || settings.preferredRoutes,
-        },
-        unpreferred: {
-          routes: unpreferredRoutes || settings.unpreferredRoutes,
-        },
+        preferred: getPreferredorUnpreferredRoutes(
+          preferredRoutes,
+          true,
+          settings,
+          config.useUnpreferredRoutesPenalty,
+        ),
+        unpreferred: getPreferredorUnpreferredRoutes(
+          unpreferredRoutes,
+          false,
+          settings,
+          config.useUnpreferredRoutesPenalty,
+        ),
         disableRemainingWeightHeuristic: getDisableRemainingWeightHeuristic(
           modesOrDefault,
           settings,
           intermediatePlaceLocations,
         ),
+        locale,
       },
       nullOrUndefined,
     ),
@@ -354,5 +412,6 @@ export const preparePlanParams = config => (
       settings.ticketTypes,
       defaultSettings.ticketTypes,
     ),
+    allowedBikeRentalNetworks: allowedBikeRentalNetworksMapped,
   };
 };

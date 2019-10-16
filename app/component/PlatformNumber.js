@@ -3,18 +3,19 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import ComponentUsageExample from './ComponentUsageExample';
 
-function PlatformNumber({ number, short }) {
+function PlatformNumber({ number, short, isRailOrSubway }) {
   if (!number) {
     return false;
   }
-
   if (short) {
     return (
       <span className="platform-short">
         <FormattedMessage
-          id="platform-short"
+          id={isRailOrSubway ? 'track-short' : 'platform-short'}
           values={{ platformCode: number }}
-          defaultMessage="Plat. {platformCode}"
+          defaultMessage={
+            isRailOrSubway ? 'Track {platformCode}' : 'Plat. {platformCode}'
+          }
         />
       </span>
     );
@@ -23,9 +24,11 @@ function PlatformNumber({ number, short }) {
   return (
     <span className="platform-number">
       <FormattedMessage
-        id="platform-num"
+        id={isRailOrSubway ? 'track-num' : 'platform-num'}
         values={{ platformCode: number }}
-        defaultMessage="Platform {platformCode}"
+        defaultMessage={
+          isRailOrSubway ? 'Track {platformCode}' : 'Platform {platformCode}'
+        }
       />
     </span>
   );
@@ -34,6 +37,7 @@ function PlatformNumber({ number, short }) {
 PlatformNumber.propTypes = {
   number: PropTypes.string,
   short: PropTypes.bool,
+  isRailOrSubway: PropTypes.bool,
 };
 
 PlatformNumber.defaultProps = {

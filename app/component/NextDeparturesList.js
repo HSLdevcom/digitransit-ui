@@ -100,9 +100,9 @@ function NextDeparturesList(props, context) {
           </td>
           <td className="td-route-number">
             <RouteNumber
+              alertSeverityLevel={departure.alertSeverityLevel}
               mode={stoptime.pattern.route.mode}
               text={stoptime.pattern.route.shortName}
-              hasDisruption={departure.hasDisruption}
             />
           </td>
           <td className="td-destination">
@@ -124,11 +124,10 @@ function NextDeparturesList(props, context) {
 
 NextDeparturesList.propTypes = {
   departures: PropTypes.array.isRequired,
-  currentTime: PropTypes.number.isRequired, // eslint-disable-line react/no-unused-prop-types
+  currentTime: PropTypes.number.isRequired,
 };
 
 NextDeparturesList.contextTypes = {
-  // eslint-disable-next-line react/no-typos
   router: routerShape.isRequired,
 };
 

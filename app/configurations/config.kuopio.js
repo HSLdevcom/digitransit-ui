@@ -1,3 +1,4 @@
+/* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
 
 const CONFIG = 'kuopio';
@@ -72,7 +73,10 @@ export default configMerger(walttiConfig, {
     },
   ],
 
-  showTicketInformation: true,
+  showTicketInformation: false,
+  ticketInformation: {
+    primaryAgencyName: 'Kuopion seudun joukkoliikenne',
+  },
 
   footer: {
     content: [

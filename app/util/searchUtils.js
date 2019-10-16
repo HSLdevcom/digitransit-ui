@@ -53,6 +53,14 @@ function getRelayQuery(query) {
   });
 }
 
+export const tryGetRelayQuery = async (query, defaultValue) => {
+  try {
+    return getRelayQuery(query) || defaultValue;
+  } catch {
+    return defaultValue;
+  }
+};
+
 const mapRoute = item => {
   const link = `/${PREFIX_ROUTES}/${item.gtfsId}/pysakit/${
     orderBy(item.patterns, 'code', ['asc'])[0].code

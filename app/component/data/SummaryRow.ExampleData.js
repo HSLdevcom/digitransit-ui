@@ -224,6 +224,7 @@ export const examplePropsCityBike = breakpoint => ({
           vertexType: 'BIKESHARE',
           bikeRentalStation: {
             bikesAvailable: 22,
+            networks: ['smoove'],
           },
           stop: null,
         },
@@ -232,7 +233,9 @@ export const examplePropsCityBike = breakpoint => ({
           lon: 24.9591271,
           name: 'Ehrenströmintie',
           vertexType: 'BIKESHARE',
-          bikeRentalStation: {},
+          bikeRentalStation: {
+            networks: ['smoove'],
+          },
           stop: null,
         },
         intermediateStops: {},

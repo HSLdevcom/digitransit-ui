@@ -1,4 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable import/no-extraneous-dependencies, no-console */
 
 const fs = require('fs');
 const { introspectionQuery } = require('graphql/utilities/introspectionQuery');

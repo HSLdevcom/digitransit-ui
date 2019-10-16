@@ -157,10 +157,10 @@ class TileContainer {
         L.DomEvent.stopPropagation(e);
         // open menu for single stop
         const latLon = L.latLng(this.project(nearest[0].feature.geom));
-        return this.onSelectableTargetClicked(nearest, latLon);
+        return this.onSelectableTargetClicked(nearest, latLon, true);
       }
       L.DomEvent.stopPropagation(e);
-      return this.onSelectableTargetClicked(nearest, e.latlng); // open menu for a list of stops
+      return this.onSelectableTargetClicked(nearest, e.latlng, true); // open menu for a list of stops
     }
     return false;
   };

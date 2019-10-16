@@ -18,6 +18,7 @@ import SelectOptionContainer from './customizesearch/SelectOptionContainer';
 import TransferOptionsSection from './customizesearch/TransferOptionsSection';
 import TransportModesSection from './customizesearch/TransportModesSection';
 import WalkingOptionsSection from './customizesearch/WalkingOptionsSection';
+import CityBikeNetworkSelector from './CityBikeNetworkSelector';
 import { resetCustomizedSettings } from '../store/localStorage';
 import * as ModeUtils from '../util/modeUtils';
 import { getDefaultSettings, getCurrentSettings } from '../util/planParamUtil';
@@ -29,6 +30,7 @@ import {
   removeUnpreferredRoute,
   replaceQueryParams,
 } from '../util/queryUtils';
+import { updateCitybikeNetworks, getCitybikeNetworks } from '../util/citybikes';
 
 class CustomizeSearch extends React.Component {
   static contextTypes = {
@@ -39,12 +41,7 @@ class CustomizeSearch extends React.Component {
   };
 
   static propTypes = {
-    isOpen: PropTypes.bool,
     onToggleClick: PropTypes.func.isRequired,
-  };
-
-  static defaultProps = {
-    isOpen: false,
   };
 
   defaultSettings = getDefaultSettings(this.context.config);
@@ -81,131 +78,156 @@ class CustomizeSearch extends React.Component {
     const {
       config: { accessibilityOptions },
     } = this.context;
-    const { isOpen, onToggleClick } = this.props;
+    const { onToggleClick } = this.props;
     const currentSettings = getCurrentSettings(config, query);
     const isUsingBicycle = currentSettings.modes.includes(StreetMode.Bicycle);
+    let ticketOptions = [];
+    if (config.showTicketSelector && config.availableTickets) {
+      Object.keys(config.availableTickets).forEach(key => {
+        if (config.feedIds.indexOf(key) > -1) {
+          ticketOptions = ticketOptions.concat(
+            Object.keys(config.availableTickets[key]),
+          );
+        }
+      });
+
+      ticketOptions.sort((a, b) => {
+        return a.split('').reverse() > b.split('').reverse() ? 1 : -1;
+      });
+    }
 
     return (
-      <div
-        style={{ visibility: isOpen ? 'visible' : 'hidden' }}
-        className="customize-search-wrapper"
-      >
-        <div className="customize-search">
-          <button className="close-offcanvas" onClick={onToggleClick}>
-            <Icon className="close-icon" img="icon-icon_close" />
-          </button>
-          <div className="settings-option-container">
-            <StreetModeSelectorPanel
-              className="customized-settings"
-              selectedStreetMode={ModeUtils.getStreetMode(
-                router.location,
-                config,
-              )}
-              selectStreetMode={(streetMode, isExclusive) =>
-                ModeUtils.setStreetMode(streetMode, config, router, isExclusive)
-              }
-              showButtonTitles
-              streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(
-                config,
-              )}
-            />
-          </div>
-          {isUsingBicycle && (
-            <div className="settings-option-container">
-              <BikeTransportOptionsSection
-                currentModes={currentSettings.modes}
-              />
-            </div>
-          )}
-          <div className="settings-option-container">
-            <TransportModesSection
-              config={config}
-              currentModes={currentSettings.modes}
-            />
-          </div>
-          <div className="settings-option-container">
-            {isUsingBicycle ? (
-              <BikingOptionsSection
-                walkReluctance={currentSettings.walkReluctance}
-                walkReluctanceOptions={config.defaultOptions.walkReluctance}
-                bikeSpeed={currentSettings.bikeSpeed}
-                defaultSettings={this.defaultSettings}
-              />
-            ) : (
-              <WalkingOptionsSection
-                walkReluctance={currentSettings.walkReluctance}
-                walkReluctanceOptions={config.defaultOptions.walkReluctance}
-                walkSpeed={currentSettings.walkSpeed}
-                defaultSettings={this.defaultSettings}
-              />
+      <div className="customize-search">
+        <button className="close-offcanvas" onClick={onToggleClick}>
+          <Icon className="close-icon" img="icon-icon_close" />
+        </button>
+        <div className="settings-option-container">
+          <StreetModeSelectorPanel
+            className="customized-settings"
+            selectedStreetMode={ModeUtils.getStreetMode(
+              router.location,
+              config,
             )}
-          </div>
+            selectStreetMode={(streetMode, isExclusive) =>
+              ModeUtils.setStreetMode(streetMode, config, router, isExclusive)
+            }
+            showButtonTitles
+            streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
+          />
+        </div>
+        {isUsingBicycle && (
           <div className="settings-option-container">
-            <TransferOptionsSection
-              walkBoardCost={currentSettings.walkBoardCost}
-              walkBoardCostOptions={config.defaultOptions.walkBoardCost}
-              minTransferTime={currentSettings.minTransferTime}
+            <BikeTransportOptionsSection currentModes={currentSettings.modes} />
+          </div>
+        )}
+        <div className="settings-option-container">
+          <TransportModesSection
+            config={config}
+            currentModes={currentSettings.modes}
+          />
+        </div>
+        <div className="settings-option-container">
+          {isUsingBicycle ? (
+            <BikingOptionsSection
+              walkReluctance={currentSettings.walkReluctance}
+              walkReluctanceOptions={config.defaultOptions.walkReluctance}
+              bikeSpeed={currentSettings.bikeSpeed}
               defaultSettings={this.defaultSettings}
             />
-          </div>
-          {config.showTicketSelector && (
-            <FareZoneSelector
+          ) : (
+            <WalkingOptionsSection
+              walkReluctance={currentSettings.walkReluctance}
+              walkReluctanceOptions={config.defaultOptions.walkReluctance}
+              walkSpeed={currentSettings.walkSpeed}
+              defaultSettings={this.defaultSettings}
+            />
+          )}
+        </div>
+        <div className="settings-option-container">
+          <TransferOptionsSection
+            walkBoardCost={currentSettings.walkBoardCost}
+            walkBoardCostOptions={config.defaultOptions.walkBoardCost}
+            minTransferTime={currentSettings.minTransferTime}
+            defaultSettings={this.defaultSettings}
+          />
+        </div>
+        {config.showTicketSelector && (
+          <FareZoneSelector
+            headerText={intl.formatMessage({
+              id: 'zones',
+              defaultMessage: 'Fare zones',
+            })}
+            options={ticketOptions}
+            currentOption={currentSettings.ticketTypes || 'none'}
+            updateValue={value =>
+              replaceQueryParams(router, { ticketTypes: value })
+            }
+          />
+        )}
+        {config.cityBike.networks &&
+          Object.keys(config.cityBike.networks).length > 1 && (
+            <CityBikeNetworkSelector
               headerText={intl.formatMessage({
-                id: 'zones',
-                defaultMessage: 'Fare zones',
+                id: 'citybike-network-headers',
+                defaultMessage: 'Citybikes and scooters',
               })}
-              options={config.fares}
-              currentOption={currentSettings.ticketTypes || 'none'}
+              isUsingCitybike={currentSettings.modes.includes('CITYBIKE')}
+              currentOptions={getCitybikeNetworks(router.location, config)}
               updateValue={value =>
-                replaceQueryParams(router, { ticketTypes: value })
+                updateCitybikeNetworks(
+                  getCitybikeNetworks(router.location, config),
+                  value.toUpperCase(),
+                  config,
+                  router,
+                  currentSettings.modes.includes('CITYBIKE'),
+                )
               }
             />
           )}
-          <PreferredRoutes
-            onRouteSelected={this.onRouteSelected}
-            preferredRoutes={currentSettings.preferredRoutes}
-            unPreferredRoutes={currentSettings.unpreferredRoutes}
-            removeRoute={this.removeRoute}
+        <PreferredRoutes
+          onRouteSelected={this.onRouteSelected}
+          preferredRoutes={currentSettings.preferredRoutes}
+          unPreferredRoutes={currentSettings.unpreferredRoutes}
+          removeRoute={this.removeRoute}
+        />
+        <div className="settings-option-container">
+          <RoutePreferencesSection
+            optimize={currentSettings.optimize}
+            triangleFactors={{
+              safetyFactor: currentSettings.safetyFactor,
+              slopeFactor: currentSettings.slopeFactor,
+              timeFactor: currentSettings.timeFactor,
+            }}
+            defaultSettings={this.defaultSettings}
           />
-          <div className="settings-option-container">
-            <RoutePreferencesSection
-              optimize={currentSettings.optimize}
-              triangleFactors={{
-                safetyFactor: currentSettings.safetyFactor,
-                slopeFactor: currentSettings.slopeFactor,
-                timeFactor: currentSettings.timeFactor,
-              }}
-              defaultSettings={this.defaultSettings}
+        </div>
+        <div className="settings-option-container">
+          <SelectOptionContainer
+            currentSelection={currentSettings.accessibilityOption}
+            defaultValue={this.defaultSettings.accessibilityOption}
+            options={accessibilityOptions.map((o, i) => ({
+              title: accessibilityOptions[i].messageId,
+              value: accessibilityOptions[i].value,
+            }))}
+            onOptionSelected={value =>
+              replaceQueryParams(router, {
+                accessibilityOption: value,
+              })
+            }
+            title="accessibility"
+          />
+        </div>
+        <div className="settings-option-container save-controls-container">
+          <div style={{ display: 'flex' }}>
+            <SaveCustomizedSettingsButton
+              noSettingsFound={this.resetParameters}
+            />
+            <LoadCustomizedSettingsButton
+              noSettingsFound={this.resetParameters}
             />
           </div>
-          <div className="settings-option-container">
-            <SelectOptionContainer
-              currentSelection={currentSettings.accessibilityOption}
-              defaultValue={this.defaultSettings.accessibilityOption}
-              options={accessibilityOptions.map((o, i) => ({
-                title: accessibilityOptions[i].messageId,
-                value: accessibilityOptions[i].value,
-              }))}
-              onOptionSelected={value =>
-                replaceQueryParams(router, {
-                  accessibilityOption: value,
-                })
-              }
-              title="accessibility"
-            />
-          </div>
-          <div className="settings-option-container save-controls-container">
-            <div style={{ display: 'flex' }}>
-              <SaveCustomizedSettingsButton
-                noSettingsFound={this.resetParameters}
-              />
-              <LoadCustomizedSettingsButton
-                noSettingsFound={this.resetParameters}
-              />
-            </div>
-            <div>
-              <ResetCustomizedSettingsButton onReset={this.resetParameters} />
-            </div>
+          <div>
+            <ResetCustomizedSettingsButton onReset={this.resetParameters} />
           </div>
         </div>
       </div>

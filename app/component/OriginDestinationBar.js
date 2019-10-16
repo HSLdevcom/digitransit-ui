@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import { routerShape } from 'react-router';
-
+import { withCurrentTime } from '../util/searchUtils';
 import ComponentUsageExample from './ComponentUsageExample';
 import DTAutosuggestPanel from './DTAutosuggestPanel';
 import { PREFIX_ITINERARY_SUMMARY, navigateTo } from '../util/path';
@@ -29,6 +29,7 @@ class OriginDestinationBar extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
     router: routerShape.isRequired,
+    getStore: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -45,12 +46,13 @@ class OriginDestinationBar extends React.Component {
 
   swapEndpoints = () => {
     const { location } = this;
+    const locationWithTime = withCurrentTime(this.context.getStore, location);
     const intermediatePlaces = getIntermediatePlaces(location.query);
     if (intermediatePlaces.length > 1) {
       location.query.intermediatePlaces.reverse();
     }
     navigateTo({
-      base: location,
+      base: locationWithTime,
       origin: this.props.destination,
       destination: this.props.origin,
       context: PREFIX_ITINERARY_SUMMARY,

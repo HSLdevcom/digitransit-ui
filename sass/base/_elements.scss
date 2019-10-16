@@ -81,54 +81,24 @@ $border-radius-rounded: 30px;
 /* Modal */
 #app .modal {
   border-radius: $border-radius;
-  padding: 10px 22px;
-  max-height: 85%;
   cursor: auto;
+  height: 85%;
+  max-height: 85%;
+  padding: 0;
 
-  p {
-    margin: 10px 0;
-  }
-  .modal-wrapper {
-    height: 100%;
-  }
   .modal-content {
-    max-height: 64vh;
-    overflow-y: auto;
-    section {
-      padding-bottom: 20px;
-    }
+    height: 100%;
+    max-height: calc(100% - 5em);
   }
+
   .modal-top-nav {
-    padding-top: 10px;
-  }
-  .disruption-header {
-    .line {
-      margin: 0 5px 0 10px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5em;
+
+    h2 {
+      margin: $padding-xsmall 0;
     }
-    .time {
-      &:before {
-        content: ' – ';
-      }
-    }
-  }
-  .disruption-details {
-    span {
-      display: block;
-    }
-    b {
-      float: left;
-      padding-right: 5px;
-    }
-  }
-  .icon.center {
-    display: block;
-    float: left;
-    margin-top: 3px;
-  }
-  .line,
-  .time {
-    padding: 0;
-    @include font-narrow-medium;
   }
 }
 

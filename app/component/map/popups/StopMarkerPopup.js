@@ -37,7 +37,8 @@ class StopMarkerPopup extends React.PureComponent {
           isTerminal={isTerminal}
           timeRange={isTerminal ? TERMINAL_TIME_RANGE : STOP_TIME_RANGE}
           limit={NUMBER_OF_DEPARTURES}
-          className="padding-small cursor-pointer"
+          isPopUp
+          className="card-padding"
         />
         <MarkerPopupBottom
           location={{

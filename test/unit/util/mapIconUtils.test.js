@@ -13,6 +13,7 @@ describe('mapIconUtils', () => {
         arc: sinon.stub(),
         beginPath: sinon.stub(),
         fill: sinon.stub(),
+        fillText: sinon.stub(),
       },
       ratio: 1,
       scaleratio: 1,
@@ -28,7 +29,7 @@ describe('mapIconUtils', () => {
         tile,
         geometry,
         'BUS',
-        false,
+        1,
         undefined,
       );
       expect(iconRadius).to.equal(1);
@@ -39,10 +40,42 @@ describe('mapIconUtils', () => {
         { ...tile, scaleratio: 2 },
         geometry,
         'BUS',
-        false,
+        1,
         undefined,
       );
       expect(iconRadius).to.equal(2);
+    });
+
+    it('should allow custom scale', () => {
+      const { iconRadius } = utils.drawRoundIcon(
+        tile,
+        geometry,
+        'BUS',
+        2.5,
+        undefined,
+      );
+      expect(iconRadius).to.equal(2.5);
+    });
+
+    it('should use different font sizes depending on the platformNumber length', () => {
+      const getFontSize = font => Number(font.split('px')[0]);
+      const platformTile = {
+        ...tile,
+        coords: {
+          z: 18,
+        },
+      };
+
+      utils.drawRoundIcon(platformTile, geometry, 'BUS', 1, '12');
+      const large = getFontSize(platformTile.ctx.font);
+
+      utils.drawRoundIcon(platformTile, geometry, 'BUS', 1, '123');
+      const medium = getFontSize(platformTile.ctx.font);
+
+      utils.drawRoundIcon(platformTile, geometry, 'BUS', 1, '1234');
+      const small = getFontSize(platformTile.ctx.font);
+
+      expect(large > medium && medium > small).to.equal(true);
     });
   });
 

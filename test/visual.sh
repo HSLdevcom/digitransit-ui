@@ -15,8 +15,10 @@ free -m
 nproc
 yarn build
 
-#number of latest test results stored in dropbox - 2
+#number of latest test results stored in dropbox
 GENERATIONS=10
+# How many times visual tests should be tried before giving up
+MAX_TRIES=2
 
 openssl aes-256-cbc -K $encrypted_59b1a6418079_key -iv $encrypted_59b1a6418079_iv -in test/.dropbox_uploader.enc -out test/.dropbox_uploader -d
 
@@ -28,14 +30,23 @@ name=gemini-report-${VISUAL}
 gzname=${name}.tar.gz
 
 set +e
-IDENTIFIER=${TRAVIS_COMMIT}_${VISUAL} yarn test-visual --browser $VISUAL
-RESULT=$?
+while [ $MAX_TRIES -gt 0 ]; do
+    IDENTIFIER=${TRAVIS_COMMIT}_${VISUAL} yarn test-visual --browser $VISUAL
+    RESULT=$?
+    if [ $RESULT -eq 0 ]; then
+        exit 0
+    fi
+    let MAX_TRIES=MAX_TRIES-1
+done
+
 if [ $RESULT -ne 0 ]; then
     tar czf $gzname gemini-report
 
     #rename older generations
     for ((i=GENERATIONS; i>=1; i--))
     do
+        # Delete oldest file first as move doesn't want to overwrite existing file
+        ./test/dropbox_uploader.sh delete "/${name}_$((i + 1)).tar.gz" &>/dev/null
         ./test/dropbox_uploader.sh move "/${name}_${i}.tar.gz" "/${name}_$((i + 1)).tar.gz" &>/dev/null
     done
     ./test/dropbox_uploader.sh move "/$gzname" "/${name}_1.tar.gz" &>/dev/null

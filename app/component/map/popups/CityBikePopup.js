@@ -33,7 +33,7 @@ class CityBikePopup extends React.Component {
     return (
       <div className="card">
         <CityBikeCardContainer
-          className="padding-small"
+          className="card-padding"
           station={this.props.station}
         >
           <CityBikeContent
@@ -64,6 +64,7 @@ export default Relay.createContainer(CityBikePopup, {
         bikesAvailable
         spacesAvailable
         state
+        networks
       }
     `,
   },

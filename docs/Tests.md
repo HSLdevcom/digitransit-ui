@@ -112,6 +112,11 @@ Using yarn
 yarn run test-unit
 ```
 
+Run a single test using yarn
+```
+yarn run test-unit -g <name of the tested file without .test.js>
+```
+
 Using the continuous watch mode
 ```
 yarn run test-unit -- --watch

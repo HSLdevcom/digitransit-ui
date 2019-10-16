@@ -16,15 +16,18 @@ import { DATE_FORMAT } from '../constants';
 import {
   startRealTimeClient,
   stopRealTimeClient,
+  changeRealTimeClientTopics,
 } from '../action/realTimeClientAction';
 import {
   getCancelationsForRoute,
   getServiceAlertsForRoute,
   getServiceAlertsForRouteStops,
   isAlertActive,
+  getActiveAlertSeverityLevel,
 } from '../util/alertUtils';
 import { PREFIX_ROUTES } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
+import { RouteAlertsQuery, StopAlertsQuery } from '../util/alertQueries';
 
 const Tab = {
   Disruptions: 'hairiot',
@@ -65,46 +68,89 @@ class RoutePage extends React.Component {
     breakpoint: PropTypes.string.isRequired,
   };
 
+  // gets called if pattern has not been visited before
   componentDidMount() {
-    const { realTime } = this.context.config;
-    if (!realTime || this.props.route == null) {
+    const { params, route } = this.props;
+    const { config, executeAction } = this.context;
+    const { realTime } = config;
+    if (!realTime || route == null) {
       return;
     }
-    const route = this.props.route.gtfsId.split(':');
-    const agency = route[0];
-    const source = realTime[agency];
-    if (source) {
-      const id = source.routeSelector(this.props);
 
-      this.context.executeAction(startRealTimeClient, {
-        ...source,
-        agency,
-        options: [
-          {
-            route: id,
-            // add some information from the context
-            // to compensate potentially missing feed data
-            mode: this.props.route.mode.toLowerCase(),
-            gtfsId: route[1],
-          },
-        ],
-      });
+    const routeParts = route.gtfsId.split(':');
+    const agency = routeParts[0];
+    const source = realTime[agency];
+    if (!source || !source.active) {
+      return;
     }
+
+    const pattern = route.patterns.find(
+      ({ code }) => code === params.patternId,
+    );
+    if (!pattern) {
+      return;
+    }
+
+    const id = source.routeSelector(this.props);
+    executeAction(startRealTimeClient, {
+      ...source,
+      agency,
+      options: [
+        {
+          route: id,
+          // add some information from the context
+          // to compensate potentially missing feed data
+          mode: route.mode.toLowerCase(),
+          gtfsId: routeParts[1],
+          headsign: pattern.headsign,
+        },
+      ],
+    });
   }
 
   componentWillUnmount() {
     const { client } = this.context.getStore('RealTimeInformationStore');
-
     if (client) {
       this.context.executeAction(stopRealTimeClient, client);
     }
   }
 
-  onPatternChange = e => {
-    this.context.router.replace(
-      decodeURIComponent(this.props.location.pathname).replace(
-        new RegExp(`${this.props.params.patternId}(.*)`),
-        e.target.value,
+  onPatternChange = newPattern => {
+    const { location, params, route } = this.props;
+    const { config, executeAction, getStore, router } = this.context;
+    const { client, topics } = getStore('RealTimeInformationStore');
+
+    // if config contains mqtt feed and old client has not been removed
+    if (client) {
+      const { realTime } = config;
+      const routeParts = route.gtfsId.split(':');
+      const agency = routeParts[0];
+      const source = realTime[agency];
+
+      const pattern = route.patterns.find(({ code }) => code === newPattern);
+      if (pattern) {
+        const id = source.routeSelector(this.props);
+        executeAction(changeRealTimeClientTopics, {
+          ...source,
+          agency,
+          options: [
+            {
+              route: id,
+              mode: route.mode.toLowerCase(),
+              gtfsId: routeParts[1],
+              headsign: pattern.headsign,
+            },
+          ],
+          oldTopics: topics,
+          client,
+        });
+      }
+    }
+
+    router.replace(
+      decodeURIComponent(location.pathname).replace(
+        new RegExp(`${params.patternId}(.*)`),
+        newPattern,
       ),
     );
   };
@@ -140,6 +186,14 @@ class RoutePage extends React.Component {
       ],
       currentTime,
     );
+    const hasActiveServiceAlerts = getActiveAlertSeverityLevel(
+      getServiceAlertsForRoute(route, patternId),
+      currentTime,
+    );
+
+    const disruptionClassName =
+      (hasActiveAlert && 'active-disruption-alert') ||
+      (hasActiveServiceAlerts && 'active-service-alert');
 
     return (
       <div>
@@ -165,6 +219,7 @@ class RoutePage extends React.Component {
                 color={route.color ? `#${route.color}` : null}
                 mode={route.mode}
                 text={route.shortName}
+                isRouteView
               />
             )}
             <a
@@ -198,8 +253,13 @@ class RoutePage extends React.Component {
                 this.changeTab(Tab.Disruptions);
               }}
             >
-              <div>
+              <div
+                className={`tab-route-disruption ${disruptionClassName ||
+                  `no-alerts`}`}
+              >
                 <Icon
+                  className={`route-page-tab_icon ${disruptionClassName ||
+                    `no-alerts`}`}
                   img={hasActiveAlert ? 'icon-icon_caution' : 'icon-icon_info'}
                 />
                 <FormattedMessage
@@ -219,7 +279,6 @@ class RoutePage extends React.Component {
               route={route}
               onSelectChange={this.onPatternChange}
               gtfsId={route.gtfsId}
-              activeTab={activeTab}
               className={cx({ 'bp-large': breakpoint === 'large' })}
             />
           )}
@@ -243,27 +302,15 @@ const containerComponent = Relay.createContainer(withBreakpoint(RoutePage), {
         type
         ${RouteAgencyInfo.getFragment('route')}
         ${RoutePatternSelect.getFragment('route')}
-        alerts {
-          alertSeverityLevel
-          effectiveEndDate
-          effectiveStartDate
-          trip {
-            pattern {
-              code
-            }
-          }
-        }
+        ${RouteAlertsQuery}
         agency {
           phone
         }
         patterns {
+          headsign
           code
           stops {
-            alerts {
-              alertSeverityLevel
-              effectiveEndDate
-              effectiveStartDate
-            }
+            ${StopAlertsQuery}
           }
           trips: tripsForDate(serviceDay: $serviceDay) {
             stoptimes: stoptimesForDate(serviceDay: $serviceDay) {

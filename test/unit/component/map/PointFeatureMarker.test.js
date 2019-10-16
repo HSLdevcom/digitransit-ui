@@ -4,6 +4,9 @@ import { shallowWithIntl } from '../../helpers/mock-intl-enzyme';
 import CardHeader from '../../../../app/component/CardHeader';
 import {
   Component as PointFeatureMarker,
+  CUSTOM_ICON_MIN_ZOOM,
+  CUSTOM_ICON_SIZE,
+  getCustomIcon,
   getPropertyValueOrDefault,
   getRoundIcon,
 } from '../../../../app/component/map/PointFeatureMarker';
@@ -135,6 +138,19 @@ describe('<PointFeatureMarker />', () => {
       const icon = getRoundIcon(12);
       expect(icon.options.html).to.contain('svg');
       expect(icon.options.iconSize).to.deep.equal([3, 3]);
+    });
+  });
+
+  describe('getCustomIcon', () => {
+    it('should return a scaled custom icon', () => {
+      const icon = getCustomIcon(CUSTOM_ICON_MIN_ZOOM, 'foobar');
+      expect(icon.options.iconAnchor[0]).to.equal(
+        icon.options.iconSize[0] * 1 / 2,
+      );
+      expect(icon.options.iconAnchor[0]).to.equal(icon.options.iconAnchor[1]);
+      expect(icon.options.iconSize[0]).to.be.at.least(CUSTOM_ICON_SIZE);
+      expect(icon.options.iconSize[0]).to.equal(icon.options.iconSize[1]);
+      expect(icon.options.iconUrl).to.equal('foobar');
     });
   });
 });
