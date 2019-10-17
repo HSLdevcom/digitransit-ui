@@ -18,7 +18,7 @@ class RealTimeInformationStore extends Store {
 
   conditionalEmit() {
     if (this.allowUpdates) {
-      setInterval(() => {
+      setTimeout(() => {
         this.allowUpdates = true;
         this.checkEmit();
       }, 1000);
