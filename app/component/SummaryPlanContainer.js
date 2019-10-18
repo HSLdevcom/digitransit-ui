@@ -352,6 +352,7 @@ class SummaryPlanContainer extends React.Component {
       $itineraryFiltering: Float!,
       $modeWeight: InputModeWeight!,
       $allowedBikeRentalNetworks: [String]!,
+      $locale: String!,
     ) { viewer {
         plan(
           fromPlace:$fromPlace,
@@ -390,6 +391,7 @@ class SummaryPlanContainer extends React.Component {
           itineraryFiltering: $itineraryFiltering,
           modeWeight: $modeWeight,
           allowedBikeRentalNetworks: $allowedBikeRentalNetworks,
+          locale: $locale,
         ) {itineraries {startTime,endTime}}
       }
     }`;

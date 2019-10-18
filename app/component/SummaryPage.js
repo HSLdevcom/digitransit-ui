@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
 import Relay from 'react-relay/classic';
+import cookie from 'react-cookie';
 import moment from 'moment';
 import findIndex from 'lodash/findIndex';
 import get from 'lodash/get';
@@ -485,7 +486,8 @@ const containerComponent = Relay.createContainer(SummaryPageWithBreakpoint, {
           preferred: $preferred,
           unpreferred: $unpreferred,
           allowedBikeRentalNetworks: $allowedBikeRentalNetworks,
-          ),
+          locale: $locale,
+        ),
         {
           ${SummaryPlanContainer.getFragment('plan')}
           ${ItineraryTab.getFragment('searchTime')}
@@ -542,6 +544,7 @@ const containerComponent = Relay.createContainer(SummaryPageWithBreakpoint, {
       walkSpeed: null,
       wheelchair: null,
       allowedBikeRentalNetworks: null,
+      locale: cookie.load('lang') || 'fi',
     },
     ...defaultRoutingSettings,
   },
