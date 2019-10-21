@@ -90,8 +90,6 @@ export function changeTopics(settings, actionContext) {
   if (Array.isArray(oldTopics) && oldTopics.length > 0) {
     client.unsubscribe(oldTopics);
   }
-  // remove existing vehicles/topics
-  actionContext.dispatch('RealTimeClientReset');
   const topics = settings.options.map(option => getTopic(option, settings));
   // set new topic to store
   actionContext.dispatch('RealTimeClientNewTopics', topics);
