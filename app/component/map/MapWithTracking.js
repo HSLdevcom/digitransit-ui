@@ -426,7 +426,7 @@ class MapWithTrackingStateHandler extends React.Component {
       const currentZoom =
         this.mapElement && this.mapElement.leafletElement
           ? this.mapElement.leafletElement._zoom // eslint-disable-line no-underscore-dangle
-          : -1;
+          : this.state.initialZoom;
       const useLargeIcon = currentZoom >= this.props.config.stopsMinZoom;
       leafletObjs.push(
         <VehicleMarkerContainer
