@@ -10,12 +10,18 @@ import LangSelect from './LangSelect';
 import MessageBar from './MessageBar';
 import CanceledLegsBar from './CanceledLegsBar';
 import LogoSmall from './LogoSmall';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const AppBarLarge = (
   { titleClicked, logo },
   { router, location, config, intl },
 ) => {
   const openDisruptionInfo = () => {
+    addAnalyticsEvent({
+      category: 'Navigation',
+      action: 'OpenDisruptions',
+      name: null,
+    });
     router.push({
       ...location,
       state: {
@@ -40,7 +46,17 @@ const AppBarLarge = (
   return (
     <div>
       <div className="top-bar bp-large flex-horizontal">
-        <button className="noborder" onClick={titleClicked}>
+        <button
+          className="noborder"
+          onClick={e => {
+            titleClicked(e);
+            addAnalyticsEvent({
+              category: 'Map',
+              action: 'Home',
+              name: null,
+            });
+          }}
+        >
           {logoElement}
         </button>
         <div className="empty-space flex-grow" />
@@ -60,7 +76,17 @@ const AppBarLarge = (
           </a>
         </div>
         <div className="padding-horizontal-large navi-margin">
-          <ExternalLink className="external-top-bar" {...config.appBarLink} />
+          <ExternalLink
+            className="external-top-bar"
+            {...config.appBarLink}
+            onClick={() => {
+              addAnalyticsEvent({
+                category: 'Navigation',
+                action: 'OpenServiceHomeLink',
+                name: null,
+              });
+            }}
+          />
         </div>
       </div>
       <MessageBar />

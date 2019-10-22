@@ -7,8 +7,14 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { setLanguage } from '../action/userPreferencesActions';
 import { isBrowser } from '../util/browser';
 import { replaceQueryParams } from '../util/queryUtils';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const selectLanguage = (executeAction, lang, router) => () => {
+  addAnalyticsEvent({
+    category: 'Navigation',
+    action: 'ChangeLanguage',
+    name: lang,
+  });
   executeAction(setLanguage, lang);
   if (lang !== 'en') {
     // eslint-disable-next-line global-require, import/no-dynamic-require

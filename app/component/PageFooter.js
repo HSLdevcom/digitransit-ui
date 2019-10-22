@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ComponentUsageExample from './ComponentUsageExample';
 import FooterItem from './FooterItem';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const PageFooter = ({ content }) => (
   <div id="page-footer">
@@ -11,7 +12,19 @@ const PageFooter = ({ content }) => (
           // eslint-disable-next-line react/no-array-index-key
           <span className="footer-separator" key={i} />
         ) : (
-          <FooterItem key={link.label || link.name} {...link} />
+          <FooterItem
+            key={link.label || link.name}
+            onClick={() => {
+              if (link.label || link.name) {
+                addAnalyticsEvent({
+                  category: 'Navigation',
+                  action: 'OpenFooterLink',
+                  name: link.label || link.name,
+                });
+              }
+            }}
+            {...link}
+          />
         ),
     )}
   </div>
