@@ -2,18 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import shouldUpdate from 'recompose/shouldUpdate';
-import isEqual from 'lodash/isEqual';
 
 import FavouriteRouteListContainer from './FavouriteRouteListContainer';
-import FavouriteLocationsContainer from './FavouriteLocationsContainer';
-import NextDeparturesListHeader from './NextDeparturesListHeader';
-import NoFavouritesPanel from './NoFavouritesPanel';
 import Loading from './Loading';
-import PanelOrSelectLocation from './PanelOrSelectLocation';
 import { dtLocationShape } from '../util/shapes';
-import { TAB_FAVOURITES } from '../util/path';
-import withBreakpoint from '../util/withBreakpoint';
 import { isBrowser } from '../util/browser';
 
 class FavouriteRouteListContainerRoute extends Relay.Route {
@@ -53,14 +45,7 @@ FavouriteRoutes.propTypes = {
   origin: dtLocationShape.isRequired,
 };
 
-const FavouritesPanel = ({
-  origin,
-  routes,
-  currentTime,
-  favouriteLocations,
-  favouriteStops,
-  breakpoint,
-}) =>
+const FavouritesPanel = () =>
   isBrowser && (
     <div className="frontpage-panel">
 
@@ -75,18 +60,6 @@ FavouritesPanel.propTypes = {
   favouriteStops: PropTypes.array,
   breakpoint: PropTypes.string.isRequired,
 };
-
-const FilteredFavouritesPanel = shouldUpdate(
-  (props, nextProps) =>
-    nextProps.currentTime !== props.currentTime ||
-    !isEqual(nextProps.routes, props.routes) ||
-    !isEqual(nextProps.favouriteLocations, props.favouriteLocations) ||
-    !isEqual(nextProps.favouriteStops, props.favouriteStops) ||
-    nextProps.origin.gps !== props.origin.gps ||
-    (!nextProps.origin.gps &&
-      (nextProps.origin.lat !== props.origin.lat ||
-        nextProps.origin.lon !== props.origin.lon)),
-)(withBreakpoint(FavouritesPanel));
 
 export default connectToStores(
   ctx => (

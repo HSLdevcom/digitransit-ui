@@ -63,14 +63,6 @@ export default config => {
             .catch(errorLoading);
         }}
       />
-      <Route
-        path="/suosikki/uusi"
-        getComponent={(location, cb) => {
-          import(/* webpackChunkName: "add-favourite" */ './component/AddFavouritePage')
-            .then(loadRoute(cb))
-            .catch(errorLoading);
-        }}
-      />
       {getStopRoutes()}
       {getStopRoutes(true) /* terminals */}
       {routeRoutes}
@@ -122,22 +114,6 @@ export default config => {
           <Route path="kartta" fullscreenMap />
         </Route>
       </Route>
-      <Route
-        path="/suosikki/muokkaa/sijainti/:id"
-        getComponent={(location, cb) => {
-          import(/* webpackChunkName: "add-favourite" */ './component/AddFavouritePage')
-            .then(loadRoute(cb))
-            .catch(errorLoading);
-        }}
-      />
-      <Route
-        path="/suosikki/muokkaa/pysakki/:id"
-        getComponent={(location, cb) => {
-          import(/* webpackChunkName: "add-favourite" */ './component/AddFavouritePage')
-            .then(loadRoute(cb))
-            .catch(errorLoading);
-        }}
-      />
       <Route
         path="/tietoja-palvelusta"
         getComponents={(location, cb) => {
