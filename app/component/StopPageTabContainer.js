@@ -19,9 +19,6 @@ import {
   isAlertActive,
   isAlertValid,
   getActiveAlertSeverityLevel,
-  getCancelationsForRoute,
-  getServiceAlertsForRoute,
-  getServiceAlertsForRouteStops,
 } from '../util/alertUtils';
 import withBreakpoint from '../util/withBreakpoint';
 
@@ -79,30 +76,13 @@ function StopPageTabContainer(
 
   if (stop.routes && stop.routes.length > 0) {
     stop.routes.forEach(route => {
-      const alerts = [...route.alerts];
       return (
         route.alerts.some(alert => isAlertValid(alert, currentTime)) &&
         stopRoutesWithAlerts.push(...route.alerts)
       );
-      // return (
-      //   isAlertActive(
-      //     getCancelationsForRoute(route),
-      //     [
-      //       ...getServiceAlertsForRoute(route),
-      //       ...getServiceAlertsForRouteStops(route),
-      //     ],
-      //     currentTime,
-      //   ) && stopRoutesWithAlerts.push(...route.alerts)
-      // );
     });
   }
-  console.log(
-    stopRoutesWithAlerts.find(
-      alert =>
-        alert.severityLevel !==
-        (AlertSeverityLevelType.Severe || AlertSeverityLevelType.Warning),
-    ),
-  );
+
   const disruptionClassName =
     ((hasActiveAlert ||
       stopRoutesWithAlerts.find(

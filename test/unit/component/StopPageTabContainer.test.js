@@ -224,35 +224,6 @@ describe('<StopPageTabContainer />', () => {
     expect(wrapper.find('.active-service-alert')).to.have.lengthOf(2);
   });
 
-  it('should mark the disruptions tab as having an active disruption alert due to a route SEVERE level service alert', () => {
-    const props = {
-      breakpoint: 'large',
-      children: <div />,
-      location: {
-        pathname: 'foobar',
-      },
-      params: {
-        terminalId: 'HSL:2211275',
-      },
-      routes: [
-        {
-          alerts: [
-            {
-              alertSeverityLevel: AlertSeverityLevelType.Severe,
-              effectiveStartDate: Date.now() - 100000,
-              effectiveEndDate: Date.now() + 100000,
-            },
-          ],
-        },
-      ],
-      stop: {
-        stoptimesForServiceDate: [],
-      },
-    };
-    const wrapper = shallowWithIntl(<StopPageTabContainer {...props} />);
-    expect(wrapper.find('.active-disruption-alert')).to.have.lengthOf(2);
-  });
-
   it('should render empty if stop information is missing', () => {
     const props = {
       breakpoint: 'large',
