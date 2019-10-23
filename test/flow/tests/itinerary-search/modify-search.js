@@ -1,7 +1,7 @@
 module.exports = {
   '@tags': ['itinerary tuning'],
-  '@disabled': true,
 
+  /*
   'Custom search options are not forgotten if endpoint changes': browser => {
     browser.url(browser.launch_url);
 
@@ -16,17 +16,15 @@ module.exports = {
     customizeSearch.disableModality('rail');
     itinerarySummary.waitForFirstItineraryRow();
 
-    // rautatieasema  - pasila surely had rail connections before disable
-    // but disable will remove them
     itinerarySummary.waitForItineraryRowOfTypeNotPresent('rail');
 
     itinerarySummary.clickSwapOriginDestination();
 
-    // rail still not available
     itinerarySummary.waitForItineraryRowOfTypeNotPresent('rail');
 
     browser.end();
   },
+  */
 
   'Earlier and later buttons work': browser => {
     browser.url(browser.launch_url);
