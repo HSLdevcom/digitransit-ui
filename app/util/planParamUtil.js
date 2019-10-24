@@ -1,5 +1,6 @@
 import omitBy from 'lodash/omitBy';
 import moment from 'moment';
+import cookie from 'react-cookie';
 
 import { filterModes, getDefaultModes, getModes } from './modeUtils';
 import { otpToLocation } from './otpStrings';
@@ -269,6 +270,7 @@ export const preparePlanParams = config => (
         walkReluctance,
         walkSpeed,
         allowedBikeRentalNetworks,
+        locale,
       },
     },
   },
@@ -401,6 +403,7 @@ export const preparePlanParams = config => (
           settings,
           intermediatePlaceLocations,
         ),
+        locale: locale || cookie.load('lang') || 'fi',
       },
       nullOrUndefined,
     ),

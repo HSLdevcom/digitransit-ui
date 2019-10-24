@@ -13,7 +13,7 @@ import Loading from '../Loading';
 
 import { isBrowser } from '../../util/browser';
 
-const MODES_WITH_ICONS = ['bus', 'tram', 'rail', 'subway', 'ferry', '+'];
+const MODES_WITH_ICONS = ['bus', 'tram', 'rail', 'subway', 'ferry'];
 
 let Popup;
 
@@ -27,7 +27,7 @@ function getVehicleIcon(
   if (!isBrowser) {
     return null;
   }
-  if (MODES_WITH_ICONS.indexOf(mode) === MODES_WITH_ICONS.length - 1) {
+  if (!mode) {
     return useLargeIcon
       ? {
           element: (
@@ -89,25 +89,22 @@ function shouldShowVehicle(
   headsign,
   directionsForTrips,
 ) {
-  if (message.mode !== '+') {
-    return (
-      !Number.isNaN(parseFloat(message.lat)) &&
-      !Number.isNaN(parseFloat(message.long)) &&
-      pattern.substr(0, message.route.length) === message.route &&
-      (message.headsign === undefined || headsign === message.headsign) &&
-      (direction === undefined ||
-        (message.direction === undefined &&
-          message.tripId &&
-          directionsForTrips[message.tripId] === direction.toString()) ||
-        message.direction === direction) &&
-      (tripStart === undefined ||
-        message.tripStartTime === undefined ||
-        message.tripStartTime === tripStart)
-    );
-  }
   return (
     !Number.isNaN(parseFloat(message.lat)) &&
-    !Number.isNaN(parseFloat(message.long))
+    !Number.isNaN(parseFloat(message.long)) &&
+    (pattern === undefined ||
+      pattern.substr(0, message.route.length) === message.route) &&
+    (headsign === undefined ||
+      message.headsign === undefined ||
+      headsign === message.headsign) &&
+    (direction === undefined ||
+      (message.direction === undefined &&
+        message.tripId &&
+        directionsForTrips[message.tripId] === direction.toString()) ||
+      message.direction === direction) &&
+    (tripStart === undefined ||
+      message.tripStartTime === undefined ||
+      message.tripStartTime === tripStart)
   );
 }
 
@@ -131,7 +128,7 @@ function VehicleMarkerContainer(props) {
           lon: message.long,
         }}
         icon={getVehicleIcon(
-          message.mode,
+          props.ignoreMode ? null : message.mode,
           message.heading,
           message.route.split(':')[1],
           false,
@@ -180,6 +177,7 @@ VehicleMarkerContainer.propTypes = {
   tripStart: PropTypes.string,
   headsign: PropTypes.string,
   direction: PropTypes.number,
+  ignoreMode: PropTypes.bool,
   vehicles: PropTypes.objectOf(
     PropTypes.shape({
       direction: PropTypes.number,

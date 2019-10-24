@@ -3,16 +3,25 @@ import isFinite from 'lodash/isFinite';
 import oldParamParser from '../app/util/oldParamParser';
 import { getConfiguration } from '../app/config';
 
+function formatQuery(query) {
+  const params = Object.keys(query)
+    .map(k => `${k}=${query[k]}`)
+    .join('&');
+
+  return `?${params}`;
+}
+
+function formatUrl(req) {
+  const query = formatQuery(req.query);
+  return `${req.path}?${query}`;
+}
+
 function removeUrlParam(req, param) {
   if (req.query[param]) {
     delete req.query[param];
   }
-  const params = Object.keys(req.query)
-    .map(k => `${k}=${req.query[k]}`)
-    .join('&');
-  const url = `${req.path}?${params}`;
 
-  return url;
+  return formatUrl(req);
 }
 
 export function validateParams(req, config) {
@@ -55,14 +64,24 @@ export function validateParams(req, config) {
   return url;
 }
 
-export const langParamParser = path => {
-  if (path.includes('/slangi/')) {
-    const newPath = path.replace('/slangi/', '/');
-    return newPath;
-  }
-  const lang = path.substring(0, 4);
-  const newPath = path.replace(lang, '/');
-  return newPath;
+const fixLocaleParam = (req, lang) => {
+  // override locale query param with the selected language
+  req.query.locale = lang === 'slangi' ? 'fi' : lang;
+  return formatQuery(req.query);
+};
+
+export const dropPathLanguageAndFixLocaleParam = (req, lang) => {
+  return req.path.replace(`/${lang}/`, '/') + fixLocaleParam(req, lang);
+};
+
+const dropPathLanguageAndRedirect = (req, res, lang) => {
+  const trimmedUrl = dropPathLanguageAndFixLocaleParam(req, lang);
+  res.redirect(trimmedUrl);
+};
+
+const fixLocaleParamAndRedirect = (req, res, lang) => {
+  const fixedUrl = req.path + fixLocaleParam(req, lang);
+  res.redirect(fixedUrl);
 };
 
 export default function reittiopasParameterMiddleware(req, res, next) {
@@ -87,15 +106,17 @@ export default function reittiopasParameterMiddleware(req, res, next) {
       req.query.to_in
     ) {
       oldParamParser(req.query, config).then(url => res.redirect(url));
-    } else if (
-      ['/fi/', '/en/', '/sv/', '/ru/', '/slangi/'].some(param =>
-        req.path.includes(param),
-      )
-    ) {
-      const redirectPath = langParamParser(req.url);
-      res.redirect(redirectPath);
+    } else if (['fi', 'en', 'sv', 'ru', 'slangi'].includes(lang)) {
+      dropPathLanguageAndRedirect(req, res, lang);
     } else {
-      next();
+      const { locale } = req.query;
+      const cookieLang = req.cookies.lang;
+
+      if (cookieLang && locale && cookieLang !== locale) {
+        fixLocaleParamAndRedirect(req, res, cookieLang);
+      } else {
+        next();
+      }
     }
   } else {
     next();
