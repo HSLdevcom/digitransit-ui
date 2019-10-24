@@ -17,12 +17,13 @@ function getTopic(options, settings) {
     : '+';
   const geoHash = options.geoHash ? options.geoHash : ['+', '+', '+', '+'];
   const tripId = options.tripId ? options.tripId : '+';
+  const headsign = options.headsign ? options.headsign : '+';
   const tripStartTime = options.tripStartTime ? options.tripStartTime : '+';
   const topic = settings.mqttTopicResolver(
     route,
     direction,
     tripStartTime,
-    options.headsign,
+    headsign,
     settings.agency,
     tripId,
     geoHash,
