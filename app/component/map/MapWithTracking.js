@@ -17,7 +17,6 @@ import VehicleMarkerContainer from './VehicleMarkerContainer';
 import {
   startRealTimeClient,
   stopRealTimeClient,
-  changeRealTimeClientTopics,
 } from '../../action/realTimeClientAction';
 import triggerMessage from '../../util/messageUtils';
 
@@ -128,10 +127,6 @@ class MapWithTrackingStateHandler extends React.Component {
       }
     }
 
-    if (this.props.mapLayers.showAllBusses) {
-      this.startClient();
-    }
-
     if (this.state.focusOnOrigin || this.state.focusOnDestination) {
       const lat = this.state.focusOnDestination
         ? this.state.destination.lat
@@ -144,14 +139,6 @@ class MapWithTrackingStateHandler extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.mapLayers.showAllBusses) {
-      if (!this.state.realtimeClientStarted) {
-        this.startClient();
-      }
-    } else if (this.state.realtimeClientStarted) {
-      this.removeClient();
-    }
-
     if (
       // "current position selected"
       newProps.origin.lat !== null &&
@@ -214,23 +201,39 @@ class MapWithTrackingStateHandler extends React.Component {
         this.props.messages,
       );
     }
-  }
 
-  componentDidUpdate(prevProps) {
-    if (this.state.realtimeClientStarted) {
-      if (
-        prevProps.origin.lat !== this.state.origin.lat ||
-        prevProps.origin.lon !== this.state.origin.lon
-      ) {
-        this.updateClient();
+    const { client } = this.context.getStore('RealTimeInformationStore');
+    if (newProps.mapLayers.showAllBusses && !client) {
+      const { realTime } = this.props.config;
+      let agency;
+
+      /* handle multiple feedid case */
+      this.props.config.feedIds.forEach(ag => {
+        if (!agency && realTime[ag]) {
+          agency = ag;
+        }
+      });
+      const source = agency && realTime[agency];
+      if (source && source.active) {
+        const options = [{}];
+        const config = {
+          ...source,
+          agency,
+          options,
+        };
+        this.context.executeAction(startRealTimeClient, config);
       }
+    } else if (!newProps.mapLayers.showAllBusses && client) {
+      this.context.executeAction(stopRealTimeClient, client);
     }
   }
 
+
   componentWillUnmount() {
     this.isCancelled = true;
-    if (this.state.realtimeClientStarted) {
-      this.removeClient();
+    const { client } = this.context.getStore('RealTimeInformationStore');
+    if (client) {
+      this.context.executeAction(stopRealTimeClient, client);
     }
   }
 
@@ -239,57 +242,6 @@ class MapWithTrackingStateHandler extends React.Component {
       this.mapElement = element;
     }
   };
-
-  createGeoHashBoundingBox = location => {
-    const geoHashes = [];
-    for (let i = -3; i <= 3; i++) {
-      const lon = (location.lon + i * 0.01).toString();
-      for (let j = -1; j <= 1; j++) {
-        const lat = (location.lat + j * 0.01).toString();
-        geoHashes.push([
-          `${lat.substring(0, 2)};${lon.substring(0, 2)}`,
-          lat.substring(3, 4) + lon.substring(3, 4),
-          lat.substring(4, 5) + lon.substring(4, 5),
-          '+',
-        ]);
-      }
-    }
-    return geoHashes;
-  };
-
-  getClientConfig() {
-    const { realTime, defaultEndpoint } = this.props.config;
-    let agency;
-
-    /* handle multiple feedid case */
-    this.props.config.feedIds.forEach(ag => {
-      if (!agency && realTime[ag]) {
-        agency = ag;
-      }
-    });
-    const source = agency && realTime[agency];
-    if (source && source.active) {
-      const location = this.props.origin.set
-        ? this.props.origin
-        : defaultEndpoint;
-      const options = [];
-      const geoHashes = this.createGeoHashBoundingBox(location);
-      geoHashes.forEach(geoHash => {
-        options.push({
-          mode: '+',
-          gtfsId: '+',
-          headsign: '+',
-          geoHash,
-        });
-      });
-      return {
-        ...source,
-        agency,
-        options,
-      };
-    }
-    return null;
-  }
 
   enableMapTracking = () => {
     this.setState({
@@ -320,38 +272,6 @@ class MapWithTrackingStateHandler extends React.Component {
       bounds: newBounds,
     });
   };
-
-  startClient() {
-    this.setState({ realtimeClientStarted: true });
-    const conf = this.getClientConfig();
-    if (conf) {
-      this.context.executeAction(startRealTimeClient, conf);
-    }
-  }
-
-  updateClient() {
-    const { client, topics } = this.context.getStore(
-      'RealTimeInformationStore',
-    );
-    if (client) {
-      const conf = this.getClientConfig();
-      if (conf) {
-        this.context.executeAction(changeRealTimeClientTopics, {
-          ...conf,
-          client,
-          oldTopics: topics,
-        });
-      }
-    }
-  }
-
-  removeClient() {
-    this.setState({ realtimeClientStarted: false });
-    const { client } = this.context.getStore('RealTimeInformationStore');
-    if (client) {
-      this.context.executeAction(stopRealTimeClient, client);
-    }
-  }
 
   usePosition(origin) {
     this.setState(prevState => ({
@@ -422,7 +342,8 @@ class MapWithTrackingStateHandler extends React.Component {
       location = config.defaultMapCenter || config.defaultEndpoint;
     }
     const leafletObjs = [];
-    if (this.state.realtimeClientStarted) {
+
+    if (this.props.mapLayers.showAllBusses) {
       const currentZoom =
         this.mapElement && this.mapElement.leafletElement
           ? this.mapElement.leafletElement._zoom // eslint-disable-line no-underscore-dangle
@@ -523,6 +444,10 @@ MapWithTrackingStateHandler.contextTypes = {
   getStore: PropTypes.func,
 };
 
+
+
+
+
 // todo convert to use origin prop
 const MapWithTracking = connectToStores(
   getContext({
@@ -536,6 +461,9 @@ const MapWithTracking = connectToStores(
     const mapLayers = getStore(MapLayerStore).getMapLayers();
     const { getGeoJsonConfig, getGeoJsonData } = getStore(GeoJsonStore);
     const messages = getStore(MessageStore).getMessages();
+    const { client } = getStore('RealTimeInformationStore');
+
+
     return { position, mapLayers, getGeoJsonConfig, getGeoJsonData, messages };
   },
 );
