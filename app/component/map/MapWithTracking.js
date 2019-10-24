@@ -447,6 +447,7 @@ class MapWithTrackingStateHandler extends React.Component {
 MapWithTrackingStateHandler.contextTypes = {
   executeAction: PropTypes.func,
   getStore: PropTypes.func,
+  config: PropTypes.object,
 };
 
 // todo convert to use origin prop
