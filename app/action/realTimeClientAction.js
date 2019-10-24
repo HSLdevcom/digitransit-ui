@@ -1,7 +1,6 @@
 import { startMqttClient, changeTopics } from '../util/mqttClient';
 
 export function startRealTimeClient(actionContext, settings, done) {
-
   /* settings may have changed, so reset old store content */
   actionContext.dispatch('RealTimeClientReset');
 
