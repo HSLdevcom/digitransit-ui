@@ -68,13 +68,7 @@ const StopPageMap = (
   const children = [];
   if (config.showVehiclesOnStopPage) {
     leafletObjs.push(
-      <VehicleMarkerContainer
-        key="vehicles"
-        pattern="+"
-        headsign="+"
-        tripStart="+"
-        useLargeIcon
-      />,
+      <VehicleMarkerContainer key="vehicles" useLargeIcon ignoreMode />,
     );
   }
 

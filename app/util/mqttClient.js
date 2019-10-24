@@ -17,12 +17,13 @@ function getTopic(options, settings) {
     : '+';
   const geoHash = options.geoHash ? options.geoHash : ['+', '+', '+', '+'];
   const tripId = options.tripId ? options.tripId : '+';
+  const headsign = options.headsign ? options.headsign : '+';
   const tripStartTime = options.tripStartTime ? options.tripStartTime : '+';
   const topic = settings.mqttTopicResolver(
     route,
     direction,
     tripStartTime,
-    options.headsign,
+    headsign,
     settings.agency,
     tripId,
     geoHash,
@@ -90,8 +91,6 @@ export function changeTopics(settings, actionContext) {
   if (Array.isArray(oldTopics) && oldTopics.length > 0) {
     client.unsubscribe(oldTopics);
   }
-  // remove existing vehicles/topics
-  actionContext.dispatch('RealTimeClientReset');
   const topics = settings.options.map(option => getTopic(option, settings));
   // set new topic to store
   actionContext.dispatch('RealTimeClientNewTopics', topics);
@@ -99,8 +98,9 @@ export function changeTopics(settings, actionContext) {
 }
 
 export function startMqttClient(settings, actionContext) {
-  const topics = settings.options.map(option => getTopic(option, settings));
-  const mode = settings.options.length !== 0 ? settings.options[0].mode : 'bus';
+  const options = settings.options || [{}];
+  const topics = options.map(option => getTopic(option, settings));
+  const mode = options.length && options[0].mode ? options[0].mode : 'bus';
 
   return import(/* webpackChunkName: "mqtt" */ 'mqtt').then(mqtt => {
     if (settings.gtfsrt) {

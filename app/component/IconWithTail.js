@@ -73,11 +73,22 @@ const IconWithTail = ({
           </React.Fragment>
         )}
         {!useLargeIcon && (
-          <use
-            filter={desaturate ? 'url(#desaturate)' : undefined}
-            xlinkHref={`#${img}`}
-            transform={`rotate(${180 + rotate} 12 12)`}
-          />
+          <React.Fragment>
+            {rotate !== undefined && (
+              <use
+                filter={desaturate ? 'url(#desaturate)' : undefined}
+                xlinkHref={`#${img}`}
+                transform={`rotate(${180 + rotate} 12 12)`}
+              />
+            )}
+            {rotate === undefined && (
+              <use
+                filter={desaturate ? 'url(#desaturate)' : undefined}
+                xlinkHref="#icon-icon_all-vehicles-large"
+                transform="translate(5 5) scale(0.7)"
+              />
+            )}
+          </React.Fragment>
         )}
         {children}
       </svg>
