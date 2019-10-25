@@ -67,6 +67,7 @@ class SelectMapLayersDialog extends React.Component {
     {
       citybike,
       parkAndRide,
+      dynamicParkingLots,
       stop,
       terminal,
       ticketSales,
@@ -82,7 +83,7 @@ class SelectMapLayersDialog extends React.Component {
     return (
       <React.Fragment>
         {config.showAllBusses && (
-          <div className="checkbox-grouping">
+        <div className="checkbox-grouping">
             <Checkbox
               checked={showAllBusses}
               defaultMessage="Moving vehicles"
@@ -160,6 +161,17 @@ class SelectMapLayersDialog extends React.Component {
                 labelId="map-layer-citybike"
                 onChange={e =>
                   this.updateSetting({ citybike: e.target.checked })
+                }
+              />
+            )}
+          {config.dynamicParkingLots &&
+            config.dynamicParkingLots.showDynamicParkingLots && (
+              <Checkbox
+                checked={dynamicParkingLots}
+                defaultMessage="Dynamic parking lots"
+                labelId="map-layer-dynamicparkinglot"
+                onChange={e =>
+                  this.updateSetting({ dynamicParkingLots: e.target.checked })
                 }
               />
             )}
@@ -255,6 +267,9 @@ const transportModeConfigShape = PropTypes.shape({
 const mapLayersConfigShape = PropTypes.shape({
   cityBike: PropTypes.shape({
     showCityBikes: PropTypes.bool,
+  }),
+  dynamicParkingLots: PropTypes.shape({
+    showDynamicParkingLots: PropTypes.bool,
   }),
   geoJson: PropTypes.shape({
     layers: PropTypes.arrayOf(

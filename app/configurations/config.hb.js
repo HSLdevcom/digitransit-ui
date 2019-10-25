@@ -6,7 +6,7 @@ const APP_TITLE = 'Mobil in Herrenberg';
 const APP_DESCRIPTION = '';
 const API_URL = process.env.API_URL || 'https://api.mobil-in-herrenberg.de';
 const MAP_URL = process.env.MAP_URL || 'https://maps.wikimedia.org/osm-intl/';
-const GEOCODING_BASE_URL = `https://pelias.locationiq.org/v1`;
+const GEOCODING_BASE_URL = process.env.GEOCODING_BASE_URL || `https://pelias.locationiq.org/v1`;
 const LOCATIONIQ_API_KEY = process.env.LOCATIONIQ_API_KEY;
 
 const walttiConfig = require('./waltti').default;
@@ -24,9 +24,10 @@ export default configMerger(walttiConfig, {
       default: MAP_URL,
     },
     STOP_MAP: `${API_URL}/map/v1/stop-map/`,
+    DYNAMICPARKINGLOTS_MAP: `${API_URL}/map/v1/hb-parking-map/`,
 
-    PELIAS: `${GEOCODING_BASE_URL}/search?api_key=${LOCATIONIQ_API_KEY}`,
-    PELIAS_REVERSE_GEOCODER: `${GEOCODING_BASE_URL}/reverse?api_key=${LOCATIONIQ_API_KEY}`,
+    PELIAS: `${GEOCODING_BASE_URL}/search${LOCATIONIQ_API_KEY ? '?api_key=' + LOCATIONIQ_API_KEY : ''}`,
+    PELIAS_REVERSE_GEOCODER: `${GEOCODING_BASE_URL}/reverse${LOCATIONIQ_API_KEY ? '?api_key=' + LOCATIONIQ_API_KEY : ''}`,
   },
 
   availableLanguages: ['de', 'en'],
@@ -47,6 +48,14 @@ export default configMerger(walttiConfig, {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
   },
+
+  dynamicParkingLots: {
+    showDynamicParkingLots: true,
+    dynamicParkingLotsSmallIconZoom: 16,
+    dynamicParkingLotsMinZoom: 14
+  },
+
+  mergeStopsByCode: true,
 
   title: APP_TITLE,
 
@@ -146,4 +155,198 @@ export default configMerger(walttiConfig, {
   themeMap: {
     hb: 'hb',
   },
+
+  transportModes: {
+    rail: {
+      availableForSelection: true,
+      defaultValue: true,
+    },
+
+    tram: {
+      availableForSelection: false,
+      defaultValue: false,
+    },
+
+    subway: {
+      availableForSelection: false,
+      defaultValue: false,
+    },
+
+    citybike: {
+      availableForSelection: false,
+    },
+
+    airplane: {
+      availableForSelection: false,
+      defaultValue: false,
+    },
+
+    ferry: {
+      availableForSelection: false,
+      defaultValue: false,
+    },
+  },
+
+  streetModes: {
+    public_transport: {
+      availableForSelection: true,
+      defaultValue: true,
+      exclusive: false,
+      icon: 'bus-withoutBox',
+    },
+
+    walk: {
+      availableForSelection: true,
+      defaultValue: false,
+      exclusive: true,
+      icon: 'walk',
+    },
+
+    bicycle: {
+      availableForSelection: true,
+      defaultValue: false,
+      exclusive: true,
+      icon: 'bicycle-withoutBox',
+    },
+
+    car: {
+      availableForSelection: false,
+      defaultValue: false,
+      exclusive: false,
+      icon: 'car-withoutBox',
+    },
+
+    car_park: {
+      availableForSelection: true,
+      defaultValue: false,
+      exclusive: false,
+      icon: 'car-withoutBox',
+    }
+  },
+
+  // adding assets/geoJson/hb-layers layers
+  geoJson: {
+    layers: [
+      //taxi stands
+      {
+        name: {
+          fi: '',
+          en: 'Taxi stands',
+          de: 'Taxi Standorte',
+        },
+        url: '/assets/geojson/hb-layers/taxistand.geojson',
+      },
+      // bike parks
+      {
+        name: {
+          fi: '',
+          en: 'Open-air bicycle parks',
+          de: 'Fahrradstellplätze',
+        },
+        url: '/assets/geojson/hb-layers/open-airbikepark.geojson',
+      },
+      {
+        name: {
+          fi: '',
+          en: 'Covered bicycle parks',
+          de: 'Überdachte Fahrradstellplätze',
+        },
+        url: '/assets/geojson/hb-layers/coveredbikepark.geojson',
+      },
+      // bike repair stations
+      {
+        name: {
+          fi: '',
+          en: 'Bicycle repair stations',
+          de: 'Fahrradreparaturstationen',
+        },
+        url: '/assets/geojson/hb-layers/bicyclerepairstation.geojson',
+      },
+      // bike shops in Stuttgart
+      {
+        name: {
+          fi: '',
+          en: 'Bicycle shops',
+          de: 'Fahrradgeschäfte',
+        },
+        url: '/assets/geojson/hb-layers/bicycleshop.geojson',
+      },
+      // bike charging stations in Stuttgart
+      {
+        name: {
+          fi: '',
+          en: 'Bicycle charging stations',
+          de: 'Fahrradladestationen',
+        },
+        url: '/assets/geojson/hb-layers/bicyclechargingstation.geojson',
+      },
+      // Bike rental places in Stuttgart
+      {
+        name: {
+          fi: '',
+          en: 'Bicycle rental places',
+          de: 'Fahrradverleih',
+        },
+        url: '/assets/geojson/hb-layers/bikerental.geojson',
+      },
+      // car parks
+      {
+        name: {
+          fi: '',
+          en: 'Open-air car parks',
+          de: 'Parkplätze',
+        },
+        url: '/assets/geojson/hb-layers/carparking.geojson',
+      },
+      {
+        name: {
+          fi: '',
+          en: 'Multi-story/underground car parks',
+          de: 'Parkhäuser/Tiefgaragen',
+        },
+        url: '/assets/geojson/hb-layers/multi-storyundergroundcarparking.geojson',
+      },
+      // park and ride places
+      {
+        name: {
+          fi: '',
+          en: 'Park and Ride',
+          de: 'Park-Und-Ride',
+        },
+        url: '/assets/geojson/hb-layers/parkandride.geojson',
+      },
+      // Car sharing options in Stuttgart
+      {
+        name: {
+          fi: '',
+          en: 'Car sharing',
+          de: 'Car-Sharing',
+        },
+        url: '/assets/geojson/hb-layers/carsharing.geojson',
+      },
+      // Car charging stations in Stuttgart
+      {
+        name: {
+          fi: '',
+          en: 'Car charging stations',
+          de: 'Elektroauto-Ladestationen',
+        },
+        url: '/assets/geojson/hb-layers/carchargingstation.geojson',
+      }
+      /*,
+       Had to comment out since there is no bike monitoring stations
+        in Herrenberg's neighbourhood and so would return an error.
+      // bike monitoring stations
+      {
+        name: {
+          fi: '',
+          en: 'Bicycle monitoring stations',
+          de: 'Fahrradzählstellen',
+        },
+        url: '/assets/geojson/hb-layers/bicyclemonitoringstation.geojson',
+      }
+      */
+    ],
+},
+  
 });

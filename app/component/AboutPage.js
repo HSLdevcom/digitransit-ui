@@ -4,9 +4,11 @@ import React from 'react';
 import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import SanitizedHTML from 'react-sanitized-html';
 
 const AboutPage = ({ currentLanguage }, { config }) => {
   const about = config.aboutThisService[currentLanguage];
+  const allowedTags = ['a', 'b', 'i', 'strong', 'em', 'img', 'br'];
   return (
     <div className="about-page fullscreen">
       <div className="page-frame fullscreen momentum-scroll">
@@ -18,7 +20,7 @@ const AboutPage = ({ currentLanguage }, { config }) => {
                 <h1 className="about-header">{section.header}</h1>
                 {section.paragraphs &&
                   section.paragraphs.map((p, j) => (
-                    <p key={`about-section-${i}-p-${j}`}>{p}</p>
+                    <p key={`about-section-${i}-p-${j}`}><SanitizedHTML allowedTags={ allowedTags } html={ p } /></p>
                   ))}
                 {section.link && (
                   <a href={section.link}>
@@ -58,7 +60,7 @@ const connectedComponent = connectToStores(
   AboutPage,
   ['PreferencesStore'],
   context => ({
-    currentLanguage: context.getStore('PreferencesStore').getLanguage(),
+  currentLanguage: context.getStore('PreferencesStore').getLanguage(),
   }),
 );
 
