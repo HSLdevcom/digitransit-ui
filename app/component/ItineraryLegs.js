@@ -26,6 +26,7 @@ import { compressLegs, isCallAgencyPickupType } from '../util/legUtils';
 import updateShowCanceledLegsBannerState from '../action/CanceledLegsBarActions';
 import ComponentUsageExample from './ComponentUsageExample';
 import { exampleData, scooterData } from './data/ItineraryLegs.ExampleData';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class ItineraryLegs extends React.Component {
   static childContextTypes = {
@@ -63,6 +64,11 @@ class ItineraryLegs extends React.Component {
   focus = position => e => {
     e.stopPropagation();
     this.props.focusMap(position.lat, position.lon);
+    addAnalyticsEvent({
+      category: 'Itinerary',
+      action: 'ZoomMapToStopLocation',
+      name: null
+    });
   };
 
   stopCode = stop => stop && stop.code && <StopCode code={stop.code} />;

@@ -168,7 +168,14 @@ class TransitLeg extends React.Component {
       <div key={index} className="row itinerary-row">
         <div className="small-2 columns itinerary-time-column">
           <Link
-            onClick={e => e.stopPropagation()}
+            onClick={e => {
+              e.stopPropagation();
+              addAnalyticsEvent({
+                category: 'Itinerary',
+                action: 'OpenRouteFromItinerary',
+                name: mode
+              });
+            }}
             to={
               `/${PREFIX_ROUTES}/${leg.route.gtfsId}/pysakit/${
                 leg.trip.pattern.code
