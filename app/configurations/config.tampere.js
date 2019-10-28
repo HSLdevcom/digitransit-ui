@@ -46,12 +46,12 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/tre_zone_lines_20191024.geojson',
+        url: '/assets/geojson/tre_zone_lines_20191028.geojson',
         isOffByDefault: true,
       },
     ],
     zones: {
-      url: '/assets/geojson/tre_zone_areas_20191024.geojson',
+      url: '/assets/geojson/tre_zone_areas_20191028.geojson',
     },
   },
 
