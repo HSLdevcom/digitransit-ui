@@ -182,6 +182,8 @@ export default configMerger(walttiConfig, {
   },
 
   staticMessages: [],
+  showAllBusses: true,
+  showVehiclesOnStopPage: true,
   geoJson: {
     layerConfigUrl: 'https://data.foli.fi/geojson/reittiopas',
   },
