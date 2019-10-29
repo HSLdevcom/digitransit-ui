@@ -5,6 +5,7 @@ import Adapter from 'enzyme-adapter-react-16';
 import { JSDOM } from 'jsdom';
 import { after, afterEach, before } from 'mocha';
 import { stub } from 'sinon';
+import { initAnalyticsClientSide } from '../../../app/util/analyticsUtils';
 
 /**
  * Helper function to copy the properties of the source object to the
@@ -42,7 +43,7 @@ global.navigator = {
 copyProps(window, global);
 
 // For Google Tag Manager
-window.dataLayer = [];
+initAnalyticsClientSide();
 
 // set up unit test globals
 global.expect = expect;

@@ -32,6 +32,7 @@ import oldParamParser from './util/oldParamParser';
 import { ClientProvider as ClientBreakpointProvider } from './util/withBreakpoint';
 import meta from './meta';
 import { isIOSApp } from './util/browser';
+import { initAnalyticsClientSide } from './util/analyticsUtils';
 
 const plugContext = f => () => ({
   plugComponentContext: f,
@@ -82,7 +83,7 @@ const callback = () =>
 
     window.context = context;
     // For Google Tag Manager
-    window.dataLayer = window.dataLayer || [];
+    initAnalyticsClientSide();
 
     if (process.env.NODE_ENV === 'development') {
       try {
