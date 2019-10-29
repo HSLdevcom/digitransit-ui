@@ -32,7 +32,10 @@ import oldParamParser from './util/oldParamParser';
 import { ClientProvider as ClientBreakpointProvider } from './util/withBreakpoint';
 import meta from './meta';
 import { isIOSApp } from './util/browser';
-import { initAnalyticsClientSide, addAnalyticsEvent } from './util/analyticsUtils';
+import {
+  initAnalyticsClientSide,
+  addAnalyticsEvent,
+} from './util/analyticsUtils';
 
 const plugContext = f => () => ({
   plugComponentContext: f,
