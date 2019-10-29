@@ -11,6 +11,7 @@ import { getCustomizedSettings } from '../store/localStorage';
 import { getDefaultSettings } from '../util/planParamUtil';
 import { getDrawerWidth } from '../util/browser';
 import SecondaryButton from './SecondaryButton';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class LoadCustomizedSettingsButton extends React.Component {
   static propTypes = {
@@ -31,7 +32,7 @@ class LoadCustomizedSettingsButton extends React.Component {
   }
 
   loadSettingsData = () => {
-    window.dataLayer.push({
+    addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
       action: 'SettingsPanelloadSettingsButton',

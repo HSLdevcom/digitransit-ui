@@ -37,6 +37,7 @@ import events from '../util/events';
 import * as ModeUtils from '../util/modeUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const debug = d('IndexPage.js');
 
@@ -131,7 +132,7 @@ class IndexPage extends React.Component {
 
   clickNearby = () => {
     this.openTab(TAB_NEARBY);
-    window.dataLayer.push({
+    addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'Front page tabs',
       action: 'Nearby',
@@ -141,7 +142,7 @@ class IndexPage extends React.Component {
 
   clickFavourites = () => {
     this.openTab(TAB_FAVOURITES);
-    window.dataLayer.push({
+    addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'Front page tabs',
       action: 'Favourites',

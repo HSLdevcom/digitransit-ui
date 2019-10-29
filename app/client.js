@@ -32,7 +32,7 @@ import oldParamParser from './util/oldParamParser';
 import { ClientProvider as ClientBreakpointProvider } from './util/withBreakpoint';
 import meta from './meta';
 import { isIOSApp } from './util/browser';
-import { initAnalyticsClientSide } from './util/analyticsUtils';
+import { initAnalyticsClientSide, addAnalyticsEvent } from './util/analyticsUtils';
 
 const plugContext = f => () => ({
   plugComponentContext: f,
@@ -148,7 +148,7 @@ const callback = () =>
     }
 
     function track() {
-      window.dataLayer.push({
+      addAnalyticsEvent({
         event: 'Pageview',
         url: this.href,
       });
@@ -231,7 +231,7 @@ const callback = () =>
 
     // Listen for Web App Install Banner events
     window.addEventListener('beforeinstallprompt', e => {
-      window.dataLayer.push({
+      addAnalyticsEvent({
         event: 'sendMatomoEvent',
         category: 'installprompt',
         action: 'fired',
@@ -241,7 +241,7 @@ const callback = () =>
       // e.userChoice will return a Promise. (Only in chrome, not IE)
       if (e.userChoice) {
         e.userChoice.then(choiceResult =>
-          window.dataLayer.push({
+          addAnalyticsEvent({
             event: 'sendMatomoEvent',
             category: 'installprompt',
             action: 'result',

@@ -11,6 +11,7 @@ import { getDrawerWidth, isBrowser } from '../util/browser';
 import * as ModeUtils from '../util/modeUtils';
 import { parseLocation } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class SummaryNavigation extends React.Component {
   static propTypes = {
@@ -85,7 +86,7 @@ class SummaryNavigation extends React.Component {
   };
 
   internalSetOffcanvas = newState => {
-    window.dataLayer.push({
+    addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
       action: 'ExtraSettingsPanelClick',
