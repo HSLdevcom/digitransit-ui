@@ -502,7 +502,7 @@ export default {
   useTicketIcons: true,
 
   cityBike: {
-    showCityBikes: false,
+    showCityBikes: true,
     networks: {
       samocat: {
         icon: 'scooter',

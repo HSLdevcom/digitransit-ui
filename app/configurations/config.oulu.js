@@ -35,7 +35,7 @@ export default configMerger(walttiConfig, {
   logo: 'oulu/oulu-logo.png',
 
   cityBike: {
-    showCityBikes: false,
+    showCityBikes: true,
     useUrl: {
       fi: 'https://kaupunkipyorat.ouka.fi/',
       sv: 'https://kaupunkipyorat.ouka.fi/home',
@@ -68,7 +68,7 @@ export default configMerger(walttiConfig, {
 
   transportModes: {
     citybike: {
-      availableForSelection: true,
+      availableForSelection: false,
     },
   },
 

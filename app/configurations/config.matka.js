@@ -113,6 +113,12 @@ export default {
     },
   },
 
+  transportModes: {
+    citybike: {
+      availableForSelection: true,
+    },
+  },
+
   aboutThisService: {
     fi: [
       {
