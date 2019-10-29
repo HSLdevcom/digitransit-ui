@@ -94,7 +94,7 @@ export default {
   redirectReittiopasParams: true,
 
   cityBike: {
-    showCityBikes: false,
+    showCityBikes: true,
     networks: {
       turku: {
         icon: 'citybike',
