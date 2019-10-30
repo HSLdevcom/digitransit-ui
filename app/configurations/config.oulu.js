@@ -68,7 +68,7 @@ export default configMerger(walttiConfig, {
 
   transportModes: {
     citybike: {
-      availableForSelection: true,
+      availableForSelection: false,
     },
   },
 
