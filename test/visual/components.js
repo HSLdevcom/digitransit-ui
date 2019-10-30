@@ -91,7 +91,7 @@ testVariation('PlatformNumber');
 testVariation('CardHeader');
 testVariation('Card');
 testVariation('CityBikeCard');
-testVariation('CityBikeContent');
+//testVariation('CityBikeContent');
 testVariation('CityBikeAvailability');
 testVariation('CityBikeUse');
 
