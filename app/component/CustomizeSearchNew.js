@@ -165,7 +165,9 @@ class CustomizeSearch extends React.Component {
           />
         )}
         {config.cityBike.networks &&
-          Object.keys(config.cityBike.networks).length > 1 && (
+          Object.keys(config.cityBike.networks).length > 1 &&
+          config.transportModes.citybike &&
+          config.transportModes.citybike.availableForSelection && (
             <CityBikeNetworkSelector
               headerText={intl.formatMessage({
                 id: 'citybike-network-headers',
