@@ -14,6 +14,7 @@ import SecondaryButton from './SecondaryButton';
 import Loading from './Loading';
 import Icon from './Icon';
 import { RealtimeStateType } from '../constants';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const DATE_FORMAT = 'YYYYMMDD';
 
@@ -74,11 +75,21 @@ class RouteScheduleContainer extends Component {
       const to = prevState.to > from ? prevState.to : from + 1;
       return { ...prevState.state, from, to };
     });
+    addAnalyticsEvent({
+      category: 'Route',
+      action: 'ChangeTimetableStartPoint',
+      name: null
+    });
   };
 
   onToSelectChange = event => {
     const to = Number(event.target.value);
     this.setState(prevState => ({ ...prevState.state, to }));
+    addAnalyticsEvent({
+      category: 'Route',
+      action: 'ChangeTimetableEndPoint',
+      name: null
+    });
   };
 
   getTrips = (from, to) => {
@@ -127,6 +138,11 @@ class RouteScheduleContainer extends Component {
     // TODO: add setState and a callback that resets the laoding state in oreder to get a spinner.
     this.props.relay.setVariables({
       serviceDay: target.value,
+    });
+    addAnalyticsEvent({
+      category: 'Route',
+      action: 'ChangeTimetableDay',
+      name: null,
     });
   };
 
@@ -202,7 +218,14 @@ class RouteScheduleContainer extends Component {
               <SecondaryButton
                 ariaLabel="print-timetable"
                 buttonName="print-timetable"
-                buttonClickAction={e => this.openRoutePDF(e, routeTimetableUrl)}
+                buttonClickAction={e => {
+                  this.openRoutePDF(e, routeTimetableUrl);
+                  addAnalyticsEvent({
+                    category: 'Route',
+                    action: 'PrintWeeklyTimetable',
+                    name: null
+                  });
+                }}
                 buttonIcon="icon-icon_print"
                 smallSize
               />
@@ -210,7 +233,14 @@ class RouteScheduleContainer extends Component {
             <SecondaryButton
               ariaLabel="print"
               buttonName="print"
-              buttonClickAction={e => this.printRouteTimetable(e)}
+              buttonClickAction={e => {
+                this.printRouteTimetable(e);
+                addAnalyticsEvent({
+                  category: 'Route',
+                  action: 'PrintTimetable',
+                  name: null
+                });
+              }}
               buttonIcon="icon-icon_print"
               smallSize
             />

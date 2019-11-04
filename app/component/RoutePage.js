@@ -28,6 +28,7 @@ import {
 import { PREFIX_ROUTES } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 import { RouteAlertsQuery, StopAlertsQuery } from '../util/alertQueries';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const Tab = {
   Disruptions: 'hairiot',
@@ -116,6 +117,11 @@ class RoutePage extends React.Component {
   }
 
   onPatternChange = newPattern => {
+    addAnalyticsEvent({
+      category: 'Stop',
+      action: 'ToggleDirection',
+      name: null,
+    });
     const { location, params, route } = this.props;
     const { config, executeAction, getStore, router } = this.context;
     const { client, topics } = getStore('RealTimeInformationStore');
@@ -159,6 +165,26 @@ class RoutePage extends React.Component {
     const path = `/${PREFIX_ROUTES}/${this.props.route.gtfsId}/${tab}/${this
       .props.params.patternId || ''}`;
     this.context.router.replace(path);
+    let action;
+    switch (tab) {
+      case 'aikataulu':
+        action = 'OpenTimetableTab';
+        break;
+      case 'pysakit':
+        action = 'OpenStopsTab';
+        break;
+      case 'hairiot':
+        action = 'OpenDisruptionsTab';
+        break;
+      default:
+        action = 'Unknown'
+        break;
+    }
+    addAnalyticsEvent({
+      category: 'Route',
+      action,
+      name: null,
+    });
   };
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/anchor-is-valid */
