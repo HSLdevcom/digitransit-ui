@@ -185,8 +185,14 @@ class IndexPage extends React.Component {
   renderStreetModeSelector = (config, router) => (
     <SelectStreetModeDialog
       selectedStreetMode={ModeUtils.getStreetMode(router.location, config)}
-      selectStreetMode={(streetMode, isExclusive) =>
-        ModeUtils.setStreetMode(streetMode, config, router, isExclusive)
+      selectStreetMode={(streetMode, isExclusive) => {
+        addAnalyticsEvent({
+          category: 'ItinerarySettings',
+          action: 'SelectTravelingModeFromIndexPage',
+          name: streetMode
+        });
+        ModeUtils.setStreetMode(streetMode, config, router, isExclusive);
+      }
       }
       streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
     />

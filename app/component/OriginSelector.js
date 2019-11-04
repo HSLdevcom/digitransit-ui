@@ -8,12 +8,18 @@ import { isBrowser } from '../util/browser';
 import OriginSelectorRow from './OriginSelectorRow';
 import { suggestionToLocation, getIcon } from '../util/suggestionUtils';
 import GeopositionSelector from './GeopositionSelector';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const OriginSelector = (
   { favouriteLocations, favouriteStops, oldSearches, destination, origin, tab },
   { config, router },
 ) => {
   const setOrigin = newOrigin => {
+    addAnalyticsEvent({
+      action: 'EditJourneyStartPoint',
+      category: 'ItinerarySettings',
+      name: 'NearYouList'
+    })
     navigateTo({
       origin: { ...newOrigin, ready: true },
       destination,

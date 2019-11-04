@@ -5,6 +5,7 @@ import { routerShape } from 'react-router';
 import Checkbox from '../Checkbox';
 import { StreetMode, TransportMode } from '../../constants';
 import { toggleTransportMode, setStreetMode } from '../../util/modeUtils';
+import { addAnalyticsEvent } from '../../util/analyticsUtils';
 
 const BikeTransportOptionsSection = ({ currentModes }, { config, router }) => {
   const onlyBike =
@@ -23,6 +24,11 @@ const BikeTransportOptionsSection = ({ currentModes }, { config, router }) => {
         onChange={e => {
           if (e.target.checked) {
             setStreetMode(StreetMode.Bicycle, config, router, true);
+            addAnalyticsEvent({
+              action: 'EnableImTravelingOnlyByBike',
+              category: 'ItinerarySettings',
+              name: null
+            });
           }
         }}
       />
@@ -32,9 +38,15 @@ const BikeTransportOptionsSection = ({ currentModes }, { config, router }) => {
           defaultMessage="I'm using a citybike"
           key="cb-citybike"
           labelId="biketransport-citybike"
-          onChange={() =>
+          onChange={e => {
             toggleTransportMode(TransportMode.Citybike, config, router)
-          }
+            let action = e.target.checked ? 'EnableImUsingACityBike' : 'DisableImUsingACityBike';
+            addAnalyticsEvent({
+              action,
+              category: 'ItinerarySettings',
+              name: null
+            });
+          }}
         />
       )}
     </React.Fragment>

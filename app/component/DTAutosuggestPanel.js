@@ -15,6 +15,7 @@ import updateViaPointsFromMap from '../action/ViaPointsActions';
 import { dtLocationShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
 import { withCurrentTime } from '../util/searchUtils';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 export const getEmptyViaPointPlaceHolder = () => ({});
 
@@ -176,12 +177,23 @@ class DTAutosuggestPanel extends React.Component {
   };
 
   handleViaPointSlackTimeSelected = (slackTimeInSeconds, i) => {
+    addAnalyticsEvent({
+      action: 'EditViaPointStopDuration',
+      category: 'ItinerarySettings',
+      name: slackTimeInSeconds / 60
+    });
     const { viaPoints } = this.state;
     viaPoints[i].locationSlack = Number.parseInt(slackTimeInSeconds, 10);
     this.setState({ viaPoints }, () => this.updateViaPoints(viaPoints));
   };
 
   handleViaPointLocationSelected = (viaPointLocation, i) => {
+    addAnalyticsEvent({
+      action: 'EditJourneyViaPoint',
+      category: 'ItinerarySettings',
+      name: viaPointLocation.type
+    });
+
     const { viaPoints } = this.state;
     viaPoints[i] = {
       ...viaPointLocation,
@@ -190,6 +202,11 @@ class DTAutosuggestPanel extends React.Component {
   };
 
   handleRemoveViaPointClick = viaPointIndex => {
+    addAnalyticsEvent({
+      action: 'RemoveJourneyViaPoint',
+      category: 'ItinerarySettings',
+      name: null
+    });
     const { activeSlackInputs, viaPoints } = this.state;
     viaPoints.splice(viaPointIndex, 1);
     this.setState(
@@ -206,12 +223,22 @@ class DTAutosuggestPanel extends React.Component {
   };
 
   handleAddViaPointClick = () => {
+    addAnalyticsEvent({
+      action: 'AddJourneyViaPoint',
+      category: 'ItinerarySettings',
+      name: 'QuickSettingsButton'
+    });
     const { viaPoints } = this.state;
     viaPoints.push(getEmptyViaPointPlaceHolder());
     this.setState({ viaPoints });
   };
 
   handleSwapOrderClick = () => {
+    addAnalyticsEvent({
+      action: 'SwitchJourneyStartAndEndPointOrder',
+      category: 'ItinerarySettings',
+      name: null
+    });
     const { viaPoints } = this.state;
     viaPoints.reverse();
     this.setState({ viaPoints }, () => this.props.swapOrder());
@@ -241,7 +268,11 @@ class DTAutosuggestPanel extends React.Component {
     ) {
       return;
     }
-
+    addAnalyticsEvent({
+      action: 'SwitchJourneyViaPointOrder',
+      category: 'ItinerarySettings',
+      name: null
+    });
     const { viaPoints } = this.state;
     const draggedViaPoint = viaPoints.splice(draggedIndex, 1)[0];
     viaPoints.splice(
@@ -328,6 +359,12 @@ class DTAutosuggestPanel extends React.Component {
             value={this.value(origin)}
             isFocused={this.isFocused}
             onLocationSelected={location => {
+              addAnalyticsEvent({
+                action: 'EditJourneyStartPoint',
+                category: 'ItinerarySettings',
+                name: location.type
+              });
+
               let newOrigin = { ...location, ready: true };
               let { destination } = this.props;
               if (location.type === 'CurrentLocation') {
@@ -486,6 +523,12 @@ class DTAutosuggestPanel extends React.Component {
               isFocused={this.isFocused}
               value={this.value(this.props.destination)}
               onLocationSelected={location => {
+                addAnalyticsEvent({
+                  action: 'EditJourneyEndPoint',
+                  category: 'ItinerarySettings',
+                  name: location.type
+                });
+
                 let updatedOrigin = origin;
                 let destination = { ...location, ready: true };
                 if (location.type === 'CurrentLocation') {
