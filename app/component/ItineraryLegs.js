@@ -67,7 +67,7 @@ class ItineraryLegs extends React.Component {
     addAnalyticsEvent({
       category: 'Itinerary',
       action: 'ZoomMapToStopLocation',
-      name: null
+      name: null,
     });
   };
 

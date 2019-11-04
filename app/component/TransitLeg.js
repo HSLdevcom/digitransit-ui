@@ -173,7 +173,7 @@ class TransitLeg extends React.Component {
               addAnalyticsEvent({
                 category: 'Itinerary',
                 action: 'OpenRouteFromItinerary',
-                name: mode
+                name: mode,
               });
             }}
             to={

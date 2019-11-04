@@ -94,8 +94,8 @@ export default function TicketInformation({ fares, zones }, { config, intl }) {
                       addAnalyticsEvent({
                         category: 'Itinerary',
                         action: 'OpenHowToBuyTicket',
-                        name: null
-                      })
+                        name: null,
+                      });
                     }}
                   >
                     {intl.formatMessage({ id: 'extra-info' })}
@@ -113,8 +113,8 @@ export default function TicketInformation({ fares, zones }, { config, intl }) {
             addAnalyticsEvent({
               category: 'Itinerary',
               action: 'OpenHowToBuyTicket',
-              name: null
-            })
+              name: null,
+            });
           }}
         >
           {intl.formatMessage({ id: 'buy-ticket' })}
