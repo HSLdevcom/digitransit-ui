@@ -99,7 +99,7 @@ class SelectMapLayersDialog extends React.Component {
               labelId="map-layer-vehicles"
               onChange={e => {
                 this.updateSetting({ showAllBusses: e.target.checked });
-                this.sendAnalytic('Vehicles', e.target.checked);
+                this.sendLayerChangeAnalytic('Vehicles', e.target.checked);
               }}
             />
           </div>
