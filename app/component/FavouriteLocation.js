@@ -9,6 +9,7 @@ import DepartureTime from './DepartureTime';
 import RouteNumber from './RouteNumber';
 import { favouriteLocation as favouriteLocationExample } from './ExampleData';
 import { isStop, isTerminal } from '../util/suggestionUtils';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const FavouriteLocation = ({
   favourite,
@@ -78,6 +79,11 @@ const FavouriteLocation = ({
       <Link
         onClick={e => {
           e.stopPropagation();
+          addAnalyticsEvent({
+            category: 'Favourite',
+            action: 'EditFavourite',
+            name: null,
+          });
         }}
         to={`/suosikki/muokkaa/${favouriteType}/${id}`}
         className="cursor-pointer no-decoration"
