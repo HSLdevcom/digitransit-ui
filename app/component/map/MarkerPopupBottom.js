@@ -18,7 +18,7 @@ import {
   setIntermediatePlaces,
 } from '../../util/queryUtils';
 import { dtLocationShape } from '../../util/shapes';
-import { addAnalyticsEvent } from '../../util/analyticsUtils'
+import { addAnalyticsEvent } from '../../util/analyticsUtils';
 
 const locationToOtp = location =>
   `${location.address}::${location.lat},${location.lon}${
@@ -82,7 +82,7 @@ class MarkerPopupBottom extends React.Component {
     addAnalyticsEvent({
       action: 'EditJourneyStartPoint',
       category: 'ItinerarySettings',
-      name: 'MapPopup'
+      name: 'MapPopup',
     });
     const locationWithTime = withCurrentTime(
       this.context.getStore,
@@ -109,7 +109,7 @@ class MarkerPopupBottom extends React.Component {
     addAnalyticsEvent({
       action: 'EditJourneyEndPoint',
       category: 'ItinerarySettings',
-      name: 'MapPopup'
+      name: 'MapPopup',
     });
     const locationWithTime = withCurrentTime(
       this.context.getStore,
@@ -136,7 +136,7 @@ class MarkerPopupBottom extends React.Component {
     addAnalyticsEvent({
       action: 'AddJourneyViaPoint',
       category: 'ItinerarySettings',
-      name: 'MapPopup'
+      name: 'MapPopup',
     });
     const viaPoints = getIntermediatePlaces(this.context.location.query)
       .concat([this.props.location])

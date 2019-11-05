@@ -18,8 +18,8 @@ const OriginSelector = (
     addAnalyticsEvent({
       action: 'EditJourneyStartPoint',
       category: 'ItinerarySettings',
-      name: 'NearYouList'
-    })
+      name: 'NearYouList',
+    });
     navigateTo({
       origin: { ...newOrigin, ready: true },
       destination,

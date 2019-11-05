@@ -180,7 +180,7 @@ class DTAutosuggestPanel extends React.Component {
     addAnalyticsEvent({
       action: 'EditViaPointStopDuration',
       category: 'ItinerarySettings',
-      name: slackTimeInSeconds / 60
+      name: slackTimeInSeconds / 60,
     });
     const { viaPoints } = this.state;
     viaPoints[i].locationSlack = Number.parseInt(slackTimeInSeconds, 10);
@@ -191,7 +191,7 @@ class DTAutosuggestPanel extends React.Component {
     addAnalyticsEvent({
       action: 'EditJourneyViaPoint',
       category: 'ItinerarySettings',
-      name: viaPointLocation.type
+      name: viaPointLocation.type,
     });
 
     const { viaPoints } = this.state;
@@ -205,7 +205,7 @@ class DTAutosuggestPanel extends React.Component {
     addAnalyticsEvent({
       action: 'RemoveJourneyViaPoint',
       category: 'ItinerarySettings',
-      name: null
+      name: null,
     });
     const { activeSlackInputs, viaPoints } = this.state;
     viaPoints.splice(viaPointIndex, 1);
@@ -226,7 +226,7 @@ class DTAutosuggestPanel extends React.Component {
     addAnalyticsEvent({
       action: 'AddJourneyViaPoint',
       category: 'ItinerarySettings',
-      name: 'QuickSettingsButton'
+      name: 'QuickSettingsButton',
     });
     const { viaPoints } = this.state;
     viaPoints.push(getEmptyViaPointPlaceHolder());
@@ -237,7 +237,7 @@ class DTAutosuggestPanel extends React.Component {
     addAnalyticsEvent({
       action: 'SwitchJourneyStartAndEndPointOrder',
       category: 'ItinerarySettings',
-      name: null
+      name: null,
     });
     const { viaPoints } = this.state;
     viaPoints.reverse();
@@ -271,7 +271,7 @@ class DTAutosuggestPanel extends React.Component {
     addAnalyticsEvent({
       action: 'SwitchJourneyViaPointOrder',
       category: 'ItinerarySettings',
-      name: null
+      name: null,
     });
     const { viaPoints } = this.state;
     const draggedViaPoint = viaPoints.splice(draggedIndex, 1)[0];
@@ -362,7 +362,7 @@ class DTAutosuggestPanel extends React.Component {
               addAnalyticsEvent({
                 action: 'EditJourneyStartPoint',
                 category: 'ItinerarySettings',
-                name: location.type
+                name: location.type,
               });
 
               let newOrigin = { ...location, ready: true };
@@ -526,7 +526,7 @@ class DTAutosuggestPanel extends React.Component {
                 addAnalyticsEvent({
                   action: 'EditJourneyEndPoint',
                   category: 'ItinerarySettings',
-                  name: location.type
+                  name: location.type,
                 });
 
                 let updatedOrigin = origin;

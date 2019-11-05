@@ -23,11 +23,11 @@ const BikingOptionsSection = (
       defaultValue={defaultSettings.walkReluctance}
       highlightDefaultValue={false}
       onOptionSelected={value => {
-        replaceQueryParams(router, { walkReluctance: value })
+        replaceQueryParams(router, { walkReluctance: value });
         addAnalyticsEvent({
           category: 'ItinerarySettings',
           action: 'ChangeAmountOfBiking',
-          name: value
+          name: value,
         });
       }}
       options={getFiveStepOptions(
@@ -41,11 +41,11 @@ const BikingOptionsSection = (
       defaultValue={defaultSettings.bikeSpeed}
       displayValueFormatter={value => `${ceil(value * 3.6, 1)} km/h`}
       onOptionSelected={value => {
-        replaceQueryParams(router, { bikeSpeed: value })
+        replaceQueryParams(router, { bikeSpeed: value });
         addAnalyticsEvent({
           category: 'ItinerarySettings',
           action: 'ChangeBikingSpeed',
-          name: value
+          name: value,
         });
       }}
       options={getSpeedOptions(defaultSettings.bikeSpeed, 10, 21)}

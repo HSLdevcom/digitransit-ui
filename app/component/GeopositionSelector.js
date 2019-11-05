@@ -66,7 +66,7 @@ class GeopositionSelector extends React.Component {
           addAnalyticsEvent({
             action: 'EditJourneyStartPoint',
             category: 'ItinerarySettings',
-            name: 'NearYouCurrentLocation'
+            name: 'NearYouCurrentLocation',
           });
           this.context.executeAction(startLocationWatch);
         }}

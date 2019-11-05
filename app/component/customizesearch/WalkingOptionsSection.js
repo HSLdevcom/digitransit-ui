@@ -22,11 +22,11 @@ const WalkingOptionsSection = (
       defaultValue={defaultSettings.walkReluctance}
       highlightDefaultValue={false}
       onOptionSelected={value => {
-        replaceQueryParams(router, { walkReluctance: value })
+        replaceQueryParams(router, { walkReluctance: value });
         addAnalyticsEvent({
           category: 'ItinerarySettings',
           action: 'ChangeAmountOfWalking',
-          name: value
+          name: value,
         });
       }}
       options={getFiveStepOptions(
@@ -40,11 +40,11 @@ const WalkingOptionsSection = (
       defaultValue={defaultSettings.walkSpeed}
       displayValueFormatter={value => `${ceil(value * 3.6, 1)} km/h`}
       onOptionSelected={value => {
-        replaceQueryParams(router, { walkSpeed: value })
+        replaceQueryParams(router, { walkSpeed: value });
         addAnalyticsEvent({
           category: 'ItinerarySettings',
           action: 'ChangeWalkingSpeed',
-          name: value
+          name: value,
         });
       }}
       options={getSpeedOptions(defaultSettings.walkSpeed, 1, 12)}

@@ -172,12 +172,12 @@ const addRoute = (router, routeToAdd, preferred) => {
   replaceQueryParams(router, {
     [`${preferred ? 'preferred' : 'unpreferred'}Routes`]: routes.join(','),
   });
-  let action = preferred ? 'PreferRoute' : 'AvoidRoute';
+  const action = preferred ? 'PreferRoute' : 'AvoidRoute';
   addAnalyticsEvent({
     action,
     category: 'ItinerarySettings',
-    name: routeToAdd
-  })
+    name: routeToAdd,
+  });
 };
 
 /**
@@ -374,7 +374,7 @@ export const setPreferGreenways = (
   addAnalyticsEvent({
     action: 'EnablePreferCycleways',
     category: 'ItinerarySettings',
-    name: null
+    name: null,
   });
 };
 
@@ -406,7 +406,7 @@ export const setAvoidElevationChanges = (
   addAnalyticsEvent({
     action: 'EnableAvoidChangesInElevation',
     category: 'ItinerarySettings',
-    name: null
+    name: null,
   });
 };
 
@@ -437,7 +437,7 @@ export const resetPreferGreenways = (
   addAnalyticsEvent({
     action: 'DisablePreferCycleways',
     category: 'ItinerarySettings',
-    name: null
+    name: null,
   });
 };
 
@@ -468,6 +468,6 @@ export const resetAvoidElevationChanges = (
   addAnalyticsEvent({
     action: 'DisableAvoidChangesInElevation',
     category: 'ItinerarySettings',
-    name: null
+    name: null,
   });
 };

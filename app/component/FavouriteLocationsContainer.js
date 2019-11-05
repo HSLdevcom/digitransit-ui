@@ -114,7 +114,7 @@ export default class FavouriteLocationsContainer extends React.Component {
     addAnalyticsEvent({
       action: 'EditJourneyEndPoint',
       category: 'ItinerarySettings',
-      name: 'FavouritePanel'
+      name: 'FavouritePanel',
     });
 
     navigateTo({

@@ -171,7 +171,7 @@ class QuickSettingsPanel extends React.Component {
     addAnalyticsEvent({
       action: 'OpenSettings',
       category: 'ItinerarySettings',
-      name: null
+      name: null,
     });
     this.internalSetOffcanvas(!this.getOffcanvasState());
   };
@@ -259,10 +259,12 @@ class QuickSettingsPanel extends React.Component {
       ',',
     );
 
-    let disable = this.getModes().includes(mode.toUpperCase());
+    const disable = this.getModes().includes(mode.toUpperCase());
     addAnalyticsEvent({
       category: 'ItinerarySettings',
-      action: disable ? 'QuickSettingsDisableTransportMode' : 'QuickSettingsEnableTransportMode',
+      action: disable
+        ? 'QuickSettingsDisableTransportMode'
+        : 'QuickSettingsEnableTransportMode',
       name: mode.toUpperCase(),
     });
 

@@ -27,7 +27,7 @@ const BikeTransportOptionsSection = ({ currentModes }, { config, router }) => {
             addAnalyticsEvent({
               action: 'EnableImTravelingOnlyByBike',
               category: 'ItinerarySettings',
-              name: null
+              name: null,
             });
           }
         }}
@@ -39,12 +39,14 @@ const BikeTransportOptionsSection = ({ currentModes }, { config, router }) => {
           key="cb-citybike"
           labelId="biketransport-citybike"
           onChange={e => {
-            toggleTransportMode(TransportMode.Citybike, config, router)
-            let action = e.target.checked ? 'EnableImUsingACityBike' : 'DisableImUsingACityBike';
+            toggleTransportMode(TransportMode.Citybike, config, router);
+            const action = e.target.checked
+              ? 'EnableImUsingACityBike'
+              : 'DisableImUsingACityBike';
             addAnalyticsEvent({
               action,
               category: 'ItinerarySettings',
-              name: null
+              name: null,
             });
           }}
         />

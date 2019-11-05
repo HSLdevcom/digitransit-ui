@@ -189,11 +189,10 @@ class IndexPage extends React.Component {
         addAnalyticsEvent({
           category: 'ItinerarySettings',
           action: 'SelectTravelingModeFromIndexPage',
-          name: streetMode
+          name: streetMode,
         });
         ModeUtils.setStreetMode(streetMode, config, router, isExclusive);
-      }
-      }
+      }}
       streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
     />
   );

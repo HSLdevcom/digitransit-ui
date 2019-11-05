@@ -78,7 +78,7 @@ class TimeSelectorContainer extends Component {
     addAnalyticsEvent({
       action: 'EditJourneyTime',
       category: 'ItinerarySettings',
-      name: null
+      name: null,
     });
     const time = this.props.time.clone();
     if (add) {
@@ -95,7 +95,7 @@ class TimeSelectorContainer extends Component {
     addAnalyticsEvent({
       action: 'EditJourneyDate',
       category: 'ItinerarySettings',
-      name: null
+      name: null,
     });
     const time = moment.unix(parseInt(target.value, 10));
     this.setTime(time);

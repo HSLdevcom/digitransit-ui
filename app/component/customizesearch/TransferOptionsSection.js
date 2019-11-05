@@ -21,11 +21,11 @@ const TransferOptionsSection = (
       defaultValue={defaultSettings.walkBoardCost}
       highlightDefaultValue={false}
       onOptionSelected={value => {
-        replaceQueryParams(router, { walkBoardCost: value })
+        replaceQueryParams(router, { walkBoardCost: value });
         addAnalyticsEvent({
           category: 'ItinerarySettings',
           action: 'changeNumberOfTransfers',
-          name: value
+          name: value,
         });
       }}
       options={getFiveStepOptions(
@@ -40,11 +40,11 @@ const TransferOptionsSection = (
       displayPattern="number-of-minutes"
       displayValueFormatter={seconds => seconds / 60}
       onOptionSelected={value => {
-        replaceQueryParams(router, { minTransferTime: value })
+        replaceQueryParams(router, { minTransferTime: value });
         addAnalyticsEvent({
           category: 'ItinerarySettings',
           action: 'ChangeTransferMargin',
-          name: value
+          name: value,
         });
       }}
       options={getLinearStepOptions(

@@ -314,7 +314,7 @@ export const toggleTransportMode = (transportMode, config, router) => {
   addAnalyticsEvent({
     action: actionName,
     category: 'ItinerarySettings',
-    name: transportMode
+    name: transportMode,
   });
   if (isBikeRestricted(router.location, config, transportMode)) {
     return;
