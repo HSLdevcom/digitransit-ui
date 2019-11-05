@@ -9,6 +9,7 @@ import SwipeableViews from 'react-swipeable-views';
 import Icon from './Icon';
 import { isBrowser } from '../util/browser';
 import { getRoutePath } from '../util/path';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 export default class MobileItineraryWrapper extends React.Component {
   static propTypes = {
@@ -70,7 +71,7 @@ export default class MobileItineraryWrapper extends React.Component {
   focusMap = (lat, lon) => this.props.focus(lat, lon);
 
   switchSlide = index => {
-    window.dataLayer.push({
+    addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
       action: 'ItineraryDetailsClick',

@@ -13,6 +13,7 @@ import {
 import { getCurrentSettings, getDefaultSettings } from '../util/planParamUtil';
 import { getQuerySettings } from '../util/queryUtils';
 import { getDrawerWidth } from '../util/browser';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class SaveCustomizedSettingsButton extends React.Component {
   static propTypes = {
@@ -33,7 +34,7 @@ class SaveCustomizedSettingsButton extends React.Component {
   }
 
   setSettingsData = () => {
-    window.dataLayer.push({
+    addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
       action: 'SettingsPanelSaveSettingsButton',

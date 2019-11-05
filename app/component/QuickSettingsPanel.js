@@ -29,6 +29,7 @@ import {
   clearQueryParams,
   getQuerySettings,
 } from '../util/queryUtils';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class QuickSettingsPanel extends React.Component {
   static propTypes = {
@@ -69,7 +70,7 @@ class QuickSettingsPanel extends React.Component {
 
   setArriveBy = ({ target }) => {
     const arriveBy = target.value;
-    window.dataLayer.push({
+    addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
       action: 'LeavingArrivingSelection',
@@ -149,7 +150,7 @@ class QuickSettingsPanel extends React.Component {
   setQuickOption = name => {
     const { router } = this.context;
 
-    window.dataLayer.push({
+    addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
       action: 'ItineraryQuickSettingsSelection',
@@ -175,7 +176,7 @@ class QuickSettingsPanel extends React.Component {
   };
 
   internalSetOffcanvas = newState => {
-    window.dataLayer.push({
+    addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
       action: 'ExtraSettingsPanelClick',
@@ -253,7 +254,7 @@ class QuickSettingsPanel extends React.Component {
       ',',
     );
 
-    window.dataLayer.push({
+    addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
       action: 'QuickSettingsTransportModeSelection',
