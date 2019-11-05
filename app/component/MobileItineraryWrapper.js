@@ -67,9 +67,11 @@ export default class MobileItineraryWrapper extends React.Component {
       });
     }
     addAnalyticsEvent({
-      action: this.props.fullscreenMap ? 'MinimizeMapOnMobile' : 'MaximizeMapOnMobile',
+      action: this.props.fullscreenMap
+        ? 'MinimizeMapOnMobile'
+        : 'MaximizeMapOnMobile',
       category: 'Map',
-      name: 'SummaryPage'
+      name: 'SummaryPage',
     });
   };
 

@@ -78,7 +78,7 @@ class RouteMapContainer extends React.PureComponent {
       addAnalyticsEvent({
         action: fullscreen ? 'MinimizeMapOnMobile' : 'MaximizeMapOnMobile',
         category: 'Map',
-        name: 'RoutePage'
+        name: 'RoutePage',
       });
       if (fullscreen) {
         router.goBack();

@@ -260,8 +260,8 @@ class MapWithTrackingStateHandler extends React.Component {
     addAnalyticsEvent({
       category: 'Map',
       action: 'ReCenterToMyGeolocation',
-      name: null
-    })
+      name: null,
+    });
   };
 
   disableMapTracking = () => {

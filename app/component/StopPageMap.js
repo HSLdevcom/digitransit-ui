@@ -21,7 +21,7 @@ const toggleFullscreenMap = (fullscreenMap, params, router) => {
   addAnalyticsEvent({
     action: fullscreenMap ? 'MinimizeMapOnMobile' : 'MaximizeMapOnMobile',
     category: 'Map',
-    name: 'StopPage'
+    name: 'StopPage',
   });
   if (fullscreenMap) {
     router.goBack();

@@ -86,9 +86,9 @@ function ItineraryPageMap(
     addAnalyticsEvent({
       action: fullscreen ? 'MinimizeMapOnMobile' : 'MaximizeMapOnMobile',
       category: 'Map',
-      name: 'SummaryPage'
+      name: 'SummaryPage',
     });
-  }
+  };
   const overlay = fullscreen ? (
     undefined
   ) : (

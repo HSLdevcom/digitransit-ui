@@ -20,13 +20,14 @@ const CityBikeUse = ({ url, type }) => (
       />
     </p>
     <a href={url}>
-      <button className="use-bike-button cursor-pointer"
+      <button
+        className="use-bike-button cursor-pointer"
         onClick={() => {
           addAnalyticsEvent({
             category: 'Map',
             action: 'OpenCityBikesRegistrationFromStationPopup',
-            name: null
-          })
+            name: null,
+          });
         }}
       >
         <FormattedMessage id="use-citybike" defaultMessage="Start using" />

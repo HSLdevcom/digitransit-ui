@@ -30,14 +30,15 @@ function RouteMarkerPopup(props) {
         addFavouriteRoute={props.addAsFavouriteRoute}
       />
       <div className="bottom location">
-        <Link to={tripPath}
+        <Link
+          to={tripPath}
           onClick={() => {
-              addAnalyticsEvent({
-                category: 'Map',
-                action: 'OpenTripInformation',
-                name: null
-              });
-            }}
+            addAnalyticsEvent({
+              category: 'Map',
+              action: 'OpenTripInformation',
+              name: null,
+            });
+          }}
         >
           <FormattedMessage
             id="trip-information"
