@@ -78,7 +78,7 @@ class RouteScheduleContainer extends Component {
     addAnalyticsEvent({
       category: 'Route',
       action: 'ChangeTimetableStartPoint',
-      name: null
+      name: null,
     });
   };
 
@@ -88,7 +88,7 @@ class RouteScheduleContainer extends Component {
     addAnalyticsEvent({
       category: 'Route',
       action: 'ChangeTimetableEndPoint',
-      name: null
+      name: null,
     });
   };
 
@@ -223,7 +223,7 @@ class RouteScheduleContainer extends Component {
                   addAnalyticsEvent({
                     category: 'Route',
                     action: 'PrintWeeklyTimetable',
-                    name: null
+                    name: null,
                   });
                 }}
                 buttonIcon="icon-icon_print"
@@ -238,7 +238,7 @@ class RouteScheduleContainer extends Component {
                 addAnalyticsEvent({
                   category: 'Route',
                   action: 'PrintTimetable',
-                  name: null
+                  name: null,
                 });
               }}
               buttonIcon="icon-icon_print"

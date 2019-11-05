@@ -15,7 +15,7 @@ const FavouriteRouteContainer = connectToStores(
         category: 'Route',
         action: 'MarkRouteAsFavourite',
         name: !context.getStore('FavouriteRoutesStore').isFavourite(gtfsId),
-      })
+      });
     },
   }),
 );

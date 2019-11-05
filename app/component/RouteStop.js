@@ -180,13 +180,14 @@ class RouteStop extends React.PureComponent {
           <div className={cx('route-stop-now_line', mode)} />
         </div>
         <div className="route-stop-row_content-container">
-          <Link to={`/${PREFIX_STOPS}/${encodeURIComponent(stop.gtfsId)}`}
+          <Link
+            to={`/${PREFIX_STOPS}/${encodeURIComponent(stop.gtfsId)}`}
             onClick={() => {
               addAnalyticsEvent({
                 category: 'Routes',
                 action: 'OpenStopViewFromRoute',
                 name: null,
-              })
+              });
             }}
           >
             <div className={` route-details_container ${mode}`}>

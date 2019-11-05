@@ -177,7 +177,7 @@ class RoutePage extends React.Component {
         action = 'OpenDisruptionsTab';
         break;
       default:
-        action = 'Unknown'
+        action = 'Unknown';
         break;
     }
     addAnalyticsEvent({
