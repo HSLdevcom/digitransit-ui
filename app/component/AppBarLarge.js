@@ -51,7 +51,7 @@ const AppBarLarge = (
           onClick={e => {
             titleClicked(e);
             addAnalyticsEvent({
-              category: 'Map',
+              category: 'Navigation',
               action: 'Home',
               name: null,
             });

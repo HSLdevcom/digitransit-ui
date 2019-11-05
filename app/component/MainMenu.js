@@ -7,6 +7,7 @@ import DisruptionInfoButtonContainer from './DisruptionInfoButtonContainer';
 import Icon from './Icon';
 import LangSelect from './LangSelect';
 import MainMenuLinks from './MainMenuLinks';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 function MainMenu(props, { config, intl }) {
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
@@ -26,7 +27,17 @@ function MainMenu(props, { config, intl }) {
         <LangSelect />
       </header>
       <div className="offcanvas-section">
-        <Link id="frontpage" to={props.homeUrl}>
+        <Link
+          id="frontpage"
+          to={props.homeUrl}
+          onClick={() => {
+            addAnalyticsEvent({
+              category: 'Navigation',
+              action: 'Home',
+              name: null,
+            });
+          }}
+        >
           <FormattedMessage id="frontpage" defaultMessage="Frontpage" />
         </Link>
       </div>
