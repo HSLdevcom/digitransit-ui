@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import { cityBikeUrl as exampleUrl } from './ExampleData';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const CityBikeUse = ({ url, type }) => (
   <div className="city-bike-use-container">
@@ -19,7 +20,15 @@ const CityBikeUse = ({ url, type }) => (
       />
     </p>
     <a href={url}>
-      <button className="use-bike-button cursor-pointer">
+      <button className="use-bike-button cursor-pointer"
+        onClick={() => {
+          addAnalyticsEvent({
+            category: 'Map',
+            action: 'OpenCityBikesRegistrationFromStationPopup',
+            name: null
+          })
+        }}
+      >
         <FormattedMessage id="use-citybike" defaultMessage="Start using" />
       </button>
     </a>

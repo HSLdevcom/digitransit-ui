@@ -162,6 +162,11 @@ class IndexPage extends React.Component {
   };
 
   togglePanelExpanded = () => {
+    addAnalyticsEvent({
+      action: this.state.mapExpanded ? 'MinimizeMapOnMobile' : 'MaximizeMapOnMobile',
+      category: 'Map',
+      name: 'IndexPage'
+    });
     this.setState(prevState => ({ mapExpanded: !prevState.mapExpanded }));
   };
 

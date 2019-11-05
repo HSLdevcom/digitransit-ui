@@ -9,6 +9,7 @@ import { PREFIX_ROUTES } from '../../../util/path';
 import RouteHeader from '../../RouteHeader';
 
 import { addFavouriteRoute } from '../../../action/FavouriteActions';
+import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 
 function RouteMarkerPopup(props) {
   let patternPath = `/${PREFIX_ROUTES}/${props.trip.route.gtfsId}/pysakit`;
@@ -29,7 +30,15 @@ function RouteMarkerPopup(props) {
         addFavouriteRoute={props.addAsFavouriteRoute}
       />
       <div className="bottom location">
-        <Link to={tripPath}>
+        <Link to={tripPath}
+          onClick={() => {
+              addAnalyticsEvent({
+                category: 'Map',
+                action: 'OpenTripInformation',
+                name: null
+              });
+            }}
+        >
           <FormattedMessage
             id="trip-information"
             defaultMessage="Trip Information"
