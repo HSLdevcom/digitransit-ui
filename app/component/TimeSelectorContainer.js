@@ -11,6 +11,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import TimeSelectors from './TimeSelectors';
 import { replaceQueryParams } from '../util/queryUtils';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class TimeSelectorContainer extends Component {
   static contextTypes = {
@@ -74,6 +75,11 @@ class TimeSelectorContainer extends Component {
   }, 10);
 
   changeTime = ({ hours, minutes, add }) => {
+    addAnalyticsEvent({
+      action: 'EditJourneyTime',
+      category: 'ItinerarySettings',
+      name: null,
+    });
     const time = this.props.time.clone();
     if (add) {
       // delta from arrow keys
@@ -86,6 +92,11 @@ class TimeSelectorContainer extends Component {
   };
 
   changeDate = ({ target }) => {
+    addAnalyticsEvent({
+      action: 'EditJourneyDate',
+      category: 'ItinerarySettings',
+      name: null,
+    });
     const time = moment.unix(parseInt(target.value, 10));
     this.setTime(time);
   };

@@ -168,6 +168,11 @@ class QuickSettingsPanel extends React.Component {
   getModes = () => getModes(this.context.location, this.context.config);
 
   toggleCustomizeSearchOffcanvas = () => {
+    addAnalyticsEvent({
+      action: 'OpenSettings',
+      category: 'ItinerarySettings',
+      name: null,
+    });
     this.internalSetOffcanvas(!this.getOffcanvasState());
   };
 
@@ -254,11 +259,13 @@ class QuickSettingsPanel extends React.Component {
       ',',
     );
 
+    const disable = this.getModes().includes(mode.toUpperCase());
     addAnalyticsEvent({
-      event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
-      action: 'QuickSettingsTransportModeSelection',
-      name: modes,
+      action: disable
+        ? 'QuickSettingsDisableTransportMode'
+        : 'QuickSettingsEnableTransportMode',
+      name: mode.toUpperCase(),
     });
 
     replaceQueryParams(this.context.router, { modes });
