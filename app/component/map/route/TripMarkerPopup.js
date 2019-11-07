@@ -60,7 +60,7 @@ TripMarkerPopup.propTypes = {
   addAsFavouriteRoute: PropTypes.func.isRequired,
   message: PropTypes.shape({
     mode: PropTypes.string.isRequired,
-    tripStartTime: PropTypes.string.isRequired,
+    tripStartTime: PropTypes.string,
   }).isRequired,
 };
 
