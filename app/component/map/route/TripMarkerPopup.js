@@ -24,6 +24,7 @@ function TripMarkerPopup(props) {
       <RouteHeader
         route={props.trip.route}
         pattern={props.trip.trip && props.trip.trip.pattern}
+        trip={props.message.tripStartTime}
         favourite={props.favourite}
         addFavouriteRoute={props.addAsFavouriteRoute}
       />
