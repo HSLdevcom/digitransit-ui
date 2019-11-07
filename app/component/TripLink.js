@@ -37,7 +37,7 @@ TripLink.propTypes = {
   mode: PropTypes.string.isRequired,
 };
 
-export default Relay.createContainer(TripLink, {
+const containerComponent = Relay.createContainer(TripLink, {
   fragments: {
     trip: () => Relay.QL`
       fragment on QueryType {
@@ -57,3 +57,5 @@ export default Relay.createContainer(TripLink, {
     id: null,
   },
 });
+
+export { containerComponent as default, TripLink as Component };

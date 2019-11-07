@@ -37,7 +37,7 @@ FuzzyTripLink.propTypes = {
   mode: PropTypes.string.isRequired,
 };
 
-export default Relay.createContainer(FuzzyTripLink, {
+const containerComponent = Relay.createContainer(FuzzyTripLink, {
   fragments: {
     trip: () => Relay.QL`
       fragment on QueryType {
@@ -60,3 +60,5 @@ export default Relay.createContainer(FuzzyTripLink, {
     time: null,
   },
 });
+
+export { containerComponent as default, FuzzyTripLink as Component };
