@@ -105,7 +105,7 @@ class RouteStopListContainer extends React.PureComponent {
   }
 }
 
-export default Relay.createContainer(
+const containerComponent = Relay.createContainer(
   connectToStores(
     withBreakpoint(RouteStopListContainer),
     ['RealTimeInformationStore', 'PositionStore', 'TimeStore'],
@@ -150,3 +150,5 @@ export default Relay.createContainer(
     },
   },
 );
+
+export { containerComponent as default, RouteStopListContainer as Component };
