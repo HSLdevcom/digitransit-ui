@@ -178,7 +178,7 @@ const RouteMapContainerWithVehicles = connectToStores(
       const tripStart = getStartTime(
         trip.stoptimesForDate[0].scheduledDeparture,
       );
-      const vehiclesWithCorrectStartTime = Object.keys(vehicles)
+      const matchingVehicles = Object.keys(vehicles)
         .map(key => vehicles[key])
         .filter(
           vehicle =>
@@ -191,9 +191,7 @@ const RouteMapContainerWithVehicles = connectToStores(
         );
 
       const selectedVehicle =
-        vehiclesWithCorrectStartTime &&
-        vehiclesWithCorrectStartTime.length > 0 &&
-        vehiclesWithCorrectStartTime[0];
+        matchingVehicles && matchingVehicles.length > 0 && matchingVehicles[0];
 
       return { lat: selectedVehicle.lat, lon: selectedVehicle.long };
     }
