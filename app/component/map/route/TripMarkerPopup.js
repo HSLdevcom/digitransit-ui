@@ -24,7 +24,6 @@ function TripMarkerPopup(props) {
       <RouteHeader
         route={props.trip.route}
         pattern={props.trip.trip && props.trip.trip.pattern}
-        trip={props.message.tripStartTime}
         favourite={props.favourite}
         addFavouriteRoute={props.addAsFavouriteRoute}
       />
@@ -78,7 +77,7 @@ const TripMarkerPopupWithFavourite = connectToStores(
   }),
 );
 
-export default Relay.createContainer(TripMarkerPopupWithFavourite, {
+const containerComponent = Relay.createContainer(TripMarkerPopupWithFavourite, {
   fragments: {
     trip: () => Relay.QL`
       fragment on QueryType {
@@ -107,3 +106,5 @@ export default Relay.createContainer(TripMarkerPopupWithFavourite, {
     id: null,
   },
 });
+
+export { containerComponent as default, TripMarkerPopup as Component };

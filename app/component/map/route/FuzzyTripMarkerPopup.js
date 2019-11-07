@@ -78,34 +78,39 @@ const FuzzyTripMarkerPopupWithFavourite = connectToStores(
   }),
 );
 
-export default Relay.createContainer(FuzzyTripMarkerPopupWithFavourite, {
-  fragments: {
-    trip: () => Relay.QL`
-      fragment on QueryType {
-        fuzzyTrip(route: $route, direction: $direction, time: $time, date: $date) {
-          gtfsId
-          pattern {
-            code
-            headsign
-            stops {
-              name
+const containerComponent = Relay.createContainer(
+  FuzzyTripMarkerPopupWithFavourite,
+  {
+    fragments: {
+      trip: () => Relay.QL`
+        fragment on QueryType {
+          fuzzyTrip(route: $route, direction: $direction, time: $time, date: $date) {
+            gtfsId
+            pattern {
+              code
+              headsign
+              stops {
+                name
+              }
             }
           }
+          route(id: $route) {
+            gtfsId
+            mode
+            shortName
+            longName
+          }
         }
-        route(id: $route) {
-          gtfsId
-          mode
-          shortName
-          longName
-        }
-      }
-    `,
-  },
+      `,
+    },
 
-  initialVariables: {
-    route: null,
-    direction: null,
-    date: null,
-    time: null,
+    initialVariables: {
+      route: null,
+      direction: null,
+      date: null,
+      time: null,
+    },
   },
-});
+);
+
+export { containerComponent as default, FuzzyTripMarkerPopup as Component };
