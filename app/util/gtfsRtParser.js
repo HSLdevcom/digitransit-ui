@@ -5,7 +5,7 @@ export const parseFeedMQTT = (feedParser, data, topic, agency, mode) => {
   const pbf = new Pbf(data);
   const feed = feedParser(pbf);
 
-  // /gtfsrt/vp/<feed_Id>/<agency_id>/<agency_name>/<mode>/<route_id>/<direction_id>/<trip_headsign>/<trip_id>/<next_stop>/<start_time>/<vehicle_id>/<geo_hash>
+  // /gtfsrt/vp/<feed_Id>/<agency_id>/<agency_name>/<mode>/<route_id>/<direction_id>/<trip_headsign>/<trip_id>/<next_stop>/<start_time>/<vehicle_id>/<geo_hash>/<short_name>
   const [
     ,
     ,
@@ -25,6 +25,7 @@ export const parseFeedMQTT = (feedParser, data, topic, agency, mode) => {
     geoHashDeg2,
     geoHashDeg3,
     geoHashDeg4,
+    shortName,
   ] = topic.split('/');
   const messages = [];
   feed.entity.forEach(entity => {
@@ -49,6 +50,7 @@ export const parseFeedMQTT = (feedParser, data, topic, agency, mode) => {
           headsign: headsign === '' ? undefined : headsign,
           tripId: tripId === '' ? undefined : `${agency}:${tripId}`,
           geoHash: [geoHashDeg1, geoHashDeg2, geoHashDeg3, geoHashDeg4],
+          shortName: shortName === '' ? undefined : shortName,
         };
         messages.push(message);
       }

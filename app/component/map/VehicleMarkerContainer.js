@@ -121,7 +121,7 @@ function VehicleMarkerContainer(props) {
         icon={getVehicleIcon(
           props.ignoreMode ? null : message.mode,
           message.heading,
-          message.route.split(':')[1],
+          message.shortName ? message.shortName : message.route.split(':')[1],
           false,
           props.useLargeIcon,
         )}
