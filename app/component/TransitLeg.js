@@ -22,6 +22,7 @@ import {
 } from '../util/alertUtils';
 import { PREFIX_ROUTES } from '../util/path';
 import { durationToString } from '../util/timeUtils';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class TransitLeg extends React.Component {
   constructor(props) {
@@ -34,7 +35,7 @@ class TransitLeg extends React.Component {
   stopCode = stopCode => stopCode && <StopCode code={stopCode} />;
 
   toggleShowIntermediateStops = () => {
-    window.dataLayer.push({
+    addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
       action: 'IntermediateStopsClick',

@@ -11,6 +11,7 @@ import inside from 'point-in-polygon';
 import { replaceQueryParams } from './queryUtils';
 import { getCustomizedSettings } from '../store/localStorage';
 import { isInBoundingBox } from './geo-utils';
+import { addAnalyticsEvent } from './analyticsUtils';
 
 /**
  * Retrieves an array of street mode configurations that have specified
@@ -304,6 +305,17 @@ export const isBikeRestricted = (location, config, modes) => {
  */
 export const toggleTransportMode = (transportMode, config, router) => {
   const currentLocation = router.getCurrentLocation();
+  let actionName;
+  if (getModes(currentLocation, config).includes(transportMode.toUpperCase())) {
+    actionName = 'SettingsDisableTransportMode';
+  } else {
+    actionName = 'SettingsEnableTransportMode';
+  }
+  addAnalyticsEvent({
+    action: actionName,
+    category: 'ItinerarySettings',
+    name: transportMode,
+  });
   if (isBikeRestricted(router.location, config, transportMode)) {
     return;
   }

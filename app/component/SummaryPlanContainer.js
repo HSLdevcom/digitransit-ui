@@ -18,6 +18,7 @@ import {
 } from '../util/planParamUtil';
 import { getIntermediatePlaces, replaceQueryParams } from '../util/queryUtils';
 import withBreakpoint from '../util/withBreakpoint';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class SummaryPlanContainer extends React.Component {
   static propTypes = {
@@ -77,7 +78,7 @@ class SummaryPlanContainer extends React.Component {
   onSelectImmediately = index => {
     if (Number(this.props.params.hash) === index) {
       if (this.props.breakpoint === 'large') {
-        window.dataLayer.push({
+        addAnalyticsEvent({
           event: 'sendMatomoEvent',
           category: 'ItinerarySettings',
           action: 'ItineraryDetailsClick',
@@ -91,7 +92,7 @@ class SummaryPlanContainer extends React.Component {
         this.context.router.goBack();
       }
     } else {
-      window.dataLayer.push({
+      addAnalyticsEvent({
         event: 'sendMatomoEvent',
         category: 'ItinerarySettings',
         action: 'ItineraryDetailsClick',
@@ -123,7 +124,7 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onLater = () => {
-    window.dataLayer.push({
+    addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
       action: 'ShowMoreRoutesClick',
@@ -206,7 +207,7 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onEarlier = () => {
-    window.dataLayer.push({
+    addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
       action: 'ShowMoreRoutesClick',
@@ -301,7 +302,7 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onNow = () => {
-    window.dataLayer.push({
+    addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
       action: 'ShowMoreRoutesClick',

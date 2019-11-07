@@ -9,6 +9,7 @@ import SelectOptionContainer, {
   valueShape,
 } from './SelectOptionContainer';
 import { replaceQueryParams } from '../../util/queryUtils';
+import { addAnalyticsEvent } from '../../util/analyticsUtils';
 
 const TransferOptionsSection = (
   { walkBoardCost, walkBoardCostOptions, minTransferTime, defaultSettings },
@@ -19,9 +20,14 @@ const TransferOptionsSection = (
       currentSelection={walkBoardCost}
       defaultValue={defaultSettings.walkBoardCost}
       highlightDefaultValue={false}
-      onOptionSelected={value =>
-        replaceQueryParams(router, { walkBoardCost: value })
-      }
+      onOptionSelected={value => {
+        replaceQueryParams(router, { walkBoardCost: value });
+        addAnalyticsEvent({
+          category: 'ItinerarySettings',
+          action: 'changeNumberOfTransfers',
+          name: value,
+        });
+      }}
       options={getFiveStepOptions(
         defaultSettings.walkBoardCost,
         walkBoardCostOptions,
@@ -33,9 +39,14 @@ const TransferOptionsSection = (
       defaultValue={defaultSettings.minTransferTime}
       displayPattern="number-of-minutes"
       displayValueFormatter={seconds => seconds / 60}
-      onOptionSelected={value =>
-        replaceQueryParams(router, { minTransferTime: value })
-      }
+      onOptionSelected={value => {
+        replaceQueryParams(router, { minTransferTime: value });
+        addAnalyticsEvent({
+          category: 'ItinerarySettings',
+          action: 'ChangeTransferMargin',
+          name: value,
+        });
+      }}
       options={getLinearStepOptions(
         defaultSettings.minTransferTime,
         60,

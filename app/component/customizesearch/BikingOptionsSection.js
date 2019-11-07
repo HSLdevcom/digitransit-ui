@@ -10,6 +10,7 @@ import SelectOptionContainer, {
   valueShape,
 } from './SelectOptionContainer';
 import { replaceQueryParams } from '../../util/queryUtils';
+import { addAnalyticsEvent } from '../../util/analyticsUtils';
 
 const BikingOptionsSection = (
   { walkReluctance, walkReluctanceOptions, bikeSpeed, defaultSettings },
@@ -21,9 +22,14 @@ const BikingOptionsSection = (
       currentSelection={walkReluctance}
       defaultValue={defaultSettings.walkReluctance}
       highlightDefaultValue={false}
-      onOptionSelected={value =>
-        replaceQueryParams(router, { walkReluctance: value })
-      }
+      onOptionSelected={value => {
+        replaceQueryParams(router, { walkReluctance: value });
+        addAnalyticsEvent({
+          category: 'ItinerarySettings',
+          action: 'ChangeAmountOfBiking',
+          name: value,
+        });
+      }}
       options={getFiveStepOptions(
         defaultSettings.walkReluctance,
         walkReluctanceOptions,
@@ -34,9 +40,14 @@ const BikingOptionsSection = (
       currentSelection={bikeSpeed}
       defaultValue={defaultSettings.bikeSpeed}
       displayValueFormatter={value => `${ceil(value * 3.6, 1)} km/h`}
-      onOptionSelected={value =>
-        replaceQueryParams(router, { bikeSpeed: value })
-      }
+      onOptionSelected={value => {
+        replaceQueryParams(router, { bikeSpeed: value });
+        addAnalyticsEvent({
+          category: 'ItinerarySettings',
+          action: 'ChangeBikingSpeed',
+          name: value,
+        });
+      }}
       options={getSpeedOptions(defaultSettings.bikeSpeed, 10, 21)}
       sortByValue
       title="biking-speed"

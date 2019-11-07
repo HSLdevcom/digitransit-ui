@@ -6,6 +6,7 @@ import { routerShape } from 'react-router';
 import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import LazilyLoad, { importLazy } from './LazilyLoad';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class MainMenuContainer extends Component {
   static contextTypes = {
@@ -46,7 +47,7 @@ class MainMenuContainer extends Component {
   toggleOffcanvas = () => this.internalSetOffcanvas(!this.getOffcanvasState());
 
   internalSetOffcanvas = newState => {
-    window.dataLayer.push({
+    addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
       action: 'ExtraSettingsPanelClick',

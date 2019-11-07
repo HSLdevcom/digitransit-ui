@@ -29,6 +29,7 @@ import {
   clearQueryParams,
   getQuerySettings,
 } from '../util/queryUtils';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class QuickSettingsPanel extends React.Component {
   static propTypes = {
@@ -69,7 +70,7 @@ class QuickSettingsPanel extends React.Component {
 
   setArriveBy = ({ target }) => {
     const arriveBy = target.value;
-    window.dataLayer.push({
+    addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
       action: 'LeavingArrivingSelection',
@@ -149,7 +150,7 @@ class QuickSettingsPanel extends React.Component {
   setQuickOption = name => {
     const { router } = this.context;
 
-    window.dataLayer.push({
+    addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
       action: 'ItineraryQuickSettingsSelection',
@@ -167,6 +168,11 @@ class QuickSettingsPanel extends React.Component {
   getModes = () => getModes(this.context.location, this.context.config);
 
   toggleCustomizeSearchOffcanvas = () => {
+    addAnalyticsEvent({
+      action: 'OpenSettings',
+      category: 'ItinerarySettings',
+      name: null,
+    });
     this.internalSetOffcanvas(!this.getOffcanvasState());
   };
 
@@ -175,7 +181,7 @@ class QuickSettingsPanel extends React.Component {
   };
 
   internalSetOffcanvas = newState => {
-    window.dataLayer.push({
+    addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
       action: 'ExtraSettingsPanelClick',
@@ -253,11 +259,13 @@ class QuickSettingsPanel extends React.Component {
       ',',
     );
 
-    window.dataLayer.push({
-      event: 'sendMatomoEvent',
+    const disable = this.getModes().includes(mode.toUpperCase());
+    addAnalyticsEvent({
       category: 'ItinerarySettings',
-      action: 'QuickSettingsTransportModeSelection',
-      name: modes,
+      action: disable
+        ? 'QuickSettingsDisableTransportMode'
+        : 'QuickSettingsEnableTransportMode',
+      name: mode.toUpperCase(),
     });
 
     replaceQueryParams(this.context.router, { modes });

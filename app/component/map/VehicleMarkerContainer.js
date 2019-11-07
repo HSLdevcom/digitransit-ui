@@ -118,6 +118,7 @@ function VehicleMarkerContainer(props) {
           lat: message.lat,
           lon: message.long,
         }}
+        zIndexOffset={100}
         icon={getVehicleIcon(
           props.ignoreMode ? null : message.mode,
           message.heading,
