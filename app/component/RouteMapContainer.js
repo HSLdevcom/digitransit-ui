@@ -81,11 +81,6 @@ class RouteMapContainer extends React.PureComponent {
       router.push(`${location.pathname}/kartta`);
     };
 
-    const directionsForTrips = {};
-    pattern.route.trips.forEach(trip => {
-      directionsForTrips[trip.gtfsId] = trip.directionId;
-    });
-
     const leafletObjs = [
       <RouteLine key="line" pattern={pattern} />,
       <VehicleMarkerContainer
@@ -94,7 +89,6 @@ class RouteMapContainer extends React.PureComponent {
         pattern={pattern.code}
         headsign={pattern.headsign}
         tripStart={tripStart}
-        directionsForTrips={directionsForTrips}
       />,
     ];
 
@@ -154,12 +148,6 @@ export const RouteMapFragments = {
       geometry {
         lat
         lon
-      }
-      route {
-        trips {
-          gtfsId
-          directionId
-        }
       }
       stops {
         lat
