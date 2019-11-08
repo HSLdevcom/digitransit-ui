@@ -74,7 +74,7 @@ export function parseMessage(topic, message, agency) {
           ? parsedMessage.oday
           : moment().format('YYYY-MM-DD'),
       mode: modeTranslate[mode] ? modeTranslate[mode] : mode,
-      next_stop: nextStop,
+      next_stop: `${agency}:${nextStop}`,
       timestamp: parsedMessage.tsi,
       lat: ceil(parsedMessage.lat, 5),
       long: ceil(parsedMessage.long, 5),

@@ -78,6 +78,9 @@ export default configMerger(walttiConfig, {
     primaryAgencyName: 'Kuopion seudun joukkoliikenne',
   },
 
+  showAllBusses: true,
+  showVehiclesOnStopPage: true,
+
   footer: {
     content: [
       { label: `© Kuopio ${walttiConfig.YEAR}` },

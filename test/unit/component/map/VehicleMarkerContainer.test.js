@@ -186,6 +186,26 @@ describe('<VehicleMarkerContainer />', () => {
       );
       expect(shouldShow).to.equal(true);
     });
+
+    it('should return true when direction, tripStartTime, pattern and headsign are undefined in arguments', () => {
+      const message = {
+        lat: 61.50639,
+        long: 23.77416,
+        route: 'tampere:2',
+        direction: 0,
+        tripStartTime: '1514',
+        headsign: 'Pyynikintori',
+      };
+
+      const shouldShow = shouldShowVehicle(
+        message,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+      );
+      expect(shouldShow).to.equal(true);
+    });
   });
 
   describe('getVehicleIcon', () => {

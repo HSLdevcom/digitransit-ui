@@ -10,20 +10,20 @@ import RouteHeader from '../../RouteHeader';
 
 import { addFavouriteRoute } from '../../../action/FavouriteActions';
 
-function RouteMarkerPopup(props) {
+function TripMarkerPopup(props) {
   let patternPath = `/${PREFIX_ROUTES}/${props.trip.route.gtfsId}/pysakit`;
   let tripPath = patternPath;
 
-  if (props.trip.fuzzyTrip) {
-    patternPath += `/${props.trip.fuzzyTrip.pattern.code}`;
-    tripPath = `${patternPath}/${props.trip.fuzzyTrip.gtfsId}`;
+  if (props.trip.trip) {
+    patternPath += `/${props.trip.trip.pattern.code}`;
+    tripPath = `${patternPath}/${props.trip.trip.gtfsId}`;
   }
 
   return (
     <div className="card">
       <RouteHeader
         route={props.trip.route}
-        pattern={props.trip.fuzzyTrip && props.trip.fuzzyTrip.pattern}
+        pattern={props.trip.trip && props.trip.trip.pattern}
         trip={props.message.tripStartTime}
         favourite={props.favourite}
         addFavouriteRoute={props.addAsFavouriteRoute}
@@ -44,12 +44,12 @@ function RouteMarkerPopup(props) {
   );
 }
 
-RouteMarkerPopup.propTypes = {
+TripMarkerPopup.propTypes = {
   trip: PropTypes.shape({
     route: PropTypes.shape({
       gtfsId: PropTypes.string.isRequired,
     }).isRequired,
-    fuzzyTrip: PropTypes.shape({
+    trip: PropTypes.shape({
       gtfsId: PropTypes.string,
       pattern: PropTypes.shape({
         code: PropTypes.string.isRequired,
@@ -60,12 +60,12 @@ RouteMarkerPopup.propTypes = {
   addAsFavouriteRoute: PropTypes.func.isRequired,
   message: PropTypes.shape({
     mode: PropTypes.string.isRequired,
-    tripStartTime: PropTypes.string.isRequired,
+    tripStartTime: PropTypes.string,
   }).isRequired,
 };
 
-const RouteMarkerPopupWithFavourite = connectToStores(
-  RouteMarkerPopup,
+const TripMarkerPopupWithFavourite = connectToStores(
+  TripMarkerPopup,
   ['FavouriteRoutesStore'],
   (context, props) => ({
     favourite: context
@@ -78,11 +78,11 @@ const RouteMarkerPopupWithFavourite = connectToStores(
   }),
 );
 
-export default Relay.createContainer(RouteMarkerPopupWithFavourite, {
+const containerComponent = Relay.createContainer(TripMarkerPopupWithFavourite, {
   fragments: {
     trip: () => Relay.QL`
       fragment on QueryType {
-        fuzzyTrip(route: $route, direction: $direction, time: $time, date: $date) {
+        trip(id: $id) {
           gtfsId
           pattern {
             code
@@ -104,8 +104,8 @@ export default Relay.createContainer(RouteMarkerPopupWithFavourite, {
 
   initialVariables: {
     route: null,
-    direction: null,
-    date: null,
-    time: null,
+    id: null,
   },
 });
+
+export { containerComponent as default, TripMarkerPopup as Component };

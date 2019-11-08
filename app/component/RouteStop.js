@@ -5,8 +5,10 @@ import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 
-import FuzzyTripRoute from './FuzzyTripRoute';
+import TripRoute from '../route/TripRoute';
+import FuzzyTripRoute from '../route/FuzzyTripRoute';
 import TripLink from './TripLink';
+import FuzzyTripLink from './FuzzyTripLink';
 import WalkDistance from './WalkDistance';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import StopCode from './StopCode';
@@ -137,18 +139,28 @@ class RouteStop extends React.PureComponent {
     const vehicleTripLink = vehicle && (
       <Relay.RootContainer
         key={vehicle.id}
-        Component={TripLink}
+        Component={vehicle.tripId ? TripLink : FuzzyTripLink}
         route={
-          new FuzzyTripRoute({
-            route: vehicle.route,
-            direction: vehicle.direction,
-            date: vehicle.operatingDay,
-            time:
-              vehicle.tripStartTime.substring(0, 2) * 60 * 60 +
-              vehicle.tripStartTime.substring(2, 4) * 60,
-          })
+          vehicle.tripId
+            ? new TripRoute({
+                id: vehicle.tripId,
+              })
+            : new FuzzyTripRoute({
+                route: vehicle.route,
+                direction: vehicle.direction,
+                date: vehicle.operatingDay,
+                time:
+                  vehicle.tripStartTime.substring(0, 2) * 60 * 60 +
+                  vehicle.tripStartTime.substring(2, 4) * 60,
+              })
         }
-        renderFetched={data => <TripLink mode={vehicle.mode} {...data} />}
+        renderFetched={data =>
+          vehicle.tripId ? (
+            <TripLink mode={vehicle.mode} {...data} />
+          ) : (
+            <FuzzyTripLink mode={vehicle.mode} {...data} />
+          )
+        }
       />
     );
 
