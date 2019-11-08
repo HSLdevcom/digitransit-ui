@@ -55,7 +55,7 @@ class DTOldSearchSavingAutosuggest extends React.Component {
       default:
     }
 
-    if (item.type === 'OldSearch') {
+    if (item.type === 'OldSearch' && item.properties.gid) {
       getJson(this.context.config.URL.PELIAS_PLACE, {
         ids: item.properties.gid,
       }).then(data => {
