@@ -37,11 +37,11 @@ class TransitLeg extends React.Component {
   toggleShowIntermediateStops = () => {
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
-      category: 'ItinerarySettings',
-      action: 'IntermediateStopsClick',
-      name: this.state.showIntermediateStops
-        ? 'IntermediateStopsCollapse'
-        : 'IntermediateStopsExpand',
+      category: 'Itinerary',
+      action: this.state.showIntermediateStops
+        ? 'ShowIntermediateStops'
+        : 'HideIntermediateStops',
+      name: null,
     });
 
     this.setState(prevState => ({

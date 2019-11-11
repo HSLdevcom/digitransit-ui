@@ -73,9 +73,9 @@ export default class MobileItineraryWrapper extends React.Component {
   switchSlide = index => {
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
-      category: 'ItinerarySettings',
-      action: 'ItineraryDetailsClick',
-      name: 'ItineraryDetailsExpand',
+      category: 'Itinerary',
+      action: 'OpenItineraryDetails',
+      name: index,
     });
 
     this.context.router.replace({

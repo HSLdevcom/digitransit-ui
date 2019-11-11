@@ -99,9 +99,9 @@ class SummaryPlanContainer extends React.Component {
     } else {
       addAnalyticsEvent({
         event: 'sendMatomoEvent',
-        category: 'ItinerarySettings',
-        action: 'ItineraryDetailsClick',
-        name: 'ItineraryDetailsExpand',
+        category: 'Itinerary',
+        action: 'OpenItineraryDetails',
+        name: index,
       });
       const newState = {
         ...this.context.location,
@@ -131,9 +131,9 @@ class SummaryPlanContainer extends React.Component {
   onLater = () => {
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
-      category: 'ItinerarySettings',
-      action: 'ShowMoreRoutesClick',
-      name: 'ShowMoreRoutesLater',
+      category: 'Itinerary',
+      action: 'ShowLaterItineraries',
+      name: null,
     });
 
     const end = moment.unix(this.props.serviceTimeRange.end);
@@ -214,9 +214,9 @@ class SummaryPlanContainer extends React.Component {
   onEarlier = () => {
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
-      category: 'ItinerarySettings',
-      action: 'ShowMoreRoutesClick',
-      name: 'ShowMoreRoutesEarlier',
+      category: 'Itinerary',
+      action: 'ShowEarlierItineraries',
+      name: null,
     });
 
     const start = moment.unix(this.props.serviceTimeRange.start);
@@ -309,9 +309,9 @@ class SummaryPlanContainer extends React.Component {
   onNow = () => {
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
-      category: 'ItinerarySettings',
-      action: 'ShowMoreRoutesClick',
-      name: 'ShowMoreRoutesNow',
+      category: 'Itinerary',
+      action: 'ResetJourneyStartTime',
+      name: null,
     });
 
     replaceQueryParams(this.context.router, {
