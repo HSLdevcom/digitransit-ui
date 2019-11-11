@@ -118,7 +118,7 @@ class RoutePage extends React.Component {
 
   onPatternChange = newPattern => {
     addAnalyticsEvent({
-      category: 'Stop',
+      category: 'Route',
       action: 'ToggleDirection',
       name: null,
     });
