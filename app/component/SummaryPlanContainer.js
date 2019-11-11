@@ -72,6 +72,11 @@ class SummaryPlanContainer extends React.Component {
         state: { summaryPageSelected: index },
         pathname: getRoutePath(this.props.params.from, this.props.params.to),
       });
+      addAnalyticsEvent({
+        category: 'Itinerary',
+        action: 'HighlightItinerary',
+        name: index,
+      });
     }
   };
 
