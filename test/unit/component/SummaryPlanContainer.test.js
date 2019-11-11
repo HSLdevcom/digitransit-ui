@@ -18,6 +18,122 @@ const config = {
     timeNavigation: {},
   },
   minDistanceBetweenFromAndTo: 20,
+  defaultOptions: {
+    walkBoardCost: {
+      least: 3600,
+      less: 1200,
+      more: 360,
+      most: 120,
+    },
+    walkReluctance: {
+      least: 5,
+      less: 3,
+      more: 1,
+      most: 0.2,
+    },
+  },
+  streetModes: {
+    public_transport: {
+      availableForSelection: true,
+      defaultValue: true,
+      exclusive: false,
+      icon: 'bus-withoutBox',
+    },
+
+    walk: {
+      availableForSelection: true,
+      defaultValue: false,
+      exclusive: true,
+      icon: 'walk',
+    },
+
+    bicycle: {
+      availableForSelection: true,
+      defaultValue: false,
+      exclusive: true,
+      icon: 'bicycle-withoutBox',
+    },
+
+    car: {
+      availableForSelection: true,
+      defaultValue: false,
+      exclusive: true,
+      icon: 'car-withoutBox',
+    },
+
+    car_park: {
+      availableForSelection: false,
+      defaultValue: false,
+      exclusive: false,
+      icon: 'car_park-withoutBox',
+    },
+  },
+  quickOptions: {
+    public_transport: {
+      availableOptionSets: [
+        'least-transfers',
+        'least-walking',
+        'public-transport-with-bicycle',
+        'saved-settings',
+      ],
+    },
+    walk: {
+      availableOptionSets: ['prefer-walking-routes', 'saved-settings'],
+    },
+    bicycle: {
+      availableOptionSets: [
+        'least-elevation-changes',
+        'prefer-greenways',
+        'saved-settings',
+      ],
+    },
+    car_park: {
+      availableOptionSets: [
+        'least-transfers',
+        'least-walking',
+        'saved-settings',
+      ],
+    },
+  },
+  transportModes: {
+    bus: {
+      availableForSelection: true,
+      defaultValue: true,
+    },
+
+    tram: {
+      availableForSelection: true,
+      defaultValue: true,
+    },
+
+    rail: {
+      availableForSelection: true,
+      defaultValue: true,
+    },
+
+    subway: {
+      availableForSelection: true,
+      defaultValue: true,
+    },
+
+    airplane: {
+      availableForSelection: true,
+      defaultValue: true,
+    },
+
+    ferry: {
+      availableForSelection: true,
+      defaultValue: true,
+    },
+
+    citybike: {
+      availableForSelection: false, // TODO: Turn off in autumn
+      defaultValue: false, // always false
+    },
+  },
+  cityBike: {
+    networks: {},
+  },
 };
 
 const props = {
