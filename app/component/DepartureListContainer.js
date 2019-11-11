@@ -19,6 +19,7 @@ import {
   startRealTimeClient,
   changeRealTimeClientTopics,
 } from '../action/realTimeClientAction';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const asDepartures = stoptimes =>
   !stoptimes
@@ -249,6 +250,13 @@ class DepartureListContainer extends Component {
               departure.pattern.code
             }`}
             key={id}
+            onClick={() => {
+              addAnalyticsEvent({
+                category: 'Stop',
+                action: 'OpenRouteViewFromStop',
+                name: 'RightNowTab',
+              });
+            }}
           >
             {departureObj}
           </Link>,
