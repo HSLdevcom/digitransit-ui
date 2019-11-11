@@ -25,7 +25,7 @@ class SelectStreetModeDialog extends React.Component {
   onDialogOpen(applyFocus = false) {
     addAnalyticsEvent({
       category: 'Map',
-      action: 'OpenTravelingModeMenu',
+      action: 'OpenTravellingModeMenu',
       name: null,
     });
     if (applyFocus && this.selectedStreetModeButton) {

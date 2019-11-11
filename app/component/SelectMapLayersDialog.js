@@ -22,7 +22,7 @@ class SelectMapLayersDialog extends React.Component {
   sendLayerChangeAnalytic = (name, enable) => {
     const action = enable ? 'ShowMapLayer' : 'HideMapLayer';
     addAnalyticsEvent({
-      category: 'ItinerarySettings',
+      category: 'Map',
       action,
       name,
     });
