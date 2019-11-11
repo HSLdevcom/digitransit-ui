@@ -4,12 +4,17 @@ import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import ExternalLinkDecoration from './ExternalLinkDecoration';
 
-const ExternalLink = ({ name, children, href, className }) =>
+const ExternalLink = ({ name, children, href, className, onClick }) =>
   (name || children !== undefined) && (
     <span className={className}>
       <span className="external-link-container">
         <a
-          onClick={e => e.stopPropagation()}
+          onClick={e => {
+            e.stopPropagation();
+            if (onClick) {
+              onClick(e);
+            }
+          }}
           className="external-link"
           href={href}
         >
@@ -24,6 +29,7 @@ ExternalLink.propTypes = {
   name: PropTypes.string,
   href: PropTypes.string,
   className: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
 ExternalLink.defaultProps = {
