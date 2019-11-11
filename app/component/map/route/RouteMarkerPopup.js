@@ -36,7 +36,7 @@ function RouteMarkerPopup(props) {
             addAnalyticsEvent({
               category: 'Map',
               action: 'OpenTripInformation',
-              name: null,
+              name: props.trip.route.mode,
             });
           }}
         >
