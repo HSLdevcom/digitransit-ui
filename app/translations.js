@@ -853,6 +853,8 @@ const translations = {
       'Current timetable does not include routes departing later.',
     'no-route-msg':
       'Unfortunately no routes were found for your journey. Please change your origin or destination address.',
+    'no-route-msg-with-changes':
+      'Unfortunately no routes were found for your journey. You have defined custom search settings that may affect routing. Please change your custom settings, or your origin and destination address.',
     'no-route-origin-near-destination':
       'The origin and the destination are close to each other. Please change either location.',
     'no-route-start-date-too-early':
@@ -1574,6 +1576,8 @@ const translations = {
       'Käytössä oleva aikataulu ei sisällä myöhäisempiä reittejä.',
     'no-route-msg':
       'Emme valitettavasti löytäneet yhtään reittiehdotusta kyseiselle välille. Muuta lähdön tai määränpään osoitetta.',
+    'no-route-msg-with-changes':
+      'Emme valitettavasti löytäneet yhtään reittiehdotusta kyseiselle välille. Olet tehnyt reititykseen vaikuttavia muutoksia asetuksiin, kokeile muuttaa asetuksia tai muuta lähdön tai määränpään osoitetta.',
     'no-route-origin-near-destination':
       'Lähtöpaikka ja määränpää ovat liian lähekkäin. Muuta lähdön tai määränpään osoitetta.',
     'no-route-start-date-too-early':
