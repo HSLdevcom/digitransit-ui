@@ -2,12 +2,12 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
 
+import moment from 'moment'; // DT-3182
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import { mockContext } from '../helpers/mock-context';
 import { Component as RoutePatternSelect } from '../../../app/component/RoutePatternSelect';
 import dt2887 from '../test-data/dt2887';
 import dt2887b from '../test-data/dt2887b';
-import moment from 'moment'; //DT-3182
 
 describe('<RoutePatternSelect />', () => {
   it('should render', () => {
@@ -99,7 +99,28 @@ describe('<RoutePatternSelect />', () => {
             code: 'HSL:3002U:0:02',
             headsign: 'Kirkkonummi',
             stops: [{ name: 'Helsinki' }, { name: 'Kirkkonummi' }],
-            tripsForDate: [{}],
+            tripsForDate: [
+              {
+                stoptimes: [
+                  {
+                    scheduledArrival: 120,
+                    scheduledDeparture: 120,
+                    erviceDay: 1551996000,
+                    stop: {
+                      id: 'U3RvcDpIU0w6MTI5MTQwNA==',
+                    },
+                  },
+                  {
+                    scheduledArrival: 240,
+                    scheduledDeparture: 240,
+                    erviceDay: 1551996000,
+                    stop: {
+                      id: 'U3RvcDpIU0w6MTI5MTQwMg==',
+                    },
+                  },
+                ],
+              },
+            ],
           },
         ],
       },
@@ -119,7 +140,7 @@ describe('<RoutePatternSelect />', () => {
       },
     });
     expect(url).to.contain(props.gtfsId);
-    expect(url).to.contain(props.route.patterns[0].code);
+    expect(url).to.contain(props.route.patterns[1].code); // DT-3182: changed [0] --> [1] because components sortBy has been changed from code to length of tripsForDate descending
   });
 
   it('should not crash if there are no patterns with trips available for the current date', () => {
@@ -209,8 +230,9 @@ describe('<RoutePatternSelect />', () => {
     expect(wrapper.find('select > div')).to.have.lengthOf(0);
   });
 
-  it('should create a select element for 3 patterns ', () => { //DT-3182
-    var currentDay = new Date();
+  it('should create a select element for 3 patterns ', () => {
+    // DT-3182
+    const currentDay = new Date();
     const currentTimeInSecs = currentDay.getTime() / 1000;
 
     currentDay.setHours(0);
@@ -221,12 +243,12 @@ describe('<RoutePatternSelect />', () => {
     const serviceDayInSecs = currentDay.getTime() / 1000;
     const serviceDay = moment().format('YYYYMMDD');
 
-    const futureTrip1_1 = (currentTimeInSecs - serviceDayInSecs) + 3600;
-    const futureTrip1_2 = (currentTimeInSecs - serviceDayInSecs) + 3720;
-    const futureTrip2_1 = (currentTimeInSecs - serviceDayInSecs) + 7200;
-    const futureTrip2_2 = (currentTimeInSecs - serviceDayInSecs) + 7320;
-    const futureTrip3_1 = (currentTimeInSecs - serviceDayInSecs) + 14400;
-    const futureTrip3_2 = (currentTimeInSecs - serviceDayInSecs) + 14520;
+    const futureTrip11 = currentTimeInSecs - serviceDayInSecs + 3600;
+    const futureTrip12 = currentTimeInSecs - serviceDayInSecs + 3720;
+    const futureTrip21 = currentTimeInSecs - serviceDayInSecs + 7200;
+    const futureTrip22 = currentTimeInSecs - serviceDayInSecs + 7320;
+    const futureTrip31 = currentTimeInSecs - serviceDayInSecs + 14400;
+    const futureTrip32 = currentTimeInSecs - serviceDayInSecs + 14520;
 
     const props = {
       useCurrentTime: true,
@@ -234,7 +256,7 @@ describe('<RoutePatternSelect />', () => {
       gtfsId: 'HSL:1010',
       activeTab: 'pysakit',
       className: 'bp-large',
-      serviceDay: serviceDay,
+      serviceDay,
       relay: {
         setVariables: () => {},
       },
@@ -299,16 +321,16 @@ describe('<RoutePatternSelect />', () => {
               {
                 stoptimes: [
                   {
-                    scheduledArrival: futureTrip1_1,
-                    scheduledDeparture: futureTrip1_1,
+                    scheduledArrival: futureTrip11,
+                    scheduledDeparture: futureTrip11,
                     serviceDay: serviceDayInSecs,
                     stop: {
                       id: 'U3RvcDpIU0w6MTI5MTQwNA==',
                     },
                   },
                   {
-                    scheduledArrival: futureTrip1_2,
-                    scheduledDeparture: futureTrip1_2,
+                    scheduledArrival: futureTrip12,
+                    scheduledDeparture: futureTrip12,
                     serviceDay: serviceDayInSecs,
                     stop: {
                       id: 'U3RvcDpIU0w6MTI5MTQwMg==',
@@ -336,16 +358,16 @@ describe('<RoutePatternSelect />', () => {
               {
                 stoptimes: [
                   {
-                    scheduledArrival: futureTrip2_1,
-                    scheduledDeparture: futureTrip2_1,
+                    scheduledArrival: futureTrip21,
+                    scheduledDeparture: futureTrip21,
                     serviceDay: serviceDayInSecs,
                     stop: {
                       id: 'U3RvcDpIU0w6MTI5MTQwNA==',
                     },
                   },
                   {
-                    scheduledArrival: futureTrip2_2,
-                    scheduledDeparture: futureTrip2_2,
+                    scheduledArrival: futureTrip22,
+                    scheduledDeparture: futureTrip22,
                     serviceDay: serviceDayInSecs,
                     stop: {
                       id: 'U3RvcDpIU0w6MTI5MTQwMg==',
@@ -373,16 +395,16 @@ describe('<RoutePatternSelect />', () => {
               {
                 stoptimes: [
                   {
-                    scheduledArrival: futureTrip3_1,
-                    scheduledDeparture: futureTrip3_1,
+                    scheduledArrival: futureTrip31,
+                    scheduledDeparture: futureTrip31,
                     serviceDay: serviceDayInSecs,
                     stop: {
                       id: 'U3RvcDpIU0w6MTI5MTQwNA==',
                     },
                   },
                   {
-                    scheduledArrival: futureTrip3_2,
-                    scheduledDeparture: futureTrip3_2,
+                    scheduledArrival: futureTrip32,
+                    scheduledDeparture: futureTrip32,
                     serviceDay: serviceDayInSecs,
                     stop: {
                       id: 'U3RvcDpIU0w6MTI5MTQwMg==',
@@ -402,8 +424,9 @@ describe('<RoutePatternSelect />', () => {
     expect(wrapper.find('option')).to.have.lengthOf(3);
   });
 
-  it('should create a select element for 3 patterns ', () => { //DT-3182
-    var currentDay = new Date();
+  it('should create a select element for 3 patterns ', () => {
+    // DT-3182
+    const currentDay = new Date();
     const currentTimeInSecs = currentDay.getTime() / 1000;
 
     currentDay.setHours(0);
@@ -414,12 +437,12 @@ describe('<RoutePatternSelect />', () => {
     const serviceDayInSecs = currentDay.getTime() / 1000;
     const serviceDay = moment().format('YYYYMMDD');
 
-    const futureTrip1_1 = (currentTimeInSecs - serviceDayInSecs) + 3600;
-    const futureTrip1_2 = (currentTimeInSecs - serviceDayInSecs) + 3720;
-    const futureTrip2_1 = (currentTimeInSecs - serviceDayInSecs) + 7200;
-    const futureTrip2_2 = (currentTimeInSecs - serviceDayInSecs) + 7320;
-    const futureTrip3_1 = (currentTimeInSecs - serviceDayInSecs) + 14400;
-    const futureTrip3_2 = (currentTimeInSecs - serviceDayInSecs) + 14520;
+    const futureTrip11 = currentTimeInSecs - serviceDayInSecs + 3600;
+    const futureTrip12 = currentTimeInSecs - serviceDayInSecs + 3720;
+    const futureTrip21 = currentTimeInSecs - serviceDayInSecs + 7200;
+    const futureTrip22 = currentTimeInSecs - serviceDayInSecs + 7320;
+    const futureTrip31 = currentTimeInSecs - serviceDayInSecs + 14400;
+    const futureTrip32 = currentTimeInSecs - serviceDayInSecs + 14520;
 
     const props = {
       useCurrentTime: false,
@@ -427,7 +450,7 @@ describe('<RoutePatternSelect />', () => {
       gtfsId: 'HSL:1010',
       activeTab: 'pysakit',
       className: 'bp-large',
-      serviceDay: serviceDay,
+      serviceDay,
       relay: {
         setVariables: () => {},
       },
@@ -492,16 +515,16 @@ describe('<RoutePatternSelect />', () => {
               {
                 stoptimes: [
                   {
-                    scheduledArrival: futureTrip1_1,
-                    scheduledDeparture: futureTrip1_1,
+                    scheduledArrival: futureTrip11,
+                    scheduledDeparture: futureTrip11,
                     serviceDay: serviceDayInSecs,
                     stop: {
                       id: 'U3RvcDpIU0w6MTI5MTQwNA==',
                     },
                   },
                   {
-                    scheduledArrival: futureTrip1_2,
-                    scheduledDeparture: futureTrip1_2,
+                    scheduledArrival: futureTrip12,
+                    scheduledDeparture: futureTrip12,
                     serviceDay: serviceDayInSecs,
                     stop: {
                       id: 'U3RvcDpIU0w6MTI5MTQwMg==',
@@ -529,16 +552,16 @@ describe('<RoutePatternSelect />', () => {
               {
                 stoptimes: [
                   {
-                    scheduledArrival: futureTrip2_1,
-                    scheduledDeparture: futureTrip2_1,
+                    scheduledArrival: futureTrip21,
+                    scheduledDeparture: futureTrip21,
                     serviceDay: serviceDayInSecs,
                     stop: {
                       id: 'U3RvcDpIU0w6MTI5MTQwNA==',
                     },
                   },
                   {
-                    scheduledArrival: futureTrip2_2,
-                    scheduledDeparture: futureTrip2_2,
+                    scheduledArrival: futureTrip22,
+                    scheduledDeparture: futureTrip22,
                     serviceDay: serviceDayInSecs,
                     stop: {
                       id: 'U3RvcDpIU0w6MTI5MTQwMg==',
@@ -566,16 +589,16 @@ describe('<RoutePatternSelect />', () => {
               {
                 stoptimes: [
                   {
-                    scheduledArrival: futureTrip3_1,
-                    scheduledDeparture: futureTrip3_1,
+                    scheduledArrival: futureTrip31,
+                    scheduledDeparture: futureTrip31,
                     serviceDay: serviceDayInSecs,
                     stop: {
                       id: 'U3RvcDpIU0w6MTI5MTQwNA==',
                     },
                   },
                   {
-                    scheduledArrival: futureTrip3_2,
-                    scheduledDeparture: futureTrip3_2,
+                    scheduledArrival: futureTrip32,
+                    scheduledDeparture: futureTrip32,
                     serviceDay: serviceDayInSecs,
                     stop: {
                       id: 'U3RvcDpIU0w6MTI5MTQwMg==',

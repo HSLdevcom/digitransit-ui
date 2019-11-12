@@ -26,7 +26,7 @@ class RoutePatternSelect extends Component {
     serviceDay: PropTypes.string.isRequired,
     relay: PropTypes.object.isRequired,
     gtfsId: PropTypes.string.isRequired,
-    useCurrentTime: PropTypes.bool, //DT-3182
+    useCurrentTime: PropTypes.bool, // DT-3182
   };
 
   static contextTypes = {
@@ -49,7 +49,7 @@ class RoutePatternSelect extends Component {
   };
 
   getOptions = () => {
-    const { gtfsId, params, route, useCurrentTime } = this.props; //DT-3182: added useCurrentTime
+    const { gtfsId, params, route, useCurrentTime } = this.props; // DT-3182: added useCurrentTime
     const { router } = this.context;
 
     const { patterns } = route;
@@ -58,19 +58,36 @@ class RoutePatternSelect extends Component {
       return null;
     }
 
-    var futureTrips = patterns;
+    let futureTrips = patterns;
 
-    if(useCurrentTime === true) { //DT-3182
-      const wantedTime = (useCurrentTime === true) ? new Date().getTime() : this.props.serviceDay * 1000;    
-      const tripsWithDate = patterns.filter(patternsWithTrips => patternsWithTrips.tripsForDate.length > 0);
-      futureTrips = tripsWithDate.filter(future => future.tripsForDate.filter(stops => stops.stoptimes.filter(s => (s.serviceDay + s.scheduledDeparture) * 1000 >= wantedTime).length > 0).length > 0);
+    if (useCurrentTime === true) {
+      // DT-3182
+      const wantedTime =
+        useCurrentTime === true
+          ? new Date().getTime()
+          : this.props.serviceDay * 1000;
+      const tripsWithDate = patterns.filter(
+        patternsWithTrips => patternsWithTrips.tripsForDate.length > 0,
+      );
+      futureTrips = tripsWithDate.filter(
+        future =>
+          future.tripsForDate.filter(
+            stops =>
+              stops.stoptimes.filter(
+                s => (s.serviceDay + s.scheduledDeparture) * 1000 >= wantedTime,
+              ).length > 0,
+          ).length > 0,
+      );
     }
 
     if (futureTrips.length === 0) {
       return null;
     }
 
-    const options = sortBy(futureTrips, 'tripsForDate.length').reverse().map(pattern => { //DT-3182: changed sortBy from 'code' to 'tripsForDate.length' (reversed = descending)
+    const options = sortBy(futureTrips, 'tripsForDate.length')
+      .reverse()
+      .map(pattern => {
+        // DT-3182: changed sortBy from 'code' to 'tripsForDate.length' (reversed = descending)
         if (patterns.length === 2) {
           return (
             <div
@@ -88,7 +105,7 @@ class RoutePatternSelect extends Component {
             {pattern.stops[0].name} ➔ {pattern.headsign}
           </option>
         );
-    });
+      });
 
     if (options.every(o => o.key !== params.patternId)) {
       router.replace(`/${PREFIX_ROUTES}/${gtfsId}/pysakit/${options[0].key}`);
