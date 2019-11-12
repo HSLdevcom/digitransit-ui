@@ -7,6 +7,7 @@ import { mockContext } from '../helpers/mock-context';
 import { Component as RoutePatternSelect } from '../../../app/component/RoutePatternSelect';
 import dt2887 from '../test-data/dt2887';
 import dt2887b from '../test-data/dt2887b';
+import moment from 'moment'; //DT-3182
 
 describe('<RoutePatternSelect />', () => {
   it('should render', () => {
@@ -206,5 +207,391 @@ describe('<RoutePatternSelect />', () => {
       context: { ...mockContext },
     });
     expect(wrapper.find('select > div')).to.have.lengthOf(0);
+  });
+
+  it('should create a select element for 3 patterns ', () => { //DT-3182
+    var currentDay = new Date();
+    const currentTimeInSecs = currentDay.getTime() / 1000;
+
+    currentDay.setHours(0);
+    currentDay.setMinutes(0);
+    currentDay.setSeconds(0);
+    currentDay.setMilliseconds(0);
+
+    const serviceDayInSecs = currentDay.getTime() / 1000;
+    const serviceDay = moment().format('YYYYMMDD');
+
+    const futureTrip1_1 = (currentTimeInSecs - serviceDayInSecs) + 3600;
+    const futureTrip1_2 = (currentTimeInSecs - serviceDayInSecs) + 3720;
+    const futureTrip2_1 = (currentTimeInSecs - serviceDayInSecs) + 7200;
+    const futureTrip2_2 = (currentTimeInSecs - serviceDayInSecs) + 7320;
+    const futureTrip3_1 = (currentTimeInSecs - serviceDayInSecs) + 14400;
+    const futureTrip3_2 = (currentTimeInSecs - serviceDayInSecs) + 14520;
+
+    const props = {
+      useCurrentTime: true,
+      onSelectChange: () => {},
+      gtfsId: 'HSL:1010',
+      activeTab: 'pysakit',
+      className: 'bp-large',
+      serviceDay: serviceDay,
+      relay: {
+        setVariables: () => {},
+      },
+      params: {
+        routeId: 'HSL:1010',
+        patternId: 'HSL:1010:0:01',
+      },
+      route: {
+        patterns: [
+          {
+            code: 'HSL:1010:1:02',
+            headsign: 'Kirurgi',
+            stops: [
+              {
+                name: 'Korppaanmäki',
+              },
+              {
+                name: 'Johanneksenkirkko',
+              },
+              {
+                name: 'Tarkk´ampujankatu',
+              },
+            ],
+            tripsForDate: [
+              {
+                stoptimes: [
+                  {
+                    scheduledArrival: 120,
+                    scheduledDeparture: 120,
+                    serviceDay: serviceDayInSecs,
+                    stop: {
+                      id: 'U3RvcDpIU0w6MTI5MTQwNA==',
+                    },
+                  },
+                  {
+                    scheduledArrival: 240,
+                    scheduledDeparture: 240,
+                    serviceDay: serviceDayInSecs,
+                    stop: {
+                      id: 'U3RvcDpIU0w6MTI5MTQwMg==',
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            code: 'HSL:1010:0:01',
+            headsign: 'Pikku Huopalahti',
+            stops: [
+              {
+                name: 'Korppaanmäki',
+              },
+              {
+                name: 'Johanneksenkirkko',
+              },
+              {
+                name: 'Tarkk´ampujankatu',
+              },
+            ],
+            tripsForDate: [
+              {
+                stoptimes: [
+                  {
+                    scheduledArrival: futureTrip1_1,
+                    scheduledDeparture: futureTrip1_1,
+                    serviceDay: serviceDayInSecs,
+                    stop: {
+                      id: 'U3RvcDpIU0w6MTI5MTQwNA==',
+                    },
+                  },
+                  {
+                    scheduledArrival: futureTrip1_2,
+                    scheduledDeparture: futureTrip1_2,
+                    serviceDay: serviceDayInSecs,
+                    stop: {
+                      id: 'U3RvcDpIU0w6MTI5MTQwMg==',
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            code: 'HSL:1010:1:03',
+            headsign: 'Ylioppilastalo',
+            stops: [
+              {
+                name: 'Ooppera',
+              },
+              {
+                name: 'Lasipalatsi',
+              },
+              {
+                name: 'Ylioppilastalo',
+              },
+            ],
+            tripsForDate: [
+              {
+                stoptimes: [
+                  {
+                    scheduledArrival: futureTrip2_1,
+                    scheduledDeparture: futureTrip2_1,
+                    serviceDay: serviceDayInSecs,
+                    stop: {
+                      id: 'U3RvcDpIU0w6MTI5MTQwNA==',
+                    },
+                  },
+                  {
+                    scheduledArrival: futureTrip2_2,
+                    scheduledDeparture: futureTrip2_2,
+                    serviceDay: serviceDayInSecs,
+                    stop: {
+                      id: 'U3RvcDpIU0w6MTI5MTQwMg==',
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            code: 'HSL:1010:0:04',
+            headsign: 'Ooppera',
+            stops: [
+              {
+                name: 'Ylioppilastalo',
+              },
+              {
+                name: 'Lasipalatsi',
+              },
+              {
+                name: 'Ooppera',
+              },
+            ],
+            tripsForDate: [
+              {
+                stoptimes: [
+                  {
+                    scheduledArrival: futureTrip3_1,
+                    scheduledDeparture: futureTrip3_1,
+                    serviceDay: serviceDayInSecs,
+                    stop: {
+                      id: 'U3RvcDpIU0w6MTI5MTQwNA==',
+                    },
+                  },
+                  {
+                    scheduledArrival: futureTrip3_2,
+                    scheduledDeparture: futureTrip3_2,
+                    serviceDay: serviceDayInSecs,
+                    stop: {
+                      id: 'U3RvcDpIU0w6MTI5MTQwMg==',
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    };
+
+    const wrapper = shallowWithIntl(<RoutePatternSelect {...props} />, {
+      context: { ...mockContext },
+    });
+    expect(wrapper.find('option')).to.have.lengthOf(3);
+  });
+
+  it('should create a select element for 3 patterns ', () => { //DT-3182
+    var currentDay = new Date();
+    const currentTimeInSecs = currentDay.getTime() / 1000;
+
+    currentDay.setHours(0);
+    currentDay.setMinutes(0);
+    currentDay.setSeconds(0);
+    currentDay.setMilliseconds(0);
+
+    const serviceDayInSecs = currentDay.getTime() / 1000;
+    const serviceDay = moment().format('YYYYMMDD');
+
+    const futureTrip1_1 = (currentTimeInSecs - serviceDayInSecs) + 3600;
+    const futureTrip1_2 = (currentTimeInSecs - serviceDayInSecs) + 3720;
+    const futureTrip2_1 = (currentTimeInSecs - serviceDayInSecs) + 7200;
+    const futureTrip2_2 = (currentTimeInSecs - serviceDayInSecs) + 7320;
+    const futureTrip3_1 = (currentTimeInSecs - serviceDayInSecs) + 14400;
+    const futureTrip3_2 = (currentTimeInSecs - serviceDayInSecs) + 14520;
+
+    const props = {
+      useCurrentTime: false,
+      onSelectChange: () => {},
+      gtfsId: 'HSL:1010',
+      activeTab: 'pysakit',
+      className: 'bp-large',
+      serviceDay: serviceDay,
+      relay: {
+        setVariables: () => {},
+      },
+      params: {
+        routeId: 'HSL:1010',
+        patternId: 'HSL:1010:0:01',
+      },
+      route: {
+        patterns: [
+          {
+            code: 'HSL:1010:1:02',
+            headsign: 'Kirurgi',
+            stops: [
+              {
+                name: 'Korppaanmäki',
+              },
+              {
+                name: 'Johanneksenkirkko',
+              },
+              {
+                name: 'Tarkk´ampujankatu',
+              },
+            ],
+            tripsForDate: [
+              {
+                stoptimes: [
+                  {
+                    scheduledArrival: 120,
+                    scheduledDeparture: 120,
+                    serviceDay: serviceDayInSecs,
+                    stop: {
+                      id: 'U3RvcDpIU0w6MTI5MTQwNA==',
+                    },
+                  },
+                  {
+                    scheduledArrival: 240,
+                    scheduledDeparture: 240,
+                    serviceDay: serviceDayInSecs,
+                    stop: {
+                      id: 'U3RvcDpIU0w6MTI5MTQwMg==',
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            code: 'HSL:1010:0:01',
+            headsign: 'Pikku Huopalahti',
+            stops: [
+              {
+                name: 'Korppaanmäki',
+              },
+              {
+                name: 'Johanneksenkirkko',
+              },
+              {
+                name: 'Tarkk´ampujankatu',
+              },
+            ],
+            tripsForDate: [
+              {
+                stoptimes: [
+                  {
+                    scheduledArrival: futureTrip1_1,
+                    scheduledDeparture: futureTrip1_1,
+                    serviceDay: serviceDayInSecs,
+                    stop: {
+                      id: 'U3RvcDpIU0w6MTI5MTQwNA==',
+                    },
+                  },
+                  {
+                    scheduledArrival: futureTrip1_2,
+                    scheduledDeparture: futureTrip1_2,
+                    serviceDay: serviceDayInSecs,
+                    stop: {
+                      id: 'U3RvcDpIU0w6MTI5MTQwMg==',
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            code: 'HSL:1010:1:03',
+            headsign: 'Ylioppilastalo',
+            stops: [
+              {
+                name: 'Ooppera',
+              },
+              {
+                name: 'Lasipalatsi',
+              },
+              {
+                name: 'Ylioppilastalo',
+              },
+            ],
+            tripsForDate: [
+              {
+                stoptimes: [
+                  {
+                    scheduledArrival: futureTrip2_1,
+                    scheduledDeparture: futureTrip2_1,
+                    serviceDay: serviceDayInSecs,
+                    stop: {
+                      id: 'U3RvcDpIU0w6MTI5MTQwNA==',
+                    },
+                  },
+                  {
+                    scheduledArrival: futureTrip2_2,
+                    scheduledDeparture: futureTrip2_2,
+                    serviceDay: serviceDayInSecs,
+                    stop: {
+                      id: 'U3RvcDpIU0w6MTI5MTQwMg==',
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            code: 'HSL:1010:0:04',
+            headsign: 'Ooppera',
+            stops: [
+              {
+                name: 'Ylioppilastalo',
+              },
+              {
+                name: 'Lasipalatsi',
+              },
+              {
+                name: 'Ooppera',
+              },
+            ],
+            tripsForDate: [
+              {
+                stoptimes: [
+                  {
+                    scheduledArrival: futureTrip3_1,
+                    scheduledDeparture: futureTrip3_1,
+                    serviceDay: serviceDayInSecs,
+                    stop: {
+                      id: 'U3RvcDpIU0w6MTI5MTQwNA==',
+                    },
+                  },
+                  {
+                    scheduledArrival: futureTrip3_2,
+                    scheduledDeparture: futureTrip3_2,
+                    serviceDay: serviceDayInSecs,
+                    stop: {
+                      id: 'U3RvcDpIU0w6MTI5MTQwMg==',
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    };
+
+    const wrapper = shallowWithIntl(<RoutePatternSelect {...props} />, {
+      context: { ...mockContext },
+    });
+    expect(wrapper.find('option')).to.have.lengthOf(4);
   });
 });
