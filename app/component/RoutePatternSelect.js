@@ -26,6 +26,7 @@ class RoutePatternSelect extends Component {
     serviceDay: PropTypes.string.isRequired,
     relay: PropTypes.object.isRequired,
     gtfsId: PropTypes.string.isRequired,
+    useCurrentTime: PropTypes.bool, //DT-3182
   };
 
   static contextTypes = {
@@ -48,7 +49,7 @@ class RoutePatternSelect extends Component {
   };
 
   getOptions = () => {
-    const { gtfsId, params, route } = this.props;
+    const { gtfsId, params, route, useCurrentTime } = this.props; //DT-3182: added useCurrentTime
     const { router } = this.context;
 
     const { patterns } = route;
@@ -57,24 +58,36 @@ class RoutePatternSelect extends Component {
       return null;
     }
 
-    const options = sortBy(patterns, 'code').map(pattern => {
-      if (patterns.length === 2) {
-        return (
-          <div
-            key={pattern.code}
-            value={pattern.code}
-            className="route-option-togglable"
-          >
-            {pattern.stops[0].name} ➔ {pattern.headsign}
-          </div>
-        );
-      }
+    var futureTrips = patterns;
 
-      return (
-        <option key={pattern.code} value={pattern.code}>
-          {pattern.stops[0].name} ➔ {pattern.headsign}
-        </option>
-      );
+    if(useCurrentTime === true) { //DT-3182
+      const wantedTime = (useCurrentTime === true) ? new Date().getTime() : this.props.serviceDay * 1000;    
+      const tripsWithDate = patterns.filter(patternsWithTrips => patternsWithTrips.tripsForDate.length > 0);
+      futureTrips = tripsWithDate.filter(future => future.tripsForDate.filter(stops => stops.stoptimes.filter(s => (s.serviceDay + s.scheduledDeparture) * 1000 >= wantedTime).length > 0).length > 0);
+    }
+
+    if (futureTrips.length === 0) {
+      return null;
+    }
+
+    const options = sortBy(futureTrips, 'tripsForDate.length').reverse().map(pattern => { //DT-3182: changed sortBy from 'code' to 'tripsForDate.length' (reversed = descending)
+        if (patterns.length === 2) {
+          return (
+            <div
+              key={pattern.code}
+              value={pattern.code}
+              className="route-option-togglable"
+            >
+              {pattern.stops[0].name} ➔ {pattern.headsign}
+            </div>
+          );
+        }
+
+        return (
+          <option key={pattern.code} value={pattern.code}>
+            {pattern.stops[0].name} ➔ {pattern.headsign}
+          </option>
+        );
     });
 
     if (options.every(o => o.key !== params.patternId)) {
@@ -187,9 +200,9 @@ const withStore = connectToStores(
           stops {
             name
           }
-          tripsForDate(serviceDay: $serviceDay) {
+          tripsForDate(serviceDate: $serviceDay) {
             id
-            stoptimes: stoptimesForDate(serviceDay: $serviceDay) {
+            stoptimes: stoptimesForDate(serviceDate: $serviceDay) {
               scheduledArrival
               scheduledDeparture
               serviceDay

@@ -195,6 +195,8 @@ class RoutePage extends React.Component {
       (hasActiveAlert && 'active-disruption-alert') ||
       (hasActiveServiceAlerts && 'active-service-alert');
 
+    const useCurrentTime = (activeTab === Tab.Stops) ? true : false; //DT-3182
+    
     return (
       <div>
         <div className="header-for-printing">
@@ -280,6 +282,7 @@ class RoutePage extends React.Component {
               onSelectChange={this.onPatternChange}
               gtfsId={route.gtfsId}
               className={cx({ 'bp-large': breakpoint === 'large' })}
+              useCurrentTime={useCurrentTime}
             />
           )}
           <RouteAgencyInfo route={route} />
