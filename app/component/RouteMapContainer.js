@@ -13,6 +13,7 @@ import VehicleMarkerContainer from './map/VehicleMarkerContainer';
 import StopCardHeaderContainer from './StopCardHeaderContainer';
 import { getStartTime } from '../util/timeUtils';
 import withBreakpoint from '../util/withBreakpoint';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class RouteMapContainer extends React.PureComponent {
   static contextTypes = {
@@ -74,6 +75,11 @@ class RouteMapContainer extends React.PureComponent {
     let tripStart;
 
     const toggleFullscreenMap = () => {
+      addAnalyticsEvent({
+        action: fullscreen ? 'MinimizeMapOnMobile' : 'MaximizeMapOnMobile',
+        category: 'Map',
+        name: 'RoutePage',
+      });
       if (fullscreen) {
         router.goBack();
         return;

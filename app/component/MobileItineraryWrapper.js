@@ -66,6 +66,13 @@ export default class MobileItineraryWrapper extends React.Component {
         pathname: `${this.context.location.pathname}/kartta`,
       });
     }
+    addAnalyticsEvent({
+      action: this.props.fullscreenMap
+        ? 'MinimizeMapOnMobile'
+        : 'MaximizeMapOnMobile',
+      category: 'Map',
+      name: 'SummaryPage',
+    });
   };
 
   focusMap = (lat, lon) => this.props.focus(lat, lon);

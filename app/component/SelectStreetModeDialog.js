@@ -8,6 +8,7 @@ import ToggleButton from './ToggleButton';
 import { isKeyboardSelectionEvent } from '../util/browser';
 
 import ComponentUsageExample from './ComponentUsageExample';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class SelectStreetModeDialog extends React.Component {
   constructor(props) {
@@ -22,6 +23,11 @@ class SelectStreetModeDialog extends React.Component {
   }
 
   onDialogOpen(applyFocus = false) {
+    addAnalyticsEvent({
+      category: 'Map',
+      action: 'OpenTravellingModeMenu',
+      name: null,
+    });
     if (applyFocus && this.selectedStreetModeButton) {
       this.selectedStreetModeButton.focus();
     }

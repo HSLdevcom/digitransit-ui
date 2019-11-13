@@ -19,6 +19,7 @@ import {
   stopRealTimeClient,
 } from '../../action/realTimeClientAction';
 import triggerMessage from '../../util/messageUtils';
+import { addAnalyticsEvent } from '../../util/analyticsUtils';
 
 const DEFAULT_ZOOM = 12;
 const FOCUS_ZOOM = 16;
@@ -255,6 +256,11 @@ class MapWithTrackingStateHandler extends React.Component {
       mapTracking: true,
       focusOnOrigin: false,
       focusOnDestination: false,
+    });
+    addAnalyticsEvent({
+      category: 'Map',
+      action: 'ReCenterToMyGeolocation',
+      name: null,
     });
   };
 
