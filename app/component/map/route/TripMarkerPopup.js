@@ -58,6 +58,7 @@ TripMarkerPopup.propTypes = {
   trip: PropTypes.shape({
     route: PropTypes.shape({
       gtfsId: PropTypes.string.isRequired,
+      mode: PropTypes.string,
     }).isRequired,
     trip: PropTypes.shape({
       gtfsId: PropTypes.string,
