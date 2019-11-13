@@ -14,6 +14,7 @@ import {
   twoRoutePatterns as exampleTwoRoutePatterns,
 } from './ExampleData';
 import { PREFIX_ROUTES } from '../util/path';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const DATE_FORMAT = 'YYYYMMDD';
 
@@ -98,6 +99,14 @@ class RoutePatternSelect extends Component {
               id="select-route-pattern"
               onChange={e => this.props.onSelectChange(e.target.value)}
               value={this.props.params && this.props.params.patternId}
+              // mousedown works for detecting select box open atleast for firefox, chrome and edge
+              onMouseDown={() => {
+                addAnalyticsEvent({
+                  category: 'Route',
+                  action: 'OpenDirectionMenu',
+                  name: null,
+                });
+              }}
             >
               {options}
             </select>
