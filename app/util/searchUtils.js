@@ -428,9 +428,9 @@ function getRoutes(input, config) {
 
   const query = Relay.createQuery(
     Relay.QL`
-    query routes($name: String) {
+    query routes($feeds: [String!]!, $name: String) {
       viewer {
-        routes(name: $name ) {
+        routes(feeds: $feeds, name: $name ) {
           gtfsId
           agency {name}
           shortName
@@ -442,17 +442,18 @@ function getRoutes(input, config) {
         }
       }
     }`,
-    { name: input },
+    {
+      feeds:
+        Array.isArray(config.feedIds) && config.feedIds.length > 0
+          ? config.feedIds
+          : null,
+      name: input,
+    },
   );
 
   return getRelayQuery(query)
     .then(data =>
       data[0].routes
-        .filter(
-          item =>
-            config.feedIds === undefined ||
-            config.feedIds.indexOf(item.gtfsId.split(':')[0]) > -1,
-        )
         .map(mapRoute)
         .sort((x, y) => routeNameCompare(x.properties, y.properties)),
     )
