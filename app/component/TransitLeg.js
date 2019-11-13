@@ -39,8 +39,8 @@ class TransitLeg extends React.Component {
       event: 'sendMatomoEvent',
       category: 'Itinerary',
       action: this.state.showIntermediateStops
-        ? 'ShowIntermediateStops'
-        : 'HideIntermediateStops',
+        ? 'HideIntermediateStops'
+        : 'ShowIntermediateStops',
       name: null,
     });
 
