@@ -12,6 +12,7 @@ import DepartureListHeader from './DepartureListHeader';
 import Icon from './Icon';
 import { PREFIX_ROUTES } from '../util/path';
 import { routeNameCompare } from '../util/searchUtils';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 export const mapRoutes = (stopFromProps, stopType) => {
   const stopRoutes = [];
@@ -94,6 +95,13 @@ const RoutesAndPlatformsForStops = props => {
         route.pattern.route.gtfsId}/pysakit/${route.pattern.code}`}
       key={`${route.pattern.code}-${route.headsign}-${route.pattern.route.id ||
         route.pattern.route.gtfsId}-${route.stop.platformCode}`}
+      onClick={() => {
+        addAnalyticsEvent({
+          category: 'Stop',
+          name: 'RoutesAndPlatformsTab',
+          action: 'OpenRouteViewFromStop',
+        });
+      }}
     >
       <Departure
         key={`${route.pattern.code}-${route.headsign}-${route.pattern.route
