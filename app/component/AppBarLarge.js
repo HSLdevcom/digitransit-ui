@@ -32,6 +32,10 @@ const AppBarLarge = (
     });
   };
 
+  let loggedIn = false;
+  const logIn = () => {
+    loggedIn = true;
+  };
   let logoElement;
   if (config.textLogo) {
     logoElement = (
@@ -61,7 +65,7 @@ const AppBarLarge = (
           {logoElement}
         </button>
         <div className="empty-space flex-grow" />
-        <LoginButton />
+        <LoginButton onClick={logIn} />
         <div className="navi-languages right-border navi-margin">
           <LangSelect />
         </div>

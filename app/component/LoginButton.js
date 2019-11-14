@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 
-export default function LoginButton() {
+export default function LoginButton({ onClick }) {
   return (
-    <div className="top-bar-login">
+    <div className="top-bar-login" onClick={onClick}>
       <div className="navi-icons">
         <Icon img="icon-icon_user" />
       </div>
@@ -15,3 +15,7 @@ export default function LoginButton() {
     </div>
   );
 }
+
+LoginButton.propTypes = {
+  onClick: PropTypes.func.isRequired,
+};
