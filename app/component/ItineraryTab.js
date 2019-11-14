@@ -64,9 +64,9 @@ class ItineraryTab extends React.Component {
 
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
-      category: 'ItinerarySettings',
-      action: 'ItineraryPrintButton',
-      name: 'PrintItinerary',
+      category: 'Itinerary',
+      action: 'Print',
+      name: null,
     });
 
     const printPath = `${this.props.location.pathname}/tulosta`;

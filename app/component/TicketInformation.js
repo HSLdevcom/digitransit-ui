@@ -8,6 +8,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import ExternalLink from './ExternalLink';
 import { renderZoneTicket } from './ZoneTicket';
 import { getAlternativeFares } from '../util/fareUtils';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 export const getUtmParameters = (agency, config) => {
   const gtfsId = get(agency, 'gtfsId');
@@ -89,6 +90,13 @@ export default function TicketInformation({ fares, zones }, { config, intl }) {
                       fare.agency,
                       config,
                     )}`}
+                    onClick={() => {
+                      addAnalyticsEvent({
+                        category: 'Itinerary',
+                        action: 'OpenHowToBuyTicket',
+                        name: null,
+                      });
+                    }}
                   >
                     {intl.formatMessage({ id: 'extra-info' })}
                   </ExternalLink>
@@ -101,6 +109,13 @@ export default function TicketInformation({ fares, zones }, { config, intl }) {
         <ExternalLink
           className="itinerary-ticket-external-link"
           href={config.ticketLink}
+          onClick={() => {
+            addAnalyticsEvent({
+              category: 'Itinerary',
+              action: 'OpenHowToBuyTicket',
+              name: null,
+            });
+          }}
         >
           {intl.formatMessage({ id: 'buy-ticket' })}
         </ExternalLink>
