@@ -19,6 +19,9 @@ import {
   isAlertActive,
   isAlertValid,
   getActiveAlertSeverityLevel,
+  getCancelationsForRoute,
+  getServiceAlertsForRoute,
+  getServiceAlertsForRouteStops,
 } from '../util/alertUtils';
 import withBreakpoint from '../util/withBreakpoint';
 
@@ -76,13 +79,41 @@ function StopPageTabContainer(
 
   if (stop.routes && stop.routes.length > 0) {
     stop.routes.forEach(route => {
+      const patternId = route.patterns.code;
+      // console.log(patternId);
+      const hasActiveRouteAlert = isAlertActive(
+        getCancelationsForRoute(route, patternId),
+        [
+          ...getServiceAlertsForRoute(route, patternId),
+          ...getServiceAlertsForRouteStops(route, patternId),
+        ],
+        currentTime,
+      );
+      // console.log(a);
+      const hasActiveServiceAlerts = getActiveAlertSeverityLevel(
+        getServiceAlertsForRoute(route, patternId),
+        currentTime,
+      );
+      console.log(hasActiveServiceAlerts);
       return (
-        route.alerts.some(alert => isAlertValid(alert, currentTime)) &&
+        (hasActiveRouteAlert || hasActiveServiceAlerts) &&
         stopRoutesWithAlerts.push(...route.alerts)
       );
+      // return (
+      //   route.alerts.some(alert => isAlertValid(alert, currentTime)) &&
+      //   stopRoutesWithAlerts.push(...route.alerts)
+      // );
     });
   }
 
+  console.log(stopRoutesWithAlerts);
+  // console.log(hasActiveAlert)
+  // console.log(stopRoutesWithAlerts)
+  // console.log("asd " + stopRoutesWithAlerts.find(
+  //   alert =>
+  //     alert.severityLevel ===
+  //     (AlertSeverityLevelType.Severe || AlertSeverityLevelType.Warning))&&
+  //     'active-disruption-alert')
   const disruptionClassName =
     ((hasActiveAlert ||
       stopRoutesWithAlerts.find(
@@ -98,7 +129,7 @@ function StopPageTabContainer(
           (AlertSeverityLevelType.Severe || AlertSeverityLevelType.Warning),
       )) &&
       'active-service-alert');
-
+  console.log(disruptionClassName);
   return (
     <div className="stop-page-content-wrapper">
       <div>
@@ -279,6 +310,9 @@ const containerComponent = Relay.createContainer(
             mode
             color
             ${RouteAlertsWithContentQuery}
+            patterns {
+              code
+            }
           }
         }
       `,
