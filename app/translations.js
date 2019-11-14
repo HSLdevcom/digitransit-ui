@@ -1531,7 +1531,7 @@ const translations = {
     'location-shopping': 'Kauppa',
     'location-sport': 'Urheilu',
     'location-work': 'Työ',
-    login: 'Kirjaudu sisään',
+    login: 'Kirjaudu',
     'long-transfers-margin': '12 min',
     'main-menu-label-close': 'Sulje päävalikko',
     'main-menu-label-open': 'Avaa päävalikko',

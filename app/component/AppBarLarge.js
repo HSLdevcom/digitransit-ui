@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { intlShape } from 'react-intl';
+import { intlShape, FormattedMessage } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
 import ExternalLink from './ExternalLink';
 import DisruptionInfo from './DisruptionInfo';
@@ -11,6 +11,7 @@ import MessageBar from './MessageBar';
 import CanceledLegsBar from './CanceledLegsBar';
 import LogoSmall from './LogoSmall';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import LoginButton from './LoginButton';
 
 const AppBarLarge = (
   { titleClicked, logo },
@@ -60,6 +61,7 @@ const AppBarLarge = (
           {logoElement}
         </button>
         <div className="empty-space flex-grow" />
+        <LoginButton />
         <div className="navi-languages right-border navi-margin">
           <LangSelect />
         </div>

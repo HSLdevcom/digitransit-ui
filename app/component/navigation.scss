@@ -29,6 +29,16 @@ $offcanvas-link-text-font-size: 15px;
 /* Content */
 $content-background-color: $background-color;
 
+.top-bar-login {
+  display: flex;
+  flex-direction: row;
+  color: $white;
+  cursor: pointer;
+  .right-border {
+    border-right: 1px solid rgba(0, 0, 0, 0.15);
+    padding-right: 1em;
+  }
+}
 .top-bar {
   position: relative;
   display: flex;
