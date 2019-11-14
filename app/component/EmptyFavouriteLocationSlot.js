@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import AddIcon from './AddIcon';
 import ComponentUsageExample from './ComponentUsageExample';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const EmptyFavouriteLocationSlot = ({ index }) => (
   <Link
@@ -11,6 +12,13 @@ const EmptyFavouriteLocationSlot = ({ index }) => (
     to="/suosikki/uusi"
     className="cursor-pointer no-decoration"
     key={`add-new-favourite-${index}`}
+    onClick={() => {
+      addAnalyticsEvent({
+        category: 'Favourite',
+        action: 'AddLocationAsFavourite',
+        name: null,
+      });
+    }}
   >
     <div className="new-favourite-button-content">
       <AddIcon />

@@ -83,32 +83,32 @@ class TripStopListContainer extends React.PureComponent {
     const mode = trip.route.mode.toLowerCase();
 
     const vehicles = groupBy(
-      values(propVehicles)
-        .filter(
-          vehicle => currentTime - vehicle.timestamp * 1000 < 5 * 60 * 1000,
-        )
-        .filter(
-          vehicle =>
-            vehicle.tripStartTime && vehicle.tripStartTime !== 'undefined',
-        ),
-      vehicle => vehicle.direction,
+      values(propVehicles).filter(
+        vehicle => currentTime - vehicle.timestamp * 1000 < 5 * 60 * 1000,
+      ),
+      vehicle => vehicle.next_stop,
     );
 
-    const vehicleStops = groupBy(
-      vehicles[trip.pattern.directionId],
-      vehicle => `HSL:${vehicle.next_stop}`,
-    );
-
-    const vehiclesWithCorrectStartTime = Object.keys(propVehicles)
+    const matchingVehicles = Object.keys(propVehicles)
       .map(key => propVehicles[key])
-      .filter(vehicle => vehicle.direction === trip.pattern.directionId)
-      .filter(vehicle => vehicle.tripStartTime === tripStart);
+      .filter(
+        vehicle =>
+          vehicle.direction === undefined ||
+          vehicle.direction === trip.pattern.directionId,
+      )
+      .filter(
+        vehicle =>
+          vehicle.tripStartTime === undefined ||
+          vehicle.tripStartTime === tripStart,
+      )
+      .filter(
+        vehicle =>
+          vehicle.tripId === undefined || vehicle.tripId === trip.gtfsId,
+      );
 
     // selected vehicle
-    const vehicle =
-      vehiclesWithCorrectStartTime.length > 0 &&
-      vehiclesWithCorrectStartTime[0];
-    const nextStop = vehicle && `HSL:${vehicle.next_stop}`;
+    const vehicle = matchingVehicles.length > 0 && matchingVehicles[0];
+    const nextStop = vehicle && vehicle.next_stop;
 
     let stopPassed = true;
 
@@ -117,7 +117,7 @@ class TripStopListContainer extends React.PureComponent {
         stopPassed = false;
       } else if (
         stoptime.realtimeDeparture + stoptime.serviceDay > currentTime.unix() &&
-        isEmpty(vehicle)
+        (isEmpty(vehicle) || (vehicle && vehicle.next_stop === undefined))
       ) {
         stopPassed = false;
       }
@@ -129,7 +129,7 @@ class TripStopListContainer extends React.PureComponent {
           stop={stoptime.stop}
           mode={mode}
           color={trip.route && trip.route.color ? `#${trip.route.color}` : null}
-          vehicles={vehicleStops[stoptime.stop.gtfsId]}
+          vehicles={vehicles[stoptime.stop.gtfsId]}
           selectedVehicle={vehicle}
           stopPassed={stopPassed}
           realtime={stoptime.realtime}
@@ -211,6 +211,7 @@ const connectedComponent = Relay.createContainer(
           serviceDay
           realtimeState
         }
+        gtfsId
       }
     `,
     },

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ComponentUsageExample from './ComponentUsageExample';
 import FooterItem from './FooterItem';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const MainMenuLinks = ({ content }) => (
   <div id="page-m-footer">
@@ -11,7 +12,18 @@ const MainMenuLinks = ({ content }) => (
           <span key="separator" />
         ) : (
           <div key={link.label || link.name} className="offcanvas-section">
-            <FooterItem {...link} />
+            <FooterItem
+              onClick={() => {
+                if (link.label || link.name) {
+                  addAnalyticsEvent({
+                    category: 'Navigation',
+                    action: 'OpenMainMenuLink',
+                    name: link.label || link.name,
+                  });
+                }
+              }}
+              {...link}
+            />
           </div>
         ),
     )}

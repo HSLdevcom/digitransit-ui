@@ -48,10 +48,9 @@ class MainMenuContainer extends Component {
 
   internalSetOffcanvas = newState => {
     addAnalyticsEvent({
-      event: 'sendMatomoEvent',
-      category: 'ItinerarySettings',
-      action: 'ExtraSettingsPanelClick',
-      name: newState ? 'ExtraSettingsPanelOpen' : 'ExtraSettingsPanelClose',
+      category: 'Navigation',
+      action: newState ? 'OpenMobileMenu' : 'CloseMobileMenu',
+      name: null,
     });
 
     if (newState) {

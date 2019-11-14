@@ -5,8 +5,10 @@ import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 
-import FuzzyTripRoute from './FuzzyTripRoute';
+import TripRoute from '../route/TripRoute';
+import FuzzyTripRoute from '../route/FuzzyTripRoute';
 import TripLink from './TripLink';
+import FuzzyTripLink from './FuzzyTripLink';
 import WalkDistance from './WalkDistance';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import StopCode from './StopCode';
@@ -15,6 +17,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { AlertSeverityLevelType, RealtimeStateType } from '../constants';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 import { PREFIX_STOPS } from '../util/path';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const exampleStop = {
   stopTimesForPattern: [
@@ -137,18 +140,28 @@ class RouteStop extends React.PureComponent {
     const vehicleTripLink = vehicle && (
       <Relay.RootContainer
         key={vehicle.id}
-        Component={TripLink}
+        Component={vehicle.tripId ? TripLink : FuzzyTripLink}
         route={
-          new FuzzyTripRoute({
-            route: vehicle.route,
-            direction: vehicle.direction,
-            date: vehicle.operatingDay,
-            time:
-              vehicle.tripStartTime.substring(0, 2) * 60 * 60 +
-              vehicle.tripStartTime.substring(2, 4) * 60,
-          })
+          vehicle.tripId
+            ? new TripRoute({
+                id: vehicle.tripId,
+              })
+            : new FuzzyTripRoute({
+                route: vehicle.route,
+                direction: vehicle.direction,
+                date: vehicle.operatingDay,
+                time:
+                  vehicle.tripStartTime.substring(0, 2) * 60 * 60 +
+                  vehicle.tripStartTime.substring(2, 4) * 60,
+              })
         }
-        renderFetched={data => <TripLink mode={vehicle.mode} {...data} />}
+        renderFetched={data =>
+          vehicle.tripId ? (
+            <TripLink mode={vehicle.mode} {...data} />
+          ) : (
+            <FuzzyTripLink mode={vehicle.mode} {...data} />
+          )
+        }
       />
     );
 
@@ -179,7 +192,16 @@ class RouteStop extends React.PureComponent {
           <div className={cx('route-stop-now_line', mode)} />
         </div>
         <div className="route-stop-row_content-container">
-          <Link to={`/${PREFIX_STOPS}/${encodeURIComponent(stop.gtfsId)}`}>
+          <Link
+            to={`/${PREFIX_STOPS}/${encodeURIComponent(stop.gtfsId)}`}
+            onClick={() => {
+              addAnalyticsEvent({
+                category: 'Routes',
+                action: 'OpenStopViewFromRoute',
+                name: null,
+              });
+            }}
+          >
             <div className={` route-details_container ${mode}`}>
               <div>
                 <span>{stop.name}</span>
