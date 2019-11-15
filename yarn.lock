@@ -12102,11 +12102,17 @@ uuid@3.3.2, uuid@^3.0.1, uuid@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
 
-uuidv4@4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/uuidv4/-/uuidv4-4.0.0.tgz#ac4b05ecf0efa62dda532d55b7a8de8f726f8f7c"
+uuid@3.3.3:
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.3.tgz#4568f0216e78760ee1dbf3a4d2cf53e224112866"
+  integrity sha512-pW0No1RGHgzlpHJO1nsVrHKpOEIxkGg1xB+v0ZmdNH5OAeAwzAVrCnI2/6Mtx+Uys6iaylxa+D3g4j63IKKjSQ==
+
+uuidv4@6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/uuidv4/-/uuidv4-6.0.0.tgz#af64d9d0b6e5cc42675376622dc386f06d7461bb"
+  integrity sha512-KvtCP/4TGL1lU3CviYgWsSiKtJ+vi7FyJ0o+9RIGmJDVw1+O0lM+6pX127t5R6+EHzHOBnzG8zfWUufB4iECRw==
   dependencies:
-    uuid "3.3.2"
+    uuid "3.3.3"
 
 v8-compile-cache@^2.0.2:
   version "2.0.2"
