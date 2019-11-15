@@ -123,7 +123,7 @@
     "react-transition-group": "1.2.1",
     "recompose": "0.30.0",
     "serialize-javascript": "1.6.1",
-    "uuidv4": "4.0.0",
+    "uuidv4": "6.0.0",
     "zurb-foundation-5": "5.4.7"
   },
   "devDependencies": {
