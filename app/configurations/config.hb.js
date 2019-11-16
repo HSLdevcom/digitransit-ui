@@ -128,6 +128,16 @@ export default configMerger(walttiConfig, {
         route: '/tietoja-palvelusta',
         icon: 'icon-icon_info',
       },
+      {
+        name: 'imprint',
+        nameEn: 'Imprint',
+        href: 'https://www.herrenberg.de/impressum',
+      },
+      {
+        name: 'privacy',
+        nameEn: 'Privacy',
+        href: 'https://www.herrenberg.de/datenschutz',
+      },
     ],
   },
 
