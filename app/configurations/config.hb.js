@@ -242,7 +242,7 @@ export default configMerger(walttiConfig, {
         name: {
           fi: '',
           en: 'Taxi stands',
-          de: 'Taxi Standorte',
+          de: 'Taxi-Stellplätze',
         },
         url: '/assets/geojson/hb-layers/taxistand.geojson',
       },
