@@ -7,8 +7,8 @@
         "name": "Fahrradparkplatz Bahnhof Herrenberg",
         "name_en": "Fahrradparkplatz Bahnhof Herrenberg",
         "name_de": "Fahrradparkplatz Bahnhof Herrenberg",
-        "address": "Kapazit\u00e4t: 132",
-        "address_de": "Kapazit\u00e4t: 132",
+        "address": "Stellpl\u00e4tze: 132",
+        "address_de": "Stellpl\u00e4tze: 132",
         "address_en": "Capacity: 132",
         "icon": {
           "id": "bikeParkCovIcon",
@@ -92,9 +92,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Geb\u00fchr: nein",
-        "address_de": "Geb\u00fchr: nein",
-        "address_en": "Fee: no",
+        "address": "Stellpl\u00e4tze: 40, Geb\u00fchrenpflichtig:: nein",
+        "address_de": "Stellpl\u00e4tze: 40, Geb\u00fchrenpflichtig:: nein",
+        "address_en": "Capacity: 40, Fee: no",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -113,9 +113,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Geb\u00fchr: nein",
-        "address_de": "Geb\u00fchr: nein",
-        "address_en": "Fee: no",
+        "address": "Stellpl\u00e4tze: 40, Geb\u00fchrenpflichtig:: nein",
+        "address_de": "Stellpl\u00e4tze: 40, Geb\u00fchrenpflichtig:: nein",
+        "address_en": "Capacity: 40, Fee: no",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -134,9 +134,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Geb\u00fchr: nein",
-        "address_de": "Geb\u00fchr: nein",
-        "address_en": "Fee: no",
+        "address": "Stellpl\u00e4tze: 50, Geb\u00fchrenpflichtig:: nein",
+        "address_de": "Stellpl\u00e4tze: 50, Geb\u00fchrenpflichtig:: nein",
+        "address_en": "Capacity: 50, Fee: no",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -144,8 +144,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.908335,
-          48.64059
+          8.9083363,
+          48.6405914
         ]
       }
     },
@@ -155,8 +155,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 196, Geb\u00fchr: nein",
-        "address_de": "Kapazit\u00e4t: 196, Geb\u00fchr: nein",
+        "address": "Stellpl\u00e4tze: 196, Geb\u00fchrenpflichtig:: nein",
+        "address_de": "Stellpl\u00e4tze: 196, Geb\u00fchrenpflichtig:: nein",
         "address_en": "Capacity: 196, Fee: no",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -176,8 +176,29 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 14",
-        "address_de": "Kapazit\u00e4t: 14",
+        "address": "Stellpl\u00e4tze: 50",
+        "address_de": "Stellpl\u00e4tze: 50",
+        "address_en": "Capacity: 50",
+        "icon": {
+          "id": "bikeParkCovIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.901205,
+          48.6455969
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Covered bike park",
+        "name_de": "\u00dcberdachter Fahrradstellplatz",
+        "name": "\u00dcberdachter Fahrradstellplatz",
+        "address": "Stellpl\u00e4tze: 14",
+        "address_de": "Stellpl\u00e4tze: 14",
         "address_en": "Capacity: 14",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -197,8 +218,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 40",
-        "address_de": "Kapazit\u00e4t: 40",
+        "address": "Stellpl\u00e4tze: 40",
+        "address_de": "Stellpl\u00e4tze: 40",
         "address_en": "Capacity: 40",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -218,8 +239,29 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 100",
-        "address_de": "Kapazit\u00e4t: 100",
+        "address": "",
+        "address_de": "",
+        "address_en": "",
+        "icon": {
+          "id": "bikeParkCovIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.9007711,
+          48.6466188
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Covered bike park",
+        "name_de": "\u00dcberdachter Fahrradstellplatz",
+        "name": "\u00dcberdachter Fahrradstellplatz",
+        "address": "Stellpl\u00e4tze: 100",
+        "address_de": "Stellpl\u00e4tze: 100",
         "address_en": "Capacity: 100",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -239,8 +281,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 100",
-        "address_de": "Kapazit\u00e4t: 100",
+        "address": "Stellpl\u00e4tze: 100",
+        "address_de": "Stellpl\u00e4tze: 100",
         "address_en": "Capacity: 100",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -260,8 +302,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 60",
-        "address_de": "Kapazit\u00e4t: 60",
+        "address": "Stellpl\u00e4tze: 60",
+        "address_de": "Stellpl\u00e4tze: 60",
         "address_en": "Capacity: 60",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -281,8 +323,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 30",
-        "address_de": "Kapazit\u00e4t: 30",
+        "address": "Stellpl\u00e4tze: 30",
+        "address_de": "Stellpl\u00e4tze: 30",
         "address_en": "Capacity: 30",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -314,6 +356,27 @@
         "coordinates": [
           8.6867992,
           48.6638653
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Covered bike park",
+        "name_de": "\u00dcberdachter Fahrradstellplatz",
+        "name": "\u00dcberdachter Fahrradstellplatz",
+        "address": "Stellpl\u00e4tze: 30, Geb\u00fchrenpflichtig:: nein",
+        "address_de": "Stellpl\u00e4tze: 30, Geb\u00fchrenpflichtig:: nein",
+        "address_en": "Capacity: 30, Fee: no",
+        "icon": {
+          "id": "bikeParkCovIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8893831,
+          48.6200645
         ]
       }
     },
@@ -386,8 +449,71 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Geb\u00fchr: nein",
-        "address_de": "Geb\u00fchr: nein",
+        "address": "Stellpl\u00e4tze: 10",
+        "address_de": "Stellpl\u00e4tze: 10",
+        "address_en": "Capacity: 10",
+        "icon": {
+          "id": "bikeParkCovIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.915274,
+          48.6415053
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Covered bike park",
+        "name_de": "\u00dcberdachter Fahrradstellplatz",
+        "name": "\u00dcberdachter Fahrradstellplatz",
+        "address": "Stellpl\u00e4tze: 32",
+        "address_de": "Stellpl\u00e4tze: 32",
+        "address_en": "Capacity: 32",
+        "icon": {
+          "id": "bikeParkCovIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.9013747,
+          48.6457121
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Covered bike park",
+        "name_de": "\u00dcberdachter Fahrradstellplatz",
+        "name": "\u00dcberdachter Fahrradstellplatz",
+        "address": "",
+        "address_de": "",
+        "address_en": "",
+        "icon": {
+          "id": "bikeParkCovIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8576995,
+          48.5892793
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Covered bike park",
+        "name_de": "\u00dcberdachter Fahrradstellplatz",
+        "name": "\u00dcberdachter Fahrradstellplatz",
+        "address": "Geb\u00fchrenpflichtig:: nein",
+        "address_de": "Geb\u00fchrenpflichtig:: nein",
         "address_en": "Fee: no",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -407,8 +533,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 24",
-        "address_de": "Kapazit\u00e4t: 24",
+        "address": "Stellpl\u00e4tze: 24",
+        "address_de": "Stellpl\u00e4tze: 24",
         "address_en": "Capacity: 24",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -428,8 +554,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 30",
-        "address_de": "Kapazit\u00e4t: 30",
+        "address": "Stellpl\u00e4tze: 30",
+        "address_de": "Stellpl\u00e4tze: 30",
         "address_en": "Capacity: 30",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -449,8 +575,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 24",
-        "address_de": "Kapazit\u00e4t: 24",
+        "address": "Stellpl\u00e4tze: 24",
+        "address_de": "Stellpl\u00e4tze: 24",
         "address_en": "Capacity: 24",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -470,8 +596,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 16",
-        "address_de": "Kapazit\u00e4t: 16",
+        "address": "Stellpl\u00e4tze: 16",
+        "address_de": "Stellpl\u00e4tze: 16",
         "address_en": "Capacity: 16",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -491,8 +617,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 10, Geb\u00fchr: nein",
-        "address_de": "Kapazit\u00e4t: 10, Geb\u00fchr: nein",
+        "address": "Stellpl\u00e4tze: 10, Geb\u00fchrenpflichtig:: nein",
+        "address_de": "Stellpl\u00e4tze: 10, Geb\u00fchrenpflichtig:: nein",
         "address_en": "Capacity: 10, Fee: no",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -512,8 +638,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 6",
-        "address_de": "Kapazit\u00e4t: 6",
+        "address": "Stellpl\u00e4tze: 6",
+        "address_de": "Stellpl\u00e4tze: 6",
         "address_en": "Capacity: 6",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -533,8 +659,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 16, Geb\u00fchr: nein",
-        "address_de": "Kapazit\u00e4t: 16, Geb\u00fchr: nein",
+        "address": "Stellpl\u00e4tze: 16, Geb\u00fchrenpflichtig:: nein",
+        "address_de": "Stellpl\u00e4tze: 16, Geb\u00fchrenpflichtig:: nein",
         "address_en": "Capacity: 16, Fee: no",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -554,8 +680,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 14, Geb\u00fchr: nein",
-        "address_de": "Kapazit\u00e4t: 14, Geb\u00fchr: nein",
+        "address": "Stellpl\u00e4tze: 14, Geb\u00fchrenpflichtig:: nein",
+        "address_de": "Stellpl\u00e4tze: 14, Geb\u00fchrenpflichtig:: nein",
         "address_en": "Capacity: 14, Fee: no",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -575,8 +701,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 130",
-        "address_de": "Kapazit\u00e4t: 130",
+        "address": "Stellpl\u00e4tze: 130",
+        "address_de": "Stellpl\u00e4tze: 130",
         "address_en": "Capacity: 130",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -596,8 +722,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 16",
-        "address_de": "Kapazit\u00e4t: 16",
+        "address": "Stellpl\u00e4tze: 16",
+        "address_de": "Stellpl\u00e4tze: 16",
         "address_en": "Capacity: 16",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -617,8 +743,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 16",
-        "address_de": "Kapazit\u00e4t: 16",
+        "address": "Stellpl\u00e4tze: 16",
+        "address_de": "Stellpl\u00e4tze: 16",
         "address_en": "Capacity: 16",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -638,8 +764,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 8",
-        "address_de": "Kapazit\u00e4t: 8",
+        "address": "Stellpl\u00e4tze: 8",
+        "address_de": "Stellpl\u00e4tze: 8",
         "address_en": "Capacity: 8",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -659,8 +785,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 44",
-        "address_de": "Kapazit\u00e4t: 44",
+        "address": "Stellpl\u00e4tze: 44",
+        "address_de": "Stellpl\u00e4tze: 44",
         "address_en": "Capacity: 44",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -680,8 +806,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 12",
-        "address_de": "Kapazit\u00e4t: 12",
+        "address": "Stellpl\u00e4tze: 12",
+        "address_de": "Stellpl\u00e4tze: 12",
         "address_en": "Capacity: 12",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -701,8 +827,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 6",
-        "address_de": "Kapazit\u00e4t: 6",
+        "address": "Stellpl\u00e4tze: 6",
+        "address_de": "Stellpl\u00e4tze: 6",
         "address_en": "Capacity: 6",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -722,8 +848,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 50",
-        "address_de": "Kapazit\u00e4t: 50",
+        "address": "Stellpl\u00e4tze: 50",
+        "address_de": "Stellpl\u00e4tze: 50",
         "address_en": "Capacity: 50",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -743,29 +869,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 10",
-        "address_de": "Kapazit\u00e4t: 10",
-        "address_en": "Capacity: 10",
-        "icon": {
-          "id": "bikeParkCovIcon"
-        }
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          9.0098962,
-          48.6483059
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name_en": "Covered bike park",
-        "name_de": "\u00dcberdachter Fahrradstellplatz",
-        "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 6",
-        "address_de": "Kapazit\u00e4t: 6",
+        "address": "Stellpl\u00e4tze: 6",
+        "address_de": "Stellpl\u00e4tze: 6",
         "address_en": "Capacity: 6",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -806,8 +911,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 40",
-        "address_de": "Kapazit\u00e4t: 40",
+        "address": "Stellpl\u00e4tze: 40",
+        "address_de": "Stellpl\u00e4tze: 40",
         "address_en": "Capacity: 40",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -827,8 +932,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 12",
-        "address_de": "Kapazit\u00e4t: 12",
+        "address": "Stellpl\u00e4tze: 12",
+        "address_de": "Stellpl\u00e4tze: 12",
         "address_en": "Capacity: 12",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -848,8 +953,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 30, Geb\u00fchr: nein",
-        "address_de": "Kapazit\u00e4t: 30, Geb\u00fchr: nein",
+        "address": "Stellpl\u00e4tze: 30, Geb\u00fchrenpflichtig:: nein",
+        "address_de": "Stellpl\u00e4tze: 30, Geb\u00fchrenpflichtig:: nein",
         "address_en": "Capacity: 30, Fee: no",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -869,8 +974,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 48",
-        "address_de": "Kapazit\u00e4t: 48",
+        "address": "Stellpl\u00e4tze: 48",
+        "address_de": "Stellpl\u00e4tze: 48",
         "address_en": "Capacity: 48",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -890,8 +995,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 30",
-        "address_de": "Kapazit\u00e4t: 30",
+        "address": "Stellpl\u00e4tze: 30",
+        "address_de": "Stellpl\u00e4tze: 30",
         "address_en": "Capacity: 30",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -911,8 +1016,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Geb\u00fchr: nein",
-        "address_de": "Geb\u00fchr: nein",
+        "address": "Geb\u00fchrenpflichtig:: nein",
+        "address_de": "Geb\u00fchrenpflichtig:: nein",
         "address_en": "Fee: no",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -932,8 +1037,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 24, Geb\u00fchr: nein",
-        "address_de": "Kapazit\u00e4t: 24, Geb\u00fchr: nein",
+        "address": "Stellpl\u00e4tze: 24, Geb\u00fchrenpflichtig:: nein",
+        "address_de": "Stellpl\u00e4tze: 24, Geb\u00fchrenpflichtig:: nein",
         "address_en": "Capacity: 24, Fee: no",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -953,8 +1058,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 20, Geb\u00fchr: nein",
-        "address_de": "Kapazit\u00e4t: 20, Geb\u00fchr: nein",
+        "address": "Stellpl\u00e4tze: 20, Geb\u00fchrenpflichtig:: nein",
+        "address_de": "Stellpl\u00e4tze: 20, Geb\u00fchrenpflichtig:: nein",
         "address_en": "Capacity: 20, Fee: no",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -974,8 +1079,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 24, Geb\u00fchr: nein",
-        "address_de": "Kapazit\u00e4t: 24, Geb\u00fchr: nein",
+        "address": "Stellpl\u00e4tze: 24, Geb\u00fchrenpflichtig:: nein",
+        "address_de": "Stellpl\u00e4tze: 24, Geb\u00fchrenpflichtig:: nein",
         "address_en": "Capacity: 24, Fee: no",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -995,9 +1100,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "",
-        "address_de": "",
-        "address_en": "",
+        "address": "Stellpl\u00e4tze: 20",
+        "address_de": "Stellpl\u00e4tze: 20",
+        "address_en": "Capacity: 20",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1005,8 +1110,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          9.008828,
-          48.6446313
+          9.0087817,
+          48.644599
         ]
       }
     },
@@ -1016,9 +1121,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "",
-        "address_de": "",
-        "address_en": "",
+        "address": "Stellpl\u00e4tze: 28",
+        "address_de": "Stellpl\u00e4tze: 28",
+        "address_en": "Capacity: 28",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1026,8 +1131,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          9.0088722,
-          48.6447173
+          9.0088159,
+          48.6447014
         ]
       }
     },
@@ -1037,8 +1142,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 16",
-        "address_de": "Kapazit\u00e4t: 16",
+        "address": "Stellpl\u00e4tze: 16",
+        "address_de": "Stellpl\u00e4tze: 16",
         "address_en": "Capacity: 16",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -1058,8 +1163,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 14",
-        "address_de": "Kapazit\u00e4t: 14",
+        "address": "Stellpl\u00e4tze: 14",
+        "address_de": "Stellpl\u00e4tze: 14",
         "address_en": "Capacity: 14",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -1079,8 +1184,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 8",
-        "address_de": "Kapazit\u00e4t: 8",
+        "address": "Stellpl\u00e4tze: 8",
+        "address_de": "Stellpl\u00e4tze: 8",
         "address_en": "Capacity: 8",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -1100,8 +1205,8 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Kapazit\u00e4t: 6",
-        "address_de": "Kapazit\u00e4t: 6",
+        "address": "Stellpl\u00e4tze: 6",
+        "address_de": "Stellpl\u00e4tze: 6",
         "address_en": "Capacity: 6",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -1121,8 +1226,8 @@
         "name": "Edeka Dagersheim",
         "name_en": "Edeka Dagersheim",
         "name_de": "Edeka Dagersheim",
-        "address": "Kapazit\u00e4t: 20",
-        "address_de": "Kapazit\u00e4t: 20",
+        "address": "Stellpl\u00e4tze: 20",
+        "address_de": "Stellpl\u00e4tze: 20",
         "address_en": "Capacity: 20",
         "icon": {
           "id": "bikeParkCovIcon"
@@ -1133,6 +1238,132 @@
         "coordinates": [
           8.9638862,
           48.6954681
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Covered bike park",
+        "name_de": "\u00dcberdachter Fahrradstellplatz",
+        "name": "\u00dcberdachter Fahrradstellplatz",
+        "address": "Stellpl\u00e4tze: 12",
+        "address_de": "Stellpl\u00e4tze: 12",
+        "address_en": "Capacity: 12",
+        "icon": {
+          "id": "bikeParkCovIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8977832,
+          48.6380791
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Covered bike park",
+        "name_de": "\u00dcberdachter Fahrradstellplatz",
+        "name": "\u00dcberdachter Fahrradstellplatz",
+        "address": "Stellpl\u00e4tze: 7",
+        "address_de": "Stellpl\u00e4tze: 7",
+        "address_en": "Capacity: 7",
+        "icon": {
+          "id": "bikeParkCovIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.89862,
+          48.6412472
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Covered bike park",
+        "name_de": "\u00dcberdachter Fahrradstellplatz",
+        "name": "\u00dcberdachter Fahrradstellplatz",
+        "address": "Stellpl\u00e4tze: 3",
+        "address_de": "Stellpl\u00e4tze: 3",
+        "address_en": "Capacity: 3",
+        "icon": {
+          "id": "bikeParkCovIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8960934,
+          48.6427536
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Covered bike park",
+        "name_de": "\u00dcberdachter Fahrradstellplatz",
+        "name": "\u00dcberdachter Fahrradstellplatz",
+        "address": "Stellpl\u00e4tze: 5",
+        "address_de": "Stellpl\u00e4tze: 5",
+        "address_en": "Capacity: 5",
+        "icon": {
+          "id": "bikeParkCovIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.914091,
+          48.6419167
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Covered bike park",
+        "name_de": "\u00dcberdachter Fahrradstellplatz",
+        "name": "\u00dcberdachter Fahrradstellplatz",
+        "address": "Stellpl\u00e4tze: 25",
+        "address_de": "Stellpl\u00e4tze: 25",
+        "address_en": "Capacity: 25",
+        "icon": {
+          "id": "bikeParkCovIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8904393,
+          48.6511907
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Covered bike park",
+        "name_de": "\u00dcberdachter Fahrradstellplatz",
+        "name": "\u00dcberdachter Fahrradstellplatz",
+        "address": "Stellpl\u00e4tze: 10",
+        "address_de": "Stellpl\u00e4tze: 10",
+        "address_en": "Capacity: 10",
+        "icon": {
+          "id": "bikeParkCovIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.0088789,
+          48.6448108
         ]
       }
     }

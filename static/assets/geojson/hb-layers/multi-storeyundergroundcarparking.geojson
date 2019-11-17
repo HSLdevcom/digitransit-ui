@@ -7,8 +7,8 @@
         "name": "ZOB",
         "name_en": "ZOB",
         "name_de": "ZOB",
-        "address": "Kapazit\u00e4t: 287, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
-        "address_de": "Kapazit\u00e4t: 287, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address": "Stellpl\u00e4tze: 287, Geb\u00fchrenpflichtig:: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address_de": "Stellpl\u00e4tze: 287, Geb\u00fchrenpflichtig:: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
         "address_en": "Capacity: 287, Fee: yes, Opening hours: 24/7, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon",
@@ -39,8 +39,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.991003,
-          48.7057717
+          8.990998,
+          48.705772
         ]
       }
     },
@@ -68,7 +68,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -89,7 +89,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -152,7 +152,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -173,7 +173,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -194,7 +194,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -215,7 +215,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -236,7 +236,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -257,7 +257,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -278,7 +278,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -299,7 +299,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -320,7 +320,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -341,7 +341,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -362,7 +362,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -383,7 +383,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -404,7 +404,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -425,7 +425,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -446,7 +446,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -467,7 +467,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -488,7 +488,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -509,7 +509,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -530,7 +530,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -551,7 +551,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: nein",
@@ -572,7 +572,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: nein",
@@ -593,7 +593,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -614,7 +614,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -638,8 +638,8 @@
         "name": "Parkhaus",
         "name_en": "Parkhaus",
         "name_de": "Parkhaus",
-        "address": "Geb\u00fchr: ja",
-        "address_de": "Geb\u00fchr: ja",
+        "address": "Geb\u00fchrenpflichtig:: ja",
+        "address_de": "Geb\u00fchrenpflichtig:: ja",
         "address_en": "Fee: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -656,7 +656,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -677,7 +677,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -698,7 +698,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -719,7 +719,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -740,7 +740,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -803,7 +803,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: begrenzt",
@@ -824,7 +824,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -866,7 +866,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -887,7 +887,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -908,7 +908,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -942,15 +942,15 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.991003,
-          48.7057717
+          8.990998,
+          48.7057722
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -963,19 +963,19 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.9935617,
-          48.6407823
+          8.9935332,
+          48.6407693
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 120, Geb\u00fchr: nein, Barrierefrei: ja",
-        "address_de": "Kapazit\u00e4t: 120, Geb\u00fchr: nein, Barrierefrei: ja",
+        "address": "Stellpl\u00e4tze: 120, Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
+        "address_de": "Stellpl\u00e4tze: 120, Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
         "address_en": "Capacity: 120, Fee: no, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -992,7 +992,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -1013,7 +1013,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -1034,7 +1034,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -1055,7 +1055,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -1076,11 +1076,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: nein, Barrierefrei: ja",
-        "address_de": "Geb\u00fchr: nein, Barrierefrei: ja",
+        "address": "Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
+        "address_de": "Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
         "address_en": "Fee: no, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -1097,7 +1097,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: nein",
@@ -1118,7 +1118,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: nein",
@@ -1139,7 +1139,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -1160,7 +1160,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -1181,28 +1181,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
-        "name_de": "Parkhaus/Tiefgarage",
-        "name": "Parkhaus/Tiefgarage",
-        "address": "Barrierefrei: ja",
-        "address_de": "Barrierefrei: ja",
-        "address_en": "Wheelchair: yes",
-        "icon": {
-          "id": "carParkCovIcon"
-        }
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          9.0039654,
-          48.6674328
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -1223,7 +1202,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -1244,7 +1223,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -1265,7 +1244,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -1286,7 +1265,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -1307,7 +1286,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -1328,7 +1307,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -1349,7 +1328,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -1370,7 +1349,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -1391,7 +1370,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -1412,11 +1391,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 100, Geb\u00fchr: ja, Barrierefrei: ja",
-        "address_de": "Kapazit\u00e4t: 100, Geb\u00fchr: ja, Barrierefrei: ja",
+        "address": "Stellpl\u00e4tze: 100, Geb\u00fchrenpflichtig:: ja, Barrierefrei: ja",
+        "address_de": "Stellpl\u00e4tze: 100, Geb\u00fchrenpflichtig:: ja, Barrierefrei: ja",
         "address_en": "Capacity: 100, Fee: yes, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -1433,7 +1412,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -1457,8 +1436,8 @@
         "name": "Kreiskrankenhaus",
         "name_en": "Kreiskrankenhaus",
         "name_de": "Kreiskrankenhaus",
-        "address": "Geb\u00fchr: ja",
-        "address_de": "Geb\u00fchr: ja",
+        "address": "Geb\u00fchrenpflichtig:: ja",
+        "address_de": "Geb\u00fchrenpflichtig:: ja",
         "address_en": "Fee: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -1475,28 +1454,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "Innenstadt Ost",
-        "name_en": "Innenstadt Ost",
-        "name_de": "Innenstadt Ost",
-        "address": "Geb\u00fchr: ja",
-        "address_de": "Geb\u00fchr: ja",
-        "address_en": "Fee: yes",
-        "icon": {
-          "id": "carParkCovIcon"
-        }
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          8.7270403,
-          48.5497838
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -1517,11 +1475,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: nein",
-        "address_de": "Geb\u00fchr: nein",
+        "address": "Geb\u00fchrenpflichtig:: nein",
+        "address_de": "Geb\u00fchrenpflichtig:: nein",
         "address_en": "Fee: no",
         "icon": {
           "id": "carParkCovIcon"
@@ -1538,7 +1496,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -1562,8 +1520,8 @@
         "name": "S-Bahn Goldberg",
         "name_en": "S-Bahn Goldberg",
         "name_de": "S-Bahn Goldberg",
-        "address": "Geb\u00fchr: ja@(Mo-So 06:00-18:00), Barrierefrei: ja",
-        "address_de": "Geb\u00fchr: ja@(Mo-So 06:00-18:00), Barrierefrei: ja",
+        "address": "Geb\u00fchrenpflichtig:: ja@(Mo-So 06:00-18:00), Barrierefrei: ja",
+        "address_de": "Geb\u00fchrenpflichtig:: ja@(Mo-So 06:00-18:00), Barrierefrei: ja",
         "address_en": "Fee: yes@(Mo-Sa 06:00-18:00), Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -1580,7 +1538,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -1601,7 +1559,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -1622,7 +1580,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -1643,7 +1601,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -1664,7 +1622,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -1685,7 +1643,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -1706,7 +1664,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -1727,7 +1685,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -1748,7 +1706,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -1769,7 +1727,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -1790,7 +1748,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -1811,7 +1769,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -1832,7 +1790,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -1853,7 +1811,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -1874,7 +1832,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -1895,7 +1853,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -1916,7 +1874,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -1937,7 +1895,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -1958,7 +1916,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -1979,11 +1937,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 7",
-        "address_de": "Kapazit\u00e4t: 7",
+        "address": "Stellpl\u00e4tze: 7",
+        "address_de": "Stellpl\u00e4tze: 7",
         "address_en": "Capacity: 7",
         "icon": {
           "id": "carParkCovIcon"
@@ -2000,7 +1958,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -2021,7 +1979,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -2066,8 +2024,8 @@
         "name": "Kaufland",
         "name_en": "Kaufland",
         "name_de": "Kaufland",
-        "address": "Kapazit\u00e4t: 480, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
-        "address_de": "Kapazit\u00e4t: 480, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address": "Stellpl\u00e4tze: 480, Geb\u00fchrenpflichtig:: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address_de": "Stellpl\u00e4tze: 480, Geb\u00fchrenpflichtig:: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
         "address_en": "Capacity: 480, Fee: yes, Opening hours: 24/7, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -2084,7 +2042,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -2105,7 +2063,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -2129,8 +2087,8 @@
         "name": "Parkhaus Flugfeld",
         "name_en": "Parkhaus Flugfeld",
         "name_de": "Parkhaus Flugfeld",
-        "address": "Telefon: +49 7031 6116500, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: begrenzt",
-        "address_de": "Telefon: +49 7031 6116500, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: begrenzt",
+        "address": "Telefon: +49 7031 6116500, Geb\u00fchrenpflichtig:: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: begrenzt",
+        "address_de": "Telefon: +49 7031 6116500, Geb\u00fchrenpflichtig:: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: begrenzt",
         "address_en": "Phone: +49 7031 6116500, Fee: yes, Opening hours: 24/7, Wheelchair: limited",
         "icon": {
           "id": "carParkCovIcon"
@@ -2147,7 +2105,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -2168,7 +2126,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -2210,7 +2168,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -2231,7 +2189,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -2294,7 +2252,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -2315,7 +2273,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -2339,8 +2297,8 @@
         "name": "Kliniken B\u00f6blingen",
         "name_en": "Kliniken B\u00f6blingen",
         "name_de": "Kliniken B\u00f6blingen",
-        "address": "Geb\u00fchr: ja, Barrierefrei: ja",
-        "address_de": "Geb\u00fchr: ja, Barrierefrei: ja",
+        "address": "Geb\u00fchrenpflichtig:: ja, Barrierefrei: ja",
+        "address_de": "Geb\u00fchrenpflichtig:: ja, Barrierefrei: ja",
         "address_en": "Fee: yes, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -2357,7 +2315,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -2378,7 +2336,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -2402,8 +2360,8 @@
         "name": "Parkplatz Sporthalle Wildberg",
         "name_en": "Parkplatz Sporthalle Wildberg",
         "name_de": "Parkplatz Sporthalle Wildberg",
-        "address": "Kapazit\u00e4t: 150",
-        "address_de": "Kapazit\u00e4t: 150",
+        "address": "Stellpl\u00e4tze: 150",
+        "address_de": "Stellpl\u00e4tze: 150",
         "address_en": "Capacity: 150",
         "icon": {
           "id": "carParkCovIcon"
@@ -2420,7 +2378,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -2441,11 +2399,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 260, Geb\u00fchr: ja",
-        "address_de": "Kapazit\u00e4t: 260, Geb\u00fchr: ja",
+        "address": "Stellpl\u00e4tze: 260, Geb\u00fchrenpflichtig:: ja",
+        "address_de": "Stellpl\u00e4tze: 260, Geb\u00fchrenpflichtig:: ja",
         "address_en": "Capacity: 260, Fee: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -2454,19 +2412,19 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.8279954,
-          48.5242819
+          8.8280021,
+          48.5242918
         ]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 20, Barrierefrei: nein",
-        "address_de": "Kapazit\u00e4t: 20, Barrierefrei: nein",
+        "address": "Stellpl\u00e4tze: 20, Barrierefrei: nein",
+        "address_de": "Stellpl\u00e4tze: 20, Barrierefrei: nein",
         "address_en": "Capacity: 20, Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
@@ -2486,8 +2444,8 @@
         "name": "Calwer Markt",
         "name_en": "Calwer Markt",
         "name_de": "Calwer Markt",
-        "address": "Kapazit\u00e4t: 234, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: begrenzt",
-        "address_de": "Kapazit\u00e4t: 234, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: begrenzt",
+        "address": "Stellpl\u00e4tze: 234, Geb\u00fchrenpflichtig:: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: begrenzt",
+        "address_de": "Stellpl\u00e4tze: 234, Geb\u00fchrenpflichtig:: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: begrenzt",
         "address_en": "Capacity: 234, Fee: yes, Opening hours: 24/7, Wheelchair: limited",
         "icon": {
           "id": "carParkCovIcon"
@@ -2504,7 +2462,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -2528,8 +2486,8 @@
         "name": "Haggasse",
         "name_en": "Haggasse",
         "name_de": "Haggasse",
-        "address": "Kapazit\u00e4t: 119, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: begrenzt",
-        "address_de": "Kapazit\u00e4t: 119, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: begrenzt",
+        "address": "Stellpl\u00e4tze: 119, Geb\u00fchrenpflichtig:: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: begrenzt",
+        "address_de": "Stellpl\u00e4tze: 119, Geb\u00fchrenpflichtig:: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: begrenzt",
         "address_en": "Capacity: 119, Fee: yes, Opening hours: 24/7, Wheelchair: limited",
         "icon": {
           "id": "carParkCovIcon"
@@ -2546,7 +2504,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -2567,7 +2525,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -2591,8 +2549,8 @@
         "name": "Sportheim Emmingen",
         "name_en": "Sportheim Emmingen",
         "name_de": "Sportheim Emmingen",
-        "address": "Kapazit\u00e4t: 30",
-        "address_de": "Kapazit\u00e4t: 30",
+        "address": "Stellpl\u00e4tze: 30",
+        "address_de": "Stellpl\u00e4tze: 30",
         "address_en": "Capacity: 30",
         "icon": {
           "id": "carParkCovIcon"
@@ -2609,7 +2567,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -2630,7 +2588,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -2651,7 +2609,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -2672,11 +2630,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 12",
-        "address_de": "Kapazit\u00e4t: 12",
+        "address": "Stellpl\u00e4tze: 12",
+        "address_de": "Stellpl\u00e4tze: 12",
         "address_en": "Capacity: 12",
         "icon": {
           "id": "carParkCovIcon"
@@ -2693,7 +2651,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -2735,7 +2693,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -2756,7 +2714,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -2777,7 +2735,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -2798,7 +2756,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -2819,7 +2777,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -2843,8 +2801,8 @@
         "name": "Schulzentrum",
         "name_en": "Schulzentrum",
         "name_de": "Schulzentrum",
-        "address": "Kapazit\u00e4t: 25, Barrierefrei: ja",
-        "address_de": "Kapazit\u00e4t: 25, Barrierefrei: ja",
+        "address": "Stellpl\u00e4tze: 25, Barrierefrei: ja",
+        "address_de": "Stellpl\u00e4tze: 25, Barrierefrei: ja",
         "address_en": "Capacity: 25, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -2864,8 +2822,8 @@
         "name": "Sporthalle",
         "name_en": "Sporthalle",
         "name_de": "Sporthalle",
-        "address": "Kapazit\u00e4t: 42, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
-        "address_de": "Kapazit\u00e4t: 42, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address": "Stellpl\u00e4tze: 42, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address_de": "Stellpl\u00e4tze: 42, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
         "address_en": "Capacity: 42, Opening hours: 24/7, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -2882,11 +2840,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 6, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
-        "address_de": "Kapazit\u00e4t: 6, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address": "Stellpl\u00e4tze: 6, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address_de": "Stellpl\u00e4tze: 6, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
         "address_en": "Capacity: 6, Opening hours: 24/7, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -2903,7 +2861,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -2927,8 +2885,8 @@
         "name": "Friedhofsparkplatz",
         "name_en": "Friedhofsparkplatz",
         "name_de": "Friedhofsparkplatz",
-        "address": "Kapazit\u00e4t: 8",
-        "address_de": "Kapazit\u00e4t: 8",
+        "address": "Stellpl\u00e4tze: 8",
+        "address_de": "Stellpl\u00e4tze: 8",
         "address_en": "Capacity: 8",
         "icon": {
           "id": "carParkCovIcon"
@@ -2945,11 +2903,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 30, Barrierefrei: ja",
-        "address_de": "Kapazit\u00e4t: 30, Barrierefrei: ja",
+        "address": "Stellpl\u00e4tze: 30, Barrierefrei: ja",
+        "address_de": "Stellpl\u00e4tze: 30, Barrierefrei: ja",
         "address_en": "Capacity: 30, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -2966,7 +2924,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -2987,11 +2945,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 6, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
-        "address_de": "Kapazit\u00e4t: 6, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address": "Stellpl\u00e4tze: 6, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address_de": "Stellpl\u00e4tze: 6, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
         "address_en": "Capacity: 6, Opening hours: 24/7, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -3029,7 +2987,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -3050,7 +3008,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -3071,7 +3029,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -3134,7 +3092,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -3155,7 +3113,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: nein",
@@ -3176,7 +3134,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -3200,8 +3158,8 @@
         "name": "Parkplatz Sporthalle Wildberg",
         "name_en": "Parkplatz Sporthalle Wildberg",
         "name_de": "Parkplatz Sporthalle Wildberg",
-        "address": "Kapazit\u00e4t: 50",
-        "address_de": "Kapazit\u00e4t: 50",
+        "address": "Stellpl\u00e4tze: 50",
+        "address_de": "Stellpl\u00e4tze: 50",
         "address_en": "Capacity: 50",
         "icon": {
           "id": "carParkCovIcon"
@@ -3221,8 +3179,8 @@
         "name": "Parkhaus Ebenhalde",
         "name_en": "Parkhaus Ebenhalde",
         "name_de": "Parkhaus Ebenhalde",
-        "address": "Kapazit\u00e4t: 500, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7",
-        "address_de": "Kapazit\u00e4t: 500, Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7",
+        "address": "Stellpl\u00e4tze: 500, Geb\u00fchrenpflichtig:: ja, \u00d6ffnungszeiten: 24/7",
+        "address_de": "Stellpl\u00e4tze: 500, Geb\u00fchrenpflichtig:: ja, \u00d6ffnungszeiten: 24/7",
         "address_en": "Capacity: 500, Fee: yes, Opening hours: 24/7",
         "icon": {
           "id": "carParkCovIcon"
@@ -3239,7 +3197,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -3260,7 +3218,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -3281,11 +3239,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 4, Barrierefrei: ja",
-        "address_de": "Kapazit\u00e4t: 4, Barrierefrei: ja",
+        "address": "Stellpl\u00e4tze: 4, Barrierefrei: ja",
+        "address_de": "Stellpl\u00e4tze: 4, Barrierefrei: ja",
         "address_en": "Capacity: 4, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -3302,7 +3260,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -3323,7 +3281,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -3344,7 +3302,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -3365,7 +3323,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -3386,7 +3344,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -3407,11 +3365,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 4",
-        "address_de": "Kapazit\u00e4t: 4",
+        "address": "Stellpl\u00e4tze: 4",
+        "address_de": "Stellpl\u00e4tze: 4",
         "address_en": "Capacity: 4",
         "icon": {
           "id": "carParkCovIcon"
@@ -3428,7 +3386,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: nein",
@@ -3449,7 +3407,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -3470,11 +3428,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 5",
-        "address_de": "Kapazit\u00e4t: 5",
+        "address": "Stellpl\u00e4tze: 5",
+        "address_de": "Stellpl\u00e4tze: 5",
         "address_en": "Capacity: 5",
         "icon": {
           "id": "carParkCovIcon"
@@ -3491,7 +3449,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: begrenzt",
@@ -3512,7 +3470,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: begrenzt",
@@ -3533,11 +3491,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 5, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
-        "address_de": "Kapazit\u00e4t: 5, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address": "Stellpl\u00e4tze: 5, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address_de": "Stellpl\u00e4tze: 5, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
         "address_en": "Capacity: 5, Opening hours: 24/7, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -3554,11 +3512,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: ja, Barrierefrei: ja",
-        "address_de": "Geb\u00fchr: ja, Barrierefrei: ja",
+        "address": "Geb\u00fchrenpflichtig:: ja, Barrierefrei: ja",
+        "address_de": "Geb\u00fchrenpflichtig:: ja, Barrierefrei: ja",
         "address_en": "Fee: yes, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -3575,11 +3533,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 24, Geb\u00fchr: nein, Barrierefrei: begrenzt",
-        "address_de": "Kapazit\u00e4t: 24, Geb\u00fchr: nein, Barrierefrei: begrenzt",
+        "address": "Stellpl\u00e4tze: 24, Geb\u00fchrenpflichtig:: nein, Barrierefrei: begrenzt",
+        "address_de": "Stellpl\u00e4tze: 24, Geb\u00fchrenpflichtig:: nein, Barrierefrei: begrenzt",
         "address_en": "Capacity: 24, Fee: no, Wheelchair: limited",
         "icon": {
           "id": "carParkCovIcon"
@@ -3596,7 +3554,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -3617,7 +3575,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -3638,7 +3596,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -3659,11 +3617,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 24",
-        "address_de": "Kapazit\u00e4t: 24",
+        "address": "Stellpl\u00e4tze: 24",
+        "address_de": "Stellpl\u00e4tze: 24",
         "address_en": "Capacity: 24",
         "icon": {
           "id": "carParkCovIcon"
@@ -3680,7 +3638,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -3701,7 +3659,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -3722,7 +3680,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -3743,7 +3701,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -3785,7 +3743,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -3806,11 +3764,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 4, Geb\u00fchr: nein, Barrierefrei: ja",
-        "address_de": "Kapazit\u00e4t: 4, Geb\u00fchr: nein, Barrierefrei: ja",
+        "address": "Stellpl\u00e4tze: 4, Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
+        "address_de": "Stellpl\u00e4tze: 4, Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
         "address_en": "Capacity: 4, Fee: no, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -3827,7 +3785,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -3848,7 +3806,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -3869,7 +3827,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -3890,7 +3848,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -3911,7 +3869,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -3932,7 +3890,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -3953,11 +3911,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 2",
-        "address_de": "Kapazit\u00e4t: 2",
+        "address": "Stellpl\u00e4tze: 2",
+        "address_de": "Stellpl\u00e4tze: 2",
         "address_en": "Capacity: 2",
         "icon": {
           "id": "carParkCovIcon"
@@ -3974,11 +3932,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 6, Barrierefrei: ja",
-        "address_de": "Kapazit\u00e4t: 6, Barrierefrei: ja",
+        "address": "Stellpl\u00e4tze: 6, Barrierefrei: ja",
+        "address_de": "Stellpl\u00e4tze: 6, Barrierefrei: ja",
         "address_en": "Capacity: 6, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -3995,7 +3953,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -4016,7 +3974,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -4037,7 +3995,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -4058,7 +4016,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -4079,7 +4037,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -4100,11 +4058,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: nein",
-        "address_de": "Geb\u00fchr: nein",
+        "address": "Geb\u00fchrenpflichtig:: nein",
+        "address_de": "Geb\u00fchrenpflichtig:: nein",
         "address_en": "Fee: no",
         "icon": {
           "id": "carParkCovIcon"
@@ -4121,7 +4079,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -4142,11 +4100,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 3",
-        "address_de": "Kapazit\u00e4t: 3",
+        "address": "Stellpl\u00e4tze: 3",
+        "address_de": "Stellpl\u00e4tze: 3",
         "address_en": "Capacity: 3",
         "icon": {
           "id": "carParkCovIcon"
@@ -4163,11 +4121,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 3",
-        "address_de": "Kapazit\u00e4t: 3",
+        "address": "Stellpl\u00e4tze: 3",
+        "address_de": "Stellpl\u00e4tze: 3",
         "address_en": "Capacity: 3",
         "icon": {
           "id": "carParkCovIcon"
@@ -4184,11 +4142,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 3",
-        "address_de": "Kapazit\u00e4t: 3",
+        "address": "Stellpl\u00e4tze: 3",
+        "address_de": "Stellpl\u00e4tze: 3",
         "address_en": "Capacity: 3",
         "icon": {
           "id": "carParkCovIcon"
@@ -4205,11 +4163,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 2, Geb\u00fchr: nein, Barrierefrei: nein",
-        "address_de": "Kapazit\u00e4t: 2, Geb\u00fchr: nein, Barrierefrei: nein",
+        "address": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig:: nein, Barrierefrei: nein",
+        "address_de": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig:: nein, Barrierefrei: nein",
         "address_en": "Capacity: 2, Fee: no, Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
@@ -4226,11 +4184,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 4, Geb\u00fchr: nein",
-        "address_de": "Kapazit\u00e4t: 4, Geb\u00fchr: nein",
+        "address": "Stellpl\u00e4tze: 4, Geb\u00fchrenpflichtig:: nein",
+        "address_de": "Stellpl\u00e4tze: 4, Geb\u00fchrenpflichtig:: nein",
         "address_en": "Capacity: 4, Fee: no",
         "icon": {
           "id": "carParkCovIcon"
@@ -4247,11 +4205,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: nein",
-        "address_de": "Geb\u00fchr: nein",
+        "address": "Geb\u00fchrenpflichtig:: nein",
+        "address_de": "Geb\u00fchrenpflichtig:: nein",
         "address_en": "Fee: no",
         "icon": {
           "id": "carParkCovIcon"
@@ -4268,7 +4226,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -4310,7 +4268,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -4331,7 +4289,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: nein",
@@ -4352,7 +4310,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -4373,7 +4331,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -4394,11 +4352,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 7, Geb\u00fchr: nein, Barrierefrei: ja",
-        "address_de": "Kapazit\u00e4t: 7, Geb\u00fchr: nein, Barrierefrei: ja",
+        "address": "Stellpl\u00e4tze: 7, Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
+        "address_de": "Stellpl\u00e4tze: 7, Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
         "address_en": "Capacity: 7, Fee: no, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -4436,11 +4394,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 4",
-        "address_de": "Kapazit\u00e4t: 4",
+        "address": "Stellpl\u00e4tze: 4",
+        "address_de": "Stellpl\u00e4tze: 4",
         "address_en": "Capacity: 4",
         "icon": {
           "id": "carParkCovIcon"
@@ -4457,11 +4415,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 6",
-        "address_de": "Kapazit\u00e4t: 6",
+        "address": "Stellpl\u00e4tze: 6",
+        "address_de": "Stellpl\u00e4tze: 6",
         "address_en": "Capacity: 6",
         "icon": {
           "id": "carParkCovIcon"
@@ -4478,11 +4436,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 4",
-        "address_de": "Kapazit\u00e4t: 4",
+        "address": "Stellpl\u00e4tze: 4",
+        "address_de": "Stellpl\u00e4tze: 4",
         "address_en": "Capacity: 4",
         "icon": {
           "id": "carParkCovIcon"
@@ -4499,11 +4457,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 4",
-        "address_de": "Kapazit\u00e4t: 4",
+        "address": "Stellpl\u00e4tze: 4",
+        "address_de": "Stellpl\u00e4tze: 4",
         "address_en": "Capacity: 4",
         "icon": {
           "id": "carParkCovIcon"
@@ -4520,7 +4478,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -4541,7 +4499,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -4562,11 +4520,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 3, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
-        "address_de": "Kapazit\u00e4t: 3, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address": "Stellpl\u00e4tze: 3, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address_de": "Stellpl\u00e4tze: 3, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
         "address_en": "Capacity: 3, Opening hours: 24/7, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -4583,7 +4541,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: nein",
@@ -4604,7 +4562,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -4625,7 +4583,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -4646,7 +4604,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -4688,7 +4646,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -4709,7 +4667,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -4730,7 +4688,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -4751,7 +4709,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -4772,11 +4730,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: nein, Barrierefrei: begrenzt",
-        "address_de": "Geb\u00fchr: nein, Barrierefrei: begrenzt",
+        "address": "Geb\u00fchrenpflichtig:: nein, Barrierefrei: begrenzt",
+        "address_de": "Geb\u00fchrenpflichtig:: nein, Barrierefrei: begrenzt",
         "address_en": "Fee: no, Wheelchair: limited",
         "icon": {
           "id": "carParkCovIcon"
@@ -4793,7 +4751,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -4814,7 +4772,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: nein",
@@ -4835,7 +4793,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -4856,7 +4814,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -4877,7 +4835,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -4898,7 +4856,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -4919,7 +4877,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -4940,7 +4898,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -4961,7 +4919,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -4982,7 +4940,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5003,7 +4961,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5024,7 +4982,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5045,7 +5003,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5066,7 +5024,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5087,7 +5045,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5108,7 +5066,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5129,7 +5087,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -5150,7 +5108,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5171,7 +5129,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5192,7 +5150,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5213,7 +5171,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5234,7 +5192,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5255,7 +5213,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5276,7 +5234,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5297,7 +5255,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5318,7 +5276,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5339,7 +5297,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5360,7 +5318,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5381,7 +5339,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5402,7 +5360,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5423,7 +5381,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5444,7 +5402,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5465,7 +5423,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5486,7 +5444,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5507,7 +5465,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5528,7 +5486,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5549,7 +5507,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5570,7 +5528,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5591,7 +5549,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5612,11 +5570,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: nein, Barrierefrei: ja",
-        "address_de": "Geb\u00fchr: nein, Barrierefrei: ja",
+        "address": "Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
+        "address_de": "Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
         "address_en": "Fee: no, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -5633,11 +5591,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: nein, Barrierefrei: ja",
-        "address_de": "Geb\u00fchr: nein, Barrierefrei: ja",
+        "address": "Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
+        "address_de": "Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
         "address_en": "Fee: no, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -5654,7 +5612,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5675,7 +5633,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -5696,7 +5654,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5720,8 +5678,8 @@
         "name": "Parkhaus Waldach-Passage",
         "name_en": "Parkhaus Waldach-Passage",
         "name_de": "Parkhaus Waldach-Passage",
-        "address": "Kapazit\u00e4t: 300, Geb\u00fchr: ja, Barrierefrei: ja",
-        "address_de": "Kapazit\u00e4t: 300, Geb\u00fchr: ja, Barrierefrei: ja",
+        "address": "Stellpl\u00e4tze: 300, Geb\u00fchrenpflichtig:: ja, Barrierefrei: ja",
+        "address_de": "Stellpl\u00e4tze: 300, Geb\u00fchrenpflichtig:: ja, Barrierefrei: ja",
         "address_en": "Capacity: 300, Fee: yes, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -5738,7 +5696,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -5780,7 +5738,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5801,7 +5759,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5822,7 +5780,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5843,11 +5801,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 9, Geb\u00fchr: nein, Barrierefrei: begrenzt",
-        "address_de": "Kapazit\u00e4t: 9, Geb\u00fchr: nein, Barrierefrei: begrenzt",
+        "address": "Stellpl\u00e4tze: 9, Geb\u00fchrenpflichtig:: nein, Barrierefrei: begrenzt",
+        "address_de": "Stellpl\u00e4tze: 9, Geb\u00fchrenpflichtig:: nein, Barrierefrei: begrenzt",
         "address_en": "Capacity: 9, Fee: no, Wheelchair: limited",
         "icon": {
           "id": "carParkCovIcon"
@@ -5864,7 +5822,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5885,7 +5843,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5906,11 +5864,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 6",
-        "address_de": "Kapazit\u00e4t: 6",
+        "address": "Stellpl\u00e4tze: 6",
+        "address_de": "Stellpl\u00e4tze: 6",
         "address_en": "Capacity: 6",
         "icon": {
           "id": "carParkCovIcon"
@@ -5927,11 +5885,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 5",
-        "address_de": "Kapazit\u00e4t: 5",
+        "address": "Stellpl\u00e4tze: 5",
+        "address_de": "Stellpl\u00e4tze: 5",
         "address_en": "Capacity: 5",
         "icon": {
           "id": "carParkCovIcon"
@@ -5948,7 +5906,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5969,7 +5927,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -5993,8 +5951,8 @@
         "name": "Oberer Schnarrenberg",
         "name_en": "Oberer Schnarrenberg",
         "name_de": "Oberer Schnarrenberg",
-        "address": "Geb\u00fchr: ja",
-        "address_de": "Geb\u00fchr: ja",
+        "address": "Geb\u00fchrenpflichtig:: ja",
+        "address_de": "Geb\u00fchrenpflichtig:: ja",
         "address_en": "Fee: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -6011,7 +5969,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6035,8 +5993,8 @@
         "name": "Kindergarten",
         "name_en": "Kindergarten",
         "name_de": "Kindergarten",
-        "address": "Kapazit\u00e4t: 6, Geb\u00fchr: nein, Barrierefrei: nein",
-        "address_de": "Kapazit\u00e4t: 6, Geb\u00fchr: nein, Barrierefrei: nein",
+        "address": "Stellpl\u00e4tze: 6, Geb\u00fchrenpflichtig:: nein, Barrierefrei: nein",
+        "address_de": "Stellpl\u00e4tze: 6, Geb\u00fchrenpflichtig:: nein, Barrierefrei: nein",
         "address_en": "Capacity: 6, Fee: no, Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
@@ -6053,11 +6011,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: nein, Barrierefrei: ja",
-        "address_de": "Geb\u00fchr: nein, Barrierefrei: ja",
+        "address": "Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
+        "address_de": "Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
         "address_en": "Fee: no, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -6074,11 +6032,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 5, Geb\u00fchr: nein",
-        "address_de": "Kapazit\u00e4t: 5, Geb\u00fchr: nein",
+        "address": "Stellpl\u00e4tze: 5, Geb\u00fchrenpflichtig:: nein",
+        "address_de": "Stellpl\u00e4tze: 5, Geb\u00fchrenpflichtig:: nein",
         "address_en": "Capacity: 5, Fee: no",
         "icon": {
           "id": "carParkCovIcon"
@@ -6095,11 +6053,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 5, Geb\u00fchr: nein",
-        "address_de": "Kapazit\u00e4t: 5, Geb\u00fchr: nein",
+        "address": "Stellpl\u00e4tze: 5, Geb\u00fchrenpflichtig:: nein",
+        "address_de": "Stellpl\u00e4tze: 5, Geb\u00fchrenpflichtig:: nein",
         "address_en": "Capacity: 5, Fee: no",
         "icon": {
           "id": "carParkCovIcon"
@@ -6116,7 +6074,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6158,11 +6116,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 5, Geb\u00fchr: nein",
-        "address_de": "Kapazit\u00e4t: 5, Geb\u00fchr: nein",
+        "address": "Stellpl\u00e4tze: 5, Geb\u00fchrenpflichtig:: nein",
+        "address_de": "Stellpl\u00e4tze: 5, Geb\u00fchrenpflichtig:: nein",
         "address_en": "Capacity: 5, Fee: no",
         "icon": {
           "id": "carParkCovIcon"
@@ -6179,7 +6137,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6200,7 +6158,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6221,7 +6179,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6242,7 +6200,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6263,7 +6221,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6284,7 +6242,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6305,7 +6263,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6326,7 +6284,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6347,7 +6305,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6368,7 +6326,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6389,7 +6347,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6410,7 +6368,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6431,7 +6389,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6452,7 +6410,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6473,7 +6431,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6494,7 +6452,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6515,7 +6473,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6536,11 +6494,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: nein",
-        "address_de": "Geb\u00fchr: nein",
+        "address": "Geb\u00fchrenpflichtig:: nein",
+        "address_de": "Geb\u00fchrenpflichtig:: nein",
         "address_en": "Fee: no",
         "icon": {
           "id": "carParkCovIcon"
@@ -6557,7 +6515,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6578,7 +6536,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6599,7 +6557,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6620,7 +6578,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6641,7 +6599,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6662,7 +6620,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6683,7 +6641,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6704,7 +6662,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6725,7 +6683,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6746,7 +6704,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6767,7 +6725,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6788,7 +6746,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6809,7 +6767,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6830,7 +6788,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6851,7 +6809,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6872,7 +6830,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6893,7 +6851,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6914,7 +6872,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6935,7 +6893,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6956,7 +6914,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -6977,11 +6935,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 1",
-        "address_de": "Kapazit\u00e4t: 1",
+        "address": "Stellpl\u00e4tze: 1",
+        "address_de": "Stellpl\u00e4tze: 1",
         "address_en": "Capacity: 1",
         "icon": {
           "id": "carParkCovIcon"
@@ -6998,7 +6956,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7019,11 +6977,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: nein",
-        "address_de": "Geb\u00fchr: nein",
+        "address": "Geb\u00fchrenpflichtig:: nein",
+        "address_de": "Geb\u00fchrenpflichtig:: nein",
         "address_en": "Fee: no",
         "icon": {
           "id": "carParkCovIcon"
@@ -7040,7 +6998,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7061,7 +7019,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7103,7 +7061,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7124,7 +7082,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7145,7 +7103,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7166,7 +7124,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7187,11 +7145,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 7",
-        "address_de": "Kapazit\u00e4t: 7",
+        "address": "Stellpl\u00e4tze: 7",
+        "address_de": "Stellpl\u00e4tze: 7",
         "address_en": "Capacity: 7",
         "icon": {
           "id": "carParkCovIcon"
@@ -7208,11 +7166,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 9",
-        "address_de": "Kapazit\u00e4t: 9",
+        "address": "Stellpl\u00e4tze: 9",
+        "address_de": "Stellpl\u00e4tze: 9",
         "address_en": "Capacity: 9",
         "icon": {
           "id": "carParkCovIcon"
@@ -7229,7 +7187,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7250,7 +7208,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7271,7 +7229,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7292,7 +7250,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7313,7 +7271,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7334,7 +7292,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7355,7 +7313,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7376,7 +7334,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7397,7 +7355,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7418,7 +7376,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7439,7 +7397,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7460,7 +7418,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7481,7 +7439,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7502,7 +7460,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7523,7 +7481,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7544,7 +7502,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7565,11 +7523,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 8",
-        "address_de": "Kapazit\u00e4t: 8",
+        "address": "Stellpl\u00e4tze: 8",
+        "address_de": "Stellpl\u00e4tze: 8",
         "address_en": "Capacity: 8",
         "icon": {
           "id": "carParkCovIcon"
@@ -7586,11 +7544,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 3",
-        "address_de": "Kapazit\u00e4t: 3",
+        "address": "Stellpl\u00e4tze: 3",
+        "address_de": "Stellpl\u00e4tze: 3",
         "address_en": "Capacity: 3",
         "icon": {
           "id": "carParkCovIcon"
@@ -7607,7 +7565,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7628,7 +7586,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7649,7 +7607,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7670,11 +7628,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 4",
-        "address_de": "Kapazit\u00e4t: 4",
+        "address": "Stellpl\u00e4tze: 4",
+        "address_de": "Stellpl\u00e4tze: 4",
         "address_en": "Capacity: 4",
         "icon": {
           "id": "carParkCovIcon"
@@ -7691,7 +7649,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7712,11 +7670,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: nein",
-        "address_de": "Geb\u00fchr: nein",
+        "address": "Geb\u00fchrenpflichtig:: nein",
+        "address_de": "Geb\u00fchrenpflichtig:: nein",
         "address_en": "Fee: no",
         "icon": {
           "id": "carParkCovIcon"
@@ -7733,11 +7691,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: nein",
-        "address_de": "Geb\u00fchr: nein",
+        "address": "Geb\u00fchrenpflichtig:: nein",
+        "address_de": "Geb\u00fchrenpflichtig:: nein",
         "address_en": "Fee: no",
         "icon": {
           "id": "carParkCovIcon"
@@ -7754,7 +7712,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7775,7 +7733,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7796,7 +7754,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7817,7 +7775,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7838,11 +7796,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 4",
-        "address_de": "Kapazit\u00e4t: 4",
+        "address": "Stellpl\u00e4tze: 4",
+        "address_de": "Stellpl\u00e4tze: 4",
         "address_en": "Capacity: 4",
         "icon": {
           "id": "carParkCovIcon"
@@ -7859,7 +7817,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7880,7 +7838,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7901,7 +7859,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7922,7 +7880,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7943,7 +7901,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7964,7 +7922,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -7985,7 +7943,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -8006,7 +7964,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -8027,7 +7985,49 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
+        "name_de": "Parkhaus/Tiefgarage",
+        "name": "Parkhaus/Tiefgarage",
+        "address": "",
+        "address_de": "",
+        "address_en": "",
+        "icon": {
+          "id": "carParkCovIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.6922401,
+          48.6940582
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Multi-storey/underground car parking",
+        "name_de": "Parkhaus/Tiefgarage",
+        "name": "Parkhaus/Tiefgarage",
+        "address": "",
+        "address_de": "",
+        "address_en": "",
+        "icon": {
+          "id": "carParkCovIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.67224,
+          48.7040244
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -8048,7 +8048,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -8072,8 +8072,8 @@
         "name": "Traube-Center",
         "name_en": "Traube-Center",
         "name_de": "Traube-Center",
-        "address": "Geb\u00fchr: ja, Barrierefrei: begrenzt",
-        "address_de": "Geb\u00fchr: ja, Barrierefrei: begrenzt",
+        "address": "Geb\u00fchrenpflichtig:: ja, Barrierefrei: begrenzt",
+        "address_de": "Geb\u00fchrenpflichtig:: ja, Barrierefrei: begrenzt",
         "address_en": "Fee: yes, Wheelchair: limited",
         "icon": {
           "id": "carParkCovIcon"
@@ -8090,7 +8090,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -8111,7 +8111,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -8132,11 +8132,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: ja",
-        "address_de": "Geb\u00fchr: ja",
+        "address": "Geb\u00fchrenpflichtig:: ja",
+        "address_de": "Geb\u00fchrenpflichtig:: ja",
         "address_en": "Fee: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -8153,7 +8153,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -8174,7 +8174,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -8195,7 +8195,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -8216,7 +8216,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -8237,7 +8237,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -8258,7 +8258,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -8282,8 +8282,8 @@
         "name": "Nufringer Tor",
         "name_en": "Nufringer Tor",
         "name_de": "Nufringer Tor",
-        "address": "Geb\u00fchr: ja, Barrierefrei: ja",
-        "address_de": "Geb\u00fchr: ja, Barrierefrei: ja",
+        "address": "Geb\u00fchrenpflichtig:: ja, Barrierefrei: ja",
+        "address_de": "Geb\u00fchrenpflichtig:: ja, Barrierefrei: ja",
         "address_en": "Fee: yes, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -8300,7 +8300,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -8321,7 +8321,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -8342,7 +8342,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -8363,7 +8363,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: nein",
@@ -8384,7 +8384,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -8399,27 +8399,6 @@
         "coordinates": [
           8.8785856,
           48.5747895
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Parkhaus Congresshalle",
-        "name_en": "Parkhaus Congresshalle",
-        "name_de": "Parkhaus Congresshalle",
-        "address": "Kapazit\u00e4t: 370, Geb\u00fchr: ja, Barrierefrei: ja",
-        "address_de": "Kapazit\u00e4t: 370, Geb\u00fchr: ja, Barrierefrei: ja",
-        "address_en": "Capacity: 370, Fee: yes, Wheelchair: yes",
-        "icon": {
-          "id": "carParkCovIcon"
-        }
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          9.0112166,
-          48.6829269
         ]
       }
     },
@@ -8447,7 +8426,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -8468,7 +8447,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -8489,28 +8468,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
-        "name_de": "Parkhaus/Tiefgarage",
-        "name": "Parkhaus/Tiefgarage",
-        "address": "",
-        "address_de": "",
-        "address_en": "",
-        "icon": {
-          "id": "carParkCovIcon"
-        }
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          8.8605108,
-          48.646273
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -8531,7 +8489,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -8552,7 +8510,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -8573,7 +8531,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -8597,8 +8555,8 @@
         "name": "Bronntor",
         "name_en": "Bronntor",
         "name_de": "Bronntor",
-        "address": "Kapazit\u00e4t: 120, Geb\u00fchr: ja, Barrierefrei: ja",
-        "address_de": "Kapazit\u00e4t: 120, Geb\u00fchr: ja, Barrierefrei: ja",
+        "address": "Stellpl\u00e4tze: 120, Geb\u00fchrenpflichtig:: ja, Barrierefrei: ja",
+        "address_de": "Stellpl\u00e4tze: 120, Geb\u00fchrenpflichtig:: ja, Barrierefrei: ja",
         "address_en": "Capacity: 120, Fee: yes, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -8615,11 +8573,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: ja, Barrierefrei: nein",
-        "address_de": "Geb\u00fchr: ja, Barrierefrei: nein",
+        "address": "Geb\u00fchrenpflichtig:: ja, Barrierefrei: nein",
+        "address_de": "Geb\u00fchrenpflichtig:: ja, Barrierefrei: nein",
         "address_en": "Fee: yes, Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
@@ -8636,7 +8594,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -8657,7 +8615,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -8678,7 +8636,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -8699,7 +8657,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -8720,7 +8678,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: nein",
@@ -8744,8 +8702,8 @@
         "name": "Im H\u00f6fle",
         "name_en": "Im H\u00f6fle",
         "name_de": "Im H\u00f6fle",
-        "address": "Geb\u00fchr: ja, Barrierefrei: ja",
-        "address_de": "Geb\u00fchr: ja, Barrierefrei: ja",
+        "address": "Geb\u00fchrenpflichtig:: ja, Barrierefrei: ja",
+        "address_de": "Geb\u00fchrenpflichtig:: ja, Barrierefrei: ja",
         "address_en": "Fee: yes, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -8762,7 +8720,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -8783,7 +8741,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -8804,7 +8762,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: begrenzt",
@@ -8825,7 +8783,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: begrenzt",
@@ -8846,7 +8804,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -8867,7 +8825,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -8909,7 +8867,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -8930,7 +8888,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: nein",
@@ -8993,7 +8951,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -9014,7 +8972,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -9035,7 +8993,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: begrenzt",
@@ -9077,11 +9035,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 4, Barrierefrei: ja",
-        "address_de": "Kapazit\u00e4t: 4, Barrierefrei: ja",
+        "address": "Stellpl\u00e4tze: 4, Barrierefrei: ja",
+        "address_de": "Stellpl\u00e4tze: 4, Barrierefrei: ja",
         "address_en": "Capacity: 4, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -9098,7 +9056,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: nein",
@@ -9119,7 +9077,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -9161,7 +9119,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -9182,7 +9140,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -9203,7 +9161,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -9224,7 +9182,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -9245,7 +9203,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -9266,7 +9224,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -9287,7 +9245,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -9308,7 +9266,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -9329,11 +9287,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: ja, Barrierefrei: nein",
-        "address_de": "Geb\u00fchr: ja, Barrierefrei: nein",
+        "address": "Geb\u00fchrenpflichtig:: ja, Barrierefrei: nein",
+        "address_de": "Geb\u00fchrenpflichtig:: ja, Barrierefrei: nein",
         "address_en": "Fee: yes, Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
@@ -9350,7 +9308,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -9371,7 +9329,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -9392,7 +9350,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -9413,7 +9371,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -9434,7 +9392,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -9455,7 +9413,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -9476,7 +9434,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -9500,8 +9458,8 @@
         "name": "Rewe Parkhaus",
         "name_en": "Rewe Parkhaus",
         "name_de": "Rewe Parkhaus",
-        "address": "Geb\u00fchr: nein, Barrierefrei: ja",
-        "address_de": "Geb\u00fchr: nein, Barrierefrei: ja",
+        "address": "Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
+        "address_de": "Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
         "address_en": "Fee: no, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -9518,7 +9476,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -9563,8 +9521,8 @@
         "name": "Sterncenter",
         "name_en": "Sterncenter",
         "name_de": "Sterncenter",
-        "address": "Geb\u00fchr: ja, Barrierefrei: ja",
-        "address_de": "Geb\u00fchr: ja, Barrierefrei: ja",
+        "address": "Geb\u00fchrenpflichtig:: ja, Barrierefrei: ja",
+        "address_de": "Geb\u00fchrenpflichtig:: ja, Barrierefrei: ja",
         "address_en": "Fee: yes, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -9584,8 +9542,8 @@
         "name": "Bronntor",
         "name_en": "Bronntor",
         "name_de": "Bronntor",
-        "address": "Kapazit\u00e4t: 90, Geb\u00fchr: ja, Barrierefrei: ja",
-        "address_de": "Kapazit\u00e4t: 90, Geb\u00fchr: ja, Barrierefrei: ja",
+        "address": "Stellpl\u00e4tze: 90, Geb\u00fchrenpflichtig:: ja, Barrierefrei: ja",
+        "address_de": "Stellpl\u00e4tze: 90, Geb\u00fchrenpflichtig:: ja, Barrierefrei: ja",
         "address_en": "Capacity: 90, Fee: yes, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -9602,7 +9560,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -9623,7 +9581,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -9644,7 +9602,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -9665,7 +9623,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -9686,11 +9644,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 10, Barrierefrei: ja",
-        "address_de": "Kapazit\u00e4t: 10, Barrierefrei: ja",
+        "address": "Stellpl\u00e4tze: 10, Barrierefrei: ja",
+        "address_de": "Stellpl\u00e4tze: 10, Barrierefrei: ja",
         "address_en": "Capacity: 10, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -9707,7 +9665,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -9728,7 +9686,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -9773,8 +9731,8 @@
         "name": "Ev. Kirche",
         "name_en": "Ev. Kirche",
         "name_de": "Ev. Kirche",
-        "address": "Kapazit\u00e4t: 3",
-        "address_de": "Kapazit\u00e4t: 3",
+        "address": "Stellpl\u00e4tze: 3",
+        "address_de": "Stellpl\u00e4tze: 3",
         "address_en": "Capacity: 3",
         "icon": {
           "id": "carParkCovIcon"
@@ -9791,7 +9749,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -9815,8 +9773,8 @@
         "name": "Postplatz",
         "name_en": "Postplatz",
         "name_de": "Postplatz",
-        "address": "Geb\u00fchr: ja, Barrierefrei: ja",
-        "address_de": "Geb\u00fchr: ja, Barrierefrei: ja",
+        "address": "Geb\u00fchrenpflichtig:: ja, Barrierefrei: ja",
+        "address_de": "Geb\u00fchrenpflichtig:: ja, Barrierefrei: ja",
         "address_en": "Fee: yes, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -9833,7 +9791,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -9875,7 +9833,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -9896,7 +9854,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -9917,7 +9875,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -9938,7 +9896,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -9959,7 +9917,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -9980,7 +9938,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -10001,7 +9959,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -10043,11 +10001,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 3",
-        "address_de": "Kapazit\u00e4t: 3",
+        "address": "Stellpl\u00e4tze: 3",
+        "address_de": "Stellpl\u00e4tze: 3",
         "address_en": "Capacity: 3",
         "icon": {
           "id": "carParkCovIcon"
@@ -10064,7 +10022,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -10085,11 +10043,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 8",
-        "address_de": "Kapazit\u00e4t: 8",
+        "address": "Stellpl\u00e4tze: 8",
+        "address_de": "Stellpl\u00e4tze: 8",
         "address_en": "Capacity: 8",
         "icon": {
           "id": "carParkCovIcon"
@@ -10106,7 +10064,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -10127,7 +10085,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -10148,7 +10106,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -10169,7 +10127,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -10190,7 +10148,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: begrenzt",
@@ -10211,7 +10169,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -10235,8 +10193,8 @@
         "name": "Parkhaus BG Unfallklinik",
         "name_en": "Parkhaus BG Unfallklinik",
         "name_de": "Parkhaus BG Unfallklinik",
-        "address": "Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
-        "address_de": "Geb\u00fchr: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address": "Geb\u00fchrenpflichtig:: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
+        "address_de": "Geb\u00fchrenpflichtig:: ja, \u00d6ffnungszeiten: 24/7, Barrierefrei: ja",
         "address_en": "Fee: yes, Opening hours: 24/7, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -10253,7 +10211,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -10298,8 +10256,8 @@
         "name": "Kundenparkplatz von handundpfoten.de",
         "name_en": "Kundenparkplatz von handundpfoten.de",
         "name_de": "Kundenparkplatz von handundpfoten.de",
-        "address": "Kapazit\u00e4t: 3, Barrierefrei: begrenzt",
-        "address_de": "Kapazit\u00e4t: 3, Barrierefrei: begrenzt",
+        "address": "Stellpl\u00e4tze: 3, Barrierefrei: begrenzt",
+        "address_de": "Stellpl\u00e4tze: 3, Barrierefrei: begrenzt",
         "address_en": "Capacity: 3, Wheelchair: limited",
         "icon": {
           "id": "carParkCovIcon"
@@ -10316,11 +10274,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: nein",
-        "address_de": "Geb\u00fchr: nein",
+        "address": "Geb\u00fchrenpflichtig:: nein",
+        "address_de": "Geb\u00fchrenpflichtig:: nein",
         "address_en": "Fee: no",
         "icon": {
           "id": "carParkCovIcon"
@@ -10337,7 +10295,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -10358,7 +10316,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -10379,7 +10337,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: nein",
@@ -10400,7 +10358,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: nein",
@@ -10421,7 +10379,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -10442,7 +10400,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -10463,7 +10421,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -10484,7 +10442,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -10505,11 +10463,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 6",
-        "address_de": "Kapazit\u00e4t: 6",
+        "address": "Stellpl\u00e4tze: 6",
+        "address_de": "Stellpl\u00e4tze: 6",
         "address_en": "Capacity: 6",
         "icon": {
           "id": "carParkCovIcon"
@@ -10526,11 +10484,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 2, Geb\u00fchr: nein, Barrierefrei: ja",
-        "address_de": "Kapazit\u00e4t: 2, Geb\u00fchr: nein, Barrierefrei: ja",
+        "address": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
+        "address_de": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
         "address_en": "Capacity: 2, Fee: no, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -10547,7 +10505,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -10568,7 +10526,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -10589,7 +10547,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -10610,11 +10568,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: nein",
-        "address_de": "Geb\u00fchr: nein",
+        "address": "Geb\u00fchrenpflichtig:: nein",
+        "address_de": "Geb\u00fchrenpflichtig:: nein",
         "address_en": "Fee: no",
         "icon": {
           "id": "carParkCovIcon"
@@ -10631,7 +10589,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: nein",
@@ -10652,7 +10610,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -10673,7 +10631,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: begrenzt",
@@ -10697,8 +10655,8 @@
         "name": "Altstadtgarage",
         "name_en": "Altstadtgarage",
         "name_de": "Altstadtgarage",
-        "address": "Geb\u00fchr: ja, Barrierefrei: ja",
-        "address_de": "Geb\u00fchr: ja, Barrierefrei: ja",
+        "address": "Geb\u00fchrenpflichtig:: ja, Barrierefrei: ja",
+        "address_de": "Geb\u00fchrenpflichtig:: ja, Barrierefrei: ja",
         "address_en": "Fee: yes, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -10715,7 +10673,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -10736,7 +10694,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -10820,7 +10778,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -10841,11 +10799,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "Parkplatz",
-        "name_en": "Parkplatz",
-        "name_de": "Parkplatz",
-        "address": "Geb\u00fchr: nein, Barrierefrei: ja",
-        "address_de": "Geb\u00fchr: nein, Barrierefrei: ja",
+        "name_en": "Multi-storey/underground car parking",
+        "name_de": "Parkhaus/Tiefgarage",
+        "name": "Parkhaus/Tiefgarage",
+        "address": "Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
+        "address_de": "Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
         "address_en": "Fee: no, Wheelchair: yes",
         "icon": {
           "id": "carParkCovIcon"
@@ -10862,11 +10820,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 4, Geb\u00fchr: nein, Barrierefrei: nein",
-        "address_de": "Kapazit\u00e4t: 4, Geb\u00fchr: nein, Barrierefrei: nein",
+        "address": "Stellpl\u00e4tze: 4, Geb\u00fchrenpflichtig:: nein, Barrierefrei: nein",
+        "address_de": "Stellpl\u00e4tze: 4, Geb\u00fchrenpflichtig:: nein, Barrierefrei: nein",
         "address_en": "Capacity: 4, Fee: no, Wheelchair: no",
         "icon": {
           "id": "carParkCovIcon"
@@ -10883,11 +10841,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: nein",
-        "address_de": "Geb\u00fchr: nein",
+        "address": "Geb\u00fchrenpflichtig:: nein",
+        "address_de": "Geb\u00fchrenpflichtig:: nein",
         "address_en": "Fee: no",
         "icon": {
           "id": "carParkCovIcon"
@@ -11009,7 +10967,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -11030,7 +10988,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -11051,7 +11009,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -11072,7 +11030,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "Barrierefrei: ja",
@@ -11093,7 +11051,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -11114,11 +11072,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Geb\u00fchr: nein",
-        "address_de": "Geb\u00fchr: nein",
+        "address": "Geb\u00fchrenpflichtig:: nein",
+        "address_de": "Geb\u00fchrenpflichtig:: nein",
         "address_en": "Fee: no",
         "icon": {
           "id": "carParkCovIcon"
@@ -11135,28 +11093,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
-        "name_de": "Parkhaus/Tiefgarage",
-        "name": "Parkhaus/Tiefgarage",
-        "address": "",
-        "address_de": "",
-        "address_en": "",
-        "icon": {
-          "id": "carParkCovIcon"
-        }
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          9.0090157,
-          48.6448059
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
         "address": "",
@@ -11177,11 +11114,11 @@
     {
       "type": "Feature",
       "properties": {
-        "name_en": "Multi-story/underground car parking",
+        "name_en": "Multi-storey/underground car parking",
         "name_de": "Parkhaus/Tiefgarage",
         "name": "Parkhaus/Tiefgarage",
-        "address": "Kapazit\u00e4t: 1",
-        "address_de": "Kapazit\u00e4t: 1",
+        "address": "Stellpl\u00e4tze: 1",
+        "address_de": "Stellpl\u00e4tze: 1",
         "address_en": "Capacity: 1",
         "icon": {
           "id": "carParkCovIcon"

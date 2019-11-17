@@ -7,8 +7,8 @@
         "name_en": "Park and Ride",
         "name_de": "Park-Und-Ride",
         "name": "Park-Und-Ride",
-        "address": "Kapazit\u00e4t: 20, Geb\u00fchr: nein, Barrierefrei: ja",
-        "address_de": "Kapazit\u00e4t: 20, Geb\u00fchr: nein, Barrierefrei: ja",
+        "address": "Stellpl\u00e4tze: 20, Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
+        "address_de": "Stellpl\u00e4tze: 20, Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
         "address_en": "Capacity: 20, Fee: no, Wheelchair: yes",
         "icon": {
           "id": "carPRIcon",
@@ -29,8 +29,8 @@
         "name": "P1 - Bahnhof, Bahnhofstra\u00dfe",
         "name_en": "P1 - Bahnhof, Bahnhofstra\u00dfe",
         "name_de": "P1 - Bahnhof, Bahnhofstra\u00dfe",
-        "address": "Geb\u00fchr: Mo-Su 00:00-24:00, Barrierefrei: ja",
-        "address_de": "Geb\u00fchr: Mo-Su 00:00-24:00, Barrierefrei: ja",
+        "address": "Geb\u00fchrenpflichtig:: Mo-Su 00:00-24:00, Barrierefrei: ja",
+        "address_de": "Geb\u00fchrenpflichtig:: Mo-Su 00:00-24:00, Barrierefrei: ja",
         "address_en": "Fee: Mo-Su 00:00-24:00, Wheelchair: yes",
         "icon": {
           "id": "carPRIcon"
@@ -50,8 +50,8 @@
         "name": "G\u00e4rtringen Bahnhofstr. Nord",
         "name_en": "G\u00e4rtringen Bahnhofstr. Nord",
         "name_de": "G\u00e4rtringen Bahnhofstr. Nord",
-        "address": "Geb\u00fchr: Mo-Su 00:00-24:00, Barrierefrei: ja",
-        "address_de": "Geb\u00fchr: Mo-Su 00:00-24:00, Barrierefrei: ja",
+        "address": "Geb\u00fchrenpflichtig:: Mo-Su 00:00-24:00, Barrierefrei: ja",
+        "address_de": "Geb\u00fchrenpflichtig:: Mo-Su 00:00-24:00, Barrierefrei: ja",
         "address_en": "Fee: Mo-Su 00:00-24:00, Wheelchair: yes",
         "icon": {
           "id": "carPRIcon"
@@ -71,8 +71,8 @@
         "name": "G\u00e4rtringen Bahnhofstr. Nord",
         "name_en": "G\u00e4rtringen Bahnhofstr. Nord",
         "name_de": "G\u00e4rtringen Bahnhofstr. Nord",
-        "address": "Geb\u00fchr: Mo-Su 00:00-24:00, Barrierefrei: nein",
-        "address_de": "Geb\u00fchr: Mo-Su 00:00-24:00, Barrierefrei: nein",
+        "address": "Geb\u00fchrenpflichtig:: Mo-Su 00:00-24:00, Barrierefrei: nein",
+        "address_de": "Geb\u00fchrenpflichtig:: Mo-Su 00:00-24:00, Barrierefrei: nein",
         "address_en": "Fee: Mo-Su 00:00-24:00, Wheelchair: no",
         "icon": {
           "id": "carPRIcon"
@@ -92,8 +92,8 @@
         "name_en": "Park and Ride",
         "name_de": "Park-Und-Ride",
         "name": "Park-Und-Ride",
-        "address": "Kapazit\u00e4t: 24, Geb\u00fchr: nein, Barrierefrei: ja",
-        "address_de": "Kapazit\u00e4t: 24, Geb\u00fchr: nein, Barrierefrei: ja",
+        "address": "Stellpl\u00e4tze: 24, Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
+        "address_de": "Stellpl\u00e4tze: 24, Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
         "address_en": "Capacity: 24, Fee: no, Wheelchair: yes",
         "icon": {
           "id": "carPRIcon"
@@ -113,8 +113,8 @@
         "name": "Friedhof Haslach",
         "name_en": "Friedhof Haslach",
         "name_de": "Friedhof Haslach",
-        "address": "Geb\u00fchr: nein, Barrierefrei: ja",
-        "address_de": "Geb\u00fchr: nein, Barrierefrei: ja",
+        "address": "Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
+        "address_de": "Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
         "address_en": "Fee: no, Wheelchair: yes",
         "icon": {
           "id": "carPRIcon"
@@ -134,8 +134,8 @@
         "name": "P2 - Bahnhof, B\u00fchlallee",
         "name_en": "P2 - Bahnhof, B\u00fchlallee",
         "name_de": "P2 - Bahnhof, B\u00fchlallee",
-        "address": "Geb\u00fchr: Mo-Su 00:00-24:00, Barrierefrei: nein",
-        "address_de": "Geb\u00fchr: Mo-Su 00:00-24:00, Barrierefrei: nein",
+        "address": "Geb\u00fchrenpflichtig:: Mo-Su 00:00-24:00, Barrierefrei: nein",
+        "address_de": "Geb\u00fchrenpflichtig:: Mo-Su 00:00-24:00, Barrierefrei: nein",
         "address_en": "Fee: Mo-Su 00:00-24:00, Wheelchair: no",
         "icon": {
           "id": "carPRIcon"
@@ -155,8 +155,8 @@
         "name_en": "Park and Ride",
         "name_de": "Park-Und-Ride",
         "name": "Park-Und-Ride",
-        "address": "Geb\u00fchr: nein",
-        "address_de": "Geb\u00fchr: nein",
+        "address": "Geb\u00fchrenpflichtig:: nein",
+        "address_de": "Geb\u00fchrenpflichtig:: nein",
         "address_en": "Fee: no",
         "icon": {
           "id": "carPRIcon"
@@ -176,8 +176,8 @@
         "name": "S-Bahn Goldberg",
         "name_en": "S-Bahn Goldberg",
         "name_de": "S-Bahn Goldberg",
-        "address": "Geb\u00fchr: ja@(Mo-So 06:00-18:00), Barrierefrei: ja",
-        "address_de": "Geb\u00fchr: ja@(Mo-So 06:00-18:00), Barrierefrei: ja",
+        "address": "Geb\u00fchrenpflichtig:: ja@(Mo-So 06:00-18:00), Barrierefrei: ja",
+        "address_de": "Geb\u00fchrenpflichtig:: ja@(Mo-So 06:00-18:00), Barrierefrei: ja",
         "address_en": "Fee: yes@(Mo-Sa 06:00-18:00), Wheelchair: yes",
         "icon": {
           "id": "carPRIcon"
@@ -197,8 +197,8 @@
         "name": "S-Bahn Goldberg",
         "name_en": "S-Bahn Goldberg",
         "name_de": "S-Bahn Goldberg",
-        "address": "Geb\u00fchr: ja, Barrierefrei: ja",
-        "address_de": "Geb\u00fchr: ja, Barrierefrei: ja",
+        "address": "Geb\u00fchrenpflichtig:: ja, Barrierefrei: ja",
+        "address_de": "Geb\u00fchrenpflichtig:: ja, Barrierefrei: ja",
         "address_en": "Fee: yes, Wheelchair: yes",
         "icon": {
           "id": "carPRIcon"
@@ -239,8 +239,8 @@
         "name_en": "Park and Ride",
         "name_de": "Park-Und-Ride",
         "name": "Park-Und-Ride",
-        "address": "Geb\u00fchr: ja, Barrierefrei: ja",
-        "address_de": "Geb\u00fchr: ja, Barrierefrei: ja",
+        "address": "Geb\u00fchrenpflichtig:: ja, Barrierefrei: ja",
+        "address_de": "Geb\u00fchrenpflichtig:: ja, Barrierefrei: ja",
         "address_en": "Fee: yes, Wheelchair: yes",
         "icon": {
           "id": "carPRIcon"
@@ -260,8 +260,8 @@
         "name_en": "Park and Ride",
         "name_de": "Park-Und-Ride",
         "name": "Park-Und-Ride",
-        "address": "Kapazit\u00e4t: 260, Geb\u00fchr: ja",
-        "address_de": "Kapazit\u00e4t: 260, Geb\u00fchr: ja",
+        "address": "Stellpl\u00e4tze: 260, Geb\u00fchrenpflichtig:: ja",
+        "address_de": "Stellpl\u00e4tze: 260, Geb\u00fchrenpflichtig:: ja",
         "address_en": "Capacity: 260, Fee: yes",
         "icon": {
           "id": "carPRIcon"
@@ -270,8 +270,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.8279954,
-          48.5242819
+          8.8280021,
+          48.5242918
         ]
       }
     },
@@ -281,8 +281,8 @@
         "name_en": "Park and Ride",
         "name_de": "Park-Und-Ride",
         "name": "Park-Und-Ride",
-        "address": "Kapazit\u00e4t: 10, Geb\u00fchr: nein",
-        "address_de": "Kapazit\u00e4t: 10, Geb\u00fchr: nein",
+        "address": "Stellpl\u00e4tze: 10, Geb\u00fchrenpflichtig:: nein",
+        "address_de": "Stellpl\u00e4tze: 10, Geb\u00fchrenpflichtig:: nein",
         "address_en": "Capacity: 10, Fee: no",
         "icon": {
           "id": "carPRIcon"
@@ -323,8 +323,8 @@
         "name": "G\u00e4rtringen Bahnhofstr. Nord",
         "name_en": "G\u00e4rtringen Bahnhofstr. Nord",
         "name_de": "G\u00e4rtringen Bahnhofstr. Nord",
-        "address": "Geb\u00fchr: Mo-Su 00:00-24:00, Barrierefrei: nein",
-        "address_de": "Geb\u00fchr: Mo-Su 00:00-24:00, Barrierefrei: nein",
+        "address": "Geb\u00fchrenpflichtig:: Mo-Su 00:00-24:00, Barrierefrei: nein",
+        "address_de": "Geb\u00fchrenpflichtig:: Mo-Su 00:00-24:00, Barrierefrei: nein",
         "address_en": "Fee: Mo-Su 00:00-24:00, Wheelchair: no",
         "icon": {
           "id": "carPRIcon"
@@ -344,8 +344,8 @@
         "name": "Parkplatz Panda",
         "name_en": "Parkplatz Panda",
         "name_de": "Parkplatz Panda",
-        "address": "Geb\u00fchr: nein",
-        "address_de": "Geb\u00fchr: nein",
+        "address": "Geb\u00fchrenpflichtig:: nein",
+        "address_de": "Geb\u00fchrenpflichtig:: nein",
         "address_en": "Fee: no",
         "icon": {
           "id": "carPRIcon"
@@ -365,8 +365,8 @@
         "name_en": "Park and Ride",
         "name_de": "Park-Und-Ride",
         "name": "Park-Und-Ride",
-        "address": "Geb\u00fchr: nein, Barrierefrei: ja",
-        "address_de": "Geb\u00fchr: nein, Barrierefrei: ja",
+        "address": "Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
+        "address_de": "Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
         "address_en": "Fee: no, Wheelchair: yes",
         "icon": {
           "id": "carPRIcon"
@@ -386,8 +386,8 @@
         "name_en": "Park and Ride",
         "name_de": "Park-Und-Ride",
         "name": "Park-Und-Ride",
-        "address": "Kapazit\u00e4t: 50, Geb\u00fchr: nein, Barrierefrei: ja",
-        "address_de": "Kapazit\u00e4t: 50, Geb\u00fchr: nein, Barrierefrei: ja",
+        "address": "Stellpl\u00e4tze: 50, Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
+        "address_de": "Stellpl\u00e4tze: 50, Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
         "address_en": "Capacity: 50, Fee: no, Wheelchair: yes",
         "icon": {
           "id": "carPRIcon"
@@ -407,8 +407,8 @@
         "name_en": "Park and Ride",
         "name_de": "Park-Und-Ride",
         "name": "Park-Und-Ride",
-        "address": "Geb\u00fchr: nein, Barrierefrei: ja",
-        "address_de": "Geb\u00fchr: nein, Barrierefrei: ja",
+        "address": "Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
+        "address_de": "Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
         "address_en": "Fee: no, Wheelchair: yes",
         "icon": {
           "id": "carPRIcon"
@@ -428,8 +428,29 @@
         "name_en": "Park and Ride",
         "name_de": "Park-Und-Ride",
         "name": "Park-Und-Ride",
-        "address": "Kapazit\u00e4t: 22, Geb\u00fchr: nein, Barrierefrei: ja",
-        "address_de": "Kapazit\u00e4t: 22, Geb\u00fchr: nein, Barrierefrei: ja",
+        "address": "Stellpl\u00e4tze: 42",
+        "address_de": "Stellpl\u00e4tze: 42",
+        "address_en": "Capacity: 42",
+        "icon": {
+          "id": "carPRIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8904189,
+          48.6207096
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Park and Ride",
+        "name_de": "Park-Und-Ride",
+        "name": "Park-Und-Ride",
+        "address": "Stellpl\u00e4tze: 22, Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
+        "address_de": "Stellpl\u00e4tze: 22, Geb\u00fchrenpflichtig:: nein, Barrierefrei: ja",
         "address_en": "Capacity: 22, Fee: no, Wheelchair: yes",
         "icon": {
           "id": "carPRIcon"

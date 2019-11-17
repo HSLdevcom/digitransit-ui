@@ -7,8 +7,8 @@
         "name": "B\u00f6blingen",
         "name_en": "B\u00f6blingen",
         "name_de": "B\u00f6blingen",
-        "address": "Kapazit\u00e4t: 1, <a href=\"https://stuttgart.stadtmobil.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: ja",
-        "address_de": "Kapazit\u00e4t: 1, <a href=\"https://stuttgart.stadtmobil.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: ja",
+        "address": "Stellpl\u00e4tze: 1, <a href=\"https://stuttgart.stadtmobil.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: ja",
+        "address_de": "Stellpl\u00e4tze: 1, <a href=\"https://stuttgart.stadtmobil.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: ja",
         "address_en": "Capacity: 1, <a href=\"https://stuttgart.stadtmobil.de/\" target=\"_blank\">Website</a>,  Wheelchair: yes",
         "icon": {
           "id": "carShareIcon",
@@ -29,8 +29,8 @@
         "name": "stadtmobil",
         "name_en": "stadtmobil",
         "name_de": "stadtmobil",
-        "address": "Kapazit\u00e4t: 4",
-        "address_de": "Kapazit\u00e4t: 4",
+        "address": "Stellpl\u00e4tze: 4",
+        "address_de": "Stellpl\u00e4tze: 4",
         "address_en": "Capacity: 4",
         "icon": {
           "id": "carShareIcon"
@@ -50,8 +50,8 @@
         "name": "Mariengarage Herrenberg",
         "name_en": "Mariengarage Herrenberg",
         "name_de": "Mariengarage Herrenberg",
-        "address": "Kapazit\u00e4t: 1",
-        "address_de": "Kapazit\u00e4t: 1",
+        "address": "Stellpl\u00e4tze: 1",
+        "address_de": "Stellpl\u00e4tze: 1",
         "address_en": "Capacity: 1",
         "icon": {
           "id": "carShareIcon"
@@ -71,8 +71,8 @@
         "name": "Bahnhof (Flugfeld-/Nordseite)",
         "name_en": "Bahnhof (Flugfeld-/Nordseite)",
         "name_de": "Bahnhof (Flugfeld-/Nordseite)",
-        "address": "Kapazit\u00e4t: 1, <a href=\"https://stuttgart.stadtmobil.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: ja",
-        "address_de": "Kapazit\u00e4t: 1, <a href=\"https://stuttgart.stadtmobil.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: ja",
+        "address": "Stellpl\u00e4tze: 1, <a href=\"https://stuttgart.stadtmobil.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: ja",
+        "address_de": "Stellpl\u00e4tze: 1, <a href=\"https://stuttgart.stadtmobil.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: ja",
         "address_en": "Capacity: 1, <a href=\"https://stuttgart.stadtmobil.de/\" target=\"_blank\">Website</a>,  Wheelchair: yes",
         "icon": {
           "id": "carShareIcon"
@@ -92,8 +92,8 @@
         "name": "Hulb Bahnhof",
         "name_en": "Hulb Bahnhof",
         "name_de": "Hulb Bahnhof",
-        "address": "Kapazit\u00e4t: 1, <a href=\"https://stuttgart.stadtmobil.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: begrenzt",
-        "address_de": "Kapazit\u00e4t: 1, <a href=\"https://stuttgart.stadtmobil.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: begrenzt",
+        "address": "Stellpl\u00e4tze: 1, <a href=\"https://stuttgart.stadtmobil.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: begrenzt",
+        "address_de": "Stellpl\u00e4tze: 1, <a href=\"https://stuttgart.stadtmobil.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: begrenzt",
         "address_en": "Capacity: 1, <a href=\"https://stuttgart.stadtmobil.de/\" target=\"_blank\">Website</a>,  Wheelchair: limited",
         "icon": {
           "id": "carShareIcon"
@@ -113,8 +113,8 @@
         "name": "teilAuto",
         "name_en": "teilAuto",
         "name_de": "teilAuto",
-        "address": "Kapazit\u00e4t: 1, Telefon: +49 7071 1388335, <a href=\"http://www.teilauto-tuebingen.de\" target=\"_blank\">Webseite</a>,  Barrierefrei: ja",
-        "address_de": "Kapazit\u00e4t: 1, Telefon: +49 7071 1388335, <a href=\"http://www.teilauto-tuebingen.de\" target=\"_blank\">Webseite</a>,  Barrierefrei: ja",
+        "address": "Stellpl\u00e4tze: 1, Telefon: +49 7071 1388335, <a href=\"http://www.teilauto-tuebingen.de\" target=\"_blank\">Webseite</a>,  Barrierefrei: ja",
+        "address_de": "Stellpl\u00e4tze: 1, Telefon: +49 7071 1388335, <a href=\"http://www.teilauto-tuebingen.de\" target=\"_blank\">Webseite</a>,  Barrierefrei: ja",
         "address_en": "Capacity: 1, Phone: +49 7071 1388335, <a href=\"http://www.teilauto-tuebingen.de\" target=\"_blank\">Website</a>,  Wheelchair: yes",
         "icon": {
           "id": "carShareIcon"
@@ -134,8 +134,8 @@
         "name_en": "Car sharing",
         "name_de": "Car-Sharing",
         "name": "Car-Sharing",
-        "address": "Kapazit\u00e4t: 1, <a href=\"http://www.teilauto-tuebingen.de\" target=\"_blank\">Webseite</a>",
-        "address_de": "Kapazit\u00e4t: 1, <a href=\"http://www.teilauto-tuebingen.de\" target=\"_blank\">Webseite</a>",
+        "address": "Stellpl\u00e4tze: 1, <a href=\"http://www.teilauto-tuebingen.de\" target=\"_blank\">Webseite</a>",
+        "address_de": "Stellpl\u00e4tze: 1, <a href=\"http://www.teilauto-tuebingen.de\" target=\"_blank\">Webseite</a>",
         "address_en": "Capacity: 1, <a href=\"http://www.teilauto-tuebingen.de\" target=\"_blank\">Website</a>",
         "icon": {
           "id": "carShareIcon"
@@ -155,8 +155,8 @@
         "name": "G\u00e4rtringen",
         "name_en": "G\u00e4rtringen",
         "name_de": "G\u00e4rtringen",
-        "address": "Kapazit\u00e4t: 1, <a href=\"https://stuttgart.stadtmobil.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: ja",
-        "address_de": "Kapazit\u00e4t: 1, <a href=\"https://stuttgart.stadtmobil.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: ja",
+        "address": "Stellpl\u00e4tze: 1, <a href=\"https://stuttgart.stadtmobil.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: ja",
+        "address_de": "Stellpl\u00e4tze: 1, <a href=\"https://stuttgart.stadtmobil.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: ja",
         "address_en": "Capacity: 1, <a href=\"https://stuttgart.stadtmobil.de/\" target=\"_blank\">Website</a>,  Wheelchair: yes",
         "icon": {
           "id": "carShareIcon"

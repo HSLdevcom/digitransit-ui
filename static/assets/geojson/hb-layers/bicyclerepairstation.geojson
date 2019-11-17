@@ -197,8 +197,8 @@
         "name_en": "Bicycle repair station",
         "name_de": "Fahrradreparaturstation",
         "name": "Fahrradreparaturstation",
-        "address": "Geb\u00fchr: nein, \u00d6ffnungszeiten: 24/7",
-        "address_de": "Geb\u00fchr: nein, \u00d6ffnungszeiten: 24/7",
+        "address": "Geb\u00fchrenpflichtig:: nein, \u00d6ffnungszeiten: 24/7",
+        "address_de": "Geb\u00fchrenpflichtig:: nein, \u00d6ffnungszeiten: 24/7",
         "address_en": "Fee: no, Opening hours: 24/7",
         "icon": {
           "id": "bikeRepIcon"
