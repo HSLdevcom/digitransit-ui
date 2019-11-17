@@ -8,6 +8,9 @@ const API_URL = process.env.API_URL || 'https://api.mobil-in-herrenberg.de';
 const MAP_URL = process.env.MAP_URL || 'https://maps.wikimedia.org/osm-intl/';
 const GEOCODING_BASE_URL = process.env.GEOCODING_BASE_URL || `https://pelias.locationiq.org/v1`;
 const LOCATIONIQ_API_KEY = process.env.LOCATIONIQ_API_KEY;
+const STATIC_MESSAGE_URL =
+  process.env.STATIC_MESSAGE_URL ||
+  '/assets/messages/message.hb.json';
 
 const walttiConfig = require('./waltti').default;
 
@@ -146,7 +149,9 @@ export default configMerger(walttiConfig, {
       {
         header: 'Über diesen Dienst',
         paragraphs: [
-          'This service is provided by Hb for route planning in Hb region. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.',
+          'Mobil-in-Herrenberg ist eine Reiseplannungs-Anwendung für die Region Herrenberg. Dieser Dienst umfasst ÖPNV, Fußwege, Radverkehr, und PKW-Routing, inklusive Park&Ride.',
+          'Dieser Dienst basiert auf der Digitransit Platform und dem Backend-Dienst OpenTripPlanner.',
+          'Datenquellen: Kartendaten: © OpenStreetMap Mitwirkende (https://www.openstreetmap.org/), ÖPNV-Daten: VVS Gmbh, Datensätze der NVBW GmbH, Shapes angereicht mit OpenStreetMap-Daten © OpenStreetMap Mitwirkende.',
         ],
       },
     ],
@@ -358,5 +363,6 @@ export default configMerger(walttiConfig, {
       */
     ],
 },
+staticMessagesUrl: STATIC_MESSAGE_URL,
   
 });
