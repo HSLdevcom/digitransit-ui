@@ -8,6 +8,7 @@ const API_URL = process.env.API_URL || 'https://api.mobil-in-herrenberg.de';
 const MAP_URL = process.env.MAP_URL || 'https://maps.wikimedia.org/osm-intl/';
 const GEOCODING_BASE_URL = process.env.GEOCODING_BASE_URL || `https://pelias.locationiq.org/v1`;
 const LOCATIONIQ_API_KEY = process.env.LOCATIONIQ_API_KEY;
+const YEAR = 1900 + new Date().getYear();
 const STATIC_MESSAGE_URL =
   process.env.STATIC_MESSAGE_URL ||
   '/assets/messages/message.hb.json';
@@ -123,7 +124,7 @@ export default configMerger(walttiConfig, {
 
   footer: {
     content: [
-      { label: `ein digitransit des transportkollektivs` },
+      { label: `© Stadt Herrenberg ${YEAR}` },
       {},
       {
         name: 'about-this-service',
