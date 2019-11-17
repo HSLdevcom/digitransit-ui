@@ -9688,6 +9688,11 @@ react-motion@0.5.2:
     prop-types "^15.5.8"
     raf "^3.1.0"
 
+react-obfuscate@3.6.2:
+  version "3.6.2"
+  resolved "https://registry.yarnpkg.com/react-obfuscate/-/react-obfuscate-3.6.2.tgz#f237480ad132b7e08bb691a5f0e884f54693ca3c"
+  integrity sha512-CESIFj8pcsSpyGuZUXJ0dygiFdYYj8qbmAHNSh/yyBICUvGf1DnggQPs/P1jEciVaq7AfSaziPmR/65m/ZRHjg==
+
 react-relay-network-layer@2.1.3:
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/react-relay-network-layer/-/react-relay-network-layer-2.1.3.tgz#300024b74abc4c3c67878a38fee9507fb9d032a9"
