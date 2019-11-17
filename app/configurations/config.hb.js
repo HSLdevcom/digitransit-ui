@@ -76,6 +76,7 @@ export default configMerger(walttiConfig, {
     useRetinaTiles: true,
     tileSize: 256,
     zoomOffset: 0,
+    attribution: '&copy; <a tabindex=-1 href=http://osm.org/copyright>OpenStreetMap Mitwirkende</a>, <a tabindex=-1 href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>Datensätze der NVBW GmbH</a> und <a tabindex=-1 href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>'
   },
 
   feedIds: ['hb'],
@@ -151,8 +152,20 @@ export default configMerger(walttiConfig, {
         header: 'Über diesen Dienst',
         paragraphs: [
           'Mobil-in-Herrenberg ist eine Reiseplannungs-Anwendung für die Region Herrenberg. Dieser Dienst umfasst ÖPNV, Fußwege, Radverkehr, und PKW-Routing, inklusive Park&Ride.',
-          'Dieser Dienst basiert auf der Digitransit Platform und dem Backend-Dienst OpenTripPlanner.',
-          'Datenquellen: Kartendaten: © OpenStreetMap Mitwirkende (https://www.openstreetmap.org/), ÖPNV-Daten: VVS Gmbh, Datensätze der NVBW GmbH, Shapes angereicht mit OpenStreetMap-Daten © OpenStreetMap Mitwirkende.',
+          
+        ],
+      },
+      {
+        header: 'Digitransit Plattform',
+        paragraphs: [
+          'Dieser Dienst basiert auf der Digitransit Platform und dem Backend-Dienst OpenTripPlanner. Alle Software ist unter einer offenen Lizenzen verfügbar. Vielen Dank an alle Beteiligten.',        ],
+      },
+      {
+        header: 'Datenquellen',
+        paragraphs: [
+          'Kartendaten: © <a target=new href=https://www.openstreetmap.org/>OpenStreetMap Mitwirkende</a>',
+          'ÖPNV-Daten: Datensätze der <a target=new href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>NVBW GmbH</a> und der <a target=new href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>, Shapes (d.h. Geometrien der Streckenverläufe) jeweils angereichert mit OpenStreetMap-Daten © OpenStreetMap Mitwirkende',
+          'Alle Angaben ohne Gewähr.'
         ],
       },
     ],
@@ -160,7 +173,21 @@ export default configMerger(walttiConfig, {
       {
         header: 'About this service',
         paragraphs: [
-          'This service is provided by Hb for route planning in Hb region. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.',
+          'This service is provided by Hb for route planning in Hb region. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform and OpenTriPlanner.',
+        ],
+      },
+      {
+        header: 'Digitransit platform',
+        paragraphs: [
+          'The Digitransit service platform is an open source routing platform developed by HSL and Traficom. It builds on OpenTripPlanner by Conveyal. Enhancements by Transportkollektiv and MITFAHR|DE|ZENTRALE. All software is open source. Thanks to everybody working on this!',
+        ],
+      },
+      {
+        header: 'Data sources',
+        paragraphs: [
+          'Map data: © <a target=new href=https://www.openstreetmap.org/>OpenStreetMap contributors</a>',
+          'Public transit data: Datasets by <a target=new href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>NVBW GmbH</a> and <a target=new href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>, Shapes (d.h. Geometrien der Streckenverläufe) enhanced with OpenStreetMap data © OpenStreetMap contributors',
+          'No responsibility is accepted for the accuracy of this information.'
         ],
       },
     ],
