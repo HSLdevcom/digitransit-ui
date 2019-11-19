@@ -140,7 +140,7 @@ describe('<RoutePatternSelect />', () => {
       },
     });
     expect(url).to.contain(props.gtfsId);
-    expect(url).to.contain(props.route.patterns[1].code); // DT-3182: changed [0] --> [1] because components sortBy has been changed from code to length of tripsForDate descending
+    expect(url).to.contain(props.route.patterns[0].code);
   });
 
   it('should not crash if there are no patterns with trips available for the current date', () => {
@@ -230,7 +230,7 @@ describe('<RoutePatternSelect />', () => {
     expect(wrapper.find('select > div')).to.have.lengthOf(0);
   });
 
-  it('should create a select element for 3 patterns ', () => {
+  it('should create a select element for 4 patterns ', () => {
     // DT-3182
     const currentDay = new Date();
     const currentTimeInSecs = currentDay.getTime() / 1000;
@@ -252,200 +252,6 @@ describe('<RoutePatternSelect />', () => {
 
     const props = {
       useCurrentTime: true,
-      onSelectChange: () => {},
-      gtfsId: 'HSL:1010',
-      activeTab: 'pysakit',
-      className: 'bp-large',
-      serviceDay,
-      relay: {
-        setVariables: () => {},
-      },
-      params: {
-        routeId: 'HSL:1010',
-        patternId: 'HSL:1010:0:01',
-      },
-      route: {
-        patterns: [
-          {
-            code: 'HSL:1010:1:02',
-            headsign: 'Kirurgi',
-            stops: [
-              {
-                name: 'Korppaanmäki',
-              },
-              {
-                name: 'Johanneksenkirkko',
-              },
-              {
-                name: 'Tarkk´ampujankatu',
-              },
-            ],
-            tripsForDate: [
-              {
-                stoptimes: [
-                  {
-                    scheduledArrival: 120,
-                    scheduledDeparture: 120,
-                    serviceDay: serviceDayInSecs,
-                    stop: {
-                      id: 'U3RvcDpIU0w6MTI5MTQwNA==',
-                    },
-                  },
-                  {
-                    scheduledArrival: 240,
-                    scheduledDeparture: 240,
-                    serviceDay: serviceDayInSecs,
-                    stop: {
-                      id: 'U3RvcDpIU0w6MTI5MTQwMg==',
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            code: 'HSL:1010:0:01',
-            headsign: 'Pikku Huopalahti',
-            stops: [
-              {
-                name: 'Korppaanmäki',
-              },
-              {
-                name: 'Johanneksenkirkko',
-              },
-              {
-                name: 'Tarkk´ampujankatu',
-              },
-            ],
-            tripsForDate: [
-              {
-                stoptimes: [
-                  {
-                    scheduledArrival: futureTrip11,
-                    scheduledDeparture: futureTrip11,
-                    serviceDay: serviceDayInSecs,
-                    stop: {
-                      id: 'U3RvcDpIU0w6MTI5MTQwNA==',
-                    },
-                  },
-                  {
-                    scheduledArrival: futureTrip12,
-                    scheduledDeparture: futureTrip12,
-                    serviceDay: serviceDayInSecs,
-                    stop: {
-                      id: 'U3RvcDpIU0w6MTI5MTQwMg==',
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            code: 'HSL:1010:1:03',
-            headsign: 'Ylioppilastalo',
-            stops: [
-              {
-                name: 'Ooppera',
-              },
-              {
-                name: 'Lasipalatsi',
-              },
-              {
-                name: 'Ylioppilastalo',
-              },
-            ],
-            tripsForDate: [
-              {
-                stoptimes: [
-                  {
-                    scheduledArrival: futureTrip21,
-                    scheduledDeparture: futureTrip21,
-                    serviceDay: serviceDayInSecs,
-                    stop: {
-                      id: 'U3RvcDpIU0w6MTI5MTQwNA==',
-                    },
-                  },
-                  {
-                    scheduledArrival: futureTrip22,
-                    scheduledDeparture: futureTrip22,
-                    serviceDay: serviceDayInSecs,
-                    stop: {
-                      id: 'U3RvcDpIU0w6MTI5MTQwMg==',
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            code: 'HSL:1010:0:04',
-            headsign: 'Ooppera',
-            stops: [
-              {
-                name: 'Ylioppilastalo',
-              },
-              {
-                name: 'Lasipalatsi',
-              },
-              {
-                name: 'Ooppera',
-              },
-            ],
-            tripsForDate: [
-              {
-                stoptimes: [
-                  {
-                    scheduledArrival: futureTrip31,
-                    scheduledDeparture: futureTrip31,
-                    serviceDay: serviceDayInSecs,
-                    stop: {
-                      id: 'U3RvcDpIU0w6MTI5MTQwNA==',
-                    },
-                  },
-                  {
-                    scheduledArrival: futureTrip32,
-                    scheduledDeparture: futureTrip32,
-                    serviceDay: serviceDayInSecs,
-                    stop: {
-                      id: 'U3RvcDpIU0w6MTI5MTQwMg==',
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-    };
-
-    const wrapper = shallowWithIntl(<RoutePatternSelect {...props} />, {
-      context: { ...mockContext },
-    });
-    expect(wrapper.find('option')).to.have.lengthOf(3);
-  });
-
-  it('should create a select element for 3 patterns ', () => {
-    // DT-3182
-    const currentDay = new Date();
-    const currentTimeInSecs = currentDay.getTime() / 1000;
-
-    currentDay.setHours(0);
-    currentDay.setMinutes(0);
-    currentDay.setSeconds(0);
-    currentDay.setMilliseconds(0);
-
-    const serviceDayInSecs = currentDay.getTime() / 1000;
-    const serviceDay = moment().format('YYYYMMDD');
-
-    const futureTrip11 = currentTimeInSecs - serviceDayInSecs + 3600;
-    const futureTrip12 = currentTimeInSecs - serviceDayInSecs + 3720;
-    const futureTrip21 = currentTimeInSecs - serviceDayInSecs + 7200;
-    const futureTrip22 = currentTimeInSecs - serviceDayInSecs + 7320;
-    const futureTrip31 = currentTimeInSecs - serviceDayInSecs + 14400;
-    const futureTrip32 = currentTimeInSecs - serviceDayInSecs + 14520;
-
-    const props = {
-      useCurrentTime: false,
       onSelectChange: () => {},
       gtfsId: 'HSL:1010',
       activeTab: 'pysakit',

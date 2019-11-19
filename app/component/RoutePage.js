@@ -4,6 +4,7 @@ import React from 'react';
 import Relay from 'react-relay/classic';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
+import sortBy from 'lodash/sortBy'; // DT-3182
 import { routerShape } from 'react-router';
 
 import Icon from './Icon';
@@ -71,7 +72,7 @@ class RoutePage extends React.Component {
   // gets called if pattern has not been visited before
   componentDidMount() {
     const { params, route } = this.props;
-    const { config, executeAction } = this.context;
+    const { config, executeAction, router } = this.context; // DT-3182: added router for changing URL
     const { realTime } = config;
     if (!realTime || route == null) {
       return;
@@ -84,14 +85,22 @@ class RoutePage extends React.Component {
       return;
     }
 
-    const pattern = route.patterns.find(
-      ({ code }) => code === params.patternId,
-    );
+    const sortedPatternsByCountOfTrips = sortBy(
+      sortBy(route.patterns, 'code').reverse(),
+      'trips.length',
+    ).reverse();
+    const pattern = sortedPatternsByCountOfTrips
+      ? sortedPatternsByCountOfTrips[0]
+      : null;
+
     if (!pattern) {
       return;
     }
 
-    const id = source.routeSelector(this.props);
+    const id =
+      pattern.code !== params.patternId
+        ? routeParts[1]
+        : source.routeSelector(this.props);
     executeAction(startRealTimeClient, {
       ...source,
       agency,
@@ -106,6 +115,16 @@ class RoutePage extends React.Component {
         },
       ],
     });
+
+    /* DT-3182: call this only 1st time (not when dropdown has been changed) for changing URL
+      if(something) {
+      router.replace(
+        decodeURIComponent(location.pathname).replace(
+          new RegExp(`${params.patternId}(.*)`),
+          pattern.code,
+        ),
+      );
+    } */
   }
 
   componentWillUnmount() {
