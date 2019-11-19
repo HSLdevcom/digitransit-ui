@@ -48,6 +48,28 @@ class StopCardHeader extends React.Component {
     );
   }
 
+  getZoneLabel(zoneId) {
+    if (!this.context.config.zoneIdMapping) {
+      return zoneId;
+    }
+    return this.context.config.zoneIdMapping[zoneId];
+  }
+
+  getZoneLabelSize(zoneId) {
+    if (!this.context.config.zoneIdFontSize) {
+      return '20px';
+    }
+    return this.context.config.zoneIdFontSize[zoneId];
+  }
+
+  getZoneLabelColor() {
+    if (!this.context.config.colors.primary) {
+      return '#000';
+    }
+    return this.context.config.colors.primary;
+  }
+
+
   render() {
     const {
       className,
@@ -81,7 +103,7 @@ class StopCardHeader extends React.Component {
         icons={icons}
       >
         {this.headerConfig.showZone &&
-          stop.zoneId && <ZoneIcon showTitle zoneId={stop.zoneId} />}
+          stop.zoneId && <ZoneIcon showTitle zoneId={this.getZoneLabel(stop.zoneId)} zoneIdFontSize={this.getZoneLabelSize(stop.zoneId)} zoneLabelColor={this.getZoneLabelColor()}  />}
       </CardHeader>
     );
   }
