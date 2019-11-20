@@ -85,41 +85,48 @@ class RoutePage extends React.Component {
       return;
     }
 
-    const sortedPatternsByCountOfTrips = sortBy(
-      sortBy(route.patterns, 'code').reverse(),
-      'trips.length',
-    ).reverse();
-    const pattern = sortedPatternsByCountOfTrips
-      ? sortedPatternsByCountOfTrips[0]
-      : null;
+    let sortedPatternsByCountOfTrips;
+    const tripsExists = route.patterns ? 'trips' in route.patterns[0] : false;
+
+    if (tripsExists) {
+      sortedPatternsByCountOfTrips = sortBy(
+        sortBy(route.patterns, 'code').reverse(),
+        'trips.length',
+      ).reverse();
+    }
+    const pattern =
+      sortedPatternsByCountOfTrips !== undefined
+        ? sortedPatternsByCountOfTrips[0]
+        : route.patterns.find(({ code }) => code === params.patternId);
 
     if (!pattern) {
       return;
     }
 
+    const id =
+      sortedPatternsByCountOfTrips !== undefined &&
+      pattern.code !== params.patternId
+        ? routeParts[1]
+        : source.routeSelector(this.props);
+
+    executeAction(startRealTimeClient, {
+      ...source,
+      agency,
+      options: [
+        {
+          route: id,
+          // add some information from the context
+          // to compensate potentially missing feed data
+          mode: route.mode.toLowerCase(),
+          gtfsId: routeParts[1],
+          headsign: pattern.headsign,
+        },
+      ],
+    });
+
     // DT-3182: call this only 1st time for changing URL to wanted route (most trips)
     const { location } = router;
-
-    if (location.action === 'PUSH') {
-      const id =
-        pattern.code !== params.patternId
-          ? routeParts[1]
-          : source.routeSelector(this.props);
-      executeAction(startRealTimeClient, {
-        ...source,
-        agency,
-        options: [
-          {
-            route: id,
-            // add some information from the context
-            // to compensate potentially missing feed data
-            mode: route.mode.toLowerCase(),
-            gtfsId: routeParts[1],
-            headsign: pattern.headsign,
-          },
-        ],
-      });
-
+    if (location !== undefined && location.action === 'PUSH') {
       router.replace(
         decodeURIComponent(location.pathname).replace(
           new RegExp(`${params.patternId}(.*)`),
