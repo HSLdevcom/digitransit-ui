@@ -53,7 +53,7 @@ class TopLevel extends React.Component {
   constructor(props, { headers, config }) {
     super(props);
     const host = headers && (headers['x-forwarded-host'] || headers.host);
-
+    this.state = { loggedIn: false };
     // TODO: Move this to server.js
     const hasTrackingPixel = get(config, 'showHSLTracking', false);
     this.trackingPixel =
@@ -80,6 +80,12 @@ class TopLevel extends React.Component {
       this.setState({ logo: logo.default });
     });
   }
+
+  logIn = () => {
+    this.setState(prevState => ({
+      loggedIn: !prevState.loggedIn,
+    }));
+  };
 
   render() {
     this.topBarOptions = Object.assign(
@@ -131,6 +137,8 @@ class TopLevel extends React.Component {
             {...this.topBarOptions}
             {...this.state}
             homeUrl={homeUrl}
+            loggedIn={this.state.loggedIn}
+            logIn={() => this.logIn()}
           />
         )}
         <section id="mainContent" className="content">
