@@ -3,19 +3,19 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 
-export default function LoginButton({ onClick }) {
+export default function LoginButton({ logIn }) {
   return (
-    <div className="top-bar-login" onClick={onClick}>
-      <div className="navi-icons">
-        <Icon img="icon-icon_user" />
-      </div>
-      <div className="right-border">
+    <button className="noborder" onClick={() => logIn()}>
+      <div className="top-bar-login">
+        <div className="navi-icons">
+          <Icon img="icon-icon_user" />
+        </div>
         <FormattedMessage id="login" defaultMessage="login" />
       </div>
-    </div>
+    </button>
   );
 }
 
 LoginButton.propTypes = {
-  onClick: PropTypes.func.isRequired,
+  logIn: PropTypes.func.isRequired,
 };
