@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Relay from 'react-relay/classic';
@@ -16,6 +17,7 @@ import {
 import { PREFIX_ROUTES } from '../util/path';
 
 const DATE_FORMAT = 'YYYYMMDD';
+const DATE_FORMAT2 = 'dd D.M.'; // DT-2531
 
 class RoutePatternSelect extends Component {
   static propTypes = {
@@ -72,18 +74,39 @@ class RoutePatternSelect extends Component {
       });
     }
 
+    // DT-2531: remove duplicates and sort by day ascending
+    if (futureTrips.activeDates !== undefined) {
+      futureTrips.forEach(function(x) {
+        // eslint-disable-next-line no-param-reassign
+        x.activeDates = sortBy(
+          x.activeDates
+            .map(({ day }) => ({ day }))
+            .map(JSON.stringify)
+            .reverse()
+            .filter(function(e, i, a) {
+              return a.indexOf(e, i + 1) === -1;
+            })
+            .reverse()
+            .map(JSON.parse),
+          'day',
+        );
+      });
+    }
+
     if (futureTrips.length === 0) {
       return null;
     }
 
+    // DT-3182: added sortBy 'tripsForDate.length' (reverse() = descending)
+    // DT-2531: added sortBy 'activeDates.length'
     const options = sortBy(
-      sortBy(futureTrips, 'code').reverse(),
+      sortBy(sortBy(futureTrips, 'code').reverse(), 'activeDates.length'),
       'tripsForDate.length',
     )
       .reverse()
-      // DT-3182: changed sortBy from 'code' to 'tripsForDate.length' (reversed = descending)
       .map(pattern => {
-        if (patterns.length === 2) {
+        // DT-2531 changed to correct variable (maybe confusing with variable 'patterns')
+        if (futureTrips.length === 2) {
           return (
             <div
               key={pattern.code}
@@ -92,6 +115,30 @@ class RoutePatternSelect extends Component {
             >
               {pattern.stops[0].name} ➔ {pattern.headsign}
             </div>
+          );
+        }
+
+        // DT-2531 show activeDate(s) on option texts, if no trips for today
+        if (
+          pattern.tripsForDate.length === 0 &&
+          pattern.activeDates !== undefined &&
+          pattern.activeDates.length > 0
+        ) {
+          return (
+            <option key={pattern.code} value={pattern.code}>
+              {pattern.stops[0].name} ➔ {pattern.headsign} ({moment(
+                pattern.activeDates[0].day[0],
+                DATE_FORMAT,
+              ).format(DATE_FORMAT2)}
+              {pattern.activeDates.length > 1
+                ? ', '.concat(
+                    moment(pattern.activeDates[1].day[0], DATE_FORMAT).format(
+                      DATE_FORMAT2,
+                    ),
+                  )
+                : ''}
+              {pattern.activeDates.length > 2 ? ', ...' : ''})
+            </option>
           );
         }
 
@@ -198,6 +245,7 @@ RoutePatternSelect.description = () => (
   </div>
 );
 
+// DT-2531: added activeDates
 const withStore = connectToStores(
   Relay.createContainer(RoutePatternSelect, {
     initialVariables: {
@@ -222,6 +270,9 @@ const withStore = connectToStores(
                 id
               }
             }
+          }
+          activeDates: trips {
+            day: activeDates
           }
         }
       }

@@ -346,6 +346,7 @@ class RoutePage extends React.Component {
   }
 }
 
+// DT-2531: added activeDates
 const containerComponent = Relay.createContainer(withBreakpoint(RoutePage), {
   fragments: {
     route: () =>
@@ -376,6 +377,9 @@ const containerComponent = Relay.createContainer(withBreakpoint(RoutePage), {
               scheduledDeparture
               serviceDay
             }
+          }
+          activeDates: trips {
+            day: activeDates
           }
         }
       }
