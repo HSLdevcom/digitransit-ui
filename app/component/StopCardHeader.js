@@ -11,6 +11,7 @@ import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 import ExternalLink from './ExternalLink';
 
 class StopCardHeader extends React.Component {
+
   get headerConfig() {
     return this.context.config.stopCard.header;
   }
@@ -49,26 +50,28 @@ class StopCardHeader extends React.Component {
   }
 
   getZoneLabel(zoneId) {
-    if (!this.context.config.zoneIdMapping) {
-      return zoneId;
+    if (this.context.config.zoneIdMapping) {
+      return this.context.config.zoneIdMapping[zoneId];
     }
-    return this.context.config.zoneIdMapping[zoneId];
+    return zoneId;
   }
 
   getZoneLabelSize(zoneId) {
-    if (!this.context.config.zoneIdFontSize) {
-      return '20px';
+    if (this.context.config.zoneIdFontSize) {
+      return this.context.config.zoneIdFontSize[zoneId];
     }
-    return this.context.config.zoneIdFontSize[zoneId];
+    return '20px';
   }
 
   getZoneLabelColor() {
-    if (!this.context.config.colors.primary) {
-      return '#000';
+    if (
+      typeof this.context.config.colors !== 'undefined' &&
+      this.context.config.colors.primary
+    ) {
+      return this.context.config.colors.primary;
     }
-    return this.context.config.colors.primary;
+    return '#000';
   }
-
 
   render() {
     const {
@@ -103,7 +106,20 @@ class StopCardHeader extends React.Component {
         icons={icons}
       >
         {this.headerConfig.showZone &&
-          stop.zoneId && <ZoneIcon showTitle zoneId={this.getZoneLabel(stop.zoneId)} zoneIdFontSize={this.getZoneLabelSize(stop.zoneId)} zoneLabelColor={this.getZoneLabelColor()}  />}
+          stop.zoneId && (
+            <ZoneIcon
+              showTitle
+              zoneId={this.getZoneLabel(stop.zoneId)}
+              zoneIdFontSize={
+                this.getZoneLabelSize(stop.zoneId)
+                  ? this.getZoneLabelSize(stop.zoneId)
+                  : null
+              }
+              zoneLabelColor={
+                this.getZoneLabelColor() ? this.getZoneLabelColor() : null
+              }
+            />
+          )}
       </CardHeader>
     );
   }
