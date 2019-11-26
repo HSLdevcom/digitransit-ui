@@ -29,18 +29,18 @@ import { tryGetRelayQuery } from '../util/searchUtils';
  * less if the message is shorter.
  */
 
-const fetchServiceAlerts = async () => {
+const fetchServiceAlerts = async feedids => {
   const query = Relay.createQuery(
     Relay.QL`
-      query ServiceAlerts {
+      query ServiceAlerts($feedids: [String!]!) {
         viewer {
-          alerts {
+          alerts(feeds: $feedids ) {
             ${AlertContentQuery}
           }
         }
       }
     `,
-    {},
+    { feedids },
   );
 
   const defaultValue = [];
@@ -100,6 +100,7 @@ class MessageBar extends Component {
     getStore: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
+    config: PropTypes.object.isRequired,
   };
 
   static propTypes = {
@@ -120,10 +121,11 @@ class MessageBar extends Component {
 
   componentDidMount = async () => {
     const { currentTime, getServiceAlertsAsync } = this.props;
+    const { config } = this.context;
     this.setState({
       ready: true,
       serviceAlerts: uniqBy(
-        (await getServiceAlertsAsync()).filter(
+        (await getServiceAlertsAsync(config.feedIds)).filter(
           alert =>
             getActiveAlertSeverityLevel([alert], currentTime) ===
             AlertSeverityLevelType.Severe,
