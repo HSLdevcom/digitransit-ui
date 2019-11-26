@@ -102,7 +102,10 @@ class SummaryPage extends React.Component {
     queryAggregator: PropTypes.shape({
       readyState: PropTypes.shape({
         done: PropTypes.bool.isRequired,
-        error: PropTypes.string,
+        error: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.instanceOf(Error),
+        ]),
       }).isRequired,
     }).isRequired,
     router: routerShape.isRequired,
