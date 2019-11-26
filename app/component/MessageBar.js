@@ -122,10 +122,15 @@ class MessageBar extends Component {
   componentDidMount = async () => {
     const { currentTime, getServiceAlertsAsync } = this.props;
     const { config } = this.context;
+
+    const feedIds =
+      Array.isArray(config.feedIds) && config.feedIds.length > 0
+        ? config.feedIds
+        : null;
     this.setState({
       ready: true,
       serviceAlerts: uniqBy(
-        (await getServiceAlertsAsync(config.feedIds)).filter(
+        (await getServiceAlertsAsync(feedIds)).filter(
           alert =>
             getActiveAlertSeverityLevel([alert], currentTime) ===
             AlertSeverityLevelType.Severe,
