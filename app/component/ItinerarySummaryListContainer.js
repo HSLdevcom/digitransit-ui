@@ -117,10 +117,12 @@ function ItinerarySummaryListContainer(
   } else {
     const quickOption = matchQuickOption(context);
     const currentModes = getModes(context.location, context.config);
-    const modesDefault = Object.entries(context.config.transportModes).every(
-      ([mode, modeConfig]) =>
-        currentModes.includes(mode.toUpperCase()) === modeConfig.defaultValue,
-    );
+    const modesDefault =
+      Object.entries(context.config.transportModes).every(
+        ([mode, modeConfig]) =>
+          currentModes.includes(mode.toUpperCase()) === modeConfig.defaultValue,
+      ) && currentModes.includes('PUBLIC_TRANSPORT');
+
     const hasChanges =
       quickOption === 'saved-settings' ||
       quickOption === 'custom-settings' ||
