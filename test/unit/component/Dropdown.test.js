@@ -9,9 +9,9 @@ describe('<Dropdown />', () => {
   const defaultProps = {
     username: 'Matti Meikäläinen',
     list: [
-      { key: '1', messageId: 'logout' },
-      { key: '2', messageId: 'logout' },
-      { key: '3', messageId: 'logout' },
+      { key: '1', messageId: 'dropdown-item-1' },
+      { key: '2', messageId: 'dropdown-item-2' },
+      { key: '3', messageId: 'dropdown-item-3' },
     ],
   };
 
