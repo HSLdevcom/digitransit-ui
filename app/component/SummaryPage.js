@@ -36,6 +36,7 @@ import { isBrowser } from '../util/browser';
 import { itineraryHasCancelation } from '../util/alertUtils';
 import triggerMessage from '../util/messageUtils';
 import MessageStore from '../store/MessageStore';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 export const ITINERARYFILTERING_DEFAULT = 1.5;
 
@@ -77,6 +78,24 @@ export const getActiveIndex = (
   );
   return itineraryIndex > 0 ? itineraryIndex : defaultValue;
 };
+
+/**
+ * Report any errors that happen when showing summary
+ *
+ * @param {Error|string|any} error
+ */
+function reportError(error) {
+  if (!error) {
+    return;
+  }
+  addAnalyticsEvent({
+    category: 'Itinerary',
+    action: 'ErrorLoading',
+    name: 'SummaryPage',
+    message: error.message || error,
+    stack: error.stack || null,
+  });
+}
 
 class SummaryPage extends React.Component {
   static contextTypes = {
@@ -132,6 +151,10 @@ class SummaryPage extends React.Component {
   constructor(props, context) {
     super(props, context);
     context.executeAction(storeOrigin, props.from);
+    const error = get(context, 'queryAggregator.readyState.error', null);
+    if (error) {
+      reportError(error);
+    }
   }
 
   state = { center: null, loading: false };
@@ -161,11 +184,19 @@ class SummaryPage extends React.Component {
     }
   }
 
+  componentDidUpdate() {
+    const error = get(this.context, 'queryAggregator.readyState.error', null);
+    if (error) {
+      reportError(error);
+    }
+  }
+
   setLoading = loading => {
     this.setState({ loading });
   };
 
   setError = error => {
+    reportError(error);
     this.context.queryAggregator.readyState.error = error;
   };
 
