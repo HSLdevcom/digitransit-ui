@@ -11,7 +11,6 @@ import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 import ExternalLink from './ExternalLink';
 
 class StopCardHeader extends React.Component {
-
   get headerConfig() {
     return this.context.config.stopCard.header;
   }

@@ -3,14 +3,15 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 
-import Icon from './Icon';
-
 /**
  * The default identifier for an unknown zone.
  */
 export const ZONE_UNKNOWN = 'Ei HSL';
 
-const ZoneIcon = ({ className, showTitle, zoneId, zoneIdFontSize, zoneLabelColor}, { intl }) => {
+const ZoneIcon = (
+  { className, showTitle, zoneId, zoneIdFontSize, zoneLabelColor },
+  { intl },
+) => {
   if (!zoneId) {
     return null;
   }
@@ -44,8 +45,9 @@ const ZoneIcon = ({ className, showTitle, zoneId, zoneIdFontSize, zoneLabelColor
           ?
         </div>
       ) : (
-        <div className="circle" style={zoneIconStyle}
-          >{zoneId}</div>
+        <div className="circle" style={zoneIconStyle}>
+          {zoneId}
+        </div>
       )}
     </div>
   );
