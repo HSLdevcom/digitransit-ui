@@ -184,9 +184,11 @@ export const navigateTo = ({
   } else {
     router.replace(url);
   }
-  addAnalyticsEvent({
-    category: 'Itinerary',
-    action: 'ItinerariesSearched',
-    name: null,
-  });
+  if (origin && destination && origin.ready && destination.ready) {
+    addAnalyticsEvent({
+      category: 'Itinerary',
+      action: 'ItinerariesSearched',
+      name: null,
+    });
+  }
 };
