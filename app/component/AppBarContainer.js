@@ -27,6 +27,8 @@ const AppBarContainer = ({
           showLogo={location.pathname === homeUrl}
           logo={logo}
           homeUrl={homeUrl}
+          loggedIn={loggedIn}
+          logIn={() => logIn()}
         />
       )}
       desktop={() => (

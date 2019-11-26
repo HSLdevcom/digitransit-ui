@@ -145,6 +145,20 @@ $content-background-color: $background-color;
   border-right: 1px solid rgba(0, 0, 0, 0.15);
 }
 
+.login-icon {
+  .icon {
+    font-size: 1.8em;
+    color: $primary-color;
+    fill: $top-navigation-icon-color;
+    &.caution-topbar {
+      fill: $caution-icon-color;
+      color: $caution-icon-font-color;
+    }
+  }
+  margin-right: 0.5rem;
+  width: 100%;
+}
+
 .navi-icons {
   .icon {
     font-size: 1.8em;

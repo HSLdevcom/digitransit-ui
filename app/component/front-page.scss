@@ -513,8 +513,26 @@ svg.icon.footer-icon {
   text-overflow: ellipsis;
   margin-right: 0.625rem;
   padding-left: 0.5rem;
-  max-width: 4.5rem;
   color: #fff;
+
+  &.desktop {
+    max-width: 4.5rem;
+  }
+  &.mobile {
+    font-size: 1rem;
+    max-width: 10rem;
+  }
+}
+
+.dropdown-title-text-mobile {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-left: 0.625rem;
+  max-width: 9rem;
+  margin-right: 0.625rem;
+  font-size: 1rem;
+  color: #ffffff;
 }
 
 .dropdown-list {
@@ -523,9 +541,15 @@ svg.icon.footer-icon {
   position: absolute;
   min-width: 100%;
   padding-top: 2.725rem;
-  background-color: #007ac9;
+
   border: 1px solid #0062a1;
+  background-color: #007ac9;
   border-radius: 4px;
+
+  &.mobile {
+    background-color: inherit;
+    border: inherit;
+  }
 }
 
 .dropdown-list-item {
@@ -543,10 +567,16 @@ svg.icon.footer-icon {
   padding-bottom: 0.625rem;
   padding-left: 1.25rem;
   padding-right: 1.25rem;
-  font-size: 0.8rem;
   font-weight: 500;
   border-top: 1px solid transparent;
   color: #fff;
+
+  &.desktop {
+    font-size: 0.8rem;
+  }
+  &.mobile {
+    font-size: 1rem;
+  }
 }
 
 .rotate-icon {

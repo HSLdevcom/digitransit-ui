@@ -1,9 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import cx from 'classnames';
 import Icon from './Icon';
 
 export default class Dropdown extends React.Component {
+  static defaultProps = {
+    isMobile: false,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -24,7 +29,7 @@ export default class Dropdown extends React.Component {
   }
 
   render() {
-    const { list } = this.props;
+    const { list, isMobile } = this.props;
     const { listOpen } = this.state;
     const rightBorder = !listOpen ? 'right-border' : '';
     /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/anchor-is-valid */
@@ -39,7 +44,14 @@ export default class Dropdown extends React.Component {
                 height={1.25}
                 color="#fff"
               />
-              <div className="dropdown-title-text">{this.props.username}</div>
+              <div
+                className={cx(
+                  'dropdown-title-text',
+                  isMobile ? 'mobile' : 'desktop',
+                )}
+              >
+                {this.props.username}
+              </div>
               <div className={listOpen ? 'rotate-icon' : ''}>
                 <Icon img="icon-icon_arrow-dropdown" color="#fff" />
               </div>
@@ -47,7 +59,7 @@ export default class Dropdown extends React.Component {
           </div>
         </button>
         {listOpen && (
-          <div className="dropdown-list">
+          <div className={cx('dropdown-list', isMobile ? 'mobile' : '')}>
             {/* eslint-disable jsx-a11y/click-events-have-key-events */}
             {list.map(item => (
               <button
@@ -55,7 +67,12 @@ export default class Dropdown extends React.Component {
                 key={item.key}
                 onClick={() => item.onClick()}
               >
-                <div className="dropdown-list-item">
+                <div
+                  className={cx(
+                    'dropdown-list-item',
+                    isMobile ? 'mobile' : 'desktop',
+                  )}
+                >
                   <FormattedMessage
                     id={item.messageId}
                     defaultMessage={item.messageId}
@@ -73,4 +90,5 @@ export default class Dropdown extends React.Component {
 Dropdown.propTypes = {
   username: PropTypes.string.isRequired,
   list: PropTypes.array,
+  isMobile: PropTypes.bool,
 };

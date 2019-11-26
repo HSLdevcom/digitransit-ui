@@ -7,7 +7,7 @@ export default function LoginButton({ logIn }) {
   return (
     <button className="noborder" onClick={() => logIn()}>
       <div className="top-bar-login">
-        <div className="navi-icons">
+        <div className="login-icon">
           <Icon img="icon-icon_user" />
         </div>
         <FormattedMessage id="login" defaultMessage="login" />
