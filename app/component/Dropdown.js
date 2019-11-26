@@ -52,7 +52,7 @@ export default class Dropdown extends React.Component {
             {list.map(item => (
               <button
                 className="noborder"
-                key={'dropdown-item-' + item.key}
+                key={item.key}
                 onClick={() => item.onClick()}
               >
                 <div className="dropdown-list-item">

@@ -65,7 +65,13 @@ const AppBarLarge = (
           (loggedIn ? (
             <Dropdown
               username="Matti Meikäläinen"
-              list={[{ key: '1', messageId: 'logout', onClick: () => logIn() }]}
+              list={[
+                {
+                  key: 'dropdown-item-1',
+                  messageId: 'logout',
+                  onClick: () => logIn(),
+                },
+              ]}
             />
           ) : (
             <div className="right-border">
