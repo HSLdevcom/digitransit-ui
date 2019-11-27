@@ -37,6 +37,8 @@ export default {
     PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
     PELIAS_REVERSE_GEOCODER: `${process.env.GEOCODING_BASE_URL ||
       GEOCODING_BASE_URL}/reverse`,
+    PELIAS_PLACE: `${process.env.GEOCODING_BASE_URL ||
+      GEOCODING_BASE_URL}/place`,
     ROUTE_TIMETABLES: {
       HSL: `${API_URL}/timetables/v1/hsl/routes/`,
       tampere: 'http://joukkoliikenne.tampere.fi/media/aikataulut/',
