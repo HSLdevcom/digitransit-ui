@@ -40,7 +40,7 @@ class TopLevel extends React.Component {
   static defaultProps = {
     origin: {
       set: false,
-      ready: fals
+      ready: false,
     },
   };
 
@@ -48,11 +48,11 @@ class TopLevel extends React.Component {
     location: PropTypes.object,
   };
 
-
   constructor(props) {
     super(props);
     this.state = { loggedIn: false };
   }
+
   getChildContext() {
     return {
       location: this.props.location,
