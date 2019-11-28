@@ -154,7 +154,7 @@ describe('<RoutePatternSelect />', () => {
       },
     });
     expect(url).to.contain(props.gtfsId);
-    expect(url).to.contain(props.route.patterns[1].code); // DT-3182: sorting trips 
+    expect(url).to.contain(props.route.patterns[1].code); // DT-3182: sorting trips
   });
 
   it('should not crash if there are no patterns with trips available for the current date', () => {
