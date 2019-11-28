@@ -55,6 +55,12 @@ describe('<RoutePatternSelect />', () => {
             tripsForDate: [],
           },
           {
+            code: 'HSL:3002U:1:01',
+            headsign: 'Helsinki',
+            stops: [{ name: 'Kauklahti' }, { name: 'Helsinki' }],
+            tripsForDate: [],
+          },
+          {
             code: 'HSL:3002U:0:02',
             headsign: 'Kirkkonummi',
             stops: [{ name: 'Helsinki' }, { name: 'Kirkkonummi' }],
@@ -72,11 +78,19 @@ describe('<RoutePatternSelect />', () => {
     const wrapper = shallowWithIntl(<RoutePatternSelect {...props} />, {
       context: { ...mockContext },
     });
-    expect(wrapper.find('option')).to.have.lengthOf(3);
-    expect(wrapper.find('div.route-option-togglable')).to.have.lengthOf(0);
+    expect(wrapper.find('option')).to.have.lengthOf(0); // DT-2531: shows main routes (both directions), so only togglable option is shown
+    expect(wrapper.find('button.toggle-direction')).to.have.lengthOf(1); // DT-2531: shows main routes (both directions), only togglable option is shown
   });
 
   it('should redirect to the first existing pattern if there is no matching pattern available', () => {
+    const currentDay = new Date();
+    currentDay.setHours(0);
+    currentDay.setMinutes(0);
+    currentDay.setSeconds(0);
+    currentDay.setMilliseconds(0);
+
+    const serviceDayInSecs = currentDay.getTime() / 1000;
+
     const props = {
       activeTab: 'pysakit',
       gtfsId: 'HSL:3002U',
@@ -93,7 +107,7 @@ describe('<RoutePatternSelect />', () => {
             code: 'HSL:3002U:0:01',
             headsign: 'Kauklahti',
             stops: [{ name: 'Helsinki' }, { name: 'Kauklahti' }],
-            tripsForDate: [{}],
+            tripsForDate: [],
           },
           {
             code: 'HSL:3002U:0:02',
@@ -105,7 +119,7 @@ describe('<RoutePatternSelect />', () => {
                   {
                     scheduledArrival: 120,
                     scheduledDeparture: 120,
-                    erviceDay: 1551996000,
+                    serviceDay: serviceDayInSecs,
                     stop: {
                       id: 'U3RvcDpIU0w6MTI5MTQwNA==',
                     },
@@ -113,7 +127,7 @@ describe('<RoutePatternSelect />', () => {
                   {
                     scheduledArrival: 240,
                     scheduledDeparture: 240,
-                    erviceDay: 1551996000,
+                    serviceDay: serviceDayInSecs,
                     stop: {
                       id: 'U3RvcDpIU0w6MTI5MTQwMg==',
                     },
@@ -140,7 +154,7 @@ describe('<RoutePatternSelect />', () => {
       },
     });
     expect(url).to.contain(props.gtfsId);
-    expect(url).to.contain(props.route.patterns[0].code);
+    expect(url).to.contain(props.route.patterns[1].code); // DT-3182: sorting trips 
   });
 
   it('should not crash if there are no patterns with trips available for the current date', () => {
@@ -217,7 +231,7 @@ describe('<RoutePatternSelect />', () => {
                 name: 'Liepeentie E',
               },
             ],
-            tripsForDate: [{}],
+            tripsForDate: [],
           },
         ],
       },

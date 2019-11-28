@@ -53,30 +53,33 @@ class RoutePatternSelect extends Component {
   getOptions = () => {
     const { gtfsId, params, route, useCurrentTime } = this.props; // DT-3182: added useCurrentTime
     const { router } = this.context;
-
     const { patterns } = route;
 
     if (patterns.length === 0) {
       return null;
     }
 
-    const futureTrips = patterns;
+    let futureTrips = patterns;
 
     if (useCurrentTime === true) {
       // DT-3182
       const wantedTime = new Date().getTime();
       futureTrips.forEach(function(o) {
-        o.tripsForDate.forEach(function(t) {
-          t.stoptimes.filter(
-            s => (s.serviceDay + s.scheduledDeparture) * 1000 >= wantedTime,
-          );
-        });
+        if (o.tripsForDate !== undefined) {
+          o.tripsForDate.forEach(function(t) {
+            if (t.stoptimes !== undefined) {
+              t.stoptimes.filter(
+                s => (s.serviceDay + s.scheduledDeparture) * 1000 >= wantedTime,
+              );
+            }
+          });
+        }
       });
     }
 
-    // DT-2531: remove duplicates and sort by day ascending
-    if (futureTrips.activeDates !== undefined) {
-      futureTrips.forEach(function(x) {
+    // DT-2531: remove duplicates and sort by day ascending and removing past dates
+    futureTrips.forEach(function(x) {
+      if (x.activeDates !== undefined) {
         // eslint-disable-next-line no-param-reassign
         x.activeDates = sortBy(
           x.activeDates
@@ -89,8 +92,20 @@ class RoutePatternSelect extends Component {
             .reverse()
             .map(JSON.parse),
           'day',
-        );
-      });
+        ).filter(z => Number(z.day) > Number(moment().format(DATE_FORMAT)));
+      } else {
+        // eslint-disable-next-line no-param-reassign
+        x.activeDates = [];
+      }
+    });
+
+    futureTrips = futureTrips.filter(
+      f => f.tripsForDate.length > 0 || f.activeDates.length > 0,
+    );
+
+    // DT-2531: shows main routes (both directions)
+    if (futureTrips.length === 0 && patterns.length > 0) {
+      futureTrips = patterns.filter(p => p.code.endsWith(':01'));
     }
 
     if (futureTrips.length === 0) {
@@ -121,7 +136,6 @@ class RoutePatternSelect extends Component {
         // DT-2531 show activeDate(s) on option texts, if no trips for today
         if (
           pattern.tripsForDate.length === 0 &&
-          pattern.activeDates !== undefined &&
           pattern.activeDates.length > 0
         ) {
           return (
