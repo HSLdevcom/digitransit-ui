@@ -21,7 +21,7 @@ class DynamicParkingLots {
     this.config = config;
 
     this.scaleratio = (isBrowser && window.devicePixelRatio) || 1;
-    this.citybikeImageSize =
+    this.parkingLotImageSize =
       20 * this.scaleratio * getScale(this.tile.coords.z);
     this.availabilityImageSize =
       14 * this.scaleratio * getScale(this.tile.coords.z);
@@ -71,13 +71,13 @@ class DynamicParkingLots {
       'icon-icon_car',
       this.tile,
       geom,
-      this.citybikeImageSize,
+      this.parkingLotImageSize,
     ).then(() => {
       drawAvailabilityValue(
         this.tile,
         geom,
-        properties.currentCapacity,
-        this.citybikeImageSize,
+        properties.free,
+        this.parkingLotImageSize,
         this.availabilityImageSize,
         this.scaleratio,
       );
@@ -86,7 +86,7 @@ class DynamicParkingLots {
         'no',
         this.tile,
         geom,
-        this.citybikeImageSize,
+        this.parkingLotImageSize,
         this.availabilityImageSize,
         this.scaleratio,
       ); */

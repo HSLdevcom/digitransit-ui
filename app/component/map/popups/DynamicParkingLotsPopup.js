@@ -26,7 +26,7 @@ class DynamicParkingLotsPopup extends React.Component {
     </div>
   );
 
-  static displayName = 'CityBikePopup';
+  static displayName = 'ParkingLotPopup';
 
   static propTypes = {
     feature: PropTypes.object.isRequired,
@@ -42,9 +42,9 @@ class DynamicParkingLotsPopup extends React.Component {
           <CardHeader
             name={this.props.feature.properties.name}
             description={`${
-              this.props.feature.properties.currentCapacity
+              this.props.feature.properties.free
             } von ${
-              this.props.feature.properties.capacity
+              this.props.feature.properties.total
             } Parkplätzen verfügbar`}
             unlinked
             className="padding-small"

@@ -3,7 +3,7 @@ import React from 'react';
 
 import TileLayerContainer from './TileLayerContainer';
 import CityBikes from './CityBikes';
-import DynamicParkingLots from './DynamicPaerkingLots';
+import DynamicParkingLots from './DynamicParkingLots';
 import Roadworks from './Roadworks';
 import Stops from './Stops';
 import ParkAndRide from './ParkAndRide';
