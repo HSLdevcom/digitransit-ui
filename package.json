@@ -140,7 +140,7 @@
     "codecov": "3.3.0",
     "compression-webpack-plugin": "2.0.0",
     "copy-webpack-plugin": "5.0.3",
-    "css-loader": "2.1.0",
+    "css-loader": "3.2.1",
     "enzyme": "3.10.0",
     "enzyme-adapter-react-16": "1.15.1",
     "enzyme-wait": "1.0.9",
