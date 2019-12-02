@@ -171,6 +171,18 @@ function getPreferredorUnpreferredRoutes(
   return { ...preferenceObject, routes: settings.unpreferredRoutes };
 }
 
+function sortObj(obj) {
+  const sortedObj = {};
+  // eslint-disable-next-line array-callback-return
+  Object.keys(obj).map(function(item) {
+    // eslint-disable-next-line no-unused-expressions
+    Array.isArray(obj[item])
+      ? (sortedObj[item] = obj[item].sort())
+      : (sortedObj[item] = obj[item]);
+  });
+  return sortedObj;
+}
+
 const getNumberValueOrDefault = (value, defaultValue = undefined) =>
   value !== undefined ? Number(value) : defaultValue;
 const getBooleanValueOrDefault = (value, defaultValue = undefined) =>
@@ -443,7 +455,6 @@ export const getQuickOptionSets = context => {
   const { config } = context;
   const defaultSettings = getDefaultSettings(config);
   const customizedSettings = getCustomizedSettings();
-  delete defaultSettings.modes;
   delete customizedSettings.modes;
 
   const quickOptionSets = {
@@ -512,8 +523,11 @@ export const matchQuickOption = context => {
       { ...quickOptionSets[optionSetName] },
       property => (Array.isArray(property) ? property.length > 0 : true),
     );
-    const appliedSettings = pick(settings, Object.keys(quickSettings));
-    return isEqual(quickSettings, appliedSettings);
+    const appliedSettings = pickBy(
+      { ...settings },
+      property => (Array.isArray(property) ? property.length > 0 : true),
+    );
+    return isEqual(sortObj(quickSettings), sortObj(appliedSettings));
   };
 
   const querySettings = getQuerySettings(query);
