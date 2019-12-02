@@ -65,7 +65,7 @@ ZoneIcon.defaultProps = {
   className: undefined,
   showTitle: false,
   zoneId: undefined,
-  zoneIdFontSize: '20px',
+  zoneIdFontSize: '26px',
   zoneLabelColor: '#000',
 };
 
