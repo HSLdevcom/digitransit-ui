@@ -56,10 +56,10 @@ class StopCardHeader extends React.Component {
   }
 
   getZoneLabelSize(zoneId) {
-    if (this.context.config.zoneIdFontSize) {
+    if (this.context.config.zoneIdFontSize && (typeof this.context.config.zoneIdFontSize[zoneId] !== 'undefined')) {
       return this.context.config.zoneIdFontSize[zoneId];
     }
-    return '20px';
+    return '26px';
   }
 
   getZoneLabelColor() {
