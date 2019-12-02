@@ -393,7 +393,7 @@ export default {
     },
 
     citybike: {
-      availableForSelection: false, // TODO: Turn off in autumn
+      availableForSelection: false,
       defaultValue: false, // always false
     },
   },
