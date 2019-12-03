@@ -84,7 +84,7 @@ export const getActiveIndex = (
  *
  * @param {Error|string|any} error
  */
-function reportError(error) {
+export function reportError(error) {
   if (!error) {
     return;
   }
