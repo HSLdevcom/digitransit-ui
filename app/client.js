@@ -149,13 +149,12 @@ const callback = () =>
         window.location.replace('/');
       }
     }
-
-    function track() {
-      addAnalyticsEvent({
-        event: 'Pageview',
-        url: this.href,
-      });
-    }
+    // send tracking call for initial page load.
+    // tracking page changes is done in TopLevel component
+    addAnalyticsEvent({
+      event: 'Pageview',
+      url: path,
+    });
 
     const ContextProvider = provideContext(StoreListeningIntlProvider, {
       raven: PropTypes.object,
@@ -207,7 +206,7 @@ const callback = () =>
                               config,
                             )}
                           />
-                          <Router {...props} onUpdate={track} />
+                          <Router {...props} />
                         </React.Fragment>
                       </MuiThemeProvider>
                     </ErrorBoundary>

@@ -9,6 +9,7 @@ import MobileView from './MobileView';
 import DesktopView from './DesktopView';
 import ErrorBoundary from './ErrorBoundary';
 import { DesktopOrMobile } from '../util/withBreakpoint';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class TopLevel extends React.Component {
   static propTypes = {
@@ -60,6 +61,19 @@ class TopLevel extends React.Component {
     }`).then(logo => {
       this.setState({ logo: logo.default });
     });
+  }
+
+  componentDidUpdate(prevProps) {
+    // send tracking calls when url changes
+    // listen for this here instead of in router directly to get access to old location as well
+    const oldLocation = prevProps.location.pathname;
+    const newLocation = this.props.location.pathname;
+    if (oldLocation && newLocation && oldLocation !== newLocation) {
+      addAnalyticsEvent({
+        event: 'Pageview',
+        url: newLocation,
+      });
+    }
   }
 
   render() {
