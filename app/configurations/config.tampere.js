@@ -227,6 +227,14 @@ export default configMerger(walttiConfig, {
     tampere: tampereTimetables,
   },
 
+  // enable train routing for Tampere
+  transportModes: {
+    rail: {
+      availableForSelection: true,
+      defaultValue: true,
+    },
+  },
+
   // Number of days to include to the service time range from the future (DT-3175)
   itineraryFutureDays: 60,
 });
