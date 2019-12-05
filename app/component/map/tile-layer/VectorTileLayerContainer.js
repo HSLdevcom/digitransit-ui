@@ -4,6 +4,7 @@ import React from 'react';
 import TileLayerContainer from './TileLayerContainer';
 import CityBikes from './CityBikes';
 import DynamicParkingLots from './DynamicPaerkingLots';
+import Roadworks from './Roadworks';
 import Stops from './Stops';
 import ParkAndRide from './ParkAndRide';
 import TicketSales from './TicketSales';
@@ -31,6 +32,10 @@ export default function VectorTileLayerContainer(props, { config }) {
       config.dynamicParkingLots.showDynamicParkingLots
     ) {
       layers.push(DynamicParkingLots);
+    }
+
+    if (config.constructor && config.roadworks.showRoadworks) {
+      layers.push(Roadworks);
     }
   }
 

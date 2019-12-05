@@ -78,6 +78,7 @@ class SelectMapLayersDialog extends React.Component {
       citybike,
       parkAndRide,
       dynamicParkingLots,
+      roadworks,
       stop,
       terminal,
       ticketSales,
@@ -198,6 +199,17 @@ class SelectMapLayersDialog extends React.Component {
                 }
               />
             )}
+          {config.roadworks &&
+            config.roadworks.showRoadworks && (
+              <Checkbox
+                  checked={roadworks}
+                  defaultMessage="Roadworks"
+                  labelId="map-layer-roadworks"
+                  onChange={e =>
+                      this.updateSetting({ roadworks: e.target.checked })
+                  }
+              />
+          )}
           {config.parkAndRide &&
             config.parkAndRide.showParkAndRide && (
               <Checkbox
@@ -303,6 +315,9 @@ const mapLayersConfigShape = PropTypes.shape({
   }),
   dynamicParkingLots: PropTypes.shape({
     showDynamicParkingLots: PropTypes.bool,
+  }),
+  roadworks: PropTypes.shape({
+    roadworks: PropTypes.bool,
   }),
   geoJson: PropTypes.shape({
     layers: PropTypes.arrayOf(

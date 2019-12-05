@@ -29,6 +29,7 @@ export default configMerger(walttiConfig, {
     },
     STOP_MAP: `${API_URL}/map/v1/stop-map/`,
     DYNAMICPARKINGLOTS_MAP: `${API_URL}/map/v1/hb-parking-map/`,
+    ROADWORKS_MAP: `${API_URL}/map/v1/roadworks-bw-map/`,
 
     PELIAS: `${GEOCODING_BASE_URL}/search${LOCATIONIQ_API_KEY ? '?api_key=' + LOCATIONIQ_API_KEY : ''}`,
     PELIAS_REVERSE_GEOCODER: `${GEOCODING_BASE_URL}/reverse${LOCATIONIQ_API_KEY ? '?api_key=' + LOCATIONIQ_API_KEY : ''}`,
@@ -57,6 +58,12 @@ export default configMerger(walttiConfig, {
     showDynamicParkingLots: false,
     dynamicParkingLotsSmallIconZoom: 16,
     dynamicParkingLotsMinZoom: 14
+  },
+
+  roadworks: {
+    showRoadworks: true,
+    roadworksSmallIconZoom: 16,
+    roadworksMinZoom: 14
   },
 
   mergeStopsByCode: true,
