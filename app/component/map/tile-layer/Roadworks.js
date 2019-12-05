@@ -63,7 +63,18 @@ class Roadworks {
 
   fetchAndDrawStatus = ({ geom, properties }) => {
     console.log('Drawing roadworks icon', geom, properties);
-    return drawIcon('icon-icon_roadworks', this.tile, geom, this.iconSize);
+    var suffix = '';
+    if (properties.Vollsperrung === 1) {
+      suffix = '-full-closure';
+    } else if (properties.Halbseitige_Sperrung === 1) {
+      suffix = '-partial-closure';
+    }
+    return drawIcon(
+      `icon-icon_roadworks${suffix}`,
+      this.tile,
+      geom,
+      this.iconSize,
+    );
   };
 
   onTimeChange = () => {
