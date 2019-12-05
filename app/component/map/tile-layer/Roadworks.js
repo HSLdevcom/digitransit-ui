@@ -22,10 +22,7 @@ class Roadworks {
     this.config = config;
 
     this.scaleratio = (isBrowser && window.devicePixelRatio) || 1;
-    this.parkingLotImageSize =
-      20 * this.scaleratio * getScale(this.tile.coords.z);
-    this.availabilityImageSize =
-      14 * this.scaleratio * getScale(this.tile.coords.z);
+    this.iconSize = 36 * this.scaleratio * getScale(this.tile.coords.z);
 
     this.promise = this.fetchWithAction(this.fetchAndDrawStatus);
   }
@@ -46,15 +43,13 @@ class Roadworks {
 
           this.features = [];
 
-          console.log(vt.layers);
+          // it's called "roadwork" in the tile source but i want to change it to "roadworks" since that is more
+          // consistent
+          const layerData = vt.layers.roadworks || vt.layers.roadwork;
 
-          if (vt.layers.roadwork != null) {
-            for (
-              let i = 0, ref = vt.layers.roadwork.length - 1;
-              i <= ref;
-              i++
-            ) {
-              const feature = vt.layers.roadwork.feature(i);
+          if (layerData != null) {
+            for (let i = 0, ref = layerData.length - 1; i <= ref; i++) {
+              const feature = layerData.feature(i);
               [[feature.geom]] = feature.loadGeometry();
               this.features.push(pick(feature, ['geom', 'properties']));
             }
@@ -62,35 +57,17 @@ class Roadworks {
 
           this.features.forEach(actionFn);
         },
-        err => console.log(err),
+        err => console.error(err),
       );
     });
 
-  fetchAndDrawStatus = ({ geom, properties}) => {
-    console.log("DRAW", geom, properties)
-
-
-    return drawIcon(
-      "icon-icon_car",
-      this.tile,
-      geom,
-      this.parkingLotImageSize,
-    ).then(() => {
-      drawAvailabilityValue(
-        this.tile,
-        geom,
-        properties.free,
-        this.parkingLotImageSize,
-        this.availabilityImageSize,
-        this.scaleratio,
-      );
-
-    });
-
+  fetchAndDrawStatus = ({ geom, properties }) => {
+    console.log('Drawing roadworks icon', geom, properties);
+    return drawIcon('icon-icon_roadworks', this.tile, geom, this.iconSize);
   };
 
   onTimeChange = () => {
-    if (this.tile.coords.z > this.config.cityBike.cityBikeSmallIconZoom) {
+    if (this.tile.coords.z > this.config.roadworks.roadworksMinZoom) {
       this.fetchWithAction(this.fetchAndDrawStatus);
     }
   };
