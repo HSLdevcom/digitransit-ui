@@ -1,14 +1,9 @@
 import { VectorTile } from '@mapbox/vector-tile';
 import Protobuf from 'pbf';
-import Relay from 'react-relay/classic';
 import pick from 'lodash/pick';
 
 import { isBrowser } from '../../../util/browser';
-import {
-  drawRoundIcon,
-  drawIcon,
-  drawAvailabilityValue,
-} from '../../../util/mapIconUtils';
+import { drawIcon } from '../../../util/mapIconUtils';
 import glfun from '../../../util/glfun';
 
 const getScale = glfun({
