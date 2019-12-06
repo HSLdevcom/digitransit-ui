@@ -56,7 +56,7 @@
     "trailingComma": "all"
   },
   "dependencies": {
-    "@babel/core": "7.3.3",
+    "@babel/core": "7.7.5",
     "@babel/plugin-proposal-class-properties": "7.3.3",
     "@babel/plugin-proposal-json-strings": "7.2.0",
     "@babel/plugin-syntax-dynamic-import": "7.2.0",
