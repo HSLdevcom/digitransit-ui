@@ -225,12 +225,15 @@ const SummaryRow = (
   const slackDuration = getTotalSlackDuration(intermediatePlaces);
   const legs = [];
   let noTransitLegs = true;
+  const renderAlwaysNonTransitLegs = true; // if true walking and bike renting will also be displayed
 
-  data.legs.forEach(leg => {
-    if (isTransitLeg(leg)) {
-      noTransitLegs = false;
-    }
-  });
+  if (!renderAlwaysNonTransitLegs) {
+    data.legs.forEach(leg => {
+      if (isTransitLeg(leg)) {
+        noTransitLegs = false;
+      }
+    });
+  }
 
   let lastLegRented = false;
   let firstLegStartTime = null;
