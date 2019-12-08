@@ -54,7 +54,7 @@ export default configMerger(walttiConfig, {
   },
 
   dynamicParkingLots: {
-    showDynamicParkingLots: true,
+    showDynamicParkingLots: false,
     dynamicParkingLotsSmallIconZoom: 16,
     dynamicParkingLotsMinZoom: 14
   },
