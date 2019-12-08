@@ -98,6 +98,8 @@ export default configMerger(walttiConfig, {
     [maxLon, minLat],
   ],
 
+  nationalServiceLink: { name: 'Fahrplanauskunft efa-bw', href: 'https://www.efa-bw.de' },
+
   defaultEndpoint: {
     address: 'ZOB Herrenberg',
     lat: 48.5942066,

@@ -654,7 +654,7 @@ const translations = {
     'try-again': 'Nochmal versuchen',
     unpreferred: 'Routen vermeiden',
     'use-citybike': 'Fahrrad benutzen',
-    'use-national-service': 'Sie können auch den Nationalen Service benutzen: ',
+    'use-national-service': 'Sie können auch das überregionale Angebot benutzen: ',
     'use-own-position': 'Aktuellen Standort benutzen',
     'using-modes': 'Verkehrsmittel',
     'very-likely': 'Sehr wahrscheinlich',
