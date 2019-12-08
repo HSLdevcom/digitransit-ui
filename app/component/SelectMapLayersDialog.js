@@ -93,7 +93,7 @@ class SelectMapLayersDialog extends React.Component {
     return (
       <React.Fragment>
         {config.showAllBusses && (
-        <div className="checkbox-grouping">
+          <div className="checkbox-grouping">
             <Checkbox
               checked={showAllBusses}
               defaultMessage="Moving vehicles"
