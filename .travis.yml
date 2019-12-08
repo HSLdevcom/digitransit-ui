@@ -13,7 +13,8 @@ cache: yarn
 language: node_js
 
 before_install:
-  - export TZ=Europe/Helsinki
+  - export TZ=Europe/Berlin
+  - export ORG=mfdz
 
 install: true
 
@@ -23,14 +24,14 @@ services:
 jobs:
   include:
     - stage: test
-      env: LINT,UNIT,FLOW
+      env: LINT,UNIT
       node_js: '10'
-      script: yarn install && yarn lint && yarn test-coverage && yarn test-report && test/flow.sh
+      script: yarn install && yarn lint && yarn test-coverage
 
-    - stage: visual
-      env: VISUAL=chrome
-      node_js: '10'
-      script: test/visual.sh
+#    - stage: visual
+#      env: VISUAL=chrome
+#      node_js: '10'
+#      script: test/visual.sh
 
     - stage: build and deploy container
       node_js: '10'
