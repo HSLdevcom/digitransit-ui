@@ -4,8 +4,6 @@ import Relay from 'react-relay/classic';
 import MarkerPopupBottom from '../MarkerPopupBottom';
 import Card from '../../Card';
 import CardHeader from '../../CardHeader';
-import CityBikeContent from '../../CityBikeContent';
-import CityBikeCardContainer from '../../CityBikeCardContainer';
 import { station as exampleStation } from '../../ExampleData';
 import ComponentUsageExample from '../../ComponentUsageExample';
 
@@ -18,7 +16,10 @@ class DynamicParkingLotsPopup extends React.Component {
     <div>
       <p>Renders a citybike popup.</p>
       <ComponentUsageExample description="">
-        <DynamicParkingLotsPopup context="context object here" station={exampleStation}>
+        <DynamicParkingLotsPopup
+          context="context object here"
+          station={exampleStation}
+        >
           Im content of a citybike card
         </DynamicParkingLotsPopup>
       </ComponentUsageExample>
@@ -28,22 +29,26 @@ class DynamicParkingLotsPopup extends React.Component {
   static displayName = 'CityBikePopup';
 
   static propTypes = {
-    //station: PropTypes.object.isRequired,
+    feature: PropTypes.object.isRequired,
+    lat: PropTypes.number.isRequired,
+    lon: PropTypes.number.isRequired,
   };
 
   render() {
-    //console.log(this)
+    // console.log(this)
     return (
       <Card>
         <div className="padding-small">
           <CardHeader
             name={this.props.feature.properties.name}
-            description={`${this.props.feature.properties.currentCapacity} von ${this.props.feature.properties.capacity} Parkplätzen verfügbar`}
+            description={`${
+              this.props.feature.properties.currentCapacity
+            } von ${
+              this.props.feature.properties.capacity
+            } Parkplätzen verfügbar`}
             unlinked
             className="padding-small"
-          >
-            
-          </CardHeader>
+          />
         </div>
         <MarkerPopupBottom
           location={{
@@ -59,7 +64,7 @@ class DynamicParkingLotsPopup extends React.Component {
 
 export default Relay.createContainer(DynamicParkingLotsPopup, {
   fragments: {
-    /*station: () => Relay.QL`
+    /* station: () => Relay.QL`
       fragment on BikeRentalStation {
         stationId
         name
@@ -69,6 +74,6 @@ export default Relay.createContainer(DynamicParkingLotsPopup, {
         spacesAvailable
         state
       }
-    `,*/
+    `, */
   },
 });

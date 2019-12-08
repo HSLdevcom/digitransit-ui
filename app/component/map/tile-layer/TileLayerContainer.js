@@ -253,22 +253,22 @@ class TileLayerContainer extends GridLayer {
               renderFetched={data => <CityBikePopup {...data} />}
             />
           );
-        } else if (this.state.selectableTargets[0].layer === 'dynamicParkingLots') {
+        } else if (
+          this.state.selectableTargets[0].layer === 'dynamicParkingLots'
+        ) {
           contents = (
             <Relay.RootContainer
               Component={DynamicParkingLotsPopup}
               forceFetch
-              route={
-                {
-                  name: "",
-                  queries: {},
-                  params: {
-                    feature: this.state.selectableTargets[0].feature,
-                    lat:this.state.coords.lat,
-                    lon:this.state.coords.lng
-                  }
-                }
-              }
+              route={{
+                name: '',
+                queries: {},
+                params: {
+                  feature: this.state.selectableTargets[0].feature,
+                  lat: this.state.coords.lat,
+                  lon: this.state.coords.lng,
+                },
+              }}
               renderLoading={loadingPopup}
               renderFetched={data => <DynamicParkingLotsPopup {...data} />}
             />
