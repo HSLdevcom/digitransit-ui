@@ -85,10 +85,10 @@ export default configMerger(walttiConfig, {
   searchSources: ['oa', 'osm'],
 
   searchParams: {
-    'boundary.rect.min_lat': minLat,
-    'boundary.rect.max_lat': maxLat,
-    'boundary.rect.min_lon': minLon,
-    'boundary.rect.max_lon': maxLon,
+    'boundary.rect.min_lat': 48.4521,
+    'boundary.rect.max_lat': 48.85,
+    'boundary.rect.min_lon': 8.5,
+    'boundary.rect.max_lon': 9.2780,
   },
 
   areaPolygon: [
