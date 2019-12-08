@@ -63,6 +63,8 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
+  favicon: './app/configurations/images/hb/favicon.png',
+
   meta: {
     description: APP_DESCRIPTION,
   },
