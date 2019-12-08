@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import uuid from 'uuidv4';
+import Obfuscate from 'react-obfuscate';
 import Icon from './Icon';
-import Obfuscate from "react-obfuscate";
 
 const heading = (e, key, color) => {
   if (e.type === 'heading') {
@@ -54,14 +54,15 @@ const a = (e, key, color) => {
 const email = (e, key, color) => {
   if (e.type === 'email' && e.to_user && e.to_site) {
     return (
-      <Obfuscate key={`${key}-link`} 
-      email={e.to_user + "@" + e.to_site}
-      headers={{
-        subject: e.subject || null,
-        cc: e.cc || null,
-      }}
+      <Obfuscate
+        key={`${key}-link`}
+        email={`${e.to_user}@${e.to_site}`}
+        headers={{
+          subject: e.subject || null,
+          cc: e.cc || null,
+        }}
       >
-      {e.content}
+        {e.content}
       </Obfuscate>
     );
   }
