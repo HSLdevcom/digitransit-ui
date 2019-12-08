@@ -308,7 +308,8 @@ const translations = {
     canceled: 'Ausgefallen',
     'canceled-itineraries-amount':
       'Weitere {itineraryAmount, plural, =1 {ausgefallene Verbindung} other {{itineraryAmount} ausgefallene Verbindungen}}',
-    'canceled-itineraries-amount-hide': 'Ausgefallene Verbindungen verstecken ({itineraryAmount})',
+    'canceled-itineraries-amount-hide':
+      'Ausgefallene Verbindungen verstecken ({itineraryAmount})',
     'canceled-legs': 'Ausgefallene Abfahrten auf dieser Route',
     car: 'Auto',
     'car-distance-duration': 'Auto {distance} ({duration})',
@@ -405,9 +406,9 @@ const translations = {
     'itinerary-feedback-placeholder': 'Beschreibung (optional)',
     'itinerary-hide-stops': 'Zwischenstopps ausblenden',
     'itinerary-page.description': 'Reisebeschreibung',
-    'itinerary-page.title': 'Reisebeschreibung',
     'itinerary-page.hide-details': 'Details der Reisebeschreibung verstecken',
     'itinerary-page.show-details': 'Details der Reisebeschreibung anzeigen',
+    'itinerary-page.title': 'Reisebeschreibung',
     'itinerary-summary-page.description': 'Reisevorschläge',
     'itinerary-summary-page.title': 'Reisevorschläge',
     'itinerary-ticket.title': 'Benötigte Fahrkarte',
@@ -521,7 +522,7 @@ const translations = {
     'rail-with-route-number': 'Zug {routeNumber} {headSign}',
     realtime: 'Echtzeit',
     'realtime-matching': 'Echtzeit-Matching',
-    'releases': 'Veröffentlichungen',
+    releases: 'Veröffentlichungen',
     'remove-via-button-label': 'Zwischenstopp entfernen',
     'rent-cycle-at': 'Fahrrad bei {station} mieten',
     'rent-scooter-at': 'Scooter bei {station} ausleihen',
@@ -564,8 +565,10 @@ const translations = {
     'scooter-availability': 'Scooter sind jetzt an dieser Station verfügbar',
     'scooter-availability-short': 'Scooter',
     'scooter-distance-duration': 'Scooter {distance} fahren ({duration})',
-    'scooter-register-required': 'Um Scooter nutzen zu können, wird eine Anmeldung benötigt',
-    'scooterwalk-distance-duration': 'Scooter schieben: {distance} ({duration})',
+    'scooter-register-required':
+      'Um Scooter nutzen zu können, wird eine Anmeldung benötigt',
+    'scooterwalk-distance-duration':
+      'Scooter schieben: {distance} ({duration})',
     search: 'Ziel',
     'search-button-label': 'Suchen',
     'search-destination': 'Suche Ziel, Linie oder Haltestelle',
@@ -580,8 +583,9 @@ const translations = {
     'select-map-layers-header': 'Was soll auf der Karte angezeigt werden?',
     'select-position': 'Standort aus vorherigen Suchen wählen',
     send: 'Senden',
-    'separate-ticket-required': 'Ein weiteres Ticket wird für diesen Teil der Reise benötigt.',
-    'separate-ticket-required-disclaimer': 
+    'separate-ticket-required':
+      'Ein weiteres Ticket wird für diesen Teil der Reise benötigt.',
+    'separate-ticket-required-disclaimer':
       'Diese Reise enthält ein oder mehrere Teilstrecken für die {agencyName} keine Tickets verkauft.',
     settings: 'Einstellungen',
     'settings-label-change': 'Einstellungen ändern',
@@ -591,7 +595,7 @@ const translations = {
     'settings-savebutton': 'Einstellungen speichern',
     'settings-saved': 'Änderungen gespeichert!',
     share: 'Reise teilen',
-    'show': 'Zeigen',
+    show: 'Zeigen',
     'show-departures': 'Abfahrten zeigen',
     'show-more': 'Mehr zeigen',
     'show-routes': 'Verbindungen auswählen',
@@ -619,8 +623,8 @@ const translations = {
     subway: 'U-Bahn',
     'subway-with-route-number': 'U-Bahn {routeNumber} {headSign}',
     'summary-page.description': '{from} - {to}',
-    'summary-page.title': 'Reisevorschläge',
     'summary-page.row-label': 'Reisevorschlag {number}',
+    'summary-page.title': 'Reisevorschläge',
     'swap-order-button-label': 'Start und Ziel tauschen',
     'terminal-page.description': 'Terminal - {name}',
     'terminal-page.title': 'Terminal',
@@ -654,7 +658,8 @@ const translations = {
     'try-again': 'Nochmal versuchen',
     unpreferred: 'Routen vermeiden',
     'use-citybike': 'Fahrrad benutzen',
-    'use-national-service': 'Sie können auch das überregionale Angebot benutzen: ',
+    'use-national-service':
+      'Sie können auch das überregionale Angebot benutzen: ',
     'use-own-position': 'Aktuellen Standort benutzen',
     'using-modes': 'Verkehrsmittel',
     'very-likely': 'Sehr wahrscheinlich',
