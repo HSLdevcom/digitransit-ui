@@ -22,6 +22,7 @@
     "test-smoke": "./test/flow/script/run-ui-tests.sh smoke",
     "test-saucelabs": "./test/flow/script/run-ui-tests.sh saucelabs",
     "test-unit": "mocha --require mock-local-storage --file test/unit/helpers/babel-register.js --file test/unit/helpers/init.js \"test/unit/**/*.test.js\"",
+    "test-single": "mocha --require mock-local-storage --file test/unit/helpers/babel-register.js --file test/unit/helpers/init.js \"test/unit/**/*.test.js\" -g $1",
     "test-visual": "gemini --reporter flat test test/visual/",
     "test-visual-update": "gemini update test/visual/",
     "es-lint": "eslint .",
