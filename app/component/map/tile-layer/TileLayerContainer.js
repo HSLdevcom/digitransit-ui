@@ -276,23 +276,21 @@ class TileLayerContainer extends GridLayer {
           );
         } else if (this.state.selectableTargets[0].layer === 'roadworks') {
           contents = (
-              <Relay.RootContainer
-                  Component={RoadworksPopup}
-                  forceFetch
-                  route={
-                    {
-                      name: "",
-                      queries: {},
-                      params: {
-                        feature: this.state.selectableTargets[0].feature,
-                        lat:this.state.coords.lat,
-                        lon:this.state.coords.lng
-                      }
-                    }
-                  }
-                  renderLoading={loadingPopup}
-                  renderFetched={data => <RoadworksPopup {...data} />}
-              />
+            <Relay.RootContainer
+              Component={RoadworksPopup}
+              forceFetch
+              route={{
+                name: '',
+                queries: {},
+                params: {
+                  feature: this.state.selectableTargets[0].feature,
+                  lat: this.state.coords.lat,
+                  lon: this.state.coords.lng,
+                },
+              }}
+              renderLoading={loadingPopup}
+              renderFetched={data => <RoadworksPopup {...data} />}
+            />
           );
         } else if (
           this.state.selectableTargets[0].layer === 'parkAndRide' &&

@@ -53,8 +53,8 @@ class TileContainer {
           return isEnabled;
         }
         if (
-            layerName === 'roadworks' &&
-            this.coords.z >= config.roadworks.roadworksMinZoom
+          layerName === 'roadworks' &&
+          this.coords.z >= config.roadworks.roadworksMinZoom
         ) {
           return isEnabled;
         }

@@ -50,13 +50,13 @@ class Roadworks {
 
           this.features.forEach(actionFn);
         },
+        // eslint-disable-next-line no-console
         err => console.error(err),
       );
     });
 
   fetchAndDrawStatus = ({ geom, properties }) => {
-    console.log('Drawing roadworks icon', geom, properties);
-    var suffix = '';
+    let suffix = '';
     if (properties.Vollsperrung === 1) {
       suffix = '-full-closure';
     } else if (properties.Halbseitige_Sperrung === 1) {

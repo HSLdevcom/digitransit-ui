@@ -11,6 +11,10 @@ class RoadworksPopup extends React.Component {
     getStore: PropTypes.func.isRequired,
   };
 
+  static propTypes = {
+    feature: PropTypes.object.isRequired,
+  };
+
   static description = (
     <div>
       <p>Renders a roadworks popup.</p>
@@ -26,27 +30,35 @@ class RoadworksPopup extends React.Component {
 
   static propTypes = {};
 
-  formatDate(date) {
+  static formatDate(date) {
     return date.format('ll');
   }
 
-  formatTime(dateTime) {
+  static formatTime(dateTime) {
     return dateTime.format('LT');
   }
 
   formatDateTime(start, end, type) {
     const startM = moment(start).tz('Europe/Berlin');
     const endM = moment(end).tz('Europe/Berlin');
-    if(type === "Langzeitbaustelle"){
+    if (type === 'Langzeitbaustelle') {
       return `${this.formatDate(startM)} - ${this.formatDate(endM)}`;
     } else {
-      return `${this.formatDate(startM)} - ${this.formatDate(endM)}, ${this.formatTime(startM)} - ${this.formatTime(endM)}`;
+      return `${this.formatDate(startM)} - ${this.formatDate(
+        endM,
+      )}, ${this.formatTime(startM)} - ${this.formatTime(endM)}`;
     }
   }
 
   render() {
-    const properties = this.props.feature.properties;
-    const duration = this.formatDateTime(properties.gueltig_von, properties.gueltig_bis, properties.Baustellenart);
+    const {
+      props: { feature: properties },
+    } = this;
+    const duration = this.formatDateTime(
+      properties.gueltig_von,
+      properties.gueltig_bis,
+      properties.Baustellenart,
+    );
     return (
       <Card>
         <div className="padding-small">
@@ -57,9 +69,7 @@ class RoadworksPopup extends React.Component {
             className="padding-small"
           />
           <div>
-            <p>
-              {duration}
-            </p>
+            <p>{duration}</p>
           </div>
         </div>
       </Card>

@@ -202,14 +202,14 @@ class SelectMapLayersDialog extends React.Component {
           {config.roadworks &&
             config.roadworks.showRoadworks && (
               <Checkbox
-                  checked={roadworks}
-                  defaultMessage="Roadworks"
-                  labelId="map-layer-roadworks"
-                  onChange={e =>
-                      this.updateSetting({ roadworks: e.target.checked })
-                  }
+                checked={roadworks}
+                defaultMessage="Roadworks"
+                labelId="map-layer-roadworks"
+                onChange={e =>
+                  this.updateSetting({ roadworks: e.target.checked })
+                }
               />
-          )}
+            )}
           {config.parkAndRide &&
             config.parkAndRide.showParkAndRide && (
               <Checkbox
