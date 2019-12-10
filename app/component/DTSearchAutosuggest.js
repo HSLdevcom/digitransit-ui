@@ -84,10 +84,10 @@ class DTAutosuggest extends React.Component {
 
   onBlur = () => {
     this.props.isFocused(false);
-    this.setState({
+    this.setState(prevState => ({
       editing: false,
-      value: this.props.value,
-    });
+      value: prevState.value, // DT-3263: changed this.state.value from this.props.value
+    }));
   };
 
   onSelected = (e, ref) => {
@@ -113,10 +113,11 @@ class DTAutosuggest extends React.Component {
     }
   };
 
+  // DT-3263: not clear automatically suggestions: [] (e.g. user comes back with tabulator)
   onSuggestionsClearRequested = () => {
-    this.setState({
+    /* this.setState({
       suggestions: [],
-    });
+    }); */
   };
 
   getSuggestionValue = suggestion => {
@@ -215,7 +216,7 @@ class DTAutosuggest extends React.Component {
     this.input.focus();
   };
 
-  inputClicked = () => {
+  inputClicked = inputValue => {
     if (!this.state.editing) {
       this.props.isFocused(true);
       const newState = {
@@ -224,10 +225,24 @@ class DTAutosuggest extends React.Component {
         pendingSelection: null,
       };
 
+      // DT-3263: added stateKeyDown
+      const stateKeyDown = {
+        editing: true,
+        pendingSelection: null,
+        value: inputValue,
+      };
+
       if (!this.state.suggestions.length) {
-        this.setState(newState, () =>
-          this.fetchFunction({ value: this.state.value }),
-        );
+        // DT-3263: added if-else statement
+        if (typeof inputValue === 'object' || !inputValue) {
+          this.setState(newState, () =>
+            this.fetchFunction({ value: this.state.value }),
+          );
+        } else {
+          this.setState(stateKeyDown, () =>
+            this.fetchFunction({ value: inputValue }),
+          );
+        }
       } else {
         this.setState(newState);
       }
@@ -252,6 +267,32 @@ class DTAutosuggest extends React.Component {
     />
   );
 
+  // DT-3263 starts
+  // eslint-disable-next-line consistent-return
+  keyDown = event => {
+    const keyCode = event.keyCode || event.which;
+
+    if (this.state.editing) {
+      return this.inputClicked();
+    }
+
+    if ((keyCode === 13 || keyCode === 40) && this.state.value === '') {
+      return this.clearInput();
+    }
+
+    if (keyCode === 40 && this.state.value !== '') {
+      const newState = {
+        editing: true,
+        value: this.state.value,
+      };
+      // must update suggestions
+      this.setState(newState, () =>
+        this.fetchFunction({ value: this.state.value }),
+      );
+    }
+  };
+  // DT-3263 ends
+
   render() {
     const { value, suggestions } = this.state;
     const inputProps = {
@@ -263,8 +304,10 @@ class DTAutosuggest extends React.Component {
       onChange: this.onChange,
       onBlur: this.onBlur,
       className: `react-autosuggest__input ${this.props.className}`,
+      onKeyDown: this.keyDown, // DT-3263
     };
 
+    // DT-3263: removed highlightFirstSuggestion on Autosuggest
     return (
       <div className={cx(['autosuggest-input-container', this.props.id])}>
         {this.props.icon && (
@@ -284,12 +327,16 @@ class DTAutosuggest extends React.Component {
           shouldRenderSuggestions={() => this.state.editing}
           renderInputComponent={p => (
             <div id={`${this.props.id}-container`} style={{ display: 'flex' }}>
-              <input id={this.props.id} onClick={this.inputClicked} {...p} />
+              <input
+                id={this.props.id}
+                onClick={this.inputClicked}
+                onKeyDown={this.keyDown}
+                {...p}
+              />
               {this.clearButton()}
             </div>
           )}
           onSuggestionSelected={this.onSelected}
-          highlightFirstSuggestion
           ref={this.storeInputReference}
         />
       </div>
