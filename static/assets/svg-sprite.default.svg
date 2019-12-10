@@ -1053,7 +1053,7 @@
 		</g>
 	</g>
 </symbol>
-<symbol id="icon-icon_roadworks-partial-closure" viewBox="0 0 600.99628 600.99628" height="600.99628" width="600.99628">
+<symbol id="icon-icon_roadworks-oneway-closure" viewBox="0 0 600.99628 600.99628" height="600.99628" width="600.99628">
 	<g transform="matrix(1.25,0,0,-1.25,0,600.99628)" id="g4563">
 		<g id="g4565">
 			<path id="path4567" style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none" d="m 480.398,240.399 c 0,-132.551 -107.449,-240 -240,-240 -132.55,0 -240,107.449 -240,240 0,132.55 107.45,240 240,240 132.551,0 240,-107.45 240,-240 z"/>

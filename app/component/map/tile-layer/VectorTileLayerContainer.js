@@ -34,7 +34,7 @@ export default function VectorTileLayerContainer(props, { config }) {
       layers.push(DynamicParkingLots);
     }
 
-    if (config.constructor && config.roadworks.showRoadworks) {
+    if (config.roadworks && config.roadworks.showRoadworks) {
       layers.push(Roadworks);
     }
   }

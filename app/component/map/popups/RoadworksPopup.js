@@ -4,7 +4,6 @@ import Relay from 'react-relay/classic';
 import moment from 'moment';
 import Card from '../../Card';
 import CardHeader from '../../CardHeader';
-import { station as exampleStation } from '../../ExampleData';
 import ComponentUsageExample from '../../ComponentUsageExample';
 
 class RoadworksPopup extends React.Component {
@@ -16,7 +15,7 @@ class RoadworksPopup extends React.Component {
     <div>
       <p>Renders a roadworks popup.</p>
       <ComponentUsageExample description="">
-        <RoadworksPopup context="context object here" station={exampleStation}>
+        <RoadworksPopup context="context object here">
           Im content of a roadworks card
         </RoadworksPopup>
       </ComponentUsageExample>

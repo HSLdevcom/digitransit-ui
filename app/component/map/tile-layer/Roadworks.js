@@ -38,9 +38,7 @@ class Roadworks {
 
           this.features = [];
 
-          // it's called "roadwork" in the tile source but i want to change it to "roadworks" since that is more
-          // consistent
-          const layerData = vt.layers.roadworks || vt.layers.roadwork;
+          const layerData = vt.layers.roadworks;
 
           if (layerData != null) {
             for (let i = 0, ref = layerData.length - 1; i <= ref; i++) {
@@ -62,7 +60,7 @@ class Roadworks {
     if (properties.Vollsperrung === 1) {
       suffix = '-full-closure';
     } else if (properties.Halbseitige_Sperrung === 1) {
-      suffix = '-partial-closure';
+      suffix = '-oneway-closure';
     }
     return drawIcon(
       `icon-icon_roadworks${suffix}`,
