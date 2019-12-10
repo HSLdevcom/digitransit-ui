@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import ExternalLink from './ExternalLink';
 import DisruptionInfo from './DisruptionInfo';
 import Icon from './Icon';
@@ -13,10 +14,11 @@ import LogoSmall from './LogoSmall';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import LoginButton from './LoginButton';
 import Dropdown from './Dropdown';
+import setUser from '../action/userActions';
 
 const AppBarLarge = (
-  { titleClicked, logo, loggedIn, logIn },
-  { router, location, config, intl },
+  { titleClicked, logo, loggedIn, logIn, user },
+  { router, location, config, intl, executeAction },
 ) => {
   const openDisruptionInfo = () => {
     addAnalyticsEvent({
@@ -43,6 +45,7 @@ const AppBarLarge = (
   } else {
     logoElement = <LogoSmall className="navi-logo" logo={logo} showLogo />;
   }
+  
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/anchor-is-valid */
   return (
     <div>
@@ -62,20 +65,20 @@ const AppBarLarge = (
         </button>
         <div className="empty-space flex-grow" />
         {config.showLogin &&
-          (loggedIn ? (
+          (user.lo ? (
             <Dropdown
-              username="Matti Meikäläinen"
+              user={user}
               list={[
                 {
                   key: 'dropdown-item-1',
                   messageId: 'logout',
-                  onClick: () => logIn(),
+                  onClick: () => { window.location.href = '/logout'},
                 },
               ]}
             />
           ) : (
             <div className="right-border">
-              <LoginButton logIn={() => logIn()} />
+              <LoginButton />
             </div>
           ))}
 
@@ -120,6 +123,7 @@ AppBarLarge.propTypes = {
   logo: PropTypes.string,
   loggedIn: PropTypes.bool,
   logIn: PropTypes.func,
+  user: PropTypes.object,
 };
 
 AppBarLarge.defaultProps = {
@@ -144,4 +148,12 @@ AppBarLarge.description = () => (
   </div>
 );
 
-export default AppBarLarge;
+const withUser = connectToStores(
+  AppBarLarge,
+  ['UserStore'],
+  context => ({
+    user: context.getStore('UserStore').getUser(),
+  }),
+);
+
+export { withUser as default, AppBarLarge as Component}

@@ -1,10 +1,17 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import Icon from './Icon';
 
-export default class Dropdown extends React.Component {
+export default class Dropdown extends Component {
+
+  static propTypes = {
+    list: PropTypes.array,
+    isMobile: PropTypes.bool,
+    user: PropTypes.object,
+  };
+
   static defaultProps = {
     isMobile: false,
   };
@@ -29,7 +36,7 @@ export default class Dropdown extends React.Component {
   }
 
   render() {
-    const { list, isMobile } = this.props;
+    const { list, isMobile, user } = this.props;
     const { listOpen } = this.state;
     const rightBorder = !listOpen ? 'right-border' : '';
     /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/anchor-is-valid */
@@ -50,7 +57,7 @@ export default class Dropdown extends React.Component {
                   isMobile ? 'mobile' : 'desktop',
                 )}
               >
-                {this.props.username}
+                {user ? user.name : ''} 
               </div>
               <div className={listOpen ? 'rotate-icon' : ''}>
                 <Icon img="icon-icon_arrow-dropdown" color="#fff" />
@@ -86,9 +93,3 @@ export default class Dropdown extends React.Component {
     );
   }
 }
-
-Dropdown.propTypes = {
-  username: PropTypes.string.isRequired,
-  list: PropTypes.array,
-  isMobile: PropTypes.bool,
-};

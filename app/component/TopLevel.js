@@ -9,6 +9,8 @@ import MobileView from './MobileView';
 import DesktopView from './DesktopView';
 import ErrorBoundary from './ErrorBoundary';
 import { DesktopOrMobile } from '../util/withBreakpoint';
+import { getJson, LoginStates } from '../util/apiUtils';
+import setUser from '../action/userActions';
 
 class TopLevel extends React.Component {
   static propTypes = {
@@ -35,6 +37,7 @@ class TopLevel extends React.Component {
   static contextTypes = {
     headers: PropTypes.object.isRequired,
     config: PropTypes.object.isRequired,
+    executeAction: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -50,7 +53,7 @@ class TopLevel extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { loggedIn: false };
+    this.state = { loginState: false };
   }
 
   getChildContext() {
@@ -65,13 +68,22 @@ class TopLevel extends React.Component {
     }`).then(logo => {
       this.setState({ logo: logo.default });
     });
+    getJson('/api/user').then(user => {
+      this.context.executeAction(setUser, user);
+    }).catch(err => {
+      this.context.executeAction(setUser, { loginState: LoginStates.LOGIN_FAILED });
+    });
   }
 
   logIn = () => {
-    this.setState(prevState => ({
-      loggedIn: !prevState.loggedIn,
-    }));
+    fetch('/login');
   };
+
+  logOut = () => {
+    fetch('/logout').then(() => {
+      this.context.executeAction(setUser, {});
+    });
+  }
 
   render() {
     this.topBarOptions = Object.assign(
