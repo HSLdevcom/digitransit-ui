@@ -217,6 +217,7 @@ class DTAutosuggest extends React.Component {
   };
 
   inputClicked = inputValue => {
+    console.log("DT-3263: inputClicked - inputValue: " + inputValue);
     if (!this.state.editing) {
       this.props.isFocused(true);
       const newState = {
@@ -271,7 +272,7 @@ class DTAutosuggest extends React.Component {
   // eslint-disable-next-line consistent-return
   keyDown = event => {
     const keyCode = event.keyCode || event.which;
-
+    console.log("DT-3263: key pressed - " + keyCode + ", state.value: " + this.state.value + ", input.value: " + this.input.value);
     if (this.state.editing) {
       return this.inputClicked();
     }
