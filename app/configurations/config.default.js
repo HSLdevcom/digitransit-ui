@@ -73,7 +73,7 @@ export default {
   realTimePatch: REALTIME_PATCH,
 
   // Google Tag Manager id
-  GTMid: 'GTM-PZV2S2V',
+  GTMid: process.env.GTM_ID || null,
 
   /*
    * by default search endpoints from all but gtfs sources, correct gtfs source
