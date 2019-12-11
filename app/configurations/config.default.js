@@ -76,9 +76,9 @@ export default {
   GTMid: 'GTM-PZV2S2V',
 
   /*
- * by default search endpoints from all but gtfs sources, correct gtfs source
- * figured based on feedIds config variable
- */
+   * by default search endpoints from all but gtfs sources, correct gtfs source
+   * figured based on feedIds config variable
+   */
   searchSources: ['oa', 'osm', 'nlsfi'],
 
   search: {
@@ -393,7 +393,7 @@ export default {
     },
 
     citybike: {
-      availableForSelection: false, // TODO: Turn off in autumn
+      availableForSelection: false,
       defaultValue: false, // always false
     },
   },
@@ -772,4 +772,5 @@ export default {
   },
 
   timetables: {},
+  showLogin: false,
 };

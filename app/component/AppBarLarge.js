@@ -11,9 +11,11 @@ import MessageBar from './MessageBar';
 import CanceledLegsBar from './CanceledLegsBar';
 import LogoSmall from './LogoSmall';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import LoginButton from './LoginButton';
+import Dropdown from './Dropdown';
 
 const AppBarLarge = (
-  { titleClicked, logo },
+  { titleClicked, logo, loggedIn, logIn },
   { router, location, config, intl },
 ) => {
   const openDisruptionInfo = () => {
@@ -41,7 +43,6 @@ const AppBarLarge = (
   } else {
     logoElement = <LogoSmall className="navi-logo" logo={logo} showLogo />;
   }
-
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/anchor-is-valid */
   return (
     <div>
@@ -60,6 +61,24 @@ const AppBarLarge = (
           {logoElement}
         </button>
         <div className="empty-space flex-grow" />
+        {config.showLogin &&
+          (loggedIn ? (
+            <Dropdown
+              username="Matti Meikäläinen"
+              list={[
+                {
+                  key: 'dropdown-item-1',
+                  messageId: 'logout',
+                  onClick: () => logIn(),
+                },
+              ]}
+            />
+          ) : (
+            <div className="right-border">
+              <LoginButton logIn={() => logIn()} />
+            </div>
+          ))}
+
         <div className="navi-languages right-border navi-margin">
           <LangSelect />
         </div>
@@ -99,6 +118,8 @@ const AppBarLarge = (
 AppBarLarge.propTypes = {
   titleClicked: PropTypes.func.isRequired,
   logo: PropTypes.string,
+  loggedIn: PropTypes.bool,
+  logIn: PropTypes.func,
 };
 
 AppBarLarge.defaultProps = {

@@ -130,6 +130,8 @@ const translations = {
       'Current timetable does not include routes departing later.',
     'no-route-msg':
       'Vi finder desværre ingen rejseforslag til rejsesøget. Forsøg at ændre adressen',
+    'no-route-msg-with-changes':
+      'Unfortunately no routes were found for your journey. Try changing your settings, origin or destination.',
     'no-route-origin-near-destination':
       'The origin and the destination are close to each other. Please change either location.',
     'no-route-start-date-too-early':
@@ -457,6 +459,8 @@ const translations = {
       'Der aktuelle Fahrplan enthält keine späteren Abfahrten.',
     'no-route-msg':
       'Wir konnten leider keine Reisevorschläge für diese Strecke finden. Bitte versuchen Sie den Abfahrts- oder Zielort zu ändern.',
+    'no-route-msg-with-changes':
+      'Unfortunately no routes were found for your journey. Try changing your settings, origin or destination.',
     'no-route-origin-near-destination':
       'Die Entfernung zwischen Start und Ziel ist sehr gering. Bitte ändern Sie einen dieser Orte.',
     'no-route-start-date-not-in-range':
@@ -811,6 +815,7 @@ const translations = {
     'location-sport': 'Sports',
     'location-work': 'Work',
     login: 'Log in',
+    logout: 'Log out',
     'long-transfers-margin': '12 min',
     'main-menu-label-close': 'Close the main menu',
     'main-menu-label-open': 'Open the main menu',
@@ -852,7 +857,9 @@ const translations = {
     'no-route-end-date-not-in-range':
       'Current timetable does not include routes departing later.',
     'no-route-msg':
-      'Unfortunately no routes were found for your journey. Please change your origin or destination address.',
+      'Unfortunately no routes were found for your journey. Try changing your origin or destination.',
+    'no-route-msg-with-changes':
+      'Unfortunately no routes were found for your journey. Try changing your settings, origin or destination.',
     'no-route-origin-near-destination':
       'The origin and the destination are close to each other. Please change either location.',
     'no-route-start-date-too-early':
@@ -1220,6 +1227,8 @@ const translations = {
       'Los horarios actuales no incluyen rutas saliendo más tarde.',
     'no-route-msg':
       'Desafortunadamente no se encontraron rutas para su viaje. Por favor cambie el origen o el destino.',
+    'no-route-msg-with-changes':
+      'Unfortunately no routes were found for your journey. Try changing your settings, origin or destination.',
     'no-route-origin-near-destination':
       'The origin and the destination are close to each other. Please change either location.',
     'no-route-start-date-too-early':
@@ -1531,7 +1540,8 @@ const translations = {
     'location-shopping': 'Kauppa',
     'location-sport': 'Urheilu',
     'location-work': 'Työ',
-    login: 'Kirjaudu sisään',
+    login: 'Kirjaudu',
+    logout: 'Kirjaudu ulos',
     'long-transfers-margin': '12 min',
     'main-menu-label-close': 'Sulje päävalikko',
     'main-menu-label-open': 'Avaa päävalikko',
@@ -1573,7 +1583,9 @@ const translations = {
     'no-route-end-date-not-in-range':
       'Käytössä oleva aikataulu ei sisällä myöhäisempiä reittejä.',
     'no-route-msg':
-      'Emme valitettavasti löytäneet yhtään reittiehdotusta kyseiselle välille. Muuta lähdön tai määränpään osoitetta.',
+      'Emme löytäneet reittiehdotuksia antamillasi tiedoilla. Kokeile muokata lähtöpaikkaa tai määränpäätä.',
+    'no-route-msg-with-changes':
+      'Emme löytäneet reittiehdotuksia antamillasi tiedoilla. Kokeile muokata asetuksia, lähtöpaikkaa tai määränpäätä.',
     'no-route-origin-near-destination':
       'Lähtöpaikka ja määränpää ovat liian lähekkäin. Muuta lähdön tai määränpään osoitetta.',
     'no-route-start-date-too-early':
@@ -1954,6 +1966,8 @@ const translations = {
       'Current timetable does not include routes departing later.',
     'no-route-msg':
       "Impossible de trouver un itinéraire dans cette zone. Changer le point de départ ou d'arrivée.",
+    'no-route-msg-with-changes':
+      'Unfortunately no routes were found for your journey. Try changing your settings, origin or destination.',
     'no-route-origin-near-destination':
       'The origin and the destination are close to each other. Please change either location.',
     'no-route-start-date-too-early':
@@ -2259,6 +2273,8 @@ const translations = {
       'Current timetable does not include routes departing later.',
     'no-route-msg':
       'Vi finner dessverre ingen reiseforslag til angitt rute. Forsøk å endre adresse',
+    'no-route-msg-with-changes':
+      'Unfortunately no routes were found for your journey. Try changing your settings, origin or destination.',
     'no-route-origin-near-destination':
       'The origin and the destination are close to each other. Please change either location.',
     'no-route-start-date-too-early':
@@ -2561,6 +2577,7 @@ const translations = {
     'location-sport': 'Sport',
     'location-work': 'Arbetsplats',
     login: 'Logga in',
+    logout: 'Logga ut',
     'long-transfers-margin': '12 min',
     'main-menu-label-close': 'Stäng huvudmenyn',
     'main-menu-label-open': 'Öppna huvudmenyn',
@@ -2602,7 +2619,9 @@ const translations = {
     'no-route-end-date-not-in-range':
       'Tidtabellen har inga resor som avgår senare.',
     'no-route-msg':
-      'Vi kunde tyvärr inte hitta några reseförslag för denna sträcka. Ändra adress.',
+      'Vi hittade inga ruttförslag som passar dina önskemål. Försök pånytt med annan avfärdsplats eller annan destination.',
+    'no-route-msg-with-changes':
+      'Vi hittade inga ruttförslag som passar dina önskemål. Försök pånytt med andra inställningar, annan avfärdsplats eller annan destination.',
     'no-route-origin-near-destination':
       'Din avfärdsplats och destination är väldigt nära varandra, vill du ändra avfärdsplats eller destination?',
     'no-route-start-date-too-early':
