@@ -29,6 +29,9 @@ class TopLevel extends React.Component {
     params: PropTypes.shape({
       from: PropTypes.string,
       to: PropTypes.string,
+      routeId: PropTypes.string,
+      stopId: PropTypes.string,
+      terminalId: PropTypes.string,
     }).isRequired,
     origin: dtLocationShape,
   };
@@ -78,6 +81,45 @@ class TopLevel extends React.Component {
         event: 'Pageview',
         url: newLocation,
       });
+    }
+
+    // send tracking calls when visiting a new stop or route
+    const newContext = newLocation.slice(1, newLocation.indexOf('/', 1));
+    switch (newContext) {
+      case 'linjat':
+        if (
+          oldLocation.indexOf(newContext) !== 1 ||
+          (prevProps.params.routeId &&
+            this.props.params.routeId &&
+            prevProps.params.routeId !== this.props.params.routeId)
+        ) {
+          addAnalyticsEvent({
+            category: 'Route',
+            action: 'OpenRoute',
+            name: this.props.params.routeId,
+          });
+        }
+        break;
+      case 'pysakit':
+      case 'terminaalit':
+        if (
+          oldLocation.indexOf(newContext) !== 1 ||
+          (prevProps.params.stopId &&
+            this.props.params.stopId &&
+            prevProps.params.stopId !== this.props.params.stopId) ||
+          (prevProps.params.terminalId &&
+            this.props.params.terminalId &&
+            prevProps.params.terminalId !== this.props.params.terminalId)
+        ) {
+          addAnalyticsEvent({
+            category: 'Stop',
+            action: 'OpenStop',
+            name: this.props.params.stopId || this.props.params.terminalId,
+          });
+        }
+        break;
+      default:
+        break;
     }
   }
 

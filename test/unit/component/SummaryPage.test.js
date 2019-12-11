@@ -1,5 +1,11 @@
-import { getActiveIndex } from '../../../app/component/SummaryPage';
+import sinon from 'sinon';
+
+import {
+  getActiveIndex,
+  reportError,
+} from '../../../app/component/SummaryPage';
 import { RealtimeStateType } from '../../../app/constants';
+import * as analytics from '../../../app/util/analyticsUtils';
 
 describe('<SummaryPage />', () => {
   describe('getActiveIndex', () => {
@@ -67,6 +73,14 @@ describe('<SummaryPage />', () => {
 
     it('should return the default value if location and itineraries do not exist', () => {
       expect(getActiveIndex({}, [], 3)).to.equal(3);
+    });
+  });
+  describe('reportError', () => {
+    it('should call addAnalyticsEvent', () => {
+      const spy = sinon.spy(analytics, 'addAnalyticsEvent');
+      reportError('ERROR');
+      expect(spy.calledOnce).to.equal(true);
+      spy.restore();
     });
   });
 });
