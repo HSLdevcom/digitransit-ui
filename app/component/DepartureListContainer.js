@@ -19,6 +19,7 @@ import {
   startRealTimeClient,
   changeRealTimeClientTopics,
 } from '../action/realTimeClientAction';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const asDepartures = stoptimes =>
   !stoptimes
@@ -116,7 +117,7 @@ class DepartureListContainer extends Component {
     }
   }
 
-  startClient = departures => {
+  configClient = departures => {
     const trips = departures
       .filter(departure => departure.realtime)
       .filter(
@@ -126,20 +127,34 @@ class DepartureListContainer extends Component {
             .indexOf(departure.stop.code) >= 0,
       )
       .map(departure => ({
-        headsign: '+',
-        mode: '+',
         tripId: departure.trip.gtfsId.split(':')[1],
       }));
 
-    const { realTime } = this.context.config;
-    const agency = this.context.config.feedIds[0];
-    const source = realTime[agency];
+    const { config } = this.context;
+    const { realTime } = config;
+    let agency;
+
+    /* handle multiple feedid case */
+    config.feedIds.forEach(ag => {
+      if (!agency && realTime[ag]) {
+        agency = ag;
+      }
+    });
+    const source = agency && realTime[agency];
     if (source && source.active) {
-      this.context.executeAction(startRealTimeClient, {
+      return {
         ...source,
         agency,
         options: trips,
-      });
+      };
+    }
+    return null;
+  };
+
+  startClient = departures => {
+    const clientConfig = this.configClient(departures);
+    if (clientConfig) {
+      this.context.executeAction(startRealTimeClient, clientConfig);
     }
   };
 
@@ -148,28 +163,10 @@ class DepartureListContainer extends Component {
       'RealTimeInformationStore',
     );
     if (client) {
-      const trips = departures
-        .filter(departure => departure.realtime)
-        .filter(
-          departure =>
-            departure.pattern.stops
-              .map(stop => stop.code)
-              .indexOf(departure.stop.code) >= 0,
-        )
-        .map(departure => ({
-          headsign: '+',
-          mode: '+',
-          tripId: departure.trip.gtfsId.split(':')[1],
-        }));
-
-      const { realTime } = this.context.config;
-      const agency = this.context.config.feedIds[0];
-      const source = realTime[agency];
-      if (source && source.active) {
+      const clientConfig = this.configClient(departures);
+      if (clientConfig) {
         this.context.executeAction(changeRealTimeClientTopics, {
-          ...source,
-          agency,
-          options: trips,
+          ...clientConfig,
           client,
           oldTopics: topics,
         });
@@ -253,6 +250,13 @@ class DepartureListContainer extends Component {
               departure.pattern.code
             }`}
             key={id}
+            onClick={() => {
+              addAnalyticsEvent({
+                category: 'Stop',
+                action: 'OpenRouteViewFromStop',
+                name: 'RightNowTab',
+              });
+            }}
           >
             {departureObj}
           </Link>,

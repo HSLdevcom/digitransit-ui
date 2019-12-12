@@ -37,6 +37,7 @@ import events from '../util/events';
 import * as ModeUtils from '../util/modeUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const debug = d('IndexPage.js');
 
@@ -131,7 +132,7 @@ class IndexPage extends React.Component {
 
   clickNearby = () => {
     this.openTab(TAB_NEARBY);
-    window.dataLayer.push({
+    addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'Front page tabs',
       action: 'Nearby',
@@ -141,7 +142,7 @@ class IndexPage extends React.Component {
 
   clickFavourites = () => {
     this.openTab(TAB_FAVOURITES);
-    window.dataLayer.push({
+    addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'Front page tabs',
       action: 'Favourites',
@@ -161,6 +162,13 @@ class IndexPage extends React.Component {
   };
 
   togglePanelExpanded = () => {
+    addAnalyticsEvent({
+      action: this.state.mapExpanded
+        ? 'MinimizeMapOnMobile'
+        : 'MaximizeMapOnMobile',
+      category: 'Map',
+      name: 'IndexPage',
+    });
     this.setState(prevState => ({ mapExpanded: !prevState.mapExpanded }));
   };
 
@@ -184,9 +192,14 @@ class IndexPage extends React.Component {
   renderStreetModeSelector = (config, router) => (
     <SelectStreetModeDialog
       selectedStreetMode={ModeUtils.getStreetMode(router.location, config)}
-      selectStreetMode={(streetMode, isExclusive) =>
-        ModeUtils.setStreetMode(streetMode, config, router, isExclusive)
-      }
+      selectStreetMode={(streetMode, isExclusive) => {
+        addAnalyticsEvent({
+          category: 'ItinerarySettings',
+          action: 'SelectTravelingModeFromIndexPage',
+          name: streetMode,
+        });
+        ModeUtils.setStreetMode(streetMode, config, router, isExclusive);
+      }}
       streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
     />
   );

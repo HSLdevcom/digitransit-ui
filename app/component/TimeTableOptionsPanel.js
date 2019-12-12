@@ -3,6 +3,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import uniqBy from 'lodash/uniqBy';
 import Icon from './Icon';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class TimeTableOptionsPanel extends React.Component {
   static propTypes = {
@@ -48,7 +49,14 @@ class TimeTableOptionsPanel extends React.Component {
           </div>
           <div
             className="showroutes-header"
-            onClick={() => this.props.showFilterModal(true)}
+            onClick={() => {
+              this.props.showFilterModal(true);
+              addAnalyticsEvent({
+                category: 'Stop',
+                action: 'ChooseTimetableRoutes',
+                name: null,
+              });
+            }}
           >
             <FormattedMessage id="show-routes" defaultMessage="Show Lines" />
           </div>

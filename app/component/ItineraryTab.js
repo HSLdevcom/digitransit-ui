@@ -24,6 +24,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 
 import exampleData from './data/ItineraryTab.exampleData.json';
 import { getFares } from '../util/fareUtils';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class ItineraryTab extends React.Component {
   static propTypes = {
@@ -61,11 +62,11 @@ class ItineraryTab extends React.Component {
   printItinerary = e => {
     e.stopPropagation();
 
-    window.dataLayer.push({
+    addAnalyticsEvent({
       event: 'sendMatomoEvent',
-      category: 'ItinerarySettings',
-      action: 'ItineraryPrintButton',
-      name: 'PrintItinerary',
+      category: 'Itinerary',
+      action: 'Print',
+      name: null,
     });
 
     const printPath = `${this.props.location.pathname}/tulosta`;

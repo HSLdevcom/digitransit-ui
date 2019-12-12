@@ -1,7 +1,18 @@
 import omitBy from 'lodash/omitBy';
 import moment from 'moment';
+import cookie from 'react-cookie';
 
-import { filterModes, getDefaultModes, getModes } from './modeUtils';
+import pickBy from 'lodash/pickBy';
+import pick from 'lodash/pick';
+import isEqual from 'lodash/isEqual';
+import {
+  filterModes,
+  getDefaultModes,
+  getDefaultTransportModes,
+  getModes,
+  getStreetMode,
+  hasBikeRestriction,
+} from './modeUtils';
 import { otpToLocation } from './otpStrings';
 import { getIntermediatePlaces, getQuerySettings } from './queryUtils';
 import { getDefaultNetworks } from './citybikes';
@@ -9,6 +20,7 @@ import {
   getCustomizedSettings,
   getRoutingSettings,
 } from '../store/localStorage';
+import { OptimizeType, QuickOptionSetType, StreetMode } from '../constants';
 
 /**
  * Retrieves the default settings from the configuration.
@@ -269,6 +281,7 @@ export const preparePlanParams = config => (
         walkReluctance,
         walkSpeed,
         allowedBikeRentalNetworks,
+        locale,
       },
     },
   },
@@ -401,6 +414,7 @@ export const preparePlanParams = config => (
           settings,
           intermediatePlaceLocations,
         ),
+        locale: locale || cookie.load('lang') || 'fi',
       },
       nullOrUndefined,
     ),
@@ -412,4 +426,111 @@ export const preparePlanParams = config => (
     ),
     allowedBikeRentalNetworks: allowedBikeRentalNetworksMapped,
   };
+};
+
+export const getApplicableQuickOptionSets = context => {
+  const { config, location } = context;
+  const streetMode = getStreetMode(location, config).toLowerCase();
+  return [
+    QuickOptionSetType.DefaultRoute,
+    ...(config.quickOptions[streetMode]
+      ? config.quickOptions[streetMode].availableOptionSets
+      : []),
+  ];
+};
+
+export const getQuickOptionSets = context => {
+  const { config } = context;
+  const defaultSettings = getDefaultSettings(config);
+  const customizedSettings = getCustomizedSettings();
+  delete defaultSettings.modes;
+  delete customizedSettings.modes;
+
+  const quickOptionSets = {
+    [QuickOptionSetType.DefaultRoute]: {
+      ...defaultSettings,
+    },
+    [QuickOptionSetType.LeastElevationChanges]: {
+      ...defaultSettings,
+      optimize: OptimizeType.Triangle,
+      safetyFactor: 0.1,
+      slopeFactor: 0.8,
+      timeFactor: 0.1,
+    },
+    [QuickOptionSetType.LeastTransfers]: {
+      ...defaultSettings,
+      transferPenalty: 5460,
+      walkReluctance: config.defaultOptions.walkReluctance.less,
+    },
+    [QuickOptionSetType.LeastWalking]: {
+      ...defaultSettings,
+      walkBoardCost: config.defaultOptions.walkBoardCost.more,
+      walkReluctance: config.defaultOptions.walkReluctance.least,
+    },
+    'public-transport-with-bicycle': {
+      ...defaultSettings,
+      modes: [
+        StreetMode.Bicycle,
+        ...getDefaultTransportModes(config).filter(
+          mode => !hasBikeRestriction(config, mode),
+        ),
+      ].join(','),
+    },
+    [QuickOptionSetType.PreferWalkingRoutes]: {
+      ...defaultSettings,
+      optimize: OptimizeType.Safe,
+      walkReluctance: config.defaultOptions.walkReluctance.most,
+    },
+    [QuickOptionSetType.PreferGreenways]: {
+      ...defaultSettings,
+      optimize: OptimizeType.Greenways,
+    },
+  };
+
+  if (customizedSettings && Object.keys(customizedSettings).length > 0) {
+    quickOptionSets[QuickOptionSetType.SavedSettings] = {
+      ...defaultSettings,
+      ...customizedSettings,
+    };
+  }
+  return pick(quickOptionSets, getApplicableQuickOptionSets(context));
+};
+
+export const matchQuickOption = context => {
+  const {
+    config,
+    location: { query },
+  } = context;
+
+  // Find out which quick option the user has selected
+  const quickOptionSets = getQuickOptionSets(context);
+  const matchesOptionSet = (optionSetName, settings) => {
+    if (!quickOptionSets[optionSetName]) {
+      return false;
+    }
+    const quickSettings = pickBy(
+      { ...quickOptionSets[optionSetName] },
+      property => (Array.isArray(property) ? property.length > 0 : true),
+    );
+    const appliedSettings = pick(settings, Object.keys(quickSettings));
+    return isEqual(quickSettings, appliedSettings);
+  };
+
+  const querySettings = getQuerySettings(query);
+  const currentSettings = getCurrentSettings(config, query);
+
+  if (matchesOptionSet(QuickOptionSetType.SavedSettings, currentSettings)) {
+    return (
+      Object.keys(quickOptionSets)
+        .filter(key => key !== QuickOptionSetType.SavedSettings)
+        .find(key => matchesOptionSet(key, querySettings)) ||
+      QuickOptionSetType.SavedSettings
+    );
+  }
+
+  return (
+    Object.keys(quickOptionSets).find(key =>
+      matchesOptionSet(key, currentSettings),
+    ) || 'custom-settings'
+  );
 };

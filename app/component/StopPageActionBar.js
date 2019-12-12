@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import DateSelect from './DateSelect';
 import SecondaryButton from './SecondaryButton';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const DATE_FORMAT = 'YYYYMMDD';
 
@@ -27,14 +28,28 @@ const StopPageActionBar = ({
       startDate={startDate}
       selectedDate={selectedDate}
       dateFormat={DATE_FORMAT}
-      onDateChange={onDateChange}
+      onDateChange={e => {
+        onDateChange(e);
+        addAnalyticsEvent({
+          category: 'Stop',
+          action: 'ChangeTimetableDay',
+          name: null,
+        });
+      }}
     />
     <div className="print-button-container">
       {stopPDFURL && (
         <SecondaryButton
           ariaLabel="print-timetable"
           buttonName="print-timetable"
-          buttonClickAction={e => printStopPDF(e, stopPDFURL)}
+          buttonClickAction={e => {
+            printStopPDF(e, stopPDFURL);
+            addAnalyticsEvent({
+              category: 'Stop',
+              action: 'PrintWeeklyTimetable',
+              name: null,
+            });
+          }}
           buttonIcon="icon-icon_print"
           smallSize
         />
@@ -42,7 +57,14 @@ const StopPageActionBar = ({
       <SecondaryButton
         ariaLabel="print"
         buttonName="print"
-        buttonClickAction={e => printStop(e)}
+        buttonClickAction={e => {
+          printStop(e);
+          addAnalyticsEvent({
+            category: 'Stop',
+            action: 'PrintTimetable',
+            name: null,
+          });
+        }}
         buttonIcon="icon-icon_print"
         smallSize
       />

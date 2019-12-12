@@ -31,6 +31,7 @@ import {
   replaceQueryParams,
 } from '../util/queryUtils';
 import { updateCitybikeNetworks, getCitybikeNetworks } from '../util/citybikes';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class CustomizeSearch extends React.Component {
   static contextTypes = {
@@ -108,9 +109,14 @@ class CustomizeSearch extends React.Component {
               router.location,
               config,
             )}
-            selectStreetMode={(streetMode, isExclusive) =>
-              ModeUtils.setStreetMode(streetMode, config, router, isExclusive)
-            }
+            selectStreetMode={(streetMode, isExclusive) => {
+              ModeUtils.setStreetMode(streetMode, config, router, isExclusive);
+              addAnalyticsEvent({
+                action: 'SelectTravelingModeFromSettings',
+                category: 'ItinerarySettings',
+                name: streetMode,
+              });
+            }}
             showButtonTitles
             streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
           />
@@ -159,13 +165,20 @@ class CustomizeSearch extends React.Component {
             })}
             options={ticketOptions}
             currentOption={currentSettings.ticketTypes || 'none'}
-            updateValue={value =>
-              replaceQueryParams(router, { ticketTypes: value })
-            }
+            updateValue={value => {
+              replaceQueryParams(router, { ticketTypes: value });
+              addAnalyticsEvent({
+                category: 'ItinerarySettings',
+                action: 'ChangeFareZones',
+                name: value,
+              });
+            }}
           />
         )}
         {config.cityBike.networks &&
-          Object.keys(config.cityBike.networks).length > 1 && (
+          Object.keys(config.cityBike.networks).length > 1 &&
+          config.transportModes.citybike &&
+          config.transportModes.citybike.availableForSelection && (
             <CityBikeNetworkSelector
               headerText={intl.formatMessage({
                 id: 'citybike-network-headers',
@@ -209,11 +222,16 @@ class CustomizeSearch extends React.Component {
               title: accessibilityOptions[i].messageId,
               value: accessibilityOptions[i].value,
             }))}
-            onOptionSelected={value =>
+            onOptionSelected={value => {
               replaceQueryParams(router, {
                 accessibilityOption: value,
-              })
-            }
+              });
+              addAnalyticsEvent({
+                category: 'ItinerarySettings',
+                action: 'ChangeAccessibility',
+                name: value,
+              });
+            }}
             title="accessibility"
           />
         </div>
@@ -227,7 +245,16 @@ class CustomizeSearch extends React.Component {
             />
           </div>
           <div>
-            <ResetCustomizedSettingsButton onReset={this.resetParameters} />
+            <ResetCustomizedSettingsButton
+              onReset={() => {
+                this.resetParameters();
+                addAnalyticsEvent({
+                  action: 'ResetSettings',
+                  category: 'ItinerarySettings',
+                  name: null,
+                });
+              }}
+            />
           </div>
         </div>
       </div>

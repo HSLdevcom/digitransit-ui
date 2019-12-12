@@ -22,6 +22,7 @@ import {
 } from '../util/alertUtils';
 import { PREFIX_ROUTES } from '../util/path';
 import { durationToString } from '../util/timeUtils';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class TransitLeg extends React.Component {
   constructor(props) {
@@ -34,13 +35,13 @@ class TransitLeg extends React.Component {
   stopCode = stopCode => stopCode && <StopCode code={stopCode} />;
 
   toggleShowIntermediateStops = () => {
-    window.dataLayer.push({
+    addAnalyticsEvent({
       event: 'sendMatomoEvent',
-      category: 'ItinerarySettings',
-      action: 'IntermediateStopsClick',
-      name: this.state.showIntermediateStops
-        ? 'IntermediateStopsCollapse'
-        : 'IntermediateStopsExpand',
+      category: 'Itinerary',
+      action: this.state.showIntermediateStops
+        ? 'HideIntermediateStops'
+        : 'ShowIntermediateStops',
+      name: null,
     });
 
     this.setState(prevState => ({
@@ -167,7 +168,14 @@ class TransitLeg extends React.Component {
       <div key={index} className="row itinerary-row">
         <div className="small-2 columns itinerary-time-column">
           <Link
-            onClick={e => e.stopPropagation()}
+            onClick={e => {
+              e.stopPropagation();
+              addAnalyticsEvent({
+                category: 'Itinerary',
+                action: 'OpenRouteFromItinerary',
+                name: mode,
+              });
+            }}
             to={
               `/${PREFIX_ROUTES}/${leg.route.gtfsId}/pysakit/${
                 leg.trip.pattern.code

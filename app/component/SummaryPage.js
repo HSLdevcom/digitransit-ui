@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
 import Relay from 'react-relay/classic';
+import cookie from 'react-cookie';
 import moment from 'moment';
 import findIndex from 'lodash/findIndex';
 import get from 'lodash/get';
@@ -35,6 +36,7 @@ import { isBrowser } from '../util/browser';
 import { itineraryHasCancelation } from '../util/alertUtils';
 import triggerMessage from '../util/messageUtils';
 import MessageStore from '../store/MessageStore';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 export const ITINERARYFILTERING_DEFAULT = 1.5;
 
@@ -77,12 +79,33 @@ export const getActiveIndex = (
   return itineraryIndex > 0 ? itineraryIndex : defaultValue;
 };
 
+/**
+ * Report any errors that happen when showing summary
+ *
+ * @param {Error|string|any} error
+ */
+export function reportError(error) {
+  if (!error) {
+    return;
+  }
+  addAnalyticsEvent({
+    category: 'Itinerary',
+    action: 'ErrorLoading',
+    name: 'SummaryPage',
+    message: error.message || error,
+    stack: error.stack || null,
+  });
+}
+
 class SummaryPage extends React.Component {
   static contextTypes = {
     queryAggregator: PropTypes.shape({
       readyState: PropTypes.shape({
         done: PropTypes.bool.isRequired,
-        error: PropTypes.string,
+        error: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.instanceOf(Error),
+        ]),
       }).isRequired,
     }).isRequired,
     router: routerShape.isRequired,
@@ -131,6 +154,10 @@ class SummaryPage extends React.Component {
   constructor(props, context) {
     super(props, context);
     context.executeAction(storeOrigin, props.from);
+    const error = get(context, 'queryAggregator.readyState.error', null);
+    if (error) {
+      reportError(error);
+    }
   }
 
   state = { center: null, loading: false };
@@ -160,11 +187,19 @@ class SummaryPage extends React.Component {
     }
   }
 
+  componentDidUpdate() {
+    const error = get(this.context, 'queryAggregator.readyState.error', null);
+    if (error) {
+      reportError(error);
+    }
+  }
+
   setLoading = loading => {
     this.setState({ loading });
   };
 
   setError = error => {
+    reportError(error);
     this.context.queryAggregator.readyState.error = error;
   };
 
@@ -315,7 +350,9 @@ class SummaryPage extends React.Component {
       latestArrivalTime = Math.max(...itineraries.map(i => i.endTime));
     }
 
+    // added itineraryFutureDays parameter (DT-3175)
     const serviceTimeRange = validateServiceTimeRange(
+      get(this.context, 'config.itineraryFutureDays'),
       this.props.serviceTimeRange,
     );
     if (this.props.breakpoint === 'large') {
@@ -483,7 +520,8 @@ const containerComponent = Relay.createContainer(SummaryPageWithBreakpoint, {
           preferred: $preferred,
           unpreferred: $unpreferred,
           allowedBikeRentalNetworks: $allowedBikeRentalNetworks,
-          ),
+          locale: $locale,
+        ),
         {
           ${SummaryPlanContainer.getFragment('plan')}
           ${ItineraryTab.getFragment('searchTime')}
@@ -540,6 +578,7 @@ const containerComponent = Relay.createContainer(SummaryPageWithBreakpoint, {
       walkSpeed: null,
       wheelchair: null,
       allowedBikeRentalNetworks: null,
+      locale: cookie.load('lang') || 'fi',
     },
     ...defaultRoutingSettings,
   },

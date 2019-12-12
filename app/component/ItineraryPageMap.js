@@ -11,6 +11,7 @@ import MapContainer from './map/MapContainer';
 import { otpToLocation } from '../util/otpStrings';
 import { isBrowser } from '../util/browser';
 import { dtLocationShape } from '../util/shapes';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 let L;
 
@@ -73,14 +74,21 @@ function ItineraryPageMap(
   }
   const fullscreen = some(routes.map(route => route.fullscreenMap));
 
-  const toggleFullscreenMap = fullscreen
-    ? router.goBack
-    : () =>
-        router.push({
-          ...location,
-          pathname: `${location.pathname}/kartta`,
-        });
-
+  const toggleFullscreenMap = () => {
+    if (fullscreen) {
+      router.goBack();
+    } else {
+      router.push({
+        ...location,
+        pathname: `${location.pathname}/kartta`,
+      });
+    }
+    addAnalyticsEvent({
+      action: fullscreen ? 'MinimizeMapOnMobile' : 'MaximizeMapOnMobile',
+      category: 'Map',
+      name: 'SummaryPage',
+    });
+  };
   const overlay = fullscreen ? (
     undefined
   ) : (

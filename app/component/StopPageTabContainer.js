@@ -23,6 +23,7 @@ import {
   getServiceAlertsForRouteStops,
 } from '../util/alertUtils';
 import withBreakpoint from '../util/withBreakpoint';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const Tab = {
   Disruptions: 'hairiot',
@@ -123,6 +124,13 @@ function StopPageTabContainer(
             className={cx('stop-tab-singletab', {
               active: activeTab === Tab.RightNow,
             })}
+            onClick={() => {
+              addAnalyticsEvent({
+                category: 'Stop',
+                action: 'OpenRightNowTab',
+                name: null,
+              });
+            }}
           >
             <div className="stop-tab-singletab-container">
               <div>
@@ -141,6 +149,13 @@ function StopPageTabContainer(
             className={cx('stop-tab-singletab', {
               active: activeTab === Tab.Timetable,
             })}
+            onClick={() => {
+              addAnalyticsEvent({
+                category: 'Stop',
+                action: 'OpenTimetableTab',
+                name: null,
+              });
+            }}
           >
             <div className="stop-tab-singletab-container">
               <div>
@@ -156,6 +171,13 @@ function StopPageTabContainer(
             className={cx('stop-tab-singletab', {
               active: activeTab === Tab.RoutesAndPlatforms,
             })}
+            onClick={() => {
+              addAnalyticsEvent({
+                category: 'Stop',
+                action: 'OpenRoutesAndPlatformsTab',
+                name: null,
+              });
+            }}
           >
             <div className="stop-tab-singletab-container">
               <div>
@@ -185,6 +207,13 @@ function StopPageTabContainer(
               'service-alert-active':
                 hasActiveServiceAlerts || stopRoutesWithAlerts.length > 0,
             })}
+            onClick={() => {
+              addAnalyticsEvent({
+                category: 'Stop',
+                action: 'OpenDisruptionsTab',
+                name: null,
+              });
+            }}
           >
             <div className="stop-tab-singletab-container">
               <div>

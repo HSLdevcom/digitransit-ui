@@ -35,6 +35,15 @@ export default configMerger(walttiConfig, {
     description: APP_DESCRIPTION,
   },
 
+  mapLayers: {
+    tooltip: {
+      fi: 'Uutta! Saat nyt lähellä olevat bussit kartalle asetuksista.',
+      en: 'New! You can now get nearby busses on the map from the settings.',
+      sv:
+        'Nytt! I inställningarna kan du nu välja att se närliggande bussar på kartan.',
+    },
+  },
+
   transportModes: {
     ferry: {
       availableForSelection: true,
@@ -88,6 +97,9 @@ export default configMerger(walttiConfig, {
     },
   ],
 
+  showAllBusses: true,
+  showVehiclesOnStopPage: true,
+
   aboutThisService: {
     fi: [
       {
@@ -115,5 +127,15 @@ export default configMerger(walttiConfig, {
         ],
       },
     ],
+  },
+  zoneIdMapping: {
+    1: 'A',
+    2: 'B',
+    3: 'C',
+  },
+  stopCard: {
+    header: {
+      showZone: true,
+    },
   },
 });

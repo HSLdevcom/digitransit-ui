@@ -10,6 +10,7 @@ import SelectedStopPopupContent from './SelectedStopPopupContent';
 import Icon from './Icon';
 import withBreakpoint from '../util/withBreakpoint';
 import VehicleMarkerContainer from './map/VehicleMarkerContainer';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const getFullscreenTogglePath = (fullscreenMap, params) =>
   `/${params.stopId ? 'pysakit' : 'terminaalit'}/${
@@ -17,6 +18,11 @@ const getFullscreenTogglePath = (fullscreenMap, params) =>
   }${fullscreenMap ? '' : '/kartta'}`;
 
 const toggleFullscreenMap = (fullscreenMap, params, router) => {
+  addAnalyticsEvent({
+    action: fullscreenMap ? 'MinimizeMapOnMobile' : 'MaximizeMapOnMobile',
+    category: 'Map',
+    name: 'StopPage',
+  });
   if (fullscreenMap) {
     router.goBack();
     return;
@@ -68,13 +74,7 @@ const StopPageMap = (
   const children = [];
   if (config.showVehiclesOnStopPage) {
     leafletObjs.push(
-      <VehicleMarkerContainer
-        key="vehicles"
-        pattern="+"
-        headsign="+"
-        tripStart="+"
-        useLargeIcon
-      />,
+      <VehicleMarkerContainer key="vehicles" useLargeIcon ignoreMode />,
     );
   }
 

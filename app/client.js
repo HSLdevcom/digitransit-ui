@@ -32,6 +32,10 @@ import oldParamParser from './util/oldParamParser';
 import { ClientProvider as ClientBreakpointProvider } from './util/withBreakpoint';
 import meta from './meta';
 import { isIOSApp } from './util/browser';
+import {
+  initAnalyticsClientSide,
+  addAnalyticsEvent,
+} from './util/analyticsUtils';
 
 const plugContext = f => () => ({
   plugComponentContext: f,
@@ -82,7 +86,7 @@ const callback = () =>
 
     window.context = context;
     // For Google Tag Manager
-    window.dataLayer = window.dataLayer || [];
+    initAnalyticsClientSide();
 
     if (process.env.NODE_ENV === 'development') {
       try {
@@ -145,13 +149,12 @@ const callback = () =>
         window.location.replace('/');
       }
     }
-
-    function track() {
-      window.dataLayer.push({
-        event: 'Pageview',
-        url: this.href,
-      });
-    }
+    // send tracking call for initial page load.
+    // tracking page changes is done in TopLevel component
+    addAnalyticsEvent({
+      event: 'Pageview',
+      url: path,
+    });
 
     const ContextProvider = provideContext(StoreListeningIntlProvider, {
       raven: PropTypes.object,
@@ -203,7 +206,7 @@ const callback = () =>
                               config,
                             )}
                           />
-                          <Router {...props} onUpdate={track} />
+                          <Router {...props} />
                         </React.Fragment>
                       </MuiThemeProvider>
                     </ErrorBoundary>
@@ -230,7 +233,7 @@ const callback = () =>
 
     // Listen for Web App Install Banner events
     window.addEventListener('beforeinstallprompt', e => {
-      window.dataLayer.push({
+      addAnalyticsEvent({
         event: 'sendMatomoEvent',
         category: 'installprompt',
         action: 'fired',
@@ -240,7 +243,7 @@ const callback = () =>
       // e.userChoice will return a Promise. (Only in chrome, not IE)
       if (e.userChoice) {
         e.userChoice.then(choiceResult =>
-          window.dataLayer.push({
+          addAnalyticsEvent({
             event: 'sendMatomoEvent',
             category: 'installprompt',
             action: 'result',

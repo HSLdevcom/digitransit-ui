@@ -9,6 +9,7 @@ import SwipeableViews from 'react-swipeable-views';
 import Icon from './Icon';
 import { isBrowser } from '../util/browser';
 import { getRoutePath } from '../util/path';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 export default class MobileItineraryWrapper extends React.Component {
   static propTypes = {
@@ -65,16 +66,23 @@ export default class MobileItineraryWrapper extends React.Component {
         pathname: `${this.context.location.pathname}/kartta`,
       });
     }
+    addAnalyticsEvent({
+      action: this.props.fullscreenMap
+        ? 'MinimizeMapOnMobile'
+        : 'MaximizeMapOnMobile',
+      category: 'Map',
+      name: 'SummaryPage',
+    });
   };
 
   focusMap = (lat, lon) => this.props.focus(lat, lon);
 
   switchSlide = index => {
-    window.dataLayer.push({
+    addAnalyticsEvent({
       event: 'sendMatomoEvent',
-      category: 'ItinerarySettings',
-      action: 'ItineraryDetailsClick',
-      name: 'ItineraryDetailsExpand',
+      category: 'Itinerary',
+      action: 'OpenItineraryDetails',
+      name: index,
     });
 
     this.context.router.replace({

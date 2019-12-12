@@ -44,6 +44,15 @@ export default configMerger(walttiConfig, {
   // Navbar logo
   logo: 'turku/foli-logo.png',
 
+  mapLayers: {
+    tooltip: {
+      fi: 'Uutta! Saat nyt lähellä olevat bussit kartalle asetuksista.',
+      en: 'New! You can now get nearby busses on the map from the settings.',
+      sv:
+        'Nytt! I inställningarna kan du nu välja att se närliggande bussar på kartan.',
+    },
+  },
+
   cityBike: {
     showCityBikes: true,
     useUrl: {
@@ -134,6 +143,9 @@ export default configMerger(walttiConfig, {
     },
   ],
 
+  showAllBusses: true,
+  showVehiclesOnStopPage: true,
+
   aboutThisService: {
     fi: [
       {
@@ -182,7 +194,6 @@ export default configMerger(walttiConfig, {
   },
 
   staticMessages: [],
-
   geoJson: {
     layerConfigUrl: 'https://data.foli.fi/geojson/reittiopas',
   },

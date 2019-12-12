@@ -46,9 +46,15 @@ describe('LangSelect', () => {
           'Europe/Helsinki|EET EEST|-20 -30|01010101010101010101010|1BWp0 1qM0 WM0 1qM0 ' +
           'WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00|35e5',
       };
+
+      const mockRouter = {
+        getCurrentLocation: () => '/',
+        replace: () => true,
+      };
+
       configureMoment('sv', configWithMoment);
       expect(moment.locale()).to.equal('sv');
-      selectLanguage(() => true, 'fi')();
+      selectLanguage(() => true, 'fi', mockRouter)();
       expect(moment.locale()).to.equal('fi');
     });
   });

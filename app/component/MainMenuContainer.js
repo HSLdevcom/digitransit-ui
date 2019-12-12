@@ -6,6 +6,7 @@ import { routerShape } from 'react-router';
 import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import LazilyLoad, { importLazy } from './LazilyLoad';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class MainMenuContainer extends Component {
   static contextTypes = {
@@ -19,6 +20,8 @@ class MainMenuContainer extends Component {
   static propTypes = {
     homeUrl: PropTypes.string.isRequired,
     isOpen: PropTypes.bool,
+    loggedIn: PropTypes.bool,
+    logIn: PropTypes.func,
   };
 
   static defaultProps = {
@@ -46,11 +49,10 @@ class MainMenuContainer extends Component {
   toggleOffcanvas = () => this.internalSetOffcanvas(!this.getOffcanvasState());
 
   internalSetOffcanvas = newState => {
-    window.dataLayer.push({
-      event: 'sendMatomoEvent',
-      category: 'ItinerarySettings',
-      action: 'ExtraSettingsPanelClick',
-      name: newState ? 'ExtraSettingsPanelOpen' : 'ExtraSettingsPanelClose',
+    addAnalyticsEvent({
+      category: 'Navigation',
+      action: newState ? 'OpenMobileMenu' : 'CloseMobileMenu',
+      name: null,
     });
 
     if (newState) {
@@ -87,6 +89,8 @@ class MainMenuContainer extends Component {
                 showDisruptionInfo={isOpen && !isForcedOpen}
                 visible={isOpen}
                 homeUrl={this.props.homeUrl}
+                loggedIn={this.props.loggedIn}
+                logIn={this.props.logIn}
               />
             </Drawer>
           )}

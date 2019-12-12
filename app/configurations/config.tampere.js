@@ -46,12 +46,12 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/tre_zone_lines_20190603.geojson',
+        url: '/assets/geojson/tre_zone_lines_20191028.geojson',
         isOffByDefault: true,
       },
     ],
     zones: {
-      url: '/assets/geojson/tre_zone_areas_20190603.geojson',
+      url: '/assets/geojson/tre_zone_areas_20191028.geojson',
     },
   },
 
@@ -226,4 +226,15 @@ export default configMerger(walttiConfig, {
   timetables: {
     tampere: tampereTimetables,
   },
+
+  // enable train routing for Tampere
+  transportModes: {
+    rail: {
+      availableForSelection: true,
+      defaultValue: true,
+    },
+  },
+
+  // Number of days to include to the service time range from the future (DT-3175)
+  itineraryFutureDays: 60,
 });

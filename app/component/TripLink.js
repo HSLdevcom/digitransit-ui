@@ -5,6 +5,7 @@ import { Link } from 'react-router';
 import cx from 'classnames';
 import IconWithTail from './IconWithTail';
 import { PREFIX_ROUTES } from '../util/path';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 function TripLink(props) {
   const icon = (
@@ -22,6 +23,13 @@ function TripLink(props) {
           props.trip.trip.pattern.code
         }/${props.trip.trip.gtfsId}`}
         className="route-now-content"
+        onClick={() => {
+          addAnalyticsEvent({
+            category: 'Route',
+            action: 'OpenTripInformation',
+            name: props.mode.toUpperCase(),
+          });
+        }}
       >
         {icon}
       </Link>
@@ -37,11 +45,11 @@ TripLink.propTypes = {
   mode: PropTypes.string.isRequired,
 };
 
-export default Relay.createContainer(TripLink, {
+const containerComponent = Relay.createContainer(TripLink, {
   fragments: {
     trip: () => Relay.QL`
       fragment on QueryType {
-        trip: fuzzyTrip(route: $route, direction: $direction, time: $time, date: $date) {
+        trip: trip(id: $id) {
           gtfsId
           pattern {
             code
@@ -54,9 +62,8 @@ export default Relay.createContainer(TripLink, {
     `,
   },
   initialVariables: {
-    route: null,
-    direction: null,
-    date: null,
-    time: null,
+    id: null,
   },
 });
+
+export { containerComponent as default, TripLink as Component };

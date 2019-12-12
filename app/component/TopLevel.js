@@ -1,16 +1,15 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import some from 'lodash/some';
-import get from 'lodash/get';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { getHomeUrl, parseLocation } from '../util/path';
 import { dtLocationShape } from '../util/shapes';
 import AppBarContainer from './AppBarContainer';
 import MobileView from './MobileView';
 import DesktopView from './DesktopView';
-import HSLAdformTrackingPixel from './HSLAdformTrackingPixel';
 import ErrorBoundary from './ErrorBoundary';
 import { DesktopOrMobile } from '../util/withBreakpoint';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class TopLevel extends React.Component {
   static propTypes = {
@@ -30,6 +29,9 @@ class TopLevel extends React.Component {
     params: PropTypes.shape({
       from: PropTypes.string,
       to: PropTypes.string,
+      routeId: PropTypes.string,
+      stopId: PropTypes.string,
+      terminalId: PropTypes.string,
     }).isRequired,
     origin: dtLocationShape,
   };
@@ -50,21 +52,9 @@ class TopLevel extends React.Component {
     location: PropTypes.object,
   };
 
-  constructor(props, { headers, config }) {
+  constructor(props) {
     super(props);
-    const host = headers && (headers['x-forwarded-host'] || headers.host);
-
-    // TODO: Move this to server.js
-    const hasTrackingPixel = get(config, 'showHSLTracking', false);
-    this.trackingPixel =
-      host &&
-      host.indexOf('127.0.0.1') === -1 &&
-      host.indexOf('localhost') === -1 &&
-      hasTrackingPixel ? (
-        <HSLAdformTrackingPixel key="trackingpixel" />
-      ) : (
-        undefined
-      );
+    this.state = { loggedIn: false };
   }
 
   getChildContext() {
@@ -80,6 +70,64 @@ class TopLevel extends React.Component {
       this.setState({ logo: logo.default });
     });
   }
+
+  componentDidUpdate(prevProps) {
+    // send tracking calls when url changes
+    // listen for this here instead of in router directly to get access to old location as well
+    const oldLocation = prevProps.location.pathname;
+    const newLocation = this.props.location.pathname;
+    if (oldLocation && newLocation && oldLocation !== newLocation) {
+      addAnalyticsEvent({
+        event: 'Pageview',
+        url: newLocation,
+      });
+    }
+
+    // send tracking calls when visiting a new stop or route
+    const newContext = newLocation.slice(1, newLocation.indexOf('/', 1));
+    switch (newContext) {
+      case 'linjat':
+        if (
+          oldLocation.indexOf(newContext) !== 1 ||
+          (prevProps.params.routeId &&
+            this.props.params.routeId &&
+            prevProps.params.routeId !== this.props.params.routeId)
+        ) {
+          addAnalyticsEvent({
+            category: 'Route',
+            action: 'OpenRoute',
+            name: this.props.params.routeId,
+          });
+        }
+        break;
+      case 'pysakit':
+      case 'terminaalit':
+        if (
+          oldLocation.indexOf(newContext) !== 1 ||
+          (prevProps.params.stopId &&
+            this.props.params.stopId &&
+            prevProps.params.stopId !== this.props.params.stopId) ||
+          (prevProps.params.terminalId &&
+            this.props.params.terminalId &&
+            prevProps.params.terminalId !== this.props.params.terminalId)
+        ) {
+          addAnalyticsEvent({
+            category: 'Stop',
+            action: 'OpenStop',
+            name: this.props.params.stopId || this.props.params.terminalId,
+          });
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
+  logIn = () => {
+    this.setState(prevState => ({
+      loggedIn: !prevState.loggedIn,
+    }));
+  };
 
   render() {
     this.topBarOptions = Object.assign(
@@ -131,6 +179,8 @@ class TopLevel extends React.Component {
             {...this.topBarOptions}
             {...this.state}
             homeUrl={homeUrl}
+            loggedIn={this.state.loggedIn}
+            logIn={() => this.logIn()}
           />
         )}
         <section id="mainContent" className="content">
@@ -138,7 +188,6 @@ class TopLevel extends React.Component {
           <noscript>This page requires JavaScript to run.</noscript>
           <ErrorBoundary>{content}</ErrorBoundary>
         </section>
-        {this.trackingPixel}
       </Fragment>
     );
   }

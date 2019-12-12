@@ -17,6 +17,7 @@ import {
 } from '../action/FavouriteActions';
 import { isStop, isTerminal } from '../util/suggestionUtils';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class AddFavouriteContainer extends React.Component {
   static FavouriteIconIds = [
@@ -127,6 +128,11 @@ class AddFavouriteContainer extends React.Component {
       } else {
         this.context.executeAction(addFavouriteLocation, this.state.favourite);
       }
+      addAnalyticsEvent({
+        category: 'Favourite',
+        action: 'SaveFavourite',
+        name: this.state.favourite.selectedIconId,
+      });
       this.quit();
     }
   };

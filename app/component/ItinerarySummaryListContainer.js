@@ -15,6 +15,8 @@ import { getZones } from '../util/legUtils';
 import CanceledItineraryToggler from './CanceledItineraryToggler';
 import { RouteAlertsQuery, StopAlertsQuery } from '../util/alertQueries';
 import { itineraryHasCancelation } from '../util/alertUtils';
+import { matchQuickOption } from '../util/planParamUtil';
+import { getModes } from '../util/modeUtils';
 
 function ItinerarySummaryListContainer(
   {
@@ -32,9 +34,10 @@ function ItinerarySummaryListContainer(
     searchTime,
     to,
   },
-  { config },
+  context,
 ) {
   const [showCancelled, setShowCancelled] = useState(false);
+  const { config } = context;
 
   if (!error && itineraries && itineraries.length > 0) {
     const openedIndex = open && Number(open);
@@ -112,7 +115,23 @@ function ItinerarySummaryListContainer(
       msgId = 'no-route-origin-near-destination';
     }
   } else {
-    msgId = 'no-route-msg';
+    const quickOption = matchQuickOption(context);
+    const currentModes = getModes(context.location, context.config);
+    const modesDefault =
+      Object.entries(context.config.transportModes).every(
+        ([mode, modeConfig]) =>
+          currentModes.includes(mode.toUpperCase()) === modeConfig.defaultValue,
+      ) && currentModes.includes('PUBLIC_TRANSPORT');
+
+    const hasChanges =
+      quickOption === 'saved-settings' ||
+      quickOption === 'custom-settings' ||
+      !modesDefault;
+    if (hasChanges) {
+      msgId = 'no-route-msg-with-changes';
+    } else {
+      msgId = 'no-route-msg';
+    }
   }
 
   let linkPart = null;
@@ -183,6 +202,7 @@ ItinerarySummaryListContainer.defaultProps = {
 
 ItinerarySummaryListContainer.contextTypes = {
   config: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
 const containerComponent = Relay.createContainer(

@@ -1,16 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { routerShape } from 'react-router';
 import DTSearchAutosuggest from './DTSearchAutosuggest';
 import { saveSearch } from '../action/SearchActions';
 import { dtLocationShape } from '../util/shapes';
+import { getJson } from '../util/xhrPromise';
 
 class DTOldSearchSavingAutosuggest extends React.Component {
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
-    getStore: PropTypes.func.isRequired,
     config: PropTypes.object.isRequired,
-    router: routerShape.isRequired,
   };
 
   static propTypes = {
@@ -34,6 +32,13 @@ class DTOldSearchSavingAutosuggest extends React.Component {
     placeholder: '',
   };
 
+  finishSelect = (item, type) => {
+    if (item.type.indexOf('Favourite') === -1) {
+      this.context.executeAction(saveSearch, { item, type });
+    }
+    this.props.onSelect(item, type);
+  };
+
   onSelect = item => {
     // type is destination unless timetable or route was clicked
     let type = 'endpoint';
@@ -49,10 +54,21 @@ class DTOldSearchSavingAutosuggest extends React.Component {
       default:
     }
 
-    if (item.type.indexOf('Favourite') === -1) {
-      this.context.executeAction(saveSearch, { item, type });
+    if (item.type === 'OldSearch' && item.properties.gid) {
+      getJson(this.context.config.URL.PELIAS_PLACE, {
+        ids: item.properties.gid,
+      }).then(data => {
+        const newItem = { ...item };
+        if (data.features != null && data.features.length > 0) {
+          // update only position. It is surprising if, say, the name changes at selection.
+          const geom = data.features[0].geometry;
+          newItem.geometry.coordinates = geom.coordinates;
+        }
+        this.finishSelect(newItem, type);
+      });
+    } else {
+      this.finishSelect(item, type);
     }
-    this.props.onSelect(item, type);
   };
 
   render = () => {

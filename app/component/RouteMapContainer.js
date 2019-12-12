@@ -13,6 +13,7 @@ import VehicleMarkerContainer from './map/VehicleMarkerContainer';
 import StopCardHeaderContainer from './StopCardHeaderContainer';
 import { getStartTime } from '../util/timeUtils';
 import withBreakpoint from '../util/withBreakpoint';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class RouteMapContainer extends React.PureComponent {
   static contextTypes = {
@@ -74,6 +75,11 @@ class RouteMapContainer extends React.PureComponent {
     let tripStart;
 
     const toggleFullscreenMap = () => {
+      addAnalyticsEvent({
+        action: fullscreen ? 'MinimizeMapOnMobile' : 'MaximizeMapOnMobile',
+        category: 'Map',
+        name: 'RoutePage',
+      });
       if (fullscreen) {
         router.goBack();
         return;
@@ -164,6 +170,7 @@ export const RouteMapFragments = {
       stoptimesForDate {
         scheduledDeparture
       }
+      gtfsId
     }
   `,
 };
@@ -177,14 +184,20 @@ const RouteMapContainerWithVehicles = connectToStores(
       const tripStart = getStartTime(
         trip.stoptimesForDate[0].scheduledDeparture,
       );
-      const vehiclesWithCorrectStartTime = Object.keys(vehicles)
+      const matchingVehicles = Object.keys(vehicles)
         .map(key => vehicles[key])
-        .filter(vehicle => vehicle.tripStartTime === tripStart);
+        .filter(
+          vehicle =>
+            vehicle.tripStartTime === undefined ||
+            vehicle.tripStartTime === tripStart,
+        )
+        .filter(
+          vehicle =>
+            vehicle.tripId === undefined || vehicle.tripId === trip.gtfsId,
+        );
 
       const selectedVehicle =
-        vehiclesWithCorrectStartTime &&
-        vehiclesWithCorrectStartTime.length > 0 &&
-        vehiclesWithCorrectStartTime[0];
+        matchingVehicles && matchingVehicles.length > 0 && matchingVehicles[0];
 
       return { lat: selectedVehicle.lat, lon: selectedVehicle.long };
     }

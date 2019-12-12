@@ -3,7 +3,6 @@ import { describe, it } from 'mocha';
 import moment from 'moment';
 import {
   validateServiceTimeRange,
-  RANGE_FUTURE,
   RANGE_PAST,
 } from '../../../app/util/timeUtils';
 
@@ -21,7 +20,8 @@ describe('timeUtils', () => {
   describe('validateServiceTimeRange', () => {
     it('should return valid default time range from undefined input', () => {
       const range = null;
-      test(validateServiceTimeRange(range, now));
+      const futureDays = null; // DT-3175
+      test(validateServiceTimeRange(futureDays, range, now));
     });
 
     it('should fix invalid time range', () => {
@@ -29,7 +29,8 @@ describe('timeUtils', () => {
         start: now + 3600, // future
         end: now - 3600, // past
       };
-      test(validateServiceTimeRange(range, now));
+      const futureDays = null; // DT-3175
+      test(validateServiceTimeRange(futureDays, range, now));
     });
 
     it('should not change the days of a proper time range', () => {
@@ -37,7 +38,8 @@ describe('timeUtils', () => {
         start: now - 3600 * 24, // yesterday
         end: now + 3600 * 24 * 7, // next week
       };
-      const validated = validateServiceTimeRange(range, now);
+      const futureDays = null; // DT-3175
+      const validated = validateServiceTimeRange(futureDays, range, now);
       test(validated);
       expect(moment.unix(validated.start).dayOfYear()).to.equal(
         moment.unix(range.start).dayOfYear(),
@@ -52,7 +54,8 @@ describe('timeUtils', () => {
         start: now - 3600 * 24 * 365 * 2, // 2 years in the past
         end: now + 3600 * 24 * 365 * 2,
       };
-      const validated = validateServiceTimeRange(range, now);
+      const RANGE_FUTURE = 30; // DT-3175
+      const validated = validateServiceTimeRange(RANGE_FUTURE, range, now);
       test(validated);
       expect((validated.end - validated.start) / 1000 / 86400).to.be.at.most(
         RANGE_FUTURE + RANGE_PAST + 1,
