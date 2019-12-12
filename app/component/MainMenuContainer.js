@@ -20,8 +20,7 @@ class MainMenuContainer extends Component {
   static propTypes = {
     homeUrl: PropTypes.string.isRequired,
     isOpen: PropTypes.bool,
-    loggedIn: PropTypes.bool,
-    logIn: PropTypes.func,
+    user: PropTypes.object,
   };
 
   static defaultProps = {
@@ -89,8 +88,7 @@ class MainMenuContainer extends Component {
                 showDisruptionInfo={isOpen && !isForcedOpen}
                 visible={isOpen}
                 homeUrl={this.props.homeUrl}
-                loggedIn={this.props.loggedIn}
-                logIn={this.props.logIn}
+                user={this.props.user}
               />
             </Drawer>
           )}

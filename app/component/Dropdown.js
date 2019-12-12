@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import Icon from './Icon';
+import { Link } from 'react-router';
 
 export default class Dropdown extends Component {
 
@@ -72,19 +73,20 @@ export default class Dropdown extends Component {
               <button
                 className="noborder"
                 key={item.key}
-                onClick={() => item.onClick()}
               >
-                <div
-                  className={cx(
-                    'dropdown-list-item',
-                    isMobile ? 'mobile' : 'desktop',
-                  )}
-                >
-                  <FormattedMessage
-                    id={item.messageId}
-                    defaultMessage={item.messageId}
-                  />
-                </div>
+                <a href={item.href}>
+                  <div
+                    className={cx(
+                      'dropdown-list-item',
+                      isMobile ? 'mobile' : 'desktop',
+                    )}
+                  >
+                    <FormattedMessage
+                      id={item.messageId}
+                      defaultMessage={item.messageId}
+                    />
+                  </div>
+                </a>
               </button>
             ))}
           </div>

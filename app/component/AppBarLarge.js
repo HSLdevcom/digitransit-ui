@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import ExternalLink from './ExternalLink';
 import DisruptionInfo from './DisruptionInfo';
 import Icon from './Icon';
@@ -14,12 +13,13 @@ import LogoSmall from './LogoSmall';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import LoginButton from './LoginButton';
 import Dropdown from './Dropdown';
-import setUser from '../action/userActions';
+import { LoginStates } from '../util/apiUtils';
 
 const AppBarLarge = (
-  { titleClicked, logo, loggedIn, logIn, user },
+  { titleClicked, logo, user },
   { router, location, config, intl, executeAction },
 ) => {
+
   const openDisruptionInfo = () => {
     addAnalyticsEvent({
       category: 'Navigation',
@@ -65,21 +65,21 @@ const AppBarLarge = (
         </button>
         <div className="empty-space flex-grow" />
         {config.showLogin &&
-          (user.lo ? (
+          (!user.name ? 
+            (<div className="right-border">
+              <LoginButton />
+            </div>
+          ) : (
             <Dropdown
               user={user}
               list={[
                 {
                   key: 'dropdown-item-1',
                   messageId: 'logout',
-                  onClick: () => { window.location.href = '/logout'},
+                  href: "/logout"
                 },
               ]}
             />
-          ) : (
-            <div className="right-border">
-              <LoginButton />
-            </div>
           ))}
 
         <div className="navi-languages right-border navi-margin">
@@ -121,8 +121,6 @@ const AppBarLarge = (
 AppBarLarge.propTypes = {
   titleClicked: PropTypes.func.isRequired,
   logo: PropTypes.string,
-  loggedIn: PropTypes.bool,
-  logIn: PropTypes.func,
   user: PropTypes.object,
 };
 
@@ -148,12 +146,4 @@ AppBarLarge.description = () => (
   </div>
 );
 
-const withUser = connectToStores(
-  AppBarLarge,
-  ['UserStore'],
-  context => ({
-    user: context.getStore('UserStore').getUser(),
-  }),
-);
-
-export { withUser as default, AppBarLarge as Component}
+export { AppBarLarge as default, AppBarLarge as Component}

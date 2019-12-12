@@ -37,7 +37,7 @@ class TopLevel extends React.Component {
   static contextTypes = {
     headers: PropTypes.object.isRequired,
     config: PropTypes.object.isRequired,
-    executeAction: PropTypes.func.isRequired
+    executeAction: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -68,20 +68,10 @@ class TopLevel extends React.Component {
     }`).then(logo => {
       this.setState({ logo: logo.default });
     });
-    getJson('/api/user').then(user => {
-      this.context.executeAction(setUser, user);
+    return getJson('/api/user').then(user => {
+      this.context.executeAction(setUser, { ...user, loginState: LoginStates.LOGIN_OK });
     }).catch(err => {
       this.context.executeAction(setUser, { loginState: LoginStates.LOGIN_FAILED });
-    });
-  }
-
-  logIn = () => {
-    fetch('/login');
-  };
-
-  logOut = () => {
-    fetch('/logout').then(() => {
-      this.context.executeAction(setUser, {});
     });
   }
 
@@ -135,8 +125,6 @@ class TopLevel extends React.Component {
             {...this.topBarOptions}
             {...this.state}
             homeUrl={homeUrl}
-            loggedIn={this.state.loggedIn}
-            logIn={() => this.logIn()}
           />
         )}
         <section id="mainContent" className="content">

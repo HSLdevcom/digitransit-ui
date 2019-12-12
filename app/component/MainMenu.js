@@ -56,21 +56,21 @@ function MainMenu(props, { config, intl }) {
         ).filter(item => item.href || item.route)}
       />
       {config.showLogin &&
-        (props.loggedIn ? (
+        (props.user.name ? (
           <Dropdown
-            username="Matti Meikäläinen"
+            user={props.user}
             list={[
               {
                 key: 'dropdown-item-1',
                 messageId: 'logout',
-                onClick: () => props.logIn(),
+                href: '/logout',
               },
             ]}
             isMobile
           />
         ) : (
           <div className="offcanvas-section">
-            <LoginButton logIn={() => props.logIn()} />
+            <LoginButton />
           </div>
         ))}
     </div>
@@ -82,8 +82,7 @@ MainMenu.propTypes = {
   toggleVisibility: PropTypes.func.isRequired,
   visible: PropTypes.bool,
   homeUrl: PropTypes.string.isRequired,
-  loggedIn: PropTypes.bool,
-  logIn: PropTypes.func,
+  user: PropTypes.object,
 };
 
 MainMenu.defaultProps = {
