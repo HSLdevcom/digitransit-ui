@@ -17,7 +17,6 @@ import {
   getServiceAlertsForStop,
   getServiceAlertsForStopRoutes,
   isAlertActive,
-  isAlertValid,
   getActiveAlertSeverityLevel,
   getCancelationsForRoute,
   getServiceAlertsForRoute,
@@ -80,7 +79,6 @@ function StopPageTabContainer(
   if (stop.routes && stop.routes.length > 0) {
     stop.routes.forEach(route => {
       const patternId = route.patterns.code;
-      // console.log(patternId);
       const hasActiveRouteAlert = isAlertActive(
         getCancelationsForRoute(route, patternId),
         [
@@ -89,47 +87,33 @@ function StopPageTabContainer(
         ],
         currentTime,
       );
-      // console.log(a);
-      const hasActiveServiceAlerts = getActiveAlertSeverityLevel(
+      const hasActiveRouteServiceAlerts = getActiveAlertSeverityLevel(
         getServiceAlertsForRoute(route, patternId),
         currentTime,
       );
-      console.log(hasActiveServiceAlerts);
       return (
-        (hasActiveRouteAlert || hasActiveServiceAlerts) &&
+        (hasActiveRouteAlert || hasActiveRouteServiceAlerts) &&
         stopRoutesWithAlerts.push(...route.alerts)
       );
-      // return (
-      //   route.alerts.some(alert => isAlertValid(alert, currentTime)) &&
-      //   stopRoutesWithAlerts.push(...route.alerts)
-      // );
     });
   }
 
-  console.log(stopRoutesWithAlerts);
-  // console.log(hasActiveAlert)
-  // console.log(stopRoutesWithAlerts)
-  // console.log("asd " + stopRoutesWithAlerts.find(
-  //   alert =>
-  //     alert.severityLevel ===
-  //     (AlertSeverityLevelType.Severe || AlertSeverityLevelType.Warning))&&
-  //     'active-disruption-alert')
   const disruptionClassName =
     ((hasActiveAlert ||
-      stopRoutesWithAlerts.find(
+      stopRoutesWithAlerts.some(
         alert =>
-          alert.severityLevel ===
-          (AlertSeverityLevelType.Severe || AlertSeverityLevelType.Warning),
+          alert.alertSeverityLevel === AlertSeverityLevelType.Severe ||
+          alert.alertSeverityLevel === AlertSeverityLevelType.Warning,
       )) &&
       'active-disruption-alert') ||
     ((hasActiveServiceAlerts ||
-      stopRoutesWithAlerts.find(
+      stopRoutesWithAlerts.some(
         alert =>
-          alert.severityLevel !==
-          (AlertSeverityLevelType.Severe || AlertSeverityLevelType.Warning),
+          alert.alertSeverityLevel === AlertSeverityLevelType.Severe ||
+          alert.alertSeverityLevel === AlertSeverityLevelType.Warning,
       )) &&
       'active-service-alert');
-  console.log(disruptionClassName);
+
   return (
     <div className="stop-page-content-wrapper">
       <div>
@@ -207,7 +191,11 @@ function StopPageTabContainer(
                 <Icon
                   className={`stop-page-tab_icon ${disruptionClassName ||
                     `no-alerts`}`}
-                  img={hasActiveAlert ? 'icon-icon_caution' : 'icon-icon_info'}
+                  img={
+                    disruptionClassName === 'active-disruption-alert'
+                      ? 'icon-icon_caution'
+                      : 'icon-icon_info'
+                  }
                 />
               </div>
               <div className={`${disruptionClassName || `no-alerts`}`}>

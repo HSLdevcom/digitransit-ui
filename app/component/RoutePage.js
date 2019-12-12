@@ -182,7 +182,6 @@ class RoutePage extends React.Component {
     }
 
     const activeTab = getActiveTab(location.pathname);
-    console.log(patternId);
     const currentTime = moment().unix();
     const hasActiveAlert = isAlertActive(
       getCancelationsForRoute(route, patternId),
