@@ -214,7 +214,14 @@ const isViaPointConnectingLeg = (leg, nextLeg, intermediatePlaces) => {
 };
 
 const SummaryRow = (
-  { data, breakpoint, intermediatePlaces, zones, renderAlwaysNonTransitLegs, ...props },
+  {
+    data,
+    breakpoint,
+    intermediatePlaces,
+    zones,
+    renderAlwaysNonTransitLegs,
+    ...props
+  },
   { intl, intl: { formatMessage }, config },
 ) => {
   const isTransitLeg = leg => leg.transitLeg || leg.rentedBike;

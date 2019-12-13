@@ -54,6 +54,7 @@ function ItinerarySummaryListContainer(
         intermediatePlaces={intermediatePlaces}
         isCancelled={itineraryHasCancelation(itinerary)}
         showCancelled={showCancelled}
+        renderAlwaysNonTransitLegs
         zones={config.stopCard.header.showZone ? getZones(itinerary.legs) : []}
       >
         {i === openedIndex && children}
