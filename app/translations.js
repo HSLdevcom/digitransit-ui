@@ -445,7 +445,9 @@ const translations = {
     nearest: 'Nächste',
     'network-error': 'Ein Netzwerkfehler ist aufgetreten.',
     next: 'Nächste',
-    'no-bike-allowed-popup':
+    'no-bike-allowed-popup-train-bus':
+      'Bicycles are allowed on buses outside of rush hours if there is enough space. Bicycles are allowed on commuter trains but on long distance trains you have to pay an extra fee and it might require a reservation.',
+    'no-bike-allowed-popup-tram-bus':
       'Die Fahrradmitnahme ist in Bussen und Straßenbahnen nicht erlaubt. Lassen Sie Ihr Fahrrad bitte an der Haltestelle oder an Park&Ride Plätzen, wenn Sie diese Verkehrsmittel benutzen. ',
     'no-departures': 'Keine Abfahrten',
     'no-favourite-locations': 'Fügen Sie ihre meist genutzen Orte hier hinzu.',
@@ -843,7 +845,9 @@ const translations = {
     nearest: 'Nearest',
     'network-error': 'Network error',
     next: 'Next',
-    'no-bike-allowed-popup':
+    'no-bike-allowed-popup-train-bus':
+      'Bicycles are allowed on buses outside of rush hours if there is enough space. Bicycles are allowed on commuter trains but on long distance trains you have to pay an extra fee and it might require a reservation.',
+    'no-bike-allowed-popup-tram-bus':
       'Bicycles are not allowed on buses or trams. If you are using these vehicles on your route, leave the bicycle at the stop or at a Park-and-Ride. ',
     'no-departures': 'No departures',
     'no-favourite-locations':
@@ -1569,7 +1573,9 @@ const translations = {
     nearest: 'Lähimmät',
     'network-error': 'Verkkovirhe',
     next: 'Seuraava',
-    'no-bike-allowed-popup':
+    'no-bike-allowed-popup-train-bus':
+      'Pyörän voi ottaa mukaan bussiin ruuhka-ajan ulkopuolella, jos on tilaa. Lähiliikenteen juniin pyörän voi ottaa mukaan ilmaiseksi, mutta pitkän matkan junissa peritään lisämaksu ja mahdollisesti vaaditaan etukäteisvaraus.',
+    'no-bike-allowed-popup-tram-bus':
       'Pyörää ei voi ottaa bussiin tai raitiovaunuun. Jos käytät reitilläsi näitä kulkuvälineitä, jätä pyörä pysäkille tai liityntäpysäköintiin.',
     'no-departures': 'Ei lähteviä vuoroja',
     'no-favourite-locations':
@@ -1952,7 +1958,9 @@ const translations = {
     nearest: 'Le plus proche',
     'network-error': 'Erreur réseau',
     next: 'Suivant',
-    'no-bike-allowed-popup':
+    'no-bike-allowed-popup-train-bus':
+      'Bicycles are allowed on buses outside of rush hours if there is enough space. Bicycles are allowed on commuter trains but on long distance trains you have to pay an extra fee and it might require a reservation.',
+    'no-bike-allowed-popup-tram-bus':
       "Les vélos ne sont pas autorisés dans les bus ou les trams. Si vous utilisez ces véhicules sur votre trajet, laissez le vélo à l'arrêt ou à un Parc Relais.",
     'no-favourite-locations':
       'Ajoutez vos lieux favoris ici. Les boutons calculeront votre itinéraire automatiquement',
@@ -2605,7 +2613,9 @@ const translations = {
     nearest: 'Närmaste',
     'network-error': 'Nätverksfel',
     next: 'Nästa',
-    'no-bike-allowed-popup':
+    'no-bike-allowed-popup-train-bus':
+      'Man kan resa med cykel i bussar utanför rusningstid, om det finns utrymme. Du kan ta med cykeln i närtågen avgiftsfritt, men i andra tåg är det avgiftsbelagt och kräver möjligtvis en förhandsreservation.',
+    'no-bike-allowed-popup-tram-bus':
       'Cyklar är inte tillåtna i bussar eller spårvagnar. Om du använder dessa fordon på din färd, lämna cykeln vid hållplatsen eller vid infartsparkeringen.',
     'no-departures': 'Inga avgående resor',
     'no-favourite-locations':

@@ -235,6 +235,9 @@ export default configMerger(walttiConfig, {
     },
   },
 
+  // boarding a long distance train with bicycle costs extra
+  modesWithNoBike: ['BUS', 'RAIL'],
+
   // Number of days to include to the service time range from the future (DT-3175)
   itineraryFutureDays: 60,
 });
