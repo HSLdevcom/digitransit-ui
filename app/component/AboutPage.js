@@ -20,9 +20,9 @@ const AboutPage = ({ currentLanguage }, { config }) => {
                 <h1 className="about-header">{section.header}</h1>
                 {section.paragraphs &&
                   section.paragraphs.map((p, j) => (
-                    <p key={`about-section-${i}-p-${j}`}>
+                    <section key={`about-section-${i}-p-${j}`}>
                       <SanitizedHTML allowedTags={allowedTags} html={p} />
-                    </p>
+                    </section>
                   ))}
                 {section.link && (
                   <a href={section.link}>
