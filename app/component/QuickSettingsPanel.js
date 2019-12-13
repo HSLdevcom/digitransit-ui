@@ -172,7 +172,7 @@ class QuickSettingsPanel extends React.Component {
           textId={
             Array.isArray(modesWithNoBicycle) &&
             modesWithNoBicycle.includes('RAIL')
-              ? 'no-bike-allowed-popup-train-bus'
+              ? 'no-bike-allowed-popup-train'
               : 'no-bike-allowed-popup-tram-bus'
           }
           icon="caution"
