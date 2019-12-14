@@ -41,8 +41,8 @@ describe('<AboutPage />', () => {
       context,
       childContextTypes: { ...mockChildContextTypes },
     });
-    expect(wrapper.find('p').first().text()).to.equal('foo1'); //eslint-disable-line
-    expect(wrapper.find('p').last().text()).to.equal('foo2'); //eslint-disable-line
+    expect(wrapper.find('section').first().text()).to.equal('foo1'); //eslint-disable-line
+    expect(wrapper.find('section').last().text()).to.equal('foo2'); //eslint-disable-line
     expect(wrapper.find('.about-header').first().text()).to.equal('header1'); //eslint-disable-line
     expect(wrapper.find('.about-header').last().text()).to.equal('header2'); //eslint-disable-line
   });
@@ -61,6 +61,6 @@ describe('<AboutPage />', () => {
       childContextTypes: { ...mockChildContextTypes },
     });
     expect(wrapper.find('.about-header').first().text()).to.equal('sv_header1'); //eslint-disable-line
-    expect(wrapper.find('p').first().text()).to.equal('sv_foo1'); //eslint-disable-line
+    expect(wrapper.find('section').first().text()).to.equal('sv_foo1'); //eslint-disable-line
   });
 });

@@ -214,7 +214,14 @@ const isViaPointConnectingLeg = (leg, nextLeg, intermediatePlaces) => {
 };
 
 const SummaryRow = (
-  { data, breakpoint, intermediatePlaces, zones, ...props },
+  {
+    data,
+    breakpoint,
+    intermediatePlaces,
+    zones,
+    renderAlwaysNonTransitLegs,
+    ...props
+  },
   { intl, intl: { formatMessage }, config },
 ) => {
   const isTransitLeg = leg => leg.transitLeg || leg.rentedBike;
@@ -225,7 +232,6 @@ const SummaryRow = (
   const slackDuration = getTotalSlackDuration(intermediatePlaces);
   const legs = [];
   let noTransitLegs = true;
-  const renderAlwaysNonTransitLegs = true; // if true walking and bike renting will also be displayed
 
   if (!renderAlwaysNonTransitLegs) {
     data.legs.forEach(leg => {
@@ -500,11 +506,13 @@ SummaryRow.propTypes = {
   intermediatePlaces: PropTypes.array,
   isCancelled: PropTypes.bool,
   showCancelled: PropTypes.bool,
+  renderAlwaysNonTransitLegs: PropTypes.bool,
   zones: PropTypes.arrayOf(PropTypes.string),
 };
 
 SummaryRow.defaultProps = {
   zones: [],
+  renderAlwaysNonTransitLegs: false,
 };
 
 SummaryRow.contextTypes = {
