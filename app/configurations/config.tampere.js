@@ -36,7 +36,7 @@ export default configMerger(walttiConfig, {
 
   favicon: './sass/themes/tampere/favicon.png',
 
-  feedIds: ['tampere'],
+  feedIds: ['tampere', 'TampereVR'],
 
   geoJson: {
     layers: [
@@ -234,6 +234,9 @@ export default configMerger(walttiConfig, {
       defaultValue: true,
     },
   },
+
+  // boarding a long distance train with bicycle costs extra
+  modesWithNoBike: ['RAIL'],
 
   // Number of days to include to the service time range from the future (DT-3175)
   itineraryFutureDays: 60,
