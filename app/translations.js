@@ -1523,6 +1523,7 @@ const translations = {
     'itinerary-page.hide-details': 'Piilota reittiohje',
     'itinerary-page.show-details': 'Näytä reittiohje',
     'itinerary-page.title': 'Reittiohje',
+    'itinerary-summary-page.description': 'Reittiehdotukset',
     'itinerary-ticket.title': 'Tarvittava lippu',
     'itinerary-tickets.title': 'Tarvittavat liput',
     'itinerary-time.title': 'Matka-aika',

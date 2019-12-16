@@ -183,7 +183,7 @@ class TopLevel extends React.Component {
             logIn={() => this.logIn()}
           />
         )}
-        <section id="mainContent" className="content">
+        <section id="mainContent" className="content" aria-live="polite">
           {this.props.meta}
           <noscript>This page requires JavaScript to run.</noscript>
           <ErrorBoundary>{content}</ErrorBoundary>
