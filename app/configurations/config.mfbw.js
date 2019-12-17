@@ -51,5 +51,12 @@ export default configMerger(hbConfig, {
     carpool: 'CARPOOLING',
   },
 
+  transportModes: {
+    carpool: {
+      availableForSelection: true,
+      defaultValue: false,
+    }
+  },
+
   staticMessagesUrl: STATIC_MESSAGE_URL,
 });
