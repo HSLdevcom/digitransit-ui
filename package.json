@@ -180,7 +180,7 @@
     "selenium-webdriver": "4.0.0-alpha.1",
     "sinon": "7.3.1",
     "stats-webpack-plugin": "0.7.0",
-    "style-loader": "0.23.1",
+    "style-loader": "1.0.2",
     "stylelint": "9.10.1",
     "stylelint-scss": "3.5.3",
     "terser-webpack-plugin": "1.2.1",
