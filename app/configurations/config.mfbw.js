@@ -47,5 +47,9 @@ export default configMerger(hbConfig, {
     description: APP_DESCRIPTION,
   },
 
+  modeToOTP: {
+    carpool: 'CARPOOLING',
+  },
+
   staticMessagesUrl: STATIC_MESSAGE_URL,
 });
