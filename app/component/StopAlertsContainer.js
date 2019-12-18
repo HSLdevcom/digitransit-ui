@@ -17,6 +17,10 @@ import {
   otpServiceAlertShape,
   getServiceAlertsForStopRoutes,
   getServiceAlertsForTerminalStops,
+  routeHasServiceAlert,
+  getServiceAlertsForRoute,
+  routeHasCancelation,
+  getCancelationsForRoute,
 } from '../util/alertUtils';
 
 const StopAlertsContainer = ({ stop }, { intl }) => {
@@ -43,12 +47,32 @@ const StopAlertsContainer = ({ stop }, { intl }) => {
       },
     };
   });
+
+  const serviceAlertsForRoutes = [];
+  const disruptionsForRoutes = [];
+
+  if (stop.routes) {
+    stop.routes.forEach(
+      route =>
+        routeHasServiceAlert(route) &&
+        serviceAlertsForRoutes.push(
+          ...getServiceAlertsForRoute(route, route.gtfsId, intl.locale),
+        ) &&
+        (routeHasCancelation(route) &&
+          disruptionsForRoutes.push(
+            ...getCancelationsForRoute(route, route.gtfsId, intl.locale),
+          )),
+    );
+  }
+
   const isTerminal = !stop.code;
   const serviceAlerts = [
     // Alerts for terminal's stops.
     ...getServiceAlertsForTerminalStops(isTerminal, stop, intl.locale),
     ...getServiceAlertsForStop(stop, intl.locale),
     ...getServiceAlertsForStopRoutes(stop, intl.locale),
+    ...serviceAlertsForRoutes,
+    ...disruptionsForRoutes,
   ];
 
   return (
@@ -98,6 +122,14 @@ const containerComponent = Relay.createContainer(StopAlertsContainer, {
   fragments: {
     stop: () => Relay.QL`
       fragment Timetable on Stop {
+        routes {
+          gtfsId
+          shortName
+          longName
+          mode
+          color
+          ${RouteAlertsWithContentQuery}
+        }
         ${StopAlertsWithContentQuery}
         stoptimes: stoptimesWithoutPatterns(
           startTime:$startTime,
@@ -117,6 +149,7 @@ const containerComponent = Relay.createContainer(StopAlertsContainer, {
               color
               mode
               shortName
+              gtfsId
               ${RouteAlertsWithContentQuery}
             }
             stops {

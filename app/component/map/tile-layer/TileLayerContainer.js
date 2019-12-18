@@ -215,7 +215,8 @@ class TileLayerContainer extends GridLayer {
     if (this.state.selectableTargets.length === 0) {
       return;
       // event for clicking somewhere else on the map will be handled in LocationPopup
-    } else if (this.state.selectableTargets.length === 1) {
+    }
+    if (this.state.selectableTargets.length === 1) {
       const target = this.state.selectableTargets[0];
       const { properties } = target.feature;
       name = target.layer;
