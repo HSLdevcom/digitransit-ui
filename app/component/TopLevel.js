@@ -70,11 +70,18 @@ class TopLevel extends React.Component {
       this.setState({ logo: logo.default });
     });
     if (!this.props.user.name) {
-      getJson(`/api/user`).then(user => {
-        context.executeAction(setUser, { ...user, loginState: LoginStates.LOGIN_OK });
-      }).catch(err => {
-        context.executeAction(setUser, { loginState: LoginStates.LOGIN_FAILED });
-      });
+      getJson(`/api/user`)
+        .then(user => {
+          this.context.executeAction(setUser, {
+            ...user,
+            loginState: LoginStates.LOGIN_OK,
+          });
+        })
+        .catch(() => {
+          this.context.executeAction(setUser, {
+            loginState: LoginStates.LOGIN_FAILED,
+          });
+        });
     }
   }
 
@@ -140,7 +147,11 @@ class TopLevel extends React.Component {
   }
 }
 
-export default connectToStores(TopLevel, ['OriginStore', 'UserStore'], ({ getStore }) => ({
-  origin: getStore('OriginStore').getOrigin(),
-  user: getStore('UserStore').getUser(),
-}));
+export default connectToStores(
+  TopLevel,
+  ['OriginStore', 'UserStore'],
+  ({ getStore }) => ({
+    origin: getStore('OriginStore').getOrigin(),
+    user: getStore('UserStore').getUser(),
+  }),
+);

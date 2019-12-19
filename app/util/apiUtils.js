@@ -45,4 +45,3 @@ export const LoginStates = {
   LOGIN_FAILED: 'LOGIN_FAILED',
   LOGIN_EXPIRED: 'LOGIN_EXPIRED',
 };
-

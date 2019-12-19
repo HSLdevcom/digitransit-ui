@@ -3,10 +3,10 @@ import React, { Fragment } from 'react';
 import { routerShape, locationShape } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import getContext from 'recompose/getContext';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import AppBarSmall from './AppBarSmall';
 import AppBarLarge from './AppBarLarge';
 import { DesktopOrMobile } from '../util/withBreakpoint';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 
 const AppBarContainer = ({
   router,

@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign, no-console, strict, global-require */
+/* eslint-disable no-param-reassign, no-console, strict, global-require, no-unused-vars */
 
 'use strict';
 
@@ -18,7 +18,7 @@ const proxy = require('express-http-proxy');
 global.self = { fetch: global.fetch };
 
 let Raven;
-let devhost = '';
+const devhost = '';
 
 if (process.env.NODE_ENV === 'production' && process.env.SENTRY_SECRET_DSN) {
   Raven = require('raven');
@@ -36,6 +36,11 @@ const express = require('express');
 const expressStaticGzip = require('express-static-gzip');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const passport = require('passport');
+const session = require('express-session');
+const FileStore = require('session-file-store')(session);
+const request = require('request');
+const logger = require('morgan');
 const { retryFetch } = require('../app/util/fetchUtils');
 const config = require('../app/config').getConfiguration();
 
@@ -47,26 +52,24 @@ const app = express();
 const callbackPath = '/oid_callback'; // connect callback path
 
 // Use Passport with OpenId Connect strategy to authenticate users
-const passport = require('passport');
-const LoginStrategy = require('./passport-openid-connect/Strategy').Strategy;
-const session = require('express-session');
-const FileStore = require('session-file-store')(session);
+
 const OIDCHost = process.env.OIDCHOST || 'https://hslid-dev.t5.fi';
-const request = require('request');
-const logger = require('morgan');
+const LoginStrategy = require('./passport-openid-connect/Strategy').Strategy;
 
 const oic = new LoginStrategy({
-  issuerHost: process.env.OIDC_ISSUER || (OIDCHost + '/.well-known/openid-configuration'),
+  issuerHost:
+    process.env.OIDC_ISSUER || `${OIDCHost}/.well-known/openid-configuration`,
   client_id: process.env.OIDC_CLIENT_ID,
   client_secret: process.env.OIDC_CLIENT_SECRET,
-  redirect_uri: process.env.OIDC_CLIENT_CALLBACK || ('http://localhost:' + port + callbackPath),
+  redirect_uri:
+    process.env.OIDC_CLIENT_CALLBACK ||
+    `http://localhost:${port}${callbackPath}`,
   scope: 'openid profile',
 });
 
 passport.use(oic);
 passport.serializeUser(LoginStrategy.serializeUser);
 passport.deserializeUser(LoginStrategy.deserializeUser);
-
 
 /* Setup functions */
 
@@ -78,17 +81,19 @@ function setUpOIDC() {
   app.use(require('helmet')());
 
   // Passport requires session to persist the authentication
-  app.use(session({
-    secret: process.env.SESSION_SECRET || 'reittiopas_secret',
-    store: new FileStore(),
-    resave: false,
-    saveUninitialized: true,
-  /*  cookie : {
+  app.use(
+    session({
+      secret: process.env.SESSION_SECRET || 'reittiopas_secret',
+      store: new FileStore(),
+      resave: false,
+      saveUninitialized: true,
+      /*  cookie : {
       secure: true,
       httpOnly: true,
       maxAge: 1000* 60 * 60 *24 * 365 * 10
       } */
-  }))
+    }),
+  );
 
   // Initialize Passport
   app.use(passport.initialize());
@@ -97,44 +102,54 @@ function setUpOIDC() {
   // Initiates an authentication request
   // users will be redirected to hsl.id and once authenticated
   // they will be returned to the callback handler below
-  app.get('/login', passport.authenticate('passport-openid-connect', {
-    successReturnToOrRedirect: '/',
-    scope: 'profile'
-  }));
+  app.get(
+    '/login',
+    passport.authenticate('passport-openid-connect', {
+      successReturnToOrRedirect: '/',
+      scope: 'profile',
+    }),
+  );
 
   // Callback handler that will redirect back to application after successfull authentication
-  app.get(callbackPath, passport.authenticate('passport-openid-connect', {
-    callback: true,
-    successReturnToOrRedirect: devhost + '/',
-    failureRedirect: '/'
-  }));
+  app.get(
+    callbackPath,
+    passport.authenticate('passport-openid-connect', {
+      callback: true,
+      successReturnToOrRedirect: `${devhost}/`,
+      failureRedirect: '/',
+    }),
+  );
 
-  app.get('/logout', function(req, res){
+  app.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
   });
 
   app.use('/api', function(req, res, next) {
-    if(req.isAuthenticated()){
+    if (req.isAuthenticated()) {
       next();
-    } else{
+    } else {
       res.sendStatus(401);
     }
   });
-  
+
   /* GET the profile of the current authenticated user */
   app.get('/api/user', function(req, res, next) {
-    request.get(OIDCHost + '/openid/userinfo', {
-      'auth': {
-        'bearer': req.user.token.access_token
-      }
-    },function(err, response, body){
-      if (!err && response.statusCode == 200) {
-        const user = JSON.parse(body);
-        body = JSON.stringify(user);
-      }
-      res.send(body);
-    });
+    request.get(
+      `${OIDCHost}/openid/userinfo`,
+      {
+        auth: {
+          bearer: req.user.token.access_token,
+        },
+      },
+      function(err, response, body) {
+        if (!err && response.statusCode === 200) {
+          const user = JSON.parse(body);
+          body = JSON.stringify(user);
+        }
+        res.send(body);
+      },
+    );
   });
 }
 

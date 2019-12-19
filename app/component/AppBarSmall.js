@@ -24,10 +24,7 @@ const AppBarSmall = ({
       <section className="title">
         <LogoSmall showLogo={showLogo} logo={logo} title={title} />
       </section>
-      <MainMenuContainer
-        homeUrl={homeUrl}
-        user={user}
-      />
+      <MainMenuContainer homeUrl={homeUrl} user={user} />
     </nav>
     <MessageBar />
     <CanceledLegsBar />

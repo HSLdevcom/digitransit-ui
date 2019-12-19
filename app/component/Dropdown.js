@@ -3,10 +3,8 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import Icon from './Icon';
-import { Link } from 'react-router';
 
 export default class Dropdown extends Component {
-
   static propTypes = {
     list: PropTypes.array,
     isMobile: PropTypes.bool,
@@ -58,7 +56,7 @@ export default class Dropdown extends Component {
                   isMobile ? 'mobile' : 'desktop',
                 )}
               >
-                {user ? user.name : ''} 
+                {user ? user.name : ''}
               </div>
               <div className={listOpen ? 'rotate-icon' : ''}>
                 <Icon img="icon-icon_arrow-dropdown" color="#fff" />
@@ -70,10 +68,7 @@ export default class Dropdown extends Component {
           <div className={cx('dropdown-list', isMobile ? 'mobile' : '')}>
             {/* eslint-disable jsx-a11y/click-events-have-key-events */}
             {list.map(item => (
-              <button
-                className="noborder"
-                key={item.key}
-              >
+              <button className="noborder" key={item.key}>
                 <a href={item.href}>
                   <div
                     className={cx(

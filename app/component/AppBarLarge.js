@@ -13,13 +13,11 @@ import LogoSmall from './LogoSmall';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import LoginButton from './LoginButton';
 import Dropdown from './Dropdown';
-import { LoginStates } from '../util/apiUtils';
 
 const AppBarLarge = (
   { titleClicked, logo, user },
-  { router, location, config, intl, executeAction },
+  { router, location, config, intl },
 ) => {
-
   const openDisruptionInfo = () => {
     addAnalyticsEvent({
       category: 'Navigation',
@@ -45,7 +43,7 @@ const AppBarLarge = (
   } else {
     logoElement = <LogoSmall className="navi-logo" logo={logo} showLogo />;
   }
-  
+
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/anchor-is-valid */
   return (
     <div>
@@ -65,8 +63,8 @@ const AppBarLarge = (
         </button>
         <div className="empty-space flex-grow" />
         {config.showLogin &&
-          (!user.name ? 
-            (<div className="right-border">
+          (!user.name ? (
+            <div className="right-border">
               <LoginButton />
             </div>
           ) : (
@@ -76,7 +74,7 @@ const AppBarLarge = (
                 {
                   key: 'dropdown-item-1',
                   messageId: 'logout',
-                  href: "/logout"
+                  href: '/logout',
                 },
               ]}
             />
@@ -146,4 +144,4 @@ AppBarLarge.description = () => (
   </div>
 );
 
-export { AppBarLarge as default, AppBarLarge as Component}
+export { AppBarLarge as default, AppBarLarge as Component };

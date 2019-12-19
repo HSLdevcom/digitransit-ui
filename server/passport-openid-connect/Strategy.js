@@ -1,12 +1,11 @@
+/* eslint-disable no-console, strict, no-unused-vars, prefer-destructuring, consistent-return */
+
+'use strict';
+
 const openid = require('openid-client');
-
 const passport = require('passport');
-
 const util = require('util');
-
 const User = require('./User').User;
-
-const Passport = require('passport').Passport;
 
 const OICStrategy = function(config) {
   this.name = 'passport-openid-connect';
@@ -49,6 +48,7 @@ OICStrategy.prototype.authenticate = function(req, opts) {
   }
   const authurl = this.client.authorizationUrl({
     client_id: this.config.client_id,
+    client_secret: this.config.client_secret,
     redirect_uri: this.config.redirect_uri,
     scope: this.config.scope,
     state: process.hrtime()[1],
