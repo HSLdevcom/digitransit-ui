@@ -24,7 +24,7 @@ openssl aes-256-cbc -K $encrypted_59b1a6418079_key -iv $encrypted_59b1a6418079_i
 
 export TZ=Europe/Helsinki
 
-CONFIG=hsl yarn start &
+CONFIG=tampere yarn start &
 
 name=gemini-report-${VISUAL}
 gzname=${name}.tar.gz
