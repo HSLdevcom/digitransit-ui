@@ -32,6 +32,7 @@ class TopLevel extends React.Component {
       to: PropTypes.string,
     }).isRequired,
     origin: dtLocationShape,
+    user: PropTypes.object,
   };
 
   static contextTypes = {
@@ -68,11 +69,13 @@ class TopLevel extends React.Component {
     }`).then(logo => {
       this.setState({ logo: logo.default });
     });
-    return getJson('/api/user').then(user => {
-      this.context.executeAction(setUser, { ...user, loginState: LoginStates.LOGIN_OK });
-    }).catch(err => {
-      this.context.executeAction(setUser, { loginState: LoginStates.LOGIN_FAILED });
-    });
+    if (!this.props.user.name) {
+      getJson(`/api/user`).then(user => {
+        context.executeAction(setUser, { ...user, loginState: LoginStates.LOGIN_OK });
+      }).catch(err => {
+        context.executeAction(setUser, { loginState: LoginStates.LOGIN_FAILED });
+      });
+    }
   }
 
   render() {
@@ -137,6 +140,7 @@ class TopLevel extends React.Component {
   }
 }
 
-export default connectToStores(TopLevel, ['OriginStore'], ({ getStore }) => ({
+export default connectToStores(TopLevel, ['OriginStore', 'UserStore'], ({ getStore }) => ({
   origin: getStore('OriginStore').getOrigin(),
+  user: getStore('UserStore').getUser(),
 }));
