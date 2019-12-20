@@ -149,6 +149,17 @@ export default config => {
           ]).then(([title, content]) => cb(null, { title, content }));
         }}
       />
+      <Route
+        path="/dieser-dienst"
+        getComponents={(location, cb) => {
+          Promise.all([
+            Promise.resolve(Title),
+            import(/* webpackChunkName: "about" */ './component/AboutPage').then(
+              getDefault,
+            ),
+          ]).then(([title, content]) => cb(null, { title, content }));
+        }}
+      />
       {!config.URL.API_URL.includes('/api.') && (
         <Route
           path="/admin"

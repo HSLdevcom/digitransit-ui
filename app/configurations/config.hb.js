@@ -134,7 +134,7 @@ export default configMerger(walttiConfig, {
       {
         name: 'about-this-service',
         nameEn: 'About this service',
-        route: '/tietoja-palvelusta',
+        route: '/dieser-dienst',
         icon: 'icon-icon_info',
       },
       {
