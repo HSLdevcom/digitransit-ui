@@ -147,6 +147,7 @@ class SummaryPage extends React.Component {
       host.indexOf('127.0.0.1') === -1 &&
       host.indexOf('localhost') === -1
     ) {
+      // eslint-disable-next-line no-unused-expressions
       import('../util/feedbackly');
     }
   }
