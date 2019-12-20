@@ -396,6 +396,11 @@ export default {
       availableForSelection: false,
       defaultValue: false, // always false
     },
+
+    carpool: {
+      availableForSelection: false,
+      defaultValue: false,
+    },
   },
 
   streetModes: {
