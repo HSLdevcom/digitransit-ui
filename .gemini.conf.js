@@ -5,7 +5,7 @@ module.exports = {
   sessionRequestTimeout: 120000,
   sessionsPerBrowser: 1,
   suitesPerSession: 50,
-  retry: 10,
+  retry: 2,
   tolerance: 10,
   antialiasingTolerance: 10,
   compositeImage: true,
