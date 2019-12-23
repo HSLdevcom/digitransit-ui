@@ -795,6 +795,16 @@ const translations = {
     'itinerary-page.title': 'Itinerary',
     'itinerary-summary-page.description': 'Route suggestions',
     'itinerary-summary-page.title': 'Route suggestions',
+    'itinerary-summary-row.biking-distance':
+      'Total biking distance {totalDistance}.',
+    'itinerary-summary-row.description':
+      'Itinerary departing at {departureDate} {departureTime} and arriving at {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Total time {totalTime}. {distance}',
+    'itinerary-summary-row.first-departure':
+      '{vehicle} leaves at {departureTime} from stop {stopName}.',
+    'itinerary-summary-row.transfers':
+      'Transfer to {vehicle} on stop {stopName}.',
+    'itinerary-summary-row.walking-distance':
+      'Total walking distance {totalDistance}.',
     'itinerary-ticket.title': 'Required ticket',
     'itinerary-tickets.title': 'Required tickets',
     'itinerary-time.title': 'Duration',
@@ -1524,6 +1534,15 @@ const translations = {
     'itinerary-page.show-details': 'Näytä reittiohje',
     'itinerary-page.title': 'Reittiohje',
     'itinerary-summary-page.description': 'Reittiehdotukset',
+    'itinerary-summary-row.biking-distance':
+      'Pyöräilyä yhteensä {totalDistance}.',
+    'itinerary-summary-row.description':
+      'Lähtö {departureDate} kello {departureTime}. Perillä {arrivalDate} kello {arrivalTime}. {firstDeparture} {transfers} Matka-aika {totalTime}. {distance}',
+    'itinerary-summary-row.first-departure':
+      '{vehicle} lähtee asemalta {stopName} kello {departureTime}.',
+    'itinerary-summary-row.transfers': 'Vaihto {vehicle} pysäkillä {stopName}.',
+    'itinerary-summary-row.walking-distance':
+      'Kävelyä yhteensä {totalDistance}.',
     'itinerary-ticket.title': 'Tarvittava lippu',
     'itinerary-tickets.title': 'Tarvittavat liput',
     'itinerary-time.title': 'Matka-aika',

@@ -234,6 +234,9 @@ const SummaryRow = (
 
   let lastLegRented = false;
   let firstLegStartTime = null;
+  let firstLegStartTimeText = null;
+  const vehicleNames = [];
+  const stopNames = [];
 
   data.legs.forEach((leg, i) => {
     if (leg.rentedBike && lastLegRented) {
@@ -302,6 +305,18 @@ const SummaryRow = (
           large={breakpoint === 'large'}
         />,
       );
+      vehicleNames.push(
+        formatMessage(
+          {
+            id: `${leg.mode.toLowerCase()}-with-route-number`,
+          },
+          {
+            routeNumber: leg.route.shortName,
+            headSign: '',
+          },
+        ),
+      );
+      stopNames.push(leg.from.name);
       return;
     }
 
@@ -348,6 +363,7 @@ const SummaryRow = (
           <LocalTime time={firstDeparture} />
         </div>
       );
+      firstLegStartTimeText = <LocalTime time={firstDeparture} />;
     }
   }
 
@@ -371,116 +387,189 @@ const SummaryRow = (
       </div>
     );
 
+  //  accessible representation for summary
+  const textSummary =
+    props.open || props.children ? null : (
+      <div className="sr-only" key="screenReader">
+        <h3>
+          <FormattedMessage
+            id="summary-page.row-label"
+            values={{
+              number: props.hash + 1,
+            }}
+          />
+        </h3>
+        <FormattedMessage
+          id="itinerary-summary-row.description"
+          values={{
+            departureDate: dateOrEmpty(startTime, refTime),
+            departureTime: <LocalTime time={startTime} />,
+            arrivalDate: dateOrEmpty(endTime, refTime),
+            arrivalTime: <LocalTime time={endTime} />,
+            transportMethods: <>{vehicleNames}</>,
+            firstDeparture:
+              vehicleNames.length === 0 ? null : (
+                <>
+                  <FormattedMessage
+                    id="itinerary-summary-row.first-departure"
+                    values={{
+                      vehicle: vehicleNames[0],
+                      departureTime: firstLegStartTimeText,
+                      stopName: stopNames[0],
+                    }}
+                  />
+                </>
+              ),
+            transfers: vehicleNames.map((name, index) => {
+              if (index === 0) {
+                return null;
+              }
+              return formatMessage(
+                { id: 'itinerary-summary-row.transfers' },
+                {
+                  vehicle: name,
+                  stopName: stopNames[index],
+                },
+              );
+            }),
+            totalTime: <RelativeDuration duration={duration} />,
+            distance: (
+              <FormattedMessage
+                id={
+                  containsBiking(data)
+                    ? 'itinerary-summary-row.biking-distance'
+                    : 'itinerary-summary-row.walking-distance'
+                }
+                values={{
+                  totalDistance: displayDistance(
+                    containsBiking(data)
+                      ? getTotalBikingDistance(data)
+                      : getTotalWalkingDistance(data),
+                    config,
+                  ),
+                }}
+              />
+            ),
+          }}
+        />
+      </div>
+    );
+
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
-    <div
-      className={classes}
-      onClick={() => props.onSelect(props.hash)}
-      style={{
-        display: props.isCancelled && !props.showCancelled ? 'none' : 'flex',
-      }}
-      aria-label={formatMessage(
-        { id: 'summary-page.row-label' },
-        { number: props.hash + 1 },
-      )}
-    >
-      {props.open || props.children
-        ? [
-            <div className="flex-grow itinerary-heading" key="title">
-              <FormattedMessage
-                id="itinerary-page.title"
-                defaultMessage="Itinerary"
-                tagName="h2"
-              />
-            </div>,
-            <div
-              tabIndex="0"
-              role="button"
-              title={formatMessage({
-                id: 'itinerary-page.hide-details',
-              })}
-              key="arrow"
-              className="action-arrow-click-area noborder flex-vertical"
-              onClick={e => {
-                e.stopPropagation();
-                props.onSelectImmediately(props.hash);
-              }}
-              onKeyPress={e =>
-                isKeyboardSelectionEvent(e) &&
-                props.onSelectImmediately(props.hash)
-              }
-            >
-              <div className="action-arrow flex-grow">
-                <Icon img="icon-icon_arrow-collapse--right" />
-              </div>
-            </div>,
-            props.children &&
-              React.cloneElement(React.Children.only(props.children), {
-                searchTime: props.refTime,
-              }),
-          ]
-        : [
-            <div className="itinerary-start-time" key="startTime">
-              <span
-                className={cx('itinerary-start-date', {
-                  nobg: sameDay(startTime, refTime),
+    <span role="listitem" aria-atomic="true">
+      {textSummary}
+      <div
+        className={classes}
+        onClick={() => props.onSelect(props.hash)}
+        style={{
+          display: props.isCancelled && !props.showCancelled ? 'none' : 'flex',
+        }}
+      >
+        {props.open || props.children
+          ? [
+              <div className="flex-grow itinerary-heading" key="title">
+                <FormattedMessage
+                  id="itinerary-page.title"
+                  defaultMessage="Itinerary"
+                  tagName="h2"
+                />
+              </div>,
+              <div
+                tabIndex="0"
+                role="button"
+                title={formatMessage({
+                  id: 'itinerary-page.hide-details',
                 })}
+                key="arrow"
+                className="action-arrow-click-area noborder flex-vertical"
+                onClick={e => {
+                  e.stopPropagation();
+                  props.onSelectImmediately(props.hash);
+                }}
+                onKeyPress={e =>
+                  isKeyboardSelectionEvent(e) &&
+                  props.onSelectImmediately(props.hash)
+                }
               >
-                <span>{dateOrEmpty(startTime, refTime)}</span>
-              </span>
-              <LocalTime time={startTime} />
-            </div>,
-            <div className="itinerary-legs" key="legs">
-              {firstLegStartTime}
-              {legs}
-            </div>,
-            <div
-              className="itinerary-end-time-and-distance"
-              key="endtime-distance"
-            >
-              <div className="itinerary-end-time">
-                <LocalTime time={endTime} />
-              </div>
-              {isDefaultPosition && renderBikingDistance(data)}
-            </div>,
-            <div
-              className="itinerary-duration-and-distance"
-              key="duration-distance"
-            >
-              <span className="itinerary-duration">
-                <RelativeDuration duration={duration} />
-              </span>
-              {!isDefaultPosition && renderBikingDistance(data)}
-              {!onlyBiking(data) && (
-                <div className="itinerary-walking-distance">
-                  <Icon img="icon-icon_walk" viewBox="6 0 40 40" />
-                  {displayDistance(getTotalWalkingDistance(data), config)}
+                <div className="action-arrow flex-grow">
+                  <Icon img="icon-icon_arrow-collapse--right" />
                 </div>
-              )}
-            </div>,
-            <div
-              tabIndex="0"
-              role="button"
-              title={formatMessage({
-                id: 'itinerary-page.show-details',
-              })}
-              key="arrow"
-              className="action-arrow-click-area flex-vertical noborder"
-              onClick={e => {
-                e.stopPropagation();
-                props.onSelectImmediately(props.hash);
-              }}
-              onKeyPress={e =>
-                isKeyboardSelectionEvent(e) &&
-                props.onSelectImmediately(props.hash)
-              }
-            >
-              <div className="action-arrow flex-grow">
-                <Icon img="icon-icon_arrow-collapse--right" />
-              </div>
-            </div>,
-          ]}
-    </div>
+              </div>,
+              props.children &&
+                React.cloneElement(React.Children.only(props.children), {
+                  searchTime: props.refTime,
+                }),
+            ]
+          : [
+              <div
+                className="itinerary-start-time"
+                key="startTime"
+                aria-hidden="true"
+              >
+                <span
+                  className={cx('itinerary-start-date', {
+                    nobg: sameDay(startTime, refTime),
+                  })}
+                >
+                  <span>{dateOrEmpty(startTime, refTime)}</span>
+                </span>
+                <LocalTime time={startTime} />
+              </div>,
+              <div className="itinerary-legs" key="legs" aria-hidden="true">
+                {firstLegStartTime}
+                {legs}
+              </div>,
+              <div
+                className="itinerary-end-time-and-distance"
+                key="endtime-distance"
+                aria-hidden="true"
+              >
+                <div className="itinerary-end-time">
+                  <LocalTime time={endTime} />
+                </div>
+                {isDefaultPosition && renderBikingDistance(data)}
+              </div>,
+              <div
+                className="itinerary-duration-and-distance"
+                key="duration-distance"
+                aria-hidden="true"
+              >
+                <span className="itinerary-duration">
+                  <RelativeDuration duration={duration} />
+                </span>
+                {!isDefaultPosition && renderBikingDistance(data)}
+                {!onlyBiking(data) && (
+                  <div className="itinerary-walking-distance">
+                    <Icon img="icon-icon_walk" viewBox="6 0 40 40" />
+                    {displayDistance(getTotalWalkingDistance(data), config)}
+                  </div>
+                )}
+              </div>,
+              <div
+                tabIndex="0"
+                role="button"
+                title={formatMessage({
+                  id: 'itinerary-page.show-details',
+                })}
+                key="arrow"
+                className="action-arrow-click-area flex-vertical noborder"
+                onClick={e => {
+                  e.stopPropagation();
+                  props.onSelectImmediately(props.hash);
+                }}
+                onKeyPress={e =>
+                  isKeyboardSelectionEvent(e) &&
+                  props.onSelectImmediately(props.hash)
+                }
+              >
+                <div className="action-arrow flex-grow">
+                  <Icon img="icon-icon_arrow-collapse--right" />
+                </div>
+              </div>,
+            ]}
+      </div>
+    </span>
   );
 };
 
