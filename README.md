@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/HSLdevcom/digitransit-ui.svg?branch=master)](https://travis-ci.org/HSLdevcom/digitransit-ui)
+[![Build Status](https://travis-ci.org/mfdz/digitransit-ui.svg?branch=master)](https://travis-ci.org/mfdz/digitransit-ui)
 [![codecov](https://codecov.io/gh/HSLdevcom/digitransit-ui/branch/master/graph/badge.svg)](https://codecov.io/gh/HSLdevcom/digitransit-ui)
 
 
