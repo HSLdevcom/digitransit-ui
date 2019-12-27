@@ -1,5 +1,5 @@
 module.exports = {
-  rootUrl: 'http://127.0.0.1:8080',
+  rootUrl: 'http://localhost:8080',
   screenshotsDir: './test/visual-images/',
   httpTimeout: 40000,
   sessionRequestTimeout: 120000,
