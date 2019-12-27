@@ -9,7 +9,15 @@ import MessageBar from './MessageBar';
 import LogoSmall from './LogoSmall';
 import CanceledLegsBar from './CanceledLegsBar';
 
-const AppBarSmall = ({ disableBackButton, showLogo, title, homeUrl, logo }) => (
+const AppBarSmall = ({
+  disableBackButton,
+  showLogo,
+  title,
+  homeUrl,
+  logo,
+  loggedIn,
+  logIn,
+}) => (
   <React.Fragment>
     <DisruptionInfo />
     <nav className="top-bar">
@@ -17,7 +25,11 @@ const AppBarSmall = ({ disableBackButton, showLogo, title, homeUrl, logo }) => (
       <section className="title">
         <LogoSmall showLogo={showLogo} logo={logo} title={title} />
       </section>
-      <MainMenuContainer homeUrl={homeUrl} />
+      <MainMenuContainer
+        homeUrl={homeUrl}
+        loggedIn={loggedIn}
+        logIn={() => logIn()}
+      />
     </nav>
     <MessageBar />
     <CanceledLegsBar />
@@ -48,6 +60,8 @@ AppBarSmall.propTypes = {
   title: PropTypes.node,
   homeUrl: PropTypes.string,
   logo: PropTypes.string,
+  loggedIn: PropTypes.bool,
+  logIn: PropTypes.func,
 };
 
 export default AppBarSmall;

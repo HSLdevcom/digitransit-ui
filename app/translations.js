@@ -445,7 +445,9 @@ const translations = {
     nearest: 'Nächste',
     'network-error': 'Ein Netzwerkfehler ist aufgetreten.',
     next: 'Nächste',
-    'no-bike-allowed-popup':
+    'no-bike-allowed-popup-train':
+      'Bicycles are allowed on commuter trains but on long distance trains you have to pay an extra fee and it might require a reservation.',
+    'no-bike-allowed-popup-tram-bus':
       'Die Fahrradmitnahme ist in Bussen und Straßenbahnen nicht erlaubt. Lassen Sie Ihr Fahrrad bitte an der Haltestelle oder an Park&Ride Plätzen, wenn Sie diese Verkehrsmittel benutzen. ',
     'no-departures': 'Keine Abfahrten',
     'no-favourite-locations': 'Fügen Sie ihre meist genutzen Orte hier hinzu.',
@@ -815,6 +817,7 @@ const translations = {
     'location-sport': 'Sports',
     'location-work': 'Work',
     login: 'Log in',
+    logout: 'Log out',
     'long-transfers-margin': '12 min',
     'main-menu-label-close': 'Close the main menu',
     'main-menu-label-open': 'Open the main menu',
@@ -842,7 +845,9 @@ const translations = {
     nearest: 'Nearest',
     'network-error': 'Network error',
     next: 'Next',
-    'no-bike-allowed-popup':
+    'no-bike-allowed-popup-train':
+      'Bicycles are allowed on commuter trains but on long distance trains you have to pay an extra fee and it might require a reservation.',
+    'no-bike-allowed-popup-tram-bus':
       'Bicycles are not allowed on buses or trams. If you are using these vehicles on your route, leave the bicycle at the stop or at a Park-and-Ride. ',
     'no-departures': 'No departures',
     'no-favourite-locations':
@@ -1539,7 +1544,8 @@ const translations = {
     'location-shopping': 'Kauppa',
     'location-sport': 'Urheilu',
     'location-work': 'Työ',
-    login: 'Kirjaudu sisään',
+    login: 'Kirjaudu',
+    logout: 'Kirjaudu ulos',
     'long-transfers-margin': '12 min',
     'main-menu-label-close': 'Sulje päävalikko',
     'main-menu-label-open': 'Avaa päävalikko',
@@ -1567,7 +1573,9 @@ const translations = {
     nearest: 'Lähimmät',
     'network-error': 'Verkkovirhe',
     next: 'Seuraava',
-    'no-bike-allowed-popup':
+    'no-bike-allowed-popup-train':
+      'Lähiliikenteen juniin pyörän voi ottaa mukaan ilmaiseksi, mutta pitkän matkan junissa peritään lisämaksu ja mahdollisesti vaaditaan etukäteisvaraus.',
+    'no-bike-allowed-popup-tram-bus':
       'Pyörää ei voi ottaa bussiin tai raitiovaunuun. Jos käytät reitilläsi näitä kulkuvälineitä, jätä pyörä pysäkille tai liityntäpysäköintiin.',
     'no-departures': 'Ei lähteviä vuoroja',
     'no-favourite-locations':
@@ -1950,7 +1958,9 @@ const translations = {
     nearest: 'Le plus proche',
     'network-error': 'Erreur réseau',
     next: 'Suivant',
-    'no-bike-allowed-popup':
+    'no-bike-allowed-popup-train':
+      'Bicycles are allowed on commuter trains but on long distance trains you have to pay an extra fee and it might require a reservation.',
+    'no-bike-allowed-popup-tram-bus':
       "Les vélos ne sont pas autorisés dans les bus ou les trams. Si vous utilisez ces véhicules sur votre trajet, laissez le vélo à l'arrêt ou à un Parc Relais.",
     'no-favourite-locations':
       'Ajoutez vos lieux favoris ici. Les boutons calculeront votre itinéraire automatiquement',
@@ -2575,6 +2585,7 @@ const translations = {
     'location-sport': 'Sport',
     'location-work': 'Arbetsplats',
     login: 'Logga in',
+    logout: 'Logga ut',
     'long-transfers-margin': '12 min',
     'main-menu-label-close': 'Stäng huvudmenyn',
     'main-menu-label-open': 'Öppna huvudmenyn',
@@ -2602,7 +2613,9 @@ const translations = {
     nearest: 'Närmaste',
     'network-error': 'Nätverksfel',
     next: 'Nästa',
-    'no-bike-allowed-popup':
+    'no-bike-allowed-popup-train':
+      'Du kan ta med cykeln i närtågen avgiftsfritt, men i andra tåg är det avgiftsbelagt och kräver möjligtvis en förhandsreservation.',
+    'no-bike-allowed-popup-tram-bus':
       'Cyklar är inte tillåtna i bussar eller spårvagnar. Om du använder dessa fordon på din färd, lämna cykeln vid hållplatsen eller vid infartsparkeringen.',
     'no-departures': 'Inga avgående resor',
     'no-favourite-locations':

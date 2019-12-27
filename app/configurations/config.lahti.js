@@ -144,4 +144,21 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
+  zoneIdMapping: {
+    1: 'A',
+    2: 'B',
+    3: 'C',
+    4: 'D',
+    5: 'E',
+    6: 'F1',
+    7: 'F2',
+    8: 'G',
+    9: 'H',
+    10: 'I',
+  },
+  stopCard: {
+    header: {
+      showZone: true,
+    },
+  },
 });

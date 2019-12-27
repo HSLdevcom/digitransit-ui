@@ -120,4 +120,15 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
+  zoneIdMapping: {
+    1: 'A',
+    2: 'B',
+    3: 'C',
+    4: 'D',
+  },
+  stopCard: {
+    header: {
+      showZone: true,
+    },
+  },
 });

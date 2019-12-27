@@ -14,6 +14,7 @@ import PreferencesStore from '../../../store/PreferencesStore';
 import { getLabel } from '../../../util/suggestionUtils';
 import { getJson } from '../../../util/xhrPromise';
 import { findFeatures } from '../../../util/geo-utils';
+import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 
 class LocationPopup extends React.Component {
   static contextTypes = {
@@ -60,6 +61,7 @@ class LocationPopup extends React.Component {
 
     Promise.all(promises).then(
       ([data, zoneData]) => {
+        let pointName;
         const zones = findFeatures(
           {
             lat,
@@ -78,6 +80,7 @@ class LocationPopup extends React.Component {
               zoneId,
             },
           }));
+          pointName = 'FreeAddress';
         } else {
           this.setState(prevState => ({
             loading: false,
@@ -90,7 +93,19 @@ class LocationPopup extends React.Component {
               zoneId,
             },
           }));
+          pointName = 'NoAddress';
         }
+        const pathPrefixMatch = window.location.pathname.match(
+          /^\/([a-z]{2,})\//,
+        );
+        const context = pathPrefixMatch ? pathPrefixMatch[1] : 'index';
+        addAnalyticsEvent({
+          action: 'SelectMapPoint',
+          category: 'Map',
+          name: pointName,
+          type: null,
+          context,
+        });
       },
       () => {
         this.setState({
