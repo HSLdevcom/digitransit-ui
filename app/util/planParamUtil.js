@@ -455,6 +455,7 @@ export const getQuickOptionSets = context => {
   const { config } = context;
   const defaultSettings = getDefaultSettings(config);
   const customizedSettings = getCustomizedSettings();
+  delete defaultSettings.modes;
   delete customizedSettings.modes;
 
   const quickOptionSets = {
@@ -527,7 +528,9 @@ export const matchQuickOption = context => {
       { ...settings },
       property => (Array.isArray(property) ? property.length > 0 : true),
     );
-    return isEqual(sortObj(quickSettings), sortObj(appliedSettings));
+    delete appliedSettings.modes;
+
+    return isEqual(quickSettings, appliedSettings);
   };
 
   const querySettings = getQuerySettings(query);
