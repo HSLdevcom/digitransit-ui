@@ -46,13 +46,7 @@ OICStrategy.prototype.authenticate = function(req, opts) {
   if (opts.callback) {
     return this.callback(req, opts);
   }
-  const authurl = this.client.authorizationUrl({
-    client_id: this.config.client_id,
-    client_secret: this.config.client_secret,
-    redirect_uri: this.config.redirect_uri,
-    scope: this.config.scope,
-    state: process.hrtime()[1],
-  });
+  const authurl = this.createAuthUrl(req.query['sso-token']);
   this.redirect(authurl);
 };
 
@@ -75,13 +69,30 @@ OICStrategy.prototype.callback = function(req, opts) {
       const user = new User(this.userinfo);
       user.token = this.tokenSet;
       user.idtoken = this.tokenSet.claims;
-      console.log(user);
       this.success(user);
     })
     .catch(err => {
       console.error('Error processing callback', err);
       this.fail(err);
     });
+};
+
+OICStrategy.prototype.createAuthUrl = function(ssoToken) {
+  const params = {
+    response_type: 'code',
+    client_id: this.config.client_id,
+    redirect_uri: this.config.redirect_uri,
+    scope: this.config.scope,
+    state: process.hrtime()[1],
+  };
+  if (ssoToken) {
+    return this.client.authorizationUrl({
+      ...params,
+      sso_token: ssoToken,
+      prompt: 'none',
+    });
+  }
+  return this.client.authorizationUrl(params);
 };
 
 OICStrategy.serializeUser = function(user, cb) {
