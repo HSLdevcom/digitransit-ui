@@ -48,6 +48,11 @@ class TopLevel extends React.Component {
     location: PropTypes.object,
   };
 
+  constructor(props) {
+    super(props);
+    this.state = { loggedIn: false };
+  }
+
   getChildContext() {
     return {
       location: this.props.location,
@@ -61,6 +66,12 @@ class TopLevel extends React.Component {
       this.setState({ logo: logo.default });
     });
   }
+
+  logIn = () => {
+    this.setState(prevState => ({
+      loggedIn: !prevState.loggedIn,
+    }));
+  };
 
   render() {
     this.topBarOptions = Object.assign(
@@ -112,6 +123,8 @@ class TopLevel extends React.Component {
             {...this.topBarOptions}
             {...this.state}
             homeUrl={homeUrl}
+            loggedIn={this.state.loggedIn}
+            logIn={() => this.logIn()}
           />
         )}
         <section id="mainContent" className="content">
