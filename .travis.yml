@@ -29,7 +29,9 @@ jobs:
     - stage: test
       env: FLOW=1
       node_js: '10'
-      script: test/flow.sh
+      script:
+        - yarn install
+        - test/flow.sh
     - stage: test
       env: UNIT=1
       node_js: '10'
