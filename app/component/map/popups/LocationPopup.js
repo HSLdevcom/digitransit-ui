@@ -151,9 +151,7 @@ class LocationPopup extends React.Component {
             <ZoneIcon
               showTitle
               zoneId={zoneId}
-              zoneLabelColor={
-                this.getZoneLabelColor() ? this.getZoneLabelColor() : null
-              }
+              zoneLabelColor={this.getZoneLabelColor()}
             />
           </CardHeader>
         </div>
