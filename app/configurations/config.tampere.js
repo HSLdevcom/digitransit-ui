@@ -240,4 +240,34 @@ export default configMerger(walttiConfig, {
 
   // Number of days to include to the service time range from the future (DT-3175)
   itineraryFutureDays: 60,
+
+  staticMessages: [
+    {
+      id: 'routechanges-202001',
+      content: {
+        fi: [
+          {
+            type: 'heading',
+            content: 'Huom.',
+          },
+          {
+            type: 'text',
+            content:
+              'Useita reitti- ja aikataulumuutoksia Nyssen bussiliikenteessä 6.1. alkaen. Muutokset löytyvät hakemalla matkan aikaisintaan päivälle 6.1. Lisätiedot nysse.fi.',
+          },
+        ],
+        en: [
+          {
+            type: 'heading',
+            content: 'Note',
+          },
+          {
+            type: 'text',
+            content:
+              'Multible route and schedule changes in Nysse bus service on January 6. The changes can be found by searching a trip for earliest January 6. More information nysse.fi',
+          },
+        ],
+      },
+    },
+  ],
 });
