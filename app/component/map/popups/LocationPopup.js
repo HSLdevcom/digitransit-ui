@@ -120,6 +120,15 @@ class LocationPopup extends React.Component {
       },
     );
   }
+  getZoneLabelColor() {
+    if (
+      typeof this.context.config.colors !== 'undefined' &&
+      this.context.config.colors.primary
+    ) {
+      return this.context.config.colors.primary;
+    }
+    return '#000';
+  }
 
   render() {
     if (this.state.loading) {
@@ -139,7 +148,11 @@ class LocationPopup extends React.Component {
             unlinked
             className="padding-small"
           >
-            <ZoneIcon showTitle zoneId={zoneId} />
+            <ZoneIcon
+              showTitle
+              zoneId={zoneId}
+              zoneLabelColor={this.getZoneLabelColor()}
+            />
           </CardHeader>
         </div>
         <MarkerPopupBottom location={this.state.location} />
