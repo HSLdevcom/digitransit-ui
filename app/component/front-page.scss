@@ -540,8 +540,8 @@ svg.icon.footer-icon {
   min-width: 100%;
   padding-top: 2.725rem;
 
-  border: 1px solid #0062a1;
-  background-color: #007ac9;
+  border: 1px solid $secondary-color;
+  background-color: $primary-color;
   border-radius: 4px;
 
   &.mobile {
