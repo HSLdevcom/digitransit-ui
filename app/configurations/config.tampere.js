@@ -248,7 +248,7 @@ export default configMerger(walttiConfig, {
         fi: [
           {
             type: 'heading',
-            content: 'Huom.',
+            content: 'Aikataulut muuttuvat',
           },
           {
             type: 'text',
