@@ -49,6 +49,16 @@ class TransitLeg extends React.Component {
     }));
   };
 
+  getZoneLabelColor() {
+    if (
+      typeof this.context.config.colors !== 'undefined' &&
+      this.context.config.colors.primary
+    ) {
+      return this.context.config.colors.primary;
+    }
+    return '#000';
+  }
+
   renderIntermediate() {
     const { leg, mode } = this.props;
     if (
@@ -97,6 +107,7 @@ class TransitLeg extends React.Component {
               (isLastPlace && nextZoneIdDiffers && nextZoneId) || undefined
             }
             isCanceled={isCanceled}
+            zoneLabelColor={this.getZoneLabelColor()}
           />
         );
       });
