@@ -150,6 +150,8 @@ class TransitLeg extends React.Component {
             <span className="intermediate-stop-no-stops">{message}</span>
           ) : (
             <span
+              role="button"
+              tabIndex="0"
               className="intermediate-stops-link pointer-cursor"
               onClick={event => {
                 event.stopPropagation();
@@ -159,15 +161,40 @@ class TransitLeg extends React.Component {
               {message}
             </span>
           )}{' '}
-          <span className="intermediate-stops-duration">
+          <span className="intermediate-stops-duration" aria-hidden="true">
             ({durationToString(stopLeg.duration * 1000)})
           </span>
         </div>
       );
     };
 
+    const textVersion = (
+      <>
+        <FormattedMessage
+          id="itinerary-details.transit-leg"
+          values={{
+            time: moment(leg.startTime).format('HH:mm'),
+            vehicle: <>{children}</>,
+            startStop: leg.from.name,
+            endStop: leg.to.name,
+            duration: durationToString(leg.duration * 1000),
+            trackInfo: (
+              <PlatformNumber
+                number={leg.from.stop.platformCode}
+                short={false}
+                isRailOrSubway={
+                  modeClassName === 'rail' || modeClassName === 'subway'
+                }
+              />
+            ),
+          }}
+        />
+      </>
+    );
+
     return (
       <div key={index} className="row itinerary-row">
+        <span className="sr-only">{textVersion}</span>
         <div className="small-2 columns itinerary-time-column">
           <Link
             onClick={e => {
@@ -185,21 +212,24 @@ class TransitLeg extends React.Component {
               // TODO: Create a helper function for generationg links
             }
           >
-            <div className="itinerary-time-column-time">
-              <span className={cx({ canceled: legHasCancelation(leg) })}>
-                {moment(leg.startTime).format('HH:mm')}
-              </span>
-              {originalTime}
-            </div>
-            <RouteNumber //  shouldn't this be a route number container instead???
-              alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
-              mode={mode.toLowerCase()}
-              color={leg.route ? `#${leg.route.color}` : 'currentColor'}
-              text={leg.route && leg.route.shortName}
-              realtime={leg.realTime}
-              vertical
-              fadeLong
-            />
+            <span className="sr-only">{children}</span>
+            <span aria-hidden="true">
+              <div className="itinerary-time-column-time">
+                <span className={cx({ canceled: legHasCancelation(leg) })}>
+                  {moment(leg.startTime).format('HH:mm')}
+                </span>
+                {originalTime}
+              </div>
+              <RouteNumber //  shouldn't this be a route number container instead???
+                alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
+                mode={mode.toLowerCase()}
+                color={leg.route ? `#${leg.route.color}` : 'currentColor'}
+                text={leg.route && leg.route.shortName}
+                realtime={leg.realTime}
+                vertical
+                fadeLong
+              />
+            </span>
           </Link>
         </div>
         <ItineraryCircleLine
@@ -214,7 +244,7 @@ class TransitLeg extends React.Component {
           onClick={focusAction}
           className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${modeClassName}`}
         >
-          <div className="itinerary-leg-first-row">
+          <div className="itinerary-leg-first-row" aria-hidden="true">
             <div>
               {leg.from.name}
               <ServiceAlertIcon
@@ -238,7 +268,9 @@ class TransitLeg extends React.Component {
               className="itinerary-search-icon"
             />
           </div>
-          <div className="itinerary-transit-leg-route">{children}</div>
+          <div className="itinerary-transit-leg-route" aria-hidden="true">
+            {children}
+          </div>
           <LegAgencyInfo leg={leg} />
           <div>
             <StopInfo

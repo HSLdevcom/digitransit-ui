@@ -22,7 +22,18 @@ function CarLeg(props, context) {
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div key={props.index} className="row itinerary-row">
-      <div className="small-2 columns itinerary-time-column">
+      <span className="sr-only">
+        <FormattedMessage
+          id="itinerary-details.car-leg"
+          values={{
+            time: moment(props.leg.startTime).format('HH:mm'),
+            distance,
+            destination: props.leg.to.name,
+            duration,
+          }}
+        />
+      </span>
+      <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
           {moment(props.leg.startTime).format('HH:mm')}
         </div>
@@ -32,6 +43,7 @@ function CarLeg(props, context) {
       <div
         onClick={props.focusAction}
         className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${props.leg.mode.toLowerCase()}`}
+        aria-hidden="true"
       >
         <div className="itinerary-leg-first-row">
           <div>
@@ -86,6 +98,9 @@ CarLeg.propTypes = {
       stop: PropTypes.shape({
         code: PropTypes.string,
       }),
+    }).isRequired,
+    to: PropTypes.shape({
+      name: PropTypes.string.isRequired,
     }).isRequired,
     mode: PropTypes.string.isRequired,
   }).isRequired,

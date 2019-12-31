@@ -785,6 +785,16 @@ const translations = {
     'in-addition': 'In addition',
     inquiry: 'How did you find the new Journey Planner? Please tell us!',
     instructions: 'Instructions',
+    'itinerary-details.biking-leg':
+      'At {time} cycle {distance} to {destination}. Estimated time {duration}',
+    'itinerary-details.car-leg':
+      'At {time} drive {distance} to {destination}. Estimated time {duration}',
+    'itinerary-details.end-leg':
+      'At {time} arrive to destination {destination}.',
+    'itinerary-details.transit-leg':
+      'At {time} take {vehicle} from stop {startStop} {trackInfo} to stop {endStop}. Estimated duration {duration}',
+    'itinerary-details.walk-leg':
+      'At {time} walk {distance} to {destination}. Estimated time {duration}',
     'itinerary-feedback-button': 'Send feedback',
     'itinerary-feedback-message': 'Couldn’t find what you were looking for?',
     'itinerary-feedback-placeholder': 'Description (optional)',
@@ -1546,6 +1556,15 @@ const translations = {
     'in-addition': 'Lisäksi',
     inquiry: 'Mitä pidät uudesta Reittioppaasta? Kerro se meille! ',
     instructions: 'Ohjeet',
+    'itinerary-details.biking-leg':
+      '{time} pyöräile {distance} kohteeseen {destination}. Matka-aika {duration}',
+    'itinerary-details.car-leg':
+      '{time} aja {distance} kohteeseen {destination}. Matka-aika {duration}',
+    'itinerary-details.end-leg': '{time} saavu kohteeseen {destination}.',
+    'itinerary-details.transit-leg':
+      '{time} ota {vehicle} pysäkiltä {startStop} {trackInfo} pysäkille {endStop}. Matka-aika {duration}',
+    'itinerary-details.walk-leg':
+      '{time} kävele {distance} kohteeseen {destination}. Matka-aika {duration}',
     'itinerary-feedback-button': 'Lähetä palautetta',
     'itinerary-feedback-message': 'Etkö löytänyt mitä etsit?',
     'itinerary-feedback-placeholder': 'Kuvaus (valinnainen)',

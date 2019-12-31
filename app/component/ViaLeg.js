@@ -51,7 +51,35 @@ function ViaLeg(props, context) {
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div key={props.index} className="row itinerary-row">
-      <div className="small-2 columns itinerary-time-column via-time-column">
+      <span className="sr-only">
+        <FormattedMessage
+          id="itinerary-details.via-leg"
+          defaultMessage="{arrivalTime} saavu välipisteeseen {viaPoint}. {leaveAction}"
+          values={{
+            arrivalTime: moment(props.arrivalTime).format('HH:mm'),
+            viaPoint: <>{props.leg.from.name}</>,
+            leaveAction: (
+              <FormattedMessage
+                id={
+                  props.leg.mode === 'BICYCLE'
+                    ? 'itinerary-details.biking-leg'
+                    : 'itinerary-details.walk-leg'
+                }
+                values={{
+                  time: moment(props.leg.startTime).format('HH:mm'),
+                  distance,
+                  destination: props.leg.to.name,
+                  duration,
+                }}
+              />
+            ),
+          }}
+        />
+      </span>
+      <div
+        className="small-2 columns itinerary-time-column via-time-column"
+        aria-hidden="true"
+      >
         <div className="itinerary-time-column-time via-arrival-time">
           {moment(props.arrivalTime).format('HH:mm')}
         </div>
@@ -71,6 +99,7 @@ function ViaLeg(props, context) {
       <div
         onClick={props.focusAction}
         className="small-9 columns itinerary-instruction-column via"
+        aria-hidden="true"
       >
         <div className="itinerary-leg-first-row">
           <div>
@@ -141,6 +170,9 @@ ViaLeg.propTypes = {
       stop: PropTypes.shape({
         code: PropTypes.string,
       }),
+    }).isRequired,
+    to: PropTypes.shape({
+      name: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
   index: PropTypes.number.isRequired,

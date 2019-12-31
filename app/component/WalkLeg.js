@@ -38,7 +38,18 @@ function WalkLeg(
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div key={index} className="row itinerary-row">
-      <div className="small-2 columns itinerary-time-column">
+      <span className="sr-only">
+        <FormattedMessage
+          id="itinerary-details.walk-leg"
+          values={{
+            time: moment(leg.startTime).format('HH:mm'),
+            distance,
+            duration,
+            destination: leg.to.name,
+          }}
+        />
+      </span>
+      <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
           {moment(leg.startTime).format('HH:mm')}
         </div>
@@ -48,6 +59,7 @@ function WalkLeg(
       <div
         onClick={focusAction}
         className={`small-9 columns itinerary-instruction-column ${leg.mode.toLowerCase()}`}
+        aria-hidden="true"
       >
         <div className="itinerary-leg-first-row">
           <div>

@@ -476,11 +476,12 @@ const SummaryRow = (
           {showDetails
             ? [
                 <div className="flex-grow itinerary-heading" key="title">
-                  <FormattedMessage
-                    id="itinerary-page.title"
-                    defaultMessage="Itinerary"
-                    tagName="h2"
-                  />
+                  <h3 className="h2">
+                    <FormattedMessage
+                      id="itinerary-page.title"
+                      defaultMessage="Itinerary"
+                    />
+                  </h3>
                 </div>,
                 <div
                   tabIndex="0"

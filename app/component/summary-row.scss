@@ -62,10 +62,11 @@
     }
   }
 
-  h2 {
+  h3 {
     @include font-medium;
     flex-grow: 1;
     margin: 0.5em;
+    line-height: 1.5;
   }
 
   .itinerary-timeframe {
@@ -332,7 +333,7 @@
       width: 75px;
     }
 
-    h2 {
+    h3 {
       margin-top: 10px;
     }
 

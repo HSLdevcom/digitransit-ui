@@ -264,7 +264,15 @@ class ItineraryLegs extends React.Component {
       />,
     );
 
-    return <React.Fragment>{legs}</React.Fragment>;
+    return (
+      <span role="list">
+        {legs.map(item => (
+          <span role="listitem" key={item.props.key}>
+            {item}
+          </span>
+        ))}
+      </span>
+    );
   }
 }
 

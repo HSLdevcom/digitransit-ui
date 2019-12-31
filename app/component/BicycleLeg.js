@@ -85,7 +85,18 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div key={index} className="row itinerary-row">
-      <div className="small-2 columns itinerary-time-column">
+      <span className="sr-only">
+        <FormattedMessage
+          id="itinerary-details.biking-leg"
+          values={{
+            time: moment(leg.startTime).format('HH:mm'),
+            distance,
+            destination: leg.to.name,
+            duration,
+          }}
+        />
+      </span>
+      <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
           {moment(leg.startTime).format('HH:mm')}
         </div>
@@ -100,6 +111,7 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
       <div
         onClick={focusAction}
         className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${mode.toLowerCase()}`}
+        aria-hidden="true"
       >
         <div className="itinerary-leg-first-row">
           {legDescription}

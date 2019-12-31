@@ -14,7 +14,15 @@ function WaitLeg(props) {
   const modeClassName = 'wait';
   return (
     <div className="row itinerary-row">
-      <div className="small-2 columns itinerary-time-column">
+      <span className="sr-only">
+        <FormattedMessage
+          id="wait-amount-of-time"
+          values={{
+            duration: durationToString(props.waitTime),
+          }}
+        />
+      </span>
+      <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
           {moment(props.startTime).format('HH:mm')}
         </div>
@@ -24,6 +32,7 @@ function WaitLeg(props) {
       <div
         onClick={props.focusAction}
         className="small-9 columns itinerary-instruction-column wait"
+        aria-hidden="true"
       >
         <div className="itinerary-leg-first-row">
           <div>
