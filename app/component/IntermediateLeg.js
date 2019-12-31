@@ -130,6 +130,7 @@ IntermediateLeg.propTypes = {
   currentZoneId: PropTypes.string,
   nextZoneId: PropTypes.string,
   isCanceled: PropTypes.bool,
+  zoneLabelColor: PropTypes.string,
 };
 
 IntermediateLeg.defaultProps = {
