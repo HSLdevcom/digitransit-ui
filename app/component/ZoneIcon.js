@@ -17,6 +17,7 @@ const ZoneIcon = (
     zoneLabelColor,
     zoneLabelHeight,
     zoneLabelWidth,
+    zoneLabelMarginLeft,
     zoneLabelLineHeight,
   },
   { intl },
@@ -39,7 +40,7 @@ const ZoneIcon = (
     lineHeight: zoneLabelLineHeight,
     textAlign: 'center',
     background: zoneLabelColor,
-    marginLeft: '5px',
+    marginLeft: zoneLabelMarginLeft,
   };
 
   return (
@@ -72,6 +73,7 @@ ZoneIcon.propTypes = {
   zoneLabelHeight: PropTypes.string,
   zoneLabelWidth: PropTypes.string,
   zoneLabelLineHeight: PropTypes.string,
+  zoneLabelMarginLeft: PropTypes.string,
 };
 
 ZoneIcon.defaultProps = {
@@ -83,6 +85,7 @@ ZoneIcon.defaultProps = {
   zoneLabelHeight: '30px',
   zoneLabelWidth: '30px',
   zoneLabelLineHeight: '30px',
+  zoneLabelMarginLeft: '5px',
 };
 
 ZoneIcon.contextTypes = {

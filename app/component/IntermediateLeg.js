@@ -47,10 +47,11 @@ function IntermediateLeg({
               <ZoneIcon
                 zoneId={previousZoneId}
                 zoneLabelColor={zoneLabelColor}
-                zoneLabelHeight="24px"
-                zoneLabelWidth="24px"
-                zoneLabelLineHeight="24px"
-                zoneIdFontSize="20px"
+                zoneLabelHeight="20px"
+                zoneLabelWidth="20px"
+                zoneLabelLineHeight="20px"
+                zoneIdFontSize="16px"
+                zoneLabelMarginLeft="-5px"
               />
             )}
             <ZoneIcon
@@ -64,6 +65,7 @@ function IntermediateLeg({
               zoneLabelWidth="24px"
               zoneLabelLineHeight="24px"
               zoneIdFontSize="20px"
+              zoneLabelMarginLeft="-5px"
             />
             {nextZoneId && (
               <ZoneIcon
@@ -74,6 +76,7 @@ function IntermediateLeg({
                 zoneLabelLineHeight="24px"
                 zoneIdFontSize="20px"
                 className="zone-delimiter"
+                zoneLabelMarginLeft="-5px"
               />
             )}
           </div>
