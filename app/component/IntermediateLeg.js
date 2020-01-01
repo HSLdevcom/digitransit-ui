@@ -62,7 +62,7 @@ function IntermediateLeg({
               })}
               zoneLabelColor={zoneLabelColor}
               zoneLabelHeight="20px"
-              zoneLabelWidth="2px"
+              zoneLabelWidth="20px"
               zoneLabelLineHeight="20px"
               zoneIdFontSize="16px"
               zoneLabelMarginLeft="-5px"
