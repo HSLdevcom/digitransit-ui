@@ -54,6 +54,10 @@ jobs:
       env: VISUAL=safari
       node_js: '10'
       script: test/visual.sh
+    - stage: visual
+      env: VISUAL=edge
+      node_js: '10'
+      script: test/visual.sh
 
     - stage: build and deploy container
       node_js: '10'
