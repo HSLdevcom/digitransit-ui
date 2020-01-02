@@ -772,5 +772,5 @@ export default {
   },
 
   timetables: {},
-  showLogin: true,
+  showLogin: false,
 };

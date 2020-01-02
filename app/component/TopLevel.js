@@ -9,7 +9,7 @@ import MobileView from './MobileView';
 import DesktopView from './DesktopView';
 import ErrorBoundary from './ErrorBoundary';
 import { DesktopOrMobile } from '../util/withBreakpoint';
-import { getJson, LoginStates } from '../util/apiUtils';
+import getJson from '../util/apiUtils';
 import setUser from '../action/userActions';
 
 class TopLevel extends React.Component {
@@ -52,11 +52,6 @@ class TopLevel extends React.Component {
     location: PropTypes.object,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = { loginState: false };
-  }
-
   getChildContext() {
     return {
       location: this.props.location,
@@ -74,13 +69,10 @@ class TopLevel extends React.Component {
         .then(user => {
           this.context.executeAction(setUser, {
             ...user,
-            loginState: LoginStates.LOGIN_OK,
           });
         })
         .catch(() => {
-          this.context.executeAction(setUser, {
-            loginState: LoginStates.LOGIN_FAILED,
-          });
+          this.context.executeAction(setUser, {});
         });
     }
   }

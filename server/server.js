@@ -346,7 +346,7 @@ function startServer() {
 }
 
 /* ********* Init ********* */
-setUpOIDC();
+// setUpOIDC();
 setUpRaven();
 setUpStaticFolders();
 setUpMiddleware();

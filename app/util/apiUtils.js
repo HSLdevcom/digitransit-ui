@@ -24,7 +24,7 @@ const mapStatus = (statusCode /* , message */) => {
   return 'client-error';
 };
 
-export function getJson(url) {
+export default function getJson(url) {
   return fetch(url, { credentials: 'include' }).then(response => {
     if (response.ok) {
       return response.json();
@@ -39,9 +39,3 @@ export function getJson(url) {
       });
   });
 }
-
-export const LoginStates = {
-  LOGIN_OK: 'LOGIN_OK',
-  LOGIN_FAILED: 'LOGIN_FAILED',
-  LOGIN_EXPIRED: 'LOGIN_EXPIRED',
-};
