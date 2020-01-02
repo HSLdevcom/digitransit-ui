@@ -9,7 +9,7 @@ import LangSelect from './LangSelect';
 import MainMenuLinks from './MainMenuLinks';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import LoginButton from './LoginButton';
-import Dropdown from './Dropdown';
+import UserInfo from './UserInfo';
 
 function MainMenu(props, { config, intl }) {
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
@@ -56,8 +56,10 @@ function MainMenu(props, { config, intl }) {
         ).filter(item => item.href || item.route)}
       />
       {config.showLogin &&
-        (props.user.name ? (
-          <Dropdown
+        (!props.user.name ? (
+          <LoginButton isMobile />
+        ) : (
+          <UserInfo
             user={props.user}
             list={[
               {
@@ -68,10 +70,6 @@ function MainMenu(props, { config, intl }) {
             ]}
             isMobile
           />
-        ) : (
-          <div className="offcanvas-section">
-            <LoginButton />
-          </div>
         ))}
     </div>
   );

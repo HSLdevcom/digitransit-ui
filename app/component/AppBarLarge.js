@@ -12,7 +12,7 @@ import CanceledLegsBar from './CanceledLegsBar';
 import LogoSmall from './LogoSmall';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import LoginButton from './LoginButton';
-import Dropdown from './Dropdown';
+import UserInfo from './UserInfo';
 
 const AppBarLarge = (
   { titleClicked, logo, user },
@@ -64,11 +64,9 @@ const AppBarLarge = (
         <div className="empty-space flex-grow" />
         {config.showLogin &&
           (!user.name ? (
-            <div className="right-border">
-              <LoginButton />
-            </div>
+            <LoginButton />
           ) : (
-            <Dropdown
+            <UserInfo
               user={user}
               list={[
                 {
