@@ -62,6 +62,7 @@ jobs:
       node_js: '10'
       script: test/visual.sh
 
-- stage: build and deploy container
+    - stage: build and deploy container
       node_js: '10'
       script: test/deploy.sh
+ 
