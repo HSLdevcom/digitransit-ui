@@ -20,6 +20,7 @@ function IntermediateLeg({
   currentZoneId,
   nextZoneId,
   isCanceled,
+  zoneLabelColor,
 }) {
   const modeClassName = mode.toLowerCase();
   const isDualZone = currentZoneId && (previousZoneId || nextZoneId);
@@ -42,16 +43,41 @@ function IntermediateLeg({
       {showZoneLimits &&
         currentZoneId && (
           <div className="zone-icons-container">
-            {previousZoneId && <ZoneIcon zoneId={previousZoneId} />}
+            {previousZoneId && (
+              <ZoneIcon
+                zoneId={previousZoneId}
+                zoneLabelColor={zoneLabelColor}
+                zoneLabelHeight="20px"
+                zoneLabelWidth="20px"
+                zoneLabelLineHeight="20px"
+                zoneIdFontSize="16px"
+                zoneLabelMarginLeft="-5px"
+              />
+            )}
             <ZoneIcon
               zoneId={currentZoneId}
               className={cx({
                 'zone-delimiter':
                   showCurrentZoneDelimiter || (previousZoneId && currentZoneId),
               })}
+              zoneLabelColor={zoneLabelColor}
+              zoneLabelHeight="20px"
+              zoneLabelWidth="20px"
+              zoneLabelLineHeight="20px"
+              zoneIdFontSize="16px"
+              zoneLabelMarginLeft="-5px"
             />
             {nextZoneId && (
-              <ZoneIcon zoneId={nextZoneId} className="zone-delimiter" />
+              <ZoneIcon
+                zoneId={nextZoneId}
+                zoneLabelColor={zoneLabelColor}
+                zoneLabelHeight="20px"
+                zoneLabelWidth="20px"
+                zoneLabelLineHeight="20px"
+                zoneIdFontSize="16px"
+                className="zone-delimiter"
+                zoneLabelMarginLeft="-5px"
+              />
             )}
           </div>
         )}
@@ -107,6 +133,7 @@ IntermediateLeg.propTypes = {
   currentZoneId: PropTypes.string,
   nextZoneId: PropTypes.string,
   isCanceled: PropTypes.bool,
+  zoneLabelColor: PropTypes.string,
 };
 
 IntermediateLeg.defaultProps = {

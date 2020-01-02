@@ -5,6 +5,7 @@ import {
   locationToOTP,
   addressToItinerarySearch,
 } from './otpStrings';
+import { addAnalyticsEvent } from './analyticsUtils';
 
 const debug = d('path.js');
 export const TAB_NEARBY = 'lahellasi';
@@ -182,5 +183,12 @@ export const navigateTo = ({
     router.push(url);
   } else {
     router.replace(url);
+  }
+  if (origin && destination && origin.ready && destination.ready) {
+    addAnalyticsEvent({
+      category: 'Itinerary',
+      action: 'ItinerariesSearched',
+      name: null,
+    });
   }
 };

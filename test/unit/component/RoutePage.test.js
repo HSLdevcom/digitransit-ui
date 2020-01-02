@@ -8,6 +8,7 @@ import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import { startRealTimeClient } from '../../../app/action/realTimeClientAction';
 import { Component as RoutePage } from '../../../app/component/RoutePage';
 import { AlertSeverityLevelType } from '../../../app/constants';
+import Icon from '../../../app/component/Icon';
 
 describe('<RoutePage />', () => {
   it('should set the activeAlert class if there is an alert and no patternId', () => {
@@ -332,5 +333,92 @@ describe('<RoutePage />', () => {
       });
       wrapper.instance().onPatternChange('foobar');
     });
+  });
+
+  it('should mark the disruptions tab as having an active info alert due to a route INFO level service alert', () => {
+    const props = {
+      breakpoint: 'large',
+      location: {
+        pathname: '/linjat/HSL:1063/pysakit/HSL:1063:0:01',
+      },
+      params: {
+        routeId: 'HSL:1063',
+        patternId: 'HSL:1063:0:01',
+      },
+      route: {
+        gtfsId: 'HSL:1063',
+        mode: 'BUS',
+        alerts: [
+          { id: 'foobar', alertSeverityLevel: AlertSeverityLevelType.Info },
+        ],
+      },
+    };
+    const wrapper = shallowWithIntl(<RoutePage {...props} />, {
+      context: { ...mockContext },
+    });
+    expect(
+      wrapper
+        .find(Icon)
+        .at(2)
+        .props().className,
+    ).to.equal('route-page-tab_icon active-service-alert');
+  });
+
+  it('should mark the disruptions tab as having an active info alert due to a route WARNING level service alert', () => {
+    const props = {
+      breakpoint: 'large',
+      location: {
+        pathname: '/linjat/HSL:1063/pysakit/HSL:1063:0:01',
+      },
+      params: {
+        routeId: 'HSL:1063',
+        patternId: 'HSL:1063:0:01',
+      },
+      route: {
+        gtfsId: 'HSL:1063',
+        mode: 'BUS',
+        alerts: [
+          { id: 'foobar', alertSeverityLevel: AlertSeverityLevelType.Warning },
+        ],
+      },
+    };
+    const wrapper = shallowWithIntl(<RoutePage {...props} />, {
+      context: { ...mockContext },
+    });
+    expect(
+      wrapper
+        .find(Icon)
+        .at(2)
+        .props().className,
+    ).to.equal('route-page-tab_icon active-disruption-alert');
+  });
+
+  it('should mark the disruptions tab as having an active info alert due to a route SEVERE level service alert', () => {
+    const props = {
+      breakpoint: 'large',
+      location: {
+        pathname: '/linjat/HSL:1063/pysakit/HSL:1063:0:01',
+      },
+      params: {
+        routeId: 'HSL:1063',
+        patternId: 'HSL:1063:0:01',
+      },
+      route: {
+        gtfsId: 'HSL:1063',
+        mode: 'BUS',
+        alerts: [
+          { id: 'foobar', alertSeverityLevel: AlertSeverityLevelType.Severe },
+        ],
+      },
+    };
+    const wrapper = shallowWithIntl(<RoutePage {...props} />, {
+      context: { ...mockContext },
+    });
+    expect(
+      wrapper
+        .find(Icon)
+        .at(2)
+        .props().className,
+    ).to.equal('route-page-tab_icon active-disruption-alert');
   });
 });

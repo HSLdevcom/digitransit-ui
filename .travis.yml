@@ -23,12 +23,39 @@ services:
 jobs:
   include:
     - stage: test
-      env: LINT,UNIT,FLOW
+      env: LINT=1
       node_js: '10'
-      script: yarn install && yarn lint && yarn test-coverage && yarn test-report && test/flow.sh
+      script:
+        - yarn install
+        - yarn lint
+    - stage: test
+      env: FLOW=1
+      node_js: '10'
+      script:
+        - yarn install
+        - test/flow.sh
+    - stage: test
+      env: UNIT=1
+      node_js: '10'
+      script:
+        - yarn install
+        - yarn run test-coverage
+        - yarn run test-report
 
     - stage: visual
       env: VISUAL=chrome
+      node_js: '10'
+      script: test/visual.sh
+    - stage: visual
+      env: VISUAL=firefox
+      node_js: '10'
+      script: test/visual.sh
+    - stage: visual
+      env: VISUAL=safari
+      node_js: '10'
+      script: test/visual.sh
+    - stage: visual
+      env: VISUAL=edge
       node_js: '10'
       script: test/visual.sh
 

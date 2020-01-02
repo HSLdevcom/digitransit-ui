@@ -162,12 +162,19 @@ class QuickSettingsPanel extends React.Component {
     const applicableQuickOptionSets = getApplicableQuickOptionSets(
       this.context,
     );
+    const modesWithNoBicycle = this.context.config.modesWithNoBike;
 
     return (
       <div className={cx(['quicksettings-container'])}>
         <AlertPopUp
+          className="no-bike-allowed-popup"
           isPopUpOpen={this.state.isPopUpOpen}
-          textId="no-bike-allowed-popup"
+          textId={
+            Array.isArray(modesWithNoBicycle) &&
+            modesWithNoBicycle.includes('RAIL')
+              ? 'no-bike-allowed-popup-train'
+              : 'no-bike-allowed-popup-tram-bus'
+          }
           icon="caution"
           togglePopUp={this.togglePopUp}
         />
