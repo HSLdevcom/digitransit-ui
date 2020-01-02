@@ -20,7 +20,7 @@ class FavouriteRoutesStore extends Store {
 
   // eslint-disable-next-line class-methods-use-this
   getRoutes() {
-    return this.routes;
+    return this.routes.filter(route => route.includes(':'));
   }
 
   addFavouriteRoute(routeId) {
