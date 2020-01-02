@@ -62,6 +62,9 @@ export const tryGetRelayQuery = async (query, defaultValue) => {
 };
 
 const mapRoute = item => {
+  if (item === null || item === undefined) {
+    return null;
+  }
   const link = `/${PREFIX_ROUTES}/${item.gtfsId}/pysakit/${
     orderBy(item.patterns, 'code', ['asc'])[0].code
   }`;
@@ -327,9 +330,9 @@ function getFavouriteRoutes(favourites, input) {
     }`,
     { ids: favourites },
   );
-
   return getRelayQuery(query)
     .then(favouriteRoutes => favouriteRoutes.map(mapRoute))
+    .then(routes => routes.filter(route => !!route))
     .then(routes =>
       routes.map(favourite => ({
         ...favourite,
@@ -455,6 +458,7 @@ function getRoutes(input, config) {
     .then(data =>
       data[0].routes
         .map(mapRoute)
+        .filter(route => !!route)
         .sort((x, y) => routeNameCompare(x.properties, y.properties)),
     )
     .then(suggestions => take(suggestions, 10));
@@ -756,7 +760,6 @@ export function executeSearchImmediate(
   if (type === SearchType.Search || type === SearchType.All) {
     const oldSearches = getStore('OldSearchesStore').getOldSearches('search');
     const favouriteRoutes = getStore('FavouriteRoutesStore').getRoutes();
-
     searchSearchesPromise = Promise.all([
       getFavouriteRoutes(favouriteRoutes, input),
       getOldSearches(oldSearches, input),
