@@ -8,11 +8,11 @@ import Card from '../../Card';
 import CardHeader from '../../CardHeader';
 import Loading from '../../Loading';
 import ZoneIcon from '../../ZoneIcon';
-
 import GeoJsonStore from '../../../store/GeoJsonStore';
 import PreferencesStore from '../../../store/PreferencesStore';
 import { getLabel } from '../../../util/suggestionUtils';
 import { getJson } from '../../../util/xhrPromise';
+import { getZoneLabelColor } from '../../../util/mapIconUtils';
 import { findFeatures } from '../../../util/geo-utils';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 
@@ -120,15 +120,6 @@ class LocationPopup extends React.Component {
       },
     );
   }
-  getZoneLabelColor() {
-    if (
-      typeof this.context.config.colors !== 'undefined' &&
-      this.context.config.colors.primary
-    ) {
-      return this.context.config.colors.primary;
-    }
-    return '#000';
-  }
 
   render() {
     if (this.state.loading) {
@@ -151,7 +142,7 @@ class LocationPopup extends React.Component {
             <ZoneIcon
               showTitle
               zoneId={zoneId}
-              zoneLabelColor={this.getZoneLabelColor()}
+              zoneLabelColor={getZoneLabelColor(this.context.config)}
             />
           </CardHeader>
         </div>

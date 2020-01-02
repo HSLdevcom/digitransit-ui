@@ -9,27 +9,38 @@ import { intlShape } from 'react-intl';
 export const ZONE_UNKNOWN = 'Ei HSL';
 
 const ZoneIcon = (
-  { className, showTitle, zoneId, zoneIdFontSize, zoneLabelColor },
+  {
+    className,
+    showTitle,
+    zoneId,
+    zoneIdFontSize,
+    zoneLabelColor,
+    zoneLabelHeight,
+    zoneLabelWidth,
+    zoneLabelMarginLeft,
+    zoneLabelLineHeight,
+  },
   { intl },
 ) => {
   if (!zoneId) {
     return null;
   }
+
   const zoneUnknown = zoneId === ZONE_UNKNOWN;
   if (showTitle && zoneUnknown) {
     return null;
   }
 
   const zoneIconStyle = {
-    height: '30px',
-    width: '30px',
+    height: zoneLabelHeight,
+    width: zoneLabelWidth,
     borderRadius: '50%',
     fontSize: zoneIdFontSize,
     color: '#fff',
-    lineHeight: '30px',
+    lineHeight: zoneLabelLineHeight,
     textAlign: 'center',
     background: zoneLabelColor,
-    marginLeft: '5px',
+    marginLeft: zoneLabelMarginLeft,
   };
 
   return (
@@ -59,6 +70,10 @@ ZoneIcon.propTypes = {
   zoneId: PropTypes.string,
   zoneIdFontSize: PropTypes.string,
   zoneLabelColor: PropTypes.string,
+  zoneLabelHeight: PropTypes.string,
+  zoneLabelWidth: PropTypes.string,
+  zoneLabelLineHeight: PropTypes.string,
+  zoneLabelMarginLeft: PropTypes.string,
 };
 
 ZoneIcon.defaultProps = {
@@ -67,6 +82,10 @@ ZoneIcon.defaultProps = {
   zoneId: undefined,
   zoneIdFontSize: '26px',
   zoneLabelColor: '#000',
+  zoneLabelHeight: '30px',
+  zoneLabelWidth: '30px',
+  zoneLabelLineHeight: '30px',
+  zoneLabelMarginLeft: '5px',
 };
 
 ZoneIcon.contextTypes = {
