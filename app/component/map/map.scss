@@ -9,6 +9,10 @@ div.map {
     background: rgba(255, 255, 255, 0.4);
     color: $dark-gray;
   }
+  .leaflet-container .leaflet-popup-close-button {
+    width: 28px;
+    height: 24px;
+  }
 }
 
 .below-map {
@@ -92,6 +96,7 @@ div.leaflet-container {
   background: none;
   z-index: index($zindex, map-container);
   @include font-map-container;
+
 }
 
 div.current-location-marker > span > svg.icon {
