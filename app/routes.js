@@ -18,6 +18,8 @@ import { errorLoading, getDefault, loadRoute } from './util/routerUtils';
 import getStopRoutes from './stopRoutes';
 import routeRoutes from './routeRoutes';
 
+import translations from './translations';
+
 const planQueries = {
   plan: (Component, variables) => Relay.QL`
     query {
@@ -141,7 +143,7 @@ export default config => {
       <Route
         path="/tietoja-palvelusta"
         /* eslint-disable-next-line react/jsx-no-duplicate-props */
-        path="/dieser-dienst"
+        path={translations.de['about-service-url']}
         getComponents={(location, cb) => {
           Promise.all([
             Promise.resolve(Title),
