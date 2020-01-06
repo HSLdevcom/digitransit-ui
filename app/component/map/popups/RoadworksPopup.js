@@ -38,23 +38,26 @@ class RoadworksPopup extends React.Component {
     return dateTime.format('LT');
   }
 
-  formatDateTime(start, end, type) {
+  static formatDateTime(start, end, type) {
     const startM = moment(start).tz('Europe/Berlin');
     const endM = moment(end).tz('Europe/Berlin');
     if (type === 'Langzeitbaustelle') {
-      return `${this.formatDate(startM)} - ${this.formatDate(endM)}`;
-    } else {
-      return `${this.formatDate(startM)} - ${this.formatDate(
-        endM,
-      )}, ${this.formatTime(startM)} - ${this.formatTime(endM)}`;
+      return `${RoadworksPopup.formatDate(
+        startM,
+      )} - ${RoadworksPopup.formatDate(endM)}`;
     }
+    return `${RoadworksPopup.formatDate(startM)} - ${RoadworksPopup.formatDate(
+      endM,
+    )}, ${RoadworksPopup.formatTime(startM)} - ${RoadworksPopup.formatTime(
+      endM,
+    )}`;
   }
 
   render() {
     const {
       props: { feature: properties },
     } = this;
-    const duration = this.formatDateTime(
+    const duration = RoadworksPopup.formatDateTime(
       properties.gueltig_von,
       properties.gueltig_bis,
       properties.Baustellenart,
