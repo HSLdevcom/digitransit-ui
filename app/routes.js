@@ -140,6 +140,8 @@ export default config => {
       />
       <Route
         path="/tietoja-palvelusta"
+        /* eslint-disable-next-line react/jsx-no-duplicate-props */
+        path="/dieser-dienst"
         getComponents={(location, cb) => {
           Promise.all([
             Promise.resolve(Title),
