@@ -140,16 +140,7 @@ export default config => {
       />
       <Route
         path="/tietoja-palvelusta"
-        getComponents={(location, cb) => {
-          Promise.all([
-            Promise.resolve(Title),
-            import(/* webpackChunkName: "about" */ './component/AboutPage').then(
-              getDefault,
-            ),
-          ]).then(([title, content]) => cb(null, { title, content }));
-        }}
-      />
-      <Route
+        /* eslint-disable-next-line react/jsx-no-duplicate-props */
         path="/dieser-dienst"
         getComponents={(location, cb) => {
           Promise.all([
