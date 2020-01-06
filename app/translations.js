@@ -530,6 +530,7 @@ const translations = {
     'return-cycle-to': 'Fahrrad bei {station} zurückgeben',
     'return-scooter-to': 'Scooter bei {station} zurückgeben',
     'right-now': 'Jetzt',
+    roadworks: 'Baustellen',
     route: 'Linie',
     'route-add-viapoint': 'Zwischenstopp',
     'route-custom-settings': 'Eigene Einstellungen',
