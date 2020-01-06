@@ -262,7 +262,6 @@ const translations = {
   },
 
   de: {
-    'about-service-url': '/dieser-dienst',
     'about-this-service': 'Über diesen Service',
     accessibility: 'Barrierefreiheit',
     'accessibility-limited': 'Rollstuhlgerecht',
