@@ -55,7 +55,9 @@ class RoadworksPopup extends React.Component {
 
   render() {
     const {
-      props: { feature: properties },
+      props: {
+        feature: { properties },
+      },
     } = this;
     const duration = RoadworksPopup.formatDateTime(
       properties.gueltig_von,
