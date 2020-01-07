@@ -37,6 +37,7 @@ $content-background-color: $background-color;
   align-items: center;
   text-align: center;
   cursor: pointer;
+  white-space: nowrap;
 }
 .top-bar {
   position: relative;

@@ -15,8 +15,7 @@ const AppBarSmall = ({
   title,
   homeUrl,
   logo,
-  loggedIn,
-  logIn,
+  user,
 }) => (
   <React.Fragment>
     <DisruptionInfo />
@@ -25,11 +24,7 @@ const AppBarSmall = ({
       <section className="title">
         <LogoSmall showLogo={showLogo} logo={logo} title={title} />
       </section>
-      <MainMenuContainer
-        homeUrl={homeUrl}
-        loggedIn={loggedIn}
-        logIn={() => logIn()}
-      />
+      <MainMenuContainer homeUrl={homeUrl} user={user} />
     </nav>
     <MessageBar />
     <CanceledLegsBar />
@@ -60,8 +55,7 @@ AppBarSmall.propTypes = {
   title: PropTypes.node,
   homeUrl: PropTypes.string,
   logo: PropTypes.string,
-  loggedIn: PropTypes.bool,
-  logIn: PropTypes.func,
+  user: PropTypes.object,
 };
 
 export default AppBarSmall;
