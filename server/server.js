@@ -346,7 +346,9 @@ function startServer() {
 }
 
 /* ********* Init ********* */
-// setUpOIDC();
+if (process.env.OIDC_CLIENT_ID) {
+  setUpOIDC();
+}
 setUpRaven();
 setUpStaticFolders();
 setUpMiddleware();
