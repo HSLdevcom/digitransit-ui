@@ -19,3 +19,4 @@ gemini-report
 tags
 .nyc_output
 coverage
+run*.sh

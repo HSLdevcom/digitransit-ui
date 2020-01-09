@@ -53,23 +53,27 @@ describe('<RoutePatternSelect />', () => {
             headsign: 'Kauklahti',
             stops: [{ name: 'Helsinki' }, { name: 'Kauklahti' }],
             tripsForDate: [],
+            activeDates: [], // DT-2531
           },
           {
             code: 'HSL:3002U:1:01',
             headsign: 'Helsinki',
             stops: [{ name: 'Kauklahti' }, { name: 'Helsinki' }],
             tripsForDate: [],
+            activeDates: [], // DT-2531
           },
           {
             code: 'HSL:3002U:0:02',
             headsign: 'Kirkkonummi',
             stops: [{ name: 'Helsinki' }, { name: 'Kirkkonummi' }],
             tripsForDate: [],
+            activeDates: [], // DT-2531
           },
           {
             code: 'HSL:3002U:0:03',
             stops: [{ name: 'Helsinki' }, { name: 'Siuntio' }],
             tripsForDate: [],
+            activeDates: [], // DT-2531
           },
         ],
       },
@@ -108,6 +112,7 @@ describe('<RoutePatternSelect />', () => {
             headsign: 'Kauklahti',
             stops: [{ name: 'Helsinki' }, { name: 'Kauklahti' }],
             tripsForDate: [],
+            activeDates: [], // DT-2531
           },
           {
             code: 'HSL:3002U:0:02',
@@ -135,6 +140,7 @@ describe('<RoutePatternSelect />', () => {
                 ],
               },
             ],
+            activeDates: [], // DT-2531
           },
         ],
       },
@@ -175,12 +181,14 @@ describe('<RoutePatternSelect />', () => {
             headsign: 'Kauklahti',
             stops: [{ name: 'Helsinki' }, { name: 'Kauklahti' }],
             tripsForDate: [],
+            activeDates: [], // DT-2531
           },
           {
-            code: 'HSL:3002U:0:02',
+            code: 'HSL:3002U:1:01',
             headsign: 'Kirkkonummi',
             stops: [{ name: 'Helsinki' }, { name: 'Kirkkonummi' }],
             tripsForDate: [],
+            activeDates: [], // DT-2531
           },
         ],
       },
@@ -232,6 +240,7 @@ describe('<RoutePatternSelect />', () => {
               },
             ],
             tripsForDate: [],
+            activeDates: [], // DT-2531
           },
         ],
       },
@@ -244,7 +253,7 @@ describe('<RoutePatternSelect />', () => {
     expect(wrapper.find('select > div')).to.have.lengthOf(0);
   });
 
-  it('should create a select element for 4 patterns ', () => {
+  it('should create a select element for more than 2 patterns ', () => {
     // DT-3182
     const currentDay = new Date();
     const currentTimeInSecs = currentDay.getTime() / 1000;
@@ -316,6 +325,7 @@ describe('<RoutePatternSelect />', () => {
                 ],
               },
             ],
+            activeDates: [], // DT-2531
           },
           {
             code: 'HSL:1010:0:01',
@@ -353,6 +363,7 @@ describe('<RoutePatternSelect />', () => {
                 ],
               },
             ],
+            activeDates: [], // DT-2531
           },
           {
             code: 'HSL:1010:1:03',
@@ -390,6 +401,7 @@ describe('<RoutePatternSelect />', () => {
                 ],
               },
             ],
+            activeDates: [], // DT-2531
           },
           {
             code: 'HSL:1010:0:04',
@@ -427,6 +439,7 @@ describe('<RoutePatternSelect />', () => {
                 ],
               },
             ],
+            activeDates: [], // DT-2531
           },
         ],
       },
@@ -435,6 +448,6 @@ describe('<RoutePatternSelect />', () => {
     const wrapper = shallowWithIntl(<RoutePatternSelect {...props} />, {
       context: { ...mockContext },
     });
-    expect(wrapper.find('option')).to.have.lengthOf(4);
+    expect(wrapper.find('option')).to.have.length.above(2);
   });
 });
