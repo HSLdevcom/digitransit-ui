@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
+import sinon from 'sinon';
 
 import moment from 'moment'; // DT-3182
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
@@ -8,6 +9,7 @@ import { mockContext } from '../helpers/mock-context';
 import { Component as RoutePatternSelect } from '../../../app/component/RoutePatternSelect';
 import dt2887 from '../test-data/dt2887';
 import dt2887b from '../test-data/dt2887b';
+import * as analytics from '../../../app/util/analyticsUtils';
 
 describe('<RoutePatternSelect />', () => {
   it('should render', () => {
@@ -252,6 +254,31 @@ describe('<RoutePatternSelect />', () => {
     });
     expect(wrapper.find('select > div')).to.have.lengthOf(0);
   });
+  it('should call addAnalyticsEvent when select is opened', () => {
+    const props = {
+      serviceDay: 'test',
+      onSelectChange: () => null,
+      gtfsId: 'test',
+      relay: { setVariables: () => null },
+      route: {
+        patterns: [
+          { code: 'test1', stops: [{ name: '1' }] },
+          { code: 'test2', stops: [{ name: '2' }] },
+          { code: 'test3', stops: [{ name: '3' }] },
+        ],
+      },
+      params: {},
+    };
+    const spy = sinon.spy(analytics, 'addAnalyticsEvent');
+    const wrapper = shallowWithIntl(<RoutePatternSelect {...props} />, {
+      context: {
+        ...mockContext,
+        config: { map: { useModeIconsInNonTileLayer: true } },
+      },
+    });
+    wrapper.find('select').simulate('mouseDown');
+    expect(spy.calledOnce).to.equal(true);
+    spy.restore();
 
   it('should create a select element for more than 2 patterns ', () => {
     // DT-3182
