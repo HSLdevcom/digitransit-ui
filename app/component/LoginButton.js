@@ -1,21 +1,25 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import propTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 
-export default function LoginButton({ logIn }) {
+export default function LoginButton({ isMobile }) {
   return (
-    <button className="noborder" onClick={() => logIn()}>
-      <div className="top-bar-login">
-        <div className="login-icon">
-          <Icon img="icon-icon_user" />
-        </div>
-        <FormattedMessage id="login" defaultMessage="login" />
-      </div>
-    </button>
+    <div className={isMobile ? 'offcanvas-section' : 'right-border'}>
+      <button className="noborder">
+        <a href="/login">
+          <div className="top-bar-login">
+            <div className="login-icon">
+              <Icon img="icon-icon_user" />
+            </div>
+            <FormattedMessage id="login" defaultMessage="login" />
+          </div>
+        </a>
+      </button>
+    </div>
   );
 }
 
 LoginButton.propTypes = {
-  logIn: PropTypes.func.isRequired,
+  isMobile: propTypes.bool,
 };

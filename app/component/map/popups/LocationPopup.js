@@ -8,11 +8,11 @@ import Card from '../../Card';
 import CardHeader from '../../CardHeader';
 import Loading from '../../Loading';
 import ZoneIcon from '../../ZoneIcon';
-
 import GeoJsonStore from '../../../store/GeoJsonStore';
 import PreferencesStore from '../../../store/PreferencesStore';
 import { getLabel } from '../../../util/suggestionUtils';
 import { getJson } from '../../../util/xhrPromise';
+import { getZoneLabelColor } from '../../../util/mapIconUtils';
 import { findFeatures } from '../../../util/geo-utils';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 
@@ -139,7 +139,11 @@ class LocationPopup extends React.Component {
             unlinked
             className="padding-small"
           >
-            <ZoneIcon showTitle zoneId={zoneId} />
+            <ZoneIcon
+              showTitle
+              zoneId={zoneId}
+              zoneLabelColor={getZoneLabelColor(this.context.config)}
+            />
           </CardHeader>
         </div>
         <MarkerPopupBottom location={this.state.location} />

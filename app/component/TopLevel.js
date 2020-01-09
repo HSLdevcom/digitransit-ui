@@ -9,6 +9,8 @@ import MobileView from './MobileView';
 import DesktopView from './DesktopView';
 import ErrorBoundary from './ErrorBoundary';
 import { DesktopOrMobile } from '../util/withBreakpoint';
+import getJson from '../util/apiUtils';
+import setUser from '../action/userActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class TopLevel extends React.Component {
@@ -34,11 +36,13 @@ class TopLevel extends React.Component {
       terminalId: PropTypes.string,
     }).isRequired,
     origin: dtLocationShape,
+    user: PropTypes.object,
   };
 
   static contextTypes = {
     headers: PropTypes.object.isRequired,
     config: PropTypes.object.isRequired,
+    executeAction: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -52,11 +56,6 @@ class TopLevel extends React.Component {
     location: PropTypes.object,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = { loggedIn: false };
-  }
-
   getChildContext() {
     return {
       location: this.props.location,
@@ -69,6 +68,17 @@ class TopLevel extends React.Component {
     }`).then(logo => {
       this.setState({ logo: logo.default });
     });
+    if (!this.props.user.name) {
+      getJson(`/api/user`)
+        .then(user => {
+          this.context.executeAction(setUser, {
+            ...user,
+          });
+        })
+        .catch(() => {
+          this.context.executeAction(setUser, {});
+        });
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -123,12 +133,6 @@ class TopLevel extends React.Component {
     }
   }
 
-  logIn = () => {
-    this.setState(prevState => ({
-      loggedIn: !prevState.loggedIn,
-    }));
-  };
-
   render() {
     this.topBarOptions = Object.assign(
       {},
@@ -179,8 +183,6 @@ class TopLevel extends React.Component {
             {...this.topBarOptions}
             {...this.state}
             homeUrl={homeUrl}
-            loggedIn={this.state.loggedIn}
-            logIn={() => this.logIn()}
           />
         )}
         <section id="mainContent" className="content">
@@ -193,6 +195,11 @@ class TopLevel extends React.Component {
   }
 }
 
-export default connectToStores(TopLevel, ['OriginStore'], ({ getStore }) => ({
-  origin: getStore('OriginStore').getOrigin(),
-}));
+export default connectToStores(
+  TopLevel,
+  ['OriginStore', 'UserStore'],
+  ({ getStore }) => ({
+    origin: getStore('OriginStore').getOrigin(),
+    user: getStore('UserStore').getUser(),
+  }),
+);

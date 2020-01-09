@@ -7,6 +7,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import ZoneIcon from './ZoneIcon';
+import { getZoneLabelColor } from '../util/mapIconUtils';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 import ExternalLink from './ExternalLink';
 
@@ -65,16 +66,6 @@ class StopCardHeader extends React.Component {
     return '26px';
   }
 
-  getZoneLabelColor() {
-    if (
-      typeof this.context.config.colors !== 'undefined' &&
-      this.context.config.colors.primary
-    ) {
-      return this.context.config.colors.primary;
-    }
-    return '#000';
-  }
-
   render() {
     const {
       className,
@@ -117,9 +108,7 @@ class StopCardHeader extends React.Component {
                   ? this.getZoneLabelSize(stop.zoneId)
                   : null
               }
-              zoneLabelColor={
-                this.getZoneLabelColor() ? this.getZoneLabelColor() : null
-              }
+              zoneLabelColor={getZoneLabelColor(this.context.config)}
             />
           )}
       </CardHeader>
