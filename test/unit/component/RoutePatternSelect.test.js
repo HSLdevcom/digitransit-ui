@@ -254,6 +254,7 @@ describe('<RoutePatternSelect />', () => {
     });
     expect(wrapper.find('select > div')).to.have.lengthOf(0);
   });
+
   it('should call addAnalyticsEvent when select is opened', () => {
     const props = {
       serviceDay: 'test',
@@ -279,6 +280,7 @@ describe('<RoutePatternSelect />', () => {
     wrapper.find('select').simulate('mouseDown');
     expect(spy.calledOnce).to.equal(true);
     spy.restore();
+  });
 
   it('should create a select element for more than 2 patterns ', () => {
     // DT-3182
