@@ -255,7 +255,7 @@ describe('<RoutePatternSelect />', () => {
     expect(wrapper.find('select > div')).to.have.lengthOf(0);
   });
 
-  it('should call addAnalyticsEvent when select is opened', () => {
+  it.skip('should call addAnalyticsEvent when select is opened', () => {
     const props = {
       serviceDay: 'test',
       onSelectChange: () => null,
