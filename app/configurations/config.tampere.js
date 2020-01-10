@@ -76,9 +76,6 @@ export default configMerger(walttiConfig, {
       virtualMonitorBaseUrl: 'https://tremonitori.digitransit.fi/stop/tampere:',
     },
   },
-
-  // DT-3293 Show ticket information for tampere if itinerary consist only a train
-  showOnlyTrainTicketInformation: true,
   showTicketInformation: true,
 
   useTicketIcons: true,

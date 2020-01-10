@@ -317,8 +317,7 @@ export default {
     description: APP_DESCRIPTION,
     keywords: 'digitransit',
   },
-  // DT-3293 Show ticket information for tampere if itinerary consist only a train
-  showOnlyTrainTicketInformation: false,
+
   // Ticket information feature toggle
   showTicketInformation: false,
   ticketInformation: {
