@@ -343,3 +343,10 @@ export function drawAvailabilityValue(
   tile.ctx.textBaseline = 'middle';
   tile.ctx.fillText(value, x, y);
 }
+
+export const getZoneLabelColor = config => {
+  if (typeof config.colors !== 'undefined' && config.colors.primary) {
+    return config.colors.primary;
+  }
+  return '#000';
+};

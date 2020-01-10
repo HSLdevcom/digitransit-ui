@@ -3,6 +3,7 @@ import d from 'debug';
 import { getJson } from '../util/xhrPromise';
 import { getPositioningHasSucceeded } from '../store/localStorage';
 import geolocationMessages from '../util/geolocationMessages';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const debug = d('PositionActions.js');
 
@@ -164,6 +165,20 @@ export function checkPositioningPermission() {
       navigator.permissions
         .query({ name: 'geolocation' })
         .then(permissionStatus => {
+          if (permissionStatus.state === 'prompt') {
+            // track when user allows geolocation
+            /* eslint-disable no-param-reassign */
+            permissionStatus.onchange = function() {
+              if (this.state === 'granted') {
+                addAnalyticsEvent({
+                  category: 'Map',
+                  action: 'AllowGeolocation',
+                  name: null,
+                });
+                permissionStatus.onchange = null;
+              }
+            };
+          }
           resolve(permissionStatus);
         });
     }

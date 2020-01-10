@@ -14,6 +14,7 @@ import {
 } from '../../../util/mapIconUtils';
 import { isBrowser } from '../../../util/browser';
 import Loading from '../../Loading';
+import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 
 let L;
 
@@ -144,7 +145,20 @@ class StopMarker extends React.Component {
               <Loading />
             </div>
           )}
-          renderFetched={data => <StopMarkerPopup {...data} />}
+          renderFetched={data => {
+            const pathPrefixMatch = window.location.pathname.match(
+              /^\/([a-z]{2,})\//,
+            );
+            const context = pathPrefixMatch ? pathPrefixMatch[1] : 'index';
+            addAnalyticsEvent({
+              action: 'SelectMapPoint',
+              category: 'Map',
+              name: 'stop',
+              type: this.props.mode.toUpperCase(),
+              context,
+            });
+            return <StopMarkerPopup {...data} />;
+          }}
         />
       </GenericMarker>
     );

@@ -9,6 +9,7 @@ import { PREFIX_ROUTES } from '../../../util/path';
 import RouteHeader from '../../RouteHeader';
 
 import { addFavouriteRoute } from '../../../action/FavouriteActions';
+import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 
 function FuzzyTripMarkerPopup(props) {
   let patternPath = `/${PREFIX_ROUTES}/${props.trip.route.gtfsId}/pysakit`;
@@ -29,7 +30,16 @@ function FuzzyTripMarkerPopup(props) {
         addFavouriteRoute={props.addAsFavouriteRoute}
       />
       <div className="bottom location">
-        <Link to={tripPath}>
+        <Link
+          to={tripPath}
+          onClick={() => {
+            addAnalyticsEvent({
+              category: 'Map',
+              action: 'OpenTripInformation',
+              name: props.trip.route.mode,
+            });
+          }}
+        >
           <FormattedMessage
             id="trip-information"
             defaultMessage="Trip Information"
@@ -48,6 +58,7 @@ FuzzyTripMarkerPopup.propTypes = {
   trip: PropTypes.shape({
     route: PropTypes.shape({
       gtfsId: PropTypes.string.isRequired,
+      mode: PropTypes.string,
     }).isRequired,
     fuzzyTrip: PropTypes.shape({
       gtfsId: PropTypes.string,

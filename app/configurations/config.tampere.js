@@ -16,7 +16,7 @@ const maxLon = 24.9;
 export default configMerger(walttiConfig, {
   CONFIG,
 
-  appBarLink: { name: 'Nysse', href: 'http://www.nysse.fi/' },
+  appBarLink: { name: 'Nysse', href: 'https://joukkoliikenne.tampere.fi/' },
 
   colors: {
     primary: '#1c57cf',
@@ -36,7 +36,7 @@ export default configMerger(walttiConfig, {
 
   favicon: './sass/themes/tampere/favicon.png',
 
-  feedIds: ['tampere'],
+  feedIds: ['tampere', 'TampereVR'],
 
   geoJson: {
     layers: [
@@ -85,7 +85,7 @@ export default configMerger(walttiConfig, {
     primaryAgencyName: 'Tampereen seudun joukkoliikenne',
   },
 
-  ticketLink: 'http://joukkoliikenne.tampere.fi/liput-ja-hinnat.html',
+  ticketLink: 'https://joukkoliikenne.tampere.fi/liput-ja-hinnat.html',
 
   // mapping fareId from OTP fare identifiers to human readable form
   fareMapping: function mapFareId(fareId) {
@@ -143,7 +143,7 @@ export default configMerger(walttiConfig, {
         name: 'footer-feedback',
         nameEn: 'Submit feedback',
         href:
-          'http://joukkoliikenne.tampere.fi/ohjeita-ja-tietoa/asiakaspalvelu/palaute.html',
+          'https://joukkoliikenne.tampere.fi/ohjeita-ja-tietoa/asiakaspalvelu/palaute.html',
         icon: 'icon-icon_speech-bubble',
       },
       {
@@ -163,7 +163,7 @@ export default configMerger(walttiConfig, {
           'Tervetuloa reittioppaaseen! Tämän palvelun tarjoaa Tampereen seudun joukkoliikenne (Nysse) reittisuunnittelua varten Tampereen kaupunkiseudun alueella (Kangasala, Lempäälä, Nokia, Orivesi, Pirkkala, Tampere, Vesilahti ja Ylöjärvi). Palvelu perustuu Digitransit-palvelualustaan.',
         ],
         link:
-          'http://joukkoliikenne.tampere.fi/ohjeita-ja-tietoa/digipalvelut/ohje-repa-reittiopas.html',
+          'https://joukkoliikenne.tampere.fi/ohjeita-ja-tietoa/digipalvelut/ohje-repa-reittiopas.html',
       },
       {
         header: 'Digitransit-palvelualusta',
@@ -226,6 +226,17 @@ export default configMerger(walttiConfig, {
   timetables: {
     tampere: tampereTimetables,
   },
+
+  // enable train routing for Tampere
+  transportModes: {
+    rail: {
+      availableForSelection: true,
+      defaultValue: true,
+    },
+  },
+
+  // boarding a long distance train with bicycle costs extra
+  modesWithNoBike: ['RAIL'],
 
   // Number of days to include to the service time range from the future (DT-3175)
   itineraryFutureDays: 60,
