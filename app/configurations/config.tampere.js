@@ -77,6 +77,8 @@ export default configMerger(walttiConfig, {
     },
   },
 
+  // DT-3293 Show ticket information for tampere if itinerary consist only a train
+  showOnlyTrainTicketInformation: true,
   showTicketInformation: true,
 
   useTicketIcons: true,

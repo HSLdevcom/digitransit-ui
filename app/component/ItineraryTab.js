@@ -25,7 +25,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import exampleData from './data/ItineraryTab.exampleData.json';
 import { getFares } from '../util/fareUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-
+/* eslint-disable prettier/prettier */
 class ItineraryTab extends React.Component {
   static propTypes = {
     searchTime: PropTypes.number.isRequired,
@@ -75,13 +75,19 @@ class ItineraryTab extends React.Component {
       pathname: printPath,
     });
   };
-
+  checkMode(mode) {
+    if (mode === 'RAIL' || mode === 'WALK' || mode === 'WAIT') {
+      return true;
+    }
+    return false;
+  }
   render() {
     const { itinerary, searchTime } = this.props;
     const { config } = this.context;
 
     const fares = getFares(itinerary.fares, getRoutes(itinerary.legs), config);
 
+    const onlyTrain = itinerary.legs.every(leg => this.checkMode(leg.mode))
     return (
       <div className="itinerary-tab">
         <BreakpointConsumer>
@@ -106,8 +112,9 @@ class ItineraryTab extends React.Component {
                   'bp-large': breakpoint === 'large',
                 })}
               >
+
                 {config.showTicketInformation &&
-                  fares.some(fare => fare.isUnknown) && (
+                   fares.some(fare => fare.isUnknown) || (config.showOnlyTrainTicketInformation && onlyTrain) && (
                     <div className="disclaimer-container unknown-fare-disclaimer__top">
                       <div className="icon-container">
                         <Icon className="info" img="icon-icon_info" />
