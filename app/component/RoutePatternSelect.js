@@ -415,7 +415,7 @@ class RoutePatternSelect extends Component {
         return (
           <option key={pattern.code} value={pattern.code}>
             {pattern.stops[0].name} ➔ {pattern.headsign}
-            {pattern.untilDate !== '-'
+            {pattern.untilDate !== '-' && pattern.untilDate !== undefined
               ? this.context.intl
                   .formatMessage(
                     {
@@ -445,7 +445,7 @@ class RoutePatternSelect extends Component {
                   )
                   .replace(/\( /gi, '(')
               : ''}
-            {pattern.fromDate !== '-'
+            {pattern.fromDate !== '-' && pattern.fromDate !== undefined
               ? this.context.intl
                   .formatMessage(
                     {
