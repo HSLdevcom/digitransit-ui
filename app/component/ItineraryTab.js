@@ -107,7 +107,7 @@ class ItineraryTab extends React.Component {
               >
 
                 {config.showTicketInformation &&
-                (fares.length === 0 || fares.some(fare => fare.isUnknown))  && (
+                  fares.some(fare => fare.isUnknown) && (
                     <div className="disclaimer-container unknown-fare-disclaimer__top">
                       <div className="icon-container">
                         <Icon className="info" img="icon-icon_info" />
