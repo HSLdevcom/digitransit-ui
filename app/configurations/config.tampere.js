@@ -76,7 +76,6 @@ export default configMerger(walttiConfig, {
       virtualMonitorBaseUrl: 'https://tremonitori.digitransit.fi/stop/tampere:',
     },
   },
-
   showTicketInformation: true,
 
   useTicketIcons: true,
