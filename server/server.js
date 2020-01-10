@@ -87,11 +87,11 @@ function setUpOIDC() {
       store: new FileStore(),
       resave: false,
       saveUninitialized: true,
-      cookie : {
+      cookie: {
         secure: true,
         httpOnly: true,
-        maxAge: 1000 * 60 * 60 *24 * 365 * 10
-      }
+        maxAge: 1000 * 60 * 60 * 24 * 365 * 10,
+      },
     }),
   );
 
