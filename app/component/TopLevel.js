@@ -185,7 +185,7 @@ class TopLevel extends React.Component {
             homeUrl={homeUrl}
           />
         )}
-        <section id="mainContent" className="content">
+        <section id="mainContent" className="content" aria-live="polite">
           {this.props.meta}
           <noscript>This page requires JavaScript to run.</noscript>
           <ErrorBoundary>{content}</ErrorBoundary>
