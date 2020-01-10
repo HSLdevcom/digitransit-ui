@@ -75,7 +75,7 @@ class ItineraryTab extends React.Component {
       pathname: printPath,
     });
   };
-  checkMode(mode) {
+  checkMode = (mode) => {
     if (mode === 'RAIL' || mode === 'WALK' || mode === 'WAIT') {
       return true;
     }
