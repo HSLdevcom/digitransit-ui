@@ -11,9 +11,11 @@ import MessageBar from './MessageBar';
 import CanceledLegsBar from './CanceledLegsBar';
 import LogoSmall from './LogoSmall';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import LoginButton from './LoginButton';
+import UserInfo from './UserInfo';
 
 const AppBarLarge = (
-  { titleClicked, logo },
+  { titleClicked, logo, user },
   { router, location, config, intl },
 ) => {
   const openDisruptionInfo = () => {
@@ -60,6 +62,22 @@ const AppBarLarge = (
           {logoElement}
         </button>
         <div className="empty-space flex-grow" />
+        {config.showLogin &&
+          (!user.name ? (
+            <LoginButton />
+          ) : (
+            <UserInfo
+              user={user}
+              list={[
+                {
+                  key: 'dropdown-item-1',
+                  messageId: 'logout',
+                  href: '/logout',
+                },
+              ]}
+            />
+          ))}
+
         <div className="navi-languages right-border navi-margin">
           <LangSelect />
         </div>
@@ -99,6 +117,7 @@ const AppBarLarge = (
 AppBarLarge.propTypes = {
   titleClicked: PropTypes.func.isRequired,
   logo: PropTypes.string,
+  user: PropTypes.object,
 };
 
 AppBarLarge.defaultProps = {
@@ -123,4 +142,4 @@ AppBarLarge.description = () => (
   </div>
 );
 
-export default AppBarLarge;
+export { AppBarLarge as default, AppBarLarge as Component };

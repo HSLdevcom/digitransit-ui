@@ -13,7 +13,7 @@ import FavouriteRouteContainer from './FavouriteRouteContainer';
 import RoutePatternSelect from './RoutePatternSelect';
 import RouteAgencyInfo from './RouteAgencyInfo';
 import RouteNumber from './RouteNumber';
-import { DATE_FORMAT } from '../constants';
+import { DATE_FORMAT, AlertSeverityLevelType } from '../constants';
 import {
   startRealTimeClient,
   stopRealTimeClient,
@@ -25,10 +25,16 @@ import {
   getServiceAlertsForRouteStops,
   isAlertActive,
   getActiveAlertSeverityLevel,
+  getServiceAlertsForStop,
+  getCancelationsForStop,
+  getServiceAlertsForStopRoutes,
 } from '../util/alertUtils';
 import { PREFIX_ROUTES } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
-import { RouteAlertsQuery, StopAlertsQuery } from '../util/alertQueries';
+import {
+  RouteAlertsQuery,
+  StopAlertsWithContentQuery,
+} from '../util/alertQueries';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const Tab = {
@@ -230,7 +236,6 @@ class RoutePage extends React.Component {
     }
 
     const activeTab = getActiveTab(location.pathname);
-
     const currentTime = moment().unix();
     const hasActiveAlert = isAlertActive(
       getCancelationsForRoute(route, patternId),
@@ -240,14 +245,48 @@ class RoutePage extends React.Component {
       ],
       currentTime,
     );
+
+    const routePatternStopAlerts = [];
+
+    if (route.patterns && route.patterns.length > 0) {
+      route.patterns.forEach(
+        pattern =>
+          pattern.stops &&
+          pattern.stops.forEach(stop => {
+            return (
+              getActiveAlertSeverityLevel(
+                [
+                  ...getCancelationsForStop(stop),
+                  ...getServiceAlertsForStop(stop),
+                  ...getServiceAlertsForStopRoutes(stop),
+                ],
+                currentTime,
+              ) && routePatternStopAlerts.push(...stop.alerts)
+            );
+          }),
+      );
+    }
+
     const hasActiveServiceAlerts = getActiveAlertSeverityLevel(
       getServiceAlertsForRoute(route, patternId),
       currentTime,
     );
 
     const disruptionClassName =
-      (hasActiveAlert && 'active-disruption-alert') ||
-      (hasActiveServiceAlerts && 'active-service-alert');
+      ((hasActiveAlert ||
+        routePatternStopAlerts.find(
+          alert =>
+            alert.severityLevel ===
+            (AlertSeverityLevelType.Severe || AlertSeverityLevelType.Warning),
+        )) &&
+        'active-disruption-alert') ||
+      ((hasActiveServiceAlerts ||
+        routePatternStopAlerts.find(
+          alert =>
+            alert.severityLevel !==
+            (AlertSeverityLevelType.Severe || AlertSeverityLevelType.Warning),
+        )) &&
+        'active-service-alert');
 
     const useCurrentTime = activeTab === Tab.Stops; // DT-3182
 
@@ -368,7 +407,7 @@ const containerComponent = Relay.createContainer(withBreakpoint(RoutePage), {
           headsign
           code
           stops {
-            ${StopAlertsQuery}
+            ${StopAlertsWithContentQuery}
           }
           trips: tripsForDate(serviceDay: $serviceDay) {
             stoptimes: stoptimesForDate(serviceDay: $serviceDay) {
