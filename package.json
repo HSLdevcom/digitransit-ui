@@ -109,7 +109,7 @@
     "express": "4.16.3",
     "express-http-proxy": "1.2.0",
     "express-session": "1.17.0",
-    "express-static-gzip": "0.3.2",
+    "express-static-gzip": "2.0.6",
     "fluxible": "1.4.0",
     "fluxible-addons-react": "0.2.16",
     "foundation-apps": "1.2.0",
