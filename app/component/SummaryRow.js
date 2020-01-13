@@ -387,74 +387,74 @@ const SummaryRow = (
       </div>
     );
 
+  const showDetails = props.open || props.children;
+
   //  accessible representation for summary
-  const textSummary =
-    props.open || props.children ? null : (
-      <div className="sr-only" key="screenReader">
-        <h3>
-          <FormattedMessage
-            id="summary-page.row-label"
-            values={{
-              number: props.hash + 1,
-            }}
-          />
-        </h3>
+  const textSummary = showDetails ? null : (
+    <div className="sr-only" key="screenReader">
+      <h3>
         <FormattedMessage
-          id="itinerary-summary-row.description"
+          id="summary-page.row-label"
           values={{
-            departureDate: dateOrEmpty(startTime, refTime),
-            departureTime: <LocalTime time={startTime} />,
-            arrivalDate: dateOrEmpty(endTime, refTime),
-            arrivalTime: <LocalTime time={endTime} />,
-            transportMethods: <>{vehicleNames}</>,
-            firstDeparture:
-              vehicleNames.length === 0 ? null : (
-                <>
-                  <FormattedMessage
-                    id="itinerary-summary-row.first-departure"
-                    values={{
-                      vehicle: vehicleNames[0],
-                      departureTime: firstLegStartTimeText,
-                      stopName: stopNames[0],
-                    }}
-                  />
-                </>
-              ),
-            transfers: vehicleNames.map((name, index) => {
-              if (index === 0) {
-                return null;
-              }
-              return formatMessage(
-                { id: 'itinerary-summary-row.transfers' },
-                {
-                  vehicle: name,
-                  stopName: stopNames[index],
-                },
-              );
-            }),
-            totalTime: <RelativeDuration duration={duration} />,
-            distance: (
-              <FormattedMessage
-                id={
-                  containsBiking(data)
-                    ? 'itinerary-summary-row.biking-distance'
-                    : 'itinerary-summary-row.walking-distance'
-                }
-                values={{
-                  totalDistance: displayDistance(
-                    containsBiking(data)
-                      ? getTotalBikingDistance(data)
-                      : getTotalWalkingDistance(data),
-                    config,
-                  ),
-                }}
-              />
-            ),
+            number: props.hash + 1,
           }}
         />
-      </div>
-    );
-  const showDetails = props.open || props.children;
+      </h3>
+      <FormattedMessage
+        id="itinerary-summary-row.description"
+        values={{
+          departureDate: dateOrEmpty(startTime, refTime),
+          departureTime: <LocalTime time={startTime} />,
+          arrivalDate: dateOrEmpty(endTime, refTime),
+          arrivalTime: <LocalTime time={endTime} />,
+          firstDeparture:
+            vehicleNames.length === 0 ? null : (
+              <>
+                <FormattedMessage
+                  id="itinerary-summary-row.first-departure"
+                  values={{
+                    vehicle: vehicleNames[0],
+                    departureTime: firstLegStartTimeText,
+                    stopName: stopNames[0],
+                  }}
+                />
+              </>
+            ),
+          transfers: vehicleNames.map((name, index) => {
+            if (index === 0) {
+              return null;
+            }
+            return formatMessage(
+              { id: 'itinerary-summary-row.transfers' },
+              {
+                vehicle: name,
+                stopName: stopNames[index],
+              },
+            );
+          }),
+          totalTime: <RelativeDuration duration={duration} />,
+          distance: (
+            <FormattedMessage
+              id={
+                containsBiking(data)
+                  ? 'itinerary-summary-row.biking-distance'
+                  : 'itinerary-summary-row.walking-distance'
+              }
+              values={{
+                totalDistance: displayDistance(
+                  containsBiking(data)
+                    ? getTotalBikingDistance(data)
+                    : getTotalWalkingDistance(data),
+                  config,
+                ),
+              }}
+            />
+          ),
+        }}
+      />
+    </div>
+  );
+
   return (
     <span role="listitem" aria-atomic="true">
       {textSummary}
