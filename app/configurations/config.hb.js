@@ -38,7 +38,11 @@ export default configMerger(walttiConfig, {
   availableLanguages: ['de', 'en'],
   defaultLanguage: 'de',
 
-  appBarLink: { name: 'Herrenberg.de', href: 'https://www.herrenberg.de' },
+  appBarLink: { 
+    name: 'Feedback', 
+    href: 'https://mobil-in-herrenberg.de/feedback',
+    target: '_blank'
+  },
 
   contactName: {
     de: 'transportkollektiv',
