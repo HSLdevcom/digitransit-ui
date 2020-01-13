@@ -803,7 +803,7 @@ const translations = {
     'itinerary-summary-row.first-departure':
       '{vehicle} leaves at {departureTime} from stop {stopName}.',
     'itinerary-summary-row.transfers':
-      'Transfer to {vehicle} on stop {stopName}.',
+      'Transfer to {vehicle} on stop {stopName}',
     'itinerary-summary-row.walking-distance':
       'Total walking distance {totalDistance}.',
     'itinerary-ticket.title': 'Required ticket',
@@ -1542,7 +1542,7 @@ const translations = {
       'Lähtö {departureDate} kello {departureTime}. Perillä {arrivalDate} kello {arrivalTime}. {firstDeparture} {transfers} Matka-aika {totalTime}. {distance}',
     'itinerary-summary-row.first-departure':
       '{vehicle} lähtee asemalta {stopName} kello {departureTime}.',
-    'itinerary-summary-row.transfers': 'Vaihto {vehicle} pysäkillä {stopName}.',
+    'itinerary-summary-row.transfers': 'Vaihto {vehicle} pysäkillä {stopName}',
     'itinerary-summary-row.walking-distance':
       'Kävelyä yhteensä {totalDistance}.',
     'itinerary-ticket.title': 'Tarvittava lippu',
