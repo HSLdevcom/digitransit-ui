@@ -4,7 +4,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import ExternalLinkDecoration from './ExternalLinkDecoration';
 
-const ExternalLink = ({ name, children, href, className, onClick }) =>
+const ExternalLink = ({ name, children, href, className, onClick, target}) =>
   (name || children !== undefined) && (
     <span className={className}>
       <span className="external-link-container">
@@ -17,6 +17,8 @@ const ExternalLink = ({ name, children, href, className, onClick }) =>
           }}
           className="external-link"
           href={href}
+          target={target}
+          rel="noopener"
         >
           {name || children}
         </a>
@@ -30,10 +32,12 @@ ExternalLink.propTypes = {
   href: PropTypes.string,
   className: PropTypes.string,
   onClick: PropTypes.func,
+  target: PropTypes.string,
 };
 
 ExternalLink.defaultProps = {
   className: '',
+  target: '_self',
 };
 
 ExternalLink.displayName = 'ExternalLink';
