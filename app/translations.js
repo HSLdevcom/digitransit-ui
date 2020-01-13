@@ -440,6 +440,7 @@ const translations = {
     map: 'Karte',
     'map-layer-citybike': 'Citybike-Stationen',
     'map-layer-park-and-ride': 'Park & Ride-Plätze',
+    'map-layer-roadworks': 'Baustellen',
     'map-layer-stop-bus': 'Bushaltestellen',
     'map-layer-stop-ferry': 'Fähren',
     'map-layer-stop-tram': 'Tramhaltestellen',
