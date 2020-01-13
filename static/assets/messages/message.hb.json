@@ -2,19 +2,15 @@
 	"content": {
 		"en": [
 			{"content": "Public Beta", "type": "heading"},
-			{"content": "Mobil-in-Herrenberg currently is in public beta. You have suggestions or issues? Please give us ", "type": "text"},
-			{"content": "Feedback.",
-			"to_site": "herrenberg.de", "to_user": "klimaschutz", "subject": "Feedback 'Mobil-in-Herrenberg'",
-			"type": "email"}],
+			{"content": "Mobil-in-Herrenberg currently is in public beta. You have suggestions or issues? Please give us feedback.", "type": "text"},
+			],
 		"de": [
 			{"content": "Probebetrieb", "type": "heading"},
-			{"content": "Mobil-in-Herrenberg befindet sich derzeit im öffentlichen Probebetrieb. Anregungen oder Probleme? Geben Sie uns gerne ", "type": "text"},
-			{"content": "Feedback.",
-			"to_site": "herrenberg.de", "to_user": "klimaschutz", "subject": "Feedback 'Mobil-in-Herrenberg'",
-			"type": "email"}
+			{"content": "Mobil-in-Herrenberg befindet sich derzeit im öffentlichen Probebetrieb. Anregungen oder Probleme? Geben Sie uns gerne Feedback.", "type": "text"},
+			],
 		]}, 
 "type": "info", 
-"id": "27112019_151600_90", 
+"id": "130122020_2256_91", 
 "persistence": "repeat", 
 "icon": "info"}]
 }
