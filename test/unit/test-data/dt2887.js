@@ -50,6 +50,26 @@ export default {
               },
             ],
           },
+          {
+            stoptimes: [
+              {
+                scheduledArrival: 840,
+                scheduledDeparture: 840,
+                serviceDay: moment().getTime / 100,
+                stop: {
+                  id: 'U3RvcDpIU0w6MTI5MTQwNA==',
+                },
+              },
+              {
+                scheduledArrival: 960,
+                scheduledDeparture: 960,
+                serviceDay: moment().getTime / 100,
+                stop: {
+                  id: 'U3RvcDpIU0w6MTI5MTQwMg==',
+                },
+              },
+            ],
+          },
         ],
       },
       {
