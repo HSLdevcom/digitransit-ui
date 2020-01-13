@@ -258,9 +258,9 @@ describe('<RoutePatternSelect />', () => {
   it.skip('should call addAnalyticsEvent when select is opened', () => {
     const props = {
       serviceDay: 'test',
-      onSelectChange: () => null,
+      onSelectChange: () => {},
       gtfsId: 'test',
-      relay: { setVariables: () => null },
+      relay: { setVariables: () => {} },
       route: {
         patterns: [
           { code: 'test1', stops: [{ name: '1' }] },
@@ -320,7 +320,7 @@ describe('<RoutePatternSelect />', () => {
         patterns: [
           {
             code: 'HSL:1010:1:02',
-            headsign: 'Kirurgi',
+            headsign: 'Pikku Huopalahti',
             stops: [
               {
                 name: 'Korppaanmäki',
