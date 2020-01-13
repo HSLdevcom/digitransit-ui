@@ -4,7 +4,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import ExternalLinkDecoration from './ExternalLinkDecoration';
 
-const ExternalLink = ({ name, children, href, className, onClick, target}) =>
+const ExternalLink = ({ name, children, href, className, onClick, target }) =>
   (name || children !== undefined) && (
     <span className={className}>
       <span className="external-link-container">
