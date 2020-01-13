@@ -411,6 +411,11 @@
     //text color
     color: $black;
   }
+  .summary-clickable-area {
+      display: flex;
+      flex: auto;
+      flex-wrap: wrap;
+    }
 }
 
 .additional-canceled-itineraries {

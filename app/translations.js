@@ -797,6 +797,7 @@ const translations = {
     'itinerary-summary-page.title': 'Route suggestions',
     'itinerary-summary-row.biking-distance':
       'Total biking distance {totalDistance}.',
+    'itinerary-summary-row.clickable-area-description': 'Show on map',
     'itinerary-summary-row.description':
       'Itinerary departing at {departureDate} {departureTime} and arriving at {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Total time {totalTime}. {distance}',
     'itinerary-summary-row.first-departure':
@@ -1536,6 +1537,7 @@ const translations = {
     'itinerary-summary-page.description': 'Reittiehdotukset',
     'itinerary-summary-row.biking-distance':
       'Pyöräilyä yhteensä {totalDistance}.',
+    'itinerary-summary-row.clickable-area-description': 'Näytä kartalla',
     'itinerary-summary-row.description':
       'Lähtö {departureDate} kello {departureTime}. Perillä {arrivalDate} kello {arrivalTime}. {firstDeparture} {transfers} Matka-aika {totalTime}. {distance}',
     'itinerary-summary-row.first-departure':
