@@ -2585,6 +2585,14 @@ const translations = {
     'itinerary-page.title': 'Ruttinformation',
     'itinerary-summary-page.description': 'Ruttförslag',
     'itinerary-summary-page.title': 'Ruttförslag',
+    'itinerary-summary-row.biking-distance': 'Cykelavstånd {totalDistance}.',
+    'itinerary-summary-row.clickable-area-description': 'Visa på kartan',
+    'itinerary-summary-row.description':
+      'Avgång {departureDate} klockan {departureTime} och ankomst {arrivalDate} klockan {arrivalTime}. {firstDeparture} {transfers} Varaktighet {totalTime}. {distance}',
+    'itinerary-summary-row.first-departure':
+      '{vehicle} avgår klockan {departureTime} från hållplats {stopName}.',
+    'itinerary-summary-row.transfers': 'Ta {vehicle} från hållplats {stopName}',
+    'itinerary-summary-row.walking-distance': 'Gångavstånd {totalDistance}.',
     'itinerary-ticket.title': 'Biljett som behövs',
     'itinerary-tickets.title': 'Biljetter som behövs',
     'itinerary-time.title': 'Restid',
