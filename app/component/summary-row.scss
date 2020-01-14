@@ -415,7 +415,11 @@
       display: flex;
       flex: auto;
       flex-wrap: wrap;
-    }
+  }
+
+  .itinerary-summary-visible {
+    flex: auto;
+  }
 }
 
 .additional-canceled-itineraries {

@@ -456,10 +456,10 @@ const SummaryRow = (
   );
 
   return (
-    <span role="listitem" aria-atomic="true">
+    <span role="listitem" className={classes} aria-atomic="true">
       {textSummary}
       <div
-        className={classes}
+        className="itinerary-summary-visible"
         style={{
           display: props.isCancelled && !props.showCancelled ? 'none' : 'flex',
         }}
