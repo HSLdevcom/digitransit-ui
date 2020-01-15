@@ -67,16 +67,13 @@ export function parseMessage(topic, message, agency) {
     (parsedMessage.seq === undefined || parsedMessage.seq === 1) // seq is used for hsl metro carriage sequence
   ) {
     let parsedLine;
-    // remove possible variation from line id, for example 1010H1 -> 1010H and 1010 1 -> 1010
-    if (line.match(/[A-Z]/i)) {
-      parsedLine = line.charAt(line.length - 1).match(/[A-Z]/i)
-        ? line
-        : line.substring(0, line.length - 1);
+    // remove possible variation from line id, for example '1010H1' -> '1010H' and '1010 1' -> '1010'
+    if (line.length === 6) {
+      parsedLine = line.charAt(4).match(/[A-Z]/i)
+        ? line.substring(0, line.length - 1)
+        : line.substring(0, line.length - 2);
     } else {
-      parsedLine =
-        line.charAt(line.length - 2) === ' '
-          ? line.substring(0, line.length - 2)
-          : line;
+      parsedLine = line;
     }
     return {
       id: vehid,
