@@ -512,12 +512,17 @@ export const matchQuickOption = context => {
       { ...quickOptionSets[optionSetName] },
       property => (Array.isArray(property) ? property.length > 0 : true),
     );
-    const appliedSettings = pick(settings, Object.keys(quickSettings));
+    const appliedSettings = pickBy(
+      settings,
+      property => (Array.isArray(property) ? property.length > 0 : true),
+    );
     return isEqual(quickSettings, appliedSettings);
   };
 
   const querySettings = getQuerySettings(query);
   const currentSettings = getCurrentSettings(config, query);
+  delete querySettings.modes;
+  delete currentSettings.modes;
 
   if (matchesOptionSet(QuickOptionSetType.SavedSettings, currentSettings)) {
     return (
