@@ -104,7 +104,11 @@ class RoutePage extends React.Component {
 
     // DT-3182: call this only 1st time for changing URL to wanted route (most trips)
     const { location } = router;
-    if (location !== undefined && location.action === 'PUSH') {
+    if (
+      location !== undefined &&
+      location.action === 'PUSH' &&
+      params.patternId !== pattern.code
+    ) {
       router.replace(
         decodeURIComponent(location.pathname).replace(
           new RegExp(`${params.patternId}(.*)`),
