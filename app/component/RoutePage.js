@@ -80,15 +80,7 @@ class RoutePage extends React.Component {
   componentDidMount() {
     const { params, route } = this.props;
     const { config, executeAction, router } = this.context; // DT-3182: added router for changing URL
-    const { realTime } = config;
-    if (!realTime || route == null) {
-      return;
-    }
-
-    const routeParts = route.gtfsId.split(':');
-    const agency = routeParts[0];
-    const source = realTime[agency];
-    if (!source || !source.active) {
+    if (route == null) {
       return;
     }
 
@@ -107,6 +99,31 @@ class RoutePage extends React.Component {
         : route.patterns.find(({ code }) => code === params.patternId);
 
     if (!pattern) {
+      return;
+    }
+
+    // DT-3182: call this only 1st time for changing URL to wanted route (most trips)
+    const { location } = router;
+    if (location !== undefined && location.action === 'PUSH') {
+      router.replace(
+        decodeURIComponent(location.pathname).replace(
+          new RegExp(`${params.patternId}(.*)`),
+          pattern.code,
+        ),
+      );
+      return;
+    }
+
+    const { realTime } = config;
+
+    if (!realTime) {
+      return;
+    }
+
+    const routeParts = route.gtfsId.split(':');
+    const agency = routeParts[0];
+    const source = realTime[agency];
+    if (!source || !source.active) {
       return;
     }
 
@@ -130,17 +147,6 @@ class RoutePage extends React.Component {
         },
       ],
     });
-
-    // DT-3182: call this only 1st time for changing URL to wanted route (most trips)
-    const { location } = router;
-    if (location !== undefined && location.action === 'PUSH') {
-      router.replace(
-        decodeURIComponent(location.pathname).replace(
-          new RegExp(`${params.patternId}(.*)`),
-          pattern.code,
-        ),
-      );
-    }
   }
 
   componentWillUnmount() {
