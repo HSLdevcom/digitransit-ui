@@ -92,8 +92,8 @@ export function changeTopics(settings, actionContext) {
   if (Array.isArray(oldTopics) && oldTopics.length > 0) {
     client.unsubscribe(oldTopics);
   }
-  const topics = settings.options.map(option =>
-    flatten(getTopics(option, settings)),
+  const topics = flatten(
+    settings.options.map(option => getTopics(option, settings)),
   );
   // set new topic to store
   actionContext.dispatch('RealTimeClientNewTopics', topics);
@@ -102,7 +102,7 @@ export function changeTopics(settings, actionContext) {
 
 export function startMqttClient(settings, actionContext) {
   const options = settings.options || [{}];
-  const topics = options.map(option => flatten(getTopics(option, settings)));
+  const topics = flatten(options.map(option => getTopics(option, settings)));
   const mode = options.length && options[0].mode ? options[0].mode : 'bus';
 
   return import(/* webpackChunkName: "mqtt" */ 'mqtt').then(mqtt => {
