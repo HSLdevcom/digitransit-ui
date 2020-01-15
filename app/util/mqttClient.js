@@ -60,14 +60,27 @@ export function parseMessage(topic, message, agency) {
   }
 
   if (
+    line &&
     parsedMessage &&
     parsedMessage.lat &&
     parsedMessage.long &&
     (parsedMessage.seq === undefined || parsedMessage.seq === 1) // seq is used for hsl metro carriage sequence
   ) {
+    let parsedLine;
+    // remove possible variation from line id, for example 1010H1 -> 1010H and 1010 1 -> 1010
+    if (line.match(/[A-Z]/i)) {
+      parsedLine = line.charAt(line.length - 1).match(/[A-Z]/i)
+        ? line
+        : line.substring(0, line.length - 1);
+    } else {
+      parsedLine =
+        line.charAt(line.length - 2) === ' '
+          ? line.substring(0, line.length - 2)
+          : line;
+    }
     return {
       id: vehid,
-      route: `${agency}:${line}`,
+      route: `${agency}:${parsedLine}`,
       direction: parseInt(dir, 10) - 1,
       tripStartTime: startTime.replace(/:/g, ''),
       operatingDay:
