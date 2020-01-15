@@ -80,7 +80,7 @@ class RoutePage extends React.Component {
   componentDidMount() {
     const { params, route } = this.props;
     const { config, executeAction, router } = this.context; // DT-3182: added router for changing URL
-    if (route == null) {
+    if (!route || !route.patterns) {
       return;
     }
 
