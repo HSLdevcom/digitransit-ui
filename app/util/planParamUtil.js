@@ -2,7 +2,6 @@ import omitBy from 'lodash/omitBy';
 import moment from 'moment';
 import cookie from 'react-cookie';
 
-import pickBy from 'lodash/pickBy';
 import pick from 'lodash/pick';
 import isEqual from 'lodash/isEqual';
 import {
@@ -443,8 +442,6 @@ export const getQuickOptionSets = context => {
   const { config } = context;
   const defaultSettings = getDefaultSettings(config);
   const customizedSettings = getCustomizedSettings();
-  delete defaultSettings.modes;
-  delete customizedSettings.modes;
 
   const quickOptionSets = {
     [QuickOptionSetType.DefaultRoute]: {
@@ -493,6 +490,7 @@ export const getQuickOptionSets = context => {
       ...customizedSettings,
     };
   }
+
   return pick(quickOptionSets, getApplicableQuickOptionSets(context));
 };
 
@@ -508,14 +506,17 @@ export const matchQuickOption = context => {
     if (!quickOptionSets[optionSetName]) {
       return false;
     }
-    const quickSettings = pickBy(
-      { ...quickOptionSets[optionSetName] },
-      property => (Array.isArray(property) ? property.length > 0 : true),
-    );
-    const appliedSettings = pickBy(
-      settings,
-      property => (Array.isArray(property) ? property.length > 0 : true),
-    );
+    const quickSettings = { ...quickOptionSets[optionSetName] };
+    delete quickSettings.modes;
+    if (quickSettings.preferredRoutes === '') {
+      quickSettings.preferredRoutes = [];
+    }
+    if (quickSettings.unpreferredRoutes === '') {
+      quickSettings.unpreferredRoutes = [];
+    }
+
+    const appliedSettings = { ...settings };
+
     return isEqual(quickSettings, appliedSettings);
   };
 
@@ -523,6 +524,12 @@ export const matchQuickOption = context => {
   const currentSettings = getCurrentSettings(config, query);
   delete querySettings.modes;
   delete currentSettings.modes;
+  if (currentSettings.preferredRoutes === '') {
+    currentSettings.preferredRoutes = [];
+  }
+  if (currentSettings.unpreferredRoutes === '') {
+    currentSettings.unpreferredRoutes = [];
+  }
 
   if (matchesOptionSet(QuickOptionSetType.SavedSettings, currentSettings)) {
     return (
