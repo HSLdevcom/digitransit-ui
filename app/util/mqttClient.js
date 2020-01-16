@@ -1,4 +1,5 @@
 import ceil from 'lodash/ceil';
+import flatten from 'lodash/flatten';
 import moment from 'moment';
 import { parseFeedMQTT } from './gtfsRtParser';
 
@@ -7,10 +8,10 @@ const modeTranslate = {
   metro: 'subway',
 };
 
-// getTopic
-// Returns MQTT topic to be subscribed
-// Input: options - route, direction, tripStartTime are used to generate the topic
-function getTopic(options, settings) {
+// getTopics
+// Returns MQTT topics to be subscribed to
+// Input: options - route, direction, tripStartTime are used to generate the topics
+function getTopics(options, settings) {
   const route = options.route ? options.route : '+';
   const direction = options.direction
     ? parseInt(options.direction, 10) + 1
@@ -19,7 +20,7 @@ function getTopic(options, settings) {
   const tripId = options.tripId ? options.tripId : '+';
   const headsign = options.headsign ? options.headsign : '+';
   const tripStartTime = options.tripStartTime ? options.tripStartTime : '+';
-  const topic = settings.mqttTopicResolver(
+  const topics = settings.mqttTopicResolver(
     route,
     direction,
     tripStartTime,
@@ -28,7 +29,7 @@ function getTopic(options, settings) {
     tripId,
     geoHash,
   );
-  return topic;
+  return topics;
 }
 
 export function parseMessage(topic, message, agency) {
@@ -59,14 +60,24 @@ export function parseMessage(topic, message, agency) {
   }
 
   if (
+    line &&
     parsedMessage &&
     parsedMessage.lat &&
     parsedMessage.long &&
     (parsedMessage.seq === undefined || parsedMessage.seq === 1) // seq is used for hsl metro carriage sequence
   ) {
+    let parsedLine;
+    // remove possible variation from line id, for example '1010H1' -> '1010H' and '1010 1' -> '1010'
+    if (line.length === 6) {
+      parsedLine = line.charAt(4).match(/[A-Z]/i)
+        ? line.substring(0, line.length - 1)
+        : line.substring(0, line.length - 2);
+    } else {
+      parsedLine = line;
+    }
     return {
       id: vehid,
-      route: `${agency}:${line}`,
+      route: `${agency}:${parsedLine}`,
       direction: parseInt(dir, 10) - 1,
       tripStartTime: startTime.replace(/:/g, ''),
       operatingDay:
@@ -91,7 +102,9 @@ export function changeTopics(settings, actionContext) {
   if (Array.isArray(oldTopics) && oldTopics.length > 0) {
     client.unsubscribe(oldTopics);
   }
-  const topics = settings.options.map(option => getTopic(option, settings));
+  const topics = flatten(
+    settings.options.map(option => getTopics(option, settings)),
+  );
   // set new topic to store
   actionContext.dispatch('RealTimeClientNewTopics', topics);
   client.subscribe(topics);
@@ -99,7 +112,7 @@ export function changeTopics(settings, actionContext) {
 
 export function startMqttClient(settings, actionContext) {
   const options = settings.options || [{}];
-  const topics = options.map(option => getTopic(option, settings));
+  const topics = flatten(options.map(option => getTopics(option, settings)));
   const mode = options.length && options[0].mode ? options[0].mode : 'bus';
 
   return import(/* webpackChunkName: "mqtt" */ 'mqtt').then(mqtt => {
