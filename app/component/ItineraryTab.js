@@ -138,6 +138,7 @@ class ItineraryTab extends React.Component {
                   <TicketInformation
                     fares={fares}
                     zones={getZones(itinerary.legs)}
+                    legs={itinerary.legs}
                   />
                 )}
                 {config.showRouteInformation && <RouteInformation />}

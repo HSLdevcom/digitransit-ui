@@ -22,6 +22,7 @@ const proxyFares = (fares, routes = [], config = defaultConfig) =>
 describe('<TicketInformation />', () => {
   it('should show multiple ticket components (DT-2639)', () => {
     const props = {
+      legs: [],
       fares: proxyFares([
         {
           type: 'regular',
@@ -50,6 +51,7 @@ describe('<TicketInformation />', () => {
 
   it('should show a "multiple tickets required" title when there are multiple components', () => {
     const props = {
+      legs: [],
       fares: proxyFares([
         {
           type: 'regular',
@@ -81,6 +83,7 @@ describe('<TicketInformation />', () => {
 
   it('should not show a multiple tickets required title when there is only a single component', () => {
     const props = {
+      legs: [],
       fares: [
         {
           type: 'regular',
@@ -108,6 +111,7 @@ describe('<TicketInformation />', () => {
 
   it('should not show any ticket information if components are missing', () => {
     const props = {
+      legs: [],
       fares: proxyFares([
         {
           type: 'regular',
@@ -127,6 +131,7 @@ describe('<TicketInformation />', () => {
 
   it('should convert and show the total fare when showTicketPrice is true', () => {
     const props = {
+      legs: [],
       fares: [
         {
           type: 'regular',
@@ -149,6 +154,7 @@ describe('<TicketInformation />', () => {
 
   it('should not show the total fare when showTicketPrice is false', () => {
     const props = {
+      legs: [],
       fares: [
         {
           type: 'regular',
@@ -171,6 +177,7 @@ describe('<TicketInformation />', () => {
 
   it('should use a zone ticket icon if configured', () => {
     const props = {
+      legs: [],
       fares: proxyFares([
         {
           type: 'regular',
@@ -202,6 +209,7 @@ describe('<TicketInformation />', () => {
       fareMapping: fareId => `foo_${fareId}_bar`,
     };
     const props = {
+      legs: [],
       fares: proxyFares(
         [
           {
@@ -230,6 +238,7 @@ describe('<TicketInformation />', () => {
 
   it('should use a zone ticket icon if configured', () => {
     const props = {
+      legs: [],
       fares: proxyFares([
         {
           type: 'regular',
@@ -257,6 +266,7 @@ describe('<TicketInformation />', () => {
 
   it('should show AB and BC tickets for a trip within B zone', () => {
     const props = {
+      legs: [],
       fares: proxyFares([
         {
           cents: 280,
@@ -303,6 +313,7 @@ describe('<TicketInformation />', () => {
 
   it('should show a fare url link for the agency', () => {
     const props = {
+      legs: [],
       fares: proxyFares([
         {
           cents: 280,
@@ -333,6 +344,20 @@ describe('<TicketInformation />', () => {
 
   it('should include unknown fares to the listing', () => {
     const props = {
+      legs: [
+        {
+          mode: 'FERRY',
+          to: {
+            name: 'JOTAIN',
+          },
+          from: {
+            name: 'MUUTA',
+          },
+          route: {
+            gtfsId: 'FOO:1234',
+          },
+        },
+      ],
       fares: proxyFares(
         [
           {
