@@ -172,6 +172,7 @@ TicketInformation.propTypes = {
 TicketInformation.defaultProps = {
   fares: [],
   zones: [],
+  legs: [],
 };
 
 TicketInformation.contextTypes = {
