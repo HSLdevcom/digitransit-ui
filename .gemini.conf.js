@@ -17,20 +17,6 @@ module.exports = {
     parallelLimit: 3,
   },
   browsers: {
-    ie11: {
-      windowSize: '600x1024',
-      desiredCapabilities: {
-        os: 'Windows',
-        os_version: '10',
-        browserName: 'internet explorer',
-        browser: 'IE',
-        browser_version: '11',
-        locationContextEnabled: false,
-        'browserstack.selenium_version': '3.141.59',
-        'browserstack.timezone': 'Europe/Helsinki',
-        'browserstack.video': false,
-      },
-    },
     chrome: {
       windowSize: '600x1024',
       desiredCapabilities: {
