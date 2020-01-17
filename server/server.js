@@ -36,9 +36,6 @@ const express = require('express');
 const expressStaticGzip = require('express-static-gzip');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const passport = require('passport');
-const session = require('express-session');
-const FileStore = require('session-file-store')(session);
 const request = require('request');
 const logger = require('morgan');
 const { retryFetch } = require('../app/util/fetchUtils');
@@ -48,36 +45,37 @@ const config = require('../app/config').getConfiguration();
 const port = config.PORT || 8080;
 const app = express();
 
-/* ********* Setup OpenID Connect ********* */
-const callbackPath = '/oid_callback'; // connect callback path
-
-// Use Passport with OpenId Connect strategy to authenticate users
-
-const OIDCHost = process.env.OIDCHOST || 'https://hslid-dev.t5.fi';
-const LoginStrategy = require('./passport-openid-connect/Strategy').Strategy;
-
-const oic = new LoginStrategy({
-  issuerHost:
-    process.env.OIDC_ISSUER || `${OIDCHost}/.well-known/openid-configuration`,
-  client_id: process.env.OIDC_CLIENT_ID,
-  client_secret: process.env.OIDC_CLIENT_SECRET,
-  redirect_uri:
-    process.env.OIDC_CLIENT_CALLBACK ||
-    `http://localhost:${port}${callbackPath}`,
-  scope: 'openid profile',
-});
-
-passport.use(oic);
-passport.serializeUser(LoginStrategy.serializeUser);
-passport.deserializeUser(LoginStrategy.deserializeUser);
-
 /* Setup functions */
-
 function setUpOIDC() {
+  /* ********* Setup OpenID Connect ********* */
+  const callbackPath = '/oid_callback'; // connect callback path
+
+  // Use Passport with OpenId Connect strategy to authenticate users
+
+  const OIDCHost = process.env.OIDCHOST || 'https://hslid-dev.t5.fi';
+  const LoginStrategy = require('./passport-openid-connect/Strategy').Strategy;
+  const passport = require('passport');
+  const session = require('express-session');
+  const FileStore = require('session-file-store')(session);
+
+  const oic = new LoginStrategy({
+    issuerHost:
+      process.env.OIDC_ISSUER || `${OIDCHost}/.well-known/openid-configuration`,
+    client_id: process.env.OIDC_CLIENT_ID,
+    client_secret: process.env.OIDC_CLIENT_SECRET,
+    redirect_uri:
+      process.env.OIDC_CLIENT_CALLBACK ||
+      `http://localhost:${port}${callbackPath}`,
+    scope: 'openid profile',
+  });
+
+  passport.use(oic);
+  passport.serializeUser(LoginStrategy.serializeUser);
+  passport.deserializeUser(LoginStrategy.deserializeUser);
+
   app.use(logger('dev'));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(cookieParser());
   app.use(require('helmet')());
 
   // Passport requires session to persist the authentication
