@@ -548,4 +548,5 @@ export default {
       },
     },
   },
+  showLogin: true,
 };
