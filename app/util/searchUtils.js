@@ -759,7 +759,7 @@ export function executeSearchImmediate(
 
   if (type === SearchType.Search || type === SearchType.All) {
     const oldSearches = getStore('OldSearchesStore').getOldSearches('search');
-    const favouriteRoutes = getStore('FavouriteRoutesStore').getRoutes();
+    const favouriteRoutes = getStore('FavouriteStore').getRoutes();
     searchSearchesPromise = Promise.all([
       getFavouriteRoutes(favouriteRoutes, input),
       getOldSearches(oldSearches, input),

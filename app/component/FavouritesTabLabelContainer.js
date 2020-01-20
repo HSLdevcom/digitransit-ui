@@ -67,9 +67,9 @@ FavouritesTabLabelContainer.propTypes = {
 
 export default connectToStores(
   FavouritesTabLabelContainer,
-  ['FavouriteRoutesStore', 'TimeStore'],
+  ['FavouriteStore', 'TimeStore'],
   context => ({
-    routes: context.getStore('FavouriteRoutesStore').getRoutes(),
+    routes: context.getStore('FavouriteStore').getRoutes(),
     currentTime: context
       .getStore('TimeStore')
       .getCurrentTime()

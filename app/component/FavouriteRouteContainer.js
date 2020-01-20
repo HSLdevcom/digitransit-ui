@@ -1,20 +1,25 @@
 import PropTypes from 'prop-types';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import Favourite from './Favourite';
-import { addFavouriteRoute } from '../action/FavouriteActions';
+import { addFavouriteRoute, addFavourite } from '../action/FavouriteActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const FavouriteRouteContainer = connectToStores(
   Favourite,
-  ['FavouriteRoutesStore'],
+  ['FavouriteStore'],
   (context, { gtfsId }) => ({
-    favourite: context.getStore('FavouriteRoutesStore').isFavourite(gtfsId),
+    favourite: context.getStore('FavouriteStore').isFavouriteRoute(gtfsId),
     addFavourite: () => {
-      context.executeAction(addFavouriteRoute, gtfsId);
+      const fav = {
+        type: 'route',
+        gtfsId: gtfsId,
+      };
+      // context.executeAction(addFavouriteRoute, gtfsId);
+      context.executeAction(addFavourite, fav);
       addAnalyticsEvent({
         category: 'Route',
         action: 'MarkRouteAsFavourite',
-        name: !context.getStore('FavouriteRoutesStore').isFavourite(gtfsId),
+        name: !context.getStore('FavouriteStore').isFavouriteRoute(gtfsId),
       });
     },
   }),

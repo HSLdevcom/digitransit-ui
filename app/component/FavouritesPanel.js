@@ -117,13 +117,13 @@ export default connectToStores(
     />
   ),
   [
-    'FavouriteRoutesStore',
+    'FavouriteStore',
     'TimeStore',
     'FavouriteLocationStore',
     'FavouriteStopsStore',
   ],
   context => ({
-    routes: context.getStore('FavouriteRoutesStore').getRoutes(),
+    routes: context.getStore('FavouriteStore').getRoutes(),
     currentTime: context
       .getStore('TimeStore')
       .getCurrentTime()
