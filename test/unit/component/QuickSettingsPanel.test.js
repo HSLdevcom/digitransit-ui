@@ -158,7 +158,7 @@ describe('<QuickSettingsPanel />', () => {
       };
       setCustomizedSettings(settings);
       const router = { ...createMemoryMockRouter() };
-      router.replace({ query: fixArrayParams(settings)});
+      router.replace({ query: fixArrayParams(settings) });
 
       const context = {
         config: { ...defaultConfig },
