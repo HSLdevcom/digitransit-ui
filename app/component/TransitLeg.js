@@ -121,7 +121,7 @@ class TransitLeg extends React.Component {
             .format('HH:mm')}
         </span>,
       ];
-
+    const LegRouteName = leg.from.name.concat(' - ').concat(leg.to.name);
     const firstLegClassName = index === 0 ? ' start' : '';
     /* const modeClassName =
       `${this.props.mode.toLowerCase()}${this.props.index === 0 ? ' from' : ''}`;
@@ -258,7 +258,7 @@ class TransitLeg extends React.Component {
                   {intl.formatMessage({ id: 'separate-ticket-required' })}
                 </div>
                 <div className="ticket-info">
-                  <div className="accent">{leg.fare.routeName}</div>
+                  <div className="accent">{LegRouteName}</div>
                   {leg.fare.agency && (
                     <React.Fragment>
                       <div>{leg.fare.agency.name}</div>

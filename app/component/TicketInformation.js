@@ -27,7 +27,18 @@ export const getUtmParameters = (agency, config) => {
     .join('&')}`;
 };
 
-export default function TicketInformation({ fares, zones }, { config, intl }) {
+const getUnknownFareRoute = (fares, route) => {
+  for (let i = 0; i < fares.length; i++) {
+    if (fares[i].routeGtfsId === route.gtfsId) {
+      return true;
+    }
+  }
+  return false;
+};
+export default function TicketInformation(
+  { fares, zones, legs },
+  { config, intl },
+) {
   if (fares.length === 0) {
     return null;
   }
@@ -38,6 +49,22 @@ export default function TicketInformation({ fares, zones }, { config, intl }) {
     config.availableTickets,
   );
 
+  // DT-3314 If Fare is unknown show Correct leg's route name instead of whole trip that fare.routeName() returns.
+  const unknownFares = fares.filter(fare => fare.isUnknown);
+  const unknownFareLeg = legs.filter(leg => leg.route).find(leg => {
+    const foundRoute = getUnknownFareRoute(unknownFares, leg.route);
+    if (foundRoute) {
+      return leg;
+    }
+    return null;
+  });
+  let unknownFareRouteName = unknownFareLeg
+    ? unknownFareLeg.from.name.concat(' - ').concat(unknownFareLeg.to.name)
+    : null;
+  // Different logic for ferries
+  if (unknownFareLeg && unknownFareLeg.mode === 'FERRY') {
+    unknownFareRouteName = unknownFares[0].routeName;
+  }
   return (
     <div className="row itinerary-ticket-information">
       <div className="itinerary-ticket-type">
@@ -60,7 +87,7 @@ export default function TicketInformation({ fares, zones }, { config, intl }) {
           >
             {fare.isUnknown ? (
               <div>
-                <div className="ticket-identifier">{fare.routeName}</div>
+                <div className="ticket-identifier">{unknownFareRouteName}</div>
                 {fare.agency && (
                   <div className="ticket-description">{fare.agency.name}</div>
                 )}
@@ -125,6 +152,7 @@ export default function TicketInformation({ fares, zones }, { config, intl }) {
 }
 
 TicketInformation.propTypes = {
+  legs: PropTypes.array,
   fares: PropTypes.arrayOf(
     PropTypes.shape({
       agency: PropTypes.shape({
@@ -144,6 +172,7 @@ TicketInformation.propTypes = {
 TicketInformation.defaultProps = {
   fares: [],
   zones: [],
+  legs: [],
 };
 
 TicketInformation.contextTypes = {

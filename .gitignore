@@ -20,3 +20,4 @@ tags
 .nyc_output
 coverage
 sessions/
+run*.sh
