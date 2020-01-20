@@ -509,9 +509,7 @@ export const matchQuickOption = context => {
     const quickSettings = { ...quickOptionSets[optionSetName] };
     delete quickSettings.modes;
 
-    const appliedSettings = { ...settings };
-
-    return isEqual(quickSettings, appliedSettings);
+    return isEqual(quickSettings, settings);
   };
 
   const querySettings = getQuerySettings(query);
