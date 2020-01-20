@@ -443,6 +443,9 @@ export const getQuickOptionSets = context => {
   const defaultSettings = getDefaultSettings(config);
   const customizedSettings = getCustomizedSettings();
 
+  delete defaultSettings.modes;
+  delete customizedSettings.modes;
+
   const quickOptionSets = {
     [QuickOptionSetType.DefaultRoute]: {
       ...defaultSettings,
