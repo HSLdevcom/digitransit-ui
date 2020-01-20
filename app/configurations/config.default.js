@@ -104,7 +104,7 @@ export default {
     minTransferTime: 120,
     optimize: 'QUICK',
     preferredRoutes: [],
-    ticketTypes: null,
+    ticketTypes: 'none',
     transferPenalty: 0,
     unpreferredRoutes: [],
     walkBoardCost: 600,
