@@ -75,6 +75,12 @@ export const replaceQueryParams = (router, newParams) => {
     ...location.query,
     ...newParams,
   };
+  Object.keys(query).forEach(key => {
+    if (Array.isArray(query[key]) && !query[key].length) {
+      query[key] = '';
+    }
+  });
+
   router.replace({
     ...location,
     query: removeTriangleFactors ? omit(query, triangleFactors) : query,

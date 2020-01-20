@@ -508,12 +508,6 @@ export const matchQuickOption = context => {
     }
     const quickSettings = { ...quickOptionSets[optionSetName] };
     delete quickSettings.modes;
-    if (quickSettings.preferredRoutes === '') {
-      quickSettings.preferredRoutes = [];
-    }
-    if (quickSettings.unpreferredRoutes === '') {
-      quickSettings.unpreferredRoutes = [];
-    }
 
     const appliedSettings = { ...settings };
 
@@ -524,12 +518,6 @@ export const matchQuickOption = context => {
   const currentSettings = getCurrentSettings(config, query);
   delete querySettings.modes;
   delete currentSettings.modes;
-  if (currentSettings.preferredRoutes === '') {
-    currentSettings.preferredRoutes = [];
-  }
-  if (currentSettings.unpreferredRoutes === '') {
-    currentSettings.unpreferredRoutes = [];
-  }
 
   if (matchesOptionSet(QuickOptionSetType.SavedSettings, currentSettings)) {
     return (
