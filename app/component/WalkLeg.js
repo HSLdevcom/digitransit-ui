@@ -36,10 +36,23 @@ function WalkLeg(
     config,
   ).type;
 
-  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
+  const returnNotice =
+    previousLeg && previousLeg.rentedBike ? (
+      <FormattedMessage
+        id={
+          networkType === CityBikeNetworkType.Scooter
+            ? 'return-scooter-to'
+            : 'return-cycle-to'
+        }
+        values={{ station: leg.from.name }}
+        defaultMessage="Return the bike to {station} station"
+      />
+    ) : null;
+
   return (
     <div key={index} className="row itinerary-row">
       <span className="sr-only">
+        {returnNotice}
         <FormattedMessage
           id="itinerary-details.walk-leg"
           values={{
@@ -69,19 +82,7 @@ function WalkLeg(
         </span>
         <div className="itinerary-leg-first-row" aria-hidden="true">
           <div>
-            {previousLeg && previousLeg.rentedBike ? (
-              <FormattedMessage
-                id={
-                  networkType === CityBikeNetworkType.Scooter
-                    ? 'return-scooter-to'
-                    : 'return-cycle-to'
-                }
-                values={{ station: leg.from.name }}
-                defaultMessage="Return the bike to {station} station"
-              />
-            ) : (
-              leg.from.name
-            )}
+            {returnNotice || leg.from.name}
             <ServiceAlertIcon
               className="inline-icon"
               severityLevel={getActiveAlertSeverityLevel(

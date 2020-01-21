@@ -83,10 +83,12 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
     }
   }
 
-  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div key={index} className="row itinerary-row">
       <span className="sr-only">
+        {leg.rentedBike === true && legDescription}
+        {(leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK') &&
+          stopsDescription}
         <FormattedMessage
           id="itinerary-details.biking-leg"
           values={{

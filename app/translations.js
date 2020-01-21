@@ -791,6 +791,8 @@ const translations = {
       'At {time} drive {distance} to {destination}. Estimated time {duration}',
     'itinerary-details.end-leg':
       'At {time} arrive to destination {destination}.',
+    'itinerary-details.scooter-leg':
+      'At {time} ride your kick scooter {distance} to {destination}. Estimated time {duration}',
     'itinerary-details.transit-leg-part-1': 'At {time} take',
     'itinerary-details.transit-leg-part-2':
       'from stop {startStop} {trackInfo} to stop {endStop}. Estimated duration {duration}',
@@ -1563,6 +1565,8 @@ const translations = {
     'itinerary-details.car-leg':
       '{time} aja {distance} kohteeseen {destination}. Matka-aika {duration}',
     'itinerary-details.end-leg': '{time} saavu kohteeseen {destination}.',
+    'itinerary-details.scooter-leg':
+      '{time} potkulautaile {distance} kohteeseen {destination}. Matka-aika {duration}',
     'itinerary-details.transit-leg-part-1': '{time} ota',
     'itinerary-details.transit-leg-part-2':
       'pysäkiltä {startStop} {trackInfo} Pysäkille {endStop}. Arvioitu matka-aika {duration}',
@@ -2641,13 +2645,15 @@ const translations = {
     'itinerary-details.biking-leg':
       'Klockan {time} cykla {distance} till {destination}. Varaktighet {duration}',
     'itinerary-details.car-leg':
-      '{time} kör {distance} till {destination}. Varaktighet {duration}',
-    'itinerary-details.end-leg': '{time} anländ till {destination}.',
-    'itinerary-details.transit-leg-part-1': '{time} åka',
+      'Klockan {time} kör {distance} till {destination}. Varaktighet {duration}',
+    'itinerary-details.end-leg': 'Klockan {time} anländ till {destination}.',
+    'itinerary-details.scooter-leg':
+      'Klockan {time} sparkcykla {distance} till {destination}. Varaktighet {duration}',
+    'itinerary-details.transit-leg-part-1': 'Klockan {time} åka',
     'itinerary-details.transit-leg-part-2':
       'från hållplats {startStop} {trackInfo} till hållplats {endStop}. Varaktighet {duration}',
     'itinerary-details.walk-leg':
-      '{time} gå {distance} till {destination}. Varaktighet {duration}',
+      'Klockan {time} gå {distance} till {destination}. Varaktighet {duration}',
     'itinerary-feedback-button': 'Skicka respons',
     'itinerary-feedback-message': 'Hittade du inte vad du sökte?',
     'itinerary-feedback-placeholder': 'Beskrivning (valfri)',
