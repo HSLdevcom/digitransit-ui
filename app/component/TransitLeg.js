@@ -24,6 +24,7 @@ import { PREFIX_ROUTES } from '../util/path';
 import { durationToString } from '../util/timeUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { getZoneLabelColor } from '../util/mapIconUtils';
+import { isKeyboardSelectionEvent } from '../util/browser';
 
 class TransitLeg extends React.Component {
   constructor(props) {
@@ -143,7 +144,7 @@ class TransitLeg extends React.Component {
           defaultMessage="{number, plural, =0 {No stops} one {1 stop} other {{number} stops} }"
         />
       );
-      /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
+
       return (
         <div className="intermediate-stop-info-container">
           {stopCount === 0 ? (
@@ -153,9 +154,15 @@ class TransitLeg extends React.Component {
               role="button"
               tabIndex="0"
               className="intermediate-stops-link pointer-cursor"
-              onClick={event => {
-                event.stopPropagation();
+              onClick={e => {
+                e.stopPropagation();
                 toggleFunction();
+              }}
+              onKeyPress={e => {
+                if (isKeyboardSelectionEvent(e)) {
+                  e.stopPropagation();
+                  toggleFunction();
+                }
               }}
             >
               {message}
@@ -168,33 +175,38 @@ class TransitLeg extends React.Component {
       );
     };
 
-    const textVersion = (
-      <>
-        <FormattedMessage
-          id="itinerary-details.transit-leg"
-          values={{
-            time: moment(leg.startTime).format('HH:mm'),
-            vehicle: <>{children}</>,
-            startStop: leg.from.name,
-            endStop: leg.to.name,
-            duration: durationToString(leg.duration * 1000),
-            trackInfo: (
-              <PlatformNumber
-                number={leg.from.stop.platformCode}
-                short={false}
-                isRailOrSubway={
-                  modeClassName === 'rail' || modeClassName === 'subway'
-                }
-              />
-            ),
-          }}
-        />
-      </>
+    const textVersionBeforeLink = (
+      <FormattedMessage
+        id="itinerary-details.transit-leg-part-1"
+        values={{
+          time: moment(leg.startTime).format('HH:mm'),
+        }}
+      />
+    );
+    const textVersionAfterLink = (
+      <FormattedMessage
+        id="itinerary-details.transit-leg-part-2"
+        values={{
+          vehicle: <>{children}</>,
+          startStop: leg.from.name,
+          endStop: leg.to.name,
+          duration: durationToString(leg.duration * 1000),
+          trackInfo: (
+            <PlatformNumber
+              number={leg.from.stop.platformCode}
+              short={false}
+              isRailOrSubway={
+                modeClassName === 'rail' || modeClassName === 'subway'
+              }
+            />
+          ),
+        }}
+      />
     );
 
     return (
       <div key={index} className="row itinerary-row">
-        <span className="sr-only">{textVersion}</span>
+        <span className="sr-only">{textVersionBeforeLink}</span>
         <div className="small-2 columns itinerary-time-column">
           <Link
             onClick={e => {
@@ -204,6 +216,16 @@ class TransitLeg extends React.Component {
                 action: 'OpenRouteFromItinerary',
                 name: mode,
               });
+            }}
+            onKeyPress={e => {
+              if (isKeyboardSelectionEvent(e)) {
+                e.stopPropagation();
+                addAnalyticsEvent({
+                  category: 'Itinerary',
+                  action: 'OpenRouteFromItinerary',
+                  name: mode,
+                });
+              }
             }}
             to={
               `/${PREFIX_ROUTES}/${leg.route.gtfsId}/pysakit/${
@@ -232,6 +254,7 @@ class TransitLeg extends React.Component {
             </span>
           </Link>
         </div>
+        <span className="sr-only">{textVersionAfterLink}</span>
         <ItineraryCircleLine
           index={index}
           modeClassName={modeClassName}
@@ -242,8 +265,14 @@ class TransitLeg extends React.Component {
             color: leg.route ? `#${leg.route.color}` : 'currentColor',
           }}
           onClick={focusAction}
+          onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
+          role="button"
+          tabIndex="0"
           className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${modeClassName}`}
         >
+          <span className="sr-only">
+            <FormattedMessage id="itinerary-summary.show-on-map" />
+          </span>
           <div className="itinerary-leg-first-row" aria-hidden="true">
             <div>
               {leg.from.name}

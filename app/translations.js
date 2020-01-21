@@ -791,8 +791,9 @@ const translations = {
       'At {time} drive {distance} to {destination}. Estimated time {duration}',
     'itinerary-details.end-leg':
       'At {time} arrive to destination {destination}.',
-    'itinerary-details.transit-leg':
-      'At {time} take {vehicle} from stop {startStop} {trackInfo} to stop {endStop}. Estimated duration {duration}',
+    'itinerary-details.transit-leg-part-1': 'At {time} take',
+    'itinerary-details.transit-leg-part-2':
+      'from stop {startStop} {trackInfo} to stop {endStop}. Estimated duration {duration}',
     'itinerary-details.walk-leg':
       'At {time} walk {distance} to {destination}. Estimated time {duration}',
     'itinerary-feedback-button': 'Send feedback',
@@ -816,6 +817,7 @@ const translations = {
       'Transfer to {vehicle} on stop {stopName}',
     'itinerary-summary-row.walking-distance':
       'Total walking distance {totalDistance}.',
+    'itinerary-summary.show-on-map': 'Show on map',
     'itinerary-ticket.title': 'Required ticket',
     'itinerary-tickets.title': 'Required tickets',
     'itinerary-time.title': 'Duration',
@@ -1561,8 +1563,9 @@ const translations = {
     'itinerary-details.car-leg':
       '{time} aja {distance} kohteeseen {destination}. Matka-aika {duration}',
     'itinerary-details.end-leg': '{time} saavu kohteeseen {destination}.',
-    'itinerary-details.transit-leg':
-      '{time} ota {vehicle} pysäkiltä {startStop} {trackInfo} pysäkille {endStop}. Matka-aika {duration}',
+    'itinerary-details.transit-leg-part-1': '{time} ota',
+    'itinerary-details.transit-leg-part-2':
+      'pysäkiltä {startStop} {trackInfo} Pysäkille {endStop}. Arvioitu matka-aika {duration}',
     'itinerary-details.walk-leg':
       '{time} kävele {distance} kohteeseen {destination}. Matka-aika {duration}',
     'itinerary-feedback-button': 'Lähetä palautetta',
@@ -1584,6 +1587,7 @@ const translations = {
     'itinerary-summary-row.transfers': 'Vaihto {vehicle} pysäkillä {stopName}',
     'itinerary-summary-row.walking-distance':
       'Kävelyä yhteensä {totalDistance}.',
+    'itinerary-summary.show-on-map': 'Näytä kartalla',
     'itinerary-ticket.title': 'Tarvittava lippu',
     'itinerary-tickets.title': 'Tarvittavat liput',
     'itinerary-time.title': 'Matka-aika',
@@ -2634,6 +2638,16 @@ const translations = {
     'in-addition': 'Även',
     inquiry: 'Vad tycker du om den nya Reseplaneraren. Berätta för oss!',
     instructions: 'Anvisningar',
+    'itinerary-details.biking-leg':
+      'Klockan {time} cykla {distance} till {destination}. Varaktighet {duration}',
+    'itinerary-details.car-leg':
+      '{time} kör {distance} till {destination}. Varaktighet {duration}',
+    'itinerary-details.end-leg': '{time} anländ till {destination}.',
+    'itinerary-details.transit-leg-part-1': '{time} åka',
+    'itinerary-details.transit-leg-part-2':
+      'från hållplats {startStop} {trackInfo} till hållplats {endStop}. Varaktighet {duration}',
+    'itinerary-details.walk-leg':
+      '{time} gå {distance} till {destination}. Varaktighet {duration}',
     'itinerary-feedback-button': 'Skicka respons',
     'itinerary-feedback-message': 'Hittade du inte vad du sökte?',
     'itinerary-feedback-placeholder': 'Beskrivning (valfri)',
@@ -2652,6 +2666,7 @@ const translations = {
       '{vehicle} avgår klockan {departureTime} från hållplats {stopName}.',
     'itinerary-summary-row.transfers': 'Ta {vehicle} från hållplats {stopName}',
     'itinerary-summary-row.walking-distance': 'Gångavstånd {totalDistance}.',
+    'itinerary-summary.show-on-map': 'Visa på kartan',
     'itinerary-ticket.title': 'Biljett som behövs',
     'itinerary-tickets.title': 'Biljetter som behövs',
     'itinerary-time.title': 'Restid',

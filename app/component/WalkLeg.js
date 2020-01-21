@@ -16,6 +16,7 @@ import {
 } from '../util/citybikes';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
+import { isKeyboardSelectionEvent } from '../util/browser';
 
 function WalkLeg(
   { children, focusAction, index, leg, previousLeg },
@@ -58,10 +59,15 @@ function WalkLeg(
       <ItineraryCircleLine index={index} modeClassName={modeClassName} />
       <div
         onClick={focusAction}
+        onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
+        role="button"
+        tabIndex="0"
         className={`small-9 columns itinerary-instruction-column ${leg.mode.toLowerCase()}`}
-        aria-hidden="true"
       >
-        <div className="itinerary-leg-first-row">
+        <span className="sr-only">
+          <FormattedMessage id="itinerary-summary.show-on-map" />
+        </span>
+        <div className="itinerary-leg-first-row" aria-hidden="true">
           <div>
             {previousLeg && previousLeg.rentedBike ? (
               <FormattedMessage
@@ -87,7 +93,7 @@ function WalkLeg(
           </div>
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>
-        <div className="itinerary-leg-action">
+        <div className="itinerary-leg-action" aria-hidden="true">
           <FormattedMessage
             id="walk-distance-duration"
             values={{ distance, duration }}

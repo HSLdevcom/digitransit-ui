@@ -9,6 +9,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
+import { isKeyboardSelectionEvent } from '../util/browser';
 
 const getDescription = (mode, distance, duration) => {
   if (mode === 'BICYCLE_WALK') {
@@ -98,10 +99,15 @@ function ViaLeg(props, context) {
       />
       <div
         onClick={props.focusAction}
+        onKeyPress={e => isKeyboardSelectionEvent(e) && props.focusAction(e)}
+        role="button"
+        tabIndex="0"
         className="small-9 columns itinerary-instruction-column via"
-        aria-hidden="true"
       >
-        <div className="itinerary-leg-first-row">
+        <span className="sr-only">
+          <FormattedMessage id="itinerary-summary.show-on-map" />
+        </span>
+        <div className="itinerary-leg-first-row" aria-hidden="true">
           <div>
             {props.leg.from.name}
             {stayDuration > 0 && (
@@ -117,7 +123,7 @@ function ViaLeg(props, context) {
           </div>
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>
-        <div className="itinerary-leg-action">
+        <div className="itinerary-leg-action" aria-hidden="true">
           {getDescription(props.leg.mode, distance, duration)}
         </div>
       </div>

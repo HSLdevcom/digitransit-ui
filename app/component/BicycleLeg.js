@@ -16,6 +16,7 @@ import {
   getCityBikeNetworkId,
   CityBikeNetworkType,
 } from '../util/citybikes';
+import { isKeyboardSelectionEvent } from '../util/browser';
 
 function BicycleLeg({ focusAction, index, leg }, { config }) {
   let stopsDescription;
@@ -110,14 +111,21 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
       <ItineraryCircleLine index={index} modeClassName={modeClassName} />
       <div
         onClick={focusAction}
+        onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
+        role="button"
+        tabIndex="0"
         className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${mode.toLowerCase()}`}
-        aria-hidden="true"
       >
-        <div className="itinerary-leg-first-row">
+        <span className="sr-only">
+          <FormattedMessage id="itinerary-summary.show-on-map" />
+        </span>
+        <div className="itinerary-leg-first-row" aria-hidden="true">
           {legDescription}
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>
-        <div className="itinerary-leg-action">{stopsDescription}</div>
+        <div className="itinerary-leg-action" aria-hidden="true">
+          {stopsDescription}
+        </div>
       </div>
     </div>
   );

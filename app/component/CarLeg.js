@@ -9,6 +9,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
+import { isKeyboardSelectionEvent } from '../util/browser';
 
 function CarLeg(props, context) {
   const distance = displayDistance(
@@ -42,17 +43,22 @@ function CarLeg(props, context) {
       <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />
       <div
         onClick={props.focusAction}
+        onKeyPress={e => isKeyboardSelectionEvent(e) && props.focusAction(e)}
+        role="button"
+        tabIndex="0"
         className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${props.leg.mode.toLowerCase()}`}
-        aria-hidden="true"
       >
-        <div className="itinerary-leg-first-row">
+        <span className="sr-only">
+          <FormattedMessage id="itinerary-summary.show-on-map" />
+        </span>
+        <div className="itinerary-leg-first-row" aria-hidden="true">
           <div>
             {props.leg.from.name}
             {props.children}
           </div>
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>
-        <div className="itinerary-leg-action">
+        <div className="itinerary-leg-action" aria-hidden="true">
           <FormattedMessage
             id="car-distance-duration"
             values={{ distance, duration }}
