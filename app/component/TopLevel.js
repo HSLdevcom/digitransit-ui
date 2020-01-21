@@ -68,7 +68,7 @@ class TopLevel extends React.Component {
     }`).then(logo => {
       this.setState({ logo: logo.default });
     });
-    if (!this.props.user.name) {
+    if (this.context.config.showLogin && !this.props.user.name) {
       getJson(`/api/user`)
         .then(user => {
           this.context.executeAction(setUser, {
