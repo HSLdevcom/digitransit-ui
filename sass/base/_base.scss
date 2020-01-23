@@ -156,6 +156,7 @@ h1 a {
 }
 
 div.spinner-loader {
+  z-index: 40000;
   position: absolute;
   left: 50%;
   margin: $spinner-size * 0.25 0 0 $spinner-size * -0.5;
