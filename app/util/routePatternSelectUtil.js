@@ -321,6 +321,7 @@ export const getOptionText = (context, pattern, isTogglable) => {
     pattern.activeDates.length > 0 &&
     pattern.rangeFollowingDays.length === 1 &&
     pattern.fromDate !== '-' &&
+    pattern.fromDate !== 'Invalid date' &&
     moment(pattern.lastRangeDay).isAfter(
       moment(pattern.rangeFollowingDays[0][1]),
     )
@@ -455,10 +456,12 @@ export const getOptionText = (context, pattern, isTogglable) => {
   // Add opt #4a: (31.1. saakka)
   if (
     pattern.untilDate !== '-' &&
-    pattern.untilDate !== undefined &&
-    pattern.dayString === 'ma-su'
+    pattern.dayString === 'ma-su' &&
+    pattern.untilDate !== 'Invalid date' &&
+    moment(pattern.untilDate, DATE_FORMAT).format(DATE_FORMAT2) !==
+      'Invalid date'
   ) {
-    retValue += context.intl
+    retValue += `4a:${context.intl
       .formatMessage(
         {
           id: 'route-pattern-select.until',
@@ -472,16 +475,16 @@ export const getOptionText = (context, pattern, isTogglable) => {
           day: moment(pattern.untilDate, DATE_FORMAT).format(DATE_FORMAT2),
         },
       )
-      .replace(/\( {2}|\( |\(/gi, '(');
+      .replace(/\( {2}|\( |\(/gi, '(')}`;
     return retValue;
   }
 
   // Add opt #4b: (ma-pe 31.1. saakka) or (la-su 31.1. saakka)
   if (
     pattern.untilDate !== '-' &&
-    pattern.untilDate !== undefined &&
     pattern.dayString !== 'ma-su' &&
-    pattern.dayString !== '-'
+    moment(pattern.untilDate, DATE_FORMAT).format(DATE_FORMAT2) !==
+      'Invalid date'
   ) {
     retValue += context.intl
       .formatMessage(
@@ -504,8 +507,9 @@ export const getOptionText = (context, pattern, isTogglable) => {
   // Add opt #5a: (1.1. lähtien)
   if (
     pattern.fromDate !== '-' &&
-    pattern.fromDate !== undefined &&
-    pattern.dayString === 'ma-su'
+    pattern.dayString === 'ma-su' &&
+    moment(pattern.fromDate, DATE_FORMAT).format(DATE_FORMAT2) !==
+      'Invalid date'
   ) {
     retValue += context.intl
       .formatMessage(
@@ -528,9 +532,9 @@ export const getOptionText = (context, pattern, isTogglable) => {
   // Add opt #5b: (ma-pe 1.1. lähtien) or (la-su 31.1. lähtien)
   if (
     pattern.fromDate !== '-' &&
-    pattern.fromDate !== undefined &&
     pattern.dayString !== 'ma-su' &&
-    pattern.dayString !== '-'
+    moment(pattern.fromDate, DATE_FORMAT).format(DATE_FORMAT2) !==
+      'Invalid date'
   ) {
     retValue += context.intl
       .formatMessage(
