@@ -207,7 +207,7 @@
     "graphql": "0.13.2",
     "html-reporter": "1.2.0",
     "husky": "4.0.2",
-    "iltorb": "2.4.1",
+    "iltorb": "2.4.4",
     "jsdom": "13.2.0",
     "lint-staged": "9.5.0",
     "mini-css-extract-plugin": "0.5.0",
