@@ -308,7 +308,7 @@ export const getOptionText = (context, pattern, isTogglable) => {
   // Starts with route info:  Keilaniemi (M) ➔ Martinlaakso as.
   let retValue = `${pattern.stops[0].name} ➔ ${pattern.headsign}`;
   if (isTogglable) {
-    if (pattern.dayString !== 'ma-su') {
+    if (pattern.dayString !== 'ma-su' && pattern.dayString !== '-') {
       retValue += context.intl.formatMessage({
         id: `route-pattern-select.range.${pattern.dayString}`,
       });
@@ -443,7 +443,8 @@ export const getOptionText = (context, pattern, isTogglable) => {
   if (
     pattern.untilDate === '-' &&
     pattern.fromDate === '-' &&
-    pattern.dayString !== 'ma-su'
+    pattern.dayString !== 'ma-su' &&
+    pattern.dayString !== '-'
   ) {
     retValue += context.intl.formatMessage({
       id: `route-pattern-select.range.${pattern.dayString}`,
@@ -479,7 +480,8 @@ export const getOptionText = (context, pattern, isTogglable) => {
   if (
     pattern.untilDate !== '-' &&
     pattern.untilDate !== undefined &&
-    pattern.dayString !== 'ma-su'
+    pattern.dayString !== 'ma-su' &&
+    pattern.dayString !== '-'
   ) {
     retValue += context.intl
       .formatMessage(
@@ -527,7 +529,8 @@ export const getOptionText = (context, pattern, isTogglable) => {
   if (
     pattern.fromDate !== '-' &&
     pattern.fromDate !== undefined &&
-    pattern.dayString !== 'ma-su'
+    pattern.dayString !== 'ma-su' &&
+    pattern.dayString !== '-'
   ) {
     retValue += context.intl
       .formatMessage(
