@@ -19,7 +19,8 @@ describe('<AddFavouriteContainer />', () => {
       wrapper.setState({ favourite });
 
       const location = {
-        id: 'loc-id',
+        id: 'fav-id',
+        gtfsId: 'loc-id',
         code: 'loc-code',
         layer: 'foo',
         lat: 63,
