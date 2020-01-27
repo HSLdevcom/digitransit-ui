@@ -18,7 +18,7 @@ const FavouriteLocationContainer = ({
   if (firstTransitLeg) {
     departureTime = firstTransitLeg.startTime / 1000;
   }
-
+  console.log(favourite)
   return (
     <FavouriteLocation
       favourite={favourite}

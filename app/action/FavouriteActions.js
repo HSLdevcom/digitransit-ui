@@ -25,3 +25,7 @@ export function toggleFavouriteCityBikeStation(actionContext, stationId) {
 export function addFavourite(actionContext, data) {
   actionContext.dispatch('AddFavourite', data);
 }
+
+export function deleteFavourite(actionContext, data) {
+  actionContext.dispatch('DeleteFavourite', data);
+}

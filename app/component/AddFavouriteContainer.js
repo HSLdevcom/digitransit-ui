@@ -10,10 +10,8 @@ import Icon from './Icon';
 import BackButton from './BackButton';
 import FavouriteIconTable from './FavouriteIconTable';
 import {
-  addFavouriteLocation,
-  addFavouriteStop,
-  deleteFavouriteLocation,
-  deleteFavouriteStop,
+  addFavourite,
+  deleteFavourite
 } from '../action/FavouriteActions';
 import { isStop, isTerminal } from '../util/suggestionUtils';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
@@ -77,8 +75,8 @@ class AddFavouriteContainer extends React.Component {
     this.setState(prevState => ({
       favourite: {
         ...prevState.favourite,
-        id: prevState.favourite.id,
-        gtfsId: location.id,
+        id: location.id,
+        gtfsId: location.gtfsId,
         code: location.code,
         layer: location.layer,
         lat: location.lat,
@@ -88,8 +86,9 @@ class AddFavouriteContainer extends React.Component {
     }));
   };
 
-  isEdit = () =>
-    this.props.favourite !== undefined && this.props.favourite.id !== undefined;
+  isEdit = () => {
+    this.props.favourite !== undefined && (this.props.favourite.id !== undefined || this.props.favourite.gtfsId !== undefined);
+  }
 
   canSave = () =>
     !isEmpty(this.state.favourite.selectedIconId) &&
@@ -105,7 +104,7 @@ class AddFavouriteContainer extends React.Component {
         this.props.favourite.gtfsId &&
         !this.state.favourite.gtfsId
       ) {
-        this.context.executeAction(deleteFavouriteStop, {
+        this.context.executeAction(deleteFavourite, {
           id: this.state.favourite.id,
         });
         delete this.state.favourite.id;
@@ -114,19 +113,20 @@ class AddFavouriteContainer extends React.Component {
         !this.props.favourite.gtfsId &&
         this.state.favourite.gtfsId
       ) {
-        this.context.executeAction(deleteFavouriteLocation, {
+        this.context.executeAction(deleteFavourite, {
           id: this.state.favourite.id,
         });
         delete this.state.favourite.id;
       }
-
+      this.state
       if (
         (isStop(this.state.favourite) || isTerminal(this.state.favourite)) &&
         this.state.favourite.gtfsId
       ) {
-        this.context.executeAction(addFavouriteStop, this.state.favourite);
+        const favourite = isTerminal(this.state.favourite) ? { type: 'station', ...this.state.favourite} :  {  type: 'stop', ...this.state.favourite };
+        this.context.executeAction(addFavourite, favourite);
       } else {
-        this.context.executeAction(addFavouriteLocation, this.state.favourite);
+        this.context.executeAction(addFavourite, {type: 'place', ...this.state.favourite});
       }
       addAnalyticsEvent({
         category: 'Favourite',
@@ -142,9 +142,10 @@ class AddFavouriteContainer extends React.Component {
       (isStop(this.state.favourite) || isTerminal(this.state.favourite)) &&
       this.state.favourite.gtfsId
     ) {
-      this.context.executeAction(deleteFavouriteStop, this.state.favourite);
+      // this.context.executeAction(deleteFavouriteStop, this.state.favourite);
+      this.context.executeAction(deleteFavourite, this.state.favourite);
     } else {
-      this.context.executeAction(deleteFavouriteLocation, this.state.favourite);
+      this.context.executeAction(deleteFavourite, this.state.favourite);
     }
     this.quit();
   };
@@ -314,15 +315,15 @@ class AddFavouriteContainer extends React.Component {
 
 const AddFavouriteContainerWithFavourite = connectToStores(
   AddFavouriteContainer,
-  ['FavouriteLocationStore', 'FavouriteStopsStore'],
+  ['FavouriteStore'],
   (context, props) => ({
     favourite: props.location.pathname.includes('pysakki')
       ? context
-          .getStore('FavouriteStopsStore')
-          .getById(parseInt(props.params.id, 10))
+          .getStore('FavouriteStore')
+          .getByGtfsId(props.params.id)
       : context
-          .getStore('FavouriteLocationStore')
-          .getById(parseInt(props.params.id, 10)),
+          .getStore('FavouriteStore')
+          .getById(props.params.id),
   }),
 );
 

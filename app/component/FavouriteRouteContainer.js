@@ -8,18 +8,13 @@ const FavouriteRouteContainer = connectToStores(
   Favourite,
   ['FavouriteStore'],
   (context, { gtfsId }) => ({
-    favourite: context.getStore('FavouriteStore').isFavouriteRoute(gtfsId),
+    favourite: context.getStore('FavouriteStore').isFavourite(gtfsId),
     addFavourite: () => {
-      const fav = {
-        type: 'route',
-        gtfsId: gtfsId,
-      };
-      // context.executeAction(addFavouriteRoute, gtfsId);
-      context.executeAction(addFavourite, fav);
+      context.executeAction(addFavourite, { type: 'route', gtfsId });
       addAnalyticsEvent({
         category: 'Route',
         action: 'MarkRouteAsFavourite',
-        name: !context.getStore('FavouriteStore').isFavouriteRoute(gtfsId),
+        name: !context.getStore('FavouriteStore').isFavourite(gtfsId),
       });
     },
   }),

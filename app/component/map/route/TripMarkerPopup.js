@@ -77,18 +77,14 @@ TripMarkerPopup.propTypes = {
 
 const TripMarkerPopupWithFavourite = connectToStores(
   TripMarkerPopup,
-  ['FavouriteRoutesStore'],
+  ['FavouriteStore'],
   (context, props) => ({
     favourite: context
       .getStore('FavouriteStore')
-      .isFavouriteRoute(props.trip.route.gtfsId),
+      .isFavourite(props.trip.route.gtfsId),
     addAsFavouriteRoute: e => {
       e.stopPropagation();
-      const fav = {
-        type: 'route',
-        gtfsId: props.trip.route.gtfsId,
-      }
-      context.executeAction(addFavourite, fav);
+      context.executeAction(addFavourite, {type: 'route', gtfsId: props.trip.route.gtfsId});
     },
   }),
 );

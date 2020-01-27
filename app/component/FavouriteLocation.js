@@ -19,7 +19,7 @@ const FavouriteLocation = ({
   firstTransitLeg,
   clickFavourite,
 }) => {
-  const { locationName, id, lat, lon, selectedIconId } = favourite;
+  const { locationName, id, lat, lon, selectedIconId, gtfsId } = favourite;
 
   let departureTimeComponent;
   if (departureTime && currentTime < departureTime) {
@@ -85,7 +85,7 @@ const FavouriteLocation = ({
             name: null,
           });
         }}
-        to={`/suosikki/muokkaa/${favouriteType}/${id}`}
+        to={`/suosikki/muokkaa/${favouriteType}/${favouriteType === 'pysakki' ? gtfsId : id}`}
         className="cursor-pointer no-decoration"
       >
         <div className="favourite-edit-icon-click-area">

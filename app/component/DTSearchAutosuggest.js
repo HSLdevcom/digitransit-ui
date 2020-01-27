@@ -264,7 +264,6 @@ class DTAutosuggest extends React.Component {
       onBlur: this.onBlur,
       className: `react-autosuggest__input ${this.props.className}`,
     };
-
     return (
       <div className={cx(['autosuggest-input-container', this.props.id])}>
         {this.props.icon && (

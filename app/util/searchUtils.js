@@ -635,10 +635,10 @@ export function executeSearchImmediate(
 
   if (type === SearchType.Endpoint || type === SearchType.All) {
     const favouriteLocations = getStore(
-      'FavouriteLocationStore',
+      'FavouriteStore',
     ).getLocations();
     const oldSearches = getStore('OldSearchesStore').getOldSearches('endpoint');
-    const favouriteStops = getStore('FavouriteStopsStore').getStops();
+    const favouriteStops = getStore('FavouriteStore').getStopsAndStations();
     const language = getStore('PreferencesStore').getLanguage();
     const searchComponents = [];
 

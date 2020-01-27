@@ -139,12 +139,12 @@ OriginSelector.contextTypes = {
 
 const connectedComponent = connectToStores(
   OriginSelector,
-  ['FavouriteLocationStore', 'FavouriteStopsStore', 'OldSearchesStore'],
+  ['FavouriteLocationStore', 'FavouriteStopsStore', 'OldSearchesStore', 'FavouriteStore'],
   context => ({
     favouriteLocations: context
       .getStore('FavouriteLocationStore')
       .getLocations(),
-    favouriteStops: context.getStore('FavouriteStopsStore').getStops(),
+    favouriteStops: context.getStore('FavouriteStore').getStopsAndStations(),
     oldSearches: context
       .getStore('OldSearchesStore')
       .getOldSearches('endpoint'),
