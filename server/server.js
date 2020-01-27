@@ -121,6 +121,7 @@ function setUpOIDC() {
   app.get('/logout', function(req, res) {
     req.logout();
     req.session.destroy(function() {
+      res.clearCookie('connect.sid');
       res.redirect('/');
     });
   });
