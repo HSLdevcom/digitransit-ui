@@ -25,7 +25,7 @@ function addMetaData(config) {
   const html = stats.html.join(' ');
   const APP_PATH =
     config.APP_PATH && config.APP_PATH !== '' ? `${config.APP_PATH}'/'` : '/';
-  const appPathPrefix = process.env.ASSET_URL || APP_PATH;
+  const appPathPrefix = config.URL.ASSET_URL || APP_PATH;
 
   htmlParser.convert_html_to_json(html, (err, data) => {
     if (!err) {
@@ -49,7 +49,7 @@ function addMetaData(config) {
       data.link.forEach(e => {
         // eslint-disable-next-line no-param-reassign
         delete e.innerHTML;
-        if (process.env.ASSET_URL && e.href.startsWith('/icons')) {
+        if (config.URL.ASSET_URL && e.href.startsWith('/icons')) {
           e.href = appPathPrefix + e.href;
         }
       });
@@ -103,6 +103,19 @@ export function getNamedConfiguration(configName) {
     if (!process.env.OIDC_CLIENT_ID) {
       // disable user account access if backend is not available
       config.showLogin = false;
+    }
+
+    const appPathPrefix = config.URL.ASSET_URL || '';
+
+    if (config.geoJson && Array.isArray(config.geoJson.layers)) {
+      for (let i = 0; i < config.geoJson.layers.length; i++) {
+        const layer = config.geoJson.layers[i];
+        layer.url = appPathPrefix + layer.url;
+      }
+    }
+
+    if (config.geoJson && config.geoJson.zones) {
+      config.geoJson.zones.url = appPathPrefix + config.geoJson.zones.url;
     }
 
     configs[configName] = config;
