@@ -11,137 +11,158 @@ export const DATE_FORMAT = 'YYYYMMDD';
 export const DATE_FORMAT2 = 'D.M.';
 export const DATE_FORMAT3 = 'D.';
 
-export const getWeekdayInfo = (str, arr, dayNo) => {
-  let weekdayText = '-';
-  let allowedDiff = 1;
-  switch (Array.from(new Set(arr)).length) {
+/**
+ * getRangeInfo
+ * @description Gets needed info for later use (e.g. translations)
+ * @param {string} dayNumbers All pattern's activeDates as Day Of Week (ISO) (e.g. 565656565656 = only Fridays and Saturdays)
+ * @param {Array} sortedUniqueDayNumbers Array of all pattern's unique activeDates as Day Of Week (ISO) (e.g. 5,6 = only Friday and Saturday)
+ * @param {number} currentDateNumber Current date's Day Of Week (ISO) (e.g. 3)
+ * @returns {Array} Arrray of mixed type [string, number] e.g. ['pe-la', 2]. Default is ['-', 1];
+ */
+export const getRangeInfo = (
+  dayNumbers,
+  sortedUniqueDayNumbers,
+  currentDateNumber,
+) => {
+  const returnArray = ['-', 1];
+  switch (sortedUniqueDayNumbers.length) {
     case 1:
-      switch (arr[0]) {
+      switch (sortedUniqueDayNumbers[0]) {
         case '1':
-          weekdayText = 'ma-ma';
-          allowedDiff = 7 - dayNo + 1;
+          returnArray[0] = 'ma-ma';
+          returnArray[1] = 7 - currentDateNumber + 1;
           break;
         case '2':
-          weekdayText = 'ti-ti';
-          if (dayNo < 2) {
-            allowedDiff = 2 - dayNo;
+          returnArray[0] = 'ti-ti';
+          if (currentDateNumber < 2) {
+            returnArray[1] = 2 - currentDateNumber;
           } else {
-            allowedDiff = 7 - dayNo + 2;
+            returnArray[1] = 7 - currentDateNumber + 2;
           }
           break;
         case '3':
-          weekdayText = 'ke-ke';
-          if (dayNo < 3) {
-            allowedDiff = 3 - dayNo;
+          returnArray[0] = 'ke-ke';
+          if (currentDateNumber < 3) {
+            returnArray[1] = 3 - currentDateNumber;
           } else {
-            allowedDiff = 7 - dayNo + 3;
+            returnArray[1] = 7 - currentDateNumber + 3;
           }
           break;
         case '4':
-          weekdayText = 'to-to';
-          if (dayNo < 4) {
-            allowedDiff = 4 - dayNo;
+          returnArray[0] = 'to-to';
+          if (currentDateNumber < 4) {
+            returnArray[1] = 4 - currentDateNumber;
           } else {
-            allowedDiff = 7 - dayNo + 4;
+            returnArray[1] = 7 - currentDateNumber + 4;
           }
           break;
         case '5':
-          weekdayText = 'pe-pe';
-          if (dayNo < 5) {
-            allowedDiff = 5 - dayNo;
+          returnArray[0] = 'pe-pe';
+          if (currentDateNumber < 5) {
+            returnArray[1] = 5 - currentDateNumber;
           } else {
-            allowedDiff = 7 - dayNo + 5;
+            returnArray[1] = 7 - currentDateNumber + 5;
           }
           break;
         case '6':
-          weekdayText = 'la-la';
-          if (dayNo < 6) {
-            allowedDiff = 6 - dayNo;
+          returnArray[0] = 'la-la';
+          if (currentDateNumber < 6) {
+            returnArray[1] = 6 - currentDateNumber;
           } else {
-            allowedDiff = 7 - dayNo + 6;
+            returnArray[1] = 7 - currentDateNumber + 6;
           }
           break;
         case '7':
-          weekdayText = 'su-su';
-          if (dayNo < 7) {
-            allowedDiff = 7 - dayNo;
+          returnArray[0] = 'su-su';
+          if (currentDateNumber < 7) {
+            returnArray[1] = 7 - currentDateNumber;
           } else {
-            allowedDiff = 7;
+            returnArray[1] = 7;
           }
           break;
         default:
-          weekdayText = '-';
+          returnArray[0] = '-';
       }
       break;
     case 2:
-      if (str.indexOf('56') !== -1) {
-        weekdayText = 'pe-la';
-        if (dayNo < 5) {
-          allowedDiff = 5 - dayNo;
+      if (dayNumbers.indexOf('56') !== -1) {
+        returnArray[0] = 'pe-la';
+        if (currentDateNumber < 5) {
+          returnArray[1] = 5 - currentDateNumber;
         } else {
-          allowedDiff = 7 - dayNo + 5;
+          returnArray[1] = 7 - currentDateNumber + 5;
         }
         break;
-      } else if (str.indexOf('67') !== -1) {
-        weekdayText = 'la-su';
-        if (dayNo < 6) {
-          allowedDiff = 6 - dayNo;
+      } else if (dayNumbers.indexOf('67') !== -1) {
+        returnArray[0] = 'la-su';
+        if (currentDateNumber < 6) {
+          returnArray[1] = 6 - currentDateNumber;
         } else {
-          allowedDiff = 7 - dayNo + 6;
+          returnArray[1] = 7 - currentDateNumber + 6;
         }
         break;
       }
       break;
     case 3:
-      if (str.indexOf('567') !== -1) {
-        weekdayText = 'pe-su';
-        if (dayNo < 5) {
-          allowedDiff = 5 - dayNo;
+      if (dayNumbers.indexOf('567') !== -1) {
+        returnArray[0] = 'pe-su';
+        if (currentDateNumber < 5) {
+          returnArray[1] = 5 - currentDateNumber;
         } else {
-          allowedDiff = 7 - dayNo + 5;
+          returnArray[1] = 7 - currentDateNumber + 5;
         }
         break;
       }
       break;
     case 5:
-      if (str.indexOf('12345') !== -1) {
-        weekdayText = 'ma-pe';
-        if (dayNo < 5) {
-          allowedDiff = 1;
+      if (dayNumbers.indexOf('12345') !== -1) {
+        returnArray[0] = 'ma-pe';
+        if (currentDateNumber < 5) {
+          returnArray[1] = 1;
         } else {
-          allowedDiff = 7 - dayNo + 1;
+          returnArray[1] = 7 - currentDateNumber + 1;
         }
         break;
       }
       break;
     case 6:
-      if (str.indexOf('123456') !== -1) {
-        weekdayText = 'ma-la';
-        allowedDiff = dayNo === 6 ? 2 : 1;
+      if (dayNumbers.indexOf('123456') !== -1) {
+        returnArray[0] = 'ma-la';
+        returnArray[1] = currentDateNumber === 6 ? 2 : 1;
         break;
-      } else if (str.indexOf('712345') !== -1 || str.indexOf('123457')) {
-        weekdayText = 'su-pe';
-        allowedDiff = dayNo === 5 ? 2 : 1;
+      } else if (
+        dayNumbers.indexOf('712345') !== -1 ||
+        dayNumbers.indexOf('123457')
+      ) {
+        returnArray[0] = 'su-pe';
+        returnArray[1] = currentDateNumber === 5 ? 2 : 1;
         break;
       }
       break;
     case 7:
-      if (str.indexOf('1234567') !== -1) {
-        weekdayText = 'ma-su';
-        allowedDiff = 1;
+      if (dayNumbers.indexOf('1234567') !== -1) {
+        returnArray[0] = 'ma-su';
+        returnArray[1] = 1;
         break;
       }
       break;
     default:
-      weekdayText = '-';
+      break;
   }
-  return [weekdayText, allowedDiff];
+  return returnArray;
 };
 
-export const enrichPatterns = (patterns, onlyInFuture, itineraryFutureDays) => {
-  const currentDate = moment();
-  const lastRangeDate = moment().add(
-    itineraryFutureDays === undefined ? 30 : itineraryFutureDays,
+/**
+ * enrichPatterns
+ * @description Manipulate patterns by adding, updating or deleting data. Mostly adding data and that's why named enrichPattern.
+ * @param {object} patterns JSON array of patterns (result from GraphiQL query)
+ * @param {boolean} onlyInFuture Determine is filtering used with today's past trips
+ * @param {number} serviceTimeRange How many days shows in UI
+ */
+export const enrichPatterns = (patterns, onlyInFuture, serviceTimeRange) => {
+  const currentDate = moment(moment().format(DATE_FORMAT));
+  const lastRangeDate = moment(moment().format(DATE_FORMAT)).add(
+    serviceTimeRange,
     'days',
   );
 
@@ -180,9 +201,12 @@ export const enrichPatterns = (patterns, onlyInFuture, itineraryFutureDays) => {
       x.activeDates = [];
     }
     x.activeDates = Array.from(new Set(uniqueDates.sort()));
+    x.activeDates = x.activeDates.filter(
+      ad => moment(ad, DATE_FORMAT).isSameOrAfter(currentDate) === true,
+    );
     if (
-      x.activeDates.length > 0 &&
-      moment(x.activeDates[0]).isAfter(lastRangeDate)
+      x.activeDates.length === 1 &&
+      moment(x.activeDates[0], DATE_FORMAT).isAfter(lastRangeDate)
     ) {
       x.activeDates = [];
     }
@@ -245,7 +269,7 @@ export const enrichPatterns = (patterns, onlyInFuture, itineraryFutureDays) => {
     futureTrips[y].dayNumbers = dayNumbers;
     futureTrips[y].activeDates = Array.from(new Set(actDates));
     futureTrips[y].dayJoin = dayNumbers.join('');
-    const dayInfo = getWeekdayInfo(
+    const dayInfo = getRangeInfo(
       futureTrips[y].dayJoin,
       Array.from(new Set(futureTrips[y].dayNumbers.sort())),
       Number(currentDate.format('E')),
@@ -296,7 +320,7 @@ export const enrichPatterns = (patterns, onlyInFuture, itineraryFutureDays) => {
     f => f.tripsForDate.length > 0 || f.activeDates.length > 0,
   );
 
-  // DT-2531: shows main routes (both directions)
+  // DT-2531: shows main routes (both directions) if there is no futureTrips
   if (futureTrips.length === 0 && patterns.length > 0) {
     futureTrips = patterns.filter(p => p.code.endsWith(':01'));
   }
@@ -304,12 +328,19 @@ export const enrichPatterns = (patterns, onlyInFuture, itineraryFutureDays) => {
   return futureTrips;
 };
 
-export const getOptionText = (context, pattern, isTogglable) => {
+/**
+ * getOptionText
+ * @description Shows route info (e.g. Keilaniemi (M) ➔ Martinlaakso as.) with or without additional translated texts
+ * @param {function} formatMessage https://github.com/formatjs/react-intl/blob/master/docs/API.md#formatmessage
+ * @param {object} pattern JSON object of pattern
+ * @param {boolean} isTogglable Determine what kind of component is shown (div or option)
+ */
+export const getOptionText = (formatMessage, pattern, isTogglable) => {
   // Starts with route info:  Keilaniemi (M) ➔ Martinlaakso as.
   let retValue = `${pattern.stops[0].name} ➔ ${pattern.headsign}`;
   if (isTogglable) {
     if (pattern.dayString !== 'ma-su' && pattern.dayString !== '-') {
-      retValue += context.intl.formatMessage({
+      retValue += formatMessage({
         id: `route-pattern-select.range.${pattern.dayString}`,
       });
     }
@@ -317,7 +348,6 @@ export const getOptionText = (context, pattern, isTogglable) => {
   }
   // Add opt #1: (vain 31.12.) or (19.-23.1.)
   if (
-    // pattern.tripsForDate.length === 0 &&
     pattern.activeDates.length > 0 &&
     pattern.rangeFollowingDays.length === 1 &&
     pattern.fromDate !== '-' &&
@@ -331,7 +361,7 @@ export const getOptionText = (context, pattern, isTogglable) => {
       pattern.activeDates.length === 1 ||
       pattern.rangeFollowingDays[0][1] === 0
     ) {
-      retValue += context.intl.formatMessage({
+      retValue += formatMessage({
         id: 'route-pattern-select.only',
       });
     }
@@ -434,9 +464,9 @@ export const getOptionText = (context, pattern, isTogglable) => {
     pattern.fromDate === '-' &&
     pattern.dayString === 'ma-su'
   ) {
-    retValue += context.intl
-      .formatMessage({ id: `route-pattern-select.range.${pattern.dayString}` })
-      .replace(/\(|\)| /gi, '');
+    retValue += formatMessage({
+      id: `route-pattern-select.range.${pattern.dayString}`,
+    }).replace(/\(|\)| /gi, '');
     return retValue;
   }
 
@@ -447,7 +477,7 @@ export const getOptionText = (context, pattern, isTogglable) => {
     pattern.dayString !== 'ma-su' &&
     pattern.dayString !== '-'
   ) {
-    retValue += context.intl.formatMessage({
+    retValue += formatMessage({
       id: `route-pattern-select.range.${pattern.dayString}`,
     });
     return retValue;
@@ -461,21 +491,17 @@ export const getOptionText = (context, pattern, isTogglable) => {
     moment(pattern.untilDate, DATE_FORMAT).format(DATE_FORMAT2) !==
       'Invalid date'
   ) {
-    retValue += `4a:${context.intl
-      .formatMessage(
-        {
-          id: 'route-pattern-select.until',
-        },
-        {
-          range: context.intl
-            .formatMessage({
-              id: `route-pattern-select.range.${pattern.dayString}`,
-            })
-            .replace(/\(|\)| /gi, ''),
-          day: moment(pattern.untilDate, DATE_FORMAT).format(DATE_FORMAT2),
-        },
-      )
-      .replace(/\( {2}|\( |\(/gi, '(')}`;
+    retValue += formatMessage(
+      {
+        id: 'route-pattern-select.until',
+      },
+      {
+        range: formatMessage({
+          id: `route-pattern-select.range.${pattern.dayString}`,
+        }).replace(/\(|\)| /gi, ''),
+        day: moment(pattern.untilDate, DATE_FORMAT).format(DATE_FORMAT2),
+      },
+    ).replace(/\( {2}|\( |\(/gi, '(');
     return retValue;
   }
 
@@ -486,21 +512,17 @@ export const getOptionText = (context, pattern, isTogglable) => {
     moment(pattern.untilDate, DATE_FORMAT).format(DATE_FORMAT2) !==
       'Invalid date'
   ) {
-    retValue += context.intl
-      .formatMessage(
-        {
-          id: 'route-pattern-select.until',
-        },
-        {
-          range: context.intl
-            .formatMessage({
-              id: `route-pattern-select.range.${pattern.dayString}`,
-            })
-            .replace(/\(|\)/gi, ''),
-          day: moment(pattern.untilDate, DATE_FORMAT).format(DATE_FORMAT2),
-        },
-      )
-      .replace(/\( {2}|\( |\(/gi, '(');
+    retValue += formatMessage(
+      {
+        id: 'route-pattern-select.until',
+      },
+      {
+        range: formatMessage({
+          id: `route-pattern-select.range.${pattern.dayString}`,
+        }).replace(/\(|\)/gi, ''),
+        day: moment(pattern.untilDate, DATE_FORMAT).format(DATE_FORMAT2),
+      },
+    ).replace(/\( {2}|\( |\(/gi, '(');
     return retValue;
   }
 
@@ -511,21 +533,17 @@ export const getOptionText = (context, pattern, isTogglable) => {
     moment(pattern.fromDate, DATE_FORMAT).format(DATE_FORMAT2) !==
       'Invalid date'
   ) {
-    retValue += context.intl
-      .formatMessage(
-        {
-          id: 'route-pattern-select.from',
-        },
-        {
-          range: context.intl
-            .formatMessage({
-              id: `route-pattern-select.range.${pattern.dayString}`,
-            })
-            .replace(/\(|\)| /gi, ''),
-          day: moment(pattern.fromDate, DATE_FORMAT).format(DATE_FORMAT2),
-        },
-      )
-      .replace(/\( {2}|\( |\(/gi, '(');
+    retValue += formatMessage(
+      {
+        id: 'route-pattern-select.from',
+      },
+      {
+        range: formatMessage({
+          id: `route-pattern-select.range.${pattern.dayString}`,
+        }).replace(/\(|\)| /gi, ''),
+        day: moment(pattern.fromDate, DATE_FORMAT).format(DATE_FORMAT2),
+      },
+    ).replace(/\( {2}|\( |\(/gi, '(');
     return retValue;
   }
 
@@ -536,21 +554,17 @@ export const getOptionText = (context, pattern, isTogglable) => {
     moment(pattern.fromDate, DATE_FORMAT).format(DATE_FORMAT2) !==
       'Invalid date'
   ) {
-    retValue += context.intl
-      .formatMessage(
-        {
-          id: 'route-pattern-select.from',
-        },
-        {
-          range: context.intl
-            .formatMessage({
-              id: `route-pattern-select.range.${pattern.dayString}`,
-            })
-            .replace(/\(|\)/gi, ''),
-          day: moment(pattern.fromDate, DATE_FORMAT).format(DATE_FORMAT2),
-        },
-      )
-      .replace(/\( {2}|\( |\(/gi, '(');
+    retValue += formatMessage(
+      {
+        id: 'route-pattern-select.from',
+      },
+      {
+        range: formatMessage({
+          id: `route-pattern-select.range.${pattern.dayString}`,
+        }).replace(/\(|\)/gi, ''),
+        day: moment(pattern.fromDate, DATE_FORMAT).format(DATE_FORMAT2),
+      },
+    ).replace(/\( {2}|\( |\(/gi, '(');
     return retValue;
   }
   return retValue;

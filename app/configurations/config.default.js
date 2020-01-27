@@ -192,6 +192,8 @@ export default {
     },
 
     showZoneLimits: false,
+    // Number of days to include to the service time range from the future (DT-3317)
+    serviceTimeRange: 30,
   },
 
   nearestStopDistance: {

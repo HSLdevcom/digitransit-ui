@@ -68,6 +68,8 @@ export default configMerger(walttiConfig, {
 
   itinerary: {
     showZoneLimits: true,
+    // Number of days to include to the service time range from the future (DT-3175)
+    serviceTimeRange: 60,
   },
 
   stopCard: {
@@ -236,7 +238,4 @@ export default configMerger(walttiConfig, {
 
   // boarding a long distance train with bicycle costs extra
   modesWithNoBike: ['RAIL'],
-
-  // Number of days to include to the service time range from the future (DT-3175)
-  itineraryFutureDays: 60,
 });

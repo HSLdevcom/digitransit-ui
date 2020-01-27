@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Relay from 'react-relay/classic';
 import cx from 'classnames';
-import get from 'lodash/get';
 import sortBy from 'lodash/sortBy';
 import { intlShape } from 'react-intl'; // DT-2531
 import { routerShape } from 'react-router';
@@ -38,6 +37,7 @@ class RoutePatternSelect extends Component {
   static contextTypes = {
     intl: intlShape.isRequired, // DT-2531
     router: routerShape.isRequired,
+    config: PropTypes.object, // DT-3317
   };
 
   constructor(props) {
@@ -67,7 +67,7 @@ class RoutePatternSelect extends Component {
     const futureTrips = enrichPatterns(
       patterns,
       useCurrentTime,
-      get(this.context, 'config.itineraryFutureDays'),
+      this.context.config.itinerary.serviceTimeRange,
     );
 
     if (futureTrips.length === 0) {
@@ -93,13 +93,13 @@ class RoutePatternSelect extends Component {
               value={pattern.code}
               className="route-option-togglable"
             >
-              {getOptionText(this.context, pattern, true)}
+              {getOptionText(this.context.intl.formatMessage, pattern, true)}
             </div>
           );
         }
         return (
           <option key={pattern.code} value={pattern.code}>
-            {getOptionText(this.context, pattern, false)}
+            {getOptionText(this.context.intl.formatMessage, pattern, false)}
           </option>
         );
       });

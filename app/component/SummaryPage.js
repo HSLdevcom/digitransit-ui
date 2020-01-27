@@ -350,9 +350,9 @@ class SummaryPage extends React.Component {
       latestArrivalTime = Math.max(...itineraries.map(i => i.endTime));
     }
 
-    // added itineraryFutureDays parameter (DT-3175)
+    // added config.itinerary.serviceTimeRange parameter (DT-3175)
     const serviceTimeRange = validateServiceTimeRange(
-      get(this.context, 'config.itineraryFutureDays'),
+      this.context.config.itinerary.serviceTimeRange,
       this.props.serviceTimeRange,
     );
     if (this.props.breakpoint === 'large') {
