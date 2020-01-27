@@ -85,7 +85,9 @@ const FavouriteLocation = ({
             name: null,
           });
         }}
-        to={`/suosikki/muokkaa/${favouriteType}/${favouriteType === 'pysakki' ? gtfsId : id}`}
+        to={`/suosikki/muokkaa/${favouriteType}/${
+          favouriteType === 'pysakki' ? gtfsId : id
+        }`}
         className="cursor-pointer no-decoration"
       >
         <div className="favourite-edit-icon-click-area">

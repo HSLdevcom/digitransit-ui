@@ -6,10 +6,10 @@ import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-const Favourite = ({ addFavourite, favourite, className }) => (
+const Favourite = ({ addFavourite, deleteFavourite, favourite, className }) => (
   <span
     className={cx('cursor-pointer favourite-icon', className)}
-    onClick={addFavourite}
+    onClick={favourite ? deleteFavourite : addFavourite}
   >
     <Icon
       className={cx('favourite', { selected: favourite })}
@@ -20,6 +20,7 @@ const Favourite = ({ addFavourite, favourite, className }) => (
 
 Favourite.propTypes = {
   addFavourite: PropTypes.func.isRequired,
+  deleteFavourite: PropTypes.func.isRequired,
   favourite: PropTypes.bool,
   className: PropTypes.string,
 };

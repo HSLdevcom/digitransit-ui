@@ -81,10 +81,13 @@ const FuzzyTripMarkerPopupWithFavourite = connectToStores(
   (context, props) => ({
     favourite: context
       .getStore('FavouriteStore')
-      .isFavourite( props.trip.route.gtfsId),
+      .isFavourite(props.trip.route.gtfsId),
     addAsFavouriteRoute: e => {
       e.stopPropagation();
-      context.executeAction(addFavourite, { type: 'route', gtfsId: props.trip.route.gtfsId });
+      context.executeAction(addFavourite, {
+        type: 'route',
+        gtfsId: props.trip.route.gtfsId,
+      });
     },
   }),
 );

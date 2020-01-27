@@ -9,10 +9,7 @@ import isNumber from 'lodash/isNumber';
 import Icon from './Icon';
 import BackButton from './BackButton';
 import FavouriteIconTable from './FavouriteIconTable';
-import {
-  addFavourite,
-  deleteFavourite
-} from '../action/FavouriteActions';
+import { addFavourite, deleteFavourite } from '../action/FavouriteActions';
 import { isStop, isTerminal } from '../util/suggestionUtils';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -47,7 +44,7 @@ class AddFavouriteContainer extends React.Component {
     favourite: PropTypes.shape({
       address: PropTypes.string,
       gtfsId: PropTypes.string,
-      id: PropTypes.number,
+      id: PropTypes.string,
       lat: PropTypes.number,
       locationName: PropTypes.string,
       lon: PropTypes.number,
@@ -86,9 +83,10 @@ class AddFavouriteContainer extends React.Component {
     }));
   };
 
-  isEdit = () => {
-    this.props.favourite !== undefined && (this.props.favourite.id !== undefined || this.props.favourite.gtfsId !== undefined);
-  }
+  isEdit = () =>
+    this.props.favourite !== undefined &&
+    (this.props.favourite.id !== undefined ||
+      this.props.favourite.gtfsId !== undefined);
 
   canSave = () =>
     !isEmpty(this.state.favourite.selectedIconId) &&
@@ -118,15 +116,20 @@ class AddFavouriteContainer extends React.Component {
         });
         delete this.state.favourite.id;
       }
-      this.state
+
       if (
         (isStop(this.state.favourite) || isTerminal(this.state.favourite)) &&
         this.state.favourite.gtfsId
       ) {
-        const favourite = isTerminal(this.state.favourite) ? { type: 'station', ...this.state.favourite} :  {  type: 'stop', ...this.state.favourite };
+        const favourite = isTerminal(this.state.favourite)
+          ? { type: 'station', ...this.state.favourite }
+          : { type: 'stop', ...this.state.favourite };
         this.context.executeAction(addFavourite, favourite);
       } else {
-        this.context.executeAction(addFavourite, {type: 'place', ...this.state.favourite});
+        this.context.executeAction(addFavourite, {
+          type: 'place',
+          ...this.state.favourite,
+        });
       }
       addAnalyticsEvent({
         category: 'Favourite',
@@ -318,12 +321,8 @@ const AddFavouriteContainerWithFavourite = connectToStores(
   ['FavouriteStore'],
   (context, props) => ({
     favourite: props.location.pathname.includes('pysakki')
-      ? context
-          .getStore('FavouriteStore')
-          .getByGtfsId(props.params.id)
-      : context
-          .getStore('FavouriteStore')
-          .getById(props.params.id),
+      ? context.getStore('FavouriteStore').getByGtfsId(props.params.id)
+      : context.getStore('FavouriteStore').getById(props.params.id),
   }),
 );
 

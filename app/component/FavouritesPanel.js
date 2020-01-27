@@ -102,7 +102,10 @@ const FilteredFavouritesPanel = shouldUpdate(
     nextProps.currentTime !== props.currentTime ||
     !isEqual(nextProps.routes, props.routes) ||
     !isEqual(nextProps.favouriteLocations, props.favouriteLocations) ||
-    !isEqual(nextProps.favouriteStopsAndStations, props.favouriteStopsAndStations) ||
+    !isEqual(
+      nextProps.favouriteStopsAndStations,
+      props.favouriteStopsAndStations,
+    ) ||
     nextProps.origin.gps !== props.origin.gps ||
     (!nextProps.origin.gps &&
       (nextProps.origin.lat !== props.origin.lat ||
@@ -128,9 +131,9 @@ export default connectToStores(
       .getStore('TimeStore')
       .getCurrentTime()
       .unix(),
-    favouriteLocations: context
+    favouriteLocations: context.getStore('FavouriteStore').getLocations(),
+    favouriteStopsAndStations: context
       .getStore('FavouriteStore')
-      .getLocations(),
-    favouriteStopsAndStations: context.getStore('FavouriteStore').getStopsAndStations(),
+      .getStopsAndStations(),
   }),
 );

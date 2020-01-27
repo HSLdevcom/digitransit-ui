@@ -634,9 +634,7 @@ export function executeSearchImmediate(
   const endpointLayers = layers || getAllEndpointLayers();
 
   if (type === SearchType.Endpoint || type === SearchType.All) {
-    const favouriteLocations = getStore(
-      'FavouriteStore',
-    ).getLocations();
+    const favouriteLocations = getStore('FavouriteStore').getLocations();
     const oldSearches = getStore('OldSearchesStore').getOldSearches('endpoint');
     const favouriteStops = getStore('FavouriteStore').getStopsAndStations();
     const language = getStore('PreferencesStore').getLanguage();

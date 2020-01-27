@@ -84,7 +84,10 @@ const TripMarkerPopupWithFavourite = connectToStores(
       .isFavourite(props.trip.route.gtfsId),
     addAsFavouriteRoute: e => {
       e.stopPropagation();
-      context.executeAction(addFavourite, {type: 'route', gtfsId: props.trip.route.gtfsId});
+      context.executeAction(addFavourite, {
+        type: 'route',
+        gtfsId: props.trip.route.gtfsId,
+      });
     },
   }),
 );
