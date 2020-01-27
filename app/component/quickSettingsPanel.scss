@@ -6,11 +6,8 @@
   .bottom-row {
     margin-top: 0.3em;
     display: flex;
-    flex: 0 1 auto;
     flex-direction: row;
     height: 2em;
-    flex-wrap: wrap;
-    justify-content: center;
     .toggle-modes {
       flex: 1 1 auto;
       .btn {
@@ -148,6 +145,7 @@
     }
     &.arrive,
     &.select-route-modes {
+      margin-right: 7px;
       width: 100%;
     }
   }
@@ -158,7 +156,8 @@
   padding-right: $padding-small;
 
   .bottom-row .select-wrapper {
-    width: 40%;
+    flex: 1 1 auto;
+    max-width: 16em;
   }
 }
 

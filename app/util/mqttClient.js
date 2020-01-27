@@ -8,7 +8,7 @@ const modeTranslate = {
 };
 
 // getTopic
-// Returns MQTT topic to be subscribed
+// Returns a MQTT topic to be subscribed to
 // Input: options - route, direction, tripStartTime are used to generate the topic
 function getTopic(options, settings) {
   const route = options.route ? options.route : '+';

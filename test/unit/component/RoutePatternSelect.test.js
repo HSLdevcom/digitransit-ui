@@ -14,25 +14,37 @@ import * as analytics from '../../../app/util/analyticsUtils';
 describe('<RoutePatternSelect />', () => {
   it('should render', () => {
     const wrapper = shallowWithIntl(<RoutePatternSelect {...dt2887} />, {
-      context: { ...mockContext },
+      context: {
+        ...mockContext,
+        config: { itinerary: { serviceTimeRange: 30 } },
+      },
     });
     expect(wrapper.isEmptyRender()).to.equal(false);
   });
   it('should create a select element for more than 2 patterns', () => {
     const wrapper = shallowWithIntl(<RoutePatternSelect {...dt2887} />, {
-      context: { ...mockContext },
+      context: {
+        ...mockContext,
+        config: { itinerary: { serviceTimeRange: 30 } },
+      },
     });
     expect(wrapper.find('#select-route-pattern')).to.have.lengthOf(1);
   });
   it('should create a toggle element if there are only 2 patterns', () => {
     const wrapper = shallowWithIntl(<RoutePatternSelect {...dt2887b} />, {
-      context: { ...mockContext },
+      context: {
+        ...mockContext,
+        config: { itinerary: { serviceTimeRange: 30 } },
+      },
     });
     expect(wrapper.find('.route-patterns-toggle')).to.have.lengthOf(1);
   });
   it('should create as many options as there are patterns', () => {
     const wrapper = shallowWithIntl(<RoutePatternSelect {...dt2887} />, {
-      context: { ...mockContext },
+      context: {
+        ...mockContext,
+        config: { itinerary: { serviceTimeRange: 30 } },
+      },
     });
     expect(wrapper.find('#select-route-pattern > option')).to.have.lengthOf(3);
   });
@@ -82,7 +94,10 @@ describe('<RoutePatternSelect />', () => {
       serviceDay: '20190604',
     };
     const wrapper = shallowWithIntl(<RoutePatternSelect {...props} />, {
-      context: { ...mockContext },
+      context: {
+        ...mockContext,
+        config: { itinerary: { serviceTimeRange: 30 } },
+      },
     });
     expect(wrapper.find('option')).to.have.lengthOf(0); // DT-2531: shows main routes (both directions), so only togglable option is shown
     expect(wrapper.find('button.toggle-direction')).to.have.lengthOf(1); // DT-2531: shows main routes (both directions), only togglable option is shown
@@ -153,6 +168,7 @@ describe('<RoutePatternSelect />', () => {
     shallowWithIntl(<RoutePatternSelect {...props} />, {
       context: {
         ...mockContext,
+        config: { itinerary: { serviceTimeRange: 30 } },
         router: {
           ...mockContext.router,
           replace: args => {
@@ -198,7 +214,10 @@ describe('<RoutePatternSelect />', () => {
     };
 
     const wrapper = shallowWithIntl(<RoutePatternSelect {...props} />, {
-      context: { ...mockContext },
+      context: {
+        ...mockContext,
+        config: { itinerary: { serviceTimeRange: 30 } },
+      },
     });
     expect(wrapper.isEmptyRender()).to.equal(false);
   });
@@ -250,7 +269,10 @@ describe('<RoutePatternSelect />', () => {
     };
 
     const wrapper = shallowWithIntl(<RoutePatternSelect {...props} />, {
-      context: { ...mockContext },
+      context: {
+        ...mockContext,
+        config: { itinerary: { serviceTimeRange: 30 } },
+      },
     });
     expect(wrapper.find('select > div')).to.have.lengthOf(0);
   });
@@ -274,7 +296,10 @@ describe('<RoutePatternSelect />', () => {
     const wrapper = shallowWithIntl(<RoutePatternSelect {...props} />, {
       context: {
         ...mockContext,
-        config: { map: { useModeIconsInNonTileLayer: true } },
+        config: {
+          map: { useModeIconsInNonTileLayer: true },
+          itinerary: { serviceTimeRange: 30 },
+        },
       },
     });
     wrapper.find('select').simulate('mouseDown');
@@ -475,7 +500,10 @@ describe('<RoutePatternSelect />', () => {
     };
 
     const wrapper = shallowWithIntl(<RoutePatternSelect {...props} />, {
-      context: { ...mockContext },
+      context: {
+        ...mockContext,
+        config: { itinerary: { serviceTimeRange: 30 } },
+      },
     });
     expect(wrapper.find('option')).to.have.length.above(2);
   });

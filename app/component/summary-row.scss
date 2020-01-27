@@ -411,6 +411,15 @@
     //text color
     color: $black;
   }
+  .summary-clickable-area {
+      display: flex;
+      flex: auto;
+      flex-wrap: wrap;
+  }
+
+  .itinerary-summary-visible {
+    flex: auto;
+  }
 }
 
 .additional-canceled-itineraries {
