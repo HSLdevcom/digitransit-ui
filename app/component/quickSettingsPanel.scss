@@ -6,8 +6,11 @@
   .bottom-row {
     margin-top: 0.3em;
     display: flex;
+    flex: 1 1 auto;
     flex-direction: row;
     height: 2em;
+    flex-wrap: wrap;
+    justify-content: center;
     .toggle-modes {
       flex: 1 1 auto;
       .btn {
@@ -143,9 +146,13 @@
       margin: 0 -0.5em 0 0;
       text-align: center;
     }
-    &.arrive,
+    &.arrive {
+      padding: 0 1.5rem 0 0.9em;
+      overflow: hidden;
+    }
     &.select-route-modes {
-      margin-right: 7px;
+      padding: 0 1.5rem 0 0.9em;
+      overflow: hidden;
       width: 100%;
     }
   }
@@ -156,7 +163,8 @@
   padding-right: $padding-small;
 
   .bottom-row .select-wrapper {
-    flex: 1 1 auto;
+    width: 40%;
+    overflow: hidden;
     max-width: 16em;
   }
 }
