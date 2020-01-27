@@ -102,19 +102,5 @@ describe('mqttClient', () => {
       const message = parseMessage(metroTopic, seqOneMessage, 'HSL');
       expect(message).to.equal(undefined);
     });
-
-    it('should remove variation without letter ending', () => {
-      const topicWithVariation =
-        '/hfp/v2/journey/ongoing/vp/bus/0018/00296/1064 1/2/Itä-Pakila/16:12/1250101/5/60;24/29/04/85';
-      const message2 = parseMessage(topicWithVariation, testMessage, 'HSL');
-      expect(message2.route).to.equal('HSL:1064');
-    });
-
-    it('should remove variation with letter ending', () => {
-      const topicWithVariation =
-        '/hfp/v2/journey/ongoing/vp/bus/0018/00296/1064N1/2/Itä-Pakila/16:12/1250101/5/60;24/29/04/85';
-      const message2 = parseMessage(topicWithVariation, testMessage, 'HSL');
-      expect(message2.route).to.equal('HSL:1064N');
-    });
   });
 });
