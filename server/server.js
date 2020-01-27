@@ -84,7 +84,7 @@ function setUpOIDC() {
       secret: process.env.SESSION_SECRET || 'reittiopas_secret',
       store: new FileStore(),
       resave: false,
-      saveUninitialized: true,
+      saveUninitialized: false,
       cookie: {
         secure: true,
         httpOnly: true,
@@ -120,7 +120,9 @@ function setUpOIDC() {
 
   app.get('/logout', function(req, res) {
     req.logout();
-    res.redirect('/');
+    req.session.destroy(function() {
+      res.redirect('/');
+    });
   });
 
   app.use('/api', function(req, res, next) {
