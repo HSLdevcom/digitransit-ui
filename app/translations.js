@@ -791,6 +791,10 @@ const translations = {
       'At {time} drive {distance} to {destination}. Estimated time {duration}',
     'itinerary-details.end-leg':
       'At {time} arrive to destination {destination}.',
+    'itinerary-details.route-has-info-alert': 'Route has alerts.',
+    'itinerary-details.route-has-severe-alert': 'Route has disruptions.',
+    'itinerary-details.route-has-unknown-alert': 'Route has disruptions.',
+    'itinerary-details.route-has-warning-alert': 'Route has disruptions.',
     'itinerary-details.scooter-leg':
       'At {time} ride your kick scooter {distance} to {destination}. Estimated time {duration}',
     'itinerary-details.transit-leg-part-1': 'At {time} take',
@@ -1565,6 +1569,10 @@ const translations = {
     'itinerary-details.car-leg':
       '{time} aja {distance} kohteeseen {destination}. Matka-aika {duration}',
     'itinerary-details.end-leg': '{time} saavu kohteeseen {destination}.',
+    'itinerary-details.route-has-info-alert': 'Reitillä on tiedotteita.',
+    'itinerary-details.route-has-severe-alert': 'Reitillä on poikkeuksia.',
+    'itinerary-details.route-has-unknown-alert': 'Reitillä on häiriöitä.',
+    'itinerary-details.route-has-warning-alert': 'Reitillä on häiriöitä.',
     'itinerary-details.scooter-leg':
       '{time} potkulautaile {distance} kohteeseen {destination}. Matka-aika {duration}',
     'itinerary-details.transit-leg-part-1': '{time} ota',
@@ -2647,6 +2655,10 @@ const translations = {
     'itinerary-details.car-leg':
       'Klockan {time} kör {distance} till {destination}. Varaktighet {duration}',
     'itinerary-details.end-leg': 'Klockan {time} anländ till {destination}.',
+    'itinerary-details.route-has-info-alert': 'Rutten har meddelanden.',
+    'itinerary-details.route-has-severe-alert': 'Rutten har störningar.',
+    'itinerary-details.route-has-unknown-alert': 'Rutten har störningar.',
+    'itinerary-details.route-has-warning-alert': 'Rutten har störningar.',
     'itinerary-details.scooter-leg':
       'Klockan {time} sparkcykla {distance} till {destination}. Varaktighet {duration}',
     'itinerary-details.transit-leg-part-1': 'Klockan {time} åka',

@@ -25,6 +25,7 @@ import { durationToString } from '../util/timeUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { getZoneLabelColor } from '../util/mapIconUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
+import { AlertSeverityLevelType } from '../constants';
 
 class TransitLeg extends React.Component {
   constructor(props) {
@@ -204,6 +205,28 @@ class TransitLeg extends React.Component {
       />
     );
 
+    const alert = getActiveLegAlertSeverityLevel(leg);
+    let alertDescription = null;
+    if (alert) {
+      let id;
+      switch (alert) {
+        case AlertSeverityLevelType.Info:
+          id = 'itinerary-details.route-has-info-alert';
+          break;
+        case AlertSeverityLevelType.Warning:
+          id = 'itinerary-details.route-has-warning-alert';
+          break;
+        case AlertSeverityLevelType.Severe:
+          id = 'itinerary-details.route-has-severe-alert';
+          break;
+        case AlertSeverityLevelType.Unknown:
+        default:
+          id = 'itinerary-details.route-has-unknown-alert';
+          break;
+      }
+      alertDescription = <FormattedMessage id={id} />;
+    }
+
     return (
       <div key={index} className="row itinerary-row">
         <span className="sr-only">{textVersionBeforeLink}</span>
@@ -337,6 +360,7 @@ class TransitLeg extends React.Component {
               </div>
             )}
         </div>
+        <span className="sr-only">{alertDescription}</span>
       </div>
     );
   };
