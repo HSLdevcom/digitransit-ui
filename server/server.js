@@ -56,7 +56,12 @@ function setUpOIDC() {
   const LoginStrategy = require('./passport-openid-connect/Strategy').Strategy;
   const passport = require('passport');
   const session = require('express-session');
-  const FileStore = require('session-file-store')(session);
+
+  const redis = require('redis');
+  const RedisStore = require('connect-redis')(session);
+  const RedisHost = process.env.REDIS_HOST || 'localhost';
+  const RedisPort = process.env.REDIS_PORT || 6379;
+  const RedisClient = redis.createClient(RedisPort, RedisHost);
 
   const oic = new LoginStrategy({
     issuerHost:
@@ -82,7 +87,12 @@ function setUpOIDC() {
   app.use(
     session({
       secret: process.env.SESSION_SECRET || 'reittiopas_secret',
-      store: new FileStore(),
+      store: new RedisStore({
+        host: RedisHost,
+        port: RedisPort,
+        client: RedisClient,
+        ttl: 1000 * 60 * 60 * 24 * 365 * 10,
+      }),
       resave: false,
       saveUninitialized: false,
       cookie: {
