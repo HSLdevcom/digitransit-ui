@@ -62,7 +62,7 @@
     }
   }
 
-  h3 {
+  h3, h4 {
     @include font-medium;
     flex-grow: 1;
     margin: 0.5em;
@@ -333,7 +333,7 @@
       width: 75px;
     }
 
-    h3 {
+    h3, h4 {
       margin-top: 10px;
     }
 
