@@ -39,7 +39,7 @@ export default configMerger(walttiConfig, {
   defaultLanguage: 'de',
 
   // Matomo Tag Manager URL
-  MTM_URL: 'mobilinherrenberg.matomo.cloud/container_jUK6B6kx',
+  MTM_URL: 'https://cdn.matomo.cloud/mobilinherrenberg.matomo.cloud/container_jUK6B6kx.js',
 
   appBarLink: { 
     name: 'Feedback', 
