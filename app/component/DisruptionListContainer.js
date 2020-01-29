@@ -3,7 +3,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import AlertList from './AlertList';
 import Icon from './Icon';
 import { AlertSeverityLevelType } from '../constants';
@@ -204,7 +204,7 @@ DisruptionListContainer.defaultProps = {
   breakpoint: 'small',
 };
 
-const containerComponent = Relay.createContainer(
+const containerComponent = createFragmentContainer(
   connectToStores(
     withBreakpoint(DisruptionListContainer),
     ['TimeStore'],
@@ -216,27 +216,25 @@ const containerComponent = Relay.createContainer(
     }),
   ),
   {
-    fragments: {
-      root: () => Relay.QL`
-      fragment on QueryType {
-        alerts(feeds:$feedIds) {
-          ${AlertContentQuery}
-          route {
-            color
-            mode
-            shortName
-            gtfsId
-          }
-          stop {
-            code
-            vehicleMode
-            gtfsId
-          }
+    root: graphql`
+    fragment DisruptionListContainer_root on QueryType
+      @argumentDefinitions(feedIds: { type: "[String!]", defaultValue: [] }) {
+      alerts(feeds:$feedIds) {
+        ${AlertContentQuery}
+        route {
+          color
+          mode
+          shortName
+          gtfsId
+        }
+        stop {
+          code
+          vehicleMode
+          gtfsId
         }
       }
-    `,
-    },
-    initialVariables: { feedIds: null },
+    }
+  `,
   },
 );
 

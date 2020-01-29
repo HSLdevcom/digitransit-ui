@@ -1,4 +1,4 @@
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import NextDeparturesList from './NextDeparturesList';
@@ -78,45 +78,41 @@ const FavouriteRouteListContainer = connectToStores(
 );
 
 // TODO: Add filtering in stoptimesForPatterns for route gtfsId
-export default Relay.createContainer(FavouriteRouteListContainer, {
-  fragments: {
-    routes: () => Relay.QL`
-      fragment on Route @relay(plural:true) {
-        ${RouteAlertsQuery}
-        patterns {
-          headsign
-          stops {
-            lat
-            lon
-            stoptimes: stoptimesForPatterns (
-                numberOfDepartures:2, startTime: $currentTime, timeRange: 7200
-            ) {
-              pattern {
-                code
-                headsign
-                route {
-                  gtfsId
-                  shortName
-                  longName
-                  mode
-                }
+export default createFragmentContainer(FavouriteRouteListContainer, {
+  routes: graphql`
+    fragment FavouriteRouteListContainer_routes on Route
+      @relay(plural:true)
+      @argumentDefinitions(currentTime: { type: "Long" }) {
+      ${RouteAlertsQuery}
+      patterns {
+        headsign
+        stops {
+          lat
+          lon
+          stoptimes: stoptimesForPatterns (
+              numberOfDepartures:2, startTime: $currentTime, timeRange: 7200
+          ) {
+            pattern {
+              code
+              headsign
+              route {
+                gtfsId
+                shortName
+                longName
+                mode
               }
-              stoptimes {
-                realtimeState
-                realtimeDeparture
-                scheduledDeparture
-                realtime
-                serviceDay
-              }
+            }
+            stoptimes {
+              realtimeState
+              realtimeDeparture
+              scheduledDeparture
+              realtime
+              serviceDay
             }
           }
         }
-        gtfsId
       }
-   `,
-  },
-
-  initialVariables: {
-    currentTime: '0',
-  },
+      gtfsId
+    }
+ `,
 });

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import { routerShape } from 'react-router';
 
 import RouteNumberContainer from './RouteNumberContainer';
@@ -191,53 +191,50 @@ DepartureRow.description = () => (
 
 export { DepartureRow };
 
-export default Relay.createContainer(DepartureRow, {
-  fragments: {
-    departure: () => Relay.QL`
-      fragment on DepartureRow {
-        pattern {
-          route {
-            gtfsId
-            shortName
-            longName
-            mode
-            color
-            alerts {
-              id
-            }
-            ${RouteAlertsQuery}
-            agency {
-              name
-            }
+export default createFragmentContainer(DepartureRow, {
+  departure: graphql`
+    fragment DepartureRowContainer_departure on DepartureRow
+    @argumentDefinitions(
+      currentTime: { type: "Long" }
+      timeRange: { type: "Int" }
+    ) {
+      pattern {
+        route {
+          gtfsId
+          shortName
+          longName
+          mode
+          color
+          alerts {
+            id
           }
-          code
-          headsign
+          ${RouteAlertsQuery}
+          agency {
+            name
+          }
         }
-        stoptimes (startTime:$currentTime, timeRange:$timeRange, numberOfDepartures:2) {
-          realtimeState
-          realtimeDeparture
-          scheduledDeparture
-          realtimeArrival
-          scheduledArrival
-          pickupType
-          realtime
-          serviceDay
-          stopHeadsign
-          stop {
-            code
-            platformCode
-            ${StopAlertsQuery}
-          }
-          trip {
-            gtfsId
-          }
+        code
+        headsign
+      }
+      stoptimes (startTime:$currentTime, timeRange:$timeRange, numberOfDepartures:2) {
+        realtimeState
+        realtimeDeparture
+        scheduledDeparture
+        realtimeArrival
+        scheduledArrival
+        pickupType
+        realtime
+        serviceDay
+        stopHeadsign
+        stop {
+          code
+          platformCode
+          ${StopAlertsQuery}
+        }
+        trip {
+          gtfsId
         }
       }
-    `,
-  },
-
-  initialVariables: {
-    currentTime: 0,
-    timeRange: 0,
-  },
+    }
+  `,
 });
