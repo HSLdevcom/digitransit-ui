@@ -463,24 +463,26 @@ const SummaryRow = (
         style={{
           display: props.isCancelled && !props.showCancelled ? 'none' : 'flex',
         }}
-        aria-expanded={showDetails ? 'true' : 'false'}
       >
         {/* This next clickable region does not have proper accessible role, tabindex and keyboard handler
             because screen reader works weirdly with nested buttons. Same functonality works from the inner button */
         /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
         {showDetails ? (
-          <div
-            className="summary-clickable-area"
-            onClick={() => props.onSelect(props.hash)}
-          >
-            {/* eslint-enable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
-            <div className="flex-grow itinerary-heading" key="title">
-              <h4 className="h2">
-                <FormattedMessage
-                  id="itinerary-page.title"
-                  defaultMessage="Itinerary"
-                />
-              </h4>
+          <>
+            <div
+              className="summary-clickable-area"
+              onClick={() => props.onSelect(props.hash)}
+              aria-hidden="true"
+            >
+              {/* eslint-enable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
+              <div className="flex-grow itinerary-heading" key="title">
+                <h4 className="h2">
+                  <FormattedMessage
+                    id="itinerary-page.title"
+                    defaultMessage="Itinerary"
+                  />
+                </h4>
+              </div>
             </div>
             <div
               tabIndex="0"
@@ -503,11 +505,25 @@ const SummaryRow = (
                 <Icon img="icon-icon_arrow-collapse--right" />
               </div>
             </div>
-            {props.children &&
-              React.cloneElement(React.Children.only(props.children), {
-                searchTime: props.refTime,
-              })}
-          </div>
+            {/* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
+            <span
+              className="itinerary-details-container visible"
+              aria-expanded="true"
+              onClick={() => props.onSelect(props.hash)}
+            >
+              {/* eslint-enable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
+              <h4 className="sr-only">
+                <FormattedMessage
+                  id="itinerary-page.title"
+                  defaultMessage="Itinerary"
+                />
+              </h4>
+              {props.children &&
+                React.cloneElement(React.Children.only(props.children), {
+                  searchTime: props.refTime,
+                })}
+            </span>
+          </>
         ) : (
           <>
             <div
@@ -588,6 +604,10 @@ const SummaryRow = (
                 <Icon img="icon-icon_arrow-collapse--right" />
               </div>
             </div>
+            <span
+              className="itinerary-details-container"
+              aria-expanded="false"
+            />
           </>
         )}
       </div>

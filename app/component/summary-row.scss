@@ -420,6 +420,13 @@
 
   .itinerary-summary-visible {
     flex: auto;
+    flex-wrap: wrap;
+  }
+  .itinerary-details-container {
+    display: flex;
+    &.visible {
+      flex: auto;
+    }
   }
 }
 
