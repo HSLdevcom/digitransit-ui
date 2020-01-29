@@ -38,6 +38,9 @@ export default configMerger(walttiConfig, {
   availableLanguages: ['de', 'en'],
   defaultLanguage: 'de',
 
+  // Matomo Tag Manager URL
+  MTM_URL: 'mobilinherrenberg.matomo.cloud/container_jUK6B6kx',
+
   appBarLink: { 
     name: 'Feedback', 
     href: 'https://mobil-in-herrenberg.de/feedback',
