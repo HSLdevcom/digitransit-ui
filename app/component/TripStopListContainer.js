@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import cx from 'classnames';
 import isEmpty from 'lodash/isEmpty';
 import connectToStores from 'fluxible-addons-react/connectToStores';
@@ -172,7 +172,7 @@ class TripStopListContainer extends React.PureComponent {
   }
 }
 
-const connectedComponent = Relay.createContainer(
+const connectedComponent = createFragmentContainer(
   connectToStores(
     withBreakpoint(TripStopListContainer),
     ['RealTimeInformationStore', 'PositionStore', 'TimeStore'],
@@ -183,38 +183,36 @@ const connectedComponent = Relay.createContainer(
     }),
   ),
   {
-    fragments: {
-      trip: () => Relay.QL`
-      fragment on Trip {
-        route {
-          mode
-          gtfsId
-          color
-        }
-        pattern {
-          code
-          directionId
-        }
-        stoptimesForDate {
-          stop {
-            gtfsId
-            name
-            desc
-            code
-            lat
-            lon
-            ${StopAlertsQuery}
-          }
-          realtimeDeparture
-          realtime
-          scheduledDeparture
-          serviceDay
-          realtimeState
-        }
+    trip: graphql`
+    fragment TripStopListContainer_trip on Trip {
+      route {
+        mode
         gtfsId
+        color
       }
-    `,
-    },
+      pattern {
+        code
+        directionId
+      }
+      stoptimesForDate {
+        stop {
+          gtfsId
+          name
+          desc
+          code
+          lat
+          lon
+          ${StopAlertsQuery}
+        }
+        realtimeDeparture
+        realtime
+        scheduledDeparture
+        serviceDay
+        realtimeState
+      }
+      gtfsId
+    }
+  `,
   },
 );
 

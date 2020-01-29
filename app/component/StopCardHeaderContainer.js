@@ -1,10 +1,10 @@
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 
 import StopCardHeader from './StopCardHeader';
 import { StopAlertsQuery } from '../util/alertQueries';
 
-export default Relay.createContainer(
+export default createFragmentContainer(
   connectToStores(StopCardHeader, ['TimeStore'], context => ({
     currentTime: context
       .getStore('TimeStore')
@@ -12,17 +12,15 @@ export default Relay.createContainer(
       .unix(),
   })),
   {
-    fragments: {
-      stop: () => Relay.QL`
-      fragment on Stop {
-        gtfsId
-        name
-        code
-        desc
-        zoneId
-        ${StopAlertsQuery}
-      }
-    `,
-    },
+    stop: graphql`
+    fragment StopCardHeaderContainer_stop on Stop {
+      gtfsId
+      name
+      code
+      desc
+      zoneId
+      ${StopAlertsQuery}
+    }
+  `,
   },
 );

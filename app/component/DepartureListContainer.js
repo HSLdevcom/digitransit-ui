@@ -3,7 +3,7 @@ import get from 'lodash/get';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import { Link } from 'react-router';
 
 import Departure from './Departure';
@@ -283,53 +283,51 @@ DepartureListContainer.contextTypes = {
   config: PropTypes.object.isRequired,
 };
 
-const containerComponent = Relay.createContainer(DepartureListContainer, {
-  fragments: {
-    stoptimes: () => Relay.QL`
-      fragment on Stoptime @relay(plural:true) {
-          realtimeState
-          realtimeDeparture
-          scheduledDeparture
-          realtimeArrival
-          scheduledArrival
-          realtime
-          serviceDay
-          pickupType
-          stopHeadsign
-          stop {
+const containerComponent = createFragmentContainer(DepartureListContainer, {
+  stoptimes: graphql`
+    fragment DepartureListContainer_stoptimes on Stoptime @relay(plural:true) {
+        realtimeState
+        realtimeDeparture
+        scheduledDeparture
+        realtimeArrival
+        scheduledArrival
+        realtime
+        serviceDay
+        pickupType
+        stopHeadsign
+        stop {
+          id
+          code
+          platformCode
+        }
+        trip {
+          gtfsId
+          directionId
+          tripHeadsign
+          stops {
             id
-            code
-            platformCode
           }
-          trip {
-            gtfsId
-            directionId
-            tripHeadsign
-            stops {
-              id
+          pattern {
+            route {
+              gtfsId
+              shortName
+              longName
+              mode
+              color
+              agency {
+                name
+              }
+              ${RouteAlertsQuery}
             }
-            pattern {
-              route {
-                gtfsId
-                shortName
-                longName
-                mode
-                color
-                agency {
-                  name
-                }
-                ${RouteAlertsQuery}
-              }
+            code
+            stops {
+              gtfsId
               code
-              stops {
-                gtfsId
-                code
-              }
             }
           }
         }
-    `,
-  },
+      }
+  `,
 });
 
 export {

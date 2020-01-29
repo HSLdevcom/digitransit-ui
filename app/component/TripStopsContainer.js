@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import some from 'lodash/some';
 import cx from 'classnames';
 import pure from 'recompose/pure';
@@ -63,22 +63,20 @@ TripStopsContainer.defaultProps = {
 };
 
 const pureComponent = pure(withBreakpoint(TripStopsContainer));
-const containerComponent = Relay.createContainer(pureComponent, {
-  fragments: {
-    trip: () => Relay.QL`
-      fragment on Trip {
-        stoptimesForDate {
-          scheduledDeparture
-        }
-        ${TripStopListContainer.getFragment('trip')}
+const containerComponent = createFragmentContainer(pureComponent, {
+  trip: graphql`
+    fragment TripStopsContainer_trip on Trip {
+      stoptimesForDate {
+        scheduledDeparture
       }
-    `,
-    pattern: () => Relay.QL`
-      fragment on Pattern {
-        id
-      }
-    `,
-  },
+      ...TripStopListContainer_trip
+    }
+  `,
+  pattern: graphql`
+    fragment TripStopsContainer_pattern on Pattern {
+      id
+    }
+  `,
 });
 
 export { containerComponent as default, TripStopsContainer as Component };

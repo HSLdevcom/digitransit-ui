@@ -2,7 +2,7 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import { Link } from 'react-router';
 import orderBy from 'lodash/orderBy';
 import uniqBy from 'lodash/uniqBy';
@@ -136,10 +136,9 @@ RoutesAndPlatformsForStops.propTypes = {
   ]).isRequired,
 };
 
-const withRelayContainer = Relay.createContainer(RoutesAndPlatformsForStops, {
-  fragments: {
-    stop: () => Relay.QL`
-    fragment RoutesAndPlatformsForStops on Stop {
+const withRelayContainer = createFragmentContainer(RoutesAndPlatformsForStops, {
+  stop: graphql`
+    fragment RoutesAndPlatformsForStops_stop on Stop {
       gtfsId
       name
       platformCode
@@ -189,9 +188,8 @@ const withRelayContainer = Relay.createContainer(RoutesAndPlatformsForStops, {
           }
         }
       }
-      }
-      `,
-  },
+    }
+  `,
 });
 
 export {

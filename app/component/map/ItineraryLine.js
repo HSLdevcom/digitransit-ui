@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 /* eslint-disable react/no-array-index-key */
 
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import polyUtil from 'polyline-encoded';
 import get from 'lodash/get';
 
@@ -185,72 +185,70 @@ class ItineraryLine extends React.Component {
   }
 }
 
-export default Relay.createContainer(ItineraryLine, {
-  fragments: {
-    legs: () => Relay.QL`
-      fragment on Leg @relay(plural: true){
-        mode
-        rentedBike
-        legGeometry {
-          points
-        }
-        transitLeg
-        route {
-          shortName
-          color
-          agency {
-            name
-          }
-        }
-        from {
-          lat
-          lon
+export default createFragmentContainer(ItineraryLine, {
+  legs: graphql`
+    fragment ItineraryLine_legs on Leg @relay(plural: true) {
+      mode
+      rentedBike
+      legGeometry {
+        points
+      }
+      transitLeg
+      route {
+        shortName
+        color
+        agency {
           name
-          vertexType
-          bikeRentalStation {
-            ${CityBikeMarker.getFragment('station')}
-            stationId
-          }
-          stop {
-            gtfsId
-            code
-            platformCode
-          }
-        }
-        to {
-          lat
-          lon
-          name
-          vertexType
-          bikeRentalStation {
-            ${CityBikeMarker.getFragment('station')}
-          }
-          stop {
-            gtfsId
-            code
-            platformCode
-          }
-        }
-        trip {
-          stoptimes {
-            stop {
-              gtfsId
-            }
-            pickupType
-          }
-        }
-        intermediatePlaces {
-          arrivalTime
-          stop {
-            gtfsId
-            lat
-            lon
-            name
-            code
-            platformCode
-          }
         }
       }
-    `,
-  },
+      from {
+        lat
+        lon
+        name
+        vertexType
+        bikeRentalStation {
+          ...CityBikeMarker_station
+          stationId
+        }
+        stop {
+          gtfsId
+          code
+          platformCode
+        }
+      }
+      to {
+        lat
+        lon
+        name
+        vertexType
+        bikeRentalStation {
+          ...CityBikeMarker_station
+        }
+        stop {
+          gtfsId
+          code
+          platformCode
+        }
+      }
+      trip {
+        stoptimes {
+          stop {
+            gtfsId
+          }
+          pickupType
+        }
+      }
+      intermediatePlaces {
+        arrivalTime
+        stop {
+          gtfsId
+          lat
+          lon
+          name
+          code
+          platformCode
+        }
+      }
+    }
+  `,
 });

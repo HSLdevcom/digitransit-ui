@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import { FormattedMessage } from 'react-intl';
 import inside from 'point-in-polygon';
 import cx from 'classnames';
@@ -205,78 +205,76 @@ ItinerarySummaryListContainer.contextTypes = {
   location: PropTypes.object.isRequired,
 };
 
-const containerComponent = Relay.createContainer(
+const containerComponent = createFragmentContainer(
   ItinerarySummaryListContainer,
   {
-    fragments: {
-      itineraries: () => Relay.QL`
-      fragment on Itinerary @relay(plural:true){
-        walkDistance
+    itineraries: graphql`
+    fragment ItinerarySummaryListContainer_itineraries on Itinerary @relay(plural:true){
+      walkDistance
+      startTime
+      endTime
+      legs {
+        realTime
+        realtimeState
+        transitLeg
         startTime
         endTime
-        legs {
-          realTime
-          realtimeState
-          transitLeg
-          startTime
-          endTime
+        mode
+        distance
+        duration
+        rentedBike
+        intermediatePlace
+        intermediatePlaces {
+          stop {
+            zoneId
+            ${StopAlertsQuery}
+          }
+        }
+        route {
           mode
-          distance
-          duration
-          rentedBike
-          intermediatePlace
-          intermediatePlaces {
-            stop {
-              zoneId
-              ${StopAlertsQuery}
-            }
-          }
-          route {
-            mode
-            shortName
-            color
-            agency {
-              name
-            }
-            ${RouteAlertsQuery}
-          }
-          trip {
-            pattern {
-              code
-            }
-            stoptimes {
-              realtimeState
-              stop {
-                gtfsId
-              }
-              pickupType
-            }
-          }
-          from {
+          shortName
+          color
+          agency {
             name
-            lat
-            lon
-            stop {
-              gtfsId
-              zoneId
-              ${StopAlertsQuery}
-            }
-            bikeRentalStation {
-              bikesAvailable
-              networks
-            }
           }
-          to {
+          ${RouteAlertsQuery}
+        }
+        trip {
+          pattern {
+            code
+          }
+          stoptimes {
+            realtimeState
             stop {
               gtfsId
-              zoneId
-              ${StopAlertsQuery}
             }
+            pickupType
+          }
+        }
+        from {
+          name
+          lat
+          lon
+          stop {
+            gtfsId
+            zoneId
+            ${StopAlertsQuery}
+          }
+          bikeRentalStation {
+            bikesAvailable
+            networks
+          }
+        }
+        to {
+          stop {
+            gtfsId
+            zoneId
+            ${StopAlertsQuery}
           }
         }
       }
-    `,
-    },
+    }
+  `,
   },
 );
 

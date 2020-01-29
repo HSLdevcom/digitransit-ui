@@ -1,7 +1,7 @@
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import cx from 'classnames';
 import { routerShape, locationShape } from 'react-router';
 import { FormattedMessage } from 'react-intl';
@@ -14,8 +14,6 @@ import ItinerarySummary from './ItinerarySummary';
 import TimeFrame from './TimeFrame';
 import DateWarning from './DateWarning';
 import ItineraryLegs from './ItineraryLegs';
-import LegAgencyInfo from './LegAgencyInfo';
-import CityBikeMarker from './map/non-tile-layer/CityBikeMarker';
 import SecondaryButton from './SecondaryButton';
 import { RouteAlertsQuery, StopAlertsQuery } from '../util/alertQueries';
 import { getRoutes, getZones } from '../util/legUtils';
@@ -179,133 +177,131 @@ ItineraryTab.description = (
   </ComponentUsageExample>
 );
 
-const withRelay = Relay.createContainer(ItineraryTab, {
-  fragments: {
-    searchTime: () => Relay.QL`
-      fragment on Plan {
-        date
-      }
-    `,
-    itinerary: () => Relay.QL`
-      fragment on Itinerary {
-        walkDistance
-        duration
-        startTime
-        endTime
-        elevationGained
-        elevationLost
-        fares {
+const withRelay = createFragmentContainer(ItineraryTab, {
+  searchTime: graphql`
+    fragment ItineraryTab_searchTime on Plan {
+      date
+    }
+  `,
+  itinerary: graphql`
+    fragment ItineraryTab_itinerary on Itinerary {
+      walkDistance
+      duration
+      startTime
+      endTime
+      elevationGained
+      elevationLost
+      fares {
+        cents
+        components {
           cents
-          components {
-            cents
-            fareId
-            routes {
-              agency {
-                gtfsId
-                fareUrl
-                name
-              }
-              gtfsId
-            }
-          }
-          type
-        }
-        legs {
-          mode
-          ${LegAgencyInfo.getFragment('leg')}
-          from {
-            lat
-            lon
-            name
-            vertexType
-            bikeRentalStation {
-              networks
-              bikesAvailable
-              ${CityBikeMarker.getFragment('station')}
-            }
-            stop {
-              gtfsId
-              code
-              platformCode
-              zoneId
-              ${StopAlertsQuery}
-            }
-          }
-          to {
-            lat
-            lon
-            name
-            vertexType
-            bikeRentalStation {
-              ${CityBikeMarker.getFragment('station')}
-            }
-            stop {
-              gtfsId
-              code
-              platformCode
-              zoneId
-              ${StopAlertsQuery}
-            }
-          }
-          legGeometry {
-            length
-            points
-          }
-          intermediatePlaces {
-            arrivalTime
-            stop {
-              gtfsId
-              lat
-              lon
-              name
-              code
-              platformCode
-              zoneId
-              ${StopAlertsQuery}
-            }
-          }
-          realTime
-          realtimeState
-          transitLeg
-          rentedBike
-          startTime
-          endTime
-          mode
-          distance
-          duration
-          intermediatePlace
-          route {
-            shortName
-            color
-            gtfsId
-            longName
-            desc
+          fareId
+          routes {
             agency {
               gtfsId
               fareUrl
               name
-              phone
             }
-            ${RouteAlertsQuery}
-          }
-          trip {
             gtfsId
-            tripHeadsign
-            pattern {
-              code
-            }
-            stoptimes {
-              pickupType
-              realtimeState
-              stop {
-                gtfsId
-              }
+          }
+        }
+        type
+      }
+      legs {
+        mode
+        ...LegAgencyInfo_leg
+        from {
+          lat
+          lon
+          name
+          vertexType
+          bikeRentalStation {
+            networks
+            bikesAvailable
+            ...CityBikeMarker_station
+          }
+          stop {
+            gtfsId
+            code
+            platformCode
+            zoneId
+            ${StopAlertsQuery}
+          }
+        }
+        to {
+          lat
+          lon
+          name
+          vertexType
+          bikeRentalStation {
+            ...CityBikeMarker_station
+          }
+          stop {
+            gtfsId
+            code
+            platformCode
+            zoneId
+            ${StopAlertsQuery}
+          }
+        }
+        legGeometry {
+          length
+          points
+        }
+        intermediatePlaces {
+          arrivalTime
+          stop {
+            gtfsId
+            lat
+            lon
+            name
+            code
+            platformCode
+            zoneId
+            ${StopAlertsQuery}
+          }
+        }
+        realTime
+        realtimeState
+        transitLeg
+        rentedBike
+        startTime
+        endTime
+        mode
+        distance
+        duration
+        intermediatePlace
+        route {
+          shortName
+          color
+          gtfsId
+          longName
+          desc
+          agency {
+            gtfsId
+            fareUrl
+            name
+            phone
+          }
+          ${RouteAlertsQuery}
+        }
+        trip {
+          gtfsId
+          tripHeadsign
+          pattern {
+            code
+          }
+          stoptimes {
+            pickupType
+            realtimeState
+            stop {
+              gtfsId
             }
           }
         }
       }
-    `,
-  },
+    }
+  `,
 });
 
 export { ItineraryTab as Component, withRelay as default };

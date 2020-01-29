@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { intlShape } from 'react-intl';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import compose from 'recompose/compose';
 import getContext from 'recompose/getContext';
 import mapProps from 'recompose/mapProps';
@@ -45,14 +45,12 @@ const StopPageMeta = compose(
   }),
 )(Helmet);
 
-export default Relay.createContainer(StopPageMeta, {
-  fragments: {
-    stop: () => Relay.QL`
-      fragment on Stop {
-        name
-        code
-        desc
-      }
-    `,
-  },
+export default createFragmentContainer(StopPageMeta, {
+  stop: graphql`
+    fragment StopPageMeta_stop on Stop {
+      name
+      code
+      desc
+    }
+  `,
 });
