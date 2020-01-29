@@ -86,6 +86,7 @@
     }
     select {
       border-radius: 5px;
+      padding: 0 1.5rem 0 0.9em;
     }
   }
   .time-box-shadow input {
@@ -106,6 +107,7 @@
     font-family: $font-family !important;
     display: flex !important;
     border: 1px solid #ddd;
+
     &:hover {
       border: 1px solid #007ac9;
     }
