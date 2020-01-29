@@ -2,7 +2,7 @@
 - [Run application in Docker](Docker.md).
 
 ## Install requirements
-You need Node and yarn (or npm3).
+You need Node, yarn (or npm3) and watchman.
 
 - `node -v` should be >= 8
 - `yarn --version` should be >= 0.18.0 (or `npm -v` should be >= 3)
