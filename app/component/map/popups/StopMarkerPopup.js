@@ -1,7 +1,7 @@
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createRefetchContainer, graphql } from 'react-relay/compat';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import PopupMock from './PopupMock';
@@ -19,12 +19,12 @@ class StopMarkerPopup extends React.PureComponent {
   componentWillReceiveProps({ relay, currentTime }) {
     const currUnix = this.props.currentTime;
     if (currUnix !== currentTime) {
-      relay.setVariables({ currentTime: currUnix });
+      relay.refetch({ currentTime: currUnix }, null);
     }
   }
 
   render() {
-    const { relay, stop, terminal } = this.props;
+    const { currentTime, stop, terminal } = this.props;
     const entity = stop || terminal;
     const isTerminal = terminal !== null;
 
@@ -33,7 +33,7 @@ class StopMarkerPopup extends React.PureComponent {
         <StopCardContainer
           stop={entity}
           numberOfDepartures={(isTerminal ? 3 : 1) * NUMBER_OF_DEPARTURES}
-          startTime={relay.variables.currentTime}
+          startTime={currentTime}
           isTerminal={isTerminal}
           timeRange={isTerminal ? TERMINAL_TIME_RANGE : STOP_TIME_RANGE}
           limit={NUMBER_OF_DEPARTURES}
@@ -57,52 +57,50 @@ StopMarkerPopup.propTypes = {
   terminal: PropTypes.object,
   currentTime: PropTypes.number.isRequired,
   relay: PropTypes.shape({
-    variables: PropTypes.shape({
-      currentTime: PropTypes.number.isRequired,
-    }).isRequired,
-    setVariables: PropTypes.func.isRequired,
+    refetch: PropTypes.func.isRequired,
   }).isRequired,
 };
 
-const StopMarkerPopupContainer = Relay.createContainer(
+const StopMarkerPopupContainer = createRefetchContainer(
   connectToStores(StopMarkerPopup, ['TimeStore'], ({ getStore }) => ({
     currentTime: getStore('TimeStore')
       .getCurrentTime()
       .unix(),
   })),
   {
-    fragments: {
-      stop: ({ currentTime }) => Relay.QL`
-      fragment on Stop{
-        gtfsId
-        lat
-        lon
-        name
-        ${StopCardContainer.getFragment('stop', {
-          startTime: currentTime,
-          timeRange: STOP_TIME_RANGE,
-          numberOfDepartures: NUMBER_OF_DEPARTURES,
-        })}
-      }
-    `,
-      terminal: ({ currentTime }) => Relay.QL`
-      fragment on Stop{
-        gtfsId
-        lat
-        lon
-        name
-        ${StopCardContainer.getFragment('stop', {
-          startTime: currentTime,
-          timeRange: TERMINAL_TIME_RANGE,
-          // Terminals do not show arrivals, so we need some slack
-          numberOfDepartures: NUMBER_OF_DEPARTURES * 3,
-        })}
-      }
-    `,
-    },
+    /* TODO manually deal with:
     initialVariables: {
       currentTime: 0,
-    },
+    }
+    */
+    stop: graphql`
+    fragment on Stop
+      @argumentDefinitions(
+        currentTime: { type: "Long!", defaultValue: 0 }
+        timeRange: { type: "Long!", defaultValue: 43200 }
+        numberOfDepartures: { type: "Int!", defaultValue: 5 }
+      ) {
+      gtfsId
+      lat
+      lon
+      name
+      ...StopCardContainer_stop
+    }
+  `,
+    terminal: graphql`
+    fragment on Stop
+      @argumentDefinitions(
+        currentTime: { type: "Long!", defaultValue: 0 }
+        timeRange: { type: "Long!", defaultValue: 3600 }
+        numberOfDepartures: { type: "Int!", defaultValue: 15 }
+      ) {
+      gtfsId
+      lat
+      lon
+      name
+      ...StopCardContainer_stop
+    }
+  `,
   },
 );
 
@@ -111,8 +109,7 @@ StopMarkerPopupContainer.displayName = 'StopMarkerPopup';
 const getTimeProps = currentTime => ({
   currentTime,
   relay: {
-    variables: { currentTime },
-    setVariables: () => {},
+    refetch: () => {},
   },
 });
 
