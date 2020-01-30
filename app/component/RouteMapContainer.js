@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import { routerShape } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import some from 'lodash/some';
@@ -10,7 +10,6 @@ import Icon from './Icon';
 import MapContainer from './map/MapContainer';
 import RouteLine from './map/route/RouteLine';
 import VehicleMarkerContainer from './map/VehicleMarkerContainer';
-import StopCardHeaderContainer from './StopCardHeaderContainer';
 import { getStartTime } from '../util/timeUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -145,36 +144,6 @@ class RouteMapContainer extends React.PureComponent {
   }
 }
 
-export const RouteMapFragments = {
-  pattern: () => Relay.QL`
-    fragment on Pattern {
-      code
-      directionId
-      headsign
-      geometry {
-        lat
-        lon
-      }
-      stops {
-        lat
-        lon
-        name
-        gtfsId
-        ${StopCardHeaderContainer.getFragment('stop')}
-      }
-      ${RouteLine.getFragment('pattern')}
-    }
-  `,
-  trip: () => Relay.QL`
-    fragment on Trip {
-      stoptimesForDate {
-        scheduledDeparture
-      }
-      gtfsId
-    }
-  `,
-};
-
 const RouteMapContainerWithVehicles = connectToStores(
   withBreakpoint(RouteMapContainer),
   ['RealTimeInformationStore'],
@@ -205,6 +174,32 @@ const RouteMapContainerWithVehicles = connectToStores(
   },
 );
 
-export default Relay.createContainer(RouteMapContainerWithVehicles, {
-  fragments: RouteMapFragments,
+export default createFragmentContainer(RouteMapContainerWithVehicles, {
+  pattern: graphql`
+    fragment RouteMapContainer_pattern on Pattern {
+      code
+      directionId
+      headsign
+      geometry {
+        lat
+        lon
+      }
+      stops {
+        lat
+        lon
+        name
+        gtfsId
+        ...StopCardHeaderContainer_stop
+      }
+      ...RouteLine_pattern
+    }
+  `,
+  trip: graphql`
+    fragment RouteMapContainer_trip on Trip {
+      stoptimesForDate {
+        scheduledDeparture
+      }
+      gtfsId
+    }
+  `,
 });
