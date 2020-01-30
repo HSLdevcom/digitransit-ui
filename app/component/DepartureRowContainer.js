@@ -8,7 +8,6 @@ import Distance from './Distance';
 import RouteDestination from './RouteDestination';
 import DepartureTime from './DepartureTime';
 import ComponentUsageExample from './ComponentUsageExample';
-import { RouteAlertsQuery, StopAlertsQuery } from '../util/alertQueries';
 import {
   getServiceAlertsForRoute,
   getServiceAlertsForStop,
@@ -194,10 +193,10 @@ export { DepartureRow };
 export default createFragmentContainer(DepartureRow, {
   departure: graphql`
     fragment DepartureRowContainer_departure on DepartureRow
-    @argumentDefinitions(
-      currentTime: { type: "Long" }
-      timeRange: { type: "Int" }
-    ) {
+      @argumentDefinitions(
+        currentTime: { type: "Long" }
+        timeRange: { type: "Int" }
+      ) {
       pattern {
         route {
           gtfsId
@@ -208,7 +207,16 @@ export default createFragmentContainer(DepartureRow, {
           alerts {
             id
           }
-          ${RouteAlertsQuery}
+          alerts {
+            alertSeverityLevel
+            effectiveEndDate
+            effectiveStartDate
+            trip {
+              pattern {
+                code
+              }
+            }
+          }
           agency {
             name
           }
@@ -216,7 +224,11 @@ export default createFragmentContainer(DepartureRow, {
         code
         headsign
       }
-      stoptimes (startTime:$currentTime, timeRange:$timeRange, numberOfDepartures:2) {
+      stoptimes(
+        startTime: $currentTime
+        timeRange: $timeRange
+        numberOfDepartures: 2
+      ) {
         realtimeState
         realtimeDeparture
         scheduledDeparture
@@ -229,7 +241,11 @@ export default createFragmentContainer(DepartureRow, {
         stop {
           code
           platformCode
-          ${StopAlertsQuery}
+          alerts {
+            alertSeverityLevel
+            effectiveEndDate
+            effectiveStartDate
+          }
         }
         trip {
           gtfsId

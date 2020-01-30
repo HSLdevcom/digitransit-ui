@@ -7,7 +7,6 @@ import { createFragmentContainer, graphql } from 'react-relay/compat';
 import { Link } from 'react-router';
 
 import Departure from './Departure';
-import { RouteAlertsQuery } from '../util/alertQueries';
 import {
   getActiveAlertSeverityLevel,
   patternIdPredicate,
@@ -285,48 +284,57 @@ DepartureListContainer.contextTypes = {
 
 const containerComponent = createFragmentContainer(DepartureListContainer, {
   stoptimes: graphql`
-    fragment DepartureListContainer_stoptimes on Stoptime @relay(plural:true) {
-        realtimeState
-        realtimeDeparture
-        scheduledDeparture
-        realtimeArrival
-        scheduledArrival
-        realtime
-        serviceDay
-        pickupType
-        stopHeadsign
-        stop {
+    fragment DepartureListContainer_stoptimes on Stoptime @relay(plural: true) {
+      realtimeState
+      realtimeDeparture
+      scheduledDeparture
+      realtimeArrival
+      scheduledArrival
+      realtime
+      serviceDay
+      pickupType
+      stopHeadsign
+      stop {
+        id
+        code
+        platformCode
+      }
+      trip {
+        gtfsId
+        directionId
+        tripHeadsign
+        stops {
           id
-          code
-          platformCode
         }
-        trip {
-          gtfsId
-          directionId
-          tripHeadsign
-          stops {
-            id
-          }
-          pattern {
-            route {
-              gtfsId
-              shortName
-              longName
-              mode
-              color
-              agency {
-                name
+        pattern {
+          route {
+            gtfsId
+            shortName
+            longName
+            mode
+            color
+            agency {
+              name
+            }
+            alerts {
+              alertSeverityLevel
+              effectiveEndDate
+              effectiveStartDate
+              trip {
+                pattern {
+                  code
+                }
               }
-              ${RouteAlertsQuery}
             }
+          }
+          code
+          stops {
+            gtfsId
             code
-            stops {
-              gtfsId
-              code
-            }
           }
         }
       }
+    }
   `,
 });
 

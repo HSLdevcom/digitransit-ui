@@ -13,7 +13,6 @@ import MessageBarMessage from './MessageBarMessage';
 import { AlertSeverityLevelType } from '../constants';
 import { markMessageAsRead } from '../action/MessageActions';
 import { getReadMessageIds } from '../store/localStorage';
-import { AlertContentQuery } from '../util/alertQueries';
 import {
   getServiceAlertDescription,
   getServiceAlertHeader,
@@ -35,7 +34,26 @@ const fetchServiceAlerts = async feedids => {
       query ServiceAlerts($feedids: [String!]!) {
         viewer {
           alerts(feeds: $feedids ) {
-            ${AlertContentQuery}
+            id
+            alertDescriptionText
+            alertHash
+            alertHeaderText
+            alertSeverityLevel
+            alertUrl
+            effectiveEndDate
+            effectiveStartDate
+            alertDescriptionTextTranslations {
+              language
+              text
+            }
+            alertHeaderTextTranslations {
+              language
+              text
+            }
+            alertUrlTranslations {
+              language
+              text
+            }
           }
         }
       }

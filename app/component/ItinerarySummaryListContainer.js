@@ -13,7 +13,6 @@ import { isBrowser } from '../util/browser';
 import { distance } from '../util/geo-utils';
 import { getZones } from '../util/legUtils';
 import CanceledItineraryToggler from './CanceledItineraryToggler';
-import { RouteAlertsQuery, StopAlertsQuery } from '../util/alertQueries';
 import { itineraryHasCancelation } from '../util/alertUtils';
 import { matchQuickOption } from '../util/planParamUtil';
 import { getModes } from '../util/modeUtils';
@@ -209,72 +208,94 @@ const containerComponent = createFragmentContainer(
   ItinerarySummaryListContainer,
   {
     itineraries: graphql`
-    fragment ItinerarySummaryListContainer_itineraries on Itinerary @relay(plural:true){
-      walkDistance
-      startTime
-      endTime
-      legs {
-        realTime
-        realtimeState
-        transitLeg
+      fragment ItinerarySummaryListContainer_itineraries on Itinerary
+        @relay(plural: true) {
+        walkDistance
         startTime
         endTime
-        mode
-        distance
-        duration
-        rentedBike
-        intermediatePlace
-        intermediatePlaces {
-          stop {
-            zoneId
-            ${StopAlertsQuery}
-          }
-        }
-        route {
+        legs {
+          realTime
+          realtimeState
+          transitLeg
+          startTime
+          endTime
           mode
-          shortName
-          color
-          agency {
+          distance
+          duration
+          rentedBike
+          intermediatePlace
+          intermediatePlaces {
+            stop {
+              zoneId
+              alerts {
+                alertSeverityLevel
+                effectiveEndDate
+                effectiveStartDate
+              }
+            }
+          }
+          route {
+            mode
+            shortName
+            color
+            agency {
+              name
+            }
+            alerts {
+              alertSeverityLevel
+              effectiveEndDate
+              effectiveStartDate
+              trip {
+                pattern {
+                  code
+                }
+              }
+            }
+          }
+          trip {
+            pattern {
+              code
+            }
+            stoptimes {
+              realtimeState
+              stop {
+                gtfsId
+              }
+              pickupType
+            }
+          }
+          from {
             name
-          }
-          ${RouteAlertsQuery}
-        }
-        trip {
-          pattern {
-            code
-          }
-          stoptimes {
-            realtimeState
+            lat
+            lon
             stop {
               gtfsId
+              zoneId
+              alerts {
+                alertSeverityLevel
+                effectiveEndDate
+                effectiveStartDate
+              }
             }
-            pickupType
+            bikeRentalStation {
+              bikesAvailable
+              networks
+            }
           }
-        }
-        from {
-          name
-          lat
-          lon
-          stop {
-            gtfsId
-            zoneId
-            ${StopAlertsQuery}
-          }
-          bikeRentalStation {
-            bikesAvailable
-            networks
-          }
-        }
-        to {
-          stop {
-            gtfsId
-            zoneId
-            ${StopAlertsQuery}
+          to {
+            stop {
+              gtfsId
+              zoneId
+              alerts {
+                alertSeverityLevel
+                effectiveEndDate
+                effectiveStartDate
+              }
+            }
           }
         }
       }
-    }
-  `,
+    `,
   },
 );
 

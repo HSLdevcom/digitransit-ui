@@ -15,7 +15,6 @@ import TimeFrame from './TimeFrame';
 import DateWarning from './DateWarning';
 import ItineraryLegs from './ItineraryLegs';
 import SecondaryButton from './SecondaryButton';
-import { RouteAlertsQuery, StopAlertsQuery } from '../util/alertQueries';
 import { getRoutes, getZones } from '../util/legUtils';
 import { BreakpointConsumer } from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -225,7 +224,11 @@ const withRelay = createFragmentContainer(ItineraryTab, {
             code
             platformCode
             zoneId
-            ${StopAlertsQuery}
+            alerts {
+              alertSeverityLevel
+              effectiveEndDate
+              effectiveStartDate
+            }
           }
         }
         to {
@@ -241,7 +244,11 @@ const withRelay = createFragmentContainer(ItineraryTab, {
             code
             platformCode
             zoneId
-            ${StopAlertsQuery}
+            alerts {
+              alertSeverityLevel
+              effectiveEndDate
+              effectiveStartDate
+            }
           }
         }
         legGeometry {
@@ -258,7 +265,11 @@ const withRelay = createFragmentContainer(ItineraryTab, {
             code
             platformCode
             zoneId
-            ${StopAlertsQuery}
+            alerts {
+              alertSeverityLevel
+              effectiveEndDate
+              effectiveStartDate
+            }
           }
         }
         realTime
@@ -283,7 +294,16 @@ const withRelay = createFragmentContainer(ItineraryTab, {
             name
             phone
           }
-          ${RouteAlertsQuery}
+          alerts {
+            alertSeverityLevel
+            effectiveEndDate
+            effectiveStartDate
+            trip {
+              pattern {
+                code
+              }
+            }
+          }
         }
         trip {
           gtfsId

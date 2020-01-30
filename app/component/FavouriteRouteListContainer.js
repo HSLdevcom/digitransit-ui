@@ -2,7 +2,6 @@ import { createFragmentContainer, graphql } from 'react-relay/compat';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import NextDeparturesList from './NextDeparturesList';
-import { RouteAlertsQuery } from '../util/alertQueries';
 import {
   getActiveAlertSeverityLevel,
   patternIdPredicate,
@@ -81,16 +80,27 @@ const FavouriteRouteListContainer = connectToStores(
 export default createFragmentContainer(FavouriteRouteListContainer, {
   routes: graphql`
     fragment FavouriteRouteListContainer_routes on Route
-      @relay(plural:true)
+      @relay(plural: true)
       @argumentDefinitions(currentTime: { type: "Long" }) {
-      ${RouteAlertsQuery}
+      alerts {
+        alertSeverityLevel
+        effectiveEndDate
+        effectiveStartDate
+        trip {
+          pattern {
+            code
+          }
+        }
+      }
       patterns {
         headsign
         stops {
           lat
           lon
-          stoptimes: stoptimesForPatterns (
-              numberOfDepartures:2, startTime: $currentTime, timeRange: 7200
+          stoptimes: stoptimesForPatterns(
+            numberOfDepartures: 2
+            startTime: $currentTime
+            timeRange: 7200
           ) {
             pattern {
               code
@@ -114,5 +124,5 @@ export default createFragmentContainer(FavouriteRouteListContainer, {
       }
       gtfsId
     }
- `,
+  `,
 });

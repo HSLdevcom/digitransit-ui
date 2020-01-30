@@ -7,7 +7,6 @@ import { createFragmentContainer, graphql } from 'react-relay/compat';
 import AlertList from './AlertList';
 import Icon from './Icon';
 import { AlertSeverityLevelType } from '../constants';
-import { AlertContentQuery } from '../util/alertQueries';
 import {
   getServiceAlertDescription,
   getServiceAlertHeader,
@@ -217,24 +216,43 @@ const containerComponent = createFragmentContainer(
   ),
   {
     root: graphql`
-    fragment DisruptionListContainer_root on QueryType
-      @argumentDefinitions(feedIds: { type: "[String!]", defaultValue: [] }) {
-      alerts(feeds:$feedIds) {
-        ${AlertContentQuery}
-        route {
-          color
-          mode
-          shortName
-          gtfsId
-        }
-        stop {
-          code
-          vehicleMode
-          gtfsId
+      fragment DisruptionListContainer_root on QueryType
+        @argumentDefinitions(feedIds: { type: "[String!]", defaultValue: [] }) {
+        alerts(feeds: $feedIds) {
+          id
+          alertDescriptionText
+          alertHash
+          alertHeaderText
+          alertSeverityLevel
+          alertUrl
+          effectiveEndDate
+          effectiveStartDate
+          alertDescriptionTextTranslations {
+            language
+            text
+          }
+          alertHeaderTextTranslations {
+            language
+            text
+          }
+          alertUrlTranslations {
+            language
+            text
+          }
+          route {
+            color
+            mode
+            shortName
+            gtfsId
+          }
+          stop {
+            code
+            vehicleMode
+            gtfsId
+          }
         }
       }
-    }
-  `,
+    `,
   },
 );
 

@@ -8,7 +8,6 @@ import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
 
 import TripRouteStop from './TripRouteStop';
-import { StopAlertsQuery } from '../util/alertQueries';
 import { getDistanceToNearestStop } from '../util/geo-utils';
 import withBreakpoint from '../util/withBreakpoint';
 
@@ -184,35 +183,39 @@ const connectedComponent = createFragmentContainer(
   ),
   {
     trip: graphql`
-    fragment TripStopListContainer_trip on Trip {
-      route {
-        mode
-        gtfsId
-        color
-      }
-      pattern {
-        code
-        directionId
-      }
-      stoptimesForDate {
-        stop {
+      fragment TripStopListContainer_trip on Trip {
+        route {
+          mode
           gtfsId
-          name
-          desc
-          code
-          lat
-          lon
-          ${StopAlertsQuery}
+          color
         }
-        realtimeDeparture
-        realtime
-        scheduledDeparture
-        serviceDay
-        realtimeState
+        pattern {
+          code
+          directionId
+        }
+        stoptimesForDate {
+          stop {
+            gtfsId
+            name
+            desc
+            code
+            lat
+            lon
+            alerts {
+              alertSeverityLevel
+              effectiveEndDate
+              effectiveStartDate
+            }
+          }
+          realtimeDeparture
+          realtime
+          scheduledDeparture
+          serviceDay
+          realtimeState
+        }
+        gtfsId
       }
-      gtfsId
-    }
-  `,
+    `,
   },
 );
 
