@@ -68,11 +68,6 @@ const StopMarkerPopupContainer = createRefetchContainer(
       .unix(),
   })),
   {
-    /* TODO manually deal with:
-    initialVariables: {
-      currentTime: 0,
-    }
-    */
     stop: graphql`
     fragment on Stop
       @argumentDefinitions(
@@ -84,7 +79,7 @@ const StopMarkerPopupContainer = createRefetchContainer(
       lat
       lon
       name
-      ...StopCardContainer_stop
+      ...StopCardContainer_stop @arguments(currentTime: $currentTime, timeRange: $timeRange, numberOfDepartures: $numberOfDepartures)
     }
   `,
     terminal: graphql`
@@ -98,7 +93,7 @@ const StopMarkerPopupContainer = createRefetchContainer(
       lat
       lon
       name
-      ...StopCardContainer_stop
+      ...StopCardContainer_stop @arguments(currentTime: $currentTime, timeRange: $timeRange, numberOfDepartures: $numberOfDepartures)
     }
   `,
   },
