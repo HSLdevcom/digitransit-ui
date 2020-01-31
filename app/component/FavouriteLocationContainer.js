@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import find from 'lodash/find';
 import FavouriteLocation from './FavouriteLocation';
 
@@ -37,53 +37,52 @@ FavouriteLocationContainer.propTypes = {
   onClickFavourite: PropTypes.func.isRequired,
 };
 
-export default Relay.createContainer(FavouriteLocationContainer, {
-  fragments: {
-    plan: () => Relay.QL`
-      fragment on QueryType {
-        plan(
-          from: $from,
-          to: $to,
-          numItineraries: $numItineraries,
-          walkReluctance: $walkReluctance,
-          walkBoardCost: $walkBoardCost,
-          minTransferTime: $minTransferTime,
-          walkSpeed: $walkSpeed,
-          maxWalkDistance:
-          $maxWalkDistance,
-          wheelchair: $wheelchair,
-          disableRemainingWeightHeuristic:
-          $disableRemainingWeightHeuristic,
-          arriveBy: $arriveBy,
-        ) {
-          itineraries {
+export default createFragmentContainer(FavouriteLocationContainer, {
+  plan: graphql`
+    fragment FavouriteLocationContainer_plan on QueryType
+      @argumentDefinitions(
+        from: { type: "InputCoordinates" }
+        to: { type: "InputCoordinates" }
+        numItineraries: { type: "Int", defaultValue: 1 }
+        walkReluctance: { type: "Float", defaultValue: 2.0001 }
+        walkBoardCost: { type: "Int", defaultValue: 600 }
+        minTransferTime: { type: "Int", defaultValue: 120 }
+        walkSpeed: { type: "Float", defaultValue: 1.2 }
+        wheelchair: { type: "Boolean", defaultValue: false }
+        maxWalkDistance: { type: "Float", defaultValue: 0 }
+        arriveBy: { type: "Boolean", defaultValue: false }
+        disableRemainingWeightHeuristic: {
+          type: "Boolean"
+          defaultValue: false
+        }
+      ) {
+      plan(
+        from: $from
+        to: $to
+        numItineraries: $numItineraries
+        walkReluctance: $walkReluctance
+        walkBoardCost: $walkBoardCost
+        minTransferTime: $minTransferTime
+        walkSpeed: $walkSpeed
+        maxWalkDistance: $maxWalkDistance
+        wheelchair: $wheelchair
+        disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
+        arriveBy: $arriveBy
+      ) {
+        itineraries {
+          startTime
+          endTime
+          legs {
+            realTime
+            transitLeg
+            mode
             startTime
-            endTime
-            legs {
-              realTime
-              transitLeg
-              mode
-              startTime
-              route {
-                shortName
-              }
+            route {
+              shortName
             }
           }
         }
       }
-    `,
-  },
-  initialVariables: {
-    from: null,
-    to: null,
-    numItineraries: 1,
-    walkReluctance: 2.0001,
-    walkBoardCost: 600,
-    minTransferTime: 120,
-    walkSpeed: 1.2,
-    wheelchair: false,
-    maxWalkDistance: 0,
-    arriveBy: false,
-    disableRemainingWeightHeuristic: false,
-  },
+    }
+  `,
 });

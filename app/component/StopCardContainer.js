@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
-import StopCardHeaderContainer from './StopCardHeaderContainer';
 import DepartureListContainer from './DepartureListContainer';
 import StopCard from './StopCard';
 
@@ -18,7 +17,7 @@ const StopCardContainer = connectToStores(
         stoptimes={props.stop.stoptimes}
         limit={props.limit}
         isTerminal={props.isTerminal}
-        currentTime={props.relay.variables.startTime}
+        currentTime={props.startTime}
         isPopUp={props.isPopUp}
         showPlatformCodes
       />
@@ -31,26 +30,24 @@ StopCardContainer.contextTypes = {
   getStore: PropTypes.func.isRequired,
 };
 
-export default Relay.createContainer(StopCardContainer, {
-  fragments: {
-    stop: () => Relay.QL`
-      fragment on Stop{
-        gtfsId
-        stoptimes: stoptimesWithoutPatterns(
-          startTime: $startTime,
-          timeRange: $timeRange,
-          numberOfDepartures: $numberOfDepartures,
-          omitCanceled: false
-        ) {
-          ${DepartureListContainer.getFragment('stoptimes')}
-        }
-        ${StopCardHeaderContainer.getFragment('stop')}
+export default createFragmentContainer(StopCardContainer, {
+  stop: graphql`
+    fragment StopCardContainer_stop on Stop
+      @argumentDefinitions(
+        startTime: { type: "Long", defaultValue: 0 }
+        timeRange: { type: "Int", defaultValue: 43200 }
+        numberOfDepartures: { type: "Int", defaultValue: 5 }
+      ) {
+      gtfsId
+      stoptimes: stoptimesWithoutPatterns(
+        startTime: $startTime
+        timeRange: $timeRange
+        numberOfDepartures: $numberOfDepartures
+        omitCanceled: false
+      ) {
+        ...DepartureListContainer_stoptimes
       }
-    `,
-  },
-  initialVariables: {
-    startTime: 0,
-    timeRange: 12 * 60 * 60,
-    numberOfDepartures: 5,
-  },
+      ...StopCardHeaderContainer_stop
+    }
+  `,
 });
