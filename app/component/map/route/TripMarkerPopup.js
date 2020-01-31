@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import { Link } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
@@ -89,10 +89,15 @@ const TripMarkerPopupWithFavourite = connectToStores(
   }),
 );
 
-const containerComponent = Relay.createContainer(TripMarkerPopupWithFavourite, {
-  fragments: {
-    trip: () => Relay.QL`
-      fragment on QueryType {
+const containerComponent = createFragmentContainer(
+  TripMarkerPopupWithFavourite,
+  {
+    trip: graphql`
+      fragment TripMarkerPopup_trip on QueryType
+        @argumentDefinitions(
+          id: { type: "String!" }
+          route: { type: "String!" }
+        ) {
         trip(id: $id) {
           gtfsId
           pattern {
@@ -112,11 +117,6 @@ const containerComponent = Relay.createContainer(TripMarkerPopupWithFavourite, {
       }
     `,
   },
-
-  initialVariables: {
-    route: null,
-    id: null,
-  },
-});
+);
 
 export { containerComponent as default, TripMarkerPopup as Component };

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import { Link } from 'react-router';
 import cx from 'classnames';
 import IconWithTail from './IconWithTail';
@@ -37,28 +37,31 @@ FuzzyTripLink.propTypes = {
   mode: PropTypes.string.isRequired,
 };
 
-const containerComponent = Relay.createContainer(FuzzyTripLink, {
-  fragments: {
-    trip: () => Relay.QL`
-      fragment on QueryType {
-        trip: fuzzyTrip(route: $route, direction: $direction, time: $time, date: $date) {
+const containerComponent = createFragmentContainer(FuzzyTripLink, {
+  trip: graphql`
+    fragment FuzzyTripLink_trip on QueryType
+      @argumentDefinitions(
+        route: { type: "String" }
+        direction: { type: "Int" }
+        date: { type: "String" }
+        time: { type: "Int" }
+      ) {
+      trip: fuzzyTrip(
+        route: $route
+        direction: $direction
+        time: $time
+        date: $date
+      ) {
+        gtfsId
+        pattern {
+          code
+        }
+        route {
           gtfsId
-          pattern {
-            code
-          }
-          route {
-            gtfsId
-          }
         }
       }
-    `,
-  },
-  initialVariables: {
-    route: null,
-    direction: null,
-    date: null,
-    time: null,
-  },
+    }
+  `,
 });
 
 export { containerComponent as default, FuzzyTripLink as Component };

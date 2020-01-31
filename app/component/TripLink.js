@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import { Link } from 'react-router';
 import cx from 'classnames';
 import IconWithTail from './IconWithTail';
@@ -45,25 +45,21 @@ TripLink.propTypes = {
   mode: PropTypes.string.isRequired,
 };
 
-const containerComponent = Relay.createContainer(TripLink, {
-  fragments: {
-    trip: () => Relay.QL`
-      fragment on QueryType {
-        trip: trip(id: $id) {
+const containerComponent = createFragmentContainer(TripLink, {
+  trip: graphql`
+    fragment TripLink_trip on QueryType
+      @argumentDefinitions(id: { type: "String" }) {
+      trip: trip(id: $id) {
+        gtfsId
+        pattern {
+          code
+        }
+        route {
           gtfsId
-          pattern {
-            code
-          }
-          route {
-            gtfsId
-          }
         }
       }
-    `,
-  },
-  initialVariables: {
-    id: null,
-  },
+    }
+  `,
 });
 
 export { containerComponent as default, TripLink as Component };
