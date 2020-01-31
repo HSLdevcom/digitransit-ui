@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createRefetchContainer, graphql } from 'react-relay/compat';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
 
@@ -22,7 +22,7 @@ class StopPageContent extends React.Component {
       variables: PropTypes.shape({
         startTime: PropTypes.string.isRequired,
       }).isRequired,
-      setVariables: PropTypes.func.isRequired,
+      refetch: PropTypes.func.isRequired,
     }).isRequired,
     currentTime: PropTypes.number.isRequired,
   };
@@ -30,7 +30,7 @@ class StopPageContent extends React.Component {
   componentWillReceiveProps({ relay, currentTime }) {
     const currUnix = this.props.currentTime;
     if (currUnix !== currentTime) {
-      relay.setVariables({ startTime: String(currUnix) });
+      relay.refetch({ startTime: String(currUnix) }, null);
     }
   }
 
@@ -70,34 +70,31 @@ class StopPageContent extends React.Component {
   }
 }
 
-const connectedComponent = Relay.createContainer(
+const connectedComponent = createRefetchContainer(
   connectToStores(StopPageContent, ['TimeStore'], ({ getStore }) => ({
     currentTime: getStore('TimeStore')
       .getCurrentTime()
       .unix(),
   })),
   {
-    fragments: {
-      stop: () => Relay.QL`
-      fragment on Stop {
+    stop: graphql`
+      fragment StopPageContentContainer_stop on Stop
+        @argumentDefinitions(
+          startTime: { type: "String!", defaultValue: "0" }
+          timeRange: { type: "Long!", defaultValue: 43200 }
+          numberOfDepartures: { type: "Int!", defaultValue: 100 }
+        ) {
         url
         stoptimes: stoptimesWithoutPatterns(
-          startTime: $startTime, 
-          timeRange: $timeRange, 
-          numberOfDepartures: $numberOfDepartures, 
+          startTime: $startTime
+          timeRange: $timeRange
+          numberOfDepartures: $numberOfDepartures
           omitCanceled: false
         ) {
-          ${DepartureListContainer.getFragment('stoptimes')}
+          ...DepartureListContainer_stoptimes
         }
       }
     `,
-    },
-
-    initialVariables: {
-      startTime: String(0),
-      timeRange: 3600 * 12,
-      numberOfDepartures: 100,
-    },
   },
 );
 
