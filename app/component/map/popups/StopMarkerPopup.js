@@ -69,33 +69,43 @@ const StopMarkerPopupContainer = createRefetchContainer(
   })),
   {
     stop: graphql`
-    fragment on Stop
-      @argumentDefinitions(
-        currentTime: { type: "Long!", defaultValue: 0 }
-        timeRange: { type: "Long!", defaultValue: 43200 }
-        numberOfDepartures: { type: "Int!", defaultValue: 5 }
-      ) {
-      gtfsId
-      lat
-      lon
-      name
-      ...StopCardContainer_stop @arguments(currentTime: $currentTime, timeRange: $timeRange, numberOfDepartures: $numberOfDepartures)
-    }
-  `,
+      fragment StopMarkerPopup_stop on Stop
+        @argumentDefinitions(
+          currentTime: { type: "Long!", defaultValue: 0 }
+          timeRange: { type: "Long!", defaultValue: 43200 }
+          numberOfDepartures: { type: "Int!", defaultValue: 5 }
+        ) {
+        gtfsId
+        lat
+        lon
+        name
+        ...StopCardContainer_stop
+          @arguments(
+            currentTime: $currentTime
+            timeRange: $timeRange
+            numberOfDepartures: $numberOfDepartures
+          )
+      }
+    `,
     terminal: graphql`
-    fragment on Stop
-      @argumentDefinitions(
-        currentTime: { type: "Long!", defaultValue: 0 }
-        timeRange: { type: "Long!", defaultValue: 3600 }
-        numberOfDepartures: { type: "Int!", defaultValue: 15 }
-      ) {
-      gtfsId
-      lat
-      lon
-      name
-      ...StopCardContainer_stop @arguments(currentTime: $currentTime, timeRange: $timeRange, numberOfDepartures: $numberOfDepartures)
-    }
-  `,
+      fragment StopMarkerPopup_terminal on Stop
+        @argumentDefinitions(
+          currentTime: { type: "Long!", defaultValue: 0 }
+          timeRange: { type: "Long!", defaultValue: 3600 }
+          numberOfDepartures: { type: "Int!", defaultValue: 15 }
+        ) {
+        gtfsId
+        lat
+        lon
+        name
+        ...StopCardContainer_stop
+          @arguments(
+            currentTime: $currentTime
+            timeRange: $timeRange
+            numberOfDepartures: $numberOfDepartures
+          )
+      }
+    `,
   },
 );
 

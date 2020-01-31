@@ -104,7 +104,7 @@ PlaceAtDistanceList.propTypes = {
 
 export default createFragmentContainer(PlaceAtDistanceList, {
   nearest: graphql`
-    fragment on QueryType
+    fragment PlaceAtDistanceList_nearest on QueryType
       @argumentDefinitions(
         lat: { type: "Float!" }
         lon: { type: "Float!" }
@@ -116,29 +116,35 @@ export default createFragmentContainer(PlaceAtDistanceList, {
         timeRange: { type: "Int", defaultValue: 0 }
       ) {
       places: nearest(
-        lat: $lat,
-        lon: $lon,
-        maxDistance: $maxDistance,
-        maxResults: $maxResults,
-        first: $maxResults,
-        filterByModes: $modes,
-        filterByPlaceTypes: $placeTypes,
+        lat: $lat
+        lon: $lon
+        maxDistance: $maxDistance
+        maxResults: $maxResults
+        first: $maxResults
+        filterByModes: $modes
+        filterByPlaceTypes: $placeTypes
       ) {
-         edges {
+        edges {
           node {
             distance
             place {
               id
               __typename
               ... on DepartureRow {
-                stoptimes (startTime:$currentTime, timeRange: $timeRange, numberOfDepartures:2) {
+                stoptimes(
+                  startTime: $currentTime
+                  timeRange: $timeRange
+                  numberOfDepartures: 2
+                ) {
                   pickupType
                   serviceDay
                   realtimeDeparture
                 }
               }
-              ...DepartureRowContainer_departure @arguments(currentTime: $currentTime, timeRange: $timeRange)
-              ...BicycleRentalStationRowContainer_station @arguments(currentTime: $currentTime)
+              ...DepartureRowContainer_departure
+                @arguments(currentTime: $currentTime, timeRange: $timeRange)
+              ...BicycleRentalStationRowContainer_station
+                @arguments(currentTime: $currentTime)
             }
             distance
           }
