@@ -1,14 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { graphql, QueryRenderer } from 'react-relay/compat';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import mapProps from 'recompose/mapProps';
 
 import FavouritesTabLabel from './FavouritesTabLabel';
-import RoutesRoute from '../route/RoutesRoute';
-import { RouteAlertsQuery } from '../util/alertQueries';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
-import { isBrowser } from '../util/browser';
+import getRelayEnvironment from '../util/getRelayEnvironment';
 
 export const alertSeverityLevelMapper = ({ routes, currentTime, ...rest }) => {
   const alertSeverityLevel = getActiveAlertSeverityLevel(
@@ -27,46 +25,44 @@ export const alertSeverityLevelMapper = ({ routes, currentTime, ...rest }) => {
   };
 };
 
-const FavouritesTabLabelRelayConnector = Relay.createContainer(
-  mapProps(alertSeverityLevelMapper)(FavouritesTabLabel),
-  {
-    fragments: {
-      routes: () => Relay.QL`
-        fragment on Route @relay(plural:true) {
-          ${RouteAlertsQuery}
-        }
-      `,
-    },
-  },
+const FavouritesTabLabelWithMappedProps = mapProps(alertSeverityLevelMapper)(
+  FavouritesTabLabel,
 );
 
-function FavouritesTabLabelContainer({ routes, ...rest }) {
-  if (isBrowser) {
-    return (
-      <Relay.Renderer
-        Container={FavouritesTabLabelRelayConnector}
-        queryConfig={new RoutesRoute({ ids: routes })}
-        environment={Relay.Store}
-        render={({ done, props }) =>
-          done ? (
-            <FavouritesTabLabelRelayConnector {...props} {...rest} />
-          ) : (
-            <FavouritesTabLabel {...rest} />
-          )
+function FavouritesTabLabelContainer({ routes, relayEnvironment, ...rest }) {
+  return (
+    <QueryRenderer
+      cacheConfig={{ force: true, poll: 30 * 1000 }}
+      query={graphql`
+        query FavouritesTabLabelContainerQuery($ids: [String]) {
+          routes(ids: $ids) {
+            alerts {
+              alertSeverityLevel
+              effectiveEndDate
+              effectiveStartDate
+              trip {
+                pattern {
+                  code
+                }
+              }
+            }
+          }
         }
-      />
-    );
-  }
-  return <div />;
+      `}
+      variables={{ ids: routes }}
+      environment={relayEnvironment}
+      render={() => <FavouritesTabLabelWithMappedProps {...rest} />}
+    />
+  );
 }
 
 FavouritesTabLabelContainer.propTypes = {
-  routes: PropTypes.array.isRequired,
-  currentTime: PropTypes.number.isRequired,
+  routes: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  relayEnvironment: PropTypes.object.isRequired,
 };
 
 export default connectToStores(
-  FavouritesTabLabelContainer,
+  getRelayEnvironment(FavouritesTabLabelContainer),
   ['FavouriteRoutesStore', 'TimeStore'],
   context => ({
     routes: context.getStore('FavouriteRoutesStore').getRoutes(),
