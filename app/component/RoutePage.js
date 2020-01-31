@@ -84,10 +84,21 @@ class RoutePage extends React.Component {
       return;
     }
 
+    const { location } = router;
+
+    const lengthPathName =
+      location !== undefined ? location.pathname.length : 0; // DT-3331
+    const lengthIndexOfPattern =
+      location !== undefined
+        ? location.pathname.indexOf(params.patternId) + params.patternId.length
+        : 0; // DT-3331
+    const reRouteAllowed = lengthPathName === lengthIndexOfPattern; // DT-3331
+
     let sortedPatternsByCountOfTrips;
     const tripsExists = route.patterns ? 'trips' in route.patterns[0] : false;
 
-    if (tripsExists) {
+    // DT-3331 added reRouteAllowed
+    if (tripsExists && reRouteAllowed) {
       sortedPatternsByCountOfTrips = sortBy(
         sortBy(route.patterns, 'code').reverse(),
         'trips.length',
@@ -103,11 +114,12 @@ class RoutePage extends React.Component {
     }
 
     // DT-3182: call this only 1st time for changing URL to wanted route (most trips)
-    const { location } = router;
+    // DT-3331: added reRouteAllowed
     if (
       location !== undefined &&
       location.action === 'PUSH' &&
-      params.patternId !== pattern.code
+      params.patternId !== pattern.code &&
+      reRouteAllowed
     ) {
       router.replace(
         decodeURIComponent(location.pathname).replace(
