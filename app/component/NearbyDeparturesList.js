@@ -104,7 +104,7 @@ PlaceAtDistanceList.propTypes = {
 
 export default createFragmentContainer(PlaceAtDistanceList, {
   nearest: graphql`
-    fragment PlaceAtDistanceList_nearest on QueryType
+    fragment NearbyDeparturesList_nearest on QueryType
       @argumentDefinitions(
         lat: { type: "Float!" }
         lon: { type: "Float!" }
