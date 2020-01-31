@@ -7,7 +7,7 @@ import CityBikeCardContainer from '../../CityBikeCardContainer';
 import { station as exampleStation } from '../../ExampleData';
 import ComponentUsageExample from '../../ComponentUsageExample';
 
-class CityBikePopup extends React.Component {
+class CityBikePopupContainer extends React.Component {
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
   };
@@ -16,14 +16,17 @@ class CityBikePopup extends React.Component {
     <div>
       <p>Renders a citybike popup.</p>
       <ComponentUsageExample description="">
-        <CityBikePopup context="context object here" station={exampleStation}>
+        <CityBikePopupContainer
+          context="context object here"
+          station={exampleStation}
+        >
           Im content of a citybike card
-        </CityBikePopup>
+        </CityBikePopupContainer>
       </ComponentUsageExample>
     </div>
   );
 
-  static displayName = 'CityBikePopup';
+  static displayName = 'CityBikePopupContainer';
 
   static propTypes = {
     station: PropTypes.object.isRequired,
@@ -53,7 +56,7 @@ class CityBikePopup extends React.Component {
   }
 }
 
-export default createFragmentContainer(CityBikePopup, {
+export default createFragmentContainer(CityBikePopupContainer, {
   station: graphql`
     fragment CityBikePopup_station on BikeRentalStation {
       stationId

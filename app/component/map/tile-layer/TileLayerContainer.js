@@ -15,7 +15,7 @@ import TerminalRoute from '../../../route/TerminalRoute';
 import CityBikeRoute from '../../../route/CityBikeRoute';
 import StopMarkerPopup from '../popups/StopMarkerPopup';
 import MarkerSelectPopup from './MarkerSelectPopup';
-import CityBikePopup from '../popups/CityBikePopup';
+import CityBikePopupContainer from '../popups/CityBikePopupContainer';
 import ParkAndRideHubPopup from '../popups/ParkAndRideHubPopup';
 import ParkAndRideFacilityPopup from '../popups/ParkAndRideFacilityPopup';
 import ParkAndRideHubRoute from '../../../route/ParkAndRideHubRoute';
@@ -284,7 +284,7 @@ class TileLayerContainer extends GridLayer {
           ({ id } = this.state.selectableTargets[0].feature.properties);
           contents = (
             <Relay.RootContainer
-              Component={CityBikePopup}
+              Component={CityBikePopupContainer}
               forceFetch
               route={
                 new CityBikeRoute({
@@ -292,7 +292,7 @@ class TileLayerContainer extends GridLayer {
                 })
               }
               renderLoading={loadingPopup}
-              renderFetched={data => <CityBikePopup {...data} />}
+              renderFetched={data => <CityBikePopupContainer {...data} />}
             />
           );
         } else if (

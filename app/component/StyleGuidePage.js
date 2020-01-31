@@ -21,7 +21,7 @@ import CityBikeCard from './CityBikeCard';
 import CityBikeContent from './CityBikeContent';
 import CityBikeAvailability from './CityBikeAvailability';
 import CityBikeUse from './CityBikeUse';
-import CityBikePopup from './map/popups/CityBikePopup';
+import CityBikePopupContainer from './map/popups/CityBikePopupContainer';
 import FavouriteLocation from './FavouriteLocation';
 import EmptyFavouriteLocationSlot from './EmptyFavouriteLocationSlot';
 import TimeSelectors from './TimeSelectors';
@@ -117,7 +117,7 @@ const components = {
   CityBikeContent,
   CityBikeAvailability,
   CityBikeUse,
-  CityBikePopup,
+  CityBikePopupContainer,
   Availability,
   ParkAndRideAvailability,
   FavouriteLocation,

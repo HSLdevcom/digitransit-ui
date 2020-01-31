@@ -217,7 +217,9 @@ const withRelay = createFragmentContainer(ItineraryTab, {
           bikeRentalStation {
             networks
             bikesAvailable
-            ...CityBikeMarker_station
+            lat
+            lon
+            stationId
           }
           stop {
             gtfsId
@@ -237,7 +239,11 @@ const withRelay = createFragmentContainer(ItineraryTab, {
           name
           vertexType
           bikeRentalStation {
-            ...CityBikeMarker_station
+            lat
+            lon
+            stationId
+            networks
+            bikesAvailable
           }
           stop {
             gtfsId

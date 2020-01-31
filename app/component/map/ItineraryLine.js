@@ -207,8 +207,11 @@ export default createFragmentContainer(ItineraryLine, {
         name
         vertexType
         bikeRentalStation {
-          ...CityBikeMarker_station
+          lat
+          lon
           stationId
+          networks
+          bikesAvailable
         }
         stop {
           gtfsId
@@ -222,7 +225,11 @@ export default createFragmentContainer(ItineraryLine, {
         name
         vertexType
         bikeRentalStation {
-          ...CityBikeMarker_station
+          lat
+          lon
+          stationId
+          networks
+          bikesAvailable
         }
         stop {
           gtfsId
