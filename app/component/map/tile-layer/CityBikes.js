@@ -1,6 +1,6 @@
 import { VectorTile } from '@mapbox/vector-tile';
 import Protobuf from 'pbf';
-import Relay from 'react-relay/classic';
+import { graphql, fetchQuery } from 'react-relay/compat';
 import pick from 'lodash/pick';
 
 import { isBrowser } from '../../../util/browser';
@@ -23,10 +23,22 @@ import {
 
 const timeOfLastFetch = {};
 
+const query = graphql`
+  query CityBikesQuery($id: String!) {
+    station: bikeRentalStation(id: $id) {
+      bikesAvailable
+      spacesAvailable
+      networks
+      state
+    }
+  }
+`;
+
 class CityBikes {
-  constructor(tile, config) {
+  constructor(tile, config, relayEnvironment) {
     this.tile = tile;
     this.config = config;
+    this.relayEnvironment = relayEnvironment;
 
     this.scaleratio = (isBrowser && window.devicePixelRatio) || 1;
     this.citybikeImageSize =
@@ -72,109 +84,83 @@ class CityBikes {
     });
 
   fetchAndDrawStatus = ({ geom, properties: { id } }) => {
-    const query = Relay.createQuery(
-      Relay.QL`
-    query Test($id: String!){
-      bikeRentalStation(id: $id) {
-        bikesAvailable
-        spacesAvailable
-        networks
-        state
-      }
-    }`,
-      { id },
-    );
-
     const lastFetch = timeOfLastFetch[id];
     const currentTime = new Date().getTime();
 
-    const callback = readyState => {
-      if (readyState.done) {
-        timeOfLastFetch[id] = new Date().getTime();
-        const result = Relay.Store.readQuery(query)[0];
+    const callback = ({ station: result }) => {
+      timeOfLastFetch[id] = new Date().getTime();
 
-        if (result) {
-          if (
-            this.tile.coords.z <= this.config.cityBike.cityBikeSmallIconZoom
-          ) {
-            let mode;
-            if (result.state !== BIKESTATION_ON) {
-              mode = 'citybike-off';
-            } else {
-              mode = 'citybike';
-            }
-            return drawRoundIcon(this.tile, geom, mode);
+      if (result) {
+        if (this.tile.coords.z <= this.config.cityBike.cityBikeSmallIconZoom) {
+          let mode;
+          if (result.state !== BIKESTATION_ON) {
+            mode = 'citybike-off';
+          } else {
+            mode = 'citybike';
           }
+          return drawRoundIcon(this.tile, geom, mode);
+        }
 
-          const iconName = getCityBikeNetworkIcon(
-            getCityBikeNetworkConfig(
-              getCityBikeNetworkId(result.networks),
-              this.config,
+        const iconName = getCityBikeNetworkIcon(
+          getCityBikeNetworkConfig(
+            getCityBikeNetworkId(result.networks),
+            this.config,
+          ),
+        );
+
+        if (result.state === BIKESTATION_CLOSED) {
+          // Draw just plain grey base icon
+          return drawIcon(
+            `${iconName}_off`,
+            this.tile,
+            geom,
+            this.citybikeImageSize,
+          );
+        }
+
+        if (result.state === BIKESTATION_OFF) {
+          return drawIcon(
+            `${iconName}_off`,
+            this.tile,
+            geom,
+            this.citybikeImageSize,
+          ).then(() =>
+            drawAvailabilityBadge(
+              'no',
+              this.tile,
+              geom,
+              this.citybikeImageSize,
+              this.availabilityImageSize,
+              this.scaleratio,
             ),
           );
+        }
 
-          if (result.state === BIKESTATION_CLOSED) {
-            // Draw just plain grey base icon
-            return drawIcon(
-              `${iconName}_off`,
+        if (result.state === BIKESTATION_ON) {
+          return drawIcon(
+            iconName,
+            this.tile,
+            geom,
+            this.citybikeImageSize,
+          ).then(() => {
+            drawAvailabilityValue(
               this.tile,
               geom,
+              result.bikesAvailable,
               this.citybikeImageSize,
+              this.availabilityImageSize,
+              this.scaleratio,
             );
-          }
-
-          if (result.state === BIKESTATION_OFF) {
-            return drawIcon(
-              `${iconName}_off`,
-              this.tile,
-              geom,
-              this.citybikeImageSize,
-            ).then(() =>
-              drawAvailabilityBadge(
-                'no',
-                this.tile,
-                geom,
-                this.citybikeImageSize,
-                this.availabilityImageSize,
-                this.scaleratio,
-              ),
-            );
-          }
-
-          if (result.state === BIKESTATION_ON) {
-            return drawIcon(
-              iconName,
-              this.tile,
-              geom,
-              this.citybikeImageSize,
-            ).then(() => {
-              drawAvailabilityValue(
-                this.tile,
-                geom,
-                result.bikesAvailable,
-                this.citybikeImageSize,
-                this.availabilityImageSize,
-                this.scaleratio,
-              );
-            });
-          }
+          });
         }
       }
       return this;
     };
 
     if (lastFetch && currentTime - lastFetch <= 30000) {
-      Relay.Store.primeCache(
-        {
-          query,
-        },
-        callback,
-      );
+      fetchQuery(this.relayEnvironment, query, { id }).then(callback);
     } else {
-      Relay.Store.forceFetch(
-        {
-          query,
-        },
+      fetchQuery(this.relayEnvironment, query, { id }, { force: true }).then(
         callback,
       );
     }
