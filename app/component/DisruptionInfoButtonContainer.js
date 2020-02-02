@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { graphql, QueryRenderer } from 'react-relay/compat';
 import { routerShape, locationShape } from 'react-router';
 import DisruptionInfoButton from './DisruptionInfoButton';
 import { isBrowser } from '../util/browser';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import getRelayEnvironment from '../util/getRelayEnvironment';
 
 function DisruptionInfoButtonContainer(
   outerProps,
@@ -27,26 +28,20 @@ function DisruptionInfoButtonContainer(
     };
 
     return (
-      <Relay.Renderer
-        Container={DisruptionInfoButton}
-        forceFetch
-        queryConfig={{
-          name: 'ViewerRoute',
-          queries: {
-            root: (Component, variables) => Relay.QL`
-              query {
-                viewer {
-                  ${Component.getFragment('root', variables)}
-                }
-              }
-           `,
-          },
-          params: { feedIds },
-        }}
-        environment={Relay.Store}
-        render={({ renderProps, props }) => (
+      <QueryRenderer
+        cacheConfig={{ force: true, poll: 30 * 1000 }}
+        query={graphql.experimental`
+          query DisruptionInfoButtonContainerQuery($feedIds: [String!]) {
+            viewer {
+              ...DisruptionInfoButton_viewer @arguments(feedIds: $feedIds)
+            }
+          }
+        `}
+        variables={{ feedIds }}
+        environment={outerProps.relayEnvironment}
+        render={({ props }) => (
           <DisruptionInfoButton
-            {...renderProps}
+            viewer={null}
             {...props}
             toggleDisruptionInfo={openDisruptionInfo}
           />
@@ -65,4 +60,4 @@ DisruptionInfoButtonContainer.contextTypes = {
   }).isRequired,
 };
 
-export default DisruptionInfoButtonContainer;
+export default getRelayEnvironment(DisruptionInfoButtonContainer);
