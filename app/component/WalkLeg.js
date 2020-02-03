@@ -44,7 +44,7 @@ function WalkLeg(
             ? 'return-scooter-to'
             : 'return-cycle-to'
         }
-        values={{ station: leg.from.name }}
+        values={{ station: leg.from ? leg.from.name : '' }}
         defaultMessage="Return the bike to {station} station"
       />
     ) : null;
@@ -59,7 +59,7 @@ function WalkLeg(
             time: moment(leg.startTime).format('HH:mm'),
             distance,
             duration,
-            destination: leg.to.name,
+            destination: leg.to ? leg.to.name : '',
           }}
         />
       </span>

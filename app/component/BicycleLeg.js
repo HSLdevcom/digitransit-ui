@@ -23,7 +23,7 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
   const distance = displayDistance(parseInt(leg.distance, 10), config);
   const duration = durationToString(leg.duration * 1000);
   let { mode } = leg;
-  let legDescription = <span>{leg.from.name}</span>;
+  let legDescription = <span>{leg.from ? leg.from.name : ''}</span>;
   const firstLegClassName = index === 0 ? 'start' : '';
   let modeClassName = 'bicycle';
 
@@ -69,7 +69,7 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
     legDescription = (
       <FormattedMessage
         id={isScooter ? 'rent-scooter-at' : 'rent-cycle-at'}
-        values={{ station: leg.from.name }}
+        values={{ station: leg.from ? leg.from.name : '' }}
         defaultMessage="Rent a bike at {station} station"
       />
     );
@@ -94,7 +94,7 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
           values={{
             time: moment(leg.startTime).format('HH:mm'),
             distance,
-            destination: leg.to.name,
+            destination: leg.to ? leg.to.name : '',
             duration,
           }}
         />

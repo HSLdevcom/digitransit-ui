@@ -69,7 +69,7 @@ function ViaLeg(props, context) {
                 values={{
                   time: moment(props.leg.startTime).format('HH:mm'),
                   distance,
-                  destination: props.leg.to.name,
+                  destination: props.leg.to ? props.leg.to.name : '',
                   duration,
                 }}
               />
@@ -179,7 +179,7 @@ ViaLeg.propTypes = {
     }).isRequired,
     to: PropTypes.shape({
       name: PropTypes.string.isRequired,
-    }).isRequired,
+    }),
   }).isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,

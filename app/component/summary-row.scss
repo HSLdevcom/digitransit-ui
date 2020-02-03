@@ -307,7 +307,7 @@
   }
 
   .itinerary-tab {
-    width: calc(100% - 120px);
+    width: auto;
     margin-left: 34px;
     margin-right: 10px;
     border-top: solid 1px $light-gray;
@@ -421,12 +421,6 @@
   .itinerary-summary-visible {
     flex: auto;
     flex-wrap: wrap;
-  }
-  .itinerary-details-container {
-    display: flex;
-    &.visible {
-      flex: auto;
-    }
   }
 }
 

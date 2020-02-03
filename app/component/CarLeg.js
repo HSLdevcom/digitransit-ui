@@ -29,7 +29,7 @@ function CarLeg(props, context) {
           values={{
             time: moment(props.leg.startTime).format('HH:mm'),
             distance,
-            destination: props.leg.to.name,
+            destination: props.leg.to ? props.leg.to.name : '',
             duration,
           }}
         />
@@ -107,7 +107,7 @@ CarLeg.propTypes = {
     }).isRequired,
     to: PropTypes.shape({
       name: PropTypes.string.isRequired,
-    }).isRequired,
+    }),
     mode: PropTypes.string.isRequired,
   }).isRequired,
   index: PropTypes.number.isRequired,
