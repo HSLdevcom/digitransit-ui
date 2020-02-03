@@ -469,40 +469,42 @@ const SummaryRow = (
         /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
         {showDetails ? (
           <>
-            <div
-              className="summary-clickable-area"
-              onClick={() => props.onSelect(props.hash)}
-              aria-hidden="true"
-            >
-              {/* eslint-enable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
-              <div className="flex-grow itinerary-heading" key="title">
-                <h4 className="h2">
-                  <FormattedMessage
-                    id="itinerary-page.title"
-                    defaultMessage="Itinerary"
-                  />
-                </h4>
+            <div className="itinerary-summary-header">
+              <div
+                className="summary-clickable-area"
+                onClick={() => props.onSelect(props.hash)}
+                aria-hidden="true"
+              >
+                {/* eslint-enable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
+                <div className="flex-grow itinerary-heading" key="title">
+                  <h4 className="h2">
+                    <FormattedMessage
+                      id="itinerary-page.title"
+                      defaultMessage="Itinerary"
+                    />
+                  </h4>
+                </div>
               </div>
-            </div>
-            <div
-              tabIndex="0"
-              role="button"
-              title={formatMessage({
-                id: 'itinerary-page.hide-details',
-              })}
-              key="arrow"
-              className="action-arrow-click-area noborder flex-vertical"
-              onClick={e => {
-                e.stopPropagation();
-                props.onSelectImmediately(props.hash);
-              }}
-              onKeyPress={e =>
-                isKeyboardSelectionEvent(e) &&
-                props.onSelectImmediately(props.hash)
-              }
-            >
-              <div className="action-arrow flex-grow">
-                <Icon img="icon-icon_arrow-collapse--right" />
+              <div
+                tabIndex="0"
+                role="button"
+                title={formatMessage({
+                  id: 'itinerary-page.hide-details',
+                })}
+                key="arrow"
+                className="action-arrow-click-area noborder flex-vertical"
+                onClick={e => {
+                  e.stopPropagation();
+                  props.onSelectImmediately(props.hash);
+                }}
+                onKeyPress={e =>
+                  isKeyboardSelectionEvent(e) &&
+                  props.onSelectImmediately(props.hash)
+                }
+              >
+                <div className="action-arrow flex-grow">
+                  <Icon img="icon-icon_arrow-collapse--right" />
+                </div>
               </div>
             </div>
             {/* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
@@ -526,82 +528,84 @@ const SummaryRow = (
           </>
         ) : (
           <>
-            <div
-              className="summary-clickable-area"
-              onClick={() => props.onSelect(props.hash)}
-              onKeyPress={e =>
-                isKeyboardSelectionEvent(e) && props.onSelect(props.hash)
-              }
-              tabIndex="0"
-              role="button"
-            >
-              <span key="ShowOnMapScreenReader" className="sr-only">
-                <FormattedMessage id="itinerary-summary-row.clickable-area-description" />
-              </span>
+            <div className="itinerary-summary-header">
               <div
-                className="itinerary-start-time"
-                key="startTime"
-                aria-hidden="true"
+                className="summary-clickable-area"
+                onClick={() => props.onSelect(props.hash)}
+                onKeyPress={e =>
+                  isKeyboardSelectionEvent(e) && props.onSelect(props.hash)
+                }
+                tabIndex="0"
+                role="button"
               >
-                <span
-                  className={cx('itinerary-start-date', {
-                    nobg: sameDay(startTime, refTime),
-                  })}
+                <span key="ShowOnMapScreenReader" className="sr-only">
+                  <FormattedMessage id="itinerary-summary-row.clickable-area-description" />
+                </span>
+                <div
+                  className="itinerary-start-time"
+                  key="startTime"
+                  aria-hidden="true"
                 >
-                  <span>{dateOrEmpty(startTime, refTime)}</span>
-                </span>
-                <LocalTime time={startTime} />
-              </div>
-              <div className="itinerary-legs" key="legs" aria-hidden="true">
-                {firstLegStartTime}
-                {legs}
-              </div>
-              <div
-                className="itinerary-end-time-and-distance"
-                key="endtime-distance"
-                aria-hidden="true"
-              >
-                <div className="itinerary-end-time">
-                  <LocalTime time={endTime} />
+                  <span
+                    className={cx('itinerary-start-date', {
+                      nobg: sameDay(startTime, refTime),
+                    })}
+                  >
+                    <span>{dateOrEmpty(startTime, refTime)}</span>
+                  </span>
+                  <LocalTime time={startTime} />
                 </div>
-                {isDefaultPosition && renderBikingDistance(data)}
+                <div className="itinerary-legs" key="legs" aria-hidden="true">
+                  {firstLegStartTime}
+                  {legs}
+                </div>
+                <div
+                  className="itinerary-end-time-and-distance"
+                  key="endtime-distance"
+                  aria-hidden="true"
+                >
+                  <div className="itinerary-end-time">
+                    <LocalTime time={endTime} />
+                  </div>
+                  {isDefaultPosition && renderBikingDistance(data)}
+                </div>
+                <div
+                  className="itinerary-duration-and-distance"
+                  key="duration-distance"
+                  aria-hidden="true"
+                >
+                  <span className="itinerary-duration">
+                    <RelativeDuration duration={duration} />
+                  </span>
+                  {!isDefaultPosition && renderBikingDistance(data)}
+                  {!onlyBiking(data) && (
+                    <div className="itinerary-walking-distance">
+                      <Icon img="icon-icon_walk" viewBox="6 0 40 40" />
+                      {displayDistance(getTotalWalkingDistance(data), config)}
+                    </div>
+                  )}
+                </div>
               </div>
               <div
-                className="itinerary-duration-and-distance"
-                key="duration-distance"
-                aria-hidden="true"
+                tabIndex="0"
+                role="button"
+                title={formatMessage({
+                  id: 'itinerary-page.show-details',
+                })}
+                key="arrow"
+                className="action-arrow-click-area flex-vertical noborder"
+                onClick={e => {
+                  e.stopPropagation();
+                  props.onSelectImmediately(props.hash);
+                }}
+                onKeyPress={e =>
+                  isKeyboardSelectionEvent(e) &&
+                  props.onSelectImmediately(props.hash)
+                }
               >
-                <span className="itinerary-duration">
-                  <RelativeDuration duration={duration} />
-                </span>
-                {!isDefaultPosition && renderBikingDistance(data)}
-                {!onlyBiking(data) && (
-                  <div className="itinerary-walking-distance">
-                    <Icon img="icon-icon_walk" viewBox="6 0 40 40" />
-                    {displayDistance(getTotalWalkingDistance(data), config)}
-                  </div>
-                )}
-              </div>
-            </div>
-            <div
-              tabIndex="0"
-              role="button"
-              title={formatMessage({
-                id: 'itinerary-page.show-details',
-              })}
-              key="arrow"
-              className="action-arrow-click-area flex-vertical noborder"
-              onClick={e => {
-                e.stopPropagation();
-                props.onSelectImmediately(props.hash);
-              }}
-              onKeyPress={e =>
-                isKeyboardSelectionEvent(e) &&
-                props.onSelectImmediately(props.hash)
-              }
-            >
-              <div className="action-arrow flex-grow">
-                <Icon img="icon-icon_arrow-collapse--right" />
+                <div className="action-arrow flex-grow">
+                  <Icon img="icon-icon_arrow-collapse--right" />
+                </div>
               </div>
             </div>
             <span

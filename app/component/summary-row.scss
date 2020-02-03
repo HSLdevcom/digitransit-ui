@@ -420,7 +420,12 @@
 
   .itinerary-summary-visible {
     flex: auto;
-    flex-wrap: wrap;
+    flex-direction: column;
+  }
+
+  .itinerary-summary-header {
+      display: flex;
+      flex: auto;
   }
 }
 
