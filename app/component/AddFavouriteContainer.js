@@ -60,7 +60,6 @@ class AddFavouriteContainer extends React.Component {
       locationName: '',
       lon: undefined,
       selectedIconId: undefined,
-      version: 1,
     },
   };
 

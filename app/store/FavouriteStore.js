@@ -153,7 +153,7 @@ export default class FavouriteStore extends Store {
           const newLocation = {
             type: 'place',
             id: data.properties.gid,
-            address: data.properties.address,
+            address: data.properties.label,
             locationName: location.locationName,
             lon: data.geometry.coordinates[0],
             lat: data.geometry.coordinates[1],
