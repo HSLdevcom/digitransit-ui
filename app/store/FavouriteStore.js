@@ -2,12 +2,30 @@ import Store from 'fluxible/addons/BaseStore';
 import includes from 'lodash/includes';
 import find from 'lodash/find';
 import moment from 'moment';
-import { getFavouriteStorage, setFavouriteStorage } from './localStorage';
+import {
+  getFavouriteStorage,
+  setFavouriteStorage,
+  getFavouriteRoutesStorage,
+  getFavouriteStopsStorage,
+  getFavouriteLocationsStorage,
+} from './localStorage';
+import { isStop } from '../util/suggestionUtils';
+import { getGeocodingResult } from '../util/searchUtils';
 
 export default class FavouriteStore extends Store {
   static storeName = 'FavouriteStore';
 
   favourites = getFavouriteStorage();
+
+  config = {};
+
+  constructor(dispatcher) {
+    super(dispatcher);
+    this.config = dispatcher.getContext().config;
+    this.migrateRoutes();
+    this.migrateStops();
+    this.migrateLocations();
+  }
 
   isFavourite(id) {
     const ids = this.favourites.map(
@@ -87,6 +105,65 @@ export default class FavouriteStore extends Store {
     );
     this.storeFavourites();
     this.emitChange();
+  }
+
+  migrateRoutes() {
+    const routes = getFavouriteRoutesStorage();
+    routes.forEach(route => {
+      this.addFavourite({ type: 'route', gtfsId: route });
+    });
+  }
+
+  migrateStops() {
+    const stops = getFavouriteStopsStorage();
+    stops.forEach(stop => {
+      const newStop = {
+        type: isStop(stop) ? 'stop' : 'station',
+        locationName: stop.locationName,
+        gtfsId: stop.gtfsId,
+        address: stop.address,
+        lon: stop.lon,
+        lat: stop.lat,
+        layer: stop.layer,
+        selectedIconId: stop.selectedIconId,
+      };
+      this.addFavourite(newStop);
+    });
+  }
+
+  migrateLocations() {
+    const locations = getFavouriteLocationsStorage();
+    locations.forEach(location => {
+      getGeocodingResult(
+        location.address,
+        this.config.searchParams,
+        null,
+        null,
+        null,
+        this.config,
+      ).then(res => {
+        const data = find(
+          res,
+          elem =>
+            elem.properties.label === location.address ||
+            (location.lon === elem.geometry.coordinates[0] &&
+              location.lat === elem.geometry.coordinates[1]),
+        );
+        if (data) {
+          const newLocation = {
+            type: 'place',
+            id: data.properties.gid,
+            address: data.properties.address,
+            locationName: location.locationName,
+            lon: data.geometry.coordinates[0],
+            lat: data.geometry.coordinates[1],
+            layer: data.properties.layer,
+            selectedIconId: location.selectedIconId,
+          };
+          this.addFavourite(newLocation);
+        }
+      });
+    });
   }
 
   static handlers = {
