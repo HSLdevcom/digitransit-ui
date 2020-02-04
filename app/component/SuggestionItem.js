@@ -19,7 +19,9 @@ import ComponentUsageExample from './ComponentUsageExample';
 const SuggestionItem = pure(
   ({ item, useTransportIcons, doNotShowLinkToStop, loading }) => {
     let icon;
+    let iconstr;
     if (item.properties.mode && useTransportIcons) {
+      iconstr = `icon-icon_${item.properties.mode}`;
       icon = (
         <Icon
           img={`icon-icon_${item.properties.mode}`}
@@ -27,6 +29,7 @@ const SuggestionItem = pure(
         />
       );
     } else {
+      iconstr = item.properties.layer;
       icon = (
         <Icon
           img={getIcon(item.properties.layer)}
@@ -34,17 +37,28 @@ const SuggestionItem = pure(
         />
       );
     }
-
     const [name, label] = getNameLabel(item.properties, false);
-
+    iconstr = iconstr.replace('route-', '');
+    const acri = (
+      <div className="sr-only" role="listitem">
+        <p role="listitem">
+          {' '}
+          {iconstr} - {name} - {label}
+        </p>
+      </div>
+    );
     const ri = (
       <div
+        aria-hidden="true"
+        role="listitem"
         className={cx('search-result', item.type, {
           favourite: item.type.startsWith('Favourite'),
           loading,
         })}
       >
-        <span className="autosuggestIcon">{icon}</span>
+        <span aria-label={iconstr} className="autosuggestIcon">
+          {icon}
+        </span>
         <div>
           <p className="suggestion-name">{name}</p>
           <p className="suggestion-label">{label}</p>
@@ -67,6 +81,7 @@ const SuggestionItem = pure(
                 item.timetableClicked = false;
               }}
             >
+              {acri}
               {ri}
             </Link>
           </div>
@@ -77,7 +92,11 @@ const SuggestionItem = pure(
               }}
             >
               <Icon img="icon-icon_schedule" />
-              <div className="suggestion-item-timetable-label">
+              <div
+                aria-hidden="true"
+                aria-label="Timetable button"
+                className="suggestion-item-timetable-label"
+              >
                 <FormattedMessage id="timetable" defaultMessage="Timetable" />
               </div>
             </Link>
@@ -85,7 +104,12 @@ const SuggestionItem = pure(
         </div>
       );
     }
-    return ri;
+    return (
+      <div>
+        {acri}
+        {ri}
+      </div>
+    );
   },
 );
 
