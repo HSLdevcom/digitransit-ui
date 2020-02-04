@@ -48,7 +48,7 @@ TripLink.propTypes = {
 const containerComponent = createFragmentContainer(TripLink, {
   trip: graphql`
     fragment TripLink_trip on QueryType
-      @argumentDefinitions(id: { type: "String" }) {
+      @argumentDefinitions(id: { type: "String!" }) {
       trip: trip(id: $id) {
         gtfsId
         pattern {

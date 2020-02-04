@@ -80,8 +80,8 @@ const connectedComponent = createRefetchContainer(
     stop: graphql`
       fragment StopPageContentContainer_stop on Stop
         @argumentDefinitions(
-          startTime: { type: "String!", defaultValue: "0" }
-          timeRange: { type: "Long!", defaultValue: 43200 }
+          startTime: { type: "Long!", defaultValue: 0 }
+          timeRange: { type: "Int!", defaultValue: 43200 }
           numberOfDepartures: { type: "Int!", defaultValue: 100 }
         ) {
         url

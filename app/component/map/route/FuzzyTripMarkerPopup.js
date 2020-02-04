@@ -95,10 +95,10 @@ const containerComponent = createFragmentContainer(
     trip: graphql`
       fragment FuzzyTripMarkerPopup_trip on QueryType
         @argumentDefinitions(
-          route: { type: "String" }
-          direction: { type: "Int" }
-          time: { type: "Int" }
-          date: { type: "String" }
+          route: { type: "String!" }
+          direction: { type: "Int!" }
+          time: { type: "Int!" }
+          date: { type: "String!" }
         ) {
         fuzzyTrip(
           route: $route

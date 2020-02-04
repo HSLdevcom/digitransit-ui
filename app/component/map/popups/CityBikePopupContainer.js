@@ -58,7 +58,7 @@ class CityBikePopupContainer extends React.Component {
 
 export default createFragmentContainer(CityBikePopupContainer, {
   station: graphql`
-    fragment CityBikePopup_station on BikeRentalStation {
+    fragment CityBikePopupContainer_station on BikeRentalStation {
       stationId
       name
       lat
