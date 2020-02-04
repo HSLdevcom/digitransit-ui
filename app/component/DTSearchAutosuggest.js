@@ -306,7 +306,7 @@ class DTAutosuggest extends React.Component {
       onKeyDown: this.keyDown, // DT-3263
     };
 
-    // DT-3263: removed highlightFirstSuggestion on Autosuggest
+    // DT-3263: removed highlightFirstSuggestion on Autosuggest, Because screen readers could not read first suggestion out loud.
     return (
       <div className={cx(['autosuggest-input-container', this.props.id])}>
         {this.props.icon && (
