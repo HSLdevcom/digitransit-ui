@@ -59,6 +59,7 @@ function WalkLeg(
             time: moment(leg.startTime).format('HH:mm'),
             distance,
             duration,
+            origin: leg.from ? leg.from.name : '',
             destination: leg.to ? leg.to.name : '',
           }}
         />
@@ -78,7 +79,10 @@ function WalkLeg(
         className={`small-9 columns itinerary-instruction-column ${leg.mode.toLowerCase()}`}
       >
         <span className="sr-only">
-          <FormattedMessage id="itinerary-summary.show-on-map" />
+          <FormattedMessage
+            id="itinerary-summary.show-on-map"
+            values={{ target: leg.from.name || '' }}
+          />
         </span>
         <div className="itinerary-leg-first-row" aria-hidden="true">
           <div>

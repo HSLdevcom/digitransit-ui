@@ -69,6 +69,7 @@ function ViaLeg(props, context) {
                 values={{
                   time: moment(props.leg.startTime).format('HH:mm'),
                   distance,
+                  origin: props.leg.from ? props.leg.from.name : '',
                   destination: props.leg.to ? props.leg.to.name : '',
                   duration,
                 }}
@@ -105,7 +106,10 @@ function ViaLeg(props, context) {
         className="small-9 columns itinerary-instruction-column via"
       >
         <span className="sr-only">
-          <FormattedMessage id="itinerary-summary.show-on-map" />
+          <FormattedMessage
+            id="itinerary-summary.show-on-map"
+            values={{ target: props.leg.from.name || '' }}
+          />
         </span>
         <div className="itinerary-leg-first-row" aria-hidden="true">
           <div>

@@ -94,6 +94,7 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
           values={{
             time: moment(leg.startTime).format('HH:mm'),
             distance,
+            origin: leg.from ? leg.from.name : '',
             destination: leg.to ? leg.to.name : '',
             duration,
           }}
@@ -119,7 +120,10 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
         className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${mode.toLowerCase()}`}
       >
         <span className="sr-only">
-          <FormattedMessage id="itinerary-summary.show-on-map" />
+          <FormattedMessage
+            id="itinerary-summary.show-on-map"
+            values={{ target: leg.from.name || '' }}
+          />
         </span>
         <div className="itinerary-leg-first-row" aria-hidden="true">
           {legDescription}
