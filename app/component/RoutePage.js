@@ -92,7 +92,12 @@ class RoutePage extends React.Component {
       location !== undefined
         ? location.pathname.indexOf(params.patternId) + params.patternId.length
         : 0; // DT-3331
-    const reRouteAllowed = lengthPathName === lengthIndexOfPattern; // DT-3331
+    const noSortFound =
+      location !== undefined
+        ? location.search.indexOf('sort=no') !== -1
+        : false; // DT-3331
+    const reRouteAllowed =
+      lengthPathName === lengthIndexOfPattern && !noSortFound; // DT-3331
 
     let sortedPatternsByCountOfTrips;
     const tripsExists = route.patterns ? 'trips' in route.patterns[0] : false;

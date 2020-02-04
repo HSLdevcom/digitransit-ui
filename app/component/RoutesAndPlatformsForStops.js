@@ -89,10 +89,11 @@ const RoutesAndPlatformsForStops = props => {
     );
   }
 
+  // DT-3331: added query string sort=no to Link's to
   const timeTableRows = mappedRoutes.map(route => (
     <Link
       to={`/${PREFIX_ROUTES}/${route.pattern.route.gtfsId ||
-        route.pattern.route.gtfsId}/pysakit/${route.pattern.code}`}
+        route.pattern.route.gtfsId}/pysakit/${route.pattern.code}?sort=no`}
       key={`${route.pattern.code}-${route.headsign}-${route.pattern.route.id ||
         route.pattern.route.gtfsId}-${route.stop.platformCode}`}
       onClick={() => {

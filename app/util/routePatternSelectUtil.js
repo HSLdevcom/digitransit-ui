@@ -201,9 +201,6 @@ export const enrichPatterns = (patterns, onlyInFuture, serviceTimeRange) => {
       x.activeDates = [];
     }
     x.activeDates = Array.from(new Set(uniqueDates.sort()));
-    x.activeDates = x.activeDates.filter(
-      ad => moment(ad, DATE_FORMAT).isSameOrAfter(currentDate) === true,
-    );
     if (
       x.activeDates.length === 1 &&
       moment(x.activeDates[0], DATE_FORMAT).isAfter(lastRangeDate)
@@ -256,15 +253,8 @@ export const enrichPatterns = (patterns, onlyInFuture, serviceTimeRange) => {
       }
     });
 
-    const rangeDays = [];
-    for (let z = 0; z < rangeFollowingDays.length; z++) {
-      if (moment(rangeFollowingDays[z][0]).isSameOrBefore(lastRangeDate)) {
-        rangeDays.push(rangeFollowingDays[z]);
-      }
-    }
-
     futureTrips[y].lastRangeDay = lastRangeDate.format(DATE_FORMAT);
-    futureTrips[y].rangeFollowingDays = rangeDays;
+    futureTrips[y].rangeFollowingDays = rangeFollowingDays;
     futureTrips[y].dayDiff = dayDiff;
     futureTrips[y].dayNumbers = dayNumbers;
     futureTrips[y].activeDates = Array.from(new Set(actDates));
@@ -279,11 +269,12 @@ export const enrichPatterns = (patterns, onlyInFuture, serviceTimeRange) => {
 
     if (
       futureTrips[y].rangeFollowingDays.length === 1 &&
-      futureTrips[y].rangeFollowingDays[0][0] ===
-        futureTrips[y].rangeFollowingDays[0][1]
+      (futureTrips[y].rangeFollowingDays[0][0] ===
+        futureTrips[y].rangeFollowingDays[0][1] ||
+        futureTrips[y].rangeFollowingDays[0][1] === 0)
     ) {
       futureTrips[y].fromDate = futureTrips[y].rangeFollowingDays[0][0];
-      futureTrips[y].untilDate = futureTrips[y].rangeFollowingDays[0][1];
+      futureTrips[y].untilDate = futureTrips[y].rangeFollowingDays[0][0];
       futureTrips[y].rangeFollowingDays[0][1] = 0;
     } else if (
       futureTrips[y].rangeFollowingDays.length === 1 &&
@@ -303,9 +294,9 @@ export const enrichPatterns = (patterns, onlyInFuture, serviceTimeRange) => {
         futureTrips[y].untilDate = '-';
       }
     } else {
-      futureTrips[y].fromDate = moment(minAndMaxDate[0]).isAfter(
-        currentDate.add(futureTrips[y].allowedDiff, 'days'),
-      )
+      futureTrips[y].fromDate = moment(minAndMaxDate[0])
+        .subtract(futureTrips[y].allowedDiff, 'days')
+        .isSameOrAfter(currentDate)
         ? `${minAndMaxDate[0]}`
         : '-';
       futureTrips[y].untilDate = moment(minAndMaxDate[1]).isBefore(
@@ -314,6 +305,10 @@ export const enrichPatterns = (patterns, onlyInFuture, serviceTimeRange) => {
         ? `${minAndMaxDate[1]}`
         : '-';
     }
+
+    futureTrips[y].activeDates = futureTrips[y].activeDates.filter(
+      ad => moment(ad, DATE_FORMAT).isSameOrAfter(currentDate) === true,
+    );
   }
 
   futureTrips = futureTrips.filter(
