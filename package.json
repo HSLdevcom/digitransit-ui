@@ -203,7 +203,7 @@
     "file-loader": "5.0.2",
     "gemini": "5.9.1",
     "gemini-browserstack": "1.1.0",
-    "git-precommit-checks": "3.0.0",
+    "git-precommit-checks": "3.0.1",
     "graphql": "0.13.2",
     "html-reporter": "1.2.0",
     "husky": "4.0.2",
