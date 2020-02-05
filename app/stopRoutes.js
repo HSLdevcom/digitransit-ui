@@ -11,7 +11,7 @@ import {
   ComponentLoading404Renderer,
   RelayRenderer,
 } from './util/routerUtils';
-import { prepareDatesForStops } from './util/dateParamUtils';
+import { prepareDatesForStops, prepareServiceDay } from './util/dateParamUtils';
 
 const stopQueries = {
   stop: () => Relay.QL`
@@ -111,6 +111,7 @@ export default function getStopRoutes(isTerminal = false) {
           getComponent={getTimetablePage}
           queries={queries}
           render={RelayRenderer}
+          prepareParams={prepareServiceDay}
         >
           <Route path="kartta" fullscreenMap />
         </Route>

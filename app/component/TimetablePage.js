@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Relay from 'react-relay/classic';
+import { createRefetchContainer, graphql } from 'react-relay/compat';
 import moment from 'moment';
 
+import { prepareServiceDay } from '../util/dateParamUtils';
 import TimetableContainer from './TimetableContainer';
 
 const initialDate = moment().format('YYYYMMDD');
@@ -13,25 +14,30 @@ class TimetablePage extends React.Component {
       url: PropTypes.string,
     }).isRequired,
     relay: PropTypes.shape({
-      variables: PropTypes.shape({
-        date: PropTypes.string.isRequired,
-      }).isRequired,
-      setVariables: PropTypes.func.isRequired,
+      refetch: PropTypes.func.isRequired,
     }).isRequired,
   };
 
+  state = prepareServiceDay({});
+
   onDateChange = ({ target }) => {
-    this.props.relay.setVariables({ date: target.value });
+    this.props.relay.refetch(
+      {
+        date: target.value,
+      },
+      null,
+      () => this.setState({ date: target.value }),
+    );
   };
 
   render() {
     return (
       <TimetableContainer
         stop={this.props.stop}
-        date={this.props.relay.variables.date}
+        date={this.state.date}
         propsForStopPageActionBar={{
           startDate: initialDate,
-          selectedDate: this.props.relay.variables.date,
+          selectedDate: this.state.date,
           onDateChange: this.onDateChange,
         }}
       />
@@ -39,16 +45,12 @@ class TimetablePage extends React.Component {
   }
 }
 
-export default Relay.createContainer(TimetablePage, {
-  fragments: {
-    stop: ({ date }) => Relay.QL`
-      fragment on Stop {
-        url
-        ${TimetableContainer.getFragment('stop', { date })}
-      }
-    `,
-  },
-  initialVariables: {
-    date: initialDate,
-  },
+export default createRefetchContainer(TimetablePage, {
+  stop: graphql`
+    fragment TimetablePage_stop on Stop
+      @argumentDefinitions(date: { type: "String" }) {
+      url
+      ...TimetableContainer_stop @arguments(date: $date)
+    }
+  `,
 });
