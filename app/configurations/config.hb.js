@@ -6,6 +6,7 @@ const APP_TITLE = 'Mobil in Herrenberg';
 const APP_DESCRIPTION = '';
 const API_URL = process.env.API_URL || 'https://api.mobil-in-herrenberg.de';
 const MAP_URL = process.env.MAP_URL || 'https://maps.wikimedia.org/osm-intl/';
+const MAP_KEY = process.env.MAP_KEY || '';
 const GEOCODING_BASE_URL = process.env.GEOCODING_BASE_URL || `https://pelias.locationiq.org/v1`;
 const LOCATIONIQ_API_KEY = process.env.LOCATIONIQ_API_KEY;
 const YEAR = 1900 + new Date().getYear();
@@ -38,8 +39,8 @@ export default configMerger(walttiConfig, {
   availableLanguages: ['de', 'en'],
   defaultLanguage: 'de',
 
-  appBarLink: { 
-    name: 'Feedback', 
+  appBarLink: {
+    name: 'Feedback',
     href: 'https://mobil-in-herrenberg.de/feedback',
     target: '_blank'
   },
@@ -87,9 +88,10 @@ export default configMerger(walttiConfig, {
 
   map: {
     useRetinaTiles: true,
+    key: MAP_KEY,
     tileSize: 256,
     zoomOffset: 0,
-    attribution: '&copy; <a tabindex=-1 href=http://osm.org/copyright>OpenStreetMap Mitwirkende</a>, <a tabindex=-1 href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>Datensätze der NVBW GmbH</a> und <a tabindex=-1 href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>'
+    attribution: '&copy; <a tabindex=-1 href=http://osm.org/copyright>OpenStreetMap Mitwirkende</a>, <a tabindex=-1 href="https://www.maptiler.com/copyright/>© Maptiler</a>, <a tabindex=-1 href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>Datensätze der NVBW GmbH</a> und <a tabindex=-1 href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>'
   },
 
   feedIds: ['hb'],
@@ -133,7 +135,7 @@ export default configMerger(walttiConfig, {
     {
       icon: 'icon-icon_star',
       label: 'Waldfriedhof / Schönbuchturm',
-      lat: 48.6020352, 
+      lat: 48.6020352,
       lon: 8.9036348,
     },
   ],
@@ -167,9 +169,9 @@ export default configMerger(walttiConfig, {
         header: 'Über diesen Dienst',
         paragraphs: [
           'Mobil-in-Herrenberg ist eine Reiseplannungs-Anwendung für die Region Herrenberg. Dieser Dienst umfasst ÖPNV, Fußwege, Radverkehr, und PKW-Routing, inklusive Park&Ride.',
-          'Gefördert durch <br>', 
+          'Gefördert durch <br>',
           '<a href="https://www.herrenberg.de/stadtluft"><img src="https://www.herrenberg.de/ceasy/resource/?id=4355&predefinedImageSize=rightEditorContent"/></a>',
-          
+
         ],
       },
       {
@@ -296,7 +298,7 @@ export default configMerger(walttiConfig, {
         },
         url: '/assets/geojson/hb-layers/bicycle-parking.geojson',
       },
-      // bicycleinfrastructure includes shops, repair stations, 
+      // bicycleinfrastructure includes shops, repair stations,
       {
         name: {
           fi: '',
@@ -322,7 +324,7 @@ export default configMerger(walttiConfig, {
         },
         url: '/assets/geojson/hb-layers/car-parking.geojson',
       },
-      // Charging stations 
+      // Charging stations
       {
         name: {
           fi: '',
@@ -334,5 +336,5 @@ export default configMerger(walttiConfig, {
     ],
 },
 staticMessagesUrl: STATIC_MESSAGE_URL,
-  
+
 });
