@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { intlShape, FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import ComponentUsageExample from './ComponentUsageExample';
 import { plan as examplePlan } from './ExampleData';
@@ -20,6 +20,7 @@ class TimeNavigationButtons extends React.Component {
   };
 
   static contextTypes = {
+    intl: intlShape.isRequired,
     config: PropTypes.shape({
       itinerary: PropTypes.shape({
         enableFeedback: PropTypes.bool,
@@ -45,7 +46,7 @@ class TimeNavigationButtons extends React.Component {
   );
 
   render() {
-    const { config } = this.context;
+    const { intl, config } = this.context;
 
     const itineraryFeedback = config.itinerary.enableFeedback ? (
       <ItineraryFeedback />
@@ -62,12 +63,21 @@ class TimeNavigationButtons extends React.Component {
       <BreakpointConsumer>
         {breakpoint => (
           <div
+            role="group"
+            aria-label={intl.formatMessage({
+              id: 'time-navigation-buttons',
+              defaultMessage: 'Time navigation buttons',
+            })}
             className={cx('time-navigation-buttons', {
               'bp-large': breakpoint === 'large',
             })}
           >
             {itineraryFeedback}
             <button
+              aria-label={intl.formatMessage({
+                id: 'set-time-earlier-button-label',
+                defaultMessage: 'Set travel time to earlier',
+              })}
               className="standalone-btn time-navigation-earlier-btn"
               disabled={this.props.isEarlierDisabled}
               onClick={this.props.onEarlier}
@@ -76,12 +86,20 @@ class TimeNavigationButtons extends React.Component {
               <FormattedMessage id="earlier" defaultMessage="Earlier" />
             </button>
             <button
+              aria-label={intl.formatMessage({
+                id: 'set-time-now-button-label',
+                defaultMessage: 'Set travel time to now',
+              })}
               className="standalone-btn time-navigation-now-btn"
               onClick={this.props.onNow}
             >
               <FormattedMessage id="now" defaultMessage="Now" />
             </button>
             <button
+              aria-label={intl.formatMessage({
+                id: 'set-time-later-button-label',
+                defaultMessage: 'Set travel time to later',
+              })}
               className="standalone-btn time-navigation-later-btn"
               disabled={this.props.isLaterDisabled}
               onClick={this.props.onLater}
