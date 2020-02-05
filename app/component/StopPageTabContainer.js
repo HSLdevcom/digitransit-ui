@@ -3,15 +3,11 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import { Link } from 'react-router';
 import some from 'lodash/some';
 import { AlertSeverityLevelType } from '../constants';
 import Icon from './Icon';
-import {
-  RouteAlertsWithContentQuery,
-  StopAlertsWithContentQuery,
-} from '../util/alertQueries';
 import {
   getCancelationsForStop,
   getServiceAlertsForStop,
@@ -291,53 +287,153 @@ StopPageTabContainer.contextTypes = {
   intl: intlShape.isRequired,
 };
 
-const containerComponent = Relay.createContainer(
+const containerComponent = createFragmentContainer(
   withBreakpoint(StopPageTabContainer),
   {
-    fragments: {
-      stop: () => Relay.QL`
-        fragment on Stop {
-          ${StopAlertsWithContentQuery}
-          vehicleMode
-          stoptimes: stoptimesWithoutPatterns(
-            startTime:$startTime,
-            timeRange:$timeRange,
-            numberOfDepartures:100,
-            omitCanceled:false
-          ) {
-            realtimeState
+    stop: graphql`
+      fragment StopPageTabContainer_stop on Stop
+        @argumentDefinitions(
+          startTime: { type: "Long" }
+          timeRange: { type: "Int", default: 900 }
+        ) {
+        id
+        gtfsId
+        code
+        stops {
+          id
+          gtfsId
+          alerts {
+            id
+            alertDescriptionText
+            alertHash
+            alertHeaderText
+            alertSeverityLevel
+            alertUrl
+            effectiveEndDate
+            effectiveStartDate
+            alertDescriptionTextTranslations {
+              language
+              text
+            }
+            alertHeaderTextTranslations {
+              language
+              text
+            }
+            alertUrlTranslations {
+              language
+              text
+            }
+          }
+        }
+        alerts {
+          id
+          alertDescriptionText
+          alertHash
+          alertHeaderText
+          alertSeverityLevel
+          alertUrl
+          effectiveEndDate
+          effectiveStartDate
+          alertDescriptionTextTranslations {
+            language
+            text
+          }
+          alertHeaderTextTranslations {
+            language
+            text
+          }
+          alertUrlTranslations {
+            language
+            text
+          }
+        }
+        vehicleMode
+        stoptimes: stoptimesWithoutPatterns(
+          startTime: $startTime
+          timeRange: $timeRange
+          numberOfDepartures: 100
+          omitCanceled: false
+        ) {
+          realtimeState
+          trip {
+            pattern {
+              code
+            }
+            route {
+              gtfsId
+              shortName
+              longName
+              mode
+              color
+              alerts {
+                id
+                alertDescriptionText
+                alertHash
+                alertHeaderText
+                alertSeverityLevel
+                alertUrl
+                effectiveEndDate
+                effectiveStartDate
+                alertDescriptionTextTranslations {
+                  language
+                  text
+                }
+                alertHeaderTextTranslations {
+                  language
+                  text
+                }
+                alertUrlTranslations {
+                  language
+                  text
+                }
+                trip {
+                  pattern {
+                    code
+                  }
+                }
+              }
+            }
+          }
+        }
+        routes {
+          gtfsId
+          shortName
+          longName
+          mode
+          color
+          alerts {
+            id
+            alertDescriptionText
+            alertHash
+            alertHeaderText
+            alertSeverityLevel
+            alertUrl
+            effectiveEndDate
+            effectiveStartDate
+            alertDescriptionTextTranslations {
+              language
+              text
+            }
+            alertHeaderTextTranslations {
+              language
+              text
+            }
+            alertUrlTranslations {
+              language
+              text
+            }
             trip {
               pattern {
                 code
               }
-              route {
-                gtfsId
-                shortName
-                longName
-                mode
-                color
-                ${RouteAlertsWithContentQuery}
-              }
             }
           }
-          routes {
-            gtfsId
-            shortName
-            longName
-            mode
-            color
-            ${RouteAlertsWithContentQuery}
-            patterns {
-              code
-            }
+          patterns {
+            code
           }
         }
-      `,
-    },
-    initialVariables: {
-      startTime: moment().unix() - 60 * 5, // 5 mins in the past
-      timeRange: 60 * 15, // -5 + 15 = 10 mins in the future
-    },
+      }
+    `,
   },
 );
 

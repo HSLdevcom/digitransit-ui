@@ -1,16 +1,10 @@
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 
 import AlertList from './AlertList';
 import DepartureCancelationInfo from './DepartureCancelationInfo';
-import { DATE_FORMAT } from '../constants';
-import {
-  RouteAlertsWithContentQuery,
-  StopAlertsWithContentQuery,
-} from '../util/alertQueries';
 import {
   getCancelationsForStop,
   getServiceAlertsForStop,
@@ -118,53 +112,153 @@ StopAlertsContainer.contextTypes = {
   intl: intlShape.isRequired,
 };
 
-const containerComponent = Relay.createContainer(StopAlertsContainer, {
-  fragments: {
-    stop: () => Relay.QL`
-      fragment Timetable on Stop {
-        routes {
-          gtfsId
-          shortName
-          longName
-          mode
-          color
-          ${RouteAlertsWithContentQuery}
-        }
-        ${StopAlertsWithContentQuery}
-        stoptimes: stoptimesWithoutPatterns(
-          startTime:$startTime,
-          timeRange:$timeRange,
-          numberOfDepartures:100,
-          omitCanceled:false
-        ) {
-          headsign
-          realtimeState
-          scheduledDeparture
-          serviceDay
+const containerComponent = createFragmentContainer(StopAlertsContainer, {
+  stop: graphql`
+    fragment StopAlertsContainer_stop on Stop
+      @argumentDefinitions(
+        startTime: { type: "Long" }
+        timeRange: { type: "Int", default: 900 }
+        date: { type: "String" }
+      ) {
+      routes {
+        gtfsId
+        shortName
+        longName
+        mode
+        color
+        alerts {
+          id
+          alertDescriptionText
+          alertHash
+          alertHeaderText
+          alertSeverityLevel
+          alertUrl
+          effectiveEndDate
+          effectiveStartDate
+          alertDescriptionTextTranslations {
+            language
+            text
+          }
+          alertHeaderTextTranslations {
+            language
+            text
+          }
+          alertUrlTranslations {
+            language
+            text
+          }
           trip {
             pattern {
               code
             }
-            route {
-              color
-              mode
-              shortName
-              gtfsId
-              ${RouteAlertsWithContentQuery}
-            }
-            stops {
-              name
-            }
           }
         }
       }
-    `,
-  },
-  initialVariables: {
-    startTime: moment().unix() - 60 * 5, // 5 mins in the past
-    timeRange: 60 * 15, // -5 + 15 = 10 mins in the future
-    date: moment().format(DATE_FORMAT),
-  },
+      id
+      gtfsId
+      code
+      stops {
+        id
+        gtfsId
+        alerts {
+          id
+          alertDescriptionText
+          alertHash
+          alertHeaderText
+          alertSeverityLevel
+          alertUrl
+          effectiveEndDate
+          effectiveStartDate
+          alertDescriptionTextTranslations {
+            language
+            text
+          }
+          alertHeaderTextTranslations {
+            language
+            text
+          }
+          alertUrlTranslations {
+            language
+            text
+          }
+        }
+      }
+      alerts {
+        id
+        alertDescriptionText
+        alertHash
+        alertHeaderText
+        alertSeverityLevel
+        alertUrl
+        effectiveEndDate
+        effectiveStartDate
+        alertDescriptionTextTranslations {
+          language
+          text
+        }
+        alertHeaderTextTranslations {
+          language
+          text
+        }
+        alertUrlTranslations {
+          language
+          text
+        }
+      }
+      stoptimes: stoptimesWithoutPatterns(
+        startTime: $startTime
+        timeRange: $timeRange
+        numberOfDepartures: 100
+        omitCanceled: false
+      ) {
+        headsign
+        realtimeState
+        scheduledDeparture
+        serviceDay
+        trip {
+          pattern {
+            code
+          }
+          route {
+            color
+            mode
+            shortName
+            gtfsId
+            alerts {
+              id
+              alertDescriptionText
+              alertHash
+              alertHeaderText
+              alertSeverityLevel
+              alertUrl
+              effectiveEndDate
+              effectiveStartDate
+              alertDescriptionTextTranslations {
+                language
+                text
+              }
+              alertHeaderTextTranslations {
+                language
+                text
+              }
+              alertUrlTranslations {
+                language
+                text
+              }
+              trip {
+                pattern {
+                  code
+                }
+              }
+            }
+          }
+          stops {
+            name
+          }
+        }
+      }
+    }
+  `,
 });
 
 export { containerComponent as default, StopAlertsContainer as Component };

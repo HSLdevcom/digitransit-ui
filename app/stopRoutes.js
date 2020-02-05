@@ -11,6 +11,7 @@ import {
   ComponentLoading404Renderer,
   RelayRenderer,
 } from './util/routerUtils';
+import { prepareDatesForStops } from './util/dateParamUtils';
 
 const stopQueries = {
   stop: () => Relay.QL`
@@ -91,6 +92,7 @@ export default function getStopRoutes(isTerminal = false) {
           meta: queries,
         }}
         render={ComponentLoading404Renderer}
+        prepareParams={prepareDatesForStops}
       >
         <IndexRoute
           getComponent={getStopPageContentPage}
@@ -125,6 +127,7 @@ export default function getStopRoutes(isTerminal = false) {
           getComponent={getDisruptions}
           queries={queries}
           render={RelayRenderer}
+          prepareParams={prepareDatesForStops}
         >
           <Route path="kartta" fullscreenMap />
         </Route>
