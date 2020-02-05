@@ -13,13 +13,14 @@ import 'leaflet-active-area';
 // Webpack handles this by bundling it with the other css files
 import 'leaflet/dist/leaflet.css';
 
+import isEmpty from 'lodash/isEmpty';
+
 import PositionMarker from './PositionMarker';
 import VectorTileLayerContainer from './tile-layer/VectorTileLayerContainer';
 import { boundWithMinimumArea } from '../../util/geo-utils';
 import { isDebugTiles } from '../../util/browser';
 import { BreakpointConsumer } from '../../util/withBreakpoint';
 import events from '../../util/events';
-import isEmpty from 'lodash/isEmpty';
 
 const zoomOutText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_minus"/></svg>`;
 
@@ -114,8 +115,8 @@ export default class Map extends React.Component {
 
     let finalMapUrl = `${mapUrl}{z}/{x}/{y}{size}.png`;
 
-    if(!isEmpty(config.map.key)) {
-      finalMapUrl = `${finalMapUrl}?key=${config.map.key}`
+    if (!isEmpty(config.map.key)) {
+      finalMapUrl = `${finalMapUrl}?key=${config.map.key}`;
     }
 
     return (
