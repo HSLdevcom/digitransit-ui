@@ -2,13 +2,12 @@
 /* eslint-disable func-names */
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import Relay from 'react-relay/classic';
+import { createRefetchContainer, graphql } from 'react-relay/compat';
 import cx from 'classnames';
 import sortBy from 'lodash/sortBy';
 import { intlShape } from 'react-intl'; // DT-2531
 import { routerShape } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import moment from 'moment';
 
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -29,7 +28,9 @@ class RoutePatternSelect extends Component {
     route: PropTypes.object,
     onSelectChange: PropTypes.func.isRequired,
     serviceDay: PropTypes.string.isRequired,
-    relay: PropTypes.object.isRequired,
+    relay: PropTypes.shape({
+      refetch: PropTypes.func.isRequired,
+    }).isRequired,
     gtfsId: PropTypes.string.isRequired,
     useCurrentTime: PropTypes.bool, // DT-3182
   };
@@ -42,10 +43,13 @@ class RoutePatternSelect extends Component {
 
   constructor(props) {
     super(props);
-    this.props.relay.setVariables({ serviceDay: this.props.serviceDay });
-    this.state = {
-      loading: false,
-    };
+    this.props.relay.refetch(
+      {
+        date: this.props.serviceDay,
+      },
+      null,
+      () => this.setState({ loading: false }),
+    );
   }
 
   componentWillMount = () => {
@@ -210,22 +214,19 @@ RoutePatternSelect.description = () => (
 
 // DT-2531: added activeDates
 const withStore = connectToStores(
-  Relay.createContainer(RoutePatternSelect, {
-    initialVariables: {
-      serviceDay: moment().format(DATE_FORMAT),
-    },
-    fragments: {
-      route: () => Relay.QL`
-      fragment on Route {
+  createRefetchContainer(RoutePatternSelect, {
+    route: graphql`
+      fragment RoutePatternSelect_route on Route
+        @argumentDefinitions(date: { type: "String" }) {
         patterns {
           code
           headsign
           stops {
             name
           }
-          tripsForDate(serviceDate: $serviceDay) {
+          tripsForDate(serviceDate: $date) {
             id
-            stoptimes: stoptimesForDate(serviceDate: $serviceDay) {
+            stoptimes: stoptimesForDate(serviceDate: $date) {
               scheduledArrival
               scheduledDeparture
               serviceDay
@@ -239,8 +240,7 @@ const withStore = connectToStores(
           }
         }
       }
-      `,
-    },
+    `,
   }),
   [],
   context => ({
