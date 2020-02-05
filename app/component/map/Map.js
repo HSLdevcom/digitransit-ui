@@ -19,6 +19,7 @@ import { boundWithMinimumArea } from '../../util/geo-utils';
 import { isDebugTiles } from '../../util/browser';
 import { BreakpointConsumer } from '../../util/withBreakpoint';
 import events from '../../util/events';
+import isEmpty from 'lodash/isEmpty';
 
 const zoomOutText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_minus"/></svg>`;
 
@@ -111,6 +112,12 @@ export default class Map extends React.Component {
       mapUrl = mapUrl[this.props.lang] || config.URL.MAP.default;
     }
 
+    let finalMapUrl = `${mapUrl}{z}/{x}/{y}{size}.png`;
+
+    if(!isEmpty(config.map.key)) {
+      finalMapUrl = `${finalMapUrl}?key=${config.map.key}`
+    }
+
     return (
       <div aria-hidden="true">
         <LeafletMap
@@ -143,7 +150,7 @@ export default class Map extends React.Component {
         >
           <TileLayer
             onLoad={this.setLoaded}
-            url={`${mapUrl}{z}/{x}/{y}{size}.png`}
+            url={finalMapUrl}
             tileSize={config.map.tileSize || 256}
             zoomOffset={config.map.zoomOffset || 0}
             updateWhenIdle={false}
