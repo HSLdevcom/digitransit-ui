@@ -117,7 +117,7 @@ const containerComponent = createFragmentContainer(StopAlertsContainer, {
     fragment StopAlertsContainer_stop on Stop
       @argumentDefinitions(
         startTime: { type: "Long" }
-        timeRange: { type: "Int", default: 900 }
+        timeRange: { type: "Int", defaultValue: 900 }
         date: { type: "String" }
       ) {
       routes {
