@@ -1,16 +1,10 @@
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import { intlShape } from 'react-intl';
 
 import AlertList from './AlertList';
 import DepartureCancelationInfo from './DepartureCancelationInfo';
-import { DATE_FORMAT } from '../constants';
-import {
-  RouteAlertsWithContentQuery,
-  StopAlertsWithContentQuery,
-} from '../util/alertQueries';
 import {
   getServiceAlertsForRoute,
   getServiceAlertsForRouteStops,
@@ -108,39 +102,85 @@ RouteAlertsContainer.contextTypes = {
   intl: intlShape,
 };
 
-const containerComponent = Relay.createContainer(RouteAlertsContainer, {
-  fragments: {
-    route: () => Relay.QL`
-      fragment on Route {
-        color
-        mode
-        shortName
-        ${RouteAlertsWithContentQuery}
-        patterns {
-          code
-          stops {
-            ${StopAlertsWithContentQuery}
+const containerComponent = createFragmentContainer(RouteAlertsContainer, {
+  route: graphql`
+    fragment RouteAlertsContainer_route on Route
+      @argumentDefinitions(date: { type: "String" }) {
+      color
+      mode
+      shortName
+      alerts {
+        id
+        alertDescriptionText
+        alertHash
+        alertHeaderText
+        alertSeverityLevel
+        alertUrl
+        effectiveEndDate
+        effectiveStartDate
+        alertDescriptionTextTranslations {
+          language
+          text
+        }
+        alertHeaderTextTranslations {
+          language
+          text
+        }
+        alertUrlTranslations {
+          language
+          text
+        }
+        trip {
+          pattern {
+            code
           }
-          trips: tripsForDate(serviceDay: $serviceDay) {
-            tripHeadsign
-            stoptimes: stoptimesForDate(serviceDay: $serviceDay) {
-              headsign
-              realtimeState
-              scheduledArrival
-              scheduledDeparture
-              serviceDay
-              stop {
-                name
-              }
+        }
+      }
+      patterns {
+        code
+        stops {
+          id
+          gtfsId
+          code
+          alerts {
+            id
+            alertDescriptionText
+            alertHash
+            alertHeaderText
+            alertSeverityLevel
+            alertUrl
+            effectiveEndDate
+            effectiveStartDate
+            alertDescriptionTextTranslations {
+              language
+              text
+            }
+            alertHeaderTextTranslations {
+              language
+              text
+            }
+            alertUrlTranslations {
+              language
+              text
+            }
+          }
+        }
+        trips: tripsForDate(serviceDay: $date) {
+          tripHeadsign
+          stoptimes: stoptimesForDate(serviceDay: $date) {
+            headsign
+            realtimeState
+            scheduledArrival
+            scheduledDeparture
+            serviceDay
+            stop {
+              name
             }
           }
         }
       }
-    `,
-  },
-  initialVariables: {
-    serviceDay: moment().format(DATE_FORMAT),
-  },
+    }
+  `,
 });
 
 export { containerComponent as default, RouteAlertsContainer as Component };

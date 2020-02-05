@@ -5,6 +5,7 @@ import Relay from 'react-relay/classic';
 import Error404 from './component/404';
 import { PREFIX_ROUTES } from './util/path';
 import { getDefault, ComponentLoading404Renderer } from './util/routerUtils';
+import { prepareServiceDay } from './util/dateParamUtils';
 
 const RouteQueries = {
   route: () => Relay.QL`
@@ -99,6 +100,7 @@ export default (
             )}
             queries={componentPatternQueries}
             render={ComponentLoading404Renderer}
+            prepareParams={prepareServiceDay}
           />
           <Route
             path="kartta"
@@ -109,6 +111,7 @@ export default (
             )}
             queries={componentPatternQueries}
             render={ComponentLoading404Renderer}
+            prepareParams={prepareServiceDay}
             fullscreenMap
           />
           <Route
@@ -120,6 +123,7 @@ export default (
             )}
             queries={componentTripQueries}
             render={ComponentLoading404Renderer}
+            prepareParams={prepareServiceDay}
           >
             <Route path="kartta" fullscreenMap />
           </Route>
@@ -137,6 +141,7 @@ export default (
           )}
           queries={componentPatternQueries}
           render={ComponentLoading404Renderer}
+          prepareParams={prepareServiceDay}
         />
       </Route>
       <Route path="hairiot">
@@ -151,6 +156,7 @@ export default (
           )}
           queries={componentRouteQueries}
           render={ComponentLoading404Renderer}
+          prepareParams={prepareServiceDay}
         />
       </Route>
     </Route>

@@ -1,7 +1,7 @@
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 import sortBy from 'lodash/sortBy'; // DT-3182
@@ -13,7 +13,7 @@ import FavouriteRouteContainer from './FavouriteRouteContainer';
 import RoutePatternSelect from './RoutePatternSelect';
 import RouteAgencyInfo from './RouteAgencyInfo';
 import RouteNumber from './RouteNumber';
-import { DATE_FORMAT, AlertSeverityLevelType } from '../constants';
+import { AlertSeverityLevelType } from '../constants';
 import {
   startRealTimeClient,
   stopRealTimeClient,
@@ -31,10 +31,6 @@ import {
 } from '../util/alertUtils';
 import { PREFIX_ROUTES } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
-import {
-  RouteAlertsQuery,
-  StopAlertsWithContentQuery,
-} from '../util/alertQueries';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const Tab = {
@@ -396,47 +392,75 @@ class RoutePage extends React.Component {
 }
 
 // DT-2531: added activeDates
-const containerComponent = Relay.createContainer(withBreakpoint(RoutePage), {
-  fragments: {
-    route: () =>
-      Relay.QL`
-      fragment on Route {
-        gtfsId
-        color
-        shortName
-        longName
-        mode
-        type
-        ${RouteAgencyInfo.getFragment('route')}
-        ${RoutePatternSelect.getFragment('route')}
-        ${RouteAlertsQuery}
-        agency {
-          phone
-        }
-        patterns {
-          headsign
-          code
-          stops {
-            ${StopAlertsWithContentQuery}
-          }
-          trips: tripsForDate(serviceDay: $serviceDay) {
-            stoptimes: stoptimesForDate(serviceDay: $serviceDay) {
-              realtimeState
-              scheduledArrival
-              scheduledDeparture
-              serviceDay
-            }
-          }
-          activeDates: trips {
-            day: activeDates
+const containerComponent = createFragmentContainer(withBreakpoint(RoutePage), {
+  route: graphql`
+    fragment RoutePage_route on Route
+      @argumentDefinitions(date: { type: "String" }) {
+      gtfsId
+      color
+      shortName
+      longName
+      mode
+      type
+      ...RouteAgencyInfo_route
+      ...RoutePatternSelect_route
+      alerts {
+        alertSeverityLevel
+        effectiveEndDate
+        effectiveStartDate
+        trip {
+          pattern {
+            code
           }
         }
       }
-    `,
-  },
-  initialVariables: {
-    serviceDay: moment().format(DATE_FORMAT),
-  },
+      agency {
+        phone
+      }
+      patterns {
+        headsign
+        code
+        stops {
+          id
+          gtfsId
+          code
+          alerts {
+            id
+            alertDescriptionText
+            alertHash
+            alertHeaderText
+            alertSeverityLevel
+            alertUrl
+            effectiveEndDate
+            effectiveStartDate
+            alertDescriptionTextTranslations {
+              language
+              text
+            }
+            alertHeaderTextTranslations {
+              language
+              text
+            }
+            alertUrlTranslations {
+              language
+              text
+            }
+          }
+        }
+        trips: tripsForDate(serviceDay: $date) {
+          stoptimes: stoptimesForDate(serviceDay: $date) {
+            realtimeState
+            scheduledArrival
+            scheduledDeparture
+            serviceDay
+          }
+        }
+        activeDates: trips {
+          day: activeDates
+        }
+      }
+    }
+  `,
 });
 
 export { containerComponent as default, RoutePage as Component };
