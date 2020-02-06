@@ -39,18 +39,17 @@ const SuggestionItem = pure(
     }
     const [name, label] = getNameLabel(item.properties, false);
     iconstr = iconstr.replace('route-', '');
-    const acri = (
-      <div className="sr-only" role="listitem">
-        <p role="listitem">
-          {' '}
-          {iconstr} - {name} - {label}
-        </p>
-      </div>
-    );
+    // const acri = (
+    //   <div className="sr-only" role="listitem">
+    //     <p role="listitem">
+    //       {' '}
+    //       {iconstr} - {name} - {label}
+    //     </p>
+    //   </div>
+    // );
     const ri = (
       <div
         aria-hidden="true"
-        role="listitem"
         className={cx('search-result', item.type, {
           favourite: item.type.startsWith('Favourite'),
           loading,
@@ -81,7 +80,7 @@ const SuggestionItem = pure(
                 item.timetableClicked = false;
               }}
             >
-              {acri}
+              {/* {acri} */}
               {ri}
             </Link>
           </div>
@@ -106,7 +105,7 @@ const SuggestionItem = pure(
     }
     return (
       <div>
-        {acri}
+        {/* {acri} */}
         {ri}
       </div>
     );

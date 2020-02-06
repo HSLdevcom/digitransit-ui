@@ -305,7 +305,7 @@ class DTAutosuggest extends React.Component {
       className: `react-autosuggest__input ${this.props.className}`,
       onKeyDown: this.keyDown, // DT-3263
     };
-
+    const SRSugLen = `There is ${suggestions.length} suggestions available `;
     // DT-3263: removed highlightFirstSuggestion on Autosuggest, Because screen readers could not read first suggestion out loud.
     return (
       <div className={cx(['autosuggest-input-container', this.props.id])}>
@@ -324,9 +324,13 @@ class DTAutosuggest extends React.Component {
           inputProps={inputProps}
           focusInputOnSuggestionClick={false}
           shouldRenderSuggestions={() => this.state.editing}
+          highlightFirstSuggestion
           renderInputComponent={p => (
             <div id={`${this.props.id}-container`} style={{ display: 'flex' }}>
+              {/* <label className="sr-only" for={this.props.id}>Combobox hae lähtöpaikka, linja tai pysäkki ja valitse listasta. Syötä tekst</label> */}
               <input
+                aria-label={SRSugLen}
+                aria-autocomplete="both"
                 id={this.props.id}
                 onClick={this.inputClicked}
                 onKeyDown={this.keyDown}
