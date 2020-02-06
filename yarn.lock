@@ -6017,6 +6017,11 @@ extglob@^2.0.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
+extract-files@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/extract-files/-/extract-files-5.0.1.tgz#c9492a8410be643e260a376f0151361993d5f659"
+  integrity sha512-qRW6y9eKF0VbCyOoOEtFhzJ3uykAw8GKwQVXyAIqwocyEWW4m+v+evec34RwtUkkxxHh7NKBLJ6AnXM8W4dH5w==
+
 extsprintf@1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.3.0.tgz#96918440e3041a7a414f8c52e3c574eb3c3e1e05"
@@ -12385,6 +12390,13 @@ react-redux@^7.0.0:
     loose-envify "^1.4.0"
     prop-types "^15.7.2"
     react-is "^16.9.0"
+
+react-relay-network-modern@4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/react-relay-network-modern/-/react-relay-network-modern-4.5.0.tgz#6b8d3a6e566a44eea4f482da3114e7b512b4edb8"
+  integrity sha512-aYc+ViX5NtfpgHWXZ+vlAFYMgE7Ks9Dl2mrqS8rppFwQEWGEGe1XEpz0BiQYqXYifs18EfQgiLHkJ8iJWzqeHw==
+  dependencies:
+    extract-files "^5.0.1"
 
 react-relay@8.0.0:
   version "8.0.0"
