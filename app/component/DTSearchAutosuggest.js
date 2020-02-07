@@ -330,7 +330,6 @@ class DTAutosuggest extends React.Component {
           highlightFirstSuggestion
           renderInputComponent={p => (
             <div id={`${this.props.id}-container`} style={{ display: 'flex' }}>
-              {/* <label className="sr-only" for={this.props.id}>Combobox hae lähtöpaikka, linja tai pysäkki ja valitse listasta. Syötä tekst</label> */}
               <input
                 aria-label={ariaLabelText}
                 id={this.props.id}
