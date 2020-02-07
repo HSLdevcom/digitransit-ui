@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { intlShape } from 'react-intl';
-import { routerShape } from 'react-router';
+import { routerShape } from 'found';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { intlShape } from 'react-intl';
-import { createFragmentContainer, graphql } from 'react-relay/compat';
+import { createFragmentContainer, graphql } from 'react-relay';
 import compose from 'recompose/compose';
 import getContext from 'recompose/getContext';
 import mapProps from 'recompose/mapProps';

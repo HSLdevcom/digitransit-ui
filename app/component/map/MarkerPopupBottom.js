@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import get from 'lodash/get';
-import { routerShape, locationShape } from 'react-router';
+import { routerShape } from 'found';
 import { FormattedMessage } from 'react-intl';
 import { withLeaflet } from 'react-leaflet/es/context';
 import updateViaPointsFromMap from '../../action/ViaPointsActions';
@@ -39,7 +39,13 @@ class MarkerPopupBottom extends React.Component {
 
   static contextTypes = {
     router: routerShape.isRequired,
-    location: locationShape.isRequired,
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
+      search: PropTypes.string,
+      hash: PropTypes.string,
+      state: PropTypes.object,
+      query: PropTypes.object,
+    }).isRequired,
     getStore: PropTypes.func.isRequired,
     executeAction: PropTypes.func,
   };

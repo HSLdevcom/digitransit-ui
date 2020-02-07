@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { intlShape } from 'react-intl';
-import { routerShape, locationShape } from 'react-router';
+import { routerShape } from 'found';
 import { dtLocationShape } from '../util/shapes';
 import { navigateTo } from '../util/path';
 
@@ -23,7 +23,13 @@ class GeopositionSelector extends React.Component {
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
-    location: locationShape.isRequired,
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
+      search: PropTypes.string,
+      hash: PropTypes.string,
+      state: PropTypes.object,
+      query: PropTypes.object,
+    }).isRequired,
     intl: intlShape.isRequired,
   };
 

@@ -2,11 +2,11 @@
 /* eslint-disable func-names */
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { createRefetchContainer, graphql } from 'react-relay/compat';
+import { createRefetchContainer, graphql } from 'react-relay';
 import cx from 'classnames';
 import sortBy from 'lodash/sortBy';
 import { intlShape } from 'react-intl'; // DT-2531
-import { routerShape } from 'react-router';
+import { routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import Icon from './Icon';

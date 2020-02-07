@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { createFragmentContainer, graphql } from 'react-relay/compat';
+import { createFragmentContainer, graphql } from 'react-relay';
 import some from 'lodash/some';
-import { routerShape } from 'react-router';
+import { routerShape } from 'found';
 import RouteListHeader from './RouteListHeader';
 import RouteStopListContainer from './RouteStopListContainer';
 import withBreakpoint from '../util/withBreakpoint';

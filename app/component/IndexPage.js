@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import cx from 'classnames';
-import { routerShape, locationShape } from 'react-router';
+import { routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
 import isEqual from 'lodash/isEqual';
@@ -43,7 +43,13 @@ const debug = d('IndexPage.js');
 
 class IndexPage extends React.Component {
   static contextTypes = {
-    location: locationShape.isRequired,
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
+      search: PropTypes.string,
+      hash: PropTypes.string,
+      state: PropTypes.object,
+      query: PropTypes.object,
+    }).isRequired,
     router: routerShape.isRequired,
     config: PropTypes.object.isRequired,
     executeAction: PropTypes.func.isRequired,
@@ -492,7 +498,13 @@ const IndexPageWithPosition = connectToStores(
 
 IndexPageWithPosition.contextTypes = {
   ...IndexPageWithPosition.contextTypes,
-  location: locationShape.isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+    search: PropTypes.string,
+    hash: PropTypes.string,
+    state: PropTypes.object,
+    query: PropTypes.object,
+  }).isRequired,
   router: routerShape.isRequired,
   executeAction: PropTypes.func.isRequired,
   intl: intlShape,

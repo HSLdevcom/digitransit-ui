@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { routerShape } from 'react-router';
+import { routerShape } from 'found';
 import { intlShape } from 'react-intl';
 import Icon from './Icon';
 import { isBrowser, isIOSApp } from '../util/browser';

@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { routerShape } from 'react-router';
+import { routerShape } from 'found';
 
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import OriginDestinationBar from './OriginDestinationBar';

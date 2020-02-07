@@ -2,7 +2,7 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
-import { routerShape } from 'react-router';
+import { routerShape } from 'found';
 import { withCurrentTime } from '../util/searchUtils';
 import ComponentUsageExample from './ComponentUsageExample';
 import DTAutosuggestPanel from './DTAutosuggestPanel';

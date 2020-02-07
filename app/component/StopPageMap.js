@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { createFragmentContainer, graphql } from 'react-relay/compat';
+import { createFragmentContainer, graphql } from 'react-relay';
 import some from 'lodash/some';
-import { routerShape } from 'react-router';
+import { routerShape } from 'found';
 import MapContainer from './map/MapContainer';
 import SelectedStopPopup from './map/popups/SelectedStopPopup';
 import SelectedStopPopupContent from './SelectedStopPopupContent';

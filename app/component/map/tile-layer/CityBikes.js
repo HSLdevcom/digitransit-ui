@@ -1,6 +1,6 @@
 import { VectorTile } from '@mapbox/vector-tile';
 import Protobuf from 'pbf';
-import { graphql, fetchQuery } from 'react-relay/compat';
+import { graphql, fetchQuery } from 'react-relay';
 import pick from 'lodash/pick';
 
 import { isBrowser } from '../../../util/browser';

@@ -3,7 +3,7 @@ import React from 'react';
 import get from 'lodash/get';
 import some from 'lodash/some';
 import polyline from 'polyline-encoded';
-import { routerShape, locationShape } from 'react-router';
+import { routerShape } from 'found';
 
 import LocationMarker from './map/LocationMarker';
 import ItineraryLine from './map/ItineraryLine';
@@ -173,7 +173,13 @@ ItineraryPageMap.propTypes = {
 };
 
 ItineraryPageMap.contextTypes = {
-  location: locationShape.isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+    search: PropTypes.string,
+    hash: PropTypes.string,
+    state: PropTypes.object,
+    query: PropTypes.object,
+  }).isRequired,
   router: routerShape.isRequired,
 };
 

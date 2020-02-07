@@ -3,7 +3,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
-import { createFragmentContainer, graphql } from 'react-relay/compat';
+import { createFragmentContainer, graphql } from 'react-relay';
 import AlertList from './AlertList';
 import Icon from './Icon';
 import { AlertSeverityLevelType } from '../constants';

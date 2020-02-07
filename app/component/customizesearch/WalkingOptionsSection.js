@@ -1,7 +1,7 @@
 import ceil from 'lodash/ceil';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { routerShape } from 'react-router';
+import { routerShape } from 'found';
 
 import SelectOptionContainer, {
   getFiveStepOptions,

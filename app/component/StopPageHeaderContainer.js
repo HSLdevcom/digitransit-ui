@@ -1,4 +1,4 @@
-import { createFragmentContainer, graphql } from 'react-relay/compat';
+import { createFragmentContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import StopPageHeader from './StopPageHeader';

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
-import { routerShape, locationShape } from 'react-router';
+import { routerShape } from 'found';
 import { FormattedMessage } from 'react-intl';
 import getContext from 'recompose/getContext';
 import connectToStores from 'fluxible-addons-react/connectToStores';
@@ -43,7 +43,9 @@ const AppBarContainer = ({
 );
 
 AppBarContainer.propTypes = {
-  location: locationShape.isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+  }).isRequired,
   router: routerShape.isRequired,
   homeUrl: PropTypes.string.isRequired,
   logo: PropTypes.string,
@@ -52,7 +54,9 @@ AppBarContainer.propTypes = {
 
 const WithContext = connectToStores(
   getContext({
-    location: locationShape.isRequired,
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
+    }).isRequired,
     router: routerShape.isRequired,
   })(AppBarContainer),
   ['UserStore'],

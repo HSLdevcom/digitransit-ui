@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import pure from 'recompose/pure';
-import { Link } from 'react-router';
+import Link from 'found/lib/Link';
 import { FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
 

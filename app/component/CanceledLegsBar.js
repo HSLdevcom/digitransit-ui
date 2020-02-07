@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { routerShape } from 'react-router';
+import { routerShape } from 'found';
 import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 import { replaceQueryParams } from '../util/queryUtils';

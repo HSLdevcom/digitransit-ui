@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import withOutsideClick from 'react-click-outside';
 import { intlShape } from 'react-intl';
-import { routerShape } from 'react-router';
+import { routerShape } from 'found';
 
 import Icon from './Icon';
 import LazilyLoad, { importLazy } from './LazilyLoad';

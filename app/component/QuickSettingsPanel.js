@@ -4,7 +4,7 @@ import cx from 'classnames';
 import { intlShape } from 'react-intl';
 import get from 'lodash/get';
 import xor from 'lodash/xor';
-import { routerShape, locationShape } from 'react-router';
+import { routerShape } from 'found';
 
 import AlertPopUp from './AlertPopUp';
 import Icon from './Icon';
@@ -32,7 +32,13 @@ class QuickSettingsPanel extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
     router: routerShape.isRequired,
-    location: locationShape.isRequired,
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
+      search: PropTypes.string,
+      hash: PropTypes.string,
+      state: PropTypes.object,
+      query: PropTypes.object,
+    }).isRequired,
     config: PropTypes.object.isRequired,
   };
 

@@ -1,4 +1,4 @@
-import { fetchQuery } from 'react-relay/compat';
+import { fetchQuery } from 'react-relay';
 import { VectorTile } from '@mapbox/vector-tile';
 import compact from 'lodash/compact';
 import isEmpty from 'lodash/isEmpty';

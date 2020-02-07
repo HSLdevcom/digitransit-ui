@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router';
+import Link from 'found/lib/Link';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import { PREFIX_STOPS } from '../util/path';

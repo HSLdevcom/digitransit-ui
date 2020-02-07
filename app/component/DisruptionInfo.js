@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { graphql, QueryRenderer } from 'react-relay/compat';
+import { graphql, QueryRenderer } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
-import { routerShape, locationShape } from 'react-router';
+import { routerShape } from 'found';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import Loading from './Loading';
 import DisruptionListContainer from './DisruptionListContainer';
@@ -80,7 +80,13 @@ function DisruptionInfo({ relayEnvironment }, context) {
 
 DisruptionInfo.contextTypes = {
   router: routerShape.isRequired, // eslint-disable-line react/no-typos
-  location: locationShape.isRequired, // eslint-disable-line react/no-typos
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+    search: PropTypes.string,
+    hash: PropTypes.string,
+    state: PropTypes.object,
+    query: PropTypes.object,
+  }).isRequired,
   config: PropTypes.shape({
     feedIds: PropTypes.arrayOf(PropTypes.string.isRequired),
   }).isRequired,

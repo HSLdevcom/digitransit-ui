@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { routerShape, locationShape } from 'react-router';
+import { routerShape } from 'found';
 import moment from 'moment';
 import { intlShape } from 'react-intl';
 import get from 'lodash/get';
@@ -17,7 +17,9 @@ class TimeSelectorContainer extends Component {
   static contextTypes = {
     intl: intlShape.isRequired,
     router: routerShape.isRequired,
-    location: locationShape.isRequired,
+    location: PropTypes.shape({
+      query: PropTypes.object.isRequired,
+    }).isRequired,
   };
 
   static propTypes = {
@@ -126,7 +128,9 @@ const withNow = connectToStores(TSCWithProps, ['TimeStore'], context => ({
 }));
 
 const connectedContainer = getContext({
-  location: locationShape.isRequired,
+  locatilocation: PropTypes.shape({
+    query: PropTypes.object.isRequired,
+  }).isRequired,
 })(withNow);
 
 export { connectedContainer as default, TimeSelectorContainer as Component };

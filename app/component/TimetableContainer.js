@@ -1,4 +1,4 @@
-import { createFragmentContainer, graphql } from 'react-relay/compat';
+import { createFragmentContainer, graphql } from 'react-relay';
 
 import Timetable from './Timetable';
 

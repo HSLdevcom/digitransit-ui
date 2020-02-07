@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router';
+import Link from 'found/lib/Link';
 import cx from 'classnames';
 import { PREFIX_ROUTES } from '../util/path';
 import RouteNumber from './RouteNumber';

@@ -1,9 +1,9 @@
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { createFragmentContainer, graphql } from 'react-relay/compat';
+import { createFragmentContainer, graphql } from 'react-relay';
 import cx from 'classnames';
-import { routerShape, locationShape } from 'react-router';
+import { routerShape } from 'found';
 import { FormattedMessage } from 'react-intl';
 
 import Icon from './Icon';
@@ -34,7 +34,13 @@ class ItineraryTab extends React.Component {
   static contextTypes = {
     config: PropTypes.object.isRequired,
     router: routerShape.isRequired,
-    location: locationShape.isRequired,
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
+      search: PropTypes.string,
+      hash: PropTypes.string,
+      state: PropTypes.object,
+      query: PropTypes.object,
+    }).isRequired,
   };
 
   state = {

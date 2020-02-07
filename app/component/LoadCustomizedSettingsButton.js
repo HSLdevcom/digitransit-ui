@@ -4,7 +4,7 @@ import Snackbar from 'material-ui/Snackbar';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { routerShape } from 'react-router';
+import { routerShape } from 'found';
 import { FormattedMessage } from 'react-intl';
 
 import { getCustomizedSettings } from '../store/localStorage';

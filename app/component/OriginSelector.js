@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { routerShape } from 'react-router';
+import { routerShape } from 'found';
 import { dtLocationShape } from '../util/shapes';
 import { navigateTo, TAB_NEARBY } from '../util/path';
 import { isBrowser } from '../util/browser';

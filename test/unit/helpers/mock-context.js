@@ -1,7 +1,7 @@
 import { getMuiTheme } from 'material-ui/styles';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import { locationShape, routerShape } from 'react-router';
+import { routerShape } from 'found';
 
 import mockRouter from './mock-router';
 import PositionStore from '../../../app/store/PositionStore';
@@ -51,7 +51,13 @@ export const mockChildContextTypes = {
   config: PropTypes.object,
   executeAction: PropTypes.func,
   getStore: PropTypes.func,
-  location: locationShape,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+    search: PropTypes.string,
+    hash: PropTypes.string,
+    state: PropTypes.object,
+    query: PropTypes.object,
+  }).isRequired,
   muiTheme: PropTypes.object,
   router: routerShape,
 };

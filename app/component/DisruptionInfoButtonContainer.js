@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { graphql, QueryRenderer } from 'react-relay/compat';
-import { routerShape, locationShape } from 'react-router';
+import { graphql, QueryRenderer } from 'react-relay';
+import { routerShape } from 'found';
 import DisruptionInfoButton from './DisruptionInfoButton';
 import { isBrowser } from '../util/browser';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -30,7 +30,7 @@ function DisruptionInfoButtonContainer(
     return (
       <QueryRenderer
         cacheConfig={{ force: true, poll: 30 * 1000 }}
-        query={graphql.experimental`
+        query={graphql`
           query DisruptionInfoButtonContainerQuery($feedIds: [String!]) {
             viewer {
               ...DisruptionInfoButton_viewer @arguments(feedIds: $feedIds)
@@ -54,7 +54,13 @@ function DisruptionInfoButtonContainer(
 
 DisruptionInfoButtonContainer.contextTypes = {
   router: routerShape.isRequired,
-  location: locationShape.isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+    search: PropTypes.string,
+    hash: PropTypes.string,
+    state: PropTypes.object,
+    query: PropTypes.object,
+  }).isRequired,
   config: PropTypes.shape({
     feedIds: PropTypes.arrayOf(PropTypes.string.isRequired),
   }).isRequired,

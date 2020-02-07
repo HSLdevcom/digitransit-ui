@@ -1,5 +1,5 @@
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { createFragmentContainer, graphql } from 'react-relay/compat';
+import { createFragmentContainer, graphql } from 'react-relay';
 
 import StopCardHeader from './StopCardHeader';
 

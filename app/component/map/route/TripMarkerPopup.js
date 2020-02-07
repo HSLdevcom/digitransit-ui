@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { createFragmentContainer, graphql } from 'react-relay/compat';
-import { Link } from 'react-router';
+import { createFragmentContainer, graphql } from 'react-relay';
+import Link from 'found/lib/Link';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
 import { PREFIX_ROUTES } from '../../../util/path';

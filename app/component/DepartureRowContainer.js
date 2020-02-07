@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { createFragmentContainer, graphql } from 'react-relay/compat';
-import { routerShape } from 'react-router';
+import { createFragmentContainer, graphql } from 'react-relay';
+import { routerShape } from 'found';
 
 import RouteNumberContainer from './RouteNumberContainer';
 import Distance from './Distance';

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
-import { routerShape } from 'react-router';
+import { routerShape } from 'found';
 
 import { StreetMode } from '../constants';
 import Icon from './Icon';

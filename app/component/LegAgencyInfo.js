@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { createFragmentContainer, graphql } from 'react-relay/compat';
+import { createFragmentContainer, graphql } from 'react-relay';
 import get from 'lodash/get';
 import { intlShape } from 'react-intl';
 import AgencyInfo from './AgencyInfo';

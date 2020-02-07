@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { createRefetchContainer, graphql } from 'react-relay/compat';
+import { createRefetchContainer, graphql } from 'react-relay';
 import moment from 'moment';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { intlShape, FormattedMessage } from 'react-intl';
@@ -326,7 +326,7 @@ const connectedComponent = connectToStores(
         }
       `,
     },
-    graphql.experimental`
+    graphql`
       query RouteScheduleContainerQuery($code: String!, $serviceDay: String!) {
         pattern(id: $code) {
           ...RouteScheduleContainer_pattern @arguments(serviceDay: $serviceDay)

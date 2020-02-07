@@ -4,7 +4,6 @@ import Snackbar from 'material-ui/Snackbar';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { locationShape } from 'react-router';
 
 import {
   setCustomizedSettings,
@@ -22,7 +21,9 @@ class SaveCustomizedSettingsButton extends React.Component {
 
   static contextTypes = {
     config: PropTypes.object.isRequired,
-    location: locationShape.isRequired,
+    location: PropTypes.shape({
+      query: PropTypes.object.isRequired,
+    }).isRequired,
   };
 
   constructor(props) {

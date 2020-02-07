@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { graphql } from 'react-relay/compat';
+import { graphql } from 'react-relay';
 import QueryRenderer from 'react-relay/lib/ReactRelayQueryRenderer';
 
 import ParkAndRideHubPopup from './ParkAndRideHubPopup';

@@ -2,8 +2,8 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { createFragmentContainer, graphql } from 'react-relay/compat';
-import { Link } from 'react-router';
+import { createFragmentContainer, graphql } from 'react-relay';
+import Link from 'found/lib/Link';
 import orderBy from 'lodash/orderBy';
 import uniqBy from 'lodash/uniqBy';
 

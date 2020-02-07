@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { Link } from 'react-router';
+import Link from 'found/lib/Link';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';

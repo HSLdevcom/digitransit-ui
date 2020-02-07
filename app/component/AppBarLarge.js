@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
-import { routerShape, locationShape } from 'react-router';
+import { routerShape } from 'found';
 import ExternalLink from './ExternalLink';
 import DisruptionInfo from './DisruptionInfo';
 import Icon from './Icon';
@@ -128,7 +128,13 @@ AppBarLarge.displayName = 'AppBarLarge';
 
 AppBarLarge.contextTypes = {
   router: routerShape.isRequired,
-  location: locationShape.isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+    search: PropTypes.string,
+    hash: PropTypes.string,
+    state: PropTypes.object,
+    query: PropTypes.object,
+  }).isRequired,
   config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
 };

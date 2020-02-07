@@ -1,11 +1,11 @@
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { createFragmentContainer, graphql } from 'react-relay/compat';
+import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 import sortBy from 'lodash/sortBy'; // DT-3182
-import { routerShape } from 'react-router';
+import { routerShape } from 'found';
 
 import Icon from './Icon';
 import CallAgencyWarning from './CallAgencyWarning';

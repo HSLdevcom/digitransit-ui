@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { createFragmentContainer, graphql } from 'react-relay/compat';
-import { routerShape } from 'react-router';
+import { createFragmentContainer, graphql } from 'react-relay';
+import { routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import some from 'lodash/some';
 

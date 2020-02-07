@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { graphql, QueryRenderer } from 'react-relay/compat';
+import { graphql, QueryRenderer } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import mapProps from 'recompose/mapProps';
 

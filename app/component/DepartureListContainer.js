@@ -3,8 +3,8 @@ import get from 'lodash/get';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { createFragmentContainer, graphql } from 'react-relay/compat';
-import { Link } from 'react-router';
+import { createFragmentContainer, graphql } from 'react-relay';
+import Link from 'found/lib/Link';
 
 import Departure from './Departure';
 import {
