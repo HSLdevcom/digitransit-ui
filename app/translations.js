@@ -658,6 +658,10 @@ const translations = {
     'add-via-duration-button-label': 'Set stop duration at via point',
     'search-autosuggest-label':
       'Venue, place and stopsearch. Navigate list with arrow keys and select with enter key',
+    'set-time-earlier-button-label': 'Set travel time to earlier',
+    'set-time-later-button-label': 'Set travel time to later',
+    'set-time-now-button-label': 'Set travel time to current',
+    'time-navigation-buttons': 'Time navigation buttons',
     // eslint-disable-next-line sort-keys
     address: 'Address',
     'address-or-stop': 'Address or stop',
@@ -1432,6 +1436,11 @@ const translations = {
       'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
     // eslint-disable-next-line sort-keys
     'add-via-duration-button-label': 'Aseta välipisteelle pysähdyksen kesto',
+    'set-time-earlier-button-label': 'Aikaista matkustusajankohtaa',
+    'set-time-later-button-label': 'Myöhäistä matkustusajankohtaa',
+    'set-time-now-button-label': 'Aseta matkustusajankohdaksi nyt',
+    'time-navigation-buttons': 'Matkustusajankohdan muokkausnapit',
+    // eslint-disable-next-line sort-keys
     address: 'Osoite',
     'address-or-stop': 'Osoite tai pysäkki',
     agency: 'Liikennöitsijä',
@@ -2512,6 +2521,10 @@ const translations = {
     'add-via-duration-button-label': 'Ställ in varaktighet för viapunkten',
     'search-autosuggest-label':
       'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
+    'set-time-earlier-button-label': 'Ställ in restid till tidigare',
+    'set-time-later-button-label': 'Ställ in restid till senare',
+    'set-time-now-button-label': 'Ställ in restid till nu',
+    'time-navigation-buttons': 'Tidsnavigeringsknappar',
     // eslint-disable-next-line sort-keys
     address: 'Adress',
     'address-or-stop': 'Adress eller hållplats',
