@@ -17,7 +17,7 @@ import {
 import ComponentUsageExample from './ComponentUsageExample';
 
 const SuggestionItem = pure(
-  ({ item, useTransportIcons, doNotShowLinkToStop, loading }) => {
+  ({ item, intl, useTransportIcons, doNotShowLinkToStop, loading }) => {
     let icon;
     let iconstr;
     if (item.properties.mode && useTransportIcons) {
@@ -29,7 +29,12 @@ const SuggestionItem = pure(
         />
       );
     } else {
-      iconstr = item.properties.layer;
+      // DT-3262 Icon as string for screen readers
+      const layer = item.properties.layer.replace('route-', '').toLowerCase();
+      iconstr = intl.formatMessage({
+        id: layer,
+        defaultMessage: layer,
+      });
       icon = (
         <Icon
           img={getIcon(item.properties.layer)}
@@ -38,15 +43,15 @@ const SuggestionItem = pure(
       );
     }
     const [name, label] = getNameLabel(item.properties, false);
-    iconstr = iconstr.replace('route-', '');
-    // const acri = (
-    //   <div className="sr-only" role="listitem">
-    //     <p role="listitem">
-    //       {' '}
-    //       {iconstr} - {name} - {label}
-    //     </p>
-    //   </div>
-    // );
+    // DT-3262 For screen readers
+    const acri = (
+      <div className="sr-only">
+        <p>
+          {' '}
+          {iconstr} - {name} - {label}
+        </p>
+      </div>
+    );
     const ri = (
       <div
         aria-hidden="true"
@@ -80,7 +85,7 @@ const SuggestionItem = pure(
                 item.timetableClicked = false;
               }}
             >
-              {/* {acri} */}
+              {acri}
               {ri}
             </Link>
           </div>
@@ -105,7 +110,7 @@ const SuggestionItem = pure(
     }
     return (
       <div>
-        {/* {acri} */}
+        {acri}
         {ri}
       </div>
     );

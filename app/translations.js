@@ -656,6 +656,9 @@ const translations = {
     'add-location-to-favourites': 'Add an important location to your Favorites',
     'add-via-button-label': 'Add via point',
     'add-via-duration-button-label': 'Set stop duration at via point',
+    'search-autosuggest-label':
+      'Venue, place and stopsearch. Navigate list with arrow keys and select with enter key',
+    // eslint-disable-next-line sort-keys
     address: 'Address',
     'address-or-stop': 'Address or stop',
     agency: 'Operator',
@@ -716,6 +719,8 @@ const translations = {
     'create-account': 'Create {contactName} account',
     'cycle-distance-duration': 'Cycle {distance} ({duration})',
     'cyclewalk-distance-duration': 'Walk your bike {distance} ({duration})',
+    // eslint-disable-next-line sort-keys
+    currentposition: 'Current position',
     datasources: 'Data sources',
     date: 'Date',
     delete: 'Delete',
@@ -855,6 +860,8 @@ const translations = {
     'near-you': 'Near you',
     nearest: 'Nearest',
     'network-error': 'Network error',
+    // eslint-disable-next-line sort-keys
+    neighbourhood: 'Neighbourhood ',
     next: 'Next',
     'no-bike-allowed-popup-train':
       'Bicycles are allowed on commuter trains but on long distance trains you have to pay an extra fee and it might require a reservation.',
@@ -1026,6 +1033,7 @@ const translations = {
     'splash-use-positioning': 'Use location services',
     'splash-welcome': 'How do you wish to start?',
     'splash-you-can-also': 'or',
+    station: 'Station',
     stop: 'Stop',
     'stop-number': 'Stop number',
     'stop-page.description': 'Stop {name} - {code}',
@@ -1038,6 +1046,8 @@ const translations = {
     'street-mode-car_park': 'Park & ride',
     'street-mode-public_transport': 'Public transport',
     'street-mode-walk': 'Walking',
+    // eslint-disable-next-line sort-keys
+    street: 'Street',
     subway: 'Metro',
     'subway-with-route-number': 'Metro {routeNumber} {headSign}',
     'summary-page.description': '{from} - {to}',
@@ -1086,6 +1096,8 @@ const translations = {
     'via-point': 'Via point',
     'viapoint-slack-amount': 'Stop duration',
     'view-route': 'View Route',
+    // eslint-disable-next-line sort-keys
+    venue: 'Venue',
     wait: 'Wait',
     'wait-amount-of-time': 'Wait {duration}',
     walk: 'walking',
@@ -1416,6 +1428,9 @@ const translations = {
     'add-location-to-favourites':
       'Lisää sinulle tärkeä paikka Suosikkisi-välilehdelle',
     'add-via-button-label': 'Lisää välipiste',
+    'search-autosuggest-label':
+      'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
+    // eslint-disable-next-line sort-keys
     'add-via-duration-button-label': 'Aseta välipisteelle pysähdyksen kesto',
     address: 'Osoite',
     'address-or-stop': 'Osoite tai pysäkki',
@@ -1477,6 +1492,8 @@ const translations = {
     'create-account': 'Luo {contactName} tunnus',
     'cycle-distance-duration': 'Pyöräile {distance} ({duration})',
     'cyclewalk-distance-duration': 'Taluta pyörää {distance} ({duration})',
+    // eslint-disable-next-line sort-keys
+    currentposition: 'Tämänhetkinen sijainti',
     datasources: 'Tietolähteet',
     date: 'Päivämäärä',
     delete: 'Poista',
@@ -1614,6 +1631,8 @@ const translations = {
     'near-you': 'Lähelläsi',
     nearest: 'Lähimmät',
     'network-error': 'Verkkovirhe',
+    // eslint-disable-next-line sort-keys
+    neighbourhood: 'Naapurusto',
     next: 'Seuraava',
     'no-bike-allowed-popup-train':
       'Lähiliikenteen juniin pyörän voi ottaa mukaan ilmaiseksi, mutta pitkän matkan junissa peritään lisämaksu ja mahdollisesti vaaditaan etukäteisvaraus.',
@@ -1786,6 +1805,7 @@ const translations = {
     'splash-use-positioning': 'Käytä paikannusta',
     'splash-welcome': 'Miten haluat aloittaa?',
     'splash-you-can-also': 'tai',
+    station: 'Asema',
     stop: 'Pysäkki',
     'stop-number': 'Pysäkkinumero',
     'stop-page.description': 'Pysäkki - {name} {code}, {desc}',
@@ -1798,6 +1818,8 @@ const translations = {
     'street-mode-car_park': 'Liityntä\u00ADpysäköinti',
     'street-mode-public_transport': 'Julkinen liikenne',
     'street-mode-walk': 'Kävely',
+    // eslint-disable-next-line sort-keys
+    street: 'Katu',
     subway: 'Metro',
     'subway-with-route-number': 'Metro {routeNumber} {headSign}',
     'summary-page.description': '{from} - {to}',
@@ -1846,6 +1868,8 @@ const translations = {
     'via-point': 'Välipiste',
     'viapoint-slack-amount': 'Pysähdyksen kesto',
     'view-route': 'Linjan tiedot',
+    // eslint-disable-next-line sort-keys
+    venue: 'Paikka',
     wait: 'Odota',
     'wait-amount-of-time': 'Odota {duration}',
     walk: 'kävelyn',
@@ -2486,6 +2510,9 @@ const translations = {
       'Lägg till en plats som är viktig för dig på fliken Favoriter',
     'add-via-button-label': 'Lägg till viapunkt',
     'add-via-duration-button-label': 'Ställ in varaktighet för viapunkten',
+    'search-autosuggest-label':
+      'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
+    // eslint-disable-next-line sort-keys
     address: 'Adress',
     'address-or-stop': 'Adress eller hållplats',
     agency: 'Trafikidkare',
@@ -2546,6 +2573,8 @@ const translations = {
     'create-account': 'Skapa {contactName} konto',
     'cycle-distance-duration': 'Cykla {distance} ({duration})',
     'cyclewalk-distance-duration': 'Led cykeln {distance} ({duration})',
+    // eslint-disable-next-line sort-keys
+    currentposition: 'Nuvarande position',
     datasources: 'Datakällor',
     date: 'Datum',
     delete: 'Ta bort',
@@ -2682,6 +2711,8 @@ const translations = {
     'near-you': 'Nära dig',
     nearest: 'Närmaste',
     'network-error': 'Nätverksfel',
+    // eslint-disable-next-line sort-keys
+    neighbourhood: 'Gransskap',
     next: 'Nästa',
     'no-bike-allowed-popup-train':
       'Du kan ta med cykeln i närtågen avgiftsfritt, men i andra tåg är det avgiftsbelagt och kräver möjligtvis en förhandsreservation.',
@@ -2854,6 +2885,7 @@ const translations = {
       'Tjänsten fungerar bäst om du delar din plats.',
     'splash-use-positioning': 'Använd min plats',
     'splash-you-can-also': 'alternativt',
+    station: 'Station',
     stop: 'Hållplats',
     'stop-number': 'Hållplatsnummer',
     'stop-page.description': 'Hållplats {name} - {code}',
@@ -2866,6 +2898,8 @@ const translations = {
     'street-mode-car_park': 'Infarts\u00ADparkering',
     'street-mode-public_transport': 'Kollektiv\u00ADtrafik',
     'street-mode-walk': 'Gång',
+    // eslint-disable-next-line sort-keys
+    street: 'Gata',
     subway: 'Metro',
     'subway-with-route-number': 'Metro {routeNumber} {headSign}',
     'summary-page.description': '{from} - {to}',
@@ -2913,6 +2947,8 @@ const translations = {
     'via-point': 'Stoppets längd',
     'viapoint-slack-amount': 'Stop duration',
     'view-route': 'Visa linje',
+    // eslint-disable-next-line sort-keys
+    venue: 'Mötesplats',
     wait: 'Vänta',
     'wait-amount-of-time': 'Vänta {duration}',
     walk: 'gång',

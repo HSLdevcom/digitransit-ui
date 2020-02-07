@@ -260,6 +260,7 @@ class DTAutosuggest extends React.Component {
       doNotShowLinkToStop={this.state.doNotShowLinkToStop}
       ref={item.name}
       item={item}
+      intl={this.context.intl}
       loading={!this.state.valid}
       useTransportIconsconfig={
         this.context.config.search.suggestions.useTransportIcons
@@ -305,8 +306,10 @@ class DTAutosuggest extends React.Component {
       className: `react-autosuggest__input ${this.props.className}`,
       onKeyDown: this.keyDown, // DT-3263
     };
-    const SRSugLen = `There is ${suggestions.length} suggestions available `;
-    // DT-3263: removed highlightFirstSuggestion on Autosuggest, Because screen readers could not read first suggestion out loud.
+    const ariaLabelText = this.context.intl.formatMessage({
+      id: 'search-autosuggest-label',
+      defaultMessage: 'Search for places, stops and timetables.',
+    });
     return (
       <div className={cx(['autosuggest-input-container', this.props.id])}>
         {this.props.icon && (
@@ -329,8 +332,7 @@ class DTAutosuggest extends React.Component {
             <div id={`${this.props.id}-container`} style={{ display: 'flex' }}>
               {/* <label className="sr-only" for={this.props.id}>Combobox hae lähtöpaikka, linja tai pysäkki ja valitse listasta. Syötä tekst</label> */}
               <input
-                aria-label={SRSugLen}
-                aria-autocomplete="both"
+                aria-label={ariaLabelText}
                 id={this.props.id}
                 onClick={this.inputClicked}
                 onKeyDown={this.keyDown}
