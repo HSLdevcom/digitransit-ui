@@ -39,6 +39,8 @@ export default configMerger(walttiConfig, {
   availableLanguages: ['de', 'en'],
   defaultLanguage: 'de',
 
+  MATOMO_URL: process.env.MATOMO_URL,
+
   appBarLink: {
     name: 'Feedback',
     href: 'https://mobil-in-herrenberg.de/feedback',
