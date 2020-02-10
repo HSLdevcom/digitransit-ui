@@ -9,7 +9,7 @@ import StopCard from './StopCard';
 
 const StopCardContainer = connectToStores(
   StopCard,
-  ['FavouriteStopsStore'],
+  ['FavouriteStore'],
   (context, props) => ({
     isTerminal: props.isTerminal,
     children: (

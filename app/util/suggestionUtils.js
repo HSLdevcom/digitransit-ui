@@ -148,11 +148,11 @@ export function getLabel(properties) {
 
 export function suggestionToLocation(item) {
   const name = getLabel(item.properties);
-
   return {
+    id: item.properties.gid,
     address: name,
     type: item.type,
-    id: getGTFSId(item.properties),
+    gtfsId: getGTFSId(item.properties),
     code: getStopCode(item.properties),
     layer: item.properties.layer,
     lat:

@@ -8,7 +8,7 @@ import { PREFIX_ROUTES } from '../../../util/path';
 
 import RouteHeader from '../../RouteHeader';
 
-import { addFavouriteRoute } from '../../../action/FavouriteActions';
+import { addFavourite } from '../../../action/FavouriteActions';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 
 function FuzzyTripMarkerPopup(props) {
@@ -77,14 +77,17 @@ FuzzyTripMarkerPopup.propTypes = {
 
 const FuzzyTripMarkerPopupWithFavourite = connectToStores(
   FuzzyTripMarkerPopup,
-  ['FavouriteRoutesStore'],
+  ['FavouriteStore'],
   (context, props) => ({
     favourite: context
-      .getStore('FavouriteRoutesStore')
+      .getStore('FavouriteStore')
       .isFavourite(props.trip.route.gtfsId),
     addAsFavouriteRoute: e => {
       e.stopPropagation();
-      context.executeAction(addFavouriteRoute, props.trip.route.gtfsId);
+      context.executeAction(addFavourite, {
+        type: 'route',
+        gtfsId: props.trip.route.gtfsId,
+      });
     },
   }),
 );
