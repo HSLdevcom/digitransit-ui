@@ -17,6 +17,7 @@ import {
   retryMiddleware,
   batchMiddleware,
   cacheMiddleware,
+  errorMiddleware,
 } from 'react-relay-network-modern';
 import OfflinePlugin from 'offline-plugin/runtime';
 import Helmet from 'react-helmet';
@@ -127,6 +128,7 @@ async function init() {
       size: 200,
       ttl: 60 * 60 * 1000,
     }),
+    errorMiddleware(),
     next => req => {
       // eslint-disable-next-line no-param-reassign
       req.headers.OTPTimeout = config.OTPTimeout;
