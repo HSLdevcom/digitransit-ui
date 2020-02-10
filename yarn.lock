@@ -12391,6 +12391,11 @@ react-redux@^7.0.0:
     prop-types "^15.7.2"
     react-is "^16.9.0"
 
+react-relay-network-modern-ssr@1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/react-relay-network-modern-ssr/-/react-relay-network-modern-ssr-1.3.0.tgz#e2545c8082f1275fbfdd497b809e6819bdaa6615"
+  integrity sha512-k2vdg11iy0MrmA1d4bkL+/PDS9KifxLNrjVu5kfAHZrUj8dgOiazWvi9HyLqMUTqZjp1KJq5xOCzTth2O6Evsw==
+
 react-relay-network-modern@4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/react-relay-network-modern/-/react-relay-network-modern-4.5.0.tgz#6b8d3a6e566a44eea4f482da3114e7b512b4edb8"

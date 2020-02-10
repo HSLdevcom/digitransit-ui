@@ -16,9 +16,9 @@ import {
   urlMiddleware,
   retryMiddleware,
   batchMiddleware,
-  cacheMiddleware,
   errorMiddleware,
 } from 'react-relay-network-modern';
+import RelayClientSSR from 'react-relay-network-modern-ssr/lib/client';
 import OfflinePlugin from 'offline-plugin/runtime';
 import Helmet from 'react-helmet';
 import { Environment, RecordSource, Store } from 'relay-runtime';
@@ -114,7 +114,13 @@ async function init() {
     }
   }
 
+  // eslint-disable-next-line no-underscore-dangle
+  const relaySSRMiddleware = new RelayClientSSR(window.__RELAY_PAYLOADS__);
+
+  relaySSRMiddleware.debug = false;
+
   const network = new RelayNetworkLayer([
+    relaySSRMiddleware.getMiddleware(),
     urlMiddleware({
       url: `${config.URL.OTP}index/graphql`,
     }),
@@ -123,10 +129,6 @@ async function init() {
     }),
     retryMiddleware({
       fetchTimeout: config.OTPTimeout + 1000,
-    }),
-    cacheMiddleware({
-      size: 200,
-      ttl: 60 * 60 * 1000,
     }),
     errorMiddleware(),
     next => req => {
