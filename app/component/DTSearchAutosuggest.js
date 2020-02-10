@@ -310,6 +310,13 @@ class DTAutosuggest extends React.Component {
       id: 'search-autosuggest-label',
       defaultMessage: 'Search for places, stops and timetables.',
     });
+    const ariaSuggestionLen = this.context.intl.formatMessage(
+      {
+        id: 'search-autosuggest-len',
+        defaultMessage: 'There are {len} Suggestions available',
+      },
+      { len: suggestions.length },
+    );
     return (
       <div className={cx(['autosuggest-input-container', this.props.id])}>
         {this.props.icon && (
@@ -330,6 +337,9 @@ class DTAutosuggest extends React.Component {
           highlightFirstSuggestion
           renderInputComponent={p => (
             <div id={`${this.props.id}-container`} style={{ display: 'flex' }}>
+              <span className="sr-only" role="alert">
+                {ariaSuggestionLen}
+              </span>
               <input
                 aria-label={ariaLabelText}
                 id={this.props.id}

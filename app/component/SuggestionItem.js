@@ -31,7 +31,7 @@ const SuggestionItem = pure(
     } else {
       // DT-3262 Icon as string for screen readers
       const layer = item.properties.layer.replace('route-', '').toLowerCase();
-      if (iconstr) {
+      if (intl) {
         iconstr = intl.formatMessage({
           id: layer,
           defaultMessage: layer,

@@ -658,6 +658,7 @@ const translations = {
     'add-via-duration-button-label': 'Set stop duration at via point',
     'search-autosuggest-label':
       'Venue, place and stopsearch. Navigate list with arrow keys and select with enter key',
+    'search-autosuggest-len': ' There are {len} Suggestions available',
     'set-time-earlier-button-label': 'Set travel time to earlier',
     'set-time-later-button-label': 'Set travel time to later',
     'set-time-now-button-label': 'Set travel time to current',
@@ -1434,6 +1435,7 @@ const translations = {
     'add-via-button-label': 'Lisää välipiste',
     'search-autosuggest-label':
       'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
+    'search-autosuggest-len': ' Löydettiin {len} ehdotusta',
     // eslint-disable-next-line sort-keys
     'add-via-duration-button-label': 'Aseta välipisteelle pysähdyksen kesto',
     'set-time-earlier-button-label': 'Aikaista matkustusajankohtaa',
@@ -2521,6 +2523,7 @@ const translations = {
     'add-via-duration-button-label': 'Ställ in varaktighet för viapunkten',
     'search-autosuggest-label':
       'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
+    'search-autosuggest-len': 'Hittade {len} förslag',
     'set-time-earlier-button-label': 'Ställ in restid till tidigare',
     'set-time-later-button-label': 'Ställ in restid till senare',
     'set-time-now-button-label': 'Ställ in restid till nu',
