@@ -17,9 +17,11 @@ import {
 import ComponentUsageExample from './ComponentUsageExample';
 
 const SuggestionItem = pure(
-  ({ item, useTransportIcons, doNotShowLinkToStop, loading }) => {
+  ({ item, intl, useTransportIcons, doNotShowLinkToStop, loading }) => {
     let icon;
+    let iconstr;
     if (item.properties.mode && useTransportIcons) {
+      iconstr = `icon-icon_${item.properties.mode}`;
       icon = (
         <Icon
           img={`icon-icon_${item.properties.mode}`}
@@ -27,6 +29,14 @@ const SuggestionItem = pure(
         />
       );
     } else {
+      // DT-3262 Icon as string for screen readers
+      const layer = item.properties.layer.replace('route-', '').toLowerCase();
+      if (intl) {
+        iconstr = intl.formatMessage({
+          id: layer,
+          defaultMessage: layer,
+        });
+      }
       icon = (
         <Icon
           img={getIcon(item.properties.layer)}
@@ -34,17 +44,27 @@ const SuggestionItem = pure(
         />
       );
     }
-
     const [name, label] = getNameLabel(item.properties, false);
-
+    // DT-3262 For screen readers
+    const acri = (
+      <div className="sr-only">
+        <p>
+          {' '}
+          {iconstr} - {name} - {label}
+        </p>
+      </div>
+    );
     const ri = (
       <div
+        aria-hidden="true"
         className={cx('search-result', item.type, {
           favourite: item.type.startsWith('Favourite'),
           loading,
         })}
       >
-        <span className="autosuggestIcon">{icon}</span>
+        <span aria-label={iconstr} className="autosuggestIcon">
+          {icon}
+        </span>
         <div>
           <p className="suggestion-name">{name}</p>
           <p className="suggestion-label">{label}</p>
@@ -69,6 +89,7 @@ const SuggestionItem = pure(
                 item.timetableClicked = false;
               }}
             >
+              {acri}
               {ri}
             </Link>
           </div>
@@ -79,7 +100,11 @@ const SuggestionItem = pure(
               }}
             >
               <Icon img="icon-icon_schedule" />
-              <div className="suggestion-item-timetable-label">
+              <div
+                aria-hidden="true"
+                aria-label="Timetable button"
+                className="suggestion-item-timetable-label"
+              >
                 <FormattedMessage id="timetable" defaultMessage="Timetable" />
               </div>
             </Link>
@@ -87,7 +112,12 @@ const SuggestionItem = pure(
         </div>
       );
     }
-    return ri;
+    return (
+      <div>
+        {acri}
+        {ri}
+      </div>
+    );
   },
 );
 
