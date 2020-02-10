@@ -55,8 +55,9 @@ const SuggestionItem = pure(
       doNotShowLinkToStop === false &&
       (isStop(item.properties) || isTerminal(item.properties)) &&
       getGTFSId(item.properties) !== undefined &&
-      (get(item, 'properties.gtfsId') || get(item, 'properties.code')) !==
-        undefined
+      (get(item, 'properties.id') ||
+        get(item, 'properties.gtfsId') ||
+        get(item, 'properties.code')) !== undefined
     ) {
       /* eslint no-param-reassign: ["error", { "props": false }] */
       /* eslint-disable jsx-a11y/anchor-is-valid */

@@ -1,16 +1,15 @@
 import Store from 'fluxible/addons/BaseStore';
 import includes from 'lodash/includes';
 import find from 'lodash/find';
+import maxBy from 'lodash/maxBy';
 import moment from 'moment';
 import {
   getFavouriteStorage,
   setFavouriteStorage,
   getFavouriteRoutesStorage,
-  setFavouriteRoutesStorage,
   getFavouriteStopsStorage,
-  setFavouriteStopsStorage,
   getFavouriteLocationsStorage,
-  setFavouriteLocationsStorage,
+  removeItem,
 } from './localStorage';
 import { isStop } from '../util/suggestionUtils';
 import { getGeocodingResult } from '../util/searchUtils';
@@ -45,19 +44,19 @@ export default class FavouriteStore extends Store {
     return this.favourites;
   }
 
-  getByGtfsId(gtfsId) {
+  getByFavouriteId(favouriteId) {
     return find(
-      this.favourites.filter(favourite => favourite.gtfsId),
-      favourite => gtfsId === favourite.gtfsId,
+      this.favourites,
+      favourite => favouriteId === favourite.favouriteId,
     );
   }
 
-  getById(id) {
-    return find(
-      this.favourites.filter(favourite => !favourite.gtfsId),
-      favourite => id === favourite.id,
-    );
-  }
+  getMaxId = collection =>
+    (
+      maxBy(collection, favourite => favourite.favouriteId) || {
+        favouriteId: 0,
+      }
+    ).favouriteId;
 
   getRoutes() {
     return this.favourites
@@ -80,22 +79,19 @@ export default class FavouriteStore extends Store {
       throw new Error(`New favourite is not a object:${JSON.stringify(data)}`);
     }
     let newFavourites = this.favourites;
-    if (data.gtfsId && this.getByGtfsId(data.gtfsId)) {
+    if (data.favouriteId && this.getByFavouriteId(data.favouriteId)) {
       newFavourites = newFavourites.map(currentFavourite => {
-        if (currentFavourite.gtfsId === data.gtfsId) {
-          return { ...data, lastUpdated: moment().unix() };
-        }
-        return currentFavourite;
-      });
-    } else if (data.id && this.getById(data.id)) {
-      newFavourites = newFavourites.map(currentFavourite => {
-        if (currentFavourite.id === data.id) {
+        if (currentFavourite.favouriteId === data.favouriteId) {
           return { ...data, lastUpdated: moment().unix() };
         }
         return currentFavourite;
       });
     } else {
-      newFavourites.push({ ...data, lastUpdated: moment().unix() });
+      newFavourites.push({
+        ...data,
+        lastUpdated: moment().unix(),
+        favouriteId: 1 + this.getMaxId(this.favourites),
+      });
     }
     this.favourites = newFavourites;
     this.storeFavourites();
@@ -103,9 +99,10 @@ export default class FavouriteStore extends Store {
   }
 
   deleteFavourite(data) {
-    this.favourites = this.favourites.filter(
+    const newFavourites = this.favourites.filter(
       favourite => favourite.gtfsId !== data.gtfsId || favourite.id !== data.id,
     );
+    this.favourites = newFavourites;
     this.storeFavourites();
     this.emitChange();
   }
@@ -115,7 +112,7 @@ export default class FavouriteStore extends Store {
     routes.forEach(route => {
       this.addFavourite({ type: 'route', gtfsId: route });
     });
-    setFavouriteRoutesStorage([]);
+    removeItem('favouriteRoutes');
   }
 
   migrateStops() {
@@ -133,7 +130,7 @@ export default class FavouriteStore extends Store {
       };
       this.addFavourite(newStop);
     });
-    setFavouriteStopsStorage([]);
+    removeItem('favouriteStops');
   }
 
   migrateLocations() {
@@ -169,7 +166,7 @@ export default class FavouriteStore extends Store {
         }
       });
     });
-    setFavouriteLocationsStorage([]);
+    removeItem('favouriteLocations');
   }
 
   static handlers = {
