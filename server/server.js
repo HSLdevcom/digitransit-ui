@@ -96,8 +96,8 @@ function setUpOIDC() {
       resave: false,
       saveUninitialized: false,
       cookie: {
-        secure: true,
-        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        httpOnly: process.env.NODE_ENV === 'production',
         maxAge: 1000 * 60 * 60 * 24 * 365 * 10,
       },
     }),
