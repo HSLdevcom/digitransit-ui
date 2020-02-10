@@ -6,8 +6,11 @@ import {
   getFavouriteStorage,
   setFavouriteStorage,
   getFavouriteRoutesStorage,
+  setFavouriteRoutesStorage,
   getFavouriteStopsStorage,
+  setFavouriteStopsStorage,
   getFavouriteLocationsStorage,
+  setFavouriteLocationsStorage,
 } from './localStorage';
 import { isStop } from '../util/suggestionUtils';
 import { getGeocodingResult } from '../util/searchUtils';
@@ -112,6 +115,7 @@ export default class FavouriteStore extends Store {
     routes.forEach(route => {
       this.addFavourite({ type: 'route', gtfsId: route });
     });
+    setFavouriteRoutesStorage([]);
   }
 
   migrateStops() {
@@ -129,6 +133,7 @@ export default class FavouriteStore extends Store {
       };
       this.addFavourite(newStop);
     });
+    setFavouriteStopsStorage([]);
   }
 
   migrateLocations() {
@@ -164,6 +169,7 @@ export default class FavouriteStore extends Store {
         }
       });
     });
+    setFavouriteLocationsStorage([]);
   }
 
   static handlers = {
