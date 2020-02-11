@@ -128,7 +128,7 @@ class FavouriteLocationsContainer extends React.Component {
         <QueryRenderer
           key={key}
           cacheConfig={{ force: true, poll: 30 * 1000 }}
-          query={graphql.experimental`
+          query={graphql`
             query FavouriteLocationsContainerQuery(
               $from: InputCoordinates!
               $to: InputCoordinates!
