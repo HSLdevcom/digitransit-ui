@@ -12,7 +12,7 @@
         "address_en": "Opening hours: 24/7",
         "icon": {
           "id": "bikeRepIcon",
-          "svg": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><svg   xmlns:dc=\"http://purl.org/dc/elements/1.1/\"   xmlns:cc=\"http://creativecommons.org/ns#\"   xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"   xmlns:svg=\"http://www.w3.org/2000/svg\"   xmlns=\"http://www.w3.org/2000/svg\"   xmlns:sodipodi=\"http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd\"   xmlns:inkscape=\"http://www.inkscape.org/namespaces/inkscape\"   width=\"24\"   height=\"24\"   fill-rule=\"evenodd\"   clip-rule=\"evenodd\"   version=\"1.1\"   id=\"svg5254\"   sodipodi:docname=\"bikerepair.svg\"   inkscape:version=\"0.92.1 r15371\">  <metadata     id=\"metadata5260\">    <rdf:RDF>      <cc:Work         rdf:about=\"\">        <dc:format>image/svg+xml</dc:format>        <dc:type           rdf:resource=\"http://purl.org/dc/dcmitype/StillImage\" />        <dc:title></dc:title>      </cc:Work>    </rdf:RDF>  </metadata>  <defs     id=\"defs5258\" />  <sodipodi:namedview     pagecolor=\"#ffffff\"     bordercolor=\"#666666\"     borderopacity=\"1\"     objecttolerance=\"10\"     gridtolerance=\"10\"     guidetolerance=\"10\"     inkscape:pageopacity=\"0\"     inkscape:pageshadow=\"2\"     inkscape:window-width=\"1355\"     inkscape:window-height=\"701\"     id=\"namedview5256\"     showgrid=\"false\"     inkscape:zoom=\"9.8333333\"     inkscape:cx=\"13.799264\"     inkscape:cy=\"13.58973\"     inkscape:window-x=\"1876\"     inkscape:window-y=\"162\"     inkscape:window-maximized=\"0\"     inkscape:current-layer=\"layer1\" />  <path     d=\"m 17.76839,14.293746 c 0.454,-0.136 0.937,-0.209 1.435,-0.209 2.759,0 5,2.24 5,5 0,2.76 -2.241,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-1.906 1.068,-3.564 2.639,-4.408 l -0.429,-1.039 -4.494,5.947 h -1.741 c -0.2510002,2.525 -2.3850002,4.5 -4.9750002,4.5 -2.76,0 -4.99999997,-2.24 -4.99999997,-5 0,-2.76 2.23999997,-5 4.99999997,-5 0.635,0 1.244,0.119 1.803,0.336 l 1.181,-2.331 -0.462,-1.005 h -1.022 c -0.277,0 -0.5,-0.224 -0.5,-0.5 0,-0.239 0.189,-0.5 0.5,-0.5 h 2.491 c 0.239,0 0.5,0.189 0.5,0.5 0,0.311 -0.26,0.5 -0.5,0.5 h -0.368 l 0.47,1 H 15.78039 l -0.421,-1 h -1.656 c -0.277,0 -0.5,-0.224 -0.5,-0.5 0,-0.311 0.259,-0.5 0.5,-0.5 h 2.33 z m -11.2170002,1.024 c -0.421,-0.151 -0.875,-0.233 -1.348,-0.233 -2.208,0 -4,1.792 -4,4 0,2.208 1.792,4 4,4 2.038,0 3.722,-1.528 3.969,-3.5 h -3.103 c -0.174,0.299 -0.497,0.5 -0.866,0.5 -0.552,0 -1,-0.448 -1,-1 0,-0.533 0.419,-0.97 0.945,-0.998 z m 10.6750002,0.289 c -1.208,0.689 -2.023,1.989 -2.023,3.478 0,2.208 1.792,4 4,4 2.208,0 4,-1.792 4,-4 0,-2.208 -1.792,-4 -4,-4 -0.364,0 -0.716,0.049 -1.051,0.14 l 1.182,2.869 c 0.491,0.064 0.869,0.484 0.869,0.991 0,0.552 -0.449,1 -1,1 -0.552,0 -1,-0.448 -1,-1 0,-0.229 0.077,-0.44 0.207,-0.609 z m -9.7830002,0.165 -1.403,2.766 0.029,0.047 h 3.103 c -0.147,-1.169 -0.798,-2.183 -1.729,-2.813 m 0.454,-0.898 c 1.254,0.804 2.1260002,2.152 2.2810002,3.711 h 0.997 l -2.4540002,-5.336 z m 7.6830002,-1.789 H 9.7413898 l 2.2120002,4.797 z\"     id=\"path5252\"     inkscape:connector-curvature=\"0\" />  <g     inkscape:groupmode=\"layer\"     id=\"layer1\"     inkscape:label=\"repair\">    <path       inkscape:connector-curvature=\"0\"       d=\"M 0.07818114,3.0645694 4.3958111,3.0071286 c 1.3282865,0.732604 1.3940055,3.5249843 0.072986,4.299931 L 0.15174846,7.3649987 C 0.39411297,7.7450231 0.69659235,8.0907896 1.0475649,8.3923139 1.9784562,9.1920519 3.2504578,9.6785236 4.6513203,9.6603941 6.1981562,9.6398144 7.5731787,9.0101505 8.4899388,8.0327353 8.9741974,7.5168154 9.6905479,7.2142724 10.448509,7.2041889 L 21.511077,7.0570173 c 0.661784,-0.0088 1.258279,-0.2544957 1.686825,-0.6454735 C 24.134498,5.5570514 24.097499,4.1867711 23.109682,3.3730892 22.672404,3.0134003 22.082949,2.7966667 21.438901,2.8047276 L 10.375752,2.9514004 C 9.6183726,2.961981 8.8920605,2.6776189 8.3899478,2.1753282 7.4404291,1.2227408 6.0440938,0.63045096 4.4989659,0.65049967 3.0969757,0.66966092 1.8426397,1.1902462 0.93874717,2.0149005 0.59873009,2.3251107 0.30812212,2.6787674 0.07818359,3.064568 Z M 21.999361,4.4169549 c 0.321338,0.2760646 0.329029,0.7291691 0.0172,1.0136567 -0.311822,0.2844879 -0.824199,0.2907974 -1.144956,0.015233 -0.320756,-0.2755651 -0.329028,-0.7291691 -0.0172,-1.0136567 0.311823,-0.2844877 0.823619,-0.2912962 1.144956,-0.015233 z\"       id=\"path4538\"       style=\"stroke-width:0.76185781\"       inkscape:transform-center-x=\"-0.20338983\"       inkscape:transform-center-y=\"-1.1186441\" />  </g></svg>"
+          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"Ebene_1\" data-name=\"Ebene 1\" viewBox=\"0 0 32.53 32.54\">\n  <defs>\n    <style>\n      .cls-2{fill:#fff}\n    </style>\n  </defs>\n  <path fill=\"#000001\" d=\"M313.29 384.05A16.27 16.27 0 11297 367.78a16.27 16.27 0 0116.26 16.27\" transform=\"translate(-280.76 -367.78)\"/>\n  <path d=\"M299.66 384.6a1.43 1.43 0 01-1.05-.44 1.35 1.35 0 01-.46-1 1.56 1.56 0 011.51-1.51 1.42 1.42 0 011 .45 1.51 1.51 0 01.44 1.06 1.5 1.5 0 01-1.48 1.47zm-7.87 4.89a3.55 3.55 0 012.65 1.09 3.62 3.62 0 011.07 2.67 3.66 3.66 0 01-3.72 3.72 3.65 3.65 0 01-2.67-1.07 3.55 3.55 0 01-1.09-2.65 3.72 3.72 0 013.76-3.76zm0 6.36a2.59 2.59 0 002.6-2.6 2.53 2.53 0 00-.76-1.86 2.45 2.45 0 00-1.84-.78 2.66 2.66 0 00-2.64 2.64 2.46 2.46 0 00.78 1.84 2.53 2.53 0 001.86.76zm4.32-7.49l1.65 1.73v4.63h-1.47V391l-2.43-2.11a1.18 1.18 0 01-.42-1.05 1.45 1.45 0 01.42-1.06l2.11-2.11a1.19 1.19 0 011.06-.42 1.86 1.86 0 011.19.42l1.44 1.45a3.68 3.68 0 002.67 1.12v1.51a5.18 5.18 0 01-3.79-1.58l-.6-.6zm6.15 1.13a3.72 3.72 0 013.76 3.76 3.55 3.55 0 01-1.09 2.65 3.62 3.62 0 01-2.67 1.07 3.66 3.66 0 01-3.72-3.72 3.62 3.62 0 011.07-2.67 3.55 3.55 0 012.65-1.09zm0 6.36a2.53 2.53 0 001.86-.76 2.46 2.46 0 00.78-1.84 2.66 2.66 0 00-2.64-2.64 2.46 2.46 0 00-1.84.78 2.53 2.53 0 00-.76 1.86 2.59 2.59 0 002.6 2.6zM304 374.92a.38.38 0 01.38.14.65.65 0 01.15.48v1.86a.51.51 0 01-.57.58h-7.4a3.46 3.46 0 01-1.34 1.58 3.67 3.67 0 01-2.07.61 3.79 3.79 0 01-2.22-.69 3.33 3.33 0 01-1.33-1.79h3.55v-2.44h-3.55a3.8 3.8 0 013.54-2.48 3.76 3.76 0 012.08.61 3.46 3.46 0 011.34 1.58z\" class=\"cls-2\" transform=\"translate(-280.76 -367.78)\"/>\n</svg>"
         }
       },
       "geometry": {
@@ -218,12 +218,12 @@
         "name": "Fahrrad Kaiser",
         "name_en": "Fahrrad Kaiser",
         "name_de": "Fahrrad Kaiser",
-        "address": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; So 09:00-16:00;Telefon: +49 7031 43589 0, <a href=\"https://www.fahrrad-kaiser.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: begrenzt",
-        "address_de": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; So 09:00-16:00;Telefon: +49 7031 43589 0, <a href=\"https://www.fahrrad-kaiser.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: begrenzt",
-        "address_en": "Opening hours: Mo-Fr 10:00-19:00; Sa 09:00-16:00;Phone: +49 7031 43589 0, <a href=\"https://www.fahrrad-kaiser.de/\" target=\"_blank\">Website</a>,  Wheelchair: limited",
+        "address": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; So 09:00-16:00;Telefon: +49 7031 43589 0, Barrierefrei: begrenzt",
+        "address_de": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; So 09:00-16:00;Telefon: +49 7031 43589 0, Barrierefrei: begrenzt",
+        "address_en": "Opening hours: Mo-Fr 10:00-19:00; Sa 09:00-16:00;Phone: +49 7031 43589 0, Wheelchair: limited",
         "icon": {
           "id": "bikeShopIcon",
-          "svg": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><svg   xmlns:dc=\"http://purl.org/dc/elements/1.1/\"   xmlns:cc=\"http://creativecommons.org/ns#\"   xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"   xmlns:svg=\"http://www.w3.org/2000/svg\"   xmlns=\"http://www.w3.org/2000/svg\"   xmlns:sodipodi=\"http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd\"   xmlns:inkscape=\"http://www.inkscape.org/namespaces/inkscape\"   width=\"24\"   height=\"24\"   fill-rule=\"evenodd\"   clip-rule=\"evenodd\"   version=\"1.1\"   id=\"svg5254\"   sodipodi:docname=\"bikeshop2.svg\"   inkscape:version=\"0.92.1 r15371\">  <metadata     id=\"metadata5260\">    <rdf:RDF>      <cc:Work         rdf:about=\"\">        <dc:format>image/svg+xml</dc:format>        <dc:type           rdf:resource=\"http://purl.org/dc/dcmitype/StillImage\" />        <dc:title />      </cc:Work>    </rdf:RDF>  </metadata>  <defs     id=\"defs5258\" />  <sodipodi:namedview     pagecolor=\"#ffffff\"     bordercolor=\"#666666\"     borderopacity=\"1\"     objecttolerance=\"10\"     gridtolerance=\"10\"     guidetolerance=\"10\"     inkscape:pageopacity=\"0\"     inkscape:pageshadow=\"2\"     inkscape:window-width=\"1920\"     inkscape:window-height=\"1051\"     id=\"namedview5256\"     showgrid=\"false\"     inkscape:zoom=\"9.8333333\"     inkscape:cx=\"11.460281\"     inkscape:cy=\"20.780456\"     inkscape:window-x=\"1366\"     inkscape:window-y=\"0\"     inkscape:window-maximized=\"1\"     inkscape:current-layer=\"svg5254\" />  <path     d=\"m 17.76839,14.293746 c 0.454,-0.136 0.937,-0.209 1.435,-0.209 2.759,0 5,2.24 5,5 0,2.76 -2.241,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-1.906 1.068,-3.564 2.639,-4.408 l -0.429,-1.039 -4.494,5.947 h -1.741 c -0.2510002,2.525 -2.3850002,4.5 -4.9750002,4.5 -2.76,0 -4.99999997,-2.24 -4.99999997,-5 0,-2.76 2.23999997,-5 4.99999997,-5 0.635,0 1.244,0.119 1.803,0.336 l 1.181,-2.331 -0.462,-1.005 h -1.022 c -0.277,0 -0.5,-0.224 -0.5,-0.5 0,-0.239 0.189,-0.5 0.5,-0.5 h 2.491 c 0.239,0 0.5,0.189 0.5,0.5 0,0.311 -0.26,0.5 -0.5,0.5 h -0.368 l 0.47,1 H 15.78039 l -0.421,-1 h -1.656 c -0.277,0 -0.5,-0.224 -0.5,-0.5 0,-0.311 0.259,-0.5 0.5,-0.5 h 2.33 z m -11.2170002,1.024 c -0.421,-0.151 -0.875,-0.233 -1.348,-0.233 -2.208,0 -4,1.792 -4,4 0,2.208 1.792,4 4,4 2.038,0 3.722,-1.528 3.969,-3.5 h -3.103 c -0.174,0.299 -0.497,0.5 -0.866,0.5 -0.552,0 -1,-0.448 -1,-1 0,-0.533 0.419,-0.97 0.945,-0.998 z m 10.6750002,0.289 c -1.208,0.689 -2.023,1.989 -2.023,3.478 0,2.208 1.792,4 4,4 2.208,0 4,-1.792 4,-4 0,-2.208 -1.792,-4 -4,-4 -0.364,0 -0.716,0.049 -1.051,0.14 l 1.182,2.869 c 0.491,0.064 0.869,0.484 0.869,0.991 0,0.552 -0.449,1 -1,1 -0.552,0 -1,-0.448 -1,-1 0,-0.229 0.077,-0.44 0.207,-0.609 z m -9.7830002,0.165 -1.403,2.766 0.029,0.047 h 3.103 c -0.147,-1.169 -0.798,-2.183 -1.729,-2.813 m 0.454,-0.898 c 1.254,0.804 2.1260002,2.152 2.2810002,3.711 h 0.997 l -2.4540002,-5.336 z m 7.6830002,-1.789 H 9.7413898 l 2.2120002,4.797 z\"     id=\"path5252\"     inkscape:connector-curvature=\"0\" />  <text     xml:space=\"preserve\"     style=\"font-style:normal;font-weight:normal;font-size:9.17953587px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.2294884\"     x=\"0.26886508\"     y=\"7.5521984\"     id=\"text5807\"     transform=\"scale(0.88096664,1.1351168)\"><tspan       sodipodi:role=\"line\"       id=\"tspan5805\"       x=\"0.26886508\"       y=\"7.5521984\"       style=\"stroke-width:0.2294884\">SHOP</tspan></text></svg>"
+          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" data-name=\"Ebene 1\" viewBox=\"0 0 32.53 32.53\">\n  <path fill=\"#000001\" d=\"M32.53 16.27A16.27 16.27 0 1116.24 0 16.26 16.26 0 0132.5 16.27\"/>\n  <text fill=\"#fff\" font-family=\"Interstate-Bold\" font-size=\"7.1\" font-weight=\"700\" transform=\"translate(6.63 11.52)\">\n    SHOP\n  </text>\n  <path fill=\"#fff\" d=\"M18.9 16.66a1.47 1.47 0 01-1.05-.44 1.38 1.38 0 01-.46-1 1.57 1.57 0 011.51-1.51 1.39 1.39 0 011 .46 1.47 1.47 0 01.44 1 1.43 1.43 0 01-.44 1 1.45 1.45 0 01-1 .49zm-7.87 4.88a3.59 3.59 0 012.65 1.09 3.65 3.65 0 011.07 2.67 3.66 3.66 0 01-3.72 3.73 3.69 3.69 0 01-2.67-1.07 3.57 3.57 0 01-1.09-2.66 3.63 3.63 0 011.09-2.67 3.67 3.67 0 012.67-1.09zm0 6.36a2.58 2.58 0 002.6-2.6 2.56 2.56 0 00-.76-1.86 2.44 2.44 0 00-1.84-.77 2.5 2.5 0 00-1.86.77 2.54 2.54 0 00-.78 1.86 2.49 2.49 0 00.78 1.85 2.56 2.56 0 001.86.75zm4.32-7.48L17 22.14v4.64h-1.47v-3.73l-2.43-2.1a1.19 1.19 0 01-.42-1.06 1.42 1.42 0 01.42-1.05l2.11-2.11a1.19 1.19 0 011.06-.42 1.86 1.86 0 011.19.42l1.44 1.44a3.64 3.64 0 002.67 1.12v1.51a5.14 5.14 0 01-3.79-1.58l-.6-.59zm6.15 1.12a3.72 3.72 0 013.76 3.76 3.57 3.57 0 01-1.09 2.66 3.66 3.66 0 01-2.67 1.07 3.66 3.66 0 01-3.72-3.73 3.65 3.65 0 011.07-2.67 3.59 3.59 0 012.65-1.09zm0 6.36a2.56 2.56 0 001.86-.75 2.49 2.49 0 00.78-1.85 2.54 2.54 0 00-.78-1.86 2.5 2.5 0 00-1.86-.77 2.45 2.45 0 00-1.84.77 2.56 2.56 0 00-.76 1.86 2.58 2.58 0 002.6 2.6z\"/>\n</svg>"
         }
       },
       "geometry": {
@@ -261,9 +261,9 @@
         "name": "Radsport Kimmerle",
         "name_en": "Radsport Kimmerle",
         "name_de": "Radsport Kimmerle",
-        "address": "<a href=\"https://www.radsportkimmerle.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: nein",
-        "address_de": "<a href=\"https://www.radsportkimmerle.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: nein",
-        "address_en": "<a href=\"https://www.radsportkimmerle.de/\" target=\"_blank\">Website</a>,  Wheelchair: no",
+        "address": "Barrierefrei: nein",
+        "address_de": "Barrierefrei: nein",
+        "address_en": "Wheelchair: no",
         "icon": {
           "id": "bikeShopIcon"
         }
@@ -324,9 +324,9 @@
         "name": "bikeshop2000",
         "name_en": "bikeshop2000",
         "name_de": "bikeshop2000",
-        "address": "\u00d6ffnungszeiten: Di-Fr 14:00-18:00; So 10:00-14:00;<a href=\"http://bikeshop2000.de/\" target=\"_blank\">Webseite</a>",
-        "address_de": "\u00d6ffnungszeiten: Di-Fr 14:00-18:00; So 10:00-14:00;<a href=\"http://bikeshop2000.de/\" target=\"_blank\">Webseite</a>",
-        "address_en": "Opening hours: Tu-Fr 14:00-18:00; Sa 10:00-14:00;<a href=\"http://bikeshop2000.de/\" target=\"_blank\">Website</a>",
+        "address": "\u00d6ffnungszeiten: Di-Fr 14:00-18:00; So 10:00-14:00;",
+        "address_de": "\u00d6ffnungszeiten: Di-Fr 14:00-18:00; So 10:00-14:00;",
+        "address_en": "Opening hours: Tu-Fr 14:00-18:00; Sa 10:00-14:00;",
         "icon": {
           "id": "bikeShopIcon"
         }
@@ -345,9 +345,9 @@
         "name": "Radhof Schill",
         "name_en": "Radhof Schill",
         "name_de": "Radhof Schill",
-        "address": "<a href=\"http://www.radhof-schill.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: begrenzt",
-        "address_de": "<a href=\"http://www.radhof-schill.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: begrenzt",
-        "address_en": "<a href=\"http://www.radhof-schill.de/\" target=\"_blank\">Website</a>,  Wheelchair: limited",
+        "address": "Barrierefrei: begrenzt",
+        "address_de": "Barrierefrei: begrenzt",
+        "address_en": "Wheelchair: limited",
         "icon": {
           "id": "bikeShopIcon"
         }
@@ -387,9 +387,9 @@
         "name": "Dirty Stuff - Downhill, Freeride, Enduro, Dirt/Street",
         "name_en": "Dirty Stuff - Downhill, Freeride, Enduro, Dirt/Street",
         "name_de": "Dirty Stuff - Downhill, Freeride, Enduro, Dirt/Street",
-        "address": "Telefon: +49 1515 6944213, <a href=\"http://www.dirty-stuff.de\" target=\"_blank\">Webseite</a>",
-        "address_de": "Telefon: +49 1515 6944213, <a href=\"http://www.dirty-stuff.de\" target=\"_blank\">Webseite</a>",
-        "address_en": "Phone: +49 1515 6944213, <a href=\"http://www.dirty-stuff.de\" target=\"_blank\">Website</a>",
+        "address": "Telefon: +49 1515 6944213",
+        "address_de": "Telefon: +49 1515 6944213",
+        "address_en": "Phone: +49 1515 6944213",
         "icon": {
           "id": "bikeShopIcon"
         }
@@ -408,9 +408,9 @@
         "name": "Radsport Holczer",
         "name_en": "Radsport Holczer",
         "name_de": "Radsport Holczer",
-        "address": "\u00d6ffnungszeiten: Mo-Di,Fr 09:00-18:30; Do 09:00-20:00; So 09:00-14:00, <a href=\"http://www.holczer-radsport.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: ja",
-        "address_de": "\u00d6ffnungszeiten: Mo-Di,Fr 09:00-18:30; Do 09:00-20:00; So 09:00-14:00, <a href=\"http://www.holczer-radsport.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: ja",
-        "address_en": "Opening hours: Mo-Tu,Fr 09:00-18:30; Th 09:00-20:00; Sa 09:00-14:00, <a href=\"http://www.holczer-radsport.de/\" target=\"_blank\">Website</a>,  Wheelchair: yes",
+        "address": "\u00d6ffnungszeiten: Mo-Di,Fr 09:00-18:30; Do 09:00-20:00; So 09:00-14:00, Barrierefrei: ja",
+        "address_de": "\u00d6ffnungszeiten: Mo-Di,Fr 09:00-18:30; Do 09:00-20:00; So 09:00-14:00, Barrierefrei: ja",
+        "address_en": "Opening hours: Mo-Tu,Fr 09:00-18:30; Th 09:00-20:00; Sa 09:00-14:00, Wheelchair: yes",
         "icon": {
           "id": "bikeShopIcon"
         }
@@ -492,9 +492,9 @@
         "name": "Radax",
         "name_en": "Radax",
         "name_de": "Radax",
-        "address": "<a href=\"https://www.radax.de\" target=\"_blank\">Webseite</a>,  Barrierefrei: begrenzt",
-        "address_de": "<a href=\"https://www.radax.de\" target=\"_blank\">Webseite</a>,  Barrierefrei: begrenzt",
-        "address_en": "<a href=\"https://www.radax.de\" target=\"_blank\">Website</a>,  Wheelchair: limited",
+        "address": "Barrierefrei: begrenzt",
+        "address_de": "Barrierefrei: begrenzt",
+        "address_en": "Wheelchair: limited",
         "icon": {
           "id": "bikeShopIcon"
         }
@@ -597,9 +597,9 @@
         "name": "Bikemaster - Richies Radsportgesch\u00e4ft",
         "name_en": "Bikemaster - Richies Radsportgesch\u00e4ft",
         "name_de": "Bikemaster - Richies Radsportgesch\u00e4ft",
-        "address": "<a href=\"http://www.bikemaster-nagold.de\" target=\"_blank\">Webseite</a>,  Barrierefrei: nein",
-        "address_de": "<a href=\"http://www.bikemaster-nagold.de\" target=\"_blank\">Webseite</a>,  Barrierefrei: nein",
-        "address_en": "<a href=\"http://www.bikemaster-nagold.de\" target=\"_blank\">Website</a>,  Wheelchair: no",
+        "address": "Barrierefrei: nein",
+        "address_de": "Barrierefrei: nein",
+        "address_en": "Wheelchair: no",
         "icon": {
           "id": "bikeShopIcon"
         }
@@ -660,9 +660,9 @@
         "name": "Die RADgeber",
         "name_en": "Die RADgeber",
         "name_de": "Die RADgeber",
-        "address": "Telefon: +49 7034 652345, <a href=\"http://www.die-rad-geber.de/\" target=\"_blank\">Webseite</a>,  \u00d6ffnungszeiten: Mo-Fr 10:00-12:30,14:30-18:30; Mi 10:00-12:30; So 09:00-13:00;Barrierefrei: ja",
-        "address_de": "Telefon: +49 7034 652345, <a href=\"http://www.die-rad-geber.de/\" target=\"_blank\">Webseite</a>,  \u00d6ffnungszeiten: Mo-Fr 10:00-12:30,14:30-18:30; Mi 10:00-12:30; So 09:00-13:00;Barrierefrei: ja",
-        "address_en": "Phone: +49 7034 652345, <a href=\"http://www.die-rad-geber.de/\" target=\"_blank\">Website</a>,  Opening hours: Mo-Fr 10:00-12:30,14:30-18:30; We 10:00-12:30; Sa 09:00-13:00;Wheelchair: yes",
+        "address": "Telefon: +49 7034 652345, \u00d6ffnungszeiten: Mo-Fr 10:00-12:30,14:30-18:30; Mi 10:00-12:30; So 09:00-13:00;Barrierefrei: ja",
+        "address_de": "Telefon: +49 7034 652345, \u00d6ffnungszeiten: Mo-Fr 10:00-12:30,14:30-18:30; Mi 10:00-12:30; So 09:00-13:00;Barrierefrei: ja",
+        "address_en": "Phone: +49 7034 652345, Opening hours: Mo-Fr 10:00-12:30,14:30-18:30; We 10:00-12:30; Sa 09:00-13:00;Wheelchair: yes",
         "icon": {
           "id": "bikeShopIcon"
         }
@@ -723,9 +723,9 @@
         "name": "Sportshop Haiterbach",
         "name_en": "Sportshop Haiterbach",
         "name_de": "Sportshop Haiterbach",
-        "address": "Telefon: +49 7456 915312, <a href=\"http://sportshop-haiterbach.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: nein",
-        "address_de": "Telefon: +49 7456 915312, <a href=\"http://sportshop-haiterbach.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: nein",
-        "address_en": "Phone: +49 7456 915312, <a href=\"http://sportshop-haiterbach.de/\" target=\"_blank\">Website</a>,  Wheelchair: no",
+        "address": "Telefon: +49 7456 915312, Barrierefrei: nein",
+        "address_de": "Telefon: +49 7456 915312, Barrierefrei: nein",
+        "address_en": "Phone: +49 7456 915312, Wheelchair: no",
         "icon": {
           "id": "bikeShopIcon"
         }
@@ -744,9 +744,9 @@
         "name": "Radwelt Ehningen",
         "name_en": "Radwelt Ehningen",
         "name_de": "Radwelt Ehningen",
-        "address": "<a href=\"http://www.radwelt-ehningen.de/service.html\" target=\"_blank\">Webseite</a>,  Barrierefrei: ja",
-        "address_de": "<a href=\"http://www.radwelt-ehningen.de/service.html\" target=\"_blank\">Webseite</a>,  Barrierefrei: ja",
-        "address_en": "<a href=\"http://www.radwelt-ehningen.de/service.html\" target=\"_blank\">Website</a>,  Wheelchair: yes",
+        "address": "Barrierefrei: ja",
+        "address_de": "Barrierefrei: ja",
+        "address_en": "Wheelchair: yes",
         "icon": {
           "id": "bikeShopIcon"
         }
@@ -765,9 +765,9 @@
         "name": "Bikemax",
         "name_en": "Bikemax",
         "name_de": "Bikemax",
-        "address": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; So 10:00-18:00, <a href=\"https://www.boc24.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: nein",
-        "address_de": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; So 10:00-18:00, <a href=\"https://www.boc24.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: nein",
-        "address_en": "Opening hours: Mo-Fr 10:00-19:00; Sa 10:00-18:00, <a href=\"https://www.boc24.de/\" target=\"_blank\">Website</a>,  Wheelchair: no",
+        "address": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; So 10:00-18:00, Barrierefrei: nein",
+        "address_de": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; So 10:00-18:00, Barrierefrei: nein",
+        "address_en": "Opening hours: Mo-Fr 10:00-19:00; Sa 10:00-18:00, Wheelchair: no",
         "icon": {
           "id": "bikeShopIcon"
         }
@@ -783,33 +783,12 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "eZee Elektrorad",
-        "name_en": "eZee Elektrorad",
-        "name_de": "eZee Elektrorad",
-        "address": "\u00d6ffnungszeiten: Mo-Fr 10:00-13:00,14:00-18:30; So 10:00-16:00, <a href=\"http://www.ezee-elektrorad.de\" target=\"_blank\">Webseite</a>,  Barrierefrei: begrenzt",
-        "address_de": "\u00d6ffnungszeiten: Mo-Fr 10:00-13:00,14:00-18:30; So 10:00-16:00, <a href=\"http://www.ezee-elektrorad.de\" target=\"_blank\">Webseite</a>,  Barrierefrei: begrenzt",
-        "address_en": "Opening hours: Mo-Fr 10:00-13:00,14:00-18:30; Sa 10:00-16:00, <a href=\"http://www.ezee-elektrorad.de\" target=\"_blank\">Website</a>,  Wheelchair: limited",
-        "icon": {
-          "id": "bikeShopIcon"
-        }
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          9.0093091,
-          48.6792453
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "name": "Radlager",
         "name_en": "Radlager",
         "name_de": "Radlager",
-        "address": "Telefon: +49 7032 795792, <a href=\"http://www.radlager-herrenberg.de\" target=\"_blank\">Webseite</a>,  \u00d6ffnungszeiten: Mo-Di 09:15-12:30, 14:30-18:30; Do-Fr 09:15-12:30, 14:30-18:30; So 09:15-13:00, Barrierefrei: begrenzt",
-        "address_de": "Telefon: +49 7032 795792, <a href=\"http://www.radlager-herrenberg.de\" target=\"_blank\">Webseite</a>,  \u00d6ffnungszeiten: Mo-Di 09:15-12:30, 14:30-18:30; Do-Fr 09:15-12:30, 14:30-18:30; So 09:15-13:00, Barrierefrei: begrenzt",
-        "address_en": "Phone: +49 7032 795792, <a href=\"http://www.radlager-herrenberg.de\" target=\"_blank\">Website</a>,  Opening hours: Mo-Tu 09:15-12:30, 14:30-18:30; Th-Fr 09:15-12:30, 14:30-18:30; Sa 09:15-13:00, Wheelchair: limited",
+        "address": "Telefon: +49 7032 795792, \u00d6ffnungszeiten: Mo-Di 09:15-12:30, 14:30-18:30; Do-Fr 09:15-12:30, 14:30-18:30; So 09:15-13:00, Barrierefrei: begrenzt",
+        "address_de": "Telefon: +49 7032 795792, \u00d6ffnungszeiten: Mo-Di 09:15-12:30, 14:30-18:30; Do-Fr 09:15-12:30, 14:30-18:30; So 09:15-13:00, Barrierefrei: begrenzt",
+        "address_en": "Phone: +49 7032 795792, Opening hours: Mo-Tu 09:15-12:30, 14:30-18:30; Th-Fr 09:15-12:30, 14:30-18:30; Sa 09:15-13:00, Wheelchair: limited",
         "icon": {
           "id": "bikeShopIcon"
         }
