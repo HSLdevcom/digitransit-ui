@@ -18,6 +18,7 @@ class ToggleButton extends React.Component {
       children,
       buttonRef,
       showButtonTitle,
+      ariaLabel, // DT-3268
       ...rest
     } = this.props;
 
@@ -34,8 +35,16 @@ class ToggleButton extends React.Component {
         className={cx('cursor-pointer', classes, className)}
         onClick={onBtnClick}
         style={style}
-        title={intl.formatMessage({ id: label })}
-        aria-label={intl.formatMessage({ id: label })}
+        title={
+          ariaLabel
+            ? intl.formatMessage({ id: ariaLabel })
+            : intl.formatMessage({ id: label })
+        } // DT-3268 check if ariaLabel has been given
+        aria-label={
+          ariaLabel
+            ? intl.formatMessage({ id: ariaLabel })
+            : intl.formatMessage({ id: label })
+        } // DT-3268 check if ariaLabel has been given
         ref={buttonRef ? ref => buttonRef(ref) : null}
         {...rest}
       >
@@ -70,6 +79,7 @@ ToggleButton.propTypes = {
   children: PropTypes.node,
   buttonRef: PropTypes.func,
   showButtonTitle: PropTypes.bool,
+  ariaLabel: PropTypes.string, // DT-3268
 };
 
 ToggleButton.defaultProps = {
