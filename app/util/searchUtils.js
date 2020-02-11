@@ -65,9 +65,10 @@ const mapRoute = item => {
   if (item === null || item === undefined) {
     return null;
   }
+  // DT-3331: added query string sort=no
   const link = `/${PREFIX_ROUTES}/${item.gtfsId}/pysakit/${
     orderBy(item.patterns, 'code', ['asc'])[0].code
-  }`;
+  }?sort=no`;
 
   return {
     type: 'Route',
@@ -634,11 +635,9 @@ export function executeSearchImmediate(
   const endpointLayers = layers || getAllEndpointLayers();
 
   if (type === SearchType.Endpoint || type === SearchType.All) {
-    const favouriteLocations = getStore(
-      'FavouriteLocationStore',
-    ).getLocations();
+    const favouriteLocations = getStore('FavouriteStore').getLocations();
     const oldSearches = getStore('OldSearchesStore').getOldSearches('endpoint');
-    const favouriteStops = getStore('FavouriteStopsStore').getStops();
+    const favouriteStops = getStore('FavouriteStore').getStopsAndStations();
     const language = getStore('PreferencesStore').getLanguage();
     const searchComponents = [];
 
@@ -759,7 +758,7 @@ export function executeSearchImmediate(
 
   if (type === SearchType.Search || type === SearchType.All) {
     const oldSearches = getStore('OldSearchesStore').getOldSearches('search');
-    const favouriteRoutes = getStore('FavouriteRoutesStore').getRoutes();
+    const favouriteRoutes = getStore('FavouriteStore').getRoutes();
     searchSearchesPromise = Promise.all([
       getFavouriteRoutes(favouriteRoutes, input),
       getOldSearches(oldSearches, input),

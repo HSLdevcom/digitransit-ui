@@ -56,7 +56,12 @@ const CardHeader = ({
 
 const emptyFunction = () => {};
 const exampleIcons = [
-  <Favourite key="favourite" favourite={false} addFavourite={emptyFunction} />,
+  <Favourite
+    key="favourite"
+    favourite={false}
+    addFavourite={emptyFunction}
+    deleteFavourite={emptyFunction}
+  />,
 ];
 
 CardHeader.displayName = 'CardHeader';

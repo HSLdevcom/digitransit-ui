@@ -50,9 +50,10 @@ const DepartureRow = ({ departure, currentTime, distance }, context) => {
     context.router.push(val);
   };
 
+  // DT-3331: added query string sort=no
   const departureLinkUrl = `/${PREFIX_ROUTES}/${
     departure.pattern.route.gtfsId
-  }/pysakit/${departure.pattern.code}`;
+  }/pysakit/${departure.pattern.code}?sort=no`;
 
   // In case there's only one departure for the route,
   // add a dummy cell to keep the table layout from breaking
