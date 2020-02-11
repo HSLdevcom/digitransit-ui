@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
-import { routerShape, Link } from 'react-router';
+import { graphql, QueryRenderer } from 'react-relay';
+import { routerShape } from 'found';
+import Link from 'found/lib/Link';
 import SwipeableViews from 'react-swipeable-views';
 import { bindKeyboard } from 'react-swipeable-views-utils';
 import range from 'lodash/range';
@@ -15,36 +16,11 @@ import NoFavouriteLocations from './NoFavouriteLocations';
 import { dtLocationShape } from '../util/shapes';
 import { isMobile } from '../util/browser';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-
-class FavouriteLocationContainerRoute extends Relay.Route {
-  static queries = {
-    plan: (Component, variables) => Relay.QL`
-    query {
-      viewer {
-        ${Component.getFragment('plan', {
-          from: variables.from,
-          to: variables.to,
-          maxWalkDistance: variables.maxWalkDistance,
-          wheelchair: variables.wheelchair,
-          arriveBy: variables.arriveBy,
-          disableRemainingWeightHeuristic:
-            variables.disableRemainingWeightHeuristic,
-        })}
-      }
-    }`,
-  };
-
-  static paramDefinitions = {
-    from: { required: true },
-    to: { required: true },
-  };
-
-  static routeName = 'FavouriteLocationsContainerRoute';
-}
+import getRelayEnvironment from '../util/getRelayEnvironment';
 
 const SwipeableViewsKB = bindKeyboard(SwipeableViews);
 
-export default class FavouriteLocationsContainer extends React.Component {
+class FavouriteLocationsContainer extends React.Component {
   static contextTypes = {
     router: routerShape.isRequired,
     config: PropTypes.object.isRequired,
@@ -63,6 +39,11 @@ export default class FavouriteLocationsContainer extends React.Component {
     favourites: PropTypes.array.isRequired,
     currentTime: PropTypes.number.isRequired,
     origin: dtLocationShape.isRequired,
+    location: PropTypes.shape({
+      lat: PropTypes.number.isRequired,
+      lon: PropTypes.number.isRequired,
+    }),
+    relayEnvironment: PropTypes.object.isRequired,
   };
 
   static SLOTS_PER_CLICK = 3;
@@ -143,39 +124,59 @@ export default class FavouriteLocationsContainer extends React.Component {
 
     if (this.props.origin.ready) {
       const { config } = this.context;
-
       return (
-        <Relay.RootContainer
-          Component={FavouriteLocationContainer}
-          forceFetch
-          key={`relay_${key}`}
-          route={
-            new FavouriteLocationContainerRoute({
-              from: {
-                lat: this.props.origin.lat,
-                lon: this.props.origin.lon,
-              },
+        <QueryRenderer
+          key={key}
+          cacheConfig={{ force: true, poll: 30 * 1000 }}
+          query={graphql.experimental`
+            query FavouriteLocationsContainerQuery(
+              $from: InputCoordinates!
+              $to: InputCoordinates!
+              $maxWalkDistance: Float
+              $wheelchair: Boolean
+              $arriveBy: Boolean!
+            ) {
+              viewer {
+                ...FavouriteLocationContainer_viewer
+                  @arguments(
+                    from: $from
+                    to: $to
+                    maxWalkDistance: $maxWalkDistance
+                    wheelchair: $wheelchair
+                    arriveBy: $arriveBy
+                  )
+              }
+            }
+          `}
+          variables={{
+            from: {
+              lat: this.props.location.lat,
+              lon: this.props.location.lon,
+            },
 
-              to: {
-                lat: favourite.lat,
-                lon: favourite.lon,
-              },
+            to: {
+              lat: favourite.lat,
+              lon: favourite.lon,
+            },
 
-              maxWalkDistance: config.maxWalkDistance + 0.1,
-              wheelchair: false,
-              arriveBy: false,
-              disableRemainingWeightHeuristic: false,
-            })
+            maxWalkDistance: config.maxWalkDistance + 0.1,
+            wheelchair: false,
+
+            arriveBy: false,
+          }}
+          environment={this.props.relayEnvironment}
+          render={({ props }) =>
+            props ? (
+              <FavouriteLocationContainer
+                favourite={favourite}
+                onClickFavourite={this.setDestination}
+                currentTime={this.props.currentTime}
+                {...props}
+              />
+            ) : (
+              favouriteLocation
+            )
           }
-          renderLoading={() => favouriteLocation}
-          renderFetched={data => (
-            <FavouriteLocationContainer
-              favourite={favourite}
-              onClickFavourite={this.setDestination}
-              currentTime={this.props.currentTime}
-              {...data}
-            />
-          )}
         />
       );
     }
@@ -262,3 +263,5 @@ export default class FavouriteLocationsContainer extends React.Component {
     );
   }
 }
+
+export default getRelayEnvironment(FavouriteLocationsContainer);
