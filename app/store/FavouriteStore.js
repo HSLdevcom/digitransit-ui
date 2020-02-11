@@ -1,8 +1,8 @@
 import Store from 'fluxible/addons/BaseStore';
 import includes from 'lodash/includes';
 import find from 'lodash/find';
-import maxBy from 'lodash/maxBy';
 import moment from 'moment';
+import { uuid } from 'uuidv4';
 import {
   getFavouriteStorage,
   setFavouriteStorage,
@@ -51,13 +51,6 @@ export default class FavouriteStore extends Store {
     );
   }
 
-  getMaxId = collection =>
-    (
-      maxBy(collection, favourite => favourite.favouriteId) || {
-        favouriteId: 0,
-      }
-    ).favouriteId;
-
   getRoutes() {
     return this.favourites
       .filter(favourite => favourite.type === 'route')
@@ -90,7 +83,7 @@ export default class FavouriteStore extends Store {
       newFavourites.push({
         ...data,
         lastUpdated: moment().unix(),
-        favouriteId: 1 + this.getMaxId(this.favourites),
+        favouriteId: uuid(),
       });
     }
     this.favourites = newFavourites;

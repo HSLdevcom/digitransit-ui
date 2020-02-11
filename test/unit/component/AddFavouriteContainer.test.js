@@ -14,7 +14,7 @@ describe('<AddFavouriteContainer />', () => {
       });
 
       const favourite = {
-        id: 'id',
+        gid: 'id',
         favouriteId: 'fav-id',
       };
       wrapper.setState({ favourite });
@@ -32,7 +32,7 @@ describe('<AddFavouriteContainer />', () => {
       wrapper.instance().setLocationProperties(location);
 
       expect(wrapper.state('favourite')).to.deep.equal({
-        id: 'id',
+        gid: 'id',
         gtfsId: 'gtfsId',
         favouriteId: 'fav-id',
         code: 'loc-code',

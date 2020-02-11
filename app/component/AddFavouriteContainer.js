@@ -44,13 +44,13 @@ class AddFavouriteContainer extends React.Component {
     favourite: PropTypes.shape({
       address: PropTypes.string,
       gtfsId: PropTypes.string,
-      id: PropTypes.string,
+      gid: PropTypes.string,
       lat: PropTypes.number,
       locationName: PropTypes.string,
       lon: PropTypes.number,
       selectedIconId: PropTypes.string,
       version: PropTypes.number,
-      favouriteId: PropTypes.number,
+      favouriteId: PropTypes.string,
     }),
   };
 
@@ -73,7 +73,7 @@ class AddFavouriteContainer extends React.Component {
       favourite: {
         ...prevState.favourite,
         favouriteId: prevState.favourite.favouriteId,
-        id: location.id,
+        gid: location.id,
         gtfsId: location.gtfsId,
         code: location.code,
         layer: location.layer,
@@ -294,7 +294,7 @@ const AddFavouriteContainerWithFavourite = connectToStores(
   (context, props) => ({
     favourite: context
       .getStore('FavouriteStore')
-      .getByFavouriteId(parseInt(props.params.id, 10)),
+      .getByFavouriteId(props.params.id),
   }),
 );
 
