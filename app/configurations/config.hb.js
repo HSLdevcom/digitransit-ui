@@ -304,7 +304,7 @@ export default configMerger(walttiConfig, {
       {
         name: {
           fi: '',
-          en: 'Bicycle infrastructur',
+          en: 'Bicycle infrastructure',
           de: "Rund um's Fahrrad",
         },
         url: '/assets/geojson/hb-layers/bicycleinfrastructure.geojson',
