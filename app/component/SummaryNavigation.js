@@ -159,6 +159,7 @@ class SummaryNavigation extends React.Component {
                 background: 'transparent',
                 boxShadow: 'none',
                 overflow: 'visible',
+                display: isOpen ? 'block' : 'none', // none also completely hides from screen reader and tab navigation
               }}
               width={getDrawerWidth(window)}
             >
