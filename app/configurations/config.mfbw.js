@@ -48,7 +48,7 @@ export default configMerger(hbConfig, {
   },
 
   modeToOTP: {
-    carpool: 'CARPOOLING',
+    carpool: 'CARPOOL',
   },
 
   transportModes: {
