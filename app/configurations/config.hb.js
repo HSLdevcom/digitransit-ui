@@ -6,6 +6,7 @@ const APP_TITLE = 'Mobil in Herrenberg';
 const APP_DESCRIPTION = '';
 const API_URL = process.env.API_URL || 'https://api.mobil-in-herrenberg.de';
 const MAP_URL = process.env.MAP_URL || 'https://maps.wikimedia.org/osm-intl/';
+const MAP_KEY = process.env.MAP_KEY || '';
 const GEOCODING_BASE_URL = process.env.GEOCODING_BASE_URL || `https://pelias.locationiq.org/v1`;
 const LOCATIONIQ_API_KEY = process.env.LOCATIONIQ_API_KEY;
 const YEAR = 1900 + new Date().getYear();
@@ -29,6 +30,7 @@ export default configMerger(walttiConfig, {
     },
     STOP_MAP: `${API_URL}/map/v1/stop-map/`,
     DYNAMICPARKINGLOTS_MAP: `${API_URL}/map/v1/hb-parking-map/`,
+    ROADWORKS_MAP: `${API_URL}/map/v1/roadworks-bw-map/`,
 
     PELIAS: `${GEOCODING_BASE_URL}/search${LOCATIONIQ_API_KEY ? '?api_key=' + LOCATIONIQ_API_KEY : ''}`,
     PELIAS_REVERSE_GEOCODER: `${GEOCODING_BASE_URL}/reverse${LOCATIONIQ_API_KEY ? '?api_key=' + LOCATIONIQ_API_KEY : ''}`,
@@ -37,7 +39,13 @@ export default configMerger(walttiConfig, {
   availableLanguages: ['de', 'en'],
   defaultLanguage: 'de',
 
-  appBarLink: { name: 'Herrenberg.de', href: 'https://www.herrenberg.de' },
+  MATOMO_URL: process.env.MATOMO_URL,
+
+  appBarLink: {
+    name: 'Feedback',
+    href: 'https://mobil-in-herrenberg.de/feedback',
+    target: '_blank'
+  },
 
   contactName: {
     de: 'transportkollektiv',
@@ -59,6 +67,12 @@ export default configMerger(walttiConfig, {
     dynamicParkingLotsMinZoom: 14
   },
 
+  roadworks: {
+    showRoadworks: true,
+    roadworksSmallIconZoom: 16,
+    roadworksMinZoom: 10
+  },
+
   mergeStopsByCode: true,
 
   title: APP_TITLE,
@@ -76,9 +90,10 @@ export default configMerger(walttiConfig, {
 
   map: {
     useRetinaTiles: true,
+    key: MAP_KEY,
     tileSize: 256,
     zoomOffset: 0,
-    attribution: '&copy; <a tabindex=-1 href=http://osm.org/copyright>OpenStreetMap Mitwirkende</a>, <a tabindex=-1 href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>Datensätze der NVBW GmbH</a> und <a tabindex=-1 href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>'
+    attribution: '© <a tabindex=-1 href=http://osm.org/copyright>OpenStreetMap Mitwirkende</a>, © <a tabindex=-1 href="https://www.maptiler.com/copyright/">Maptiler</a>, <a tabindex=-1 href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>Datensätze der NVBW GmbH</a> und <a tabindex=-1 href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>'
   },
 
   feedIds: ['hb'],
@@ -122,7 +137,7 @@ export default configMerger(walttiConfig, {
     {
       icon: 'icon-icon_star',
       label: 'Waldfriedhof / Schönbuchturm',
-      lat: 48.6020352, 
+      lat: 48.6020352,
       lon: 8.9036348,
     },
   ],
@@ -134,7 +149,7 @@ export default configMerger(walttiConfig, {
       {
         name: 'about-this-service',
         nameEn: 'About this service',
-        route: '/tietoja-palvelusta',
+        route: '/dieser-dienst',
         icon: 'icon-icon_info',
       },
       {
@@ -156,7 +171,9 @@ export default configMerger(walttiConfig, {
         header: 'Über diesen Dienst',
         paragraphs: [
           'Mobil-in-Herrenberg ist eine Reiseplannungs-Anwendung für die Region Herrenberg. Dieser Dienst umfasst ÖPNV, Fußwege, Radverkehr, und PKW-Routing, inklusive Park&Ride.',
-          
+          'Gefördert durch <br>',
+          '<a href="https://www.herrenberg.de/stadtluft"><img src="https://www.herrenberg.de/ceasy/resource/?id=4355&predefinedImageSize=rightEditorContent"/></a>',
+
         ],
       },
       {
@@ -178,6 +195,7 @@ export default configMerger(walttiConfig, {
         header: 'About this service',
         paragraphs: [
           'This service is provided by Hb for route planning in Hb region. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform and OpenTriPlanner.',
+          '<a href="https://www.herrenberg.de/stadtluft"><img src="https://www.herrenberg.de/ceasy/resource/?id=4355&predefinedImageSize=rightEditorContent"/></a>',
         ],
       },
       {
@@ -282,11 +300,11 @@ export default configMerger(walttiConfig, {
         },
         url: '/assets/geojson/hb-layers/bicycle-parking.geojson',
       },
-      // bicycleinfrastructure includes shops, repair stations, 
+      // bicycleinfrastructure includes shops, repair stations,
       {
         name: {
           fi: '',
-          en: 'Bicycle infrastructur',
+          en: 'Bicycle infrastructure',
           de: "Rund um's Fahrrad",
         },
         url: '/assets/geojson/hb-layers/bicycleinfrastructure.geojson',
@@ -308,7 +326,7 @@ export default configMerger(walttiConfig, {
         },
         url: '/assets/geojson/hb-layers/car-parking.geojson',
       },
-      // Charging stations 
+      // Charging stations
       {
         name: {
           fi: '',
@@ -320,5 +338,5 @@ export default configMerger(walttiConfig, {
     ],
 },
 staticMessagesUrl: STATIC_MESSAGE_URL,
-  
+
 });

@@ -1,2 +1,22 @@
 @import 'theme';
 @import '../../main';
+
+.external-link-container {
+  position: relative;
+  display: inline-block;
+  line-height: 22px;
+  font-size: 18px;
+  margin: 0px;
+  padding: 0px 6px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  background-color: red;
+
+  a.external-link {
+    display: inline-block;
+    vertical-align: text-top;
+    color: $white;
+    font-size: $font-size-xxsmall;
+    text-decoration: none;
+  }
+}

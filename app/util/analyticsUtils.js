@@ -25,9 +25,20 @@ export function addAnalyticsEvent(event) {
  *
  * @param {number|string} GTMid Google Tag Manager id
  *
+ * @param MATOMO_URL
  * @return string
  */
-export function getAnalyticsInitCode(GTMid) {
+export function getAnalyticsInitCode(GTMid, MATOMO_URL) {
+  if (MATOMO_URL) {
+    return `<!-- Matomo Tag Manager -->
+      <script type="text/javascript">
+      var _mtm = _mtm || [];
+      _mtm.push({'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start'});
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.type='text/javascript'; g.async=true; g.defer=true; g.src='${MATOMO_URL}'; s.parentNode.insertBefore(g,s);
+      </script>
+      <!-- End Matomo Tag Manager -->`;
+  }
   if (!GTMid) {
     return '';
   }

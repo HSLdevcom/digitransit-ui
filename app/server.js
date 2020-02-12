@@ -284,7 +284,7 @@ export default function(req, res, next) {
 
     // Write preload hints before doing anything else
     if (process.env.NODE_ENV !== 'development') {
-      res.write(getAnalyticsInitCode(config.GTMid));
+      res.write(getAnalyticsInitCode(config.GTMid, config.MATOMO_URL));
 
       const preloads = [
         { as: 'style', href: config.URL.FONT },

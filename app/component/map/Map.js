@@ -13,6 +13,8 @@ import 'leaflet-active-area';
 // Webpack handles this by bundling it with the other css files
 import 'leaflet/dist/leaflet.css';
 
+import isEmpty from 'lodash/isEmpty';
+
 import PositionMarker from './PositionMarker';
 import VectorTileLayerContainer from './tile-layer/VectorTileLayerContainer';
 import { boundWithMinimumArea } from '../../util/geo-utils';
@@ -111,6 +113,12 @@ export default class Map extends React.Component {
       mapUrl = mapUrl[this.props.lang] || config.URL.MAP.default;
     }
 
+    let finalMapUrl = `${mapUrl}{z}/{x}/{y}{size}.png`;
+
+    if (!isEmpty(config.map.key)) {
+      finalMapUrl = `${finalMapUrl}?key=${config.map.key}`;
+    }
+
     return (
       <div aria-hidden="true">
         <LeafletMap
@@ -143,7 +151,7 @@ export default class Map extends React.Component {
         >
           <TileLayer
             onLoad={this.setLoaded}
-            url={`${mapUrl}{z}/{x}/{y}{size}.png`}
+            url={finalMapUrl}
             tileSize={config.map.tileSize || 256}
             zoomOffset={config.map.zoomOffset || 0}
             updateWhenIdle={false}

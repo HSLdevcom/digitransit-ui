@@ -17,6 +17,7 @@ import StopMarkerPopup from '../popups/StopMarkerPopup';
 import MarkerSelectPopup from './MarkerSelectPopup';
 import CityBikePopup from '../popups/CityBikePopup';
 import DynamicParkingLotsPopup from '../popups/DynamicParkingLotsPopup';
+import RoadworksPopup from '../popups/RoadworksPopup';
 import ParkAndRideHubPopup from '../popups/ParkAndRideHubPopup';
 import ParkAndRideFacilityPopup from '../popups/ParkAndRideFacilityPopup';
 import ParkAndRideHubRoute from '../../../route/ParkAndRideHubRoute';
@@ -271,6 +272,24 @@ class TileLayerContainer extends GridLayer {
               }}
               renderLoading={loadingPopup}
               renderFetched={data => <DynamicParkingLotsPopup {...data} />}
+            />
+          );
+        } else if (this.state.selectableTargets[0].layer === 'roadworks') {
+          contents = (
+            <Relay.RootContainer
+              Component={RoadworksPopup}
+              forceFetch
+              route={{
+                name: '',
+                queries: {},
+                params: {
+                  feature: this.state.selectableTargets[0].feature,
+                  lat: this.state.coords.lat,
+                  lon: this.state.coords.lng,
+                },
+              }}
+              renderLoading={loadingPopup}
+              renderFetched={data => <RoadworksPopup {...data} />}
             />
           );
         } else if (
