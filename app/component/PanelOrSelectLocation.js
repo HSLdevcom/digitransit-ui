@@ -3,9 +3,10 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import OriginSelector from './OriginSelector';
 import { dtLocationShape } from '../util/shapes';
+import { TAB_FAVOURITES } from '../util/path';
 
 const PanelOrSelectLocation = ({ panel, panelctx }) => {
-  if (panelctx.origin.ready) {
+  if (panelctx.origin.ready || panelctx.tab === TAB_FAVOURITES) {
     return React.createElement(panel, panelctx);
   }
 
