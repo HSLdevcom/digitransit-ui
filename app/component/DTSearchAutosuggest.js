@@ -306,6 +306,12 @@ class DTAutosuggest extends React.Component {
       className: `react-autosuggest__input ${this.props.className}`,
       onKeyDown: this.keyDown, // DT-3263
     };
+    const ariaBarId = this.props.id.replace('searchfield-', '');
+    let SearchBarId = this.context.intl.formatMessage({
+      id: ariaBarId,
+      defaultMessage: ariaBarId,
+    });
+    SearchBarId = SearchBarId.replace('searchfield-', '');
     const ariaLabelText = this.context.intl.formatMessage({
       id: 'search-autosuggest-label',
       defaultMessage: 'Search for places, stops and timetables.',
@@ -341,7 +347,7 @@ class DTAutosuggest extends React.Component {
                 {ariaSuggestionLen}
               </span>
               <input
-                aria-label={ariaLabelText}
+                aria-label={SearchBarId.concat(' ').concat(ariaLabelText)}
                 id={this.props.id}
                 onClick={this.inputClicked}
                 onKeyDown={this.keyDown}
