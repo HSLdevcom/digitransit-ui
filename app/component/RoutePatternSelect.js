@@ -192,7 +192,7 @@ const defaultProps = {
   className: 'bp-large',
   serviceDay: '20190306',
   relay: {
-    setVariables: () => {},
+    refetch: () => {},
   },
   params: {
     routeId: 'HSL:1010',
