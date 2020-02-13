@@ -9,6 +9,7 @@ import SuggestionItem from './SuggestionItem';
 import { getLabel } from '../util/suggestionUtils';
 import { dtLocationShape } from '../util/shapes';
 import Icon from './Icon';
+import getRelayEnvironment from '../util/getRelayEnvironment';
 
 class DTAutosuggest extends React.Component {
   static contextTypes = {
@@ -170,6 +171,7 @@ class DTAutosuggest extends React.Component {
           type: this.props.searchType,
           config: this.context.config,
         },
+        getRelayEnvironment,
         searchResult => {
           if (searchResult == null) {
             return;
@@ -297,4 +299,4 @@ class DTAutosuggest extends React.Component {
   }
 }
 
-export default DTAutosuggest;
+export default getRelayEnvironment(DTAutosuggest);
