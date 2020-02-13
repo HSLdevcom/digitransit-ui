@@ -16,6 +16,7 @@ class DTAutosuggest extends React.Component {
     config: PropTypes.object.isRequired,
     getStore: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
+    relayEnvironment: PropTypes.object.isRequired,
   };
 
   static propTypes = {
