@@ -83,6 +83,10 @@ export default configMerger(walttiConfig, {
     description: APP_DESCRIPTION,
   },
 
+  modeToOTP: {
+    carpool: 'CARPOOL',
+  },
+
   textLogo: true,
   GTMid: '',
 
@@ -248,6 +252,11 @@ export default configMerger(walttiConfig, {
 
     ferry: {
       availableForSelection: false,
+      defaultValue: false,
+    },
+
+    carpool: {
+      availableForSelection: true,
       defaultValue: false,
     },
   },
