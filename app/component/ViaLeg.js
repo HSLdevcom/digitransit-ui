@@ -9,6 +9,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
+import { isKeyboardSelectionEvent } from '../util/browser';
 
 const getDescription = (mode, distance, duration) => {
   if (mode === 'BICYCLE_WALK') {
@@ -51,7 +52,36 @@ function ViaLeg(props, context) {
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div key={props.index} className="row itinerary-row">
-      <div className="small-2 columns itinerary-time-column via-time-column">
+      <span className="sr-only">
+        <FormattedMessage
+          id="itinerary-details.via-leg"
+          defaultMessage="{arrivalTime} saavu välipisteeseen {viaPoint}. {leaveAction}"
+          values={{
+            arrivalTime: moment(props.arrivalTime).format('HH:mm'),
+            viaPoint: <>{props.leg.from.name}</>,
+            leaveAction: (
+              <FormattedMessage
+                id={
+                  props.leg.mode === 'BICYCLE'
+                    ? 'itinerary-details.biking-leg'
+                    : 'itinerary-details.walk-leg'
+                }
+                values={{
+                  time: moment(props.leg.startTime).format('HH:mm'),
+                  distance,
+                  origin: props.leg.from ? props.leg.from.name : '',
+                  destination: props.leg.to ? props.leg.to.name : '',
+                  duration,
+                }}
+              />
+            ),
+          }}
+        />
+      </span>
+      <div
+        className="small-2 columns itinerary-time-column via-time-column"
+        aria-hidden="true"
+      >
         <div className="itinerary-time-column-time via-arrival-time">
           {moment(props.arrivalTime).format('HH:mm')}
         </div>
@@ -70,9 +100,18 @@ function ViaLeg(props, context) {
       />
       <div
         onClick={props.focusAction}
+        onKeyPress={e => isKeyboardSelectionEvent(e) && props.focusAction(e)}
+        role="button"
+        tabIndex="0"
         className="small-9 columns itinerary-instruction-column via"
       >
-        <div className="itinerary-leg-first-row">
+        <span className="sr-only">
+          <FormattedMessage
+            id="itinerary-summary.show-on-map"
+            values={{ target: props.leg.from.name || '' }}
+          />
+        </span>
+        <div className="itinerary-leg-first-row" aria-hidden="true">
           <div>
             {props.leg.from.name}
             {stayDuration > 0 && (
@@ -88,7 +127,7 @@ function ViaLeg(props, context) {
           </div>
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>
-        <div className="itinerary-leg-action">
+        <div className="itinerary-leg-action" aria-hidden="true">
           {getDescription(props.leg.mode, distance, duration)}
         </div>
       </div>
@@ -142,6 +181,9 @@ ViaLeg.propTypes = {
         code: PropTypes.string,
       }),
     }).isRequired,
+    to: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+    }),
   }).isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,

@@ -9,6 +9,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
+import { isKeyboardSelectionEvent } from '../util/browser';
 
 function CarLeg(props, context) {
   const distance = displayDistance(
@@ -22,7 +23,19 @@ function CarLeg(props, context) {
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div key={props.index} className="row itinerary-row">
-      <div className="small-2 columns itinerary-time-column">
+      <span className="sr-only">
+        <FormattedMessage
+          id="itinerary-details.car-leg"
+          values={{
+            time: moment(props.leg.startTime).format('HH:mm'),
+            distance,
+            origin: props.leg.from ? props.leg.from.name : '',
+            destination: props.leg.to ? props.leg.to.name : '',
+            duration,
+          }}
+        />
+      </span>
+      <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
           {moment(props.leg.startTime).format('HH:mm')}
         </div>
@@ -31,16 +44,25 @@ function CarLeg(props, context) {
       <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />
       <div
         onClick={props.focusAction}
+        onKeyPress={e => isKeyboardSelectionEvent(e) && props.focusAction(e)}
+        role="button"
+        tabIndex="0"
         className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${props.leg.mode.toLowerCase()}`}
       >
-        <div className="itinerary-leg-first-row">
+        <span className="sr-only">
+          <FormattedMessage
+            id="itinerary-summary.show-on-map"
+            values={{ target: props.leg.from.name || '' }}
+          />
+        </span>
+        <div className="itinerary-leg-first-row" aria-hidden="true">
           <div>
             {props.leg.from.name}
             {props.children}
           </div>
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>
-        <div className="itinerary-leg-action">
+        <div className="itinerary-leg-action" aria-hidden="true">
           <FormattedMessage
             id="car-distance-duration"
             values={{ distance, duration }}
@@ -87,6 +109,9 @@ CarLeg.propTypes = {
         code: PropTypes.string,
       }),
     }).isRequired,
+    to: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+    }),
     mode: PropTypes.string.isRequired,
   }).isRequired,
   index: PropTypes.number.isRequired,
