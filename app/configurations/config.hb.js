@@ -239,8 +239,8 @@ export default configMerger(walttiConfig, {
     },
 
     subway: {
-      availableForSelection: false,
-      defaultValue: false,
+      availableForSelection: true,
+      defaultValue: true,
     },
 
     citybike: {
