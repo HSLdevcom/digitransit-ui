@@ -58,6 +58,8 @@ export default configMerger(walttiConfig, {
     primary: '#9fc727',
   },
 
+  sprites: 'assets/svg-sprite.hb.svg',
+
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
