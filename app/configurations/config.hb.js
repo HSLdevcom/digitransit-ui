@@ -21,7 +21,7 @@ const maxLat = 48.64040;
 const minLon = 8.78597;
 const maxLon = 8.98613;
 
-const ENABLE_CARPOOL = process.env.ENABLE_CARPOOL || false;
+const ENABLE_CARPOOL = process.env.ENABLE_CARPOOL === "true";
 
 export default configMerger(walttiConfig, {
   CONFIG,
