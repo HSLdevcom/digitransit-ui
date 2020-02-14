@@ -21,6 +21,8 @@ const maxLat = 48.64040;
 const minLon = 8.78597;
 const maxLon = 8.98613;
 
+const ENABLE_CARPOOL = process.env.ENABLE_CARPOOL || false;
+
 export default configMerger(walttiConfig, {
   CONFIG,
   URL: {
@@ -256,7 +258,7 @@ export default configMerger(walttiConfig, {
     },
 
     carpool: {
-      availableForSelection: true,
+      availableForSelection: ENABLE_CARPOOL,
       defaultValue: false,
     },
   },
