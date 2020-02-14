@@ -79,7 +79,6 @@ class DTAutosuggestPanel extends React.Component {
     destinationPlaceHolder: PropTypes.string,
     searchType: PropTypes.string,
     initialViaPoints: PropTypes.arrayOf(dtLocationShape),
-    tab: PropTypes.string,
     updateViaPoints: PropTypes.func,
     breakpoint: PropTypes.string.isRequired,
     swapOrder: PropTypes.func,
@@ -387,7 +386,6 @@ class DTAutosuggestPanel extends React.Component {
                 destination,
                 context: this.props.isItinerary ? PREFIX_ITINERARY_SUMMARY : '',
                 router: this.context.router,
-                tab: this.props.tab,
                 resetIndex: true,
               });
             }}
@@ -554,7 +552,6 @@ class DTAutosuggestPanel extends React.Component {
                   destination,
                   context: isItinerary ? PREFIX_ITINERARY_SUMMARY : '',
                   router: this.context.router,
-                  tab: this.props.tab,
                   resetIndex: true,
                 });
               }}

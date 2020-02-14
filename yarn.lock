@@ -12431,7 +12431,7 @@ react-swipeable-views-core@^0.13.1:
     "@babel/runtime" "7.0.0"
     warning "^4.0.1"
 
-react-swipeable-views-utils@0.13.1, react-swipeable-views-utils@^0.13.1:
+react-swipeable-views-utils@^0.13.1:
   version "0.13.1"
   resolved "https://registry.yarnpkg.com/react-swipeable-views-utils/-/react-swipeable-views-utils-0.13.1.tgz#8e604af7316d409f22d8c47f841859dc150df30b"
   dependencies:

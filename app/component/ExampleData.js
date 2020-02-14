@@ -97,26 +97,6 @@ export const station = {
   networks: ['Smoove'],
 };
 
-export const favouriteLocation = {
-  favourite: {
-    locationName: 'Työ',
-    selectedIconId: 'icon-icon_place',
-  },
-  arrivalTime: 1444175199,
-  departureTime: 1444165199,
-  realtime: true,
-  currentTime: 1444165100,
-
-  firstTransitLeg: {
-    realTime: true,
-    mode: 'BUS',
-
-    route: {
-      shortName: '123',
-    },
-  },
-};
-
 export const options = [
   {
     feature: {

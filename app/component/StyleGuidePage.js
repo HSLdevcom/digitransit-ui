@@ -5,7 +5,6 @@ import sortBy from 'lodash/sortBy';
 import Icon from './Icon';
 import IconWithTail from './IconWithTail';
 import SelectedIconWithTail from './SelectedIconWithTail';
-import IconWithCaution from './IconWithCaution';
 import IconWithBigCaution from './IconWithBigCaution';
 import IconWithIcon from './IconWithIcon';
 import ComponentDocumentation from './ComponentDocumentation';
@@ -22,8 +21,6 @@ import CityBikeContent from './CityBikeContent';
 import CityBikeAvailability from './CityBikeAvailability';
 import CityBikeUse from './CityBikeUse';
 import CityBikePopupContainer from './map/popups/CityBikePopupContainer';
-import FavouriteLocation from './FavouriteLocation';
-import EmptyFavouriteLocationSlot from './EmptyFavouriteLocationSlot';
 import TimeSelectors from './TimeSelectors';
 import TimeNavigationButtons from './TimeNavigationButtons';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
@@ -46,18 +43,12 @@ import Availability from './Availability';
 import ParkAndRideAvailability from './map/popups/ParkAndRideAvailability';
 import AppBarSmall from './AppBarSmall';
 import AppBarLarge from './AppBarLarge';
-import FrontPagePanelSmall from './FrontPagePanelSmall';
-import FrontPagePanelLarge from './FrontPagePanelLarge';
-import { DepartureRow } from './DepartureRowContainer';
-import { BicycleRentalStationRow } from './BicycleRentalStationRowContainer';
 import StopPageHeader from './StopPageHeader';
 import StopCardHeader from './StopCardHeader';
 import SplitBars from './SplitBars';
 import InfoIcon from './InfoIcon';
 import Favourite from './Favourite';
-import NoFavouriteLocations from './NoFavouriteLocations';
 import DepartureListHeader from './DepartureListHeader';
-import NextDeparturesListHeader from './NextDeparturesListHeader';
 import CurrentPositionSuggestionItem from './CurrentPositionSuggestionItem';
 import SuggestionItem from './SuggestionItem';
 import SelectedStopPopupContent from './SelectedStopPopupContent';
@@ -102,7 +93,6 @@ const components = {
   IconWithTail,
   SelectedIconWithTail,
   IconWithBigCaution,
-  IconWithCaution,
   IconWithIcon,
   ComponentDocumentation,
   Departure,
@@ -120,9 +110,6 @@ const components = {
   CityBikePopupContainer,
   Availability,
   ParkAndRideAvailability,
-  FavouriteLocation,
-  NoFavouriteLocations,
-  EmptyFavouriteLocationSlot,
   TimeSelectors,
   TimeNavigationButtons,
   RightOffcanvasToggle,
@@ -141,20 +128,15 @@ const components = {
   RouteAlertsRow,
   ModeFilter,
   RouteStop,
-  DepartureRow,
-  BicycleRentalStationRow,
   AppBarSmall,
   AppBarLarge,
   CanceledLegsBar,
-  FrontPagePanelLarge,
-  FrontPagePanelSmall,
   StopPageHeader,
   StopCardHeader,
   SplitBars,
   InfoIcon,
   Favourite,
   DepartureListHeader,
-  NextDeparturesListHeader,
   CurrentPositionSuggestionItem,
   SuggestionItem,
   SelectedStopPopupContent,

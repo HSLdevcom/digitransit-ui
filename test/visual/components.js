@@ -100,17 +100,6 @@ testVariation('Availability');
 testVariation('ParkAndRideAvailability', 'non-realtime');
 testVariation('ParkAndRideAvailability', 'realtime', 2);
 
-testVariation(
-  'FavouriteLocation',
-  'normal',
-  1,
-  '.component-example:nth-of-type(1) .component .realtime-icon',
-);
-
-testVariation('NoFavouriteLocations');
-
-testVariation('EmptyFavouriteLocationSlot');
-
 testVariation('TripRouteStop', 'non-realtime');
 testVariation(
   'TripRouteStop',
@@ -134,7 +123,6 @@ testVariation('IconWithTail', 'class', 3);
 testVariation('IconWithTail', 'notail', 4);
 
 testVariation('SelectedIconWithTail');
-testVariation('IconWithCaution');
 testVariation('IconWithBigCaution');
 testVariation('IconWithIcon', 'customStyle', 1);
 testVariation('IconWithIcon', 'normal', 2);
@@ -172,8 +160,6 @@ testVariation('RouteScheduleTripRow');
 // testVariation('AppBarSmall', 'with-logo', 3);
 // testVariation('AppBarLarge');
 
-testVariation('FrontPagePanelLarge');
-testVariation('FrontPagePanelSmall');
 testVariation('ExternalLink');
 testVariation('ExternalLink', 'with-icon-and-text', 2);
 testVariation('LangSelect');
@@ -198,7 +184,6 @@ testVariation('BicycleRentalStationRow', 'no-bikes', 3);
 testVariation('StopPageHeader');
 testVariation('Timetable');
 testVariation('DepartureListHeader');
-testVariation('NextDeparturesListHeader');
 testVariation('PageFooter');
 
 testVariation('SummaryRow', 'large', 1);
