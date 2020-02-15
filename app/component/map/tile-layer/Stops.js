@@ -1,7 +1,7 @@
 import { VectorTile } from '@mapbox/vector-tile';
 import Protobuf from 'pbf';
 import pick from 'lodash/pick';
-import Relay from 'react-relay/classic';
+import { graphql, fetchQuery } from 'react-relay';
 
 import { getActiveAlertSeverityLevel } from '../../../util/alertUtils';
 import {
@@ -17,18 +17,32 @@ import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
 const CACHE_PERIOD_MS = 1000 * 60 * 5; // 5 minutes
 const cache = {};
 
+const query = graphql`
+  query StopStatus($id: String!) {
+    stop: stop(id: $id) {
+      alerts {
+        alertSeverityLevel
+        effectiveEndDate
+        effectiveStartDate
+      }
+    }
+  }
+`;
+
 class Stops {
   constructor(
     tile,
     config,
     mapLayers,
     getCurrentTime = () => new Date().getTime(),
+    relayEnvironment,
   ) {
     this.tile = tile;
     this.config = config;
     this.mapLayers = mapLayers;
     this.promise = this.getPromise();
     this.getCurrentTime = getCurrentTime;
+    this.relayEnvironment = relayEnvironment;
   }
 
   static getName = () => 'stop';
@@ -92,30 +106,9 @@ class Stops {
 
   fetchStatusAndDrawStop = (stopFeature, large) => {
     const { gtfsId } = stopFeature.properties;
-    const query = Relay.createQuery(
-      Relay.QL`
-        query StopStatus($id: String!) {
-          stop(id: $id) {
-            alerts {
-              alertSeverityLevel
-              effectiveEndDate
-              effectiveStartDate
-            }
-          }
-        }
-      `,
-      { id: gtfsId },
-    );
 
     const currentTime = this.getCurrentTime();
-    const callback = readyState => {
-      if (!readyState.done) {
-        return;
-      }
-      const result = Relay.Store.readQuery(query)[0];
-      if (!result) {
-        return;
-      }
+    const callback = ({ stop: result }) => {
       cache[gtfsId] = currentTime;
       this.drawStop(
         stopFeature,
@@ -126,9 +119,14 @@ class Stops {
 
     const latestFetchTime = cache[gtfsId];
     if (latestFetchTime && latestFetchTime - currentTime < CACHE_PERIOD_MS) {
-      Relay.Store.primeCache({ query }, callback);
+      fetchQuery(this.relayEnvironment, query, { id: gtfsId }).then(callback);
     } else {
-      Relay.Store.forceFetch({ query }, callback);
+      fetchQuery(
+        this.relayEnvironment,
+        query,
+        { id: gtfsId },
+        { force: true },
+      ).then(callback);
     }
   };
 
