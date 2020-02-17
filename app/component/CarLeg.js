@@ -88,7 +88,7 @@ CarLeg.createBookButton = leg => {
   if (leg.route && leg.route.url) {
     return (
       <a target="_blank" rel="noopener noreferrer" href={leg.route.url}>
-        Buchen
+        <FormattedMessage id="details" defaultMessage="Details" />
       </a>
     );
   }

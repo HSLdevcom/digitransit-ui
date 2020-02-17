@@ -671,6 +671,9 @@ $itinerary-tab-switch-height: 48px;
     .itinerary-leg-action {
       margin-top: 12px;
       @extend .itinerary-leg-text-gray;
+      span:first-child {
+        margin-right: 8px;
+      }
     }
 
     .itinerary-leg-intermediate-stops {

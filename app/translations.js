@@ -352,6 +352,7 @@ const translations = {
     'destination-outside-service':
       'Leider konnte keine Route an diesen Zielort gefunden werden. Der Zielort befindet sich außerhalb des abgedeckten Gebietes. Bitte ändern Sie den Zielort.',
     'destination-placeholder': 'Wohin reisen?',
+    details: 'Details',
     'dialog-return-to-map': 'Zurück zur Karte',
     'digitransit-platform': 'Digitransit-Plattform',
     disclaimer:
@@ -779,6 +780,7 @@ const translations = {
     'destination-outside-service':
       'Unfortunately no routes were found for your journey. Your destination address is located outside the service area. Please change it.',
     'destination-placeholder': 'Enter destination, route or stop',
+    details: 'Details',
     'dialog-return-to-map': 'Return to map',
     'digitransit-platform': 'Digitransit service platform',
     disclaimer:
