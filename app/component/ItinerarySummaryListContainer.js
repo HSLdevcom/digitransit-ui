@@ -233,6 +233,7 @@ const containerComponent = Relay.createContainer(
             }
           }
           route {
+            url
             mode
             shortName
             color

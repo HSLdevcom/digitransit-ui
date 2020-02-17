@@ -275,6 +275,7 @@ const withRelay = Relay.createContainer(ItineraryTab, {
           intermediatePlace
           route {
             shortName
+            url
             color
             gtfsId
             longName

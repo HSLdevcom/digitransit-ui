@@ -46,6 +46,7 @@ function CarLeg(props, context) {
             values={{ distance, duration }}
             defaultMessage="Drive {distance} ({duration})}"
           />
+          {CarLeg.createBookButton(props.leg)}
         </div>
       </div>
     </div>
@@ -83,6 +84,17 @@ CarLeg.getTranslationKey = mode => {
   return 'car-distance-duration';
 };
 
+CarLeg.createBookButton = leg => {
+  if (leg.route && leg.route.url) {
+    return (
+      <a target="_blank" rel="noopener noreferrer" href={leg.route.url}>
+        Buchen
+      </a>
+    );
+  }
+  return <span />;
+};
+
 CarLeg.propTypes = {
   leg: PropTypes.shape({
     duration: PropTypes.number.isRequired,
@@ -95,6 +107,7 @@ CarLeg.propTypes = {
       }),
     }).isRequired,
     mode: PropTypes.string.isRequired,
+    route: PropTypes.object,
   }).isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
