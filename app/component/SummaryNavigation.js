@@ -159,7 +159,11 @@ class SummaryNavigation extends React.Component {
                 background: 'transparent',
                 boxShadow: 'none',
                 overflow: 'visible',
-                display: isOpen ? 'block' : 'none', // none also completely hides from screen reader and tab navigation
+              }}
+              style={{
+                // hide root element from screen reader in sync with drawer animation
+                transition: 'visibility 450ms',
+                visibility: isOpen ? 'visible' : 'hidden',
               }}
               width={getDrawerWidth(window)}
             >
