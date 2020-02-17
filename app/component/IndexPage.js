@@ -31,6 +31,7 @@ import * as ModeUtils from '../util/modeUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import scrollTop from '../util/scroll';
 
 const debug = d('IndexPage.js');
 
@@ -79,6 +80,7 @@ class IndexPage extends React.Component {
 
   componentDidMount() {
     events.on('popupOpened', this.onPopupOpen);
+    scrollTop();
   }
 
   componentWillReceiveProps = nextProps => {
