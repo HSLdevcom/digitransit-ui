@@ -316,8 +316,8 @@ export const preparePlanParams = config => (
         to: toLocation,
         intermediatePlaces: intermediatePlaceLocations,
         numItineraries: getNumberValueOrDefault(numItineraries),
-        date: time ? moment(time * 1000).format('YYYY-MM-DD') : undefined,
-        time: time ? moment(time * 1000).format('HH:mm:ss') : undefined,
+        date: (time ? moment(time * 1000) : moment()).format('YYYY-MM-DD'),
+        time: (time ? moment(time * 1000) : moment()).format('HH:mm:ss'),
         walkReluctance: getNumberValueOrDefault(
           walkReluctance,
           settings.walkReluctance,
@@ -331,7 +331,7 @@ export const preparePlanParams = config => (
           settings.minTransferTime,
         ),
         walkSpeed: getNumberValueOrDefault(walkSpeed, settings.walkSpeed),
-        arriveBy: getBooleanValueOrDefault(arriveBy),
+        arriveBy: arriveBy === 'true',
         maxWalkDistance: getMaxWalkDistance(modesOrDefault, settings, config),
         wheelchair:
           getNumberValueOrDefault(
