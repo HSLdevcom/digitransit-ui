@@ -9,31 +9,11 @@ export function errorLoading(err) {
   console.error('Dynamic page loading failed', err);
 }
 
-export function loadRoute(cb) {
-  return module => cb(null, module.default);
-}
-
 export function getDefault(module) {
   return module.default;
 }
 
 /* eslint-disable react/prop-types */
-export function RelayRenderer({ error, props, element, retry }) {
-  if (error) {
-    if (
-      error.message === 'Failed to fetch' || // Chrome
-      error.message === 'Network request failed' // Safari && FF && IE
-    ) {
-      return <NetworkError retry={retry} />;
-    }
-    return <Error404 />;
-  }
-  if (props) {
-    return React.cloneElement(element, props);
-  }
-  return <Loading />;
-}
-
 export const ComponentLoading404Renderer = {
   header: ({ error, props, element, retry }) => {
     if (error) {
