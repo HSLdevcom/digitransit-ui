@@ -18,7 +18,7 @@ const CACHE_PERIOD_MS = 1000 * 60 * 5; // 5 minutes
 const cache = {};
 
 const query = graphql`
-  query StopStatus($id: String!) {
+  query StopsQuery($id: String!) {
     stop: stop(id: $id) {
       alerts {
         alertSeverityLevel
