@@ -27,7 +27,10 @@ function CarLeg(props, context) {
         </div>
         <RouteNumber mode={props.leg.mode.toLowerCase()} vertical />
       </div>
-      <ItineraryCircleLine index={props.index} modeClassName={CarLeg.getModeClassName(props.leg.mode)} />
+      <ItineraryCircleLine
+        index={props.index}
+        modeClassName={CarLeg.getModeClassName(props.leg.mode)}
+      />
       <div
         onClick={props.focusAction}
         className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${props.leg.mode.toLowerCase()}`}
