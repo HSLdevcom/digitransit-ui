@@ -315,7 +315,7 @@ const translations = {
     'car-distance-duration': 'Auto {distance} ({duration})',
     car_park: 'Park & Ride',
     carpool: 'Fahrgemeinschaft',
-    'carpool-distance-duration': '{distance} mitfahren ({duration})',
+    'carpool-distance-duration': 'Mitfahren {distance} ({duration})',
     cause: 'Grund',
     'char-left': 'Zeichen',
     'choose-stop': 'Haltestelle auswählen',
