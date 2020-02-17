@@ -25,7 +25,7 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 /* eslint-disable prettier/prettier */
 class ItineraryTab extends React.Component {
   static propTypes = {
-    searchTime: PropTypes.number.isRequired,
+    plan: PropTypes.number.isRequired,
     itinerary: PropTypes.object.isRequired,
     location: PropTypes.object,
     focus: PropTypes.func.isRequired,
@@ -80,7 +80,7 @@ class ItineraryTab extends React.Component {
   };
 
   render() {
-    const { itinerary, searchTime } = this.props;
+    const { itinerary, plan } = this.props;
     const { config } = this.context;
 
     const fares = getFares(itinerary.fares, getRoutes(itinerary.legs), config);
@@ -93,13 +93,13 @@ class ItineraryTab extends React.Component {
                 <TimeFrame
                   startTime={itinerary.startTime}
                   endTime={itinerary.endTime}
-                  refTime={searchTime}
+                  refTime={plan}
                   className="timeframe--itinerary-summary"
                 />
               </ItinerarySummary>
             ) : (
               <div className="itinerary-timeframe" key="timeframe">
-                <DateWarning date={itinerary.startTime} refTime={searchTime} />
+                <DateWarning date={itinerary.startTime} refTime={plan} />
               </div>
             ),
             <div className="momentum-scroll itinerary-tabs__scroll" key="legs">
@@ -176,15 +176,15 @@ ItineraryTab.description = (
       <ItineraryTab
         focus={() => {}}
         itinerary={{ ...exampleData.itinerary }}
-        searchTime={1553845502000}
+        plan={1553845502000}
       />
     </div>
   </ComponentUsageExample>
 );
 
 const withRelay = createFragmentContainer(ItineraryTab, {
-  searchTime: graphql`
-    fragment ItineraryTab_searchTime on Plan {
+  plan: graphql`
+    fragment ItineraryTab_plan on Plan {
       date
     }
   `,
