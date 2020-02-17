@@ -42,7 +42,7 @@ function CarLeg(props, context) {
         </div>
         <div className="itinerary-leg-action">
           <FormattedMessage
-            id="car-distance-duration"
+            id={CarLeg.getTranslationKey(props.leg.mode)}
             values={{ distance, duration }}
             defaultMessage="Drive {distance} ({duration})}"
           />
@@ -74,6 +74,13 @@ CarLeg.description = () => {
       </ComponentUsageExample>
     </div>
   );
+};
+
+CarLeg.getTranslationKey = mode => {
+  if (mode === 'CARPOOL') {
+    return 'carpool-distance-duration';
+  }
+  return 'car-distance-duration';
 };
 
 CarLeg.propTypes = {
