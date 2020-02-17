@@ -17,7 +17,6 @@ function CarLeg(props, context) {
   );
   const duration = durationToString(props.leg.duration * 1000);
   const firstLegClassName = props.index === 0 ? 'start' : '';
-  const modeClassName = 'car';
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
@@ -28,7 +27,7 @@ function CarLeg(props, context) {
         </div>
         <RouteNumber mode={props.leg.mode.toLowerCase()} vertical />
       </div>
-      <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />
+      <ItineraryCircleLine index={props.index} modeClassName={CarLeg.getModeClassName(props.leg.mode)} />
       <div
         onClick={props.focusAction}
         className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${props.leg.mode.toLowerCase()}`}
@@ -82,6 +81,13 @@ CarLeg.getTranslationKey = mode => {
     return 'carpool-distance-duration';
   }
   return 'car-distance-duration';
+};
+
+CarLeg.getModeClassName = mode => {
+  if (mode === 'CARPOOL') {
+    return 'carpool';
+  }
+  return 'car';
 };
 
 CarLeg.createBookButton = leg => {

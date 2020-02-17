@@ -49,6 +49,9 @@ $itinerary-tab-switch-height: 48px;
   &.car {
     @include getCircleSvg($car-color, $fill);
   }
+  &.carpool {
+    @include getCircleSvg($carpool-color, $fill);
+  }
   &.via {
     @include getCircleSvg($walk-color, $fill);
   }
@@ -467,6 +470,9 @@ $itinerary-tab-switch-height: 48px;
       }
       &.car {
         @include setModeCircles($car-color);
+      }
+      &.carpool {
+        @include setModeCircles($carpool-color);
       }
       &.via {
         @include setModeCircles($walk-color);
