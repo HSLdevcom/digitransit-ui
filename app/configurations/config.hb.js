@@ -41,6 +41,10 @@ export default configMerger(walttiConfig, {
 
   MATOMO_URL: process.env.MATOMO_URL,
 
+  defaultSettings: {
+    optimize: "GREENWAYS",
+  },
+
   appBarLink: {
     name: 'Feedback',
     href: 'https://mobil-in-herrenberg.de/feedback',
