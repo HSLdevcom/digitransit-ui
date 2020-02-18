@@ -18,7 +18,7 @@ const NoFavouritesPanel = () => {
           <div className="nofavs-img" style={bgStyle} />
           <FormattedMessage
             id="no-favourites"
-            defaultMessage="Use the star buttons to add routes or stops to your favorites. Your favorites are shown on this page."
+            defaultMessage="Use star button to add routes to your favorites. Your favorite routes are shown on this page."
           />
         </div>
       </div>

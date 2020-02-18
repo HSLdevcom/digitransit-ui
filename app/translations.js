@@ -876,7 +876,7 @@ const translations = {
     'no-favourite-locations':
       'Add your most used locations here. The buttons will plan your route straight away.',
     'no-favourites':
-      'Use the star buttons to add routes or stops to your favorites. Your favorites are shown on this page.',
+      'Use star button to add routes to your favorites. Your favorite routes are shown on this page.',
     'no-position': 'No location',
     'no-position-no-stops':
       'Your location is not available. We are unable to show the closest stops.',
@@ -1653,7 +1653,7 @@ const translations = {
     'no-favourite-locations':
       'Lisää tähän usein käyttämäsi paikat. Painikkeet toimivat suorina linkkeinä reititykseen.',
     'no-favourites':
-      'Tähti-painikkeella saat lisättyä linjan tai pysäkin suosikiksesi. Suosikkiesi aikataulut näkyvät etäisyyden mukaan tällä sivulla.',
+      'Tähti-painikkeella saat lisättyä linjan suosikiksesi. Suosikkilinjojesi aikataulut näkyvät etäisyyden mukaan tällä sivulla.',
     'no-position': 'Ei sijaintia',
     'no-position-no-stops':
       'Sijaintisi ei ole tiedossa, joten emme voi näyttää lähimpiä pysäkkejä.',
@@ -2738,7 +2738,7 @@ const translations = {
     'no-favourite-locations':
       'Lägg till dina oftast använda platser här. Knapparna för dig rakt till reseplanen.',
     'no-favourites':
-      'Genom att klicka på stjärnan kan du lägga till en linje eller hållplats till dina favoriter. Dina favoriter syns på den här sidan.',
+      'Använd stjärnknappen för att lägga till rutter till dina favoriter. Dina favoritrutter visas på den här sidan.',
     'no-position': 'Ingen position',
     'no-position-no-stops':
       'De närmaste hållplatserna kan inte visas, eftersom din position inte är känd.',
