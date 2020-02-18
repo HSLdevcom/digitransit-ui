@@ -440,20 +440,6 @@ class DTAutosuggestPanel extends React.Component {
                 />
                 <div className="via-point-button-container">
                   <ItinerarySearchControl
-                    className="remove-via-point"
-                    enabled={isItinerary}
-                    onClick={() => this.handleRemoveViaPointClick(i)}
-                    onKeyPress={e =>
-                      isKeyboardSelectionEvent(e) &&
-                      this.handleRemoveViaPointClick(i)
-                    }
-                    aria-label={this.context.intl.formatMessage({
-                      id: 'remove-via-button-label',
-                    })}
-                  >
-                    <Icon img="icon-icon_close" />
-                  </ItinerarySearchControl>
-                  <ItinerarySearchControl
                     className="add-via-point-slack"
                     enabled={isItinerary}
                     onClick={() => this.handleToggleViaPointSlackClick(i)}
@@ -475,6 +461,20 @@ class DTAutosuggestPanel extends React.Component {
                             defaultSlackTimeValue,
                       })}
                     />
+                  </ItinerarySearchControl>
+                  <ItinerarySearchControl
+                    className="remove-via-point"
+                    enabled={isItinerary}
+                    onClick={() => this.handleRemoveViaPointClick(i)}
+                    onKeyPress={e =>
+                      isKeyboardSelectionEvent(e) &&
+                      this.handleRemoveViaPointClick(i)
+                    }
+                    aria-label={this.context.intl.formatMessage({
+                      id: 'remove-via-button-label',
+                    })}
+                  >
+                    <Icon img="icon-icon_close" />
                   </ItinerarySearchControl>
                 </div>
               </div>

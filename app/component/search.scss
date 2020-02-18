@@ -410,12 +410,12 @@ div.map {
   display: flex;
 
   & > div:nth-child(1) {
-    order: 2;
-    border-left: 1px solid rgba(151, 151, 151, 0.2);
-  }
-  & > div:nth-child(2) {
     order: 1;
     border-left: none;
+  }
+  & > div:nth-child(2) {
+    order: 2;
+    border-left: 1px solid rgba(151, 151, 151, 0.2);
   }
 }
 
