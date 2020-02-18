@@ -655,7 +655,7 @@ const translations = {
     'add-location': 'Add location',
     'add-location-to-favourites': 'Add an important location to your Favorites',
     'add-via-button-label': 'Add via point',
-    'add-via-duration-button-label': 'Set stop duration at via point',
+    'add-via-duration-button-label': 'Set stop duration at via point {index}',
     'search-autosuggest-label':
       'Venue, place and stopsearch. Navigate list with arrow keys and select with enter key',
     'search-autosuggest-len': ' There are {len} Suggestions available',
@@ -965,7 +965,7 @@ const translations = {
     realtime: 'Real-time',
     'realtime-matching': 'Real-time integration',
     releases: 'Releases',
-    'remove-via-button-label': 'Remove via point',
+    'remove-via-button-label': 'Remove via point {index}',
     'rent-cycle-at': 'Rent a bike at {station} station',
     'rent-scooter-at': 'Rent a kick scooter at {station} station',
     'required-ticket': 'Ticket required for the journey',
@@ -1470,7 +1470,8 @@ const translations = {
       'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
     'search-autosuggest-len': ' Löydettiin {len} ehdotusta',
     // eslint-disable-next-line sort-keys
-    'add-via-duration-button-label': 'Aseta välipisteelle pysähdyksen kesto',
+    'add-via-duration-button-label':
+      'Aseta välipisteelle {index} pysähdyksen kesto',
     'set-time-earlier-button-label': 'Aikaista matkustusajankohtaa',
     'set-time-later-button-label': 'Myöhäistä matkustusajankohtaa',
     'set-time-now-button-label': 'Aseta matkustusajankohdaksi nyt',
@@ -1775,7 +1776,7 @@ const translations = {
     realtime: 'Reaaliaika',
     'realtime-matching': 'Realiajan integraatio',
     releases: 'Tiedotteet',
-    'remove-via-button-label': 'Poista välipiste',
+    'remove-via-button-label': 'Poista välipiste {index}',
     'rent-cycle-at': 'Vuokraa pyörä asemalta {station}',
     'rent-scooter-at': 'Vuokraa potkulauta asemalta {station}',
     'required-ticket': 'Reitillä tarvittava lippu',
@@ -2585,7 +2586,8 @@ const translations = {
     'add-location-to-favourites':
       'Lägg till en plats som är viktig för dig på fliken Favoriter',
     'add-via-button-label': 'Lägg till viapunkt',
-    'add-via-duration-button-label': 'Ställ in varaktighet för viapunkten',
+    'add-via-duration-button-label':
+      'Ställ in varaktighet för viapunkten {index}',
     'search-autosuggest-label':
       'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
     'search-autosuggest-len': 'Hittade {len} förslag',
@@ -2897,7 +2899,7 @@ const translations = {
     realtime: 'Realtid',
     'realtime-matching': 'Realtidsintegration',
     releases: 'Meddelanden',
-    'remove-via-button-label': 'Ta bort viapunkt',
+    'remove-via-button-label': 'Ta bort viapunkt {index}',
     'rent-cycle-at': 'Hyr en cykel från stationen {station}',
     'rent-scooter-at': 'Hyr en sparkcykel från stationen {station}',
     'required-ticket': 'Biljett som behövs under resan',

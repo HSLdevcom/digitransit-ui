@@ -423,7 +423,7 @@ class DTAutosuggestPanel extends React.Component {
                 </div>
                 <DTEndpointAutosuggest
                   icon="mapMarker-via"
-                  id="viapoint"
+                  id={`viapoint ${i + 1}`}
                   autoFocus={
                     // Disable autofocus if using IE11
                     isIe ? false : breakpoint === 'large'
@@ -447,9 +447,12 @@ class DTAutosuggestPanel extends React.Component {
                       isKeyboardSelectionEvent(e) &&
                       this.handleToggleViaPointSlackClick(i)
                     }
-                    aria-label={this.context.intl.formatMessage({
-                      id: 'add-via-duration-button-label',
-                    })}
+                    aria-label={this.context.intl.formatMessage(
+                      {
+                        id: 'add-via-duration-button-label',
+                      },
+                      { index: i + 1 },
+                    )}
                   >
                     <Icon img="icon-icon_time" />
                     <Icon
@@ -470,9 +473,12 @@ class DTAutosuggestPanel extends React.Component {
                       isKeyboardSelectionEvent(e) &&
                       this.handleRemoveViaPointClick(i)
                     }
-                    aria-label={this.context.intl.formatMessage({
-                      id: 'remove-via-button-label',
-                    })}
+                    aria-label={this.context.intl.formatMessage(
+                      {
+                        id: 'remove-via-button-label',
+                      },
+                      { index: i + 1 },
+                    )}
                   >
                     <Icon img="icon-icon_close" />
                   </ItinerarySearchControl>
