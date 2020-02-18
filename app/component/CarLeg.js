@@ -23,7 +23,7 @@ function CarLeg(props, context) {
     if (props.leg.route.agency.gtfsId === 'mfdz:fg') {
       carpoolAgencyIcon = 'fg_icon';
     } else if (props.leg.route.agency.gtfsId === 'mfdz:mifaz') {
-      carpoolAgencyIcon = 'mifaz_icon';
+      carpoolAgencyIcon = 'mifaz_icon-without-text';
     }
   }
 
@@ -34,11 +34,7 @@ function CarLeg(props, context) {
         <div className="itinerary-time-column-time">
           {moment(props.leg.startTime).format('HH:mm')}
         </div>
-        <RouteNumber
-          mode={props.leg.mode.toLowerCase()}
-          icon={props.leg.mode === 'CARPOOL' ? carpoolAgencyIcon : ''}
-          vertical
-        />
+        <RouteNumber mode={props.leg.mode.toLowerCase()} vertical />
       </div>
       <ItineraryCircleLine
         index={props.index}
@@ -62,6 +58,7 @@ function CarLeg(props, context) {
             defaultMessage="Drive {distance} ({duration})}"
           />
           {CarLeg.createBookButton(props.leg)}
+          <Icon img={carpoolAgencyIcon} />
         </div>
       </div>
     </div>
