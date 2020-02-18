@@ -1,163 +1,211 @@
+/* eslint-disable react/jsx-key */
+
 import React from 'react';
-import { Route, IndexRoute, IndexRedirect } from 'react-router';
-import Relay from 'react-relay/classic';
+import Route from 'found/lib/Route';
+import Redirect from 'found/lib/Redirect';
+import { graphql } from 'react-relay';
 
 import Error404 from './component/404';
 import { PREFIX_ROUTES } from './util/path';
-import { getDefault, ComponentLoading404Renderer } from './util/routerUtils';
+import { getDefault } from './util/routerUtils';
 import { prepareServiceDay } from './util/dateParamUtils';
-
-const RouteQueries = {
-  route: () => Relay.QL`
-    query {
-      route(id: $routeId)
-    }
-  `,
-};
-
-const PatternQueries = {
-  pattern: () => Relay.QL`
-    query {
-      pattern(id: $patternId)
-    }
-  `,
-};
-
-const TripQueries = {
-  trip: () => Relay.QL`
-    query {
-      trip(id: $tripId)
-    }
-  `,
-  pattern: () => Relay.QL`
-    query {
-      pattern(id: $patternId)
-    }
-  `,
-};
-
-const componentPatternQueries = {
-  title: RouteQueries,
-  header: RouteQueries,
-  map: PatternQueries,
-  content: PatternQueries,
-  meta: RouteQueries,
-};
-
-const componentTripQueries = {
-  title: RouteQueries,
-  header: RouteQueries,
-  map: TripQueries,
-  content: TripQueries,
-  meta: RouteQueries,
-};
-
-const componentRouteQueries = {
-  title: RouteQueries,
-  header: RouteQueries,
-  map: PatternQueries,
-  content: RouteQueries,
-  meta: RouteQueries,
-};
-
-function getComponents(getContentComponent) {
-  return function getPageComponents(location, cb) {
-    return Promise.all([
-      import(/* webpackChunkName: "route" */ './component/RouteTitle').then(
-        getDefault,
-      ),
-      import(/* webpackChunkName: "route" */ './component/RoutePage').then(
-        getDefault,
-      ),
-      import(/* webpackChunkName: "route" */ './component/RouteMapContainer').then(
-        getDefault,
-      ),
-      getContentComponent(),
-      import(/* webpackChunkName: "route" */ './component/RoutePageMeta').then(
-        getDefault,
-      ),
-    ]).then(([title, header, map, content, meta]) =>
-      cb(null, { title, header, map, content, meta }),
-    );
-  };
-}
 
 export default (
   <Route path={`/${PREFIX_ROUTES}`}>
-    <IndexRoute component={Error404} />
+    <Route Component={Error404} />
     {/* TODO: Should return list of all routes */}
     <Route path=":routeId">
-      <IndexRedirect to="pysakit" />
+      <Redirect to="pysakit" />
       <Route path="pysakit">
-        <IndexRedirect to=":routeId%3A0%3A01" />
+        <Redirect to=":routeId%3A0%3A01" />
         {/* Redirect to first pattern of route */}
-        <Route path=":patternId">
-          <IndexRoute
-            getComponents={getComponents(() =>
-              import(/* webpackChunkName: "route" */ './component/PatternStopsContainer').then(
-                getDefault,
-              ),
-            )}
-            queries={componentPatternQueries}
-            render={ComponentLoading404Renderer}
-            prepareParams={prepareServiceDay}
-          />
-          <Route
-            path="kartta"
-            getComponents={getComponents(() =>
-              import(/* webpackChunkName: "route" */ './component/PatternStopsContainer').then(
-                getDefault,
-              ),
-            )}
-            queries={componentPatternQueries}
-            render={ComponentLoading404Renderer}
-            prepareParams={prepareServiceDay}
-            fullscreenMap
-          />
-          <Route
-            path=":tripId"
-            getComponents={getComponents(() =>
-              import(/* webpackChunkName: "route" */ './component/TripStopsContainer').then(
-                getDefault,
-              ),
-            )}
-            queries={componentTripQueries}
-            render={ComponentLoading404Renderer}
-            prepareParams={prepareServiceDay}
-          >
-            <Route path="kartta" fullscreenMap />
-          </Route>
+        <Route path=":patternId" prepareVariables={prepareServiceDay}>
+          {{
+            title: (
+              <Route
+                path="(.*)?"
+                getComponent={() =>
+                  import(/* webpackChunkName: "route" */ './component/RouteTitle').then(
+                    getDefault,
+                  )
+                }
+                query={graphql`
+                  query routeRoutes_RouteTitle_Query($routeId: String!) {
+                    route(id: $routeId) {
+                      ...RouteTitle_route
+                    }
+                  }
+                `}
+              />
+            ),
+            meta: (
+              <Route
+                path="(.*)?"
+                getComponent={() =>
+                  import(/* webpackChunkName: "route" */ './component/RoutePageMeta').then(
+                    getDefault,
+                  )
+                }
+                query={graphql`
+                  query routeRoutes_RoutePageMeta_Query($routeId: String!) {
+                    route(id: $routeId) {
+                      ...RoutePageMeta_route
+                    }
+                  }
+                `}
+              />
+            ),
+            header: (
+              <Route
+                path="(.*)?"
+                getComponent={() =>
+                  import(/* webpackChunkName: "route" */ './component/RoutePage').then(
+                    getDefault,
+                  )
+                }
+                query={graphql`
+                  query routeRoutes_RoutePage_Query($routeId: String!) {
+                    route(id: $routeId) {
+                      ...RoutePage_route
+                    }
+                  }
+                `}
+              />
+            ),
+            map: [
+              <Route
+                path="pysakit/:patternId/:tripId"
+                getComponent={() =>
+                  import(/* webpackChunkName: "route" */ './component/RouteMapContainer').then(
+                    getDefault,
+                  )
+                }
+                query={graphql`
+                  query routeRoutes_RouteMapContainer_withTrip_Query(
+                    $patternId: String!
+                    $tripId: String!
+                  ) {
+                    pattern(id: $patternId) {
+                      ...RouteMapContainer_pattern
+                    }
+                    trip(id: $tripId) {
+                      ...RouteMapContainer_trip
+                    }
+                  }
+                `}
+              />,
+              <Route
+                path=":type/:patternId/(.*)?"
+                getComponent={() =>
+                  import(/* webpackChunkName: "route" */ './component/RouteMapContainer').then(
+                    getDefault,
+                  )
+                }
+                query={graphql`
+                  query routeRoutes_RouteMapContainer_Query(
+                    $patternId: String!
+                  ) {
+                    pattern(id: $patternId) {
+                      ...RouteMapContainer_pattern
+                    }
+                  }
+                `}
+              />,
+              <Route path="(.?)*" />,
+            ],
+            content: [
+              <Redirect to={`/${PREFIX_ROUTES}/:routeId/pysakit`} />,
+              <Route path="pysakit">
+                <Redirect
+                  to={`/${PREFIX_ROUTES}/:routeId/pysakit/:routeId%3A0%3A01`}
+                />
+                {/* Redirect to first pattern of route */}
+                <Route
+                  path=":patternId"
+                  getComponent={() =>
+                    import(/* webpackChunkName: "route" */ './component/PatternStopsContainer').then(
+                      getDefault,
+                    )
+                  }
+                  query={graphql`
+                    query routeRoutes_PatternStopsContainer_Query(
+                      $patternId: String!
+                    ) {
+                      pattern(id: $patternId) {
+                        ...PatternStopsContainer_pattern
+                      }
+                    }
+                  `}
+                />
+                <Route
+                  path=":patternId/:tripId"
+                  getComponent={() =>
+                    import(/* webpackChunkName: "route" */ './component/TripStopsContainer').then(
+                      getDefault,
+                    )
+                  }
+                  query={graphql`
+                    query routeRoutes_TripStopsContainer_Query(
+                      $patternId: String!
+                      $tripId: String!
+                    ) {
+                      pattern(id: $patternId) {
+                        ...TripStopsContainer_pattern
+                      }
+                      trip(id: $tripId) {
+                        ...TripStopsContainer_trip
+                      }
+                    }
+                  `}
+                />
+              </Route>,
+              <Route path="aikataulu">
+                <Redirect
+                  to={`/${PREFIX_ROUTES}/:routeId/aikataulu/:routeId%3A0%3A01`}
+                />
+                <Route
+                  path=":patternId"
+                  disableMapOnMobile
+                  getComponent={() =>
+                    import(/* webpackChunkName: "route" */ './component/RouteScheduleContainer').then(
+                      getDefault,
+                    )
+                  }
+                  query={graphql`
+                    query routeRoutes_RouteScheduleContainer_Query(
+                      $patternId: String!
+                    ) {
+                      pattern(id: $patternId) {
+                        ...RouteScheduleContainer_pattern
+                      }
+                    }
+                  `}
+                />
+              </Route>,
+              <Route path="hairiot">
+                <Redirect
+                  to={`/${PREFIX_ROUTES}/:routeId/hairiot/:routeId%3A0%3A01`}
+                />
+                <Route
+                  getComponent={() =>
+                    import(/* webpackChunkName: "route" */ './component/RouteAlertsContainer').then(
+                      getDefault,
+                    )
+                  }
+                  query={graphql`
+                    query routeRoutes_RouteAlertsContainer_Query(
+                      $routeId: String!
+                    ) {
+                      route(id: $routeId) {
+                        ...RouteAlertsContainer_route
+                      }
+                    }
+                  `}
+                />
+              </Route>,
+            ],
+          }}
         </Route>
-      </Route>
-      <Route path="aikataulu">
-        <IndexRedirect to=":routeId%3A0%3A01" />
-        <Route
-          path=":patternId"
-          disableMapOnMobile
-          getComponents={getComponents(() =>
-            import(/* webpackChunkName: "route" */ './component/RouteScheduleContainer').then(
-              getDefault,
-            ),
-          )}
-          queries={componentPatternQueries}
-          render={ComponentLoading404Renderer}
-          prepareParams={prepareServiceDay}
-        />
-      </Route>
-      <Route path="hairiot">
-        <IndexRedirect to=":routeId%3A0%3A01" />
-        <Route
-          path=":patternId"
-          disableMapOnMobile
-          getComponents={getComponents(() =>
-            import(/* webpackChunkName: "route" */ './component/RouteAlertsContainer').then(
-              getDefault,
-            ),
-          )}
-          queries={componentRouteQueries}
-          render={ComponentLoading404Renderer}
-          prepareParams={prepareServiceDay}
-        />
       </Route>
     </Route>
   </Route>
