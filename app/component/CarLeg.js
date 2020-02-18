@@ -18,6 +18,15 @@ function CarLeg(props, context) {
   const duration = durationToString(props.leg.duration * 1000);
   const firstLegClassName = props.index === 0 ? 'start' : '';
 
+  let carpoolAgencyIcon;
+  if (props.leg.mode === 'CARPOOL') {
+    if (props.leg.route.agency.gtfsId === 'mfdz:fg') {
+      carpoolAgencyIcon = 'fg_icon';
+    } else if (props.leg.route.agency.gtfsId === 'mfdz:mifaz') {
+      carpoolAgencyIcon = 'mifaz_icon';
+    }
+  }
+
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div key={props.index} className="row itinerary-row">
@@ -25,7 +34,11 @@ function CarLeg(props, context) {
         <div className="itinerary-time-column-time">
           {moment(props.leg.startTime).format('HH:mm')}
         </div>
-        <RouteNumber mode={props.leg.mode.toLowerCase()} vertical />
+        <RouteNumber
+          mode={props.leg.mode.toLowerCase()}
+          icon={props.leg.mode === 'CARPOOL' ? carpoolAgencyIcon : ''}
+          vertical
+        />
       </div>
       <ItineraryCircleLine
         index={props.index}
