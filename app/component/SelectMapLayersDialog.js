@@ -176,6 +176,16 @@ class SelectMapLayersDialog extends React.Component {
               }}
             />
           )}
+          {isTransportModeEnabled(transportModes.carpool) && (
+            <Checkbox
+              checked={terminal.carpool}
+              defaultMessage="Carpool stops"
+              labelId="map-layer-carpool"
+              onChange={e =>
+                this.updateStopAndTerminalSetting({ carpool: e.target.checked })
+              }
+            />
+          )}
           {config.cityBike &&
             config.cityBike.showCityBikes && (
               <Checkbox
