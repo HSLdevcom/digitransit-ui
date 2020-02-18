@@ -692,7 +692,7 @@ export function executeSearchImmediate(
     const oldSearches = getStore('OldSearchesStore').getOldSearches('search');
     const favouriteRoutes = getStore('FavouriteRoutesStore').getRoutes();
     searchSearchesPromise = Promise.all([
-      getFavouriteRoutes(favouriteRoutes, input),
+      getFavouriteRoutes(favouriteRoutes, input, relayEnvironment),
       getOldSearches(oldSearches, input),
       getRoutes(input, config, relayEnvironment),
     ])
