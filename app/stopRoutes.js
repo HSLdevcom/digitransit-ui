@@ -17,21 +17,21 @@ const queries = {
       }
     `,
     pageMap: graphql`
-      query routes_StopPageMap_Query($stopId: String!) {
+      query stopRoutes_StopPageMap_Query($stopId: String!) {
         stop(id: $stopId) {
           ...StopPageMap_stop
         }
       }
     `,
     pageMeta: graphql`
-      query routes_StopPageMeta_Query($stopId: String!) {
+      query stopRoutes_StopPageMeta_Query($stopId: String!) {
         stop(id: $stopId) {
           ...StopPageMeta_stop
         }
       }
     `,
     pageContent: graphql`
-      query routes_StopPageTabContainer_Query($stopId: String!) {
+      query stopRoutes_StopPageTabContainer_Query($stopId: String!) {
         stop(id: $stopId) {
           ...StopPageTabContainer_stop
         }
@@ -61,7 +61,7 @@ const queries = {
       }
     `,
     pageContent: graphql`
-      query routes_StopPageTabContainer_Query($stationId: String!) {
+      query stopRoutes_StopPageTabContainer_Query($stationId: String!) {
         station(id: $stationId) {
           ...StopPageTabContainer_stop
         }
