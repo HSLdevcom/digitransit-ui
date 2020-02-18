@@ -76,7 +76,7 @@ function ItineraryPageMap(
 
   const toggleFullscreenMap = () => {
     if (fullscreen) {
-      router.goBack();
+      router.go(-1);
     } else {
       router.push({
         ...location,

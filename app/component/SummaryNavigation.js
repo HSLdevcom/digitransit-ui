@@ -101,7 +101,7 @@ class SummaryNavigation extends React.Component {
         },
       });
     } else {
-      this.context.router.goBack();
+      this.context.router.go(-1);
     }
   };
 

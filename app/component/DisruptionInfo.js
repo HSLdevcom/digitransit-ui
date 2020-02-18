@@ -23,7 +23,7 @@ function DisruptionInfo({ relayEnvironment }, context) {
 
   const toggleVisibility = () => {
     if (isOpen()) {
-      context.router.goBack();
+      context.router.go(-1);
     } else {
       context.router.push({
         ...context.location,

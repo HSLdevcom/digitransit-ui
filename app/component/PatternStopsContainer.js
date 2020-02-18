@@ -29,7 +29,7 @@ class PatternStopsContainer extends React.PureComponent {
 
   toggleFullscreenMap = () => {
     if (some(this.props.routes, route => route.fullscreenMap)) {
-      this.context.router.goBack();
+      this.context.router.go(-1);
       return;
     }
     this.context.router.push(`${this.props.location.pathname}/kartta`);

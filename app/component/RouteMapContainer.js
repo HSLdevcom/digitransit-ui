@@ -80,7 +80,7 @@ class RouteMapContainer extends React.PureComponent {
         name: 'RoutePage',
       });
       if (fullscreen) {
-        router.goBack();
+        router.go(-1);
         return;
       }
       router.push(`${location.pathname}/kartta`);

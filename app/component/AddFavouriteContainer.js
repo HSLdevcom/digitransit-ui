@@ -152,7 +152,7 @@ class AddFavouriteContainer extends React.Component {
   };
 
   quit = () => {
-    this.context.router.goBack();
+    this.context.router.go(-1);
   };
 
   specifyName = event => {

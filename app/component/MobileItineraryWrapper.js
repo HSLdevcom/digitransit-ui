@@ -59,7 +59,7 @@ export default class MobileItineraryWrapper extends React.Component {
 
   toggleFullscreenMap = () => {
     if (this.props.fullscreenMap) {
-      this.context.router.goBack();
+      this.context.router.go(-1);
     } else {
       this.context.router.push({
         ...this.context.location,

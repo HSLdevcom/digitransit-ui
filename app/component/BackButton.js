@@ -29,7 +29,7 @@ export default class BackButton extends React.Component {
 
   goBack = () => {
     if (hasHistoryEntries()) {
-      this.context.router.goBack();
+      this.context.router.go(-1);
     } else {
       this.context.router.push('/');
     }

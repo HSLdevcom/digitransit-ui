@@ -24,7 +24,7 @@ const toggleFullscreenMap = (fullscreenMap, params, router) => {
     name: 'StopPage',
   });
   if (fullscreenMap) {
-    router.goBack();
+    router.go(-1);
     return;
   }
   router.push(getFullscreenTogglePath(fullscreenMap, params));
