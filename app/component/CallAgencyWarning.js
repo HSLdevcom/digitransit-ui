@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Link from 'found/lib/Link';
 import get from 'lodash/get';
 
 import { FormattedMessage } from 'react-intl';
@@ -18,10 +17,10 @@ const CallAgencyWarning = ({ route }) => (
     </div>
     {get(route, 'agency.phone', false) ? (
       <div className="call-button">
-        <Link href={`tel:${route.agency.phone}`}>
+        <a href={`tel:${route.agency.phone}`}>
           <FormattedMessage id="call" defaultMessage="Call" />
           {route.agency.phone}
-        </Link>
+        </a>
       </div>
     ) : (
       ''
