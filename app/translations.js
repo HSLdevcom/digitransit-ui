@@ -656,13 +656,16 @@ const translations = {
     'add-location-to-favourites': 'Add an important location to your Favorites',
     'add-via-button-label': 'Add via point',
     'add-via-duration-button-label': 'Set stop duration at via point',
+    'arrive-leave': 'Arrive or leave at selected time',
     'search-autosuggest-label':
       'Venue, place and stopsearch. Navigate list with arrow keys and select with enter key',
-    'search-autosuggest-len': ' There are {len} Suggestions available',
+    'search-autosuggest-len': 'There are {len} Suggestions available',
+    'select-date': 'Select date',
     'set-time-earlier-button-label': 'Set travel time to earlier',
     'set-time-later-button-label': 'Set travel time to later',
     'set-time-now-button-label': 'Set travel time to current',
     'time-navigation-buttons': 'Time navigation buttons',
+    'time-selector-form': 'Edit time',
     // eslint-disable-next-line sort-keys
     address: 'Address',
     'address-or-stop': 'Address or stop',
@@ -1466,15 +1469,18 @@ const translations = {
     'add-location-to-favourites':
       'Lisää sinulle tärkeä paikka Suosikkisi-välilehdelle',
     'add-via-button-label': 'Lisää välipiste',
+    'arrive-leave': 'Saavu tai lähde valittuna aikana',
     'search-autosuggest-label':
       'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
     'search-autosuggest-len': ' Löydettiin {len} ehdotusta',
     // eslint-disable-next-line sort-keys
     'add-via-duration-button-label': 'Aseta välipisteelle pysähdyksen kesto',
+    'select-date': 'Valitse päivä',
     'set-time-earlier-button-label': 'Aikaista matkustusajankohtaa',
     'set-time-later-button-label': 'Myöhäistä matkustusajankohtaa',
     'set-time-now-button-label': 'Aseta matkustusajankohdaksi nyt',
     'time-navigation-buttons': 'Matkustusajankohdan muokkausnapit',
+    'time-selector-form': 'Muokkaa Matkustusajankohtaa',
     // eslint-disable-next-line sort-keys
     address: 'Osoite',
     'address-or-stop': 'Osoite tai pysäkki',
@@ -2586,13 +2592,16 @@ const translations = {
       'Lägg till en plats som är viktig för dig på fliken Favoriter',
     'add-via-button-label': 'Lägg till viapunkt',
     'add-via-duration-button-label': 'Ställ in varaktighet för viapunkten',
+    'arrive-leave': 'Anländer eller lämnar vid vald tid',
     'search-autosuggest-label':
       'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
     'search-autosuggest-len': 'Hittade {len} förslag',
+    'select-date': 'Välj datum',
     'set-time-earlier-button-label': 'Ställ in restid till tidigare',
     'set-time-later-button-label': 'Ställ in restid till senare',
     'set-time-now-button-label': 'Ställ in restid till nu',
     'time-navigation-buttons': 'Tidsnavigeringsknappar',
+    'time-selector-form': 'Redigera tid',
     // eslint-disable-next-line sort-keys
     address: 'Adress',
     'address-or-stop': 'Adress eller hållplats',
