@@ -73,7 +73,7 @@ const queries = {
 };
 
 export default function getStopRoutes(isTerminal = false) {
-  const queryMap = isTerminal ? queries.station : queries.station.stop;
+  const queryMap = isTerminal ? queries.station : queries.stop;
   return (
     <Route path={`/${isTerminal ? PREFIX_TERMINALS : PREFIX_STOPS}`}>
       <Route Component={Error404} />
@@ -112,7 +112,7 @@ export default function getStopRoutes(isTerminal = false) {
                 path="kartta"
                 fullscreenMap
                 getComponent={() =>
-                  import(/* webpackChunkName: "stop" */ './component/getStopPageContentPage')
+                  import(/* webpackChunkName: "stop" */ './component/StopPageContentContainer')
                     .then(getDefault)
                     .catch(errorLoading)
                 }
