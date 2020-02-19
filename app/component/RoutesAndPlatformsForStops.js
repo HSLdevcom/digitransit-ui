@@ -4,6 +4,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { createFragmentContainer, graphql } from 'react-relay';
 import Link from 'found/lib/Link';
+import { matchShape } from 'found';
 import orderBy from 'lodash/orderBy';
 import uniqBy from 'lodash/uniqBy';
 
@@ -77,7 +78,7 @@ export const mapRoutes = (stopFromProps, stopType) => {
 const RoutesAndPlatformsForStops = props => {
   const mappedRoutes = mapRoutes(
     props.stop,
-    props.params.terminalId ? 'terminal' : 'stop',
+    props.match.params.terminalId ? 'terminal' : 'stop',
   ).sort((x, y) => routeNameCompare(x.pattern.route, y.pattern.route));
 
   if (mappedRoutes.length === 0) {
@@ -130,10 +131,7 @@ const RoutesAndPlatformsForStops = props => {
 
 RoutesAndPlatformsForStops.propTypes = {
   stop: PropTypes.object.isRequired,
-  params: PropTypes.oneOfType([
-    PropTypes.shape({ stopId: PropTypes.string.isRequired }).isRequired,
-    PropTypes.shape({ terminalId: PropTypes.string.isRequired }).isRequired,
-  ]).isRequired,
+  match: matchShape.isRequired,
 };
 
 const withRelayContainer = createFragmentContainer(RoutesAndPlatformsForStops, {

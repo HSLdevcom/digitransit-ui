@@ -3,7 +3,7 @@ import React from 'react';
 import get from 'lodash/get';
 import some from 'lodash/some';
 import polyline from 'polyline-encoded';
-import { routerShape } from 'found';
+import { matchShape, routerShape } from 'found';
 
 import LocationMarker from './map/LocationMarker';
 import ItineraryLine from './map/ItineraryLine';
@@ -23,19 +23,19 @@ if (isBrowser) {
 let timeout;
 
 function ItineraryPageMap(
-  { itinerary, params, from, to, routes, center, breakpoint },
+  { itinerary, from, to, match, center, breakpoint },
   { router, location },
 ) {
   const leafletObjs = [
     <LocationMarker
       key="fromMarker"
-      position={from || otpToLocation(params.from)}
+      position={from || otpToLocation(match.params.from)}
       type="from"
     />,
     <LocationMarker
       isLarge
       key="toMarker"
-      position={to || otpToLocation(params.to)}
+      position={to || otpToLocation(match.params.to)}
       type="to"
     />,
   ];
@@ -72,7 +72,7 @@ function ItineraryPageMap(
       />,
     );
   }
-  const fullscreen = some(routes.map(route => route.fullscreenMap));
+  const fullscreen = some(match.routes.map(route => route.fullscreenMap));
 
   const toggleFullscreenMap = () => {
     if (fullscreen) {
@@ -157,18 +157,10 @@ function ItineraryPageMap(
 
 ItineraryPageMap.propTypes = {
   itinerary: PropTypes.object,
-  params: PropTypes.shape({
-    from: PropTypes.string.isRequired,
-    to: PropTypes.string.isRequired,
-  }).isRequired,
   from: dtLocationShape,
   to: dtLocationShape,
   center: dtLocationShape,
-  routes: PropTypes.arrayOf(
-    PropTypes.shape({
-      fullscreenMap: PropTypes.bool,
-    }).isRequired,
-  ).isRequired,
+  match: matchShape.isRequired,
   breakpoint: PropTypes.string.isRequired,
 };
 

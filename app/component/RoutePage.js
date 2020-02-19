@@ -5,7 +5,7 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 import sortBy from 'lodash/sortBy'; // DT-3182
-import { routerShape } from 'found';
+import { matchShape, routerShape } from 'found';
 
 import Icon from './Icon';
 import CallAgencyWarning from './CallAgencyWarning';
@@ -63,18 +63,13 @@ class RoutePage extends React.Component {
 
   static propTypes = {
     route: PropTypes.object.isRequired,
-    location: PropTypes.shape({
-      pathname: PropTypes.string.isRequired,
-    }).isRequired,
-    params: PropTypes.shape({
-      patternId: PropTypes.string.isRequired,
-    }).isRequired,
+    match: matchShape.isRequired,
     breakpoint: PropTypes.string.isRequired,
   };
 
   // gets called if pattern has not been visited before
   componentDidMount() {
-    const { params, route } = this.props;
+    const { match, route } = this.props;
     const { config, executeAction, router } = this.context; // DT-3182: added router for changing URL
     if (!route || !route.patterns) {
       return;
@@ -92,7 +87,7 @@ class RoutePage extends React.Component {
     const pattern =
       sortedPatternsByCountOfTrips !== undefined
         ? sortedPatternsByCountOfTrips[0]
-        : route.patterns.find(({ code }) => code === params.patternId);
+        : route.patterns.find(({ code }) => code === match.params.patternId);
 
     if (!pattern) {
       return;
@@ -103,11 +98,11 @@ class RoutePage extends React.Component {
     if (
       location !== undefined &&
       location.action === 'PUSH' &&
-      params.patternId !== pattern.code
+      match.params.patternId !== pattern.code
     ) {
       router.replace(
         decodeURIComponent(location.pathname).replace(
-          new RegExp(`${params.patternId}(.*)`),
+          new RegExp(`${match.params.patternId}(.*)`),
           pattern.code,
         ),
       );
@@ -129,7 +124,7 @@ class RoutePage extends React.Component {
 
     const id =
       sortedPatternsByCountOfTrips !== undefined &&
-      pattern.code !== params.patternId
+      pattern.code !== match.params.patternId
         ? routeParts[1]
         : source.routeSelector(this.props);
 
@@ -162,7 +157,7 @@ class RoutePage extends React.Component {
       action: 'ToggleDirection',
       name: null,
     });
-    const { location, params, route } = this.props;
+    const { match, route } = this.props;
     const { config, executeAction, getStore, router } = this.context;
     const { client, topics } = getStore('RealTimeInformationStore');
 
@@ -194,8 +189,8 @@ class RoutePage extends React.Component {
     }
 
     router.replace(
-      decodeURIComponent(location.pathname).replace(
-        new RegExp(`${params.patternId}(.*)`),
+      decodeURIComponent(match.location.pathname).replace(
+        new RegExp(`${match.params.patternId}(.*)`),
         newPattern,
       ),
     );
@@ -203,7 +198,7 @@ class RoutePage extends React.Component {
 
   changeTab = tab => {
     const path = `/${PREFIX_ROUTES}/${this.props.route.gtfsId}/${tab}/${this
-      .props.params.patternId || ''}`;
+      .props.match.params.patternId || ''}`;
     this.context.router.replace(path);
     let action;
     switch (tab) {
@@ -229,8 +224,8 @@ class RoutePage extends React.Component {
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/anchor-is-valid */
   render() {
-    const { breakpoint, location, params, route } = this.props;
-    const { patternId } = params;
+    const { breakpoint, match, route } = this.props;
+    const { patternId } = match.params;
     const { config, router } = this.context;
 
     if (route == null) {
@@ -241,7 +236,7 @@ class RoutePage extends React.Component {
       return null;
     }
 
-    const activeTab = getActiveTab(location.pathname);
+    const activeTab = getActiveTab(match.location.pathname);
     const currentTime = moment().unix();
     const hasActiveAlert = isAlertActive(
       getCancelationsForRoute(route, patternId),
@@ -376,7 +371,7 @@ class RoutePage extends React.Component {
           </nav>
           {patternId && (
             <RoutePatternSelect
-              params={params}
+              params={match.params}
               route={route}
               onSelectChange={this.onPatternChange}
               gtfsId={route.gtfsId}

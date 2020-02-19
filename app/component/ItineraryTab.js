@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import cx from 'classnames';
-import { routerShape } from 'found';
+import { matchShape, routerShape } from 'found';
 import { FormattedMessage } from 'react-intl';
 
 import Icon from './Icon';
@@ -27,20 +27,13 @@ class ItineraryTab extends React.Component {
   static propTypes = {
     plan: PropTypes.number.isRequired,
     itinerary: PropTypes.object.isRequired,
-    location: PropTypes.object,
+    match: matchShape.object,
     focus: PropTypes.func.isRequired,
   };
 
   static contextTypes = {
     config: PropTypes.object.isRequired,
     router: routerShape.isRequired,
-    location: PropTypes.shape({
-      pathname: PropTypes.string.isRequired,
-      search: PropTypes.string,
-      hash: PropTypes.string,
-      state: PropTypes.object,
-      query: PropTypes.object,
-    }).isRequired,
   };
 
   state = {
@@ -72,9 +65,9 @@ class ItineraryTab extends React.Component {
       name: null,
     });
 
-    const printPath = `${this.props.location.pathname}/tulosta`;
+    const printPath = `${this.props.match.location.pathname}/tulosta`;
     this.context.router.push({
-      ...this.props.location,
+      ...this.props.match.location,
       pathname: printPath,
     });
   };

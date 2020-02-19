@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import some from 'lodash/some';
-import { routerShape } from 'found';
+import { matchShape, routerShape } from 'found';
 import RouteListHeader from './RouteListHeader';
 import RouteStopListContainer from './RouteStopListContainer';
 import withBreakpoint from '../util/withBreakpoint';
@@ -12,14 +12,7 @@ class PatternStopsContainer extends React.PureComponent {
     pattern: PropTypes.shape({
       code: PropTypes.string.isRequired,
     }).isRequired,
-    routes: PropTypes.arrayOf(
-      PropTypes.shape({
-        fullscreenMap: PropTypes.bool,
-      }).isRequired,
-    ).isRequired,
-    location: PropTypes.shape({
-      pathname: PropTypes.string.isRequired,
-    }).isRequired,
+    match: matchShape.isRequired,
     breakpoint: PropTypes.string.isRequired,
   };
 
@@ -28,11 +21,11 @@ class PatternStopsContainer extends React.PureComponent {
   };
 
   toggleFullscreenMap = () => {
-    if (some(this.props.routes, route => route.fullscreenMap)) {
+    if (some(this.props.match.routes, route => route.fullscreenMap)) {
       this.context.router.go(-1);
       return;
     }
-    this.context.router.push(`${this.props.location.pathname}/kartta`);
+    this.context.router.push(`${this.props.match.location.pathname}/kartta`);
   };
 
   render() {
@@ -41,7 +34,7 @@ class PatternStopsContainer extends React.PureComponent {
     }
 
     if (
-      some(this.props.routes, route => route.fullscreenMap) &&
+      some(this.props.match.routes, route => route.fullscreenMap) &&
       this.props.breakpoint !== 'large'
     ) {
       return <div className="route-page-content" />;

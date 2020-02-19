@@ -3,7 +3,7 @@ import React from 'react';
 import cx from 'classnames';
 import { createFragmentContainer, graphql } from 'react-relay';
 import some from 'lodash/some';
-import { routerShape } from 'found';
+import { matchShape, routerShape } from 'found';
 import MapContainer from './map/MapContainer';
 import SelectedStopPopup from './map/popups/SelectedStopPopup';
 import SelectedStopPopupContent from './SelectedStopPopupContent';
@@ -61,15 +61,12 @@ const fullscreenMapToggle = (fullscreenMap, params, router) => (
 );
 /* eslint-enable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 
-const StopPageMap = (
-  { stop, routes, params, breakpoint },
-  { router, config },
-) => {
+const StopPageMap = ({ stop, match, breakpoint }, { router, config }) => {
   if (!stop) {
     return false;
   }
 
-  const fullscreenMap = some(routes, 'fullscreenMap');
+  const fullscreenMap = some(match.routes, 'fullscreenMap');
   const leafletObjs = [];
   const children = [];
   if (config.showVehiclesOnStopPage) {
@@ -85,8 +82,8 @@ const StopPageMap = (
       </SelectedStopPopup>,
     );
   } else {
-    children.push(fullscreenMapOverlay(fullscreenMap, params, router));
-    children.push(fullscreenMapToggle(fullscreenMap, params, router));
+    children.push(fullscreenMapOverlay(fullscreenMap, match.params, router));
+    children.push(fullscreenMapToggle(fullscreenMap, match.params, router));
   }
 
   const showScale = fullscreenMap || breakpoint === 'large';
@@ -96,9 +93,9 @@ const StopPageMap = (
       className="full"
       lat={stop.lat}
       lon={stop.lon}
-      zoom={!params.stopId || stop.platformCode ? 18 : 16}
+      zoom={!match.params.stopId || stop.platformCode ? 18 : 16}
       showStops
-      hilightedStops={[params.stopId]}
+      hilightedStops={[match.params.stopId]}
       leafletObjs={leafletObjs}
       showScaleBar={showScale}
     >
@@ -118,15 +115,7 @@ StopPageMap.propTypes = {
     lon: PropTypes.number.isRequired,
     platformCode: PropTypes.string,
   }),
-  routes: PropTypes.arrayOf(
-    PropTypes.shape({
-      fullscreenMap: PropTypes.string,
-    }).isRequired,
-  ).isRequired,
-  params: PropTypes.oneOfType([
-    PropTypes.shape({ stopId: PropTypes.string.isRequired }).isRequired,
-    PropTypes.shape({ terminalId: PropTypes.string.isRequired }).isRequired,
-  ]).isRequired,
+  match: matchShape.isRequired,
   breakpoint: PropTypes.string.isRequired,
 };
 

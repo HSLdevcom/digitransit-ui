@@ -5,6 +5,7 @@ import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { createFragmentContainer, graphql } from 'react-relay';
 import Link from 'found/lib/Link';
+import { matchShape } from 'found';
 import some from 'lodash/some';
 import { AlertSeverityLevelType } from '../constants';
 import Icon from './Icon';
@@ -41,19 +42,19 @@ const getActiveTab = pathname => {
   return Tab.RightNow;
 };
 
-function StopPageTabContainer(
-  { children, params, routes, breakpoint, location: { pathname }, stop },
-  { intl },
-) {
-  if (!stop || (some(routes, 'fullscreenMap') && breakpoint !== 'large')) {
+function StopPageTabContainer({ children, match, breakpoint, stop }, { intl }) {
+  if (
+    !stop ||
+    (some(match.routes, 'fullscreenMap') && breakpoint !== 'large')
+  ) {
     return null;
   }
-  const activeTab = getActiveTab(pathname);
-  const isTerminal = params.terminalId != null;
+  const activeTab = getActiveTab(match.location.pathname);
+  const isTerminal = match.params.terminalId != null;
   const urlBase = `/${
     isTerminal ? 'terminaalit' : 'pysakit'
   }/${encodeURIComponent(
-    params.terminalId ? params.terminalId : params.stopId,
+    match.params.terminalId ? match.params.terminalId : match.params.stopId,
   )}`;
 
   const currentTime = moment().unix();
@@ -243,18 +244,7 @@ const alertArrayShape = PropTypes.arrayOf(
 StopPageTabContainer.propTypes = {
   children: PropTypes.node.isRequired,
   breakpoint: PropTypes.string.isRequired,
-  params: PropTypes.oneOfType([
-    PropTypes.shape({ stopId: PropTypes.string.isRequired }).isRequired,
-    PropTypes.shape({ terminalId: PropTypes.string.isRequired }).isRequired,
-  ]).isRequired,
-  routes: PropTypes.arrayOf(
-    PropTypes.shape({
-      fullscreenMap: PropTypes.bool,
-    }).isRequired,
-  ).isRequired,
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
-  }).isRequired,
+  match: matchShape.isRequired,
   stop: PropTypes.shape({
     alerts: alertArrayShape,
     vehicleMode: PropTypes.string,

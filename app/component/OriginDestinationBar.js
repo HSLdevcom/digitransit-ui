@@ -2,7 +2,7 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
-import { routerShape } from 'found';
+import { matchShape, routerShape } from 'found';
 import { withCurrentTime } from '../util/searchUtils';
 import ComponentUsageExample from './ComponentUsageExample';
 import DTAutosuggestPanel from './DTAutosuggestPanel';
@@ -22,7 +22,7 @@ class OriginDestinationBar extends React.Component {
   static propTypes = {
     className: PropTypes.string,
     destination: dtLocationShape,
-    location: PropTypes.object,
+    match: matchShape.isRequired,
     origin: dtLocationShape,
   };
 
@@ -34,11 +34,12 @@ class OriginDestinationBar extends React.Component {
 
   static defaultProps = {
     className: undefined,
-    location: undefined,
   };
 
   get location() {
-    return this.props.location || this.context.router.getCurrentLocation();
+    return (
+      this.props.match.location || this.context.router.getCurrentLocation()
+    );
   }
 
   updateViaPoints = newViaPoints =>
@@ -98,9 +99,12 @@ OriginDestinationBar.description = (
     <ComponentUsageExample description="with-viapoint">
       <OriginDestinationBar
         destination={{ ready: false, set: false }}
-        location={{
-          query: {
-            intermediatePlaces: 'Opastinsilta 6, Helsinki::60.199093,24.940536',
+        match={{
+          location: {
+            query: {
+              intermediatePlaces:
+                'Opastinsilta 6, Helsinki::60.199093,24.940536',
+            },
           },
         }}
         origin={{

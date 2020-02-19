@@ -128,7 +128,7 @@ const withNow = connectToStores(TSCWithProps, ['TimeStore'], context => ({
 }));
 
 const connectedContainer = getContext({
-  locatilocation: PropTypes.shape({
+  location: PropTypes.shape({
     query: PropTypes.object.isRequired,
   }).isRequired,
 })(withNow);

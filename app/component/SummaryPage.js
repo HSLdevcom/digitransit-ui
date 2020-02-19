@@ -7,7 +7,7 @@ import get from 'lodash/get';
 import sortBy from 'lodash/sortBy';
 import polyline from 'polyline-encoded';
 import { FormattedMessage } from 'react-intl';
-import { routerShape } from 'found';
+import { matchShape, routerShape } from 'found';
 import isEqual from 'lodash/isEqual';
 import storeOrigin from '../action/originActions';
 import DesktopView from './DesktopView';
@@ -102,20 +102,7 @@ class SummaryPage extends React.Component {
   };
 
   static propTypes = {
-    location: PropTypes.shape({
-      state: PropTypes.object,
-      query: PropTypes.shape({
-        intermediatePlaces: PropTypes.oneOfType([
-          PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-          PropTypes.string.isRequired,
-        ]),
-      }).isRequired,
-    }).isRequired,
-    params: PropTypes.shape({
-      from: PropTypes.string.isRequired,
-      to: PropTypes.string.isRequired,
-      hash: PropTypes.string,
-    }).isRequired,
+    match: matchShape.isRequired,
     plan: PropTypes.shape({
       itineraries: PropTypes.array,
     }).isRequired,
@@ -136,7 +123,7 @@ class SummaryPage extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    context.executeAction(storeOrigin, props.params.from);
+    context.executeAction(storeOrigin, props.match.params.from);
     // const error = get(context, 'queryAggregator.readyState.error', null);
     // if (error) {
     //   reportError(error);
@@ -161,8 +148,8 @@ class SummaryPage extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!isEqual(nextProps.params.from, this.props.params.from)) {
-      this.context.executeAction(storeOrigin, nextProps.params.from);
+    if (!isEqual(nextProps.match.params.from, this.props.match.params.from)) {
+      this.context.executeAction(storeOrigin, nextProps.match.params.from);
     }
 
     if (nextProps.breakpoint === 'large' && this.state.center) {
@@ -191,14 +178,14 @@ class SummaryPage extends React.Component {
   };
 
   renderMap() {
-    const { plan, location } = this.props;
+    const { plan, match } = this.props;
     const {
       config: { defaultEndpoint },
     } = this.context;
     const itineraries = (plan && plan.itineraries) || [];
-    const activeIndex = getActiveIndex(location, itineraries);
-    const from = otpToLocation(this.props.params.from);
-    const to = otpToLocation(this.props.params.to);
+    const activeIndex = getActiveIndex(match.location, itineraries);
+    const from = otpToLocation(match.params.from);
+    const to = otpToLocation(match.params.to);
 
     triggerMessage(
       from.lat,
@@ -240,11 +227,13 @@ class SummaryPage extends React.Component {
       );
     }
 
-    getIntermediatePlaces(location.query).forEach((intermediatePlace, i) => {
-      leafletObjs.push(
-        <LocationMarker key={`via_${i}`} position={intermediatePlace} />,
-      );
-    });
+    getIntermediatePlaces(match.location.query).forEach(
+      (intermediatePlace, i) => {
+        leafletObjs.push(
+          <LocationMarker key={`via_${i}`} position={intermediatePlace} />,
+        );
+      },
+    );
 
     // Decode all legs of all itineraries into latlong arrays,
     // and concatenate into one big latlong array
@@ -298,10 +287,10 @@ class SummaryPage extends React.Component {
       hasItineraries
     ) {
       return React.cloneElement(this.props.content, {
-        itinerary: itineraries[this.props.params.hash],
+        itinerary: itineraries[this.props.match.params.hash],
         focus: this.updateCenter,
-        from: otpToLocation(this.props.params.from),
-        to: otpToLocation(this.props.params.to),
+        from: otpToLocation(this.props.match.params.from),
+        to: otpToLocation(this.props.match.params.to),
       });
     }
 
@@ -309,7 +298,7 @@ class SummaryPage extends React.Component {
     const map = this.props.map
       ? this.props.map.type(
           {
-            itinerary: itineraries && itineraries[this.props.params.hash],
+            itinerary: itineraries && itineraries[this.props.match.params.hash],
             center: this.state.center,
             ...this.props,
           },
@@ -326,7 +315,7 @@ class SummaryPage extends React.Component {
     }
 
     let intermediatePlaces = [];
-    const { query } = this.props.location;
+    const { query } = this.props.match.location;
 
     if (query && query.intermediatePlaces) {
       if (Array.isArray(query.intermediatePlaces)) {
@@ -350,7 +339,7 @@ class SummaryPage extends React.Component {
             plan={this.props.plan}
             serviceTimeRange={serviceTimeRange}
             itineraries={itineraries}
-            params={this.props.params}
+            params={this.props.match.params}
             // error={error}
             setLoading={this.setLoading}
             // setError={this.setError}
@@ -358,7 +347,7 @@ class SummaryPage extends React.Component {
             {this.props.content &&
               React.cloneElement(this.props.content, {
                 itinerary:
-                  hasItineraries && itineraries[this.props.params.hash],
+                  hasItineraries && itineraries[this.props.match.params.hash],
                 focus: this.updateCenter,
                 plan: this.props.plan,
               })}
@@ -380,10 +369,13 @@ class SummaryPage extends React.Component {
               defaultMessage="Itinerary suggestions"
             />
           }
-          homeUrl={getHomeUrl(this.props.params.from, this.props.params.to)}
+          homeUrl={getHomeUrl(
+            this.props.match.params.from,
+            this.props.match.params.to,
+          )}
           header={
             <SummaryNavigation
-              params={this.props.params}
+              params={this.props.match.params}
               serviceTimeRange={serviceTimeRange}
               startTime={earliestStartTime}
               endTime={latestArrivalTime}
@@ -404,11 +396,11 @@ class SummaryPage extends React.Component {
           <Loading />
         </div>
       );
-    } else if (this.props.params.hash) {
+    } else if (this.props.match.params.hash) {
       content = (
         <MobileItineraryWrapper
           itineraries={itineraries}
-          params={this.props.params}
+          params={this.props.match.params}
           focus={this.updateCenter}
         >
           {this.props.content &&
@@ -428,12 +420,12 @@ class SummaryPage extends React.Component {
           plan={this.props.plan}
           serviceTimeRange={serviceTimeRange}
           itineraries={itineraries}
-          params={this.props.params}
+          params={this.props.match.params}
           // error={error}
           setLoading={this.setLoading}
           // setError={this.setError}
-          from={this.props.params.from}
-          to={this.props.params.to}
+          from={this.props.match.params.from}
+          to={this.props.match.params.to}
           intermediatePlaces={intermediatePlaces}
         />
       );
@@ -442,9 +434,9 @@ class SummaryPage extends React.Component {
     return (
       <MobileView
         header={
-          !this.props.params.hash ? (
+          !this.props.match.params.hash ? (
             <SummaryNavigation
-              params={this.props.params}
+              params={this.props.match.params}
               serviceTimeRange={serviceTimeRange}
               startTime={earliestStartTime}
               endTime={latestArrivalTime}
@@ -453,7 +445,10 @@ class SummaryPage extends React.Component {
             false
           )
         }
-        homeUrl={getHomeUrl(this.props.params.from, this.props.params.to)}
+        homeUrl={getHomeUrl(
+          this.props.match.params.from,
+          this.props.match.params.to,
+        )}
         content={content}
         map={map}
       />

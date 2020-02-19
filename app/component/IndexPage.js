@@ -55,13 +55,6 @@ class IndexPage extends React.Component {
     origin: dtLocationShape.isRequired,
     destination: dtLocationShape.isRequired,
     showSpinner: PropTypes.bool.isRequired,
-    routes: PropTypes.arrayOf(
-      PropTypes.shape({
-        footerOptions: PropTypes.shape({
-          hidden: PropTypes.bool,
-        }),
-      }).isRequired,
-    ).isRequired,
   };
 
   static defaultProps = {
@@ -133,13 +126,8 @@ class IndexPage extends React.Component {
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     const { config, router } = this.context;
-    const { breakpoint, destination, origin, routes } = this.props;
+    const { breakpoint, destination, origin } = this.props;
     const { mapExpanded } = this.state;
-
-    const footerOptions = Object.assign(
-      {},
-      ...routes.map(route => route.footerOptions),
-    );
 
     return breakpoint === 'large' ? (
       <div
@@ -172,13 +160,11 @@ class IndexPage extends React.Component {
           )}
         />
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
-        {!footerOptions.hidden && (
-          <div id="page-footer-container">
-            <PageFooter
-              content={(config.footer && config.footer.content) || []}
-            />
-          </div>
-        )}
+        <div id="page-footer-container">
+          <PageFooter
+            content={(config.footer && config.footer.content) || []}
+          />
+        </div>
       </div>
     ) : (
       <div

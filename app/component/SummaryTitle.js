@@ -1,11 +1,11 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import { matchShape } from 'found';
 import { FormattedMessage } from 'react-intl';
 
 export default function SummaryTitle(props) {
   return (
     <span>
-      {props.params.hash == null ? (
+      {props.match.params.hash == null ? (
         <FormattedMessage
           id="summary-page.title"
           defaultMessage="Itinerary suggestions"
@@ -21,7 +21,5 @@ export default function SummaryTitle(props) {
 }
 
 SummaryTitle.propTypes = {
-  params: PropTypes.shape({
-    hash: PropTypes.string,
-  }).isRequired,
+  match: matchShape.isRequired,
 };

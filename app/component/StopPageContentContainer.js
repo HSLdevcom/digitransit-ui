@@ -3,6 +3,7 @@ import React from 'react';
 import { createRefetchContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
+import { matchShape } from 'found';
 
 import DepartureListHeader from './DepartureListHeader';
 import DepartureListContainer from './DepartureListContainer';
@@ -11,17 +12,11 @@ import Icon from './Icon';
 
 class StopPageContent extends React.Component {
   static propTypes = {
-    params: PropTypes.oneOfType([
-      PropTypes.shape({ stopId: PropTypes.string.isRequired }).isRequired,
-      PropTypes.shape({ terminalId: PropTypes.string.isRequired }).isRequired,
-    ]).isRequired,
+    match: matchShape.isRequired,
     stop: PropTypes.shape({
       stoptimes: PropTypes.array,
     }).isRequired,
     relay: PropTypes.shape({
-      variables: PropTypes.shape({
-        startTime: PropTypes.string.isRequired,
-      }).isRequired,
       refetch: PropTypes.func.isRequired,
     }).isRequired,
     currentTime: PropTypes.number.isRequired,
@@ -58,7 +53,7 @@ class StopPageContent extends React.Component {
             className="stop-page momentum-scroll"
             routeLinks
             infiniteScroll
-            isTerminal={!this.props.params.stopId}
+            isTerminal={!this.props.match.params.stopId}
             rowClasses="padding-normal border-bottom"
             currentTime={this.props.currentTime}
             showPlatformCodes

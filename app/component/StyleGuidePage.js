@@ -1,6 +1,6 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import sortBy from 'lodash/sortBy';
+import { matchShape } from 'found';
 
 import Icon from './Icon';
 import IconWithTail from './IconWithTail';
@@ -518,13 +518,13 @@ function getComponents() {
 }
 
 function StyleGuidePage(props) {
-  if (props.params.componentName) {
+  if (props.match.params.componentName) {
     return (
       <ComponentDocumentation
         mode="examples-only"
         component={
-          components[props.params.componentName] ||
-          fullscreenComponents[props.params.componentName]
+          components[props.match.params.componentName] ||
+          fullscreenComponents[props.match.params.componentName]
         }
       />
     );
@@ -572,9 +572,7 @@ function StyleGuidePage(props) {
 }
 
 StyleGuidePage.propTypes = {
-  params: PropTypes.shape({
-    componentName: PropTypes.string,
-  }).isRequired,
+  match: matchShape.isRequired,
 };
 
 export default StyleGuidePage;
