@@ -12,8 +12,6 @@ import ComponentUsageExample from '../../ComponentUsageExample';
 import mockData from './StopMarkerPopup.mockdata';
 
 const NUMBER_OF_DEPARTURES = 5;
-const STOP_TIME_RANGE = 12 * 60 * 60;
-const TERMINAL_TIME_RANGE = 60 * 60;
 
 class StopMarkerPopup extends React.PureComponent {
   componentWillReceiveProps({ relay, currentTime }) {
@@ -32,10 +30,8 @@ class StopMarkerPopup extends React.PureComponent {
       <div className="card">
         <StopCardContainer
           stop={entity}
-          numberOfDepartures={(isTerminal ? 3 : 1) * NUMBER_OF_DEPARTURES}
-          startTime={currentTime}
+          currentTime={currentTime}
           isTerminal={isTerminal}
-          timeRange={isTerminal ? TERMINAL_TIME_RANGE : STOP_TIME_RANGE}
           limit={NUMBER_OF_DEPARTURES}
           isPopUp
           className="card-padding"

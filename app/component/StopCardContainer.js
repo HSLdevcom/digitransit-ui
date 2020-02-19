@@ -17,7 +17,6 @@ const StopCardContainer = connectToStores(
         stoptimes={props.stop.stoptimes}
         limit={props.limit}
         isTerminal={props.isTerminal}
-        currentTime={props.startTime}
         isPopUp={props.isPopUp}
         showPlatformCodes
       />
@@ -34,8 +33,8 @@ export default createFragmentContainer(StopCardContainer, {
   stop: graphql`
     fragment StopCardContainer_stop on Stop
       @argumentDefinitions(
-        startTime: { type: "Long", defaultValue: 0 }
-        timeRange: { type: "Int", defaultValue: 43200 }
+        startTime: { type: "Long" }
+        timeRange: { type: "Int" }
         numberOfDepartures: { type: "Int", defaultValue: 5 }
       ) {
       gtfsId
