@@ -1,21 +1,22 @@
-import PropTypes from 'prop-types';
 // React
 import React from 'react';
 import ReactDOM from 'react-dom/server';
+import PropTypes from 'prop-types';
 
 // Routing and state handling
-import match from 'react-router/lib/match';
+import { Environment, RecordSource, Store } from 'relay-runtime';
+import { getFarceResult } from 'found/lib/server';
+import makeRouteConfig from 'found/lib/makeRouteConfig';
+import { Resolver } from 'found-relay';
 import Helmet from 'react-helmet';
-import createHistory from 'react-router/lib/createMemoryHistory';
-import RelayQueryCaching from 'react-relay/lib/RelayQueryCaching';
-import IsomorphicRouter from 'isomorphic-relay-router';
 import {
   RelayNetworkLayer,
   urlMiddleware,
-  gqErrorsMiddleware,
   retryMiddleware,
   batchMiddleware,
-} from 'react-relay-network-layer/lib';
+  errorMiddleware,
+} from 'react-relay-network-modern';
+import RelayServerSSR from 'react-relay-network-modern-ssr/lib/server';
 import provideContext from 'fluxible-addons-react/provideContext';
 
 // Libraries
@@ -40,15 +41,14 @@ import meta from './meta';
 import { getConfiguration } from './config';
 import { getAnalyticsInitCode } from './util/analyticsUtils';
 
+import { historyMiddlewares, render } from './routes';
+
 // Look up paths for various asset files
 const appRoot = `${process.cwd()}/`;
 
 // cached assets
 const polyfillls = LRU(200);
 const polyfillLibrary = new PolyfillLibrary();
-
-// Disable relay query cache in order tonot leak memory, see facebook/relay#754
-RelayQueryCaching.disable();
 
 let assets;
 let mainAssets;
@@ -135,38 +135,8 @@ const ContextProvider = provideContext(IntlProvider, {
   config: PropTypes.object,
   url: PropTypes.string,
   headers: PropTypes.object,
+  relayEnvironment: PropTypes.object,
 });
-
-function getContent(context, renderProps, locale, userAgent, req) {
-  const breakpoint = getServerBreakpoint(userAgent);
-  const { config } = context.getComponentContext();
-  const content = ReactDOM.renderToString(
-    <BreakpointProvider value={breakpoint}>
-      <ContextProvider
-        locale={locale}
-        messages={translations[locale]}
-        context={context.getComponentContext()}
-      >
-        <MuiThemeProvider
-          muiTheme={getMuiTheme(MUITheme(config), { userAgent })}
-        >
-          <React.Fragment>
-            <Helmet
-              {...meta(
-                context.getStore('PreferencesStore').getLanguage(),
-                req.hostname,
-                `https://${req.hostname}${req.originalUrl}`,
-                config,
-              )}
-            />
-            {IsomorphicRouter.render(renderProps)}
-          </React.Fragment>
-        </MuiThemeProvider>
-      </ContextProvider>
-    </BreakpointProvider>,
-  );
-  return `<div id="app" data-initial-breakpoint="${breakpoint}">${content}</div>\n`;
-}
 
 const isRobotRequest = agent =>
   agent &&
@@ -175,8 +145,12 @@ const isRobotRequest = agent =>
 const RELAY_FETCH_TIMEOUT = process.env.RELAY_FETCH_TIMEOUT || 1000;
 
 function getNetworkLayer(config, agent) {
+  const relaySSRMiddleware = new RelayServerSSR();
+  relaySSRMiddleware.debug = false;
+
   return new RelayNetworkLayer([
     next => req => next(req).catch(() => ({ payload: { data: null } })),
+    relaySSRMiddleware.getMiddleware(),
     retryMiddleware({
       fetchTimeout: isRobotRequest(agent) ? 10000 : RELAY_FETCH_TIMEOUT,
       retryDelays: [],
@@ -187,91 +161,106 @@ function getNetworkLayer(config, agent) {
     batchMiddleware({
       batchUrl: `${config.URL.OTP}index/graphql/batch`,
     }),
-    gqErrorsMiddleware(),
+    errorMiddleware(),
   ]);
 }
 
-function getLocale(req, res, config) {
-  // TODO: Move this to PreferencesStore
-  // 1. use locale from cookie (user selected) 2. browser preferred 3. default
-  let locale =
-    req.cookies.lang || req.acceptsLanguages(config.availableLanguages);
+export default async function(req, res, next) {
+  try {
+    const config = getConfiguration(req);
+    const application = appCreator(config);
+    const agent = req.headers['user-agent'];
+    global.navigator = { userAgent: agent };
 
-  if (config.availableLanguages.indexOf(locale) === -1) {
-    locale = config.defaultLanguage;
-  }
+    // TODO: Move this to PreferencesStore
+    // 1. use locale from cookie (user selected) 2. browser preferred 3. default
+    let locale =
+      req.cookies.lang || req.acceptsLanguages(config.availableLanguages);
 
-  if (req.cookies.lang === undefined || req.cookies.lang !== locale) {
-    res.cookie('lang', locale);
-  }
-
-  return locale;
-}
-
-function validateParams(params) {
-  const idFields = ['stopId', 'routeId', 'terminalId', 'patternId', 'tripId'];
-  return idFields.every(f => !params[f] || params[f].indexOf(':') !== -1);
-}
-
-export default function(req, res, next) {
-  const config = getConfiguration(req);
-  const locale = getLocale(req, res, config);
-  const application = appCreator(config);
-  const context = application.createContext({
-    headers: req.headers,
-    config,
-  });
-
-  context
-    .getComponentContext()
-    .getStore('MessageStore')
-    .addConfigMessages(config);
-
-  const language = context
-    .getComponentContext()
-    .getStore('PreferencesStore')
-    .getLanguage();
-
-  configureMoment(language, config);
-
-  // required by material-ui
-  const agent = req.headers['user-agent'];
-  global.navigator = { userAgent: agent };
-
-  const matchOptions = {
-    routes: context.getComponent(),
-    location: createHistory({ basename: config.APP_PATH }).createLocation(
-      req.url,
-    ),
-  };
-
-  match(matchOptions, async (error, redirectLocation, renderProps) => {
-    if (redirectLocation) {
-      return res.redirect(
-        301,
-        redirectLocation.pathname + redirectLocation.search,
-      );
-    }
-    if (error) {
-      return next(error);
-    }
-    if (!renderProps) {
-      return res.status(404).send('Not found');
+    if (config.availableLanguages.indexOf(locale) === -1) {
+      locale = config.defaultLanguage;
     }
 
-    if (renderProps.params) {
-      if (!validateParams(renderProps.params)) {
-        return res.redirect(301, '/');
-      }
+    if (req.cookies.lang === undefined || req.cookies.lang !== locale) {
+      res.cookie('lang', locale);
     }
 
-    if (
-      renderProps.components.filter(
-        component => component && component.displayName === 'Error404',
-      ).length > 0
-    ) {
-      res.status(404);
+    const environment = new Environment({
+      network: getNetworkLayer(config, agent),
+      store: new Store(new RecordSource()),
+    });
+
+    const resolver = new Resolver(environment);
+
+    const { redirect, status, element } = await getFarceResult({
+      url: req.url,
+      historyMiddlewares,
+      routeConfig: makeRouteConfig(application.getComponent()),
+      resolver,
+      render,
+    });
+
+    if (redirect) {
+      res.redirect(302, redirect.url);
+      return;
     }
+
+    const context = application.createContext({
+      url: req.url,
+      headers: req.headers,
+      config,
+    });
+
+    context
+      .getComponentContext()
+      .getStore('MessageStore')
+      .addConfigMessages(config);
+
+    const language = context
+      .getComponentContext()
+      .getStore('PreferencesStore')
+      .getLanguage();
+
+    configureMoment(language, config);
+
+    const polyfills = await getPolyfills(agent, config);
+    const breakpoint = getServerBreakpoint(agent);
+
+    const content = ReactDOM.renderToString(
+      <BreakpointProvider value={breakpoint}>
+        <ContextProvider
+          locale={locale}
+          messages={translations[locale]}
+          context={{
+            ...context.getComponentContext(),
+            relayEnvironment: environment,
+          }}
+        >
+          <MuiThemeProvider
+            muiTheme={getMuiTheme(
+              MUITheme(context.getComponentContext().config),
+              { userAgent: agent },
+            )}
+          >
+            {element}
+            <React.Fragment>
+              <Helmet
+                {...meta(
+                  context.getStore('PreferencesStore').getLanguage(),
+                  req.hostname,
+                  `https://${req.hostname}${req.originalUrl}`,
+                  config,
+                )}
+              />
+            </React.Fragment>
+          </MuiThemeProvider>
+        </ContextProvider>
+      </BreakpointProvider>,
+    );
+
+    const contentWithBreakpoint = `<div id="app" data-initial-breakpoint="${breakpoint}">${content}</div>\n`;
+
+    const relayData = await environment.relaySSRMiddleware.getCache();
 
     const spriteName = config.sprites;
 
@@ -336,48 +325,15 @@ export default function(req, res, next) {
       `<link rel="stylesheet" type="text/css" href="${config.URL.FONT}"/>\n`,
     );
 
-    const networkLayer = getNetworkLayer(config, agent);
+    res.write(`<script>\n${polyfills}\n</script>\n`);
 
-    // Do not block for either async function, but wait them both after each other
-    const polyfillPromise = getPolyfills(agent, config).then(polyfills =>
-      res.write(`<script>\n${polyfills}\n</script>\n`),
-    );
+    const head = Helmet.rewind();
 
-    const contentPromise = IsomorphicRouter.prepareData(
-      renderProps,
-      networkLayer,
-    )
-      .then(relayData => {
-        const content =
-          relayData != null
-            ? getContent(
-                context,
-                relayData.props,
-                locale,
-                req.headers['user-agent'],
-                req,
-              )
-            : undefined;
-
-        const head = Helmet.rewind();
-
-        if (head) {
-          res.write(head.title.toString());
-          res.write(head.meta.toString());
-          res.write(head.link.toString());
-        }
-        return [content, relayData];
-      })
-      .catch(err => {
-        // eslint-disable-next-line no-console
-        console.log(err);
-        return ['', undefined];
-      });
-
-    const [[content, relayData]] = await Promise.all([
-      contentPromise,
-      polyfillPromise,
-    ]);
+    if (head) {
+      res.write(head.title.toString());
+      res.write(head.meta.toString());
+      res.write(head.link.toString());
+    }
 
     res.write('</head>\n');
     res.write('<body>\n');
@@ -397,7 +353,7 @@ export default function(req, res, next) {
       res.write('</div>\n');
     }
 
-    res.write(content || '<div id="app" />');
+    res.write(contentWithBreakpoint || '<div id="app" />');
 
     res.write(
       `<script>\nwindow.state=${serialize(
@@ -405,8 +361,12 @@ export default function(req, res, next) {
       )};\n</script>\n`,
     );
 
-    res.write('<script type="application/json" id="relayData">\n');
-    res.write(relayData != null ? JSON.stringify(relayData.data) : '[]');
+    res.write('<script>\n');
+    res.write(
+      `window.__RELAY_PAYLOADS__ = ${serialize(JSON.stringify(relayData), {
+        isJSON: true,
+      })}`,
+    );
     res.write('\n</script>\n');
 
     if (process.env.NODE_ENV === 'development') {
@@ -428,6 +388,8 @@ export default function(req, res, next) {
     }
     res.write('</body>\n');
     res.write('</html>\n');
-    return res.end();
-  });
+    res.status(status).end();
+  } catch (err) {
+    next(err);
+  }
 }
