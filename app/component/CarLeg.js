@@ -18,12 +18,13 @@ function CarLeg(props, context) {
   const duration = durationToString(props.leg.duration * 1000);
   const firstLegClassName = props.index === 0 ? 'start' : '';
 
-  let carpoolAgencyIcon;
+  const carpoolAgencyIcon = [];
   if (props.leg.mode === 'CARPOOL') {
     if (props.leg.route.agency.gtfsId === 'mfdz:fg') {
-      carpoolAgencyIcon = 'fg_icon';
+      carpoolAgencyIcon[0] = 'fg_icon';
+      carpoolAgencyIcon[1] = 'adac_icon';
     } else if (props.leg.route.agency.gtfsId === 'mfdz:mifaz') {
-      carpoolAgencyIcon = 'mifaz_icon-without-text';
+      carpoolAgencyIcon[0] = 'mifaz_icon-without-text';
     }
   }
 
@@ -58,7 +59,8 @@ function CarLeg(props, context) {
             defaultMessage="Drive {distance} ({duration})}"
           />
           {CarLeg.createBookButton(props.leg)}
-          <Icon img={carpoolAgencyIcon} />
+          <Icon img={carpoolAgencyIcon[0]} className="carpool-agency-logo" />
+          <Icon img={carpoolAgencyIcon[1]} className="carpool-agency-logo" />
         </div>
       </div>
     </div>
