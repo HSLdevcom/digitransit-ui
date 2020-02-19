@@ -202,7 +202,7 @@
     "eslint-plugin-react": "7.12.4",
     "favicons-webpack-plugin": "0.0.9",
     "fetch-mock": "7.3.1",
-    "file-loader": "5.0.2",
+    "file-loader": "5.1.0",
     "gemini": "5.9.1",
     "gemini-browserstack": "1.1.0",
     "git-precommit-checks": "3.0.0",
