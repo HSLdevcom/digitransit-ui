@@ -152,9 +152,7 @@ export default config => {
                   ) {
                     ...SummaryPage_plan
                   }
-                }
 
-                query routes_ServiceTimeRange_Query {
                   serviceTimeRange {
                     ...SummaryPage_serviceTimeRange
                   }
