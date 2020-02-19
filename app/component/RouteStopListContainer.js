@@ -120,7 +120,7 @@ const containerComponent = createRefetchContainer(
       fragment RouteStopListContainer_pattern on Pattern
         @argumentDefinitions(
           currentTime: { type: "Long!", defaultValue: 0 }
-          patternId: { type: "String!" }
+          patternId: { type: "String!", defaultValue: "0" }
         ) {
         directionId
         route {

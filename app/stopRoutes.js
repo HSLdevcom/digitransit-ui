@@ -40,28 +40,30 @@ const queries = {
   },
   station: {
     pageHeader: graphql`
-      query stopRoutes_StopPageHeaderContainer_Query($stationId: String!) {
+      query stopRoutes_StopPageHeaderContainer_station_Query(
+        $stationId: String!
+      ) {
         station(id: $stationId) {
           ...StopPageHeaderContainer_stop
         }
       }
     `,
     pageMap: graphql`
-      query stopRoutes_StopPageMap_Query($stationId: String!) {
+      query stopRoutes_StopPageMap_station_Query($stationId: String!) {
         station(id: $stationId) {
           ...StopPageMap_stop
         }
       }
     `,
     pageMeta: graphql`
-      query stopRoutes_StopPageMeta_Query($stationId: String!) {
+      query stopRoutes_StopPageMeta_station_Query($stationId: String!) {
         station(id: $stationId) {
           ...StopPageMeta_stop
         }
       }
     `,
     pageContent: graphql`
-      query stopRoutes_StopPageTabContainer_Query($stationId: String!) {
+      query stopRoutes_StopPageTabContainer_station_Query($stationId: String!) {
         station(id: $stationId) {
           ...StopPageTabContainer_stop
         }

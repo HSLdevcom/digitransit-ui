@@ -164,7 +164,7 @@ function VehicleMarkerContainer(props) {
           ) : (
             <QueryRenderer
               query={graphql`
-                query VehicleMarkerContainerQuery(
+                query VehicleMarkerContainerFuzzyQuery(
                   $route: String!
                   $direction: Int!
                   $time: Int!
