@@ -247,8 +247,8 @@ export default async function(req, res, next) {
               { userAgent: agent },
             )}
           >
-            {element}
             <React.Fragment>
+              {element}
               <Helmet
                 {...meta(
                   context.getStore('PreferencesStore').getLanguage(),
