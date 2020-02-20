@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import some from 'lodash/some';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { matchShape } from 'found';
+import { matchShape, routerShape } from 'found';
 import { getHomeUrl, parseLocation } from '../util/path';
 import { dtLocationShape } from '../util/shapes';
 import AppBarContainer from './AppBarContainer';
@@ -25,6 +25,7 @@ class TopLevel extends React.Component {
     match: matchShape.isRequired,
     origin: dtLocationShape,
     user: PropTypes.object,
+    router: routerShape,
   };
 
   static contextTypes = {
@@ -42,11 +43,13 @@ class TopLevel extends React.Component {
 
   static childContextTypes = {
     location: PropTypes.object,
+    router: routerShape,
   };
 
   getChildContext() {
     return {
       location: this.props.match.location,
+      router: this.props.router,
     };
   }
 
