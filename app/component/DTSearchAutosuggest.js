@@ -61,7 +61,8 @@ class DTAutosuggest extends React.Component {
     }
   };
 
-  componentWillReceiveProps = nextProps => {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps = nextProps => {
     if (nextProps.value !== this.state.value && !this.state.editing) {
       this.setState({
         value: nextProps.value,

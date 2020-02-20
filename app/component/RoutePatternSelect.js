@@ -52,7 +52,8 @@ class RoutePatternSelect extends Component {
     );
   }
 
-  componentWillMount = () => {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount = () => {
     const options = this.getOptions();
     if (options === null) {
       this.setState({ loading: true });

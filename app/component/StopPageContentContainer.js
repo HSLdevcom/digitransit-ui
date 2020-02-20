@@ -22,7 +22,8 @@ class StopPageContent extends React.Component {
     currentTime: PropTypes.number.isRequired,
   };
 
-  componentWillReceiveProps({ relay, currentTime }) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps({ relay, currentTime }) {
     const currUnix = this.props.currentTime;
     if (currUnix !== currentTime) {
       relay.refetch({ startTime: String(currUnix) }, null);

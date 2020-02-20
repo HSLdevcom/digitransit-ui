@@ -67,21 +67,6 @@ class RouteScheduleContainer extends Component {
     );
   }
 
-  componentWillReceiveProps(nextProps) {
-    // If route has changed, reset state.
-    if (nextProps.pattern.code !== this.props.pattern.code) {
-      this.initState(nextProps, false);
-      nextProps.relay.refetch(
-        {
-          serviceDay: nextProps.serviceDay,
-          code: this.props.pattern.code,
-        },
-        null,
-        () => this.setState({ hasLoaded: true }),
-      );
-    }
-  }
-
   onFromSelectChange = event => {
     const from = Number(event.target.value);
     this.setState(prevState => {
@@ -198,6 +183,22 @@ class RouteScheduleContainer extends Component {
     e.stopPropagation();
     window.print();
   };
+
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    // If route has changed, reset state.
+    if (nextProps.pattern.code !== this.props.pattern.code) {
+      this.initState(nextProps, false);
+      nextProps.relay.refetch(
+        {
+          serviceDay: nextProps.serviceDay,
+          code: this.props.pattern.code,
+        },
+        null,
+        () => this.setState({ hasLoaded: true }),
+      );
+    }
+  }
 
   initState(props, isInitialState) {
     const state = {

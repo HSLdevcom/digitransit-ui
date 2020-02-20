@@ -44,14 +44,6 @@ class TripStopListContainer extends React.PureComponent {
     }
   }
 
-  componentWillReceiveProps({ relay, currentTime }) {
-    const currUnix = this.props.currentTime.unix();
-    const nextUnix = currentTime.unix();
-    if (currUnix !== nextUnix) {
-      relay.forceFetch();
-    }
-  }
-
   componentDidUpdate() {
     if (this.props.breakpoint === 'large' && !this.state.hasScrolled) {
       this.scrollToSelectedTailIcon();
@@ -159,6 +151,15 @@ class TripStopListContainer extends React.PureComponent {
       this.setState({ hasScrolled: true });
     }
   };
+
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps({ relay, currentTime }) {
+    const currUnix = this.props.currentTime.unix();
+    const nextUnix = currentTime.unix();
+    if (currUnix !== nextUnix) {
+      relay.forceFetch();
+    }
+  }
 
   render() {
     return (

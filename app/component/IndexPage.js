@@ -76,13 +76,14 @@ class IndexPage extends React.Component {
     scrollTop();
   }
 
-  componentWillReceiveProps = nextProps => {
-    this.handleLocationProps(nextProps);
-  };
-
   componentWillUnmount() {
     events.removeListener('popupOpened', this.onPopupOpen);
   }
+
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps = nextProps => {
+    this.handleLocationProps(nextProps);
+  };
 
   onPopupOpen = () => {
     this.setState({ mapExpanded: true });

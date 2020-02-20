@@ -106,7 +106,8 @@ class DTAutosuggestPanel extends React.Component {
     };
   }
 
-  componentWillReceiveProps = () => {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps = () => {
     if (this.props.getViaPointsFromMap) {
       this.setState({
         viaPoints: getIntermediatePlaces(this.context.location.query),

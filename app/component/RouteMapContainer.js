@@ -37,7 +37,8 @@ class RouteMapContainer extends React.PureComponent {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.tripId !== nextProps.tripId) {
       this.setState({
         hasCentered: false,

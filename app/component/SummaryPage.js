@@ -147,16 +147,6 @@ class SummaryPage extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (!isEqual(nextProps.match.params.from, this.props.match.params.from)) {
-      this.context.executeAction(storeOrigin, nextProps.match.params.from);
-    }
-
-    if (nextProps.breakpoint === 'large' && this.state.center) {
-      this.setState({ center: null });
-    }
-  }
-
   componentDidUpdate() {
     // const error = get(this.context, 'queryAggregator.readyState.error', null);
     // if (error) {
@@ -176,6 +166,17 @@ class SummaryPage extends React.Component {
   updateCenter = (lat, lon) => {
     this.setState({ center: { lat, lon } });
   };
+
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (!isEqual(nextProps.match.params.from, this.props.match.params.from)) {
+      this.context.executeAction(storeOrigin, nextProps.match.params.from);
+    }
+
+    if (nextProps.breakpoint === 'large' && this.state.center) {
+      this.setState({ center: null });
+    }
+  }
 
   renderMap() {
     const { plan, match } = this.props;

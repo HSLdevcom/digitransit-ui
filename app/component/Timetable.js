@@ -62,7 +62,8 @@ class Timetable extends React.Component {
     };
   }
 
-  componentWillReceiveProps = () => {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps = () => {
     if (this.props.stop.gtfsId !== this.state.oldStopId) {
       this.resetStopOptions(this.props.stop.gtfsId);
     }

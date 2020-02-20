@@ -33,14 +33,6 @@ class RouteStopListContainer extends React.PureComponent {
     }
   }
 
-  componentWillReceiveProps({ relay, currentTime }) {
-    const currUnix = this.props.currentTime.unix();
-    const nextUnix = currentTime.unix();
-    if (currUnix !== nextUnix) {
-      relay.refetch({ currentTime: nextUnix }, null);
-    }
-  }
-
   setNearestStop = element => {
     this.nearestStop = element;
   };
@@ -92,6 +84,15 @@ class RouteStopListContainer extends React.PureComponent {
         />
       );
     });
+  }
+
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps({ relay, currentTime }) {
+    const currUnix = this.props.currentTime.unix();
+    const nextUnix = currentTime.unix();
+    if (currUnix !== nextUnix) {
+      relay.refetch({ currentTime: nextUnix }, null);
+    }
   }
 
   render() {

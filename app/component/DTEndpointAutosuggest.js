@@ -53,7 +53,8 @@ export class DTEndpointAutosuggestComponent extends React.Component {
 
   state = {};
 
-  componentWillReceiveProps = nextProps => {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps = nextProps => {
     const locState = nextProps.locationState;
     // wait until address is set or geolocationing fails
     if (

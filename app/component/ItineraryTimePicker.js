@@ -24,16 +24,6 @@ class ItineraryTimePicker extends React.Component {
     };
   }
 
-  componentWillReceiveProps({ initHours: nextHours, initMin: nextMin }) {
-    const { initHours, initMin } = this.props;
-    if (initHours !== nextHours || initMin !== nextMin) {
-      this.setState({
-        hour: this.padDigits(nextHours),
-        minute: this.padDigits(nextMin),
-      });
-    }
-  }
-
   onChangeHour = e => {
     let val = e.target.value;
 
@@ -140,6 +130,17 @@ class ItineraryTimePicker extends React.Component {
     const testDigit = digit.toString();
     return testDigit.length === 1 ? `0${testDigit}` : testDigit;
   };
+
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps({ initHours: nextHours, initMin: nextMin }) {
+    const { initHours, initMin } = this.props;
+    if (initHours !== nextHours || initMin !== nextMin) {
+      this.setState({
+        hour: this.padDigits(nextHours),
+        minute: this.padDigits(nextMin),
+      });
+    }
+  }
 
   render() {
     const { hour, minute } = this.state;

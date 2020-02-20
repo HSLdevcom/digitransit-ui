@@ -162,7 +162,8 @@ class MapWithTrackingStateHandler extends React.Component {
     }
   }
 
-  componentWillReceiveProps(newProps) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(newProps) {
     if (
       // "current position selected"
       newProps.origin.lat !== null &&

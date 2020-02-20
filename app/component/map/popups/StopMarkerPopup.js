@@ -14,7 +14,8 @@ import mockData from './StopMarkerPopup.mockdata';
 const NUMBER_OF_DEPARTURES = 5;
 
 class StopMarkerPopup extends React.PureComponent {
-  componentWillReceiveProps({ relay, currentTime }) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps({ relay, currentTime }) {
     const currUnix = this.props.currentTime;
     if (currUnix !== currentTime) {
       relay.refetch({ currentTime: currUnix }, null);
