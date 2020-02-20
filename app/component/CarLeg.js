@@ -17,7 +17,16 @@ function CarLeg(props, context) {
   );
   const duration = durationToString(props.leg.duration * 1000);
   const firstLegClassName = props.index === 0 ? 'start' : '';
-  const modeClassName = 'car';
+
+  const carpoolAgencyIcon = [];
+  if (props.leg.mode === 'CARPOOL') {
+    if (props.leg.route.agency.gtfsId === 'mfdz:fg') {
+      carpoolAgencyIcon[0] = 'fg_icon';
+      carpoolAgencyIcon[1] = 'adac_icon';
+    } else if (props.leg.route.agency.gtfsId === 'mfdz:mifaz') {
+      carpoolAgencyIcon[0] = 'mifaz_icon-without-text';
+    }
+  }
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
@@ -28,7 +37,10 @@ function CarLeg(props, context) {
         </div>
         <RouteNumber mode={props.leg.mode.toLowerCase()} vertical />
       </div>
-      <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />
+      <ItineraryCircleLine
+        index={props.index}
+        modeClassName={CarLeg.getModeClassName(props.leg.mode)}
+      />
       <div
         onClick={props.focusAction}
         className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${props.leg.mode.toLowerCase()}`}
@@ -42,10 +54,13 @@ function CarLeg(props, context) {
         </div>
         <div className="itinerary-leg-action">
           <FormattedMessage
-            id="car-distance-duration"
+            id={CarLeg.getTranslationKey(props.leg.mode)}
             values={{ distance, duration }}
             defaultMessage="Drive {distance} ({duration})}"
           />
+          {CarLeg.createBookButton(props.leg)}
+          <Icon img={carpoolAgencyIcon[0]} className="carpool-agency-logo" />
+          <Icon img={carpoolAgencyIcon[1]} className="carpool-agency-logo" />
         </div>
       </div>
     </div>
@@ -76,6 +91,31 @@ CarLeg.description = () => {
   );
 };
 
+CarLeg.getTranslationKey = mode => {
+  if (mode === 'CARPOOL') {
+    return 'carpool-distance-duration';
+  }
+  return 'car-distance-duration';
+};
+
+CarLeg.getModeClassName = mode => {
+  if (mode === 'CARPOOL') {
+    return 'carpool';
+  }
+  return 'car';
+};
+
+CarLeg.createBookButton = leg => {
+  if (leg.route && leg.route.url) {
+    return (
+      <a target="_blank" rel="noopener noreferrer" href={leg.route.url}>
+        <FormattedMessage id="details" defaultMessage="Details" />
+      </a>
+    );
+  }
+  return <span />;
+};
+
 CarLeg.propTypes = {
   leg: PropTypes.shape({
     duration: PropTypes.number.isRequired,
@@ -88,6 +128,7 @@ CarLeg.propTypes = {
       }),
     }).isRequired,
     mode: PropTypes.string.isRequired,
+    route: PropTypes.object,
   }).isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,

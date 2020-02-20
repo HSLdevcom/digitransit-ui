@@ -21,6 +21,8 @@ const maxLat = 48.64040;
 const minLon = 8.78597;
 const maxLon = 8.98613;
 
+const ENABLE_CARPOOL = process.env.ENABLE_CARPOOL === "true";
+
 export default configMerger(walttiConfig, {
   CONFIG,
   URL: {
@@ -56,6 +58,8 @@ export default configMerger(walttiConfig, {
     primary: '#9fc727',
   },
 
+  sprites: 'assets/svg-sprite.hb.svg',
+
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
@@ -81,6 +85,10 @@ export default configMerger(walttiConfig, {
 
   meta: {
     description: APP_DESCRIPTION,
+  },
+
+  modeToOTP: {
+    carpool: 'CARPOOL',
   },
 
   textLogo: true,
@@ -233,8 +241,8 @@ export default configMerger(walttiConfig, {
     },
 
     subway: {
-      availableForSelection: false,
-      defaultValue: false,
+      availableForSelection: true,
+      defaultValue: true,
     },
 
     citybike: {
@@ -248,6 +256,11 @@ export default configMerger(walttiConfig, {
 
     ferry: {
       availableForSelection: false,
+      defaultValue: false,
+    },
+
+    carpool: {
+      availableForSelection: ENABLE_CARPOOL,
       defaultValue: false,
     },
   },

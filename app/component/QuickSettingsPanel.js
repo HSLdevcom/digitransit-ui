@@ -48,6 +48,7 @@ class QuickSettingsPanel extends React.Component {
     toggleFerryState: () => this.toggleTransportMode('ferry'),
     toggleCitybikeState: () => this.toggleTransportMode('citybike'),
     toggleAirplaneState: () => this.toggleTransportMode('airplane'),
+    toggleCarpoolState: () => this.toggleTransportMode('carpool'),
   };
 
   onRequestChange = newState => {

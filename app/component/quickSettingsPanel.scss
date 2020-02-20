@@ -75,6 +75,14 @@
             background-color: $btn-citybike-active-background-color;
           }
         }
+        &.carpool {
+          background-color: $btn-carpool-active-background-color;
+          &:hover,
+          &:active,
+          &:focus {
+            background-color: $btn-carpool-active-background-color;
+          }
+        }
         &:focus {
           opacity: 0.9;
         }
