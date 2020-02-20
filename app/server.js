@@ -144,11 +144,11 @@ const isRobotRequest = agent =>
 
 const RELAY_FETCH_TIMEOUT = process.env.RELAY_FETCH_TIMEOUT || 1000;
 
-function getNetworkLayer(config, agent) {
+function getEnvironment(config, agent) {
   const relaySSRMiddleware = new RelayServerSSR();
   relaySSRMiddleware.debug = false;
 
-  return new RelayNetworkLayer([
+  const layer = new RelayNetworkLayer([
     next => req => next(req).catch(() => ({ payload: { data: null } })),
     relaySSRMiddleware.getMiddleware(),
     retryMiddleware({
@@ -163,6 +163,14 @@ function getNetworkLayer(config, agent) {
     }),
     errorMiddleware(),
   ]);
+
+  const environment = new Environment({
+    network: layer,
+    store: new Store(new RecordSource()),
+  });
+  environment.relaySSRMiddleware = relaySSRMiddleware;
+
+  return environment;
 }
 
 export default async function(req, res, next) {
@@ -185,10 +193,7 @@ export default async function(req, res, next) {
       res.cookie('lang', locale);
     }
 
-    const environment = new Environment({
-      network: getNetworkLayer(config, agent),
-      store: new Store(new RecordSource()),
-    });
+    const environment = getEnvironment(config, agent);
 
     const resolver = new Resolver(environment);
 

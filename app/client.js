@@ -143,6 +143,8 @@ async function init() {
     store: new Store(new RecordSource()),
   });
 
+  environment.relaySSRMiddleware = relaySSRMiddleware;
+
   const resolver = new Resolver(environment);
 
   const routeConfig = makeRouteConfig(app.getComponent());
