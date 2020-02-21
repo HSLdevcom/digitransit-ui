@@ -14,18 +14,21 @@ class PatternStopsContainer extends React.PureComponent {
     }).isRequired,
     match: matchShape.isRequired,
     breakpoint: PropTypes.string.isRequired,
-  };
-
-  static contextTypes = {
     router: routerShape.isRequired,
   };
 
   toggleFullscreenMap = () => {
-    if (some(this.props.match.routes, route => route.fullscreenMap)) {
-      this.context.router.go(-1);
+    if (
+      this.props.match.location.state &&
+      this.props.match.location.state.fullscreenMap === true
+    ) {
+      this.props.router.go(-1);
       return;
     }
-    this.context.router.push(`${this.props.match.location.pathname}/kartta`);
+    this.props.router.push({
+      ...this.props.match.location,
+      state: { ...this.props.match.location.state, fullscreenMap: true },
+    });
   };
 
   render() {
@@ -34,7 +37,10 @@ class PatternStopsContainer extends React.PureComponent {
     }
 
     if (
-      some(this.props.match.routes, route => route.fullscreenMap) &&
+      some(
+        this.props.match.location.state &&
+          this.props.match.location.state.fullscreenMap === true,
+      ) &&
       this.props.breakpoint !== 'large'
     ) {
       return <div className="route-page-content" />;

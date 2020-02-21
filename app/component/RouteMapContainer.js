@@ -4,7 +4,6 @@ import cx from 'classnames';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import some from 'lodash/some';
 
 import Icon from './Icon';
 import MapContainer from './map/MapContainer';
@@ -15,11 +14,8 @@ import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class RouteMapContainer extends React.PureComponent {
-  static contextTypes = {
-    router: routerShape.isRequired, // eslint-disable-line react/no-typos
-  };
-
   static propTypes = {
+    router: routerShape.isRequired,
     match: matchShape.isRequired,
     pattern: PropTypes.object.isRequired,
     tripId: PropTypes.string,
@@ -48,11 +44,11 @@ class RouteMapContainer extends React.PureComponent {
   }
 
   render() {
-    const { router } = this.context;
-    const { pattern, lat, lon, match, tripId, breakpoint } = this.props;
+    const { pattern, lat, lon, match, router, tripId, breakpoint } = this.props;
     const { hasCentered, shouldFitBounds } = this.state;
 
-    const fullscreen = some(match.routes, route => route.fullscreenMap);
+    const fullscreen =
+      match.location.state && match.location.state.fullscreenMap === true;
 
     const [dispLat, dispLon] =
       (!hasCentered && tripId) || (!fullscreen && breakpoint !== 'large')
@@ -79,7 +75,10 @@ class RouteMapContainer extends React.PureComponent {
         router.go(-1);
         return;
       }
-      router.push(`${match.location.pathname}/kartta`);
+      router.push({
+        ...match.location,
+        state: { ...match.location.state, fullscreenMap: true },
+      });
     };
 
     const leafletObjs = [

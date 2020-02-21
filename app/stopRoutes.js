@@ -109,8 +109,6 @@ export default function getStopRoutes(isTerminal = false) {
               query={queryMap.pageContent}
             >
               <Route
-                path="kartta"
-                fullscreenMap
                 getComponent={() =>
                   import(/* webpackChunkName: "stop" */ './component/StopPageContentContainer')
                     .then(getDefault)
@@ -125,9 +123,7 @@ export default function getStopRoutes(isTerminal = false) {
                     .catch(errorLoading)
                 }
                 prepareVariables={prepareServiceDay}
-              >
-                <Route path="kartta" fullscreenMap />
-              </Route>
+              />
               <Route
                 path="linjat"
                 getComponent={() =>
@@ -135,9 +131,7 @@ export default function getStopRoutes(isTerminal = false) {
                     .then(getDefault)
                     .catch(errorLoading)
                 }
-              >
-                <Route path="kartta" fullscreenMap />
-              </Route>
+              />
               <Route
                 path="hairiot"
                 getComponent={() =>
@@ -146,9 +140,7 @@ export default function getStopRoutes(isTerminal = false) {
                     .catch(errorLoading)
                 }
                 prepareVariables={prepareDatesForStops}
-              >
-                <Route path="kartta" fullscreenMap />
-              </Route>
+              />
             </Route>
           ),
           map: (

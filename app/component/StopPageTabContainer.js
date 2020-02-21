@@ -6,7 +6,6 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import { createFragmentContainer, graphql } from 'react-relay';
 import Link from 'found/lib/Link';
 import { matchShape } from 'found';
-import some from 'lodash/some';
 import { AlertSeverityLevelType } from '../constants';
 import Icon from './Icon';
 import {
@@ -45,7 +44,9 @@ const getActiveTab = pathname => {
 function StopPageTabContainer({ children, match, breakpoint, stop }, { intl }) {
   if (
     !stop ||
-    (some(match.routes, 'fullscreenMap') && breakpoint !== 'large')
+    (match.location.state &&
+      match.location.state.fullscreenMap === true &&
+      breakpoint !== 'large')
   ) {
     return null;
   }

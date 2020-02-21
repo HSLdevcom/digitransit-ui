@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import some from 'lodash/some';
 import cx from 'classnames';
 import pure from 'recompose/pure';
 import { matchShape } from 'found';
@@ -20,7 +19,8 @@ function TripStopsContainer({ breakpoint, match, trip }) {
     trip.stoptimesForDate[0].scheduledDeparture,
   );
 
-  const fullscreen = some(match.routes, route => route.fullscreenMap);
+  const fullscreen =
+    match.location.state && match.location.state.fullscreenMap === true;
 
   if (fullscreen && breakpoint !== 'large') {
     return <div className="route-page-content" />;

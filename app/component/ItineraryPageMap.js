@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import get from 'lodash/get';
-import some from 'lodash/some';
 import polyline from 'polyline-encoded';
 import { matchShape, routerShape } from 'found';
 
@@ -72,7 +71,7 @@ function ItineraryPageMap(
       />,
     );
   }
-  const fullscreen = some(match.routes.map(route => route.fullscreenMap));
+  const fullscreen = location.state && location.state.fullscreenMap === true;
 
   const toggleFullscreenMap = () => {
     if (fullscreen) {
@@ -80,7 +79,7 @@ function ItineraryPageMap(
     } else {
       router.push({
         ...location,
-        pathname: `${location.pathname}/kartta`,
+        state: { ...location.state, fullscreenMap: true },
       });
     }
     addAnalyticsEvent({
