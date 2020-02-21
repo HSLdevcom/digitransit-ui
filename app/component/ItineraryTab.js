@@ -25,7 +25,9 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 /* eslint-disable prettier/prettier */
 class ItineraryTab extends React.Component {
   static propTypes = {
-    plan: PropTypes.number.isRequired,
+    plan: PropTypes.shape({
+      date: PropTypes.number.isRequired,
+    }).isRequired,
     itinerary: PropTypes.object.isRequired,
     match: matchShape.object,
     focus: PropTypes.func.isRequired,
@@ -86,13 +88,13 @@ class ItineraryTab extends React.Component {
                 <TimeFrame
                   startTime={itinerary.startTime}
                   endTime={itinerary.endTime}
-                  refTime={plan}
+                  refTime={plan.date}
                   className="timeframe--itinerary-summary"
                 />
               </ItinerarySummary>
             ) : (
               <div className="itinerary-timeframe" key="timeframe">
-                <DateWarning date={itinerary.startTime} refTime={plan} />
+                <DateWarning date={itinerary.startTime} refTime={plan.date} />
               </div>
             ),
             <div className="momentum-scroll itinerary-tabs__scroll" key="legs">
@@ -169,7 +171,7 @@ ItineraryTab.description = (
       <ItineraryTab
         focus={() => {}}
         itinerary={{ ...exampleData.itinerary }}
-        plan={1553845502000}
+        plan={{date: 1553845502000}}
       />
     </div>
   </ComponentUsageExample>
