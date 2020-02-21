@@ -59,8 +59,16 @@ function CarLeg(props, context) {
             defaultMessage="Drive {distance} ({duration})}"
           />
           {CarLeg.createBookButton(props.leg)}
-          <Icon img={carpoolAgencyIcon[0]} className="carpool-agency-logo" />
-          <Icon img={carpoolAgencyIcon[1]} className="carpool-agency-logo" />
+          <Icon
+            img={carpoolAgencyIcon[0]}
+            className="carpool-agency-logo"
+            tooltip={props.leg.route.agency.name}
+          />
+          <Icon
+            img={carpoolAgencyIcon[1]}
+            className="carpool-agency-logo"
+            tooltip="ADAC Mitfahrclub"
+          />
         </div>
       </div>
     </div>
