@@ -49,6 +49,9 @@ $itinerary-tab-switch-height: 48px;
   &.car {
     @include getCircleSvg($car-color, $fill);
   }
+  &.carpool {
+    @include getCircleSvg($carpool-color, $fill);
+  }
   &.via {
     @include getCircleSvg($walk-color, $fill);
   }
@@ -300,6 +303,12 @@ $itinerary-tab-switch-height: 48px;
   color: $medium-gray;
 }
 
+.carpool-agency-logo {
+  position: relative;
+  top: 5px;
+  margin: 2px;
+}
+
 .duration {
   font-weight: $font-weight-bold;
 }
@@ -467,6 +476,9 @@ $itinerary-tab-switch-height: 48px;
       }
       &.car {
         @include setModeCircles($car-color);
+      }
+      &.carpool {
+        @include setModeCircles($carpool-color);
       }
       &.via {
         @include setModeCircles($walk-color);
@@ -671,6 +683,9 @@ $itinerary-tab-switch-height: 48px;
     .itinerary-leg-action {
       margin-top: 12px;
       @extend .itinerary-leg-text-gray;
+      span:first-child {
+        margin-right: 8px;
+      }
     }
 
     .itinerary-leg-intermediate-stops {
