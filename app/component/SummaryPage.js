@@ -7,7 +7,7 @@ import get from 'lodash/get';
 import sortBy from 'lodash/sortBy';
 import polyline from 'polyline-encoded';
 import { FormattedMessage } from 'react-intl';
-import { matchShape, routerShape } from 'found';
+import { matchShape } from 'found';
 import isEqual from 'lodash/isEqual';
 import storeOrigin from '../action/originActions';
 import DesktopView from './DesktopView';
@@ -93,8 +93,6 @@ export function reportError(error) {
 
 class SummaryPage extends React.Component {
   static contextTypes = {
-    router: routerShape.isRequired,
-    location: PropTypes.object.isRequired,
     config: PropTypes.object,
     executeAction: PropTypes.func.isRequired,
     headers: PropTypes.object.isRequired,
@@ -272,7 +270,7 @@ class SummaryPage extends React.Component {
   }
 
   render() {
-    const { location } = this.context;
+    const { match } = this.props;
 
     const hasItineraries =
       this.props.plan && Array.isArray(this.props.plan.itineraries);
@@ -336,7 +334,7 @@ class SummaryPage extends React.Component {
       if (this.state.loading === false && this.props.plan) {
         content = (
           <SummaryPlanContainer
-            activeIndex={getActiveIndex(location, itineraries)}
+            activeIndex={getActiveIndex(match.location, itineraries)}
             plan={this.props.plan}
             serviceTimeRange={serviceTimeRange}
             itineraries={itineraries}
@@ -417,7 +415,7 @@ class SummaryPage extends React.Component {
     } else {
       content = (
         <SummaryPlanContainer
-          activeIndex={getActiveIndex(location, itineraries)}
+          activeIndex={getActiveIndex(match.location, itineraries)}
           plan={this.props.plan}
           serviceTimeRange={serviceTimeRange}
           itineraries={itineraries}

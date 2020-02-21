@@ -129,7 +129,11 @@ AppBarLarge.displayName = 'AppBarLarge';
 AppBarLarge.contextTypes = {
   router: routerShape.isRequired,
   location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+    search: PropTypes.string,
+    hash: PropTypes.string,
     state: PropTypes.object,
+    query: PropTypes.object,
   }).isRequired,
   config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,

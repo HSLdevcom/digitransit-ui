@@ -91,7 +91,10 @@ class RouteStopListContainer extends React.PureComponent {
     const currUnix = this.props.currentTime.unix();
     const nextUnix = currentTime.unix();
     if (currUnix !== nextUnix) {
-      relay.refetch({ currentTime: nextUnix }, null);
+      relay.refetch(
+        { currentTime: nextUnix, patternId: this.props.pattern.code },
+        null,
+      );
     }
   }
 
@@ -152,6 +155,16 @@ const containerComponent = createRefetchContainer(
       }
     `,
   },
+  graphql`
+    query RouteStopListContainerQuery(
+      $patternId: String!
+      $currentTime: Long!
+    ) {
+      pattern(id: $patternId) {
+        ...RouteStopListContainer_pattern @arguments(currentTime: $currentTime)
+      }
+    }
+  `,
 );
 
 export { containerComponent as default, RouteStopListContainer as Component };

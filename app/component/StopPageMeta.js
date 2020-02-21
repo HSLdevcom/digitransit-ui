@@ -10,15 +10,15 @@ import { generateMetaData } from '../util/metaUtils';
 
 const StopPageMeta = compose(
   getContext({ config: PropTypes.object, intl: intlShape }),
-  mapProps(({ config, intl, params, stop }) => {
+  mapProps(({ config, intl, match, stop }) => {
     if (!stop) {
       return false;
     }
 
     const title = intl.formatMessage(
       {
-        id: params.stopId ? 'stop-page.title' : 'terminal-page.title',
-        defaultMessage: params.stopId
+        id: match.params.stopId ? 'stop-page.title' : 'terminal-page.title',
+        defaultMessage: match.params.stopId
           ? 'Stop - {name} {code}'
           : 'Terminal - {name}',
       },
@@ -26,10 +26,10 @@ const StopPageMeta = compose(
     );
     const description = intl.formatMessage(
       {
-        id: params.stopId
+        id: match.params.stopId
           ? 'stop-page.description'
           : 'terminal-page.description',
-        defaultMessage: params.stopId
+        defaultMessage: match.params.stopId
           ? 'Stop - {name} {code}, {desc}'
           : 'Terminal - {name} {code}, {desc}',
       },
