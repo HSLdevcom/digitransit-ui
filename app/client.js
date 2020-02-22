@@ -122,18 +122,18 @@ async function init() {
   const network = new RelayNetworkLayer([
     relaySSRMiddleware.getMiddleware(),
     urlMiddleware({
-      url: `${config.URL.OTP}index/graphql`,
+      url: () => Promise.resolve(`${config.URL.OTP}index/graphql`),
     }),
     batchMiddleware({
-      batchUrl: `${config.URL.OTP}index/graphql/batch`,
+      batchUrl: () => Promise.resolve(`${config.URL.OTP}index/graphql/batch`),
     }),
     retryMiddleware({
       fetchTimeout: config.OTPTimeout + 1000,
     }),
     errorMiddleware(),
-    next => req => {
+    next => async req => {
       // eslint-disable-next-line no-param-reassign
-      req.headers.OTPTimeout = config.OTPTimeout;
+      req.fetchOpts.headers.OTPTimeout = config.OTPTimeout;
       return next(req);
     },
   ]);

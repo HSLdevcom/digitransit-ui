@@ -156,10 +156,10 @@ function getEnvironment(config, agent) {
       retryDelays: [],
     }),
     urlMiddleware({
-      url: `${config.URL.OTP}index/graphql`,
+      url: () => Promise.resolve(`${config.URL.OTP}index/graphql`),
     }),
     batchMiddleware({
-      batchUrl: `${config.URL.OTP}index/graphql/batch`,
+      batchUrl: () => Promise.resolve(`${config.URL.OTP}index/graphql/batch`),
     }),
     errorMiddleware(),
   ]);
