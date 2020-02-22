@@ -18,7 +18,7 @@ class StopMarkerPopup extends React.PureComponent {
   UNSAFE_componentWillReceiveProps({ relay, currentTime }) {
     const currUnix = this.props.currentTime;
     if (currUnix !== currentTime) {
-      relay.refetch({ currentTime: currUnix }, null);
+      relay.refetch({ startTime: currUnix }, null);
     }
   }
 
@@ -68,7 +68,7 @@ const StopMarkerPopupContainer = createRefetchContainer(
     stop: graphql`
       fragment StopMarkerPopup_stop on Stop
         @argumentDefinitions(
-          currentTime: { type: "Long!", defaultValue: 0 }
+          startTime: { type: "Long!", defaultValue: 0 }
           timeRange: { type: "Long!", defaultValue: 43200 }
           numberOfDepartures: { type: "Int!", defaultValue: 5 }
         ) {
@@ -78,7 +78,7 @@ const StopMarkerPopupContainer = createRefetchContainer(
         name
         ...StopCardContainer_stop
           @arguments(
-            currentTime: $currentTime
+            startTime: $startTime
             timeRange: $timeRange
             numberOfDepartures: $numberOfDepartures
           )
@@ -87,7 +87,7 @@ const StopMarkerPopupContainer = createRefetchContainer(
     terminal: graphql`
       fragment StopMarkerPopup_terminal on Stop
         @argumentDefinitions(
-          currentTime: { type: "Long!", defaultValue: 0 }
+          startTime: { type: "Long!", defaultValue: 0 }
           timeRange: { type: "Long!", defaultValue: 3600 }
           numberOfDepartures: { type: "Int!", defaultValue: 15 }
         ) {
@@ -97,7 +97,7 @@ const StopMarkerPopupContainer = createRefetchContainer(
         name
         ...StopCardContainer_stop
           @arguments(
-            currentTime: $currentTime
+            startTime: $startTime
             timeRange: $timeRange
             numberOfDepartures: $numberOfDepartures
           )
