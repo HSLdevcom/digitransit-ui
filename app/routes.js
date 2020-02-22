@@ -21,6 +21,37 @@ export const render = createRender({});
 export default config => {
   return (
     <Route Component={TopLevel}>
+      <Route path="/" topBarOptions={{ disableBackButton: true }}>
+        {{
+          title: (
+            <Route
+              getComponent={() =>
+                import(/* webpackChunkName: "itinerary" */ './component/Title').then(
+                  getDefault,
+                )
+              }
+            />
+          ),
+          content: (
+            <Route
+              getComponent={() =>
+                import(/* webpackChunkName: "itinerary" */ './component/IndexPage').then(
+                  getDefault,
+                )
+              }
+            />
+          ),
+          meta: (
+            <Route
+              getComponent={() =>
+                import(/* webpackChunkName: "itinerary" */ './component/IndexPageMeta').then(
+                  getDefault,
+                )
+              }
+            />
+          ),
+        }}
+      </Route>
       <Route
         path="/styleguide"
         getComponent={() => {
