@@ -32,6 +32,7 @@ class DTAutosuggest extends React.Component {
     searchType: PropTypes.oneOf(['all', 'endpoint', 'search']).isRequired,
     selectedFunction: PropTypes.func.isRequired,
     value: PropTypes.string,
+    relayEnvironment: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -173,7 +174,7 @@ class DTAutosuggest extends React.Component {
           type: this.props.searchType,
           config: this.context.config,
         },
-        getRelayEnvironment,
+        this.props.relayEnvironment,
         searchResult => {
           if (searchResult == null) {
             return;
