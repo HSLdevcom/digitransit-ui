@@ -23,7 +23,7 @@ let timeout;
 
 function ItineraryPageMap(
   { itinerary, from, to, match, center, breakpoint },
-  { router, location },
+  { router },
 ) {
   const leafletObjs = [
     <LocationMarker
@@ -39,9 +39,9 @@ function ItineraryPageMap(
     />,
   ];
 
-  if (location.query && location.query.intermediatePlaces) {
-    if (Array.isArray(location.query.intermediatePlaces)) {
-      location.query.intermediatePlaces
+  if (match.location.query && match.location.query.intermediatePlaces) {
+    if (Array.isArray(match.location.query.intermediatePlaces)) {
+      match.location.query.intermediatePlaces
         .map(otpToLocation)
         .forEach((markerLocation, i) => {
           leafletObjs.push(
@@ -55,7 +55,7 @@ function ItineraryPageMap(
       leafletObjs.push(
         <LocationMarker
           key="via"
-          position={otpToLocation(location.query.intermediatePlaces)}
+          position={otpToLocation(match.location.query.intermediatePlaces)}
         />,
       );
     }
@@ -71,15 +71,16 @@ function ItineraryPageMap(
       />,
     );
   }
-  const fullscreen = location.state && location.state.fullscreenMap === true;
+  const fullscreen =
+    match.location.state && match.location.state.fullscreenMap === true;
 
   const toggleFullscreenMap = () => {
     if (fullscreen) {
       router.go(-1);
     } else {
       router.push({
-        ...location,
-        state: { ...location.state, fullscreenMap: true },
+        ...match.location,
+        state: { ...match.location.state, fullscreenMap: true },
       });
     }
     addAnalyticsEvent({
@@ -164,13 +165,6 @@ ItineraryPageMap.propTypes = {
 };
 
 ItineraryPageMap.contextTypes = {
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
-    search: PropTypes.string,
-    hash: PropTypes.string,
-    state: PropTypes.object,
-    query: PropTypes.object,
-  }).isRequired,
   router: routerShape.isRequired,
 };
 

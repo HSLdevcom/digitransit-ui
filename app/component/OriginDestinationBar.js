@@ -22,7 +22,6 @@ class OriginDestinationBar extends React.Component {
   static propTypes = {
     className: PropTypes.string,
     destination: dtLocationShape,
-    match: matchShape.isRequired,
     origin: dtLocationShape,
   };
 
@@ -30,6 +29,7 @@ class OriginDestinationBar extends React.Component {
     intl: intlShape.isRequired,
     router: routerShape.isRequired,
     getStore: PropTypes.func.isRequired,
+    match: matchShape.isRequired,
   };
 
   static defaultProps = {
@@ -38,12 +38,16 @@ class OriginDestinationBar extends React.Component {
 
   get location() {
     return (
-      this.props.match.location || this.context.router.getCurrentLocation()
+      this.context.match.location || this.context.router.getCurrentLocation()
     );
   }
 
   updateViaPoints = newViaPoints =>
-    setIntermediatePlaces(this.context.router, newViaPoints.map(locationToOtp));
+    setIntermediatePlaces(
+      this.context.router,
+      newViaPoints.map(locationToOtp),
+      this.context.match,
+    );
 
   swapEndpoints = () => {
     const { location } = this;

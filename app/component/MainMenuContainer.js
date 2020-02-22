@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { intlShape } from 'react-intl';
-import { routerShape } from 'found';
+import { matchShape, routerShape } from 'found';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
@@ -11,7 +11,7 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 class MainMenuContainer extends Component {
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
-    location: PropTypes.object.isRequired,
+    match: matchShape.isRequired,
     router: routerShape.isRequired,
     intl: intlShape.isRequired,
     config: PropTypes.object.isRequired,
@@ -36,10 +36,10 @@ class MainMenuContainer extends Component {
 
   getOffcanvasState = () => {
     if (
-      this.context.location.state != null &&
-      this.context.location.state.offcanvasVisible != null
+      this.context.match.location.state != null &&
+      this.context.match.location.state.offcanvasVisible != null
     ) {
-      return this.context.location.state.offcanvasVisible;
+      return this.context.match.location.state.offcanvasVisible;
     }
     // If the state is missing or doesn't have offcanvasVisible, it's not set
     return false;
@@ -56,9 +56,9 @@ class MainMenuContainer extends Component {
 
     if (newState) {
       this.context.router.push({
-        ...this.context.location,
+        ...this.context.match.location,
         state: {
-          ...this.context.location.state,
+          ...this.context.match.location.state,
           offcanvasVisible: newState,
         },
       });

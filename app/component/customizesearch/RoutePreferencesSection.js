@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
-import { routerShape } from 'found';
+import { matchShape, routerShape } from 'found';
 
 import Checkbox from '../Checkbox';
 import {
@@ -16,7 +16,7 @@ import { OptimizeType } from '../../constants';
 
 const RoutePreferencesSection = (
   { optimize, triangleFactors, defaultSettings },
-  { intl, router },
+  { intl, router, match },
 ) => {
   const isAvoidElevationChangesChecked = getAvoidElevationChanges(
     optimize,
@@ -24,9 +24,10 @@ const RoutePreferencesSection = (
   );
   const avoidElevationChangesOnChange = e =>
     e.target.checked
-      ? setAvoidElevationChanges(router, optimize, triangleFactors)
+      ? setAvoidElevationChanges(router, match, optimize, triangleFactors)
       : resetAvoidElevationChanges(
           router,
+          match,
           optimize,
           triangleFactors,
           defaultSettings.optimize,
@@ -38,9 +39,10 @@ const RoutePreferencesSection = (
   );
   const preferGreenwaysOnChange = e =>
     e.target.checked
-      ? setPreferGreenways(router, optimize, triangleFactors)
+      ? setPreferGreenways(router, match, optimize, triangleFactors)
       : resetPreferGreenways(
           router,
+          match,
           optimize,
           triangleFactors,
           defaultSettings.optimize,
@@ -110,6 +112,7 @@ RoutePreferencesSection.contextTypes = {
   config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
   router: routerShape.isRequired,
+  match: matchShape.isRequired,
 };
 
 export default RoutePreferencesSection;

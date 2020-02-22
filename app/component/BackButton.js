@@ -24,7 +24,7 @@ export default class BackButton extends React.Component {
   };
 
   goBack = () => {
-    if (this.context.match.index > 0) {
+    if (this.context.match.location.index > 0) {
       this.context.router.go(-1);
     } else {
       this.context.router.push('/');

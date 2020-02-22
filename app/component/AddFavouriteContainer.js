@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { routerShape } from 'found';
+import { matchShape, routerShape } from 'found';
 import { FormattedMessage, intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import isEmpty from 'lodash/isEmpty';
@@ -41,9 +41,7 @@ class AddFavouriteContainer extends React.Component {
     intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
-    location: PropTypes.shape({
-      pathname: PropTypes.string.isRequired,
-    }).isRequired,
+    match: matchShape.isRequired,
     getStore: PropTypes.func.isRequired,
   };
 
@@ -317,14 +315,14 @@ class AddFavouriteContainer extends React.Component {
 const AddFavouriteContainerWithFavourite = connectToStores(
   AddFavouriteContainer,
   ['FavouriteLocationStore', 'FavouriteStopsStore'],
-  (context, props) => ({
-    favourite: props.location.pathname.includes('pysakki')
+  context => ({
+    favourite: context.match.location.pathname.includes('pysakki')
       ? context
           .getStore('FavouriteStopsStore')
-          .getById(parseInt(props.params.id, 10))
+          .getById(parseInt(context.match.location.params.id, 10))
       : context
           .getStore('FavouriteLocationStore')
-          .getById(parseInt(props.params.id, 10)),
+          .getById(parseInt(context.match.location.params.id, 10)),
   }),
 );
 

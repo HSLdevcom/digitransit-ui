@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Tabs from 'material-ui/Tabs/Tabs';
 import Tab from 'material-ui/Tabs/Tab';
-import { routerShape } from 'found';
+import { matchShape, routerShape } from 'found';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import { FormattedMessage, intlShape } from 'react-intl';
 import SwipeableViews from 'react-swipeable-views';
@@ -24,7 +24,7 @@ export default class MobileItineraryWrapper extends React.Component {
 
   static contextTypes = {
     router: routerShape.isRequired,
-    location: PropTypes.object.isRequired,
+    match: matchShape.isRequired,
     intl: intlShape.isRequired,
   };
 
@@ -58,14 +58,14 @@ export default class MobileItineraryWrapper extends React.Component {
 
   toggleFullscreenMap = () => {
     const fullscreenMap =
-      this.context.location.state &&
-      this.context.location.state.fullscreenMap === true;
+      this.context.match.location.state &&
+      this.context.match.location.state.fullscreenMap === true;
     if (fullscreenMap) {
       this.context.router.go(-1);
     } else {
       this.context.router.push({
-        ...this.context.location,
-        state: { ...this.context.location.state, fullscreenMap: true },
+        ...this.context.match.location,
+        state: { ...this.context.match.location.state, fullscreenMap: true },
       });
     }
     addAnalyticsEvent({
@@ -86,7 +86,7 @@ export default class MobileItineraryWrapper extends React.Component {
     });
 
     this.context.router.replace({
-      ...this.context.location,
+      ...this.context.match,
       pathname: `${getRoutePath(
         this.props.params.from,
         this.props.params.to,
@@ -118,8 +118,8 @@ export default class MobileItineraryWrapper extends React.Component {
     }
 
     const fullscreenMap =
-      this.context.location.state &&
-      this.context.location.state.fullscreenMap === true;
+      this.context.match.location.state &&
+      this.context.match.location.state.fullscreenMap === true;
 
     const swipe = fullscreenMap ? (
       undefined

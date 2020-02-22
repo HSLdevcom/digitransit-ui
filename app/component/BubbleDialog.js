@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import withOutsideClick from 'react-click-outside';
 import { intlShape } from 'react-intl';
-import { routerShape } from 'found';
+import { matchShape, routerShape } from 'found';
 
 import Icon from './Icon';
 import LazilyLoad, { importLazy } from './LazilyLoad';
@@ -37,8 +37,7 @@ class BubbleDialog extends React.Component {
   }
 
   getDialogState = context => {
-    const { router } = context;
-    const location = router.getCurrentLocation();
+    const { location } = context.match;
     return location.state && location.state[this.props.id] === true;
   };
 
@@ -47,8 +46,8 @@ class BubbleDialog extends React.Component {
       return;
     }
     this.setState({ isOpen }, () => {
-      const { router } = this.context;
-      const location = router.getCurrentLocation();
+      const { match, router } = this.context;
+      const { location } = match;
       router.replace({
         ...location,
         state: {
@@ -287,6 +286,7 @@ BubbleDialog.defaultProps = {
 BubbleDialog.contextTypes = {
   intl: intlShape.isRequired,
   router: routerShape.isRequired,
+  match: matchShape.isRequired,
 };
 
 const enhancedComponent = withOutsideClick(

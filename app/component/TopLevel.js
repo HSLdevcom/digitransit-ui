@@ -42,13 +42,13 @@ class TopLevel extends React.Component {
   };
 
   static childContextTypes = {
-    location: PropTypes.object,
     router: routerShape,
+    match: matchShape,
   };
 
   getChildContext() {
     return {
-      location: this.props.match.location,
+      match: this.props.match,
       router: this.props.router,
     };
   }

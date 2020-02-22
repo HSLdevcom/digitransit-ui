@@ -3,7 +3,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { graphql, createFragmentContainer } from 'react-relay';
-import { routerShape } from 'found';
+import { matchShape, routerShape } from 'found';
 import getContext from 'recompose/getContext';
 
 import { FormattedMessage } from 'react-intl';
@@ -56,12 +56,7 @@ class SummaryPlanContainer extends React.Component {
 
   static contextTypes = {
     router: routerShape.isRequired,
-    location: PropTypes.shape({
-      state: PropTypes.shape({
-        summaryPageSelected: PropTypes.number,
-      }),
-      pathname: PropTypes.string.isRequired,
-    }).isRequired,
+    match: matchShape.isRequired,
   };
 
   onSelectActive = index => {
@@ -69,7 +64,7 @@ class SummaryPlanContainer extends React.Component {
       this.onSelectImmediately(index);
     } else {
       this.context.router.replace({
-        ...this.context.location,
+        ...this.context.match.location,
         state: { summaryPageSelected: index },
         pathname: getRoutePath(this.props.params.from, this.props.params.to),
       });
@@ -91,7 +86,7 @@ class SummaryPlanContainer extends React.Component {
           name: 'ItineraryDetailsCollapse',
         });
         this.context.router.replace({
-          ...this.context.location,
+          ...this.context.match.location,
           pathname: getRoutePath(this.props.params.from, this.props.params.to),
         });
       } else {
@@ -105,7 +100,7 @@ class SummaryPlanContainer extends React.Component {
         name: index,
       });
       const newState = {
-        ...this.context.location,
+        ...this.context.match.location,
         state: { summaryPageSelected: index },
       };
       const basePath = getRoutePath(
@@ -162,9 +157,9 @@ class SummaryPlanContainer extends React.Component {
       return;
     }
 
-    if (this.context.location.query.arriveBy !== 'true') {
+    if (this.context.match.location.query.arriveBy !== 'true') {
       // user does not have arrive By
-      replaceQueryParams(this.context.router, {
+      replaceQueryParams(this.context.router, this.context.match, {
         time: latestDepartureTime.unix(),
       });
     } else {
@@ -242,9 +237,9 @@ class SummaryPlanContainer extends React.Component {
       return;
     }
 
-    if (this.context.location.query.arriveBy === 'true') {
+    if (this.context.match.location.query.arriveBy === 'true') {
       // user has arriveBy already
-      replaceQueryParams(this.context.router, {
+      replaceQueryParams(this.context.router, this.context.match, {
         time: earliestArrivalTime.unix(),
       });
     } else {
@@ -315,14 +310,14 @@ class SummaryPlanContainer extends React.Component {
       name: null,
     });
 
-    replaceQueryParams(this.context.router, {
+    replaceQueryParams(this.context.router, this.context.match, {
       time: moment().unix(),
       arriveBy: false, // XXX
     });
   };
 
   render() {
-    const { location } = this.context;
+    const { location } = this.context.match;
     const { from, to } = this.props.params;
     const { activeIndex, currentTime, locationState, itineraries } = this.props;
     const searchTime =
@@ -347,9 +342,7 @@ class SummaryPlanContainer extends React.Component {
           locationState={locationState}
           // error={this.props.error}
           from={otpToLocation(from)}
-          intermediatePlaces={getIntermediatePlaces(
-            this.context.location.query,
-          )}
+          intermediatePlaces={getIntermediatePlaces(location.query)}
           itineraries={itineraries}
           onSelect={this.onSelectActive}
           onSelectImmediately={this.onSelectImmediately}

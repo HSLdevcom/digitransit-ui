@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import inside from 'point-in-polygon';
 import cx from 'classnames';
 import startsWith from 'lodash/startsWith';
+import { matchShape } from 'found';
 
 import ExternalLink from './ExternalLink';
 import Icon from './Icon';
@@ -115,7 +116,7 @@ function ItinerarySummaryListContainer(
     }
   } else {
     const quickOption = matchQuickOption(context);
-    const currentModes = getModes(context.location, context.config);
+    const currentModes = getModes(context.match.location, context.config);
     const modesDefault =
       Object.entries(context.config.transportModes).every(
         ([mode, modeConfig]) =>
@@ -201,7 +202,7 @@ ItinerarySummaryListContainer.defaultProps = {
 
 ItinerarySummaryListContainer.contextTypes = {
   config: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
+  match: matchShape.isRequired,
 };
 
 const containerComponent = createFragmentContainer(

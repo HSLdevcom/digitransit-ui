@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import get from 'lodash/get';
-import { routerShape } from 'found';
+import { matchShape, routerShape } from 'found';
 import { FormattedMessage } from 'react-intl';
 import { withLeaflet } from 'react-leaflet/es/context';
 import updateViaPointsFromMap from '../../action/ViaPointsActions';
@@ -39,13 +38,7 @@ class MarkerPopupBottom extends React.Component {
 
   static contextTypes = {
     router: routerShape.isRequired,
-    location: PropTypes.shape({
-      pathname: PropTypes.string.isRequired,
-      search: PropTypes.string,
-      hash: PropTypes.string,
-      state: PropTypes.object,
-      query: PropTypes.object,
-    }).isRequired,
+    match: matchShape.isRequired,
     getStore: PropTypes.func.isRequired,
     executeAction: PropTypes.func,
   };
@@ -92,13 +85,13 @@ class MarkerPopupBottom extends React.Component {
     });
     const locationWithTime = withCurrentTime(
       this.context.getStore,
-      this.context.location,
+      this.context.match.location,
     );
 
-    const pathName = get(this.context, 'location.pathname');
-    const [, context] = pathName.split('/');
+    const { pathname } = this.context.match.location;
+    const [, context] = pathname.split('/');
 
-    const destination = this.getDestination(pathName, context);
+    const destination = this.getDestination(pathname, context);
 
     this.props.leaflet.map.closePopup();
     navigateTo({
@@ -119,13 +112,13 @@ class MarkerPopupBottom extends React.Component {
     });
     const locationWithTime = withCurrentTime(
       this.context.getStore,
-      this.context.location,
+      this.context.match.location,
     );
 
-    const pathName = get(this.context, 'location.pathname');
-    const [, context] = pathName.split('/');
+    const { pathname } = this.context.match.location;
+    const [, context] = pathname.split('/');
 
-    const origin = this.getOrigin(pathName, context);
+    const origin = this.getOrigin(pathname, context);
 
     this.props.leaflet.map.closePopup();
     navigateTo({
@@ -144,12 +137,12 @@ class MarkerPopupBottom extends React.Component {
       category: 'ItinerarySettings',
       name: 'MapPopup',
     });
-    const viaPoints = getIntermediatePlaces(this.context.location.query)
+    const viaPoints = getIntermediatePlaces(this.context.match.location.query)
       .concat([this.props.location])
       .map(locationToOtp);
     this.props.leaflet.map.closePopup();
 
-    setIntermediatePlaces(this.context.router, viaPoints);
+    setIntermediatePlaces(this.context.router, viaPoints, this.context.match);
     this.context.executeAction(updateViaPointsFromMap, true);
   };
 
@@ -163,8 +156,9 @@ class MarkerPopupBottom extends React.Component {
             defaultMessage="Route from here"
           />
         </div>
-        {this.context.location.pathname.startsWith('/reitti/') &&
-          getIntermediatePlaces(this.context.location.query).length < 5 && (
+        {this.context.match.location.pathname.startsWith('/reitti/') &&
+          getIntermediatePlaces(this.context.match.location.query).length <
+            5 && (
             <div
               onClick={() => this.routeAddViaPoint()}
               className="route cursor-pointer route-add-viapoint"

@@ -4,6 +4,7 @@ import Snackbar from 'material-ui/Snackbar';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { matchShape } from 'found';
 
 import {
   setCustomizedSettings,
@@ -21,9 +22,7 @@ class SaveCustomizedSettingsButton extends React.Component {
 
   static contextTypes = {
     config: PropTypes.object.isRequired,
-    location: PropTypes.shape({
-      query: PropTypes.object.isRequired,
-    }).isRequired,
+    match: matchShape.isRequired,
   };
 
   constructor(props) {
@@ -42,11 +41,11 @@ class SaveCustomizedSettingsButton extends React.Component {
       name: 'SaveSettings',
     });
 
-    const querySettings = getQuerySettings(this.context.location.query);
+    const querySettings = getQuerySettings(this.context.match.location.query);
     const customizedSettings = getCustomizedSettings();
     const currentSettings = getCurrentSettings(
       this.context.config,
-      this.context.location.query,
+      this.context.match.location.query,
     );
     const defaultSettings = getDefaultSettings(this.context.config);
 

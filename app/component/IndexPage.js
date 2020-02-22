@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import cx from 'classnames';
-import { routerShape } from 'found';
+import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
 import isEqual from 'lodash/isEqual';
@@ -37,19 +37,13 @@ const debug = d('IndexPage.js');
 
 class IndexPage extends React.Component {
   static contextTypes = {
-    location: PropTypes.shape({
-      pathname: PropTypes.string.isRequired,
-      search: PropTypes.string,
-      hash: PropTypes.string,
-      state: PropTypes.object,
-      query: PropTypes.object,
-    }).isRequired,
-    router: routerShape.isRequired,
     config: PropTypes.object.isRequired,
     executeAction: PropTypes.func.isRequired,
   };
 
   static propTypes = {
+    match: matchShape.isRequired,
+    router: routerShape.isRequired,
     autoSetOrigin: PropTypes.bool,
     breakpoint: PropTypes.string.isRequired,
     origin: dtLocationShape.isRequired,
@@ -101,22 +95,22 @@ class IndexPage extends React.Component {
         origin: nextProps.origin,
         destination: nextProps.destination,
         context: '/',
-        router: this.context.router,
+        router: this.props.router,
         base: {},
       });
     }
   };
 
-  renderStreetModeSelector = (config, router) => (
+  renderStreetModeSelector = (config, router, match) => (
     <SelectStreetModeDialog
-      selectedStreetMode={ModeUtils.getStreetMode(router.location, config)}
+      selectedStreetMode={ModeUtils.getStreetMode(match.location, config)}
       selectStreetMode={(streetMode, isExclusive) => {
         addAnalyticsEvent({
           category: 'ItinerarySettings',
           action: 'SelectTravelingModeFromIndexPage',
           name: streetMode,
         });
-        ModeUtils.setStreetMode(streetMode, config, router, isExclusive);
+        ModeUtils.setStreetMode(streetMode, config, router, match, isExclusive);
       }}
       streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
     />
@@ -126,8 +120,8 @@ class IndexPage extends React.Component {
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
-    const { config, router } = this.context;
-    const { breakpoint, destination, origin } = this.props;
+    const { config } = this.context;
+    const { breakpoint, destination, origin, router, match } = this.props;
     const { mapExpanded } = this.state;
 
     return breakpoint === 'large' ? (
@@ -155,7 +149,7 @@ class IndexPage extends React.Component {
           destination={destination}
           renderCustomButtons={() => (
             <React.Fragment>
-              {this.renderStreetModeSelector(config, router)}
+              {this.renderStreetModeSelector(config, router, match)}
               {this.renderMapLayerSelector()}
             </React.Fragment>
           )}
@@ -187,7 +181,7 @@ class IndexPage extends React.Component {
             destination={destination}
             renderCustomButtons={() => (
               <React.Fragment>
-                {this.renderStreetModeSelector(config, router)}
+                {this.renderStreetModeSelector(config, router, match)}
                 {this.renderMapLayerSelector()}
               </React.Fragment>
             )}
@@ -277,7 +271,7 @@ const IndexPageWithPosition = connectToStores(
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
 
-    const { from, to } = props.params;
+    const { from, to } = props.match.params;
 
     const newProps = {};
 
@@ -319,7 +313,7 @@ const IndexPageWithPosition = connectToStores(
             origin: newProps.origin,
             destination: newProps.destination,
             context: '/',
-            router: context.router,
+            router: props.router,
             base: {},
           });
         }
@@ -333,14 +327,6 @@ const IndexPageWithPosition = connectToStores(
 
 IndexPageWithPosition.contextTypes = {
   ...IndexPageWithPosition.contextTypes,
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
-    search: PropTypes.string,
-    hash: PropTypes.string,
-    state: PropTypes.object,
-    query: PropTypes.object,
-  }).isRequired,
-  router: routerShape.isRequired,
   executeAction: PropTypes.func.isRequired,
   intl: intlShape,
 };

@@ -11,7 +11,6 @@ class PreferredRoutes extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
     router: routerShape.isRequired,
-    location: PropTypes.object.isRequired,
     config: PropTypes.object.isRequired,
   };
 

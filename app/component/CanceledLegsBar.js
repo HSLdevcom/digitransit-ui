@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { routerShape } from 'found';
+import { matchShape, routerShape } from 'found';
 import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 import { replaceQueryParams } from '../util/queryUtils';
@@ -10,7 +10,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 class CanceledLegsBar extends React.Component {
   static contextTypes = {
     router: routerShape.isRequired,
-    location: PropTypes.object.isRequired,
+    match: matchShape.isRequired,
   };
 
   static propTypes = {
@@ -22,7 +22,11 @@ class CanceledLegsBar extends React.Component {
   };
 
   fetchNewRoute = () => {
-    replaceQueryParams(this.context.router, this.context.location.query);
+    replaceQueryParams(
+      this.context.router,
+      this.context.match,
+      this.context.match.location.query,
+    );
   };
 
   render() {

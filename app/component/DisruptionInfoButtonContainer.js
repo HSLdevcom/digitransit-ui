@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { graphql, QueryRenderer } from 'react-relay';
-import { routerShape } from 'found';
+import { matchShape, routerShape } from 'found';
 import DisruptionInfoButton from './DisruptionInfoButton';
 import { isBrowser } from '../util/browser';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -9,14 +9,14 @@ import getRelayEnvironment from '../util/getRelayEnvironment';
 
 function DisruptionInfoButtonContainer(
   outerProps,
-  { router, location, config: { feedIds } },
+  { router, match, config: { feedIds } },
 ) {
   if (isBrowser) {
     const openDisruptionInfo = () => {
       router.push({
-        ...location,
+        ...match.location,
         state: {
-          ...location.state,
+          ...match.location.state,
           disruptionInfoOpen: true,
         },
       });
@@ -54,13 +54,7 @@ function DisruptionInfoButtonContainer(
 
 DisruptionInfoButtonContainer.contextTypes = {
   router: routerShape.isRequired,
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
-    search: PropTypes.string,
-    hash: PropTypes.string,
-    state: PropTypes.object,
-    query: PropTypes.object,
-  }).isRequired,
+  match: matchShape.isRequired,
   config: PropTypes.shape({
     feedIds: PropTypes.arrayOf(PropTypes.string.isRequired),
   }).isRequired,

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { graphql, QueryRenderer } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
-import { routerShape } from 'found';
+import { matchShape, routerShape } from 'found';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import Loading from './Loading';
 import DisruptionListContainer from './DisruptionListContainer';
@@ -16,7 +16,9 @@ function DisruptionInfo({ relayEnvironment }, context) {
   }
 
   const isOpen = () =>
-    context.location.state ? context.location.state.disruptionInfoOpen : false;
+    context.match.location.state
+      ? context.match.location.state.disruptionInfoOpen
+      : false;
   if (!isOpen()) {
     return null;
   }
@@ -26,9 +28,9 @@ function DisruptionInfo({ relayEnvironment }, context) {
       context.router.go(-1);
     } else {
       context.router.push({
-        ...context.location,
+        ...context.match,
         state: {
-          ...context.location.state,
+          ...context.match.location.state,
           disruptionInfoOpen: true,
         },
       });
@@ -80,13 +82,7 @@ function DisruptionInfo({ relayEnvironment }, context) {
 
 DisruptionInfo.contextTypes = {
   router: routerShape.isRequired, // eslint-disable-line react/no-typos
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
-    search: PropTypes.string,
-    hash: PropTypes.string,
-    state: PropTypes.object,
-    query: PropTypes.object,
-  }).isRequired,
+  match: matchShape.isRequired,
   config: PropTypes.shape({
     feedIds: PropTypes.arrayOf(PropTypes.string.isRequired),
   }).isRequired,
