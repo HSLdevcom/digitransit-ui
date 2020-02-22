@@ -19,7 +19,7 @@ export default (
       <Route path="pysakit">
         <Redirect to=":routeId%3A0%3A01" />
         {/* Redirect to first pattern of route */}
-        <Route path=":patternId" prepareVariables={prepareServiceDay}>
+        <Route path=":patternId">
           {{
             title: (
               <Route
@@ -64,12 +64,16 @@ export default (
                   )
                 }
                 query={graphql`
-                  query routeRoutes_RoutePage_Query($routeId: String!) {
+                  query routeRoutes_RoutePage_Query(
+                    $routeId: String!
+                    $date: String!
+                  ) {
                     route(id: $routeId) {
-                      ...RoutePage_route
+                      ...RoutePage_route @arguments(date: $date)
                     }
                   }
                 `}
+                prepareVariables={prepareServiceDay}
               />
             ),
             map: [

@@ -398,7 +398,7 @@ const containerComponent = createFragmentContainer(withBreakpoint(RoutePage), {
       mode
       type
       ...RouteAgencyInfo_route
-      ...RoutePatternSelect_route
+      ...RoutePatternSelect_route @arguments(date: $date)
       alerts {
         alertSeverityLevel
         effectiveEndDate
