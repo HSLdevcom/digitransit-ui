@@ -26,7 +26,9 @@ class StopPageContent extends React.Component {
   UNSAFE_componentWillReceiveProps({ relay, currentTime }) {
     const currUnix = this.props.currentTime;
     if (currUnix !== currentTime) {
-      relay.refetch({ startTime: String(currUnix) }, null);
+      relay.refetch(oldVariables => {
+        return { ...oldVariables, startTime: currentTime };
+      });
     }
   }
 
@@ -92,6 +94,23 @@ const connectedComponent = createRefetchContainer(
       }
     `,
   },
+  graphql`
+    query StopPageContentContainerQuery(
+      $stopId: String!
+      $startTime: Long!
+      $timeRange: Int!
+      $numberOfDepartures: Int!
+    ) {
+      stop(id: $stopId) {
+        ...StopPageContentContainer_stop
+          @arguments(
+            startTime: $startTime
+            timeRange: $timeRange
+            numberOfDepartures: $numberOfDepartures
+          )
+      }
+    }
+  `,
 );
 
 export { connectedComponent as default, StopPageContent as Component };

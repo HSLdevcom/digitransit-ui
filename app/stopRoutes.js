@@ -30,10 +30,46 @@ const queries = {
         }
       }
     `,
-    pageContent: graphql`
-      query stopRoutes_StopPageTabContainer_Query($stopId: String!) {
+    pageTab: graphql`
+      query stopRoutes_StopPageTab_Query($stopId: String!) {
         stop(id: $stopId) {
           ...StopPageTabContainer_stop
+        }
+      }
+    `,
+    pageContent: graphql`
+      query stopRoutes_StopPageContent_Query($stopId: String!) {
+        stop(id: $stopId) {
+          ...StopPageContentContainer_stop
+        }
+      }
+    `,
+    pageTimetable: graphql`
+      query stopRoutes_StopPageTimetable_Query(
+        $stopId: String!
+        $date: String!
+      ) {
+        stop(id: $stopId) {
+          ...TimetablePage_stop @arguments(date: $date)
+        }
+      }
+    `,
+    pageRoutes: graphql`
+      query stopRoutes_StopPageRoutes_Query($stopId: String!) {
+        stop(id: $stopId) {
+          ...RoutesAndPlatformsForStops_stop
+        }
+      }
+    `,
+    pageAlerts: graphql`
+      query stopRoutes_StopPageAlerts_Query(
+        $stopId: String!
+        $date: String!
+        $startTime: Long!
+      ) {
+        stop(id: $stopId) {
+          ...StopAlertsContainer_stop
+            @arguments(date: $date, startTime: $startTime)
         }
       }
     `,
@@ -62,10 +98,48 @@ const queries = {
         }
       }
     `,
-    pageContent: graphql`
+    pageTab: graphql`
       query stopRoutes_StopPageTabContainer_station_Query($stationId: String!) {
         station(id: $stationId) {
           ...StopPageTabContainer_stop
+        }
+      }
+    `,
+    pageContent: graphql`
+      query stopRoutes_StopPageContentContainer_station_Query(
+        $stationId: String!
+      ) {
+        station(id: $stationId) {
+          ...StopPageContentContainer_stop
+        }
+      }
+    `,
+    pageTimetable: graphql`
+      query stopRoutes_StopPageTimetable_station_Query(
+        $stationId: String!
+        $date: String!
+      ) {
+        station(id: $stationId) {
+          ...TimetablePage_stop @arguments(date: $date)
+        }
+      }
+    `,
+    pageRoutes: graphql`
+      query stopRoutes_StopPageRoutes_station_Query($stationId: String!) {
+        station(id: $stationId) {
+          ...RoutesAndPlatformsForStops_stop
+        }
+      }
+    `,
+    pageAlerts: graphql`
+      query stopRoutes_StopPageAlerts_station_Query(
+        $stationId: String!
+        $date: String!
+        $startTime: Long!
+      ) {
+        station(id: $stationId) {
+          ...StopAlertsContainer_stop
+            @arguments(date: $date, startTime: $startTime)
         }
       }
     `,
@@ -106,14 +180,16 @@ export default function getStopRoutes(isTerminal = false) {
                   getDefault,
                 )
               }
-              query={queryMap.pageContent}
+              query={queryMap.pageTab}
             >
               <Route
+                path="/"
                 getComponent={() =>
                   import(/* webpackChunkName: "stop" */ './component/StopPageContentContainer')
                     .then(getDefault)
                     .catch(errorLoading)
                 }
+                query={queryMap.pageContent}
               />
               <Route
                 path="aikataulu"
@@ -122,6 +198,7 @@ export default function getStopRoutes(isTerminal = false) {
                     .then(getDefault)
                     .catch(errorLoading)
                 }
+                query={queryMap.pageTimetable}
                 prepareVariables={prepareServiceDay}
               />
               <Route
@@ -131,6 +208,7 @@ export default function getStopRoutes(isTerminal = false) {
                     .then(getDefault)
                     .catch(errorLoading)
                 }
+                query={queryMap.pageRoutes}
               />
               <Route
                 path="hairiot"
@@ -139,6 +217,7 @@ export default function getStopRoutes(isTerminal = false) {
                     .then(getDefault)
                     .catch(errorLoading)
                 }
+                query={queryMap.pageAlerts}
                 prepareVariables={prepareDatesForStops}
               />
             </Route>
