@@ -19,6 +19,7 @@ const StopCardContainer = connectToStores(
         isTerminal={props.isTerminal}
         isPopUp={props.isPopUp}
         showPlatformCodes
+        currentTime={props.currentTime}
       />
     ),
   }),
