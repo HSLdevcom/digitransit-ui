@@ -423,7 +423,13 @@ class DTAutosuggestPanel extends React.Component {
                 </div>
                 <DTEndpointAutosuggest
                   icon="mapMarker-via"
-                  id={`viapoint ${i + 1}`}
+                  id="viapoint"
+                  ariaLabel={this.context.intl.formatMessage(
+                    {
+                      id: 'via-point-index',
+                    },
+                    { index: i + 1 },
+                  )}
                   autoFocus={
                     // Disable autofocus if using IE11
                     isIe ? false : breakpoint === 'large'
