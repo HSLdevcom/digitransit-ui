@@ -156,6 +156,7 @@ class TileLayerContainer extends GridLayer {
       done,
       this.props,
       this.context.config,
+      this.context.relayEnvironment,
     );
 
     tile.onSelectableTargetClicked = (

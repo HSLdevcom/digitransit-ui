@@ -34,8 +34,8 @@ class Stops {
     tile,
     config,
     mapLayers,
-    getCurrentTime = () => new Date().getTime(),
     relayEnvironment,
+    getCurrentTime = () => new Date().getTime(),
   ) {
     this.tile = tile;
     this.config = config;
