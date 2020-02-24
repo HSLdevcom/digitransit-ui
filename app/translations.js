@@ -662,13 +662,16 @@ const translations = {
       'Close stop duration selector at via point {index}',
     'add-via-duration-button-label-open':
       'Open stop duration selector at via point {index}',
+    'arrive-leave': 'Arrive or leave at selected time',
     'search-autosuggest-label':
       'Venue, place and stopsearch. Navigate list with arrow keys and select with enter key',
-    'search-autosuggest-len': ' There are {len} Suggestions available',
+    'search-autosuggest-len': 'There are {len} Suggestions available',
+    'select-date': 'Select date',
     'set-time-earlier-button-label': 'Set travel time to earlier',
     'set-time-later-button-label': 'Set travel time to later',
     'set-time-now-button-label': 'Set travel time to current',
     'time-navigation-buttons': 'Time navigation buttons',
+    'time-selector-form': 'Edit time',
     // eslint-disable-next-line sort-keys
     address: 'Address',
     'address-or-stop': 'Address or stop',
@@ -900,7 +903,7 @@ const translations = {
     'no-favourite-locations':
       'Add your most used locations here. The buttons will plan your route straight away.',
     'no-favourites':
-      'Use the star buttons to add routes or stops to your favorites. Your favorites are shown on this page.',
+      'Use star button to add routes to your favorites. Your favorite routes are shown on this page.',
     'no-position': 'No location',
     'no-position-no-stops':
       'Your location is not available. We are unable to show the closest stops.',
@@ -1474,6 +1477,7 @@ const translations = {
     'add-location-to-favourites':
       'Lisää sinulle tärkeä paikka Suosikkisi-välilehdelle',
     'add-via-button-label': 'Lisää välipiste',
+    'arrive-leave': 'Saavu tai lähde valittuna aikana',
     'search-autosuggest-label':
       'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
     'search-autosuggest-len': ' Löydettiin {len} ehdotusta',
@@ -1484,10 +1488,12 @@ const translations = {
       'Avaa välipisteen {index} pysähdyksen kesto valitsin',
     'add-via-duration-button-label-open':
       'Sulje välipisteen {index} pysähdyksen kesto valitsin',
+    'select-date': 'Valitse päivä',
     'set-time-earlier-button-label': 'Aikaista matkustusajankohtaa',
     'set-time-later-button-label': 'Myöhäistä matkustusajankohtaa',
     'set-time-now-button-label': 'Aseta matkustusajankohdaksi nyt',
     'time-navigation-buttons': 'Matkustusajankohdan muokkausnapit',
+    'time-selector-form': 'Muokkaa Matkustusajankohtaa',
     // eslint-disable-next-line sort-keys
     address: 'Osoite',
     'address-or-stop': 'Osoite tai pysäkki',
@@ -1716,7 +1722,7 @@ const translations = {
     'no-favourite-locations':
       'Lisää tähän usein käyttämäsi paikat. Painikkeet toimivat suorina linkkeinä reititykseen.',
     'no-favourites':
-      'Tähti-painikkeella saat lisättyä linjan tai pysäkin suosikiksesi. Suosikkiesi aikataulut näkyvät etäisyyden mukaan tällä sivulla.',
+      'Tähti-painikkeella saat lisättyä linjan suosikiksesi. Suosikkilinjojesi aikataulut näkyvät etäisyyden mukaan tällä sivulla.',
     'no-position': 'Ei sijaintia',
     'no-position-no-stops':
       'Sijaintisi ei ole tiedossa, joten emme voi näyttää lähimpiä pysäkkejä.',
@@ -2607,13 +2613,16 @@ const translations = {
       'Stäng väljaren för varaktighet vid via-punkten',
     'add-via-duration-button-label-open':
       'Öppna väljaren för varaktighet vid via-punkten',
+    'arrive-leave': 'Anländer eller lämnar vid vald tid',
     'search-autosuggest-label':
       'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
     'search-autosuggest-len': 'Hittade {len} förslag',
+    'select-date': 'Välj datum',
     'set-time-earlier-button-label': 'Ställ in restid till tidigare',
     'set-time-later-button-label': 'Ställ in restid till senare',
     'set-time-now-button-label': 'Ställ in restid till nu',
     'time-navigation-buttons': 'Tidsnavigeringsknappar',
+    'time-selector-form': 'Redigera tid',
     // eslint-disable-next-line sort-keys
     address: 'Adress',
     'address-or-stop': 'Adress eller hållplats',
@@ -2846,7 +2855,7 @@ const translations = {
     'no-favourite-locations':
       'Lägg till dina oftast använda platser här. Knapparna för dig rakt till reseplanen.',
     'no-favourites':
-      'Genom att klicka på stjärnan kan du lägga till en linje eller hållplats till dina favoriter. Dina favoriter syns på den här sidan.',
+      'Använd stjärnknappen för att lägga till rutter till dina favoriter. Dina favoritrutter visas på den här sidan.',
     'no-position': 'Ingen position',
     'no-position-no-stops':
       'De närmaste hållplatserna kan inte visas, eftersom din position inte är känd.',

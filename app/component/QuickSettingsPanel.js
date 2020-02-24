@@ -186,6 +186,10 @@ class QuickSettingsPanel extends React.Component {
           />
           <div className="select-wrapper">
             <select
+              aria-label={this.context.intl.formatMessage({
+                id: 'arrive-leave',
+                defaultMessage: 'Arrive or leave at selected time',
+              })}
               className="arrive"
               value={arriveBy}
               onChange={this.setArriveBy}

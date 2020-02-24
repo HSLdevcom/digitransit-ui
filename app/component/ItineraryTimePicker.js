@@ -145,7 +145,14 @@ class ItineraryTimePicker extends React.Component {
     const { hour, minute } = this.state;
     return (
       <div className="time-input-container time-selector">
-        <form id="time" onBlur={this.handleBlur}>
+        <form
+          aria-label={this.context.intl.formatMessage({
+            id: 'time-selector-form',
+            defaultMessage: 'Edit time',
+          })}
+          id="time"
+          onBlur={this.handleBlur}
+        >
           <input
             type="tel"
             id="inputHours"
