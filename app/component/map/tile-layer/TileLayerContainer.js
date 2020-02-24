@@ -53,7 +53,6 @@ class TileLayerContainer extends GridLayer {
     intl: intlShape.isRequired,
     config: PropTypes.object.isRequired,
     relayEnvironment: PropTypes.object.isRequired,
-    store: PropTypes.object.isRequired,
   };
 
   PopupOptions = {
