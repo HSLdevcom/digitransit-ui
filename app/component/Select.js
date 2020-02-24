@@ -17,6 +17,7 @@ class Select extends React.Component {
           .isRequired,
       }).isRequired,
     ).isRequired,
+    ariaLabel: PropTypes.string,
   };
 
   static defaultProps = {
@@ -42,6 +43,7 @@ class Select extends React.Component {
         <select
           onChange={this.props.onSelectChange}
           value={this.props.selected}
+          aria-label={this.props.ariaLabel}
         >
           {Select.getOptionTags(this.props.options)}
         </select>

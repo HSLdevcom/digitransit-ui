@@ -424,6 +424,12 @@ class DTAutosuggestPanel extends React.Component {
                 <DTEndpointAutosuggest
                   icon="mapMarker-via"
                   id="viapoint"
+                  ariaLabel={this.context.intl.formatMessage(
+                    {
+                      id: 'via-point-index',
+                    },
+                    { index: i + 1 },
+                  )}
                   autoFocus={
                     // Disable autofocus if using IE11
                     isIe ? false : breakpoint === 'large'
@@ -440,20 +446,6 @@ class DTAutosuggestPanel extends React.Component {
                 />
                 <div className="via-point-button-container">
                   <ItinerarySearchControl
-                    className="remove-via-point"
-                    enabled={isItinerary}
-                    onClick={() => this.handleRemoveViaPointClick(i)}
-                    onKeyPress={e =>
-                      isKeyboardSelectionEvent(e) &&
-                      this.handleRemoveViaPointClick(i)
-                    }
-                    aria-label={this.context.intl.formatMessage({
-                      id: 'remove-via-button-label',
-                    })}
-                  >
-                    <Icon img="icon-icon_close" />
-                  </ItinerarySearchControl>
-                  <ItinerarySearchControl
                     className="add-via-point-slack"
                     enabled={isItinerary}
                     onClick={() => this.handleToggleViaPointSlackClick(i)}
@@ -461,9 +453,14 @@ class DTAutosuggestPanel extends React.Component {
                       isKeyboardSelectionEvent(e) &&
                       this.handleToggleViaPointSlackClick(i)
                     }
-                    aria-label={this.context.intl.formatMessage({
-                      id: 'add-via-duration-button-label',
-                    })}
+                    aria-label={this.context.intl.formatMessage(
+                      {
+                        id: isViaPointSlackTimeInputActive(i)
+                          ? 'add-via-duration-button-label-open'
+                          : 'add-via-duration-button-label-close',
+                      },
+                      { index: i + 1 },
+                    )}
                   >
                     <Icon img="icon-icon_time" />
                     <Icon
@@ -475,6 +472,23 @@ class DTAutosuggestPanel extends React.Component {
                             defaultSlackTimeValue,
                       })}
                     />
+                  </ItinerarySearchControl>
+                  <ItinerarySearchControl
+                    className="remove-via-point"
+                    enabled={isItinerary}
+                    onClick={() => this.handleRemoveViaPointClick(i)}
+                    onKeyPress={e =>
+                      isKeyboardSelectionEvent(e) &&
+                      this.handleRemoveViaPointClick(i)
+                    }
+                    aria-label={this.context.intl.formatMessage(
+                      {
+                        id: 'remove-via-button-label',
+                      },
+                      { index: i + 1 },
+                    )}
+                  >
+                    <Icon img="icon-icon_close" />
                   </ItinerarySearchControl>
                 </div>
               </div>
@@ -495,6 +509,10 @@ class DTAutosuggestPanel extends React.Component {
                     onSelectChange={e =>
                       this.handleViaPointSlackTimeSelected(e.target.value, i)
                     }
+                    ariaLabel={this.context.intl.formatMessage(
+                      { id: 'add-via-duration-button-label' },
+                      { index: i + 1 },
+                    )}
                   />
                   <Icon
                     className="fake-select-arrow"

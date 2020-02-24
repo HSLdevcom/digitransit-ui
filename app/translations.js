@@ -245,6 +245,7 @@ const translations = {
     'very-unlikely': 'Lidt sandsynlig',
     'via-leg-stop-duration': 'Viapunkt {stayDuration}',
     'via-point': 'Viapunkt',
+    'via-point-index': 'Viapunkt {index}',
     wait: 'Vent',
     'wait-amount-of-time': 'Vent {duration}',
     walk: 'gå',
@@ -627,6 +628,7 @@ const translations = {
     'very-unlikely': 'Sehr unwahrscheinlich',
     'via-leg-stop-duration': 'Am Zwischenstopp {stayDuration}',
     'via-point': 'Zwischenstopp',
+    'via-point-index': 'Zwischenstopp {index}',
     'viapoint-slack-amount': 'Aufenthalt am Zwischenstopp',
     'view-route': 'Route anzeigen',
     wait: 'Wartezeit',
@@ -655,7 +657,11 @@ const translations = {
     'add-location': 'Add location',
     'add-location-to-favourites': 'Add an important location to your Favorites',
     'add-via-button-label': 'Add via point',
-    'add-via-duration-button-label': 'Set stop duration at via point',
+    'add-via-duration-button-label': 'Set stop duration at via point {index}',
+    'add-via-duration-button-label-close':
+      'Close stop duration selector at via point {index}',
+    'add-via-duration-button-label-open':
+      'Open stop duration selector at via point {index}',
     'arrive-leave': 'Arrive or leave at selected time',
     'search-autosuggest-label':
       'Venue, place and stopsearch. Navigate list with arrow keys and select with enter key',
@@ -968,7 +974,7 @@ const translations = {
     realtime: 'Real-time',
     'realtime-matching': 'Real-time integration',
     releases: 'Releases',
-    'remove-via-button-label': 'Remove via point',
+    'remove-via-button-label': 'Remove via point {index}',
     'rent-cycle-at': 'Rent a bike at {station} station',
     'rent-scooter-at': 'Rent a kick scooter at {station} station',
     'required-ticket': 'Ticket required for the journey',
@@ -1135,6 +1141,7 @@ const translations = {
     'very-unlikely': 'Very unlikely',
     'via-leg-stop-duration': 'At via point {stayDuration}',
     'via-point': 'Via point',
+    'via-point-index': 'Via point {index}',
     'viapoint-slack-amount': 'Stop duration',
     'view-route': 'View Route',
     // eslint-disable-next-line sort-keys
@@ -1442,6 +1449,7 @@ const translations = {
     'very-likely': 'Muy probable',
     'very-unlikely': 'Muy poco probable',
     'via-point': 'Punto intermedio',
+    'via-point-index': 'Punto intermedio {index}',
     'view-route': 'Ver ruta',
     wait: 'Esperar',
     'wait-amount-of-time': 'Esperar {duration}',
@@ -1474,7 +1482,12 @@ const translations = {
       'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
     'search-autosuggest-len': ' Löydettiin {len} ehdotusta',
     // eslint-disable-next-line sort-keys
-    'add-via-duration-button-label': 'Aseta välipisteelle pysähdyksen kesto',
+    'add-via-duration-button-label':
+      'Aseta välipisteelle {index} pysähdyksen kesto',
+    'add-via-duration-button-label-close':
+      'Avaa välipisteen {index} pysähdyksen kesto valitsin',
+    'add-via-duration-button-label-open':
+      'Sulje välipisteen {index} pysähdyksen kesto valitsin',
     'select-date': 'Valitse päivä',
     'set-time-earlier-button-label': 'Aikaista matkustusajankohtaa',
     'set-time-later-button-label': 'Myöhäistä matkustusajankohtaa',
@@ -1781,7 +1794,7 @@ const translations = {
     realtime: 'Reaaliaika',
     'realtime-matching': 'Realiajan integraatio',
     releases: 'Tiedotteet',
-    'remove-via-button-label': 'Poista välipiste',
+    'remove-via-button-label': 'Poista välipiste {index}',
     'rent-cycle-at': 'Vuokraa pyörä asemalta {station}',
     'rent-scooter-at': 'Vuokraa potkulauta asemalta {station}',
     'required-ticket': 'Reitillä tarvittava lippu',
@@ -1948,6 +1961,7 @@ const translations = {
     'very-unlikely': 'Erittäin epätodennäköistä',
     'via-leg-stop-duration': 'Välipisteessä {stayDuration}',
     'via-point': 'Välipiste',
+    'via-point-index': 'Välipiste {index}',
     'viapoint-slack-amount': 'Pysähdyksen kesto',
     'view-route': 'Linjan tiedot',
     // eslint-disable-next-line sort-keys
@@ -2303,6 +2317,7 @@ const translations = {
     'very-unlikely': 'Très improbable',
     'via-leg-stop-duration': "Attente de {stayDuration} à l'étape",
     'via-point': 'Étape',
+    'via-point-index': 'Étape {index}',
     'viapoint-slack-amount': "Durée de l'étape",
     'view-route': "Voir l'itinéraire",
     wait: 'Attendre',
@@ -2565,6 +2580,7 @@ const translations = {
     'very-unlikely': 'Lite sannsynlig',
     'via-leg-stop-duration': 'Viapunkt {stayDuration}',
     'via-point': 'Viapunkt',
+    'via-point-index': 'Viapunkt {index}',
     wait: 'Vent',
     'wait-amount-of-time': 'Vent {duration}',
     walk: 'gå',
@@ -2591,7 +2607,12 @@ const translations = {
     'add-location-to-favourites':
       'Lägg till en plats som är viktig för dig på fliken Favoriter',
     'add-via-button-label': 'Lägg till viapunkt',
-    'add-via-duration-button-label': 'Ställ in varaktighet för viapunkten',
+    'add-via-duration-button-label':
+      'Ställ in varaktighet för viapunkten {index}',
+    'add-via-duration-button-label-close':
+      'Stäng väljaren för varaktighet vid via-punkten',
+    'add-via-duration-button-label-open':
+      'Öppna väljaren för varaktighet vid via-punkten',
     'arrive-leave': 'Anländer eller lämnar vid vald tid',
     'search-autosuggest-label':
       'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
@@ -2906,7 +2927,7 @@ const translations = {
     realtime: 'Realtid',
     'realtime-matching': 'Realtidsintegration',
     releases: 'Meddelanden',
-    'remove-via-button-label': 'Ta bort viapunkt',
+    'remove-via-button-label': 'Ta bort viapunkt {index}',
     'rent-cycle-at': 'Hyr en cykel från stationen {station}',
     'rent-scooter-at': 'Hyr en sparkcykel från stationen {station}',
     'required-ticket': 'Biljett som behövs under resan',
@@ -3072,6 +3093,7 @@ const translations = {
     'very-unlikely': 'Väldigt osannolikt',
     'via-leg-stop-duration': 'Mellanstopp {stayDuration}',
     'via-point': 'Stoppets längd',
+    'via-point-index': 'Stoppets längd {index}',
     'viapoint-slack-amount': 'Stop duration',
     'view-route': 'Visa linje',
     // eslint-disable-next-line sort-keys

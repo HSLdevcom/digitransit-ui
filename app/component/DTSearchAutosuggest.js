@@ -30,6 +30,7 @@ class DTAutosuggest extends React.Component {
     searchType: PropTypes.oneOf(['all', 'endpoint', 'search']).isRequired,
     selectedFunction: PropTypes.func.isRequired,
     value: PropTypes.string,
+    ariaLabel: PropTypes.string,
   };
 
   static defaultProps = {
@@ -307,10 +308,12 @@ class DTAutosuggest extends React.Component {
       onKeyDown: this.keyDown, // DT-3263
     };
     const ariaBarId = this.props.id.replace('searchfield-', '');
-    let SearchBarId = this.context.intl.formatMessage({
-      id: ariaBarId,
-      defaultMessage: ariaBarId,
-    });
+    let SearchBarId =
+      this.props.ariaLabel ||
+      this.context.intl.formatMessage({
+        id: ariaBarId,
+        defaultMessage: ariaBarId,
+      });
     SearchBarId = SearchBarId.replace('searchfield-', '');
     const ariaLabelText = this.context.intl.formatMessage({
       id: 'search-autosuggest-label',
