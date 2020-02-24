@@ -455,7 +455,9 @@ class DTAutosuggestPanel extends React.Component {
                     }
                     aria-label={this.context.intl.formatMessage(
                       {
-                        id: 'add-via-duration-button-label',
+                        id: isViaPointSlackTimeInputActive(i)
+                          ? 'add-via-duration-button-label-open'
+                          : 'add-via-duration-button-label-close',
                       },
                       { index: i + 1 },
                     )}
@@ -507,6 +509,10 @@ class DTAutosuggestPanel extends React.Component {
                     onSelectChange={e =>
                       this.handleViaPointSlackTimeSelected(e.target.value, i)
                     }
+                    ariaLabel={this.context.intl.formatMessage(
+                      { id: 'add-via-duration-button-label' },
+                      { index: i + 1 },
+                    )}
                   />
                   <Icon
                     className="fake-select-arrow"

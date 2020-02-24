@@ -658,6 +658,10 @@ const translations = {
     'add-location-to-favourites': 'Add an important location to your Favorites',
     'add-via-button-label': 'Add via point',
     'add-via-duration-button-label': 'Set stop duration at via point {index}',
+    'add-via-duration-button-label-close':
+      'Close stop duration selector at via point {index}',
+    'add-via-duration-button-label-open':
+      'Open stop duration selector at via point {index}',
     'search-autosuggest-label':
       'Venue, place and stopsearch. Navigate list with arrow keys and select with enter key',
     'search-autosuggest-len': ' There are {len} Suggestions available',
@@ -1476,6 +1480,10 @@ const translations = {
     // eslint-disable-next-line sort-keys
     'add-via-duration-button-label':
       'Aseta välipisteelle {index} pysähdyksen kesto',
+    'add-via-duration-button-label-close':
+      'Avaa välipisteen {index} pysähdyksen kesto valitsin',
+    'add-via-duration-button-label-open':
+      'Sulje välipisteen {index} pysähdyksen kesto valitsin',
     'set-time-earlier-button-label': 'Aikaista matkustusajankohtaa',
     'set-time-later-button-label': 'Myöhäistä matkustusajankohtaa',
     'set-time-now-button-label': 'Aseta matkustusajankohdaksi nyt',
@@ -2595,6 +2603,10 @@ const translations = {
     'add-via-button-label': 'Lägg till viapunkt',
     'add-via-duration-button-label':
       'Ställ in varaktighet för viapunkten {index}',
+    'add-via-duration-button-label-close':
+      'Stäng väljaren för varaktighet vid via-punkten',
+    'add-via-duration-button-label-open':
+      'Öppna väljaren för varaktighet vid via-punkten',
     'search-autosuggest-label':
       'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
     'search-autosuggest-len': 'Hittade {len} förslag',
