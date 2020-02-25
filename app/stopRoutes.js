@@ -17,9 +17,9 @@ const queries = {
       }
     `,
     pageMap: graphql`
-      query stopRoutes_StopPageMap_Query($stopId: String!) {
+      query stopRoutes_StopPageMapContainer_Query($stopId: String!) {
         stop(id: $stopId) {
-          ...StopPageMap_stop
+          ...StopPageMapContainer_stop
         }
       }
     `,
@@ -50,19 +50,19 @@ const queries = {
         $date: String!
       ) {
         stop(id: $stopId) {
-          ...TimetablePage_stop @arguments(date: $date)
+          ...StopTimetablePage_stop @arguments(date: $date)
         }
       }
     `,
     pageRoutes: graphql`
       query stopRoutes_StopPageRoutes_Query($stopId: String!) {
         stop(id: $stopId) {
-          ...RoutesAndPlatformsForStops_stop
+          ...StopRoutesAndPlatformsContainer_stop
         }
       }
     `,
     pageAlerts: graphql`
-      query stopRoutes_StopPageAlerts_Query(
+      query stopRoutes_StopAlertsContainer_Query(
         $stopId: String!
         $date: String!
         $startTime: Long!
@@ -76,69 +76,65 @@ const queries = {
   },
   station: {
     pageHeader: graphql`
-      query stopRoutes_StopPageHeaderContainer_station_Query(
-        $stationId: String!
-      ) {
-        station(id: $stationId) {
-          ...StopPageHeaderContainer_stop
+      query stopRoutes_TerminalPageHeaderContainer_Query($terminalId: String!) {
+        station(id: $terminalId) {
+          ...TerminalPageHeaderContainer_station
         }
       }
     `,
     pageMap: graphql`
-      query stopRoutes_StopPageMap_station_Query($stationId: String!) {
-        station(id: $stationId) {
-          ...StopPageMap_stop
+      query stopRoutes_TerminalPageMapContainer_Query($terminalId: String!) {
+        station(id: $terminalId) {
+          ...TerminalPageMapContainer_station
         }
       }
     `,
     pageMeta: graphql`
-      query stopRoutes_StopPageMeta_station_Query($stationId: String!) {
-        station(id: $stationId) {
-          ...StopPageMeta_stop
+      query stopRoutes_TerminalPageMeta_Query($terminalId: String!) {
+        station(id: $terminalId) {
+          ...TerminalPageMeta_station
         }
       }
     `,
     pageTab: graphql`
-      query stopRoutes_StopPageTabContainer_station_Query($stationId: String!) {
-        station(id: $stationId) {
-          ...StopPageTabContainer_stop
+      query stopRoutes_TerminalPageTabContainer_Query($terminalId: String!) {
+        station(id: $terminalId) {
+          ...TerminalPageTabContainer_station
         }
       }
     `,
     pageContent: graphql`
-      query stopRoutes_StopPageContentContainer_station_Query(
-        $stationId: String!
-      ) {
-        station(id: $stationId) {
-          ...StopPageContentContainer_stop
+      query stopRoutes_TerminalPageContent_Query($terminalId: String!) {
+        station(id: $terminalId) {
+          ...TerminalPageContentContainer_station
         }
       }
     `,
     pageTimetable: graphql`
-      query stopRoutes_StopPageTimetable_station_Query(
-        $stationId: String!
+      query stopRoutes_TerminalPageTimetable_Query(
+        $terminalId: String!
         $date: String!
       ) {
-        station(id: $stationId) {
-          ...TimetablePage_stop @arguments(date: $date)
+        station(id: $terminalId) {
+          ...TerminalTimetablePage_station @arguments(date: $date)
         }
       }
     `,
     pageRoutes: graphql`
-      query stopRoutes_StopPageRoutes_station_Query($stationId: String!) {
-        station(id: $stationId) {
-          ...RoutesAndPlatformsForStops_stop
+      query stopRoutes_TerminalPageRoutes_Query($terminalId: String!) {
+        station(id: $terminalId) {
+          ...TerminalRoutesAndPlatformsContainer_station
         }
       }
     `,
     pageAlerts: graphql`
-      query stopRoutes_StopPageAlerts_station_Query(
-        $stationId: String!
+      query stopRoutes_TerminalAlertsContainer_Query(
+        $terminalId: String!
         $date: String!
         $startTime: Long!
       ) {
-        station(id: $stationId) {
-          ...StopAlertsContainer_stop
+        station(id: $terminalId) {
+          ...TerminalAlertsContainer_station
             @arguments(date: $date, startTime: $startTime)
         }
       }
@@ -165,58 +161,82 @@ export default function getStopRoutes(isTerminal = false) {
           ),
           header: (
             <Route
-              getComponent={() =>
-                import(/* webpackChunkName: "stop" */ './component/StopPageHeaderContainer').then(
-                  getDefault,
-                )
-              }
+              getComponent={() => {
+                return isTerminal
+                  ? import(/* webpackChunkName: "stop" */ './component/TerminalPageHeaderContainer').then(
+                      getDefault,
+                    )
+                  : import(/* webpackChunkName: "stop" */ './component/StopPageHeaderContainer').then(
+                      getDefault,
+                    );
+              }}
               query={queryMap.pageHeader}
             />
           ),
           content: (
             <Route
-              getComponent={() =>
-                import(/* webpackChunkName: "stop" */ './component/StopPageTabContainer').then(
-                  getDefault,
-                )
-              }
+              getComponent={() => {
+                return isTerminal
+                  ? import(/* webpackChunkName: "stop" */ './component/TerminalPageTabContainer').then(
+                      getDefault,
+                    )
+                  : import(/* webpackChunkName: "stop" */ './component/StopPageTabContainer').then(
+                      getDefault,
+                    );
+              }}
               query={queryMap.pageTab}
             >
               <Route
                 path="/"
-                getComponent={() =>
-                  import(/* webpackChunkName: "stop" */ './component/StopPageContentContainer')
-                    .then(getDefault)
-                    .catch(errorLoading)
-                }
+                getComponent={() => {
+                  return isTerminal
+                    ? import(/* webpackChunkName: "stop" */ './component/TerminalPageContentContainer')
+                        .then(getDefault)
+                        .catch(errorLoading)
+                    : import(/* webpackChunkName: "stop" */ './component/StopPageContentContainer')
+                        .then(getDefault)
+                        .catch(errorLoading);
+                }}
                 query={queryMap.pageContent}
               />
               <Route
                 path="aikataulu"
-                getComponent={() =>
-                  import(/* webpackChunkName: "stop" */ './component/TimetablePage')
-                    .then(getDefault)
-                    .catch(errorLoading)
-                }
+                getComponent={() => {
+                  return isTerminal
+                    ? import(/* webpackChunkName: "stop" */ './component/TerminalTimetablePage')
+                        .then(getDefault)
+                        .catch(errorLoading)
+                    : import(/* webpackChunkName: "stop" */ './component/StopTimetablePage')
+                        .then(getDefault)
+                        .catch(errorLoading);
+                }}
                 query={queryMap.pageTimetable}
                 prepareVariables={prepareServiceDay}
               />
               <Route
                 path="linjat"
-                getComponent={() =>
-                  import(/* webpackChunkName: "stop" */ './component/RoutesAndPlatformsForStops')
-                    .then(getDefault)
-                    .catch(errorLoading)
-                }
+                getComponent={() => {
+                  return isTerminal
+                    ? import(/* webpackChunkName: "stop" */ './component/TerminalRoutesAndPlatformsContainer')
+                        .then(getDefault)
+                        .catch(errorLoading)
+                    : import(/* webpackChunkName: "stop" */ './component/StopRoutesAndPlatformsContainer')
+                        .then(getDefault)
+                        .catch(errorLoading);
+                }}
                 query={queryMap.pageRoutes}
               />
               <Route
                 path="hairiot"
-                getComponent={() =>
-                  import(/* webpackChunkName: "stop" */ './component/StopAlertsContainer')
-                    .then(getDefault)
-                    .catch(errorLoading)
-                }
+                getComponent={() => {
+                  return isTerminal
+                    ? import(/* webpackChunkName: "stop" */ './component/TerminalAlertsContainer')
+                        .then(getDefault)
+                        .catch(errorLoading)
+                    : import(/* webpackChunkName: "stop" */ './component/StopAlertsContainer')
+                        .then(getDefault)
+                        .catch(errorLoading);
+                }}
                 query={queryMap.pageAlerts}
                 prepareVariables={prepareDatesForStops}
               />
@@ -224,21 +244,29 @@ export default function getStopRoutes(isTerminal = false) {
           ),
           map: (
             <Route
-              getComponent={() =>
-                import(/* webpackChunkName: "stop" */ './component/StopPageMap').then(
-                  getDefault,
-                )
-              }
+              getComponent={() => {
+                return isTerminal
+                  ? import(/* webpackChunkName: "stop" */ './component/TerminalPageMapContainer').then(
+                      getDefault,
+                    )
+                  : import(/* webpackChunkName: "stop" */ './component/StopPageMapContainer').then(
+                      getDefault,
+                    );
+              }}
               query={queryMap.pageMap}
             />
           ),
           meta: (
             <Route
-              getComponent={() =>
-                import(/* webpackChunkName: "stop" */ './component/StopPageMeta').then(
-                  getDefault,
-                )
-              }
+              getComponent={() => {
+                return isTerminal
+                  ? import(/* webpackChunkName: "stop" */ './component/TerminalPageMeta').then(
+                      getDefault,
+                    )
+                  : import(/* webpackChunkName: "stop" */ './component/StopPageMeta').then(
+                      getDefault,
+                    );
+              }}
               query={queryMap.pageMeta}
             />
           ),

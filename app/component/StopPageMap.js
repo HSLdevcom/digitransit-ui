@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { createFragmentContainer, graphql } from 'react-relay';
 import { matchShape, routerShape } from 'found';
 import MapContainer from './map/MapContainer';
 import SelectedStopPopup from './map/popups/SelectedStopPopup';
@@ -58,11 +57,7 @@ const fullscreenMapToggle = (fullscreenMap, location, router) => (
 );
 /* eslint-enable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 
-const StopPageMap = ({ stop, match, router, breakpoint }, { config }) => {
-  if (!stop) {
-    return false;
-  }
-
+const StopPageMap = ({ stop, breakpoint }, { config, match, router }) => {
   const fullscreenMap =
     match.location.state && match.location.state.fullscreenMap === true;
   const leafletObjs = [];
@@ -86,6 +81,8 @@ const StopPageMap = ({ stop, match, router, breakpoint }, { config }) => {
 
   const showScale = fullscreenMap || breakpoint === 'large';
 
+  const id = match.params.stopId || match.params.terminalId;
+
   return (
     <MapContainer
       className="full"
@@ -93,7 +90,7 @@ const StopPageMap = ({ stop, match, router, breakpoint }, { config }) => {
       lon={stop.lon}
       zoom={!match.params.stopId || stop.platformCode ? 18 : 16}
       showStops
-      hilightedStops={[match.params.stopId]}
+      hilightedStops={[id]}
       leafletObjs={leafletObjs}
       showScaleBar={showScale}
     >
@@ -104,6 +101,8 @@ const StopPageMap = ({ stop, match, router, breakpoint }, { config }) => {
 
 StopPageMap.contextTypes = {
   config: PropTypes.object.isRequired,
+  match: matchShape.isRequired,
+  router: routerShape.isRequired,
 };
 
 StopPageMap.propTypes = {
@@ -112,29 +111,13 @@ StopPageMap.propTypes = {
     lon: PropTypes.number.isRequired,
     platformCode: PropTypes.string,
   }),
-  match: matchShape.isRequired,
   breakpoint: PropTypes.string.isRequired,
-  router: routerShape.isRequired,
 };
 
 StopPageMap.defaultProps = {
   stop: undefined,
 };
 
-const containerComponent = createFragmentContainer(
-  withBreakpoint(StopPageMap),
-  {
-    stop: graphql`
-      fragment StopPageMap_stop on Stop {
-        lat
-        lon
-        platformCode
-        name
-        code
-        desc
-      }
-    `,
-  },
-);
+const componentWithBreakpoint = withBreakpoint(StopPageMap);
 
-export { containerComponent as default, StopPageMap as Component };
+export { componentWithBreakpoint as default, StopPageMap as Component };

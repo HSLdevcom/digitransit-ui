@@ -9,9 +9,9 @@ import DepartureListContainer from './DepartureListContainer';
 import Error404 from './404';
 import Icon from './Icon';
 
-class StopPageContent extends React.Component {
+class TerminalPageContent extends React.Component {
   static propTypes = {
-    stop: PropTypes.shape({
+    station: PropTypes.shape({
       stoptimes: PropTypes.array,
     }).isRequired,
     relay: PropTypes.shape({
@@ -31,11 +31,11 @@ class StopPageContent extends React.Component {
   }
 
   render() {
-    if (!this.props.stop) {
+    if (!this.props.station) {
       return <Error404 />;
     }
 
-    const { stoptimes } = this.props.stop;
+    const { stoptimes } = this.props.station;
     if (!stoptimes || stoptimes.length === 0) {
       return (
         <div className="stop-no-departures-container">
@@ -54,10 +54,11 @@ class StopPageContent extends React.Component {
             className="stop-page momentum-scroll"
             routeLinks
             infiniteScroll
+            isTerminal
             rowClasses="padding-normal border-bottom"
             currentTime={this.props.currentTime}
             showPlatformCodes
-            isStopPage
+            isTerminalPage
           />
         </div>
       </React.Fragment>
@@ -66,14 +67,14 @@ class StopPageContent extends React.Component {
 }
 
 const connectedComponent = createRefetchContainer(
-  connectToStores(StopPageContent, ['TimeStore'], ({ getStore }) => ({
+  connectToStores(TerminalPageContent, ['TimeStore'], ({ getStore }) => ({
     currentTime: getStore('TimeStore')
       .getCurrentTime()
       .unix(),
   })),
   {
-    stop: graphql`
-      fragment StopPageContentContainer_stop on Stop
+    station: graphql`
+      fragment TerminalPageContentContainer_station on Stop
         @argumentDefinitions(
           startTime: { type: "Long!", defaultValue: 0 }
           timeRange: { type: "Int!", defaultValue: 43200 }
@@ -92,14 +93,14 @@ const connectedComponent = createRefetchContainer(
     `,
   },
   graphql`
-    query StopPageContentContainerQuery(
-      $stopId: String!
+    query TerminalPageContentContainerQuery(
+      $terminalId: String!
       $startTime: Long!
       $timeRange: Int!
       $numberOfDepartures: Int!
     ) {
-      stop(id: $stopId) {
-        ...StopPageContentContainer_stop
+      station(id: $terminalId) {
+        ...TerminalPageContentContainer_station
           @arguments(
             startTime: $startTime
             timeRange: $timeRange
@@ -110,4 +111,4 @@ const connectedComponent = createRefetchContainer(
   `,
 );
 
-export { connectedComponent as default, StopPageContent as Component };
+export { connectedComponent as default, TerminalPageContent as Component };

@@ -2,7 +2,6 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { createFragmentContainer, graphql } from 'react-relay';
 import Link from 'found/lib/Link';
 import { matchShape } from 'found';
 import orderBy from 'lodash/orderBy';
@@ -75,7 +74,7 @@ export const mapRoutes = (stopFromProps, stopType) => {
   );
 };
 
-const RoutesAndPlatformsForStops = props => {
+const StopRoutesAndPlatforms = props => {
   const mappedRoutes = mapRoutes(
     props.stop,
     props.match.params.terminalId ? 'terminal' : 'stop',
@@ -129,68 +128,9 @@ const RoutesAndPlatformsForStops = props => {
   );
 };
 
-RoutesAndPlatformsForStops.propTypes = {
+StopRoutesAndPlatforms.propTypes = {
   stop: PropTypes.object.isRequired,
   match: matchShape.isRequired,
 };
 
-const withRelayContainer = createFragmentContainer(RoutesAndPlatformsForStops, {
-  stop: graphql`
-    fragment RoutesAndPlatformsForStops_stop on Stop {
-      gtfsId
-      name
-      platformCode
-      stoptimesForPatterns(numberOfDepartures: 1, timeRange: 604800) {
-        pattern {
-          headsign
-          code
-          route {
-            id
-            gtfsId
-            shortName
-            longName
-            mode
-            color
-          }
-          stops {
-            gtfsId
-          }
-        }
-        stoptimes {
-          headsign
-          pickupType
-        }
-      }
-      stops {
-        gtfsId
-        platformCode
-        stoptimesForPatterns(numberOfDepartures: 1, timeRange: 604800) {
-          pattern {
-            headsign
-            code
-            route {
-              id
-              gtfsId
-              shortName
-              longName
-              mode
-              color
-            }
-            stops {
-              gtfsId
-            }
-          }
-          stoptimes {
-            headsign
-            pickupType
-          }
-        }
-      }
-    }
-  `,
-});
-
-export {
-  withRelayContainer as default,
-  RoutesAndPlatformsForStops as Component,
-};
+export default StopRoutesAndPlatforms;

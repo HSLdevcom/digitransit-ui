@@ -1,81 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { intlShape } from 'react-intl';
 import { createFragmentContainer, graphql } from 'react-relay';
 
-import AlertList from './AlertList';
-import DepartureCancelationInfo from './DepartureCancelationInfo';
-import {
-  getCancelationsForStop,
-  getServiceAlertsForStop,
-  otpServiceAlertShape,
-  getServiceAlertsForStopRoutes,
-  getServiceAlertsForTerminalStops,
-  routeHasServiceAlert,
-  getServiceAlertsForRoute,
-  routeHasCancelation,
-  getCancelationsForRoute,
-} from '../util/alertUtils';
+import StopAlerts from './StopAlerts';
+import { otpServiceAlertShape } from '../util/alertUtils';
 
-const StopAlertsContainer = ({ stop }, { intl }) => {
-  const cancelations = getCancelationsForStop(stop).map(stoptime => {
-    const { color, mode, shortName } = stoptime.trip.route;
-    const departureTime = stoptime.serviceDay + stoptime.scheduledDeparture;
-    return {
-      header: (
-        <DepartureCancelationInfo
-          firstStopName={stoptime.trip.stops[0].name}
-          headsign={stoptime.headsign}
-          routeMode={mode}
-          scheduledDepartureTime={departureTime}
-          shortName={shortName}
-        />
-      ),
-      route: {
-        color,
-        mode,
-        shortName,
-      },
-      validityPeriod: {
-        startTime: departureTime,
-      },
-    };
-  });
-
-  const serviceAlertsForRoutes = [];
-  const disruptionsForRoutes = [];
-
-  if (stop.routes) {
-    stop.routes.forEach(
-      route =>
-        routeHasServiceAlert(route) &&
-        serviceAlertsForRoutes.push(
-          ...getServiceAlertsForRoute(route, route.gtfsId, intl.locale),
-        ) &&
-        (routeHasCancelation(route) &&
-          disruptionsForRoutes.push(
-            ...getCancelationsForRoute(route, route.gtfsId, intl.locale),
-          )),
-    );
-  }
-
-  const isTerminal = !stop.code;
-  const serviceAlerts = [
-    // Alerts for terminal's stops.
-    ...getServiceAlertsForTerminalStops(isTerminal, stop, intl.locale),
-    ...getServiceAlertsForStop(stop, intl.locale),
-    ...getServiceAlertsForStopRoutes(stop, intl.locale),
-    ...serviceAlertsForRoutes,
-    ...disruptionsForRoutes,
-  ];
-
-  return (
-    <AlertList
-      showRouteNameLink={false}
-      cancelations={cancelations}
-      serviceAlerts={serviceAlerts}
-    />
-  );
+const StopAlertsContainer = ({ stop }) => {
+  return <StopAlerts stop={stop} />;
 };
 
 StopAlertsContainer.propTypes = {
@@ -106,10 +37,6 @@ StopAlertsContainer.propTypes = {
       }),
     ).isRequired,
   }).isRequired,
-};
-
-StopAlertsContainer.contextTypes = {
-  intl: intlShape.isRequired,
 };
 
 const containerComponent = createFragmentContainer(StopAlertsContainer, {

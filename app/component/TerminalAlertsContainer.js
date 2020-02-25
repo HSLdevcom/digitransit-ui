@@ -1,58 +1,86 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import StopPageTabs from './StopPageTabs';
 
-function StopPageTabContainer({ children, stop }) {
-  return (
-    <div className="stop-page-content-wrapper">
-      <StopPageTabs stop={stop} />
-      {children}
-    </div>
-  );
-}
+import StopAlerts from './StopAlerts';
+import { otpServiceAlertShape } from '../util/alertUtils';
 
-const alertArrayShape = PropTypes.arrayOf(
-  PropTypes.shape({ alertSeverityLevel: PropTypes.string }),
-);
+const TerminalAlertsContainer = ({ station }) => {
+  return <StopAlerts stop={station} />;
+};
 
-StopPageTabContainer.propTypes = {
-  children: PropTypes.node.isRequired,
-  stop: PropTypes.shape({
-    alerts: alertArrayShape,
-    vehicleMode: PropTypes.string,
+TerminalAlertsContainer.propTypes = {
+  station: PropTypes.shape({
+    alerts: PropTypes.arrayOf(otpServiceAlertShape).isRequired,
     stoptimes: PropTypes.arrayOf(
       PropTypes.shape({
+        headsign: PropTypes.string.isRequired,
         realtimeState: PropTypes.string,
+        scheduledDeparture: PropTypes.number,
+        serviceDay: PropTypes.number,
         trip: PropTypes.shape({
           pattern: PropTypes.shape({
             code: PropTypes.string,
           }),
           route: PropTypes.shape({
-            alerts: alertArrayShape,
-            trip: PropTypes.shape({
-              pattern: PropTypes.shape({
-                code: PropTypes.string,
-              }),
+            alerts: PropTypes.arrayOf(otpServiceAlertShape).isRequired,
+            color: PropTypes.string,
+            mode: PropTypes.string.isRequired,
+            shortName: PropTypes.string.isRequired,
+          }).isRequired,
+          stops: PropTypes.arrayOf(
+            PropTypes.shape({
+              name: PropTypes.string,
             }),
-          }),
-        }),
+          ).isRequired,
+        }).isRequired,
       }),
-    ),
-  }),
+    ).isRequired,
+  }).isRequired,
 };
 
-StopPageTabContainer.defaultProps = {
-  stop: undefined,
-};
-
-const containerComponent = createFragmentContainer(StopPageTabContainer, {
-  stop: graphql`
-    fragment StopPageTabContainer_stop on Stop
+const containerComponent = createFragmentContainer(TerminalAlertsContainer, {
+  station: graphql`
+    fragment TerminalAlertsContainer_station on Stop
       @argumentDefinitions(
         startTime: { type: "Long" }
         timeRange: { type: "Int", defaultValue: 900 }
+        date: { type: "String" }
       ) {
+      routes {
+        gtfsId
+        shortName
+        longName
+        mode
+        color
+        alerts {
+          id
+          alertDescriptionText
+          alertHash
+          alertHeaderText
+          alertSeverityLevel
+          alertUrl
+          effectiveEndDate
+          effectiveStartDate
+          alertDescriptionTextTranslations {
+            language
+            text
+          }
+          alertHeaderTextTranslations {
+            language
+            text
+          }
+          alertUrlTranslations {
+            language
+            text
+          }
+          trip {
+            pattern {
+              code
+            }
+          }
+        }
+      }
       id
       gtfsId
       code
@@ -104,24 +132,25 @@ const containerComponent = createFragmentContainer(StopPageTabContainer, {
           text
         }
       }
-      vehicleMode
       stoptimes: stoptimesWithoutPatterns(
         startTime: $startTime
         timeRange: $timeRange
         numberOfDepartures: 100
         omitCanceled: false
       ) {
+        headsign
         realtimeState
+        scheduledDeparture
+        serviceDay
         trip {
           pattern {
             code
           }
           route {
-            gtfsId
-            shortName
-            longName
-            mode
             color
+            mode
+            shortName
+            gtfsId
             alerts {
               id
               alertDescriptionText
@@ -150,47 +179,13 @@ const containerComponent = createFragmentContainer(StopPageTabContainer, {
               }
             }
           }
-        }
-      }
-      routes {
-        gtfsId
-        shortName
-        longName
-        mode
-        color
-        alerts {
-          id
-          alertDescriptionText
-          alertHash
-          alertHeaderText
-          alertSeverityLevel
-          alertUrl
-          effectiveEndDate
-          effectiveStartDate
-          alertDescriptionTextTranslations {
-            language
-            text
+          stops {
+            name
           }
-          alertHeaderTextTranslations {
-            language
-            text
-          }
-          alertUrlTranslations {
-            language
-            text
-          }
-          trip {
-            pattern {
-              code
-            }
-          }
-        }
-        patterns {
-          code
         }
       }
     }
   `,
 });
 
-export { containerComponent as default, StopPageTabContainer as Component };
+export { containerComponent as default, TerminalAlertsContainer as Component };

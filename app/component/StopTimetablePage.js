@@ -8,7 +8,7 @@ import TimetableContainer from './TimetableContainer';
 
 const initialDate = moment().format('YYYYMMDD');
 
-class TimetablePage extends React.Component {
+class StopTimetablePage extends React.Component {
   static propTypes = {
     stop: PropTypes.shape({
       url: PropTypes.string,
@@ -45,12 +45,22 @@ class TimetablePage extends React.Component {
   }
 }
 
-export default createRefetchContainer(TimetablePage, {
-  stop: graphql`
-    fragment TimetablePage_stop on Stop
-      @argumentDefinitions(date: { type: "String" }) {
-      url
-      ...TimetableContainer_stop @arguments(date: $date)
+export default createRefetchContainer(
+  StopTimetablePage,
+  {
+    stop: graphql`
+      fragment StopTimetablePage_stop on Stop
+        @argumentDefinitions(date: { type: "String" }) {
+        url
+        ...TimetableContainer_stop @arguments(date: $date)
+      }
+    `,
+  },
+  graphql`
+    query StopTimetablePageQuery($stopId: String!, $date: String) {
+      stop(id: $stopId) {
+        ...StopTimetablePage_stop @arguments(date: $date)
+      }
     }
   `,
-});
+);
