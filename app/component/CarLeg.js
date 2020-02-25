@@ -64,11 +64,15 @@ function CarLeg(props, context) {
             className="carpool-agency-logo"
             tooltip={props.leg.route.agency.name}
           />
-          <Icon
-            img={carpoolAgencyIcon[1]}
-            className="carpool-agency-logo"
-            tooltip="ADAC Mitfahrclub"
-          />
+          {carpoolAgencyIcon[1] ? (
+            <Icon
+              img={carpoolAgencyIcon[1]}
+              className="carpool-agency-logo"
+              tooltip="ADAC Mitfahrclub"
+            />
+          ) : (
+            ''
+          )}
         </div>
       </div>
     </div>
