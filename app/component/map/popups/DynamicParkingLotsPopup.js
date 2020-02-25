@@ -35,6 +35,26 @@ class DynamicParkingLotsPopup extends React.Component {
     lon: PropTypes.number.isRequired,
   };
 
+  getDesc() {
+    const { intl } = this.context;
+    if (this.props.feature.properties && this.props.feature.properties.free) {
+      return intl.formatMessage(
+        {
+          id: 'parking-spaces-available',
+          defaultMessage: '{free} of {total} parking spaces available',
+        },
+        this.props.feature.properties,
+      );
+    }
+    return intl.formatMessage(
+      {
+        id: 'parking-spaces-in-total',
+        defaultMessage: 'Capacity: {total} parking spaces',
+      },
+      this.props.feature.properties,
+    );
+  }
+
   render() {
     const desc = this.getDesc();
     return (
@@ -55,26 +75,6 @@ class DynamicParkingLotsPopup extends React.Component {
           }}
         />
       </Card>
-    );
-  }
-
-  getDesc() {
-    const { intl } = this.context;
-    if (this.props.feature.properties && this.props.feature.properties.free) {
-      return intl.formatMessage(
-        {
-          id: 'parking-spaces-available',
-          defaultMessage: '{free} of {total} parking spaces available',
-        },
-        this.props.feature.properties,
-      );
-    }
-    return intl.formatMessage(
-      {
-        id: 'parking-spaces-in-total',
-        defaultMessage: 'Capacity: {total} parking spaces'
-      },
-      this.props.feature.properties,
     );
   }
 }

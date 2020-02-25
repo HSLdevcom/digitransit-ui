@@ -59,6 +59,19 @@ class DynamicParkingLots {
       );
     });
 
+  getIcon = type => {
+    if (type === 'Parkhaus') {
+      return 'covered_carpark';
+    }
+    if (type === 'Park+Ride') {
+      return 'p+r';
+    }
+    if (type === 'Wohnmobilparkplatz') {
+      return 'caravan';
+    }
+    return 'open_carpark';
+  };
+
   fetchAndDrawStatus = ({ geom, properties }) => {
     if (
       this.tile.coords.z <=
@@ -67,8 +80,10 @@ class DynamicParkingLots {
       return drawRoundIcon(this.tile, geom, 'car');
     }
 
+    const icon = this.getIcon(properties.lot_type);
+
     return drawIcon(
-      'icon-icon_opened_carpark',
+      `icon-icon_${icon}`,
       this.tile,
       geom,
       this.parkingLotImageSize,
