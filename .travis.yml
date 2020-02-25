@@ -28,13 +28,12 @@ jobs:
       script:
         - yarn install
         - yarn lint
-    # TODO: temporarily removed on 2020-02-17, enable later when dev geocoder is fixed
-    # - stage: test
-    #   env: FLOW=1
-    #   node_js: '10'
-    #   script:
-    #     - yarn install
-    #     - test/flow.sh
+    - stage: test
+      env: FLOW=1
+      node_js: '10'
+      script:
+        - yarn install
+        - test/flow.sh
     - stage: test
       env: UNIT=1
       node_js: '10'
