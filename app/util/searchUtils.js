@@ -272,13 +272,13 @@ function getOldSearches(oldSearches, input, dropLayers) {
 function getFavouriteLocations(favourites, input) {
   return Promise.resolve(
     orderBy(
-      filterMatchingToInput(favourites, input, ['address', 'locationName']),
-      feature => feature.locationName,
+      filterMatchingToInput(favourites, input, ['address', 'name']),
+      feature => feature.name,
     ).map(item => ({
       type: 'FavouritePlace',
       properties: {
         ...item,
-        label: item.locationName,
+        label: item.name,
         layer: 'favouritePlace',
       },
       geometry: { type: 'Point', coordinates: [item.lon, item.lat] },
@@ -392,7 +392,7 @@ function getFavouriteStops(favourites, input, origin) {
           type: 'FavouriteStop',
           properties: {
             ...stop,
-            label: stop.locationName,
+            label: stop.name,
             layer: isStop(stop) ? 'favouriteStop' : 'favouriteStation',
           },
           geometry: {
@@ -403,7 +403,7 @@ function getFavouriteStops(favourites, input, origin) {
     )
     .then(stops =>
       filterMatchingToInput(stops, input, [
-        'properties.locationName',
+        'properties.name',
         'properties.name',
         'properties.address',
       ]),

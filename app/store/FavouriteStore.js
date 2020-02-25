@@ -113,7 +113,7 @@ export default class FavouriteStore extends Store {
     stops.forEach(stop => {
       const newStop = {
         type: isStop(stop) ? 'stop' : 'station',
-        locationName: stop.locationName,
+        name: stop.name,
         gtfsId: stop.gtfsId,
         address: stop.address,
         lon: stop.lon,
@@ -149,7 +149,7 @@ export default class FavouriteStore extends Store {
             type: 'place',
             id: data.properties.gid,
             address: data.properties.label,
-            locationName: location.locationName,
+            name: location.name,
             lon: data.geometry.coordinates[0],
             lat: data.geometry.coordinates[1],
             layer: data.properties.layer,
