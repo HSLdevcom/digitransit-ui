@@ -6,7 +6,7 @@ import { isBrowser } from '../../../util/browser';
 import {
   drawRoundIcon,
   drawIcon,
-  drawAvailabilityValue,
+  drawAvailabilityBadge,
 } from '../../../util/mapIconUtils';
 import glfun from '../../../util/glfun';
 
@@ -68,28 +68,29 @@ class DynamicParkingLots {
     }
 
     return drawIcon(
-      'icon-icon_car',
+      'icon-icon_opened_carpark',
       this.tile,
       geom,
       this.parkingLotImageSize,
     ).then(() => {
-      drawAvailabilityValue(
-        this.tile,
-        geom,
-        properties.free,
-        this.parkingLotImageSize,
-        this.availabilityImageSize,
-        this.scaleratio,
-      );
-
-      /* drawAvailabilityBadge(
-        'no',
-        this.tile,
-        geom,
-        this.parkingLotImageSize,
-        this.availabilityImageSize,
-        this.scaleratio,
-      ); */
+      if (properties.free !== undefined) {
+        let avail;
+        if (properties.free === 0) {
+          avail = 'no';
+        } else if (properties.free < 3) {
+          avail = 'poor';
+        } else {
+          avail = 'good';
+        }
+        drawAvailabilityBadge(
+          avail,
+          this.tile,
+          geom,
+          this.parkingLotImageSize,
+          this.availabilityImageSize,
+          this.scaleratio,
+        );
+      }
     });
   };
 
