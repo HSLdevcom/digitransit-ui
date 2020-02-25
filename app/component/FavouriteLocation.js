@@ -19,7 +19,7 @@ const FavouriteLocation = ({
   firstTransitLeg,
   clickFavourite,
 }) => {
-  const { locationName, favouriteId, lat, lon, selectedIconId } = favourite;
+  const { name, favouriteId, lat, lon, selectedIconId } = favourite;
   let departureTimeComponent;
   if (departureTime && currentTime < departureTime) {
     // Departure is in the future
@@ -67,11 +67,11 @@ const FavouriteLocation = ({
     <div
       data-swipeable="true"
       className={cx('favourite-location-content', className)}
-      onClick={() => clickFavourite(locationName, lat, lon)}
+      onClick={() => clickFavourite(name, lat, lon)}
     >
       <div className="favourite-location-arrival">
         <Icon className="favourite-location-icon" img={selectedIconId} />
-        <div className="favourite-location-name">{locationName}</div>
+        <div className="favourite-location-name">{name}</div>
       </div>
 
       {info}

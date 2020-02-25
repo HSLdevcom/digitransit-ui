@@ -132,7 +132,7 @@ SuggestionItem.displayName = 'SuggestionItem';
 const exampleFavourite = {
   type: 'FavouritePlace',
   properties: {
-    locationName: 'HSL',
+    name: 'HSL',
     address: 'Opastinsilta 6, Helsinki',
     layer: 'favouritePlace',
   },

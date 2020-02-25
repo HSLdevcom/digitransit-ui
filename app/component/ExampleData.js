@@ -99,7 +99,7 @@ export const station = {
 
 export const favouriteLocation = {
   favourite: {
-    locationName: 'Työ',
+    name: 'Työ',
     selectedIconId: 'icon-icon_place',
   },
   arrivalTime: 1444175199,

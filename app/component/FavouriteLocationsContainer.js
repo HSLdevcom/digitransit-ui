@@ -103,11 +103,11 @@ export default class FavouriteLocationsContainer extends React.Component {
     });
   };
 
-  setDestination = (locationName, lat, lon) => {
+  setDestination = (name, lat, lon) => {
     const location = {
       lat,
       lon,
-      address: locationName,
+      address: name,
       ready: true,
     };
 
