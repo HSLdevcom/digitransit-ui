@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
+import { intlShape } from 'react-intl';
 import MarkerPopupBottom from '../MarkerPopupBottom';
 import Card from '../../Card';
 import CardHeader from '../../CardHeader';
@@ -35,15 +36,20 @@ class DynamicParkingLotsPopup extends React.Component {
   };
 
   render() {
-    // console.log(this)
+    const { intl } = this.context;
+    const desc = intl.formatMessage(
+      {
+        id: 'parking-spaces-available',
+        defaultMessage: '{free} of {total} parking spaces available',
+      },
+      this.props.feature.properties,
+    );
     return (
       <Card>
         <div className="padding-small">
           <CardHeader
             name={this.props.feature.properties.name}
-            description={`${this.props.feature.properties.free} von ${
-              this.props.feature.properties.total
-            } Parkplätzen verfügbar`}
+            description={desc}
             unlinked
             className="padding-small"
           />
@@ -59,6 +65,10 @@ class DynamicParkingLotsPopup extends React.Component {
     );
   }
 }
+
+DynamicParkingLotsPopup.contextTypes = {
+  intl: intlShape.isRequired,
+};
 
 export default Relay.createContainer(DynamicParkingLotsPopup, {
   fragments: {
