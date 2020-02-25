@@ -11,7 +11,7 @@ import { isBrowser } from '../util/browser';
 import getRelayEnvironment from '../util/getRelayEnvironment';
 
 function DisruptionInfo({ relayEnvironment }, context) {
-  if (isBrowser) {
+  if (!isBrowser) {
     return null;
   }
 
