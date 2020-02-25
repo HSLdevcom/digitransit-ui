@@ -41,9 +41,7 @@ class DynamicParkingLotsPopup extends React.Component {
         <div className="padding-small">
           <CardHeader
             name={this.props.feature.properties.name}
-            description={`${
-              this.props.feature.properties.free
-            } von ${
+            description={`${this.props.feature.properties.free} von ${
               this.props.feature.properties.total
             } Parkplätzen verfügbar`}
             unlinked
