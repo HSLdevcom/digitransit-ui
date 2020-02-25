@@ -63,7 +63,7 @@ class DynamicParkingLots {
     if (type === 'Parkhaus') {
       return 'covered_carpark';
     }
-    if (type === 'Park+Ride') {
+    if (type === 'Park-Ride') {
       return 'p+r';
     }
     if (type === 'Wohnmobilparkplatz') {
