@@ -1,9 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
+import { matchShape } from 'found';
 import StopPageTabs from './StopPageTabs';
 
-function StopPageTabContainer({ children, stop }) {
+function StopPageTabContainer({ children, stop }, { match }) {
+  if (match.location.state && match.location.state.fullscreenMap === true) {
+    return null;
+  }
   return (
     <div className="stop-page-content-wrapper">
       <StopPageTabs stop={stop} />
@@ -44,6 +48,10 @@ StopPageTabContainer.propTypes = {
 
 StopPageTabContainer.defaultProps = {
   stop: undefined,
+};
+
+StopPageTabContainer.contextTypes = {
+  match: matchShape,
 };
 
 const containerComponent = createFragmentContainer(StopPageTabContainer, {
