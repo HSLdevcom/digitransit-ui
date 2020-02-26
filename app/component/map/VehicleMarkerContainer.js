@@ -98,15 +98,15 @@ function shouldShowVehicle(message, direction, tripStart, pattern, headsign) {
   );
 }
 
-function VehicleMarkerContainer(props) {
-  return Object.entries(props.vehicles)
+function VehicleMarkerContainer(containerProps) {
+  return Object.entries(containerProps.vehicles)
     .filter(([, message]) =>
       shouldShowVehicle(
         message,
-        props.direction,
-        props.tripStart,
-        props.pattern,
-        props.headsign,
+        containerProps.direction,
+        containerProps.tripStart,
+        containerProps.pattern,
+        containerProps.headsign,
       ),
     )
     .map(([id, message]) => (
@@ -118,11 +118,11 @@ function VehicleMarkerContainer(props) {
         }}
         zIndexOffset={100}
         icon={getVehicleIcon(
-          props.ignoreMode ? null : message.mode,
+          containerProps.ignoreMode ? null : message.mode,
           message.heading,
           message.shortName ? message.shortName : message.route.split(':')[1],
           false,
-          props.useLargeIcon,
+          containerProps.useLargeIcon,
         )}
       >
         <Popup
@@ -150,10 +150,10 @@ function VehicleMarkerContainer(props) {
                 route: message.route,
                 id: message.tripId,
               }}
-              environment={this.props.relayEnvironment}
-              render={({ data }) =>
-                data ? (
-                  <TripMarkerPopup {...data} message={message} />
+              environment={containerProps.relayEnvironment}
+              render={({ props }) =>
+                props ? (
+                  <TripMarkerPopup {...props} message={message} />
                 ) : (
                   <div className="card" style={{ height: '12rem' }}>
                     <Loading />
@@ -191,10 +191,11 @@ function VehicleMarkerContainer(props) {
                   message.tripStartTime.substring(0, 2) * 60 * 60 +
                   message.tripStartTime.substring(2, 4) * 60,
               }}
-              environment={this.props.relayEnvironment}
-              render={({ data }) =>
-                data ? (
-                  <TripMarkerPopup {...data} message={message} />
+              environment={containerProps.relayEnvironment}
+              // eslint-disable-next-line no-unused-vars
+              render={({ props }) =>
+                props ? (
+                  <TripMarkerPopup {...props} message={message} />
                 ) : (
                   <div className="card" style={{ height: '12rem' }}>
                     <Loading />

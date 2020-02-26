@@ -80,13 +80,13 @@ function FuzzyTripLink({ vehicle, relayEnvironment }) {
 }
 
 FuzzyTripLink.propTypes = {
-  trip: PropTypes.object.isRequired,
+  trip: PropTypes.object,
   vehicle: PropTypes.shape({
     mode: PropTypes.string.isRequired,
     route: PropTypes.string.isRequired,
     direction: PropTypes.number.isRequired,
-    time: PropTypes.number.isRequired,
-    date: PropTypes.string.isRequired,
+    tripStartTime: PropTypes.string.isRequired,
+    operatingDay: PropTypes.string.isRequired,
   }).isRequired,
   relayEnvironment: PropTypes.object.isRequired,
 };

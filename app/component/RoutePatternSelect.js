@@ -215,34 +215,44 @@ RoutePatternSelect.description = () => (
 
 // DT-2531: added activeDates
 const withStore = connectToStores(
-  createRefetchContainer(RoutePatternSelect, {
-    route: graphql`
-      fragment RoutePatternSelect_route on Route
-        @argumentDefinitions(date: { type: "String" }) {
-        patterns {
-          code
-          headsign
-          stops {
-            name
-          }
-          tripsForDate(serviceDate: $date) {
-            id
-            stoptimes: stoptimesForDate(serviceDate: $date) {
-              scheduledArrival
-              scheduledDeparture
-              serviceDay
-              stop {
-                id
+  createRefetchContainer(
+    RoutePatternSelect,
+    {
+      route: graphql`
+        fragment RoutePatternSelect_route on Route
+          @argumentDefinitions(date: { type: "String" }) {
+          patterns {
+            code
+            headsign
+            stops {
+              name
+            }
+            tripsForDate(serviceDate: $date) {
+              id
+              stoptimes: stoptimesForDate(serviceDate: $date) {
+                scheduledArrival
+                scheduledDeparture
+                serviceDay
+                stop {
+                  id
+                }
               }
             }
+            activeDates: trips {
+              day: activeDates
+            }
           }
-          activeDates: trips {
-            day: activeDates
-          }
+        }
+      `,
+    },
+    graphql`
+      query RoutePatternSelectQuery($routeId: String!, $date: String!) {
+        route(id: $routeId) {
+          ...RoutePatternSelect_route @arguments(date: $date)
         }
       }
     `,
-  }),
+  ),
   [],
   context => ({
     serviceDay: context

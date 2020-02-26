@@ -133,12 +133,15 @@ class RouteStop extends React.PureComponent {
     const patternExists =
       stop.stopTimesForPattern && stop.stopTimesForPattern.length > 0;
 
-    const vehicleTripLink =
-      vehicle && vehicle.tripId ? (
+    let vehicleTripLink;
+
+    if (vehicle) {
+      vehicleTripLink = vehicle.tripId ? (
         <TripLink key={vehicle.id} vehicle={vehicle} />
       ) : (
         <FuzzyTripLink key={vehicle.id} vehicle={vehicle} />
       );
+    }
 
     return (
       <div
