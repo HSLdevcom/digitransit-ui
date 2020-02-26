@@ -74,10 +74,10 @@ export const mapRoutes = (stopFromProps, stopType) => {
   );
 };
 
-const StopRoutesAndPlatforms = props => {
+const StopRoutesAndPlatforms = (props, context) => {
   const mappedRoutes = mapRoutes(
     props.stop,
-    props.match.params.terminalId ? 'terminal' : 'stop',
+    context.match.params.terminalId ? 'terminal' : 'stop',
   ).sort((x, y) => routeNameCompare(x.pattern.route, y.pattern.route));
 
   if (mappedRoutes.length === 0) {
@@ -130,6 +130,9 @@ const StopRoutesAndPlatforms = props => {
 
 StopRoutesAndPlatforms.propTypes = {
   stop: PropTypes.object.isRequired,
+};
+
+StopRoutesAndPlatforms.contextTypes = {
   match: matchShape.isRequired,
 };
 

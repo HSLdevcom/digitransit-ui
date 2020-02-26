@@ -152,15 +152,21 @@ export default function getStopRoutes(isTerminal = false) {
         {{
           title: (
             <Route
-              getComponent={() =>
-                import(/* webpackChunkName: "stop" */ './component/StopTitle').then(
-                  getDefault,
-                )
-              }
+              path="(.*)?"
+              getComponent={() => {
+                return isTerminal
+                  ? import(/* webpackChunkName: "stop" */ './component/TerminalTitle').then(
+                      getDefault,
+                    )
+                  : import(/* webpackChunkName: "stop" */ './component/StopTitle').then(
+                      getDefault,
+                    );
+              }}
             />
           ),
           header: (
             <Route
+              path="(.*)?"
               getComponent={() => {
                 return isTerminal
                   ? import(/* webpackChunkName: "stop" */ './component/TerminalPageHeaderContainer').then(
@@ -187,7 +193,6 @@ export default function getStopRoutes(isTerminal = false) {
               query={queryMap.pageTab}
             >
               <Route
-                path="/"
                 getComponent={() => {
                   return isTerminal
                     ? import(/* webpackChunkName: "stop" */ './component/TerminalPageContentContainer')
@@ -244,6 +249,7 @@ export default function getStopRoutes(isTerminal = false) {
           ),
           map: (
             <Route
+              path="(.*)?"
               getComponent={() => {
                 return isTerminal
                   ? import(/* webpackChunkName: "stop" */ './component/TerminalPageMapContainer').then(
@@ -258,6 +264,7 @@ export default function getStopRoutes(isTerminal = false) {
           ),
           meta: (
             <Route
+              path="(.*)?"
               getComponent={() => {
                 return isTerminal
                   ? import(/* webpackChunkName: "stop" */ './component/TerminalPageMeta').then(
