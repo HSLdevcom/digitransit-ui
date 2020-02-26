@@ -51,6 +51,7 @@ describe('<RoutePatternSelect />', () => {
 
   it('should render a toggle element with divs if there are no patterns with trips', () => {
     const props = {
+      lang: 'fi', // DT-3347
       activeTab: 'pysakit',
       gtfsId: 'HSL:3002U',
       onSelectChange: () => {},
@@ -113,6 +114,7 @@ describe('<RoutePatternSelect />', () => {
     const serviceDayInSecs = currentDay.getTime() / 1000;
 
     const props = {
+      lang: 'fi', // DT-3347
       activeTab: 'pysakit',
       gtfsId: 'HSL:3002U',
       onSelectChange: () => {},
@@ -183,6 +185,7 @@ describe('<RoutePatternSelect />', () => {
 
   it('should not crash if there are no patterns with trips available for the current date', () => {
     const props = {
+      lang: 'fi', // DT-3347
       activeTab: 'pysakit',
       gtfsId: 'HSL:3002U',
       onSelectChange: () => {},
@@ -224,6 +227,7 @@ describe('<RoutePatternSelect />', () => {
 
   it('should not display a single pattern as a div inside a select element', () => {
     const props = {
+      lang: 'fi', // DT-3347
       activeTab: 'pysakit',
       gtfsId: 'LINKKI:9422',
       onSelectChange: () => {},
@@ -279,6 +283,7 @@ describe('<RoutePatternSelect />', () => {
 
   it.skip('should call addAnalyticsEvent when select is opened', () => {
     const props = {
+      lang: 'fi', // DT-3347
       serviceDay: 'test',
       onSelectChange: () => {},
       gtfsId: 'test',
@@ -328,6 +333,7 @@ describe('<RoutePatternSelect />', () => {
     const futureTrip32 = currentTimeInSecs - serviceDayInSecs + 14520;
 
     const props = {
+      lang: 'fi', // DT-3347
       useCurrentTime: true,
       onSelectChange: () => {},
       gtfsId: 'HSL:1010',

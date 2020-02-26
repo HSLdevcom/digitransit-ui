@@ -1,6 +1,7 @@
 import moment from 'moment';
 
 export default {
+  lang: 'fi', // DT-3347
   onSelectChange: () => {},
   gtfsId: 'HSL:1010',
   activeTab: 'pysakit',

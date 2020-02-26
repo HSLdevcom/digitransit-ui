@@ -1,0 +1,11 @@
+{
+  "name": "@digitransit-util/digitransit-util-day-range-allowed-diff",
+  "version": "1.0.0",
+  "description": "digitransit-util digitransit-util-day-range-allowed-diff module",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -r esm test.js",
+    "docs": "node -r esm ../../scripts/generate-readmes"
+  },
+  "license": "(AGPL-3.0 OR EUPL-1.2)"
+}
