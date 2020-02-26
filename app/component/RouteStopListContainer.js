@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createRefetchContainer, graphql } from 'react-relay';
+import { matchShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
@@ -25,6 +26,7 @@ class RouteStopListContainer extends React.PureComponent {
 
   static contextTypes = {
     config: PropTypes.object.isRequired,
+    match: matchShape.isRequired,
   };
 
   componentDidMount() {
@@ -92,7 +94,10 @@ class RouteStopListContainer extends React.PureComponent {
     const nextUnix = currentTime.unix();
     if (currUnix !== nextUnix) {
       relay.refetch(
-        { currentTime: nextUnix, patternId: this.props.pattern.code },
+        {
+          currentTime: nextUnix,
+          patternId: this.context.match.params.patternId,
+        },
         null,
       );
     }
@@ -161,7 +166,8 @@ const containerComponent = createRefetchContainer(
       $currentTime: Long!
     ) {
       pattern(id: $patternId) {
-        ...RouteStopListContainer_pattern @arguments(currentTime: $currentTime)
+        ...RouteStopListContainer_pattern
+          @arguments(currentTime: $currentTime, patternId: $patternId)
       }
     }
   `,
