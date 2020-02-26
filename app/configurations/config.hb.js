@@ -335,14 +335,6 @@ export default configMerger(walttiConfig, {
         },
         url: '/assets/geojson/hb-layers/taxi-and-sharing.geojson',
       },
-      {
-        name: {
-          fi: '',
-          en: 'Car parkings',
-          de: 'Parken (& Reisen)',
-        },
-        url: '/assets/geojson/hb-layers/car-parking.geojson',
-      },
       // Charging stations
       {
         name: {

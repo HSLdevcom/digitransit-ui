@@ -203,7 +203,7 @@ class SelectMapLayersDialog extends React.Component {
             config.dynamicParkingLots.showDynamicParkingLots && (
               <Checkbox
                 checked={dynamicParkingLots}
-                defaultMessage="Dynamic parking lots"
+                defaultMessage="Parking"
                 labelId="map-layer-dynamic-parking-lots"
                 onChange={e =>
                   this.updateSetting({ dynamicParkingLots: e.target.checked })
