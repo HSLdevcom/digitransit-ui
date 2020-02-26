@@ -15,202 +15,196 @@ export default (
     <Route Component={Error404} />
     {/* TODO: Should return list of all routes */}
     <Route path=":routeId">
-      <Redirect to="pysakit" />
-      <Route path="pysakit">
-        <Redirect to=":routeId%3A0%3A01" />
-        {/* Redirect to first pattern of route */}
-        <Route path=":patternId">
-          {{
-            title: (
-              <Route
-                path="(.*)?"
-                getComponent={() =>
-                  import(/* webpackChunkName: "route" */ './component/RouteTitle').then(
-                    getDefault,
-                  )
+      {{
+        title: (
+          <Route
+            path="(.*)?"
+            getComponent={() =>
+              import(/* webpackChunkName: "route" */ './component/RouteTitle').then(
+                getDefault,
+              )
+            }
+            query={graphql`
+              query routeRoutes_RouteTitle_Query($routeId: String!) {
+                route(id: $routeId) {
+                  ...RouteTitle_route
                 }
-                query={graphql`
-                  query routeRoutes_RouteTitle_Query($routeId: String!) {
-                    route(id: $routeId) {
-                      ...RouteTitle_route
-                    }
-                  }
-                `}
-              />
-            ),
-            meta: (
-              <Route
-                path="(.*)?"
-                getComponent={() =>
-                  import(/* webpackChunkName: "route" */ './component/RoutePageMeta').then(
-                    getDefault,
-                  )
+              }
+            `}
+          />
+        ),
+        meta: (
+          <Route
+            path="(.*)?"
+            getComponent={() =>
+              import(/* webpackChunkName: "route" */ './component/RoutePageMeta').then(
+                getDefault,
+              )
+            }
+            query={graphql`
+              query routeRoutes_RoutePageMeta_Query($routeId: String!) {
+                route(id: $routeId) {
+                  ...RoutePageMeta_route
                 }
-                query={graphql`
-                  query routeRoutes_RoutePageMeta_Query($routeId: String!) {
-                    route(id: $routeId) {
-                      ...RoutePageMeta_route
-                    }
-                  }
-                `}
-              />
-            ),
-            header: (
-              <Route
-                path="(.*)?"
-                getComponent={() =>
-                  import(/* webpackChunkName: "route" */ './component/RoutePage').then(
-                    getDefault,
-                  )
+              }
+            `}
+          />
+        ),
+        header: (
+          <Route
+            path="(.*)?"
+            getComponent={() =>
+              import(/* webpackChunkName: "route" */ './component/RoutePage').then(
+                getDefault,
+              )
+            }
+            query={graphql`
+              query routeRoutes_RoutePage_Query(
+                $routeId: String!
+                $date: String!
+              ) {
+                route(id: $routeId) {
+                  ...RoutePage_route @arguments(date: $date)
                 }
-                query={graphql`
-                  query routeRoutes_RoutePage_Query(
-                    $routeId: String!
-                    $date: String!
-                  ) {
-                    route(id: $routeId) {
-                      ...RoutePage_route @arguments(date: $date)
-                    }
-                  }
-                `}
-                prepareVariables={prepareServiceDay}
-              />
-            ),
-            map: [
-              <Route
-                path="pysakit/:patternId/:tripId"
-                getComponent={() =>
-                  import(/* webpackChunkName: "route" */ './component/RouteMapContainer').then(
-                    getDefault,
-                  )
+              }
+            `}
+            prepareVariables={prepareServiceDay}
+          />
+        ),
+        map: [
+          <Route
+            path="pysakit/:patternId/:tripId"
+            getComponent={() =>
+              import(/* webpackChunkName: "route" */ './component/RouteMapContainer').then(
+                getDefault,
+              )
+            }
+            query={graphql`
+              query routeRoutes_RouteMapContainer_withTrip_Query(
+                $patternId: String!
+                $tripId: String!
+              ) {
+                pattern(id: $patternId) {
+                  ...RouteMapContainer_pattern
                 }
-                query={graphql`
-                  query routeRoutes_RouteMapContainer_withTrip_Query(
-                    $patternId: String!
-                    $tripId: String!
-                  ) {
-                    pattern(id: $patternId) {
-                      ...RouteMapContainer_pattern
-                    }
-                    trip(id: $tripId) {
-                      ...RouteMapContainer_trip
-                    }
-                  }
-                `}
-              />,
-              <Route
-                path=":type/:patternId/(.*)?"
-                getComponent={() =>
-                  import(/* webpackChunkName: "route" */ './component/RouteMapContainer').then(
-                    getDefault,
-                  )
+                trip(id: $tripId) {
+                  ...RouteMapContainer_trip
                 }
-                query={graphql`
-                  query routeRoutes_RouteMapContainer_Query(
-                    $patternId: String!
-                  ) {
-                    pattern(id: $patternId) {
-                      ...RouteMapContainer_pattern
-                    }
+              }
+            `}
+          />,
+          <Route
+            path=":type/:patternId/(.*)?"
+            getComponent={() =>
+              import(/* webpackChunkName: "route" */ './component/RouteMapContainer').then(
+                getDefault,
+              )
+            }
+            query={graphql`
+              query routeRoutes_RouteMapContainer_Query($patternId: String!) {
+                pattern(id: $patternId) {
+                  ...RouteMapContainer_pattern
+                }
+              }
+            `}
+          />,
+          <Route path="(.?)*" />,
+        ],
+        content: [
+          <Route path="pysakit">
+            <Redirect
+              to={`/${PREFIX_ROUTES}/:routeId/pysakit/:routeId%3A0%3A01`}
+            />
+            <Route
+              path=":patternId"
+              getComponent={() =>
+                import(/* webpackChunkName: "route" */ './component/PatternStopsContainer').then(
+                  getDefault,
+                )
+              }
+              query={graphql`
+                query routeRoutes_PatternStopsContainer_Query(
+                  $patternId: String!
+                ) {
+                  pattern(id: $patternId) {
+                    ...PatternStopsContainer_pattern
+                      @arguments(patternId: $patternId)
                   }
-                `}
-              />,
-              <Route path="(.?)*" />,
-            ],
-            content: [
-              <Redirect to={`/${PREFIX_ROUTES}/:routeId/pysakit`} />,
-              <Route path="pysakit">
-                <Redirect
-                  to={`/${PREFIX_ROUTES}/:routeId/pysakit/:routeId%3A0%3A01`}
-                />
-                {/* Redirect to first pattern of route */}
-                <Route
-                  path=":patternId"
-                  getComponent={() =>
-                    import(/* webpackChunkName: "route" */ './component/PatternStopsContainer').then(
-                      getDefault,
-                    )
+                }
+              `}
+              prepareVariables={prepareServiceDay}
+            />
+            <Route
+              path=":patternId/:tripId"
+              getComponent={() =>
+                import(/* webpackChunkName: "route" */ './component/TripStopsContainer').then(
+                  getDefault,
+                )
+              }
+              query={graphql`
+                query routeRoutes_TripStopsContainer_Query(
+                  $patternId: String!
+                  $tripId: String!
+                ) {
+                  pattern(id: $patternId) {
+                    ...TripStopsContainer_pattern
                   }
-                  query={graphql`
-                    query routeRoutes_PatternStopsContainer_Query(
-                      $patternId: String!
-                    ) {
-                      pattern(id: $patternId) {
-                        ...PatternStopsContainer_pattern
-                      }
-                    }
-                  `}
-                />
-                <Route
-                  path=":patternId/:tripId"
-                  getComponent={() =>
-                    import(/* webpackChunkName: "route" */ './component/TripStopsContainer').then(
-                      getDefault,
-                    )
+                  trip(id: $tripId) {
+                    ...TripStopsContainer_trip
                   }
-                  query={graphql`
-                    query routeRoutes_TripStopsContainer_Query(
-                      $patternId: String!
-                      $tripId: String!
-                    ) {
-                      pattern(id: $patternId) {
-                        ...TripStopsContainer_pattern
-                      }
-                      trip(id: $tripId) {
-                        ...TripStopsContainer_trip
-                      }
-                    }
-                  `}
-                />
-              </Route>,
-              <Route path="aikataulu">
-                <Redirect
-                  to={`/${PREFIX_ROUTES}/:routeId/aikataulu/:routeId%3A0%3A01`}
-                />
-                <Route
-                  path=":patternId"
-                  disableMapOnMobile
-                  getComponent={() =>
-                    import(/* webpackChunkName: "route" */ './component/RouteScheduleContainer').then(
-                      getDefault,
-                    )
+                }
+              `}
+            />
+          </Route>,
+          <Route path="aikataulu">
+            <Redirect
+              to={`/${PREFIX_ROUTES}/:routeId/aikataulu/:routeId%3A0%3A01`}
+            />
+            <Route
+              path=":patternId"
+              disableMapOnMobile
+              getComponent={() =>
+                import(/* webpackChunkName: "route" */ './component/RouteScheduleContainer').then(
+                  getDefault,
+                )
+              }
+              query={graphql`
+                query routeRoutes_RouteScheduleContainer_Query(
+                  $patternId: String!
+                ) {
+                  pattern(id: $patternId) {
+                    ...RouteScheduleContainer_pattern
                   }
-                  query={graphql`
-                    query routeRoutes_RouteScheduleContainer_Query(
-                      $patternId: String!
-                    ) {
-                      pattern(id: $patternId) {
-                        ...RouteScheduleContainer_pattern
-                      }
-                    }
-                  `}
-                />
-              </Route>,
-              <Route path="hairiot">
-                <Redirect
-                  to={`/${PREFIX_ROUTES}/:routeId/hairiot/:routeId%3A0%3A01`}
-                />
-                <Route
-                  getComponent={() =>
-                    import(/* webpackChunkName: "route" */ './component/RouteAlertsContainer').then(
-                      getDefault,
-                    )
+                }
+              `}
+            />
+          </Route>,
+          <Route path="hairiot">
+            <Redirect
+              to={`/${PREFIX_ROUTES}/:routeId/hairiot/:routeId%3A0%3A01`}
+            />
+            <Route
+              path=":patternId"
+              getComponent={() =>
+                import(/* webpackChunkName: "route" */ './component/RouteAlertsContainer').then(
+                  getDefault,
+                )
+              }
+              query={graphql`
+                query routeRoutes_RouteAlertsContainer_Query(
+                  $routeId: String!
+                  $date: String!
+                ) {
+                  route(id: $routeId) {
+                    ...RouteAlertsContainer_route @arguments(date: $date)
                   }
-                  query={graphql`
-                    query routeRoutes_RouteAlertsContainer_Query(
-                      $routeId: String!
-                    ) {
-                      route(id: $routeId) {
-                        ...RouteAlertsContainer_route
-                      }
-                    }
-                  `}
-                />
-              </Route>,
-            ],
-          }}
-        </Route>
-      </Route>
+                }
+              `}
+              prepareVariables={prepareServiceDay}
+            />
+          </Route>,
+        ],
+      }}
     </Route>
   </Route>
 );
