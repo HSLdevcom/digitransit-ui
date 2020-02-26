@@ -41,6 +41,10 @@ class RoutePatternSelect extends Component {
     config: PropTypes.object, // DT-3317
   };
 
+  state = {
+    loading: true,
+  };
+
   constructor(props) {
     super(props);
     this.props.relay.refetch(
@@ -214,52 +218,48 @@ RoutePatternSelect.description = () => (
 );
 
 // DT-2531: added activeDates
-const withStore = connectToStores(
-  createRefetchContainer(
-    RoutePatternSelect,
-    {
-      route: graphql`
-        fragment RoutePatternSelect_route on Route
-          @argumentDefinitions(date: { type: "String" }) {
-          patterns {
-            code
-            headsign
-            stops {
-              name
-            }
-            tripsForDate(serviceDate: $date) {
-              id
-              stoptimes: stoptimesForDate(serviceDate: $date) {
-                scheduledArrival
-                scheduledDeparture
-                serviceDay
-                stop {
-                  id
-                }
-              }
-            }
-            activeDates: trips {
-              day: activeDates
-            }
-          }
-        }
-      `,
-    },
-    graphql`
-      query RoutePatternSelectQuery($routeId: String!, $date: String!) {
-        route(id: $routeId) {
-          ...RoutePatternSelect_route @arguments(date: $date)
-        }
-      }
-    `,
-  ),
-  [],
-  context => ({
+const withStore = createRefetchContainer(
+  connectToStores(RoutePatternSelect, [], context => ({
     serviceDay: context
       .getStore('TimeStore')
       .getCurrentTime()
       .format(DATE_FORMAT),
-  }),
+  })),
+  {
+    route: graphql`
+      fragment RoutePatternSelect_route on Route
+        @argumentDefinitions(date: { type: "String" }) {
+        patterns {
+          code
+          headsign
+          stops {
+            name
+          }
+          tripsForDate(serviceDate: $date) {
+            id
+            stoptimes: stoptimesForDate(serviceDate: $date) {
+              scheduledArrival
+              scheduledDeparture
+              serviceDay
+              stop {
+                id
+              }
+            }
+          }
+          activeDates: trips {
+            day: activeDates
+          }
+        }
+      }
+    `,
+  },
+  graphql`
+    query RoutePatternSelectQuery($routeId: String!, $date: String!) {
+      route(id: $routeId) {
+        ...RoutePatternSelect_route @arguments(date: $date)
+      }
+    }
+  `,
 );
 
 export { withStore as default, RoutePatternSelect as Component };
