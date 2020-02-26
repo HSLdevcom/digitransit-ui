@@ -226,14 +226,12 @@ describe('Testing @digitransit-util/digitransit-util-route-pattern-option-text m
         pattern.dayString = test.dayString;
         pattern.fromDate = test.fromDate;
         pattern.untilDate = test.untilDate;
-        // console.log(pattern);
         it(test.title, () => {
           const retValue = routePatternOptionText(
             language,
             pattern,
             test.togglable,
           );
-          // console.log("\t" + retValue);
           expect(retValue).to.be.equal(test.expected[index]);
         });
       });
