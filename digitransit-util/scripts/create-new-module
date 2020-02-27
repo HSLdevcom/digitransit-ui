@@ -48,7 +48,7 @@ export default function ${camelcaseName}(param1, param2) {
 // Create package.json
 writeFileSync(join(folderPath, 'package.json'), `{
   "name": "@digitransit-util/digitransit-util-${decamelizeName}",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "digitransit-util ${decamelizeName} module",
   "main": "index.js",
   "scripts": {
