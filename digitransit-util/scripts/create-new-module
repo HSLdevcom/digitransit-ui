@@ -51,6 +51,9 @@ writeFileSync(join(folderPath, 'package.json'), `{
   "version": "0.0.1",
   "description": "digitransit-util ${decamelizeName} module",
   "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "test": "mocha -r esm test.js",
     "docs": "node -r esm ../../scripts/generate-readmes"
