@@ -4,7 +4,12 @@ import { graphql } from 'react-relay';
 
 import Error404 from './component/404';
 import { PREFIX_STOPS, PREFIX_TERMINALS } from './util/path';
-import { getDefault, errorLoading } from './util/routerUtils';
+import {
+  getDefault,
+  errorLoading,
+  getComponentOrNullRenderer,
+  getComponentOrLoadingRenderer,
+} from './util/routerUtils';
 import { prepareDatesForStops, prepareServiceDay } from './util/dateParamUtils';
 
 const queries = {
@@ -162,6 +167,7 @@ export default function getStopRoutes(isTerminal = false) {
                       getDefault,
                     );
               }}
+              render={getComponentOrNullRenderer}
             />
           ),
           header: (
@@ -177,6 +183,7 @@ export default function getStopRoutes(isTerminal = false) {
                     );
               }}
               query={queryMap.pageHeader}
+              render={getComponentOrNullRenderer}
             />
           ),
           content: (
@@ -191,6 +198,7 @@ export default function getStopRoutes(isTerminal = false) {
                     );
               }}
               query={queryMap.pageTab}
+              render={getComponentOrNullRenderer}
             >
               <Route
                 getComponent={() => {
@@ -203,6 +211,7 @@ export default function getStopRoutes(isTerminal = false) {
                         .catch(errorLoading);
                 }}
                 query={queryMap.pageContent}
+                render={getComponentOrLoadingRenderer}
               />
               <Route
                 path="aikataulu"
@@ -217,6 +226,7 @@ export default function getStopRoutes(isTerminal = false) {
                 }}
                 query={queryMap.pageTimetable}
                 prepareVariables={prepareServiceDay}
+                render={getComponentOrLoadingRenderer}
               />
               <Route
                 path="linjat"
@@ -230,6 +240,7 @@ export default function getStopRoutes(isTerminal = false) {
                         .catch(errorLoading);
                 }}
                 query={queryMap.pageRoutes}
+                render={getComponentOrLoadingRenderer}
               />
               <Route
                 path="hairiot"
@@ -244,6 +255,7 @@ export default function getStopRoutes(isTerminal = false) {
                 }}
                 query={queryMap.pageAlerts}
                 prepareVariables={prepareDatesForStops}
+                render={getComponentOrLoadingRenderer}
               />
             </Route>
           ),
@@ -260,6 +272,7 @@ export default function getStopRoutes(isTerminal = false) {
                     );
               }}
               query={queryMap.pageMap}
+              render={getComponentOrNullRenderer}
             />
           ),
           meta: (
@@ -275,6 +288,7 @@ export default function getStopRoutes(isTerminal = false) {
                     );
               }}
               query={queryMap.pageMeta}
+              render={getComponentOrNullRenderer}
             />
           ),
         }}
