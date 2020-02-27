@@ -15,6 +15,7 @@ import {
   retryMiddleware,
   batchMiddleware,
   errorMiddleware,
+  cacheMiddleware,
 } from 'react-relay-network-modern';
 import RelayServerSSR from 'react-relay-network-modern-ssr/lib/server';
 import provideContext from 'fluxible-addons-react/provideContext';
@@ -152,9 +153,9 @@ function getEnvironment(config, agent) {
   const layer = new RelayNetworkLayer([
     next => req => next(req).catch(() => ({ payload: { data: null } })),
     relaySSRMiddleware.getMiddleware(),
-    retryMiddleware({
-      fetchTimeout: isRobotRequest(agent) ? 10000 : RELAY_FETCH_TIMEOUT,
-      retryDelays: [],
+    cacheMiddleware({
+      size: 200,
+      ttl: 60 * 60 * 1000,
     }),
     urlMiddleware({
       url: () => Promise.resolve(`${config.URL.OTP}index/graphql`),
@@ -163,6 +164,10 @@ function getEnvironment(config, agent) {
       batchUrl: () => Promise.resolve(`${config.URL.OTP}index/graphql/batch`),
     }),
     errorMiddleware(),
+    retryMiddleware({
+      fetchTimeout: isRobotRequest(agent) ? 10000 : RELAY_FETCH_TIMEOUT,
+      retryDelays: [],
+    }),
   ]);
 
   const environment = new Environment({

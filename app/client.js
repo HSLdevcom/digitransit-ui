@@ -17,6 +17,7 @@ import {
   retryMiddleware,
   batchMiddleware,
   errorMiddleware,
+  cacheMiddleware,
 } from 'react-relay-network-modern';
 import RelayClientSSR from 'react-relay-network-modern-ssr/lib/client';
 import OfflinePlugin from 'offline-plugin/runtime';
@@ -121,16 +122,20 @@ async function init() {
 
   const network = new RelayNetworkLayer([
     relaySSRMiddleware.getMiddleware(),
+    cacheMiddleware({
+      size: 200,
+      ttl: 60 * 60 * 1000,
+    }),
     urlMiddleware({
       url: () => Promise.resolve(`${config.URL.OTP}index/graphql`),
     }),
     batchMiddleware({
       batchUrl: () => Promise.resolve(`${config.URL.OTP}index/graphql/batch`),
     }),
+    errorMiddleware(),
     retryMiddleware({
       fetchTimeout: config.OTPTimeout + 1000,
     }),
-    errorMiddleware(),
     next => async req => {
       // eslint-disable-next-line no-param-reassign
       req.fetchOpts.headers.OTPTimeout = config.OTPTimeout;
