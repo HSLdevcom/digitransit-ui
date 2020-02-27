@@ -67,9 +67,10 @@ function Icon({
   viewBox,
   width,
   dataURI,
+  tooltip,
 }) {
   return (
-    <span aria-hidden className="icon-container">
+    <span aria-hidden className="icon-container" title={tooltip}>
       <svg
         id={id}
         style={{
@@ -106,6 +107,7 @@ Icon.propTypes = {
   viewBox: PropTypes.string,
   width: PropTypes.number,
   dataURI: PropTypes.string,
+  tooltip: PropTypes.string,
 };
 
 Icon.defaultProps = {
@@ -119,6 +121,7 @@ Icon.defaultProps = {
   omitViewBox: false,
   viewBox: '0 0 40 40',
   width: undefined,
+  tooltip: undefined,
 };
 
 Icon.asString = ({

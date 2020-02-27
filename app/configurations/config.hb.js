@@ -43,6 +43,10 @@ export default configMerger(walttiConfig, {
 
   MATOMO_URL: process.env.MATOMO_URL,
 
+  defaultSettings: {
+    optimize: "GREENWAYS",
+  },
+
   appBarLink: {
     name: 'Feedback',
     href: 'https://mobil-in-herrenberg.de/feedback',
@@ -66,8 +70,8 @@ export default configMerger(walttiConfig, {
   },
 
   dynamicParkingLots: {
-    showDynamicParkingLots: false,
-    dynamicParkingLotsSmallIconZoom: 16,
+    showDynamicParkingLots: true,
+    dynamicParkingLotsSmallIconZoom: 14,
     dynamicParkingLotsMinZoom: 14
   },
 
@@ -330,14 +334,6 @@ export default configMerger(walttiConfig, {
           de: 'Taxi & Sharing-Angebot',
         },
         url: '/assets/geojson/hb-layers/taxi-and-sharing.geojson',
-      },
-      {
-        name: {
-          fi: '',
-          en: 'Car parkings',
-          de: 'Parken (& Reisen)',
-        },
-        url: '/assets/geojson/hb-layers/car-parking.geojson',
       },
       // Charging stations
       {

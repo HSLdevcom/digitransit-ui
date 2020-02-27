@@ -198,17 +198,6 @@ class SelectMapLayersDialog extends React.Component {
                 }}
               />
             )}
-          {config.dynamicParkingLots &&
-            config.dynamicParkingLots.showDynamicParkingLots && (
-              <Checkbox
-                checked={dynamicParkingLots}
-                defaultMessage="Dynamic parking lots"
-                labelId="map-layer-dynamicparkinglot"
-                onChange={e =>
-                  this.updateSetting({ dynamicParkingLots: e.target.checked })
-                }
-              />
-            )}
           {config.roadworks &&
             config.roadworks.showRoadworks && (
               <Checkbox
@@ -217,6 +206,17 @@ class SelectMapLayersDialog extends React.Component {
                 labelId="map-layer-roadworks"
                 onChange={e =>
                   this.updateSetting({ roadworks: e.target.checked })
+                }
+              />
+            )}
+          {config.dynamicParkingLots &&
+            config.dynamicParkingLots.showDynamicParkingLots && (
+              <Checkbox
+                checked={dynamicParkingLots}
+                defaultMessage="Parking"
+                labelId="map-layer-dynamic-parking-lots"
+                onChange={e =>
+                  this.updateSetting({ dynamicParkingLots: e.target.checked })
                 }
               />
             )}
