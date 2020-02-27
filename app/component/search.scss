@@ -27,7 +27,7 @@ $item-border-color: #eee;
   pointer-events: none;
   position: absolute;
   width: 52.5%;
-  z-index: index($zindex, search-panel);
+  z-index: 25;
 
   & .autosuggest-input-container,
   & .street-mode-selector-popup-options,

@@ -273,7 +273,24 @@ $heading-color: #858585;
   display: flex;
   flex-direction: column;
 }
+.info-panel-container-left {
+  display: flex;
+  order: 1;
+  flex-direction: column;
+  align-items: stretch;
+  background-color: #ffffff; // TODO: Placeholder value!
+  position: absolute;
+  height: 100%;
+  width: 600px; // TODO: Placeholder value!
+  min-width: 600px; // TODO: Placeholder value!
+  z-index: 20; // TODO: Placeholder value!
+}
 
+.info-panel-container-bottom {
+  width: 100%;
+  background-color: #ffffff;
+  height: 300px;
+}
 .map-container {
   display: flex;
   flex-basis: 50%;
@@ -402,6 +419,7 @@ div.route-tabs .tabs-navigation.bp-large {
   bottom: 0px;
   position: absolute;
   z-index: index($zindex, footer);
+  left: 32% //TODO: Placeholder value!
 }
 
 #page-footer {
