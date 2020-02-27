@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
+import { intlShape } from 'react-intl';
 import MarkerPopupBottom from '../MarkerPopupBottom';
 import Card from '../../Card';
 import CardHeader from '../../CardHeader';
@@ -26,7 +27,7 @@ class DynamicParkingLotsPopup extends React.Component {
     </div>
   );
 
-  static displayName = 'CityBikePopup';
+  static displayName = 'ParkingLotPopup';
 
   static propTypes = {
     feature: PropTypes.object.isRequired,
@@ -34,18 +35,34 @@ class DynamicParkingLotsPopup extends React.Component {
     lon: PropTypes.number.isRequired,
   };
 
+  getDesc() {
+    const { intl } = this.context;
+    if (this.props.feature.properties && this.props.feature.properties.free) {
+      return intl.formatMessage(
+        {
+          id: 'parking-spaces-available',
+          defaultMessage: '{free} of {total} parking spaces available',
+        },
+        this.props.feature.properties,
+      );
+    }
+    return intl.formatMessage(
+      {
+        id: 'parking-spaces-in-total',
+        defaultMessage: 'Capacity: {total} parking spaces',
+      },
+      this.props.feature.properties,
+    );
+  }
+
   render() {
-    // console.log(this)
+    const desc = this.getDesc();
     return (
       <Card>
         <div className="padding-small">
           <CardHeader
             name={this.props.feature.properties.name}
-            description={`${
-              this.props.feature.properties.currentCapacity
-            } von ${
-              this.props.feature.properties.capacity
-            } Parkplätzen verfügbar`}
+            description={desc}
             unlinked
             className="padding-small"
           />
@@ -61,6 +78,10 @@ class DynamicParkingLotsPopup extends React.Component {
     );
   }
 }
+
+DynamicParkingLotsPopup.contextTypes = {
+  intl: intlShape.isRequired,
+};
 
 export default Relay.createContainer(DynamicParkingLotsPopup, {
   fragments: {
