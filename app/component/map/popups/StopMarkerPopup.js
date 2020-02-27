@@ -18,30 +18,29 @@ class StopMarkerPopup extends React.PureComponent {
   UNSAFE_componentWillReceiveProps({ relay, currentTime }) {
     const currUnix = this.props.currentTime;
     if (currUnix !== currentTime) {
-      relay.refetch({ startTime: currUnix }, null);
+      relay.refetch(oldVariables => {
+        return { ...oldVariables, startTime: currUnix };
+      });
     }
   }
 
   render() {
-    const { currentTime, stop, terminal } = this.props;
-    const entity = stop || terminal;
-    const isTerminal = terminal !== null;
+    const { currentTime, stop } = this.props;
 
     return (
       <div className="card">
         <StopCardContainer
-          stop={entity}
+          stop={stop}
           currentTime={currentTime}
-          isTerminal={isTerminal}
           limit={NUMBER_OF_DEPARTURES}
           isPopUp
           className="card-padding"
         />
         <MarkerPopupBottom
           location={{
-            address: entity.name,
-            lat: entity.lat,
-            lon: entity.lon,
+            address: stop.name,
+            lat: stop.lat,
+            lon: stop.lon,
           }}
         />
       </div>
@@ -51,7 +50,6 @@ class StopMarkerPopup extends React.PureComponent {
 
 StopMarkerPopup.propTypes = {
   stop: PropTypes.object,
-  terminal: PropTypes.object,
   currentTime: PropTypes.number.isRequired,
   relay: PropTypes.shape({
     refetch: PropTypes.func.isRequired,
@@ -84,26 +82,24 @@ const StopMarkerPopupContainer = createRefetchContainer(
           )
       }
     `,
-    terminal: graphql`
-      fragment StopMarkerPopup_terminal on Stop
-        @argumentDefinitions(
-          startTime: { type: "Long!", defaultValue: 0 }
-          timeRange: { type: "Long!", defaultValue: 3600 }
-          numberOfDepartures: { type: "Int!", defaultValue: 15 }
-        ) {
-        gtfsId
-        lat
-        lon
-        name
-        ...StopCardContainer_stop
+  },
+  graphql`
+    query StopMarkerPopupQuery(
+      $stopId: String!
+      $startTime: Long!
+      $timeRange: Long!
+      $numberOfDepartures: Int!
+    ) {
+      stop(id: $stopId) {
+        ...StopMarkerPopup_stop
           @arguments(
             startTime: $startTime
             timeRange: $timeRange
             numberOfDepartures: $numberOfDepartures
           )
       }
-    `,
-  },
+    }
+  `,
 );
 
 StopMarkerPopupContainer.displayName = 'StopMarkerPopup';

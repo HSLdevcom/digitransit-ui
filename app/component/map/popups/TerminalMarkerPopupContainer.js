@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { graphql } from 'react-relay';
 import QueryRenderer from 'react-relay/lib/ReactRelayQueryRenderer';
 
-import StopMarkerPopup from './StopMarkerPopup';
+import TerminalMarkerPopup from './TerminalMarkerPopup';
 import Loading from '../../Loading';
 import getRelayEnvironment from '../../../util/getRelayEnvironment';
 
@@ -18,8 +18,8 @@ function TerminalMarkerPopupContainer(props) {
           $timeRange: Int!
           $numberOfDepartures: Int!
         ) {
-          terminal: station(id: $terminalId) {
-            ...StopMarkerPopup_terminal
+          station: station(id: $terminalId) {
+            ...TerminalMarkerPopup_station
               @arguments(
                 startTime: $startTime
                 timeRange: $timeRange
@@ -37,10 +37,9 @@ function TerminalMarkerPopupContainer(props) {
       environment={props.relayEnvironment}
       render={({ props: renderProps }) =>
         renderProps ? (
-          <StopMarkerPopup
+          <TerminalMarkerPopup
             {...renderProps}
             currentTime={props.currentTime}
-            stop={null}
           />
         ) : (
           <div className="card" style={{ height: '12rem' }}>

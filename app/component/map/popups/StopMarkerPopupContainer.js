@@ -37,11 +37,7 @@ function StopMarkerPopupContainer(props) {
       environment={props.relayEnvironment}
       render={({ props: renderProps }) =>
         renderProps ? (
-          <StopMarkerPopup
-            {...renderProps}
-            currentTime={props.currentTime}
-            terminal={null}
-          />
+          <StopMarkerPopup {...renderProps} currentTime={props.currentTime} />
         ) : (
           <div className="card" style={{ height: '12rem' }}>
             {' '}
