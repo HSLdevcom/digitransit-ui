@@ -14,7 +14,7 @@ import {
 } from '../action/PositionActions';
 import storeOrigin from '../action/originActions';
 import FrontPagePanelLarge from './FrontPagePanelLarge';
-import FrontPagePanelSmall from './FrontPagePanelSmall';
+import InfoPanelContainer from './InfoPanelContainer';
 import MapWithTracking from './map/MapWithTracking';
 import PageFooter from './PageFooter';
 import DTAutosuggestPanel from './DTAutosuggestPanel';
@@ -236,6 +236,9 @@ class IndexPage extends React.Component {
             destinationPlaceHolder="search-destination"
           />
         </div>
+        <div className="info-panel-container-left">
+          <InfoPanelContainer />
+        </div>
         <div key="foo" className="fpccontainer">
           <FrontPagePanelLarge
             selectedPanel={selectedMainTab}
@@ -315,15 +318,9 @@ class IndexPage extends React.Component {
               <Icon img="icon-icon_maximize" className="cursor-pointer" />
             )}
           </div>
-          <FrontPagePanelSmall
-            selectedPanel={selectedMainTab}
-            nearbyClicked={this.clickNearby}
-            favouritesClicked={this.clickFavourites}
-            mapExpanded={mapExpanded}
-            location={origin}
-          >
-            {this.renderTab()}
-          </FrontPagePanelSmall>
+        </div>
+        <div className="info-panel-container-bottom">
+          <InfoPanelContainer />
         </div>
       </div>
     );
