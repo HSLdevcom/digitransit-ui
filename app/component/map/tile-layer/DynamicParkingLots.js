@@ -6,7 +6,7 @@ import { isBrowser } from '../../../util/browser';
 import {
   drawRoundIcon,
   drawIcon,
-  drawAvailabilityValue,
+  drawAvailabilityBadge,
 } from '../../../util/mapIconUtils';
 import glfun from '../../../util/glfun';
 
@@ -21,7 +21,7 @@ class DynamicParkingLots {
     this.config = config;
 
     this.scaleratio = (isBrowser && window.devicePixelRatio) || 1;
-    this.citybikeImageSize =
+    this.parkingLotImageSize =
       20 * this.scaleratio * getScale(this.tile.coords.z);
     this.availabilityImageSize =
       14 * this.scaleratio * getScale(this.tile.coords.z);
@@ -59,6 +59,22 @@ class DynamicParkingLots {
       );
     });
 
+  getIcon = type => {
+    if (type === 'Parkhaus' || type === 'Tiefgarage') {
+      return 'covered_carpark';
+    }
+    if (type === 'Park-Ride') {
+      return 'p+r';
+    }
+    if (type === 'Park-Carpool') {
+      return 'carpark_carpool';
+    }
+    if (type === 'Wohnmobilparkplatz') {
+      return 'caravan';
+    }
+    return 'open_carpark';
+  };
+
   fetchAndDrawStatus = ({ geom, properties }) => {
     if (
       this.tile.coords.z <=
@@ -67,29 +83,32 @@ class DynamicParkingLots {
       return drawRoundIcon(this.tile, geom, 'car');
     }
 
+    const icon = this.getIcon(properties.lot_type);
+
     return drawIcon(
-      'icon-icon_car',
+      `icon-icon_${icon}`,
       this.tile,
       geom,
-      this.citybikeImageSize,
+      this.parkingLotImageSize,
     ).then(() => {
-      drawAvailabilityValue(
-        this.tile,
-        geom,
-        properties.currentCapacity,
-        this.citybikeImageSize,
-        this.availabilityImageSize,
-        this.scaleratio,
-      );
-
-      /* drawAvailabilityBadge(
-        'no',
-        this.tile,
-        geom,
-        this.citybikeImageSize,
-        this.availabilityImageSize,
-        this.scaleratio,
-      ); */
+      if (properties.free !== undefined) {
+        let avail;
+        if (properties.free === 0) {
+          avail = 'no';
+        } else if (properties.free < 3) {
+          avail = 'poor';
+        } else {
+          avail = 'good';
+        }
+        drawAvailabilityBadge(
+          avail,
+          this.tile,
+          geom,
+          this.parkingLotImageSize,
+          this.availabilityImageSize,
+          this.scaleratio,
+        );
+      }
     });
   };
 
