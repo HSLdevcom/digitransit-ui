@@ -441,7 +441,7 @@ const translations = {
     'main-menu-label-open': 'Menü öffnen',
     'main-mode': 'Ich reise mit',
     map: 'Karte',
-    'map-layer-carpool': 'Parken & mitfahren',
+    'map-layer-carpool': 'Parken & Mitfahren',
     'map-layer-citybike': 'Citybike-Stationen',
     'map-layer-park-and-ride': 'Park & Ride-Plätze',
     'map-layer-roadworks': 'Baustellen',
