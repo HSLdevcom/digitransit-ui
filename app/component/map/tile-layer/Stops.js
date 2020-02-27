@@ -130,10 +130,10 @@ class Stops {
   };
 
   shouldDrawStop = stop => {
-    return !(
-      stop.properties.type === 'CARPOOL' &&
-      !stop.properties.name.includes('P+M')
-    );
+    if (stop.properties.type !== 'CARPOOL') {
+      return true;
+    }
+    return stop.properties.name.indexOf('P+M') !== -1;
   };
 
   getPromise() {
