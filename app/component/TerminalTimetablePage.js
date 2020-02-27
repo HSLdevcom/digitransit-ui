@@ -58,7 +58,7 @@ export default createRefetchContainer(
   },
   graphql`
     query TerminalTimetablePageQuery($terminalId: String!, $date: String) {
-      stop(id: $terminalId) {
+      station(id: $terminalId) {
         ...TerminalTimetablePage_station @arguments(date: $date)
       }
     }
