@@ -129,6 +129,13 @@ class Stops {
     }
   };
 
+  shouldDrawStop = stop => {
+    return !(
+      stop.properties.type === 'CARPOOL' &&
+      !stop.properties.name.includes('P+M')
+    );
+  };
+
   getPromise() {
     return fetch(
       `${this.config.URL.STOP_MAP}${this.tile.coords.z +
@@ -205,7 +212,9 @@ class Stops {
                   f.properties.type &&
                 f.geom.x === featureByCode[f.properties.code].geom.x &&
                 f.geom.y === featureByCode[f.properties.code].geom.y;
-              this.fetchStatusAndDrawStop(f, large);
+              if (this.shouldDrawStop(f)) {
+                this.fetchStatusAndDrawStop(f, large);
+              }
             });
           }
           if (
