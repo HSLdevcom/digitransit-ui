@@ -15,7 +15,7 @@
     "digitransit-util",
     "routePatternOptionText"
   ],
-  "author": "digitransit-util Authors",
+  "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "devDependencies": {
     "i18next": "^19.2.0",

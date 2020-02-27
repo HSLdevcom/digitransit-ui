@@ -63,7 +63,7 @@ writeFileSync(join(folderPath, 'package.json'), `{
     "digitransit-util",
     "${name}"
   ],
-  "author": "digitransit-util Authors",
+  "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)"
 }
 `);

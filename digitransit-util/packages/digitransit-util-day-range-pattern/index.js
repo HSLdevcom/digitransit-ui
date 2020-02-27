@@ -1,7 +1,7 @@
 /**
  * Finds the range pattern converted from array of pattern's unique active dates.
  *
- * @name dayRangeAllowedDiff
+ * @name dayRangePattern
  * @param {Array} arrayOfDayNumbers Array of pattern's unique active dates as Day Of Week (ISO) (e.g. 5,6 = only Friday and Saturday)
  * @returns {string} Range pattern
  * @example
