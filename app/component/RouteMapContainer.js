@@ -18,7 +18,6 @@ class RouteMapContainer extends React.PureComponent {
     router: routerShape.isRequired,
     match: matchShape.isRequired,
     pattern: PropTypes.object.isRequired,
-    tripId: PropTypes.string,
     lat: PropTypes.number,
     lon: PropTypes.number,
     breakpoint: PropTypes.string.isRequired,
@@ -35,7 +34,7 @@ class RouteMapContainer extends React.PureComponent {
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (this.props.tripId !== nextProps.tripId) {
+    if (this.props.match.params.tripId !== nextProps.match.params.tripId) {
       this.setState({
         hasCentered: false,
         shouldFitBounds: true,
@@ -44,20 +43,24 @@ class RouteMapContainer extends React.PureComponent {
   }
 
   render() {
-    const { pattern, lat, lon, match, router, tripId, breakpoint } = this.props;
+    const { pattern, lat, lon, match, router, breakpoint } = this.props;
     const { hasCentered, shouldFitBounds } = this.state;
 
     const fullscreen =
       match.location.state && match.location.state.fullscreenMap === true;
 
     const [dispLat, dispLon] =
-      (!hasCentered && tripId) || (!fullscreen && breakpoint !== 'large')
+      (!hasCentered && match.params.tripId) ||
+      (!fullscreen && breakpoint !== 'large')
         ? [lat, lon]
         : [undefined, undefined];
 
-    if (!hasCentered && lat && lon) {
-      this.setState({ hasCentered: true, shouldFitBounds: false });
-    }
+    // TODO this code existed to stop centering on every coordinate update
+    // but it can cause an infinite loop so needs refactoring
+    // if (!hasCentered && lat && lon) {
+    //   this.setState({ hasCentered: true, shouldFitBounds: false });
+    // }
+
     // ,
     if (!pattern) {
       return false;
