@@ -7,7 +7,11 @@ import { graphql } from 'react-relay';
 
 import Error404 from './component/404';
 import { PREFIX_ROUTES } from './util/path';
-import { getDefault } from './util/routerUtils';
+import {
+  getDefault,
+  getComponentOrNullRenderer,
+  getComponentOrLoadingRenderer,
+} from './util/routerUtils';
 import { prepareServiceDay } from './util/dateParamUtils';
 
 export default (
@@ -31,6 +35,7 @@ export default (
                 }
               }
             `}
+            render={getComponentOrNullRenderer}
           />
         ),
         meta: (
@@ -48,6 +53,7 @@ export default (
                 }
               }
             `}
+            render={getComponentOrNullRenderer}
           />
         ),
         header: (
@@ -69,6 +75,7 @@ export default (
               }
             `}
             prepareVariables={prepareServiceDay}
+            render={getComponentOrNullRenderer}
           />
         ),
         map: [
@@ -92,6 +99,7 @@ export default (
                 }
               }
             `}
+            render={getComponentOrNullRenderer}
           />,
           <Route
             path=":type/:patternId/(.*)?"
@@ -107,6 +115,7 @@ export default (
                 }
               }
             `}
+            render={getComponentOrNullRenderer}
           />,
           <Route path="(.?)*" />,
         ],
@@ -133,6 +142,7 @@ export default (
                 }
               `}
               prepareVariables={prepareServiceDay}
+              render={getComponentOrLoadingRenderer}
             />
             <Route
               path=":patternId/:tripId"
@@ -154,6 +164,7 @@ export default (
                   }
                 }
               `}
+              render={getComponentOrLoadingRenderer}
             />
           </Route>,
           <Route path="aikataulu">
@@ -177,6 +188,7 @@ export default (
                   }
                 }
               `}
+              render={getComponentOrLoadingRenderer}
             />
           </Route>,
           <Route path="hairiot">
@@ -201,6 +213,7 @@ export default (
                 }
               `}
               prepareVariables={prepareServiceDay}
+              render={getComponentOrLoadingRenderer}
             />
           </Route>,
         ],
