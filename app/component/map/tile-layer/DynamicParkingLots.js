@@ -60,11 +60,14 @@ class DynamicParkingLots {
     });
 
   getIcon = type => {
-    if (type === 'Parkhaus') {
+    if (type === 'Parkhaus' || type === 'Tiefgarage') {
       return 'covered_carpark';
     }
     if (type === 'Park-Ride') {
       return 'p+r';
+    }
+    if (type === 'Park-Carpool') {
+      return 'carpark_carpool';
     }
     if (type === 'Wohnmobilparkplatz') {
       return 'caravan';
