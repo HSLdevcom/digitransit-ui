@@ -91,8 +91,6 @@ div.leaflet-container {
   flex: 1;
   width: 100%;
   height: 100%;
-  left: auto; // Allows shrinking map from left side instead of right.
-  right: 0; //
   background: none;
   z-index: index($zindex, map-container);
   @include font-map-container;
