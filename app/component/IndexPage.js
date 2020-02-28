@@ -13,11 +13,9 @@ import {
   checkPositioningPermission,
 } from '../action/PositionActions';
 import storeOrigin from '../action/originActions';
-import FrontPagePanelLarge from './FrontPagePanelLarge';
 import InfoPanelContainer from './InfoPanelContainer';
 import MapWithTracking from './map/MapWithTracking';
 import PageFooter from './PageFooter';
-import DTAutosuggestPanel from './DTAutosuggestPanel';
 import { isBrowser } from '../util/browser';
 import {
   TAB_NEARBY,
@@ -216,7 +214,6 @@ class IndexPage extends React.Component {
       {},
       ...routes.map(route => route.footerOptions),
     );
-    const selectedMainTab = this.getSelectedTab();
 
     return breakpoint === 'large' ? (
       <div
@@ -226,27 +223,12 @@ class IndexPage extends React.Component {
           origin.gpsError === false &&
           `blurred`} fullscreen bp-${breakpoint}`}
       >
-        <div className="search-container">
-          <DTAutosuggestPanel
+        <div className="info-panel-container-left">
+          <InfoPanelContainer
             origin={origin}
             destination={destination}
             tab={tab}
-            searchType="all"
-            originPlaceHolder="search-origin"
-            destinationPlaceHolder="search-destination"
           />
-        </div>
-        <div className="info-panel-container-left">
-          <InfoPanelContainer />
-        </div>
-        <div key="foo" className="fpccontainer">
-          <FrontPagePanelLarge
-            selectedPanel={selectedMainTab}
-            nearbyClicked={this.clickNearby}
-            favouritesClicked={this.clickFavourites}
-          >
-            {this.renderTab()}
-          </FrontPagePanelLarge>
         </div>
         <MapWithTracking
           breakpoint={breakpoint}
@@ -296,13 +278,6 @@ class IndexPage extends React.Component {
             )}
           >
             {(this.props.showSpinner && <OverlayWithSpinner />) || null}
-            <DTAutosuggestPanel
-              origin={origin}
-              destination={this.props.destination}
-              searchType="all"
-              originPlaceHolder="search-origin"
-              tab={this.props.tab}
-            />
           </MapWithTracking>
         </div>
         <div style={{ position: 'relative' }}>
@@ -320,7 +295,11 @@ class IndexPage extends React.Component {
           </div>
         </div>
         <div className="info-panel-container-bottom">
-          <InfoPanelContainer />
+          <InfoPanelContainer
+            origin={origin}
+            destination={destination}
+            tab={tab}
+          />
         </div>
       </div>
     );
