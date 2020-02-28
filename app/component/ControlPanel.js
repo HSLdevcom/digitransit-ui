@@ -1,15 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import DTAutosuggestPanel from './DTAutosuggestPanel';
 import { dtLocationShape } from '../util/shapes';
-
-const InfoPanelContainer = props => {
+/*
+* Panel containing all data and control components locating in column next (or below) to the map. 
+*/
+const ControlPanel = props => {
   return (
     <div className="info-panel-container-left">
       <DTAutosuggestPanel
         origin={props.origin}
         destination={props.destination}
-        tab={props.tab}
         searchType="all"
         originPlaceHolder="search-origin"
         destinationPlaceHolder="search-destination"
@@ -17,9 +17,8 @@ const InfoPanelContainer = props => {
     </div>
   );
 };
-InfoPanelContainer.propTypes = {
+ControlPanel.propTypes = {
   origin: dtLocationShape.isRequired,
   destination: dtLocationShape.isRequired,
-  tab: PropTypes.string,
 };
-export default InfoPanelContainer;
+export default ControlPanel;
