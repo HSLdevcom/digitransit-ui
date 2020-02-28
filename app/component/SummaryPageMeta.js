@@ -10,7 +10,8 @@ import { generateMetaData } from '../util/metaUtils';
 
 export default compose(
   getContext({ config: PropTypes.object, intl: intlShape }),
-  mapProps(({ config, intl, params: { from, to } }) => {
+  mapProps(({ config, intl, match }) => {
+    const { to, from } = match.params;
     const params = {
       from: otpToLocation(from).address,
       to: otpToLocation(to).address,

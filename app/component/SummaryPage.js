@@ -97,10 +97,10 @@ class SummaryPage extends React.Component {
     executeAction: PropTypes.func.isRequired,
     headers: PropTypes.object.isRequired,
     getStore: PropTypes.func,
+    match: matchShape.isRequired,
   };
 
   static propTypes = {
-    match: matchShape.isRequired,
     plan: PropTypes.shape({
       itineraries: PropTypes.array,
     }).isRequired,
@@ -121,7 +121,7 @@ class SummaryPage extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    context.executeAction(storeOrigin, props.match.params.from);
+    context.executeAction(storeOrigin, context.match.params.from);
     // const error = get(context, 'queryAggregator.readyState.error', null);
     // if (error) {
     //   reportError(error);
@@ -167,7 +167,7 @@ class SummaryPage extends React.Component {
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (!isEqual(nextProps.match.params.from, this.props.match.params.from)) {
+    if (!isEqual(nextProps.match.params.from, this.context.match.params.from)) {
       this.context.executeAction(storeOrigin, nextProps.match.params.from);
     }
 
@@ -177,8 +177,9 @@ class SummaryPage extends React.Component {
   }
 
   renderMap() {
-    const { plan, match } = this.props;
+    const { plan } = this.props;
     const {
+      match,
       config: { defaultEndpoint },
     } = this.context;
     const itineraries = (plan && plan.itineraries) || [];
@@ -270,7 +271,7 @@ class SummaryPage extends React.Component {
   }
 
   render() {
-    const { match } = this.props;
+    const { match } = this.context;
 
     const hasItineraries =
       this.props.plan && Array.isArray(this.props.plan.itineraries);
@@ -286,10 +287,10 @@ class SummaryPage extends React.Component {
       hasItineraries
     ) {
       return React.cloneElement(this.props.content, {
-        itinerary: itineraries[this.props.match.params.hash],
+        itinerary: itineraries[match.params.hash],
         focus: this.updateCenter,
-        from: otpToLocation(this.props.match.params.from),
-        to: otpToLocation(this.props.match.params.to),
+        from: otpToLocation(match.params.from),
+        to: otpToLocation(match.params.to),
       });
     }
 
@@ -297,7 +298,7 @@ class SummaryPage extends React.Component {
     const map = this.props.map
       ? this.props.map.type(
           {
-            itinerary: itineraries && itineraries[this.props.match.params.hash],
+            itinerary: itineraries && itineraries[match.params.hash],
             center: this.state.center,
             ...this.props,
           },
@@ -314,7 +315,7 @@ class SummaryPage extends React.Component {
     }
 
     let intermediatePlaces = [];
-    const { query } = this.props.match.location;
+    const { query } = match.location;
 
     if (query && query.intermediatePlaces) {
       if (Array.isArray(query.intermediatePlaces)) {
@@ -338,15 +339,14 @@ class SummaryPage extends React.Component {
             plan={this.props.plan}
             serviceTimeRange={serviceTimeRange}
             itineraries={itineraries}
-            params={this.props.match.params}
+            params={match.params}
             // error={error}
             setLoading={this.setLoading}
             // setError={this.setError}
           >
             {this.props.content &&
               React.cloneElement(this.props.content, {
-                itinerary:
-                  hasItineraries && itineraries[this.props.match.params.hash],
+                itinerary: hasItineraries && itineraries[match.params.hash],
                 focus: this.updateCenter,
                 plan: this.props.plan,
               })}
@@ -368,13 +368,10 @@ class SummaryPage extends React.Component {
               defaultMessage="Itinerary suggestions"
             />
           }
-          homeUrl={getHomeUrl(
-            this.props.match.params.from,
-            this.props.match.params.to,
-          )}
+          homeUrl={getHomeUrl(match.params.from, match.params.to)}
           header={
             <SummaryNavigation
-              params={this.props.match.params}
+              params={match.params}
               serviceTimeRange={serviceTimeRange}
               startTime={earliestStartTime}
               endTime={latestArrivalTime}
@@ -395,11 +392,11 @@ class SummaryPage extends React.Component {
           <Loading />
         </div>
       );
-    } else if (this.props.match.params.hash) {
+    } else if (match.params.hash) {
       content = (
         <MobileItineraryWrapper
           itineraries={itineraries}
-          params={this.props.match.params}
+          params={match.params}
           focus={this.updateCenter}
         >
           {this.props.content &&
@@ -419,12 +416,12 @@ class SummaryPage extends React.Component {
           plan={this.props.plan}
           serviceTimeRange={serviceTimeRange}
           itineraries={itineraries}
-          params={this.props.match.params}
+          params={match.params}
           // error={error}
           setLoading={this.setLoading}
           // setError={this.setError}
-          from={this.props.match.params.from}
-          to={this.props.match.params.to}
+          from={match.params.from}
+          to={match.params.to}
           intermediatePlaces={intermediatePlaces}
         />
       );
@@ -433,9 +430,9 @@ class SummaryPage extends React.Component {
     return (
       <MobileView
         header={
-          !this.props.match.params.hash ? (
+          !match.params.hash ? (
             <SummaryNavigation
-              params={this.props.match.params}
+              params={match.params}
               serviceTimeRange={serviceTimeRange}
               startTime={earliestStartTime}
               endTime={latestArrivalTime}
@@ -444,10 +441,7 @@ class SummaryPage extends React.Component {
             false
           )
         }
-        homeUrl={getHomeUrl(
-          this.props.match.params.from,
-          this.props.match.params.to,
-        )}
+        homeUrl={getHomeUrl(match.params.from, match.params.to)}
         content={content}
         map={map}
       />
