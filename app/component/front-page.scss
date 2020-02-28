@@ -268,6 +268,16 @@ $heading-color: #858585;
   transition: top 300ms, height 300ms;
 }
 
+.front-page-map-wrapper {
+  width: calc(100% - 600px); // 600px is from info-panel-container left's width.
+  display: flex;
+  flex: 1;
+  left: auto; // Allows shrinking map from left side instead of right.
+  right: 0; //
+  background: none;
+  align-self: flex-end;
+}
+
 .front-page {
   //small, mid
   display: flex;

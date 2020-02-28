@@ -5,7 +5,7 @@ import { dtLocationShape } from '../util/shapes';
 
 const InfoPanelContainer = props => {
   return (
-    <div>
+    <div className="info-panel-container-left">
       <DTAutosuggestPanel
         origin={props.origin}
         destination={props.destination}

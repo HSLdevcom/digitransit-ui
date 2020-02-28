@@ -223,25 +223,25 @@ class IndexPage extends React.Component {
           origin.gpsError === false &&
           `blurred`} fullscreen bp-${breakpoint}`}
       >
-        <div className="info-panel-container-left">
-          <InfoPanelContainer
+        <div className="front-page-map-wrapper">
+          <MapWithTracking
+            breakpoint={breakpoint}
+            showStops
+            showScaleBar
             origin={origin}
             destination={destination}
-            tab={tab}
+            renderCustomButtons={() => (
+              <React.Fragment>
+                {this.renderStreetModeSelector(config, router)}
+                {this.renderMapLayerSelector()}
+              </React.Fragment>
+            )}
           />
         </div>
-        <MapWithTracking
-          breakpoint={breakpoint}
-          showStops
-          showScaleBar
+        <InfoPanelContainer
           origin={origin}
           destination={destination}
-          renderCustomButtons={() => (
-            <React.Fragment>
-              {this.renderStreetModeSelector(config, router)}
-              {this.renderMapLayerSelector()}
-            </React.Fragment>
-          )}
+          tab={tab}
         />
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
         {!footerOptions.hidden && (
