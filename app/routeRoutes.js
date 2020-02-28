@@ -115,7 +115,9 @@ export default (
                 }
               }
             `}
-            render={getComponentOrNullRenderer}
+            render={({ Component, props }) =>
+              Component && props ? <Component {...props} trip={null} /> : null
+            }
           />,
           <Route path="(.?)*" />,
         ],
