@@ -23,10 +23,7 @@ class SummaryPlanContainer extends React.Component {
     breakpoint: PropTypes.string.isRequired,
     children: PropTypes.node,
     currentTime: PropTypes.number.isRequired,
-    // error: PropTypes.oneOfType([
-    //   PropTypes.string,
-    //   PropTypes.shape({ message: PropTypes.string }),
-    // ]),
+    error: PropTypes.object,
     itineraries: PropTypes.arrayOf(
       PropTypes.shape({
         endTime: PropTypes.number,
@@ -44,13 +41,13 @@ class SummaryPlanContainer extends React.Component {
       start: PropTypes.number.isRequired,
       end: PropTypes.number.isRequired,
     }).isRequired,
-    // setError: PropTypes.func.isRequired,
+    setError: PropTypes.func.isRequired,
     setLoading: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     activeIndex: 0,
-    // error: undefined,
+    error: undefined,
     itineraries: [],
   };
 
@@ -152,7 +149,7 @@ class SummaryPlanContainer extends React.Component {
 
     if (latestDepartureTime >= end) {
       // Departure time is going beyond available time range
-      // this.props.setError('no-route-end-date-not-in-range');
+      this.props.setError('no-route-end-date-not-in-range');
       this.props.setLoading(false);
       return;
     }
@@ -232,7 +229,7 @@ class SummaryPlanContainer extends React.Component {
 
     earliestArrivalTime.subtract(1, 'minutes');
     if (earliestArrivalTime <= start) {
-      // this.props.setError('no-route-start-date-too-early');
+      this.props.setError('no-route-start-date-too-early');
       this.props.setLoading(false);
       return;
     }
@@ -340,7 +337,7 @@ class SummaryPlanContainer extends React.Component {
           activeIndex={activeIndex}
           currentTime={currentTime}
           locationState={locationState}
-          // error={this.props.error}
+          error={this.props.error}
           from={otpToLocation(from)}
           intermediatePlaces={getIntermediatePlaces(location.query)}
           itineraries={itineraries}

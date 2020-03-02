@@ -113,19 +113,20 @@ class SummaryPage extends React.Component {
       type: PropTypes.func.isRequired,
     }),
     breakpoint: PropTypes.string.isRequired,
+    error: PropTypes.object,
   };
 
   static defaultProps = {
     map: undefined,
+    error: undefined,
   };
 
   constructor(props, context) {
     super(props, context);
     context.executeAction(storeOrigin, otpToLocation(props.match.params.from));
-    // const error = get(context, 'queryAggregator.readyState.error', null);
-    // if (error) {
-    //   reportError(error);
-    // }
+    if (props.error) {
+      reportError(props.error);
+    }
   }
 
   state = { center: null, loading: false };
@@ -146,10 +147,9 @@ class SummaryPage extends React.Component {
   }
 
   componentDidUpdate() {
-    // const error = get(this.context, 'queryAggregator.readyState.error', null);
-    // if (error) {
-    //   reportError(error);
-    // }
+    if (this.props.error) {
+      reportError(this.props.error);
+    }
   }
 
   setLoading = loading => {
@@ -158,7 +158,7 @@ class SummaryPage extends React.Component {
 
   setError = error => {
     reportError(error);
-    this.context.queryAggregator.readyState.error = error;
+    this.setState({ error });
   };
 
   updateCenter = (lat, lon) => {
@@ -270,16 +270,16 @@ class SummaryPage extends React.Component {
   }
 
   render() {
-    const { match } = this.props;
+    const { match, error } = this.props;
 
     const hasItineraries =
       this.props.plan && Array.isArray(this.props.plan.itineraries);
-    const itineraries = hasItineraries ? this.props.plan.itineraries : [];
+    let itineraries = hasItineraries ? this.props.plan.itineraries : [];
 
     // Remove old itineraries if new query cannot find a route
-    // if (hasItineraries) {
-    //   itineraries = [];
-    // }
+    if (error && hasItineraries) {
+      itineraries = [];
+    }
 
     if (match.routes.some(route => route.printPage) && hasItineraries) {
       return React.cloneElement(this.props.content, {
@@ -328,7 +328,7 @@ class SummaryPage extends React.Component {
     );
     if (this.props.breakpoint === 'large') {
       let content;
-      if (this.state.loading === false && this.props.plan) {
+      if (this.state.loading === false && (error || this.props.plan)) {
         content = (
           <SummaryPlanContainer
             activeIndex={getActiveIndex(match.location, itineraries)}
@@ -336,9 +336,9 @@ class SummaryPage extends React.Component {
             serviceTimeRange={serviceTimeRange}
             itineraries={itineraries}
             params={match.params}
-            // error={error}
+            error={error || this.state.error}
             setLoading={this.setLoading}
-            // setError={this.setError}
+            setError={this.setError}
           >
             {this.props.content &&
               React.cloneElement(this.props.content, {
@@ -382,7 +382,7 @@ class SummaryPage extends React.Component {
 
     let content;
 
-    if (!this.props.plan || this.state.loading !== false) {
+    if ((!error && !this.props.plan) || this.state.loading !== false) {
       content = (
         <div style={{ position: 'relative', height: 200 }}>
           <Loading />
@@ -401,6 +401,7 @@ class SummaryPage extends React.Component {
                 key: i,
                 itinerary,
                 plan: this.props.plan,
+                serviceTimeRange: this.props.serviceTimeRange,
               }),
             )}
         </MobileItineraryWrapper>
@@ -413,9 +414,9 @@ class SummaryPage extends React.Component {
           serviceTimeRange={serviceTimeRange}
           itineraries={itineraries}
           params={match.params}
-          // error={error}
+          error={error || this.state.error}
           setLoading={this.setLoading}
-          // setError={this.setError}
+          setError={this.setError}
           from={match.params.from}
           to={match.params.to}
           intermediatePlaces={intermediatePlaces}
