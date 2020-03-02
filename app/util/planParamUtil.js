@@ -428,7 +428,10 @@ export const preparePlanParams = config => (
 };
 
 export const getApplicableQuickOptionSets = context => {
-  const { config, location } = context;
+  const {
+    config,
+    match: { location },
+  } = context;
   const streetMode = getStreetMode(location, config).toLowerCase();
   return [
     QuickOptionSetType.DefaultRoute,
@@ -500,7 +503,9 @@ export const getQuickOptionSets = context => {
 export const matchQuickOption = context => {
   const {
     config,
-    location: { query },
+    match: {
+      location: { query },
+    },
   } = context;
 
   // Find out which quick option the user has selected
