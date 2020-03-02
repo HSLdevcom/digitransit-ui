@@ -10,7 +10,11 @@ import TopLevel from './component/TopLevel';
 
 import { PREFIX_ITINERARY_SUMMARY } from './util/path';
 import { preparePlanParams } from './util/planParamUtil';
-import { errorLoading, getDefault } from './util/routerUtils';
+import {
+  errorLoading,
+  getDefault,
+  getComponentOrLoadingRenderer,
+} from './util/routerUtils';
 
 import getStopRoutes from './stopRoutes';
 import routeRoutes from './routeRoutes';
@@ -190,16 +194,6 @@ export default config => {
                 }
               `}
               prepareVariables={preparePlanParams(config)}
-              render={({ Component, props }) => {
-                if (!Component) {
-                  return null;
-                }
-                return props ? (
-                  <Component {...props} />
-                ) : (
-                  <Component plan={null} />
-                );
-              }}
             >
               {{
                 content: [
@@ -211,6 +205,7 @@ export default config => {
                       )
                     }
                     printPage
+                    render={getComponentOrLoadingRenderer}
                   />,
                   <Route
                     getComponent={() =>
@@ -218,6 +213,7 @@ export default config => {
                         getDefault,
                       )
                     }
+                    render={getComponentOrLoadingRenderer}
                   />,
                 ],
                 map: (
