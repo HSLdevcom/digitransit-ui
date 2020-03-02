@@ -281,7 +281,7 @@ class SummaryPage extends React.Component {
     //   itineraries = [];
     // }
 
-    if (match.routes[match.routes.length - 1].printPage && hasItineraries) {
+    if (match.routes.some(route => route.printPage) && hasItineraries) {
       return React.cloneElement(this.props.content, {
         itinerary: itineraries[match.params.hash],
         focus: this.updateCenter,
