@@ -97,10 +97,10 @@ class SummaryPage extends React.Component {
     executeAction: PropTypes.func.isRequired,
     headers: PropTypes.object.isRequired,
     getStore: PropTypes.func,
-    match: matchShape.isRequired,
   };
 
   static propTypes = {
+    match: matchShape.isRequired,
     plan: PropTypes.shape({
       itineraries: PropTypes.array,
     }).isRequired,
@@ -121,7 +121,7 @@ class SummaryPage extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    context.executeAction(storeOrigin, context.match.params.from);
+    context.executeAction(storeOrigin, otpToLocation(props.match.params.from));
     // const error = get(context, 'queryAggregator.readyState.error', null);
     // if (error) {
     //   reportError(error);
@@ -167,7 +167,7 @@ class SummaryPage extends React.Component {
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (!isEqual(nextProps.match.params.from, this.context.match.params.from)) {
+    if (!isEqual(nextProps.match.params.from, this.props.match.params.from)) {
       this.context.executeAction(storeOrigin, nextProps.match.params.from);
     }
 
@@ -177,9 +177,8 @@ class SummaryPage extends React.Component {
   }
 
   renderMap() {
-    const { plan } = this.props;
+    const { match, plan } = this.props;
     const {
-      match,
       config: { defaultEndpoint },
     } = this.context;
     const itineraries = (plan && plan.itineraries) || [];
@@ -271,21 +270,18 @@ class SummaryPage extends React.Component {
   }
 
   render() {
-    const { match } = this.context;
+    const { match } = this.props;
 
     const hasItineraries =
       this.props.plan && Array.isArray(this.props.plan.itineraries);
-    let itineraries = hasItineraries ? this.props.plan.itineraries : [];
+    const itineraries = hasItineraries ? this.props.plan.itineraries : [];
 
     // Remove old itineraries if new query cannot find a route
-    if (hasItineraries) {
-      itineraries = [];
-    }
+    // if (hasItineraries) {
+    //   itineraries = [];
+    // }
 
-    if (
-      // this.props.routes[this.props.routes.length - 1].printPage &&
-      hasItineraries
-    ) {
+    if (match.routes[match.routes.length - 1].printPage && hasItineraries) {
       return React.cloneElement(this.props.content, {
         itinerary: itineraries[match.params.hash],
         focus: this.updateCenter,
