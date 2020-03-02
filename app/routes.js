@@ -219,10 +219,12 @@ export default config => {
                 map: (
                   <Route
                     path="(.*)?"
-                    getComponent={() =>
-                      import(/* webpackChunkName: "itinerary" */ './component/ItineraryPageMap').then(
-                        getDefault,
-                      )
+                    getComponent={match =>
+                      match.params.hashId
+                        ? import(/* webpackChunkName: "itinerary" */ './component/ItineraryPageMap').then(
+                            getDefault,
+                          )
+                        : null
                     }
                   />
                 ),
