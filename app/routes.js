@@ -6,6 +6,7 @@ import queryMiddleware from 'farce/lib/queryMiddleware';
 import createRender from 'found/lib/createRender';
 
 import Error404 from './component/404';
+import Loading from './component/LoadingPage';
 import TopLevel from './component/TopLevel';
 
 import { PREFIX_ITINERARY_SUMMARY } from './util/path';
@@ -14,6 +15,7 @@ import {
   errorLoading,
   getDefault,
   getComponentOrLoadingRenderer,
+  getComponentOrNullRenderer,
 } from './util/routerUtils';
 
 import getStopRoutes from './stopRoutes';
@@ -194,6 +196,13 @@ export default config => {
                 }
               `}
               prepareVariables={preparePlanParams(config)}
+              render={({ Component, props, error }) =>
+                Component && props ? (
+                  <Component {...props} error={error} />
+                ) : (
+                  <Loading />
+                )
+              }
             >
               {{
                 content: [
@@ -226,6 +235,7 @@ export default config => {
                           )
                         : null
                     }
+                    render={getComponentOrNullRenderer}
                   />
                 ),
               }}
