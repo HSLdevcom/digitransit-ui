@@ -481,7 +481,7 @@ const translations = {
     'no-route-msg':
       'Wir konnten leider keine Reisevorschläge für diese Strecke finden. Bitte versuchen Sie den Abfahrts- oder Zielort zu ändern.',
     'no-route-msg-with-changes':
-      'Unfortunately no routes were found for your journey. Try changing your settings, origin or destination.',
+      'Wir konnten leider keine Reisevorschläge für diese Strecke finden. Bitte versuchen Sie die Routeneinstellungen, den Abfahrts- oder Zielort zu ändern.',
     'no-route-origin-near-destination':
       'Die Entfernung zwischen Start und Ziel ist sehr gering. Bitte ändern Sie einen dieser Orte.',
     'no-route-start-date-too-early':
