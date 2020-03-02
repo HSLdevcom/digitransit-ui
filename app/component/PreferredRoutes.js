@@ -6,6 +6,7 @@ import { routerShape } from 'found';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 import Icon from './Icon';
 import RouteDetails from './RouteDetails';
+import getRelayEnvironment from '../util/getRelayEnvironment';
 
 class PreferredRoutes extends React.Component {
   static contextTypes = {
@@ -106,4 +107,4 @@ class PreferredRoutes extends React.Component {
   }
 }
 
-export default PreferredRoutes;
+export default getRelayEnvironment(PreferredRoutes);
