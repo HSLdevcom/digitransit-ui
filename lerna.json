@@ -3,6 +3,6 @@
     "digitransit-util/packages/*"
   ],
   "version": "independent",
-  "npmClient": "npm",
+  "npmClient": "yarn",
   "useWorkspaces": true
 }
