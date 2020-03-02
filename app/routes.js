@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import React from 'react';
 import { graphql } from 'react-relay';
 import Route from 'found/lib/Route';
@@ -80,18 +81,17 @@ export default config => {
       {getStopRoutes()}
       {getStopRoutes(true) /* terminals */}
       {routeRoutes}
-      <Route path={`/${PREFIX_ITINERARY_SUMMARY}/:from/:to`}>
+      <Route path={`/${PREFIX_ITINERARY_SUMMARY}/:from/:to/:hash?`}>
         {{
           title: (
             <Route
+              path="(.*)?"
               getComponent={() =>
                 import(/* webpackChunkName: "itinerary" */ './component/SummaryTitle').then(
                   getDefault,
                 )
               }
-            >
-              <Route path=":hash" />
-            </Route>
+            />
           ),
           content: (
             <Route
@@ -101,7 +101,7 @@ export default config => {
                 )
               }
               query={graphql`
-                query routes_Plan_Query(
+                query routes_SummaryPage_Query(
                   $fromPlace: String!
                   $toPlace: String!
                   $intermediatePlaces: [InputCoordinates!]
@@ -190,60 +190,58 @@ export default config => {
                 }
               `}
               prepareVariables={preparePlanParams(config)}
-              render={({ Component, props, match }) => {
+              render={({ Component, props }) => {
                 if (!Component) {
                   return null;
                 }
                 return props ? (
                   <Component {...props} />
                 ) : (
-                  <Component {...match} plan={null} />
+                  <Component plan={null} />
                 );
               }}
             >
-              <Route
-                path=":hash/tulosta"
-                getComponents={() => {
-                  import(/* webpackChunkName: "itinerary" */ './component/PrintableItinerary')
-                    .then(getDefault)
-                    .catch(errorLoading);
-                }}
-                printPage
-              />
-              <Route path=":hash">
-                {{
-                  content: (
-                    <Route
-                      getComponent={() =>
-                        import(/* webpackChunkName: "itinerary" */ './component/ItineraryTab').then(
-                          getDefault,
-                        )
-                      }
-                    />
-                  ),
-                  map: (
-                    <Route
-                      getComponent={() =>
-                        import(/* webpackChunkName: "itinerary" */ './component/ItineraryPageMap').then(
-                          getDefault,
-                        )
-                      }
-                    />
-                  ),
-                }}
-              </Route>
+              {{
+                content: [
+                  <Route
+                    path="/tulosta"
+                    getComponent={() =>
+                      import(/* webpackChunkName: "itinerary" */ './component/PrintableItinerary').then(
+                        getDefault,
+                      )
+                    }
+                    printPage
+                  />,
+                  <Route
+                    getComponent={() =>
+                      import(/* webpackChunkName: "itinerary" */ './component/ItineraryTab').then(
+                        getDefault,
+                      )
+                    }
+                  />,
+                ],
+                map: (
+                  <Route
+                    path="(.*)?"
+                    getComponent={() =>
+                      import(/* webpackChunkName: "itinerary" */ './component/ItineraryPageMap').then(
+                        getDefault,
+                      )
+                    }
+                  />
+                ),
+              }}
             </Route>
           ),
           meta: (
             <Route
+              path="(.*)?"
               getComponent={() =>
                 import(/* webpackChunkName: "itinerary" */ './component/SummaryPageMeta').then(
                   getDefault,
                 )
               }
-            >
-              <Route path=":hash" />
-            </Route>
+            />
           ),
         }}
       </Route>
@@ -285,7 +283,7 @@ export default config => {
       <Route path="/js/:name" Component={Error404} />
       <Route path="/css/:name" Component={Error404} />
       <Route path="/assets/:name" Component={Error404} />
-      <Route path="/(:from)(/:to)" topBarOptions={{ disableBackButton: true }}>
+      <Route path="/:from/:to" topBarOptions={{ disableBackButton: true }}>
         {{
           title: (
             <Route
@@ -294,9 +292,7 @@ export default config => {
                   getDefault,
                 )
               }
-            >
-              <Route path=":hash" />
-            </Route>
+            />
           ),
           content: (
             <Route
@@ -314,9 +310,7 @@ export default config => {
                   getDefault,
                 )
               }
-            >
-              <Route path=":hash" />
-            </Route>
+            />
           ),
         }}
       </Route>
