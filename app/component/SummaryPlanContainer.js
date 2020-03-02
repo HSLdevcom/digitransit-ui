@@ -2,7 +2,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { graphql, createFragmentContainer } from 'react-relay';
+import { graphql, createFragmentContainer, fetchQuery } from 'react-relay';
 import { matchShape, routerShape } from 'found';
 import getContext from 'recompose/getContext';
 
@@ -16,12 +16,14 @@ import { getRoutePath } from '../util/path';
 import { getIntermediatePlaces, replaceQueryParams } from '../util/queryUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { preparePlanParams } from '../util/planParamUtil';
 
 class SummaryPlanContainer extends React.Component {
   static propTypes = {
     activeIndex: PropTypes.number,
     breakpoint: PropTypes.string.isRequired,
     children: PropTypes.node,
+    config: PropTypes.object.isRequired,
     currentTime: PropTypes.number.isRequired,
     error: PropTypes.object,
     itineraries: PropTypes.arrayOf(
@@ -43,6 +45,7 @@ class SummaryPlanContainer extends React.Component {
     }).isRequired,
     setError: PropTypes.func.isRequired,
     setLoading: PropTypes.func.isRequired,
+    relayEnvironment: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -161,46 +164,132 @@ class SummaryPlanContainer extends React.Component {
       });
     } else {
       this.props.setLoading(true);
-      // const params = preparePlanParams(this.props.config)(
-      //   this.context.router.params,
-      //   this.context,
-      // );
+      const params = preparePlanParams(this.props.config)(
+        this.context.match.params,
+        this.context.match,
+      );
 
-      // const tunedParams = {
-      //   wheelchair: null,
-      //   ...defaultRoutingSettings,
-      //   ...params,
-      //   numItineraries:
-      //     this.props.itineraries.length > 0 ? this.props.itineraries.length : 3,
-      //   arriveBy: false,
-      //   date: latestDepartureTime.format('YYYY-MM-DD'),
-      //   time: latestDepartureTime.format('HH:mm'),
-      // };
+      const tunedParams = {
+        wheelchair: null,
+        ...params,
+        numItineraries:
+          this.props.itineraries.length > 0 ? this.props.itineraries.length : 3,
+        arriveBy: false,
+        date: latestDepartureTime.format('YYYY-MM-DD'),
+        time: latestDepartureTime.format('HH:mm'),
+      };
 
-      // const query = Relay.createQuery(this.getQuery(), tunedParams);
+      const query = graphql`
+        query SummaryPlanContainer_later_Query(
+          $fromPlace: String!
+          $toPlace: String!
+          $intermediatePlaces: [InputCoordinates!]
+          $numItineraries: Int!
+          $modes: String
+          $date: String!
+          $time: String!
+          $walkReluctance: Float
+          $walkBoardCost: Int
+          $minTransferTime: Int
+          $walkSpeed: Float
+          $maxWalkDistance: Float
+          $wheelchair: Boolean
+          $ticketTypes: String
+          $disableRemainingWeightHeuristic: Boolean
+          $arriveBy: Boolean
+          $transferPenalty: Int
+          $ignoreRealtimeUpdates: Boolean
+          $maxPreTransitTime: Int
+          $walkOnStreetReluctance: Float
+          $waitReluctance: Float
+          $bikeSpeed: Float
+          $bikeSwitchTime: Int
+          $bikeSwitchCost: Int
+          $bikeBoardCost: Int
+          $optimize: OptimizeType
+          $triangle: InputTriangle
+          $carParkCarLegWeight: Float
+          $maxTransfers: Int
+          $waitAtBeginningFactor: Float
+          $heuristicStepsPerMainStep: Int
+          $compactLegsByReversedSearch: Boolean
+          $itineraryFiltering: Float
+          $modeWeight: InputModeWeight
+          $preferred: InputPreferred
+          $unpreferred: InputUnpreferred
+          $allowedBikeRentalNetworks: [String]
+          $locale: String
+        ) {
+          plan(
+            fromPlace: $fromPlace
+            toPlace: $toPlace
+            intermediatePlaces: $intermediatePlaces
+            numItineraries: $numItineraries
+            modes: $modes
+            date: $date
+            time: $time
+            walkReluctance: $walkReluctance
+            walkBoardCost: $walkBoardCost
+            minTransferTime: $minTransferTime
+            walkSpeed: $walkSpeed
+            maxWalkDistance: $maxWalkDistance
+            wheelchair: $wheelchair
+            ticketTypes: $ticketTypes
+            disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
+            arriveBy: $arriveBy
+            transferPenalty: $transferPenalty
+            ignoreRealtimeUpdates: $ignoreRealtimeUpdates
+            maxPreTransitTime: $maxPreTransitTime
+            walkOnStreetReluctance: $walkOnStreetReluctance
+            waitReluctance: $waitReluctance
+            bikeSpeed: $bikeSpeed
+            bikeSwitchTime: $bikeSwitchTime
+            bikeSwitchCost: $bikeSwitchCost
+            bikeBoardCost: $bikeBoardCost
+            optimize: $optimize
+            triangle: $triangle
+            carParkCarLegWeight: $carParkCarLegWeight
+            maxTransfers: $maxTransfers
+            waitAtBeginningFactor: $waitAtBeginningFactor
+            heuristicStepsPerMainStep: $heuristicStepsPerMainStep
+            compactLegsByReversedSearch: $compactLegsByReversedSearch
+            itineraryFiltering: $itineraryFiltering
+            modeWeight: $modeWeight
+            preferred: $preferred
+            unpreferred: $unpreferred
+            allowedBikeRentalNetworks: $allowedBikeRentalNetworks
+            locale: $locale
+          ) {
+            itineraries {
+              endTime
+            }
+          }
+        }
+      `;
 
-      // Relay.Store.primeCache({ query }, status => {
-      //   if (status.ready === true) {
-      //     const data = Relay.Store.readQuery(query);
-      //     const max = data[0].plan.itineraries.reduce(
-      //       (previous, { endTime }) =>
-      //         endTime > previous ? endTime : previous,
-      //       Number.MIN_VALUE,
-      //     );
+      fetchQuery(this.props.relayEnvironment, query, tunedParams).then(
+        ({ plan: result }) => {
+          const max = result.itineraries.reduce(
+            (previous, { endTime }) =>
+              endTime > previous ? endTime : previous,
+            Number.MIN_VALUE,
+          );
 
-      //     // OTP can't always find later routes. This leads to a situation where
-      //     // new search is done without increasing time, and nothing seems to happen
-      //     let newTime;
-      //     if (this.props.plan.date >= max) {
-      //       newTime = moment(this.props.plan.date).add(5, 'minutes');
-      //     } else {
-      //       newTime = moment(max).add(1, 'minutes');
-      //     }
+          // OTP can't always find later routes. This leads to a situation where
+          // new search is done without increasing time, and nothing seems to happen
+          let newTime;
+          if (this.props.plan.date >= max) {
+            newTime = moment(this.props.plan.date).add(5, 'minutes');
+          } else {
+            newTime = moment(max).add(1, 'minutes');
+          }
 
-      //     this.props.setLoading(false);
-      //     replaceQueryParams(this.context.router, { time: newTime.unix() });
-      //   }
-      // });
+          this.props.setLoading(false);
+          replaceQueryParams(this.context.router, this.context.match, {
+            time: newTime.unix(),
+          });
+        },
+      );
     }
   };
 
@@ -242,60 +331,146 @@ class SummaryPlanContainer extends React.Component {
     } else {
       this.props.setLoading(true);
 
-      // const params = preparePlanParams(this.props.config)(
-      //   this.context.router.params,
-      //   this.context,
-      // );
+      const params = preparePlanParams(this.props.config)(
+        this.context.match.params,
+        this.context.match,
+      );
 
-      // const tunedParams = {
-      //   wheelchair: null,
-      //   ...defaultRoutingSettings,
-      //   ...params,
-      //   numItineraries:
-      //     this.props.itineraries.length > 0 ? this.props.itineraries.length : 3,
-      //   arriveBy: true,
-      //   date: earliestArrivalTime.format('YYYY-MM-DD'),
-      //   time: earliestArrivalTime.format('HH:mm'),
-      // };
+      const tunedParams = {
+        wheelchair: null,
+        ...params,
+        numItineraries:
+          this.props.itineraries.length > 0 ? this.props.itineraries.length : 3,
+        arriveBy: true,
+        date: earliestArrivalTime.format('YYYY-MM-DD'),
+        time: earliestArrivalTime.format('HH:mm'),
+      };
 
-      // const query = Relay.createQuery(this.getQuery(), tunedParams);
+      const query = graphql`
+        query SummaryPlanContainer_earlier_Query(
+          $fromPlace: String!
+          $toPlace: String!
+          $intermediatePlaces: [InputCoordinates!]
+          $numItineraries: Int!
+          $modes: String
+          $date: String!
+          $time: String!
+          $walkReluctance: Float
+          $walkBoardCost: Int
+          $minTransferTime: Int
+          $walkSpeed: Float
+          $maxWalkDistance: Float
+          $wheelchair: Boolean
+          $ticketTypes: String
+          $disableRemainingWeightHeuristic: Boolean
+          $arriveBy: Boolean
+          $transferPenalty: Int
+          $ignoreRealtimeUpdates: Boolean
+          $maxPreTransitTime: Int
+          $walkOnStreetReluctance: Float
+          $waitReluctance: Float
+          $bikeSpeed: Float
+          $bikeSwitchTime: Int
+          $bikeSwitchCost: Int
+          $bikeBoardCost: Int
+          $optimize: OptimizeType
+          $triangle: InputTriangle
+          $carParkCarLegWeight: Float
+          $maxTransfers: Int
+          $waitAtBeginningFactor: Float
+          $heuristicStepsPerMainStep: Int
+          $compactLegsByReversedSearch: Boolean
+          $itineraryFiltering: Float
+          $modeWeight: InputModeWeight
+          $preferred: InputPreferred
+          $unpreferred: InputUnpreferred
+          $allowedBikeRentalNetworks: [String]
+          $locale: String
+        ) {
+          plan(
+            fromPlace: $fromPlace
+            toPlace: $toPlace
+            intermediatePlaces: $intermediatePlaces
+            numItineraries: $numItineraries
+            modes: $modes
+            date: $date
+            time: $time
+            walkReluctance: $walkReluctance
+            walkBoardCost: $walkBoardCost
+            minTransferTime: $minTransferTime
+            walkSpeed: $walkSpeed
+            maxWalkDistance: $maxWalkDistance
+            wheelchair: $wheelchair
+            ticketTypes: $ticketTypes
+            disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
+            arriveBy: $arriveBy
+            transferPenalty: $transferPenalty
+            ignoreRealtimeUpdates: $ignoreRealtimeUpdates
+            maxPreTransitTime: $maxPreTransitTime
+            walkOnStreetReluctance: $walkOnStreetReluctance
+            waitReluctance: $waitReluctance
+            bikeSpeed: $bikeSpeed
+            bikeSwitchTime: $bikeSwitchTime
+            bikeSwitchCost: $bikeSwitchCost
+            bikeBoardCost: $bikeBoardCost
+            optimize: $optimize
+            triangle: $triangle
+            carParkCarLegWeight: $carParkCarLegWeight
+            maxTransfers: $maxTransfers
+            waitAtBeginningFactor: $waitAtBeginningFactor
+            heuristicStepsPerMainStep: $heuristicStepsPerMainStep
+            compactLegsByReversedSearch: $compactLegsByReversedSearch
+            itineraryFiltering: $itineraryFiltering
+            modeWeight: $modeWeight
+            preferred: $preferred
+            unpreferred: $unpreferred
+            allowedBikeRentalNetworks: $allowedBikeRentalNetworks
+            locale: $locale
+          ) {
+            itineraries {
+              startTime
+            }
+          }
+        }
+      `;
 
-      // Relay.Store.primeCache({ query }, status => {
-      //   if (status.ready === true) {
-      //     const data = Relay.Store.readQuery(query);
-      //     if (data[0].plan.itineraries.length === 0) {
-      //       // Could not find routes arriving at original departure time
-      //       // --> cannot calculate earlier start time
-      //       // this.props.setError('no-route-start-date-too-early');
-      //       this.props.setLoading(false);
-      //     } else {
-      //       const earliestStartTime = data[0].plan.itineraries.reduce(
-      //         (previous, { startTime }) =>
-      //           startTime < previous ? startTime : previous,
-      //         Number.MAX_VALUE,
-      //       );
+      fetchQuery(this.props.relayEnvironment, query, tunedParams).then(
+        ({ plan: result }) => {
+          if (result.itineraries.length === 0) {
+            // Could not find routes arriving at original departure time
+            // --> cannot calculate earlier start time
+            this.props.setError('no-route-start-date-too-early');
+            this.props.setLoading(false);
+          } else {
+            const earliestStartTime = result.itineraries.reduce(
+              (previous, { startTime }) =>
+                startTime < previous ? startTime : previous,
+              Number.MAX_VALUE,
+            );
 
-      //       // OTP can't always find earlier routes. This leads to a situation where
-      //       // new search is done without reducing time, and nothing seems to happen
-      //       let newTime;
-      //       if (this.props.plan.date <= earliestStartTime) {
-      //         newTime = moment(this.props.plan.date).subtract(5, 'minutes');
-      //       } else {
-      //         newTime = moment(earliestStartTime).subtract(1, 'minutes');
-      //       }
+            // OTP can't always find earlier routes. This leads to a situation where
+            // new search is done without reducing time, and nothing seems to happen
+            let newTime;
+            if (this.props.plan.date <= earliestStartTime) {
+              newTime = moment(this.props.plan.date).subtract(5, 'minutes');
+            } else {
+              newTime = moment(earliestStartTime).subtract(1, 'minutes');
+            }
 
-      //       if (earliestStartTime <= start) {
-      //         // Start time out of range
-      //         // this.props.setError('no-route-start-date-too-early');
-      //         this.props.setLoading(false);
-      //         return;
-      //       }
+            if (earliestStartTime <= start) {
+              // Start time out of range
+              this.props.setError('no-route-start-date-too-early');
+              this.props.setLoading(false);
+              return;
+            }
 
-      //       this.props.setLoading(false);
-      //       replaceQueryParams(this.context.router, { time: newTime.unix() });
-      //     }
-      //   }
-      // });
+            this.props.setLoading(false);
+            replaceQueryParams(this.context.router, this.context.match, {
+              time: newTime.unix(),
+            });
+          }
+        },
+      );
     }
   };
 
@@ -363,6 +538,7 @@ class SummaryPlanContainer extends React.Component {
 
 const withConfig = getContext({
   config: PropTypes.object.isRequired,
+  relayEnvironment: PropTypes.object.isRequired,
 })(withBreakpoint(SummaryPlanContainer));
 
 const connectedContainer = createFragmentContainer(
