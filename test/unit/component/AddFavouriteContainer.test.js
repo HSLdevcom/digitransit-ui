@@ -64,7 +64,7 @@ describe('<AddFavouriteContainer />', () => {
 
       expect(wrapper.state('favourite')).to.deep.equal({
         id: 'fav-id',
-        locationName: 'foobar',
+        name: 'foobar',
       });
     });
   });
@@ -77,7 +77,7 @@ describe('<AddFavouriteContainer />', () => {
 
       const favourite = {
         id: 'fav-id',
-        locationName: 'foobar',
+        name: 'foobar',
       };
       wrapper.setState({ favourite });
 
@@ -86,7 +86,7 @@ describe('<AddFavouriteContainer />', () => {
 
       expect(wrapper.state('favourite')).to.deep.equal({
         id: 'fav-id',
-        locationName: 'foobar',
+        name: 'foobar',
         selectedIconId: 'icon-icon_home',
       });
     });
@@ -106,7 +106,7 @@ describe('<AddFavouriteContainer />', () => {
 
       expect(wrapper.state('favourite')).to.deep.equal({
         id: 'fav-id',
-        locationName: 'Home',
+        name: 'Home',
         selectedIconId: 'icon-icon_home',
       });
     });

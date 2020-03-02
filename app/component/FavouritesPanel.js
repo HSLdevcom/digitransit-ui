@@ -119,12 +119,7 @@ export default connectToStores(
       panelctx={{ ...ctx, tab: TAB_FAVOURITES }}
     />
   ),
-  [
-    'FavouriteStore',
-    'TimeStore',
-    // 'FavouriteLocationStore',
-    // 'FavouriteStopsStore',
-  ],
+  ['FavouriteStore', 'TimeStore'],
   context => ({
     routes: context.getStore('FavouriteStore').getRoutes(),
     currentTime: context

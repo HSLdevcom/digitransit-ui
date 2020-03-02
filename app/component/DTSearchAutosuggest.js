@@ -345,10 +345,7 @@ class DTAutosuggest extends React.Component {
           shouldRenderSuggestions={() => this.state.editing}
           highlightFirstSuggestion
           renderInputComponent={p => (
-            <div id={`${this.props.id}-container`} style={{ display: 'flex' }}>
-              <span className="sr-only" role="alert">
-                {ariaSuggestionLen}
-              </span>
+            <>
               <input
                 aria-label={SearchBarId.concat(' ').concat(ariaLabelText)}
                 id={this.props.id}
@@ -356,8 +353,11 @@ class DTAutosuggest extends React.Component {
                 onKeyDown={this.keyDown}
                 {...p}
               />
+              <span className="sr-only" role="alert">
+                {ariaSuggestionLen}
+              </span>
               {this.clearButton()}
-            </div>
+            </>
           )}
           onSuggestionSelected={this.onSelected}
           ref={this.storeInputReference}
