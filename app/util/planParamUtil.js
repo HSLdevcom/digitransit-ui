@@ -266,7 +266,6 @@ export const preparePlanParams = config => (
         intermediatePlaces,
         minTransferTime,
         modes,
-        numItineraries,
         optimize,
         preferredRoutes,
         safetyFactor,
@@ -315,7 +314,11 @@ export const preparePlanParams = config => (
         from: fromLocation,
         to: toLocation,
         intermediatePlaces: intermediatePlaceLocations,
-        numItineraries: getNumberValueOrDefault(numItineraries),
+        numItineraries:
+          typeof matchMedia !== 'undefined' &&
+          matchMedia('(min-width: 900px)').matches
+            ? 5
+            : 3,
         date: (time ? moment(time * 1000) : moment()).format('YYYY-MM-DD'),
         time: (time ? moment(time * 1000) : moment()).format('HH:mm:ss'),
         walkReluctance: getNumberValueOrDefault(
