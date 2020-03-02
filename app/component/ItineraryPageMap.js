@@ -11,6 +11,7 @@ import { otpToLocation } from '../util/otpStrings';
 import { isBrowser } from '../util/browser';
 import { dtLocationShape } from '../util/shapes';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import withBreakpoint from '../util/withBreakpoint';
 
 let L;
 
@@ -22,19 +23,20 @@ if (isBrowser) {
 let timeout;
 
 function ItineraryPageMap(
-  { itinerary, from, to, match, center, breakpoint },
-  { router },
+  { itinerary, center, breakpoint },
+  { router, match },
 ) {
+  const { from, to } = match.params;
   const leafletObjs = [
     <LocationMarker
       key="fromMarker"
-      position={from || otpToLocation(match.params.from)}
+      position={otpToLocation(from)}
       type="from"
     />,
     <LocationMarker
       isLarge
       key="toMarker"
-      position={to || otpToLocation(match.params.to)}
+      position={otpToLocation(to)}
       type="to"
     />,
   ];
@@ -157,15 +159,13 @@ function ItineraryPageMap(
 
 ItineraryPageMap.propTypes = {
   itinerary: PropTypes.object,
-  from: dtLocationShape,
-  to: dtLocationShape,
   center: dtLocationShape,
-  match: matchShape.isRequired,
   breakpoint: PropTypes.string.isRequired,
 };
 
 ItineraryPageMap.contextTypes = {
+  match: matchShape.isRequired,
   router: routerShape.isRequired,
 };
 
-export default ItineraryPageMap;
+export default withBreakpoint(ItineraryPageMap);

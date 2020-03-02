@@ -29,13 +29,13 @@ class ItineraryTab extends React.Component {
       date: PropTypes.number.isRequired,
     }).isRequired,
     itinerary: PropTypes.object.isRequired,
-    match: matchShape.object,
     focus: PropTypes.func.isRequired,
   };
 
   static contextTypes = {
     config: PropTypes.object.isRequired,
     router: routerShape.isRequired,
+    match: matchShape.isRequired,
   };
 
   state = {
@@ -67,9 +67,9 @@ class ItineraryTab extends React.Component {
       name: null,
     });
 
-    const printPath = `${this.props.match.location.pathname}/tulosta`;
+    const printPath = `${this.context.match.location.pathname}/tulosta`;
     this.context.router.push({
-      ...this.props.match.location,
+      ...this.context.match.location,
       pathname: printPath,
     });
   };
