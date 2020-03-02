@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import DTAutosuggestPanel from './DTAutosuggestPanel';
 import { dtLocationShape } from '../util/shapes';
 /*
@@ -6,7 +7,7 @@ import { dtLocationShape } from '../util/shapes';
 */
 const ControlPanel = props => {
   return (
-    <div className="info-panel-container-left">
+    <div className={props.className}>
       <DTAutosuggestPanel
         origin={props.origin}
         destination={props.destination}
@@ -20,5 +21,6 @@ const ControlPanel = props => {
 ControlPanel.propTypes = {
   origin: dtLocationShape.isRequired,
   destination: dtLocationShape.isRequired,
+  className: PropTypes.string.isRequired,
 };
 export default ControlPanel;

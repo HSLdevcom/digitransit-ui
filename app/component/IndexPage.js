@@ -168,7 +168,11 @@ class IndexPage extends React.Component {
             )}
           />
         </div>
-        <ControlPanel origin={origin} destination={destination} />
+        <ControlPanel
+          className="info-panel-container-left"
+          origin={origin}
+          destination={destination}
+        />
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
         {!footerOptions.hidden && (
           <div id="page-footer-container">
@@ -220,9 +224,11 @@ class IndexPage extends React.Component {
             )}
           </div>
         </div>
-        <div className="info-panel-container-bottom">
-          <ControlPanel origin={origin} destination={destination} />
-        </div>
+        <ControlPanel
+          className="info-panel-container-bottom"
+          origin={origin}
+          destination={destination}
+        />
       </div>
     );
   }
