@@ -478,6 +478,7 @@ export default createFragmentContainer(PrintableItinerary, {
       legs {
         mode
         ...LegAgencyInfo_leg
+        ...ItineraryLine_legs
         from {
           lat
           lon
