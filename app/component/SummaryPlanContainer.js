@@ -368,32 +368,29 @@ const withConfig = getContext({
   config: PropTypes.object.isRequired,
 })(withBreakpoint(SummaryPlanContainer));
 
-const withRelayContainer = createFragmentContainer(withConfig, {
-  plan: graphql`
-    fragment SummaryPlanContainer_plan on Plan {
-      date
-    }
-  `,
-  itineraries: graphql`
-    fragment SummaryPlanContainer_itineraries on Itinerary
-      @relay(plural: true) {
-      ...ItinerarySummaryListContainer_itineraries
-      endTime
-      startTime
-    }
-  `,
-});
-
-const connectedContainer = connectToStores(
-  withRelayContainer,
-  [TimeStore, PositionStore],
-  context => ({
+const connectedContainer = createFragmentContainer(
+  connectToStores(withConfig, [TimeStore, PositionStore], context => ({
     currentTime: context
       .getStore(TimeStore)
       .getCurrentTime()
       .valueOf(),
     locationState: context.getStore(PositionStore).getLocationState(),
-  }),
+  })),
+  {
+    plan: graphql`
+      fragment SummaryPlanContainer_plan on Plan {
+        date
+      }
+    `,
+    itineraries: graphql`
+      fragment SummaryPlanContainer_itineraries on Itinerary
+        @relay(plural: true) {
+        ...ItinerarySummaryListContainer_itineraries
+        endTime
+        startTime
+      }
+    `,
+  },
 );
 
 export { connectedContainer as default, SummaryPlanContainer as Component };
