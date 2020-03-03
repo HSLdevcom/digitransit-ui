@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { createRefetchContainer, graphql } from 'react-relay';
+import { matchShape } from 'found';
 import moment from 'moment';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { intlShape, FormattedMessage } from 'react-intl';
@@ -25,19 +26,6 @@ const isTripCanceled = trip =>
     .every(st => st.realtimeState === RealtimeStateType.Canceled);
 
 class RouteScheduleContainer extends Component {
-  static propTypes = {
-    pattern: PropTypes.object.isRequired,
-    relay: PropTypes.shape({
-      refetch: PropTypes.func.isRequired,
-    }).isRequired,
-    serviceDay: PropTypes.string.isRequired,
-  };
-
-  static contextTypes = {
-    intl: intlShape.isRequired,
-    config: PropTypes.object.isRequired,
-  };
-
   static transformTrips(trips, stops) {
     if (trips == null) {
       return null;
@@ -54,13 +42,27 @@ class RouteScheduleContainer extends Component {
     return transformedTrips;
   }
 
+  static propTypes = {
+    pattern: PropTypes.object.isRequired,
+    relay: PropTypes.shape({
+      refetch: PropTypes.func.isRequired,
+    }).isRequired,
+    serviceDay: PropTypes.string.isRequired,
+    match: matchShape.isRequired,
+  };
+
+  static contextTypes = {
+    intl: intlShape.isRequired,
+    config: PropTypes.object.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.initState(props, true);
     this.props.relay.refetch(
       {
         serviceDay: this.props.serviceDay,
-        code: this.props.pattern.code,
+        code: this.props.match.params.patternId,
       },
       null,
       () => this.setState({ hasLoaded: true }),
@@ -147,7 +149,7 @@ class RouteScheduleContainer extends Component {
         this.props.relay.refetch(
           {
             serviceDay: target.value,
-            code: this.props.pattern.code,
+            code: this.props.match.params.patternId,
           },
           null,
           () => this.setState({ hasLoaded: true }),
@@ -294,54 +296,50 @@ class RouteScheduleContainer extends Component {
   }
 }
 
-const connectedComponent = connectToStores(
-  createRefetchContainer(
-    RouteScheduleContainer,
-    {
-      pattern: graphql`
-        fragment RouteScheduleContainer_pattern on Pattern
-          @argumentDefinitions(
-            serviceDay: { type: "String!", defaultValue: "19700101" }
-          ) {
-          stops {
-            id
-            name
-          }
-          route {
-            url
-            gtfsId
-            shortName
-          }
-          tripsForDate(serviceDay: $serviceDay) {
-            id
-            stoptimes: stoptimesForDate(serviceDay: $serviceDay) {
-              realtimeState
-              scheduledArrival
-              scheduledDeparture
-              serviceDay
-              stop {
-                id
-              }
-            }
-          }
-        }
-      `,
-    },
-    graphql`
-      query RouteScheduleContainerQuery($code: String!, $serviceDay: String!) {
-        pattern(id: $code) {
-          ...RouteScheduleContainer_pattern @arguments(serviceDay: $serviceDay)
-        }
-      }
-    `,
-  ),
-  [],
-  context => ({
+const connectedComponent = createRefetchContainer(
+  connectToStores(RouteScheduleContainer, [], context => ({
     serviceDay: context
       .getStore('TimeStore')
       .getCurrentTime()
       .format(DATE_FORMAT),
-  }),
+  })),
+  {
+    pattern: graphql`
+      fragment RouteScheduleContainer_pattern on Pattern
+        @argumentDefinitions(
+          serviceDay: { type: "String!", defaultValue: "19700101" }
+        ) {
+        stops {
+          id
+          name
+        }
+        route {
+          url
+          gtfsId
+          shortName
+        }
+        tripsForDate(serviceDay: $serviceDay) {
+          id
+          stoptimes: stoptimesForDate(serviceDay: $serviceDay) {
+            realtimeState
+            scheduledArrival
+            scheduledDeparture
+            serviceDay
+            stop {
+              id
+            }
+          }
+        }
+      }
+    `,
+  },
+  graphql`
+    query RouteScheduleContainerQuery($code: String!, $serviceDay: String!) {
+      pattern(id: $code) {
+        ...RouteScheduleContainer_pattern @arguments(serviceDay: $serviceDay)
+      }
+    }
+  `,
 );
 
 export { connectedComponent as default, RouteScheduleContainer as Component };
