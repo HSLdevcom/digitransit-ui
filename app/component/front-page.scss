@@ -269,7 +269,7 @@ $heading-color: #858585;
 }
 
 .front-page-map-wrapper {
-  width: calc(100% - 600px); // 600px is from info-panel-container left's width.
+  width: calc(100% - 600px); // 600px is from control-panel-container left's width.
   display: flex;
   flex: 1;
   left: auto; // Allows shrinking map from left side instead of right.
@@ -283,7 +283,7 @@ $heading-color: #858585;
   display: flex;
   flex-direction: column;
 }
-.info-panel-container-left {
+.control-panel-container-left {
   display: flex;
   order: 1;
   flex-direction: column;
@@ -296,7 +296,7 @@ $heading-color: #858585;
   z-index: 20; // TODO: Placeholder value!
 }
 
-.info-panel-container-bottom {
+.control-panel-container-bottom {
   width: 100%;
   background-color: #ffffff;
   height: 300px;
