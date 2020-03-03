@@ -13,6 +13,11 @@ import {
 } from './localStorage';
 import { isStop } from '../util/suggestionUtils';
 import { getGeocodingResult } from '../util/searchUtils';
+import {
+  getFavourites,
+  updateFavourites,
+  deleteFavourites,
+} from '../util/apiUtils';
 
 export default class FavouriteStore extends Store {
   static storeName = 'FavouriteStore';
@@ -24,6 +29,16 @@ export default class FavouriteStore extends Store {
   constructor(dispatcher) {
     super(dispatcher);
     this.config = dispatcher.getContext().config;
+
+    getFavourites()
+      .then(res => {
+        this.favourites = res;
+        this.emitChange();
+      })
+      .catch(() => {
+        this.favourites = getFavouriteStorage();
+        this.emitChange();
+      });
     this.migrateRoutes();
     this.migrateStops();
     this.migrateLocations();
@@ -87,8 +102,14 @@ export default class FavouriteStore extends Store {
       });
     }
     this.favourites = newFavourites;
-    this.storeFavourites();
-    this.emitChange();
+    updateFavourites(this.favourites)
+      .then(() => {
+        this.emitChange();
+      })
+      .catch(() => {
+        this.storeFavourites();
+        this.emitChange();
+      });
   }
 
   deleteFavourite(data) {
@@ -96,8 +117,14 @@ export default class FavouriteStore extends Store {
       favourite => favourite.gtfsId !== data.gtfsId || favourite.id !== data.id,
     );
     this.favourites = newFavourites;
-    this.storeFavourites();
-    this.emitChange();
+    deleteFavourites([data.favouriteId])
+      .then(() => {
+        this.emitChange();
+      })
+      .catch(() => {
+        this.storeFavourites();
+        this.emitChange();
+      });
   }
 
   migrateRoutes() {

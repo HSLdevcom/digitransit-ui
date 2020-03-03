@@ -158,20 +158,24 @@ function setUpOIDC() {
   });
 
   app.use('/api/user/favourites', function(req, res, next) {
-    request(
-      {
-        method: req.method,
-        url: `http://localhost:7071/api/favorites/${req.user.data.sub}`,
-        body: JSON.stringify(req.body),
-      },
-      function(err, response, body) {
-        if (!err && response.statusCode === 200) {
-          const data = JSON.parse(body);
-          body = JSON.stringify(data);
-        }
-        res.send(body);
-      },
-    );
+    if (req.isAuthenticated()) {
+      request(
+        {
+          method: req.method,
+          url: `http://localhost:7071/api/favorites/${req.user.data.sub}`,
+          body: JSON.stringify(req.body),
+        },
+        function(err, response, body) {
+          if (!err && response.statusCode === 200) {
+            const data = JSON.parse(body);
+            body = JSON.stringify(data);
+          }
+          res.send(body);
+        },
+      );
+    } else {
+      next();
+    }
   });
 }
 
