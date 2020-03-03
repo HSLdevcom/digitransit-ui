@@ -3,7 +3,7 @@ import { describe, it } from 'mocha';
 import React from 'react';
 
 import { shallowWithIntl } from './helpers/mock-intl-enzyme';
-import mockRouter from './helpers/mock-router';
+import { mockRouter } from './helpers/mock-router';
 import { DTEndpointAutosuggestComponent } from '../../app/component/DTEndpointAutosuggest';
 
 describe('<DTEndpointAutosuggest />', () => {

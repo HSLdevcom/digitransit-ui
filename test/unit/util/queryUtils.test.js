@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { createMemoryHistory } from 'react-router';
 
 import { createMemoryMockRouter } from '../helpers/mock-router';
 
@@ -76,14 +75,14 @@ describe('queryUtils', () => {
 
   describe('setIntermediatePlaces', () => {
     it('should not modify the query if the parameter is neither a string nor an array', () => {
-      const router = createMemoryHistory();
+      const router = createMemoryMockRouter();
       utils.setIntermediatePlaces(router, {});
       const { intermediatePlaces } = router.getCurrentLocation().query;
       expect(intermediatePlaces).to.equal(undefined);
     });
 
     it('should not modify the query if the parameter is an array but not a string array', () => {
-      const router = createMemoryHistory();
+      const router = createMemoryMockRouter();
       const intermediatePlaces = [
         {
           lat: 60.217992,
@@ -105,7 +104,7 @@ describe('queryUtils', () => {
     });
 
     it('should modify the query if the parameter is a string', () => {
-      const router = createMemoryHistory();
+      const router = createMemoryMockRouter();
       const intermediatePlace = 'Kera, Espoo::60.217992,24.75494';
 
       utils.setIntermediatePlaces(router, intermediatePlace);
@@ -116,7 +115,7 @@ describe('queryUtils', () => {
     });
 
     it('should modify the query if the parameter is a string array', () => {
-      const router = createMemoryHistory();
+      const router = createMemoryMockRouter();
       const intermediatePlaces = [
         'Kera, Espoo::60.217992,24.75494',
         'Leppävaara, Espoo::60.219235,24.81329',
@@ -206,7 +205,7 @@ describe('queryUtils', () => {
   describe('addPreferredRoute', () => {
     it('should add a route as a preferred option', () => {
       const routeToAdd = 'HSL__1052';
-      const router = createMemoryHistory();
+      const router = createMemoryMockRouter();
       utils.addPreferredRoute(router, routeToAdd);
       expect(router.getCurrentLocation().query).to.deep.equal({
         preferredRoutes: routeToAdd,
@@ -215,7 +214,7 @@ describe('queryUtils', () => {
 
     it('should not add the same route as a preferred option twice', () => {
       const routeToAdd = 'HSL__1052';
-      const router = createMemoryHistory();
+      const router = createMemoryMockRouter();
       utils.addPreferredRoute(router, routeToAdd);
       utils.addPreferredRoute(router, routeToAdd);
       expect(router.getCurrentLocation().query).to.deep.equal({
@@ -224,7 +223,7 @@ describe('queryUtils', () => {
     });
 
     it('should add multiple routes as preferred options', () => {
-      const router = createMemoryHistory();
+      const router = createMemoryMockRouter();
       utils.addPreferredRoute(router, 'HSL__1052');
       utils.addPreferredRoute(router, 'HSL__7480');
       expect(router.getCurrentLocation().query).to.deep.equal({
@@ -236,7 +235,7 @@ describe('queryUtils', () => {
   describe('addUnpreferredRoute', () => {
     it('should add a route as an unpreferred option', () => {
       const routeToAdd = 'HSL__1052';
-      const router = createMemoryHistory();
+      const router = createMemoryMockRouter();
       utils.addUnpreferredRoute(router, routeToAdd);
       expect(router.getCurrentLocation().query).to.deep.equal({
         unpreferredRoutes: routeToAdd,
@@ -245,7 +244,7 @@ describe('queryUtils', () => {
 
     it('should not add the same route as an unpreferred option twice', () => {
       const routeToAdd = 'HSL__1052';
-      const router = createMemoryHistory();
+      const router = createMemoryMockRouter();
       utils.addUnpreferredRoute(router, routeToAdd);
       utils.addUnpreferredRoute(router, routeToAdd);
       expect(router.getCurrentLocation().query).to.deep.equal({
@@ -254,7 +253,7 @@ describe('queryUtils', () => {
     });
 
     it('should add multiple routes as unpreferred options', () => {
-      const router = createMemoryHistory();
+      const router = createMemoryMockRouter();
       utils.addUnpreferredRoute(router, 'HSL__1052');
       utils.addUnpreferredRoute(router, 'HSL__7480');
       expect(router.getCurrentLocation().query).to.deep.equal({
@@ -265,7 +264,7 @@ describe('queryUtils', () => {
 
   describe('removePreferredRoute', () => {
     it('should remove a preferred route option', () => {
-      const router = createMemoryHistory();
+      const router = createMemoryMockRouter();
       utils.addPreferredRoute(router, 'HSL__1052');
       utils.removePreferredRoute(router, 'HSL__1052');
       expect(router.getCurrentLocation().query).to.deep.equal({
@@ -274,7 +273,7 @@ describe('queryUtils', () => {
     });
 
     it('should ignore a missing preferred route', () => {
-      const router = createMemoryHistory();
+      const router = createMemoryMockRouter();
       utils.addPreferredRoute(router, 'HSL__1052');
       utils.removePreferredRoute(router, 'foobar');
       expect(router.getCurrentLocation().query).to.deep.equal({
@@ -285,7 +284,7 @@ describe('queryUtils', () => {
 
   describe('removeUnpreferredRoute', () => {
     it('should remove a Unpreferred route option', () => {
-      const router = createMemoryHistory();
+      const router = createMemoryMockRouter();
       utils.addUnpreferredRoute(router, 'HSL__1052');
       utils.removeUnpreferredRoute(router, 'HSL__1052');
       expect(router.getCurrentLocation().query).to.deep.equal({
@@ -294,7 +293,7 @@ describe('queryUtils', () => {
     });
 
     it('should ignore a missing Unpreferred route', () => {
-      const router = createMemoryHistory();
+      const router = createMemoryMockRouter();
       utils.addUnpreferredRoute(router, 'HSL__1052');
       utils.removeUnpreferredRoute(router, 'foobar');
       expect(router.getCurrentLocation().query).to.deep.equal({
@@ -305,7 +304,7 @@ describe('queryUtils', () => {
 
   describe('clearQueryParams', () => {
     it('should remove only given parameters', () => {
-      const router = createMemoryHistory();
+      const router = createMemoryMockRouter();
       router.replace({
         query: {
           foo: 'bar',
@@ -365,7 +364,7 @@ describe('queryUtils', () => {
 
   describe('replaceQueryParams', () => {
     it('should remove triangle factors if OptimizeType is not TRIANGLE', () => {
-      const router = createMemoryHistory();
+      const router = createMemoryMockRouter();
       router.replace({
         query: {
           optimize: OptimizeType.Triangle,
@@ -392,7 +391,7 @@ describe('queryUtils', () => {
     });
 
     it('should should not remove triangle factors when OptimizeType is missing from new params', () => {
-      const router = createMemoryHistory();
+      const router = createMemoryMockRouter();
       router.replace({
         query: {
           optimize: OptimizeType.Triangle,

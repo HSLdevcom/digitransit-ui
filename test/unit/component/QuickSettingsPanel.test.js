@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import { createMemoryHistory } from 'history';
 import { describe, it } from 'mocha';
 import React from 'react';
 
@@ -32,11 +31,7 @@ const getDefaultProps = () => ({
 });
 
 const getDefaultContext = (config, modes = undefined) => {
-  const router = {
-    ...createMemoryHistory(),
-    isActive: () => {},
-    setRouteLeaveHook: () => {},
-  };
+  const router = createMemoryMockRouter;
   return {
     ...mockContext,
     config,

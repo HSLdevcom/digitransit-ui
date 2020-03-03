@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { createMemoryHistory } from 'react-router';
+import { createMemoryMockRouter } from '../helpers/mock-router';
 import { StreetMode, TransportMode } from '../../../app/constants';
 import * as utils from '../../../app/util/modeUtils';
 import { setCustomizedSettings } from '../../../app/store/localStorage';
@@ -350,7 +350,7 @@ describe('modeUtils', () => {
   describe('setStreetMode', () => {
     it('should apply the selected streetMode to the current url', () => {
       const streetMode = StreetMode.ParkAndRide;
-      const router = createMemoryHistory();
+      const router = createMemoryMockRouter;
       router.location = {
         query: {
           modes: 'CAR,WALK,RAIL,BUS,CITYBIKE',
@@ -370,7 +370,7 @@ describe('modeUtils', () => {
 
     it('should remove every other mode from the current url when isExclusive=true', () => {
       const streetMode = StreetMode.ParkAndRide;
-      const router = createMemoryHistory();
+      const router = createMemoryMockRouter;
       router.location = {
         query: {
           modes: 'CAR,WALK,RAIL,BUS,CITYBIKE',

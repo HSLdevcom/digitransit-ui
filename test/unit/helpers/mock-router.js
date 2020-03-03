@@ -1,19 +1,37 @@
-import { createMemoryHistory } from 'react-router';
+import MemoryProtocol from 'farce/lib/MemoryProtocol';
+import createFarceRouter from 'found/lib/createFarceRouter';
 
-const mockRouter = {
+export const mockRouter = {
   push: () => {},
   replace: () => {},
   go: () => {},
-  goBack: () => {},
-  goForward: () => {},
-  setRouteLeaveHook: () => {},
+  createHref: () => {},
+  createLocation: () => {},
+  addTransitionHook: () => {},
+  matcher: { routeConfig: [] },
+  replaceRouteConfig: () => {},
   isActive: () => {},
-  getCurrentLocation: () => ({}),
 };
 
-export const createMemoryMockRouter = () => ({
-  ...mockRouter,
-  ...createMemoryHistory(),
-});
+export const mockMatch = {
+  location: {
+    action: '',
+    pathname: '',
+    search: '',
+    hash: '',
+    index: 0,
+    delta: 0,
+    query: {},
+  },
+  routeIndices: [],
+  routeParams: {},
+  params: {},
+  routes: [],
+  router: mockRouter,
+  route: {
+    getComponent: () => {},
+  },
+};
 
-export default mockRouter;
+export const createMemoryMockRouter = () =>
+  createFarceRouter({ historyProtocol: new MemoryProtocol('/') });

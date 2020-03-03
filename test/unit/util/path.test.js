@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { createMemoryHistory } from 'react-router';
+import { createMemoryMockRouter } from '../helpers/mock-router';
 
 import * as utils from '../../../app/util/path';
 
@@ -28,7 +28,7 @@ describe('path', () => {
           summaryPageSelected: 2,
         },
       };
-      const router = createMemoryHistory();
+      const router = createMemoryMockRouter();
       utils.navigateTo({
         origin: mockOrigin,
         destination: mockDestination,
@@ -47,7 +47,7 @@ describe('path', () => {
           summaryPageSelected: 2,
         },
       };
-      const router = createMemoryHistory();
+      const router = createMemoryMockRouter();
       utils.navigateTo({
         origin: mockOrigin,
         destination: mockDestination,
