@@ -1,6 +1,14 @@
 import MemoryProtocol from 'farce/lib/MemoryProtocol';
 import createFarceRouter from 'found/lib/createFarceRouter';
 
+const mockMatcher = {
+  routeConfig: [],
+  match: () => {},
+  getRoutes: () => {},
+  isActive: () => {},
+  format: () => {},
+};
+
 export const mockRouter = {
   push: () => {},
   replace: () => {},
@@ -8,7 +16,7 @@ export const mockRouter = {
   createHref: () => {},
   createLocation: () => {},
   addTransitionHook: () => {},
-  matcher: { routeConfig: [] },
+  matcher: mockMatcher,
   replaceRouteConfig: () => {},
   isActive: () => {},
 };
