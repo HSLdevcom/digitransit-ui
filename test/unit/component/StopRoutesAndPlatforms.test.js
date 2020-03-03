@@ -5,18 +5,17 @@ import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 
 import dt2715a from '../test-data/dt2715a';
 import dt2715b from '../test-data/dt2715b';
-import {
+import StopRoutesAndPlatforms, {
   mapRoutes,
-  Component as RoutesAndPlatformsForStops,
-} from '../../../app/component/RoutesAndPlatformsForStops';
+} from '../../../app/component/StopRoutesAndPlatforms';
 
-describe('<RoutesAndPlatformsForStops />', () => {
+describe('<StopRoutesAndPlatforms />', () => {
   it('should render a container successfully', () => {
     const props = {
       stop: dt2715a,
       params: { terminalId: 'HSL:1000202' },
     };
-    const wrapper = shallowWithIntl(<RoutesAndPlatformsForStops {...props} />);
+    const wrapper = shallowWithIntl(<StopRoutesAndPlatforms {...props} />);
 
     expect(wrapper.find('.departure-list')).to.have.lengthOf(1);
   });
@@ -36,7 +35,7 @@ describe('<RoutesAndPlatformsForStops />', () => {
       stop: dt2715a,
       params: { terminalId: 'HSL:1000202' },
     };
-    const wrapper = shallowWithIntl(<RoutesAndPlatformsForStops {...props} />);
+    const wrapper = shallowWithIntl(<StopRoutesAndPlatforms {...props} />);
 
     expect(wrapper.find('.departure')).to.have.lengthOf(
       mapRoutes(props.stop, 'terminal').length,
@@ -48,7 +47,7 @@ describe('<RoutesAndPlatformsForStops />', () => {
       stop: dt2715b,
       params: { stopId: 'HSL:1173105' },
     };
-    const wrapper = shallowWithIntl(<RoutesAndPlatformsForStops {...props} />);
+    const wrapper = shallowWithIntl(<StopRoutesAndPlatforms {...props} />);
 
     expect(wrapper.find('.departure')).to.have.lengthOf(
       mapRoutes(props.stop, 'stop').length,
@@ -63,7 +62,7 @@ describe('<RoutesAndPlatformsForStops />', () => {
         stoptimesForPatterns: [],
       },
     };
-    const wrapper = shallowWithIntl(<RoutesAndPlatformsForStops {...props} />);
+    const wrapper = shallowWithIntl(<StopRoutesAndPlatforms {...props} />);
     expect(wrapper.find('.stop-no-departures-container')).to.have.lengthOf(1);
   });
 });
