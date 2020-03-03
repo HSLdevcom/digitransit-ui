@@ -4,10 +4,6 @@ import React from 'react';
 
 import { mockContext, mockChildContextTypes } from '../helpers/mock-context';
 import { mountWithIntl } from '../helpers/mock-intl-enzyme';
-import {
-  getRelayContextMock,
-  mockRelayChildContextTypes,
-} from '../helpers/mock-relay';
 import defaultConfig from '../../../app/configurations/config.default';
 
 import { Component as SummaryPlanContainer } from '../../../app/component/SummaryPlanContainer';
@@ -161,12 +157,10 @@ describe('<SummaryPlanContainer />', () => {
     const wrapper = mountWithIntl(<SummaryPlanContainer {...props} />, {
       context: {
         ...mockContext,
-        ...getRelayContextMock(),
         config,
       },
       childContextTypes: {
         ...mockChildContextTypes,
-        ...mockRelayChildContextTypes,
       },
     });
     expect(
@@ -188,12 +182,10 @@ describe('<SummaryPlanContainer />', () => {
     const wrapper = mountWithIntl(<SummaryPlanContainer {...props2} />, {
       context: {
         ...mockContext,
-        ...getRelayContextMock(),
         config,
       },
       childContextTypes: {
         ...mockChildContextTypes,
-        ...mockRelayChildContextTypes,
       },
     });
     expect(
@@ -216,12 +208,10 @@ describe('<SummaryPlanContainer />', () => {
     const wrapper = mountWithIntl(<SummaryPlanContainer {...props3} />, {
       context: {
         ...mockContext,
-        ...getRelayContextMock(),
         config,
       },
       childContextTypes: {
         ...mockChildContextTypes,
-        ...mockRelayChildContextTypes,
       },
     });
     expect(wrapper.find('.no-route-icon .info')).to.have.lengthOf(1);
@@ -247,12 +237,10 @@ describe('<SummaryPlanContainer />', () => {
     const wrapper = mountWithIntl(<SummaryPlanContainer {...props4} />, {
       context: {
         ...mockContext,
-        ...getRelayContextMock(),
         config,
       },
       childContextTypes: {
         ...mockChildContextTypes,
-        ...mockRelayChildContextTypes,
       },
     });
     expect(wrapper.find('.no-route-icon .info')).to.have.lengthOf(1);
