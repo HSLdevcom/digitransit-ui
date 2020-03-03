@@ -169,7 +169,7 @@ class IndexPage extends React.Component {
           />
         </div>
         <ControlPanel
-          className="info-panel-container-left"
+          className="control-panel-container-left"
           origin={origin}
           destination={destination}
         />
@@ -225,7 +225,7 @@ class IndexPage extends React.Component {
           </div>
         </div>
         <ControlPanel
-          className="info-panel-container-bottom"
+          className="control-panel-container-bottom"
           origin={origin}
           destination={destination}
         />
