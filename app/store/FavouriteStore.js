@@ -93,7 +93,7 @@ export default class FavouriteStore extends Store {
 
   deleteFavourite(data) {
     const newFavourites = this.favourites.filter(
-      favourite => favourite.gtfsId !== data.gtfsId || favourite.id !== data.id,
+      favourite => favourite.favouriteId !== data.favouriteId,
     );
     this.favourites = newFavourites;
     this.storeFavourites();
