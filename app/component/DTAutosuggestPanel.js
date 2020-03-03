@@ -53,6 +53,14 @@ const ItinerarySearchControl = ({
     </div>
   );
 
+ItinerarySearchControl.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string.isRequired,
+  enabled: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired,
+  onKeyPress: PropTypes.func.isRequired,
+};
+
 /**
  * Launches route search if both origin and destination are set.
  */

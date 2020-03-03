@@ -260,6 +260,9 @@ BicycleLeg.propTypes = {
         networks: PropTypes.array.isRequired,
       }),
     }).isRequired,
+    to: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+    }).isRequired,
     mode: PropTypes.string.isRequired,
     rentedBike: PropTypes.bool.isRequired,
   }).isRequired,

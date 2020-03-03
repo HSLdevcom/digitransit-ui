@@ -44,6 +44,9 @@ class TileLayerContainer extends GridLayer {
         addEventParent: PropTypes.func.isRequired,
         closePopup: PropTypes.func.isRequired,
         removeEventParent: PropTypes.func.isRequired,
+        _popup: PropTypes.shape({
+          isOpen: PropTypes.func,
+        }),
       }).isRequired,
     }).isRequired,
   };

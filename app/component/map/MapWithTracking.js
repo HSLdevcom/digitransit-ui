@@ -88,6 +88,10 @@ class MapWithTrackingStateHandler extends React.Component {
       feedIds: PropTypes.array.isRequired,
       showAllBusses: PropTypes.bool.isRequired,
       stopsMinZoom: PropTypes.number.isRequired,
+      geoJson: PropTypes.shape({
+        layers: PropTypes.array,
+        layerConfigUrl: PropTypes.string,
+      }),
     }).isRequired,
     children: PropTypes.array,
     renderCustomButtons: PropTypes.func,

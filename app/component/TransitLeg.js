@@ -382,14 +382,23 @@ TransitLeg.propTypes = {
   leg: PropTypes.shape({
     realtimeState: PropTypes.string,
     realTime: PropTypes.bool,
+    fare: PropTypes.shape({
+      isUnknown: PropTypes.bool,
+      agency: PropTypes.shape({
+        name: PropTypes.string,
+        fareUrl: PropTypes.string,
+      }),
+    }),
     from: PropTypes.shape({
       stop: PropTypes.shape({
         code: PropTypes.string,
         platformCode: PropTypes.string,
         zoneId: PropTypes.string,
+        alerts: PropTypes.array,
       }).isRequired,
       name: PropTypes.string.isRequired,
     }).isRequired,
+    duration: PropTypes.number.isRequired,
     route: PropTypes.shape({
       gtfsId: PropTypes.string.isRequired,
       shortName: PropTypes.string,
@@ -399,6 +408,7 @@ TransitLeg.propTypes = {
       stop: PropTypes.shape({
         zoneId: PropTypes.string,
       }).isRequired,
+      name: PropTypes.string.isRequired,
     }).isRequired,
     trip: PropTypes.shape({
       gtfsId: PropTypes.string.isRequired,

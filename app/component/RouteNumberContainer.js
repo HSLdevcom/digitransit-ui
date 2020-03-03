@@ -34,6 +34,7 @@ const RouteNumberContainer = (
 RouteNumberContainer.propTypes = {
   alertSeverityLevel: PropTypes.string,
   route: PropTypes.object.isRequired,
+  isCallAgency: PropTypes.bool,
   vertical: PropTypes.bool,
   className: PropTypes.string,
   fadeLong: PropTypes.bool,

@@ -238,6 +238,7 @@ const alertArrayShape = PropTypes.arrayOf(
 StopPageTabs.propTypes = {
   breakpoint: PropTypes.string.isRequired,
   stop: PropTypes.shape({
+    routes: PropTypes.array,
     alerts: alertArrayShape,
     vehicleMode: PropTypes.string,
     stoptimes: PropTypes.arrayOf(
