@@ -3,6 +3,5 @@ require('@babel/register')({
   // an array of strings to be explicitly matched or a regex / glob
   ignore: [
     /node_modules\/(?!react-leaflet|@babel\/runtime\/helpers\/esm|lodash-es|@digitransit-util)/,
-    /digitransit-util\/packages\/(?!digitransit-util)/,
   ],
 });
