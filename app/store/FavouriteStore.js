@@ -93,7 +93,7 @@ export default class FavouriteStore extends Store {
 
   deleteFavourite(data) {
     const newFavourites = this.favourites.filter(
-      favourite => favourite.gtfsId !== data.gtfsId || favourite.id !== data.id,
+      favourite => favourite.favouriteId !== data.favouriteId,
     );
     this.favourites = newFavourites;
     this.storeFavourites();
@@ -113,7 +113,7 @@ export default class FavouriteStore extends Store {
     stops.forEach(stop => {
       const newStop = {
         type: isStop(stop) ? 'stop' : 'station',
-        name: stop.name,
+        name: stop.locationName,
         gtfsId: stop.gtfsId,
         address: stop.address,
         lon: stop.lon,
@@ -149,7 +149,7 @@ export default class FavouriteStore extends Store {
             type: 'place',
             id: data.properties.gid,
             address: data.properties.label,
-            name: location.name,
+            name: location.locationName,
             lon: data.geometry.coordinates[0],
             lat: data.geometry.coordinates[1],
             layer: data.properties.layer,
