@@ -14,7 +14,7 @@ const StopPageHeaderContainer = createFragmentContainer(StopPageHeader, {
 export default connectToStores(
   StopPageHeaderContainer,
   ['FavouriteStopsStore'],
-  ({ getStore }, { params }) => ({
-    favourite: getStore('FavouriteStopsStore').isFavourite(params.stopId),
+  ({ getStore }, { match }) => ({
+    favourite: getStore('FavouriteStopsStore').isFavourite(match.params.stopId),
   }),
 );
