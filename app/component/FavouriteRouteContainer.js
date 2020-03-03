@@ -18,7 +18,8 @@ const FavouriteRouteContainer = connectToStores(
       });
     },
     deleteFavourite: () => {
-      context.executeAction(deleteFavourite, { type: 'route', gtfsId });
+      const route = context.getStore('FavouriteStore').getByGtfsId(gtfsId);
+      context.executeAction(deleteFavourite, route);
       addAnalyticsEvent({
         category: 'Route',
         action: 'MarkRouteAsFavourite',

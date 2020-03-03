@@ -51,6 +51,10 @@ export default class FavouriteStore extends Store {
     );
   }
 
+  getByGtfsId(gtfsId) {
+    return find(this.favourites, favourite => gtfsId === favourite.gtfsId);
+  }
+
   getRoutes() {
     return this.favourites
       .filter(favourite => favourite.type === 'route')
