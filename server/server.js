@@ -51,6 +51,7 @@ function setUpOIDC() {
   const callbackPath = '/oid_callback'; // connect callback path
   // Use Passport with OpenId Connect strategy to authenticate users
   const OIDCHost = process.env.OIDCHOST || 'https://hslid-dev.t5.fi';
+  const FavouriteHost = process.env.FAVOURITE_HOST || 'http://localhost:7071';
   const LoginStrategy = require('./passport-openid-connect/Strategy').Strategy;
   const passport = require('passport');
   const session = require('express-session');
@@ -162,7 +163,7 @@ function setUpOIDC() {
       request(
         {
           method: req.method,
-          url: `http://localhost:7071/api/favorites/${req.user.data.sub}`,
+          url: `${FavouriteHost}/api/favorites/${req.user.data.sub}`,
           body: JSON.stringify(req.body),
         },
         function(err, response, body) {
