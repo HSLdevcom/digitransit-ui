@@ -52,9 +52,7 @@ div.map.full {
   flex-grow: 1;
   flex-basis: 0;
 }
-div.background-gradient {
-  height: $small-map-height;
-}
+
 div.below-map {
   height: calc(100% - #{$small-map-height});
 }
@@ -573,6 +571,7 @@ div.background-gradient {
   background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
   pointer-events: none;
   z-index: index($zindex, map-gradient);
+  height: $small-map-height;
   @media print {
     display: none;
   }
@@ -662,7 +661,7 @@ div.map-click-prevent-overlay {
   border: none;
   background: transparent;
   cursor: none;
-  interactive: false;
+// interactive: false;
   font-size: 50px;
   color: $primary-color;
 }

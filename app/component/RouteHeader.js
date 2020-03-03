@@ -18,12 +18,13 @@ export default function RouteHeader(props) {
 
   const routeLineText = ` ${props.route.shortName || ''}`;
 
+  // DT-3331: added query string sort=no to Link's to
   const routeLine =
     props.trip && props.pattern ? (
       <Link
         to={`/${PREFIX_ROUTES}/${props.route.gtfsId}/pysakit/${
           props.pattern.code
-        }`}
+        }?sort=no`}
       >
         {routeLineText}
       </Link>

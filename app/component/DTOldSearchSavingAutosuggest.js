@@ -23,6 +23,7 @@ class DTOldSearchSavingAutosuggest extends React.Component {
     refPoint: dtLocationShape.isRequired,
     searchType: PropTypes.string.isRequired,
     value: PropTypes.string,
+    ariaLabel: PropTypes.string,
   };
 
   static defaultProps = {
@@ -83,6 +84,7 @@ class DTOldSearchSavingAutosuggest extends React.Component {
       refPoint,
       searchType,
       value,
+      ariaLabel,
     } = this.props;
     return (
       <DTSearchAutosuggest
@@ -97,6 +99,7 @@ class DTOldSearchSavingAutosuggest extends React.Component {
         searchType={searchType}
         selectedFunction={suggestion => this.onSelect(suggestion)}
         value={value}
+        ariaLabel={ariaLabel}
       />
     );
   };

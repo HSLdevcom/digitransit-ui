@@ -8,7 +8,11 @@ const LogoSmall = (
   { config },
 ) => {
   if (config.textLogo || !showLogo) {
-    return <span className="title">{title}</span>;
+    return (
+      <span className="title" role="heading" aria-level="1">
+        {title}
+      </span>
+    );
   }
   return (
     <div

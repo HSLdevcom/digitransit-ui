@@ -56,7 +56,6 @@ class RoutePage extends React.Component {
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
     executeAction: PropTypes.func.isRequired,
-    router: routerShape.isRequired,
     intl: intlShape.isRequired,
     config: PropTypes.object.isRequired,
   };
@@ -64,21 +63,39 @@ class RoutePage extends React.Component {
   static propTypes = {
     route: PropTypes.object.isRequired,
     match: matchShape.isRequired,
+    router: routerShape.isRequired,
     breakpoint: PropTypes.string.isRequired,
   };
 
   // gets called if pattern has not been visited before
   componentDidMount() {
-    const { match, route } = this.props;
-    const { config, executeAction, router } = this.context; // DT-3182: added router for changing URL
+    const { match, router, route } = this.props;
+    const { config, executeAction } = this.context;
     if (!route || !route.patterns) {
       return;
     }
 
+    const { location } = match;
+
+    const lengthPathName =
+      location !== undefined ? location.pathname.length : 0; // DT-3331
+    const lengthIndexOfPattern =
+      location !== undefined
+        ? location.pathname.indexOf(match.params.patternId) +
+          match.params.patternId.length
+        : 0; // DT-3331
+    const noSortFound =
+      location !== undefined
+        ? location.search.indexOf('sort=no') !== -1
+        : false; // DT-3331
+    const reRouteAllowed =
+      lengthPathName === lengthIndexOfPattern && !noSortFound; // DT-3331
+
     let sortedPatternsByCountOfTrips;
     const tripsExists = route.patterns ? 'trips' in route.patterns[0] : false;
 
-    if (tripsExists) {
+    // DT-3331 added reRouteAllowed
+    if (tripsExists && reRouteAllowed) {
       sortedPatternsByCountOfTrips = sortBy(
         sortBy(route.patterns, 'code').reverse(),
         'trips.length',
@@ -94,11 +111,12 @@ class RoutePage extends React.Component {
     }
 
     // DT-3182: call this only 1st time for changing URL to wanted route (most trips)
-    const { location } = router;
+    // DT-3331: added reRouteAllowed
     if (
       location !== undefined &&
       location.action === 'PUSH' &&
-      match.params.patternId !== pattern.code
+      match.params.patternId !== pattern.code &&
+      reRouteAllowed
     ) {
       router.replace(
         decodeURIComponent(location.pathname).replace(
@@ -157,8 +175,8 @@ class RoutePage extends React.Component {
       action: 'ToggleDirection',
       name: null,
     });
-    const { match, route } = this.props;
-    const { config, executeAction, getStore, router } = this.context;
+    const { match, router, route } = this.props;
+    const { config, executeAction, getStore } = this.context;
     const { client, topics } = getStore('RealTimeInformationStore');
 
     // if config contains mqtt feed and old client has not been removed
@@ -199,7 +217,7 @@ class RoutePage extends React.Component {
   changeTab = tab => {
     const path = `/${PREFIX_ROUTES}/${this.props.route.gtfsId}/${tab}/${this
       .props.match.params.patternId || ''}`;
-    this.context.router.replace(path);
+    this.props.router.replace(path);
     let action;
     switch (tab) {
       case 'aikataulu':
@@ -224,9 +242,9 @@ class RoutePage extends React.Component {
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/anchor-is-valid */
   render() {
-    const { breakpoint, match, route } = this.props;
+    const { breakpoint, match, router, route } = this.props;
     const { patternId } = match.params;
-    const { config, router } = this.context;
+    const { config } = this.context;
 
     if (route == null) {
       /* In this case there is little we can do

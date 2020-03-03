@@ -17,6 +17,7 @@ import GeoJsonStore from './store/GeoJsonStore';
 import CanceledLegsBarStore from './store/CanceledLegsBarStore';
 import ViaPointsStore from './store/ViaPointsStore';
 import UserStore from './store/UserStore';
+import FavouriteStore from './store/FavouriteStore';
 
 export default config => {
   const app = new Fluxible({
@@ -39,6 +40,7 @@ export default config => {
   app.registerStore(CanceledLegsBarStore);
   app.registerStore(ViaPointsStore);
   app.registerStore(UserStore);
+  app.registerStore(FavouriteStore);
 
   app.plug({
     name: 'extra-context-plugin',

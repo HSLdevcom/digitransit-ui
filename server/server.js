@@ -49,15 +49,23 @@ const app = express();
 function setUpOIDC() {
   /* ********* Setup OpenID Connect ********* */
   const callbackPath = '/oid_callback'; // connect callback path
-
   // Use Passport with OpenId Connect strategy to authenticate users
-
   const OIDCHost = process.env.OIDCHOST || 'https://hslid-dev.t5.fi';
   const LoginStrategy = require('./passport-openid-connect/Strategy').Strategy;
   const passport = require('passport');
   const session = require('express-session');
-  const FileStore = require('session-file-store')(session);
 
+  const redis = require('redis');
+  const RedisStore = require('connect-redis')(session);
+  const RedisHost = process.env.REDIS_HOST || 'localhost';
+  const RedisPort = process.env.REDIS_PORT || 6379;
+  const RedisKey = process.env.REDIS_KEY;
+  const RedisClient = RedisKey
+    ? redis.createClient(RedisPort, RedisHost, {
+        auth_pass: RedisKey,
+        tls: { servername: RedisHost },
+      })
+    : redis.createClient(RedisPort, RedisHost);
   const oic = new LoginStrategy({
     issuerHost:
       process.env.OIDC_ISSUER || `${OIDCHost}/.well-known/openid-configuration`,
@@ -68,35 +76,35 @@ function setUpOIDC() {
       `http://localhost:${port}${callbackPath}`,
     scope: 'openid profile',
   });
-
   passport.use(oic);
   passport.serializeUser(LoginStrategy.serializeUser);
   passport.deserializeUser(LoginStrategy.deserializeUser);
-
   app.use(logger('dev'));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(require('helmet')());
-
   // Passport requires session to persist the authentication
   app.use(
     session({
       secret: process.env.SESSION_SECRET || 'reittiopas_secret',
-      store: new FileStore(),
+      store: new RedisStore({
+        host: RedisHost,
+        port: RedisPort,
+        client: RedisClient,
+        ttl: 1000 * 60 * 60 * 24 * 365 * 10,
+      }),
       resave: false,
       saveUninitialized: false,
       cookie: {
-        secure: true,
-        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        httpOnly: process.env.NODE_ENV === 'production',
         maxAge: 1000 * 60 * 60 * 24 * 365 * 10,
       },
     }),
   );
-
   // Initialize Passport
   app.use(passport.initialize());
   app.use(passport.session());
-
   // Initiates an authentication request
   // users will be redirected to hsl.id and once authenticated
   // they will be returned to the callback handler below
@@ -107,7 +115,6 @@ function setUpOIDC() {
       scope: 'profile',
     }),
   );
-
   // Callback handler that will redirect back to application after successfull authentication
   app.get(
     callbackPath,
@@ -117,7 +124,6 @@ function setUpOIDC() {
       failureRedirect: '/',
     }),
   );
-
   app.get('/logout', function(req, res) {
     req.logout();
     req.session.destroy(function() {
@@ -125,7 +131,6 @@ function setUpOIDC() {
       res.redirect('/');
     });
   });
-
   app.use('/api', function(req, res, next) {
     if (req.isAuthenticated()) {
       next();
@@ -133,7 +138,6 @@ function setUpOIDC() {
       res.sendStatus(401);
     }
   });
-
   /* GET the profile of the current authenticated user */
   app.get('/api/user', function(req, res, next) {
     request.get(
@@ -363,4 +367,5 @@ setUpErrorHandling();
 Promise.all([setUpAvailableRouteTimetables(), setUpAvailableTickets()]).then(
   () => startServer(),
 );
+
 module.exports.app = app;

@@ -423,6 +423,12 @@ class DTAutosuggestPanel extends React.Component {
                 <DTEndpointAutosuggest
                   icon="mapMarker-via"
                   id="viapoint"
+                  ariaLabel={this.context.intl.formatMessage(
+                    {
+                      id: 'via-point-index',
+                    },
+                    { index: i + 1 },
+                  )}
                   autoFocus={
                     // Disable autofocus if using IE11
                     isIe ? false : breakpoint === 'large'
@@ -439,20 +445,6 @@ class DTAutosuggestPanel extends React.Component {
                 />
                 <div className="via-point-button-container">
                   <ItinerarySearchControl
-                    className="remove-via-point"
-                    enabled={isItinerary}
-                    onClick={() => this.handleRemoveViaPointClick(i)}
-                    onKeyPress={e =>
-                      isKeyboardSelectionEvent(e) &&
-                      this.handleRemoveViaPointClick(i)
-                    }
-                    aria-label={this.context.intl.formatMessage({
-                      id: 'remove-via-button-label',
-                    })}
-                  >
-                    <Icon img="icon-icon_close" />
-                  </ItinerarySearchControl>
-                  <ItinerarySearchControl
                     className="add-via-point-slack"
                     enabled={isItinerary}
                     onClick={() => this.handleToggleViaPointSlackClick(i)}
@@ -460,9 +452,14 @@ class DTAutosuggestPanel extends React.Component {
                       isKeyboardSelectionEvent(e) &&
                       this.handleToggleViaPointSlackClick(i)
                     }
-                    aria-label={this.context.intl.formatMessage({
-                      id: 'add-via-duration-button-label',
-                    })}
+                    aria-label={this.context.intl.formatMessage(
+                      {
+                        id: isViaPointSlackTimeInputActive(i)
+                          ? 'add-via-duration-button-label-open'
+                          : 'add-via-duration-button-label-close',
+                      },
+                      { index: i + 1 },
+                    )}
                   >
                     <Icon img="icon-icon_time" />
                     <Icon
@@ -474,6 +471,23 @@ class DTAutosuggestPanel extends React.Component {
                             defaultSlackTimeValue,
                       })}
                     />
+                  </ItinerarySearchControl>
+                  <ItinerarySearchControl
+                    className="remove-via-point"
+                    enabled={isItinerary}
+                    onClick={() => this.handleRemoveViaPointClick(i)}
+                    onKeyPress={e =>
+                      isKeyboardSelectionEvent(e) &&
+                      this.handleRemoveViaPointClick(i)
+                    }
+                    aria-label={this.context.intl.formatMessage(
+                      {
+                        id: 'remove-via-button-label',
+                      },
+                      { index: i + 1 },
+                    )}
+                  >
+                    <Icon img="icon-icon_close" />
                   </ItinerarySearchControl>
                 </div>
               </div>
@@ -494,6 +508,10 @@ class DTAutosuggestPanel extends React.Component {
                     onSelectChange={e =>
                       this.handleViaPointSlackTimeSelected(e.target.value, i)
                     }
+                    ariaLabel={this.context.intl.formatMessage(
+                      { id: 'add-via-duration-button-label' },
+                      { index: i + 1 },
+                    )}
                   />
                   <Icon
                     className="fake-select-arrow"
@@ -504,70 +522,66 @@ class DTAutosuggestPanel extends React.Component {
             </div>
           ))}
         </div>
-        {((this.props.destination && this.props.destination.set) ||
-          origin.ready ||
-          isItinerary) && (
-          <div className="destination-input-container">
-            <DTEndpointAutosuggest
-              icon="mapMarker-to"
-              id="destination"
-              autoFocus={
-                // Disable autofocus if using IE11
-                isIe ? false : breakpoint === 'large'
-              }
-              refPoint={origin}
-              searchType={this.props.searchType}
-              placeholder={this.props.destinationPlaceHolder}
-              className={this.class(this.props.destination)}
-              isFocused={this.isFocused}
-              value={this.value(this.props.destination)}
-              onLocationSelected={location => {
-                addAnalyticsEvent({
-                  action: 'EditJourneyEndPoint',
-                  category: 'ItinerarySettings',
-                  name: location.type,
-                });
+        <div className="destination-input-container">
+          <DTEndpointAutosuggest
+            icon="mapMarker-to"
+            id="destination"
+            autoFocus={
+              // Disable autofocus if using IE11
+              isIe ? false : breakpoint === 'large'
+            }
+            refPoint={origin}
+            searchType={this.props.searchType}
+            placeholder={this.props.destinationPlaceHolder}
+            className={this.class(this.props.destination)}
+            isFocused={this.isFocused}
+            value={this.value(this.props.destination)}
+            onLocationSelected={location => {
+              addAnalyticsEvent({
+                action: 'EditJourneyEndPoint',
+                category: 'ItinerarySettings',
+                name: location.type,
+              });
 
-                let updatedOrigin = origin;
-                let destination = { ...location, ready: true };
-                if (location.type === 'CurrentLocation') {
-                  destination = {
-                    ...location,
-                    gps: true,
-                    ready: !!location.lat,
-                  };
-                  if (origin.gps === true) {
-                    updatedOrigin = { set: false };
-                  }
+              let updatedOrigin = origin;
+              let destination = { ...location, ready: true };
+              if (location.type === 'CurrentLocation') {
+                destination = {
+                  ...location,
+                  gps: true,
+                  ready: !!location.lat,
+                };
+                if (origin.gps === true) {
+                  updatedOrigin = { set: false };
                 }
-
-                navigateTo({
-                  base: locationWithTime,
-                  origin: updatedOrigin,
-                  destination,
-                  context: isItinerary ? PREFIX_ITINERARY_SUMMARY : '',
-                  router: this.context.router,
-                  resetIndex: true,
-                });
-              }}
-            />
-            <ItinerarySearchControl
-              className={cx('add-via-point', 'more', {
-                collapsed: viaPoints.length > 4,
-              })}
-              enabled={isItinerary}
-              onClick={() => this.handleAddViaPointClick()}
-              onKeyPress={e =>
-                isKeyboardSelectionEvent(e) && this.handleAddViaPointClick()
               }
-              aria-label={this.context.intl.formatMessage({
-                id: 'add-via-button-label',
-              })}
-            >
-              <Icon img="icon-icon_plus" />
-            </ItinerarySearchControl>
-          </div>
-        )}
+
+              navigateTo({
+                base: locationWithTime,
+                origin: updatedOrigin,
+                destination,
+                context: isItinerary ? PREFIX_ITINERARY_SUMMARY : '',
+                router: this.context.router,
+                resetIndex: true,
+              });
+            }}
+          />
+          <ItinerarySearchControl
+            className={cx('add-via-point', 'more', {
+              collapsed: viaPoints.length > 4,
+            })}
+            enabled={isItinerary}
+            onClick={() => this.handleAddViaPointClick()}
+            onKeyPress={e =>
+              isKeyboardSelectionEvent(e) && this.handleAddViaPointClick()
+            }
+            aria-label={this.context.intl.formatMessage({
+              id: 'add-via-button-label',
+            })}
+          >
+            <Icon img="icon-icon_plus" />
+          </ItinerarySearchControl>
+        </div>
       </div>
     );
   };

@@ -236,6 +236,7 @@ const translations = {
     'very-unlikely': 'Lidt sandsynlig',
     'via-leg-stop-duration': 'Viapunkt {stayDuration}',
     'via-point': 'Viapunkt',
+    'via-point-index': 'Viapunkt {index}',
     wait: 'Vent',
     'wait-amount-of-time': 'Vent {duration}',
     walk: 'gå',
@@ -609,6 +610,7 @@ const translations = {
     'very-unlikely': 'Sehr unwahrscheinlich',
     'via-leg-stop-duration': 'Am Zwischenstopp {stayDuration}',
     'via-point': 'Zwischenstopp',
+    'via-point-index': 'Zwischenstopp {index}',
     'viapoint-slack-amount': 'Aufenthalt am Zwischenstopp',
     'view-route': 'Route anzeigen',
     wait: 'Wartezeit',
@@ -635,7 +637,22 @@ const translations = {
     'add-itinerary-via-point': 'Add via point for itinerary',
     'add-location-to-favourites': 'Add an important location to your Favorites',
     'add-via-button-label': 'Add via point',
-    'add-via-duration-button-label': 'Set stop duration at via point',
+    'add-via-duration-button-label': 'Set stop duration at via point {index}',
+    'add-via-duration-button-label-close':
+      'Close stop duration selector at via point {index}',
+    'add-via-duration-button-label-open':
+      'Open stop duration selector at via point {index}',
+    'arrive-leave': 'Arrive or leave at selected time',
+    'search-autosuggest-label':
+      'Venue, place and stopsearch. Navigate list with arrow keys and select with enter key',
+    'search-autosuggest-len': 'There are {len} Suggestions available',
+    'select-date': 'Select date',
+    'set-time-earlier-button-label': 'Set travel time to earlier',
+    'set-time-later-button-label': 'Set travel time to later',
+    'set-time-now-button-label': 'Set travel time to current',
+    'time-navigation-buttons': 'Time navigation buttons',
+    'time-selector-form': 'Edit time',
+    // eslint-disable-next-line sort-keys
     address: 'Address',
     'address-or-stop': 'Address or stop',
     agency: 'Operator',
@@ -695,6 +712,8 @@ const translations = {
     'create-account': 'Create {contactName} account',
     'cycle-distance-duration': 'Cycle {distance} ({duration})',
     'cyclewalk-distance-duration': 'Walk your bike {distance} ({duration})',
+    // eslint-disable-next-line sort-keys
+    currentposition: 'Current position',
     datasources: 'Data sources',
     date: 'Date',
     delete: 'Delete',
@@ -764,6 +783,23 @@ const translations = {
     'in-addition': 'In addition',
     inquiry: 'How did you find the new Journey Planner? Please tell us!',
     instructions: 'Instructions',
+    'itinerary-details.biking-leg':
+      'At {time} cycle {distance} from {origin} to {destination}. Estimated time {duration}',
+    'itinerary-details.car-leg':
+      'At {time} drive {distance} from {origin} to {destination}. Estimated time {duration}',
+    'itinerary-details.end-leg':
+      'At {time} arrive to destination {destination}.',
+    'itinerary-details.route-has-info-alert': 'Route has alerts.',
+    'itinerary-details.route-has-severe-alert': 'Route has disruptions.',
+    'itinerary-details.route-has-unknown-alert': 'Route has disruptions.',
+    'itinerary-details.route-has-warning-alert': 'Route has disruptions.',
+    'itinerary-details.scooter-leg':
+      'At {time} ride your kick scooter {distance} from {origin} to {destination}. Estimated time {duration}',
+    'itinerary-details.transit-leg-part-1': 'At {time} take',
+    'itinerary-details.transit-leg-part-2':
+      'from stop {startStop} {trackInfo} to stop {endStop}. Estimated duration {duration}',
+    'itinerary-details.walk-leg':
+      'At {time} walk {distance} from {origin} to {destination}. Estimated time {duration}',
     'itinerary-feedback-button': 'Send feedback',
     'itinerary-feedback-message': 'Couldn’t find what you were looking for?',
     'itinerary-feedback-placeholder': 'Description (optional)',
@@ -785,6 +821,7 @@ const translations = {
       'Transfer to {vehicle} on stop {stopName}',
     'itinerary-summary-row.walking-distance':
       'Total walking distance {totalDistance}.',
+    'itinerary-summary.show-on-map': 'Show on map {target}',
     'itinerary-ticket.title': 'Required ticket',
     'itinerary-tickets.title': 'Required tickets',
     'itinerary-time.title': 'Duration',
@@ -833,6 +870,8 @@ const translations = {
     navigate: 'Navigate',
     nearest: 'Nearest',
     'network-error': 'Network error',
+    // eslint-disable-next-line sort-keys
+    neighbourhood: 'Neighbourhood ',
     next: 'Next',
     'no-bike-allowed-popup-train':
       'Bicycles are allowed on commuter trains but on long distance trains you have to pay an extra fee and it might require a reservation.',
@@ -880,6 +919,21 @@ const translations = {
     'pay-attention': 'N.B.',
     'pick-icon': 'Select icon',
     'pick-mode': 'Select a transport mode',
+    'pick-mode-airplane-disabled': 'Flight not selected',
+    'pick-mode-airplane-enabled': 'Flight selected',
+    'pick-mode-bus-disabled': 'Bus not selected',
+    'pick-mode-bus-enabled': 'Bus selected',
+    'pick-mode-citybike-disabled': 'Citybike not selected',
+    'pick-mode-citybike-enabled': 'Citybike selected',
+    'pick-mode-ferry-disabled': 'Ferry not selected',
+    'pick-mode-ferry-enabled': 'Ferry selected',
+    'pick-mode-rail-disabled': 'Rail not selected',
+    'pick-mode-rail-enabled': 'Rail selected',
+    'pick-mode-selected': 'Selected transport modes',
+    'pick-mode-subway-disabled': 'Metro not selected',
+    'pick-mode-subway-enabled': 'Metro selected',
+    'pick-mode-tram-disabled': 'Tram not selected',
+    'pick-mode-tram-enabled': 'Tram selected',
     'place-route-or-keyword': 'Destination, route or stop',
     'platform-num': 'Platform {platformCode}',
     'platform-short': 'Plat. {platformCode}',
@@ -894,7 +948,7 @@ const translations = {
     realtime: 'Real-time',
     'realtime-matching': 'Real-time integration',
     releases: 'Releases',
-    'remove-via-button-label': 'Remove via point',
+    'remove-via-button-label': 'Remove via point {index}',
     'rent-cycle-at': 'Rent a bike at {station} station',
     'rent-scooter-at': 'Rent a kick scooter at {station} station',
     'required-ticket': 'Ticket required for the journey',
@@ -998,6 +1052,7 @@ const translations = {
     'splash-use-positioning': 'Use location services',
     'splash-welcome': 'How do you wish to start?',
     'splash-you-can-also': 'or',
+    station: 'Station',
     stop: 'Stop',
     'stop-number': 'Stop number',
     'stop-page.description': 'Stop {name} - {code}',
@@ -1010,6 +1065,8 @@ const translations = {
     'street-mode-car_park': 'Park & ride',
     'street-mode-public_transport': 'Public transport',
     'street-mode-walk': 'Walking',
+    // eslint-disable-next-line sort-keys
+    street: 'Street',
     subway: 'Metro',
     'subway-with-route-number': 'Metro {routeNumber} {headSign}',
     'summary-page.description': '{from} - {to}',
@@ -1055,8 +1112,11 @@ const translations = {
     'very-unlikely': 'Very unlikely',
     'via-leg-stop-duration': 'At via point {stayDuration}',
     'via-point': 'Via point',
+    'via-point-index': 'Via point {index}',
     'viapoint-slack-amount': 'Stop duration',
     'view-route': 'View Route',
+    // eslint-disable-next-line sort-keys
+    venue: 'Venue',
     wait: 'Wait',
     'wait-amount-of-time': 'Wait {duration}',
     walk: 'walking',
@@ -1350,6 +1410,7 @@ const translations = {
     'very-likely': 'Muy probable',
     'very-unlikely': 'Muy poco probable',
     'via-point': 'Punto intermedio',
+    'via-point-index': 'Punto intermedio {index}',
     'view-route': 'Ver ruta',
     wait: 'Esperar',
     'wait-amount-of-time': 'Esperar {duration}',
@@ -1375,7 +1436,24 @@ const translations = {
     'add-location-to-favourites':
       'Lisää sinulle tärkeä paikka Suosikkisi-välilehdelle',
     'add-via-button-label': 'Lisää välipiste',
-    'add-via-duration-button-label': 'Aseta välipisteelle pysähdyksen kesto',
+    'arrive-leave': 'Saavu tai lähde valittuna aikana',
+    'search-autosuggest-label':
+      'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
+    'search-autosuggest-len': ' Löydettiin {len} ehdotusta',
+    // eslint-disable-next-line sort-keys
+    'add-via-duration-button-label':
+      'Aseta välipisteelle {index} pysähdyksen kesto',
+    'add-via-duration-button-label-close':
+      'Avaa välipisteen {index} pysähdyksen kesto valitsin',
+    'add-via-duration-button-label-open':
+      'Sulje välipisteen {index} pysähdyksen kesto valitsin',
+    'select-date': 'Valitse päivä',
+    'set-time-earlier-button-label': 'Aikaista matkustusajankohtaa',
+    'set-time-later-button-label': 'Myöhäistä matkustusajankohtaa',
+    'set-time-now-button-label': 'Aseta matkustusajankohdaksi nyt',
+    'time-navigation-buttons': 'Matkustusajankohdan muokkausnapit',
+    'time-selector-form': 'Muokkaa Matkustusajankohtaa',
+    // eslint-disable-next-line sort-keys
     address: 'Osoite',
     'address-or-stop': 'Osoite tai pysäkki',
     agency: 'Liikennöitsijä',
@@ -1435,6 +1513,8 @@ const translations = {
     'create-account': 'Luo {contactName} tunnus',
     'cycle-distance-duration': 'Pyöräile {distance} ({duration})',
     'cyclewalk-distance-duration': 'Taluta pyörää {distance} ({duration})',
+    // eslint-disable-next-line sort-keys
+    currentposition: 'Tämänhetkinen sijainti',
     datasources: 'Tietolähteet',
     date: 'Päivämäärä',
     delete: 'Poista',
@@ -1504,6 +1584,22 @@ const translations = {
     'in-addition': 'Lisäksi',
     inquiry: 'Mitä pidät uudesta Reittioppaasta? Kerro se meille! ',
     instructions: 'Ohjeet',
+    'itinerary-details.biking-leg':
+      '{time} pyöräile kohteesta {origin} {distance} kohteeseen {destination}. Matka-aika {duration}',
+    'itinerary-details.car-leg':
+      '{time} aja {distance} kohteesta {origin} kohteeseen {destination}. Matka-aika {duration}',
+    'itinerary-details.end-leg': '{time} saavu kohteeseen {destination}.',
+    'itinerary-details.route-has-info-alert': 'Reitillä on tiedotteita.',
+    'itinerary-details.route-has-severe-alert': 'Reitillä on poikkeuksia.',
+    'itinerary-details.route-has-unknown-alert': 'Reitillä on häiriöitä.',
+    'itinerary-details.route-has-warning-alert': 'Reitillä on häiriöitä.',
+    'itinerary-details.scooter-leg':
+      '{time} potkulautaile {distance} kohteesta {origin} kohteeseen {destination}. Matka-aika {duration}',
+    'itinerary-details.transit-leg-part-1': '{time} ota',
+    'itinerary-details.transit-leg-part-2':
+      'pysäkiltä {startStop} {trackInfo} Pysäkille {endStop}. Arvioitu matka-aika {duration}',
+    'itinerary-details.walk-leg':
+      '{time} kävele {distance} kohteesta {origin} kohteeseen {destination}. Matka-aika {duration}',
     'itinerary-feedback-button': 'Lähetä palautetta',
     'itinerary-feedback-message': 'Etkö löytänyt mitä etsit?',
     'itinerary-feedback-placeholder': 'Kuvaus (valinnainen)',
@@ -1523,6 +1619,7 @@ const translations = {
     'itinerary-summary-row.transfers': 'Vaihto {vehicle} pysäkillä {stopName}',
     'itinerary-summary-row.walking-distance':
       'Kävelyä yhteensä {totalDistance}.',
+    'itinerary-summary.show-on-map': 'Näytä kartalla {target}',
     'itinerary-ticket.title': 'Tarvittava lippu',
     'itinerary-tickets.title': 'Tarvittavat liput',
     'itinerary-time.title': 'Matka-aika',
@@ -1571,6 +1668,8 @@ const translations = {
     navigate: 'Navigoi',
     nearest: 'Lähimmät',
     'network-error': 'Verkkovirhe',
+    // eslint-disable-next-line sort-keys
+    neighbourhood: 'Naapurusto',
     next: 'Seuraava',
     'no-bike-allowed-popup-train':
       'Lähiliikenteen juniin pyörän voi ottaa mukaan ilmaiseksi, mutta pitkän matkan junissa peritään lisämaksu ja mahdollisesti vaaditaan etukäteisvaraus.',
@@ -1619,6 +1718,21 @@ const translations = {
     'pay-attention': 'Huom!',
     'pick-icon': 'Valitse kuvake',
     'pick-mode': 'Valitse joukkoliikennevälineistä',
+    'pick-mode-airplane-disabled': 'Lentokone ei valittu',
+    'pick-mode-airplane-enabled': 'Lentokone valittu',
+    'pick-mode-bus-disabled': 'Bussi ei valittu',
+    'pick-mode-bus-enabled': 'Bussi valittu',
+    'pick-mode-citybike-disabled': 'Kaupunkipyörä ei valittu',
+    'pick-mode-citybike-enabled': 'Kaupunkipyörä valittu',
+    'pick-mode-ferry-disabled': 'Lautta ei valittu',
+    'pick-mode-ferry-enabled': 'Lautta valittu',
+    'pick-mode-rail-disabled': 'Juna ei valittu',
+    'pick-mode-rail-enabled': 'Juna valittu',
+    'pick-mode-selected': 'Valitut joukkoliikennevälineet',
+    'pick-mode-subway-disabled': 'Metro ei valittu',
+    'pick-mode-subway-enabled': 'Metro valittu',
+    'pick-mode-tram-disabled': 'Raitiovaunu ei valittu',
+    'pick-mode-tram-enabled': 'Raitiovaunu valittu',
     'place-route-or-keyword': 'Määränpää, linja tai pysäkki',
     'platform-num': 'Laituri {platformCode}',
     'platform-short': 'Lait. {platformCode}',
@@ -1633,7 +1747,7 @@ const translations = {
     realtime: 'Reaaliaika',
     'realtime-matching': 'Realiajan integraatio',
     releases: 'Tiedotteet',
-    'remove-via-button-label': 'Poista välipiste',
+    'remove-via-button-label': 'Poista välipiste {index}',
     'rent-cycle-at': 'Vuokraa pyörä asemalta {station}',
     'rent-scooter-at': 'Vuokraa potkulauta asemalta {station}',
     'required-ticket': 'Reitillä tarvittava lippu',
@@ -1737,6 +1851,7 @@ const translations = {
     'splash-use-positioning': 'Käytä paikannusta',
     'splash-welcome': 'Miten haluat aloittaa?',
     'splash-you-can-also': 'tai',
+    station: 'Asema',
     stop: 'Pysäkki',
     'stop-number': 'Pysäkkinumero',
     'stop-page.description': 'Pysäkki - {name} {code}, {desc}',
@@ -1749,6 +1864,8 @@ const translations = {
     'street-mode-car_park': 'Liityntä\u00ADpysäköinti',
     'street-mode-public_transport': 'Julkinen liikenne',
     'street-mode-walk': 'Kävely',
+    // eslint-disable-next-line sort-keys
+    street: 'Katu',
     subway: 'Metro',
     'subway-with-route-number': 'Metro {routeNumber} {headSign}',
     'summary-page.description': '{from} - {to}',
@@ -1794,8 +1911,11 @@ const translations = {
     'very-unlikely': 'Erittäin epätodennäköistä',
     'via-leg-stop-duration': 'Välipisteessä {stayDuration}',
     'via-point': 'Välipiste',
+    'via-point-index': 'Välipiste {index}',
     'viapoint-slack-amount': 'Pysähdyksen kesto',
     'view-route': 'Linjan tiedot',
+    // eslint-disable-next-line sort-keys
+    venue: 'Paikka',
     wait: 'Odota',
     'wait-amount-of-time': 'Odota {duration}',
     walk: 'kävelyn',
@@ -2137,6 +2257,7 @@ const translations = {
     'very-unlikely': 'Très improbable',
     'via-leg-stop-duration': "Attente de {stayDuration} à l'étape",
     'via-point': 'Étape',
+    'via-point-index': 'Étape {index}',
     'viapoint-slack-amount': "Durée de l'étape",
     'view-route': "Voir l'itinéraire",
     wait: 'Attendre',
@@ -2389,6 +2510,7 @@ const translations = {
     'very-unlikely': 'Lite sannsynlig',
     'via-leg-stop-duration': 'Viapunkt {stayDuration}',
     'via-point': 'Viapunkt',
+    'via-point-index': 'Viapunkt {index}',
     wait: 'Vent',
     'wait-amount-of-time': 'Vent {duration}',
     walk: 'gå',
@@ -2413,7 +2535,23 @@ const translations = {
     'add-location-to-favourites':
       'Lägg till en plats som är viktig för dig på fliken Favoriter',
     'add-via-button-label': 'Lägg till viapunkt',
-    'add-via-duration-button-label': 'Ställ in varaktighet för viapunkten',
+    'add-via-duration-button-label':
+      'Ställ in varaktighet för viapunkten {index}',
+    'add-via-duration-button-label-close':
+      'Stäng väljaren för varaktighet vid via-punkten',
+    'add-via-duration-button-label-open':
+      'Öppna väljaren för varaktighet vid via-punkten',
+    'arrive-leave': 'Anländer eller lämnar vid vald tid',
+    'search-autosuggest-label':
+      'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
+    'search-autosuggest-len': 'Hittade {len} förslag',
+    'select-date': 'Välj datum',
+    'set-time-earlier-button-label': 'Ställ in restid till tidigare',
+    'set-time-later-button-label': 'Ställ in restid till senare',
+    'set-time-now-button-label': 'Ställ in restid till nu',
+    'time-navigation-buttons': 'Tidsnavigeringsknappar',
+    'time-selector-form': 'Redigera tid',
+    // eslint-disable-next-line sort-keys
     address: 'Adress',
     'address-or-stop': 'Adress eller hållplats',
     agency: 'Trafikidkare',
@@ -2473,6 +2611,8 @@ const translations = {
     'create-account': 'Skapa {contactName} konto',
     'cycle-distance-duration': 'Cykla {distance} ({duration})',
     'cyclewalk-distance-duration': 'Led cykeln {distance} ({duration})',
+    // eslint-disable-next-line sort-keys
+    currentposition: 'Nuvarande position',
     datasources: 'Datakällor',
     date: 'Datum',
     delete: 'Ta bort',
@@ -2542,6 +2682,24 @@ const translations = {
     'in-addition': 'Även',
     inquiry: 'Vad tycker du om den nya Reseplaneraren. Berätta för oss!',
     instructions: 'Anvisningar',
+    'itinerary-details.biking-leg':
+      '{time} cykla {distance} från {origin} till destinationen {destination}. Restid {duration}',
+    'itinerary-details.car-leg':
+      '{time} kör {distance} från {origin} till destinationen {destination}. Restid {duration}',
+    'itinerary-details.end-leg':
+      '{time} du anländer till destinationen {destination}',
+    'itinerary-details.route-has-info-alert':
+      'Det finns meddelanden som gäller rutten.',
+    'itinerary-details.route-has-severe-alert': 'Avvikelser i rutten.',
+    'itinerary-details.route-has-unknown-alert': 'Störningar längs rutten..',
+    'itinerary-details.route-has-warning-alert': 'Störningar längs rutten..',
+    'itinerary-details.scooter-leg':
+      '{time} sparkcykla {distance} från {origin} till destinationen {destination}. Restid {duration}',
+    'itinerary-details.transit-leg-part-1': '{time} ta',
+    'itinerary-details.transit-leg-part-2':
+      'från hållplats {startStop} {trackInfo} till hållplats {endStop}. Beräknad restid {duration}',
+    'itinerary-details.walk-leg':
+      '{time} promenera {distance} från {origin} till destinationen {destination}. Restid {duration}',
     'itinerary-feedback-button': 'Skicka respons',
     'itinerary-feedback-message': 'Hittade du inte vad du sökte?',
     'itinerary-feedback-placeholder': 'Beskrivning (valfri)',
@@ -2552,14 +2710,18 @@ const translations = {
     'itinerary-page.title': 'Ruttinformation',
     'itinerary-summary-page.description': 'Ruttförslag',
     'itinerary-summary-page.title': 'Ruttförslag',
-    'itinerary-summary-row.biking-distance': 'Cykelavstånd {totalDistance}.',
+    'itinerary-summary-row.biking-distance':
+      'Cykling sammanlagt {totalDistance}.',
     'itinerary-summary-row.clickable-area-description': 'Visa på kartan',
     'itinerary-summary-row.description':
-      'Avgång {departureDate} klockan {departureTime} och ankomst {arrivalDate} klockan {arrivalTime}. {firstDeparture} {transfers} Varaktighet {totalTime}. {distance}',
+      'Avgång {departureDate} klockan {departureTime}. Framme {arrivalDate} klockan {arrivalTime}. {firstDeparture} {transfers} Restid {totalTime}. {distance}',
     'itinerary-summary-row.first-departure':
-      '{vehicle} avgår klockan {departureTime} från hållplats {stopName}.',
-    'itinerary-summary-row.transfers': 'Ta {vehicle} från hållplats {stopName}',
-    'itinerary-summary-row.walking-distance': 'Gångavstånd {totalDistance}.',
+      '{vehicle} avgår från station {stopName} klockan {departureTime}.',
+    'itinerary-summary-row.transfers':
+      'Byte {vehicle} vid hållplats {stopName}',
+    'itinerary-summary-row.walking-distance':
+      'Promenad sammanlagt {totalDistance}.',
+    'itinerary-summary.show-on-map': 'Visa på kartan {target}',
     'itinerary-ticket.title': 'Biljett som behövs',
     'itinerary-tickets.title': 'Biljetter som behövs',
     'itinerary-time.title': 'Restid',
@@ -2608,6 +2770,8 @@ const translations = {
     navigate: 'Navigera',
     nearest: 'Närmaste',
     'network-error': 'Nätverksfel',
+    // eslint-disable-next-line sort-keys
+    neighbourhood: 'Gransskap',
     next: 'Nästa',
     'no-bike-allowed-popup-train':
       'Du kan ta med cykeln i närtågen avgiftsfritt, men i andra tåg är det avgiftsbelagt och kräver möjligtvis en förhandsreservation.',
@@ -2656,6 +2820,21 @@ const translations = {
     'pay-attention': 'Obs!',
     'pick-icon': 'Välj en ikon',
     'pick-mode': 'Välj ett transportläge',
+    'pick-mode-airplane-disabled': 'Flyg inte vald',
+    'pick-mode-airplane-enabled': 'Flyg valt',
+    'pick-mode-bus-disabled': 'Buss inte vald',
+    'pick-mode-bus-enabled': 'Buss valt',
+    'pick-mode-citybike-disabled': 'Stadscykel inte vald',
+    'pick-mode-citybike-enabled': 'Stadscykel valt',
+    'pick-mode-ferry-disabled': 'Färja inte vald',
+    'pick-mode-ferry-enabled': 'Färja valt',
+    'pick-mode-rail-disabled': 'Tåg inte vald',
+    'pick-mode-rail-enabled': 'Tåg valt',
+    'pick-mode-selected': 'Valda transportlägen',
+    'pick-mode-subway-disabled': 'Metro inte vald',
+    'pick-mode-subway-enabled': 'Metro valt',
+    'pick-mode-tram-disabled': 'Spårvagn inte vald',
+    'pick-mode-tram-enabled': 'Spårvagn valt',
     'place-route-or-keyword': 'Destination, linje eller hållplats',
     'platform-num': 'Plattform {platformCode}',
     'platform-short': 'Plattf. {platformCode}',
@@ -2670,7 +2849,7 @@ const translations = {
     realtime: 'Realtid',
     'realtime-matching': 'Realtidsintegration',
     releases: 'Meddelanden',
-    'remove-via-button-label': 'Ta bort viapunkt',
+    'remove-via-button-label': 'Ta bort viapunkt {index}',
     'rent-cycle-at': 'Hyr en cykel från stationen {station}',
     'rent-scooter-at': 'Hyr en sparkcykel från stationen {station}',
     'required-ticket': 'Biljett som behövs under resan',
@@ -2774,6 +2953,7 @@ const translations = {
       'Tjänsten fungerar bäst om du delar din plats.',
     'splash-use-positioning': 'Använd min plats',
     'splash-you-can-also': 'alternativt',
+    station: 'Station',
     stop: 'Hållplats',
     'stop-number': 'Hållplatsnummer',
     'stop-page.description': 'Hållplats {name} - {code}',
@@ -2786,6 +2966,8 @@ const translations = {
     'street-mode-car_park': 'Infarts\u00ADparkering',
     'street-mode-public_transport': 'Kollektiv\u00ADtrafik',
     'street-mode-walk': 'Gång',
+    // eslint-disable-next-line sort-keys
+    street: 'Gata',
     subway: 'Metro',
     'subway-with-route-number': 'Metro {routeNumber} {headSign}',
     'summary-page.description': '{from} - {to}',
@@ -2830,8 +3012,11 @@ const translations = {
     'very-unlikely': 'Väldigt osannolikt',
     'via-leg-stop-duration': 'Mellanstopp {stayDuration}',
     'via-point': 'Stoppets längd',
+    'via-point-index': 'Stoppets längd {index}',
     'viapoint-slack-amount': 'Stop duration',
     'view-route': 'Visa linje',
+    // eslint-disable-next-line sort-keys
+    venue: 'Mötesplats',
     wait: 'Vänta',
     'wait-amount-of-time': 'Vänta {duration}',
     walk: 'gång',

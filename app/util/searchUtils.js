@@ -47,9 +47,10 @@ const mapRoute = item => {
   if (item === null || item === undefined) {
     return null;
   }
+  // DT-3331: added query string sort=no
   const link = `/${PREFIX_ROUTES}/${item.gtfsId}/pysakit/${
     orderBy(item.patterns, 'code', ['asc'])[0].code
-  }`;
+  }?sort=no`;
 
   return {
     type: 'Route',
@@ -253,13 +254,13 @@ function getOldSearches(oldSearches, input, dropLayers) {
 function getFavouriteLocations(favourites, input) {
   return Promise.resolve(
     orderBy(
-      filterMatchingToInput(favourites, input, ['address', 'locationName']),
-      feature => feature.locationName,
+      filterMatchingToInput(favourites, input, ['address', 'name']),
+      feature => feature.name,
     ).map(item => ({
       type: 'FavouritePlace',
       properties: {
         ...item,
-        label: item.locationName,
+        label: item.name,
         layer: 'favouritePlace',
       },
       geometry: { type: 'Point', coordinates: [item.lon, item.lat] },
@@ -336,7 +337,7 @@ function getFavouriteStops(favourites, input, origin, relayEnvironment) {
           type: 'FavouriteStop',
           properties: {
             ...stop,
-            label: stop.locationName,
+            label: stop.name,
             layer: isStop(stop) ? 'favouriteStop' : 'favouriteStation',
           },
           geometry: {
@@ -347,7 +348,7 @@ function getFavouriteStops(favourites, input, origin, relayEnvironment) {
     )
     .then(stops =>
       filterMatchingToInput(stops, input, [
-        'properties.locationName',
+        'properties.name',
         'properties.name',
         'properties.address',
       ]),
@@ -561,11 +562,9 @@ export function executeSearchImmediate(
   const endpointLayers = layers || getAllEndpointLayers();
 
   if (type === SearchType.Endpoint || type === SearchType.All) {
-    const favouriteLocations = getStore(
-      'FavouriteLocationStore',
-    ).getLocations();
+    const favouriteLocations = getStore('FavouriteStore').getLocations();
     const oldSearches = getStore('OldSearchesStore').getOldSearches('endpoint');
-    const favouriteStops = getStore('FavouriteStopsStore').getStops();
+    const favouriteStops = getStore('FavouriteStore').getStopsAndStations();
     const language = getStore('PreferencesStore').getLanguage();
     const searchComponents = [];
 
@@ -690,7 +689,7 @@ export function executeSearchImmediate(
 
   if (type === SearchType.Search || type === SearchType.All) {
     const oldSearches = getStore('OldSearchesStore').getOldSearches('search');
-    const favouriteRoutes = getStore('FavouriteRoutesStore').getRoutes();
+    const favouriteRoutes = getStore('FavouriteStore').getRoutes();
     searchSearchesPromise = Promise.all([
       getFavouriteRoutes(favouriteRoutes, input, relayEnvironment),
       getOldSearches(oldSearches, input),

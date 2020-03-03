@@ -45,21 +45,25 @@ class TimeSelectorContainer extends Component {
     let value = `${day.unix()}`;
     do {
       let label;
+      let ariaLabel;
       if (day.isSame(now, 'day')) {
         label = this.context.intl.formatMessage({
           id: 'today',
           defaultMessage: 'Today',
         });
+        ariaLabel = label;
       } else if (day.isSame(tomorrow, 'day')) {
         label = this.context.intl.formatMessage({
           id: 'tomorrow',
           defaultMessage: 'Tomorrow',
         });
+        ariaLabel = label;
       } else {
+        ariaLabel = day.format('dddd Do MMMM ');
         label = day.format('dd D.M.');
       }
       dates.push(
-        <option value={value} key={value}>
+        <option aria-label={ariaLabel} value={value} key={value}>
           {label}
         </option>,
       );

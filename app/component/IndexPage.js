@@ -13,9 +13,9 @@ import {
   checkPositioningPermission,
 } from '../action/PositionActions';
 import storeOrigin from '../action/originActions';
+import ControlPanel from './ControlPanel';
 import MapWithTracking from './map/MapWithTracking';
 import PageFooter from './PageFooter';
-import DTAutosuggestPanel from './DTAutosuggestPanel';
 import { isBrowser } from '../util/browser';
 import {
   parseLocation,
@@ -24,6 +24,7 @@ import {
 } from '../util/path';
 import OverlayWithSpinner from './visual/OverlayWithSpinner';
 import { dtLocationShape } from '../util/shapes';
+import Icon from './Icon';
 import SelectMapLayersDialog from './SelectMapLayersDialog';
 import SelectStreetModeDialog from './SelectStreetModeDialog';
 import events from '../util/events';
@@ -132,27 +133,25 @@ class IndexPage extends React.Component {
           origin.gpsError === false &&
           `blurred`} fullscreen bp-${breakpoint}`}
       >
-        <div className="search-container">
-          <DTAutosuggestPanel
+        <div className="front-page-map-wrapper">
+          <MapWithTracking
+            breakpoint={breakpoint}
+            showStops
+            showScaleBar
             origin={origin}
             destination={destination}
-            searchType="all"
-            originPlaceHolder="search-origin"
-            destinationPlaceHolder="search-destination"
+            renderCustomButtons={() => (
+              <React.Fragment>
+                {this.renderStreetModeSelector(config, router, match)}
+                {this.renderMapLayerSelector()}
+              </React.Fragment>
+            )}
           />
         </div>
-        <MapWithTracking
-          breakpoint={breakpoint}
-          showStops
-          showScaleBar
+        <ControlPanel
+          className="control-panel-container-left"
           origin={origin}
           destination={destination}
-          renderCustomButtons={() => (
-            <React.Fragment>
-              {this.renderStreetModeSelector(config, router, match)}
-              {this.renderMapLayerSelector()}
-            </React.Fragment>
-          )}
         />
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
         <div id="page-footer-container">
@@ -187,14 +186,27 @@ class IndexPage extends React.Component {
             )}
           >
             {(this.props.showSpinner && <OverlayWithSpinner />) || null}
-            <DTAutosuggestPanel
-              origin={origin}
-              destination={this.props.destination}
-              searchType="all"
-              originPlaceHolder="search-origin"
-            />
           </MapWithTracking>
         </div>
+        <div style={{ position: 'relative' }}>
+          <div
+            className={cx('fullscreen-toggle', {
+              expanded: mapExpanded,
+            })}
+            onClick={this.togglePanelExpanded}
+          >
+            {mapExpanded ? (
+              <Icon img="icon-icon_minimize" className="cursor-pointer" />
+            ) : (
+              <Icon img="icon-icon_maximize" className="cursor-pointer" />
+            )}
+          </div>
+        </div>
+        <ControlPanel
+          className="control-panel-container-bottom"
+          origin={origin}
+          destination={destination}
+        />
       </div>
     );
   }

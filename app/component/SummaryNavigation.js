@@ -166,6 +166,11 @@ class SummaryNavigation extends React.Component {
                 boxShadow: 'none',
                 overflow: 'visible',
               }}
+              style={{
+                // hide root element from screen reader in sync with drawer animation
+                transition: 'visibility 450ms',
+                visibility: isOpen ? 'visible' : 'hidden',
+              }}
               width={getDrawerWidth(window)}
             >
               <CustomizeSearch

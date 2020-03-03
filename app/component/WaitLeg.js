@@ -8,13 +8,22 @@ import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
+import { isKeyboardSelectionEvent } from '../util/browser';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function WaitLeg(props) {
   const modeClassName = 'wait';
   return (
     <div className="row itinerary-row">
-      <div className="small-2 columns itinerary-time-column">
+      <span className="sr-only">
+        <FormattedMessage
+          id="wait-amount-of-time"
+          values={{
+            duration: durationToString(props.waitTime),
+          }}
+        />
+      </span>
+      <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
           {moment(props.startTime).format('HH:mm')}
         </div>
@@ -23,16 +32,25 @@ function WaitLeg(props) {
       <ItineraryCircleLine modeClassName={modeClassName} index={props.index} />
       <div
         onClick={props.focusAction}
+        onKeyPress={e => isKeyboardSelectionEvent(e) && props.focusAction(e)}
+        role="button"
+        tabIndex="0"
         className="small-9 columns itinerary-instruction-column wait"
       >
-        <div className="itinerary-leg-first-row">
+        <span className="sr-only">
+          <FormattedMessage
+            id="itinerary-summary.show-on-map"
+            values={{ target: props.leg.to.name || '' }}
+          />
+        </span>
+        <div className="itinerary-leg-first-row" aria-hidden="true">
           <div>
             {props.leg.to.name}
             {props.children}
           </div>
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>
-        <div className="itinerary-leg-action">
+        <div className="itinerary-leg-action" aria-hidden="true">
           <FormattedMessage
             id="wait-amount-of-time"
             values={{ duration: `(${durationToString(props.waitTime)})` }}

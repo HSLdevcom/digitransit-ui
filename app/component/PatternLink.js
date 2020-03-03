@@ -11,9 +11,10 @@ function PatternLink({ mode, pattern, route, selected = false }) {
     <IconWithTail desaturate img={imgName} rotate={180} />
   );
 
+  // DT-3331: added query string sort=no to Link's to
   return (
     <Link
-      to={`/${PREFIX_ROUTES}/${route}/pysakit/${pattern}`}
+      to={`/${PREFIX_ROUTES}/${route}/pysakit/${pattern}?sort=no`}
       className="route-now-content"
     >
       {icon}
