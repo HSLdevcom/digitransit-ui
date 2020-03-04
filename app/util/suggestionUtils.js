@@ -55,7 +55,7 @@ export const getNameLabel = memoize(
       case 'currentPosition':
         return [suggestion.labelId, suggestion.address];
       case 'favouritePlace':
-        return [suggestion.locationName, suggestion.address];
+        return [suggestion.name, suggestion.address];
       case 'favouriteRoute':
       case 'route-BUS':
       case 'route-TRAM':
@@ -93,9 +93,9 @@ export const getNameLabel = memoize(
       case 'favouriteStation':
       case 'favouriteStop':
         return plain
-          ? [suggestion.locationName]
+          ? [suggestion.name]
           : [
-              suggestion.locationName,
+              suggestion.name,
               <span key={suggestion.id}>{suggestion.address}</span>,
             ];
       case 'stop':

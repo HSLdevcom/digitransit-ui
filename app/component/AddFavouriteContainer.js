@@ -46,7 +46,7 @@ class AddFavouriteContainer extends React.Component {
       gtfsId: PropTypes.string,
       gid: PropTypes.string,
       lat: PropTypes.number,
-      locationName: PropTypes.string,
+      name: PropTypes.string,
       lon: PropTypes.number,
       selectedIconId: PropTypes.string,
       version: PropTypes.number,
@@ -58,7 +58,7 @@ class AddFavouriteContainer extends React.Component {
     favourite: {
       address: undefined,
       lat: undefined,
-      locationName: '',
+      name: '',
       lon: undefined,
       selectedIconId: undefined,
     },
@@ -92,7 +92,7 @@ class AddFavouriteContainer extends React.Component {
     !isEmpty(this.state.favourite.selectedIconId) &&
     isNumber(this.state.favourite.lat) &&
     isNumber(this.state.favourite.lon) &&
-    !isEmpty(this.state.favourite.locationName);
+    !isEmpty(this.state.favourite.name);
 
   save = () => {
     if (this.canSave()) {
@@ -130,9 +130,9 @@ class AddFavouriteContainer extends React.Component {
   };
 
   specifyName = event => {
-    const locationName = event.target.value;
+    const name = event.target.value;
     this.setState(prevState => ({
-      favourite: { ...prevState.favourite, locationName },
+      favourite: { ...prevState.favourite, name },
     }));
   };
 
@@ -141,7 +141,7 @@ class AddFavouriteContainer extends React.Component {
       const favourite = { ...prevState.favourite, selectedIconId: id };
       // If the user hasn't set a location name yet,
       // let's attempt to autodetermine it based on the icon they chose.
-      if (isEmpty(favourite.locationName)) {
+      if (isEmpty(favourite.name)) {
         let suggestedName = AddFavouriteContainer.FavouriteIconIdToNameMap[id];
         if (suggestedName) {
           // If there is a suggested name in the map,
@@ -151,7 +151,7 @@ class AddFavouriteContainer extends React.Component {
             id: `location-${suggestedName}`,
             defaultMessage: suggestedName,
           });
-          favourite.locationName = suggestedName;
+          favourite.name = suggestedName;
         }
       }
       return { favourite };
@@ -229,7 +229,7 @@ class AddFavouriteContainer extends React.Component {
               <div className="add-favourite-container__input-placeholder">
                 <input
                   className="add-favourite-container__input"
-                  value={favourite.locationName}
+                  value={favourite.name}
                   placeholder={this.context.intl.formatMessage({
                     id: 'location-examples',
                     defaultMessage: 'e.g. Home, Work, School,...',

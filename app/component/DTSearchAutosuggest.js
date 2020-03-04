@@ -30,6 +30,7 @@ class DTAutosuggest extends React.Component {
     searchType: PropTypes.oneOf(['all', 'endpoint', 'search']).isRequired,
     selectedFunction: PropTypes.func.isRequired,
     value: PropTypes.string,
+    ariaLabel: PropTypes.string,
   };
 
   static defaultProps = {
@@ -307,10 +308,12 @@ class DTAutosuggest extends React.Component {
       onKeyDown: this.keyDown, // DT-3263
     };
     const ariaBarId = this.props.id.replace('searchfield-', '');
-    let SearchBarId = this.context.intl.formatMessage({
-      id: ariaBarId,
-      defaultMessage: ariaBarId,
-    });
+    let SearchBarId =
+      this.props.ariaLabel ||
+      this.context.intl.formatMessage({
+        id: ariaBarId,
+        defaultMessage: ariaBarId,
+      });
     SearchBarId = SearchBarId.replace('searchfield-', '');
     const ariaLabelText = this.context.intl.formatMessage({
       id: 'search-autosuggest-label',
@@ -342,10 +345,7 @@ class DTAutosuggest extends React.Component {
           shouldRenderSuggestions={() => this.state.editing}
           highlightFirstSuggestion
           renderInputComponent={p => (
-            <div id={`${this.props.id}-container`} style={{ display: 'flex' }}>
-              <span className="sr-only" role="alert">
-                {ariaSuggestionLen}
-              </span>
+            <>
               <input
                 aria-label={SearchBarId.concat(' ').concat(ariaLabelText)}
                 id={this.props.id}
@@ -353,8 +353,11 @@ class DTAutosuggest extends React.Component {
                 onKeyDown={this.keyDown}
                 {...p}
               />
+              <span className="sr-only" role="alert">
+                {ariaSuggestionLen}
+              </span>
               {this.clearButton()}
-            </div>
+            </>
           )}
           onSuggestionSelected={this.onSelected}
           ref={this.storeInputReference}
