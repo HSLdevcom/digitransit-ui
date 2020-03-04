@@ -9,7 +9,7 @@ describe('<DisruptionListContainer />', () => {
   it('should indicate that there are no alerts', () => {
     const props = {
       currentTime: 0,
-      root: {},
+      viewer: {},
     };
     const wrapper = shallowWithIntl(<DisruptionListContainer {...props} />);
     expect(wrapper.find('.stop-no-alerts-container')).to.have.lengthOf(1);
@@ -18,7 +18,7 @@ describe('<DisruptionListContainer />', () => {
   it('should render warning level service alerts for stops and routes', () => {
     const props = {
       currentTime: 0,
-      root: {
+      viewer: {
         alerts: [
           {
             alertSeverityLevel: AlertSeverityLevelType.Warning,
@@ -48,7 +48,7 @@ describe('<DisruptionListContainer />', () => {
   it('should render info level service alerts for stops and routes', () => {
     const props = {
       currentTime: 0,
-      root: {
+      viewer: {
         alerts: [
           {
             alertSeverityLevel: AlertSeverityLevelType.Info,
@@ -78,7 +78,7 @@ describe('<DisruptionListContainer />', () => {
   it('should not display the severity level selector', () => {
     const props = {
       currentTime: 0,
-      root: {
+      viewer: {
         alerts: [
           {
             alertSeverityLevel: AlertSeverityLevelType.Info,
@@ -108,7 +108,7 @@ describe('<DisruptionListContainer />', () => {
   it('should display the severity level selector', () => {
     const props = {
       currentTime: 0,
-      root: {
+      viewer: {
         alerts: [
           {
             alertSeverityLevel: AlertSeverityLevelType.Info,
