@@ -13,16 +13,12 @@ describe('<StopMarker />', () => {
       mode: 'BUS',
     };
     const spy = sinon.spy(analytics, 'addAnalyticsEvent');
-    const wrapper = shallowWithIntl(<StopMarker {...props} />, {
+    shallowWithIntl(<StopMarker {...props} />, {
       context: {
         ...mockContext,
         config: { map: { useModeIconsInNonTileLayer: true } },
       },
     });
-    wrapper
-      .find('RelayRootContainer')
-      .first()
-      .prop('renderFetched')();
     expect(spy.called).to.equal(true);
     spy.restore();
   });
