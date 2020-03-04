@@ -13,39 +13,51 @@ import * as analytics from '../../../app/util/analyticsUtils';
 
 describe('<RoutePatternSelect />', () => {
   it('should render', () => {
-    const wrapper = shallowWithIntl(<RoutePatternSelect {...dt2887} />, {
-      context: {
-        ...mockContext,
-        config: { itinerary: { serviceTimeRange: 30 } },
+    const wrapper = shallowWithIntl(
+      <RoutePatternSelect {...dt2887} relay={{ refetch: () => {} }} />,
+      {
+        context: {
+          ...mockContext,
+          config: { itinerary: { serviceTimeRange: 30 } },
+        },
       },
-    });
+    );
     expect(wrapper.isEmptyRender()).to.equal(false);
   });
   it('should create a select element for more than 2 patterns', () => {
-    const wrapper = shallowWithIntl(<RoutePatternSelect {...dt2887} />, {
-      context: {
-        ...mockContext,
-        config: { itinerary: { serviceTimeRange: 30 } },
+    const wrapper = shallowWithIntl(
+      <RoutePatternSelect {...dt2887} relay={{ refetch: () => {} }} />,
+      {
+        context: {
+          ...mockContext,
+          config: { itinerary: { serviceTimeRange: 30 } },
+        },
       },
-    });
+    );
     expect(wrapper.find('#select-route-pattern')).to.have.lengthOf(1);
   });
   it('should create a toggle element if there are only 2 patterns', () => {
-    const wrapper = shallowWithIntl(<RoutePatternSelect {...dt2887b} />, {
-      context: {
-        ...mockContext,
-        config: { itinerary: { serviceTimeRange: 30 } },
+    const wrapper = shallowWithIntl(
+      <RoutePatternSelect {...dt2887b} relay={{ refetch: () => {} }} />,
+      {
+        context: {
+          ...mockContext,
+          config: { itinerary: { serviceTimeRange: 30 } },
+        },
       },
-    });
+    );
     expect(wrapper.find('.route-patterns-toggle')).to.have.lengthOf(1);
   });
   it('should create as many options as there are patterns', () => {
-    const wrapper = shallowWithIntl(<RoutePatternSelect {...dt2887} />, {
-      context: {
-        ...mockContext,
-        config: { itinerary: { serviceTimeRange: 30 } },
+    const wrapper = shallowWithIntl(
+      <RoutePatternSelect {...dt2887} relay={{ refetch: () => {} }} />,
+      {
+        context: {
+          ...mockContext,
+          config: { itinerary: { serviceTimeRange: 30 } },
+        },
       },
-    });
+    );
     expect(wrapper.find('#select-route-pattern > option')).to.have.lengthOf(3);
   });
 
@@ -58,7 +70,7 @@ describe('<RoutePatternSelect />', () => {
         patternId: 'HSL:3002U:0:02',
       },
       relay: {
-        setVariables: () => {},
+        refetch: () => {},
       },
       route: {
         patterns: [
@@ -120,7 +132,7 @@ describe('<RoutePatternSelect />', () => {
         patternId: 'foobar',
       },
       relay: {
-        setVariables: () => {},
+        refetch: () => {},
       },
       route: {
         patterns: [
@@ -190,7 +202,7 @@ describe('<RoutePatternSelect />', () => {
         patternId: 'HSL:3002U:0:01',
       },
       relay: {
-        setVariables: () => {},
+        refetch: () => {},
       },
       route: {
         patterns: [
@@ -231,7 +243,7 @@ describe('<RoutePatternSelect />', () => {
         patternId: 'LINKKI:9422:1:01',
       },
       relay: {
-        setVariables: () => {},
+        refetch: () => {},
       },
       route: {
         id: 'Um91dGU6TElOS0tJOjk0MjI=',
@@ -282,7 +294,7 @@ describe('<RoutePatternSelect />', () => {
       serviceDay: 'test',
       onSelectChange: () => {},
       gtfsId: 'test',
-      relay: { setVariables: () => {} },
+      relay: { refetch: () => {} },
       route: {
         patterns: [
           { code: 'test1', stops: [{ name: '1' }] },
@@ -335,7 +347,7 @@ describe('<RoutePatternSelect />', () => {
       className: 'bp-large',
       serviceDay,
       relay: {
-        setVariables: () => {},
+        refetch: () => {},
       },
       params: {
         routeId: 'HSL:1010',

@@ -41,19 +41,14 @@ class RoutePatternSelect extends Component {
     config: PropTypes.object, // DT-3317
   };
 
-  state = {
-    loading: true,
-  };
-
   constructor(props) {
     super(props);
-    this.props.relay.refetch(
-      {
-        date: this.props.serviceDay,
-      },
-      null,
-      () => this.setState({ loading: false }),
-    );
+    this.props.relay.refetch({
+      date: this.props.serviceDay,
+    });
+    this.state = {
+      loading: false,
+    };
   }
 
   // eslint-disable-next-line camelcase

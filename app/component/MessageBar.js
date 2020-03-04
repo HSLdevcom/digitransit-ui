@@ -121,7 +121,7 @@ class MessageBar extends Component {
     getServiceAlertsAsync: PropTypes.func,
     lang: PropTypes.string.isRequired,
     messages: PropTypes.array.isRequired,
-    relayEnvironment: PropTypes.object.isRequired,
+    relayEnvironment: PropTypes.object,
   };
 
   static defaultProps = {
@@ -357,9 +357,4 @@ const connectedComponent = connectToStores(
   }),
 );
 
-const componentWithRelayEnvinronment = getRelayEnvironment(MessageBar);
-
-export {
-  connectedComponent as default,
-  componentWithRelayEnvinronment as Component,
-};
+export { connectedComponent as default, MessageBar as Component };

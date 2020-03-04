@@ -366,11 +366,4 @@ const connectedComponent = withLeaflet(
   ),
 );
 
-const TileLayerContainerWithRelayEnvironment = getRelayEnvironment(
-  TileLayerContainer,
-);
-
-export {
-  connectedComponent as default,
-  TileLayerContainerWithRelayEnvironment as Component,
-};
+export { connectedComponent as default, TileLayerContainer as Component };
