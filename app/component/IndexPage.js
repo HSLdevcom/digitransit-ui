@@ -14,6 +14,7 @@ import {
 } from '../action/PositionActions';
 import storeOrigin from '../action/originActions';
 import ControlPanel from './ControlPanel';
+import DTAutosuggestPanel from './DTAutosuggestPanel';
 import MapWithTracking from './map/MapWithTracking';
 import PageFooter from './PageFooter';
 import { isBrowser } from '../util/browser';
@@ -40,6 +41,7 @@ class IndexPage extends React.Component {
     location: locationShape.isRequired,
     router: routerShape.isRequired,
     config: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
   };
 
@@ -136,15 +138,17 @@ class IndexPage extends React.Component {
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
-    const { config, router } = this.context;
+    const { config, router, intl } = this.context;
     const { breakpoint, destination, origin, routes } = this.props;
     const { mapExpanded } = this.state;
-
     const footerOptions = Object.assign(
       {},
       ...routes.map(route => route.footerOptions),
     );
-
+    const searchPanelText = intl.formatMessage({
+      id: 'where',
+      defaultMessage: 'Where to?',
+    });
     return breakpoint === 'large' ? (
       <div
         className={`front-page flex-vertical ${origin &&
@@ -168,11 +172,16 @@ class IndexPage extends React.Component {
             )}
           />
         </div>
-        <ControlPanel
-          className="control-panel-container-left"
-          origin={origin}
-          destination={destination}
-        />
+        <ControlPanel className="control-panel-container-left">
+          <DTAutosuggestPanel
+            searchPanelText={searchPanelText}
+            origin={origin}
+            destination={destination}
+            searchType="all"
+            originPlaceHolder="search-origin"
+            destinationPlaceHolder="search-destination"
+          />
+        </ControlPanel>
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
         {!footerOptions.hidden && (
           <div id="page-footer-container">
@@ -224,11 +233,16 @@ class IndexPage extends React.Component {
             )}
           </div>
         </div>
-        <ControlPanel
-          className="control-panel-container-bottom"
-          origin={origin}
-          destination={destination}
-        />
+        <ControlPanel className="control-panel-container-bottom">
+          <DTAutosuggestPanel
+            searchPanelText={searchPanelText}
+            origin={origin}
+            destination={destination}
+            searchType="all"
+            originPlaceHolder="search-origin"
+            destinationPlaceHolder="search-destination"
+          />
+        </ControlPanel>
       </div>
     );
   }

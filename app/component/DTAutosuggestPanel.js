@@ -77,6 +77,7 @@ class DTAutosuggestPanel extends React.Component {
     breakpoint: PropTypes.string.isRequired,
     swapOrder: PropTypes.func,
     getViaPointsFromMap: PropTypes.bool,
+    searchPanelText: PropTypes.string,
   };
 
   static defaultProps = {
@@ -308,7 +309,7 @@ class DTAutosuggestPanel extends React.Component {
   };
 
   render = () => {
-    const { breakpoint, isItinerary, origin } = this.props;
+    const { breakpoint, isItinerary, origin, searchPanelText } = this.props;
     const { activeSlackInputs, isDraggingOverIndex, viaPoints } = this.state;
     const slackTime = this.getSlackTimeOptions();
     const locationWithTime = withCurrentTime(
@@ -334,6 +335,12 @@ class DTAutosuggestPanel extends React.Component {
           },
         ])}
       >
+        {' '}
+        {searchPanelText ? (
+          <div className="autosuggest-searchpanel-text">
+            <span> {searchPanelText}</span>
+          </div>
+        ) : null}
         <div
           className={cx([
             'dark-overlay',
