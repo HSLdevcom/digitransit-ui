@@ -33,7 +33,7 @@ function TripLink({ vehicle, relayEnvironment }) {
         }
       `}
       variables={{
-        id: vehicle.id,
+        id: vehicle.tripId,
       }}
       environment={relayEnvironment}
       render={({ props }) => {
@@ -65,10 +65,11 @@ function TripLink({ vehicle, relayEnvironment }) {
 }
 
 TripLink.propTypes = {
-  trip: PropTypes.object.isRequired,
+  trip: PropTypes.object,
   vehicle: PropTypes.shape({
     mode: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
+    tripId: PropTypes.string.isRequired,
   }).isRequired,
   relayEnvironment: PropTypes.object.isRequired,
 };
