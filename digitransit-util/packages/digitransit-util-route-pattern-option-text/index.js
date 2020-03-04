@@ -56,6 +56,7 @@ export default function routePatternOptionText(language, pattern, isTogglable) {
   // Add opt #1: (vain 31.12.) or (19.-23.1.)
   if (
     pattern.activeDates.length > 0 &&
+    pattern.rangeFollowingDays !== undefined &&
     pattern.rangeFollowingDays.length === 1 &&
     pattern.fromDate !== '-' &&
     pattern.fromDate !== 'Invalid date' &&
@@ -105,6 +106,7 @@ export default function routePatternOptionText(language, pattern, isTogglable) {
   if (
     pattern.tripsForDate.length === 0 &&
     pattern.activeDates.length > 0 &&
+    pattern.rangeFollowingDays !== undefined &&
     pattern.rangeFollowingDays.length > 1 &&
     pattern.dayString === '-'
   ) {
