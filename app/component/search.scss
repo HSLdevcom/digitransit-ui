@@ -594,7 +594,9 @@ input.react-autosuggest__input {
   position: relative;
   width: 80%; // DT-3381: TODO Placeholder values
   left: 60px; // DT-3381: TODO Placeholder values
-
+    &.searchfield-preferred-bottom{
+      left: 36px;
+    }
   &.origin {
     z-index: index($zindex, origin-input);
   }
