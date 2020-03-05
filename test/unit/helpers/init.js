@@ -65,7 +65,8 @@ before('setting up the environment', () => {
 
 after('resetting the environment', () => {
   console.error.restore();
-  console.warn.restore();
+  // TODO this could be renabled when dependencies don't throw warnings
+  // console.warn.restore();
 });
 
 // make sure the local and session storage stays clear for each test
