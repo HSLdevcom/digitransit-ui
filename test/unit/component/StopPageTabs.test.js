@@ -5,23 +5,30 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import { AlertSeverityLevelType } from '../../../app/constants';
-import { Component as StopPageTabContainer } from '../../../app/component/StopPageTabContainer';
+import { Component as StopPageTabs } from '../../../app/component/StopPageTabs';
 
-describe('<StopPageTabContainer />', () => {
+const context = {
+  match: {
+    location: {
+      pathname: 'foobar',
+    },
+    params: {
+      stopId: 'HSL:2211275',
+    },
+  },
+};
+
+describe('<StopPageTabs />', () => {
   it('should render the disruptions tab for stops', () => {
     const props = {
       breakpoint: 'large',
       children: <div />,
-      location: {
-        pathname: 'foobar',
-      },
-      params: {
-        stopId: 'HSL:2211275',
-      },
       routes: [],
       stop: {},
     };
-    const wrapper = shallowWithIntl(<StopPageTabContainer {...props} />);
+    const wrapper = shallowWithIntl(<StopPageTabs {...props} />, {
+      context,
+    });
     expect(wrapper.find('.stop-tab-singletab')).to.have.lengthOf(4);
     expect(
       wrapper
@@ -35,16 +42,12 @@ describe('<StopPageTabContainer />', () => {
     const props = {
       breakpoint: 'large',
       children: <div />,
-      location: {
-        pathname: 'foobar',
-      },
-      params: {
-        terminalId: 'HSL:2211275',
-      },
       routes: [],
       stop: {},
     };
-    const wrapper = shallowWithIntl(<StopPageTabContainer {...props} />);
+    const wrapper = shallowWithIntl(<StopPageTabs {...props} />, {
+      context,
+    });
     expect(wrapper.find('.stop-tab-singletab')).to.have.lengthOf(4);
   });
 
@@ -52,12 +55,6 @@ describe('<StopPageTabContainer />', () => {
     const props = {
       breakpoint: 'large',
       children: <div />,
-      location: {
-        pathname: 'foobar',
-      },
-      params: {
-        terminalId: 'HSL:2211275',
-      },
       routes: [],
       stop: {
         stoptimes: [
@@ -72,7 +69,9 @@ describe('<StopPageTabContainer />', () => {
         ],
       },
     };
-    const wrapper = shallowWithIntl(<StopPageTabContainer {...props} />);
+    const wrapper = shallowWithIntl(<StopPageTabs {...props} />, {
+      context,
+    });
     expect(wrapper.find('.alert-active')).to.have.lengthOf(1);
   });
 
@@ -80,12 +79,6 @@ describe('<StopPageTabContainer />', () => {
     const props = {
       breakpoint: 'large',
       children: <div />,
-      location: {
-        pathname: 'foobar',
-      },
-      params: {
-        terminalId: 'HSL:2211275',
-      },
       routes: [],
       stop: {
         stoptimes: [
@@ -100,7 +93,9 @@ describe('<StopPageTabContainer />', () => {
         ],
       },
     };
-    const wrapper = shallowWithIntl(<StopPageTabContainer {...props} />);
+    const wrapper = shallowWithIntl(<StopPageTabs {...props} />, {
+      context,
+    });
     expect(wrapper.find('.alert-active')).to.have.lengthOf(1);
   });
 
@@ -108,12 +103,6 @@ describe('<StopPageTabContainer />', () => {
     const props = {
       breakpoint: 'large',
       children: <div />,
-      location: {
-        pathname: 'foobar',
-      },
-      params: {
-        terminalId: 'HSL:2211275',
-      },
       routes: [],
       stop: {
         alerts: [
@@ -124,7 +113,9 @@ describe('<StopPageTabContainer />', () => {
         stoptimesForServiceDate: [],
       },
     };
-    const wrapper = shallowWithIntl(<StopPageTabContainer {...props} />);
+    const wrapper = shallowWithIntl(<StopPageTabs {...props} />, {
+      context,
+    });
     expect(wrapper.find('.alert-active')).to.have.lengthOf(1);
   });
 
@@ -132,12 +123,6 @@ describe('<StopPageTabContainer />', () => {
     const props = {
       breakpoint: 'large',
       children: <div />,
-      location: {
-        pathname: 'foobar',
-      },
-      params: {
-        terminalId: 'HSL:2211275',
-      },
       routes: [],
       stop: {
         alerts: [
@@ -148,7 +133,9 @@ describe('<StopPageTabContainer />', () => {
         stoptimesForServiceDate: [],
       },
     };
-    const wrapper = shallowWithIntl(<StopPageTabContainer {...props} />);
+    const wrapper = shallowWithIntl(<StopPageTabs {...props} />, {
+      context,
+    });
     expect(wrapper.find('.active-disruption-alert')).to.have.lengthOf(2);
   });
 
@@ -156,12 +143,6 @@ describe('<StopPageTabContainer />', () => {
     const props = {
       breakpoint: 'large',
       children: <div />,
-      location: {
-        pathname: 'foobar',
-      },
-      params: {
-        terminalId: 'HSL:2211275',
-      },
       routes: [],
       stop: {
         alerts: [
@@ -172,7 +153,9 @@ describe('<StopPageTabContainer />', () => {
         stoptimesForServiceDate: [],
       },
     };
-    const wrapper = shallowWithIntl(<StopPageTabContainer {...props} />);
+    const wrapper = shallowWithIntl(<StopPageTabs {...props} />, {
+      context,
+    });
     expect(wrapper.find('.active-disruption-alert')).to.have.lengthOf(2);
   });
 
@@ -180,12 +163,6 @@ describe('<StopPageTabContainer />', () => {
     const props = {
       breakpoint: 'large',
       children: <div />,
-      location: {
-        pathname: 'foobar',
-      },
-      params: {
-        terminalId: 'HSL:2211275',
-      },
       routes: [],
       stop: {
         alerts: [
@@ -196,7 +173,9 @@ describe('<StopPageTabContainer />', () => {
         stoptimesForServiceDate: [],
       },
     };
-    const wrapper = shallowWithIntl(<StopPageTabContainer {...props} />);
+    const wrapper = shallowWithIntl(<StopPageTabs {...props} />, {
+      context,
+    });
     expect(wrapper.find('.active-disruption-alert')).to.have.lengthOf(2);
   });
 
@@ -204,12 +183,6 @@ describe('<StopPageTabContainer />', () => {
     const props = {
       breakpoint: 'large',
       children: <div />,
-      location: {
-        pathname: 'foobar',
-      },
-      params: {
-        terminalId: 'HSL:2211275',
-      },
       routes: [],
       stop: {
         alerts: [
@@ -220,7 +193,9 @@ describe('<StopPageTabContainer />', () => {
         stoptimesForServiceDate: [],
       },
     };
-    const wrapper = shallowWithIntl(<StopPageTabContainer {...props} />);
+    const wrapper = shallowWithIntl(<StopPageTabs {...props} />, {
+      context,
+    });
     expect(wrapper.find('.active-service-alert')).to.have.lengthOf(2);
   });
 
@@ -228,16 +203,12 @@ describe('<StopPageTabContainer />', () => {
     const props = {
       breakpoint: 'large',
       children: <div />,
-      location: {
-        pathname: 'foobar',
-      },
-      params: {
-        terminalId: 'HSL:2211275',
-      },
       routes: [],
       stop: null,
     };
-    const wrapper = shallowWithIntl(<StopPageTabContainer {...props} />);
+    const wrapper = shallowWithIntl(<StopPageTabs {...props} />, {
+      context,
+    });
     expect(wrapper.isEmptyRender()).to.equal(true);
   });
 
@@ -245,18 +216,14 @@ describe('<StopPageTabContainer />', () => {
     const props = {
       breakpoint: 'large',
       children: <div />,
-      location: {
-        pathname: 'foobar',
-      },
-      params: {
-        stopId: 'HSL:2211275',
-      },
       routes: [],
       stop: {
         vehicleMode: 'RAIL',
       },
     };
-    const wrapper = shallowWithIntl(<StopPageTabContainer {...props} />);
+    const wrapper = shallowWithIntl(<StopPageTabs {...props} />, {
+      context,
+    });
     expect(
       wrapper
         .find(FormattedMessage)
@@ -269,18 +236,14 @@ describe('<StopPageTabContainer />', () => {
     const props = {
       breakpoint: 'large',
       children: <div />,
-      location: {
-        pathname: 'foobar',
-      },
-      params: {
-        stopId: 'HSL:2211275',
-      },
       routes: [],
       stop: {
         vehicleMode: 'SUBWAY',
       },
     };
-    const wrapper = shallowWithIntl(<StopPageTabContainer {...props} />);
+    const wrapper = shallowWithIntl(<StopPageTabs {...props} />, {
+      context,
+    });
     expect(
       wrapper
         .find(FormattedMessage)
@@ -293,16 +256,12 @@ describe('<StopPageTabContainer />', () => {
     const props = {
       breakpoint: 'large',
       children: <div />,
-      location: {
-        pathname: 'foobar',
-      },
-      params: {
-        stopId: 'HSL:2211275',
-      },
       routes: [],
       stop: {},
     };
-    const wrapper = shallowWithIntl(<StopPageTabContainer {...props} />);
+    const wrapper = shallowWithIntl(<StopPageTabs {...props} />, {
+      context,
+    });
     expect(
       wrapper
         .find(FormattedMessage)
