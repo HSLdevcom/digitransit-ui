@@ -25,7 +25,7 @@ class SummaryPlanContainer extends React.Component {
     children: PropTypes.node,
     config: PropTypes.object.isRequired,
     currentTime: PropTypes.number.isRequired,
-    error: PropTypes.object,
+    error: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     itineraries: PropTypes.arrayOf(
       PropTypes.shape({
         endTime: PropTypes.number,
@@ -45,7 +45,7 @@ class SummaryPlanContainer extends React.Component {
     }).isRequired,
     setError: PropTypes.func.isRequired,
     setLoading: PropTypes.func.isRequired,
-    relayEnvironment: PropTypes.object.isRequired,
+    relayEnvironment: PropTypes.object,
   };
 
   static defaultProps = {
