@@ -71,7 +71,7 @@ class PreferredRoutes extends React.Component {
                 `}
                 environment={this.props.relayEnvironment}
                 variables={{ gtfsId: o.replace('__', ':') }}
-                render={({ props }) => <RouteDetails {...props} />}
+                render={({ props }) => props && <RouteDetails {...props} />}
               />
             </div>
           ))}
