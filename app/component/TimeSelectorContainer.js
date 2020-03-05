@@ -26,7 +26,7 @@ class TimeSelectorContainer extends Component {
       end: PropTypes.number.isRequired,
     }).isRequired,
     time: PropTypes.instanceOf(moment).isRequired,
-    now: PropTypes.shape({}).isRequired,
+    now: PropTypes.object.isRequired,
   };
 
   getDates() {
