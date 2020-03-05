@@ -5,9 +5,9 @@ import React from 'react';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import { AlertSeverityLevelType } from '../../../app/constants';
 import AlertList from '../../../app/component/AlertList';
-import { Component as StopAlertsContainer } from '../../../app/component/StopAlertsContainer';
+import StopAlerts from '../../../app/component/StopAlerts';
 
-describe('<StopAlertsContainer />', () => {
+describe('<StopAlerts />', () => {
   it("should indicate that there are no alerts if the stop's routes have no alerts and the stop has no canceled stoptimes", () => {
     const props = {
       stop: {
@@ -33,7 +33,7 @@ describe('<StopAlertsContainer />', () => {
         ],
       },
     };
-    const wrapper = shallowWithIntl(<StopAlertsContainer {...props} />);
+    const wrapper = shallowWithIntl(<StopAlerts {...props} />);
     expect(wrapper.find(AlertList).props()).to.deep.equal({
       cancelations: [],
       serviceAlerts: [],
@@ -66,7 +66,7 @@ describe('<StopAlertsContainer />', () => {
         ],
       },
     };
-    const wrapper = shallowWithIntl(<StopAlertsContainer {...props} />);
+    const wrapper = shallowWithIntl(<StopAlerts {...props} />);
     expect(wrapper.find(AlertList).prop('serviceAlerts')).to.have.lengthOf(1);
   });
 
@@ -95,7 +95,7 @@ describe('<StopAlertsContainer />', () => {
         ],
       },
     };
-    const wrapper = shallowWithIntl(<StopAlertsContainer {...props} />);
+    const wrapper = shallowWithIntl(<StopAlerts {...props} />);
     expect(wrapper.find(AlertList).prop('cancelations')).to.have.lengthOf(1);
   });
 
@@ -111,7 +111,7 @@ describe('<StopAlertsContainer />', () => {
         stoptimes: [],
       },
     };
-    const wrapper = shallowWithIntl(<StopAlertsContainer {...props} />);
+    const wrapper = shallowWithIntl(<StopAlerts {...props} />);
     expect(wrapper.find(AlertList).prop('serviceAlerts')).to.have.lengthOf(1);
   });
 
@@ -142,7 +142,7 @@ describe('<StopAlertsContainer />', () => {
         ],
       },
     };
-    const wrapper = shallowWithIntl(<StopAlertsContainer {...props} />);
+    const wrapper = shallowWithIntl(<StopAlerts {...props} />);
     expect(
       wrapper.find(AlertList).prop('cancelations')[0].validityPeriod.startTime,
     ).to.equal(3);
@@ -189,7 +189,7 @@ describe('<StopAlertsContainer />', () => {
         ],
       },
     };
-    const wrapper = shallowWithIntl(<StopAlertsContainer {...props} />);
+    const wrapper = shallowWithIntl(<StopAlerts {...props} />);
     expect(wrapper.find(AlertList).prop('serviceAlerts')).to.have.lengthOf(1);
   });
 });

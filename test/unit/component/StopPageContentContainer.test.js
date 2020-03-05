@@ -13,10 +13,7 @@ describe('<StopPageContentContainer />', () => {
         stopId: '1234',
       },
       relay: {
-        setVariables: () => {},
-        variables: {
-          startTime: '1234',
-        },
+        refetch: () => {},
       },
       stop: {},
     };

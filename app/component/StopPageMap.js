@@ -58,6 +58,9 @@ const fullscreenMapToggle = (fullscreenMap, location, router) => (
 /* eslint-enable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 
 const StopPageMap = ({ stop, breakpoint }, { config, match, router }) => {
+  if (!stop) {
+    return false;
+  }
   const fullscreenMap =
     match.location.state && match.location.state.fullscreenMap === true;
   const leafletObjs = [];
