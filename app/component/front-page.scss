@@ -288,18 +288,31 @@ $heading-color: #858585;
   order: 1;
   flex-direction: column;
   align-items: stretch;
-  background-color: #ffffff; // TODO: Placeholder value!
+  background-color: #ffffff; // // DT-3381: TODO Placeholder values!
   position: absolute;
   height: 100%;
-  width: 600px; // TODO: Placeholder value!
-  min-width: 600px; // TODO: Placeholder value!
-  z-index: 20; // TODO: Placeholder value!
+  width: 600px;  // DT-3381: TODO Placeholder values!
+  min-width: 600px;  // DT-3381: TODO Placeholder values!
+  z-index: 20; // DT-3381: TODO Placeholder values!
 }
 
 .control-panel-container-bottom {
   width: 100%;
   background-color: #ffffff;
-  height: 300px;
+}
+.control-panel-separator-line {
+  display: block;
+  width: auto;
+  margin: 0 auto;
+  margin-left: 1em;
+  margin-right: 1em;
+  margin-top: 5em;
+  border-top: 1px solid #ddd;
+  background: $background-color-lighter;
+}
+.stops-near-you-text {
+  font-size: $font-size-large;
+  margin: 30px 0px 0px 60px; // DT-3381: TODO Placeholder values
 }
 .map-container {
   display: flex;
@@ -429,7 +442,7 @@ div.route-tabs .tabs-navigation.bp-large {
   bottom: 0px;
   position: absolute;
   z-index: index($zindex, footer);
-  left: 32% //TODO: Placeholder value!
+  left: 32% // DT-3381: TODO Placeholder values!
 }
 
 #page-footer {

@@ -14,6 +14,8 @@ import {
 } from '../action/PositionActions';
 import storeOrigin from '../action/originActions';
 import ControlPanel from './ControlPanel';
+import DTEndpointAutosuggest from './DTEndpointAutosuggest';
+import DTAutosuggestPanel from './DTAutosuggestPanel';
 import MapWithTracking from './map/MapWithTracking';
 import PageFooter from './PageFooter';
 import { isBrowser } from '../util/browser';
@@ -39,6 +41,7 @@ const debug = d('IndexPage.js');
 class IndexPage extends React.Component {
   static contextTypes = {
     config: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
   };
 
@@ -121,10 +124,11 @@ class IndexPage extends React.Component {
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
-    const { config } = this.context;
+    const { config, intl } = this.context;
     const { breakpoint, destination, origin, router, match } = this.props;
     const { mapExpanded } = this.state;
 
+    // DT-3381 TODO: DTEndpointAutoSuggest currently does not search for stops or stations, as it should be. SearchUtils needs refactoring.
     return breakpoint === 'large' ? (
       <div
         className={`front-page flex-vertical ${origin &&
@@ -148,11 +152,46 @@ class IndexPage extends React.Component {
             )}
           />
         </div>
-        <ControlPanel
-          className="control-panel-container-left"
-          origin={origin}
-          destination={destination}
-        />
+        <ControlPanel className="control-panel-container-left">
+          <DTAutosuggestPanel
+            searchPanelText={intl.formatMessage({
+              id: 'where',
+              defaultMessage: 'Where to?',
+            })}
+            origin={origin}
+            destination={destination}
+            searchType="endpoint"
+            originPlaceHolder="search-origin-index"
+            destinationPlaceHolder="search-destination-index"
+          />
+          <div className="control-panel-separator-line" />
+          <div className="stops-near-you-text">
+            <span>
+              {' '}
+              {intl.formatMessage({
+                id: 'stop-near-you-title',
+                defaultMessage: 'Stops and lines near you',
+              })}
+            </span>
+          </div>
+          <div>
+            <DTEndpointAutosuggest
+              icon="mapMarker-via"
+              id="searchfield-preferred"
+              autoFocus={false}
+              refPoint={origin}
+              className="destination"
+              searchType="search"
+              placeholder={intl.formatMessage({
+                id: 'stop-near-you',
+                defaultMessage: 'Stops and lines near you',
+              })}
+              value=""
+              isFocused={this.isFocused}
+              onLocationSelected={e => e.stopPropagation()}
+            />
+          </div>
+        </ControlPanel>
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
         <div id="page-footer-container">
           <PageFooter
@@ -202,11 +241,46 @@ class IndexPage extends React.Component {
             )}
           </div>
         </div>
-        <ControlPanel
-          className="control-panel-container-bottom"
-          origin={origin}
-          destination={destination}
-        />
+        <ControlPanel className="control-panel-container-bottom">
+          <DTAutosuggestPanel
+            searchPanelText={intl.formatMessage({
+              id: 'where',
+              defaultMessage: 'Where to?',
+            })}
+            origin={origin}
+            destination={destination}
+            searchType="all"
+            originPlaceHolder="search-origin"
+            destinationPlaceHolder="search-destination"
+          />
+          <div className="control-panel-separator-line" />
+          <div className="stops-near-you-text">
+            <span>
+              {' '}
+              {intl.formatMessage({
+                id: 'stop-near-you-title',
+                defaultMessage: 'Stops and lines near you',
+              })}
+            </span>
+          </div>
+          <div>
+            <DTEndpointAutosuggest
+              icon="mapMarker-via"
+              id="searchfield-preferred-bottom"
+              autoFocus={false}
+              refPoint={origin}
+              className="destination"
+              searchType="search"
+              placeholder={intl.formatMessage({
+                id: 'stop-near-you',
+                defaultMessage: 'Stops and lines near you',
+              })}
+              value=""
+              isFocused={this.isFocused}
+              onLocationSelected={e => e.stopPropagation()}
+            />
+          </div>
+        </ControlPanel>
       </div>
     );
   }

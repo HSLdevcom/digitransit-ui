@@ -1016,10 +1016,12 @@ const translations = {
     search: 'Search',
     'search-button-label': 'Search',
     'search-destination': 'Search destination, route or stop',
+    'search-destination-index': 'Enter destination',
     'search-destination-results-but-no-search':
       'View results in the adjacent “Destination” tab',
     'search-no-results': 'No location',
     'search-origin': 'Search origin, route or stop',
+    'search-origin-index': 'Enter origin',
     'search-position': 'Detect location',
     'search-search-results-but-no-destination':
       'View results in the adjacent “About the route or stop” tab',
@@ -1054,6 +1056,8 @@ const translations = {
     'splash-you-can-also': 'or',
     station: 'Station',
     stop: 'Stop',
+    'stop-near-you': 'Search stops and routes near you',
+    'stop-near-you-title': 'Stops and lines near you',
     'stop-number': 'Stop number',
     'stop-page.description': 'Stop {name} - {code}',
     'stop-page.title': 'Stop {name} - {code}',
@@ -1128,6 +1132,7 @@ const translations = {
     'warning-call-agency-no-route':
       'Only on demand. Needs to be booked in advance.',
     'weather-at-destination': 'Weather at the destination',
+    where: 'Where to?',
     yesterday: 'Yesterday',
     zone: 'Zone',
     zones: 'Fare zones',
@@ -1815,10 +1820,12 @@ const translations = {
     search: 'Etsi',
     'search-button-label': 'Hae',
     'search-destination': 'Hae määränpäätä, linjaa tai pysäkkiä',
+    'search-destination-index': 'Syötä määränpää',
     'search-destination-results-but-no-search':
       'Katso tulokset viereiseltä Määränpää-välilehdeltä',
     'search-no-results': 'Ei tuloksia',
     'search-origin': 'Hae lähtöpaikkaa, linjaa tai pysäkkiä',
+    'search-origin-index': 'Syötä lähtöpaikka',
     'search-position': 'Paikanna',
     'search-search-results-but-no-destination':
       'Katso tulokset viereiseltä "Tietoja linjasta tai pysäkistä" –välilehdeltä',
@@ -1853,6 +1860,8 @@ const translations = {
     'splash-you-can-also': 'tai',
     station: 'Asema',
     stop: 'Pysäkki',
+    'stop-near-you': 'Linja, pysäkki tai asema',
+    'stop-near-you-title': 'Lähipysäkit ja linjat',
     'stop-number': 'Pysäkkinumero',
     'stop-page.description': 'Pysäkki - {name} {code}, {desc}',
     'stop-page.title': 'Pysäkki - {name} {code}',
@@ -1927,6 +1936,7 @@ const translations = {
     'warning-call-agency-no-route':
       'Liikennöidään kutsujoukkoliikenteenä, joka on tilattava etukäteen',
     'weather-at-destination': 'Sää määränpäässä',
+    where: 'Minne mennään?',
     yesterday: 'Eilen',
     zone: 'Vyöhyke',
     zones: 'Lippuvyöhykkeet',
@@ -2916,10 +2926,12 @@ const translations = {
     search: 'Sök',
     'search-button-label': 'Sök',
     'search-destination': 'Sök destination, linje eller hållplats',
+    'search-destination-index': 'Skriv destination',
     'search-destination-results-but-no-search':
       'Se resultaten under fliken Destination',
     'search-no-results': 'Inga sökresultat',
     'search-origin': 'Sök avfärdsplats, linje eller hållplats',
+    'search-origin-index': 'Skriv avfärdsplats',
     'search-position': 'Sök position',
     'search-search-results-but-no-destination':
       'Se resultaten under fliken Linje eller hållplats',
@@ -2955,6 +2967,8 @@ const translations = {
     'splash-you-can-also': 'alternativt',
     station: 'Station',
     stop: 'Hållplats',
+    'stop-near-you': 'Sök hållplatser eller linjer nära dig',
+    'stop-near-you-title': 'Hållplatesr och linjer närä dig',
     'stop-number': 'Hållplatsnummer',
     'stop-page.description': 'Hållplats {name} - {code}',
     'stop-page.title': 'Hållplats {name} - {code}',
@@ -3028,6 +3042,7 @@ const translations = {
     'warning-call-agency-no-route':
       'Trafikeras enligt behov som bör beställas på förhand.',
     'weather-at-destination': 'Vädret på destinationen',
+    where: 'Var till?',
     yesterday: 'I går',
     zone: 'Zon',
     zones: 'Biljettzoner',
