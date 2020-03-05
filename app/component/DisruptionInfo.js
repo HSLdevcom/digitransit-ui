@@ -89,7 +89,7 @@ DisruptionInfo.contextTypes = {
 };
 
 DisruptionInfo.propTypes = {
-  relayEnvironment: PropTypes.object.isRequired,
+  relayEnvironment: PropTypes.object,
 };
 
 DisruptionInfo.description = () => (
@@ -106,4 +106,5 @@ DisruptionInfo.description = () => (
   </div>
 );
 
-export default getRelayEnvironment(DisruptionInfo);
+const withRelayEnvironment = getRelayEnvironment(DisruptionInfo);
+export { withRelayEnvironment as default, DisruptionInfo as Component };

@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { shallowWithIntl } from './helpers/mock-intl-enzyme';
-import DisruptionInfo from '../../app/component/DisruptionInfo';
+import { Component as DisruptionInfo } from '../../app/component/DisruptionInfo';
 // import { createWaitForElement } from 'enzyme-wait';
 // import { mockContext, mockChildContextTypes } from './helpers/mock-context';
 // import { createMemoryMockRouter } from './helpers/mock-router';
@@ -11,20 +11,13 @@ import DisruptionInfo from '../../app/component/DisruptionInfo';
 // const waitForModal = createWaitForElement('Modal');
 
 describe('DisruptionInfo', () => {
-  it('should render empty when isBrowser=false', () => {
-    const wrapper = shallowWithIntl(<DisruptionInfo isBrowser={false} />, {
-      context: {
-        location: {},
-      },
-    });
-    expect(wrapper.isEmptyRender()).to.equal(true);
-  });
-
   it('should render empty when no disruptionInfoOpen has been given', () => {
     const wrapper = shallowWithIntl(<DisruptionInfo isBrowser />, {
       context: {
-        location: {
-          state: {},
+        match: {
+          location: {
+            state: {},
+          },
         },
       },
     });
@@ -34,9 +27,11 @@ describe('DisruptionInfo', () => {
   it('should render empty when disruptionInfoOpen=false', () => {
     const wrapper = shallowWithIntl(<DisruptionInfo isBrowser />, {
       context: {
-        location: {
-          state: {
-            disruptionInfoOpen: false,
+        match: {
+          location: {
+            state: {
+              disruptionInfoOpen: false,
+            },
           },
         },
       },
