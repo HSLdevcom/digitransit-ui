@@ -1157,6 +1157,7 @@ const translations = {
     'warning-call-agency-no-route':
       'Only on demand. Needs to be booked in advance.',
     'weather-at-destination': 'Weather at the destination',
+    where: 'Where to?',
     yesterday: 'Yesterday',
     'your-favourites': 'Favorites',
     zone: 'Zone',
@@ -1977,6 +1978,7 @@ const translations = {
     'warning-call-agency-no-route':
       'Liikennöidään kutsujoukkoliikenteenä, joka on tilattava etukäteen',
     'weather-at-destination': 'Sää määränpäässä',
+    where: 'Minne mennään?',
     yesterday: 'Eilen',
     'your-favourites': 'Suosikkisi',
     zone: 'Vyöhyke',
@@ -3109,6 +3111,7 @@ const translations = {
     'warning-call-agency-no-route':
       'Trafikeras enligt behov som bör beställas på förhand.',
     'weather-at-destination': 'Vädret på destinationen',
+    where: 'Var till?',
     yesterday: 'I går',
     'your-favourites': 'Favoriter',
     zone: 'Zon',
