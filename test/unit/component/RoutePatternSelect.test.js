@@ -14,7 +14,14 @@ import * as analytics from '../../../app/util/analyticsUtils';
 describe('<RoutePatternSelect />', () => {
   it('should render', () => {
     const wrapper = shallowWithIntl(
-      <RoutePatternSelect {...dt2887} relay={{ refetch: () => {} }} />,
+      <RoutePatternSelect
+        {...dt2887}
+        relay={{
+          refetch: (variables, renderVariables, callback) => {
+            callback();
+          },
+        }}
+      />,
       {
         context: {
           ...mockContext,
@@ -26,7 +33,14 @@ describe('<RoutePatternSelect />', () => {
   });
   it('should create a select element for more than 2 patterns', () => {
     const wrapper = shallowWithIntl(
-      <RoutePatternSelect {...dt2887} relay={{ refetch: () => {} }} />,
+      <RoutePatternSelect
+        {...dt2887}
+        relay={{
+          refetch: (variables, renderVariables, callback) => {
+            callback();
+          },
+        }}
+      />,
       {
         context: {
           ...mockContext,
@@ -38,7 +52,14 @@ describe('<RoutePatternSelect />', () => {
   });
   it('should create a toggle element if there are only 2 patterns', () => {
     const wrapper = shallowWithIntl(
-      <RoutePatternSelect {...dt2887b} relay={{ refetch: () => {} }} />,
+      <RoutePatternSelect
+        {...dt2887b}
+        relay={{
+          refetch: (variables, renderVariables, callback) => {
+            callback();
+          },
+        }}
+      />,
       {
         context: {
           ...mockContext,
@@ -50,7 +71,14 @@ describe('<RoutePatternSelect />', () => {
   });
   it('should create as many options as there are patterns', () => {
     const wrapper = shallowWithIntl(
-      <RoutePatternSelect {...dt2887} relay={{ refetch: () => {} }} />,
+      <RoutePatternSelect
+        {...dt2887}
+        relay={{
+          refetch: (variables, renderVariables, callback) => {
+            callback();
+          },
+        }}
+      />,
       {
         context: {
           ...mockContext,
@@ -70,7 +98,9 @@ describe('<RoutePatternSelect />', () => {
         patternId: 'HSL:3002U:0:02',
       },
       relay: {
-        refetch: () => {},
+        refetch: (variables, renderVariables, callback) => {
+          callback();
+        },
       },
       route: {
         patterns: [
@@ -132,7 +162,9 @@ describe('<RoutePatternSelect />', () => {
         patternId: 'foobar',
       },
       relay: {
-        refetch: () => {},
+        refetch: (variables, renderVariables, callback) => {
+          callback();
+        },
       },
       route: {
         patterns: [
@@ -202,7 +234,9 @@ describe('<RoutePatternSelect />', () => {
         patternId: 'HSL:3002U:0:01',
       },
       relay: {
-        refetch: () => {},
+        refetch: (variables, renderVariables, callback) => {
+          callback();
+        },
       },
       route: {
         patterns: [
@@ -243,7 +277,9 @@ describe('<RoutePatternSelect />', () => {
         patternId: 'LINKKI:9422:1:01',
       },
       relay: {
-        refetch: () => {},
+        refetch: (variables, renderVariables, callback) => {
+          callback();
+        },
       },
       route: {
         id: 'Um91dGU6TElOS0tJOjk0MjI=',
@@ -294,7 +330,12 @@ describe('<RoutePatternSelect />', () => {
       serviceDay: 'test',
       onSelectChange: () => {},
       gtfsId: 'test',
-      relay: { refetch: () => {} },
+      relay: {
+        refetch: async (variables, renderVariables, callback) => {
+          await new Promise(r => setTimeout(r, 2000));
+          callback();
+        },
+      },
       route: {
         patterns: [
           { code: 'test1', stops: [{ name: '1' }] },
@@ -347,7 +388,9 @@ describe('<RoutePatternSelect />', () => {
       className: 'bp-large',
       serviceDay,
       relay: {
-        refetch: () => {},
+        refetch: (variables, renderVariables, callback) => {
+          callback();
+        },
       },
       params: {
         routeId: 'HSL:1010',

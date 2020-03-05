@@ -41,22 +41,18 @@ class RoutePatternSelect extends Component {
     config: PropTypes.object, // DT-3317
   };
 
-  constructor(props) {
-    super(props);
-    this.props.relay.refetch({
-      date: this.props.serviceDay,
-    });
-    this.state = {
-      loading: false,
-    };
-  }
+  state = {
+    loading: true,
+  };
 
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillMount = () => {
-    const options = this.getOptions();
-    if (options === null) {
-      this.setState({ loading: true });
-    }
+  componentDidMount = () => {
+    this.props.relay.refetch(
+      {
+        date: this.props.serviceDay,
+      },
+      null,
+      () => this.setState({ loading: false }),
+    );
   };
 
   getOptions = () => {
@@ -110,8 +106,6 @@ class RoutePatternSelect extends Component {
 
     if (options.every(o => o.key !== params.patternId)) {
       router.replace(`/${PREFIX_ROUTES}/${gtfsId}/pysakit/${options[0].key}`);
-    } else if (options.length > 0 && this.state.loading === true) {
-      this.setState({ loading: false });
     }
     return options;
   };

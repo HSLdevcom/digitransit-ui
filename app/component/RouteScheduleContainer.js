@@ -59,6 +59,9 @@ class RouteScheduleContainer extends Component {
   constructor(props) {
     super(props);
     this.initState(props, true);
+  }
+
+  componentDidMount() {
     this.props.relay.refetch(
       {
         serviceDay: this.props.serviceDay,
