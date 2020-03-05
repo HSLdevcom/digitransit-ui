@@ -28,7 +28,7 @@ function DisruptionInfo({ relayEnvironment }, context) {
       context.router.go(-1);
     } else {
       context.router.push({
-        ...context.match,
+        ...context.match.location,
         state: {
           ...context.match.location.state,
           disruptionInfoOpen: true,
