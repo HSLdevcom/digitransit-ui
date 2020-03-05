@@ -37,13 +37,14 @@ export const resetSelectedItineraryIndex = loc => {
  * Clears the given parameters from the browser's url.
  *
  * @param {*} router The router
+ * @param {*} match The match object from found
  * @param {string[]} paramsToClear The parameters to clear from the url
  */
-export const clearQueryParams = (router, paramsToClear = []) => {
+export const clearQueryParams = (router, match, paramsToClear = []) => {
   if (paramsToClear.length === 0) {
     return;
   }
-  let location = router.getCurrentLocation();
+  let { location } = match;
 
   location = resetSelectedItineraryIndex(location);
 
@@ -185,7 +186,7 @@ const getRoutes = (query, preferred) => {
  * @param {*} match The match object from found
  */
 const addRoute = (router, routeToAdd, preferred, match) => {
-  const { query } = router.getCurrentLocation();
+  const { query } = match.location;
   const routes = getRoutes(query, preferred);
   if (routes.includes(routeToAdd)) {
     return;

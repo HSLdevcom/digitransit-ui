@@ -74,7 +74,11 @@ class CustomizeSearch extends React.Component {
 
   resetParameters = () => {
     resetCustomizedSettings();
-    clearQueryParams(this.context.router, Object.keys(this.defaultSettings));
+    clearQueryParams(
+      this.context.router,
+      this.context.match,
+      Object.keys(this.defaultSettings),
+    );
   };
 
   render() {

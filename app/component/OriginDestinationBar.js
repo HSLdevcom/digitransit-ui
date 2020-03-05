@@ -36,12 +36,6 @@ class OriginDestinationBar extends React.Component {
     className: undefined,
   };
 
-  get location() {
-    return (
-      this.context.match.location || this.context.router.getCurrentLocation()
-    );
-  }
-
   updateViaPoints = newViaPoints =>
     setIntermediatePlaces(
       this.context.router,
@@ -50,7 +44,7 @@ class OriginDestinationBar extends React.Component {
     );
 
   swapEndpoints = () => {
-    const { location } = this;
+    const { location } = this.context.match;
     const locationWithTime = withCurrentTime(this.context.getStore, location);
     const intermediatePlaces = getIntermediatePlaces(location.query);
     if (intermediatePlaces.length > 1) {
@@ -78,7 +72,9 @@ class OriginDestinationBar extends React.Component {
         origin={this.props.origin}
         destination={this.props.destination}
         isItinerary
-        initialViaPoints={getIntermediatePlaces(this.location.query)}
+        initialViaPoints={getIntermediatePlaces(
+          this.context.match.location.query,
+        )}
         updateViaPoints={this.updateViaPoints}
         swapOrder={this.swapEndpoints}
       />

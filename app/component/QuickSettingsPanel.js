@@ -82,7 +82,7 @@ class QuickSettingsPanel extends React.Component {
 
     const quickOptionSet = getQuickOptionSets(this.context)[name];
     if (name === QuickOptionSetType.SavedSettings) {
-      clearQueryParams(router, Object.keys(quickOptionSet));
+      clearQueryParams(router, match, Object.keys(quickOptionSet));
     } else {
       replaceQueryParams(router, match, { ...quickOptionSet });
     }
