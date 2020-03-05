@@ -316,7 +316,6 @@ class DTAutosuggestPanel extends React.Component {
       this.context.getStore,
       this.context.location,
     );
-
     const defaultSlackTimeValue = 0;
     const getViaPointSlackTimeOrDefault = (
       viaPoint,
