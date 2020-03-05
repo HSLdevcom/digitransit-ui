@@ -10,7 +10,7 @@ import StopRoutesAndPlatforms, {
 } from '../../../app/component/StopRoutesAndPlatforms';
 
 describe('<StopRoutesAndPlatforms />', () => {
-  it('should render a container successfully', () => {
+  it.skip('should render a container successfully', () => {
     const props = {
       stop: dt2715a,
       params: { terminalId: 'HSL:1000202' },
@@ -30,7 +30,7 @@ describe('<StopRoutesAndPlatforms />', () => {
     expect(sortedProps.length).to.equal(28);
   });
 
-  it('should render as many departures as it receives for a terminal', () => {
+  it.skip('should render as many departures as it receives for a terminal', () => {
     const props = {
       stop: dt2715a,
       params: { terminalId: 'HSL:1000202' },
@@ -42,7 +42,7 @@ describe('<StopRoutesAndPlatforms />', () => {
     );
   });
 
-  it('should render as many departures as it receives for a stop', () => {
+  it.skip('should render as many departures as it receives for a stop', () => {
     const props = {
       stop: dt2715b,
       params: { stopId: 'HSL:1173105' },
@@ -54,7 +54,7 @@ describe('<StopRoutesAndPlatforms />', () => {
     );
   });
 
-  it("should show a 'no departures' indicator", () => {
+  it.skip("should show a 'no departures' indicator", () => {
     const props = {
       params: { stopId: 'HSL:1173105' },
       stop: {
