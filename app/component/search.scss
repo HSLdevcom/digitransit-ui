@@ -355,6 +355,10 @@ div.map {
   }
 }
 
+.react-autosuggest__container {
+  display: flex;
+}
+
 .autosuggest-panel {
   &.isItinerary {
     width: 100%;
@@ -389,7 +393,6 @@ div.map {
 
   .react-autosuggest__container {
     width: 100%;
-    display: flex;
 
     .react-autosuggest__suggestions-container--open {
       background: #fff;
