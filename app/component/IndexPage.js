@@ -182,10 +182,7 @@ class IndexPage extends React.Component {
               refPoint={origin}
               className="destination"
               searchType="search"
-              placeholder={intl.formatMessage({
-                id: 'stop-near-you',
-                defaultMessage: 'Stops and lines near you',
-              })}
+              placeholder="stop-near-you"
               value=""
               isFocused={this.isFocused}
               onLocationSelected={e => e.stopPropagation()}
@@ -271,10 +268,7 @@ class IndexPage extends React.Component {
               refPoint={origin}
               className="destination"
               searchType="search"
-              placeholder={intl.formatMessage({
-                id: 'stop-near-you',
-                defaultMessage: 'Stops and lines near you',
-              })}
+              placeholder="stop-near-you"
               value=""
               isFocused={this.isFocused}
               onLocationSelected={e => e.stopPropagation()}
