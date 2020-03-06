@@ -59,31 +59,6 @@ export default config => {
           ),
         }}
       </Route>
-      <Route
-        path="/styleguide"
-        getComponent={() => {
-          import(/* webpackChunkName: "styleguide" */ './component/StyleGuidePage')
-            .then(getDefault)
-            .catch(errorLoading);
-        }}
-      />
-      <Route
-        path="/styleguide/component/:componentName"
-        topBarOptions={{ hidden: true }}
-        getComponent={() => {
-          import(/* webpackChunkName: "styleguide" */ './component/StyleGuidePage')
-            .then(getDefault)
-            .catch(errorLoading);
-        }}
-      />
-      <Route
-        path="/suosikki/uusi"
-        getComponent={() => {
-          import(/* webpackChunkName: "add-favourite" */ './component/AddFavouritePage')
-            .then(getDefault)
-            .catch(errorLoading);
-        }}
-      />
       {getStopRoutes()}
       {getStopRoutes(true) /* terminals */}
       {routeRoutes}
@@ -253,22 +228,46 @@ export default config => {
           ),
         }}
       </Route>
-
       <Route
-        path="/suosikki/muokkaa/sijainti/:id"
-        getComponent={() => {
+        path="/styleguide"
+        getComponent={() =>
+          import(/* webpackChunkName: "styleguide" */ './component/StyleGuidePage')
+            .then(getDefault)
+            .catch(errorLoading)
+        }
+      />
+      <Route
+        path="/styleguide/component/:componentName"
+        topBarOptions={{ hidden: true }}
+        getComponent={() =>
+          import(/* webpackChunkName: "styleguide" */ './component/StyleGuidePage')
+            .then(getDefault)
+            .catch(errorLoading)
+        }
+      />
+      <Route
+        path="/suosikki/uusi"
+        getComponent={() =>
           import(/* webpackChunkName: "add-favourite" */ './component/AddFavouritePage')
             .then(getDefault)
-            .catch(errorLoading);
-        }}
+            .catch(errorLoading)
+        }
+      />
+      <Route
+        path="/suosikki/muokkaa/sijainti/:id"
+        getComponent={() =>
+          import(/* webpackChunkName: "add-favourite" */ './component/AddFavouritePage')
+            .then(getDefault)
+            .catch(errorLoading)
+        }
       />
       <Route
         path="/suosikki/muokkaa/pysakki/:id"
-        getComponent={() => {
+        getComponent={() =>
           import(/* webpackChunkName: "add-favourite" */ './component/AddFavouritePage')
             .then(getDefault)
-            .catch(errorLoading);
-        }}
+            .catch(errorLoading)
+        }
       />
       <Route
         path="/tietoja-palvelusta"
@@ -281,11 +280,11 @@ export default config => {
       {!config.URL.API_URL.includes('/api.') && (
         <Route
           path="/admin"
-          getComponent={() => {
+          getComponent={() =>
             import(/* webpackChunkName: "admin" */ './component/AdminPage')
               .then(getDefault)
-              .catch(errorLoading);
-          }}
+              .catch(errorLoading)
+          }
         />
       )}
       <Route path="/js/:name" Component={Error404} />
