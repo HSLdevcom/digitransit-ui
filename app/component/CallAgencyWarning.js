@@ -32,7 +32,7 @@ CallAgencyWarning.description = () => (
   <div>
     <p>Displays a warning message.</p>
     <ComponentUsageExample description="normal">
-      <CallAgencyWarning />
+      <CallAgencyWarning route={{ agency: { phone: '+358123456789' } }} />
     </ComponentUsageExample>
   </div>
 );

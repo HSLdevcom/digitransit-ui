@@ -624,41 +624,9 @@ export const routePatterns = {
           ],
         },
       ],
-    },
-    {
-      code: 'HSL:1010:0:01',
-      headsign: 'Pikku Huopalahti',
-      stops: [
+      activeDates: [
         {
-          name: 'Korppaanmäki',
-        },
-        {
-          name: 'Johanneksenkirkko',
-        },
-        {
-          name: 'Tarkk´ampujankatu',
-        },
-      ],
-      tripsForDate: [
-        {
-          stoptimes: [
-            {
-              scheduledArrival: 56100,
-              scheduledDeparture: 56100,
-              serviceDay: 1551996000,
-              stop: {
-                id: 'U3RvcDpIU0w6MTI5MTQwNA==',
-              },
-            },
-            {
-              scheduledArrival: 56220,
-              scheduledDeparture: 56220,
-              serviceDay: 1551996000,
-              stop: {
-                id: 'U3RvcDpIU0w6MTI5MTQwMg==',
-              },
-            },
-          ],
+          day: ['20200207'],
         },
       ],
     },
@@ -696,6 +664,53 @@ export const routePatterns = {
               },
             },
           ],
+        },
+      ],
+      activeDates: [
+        {
+          day: ['20200207'],
+        },
+      ],
+    },
+    {
+      code: 'HSL:1010:0:01',
+      headsign: 'Pikku Huopalahti',
+      stops: [
+        {
+          name: 'Korppaanmäki',
+        },
+        {
+          name: 'Johanneksenkirkko',
+        },
+        {
+          name: 'Tarkk´ampujankatu',
+        },
+      ],
+      tripsForDate: [
+        {
+          stoptimes: [
+            {
+              scheduledArrival: 56100,
+              scheduledDeparture: 56100,
+              serviceDay: 1551996000,
+              stop: {
+                id: 'U3RvcDpIU0w6MTI5MTQwNA==',
+              },
+            },
+            {
+              scheduledArrival: 56220,
+              scheduledDeparture: 56220,
+              serviceDay: 1551996000,
+              stop: {
+                id: 'U3RvcDpIU0w6MTI5MTQwMg==',
+              },
+            },
+          ],
+        },
+      ],
+      activeDates: [
+        {
+          day: ['20200207'],
         },
       ],
     },
@@ -740,6 +755,11 @@ export const twoRoutePatterns = {
           ],
         },
       ],
+      activeDates: [
+        {
+          day: ['20200207'],
+        },
+      ],
     },
     {
       code: 'HSL:1010:0:01',
@@ -775,6 +795,11 @@ export const twoRoutePatterns = {
               },
             },
           ],
+        },
+      ],
+      activeDates: [
+        {
+          day: ['20200207'],
         },
       ],
     },

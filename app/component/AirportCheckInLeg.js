@@ -60,6 +60,7 @@ AirportCheckInLeg.description = () => {
           leg={exampleLeg()}
           startTime={startTime}
           focusAction={() => {}}
+          index={0}
         />
       </ComponentUsageExample>
     </div>

@@ -40,7 +40,14 @@ class TimeNavigationButtons extends React.Component {
         next deaprtures or reset the time.
       </p>
       <ComponentUsageExample>
-        <TimeNavigationButtons itineraries={examplePlan.itineraries} />
+        <TimeNavigationButtons
+          itineraries={examplePlan.itineraries}
+          isEarlierDisabled={false}
+          isLaterDisabled={false}
+          onEarlier={() => {}}
+          onLater={() => {}}
+          onNow={() => {}}
+        />
       </ComponentUsageExample>
     </div>
   );

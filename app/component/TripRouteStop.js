@@ -207,6 +207,7 @@ TripRouteStop.description = () => (
         vehicles={null}
         realtime={false}
         distance={321}
+        stoptime={exampleDeparture}
         currentTime={exampleCurrentTime}
         selectedVehicle={false}
       />

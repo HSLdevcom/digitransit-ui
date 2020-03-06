@@ -142,6 +142,7 @@ const exampleLeg = t1 => ({
   startTime: t1 + 20000,
   distance: 586.4621425755712,
   from: { name: 'Ilmattarentie' },
+  to: { name: 'Kuusitie' },
   mode: 'BICYCLE',
   rentedBike: false,
 });
@@ -151,6 +152,7 @@ const exampleLegWalkingBike = t1 => ({
   startTime: t1 + 20000,
   distance: 586.4621425755712,
   from: { name: 'Ilmattarentie' },
+  to: { name: 'Kuusitie' },
   mode: 'BICYCLE_WALK',
   rentedBike: false,
 });
@@ -160,6 +162,7 @@ const exampleLegCitybike = t1 => ({
   startTime: t1 + 20000,
   distance: 586.4621425755712,
   from: { name: 'Ilmattarentie' },
+  to: { name: 'Kuusitie' },
   mode: 'BICYCLE',
   rentedBike: true,
 });
@@ -169,6 +172,7 @@ const exampleLegCitybikeWalkingBike = t1 => ({
   startTime: t1 + 20000,
   distance: 586.4621425755712,
   from: { name: 'Ilmattarentie' },
+  to: { name: 'Kuusitie' },
   mode: 'WALK',
   rentedBike: true,
 });
@@ -181,6 +185,7 @@ const exampleLegScooter = t1 => ({
     name: 'Ilmattarentie',
     bikeRentalStation: { bikesAvailable: 5, networks: ['samocat'] },
   },
+  to: { name: 'Kuusitie' },
   mode: 'BICYCLE',
   rentedBike: true,
 });
@@ -193,6 +198,7 @@ const exampleLegScooterWalkingScooter = t1 => ({
     name: 'Ilmattarentie',
     bikeRentalStation: { bikesAvailable: 5, networks: ['samocat'] },
   },
+  to: { name: 'Kuusitie' },
   mode: 'WALK',
   rentedBike: true,
 });

@@ -337,6 +337,12 @@ const exampleStop = {
         {
           scheduledDeparture: 60180,
           serviceDay: 1495659600,
+          realtimeState: 'CANCELED',
+        },
+        {
+          scheduledDeparture: 61380,
+          serviceDay: 1495659600,
+          realtimeState: 'SCHEDULED',
         },
       ],
     },
@@ -354,6 +360,7 @@ const exampleStop = {
         {
           scheduledDeparture: 61180,
           serviceDay: 1495659600,
+          realtimeState: 'SCHEDULED',
         },
       ],
     },

@@ -25,9 +25,9 @@ const DATE_FORMAT = 'YYYYMMDD';
 
 class RoutePatternSelect extends Component {
   static propTypes = {
-    params: PropTypes.object,
-    className: PropTypes.string,
-    route: PropTypes.object,
+    params: PropTypes.object.isRequired,
+    className: PropTypes.string.isRequired,
+    route: PropTypes.object.isRequired,
     onSelectChange: PropTypes.func.isRequired,
     serviceDay: PropTypes.string.isRequired,
     relay: PropTypes.shape({
@@ -189,22 +189,37 @@ const defaultProps = {
   className: 'bp-large',
   serviceDay: '20190306',
   relay: {
-    refetch: () => {},
+    refetch: (variables, renderVariables, callback) => {
+      callback();
+    },
   },
   params: {
     routeId: 'HSL:1010',
     patternId: 'HSL:1010:0:01',
   },
+  useCurrentTime: true,
 };
 
 RoutePatternSelect.description = () => (
   <div>
     <p>Display a dropdown to select the pattern for a route</p>
     <ComponentUsageExample>
-      <RoutePatternSelect route={exampleRoutePatterns} {...defaultProps} />
+      <RoutePatternSelect
+        route={exampleRoutePatterns}
+        onSelectChange={() => {}}
+        gtfsId="HSL:1010"
+        lang="en"
+        {...defaultProps}
+      />
     </ComponentUsageExample>
     <ComponentUsageExample>
-      <RoutePatternSelect route={exampleTwoRoutePatterns} {...defaultProps} />
+      <RoutePatternSelect
+        route={exampleTwoRoutePatterns}
+        onSelectChange={() => {}}
+        gtfsId="HSL:1010"
+        lang="en"
+        {...defaultProps}
+      />
     </ComponentUsageExample>
   </div>
 );
