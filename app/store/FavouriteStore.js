@@ -13,6 +13,11 @@ import {
 } from './localStorage';
 import { isStop } from '../util/suggestionUtils';
 import { getGeocodingResult } from '../util/searchUtils';
+import {
+  getFavourites,
+  updateFavourites,
+  deleteFavourites,
+} from '../util/apiUtils';
 
 export default class FavouriteStore extends Store {
   static storeName = 'FavouriteStore';
@@ -24,6 +29,16 @@ export default class FavouriteStore extends Store {
   constructor(dispatcher) {
     super(dispatcher);
     this.config = dispatcher.getContext().config;
+
+    getFavourites()
+      .then(res => {
+        this.favourites = res;
+        this.emitChange();
+      })
+      .catch(() => {
+        this.favourites = getFavouriteStorage();
+        this.emitChange();
+      });
     this.migrateRoutes();
     this.migrateStops();
     this.migrateLocations();
@@ -42,6 +57,10 @@ export default class FavouriteStore extends Store {
 
   getFavourites() {
     return this.favourites;
+  }
+
+  getByGtfsId(gtfsId) {
+    return find(this.favourites, favourite => gtfsId === favourite.gtfsId);
   }
 
   getByFavouriteId(favouriteId) {
@@ -87,17 +106,29 @@ export default class FavouriteStore extends Store {
       });
     }
     this.favourites = newFavourites;
-    this.storeFavourites();
-    this.emitChange();
+    updateFavourites(this.favourites)
+      .then(() => {
+        this.emitChange();
+      })
+      .catch(() => {
+        this.storeFavourites();
+        this.emitChange();
+      });
   }
 
   deleteFavourite(data) {
     const newFavourites = this.favourites.filter(
-      favourite => favourite.gtfsId !== data.gtfsId || favourite.id !== data.id,
+      favourite => favourite.favouriteId !== data.favouriteId,
     );
     this.favourites = newFavourites;
-    this.storeFavourites();
-    this.emitChange();
+    deleteFavourites([data.favouriteId])
+      .then(() => {
+        this.emitChange();
+      })
+      .catch(() => {
+        this.storeFavourites();
+        this.emitChange();
+      });
   }
 
   migrateRoutes() {
@@ -113,7 +144,7 @@ export default class FavouriteStore extends Store {
     stops.forEach(stop => {
       const newStop = {
         type: isStop(stop) ? 'stop' : 'station',
-        name: stop.name,
+        name: stop.locationName,
         gtfsId: stop.gtfsId,
         address: stop.address,
         lon: stop.lon,
@@ -149,7 +180,7 @@ export default class FavouriteStore extends Store {
             type: 'place',
             id: data.properties.gid,
             address: data.properties.label,
-            name: location.name,
+            name: location.locationName,
             lon: data.geometry.coordinates[0],
             lat: data.geometry.coordinates[1],
             layer: data.properties.layer,

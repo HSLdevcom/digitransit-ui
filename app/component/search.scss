@@ -57,6 +57,9 @@ $item-border-color: #eee;
   button.clear-input {
     font-size: 1rem;
   }
+  .autosuggest-panel .react-autosuggest__container .react-autosuggest__suggestions-container--open {
+    top: 3rem;
+  }
 }
 
 /*Placeholder selectors can't be nested and need to be put 1 at a time, these are for the
@@ -386,6 +389,7 @@ div.map {
 
   .react-autosuggest__container {
     width: 100%;
+    display: flex;
 
     .react-autosuggest__suggestions-container--open {
       background: #fff;
@@ -396,6 +400,7 @@ div.map {
       overflow-y: scroll;
       position: absolute;
       width: 100%;
+      top: calc(3 * 0.875rem);
     }
   }
 

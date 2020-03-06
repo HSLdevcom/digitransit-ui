@@ -1,14 +1,17 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable func-names */
+/* eslint-disable import/no-unresolved */
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { createRefetchContainer, graphql } from 'react-relay';
 import cx from 'classnames';
 import sortBy from 'lodash/sortBy';
-import { intlShape } from 'react-intl'; // DT-2531
 import { routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-
+import {
+  enrichPatterns,
+  routePatternOptionText,
+} from '@digitransit-util/digitransit-util';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import {
@@ -17,7 +20,6 @@ import {
 } from './ExampleData';
 import { PREFIX_ROUTES } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { enrichPatterns, getOptionText } from '../util/routePatternSelectUtil';
 // DT-3317
 const DATE_FORMAT = 'YYYYMMDD';
 
@@ -33,12 +35,13 @@ class RoutePatternSelect extends Component {
     }).isRequired,
     gtfsId: PropTypes.string.isRequired,
     useCurrentTime: PropTypes.bool, // DT-3182
+    lang: PropTypes.string.isRequired, // DT-3347
   };
 
   static contextTypes = {
-    intl: intlShape.isRequired, // DT-2531
     router: routerShape.isRequired,
     config: PropTypes.object, // DT-3317
+    getStore: PropTypes.func.isRequired, // DT-3347
   };
 
   state = {
@@ -56,7 +59,7 @@ class RoutePatternSelect extends Component {
   };
 
   getOptions = () => {
-    const { gtfsId, params, route, useCurrentTime } = this.props; // DT-3182: added useCurrentTime
+    const { gtfsId, params, route, useCurrentTime, lang } = this.props; // DT-3182: added useCurrentTime, DT-3347: added lang
     const { router } = this.context;
     const { patterns } = route;
 
@@ -93,13 +96,13 @@ class RoutePatternSelect extends Component {
               value={pattern.code}
               className="route-option-togglable"
             >
-              {getOptionText(this.context.intl.formatMessage, pattern, true)}
+              {routePatternOptionText(lang, pattern, true)}
             </div>
           );
         }
         return (
           <option key={pattern.code} value={pattern.code}>
-            {getOptionText(this.context.intl.formatMessage, pattern, false)}
+            {routePatternOptionText(lang, pattern, false)}
           </option>
         );
       });
@@ -208,11 +211,12 @@ RoutePatternSelect.description = () => (
 
 // DT-2531: added activeDates
 const withStore = createRefetchContainer(
-  connectToStores(RoutePatternSelect, [], context => ({
+  connectToStores(RoutePatternSelect, ['PreferencesStore'], context => ({
     serviceDay: context
       .getStore('TimeStore')
       .getCurrentTime()
       .format(DATE_FORMAT),
+    lang: context.getStore('PreferencesStore').getLanguage(), // DT-3347
   })),
   {
     route: graphql`

@@ -47,10 +47,10 @@ const mapRoute = item => {
   if (item === null || item === undefined) {
     return null;
   }
-  // DT-3331: added query string sort=no
+
   const link = `/${PREFIX_ROUTES}/${item.gtfsId}/pysakit/${
     orderBy(item.patterns, 'code', ['asc'])[0].code
-  }?sort=no`;
+  }`;
 
   return {
     type: 'Route',

@@ -10,7 +10,7 @@ import MobileView from './MobileView';
 import DesktopView from './DesktopView';
 import ErrorBoundary from './ErrorBoundary';
 import { DesktopOrMobile } from '../util/withBreakpoint';
-import getJson from '../util/apiUtils';
+import { getUser } from '../util/apiUtils';
 import setUser from '../action/userActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
@@ -60,7 +60,7 @@ class TopLevel extends React.Component {
       this.setState({ logo: logo.default });
     });
     if (this.context.config.showLogin && !this.props.user.name) {
-      getJson(`/api/user`)
+      getUser()
         .then(user => {
           this.context.executeAction(setUser, {
             ...user,
