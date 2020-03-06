@@ -46,7 +46,7 @@ export default function routePatternOptionText(language, pattern, isTogglable) {
   // Starts with route info:  Kirkkonummi ➔ Helsinki
   let destinationName = pattern.headsign; // DT-3422
   if (destinationName === null) {
-    destinationName = pattern.stops[pattern.stops.length - 1];
+    destinationName = pattern.stops[pattern.stops.length - 1].name;
   }
   let retValue = `${pattern.stops[0].name} ➔ ${destinationName}`;
   if (isTogglable) {

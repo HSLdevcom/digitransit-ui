@@ -4,7 +4,9 @@
   "description": "a JavaScript library for Digitransit",
   "main": "digitransit-util",
   "module": "digitransit-util.mjs",
-  "keywords": ["digitransit-util"],
+  "keywords": [
+    "digitransit-util"
+  ],
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "scripts": {
