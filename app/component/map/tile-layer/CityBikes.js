@@ -35,7 +35,7 @@ const query = graphql`
 `;
 
 class CityBikes {
-  constructor(tile, config, relayEnvironment) {
+  constructor(tile, config, mapLayers, relayEnvironment) {
     this.tile = tile;
     this.config = config;
     this.relayEnvironment = relayEnvironment;
