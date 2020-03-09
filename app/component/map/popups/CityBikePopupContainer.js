@@ -1,72 +1,42 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import { createFragmentContainer, graphql } from 'react-relay';
-import MarkerPopupBottom from '../MarkerPopupBottom';
-import CityBikeContent from '../../CityBikeContent';
-import CityBikeCardContainer from '../../CityBikeCardContainer';
-import { station as exampleStation } from '../../ExampleData';
-import ComponentUsageExample from '../../ComponentUsageExample';
+import PropTypes from 'prop-types';
 
-class CityBikePopupContainer extends React.Component {
-  static contextTypes = {
-    getStore: PropTypes.func.isRequired,
-  };
+import { graphql } from 'relay-runtime';
+import QueryRenderer from 'react-relay/lib/ReactRelayQueryRenderer';
 
-  static description = (
-    <div>
-      <p>Renders a citybike popup.</p>
-      <ComponentUsageExample description="">
-        <CityBikePopupContainer
-          context="context object here"
-          station={exampleStation}
-        >
-          Im content of a citybike card
-        </CityBikePopupContainer>
-      </ComponentUsageExample>
-    </div>
+import CityBikePopup from './CityBikePopup';
+import Loading from '../../Loading';
+import getRelayEnvironment from '../../../util/getRelayEnvironment';
+
+function CityBikePopupContainer(props) {
+  return (
+    <QueryRenderer
+      query={graphql`
+        query CityBikePopupContainerQuery($stationId: String!) {
+          station: bikeRentalStation(id: $stationId) {
+            ...CityBikePopup_station
+          }
+        }
+      `}
+      cacheConfig={{ force: true, poll: 30 * 1000 }}
+      variables={{ stationId: props.stationId }}
+      environment={props.relayEnvironment}
+      render={({ props: renderProps }) =>
+        renderProps ? (
+          <CityBikePopup {...renderProps} />
+        ) : (
+          <div className="card" style={{ height: '12rem' }}>
+            <Loading />
+          </div>
+        )
+      }
+    />
   );
-
-  static displayName = 'CityBikePopupContainer';
-
-  static propTypes = {
-    station: PropTypes.object.isRequired,
-  };
-
-  render() {
-    return (
-      <div className="card">
-        <CityBikeCardContainer
-          className="card-padding"
-          station={this.props.station}
-        >
-          <CityBikeContent
-            lang={this.context.getStore('PreferencesStore').getLanguage()}
-            station={this.props.station}
-          />
-        </CityBikeCardContainer>
-        <MarkerPopupBottom
-          location={{
-            address: this.props.station.name,
-            lat: this.props.station.lat,
-            lon: this.props.station.lon,
-          }}
-        />
-      </div>
-    );
-  }
 }
 
-export default createFragmentContainer(CityBikePopupContainer, {
-  station: graphql`
-    fragment CityBikePopupContainer_station on BikeRentalStation {
-      stationId
-      name
-      lat
-      lon
-      bikesAvailable
-      spacesAvailable
-      state
-      networks
-    }
-  `,
-});
+CityBikePopupContainer.propTypes = {
+  stationId: PropTypes.string.isRequired,
+  relayEnvironment: PropTypes.object.isRequired,
+};
+
+export default getRelayEnvironment(CityBikePopupContainer);
