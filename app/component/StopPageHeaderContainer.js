@@ -3,18 +3,19 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import StopPageHeader from './StopPageHeader';
 
-const StopPageHeaderContainer = createFragmentContainer(StopPageHeader, {
-  stop: graphql`
-    fragment StopPageHeaderContainer_stop on Stop {
-      ...StopCardHeaderContainer_stop
-    }
-  `,
-});
-
-export default connectToStores(
-  StopPageHeaderContainer,
-  ['FavouriteStore'],
-  ({ getStore }, { match }) => ({
-    favourite: getStore('FavouriteStore').isFavourite(match.params.stopId),
-  }),
+export default createFragmentContainer(
+  connectToStores(
+    StopPageHeader,
+    ['FavouriteStore'],
+    ({ getStore }, { match }) => ({
+      favourite: getStore('FavouriteStore').isFavourite(match.params.stopId),
+    }),
+  ),
+  {
+    stop: graphql`
+      fragment StopPageHeaderContainer_stop on Stop {
+        ...StopCardHeaderContainer_stop
+      }
+    `,
+  },
 );
