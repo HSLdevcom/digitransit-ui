@@ -29,19 +29,21 @@ function MainMenu(props, { config, intl }) {
         <LangSelect />
       </header>
       <div className="offcanvas-section">
-        <Link
-          id="frontpage"
-          to={props.homeUrl}
-          onClick={() => {
-            addAnalyticsEvent({
-              category: 'Navigation',
-              action: 'Home',
-              name: null,
-            });
-          }}
-        >
-          <FormattedMessage id="frontpage" defaultMessage="Frontpage" />
-        </Link>
+        {props.homeUrl && (
+          <Link
+            id="frontpage"
+            to={props.homeUrl}
+            onClick={() => {
+              addAnalyticsEvent({
+                category: 'Navigation',
+                action: 'Home',
+                name: null,
+              });
+            }}
+          >
+            <FormattedMessage id="frontpage" defaultMessage="Frontpage" />
+          </Link>
+        )}
       </div>
       {config.mainMenu.showDisruptions &&
         props.showDisruptionInfo && (

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import sortBy from 'lodash/sortBy';
 import { matchShape } from 'found';
@@ -131,7 +130,7 @@ const components = {
   RouteAlertsRow,
   ModeFilter,
   RouteStop,
-  // AppBarSmall,
+  AppBarSmall,
   AppBarLarge,
   CanceledLegsBar,
   StopPageHeader,
