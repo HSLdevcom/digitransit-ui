@@ -29,7 +29,7 @@ function MainMenu(props, { config, intl }) {
         <LangSelect />
       </header>
       <div className="offcanvas-section">
-        {props.homeUrl && (
+        {props.homeUrl !== undefined && (
           <Link
             id="frontpage"
             to={props.homeUrl}
