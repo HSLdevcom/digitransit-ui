@@ -2,6 +2,8 @@
 import React from 'react';
 import sortBy from 'lodash/sortBy';
 import { matchShape } from 'found';
+import { createMockEnvironment } from 'relay-test-utils';
+import { QueryRenderer } from 'react-relay';
 
 import Icon from './Icon';
 import IconWithTail from './IconWithTail';
@@ -132,7 +134,7 @@ const components = {
   // AppBarSmall,
   AppBarLarge,
   CanceledLegsBar,
-  // StopPageHeader,
+  StopPageHeader,
   StopCardHeader,
   SplitBars,
   InfoIcon,
@@ -147,29 +149,29 @@ const components = {
   PageFooter,
   FooterItem,
   DateWarning,
-  // ItineraryLegs,
+  ItineraryLegs,
   WalkLeg,
   WaitLeg,
   BicycleLeg,
   EndLeg,
   AirportCheckInLeg,
   AirportCollectLuggageLeg,
-  // BusLeg,
-  // AirplaneLeg,
-  // SubwayLeg,
-  // TramLeg,
-  // RailLeg,
-  // FerryLeg,
+  BusLeg,
+  AirplaneLeg,
+  SubwayLeg,
+  TramLeg,
+  RailLeg,
+  FerryLeg,
   CarLeg,
   ViaLeg,
-  // CallAgencyLeg,
+  CallAgencyLeg,
   CallAgencyWarning,
   Timetable,
   Error404,
-  // StopMarkerPopup,
+  StopMarkerPopup,
   SelectStreetModeDialog,
   AlertList,
-  // ItineraryTab,
+  ItineraryTab,
 };
 
 const fullscreenComponents = {
@@ -511,11 +513,26 @@ function getHelpers() {
 }
 
 function getComponents() {
-  return Object.keys(components).map(component => (
-    <div key={component}>
-      <ComponentDocumentation component={components[component]} />
-    </div>
-  ));
+  const environment = createMockEnvironment();
+
+  return (
+    <QueryRenderer
+      environment={environment}
+      render={({ props }) => {
+        return (
+          props &&
+          Object.keys(components).map(component => (
+            <div key={component}>
+              <ComponentDocumentation
+                {...props}
+                component={components[component]}
+              />
+            </div>
+          ))
+        );
+      }}
+    />
+  );
 }
 
 function StyleGuidePage(props) {
