@@ -513,6 +513,7 @@ const translations = {
     'park-and-ride-availability': 'Plätze verfügbar',
     'parking-spaces-available': '{free} von {total} Stellplätzen verfügbar',
     'parking-spaces-in-total': '{total} Stellplätze',
+
     'pay-attention': 'Achtung',
     'pick-icon': 'Icon auswählen',
     'pick-mode': 'Verkehrsmittel auswählen',
