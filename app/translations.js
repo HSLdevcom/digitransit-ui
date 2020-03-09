@@ -273,9 +273,9 @@ const translations = {
     'add-via-button-label': 'Zwischenstopp hinzufügen',
     'add-via-duration-button-label': 'Aufenthaltszeit am Zwischenstopp {index}',
     'add-via-duration-button-label-close':
-      'Öffne Aufenthaltszeit-Auswahl am Zwischenstopp {index}',
-    'add-via-duration-button-label-open':
       'Schließe Aufenthaltszeit-Auswahl am Zwischenstopp {index}',
+    'add-via-duration-button-label-open':
+      'Öffne Aufenthaltszeit-Auswahl am Zwischenstopp {index}',
     address: 'Adresse',
     'address-or-stop': 'Adresse oder Haltestelle',
     agency: 'Betreiber',
@@ -315,7 +315,7 @@ const translations = {
     'canceled-itineraries-amount':
       '{itineraryAmount, plural, =1 {1 weitere} other {{itineraryAmount} weitere}} ausgefallene Verbindungen',
     'canceled-itineraries-amount-hide':
-      'Ausgefallene Verbindungen verstecken ({itineraryAmount})',
+      'Ausgefallene Verbindungen ausblenden ({itineraryAmount})',
     'canceled-legs': 'Ausgefallene Abfahrten auf der Route',
     car: 'Auto',
     'car-distance-duration': 'Auto {distance} ({duration})',
@@ -378,7 +378,7 @@ const translations = {
     'favourite-target': 'Favoriten',
     ferry: 'Fähre',
     'ferry-with-route-number': 'Fähre {routeNumber} {headSign}',
-    'fetch-new-route': 'Neue Verbindung holen',
+    'fetch-new-route': 'Neue Verbindung anfragen',
     'footer-faq': 'FAQ',
     'footer-feedback': 'Feedback senden',
     'footer-link-to-privacy-policy': 'Datenschutz',
@@ -428,7 +428,7 @@ const translations = {
     'itinerary-feedback-placeholder': 'Beschreibung (optional)',
     'itinerary-hide-stops': 'Zwischenstopps ausblenden',
     'itinerary-page.description': 'Reisebeschreibung',
-    'itinerary-page.hide-details': 'Details verstecken',
+    'itinerary-page.hide-details': 'Details ausblenden',
     'itinerary-page.show-details': 'Details zeigen',
     'itinerary-page.title': 'Reisebeschreibung',
     'itinerary-summary-page.description': 'Reisevorschläge',
@@ -466,8 +466,8 @@ const translations = {
     'location-shopping': 'Einkaufen',
     'location-sport': 'Sport',
     'location-work': 'Arbeit',
-    login: 'Login',
-    logout: 'Logout',
+    login: 'Anmelden',
+    logout: 'Abmelden',
     'long-transfers-margin': 'Lange',
     'main-menu-label-close': 'Hauptmenü schließen',
     'main-menu-label-open': 'Menü öffnen',
@@ -493,7 +493,7 @@ const translations = {
     navigate: 'Navigieren',
     'near-you': 'In der Nähe',
     nearest: 'Nächste',
-    neighbourhood: 'Nachbarschaft ',
+    neighbourhood: 'Viertel ',
     'network-error': 'Ein Netzwerkfehler ist aufgetreten.',
     next: 'Nächste',
     'no-bike-allowed-popup-train':
