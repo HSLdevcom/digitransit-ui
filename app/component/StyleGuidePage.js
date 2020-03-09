@@ -511,9 +511,7 @@ function getHelpers() {
   );
 }
 
-function getComponents() {
-  const environment = createMockEnvironment();
-
+function getComponents(environment) {
   return (
     <QueryRenderer
       environment={environment}
@@ -535,13 +533,22 @@ function getComponents() {
 }
 
 function StyleGuidePage(props) {
+  const environment = createMockEnvironment();
   if (props.match.params.componentName) {
     return (
-      <ComponentDocumentation
-        mode="examples-only"
-        component={
-          components[props.match.params.componentName] ||
-          fullscreenComponents[props.match.params.componentName]
+      <QueryRenderer
+        environment={environment}
+        render={({ props: innerProps }) =>
+          innerProps && (
+            <ComponentDocumentation
+              {...innerProps}
+              mode="examples-only"
+              component={
+                components[props.match.params.componentName] ||
+                fullscreenComponents[props.match.params.componentName]
+              }
+            />
+          )
         }
       />
     );
@@ -583,7 +590,7 @@ function StyleGuidePage(props) {
       <h1>Components</h1>
       <hr />
 
-      {getComponents()}
+      {getComponents(environment)}
     </div>
   );
 }
