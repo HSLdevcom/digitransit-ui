@@ -171,16 +171,6 @@ testVariation(
   '.component-example:nth-of-type(1) .component svg.realtime',
 );
 
-testVariation('DepartureRow', 'normal', 1, [
-  '.component-example:nth-of-type(1) .component .realtime-icon',
-]);
-
-testVariation('DepartureRow', 'with-cancelation', 2);
-
-testVariation('BicycleRentalStationRow', 'plenty-of-bikes');
-testVariation('BicycleRentalStationRow', 'few-bikes', 2);
-testVariation('BicycleRentalStationRow', 'no-bikes', 3);
-
 testVariation('StopPageHeader');
 testVariation('Timetable');
 testVariation('DepartureListHeader');
