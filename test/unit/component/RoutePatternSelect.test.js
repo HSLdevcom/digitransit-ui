@@ -93,6 +93,7 @@ describe('<RoutePatternSelect />', () => {
     const props = {
       lang: 'fi', // DT-3347
       activeTab: 'pysakit',
+      className: 'bp-large',
       gtfsId: 'HSL:3002U',
       onSelectChange: () => {},
       params: {
@@ -158,6 +159,7 @@ describe('<RoutePatternSelect />', () => {
     const props = {
       lang: 'fi', // DT-3347
       activeTab: 'pysakit',
+      className: 'bp-large',
       gtfsId: 'HSL:3002U',
       onSelectChange: () => {},
       params: {
@@ -231,6 +233,7 @@ describe('<RoutePatternSelect />', () => {
     const props = {
       lang: 'fi', // DT-3347
       activeTab: 'pysakit',
+      className: 'bp-large',
       gtfsId: 'HSL:3002U',
       onSelectChange: () => {},
       params: {
@@ -275,6 +278,7 @@ describe('<RoutePatternSelect />', () => {
     const props = {
       lang: 'fi', // DT-3347
       activeTab: 'pysakit',
+      className: 'bp-large',
       gtfsId: 'LINKKI:9422',
       onSelectChange: () => {},
       params: {
@@ -333,6 +337,7 @@ describe('<RoutePatternSelect />', () => {
     const props = {
       lang: 'fi', // DT-3347
       serviceDay: 'test',
+      className: 'bp-large',
       onSelectChange: () => {},
       gtfsId: 'test',
       relay: {
