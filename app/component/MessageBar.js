@@ -56,11 +56,8 @@ const fetchServiceAlerts = async (feedids, relayEnvironment) => {
     }
   `;
 
-  const defaultValue = [];
   const result = await fetchQuery(relayEnvironment, query, { feedids });
-  return Array.isArray(result) && result[0] && Array.isArray(result[0].alerts)
-    ? result[0].alerts
-    : defaultValue;
+  return result && Array.isArray(result.alerts) ? result.alerts : [];
 };
 
 export const getServiceAlertId = alert =>
