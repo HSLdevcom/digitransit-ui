@@ -202,12 +202,6 @@ TicketInformation.description = () => (
         ]}
       />
     </ComponentUsageExample>
-    <ComponentUsageExample description="single fare, multiple options">
-      <TicketInformation
-        fares={[{ fareId: 'HSL:AB', cents: 280, ticketName: 'AB' }]}
-        zones={['B']}
-      />
-    </ComponentUsageExample>
     <ComponentUsageExample description="multiple fares">
       <TicketInformation
         fares={[
