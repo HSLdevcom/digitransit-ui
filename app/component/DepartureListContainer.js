@@ -1,5 +1,8 @@
+/* eslint no-underscore-dangle: ["error", { "allow": ["__dataID__"] }] */
 import cx from 'classnames';
+import cloneDeep from 'lodash/cloneDeep'; // DT-3405
 import get from 'lodash/get';
+import isEqual from 'lodash/isEqual'; // DT-3405
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
@@ -21,47 +24,67 @@ import {
 } from '../action/realTimeClientAction';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
-const asDepartures = stoptimes =>
-  !stoptimes
-    ? []
-    : stoptimes.map(stoptime => {
-        const isArrival = stoptime.pickupType === 'NONE';
-        let isLastStop = false;
-        if (stoptime.trip && stoptime.trip.stops) {
-          const lastStop = stoptime.trip.stops.slice(-1).pop();
-          isLastStop = stoptime.stop.id === lastStop.id;
-        }
-        /* OTP returns either scheduled time or realtime prediction in
-           * 'realtimeDeparture' and 'realtimeArrival' fields.
-           * EXCEPT when state is CANCELLED, then it returns -1 for realtime  */
-        const canceled = stoptime.realtimeState === 'CANCELED';
-        const arrivalTime =
-          stoptime.serviceDay +
-          (!canceled ? stoptime.realtimeArrival : stoptime.scheduledArrival);
-        const departureTime =
-          stoptime.serviceDay +
-          (!canceled
-            ? stoptime.realtimeDeparture
-            : stoptime.scheduledDeparture);
-        const stoptimeTime = isArrival ? arrivalTime : departureTime;
+const asDepartures = stoptimes => {
+  if (!stoptimes) {
+    return [];
+  }
+  const stopTimesToReturn = [];
+  const stopTimesToCompare = [];
+  stoptimes.forEach((stoptime, index) => {
+    const isArrival = stoptime.pickupType === 'NONE';
+    let isLastStop = false;
+    if (stoptime.trip && stoptime.trip.stops) {
+      const lastStop = stoptime.trip.stops.slice(-1).pop();
+      isLastStop = stoptime.stop.id === lastStop.id;
+    }
+    /* OTP returns either scheduled time or realtime prediction in
+          * 'realtimeDeparture' and 'realtimeArrival' fields.
+          * EXCEPT when state is CANCELLED, then it returns -1 for realtime  */
+    const canceled = stoptime.realtimeState === 'CANCELED';
+    const arrivalTime =
+      stoptime.serviceDay +
+      (!canceled ? stoptime.realtimeArrival : stoptime.scheduledArrival);
+    const departureTime =
+      stoptime.serviceDay +
+      (!canceled ? stoptime.realtimeDeparture : stoptime.scheduledDeparture);
+    const stoptimeTime = isArrival ? arrivalTime : departureTime;
 
-        const { pattern } = stoptime.trip;
-        return {
-          alerts: get(pattern, 'route.alerts', []).filter(alert =>
-            patternIdPredicate(alert, get(pattern, 'code', undefined)),
-          ),
-          canceled,
-          isArrival,
-          isLastStop,
-          stoptime: stoptimeTime,
-          stop: stoptime.stop,
-          realtime: stoptime.realtime,
-          pattern,
-          headsign: stoptime.stopHeadsign,
-          trip: stoptime.trip,
-          pickupType: stoptime.pickupType,
-        };
-      });
+    const { pattern } = stoptime.trip;
+    const newDeparture = {
+      alerts: get(pattern, 'route.alerts', []).filter(alert =>
+        patternIdPredicate(alert, get(pattern, 'code', undefined)),
+      ),
+      canceled,
+      isArrival,
+      isLastStop,
+      stoptime: stoptimeTime,
+      stop: stoptime.stop,
+      realtime: stoptime.realtime,
+      pattern,
+      headsign: stoptime.stopHeadsign,
+      trip: stoptime.trip,
+      pickupType: stoptime.pickupType,
+    };
+
+    // DT-3405
+    // At least in Hämeenlinna there is two indentical departures (excluding gtfsId and __dataID__ on trip) and that's why it was showing twice in list.
+    // To preventing showing consecutive multiple departures gtfsId and __dataID__ will be "removed" from trip.
+    // (Identical departures are (gtfsId): Hameenlinna:Kevät_20_seutu_ma-pe_831_0_082100_082100_0 and Hameenlinna:Kevät_20_ma-pe_831_0_082100_092200_0)
+
+    const modDeparture = cloneDeep(newDeparture);
+    modDeparture.trip.gtfsId = undefined;
+    modDeparture.trip.__dataID__ = undefined;
+    stopTimesToCompare.push(modDeparture);
+
+    if (
+      index === 0 ||
+      !isEqual(stopTimesToCompare[index], stopTimesToCompare[index - 1])
+    ) {
+      stopTimesToReturn.push(newDeparture);
+    }
+  });
+  return stopTimesToReturn;
+};
 
 class DepartureListContainer extends Component {
   static propTypes = {

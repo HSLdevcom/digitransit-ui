@@ -231,7 +231,9 @@ class Timetable extends React.Component {
       return obj;
     });
 
-    const timetableMap = this.groupArrayByHour(routesWithDetails);
+    const timetableMap = this.groupArrayByHour(
+      uniqBy(routesWithDetails, JSON.stringify),
+    ); // DT-3405: added uniqBy
 
     const stopIdSplitted = this.props.stop.gtfsId.split(':');
     const stopTimetableHandler =
