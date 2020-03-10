@@ -169,16 +169,14 @@ function setUpOIDC() {
           url: `${FavouriteHost}/api/favorites/${
             req.user.data.sub
           }?code=${FavouriteSecret}`,
+          body: JSON.stringify(req.body),
         },
         function(err, response, body) {
-          if (
-            !err &&
-            (response.statusCode >= 200 && response.statusCode < 400)
-          ) {
+          if (!err && response.statusCode === 200) {
             const data = JSON.parse(body);
             body = JSON.stringify(data);
           }
-          res.send(body);
+          res.status(response.statusCode).send(body);
         },
       );
     } else {
