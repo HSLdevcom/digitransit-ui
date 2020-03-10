@@ -150,7 +150,8 @@ testVariation('SelectParkAndRideRow');
 testVariation('TicketInformation').then(skip('edge17'));
 
 testVariation('DateSelect');
-testVariation('RoutePatternSelect');
+testVariation('RoutePatternSelect', 'two-options');
+testVariation('RoutePatternSelect', 'normal', 2);
 testVariation('RouteScheduleHeader');
 testVariation('RouteScheduleStopSelect');
 testVariation('RouteScheduleTripRow');
