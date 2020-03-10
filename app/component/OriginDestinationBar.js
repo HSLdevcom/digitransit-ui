@@ -23,6 +23,7 @@ class OriginDestinationBar extends React.Component {
     className: PropTypes.string,
     destination: dtLocationShape,
     origin: dtLocationShape,
+    location: PropTypes.object,
   };
 
   static contextTypes = {
@@ -34,7 +35,12 @@ class OriginDestinationBar extends React.Component {
 
   static defaultProps = {
     className: undefined,
+    location: undefined,
   };
+
+  get location() {
+    return this.props.location || this.context.match.location;
+  }
 
   updateViaPoints = newViaPoints =>
     setIntermediatePlaces(
@@ -44,7 +50,7 @@ class OriginDestinationBar extends React.Component {
     );
 
   swapEndpoints = () => {
-    const { location } = this.context.match;
+    const { location } = this;
     const locationWithTime = withCurrentTime(this.context.getStore, location);
     const intermediatePlaces = getIntermediatePlaces(location.query);
     if (intermediatePlaces.length > 1) {
@@ -72,9 +78,7 @@ class OriginDestinationBar extends React.Component {
         origin={this.props.origin}
         destination={this.props.destination}
         isItinerary
-        initialViaPoints={getIntermediatePlaces(
-          this.context.match.location.query,
-        )}
+        initialViaPoints={getIntermediatePlaces(this.location.query)}
         updateViaPoints={this.updateViaPoints}
         swapOrder={this.swapEndpoints}
       />
@@ -99,12 +103,9 @@ OriginDestinationBar.description = (
     <ComponentUsageExample description="with-viapoint">
       <OriginDestinationBar
         destination={{ ready: false, set: false }}
-        match={{
-          location: {
-            query: {
-              intermediatePlaces:
-                'Opastinsilta 6, Helsinki::60.199093,24.940536',
-            },
+        location={{
+          query: {
+            intermediatePlaces: 'Opastinsilta 6, Helsinki::60.199093,24.940536',
           },
         }}
         origin={{
