@@ -52,7 +52,7 @@ AirportCollectLuggageLeg.description = () => {
         <AirportCollectLuggageLeg
           leg={exampleLeg(today)}
           focusAction={() => {}}
-          index={0}
+          index={1}
         />
       </ComponentUsageExample>
     </div>

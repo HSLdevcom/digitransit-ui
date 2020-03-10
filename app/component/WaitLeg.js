@@ -83,7 +83,7 @@ WaitLeg.description = () => {
           focusAction={() => {}}
           waitTime={duration}
           leg={leg}
-          index={0}
+          index={1}
         />
       </ComponentUsageExample>
     </div>
