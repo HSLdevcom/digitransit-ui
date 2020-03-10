@@ -213,7 +213,7 @@ const addRoute = (router, routeToAdd, preferred, match) => {
  * @param {*} match The match object from found
  */
 const removeRoute = (router, routeToRemove, preferred, match) => {
-  const { query } = router.getCurrentLocation();
+  const { query } = match.location;
   // routes will have existing routes - routeToRemove
   const currentRoutes = getRoutes(query, preferred);
   if (!currentRoutes.includes(routeToRemove)) {
