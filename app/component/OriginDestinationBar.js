@@ -39,6 +39,9 @@ class OriginDestinationBar extends React.Component {
     className: undefined,
     location: undefined,
   };
+  componentDidMount() {
+    intializeSearchContext(this.context, searchContext);
+  }
 
   get location() {
     return this.props.location || this.context.router.getCurrentLocation();
@@ -65,7 +68,6 @@ class OriginDestinationBar extends React.Component {
   };
 
   render() {
-    intializeSearchContext(this.context, searchContext);
     return (
       <div
         className={cx(

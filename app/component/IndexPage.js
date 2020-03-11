@@ -79,6 +79,7 @@ class IndexPage extends React.Component {
   }
 
   componentDidMount() {
+    intializeSearchContext(this.context, searchContext);
     events.on('popupOpened', this.onPopupOpen);
   }
 
@@ -149,7 +150,6 @@ class IndexPage extends React.Component {
       {},
       ...routes.map(route => route.footerOptions),
     );
-    intializeSearchContext(this.context, searchContext);
     // DT-3381 TODO: DTEndpointAutoSuggest currently does not search for stops or stations, as it should be. SearchUtils needs refactoring.
     return breakpoint === 'large' ? (
       <div

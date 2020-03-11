@@ -30,6 +30,10 @@ class PreferredRoutes extends React.Component {
     unPreferredRoutes: [],
   };
 
+  componentDidMount() {
+    intializeSearchContext(this.context, searchContext);
+  }
+
   getPreferredRouteNumbers = routeOptions => (
     <div className="preferred-routes-input-container">
       <h1>
@@ -108,9 +112,6 @@ class PreferredRoutes extends React.Component {
   );
 
   render() {
-    // DT-3424: Set SearchContext for Autosuggest and searchUtils.
-    intializeSearchContext(this.context, searchContext);
-
     return (
       <div className="settings-option-container">
         {this.renderPreferredRouteNumbers()}
