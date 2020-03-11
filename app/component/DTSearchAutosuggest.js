@@ -30,6 +30,7 @@ class DTAutosuggest extends React.Component {
     searchType: PropTypes.oneOf(['all', 'endpoint', 'search']).isRequired,
     selectedFunction: PropTypes.func.isRequired,
     value: PropTypes.string,
+    searchContext: PropTypes.any.isRequired,
     ariaLabel: PropTypes.string,
   };
 
@@ -164,7 +165,7 @@ class DTAutosuggest extends React.Component {
   fetchFunction = ({ value }) =>
     this.setState({ valid: false }, () => {
       this.props.executeSearch(
-        this.context.getStore,
+        this.props.searchContext,
         this.props.refPoint,
         {
           layers: this.props.layers,

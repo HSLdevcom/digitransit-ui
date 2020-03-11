@@ -22,7 +22,7 @@ import {
 } from '../util/alertUtils';
 import { isIe } from '../util/browser';
 import hashCode from '../util/hashUtil';
-import { tryGetRelayQuery } from '../util/searchUtils';
+import { tryGetRelayQuery } from '../util/DTSearchUtils';
 
 /* Small version has constant height,
  * big version has max height of half but can be

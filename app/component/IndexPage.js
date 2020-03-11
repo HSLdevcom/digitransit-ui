@@ -19,6 +19,20 @@ import DTAutosuggestPanel from './DTAutosuggestPanel';
 import MapWithTracking from './map/MapWithTracking';
 import PageFooter from './PageFooter';
 import { isBrowser } from '../util/browser';
+import searchContext from './searchContext';
+import {
+  getRoutes,
+  getStopAndStations,
+  getFavouriteRoutes,
+} from '../util/DTSearchUtils';
+import {
+  getPositions,
+  getFavouriteLocations,
+  getFavouriteRoutes as getStoredFavouriteRoutes,
+  getOldSearches,
+  getFavouriteStops,
+  getLanguage,
+} from '../util/storeUtils';
 import {
   parseLocation,
   isItinerarySearchObjects,
@@ -44,6 +58,7 @@ class IndexPage extends React.Component {
     config: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
+    getStore: PropTypes.func.isRequired,
   };
 
   static propTypes = {
@@ -146,6 +161,17 @@ class IndexPage extends React.Component {
       {},
       ...routes.map(route => route.footerOptions),
     );
+    // DT-3424: Set SearchContext for Autosuggest and searchUtils.
+    searchContext.context = this.context;
+    searchContext.getOldSearches = getOldSearches;
+    searchContext.getFavouriteLocations = getFavouriteLocations;
+    searchContext.getFavouriteStops = getFavouriteStops;
+    searchContext.getLanguage = getLanguage;
+    searchContext.getStoredFavouriteRoutes = getStoredFavouriteRoutes;
+    searchContext.getPositions = getPositions;
+    searchContext.getRoutes = getRoutes;
+    searchContext.getStopAndStations = getStopAndStations;
+    searchContext.getFavouriteRoutes = getFavouriteRoutes;
     // DT-3381 TODO: DTEndpointAutoSuggest currently does not search for stops or stations, as it should be. SearchUtils needs refactoring.
     return breakpoint === 'large' ? (
       <div
@@ -181,6 +207,7 @@ class IndexPage extends React.Component {
             searchType="endpoint"
             originPlaceHolder="search-origin-index"
             destinationPlaceHolder="search-destination-index"
+            searchContext={searchContext}
           />
           <div className="control-panel-separator-line" />
           <div className="stops-near-you-text">
@@ -207,6 +234,7 @@ class IndexPage extends React.Component {
               value=""
               isFocused={this.isFocused}
               onLocationSelected={e => e.stopPropagation()}
+              searchContext={searchContext}
             />
           </div>
         </ControlPanel>
@@ -272,6 +300,7 @@ class IndexPage extends React.Component {
             searchType="all"
             originPlaceHolder="search-origin"
             destinationPlaceHolder="search-destination"
+            searchContext={searchContext}
           />
           <div className="control-panel-separator-line" />
           <div className="stops-near-you-text">
@@ -298,6 +327,7 @@ class IndexPage extends React.Component {
               value=""
               isFocused={this.isFocused}
               onLocationSelected={e => e.stopPropagation()}
+              searchContext={searchContext}
             />
           </div>
         </ControlPanel>
