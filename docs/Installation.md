@@ -13,14 +13,14 @@ You also need a C compiler:
 - Windows: for example MSVC 2013 Express
 
 ## Install watchman
-`
+```
 git clone https://github.com/facebook/watchman.git -b v4.9.0 --depth 1
 cd watchman
 ./autogen.sh
 ./configure --enable-lenient --without-python
 make
 sudo make install
-`
+```
 
 ## Installation
 - `yarn install`
