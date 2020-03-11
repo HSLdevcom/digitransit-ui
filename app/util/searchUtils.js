@@ -492,7 +492,6 @@ export function executeSearchImmediate(
     context,
   } = searchContext;
   const position = getPositions(context);
-  // console.log(position)
   const endpointSearches = { type: 'endpoint', term: input, results: [] };
   const searchSearches = { type: 'search', term: input, results: [] };
 
