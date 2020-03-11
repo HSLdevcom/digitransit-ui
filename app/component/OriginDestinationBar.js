@@ -13,6 +13,9 @@ import {
 } from '../util/queryUtils';
 import { dtLocationShape } from '../util/shapes';
 
+import searchContext from './searchContext';
+import intializeSearchContext from './DTSearchContextInitializer';
+
 const locationToOtp = location =>
   `${location.address}::${location.lat},${location.lon}${
     location.locationSlack ? `::${location.locationSlack}` : ''
@@ -61,24 +64,28 @@ class OriginDestinationBar extends React.Component {
     });
   };
 
-  render = () => (
-    <div
-      className={cx(
-        'origin-destination-bar',
-        this.props.className,
-        'flex-horizontal',
-      )}
-    >
-      <DTAutosuggestPanel
-        origin={this.props.origin}
-        destination={this.props.destination}
-        isItinerary
-        initialViaPoints={getIntermediatePlaces(this.location.query)}
-        updateViaPoints={this.updateViaPoints}
-        swapOrder={this.swapEndpoints}
-      />
-    </div>
-  );
+  render() {
+    intializeSearchContext(this.context, searchContext);
+    return (
+      <div
+        className={cx(
+          'origin-destination-bar',
+          this.props.className,
+          'flex-horizontal',
+        )}
+      >
+        <DTAutosuggestPanel
+          origin={this.props.origin}
+          destination={this.props.destination}
+          isItinerary
+          searchContext={searchContext}
+          initialViaPoints={getIntermediatePlaces(this.location.query)}
+          updateViaPoints={this.updateViaPoints}
+          swapOrder={this.swapEndpoints}
+        />
+      </div>
+    );
+  }
 }
 
 OriginDestinationBar.description = (

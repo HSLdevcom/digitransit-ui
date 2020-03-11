@@ -9,6 +9,7 @@ import {
   getEmptyViaPointPlaceHolder,
 } from '../../app/component/DTAutosuggestPanel';
 import { otpToLocation } from '../../app/util/otpStrings';
+import searchContext from '../../app/component/searchContext';
 
 describe('<DTAutosuggestPanel />', () => {
   const selectors = {
@@ -52,7 +53,11 @@ describe('<DTAutosuggestPanel />', () => {
   });
 
   it('should not show the slack time panel by default', () => {
-    const wrapper = mountWithIntl(<DTAutosuggestPanel {...mockData} />, {
+    const props = {
+      ...mockData,
+      searchContext,
+    };
+    const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
       context,
       childContextTypes,
     });
@@ -65,7 +70,11 @@ describe('<DTAutosuggestPanel />', () => {
   });
 
   it('should show the slack time panel after click', () => {
-    const wrapper = mountWithIntl(<DTAutosuggestPanel {...mockData} />, {
+    const props = {
+      ...mockData,
+      searchContext,
+    };
+    const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
       context,
       childContextTypes,
     });
@@ -81,6 +90,7 @@ describe('<DTAutosuggestPanel />', () => {
   it('should show only the related slack time panel after click (with empty via points)', () => {
     const props = {
       ...mockData,
+      searchContext,
       initialViaPoints: [
         getEmptyViaPointPlaceHolder(),
         getEmptyViaPointPlaceHolder(),
@@ -105,6 +115,7 @@ describe('<DTAutosuggestPanel />', () => {
   it('should show only the related slack time panel after click (with filled via points)', () => {
     const props = {
       ...mockData,
+      searchContext,
       initialViaPoints: [
         'Kalasatama, Helsinki::60.187571,24.976301',
         'Kamppi, Helsinki::60.168438,24.929283',
@@ -138,6 +149,7 @@ describe('<DTAutosuggestPanel />', () => {
 
     const props = {
       ...mockData,
+      searchContext,
       initialViaPoints: viaPoints,
       updateViaPoints: newViaPoints => {
         viaPoints = newViaPoints;
@@ -177,6 +189,7 @@ describe('<DTAutosuggestPanel />', () => {
 
     const props = {
       ...mockData,
+      searchContext,
       initialViaPoints: viaPoints,
       updateViaPoints: newViaPoints => {
         viaPoints = newViaPoints;
@@ -211,6 +224,7 @@ describe('<DTAutosuggestPanel />', () => {
   it('should only collapse the related slack time panel (with multiple slack time panels open)', () => {
     const props = {
       ...mockData,
+      searchContext,
       initialViaPoints: [
         getEmptyViaPointPlaceHolder(),
         getEmptyViaPointPlaceHolder(),
@@ -251,6 +265,7 @@ describe('<DTAutosuggestPanel />', () => {
   it('should show the add via point button after removing an empty via point with a keypress', () => {
     const props = {
       ...mockData,
+      searchContext,
       initialViaPoints: [],
       updateViaPoints: () => {},
     };
@@ -271,6 +286,7 @@ describe('<DTAutosuggestPanel />', () => {
   it('should allow to add a maximum of 5 via points', () => {
     const props = {
       ...mockData,
+      searchContext,
       initialViaPoints: [
         getEmptyViaPointPlaceHolder(),
         getEmptyViaPointPlaceHolder(),
@@ -293,6 +309,7 @@ describe('<DTAutosuggestPanel />', () => {
   it('should add a via point after adding and then removing a viapoint with a keypress', () => {
     const props = {
       ...mockData,
+      searchContext,
       initialViaPoints: [],
       updateViaPoints: () => {},
     };
@@ -314,6 +331,7 @@ describe('<DTAutosuggestPanel />', () => {
   it('should not render any itinerary search control buttons when isItinerary is false', () => {
     const props = {
       ...mockData,
+      searchContext,
       initialViaPoints: [],
       isItinerary: false,
     };
@@ -336,6 +354,7 @@ describe('<DTAutosuggestPanel />', () => {
 
     const props = {
       ...mockData,
+      searchContext,
       initialViaPoints: viaPoints,
       swapOrder: () => {
         callCount += 1;
@@ -360,6 +379,7 @@ describe('<DTAutosuggestPanel />', () => {
   it('should not display any via point containers if there are no via points available', () => {
     const props = {
       ...mockData,
+      searchContext,
       initialViaPoints: [],
     };
     const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
@@ -375,6 +395,7 @@ describe('<DTAutosuggestPanel />', () => {
     let callCount = 0;
     const props = {
       ...mockData,
+      searchContext,
       updateViaPoints: newViaPoints => {
         callArgument = newViaPoints;
         callCount += 1;
@@ -396,6 +417,7 @@ describe('<DTAutosuggestPanel />', () => {
   it('should show an attention icon if the user has selected a via point slack time and the selector is hidden', () => {
     const props = {
       ...mockData,
+      searchContext,
     };
     const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
       context,
@@ -419,6 +441,7 @@ describe('<DTAutosuggestPanel />', () => {
   it('should remove the attention icon if the slack time is set back to default', () => {
     const props = {
       ...mockData,
+      searchContext,
     };
     const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
       context,
@@ -440,6 +463,7 @@ describe('<DTAutosuggestPanel />', () => {
     let callCount = 0;
     const props = {
       ...mockData,
+      searchContext,
       initialViaPoints: [
         otpToLocation('Kamppi, Helsinki::60.168438,24.929283'),
       ],
@@ -464,6 +488,7 @@ describe('<DTAutosuggestPanel />', () => {
     let callCount = 0;
     const props = {
       ...mockData,
+      searchContext,
       initialViaPoints: [
         otpToLocation('Kamppi, Helsinki::60.168438,24.929283'),
         getEmptyViaPointPlaceHolder(),
@@ -491,6 +516,7 @@ describe('<DTAutosuggestPanel />', () => {
     const emptyViaPoint = getEmptyViaPointPlaceHolder();
     const props = {
       ...mockData,
+      searchContext,
       initialViaPoints: [emptyViaPoint, emptyViaPoint],
     };
     const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
@@ -518,6 +544,7 @@ describe('<DTAutosuggestPanel />', () => {
     let callCount = 0;
     const props = {
       ...mockData,
+      searchContext,
       initialViaPoints: [
         'Kalasatama, Helsinki::60.187571,24.976301',
         'Kamppi, Helsinki::60.168438,24.929283',

@@ -5,6 +5,7 @@ import React from 'react';
 import { shallowWithIntl } from './helpers/mock-intl-enzyme';
 import mockRouter from './helpers/mock-router';
 import { DTEndpointAutosuggestComponent } from '../../app/component/DTEndpointAutosuggest';
+import searchContext from '../../app/component/searchContext';
 
 describe('<DTEndpointAutosuggest />', () => {
   describe('onSuggestionSelected', () => {
@@ -12,6 +13,7 @@ describe('<DTEndpointAutosuggest />', () => {
       let wasCalled = false;
       const props = {
         id: 'viapoint',
+        searchContext,
         locationState: {
           lat: 0,
           lon: 0,
@@ -83,6 +85,7 @@ describe('<DTEndpointAutosuggest />', () => {
     it('should invoke executeAction for a non-mapped via point (i.e. currentLocation)', () => {
       const props = {
         id: 'viapoint',
+        searchContext,
         locationState: {
           lat: 0,
           lon: 0,

@@ -6,6 +6,8 @@ import { routerShape } from 'react-router';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 import Icon from './Icon';
 import RouteDetails from './RouteDetails';
+import searchContext from './searchContext';
+import intializeSearchContext from './DTSearchContextInitializer';
 
 class PreferredRoutes extends React.Component {
   static contextTypes = {
@@ -13,6 +15,7 @@ class PreferredRoutes extends React.Component {
     router: routerShape.isRequired,
     location: PropTypes.object.isRequired,
     config: PropTypes.object.isRequired,
+    getStore: PropTypes.func.isRequired,
   };
 
   static propTypes = {
@@ -40,6 +43,7 @@ class PreferredRoutes extends React.Component {
         searchType="search"
         className={routeOptions.optionName}
         onLocationSelected={e => e.stopPropagation()}
+        searchContext={searchContext}
         onRouteSelected={val =>
           this.props.onRouteSelected(val, routeOptions.optionName)
         }
@@ -104,6 +108,9 @@ class PreferredRoutes extends React.Component {
   );
 
   render() {
+    // DT-3424: Set SearchContext for Autosuggest and searchUtils.
+    intializeSearchContext(this.context, searchContext);
+
     return (
       <div className="settings-option-container">
         {this.renderPreferredRouteNumbers()}

@@ -21,19 +21,6 @@ import PageFooter from './PageFooter';
 import { isBrowser } from '../util/browser';
 import searchContext from './searchContext';
 import {
-  getRoutes,
-  getStopAndStations,
-  getFavouriteRoutes,
-} from '../util/DTSearchUtils';
-import {
-  getPositions,
-  getFavouriteLocations,
-  getFavouriteRoutes as getStoredFavouriteRoutes,
-  getOldSearches,
-  getFavouriteStops,
-  getLanguage,
-} from '../util/storeUtils';
-import {
   parseLocation,
   isItinerarySearchObjects,
   navigateTo,
@@ -48,6 +35,7 @@ import * as ModeUtils from '../util/modeUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import intializeSearchContext from './DTSearchContextInitializer';
 
 const debug = d('IndexPage.js');
 
@@ -161,17 +149,7 @@ class IndexPage extends React.Component {
       {},
       ...routes.map(route => route.footerOptions),
     );
-    // DT-3424: Set SearchContext for Autosuggest and searchUtils.
-    searchContext.context = this.context;
-    searchContext.getOldSearches = getOldSearches;
-    searchContext.getFavouriteLocations = getFavouriteLocations;
-    searchContext.getFavouriteStops = getFavouriteStops;
-    searchContext.getLanguage = getLanguage;
-    searchContext.getStoredFavouriteRoutes = getStoredFavouriteRoutes;
-    searchContext.getPositions = getPositions;
-    searchContext.getRoutes = getRoutes;
-    searchContext.getStopAndStations = getStopAndStations;
-    searchContext.getFavouriteRoutes = getFavouriteRoutes;
+    intializeSearchContext(this.context, searchContext);
     // DT-3381 TODO: DTEndpointAutoSuggest currently does not search for stops or stations, as it should be. SearchUtils needs refactoring.
     return breakpoint === 'large' ? (
       <div
