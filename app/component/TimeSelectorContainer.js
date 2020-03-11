@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { routerShape, locationShape } from 'react-router';
+import { matchShape, routerShape } from 'found';
 import moment from 'moment';
 import { intlShape } from 'react-intl';
 import get from 'lodash/get';
@@ -17,7 +17,7 @@ class TimeSelectorContainer extends Component {
   static contextTypes = {
     intl: intlShape.isRequired,
     router: routerShape.isRequired,
-    location: locationShape.isRequired,
+    match: matchShape.isRequired,
   };
 
   static propTypes = {
@@ -26,7 +26,7 @@ class TimeSelectorContainer extends Component {
       end: PropTypes.number.isRequired,
     }).isRequired,
     time: PropTypes.instanceOf(moment).isRequired,
-    now: PropTypes.shape({}).isRequired,
+    now: PropTypes.object.isRequired,
   };
 
   getDates() {
@@ -75,7 +75,9 @@ class TimeSelectorContainer extends Component {
   }
 
   setTime = debounce(newTime => {
-    replaceQueryParams(this.context.router, { time: newTime.unix() });
+    replaceQueryParams(this.context.router, this.context.match, {
+      time: newTime.unix(),
+    });
   }, 10);
 
   changeTime = ({ hours, minutes, add }) => {
@@ -117,12 +119,12 @@ class TimeSelectorContainer extends Component {
   }
 }
 
-const TSCWithProps = withProps(({ location, now }, ...rest) => ({
+const TSCWithProps = withProps(({ match, now }, ...rest) => ({
   ...rest,
-  time: location.query.time
-    ? moment.unix(parseInt(location.query.time, 10))
+  time: match.location.query.time
+    ? moment.unix(parseInt(match.location.query.time, 10))
     : now,
-  arriveBy: get(location, 'query.arriveBy', 'false'),
+  arriveBy: get(match.location, 'query.arriveBy', 'false'),
 }))(TimeSelectorContainer);
 
 const withNow = connectToStores(TSCWithProps, ['TimeStore'], context => ({
@@ -130,7 +132,7 @@ const withNow = connectToStores(TSCWithProps, ['TimeStore'], context => ({
 }));
 
 const connectedContainer = getContext({
-  location: locationShape.isRequired,
+  match: matchShape.isRequired,
 })(withNow);
 
 export { connectedContainer as default, TimeSelectorContainer as Component };

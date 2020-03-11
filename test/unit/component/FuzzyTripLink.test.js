@@ -4,7 +4,7 @@ import { Component as FuzzyTripLink } from '../../../app/component/FuzzyTripLink
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 
 describe('<FuzzyTripLink />', () => {
-  it('should render content and icon', () => {
+  it.skip('should render content and icon', () => {
     const props = {
       mode: 'bus',
       trip: {

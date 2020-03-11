@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { routerShape } from 'react-router';
+import { matchShape, routerShape } from 'found';
 
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import OriginDestinationBar from './OriginDestinationBar';
@@ -36,7 +36,7 @@ class SummaryNavigation extends React.Component {
   static contextTypes = {
     config: PropTypes.object.isRequired,
     router: routerShape,
-    location: PropTypes.object.isRequired,
+    match: matchShape.isRequired,
   };
 
   customizeSearchModules = {
@@ -45,19 +45,19 @@ class SummaryNavigation extends React.Component {
   };
 
   componentDidMount() {
-    this.unlisten = this.context.router.listen(location => {
+    this.unlisten = this.context.router.addTransitionHook(location => {
       if (
-        this.context.location.state &&
-        this.context.location.state.customizeSearchOffcanvas &&
+        this.context.match.location.state &&
+        this.context.match.location.state.customizeSearchOffcanvas &&
         (!location.state || !location.state.customizeSearchOffcanvas) &&
         !this.transitionDone &&
         location.pathname.startsWith('/reitti/')
       ) {
         this.transitionDone = true;
         const newLocation = {
-          ...this.context.location,
+          ...this.context.match.location,
           state: {
-            ...this.context.location.state,
+            ...this.context.match.location.state,
             customizeSearchOffcanvas: false,
           },
         };
@@ -77,8 +77,8 @@ class SummaryNavigation extends React.Component {
   };
 
   getOffcanvasState = () =>
-    (this.context.location.state &&
-      this.context.location.state.customizeSearchOffcanvas) ||
+    (this.context.match.location.state &&
+      this.context.match.location.state.customizeSearchOffcanvas) ||
     false;
 
   toggleCustomizeSearchOffcanvas = () => {
@@ -94,23 +94,29 @@ class SummaryNavigation extends React.Component {
     });
     if (newState) {
       this.context.router.push({
-        ...this.context.location,
+        ...this.context.match.location,
         state: {
-          ...this.context.location.state,
+          ...this.context.match.location.state,
           customizeSearchOffcanvas: newState,
         },
       });
     } else {
-      this.context.router.goBack();
+      this.context.router.go(-1);
     }
   };
 
-  renderStreetModeSelector = (config, router) => (
+  renderStreetModeSelector = (config, router, match) => (
     <div className="street-mode-selector-panel-container">
       <StreetModeSelectorPanel
-        selectedStreetMode={ModeUtils.getStreetMode(router.location, config)}
+        selectedStreetMode={ModeUtils.getStreetMode(match.location, config)}
         selectStreetMode={(streetMode, isExclusive) => {
-          ModeUtils.setStreetMode(streetMode, config, router, isExclusive);
+          ModeUtils.setStreetMode(
+            streetMode,
+            config,
+            router,
+            match,
+            isExclusive,
+          );
           addAnalyticsEvent({
             action: 'SelectTravelingModeFromQuickSettings',
             category: 'ItinerarySettings',
@@ -123,7 +129,7 @@ class SummaryNavigation extends React.Component {
   );
 
   render() {
-    const { config, router } = this.context;
+    const { config, router, match } = this.context;
     const className = cx({ 'bp-large': this.props.breakpoint === 'large' });
     const isOpen = this.getOffcanvasState();
 
@@ -136,7 +142,7 @@ class SummaryNavigation extends React.Component {
         />
         {isBrowser && (
           <React.Fragment>
-            {this.renderStreetModeSelector(config, router)}
+            {this.renderStreetModeSelector(config, router, match)}
             <div className={cx('quicksettings-separator-line')} />
             <QuickSettingsPanel
               timeSelectorStartTime={this.props.startTime}

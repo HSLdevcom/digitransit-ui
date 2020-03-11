@@ -2,7 +2,7 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
-import { routerShape } from 'react-router';
+import { matchShape, routerShape } from 'found';
 import { withCurrentTime } from '../util/searchUtils';
 import ComponentUsageExample from './ComponentUsageExample';
 import DTAutosuggestPanel from './DTAutosuggestPanel';
@@ -22,14 +22,15 @@ class OriginDestinationBar extends React.Component {
   static propTypes = {
     className: PropTypes.string,
     destination: dtLocationShape,
-    location: PropTypes.object,
     origin: dtLocationShape,
+    location: PropTypes.object,
   };
 
   static contextTypes = {
     intl: intlShape.isRequired,
     router: routerShape.isRequired,
     getStore: PropTypes.func.isRequired,
+    match: matchShape.isRequired,
   };
 
   static defaultProps = {
@@ -38,11 +39,15 @@ class OriginDestinationBar extends React.Component {
   };
 
   get location() {
-    return this.props.location || this.context.router.getCurrentLocation();
+    return this.props.location || this.context.match.location;
   }
 
   updateViaPoints = newViaPoints =>
-    setIntermediatePlaces(this.context.router, newViaPoints.map(locationToOtp));
+    setIntermediatePlaces(
+      this.context.router,
+      newViaPoints.map(locationToOtp),
+      this.context.match,
+    );
 
   swapEndpoints = () => {
     const { location } = this;

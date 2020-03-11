@@ -53,7 +53,7 @@ Digitransit-ui is a React based web application. The following bullet point desc
     - create gemini images
 
 React components can access data in two different ways:
-- Open Trip Planner GraphQL queries with Relay
+- OpenTripPlanner GraphQL queries with Relay
 - Other querys with Flux model
 
 Basically, division between alternatives is:
@@ -66,7 +66,7 @@ Basically, division between alternatives is:
 Links:
 * https://facebook.github.io/flux/docs/overview.html
 * http://facebook.github.io/react/
-* https://github.com/rackt/react-router
+* https://github.com/relay-tools/found-relay/
 * https://facebook.github.io/relay/
 * https://facebook.github.io/graphql/
 

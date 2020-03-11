@@ -37,13 +37,14 @@ export const resetSelectedItineraryIndex = loc => {
  * Clears the given parameters from the browser's url.
  *
  * @param {*} router The router
+ * @param {*} match The match object from found
  * @param {string[]} paramsToClear The parameters to clear from the url
  */
-export const clearQueryParams = (router, paramsToClear = []) => {
+export const clearQueryParams = (router, match, paramsToClear = []) => {
   if (paramsToClear.length === 0) {
     return;
   }
-  let location = router.getCurrentLocation();
+  let { location } = match;
 
   location = resetSelectedItineraryIndex(location);
 
@@ -75,10 +76,11 @@ export const fixArrayParams = query => {
  * Updates the browser's url with the given parameters.
  *
  * @param {*} router The router
+ * @param {*} match The match object from found
  * @param {*} newParams The location query params to apply
  */
-export const replaceQueryParams = (router, newParams) => {
-  let location = router.getCurrentLocation();
+export const replaceQueryParams = (router, match, newParams) => {
+  let { location } = match;
   location = resetSelectedItineraryIndex(location);
 
   const removeTriangleFactors =
@@ -135,14 +137,17 @@ export const getIntermediatePlaces = query => {
  *
  * @param {*} router The router
  * @param {String|String[]} newIntermediatePlaces A string or an array of intermediate locations
+ * @param {*} match The match object from found
  */
-export const setIntermediatePlaces = (router, newIntermediatePlaces) => {
+export const setIntermediatePlaces = (router, newIntermediatePlaces, match) => {
   if (
     isString(newIntermediatePlaces) ||
     (Array.isArray(newIntermediatePlaces) &&
       newIntermediatePlaces.every(isString))
   ) {
-    replaceQueryParams(router, { intermediatePlaces: newIntermediatePlaces });
+    replaceQueryParams(router, match, {
+      intermediatePlaces: newIntermediatePlaces,
+    });
   }
 };
 
@@ -178,16 +183,17 @@ const getRoutes = (query, preferred) => {
  * @param {*} router The router
  * @param {*} routeToAdd The route identifier to add
  * @param {*} preferred If this valus is true, add to preferredRoutes, else add to unpreferredRoutes
+ * @param {*} match The match object from found
  */
-const addRoute = (router, routeToAdd, preferred) => {
-  const { query } = router.getCurrentLocation();
+const addRoute = (router, routeToAdd, preferred, match) => {
+  const { query } = match.location;
   const routes = getRoutes(query, preferred);
   if (routes.includes(routeToAdd)) {
     return;
   }
 
   routes.push(routeToAdd);
-  replaceQueryParams(router, {
+  replaceQueryParams(router, match, {
     [`${preferred ? 'preferred' : 'unpreferred'}Routes`]: routes.join(','),
   });
   const action = preferred ? 'PreferRoute' : 'AvoidRoute';
@@ -204,9 +210,10 @@ const addRoute = (router, routeToAdd, preferred) => {
  * @param {*} router The router
  * @param {*} routeToRemove The route identifier to remove
  * @param {*} preferred This value is true if removed from preferredRoutes, false if from unpreferredRoutes
+ * @param {*} match The match object from found
  */
-const removeRoute = (router, routeToRemove, preferred) => {
-  const { query } = router.getCurrentLocation();
+const removeRoute = (router, routeToRemove, preferred, match) => {
+  const { query } = match.location;
   // routes will have existing routes - routeToRemove
   const currentRoutes = getRoutes(query, preferred);
   if (!currentRoutes.includes(routeToRemove)) {
@@ -215,7 +222,7 @@ const removeRoute = (router, routeToRemove, preferred) => {
   const routes = xor(currentRoutes, [routeToRemove]);
   const routesType = `${preferred ? 'preferred' : 'unpreferred'}Routes`;
 
-  replaceQueryParams(router, { [routesType]: routes.join(',') });
+  replaceQueryParams(router, match, { [routesType]: routes.join(',') });
 };
 
 /**
@@ -223,36 +230,40 @@ const removeRoute = (router, routeToRemove, preferred) => {
  *
  * @param {*} router The router
  * @param {*} routeToAdd The route identifier to add
+ * @param {*} match The match object from found
  */
-export const addPreferredRoute = (router, routeToAdd) =>
-  addRoute(router, routeToAdd, true);
+export const addPreferredRoute = (router, routeToAdd, match) =>
+  addRoute(router, routeToAdd, true, match);
 
 /**
  * Removes the given route from the preferred options in the routing request.
  *
  * @param {*} router The router
  * @param {*} routeToRemove The route identifier to remove
+ * @param {*} match The match object from found
  */
-export const removePreferredRoute = (router, routeToRemove) =>
-  removeRoute(router, routeToRemove, true);
+export const removePreferredRoute = (router, routeToRemove, match) =>
+  removeRoute(router, routeToRemove, true, match);
 
 /**
  * Adds the given route as an unpreferred option in the routing request.
  *
  * @param {*} router The router
  * @param {*} routeToAdd The route identifier to add
+ * @param {*} match The match object from found
  */
-export const addUnpreferredRoute = (router, routeToAdd) =>
-  addRoute(router, routeToAdd, false);
+export const addUnpreferredRoute = (router, routeToAdd, match) =>
+  addRoute(router, routeToAdd, false, match);
 
 /**
  * Removes the given route from the unpreferred options in the routing request.
  *
  * @param {*} router The router
  * @param {*} routeToRemove The route identifier to remove
+ * @param {*} match The match object from found
  */
-export const removeUnpreferredRoute = (router, routeToRemove) =>
-  removeRoute(router, routeToRemove, false);
+export const removeUnpreferredRoute = (router, routeToRemove, match) =>
+  removeRoute(router, routeToRemove, false, match);
 
 /**
  * Retrieves all the user-customizable settings from the url.
@@ -366,12 +377,14 @@ export const getAvoidElevationChanges = (optimize, { slopeFactor } = {}) =>
  * Fuzzily sets the "prefer greenways" flag on.
  *
  * @param {*} router the router
+ * @param {*} match The match object from found
  * @param {string} optimize the current OptimizeType
  * @param {*} triangleFactors the current triangleFactors
  * @param {boolean} forceSingle whether the fuzzy logic should be overridden
  */
 export const setPreferGreenways = (
   router,
+  match,
   optimize,
   triangleFactors = {},
   forceSingle = false,
@@ -380,14 +393,14 @@ export const setPreferGreenways = (
     return;
   }
   if (!forceSingle && getAvoidElevationChanges(optimize, triangleFactors)) {
-    replaceQueryParams(router, {
+    replaceQueryParams(router, match, {
       optimize: OptimizeType.Triangle,
       safetyFactor: TWO_FACTORS_ENABLED,
       slopeFactor: TWO_FACTORS_ENABLED,
       timeFactor: FACTOR_DISABLED,
     });
   } else {
-    replaceQueryParams(router, { optimize: OptimizeType.Greenways });
+    replaceQueryParams(router, match, { optimize: OptimizeType.Greenways });
   }
   addAnalyticsEvent({
     action: 'EnablePreferCycleways',
@@ -400,12 +413,14 @@ export const setPreferGreenways = (
  * Fuzzily sets the "avoid elevation changes" flag on.
  *
  * @param {*} router the router
+ * @param {*} match The match object from found
  * @param {string} optimize the current OptimizeType
  * @param {*} triangleFactors the current triangleFactors
  * @param {boolean} forceSingle whether the fuzzy logic should be overridden
  */
 export const setAvoidElevationChanges = (
   router,
+  match,
   optimize,
   triangleFactors = {},
   forceSingle = false,
@@ -415,7 +430,7 @@ export const setAvoidElevationChanges = (
   }
   const bothEnabled =
     !forceSingle && getPreferGreenways(optimize, triangleFactors);
-  replaceQueryParams(router, {
+  replaceQueryParams(router, match, {
     optimize: OptimizeType.Triangle,
     safetyFactor: bothEnabled ? TWO_FACTORS_ENABLED : FACTOR_DISABLED,
     slopeFactor: bothEnabled ? TWO_FACTORS_ENABLED : ONE_FACTOR_ENABLED,
@@ -432,12 +447,14 @@ export const setAvoidElevationChanges = (
  * Fuzzily resets the "prefer greenways" flag.
  *
  * @param {*} router the router
+ * @param {*} match The match object from found
  * @param {string} optimize the current OptimizeType
  * @param {*} triangleFactors the current triangleFactors
  * @param {*} defaultOptimize the default OptimizeType
  */
 export const resetPreferGreenways = (
   router,
+  match,
   optimize,
   triangleFactors,
   defaultOptimize,
@@ -446,9 +463,9 @@ export const resetPreferGreenways = (
     return;
   }
   if (getAvoidElevationChanges(optimize, triangleFactors)) {
-    setAvoidElevationChanges(router, optimize, triangleFactors, true);
+    setAvoidElevationChanges(router, match, optimize, triangleFactors, true);
   } else {
-    replaceQueryParams(router, {
+    replaceQueryParams(router, match, {
       optimize: defaultOptimize,
     });
   }
@@ -463,12 +480,14 @@ export const resetPreferGreenways = (
  * Fuzzily resets the "avoid elevation changes" flag.
  *
  * @param {*} router the router
+ * @param {*} match The match object from found
  * @param {string} optimize the current OptimizeType
  * @param {*} triangleFactors the current triangleFactors
  * @param {*} defaultOptimize the default OptimizeType
  */
 export const resetAvoidElevationChanges = (
   router,
+  match,
   optimize,
   triangleFactors,
   defaultOptimize,
@@ -477,9 +496,9 @@ export const resetAvoidElevationChanges = (
     return;
   }
   if (getPreferGreenways(optimize, triangleFactors)) {
-    setPreferGreenways(router, optimize, triangleFactors, true);
+    setPreferGreenways(router, match, optimize, triangleFactors, true);
   } else {
-    replaceQueryParams(router, {
+    replaceQueryParams(router, match, {
       optimize: defaultOptimize,
     });
   }

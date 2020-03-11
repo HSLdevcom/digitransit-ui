@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { matchShape } from 'found';
 
 import { FormattedMessage } from 'react-intl';
-import { Link, locationShape } from 'react-router';
+import Link from 'found/lib/Link';
 import Icon from './Icon';
 
-const NetworkError = ({ retry }, { location }) => (
+const NetworkError = ({ retry }, { match }) => (
   <div className="page-not-found">
     <Icon img="icon-icon_error_page_not_found" />
     <p>
@@ -15,7 +16,7 @@ const NetworkError = ({ retry }, { location }) => (
       />
     </p>
     <p>
-      <Link to={location} onClick={retry}>
+      <Link to={match.location} onClick={retry}>
         <FormattedMessage id="try-again" defaultMessage="Try again ›" />
       </Link>
     </p>
@@ -24,7 +25,7 @@ const NetworkError = ({ retry }, { location }) => (
 
 NetworkError.propTypes = { retry: PropTypes.func.isRequired };
 NetworkError.contextTypes = {
-  location: locationShape.isRequired,
+  match: matchShape.isRequired,
 };
 
 export default NetworkError;

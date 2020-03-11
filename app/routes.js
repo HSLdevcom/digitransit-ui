@@ -1,187 +1,352 @@
-import PropTypes from 'prop-types';
+/* eslint-disable react/jsx-key */
 import React from 'react';
-import Relay from 'react-relay/classic';
-import { Route } from 'react-router';
+import { graphql } from 'react-relay';
+import Route from 'found/lib/Route';
+import queryMiddleware from 'farce/lib/queryMiddleware';
+import createRender from 'found/lib/createRender';
 
-import IndexPage from './component/IndexPage';
-import IndexPageMeta from './component/IndexPageMeta';
 import Error404 from './component/404';
+import Loading from './component/LoadingPage';
 import TopLevel from './component/TopLevel';
-import Title from './component/Title';
 
-import scrollTop from './util/scroll';
 import { PREFIX_ITINERARY_SUMMARY } from './util/path';
 import { preparePlanParams } from './util/planParamUtil';
-import { validateServiceTimeRange } from './util/timeUtils';
-import { errorLoading, getDefault, loadRoute } from './util/routerUtils';
+import {
+  errorLoading,
+  getDefault,
+  getComponentOrLoadingRenderer,
+  getComponentOrNullRenderer,
+} from './util/routerUtils';
 
 import getStopRoutes from './stopRoutes';
 import routeRoutes from './routeRoutes';
 
-const planQueries = {
-  plan: (Component, variables) => Relay.QL`
-    query {
-      viewer {
-        ${Component.getFragment('plan', variables)}
-      }
-    }`,
-  serviceTimeRange: () => Relay.QL`query { serviceTimeRange }`,
-};
+export const historyMiddlewares = [queryMiddleware];
+
+export const render = createRender({});
 
 export default config => {
-  const SummaryPageWrapper = ({ props, routerProps, element }) =>
-    props
-      ? React.cloneElement(element, props)
-      : React.cloneElement(element, {
-          ...routerProps,
-          ...preparePlanParams(config)(routerProps.params, routerProps),
-          plan: { plan: {} },
-          serviceTimeRange: validateServiceTimeRange(), // use default range
-          loading: true,
-        });
-
-  SummaryPageWrapper.propTypes = {
-    props: PropTypes.object.isRequired,
-    routerProps: PropTypes.object.isRequired,
-  };
   return (
-    <Route component={TopLevel}>
+    <Route Component={TopLevel}>
+      <Route path="/" topBarOptions={{ disableBackButton: true }}>
+        {{
+          title: (
+            <Route
+              getComponent={() =>
+                import(/* webpackChunkName: "itinerary" */ './component/Title').then(
+                  getDefault,
+                )
+              }
+            />
+          ),
+          content: (
+            <Route
+              getComponent={() =>
+                import(/* webpackChunkName: "itinerary" */ './component/IndexPage').then(
+                  getDefault,
+                )
+              }
+            />
+          ),
+          meta: (
+            <Route
+              getComponent={() =>
+                import(/* webpackChunkName: "itinerary" */ './component/IndexPageMeta').then(
+                  getDefault,
+                )
+              }
+            />
+          ),
+        }}
+      </Route>
+      {getStopRoutes()}
+      {getStopRoutes(true) /* terminals */}
+      {routeRoutes}
+      <Route path={`/${PREFIX_ITINERARY_SUMMARY}/:from/:to/:hash?`}>
+        {{
+          title: (
+            <Route
+              path="(.*)?"
+              getComponent={() =>
+                import(/* webpackChunkName: "itinerary" */ './component/SummaryTitle').then(
+                  getDefault,
+                )
+              }
+            />
+          ),
+          content: (
+            <Route
+              getComponent={() =>
+                import(/* webpackChunkName: "itinerary" */ './component/SummaryPage').then(
+                  getDefault,
+                )
+              }
+              query={graphql`
+                query routes_SummaryPage_Query(
+                  $fromPlace: String!
+                  $toPlace: String!
+                  $intermediatePlaces: [InputCoordinates!]
+                  $numItineraries: Int!
+                  $modes: String
+                  $date: String!
+                  $time: String!
+                  $walkReluctance: Float
+                  $walkBoardCost: Int
+                  $minTransferTime: Int
+                  $walkSpeed: Float
+                  $maxWalkDistance: Float
+                  $wheelchair: Boolean
+                  $ticketTypes: String
+                  $disableRemainingWeightHeuristic: Boolean
+                  $arriveBy: Boolean
+                  $transferPenalty: Int
+                  $ignoreRealtimeUpdates: Boolean
+                  $maxPreTransitTime: Int
+                  $walkOnStreetReluctance: Float
+                  $waitReluctance: Float
+                  $bikeSpeed: Float
+                  $bikeSwitchTime: Int
+                  $bikeSwitchCost: Int
+                  $bikeBoardCost: Int
+                  $optimize: OptimizeType
+                  $triangle: InputTriangle
+                  $carParkCarLegWeight: Float
+                  $maxTransfers: Int
+                  $waitAtBeginningFactor: Float
+                  $heuristicStepsPerMainStep: Int
+                  $compactLegsByReversedSearch: Boolean
+                  $itineraryFiltering: Float
+                  $modeWeight: InputModeWeight
+                  $preferred: InputPreferred
+                  $unpreferred: InputUnpreferred
+                  $allowedBikeRentalNetworks: [String]
+                  $locale: String
+                ) {
+                  plan(
+                    fromPlace: $fromPlace
+                    toPlace: $toPlace
+                    intermediatePlaces: $intermediatePlaces
+                    numItineraries: $numItineraries
+                    modes: $modes
+                    date: $date
+                    time: $time
+                    walkReluctance: $walkReluctance
+                    walkBoardCost: $walkBoardCost
+                    minTransferTime: $minTransferTime
+                    walkSpeed: $walkSpeed
+                    maxWalkDistance: $maxWalkDistance
+                    wheelchair: $wheelchair
+                    ticketTypes: $ticketTypes
+                    disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
+                    arriveBy: $arriveBy
+                    transferPenalty: $transferPenalty
+                    ignoreRealtimeUpdates: $ignoreRealtimeUpdates
+                    maxPreTransitTime: $maxPreTransitTime
+                    walkOnStreetReluctance: $walkOnStreetReluctance
+                    waitReluctance: $waitReluctance
+                    bikeSpeed: $bikeSpeed
+                    bikeSwitchTime: $bikeSwitchTime
+                    bikeSwitchCost: $bikeSwitchCost
+                    bikeBoardCost: $bikeBoardCost
+                    optimize: $optimize
+                    triangle: $triangle
+                    carParkCarLegWeight: $carParkCarLegWeight
+                    maxTransfers: $maxTransfers
+                    waitAtBeginningFactor: $waitAtBeginningFactor
+                    heuristicStepsPerMainStep: $heuristicStepsPerMainStep
+                    compactLegsByReversedSearch: $compactLegsByReversedSearch
+                    itineraryFiltering: $itineraryFiltering
+                    modeWeight: $modeWeight
+                    preferred: $preferred
+                    unpreferred: $unpreferred
+                    allowedBikeRentalNetworks: $allowedBikeRentalNetworks
+                    locale: $locale
+                  ) {
+                    ...SummaryPage_plan
+                  }
+
+                  serviceTimeRange {
+                    ...SummaryPage_serviceTimeRange
+                  }
+                }
+              `}
+              prepareVariables={preparePlanParams(config)}
+              render={({ Component, props, error }) =>
+                Component && props ? (
+                  <Component {...props} error={error} />
+                ) : (
+                  <Loading />
+                )
+              }
+            >
+              {{
+                content: [
+                  <Route
+                    path="/tulosta"
+                    getComponent={() =>
+                      import(/* webpackChunkName: "itinerary" */ './component/PrintableItinerary').then(
+                        getDefault,
+                      )
+                    }
+                    printPage
+                    render={getComponentOrLoadingRenderer}
+                  />,
+                  <Route
+                    getComponent={() =>
+                      import(/* webpackChunkName: "itinerary" */ './component/ItineraryTab').then(
+                        getDefault,
+                      )
+                    }
+                    render={getComponentOrLoadingRenderer}
+                  />,
+                ],
+                map: (
+                  <Route
+                    path="(.*)?"
+                    getComponent={match =>
+                      match.params.hashId
+                        ? import(/* webpackChunkName: "itinerary" */ './component/ItineraryPageMap').then(
+                            getDefault,
+                          )
+                        : null
+                    }
+                    render={getComponentOrNullRenderer}
+                  />
+                ),
+              }}
+            </Route>
+          ),
+          meta: (
+            <Route
+              path="(.*)?"
+              getComponent={() =>
+                import(/* webpackChunkName: "itinerary" */ './component/SummaryPageMeta').then(
+                  getDefault,
+                )
+              }
+            />
+          ),
+        }}
+      </Route>
       <Route
         path="/styleguide"
-        getComponent={(location, cb) => {
+        getComponent={() =>
           import(/* webpackChunkName: "styleguide" */ './component/StyleGuidePage')
-            .then(loadRoute(cb))
-            .catch(errorLoading);
-        }}
+            .then(getDefault)
+            .catch(errorLoading)
+        }
       />
       <Route
         path="/styleguide/component/:componentName"
         topBarOptions={{ hidden: true }}
-        getComponent={(location, cb) => {
+        getComponent={() =>
           import(/* webpackChunkName: "styleguide" */ './component/StyleGuidePage')
-            .then(loadRoute(cb))
-            .catch(errorLoading);
-        }}
+            .then(getDefault)
+            .catch(errorLoading)
+        }
       />
       <Route
         path="/suosikki/uusi"
-        getComponent={(location, cb) => {
+        getComponent={() =>
           import(/* webpackChunkName: "add-favourite" */ './component/AddFavouritePage')
-            .then(loadRoute(cb))
-            .catch(errorLoading);
-        }}
+            .then(getDefault)
+            .catch(errorLoading)
+        }
       />
-      {getStopRoutes()}
-      {getStopRoutes(true) /* terminals */}
-      {routeRoutes}
-      <Route
-        path={`/${PREFIX_ITINERARY_SUMMARY}/:from/:to`}
-        getComponents={(location, cb) => {
-          Promise.all([
-            import(/* webpackChunkName: "itinerary" */ './component/SummaryTitle').then(
-              getDefault,
-            ),
-            import(/* webpackChunkName: "itinerary" */ './component/SummaryPage').then(
-              getDefault,
-            ),
-            import(/* webpackChunkName: "itinerary" */ './component/SummaryPageMeta').then(
-              getDefault,
-            ),
-          ]).then(([title, content, meta]) =>
-            cb(null, { title, content, meta }),
-          );
-        }}
-        queries={{ content: planQueries }}
-        prepareParams={preparePlanParams(config)}
-        render={{ content: SummaryPageWrapper }}
-      >
-        <Route
-          path=":hash/tulosta"
-          getComponents={(location, cb) => {
-            import(/* webpackChunkName: "itinerary" */ './component/PrintableItinerary')
-              .then(content => cb(null, { content: content.default }))
-              .catch(errorLoading);
-          }}
-          printPage
-        >
-          <Route path="kartta" fullscreenMap />
-        </Route>
-        <Route
-          path=":hash"
-          getComponents={(location, cb) => {
-            Promise.all([
-              import(/* webpackChunkName: "itinerary" */ './component/ItineraryTab').then(
-                getDefault,
-              ),
-              import(/* webpackChunkName: "itinerary" */ './component/ItineraryPageMap').then(
-                getDefault,
-              ),
-            ]).then(([content, map]) => cb(null, { content, map }));
-          }}
-        >
-          <Route path="kartta" fullscreenMap />
-        </Route>
-      </Route>
       <Route
         path="/suosikki/muokkaa/sijainti/:id"
-        getComponent={(location, cb) => {
+        getComponent={() =>
           import(/* webpackChunkName: "add-favourite" */ './component/AddFavouritePage')
-            .then(loadRoute(cb))
-            .catch(errorLoading);
-        }}
+            .then(getDefault)
+            .catch(errorLoading)
+        }
       />
       <Route
         path="/suosikki/muokkaa/pysakki/:id"
-        getComponent={(location, cb) => {
+        getComponent={() =>
           import(/* webpackChunkName: "add-favourite" */ './component/AddFavouritePage')
-            .then(loadRoute(cb))
-            .catch(errorLoading);
-        }}
+            .then(getDefault)
+            .catch(errorLoading)
+        }
       />
       <Route
         path="/tietoja-palvelusta"
-        getComponents={(location, cb) => {
-          Promise.all([
-            Promise.resolve(Title),
-            import(/* webpackChunkName: "about" */ './component/AboutPage').then(
-              getDefault,
-            ),
-          ]).then(([title, content]) => cb(null, { title, content }));
-        }}
+        getComponent={() =>
+          import(/* webpackChunkName: "about" */ './component/AboutPage').then(
+            getDefault,
+          )
+        }
       />
       {!config.URL.API_URL.includes('/api.') && (
         <Route
           path="/admin"
-          getComponent={(location, cb) => {
+          getComponent={() =>
             import(/* webpackChunkName: "admin" */ './component/AdminPage')
-              .then(loadRoute(cb))
-              .catch(errorLoading);
-          }}
+              .then(getDefault)
+              .catch(errorLoading)
+          }
         />
       )}
-      <Route path="/js/:name" component={Error404} />
-      <Route path="/css/:name" component={Error404} />
-      <Route path="/assets/:name" component={Error404} />
-      <Route
-        path="/(:from)(/:to)(/:tab)"
-        topBarOptions={{ disableBackButton: true }}
-        components={{
-          title: Title,
-          content: IndexPage,
-          meta: IndexPageMeta,
+      <Route path="/js/:name" Component={Error404} />
+      <Route path="/css/:name" Component={Error404} />
+      <Route path="/assets/:name" Component={Error404} />
+      <Route path="/:from/:to" topBarOptions={{ disableBackButton: true }}>
+        {{
+          title: (
+            <Route
+              getComponent={() =>
+                import(/* webpackChunkName: "itinerary" */ './component/Title').then(
+                  getDefault,
+                )
+              }
+            />
+          ),
+          content: (
+            <Route
+              getComponent={() =>
+                import(/* webpackChunkName: "itinerary" */ './component/IndexPage').then(
+                  getDefault,
+                )
+              }
+            />
+          ),
+          meta: (
+            <Route
+              getComponent={() =>
+                import(/* webpackChunkName: "itinerary" */ './component/IndexPageMeta').then(
+                  getDefault,
+                )
+              }
+            />
+          ),
         }}
-        onEnter={scrollTop}
-      />
-      <Route
-        path="/?mock"
-        topBarOptions={{ disableBackButton: true }}
-        components={{
-          title: Title,
-          content: IndexPage,
+      </Route>
+      <Route path="/?mock" topBarOptions={{ disableBackButton: true }}>
+        {{
+          title: (
+            <Route
+              getComponent={() =>
+                import(/* webpackChunkName: "itinerary" */ './component/Title').then(
+                  getDefault,
+                )
+              }
+            >
+              <Route path=":hash" />
+            </Route>
+          ),
+          content: (
+            <Route
+              getComponent={() =>
+                import(/* webpackChunkName: "itinerary" */ './component/IndexPage').then(
+                  getDefault,
+                )
+              }
+            />
+          ),
         }}
-      />
+      </Route>
       {/* For all the rest render 404 */}
-      <Route path="*" component={Error404} />
+      <Route path="*" Component={Error404} />
     </Route>
   );
 };

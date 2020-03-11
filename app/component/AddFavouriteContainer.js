@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { routerShape, locationShape } from 'react-router';
+import { matchShape, routerShape } from 'found';
 import { FormattedMessage, intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import isEmpty from 'lodash/isEmpty';
@@ -36,7 +36,7 @@ class AddFavouriteContainer extends React.Component {
     intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
-    location: locationShape.isRequired,
+    match: matchShape.isRequired,
     getStore: PropTypes.func.isRequired,
   };
 
@@ -126,7 +126,7 @@ class AddFavouriteContainer extends React.Component {
   };
 
   quit = () => {
-    this.context.router.goBack();
+    this.context.router.go(-1);
   };
 
   specifyName = event => {
@@ -291,10 +291,10 @@ class AddFavouriteContainer extends React.Component {
 const AddFavouriteContainerWithFavourite = connectToStores(
   AddFavouriteContainer,
   ['FavouriteStore'],
-  (context, props) => ({
+  context => ({
     favourite: context
       .getStore('FavouriteStore')
-      .getByFavouriteId(props.params.id),
+      .getByFavouriteId(context.match.location.params.id),
   }),
 );
 

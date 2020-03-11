@@ -11,10 +11,11 @@ describe('<ItineraryTab />', () => {
   it('should render the container div', () => {
     const props = {
       itinerary: dt2831,
-      searchTime: dt2831.startTime,
-      location: {},
       focus: () => {},
       showCanceledLegsBanner: false,
+      plan: {
+        date: 19700101,
+      },
     };
     const wrapper = shallowWithIntl(<ItineraryTab {...props} />, {
       context: { ...mockContext },

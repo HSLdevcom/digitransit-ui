@@ -1,21 +1,22 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
-import { routerShape, locationShape } from 'react-router';
+import { graphql, QueryRenderer } from 'react-relay';
+import { matchShape, routerShape } from 'found';
 import DisruptionInfoButton from './DisruptionInfoButton';
 import { isBrowser } from '../util/browser';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import getRelayEnvironment from '../util/getRelayEnvironment';
 
 function DisruptionInfoButtonContainer(
   outerProps,
-  { router, location, config: { feedIds } },
+  { router, match, config: { feedIds } },
 ) {
   if (isBrowser) {
     const openDisruptionInfo = () => {
       router.push({
-        ...location,
+        ...match.location,
         state: {
-          ...location.state,
+          ...match.location.state,
           disruptionInfoOpen: true,
         },
       });
@@ -27,26 +28,20 @@ function DisruptionInfoButtonContainer(
     };
 
     return (
-      <Relay.Renderer
-        Container={DisruptionInfoButton}
-        forceFetch
-        queryConfig={{
-          name: 'ViewerRoute',
-          queries: {
-            root: (Component, variables) => Relay.QL`
-              query {
-                viewer {
-                  ${Component.getFragment('root', variables)}
-                }
-              }
-           `,
-          },
-          params: { feedIds },
-        }}
-        environment={Relay.Store}
-        render={({ renderProps, props }) => (
+      <QueryRenderer
+        cacheConfig={{ force: true, poll: 30 * 1000 }}
+        query={graphql`
+          query DisruptionInfoButtonContainerQuery($feedIds: [String!]) {
+            viewer {
+              ...DisruptionInfoButton_viewer @arguments(feedIds: $feedIds)
+            }
+          }
+        `}
+        variables={{ feedIds }}
+        environment={outerProps.relayEnvironment}
+        render={({ props }) => (
           <DisruptionInfoButton
-            {...renderProps}
+            viewer={null}
             {...props}
             toggleDisruptionInfo={openDisruptionInfo}
           />
@@ -59,10 +54,10 @@ function DisruptionInfoButtonContainer(
 
 DisruptionInfoButtonContainer.contextTypes = {
   router: routerShape.isRequired,
-  location: locationShape.isRequired,
+  match: matchShape.isRequired,
   config: PropTypes.shape({
     feedIds: PropTypes.arrayOf(PropTypes.string.isRequired),
   }).isRequired,
 };
 
-export default DisruptionInfoButtonContainer;
+export default getRelayEnvironment(DisruptionInfoButtonContainer);

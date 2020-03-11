@@ -1,15 +1,17 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable func-names */
+/* eslint-disable import/no-unresolved */
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import Relay from 'react-relay/classic';
+import { createRefetchContainer, graphql } from 'react-relay';
 import cx from 'classnames';
 import sortBy from 'lodash/sortBy';
-import { intlShape } from 'react-intl'; // DT-2531
-import { routerShape } from 'react-router';
+import { routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import moment from 'moment';
-
+import {
+  enrichPatterns,
+  routePatternOptionText,
+} from '@digitransit-util/digitransit-util';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import {
@@ -18,45 +20,46 @@ import {
 } from './ExampleData';
 import { PREFIX_ROUTES } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { enrichPatterns, getOptionText } from '../util/routePatternSelectUtil';
 // DT-3317
 const DATE_FORMAT = 'YYYYMMDD';
 
 class RoutePatternSelect extends Component {
   static propTypes = {
-    params: PropTypes.object,
-    className: PropTypes.string,
-    route: PropTypes.object,
+    params: PropTypes.object.isRequired,
+    className: PropTypes.string.isRequired,
+    route: PropTypes.object.isRequired,
     onSelectChange: PropTypes.func.isRequired,
     serviceDay: PropTypes.string.isRequired,
-    relay: PropTypes.object.isRequired,
+    relay: PropTypes.shape({
+      refetch: PropTypes.func.isRequired,
+    }).isRequired,
     gtfsId: PropTypes.string.isRequired,
     useCurrentTime: PropTypes.bool, // DT-3182
+    lang: PropTypes.string.isRequired, // DT-3347
   };
 
   static contextTypes = {
-    intl: intlShape.isRequired, // DT-2531
     router: routerShape.isRequired,
     config: PropTypes.object, // DT-3317
+    getStore: PropTypes.func.isRequired, // DT-3347
   };
 
-  constructor(props) {
-    super(props);
-    this.props.relay.setVariables({ serviceDay: this.props.serviceDay });
-    this.state = {
-      loading: false,
-    };
-  }
+  state = {
+    loading: true,
+  };
 
-  componentWillMount = () => {
-    const options = this.getOptions();
-    if (options === null) {
-      this.setState({ loading: true });
-    }
+  componentDidMount = () => {
+    this.props.relay.refetch(
+      {
+        date: this.props.serviceDay,
+      },
+      null,
+      () => this.setState({ loading: false }),
+    );
   };
 
   getOptions = () => {
-    const { gtfsId, params, route, useCurrentTime } = this.props; // DT-3182: added useCurrentTime
+    const { gtfsId, params, route, useCurrentTime, lang } = this.props; // DT-3182: added useCurrentTime, DT-3347: added lang
     const { router } = this.context;
     const { patterns } = route;
 
@@ -93,21 +96,19 @@ class RoutePatternSelect extends Component {
               value={pattern.code}
               className="route-option-togglable"
             >
-              {getOptionText(this.context.intl.formatMessage, pattern, true)}
+              {routePatternOptionText(lang, pattern, true)}
             </div>
           );
         }
         return (
           <option key={pattern.code} value={pattern.code}>
-            {getOptionText(this.context.intl.formatMessage, pattern, false)}
+            {routePatternOptionText(lang, pattern, false)}
           </option>
         );
       });
 
     if (options.every(o => o.key !== params.patternId)) {
       router.replace(`/${PREFIX_ROUTES}/${gtfsId}/pysakit/${options[0].key}`);
-    } else if (options.length > 0 && this.state.loading === true) {
-      this.setState({ loading: false });
     }
     return options;
   };
@@ -188,44 +189,63 @@ const defaultProps = {
   className: 'bp-large',
   serviceDay: '20190306',
   relay: {
-    setVariables: () => {},
+    refetch: (variables, renderVariables, callback) => {
+      callback();
+    },
   },
   params: {
     routeId: 'HSL:1010',
     patternId: 'HSL:1010:0:01',
   },
+  useCurrentTime: true,
 };
 
 RoutePatternSelect.description = () => (
   <div>
     <p>Display a dropdown to select the pattern for a route</p>
     <ComponentUsageExample>
-      <RoutePatternSelect route={exampleRoutePatterns} {...defaultProps} />
+      <RoutePatternSelect
+        route={exampleRoutePatterns}
+        onSelectChange={() => {}}
+        gtfsId="HSL:1010"
+        lang="en"
+        {...defaultProps}
+      />
     </ComponentUsageExample>
     <ComponentUsageExample>
-      <RoutePatternSelect route={exampleTwoRoutePatterns} {...defaultProps} />
+      <RoutePatternSelect
+        route={exampleTwoRoutePatterns}
+        onSelectChange={() => {}}
+        gtfsId="HSL:1010"
+        lang="en"
+        {...defaultProps}
+      />
     </ComponentUsageExample>
   </div>
 );
 
 // DT-2531: added activeDates
-const withStore = connectToStores(
-  Relay.createContainer(RoutePatternSelect, {
-    initialVariables: {
-      serviceDay: moment().format(DATE_FORMAT),
-    },
-    fragments: {
-      route: () => Relay.QL`
-      fragment on Route {
+const withStore = createRefetchContainer(
+  connectToStores(RoutePatternSelect, ['PreferencesStore'], context => ({
+    serviceDay: context
+      .getStore('TimeStore')
+      .getCurrentTime()
+      .format(DATE_FORMAT),
+    lang: context.getStore('PreferencesStore').getLanguage(), // DT-3347
+  })),
+  {
+    route: graphql`
+      fragment RoutePatternSelect_route on Route
+        @argumentDefinitions(date: { type: "String" }) {
         patterns {
           code
           headsign
           stops {
             name
           }
-          tripsForDate(serviceDate: $serviceDay) {
+          tripsForDate(serviceDate: $date) {
             id
-            stoptimes: stoptimesForDate(serviceDate: $serviceDay) {
+            stoptimes: stoptimesForDate(serviceDate: $date) {
               scheduledArrival
               scheduledDeparture
               serviceDay
@@ -239,16 +259,15 @@ const withStore = connectToStores(
           }
         }
       }
-      `,
-    },
-  }),
-  [],
-  context => ({
-    serviceDay: context
-      .getStore('TimeStore')
-      .getCurrentTime()
-      .format(DATE_FORMAT),
-  }),
+    `,
+  },
+  graphql`
+    query RoutePatternSelectQuery($routeId: String!, $date: String!) {
+      route(id: $routeId) {
+        ...RoutePatternSelect_route @arguments(date: $date)
+      }
+    }
+  `,
 );
 
 export { withStore as default, RoutePatternSelect as Component };

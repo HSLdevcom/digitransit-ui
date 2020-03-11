@@ -1,4 +1,4 @@
-import Relay from 'react-relay/classic';
+import { fetchQuery } from 'react-relay';
 import { VectorTile } from '@mapbox/vector-tile';
 import compact from 'lodash/compact';
 import isEmpty from 'lodash/isEmpty';
@@ -9,12 +9,16 @@ import { drawParkAndRideIcon } from '../../../util/mapIconUtils';
 import { Contour } from '../../../util/geo-utils';
 import { isBrowser } from '../../../util/browser';
 
+import carParksQuery from './carParks';
+import carParkQuery from './carPark';
+
 const showFacilities = 17;
 
 export default class ParkAndRide {
-  constructor(tile, config) {
+  constructor(tile, config, mapLayers, relayEnvironment) {
     this.tile = tile;
     this.config = config;
+    this.relayEnvironment = relayEnvironment;
     const scaleratio = (isBrowser && window.devicePixelRatio) || 1;
     this.width = 24 * scaleratio;
     this.height = 12 * scaleratio;
@@ -42,39 +46,24 @@ export default class ParkAndRide {
           if (this.tile.coords.z < showFacilities && vt.layers.hubs != null) {
             for (let i = 0, ref = vt.layers.hubs.length - 1; i <= ref; i++) {
               const feature = vt.layers.hubs.feature(i);
-              const query = Relay.createQuery(
-                Relay.QL`
-            query ParkAndRide($ids: [String!]!){
-              carParks(ids: $ids) {
-                name
-                maxCapacity
-                spacesAvailable
-                realtime
-              }
-            }`,
-                { ids: JSON.parse(feature.properties.facilityIds) },
-              );
-              Relay.Store.primeCache(
-                {
-                  query,
-                },
-                readyState => {
-                  if (readyState.done) {
-                    const result = compact(Relay.Store.readQuery(query));
-                    if (!isEmpty(result)) {
-                      feature.properties.facilities = result;
-                      [[feature.geom]] = feature.loadGeometry();
-                      this.features.push(pick(feature, ['geom', 'properties']));
-                      drawParkAndRideIcon(
-                        this.tile,
-                        feature.geom,
-                        this.width,
-                        this.height,
-                      );
-                    }
-                  }
-                },
-              );
+              fetchQuery(this.relayEnvironment, carParksQuery, {
+                ids: JSON.parse(feature.properties.facilityIds).map(id =>
+                  id.toString(),
+                ),
+              }).then(data => {
+                const result = compact(data.carParks);
+                if (!isEmpty(result)) {
+                  feature.properties.facilities = result;
+                  [[feature.geom]] = feature.loadGeometry();
+                  this.features.push(pick(feature, ['geom', 'properties']));
+                  drawParkAndRideIcon(
+                    this.tile,
+                    feature.geom,
+                    this.width,
+                    this.height,
+                  );
+                }
+              });
             }
           } else if (
             this.tile.coords.z >= showFacilities &&
@@ -86,41 +75,24 @@ export default class ParkAndRide {
               i++
             ) {
               const feature = vt.layers.facilities.feature(i);
-              const query = Relay.createQuery(
-                Relay.QL`
-            query ParkAndRide($id: String!){
-              carPark(id: $id) {
-                name
-                maxCapacity
-                spacesAvailable
-                realtime
-              }
-            }`,
-                { id: feature.id },
-              );
-              Relay.Store.primeCache(
-                {
-                  query,
-                },
-                readyState => {
-                  if (readyState.done) {
-                    const result = compact(Relay.Store.readQuery(query));
-                    if (result != null && result.length !== 0) {
-                      feature.properties.facility = result;
-                      feature.geom = new Contour(
-                        feature.loadGeometry()[0],
-                      ).centroid();
-                      this.features.push(feature);
-                      drawParkAndRideIcon(
-                        this.tile,
-                        feature.geom,
-                        this.width,
-                        this.height,
-                      );
-                    }
-                  }
-                },
-              );
+              fetchQuery(this.relayEnvironment, carParkQuery, {
+                id: feature.id.toString(),
+              }).then(data => {
+                const result = data.carPark;
+                if (result != null && result.id != null) {
+                  feature.properties.facility = result;
+                  feature.geom = new Contour(
+                    feature.loadGeometry()[0],
+                  ).centroid();
+                  this.features.push(feature);
+                  drawParkAndRideIcon(
+                    this.tile,
+                    feature.geom,
+                    this.width,
+                    this.height,
+                  );
+                }
+              });
             }
           }
         },

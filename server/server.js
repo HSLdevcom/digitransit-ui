@@ -9,7 +9,9 @@ const fs = require('fs');
 require('@babel/register')({
   // This will override `node_modules` ignoring - you can alternatively pass
   // an array of strings to be explicitly matched or a regex / glob
-  ignore: [/node_modules\/(?!react-leaflet|@babel\/runtime\/helpers\/esm)/],
+  ignore: [
+    /node_modules\/(?!react-leaflet|@babel\/runtime\/helpers\/esm|@digitransit-util)/,
+  ],
 });
 
 global.fetch = require('node-fetch');
@@ -51,6 +53,7 @@ function setUpOIDC() {
   const callbackPath = '/oid_callback'; // connect callback path
   // Use Passport with OpenId Connect strategy to authenticate users
   const OIDCHost = process.env.OIDCHOST || 'https://hslid-dev.t5.fi';
+  const FavouriteHost = process.env.FAVOURITE_HOST;
   const LoginStrategy = require('./passport-openid-connect/Strategy').Strategy;
   const passport = require('passport');
   const session = require('express-session');
@@ -155,6 +158,27 @@ function setUpOIDC() {
         res.send(body);
       },
     );
+  });
+
+  app.use('/api/user/favourites', function(req, res, next) {
+    if (FavouriteHost && req.isAuthenticated()) {
+      request(
+        {
+          method: req.method,
+          url: `${FavouriteHost}/api/favorites/${req.user.data.sub}`,
+          body: JSON.stringify(req.body),
+        },
+        function(err, response, body) {
+          if (!err && response.statusCode === 200) {
+            const data = JSON.parse(body);
+            body = JSON.stringify(data);
+          }
+          res.send(body);
+        },
+      );
+    } else {
+      next();
+    }
   });
 }
 

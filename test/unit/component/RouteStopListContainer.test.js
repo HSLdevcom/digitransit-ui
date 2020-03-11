@@ -3,6 +3,7 @@ import moment from 'moment';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import { Component as RouteStopListContainer } from '../../../app/component/RouteStopListContainer';
+import { mockMatch } from '../helpers/mock-router';
 
 describe('<RouteStopListContainer />', () => {
   it('should render route stop list', () => {
@@ -93,7 +94,7 @@ describe('<RouteStopListContainer />', () => {
       patternId: 'HSL:1055:0:01',
       breakpoint: 'large',
       relay: {
-        setVariables: () => {},
+        refetch: () => {},
       },
     };
     const wrapper = shallowWithIntl(<RouteStopListContainer {...props} />, {
@@ -103,6 +104,7 @@ describe('<RouteStopListContainer />', () => {
             maxShownDistance: 1000,
           },
         },
+        match: mockMatch,
       },
     });
     expect(wrapper.find('.route-stop-list')).to.have.lengthOf(1);

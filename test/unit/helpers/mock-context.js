@@ -1,9 +1,9 @@
 import { getMuiTheme } from 'material-ui/styles';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import { locationShape, routerShape } from 'react-router';
+import { matchShape, routerShape } from 'found';
 
-import mockRouter from './mock-router';
+import { mockRouter, mockMatch } from './mock-router';
 import PositionStore from '../../../app/store/PositionStore';
 
 const noop = () => {};
@@ -35,13 +35,10 @@ export const mockContext = {
     getMessages: () => [],
     removeListener: noop,
   }),
-  location: {
-    action: '',
-    pathname: '',
-    search: '',
-  },
+  match: mockMatch,
   muiTheme,
   router: mockRouter,
+  relayEnvironment: {},
 };
 
 /**
@@ -51,7 +48,8 @@ export const mockChildContextTypes = {
   config: PropTypes.object,
   executeAction: PropTypes.func,
   getStore: PropTypes.func,
-  location: locationShape,
   muiTheme: PropTypes.object,
   router: routerShape,
+  match: matchShape,
+  relayEnvironment: PropTypes.object,
 };

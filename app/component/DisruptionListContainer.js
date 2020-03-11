@@ -3,11 +3,10 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay';
 import AlertList from './AlertList';
 import Icon from './Icon';
 import { AlertSeverityLevelType } from '../constants';
-import { AlertContentQuery } from '../util/alertQueries';
 import {
   getServiceAlertDescription,
   getServiceAlertHeader,
@@ -35,8 +34,11 @@ const mapAlert = (alert, locale) => ({
   },
 });
 
-function DisruptionListContainer({ breakpoint, currentTime, root }, { intl }) {
-  if (!root || !root.alerts || root.alerts.length === 0) {
+function DisruptionListContainer(
+  { breakpoint, currentTime, viewer },
+  { intl },
+) {
+  if (!viewer || !viewer.alerts || viewer.alerts.length === 0) {
     return (
       <div className="stop-no-alerts-container">
         <FormattedMessage
@@ -55,7 +57,7 @@ function DisruptionListContainer({ breakpoint, currentTime, root }, { intl }) {
   const mappedStopDisruptions = [];
   const mappedStopServiceAlerts = [];
 
-  root.alerts.forEach(alert => {
+  viewer.alerts.forEach(alert => {
     const mappedAlert = mapAlert(alert, intl.locale);
     if (!isAlertValid(mappedAlert, currentTime)) {
       return;
@@ -195,7 +197,7 @@ DisruptionListContainer.contextTypes = {
 DisruptionListContainer.propTypes = {
   breakpoint: PropTypes.string,
   currentTime: PropTypes.number.isRequired,
-  root: PropTypes.shape({
+  viewer: PropTypes.shape({
     alerts: PropTypes.array,
   }).isRequired,
 };
@@ -204,7 +206,7 @@ DisruptionListContainer.defaultProps = {
   breakpoint: 'small',
 };
 
-const containerComponent = Relay.createContainer(
+const containerComponent = createFragmentContainer(
   connectToStores(
     withBreakpoint(DisruptionListContainer),
     ['TimeStore'],
@@ -216,11 +218,30 @@ const containerComponent = Relay.createContainer(
     }),
   ),
   {
-    fragments: {
-      root: () => Relay.QL`
-      fragment on QueryType {
-        alerts(feeds:$feedIds) {
-          ${AlertContentQuery}
+    viewer: graphql`
+      fragment DisruptionListContainer_viewer on QueryType
+        @argumentDefinitions(feedIds: { type: "[String!]", defaultValue: [] }) {
+        alerts(feeds: $feedIds) {
+          id
+          alertDescriptionText
+          alertHash
+          alertHeaderText
+          alertSeverityLevel
+          alertUrl
+          effectiveEndDate
+          effectiveStartDate
+          alertDescriptionTextTranslations {
+            language
+            text
+          }
+          alertHeaderTextTranslations {
+            language
+            text
+          }
+          alertUrlTranslations {
+            language
+            text
+          }
           route {
             color
             mode
@@ -235,8 +256,6 @@ const containerComponent = Relay.createContainer(
         }
       }
     `,
-    },
-    initialVariables: { feedIds: null },
   },
 );
 

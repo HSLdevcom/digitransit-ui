@@ -48,13 +48,16 @@ describe('LangSelect', () => {
       };
 
       const mockRouter = {
-        getCurrentLocation: () => '/',
         replace: () => true,
+      };
+
+      const mockMatch = {
+        location: '/',
       };
 
       configureMoment('sv', configWithMoment);
       expect(moment.locale()).to.equal('sv');
-      selectLanguage(() => true, 'fi', mockRouter)();
+      selectLanguage(() => true, 'fi', mockRouter, mockMatch)();
       expect(moment.locale()).to.equal('fi');
     });
   });

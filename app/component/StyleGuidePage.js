@@ -1,11 +1,12 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import sortBy from 'lodash/sortBy';
+import { matchShape } from 'found';
+import { createMockEnvironment } from 'relay-test-utils';
+import { QueryRenderer } from 'react-relay';
 
 import Icon from './Icon';
 import IconWithTail from './IconWithTail';
 import SelectedIconWithTail from './SelectedIconWithTail';
-import IconWithCaution from './IconWithCaution';
 import IconWithBigCaution from './IconWithBigCaution';
 import IconWithIcon from './IconWithIcon';
 import ComponentDocumentation from './ComponentDocumentation';
@@ -21,9 +22,7 @@ import CityBikeCard from './CityBikeCard';
 import CityBikeContent from './CityBikeContent';
 import CityBikeAvailability from './CityBikeAvailability';
 import CityBikeUse from './CityBikeUse';
-import CityBikePopup from './map/popups/CityBikePopup';
-import FavouriteLocation from './FavouriteLocation';
-import EmptyFavouriteLocationSlot from './EmptyFavouriteLocationSlot';
+import CityBikePopupContainer from './map/popups/CityBikePopupContainer';
 import TimeSelectors from './TimeSelectors';
 import TimeNavigationButtons from './TimeNavigationButtons';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
@@ -46,18 +45,12 @@ import Availability from './Availability';
 import ParkAndRideAvailability from './map/popups/ParkAndRideAvailability';
 import AppBarSmall from './AppBarSmall';
 import AppBarLarge from './AppBarLarge';
-import FrontPagePanelSmall from './FrontPagePanelSmall';
-import FrontPagePanelLarge from './FrontPagePanelLarge';
-import { DepartureRow } from './DepartureRowContainer';
-import { BicycleRentalStationRow } from './BicycleRentalStationRowContainer';
 import StopPageHeader from './StopPageHeader';
 import StopCardHeader from './StopCardHeader';
 import SplitBars from './SplitBars';
 import InfoIcon from './InfoIcon';
 import Favourite from './Favourite';
-import NoFavouriteLocations from './NoFavouriteLocations';
 import DepartureListHeader from './DepartureListHeader';
-import NextDeparturesListHeader from './NextDeparturesListHeader';
 import CurrentPositionSuggestionItem from './CurrentPositionSuggestionItem';
 import SuggestionItem from './SuggestionItem';
 import SelectedStopPopupContent from './SelectedStopPopupContent';
@@ -102,7 +95,6 @@ const components = {
   IconWithTail,
   SelectedIconWithTail,
   IconWithBigCaution,
-  IconWithCaution,
   IconWithIcon,
   ComponentDocumentation,
   Departure,
@@ -117,12 +109,9 @@ const components = {
   CityBikeContent,
   CityBikeAvailability,
   CityBikeUse,
-  CityBikePopup,
+  CityBikePopupContainer,
   Availability,
   ParkAndRideAvailability,
-  FavouriteLocation,
-  NoFavouriteLocations,
-  EmptyFavouriteLocationSlot,
   TimeSelectors,
   TimeNavigationButtons,
   RightOffcanvasToggle,
@@ -141,20 +130,15 @@ const components = {
   RouteAlertsRow,
   ModeFilter,
   RouteStop,
-  DepartureRow,
-  BicycleRentalStationRow,
   AppBarSmall,
   AppBarLarge,
   CanceledLegsBar,
-  FrontPagePanelLarge,
-  FrontPagePanelSmall,
   StopPageHeader,
   StopCardHeader,
   SplitBars,
   InfoIcon,
   Favourite,
   DepartureListHeader,
-  NextDeparturesListHeader,
   CurrentPositionSuggestionItem,
   SuggestionItem,
   SelectedStopPopupContent,
@@ -527,22 +511,44 @@ function getHelpers() {
   );
 }
 
-function getComponents() {
-  return Object.keys(components).map(component => (
-    <div key={component}>
-      <ComponentDocumentation component={components[component]} />
-    </div>
-  ));
+function getComponents(environment) {
+  return (
+    <QueryRenderer
+      environment={environment}
+      render={({ props }) => {
+        return (
+          props &&
+          Object.keys(components).map(component => (
+            <div key={component}>
+              <ComponentDocumentation
+                {...props}
+                component={components[component]}
+              />
+            </div>
+          ))
+        );
+      }}
+    />
+  );
 }
 
 function StyleGuidePage(props) {
-  if (props.params.componentName) {
+  const environment = createMockEnvironment();
+  if (props.match.params.componentName) {
     return (
-      <ComponentDocumentation
-        mode="examples-only"
-        component={
-          components[props.params.componentName] ||
-          fullscreenComponents[props.params.componentName]
+      <QueryRenderer
+        environment={environment}
+        render={({ props: innerProps }) =>
+          innerProps && (
+            <ComponentDocumentation
+              {...innerProps}
+              mode="examples-only"
+              component={
+                components[props.match.params.componentName] ||
+                fullscreenComponents[props.match.params.componentName]
+              }
+            />
+          )
         }
       />
     );
@@ -584,15 +590,13 @@ function StyleGuidePage(props) {
       <h1>Components</h1>
       <hr />
 
-      {getComponents()}
+      {getComponents(environment)}
     </div>
   );
 }
 
 StyleGuidePage.propTypes = {
-  params: PropTypes.shape({
-    componentName: PropTypes.string,
-  }).isRequired,
+  match: matchShape.isRequired,
 };
 
 export default StyleGuidePage;

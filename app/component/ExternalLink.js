@@ -27,6 +27,7 @@ const ExternalLink = ({ name, children, href, className, onClick }) =>
 
 ExternalLink.propTypes = {
   name: PropTypes.string,
+  children: PropTypes.node,
   href: PropTypes.string,
   className: PropTypes.string,
   onClick: PropTypes.func,

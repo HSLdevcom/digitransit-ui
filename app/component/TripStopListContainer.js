@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay';
 import cx from 'classnames';
 import isEmpty from 'lodash/isEmpty';
 import connectToStores from 'fluxible-addons-react/connectToStores';
@@ -8,7 +8,6 @@ import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
 
 import TripRouteStop from './TripRouteStop';
-import { StopAlertsQuery } from '../util/alertQueries';
 import { getDistanceToNearestStop } from '../util/geo-utils';
 import withBreakpoint from '../util/withBreakpoint';
 
@@ -19,9 +18,6 @@ class TripStopListContainer extends React.PureComponent {
     vehicles: PropTypes.object,
     locationState: PropTypes.object.isRequired,
     currentTime: PropTypes.object.isRequired,
-    relay: PropTypes.shape({
-      forceFetch: PropTypes.func.isRequired,
-    }).isRequired,
     tripStart: PropTypes.string.isRequired,
     breakpoint: PropTypes.string,
   };
@@ -42,14 +38,6 @@ class TripStopListContainer extends React.PureComponent {
   componentDidMount() {
     if (this.props.breakpoint === 'large') {
       this.scrollToSelectedTailIcon();
-    }
-  }
-
-  componentWillReceiveProps({ relay, currentTime }) {
-    const currUnix = this.props.currentTime.unix();
-    const nextUnix = currentTime.unix();
-    if (currUnix !== nextUnix) {
-      relay.forceFetch();
     }
   }
 
@@ -172,7 +160,7 @@ class TripStopListContainer extends React.PureComponent {
   }
 }
 
-const connectedComponent = Relay.createContainer(
+const connectedComponent = createFragmentContainer(
   connectToStores(
     withBreakpoint(TripStopListContainer),
     ['RealTimeInformationStore', 'PositionStore', 'TimeStore'],
@@ -183,9 +171,8 @@ const connectedComponent = Relay.createContainer(
     }),
   ),
   {
-    fragments: {
-      trip: () => Relay.QL`
-      fragment on Trip {
+    trip: graphql`
+      fragment TripStopListContainer_trip on Trip {
         route {
           mode
           gtfsId
@@ -203,7 +190,11 @@ const connectedComponent = Relay.createContainer(
             code
             lat
             lon
-            ${StopAlertsQuery}
+            alerts {
+              alertSeverityLevel
+              effectiveEndDate
+              effectiveStartDate
+            }
           }
           realtimeDeparture
           realtime
@@ -214,7 +205,6 @@ const connectedComponent = Relay.createContainer(
         gtfsId
       }
     `,
-    },
   },
 );
 

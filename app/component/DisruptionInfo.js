@@ -1,33 +1,36 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { graphql, QueryRenderer } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
-import { routerShape, locationShape } from 'react-router';
+import { matchShape, routerShape } from 'found';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import Loading from './Loading';
 import DisruptionListContainer from './DisruptionListContainer';
 import ComponentUsageExample from './ComponentUsageExample';
 import { isBrowser } from '../util/browser';
+import getRelayEnvironment from '../util/getRelayEnvironment';
 
-function DisruptionInfo(props, context) {
-  if (!props.isBrowser) {
+function DisruptionInfo({ relayEnvironment }, context) {
+  if (!isBrowser) {
     return null;
   }
 
   const isOpen = () =>
-    context.location.state ? context.location.state.disruptionInfoOpen : false;
+    context.match.location.state
+      ? context.match.location.state.disruptionInfoOpen
+      : false;
   if (!isOpen()) {
     return null;
   }
 
   const toggleVisibility = () => {
     if (isOpen()) {
-      context.router.goBack();
+      context.router.go(-1);
     } else {
       context.router.push({
-        ...context.location,
+        ...context.match.location,
         state: {
-          ...context.location.state,
+          ...context.match.location.state,
           disruptionInfoOpen: true,
         },
       });
@@ -50,23 +53,20 @@ function DisruptionInfo(props, context) {
       }
       toggleVisibility={toggleVisibility}
     >
-      <Relay.RootContainer
-        Component={DisruptionListContainer}
-        forceFetch
-        route={{
-          name: 'ViewerRoute',
-          queries: {
-            root: (Component, { feedIds }) => Relay.QL`
-      query {
-        viewer {
-          ${Component.getFragment('root', { feedIds })}
+      <QueryRenderer
+        cacheConfig={{ force: true, poll: 30 * 1000 }}
+        query={graphql`
+          query DisruptionInfoQuery($feedIds: [String!]) {
+            viewer {
+              ...DisruptionListContainer_viewer @arguments(feedIds: $feedIds)
+            }
+          }
+        `}
+        variables={{ feedIds: context.config.feedIds }}
+        environment={relayEnvironment}
+        render={({ props: innerProps }) =>
+          innerProps ? <DisruptionListContainer {...innerProps} /> : <Loading />
         }
-      }
-   `,
-          },
-          params: { feedIds: context.config.feedIds },
-        }}
-        renderLoading={() => <Loading />}
       />
     </Modal>
   );
@@ -82,18 +82,14 @@ function DisruptionInfo(props, context) {
 
 DisruptionInfo.contextTypes = {
   router: routerShape.isRequired, // eslint-disable-line react/no-typos
-  location: locationShape.isRequired, // eslint-disable-line react/no-typos
+  match: matchShape.isRequired,
   config: PropTypes.shape({
     feedIds: PropTypes.arrayOf(PropTypes.string.isRequired),
   }).isRequired,
 };
 
 DisruptionInfo.propTypes = {
-  isBrowser: PropTypes.bool,
-};
-
-DisruptionInfo.defaultProps = {
-  isBrowser,
+  relayEnvironment: PropTypes.object,
 };
 
 DisruptionInfo.description = () => (
@@ -110,4 +106,5 @@ DisruptionInfo.description = () => (
   </div>
 );
 
-export default DisruptionInfo;
+const withRelayEnvironment = getRelayEnvironment(DisruptionInfo);
+export { withRelayEnvironment as default, DisruptionInfo as Component };

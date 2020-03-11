@@ -266,7 +266,6 @@ export const preparePlanParams = config => (
         intermediatePlaces,
         minTransferTime,
         modes,
-        numItineraries,
         optimize,
         preferredRoutes,
         safetyFactor,
@@ -315,9 +314,13 @@ export const preparePlanParams = config => (
         from: fromLocation,
         to: toLocation,
         intermediatePlaces: intermediatePlaceLocations,
-        numItineraries: getNumberValueOrDefault(numItineraries),
-        date: time ? moment(time * 1000).format('YYYY-MM-DD') : undefined,
-        time: time ? moment(time * 1000).format('HH:mm:ss') : undefined,
+        numItineraries:
+          typeof matchMedia !== 'undefined' &&
+          matchMedia('(min-width: 900px)').matches
+            ? 5
+            : 3,
+        date: (time ? moment(time * 1000) : moment()).format('YYYY-MM-DD'),
+        time: (time ? moment(time * 1000) : moment()).format('HH:mm:ss'),
         walkReluctance: getNumberValueOrDefault(
           walkReluctance,
           settings.walkReluctance,
@@ -331,7 +334,7 @@ export const preparePlanParams = config => (
           settings.minTransferTime,
         ),
         walkSpeed: getNumberValueOrDefault(walkSpeed, settings.walkSpeed),
-        arriveBy: getBooleanValueOrDefault(arriveBy),
+        arriveBy: arriveBy === 'true',
         maxWalkDistance: getMaxWalkDistance(modesOrDefault, settings, config),
         wheelchair:
           getNumberValueOrDefault(
@@ -428,7 +431,10 @@ export const preparePlanParams = config => (
 };
 
 export const getApplicableQuickOptionSets = context => {
-  const { config, location } = context;
+  const {
+    config,
+    match: { location },
+  } = context;
   const streetMode = getStreetMode(location, config).toLowerCase();
   return [
     QuickOptionSetType.DefaultRoute,
@@ -500,7 +506,9 @@ export const getQuickOptionSets = context => {
 export const matchQuickOption = context => {
   const {
     config,
-    location: { query },
+    match: {
+      location: { query },
+    },
   } = context;
 
   // Find out which quick option the user has selected

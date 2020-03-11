@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 
 const RouteDetails = props => (
@@ -23,14 +23,12 @@ RouteDetails.propTypes = {
   }).isRequired,
 };
 
-export default Relay.createContainer(RouteDetails, {
-  fragments: {
-    route: () => Relay.QL`
-        fragment on Route {
-          shortName
-          longName
-          mode
-        }
-      `,
-  },
+export default createFragmentContainer(RouteDetails, {
+  route: graphql`
+    fragment RouteDetails_route on Route {
+      shortName
+      longName
+      mode
+    }
+  `,
 });

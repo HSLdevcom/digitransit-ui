@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { FormattedMessage } from 'react-intl';
-import { Link } from 'react-router';
+import Link from 'found/lib/Link';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 

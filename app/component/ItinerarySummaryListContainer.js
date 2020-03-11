@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import inside from 'point-in-polygon';
 import cx from 'classnames';
 import startsWith from 'lodash/startsWith';
+import { matchShape } from 'found';
 
 import ExternalLink from './ExternalLink';
 import Icon from './Icon';
@@ -13,7 +14,6 @@ import { isBrowser } from '../util/browser';
 import { distance } from '../util/geo-utils';
 import { getZones } from '../util/legUtils';
 import CanceledItineraryToggler from './CanceledItineraryToggler';
-import { RouteAlertsQuery, StopAlertsQuery } from '../util/alertQueries';
 import { itineraryHasCancelation } from '../util/alertUtils';
 import { matchQuickOption } from '../util/planParamUtil';
 import { getModes } from '../util/modeUtils';
@@ -116,7 +116,7 @@ function ItinerarySummaryListContainer(
     }
   } else {
     const quickOption = matchQuickOption(context);
-    const currentModes = getModes(context.location, context.config);
+    const currentModes = getModes(context.match.location, context.config);
     const modesDefault =
       Object.entries(context.config.transportModes).every(
         ([mode, modeConfig]) =>
@@ -202,15 +202,15 @@ ItinerarySummaryListContainer.defaultProps = {
 
 ItinerarySummaryListContainer.contextTypes = {
   config: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
+  match: matchShape.isRequired,
 };
 
-const containerComponent = Relay.createContainer(
+const containerComponent = createFragmentContainer(
   ItinerarySummaryListContainer,
   {
-    fragments: {
-      itineraries: () => Relay.QL`
-      fragment on Itinerary @relay(plural:true){
+    itineraries: graphql`
+      fragment ItinerarySummaryListContainer_itineraries on Itinerary
+        @relay(plural: true) {
         walkDistance
         startTime
         endTime
@@ -228,7 +228,11 @@ const containerComponent = Relay.createContainer(
           intermediatePlaces {
             stop {
               zoneId
-              ${StopAlertsQuery}
+              alerts {
+                alertSeverityLevel
+                effectiveEndDate
+                effectiveStartDate
+              }
             }
           }
           route {
@@ -238,7 +242,16 @@ const containerComponent = Relay.createContainer(
             agency {
               name
             }
-            ${RouteAlertsQuery}
+            alerts {
+              alertSeverityLevel
+              effectiveEndDate
+              effectiveStartDate
+              trip {
+                pattern {
+                  code
+                }
+              }
+            }
           }
           trip {
             pattern {
@@ -259,7 +272,11 @@ const containerComponent = Relay.createContainer(
             stop {
               gtfsId
               zoneId
-              ${StopAlertsQuery}
+              alerts {
+                alertSeverityLevel
+                effectiveEndDate
+                effectiveStartDate
+              }
             }
             bikeRentalStation {
               bikesAvailable
@@ -270,13 +287,16 @@ const containerComponent = Relay.createContainer(
             stop {
               gtfsId
               zoneId
-              ${StopAlertsQuery}
+              alerts {
+                alertSeverityLevel
+                effectiveEndDate
+                effectiveStartDate
+              }
             }
           }
         }
       }
     `,
-    },
   },
 );
 

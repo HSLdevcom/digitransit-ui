@@ -60,8 +60,8 @@ TicketSalesPopup.propTypes = {
   TYYPPI: PropTypes.string.isRequired,
   NIMI: PropTypes.string.isRequired,
   OSOITE: PropTypes.string.isRequired,
-  LAT: PropTypes.number.isRequired,
-  LON: PropTypes.number.isRequired,
+  LAT: PropTypes.string.isRequired,
+  LON: PropTypes.string.isRequired,
 };
 
 export default TicketSalesPopup;

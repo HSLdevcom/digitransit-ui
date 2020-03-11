@@ -1,5 +1,4 @@
 import React from 'react';
-
 import Error404 from '../component/404';
 import NetworkError from '../component/NetworkError';
 import Loading from '../component/LoadingPage';
@@ -9,59 +8,33 @@ export function errorLoading(err) {
   console.error('Dynamic page loading failed', err);
 }
 
-export function loadRoute(cb) {
-  return module => cb(null, module.default);
-}
-
 export function getDefault(module) {
   return module.default;
 }
 
 /* eslint-disable react/prop-types */
-export function RelayRenderer({ error, props, element, retry }) {
+export function getComponentOrLoadingRenderer({
+  Component,
+  props,
+  error,
+  retry,
+}) {
   if (error) {
     if (
-      error.message === 'Failed to fetch' || // Chrome
-      error.message === 'Network request failed' // Safari && FF && IE
+      error.message ===
+      'Server does not return response for request at index 0.\nResponse should have an array with 1 item(s).'
     ) {
       return <NetworkError retry={retry} />;
     }
     return <Error404 />;
   }
-  if (props) {
-    return React.cloneElement(element, props);
+  if (Component && props) {
+    return <Component {...props} />;
   }
   return <Loading />;
 }
 
-export const ComponentLoading404Renderer = {
-  header: ({ error, props, element, retry }) => {
-    if (error) {
-      if (
-        error.message === 'Failed to fetch' || // Chrome
-        error.message === 'Network request failed' // Safari && FF && IE
-      ) {
-        return <NetworkError retry={retry} />;
-      }
-      return <Error404 />;
-    }
-    if (props) {
-      return React.cloneElement(element, props);
-    }
-    return <Loading />;
-  },
-  map: ({ error, props, element }) => {
-    if (error) {
-      return null;
-    }
-    if (props) {
-      return React.cloneElement(element, props);
-    }
-    return undefined;
-  },
-  title: ({ props, element }) =>
-    React.cloneElement(element, { route: null, ...props }),
-  content: ({ props, element }) =>
-    props ? React.cloneElement(element, props) : <div className="flex-grow" />,
-};
-/* eslint-enable react/prop-types */
+/* eslint-disable react/prop-types */
+export function getComponentOrNullRenderer({ Component, props }) {
+  return Component && props ? <Component {...props} /> : null;
+}

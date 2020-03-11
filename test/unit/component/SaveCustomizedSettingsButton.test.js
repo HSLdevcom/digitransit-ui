@@ -12,6 +12,7 @@ import {
   setCustomizedSettings,
 } from '../../../app/store/localStorage';
 import { OptimizeType } from '../../../app/constants';
+import { mockMatch } from '../helpers/mock-router';
 
 describe('<SaveCustomizedSettingsButton />', () => {
   it('should call noSettingsFound if the query and localStorage do not contain any settings', () => {
@@ -19,7 +20,7 @@ describe('<SaveCustomizedSettingsButton />', () => {
       ...mockContext,
       config: defaultConfig,
     };
-    context.location.query = {};
+    context.match.location.query = {};
 
     let wasCalled = false;
     const callback = () => {
@@ -74,10 +75,13 @@ describe('<SaveCustomizedSettingsButton />', () => {
         context: {
           ...mockContext,
           config: defaultConfig,
-          location: {
-            ...mockContext.location,
-            query: {
-              optimize: OptimizeType.Safe,
+          match: {
+            ...mockMatch,
+            location: {
+              ...mockMatch.location,
+              query: {
+                optimize: OptimizeType.Safe,
+              },
             },
           },
         },
@@ -96,7 +100,7 @@ describe('<SaveCustomizedSettingsButton />', () => {
       ...mockContext,
       config: defaultConfig,
     };
-    context.location.query = { ...defaultSettings };
+    context.match.location.query = { ...defaultSettings };
 
     let wasCalled = false;
     const callback = () => {
@@ -120,9 +124,12 @@ describe('<SaveCustomizedSettingsButton />', () => {
     const context = {
       ...mockContext,
       config: defaultConfig,
-      location: {
-        ...mockContext.location,
-        query,
+      match: {
+        ...mockMatch,
+        location: {
+          ...mockMatch.location,
+          query,
+        },
       },
     };
 
@@ -154,9 +161,12 @@ describe('<SaveCustomizedSettingsButton />', () => {
     const context = {
       ...mockContext,
       config: defaultConfig,
-      location: {
-        ...mockContext.location,
-        query,
+      match: {
+        ...mockMatch,
+        location: {
+          ...mockMatch.location,
+          query,
+        },
       },
     };
 

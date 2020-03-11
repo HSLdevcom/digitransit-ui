@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router';
+import Link from 'found/lib/Link';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 
@@ -104,10 +104,10 @@ class CallAgencyLeg extends React.Component {
               </div>
               {this.props.leg.route.agency.phone ? (
                 <div className="call-button">
-                  <Link href={`tel:${this.props.leg.route.agency.phone}`}>
+                  <a href={`tel:${this.props.leg.route.agency.phone}`}>
                     <FormattedMessage id="call" defaultMessage="Call" />{' '}
                     {this.props.leg.route.agency.phone}
-                  </Link>
+                  </a>
                 </div>
               ) : (
                 ''

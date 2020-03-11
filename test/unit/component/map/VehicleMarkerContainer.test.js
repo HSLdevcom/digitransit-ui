@@ -35,6 +35,7 @@ describe('<VehicleMarkerContainer />', () => {
     it('should render', () => {
       const wrapper = shallowWithIntl(
         <VehicleMarkerContainer {...defaultProps} />,
+        { context: { relayEnvironment: {} } },
       );
       expect(wrapper.isEmptyRender()).to.equal(false);
     });

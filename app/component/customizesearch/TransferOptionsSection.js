@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { routerShape } from 'react-router';
+import { matchShape, routerShape } from 'found';
 
 import SelectOptionContainer, {
   getFiveStepOptions,
@@ -13,7 +13,7 @@ import { addAnalyticsEvent } from '../../util/analyticsUtils';
 
 const TransferOptionsSection = (
   { walkBoardCost, walkBoardCostOptions, minTransferTime, defaultSettings },
-  { router },
+  { router, match },
 ) => (
   <React.Fragment>
     <SelectOptionContainer
@@ -21,7 +21,7 @@ const TransferOptionsSection = (
       defaultValue={defaultSettings.walkBoardCost}
       highlightDefaultValue={false}
       onOptionSelected={value => {
-        replaceQueryParams(router, { walkBoardCost: value });
+        replaceQueryParams(router, match, { walkBoardCost: value });
         addAnalyticsEvent({
           category: 'ItinerarySettings',
           action: 'changeNumberOfTransfers',
@@ -40,7 +40,7 @@ const TransferOptionsSection = (
       displayPattern="number-of-minutes"
       displayValueFormatter={seconds => seconds / 60}
       onOptionSelected={value => {
-        replaceQueryParams(router, { minTransferTime: value });
+        replaceQueryParams(router, match, { minTransferTime: value });
         addAnalyticsEvent({
           category: 'ItinerarySettings',
           action: 'ChangeTransferMargin',
@@ -71,6 +71,7 @@ TransferOptionsSection.propTypes = {
 
 TransferOptionsSection.contextTypes = {
   router: routerShape.isRequired,
+  match: matchShape.isRequired,
 };
 
 export default TransferOptionsSection;

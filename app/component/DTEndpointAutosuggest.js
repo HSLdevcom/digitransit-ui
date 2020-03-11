@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { routerShape } from 'react-router';
+import { routerShape } from 'found';
 import DTOldSearchSavingAutosuggest from './DTOldSearchSavingAutosuggest';
 import Loading from './Loading';
 import {
@@ -54,7 +54,8 @@ export class DTEndpointAutosuggestComponent extends React.Component {
 
   state = {};
 
-  componentWillReceiveProps = nextProps => {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps = nextProps => {
     const locState = nextProps.locationState;
     // wait until address is set or geolocationing fails
     if (

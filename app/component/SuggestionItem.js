@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import pure from 'recompose/pure';
-import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
 
@@ -14,6 +13,7 @@ import {
   isTerminal,
   getGTFSId,
 } from '../util/suggestionUtils';
+import { isKeyboardSelectionEvent } from '../util/browser';
 import ComponentUsageExample from './ComponentUsageExample';
 
 const SuggestionItem = pure(
@@ -84,20 +84,34 @@ const SuggestionItem = pure(
       return (
         <div className="suggestion-item-stop">
           <div>
-            <Link
+            <a
               onClick={() => {
                 item.timetableClicked = false;
               }}
+              onKeyPress={e => {
+                if (isKeyboardSelectionEvent(e)) {
+                  item.timetableClicked = false;
+                }
+              }}
+              role="button"
+              tabIndex="0"
             >
               {acri}
               {ri}
-            </Link>
+            </a>
           </div>
           <div className="suggestion-item-timetable">
-            <Link
+            <a
               onClick={() => {
                 item.timetableClicked = true;
               }}
+              onKeyPress={e => {
+                if (isKeyboardSelectionEvent(e)) {
+                  item.timetableClicked = true;
+                }
+              }}
+              role="button"
+              tabIndex="0"
             >
               <Icon img="icon-icon_schedule" />
               <div
@@ -107,7 +121,7 @@ const SuggestionItem = pure(
               >
                 <FormattedMessage id="timetable" defaultMessage="Timetable" />
               </div>
-            </Link>
+            </a>
           </div>
         </div>
       );

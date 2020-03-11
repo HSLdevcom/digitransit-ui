@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 
@@ -12,9 +12,9 @@ function DisruptionInfoButton(props, { config }) {
         onClick={props.toggleDisruptionInfo}
       >
         <FormattedMessage id="disruptions" defaultMessage="Disruptions" />
-        {props.root &&
-          props.root.alerts &&
-          props.root.alerts.length > 0 && (
+        {props.viewer &&
+          props.viewer.alerts &&
+          props.viewer.alerts.length > 0 && (
             <Icon img="icon-icon_caution" className="disruption-info" />
           )}
       </button>
@@ -25,13 +25,13 @@ function DisruptionInfoButton(props, { config }) {
 
 DisruptionInfoButton.propTypes = {
   toggleDisruptionInfo: PropTypes.func.isRequired,
-  root: PropTypes.shape({
+  viewer: PropTypes.shape({
     alerts: PropTypes.array,
   }),
 };
 
 DisruptionInfoButton.defaultProps = {
-  root: {
+  viewer: {
     alerts: [],
   },
 };
@@ -40,15 +40,13 @@ DisruptionInfoButton.contextTypes = {
   config: PropTypes.object.isRequired,
 };
 
-export default Relay.createContainer(DisruptionInfoButton, {
-  fragments: {
-    root: () => Relay.QL`
-      fragment on QueryType {
-        alerts(feeds:$feedIds) {
-          id
-        }
+export default createFragmentContainer(DisruptionInfoButton, {
+  viewer: graphql`
+    fragment DisruptionInfoButton_viewer on QueryType
+      @argumentDefinitions(feedIds: { type: "[String!]", defaultValue: [] }) {
+      alerts(feeds: $feedIds) {
+        id
       }
-    `,
-  },
-  initialVariables: { feedIds: null },
+    }
+  `,
 });

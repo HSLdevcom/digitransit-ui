@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { routerShape } from 'react-router';
+import { routerShape } from 'found';
 import sortBy from 'lodash/sortBy';
 import Distance from './Distance';
 import RouteNumber from './RouteNumber';

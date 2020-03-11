@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { matchShape } from 'found';
 
 import SelectStopRow from './SelectStopRow';
 import SelectTerminalRow from './SelectTerminalRow';
@@ -11,7 +12,7 @@ import ComponentUsageExample from '../../ComponentUsageExample';
 import MarkerPopupBottom from '../MarkerPopupBottom';
 import { options } from '../../ExampleData';
 
-function MarkerSelectPopup(props) {
+function MarkerSelectPopup(props, context) {
   const rows = props.options.map(option => {
     if (option.layer === 'stop' && option.feature.properties.stops) {
       return (
@@ -74,8 +75,8 @@ function MarkerSelectPopup(props) {
             address:
               props.options[0].feature.properties.name ||
               props.options[0].feature.properties.NIMI,
-            lat: props.location.lat,
-            lon: props.location.lng,
+            lat: context.match.location.lat,
+            lon: context.match.location.lng,
           }}
         />
       </div>
@@ -105,7 +106,10 @@ MarkerSelectPopup.description = (
 MarkerSelectPopup.propTypes = {
   options: PropTypes.array.isRequired,
   selectRow: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
-  location: PropTypes.object.isRequired,
+};
+
+MarkerSelectPopup.contextTypes = {
+  match: matchShape.isRequired,
 };
 
 export default MarkerSelectPopup;

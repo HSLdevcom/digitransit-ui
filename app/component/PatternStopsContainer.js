@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay';
 import some from 'lodash/some';
-import { routerShape } from 'react-router';
+import { matchShape, routerShape } from 'found';
 import RouteListHeader from './RouteListHeader';
 import RouteStopListContainer from './RouteStopListContainer';
 import withBreakpoint from '../util/withBreakpoint';
@@ -12,27 +12,23 @@ class PatternStopsContainer extends React.PureComponent {
     pattern: PropTypes.shape({
       code: PropTypes.string.isRequired,
     }).isRequired,
-    routes: PropTypes.arrayOf(
-      PropTypes.shape({
-        fullscreenMap: PropTypes.bool,
-      }).isRequired,
-    ).isRequired,
-    location: PropTypes.shape({
-      pathname: PropTypes.string.isRequired,
-    }).isRequired,
+    match: matchShape.isRequired,
     breakpoint: PropTypes.string.isRequired,
-  };
-
-  static contextTypes = {
     router: routerShape.isRequired,
   };
 
   toggleFullscreenMap = () => {
-    if (some(this.props.routes, route => route.fullscreenMap)) {
-      this.context.router.goBack();
+    if (
+      this.props.match.location.state &&
+      this.props.match.location.state.fullscreenMap === true
+    ) {
+      this.props.router.go(-1);
       return;
     }
-    this.context.router.push(`${this.props.location.pathname}/kartta`);
+    this.props.router.push({
+      ...this.props.match.location,
+      state: { ...this.props.match.location.state, fullscreenMap: true },
+    });
   };
 
   render() {
@@ -41,7 +37,10 @@ class PatternStopsContainer extends React.PureComponent {
     }
 
     if (
-      some(this.props.routes, route => route.fullscreenMap) &&
+      some(
+        this.props.match.location.state &&
+          this.props.match.location.state.fullscreenMap === true,
+      ) &&
       this.props.breakpoint !== 'large'
     ) {
       return <div className="route-page-content" />;
@@ -63,17 +62,16 @@ class PatternStopsContainer extends React.PureComponent {
   }
 }
 
-export default Relay.createContainer(withBreakpoint(PatternStopsContainer), {
-  initialVariables: {
-    patternId: null,
-  },
-  fragments: {
-    pattern: ({ patternId }) =>
-      Relay.QL`
-      fragment on Pattern {
-        code
-        ${RouteStopListContainer.getFragment('pattern', { patternId })}
-      }
-    `,
-  },
+export default createFragmentContainer(withBreakpoint(PatternStopsContainer), {
+  pattern: graphql`
+    fragment PatternStopsContainer_pattern on Pattern
+      @argumentDefinitions(
+        currentTime: { type: "Long!", defaultValue: 0 }
+        patternId: { type: "String!", defaultValue: "0" }
+      ) {
+      code
+      ...RouteStopListContainer_pattern
+        @arguments(currentTime: $currentTime, patternId: $patternId)
+    }
+  `,
 });

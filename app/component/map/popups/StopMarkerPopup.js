@@ -1,7 +1,7 @@
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createRefetchContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import PopupMock from './PopupMock';
@@ -12,39 +12,35 @@ import ComponentUsageExample from '../../ComponentUsageExample';
 import mockData from './StopMarkerPopup.mockdata';
 
 const NUMBER_OF_DEPARTURES = 5;
-const STOP_TIME_RANGE = 12 * 60 * 60;
-const TERMINAL_TIME_RANGE = 60 * 60;
 
 class StopMarkerPopup extends React.PureComponent {
-  componentWillReceiveProps({ relay, currentTime }) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps({ relay, currentTime }) {
     const currUnix = this.props.currentTime;
     if (currUnix !== currentTime) {
-      relay.setVariables({ currentTime: currUnix });
+      relay.refetch(oldVariables => {
+        return { ...oldVariables, startTime: currUnix };
+      });
     }
   }
 
   render() {
-    const { relay, stop, terminal } = this.props;
-    const entity = stop || terminal;
-    const isTerminal = terminal !== null;
+    const { currentTime, stop } = this.props;
 
     return (
       <div className="card">
         <StopCardContainer
-          stop={entity}
-          numberOfDepartures={(isTerminal ? 3 : 1) * NUMBER_OF_DEPARTURES}
-          startTime={relay.variables.currentTime}
-          isTerminal={isTerminal}
-          timeRange={isTerminal ? TERMINAL_TIME_RANGE : STOP_TIME_RANGE}
+          stop={stop}
+          currentTime={currentTime}
           limit={NUMBER_OF_DEPARTURES}
           isPopUp
           className="card-padding"
         />
         <MarkerPopupBottom
           location={{
-            address: entity.name,
-            lat: entity.lat,
-            lon: entity.lon,
+            address: stop.name,
+            lat: stop.lat,
+            lon: stop.lon,
           }}
         />
       </div>
@@ -54,56 +50,56 @@ class StopMarkerPopup extends React.PureComponent {
 
 StopMarkerPopup.propTypes = {
   stop: PropTypes.object,
-  terminal: PropTypes.object,
   currentTime: PropTypes.number.isRequired,
   relay: PropTypes.shape({
-    variables: PropTypes.shape({
-      currentTime: PropTypes.number.isRequired,
-    }).isRequired,
-    setVariables: PropTypes.func.isRequired,
+    refetch: PropTypes.func.isRequired,
   }).isRequired,
 };
 
-const StopMarkerPopupContainer = Relay.createContainer(
+const StopMarkerPopupContainer = createRefetchContainer(
   connectToStores(StopMarkerPopup, ['TimeStore'], ({ getStore }) => ({
     currentTime: getStore('TimeStore')
       .getCurrentTime()
       .unix(),
   })),
   {
-    fragments: {
-      stop: ({ currentTime }) => Relay.QL`
-      fragment on Stop{
+    stop: graphql`
+      fragment StopMarkerPopup_stop on Stop
+        @argumentDefinitions(
+          startTime: { type: "Long!", defaultValue: 0 }
+          timeRange: { type: "Long!", defaultValue: 43200 }
+          numberOfDepartures: { type: "Int!", defaultValue: 5 }
+        ) {
         gtfsId
         lat
         lon
         name
-        ${StopCardContainer.getFragment('stop', {
-          startTime: currentTime,
-          timeRange: STOP_TIME_RANGE,
-          numberOfDepartures: NUMBER_OF_DEPARTURES,
-        })}
+        ...StopCardContainer_stop
+          @arguments(
+            startTime: $startTime
+            timeRange: $timeRange
+            numberOfDepartures: $numberOfDepartures
+          )
       }
     `,
-      terminal: ({ currentTime }) => Relay.QL`
-      fragment on Stop{
-        gtfsId
-        lat
-        lon
-        name
-        ${StopCardContainer.getFragment('stop', {
-          startTime: currentTime,
-          timeRange: TERMINAL_TIME_RANGE,
-          // Terminals do not show arrivals, so we need some slack
-          numberOfDepartures: NUMBER_OF_DEPARTURES * 3,
-        })}
-      }
-    `,
-    },
-    initialVariables: {
-      currentTime: 0,
-    },
   },
+  graphql`
+    query StopMarkerPopupQuery(
+      $stopId: String!
+      $startTime: Long!
+      $timeRange: Long!
+      $numberOfDepartures: Int!
+    ) {
+      stop(id: $stopId) {
+        ...StopMarkerPopup_stop
+          @arguments(
+            startTime: $startTime
+            timeRange: $timeRange
+            numberOfDepartures: $numberOfDepartures
+          )
+      }
+    }
+  `,
 );
 
 StopMarkerPopupContainer.displayName = 'StopMarkerPopup';
@@ -111,8 +107,7 @@ StopMarkerPopupContainer.displayName = 'StopMarkerPopup';
 const getTimeProps = currentTime => ({
   currentTime,
   relay: {
-    variables: { currentTime },
-    setVariables: () => {},
+    refetch: () => {},
   },
 });
 

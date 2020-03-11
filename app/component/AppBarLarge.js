@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
-import { routerShape, locationShape } from 'react-router';
+import { matchShape, routerShape } from 'found';
 import ExternalLink from './ExternalLink';
 import DisruptionInfo from './DisruptionInfo';
 import Icon from './Icon';
@@ -16,7 +16,7 @@ import UserInfo from './UserInfo';
 
 const AppBarLarge = (
   { titleClicked, logo, user },
-  { router, location, config, intl },
+  { router, match, config, intl },
 ) => {
   const openDisruptionInfo = () => {
     addAnalyticsEvent({
@@ -25,9 +25,9 @@ const AppBarLarge = (
       name: null,
     });
     router.push({
-      ...location,
+      ...match.location,
       state: {
-        ...location.state,
+        ...match.location.state,
         disruptionInfoOpen: true,
       },
     });
@@ -128,7 +128,7 @@ AppBarLarge.displayName = 'AppBarLarge';
 
 AppBarLarge.contextTypes = {
   router: routerShape.isRequired,
-  location: locationShape.isRequired,
+  match: matchShape.isRequired,
   config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
 };

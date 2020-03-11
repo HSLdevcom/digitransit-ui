@@ -1,15 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
 
-import CityBikePopup from '../popups/CityBikePopup';
+import CityBikePopupContainer from '../popups/CityBikePopupContainer';
 import Icon from '../../Icon';
 import GenericMarker from '../GenericMarker';
 import { station as exampleStation } from '../../ExampleData';
 import ComponentUsageExample from '../../ComponentUsageExample';
-import CityBikeRoute from '../../../route/CityBikeRoute';
 import { isBrowser } from '../../../util/browser';
-import Loading from '../../Loading';
 import { getCityBikeAvailabilityIndicatorColor } from '../../../util/legUtils';
 import {
   getCityBikeNetworkConfig,
@@ -35,7 +32,7 @@ const smallIconSvg = `
   </svg>
 `;
 
-class CityBikeMarker extends React.Component {
+export default class CityBikeMarker extends React.Component {
   static description = (
     <div>
       <p>Renders a citybike marker</p>
@@ -116,31 +113,11 @@ class CityBikeMarker extends React.Component {
         getIcon={this.getIcon}
         id={this.props.station.stationId}
       >
-        <Relay.RootContainer
-          Component={CityBikePopup}
-          route={new CityBikeRoute({ stationId: this.props.station.stationId })}
-          renderLoading={() => (
-            <div className="card" style={{ height: '12rem' }}>
-              <Loading />
-            </div>
-          )}
-          renderFetched={data => <CityBikePopup {...data} />}
+        <CityBikePopupContainer
+          stationId={this.props.station.stationId}
+          context={this.context}
         />
       </GenericMarker>
     );
   }
 }
-
-export default Relay.createContainer(CityBikeMarker, {
-  fragments: {
-    station: () => Relay.QL`
-      fragment on BikeRentalStation {
-        lat
-        lon
-        stationId
-        networks
-        bikesAvailable
-      }
-    `,
-  },
-});

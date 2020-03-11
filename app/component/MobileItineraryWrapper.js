@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Tabs from 'material-ui/Tabs/Tabs';
 import Tab from 'material-ui/Tabs/Tab';
-import { routerShape } from 'react-router';
+import { matchShape, routerShape } from 'found';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import { FormattedMessage, intlShape } from 'react-intl';
 import SwipeableViews from 'react-swipeable-views';
@@ -13,7 +13,6 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 export default class MobileItineraryWrapper extends React.Component {
   static propTypes = {
-    fullscreenMap: PropTypes.bool,
     focus: PropTypes.func.isRequired,
     children: PropTypes.arrayOf(PropTypes.node.isRequired).isRequired,
     params: PropTypes.shape({
@@ -25,7 +24,7 @@ export default class MobileItineraryWrapper extends React.Component {
 
   static contextTypes = {
     router: routerShape.isRequired,
-    location: PropTypes.object.isRequired,
+    match: matchShape.isRequired,
     intl: intlShape.isRequired,
   };
 
@@ -58,18 +57,19 @@ export default class MobileItineraryWrapper extends React.Component {
   }
 
   toggleFullscreenMap = () => {
-    if (this.props.fullscreenMap) {
-      this.context.router.goBack();
+    const fullscreenMap =
+      this.context.match.location.state &&
+      this.context.match.location.state.fullscreenMap === true;
+    if (fullscreenMap) {
+      this.context.router.go(-1);
     } else {
       this.context.router.push({
-        ...this.context.location,
-        pathname: `${this.context.location.pathname}/kartta`,
+        ...this.context.match.location,
+        state: { ...this.context.match.location.state, fullscreenMap: true },
       });
     }
     addAnalyticsEvent({
-      action: this.props.fullscreenMap
-        ? 'MinimizeMapOnMobile'
-        : 'MaximizeMapOnMobile',
+      action: fullscreenMap ? 'MinimizeMapOnMobile' : 'MaximizeMapOnMobile',
       category: 'Map',
       name: 'SummaryPage',
     });
@@ -86,7 +86,7 @@ export default class MobileItineraryWrapper extends React.Component {
     });
 
     this.context.router.replace({
-      ...this.context.location,
+      ...this.context.match,
       pathname: `${getRoutePath(
         this.props.params.from,
         this.props.params.to,
@@ -117,7 +117,11 @@ export default class MobileItineraryWrapper extends React.Component {
       );
     }
 
-    const swipe = this.props.fullscreenMap ? (
+    const fullscreenMap =
+      this.context.match.location.state &&
+      this.context.match.location.state.fullscreenMap === true;
+
+    const swipe = fullscreenMap ? (
       undefined
     ) : (
       <SwipeableViews
@@ -138,7 +142,7 @@ export default class MobileItineraryWrapper extends React.Component {
         )}
       </SwipeableViews>
     );
-    const tabs = this.props.fullscreenMap ? (
+    const tabs = fullscreenMap ? (
       undefined
     ) : (
       <div className="itinerary-tabs-container" key="tabs">
@@ -169,13 +173,13 @@ export default class MobileItineraryWrapper extends React.Component {
         transitionLeaveTimeout={300}
         component="div"
         className={`itinerary-container-content ${
-          this.props.fullscreenMap ? `minimized` : null
+          fullscreenMap ? `minimized` : null
         }`}
         onTouchStart={e => e.stopPropagation()}
         onMouseDown={e => e.stopPropagation()}
       >
         <div className="fullscreen-toggle" onClick={this.toggleFullscreenMap}>
-          {this.props.fullscreenMap ? (
+          {fullscreenMap ? (
             <Icon img="icon-icon_minimize" className="cursor-pointer" />
           ) : (
             <Icon img="icon-icon_maximize" className="cursor-pointer" />

@@ -1,7 +1,7 @@
 import ceil from 'lodash/ceil';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { routerShape } from 'react-router';
+import { matchShape, routerShape } from 'found';
 
 import SelectOptionContainer, {
   getFiveStepOptions,
@@ -14,7 +14,7 @@ import { addAnalyticsEvent } from '../../util/analyticsUtils';
 
 const BikingOptionsSection = (
   { walkReluctance, walkReluctanceOptions, bikeSpeed, defaultSettings },
-  { router },
+  { router, match },
 ) => (
   <React.Fragment>
     {/* OTP uses the same walkReluctance setting for bike routing */}
@@ -23,7 +23,7 @@ const BikingOptionsSection = (
       defaultValue={defaultSettings.walkReluctance}
       highlightDefaultValue={false}
       onOptionSelected={value => {
-        replaceQueryParams(router, { walkReluctance: value });
+        replaceQueryParams(router, match, { walkReluctance: value });
         addAnalyticsEvent({
           category: 'ItinerarySettings',
           action: 'ChangeAmountOfBiking',
@@ -41,7 +41,7 @@ const BikingOptionsSection = (
       defaultValue={defaultSettings.bikeSpeed}
       displayValueFormatter={value => `${ceil(value * 3.6, 1)} km/h`}
       onOptionSelected={value => {
-        replaceQueryParams(router, { bikeSpeed: value });
+        replaceQueryParams(router, match, { bikeSpeed: value });
         addAnalyticsEvent({
           category: 'ItinerarySettings',
           action: 'ChangeBikingSpeed',
@@ -67,6 +67,7 @@ BikingOptionsSection.propTypes = {
 
 BikingOptionsSection.contextTypes = {
   router: routerShape.isRequired,
+  match: matchShape.isRequired,
 };
 
 export default BikingOptionsSection;

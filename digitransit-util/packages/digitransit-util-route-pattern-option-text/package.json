@@ -1,0 +1,24 @@
+{
+  "name": "@digitransit-util/digitransit-util-route-pattern-option-text",
+  "version": "1.0.2",
+  "description": "digitransit-util route-pattern-option-text module",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -r esm test.js",
+    "docs": "node -r esm ../../scripts/generate-readmes"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/HSLdevcom/digitransit-ui.git"
+  },
+  "keywords": [
+    "digitransit-util",
+    "routePatternOptionText"
+  ],
+  "author": "Digitransit Authors",
+  "license": "(AGPL-3.0 OR EUPL-1.2)",
+  "devDependencies": {
+    "i18next": "^19.2.0",
+    "i18next-xhr-backend": "^3.2.2"
+  }
+}

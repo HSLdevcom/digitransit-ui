@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
-import some from 'lodash/some';
+import { createFragmentContainer, graphql } from 'react-relay';
 import cx from 'classnames';
 import pure from 'recompose/pure';
+import { matchShape } from 'found';
 
 import { getStartTime } from '../util/timeUtils';
 import TripListHeader from './TripListHeader';
 import TripStopListContainer from './TripStopListContainer';
 import withBreakpoint from '../util/withBreakpoint';
 
-function TripStopsContainer({ breakpoint, routes, trip }) {
+function TripStopsContainer({ breakpoint, match, trip }) {
   if (!trip) {
     return null;
   }
@@ -19,7 +19,8 @@ function TripStopsContainer({ breakpoint, routes, trip }) {
     trip.stoptimesForDate[0].scheduledDeparture,
   );
 
-  const fullscreen = some(routes, route => route.fullscreenMap);
+  const fullscreen =
+    match.location.state && match.location.state.fullscreenMap === true;
 
   if (fullscreen && breakpoint !== 'large') {
     return <div className="route-page-content" />;
@@ -50,11 +51,7 @@ TripStopsContainer.propTypes = {
       }).isRequired,
     ).isRequired,
   }),
-  routes: PropTypes.arrayOf(
-    PropTypes.shape({
-      fullscreenMap: PropTypes.bool,
-    }),
-  ).isRequired,
+  match: matchShape.isRequired,
   breakpoint: PropTypes.string.isRequired,
 };
 
@@ -63,22 +60,20 @@ TripStopsContainer.defaultProps = {
 };
 
 const pureComponent = pure(withBreakpoint(TripStopsContainer));
-const containerComponent = Relay.createContainer(pureComponent, {
-  fragments: {
-    trip: () => Relay.QL`
-      fragment on Trip {
-        stoptimesForDate {
-          scheduledDeparture
-        }
-        ${TripStopListContainer.getFragment('trip')}
+const containerComponent = createFragmentContainer(pureComponent, {
+  trip: graphql`
+    fragment TripStopsContainer_trip on Trip {
+      stoptimesForDate {
+        scheduledDeparture
       }
-    `,
-    pattern: () => Relay.QL`
-      fragment on Pattern {
-        id
-      }
-    `,
-  },
+      ...TripStopListContainer_trip
+    }
+  `,
+  pattern: graphql`
+    fragment TripStopsContainer_pattern on Pattern {
+      id
+    }
+  `,
 });
 
 export { containerComponent as default, TripStopsContainer as Component };

@@ -62,7 +62,8 @@ class Timetable extends React.Component {
     };
   }
 
-  componentWillReceiveProps = () => {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps = () => {
     if (this.props.stop.gtfsId !== this.state.oldStopId) {
       this.resetStopOptions(this.props.stop.gtfsId);
     }
@@ -336,6 +337,12 @@ const exampleStop = {
         {
           scheduledDeparture: 60180,
           serviceDay: 1495659600,
+          realtimeState: 'CANCELED',
+        },
+        {
+          scheduledDeparture: 61380,
+          serviceDay: 1495659600,
+          realtimeState: 'SCHEDULED',
         },
       ],
     },
@@ -353,6 +360,7 @@ const exampleStop = {
         {
           scheduledDeparture: 61180,
           serviceDay: 1495659600,
+          realtimeState: 'SCHEDULED',
         },
       ],
     },
