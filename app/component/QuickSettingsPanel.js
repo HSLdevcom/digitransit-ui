@@ -12,7 +12,7 @@ import ModeFilter from './ModeFilter';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
 import TimeSelectorContainer from './TimeSelectorContainer';
 import { QuickOptionSetType } from '../constants';
-import { getModes, isBikeRestricted } from '../util/modeUtils';
+import { getModes, getStreetMode, isBikeRestricted } from '../util/modeUtils';
 import {
   matchQuickOption,
   getQuickOptionSets,
@@ -164,10 +164,9 @@ class QuickSettingsPanel extends React.Component {
       this.context,
     );
     // isCarpool will be true if carpool was chosen as streetMode
-    // returns false if the mode is not defined
-    const isCarpool = this.context.router.location
-      ? this.context.router.location.query.modes.startsWith('CARPOOL')
-      : false;
+    const isCarpool =
+      getStreetMode(this.context.router.location, this.context.config) ===
+      'CARPOOL';
 
     return (
       <div className={cx(['quicksettings-container'])}>
