@@ -301,7 +301,14 @@ export default configMerger(walttiConfig, {
       defaultValue: false,
       exclusive: false,
       icon: 'car-withoutBox',
-    }
+    },
+
+    carpool: {
+      availableForSelection: true,
+      defaultValue: false,
+      exclusive: true,
+      icon: 'carpool-withoutBox',
+    },
   },
 
   // adding assets/geoJson/hb-layers layers
