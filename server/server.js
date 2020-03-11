@@ -234,6 +234,12 @@ function setUpAvailableTickets() {
   });
 }
 
+function setUpCarpoolOffer() {
+  app.get(`${config.APP_PATH}/carpool-offer`, function(req, res) {
+    res.send('hello world');
+  });
+}
+
 function startServer() {
   const server = app.listen(port, () =>
     console.log('Digitransit-ui available on port %d', server.address().port),
@@ -246,6 +252,7 @@ setUpStaticFolders();
 setUpMiddleware();
 setUpRoutes();
 setUpErrorHandling();
+setUpCarpoolOffer();
 Promise.all([setUpAvailableRouteTimetables(), setUpAvailableTickets()]).then(
   () => startServer(),
 );
