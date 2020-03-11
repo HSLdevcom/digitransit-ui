@@ -164,9 +164,10 @@ class QuickSettingsPanel extends React.Component {
       this.context,
     );
     // isCarpool will be true if carpool was chosen as streetMode
-    const isCarpool = this.context.router.location.query.modes.startsWith(
-      'CARPOOL',
-    );
+    // returns false if the mode is not defined
+    const isCarpool = this.context.router.location
+      ? this.context.router.location.query.modes.startsWith('CARPOOL')
+      : false;
 
     return (
       <div className={cx(['quicksettings-container'])}>
