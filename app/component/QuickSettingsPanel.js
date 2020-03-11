@@ -273,7 +273,9 @@ class QuickSettingsPanel extends React.Component {
                     })}
                   </option>
                 )}
-                {applicableQuickOptionSets.includes('prefer-walking-routes') && (
+                {applicableQuickOptionSets.includes(
+                  'prefer-walking-routes',
+                ) && (
                   <option value="prefer-walking-routes">
                     {this.context.intl.formatMessage({
                       id: 'route-prefer-walking-routes',
