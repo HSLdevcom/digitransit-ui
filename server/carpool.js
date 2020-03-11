@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
 const moment = require('moment');
 
-const postCarpoolOffer = (origin, destination, startTime) => {
+const postCarpoolOffer = options => {
   const body = {
     Contactmobile: '015129117999',
     Currency: 'EUR',
@@ -22,18 +22,18 @@ const postCarpoolOffer = (origin, destination, startTime) => {
       {
         RoutingID: null,
         Origin: {
-          Address: origin.label,
+          Address: options.origin.label,
           CountryName: 'Deutschland',
           CountryCode: 'Deutschland',
-          Latitude: origin.lat,
-          Longitude: origin.lng,
+          Latitude: options.origin.lat,
+          Longitude: options.origin.lng,
         },
         Destination: {
-          Address: destination.label,
+          Address: options.destination.label,
           CountryName: 'Deutschland',
           CountryCode: 'Deutschland',
-          Latitude: destination.lat,
-          Longitude: destination.lng,
+          Latitude: options.destination.lat,
+          Longitude: options.destination.lng,
         },
         RoutingIndex: 0,
       },

@@ -121,14 +121,20 @@ function setUpErrorHandling() {
 }
 
 function setUpCarpoolOffer() {
+  app.use(bodyParser.json());
   app.post(`${config.APP_PATH}/carpool-offers`, function(req, res) {
-    console.log(req.body);
     postCarpoolOffer(
       req.body.origin,
       req.body.destination,
       req.body.startTime,
     ).then(json => {
-      const jsonResponse = { id: json.tripID };
+      const jsonResponse = {
+        id: json.tripID,
+        url: {
+          de: `https://live.ride2go.com/#/trip/${json.tripID}/de`,
+          en: `https://live.ride2go.com/#/trip/${json.tripID}/en`,
+        },
+      };
       res.set('Content-Type', 'application/json');
       res.send(JSON.stringify(jsonResponse));
     });
