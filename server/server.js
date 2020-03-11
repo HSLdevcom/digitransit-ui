@@ -121,8 +121,13 @@ function setUpErrorHandling() {
 }
 
 function setUpCarpoolOffer() {
-  app.get(`${config.APP_PATH}/carpool-offer`, function(req, res) {
-    postCarpoolOffer().then(json => {
+  app.post(`${config.APP_PATH}/carpool-offers`, function(req, res) {
+    console.log(req.body);
+    postCarpoolOffer(
+      req.body.origin,
+      req.body.destination,
+      req.body.startTime,
+    ).then(json => {
       const jsonResponse = { id: json.tripID };
       res.set('Content-Type', 'application/json');
       res.send(JSON.stringify(jsonResponse));

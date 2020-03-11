@@ -1,10 +1,11 @@
 const fetch = require('node-fetch');
+const moment = require('moment');
 
-const postCarpoolOffer = () => {
+const postCarpoolOffer = (origin, destination, startTime) => {
   const body = {
     Contactmobile: '015129117999',
     Currency: 'EUR',
-    Enterdate: '1583932738',
+    Enterdate: moment().unix(),
     IDuser: '830d39a4-3584-6f04-a178-25176353b359',
     Places: '3',
     Privacy: {
@@ -21,18 +22,18 @@ const postCarpoolOffer = () => {
       {
         RoutingID: null,
         Origin: {
-          Address: 'Ehningen, 71139, Deutschland',
+          Address: origin.label,
           CountryName: 'Deutschland',
           CountryCode: 'Deutschland',
-          Latitude: 48.6592556,
-          Longitude: 8.9405097,
+          Latitude: origin.lat,
+          Longitude: origin.lng,
         },
         Destination: {
-          Address: 'Tübingen, Deutschland',
+          Address: destination.label,
           CountryName: 'Deutschland',
           CountryCode: 'Deutschland',
-          Latitude: 48.54,
-          Longitude: 9.04,
+          Latitude: destination.lat,
+          Longitude: destination.lng,
         },
         RoutingIndex: 0,
       },
