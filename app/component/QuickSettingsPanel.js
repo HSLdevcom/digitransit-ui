@@ -164,7 +164,7 @@ class QuickSettingsPanel extends React.Component {
       this.context,
     );
     // isCarpool will be true if carpool was chosen as streetMode
-    const isCarpool =
+    const shouldRenderSecondRow =
       getStreetMode(this.context.router.location, this.context.config) ===
       'CARPOOL';
 
@@ -217,7 +217,7 @@ class QuickSettingsPanel extends React.Component {
             />
           </div>
         </div>
-        {isCarpool ? (
+        {shouldRenderSecondRow ? (
           ''
         ) : (
           <div className="bottom-row">
