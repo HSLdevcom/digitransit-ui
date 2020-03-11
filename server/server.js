@@ -35,6 +35,7 @@ const express = require('express');
 const expressStaticGzip = require('express-static-gzip');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const { postCarpoolOffer } = require('./carpool');
 const { retryFetch } = require('../app/util/fetchUtils');
 const config = require('../app/config').getConfiguration();
 
@@ -117,6 +118,16 @@ function setUpErrorHandling() {
   }
 
   app.use(onError);
+}
+
+function setUpCarpoolOffer() {
+  app.get(`${config.APP_PATH}/carpool-offer`, function(req, res) {
+    postCarpoolOffer().then(json => {
+      const jsonResponse = { id: json.tripID };
+      res.set('Content-Type', 'application/json');
+      res.send(JSON.stringify(jsonResponse));
+    });
+  });
 }
 
 function setUpRoutes() {
@@ -234,12 +245,6 @@ function setUpAvailableTickets() {
   });
 }
 
-function setUpCarpoolOffer() {
-  app.get(`${config.APP_PATH}/carpool-offer`, function(req, res) {
-    res.send('hello world');
-  });
-}
-
 function startServer() {
   const server = app.listen(port, () =>
     console.log('Digitransit-ui available on port %d', server.address().port),
@@ -250,9 +255,9 @@ function startServer() {
 setUpRaven();
 setUpStaticFolders();
 setUpMiddleware();
+setUpCarpoolOffer();
 setUpRoutes();
 setUpErrorHandling();
-setUpCarpoolOffer();
 Promise.all([setUpAvailableRouteTimetables(), setUpAvailableTickets()]).then(
   () => startServer(),
 );
