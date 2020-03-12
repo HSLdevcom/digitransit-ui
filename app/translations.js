@@ -496,6 +496,7 @@ const translations = {
       '{number, plural, =0 {0 Minuten} one {1 Minute} other {{number} Minuten}}',
     'off-canvas-info':
       'Mit einer Anmeldung können Sie Favoriten speichern und auf anderen Geräten wieder verwenden.',
+    'offer-ride': 'Fahregemeinschaft anbieten',
     'option-default': 'Standard',
     'option-least': 'Am wenigsten',
     'option-less': 'Weniger',
@@ -930,6 +931,7 @@ const translations = {
       '{number, plural, =0 {0 minutes} one {1 minute} other {{number} minutes}}',
     'off-canvas-info':
       'Log in to the service to save your favorites and utilize them on other devices',
+    'offer-ride': 'Offer carpool',
     'option-default': 'Default',
     'option-least': 'Least',
     'option-less': 'Less',
