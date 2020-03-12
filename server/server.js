@@ -176,7 +176,11 @@ function setUpOIDC() {
             const data = JSON.parse(body);
             body = JSON.stringify(data);
           }
-          res.status(response.statusCode).send(body);
+          if (!err) {
+            res.status(response.statusCode).send(body);
+          } else {
+            res.status(401).send(body);
+          }
         },
       );
     } else {
