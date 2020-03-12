@@ -9,6 +9,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
+import ToggleButton from './ToggleButton';
 
 function CarLeg(props, context) {
   const distance = displayDistance(
@@ -26,6 +27,10 @@ function CarLeg(props, context) {
     } else if (props.leg.route.agency.gtfsId === 'mfdz:mifaz') {
       carpoolAgencyIcon[0] = 'mifaz_icon-without-text';
     }
+  }
+
+  function toggleOfferCarpool() {
+    console.log('toggle!');
   }
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
@@ -58,6 +63,16 @@ function CarLeg(props, context) {
             values={{ distance, duration }}
             defaultMessage="Drive {distance} ({duration})}"
           />
+          <br />
+          {
+            <ToggleButton
+              className="standalone-btn"
+              title="Offer ride" // tooltip
+              showButtonTitle="true"
+              label="Offer ride" // button text
+              onBtnClick={toggleOfferCarpool}
+            />
+          }
           {CarLeg.createBookButton(props.leg)}
           {carpoolAgencyIcon[1] ? (
             <Icon
