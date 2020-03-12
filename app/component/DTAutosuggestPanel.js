@@ -86,6 +86,7 @@ class DTAutosuggestPanel extends React.Component {
     swapOrder: PropTypes.func,
     getViaPointsFromMap: PropTypes.bool,
     searchPanelText: PropTypes.string,
+    searchContext: PropTypes.any.isRequired,
   };
 
   static defaultProps = {
@@ -318,7 +319,13 @@ class DTAutosuggestPanel extends React.Component {
   };
 
   render = () => {
-    const { breakpoint, isItinerary, origin, searchPanelText } = this.props;
+    const {
+      breakpoint,
+      isItinerary,
+      origin,
+      searchPanelText,
+      searchContext,
+    } = this.props;
     const { activeSlackInputs, isDraggingOverIndex, viaPoints } = this.state;
     const slackTime = this.getSlackTimeOptions();
     const locationWithTime = withCurrentTime(
@@ -372,6 +379,7 @@ class DTAutosuggestPanel extends React.Component {
             placeholder={this.props.originPlaceHolder}
             value={this.value(origin)}
             isFocused={this.isFocused}
+            searchContext={searchContext}
             onLocationSelected={location => {
               addAnalyticsEvent({
                 action: 'EditJourneyStartPoint',
@@ -452,6 +460,7 @@ class DTAutosuggestPanel extends React.Component {
                   placeholder="via-point"
                   className="viapoint"
                   isFocused={this.isFocused}
+                  searchContext={searchContext}
                   value={(o && o.address) || ''}
                   onLocationSelected={item =>
                     this.handleViaPointLocationSelected(item, i)
@@ -549,6 +558,7 @@ class DTAutosuggestPanel extends React.Component {
             placeholder={this.props.destinationPlaceHolder}
             className={this.class(this.props.destination)}
             isFocused={this.isFocused}
+            searchContext={searchContext}
             value={this.value(this.props.destination)}
             onLocationSelected={location => {
               addAnalyticsEvent({

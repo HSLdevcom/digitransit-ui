@@ -19,6 +19,7 @@ import DTAutosuggestPanel from './DTAutosuggestPanel';
 import MapWithTracking from './map/MapWithTracking';
 import PageFooter from './PageFooter';
 import { isBrowser } from '../util/browser';
+import searchContext from './searchContext';
 import {
   parseLocation,
   isItinerarySearchObjects,
@@ -34,6 +35,7 @@ import * as ModeUtils from '../util/modeUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import intializeSearchContext from './DTSearchContextInitializer';
 import scrollTop from '../util/scroll';
 
 const debug = d('IndexPage.js');
@@ -43,6 +45,7 @@ class IndexPage extends React.Component {
     config: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
+    getStore: PropTypes.func.isRequired,
   };
 
   static propTypes = {
@@ -70,6 +73,7 @@ class IndexPage extends React.Component {
   }
 
   componentDidMount() {
+    intializeSearchContext(this.context, searchContext);
     events.on('popupOpened', this.onPopupOpen);
     scrollTop();
   }
@@ -163,6 +167,7 @@ class IndexPage extends React.Component {
             searchType="endpoint"
             originPlaceHolder="search-origin-index"
             destinationPlaceHolder="search-destination-index"
+            searchContext={searchContext}
           />
           <div className="control-panel-separator-line" />
           <div className="stops-near-you-text">
@@ -186,6 +191,7 @@ class IndexPage extends React.Component {
               value=""
               isFocused={this.isFocused}
               onLocationSelected={e => e.stopPropagation()}
+              searchContext={searchContext}
             />
           </div>
         </ControlPanel>
@@ -249,6 +255,7 @@ class IndexPage extends React.Component {
             searchType="all"
             originPlaceHolder="search-origin"
             destinationPlaceHolder="search-destination"
+            searchContext={searchContext}
           />
           <div className="control-panel-separator-line" />
           <div className="stops-near-you-text">
@@ -272,6 +279,7 @@ class IndexPage extends React.Component {
               value=""
               isFocused={this.isFocused}
               onLocationSelected={e => e.stopPropagation()}
+              searchContext={searchContext}
             />
           </div>
         </ControlPanel>

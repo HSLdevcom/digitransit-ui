@@ -6,6 +6,8 @@ import { routerShape } from 'found';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 import Icon from './Icon';
 import RouteDetails from './RouteDetails';
+import searchContext from './searchContext';
+import intializeSearchContext from './DTSearchContextInitializer';
 import getRelayEnvironment from '../util/getRelayEnvironment';
 
 class PreferredRoutes extends React.Component {
@@ -13,6 +15,7 @@ class PreferredRoutes extends React.Component {
     intl: intlShape.isRequired,
     router: routerShape.isRequired,
     config: PropTypes.object.isRequired,
+    getStore: PropTypes.func.isRequired,
   };
 
   static propTypes = {
@@ -28,6 +31,10 @@ class PreferredRoutes extends React.Component {
     unPreferredRoutes: [],
   };
 
+  componentDidMount() {
+    intializeSearchContext(this.context, searchContext);
+  }
+
   getPreferredRouteNumbers = routeOptions => (
     <div className="preferred-routes-input-container">
       <h1>
@@ -41,6 +48,7 @@ class PreferredRoutes extends React.Component {
         searchType="search"
         className={routeOptions.optionName}
         onLocationSelected={e => e.stopPropagation()}
+        searchContext={searchContext}
         onRouteSelected={val =>
           this.props.onRouteSelected(val, routeOptions.optionName)
         }

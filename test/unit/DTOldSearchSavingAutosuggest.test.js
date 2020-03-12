@@ -5,6 +5,7 @@ import React from 'react';
 import fetchMock from 'fetch-mock';
 import { shallowWithIntl } from './helpers/mock-intl-enzyme';
 import DTOldSearchSavingAutosuggest from '../../app/component/DTOldSearchSavingAutosuggest';
+import searchContext from '../../app/component/searchContext';
 
 const oldSearch = {
   type: 'OldSearch',
@@ -69,6 +70,7 @@ describe('<DTOldSearchSavingAutosuggest />', () => {
     const props = {
       id: 'start',
       layers: [],
+      searchContext,
       onSelect: item => {
         const [lon, lat] = item.geometry.coordinates;
         expect(item.properties.name).to.equal('Lapinlahdenkatu 1a'); // did not change

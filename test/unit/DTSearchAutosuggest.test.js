@@ -6,10 +6,12 @@ import { describe, it } from 'mocha';
 import { mockContext, mockChildContextTypes } from './helpers/mock-context';
 import { mountWithIntl } from './helpers/mock-intl-enzyme';
 import DTSearchAutosuggest from '../../app/component/DTSearchAutosuggest';
+import searchContext from '../../app/component/searchContext';
 
 describe('<DTSearchAutosuggest />', () => {
   it('should render with focus set', () => {
     const props = {
+      searchContext,
       autoFocus: true,
       id: 'origin',
       layers: [],

@@ -7,6 +7,7 @@ import { createMemoryMockRouter } from './helpers/mock-router';
 import { mockContext, mockChildContextTypes } from './helpers/mock-context';
 import { mountWithIntl } from './helpers/mock-intl-enzyme';
 import OriginDestinationBar from '../../app/component/OriginDestinationBar';
+import searchContext from '../../app/component/searchContext';
 import { replaceQueryParams } from '../../app/util/queryUtils';
 
 describe('<OriginDestinationBar />', () => {
@@ -19,6 +20,7 @@ describe('<OriginDestinationBar />', () => {
   describe('swapEndpoints', () => {
     it.skip('should also swap via points in the query', () => {
       const props = {
+        searchContext,
         destination: {},
         origin: {},
       };
