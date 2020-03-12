@@ -4,11 +4,11 @@ export function getUser() {
   const options = {
     credentials: 'include',
   };
-  return retryFetch('/api/user', options, 4, 2000);
+  return retryFetch('/api/user', options, 2, 200).then(res => res.json());
 }
 
 export function getFavourites() {
-  return retryFetch('/api/user/favourites', {}, 4, 2000);
+  return retryFetch('/api/user/favourites', {}, 2, 200).then(res => res.json());
 }
 
 export function updateFavourites(data) {
@@ -19,7 +19,7 @@ export function updateFavourites(data) {
     },
     body: JSON.stringify(data),
   };
-  return retryFetch('/api/user/favourites', options, 4, 2000);
+  return retryFetch('/api/user/favourites', options, 0, 0);
 }
 
 export function deleteFavourites(data) {
@@ -30,5 +30,5 @@ export function deleteFavourites(data) {
     },
     body: JSON.stringify(data),
   };
-  return retryFetch('/api/user/favourites', options, 4, 2000);
+  return retryFetch('/api/user/favourites', options, 0, 0);
 }
