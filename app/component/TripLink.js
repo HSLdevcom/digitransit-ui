@@ -1,69 +1,79 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
-import { Link } from 'react-router';
+import { QueryRenderer, graphql } from 'react-relay';
+import Link from 'found/lib/Link';
 import cx from 'classnames';
 import IconWithTail from './IconWithTail';
 import { PREFIX_ROUTES } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import getRelayEnvironment from '../util/getRelayEnvironment';
 
-function TripLink(props) {
+function TripLink({ vehicle, relayEnvironment }) {
   const icon = (
     <IconWithTail
-      className={cx(props.mode, 'tail-icon')}
-      img={`icon-icon_${props.mode}-live`}
+      className={cx(vehicle.mode, 'tail-icon')}
+      img={`icon-icon_${vehicle.mode}-live`}
       rotate={180}
     />
   );
 
-  if (props.trip.trip) {
-    return (
-      <Link
-        to={`/${PREFIX_ROUTES}/${props.trip.trip.route.gtfsId}/pysakit/${
-          props.trip.trip.pattern.code
-        }/${props.trip.trip.gtfsId}`}
-        className="route-now-content"
-        onClick={() => {
-          addAnalyticsEvent({
-            category: 'Route',
-            action: 'OpenTripInformation',
-            name: props.mode.toUpperCase(),
-          });
-        }}
-      >
-        {icon}
-      </Link>
-    );
-  }
-  // eslint-disable-next-line no-console
-  console.warn('Unable to match trip', props);
-  return <span className="route-now-content">{icon}</span>;
+  return (
+    <QueryRenderer
+      query={graphql`
+        query TripLinkQuery($id: String!) {
+          trip: trip(id: $id) {
+            gtfsId
+            pattern {
+              code
+            }
+            route {
+              gtfsId
+            }
+          }
+        }
+      `}
+      variables={{
+        id: vehicle.tripId,
+      }}
+      environment={relayEnvironment}
+      render={({ props }) => {
+        if (!props) {
+          return <span className="route-now-content">{icon}</span>;
+        }
+
+        const route = props.trip.route.gtfsId;
+        const pattern = props.trip.pattern.code;
+        const trip = props.trip.gtfsId;
+        return (
+          <Link
+            to={`/${PREFIX_ROUTES}/${route}/pysakit/${pattern}/${trip}`}
+            className="route-now-content"
+            onClick={() => {
+              addAnalyticsEvent({
+                category: 'Route',
+                action: 'OpenTripInformation',
+                name: vehicle.mode.toUpperCase(),
+              });
+            }}
+          >
+            {icon}
+          </Link>
+        );
+      }}
+    />
+  );
 }
 
 TripLink.propTypes = {
-  trip: PropTypes.object.isRequired,
-  mode: PropTypes.string.isRequired,
+  trip: PropTypes.object,
+  vehicle: PropTypes.shape({
+    mode: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    tripId: PropTypes.string.isRequired,
+  }).isRequired,
+  relayEnvironment: PropTypes.object.isRequired,
 };
 
-const containerComponent = Relay.createContainer(TripLink, {
-  fragments: {
-    trip: () => Relay.QL`
-      fragment on QueryType {
-        trip: trip(id: $id) {
-          gtfsId
-          pattern {
-            code
-          }
-          route {
-            gtfsId
-          }
-        }
-      }
-    `,
-  },
-  initialVariables: {
-    id: null,
-  },
-});
+const componentWithRelayEnvinronment = getRelayEnvironment(TripLink);
 
-export { containerComponent as default, TripLink as Component };
+export { componentWithRelayEnvinronment as default, TripLink as Component };

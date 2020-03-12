@@ -6,7 +6,7 @@ import { isBrowser } from '../../../util/browser';
 import { isLayerEnabled } from '../../../util/mapLayerUtils';
 
 class TileContainer {
-  constructor(coords, done, props, config) {
+  constructor(coords, done, props, config, relayEnvironment) {
     const markersMinZoom = Math.min(
       config.cityBike.cityBikeMinZoom,
       config.stopsMinZoom,
@@ -60,7 +60,10 @@ class TileContainer {
         }
         return false;
       })
-      .map(Layer => new Layer(this, config, this.props.mapLayers));
+      .map(
+        Layer =>
+          new Layer(this, config, this.props.mapLayers, relayEnvironment),
+      );
 
     this.el.layers = this.layers.map(layer => omit(layer, 'tile'));
 

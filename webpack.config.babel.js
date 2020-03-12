@@ -270,12 +270,6 @@ module.exports = {
       lodash: 'lodash-es',
       'lodash.merge': 'lodash-es/merge',
       moment$: 'moment/moment.js',
-      'react-router/lib/getRouteParams': 'react-router/es/getRouteParams',
-      'react-router-relay/lib': 'react-router-relay/es',
-      'react-router-relay/lib/RelayRouterContext':
-        'react-router-relay/es/RelayRouterContext',
-      'react-router-relay/lib/QueryAggregator':
-        'react-router-relay/es/QueryAggregator',
       'babel-runtime/helpers/slicedToArray': path.join(
         __dirname,
         'app/util/slicedToArray',

@@ -1,34 +1,23 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import Relay from 'react-relay/classic';
-import { routerShape } from 'react-router';
+import { createFragmentContainer, graphql } from 'react-relay';
+import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import some from 'lodash/some';
 
 import Icon from './Icon';
 import MapContainer from './map/MapContainer';
 import RouteLine from './map/route/RouteLine';
 import VehicleMarkerContainer from './map/VehicleMarkerContainer';
-import StopCardHeaderContainer from './StopCardHeaderContainer';
 import { getStartTime } from '../util/timeUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class RouteMapContainer extends React.PureComponent {
-  static contextTypes = {
-    router: routerShape.isRequired, // eslint-disable-line react/no-typos
-    location: PropTypes.object.isRequired,
-  };
-
   static propTypes = {
-    routes: PropTypes.arrayOf(
-      PropTypes.shape({
-        fullscreenMap: PropTypes.bool,
-      }),
-    ).isRequired,
+    router: routerShape.isRequired,
+    match: matchShape.isRequired,
     pattern: PropTypes.object.isRequired,
-    tripId: PropTypes.string,
     lat: PropTypes.number,
     lon: PropTypes.number,
     breakpoint: PropTypes.string.isRequired,
@@ -43,8 +32,9 @@ class RouteMapContainer extends React.PureComponent {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.tripId !== nextProps.tripId) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (this.props.match.params.tripId !== nextProps.match.params.tripId) {
       this.setState({
         hasCentered: false,
         shouldFitBounds: true,
@@ -53,20 +43,24 @@ class RouteMapContainer extends React.PureComponent {
   }
 
   render() {
-    const { router, location } = this.context;
-    const { pattern, lat, lon, routes, tripId, breakpoint } = this.props;
+    const { pattern, lat, lon, match, router, breakpoint } = this.props;
     const { hasCentered, shouldFitBounds } = this.state;
 
-    const fullscreen = some(routes, route => route.fullscreenMap);
+    const fullscreen =
+      match.location.state && match.location.state.fullscreenMap === true;
 
     const [dispLat, dispLon] =
-      (!hasCentered && tripId) || (!fullscreen && breakpoint !== 'large')
+      (!hasCentered && match.params.tripId) ||
+      (!fullscreen && breakpoint !== 'large')
         ? [lat, lon]
         : [undefined, undefined];
 
-    if (!hasCentered && lat && lon) {
-      this.setState({ hasCentered: true, shouldFitBounds: false });
-    }
+    // TODO this code existed to stop centering on every coordinate update
+    // but it can cause an infinite loop so needs refactoring
+    // if (!hasCentered && lat && lon) {
+    //   this.setState({ hasCentered: true, shouldFitBounds: false });
+    // }
+
     // ,
     if (!pattern) {
       return false;
@@ -81,10 +75,13 @@ class RouteMapContainer extends React.PureComponent {
         name: 'RoutePage',
       });
       if (fullscreen) {
-        router.goBack();
+        router.go(-1);
         return;
       }
-      router.push(`${location.pathname}/kartta`);
+      router.push({
+        ...match.location,
+        state: { ...match.location.state, fullscreenMap: true },
+      });
     };
 
     const leafletObjs = [
@@ -145,36 +142,6 @@ class RouteMapContainer extends React.PureComponent {
   }
 }
 
-export const RouteMapFragments = {
-  pattern: () => Relay.QL`
-    fragment on Pattern {
-      code
-      directionId
-      headsign
-      geometry {
-        lat
-        lon
-      }
-      stops {
-        lat
-        lon
-        name
-        gtfsId
-        ${StopCardHeaderContainer.getFragment('stop')}
-      }
-      ${RouteLine.getFragment('pattern')}
-    }
-  `,
-  trip: () => Relay.QL`
-    fragment on Trip {
-      stoptimesForDate {
-        scheduledDeparture
-      }
-      gtfsId
-    }
-  `,
-};
-
 const RouteMapContainerWithVehicles = connectToStores(
   withBreakpoint(RouteMapContainer),
   ['RealTimeInformationStore'],
@@ -205,6 +172,32 @@ const RouteMapContainerWithVehicles = connectToStores(
   },
 );
 
-export default Relay.createContainer(RouteMapContainerWithVehicles, {
-  fragments: RouteMapFragments,
+export default createFragmentContainer(RouteMapContainerWithVehicles, {
+  pattern: graphql`
+    fragment RouteMapContainer_pattern on Pattern {
+      code
+      directionId
+      headsign
+      geometry {
+        lat
+        lon
+      }
+      stops {
+        lat
+        lon
+        name
+        gtfsId
+        ...StopCardHeaderContainer_stop
+      }
+      ...RouteLine_pattern
+    }
+  `,
+  trip: graphql`
+    fragment RouteMapContainer_trip on Trip {
+      stoptimesForDate {
+        scheduledDeparture
+      }
+      gtfsId
+    }
+  `,
 });

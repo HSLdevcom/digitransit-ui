@@ -41,10 +41,10 @@ export const mapRoute = item => {
   if (item === null || item === undefined) {
     return null;
   }
-  // DT-3331: added query string sort=no
+
   const link = `/${PREFIX_ROUTES}/${item.gtfsId}/pysakit/${
     orderBy(item.patterns, 'code', ['asc'])[0].code
-  }?sort=no`;
+  }`;
 
   return {
     type: 'Route',
@@ -477,6 +477,7 @@ export function executeSearchImmediate(
   searchContext,
   refPoint,
   { input, type, layers, config },
+  relayEnvironment,
   callback,
 ) {
   const {
@@ -513,12 +514,17 @@ export function executeSearchImmediate(
       searchComponents.push(getCurrentPositionIfEmpty(input, position));
     }
     if (endpointLayers.includes('FavouritePlace')) {
-      searchComponents.push(getFavouriteLocations(favouriteLocations, input));
+      searchComponents.push(
+        getFavouriteLocations(favouriteLocations, input, relayEnvironment),
+      );
     }
     if (endpointLayers.includes('FavouriteStop')) {
-      const stopsAndStations = getStopAndStations(favouriteStops);
+      const stopsAndStations = getStopAndStations(
+        favouriteStops,
+        relayEnvironment,
+      );
       searchComponents.push(
-        getFavouriteStops(stopsAndStations, input, refPoint),
+        getFavouriteStops(stopsAndStations, input, refPoint, relayEnvironment),
       );
     }
     if (endpointLayers.includes('OldSearch')) {
@@ -631,9 +637,9 @@ export function executeSearchImmediate(
     const favouriteRoutes = getStoredFavouriteRoutes(context);
 
     searchSearchesPromise = Promise.all([
-      getFavouriteRoutes(favouriteRoutes, input),
+      getFavouriteRoutes(favouriteRoutes, input, relayEnvironment),
       getOldSearches(oldSearches, input),
-      getRoutes(config, input),
+      getRoutes(input, config, relayEnvironment),
     ])
       .then(flatten)
       .then(uniqByLabel)
@@ -673,14 +679,19 @@ const debouncedSearch = debounce(executeSearchImmediate, 300, {
   leading: true,
 });
 
-export const executeSearch = (searchContext, refPoint, data, callback) => {
+export const executeSearch = (
+  searchContext,
+  refPoint,
+  data,
+  relayEnvironment,
+  callback,
+) => {
   callback(null); // This means 'we are searching'
-  debouncedSearch(searchContext, refPoint, data, callback);
+  debouncedSearch(searchContext, refPoint, data, relayEnvironment, callback);
 };
 
 export const withCurrentTime = (getStore, location) => {
   const query = (location && location.query) || {};
-
   return {
     ...location,
     query: {

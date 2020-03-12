@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
-import { routerShape, locationShape } from 'react-router';
+import { matchShape, routerShape } from 'found';
 import { FormattedMessage } from 'react-intl';
 import getContext from 'recompose/getContext';
 import connectToStores from 'fluxible-addons-react/connectToStores';
@@ -8,14 +8,7 @@ import AppBarSmall from './AppBarSmall';
 import AppBarLarge from './AppBarLarge';
 import { DesktopOrMobile } from '../util/withBreakpoint';
 
-const AppBarContainer = ({
-  router,
-  location,
-  homeUrl,
-  logo,
-  user,
-  ...args
-}) => (
+const AppBarContainer = ({ router, match, homeUrl, logo, user, ...args }) => (
   <Fragment>
     <a href="#mainContent" id="skip-to-content-link">
       <FormattedMessage id="skip-to-content" defaultMessage="Skip to content" />
@@ -24,7 +17,7 @@ const AppBarContainer = ({
       mobile={() => (
         <AppBarSmall
           {...args}
-          showLogo={location.pathname === homeUrl}
+          showLogo={match.location.pathname === homeUrl}
           logo={logo}
           homeUrl={homeUrl}
           user={user}
@@ -43,7 +36,7 @@ const AppBarContainer = ({
 );
 
 AppBarContainer.propTypes = {
-  location: locationShape.isRequired,
+  match: matchShape.isRequired,
   router: routerShape.isRequired,
   homeUrl: PropTypes.string.isRequired,
   logo: PropTypes.string,
@@ -52,7 +45,7 @@ AppBarContainer.propTypes = {
 
 const WithContext = connectToStores(
   getContext({
-    location: locationShape.isRequired,
+    match: matchShape.isRequired,
     router: routerShape.isRequired,
   })(AppBarContainer),
   ['UserStore'],

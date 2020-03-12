@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay';
 import MarkerPopupBottom from '../MarkerPopupBottom';
 import CityBikeContent from '../../CityBikeContent';
 import CityBikeCardContainer from '../../CityBikeCardContainer';
@@ -53,19 +53,17 @@ class CityBikePopup extends React.Component {
   }
 }
 
-export default Relay.createContainer(CityBikePopup, {
-  fragments: {
-    station: () => Relay.QL`
-      fragment on BikeRentalStation {
-        stationId
-        name
-        lat
-        lon
-        bikesAvailable
-        spacesAvailable
-        state
-        networks
-      }
-    `,
-  },
+export default createFragmentContainer(CityBikePopup, {
+  station: graphql`
+    fragment CityBikePopup_station on BikeRentalStation {
+      stationId
+      name
+      lat
+      lon
+      bikesAvailable
+      spacesAvailable
+      state
+      networks
+    }
+  `,
 });

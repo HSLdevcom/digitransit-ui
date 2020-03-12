@@ -1,0 +1,22 @@
+{
+  "name": "@digitransit-util/digitransit-util",
+  "version": "1.0.2",
+  "description": "a JavaScript library for Digitransit",
+  "main": "digitransit-util",
+  "module": "digitransit-util.mjs",
+  "keywords": [
+    "digitransit-util"
+  ],
+  "author": "Digitransit Authors",
+  "license": "(AGPL-3.0 OR EUPL-1.2)",
+  "scripts": {
+    "test": "mocha -r esm test.js",
+    "docs": "node -r esm ../../scripts/generate-readmes"
+  },
+  "dependencies": {
+    "@digitransit-util/digitransit-util-day-range-allowed-diff": "^1.0.2",
+    "@digitransit-util/digitransit-util-day-range-pattern": "^1.0.2",
+    "@digitransit-util/digitransit-util-enrich-patterns": "^1.0.2",
+    "@digitransit-util/digitransit-util-route-pattern-option-text": "^1.0.2"
+  }
+}

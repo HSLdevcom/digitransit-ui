@@ -9,12 +9,14 @@ import SuggestionItem from './SuggestionItem';
 import { getLabel } from '../util/suggestionUtils';
 import { dtLocationShape } from '../util/shapes';
 import Icon from './Icon';
+import getRelayEnvironment from '../util/getRelayEnvironment';
 
 class DTAutosuggest extends React.Component {
   static contextTypes = {
     config: PropTypes.object.isRequired,
     getStore: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
+    relayEnvironment: PropTypes.object.isRequired,
   };
 
   static propTypes = {
@@ -31,6 +33,7 @@ class DTAutosuggest extends React.Component {
     selectedFunction: PropTypes.func.isRequired,
     value: PropTypes.string,
     searchContext: PropTypes.any.isRequired,
+    relayEnvironment: PropTypes.object.isRequired,
     ariaLabel: PropTypes.string,
   };
 
@@ -61,7 +64,8 @@ class DTAutosuggest extends React.Component {
     }
   };
 
-  componentWillReceiveProps = nextProps => {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps = nextProps => {
     if (nextProps.value !== this.state.value && !this.state.editing) {
       this.setState({
         value: nextProps.value,
@@ -173,6 +177,7 @@ class DTAutosuggest extends React.Component {
           type: this.props.searchType,
           config: this.context.config,
         },
+        this.props.relayEnvironment,
         searchResult => {
           if (searchResult == null) {
             return;
@@ -346,10 +351,7 @@ class DTAutosuggest extends React.Component {
           shouldRenderSuggestions={() => this.state.editing}
           highlightFirstSuggestion
           renderInputComponent={p => (
-            <div id={`${this.props.id}-container`} style={{ display: 'flex' }}>
-              <span className="sr-only" role="alert">
-                {ariaSuggestionLen}
-              </span>
+            <>
               <input
                 aria-label={SearchBarId.concat(' ').concat(ariaLabelText)}
                 id={this.props.id}
@@ -357,8 +359,11 @@ class DTAutosuggest extends React.Component {
                 onKeyDown={this.keyDown}
                 {...p}
               />
+              <span className="sr-only" role="alert">
+                {ariaSuggestionLen}
+              </span>
               {this.clearButton()}
-            </div>
+            </>
           )}
           onSuggestionSelected={this.onSelected}
           ref={this.storeInputReference}
@@ -368,4 +373,4 @@ class DTAutosuggest extends React.Component {
   }
 }
 
-export default DTAutosuggest;
+export default getRelayEnvironment(DTAutosuggest);

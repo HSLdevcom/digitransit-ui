@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
-import { routerShape } from 'react-router';
+import { matchShape, routerShape } from 'found';
 
 import { StreetMode } from '../constants';
 import Icon from './Icon';
@@ -37,7 +37,7 @@ class CustomizeSearch extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
     router: routerShape.isRequired,
-    location: PropTypes.object.isRequired,
+    match: matchShape.isRequired,
     config: PropTypes.object.isRequired,
   };
 
@@ -50,37 +50,44 @@ class CustomizeSearch extends React.Component {
   onRouteSelected = (val, preferType) => {
     const routeToAdd = val.properties.gtfsId.replace(':', '__');
     if (preferType === 'preferred') {
-      addPreferredRoute(this.context.router, routeToAdd);
+      addPreferredRoute(this.context.router, routeToAdd, this.context.match);
     } else {
-      addUnpreferredRoute(this.context.router, routeToAdd);
+      addUnpreferredRoute(this.context.router, routeToAdd, this.context.match);
     }
   };
 
   removeRoute = (routeToRemove, preferType) => {
     if (preferType === 'preferred') {
-      removePreferredRoute(this.context.router, routeToRemove);
+      removePreferredRoute(
+        this.context.router,
+        routeToRemove,
+        this.context.match,
+      );
     } else {
-      removeUnpreferredRoute(this.context.router, routeToRemove);
+      removeUnpreferredRoute(
+        this.context.router,
+        routeToRemove,
+        this.context.match,
+      );
     }
   };
 
   resetParameters = () => {
     resetCustomizedSettings();
-    clearQueryParams(this.context.router, Object.keys(this.defaultSettings));
+    clearQueryParams(
+      this.context.router,
+      this.context.match,
+      Object.keys(this.defaultSettings),
+    );
   };
 
   render() {
-    const {
-      config,
-      location: { query },
-      intl,
-      router,
-    } = this.context;
+    const { config, match, intl, router } = this.context;
     const {
       config: { accessibilityOptions },
     } = this.context;
     const { onToggleClick } = this.props;
-    const currentSettings = getCurrentSettings(config, query);
+    const currentSettings = getCurrentSettings(config, match.location.query);
     const isUsingBicycle = currentSettings.modes.includes(StreetMode.Bicycle);
     let ticketOptions = [];
     if (config.showTicketSelector && config.availableTickets) {
@@ -105,12 +112,15 @@ class CustomizeSearch extends React.Component {
         <div className="settings-option-container">
           <StreetModeSelectorPanel
             className="customized-settings"
-            selectedStreetMode={ModeUtils.getStreetMode(
-              router.location,
-              config,
-            )}
+            selectedStreetMode={ModeUtils.getStreetMode(match.location, config)}
             selectStreetMode={(streetMode, isExclusive) => {
-              ModeUtils.setStreetMode(streetMode, config, router, isExclusive);
+              ModeUtils.setStreetMode(
+                streetMode,
+                config,
+                router,
+                match,
+                isExclusive,
+              );
               addAnalyticsEvent({
                 action: 'SelectTravelingModeFromSettings',
                 category: 'ItinerarySettings',
@@ -166,7 +176,7 @@ class CustomizeSearch extends React.Component {
             options={ticketOptions}
             currentOption={currentSettings.ticketTypes || 'none'}
             updateValue={value => {
-              replaceQueryParams(router, { ticketTypes: value });
+              replaceQueryParams(router, match, { ticketTypes: value });
               addAnalyticsEvent({
                 category: 'ItinerarySettings',
                 action: 'ChangeFareZones',
@@ -185,14 +195,15 @@ class CustomizeSearch extends React.Component {
                 defaultMessage: 'Citybikes and scooters',
               })}
               isUsingCitybike={currentSettings.modes.includes('CITYBIKE')}
-              currentOptions={getCitybikeNetworks(router.location, config)}
+              currentOptions={getCitybikeNetworks(match.location, config)}
               updateValue={value =>
                 updateCitybikeNetworks(
-                  getCitybikeNetworks(router.location, config),
+                  getCitybikeNetworks(match.location, config),
                   value.toUpperCase(),
                   config,
                   router,
                   currentSettings.modes.includes('CITYBIKE'),
+                  match,
                 )
               }
             />
@@ -223,7 +234,7 @@ class CustomizeSearch extends React.Component {
               value: accessibilityOptions[i].value,
             }))}
             onOptionSelected={value => {
-              replaceQueryParams(router, {
+              replaceQueryParams(router, match, {
                 accessibilityOption: value,
               });
               addAnalyticsEvent({

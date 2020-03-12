@@ -29,6 +29,7 @@ describe('<TransitLeg />', () => {
             zoneId: 'A',
           },
         },
+        duration: 10000,
         intermediatePlaces: [
           {
             arrivalTime: 1540990260000,
@@ -45,6 +46,7 @@ describe('<TransitLeg />', () => {
         },
         startTime: 1540989960000,
         to: {
+          name: 'Testitie',
           stop: {},
         },
         trip: {
@@ -83,6 +85,7 @@ describe('<TransitLeg />', () => {
           name: 'Lokkalantie',
           stop: {},
         },
+        duration: 10000,
         intermediatePlaces: [
           {
             arrivalTime: 1540990260000,
@@ -108,6 +111,7 @@ describe('<TransitLeg />', () => {
         },
         startTime: 1540989960000,
         to: {
+          name: 'Testitie',
           stop: {},
         },
         trip: {
@@ -151,6 +155,7 @@ describe('<TransitLeg />', () => {
           name: 'Lokkalantie',
           stop: {},
         },
+        duration: 10000,
         intermediatePlaces: [
           {
             arrivalTime: 1540990260000,
@@ -167,6 +172,7 @@ describe('<TransitLeg />', () => {
         },
         startTime: 1540989960000,
         to: {
+          name: 'Testitie',
           stop: {
             zoneId: 'C',
           },
@@ -207,6 +213,7 @@ describe('<TransitLeg />', () => {
           name: 'Lokkalantie',
           stop: {},
         },
+        duration: 10000,
         intermediatePlaces: [
           {
             arrivalTime: 1540990260000,
@@ -223,6 +230,7 @@ describe('<TransitLeg />', () => {
         },
         startTime: 1540989960000,
         to: {
+          name: 'Testitie',
           stop: {
             zoneId: 'C',
           },
@@ -259,6 +267,7 @@ describe('<TransitLeg />', () => {
           name: 'Lokkalantie',
           stop: {},
         },
+        duration: 10000,
         intermediatePlaces: [
           {
             arrivalTime: 1540990260000,
@@ -275,6 +284,7 @@ describe('<TransitLeg />', () => {
         },
         startTime: 1540989960000,
         to: {
+          name: 'Testitie',
           stop: {
             zoneId: 'C',
           },
@@ -314,6 +324,7 @@ describe('<TransitLeg />', () => {
           name: 'Huopalahti',
           stop: {},
         },
+        duration: 10000,
         intermediatePlaces: [
           {
             arrivalTime: 1540989970000,
@@ -329,6 +340,7 @@ describe('<TransitLeg />', () => {
         },
         startTime: 1540989960000,
         to: {
+          name: 'Testitie',
           stop: {},
         },
         trip: {
@@ -367,6 +379,7 @@ describe('<TransitLeg />', () => {
           name: 'Testilahti',
           stop: {},
         },
+        duration: 10000,
         intermediatePlaces: [],
         route: {
           alerts: [
@@ -378,6 +391,7 @@ describe('<TransitLeg />', () => {
         },
         startTime: 1553856180000,
         to: {
+          name: 'Testitie',
           stop: {},
         },
         trip: {
@@ -406,6 +420,7 @@ describe('<TransitLeg />', () => {
           name: 'Testilahti',
           stop: {},
         },
+        duration: 10000,
         intermediatePlaces: [],
         route: {
           alerts: [
@@ -422,6 +437,7 @@ describe('<TransitLeg />', () => {
         },
         startTime: 1553856180000,
         to: {
+          name: 'Testitie',
           stop: {},
         },
         trip: {
@@ -456,12 +472,14 @@ describe('<TransitLeg />', () => {
             ],
           },
         },
+        duration: 10000,
         intermediatePlaces: [],
         route: {
           gtfsId: 'A',
         },
         startTime: 1553856180000,
         to: {
+          name: 'Testitie',
           stop: {},
         },
         trip: {
@@ -490,12 +508,14 @@ describe('<TransitLeg />', () => {
           name: 'Testilahti',
           stop: {},
         },
+        duration: 10000,
         intermediatePlaces: [],
         route: {
           gtfsId: 'A',
         },
         startTime: 1553856180000,
         to: {
+          name: 'Testitie',
           stop: {
             alerts: [
               {
@@ -530,6 +550,7 @@ describe('<TransitLeg />', () => {
           name: 'Testilahti',
           stop: {},
         },
+        duration: 10000,
         intermediatePlaces: [
           {
             arrivalTime: 1553856410,
@@ -548,6 +569,7 @@ describe('<TransitLeg />', () => {
         },
         startTime: 1553856180000,
         to: {
+          name: 'Testitie',
           stop: {},
         },
         trip: {
@@ -582,12 +604,14 @@ describe('<TransitLeg />', () => {
           name: 'Test',
           stop: {},
         },
+        duration: 10000,
         intermediatePlaces: [],
         route: {
           gtfsId: '1234',
         },
         startTime: 1553856180000,
         to: {
+          name: 'Testitie',
           stop: {},
         },
         trip: {
@@ -629,12 +653,14 @@ describe('<TransitLeg />', () => {
             ],
           },
         },
+        duration: 10000,
         intermediatePlaces: [],
         route: {
           gtfsId: 'A1234',
         },
         startTime: startTime * 1000,
         to: {
+          name: 'Testitie',
           stop: {},
         },
         trip: {

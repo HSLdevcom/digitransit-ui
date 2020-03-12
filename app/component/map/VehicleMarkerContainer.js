@@ -1,15 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { graphql, QueryRenderer } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import TripMarkerPopup from './route/TripMarkerPopup';
-import FuzzyTripMarkerPopup from './route/FuzzyTripMarkerPopup';
-import TripRoute from '../../route/TripRoute';
-import FuzzyTripRoute from '../../route/FuzzyTripRoute';
 import IconWithTail from '../IconWithTail';
 import IconMarker from './IconMarker';
 import Loading from '../Loading';
+import getRelayEnvironment from '../../util/getRelayEnvironment';
 
 import { isBrowser } from '../../util/browser';
 
@@ -100,15 +98,15 @@ function shouldShowVehicle(message, direction, tripStart, pattern, headsign) {
   );
 }
 
-function VehicleMarkerContainer(props) {
-  return Object.entries(props.vehicles)
+function VehicleMarkerContainer(containerProps) {
+  return Object.entries(containerProps.vehicles)
     .filter(([, message]) =>
       shouldShowVehicle(
         message,
-        props.direction,
-        props.tripStart,
-        props.pattern,
-        props.headsign,
+        containerProps.direction,
+        containerProps.tripStart,
+        containerProps.pattern,
+        containerProps.headsign,
       ),
     )
     .map(([id, message]) => (
@@ -120,11 +118,11 @@ function VehicleMarkerContainer(props) {
         }}
         zIndexOffset={100}
         icon={getVehicleIcon(
-          props.ignoreMode ? null : message.mode,
+          containerProps.ignoreMode ? null : message.mode,
           message.heading,
           message.shortName ? message.shortName : message.route.split(':')[1],
           false,
-          props.useLargeIcon,
+          containerProps.useLargeIcon,
         )}
       >
         <Popup
@@ -133,33 +131,79 @@ function VehicleMarkerContainer(props) {
           minWidth={250}
           className="vehicle-popup"
         >
-          <Relay.RootContainer
-            Component={message.tripId ? TripMarkerPopup : FuzzyTripMarkerPopup}
-            route={
-              message.tripId
-                ? new TripRoute({ route: message.route, id: message.tripId })
-                : new FuzzyTripRoute({
-                    route: message.route,
-                    direction: message.direction,
-                    date: message.operatingDay,
-                    time:
-                      message.tripStartTime.substring(0, 2) * 60 * 60 +
-                      message.tripStartTime.substring(2, 4) * 60,
-                  })
-            }
-            renderLoading={() => (
-              <div className="card" style={{ height: '12rem' }}>
-                <Loading />
-              </div>
-            )}
-            renderFetched={data =>
-              message.tripId ? (
-                <TripMarkerPopup {...data} message={message} />
-              ) : (
-                <FuzzyTripMarkerPopup {...data} message={message} />
-              )
-            }
-          />
+          {message.tripId ? (
+            <QueryRenderer
+              query={graphql`
+                query VehicleMarkerContainerQuery(
+                  $route: String!
+                  $id: String!
+                ) {
+                  route: route(id: $route) {
+                    ...TripMarkerPopup_route
+                  }
+                  trip: trip(id: $id) {
+                    ...TripMarkerPopup_trip
+                  }
+                }
+              `}
+              variables={{
+                route: message.route,
+                id: message.tripId,
+              }}
+              environment={containerProps.relayEnvironment}
+              render={({ props }) =>
+                props ? (
+                  <TripMarkerPopup {...props} message={message} />
+                ) : (
+                  <div className="card" style={{ height: '12rem' }}>
+                    <Loading />
+                  </div>
+                )
+              }
+            />
+          ) : (
+            <QueryRenderer
+              query={graphql`
+                query VehicleMarkerContainerFuzzyQuery(
+                  $route: String!
+                  $direction: Int!
+                  $time: Int!
+                  $date: String!
+                ) {
+                  route: route(id: $route) {
+                    ...TripMarkerPopup_route
+                  }
+                  trip: fuzzyTrip(
+                    route: $route
+                    direction: $direction
+                    time: $time
+                    date: $date
+                  ) {
+                    ...TripMarkerPopup_trip
+                  }
+                }
+              `}
+              variables={{
+                route: message.route,
+                direction: message.direction,
+                date: message.operatingDay,
+                time:
+                  message.tripStartTime.substring(0, 2) * 60 * 60 +
+                  message.tripStartTime.substring(2, 4) * 60,
+              }}
+              environment={containerProps.relayEnvironment}
+              // eslint-disable-next-line no-unused-vars
+              render={({ props }) =>
+                props ? (
+                  <TripMarkerPopup {...props} message={message} />
+                ) : (
+                  <div className="card" style={{ height: '12rem' }}>
+                    <Loading />
+                  </div>
+                )
+              }
+            />
+          )}
         </Popup>
       </IconMarker>
     ));
@@ -180,6 +224,7 @@ VehicleMarkerContainer.propTypes = {
       long: PropTypes.number.isRequired,
     }).isRequired,
   ).isRequired,
+  relayEnvironment: PropTypes.object.isRequired,
 };
 
 VehicleMarkerContainer.defaultProps = {
@@ -188,7 +233,7 @@ VehicleMarkerContainer.defaultProps = {
 };
 
 const connectedComponent = connectToStores(
-  VehicleMarkerContainer,
+  getRelayEnvironment(VehicleMarkerContainer),
   ['RealTimeInformationStore'],
   (context, props) => ({
     ...props,
@@ -196,9 +241,13 @@ const connectedComponent = connectToStores(
   }),
 );
 
+const componentWithRelayEnvironment = getRelayEnvironment(
+  VehicleMarkerContainer,
+);
+
 export {
   connectedComponent as default,
-  VehicleMarkerContainer as Component,
+  componentWithRelayEnvironment as Component,
   shouldShowVehicle,
   getVehicleIcon,
 };

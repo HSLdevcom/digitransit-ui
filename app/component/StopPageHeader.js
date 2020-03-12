@@ -14,7 +14,7 @@ const StopPageHeader = compose(
     executeAction: PropTypes.func.isRequired,
   }),
   mapProps(props => ({
-    stop: props.stop,
+    stop: props.stop || props.station,
     className: 'stop-page header',
     headingStyle: 'h3',
     icons: [],

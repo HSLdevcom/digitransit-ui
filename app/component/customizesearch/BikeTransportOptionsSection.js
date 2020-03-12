@@ -1,13 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { routerShape } from 'react-router';
+import { matchShape, routerShape } from 'found';
 
 import Checkbox from '../Checkbox';
 import { StreetMode, TransportMode } from '../../constants';
 import { toggleTransportMode, setStreetMode } from '../../util/modeUtils';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 
-const BikeTransportOptionsSection = ({ currentModes }, { config, router }) => {
+const BikeTransportOptionsSection = (
+  { currentModes },
+  { config, router, match },
+) => {
   const onlyBike =
     currentModes.length === 1 && currentModes[0] === StreetMode.Bicycle;
   const isTransportModeEnabled = transportMode =>
@@ -23,7 +26,7 @@ const BikeTransportOptionsSection = ({ currentModes }, { config, router }) => {
         labelId="biketransport-only-bike"
         onChange={e => {
           if (e.target.checked) {
-            setStreetMode(StreetMode.Bicycle, config, router, true);
+            setStreetMode(StreetMode.Bicycle, config, router, match, true);
             addAnalyticsEvent({
               action: 'EnableImTravelingOnlyByBike',
               category: 'ItinerarySettings',
@@ -39,7 +42,7 @@ const BikeTransportOptionsSection = ({ currentModes }, { config, router }) => {
           key="cb-citybike"
           labelId="biketransport-citybike"
           onChange={e => {
-            toggleTransportMode(TransportMode.Citybike, config, router);
+            toggleTransportMode(TransportMode.Citybike, config, router, match);
             const action = e.target.checked
               ? 'EnableImUsingACityBike'
               : 'DisableImUsingACityBike';
@@ -62,6 +65,7 @@ BikeTransportOptionsSection.propTypes = {
 BikeTransportOptionsSection.contextTypes = {
   config: PropTypes.object.isRequired,
   router: routerShape.isRequired,
+  match: matchShape.isRequired,
 };
 
 export default BikeTransportOptionsSection;

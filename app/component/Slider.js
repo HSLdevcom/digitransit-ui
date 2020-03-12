@@ -33,7 +33,8 @@ class Slider extends React.Component {
     modified: false,
   };
 
-  componentWillMount = () =>
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount = () =>
     this.props.value === this.defaultValue
       ? this.setState({ modified: false })
       : this.setState({ modified: true });
@@ -45,7 +46,8 @@ class Slider extends React.Component {
       ? this.setState({ modified: false })
       : this.setState({ modified: true }));
 
-  componentWillReceiveProps = () => {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps = () => {
     if (parseInt(this.props.value, 10) !== this.defaultValue) {
       this.setState({ modified: true });
     } else {

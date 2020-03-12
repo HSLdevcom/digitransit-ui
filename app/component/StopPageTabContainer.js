@@ -1,240 +1,16 @@
-import cx from 'classnames';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
-import Relay from 'react-relay/classic';
-import { Link } from 'react-router';
-import some from 'lodash/some';
-import { AlertSeverityLevelType } from '../constants';
-import Icon from './Icon';
-import {
-  RouteAlertsWithContentQuery,
-  StopAlertsWithContentQuery,
-} from '../util/alertQueries';
-import {
-  getCancelationsForStop,
-  getServiceAlertsForStop,
-  getServiceAlertsForStopRoutes,
-  isAlertActive,
-  getActiveAlertSeverityLevel,
-  getCancelationsForRoute,
-  getServiceAlertsForRoute,
-  getServiceAlertsForRouteStops,
-} from '../util/alertUtils';
-import withBreakpoint from '../util/withBreakpoint';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { createFragmentContainer, graphql } from 'react-relay';
+import { matchShape } from 'found';
+import StopPageTabs from './StopPageTabs';
 
-const Tab = {
-  Disruptions: 'hairiot',
-  RightNow: 'right-now',
-  RoutesAndPlatforms: 'linjat',
-  Timetable: 'aikataulu',
-};
-
-const getActiveTab = pathname => {
-  if (pathname.indexOf(`/${Tab.Disruptions}`) > -1) {
-    return Tab.Disruptions;
-  }
-  if (pathname.indexOf(`/${Tab.RoutesAndPlatforms}`) > -1) {
-    return Tab.RoutesAndPlatforms;
-  }
-  if (pathname.indexOf(`/${Tab.Timetable}`) > -1) {
-    return Tab.Timetable;
-  }
-  return Tab.RightNow;
-};
-
-function StopPageTabContainer(
-  { children, params, routes, breakpoint, location: { pathname }, stop },
-  { intl },
-) {
-  if (!stop || (some(routes, 'fullscreenMap') && breakpoint !== 'large')) {
+function StopPageTabContainer({ children, stop }, { match }) {
+  if (match.location.state && match.location.state.fullscreenMap === true) {
     return null;
   }
-  const activeTab = getActiveTab(pathname);
-  const isTerminal = params.terminalId != null;
-  const urlBase = `/${
-    isTerminal ? 'terminaalit' : 'pysakit'
-  }/${encodeURIComponent(
-    params.terminalId ? params.terminalId : params.stopId,
-  )}`;
-
-  const currentTime = moment().unix();
-  const hasActiveAlert = isAlertActive(
-    getCancelationsForStop(stop),
-    [...getServiceAlertsForStop(stop), ...getServiceAlertsForStopRoutes(stop)],
-    currentTime,
-  );
-  const hasActiveServiceAlerts =
-    getActiveAlertSeverityLevel(
-      getServiceAlertsForStop(stop, intl),
-      currentTime,
-    ) ||
-    getActiveAlertSeverityLevel(
-      getServiceAlertsForStopRoutes(stop, intl),
-      currentTime,
-    );
-  const stopRoutesWithAlerts = [];
-
-  if (stop.routes && stop.routes.length > 0) {
-    stop.routes.forEach(route => {
-      const patternId = route.patterns.code;
-      const hasActiveRouteAlert = isAlertActive(
-        getCancelationsForRoute(route, patternId),
-        [
-          ...getServiceAlertsForRoute(route, patternId),
-          ...getServiceAlertsForRouteStops(route, patternId),
-        ],
-        currentTime,
-      );
-      const hasActiveRouteServiceAlerts = getActiveAlertSeverityLevel(
-        getServiceAlertsForRoute(route, patternId),
-        currentTime,
-      );
-      return (
-        (hasActiveRouteAlert || hasActiveRouteServiceAlerts) &&
-        stopRoutesWithAlerts.push(...route.alerts)
-      );
-    });
-  }
-
-  const disruptionClassName =
-    ((hasActiveAlert ||
-      stopRoutesWithAlerts.some(
-        alert =>
-          alert.alertSeverityLevel === AlertSeverityLevelType.Severe ||
-          alert.alertSeverityLevel === AlertSeverityLevelType.Warning,
-      )) &&
-      'active-disruption-alert') ||
-    ((hasActiveServiceAlerts ||
-      stopRoutesWithAlerts.some(
-        alert =>
-          alert.alertSeverityLevel === AlertSeverityLevelType.Severe ||
-          alert.alertSeverityLevel === AlertSeverityLevelType.Warning,
-      )) &&
-      'active-service-alert');
-
   return (
     <div className="stop-page-content-wrapper">
-      <div>
-        <div className="stop-tab-container">
-          <Link
-            to={urlBase}
-            className={cx('stop-tab-singletab', {
-              active: activeTab === Tab.RightNow,
-            })}
-            onClick={() => {
-              addAnalyticsEvent({
-                category: 'Stop',
-                action: 'OpenRightNowTab',
-                name: null,
-              });
-            }}
-          >
-            <div className="stop-tab-singletab-container">
-              <div>
-                <Icon
-                  className="stop-page-tab_icon"
-                  img="icon-icon_right-now"
-                />
-              </div>
-              <div>
-                <FormattedMessage id="right-now" defaultMessage="right now" />
-              </div>
-            </div>
-          </Link>
-          <Link
-            to={`${urlBase}/${Tab.Timetable}`}
-            className={cx('stop-tab-singletab', {
-              active: activeTab === Tab.Timetable,
-            })}
-            onClick={() => {
-              addAnalyticsEvent({
-                category: 'Stop',
-                action: 'OpenTimetableTab',
-                name: null,
-              });
-            }}
-          >
-            <div className="stop-tab-singletab-container">
-              <div>
-                <Icon className="stop-page-tab_icon" img="icon-icon_schedule" />
-              </div>
-              <div>
-                <FormattedMessage id="timetable" defaultMessage="timetable" />
-              </div>
-            </div>
-          </Link>
-          <Link
-            to={`${urlBase}/${Tab.RoutesAndPlatforms}`}
-            className={cx('stop-tab-singletab', {
-              active: activeTab === Tab.RoutesAndPlatforms,
-            })}
-            onClick={() => {
-              addAnalyticsEvent({
-                category: 'Stop',
-                action: 'OpenRoutesAndPlatformsTab',
-                name: null,
-              });
-            }}
-          >
-            <div className="stop-tab-singletab-container">
-              <div>
-                <Icon className="stop-page-tab_icon" img="icon-icon_info" />
-              </div>
-              <div>
-                <FormattedMessage
-                  id={
-                    stop.vehicleMode === 'RAIL' || stop.vehicleMode === 'SUBWAY'
-                      ? 'routes-tracks'
-                      : 'routes-platforms'
-                  }
-                  defaultMessage={
-                    stop.vehicleMode === 'RAIL' || stop.vehicleMode === 'SUBWAY'
-                      ? 'routes-tracks'
-                      : 'routes-platforms'
-                  }
-                />
-              </div>
-            </div>
-          </Link>
-          <Link
-            to={`${urlBase}/${Tab.Disruptions}`}
-            className={cx('stop-tab-singletab', {
-              active: activeTab === Tab.Disruptions,
-              'alert-active': hasActiveAlert || stopRoutesWithAlerts.length > 0,
-              'service-alert-active':
-                hasActiveServiceAlerts || stopRoutesWithAlerts.length > 0,
-            })}
-            onClick={() => {
-              addAnalyticsEvent({
-                category: 'Stop',
-                action: 'OpenDisruptionsTab',
-                name: null,
-              });
-            }}
-          >
-            <div className="stop-tab-singletab-container">
-              <div>
-                <Icon
-                  className={`stop-page-tab_icon ${disruptionClassName ||
-                    `no-alerts`}`}
-                  img={
-                    disruptionClassName === 'active-disruption-alert'
-                      ? 'icon-icon_caution'
-                      : 'icon-icon_info'
-                  }
-                />
-              </div>
-              <div className={`${disruptionClassName || `no-alerts`}`}>
-                <FormattedMessage id="disruptions" />
-              </div>
-            </div>
-          </Link>
-        </div>
-        <div className="stop-tabs-fillerline" />
-      </div>
+      <StopPageTabs stop={stop} />
       {children}
     </div>
   );
@@ -246,19 +22,6 @@ const alertArrayShape = PropTypes.arrayOf(
 
 StopPageTabContainer.propTypes = {
   children: PropTypes.node.isRequired,
-  breakpoint: PropTypes.string.isRequired,
-  params: PropTypes.oneOfType([
-    PropTypes.shape({ stopId: PropTypes.string.isRequired }).isRequired,
-    PropTypes.shape({ terminalId: PropTypes.string.isRequired }).isRequired,
-  ]).isRequired,
-  routes: PropTypes.arrayOf(
-    PropTypes.shape({
-      fullscreenMap: PropTypes.bool,
-    }).isRequired,
-  ).isRequired,
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
-  }).isRequired,
   stop: PropTypes.shape({
     alerts: alertArrayShape,
     vehicleMode: PropTypes.string,
@@ -288,57 +51,154 @@ StopPageTabContainer.defaultProps = {
 };
 
 StopPageTabContainer.contextTypes = {
-  intl: intlShape.isRequired,
+  match: matchShape,
 };
 
-const containerComponent = Relay.createContainer(
-  withBreakpoint(StopPageTabContainer),
-  {
-    fragments: {
-      stop: () => Relay.QL`
-        fragment on Stop {
-          ${StopAlertsWithContentQuery}
-          vehicleMode
-          stoptimes: stoptimesWithoutPatterns(
-            startTime:$startTime,
-            timeRange:$timeRange,
-            numberOfDepartures:100,
-            omitCanceled:false
-          ) {
-            realtimeState
-            trip {
-              pattern {
-                code
-              }
-              route {
-                gtfsId
-                shortName
-                longName
-                mode
-                color
-                ${RouteAlertsWithContentQuery}
-              }
-            }
+const containerComponent = createFragmentContainer(StopPageTabContainer, {
+  stop: graphql`
+    fragment StopPageTabContainer_stop on Stop
+      @argumentDefinitions(
+        startTime: { type: "Long" }
+        timeRange: { type: "Int", defaultValue: 900 }
+      ) {
+      id
+      gtfsId
+      code
+      stops {
+        id
+        gtfsId
+        alerts {
+          id
+          alertDescriptionText
+          alertHash
+          alertHeaderText
+          alertSeverityLevel
+          alertUrl
+          effectiveEndDate
+          effectiveStartDate
+          alertDescriptionTextTranslations {
+            language
+            text
           }
-          routes {
+          alertHeaderTextTranslations {
+            language
+            text
+          }
+          alertUrlTranslations {
+            language
+            text
+          }
+        }
+      }
+      alerts {
+        id
+        alertDescriptionText
+        alertHash
+        alertHeaderText
+        alertSeverityLevel
+        alertUrl
+        effectiveEndDate
+        effectiveStartDate
+        alertDescriptionTextTranslations {
+          language
+          text
+        }
+        alertHeaderTextTranslations {
+          language
+          text
+        }
+        alertUrlTranslations {
+          language
+          text
+        }
+      }
+      vehicleMode
+      stoptimes: stoptimesWithoutPatterns(
+        startTime: $startTime
+        timeRange: $timeRange
+        numberOfDepartures: 100
+        omitCanceled: false
+      ) {
+        realtimeState
+        trip {
+          pattern {
+            code
+          }
+          route {
             gtfsId
             shortName
             longName
             mode
             color
-            ${RouteAlertsWithContentQuery}
-            patterns {
+            alerts {
+              id
+              alertDescriptionText
+              alertHash
+              alertHeaderText
+              alertSeverityLevel
+              alertUrl
+              effectiveEndDate
+              effectiveStartDate
+              alertDescriptionTextTranslations {
+                language
+                text
+              }
+              alertHeaderTextTranslations {
+                language
+                text
+              }
+              alertUrlTranslations {
+                language
+                text
+              }
+              trip {
+                pattern {
+                  code
+                }
+              }
+            }
+          }
+        }
+      }
+      routes {
+        gtfsId
+        shortName
+        longName
+        mode
+        color
+        alerts {
+          id
+          alertDescriptionText
+          alertHash
+          alertHeaderText
+          alertSeverityLevel
+          alertUrl
+          effectiveEndDate
+          effectiveStartDate
+          alertDescriptionTextTranslations {
+            language
+            text
+          }
+          alertHeaderTextTranslations {
+            language
+            text
+          }
+          alertUrlTranslations {
+            language
+            text
+          }
+          trip {
+            pattern {
               code
             }
           }
         }
-      `,
-    },
-    initialVariables: {
-      startTime: moment().unix() - 60 * 5, // 5 mins in the past
-      timeRange: 60 * 15, // -5 + 15 = 10 mins in the future
-    },
-  },
-);
+        patterns {
+          code
+        }
+      }
+    }
+  `,
+});
 
 export { containerComponent as default, StopPageTabContainer as Component };

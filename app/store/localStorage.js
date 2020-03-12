@@ -348,14 +348,6 @@ export function getPositioningHasSucceeded(shouldCheckBrowser) {
   return getItemAsJson('positioningSuccesful', '{ "state": false }').state;
 }
 
-export function setHistory(history) {
-  setItem('history', history);
-}
-
-export function getHistory() {
-  return getItemAsJson('history', '{"entries":["/"], "index":0, "time":0}');
-}
-
 export const setMapLayerSettings = settings => {
   setItem('map-layers', settings);
 };

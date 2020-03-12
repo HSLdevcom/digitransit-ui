@@ -1,9 +1,9 @@
 import React from 'react';
 import Snackbar from 'material-ui/Snackbar';
 import PropTypes from 'prop-types';
+import { matchShape } from 'found';
 
 import { FormattedMessage } from 'react-intl';
-import { locationShape } from 'react-router';
 import { setRoutingSettings } from '../store/localStorage';
 
 const getValueOrDefault = (value, defaultValue = undefined) =>
@@ -11,7 +11,7 @@ const getValueOrDefault = (value, defaultValue = undefined) =>
 
 class RoutingSettingsButtons extends React.Component {
   static contextTypes = {
-    location: locationShape.isRequired,
+    match: matchShape.isRequired,
   };
 
   static propTypes = {
@@ -28,7 +28,7 @@ class RoutingSettingsButtons extends React.Component {
   }
 
   setSettingsData = () => {
-    const { query } = this.context.location;
+    const { query } = this.context.match.location;
     const settings = {
       maxWalkDistance: getValueOrDefault(query.maxWalkDistance),
       maxBikingDistance: getValueOrDefault(query.maxBikingDistance),

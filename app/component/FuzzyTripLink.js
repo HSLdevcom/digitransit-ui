@@ -1,72 +1,99 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
-import { Link } from 'react-router';
+import { QueryRenderer, graphql } from 'react-relay';
+import Link from 'found/lib/Link';
 import cx from 'classnames';
 import IconWithTail from './IconWithTail';
 import { PREFIX_ROUTES } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import getRelayEnvironment from '../util/getRelayEnvironment';
 
-function FuzzyTripLink(props) {
+function FuzzyTripLink({ vehicle, relayEnvironment }) {
   const icon = (
     <IconWithTail
-      className={cx(props.mode, 'tail-icon')}
-      img={`icon-icon_${props.mode}-live`}
+      className={cx(vehicle.mode, 'tail-icon')}
+      img={`icon-icon_${vehicle.mode}-live`}
       rotate={180}
     />
   );
 
-  if (props.trip.trip) {
-    return (
-      <Link
-        to={`/${PREFIX_ROUTES}/${props.trip.trip.route.gtfsId}/pysakit/${
-          props.trip.trip.pattern.code
-        }/${props.trip.trip.gtfsId}`}
-        className="route-now-content"
-        onClick={() => {
-          addAnalyticsEvent({
-            category: 'Route',
-            action: 'OpenTripInformation',
-            name: props.mode.toUpperCase(),
-          });
-        }}
-      >
-        {icon}
-      </Link>
-    );
-  }
-  // eslint-disable-next-line no-console
-  console.warn('Unable to match trip', props);
-  return <span className="route-now-content">{icon}</span>;
+  return (
+    <QueryRenderer
+      query={graphql`
+        query FuzzyTripLinkQuery(
+          $route: String!
+          $direction: Int!
+          $time: Int!
+          $date: String!
+        ) {
+          trip: fuzzyTrip(
+            route: $route
+            direction: $direction
+            time: $time
+            date: $date
+          ) {
+            gtfsId
+            pattern {
+              code
+            }
+            route {
+              gtfsId
+            }
+          }
+        }
+      `}
+      variables={{
+        route: vehicle.route,
+        direction: vehicle.direction,
+        date: vehicle.operatingDay,
+        time:
+          vehicle.tripStartTime.substring(0, 2) * 60 * 60 +
+          vehicle.tripStartTime.substring(2, 4) * 60,
+      }}
+      environment={relayEnvironment}
+      render={({ props }) => {
+        if (!props) {
+          return <span className="route-now-content">{icon}</span>;
+        }
+
+        const route = props.trip.route.gtfsId;
+        const pattern = props.trip.pattern.code;
+        const trip = props.trip.gtfsId;
+        return (
+          <Link
+            to={`/${PREFIX_ROUTES}/${route}/pysakit/${pattern}/${trip}`}
+            className="route-now-content"
+            onClick={() => {
+              addAnalyticsEvent({
+                category: 'Route',
+                action: 'OpenTripInformation',
+                name: vehicle.mode.toUpperCase(),
+              });
+            }}
+          >
+            {icon}
+          </Link>
+        );
+      }}
+    />
+  );
 }
 
 FuzzyTripLink.propTypes = {
-  trip: PropTypes.object.isRequired,
-  mode: PropTypes.string.isRequired,
+  trip: PropTypes.object,
+  vehicle: PropTypes.shape({
+    mode: PropTypes.string.isRequired,
+    route: PropTypes.string.isRequired,
+    direction: PropTypes.number.isRequired,
+    tripStartTime: PropTypes.string.isRequired,
+    operatingDay: PropTypes.string.isRequired,
+  }).isRequired,
+  relayEnvironment: PropTypes.object.isRequired,
 };
 
-const containerComponent = Relay.createContainer(FuzzyTripLink, {
-  fragments: {
-    trip: () => Relay.QL`
-      fragment on QueryType {
-        trip: fuzzyTrip(route: $route, direction: $direction, time: $time, date: $date) {
-          gtfsId
-          pattern {
-            code
-          }
-          route {
-            gtfsId
-          }
-        }
-      }
-    `,
-  },
-  initialVariables: {
-    route: null,
-    direction: null,
-    date: null,
-    time: null,
-  },
-});
+const componentWithRelayEnvinronment = getRelayEnvironment(FuzzyTripLink);
 
-export { containerComponent as default, FuzzyTripLink as Component };
+export {
+  componentWithRelayEnvinronment as default,
+  FuzzyTripLink as Component,
+};

@@ -58,13 +58,15 @@ before('setting up the environment', () => {
     throw new Error(warning);
   };
   stub(console, 'error').callsFake(callback);
-  stub(console, 'warn').callsFake(callback);
+  // TODO this could be renabled when dependencies don't throw warnings
+  // stub(console, 'warn').callsFake(callback);
   configure({ adapter: new Adapter() });
 });
 
 after('resetting the environment', () => {
   console.error.restore();
-  console.warn.restore();
+  // TODO this could be renabled when dependencies don't throw warnings
+  // console.warn.restore();
 });
 
 // make sure the local and session storage stays clear for each test

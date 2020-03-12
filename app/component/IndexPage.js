@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import cx from 'classnames';
-import { routerShape, locationShape } from 'react-router';
+import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
 import isEqual from 'lodash/isEqual';
@@ -36,13 +36,12 @@ import withBreakpoint from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import intializeSearchContext from './DTSearchContextInitializer';
+import scrollTop from '../util/scroll';
 
 const debug = d('IndexPage.js');
 
 class IndexPage extends React.Component {
   static contextTypes = {
-    location: locationShape.isRequired,
-    router: routerShape.isRequired,
     config: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
@@ -50,18 +49,13 @@ class IndexPage extends React.Component {
   };
 
   static propTypes = {
+    match: matchShape.isRequired,
+    router: routerShape.isRequired,
     autoSetOrigin: PropTypes.bool,
     breakpoint: PropTypes.string.isRequired,
     origin: dtLocationShape.isRequired,
     destination: dtLocationShape.isRequired,
     showSpinner: PropTypes.bool.isRequired,
-    routes: PropTypes.arrayOf(
-      PropTypes.shape({
-        footerOptions: PropTypes.shape({
-          hidden: PropTypes.bool,
-        }),
-      }).isRequired,
-    ).isRequired,
   };
 
   static defaultProps = {
@@ -81,15 +75,17 @@ class IndexPage extends React.Component {
   componentDidMount() {
     intializeSearchContext(this.context, searchContext);
     events.on('popupOpened', this.onPopupOpen);
+    scrollTop();
   }
-
-  componentWillReceiveProps = nextProps => {
-    this.handleLocationProps(nextProps);
-  };
 
   componentWillUnmount() {
     events.removeListener('popupOpened', this.onPopupOpen);
   }
+
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps = nextProps => {
+    this.handleLocationProps(nextProps);
+  };
 
   onPopupOpen = () => {
     this.setState({ mapExpanded: true });
@@ -107,33 +103,22 @@ class IndexPage extends React.Component {
         origin: nextProps.origin,
         destination: nextProps.destination,
         context: '/',
-        router: this.context.router,
+        router: this.props.router,
         base: {},
       });
     }
   };
 
-  togglePanelExpanded = () => {
-    addAnalyticsEvent({
-      action: this.state.mapExpanded
-        ? 'MinimizeMapOnMobile'
-        : 'MaximizeMapOnMobile',
-      category: 'Map',
-      name: 'IndexPage',
-    });
-    this.setState(prevState => ({ mapExpanded: !prevState.mapExpanded }));
-  };
-
-  renderStreetModeSelector = (config, router) => (
+  renderStreetModeSelector = (config, router, match) => (
     <SelectStreetModeDialog
-      selectedStreetMode={ModeUtils.getStreetMode(router.location, config)}
+      selectedStreetMode={ModeUtils.getStreetMode(match.location, config)}
       selectStreetMode={(streetMode, isExclusive) => {
         addAnalyticsEvent({
           category: 'ItinerarySettings',
           action: 'SelectTravelingModeFromIndexPage',
           name: streetMode,
         });
-        ModeUtils.setStreetMode(streetMode, config, router, isExclusive);
+        ModeUtils.setStreetMode(streetMode, config, router, match, isExclusive);
       }}
       streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
     />
@@ -143,13 +128,10 @@ class IndexPage extends React.Component {
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
-    const { config, router, intl } = this.context;
-    const { breakpoint, destination, origin, routes } = this.props;
+    const { config, intl } = this.context;
+    const { breakpoint, destination, origin, router, match } = this.props;
     const { mapExpanded } = this.state;
-    const footerOptions = Object.assign(
-      {},
-      ...routes.map(route => route.footerOptions),
-    );
+
     // DT-3381 TODO: DTEndpointAutoSuggest currently does not search for stops or stations, as it should be. SearchUtils needs refactoring.
     return breakpoint === 'large' ? (
       <div
@@ -168,7 +150,7 @@ class IndexPage extends React.Component {
             destination={destination}
             renderCustomButtons={() => (
               <React.Fragment>
-                {this.renderStreetModeSelector(config, router)}
+                {this.renderStreetModeSelector(config, router, match)}
                 {this.renderMapLayerSelector()}
               </React.Fragment>
             )}
@@ -205,10 +187,7 @@ class IndexPage extends React.Component {
               refPoint={origin}
               className="destination"
               searchType="search"
-              placeholder={intl.formatMessage({
-                id: 'stop-near-you',
-                defaultMessage: 'Stops and lines near you',
-              })}
+              placeholder="stop-near-you"
               value=""
               isFocused={this.isFocused}
               onLocationSelected={e => e.stopPropagation()}
@@ -217,13 +196,11 @@ class IndexPage extends React.Component {
           </div>
         </ControlPanel>
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
-        {!footerOptions.hidden && (
-          <div id="page-footer-container">
-            <PageFooter
-              content={(config.footer && config.footer.content) || []}
-            />
-          </div>
-        )}
+        <div id="page-footer-container">
+          <PageFooter
+            content={(config.footer && config.footer.content) || []}
+          />
+        </div>
       </div>
     ) : (
       <div
@@ -245,7 +222,7 @@ class IndexPage extends React.Component {
             destination={destination}
             renderCustomButtons={() => (
               <React.Fragment>
-                {this.renderStreetModeSelector(config, router)}
+                {this.renderStreetModeSelector(config, router, match)}
                 {this.renderMapLayerSelector()}
               </React.Fragment>
             )}
@@ -298,10 +275,7 @@ class IndexPage extends React.Component {
               refPoint={origin}
               className="destination"
               searchType="search"
-              placeholder={intl.formatMessage({
-                id: 'stop-near-you',
-                defaultMessage: 'Stops and lines near you',
-              })}
+              placeholder="stop-near-you"
               value=""
               isFocused={this.isFocused}
               onLocationSelected={e => e.stopPropagation()}
@@ -385,24 +359,13 @@ const IndexPageWithPosition = connectToStores(
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
 
-    const { from, to } = props.params;
-    const redirect = false;
+    const { from, to } = props.match.params;
 
     const newProps = {};
 
     newProps.locationState = locationState;
     newProps.origin = processLocation(from, locationState, context.intl);
     newProps.destination = processLocation(to, locationState, context.intl);
-
-    if (redirect) {
-      navigateTo({
-        origin: newProps.origin,
-        destination: newProps.destination,
-        context: '/',
-        router: context.router,
-        base: {},
-      });
-    }
 
     newProps.showSpinner = locationState.isLocationingInProgress === true;
 
@@ -438,7 +401,7 @@ const IndexPageWithPosition = connectToStores(
             origin: newProps.origin,
             destination: newProps.destination,
             context: '/',
-            router: context.router,
+            router: props.router,
             base: {},
           });
         }
@@ -452,8 +415,6 @@ const IndexPageWithPosition = connectToStores(
 
 IndexPageWithPosition.contextTypes = {
   ...IndexPageWithPosition.contextTypes,
-  location: locationShape.isRequired,
-  router: routerShape.isRequired,
   executeAction: PropTypes.func.isRequired,
   intl: intlShape,
 };

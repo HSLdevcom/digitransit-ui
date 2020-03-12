@@ -20,6 +20,7 @@ module.exports = {
     'react/jsx-key': 'error',
     'react/forbid-prop-types': ['warn', { forbid: ['any', 'array', 'object'] }],
     'react/require-default-props': 'warn',
+    'react/sort-comp': 'off',
     
     // jsx-a11y
     'jsx-a11y/anchor-is-valid': [ 'error', {
@@ -36,7 +37,8 @@ module.exports = {
     // graphql
     'graphql/template-strings': ['error', {
       'env': 'relay',
-      'schemaJson': require('./build/schema.json'),
+      'schemaJson': require('./build/schema.json').data,
+      'tagName': 'graphql'
     }],
 
     // prettier

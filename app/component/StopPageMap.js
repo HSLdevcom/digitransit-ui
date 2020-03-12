@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import Relay from 'react-relay/classic';
-import some from 'lodash/some';
-import { routerShape } from 'react-router';
+import { matchShape, routerShape } from 'found';
 import MapContainer from './map/MapContainer';
 import SelectedStopPopup from './map/popups/SelectedStopPopup';
 import SelectedStopPopupContent from './SelectedStopPopupContent';
@@ -12,44 +10,42 @@ import withBreakpoint from '../util/withBreakpoint';
 import VehicleMarkerContainer from './map/VehicleMarkerContainer';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
-const getFullscreenTogglePath = (fullscreenMap, params) =>
-  `/${params.stopId ? 'pysakit' : 'terminaalit'}/${
-    params.stopId ? params.stopId : params.terminalId
-  }${fullscreenMap ? '' : '/kartta'}`;
-
-const toggleFullscreenMap = (fullscreenMap, params, router) => {
+const toggleFullscreenMap = (fullscreenMap, location, router) => {
   addAnalyticsEvent({
     action: fullscreenMap ? 'MinimizeMapOnMobile' : 'MaximizeMapOnMobile',
     category: 'Map',
     name: 'StopPage',
   });
   if (fullscreenMap) {
-    router.goBack();
+    router.go(-1);
     return;
   }
-  router.push(getFullscreenTogglePath(fullscreenMap, params));
+  router.push({
+    ...location,
+    state: { ...location.state, fullscreenMap: true },
+  });
 };
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-const fullscreenMapOverlay = (fullscreenMap, params, router) =>
+const fullscreenMapOverlay = (fullscreenMap, location, router) =>
   !fullscreenMap && (
     <div
       className="map-click-prevent-overlay"
       key="overlay"
       onClick={() => {
-        toggleFullscreenMap(fullscreenMap, params, router);
+        toggleFullscreenMap(fullscreenMap, location, router);
       }}
     />
   );
 
-const fullscreenMapToggle = (fullscreenMap, params, router) => (
+const fullscreenMapToggle = (fullscreenMap, location, router) => (
   <div
     className={cx('fullscreen-toggle', 'stopPage', {
       expanded: fullscreenMap,
     })}
     key="fullscreen-toggle"
     onClick={() => {
-      toggleFullscreenMap(fullscreenMap, params, router);
+      toggleFullscreenMap(fullscreenMap, location, router);
     }}
   >
     {fullscreenMap ? (
@@ -61,15 +57,12 @@ const fullscreenMapToggle = (fullscreenMap, params, router) => (
 );
 /* eslint-enable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 
-const StopPageMap = (
-  { stop, routes, params, breakpoint },
-  { router, config },
-) => {
+const StopPageMap = ({ stop, breakpoint }, { config, match, router }) => {
   if (!stop) {
     return false;
   }
-
-  const fullscreenMap = some(routes, 'fullscreenMap');
+  const fullscreenMap =
+    match.location.state && match.location.state.fullscreenMap === true;
   const leafletObjs = [];
   const children = [];
   if (config.showVehiclesOnStopPage) {
@@ -85,20 +78,22 @@ const StopPageMap = (
       </SelectedStopPopup>,
     );
   } else {
-    children.push(fullscreenMapOverlay(fullscreenMap, params, router));
-    children.push(fullscreenMapToggle(fullscreenMap, params, router));
+    children.push(fullscreenMapOverlay(fullscreenMap, match.location, router));
+    children.push(fullscreenMapToggle(fullscreenMap, match.location, router));
   }
 
   const showScale = fullscreenMap || breakpoint === 'large';
+
+  const id = match.params.stopId || match.params.terminalId;
 
   return (
     <MapContainer
       className="full"
       lat={stop.lat}
       lon={stop.lon}
-      zoom={!params.stopId || stop.platformCode ? 18 : 16}
+      zoom={!match.params.stopId || stop.platformCode ? 18 : 16}
       showStops
-      hilightedStops={[params.stopId]}
+      hilightedStops={[id]}
       leafletObjs={leafletObjs}
       showScaleBar={showScale}
     >
@@ -108,8 +103,9 @@ const StopPageMap = (
 };
 
 StopPageMap.contextTypes = {
-  router: routerShape.isRequired,
   config: PropTypes.object.isRequired,
+  match: matchShape.isRequired,
+  router: routerShape.isRequired,
 };
 
 StopPageMap.propTypes = {
@@ -118,15 +114,6 @@ StopPageMap.propTypes = {
     lon: PropTypes.number.isRequired,
     platformCode: PropTypes.string,
   }),
-  routes: PropTypes.arrayOf(
-    PropTypes.shape({
-      fullscreenMap: PropTypes.string,
-    }).isRequired,
-  ).isRequired,
-  params: PropTypes.oneOfType([
-    PropTypes.shape({ stopId: PropTypes.string.isRequired }).isRequired,
-    PropTypes.shape({ terminalId: PropTypes.string.isRequired }).isRequired,
-  ]).isRequired,
   breakpoint: PropTypes.string.isRequired,
 };
 
@@ -134,19 +121,6 @@ StopPageMap.defaultProps = {
   stop: undefined,
 };
 
-const containerComponent = Relay.createContainer(withBreakpoint(StopPageMap), {
-  fragments: {
-    stop: () => Relay.QL`
-      fragment on Stop {
-        lat
-        lon
-        platformCode
-        name
-        code
-        desc
-      }
-    `,
-  },
-});
+const componentWithBreakpoint = withBreakpoint(StopPageMap);
 
-export { containerComponent as default, StopPageMap as Component };
+export { componentWithBreakpoint as default, StopPageMap as Component };

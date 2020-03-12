@@ -117,6 +117,7 @@ export const updateCitybikeNetworks = (
   config,
   router,
   isUsingCitybike,
+  match,
 ) => {
   const mappedcurrentSettings = currentSettings.map(o => o.toUpperCase());
 
@@ -136,6 +137,7 @@ export const updateCitybikeNetworks = (
         'citybike',
         config,
         router,
+        match,
         getDefaultNetworks(config).join(),
       );
       return;
@@ -144,12 +146,13 @@ export const updateCitybikeNetworks = (
       'citybike',
       config,
       router,
+      match,
       chosenNetworks.join(','),
     );
     return;
   }
 
-  replaceQueryParams(router, {
+  replaceQueryParams(router, match, {
     allowedBikeRentalNetworks: chosenNetworks.join(','),
   });
 };

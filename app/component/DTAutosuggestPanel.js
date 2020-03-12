@@ -2,7 +2,7 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
-import { routerShape, locationShape } from 'react-router';
+import { matchShape, routerShape } from 'found';
 
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
@@ -53,6 +53,14 @@ const ItinerarySearchControl = ({
     </div>
   );
 
+ItinerarySearchControl.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string.isRequired,
+  enabled: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired,
+  onKeyPress: PropTypes.func.isRequired,
+};
+
 /**
  * Launches route search if both origin and destination are set.
  */
@@ -60,7 +68,7 @@ class DTAutosuggestPanel extends React.Component {
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
-    location: locationShape.isRequired,
+    match: matchShape.isRequired,
     intl: intlShape.isRequired,
     getStore: PropTypes.func.isRequired,
   };
@@ -102,10 +110,11 @@ class DTAutosuggestPanel extends React.Component {
     };
   }
 
-  componentWillReceiveProps = () => {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps = () => {
     if (this.props.getViaPointsFromMap) {
       this.setState({
-        viaPoints: getIntermediatePlaces(this.context.location.query),
+        viaPoints: getIntermediatePlaces(this.context.match.location.query),
       });
       this.context.executeAction(updateViaPointsFromMap, false);
     }
@@ -321,7 +330,7 @@ class DTAutosuggestPanel extends React.Component {
     const slackTime = this.getSlackTimeOptions();
     const locationWithTime = withCurrentTime(
       this.context.getStore,
-      this.context.location,
+      this.context.match.location,
     );
     const defaultSlackTimeValue = 0;
     const getViaPointSlackTimeOrDefault = (

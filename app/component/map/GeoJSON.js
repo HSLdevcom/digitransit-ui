@@ -123,14 +123,6 @@ class GeoJSON extends React.Component {
 
   static contextTypes = { config: PropTypes.object.isRequired };
 
-  // cache dynamic icons to allow references by id without data duplication
-  componentWillMount() {
-    const {
-      data: { features },
-    } = this.props;
-    this.icons = getIcons(features);
-  }
-
   // add some custom rendering control by feature props
   pointToLayer = (feature, latlng) => getMarker(feature, latlng, this.icons);
 
@@ -173,6 +165,15 @@ class GeoJSON extends React.Component {
       ? { ...defaultLineStyle, ...feature.style }
       : defaultLineStyle;
   };
+
+  // cache dynamic icons to allow references by id without data duplication
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
+    const {
+      data: { features },
+    } = this.props;
+    this.icons = getIcons(features);
+  }
 
   render() {
     const { bounds, data } = this.props;

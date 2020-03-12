@@ -248,21 +248,23 @@ export const getStreetMode = (location, config) => {
  * @param {*} streetMode The street mode to select
  * @param {*} config The configuration for the software installation
  * @param {*} router The router
+ * @param {*} match The match object from found
  * @param {boolean} isExclusive True, if only this mode shoud be selected; otherwise false.
  */
 export const setStreetMode = (
   streetMode,
   config,
   router,
+  match,
   isExclusive = false,
 ) => {
   const modesQuery = buildStreetModeQuery(
     config,
-    getModes(router.location, config),
+    getModes(match.location, config),
     streetMode,
     isExclusive,
   );
-  replaceQueryParams(router, modesQuery);
+  replaceQueryParams(router, match, modesQuery);
 };
 
 /**
@@ -302,9 +304,10 @@ export const isBikeRestricted = (location, config, modes) => {
  * @param {*} transportMode The transport mode to select
  * @param {*} config The configuration for the software installation
  * @param {*} router The router
+ * @param {*} match The match object from found
  */
-export const toggleTransportMode = (transportMode, config, router) => {
-  const currentLocation = router.getCurrentLocation();
+export const toggleTransportMode = (transportMode, config, router, match) => {
+  const currentLocation = match.location;
   let actionName;
   if (getModes(currentLocation, config).includes(transportMode.toUpperCase())) {
     actionName = 'SettingsDisableTransportMode';
@@ -316,13 +319,13 @@ export const toggleTransportMode = (transportMode, config, router) => {
     category: 'ItinerarySettings',
     name: transportMode,
   });
-  if (isBikeRestricted(router.location, config, transportMode)) {
+  if (isBikeRestricted(currentLocation, config, transportMode)) {
     return;
   }
   const modes = xor(getModes(currentLocation, config), [
     transportMode.toUpperCase(),
   ]).join(',');
-  replaceQueryParams(router, { modes });
+  replaceQueryParams(router, match, { modes });
 };
 
 /**
@@ -332,19 +335,24 @@ export const toggleTransportMode = (transportMode, config, router) => {
  * @param {*} config The configuration for the software installation
  * @param {*} router The router
  * @param {*} networks The citybike networks to be allowed
+ * @param {*} match The match object from found
  */
 export const toggleCitybikesAndNetworks = (
   transportMode,
   config,
   router,
   networks,
+  match,
 ) => {
-  const currentLocation = router.getCurrentLocation();
-  if (isBikeRestricted(router.location, config, transportMode)) {
+  const currentLocation = match.location;
+  if (isBikeRestricted(currentLocation, config, transportMode)) {
     return;
   }
   const modes = xor(getModes(currentLocation, config), [
     transportMode.toUpperCase(),
   ]).join(',');
-  replaceQueryParams(router, { modes, allowedBikeRentalNetworks: networks });
+  replaceQueryParams(router, match, {
+    modes,
+    allowedBikeRentalNetworks: networks,
+  });
 };

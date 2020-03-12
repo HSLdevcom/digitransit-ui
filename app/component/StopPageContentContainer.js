@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createRefetchContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
 
@@ -11,26 +11,22 @@ import Icon from './Icon';
 
 class StopPageContent extends React.Component {
   static propTypes = {
-    params: PropTypes.oneOfType([
-      PropTypes.shape({ stopId: PropTypes.string.isRequired }).isRequired,
-      PropTypes.shape({ terminalId: PropTypes.string.isRequired }).isRequired,
-    ]).isRequired,
     stop: PropTypes.shape({
       stoptimes: PropTypes.array,
     }).isRequired,
     relay: PropTypes.shape({
-      variables: PropTypes.shape({
-        startTime: PropTypes.string.isRequired,
-      }).isRequired,
-      setVariables: PropTypes.func.isRequired,
+      refetch: PropTypes.func.isRequired,
     }).isRequired,
     currentTime: PropTypes.number.isRequired,
   };
 
-  componentWillReceiveProps({ relay, currentTime }) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps({ relay, currentTime }) {
     const currUnix = this.props.currentTime;
     if (currUnix !== currentTime) {
-      relay.setVariables({ startTime: String(currUnix) });
+      relay.refetch(oldVariables => {
+        return { ...oldVariables, startTime: currentTime };
+      });
     }
   }
 
@@ -58,7 +54,6 @@ class StopPageContent extends React.Component {
             className="stop-page momentum-scroll"
             routeLinks
             infiniteScroll
-            isTerminal={!this.props.params.stopId}
             rowClasses="padding-normal border-bottom"
             currentTime={this.props.currentTime}
             showPlatformCodes
@@ -70,35 +65,49 @@ class StopPageContent extends React.Component {
   }
 }
 
-const connectedComponent = Relay.createContainer(
+const connectedComponent = createRefetchContainer(
   connectToStores(StopPageContent, ['TimeStore'], ({ getStore }) => ({
     currentTime: getStore('TimeStore')
       .getCurrentTime()
       .unix(),
   })),
   {
-    fragments: {
-      stop: () => Relay.QL`
-      fragment on Stop {
+    stop: graphql`
+      fragment StopPageContentContainer_stop on Stop
+        @argumentDefinitions(
+          startTime: { type: "Long!", defaultValue: 0 }
+          timeRange: { type: "Int!", defaultValue: 43200 }
+          numberOfDepartures: { type: "Int!", defaultValue: 100 }
+        ) {
         url
         stoptimes: stoptimesWithoutPatterns(
-          startTime: $startTime, 
-          timeRange: $timeRange, 
-          numberOfDepartures: $numberOfDepartures, 
+          startTime: $startTime
+          timeRange: $timeRange
+          numberOfDepartures: $numberOfDepartures
           omitCanceled: false
         ) {
-          ${DepartureListContainer.getFragment('stoptimes')}
+          ...DepartureListContainer_stoptimes
         }
       }
     `,
-    },
-
-    initialVariables: {
-      startTime: String(0),
-      timeRange: 3600 * 12,
-      numberOfDepartures: 100,
-    },
   },
+  graphql`
+    query StopPageContentContainerQuery(
+      $stopId: String!
+      $startTime: Long!
+      $timeRange: Int!
+      $numberOfDepartures: Int!
+    ) {
+      stop(id: $stopId) {
+        ...StopPageContentContainer_stop
+          @arguments(
+            startTime: $startTime
+            timeRange: $timeRange
+            numberOfDepartures: $numberOfDepartures
+          )
+      }
+    }
+  `,
 );
 
 export { connectedComponent as default, StopPageContent as Component };

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { routerShape } from 'react-router';
+import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import moment from 'moment';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -9,7 +9,7 @@ import { isBrowser } from '../util/browser';
 import { replaceQueryParams } from '../util/queryUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
-const selectLanguage = (executeAction, lang, router) => () => {
+const selectLanguage = (executeAction, lang, router, match) => () => {
   addAnalyticsEvent({
     category: 'Navigation',
     action: 'ChangeLanguage',
@@ -21,31 +21,34 @@ const selectLanguage = (executeAction, lang, router) => () => {
     require(`moment/locale/${lang}`);
   }
   moment.locale(lang);
-  replaceQueryParams(router, { locale: lang });
+  replaceQueryParams(router, match, { locale: lang });
 };
 
-const language = (lang, currentLanguage, highlight, executeAction, router) => (
+const language = (lang, highlight, executeAction, router, match) => (
   <button
     id={`lang-${lang}`}
     key={lang}
     className={`${(highlight && 'selected') || ''} noborder lang`}
-    onClick={selectLanguage(executeAction, lang, router)}
+    onClick={selectLanguage(executeAction, lang, router, match)}
   >
     {lang}
   </button>
 );
 
-const LangSelect = ({ currentLanguage }, { executeAction, config, router }) => {
+const LangSelect = (
+  { currentLanguage },
+  { executeAction, config, router, match },
+) => {
   if (isBrowser) {
     return (
       <div key="lang-select" id="lang-select">
         {config.availableLanguages.map(lang =>
           language(
             lang,
-            currentLanguage,
             lang === currentLanguage,
             executeAction,
             router,
+            match,
           ),
         )}
       </div>
@@ -75,6 +78,7 @@ LangSelect.contextTypes = {
   executeAction: PropTypes.func.isRequired,
   config: PropTypes.object.isRequired,
   router: routerShape.isRequired,
+  match: matchShape.isRequired,
 };
 
 const connected = connectToStores(

@@ -1,36 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { graphql, QueryRenderer } from 'react-relay';
 
 import { withLeaflet } from 'react-leaflet/es/context';
 
 import CityBikeMarker from './CityBikeMarker';
 import ComponentUsageExample from '../../ComponentUsageExample';
-
-const CityBikeMarkerWrapper = Relay.createContainer(
-  ({ root }) => (
-    <div>
-      {root &&
-        Array.isArray(root.stations) &&
-        root.stations.map(station => (
-          <CityBikeMarker station={station} key={station.stationId} />
-        ))}
-    </div>
-  ),
-  {
-    fragments: {
-      root: () => Relay.QL`
-      fragment on QueryType {
-        stations: bikeRentalStations {
-          ${CityBikeMarker.getFragment('station')}
-          stationId
-          networks
-        }
-      }
-    `,
-    },
-  },
-);
+import getRelayEnvironment from '../../../util/getRelayEnvironment';
 
 class CityBikeMarkerContainer extends React.Component {
   static description = (
@@ -50,6 +26,7 @@ class CityBikeMarkerContainer extends React.Component {
   };
 
   static propTypes = {
+    relayEnvironment: PropTypes.object.isRequired,
     leaflet: PropTypes.shape({
       map: PropTypes.shape({
         getZoom: PropTypes.func.isRequired,
@@ -77,23 +54,33 @@ class CityBikeMarkerContainer extends React.Component {
       return false;
     }
     return (
-      <Relay.Renderer
-        Container={CityBikeMarkerWrapper}
-        queryConfig={{
-          name: 'ViewerRoute',
-          queries: {
-            root: () => Relay.QL`
-              query {
-                viewer
+      <QueryRenderer
+        environment={this.props.relayEnvironment}
+        query={graphql`
+          query CityBikeMarkerContainerQuery {
+            viewer {
+              stations: bikeRentalStations {
+                lat
+                lon
+                stationId
+                networks
+                bikesAvailable
               }
-           `,
-          },
-          params: {},
-        }}
-        environment={Relay.Store}
+            }
+          }
+        `}
+        render={({ props }) => (
+          <div>
+            {props &&
+              Array.isArray(props.viewer.stations) &&
+              props.viewer.stations.map(station => (
+                <CityBikeMarker station={station} key={station.stationId} />
+              ))}
+          </div>
+        )}
       />
     );
   }
 }
 
-export default withLeaflet(CityBikeMarkerContainer);
+export default withLeaflet(getRelayEnvironment(CityBikeMarkerContainer));

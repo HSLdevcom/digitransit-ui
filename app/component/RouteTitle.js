@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
-import { Link } from 'react-router';
+import { createFragmentContainer, graphql } from 'react-relay';
+import Link from 'found/lib/Link';
 import { FormattedMessage } from 'react-intl';
 import { PREFIX_ROUTES } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
@@ -33,17 +33,14 @@ RouteTitle.propTypes = {
   breakpoint: PropTypes.string,
 };
 
-export default Relay.createContainer(withBreakpoint(RouteTitle), {
-  fragments: {
-    route: () =>
-      Relay.QL`
-      fragment on Route {
-        gtfsId
-        shortName
-        color
-        mode
-        type
-      }
-    `,
-  },
+export default createFragmentContainer(withBreakpoint(RouteTitle), {
+  route: graphql`
+    fragment RouteTitle_route on Route {
+      gtfsId
+      shortName
+      color
+      mode
+      type
+    }
+  `,
 });

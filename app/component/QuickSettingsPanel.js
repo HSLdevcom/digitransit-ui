@@ -4,7 +4,7 @@ import cx from 'classnames';
 import { intlShape } from 'react-intl';
 import get from 'lodash/get';
 import xor from 'lodash/xor';
-import { routerShape, locationShape } from 'react-router';
+import { matchShape, routerShape } from 'found';
 
 import AlertPopUp from './AlertPopUp';
 import Icon from './Icon';
@@ -32,7 +32,7 @@ class QuickSettingsPanel extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
     router: routerShape.isRequired,
-    location: locationShape.isRequired,
+    match: matchShape.isRequired,
     config: PropTypes.object.isRequired,
   };
 
@@ -55,8 +55,8 @@ class QuickSettingsPanel extends React.Component {
   };
 
   getOffcanvasState = () =>
-    (this.context.location.state &&
-      this.context.location.state.customizeSearchOffcanvas) ||
+    (this.context.match.location.state &&
+      this.context.match.location.state.customizeSearchOffcanvas) ||
     false;
 
   setArriveBy = ({ target }) => {
@@ -67,11 +67,11 @@ class QuickSettingsPanel extends React.Component {
       action: 'LeavingArrivingSelection',
       name: arriveBy === 'true' ? 'SelectArriving' : 'SelectLeaving',
     });
-    replaceQueryParams(this.context.router, { arriveBy });
+    replaceQueryParams(this.context.router, this.context.match, { arriveBy });
   };
 
   setQuickOption = name => {
-    const { router } = this.context;
+    const { router, match } = this.context;
 
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
@@ -82,13 +82,13 @@ class QuickSettingsPanel extends React.Component {
 
     const quickOptionSet = getQuickOptionSets(this.context)[name];
     if (name === QuickOptionSetType.SavedSettings) {
-      clearQueryParams(router, Object.keys(quickOptionSet));
+      clearQueryParams(router, match, Object.keys(quickOptionSet));
     } else {
-      replaceQueryParams(router, { ...quickOptionSet });
+      replaceQueryParams(router, match, { ...quickOptionSet });
     }
   };
 
-  getModes = () => getModes(this.context.location, this.context.config);
+  getModes = () => getModes(this.context.match.location, this.context.config);
 
   toggleCustomizeSearchOffcanvas = () => {
     addAnalyticsEvent({
@@ -113,14 +113,14 @@ class QuickSettingsPanel extends React.Component {
 
     if (newState) {
       this.context.router.push({
-        ...this.context.location,
+        ...this.context.match.location,
         state: {
-          ...this.context.location.state,
+          ...this.context.match.location.state,
           customizeSearchOffcanvas: newState,
         },
       });
     } else {
-      this.context.router.goBack();
+      this.context.router.go(-1);
     }
   };
 
@@ -131,7 +131,7 @@ class QuickSettingsPanel extends React.Component {
   toggleTransportMode(mode, otpMode) {
     if (
       isBikeRestricted(
-        this.context.location,
+        this.context.match.location,
         this.context.config,
         mode.toUpperCase(),
       )
@@ -152,11 +152,15 @@ class QuickSettingsPanel extends React.Component {
       name: mode.toUpperCase(),
     });
 
-    replaceQueryParams(this.context.router, { modes });
+    replaceQueryParams(this.context.router, this.context.match, { modes });
   }
 
   render() {
-    const arriveBy = get(this.context.location, 'query.arriveBy', 'false');
+    const arriveBy = get(
+      this.context.match.location,
+      'query.arriveBy',
+      'false',
+    );
     const customizedSettings = getCustomizedSettings();
     const quickOption = matchQuickOption(this.context);
     const applicableQuickOptionSets = getApplicableQuickOptionSets(

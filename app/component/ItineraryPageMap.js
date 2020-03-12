@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import get from 'lodash/get';
-import some from 'lodash/some';
 import polyline from 'polyline-encoded';
-import { routerShape, locationShape } from 'react-router';
+import { matchShape, routerShape } from 'found';
 
 import LocationMarker from './map/LocationMarker';
 import ItineraryLine from './map/ItineraryLine';
@@ -12,6 +11,7 @@ import { otpToLocation } from '../util/otpStrings';
 import { isBrowser } from '../util/browser';
 import { dtLocationShape } from '../util/shapes';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import withBreakpoint from '../util/withBreakpoint';
 
 let L;
 
@@ -23,26 +23,27 @@ if (isBrowser) {
 let timeout;
 
 function ItineraryPageMap(
-  { itinerary, params, from, to, routes, center, breakpoint },
-  { router, location },
+  { itinerary, center, breakpoint },
+  { router, match },
 ) {
+  const { from, to } = match.params;
   const leafletObjs = [
     <LocationMarker
       key="fromMarker"
-      position={from || otpToLocation(params.from)}
+      position={otpToLocation(from)}
       type="from"
     />,
     <LocationMarker
       isLarge
       key="toMarker"
-      position={to || otpToLocation(params.to)}
+      position={otpToLocation(to)}
       type="to"
     />,
   ];
 
-  if (location.query && location.query.intermediatePlaces) {
-    if (Array.isArray(location.query.intermediatePlaces)) {
-      location.query.intermediatePlaces
+  if (match.location.query && match.location.query.intermediatePlaces) {
+    if (Array.isArray(match.location.query.intermediatePlaces)) {
+      match.location.query.intermediatePlaces
         .map(otpToLocation)
         .forEach((markerLocation, i) => {
           leafletObjs.push(
@@ -56,7 +57,7 @@ function ItineraryPageMap(
       leafletObjs.push(
         <LocationMarker
           key="via"
-          position={otpToLocation(location.query.intermediatePlaces)}
+          position={otpToLocation(match.location.query.intermediatePlaces)}
         />,
       );
     }
@@ -72,15 +73,16 @@ function ItineraryPageMap(
       />,
     );
   }
-  const fullscreen = some(routes.map(route => route.fullscreenMap));
+  const fullscreen =
+    match.location.state && match.location.state.fullscreenMap === true;
 
   const toggleFullscreenMap = () => {
     if (fullscreen) {
-      router.goBack();
+      router.go(-1);
     } else {
       router.push({
-        ...location,
-        pathname: `${location.pathname}/kartta`,
+        ...match.location,
+        state: { ...match.location.state, fullscreenMap: true },
       });
     }
     addAnalyticsEvent({
@@ -157,24 +159,13 @@ function ItineraryPageMap(
 
 ItineraryPageMap.propTypes = {
   itinerary: PropTypes.object,
-  params: PropTypes.shape({
-    from: PropTypes.string.isRequired,
-    to: PropTypes.string.isRequired,
-  }).isRequired,
-  from: dtLocationShape,
-  to: dtLocationShape,
   center: dtLocationShape,
-  routes: PropTypes.arrayOf(
-    PropTypes.shape({
-      fullscreenMap: PropTypes.bool,
-    }).isRequired,
-  ).isRequired,
   breakpoint: PropTypes.string.isRequired,
 };
 
 ItineraryPageMap.contextTypes = {
-  location: locationShape.isRequired,
+  match: matchShape.isRequired,
   router: routerShape.isRequired,
 };
 
-export default ItineraryPageMap;
+export default withBreakpoint(ItineraryPageMap);

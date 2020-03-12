@@ -1,10 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
 import cx from 'classnames';
 
-import StopRoute from '../../../route/StopRoute';
-import StopMarkerPopup from '../popups/StopMarkerPopup';
+import StopMarkerPopupContainer from '../popups/StopMarkerPopupContainer';
 import GenericMarker from '../GenericMarker';
 import Icon from '../../Icon';
 import {
@@ -13,7 +11,6 @@ import {
   getHubRadius,
 } from '../../../util/mapIconUtils';
 import { isBrowser } from '../../../util/browser';
-import Loading from '../../Loading';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 
 let L;
@@ -109,6 +106,21 @@ class StopMarker extends React.Component {
       return '';
     }
 
+    const currentTime = this.context
+      .getStore('TimeStore')
+      .getCurrentTime()
+      .unix();
+
+    const pathPrefixMatch = window.location.pathname.match(/^\/([a-z]{2,})\//);
+    const context = pathPrefixMatch ? pathPrefixMatch[1] : 'index';
+    addAnalyticsEvent({
+      action: 'SelectMapPoint',
+      category: 'Map',
+      name: 'stop',
+      type: this.props.mode.toUpperCase(),
+      context,
+    });
+
     return (
       <GenericMarker
         position={{
@@ -125,40 +137,10 @@ class StopMarker extends React.Component {
         renderName={this.props.renderName}
         name={this.props.stop.name}
       >
-        <Relay.RootContainer
-          Component={StopMarkerPopup}
-          route={
-            new StopRoute({
-              stopId: this.props.stop.gtfsId,
-              date: this.context
-                .getStore('TimeStore')
-                .getCurrentTime()
-                .format('YYYYMMDD'),
-              currentTime: this.context
-                .getStore('TimeStore')
-                .getCurrentTime()
-                .unix(),
-            })
-          }
-          renderLoading={() => (
-            <div className="card" style={{ height: '12rem' }}>
-              <Loading />
-            </div>
-          )}
-          renderFetched={data => {
-            const pathPrefixMatch = window.location.pathname.match(
-              /^\/([a-z]{2,})\//,
-            );
-            const context = pathPrefixMatch ? pathPrefixMatch[1] : 'index';
-            addAnalyticsEvent({
-              action: 'SelectMapPoint',
-              category: 'Map',
-              name: 'stop',
-              type: this.props.mode.toUpperCase(),
-              context,
-            });
-            return <StopMarkerPopup {...data} />;
-          }}
+        <StopMarkerPopupContainer
+          stopId={this.props.stop.gtfsId}
+          currentTime={currentTime}
+          context={this.context}
         />
       </GenericMarker>
     );

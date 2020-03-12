@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
-import { routerShape } from 'react-router';
+import { matchShape, routerShape } from 'found';
 
 import cx from 'classnames';
 import Checkbox from '../Checkbox';
@@ -14,7 +14,10 @@ import {
   isBikeRestricted,
 } from '../../util/modeUtils';
 
-const TransportModesSection = ({ config, currentModes }, { intl, router }) => {
+const TransportModesSection = (
+  { config, currentModes },
+  { intl, router, match },
+) => {
   const transportModes = getAvailableTransportModes(config);
 
   return (
@@ -44,8 +47,8 @@ const TransportModesSection = ({ config, currentModes }, { intl, router }) => {
               defaultMessage={mode}
               labelId={mode.toLowerCase()}
               onChange={() =>
-                !isBikeRestricted(router.location, config, mode) &&
-                toggleTransportMode(mode, config, router)
+                !isBikeRestricted(match.location, config, mode) &&
+                toggleTransportMode(mode, config, router, match)
               }
               showLabel={false}
             />
@@ -58,16 +61,16 @@ const TransportModesSection = ({ config, currentModes }, { intl, router }) => {
               })}
               onKeyPress={e =>
                 isKeyboardSelectionEvent(e) &&
-                !isBikeRestricted(router.location, config, mode) &&
-                toggleTransportMode(mode, config, router)
+                !isBikeRestricted(match.location, config, mode) &&
+                toggleTransportMode(mode, config, router, match)
               }
               onClick={() =>
-                !isBikeRestricted(router.location, config, mode) &&
-                toggleTransportMode(mode, config, router)
+                !isBikeRestricted(match.location, config, mode) &&
+                toggleTransportMode(mode, config, router, match)
               }
             >
               <div className="mode-icon">
-                {isBikeRestricted(router.location, config, mode) ? (
+                {isBikeRestricted(match.location, config, mode) ? (
                   <IconWithBigCaution
                     color="currentColor"
                     className={mode.toLowerCase()}
@@ -85,7 +88,7 @@ const TransportModesSection = ({ config, currentModes }, { intl, router }) => {
                   id={mode.toLowerCase()}
                   defaultMessage={mode.toLowerCase()}
                 />
-                {isBikeRestricted(router.location, config, mode) && (
+                {isBikeRestricted(match.location, config, mode) && (
                   <span className="span-bike-not-allowed">
                     {intl.formatMessage({
                       id: `bike-not-allowed-${mode.toLowerCase()}`,
@@ -110,6 +113,7 @@ TransportModesSection.propTypes = {
 TransportModesSection.contextTypes = {
   intl: intlShape.isRequired,
   router: routerShape.isRequired,
+  match: matchShape.isRequired,
 };
 
 export default TransportModesSection;

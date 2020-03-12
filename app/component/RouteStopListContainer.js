@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createRefetchContainer, graphql } from 'react-relay';
+import { matchShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
 import cx from 'classnames';
 
-import { StopAlertsQuery } from '../util/alertQueries';
 import { getDistanceToNearestStop } from '../util/geo-utils';
 import RouteStop from './RouteStop';
 import withBreakpoint from '../util/withBreakpoint';
@@ -19,26 +19,19 @@ class RouteStopListContainer extends React.PureComponent {
     position: PropTypes.object.isRequired,
     currentTime: PropTypes.object.isRequired,
     relay: PropTypes.shape({
-      setVariables: PropTypes.func.isRequired,
+      refetch: PropTypes.func.isRequired,
     }).isRequired,
     breakpoint: PropTypes.string.isRequired,
   };
 
   static contextTypes = {
     config: PropTypes.object.isRequired,
+    match: matchShape.isRequired,
   };
 
   componentDidMount() {
     if (this.nearestStop) {
       this.nearestStop.element.scrollIntoView(false);
-    }
-  }
-
-  componentWillReceiveProps({ relay, currentTime }) {
-    const currUnix = this.props.currentTime.unix();
-    const nextUnix = currentTime.unix();
-    if (currUnix !== nextUnix) {
-      relay.setVariables({ currentTime: nextUnix });
     }
   }
 
@@ -95,6 +88,21 @@ class RouteStopListContainer extends React.PureComponent {
     });
   }
 
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps({ relay, currentTime }) {
+    const currUnix = this.props.currentTime.unix();
+    const nextUnix = currentTime.unix();
+    if (currUnix !== nextUnix) {
+      relay.refetch(
+        {
+          currentTime: nextUnix,
+          patternId: this.context.match.params.patternId,
+        },
+        null,
+      );
+    }
+  }
+
   render() {
     return (
       <div
@@ -106,7 +114,7 @@ class RouteStopListContainer extends React.PureComponent {
   }
 }
 
-const containerComponent = Relay.createContainer(
+const containerComponent = createRefetchContainer(
   connectToStores(
     withBreakpoint(RouteStopListContainer),
     ['RealTimeInformationStore', 'PositionStore', 'TimeStore'],
@@ -117,39 +125,52 @@ const containerComponent = Relay.createContainer(
     }),
   ),
   {
-    initialVariables: {
-      patternId: null,
-      currentTime: 0,
-    },
-    fragments: {
-      pattern: () => Relay.QL`
-        fragment on Pattern {
-          directionId
-          route {
-            mode
-            color
-          }
-          stops {
-            ${StopAlertsQuery}
-            stopTimesForPattern(id: $patternId, startTime: $currentTime) {
-              realtime
-              realtimeState
-              realtimeDeparture
-              serviceDay
-              scheduledDeparture
-              pickupType
-            }
-            gtfsId
-            lat
-            lon
-            name
-            desc
-            code
-          }
+    pattern: graphql`
+      fragment RouteStopListContainer_pattern on Pattern
+        @argumentDefinitions(
+          currentTime: { type: "Long!", defaultValue: 0 }
+          patternId: { type: "String!", defaultValue: "0" }
+        ) {
+        directionId
+        route {
+          mode
+          color
         }
-      `,
-    },
+        stops {
+          alerts {
+            alertSeverityLevel
+            effectiveEndDate
+            effectiveStartDate
+          }
+          stopTimesForPattern(id: $patternId, startTime: $currentTime) {
+            realtime
+            realtimeState
+            realtimeDeparture
+            serviceDay
+            scheduledDeparture
+            pickupType
+          }
+          gtfsId
+          lat
+          lon
+          name
+          desc
+          code
+        }
+      }
+    `,
   },
+  graphql`
+    query RouteStopListContainerQuery(
+      $patternId: String!
+      $currentTime: Long!
+    ) {
+      pattern(id: $patternId) {
+        ...RouteStopListContainer_pattern
+          @arguments(currentTime: $currentTime, patternId: $patternId)
+      }
+    }
+  `,
 );
 
 export { containerComponent as default, RouteStopListContainer as Component };

@@ -8,8 +8,6 @@ import {
 import { addAnalyticsEvent } from './analyticsUtils';
 
 const debug = d('path.js');
-export const TAB_NEARBY = 'lahellasi';
-export const TAB_FAVOURITES = 'suosikit';
 export const PREFIX_ROUTES = 'linjat';
 export const PREFIX_STOPS = 'pysakit';
 export const PREFIX_TERMINALS = 'terminaalit';
@@ -29,7 +27,7 @@ export const getItineraryPath = (from, to, idx) =>
 export const isEmpty = s =>
   s === undefined || s === null || s.trim() === '' || s.trim() === '-';
 
-export const getEndpointPath = (origin, destination, tab) => {
+export const getEndpointPath = (origin, destination) => {
   if (isEmpty(origin) && isEmpty(destination)) {
     return '/';
   }
@@ -37,7 +35,6 @@ export const getEndpointPath = (origin, destination, tab) => {
     '',
     encodeURIComponent(isEmpty(origin) ? '-' : origin),
     encodeURIComponent(isEmpty(destination) ? '-' : destination),
-    tab,
   ].join('/');
 };
 
@@ -57,28 +54,15 @@ export const isItinerarySearchObjects = (origin, destination) => {
 };
 
 /**
- * if both are set it's itinerary search...
- * @deprecated
- */
-export const getPathWithEndpoints = (origin, destination, tab) =>
-  isItinerarySearch(origin, destination)
-    ? getRoutePath(origin, destination)
-    : getEndpointPath(origin, destination, tab);
-
-/**
  * use objects instead of strings If both are set it's itinerary search...
  */
-export const getPathWithEndpointObjects = (
-  origin,
-  destination,
-  tab = TAB_NEARBY,
-) => {
+export const getPathWithEndpointObjects = (origin, destination) => {
   const r = isItinerarySearchObjects(origin, destination)
     ? getRoutePath(
         addressToItinerarySearch(origin),
         addressToItinerarySearch(destination),
       )
-    : getEndpointPath(locationToOTP(origin), locationToOTP(destination), tab);
+    : getEndpointPath(locationToOTP(origin), locationToOTP(destination));
 
   return r;
 };
@@ -137,7 +121,6 @@ export const navigateTo = ({
   context,
   router,
   base,
-  tab = TAB_NEARBY,
   resetIndex = false,
 }) => {
   let push;
@@ -168,12 +151,12 @@ export const navigateTo = ({
         ...base.state,
         summaryPageSelected: 0,
       },
-      pathname: getPathWithEndpointObjects(origin, destination, tab),
+      pathname: getPathWithEndpointObjects(origin, destination),
     };
   } else {
     url = {
       ...base,
-      pathname: getPathWithEndpointObjects(origin, destination, tab),
+      pathname: getPathWithEndpointObjects(origin, destination),
     };
   }
 

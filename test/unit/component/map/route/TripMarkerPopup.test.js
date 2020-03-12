@@ -9,7 +9,12 @@ describe('<TripMarkerPopup />', () => {
       addAsFavouriteRoute: () => {},
       favourite: false,
       id: 'OULU:12345',
-      route: 'OULU:15',
+      route: {
+        gtfsId: 'OULU:15',
+        longName: 'Koulutie - Kuvernööri',
+        mode: 'BUS',
+        shortName: '15',
+      },
       message: {
         direction: 0,
         geoHash: ['64;25', '95', '10', '18'],
@@ -28,27 +33,19 @@ describe('<TripMarkerPopup />', () => {
         tripStartTime: undefined,
       },
       trip: {
-        route: {
-          gtfsId: 'OULU:15',
-          longName: 'Koulutie - Kuvernööri',
-          mode: 'BUS',
-          shortName: '15',
+        pattern: {
+          code: 'OULU:15:0:01',
+          headsign: 'Keskusta (Kuvernööri)',
+          stops: [
+            {
+              name: 'Koulutie',
+            },
+            {
+              name: 'Kuvernööri',
+            },
+          ],
         },
-        trip: {
-          pattern: {
-            code: 'OULU:15:0:01',
-            headsign: 'Keskusta (Kuvernööri)',
-            stops: [
-              {
-                name: 'Koulutie',
-              },
-              {
-                name: 'Kuvernööri',
-              },
-            ],
-          },
-          gtfsId: 'OULU:12345',
-        },
+        gtfsId: 'OULU:12345',
       },
     };
 

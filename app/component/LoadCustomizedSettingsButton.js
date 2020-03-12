@@ -4,7 +4,7 @@ import Snackbar from 'material-ui/Snackbar';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { routerShape } from 'react-router';
+import { matchShape, routerShape } from 'found';
 import { FormattedMessage } from 'react-intl';
 
 import { getCustomizedSettings } from '../store/localStorage';
@@ -21,6 +21,7 @@ class LoadCustomizedSettingsButton extends React.Component {
   static contextTypes = {
     config: PropTypes.object.isRequired,
     router: routerShape.isRequired,
+    match: matchShape.isRequired,
   };
 
   constructor(props) {
@@ -39,7 +40,7 @@ class LoadCustomizedSettingsButton extends React.Component {
       name: 'LoadSettings',
     });
 
-    // const querySettings = getQuerySettings(this.context.location.query);
+    // const querySettings = getQuerySettings(this.context.match.location.query);
     const defaultSettings = getDefaultSettings(this.context.config);
     const getSettings = getCustomizedSettings();
     if (isEmpty(getSettings) || isEqual(getSettings, defaultSettings)) {
@@ -47,7 +48,7 @@ class LoadCustomizedSettingsButton extends React.Component {
     } else {
       // getCustomizedSettings(querySettings);
       this.context.router.replace({
-        ...this.context.router.location,
+        ...this.context.match.location,
         query: {
           ...getSettings,
         },

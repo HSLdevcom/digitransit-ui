@@ -1,133 +1,297 @@
 import React from 'react';
-import { Route, IndexRoute } from 'react-router';
-import Relay from 'react-relay/classic';
+import Route from 'found/lib/Route';
+import { graphql } from 'react-relay';
 
 import Error404 from './component/404';
 import { PREFIX_STOPS, PREFIX_TERMINALS } from './util/path';
 import {
   getDefault,
-  loadRoute,
   errorLoading,
-  ComponentLoading404Renderer,
-  RelayRenderer,
+  getComponentOrNullRenderer,
+  getComponentOrLoadingRenderer,
 } from './util/routerUtils';
+import { prepareDatesForStops, prepareServiceDay } from './util/dateParamUtils';
 
-const stopQueries = {
-  stop: () => Relay.QL`
-    query  {
-      stop(id: $stopId)
-    }
-  `,
+const queries = {
+  stop: {
+    pageHeader: graphql`
+      query stopRoutes_StopPageHeaderContainer_Query($stopId: String!) {
+        stop(id: $stopId) {
+          ...StopPageHeaderContainer_stop
+        }
+      }
+    `,
+    pageMap: graphql`
+      query stopRoutes_StopPageMapContainer_Query($stopId: String!) {
+        stop(id: $stopId) {
+          ...StopPageMapContainer_stop
+        }
+      }
+    `,
+    pageMeta: graphql`
+      query stopRoutes_StopPageMeta_Query($stopId: String!) {
+        stop(id: $stopId) {
+          ...StopPageMeta_stop
+        }
+      }
+    `,
+    pageTab: graphql`
+      query stopRoutes_StopPageTab_Query($stopId: String!) {
+        stop(id: $stopId) {
+          ...StopPageTabContainer_stop
+        }
+      }
+    `,
+    pageContent: graphql`
+      query stopRoutes_StopPageContent_Query($stopId: String!) {
+        stop(id: $stopId) {
+          ...StopPageContentContainer_stop
+        }
+      }
+    `,
+    pageTimetable: graphql`
+      query stopRoutes_StopPageTimetable_Query(
+        $stopId: String!
+        $date: String!
+      ) {
+        stop(id: $stopId) {
+          ...StopTimetablePage_stop @arguments(date: $date)
+        }
+      }
+    `,
+    pageRoutes: graphql`
+      query stopRoutes_StopPageRoutes_Query($stopId: String!) {
+        stop(id: $stopId) {
+          ...StopRoutesAndPlatformsContainer_stop
+        }
+      }
+    `,
+    pageAlerts: graphql`
+      query stopRoutes_StopAlertsContainer_Query(
+        $stopId: String!
+        $date: String!
+        $startTime: Long!
+      ) {
+        stop(id: $stopId) {
+          ...StopAlertsContainer_stop
+            @arguments(date: $date, startTime: $startTime)
+        }
+      }
+    `,
+  },
+  station: {
+    pageHeader: graphql`
+      query stopRoutes_TerminalPageHeaderContainer_Query($terminalId: String!) {
+        station(id: $terminalId) {
+          ...TerminalPageHeaderContainer_station
+        }
+      }
+    `,
+    pageMap: graphql`
+      query stopRoutes_TerminalPageMapContainer_Query($terminalId: String!) {
+        station(id: $terminalId) {
+          ...TerminalPageMapContainer_station
+        }
+      }
+    `,
+    pageMeta: graphql`
+      query stopRoutes_TerminalPageMeta_Query($terminalId: String!) {
+        station(id: $terminalId) {
+          ...TerminalPageMeta_station
+        }
+      }
+    `,
+    pageTab: graphql`
+      query stopRoutes_TerminalPageTabContainer_Query($terminalId: String!) {
+        station(id: $terminalId) {
+          ...TerminalPageTabContainer_station
+        }
+      }
+    `,
+    pageContent: graphql`
+      query stopRoutes_TerminalPageContent_Query($terminalId: String!) {
+        station(id: $terminalId) {
+          ...TerminalPageContentContainer_station
+        }
+      }
+    `,
+    pageTimetable: graphql`
+      query stopRoutes_TerminalPageTimetable_Query(
+        $terminalId: String!
+        $date: String!
+      ) {
+        station(id: $terminalId) {
+          ...TerminalTimetablePage_station @arguments(date: $date)
+        }
+      }
+    `,
+    pageRoutes: graphql`
+      query stopRoutes_TerminalPageRoutes_Query($terminalId: String!) {
+        station(id: $terminalId) {
+          ...TerminalRoutesAndPlatformsContainer_station
+        }
+      }
+    `,
+    pageAlerts: graphql`
+      query stopRoutes_TerminalAlertsContainer_Query(
+        $terminalId: String!
+        $date: String!
+        $startTime: Long!
+      ) {
+        station(id: $terminalId) {
+          ...TerminalAlertsContainer_station
+            @arguments(date: $date, startTime: $startTime)
+        }
+      }
+    `,
+  },
 };
-
-const terminalQueries = {
-  stop: () => Relay.QL`
-    query  {
-      station(id: $terminalId)
-    }
-  `,
-};
-
-function getStopPageContentPage(location, cb) {
-  return import(/* webpackChunkName: "stop" */ './component/StopPageContentContainer')
-    .then(loadRoute(cb))
-    .catch(errorLoading);
-}
-
-function getTimetablePage(location, cb) {
-  return import(/* webpackChunkName: "stop" */ './component/TimetablePage')
-    .then(loadRoute(cb))
-    .catch(errorLoading);
-}
-
-function getRoutesAndPlatformsForStops(location, cb) {
-  return import(/* webpackChunkName: "stop" */ './component/RoutesAndPlatformsForStops')
-    .then(loadRoute(cb))
-    .catch(errorLoading);
-}
-
-function getDisruptions(location, cb) {
-  return import(/* webpackChunkName: "stop" */ './component/StopAlertsContainer')
-    .then(loadRoute(cb))
-    .catch(errorLoading);
-}
 
 export default function getStopRoutes(isTerminal = false) {
-  const queries = isTerminal ? terminalQueries : stopQueries;
+  const queryMap = isTerminal ? queries.station : queries.stop;
   return (
     <Route path={`/${isTerminal ? PREFIX_TERMINALS : PREFIX_STOPS}`}>
-      <IndexRoute component={Error404} />
+      <Route Component={Error404} />
       {/* TODO: Should return list of all routes */}
-      <Route
-        path={isTerminal ? ':terminalId' : ':stopId'}
-        getComponents={(location, cb) => {
-          Promise.all([
-            isTerminal
-              ? import(/* webpackChunkName: "stop" */
-                './component/TerminalTitle').then(getDefault)
-              : import(/* webpackChunkName: "stop" */ './component/StopTitle').then(
-                  getDefault,
-                ),
-            import(/* webpackChunkName: "stop" */ './component/StopPageHeaderContainer').then(
-              getDefault,
-            ),
-            import(/* webpackChunkName: "stop" */ './component/StopPageTabContainer').then(
-              getDefault,
-            ),
-            import(/* webpackChunkName: "stop" */ './component/StopPageMap').then(
-              getDefault,
-            ),
-            import(/* webpackChunkName: "stop" */ './component/StopPageMeta').then(
-              getDefault,
-            ),
-          ]).then(([title, header, content, map, meta]) =>
-            cb(null, { title, header, content, map, meta }),
-          );
+      <Route path={isTerminal ? ':terminalId' : ':stopId'}>
+        {{
+          title: (
+            <Route
+              path="(.*)?"
+              getComponent={() => {
+                return isTerminal
+                  ? import(/* webpackChunkName: "stop" */ './component/TerminalTitle').then(
+                      getDefault,
+                    )
+                  : import(/* webpackChunkName: "stop" */ './component/StopTitle').then(
+                      getDefault,
+                    );
+              }}
+              render={getComponentOrNullRenderer}
+            />
+          ),
+          header: (
+            <Route
+              path="(.*)?"
+              getComponent={() => {
+                return isTerminal
+                  ? import(/* webpackChunkName: "stop" */ './component/TerminalPageHeaderContainer').then(
+                      getDefault,
+                    )
+                  : import(/* webpackChunkName: "stop" */ './component/StopPageHeaderContainer').then(
+                      getDefault,
+                    );
+              }}
+              query={queryMap.pageHeader}
+              render={getComponentOrNullRenderer}
+            />
+          ),
+          content: (
+            <Route
+              getComponent={() => {
+                return isTerminal
+                  ? import(/* webpackChunkName: "stop" */ './component/TerminalPageTabContainer').then(
+                      getDefault,
+                    )
+                  : import(/* webpackChunkName: "stop" */ './component/StopPageTabContainer').then(
+                      getDefault,
+                    );
+              }}
+              query={queryMap.pageTab}
+              render={getComponentOrNullRenderer}
+            >
+              <Route
+                getComponent={() => {
+                  return isTerminal
+                    ? import(/* webpackChunkName: "stop" */ './component/TerminalPageContentContainer')
+                        .then(getDefault)
+                        .catch(errorLoading)
+                    : import(/* webpackChunkName: "stop" */ './component/StopPageContentContainer')
+                        .then(getDefault)
+                        .catch(errorLoading);
+                }}
+                query={queryMap.pageContent}
+                render={getComponentOrLoadingRenderer}
+              />
+              <Route
+                path="aikataulu"
+                getComponent={() => {
+                  return isTerminal
+                    ? import(/* webpackChunkName: "stop" */ './component/TerminalTimetablePage')
+                        .then(getDefault)
+                        .catch(errorLoading)
+                    : import(/* webpackChunkName: "stop" */ './component/StopTimetablePage')
+                        .then(getDefault)
+                        .catch(errorLoading);
+                }}
+                query={queryMap.pageTimetable}
+                prepareVariables={prepareServiceDay}
+                render={getComponentOrLoadingRenderer}
+              />
+              <Route
+                path="linjat"
+                getComponent={() => {
+                  return isTerminal
+                    ? import(/* webpackChunkName: "stop" */ './component/TerminalRoutesAndPlatformsContainer')
+                        .then(getDefault)
+                        .catch(errorLoading)
+                    : import(/* webpackChunkName: "stop" */ './component/StopRoutesAndPlatformsContainer')
+                        .then(getDefault)
+                        .catch(errorLoading);
+                }}
+                query={queryMap.pageRoutes}
+                render={getComponentOrLoadingRenderer}
+              />
+              <Route
+                path="hairiot"
+                getComponent={() => {
+                  return isTerminal
+                    ? import(/* webpackChunkName: "stop" */ './component/TerminalAlertsContainer')
+                        .then(getDefault)
+                        .catch(errorLoading)
+                    : import(/* webpackChunkName: "stop" */ './component/StopAlertsContainer')
+                        .then(getDefault)
+                        .catch(errorLoading);
+                }}
+                query={queryMap.pageAlerts}
+                prepareVariables={prepareDatesForStops}
+                render={getComponentOrLoadingRenderer}
+              />
+            </Route>
+          ),
+          map: (
+            <Route
+              path="(.*)?"
+              getComponent={() => {
+                return isTerminal
+                  ? import(/* webpackChunkName: "stop" */ './component/TerminalPageMapContainer').then(
+                      getDefault,
+                    )
+                  : import(/* webpackChunkName: "stop" */ './component/StopPageMapContainer').then(
+                      getDefault,
+                    );
+              }}
+              query={queryMap.pageMap}
+              render={getComponentOrNullRenderer}
+            />
+          ),
+          meta: (
+            <Route
+              path="(.*)?"
+              getComponent={() => {
+                return isTerminal
+                  ? import(/* webpackChunkName: "stop" */ './component/TerminalPageMeta').then(
+                      getDefault,
+                    )
+                  : import(/* webpackChunkName: "stop" */ './component/StopPageMeta').then(
+                      getDefault,
+                    );
+              }}
+              query={queryMap.pageMeta}
+              render={getComponentOrNullRenderer}
+            />
+          ),
         }}
-        queries={{
-          header: queries,
-          content: queries,
-          map: queries,
-          meta: queries,
-        }}
-        render={ComponentLoading404Renderer}
-      >
-        <IndexRoute
-          getComponent={getStopPageContentPage}
-          queries={queries}
-          render={RelayRenderer}
-        />
-        <Route
-          path="kartta"
-          fullscreenMap
-          getComponent={getStopPageContentPage}
-          queries={queries}
-          render={RelayRenderer}
-        />
-        <Route
-          path="aikataulu"
-          getComponent={getTimetablePage}
-          queries={queries}
-          render={RelayRenderer}
-        >
-          <Route path="kartta" fullscreenMap />
-        </Route>
-        <Route
-          path="linjat"
-          getComponent={getRoutesAndPlatformsForStops}
-          queries={queries}
-          render={RelayRenderer}
-        >
-          <Route path="kartta" fullscreenMap />
-        </Route>
-        <Route
-          path="hairiot"
-          getComponent={getDisruptions}
-          queries={queries}
-          render={RelayRenderer}
-        >
-          <Route path="kartta" fullscreenMap />
-        </Route>
       </Route>
     </Route>
   );

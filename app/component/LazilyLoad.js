@@ -17,15 +17,16 @@ class LazilyLoad extends React.Component {
     this.load(this.props);
   }
 
-  componentWillReceiveProps(next) {
+  componentWillUnmount() {
+    this.componentMounted = false;
+  }
+
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(next) {
     if (next.modules === this.props.modules) {
       return;
     }
     this.load(next);
-  }
-
-  componentWillUnmount() {
-    this.componentMounted = false;
   }
 
   load({ modules }) {

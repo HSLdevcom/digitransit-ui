@@ -1,19 +1,19 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { graphql, QueryRenderer } from 'react-relay';
 import { intlShape } from 'react-intl';
-import { routerShape } from 'react-router';
+import { routerShape } from 'found';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 import Icon from './Icon';
 import RouteDetails from './RouteDetails';
 import searchContext from './searchContext';
 import intializeSearchContext from './DTSearchContextInitializer';
+import getRelayEnvironment from '../util/getRelayEnvironment';
 
 class PreferredRoutes extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
     router: routerShape.isRequired,
-    location: PropTypes.object.isRequired,
     config: PropTypes.object.isRequired,
     getStore: PropTypes.func.isRequired,
   };
@@ -23,6 +23,7 @@ class PreferredRoutes extends React.Component {
     preferredRoutes: PropTypes.arrayOf(PropTypes.string),
     unPreferredRoutes: PropTypes.arrayOf(PropTypes.string),
     removeRoute: PropTypes.func.isRequired,
+    relayEnvironment: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -68,24 +69,17 @@ class PreferredRoutes extends React.Component {
               >
                 <Icon className="close-icon" img="icon-icon_close" />
               </button>
-              <Relay.Renderer
-                Container={RouteDetails}
-                queryConfig={{
-                  name: 'RouteQuery',
-                  queries: {
-                    route: Component => Relay.QL`
-                    query ($gtfsId: String!) {
-                      route (id: $gtfsId) {
-                        ${Component.getFragment('route', {
-                          gtfsId: o.replace('__', ':'),
-                        })}
-                      }
+              <QueryRenderer
+                query={graphql`
+                  query PreferredRoutesQuery($gtfsId: String!) {
+                    route(id: $gtfsId) {
+                      ...RouteDetails_route
                     }
-                    `,
-                  },
-                  params: { gtfsId: o.replace('__', ':') },
-                }}
-                environment={Relay.Store}
+                  }
+                `}
+                environment={this.props.relayEnvironment}
+                variables={{ gtfsId: o.replace('__', ':') }}
+                render={({ props }) => props && <RouteDetails {...props} />}
               />
             </div>
           ))}
@@ -121,4 +115,4 @@ class PreferredRoutes extends React.Component {
   }
 }
 
-export default PreferredRoutes;
+export default getRelayEnvironment(PreferredRoutes);

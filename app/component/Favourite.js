@@ -32,10 +32,10 @@ Favourite.description = () => (
         and allows the user to toggle the favourite status on/off.`}
     </p>
     <ComponentUsageExample description="entity is favourite">
-      <Favourite addFavourite={() => {}} favourite />
+      <Favourite addFavourite={() => {}} deleteFavourite={() => {}} favourite />
     </ComponentUsageExample>
     <ComponentUsageExample description="entity is not favourite">
-      <Favourite addFavourite={() => {}} />
+      <Favourite addFavourite={() => {}} deleteFavourite={() => {}} />
     </ComponentUsageExample>
   </div>
 );

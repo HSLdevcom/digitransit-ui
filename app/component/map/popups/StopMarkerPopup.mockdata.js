@@ -11,7 +11,6 @@ const emptyStopData = {
     stoptimes: [],
     zoneId: 'A',
   },
-  terminal: null,
 };
 
 const stoptimesData = [

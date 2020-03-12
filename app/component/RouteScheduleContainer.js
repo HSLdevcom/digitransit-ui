@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import Relay from 'react-relay/classic';
+import { createRefetchContainer, graphql } from 'react-relay';
+import { matchShape } from 'found';
 import moment from 'moment';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { intlShape, FormattedMessage } from 'react-intl';
@@ -25,17 +26,6 @@ const isTripCanceled = trip =>
     .every(st => st.realtimeState === RealtimeStateType.Canceled);
 
 class RouteScheduleContainer extends Component {
-  static propTypes = {
-    pattern: PropTypes.object.isRequired,
-    relay: PropTypes.object.isRequired,
-    serviceDay: PropTypes.string.isRequired,
-  };
-
-  static contextTypes = {
-    intl: intlShape.isRequired,
-    config: PropTypes.object.isRequired,
-  };
-
   static transformTrips(trips, stops) {
     if (trips == null) {
       return null;
@@ -52,21 +42,34 @@ class RouteScheduleContainer extends Component {
     return transformedTrips;
   }
 
+  static propTypes = {
+    pattern: PropTypes.object.isRequired,
+    relay: PropTypes.shape({
+      refetch: PropTypes.func.isRequired,
+    }).isRequired,
+    serviceDay: PropTypes.string.isRequired,
+    match: matchShape.isRequired,
+  };
+
+  static contextTypes = {
+    intl: intlShape.isRequired,
+    config: PropTypes.object.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.initState(props, true);
-    props.relay.setVariables({ serviceDay: props.serviceDay });
   }
 
-  componentWillReceiveProps(nextProps) {
-    // If route has changed, reset state.
-    if (
-      nextProps.relay.route.params.patternId !==
-      this.props.relay.route.params.patternId
-    ) {
-      this.initState(nextProps, false);
-      nextProps.relay.setVariables({ serviceDay: nextProps.serviceDay });
-    }
+  componentDidMount() {
+    this.props.relay.refetch(
+      {
+        serviceDay: this.props.serviceDay,
+        code: this.props.match.params.patternId,
+      },
+      null,
+      () => this.setState({ hasLoaded: true }),
+    );
   }
 
   onFromSelectChange = event => {
@@ -135,19 +138,30 @@ class RouteScheduleContainer extends Component {
   formatTime = timestamp => moment(timestamp * 1000).format('HH:mm');
 
   changeDate = ({ target }) => {
-    // TODO: add setState and a callback that resets the laoding state in oreder to get a spinner.
-    this.props.relay.setVariables({
-      serviceDay: target.value,
-    });
     addAnalyticsEvent({
       category: 'Route',
       action: 'ChangeTimetableDay',
       name: null,
     });
+    this.setState(
+      {
+        serviceDay: target.value,
+        hasLoaded: false,
+      },
+      () =>
+        this.props.relay.refetch(
+          {
+            serviceDay: target.value,
+            code: this.props.match.params.patternId,
+          },
+          null,
+          () => this.setState({ hasLoaded: true }),
+        ),
+    );
   };
 
   dateForPrinting = () => {
-    const selectedDate = moment(this.props.relay.variables.serviceDay);
+    const selectedDate = moment(this.state.serviceDay);
     return (
       <div className="printable-date-container">
         <div className="printable-date-icon">
@@ -175,10 +189,28 @@ class RouteScheduleContainer extends Component {
     window.print();
   };
 
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    // If route has changed, reset state.
+    if (nextProps.pattern.code !== this.props.pattern.code) {
+      this.initState(nextProps, false);
+      nextProps.relay.refetch(
+        {
+          serviceDay: nextProps.serviceDay,
+          code: this.props.pattern.code,
+        },
+        null,
+        () => this.setState({ hasLoaded: true }),
+      );
+    }
+  }
+
   initState(props, isInitialState) {
     const state = {
       from: 0,
       to: props.pattern.stops.length - 1,
+      serviceDay: props.serviceDay,
+      hasLoaded: false,
     };
 
     if (isInitialState) {
@@ -208,7 +240,7 @@ class RouteScheduleContainer extends Component {
         <div className="route-page-action-bar">
           <DateSelect
             startDate={this.props.serviceDay}
-            selectedDate={this.props.relay.variables.serviceDay}
+            selectedDate={this.state.serviceDay}
             dateFormat={DATE_FORMAT}
             onDateChange={this.changeDate}
           />
@@ -255,7 +287,11 @@ class RouteScheduleContainer extends Component {
             onToSelectChange={this.onToSelectChange}
           />
           <div className="route-schedule-list momentum-scroll">
-            {this.getTrips(this.state.from, this.state.to)}
+            {this.state.hasLoaded ? (
+              this.getTrips(this.state.from, this.state.to)
+            ) : (
+              <Loading />
+            )}
           </div>
         </div>
       </div>
@@ -263,46 +299,50 @@ class RouteScheduleContainer extends Component {
   }
 }
 
-const connectedComponent = connectToStores(
-  Relay.createContainer(RouteScheduleContainer, {
-    initialVariables: {
-      serviceDay: moment().format(DATE_FORMAT),
-    },
-    fragments: {
-      pattern: () => Relay.QL`
-        fragment on Pattern {
-          stops {
-            id
-            name
-          }
-          route {
-            url
-            gtfsId
-            shortName
-          }
-          tripsForDate(serviceDay: $serviceDay) {
-            id
-            stoptimes: stoptimesForDate(serviceDay: $serviceDay) {
-              realtimeState
-              scheduledArrival
-              scheduledDeparture
-              serviceDay
-              stop {
-                id
-              }
-            }
-          }
-        }
-      `,
-    },
-  }),
-  [],
-  context => ({
+const connectedComponent = createRefetchContainer(
+  connectToStores(RouteScheduleContainer, [], context => ({
     serviceDay: context
       .getStore('TimeStore')
       .getCurrentTime()
       .format(DATE_FORMAT),
-  }),
+  })),
+  {
+    pattern: graphql`
+      fragment RouteScheduleContainer_pattern on Pattern
+        @argumentDefinitions(
+          serviceDay: { type: "String!", defaultValue: "19700101" }
+        ) {
+        stops {
+          id
+          name
+        }
+        route {
+          url
+          gtfsId
+          shortName
+        }
+        tripsForDate(serviceDay: $serviceDay) {
+          id
+          stoptimes: stoptimesForDate(serviceDay: $serviceDay) {
+            realtimeState
+            scheduledArrival
+            scheduledDeparture
+            serviceDay
+            stop {
+              id
+            }
+          }
+        }
+      }
+    `,
+  },
+  graphql`
+    query RouteScheduleContainerQuery($code: String!, $serviceDay: String!) {
+      pattern(id: $code) {
+        ...RouteScheduleContainer_pattern @arguments(serviceDay: $serviceDay)
+      }
+    }
+  `,
 );
 
 export { connectedComponent as default, RouteScheduleContainer as Component };

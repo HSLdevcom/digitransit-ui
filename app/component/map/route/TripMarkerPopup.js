@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
-import { Link } from 'react-router';
+import { createFragmentContainer, graphql } from 'react-relay';
+import Link from 'found/lib/Link';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
 import { PREFIX_ROUTES } from '../../../util/path';
@@ -12,19 +12,19 @@ import { addFavourite } from '../../../action/FavouriteActions';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 
 function TripMarkerPopup(props) {
-  let patternPath = `/${PREFIX_ROUTES}/${props.trip.route.gtfsId}/pysakit`;
+  let patternPath = `/${PREFIX_ROUTES}/${props.route.gtfsId}/pysakit`;
   let tripPath = patternPath;
 
-  if (props.trip.trip) {
-    patternPath += `/${props.trip.trip.pattern.code}`;
-    tripPath = `${patternPath}/${props.trip.trip.gtfsId}`;
+  if (props.trip) {
+    patternPath += `/${props.trip.pattern.code}`;
+    tripPath = `${patternPath}/${props.trip.gtfsId}`;
   }
 
   return (
     <div className="card">
       <RouteHeader
-        route={props.trip.route}
-        pattern={props.trip.trip && props.trip.trip.pattern}
+        route={props.route}
+        pattern={props.trip && props.trip.pattern}
         trip={props.message.tripStartTime}
         favourite={props.favourite}
         addFavouriteRoute={props.addAsFavouriteRoute}
@@ -36,7 +36,7 @@ function TripMarkerPopup(props) {
             addAnalyticsEvent({
               category: 'Map',
               action: 'OpenTripInformation',
-              name: props.trip.route.mode,
+              name: props.route.mode,
             });
           }}
         >
@@ -55,16 +55,14 @@ function TripMarkerPopup(props) {
 }
 
 TripMarkerPopup.propTypes = {
+  route: PropTypes.shape({
+    gtfsId: PropTypes.string.isRequired,
+    mode: PropTypes.string,
+  }).isRequired,
   trip: PropTypes.shape({
-    route: PropTypes.shape({
-      gtfsId: PropTypes.string.isRequired,
-      mode: PropTypes.string,
-    }).isRequired,
-    trip: PropTypes.shape({
-      gtfsId: PropTypes.string,
-      pattern: PropTypes.shape({
-        code: PropTypes.string.isRequired,
-      }),
+    gtfsId: PropTypes.string,
+    pattern: PropTypes.shape({
+      code: PropTypes.string.isRequired,
     }),
   }).isRequired,
   favourite: PropTypes.bool.isRequired,
@@ -81,45 +79,41 @@ const TripMarkerPopupWithFavourite = connectToStores(
   (context, props) => ({
     favourite: context
       .getStore('FavouriteStore')
-      .isFavourite(props.trip.route.gtfsId),
+      .isFavourite(props.route.gtfsId),
     addAsFavouriteRoute: e => {
       e.stopPropagation();
       context.executeAction(addFavourite, {
         type: 'route',
-        gtfsId: props.trip.route.gtfsId,
+        gtfsId: props.route.gtfsId,
       });
     },
   }),
 );
 
-const containerComponent = Relay.createContainer(TripMarkerPopupWithFavourite, {
-  fragments: {
-    trip: () => Relay.QL`
-      fragment on QueryType {
-        trip(id: $id) {
-          gtfsId
-          pattern {
-            code
-            headsign
-            stops {
-              name
-            }
+const containerComponent = createFragmentContainer(
+  TripMarkerPopupWithFavourite,
+  {
+    trip: graphql`
+      fragment TripMarkerPopup_trip on Trip {
+        gtfsId
+        pattern {
+          code
+          headsign
+          stops {
+            name
           }
-        }
-        route(id: $route) {
-          gtfsId
-          mode
-          shortName
-          longName
         }
       }
     `,
+    route: graphql`
+      fragment TripMarkerPopup_route on Route {
+        gtfsId
+        mode
+        shortName
+        longName
+      }
+    `,
   },
-
-  initialVariables: {
-    route: null,
-    id: null,
-  },
-});
+);
 
 export { containerComponent as default, TripMarkerPopup as Component };

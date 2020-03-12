@@ -5,7 +5,7 @@ import { Tabs, Tab } from 'material-ui/Tabs';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { intlShape } from 'react-intl';
-import Relay from 'react-relay/classic';
+import { graphql, fetchQuery } from 'react-relay';
 import SwipeableViews from 'react-swipeable-views';
 
 import Icon from './Icon';
@@ -13,7 +13,6 @@ import MessageBarMessage from './MessageBarMessage';
 import { AlertSeverityLevelType } from '../constants';
 import { markMessageAsRead } from '../action/MessageActions';
 import { getReadMessageIds } from '../store/localStorage';
-import { AlertContentQuery } from '../util/alertQueries';
 import {
   getServiceAlertDescription,
   getServiceAlertHeader,
@@ -22,32 +21,43 @@ import {
 } from '../util/alertUtils';
 import { isIe } from '../util/browser';
 import hashCode from '../util/hashUtil';
-import { tryGetRelayQuery } from '../util/DTSearchUtils';
+import getRelayEnvironment from '../util/getRelayEnvironment';
 
 /* Small version has constant height,
  * big version has max height of half but can be
  * less if the message is shorter.
  */
 
-const fetchServiceAlerts = async feedids => {
-  const query = Relay.createQuery(
-    Relay.QL`
-      query ServiceAlerts($feedids: [String!]!) {
-        viewer {
-          alerts(feeds: $feedids ) {
-            ${AlertContentQuery}
-          }
+const fetchServiceAlerts = async (feedids, relayEnvironment) => {
+  const query = graphql`
+    query MessageBarQuery($feedids: [String!]) {
+      alerts: alerts(feeds: $feedids) {
+        id
+        alertDescriptionText
+        alertHash
+        alertHeaderText
+        alertSeverityLevel
+        alertUrl
+        effectiveEndDate
+        effectiveStartDate
+        alertDescriptionTextTranslations {
+          language
+          text
+        }
+        alertHeaderTextTranslations {
+          language
+          text
+        }
+        alertUrlTranslations {
+          language
+          text
         }
       }
-    `,
-    { feedids },
-  );
+    }
+  `;
 
-  const defaultValue = [];
-  const result = await tryGetRelayQuery(query, defaultValue);
-  return Array.isArray(result) && result[0] && Array.isArray(result[0].alerts)
-    ? result[0].alerts
-    : defaultValue;
+  const result = await fetchQuery(relayEnvironment, query, { feedids });
+  return result && Array.isArray(result.alerts) ? result.alerts : [];
 };
 
 export const getServiceAlertId = alert =>
@@ -108,6 +118,7 @@ class MessageBar extends Component {
     getServiceAlertsAsync: PropTypes.func,
     lang: PropTypes.string.isRequired,
     messages: PropTypes.array.isRequired,
+    relayEnvironment: PropTypes.object,
   };
 
   static defaultProps = {
@@ -120,7 +131,7 @@ class MessageBar extends Component {
   };
 
   componentDidMount = async () => {
-    const { currentTime, getServiceAlertsAsync } = this.props;
+    const { currentTime, getServiceAlertsAsync, relayEnvironment } = this.props;
     const { config } = this.context;
 
     const feedIds =
@@ -130,7 +141,7 @@ class MessageBar extends Component {
     this.setState({
       ready: true,
       serviceAlerts: uniqBy(
-        (await getServiceAlertsAsync(feedIds)).filter(
+        (await getServiceAlertsAsync(feedIds, relayEnvironment)).filter(
           alert =>
             getActiveAlertSeverityLevel([alert], currentTime) ===
             AlertSeverityLevelType.Severe,
@@ -331,7 +342,7 @@ class MessageBar extends Component {
 }
 
 const connectedComponent = connectToStores(
-  MessageBar,
+  getRelayEnvironment(MessageBar),
   ['MessageStore', 'PreferencesStore', 'TimeStore'],
   context => ({
     lang: context.getStore('PreferencesStore').getLanguage(),

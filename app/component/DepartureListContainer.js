@@ -3,11 +3,10 @@ import get from 'lodash/get';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import Relay from 'react-relay/classic';
-import { Link } from 'react-router';
+import { createFragmentContainer, graphql } from 'react-relay';
+import Link from 'found/lib/Link';
 
 import Departure from './Departure';
-import { RouteAlertsQuery } from '../util/alertQueries';
 import {
   getActiveAlertSeverityLevel,
   patternIdPredicate,
@@ -284,53 +283,60 @@ DepartureListContainer.contextTypes = {
   config: PropTypes.object.isRequired,
 };
 
-const containerComponent = Relay.createContainer(DepartureListContainer, {
-  fragments: {
-    stoptimes: () => Relay.QL`
-      fragment on Stoptime @relay(plural:true) {
-          realtimeState
-          realtimeDeparture
-          scheduledDeparture
-          realtimeArrival
-          scheduledArrival
-          realtime
-          serviceDay
-          pickupType
-          stopHeadsign
-          stop {
-            id
-            code
-            platformCode
-          }
-          trip {
+const containerComponent = createFragmentContainer(DepartureListContainer, {
+  stoptimes: graphql`
+    fragment DepartureListContainer_stoptimes on Stoptime @relay(plural: true) {
+      realtimeState
+      realtimeDeparture
+      scheduledDeparture
+      realtimeArrival
+      scheduledArrival
+      realtime
+      serviceDay
+      pickupType
+      stopHeadsign
+      stop {
+        id
+        code
+        platformCode
+      }
+      trip {
+        gtfsId
+        directionId
+        tripHeadsign
+        stops {
+          id
+        }
+        pattern {
+          route {
             gtfsId
-            directionId
-            tripHeadsign
-            stops {
-              id
+            shortName
+            longName
+            mode
+            color
+            agency {
+              name
             }
-            pattern {
-              route {
-                gtfsId
-                shortName
-                longName
-                mode
-                color
-                agency {
-                  name
+            alerts {
+              alertSeverityLevel
+              effectiveEndDate
+              effectiveStartDate
+              trip {
+                pattern {
+                  code
                 }
-                ${RouteAlertsQuery}
-              }
-              code
-              stops {
-                gtfsId
-                code
               }
             }
+          }
+          code
+          stops {
+            gtfsId
+            code
           }
         }
-    `,
-  },
+      }
+    }
+  `,
 });
 
 export {

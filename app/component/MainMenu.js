@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
-import { Link } from 'react-router';
+import Link from 'found/lib/Link';
 
 import DisruptionInfoButtonContainer from './DisruptionInfoButtonContainer';
 import Icon from './Icon';
@@ -29,19 +29,21 @@ function MainMenu(props, { config, intl }) {
         <LangSelect />
       </header>
       <div className="offcanvas-section">
-        <Link
-          id="frontpage"
-          to={props.homeUrl}
-          onClick={() => {
-            addAnalyticsEvent({
-              category: 'Navigation',
-              action: 'Home',
-              name: null,
-            });
-          }}
-        >
-          <FormattedMessage id="frontpage" defaultMessage="Frontpage" />
-        </Link>
+        {props.homeUrl !== undefined && (
+          <Link
+            id="frontpage"
+            to={props.homeUrl}
+            onClick={() => {
+              addAnalyticsEvent({
+                category: 'Navigation',
+                action: 'Home',
+                name: null,
+              });
+            }}
+          >
+            <FormattedMessage id="frontpage" defaultMessage="Frontpage" />
+          </Link>
+        )}
       </div>
       {config.mainMenu.showDisruptions &&
         props.showDisruptionInfo && (

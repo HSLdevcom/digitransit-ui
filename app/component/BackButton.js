@@ -1,18 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { routerShape } from 'react-router';
+import { routerShape, matchShape } from 'found';
 import { intlShape } from 'react-intl';
 import Icon from './Icon';
-import { isBrowser, isIOSApp } from '../util/browser';
-import { getIndex } from '../localStorageHistory';
-
-const hasHistoryEntries = () =>
-  (isIOSApp && getIndex() > 0) || (isBrowser && window.history.length);
 
 export default class BackButton extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
     router: routerShape,
+    match: matchShape,
   };
 
   static propTypes = {
@@ -28,8 +24,8 @@ export default class BackButton extends React.Component {
   };
 
   goBack = () => {
-    if (hasHistoryEntries()) {
-      this.context.router.goBack();
+    if (this.context.match.location.index > 0) {
+      this.context.router.go(-1);
     } else {
       this.context.router.push('/');
     }
