@@ -3,6 +3,8 @@ import React from 'react';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 
+import LazilyLoad, { importLazy } from './LazilyLoad';
+import { getDrawerWidth } from '../util/browser';
 import RouteNumber from './RouteNumber';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -29,8 +31,14 @@ function CarLeg(props, context) {
     }
   }
 
+  const carpoolOfferModules = {
+    Drawer: () => importLazy(import('material-ui/Drawer')),
+    CustomizeSearch: () => importLazy(import('./CarpoolOffer')),
+  };
+
+  let isOpen = false;
   function toggleOfferCarpool() {
-    console.log('toggle!');
+    isOpen = !isOpen;
   }
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
@@ -67,9 +75,9 @@ function CarLeg(props, context) {
           {
             <ToggleButton
               className="standalone-btn"
-              title="Offer ride" // tooltip
-              showButtonTitle="true"
-              label="Offer ride" // button text
+              title="offer-ride" // tooltip
+              showButtonTitle
+              label="offer-ride" // button text
               onBtnClick={toggleOfferCarpool}
             />
           }
@@ -94,6 +102,32 @@ function CarLeg(props, context) {
           )}
         </div>
       </div>
+      <LazilyLoad modules={carpoolOfferModules}>
+        {({ Drawer, CarpoolOffer }) => (
+          <Drawer
+            className="offcanvas"
+            disableSwipeToOpen
+            openSecondary
+            docked={false}
+            open={isOpen}
+            onRequestChange={onRequestChange}
+            // Needed for the closing arrow button that's left of the drawer.
+            containerStyle={{
+              background: 'transparent',
+              boxShadow: 'none',
+              overflow: 'visible',
+            }}
+            width={getDrawerWidth(window)}
+          >
+            <CarpoolOffer
+              duration={props.leg.duration}
+              from={props.leg.from.name}
+              to={props.leg.to.name}
+              start={props.leg.startTime}
+            />
+          </Drawer>
+        )}
+      </LazilyLoad>
     </div>
   );
 }
