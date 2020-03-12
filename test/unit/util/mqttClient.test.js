@@ -75,6 +75,13 @@ describe('mqttClient', () => {
       expect(message.mode).to.equal('subway');
     });
 
+    it('translates ubus -> bus', () => {
+      const ubusTopic =
+        '/hfp/v2/journey/ongoing/vp/ubus/0018/00296/1064/1/Itä-Pakila/16:12/1250101/5/60;24/29/04/85';
+      const message = parseMessage(ubusTopic, testMessage, 'HSL');
+      expect(message.mode).to.equal('bus');
+    });
+
     it('should return message when message.seq is 1', () => {
       const metroTopic =
         '/hfp/v2/journey/ongoing/vp/metro/0018/00296/1064/1/Itä-Pakila/16:12/1250101/5/60;24/29/04/85';
