@@ -105,7 +105,7 @@ export default class FavouriteStore extends Store {
         favouriteId: uuid(),
       });
     }
-    await updateFavourites(this.favourites)
+    await updateFavourites(newFavourites)
       .then(() => {
         this.favourites = newFavourites;
         this.emitChange();
