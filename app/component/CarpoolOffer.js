@@ -4,7 +4,7 @@ import { intlShape } from 'react-intl';
 import { routerShape } from 'react-router';
 import Icon from './Icon';
 import Checkbox from './Checkbox';
-
+import BubbleDialog from './BubbleDialog';
 /** variables in return section:
  *  - time
  *  - from, to
@@ -48,6 +48,8 @@ export default class CarpoolOffer extends React.Component {
 
   selectedDays = [];
 
+  isFinished = false;
+
   setFrequency = e => {
     e.preventDefault();
     this.isRegularly = document.getElementById('regularly').checked;
@@ -62,6 +64,34 @@ export default class CarpoolOffer extends React.Component {
     }
   };
 
+  finishForm = e => {
+    e.preventDefault();
+    this.isFinished = true;
+    this.forceUpdate();
+  };
+
+  getOfferedTimes = () => {
+    let tmp = '';
+    for (let i = 0; i < this.selectedDays.length; i++) {
+      tmp = tmp.concat(this.selectedDays[i]).concat('s, ');
+    }
+    tmp = tmp
+      .replace(/D/g, 'd')
+      .replace(/M/g, 'm')
+      .replace(/T/g, 't')
+      .replace(/F/g, 'f')
+      .replace(/S/g, 's')
+      .replace(/W/g, 'w');
+    tmp = 'Am '.concat(tmp);
+    tmp = tmp.replace(/,(?=[^,]*$)/, '');
+    let tmp2 = this.props.start;
+    tmp = tmp
+      .concat(' um ')
+      .concat(tmp2)
+      .concat(' Uhr.');
+    return tmp;
+  };
+
   render() {
     const {
       config,
@@ -70,7 +100,7 @@ export default class CarpoolOffer extends React.Component {
       router,
     } = this.context;
     const { onToggleClick } = this.props;
-    const isRegularly = this.isRegularly;
+    const offeredTimes = this.getOfferedTimes();
 
     return (
       <div className="customize-search carpool-offer">
@@ -78,114 +108,138 @@ export default class CarpoolOffer extends React.Component {
           <Icon className="close-icon" img="icon-icon_close" />
         </button>
         <Icon img="fg_icon" width={12} height={12} />
-        <h2>Ihr Inserat</h2>
-        <p>
-          Abfahrt: um <br />
-          Ankunft: um
-        </p>
-        <p>Wie oft bieten Sie diese Fahrt an?</p>
-        <form onSubmit={this.setFrequency}>
-          <div className="radio">
-            <label>
-              <input
-                type="radio"
-                id="once"
-                value="once"
-                name="times"
-                defaultChecked
-              />
-              einmal
-            </label>
-          </div>
-          <div className="radio">
-            <label>
-              <input
-                type="radio"
-                id="regularly"
-                value="regularly"
-                name="times"
-              />
-              regelmäßig
-            </label>
-          </div>
+        {this.isFinished ? (
           <div>
-            <input type="submit" value={isRegularly ? 'Update' : 'Next'} />
+            <h2>Vielen Dank</h2>
+            <p>
+              Ihr {this.isRegularly ? 'regelmäßiges' : ''} Inserat von {this.props.from} nach {this.props.to} wurde eingestellt.<br />
+              Sie haben die folgende Zeit und Tagen inseriert: <br />
+              {offeredTimes}
+            </p>
+            <button
+              type="submit"
+              className="standalone-btn"
+              onClick={() => {
+                this.isFinished = false;
+                this.isRegularly = false;
+                this.forceUpdate();
+              }}
+            >
+              Schlißen
+            </button>
           </div>
-        </form>
-        {isRegularly ? (
-          <form>
-            <Checkbox
-              onChange={e => {
-                this.updateSelectedDays(
-                  e.currentTarget.getAttribute('aria-label'),
-                );
-                this.days.mon = !this.days.mon;
-                this.forceUpdate();
-              }}
-              checked={this.days.mon}
-              labelId="monday"
-              title="mon"
-            />
-            <Checkbox
-              checked={this.days.tue}
-              onChange={e => {
-                this.updateSelectedDays(e.currentTarget.getAttribute('aria-label'));
-                this.days.tue = !this.days.tue;
-                this.forceUpdate();
-              }}
-              labelId="tuesday"
-            />
-            <Checkbox
-              checked={this.days.wed}
-              onChange={e => {
-                this.updateSelectedDays(e.currentTarget.getAttribute('aria-label'));
-                this.days.wed = !this.days.wed;
-                this.forceUpdate();
-              }}
-              labelId="wednesday"
-            />
-            <Checkbox
-              checked={this.days.thu}
-              onChange={e => {
-                this.updateSelectedDays(e.currentTarget.getAttribute('aria-label'));
-                this.days.thu = !this.days.thu;
-                this.forceUpdate();
-              }}
-              labelId="thursday"
-            />
-            <Checkbox
-              checked={this.days.fri}
-              onChange={e => {
-                this.updateSelectedDays(e.currentTarget.getAttribute('aria-label'));
-                this.days.fri = !this.days.fri;
-                this.forceUpdate();
-              }}
-              labelId="friday"
-            />
-            <Checkbox
-              checked={this.days.sat}
-              onChange={e => {
-                this.updateSelectedDays(e.currentTarget.getAttribute('aria-label'));
-                this.days.sat = !this.days.sat;
-                this.forceUpdate();
-              }}
-              labelId="saturday"
-            />
-            <Checkbox
-              checked={this.days.sun}
-              onChange={e => {
-                this.updateSelectedDays(e.currentTarget.getAttribute('aria-label'));
-                this.days.sun = !this.days.sun;
-                this.forceUpdate();
-              }}
-              labelId="sunday"
-            />
-            <div>
-              <input type="submit" value="Next" />
-            </div>
-          </form>
         ) : (
-          ''
+          <div>
+            <h2>Ihr Inserat</h2>
+            <p>
+              Abfahrt: um <br />
+              Ankunft: um
+            </p>
+            <p>Wie oft bieten Sie diese Fahrt an?</p>
+            <form onSubmit={this.setFrequency}>
+              <div className="radio">
+                <label>
+                  <input
+                    type="radio"
+                    id="once"
+                    value="once"
+                    name="times"
+                    defaultChecked
+                  />
+                  einmal
+                </label>
+              </div>
+              <div className="radio">
+                <label>
+                  <input
+                    type="radio"
+                    id="regularly"
+                    value="regularly"
+                    name="times"
+                  />
+                  regelmäßig
+                </label>
+              </div>
+              <div>
+                <input type="submit" value={this.isRegularly ? 'Update' : 'Next'} />
+              </div>
+            </form>
+            {this.isRegularly ? (
+              <form onSubmit={this.finishForm}>
+                <Checkbox
+                  onChange={e => {
+                    this.updateSelectedDays(
+                      e.currentTarget.getAttribute('aria-label'),
+                    );
+                    this.days.mon = !this.days.mon;
+                    this.forceUpdate();
+                  }}
+                  checked={this.days.mon}
+                  labelId="monday"
+                  title="mon"
+                />
+                <Checkbox
+                  checked={this.days.tue}
+                  onChange={e => {
+                    this.updateSelectedDays(e.currentTarget.getAttribute('aria-label'));
+                    this.days.tue = !this.days.tue;
+                    this.forceUpdate();
+                  }}
+                  labelId="tuesday"
+                />
+                <Checkbox
+                  checked={this.days.wed}
+                  onChange={e => {
+                    this.updateSelectedDays(e.currentTarget.getAttribute('aria-label'));
+                    this.days.wed = !this.days.wed;
+                    this.forceUpdate();
+                  }}
+                  labelId="wednesday"
+                />
+                <Checkbox
+                  checked={this.days.thu}
+                  onChange={e => {
+                    this.updateSelectedDays(e.currentTarget.getAttribute('aria-label'));
+                    this.days.thu = !this.days.thu;
+                    this.forceUpdate();
+                  }}
+                  labelId="thursday"
+                />
+                <Checkbox
+                  checked={this.days.fri}
+                  onChange={e => {
+                    this.updateSelectedDays(e.currentTarget.getAttribute('aria-label'));
+                    this.days.fri = !this.days.fri;
+                    this.forceUpdate();
+                  }}
+                  labelId="friday"
+                />
+                <Checkbox
+                  checked={this.days.sat}
+                  onChange={e => {
+                    this.updateSelectedDays(e.currentTarget.getAttribute('aria-label'));
+                    this.days.sat = !this.days.sat;
+                    this.forceUpdate();
+                  }}
+                  labelId="saturday"
+                />
+                <Checkbox
+                  checked={this.days.sun}
+                  onChange={e => {
+                    this.updateSelectedDays(e.currentTarget.getAttribute('aria-label'));
+                    this.days.sun = !this.days.sun;
+                    this.forceUpdate();
+                  }}
+                  labelId="sunday"
+                />
+                <div>
+                  <input type="submit" value="Next" />
+                </div>
+              </form>
+            ) : (
+              ''
+            )}
+          </div>
         )}
       </div>
     );
