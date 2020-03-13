@@ -14,7 +14,7 @@ import {
 } from '../action/PositionActions';
 import storeOrigin from '../action/originActions';
 import ControlPanel from './ControlPanel';
-import DTEndpointAutosuggest from './DTEndpointAutosuggest';
+import DTAutoSuggest from './DTAutosuggest';
 import DTAutosuggestPanel from './DTAutosuggestPanel';
 import MapWithTracking from './map/MapWithTracking';
 import PageFooter from './PageFooter';
@@ -180,7 +180,7 @@ class IndexPage extends React.Component {
             </span>
           </div>
           <div>
-            <DTEndpointAutosuggest
+            <DTAutoSuggest
               icon="mapMarker-via"
               id="searchfield-preferred"
               autoFocus={false}
@@ -268,7 +268,7 @@ class IndexPage extends React.Component {
             </span>
           </div>
           <div>
-            <DTEndpointAutosuggest
+            <DTAutoSuggest
               icon="mapMarker-via"
               id="searchfield-preferred-bottom"
               autoFocus={false}

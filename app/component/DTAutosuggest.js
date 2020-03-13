@@ -1,17 +1,28 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
+import { routerShape } from 'found';
 import { intlShape } from 'react-intl';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import Autosuggest from 'react-autosuggest';
 import isEqual from 'lodash/isEqual';
 import { executeSearch, getAllEndpointLayers } from '../util/searchUtils';
 import SuggestionItem from './SuggestionItem';
-import { getLabel } from '../util/suggestionUtils';
 import { dtLocationShape } from '../util/shapes';
 import Icon from './Icon';
 import getRelayEnvironment from '../util/getRelayEnvironment';
 import { getJson } from '../util/xhrPromise';
 import { saveSearch } from '../action/SearchActions';
+import Loading from './Loading';
+import {
+  suggestionToLocation,
+  getGTFSId,
+  isStop,
+  getLabel,
+} from '../util/suggestionUtils';
+import { PREFIX_STOPS, PREFIX_TERMINALS } from '../util/path';
+import { startLocationWatch } from '../action/PositionActions';
+import PositionStore from '../store/PositionStore';
 
 class DTAutosuggest extends React.Component {
   static contextTypes = {
@@ -20,6 +31,7 @@ class DTAutosuggest extends React.Component {
     intl: intlShape.isRequired,
     relayEnvironment: PropTypes.object.isRequired,
     executeAction: PropTypes.func.isRequired,
+    router: routerShape.isRequired,
   };
 
   static propTypes = {
@@ -29,7 +41,7 @@ class DTAutosuggest extends React.Component {
     icon: PropTypes.string,
     id: PropTypes.string.isRequired,
     isFocused: PropTypes.func,
-    layers: PropTypes.arrayOf(PropTypes.string).isRequired,
+    layers: PropTypes.arrayOf(PropTypes.string),
     placeholder: PropTypes.string.isRequired,
     refPoint: dtLocationShape.isRequired,
     searchType: PropTypes.oneOf(['all', 'endpoint', 'search']).isRequired,
@@ -39,6 +51,11 @@ class DTAutosuggest extends React.Component {
     relayEnvironment: PropTypes.object.isRequired,
     ariaLabel: PropTypes.string,
     onSelect: PropTypes.func,
+    onLocationSelected: PropTypes.func.isRequired,
+    onRouteSelected: PropTypes.func,
+    isPreferredRouteSearch: PropTypes.bool,
+    locationState: PropTypes.object.isRequired,
+    showSpinner: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -48,6 +65,10 @@ class DTAutosuggest extends React.Component {
     icon: undefined,
     isFocused: () => {},
     value: '',
+    isPreferredRouteSearch: false,
+    onRouteSelected: undefined,
+    showSpinner: false,
+    layers: getAllEndpointLayers(),
   };
 
   constructor(props) {
@@ -59,6 +80,7 @@ class DTAutosuggest extends React.Component {
       suggestions: [],
       editing: false,
       valid: true,
+      pendingCurrentLocation: false,
     };
   }
 
@@ -70,6 +92,30 @@ class DTAutosuggest extends React.Component {
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps = nextProps => {
+    const locState = nextProps.locationState;
+    // wait until address is set or geolocationing fails
+    if (
+      this.state.pendingCurrentLocation &&
+      (locState.status === PositionStore.STATUS_FOUND_ADDRESS ||
+        locState.locationingFailed)
+    ) {
+      this.setState({ pendingCurrentLocation: false }, () => {
+        if (locState.status === PositionStore.STATUS_FOUND_ADDRESS) {
+          const location = {
+            type: 'CurrentLocation',
+            lat: locState.lat,
+            lon: locState.lon,
+            address:
+              locState.address ||
+              this.context.intl.formatMessage({
+                id: 'own-position',
+                defaultMessage: 'Own Location',
+              }),
+          };
+          nextProps.onLocationSelected(location);
+        }
+      });
+    }
     if (nextProps.value !== this.state.value && !this.state.editing) {
       this.setState({
         value: nextProps.value,
@@ -308,7 +354,7 @@ class DTAutosuggest extends React.Component {
     if (item.type.indexOf('Favourite') === -1) {
       this.context.executeAction(saveSearch, { item, type });
     }
-    this.props.onSelect(item, type);
+    // this.onSelect(item, type);
   };
 
   onSelect = item => {
@@ -337,13 +383,81 @@ class DTAutosuggest extends React.Component {
           newItem.geometry.coordinates = geom.coordinates;
         }
         this.finishSelect(newItem, type);
+        this.onSuggestionSelected(item);
       });
     } else {
       this.finishSelect(item, type);
+      this.onSuggestionSelected(item);
     }
   };
 
+  onSuggestionSelected = item => {
+    // preferred route selection
+    if (this.props.isPreferredRouteSearch && this.props.onRouteSelected) {
+      this.props.onRouteSelected(item);
+      return;
+    }
+    // stop
+    if (item.timetableClicked === true) {
+      const prefix = isStop(item.properties) ? PREFIX_STOPS : PREFIX_TERMINALS;
+
+      const url = `/${prefix}/${getGTFSId(item.properties)}`;
+      this.context.router.push(url);
+      return;
+    }
+
+    // route
+    if (item.properties.link) {
+      this.context.router.push(item.properties.link);
+      return;
+    }
+    const location = suggestionToLocation(item);
+
+    if (item.properties.layer === 'currentPosition' && !item.properties.lat) {
+      this.setState({ pendingCurrentLocation: true }, () =>
+        this.context.executeAction(startLocationWatch),
+      );
+    } else {
+      this.props.onLocationSelected(location);
+    }
+  };
+
+  shouldcomponentUpdate = (nextProps, nextState) => {
+    if (
+      this.state.pendingCurrentLocation !== nextState.pendingCurrentLocation
+    ) {
+      return true;
+    }
+    let changed;
+    Object.keys(nextProps).forEach(key => {
+      // shallow compare
+      if (key !== 'locationState' && this.props[key] !== nextProps[key]) {
+        changed = true;
+      }
+    });
+    if (changed) {
+      return true;
+    }
+    const oldLocState = this.props.locationState;
+    const newLocState = nextProps.locationState;
+    const oldGeoloc =
+      oldLocState.status === PositionStore.STATUS_FOUND_ADDRESS ||
+      oldLocState.status === PositionStore.STATUS_FOUND_LOCATION;
+    const newGeoloc =
+      newLocState.status === PositionStore.STATUS_FOUND_ADDRESS ||
+      newLocState.status === PositionStore.STATUS_FOUND_LOCATION;
+    if (oldGeoloc && newGeoloc) {
+      // changes between found-location / found-address do not count
+      return false;
+    }
+    return oldLocState.status !== newLocState.status;
+  };
+
   render() {
+    if (this.props.showSpinner && this.state.pendingCurrentLocation) {
+      return <Loading />;
+    }
+
     const { value, suggestions } = this.state;
     const inputProps = {
       placeholder: this.context.intl.formatMessage({
@@ -416,4 +530,8 @@ class DTAutosuggest extends React.Component {
   }
 }
 
-export default getRelayEnvironment(DTAutosuggest);
+export default getRelayEnvironment(
+  connectToStores(DTAutosuggest, [PositionStore], context => ({
+    locationState: context.getStore(PositionStore).getLocationState(),
+  })),
+);
