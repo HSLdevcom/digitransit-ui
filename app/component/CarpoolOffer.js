@@ -72,13 +72,12 @@ export default class CarpoolOffer extends React.Component {
     const { onToggleClick } = this.props;
     const isRegularly = this.isRegularly;
 
-    console.log(this.selectedDays);
-
     return (
       <div className="customize-search carpool-offer">
         <button className="close-offcanvas" onClick={onToggleClick}>
           <Icon className="close-icon" img="icon-icon_close" />
         </button>
+        <Icon img="fg_icon" width={12} height={12} />
         <h2>Ihr Inserat</h2>
         <p>
           Abfahrt: um <br />
