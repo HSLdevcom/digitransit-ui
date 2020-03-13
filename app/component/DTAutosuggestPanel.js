@@ -5,7 +5,7 @@ import { intlShape, FormattedMessage } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import DTEndpointAutosuggest from './DTEndpointAutosuggest';
+import DTAutoSuggest from './DTAutosuggest';
 import Icon from './Icon';
 import Select from './Select';
 import { isIe, isKeyboardSelectionEvent } from '../util/browser';
@@ -366,7 +366,7 @@ class DTAutosuggestPanel extends React.Component {
           ])}
         />
         <div className="origin-input-container">
-          <DTEndpointAutosuggest
+          <DTAutoSuggest
             icon="mapMarker-from"
             id="origin"
             autoFocus={
@@ -442,7 +442,7 @@ class DTAutosuggestPanel extends React.Component {
                 >
                   <Icon img="icon-icon_ellipsis" />
                 </div>
-                <DTEndpointAutosuggest
+                <DTAutoSuggest
                   icon="mapMarker-via"
                   id="viapoint"
                   ariaLabel={this.context.intl.formatMessage(
@@ -546,7 +546,7 @@ class DTAutosuggestPanel extends React.Component {
           ))}
         </div>
         <div className="destination-input-container">
-          <DTEndpointAutosuggest
+          <DTAutoSuggest
             icon="mapMarker-to"
             id="destination"
             autoFocus={

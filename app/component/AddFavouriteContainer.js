@@ -11,7 +11,7 @@ import BackButton from './BackButton';
 import FavouriteIconTable from './FavouriteIconTable';
 import { addFavourite, deleteFavourite } from '../action/FavouriteActions';
 import { isStop, isTerminal } from '../util/suggestionUtils';
-import DTEndpointAutosuggest from './DTEndpointAutosuggest';
+import DTAutoSuggest from './DTAutosuggest';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class AddFavouriteContainer extends React.Component {
@@ -208,7 +208,7 @@ class AddFavouriteContainer extends React.Component {
                   defaultMessage="Specify location"
                 />
               </h4>
-              <DTEndpointAutosuggest
+              <DTAutoSuggest
                 id="origin"
                 refPoint={{ lat: 0, lon: 0 }}
                 searchType="endpoint"

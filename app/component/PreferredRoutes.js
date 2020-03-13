@@ -3,7 +3,7 @@ import React from 'react';
 import { graphql, QueryRenderer } from 'react-relay';
 import { intlShape } from 'react-intl';
 import { routerShape } from 'found';
-import DTEndpointAutosuggest from './DTEndpointAutosuggest';
+import DTAutoSuggest from './DTAutosuggest';
 import Icon from './Icon';
 import RouteDetails from './RouteDetails';
 import searchContext from './searchContext';
@@ -43,7 +43,7 @@ class PreferredRoutes extends React.Component {
           defaultMessage: routeOptions.optionName,
         })}
       </h1>
-      <DTEndpointAutosuggest
+      <DTAutoSuggest
         placeholder="give-route"
         searchType="search"
         className={routeOptions.optionName}
