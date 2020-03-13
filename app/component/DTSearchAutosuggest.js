@@ -10,6 +10,8 @@ import { getLabel } from '../util/suggestionUtils';
 import { dtLocationShape } from '../util/shapes';
 import Icon from './Icon';
 import getRelayEnvironment from '../util/getRelayEnvironment';
+import { getJson } from '../util/xhrPromise';
+import { saveSearch } from '../action/SearchActions';
 
 class DTAutosuggest extends React.Component {
   static contextTypes = {
@@ -17,6 +19,7 @@ class DTAutosuggest extends React.Component {
     getStore: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
     relayEnvironment: PropTypes.object.isRequired,
+    executeAction: PropTypes.func.isRequired,
   };
 
   static propTypes = {
@@ -30,11 +33,12 @@ class DTAutosuggest extends React.Component {
     placeholder: PropTypes.string.isRequired,
     refPoint: dtLocationShape.isRequired,
     searchType: PropTypes.oneOf(['all', 'endpoint', 'search']).isRequired,
-    selectedFunction: PropTypes.func.isRequired,
+    // selectedFunction: PropTypes.func.isRequired,
     value: PropTypes.string,
     searchContext: PropTypes.any.isRequired,
     relayEnvironment: PropTypes.object.isRequired,
     ariaLabel: PropTypes.string,
+    onSelect: PropTypes.func,
   };
 
   static defaultProps = {
@@ -106,7 +110,7 @@ class DTAutosuggest extends React.Component {
         },
         () => {
           this.input.blur();
-          this.props.selectedFunction(ref.suggestion);
+          this.onSelect(ref.suggestion);
         },
       );
     } else {
@@ -144,7 +148,7 @@ class DTAutosuggest extends React.Component {
         () => {
           if (this.state.suggestions.length) {
             this.input.blur();
-            this.props.selectedFunction(this.state.suggestions[0]);
+            this.onSelect(this.state.suggestions[0]);
           }
         },
       );
@@ -298,7 +302,46 @@ class DTAutosuggest extends React.Component {
       );
     }
   };
+
   // DT-3263 ends
+  finishSelect = (item, type) => {
+    if (item.type.indexOf('Favourite') === -1) {
+      this.context.executeAction(saveSearch, { item, type });
+    }
+    this.props.onSelect(item, type);
+  };
+
+  onSelect = item => {
+    // type is destination unless timetable or route was clicked
+    let type = 'endpoint';
+    switch (item.type) {
+      case 'Stop': // stop can be timetable or
+        if (item.timetableClicked === true) {
+          type = 'search';
+        }
+        break;
+      case 'Route':
+        type = 'search';
+        break;
+      default:
+    }
+
+    if (item.type === 'OldSearch' && item.properties.gid) {
+      getJson(this.context.config.URL.PELIAS_PLACE, {
+        ids: item.properties.gid,
+      }).then(data => {
+        const newItem = { ...item };
+        if (data.features != null && data.features.length > 0) {
+          // update only position. It is surprising if, say, the name changes at selection.
+          const geom = data.features[0].geometry;
+          newItem.geometry.coordinates = geom.coordinates;
+        }
+        this.finishSelect(newItem, type);
+      });
+    } else {
+      this.finishSelect(item, type);
+    }
+  };
 
   render() {
     const { value, suggestions } = this.state;

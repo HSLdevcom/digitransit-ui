@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { routerShape } from 'found';
-import DTOldSearchSavingAutosuggest from './DTOldSearchSavingAutosuggest';
+import DTSearchAutosuggest from './DTSearchAutosuggest';
 import Loading from './Loading';
 import {
   suggestionToLocation,
@@ -150,7 +150,7 @@ export class DTEndpointAutosuggestComponent extends React.Component {
       return <Loading />;
     }
     return (
-      <DTOldSearchSavingAutosuggest
+      <DTSearchAutosuggest
         autoFocus={this.props.autoFocus}
         icon={this.props.icon}
         isFocused={this.props.isFocused}
