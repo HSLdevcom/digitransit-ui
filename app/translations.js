@@ -378,7 +378,7 @@ const translations = {
     'footer-faq': 'FAQ',
     'footer-feedback': 'Feedback senden',
     'footer-link-to-privacy-policy': 'Datenschutz',
-    friday:satreitag',
+    friday: 'Freitag',
     frontpage: 'Startseite',
     'generic-error': 'Ein Fehler ist aufgetreten',
     'geolocate-yourself': 'Lokalisieren',
