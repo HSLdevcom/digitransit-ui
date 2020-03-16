@@ -5,7 +5,7 @@ const CONFIG = 'tampere';
 const APP_TITLE = 'Nyssen reittiopas';
 const APP_DESCRIPTION = 'Nyssen reittiopas';
 
-const walttiConfig = require('./waltti').default;
+const walttiConfig = require('./config.waltti').default;
 const tampereTimetables = require('./timetableConfigUtils').default.tampere;
 
 const minLat = 61.16;
