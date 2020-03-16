@@ -4,13 +4,6 @@ import { intlShape, FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 import Checkbox from './Checkbox';
 
-/** variables in return section:
- *  - time
- *  - from, to
- *  - selected days
- *
- */
-
 export default class CarpoolOffer extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
@@ -57,6 +50,23 @@ export default class CarpoolOffer extends React.Component {
     e.preventDefault();
     this.isFinished = true;
     this.forceUpdate();
+
+    const carpoolOffer = {
+      origin: this.props.from,
+      destination: this.props.to,
+      phone_number: '',
+      time: this.props.start,
+      days: '',
+      date: '',
+    };
+
+    if (this.isRegularly) {
+      carpoolOffer.days = this.selectedDays;
+    } else {
+      carpoolOffer.date = '';
+    }
+
+    return carpoolOffer;
   };
 
   getOfferedTimes = () => {
