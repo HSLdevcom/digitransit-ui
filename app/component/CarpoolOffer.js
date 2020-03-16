@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { intlShape } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import { routerShape } from 'react-router';
 import Icon from './Icon';
 import Checkbox from './Checkbox';
-import BubbleDialog from './BubbleDialog';
+
 /** variables in return section:
  *  - time
  *  - from, to
@@ -32,6 +32,9 @@ export default class CarpoolOffer extends React.Component {
 
   static propTypes = {
     onToggleClick: PropTypes.func.isRequired,
+    from: PropTypes.string,
+    to: PropTypes.string,
+    start: PropTypes.number,
   };
 
   days = {
@@ -82,7 +85,7 @@ export default class CarpoolOffer extends React.Component {
       .replace(/F/g, 'f')
       .replace(/S/g, 's')
       .replace(/W/g, 'w');
-    tmp = 'Am '.concat(tmp);
+    tmp = '- '.concat(tmp);
     tmp = tmp.replace(/,(?=[^,]*$)/, '');
     const tmp2 = this.props.start;
     tmp = tmp
@@ -93,12 +96,8 @@ export default class CarpoolOffer extends React.Component {
   };
 
   render() {
-    const {
-      config,
-      location: { params, query },
-      intl,
-      router,
-    } = this.context;
+    const origin = this.props.from;
+    const destination = this.props.to;
     const { onToggleClick } = this.props;
     const offeredTimes = this.getOfferedTimes();
 
@@ -110,11 +109,28 @@ export default class CarpoolOffer extends React.Component {
         <Icon className="fg_icon" img="fg_icon" width={12} height={12} />
         {this.isFinished ? (
           <div className="sidePanelText">
-            <h2>Vielen Dank</h2>
+            <h2>
+              <FormattedMessage id="thank-you" defaultMessage="Thank you" />
+            </h2>
             <p>
-              Ihr {this.isRegularly ? 'regelmäßiges' : ''} Inserat von{' '}
-              {this.props.from} nach {this.props.to} wurde eingestellt.<br />
-              Sie haben die folgende Zeit und Tagen inseriert: <br />
+              <FormattedMessage
+                id="carpool-offer-success"
+                values={{ origin, destination }}
+                defaultMessage="Your offer from {origin} to {destination} was added."
+              />
+              <br />
+              {this.isRegularly ? (
+                <FormattedMessage
+                  id="chosen-times-recurring"
+                  defaultMessage="You've set the following times and days:"
+                />
+              ) : (
+                <FormattedMessage
+                  id="chosen-times-once"
+                  defaultMessage="You've set the following time:"
+                />
+              )}
+              <br />
               {offeredTimes}
             </p>
             <button
@@ -126,17 +142,34 @@ export default class CarpoolOffer extends React.Component {
                 this.forceUpdate();
               }}
             >
-              Schlißen
+              <FormattedMessage id="close" defaultMessage="Close" />
             </button>
           </div>
         ) : (
           <div className="sidePanelText">
-            <h2>Ihr Inserat</h2>
+            <h2>
+              <FormattedMessage
+                id="your-carpool-trip"
+                defaultMessage="Your trip"
+              />
+            </h2>
             <p>
-              Abfahrt: {this.props.from} um {this.props.start}<br />
-              Ankunft: {this.props.to} um {this.props.start+this.props.duration}
+              <b>
+                <FormattedMessage id="origin" defaultMessage="Origin" />
+              </b>: {this.props.from}{' '}
+              <FormattedMessage id="at-time" defaultMessage="at" />{' '}
+              {this.props.start}
+              <br />
+              <b>
+                <FormattedMessage id="destination" defaultMessage="Destination" />
+              </b>: {this.props.to}
             </p>
-            <p>Wie oft bieten Sie diese Fahrt an?</p>
+            <p>
+              <FormattedMessage
+                id="add-carpool-offer-frequency"
+                defaultMessage="How often do you want to add the offer?"
+              />
+            </p>
             <form onSubmit={this.setFrequency}>
               <div>
                 <input
@@ -147,7 +180,7 @@ export default class CarpoolOffer extends React.Component {
                   defaultChecked
                 />
                 <label className="radio-label" htmlFor="once">
-                  einmal
+                  <FormattedMessage id="once" defaultMessage="once" />
                 </label>
               </div>
               <div>
@@ -158,7 +191,7 @@ export default class CarpoolOffer extends React.Component {
                   name="times"
                 />
                 <label className="radio-label" htmlFor="regularly">
-                  regelmäßig
+                  <FormattedMessage id="recurring" defaultMessage="recurring" />
                 </label>
               </div>
               <input
