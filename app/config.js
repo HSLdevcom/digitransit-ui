@@ -138,7 +138,9 @@ export function getConfiguration(req) {
   if (
     host &&
     process.env.NODE_ENV !== 'development' &&
-    (process.env.CONFIG === '' || !process.env.CONFIG)
+    (process.env.CONFIG === '' ||
+      !process.env.CONFIG ||
+      process.env.NESTED_CONFIG)
   ) {
     // no forced CONFIG, map dynamically
     Object.keys(themeMap).forEach(theme => {
