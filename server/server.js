@@ -54,6 +54,7 @@ function setUpOIDC() {
   // Use Passport with OpenId Connect strategy to authenticate users
   const OIDCHost = process.env.OIDCHOST || 'https://hslid-dev.t5.fi';
   const FavouriteHost = process.env.FAVOURITE_HOST;
+  const FavouriteSecret = process.env.FAVOURITE_SECRET;
   const LoginStrategy = require('./passport-openid-connect/Strategy').Strategy;
   const passport = require('passport');
   const session = require('express-session');
@@ -165,7 +166,9 @@ function setUpOIDC() {
       request(
         {
           method: req.method,
-          url: `${FavouriteHost}/api/favorites/${req.user.data.sub}`,
+          url: `${FavouriteHost}/api/favorites/${
+            req.user.data.sub
+          }?code=${FavouriteSecret}`,
           body: JSON.stringify(req.body),
         },
         function(err, response, body) {
@@ -173,11 +176,15 @@ function setUpOIDC() {
             const data = JSON.parse(body);
             body = JSON.stringify(data);
           }
-          res.send(body);
+          if (!err) {
+            res.status(response.statusCode).send(body);
+          } else {
+            res.status(404).send(body);
+          }
         },
       );
     } else {
-      next();
+      res.sendStatus(401);
     }
   });
 }
