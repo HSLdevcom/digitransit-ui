@@ -179,7 +179,7 @@ function setUpOIDC() {
           if (!err) {
             res.status(response.statusCode).send(body);
           } else {
-            res.status(401).send(body);
+            res.status(404).send(body);
           }
         },
       );
