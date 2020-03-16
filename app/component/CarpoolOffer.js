@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { intlShape, FormattedMessage } from 'react-intl';
-import { routerShape } from 'react-router';
 import Icon from './Icon';
 import Checkbox from './Checkbox';
 
@@ -13,28 +12,16 @@ import Checkbox from './Checkbox';
  */
 
 export default class CarpoolOffer extends React.Component {
-  // duration, from, to, start
-
   static contextTypes = {
     intl: intlShape.isRequired,
-    router: routerShape.isRequired,
-    location: PropTypes.shape({
-      params: PropTypes.shape({
-        from: PropTypes.string,
-        to: PropTypes.string,
-      }),
-      query: PropTypes.shape({
-        time: PropTypes.number,
-      }),
-    }),
     config: PropTypes.object.isRequired,
   };
 
   static propTypes = {
     onToggleClick: PropTypes.func.isRequired,
-    from: PropTypes.string,
-    to: PropTypes.string,
-    start: PropTypes.number,
+    from: PropTypes.string.isRequired,
+    to: PropTypes.string.isRequired,
+    start: PropTypes.number.isRequired,
   };
 
   days = {
@@ -97,6 +84,7 @@ export default class CarpoolOffer extends React.Component {
   render() {
     const origin = this.props.from;
     const destination = this.props.to;
+    const leaves = this.props.start;
     const { onToggleClick } = this.props;
     const offeredTimes = this.getOfferedTimes();
 
@@ -155,18 +143,15 @@ export default class CarpoolOffer extends React.Component {
             <p>
               <b>
                 <FormattedMessage id="origin" defaultMessage="Origin" />
-              </b>
-              : {this.props.from}{' '}
-              <FormattedMessage id="at-time" defaultMessage="at" />{' '}
-              {this.props.start}
+              </b>: {origin}{' '}
+              <FormattedMessage id="at-time" defaultMessage="at" /> {leaves}
               <br />
               <b>
                 <FormattedMessage
                   id="destination"
                   defaultMessage="Destination"
                 />
-              </b>
-              : {this.props.to}
+              </b>: {destination}
             </p>
             <p>
               <FormattedMessage
