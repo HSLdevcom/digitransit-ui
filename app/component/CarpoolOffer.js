@@ -133,7 +133,7 @@ export default class CarpoolOffer extends React.Component {
             </button>
           </div>
         ) : (
-          <div className="sidePanelText">
+          <form onSubmit={this.finishForm} className="sidePanelText">
             <h2>
               <FormattedMessage
                 id="your-carpool-trip"
@@ -143,15 +143,17 @@ export default class CarpoolOffer extends React.Component {
             <p>
               <b>
                 <FormattedMessage id="origin" defaultMessage="Origin" />
-              </b>: {origin}{' '}
-              <FormattedMessage id="at-time" defaultMessage="at" /> {leaves}
+              </b>
+              : {origin} <FormattedMessage id="at-time" defaultMessage="at" />{' '}
+              {leaves}
               <br />
               <b>
                 <FormattedMessage
                   id="destination"
                   defaultMessage="Destination"
                 />
-              </b>: {destination}
+              </b>
+              : {destination}
             </p>
             <p>
               <FormattedMessage
@@ -269,17 +271,22 @@ export default class CarpoolOffer extends React.Component {
               }}
               labelId="sunday"
             />
-            <button
-              className="standalone-btn"
-              type="submit"
-              onClick={this.finishForm}
-            >
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              placeholder="123/456-78901"
+              pattern="[0-9]{3}\/[0-9]{3}-[0-9]{5}"
+              required
+            />
+            <br />
+            <button className="standalone-btn" type="submit">
               <FormattedMessage
                 id="offer-ride"
                 defaultMessage="Offer carpool"
               />
             </button>
-          </div>
+          </form>
         )}
       </div>
     );
