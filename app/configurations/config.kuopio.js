@@ -5,7 +5,7 @@ const CONFIG = 'kuopio';
 const APP_TITLE = 'Reittiopas Kuopio';
 const APP_DESCRIPTION = 'Reittiopas Kuopio';
 
-const walttiConfig = require('./waltti').default;
+const walttiConfig = require('./config.waltti').default;
 
 export default configMerger(walttiConfig, {
   CONFIG,

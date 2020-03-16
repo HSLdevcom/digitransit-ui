@@ -5,7 +5,7 @@ const CONFIG = 'lahti';
 const APP_TITLE = 'Uusi Reittiopas';
 const APP_DESCRIPTION = 'Uusi Reittiopas - Lahti';
 
-const walttiConfig = require('./waltti').default;
+const walttiConfig = require('./config.waltti').default;
 
 const minLat = 60.692506;
 const maxLat = 61.790694;

@@ -5,7 +5,7 @@ const CONFIG = '__theme__';
 const APP_TITLE = 'Uusi Reittiopas';
 const APP_DESCRIPTION = 'Uusi Reittiopas - __theme__';
 
-const walttiConfig = require('./waltti').default;
+const walttiConfig = require('./config.waltti').default;
 
 const minLat = 60;
 const maxLat = 70;
