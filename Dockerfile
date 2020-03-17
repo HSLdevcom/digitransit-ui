@@ -1,4 +1,4 @@
-FROM node:10
+FROM node:10-slim
 MAINTAINER Reittiopas version: 0.1
 
 EXPOSE 8080
