@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { intlShape, FormattedMessage } from 'react-intl';
+import Moment from 'moment';
 import Icon from './Icon';
 import Checkbox from './Checkbox';
 
@@ -54,46 +55,52 @@ export default class CarpoolOffer extends React.Component {
     const carpoolOffer = {
       origin: this.props.from,
       destination: this.props.to,
-      phone_number: '',
-      time: this.props.start,
-      days: '',
-      date: '',
+      phoneNumber: document.getElementById('phone').value,
+      time: {
+        type: this.isRegularly ? 'recurring' : 'one-off',
+        departureTime: new Moment(this.props.start * 1000).format('HH:mm'),
+      },
     };
 
     if (this.isRegularly) {
-      carpoolOffer.days = this.selectedDays;
+      carpoolOffer.time.weekdays = this.days;
     } else {
-      carpoolOffer.date = '';
+      carpoolOffer.time.date = new Moment(this.props.start * 1000).format(
+        'YYYY-MM-DD',
+      );
     }
 
     return carpoolOffer;
   };
 
   getOfferedTimes = () => {
-    let leaveDay = '';
-    const leaveTime = this.props.start; // TODO: get time
+    let departureDay = '';
+    const departureTime = new Moment(this.props.start * 1000).format('HH:mm');
     if (this.isRegularly) {
+      // If the offer is recurring, return all the selected days as a string.
       for (let i = 0; i < this.selectedDays.length; i++) {
-        leaveDay = leaveDay.concat(this.selectedDays[i]).concat('s, ');
+        departureDay = departureDay.concat(this.selectedDays[i]).concat('s, ');
       }
-      leaveDay = leaveDay.toLowerCase();
-      leaveDay = leaveDay.charAt(0).toUpperCase() + leaveDay.slice(1);
-      leaveDay = leaveDay.replace(/,(?=[^,]*$)/, '');
+      departureDay = departureDay.toLowerCase();
+      departureDay =
+        departureDay.charAt(0).toUpperCase() + departureDay.slice(1);
+      departureDay = departureDay.replace(/,(?=[^,]*$)/, '');
     } else {
-      leaveDay = this.props.start; // TODO: get day
+      // If the offer is one-off, get the date from the epoch time.
+      departureDay = new Moment(this.props.start * 1000).format('YYYY-MM-DD');
     }
-    return leaveDay
+    return departureDay
       .concat(' ')
       .concat('um')
       .concat(' ')
-      .concat(leaveTime)
+      .concat(departureTime)
       .concat('.');
   };
 
   render() {
     const origin = this.props.from;
     const destination = this.props.to;
-    const leaves = this.props.start;
+    const departure = new Moment(this.props.start * 1000).format('HH:mm');
     const { onToggleClick } = this.props;
     const offeredTimes = this.getOfferedTimes();
 
@@ -154,7 +161,7 @@ export default class CarpoolOffer extends React.Component {
                 <FormattedMessage id="origin" defaultMessage="Origin" />
               </b>
               : {origin} <FormattedMessage id="at-time" defaultMessage="at" />{' '}
-              {leaves}
+              {departure}
               <br />
               <b>
                 <FormattedMessage
