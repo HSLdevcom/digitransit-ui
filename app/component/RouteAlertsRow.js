@@ -63,7 +63,6 @@ export default function RouteAlertsRow(
     currentTime;
   const gtfsIdList = gtfsIds ? gtfsIds.split(',') : [];
 
-  // DT-3331: added query string sort=no to Link's to
   const routeLinks =
     entityType === 'route' && entityIdentifier && gtfsIds
       ? entityIdentifier.split(',').map((identifier, i) => (
@@ -71,7 +70,7 @@ export default function RouteAlertsRow(
             key={gtfsIdList[i]}
             to={`/${PREFIX_ROUTES}/${gtfsIdList[i]}/pysakit/${
               gtfsIdList[i]
-            }/sort=no`}
+            }:0:01`}
             className="route-alert-row-link"
           >
             {' '}
