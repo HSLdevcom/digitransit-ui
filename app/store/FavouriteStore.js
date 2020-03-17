@@ -13,6 +13,11 @@ import {
 } from './localStorage';
 import { isStop } from '../util/suggestionUtils';
 import { getGeocodingResult } from '../util/searchUtils';
+import {
+  getFavourites,
+  updateFavourites,
+  deleteFavourites,
+} from '../util/apiUtils';
 
 export default class FavouriteStore extends Store {
   static storeName = 'FavouriteStore';
@@ -24,6 +29,16 @@ export default class FavouriteStore extends Store {
   constructor(dispatcher) {
     super(dispatcher);
     this.config = dispatcher.getContext().config;
+
+    getFavourites()
+      .then(res => {
+        this.favourites = res;
+        this.emitChange();
+      })
+      .catch(() => {
+        this.favourites = getFavouriteStorage();
+        this.emitChange();
+      });
     this.migrateRoutes();
     this.migrateStops();
     this.migrateLocations();
@@ -31,7 +46,7 @@ export default class FavouriteStore extends Store {
 
   isFavourite(id) {
     const ids = this.favourites.map(
-      favourite => favourite.gtfsId || favourite.id,
+      favourite => favourite.gtfsId || favourite.gid,
     );
     return includes(ids, id);
   }
@@ -42,6 +57,10 @@ export default class FavouriteStore extends Store {
 
   getFavourites() {
     return this.favourites;
+  }
+
+  getByGtfsId(gtfsId) {
+    return find(this.favourites, favourite => gtfsId === favourite.gtfsId);
   }
 
   getByFavouriteId(favouriteId) {
@@ -67,7 +86,7 @@ export default class FavouriteStore extends Store {
     return this.favourites.filter(favourite => favourite.type === 'place');
   }
 
-  addFavourite(data) {
+  async addFavourite(data) {
     if (typeof data !== 'object') {
       throw new Error(`New favourite is not a object:${JSON.stringify(data)}`);
     }
@@ -86,18 +105,32 @@ export default class FavouriteStore extends Store {
         favouriteId: uuid(),
       });
     }
-    this.favourites = newFavourites;
-    this.storeFavourites();
-    this.emitChange();
+    await updateFavourites(newFavourites)
+      .then(() => {
+        this.favourites = newFavourites;
+        this.emitChange();
+      })
+      .catch(() => {
+        this.favourites = newFavourites;
+        this.storeFavourites();
+        this.emitChange();
+      });
   }
 
-  deleteFavourite(data) {
+  async deleteFavourite(data) {
     const newFavourites = this.favourites.filter(
       favourite => favourite.favouriteId !== data.favouriteId,
     );
-    this.favourites = newFavourites;
-    this.storeFavourites();
-    this.emitChange();
+    await deleteFavourites([data.favouriteId])
+      .then(() => {
+        this.favourites = newFavourites;
+        this.emitChange();
+      })
+      .catch(() => {
+        this.favourites = newFavourites;
+        this.storeFavourites();
+        this.emitChange();
+      });
   }
 
   migrateRoutes() {

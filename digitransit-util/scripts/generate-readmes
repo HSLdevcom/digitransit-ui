@@ -1,0 +1,39 @@
+#!/usr/bin/env node
+
+import { readFileSync, writeFileSync } from 'fs-extra';
+import { sync } from 'glob';
+import { sep, join, parse } from 'path';
+import { sync as _sync } from 'load-json-file';
+import { build, formats } from 'documentation';
+
+/**
+ * When firing `yarn run docs`:
+ *   - inside a module, only the docs of that module will be generated
+ *   - outside or at the root level it will generate docs for all modules
+ */
+const currentFolder = process.cwd().split(sep).pop();
+const packages = currentFolder.includes('digitransit-util-') ?
+    [join(process.cwd(), 'package.json')] :
+    sync(join(__dirname, '..', 'packages', 'digitransit-util-*', 'package.json'));
+
+// Template for README Markdown
+const installation = readFileSync(join(__dirname, 'installation.md'), 'utf8');
+
+packages.forEach(packagePath => {
+    const directory = parse(packagePath).dir;
+    const indexPath = join(directory, 'index.js');
+    const pckg = _sync(packagePath);
+    const name = pckg.name;
+
+    // Build Documentation
+    build(indexPath, {shallow: true}).then(res => {
+        if (res === undefined) return console.warning(packagePath);
+        console.log('Building Docs: ' + name);
+
+        // Format Markdown
+        formats.md(res).then(markdown => {
+            markdown = `# ${name}\n\n${markdown}${installation.replace(/{module}/, name)}`;
+            writeFileSync(join(directory, 'README.md'), markdown);
+        }).catch(error => console.warning(error));
+    }).catch(error => console.warning(error));
+});

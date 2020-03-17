@@ -4,6 +4,10 @@
   "description": "Digitransit UI - open nationwide journey planning platform",
   "author": "digitransit@hsl.fi",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
+  "private": true,
+  "workspaces": [
+    "digitransit-util/packages/*"
+  ],
   "scripts": {
     "static": "mkdir -p _static/js; mkdir -p _static/css; cp -r static/* _static",
     "win-static": "xcopy static\\* _static /e /s /y /i& if not exist _static\\js mkdir _static\\js& if not exist _static\\css mkdir _static\\css",
@@ -32,7 +36,13 @@
     "win-build": "set NODE_ENV=production&& webpack --progress --color",
     "start": "NODE_ENV=production node $NODE_OPTS server/server",
     "win-start": "set NODE_ENV=production&& set CONFIG=hsl&& node server/server.js",
-    "add-theme": "node build/add-theme"
+    "add-theme": "node build/add-theme",
+    "digitransit-util-changed": "lerna changed",
+    "digitransit-util-docs": "node -r esm ./digitransit-util/scripts/generate-readmes",
+    "digitransit-util-list": "lerna list",
+    "digitransit-util-new-module": "node -r esm ./digitransit-util/scripts/create-new-module $1",
+    "digitransit-util-publish": "lerna publish --no-git-tag-version",
+    "digitransit-util-tests": "yarn workspaces run test"
   },
   "main": "server.js",
   "repository": {
@@ -187,6 +197,7 @@
     "compression-webpack-plugin": "3.1.0",
     "copy-webpack-plugin": "5.1.1",
     "css-loader": "3.4.2",
+    "documentation": "12.1.4",
     "enzyme": "3.10.0",
     "enzyme-adapter-react-16": "1.15.2",
     "enzyme-wait": "1.0.9",
@@ -200,6 +211,7 @@
     "eslint-plugin-jsx-a11y": "6.1.2",
     "eslint-plugin-prettier": "2.6.0",
     "eslint-plugin-react": "7.12.4",
+    "esm": "3.2.25",
     "favicons-webpack-plugin": "0.0.9",
     "fetch-mock": "7.3.1",
     "file-loader": "5.0.2",
@@ -211,6 +223,7 @@
     "husky": "4.0.2",
     "iltorb": "2.4.4",
     "jsdom": "13.2.0",
+    "lerna": "3.20.2",
     "lint-staged": "9.5.0",
     "mini-css-extract-plugin": "0.9.0",
     "mocha": "5.2.0",
@@ -221,6 +234,7 @@
     "nodemon": "1.18.10",
     "nyc": "13.3.0",
     "optimize-css-assets-webpack-plugin": "5.0.3",
+    "path": "0.12.7",
     "postcss-flexbugs-fixes": "4.1.0",
     "postcss-loader": "3.0.0",
     "prettier": "1.12.1",
