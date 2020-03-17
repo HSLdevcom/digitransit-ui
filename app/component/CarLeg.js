@@ -33,13 +33,15 @@ function CarLeg(props, context) {
 
   const carpoolOfferModules = {
     Drawer: () => importLazy(import('material-ui/Drawer')),
-    CustomizeSearch: () => importLazy(import('./CarpoolOffer')),
+    CarpoolOffer: () => importLazy(import('./CarpoolOffer')),
   };
 
   let isOpen = false;
   function toggleOfferCarpool() {
     isOpen = !isOpen;
   }
+
+  const onRequestChange = () => '';
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
