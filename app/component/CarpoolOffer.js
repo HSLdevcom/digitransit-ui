@@ -13,9 +13,10 @@ export default class CarpoolOffer extends React.Component {
 
   static propTypes = {
     onToggleClick: PropTypes.func.isRequired,
-    from: PropTypes.string.isRequired,
-    to: PropTypes.string.isRequired,
+    from: PropTypes.object.isRequired,
+    to: PropTypes.object.isRequired,
     start: PropTypes.number.isRequired,
+    duration: PropTypes.number,
   };
 
   days = {
@@ -53,8 +54,16 @@ export default class CarpoolOffer extends React.Component {
     this.forceUpdate();
 
     const carpoolOffer = {
-      origin: this.props.from,
-      destination: this.props.to,
+      origin: {
+        label: this.props.from.name,
+        lat: this.props.from.lat,
+        lng: this.props.from.lng,
+      },
+      destination: {
+        label: this.props.to.name,
+        lat: this.props.to.lat,
+        lng: this.props.to.lng,
+      },
       phoneNumber: document.getElementById('phone').value,
       time: {
         type: this.isRegularly ? 'recurring' : 'one-off',
@@ -98,8 +107,8 @@ export default class CarpoolOffer extends React.Component {
   };
 
   render() {
-    const origin = this.props.from;
-    const destination = this.props.to;
+    const origin = this.props.from.name;
+    const destination = this.props.to.name;
     const departure = new Moment(this.props.start * 1000).format('HH:mm');
     const { onToggleClick } = this.props;
     const offeredTimes = this.getOfferedTimes();
@@ -286,7 +295,12 @@ export default class CarpoolOffer extends React.Component {
               }}
               labelId="sunday"
             />
-            <label forHtml="phone"><FormattedMessage id="add-phone-number" defaultMessage="Add your phone number" /></label>
+            <label htmlFor="phone">
+              <FormattedMessage
+                id="add-phone-number"
+                defaultMessage="Add your phone number"
+              />
+            </label>
             <br />
             <input
               type="tel"

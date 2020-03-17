@@ -13,7 +13,6 @@ import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import ToggleButton from './ToggleButton';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 function CarLeg(props, context) {
   const distance = displayDistance(
@@ -38,18 +37,13 @@ function CarLeg(props, context) {
     CarpoolOffer: () => importLazy(import('./CarpoolOffer')),
   };
 
-  // let isOpen = false;
-  // function toggleOfferCarpool() {
-  //   isOpen = !isOpen;
-  // }
-
   const internalSetOffcanvas = newState => {
     if (newState) {
       context.router.push({
         ...context.location,
         state: {
           ...context.location.state,
-          customizeSearchOffcanvas: newState,
+          carpoolOfferOffcanvas: newState,
         },
       });
     } else {
@@ -62,8 +56,7 @@ function CarLeg(props, context) {
   };
 
   const getOffcanvasState = () =>
-    (context.location.state &&
-      context.location.state.customizeSearchOffcanvas) ||
+    (context.location.state && context.location.state.carpoolOfferOffcanvas) ||
     false;
 
   const toggleOfferCarpool = () => {
@@ -155,6 +148,7 @@ function CarLeg(props, context) {
               from={props.leg.from}
               to={props.leg.to}
               start={props.leg.startTime}
+              onToggleClick={toggleOfferCarpool}
             />
           </Drawer>
         )}
