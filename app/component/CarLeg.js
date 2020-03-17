@@ -3,6 +3,7 @@ import React from 'react';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 
+import { routerShape } from 'react-router';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import { getDrawerWidth } from '../util/browser';
 import RouteNumber from './RouteNumber';
@@ -230,6 +231,10 @@ CarLeg.propTypes = {
   children: PropTypes.node,
 };
 
-CarLeg.contextTypes = { config: PropTypes.object.isRequired };
+CarLeg.contextTypes = {
+  config: PropTypes.object.isRequired,
+  router: routerShape,
+  location: PropTypes.object.isRequired,
+};
 
 export default CarLeg;
