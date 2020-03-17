@@ -19,13 +19,13 @@ export default class CarpoolOffer extends React.Component {
   };
 
   days = {
-    mon: false,
-    tue: false,
-    wed: false,
-    thu: false,
-    fri: false,
-    sat: false,
-    sun: false,
+    monday: false,
+    tuesday: false,
+    wednesday: false,
+    thursday: false,
+    friday: false,
+    saturday: false,
+    sunday: false,
   };
 
   isRegularly = false;
@@ -208,81 +208,80 @@ export default class CarpoolOffer extends React.Component {
                 this.updateSelectedDays(
                   e.currentTarget.getAttribute('aria-label'),
                 );
-                this.days.mon = !this.days.mon;
+                this.days.monday = !this.days.monday;
                 this.forceUpdate();
               }}
-              checked={this.isRegularly && this.days.mon}
+              checked={this.isRegularly && this.days.monday}
               labelId="monday"
-              title="mon"
             />
             <Checkbox
               disabled={!this.isRegularly}
-              checked={this.isRegularly && this.days.tue}
+              checked={this.isRegularly && this.days.tuesday}
               onChange={e => {
                 this.updateSelectedDays(
                   e.currentTarget.getAttribute('aria-label'),
                 );
-                this.days.tue = !this.days.tue;
+                this.days.tuesday = !this.days.tuesday;
                 this.forceUpdate();
               }}
               labelId="tuesday"
             />
             <Checkbox
               disabled={!this.isRegularly}
-              checked={this.isRegularly && this.days.wed}
+              checked={this.isRegularly && this.days.wednesday}
               onChange={e => {
                 this.updateSelectedDays(
                   e.currentTarget.getAttribute('aria-label'),
                 );
-                this.days.wed = !this.days.wed;
+                this.days.wednesday = !this.days.wednesday;
                 this.forceUpdate();
               }}
               labelId="wednesday"
             />
             <Checkbox
               disabled={!this.isRegularly}
-              checked={this.isRegularly && this.days.thu}
+              checked={this.isRegularly && this.days.thursday}
               onChange={e => {
                 this.updateSelectedDays(
                   e.currentTarget.getAttribute('aria-label'),
                 );
-                this.days.thu = !this.days.thu;
+                this.days.thursday = !this.days.thursday;
                 this.forceUpdate();
               }}
               labelId="thursday"
             />
             <Checkbox
               disabled={!this.isRegularly}
-              checked={this.isRegularly && this.days.fri}
+              checked={this.isRegularly && this.days.friday}
               onChange={e => {
                 this.updateSelectedDays(
                   e.currentTarget.getAttribute('aria-label'),
                 );
-                this.days.fri = !this.days.fri;
+                this.days.friday = !this.days.friday;
                 this.forceUpdate();
               }}
               labelId="friday"
             />
             <Checkbox
               disabled={!this.isRegularly}
-              checked={this.isRegularly && this.days.sat}
+              checked={this.isRegularly && this.days.saturday}
               onChange={e => {
                 this.updateSelectedDays(
                   e.currentTarget.getAttribute('aria-label'),
                 );
-                this.days.sat = !this.days.sat;
+                this.days.saturday = !this.days.saturday;
                 this.forceUpdate();
               }}
               labelId="saturday"
             />
             <Checkbox
               disabled={!this.isRegularly}
-              checked={this.isRegularly && this.days.sun}
+              checked={this.isRegularly && this.days.sunday}
               onChange={e => {
                 this.updateSelectedDays(
                   e.currentTarget.getAttribute('aria-label'),
                 );
-                this.days.sun = !this.days.sun;
+                this.days.sunday = !this.days.sunday;
                 this.forceUpdate();
               }}
               labelId="sunday"
