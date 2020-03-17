@@ -270,6 +270,7 @@ const translations = {
     'add-itinerary-via-point': 'Zwischenstopp hinzufügen',
     'add-location': 'Ort hinzufügen',
     'add-location-to-favourites': 'Ort zu Favoriten hinzufügen',
+    'add-phone-number': '', // TODO: add German translation
     'add-via-button-label': 'Zwischenstopp hinzufügen',
     'add-via-duration-button-label': '',
     address: 'Adresse',
@@ -721,6 +722,7 @@ const translations = {
     'add-itinerary-via-point': 'Add via point for itinerary',
     'add-location': 'Add location',
     'add-location-to-favourites': 'Add an important location to your Favorites',
+    'add-phone-number': 'Add your phone number',
     'add-via-button-label': 'Add via point',
     'add-via-duration-button-label': 'Set stop duration at via point',
     address: 'Address',

@@ -91,7 +91,7 @@ export default class CarpoolOffer extends React.Component {
     }
     return departureDay
       .concat(' ')
-      .concat('um')
+      .concat('um') // TODO: translate
       .concat(' ')
       .concat(departureTime)
       .concat('.');
@@ -287,6 +287,8 @@ export default class CarpoolOffer extends React.Component {
               }}
               labelId="sunday"
             />
+            <label forHtml="phone"><FormattedMessage id="add-phone-number" defaultMessage="Add your phone number" /></label>
+            <br />
             <input
               type="tel"
               id="phone"
