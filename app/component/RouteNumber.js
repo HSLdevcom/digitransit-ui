@@ -8,23 +8,31 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { realtimeDeparture as exampleRealtimeDeparture } from './ExampleData';
 import { isMobile } from '../util/browser';
 
-const LONG_ROUTE_NUMBER_LENGTH = 6;
+const LONG_ROUTE_NUMBER_LENGTH = 5;
+
+function AddUPrefix(route) {
+  if (route[0] === '7') {
+    return 'U'.concat(route);
+  }
+  return route;
+}
 
 function RouteNumber(props, context) {
   let mode = props.mode.toLowerCase();
+  const routeName = mode === 'bus' ? AddUPrefix(props.text) : props.text;
   const { alertSeverityLevel, color } = props;
 
   if (mode === 'bicycle' || mode === 'car') {
     mode += '-withoutBox';
   }
 
-  const longText = props.text && props.text.length >= LONG_ROUTE_NUMBER_LENGTH;
+  const longText = routeName && routeName.length >= LONG_ROUTE_NUMBER_LENGTH;
   // Checks if route only has letters without identifying numbers and
   // length doesn't fit in the tab view
   const hasNoShortName =
-    props.text &&
-    new RegExp(/^([^0-9]*)$/).test(props.text) &&
-    props.text.length > 3;
+    routeName &&
+    new RegExp(/^([^0-9]*)$/).test(routeName) &&
+    routeName.length > 3;
 
   const getIcon = (icon, isCallAgency, hasDisruption, badgeFill, badgeText) => {
     if (isCallAgency) {
@@ -106,7 +114,7 @@ function RouteNumber(props, context) {
           </div>
         )}
       </span>
-      {props.text &&
+      {routeName &&
         (props.vertical === false ? (
           <span
             style={{
@@ -119,7 +127,7 @@ function RouteNumber(props, context) {
               hasNoShortName: hasNoShortName && longText && props.isRouteView,
             })}
           >
-            {props.text}
+            {routeName}
           </span>
         ) : (
           <div className="vehicle-number-container-v">
@@ -130,7 +138,7 @@ function RouteNumber(props, context) {
                 long: longText,
               })}
             >
-              {props.text}
+              {routeName}
             </span>
           </div>
         ))}
