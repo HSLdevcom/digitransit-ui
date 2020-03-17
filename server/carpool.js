@@ -1,9 +1,33 @@
 const fetch = require('node-fetch');
 const moment = require('moment');
 
+const calulateWeekdays = days => {
+  const result = {};
+  Object.keys(days).forEach(weekday => {
+    const value = days[weekday];
+    const bool = value === '1';
+    result[weekday.toLowerCase()] = bool;
+  });
+  return result;
+};
+
+const calculateReoccur = options => {
+  if (options.time.type === 'recurring') {
+    return calulateWeekdays(options.time.weekdays);
+  }
+  return {};
+};
+
+const calculateDate = options => {
+  if (options.time.date) {
+    return options.time.date.replaceAll('-', '');
+  }
+  return null;
+};
+
 const postCarpoolOffer = options => {
   const body = {
-    Contactmobile: '015129117999',
+    Contactmobile: options.phoneNumber,
     Currency: 'EUR',
     Enterdate: moment().unix(),
     IDuser: '830d39a4-3584-6f04-a178-25176353b359',
@@ -17,7 +41,7 @@ const postCarpoolOffer = options => {
       Car: '1',
     },
     Relevance: '10',
-    Reoccur: {},
+    Reoccur: calculateReoccur(options),
     Routings: [
       {
         RoutingID: null,
@@ -39,8 +63,8 @@ const postCarpoolOffer = options => {
       },
     ],
     Smoker: 'no',
-    Startdate: '20200315',
-    Starttime: '1700',
+    Startdate: calculateDate(options),
+    Starttime: options.time.departureTime.replace(':', ''),
     Triptype: 'offer',
   };
 
