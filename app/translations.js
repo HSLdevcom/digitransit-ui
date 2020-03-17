@@ -934,6 +934,7 @@ const translations = {
     'itinerary-page.hide-details': 'Hide itinerary details',
     'itinerary-page.show-details': 'Show itinerary details',
     'itinerary-page.title': 'Itinerary',
+    'itinerary-page.update-alert': 'Search results updated',
     'itinerary-summary-page.description': 'Route suggestions',
     'itinerary-summary-page.title': 'Route suggestions',
     'itinerary-summary-row.biking-distance':
@@ -1735,6 +1736,7 @@ const translations = {
     'itinerary-page.hide-details': 'Piilota reittiohje',
     'itinerary-page.show-details': 'Näytä reittiohje',
     'itinerary-page.title': 'Reittiohje',
+    'itinerary-page.update-alert': 'Hakutulokset päivitetty',
     'itinerary-summary-page.description': 'Reittiehdotukset',
     'itinerary-summary-row.biking-distance':
       'Pyöräilyä yhteensä {totalDistance}.',
@@ -2846,6 +2848,7 @@ const translations = {
     'itinerary-page.hide-details': 'Göm ruttbeskrivningen',
     'itinerary-page.show-details': 'Visa ruttbeskrivningen',
     'itinerary-page.title': 'Ruttinformation',
+    'itinerary-page.update-alert': 'Sökresultaten uppdaterade',
     'itinerary-summary-page.description': 'Ruttförslag',
     'itinerary-summary-page.title': 'Ruttförslag',
     'itinerary-summary-row.biking-distance':

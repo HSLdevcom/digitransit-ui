@@ -158,6 +158,7 @@ class SummaryPage extends React.Component {
     if (error) {
       reportError(error);
     }
+    this.resultsUpdatedAlertRef = React.createRef();
   }
 
   state = { center: null, loading: false };
@@ -175,6 +176,10 @@ class SummaryPage extends React.Component {
     ) {
       import('../util/feedbackly');
     }
+    //  alert screen reader when search results appear
+    if (this.resultsUpdatedAlertRef.current) {
+      this.resultsUpdatedAlertRef.current.innerHTML = this.resultsUpdatedAlertRef.current.innerHTML;
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -187,7 +192,16 @@ class SummaryPage extends React.Component {
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    // alert screen readers when results update
+    if (
+      this.resultsUpdatedAlertRef.current &&
+      this.props.plan.plan.itineraries &&
+      JSON.stringify(prevProps.location) !== JSON.stringify(this.props.location)
+    ) {
+      // refresh content to trigger the alert
+      this.resultsUpdatedAlertRef.current.innerHTML = this.resultsUpdatedAlertRef.current.innerHTML;
+    }
     const error = get(this.context, 'queryAggregator.readyState.error', null);
     if (error) {
       reportError(error);
@@ -350,6 +364,15 @@ class SummaryPage extends React.Component {
       latestArrivalTime = Math.max(...itineraries.map(i => i.endTime));
     }
 
+    const screenReaderUpdateAlert = (
+      <span className="sr-only" role="alert" ref={this.resultsUpdatedAlertRef}>
+        <FormattedMessage
+          id="itinerary-page.update-alert"
+          defaultMessage="Search results updated"
+        />
+      </span>
+    );
+
     // added config.itinerary.serviceTimeRange parameter (DT-3175)
     const serviceTimeRange = validateServiceTimeRange(
       this.context.config.itinerary.serviceTimeRange,
@@ -359,23 +382,26 @@ class SummaryPage extends React.Component {
       let content;
       if (this.state.loading === false && (done || error !== null)) {
         content = (
-          <SummaryPlanContainer
-            activeIndex={getActiveIndex(location, itineraries)}
-            plan={this.props.plan.plan}
-            serviceTimeRange={serviceTimeRange}
-            itineraries={itineraries}
-            params={this.props.params}
-            error={error}
-            setLoading={this.setLoading}
-            setError={this.setError}
-          >
-            {this.props.content &&
-              React.cloneElement(this.props.content, {
-                itinerary:
-                  hasItineraries && itineraries[this.props.params.hash],
-                focus: this.updateCenter,
-              })}
-          </SummaryPlanContainer>
+          <>
+            {screenReaderUpdateAlert}
+            <SummaryPlanContainer
+              activeIndex={getActiveIndex(location, itineraries)}
+              plan={this.props.plan.plan}
+              serviceTimeRange={serviceTimeRange}
+              itineraries={itineraries}
+              params={this.props.params}
+              error={error}
+              setLoading={this.setLoading}
+              setError={this.setError}
+            >
+              {this.props.content &&
+                React.cloneElement(this.props.content, {
+                  itinerary:
+                    hasItineraries && itineraries[this.props.params.hash],
+                  focus: this.updateCenter,
+                })}
+            </SummaryPlanContainer>
+          </>
         );
       } else {
         content = (
@@ -435,16 +461,19 @@ class SummaryPage extends React.Component {
       );
     } else {
       content = (
-        <SummaryPlanContainer
-          activeIndex={getActiveIndex(location, itineraries)}
-          plan={this.props.plan.plan}
-          serviceTimeRange={serviceTimeRange}
-          itineraries={itineraries}
-          params={this.props.params}
-          error={error}
-          setLoading={this.setLoading}
-          setError={this.setError}
-        />
+        <>
+          <SummaryPlanContainer
+            activeIndex={getActiveIndex(location, itineraries)}
+            plan={this.props.plan.plan}
+            serviceTimeRange={serviceTimeRange}
+            itineraries={itineraries}
+            params={this.props.params}
+            error={error}
+            setLoading={this.setLoading}
+            setError={this.setError}
+          />
+          {screenReaderUpdateAlert}
+        </>
       );
     }
 
