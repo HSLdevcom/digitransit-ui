@@ -384,7 +384,6 @@ const SummaryRow = (
   return (
     <div
       className={classes}
-      onClick={() => props.onSelect(props.hash)}
       style={{
         display: props.isCancelled && !props.showCancelled ? 'none' : 'flex',
       }}
