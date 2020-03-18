@@ -35,7 +35,14 @@ const express = require('express');
 const expressStaticGzip = require('express-static-gzip');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const { postCarpoolOffer } = require('./carpool');
+const { postCarpoolOffer, bodySchema } = require('./carpool');
+const {
+  Validator,
+  ValidationError,
+} = require('express-json-validator-middleware');
+
+const validator = new Validator({ allErrors: true });
+
 const { retryFetch } = require('../app/util/fetchUtils');
 const config = require('../app/config').getConfiguration();
 
@@ -122,16 +129,21 @@ function setUpErrorHandling() {
 
 function setUpCarpoolOffer() {
   app.use(bodyParser.json());
-  app.post(`${config.APP_PATH}/carpool-offers`, function(req, res) {
-    postCarpoolOffer(req.body).then(json => {
-      const jsonResponse = {
-        id: json.tripID,
-        url: `https://live.ride2go.com/#/trip/${json.tripID}/{lang}`,
-      };
-      res.set('Content-Type', 'application/json');
-      res.send(JSON.stringify(jsonResponse));
-    });
-  });
+
+  app.post(
+    `${config.APP_PATH}/carpool-offers`,
+    validator.validate({ body: bodySchema }),
+    function(req, res) {
+      postCarpoolOffer(req.body).then(json => {
+        const jsonResponse = {
+          id: json.tripID,
+          url: `https://live.ride2go.com/#/trip/${json.tripID}/{lang}`,
+        };
+        res.set('Content-Type', 'application/json');
+        res.send(JSON.stringify(jsonResponse));
+      });
+    },
+  );
 }
 
 function setUpRoutes() {
