@@ -217,6 +217,12 @@ CarLeg.propTypes = {
         code: PropTypes.string,
       }),
     }).isRequired,
+    to: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      stop: PropTypes.shape({
+        code: PropTypes.string,
+      }),
+    }).isRequired,
     mode: PropTypes.string.isRequired,
     route: PropTypes.object,
   }).isRequired,
