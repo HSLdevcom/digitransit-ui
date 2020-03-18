@@ -53,8 +53,8 @@ function setUpOIDC() {
   const callbackPath = '/oid_callback'; // connect callback path
   // Use Passport with OpenId Connect strategy to authenticate users
   const OIDCHost = process.env.OIDCHOST || 'https://hslid-dev.t5.fi';
-  const FavouriteHost = process.env.FAVOURITE_HOST;
-  const FavouriteSecret = process.env.FAVOURITE_SECRET;
+  const FavouriteHost =
+    process.env.FAVOURITE_HOST || 'https://dev-api.digitransit.fi/favourites';
   const LoginStrategy = require('./passport-openid-connect/Strategy').Strategy;
   const passport = require('passport');
   const session = require('express-session');
@@ -162,30 +162,27 @@ function setUpOIDC() {
   });
 
   app.use('/api/user/favourites', function(req, res, next) {
-    if (FavouriteHost && req.isAuthenticated()) {
-      request(
-        {
-          method: req.method,
-          url: `${FavouriteHost}/api/favorites/${
-            req.user.data.sub
-          }?code=${FavouriteSecret}`,
-          body: JSON.stringify(req.body),
+    request(
+      {
+        auth: {
+          bearer: req.user.token.access_token,
         },
-        function(err, response, body) {
-          if (!err && response.statusCode === 200) {
-            const data = JSON.parse(body);
-            body = JSON.stringify(data);
-          }
-          if (!err) {
-            res.status(response.statusCode).send(body);
-          } else {
-            res.status(404).send(body);
-          }
-        },
-      );
-    } else {
-      res.sendStatus(401);
-    }
+        method: req.method,
+        url: `${FavouriteHost}/${req.user.data.sub}`,
+        body: JSON.stringify(req.body),
+      },
+      function(err, response, body) {
+        if (!err && response.statusCode === 200) {
+          const data = JSON.parse(body);
+          body = JSON.stringify(data);
+        }
+        if (!err) {
+          res.status(response.statusCode).send(body);
+        } else {
+          res.status(404).send(body);
+        }
+      },
+    );
   });
 }
 
