@@ -153,8 +153,8 @@ function setUpOIDC() {
       },
       function(err, response, body) {
         if (!err && response.statusCode === 200) {
-          const user = JSON.parse(body);
-          body = JSON.stringify(user);
+          const user = body;
+          body = user;
         }
         res.send(body);
       },
@@ -173,8 +173,8 @@ function setUpOIDC() {
       },
       function(err, response, body) {
         if (!err && response.statusCode === 200) {
-          const data = JSON.parse(body);
-          body = JSON.stringify(data);
+          const data = body;
+          body = data;
         }
         if (!err) {
           res.status(response.statusCode).send(body);
