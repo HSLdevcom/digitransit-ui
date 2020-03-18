@@ -13,11 +13,6 @@ import {
 } from './localStorage';
 import { isStop } from '../util/suggestionUtils';
 import { getGeocodingResult } from '../util/searchUtils';
-import {
-  getFavourites,
-  updateFavourites,
-  deleteFavourites,
-} from '../util/apiUtils';
 
 export default class FavouriteStore extends Store {
   static storeName = 'FavouriteStore';
@@ -29,16 +24,6 @@ export default class FavouriteStore extends Store {
   constructor(dispatcher) {
     super(dispatcher);
     this.config = dispatcher.getContext().config;
-
-    getFavourites()
-      .then(res => {
-        this.favourites = res;
-        this.emitChange();
-      })
-      .catch(() => {
-        this.favourites = getFavouriteStorage();
-        this.emitChange();
-      });
     this.migrateRoutes();
     this.migrateStops();
     this.migrateLocations();
@@ -86,7 +71,7 @@ export default class FavouriteStore extends Store {
     return this.favourites.filter(favourite => favourite.type === 'place');
   }
 
-  async addFavourite(data) {
+  addFavourite(data) {
     if (typeof data !== 'object') {
       throw new Error(`New favourite is not a object:${JSON.stringify(data)}`);
     }
@@ -105,32 +90,18 @@ export default class FavouriteStore extends Store {
         favouriteId: uuid(),
       });
     }
-    await updateFavourites(newFavourites)
-      .then(() => {
-        this.favourites = newFavourites;
-        this.emitChange();
-      })
-      .catch(() => {
-        this.favourites = newFavourites;
-        this.storeFavourites();
-        this.emitChange();
-      });
+    this.favourites = newFavourites;
+    this.storeFavourites();
+    this.emitChange();
   }
 
-  async deleteFavourite(data) {
+  deleteFavourite(data) {
     const newFavourites = this.favourites.filter(
       favourite => favourite.favouriteId !== data.favouriteId,
     );
-    await deleteFavourites([data.favouriteId])
-      .then(() => {
-        this.favourites = newFavourites;
-        this.emitChange();
-      })
-      .catch(() => {
-        this.favourites = newFavourites;
-        this.storeFavourites();
-        this.emitChange();
-      });
+    this.favourites = newFavourites;
+    this.storeFavourites();
+    this.emitChange();
   }
 
   migrateRoutes() {
