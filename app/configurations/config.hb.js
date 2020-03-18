@@ -2,7 +2,7 @@
 import configMerger from '../util/configMerger';
 
 const CONFIG = 'hb';
-const APP_TITLE = 'Mobil in Herrenberg';
+const APP_TITLE = 'stadtnavi';
 const APP_DESCRIPTION = '';
 const API_URL = process.env.API_URL || 'https://api.mobil-in-herrenberg.de';
 const MAP_URL = process.env.MAP_URL || 'https://maps.wikimedia.org/osm-intl/';
@@ -65,6 +65,17 @@ export default configMerger(walttiConfig, {
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
+
+    image: {
+      url: '/img/default-social-share.png',
+      width: 2400,
+      height: 1260,
+    },
+
+    twitter: {
+      card: 'summary_large_image',
+      site: '@TUGHerrenberg',
+    },
   },
 
   dynamicParkingLots: {
