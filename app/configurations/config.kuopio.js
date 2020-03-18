@@ -41,23 +41,6 @@ export default configMerger(walttiConfig, {
 
   feedIds: ['Kuopio', 'KuopioEly'],
 
-  showTicketInformation: true,
-
-  useTicketIcons: true,
-
-  ticketInformation: {
-    primaryAgencyName: 'Kuopion seudun joukkoliikenne',
-  },
-
-  ticketLink: 'https://vilkku.kuopio.fi/lipputyypit-hinnat/lippujen-hinnat',
-
-  // mapping fareId from OTP fare identifiers to human readable form
-  fareMapping: function mapFareId(fareId) {
-    return fareId && fareId.substring
-      ? fareId.substring(fareId.indexOf(':') + 1)
-      : '';
-  },
-
   searchParams: {
     'boundary.rect.min_lat': 62.454915,
     'boundary.rect.max_lat': 63.469325,
@@ -98,6 +81,11 @@ export default configMerger(walttiConfig, {
       lon: 27.63598893,
     },
   ],
+
+  showTicketInformation: false,
+  ticketInformation: {
+    primaryAgencyName: 'Kuopion seudun joukkoliikenne',
+  },
 
   showAllBusses: true,
   showVehiclesOnStopPage: true,
