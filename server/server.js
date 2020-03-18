@@ -35,7 +35,14 @@ const express = require('express');
 const expressStaticGzip = require('express-static-gzip');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const { postCarpoolOffer } = require('./carpool');
+const { postCarpoolOffer, bodySchema } = require('./carpool');
+const {
+  Validator,
+  ValidationError,
+} = require('express-json-validator-middleware');
+
+const validator = new Validator({ allErrors: true });
+
 const { retryFetch } = require('../app/util/fetchUtils');
 const config = require('../app/config').getConfiguration();
 
@@ -101,11 +108,6 @@ function setUpMiddleware() {
   }
 }
 
-function onError(err, req, res) {
-  res.statusCode = 500;
-  res.end(err.message + err.stack);
-}
-
 function setUpRaven() {
   if (process.env.NODE_ENV === 'production' && process.env.SENTRY_SECRET_DSN) {
     app.use(Raven.requestHandler());
@@ -117,21 +119,34 @@ function setUpErrorHandling() {
     app.use(Raven.errorHandler());
   }
 
-  app.use(onError);
+  app.use(function (err, req, res, next) {
+    if (err instanceof ValidationError) {
+      res.status(400).send(err.validationErrors);
+      next();
+    } else {
+      console.error(err.stack)
+      res.status(500).send('Internal server error.');
+    }
+  });
 }
 
 function setUpCarpoolOffer() {
   app.use(bodyParser.json());
-  app.post(`${config.APP_PATH}/carpool-offers`, function(req, res) {
-    postCarpoolOffer(req.body).then(json => {
-      const jsonResponse = {
-        id: json.tripID,
-        url: `https://live.ride2go.com/#/trip/${json.tripID}/{lang}`,
-      };
-      res.set('Content-Type', 'application/json');
-      res.send(JSON.stringify(jsonResponse));
-    });
-  });
+
+  app.post(
+    `${config.APP_PATH}/carpool-offers`,
+    validator.validate({ body: bodySchema }),
+    function(req, res) {
+      postCarpoolOffer(req.body).then(json => {
+        const jsonResponse = {
+          id: json.tripID,
+          url: `https://live.ride2go.com/#/trip/${json.tripID}/{lang}`,
+        };
+        res.set('Content-Type', 'application/json');
+        res.send(JSON.stringify(jsonResponse));
+      });
+    },
+  );
 }
 
 function setUpRoutes() {

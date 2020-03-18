@@ -505,7 +505,7 @@ const translations = {
       '{number, plural, =0 {0 Minuten} one {1 Minute} other {{number} Minuten}}',
     'off-canvas-info':
       'Mit einer Anmeldung können Sie Favoriten speichern und auf anderen Geräten wieder verwenden.',
-    'offer-ride': 'Fahregemeinschaft anbieten',
+    'offer-ride': 'Fahrgemeinschaft anbieten',
     once: 'einmalig',
     'option-default': 'Standard',
     'option-least': 'Am wenigsten',
