@@ -19,39 +19,42 @@ export default class CarpoolOffer extends React.Component {
     duration: PropTypes.number,
   };
 
-  days = {
-    monday: false,
-    tuesday: false,
-    wednesday: false,
-    thursday: false,
-    friday: false,
-    saturday: false,
-    sunday: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      isRegularly: false,
+      isFinished: false,
+      selectedDays: [],
+      days: {
+        monday: false,
+        tuesday: false,
+        wednesday: false,
+        thursday: false,
+        friday: false,
+        saturday: false,
+        sunday: false,
+      },
+    };
 
-  isRegularly = false;
+    this.setFrequency = this.setFrequency.bind(this);
+    this.finishForm = this.finishForm.bind(this);
+  }
 
-  selectedDays = [];
-
-  isFinished = false;
-
-  setFrequency = () => {
-    this.isRegularly = document.getElementById('regularly').checked;
-    this.forceUpdate();
+  setFrequency = e => {
+    this.setState({ isRegularly: e.target.checked });
   };
 
   updateSelectedDays = day => {
-    if (this.selectedDays.includes(day)) {
-      this.selectedDays.splice(this.selectedDays.indexOf(day), 1);
+    if (this.state.selectedDays.includes(day)) {
+      this.state.selectedDays.splice(this.state.selectedDays.indexOf(day), 1);
     } else {
-      this.selectedDays.push(day);
+      this.state.selectedDays.push(day);
     }
   };
 
   finishForm = e => {
     e.preventDefault();
-    this.isFinished = true;
-    this.forceUpdate();
+    this.setState({ isFinished: true });
 
     const carpoolOffer = {
       origin: {
@@ -112,6 +115,8 @@ export default class CarpoolOffer extends React.Component {
     const departure = new Moment(this.props.start * 1000).format('HH:mm');
     const { onToggleClick } = this.props;
     const offeredTimes = this.getOfferedTimes();
+    const isFinished = this.state.isFinished;
+    const isRegularly = this.state.isRegularly;
 
     return (
       <div className="customize-search carpool-offer">
@@ -119,7 +124,7 @@ export default class CarpoolOffer extends React.Component {
           <Icon className="close-icon" img="icon-icon_close" />
         </button>
         <Icon className="fg_icon" img="fg_icon" width={12} height={12} />
-        {this.isFinished ? (
+        {isFinished ? (
           <div className="sidePanelText">
             <h2>
               <FormattedMessage id="thank-you" defaultMessage="Thank you" />
@@ -131,7 +136,7 @@ export default class CarpoolOffer extends React.Component {
                 defaultMessage="Your offer from {origin} to {destination} was added."
               />
               <br />
-              {this.isRegularly ? (
+              {isRegularly ? (
                 <FormattedMessage
                   id="chosen-times-recurring"
                   defaultMessage="You've set the following times and days:"
@@ -149,8 +154,8 @@ export default class CarpoolOffer extends React.Component {
               type="submit"
               className="sidePanel-btn"
               onClick={() => {
-                this.isFinished = false;
-                this.isRegularly = false;
+                this.setState({ isFinished: false });
+                this.setState({ isRegularly: false });
                 this.forceUpdate();
               }}
             >
@@ -212,85 +217,85 @@ export default class CarpoolOffer extends React.Component {
               </label>
             </div>
             <Checkbox
-              disabled={!this.isRegularly}
+              disabled={!isRegularly}
               onChange={e => {
                 this.updateSelectedDays(
                   e.currentTarget.getAttribute('aria-label'),
                 );
-                this.days.monday = !this.days.monday;
+                this.state.days.monday = !this.state.days.monday;
                 this.forceUpdate();
               }}
-              checked={this.isRegularly && this.days.monday}
+              checked={isRegularly && this.state.days.monday}
               labelId="monday"
             />
             <Checkbox
-              disabled={!this.isRegularly}
-              checked={this.isRegularly && this.days.tuesday}
+              disabled={!isRegularly}
+              checked={isRegularly && this.state.days.tuesday}
               onChange={e => {
                 this.updateSelectedDays(
                   e.currentTarget.getAttribute('aria-label'),
                 );
-                this.days.tuesday = !this.days.tuesday;
+                this.state.days.tuesday = !this.state.days.tuesday;
                 this.forceUpdate();
               }}
               labelId="tuesday"
             />
             <Checkbox
-              disabled={!this.isRegularly}
-              checked={this.isRegularly && this.days.wednesday}
+              disabled={!isRegularly}
+              checked={isRegularly && this.state.days.wednesday}
               onChange={e => {
                 this.updateSelectedDays(
                   e.currentTarget.getAttribute('aria-label'),
                 );
-                this.days.wednesday = !this.days.wednesday;
+                this.state.days.wednesday = !this.state.days.wednesday;
                 this.forceUpdate();
               }}
               labelId="wednesday"
             />
             <Checkbox
-              disabled={!this.isRegularly}
-              checked={this.isRegularly && this.days.thursday}
+              disabled={!isRegularly}
+              checked={isRegularly && this.state.days.thursday}
               onChange={e => {
                 this.updateSelectedDays(
                   e.currentTarget.getAttribute('aria-label'),
                 );
-                this.days.thursday = !this.days.thursday;
+                this.state.days.thursday = !this.state.days.thursday;
                 this.forceUpdate();
               }}
               labelId="thursday"
             />
             <Checkbox
-              disabled={!this.isRegularly}
-              checked={this.isRegularly && this.days.friday}
+              disabled={!isRegularly}
+              checked={isRegularly && this.state.days.friday}
               onChange={e => {
                 this.updateSelectedDays(
                   e.currentTarget.getAttribute('aria-label'),
                 );
-                this.days.friday = !this.days.friday;
+                this.state.days.friday = !this.state.days.friday;
                 this.forceUpdate();
               }}
               labelId="friday"
             />
             <Checkbox
-              disabled={!this.isRegularly}
-              checked={this.isRegularly && this.days.saturday}
+              disabled={!isRegularly}
+              checked={isRegularly && this.state.days.saturday}
               onChange={e => {
                 this.updateSelectedDays(
                   e.currentTarget.getAttribute('aria-label'),
                 );
-                this.days.saturday = !this.days.saturday;
+                this.state.days.saturday = !this.state.days.saturday;
                 this.forceUpdate();
               }}
               labelId="saturday"
             />
             <Checkbox
-              disabled={!this.isRegularly}
-              checked={this.isRegularly && this.days.sunday}
+              disabled={!isRegularly}
+              checked={isRegularly && this.state.days.sunday}
               onChange={e => {
                 this.updateSelectedDays(
                   e.currentTarget.getAttribute('aria-label'),
                 );
-                this.days.sunday = !this.days.sunday;
+                this.state.days.sunday = !this.state.days.sunday;
                 this.forceUpdate();
               }}
               labelId="sunday"
