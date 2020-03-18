@@ -108,11 +108,6 @@ function setUpMiddleware() {
   }
 }
 
-function onError(err, req, res) {
-  res.statusCode = 500;
-  res.end(err.message + err.stack);
-}
-
 function setUpRaven() {
   if (process.env.NODE_ENV === 'production' && process.env.SENTRY_SECRET_DSN) {
     app.use(Raven.requestHandler());
@@ -124,7 +119,15 @@ function setUpErrorHandling() {
     app.use(Raven.errorHandler());
   }
 
-  app.use(onError);
+  app.use(function (err, req, res, next) {
+    if (err instanceof ValidationError) {
+      res.status(400).send(err.validationErrors);
+      next();
+    } else {
+      console.error(err.stack)
+      res.status(500).send('Internal server error.');
+    }
+  });
 }
 
 function setUpCarpoolOffer() {
