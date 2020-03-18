@@ -115,8 +115,7 @@ export default class CarpoolOffer extends React.Component {
     const departure = new Moment(this.props.start * 1000).format('HH:mm');
     const { onToggleClick } = this.props;
     const offeredTimes = this.getOfferedTimes();
-    const isFinished = this.state.isFinished;
-    const isRegularly = this.state.isRegularly;
+    const { isFinished, isRegularly } = this.state;
 
     return (
       <div className="customize-search carpool-offer">
