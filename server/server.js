@@ -152,11 +152,11 @@ function setUpOIDC() {
         },
       },
       function(err, response, body) {
-        if (!err && response.statusCode === 200) {
-          const user = body;
-          body = user;
+        if (!err) {
+          res.status(response.statusCode).send(body);
+        } else {
+          res.status(401).send('Unauthorized');
         }
-        res.send(body);
       },
     );
   });
@@ -172,10 +172,6 @@ function setUpOIDC() {
         body: JSON.stringify(req.body),
       },
       function(err, response, body) {
-        if (!err && response.statusCode === 200) {
-          const data = body;
-          body = data;
-        }
         if (!err) {
           res.status(response.statusCode).send(body);
         } else {
