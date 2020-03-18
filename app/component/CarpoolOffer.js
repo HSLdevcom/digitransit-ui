@@ -70,14 +70,14 @@ export default class CarpoolOffer extends React.Component {
       phoneNumber: document.getElementById('phone').value,
       time: {
         type: this.isRegularly ? 'recurring' : 'one-off',
-        departureTime: new Moment(this.props.start * 1000).format('HH:mm'),
+        departureTime: new Moment(this.props.start).format('HH:mm'),
       },
     };
 
     if (this.isRegularly) {
       carpoolOffer.time.weekdays = this.days;
     } else {
-      carpoolOffer.time.date = new Moment(this.props.start * 1000).format(
+      carpoolOffer.time.date = new Moment(this.props.start).format(
         'YYYY-MM-DD',
       );
     }
@@ -87,7 +87,7 @@ export default class CarpoolOffer extends React.Component {
 
   getOfferedTimes = () => {
     let departureDay = '';
-    const departureTime = new Moment(this.props.start * 1000).format('HH:mm');
+    const departureTime = new Moment(this.props.start).format('HH:mm');
     if (this.isRegularly) {
       // If the offer is recurring, return all the selected days as a string.
       for (let i = 0; i < this.selectedDays.length; i++) {
@@ -99,7 +99,7 @@ export default class CarpoolOffer extends React.Component {
       departureDay = departureDay.replace(/,(?=[^,]*$)/, '');
     } else {
       // If the offer is one-off, get the date from the epoch time.
-      departureDay = new Moment(this.props.start * 1000).format('YYYY-MM-DD');
+      departureDay = new Moment(this.props.start).format('YYYY-MM-DD');
     }
     return departureDay
       .concat(' ')
@@ -112,7 +112,7 @@ export default class CarpoolOffer extends React.Component {
   render() {
     const origin = this.props.from.name;
     const destination = this.props.to.name;
-    const departure = new Moment(this.props.start * 1000).format('HH:mm');
+    const departure = new Moment(this.props.start).format('HH:mm');
     const { onToggleClick } = this.props;
     const offeredTimes = this.getOfferedTimes();
     const { isFinished, isRegularly } = this.state;
