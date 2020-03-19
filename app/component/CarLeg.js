@@ -14,147 +14,153 @@ import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import ToggleButton from './ToggleButton';
 
-function CarLeg(props, context) {
-  const distance = displayDistance(
-    parseInt(props.leg.distance, 10),
-    context.config,
-  );
-  const duration = durationToString(props.leg.duration * 1000);
-  const firstLegClassName = props.index === 0 ? 'start' : '';
-
-  const carpoolAgencyIcon = [];
-  if (props.leg.mode === 'CARPOOL') {
-    if (props.leg.route.agency.gtfsId === 'mfdz:fg') {
-      carpoolAgencyIcon[0] = 'fg_icon';
-      carpoolAgencyIcon[1] = 'adac_icon';
-    } else if (props.leg.route.agency.gtfsId === 'mfdz:mifaz') {
-      carpoolAgencyIcon[0] = 'mifaz_icon-without-text';
-    }
-  }
-
-  const carpoolOfferModules = {
+class CarLeg extends React.Component {
+  carpoolOfferModules = {
     Drawer: () => importLazy(import('material-ui/Drawer')),
     CarpoolOffer: () => importLazy(import('./CarpoolOffer')),
   };
 
-  const internalSetOffcanvas = newState => {
+  internalSetOffcanvas = newState => {
     if (newState) {
-      context.router.push({
-        ...context.location,
+      this.context.router.push({
+        ...this.context.location,
         state: {
-          ...context.location.state,
+          ...this.context.location.state,
           carpoolOfferOffcanvas: newState,
         },
       });
     } else {
-      context.router.goBack();
+      this.context.router.goBack();
     }
   };
 
-  const onRequestChange = newState => {
-    internalSetOffcanvas(newState);
+  onRequestChange = newState => {
+    this.internalSetOffcanvas(newState);
   };
 
-  const getOffcanvasState = () =>
-    (context.location.state && context.location.state.carpoolOfferOffcanvas) ||
+  getOffcanvasState = () =>
+    (this.context.location.state &&
+      this.context.location.state.carpoolOfferOffcanvas) ||
     false;
 
-  const toggleOfferCarpool = () => {
-    internalSetOffcanvas(!getOffcanvasState());
+  toggleOfferCarpool = () => {
+    this.internalSetOffcanvas(!this.getOffcanvasState());
   };
 
-  const isOpen = getOffcanvasState();
+  render = () => {
+    const isOpen = this.getOffcanvasState();
+    const carpoolAgencyIcon = [];
+    if (this.props.leg.mode === 'CARPOOL') {
+      if (this.props.leg.route.agency.gtfsId === 'mfdz:fg') {
+        carpoolAgencyIcon[0] = 'fg_icon';
+        carpoolAgencyIcon[1] = 'adac_icon';
+      } else if (this.props.leg.route.agency.gtfsId === 'mfdz:mifaz') {
+        carpoolAgencyIcon[0] = 'mifaz_icon-without-text';
+      }
+    }
 
-  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-  return (
-    <div key={props.index} className="row itinerary-row">
-      <div className="small-2 columns itinerary-time-column">
-        <div className="itinerary-time-column-time">
-          {moment(props.leg.startTime).format('HH:mm')}
-        </div>
-        <RouteNumber mode={props.leg.mode.toLowerCase()} vertical />
-      </div>
-      <ItineraryCircleLine
-        index={props.index}
-        modeClassName={CarLeg.getModeClassName(props.leg.mode)}
-      />
-      <div
-        onClick={props.focusAction}
-        className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${props.leg.mode.toLowerCase()}`}
-      >
-        <div className="itinerary-leg-first-row">
-          <div>
-            {props.leg.from.name}
-            {props.children}
+    const distance = displayDistance(
+      parseInt(this.props.leg.distance, 10),
+      this.context.config,
+    );
+    const duration = durationToString(this.props.leg.duration * 1000);
+
+    const firstLegClassName = this.props.index === 0 ? 'start' : '';
+
+    /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
+    return (
+      <div key={this.props.index} className="row itinerary-row">
+        <div className="small-2 columns itinerary-time-column">
+          <div className="itinerary-time-column-time">
+            {moment(this.props.leg.startTime).format('HH:mm')}
           </div>
-          <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
+          <RouteNumber mode={this.props.leg.mode.toLowerCase()} vertical />
         </div>
-        <div className="itinerary-leg-action">
-          <FormattedMessage
-            id={CarLeg.getTranslationKey(props.leg.mode)}
-            values={{ distance, duration }}
-            defaultMessage="Drive {distance} ({duration})}"
-          />
-          <br />
-          {
-            <ToggleButton
-              className="standalone-btn"
-              title="offer-ride" // tooltip
-              showButtonTitle
-              label="offer-ride" // button text
-              onBtnClick={toggleOfferCarpool}
-            />
-          }
-          {CarLeg.createBookButton(props.leg)}
-          {carpoolAgencyIcon[1] ? (
+        <ItineraryCircleLine
+          index={this.props.index}
+          modeClassName={CarLeg.getModeClassName(this.props.leg.mode)}
+        />
+        <div
+          onClick={this.props.focusAction}
+          className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${this.props.leg.mode.toLowerCase()}`}
+        >
+          <div className="itinerary-leg-first-row">
+            <div>
+              {this.props.leg.from.name}
+              {this.props.children}
+            </div>
             <Icon
-              img={carpoolAgencyIcon[0]}
-              className="carpool-agency-logo"
-              tooltip={props.leg.route.agency.name}
+              img="icon-icon_search-plus"
+              className="itinerary-search-icon"
             />
-          ) : (
-            ''
-          )}
-          {carpoolAgencyIcon[1] ? (
-            <Icon
-              img={carpoolAgencyIcon[1]}
-              className="carpool-agency-logo"
-              tooltip="ADAC Mitfahrclub"
+          </div>
+          <div className="itinerary-leg-action">
+            <FormattedMessage
+              id={CarLeg.getTranslationKey(this.props.leg.mode)}
+              values={{ distance, duration }}
+              defaultMessage="Drive {distance} ({duration})}"
             />
-          ) : (
-            ''
-          )}
+            <br />
+            {
+              <ToggleButton
+                className="standalone-btn"
+                title="offer-ride" // tooltip
+                showButtonTitle
+                label="offer-ride" // button text
+                onBtnClick={this.toggleOfferCarpool}
+              />
+            }
+            {CarLeg.createBookButton(this.props.leg)}
+            {carpoolAgencyIcon[1] ? (
+              <Icon
+                img={carpoolAgencyIcon[0]}
+                className="carpool-agency-logo"
+                tooltip={this.props.leg.route.agency.name}
+              />
+            ) : (
+              ''
+            )}
+            {carpoolAgencyIcon[1] ? (
+              <Icon
+                img={carpoolAgencyIcon[1]}
+                className="carpool-agency-logo"
+                tooltip="ADAC Mitfahrclub"
+              />
+            ) : (
+              ''
+            )}
+          </div>
         </div>
+        <LazilyLoad modules={this.carpoolOfferModules}>
+          {({ Drawer, CarpoolOffer }) => (
+            <Drawer
+              className="offcanvas"
+              disableSwipeToOpen
+              openSecondary
+              docked={false}
+              open={isOpen}
+              onRequestChange={this.onRequestChange}
+              // Needed for the closing arrow button that's left of the drawer.
+              containerStyle={{
+                background: 'transparent',
+                boxShadow: 'none',
+                overflow: 'visible',
+              }}
+              width={getDrawerWidth(window)}
+            >
+              <CarpoolOffer
+                duration={this.props.leg.duration}
+                from={this.props.leg.from}
+                to={this.props.leg.to}
+                start={this.props.leg.startTime}
+                onToggleClick={this.toggleOfferCarpool}
+              />
+            </Drawer>
+          )}
+        </LazilyLoad>
       </div>
-      <LazilyLoad modules={carpoolOfferModules}>
-        {({ Drawer, CarpoolOffer }) => (
-          <Drawer
-            className="offcanvas"
-            disableSwipeToOpen
-            openSecondary
-            docked={false}
-            open={isOpen}
-            onRequestChange={onRequestChange}
-            // Needed for the closing arrow button that's left of the drawer.
-            containerStyle={{
-              background: 'transparent',
-              boxShadow: 'none',
-              overflow: 'visible',
-            }}
-            width={getDrawerWidth(window)}
-          >
-            <CarpoolOffer
-              duration={props.leg.duration}
-              from={props.leg.from}
-              to={props.leg.to}
-              start={props.leg.startTime}
-              onToggleClick={toggleOfferCarpool}
-            />
-          </Drawer>
-        )}
-      </LazilyLoad>
-    </div>
-  );
+    );
+  };
 }
 
 const exampleLeg = t1 => ({
