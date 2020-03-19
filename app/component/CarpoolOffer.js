@@ -6,6 +6,7 @@ import { routerShape } from 'react-router';
 import Icon from './Icon';
 import Checkbox from './Checkbox';
 import logo from '../../static/img/fahrgemeinschaft-de-rund.png';
+import Loading from './Loading';
 
 export default class CarpoolOffer extends React.Component {
   static contextTypes = {
@@ -40,6 +41,7 @@ export default class CarpoolOffer extends React.Component {
       selectedDays: [],
       days: this.allWeekdaysFalse,
       GDPR: false,
+      showSpinner: false,
     };
     this.setRegular = this.setRegular.bind(this);
     this.setOnce = this.setOnce.bind(this);
@@ -97,6 +99,8 @@ export default class CarpoolOffer extends React.Component {
         'YYYY-MM-DD',
       );
     }
+
+    this.setState({ showSpinner: true });
     fetch('/carpool-offers', {
       method: 'POST',
       headers: new Headers({ 'content-type': 'application/json' }),
@@ -104,7 +108,7 @@ export default class CarpoolOffer extends React.Component {
       // eslint-disable-next-line func-names
     }).then(response => {
       if (response.status === 200) {
-        this.setState({ isFinished: true });
+        this.setState({ isFinished: true, showSpinner: false });
       }
       return response.json();
     });
@@ -133,6 +137,13 @@ export default class CarpoolOffer extends React.Component {
       .concat(departureTime)
       .concat('.');
   };
+
+  renderSpinner() {
+    if (this.state.showSpinner) {
+      return <Loading />;
+    }
+    return '';
+  }
 
   render() {
     const origin = this.props.from.name;
@@ -354,6 +365,7 @@ export default class CarpoolOffer extends React.Component {
                 defaultMessage="Offer carpool"
               />
             </button>
+            {this.renderSpinner()}
           </form>
         )}
       </div>
