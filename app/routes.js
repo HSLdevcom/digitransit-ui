@@ -57,6 +57,15 @@ export default config => {
               }
             />
           ),
+          map: (
+            <Route
+              getComponent={() =>
+                import(/* webpackChunkName: "itinerary" */ './component/map/IndexPageMap.js').then(
+                  getDefault,
+                )
+              }
+            />
+          ),
         }}
       </Route>
       {getStopRoutes()}
@@ -314,6 +323,15 @@ export default config => {
             <Route
               getComponent={() =>
                 import(/* webpackChunkName: "itinerary" */ './component/IndexPageMeta').then(
+                  getDefault,
+                )
+              }
+            />
+          ),
+          map: (
+            <Route
+              getComponent={() =>
+                import(/* webpackChunkName: "itinerary" */ './component/map/IndexPageMap.js').then(
                   getDefault,
                 )
               }
