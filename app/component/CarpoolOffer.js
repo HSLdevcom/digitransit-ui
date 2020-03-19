@@ -20,21 +20,23 @@ export default class CarpoolOffer extends React.Component {
     duration: PropTypes.number,
   };
 
+  allWeekdaysFalse = {
+    monday: false,
+    tuesday: false,
+    wednesday: false,
+    thursday: false,
+    friday: false,
+    saturday: false,
+    sunday: false,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
       isRegularly: false,
       isFinished: false,
       selectedDays: [],
-      days: {
-        monday: false,
-        tuesday: false,
-        wednesday: false,
-        thursday: false,
-        friday: false,
-        saturday: false,
-        sunday: false,
-      },
+      days: this.allWeekdaysFalse,
       GDPR: false,
     };
     this.setRegular = this.setRegular.bind(this);
@@ -47,17 +49,9 @@ export default class CarpoolOffer extends React.Component {
   };
 
   setOnce = () => {
-    this.setState({ isRegularly: false });
     this.setState({
-      days: {
-        monday: false,
-        tuesday: false,
-        wednesday: false,
-        thursday: false,
-        friday: false,
-        saturday: false,
-        sunday: false,
-      },
+      isRegularly: false,
+      days: this.allWeekdaysFalse,
     });
   };
 
@@ -77,12 +71,12 @@ export default class CarpoolOffer extends React.Component {
       origin: {
         label: this.props.from.name,
         lat: this.props.from.lat,
-        lng: this.props.from.lng,
+        lon: this.props.from.lon,
       },
       destination: {
         label: this.props.to.name,
         lat: this.props.to.lat,
-        lng: this.props.to.lng,
+        lon: this.props.to.lon,
       },
       phoneNumber: document.getElementById('phone').value,
       time: {
@@ -99,8 +93,9 @@ export default class CarpoolOffer extends React.Component {
       );
     }
     // Leonard dont cry pls
-    fetch('https://api.mobil-in-herrenberg.de', {
+    fetch('/carpool-offers', {
       method: 'POST',
+      headers: new Headers({ 'content-type': 'application/json' }),
       body: JSON.stringify(carpoolOffer),
       // eslint-disable-next-line func-names
     }).then(function(response) {

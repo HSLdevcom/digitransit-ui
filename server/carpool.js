@@ -50,14 +50,14 @@ const postCarpoolOffer = options => {
           CountryName: 'Deutschland',
           CountryCode: 'Deutschland',
           Latitude: options.origin.lat,
-          Longitude: options.origin.lng,
+          Longitude: options.origin.lon,
         },
         Destination: {
           Address: options.destination.label,
           CountryName: 'Deutschland',
           CountryCode: 'Deutschland',
           Latitude: options.destination.lat,
-          Longitude: options.destination.lng,
+          Longitude: options.destination.lon,
         },
         RoutingIndex: 0,
       },
@@ -98,11 +98,11 @@ const bodySchema = {
       examples: [
         {
           label: 'Ehningen',
-          lng: 8.9462,
+          lon: 8.9462,
           lat: 48.6564,
         },
       ],
-      required: ['label', 'lat', 'lng'],
+      required: ['label', 'lat', 'lon'],
       properties: {
         label: {
           $id: '#/properties/origin/properties/label',
@@ -120,10 +120,10 @@ const bodySchema = {
           default: 0,
           examples: [48.6564],
         },
-        lng: {
-          $id: '#/properties/origin/properties/lng',
+        lon: {
+          $id: '#/properties/origin/properties/lon',
           type: 'number',
-          title: 'The Lng Schema',
+          title: 'The lon Schema',
           description: 'An explanation about the purpose of this instance.',
           default: 0,
           examples: [8.9462],
@@ -139,11 +139,11 @@ const bodySchema = {
       examples: [
         {
           label: 'Tübingen',
-          lng: 9.0478,
+          lon: 9.0478,
           lat: 48.5222,
         },
       ],
-      required: ['label', 'lat', 'lng'],
+      required: ['label', 'lat', 'lon'],
       properties: {
         label: {
           $id: '#/properties/destination/properties/label',
@@ -161,10 +161,10 @@ const bodySchema = {
           default: 0,
           examples: [48.5222],
         },
-        lng: {
-          $id: '#/properties/destination/properties/lng',
+        lon: {
+          $id: '#/properties/destination/properties/lon',
           type: 'number',
-          title: 'The Lng Schema',
+          title: 'The lon Schema',
           description: 'An explanation about the purpose of this instance.',
           default: 0,
           examples: [9.0478],
