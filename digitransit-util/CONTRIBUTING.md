@@ -51,16 +51,10 @@ it will create a new folder inside `packages` with a simple boilerplate for your
 
 ## Publishing
 
-Install lerna:
+Publish **inside a module:**:
 
 ```bash
-$ npm install -g lerna
-```
-
-Publish:
-
-```bash
-$ lerna publish
+$ yarn publish
 ```
 
 ## Documentation

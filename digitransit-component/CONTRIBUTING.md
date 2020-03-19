@@ -68,16 +68,10 @@ it will create two files.
 
 ## Publishing
 
-Install lerna:
+Publish **inside a module:**:
 
 ```bash
-$ npm install -g lerna
-```
-
-Publish:
-
-```bash
-$ lerna publish
+$ yarn publish
 ```
 
 ## Documentation
