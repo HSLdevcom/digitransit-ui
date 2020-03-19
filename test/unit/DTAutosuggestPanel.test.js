@@ -56,6 +56,7 @@ describe('<DTAutosuggestPanel />', () => {
     const props = {
       ...mockData,
       searchContext,
+      layers: [],
     };
     const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
       context,

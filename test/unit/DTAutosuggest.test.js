@@ -5,10 +5,10 @@ import { describe, it } from 'mocha';
 
 import { mockContext, mockChildContextTypes } from './helpers/mock-context';
 import { mountWithIntl } from './helpers/mock-intl-enzyme';
-import DTSearchAutosuggest from '../../app/component/DTSearchAutosuggest';
+import DTAutoSuggest from '../../app/component/DTAutosuggest';
 import searchContext from '../../app/component/searchContext';
 
-describe('<DTSearchAutosuggest />', () => {
+describe('<DTAutoSuggest />', () => {
   it('should render with focus set', () => {
     const props = {
       searchContext,
@@ -19,8 +19,9 @@ describe('<DTSearchAutosuggest />', () => {
       refPoint: {},
       searchType: 'all',
       selectedFunction: () => {},
+      onLocationSelected: () => {},
     };
-    const wrapper = mountWithIntl(<DTSearchAutosuggest {...props} />, {
+    const wrapper = mountWithIntl(<DTAutoSuggest {...props} />, {
       context: { ...mockContext, config: {} },
       childContextTypes: {
         ...mockChildContextTypes,

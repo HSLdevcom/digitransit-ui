@@ -1,54 +1,14 @@
-const mapStatus = (statusCode /* , message */) => {
-  if (statusCode === 400) {
-    return 'bad-request';
-  }
-  if (statusCode === 401) {
-    // unauthorized is assumed to be expired session
-    return 'expired';
-  }
-  if (statusCode === 401 || statusCode === 403) {
-    return 'unauthorized';
-  }
-  if (statusCode === 408) {
-    return 'timeout';
-  }
-  if (statusCode === 500) {
-    return 'internal-error';
-  }
-  if (statusCode === 503) {
-    return 'unavailable';
-  }
-  if (statusCode >= 501) {
-    return 'backend-error';
-  }
-  return 'client-error';
-};
-
-function request(url, options = {}) {
-  return fetch(url, options).then(response => {
-    if (response.ok) {
-      return response.json();
-    }
-    return response
-      .text()
-      .then(message => {
-        throw new Error(mapStatus(response.status, message));
-      })
-      .catch(() => {
-        throw new Error(mapStatus(response.status));
-      });
-  });
-}
+import { retryFetch } from './fetchUtils';
 
 export function getUser() {
   const options = {
     credentials: 'include',
   };
-  return request('/api/user', options);
+  return retryFetch('/api/user', options, 2, 200).then(res => res.json());
 }
 
 export function getFavourites() {
-  return request('/api/user/favourites');
+  return retryFetch('/api/user/favourites', {}, 2, 200).then(res => res.json());
 }
 
 export function updateFavourites(data) {
@@ -59,7 +19,7 @@ export function updateFavourites(data) {
     },
     body: JSON.stringify(data),
   };
-  return request('/api/user/favourites', options);
+  return retryFetch('/api/user/favourites', options, 0, 0);
 }
 
 export function deleteFavourites(data) {
@@ -70,5 +30,5 @@ export function deleteFavourites(data) {
     },
     body: JSON.stringify(data),
   };
-  return request('/api/user/favourites', options);
+  return retryFetch('/api/user/favourites', options, 0, 0);
 }

@@ -46,7 +46,7 @@ export default class FavouriteStore extends Store {
 
   isFavourite(id) {
     const ids = this.favourites.map(
-      favourite => favourite.gtfsId || favourite.id,
+      favourite => favourite.gtfsId || favourite.gid,
     );
     return includes(ids, id);
   }
@@ -86,7 +86,7 @@ export default class FavouriteStore extends Store {
     return this.favourites.filter(favourite => favourite.type === 'place');
   }
 
-  addFavourite(data) {
+  async addFavourite(data) {
     if (typeof data !== 'object') {
       throw new Error(`New favourite is not a object:${JSON.stringify(data)}`);
     }
@@ -105,27 +105,29 @@ export default class FavouriteStore extends Store {
         favouriteId: uuid(),
       });
     }
-    this.favourites = newFavourites;
-    updateFavourites(this.favourites)
+    await updateFavourites(newFavourites)
       .then(() => {
+        this.favourites = newFavourites;
         this.emitChange();
       })
       .catch(() => {
+        this.favourites = newFavourites;
         this.storeFavourites();
         this.emitChange();
       });
   }
 
-  deleteFavourite(data) {
+  async deleteFavourite(data) {
     const newFavourites = this.favourites.filter(
       favourite => favourite.favouriteId !== data.favouriteId,
     );
-    this.favourites = newFavourites;
-    deleteFavourites([data.favouriteId])
+    await deleteFavourites([data.favouriteId])
       .then(() => {
+        this.favourites = newFavourites;
         this.emitChange();
       })
       .catch(() => {
+        this.favourites = newFavourites;
         this.storeFavourites();
         this.emitChange();
       });
