@@ -46,6 +46,7 @@ export default class CarpoolOffer extends React.Component {
     this.setRegular = this.setRegular.bind(this);
     this.setOnce = this.setOnce.bind(this);
     this.finishForm = this.finishForm.bind(this);
+    this.close = this.close.bind(this);
   }
 
   setRegular = () => {
@@ -138,6 +139,11 @@ export default class CarpoolOffer extends React.Component {
       .concat('.');
   };
 
+  close() {
+    this.context.router.goBack();
+    this.setState({ isFinished: false });
+  }
+
   renderSpinner() {
     if (this.state.showSpinner) {
       return <Loading />;
@@ -189,9 +195,7 @@ export default class CarpoolOffer extends React.Component {
             <button
               type="submit"
               className="sidePanel-btn"
-              onClick={() => {
-                this.context.router.goBack();
-              }}
+              onClick={this.close}
             >
               <FormattedMessage id="close" defaultMessage="Close" />
             </button>
