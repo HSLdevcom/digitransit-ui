@@ -4,7 +4,6 @@
   "description": "Digitransit UI - open nationwide journey planning platform",
   "author": "digitransit@hsl.fi",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
-  "private": true,
   "workspaces": [
     "digitransit-component/packages/*",
     "digitransit-util/packages/*"
@@ -40,18 +39,16 @@
     "add-theme": "node build/add-theme",
     "relay": "relay-compiler --src ./app/ --schema ./build/schema.json",
     "relay-watch": "relay-compiler --src ./app/ --schema ./build/schema.json --watch",
-    "digitransit-util-changed": "lerna changed",
+    "digitransit-util-changed": "lerna changed --scope '@digitransit-util/*'",
     "digitransit-util-docs": "node -r esm ./digitransit-util/scripts/generate-readmes",
-    "digitransit-util-list": "lerna list",
+    "digitransit-util-list": "lerna list --scope '@digitransit-util/*'",
     "digitransit-util-new-module": "node -r esm ./digitransit-util/scripts/create-new-module $1",
-    "digitransit-util-publish": "lerna publish --no-push --no-git-tag-version",
-    "digitransit-util-tests": "yarn workspaces run test",
-    "digitransit-component-changed": "lerna changed",
+    "digitransit-util-tests": "lerna run test --scope '@digitransit-util/*'",
+    "digitransit-component-changed": "lerna changed --scope '@digitransit-component/*'",
     "digitransit-component-docs": "node -r esm ./digitransit-component/scripts/generate-readmes",
-    "digitransit-component-list": "lerna list",
+    "digitransit-component-list": "lerna list --scope '@digitransit-component/*'",
     "digitransit-component-new-module": "node -r esm ./digitransit-component/scripts/create-new-module $1",
-    "digitransit-component-publish": "lerna publish --no-push --no-git-tag-version",
-    "digitransit-component-tests": "yarn workspaces run test"
+    "digitransit-component-tests": "lerna run test --scope '@digitransit-component/*'"
   },
   "main": "server.js",
   "repository": {
@@ -210,6 +207,7 @@
     "compression-webpack-plugin": "3.1.0",
     "copy-webpack-plugin": "5.1.1",
     "css-loader": "3.4.2",
+    "documentation": "12.1.4",
     "enzyme": "3.10.0",
     "enzyme-adapter-react-16": "1.15.2",
     "enzyme-wait": "1.0.9",

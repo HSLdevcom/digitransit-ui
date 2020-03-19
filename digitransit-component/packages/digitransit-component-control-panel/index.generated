@@ -82,7 +82,7 @@ OriginToDestination.propTypes = {
 };
 OriginToDestination.defaultProps = {
   showTitle: false,
-  language: "fi"
+  language: 'fi'
 };
 
 function NearStopsAndRoutes(_ref2) {
@@ -130,7 +130,7 @@ NearStopsAndRoutes.propTypes = {
 NearStopsAndRoutes.defaultProps = {
   buttons: [],
   showTitle: false,
-  language: "fi"
+  language: 'fi'
 };
 
 function Icon(_ref3) {
@@ -167,6 +167,19 @@ Icon.defaultProps = {
   margin: undefined,
   width: undefined
 };
+/**
+ * CtrlPanel gathers multiple components to same area (desktop-size: left or mobile-size: bottom)
+ *
+ * @example
+ * <CtrlPanel instance="hsl" language="fi" position="left">
+ *    <CtrlPanel.OriginToDestination showTitle />
+ *    <CtrlPanel.SeparatorLine />
+ *    <CtrlPanel.NearStopsAndRoutes
+ *      showTitle
+ *      buttons={['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike']}
+ *    />
+ *  </CtrlPanel>
+ */
 
 var CtrlPanel = /*#__PURE__*/function (_React$Component) {
   _inherits(CtrlPanel, _React$Component);
@@ -211,9 +224,9 @@ var CtrlPanel = /*#__PURE__*/function (_React$Component) {
           key: "main",
           style: style
         }, children));
-      } else {
-        return _react.default.createElement("div", null, "Not a valid instance: ", this.props.instance);
       }
+
+      return _react.default.createElement("div", null, "Not a valid instance: ", this.props.instance);
     }
   }]);
 
@@ -228,7 +241,7 @@ _defineProperty(CtrlPanel, "SeparatorLine", SeparatorLine);
 
 _defineProperty(CtrlPanel, "validTypes", [NearStopsAndRoutes, SeparatorLine, OriginToDestination]);
 
-_defineProperty(CtrlPanel, "validInstances", ["default", "hameenlinna", "hsl", "joensuu", "jyvaskyla", "kotka", "kouvola", "lahti", "lappeenranta", "matka", "mikkeli", "oulu", "rovaniemi", "salo", "tampere", "turku"]);
+_defineProperty(CtrlPanel, "validInstances", ['default', 'hameenlinna', 'hsl', 'joensuu', 'jyvaskyla', 'kotka', 'kouvola', 'lahti', 'lappeenranta', 'matka', 'mikkeli', 'oulu', 'rovaniemi', 'salo', 'tampere', 'turku']);
 
 _defineProperty(CtrlPanel, "propTypes", {
   children: _propTypes.default.node,

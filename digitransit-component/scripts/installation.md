@@ -17,7 +17,7 @@ Install this module individually:
 $ npm install {module}
 ```
 
-Or install the digitransit-component module that includes it as a function:
+Or install the digitransit-component module that includes it as a class:
 
 ```sh
 $ npm install @digitransit-component/digitransit-component

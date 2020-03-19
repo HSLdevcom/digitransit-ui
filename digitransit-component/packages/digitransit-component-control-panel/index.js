@@ -134,6 +134,19 @@ Icon.defaultProps = {
   width: undefined,
 };
 
+/**
+ * CtrlPanel gathers multiple components to same area (desktop-size: left or mobile-size: bottom)
+ *
+ * @example
+ * <CtrlPanel instance="hsl" language="fi" position="left">
+ *    <CtrlPanel.OriginToDestination showTitle />
+ *    <CtrlPanel.SeparatorLine />
+ *    <CtrlPanel.NearStopsAndRoutes
+ *      showTitle
+ *      buttons={['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike']}
+ *    />
+ *  </CtrlPanel>
+ */
 class CtrlPanel extends React.Component {
   static NearStopsAndRoutes = NearStopsAndRoutes;
 
