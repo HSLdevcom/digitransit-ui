@@ -20,7 +20,6 @@ export default class CarpoolOffer extends React.Component {
     from: PropTypes.object.isRequired,
     to: PropTypes.object.isRequired,
     start: PropTypes.number.isRequired,
-    duration: PropTypes.number,
   };
 
   allWeekdaysFalse = {

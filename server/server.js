@@ -35,11 +35,11 @@ const express = require('express');
 const expressStaticGzip = require('express-static-gzip');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const { postCarpoolOffer, bodySchema } = require('./carpool');
 const {
   Validator,
   ValidationError,
 } = require('express-json-validator-middleware');
+const { postCarpoolOffer, bodySchema } = require('./carpool');
 
 const validator = new Validator({ allErrors: true });
 
@@ -119,12 +119,12 @@ function setUpErrorHandling() {
     app.use(Raven.errorHandler());
   }
 
-  app.use(function (err, req, res, next) {
+  app.use(function(err, req, res, next) {
     if (err instanceof ValidationError) {
       res.status(400).send(err.validationErrors);
       next();
     } else {
-      console.error(err.stack)
+      console.error(err.stack);
       res.status(500).send('Internal server error.');
     }
   });
