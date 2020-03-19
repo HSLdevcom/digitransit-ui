@@ -1,0 +1,19 @@
+{
+  "name": "@digitransit-component/digitransit-component",
+  "version": "0.0.0",
+  "description": "a JavaScript library for Digitransit",
+  "main": "digitransit-component",
+  "module": "digitransit-component.mjs",
+  "keywords": [
+    "digitransit-component"
+  ],
+  "author": "Digitransit Authors",
+  "license": "(AGPL-3.0 OR EUPL-1.2)",
+  "scripts": {
+    "test": "mocha -r esm test.js",
+    "docs": "node -r esm ../../scripts/generate-readmes"
+  },
+  "dependencies": {
+    "@digitransit-component/digitransit-component-control-panel": "^0.0.0"
+  }
+}

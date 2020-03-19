@@ -1,6 +1,6 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { intlShape } from 'react-intl';
 import cx from 'classnames';
 import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
@@ -8,14 +8,12 @@ import shouldUpdate from 'recompose/shouldUpdate';
 import isEqual from 'lodash/isEqual';
 import d from 'debug';
 
+import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
 import {
   initGeolocation,
   checkPositioningPermission,
 } from '../action/PositionActions';
 import storeOrigin from '../action/originActions';
-import ControlPanel from './ControlPanel';
-import DTEndpointAutosuggest from './DTEndpointAutosuggest';
-import DTAutosuggestPanel from './DTAutosuggestPanel';
 import MapWithTracking from './map/MapWithTracking';
 import PageFooter from './PageFooter';
 import { isBrowser } from '../util/browser';
@@ -43,7 +41,6 @@ const debug = d('IndexPage.js');
 class IndexPage extends React.Component {
   static contextTypes = {
     config: PropTypes.object.isRequired,
-    intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
     getStore: PropTypes.func.isRequired,
   };
@@ -56,10 +53,12 @@ class IndexPage extends React.Component {
     origin: dtLocationShape.isRequired,
     destination: dtLocationShape.isRequired,
     showSpinner: PropTypes.bool.isRequired,
+    lang: PropTypes.string,
   };
 
   static defaultProps = {
     autoSetOrigin: true,
+    lang: 'fi',
   };
 
   constructor(props, context) {
@@ -128,8 +127,8 @@ class IndexPage extends React.Component {
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
-    const { config, intl } = this.context;
-    const { breakpoint, destination, origin, router, match } = this.props;
+    const { config } = this.context;
+    const { breakpoint, destination, origin, router, match, lang } = this.props;
     const { mapExpanded } = this.state;
 
     // DT-3381 TODO: DTEndpointAutoSuggest currently does not search for stops or stations, as it should be. SearchUtils needs refactoring.
@@ -156,45 +155,15 @@ class IndexPage extends React.Component {
             )}
           />
         </div>
-        <ControlPanel className="control-panel-container-left">
-          <DTAutosuggestPanel
-            searchPanelText={intl.formatMessage({
-              id: 'where',
-              defaultMessage: 'Where to?',
-            })}
-            origin={origin}
-            destination={destination}
-            searchType="endpoint"
-            originPlaceHolder="search-origin-index"
-            destinationPlaceHolder="search-destination-index"
-            searchContext={searchContext}
+        <CtrlPanel instance="hsl" language={lang} position="left">
+          <CtrlPanel.OriginToDestination showTitle />
+          <CtrlPanel.SeparatorLine />
+          <CtrlPanel.NearStopsAndRoutes
+            showTitle
+            buttons={['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike']}
           />
-          <div className="control-panel-separator-line" />
-          <div className="stops-near-you-text">
-            <span>
-              {' '}
-              {intl.formatMessage({
-                id: 'stop-near-you-title',
-                defaultMessage: 'Stops and lines near you',
-              })}
-            </span>
-          </div>
-          <div>
-            <DTEndpointAutosuggest
-              icon="mapMarker-via"
-              id="searchfield-preferred"
-              autoFocus={false}
-              refPoint={origin}
-              className="destination"
-              searchType="search"
-              placeholder="stop-near-you"
-              value=""
-              isFocused={this.isFocused}
-              onLocationSelected={e => e.stopPropagation()}
-              searchContext={searchContext}
-            />
-          </div>
-        </ControlPanel>
+        </CtrlPanel>
+
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
         <div id="page-footer-container">
           <PageFooter
@@ -244,45 +213,14 @@ class IndexPage extends React.Component {
             )}
           </div>
         </div>
-        <ControlPanel className="control-panel-container-bottom">
-          <DTAutosuggestPanel
-            searchPanelText={intl.formatMessage({
-              id: 'where',
-              defaultMessage: 'Where to?',
-            })}
-            origin={origin}
-            destination={destination}
-            searchType="all"
-            originPlaceHolder="search-origin"
-            destinationPlaceHolder="search-destination"
-            searchContext={searchContext}
+        <CtrlPanel instance="hsl" language={lang} position="bottom">
+          <CtrlPanel.OriginToDestination showTitle />
+          <CtrlPanel.SeparatorLine />
+          <CtrlPanel.NearStopsAndRoutes
+            showTitle
+            buttons={['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike']}
           />
-          <div className="control-panel-separator-line" />
-          <div className="stops-near-you-text">
-            <span>
-              {' '}
-              {intl.formatMessage({
-                id: 'stop-near-you-title',
-                defaultMessage: 'Stops and lines near you',
-              })}
-            </span>
-          </div>
-          <div>
-            <DTEndpointAutosuggest
-              icon="mapMarker-via"
-              id="searchfield-preferred-bottom"
-              autoFocus={false}
-              refPoint={origin}
-              className="destination"
-              searchType="search"
-              placeholder="stop-near-you"
-              value=""
-              isFocused={this.isFocused}
-              onLocationSelected={e => e.stopPropagation()}
-              searchContext={searchContext}
-            />
-          </div>
-        </ControlPanel>
+        </CtrlPanel>
       </div>
     );
   }
@@ -416,7 +354,6 @@ const IndexPageWithPosition = connectToStores(
 IndexPageWithPosition.contextTypes = {
   ...IndexPageWithPosition.contextTypes,
   executeAction: PropTypes.func.isRequired,
-  intl: intlShape,
 };
 
 export {

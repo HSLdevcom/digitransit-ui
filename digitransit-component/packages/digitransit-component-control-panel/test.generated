@@ -1,0 +1,44 @@
+"use strict";
+
+var _react = _interopRequireDefault(require("react"));
+
+var _enzymeAdapterReact = _interopRequireDefault(require("enzyme-adapter-react-16"));
+
+var _chai = require("chai");
+
+var _mocha = require("mocha");
+
+var _enzyme = require("enzyme");
+
+var _ = _interopRequireDefault(require("."));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/* eslint-disable import/no-extraneous-dependencies */
+(0, _enzyme.configure)({
+  adapter: new _enzymeAdapterReact.default()
+});
+(0, _mocha.describe)('Testing @digitransit-component/digitransit-component-control-panel module', function () {
+  var wrapper = (0, _enzyme.shallow)(_react.default.createElement(_.default, {
+    instance: "hsl",
+    language: "fi",
+    position: "left"
+  }, _react.default.createElement(_.default.OriginToDestination, {
+    showTitle: true
+  }), _react.default.createElement(_.default.SeparatorLine, null), _react.default.createElement(_.default.NearStopsAndRoutes, {
+    showTitle: true,
+    buttons: ['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike']
+  })));
+  (0, _mocha.it)('should render', function () {
+    (0, _chai.expect)(wrapper.isEmptyRender()).to.equal(false);
+  });
+  (0, _mocha.it)("should create a 'separator line' element", function () {
+    (0, _chai.expect)(wrapper.find(_.default.SeparatorLine)).to.have.lengthOf(1);
+  });
+  (0, _mocha.it)("should create a 'origin to destination' element", function () {
+    (0, _chai.expect)(wrapper.find(_.default.OriginToDestination)).to.have.lengthOf(1);
+  });
+  (0, _mocha.it)("should create a 'near stops and routes' element", function () {
+    (0, _chai.expect)(wrapper.find(_.default.NearStopsAndRoutes)).to.have.lengthOf(1);
+  });
+});

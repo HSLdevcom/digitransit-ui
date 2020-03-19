@@ -1,5 +1,6 @@
 {
   "packages": [
+    "digitransit-component/packages/*",
     "digitransit-util/packages/*"
   ],
   "version": "independent",
