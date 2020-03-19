@@ -32,7 +32,9 @@
 
 .sidePanelText {
   font-family: $font-family;
-  margin-left: 20px;
+  margin: 30px;
+  color: black;
+  word-wrap: break-word;
 }
 
 .sidePanel-btn:hover {
@@ -52,15 +54,26 @@
   width: 120px;
 }
 
-input[type="radio"] {
+input[type='radio'] {
   margin-right: 3px;
 }
 
-.radio-label {
+.radio-label,
+.phone-label {
   font-family: $font-family;
   font-size: medium;
+  color: black;
+}
+
+.phone-label {
+  margin-bottom: 20px;
 }
 
 #phone {
   width: 30%;
+}
+
+.carpool-checkbox {
+  word-wrap: break-word;
+  color: red; // ennek semmi hatasa nincs, szoval a checkboxokat kene egy nagy divbe rakni, aminek ez a classja, hatha akkor
 }

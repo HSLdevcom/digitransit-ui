@@ -263,6 +263,8 @@ const translations = {
 
   de: {
     'about-this-service': 'Über diesen Service',
+    'accept-carpool-policy':
+      'Ich habe die Datenschutzbestimmungen gelesen und erkläre mich einverstanden.',
     accessibility: 'Barrierefreiheit',
     'accessibility-limited': 'Rollstuhlgerecht',
     'accessibility-nolimit': 'Keine Einschränkungen',
@@ -715,6 +717,8 @@ const translations = {
 
   en: {
     'about-this-service': 'About the service',
+    'accept-carpool-policy':
+      'I have read and understand the terms of use and policy.',
     accessibility: 'Accessibility',
     'accessibility-limited': 'Wheelchair',
     'accessibility-nolimit': 'No limits',

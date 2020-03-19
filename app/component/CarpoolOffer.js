@@ -34,6 +34,7 @@ export default class CarpoolOffer extends React.Component {
         saturday: false,
         sunday: false,
       },
+      GDPR: false,
     };
 
     this.setFrequency = this.setFrequency.bind(this);
@@ -116,6 +117,7 @@ export default class CarpoolOffer extends React.Component {
     const { onToggleClick } = this.props;
     const offeredTimes = this.getOfferedTimes();
     const { isFinished, isRegularly } = this.state;
+    const { GDPR } = this.state;
 
     return (
       <div className="customize-search carpool-offer">
@@ -189,33 +191,34 @@ export default class CarpoolOffer extends React.Component {
                 id="add-carpool-offer-frequency"
                 defaultMessage="How often do you want to add the offer?"
               />
+              <div>
+                <label className="radio-label" htmlFor="once">
+                  <input
+                    onChange={this.setFrequency}
+                    type="radio"
+                    id="once"
+                    value="once"
+                    name="times"
+                    defaultChecked
+                  />
+                  <FormattedMessage id="once" defaultMessage="once" />
+                </label>
+              </div>
+              <div>
+                <label className="radio-label" htmlFor="regularly">
+                  <input
+                    onChange={this.setFrequency}
+                    type="radio"
+                    id="regularly"
+                    value="regularly"
+                    name="times"
+                  />
+                  <FormattedMessage id="recurring" defaultMessage="recurring" />
+                </label>
+              </div>
             </p>
-            <div>
-              <input
-                onChange={this.setFrequency}
-                type="radio"
-                id="once"
-                value="once"
-                name="times"
-                defaultChecked
-              />
-              <label className="radio-label" htmlFor="once">
-                <FormattedMessage id="once" defaultMessage="once" />
-              </label>
-            </div>
-            <div>
-              <input
-                onChange={this.setFrequency}
-                type="radio"
-                id="regularly"
-                value="regularly"
-                name="times"
-              />
-              <label className="radio-label" htmlFor="regularly">
-                <FormattedMessage id="recurring" defaultMessage="recurring" />
-              </label>
-            </div>
             <Checkbox
+              className="carpool-checkbox"
               disabled={!isRegularly}
               onChange={e => {
                 this.updateSelectedDays(
@@ -228,6 +231,7 @@ export default class CarpoolOffer extends React.Component {
               labelId="monday"
             />
             <Checkbox
+              className="carpool-checkbox"
               disabled={!isRegularly}
               checked={isRegularly && this.state.days.tuesday}
               onChange={e => {
@@ -240,6 +244,7 @@ export default class CarpoolOffer extends React.Component {
               labelId="tuesday"
             />
             <Checkbox
+              className="carpool-checkbox"
               disabled={!isRegularly}
               checked={isRegularly && this.state.days.wednesday}
               onChange={e => {
@@ -252,6 +257,7 @@ export default class CarpoolOffer extends React.Component {
               labelId="wednesday"
             />
             <Checkbox
+              className="carpool-checkbox"
               disabled={!isRegularly}
               checked={isRegularly && this.state.days.thursday}
               onChange={e => {
@@ -264,18 +270,20 @@ export default class CarpoolOffer extends React.Component {
               labelId="thursday"
             />
             <Checkbox
+              className="carpool-checkbox"
               disabled={!isRegularly}
               checked={isRegularly && this.state.days.friday}
               onChange={e => {
                 this.updateSelectedDays(
                   e.currentTarget.getAttribute('aria-label'),
                 );
-                this.state.days.friday = !this.state.days.friday;
+                this.state.days.friday = !this.statconste.days.friday;
                 this.forceUpdate();
               }}
               labelId="friday"
             />
             <Checkbox
+              className="carpool-checkbox"
               disabled={!isRegularly}
               checked={isRegularly && this.state.days.saturday}
               onChange={e => {
@@ -288,6 +296,7 @@ export default class CarpoolOffer extends React.Component {
               labelId="saturday"
             />
             <Checkbox
+              className="carpool-checkbox"
               disabled={!isRegularly}
               checked={isRegularly && this.state.days.sunday}
               onChange={e => {
@@ -299,23 +308,30 @@ export default class CarpoolOffer extends React.Component {
               }}
               labelId="sunday"
             />
-            <label htmlFor="phone">
+            <label className="phone-label" htmlFor="phone">
               <FormattedMessage
                 id="add-phone-number"
                 defaultMessage="Add your phone number"
               />
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                placeholder="123/456-78901"
+                pattern="[0-9]{3}\/[0-9]{3}-[0-9]{5}"
+                required
+              />
             </label>
-            <br />
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              placeholder="123/456-78901"
-              pattern="[0-9]{3}\/[0-9]{3}-[0-9]{5}"
-              required
+            <Checkbox
+              className="carpool-checkbox"
+              checked={GDPR}
+              onChange={() => {
+                this.setState({ GDPR: !GDPR });
+                this.forceUpdate();
+              }}
+              labelId="accept-carpool-policy"
             />
-            <br />
-            <button className="standalone-btn" type="submit">
+            <button disabled={!GDPR} className="standalone-btn" type="submit">
               <FormattedMessage
                 id="offer-ride"
                 defaultMessage="Offer carpool"
