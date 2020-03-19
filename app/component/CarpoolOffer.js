@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { intlShape, FormattedMessage } from 'react-intl';
 import Moment from 'moment';
+import { routerShape } from 'react-router';
 import Icon from './Icon';
 import Checkbox from './Checkbox';
 import logo from '../../static/img/fahrgemeinschaft-de-rund.png';
@@ -10,6 +11,7 @@ export default class CarpoolOffer extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
     config: PropTypes.object.isRequired,
+    router: routerShape,
   };
 
   static propTypes = {
@@ -63,9 +65,12 @@ export default class CarpoolOffer extends React.Component {
     }
   };
 
+  updatePhoneNumber = event => {
+    this.setState({ phoneNumber: event.target.value });
+  };
+
   finishForm = e => {
     e.preventDefault();
-    this.setState({ isFinished: true });
 
     const carpoolOffer = {
       origin: {
@@ -78,7 +83,7 @@ export default class CarpoolOffer extends React.Component {
         lat: this.props.to.lat,
         lon: this.props.to.lon,
       },
-      phoneNumber: document.getElementById('phone').value,
+      phoneNumber: this.state.phoneNumber,
       time: {
         type: this.isRegularly ? 'recurring' : 'one-off',
         departureTime: new Moment(this.props.start).format('HH:mm'),
@@ -92,13 +97,15 @@ export default class CarpoolOffer extends React.Component {
         'YYYY-MM-DD',
       );
     }
-    // Leonard dont cry pls
     fetch('/carpool-offers', {
       method: 'POST',
       headers: new Headers({ 'content-type': 'application/json' }),
       body: JSON.stringify(carpoolOffer),
       // eslint-disable-next-line func-names
-    }).then(function(response) {
+    }).then(response => {
+      if (response.status === 200) {
+        this.setState({ isFinished: true });
+      }
       return response.json();
     });
   };
@@ -172,9 +179,7 @@ export default class CarpoolOffer extends React.Component {
               type="submit"
               className="sidePanel-btn"
               onClick={() => {
-                this.setState({ isFinished: false });
-                this.setState({ isRegularly: false });
-                this.forceUpdate();
+                this.context.router.goBack();
               }}
             >
               <FormattedMessage id="close" defaultMessage="Close" />
@@ -332,6 +337,7 @@ export default class CarpoolOffer extends React.Component {
                 placeholder="123/456-78901"
                 pattern="\+?[0-9,\-,(,), ]+"
                 required
+                onChange={this.updatePhoneNumber}
               />
             </label>
             <Checkbox
