@@ -30,11 +30,14 @@
   margin-bottom: 30px;
 }
 
+.carpool-offer h2 {
+  margin-left: 0px;
+}
+
 .sidePanelText {
   font-family: $font-family;
   margin: 30px;
   color: black;
-  word-wrap: break-word;
 }
 
 .sidePanel-btn:hover {
@@ -73,7 +76,7 @@ input[type='radio'] {
   width: 30%;
 }
 
-.carpool-checkbox {
-  word-wrap: break-word;
-  color: red; // ennek semmi hatasa nincs, szoval a checkboxokat kene egy nagy divbe rakni, aminek ez a classja, hatha akkor
+.carpool-checkbox span {
+  position: relative;
+  top: -8px;
 }

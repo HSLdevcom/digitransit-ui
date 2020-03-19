@@ -272,7 +272,7 @@ const translations = {
     'add-itinerary-via-point': 'Zwischenstopp hinzufügen',
     'add-location': 'Ort hinzufügen',
     'add-location-to-favourites': 'Ort zu Favoriten hinzufügen',
-    'add-phone-number': '', // TODO: add German translation
+    'add-phone-number': 'Bitte fügen Sie ihre Telefonnummer hinzu:',
     'add-via-button-label': 'Zwischenstopp hinzufügen',
     'add-via-duration-button-label': '',
     address: 'Adresse',

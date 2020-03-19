@@ -4,6 +4,7 @@ import { intlShape, FormattedMessage } from 'react-intl';
 import Moment from 'moment';
 import Icon from './Icon';
 import Checkbox from './Checkbox';
+import logo from '../../static/img/fahrgemeinschaft-de-rund.png';
 
 export default class CarpoolOffer extends React.Component {
   static contextTypes = {
@@ -36,13 +37,28 @@ export default class CarpoolOffer extends React.Component {
       },
       GDPR: false,
     };
-
-    this.setFrequency = this.setFrequency.bind(this);
+    this.setRegular = this.setRegular.bind(this);
+    this.setOnce = this.setOnce.bind(this);
     this.finishForm = this.finishForm.bind(this);
   }
 
-  setFrequency = e => {
-    this.setState({ isRegularly: e.target.checked });
+  setRegular = () => {
+    this.setState({ isRegularly: true });
+  };
+
+  setOnce = () => {
+    this.setState({ isRegularly: false });
+    this.setState({
+      days: {
+        monday: false,
+        tuesday: false,
+        wednesday: false,
+        thursday: false,
+        friday: false,
+        saturday: false,
+        sunday: false,
+      },
+    });
   };
 
   updateSelectedDays = day => {
@@ -124,7 +140,7 @@ export default class CarpoolOffer extends React.Component {
         <button className="close-offcanvas" onClick={onToggleClick}>
           <Icon className="close-icon" img="icon-icon_close" />
         </button>
-        <Icon className="fg_icon" img="fg_icon" width={12} height={12} />
+        <img alt="Fahrgemeinschaft.de" className="fg_icon" src={logo} />
         {isFinished ? (
           <div className="sidePanelText">
             <h2>
@@ -194,7 +210,7 @@ export default class CarpoolOffer extends React.Component {
               <div>
                 <label className="radio-label" htmlFor="once">
                   <input
-                    onChange={this.setFrequency}
+                    onChange={this.setOnce}
                     type="radio"
                     id="once"
                     value="once"
@@ -207,7 +223,7 @@ export default class CarpoolOffer extends React.Component {
               <div>
                 <label className="radio-label" htmlFor="regularly">
                   <input
-                    onChange={this.setFrequency}
+                    onChange={this.setRegular}
                     type="radio"
                     id="regularly"
                     value="regularly"
@@ -217,97 +233,92 @@ export default class CarpoolOffer extends React.Component {
                 </label>
               </div>
             </p>
-            <Checkbox
-              className="carpool-checkbox"
-              disabled={!isRegularly}
-              onChange={e => {
-                this.updateSelectedDays(
-                  e.currentTarget.getAttribute('aria-label'),
-                );
-                this.state.days.monday = !this.state.days.monday;
-                this.forceUpdate();
-              }}
-              checked={isRegularly && this.state.days.monday}
-              labelId="monday"
-            />
-            <Checkbox
-              className="carpool-checkbox"
-              disabled={!isRegularly}
-              checked={isRegularly && this.state.days.tuesday}
-              onChange={e => {
-                this.updateSelectedDays(
-                  e.currentTarget.getAttribute('aria-label'),
-                );
-                this.state.days.tuesday = !this.state.days.tuesday;
-                this.forceUpdate();
-              }}
-              labelId="tuesday"
-            />
-            <Checkbox
-              className="carpool-checkbox"
-              disabled={!isRegularly}
-              checked={isRegularly && this.state.days.wednesday}
-              onChange={e => {
-                this.updateSelectedDays(
-                  e.currentTarget.getAttribute('aria-label'),
-                );
-                this.state.days.wednesday = !this.state.days.wednesday;
-                this.forceUpdate();
-              }}
-              labelId="wednesday"
-            />
-            <Checkbox
-              className="carpool-checkbox"
-              disabled={!isRegularly}
-              checked={isRegularly && this.state.days.thursday}
-              onChange={e => {
-                this.updateSelectedDays(
-                  e.currentTarget.getAttribute('aria-label'),
-                );
-                this.state.days.thursday = !this.state.days.thursday;
-                this.forceUpdate();
-              }}
-              labelId="thursday"
-            />
-            <Checkbox
-              className="carpool-checkbox"
-              disabled={!isRegularly}
-              checked={isRegularly && this.state.days.friday}
-              onChange={e => {
-                this.updateSelectedDays(
-                  e.currentTarget.getAttribute('aria-label'),
-                );
-                this.state.days.friday = !this.statconste.days.friday;
-                this.forceUpdate();
-              }}
-              labelId="friday"
-            />
-            <Checkbox
-              className="carpool-checkbox"
-              disabled={!isRegularly}
-              checked={isRegularly && this.state.days.saturday}
-              onChange={e => {
-                this.updateSelectedDays(
-                  e.currentTarget.getAttribute('aria-label'),
-                );
-                this.state.days.saturday = !this.state.days.saturday;
-                this.forceUpdate();
-              }}
-              labelId="saturday"
-            />
-            <Checkbox
-              className="carpool-checkbox"
-              disabled={!isRegularly}
-              checked={isRegularly && this.state.days.sunday}
-              onChange={e => {
-                this.updateSelectedDays(
-                  e.currentTarget.getAttribute('aria-label'),
-                );
-                this.state.days.sunday = !this.state.days.sunday;
-                this.forceUpdate();
-              }}
-              labelId="sunday"
-            />
+            <div className="carpool-checkbox">
+              <Checkbox
+                disabled={!isRegularly}
+                onChange={e => {
+                  this.updateSelectedDays(
+                    e.currentTarget.getAttribute('aria-label'),
+                  );
+                  this.state.days.monday = !this.state.days.monday;
+                  this.forceUpdate();
+                }}
+                checked={isRegularly && this.state.days.monday}
+                labelId="monday"
+              />
+              <Checkbox
+                disabled={!isRegularly}
+                checked={isRegularly && this.state.days.tuesday}
+                onChange={e => {
+                  this.updateSelectedDays(
+                    e.currentTarget.getAttribute('aria-label'),
+                  );
+                  this.state.days.tuesday = !this.state.days.tuesday;
+                  this.forceUpdate();
+                }}
+                labelId="tuesday"
+              />
+              <Checkbox
+                disabled={!isRegularly}
+                checked={isRegularly && this.state.days.wednesday}
+                onChange={e => {
+                  this.updateSelectedDays(
+                    e.currentTarget.getAttribute('aria-label'),
+                  );
+                  this.state.days.wednesday = !this.state.days.wednesday;
+                  this.forceUpdate();
+                }}
+                labelId="wednesday"
+              />
+              <Checkbox
+                disabled={!isRegularly}
+                checked={isRegularly && this.state.days.thursday}
+                onChange={e => {
+                  this.updateSelectedDays(
+                    e.currentTarget.getAttribute('aria-label'),
+                  );
+                  this.state.days.thursday = !this.state.days.thursday;
+                  this.forceUpdate();
+                }}
+                labelId="thursday"
+              />
+              <Checkbox
+                disabled={!isRegularly}
+                checked={isRegularly && this.state.days.friday}
+                onChange={e => {
+                  this.updateSelectedDays(
+                    e.currentTarget.getAttribute('aria-label'),
+                  );
+                  this.state.days.friday = !this.state.days.friday;
+                  this.forceUpdate();
+                }}
+                labelId="friday"
+              />
+              <Checkbox
+                disabled={!isRegularly}
+                checked={isRegularly && this.state.days.saturday}
+                onChange={e => {
+                  this.updateSelectedDays(
+                    e.currentTarget.getAttribute('aria-label'),
+                  );
+                  this.state.days.saturday = !this.state.days.saturday;
+                  this.forceUpdate();
+                }}
+                labelId="saturday"
+              />
+              <Checkbox
+                disabled={!isRegularly}
+                checked={isRegularly && this.state.days.sunday}
+                onChange={e => {
+                  this.updateSelectedDays(
+                    e.currentTarget.getAttribute('aria-label'),
+                  );
+                  this.state.days.sunday = !this.state.days.sunday;
+                  this.forceUpdate();
+                }}
+                labelId="sunday"
+              />
+            </div>
             <label className="phone-label" htmlFor="phone">
               <FormattedMessage
                 id="add-phone-number"
@@ -318,12 +329,11 @@ export default class CarpoolOffer extends React.Component {
                 id="phone"
                 name="phone"
                 placeholder="123/456-78901"
-                pattern="[0-9]{3}\/[0-9]{3}-[0-9]{5}"
+                pattern="\+?[0-9,\-,(,), ]+"
                 required
               />
             </label>
             <Checkbox
-              className="carpool-checkbox"
               checked={GDPR}
               onChange={() => {
                 this.setState({ GDPR: !GDPR });
