@@ -4,6 +4,7 @@
   "description": "Digitransit UI - open nationwide journey planning platform",
   "author": "digitransit@hsl.fi",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
+  "private": true,
   "workspaces": [
     "digitransit-component/packages/*",
     "digitransit-util/packages/*"
