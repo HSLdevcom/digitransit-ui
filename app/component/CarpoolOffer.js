@@ -98,8 +98,14 @@ export default class CarpoolOffer extends React.Component {
         'YYYY-MM-DD',
       );
     }
-
-    return carpoolOffer;
+    // Leonard dont cry pls
+    fetch('https://api.mobil-in-herrenberg.de', {
+      method: 'POST',
+      body: JSON.stringify(carpoolOffer),
+      // eslint-disable-next-line func-names
+    }).then(function(response) {
+      return response.json();
+    });
   };
 
   getOfferedTimes = () => {
