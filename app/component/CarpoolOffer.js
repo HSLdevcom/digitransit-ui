@@ -110,16 +110,12 @@ export default class CarpoolOffer extends React.Component {
       headers: new Headers({ 'content-type': 'application/json' }),
       body: JSON.stringify(carpoolOffer),
       // eslint-disable-next-line func-names
-    })
-      .then(response => {
-        if (response.status === 200) {
-          this.setState({ formState: 'success' });
-        }
-        return response.json();
-      })
-      .then(json => {
-        this.setState({ offerUrl: json.url });
-      });
+    }).then(response => {
+      if (response.status === 200) {
+        this.setState({ formState: 'success' });
+      }
+      return response.json();
+    });
   };
 
   getOfferedTimes = () => {
@@ -281,8 +277,8 @@ export default class CarpoolOffer extends React.Component {
             type="tel"
             id="phone"
             name="phone"
-            placeholder="123-456-78901"
-            pattern="\+?[0-9,\-,(,), ]+"
+            placeholder="07032 111111"
+            pattern="\+?[0-9,\-,(,),/, ]+"
             required
             onChange={this.updatePhoneNumber}
           />
@@ -314,6 +310,7 @@ export default class CarpoolOffer extends React.Component {
     if (formState === 'success') {
       return this.renderSuccessMessage();
     }
+    return null;
   }
 
   render() {
