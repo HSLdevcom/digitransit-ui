@@ -15,6 +15,6 @@
     "publish": "yarn login && yarn publish --access public"
   },
   "dependencies": {
-    "@digitransit-component/digitransit-component-control-panel": "^0.0.0"
+    "@digitransit-component/digitransit-component-control-panel": "^0.0.2"
   }
 }
