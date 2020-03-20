@@ -361,14 +361,16 @@ export default class CarpoolOffer extends React.Component {
                 onChange={this.updatePhoneNumber}
               />
             </label>
-            <Checkbox
-              checked={GDPR}
-              onChange={() => {
-                this.setState({ GDPR: !GDPR });
-                this.forceUpdate();
-              }}
-              labelId="accept-carpool-policy"
-            />
+            <div className="carpool-checkbox">
+              <Checkbox
+                checked={GDPR}
+                onChange={() => {
+                  this.setState({ GDPR: !GDPR });
+                  this.forceUpdate();
+                }}
+                labelId="accept-carpool-policy"
+              />
+            </div>
             <button disabled={!GDPR} className="standalone-btn" type="submit">
               <FormattedMessage
                 id="offer-ride"
