@@ -270,90 +270,7 @@ export default class CarpoolOffer extends React.Component {
               </div>
             </p>
             <div className="carpool-checkbox">
-              <Checkbox
-                disabled={!isRegularly}
-                onChange={e => {
-                  this.updateSelectedDays(
-                    e.currentTarget.getAttribute('aria-label'),
-                  );
-                  this.state.days.monday = !this.state.days.monday;
-                  this.forceUpdate();
-                }}
-                checked={isRegularly && this.state.days.monday}
-                labelId="monday"
-              />
-              <Checkbox
-                disabled={!isRegularly}
-                checked={isRegularly && this.state.days.tuesday}
-                onChange={e => {
-                  this.updateSelectedDays(
-                    e.currentTarget.getAttribute('aria-label'),
-                  );
-                  this.state.days.tuesday = !this.state.days.tuesday;
-                  this.forceUpdate();
-                }}
-                labelId="tuesday"
-              />
-              <Checkbox
-                disabled={!isRegularly}
-                checked={isRegularly && this.state.days.wednesday}
-                onChange={e => {
-                  this.updateSelectedDays(
-                    e.currentTarget.getAttribute('aria-label'),
-                  );
-                  this.state.days.wednesday = !this.state.days.wednesday;
-                  this.forceUpdate();
-                }}
-                labelId="wednesday"
-              />
-              <Checkbox
-                disabled={!isRegularly}
-                checked={isRegularly && this.state.days.thursday}
-                onChange={e => {
-                  this.updateSelectedDays(
-                    e.currentTarget.getAttribute('aria-label'),
-                  );
-                  this.state.days.thursday = !this.state.days.thursday;
-                  this.forceUpdate();
-                }}
-                labelId="thursday"
-              />
-              <Checkbox
-                disabled={!isRegularly}
-                checked={isRegularly && this.state.days.friday}
-                onChange={e => {
-                  this.updateSelectedDays(
-                    e.currentTarget.getAttribute('aria-label'),
-                  );
-                  this.state.days.friday = !this.state.days.friday;
-                  this.forceUpdate();
-                }}
-                labelId="friday"
-              />
-              <Checkbox
-                disabled={!isRegularly}
-                checked={isRegularly && this.state.days.saturday}
-                onChange={e => {
-                  this.updateSelectedDays(
-                    e.currentTarget.getAttribute('aria-label'),
-                  );
-                  this.state.days.saturday = !this.state.days.saturday;
-                  this.forceUpdate();
-                }}
-                labelId="saturday"
-              />
-              <Checkbox
-                disabled={!isRegularly}
-                checked={isRegularly && this.state.days.sunday}
-                onChange={e => {
-                  this.updateSelectedDays(
-                    e.currentTarget.getAttribute('aria-label'),
-                  );
-                  this.state.days.sunday = !this.state.days.sunday;
-                  this.forceUpdate();
-                }}
-                labelId="sunday"
-              />
+              {this.allWeekdays.map(day => this.renderCheckbox(day, isRegularly))}
             </div>
             <label className="phone-label" htmlFor="phone">
               <FormattedMessage
@@ -390,6 +307,21 @@ export default class CarpoolOffer extends React.Component {
           </form>
         )}
       </div>
+    );
+  }
+
+  renderCheckbox(weekday, isRegularly) {
+    return (
+      <Checkbox
+        disabled={!isRegularly}
+        checked={isRegularly && this.state.days[weekday]}
+        onChange={e => {
+          this.updateSelectedDays(e.currentTarget.getAttribute('aria-label'));
+          this.state.days[weekday] = !this.state.days[weekday];
+          this.forceUpdate();
+        }}
+        labelId={weekday}
+      />
     );
   }
 }
