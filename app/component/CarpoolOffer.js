@@ -140,7 +140,12 @@ export default class CarpoolOffer extends React.Component {
 
   close() {
     this.context.router.goBack();
-    this.setState({ isFinished: false });
+    this.setState({
+      isFinished: false,
+      days: this.allWeekdaysFalse,
+      isRegularly: false,
+      GDPR: false,
+    });
   }
 
   renderSpinner() {
