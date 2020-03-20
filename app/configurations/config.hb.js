@@ -104,7 +104,6 @@ export default configMerger(walttiConfig, {
     carpool: 'CARPOOL',
   },
 
-  textLogo: false,
   logo: 'hb/stadtnavi-logo.svg',
 
   GTMid: '',
