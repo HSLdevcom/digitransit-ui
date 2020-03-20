@@ -348,7 +348,7 @@ export default class CarpoolOffer extends React.Component {
                 type="tel"
                 id="phone"
                 name="phone"
-                placeholder="123/456-78901"
+                placeholder="123-456-78901"
                 pattern="\+?[0-9,\-,(,), ]+"
                 required
                 onChange={this.updatePhoneNumber}

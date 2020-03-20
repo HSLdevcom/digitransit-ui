@@ -74,9 +74,14 @@ input[type='radio'] {
 
 #phone {
   width: 30%;
+  margin-left: 10px;
 }
 
 .carpool-checkbox span {
   position: relative;
   top: -8px;
+}
+
+#phone, .phone-label {
+  display:inline-block;
 }
