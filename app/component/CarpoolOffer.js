@@ -124,9 +124,7 @@ export default class CarpoolOffer extends React.Component {
     if (this.state.isRegularly) {
       // If the offer is recurring, return all the selected days as a string.
       for (let i = 0; i < this.state.selectedDays.length; i++) {
-        departureDay = departureDay
-          .concat(this.state.selectedDays[i])
-          .concat('s, ');
+        departureDay = departureDay.concat(this.state.selectedDays[i]);
       }
       departureDay = departureDay.toLowerCase();
       departureDay =
@@ -138,7 +136,7 @@ export default class CarpoolOffer extends React.Component {
     }
     return departureDay
       .concat(' ')
-      .concat('um') // TODO: translate
+      .concat('um ca.') // TODO: translate
       .concat(' ')
       .concat(departureTime)
       .concat('.');
