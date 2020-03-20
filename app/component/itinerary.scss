@@ -106,10 +106,10 @@ $itinerary-tab-switch-height: 48px;
   flex-direction: column;
   flex-grow: 1;
   padding-top: 15px;
-  transform: scale(1); // start a new z-index context here
+  // transform: scale(1); // start a new z-index context here
 
   div {
-    flex-grow: 1;
+    // flex-grow: 1;
     flex-shrink: 0;
   }
 
@@ -396,7 +396,6 @@ $itinerary-tab-switch-height: 48px;
 }
 
 .zone-ticket-multiple-options {
-
   span + span {
     margin-left: $padding-xsmall;
   }

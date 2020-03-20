@@ -20,3 +20,75 @@
     text-decoration: none;
   }
 }
+
+.carpool-offer-btn {
+  margin: 10px;
+}
+
+.fg_icon {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 20%;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.carpool-offer {
+  white-space: initial;
+  h2 {
+    margin-left: 0px;
+  }
+}
+
+.sidePanelText {
+  font-family: $font-family;
+  margin: 30px;
+  color: black;
+}
+
+.sidePanel-btn:hover {
+  background-color: #666;
+}
+
+.sidePanel-btn {
+  background-color: #9fc727;
+  padding-top: 0.4em;
+  padding-right: 0.7em;
+  padding-bottom: 0.4em;
+  padding-left: 0.7em;
+  border-radius: 20px !important;
+  color: white;
+  border-style: solid;
+  border-width: 0px;
+  width: 120px;
+}
+
+input[type='radio'] {
+  margin-right: 3px;
+}
+
+.radio-label,
+.phone-label {
+  font-family: $font-family;
+  font-size: medium;
+  color: black;
+}
+
+.phone-label {
+  margin-bottom: 20px;
+}
+
+#phone {
+  width: 30%;
+  margin-left: 10px;
+}
+
+.carpool-checkbox span {
+  position: relative;
+  top: -8px;
+}
+
+#phone, .phone-label {
+  display:inline-block;
+}

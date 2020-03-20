@@ -4,7 +4,7 @@ import configMerger from '../util/configMerger';
 const CONFIG = 'hb';
 const APP_TITLE = 'stadtnavi';
 const APP_DESCRIPTION = '';
-const API_URL = process.env.API_URL || 'https://api.mobil-in-herrenberg.de';
+const API_URL = process.env.API_URL || 'https://api.stadtnavi.de';
 const MAP_URL = process.env.MAP_URL || 'https://maps.wikimedia.org/osm-intl/';
 const MAP_KEY = process.env.MAP_KEY || '';
 const GEOCODING_BASE_URL = process.env.GEOCODING_BASE_URL || `https://pelias.locationiq.org/v1`;
@@ -47,7 +47,7 @@ export default configMerger(walttiConfig, {
 
   appBarLink: {
     name: 'Feedback',
-    href: 'https://mobil-in-herrenberg.de/feedback',
+    href: 'https://herrenberg.stadtnavi.de/feedback',
     target: '_blank'
   },
 
@@ -67,9 +67,9 @@ export default configMerger(walttiConfig, {
     description: APP_DESCRIPTION,
 
     image: {
-      url: '/img/default-social-share.png',
-      width: 2400,
-      height: 1260,
+      url: '/img/hb/social-media-card.png',
+      width: 600,
+      height: 300,
     },
 
     twitter: {
