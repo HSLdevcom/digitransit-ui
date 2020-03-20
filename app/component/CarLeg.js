@@ -101,16 +101,8 @@ class CarLeg extends React.Component {
               defaultMessage="Drive {distance} ({duration})}"
             />
             <br />
-            {
-              <ToggleButton
-                className="standalone-btn carpool-offer-btn"
-                title="offer-ride" // tooltip
-                showButtonTitle
-                label="offer-ride" // button text
-                onBtnClick={this.toggleOfferCarpool}
-              />
-            }
-            {CarLeg.createBookButton(this.props.leg)}
+            {CarLeg.showCarpoolButton(this.props.leg)}
+            {CarLeg.createBookButton(this.props.leg, this.toggleOfferCarpool)}
             {carpoolAgencyIcon[1] ? (
               <Icon
                 img={carpoolAgencyIcon[0]}
@@ -210,6 +202,20 @@ CarLeg.createBookButton = leg => {
     );
   }
   return <span />;
+};
+
+CarLeg.showCarpoolButton = (leg, toggleOfferCarpool) => {
+  console.log(leg);
+  if (leg.mode === 'CAR') {
+    return (
+      <ToggleButton
+        className="standalone-btn carpool-offer-btn"
+        showButtonTitle
+        label="offer-ride"
+        onBtnClick={toggleOfferCarpool}
+      />
+    );
+  }
 };
 
 CarLeg.propTypes = {
