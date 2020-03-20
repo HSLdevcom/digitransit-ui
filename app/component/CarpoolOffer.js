@@ -123,13 +123,10 @@ export default class CarpoolOffer extends React.Component {
     const departureTime = new Moment(this.props.start).format('HH:mm');
     if (this.state.isRegularly) {
       // If the offer is recurring, return all the selected days as a string.
-      for (let i = 0; i < this.state.selectedDays.length; i++) {
-        departureDay = departureDay.concat(this.state.selectedDays[i]);
-      }
+      departureDay = this.state.selectedDays.join(', ');
       departureDay = departureDay.toLowerCase();
       departureDay =
         departureDay.charAt(0).toUpperCase() + departureDay.slice(1);
-      departureDay = departureDay.replace(/,(?=[^,]*$)/, '');
     } else {
       // If the offer is one-off, get the date from the epoch time.
       departureDay = new Moment(this.props.start).format('YYYY-MM-DD');
