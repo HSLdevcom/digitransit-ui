@@ -103,7 +103,7 @@ class CarLeg extends React.Component {
             <br />
             {
               <ToggleButton
-                className="standalone-btn"
+                className="standalone-btn carpool-offer-btn"
                 title="offer-ride" // tooltip
                 showButtonTitle
                 label="offer-ride" // button text
