@@ -22,15 +22,20 @@ export default class CarpoolOffer extends React.Component {
     start: PropTypes.number.isRequired,
   };
 
-  allWeekdaysFalse = {
-    monday: false,
-    tuesday: false,
-    wednesday: false,
-    thursday: false,
-    friday: false,
-    saturday: false,
-    sunday: false,
-  };
+  allWeekdays = [
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
+    'saturday',
+    'sunday',
+  ];
+
+  allWeekdaysFalse = this.allWeekdays.reduce((accumulator, curr) => {
+    accumulator[curr] = false;
+    return accumulator;
+  }, {});
 
   constructor(props) {
     super(props);
