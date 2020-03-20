@@ -205,7 +205,6 @@ CarLeg.createBookButton = leg => {
 };
 
 CarLeg.showCarpoolButton = (leg, toggleOfferCarpool) => {
-  console.log(leg);
   if (leg.mode === 'CAR') {
     return (
       <ToggleButton
@@ -216,6 +215,7 @@ CarLeg.showCarpoolButton = (leg, toggleOfferCarpool) => {
       />
     );
   }
+  return <span />;
 };
 
 CarLeg.propTypes = {

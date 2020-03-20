@@ -2,7 +2,7 @@
 import configMerger from '../util/configMerger';
 
 const CONFIG = 'hb';
-const APP_TITLE = 'Mobil in Herrenberg';
+const APP_TITLE = 'stadtnavi';
 const APP_DESCRIPTION = '';
 const API_URL = process.env.API_URL || 'https://api.mobil-in-herrenberg.de';
 const MAP_URL = process.env.MAP_URL || 'https://maps.wikimedia.org/osm-intl/';
@@ -65,6 +65,17 @@ export default configMerger(walttiConfig, {
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
+
+    image: {
+      url: '/img/hb/social-media-card.png',
+      width: 600,
+      height: 300,
+    },
+
+    twitter: {
+      card: 'summary_large_image',
+      site: '@TUGHerrenberg',
+    },
   },
 
   dynamicParkingLots: {
@@ -93,7 +104,9 @@ export default configMerger(walttiConfig, {
     carpool: 'CARPOOL',
   },
 
-  textLogo: true,
+  textLogo: false,
+  logo: 'hb/stadtnavi-logo.svg',
+
   GTMid: '',
 
   timezoneData: 'Europe/Berlin|CET CEST CEMT|-10 -20 -30|01010101010101210101210101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010|-2aFe0 11d0 1iO0 11A0 1o00 11A0 Qrc0 6i00 WM0 1fA0 1cM0 1cM0 1cM0 kL0 Nc0 m10 WM0 1ao0 1cp0 dX0 jz0 Dd0 1io0 17c0 1fA0 1a00 1ehA0 1a00 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1fA0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1fA0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1fA0 1o00 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o 00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00|41e5',
@@ -301,7 +314,14 @@ export default configMerger(walttiConfig, {
       defaultValue: false,
       exclusive: false,
       icon: 'car-withoutBox',
-    }
+    },
+
+    carpool: {
+      availableForSelection: true,
+      defaultValue: false,
+      exclusive: true,
+      icon: 'carpool-withoutBox',
+    },
   },
 
   // adding assets/geoJson/hb-layers layers

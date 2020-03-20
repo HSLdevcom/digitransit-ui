@@ -262,6 +262,9 @@ export const setStreetMode = (
     streetMode,
     isExclusive,
   );
+  if (modesQuery.modes === 'CARPOOL') {
+    modesQuery.modes = modesQuery.modes.concat(',WALK');
+  }
   replaceQueryParams(router, modesQuery);
 };
 

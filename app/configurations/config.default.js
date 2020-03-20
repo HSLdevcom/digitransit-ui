@@ -438,6 +438,13 @@ export default {
       exclusive: false,
       icon: 'car_park-withoutBox',
     },
+
+    carpool: {
+      availableForSelection: false,
+      defaultValue: false,
+      exclusive: true,
+      icon: 'carpool-withoutBox',
+    },
   },
 
   accessibilityOptions: [
