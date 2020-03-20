@@ -1161,6 +1161,7 @@ const translations = {
     'weather-at-destination': 'Weather at the destination',
     wednesday: 'Wednesday',
     yesterday: 'Yesterday',
+    'your-carpool-trip': 'Ihr trip',
     'your-favourites': 'Favorites',
     zone: 'Zone',
     zones: 'Fare zones',
