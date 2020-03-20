@@ -106,21 +106,27 @@ export default class CarpoolOffer extends React.Component {
       headers: new Headers({ 'content-type': 'application/json' }),
       body: JSON.stringify(carpoolOffer),
       // eslint-disable-next-line func-names
-    }).then(response => {
-      if (response.status === 200) {
-        this.setState({ isFinished: true, showSpinner: false });
-      }
-      return response.json();
-    });
+    })
+      .then(response => {
+        if (response.status === 200) {
+          this.setState({ isFinished: true, showSpinner: false });
+        }
+        return response.json();
+      })
+      .then(json => {
+        this.setState({ offerUrl: json.url });
+      });
   };
 
   getOfferedTimes = () => {
     let departureDay = '';
     const departureTime = new Moment(this.props.start).format('HH:mm');
-    if (this.isRegularly) {
+    if (this.state.isRegularly) {
       // If the offer is recurring, return all the selected days as a string.
-      for (let i = 0; i < this.selectedDays.length; i++) {
-        departureDay = departureDay.concat(this.selectedDays[i]).concat('s, ');
+      for (let i = 0; i < this.state.selectedDays.length; i++) {
+        departureDay = departureDay
+          .concat(this.state.selectedDays[i])
+          .concat('s, ');
       }
       departureDay = departureDay.toLowerCase();
       departureDay =
@@ -140,7 +146,12 @@ export default class CarpoolOffer extends React.Component {
 
   close() {
     this.context.router.goBack();
-    this.setState({ isFinished: false });
+    this.setState({
+      isFinished: false,
+      days: this.allWeekdaysFalse,
+      isRegularly: false,
+      GDPR: false,
+    });
   }
 
   renderSpinner() {
@@ -354,14 +365,16 @@ export default class CarpoolOffer extends React.Component {
                 onChange={this.updatePhoneNumber}
               />
             </label>
-            <Checkbox
-              checked={GDPR}
-              onChange={() => {
-                this.setState({ GDPR: !GDPR });
-                this.forceUpdate();
-              }}
-              labelId="accept-carpool-policy"
-            />
+            <div className="carpool-checkbox">
+              <Checkbox
+                checked={GDPR}
+                onChange={() => {
+                  this.setState({ GDPR: !GDPR });
+                  this.forceUpdate();
+                }}
+                labelId="accept-carpool-policy"
+              />
+            </div>
             <button disabled={!GDPR} className="standalone-btn" type="submit">
               <FormattedMessage
                 id="offer-ride"
