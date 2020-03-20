@@ -710,7 +710,6 @@ const translations = {
     'weather-at-destination': 'Wetter am Reiseziel',
     wednesday: 'Mittwoch',
     yesterday: 'Gestern',
-    'your-carpool-offer-url': '', // TODO:
     'your-carpool-trip': 'Ihr Inserat',
     'your-favourites': 'Favoriten',
     zone: 'Tarifzone',
@@ -1162,8 +1161,6 @@ const translations = {
     'weather-at-destination': 'Weather at the destination',
     wednesday: 'Wednesday',
     yesterday: 'Yesterday',
-    'your-carpool-offer-url': 'Link to your offer.',
-    'your-carpool-trip': 'Your trip',
     'your-favourites': 'Favorites',
     zone: 'Zone',
     zones: 'Fare zones',

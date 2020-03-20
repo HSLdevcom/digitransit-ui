@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { intlShape, FormattedMessage } from 'react-intl';
 import Moment from 'moment';
-import { Link, routerShape } from 'react-router';
+import { routerShape } from 'react-router';
 import Icon from './Icon';
 import Checkbox from './Checkbox';
 import logo from '../../static/img/fahrgemeinschaft-de-rund.png';
@@ -20,11 +20,6 @@ export default class CarpoolOffer extends React.Component {
     from: PropTypes.object.isRequired,
     to: PropTypes.object.isRequired,
     start: PropTypes.number.isRequired,
-    lang: PropTypes.string,
-  };
-
-  static defaultProps = {
-    lang: 'en',
   };
 
   allWeekdays = [
@@ -51,12 +46,10 @@ export default class CarpoolOffer extends React.Component {
       days: this.allWeekdaysFalse,
       GDPR: false,
       showSpinner: false,
-      offerUrl: '',
     };
     this.setRegular = this.setRegular.bind(this);
     this.setOnce = this.setOnce.bind(this);
     this.finishForm = this.finishForm.bind(this);
-    this.renderUrl = this.renderUrl.bind(this);
     this.close = this.close.bind(this);
   }
 
@@ -166,21 +159,6 @@ export default class CarpoolOffer extends React.Component {
     });
   }
 
-  renderUrl() {
-    const { offerUrl } = this.state;
-
-    // TODO: update props.lang
-    const finalUrl = offerUrl.replace('{lang}', this.props.lang);
-    return (
-      <Link to={finalUrl} onlyActiveOnIndex>
-        <FormattedMessage
-          id="your-carpool-offer-url"
-          defaultMessage="Link to your offer."
-        />
-      </Link>
-    );
-  }
-
   renderSpinner() {
     if (this.state.showSpinner) {
       return <Loading />;
@@ -229,7 +207,6 @@ export default class CarpoolOffer extends React.Component {
               <br />
               {offeredTimes}
             </p>
-            <p>{this.renderUrl()}</p>
             <button
               type="submit"
               className="sidePanel-btn"
@@ -293,9 +270,7 @@ export default class CarpoolOffer extends React.Component {
               </div>
             </p>
             <div className="carpool-checkbox">
-              {this.allWeekdays.map(day =>
-                this.renderCheckbox(day, isRegularly),
-              )}
+              {this.allWeekdays.map(day => this.renderCheckbox(day, isRegularly))}
             </div>
             <label className="phone-label" htmlFor="phone">
               <FormattedMessage
