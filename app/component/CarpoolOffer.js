@@ -41,11 +41,10 @@ export default class CarpoolOffer extends React.Component {
     super(props);
     this.state = {
       isRegularly: false,
-      isFinished: false,
       selectedDays: [],
       days: this.allWeekdaysFalse,
       GDPR: false,
-      showSpinner: false,
+      formState: 'initial',
     };
     this.setRegular = this.setRegular.bind(this);
     this.setOnce = this.setOnce.bind(this);
@@ -105,7 +104,7 @@ export default class CarpoolOffer extends React.Component {
       );
     }
 
-    this.setState({ showSpinner: true });
+    this.setState({ formState: 'sending' });
     fetch('/carpool-offers', {
       method: 'POST',
       headers: new Headers({ 'content-type': 'application/json' }),
@@ -114,7 +113,7 @@ export default class CarpoolOffer extends React.Component {
     })
       .then(response => {
         if (response.status === 200) {
-          this.setState({ isFinished: true, showSpinner: false });
+          this.setState({ formState: 'success' });
         }
         return response.json();
       })
@@ -152,161 +151,11 @@ export default class CarpoolOffer extends React.Component {
   close() {
     this.context.router.goBack();
     this.setState({
-      isFinished: false,
+      formState: 'initial',
       days: this.allWeekdaysFalse,
       isRegularly: false,
       GDPR: false,
     });
-  }
-
-  renderSpinner() {
-    if (this.state.showSpinner) {
-      return <Loading />;
-    }
-    return '';
-  }
-
-  render() {
-    const origin = this.props.from.name;
-    const destination = this.props.to.name;
-    const departure = new Moment(this.props.start).format('HH:mm');
-    const { onToggleClick } = this.props;
-    const offeredTimes = this.getOfferedTimes();
-    const { isFinished, isRegularly } = this.state;
-    const { GDPR } = this.state;
-
-    return (
-      <div className="customize-search carpool-offer">
-        <button className="close-offcanvas" onClick={onToggleClick}>
-          <Icon className="close-icon" img="icon-icon_close" />
-        </button>
-        <img alt="Fahrgemeinschaft.de" className="fg_icon" src={logo} />
-        {isFinished ? (
-          <div className="sidePanelText">
-            <h2>
-              <FormattedMessage id="thank-you" defaultMessage="Thank you" />
-            </h2>
-            <p>
-              <FormattedMessage
-                id="carpool-offer-success"
-                values={{ origin, destination }}
-                defaultMessage="Your offer from {origin} to {destination} was added."
-              />
-              <br />
-              {isRegularly ? (
-                <FormattedMessage
-                  id="chosen-times-recurring"
-                  defaultMessage="You've set the following times and days:"
-                />
-              ) : (
-                <FormattedMessage
-                  id="chosen-times-once"
-                  defaultMessage="You've set the following time:"
-                />
-              )}
-              <br />
-              {offeredTimes}
-            </p>
-            <button
-              type="submit"
-              className="sidePanel-btn"
-              onClick={this.close}
-            >
-              <FormattedMessage id="close" defaultMessage="Close" />
-            </button>
-          </div>
-        ) : (
-          <form onSubmit={this.finishForm} className="sidePanelText">
-            <h2>
-              <FormattedMessage
-                id="your-carpool-trip"
-                defaultMessage="Your trip"
-              />
-            </h2>
-            <p>
-              <b>
-                <FormattedMessage id="origin" defaultMessage="Origin" />
-              </b>
-              : {origin} <FormattedMessage id="at-time" defaultMessage="at" />{' '}
-              {departure}
-              <br />
-              <b>
-                <FormattedMessage
-                  id="destination"
-                  defaultMessage="Destination"
-                />
-              </b>
-              : {destination}
-            </p>
-            <p>
-              <FormattedMessage
-                id="add-carpool-offer-frequency"
-                defaultMessage="How often do you want to add the offer?"
-              />
-              <div>
-                <label className="radio-label" htmlFor="once">
-                  <input
-                    onChange={this.setOnce}
-                    type="radio"
-                    id="once"
-                    value="once"
-                    name="times"
-                    defaultChecked
-                  />
-                  <FormattedMessage id="once" defaultMessage="once" />
-                </label>
-              </div>
-              <div>
-                <label className="radio-label" htmlFor="regularly">
-                  <input
-                    onChange={this.setRegular}
-                    type="radio"
-                    id="regularly"
-                    value="regularly"
-                    name="times"
-                  />
-                  <FormattedMessage id="recurring" defaultMessage="recurring" />
-                </label>
-              </div>
-            </p>
-            <div className="carpool-checkbox">
-              {this.allWeekdays.map(day => this.renderCheckbox(day, isRegularly))}
-            </div>
-            <label className="phone-label" htmlFor="phone">
-              <FormattedMessage
-                id="add-phone-number"
-                defaultMessage="Add your phone number"
-              />
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                placeholder="123-456-78901"
-                pattern="\+?[0-9,\-,(,), ]+"
-                required
-                onChange={this.updatePhoneNumber}
-              />
-            </label>
-            <div className="carpool-checkbox">
-              <Checkbox
-                checked={GDPR}
-                onChange={() => {
-                  this.setState({ GDPR: !GDPR });
-                }}
-                labelId="accept-carpool-policy"
-              />
-            </div>
-            <button disabled={!GDPR} className="standalone-btn" type="submit">
-              <FormattedMessage
-                id="offer-ride"
-                defaultMessage="Offer carpool"
-              />
-            </button>
-            {this.renderSpinner()}
-          </form>
-        )}
-      </div>
-    );
   }
 
   renderCheckbox(weekday, isRegularly) {
@@ -324,6 +173,160 @@ export default class CarpoolOffer extends React.Component {
         }}
         labelId={weekday}
       />
+    );
+  }
+
+  renderSuccessMessage() {
+    const origin = this.props.from.name;
+    const destination = this.props.to.name;
+    const offeredTimes = this.getOfferedTimes();
+    const { isRegularly } = this.state;
+
+    return (
+      <div className="sidePanelText">
+        <h2>
+          <FormattedMessage id="thank-you" defaultMessage="Thank you" />
+        </h2>
+        <p>
+          <FormattedMessage
+            id="carpool-offer-success"
+            values={{ origin, destination }}
+            defaultMessage="Your offer from {origin} to {destination} was added."
+          />
+          <br />
+          {isRegularly ? (
+            <FormattedMessage
+              id="chosen-times-recurring"
+              defaultMessage="You've set the following times and days:"
+            />
+          ) : (
+            <FormattedMessage
+              id="chosen-times-once"
+              defaultMessage="You've set the following time:"
+            />
+          )}
+          <br />
+          {offeredTimes}
+        </p>
+        <button type="submit" className="sidePanel-btn" onClick={this.close}>
+          <FormattedMessage id="close" defaultMessage="Close" />
+        </button>
+      </div>
+    );
+  }
+
+  renderForm() {
+    const origin = this.props.from.name;
+    const destination = this.props.to.name;
+    const departure = new Moment(this.props.start).format('HH:mm');
+    const { GDPR, isRegularly } = this.state;
+
+    return (
+      <form onSubmit={this.finishForm} className="sidePanelText">
+        <h2>
+          <FormattedMessage id="your-carpool-trip" defaultMessage="Your trip" />
+        </h2>
+        <p>
+          <b>
+            <FormattedMessage id="origin" defaultMessage="Origin" />
+          </b>
+          : {origin} <FormattedMessage id="at-time" defaultMessage="at" />{' '}
+          {departure}
+          <br />
+          <b>
+            <FormattedMessage id="destination" defaultMessage="Destination" />
+          </b>
+          : {destination}
+        </p>
+        <p>
+          <FormattedMessage
+            id="add-carpool-offer-frequency"
+            defaultMessage="How often do you want to add the offer?"
+          />
+          <div>
+            <label className="radio-label" htmlFor="once">
+              <input
+                onChange={this.setOnce}
+                type="radio"
+                id="once"
+                value="once"
+                name="times"
+                defaultChecked
+              />
+              <FormattedMessage id="once" defaultMessage="once" />
+            </label>
+          </div>
+          <div>
+            <label className="radio-label" htmlFor="regularly">
+              <input
+                onChange={this.setRegular}
+                type="radio"
+                id="regularly"
+                value="regularly"
+                name="times"
+              />
+              <FormattedMessage id="recurring" defaultMessage="recurring" />
+            </label>
+          </div>
+        </p>
+        <div className="carpool-checkbox">
+          {this.allWeekdays.map(day => this.renderCheckbox(day, isRegularly))}
+        </div>
+        <label className="phone-label" htmlFor="phone">
+          <FormattedMessage
+            id="add-phone-number"
+            defaultMessage="Add your phone number"
+          />
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            placeholder="123-456-78901"
+            pattern="\+?[0-9,\-,(,), ]+"
+            required
+            onChange={this.updatePhoneNumber}
+          />
+        </label>
+        <div className="carpool-checkbox">
+          <Checkbox
+            checked={GDPR}
+            onChange={() => {
+              this.setState({ GDPR: !GDPR });
+            }}
+            labelId="accept-carpool-policy"
+          />
+        </div>
+        <button disabled={!GDPR} className="standalone-btn" type="submit">
+          <FormattedMessage id="offer-ride" defaultMessage="Offer carpool" />
+        </button>
+      </form>
+    );
+  }
+
+  renderBody() {
+    const { formState } = this.state;
+    if (formState === 'initial') {
+      return this.renderForm();
+    }
+    if (formState === 'sending') {
+      return <Loading />;
+    }
+    if (formState === 'success') {
+      return this.renderSuccessMessage();
+    }
+  }
+
+  render() {
+    const { onToggleClick } = this.props;
+
+    return (
+      <div className="customize-search carpool-offer">
+        <button className="close-offcanvas" onClick={onToggleClick}>
+          <Icon className="close-icon" img="icon-icon_close" />
+        </button>
+        <img alt="Fahrgemeinschaft.de" className="fg_icon" src={logo} />
+        {this.renderBody()}
+      </div>
     );
   }
 }
