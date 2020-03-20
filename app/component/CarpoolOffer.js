@@ -270,7 +270,9 @@ export default class CarpoolOffer extends React.Component {
               </div>
             </p>
             <div className="carpool-checkbox">
-              {this.allWeekdays.map(day => this.renderCheckbox(day, isRegularly))}
+              {this.allWeekdays.map(day =>
+                this.renderCheckbox(day, isRegularly),
+              )}
             </div>
             <label className="phone-label" htmlFor="phone">
               <FormattedMessage
