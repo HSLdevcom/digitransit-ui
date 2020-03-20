@@ -47,7 +47,7 @@ export default configMerger(walttiConfig, {
 
   appBarLink: {
     name: 'Feedback',
-    href: 'https://herrenberg.stadtnavi.de/feedback',
+    href: 'https://www.stadtnavi.de/feedback',
     target: '_blank'
   },
 
