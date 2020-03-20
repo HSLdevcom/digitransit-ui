@@ -34,8 +34,11 @@
   margin-bottom: 30px;
 }
 
-.carpool-offer h2 {
-  margin-left: 0px;
+.carpool-offer {
+  white-space: initial;
+  h2 {
+    margin-left: 0px;
+  }
 }
 
 .sidePanelText {

@@ -294,7 +294,6 @@ export default class CarpoolOffer extends React.Component {
                 checked={GDPR}
                 onChange={() => {
                   this.setState({ GDPR: !GDPR });
-                  this.forceUpdate();
                 }}
                 labelId="accept-carpool-policy"
               />
@@ -319,8 +318,11 @@ export default class CarpoolOffer extends React.Component {
         checked={isRegularly && this.state.days[weekday]}
         onChange={e => {
           this.updateSelectedDays(e.currentTarget.getAttribute('aria-label'));
-          this.state.days[weekday] = !this.state.days[weekday];
-          this.forceUpdate();
+          this.setState(prevState => {
+            // eslint-disable-next-line no-param-reassign
+            prevState.days[weekday] = !prevState.days[weekday];
+            return prevState;
+          });
         }}
         labelId={weekday}
       />
