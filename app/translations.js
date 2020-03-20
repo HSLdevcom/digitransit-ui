@@ -720,7 +720,7 @@ const translations = {
   en: {
     'about-this-service': 'About the service',
     'accept-carpool-policy':
-      'I have read and understand the terms of use and policy.',
+      'I have read and understand the terms of use and privacy policy.',
     accessibility: 'Accessibility',
     'accessibility-limited': 'Wheelchair',
     'accessibility-nolimit': 'No limits',
