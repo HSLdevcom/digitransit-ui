@@ -101,8 +101,8 @@ class CarLeg extends React.Component {
               defaultMessage="Drive {distance} ({duration})}"
             />
             <br />
-            {CarLeg.showCarpoolButton(this.props.leg)}
-            {CarLeg.createBookButton(this.props.leg, this.toggleOfferCarpool)}
+            {CarLeg.showCarpoolButton(this.props.leg, this.toggleOfferCarpool)}
+            {CarLeg.createBookButton(this.props.leg)}
             {carpoolAgencyIcon[1] ? (
               <Icon
                 img={carpoolAgencyIcon[0]}
