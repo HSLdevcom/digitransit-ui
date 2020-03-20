@@ -328,7 +328,7 @@ const translations = {
     'chosen-times-once':
       'Sie haben für den folgendes Datum und Uhrzeit inseriert:',
     'chosen-times-recurring':
-      'Sie haben für folgende Zeit und Wochentage inseriert:',
+      'Sie haben für folgende Zeit und Tage inseriert:',
     citybike: 'Fahrrad',
     'citybike-distance-duration': 'Fahrrad {distance} ({duration})',
     'citybike-network-headers': 'Citybikes und Scooter',

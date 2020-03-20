@@ -67,9 +67,9 @@ export default configMerger(walttiConfig, {
     description: APP_DESCRIPTION,
 
     image: {
-      url: '/img/default-social-share.png',
-      width: 2400,
-      height: 1260,
+      url: '/img/hb/social-media-card.png',
+      width: 600,
+      height: 300,
     },
 
     twitter: {
