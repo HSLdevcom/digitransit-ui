@@ -264,7 +264,7 @@ const translations = {
   de: {
     'about-this-service': 'Über diesen Service',
     'accept-carpool-policy':
-      'Ich habe die <a href="{policyUrl}">Datenschutzbestimmungen</a> und die <a href="{termsUrl}">AGB</a> gelesen und erkläre mich einverstanden.',
+      'Ich habe die <a href="{policyUrl}" target="_blank">Datenschutzbestimmungen</a> und die <a href="{termsUrl}" target="_blank">AGB</a> gelesen und erkläre mich einverstanden.',
     accessibility: 'Barrierefreiheit',
     'accessibility-limited': 'Rollstuhlgerecht',
     'accessibility-nolimit': 'Keine Einschränkungen',
@@ -329,7 +329,8 @@ const translations = {
     'choose-stop': 'Haltestelle auswählen',
     'chosen-times-once':
       'Sie haben für den folgendes Datum und Uhrzeit inseriert: ',
-    'chosen-times-recurring': 'Sie haben für folgende Zeit und Tage inseriert: ',
+    'chosen-times-recurring':
+      'Sie haben für folgende Zeit und Tage inseriert: ',
     citybike: 'Fahrrad',
     'citybike-distance-duration': 'Fahrrad {distance} ({duration})',
     'citybike-network-headers': 'Citybikes und Scooter',
@@ -723,7 +724,7 @@ const translations = {
   en: {
     'about-this-service': 'About the service',
     'accept-carpool-policy':
-      'I have read and agreed to the privacy <a href="{policyUrl}">policy</a> and <a href="{termsUrl}">terms of use</a>.',
+      'I have read and agreed to the privacy <a href="{policyUrl}" targe="_blank">policy</a> and <a href="{termsUrl}" target="_blank">terms of use</a>.',
     accessibility: 'Accessibility',
     'accessibility-limited': 'Wheelchair',
     'accessibility-nolimit': 'No limits',
