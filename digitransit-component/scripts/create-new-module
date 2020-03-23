@@ -66,10 +66,11 @@ writeFileSync(join(folderPath, 'package.json'), `{
     "access": "public"
   },
   "scripts": {
-    "build:babel": "babel index.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-proposal-class-properties --out-file index.generated",
+    "build:index": "babel index.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-proposal-class-properties --out-file index.generated",
     "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-proposal-class-properties --out-file test.generated",
     "test": "mocha -r esm test.generated",
-    "docs": "node -r esm ../../scripts/generate-readmes"
+    "docs": "node -r esm ../../scripts/generate-readmes",
+    "publish": "yarn publish --access public"
   },
   "repository": {
     "type": "git",

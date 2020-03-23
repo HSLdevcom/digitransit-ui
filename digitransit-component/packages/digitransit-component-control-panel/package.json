@@ -1,17 +1,17 @@
 {
   "name": "@digitransit-component/digitransit-component-control-panel",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "digitransit-component control-panel module",
   "main": "index.generated",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build:babel": "babel index.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-proposal-class-properties --out-file index.generated",
+    "build:index": "babel index.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-proposal-class-properties --out-file index.generated",
     "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-proposal-class-properties --out-file test.generated",
     "test": "mocha -r esm test.generated",
     "docs": "node -r esm ../../scripts/generate-readmes",
-    "publish": "yarn login && yarn publish --access public"
+    "publish": "yarn publish --access public"
   },
   "repository": {
     "type": "git",

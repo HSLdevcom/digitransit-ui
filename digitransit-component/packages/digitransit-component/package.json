@@ -12,9 +12,9 @@
   "scripts": {
     "test": "mocha -r esm test.js",
     "docs": "node -r esm ../../scripts/generate-readmes",
-    "publish": "yarn login && yarn publish --access public"
+    "publish": "yarn publish --access public"
   },
   "dependencies": {
-    "@digitransit-component/digitransit-component-control-panel": "^0.0.2"
+    "@digitransit-component/digitransit-component-control-panel": "^0.0.3"
   }
 }

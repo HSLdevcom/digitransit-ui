@@ -10,7 +10,7 @@ configure({ adapter: new Adapter() });
 
 describe('Testing @digitransit-component/digitransit-component-control-panel module', () => {
   const wrapper = shallow(
-    <CtrlPanel instance="hsl" language="fi" position="left">
+    <CtrlPanel language="fi" position="left">
       <CtrlPanel.OriginToDestination showTitle />
       <CtrlPanel.SeparatorLine />
       <CtrlPanel.NearStopsAndRoutes

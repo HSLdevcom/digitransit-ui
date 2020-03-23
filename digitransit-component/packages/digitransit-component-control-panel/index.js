@@ -138,7 +138,7 @@ Icon.defaultProps = {
  * CtrlPanel gathers multiple components to same area (desktop-size: left or mobile-size: bottom)
  *
  * @example
- * <CtrlPanel instance="hsl" language="fi" position="left">
+ * <CtrlPanel language="fi" position="left">
  *    <CtrlPanel.OriginToDestination showTitle />
  *    <CtrlPanel.SeparatorLine />
  *    <CtrlPanel.NearStopsAndRoutes
@@ -156,28 +156,8 @@ class CtrlPanel extends React.Component {
 
   static validTypes = [NearStopsAndRoutes, SeparatorLine, OriginToDestination];
 
-  static validInstances = [
-    'default',
-    'hameenlinna',
-    'hsl',
-    'joensuu',
-    'jyvaskyla',
-    'kotka',
-    'kouvola',
-    'lahti',
-    'lappeenranta',
-    'matka',
-    'mikkeli',
-    'oulu',
-    'rovaniemi',
-    'salo',
-    'tampere',
-    'turku',
-  ];
-
   static propTypes = {
     children: PropTypes.node,
-    instance: PropTypes.string.isRequired,
     language: PropTypes.string.isRequired,
     position: PropTypes.string.isRequired,
   };
@@ -187,31 +167,28 @@ class CtrlPanel extends React.Component {
   };
 
   render() {
-    if (CtrlPanel.validInstances.includes(this.props.instance)) {
-      let style = getStyleMain();
-      if (this.props.position === 'bottom') {
-        style = getStyleMainBottom();
-      }
-      const children = React.Children.map(this.props.children, child => {
-        if (!CtrlPanel.validTypes.includes(child.type)) {
-          console.error('invalid child of CtrlPanel:', child.type);
-        }
-        let lang = this.props.language;
-        if (lang === undefined) {
-          lang = 'fi';
-        }
-        i18next.changeLanguage(lang);
-        return React.cloneElement(child, { language: lang });
-      });
-      return (
-        <Fragment>
-          <div key="main" style={style}>
-            {children}
-          </div>
-        </Fragment>
-      );
+    let style = getStyleMain();
+    if (this.props.position === 'bottom') {
+      style = getStyleMainBottom();
     }
-    return <div>Not a valid instance: {this.props.instance}</div>;
+    const children = React.Children.map(this.props.children, child => {
+      if (!CtrlPanel.validTypes.includes(child.type)) {
+        console.error('invalid child of CtrlPanel:', child.type);
+      }
+      let lang = this.props.language;
+      if (lang === undefined) {
+        lang = 'fi';
+      }
+      i18next.changeLanguage(lang);
+      return React.cloneElement(child, { language: lang });
+    });
+    return (
+      <Fragment>
+        <div key="main" style={style}>
+          {children}
+        </div>
+      </Fragment>
+    );
   }
 }
 

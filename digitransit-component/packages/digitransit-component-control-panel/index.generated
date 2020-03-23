@@ -171,7 +171,7 @@ Icon.defaultProps = {
  * CtrlPanel gathers multiple components to same area (desktop-size: left or mobile-size: bottom)
  *
  * @example
- * <CtrlPanel instance="hsl" language="fi" position="left">
+ * <CtrlPanel language="fi" position="left">
  *    <CtrlPanel.OriginToDestination showTitle />
  *    <CtrlPanel.SeparatorLine />
  *    <CtrlPanel.NearStopsAndRoutes
@@ -195,38 +195,34 @@ var CtrlPanel = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this = this;
 
-      if (CtrlPanel.validInstances.includes(this.props.instance)) {
-        var style = (0, _styles.getStyleMain)();
+      var style = (0, _styles.getStyleMain)();
 
-        if (this.props.position === 'bottom') {
-          style = (0, _styles.getStyleMainBottom)();
-        }
-
-        var children = _react.default.Children.map(this.props.children, function (child) {
-          if (!CtrlPanel.validTypes.includes(child.type)) {
-            console.error('invalid child of CtrlPanel:', child.type);
-          }
-
-          var lang = _this.props.language;
-
-          if (lang === undefined) {
-            lang = 'fi';
-          }
-
-          _i18next.default.changeLanguage(lang);
-
-          return _react.default.cloneElement(child, {
-            language: lang
-          });
-        });
-
-        return _react.default.createElement(_react.Fragment, null, _react.default.createElement("div", {
-          key: "main",
-          style: style
-        }, children));
+      if (this.props.position === 'bottom') {
+        style = (0, _styles.getStyleMainBottom)();
       }
 
-      return _react.default.createElement("div", null, "Not a valid instance: ", this.props.instance);
+      var children = _react.default.Children.map(this.props.children, function (child) {
+        if (!CtrlPanel.validTypes.includes(child.type)) {
+          console.error('invalid child of CtrlPanel:', child.type);
+        }
+
+        var lang = _this.props.language;
+
+        if (lang === undefined) {
+          lang = 'fi';
+        }
+
+        _i18next.default.changeLanguage(lang);
+
+        return _react.default.cloneElement(child, {
+          language: lang
+        });
+      });
+
+      return _react.default.createElement(_react.Fragment, null, _react.default.createElement("div", {
+        key: "main",
+        style: style
+      }, children));
     }
   }]);
 
@@ -241,11 +237,8 @@ _defineProperty(CtrlPanel, "SeparatorLine", SeparatorLine);
 
 _defineProperty(CtrlPanel, "validTypes", [NearStopsAndRoutes, SeparatorLine, OriginToDestination]);
 
-_defineProperty(CtrlPanel, "validInstances", ['default', 'hameenlinna', 'hsl', 'joensuu', 'jyvaskyla', 'kotka', 'kouvola', 'lahti', 'lappeenranta', 'matka', 'mikkeli', 'oulu', 'rovaniemi', 'salo', 'tampere', 'turku']);
-
 _defineProperty(CtrlPanel, "propTypes", {
   children: _propTypes.default.node,
-  instance: _propTypes.default.string.isRequired,
   language: _propTypes.default.string.isRequired,
   position: _propTypes.default.string.isRequired
 });

@@ -11,7 +11,7 @@ CtrlPanel gathers multiple components to same area (desktop-size: left or mobile
 ### Examples
 
 ```javascript
-<CtrlPanel instance="hsl" language="fi" position="left">
+<CtrlPanel language="fi" position="left">
    <CtrlPanel.OriginToDestination showTitle />
    <CtrlPanel.SeparatorLine />
    <CtrlPanel.NearStopsAndRoutes

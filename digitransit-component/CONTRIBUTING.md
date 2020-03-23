@@ -59,7 +59,7 @@ Babel is a toolchain that is mainly used to convert ECMAScript 2015+ code into a
 
 Navigate to the component's directory and run
 ```
-$ yarn build:babel && yarn build:test
+$ yarn build:index && yarn build:test
 ```
 it will create two files. 
 

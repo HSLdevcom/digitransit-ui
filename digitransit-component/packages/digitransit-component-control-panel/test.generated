@@ -20,7 +20,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 });
 (0, _mocha.describe)('Testing @digitransit-component/digitransit-component-control-panel module', function () {
   var wrapper = (0, _enzyme.shallow)(_react.default.createElement(_.default, {
-    instance: "hsl",
     language: "fi",
     position: "left"
   }, _react.default.createElement(_.default.OriginToDestination, {
