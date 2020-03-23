@@ -322,7 +322,8 @@ const translations = {
     'carpool-distance-duration': 'Mitfahren {distance} ({duration})',
     'carpool-offer-success':
       'Ihr Inserat von {origin} nach {destination} wurde eingestellt.',
-    'carpool-success-info': 'Ihr Inserat wird nach Ablauf der Zeit jedoch spätestens nach drei Monaten (bei regelmäßigen Fahrten) gelöscht.',
+    'carpool-success-info':
+      'Ihr Inserat wird nach Ablauf der Zeit jedoch spätestens nach drei Monaten (bei regelmäßigen Fahrten) gelöscht.',
     cause: 'Grund',
     'char-left': 'Zeichen',
     'choose-stop': 'Haltestelle auswählen',
@@ -780,7 +781,8 @@ const translations = {
     'carpool-distance-duration': 'Carpool {distance} ({duration})',
     'carpool-offer-success':
       'Your offer from {origin} to {destination} was added.',
-    'carpool-success-info': 'Your offer will be deleted after the day of the ride. Regular ones will be removed after three months.',
+    'carpool-success-info':
+      'Your offer will be deleted after the day of the ride. Regular ones will be removed after three months.',
     cause: 'cause',
     'char-left': 'characters',
     'choose-stop': 'Select stop',
@@ -984,7 +986,7 @@ const translations = {
     'parking-spaces-available': '{free} of {total} parking spaces available',
     'parking-spaces-in-total': '{total} parking spaces',
     'pay-attention': 'N.B.',
-    'phone-number-info': 'This will be shown to people interested in the ride.', 
+    'phone-number-info': 'This will be shown to people interested in the ride.',
     'pick-icon': 'Select icon',
     'pick-mode': 'Select a transport mode',
     'place-route-or-keyword': 'Destination, route or stop',

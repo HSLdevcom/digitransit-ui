@@ -193,7 +193,8 @@ export default class CarpoolOffer extends React.Component {
           )}
           <br />
           {departureDay} <FormattedMessage id="at-time" defaultMessage="at" />{' '}
-          {departureTime}<FormattedMessage id="time-oclock" defaultMessage="." />
+          {departureTime}
+          <FormattedMessage id="time-oclock" defaultMessage="." />
           <br />
           <FormattedMessage
             id="carpool-success-info"
