@@ -173,34 +173,36 @@ export default class CarpoolOffer extends React.Component {
         <h2>
           <FormattedMessage id="thank-you" defaultMessage="Thank you!" />
         </h2>
-        <p>
-          <FormattedMessage
-            id="carpool-offer-success"
-            values={{ origin, destination }}
-            defaultMessage="Your offer from {origin} to {destination} was added."
-          />
-          <br />
-          {isRegularly ? (
+        <div>
+          <p>
             <FormattedMessage
-              id="chosen-times-recurring"
-              defaultMessage="You've set the following times and days:"
+              id="carpool-offer-success"
+              values={{ origin, destination }}
+              defaultMessage="Your offer from {origin} to {destination} was added."
             />
-          ) : (
+          </p>
+          <p>
+            {isRegularly ? (
+              <FormattedMessage
+                id="chosen-times-recurring"
+                defaultMessage="You've set the following times and days: "
+              />
+            ) : (
+              <FormattedMessage
+                id="chosen-times-once"
+                defaultMessage="You've set the following time: "
+              />
+            )}
+            {departureDay} <FormattedMessage id="at-time" defaultMessage="at" />{' '}
+            {departureTime}.
+          </p>
+          <p>
             <FormattedMessage
-              id="chosen-times-once"
-              defaultMessage="You've set the following time:"
+              id="carpool-success-info"
+              defaultMessage="Your offer will be deleted after the day of the ride. Regular ones will be removed after three months."
             />
-          )}
-          <br />
-          {departureDay} <FormattedMessage id="at-time" defaultMessage="at" />{' '}
-          {departureTime}
-          <FormattedMessage id="time-oclock" defaultMessage="." />
-          <br />
-          <FormattedMessage
-            id="carpool-success-info"
-            defaultMessage="Your offer will be deleted after the day of the ride. Regular ones will be removed after three months."
-          />
-        </p>
+          </p>
+        </div>
         <button type="submit" className="sidePanel-btn" onClick={this.close}>
           <FormattedMessage id="close" defaultMessage="Close" />
         </button>
