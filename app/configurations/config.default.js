@@ -283,6 +283,7 @@ export default {
   },
 
   appBarLink: { name: 'Digitransit', href: 'https://www.digitransit.fi/' },
+  appBarStyle: 'default', // DT-3375
 
   colors: {
     primary: '#00AFFF',

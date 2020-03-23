@@ -77,6 +77,7 @@ export default {
   sprites: 'assets/svg-sprite.hsl.svg',
 
   appBarLink: { name: 'HSL.fi', href: 'https://www.hsl.fi/' },
+  appBarStyle: 'hsl', // DT-3375
 
   nationalServiceLink: { name: 'matka.fi', href: 'https://opas.matka.fi/' },
 
