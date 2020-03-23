@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { intlShape, FormattedMessage } from 'react-intl';
+import { intlShape, FormattedMessage, FormattedHTMLMessage } from 'react-intl';
 import Moment from 'moment';
 import { routerShape } from 'react-router';
 import Icon from './Icon';
@@ -214,6 +214,9 @@ export default class CarpoolOffer extends React.Component {
     const departure = new Moment(this.props.start).format('LT');
     const { GDPR, isRegularly } = this.state;
 
+    const policyUrl = 'https://www.fahrgemeinschaft.de/datenschutz.php';
+    const termsUrl = 'https://www.fahrgemeinschaft.de/rules.php';
+
     return (
       <form onSubmit={this.finishForm} className="sidePanelText">
         <h2>
@@ -291,7 +294,11 @@ export default class CarpoolOffer extends React.Component {
             onChange={() => {
               this.setState({ GDPR: !GDPR });
             }}
-            labelId="accept-carpool-policy"
+          />
+          <FormattedHTMLMessage
+            id="accept-carpool-policy"
+            values={{ policyUrl, termsUrl }}
+            defaultMessage=""
           />
         </div>
         <button disabled={!GDPR} className="standalone-btn" type="submit">
