@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { intlShape, FormattedMessage } from 'react-intl';
+import { intlShape, FormattedMessage, FormattedHTMLMessage } from 'react-intl';
 import Moment from 'moment';
 import { routerShape } from 'react-router';
 import Icon from './Icon';
@@ -120,7 +120,7 @@ export default class CarpoolOffer extends React.Component {
 
   getOfferedTimes = () => {
     let departureDay = '';
-    const departureTime = new Moment(this.props.start).format('HH:mm');
+    const departureTime = new Moment(this.props.start).format('LT');
     if (this.state.isRegularly) {
       // If the offer is recurring, return all the selected days as a string.
       departureDay = this.state.selectedDays.join(', ');
@@ -129,14 +129,9 @@ export default class CarpoolOffer extends React.Component {
         departureDay.charAt(0).toUpperCase() + departureDay.slice(1);
     } else {
       // If the offer is one-off, get the date from the epoch time.
-      departureDay = new Moment(this.props.start).format('YYYY-MM-DD');
+      departureDay = new Moment(this.props.start).format('L');
     }
-    return departureDay
-      .concat(' ')
-      .concat('um ca.') // TODO: translate
-      .concat(' ')
-      .concat(departureTime)
-      .concat('.');
+    return { departureDay, departureTime };
   };
 
   close() {
@@ -170,35 +165,44 @@ export default class CarpoolOffer extends React.Component {
   renderSuccessMessage() {
     const origin = this.props.from.name;
     const destination = this.props.to.name;
-    const offeredTimes = this.getOfferedTimes();
+    const { departureDay, departureTime } = this.getOfferedTimes();
     const { isRegularly } = this.state;
 
     return (
       <div className="sidePanelText">
         <h2>
-          <FormattedMessage id="thank-you" defaultMessage="Thank you" />
+          <FormattedMessage id="thank-you" defaultMessage="Thank you!" />
         </h2>
-        <p>
-          <FormattedMessage
-            id="carpool-offer-success"
-            values={{ origin, destination }}
-            defaultMessage="Your offer from {origin} to {destination} was added."
-          />
-          <br />
-          {isRegularly ? (
+        <div>
+          <p>
             <FormattedMessage
-              id="chosen-times-recurring"
-              defaultMessage="You've set the following times and days:"
+              id="carpool-offer-success"
+              values={{ origin, destination }}
+              defaultMessage="Your offer from {origin} to {destination} was added."
             />
-          ) : (
+          </p>
+          <p>
+            {isRegularly ? (
+              <FormattedMessage
+                id="chosen-times-recurring"
+                defaultMessage="You've set the following times and days: "
+              />
+            ) : (
+              <FormattedMessage
+                id="chosen-times-once"
+                defaultMessage="You've set the following time: "
+              />
+            )}
+            {departureDay} <FormattedMessage id="at-time" defaultMessage="at" />{' '}
+            {departureTime}.
+          </p>
+          <p>
             <FormattedMessage
-              id="chosen-times-once"
-              defaultMessage="You've set the following time:"
+              id="carpool-success-info"
+              defaultMessage="Your offer will be deleted after the day of the ride. Regular ones will be removed after three months."
             />
-          )}
-          <br />
-          {offeredTimes}
-        </p>
+          </p>
+        </div>
         <button type="submit" className="sidePanel-btn" onClick={this.close}>
           <FormattedMessage id="close" defaultMessage="Close" />
         </button>
@@ -209,8 +213,11 @@ export default class CarpoolOffer extends React.Component {
   renderForm() {
     const origin = this.props.from.name;
     const destination = this.props.to.name;
-    const departure = new Moment(this.props.start).format('HH:mm');
+    const departure = new Moment(this.props.start).format('LT');
     const { GDPR, isRegularly } = this.state;
+
+    const policyUrl = 'https://www.fahrgemeinschaft.de/datenschutz.php';
+    const termsUrl = 'https://www.fahrgemeinschaft.de/rules.php';
 
     return (
       <form onSubmit={this.finishForm} className="sidePanelText">
@@ -222,7 +229,7 @@ export default class CarpoolOffer extends React.Component {
             <FormattedMessage id="origin" defaultMessage="Origin" />
           </b>
           : {origin} <FormattedMessage id="at-time" defaultMessage="at" />{' '}
-          {departure}
+          {departure} <FormattedMessage id="time-oclock" defaultMessage=" " />
           <br />
           <b>
             <FormattedMessage id="destination" defaultMessage="Destination" />
@@ -277,14 +284,23 @@ export default class CarpoolOffer extends React.Component {
             required
             onChange={this.updatePhoneNumber}
           />
+          <br />
+          <FormattedMessage
+            id="phone-number-info"
+            defaultMessage="This will be shown to people interested in the ride."
+          />
         </label>
-        <div className="carpool-checkbox">
+        <div className="gdpr-checkbox">
           <Checkbox
             checked={GDPR}
             onChange={() => {
               this.setState({ GDPR: !GDPR });
             }}
-            labelId="accept-carpool-policy"
+          />
+          <FormattedHTMLMessage
+            id="accept-carpool-policy"
+            values={{ policyUrl, termsUrl }}
+            defaultMessage=""
           />
         </div>
         <button disabled={!GDPR} className="standalone-btn" type="submit">

@@ -38,6 +38,10 @@
   white-space: initial;
   h2 {
     margin-left: 0px;
+    color: black;
+  }
+  p {
+    color: black;
   }
 }
 
@@ -85,6 +89,12 @@ input[type='radio'] {
 }
 
 .carpool-checkbox span {
+  position: relative;
+  top: -8px;
+}
+
+.gdpr-checkbox span {
+  margin-left: 30px;
   position: relative;
   top: -8px;
 }

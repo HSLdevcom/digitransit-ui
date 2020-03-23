@@ -264,7 +264,7 @@ const translations = {
   de: {
     'about-this-service': 'Über diesen Service',
     'accept-carpool-policy':
-      'Ich habe die Datenschutzbestimmungen gelesen und erkläre mich einverstanden.',
+      'Ich habe die <a href="{policyUrl}" target="_blank">Datenschutzbestimmungen</a> und die <a href="{termsUrl}" target="_blank">AGB</a> gelesen und erkläre mich einverstanden.',
     accessibility: 'Barrierefreiheit',
     'accessibility-limited': 'Rollstuhlgerecht',
     'accessibility-nolimit': 'Keine Einschränkungen',
@@ -322,12 +322,15 @@ const translations = {
     'carpool-distance-duration': 'Mitfahren {distance} ({duration})',
     'carpool-offer-success':
       'Ihr Inserat von {origin} nach {destination} wurde eingestellt.',
+    'carpool-success-info':
+      'Ihr Inserat wird nach Ablauf der Zeit jedoch spätestens nach drei Monaten (bei regelmäßigen Fahrten) gelöscht.',
     cause: 'Grund',
     'char-left': 'Zeichen',
     'choose-stop': 'Haltestelle auswählen',
     'chosen-times-once':
-      'Sie haben für den folgendes Datum und Uhrzeit inseriert:',
-    'chosen-times-recurring': 'Sie haben für folgende Zeit und Tage inseriert:',
+      'Sie haben für den folgendes Datum und Uhrzeit inseriert: ',
+    'chosen-times-recurring':
+      'Sie haben für folgende Zeit und Tage inseriert: ',
     citybike: 'Fahrrad',
     'citybike-distance-duration': 'Fahrrad {distance} ({duration})',
     'citybike-network-headers': 'Citybikes und Scooter',
@@ -527,6 +530,7 @@ const translations = {
     'parking-spaces-available': '{free} von {total} Stellplätzen verfügbar',
     'parking-spaces-in-total': '{total} Stellplätze',
     'pay-attention': 'Achtung',
+    'phone-number-info': 'Diese wird Interessenten angezeigt.',
     'pick-icon': 'Icon auswählen',
     'pick-mode': 'Verkehrsmittel auswählen',
     'place-route-or-keyword': 'Adresse oder Haltestelle',
@@ -656,13 +660,14 @@ const translations = {
     'terminal-page.title': 'Terminal',
     'terminal-page.title-short': 'Terminal - {name}',
     'terms-of-use': 'Nutzungsbedingungen',
-    'thank-you': 'Vielen Dank',
+    'thank-you': 'Vielen Dank!',
     thursday: 'Donnerstags',
     'ticket-and-price-info': 'Ticket- und Preisinformation',
     'ticket-single-adult': 'Erwachsener',
     'ticket-type-none': 'Keine Tarifzonenbeschränkung',
     tickets: 'Fahrkarten',
     time: 'Zeit',
+    'time-oclock': ' Uhr.',
     'time-selector-hours-label': 'Stunde',
     'time-selector-minutes-label': 'Minute',
     timetable: 'Fahrplan',
@@ -719,7 +724,7 @@ const translations = {
   en: {
     'about-this-service': 'About the service',
     'accept-carpool-policy':
-      'I have read and understand the terms of use and privacy policy.',
+      'I have read and agreed to the privacy <a href="{policyUrl}" targe="_blank">policy</a> and <a href="{termsUrl}" target="_blank">terms of use</a>.',
     accessibility: 'Accessibility',
     'accessibility-limited': 'Wheelchair',
     'accessibility-nolimit': 'No limits',
@@ -777,11 +782,13 @@ const translations = {
     'carpool-distance-duration': 'Carpool {distance} ({duration})',
     'carpool-offer-success':
       'Your offer from {origin} to {destination} was added.',
+    'carpool-success-info':
+      'Your offer will be deleted after the day of the ride. Regular ones will be removed after three months.',
     cause: 'cause',
     'char-left': 'characters',
     'choose-stop': 'Select stop',
-    'chosen-times-once': "You've set the following time:",
-    'chosen-times-recurring': "You've set the following times and days:",
+    'chosen-times-once': "You've set the following time: ",
+    'chosen-times-recurring': "You've set the following times and days: ",
     citybike: 'City bike',
     'citybike-distance-duration': 'Bike {distance} ({duration})',
     'citybike-network-headers': 'Citybikes and scooters',
@@ -980,6 +987,7 @@ const translations = {
     'parking-spaces-available': '{free} of {total} parking spaces available',
     'parking-spaces-in-total': '{total} parking spaces',
     'pay-attention': 'N.B.',
+    'phone-number-info': 'This will be shown to people interested in the ride.',
     'pick-icon': 'Select icon',
     'pick-mode': 'Select a transport mode',
     'place-route-or-keyword': 'Destination, route or stop',
@@ -1108,7 +1116,7 @@ const translations = {
     'terminal-page.title': 'Terminal {name}',
     'terminal-page.title-short': 'Terminal',
     'terms-of-use': 'Terms of Use',
-    'thank-you': 'Thank you',
+    'thank-you': 'Thank you!',
     thursday: 'Thursdays',
     'ticket-and-price-info': 'Ticket and price information',
     'ticket-single-adult': 'Adult',
