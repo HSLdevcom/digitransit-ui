@@ -176,7 +176,7 @@ export default class CarpoolOffer extends React.Component {
     return (
       <div className="sidePanelText">
         <h2>
-          <FormattedMessage id="thank-you" defaultMessage="Thank you" />
+          <FormattedMessage id="thank-you" defaultMessage="Thank you!" />
         </h2>
         <p>
           <FormattedMessage
@@ -198,6 +198,11 @@ export default class CarpoolOffer extends React.Component {
           )}
           <br />
           {offeredTimes}
+          <br />
+          <FormattedMessage
+            id="carpool-success-info"
+            defaultMessage="Your offer will be deleted after the day of the ride. Regular ones will be removed after three months."
+          />
         </p>
         <button type="submit" className="sidePanel-btn" onClick={this.close}>
           <FormattedMessage id="close" defaultMessage="Close" />
@@ -276,6 +281,11 @@ export default class CarpoolOffer extends React.Component {
             pattern="\+?[0-9,\-,(,),/, ]+"
             required
             onChange={this.updatePhoneNumber}
+          />
+          <br />
+          <FormattedMessage
+            id="phone-number-info"
+            defaultMessage="This will be shown to people interested in the ride."
           />
         </label>
         <div className="carpool-checkbox">
