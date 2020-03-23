@@ -120,7 +120,7 @@ export default class CarpoolOffer extends React.Component {
 
   getOfferedTimes = () => {
     let departureDay = '';
-    const departureTime = new Moment(this.props.start).format('HH:mm');
+    const departureTime = new Moment(this.props.start).format('LT');
     if (this.state.isRegularly) {
       // If the offer is recurring, return all the selected days as a string.
       departureDay = this.state.selectedDays.join(', ');
@@ -131,12 +131,7 @@ export default class CarpoolOffer extends React.Component {
       // If the offer is one-off, get the date from the epoch time.
       departureDay = new Moment(this.props.start).format('L');
     }
-    return departureDay
-      .concat(' ')
-      .concat('um ca.') // TODO: translate
-      .concat(' ')
-      .concat(departureTime)
-      .concat('.');
+    return { departureDay, departureTime };
   };
 
   close() {
@@ -170,7 +165,7 @@ export default class CarpoolOffer extends React.Component {
   renderSuccessMessage() {
     const origin = this.props.from.name;
     const destination = this.props.to.name;
-    const offeredTimes = this.getOfferedTimes();
+    const { departureDay, departureTime } = this.getOfferedTimes();
     const { isRegularly } = this.state;
 
     return (
@@ -197,7 +192,8 @@ export default class CarpoolOffer extends React.Component {
             />
           )}
           <br />
-          {offeredTimes}
+          {departureDay} <FormattedMessage id="at-time" defaultMessage="at" />{' '}
+          {departureTime}<FormattedMessage id="time-oclock" defaultMessage="." />
           <br />
           <FormattedMessage
             id="carpool-success-info"
@@ -214,7 +210,7 @@ export default class CarpoolOffer extends React.Component {
   renderForm() {
     const origin = this.props.from.name;
     const destination = this.props.to.name;
-    const departure = new Moment(this.props.start).format('HH:mm');
+    const departure = new Moment(this.props.start).format('LT');
     const { GDPR, isRegularly } = this.state;
 
     return (
@@ -227,7 +223,7 @@ export default class CarpoolOffer extends React.Component {
             <FormattedMessage id="origin" defaultMessage="Origin" />
           </b>
           : {origin} <FormattedMessage id="at-time" defaultMessage="at" />{' '}
-          {departure}
+          {departure} <FormattedMessage id="time-oclock" defaultMessage=" " />
           <br />
           <b>
             <FormattedMessage id="destination" defaultMessage="Destination" />

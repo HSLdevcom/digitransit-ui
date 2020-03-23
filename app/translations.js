@@ -665,6 +665,7 @@ const translations = {
     'ticket-type-none': 'Keine Tarifzonenbeschränkung',
     tickets: 'Fahrkarten',
     time: 'Zeit',
+    'time-oclock': ' Uhr.',
     'time-selector-hours-label': 'Stunde',
     'time-selector-minutes-label': 'Minute',
     timetable: 'Fahrplan',
