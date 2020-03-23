@@ -54,7 +54,7 @@ const AppBarContainer = ({
       desktop={() => {
         if (style === 'hsl') {
           return (
-            <div className="top-bar bp-large flex-horizontal">
+            <div className="top-bar">
               <span
                 style={{
                   color: '#ffffff',
