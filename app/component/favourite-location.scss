@@ -173,7 +173,7 @@
 }
 
 .fav-location-nav-button-container-left {
-  position: absolute;
+  position: absolute !important;
   top: 0px;
   left: 0px;
   height:100%;
@@ -183,7 +183,7 @@
 }
 
 .fav-location-nav-button-container-right {
-  position: absolute;
+  position: absolute !important;
   top: 0px;
   right: 0px;
   height:100%;

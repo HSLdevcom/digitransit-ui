@@ -13,6 +13,7 @@ import { addFavourite, deleteFavourite } from '../action/FavouriteActions';
 import { isStop, isTerminal } from '../util/suggestionUtils';
 import DTAutoSuggest from './DTAutosuggest';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import searchContext from './searchContext';
 
 class AddFavouriteContainer extends React.Component {
   static FavouriteIconIds = [
@@ -216,6 +217,7 @@ class AddFavouriteContainer extends React.Component {
                 value={favourite.address || ''}
                 layers={favouriteLayers}
                 onLocationSelected={this.setLocationProperties}
+                searchContext={searchContext}
                 showSpinner
               />
             </div>
@@ -291,10 +293,10 @@ class AddFavouriteContainer extends React.Component {
 const AddFavouriteContainerWithFavourite = connectToStores(
   AddFavouriteContainer,
   ['FavouriteStore'],
-  context => ({
+  (context, props) => ({
     favourite: context
       .getStore('FavouriteStore')
-      .getByFavouriteId(context.match.location.params.id),
+      .getByFavouriteId(props.match.params.id),
   }),
 );
 
