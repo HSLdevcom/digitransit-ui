@@ -8,8 +8,7 @@ import { isStop, isTerminal } from '../util/suggestionUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const FavouriteLocation = ({ favourite, className, clickFavourite, key }) => {
-  const { name, favouriteId, selectedIconId } = favourite;
-
+  const { name, favouriteId, lat, lon, selectedIconId } = favourite;
   const favouriteType =
     (isStop(favourite) || isTerminal(favourite)) && favourite.gtfsId
       ? 'pysakki'
@@ -21,7 +20,7 @@ const FavouriteLocation = ({ favourite, className, clickFavourite, key }) => {
       key={key}
       data-swipeable="true"
       className={cx('favourite-location-content', className)}
-      onClick={clickFavourite}
+      onClick={() => clickFavourite(name, lat, lon)}
     >
       <div className="favourite-location-arrival">
         <Icon className="favourite-location-icon" img={selectedIconId} />
@@ -48,10 +47,10 @@ const FavouriteLocation = ({ favourite, className, clickFavourite, key }) => {
 };
 
 FavouriteLocation.propTypes = {
-  favourite: PropTypes.object,
-  clickFavourite: PropTypes.func,
+  favourite: PropTypes.object.isRequired,
+  clickFavourite: PropTypes.func.isRequired,
+  key: PropTypes.string.isRequired,
   className: PropTypes.string,
-  key: PropTypes.string,
 };
 
 FavouriteLocation.displayName = 'FavouriteLocation';

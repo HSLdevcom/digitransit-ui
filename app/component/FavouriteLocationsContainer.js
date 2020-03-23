@@ -103,12 +103,11 @@ export default class FavouriteLocationsContainer extends React.Component {
     }
 
     const favourite = this.props.favourites[index];
-
     return (
       <FavouriteLocation
-        key={`favourite-${key}`}
+        key={key}
         favourite={favourite}
-        onClickFavourite={this.setDestination}
+        clickFavourite={this.setDestination}
         currentTime={this.props.currentTime}
       />
     );

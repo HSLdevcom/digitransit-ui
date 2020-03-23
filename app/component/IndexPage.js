@@ -131,7 +131,14 @@ class IndexPage extends React.Component {
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     const { config, intl } = this.context;
-    const { breakpoint, destination, origin, router, match } = this.props;
+    const {
+      breakpoint,
+      destination,
+      origin,
+      router,
+      match,
+      favourites,
+    } = this.props;
     const { mapExpanded } = this.state;
     // DT-3381 TODO: DTEndpointAutoSuggest currently does not search for stops or stations, as it should be. SearchUtils needs refactoring.
     return breakpoint === 'large' ? (
@@ -172,7 +179,10 @@ class IndexPage extends React.Component {
           />
           <div className="fpcfloat">
             <div className="frontpage-panel">
-              <FavouriteLocationsContainer favourites={this.props.favourites} />
+              <FavouriteLocationsContainer
+                origin={origin}
+                favourites={favourites}
+              />
             </div>
           </div>
           <div className="control-panel-separator-line" />
