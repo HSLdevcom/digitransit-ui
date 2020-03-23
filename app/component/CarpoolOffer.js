@@ -288,7 +288,7 @@ export default class CarpoolOffer extends React.Component {
             defaultMessage="This will be shown to people interested in the ride."
           />
         </label>
-        <div className="carpool-checkbox">
+        <div className="gdpr-checkbox">
           <Checkbox
             checked={GDPR}
             onChange={() => {
