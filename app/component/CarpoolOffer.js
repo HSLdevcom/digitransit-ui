@@ -129,7 +129,7 @@ export default class CarpoolOffer extends React.Component {
         departureDay.charAt(0).toUpperCase() + departureDay.slice(1);
     } else {
       // If the offer is one-off, get the date from the epoch time.
-      departureDay = new Moment(this.props.start).format('YYYY-MM-DD');
+      departureDay = new Moment(this.props.start).format('DD-MM-YYYY');
     }
     return departureDay
       .concat(' ')
