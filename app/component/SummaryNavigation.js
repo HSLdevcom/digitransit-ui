@@ -6,9 +6,7 @@ import { matchShape, routerShape } from 'found';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import OriginDestinationBar from './OriginDestinationBar';
 import QuickSettingsPanel from './QuickSettingsPanel';
-import StreetModeSelectorPanel from './StreetModeSelectorPanel';
 import { getDrawerWidth, isBrowser } from '../util/browser';
-import * as ModeUtils from '../util/modeUtils';
 import { parseLocation } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -105,31 +103,7 @@ class SummaryNavigation extends React.Component {
     }
   };
 
-  renderStreetModeSelector = (config, router, match) => (
-    <div className="street-mode-selector-panel-container">
-      <StreetModeSelectorPanel
-        selectedStreetMode={ModeUtils.getStreetMode(match.location, config)}
-        selectStreetMode={(streetMode, isExclusive) => {
-          ModeUtils.setStreetMode(
-            streetMode,
-            config,
-            router,
-            match,
-            isExclusive,
-          );
-          addAnalyticsEvent({
-            action: 'SelectTravelingModeFromQuickSettings',
-            category: 'ItinerarySettings',
-            name: streetMode,
-          });
-        }}
-        streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
-      />
-    </div>
-  );
-
   render() {
-    const { config, router, match } = this.context;
     const className = cx({ 'bp-large': this.props.breakpoint === 'large' });
     const isOpen = this.getOffcanvasState();
 
@@ -142,8 +116,6 @@ class SummaryNavigation extends React.Component {
         />
         {isBrowser && (
           <React.Fragment>
-            {this.renderStreetModeSelector(config, router, match)}
-            <div className={cx('quicksettings-separator-line')} />
             <QuickSettingsPanel
               timeSelectorStartTime={this.props.startTime}
               timeSelectorEndTime={this.props.endTime}
