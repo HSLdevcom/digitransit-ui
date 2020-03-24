@@ -1,13 +1,68 @@
 .favourite-button-shared {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
+  align-items: center;
   text-align: center;
   border-radius: $border-radius;
   border: 1px solid $medium-gray;
   cursor: pointer;
   padding: $padding-xxsmall 0;
   height: 100%;
+}
+
+.new-favourite-location-content {
+  @extend .favourite-button-shared;
+  padding: $padding-small;
+  // width: 10rem;
+  // height: 3rem;
+  // Use old sizes below until further design
+  line-height: 1.5;
+  position: relative;
+  min-height: 65px;
+  width: 95%;
+
+  .favourite-location-icon {
+    color: #007ac9;
+    vertical-align: middle;
+    font-size: 1.2em;
+  }
+
+  .favourite-location {
+    width: 7.5rem;
+    flex-direction: row;
+    padding-left: 0.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: start;
+
+    .favourite-location-name {
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .favourite-location-address {
+      font-size: 11px;
+      font-weight: 400;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  // .favourite-edit-icon-link {
+  //   position: relative;
+  //   width: 12px;
+  //   height: 12px;
+  //   top: -20px;
+  //   // right: 0;
+  //   // bottom: 0;
+
+  //   .favourite-edit-icon {
+  //     color: $light-gray;
+  //     font-size: 10px;
+  //   }
+  // }
 }
 
 .favourite-edit-icon-click-area {

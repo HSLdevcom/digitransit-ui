@@ -8,7 +8,7 @@ import { isStop, isTerminal } from '../util/suggestionUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const FavouriteLocation = ({ favourite, className, clickFavourite, key }) => {
-  const { name, favouriteId, lat, lon, selectedIconId } = favourite;
+  const { name, favouriteId, lat, lon, selectedIconId, address } = favourite;
   const favouriteType =
     (isStop(favourite) || isTerminal(favourite)) && favourite.gtfsId
       ? 'pysakki'
@@ -19,12 +19,13 @@ const FavouriteLocation = ({ favourite, className, clickFavourite, key }) => {
     <div
       key={key}
       data-swipeable="true"
-      className={cx('favourite-location-content', className)}
+      className={cx('new-favourite-location-content', className)}
       onClick={() => clickFavourite(name, lat, lon)}
     >
-      <div className="favourite-location-arrival">
-        <Icon className="favourite-location-icon" img={selectedIconId} />
+      <Icon className="favourite-location-icon" img={selectedIconId} />
+      <div className="favourite-location">
         <div className="favourite-location-name">{name}</div>
+        <div className="favourite-location-address">{address}</div>
       </div>
       <Link
         onClick={e => {
