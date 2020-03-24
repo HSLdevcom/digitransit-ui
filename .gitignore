@@ -21,3 +21,4 @@ tags
 coverage
 sessions/
 run*.sh
+app/**/__generated__
