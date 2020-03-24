@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
-import cx from 'classnames';
-import { matchShape, routerShape } from 'found';
+import { routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
 import isEqual from 'lodash/isEqual';
@@ -13,10 +12,10 @@ import {
   checkPositioningPermission,
 } from '../action/PositionActions';
 import storeOrigin from '../action/originActions';
+import storeDestination from '../action/destinationActions';
 import ControlPanel from './ControlPanel';
 import DTAutoSuggest from './DTAutosuggest';
 import DTAutosuggestPanel from './DTAutosuggestPanel';
-import MapWithTracking from './map/MapWithTracking';
 import PageFooter from './PageFooter';
 import { isBrowser } from '../util/browser';
 import searchContext from './searchContext';
@@ -27,14 +26,8 @@ import {
 } from '../util/path';
 import OverlayWithSpinner from './visual/OverlayWithSpinner';
 import { dtLocationShape } from '../util/shapes';
-import Icon from './Icon';
-import SelectMapLayersDialog from './SelectMapLayersDialog';
-import SelectStreetModeDialog from './SelectStreetModeDialog';
-import events from '../util/events';
-import * as ModeUtils from '../util/modeUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
 import intializeSearchContext from './DTSearchContextInitializer';
 import scrollTop from '../util/scroll';
 import FavouriteLocationsContainer from './FavouriteLocationsContainer';
@@ -50,7 +43,6 @@ class IndexPage extends React.Component {
   };
 
   static propTypes = {
-    match: matchShape.isRequired,
     router: routerShape.isRequired,
     autoSetOrigin: PropTypes.bool,
     breakpoint: PropTypes.string.isRequired,
@@ -66,9 +58,6 @@ class IndexPage extends React.Component {
 
   constructor(props, context) {
     super(props);
-    this.state = {
-      mapExpanded: false, // Show right-now as default
-    };
     if (this.props.autoSetOrigin) {
       context.executeAction(storeOrigin, props.origin);
     }
@@ -76,12 +65,7 @@ class IndexPage extends React.Component {
 
   componentDidMount() {
     intializeSearchContext(this.context, searchContext);
-    events.on('popupOpened', this.onPopupOpen);
     scrollTop();
-  }
-
-  componentWillUnmount() {
-    events.removeListener('popupOpened', this.onPopupOpen);
   }
 
   // eslint-disable-next-line camelcase
@@ -89,14 +73,13 @@ class IndexPage extends React.Component {
     this.handleLocationProps(nextProps);
   };
 
-  onPopupOpen = () => {
-    this.setState({ mapExpanded: true });
-  };
-
   /* eslint-disable no-param-reassign */
   handleLocationProps = nextProps => {
     if (!isEqual(nextProps.origin, this.props.origin)) {
       this.context.executeAction(storeOrigin, nextProps.origin);
+    }
+    if (!isEqual(nextProps.destination, this.props.destination)) {
+      this.context.executeAction(storeDestination, nextProps.destination);
     }
 
     if (isItinerarySearchObjects(nextProps.origin, nextProps.destination)) {
@@ -111,35 +94,11 @@ class IndexPage extends React.Component {
     }
   };
 
-  renderStreetModeSelector = (config, router, match) => (
-    <SelectStreetModeDialog
-      selectedStreetMode={ModeUtils.getStreetMode(match.location, config)}
-      selectStreetMode={(streetMode, isExclusive) => {
-        addAnalyticsEvent({
-          category: 'ItinerarySettings',
-          action: 'SelectTravelingModeFromIndexPage',
-          name: streetMode,
-        });
-        ModeUtils.setStreetMode(streetMode, config, router, match, isExclusive);
-      }}
-      streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
-    />
-  );
-
-  renderMapLayerSelector = () => <SelectMapLayersDialog />;
-
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     const { config, intl } = this.context;
-    const {
-      breakpoint,
-      destination,
-      origin,
-      router,
-      match,
-      favourites,
-    } = this.props;
-    const { mapExpanded } = this.state;
+    const { breakpoint, destination, origin, favourites } = this.props;
+
     // DT-3381 TODO: DTEndpointAutoSuggest currently does not search for stops or stations, as it should be. SearchUtils needs refactoring.
     return breakpoint === 'large' ? (
       <div
@@ -149,21 +108,6 @@ class IndexPage extends React.Component {
           origin.gpsError === false &&
           `blurred`} fullscreen bp-${breakpoint}`}
       >
-        <div className="front-page-map-wrapper">
-          <MapWithTracking
-            breakpoint={breakpoint}
-            showStops
-            showScaleBar
-            origin={origin}
-            destination={destination}
-            renderCustomButtons={() => (
-              <React.Fragment>
-                {this.renderStreetModeSelector(config, router, match)}
-                {this.renderMapLayerSelector()}
-              </React.Fragment>
-            )}
-          />
-        </div>
         <ControlPanel className="control-panel-container-left">
           <DTAutosuggestPanel
             searchPanelText={intl.formatMessage({
@@ -224,42 +168,9 @@ class IndexPage extends React.Component {
           origin.gps === true &&
           origin.ready === false &&
           origin.gpsError === false &&
-          `blurred`} fullscreen bp-${breakpoint}`}
+          `blurred`} bp-${breakpoint}`}
       >
-        <div
-          className={cx('flex-grow', 'map-container', {
-            expanded: mapExpanded,
-          })}
-        >
-          <MapWithTracking
-            breakpoint={breakpoint}
-            showStops
-            origin={origin}
-            destination={destination}
-            renderCustomButtons={() => (
-              <React.Fragment>
-                {this.renderStreetModeSelector(config, router, match)}
-                {this.renderMapLayerSelector()}
-              </React.Fragment>
-            )}
-          >
-            {(this.props.showSpinner && <OverlayWithSpinner />) || null}
-          </MapWithTracking>
-        </div>
-        <div style={{ position: 'relative' }}>
-          <div
-            className={cx('fullscreen-toggle', {
-              expanded: mapExpanded,
-            })}
-            onClick={this.togglePanelExpanded}
-          >
-            {mapExpanded ? (
-              <Icon img="icon-icon_minimize" className="cursor-pointer" />
-            ) : (
-              <Icon img="icon-icon_maximize" className="cursor-pointer" />
-            )}
-          </div>
-        </div>
+        {(this.props.showSpinner && <OverlayWithSpinner />) || null}
         <ControlPanel className="control-panel-container-bottom">
           <DTAutosuggestPanel
             searchPanelText={intl.formatMessage({
