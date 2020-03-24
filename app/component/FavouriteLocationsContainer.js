@@ -151,7 +151,7 @@ export default class FavouriteLocationsContainer extends React.Component {
     displayLeft = !isMobile && displayLeft;
     displayRight = !isMobile && displayRight;
 
-    /* eslint-disable anchor-is-valid click-events-have-key-events no-static-element-interactions */
+    /* eslint-disable anchor-is-valid, jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
     return (
       <div style={{ position: 'relative' }}>
         <div className={`${fadeClass}`}>
@@ -172,24 +172,24 @@ export default class FavouriteLocationsContainer extends React.Component {
           </div>
         </div>
         {displayLeft && (
-          <button
-            className="fav-location-nav-button-container-left noborder"
+          <div
+            className="fav-location-nav-button-container-left cursor-pointer"
             onClick={this.onPrev}
           >
             <span className="fav-location-nav-button">
               <Icon img="icon-icon_arrow-collapse--left" />
             </span>
-          </button>
+          </div>
         )}
         {displayRight && (
-          <button
-            className="fav-location-nav-button-container-right noborder"
+          <div
+            className="fav-location-nav-button-container-right cursor-pointer"
             onClick={this.onNext}
           >
             <span className="fav-location-nav-button">
               <Icon img="icon-icon_arrow-collapse--right" />
             </span>
-          </button>
+          </div>
         )}
       </div>
     );
