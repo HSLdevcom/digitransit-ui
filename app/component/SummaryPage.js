@@ -7,7 +7,7 @@ import get from 'lodash/get';
 import sortBy from 'lodash/sortBy';
 import polyline from 'polyline-encoded';
 import { FormattedMessage } from 'react-intl';
-import { matchShape } from 'found';
+import { matchShape, routerShape } from 'found';
 import isEqual from 'lodash/isEqual';
 import storeOrigin from '../action/originActions';
 import DesktopView from './DesktopView';
@@ -19,7 +19,6 @@ import ItineraryLine from './map/ItineraryLine';
 import LocationMarker from './map/LocationMarker';
 import MobileItineraryWrapper from './MobileItineraryWrapper';
 import Loading from './Loading';
-import { getHomeUrl } from '../util/path';
 import { getIntermediatePlaces } from '../util/queryUtils';
 import { validateServiceTimeRange } from '../util/timeUtils';
 import withBreakpoint from '../util/withBreakpoint';
@@ -97,6 +96,7 @@ class SummaryPage extends React.Component {
     executeAction: PropTypes.func.isRequired,
     headers: PropTypes.object.isRequired,
     getStore: PropTypes.func,
+    router: routerShape.isRequired, // DT-3358
   };
 
   static propTypes = {
@@ -365,7 +365,6 @@ class SummaryPage extends React.Component {
               defaultMessage="Itinerary suggestions"
             />
           }
-          homeUrl={getHomeUrl(match.params.from, match.params.to)}
           header={
             <SummaryNavigation
               params={match.params}
@@ -377,6 +376,7 @@ class SummaryPage extends React.Component {
           content={content}
           map={map}
           scrollable
+          bckBtnColor={this.context.config.colors.primary}
         />
       );
     }
@@ -439,7 +439,6 @@ class SummaryPage extends React.Component {
             false
           )
         }
-        homeUrl={getHomeUrl(match.params.from, match.params.to)}
         content={content}
         map={map}
       />
