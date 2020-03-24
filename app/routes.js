@@ -28,46 +28,6 @@ export const render = createRender({});
 export default config => {
   return (
     <Route Component={TopLevel}>
-      <Route path="/" topBarOptions={{ disableBackButton: true }}>
-        {{
-          title: (
-            <Route
-              getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/Title').then(
-                  getDefault,
-                )
-              }
-            />
-          ),
-          content: (
-            <Route
-              getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/IndexPage').then(
-                  getDefault,
-                )
-              }
-            />
-          ),
-          meta: (
-            <Route
-              getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/IndexPageMeta').then(
-                  getDefault,
-                )
-              }
-            />
-          ),
-          map: (
-            <Route
-              getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/map/IndexPageMap.js').then(
-                  getDefault,
-                )
-              }
-            />
-          ),
-        }}
-      </Route>
       {getStopRoutes()}
       {getStopRoutes(true) /* terminals */}
       {routeRoutes}
@@ -299,7 +259,7 @@ export default config => {
       <Route path="/js/:name" Component={Error404} />
       <Route path="/css/:name" Component={Error404} />
       <Route path="/assets/:name" Component={Error404} />
-      <Route path="/:from/:to" topBarOptions={{ disableBackButton: true }}>
+      <Route path="/:from?/:to?" topBarOptions={{ disableBackButton: true }}>
         {{
           title: (
             <Route
