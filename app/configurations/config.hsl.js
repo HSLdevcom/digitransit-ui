@@ -534,5 +534,4 @@ export default {
       },
     },
   },
-  showLogin: true,
 };
