@@ -774,5 +774,5 @@ export default {
   },
 
   timetables: {},
-  showLogin: false,
+  showLogin: !!process.env.OIDC_CLIENT_ID,
 };

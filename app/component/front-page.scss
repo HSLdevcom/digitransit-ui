@@ -93,11 +93,8 @@ $heading-color: #858585;
 }
 
 .fpcfloat {
-  height: 100%;
   display: flex;
   flex-direction: column;
-  box-shadow: 1.5px 2.6px 10px 0 rgba(0, 0, 0, 0.2);
-  border-radius: $border-radius-bigger;
 
   .frontpage-panel.nearby-routes {
     background: #fff;
@@ -107,7 +104,6 @@ $heading-color: #858585;
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
-    padding-bottom: $border-radius-bigger;
     overflow: hidden;
     background: $white;
     border-bottom-right-radius: $border-radius-bigger;
@@ -306,7 +302,7 @@ $heading-color: #858585;
   margin: 0 auto;
   margin-left: 1em;
   margin-right: 1em;
-  margin-top: 5em;
+  margin-top: 1em;
   border-top: 1px solid #ddd;
   background: $background-color-lighter;
 }
@@ -510,10 +506,6 @@ svg.icon.footer-icon {
 
 .favourites {
   background: $white;
-}
-
-.favourite-locations-container {
-  background: #eef1f3;
 }
 
 .userinfo-wrapper {

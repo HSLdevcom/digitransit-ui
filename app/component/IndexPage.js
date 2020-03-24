@@ -37,6 +37,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import intializeSearchContext from './DTSearchContextInitializer';
 import scrollTop from '../util/scroll';
+import FavouriteLocationsContainer from './FavouriteLocationsContainer';
 
 const debug = d('IndexPage.js');
 
@@ -56,6 +57,7 @@ class IndexPage extends React.Component {
     origin: dtLocationShape.isRequired,
     destination: dtLocationShape.isRequired,
     showSpinner: PropTypes.bool.isRequired,
+    favourites: PropTypes.array,
   };
 
   static defaultProps = {
@@ -129,9 +131,15 @@ class IndexPage extends React.Component {
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     const { config, intl } = this.context;
-    const { breakpoint, destination, origin, router, match } = this.props;
+    const {
+      breakpoint,
+      destination,
+      origin,
+      router,
+      match,
+      favourites,
+    } = this.props;
     const { mapExpanded } = this.state;
-
     // DT-3381 TODO: DTEndpointAutoSuggest currently does not search for stops or stations, as it should be. SearchUtils needs refactoring.
     return breakpoint === 'large' ? (
       <div
@@ -169,6 +177,14 @@ class IndexPage extends React.Component {
             destinationPlaceHolder="search-destination-index"
             searchContext={searchContext}
           />
+          <div className="fpcfloat">
+            <div className="frontpage-panel">
+              <FavouriteLocationsContainer
+                origin={origin}
+                favourites={favourites}
+              />
+            </div>
+          </div>
           <div className="control-panel-separator-line" />
           <div className="stops-near-you-text">
             <span>
@@ -257,6 +273,11 @@ class IndexPage extends React.Component {
             destinationPlaceHolder="search-destination"
             searchContext={searchContext}
           />
+          <div className="fpcfloat">
+            <div className="frontpage-panel">
+              <FavouriteLocationsContainer favourites={this.props.favourites} />
+            </div>
+          </div>
           <div className="control-panel-separator-line" />
           <div className="stops-near-you-text">
             <span>
@@ -297,7 +318,8 @@ const Index = shouldUpdate(
       isEqual(nextProps.breakpoint, props.breakpoint) &&
       isEqual(nextProps.lang, props.lang) &&
       isEqual(nextProps.locationState, props.locationState) &&
-      isEqual(nextProps.showSpinner, props.showSpinner)
+      isEqual(nextProps.showSpinner, props.showSpinner) &&
+      isEqual(nextProps.favourites, props.favourites)
     ),
 )(IndexPage);
 
@@ -408,7 +430,10 @@ const IndexPageWithPosition = connectToStores(
       });
     }
     newProps.lang = context.getStore('PreferencesStore').getLanguage();
-
+    newProps.favourites = [
+      ...context.getStore('FavouriteStore').getLocations(),
+      ...context.getStore('FavouriteStore').getStopsAndStations(),
+    ];
     return newProps;
   },
 );
