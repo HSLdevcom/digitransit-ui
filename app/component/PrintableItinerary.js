@@ -269,7 +269,11 @@ export function PrintableLeg(props, context) {
               mode={legObj.mode.toLowerCase()}
               vertical
               text={legObj.route !== null ? legObj.route.shortName : null}
-              prefix={context.config.mapRouting(legObj.route.gtfsId)}
+              prefix={
+                context.config.mapRouteNumbers
+                  ? context.config.mapRouting(legObj.route.gtfsId)
+                  : ''
+              }
             />
           </div>
         </div>

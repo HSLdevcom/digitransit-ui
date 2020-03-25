@@ -341,7 +341,11 @@ class RoutePage extends React.Component {
                 color={route.color ? `#${route.color}` : null}
                 mode={route.mode}
                 text={route.shortName}
-                prefix={config.mapRouting(route.gtfsId)}
+                prefix={
+                  config.config.mapRouteNumbers
+                    ? config.config.mapRouting(route.gtfsId)
+                    : ''
+                }
                 isRouteView
               />
             )}

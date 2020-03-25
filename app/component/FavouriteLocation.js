@@ -52,7 +52,11 @@ const FavouriteLocation = (
           mode={firstTransitLeg.mode}
           realtime={firstTransitLeg.realTime}
           text={firstTransitLeg.route.shortName}
-          prefix={context.config.mapRouting(firstTransitLeg.route.gtfsId)}
+          prefix={
+            context.config.mapRouteNumbers
+              ? context.config.mapRouting(firstTransitLeg.route.gtfsId)
+              : ''
+          }
         />
         &nbsp;
         {departureTimeComponent}
