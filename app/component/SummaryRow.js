@@ -70,7 +70,7 @@ export const RouteLeg = ({ leg, large, intl }, context) => {
         vertical
         withBar
         prefix={
-          context.config.mapRouteNumbers
+          typeof context.config.mapRouting === 'function'
             ? context.config.mapRouting(leg.trip.pattern.code)
             : ''
         }
@@ -118,7 +118,9 @@ export const ModeLeg = ({ leg, mode, large }, { config }) => {
       withBar
       icon={networkIcon}
       prefix={
-        config.mapRouteNumbers ? config.mapRouting(leg.trip.pattern.code) : ''
+        typeof config.mapRouting === 'function'
+          ? config.mapRouting(leg.trip.pattern.code)
+          : ''
       }
       {...getLegBadgeProps(leg, config)}
     />

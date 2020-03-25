@@ -270,7 +270,7 @@ export function PrintableLeg(props, context) {
               vertical
               text={legObj.route !== null ? legObj.route.shortName : null}
               prefix={
-                context.config.mapRouteNumbers
+                typeof context.config.mapRouting === 'function'
                   ? context.config.mapRouting(legObj.route.gtfsId)
                   : ''
               }

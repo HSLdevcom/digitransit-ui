@@ -105,7 +105,7 @@ function NextDeparturesList(props, context) {
               mode={stoptime.pattern.route.mode}
               text={stoptime.pattern.route.shortName}
               prefix={
-                context.config.mapRouteNumbers
+                typeof context.config.mapRouting === 'function'
                   ? context.config.mapRouting(stoptime.pattern.route.gtfsId)
                   : ''
               }

@@ -53,7 +53,7 @@ const FavouriteLocation = (
           realtime={firstTransitLeg.realTime}
           text={firstTransitLeg.route.shortName}
           prefix={
-            context.config.mapRouteNumbers
+            typeof context.config.mapRouting === 'function'
               ? context.config.mapRouting(firstTransitLeg.route.gtfsId)
               : ''
           }

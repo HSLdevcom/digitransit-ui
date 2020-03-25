@@ -342,7 +342,7 @@ class RoutePage extends React.Component {
                 mode={route.mode}
                 text={route.shortName}
                 prefix={
-                  config.config.mapRouteNumbers
+                  typeof config.mapRouting === 'function'
                     ? config.config.mapRouting(route.gtfsId)
                     : ''
                 }

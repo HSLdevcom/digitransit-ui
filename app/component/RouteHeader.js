@@ -39,7 +39,7 @@ export default function RouteHeader(props, context) {
           mode={mode}
           text={routeLine}
           prefix={
-            context.config.mapRouteNumbers
+            typeof context.config.mapRouting === 'function'
               ? context.config.mapRouting(props.route.gtfsId)
               : ''
           }

@@ -53,7 +53,7 @@ class CallAgencyLeg extends React.Component {
               className="leg-call"
               realtime={false}
               prefix={
-                this.context.config.mapRouteNumbers
+                typeof this.context.config.mapRouting === 'function'
                   ? this.context.config.mapRouting(this.props.leg.route.gtfsId)
                   : ''
               }

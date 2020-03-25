@@ -95,7 +95,7 @@ function ViaLeg(props, context) {
           mode={props.leg.mode.toLowerCase()}
           vertical
           prefix={
-            context.config.mapRouteNumbers
+            typeof context.config.mapRouting === 'function'
               ? context.config.mapRouting(props.leg.gtfsId)
               : ''
           }
