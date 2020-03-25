@@ -13,8 +13,11 @@ const LONG_ROUTE_NUMBER_LENGTH = 6;
 function RouteNumber(props, context) {
   let mode = props.mode.toLowerCase();
   const routeName =
-    mode === 'bus' && context.config.mapRouteNumbers && props.prefix
-      ? props.prefix.concat(props.text)
+    // eslint-disable-next-line no-nested-ternary
+    context.config && context.config.mapRouteNumbers
+      ? mode === 'bus' && props.prefix
+        ? props.prefix.concat(props.text)
+        : props.text
       : props.text;
   const { alertSeverityLevel, color } = props;
 
@@ -235,7 +238,7 @@ RouteNumber.defaultProps = {
 
 RouteNumber.contextTypes = {
   intl: intlShape.isRequired,
-  config: PropTypes.object.isRequired,
+  config: PropTypes.object,
 };
 
 RouteNumber.displayName = 'RouteNumber';
