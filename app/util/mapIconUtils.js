@@ -288,7 +288,7 @@ export function drawCitybikeNotInUseIcon(
     badgeSize,
     badgeSize,
   ).then(image =>
-    drawIconImage(image, tile, geom, imageSize, badgeSize, scaleratio),
+    drawIconImageBadge(image, tile, geom, imageSize, badgeSize, scaleratio),
   );
 }
 
