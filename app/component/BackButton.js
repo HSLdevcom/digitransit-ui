@@ -15,7 +15,7 @@ export default class BackButton extends React.Component {
     icon: PropTypes.string,
     className: PropTypes.string,
     color: PropTypes.string,
-    title: PropTypes.string,
+    title: PropTypes.node,
   };
 
   static defaultProps = {
@@ -26,8 +26,19 @@ export default class BackButton extends React.Component {
   };
 
   goBack = () => {
+    const pathArray = this.context.match.location.pathname
+      .substring(1)
+      .split('/');
     if (this.context.match.location.index > 0) {
       this.context.router.go(-1);
+    } else if (
+      this.context.match.location.action === 'POP' &&
+      Array.isArray(pathArray) &&
+      pathArray[0] === 'reitti'
+    ) {
+      this.context.router.push(
+        `/${pathArray[1]}/-${this.context.match.location.search}`,
+      );
     } else {
       this.context.router.push('/');
     }

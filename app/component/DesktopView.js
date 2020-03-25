@@ -11,20 +11,23 @@ export default function DesktopView({
   content,
   scrollable,
   bckBtnColor,
+  bckBtnVisible,
 }) {
   return (
     <div className="desktop">
       <div className="main-content">
-        <div className="desktop-title">
-          <div className="title-container h2">
-            <BackButton
-              title={title}
-              icon="icon-icon_arrow-collapse--left"
-              color={bckBtnColor}
-              className="arrow-icon"
-            />
+        {bckBtnVisible && (
+          <div className="desktop-title">
+            <div className="title-container h2">
+              <BackButton
+                title={title}
+                icon="icon-icon_arrow-collapse--left"
+                color={bckBtnColor}
+                className="arrow-icon"
+              />
+            </div>
           </div>
-        </div>
+        )}
         <div
           className={cx('scrollable-content-wrapper', {
             'momentum-scroll': scrollable,
@@ -48,8 +51,10 @@ DesktopView.propTypes = {
   content: PropTypes.node,
   scrollable: PropTypes.bool,
   bckBtnColor: PropTypes.string,
+  bckBtnVisible: PropTypes.bool, // DT-3471
 };
 
 DesktopView.defaultProps = {
   scrollable: false,
+  bckBtnVisible: true, // DT-3471
 };
