@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import PropTypes from 'prop-types';
 import React from 'react';
 import get from 'lodash/get';
@@ -28,12 +29,13 @@ const RouteNumberContainer = (
       mode={route.mode}
       text={getText(route, config)}
       prefix={
-        // eslint-disable-next-line no-nested-ternary
-        route.gtfsId
-          ? config.mapRouting(route.gtfsId)
-          : trip.pattern.code
-            ? config.mapRouting(trip.pattern.code)
-            : ''
+        config.mapRouteNumbers
+          ? route.gtfsId
+            ? config.mapRouting(route.gtfsId)
+            : trip.pattern.code
+              ? config.mapRouting(trip.pattern.code)
+              : ''
+          : ''
       }
       {...props}
     />
