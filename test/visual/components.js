@@ -189,11 +189,11 @@ testVariation('CurrentPositionSuggestionItem', 'no-position', 2).then(
   skip('ie11'),
 );
 
-testVariation('SuggestionItem', 'Favourite');
-testVariation('SuggestionItem', 'Address', 2);
-testVariation('SuggestionItem', 'Route', 3);
-testVariation('SuggestionItem', 'Stop', 4);
-testVariation('SuggestionItem', 'Stop-without-timetable', 5);
+// testVariation('SuggestionItem', 'Favourite');
+// testVariation('SuggestionItem', 'Address', 2);
+// testVariation('SuggestionItem', 'Route', 3);
+// testVariation('SuggestionItem', 'Stop', 4);
+// testVariation('SuggestionItem', 'Stop-without-timetable', 5);
 
 testVariation('DateWarning', 'tomorrow-show-warning', 2);
 
