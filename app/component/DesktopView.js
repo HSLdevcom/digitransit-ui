@@ -1,35 +1,28 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Link from 'found/lib/Link';
-import { intlShape } from 'react-intl';
-
-import Icon from './Icon';
 import ErrorBoundary from './ErrorBoundary';
+import BackButton from './BackButton'; // DT-3358
 
-export default function DesktopView(
-  { title, header, map, content, homeUrl, scrollable },
-  { intl: { formatMessage } },
-) {
+export default function DesktopView({
+  title,
+  header,
+  map,
+  content,
+  scrollable,
+  bckBtnColor,
+}) {
   return (
     <div className="desktop">
       <div className="main-content">
         <div className="desktop-title">
           <div className="title-container h2">
-            <Link
-              title={formatMessage({
-                id: 'back-to-front-page',
-                defaultMessage: 'Back to the front page',
-              })}
-              to={homeUrl}
-            >
-              <Icon img="icon-icon_home" className="home-icon" />
-            </Link>
-            <Icon
-              img="icon-icon_arrow-collapse--right"
+            <BackButton
+              title={title}
+              icon="icon-icon_arrow-collapse--left"
+              color={bckBtnColor}
               className="arrow-icon"
             />
-            <h1 className="h2">{title}</h1>
           </div>
         </div>
         <div
@@ -53,14 +46,10 @@ DesktopView.propTypes = {
   header: PropTypes.node,
   map: PropTypes.node,
   content: PropTypes.node,
-  homeUrl: PropTypes.string,
   scrollable: PropTypes.bool,
+  bckBtnColor: PropTypes.string,
 };
 
 DesktopView.defaultProps = {
   scrollable: false,
-};
-
-DesktopView.contextTypes = {
-  intl: intlShape.isRequired, // eslint-disable-line react/no-typos
 };

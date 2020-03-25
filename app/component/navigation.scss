@@ -339,22 +339,22 @@ section.content {
 }
 
 .desktop-title {
-  background: $desktop-title-color;
+  background: #ffffff; // DT-3358: was $desktop-title-color
 
   a {
-    color: $primary-font-color;
+    color: $desktop-title-arrow-icon-color; // DT-3358: was $primary-font-color
   }
 
   .title-container {
     @include font-medium;
-    color: $primary-font-color;
+    color: #333333; // DT-3358: was $primary-font-color
     margin: 20px 30px;
     line-height: 1;
   }
 
   h1 {
     @include font-medium;
-    color: $primary-font-color;
+    color: #333333; // DT-3358: was $primary-font-color
     // line-height: 1;
     display: inline;
   }
@@ -364,7 +364,7 @@ section.content {
   }
 
   .arrow-icon {
-    font-size: 0.6em;
+    font-size: 0.75em; // DT-3358: was 0.6
     margin: 2px 1em;
     color: $desktop-title-arrow-icon-color;
   }
