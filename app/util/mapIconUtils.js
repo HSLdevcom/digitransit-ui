@@ -276,12 +276,20 @@ export function drawParkAndRideIcon(tile, geom, width, height) {
   );
 }
 
-export function drawCitybikeNotInUseIcon(tile, geom, imageSize) {
+export function drawCitybikeNotInUseIcon(
+  tile,
+  geom,
+  imageSize,
+  badgeSize,
+  scaleratio,
+) {
   return getImageFromSpriteCache(
     'icon-icon_not-in-use',
-    imageSize,
-    imageSize,
-  ).then(image => drawIconImage(image, tile, geom, imageSize, imageSize));
+    badgeSize,
+    badgeSize,
+  ).then(image =>
+    drawIconImage(image, tile, geom, imageSize, badgeSize, scaleratio),
+  );
 }
 
 export function drawAvailabilityBadge(
