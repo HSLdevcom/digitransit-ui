@@ -54,7 +54,7 @@ Leg.propTypes = {
   large: PropTypes.bool.isRequired,
 };
 
-export const RouteLeg = ({ leg, large, intl }) => {
+export const RouteLeg = ({ leg, large, intl }, context) => {
   const isCallAgency = isCallAgencyPickupType(leg);
   let routeNumber;
   if (isCallAgency) {
@@ -69,6 +69,7 @@ export const RouteLeg = ({ leg, large, intl }) => {
         className={cx('line', 'call')}
         vertical
         withBar
+        prefix={context.config.mapRouting(leg.trip.pattern.code)}
       />
     );
   } else {
@@ -76,6 +77,7 @@ export const RouteLeg = ({ leg, large, intl }) => {
       <RouteNumberContainer
         alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
         route={leg.route}
+        trip={leg.trip}
         className={cx('line', leg.mode.toLowerCase())}
         vertical
         withBar
@@ -90,6 +92,10 @@ RouteLeg.propTypes = {
   leg: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
   large: PropTypes.bool.isRequired,
+};
+
+RouteLeg.contextTypes = {
+  config: PropTypes.object.isRequired,
 };
 
 export const ModeLeg = ({ leg, mode, large }, { config }) => {
@@ -107,6 +113,7 @@ export const ModeLeg = ({ leg, mode, large }, { config }) => {
       vertical
       withBar
       icon={networkIcon}
+      prefix={config.mapRouting(leg.trip.pattern.code)}
       {...getLegBadgeProps(leg, config)}
     />
   );

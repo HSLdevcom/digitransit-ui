@@ -8,18 +8,14 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { realtimeDeparture as exampleRealtimeDeparture } from './ExampleData';
 import { isMobile } from '../util/browser';
 
-const LONG_ROUTE_NUMBER_LENGTH = 5;
-
-function AddUPrefix(route) {
-  if (route[0] === '7') {
-    return 'U'.concat(route);
-  }
-  return route;
-}
+const LONG_ROUTE_NUMBER_LENGTH = 6;
 
 function RouteNumber(props, context) {
   let mode = props.mode.toLowerCase();
-  const routeName = mode === 'bus' ? AddUPrefix(props.text) : props.text;
+  const routeName =
+    mode === 'bus' && context.config.mapRouteNumbers && props.prefix
+      ? props.prefix.concat(props.text)
+      : props.text;
   const { alertSeverityLevel, color } = props;
 
   if (mode === 'bicycle' || mode === 'car') {
@@ -218,6 +214,7 @@ RouteNumber.propTypes = {
   badgeText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   icon: PropTypes.string,
   isRouteView: PropTypes.bool,
+  prefix: PropTypes.string,
 };
 
 RouteNumber.defaultProps = {
@@ -233,10 +230,12 @@ RouteNumber.defaultProps = {
   isCallAgency: false,
   isRouteView: false,
   icon: undefined,
+  prefix: undefined,
 };
 
 RouteNumber.contextTypes = {
   intl: intlShape.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 RouteNumber.displayName = 'RouteNumber';

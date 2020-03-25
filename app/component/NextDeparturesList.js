@@ -104,6 +104,7 @@ function NextDeparturesList(props, context) {
               alertSeverityLevel={departure.alertSeverityLevel}
               mode={stoptime.pattern.route.mode}
               text={stoptime.pattern.route.shortName}
+              prefix={context.config.mapRouting(stoptime.pattern.route.gtfsId)}
             />
           </td>
           <td className="td-destination">
@@ -130,6 +131,7 @@ NextDeparturesList.propTypes = {
 
 NextDeparturesList.contextTypes = {
   router: routerShape.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 export default NextDeparturesList;
