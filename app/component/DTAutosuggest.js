@@ -5,7 +5,6 @@ import { routerShape } from 'found';
 import { intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import Autosuggest from 'react-autosuggest';
-import isEqual from 'lodash/isEqual';
 import { executeSearch, getAllEndpointLayers } from '../util/searchUtils';
 import SuggestionItem from './SuggestionItem';
 import { dtLocationShape } from '../util/shapes';
@@ -14,13 +13,7 @@ import getRelayEnvironment from '../util/getRelayEnvironment';
 import { getJson } from '../util/xhrPromise';
 import { saveSearch } from '../action/SearchActions';
 import Loading from './Loading';
-import {
-  suggestionToLocation,
-  getGTFSId,
-  isStop,
-  getLabel,
-} from '../util/suggestionUtils';
-import { PREFIX_STOPS, PREFIX_TERMINALS } from '../util/path';
+import { suggestionToLocation, getLabel } from '../util/suggestionUtils';
 import { startLocationWatch } from '../action/PositionActions';
 import PositionStore from '../store/PositionStore';
 
@@ -75,7 +68,6 @@ class DTAutosuggest extends React.Component {
     super(props);
 
     this.state = {
-      doNotShowLinkToStop: !isEqual(props.layers, getAllEndpointLayers()),
       value: props.value,
       suggestions: [],
       editing: false,
@@ -314,7 +306,6 @@ class DTAutosuggest extends React.Component {
 
   renderItem = item => (
     <SuggestionItem
-      doNotShowLinkToStop={this.state.doNotShowLinkToStop}
       ref={item.name}
       item={item}
       intl={this.context.intl}
@@ -361,11 +352,6 @@ class DTAutosuggest extends React.Component {
     // type is destination unless timetable or route was clicked
     let type = 'endpoint';
     switch (item.type) {
-      case 'Stop': // stop can be timetable or
-        if (item.timetableClicked === true) {
-          type = 'search';
-        }
-        break;
       case 'Route':
         type = 'search';
         break;
@@ -397,15 +383,6 @@ class DTAutosuggest extends React.Component {
       this.props.onRouteSelected(item);
       return;
     }
-    // stop
-    if (item.timetableClicked === true) {
-      const prefix = isStop(item.properties) ? PREFIX_STOPS : PREFIX_TERMINALS;
-
-      const url = `/${prefix}/${getGTFSId(item.properties)}`;
-      this.context.router.push(url);
-      return;
-    }
-
     // route
     if (item.properties.link) {
       this.context.router.push(item.properties.link);
