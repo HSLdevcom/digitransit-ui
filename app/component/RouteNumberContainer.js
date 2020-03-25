@@ -28,9 +28,12 @@ const RouteNumberContainer = (
       mode={route.mode}
       text={getText(route, config)}
       prefix={
+        // eslint-disable-next-line no-nested-ternary
         route.gtfsId
           ? config.mapRouting(route.gtfsId)
-          : config.mapRouting(trip.pattern.code)
+          : trip.pattern.code
+            ? config.mapRouting(trip.pattern.code)
+            : ''
       }
       {...props}
     />
