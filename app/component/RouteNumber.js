@@ -8,7 +8,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { realtimeDeparture as exampleRealtimeDeparture } from './ExampleData';
 import { isMobile } from '../util/browser';
 
-const LONG_ROUTE_NUMBER_LENGTH = 6;
+const LONG_ROUTE_NUMBER_LENGTH = 5;
 
 function RouteNumber(props, context) {
   let mode = props.mode.toLowerCase();
