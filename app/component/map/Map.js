@@ -13,12 +13,10 @@ import 'leaflet-active-area';
 // Webpack handles this by bundling it with the other css files
 import 'leaflet/dist/leaflet.css';
 
-import isEmpty from 'lodash/isEmpty';
-
 import PositionMarker from './PositionMarker';
 import VectorTileLayerContainer from './tile-layer/VectorTileLayerContainer';
 import { boundWithMinimumArea } from '../../util/geo-utils';
-import { isDebugTiles } from '../../util/browser';
+import { isDebugTiles, isSatellite } from '../../util/browser';
 import { BreakpointConsumer } from '../../util/withBreakpoint';
 import events from '../../util/events';
 
@@ -92,6 +90,27 @@ export default class Map extends React.Component {
     }
   };
 
+  loadMapLayers(mapUrl) {
+    return (
+      <TileLayer
+        onLoad={this.setLoaded}
+        url={mapUrl}
+        tileSize={this.context.config.map.tileSize || 256}
+        zoomOffset={this.context.config.map.zoomOffset || 0}
+        updateWhenIdle={false}
+        size={
+          this.context.config.map.useRetinaTiles &&
+          L.Browser.retina &&
+          !isDebugTiles
+            ? '@2x'
+            : ''
+        }
+        minZoom={this.context.config.map.minZoom}
+        maxZoom={this.context.config.map.maxZoom}
+      />
+    );
+  }
+
   render() {
     const { zoom, boundsOptions } = this.props;
     const { config } = this.context;
@@ -106,18 +125,21 @@ export default class Map extends React.Component {
       boundsOptions.paddingTopLeft = this.props.padding;
     }
 
-    let mapUrl =
-      (isDebugTiles && `${config.URL.OTP}inspector/tile/traversal/`) ||
-      config.URL.MAP;
+    const mapUrls = [];
+    if (isDebugTiles) {
+      mapUrls.push(`${config.URL.OTP}inspector/tile/traversal/{z}/{x}/{y}.png`);
+    } else if (isSatellite) {
+      mapUrls.push(config.URL.MAP.satellite);
+      mapUrls.push(config.URL.MAP.semiTransparent);
+    } else {
+      mapUrls.push(config.URL.MAP.default);
+    }
+
+    /*
     if (mapUrl !== null && typeof mapUrl === 'object') {
       mapUrl = mapUrl[this.props.lang] || config.URL.MAP.default;
     }
-
-    let finalMapUrl = `${mapUrl}{z}/{x}/{y}{size}.png`;
-
-    if (!isEmpty(config.map.key)) {
-      finalMapUrl = `${finalMapUrl}?key=${config.map.key}`;
-    }
+    */
 
     return (
       <div aria-hidden="true">
@@ -149,20 +171,7 @@ export default class Map extends React.Component {
           onPopupopen={this.onPopupopen}
           closePopupOnClick={false}
         >
-          <TileLayer
-            onLoad={this.setLoaded}
-            url={finalMapUrl}
-            tileSize={config.map.tileSize || 256}
-            zoomOffset={config.map.zoomOffset || 0}
-            updateWhenIdle={false}
-            size={
-              config.map.useRetinaTiles && L.Browser.retina && !isDebugTiles
-                ? '@2x'
-                : ''
-            }
-            minZoom={config.map.minZoom}
-            maxZoom={config.map.maxZoom}
-          />
+          {mapUrls.map(url => this.loadMapLayers(url))}
           <AttributionControl
             position="bottomright"
             prefix={
