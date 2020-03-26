@@ -129,12 +129,8 @@ export default class Map extends React.Component {
     if (isDebugTiles)
       mapUrls.push(`${config.URL.OTP}inspector/tile/traversal/{z}/{x}/{y}.png`);
     else if (isSatellite) {
-      mapUrls.push(
-        `https://api.mih.mitfahren-bw.de/tiles/orthophoto/{z}/{x}/{y}/`,
-      );
-      mapUrls.push(
-        `https://api.maptiler.com/maps/ffa4d49e-c68c-46c8-ab3f-60543337cecb/256/{z}/{x}/{y}.png?key=eA0drARBA1uPzLR6StGD`,
-      );
+      mapUrls.push(config.URL.MAP.satellite);
+      mapUrls.push(config.URL.MAP.semiTransparent);
     } else mapUrls.push(config.URL.MAP.default);
 
     /*     if (mapUrl !== null && typeof mapUrl === 'object') {
