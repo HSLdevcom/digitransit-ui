@@ -16,7 +16,7 @@ import 'leaflet/dist/leaflet.css';
 import PositionMarker from './PositionMarker';
 import VectorTileLayerContainer from './tile-layer/VectorTileLayerContainer';
 import { boundWithMinimumArea } from '../../util/geo-utils';
-import { isDebugTiles } from '../../util/browser';
+import { isDebugTiles, isSatellite } from '../../util/browser';
 import { BreakpointConsumer } from '../../util/withBreakpoint';
 import events from '../../util/events';
 
@@ -107,6 +107,8 @@ export default class Map extends React.Component {
     let mapUrl =
       (isDebugTiles &&
         `${config.URL.OTP}inspector/tile/traversal/{z}/{x}/{y}.png`) ||
+      (isSatellite &&
+        'https://api.mih.mitfahren-bw.de/tiles/orthophoto/{z}/{x}/{y}/') ||
       config.URL.MAP;
     if (mapUrl !== null && typeof mapUrl === 'object') {
       mapUrl = mapUrl[this.props.lang] || config.URL.MAP.default;
