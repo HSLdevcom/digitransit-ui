@@ -49,6 +49,7 @@ class DTAutosuggest extends React.Component {
     isPreferredRouteSearch: PropTypes.bool,
     locationState: PropTypes.object.isRequired,
     showSpinner: PropTypes.bool,
+    storeRef: PropTypes.func,
   };
 
   static defaultProps = {
@@ -301,6 +302,9 @@ class DTAutosuggest extends React.Component {
   storeInputReference = autosuggest => {
     if (autosuggest !== null) {
       this.input = autosuggest.input;
+      if (this.props.storeRef) {
+        this.props.storeRef(autosuggest.input);
+      }
     }
   };
 

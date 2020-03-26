@@ -107,6 +107,7 @@ class DTAutosuggestPanel extends React.Component {
       activeSlackInputs: [],
       showDarkOverlay: false,
       viaPoints: this.props.initialViaPoints.map(vp => ({ ...vp })),
+      refs: [],
     };
   }
 
@@ -151,6 +152,10 @@ class DTAutosuggestPanel extends React.Component {
 
   isFocused = val => {
     this.setState({ showDarkOverlay: val });
+  };
+
+  storeReference = ref => {
+    this.setState(prevState => ({ refs: [...prevState.refs, ref] }));
   };
 
   updateViaPoints = viaPoints => {
@@ -373,6 +378,7 @@ class DTAutosuggestPanel extends React.Component {
               // Disable autofocus if using IE11
               isIe ? false : breakpoint === 'large' && !origin.ready
             }
+            storeRef={this.storeReference}
             refPoint={origin}
             className={this.class(origin)}
             searchType={this.props.searchType}
@@ -395,6 +401,9 @@ class DTAutosuggestPanel extends React.Component {
                   // destination has gps, clear destination
                   destination = { set: false };
                 }
+              }
+              if (!destination.set) {
+                this.state.refs[1].focus();
               }
 
               navigateTo({
@@ -551,8 +560,9 @@ class DTAutosuggestPanel extends React.Component {
             id="destination"
             autoFocus={
               // Disable autofocus if using IE11
-              isIe ? false : breakpoint === 'large'
+              isIe ? false : breakpoint === 'large' && origin.ready
             }
+            storeRef={this.storeReference}
             refPoint={origin}
             searchType={this.props.searchType}
             placeholder={this.props.destinationPlaceHolder}
