@@ -125,17 +125,21 @@ export default class Map extends React.Component {
       boundsOptions.paddingTopLeft = this.props.padding;
     }
 
-    let mapUrls = [];
-    if (isDebugTiles)
+    const mapUrls = [];
+    if (isDebugTiles) {
       mapUrls.push(`${config.URL.OTP}inspector/tile/traversal/{z}/{x}/{y}.png`);
-    else if (isSatellite) {
+    } else if (isSatellite) {
       mapUrls.push(config.URL.MAP.satellite);
       mapUrls.push(config.URL.MAP.semiTransparent);
-    } else mapUrls.push(config.URL.MAP.default);
+    } else {
+      mapUrls.push(config.URL.MAP.default);
+    }
 
-    /*     if (mapUrl !== null && typeof mapUrl === 'object') {
+    /*
+    if (mapUrl !== null && typeof mapUrl === 'object') {
       mapUrl = mapUrl[this.props.lang] || config.URL.MAP.default;
-    } */
+    }
+    */
 
     return (
       <div aria-hidden="true">
