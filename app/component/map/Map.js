@@ -90,6 +90,27 @@ export default class Map extends React.Component {
     }
   };
 
+  loadMapLayers(mapUrl) {
+    return (
+      <TileLayer
+        onLoad={this.setLoaded}
+        url={mapUrl}
+        tileSize={this.context.config.map.tileSize || 256}
+        zoomOffset={this.context.config.map.zoomOffset || 0}
+        updateWhenIdle={false}
+        size={
+          this.context.config.map.useRetinaTiles &&
+          L.Browser.retina &&
+          !isDebugTiles
+            ? '@2x'
+            : ''
+        }
+        minZoom={this.context.config.map.minZoom}
+        maxZoom={this.context.config.map.maxZoom}
+      />
+    );
+  }
+
   render() {
     const { zoom, boundsOptions } = this.props;
     const { config } = this.context;
@@ -104,15 +125,21 @@ export default class Map extends React.Component {
       boundsOptions.paddingTopLeft = this.props.padding;
     }
 
-    let mapUrl =
-      (isDebugTiles &&
-        `${config.URL.OTP}inspector/tile/traversal/{z}/{x}/{y}.png`) ||
-      (isSatellite &&
-        'https://api.mih.mitfahren-bw.de/tiles/orthophoto/{z}/{x}/{y}/') ||
-      config.URL.MAP;
-    if (mapUrl !== null && typeof mapUrl === 'object') {
+    let mapUrls = [];
+    if (isDebugTiles)
+      mapUrls.push(`${config.URL.OTP}inspector/tile/traversal/{z}/{x}/{y}.png`);
+    else if (isSatellite) {
+      mapUrls.push(
+        `https://api.mih.mitfahren-bw.de/tiles/orthophoto/{z}/{x}/{y}/`,
+      );
+      mapUrls.push(
+        `https://api.maptiler.com/maps/ffa4d49e-c68c-46c8-ab3f-60543337cecb/256/{z}/{x}/{y}.png?key=eA0drARBA1uPzLR6StGD`,
+      );
+    } else mapUrls.push(config.URL.MAP.default);
+
+    /*     if (mapUrl !== null && typeof mapUrl === 'object') {
       mapUrl = mapUrl[this.props.lang] || config.URL.MAP.default;
-    }
+    } */
 
     return (
       <div aria-hidden="true">
@@ -144,20 +171,7 @@ export default class Map extends React.Component {
           onPopupopen={this.onPopupopen}
           closePopupOnClick={false}
         >
-          <TileLayer
-            onLoad={this.setLoaded}
-            url={mapUrl}
-            tileSize={config.map.tileSize || 256}
-            zoomOffset={config.map.zoomOffset || 0}
-            updateWhenIdle={false}
-            size={
-              config.map.useRetinaTiles && L.Browser.retina && !isDebugTiles
-                ? '@2x'
-                : ''
-            }
-            minZoom={config.map.minZoom}
-            maxZoom={config.map.maxZoom}
-          />
+          {mapUrls.map(url => this.loadMapLayers(url))}
           <AttributionControl
             position="bottomright"
             prefix={
