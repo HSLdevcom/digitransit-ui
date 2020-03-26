@@ -3,6 +3,7 @@ import {
   getRoutes,
   getStopAndStations,
   getFavouriteRoutes,
+  setRelayEnvironment,
 } from '../util/DTSearchUtils';
 import {
   getPositions,
@@ -13,7 +14,12 @@ import {
   getLanguage,
 } from '../util/storeUtils';
 
-export default function intializeSearchContext(context, searchContext) {
+export default function intializeSearchContext(
+  context,
+  searchContext,
+  relayEnvironment,
+) {
+  setRelayEnvironment(relayEnvironment);
   // DT-3424: Set SearchContext for Autosuggest and searchUtils.
   searchContext.context = context;
   searchContext.getOldSearches = getOldSearches;

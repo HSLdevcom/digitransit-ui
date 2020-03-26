@@ -477,7 +477,6 @@ export function executeSearchImmediate(
   searchContext,
   refPoint,
   { input, type, layers, config },
-  relayEnvironment,
   callback,
 ) {
   const {
@@ -514,17 +513,12 @@ export function executeSearchImmediate(
       searchComponents.push(getCurrentPositionIfEmpty(input, position));
     }
     if (endpointLayers.includes('FavouritePlace')) {
-      searchComponents.push(
-        getFavouriteLocations(favouriteLocations, input, relayEnvironment),
-      );
+      searchComponents.push(getFavouriteLocations(favouriteLocations, input));
     }
     if (endpointLayers.includes('FavouriteStop')) {
-      const stopsAndStations = getStopAndStations(
-        favouriteStops,
-        relayEnvironment,
-      );
+      const stopsAndStations = getStopAndStations(favouriteStops);
       searchComponents.push(
-        getFavouriteStops(stopsAndStations, input, refPoint, relayEnvironment),
+        getFavouriteStops(stopsAndStations, input, refPoint),
       );
     }
     if (endpointLayers.includes('OldSearch')) {
@@ -637,9 +631,9 @@ export function executeSearchImmediate(
     const favouriteRoutes = getStoredFavouriteRoutes(context);
 
     searchSearchesPromise = Promise.all([
-      getFavouriteRoutes(favouriteRoutes, input, relayEnvironment),
+      getFavouriteRoutes(favouriteRoutes, input),
       getOldSearches(oldSearches, input),
-      getRoutes(input, config, relayEnvironment),
+      getRoutes(input, config),
     ])
       .then(flatten)
       .then(uniqByLabel)
@@ -679,15 +673,9 @@ const debouncedSearch = debounce(executeSearchImmediate, 300, {
   leading: true,
 });
 
-export const executeSearch = (
-  searchContext,
-  refPoint,
-  data,
-  relayEnvironment,
-  callback,
-) => {
+export const executeSearch = (searchContext, refPoint, data, callback) => {
   callback(null); // This means 'we are searching'
-  debouncedSearch(searchContext, refPoint, data, relayEnvironment, callback);
+  debouncedSearch(searchContext, refPoint, data, callback);
 };
 
 export const withCurrentTime = (getStore, location) => {

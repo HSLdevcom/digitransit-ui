@@ -31,6 +31,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import intializeSearchContext from './DTSearchContextInitializer';
 import scrollTop from '../util/scroll';
 import FavouriteLocationsContainer from './FavouriteLocationsContainer';
+import getRelayEnvironment from '../util/getRelayEnvironment';
 
 const debug = d('IndexPage.js');
 
@@ -50,6 +51,7 @@ class IndexPage extends React.Component {
     destination: dtLocationShape.isRequired,
     showSpinner: PropTypes.bool.isRequired,
     favourites: PropTypes.array,
+    relayEnvironment: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -64,7 +66,11 @@ class IndexPage extends React.Component {
   }
 
   componentDidMount() {
-    intializeSearchContext(this.context, searchContext);
+    intializeSearchContext(
+      this.context,
+      searchContext,
+      this.props.relayEnvironment,
+    );
     scrollTop();
   }
 
@@ -354,8 +360,5 @@ IndexPageWithPosition.contextTypes = {
   executeAction: PropTypes.func.isRequired,
   intl: intlShape,
 };
-
-export {
-  IndexPageWithPosition as default,
-  IndexPageWithBreakpoint as Component,
-};
+const withRelay = getRelayEnvironment(IndexPageWithPosition);
+export { withRelay as default, IndexPageWithBreakpoint as Component };

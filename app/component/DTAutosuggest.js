@@ -9,7 +9,6 @@ import { executeSearch, getAllEndpointLayers } from '../util/searchUtils';
 import SuggestionItem from './SuggestionItem';
 import { dtLocationShape } from '../util/shapes';
 import Icon from './Icon';
-import getRelayEnvironment from '../util/getRelayEnvironment';
 import { getJson } from '../util/xhrPromise';
 import { saveSearch } from '../action/SearchActions';
 import Loading from './Loading';
@@ -22,7 +21,6 @@ class DTAutosuggest extends React.Component {
     config: PropTypes.object.isRequired,
     getStore: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    relayEnvironment: PropTypes.object.isRequired,
     executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
   };
@@ -41,7 +39,6 @@ class DTAutosuggest extends React.Component {
     // selectedFunction: PropTypes.func.isRequired,
     value: PropTypes.string,
     searchContext: PropTypes.any.isRequired,
-    relayEnvironment: PropTypes.object.isRequired,
     ariaLabel: PropTypes.string,
     onSelect: PropTypes.func,
     onLocationSelected: PropTypes.func.isRequired,
@@ -220,7 +217,6 @@ class DTAutosuggest extends React.Component {
           type: this.props.searchType,
           config: this.context.config,
         },
-        this.props.relayEnvironment,
         searchResult => {
           if (searchResult == null) {
             return;
@@ -511,8 +507,6 @@ class DTAutosuggest extends React.Component {
   }
 }
 
-export default getRelayEnvironment(
-  connectToStores(DTAutosuggest, [PositionStore], context => ({
-    locationState: context.getStore(PositionStore).getLocationState(),
-  })),
-);
+export default connectToStores(DTAutosuggest, [PositionStore], context => ({
+  locationState: context.getStore(PositionStore).getLocationState(),
+}));
