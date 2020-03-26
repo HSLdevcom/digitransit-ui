@@ -168,7 +168,7 @@ export default class Map extends React.Component {
           <BreakpointConsumer>
             {breakpoint =>
               breakpoint === 'large' &&
-              !this.props.disableZoom && (
+              (!this.props.disableZoom && config.map.showZoomControl) && (
                 <ZoomControl
                   position={config.map.controls.zoom.position}
                   zoomInText={zoomInText}

@@ -240,6 +240,11 @@ export default {
       passiveColor: '#758993',
     },
 
+    showZoomControl: true, // DT-3470
+    showStreetModeSelector: true, // DT-3470
+    showLayerSelector: true, // DT-3470
+    showStopMarkerPopupOnMobile: true, // DT-3470
+
     useModeIconsInNonTileLayer: false,
   },
 

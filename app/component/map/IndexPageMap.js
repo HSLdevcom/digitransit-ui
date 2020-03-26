@@ -48,8 +48,9 @@ function IndexPageMap(
         destination={destination}
         renderCustomButtons={() => (
           <>
-            {renderStreetModeSelector(config, router, match)}
-            {renderMapLayerSelector()}
+            {config.showStreetModeSelector &&
+              renderStreetModeSelector(config, router, match)}
+            {config.showLayerSelector && renderMapLayerSelector()}
           </>
         )}
       />

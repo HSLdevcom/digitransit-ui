@@ -493,6 +493,13 @@ export default {
     showZoneLimits: true,
   },
 
+  map: {
+    showZoomControl: false, // DT-3470
+    showStreetModeSelector: false, // DT-3470
+    showLayerSelector: false, // DT-3470
+    showStopMarkerPopupOnMobile: false, // DT-3470
+  },
+
   stopCard: {
     header: {
       showZone: true,
