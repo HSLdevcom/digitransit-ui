@@ -25,7 +25,7 @@ const maxLon = 8.98613;
 export default configMerger(walttiConfig, {
   CONFIG,
   URL: {
-    OTP: process.env.OTP_URL || `${API_URL}/routing/v1/routers/hb/`,
+    OTP: process.env.OTP_URL || `${API_URL}/routing/v1/router/`,
     MAP: {
       default: MAP_URL,
       satellite: `${API_URL}/tiles/orthophoto/{z}/{x}/{y}.jpg`,
