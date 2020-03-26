@@ -29,13 +29,11 @@ const RouteNumberContainer = (
       mode={route.mode}
       text={getText(route, config)}
       prefix={
-        typeof config.mapRouting === 'function'
-          ? route.gtfsId
-            ? config.mapRouting(route.gtfsId)
-            : trip.pattern.code
-              ? config.mapRouting(trip.pattern.code)
-              : ''
-          : ''
+        route.gtfsId
+          ? config.mapRouting(route.gtfsId)
+          : trip.pattern.code
+            ? config.mapRouting(trip.pattern.code)
+            : ''
       }
       {...props}
     />

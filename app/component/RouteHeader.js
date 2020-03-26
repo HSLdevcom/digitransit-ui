@@ -38,11 +38,7 @@ export default function RouteHeader(props, context) {
         <RouteNumber
           mode={mode}
           text={routeLine}
-          prefix={
-            typeof context.config.mapRouting === 'function'
-              ? context.config.mapRouting(props.route.gtfsId)
-              : ''
-          }
+          prefix={context.config.mapRouting(props.route.gtfsId)}
         />
         {trip}
       </h1>

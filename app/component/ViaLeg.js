@@ -94,11 +94,7 @@ function ViaLeg(props, context) {
         <RouteNumber
           mode={props.leg.mode.toLowerCase()}
           vertical
-          prefix={
-            typeof context.config.mapRouting === 'function'
-              ? context.config.mapRouting(props.leg.gtfsId)
-              : ''
-          }
+          prefix={context.config.mapRouting(props.leg.gtfsId)}
         />
       </div>
       <ItineraryCircleLine

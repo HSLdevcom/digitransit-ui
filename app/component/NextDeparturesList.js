@@ -104,11 +104,7 @@ function NextDeparturesList(props, context) {
               alertSeverityLevel={departure.alertSeverityLevel}
               mode={stoptime.pattern.route.mode}
               text={stoptime.pattern.route.shortName}
-              prefix={
-                typeof context.config.mapRouting === 'function'
-                  ? context.config.mapRouting(stoptime.pattern.route.gtfsId)
-                  : ''
-              }
+              prefix={context.config.mapRouting(stoptime.pattern.route.gtfsId)}
             />
           </td>
           <td className="td-destination">

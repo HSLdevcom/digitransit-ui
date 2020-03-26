@@ -52,11 +52,9 @@ class CallAgencyLeg extends React.Component {
               mode="call"
               className="leg-call"
               realtime={false}
-              prefix={
-                typeof this.context.config.mapRouting === 'function'
-                  ? this.context.config.mapRouting(this.props.leg.route.gtfsId)
-                  : ''
-              }
+              prefix={this.context.config.mapRouting(
+                this.props.leg.route.gtfsId,
+              )}
               vertical
               fadeLong
             />

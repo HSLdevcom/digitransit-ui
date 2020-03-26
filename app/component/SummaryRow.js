@@ -69,11 +69,7 @@ export const RouteLeg = ({ leg, large, intl }, context) => {
         className={cx('line', 'call')}
         vertical
         withBar
-        prefix={
-          typeof context.config.mapRouting === 'function'
-            ? context.config.mapRouting(leg.trip.pattern.code)
-            : ''
-        }
+        prefix={context.config.mapRouting(leg.trip.pattern.code)}
       />
     );
   } else {
@@ -117,11 +113,7 @@ export const ModeLeg = ({ leg, mode, large }, { config }) => {
       vertical
       withBar
       icon={networkIcon}
-      prefix={
-        typeof config.mapRouting === 'function'
-          ? config.mapRouting(leg.trip.pattern.code)
-          : ''
-      }
+      prefix={config.mapRouting(leg.trip.pattern.code)}
       {...getLegBadgeProps(leg, config)}
     />
   );

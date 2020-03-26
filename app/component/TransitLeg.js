@@ -270,11 +270,7 @@ class TransitLeg extends React.Component {
                 mode={mode.toLowerCase()}
                 color={leg.route ? `#${leg.route.color}` : 'currentColor'}
                 text={leg.route && leg.route.shortName}
-                prefix={
-                  typeof this.context.config.mapRouting === 'function'
-                    ? this.context.config.mapRouting(leg.route.gtfsId)
-                    : ''
-                }
+                prefix={this.context.config.mapRouting(leg.route.gtfsId)}
                 realtime={leg.realTime}
                 vertical
                 fadeLong

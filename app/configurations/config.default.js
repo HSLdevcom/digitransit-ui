@@ -776,7 +776,6 @@ export default {
   timetables: {},
   showLogin: false,
 
-  mapRouteNumbers: true,
   /* Function that can be used to configure route names before displaying them
      Takes routes gtfsId as input */
   mapRouting: function mapRoute(routeId) {

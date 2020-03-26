@@ -14,7 +14,7 @@ function RouteNumber(props, context) {
   let mode = props.mode.toLowerCase();
   const routeName =
     // eslint-disable-next-line no-nested-ternary
-    context.config && context.config.mapRouteNumbers
+    context.config.mapRouting
       ? mode === 'bus' && props.prefix
         ? props.prefix.concat(props.text)
         : props.text
