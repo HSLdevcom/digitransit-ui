@@ -28,7 +28,7 @@ export default configMerger(walttiConfig, {
     OTP: process.env.OTP_URL || `${API_URL}/routing/v1/routers/hb/`,
     MAP: {
       default: MAP_URL,
-      satellite: `${API_URL}/tiles/orthophoto/{z}/{x}/{y}/`,
+      satellite: `${API_URL}/tiles/orthophoto/{z}/{x}/{y}.jpg`,
       semiTransparent: SEMI_TRANSPARENT_MAP_URL,
     },
     STOP_MAP: `${API_URL}/map/v1/stop-map/`,
