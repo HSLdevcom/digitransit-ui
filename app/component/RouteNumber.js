@@ -13,11 +13,8 @@ const LONG_ROUTE_NUMBER_LENGTH = 5;
 function RouteNumber(props, context) {
   let mode = props.mode.toLowerCase();
   const routeName =
-    // eslint-disable-next-line no-nested-ternary
-    context.config.mapRouting
-      ? mode === 'bus' && props.prefix
-        ? props.prefix.concat(props.text)
-        : props.text
+    mode === 'bus' && props.gtfsId && context.config.mapRouting
+      ? context.config.mapRouting(props.gtfsId).concat(props.text)
       : props.text;
   const { alertSeverityLevel, color } = props;
 
@@ -217,7 +214,7 @@ RouteNumber.propTypes = {
   badgeText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   icon: PropTypes.string,
   isRouteView: PropTypes.bool,
-  prefix: PropTypes.string,
+  gtfsId: PropTypes.string,
 };
 
 RouteNumber.defaultProps = {
@@ -233,7 +230,7 @@ RouteNumber.defaultProps = {
   isCallAgency: false,
   isRouteView: false,
   icon: undefined,
-  prefix: undefined,
+  gtfsId: undefined,
 };
 
 RouteNumber.contextTypes = {

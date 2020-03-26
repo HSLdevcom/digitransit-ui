@@ -214,7 +214,7 @@ TransferMap.propTypes = {
 const isWalking = legOrMode =>
   ['WALK', 'BICYCLE_WALK'].find(mode => mode === getLegMode(legOrMode));
 
-export function PrintableLeg(props, context) {
+export function PrintableLeg(props) {
   const { index, legObj, originalLegs } = props;
 
   const legMode = getLegMode(legObj) || '';
@@ -269,7 +269,6 @@ export function PrintableLeg(props, context) {
               mode={legObj.mode.toLowerCase()}
               vertical
               text={legObj.route !== null ? legObj.route.shortName : null}
-              prefix={context.config.mapRouting(legObj.route.gtfsId)}
             />
           </div>
         </div>

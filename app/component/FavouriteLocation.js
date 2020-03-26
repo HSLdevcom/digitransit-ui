@@ -11,17 +11,14 @@ import { favouriteLocation as favouriteLocationExample } from './ExampleData';
 import { isStop, isTerminal } from '../util/suggestionUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
-const FavouriteLocation = (
-  {
-    favourite,
-    className,
-    currentTime,
-    departureTime,
-    firstTransitLeg,
-    clickFavourite,
-  },
-  context,
-) => {
+const FavouriteLocation = ({
+  favourite,
+  className,
+  currentTime,
+  departureTime,
+  firstTransitLeg,
+  clickFavourite,
+}) => {
   const { name, favouriteId, lat, lon, selectedIconId } = favourite;
   let departureTimeComponent;
   if (departureTime && currentTime < departureTime) {
@@ -52,7 +49,7 @@ const FavouriteLocation = (
           mode={firstTransitLeg.mode}
           realtime={firstTransitLeg.realTime}
           text={firstTransitLeg.route.shortName}
-          prefix={context.config.mapRouting(firstTransitLeg.route.gtfsId)}
+          gtfsId={firstTransitLeg.route.gtfsId}
         />
         &nbsp;
         {departureTimeComponent}

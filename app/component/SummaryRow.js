@@ -54,7 +54,7 @@ Leg.propTypes = {
   large: PropTypes.bool.isRequired,
 };
 
-export const RouteLeg = ({ leg, large, intl }, context) => {
+export const RouteLeg = ({ leg, large, intl }) => {
   const isCallAgency = isCallAgencyPickupType(leg);
   let routeNumber;
   if (isCallAgency) {
@@ -69,7 +69,6 @@ export const RouteLeg = ({ leg, large, intl }, context) => {
         className={cx('line', 'call')}
         vertical
         withBar
-        prefix={context.config.mapRouting(leg.trip.pattern.code)}
       />
     );
   } else {
@@ -113,7 +112,6 @@ export const ModeLeg = ({ leg, mode, large }, { config }) => {
       vertical
       withBar
       icon={networkIcon}
-      prefix={config.mapRouting(leg.trip.pattern.code)}
       {...getLegBadgeProps(leg, config)}
     />
   );

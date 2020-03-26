@@ -5,7 +5,7 @@ import cx from 'classnames';
 import { PREFIX_ROUTES } from '../util/path';
 import RouteNumber from './RouteNumber';
 
-export default function RouteHeader(props, context) {
+export default function RouteHeader(props) {
   const mode = props.route.mode.toLowerCase();
 
   const trip = props.trip ? (
@@ -35,11 +35,7 @@ export default function RouteHeader(props, context) {
   return (
     <div className={cx('route-header', props.className)}>
       <h1 className={mode}>
-        <RouteNumber
-          mode={mode}
-          text={routeLine}
-          prefix={context.config.mapRouting(props.route.gtfsId)}
-        />
+        <RouteNumber mode={mode} text={routeLine} gtfsId={props.route.gtfsId} />
         {trip}
       </h1>
     </div>
@@ -55,8 +51,4 @@ RouteHeader.propTypes = {
   trip: PropTypes.string,
   pattern: PropTypes.shape({ code: PropTypes.string.isRequired }),
   className: PropTypes.string,
-};
-
-RouteHeader.propContext = {
-  config: PropTypes.object.isRequired,
 };
