@@ -10,6 +10,7 @@ import MapLayerStore, { mapLayerShape } from '../store/MapLayerStore';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { FormattedMessage } from 'react-intl';
 
 class SelectMapLayersDialog extends React.Component {
   updateSetting = newSetting => {
@@ -288,6 +289,16 @@ class SelectMapLayersDialog extends React.Component {
               ))}
             </div>
           )}
+          <div className="checkbox-grouping">
+            <label className="radio-label" htmlFor="street">
+              <input type="radio" id="street" value="street" name="mapMode" defaultChecked />
+              <FormattedMessage id="streets" defaultMessage="Streets"/>
+            </label>
+            <label className="radio-label" htmlFor="satellite">
+              <input type="radio" id="satellite" value="satellite" name="mapMode" />
+              <FormattedMessage id="satellite" defaultMessage="Satellite"/>
+            </label>
+          </div>
       </React.Fragment>
     );
   };
