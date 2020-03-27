@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-state */
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
@@ -6,6 +7,10 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
 import isEqual from 'lodash/isEqual';
 import d from 'debug';
+import suggestionToLocation from '../util/suggestionUtils';
+import { getJson } from '../util/xhrPromise';
+import { withCurrentTime } from '../util/searchUtils';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 import {
   initGeolocation,
@@ -23,6 +28,7 @@ import {
   parseLocation,
   isItinerarySearchObjects,
   navigateTo,
+  PREFIX_ITINERARY_SUMMARY,
 } from '../util/path';
 import OverlayWithSpinner from './visual/OverlayWithSpinner';
 import { dtLocationShape } from '../util/shapes';
@@ -65,6 +71,9 @@ class IndexPage extends React.Component {
     if (this.props.autoSetOrigin) {
       context.executeAction(storeOrigin, props.origin);
     }
+    this.state = {
+      pendingCurrentLocation: false,
+    };
   }
 
   componentDidMount() {
@@ -102,6 +111,105 @@ class IndexPage extends React.Component {
     }
   };
 
+  onLocationSelected = location => {
+    // console.log('onlocationselected')
+    const locationWithTime = withCurrentTime(
+      this.context.getStore,
+      this.context.match.location,
+    );
+    addAnalyticsEvent({
+      action: 'EditJourneyEndPoint',
+      category: 'ItinerarySettings',
+      name: location.type,
+    });
+
+    let updatedOrigin = origin;
+    let destination = { ...location, ready: true };
+    if (location.type === 'CurrentLocation') {
+      destination = {
+        ...location,
+        gps: true,
+        ready: !!location.lat,
+      };
+      if (origin.gps === true) {
+        updatedOrigin = { set: false };
+      }
+    }
+
+    navigateTo({
+      base: locationWithTime,
+      origin: updatedOrigin,
+      destination,
+      // is iitnirerary
+      context: PREFIX_ITINERARY_SUMMARY,
+      router: this.context.router,
+      resetIndex: true,
+    });
+  };
+
+  finishSelect = (item, type) => {
+    if (item.type.indexOf('Favourite') === -1) {
+      this.context.executeAction(searchContext.saveSearch, {
+        item,
+        type,
+      });
+    }
+    // this.onSelect(item, type);
+  };
+
+  onSuggestionSelected = item => {
+    // console.log('oss')
+    // preferred route selection
+    // if (this.props.isPreferredRouteSearch && this.props.onRouteSelected) {
+    //   this.props.onRouteSelected(item);
+    //   return;
+    // }
+    // route
+    if (item.properties.link) {
+      this.context.router.push(item.properties.link);
+      return;
+    }
+    // console.log( suggestionToLocation);
+    const location = suggestionToLocation(item);
+    if (item.properties.layer === 'currentPosition' && !item.properties.lat) {
+      this.setState({ pendingCurrentLocation: true }, () =>
+        this.context.executeAction(searchContext.startLocationWatch),
+      );
+    } else {
+      this.onLocationSelected(location);
+    }
+  };
+
+  onSelect = item => {
+    // console.log('onselect')
+    // type is destination unless timetable or route was clicked
+    let type = 'endpoint';
+    switch (item.type) {
+      case 'Route':
+        type = 'search';
+        break;
+      default:
+    }
+
+    if (item.type === 'OldSearch' && item.properties.gid) {
+      getJson(this.context.config.URL.PELIAS_PLACE, {
+        ids: item.properties.gid,
+      }).then(data => {
+        const newItem = { ...item };
+        if (data.features != null && data.features.length > 0) {
+          // update only position. It is surprising if, say, the name changes at selection.
+          const geom = data.features[0].geometry;
+          newItem.geometry.coordinates = geom.coordinates;
+        }
+        this.finishSelect(newItem, type);
+        this.onSuggestionSelected(item);
+      });
+    } else {
+      this.finishSelect(item, type);
+      this.onSuggestionSelected(item);
+    }
+  };
+
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     const { config, intl } = this.context;
@@ -122,12 +230,14 @@ class IndexPage extends React.Component {
               defaultMessage: 'Where to?',
             })}
             origin={origin}
+            onSelect={this.onSelect}
             destination={destination}
             searchType="endpoint"
             originPlaceHolder="search-origin-index"
             destinationPlaceHolder="search-destination-index"
             searchContext={searchContext}
             locationState={this.props.locationState}
+            onLocationSelected={this.onLocationSelected}
             getViaPointsFromMap={this.props.getViaPointsFromMap}
           />
           <div className="fpcfloat">
@@ -158,6 +268,7 @@ class IndexPage extends React.Component {
               searchType="search"
               placeholder="stop-near-you"
               value=""
+              onSelect={this.onSelect}
               isFocused={this.isFocused}
               onLocationSelected={e => e.stopPropagation()}
               searchContext={searchContext}
@@ -190,6 +301,8 @@ class IndexPage extends React.Component {
             origin={origin}
             destination={destination}
             searchType="all"
+            onSelect={this.onSelect}
+            onLocationSelected={this.onLocationSelected}
             originPlaceHolder="search-origin"
             destinationPlaceHolder="search-destination"
             searchContext={searchContext}
@@ -220,6 +333,7 @@ class IndexPage extends React.Component {
               searchType="search"
               placeholder="stop-near-you"
               value=""
+              onSelect={this.onSelect}
               isFocused={this.isFocused}
               onLocationSelected={e => e.stopPropagation()}
               searchContext={searchContext}

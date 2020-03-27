@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars  */
+/* eslint-disable no-unused-state */
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
@@ -8,7 +10,7 @@ import { executeSearch, getAllEndpointLayers } from '../util/searchUtils';
 import SuggestionItem from './SuggestionItem';
 import { dtLocationShape } from '../util/shapes';
 import Icon from './Icon';
-import { getJson } from '../util/xhrPromise';
+// import { getJson } from '../util/xhrPromise';
 import Loading from './Loading';
 import { suggestionToLocation, getLabel } from '../util/suggestionUtils';
 
@@ -146,7 +148,7 @@ class DTAutosuggest extends React.Component {
         },
         () => {
           this.input.blur();
-          this.onSelect(ref.suggestion);
+          this.props.onSelect(ref.suggestion);
         },
       );
     } else {
@@ -184,7 +186,7 @@ class DTAutosuggest extends React.Component {
         () => {
           if (this.state.suggestions.length) {
             this.input.blur();
-            this.onSelect(this.state.suggestions[0]);
+            this.props.onSelect(this.state.suggestions[0]);
           }
         },
       );
@@ -341,66 +343,66 @@ class DTAutosuggest extends React.Component {
   };
 
   // DT-3263 ends
-  finishSelect = (item, type) => {
-    if (item.type.indexOf('Favourite') === -1) {
-      this.context.executeAction(this.props.searchContext.saveSearch, {
-        item,
-        type,
-      });
-    }
-    // this.onSelect(item, type);
-  };
+  // finishSelect = (item, type) => {
+  //   if (item.type.indexOf('Favourite') === -1) {
+  //     this.context.executeAction(this.props.searchContext.saveSearch, {
+  //       item,
+  //       type,
+  //     });
+  //   }
+  //   // this.onSelect(item, type);
+  // };
 
-  onSelect = item => {
-    // type is destination unless timetable or route was clicked
-    let type = 'endpoint';
-    switch (item.type) {
-      case 'Route':
-        type = 'search';
-        break;
-      default:
-    }
+  // onSelect = item => {
+  //   // type is destination unless timetable or route was clicked
+  //   let type = 'endpoint';
+  //   switch (item.type) {
+  //     case 'Route':
+  //       type = 'search';
+  //       break;
+  //     default:
+  //   }
 
-    if (item.type === 'OldSearch' && item.properties.gid) {
-      getJson(this.context.config.URL.PELIAS_PLACE, {
-        ids: item.properties.gid,
-      }).then(data => {
-        const newItem = { ...item };
-        if (data.features != null && data.features.length > 0) {
-          // update only position. It is surprising if, say, the name changes at selection.
-          const geom = data.features[0].geometry;
-          newItem.geometry.coordinates = geom.coordinates;
-        }
-        this.finishSelect(newItem, type);
-        this.onSuggestionSelected(item);
-      });
-    } else {
-      this.finishSelect(item, type);
-      this.onSuggestionSelected(item);
-    }
-  };
+  //   if (item.type === 'OldSearch' && item.properties.gid) {
+  //     getJson(this.context.config.URL.PELIAS_PLACE, {
+  //       ids: item.properties.gid,
+  //     }).then(data => {
+  //       const newItem = { ...item };
+  //       if (data.features != null && data.features.length > 0) {
+  //         // update only position. It is surprising if, say, the name changes at selection.
+  //         const geom = data.features[0].geometry;
+  //         newItem.geometry.coordinates = geom.coordinates;
+  //       }
+  //       this.finishSelect(newItem, type);
+  //       this.onSuggestionSelected(item);
+  //     });
+  //   } else {
+  //     this.finishSelect(item, type);
+  //     this.onSuggestionSelected(item);
+  //   }
+  // };
 
-  onSuggestionSelected = item => {
-    // preferred route selection
-    if (this.props.isPreferredRouteSearch && this.props.onRouteSelected) {
-      this.props.onRouteSelected(item);
-      return;
-    }
-    // route
-    if (item.properties.link) {
-      this.context.router.push(item.properties.link);
-      return;
-    }
-    const location = suggestionToLocation(item);
+  // onSuggestionSelected = item => {
+  //   // preferred route selection
+  //   if (this.props.isPreferredRouteSearch && this.props.onRouteSelected) {
+  //     this.props.onRouteSelected(item);
+  //     return;
+  //   }
+  //   // route
+  //   if (item.properties.link) {
+  //     this.context.router.push(item.properties.link);
+  //     return;
+  //   }
+  //   const location = suggestionToLocation(item);
 
-    if (item.properties.layer === 'currentPosition' && !item.properties.lat) {
-      this.setState({ pendingCurrentLocation: true }, () =>
-        this.context.executeAction(this.props.searchContext.startLocationWatch),
-      );
-    } else {
-      this.props.onLocationSelected(location);
-    }
-  };
+  //   if (item.properties.layer === 'currentPosition' && !item.properties.lat) {
+  //     this.setState({ pendingCurrentLocation: true }, () =>
+  //       this.context.executeAction(this.props.searchContext.startLocationWatch),
+  //     );
+  //   } else {
+  //     this.props.onLocationSelected(location);
+  //   }
+  // };
 
   shouldcomponentUpdate = (nextProps, nextState) => {
     if (

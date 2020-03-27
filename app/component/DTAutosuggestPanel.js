@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -8,7 +9,7 @@ import DTAutoSuggest from './DTAutosuggest';
 import Icon from './Icon';
 import Select from './Select';
 import { isIe, isKeyboardSelectionEvent } from '../util/browser';
-import { navigateTo, PREFIX_ITINERARY_SUMMARY } from '../util/path';
+// import { navigateTo, PREFIX_ITINERARY_SUMMARY } from '../util/path';
 import { getIntermediatePlaces } from '../util/queryUtils';
 import { dtLocationShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
@@ -86,6 +87,8 @@ class DTAutosuggestPanel extends React.Component {
     searchPanelText: PropTypes.string,
     searchContext: PropTypes.any.isRequired,
     locationState: PropTypes.object.isRequired,
+    onSelect: PropTypes.func,
+    onLocationSelected: PropTypes.func,
   };
 
   static defaultProps = {
@@ -389,35 +392,8 @@ class DTAutosuggestPanel extends React.Component {
             isFocused={this.isFocused}
             searchContext={searchContext}
             locationState={this.props.locationState}
-            onLocationSelected={location => {
-              addAnalyticsEvent({
-                action: 'EditJourneyStartPoint',
-                category: 'ItinerarySettings',
-                name: location.type,
-              });
-
-              let newOrigin = { ...location, ready: true };
-              let { destination } = this.props;
-              if (location.type === 'CurrentLocation') {
-                newOrigin = { ...location, gps: true, ready: !!location.lat };
-                if (destination.gps === true) {
-                  // destination has gps, clear destination
-                  destination = { set: false };
-                }
-              }
-              if (!destination.set) {
-                this.state.refs[1].focus();
-              }
-
-              navigateTo({
-                base: locationWithTime,
-                origin: newOrigin,
-                destination,
-                context: this.props.isItinerary ? PREFIX_ITINERARY_SUMMARY : '',
-                router: this.context.router,
-                resetIndex: true,
-              });
-            }}
+            onSelect={this.props.onSelect}
+            onLocationSelected={this.props.onLocationSelected}
           />
           <ItinerarySearchControl
             className="switch"
@@ -475,6 +451,7 @@ class DTAutosuggestPanel extends React.Component {
                   searchContext={searchContext}
                   locationState={this.props.locationState}
                   value={(o && o.address) || ''}
+                  onSelect={this.props.onSelect}
                   onLocationSelected={item =>
                     this.handleViaPointLocationSelected(item, i)
                   }
@@ -575,35 +552,8 @@ class DTAutosuggestPanel extends React.Component {
             searchContext={searchContext}
             locationState={this.props.locationState}
             value={this.value(this.props.destination)}
-            onLocationSelected={location => {
-              addAnalyticsEvent({
-                action: 'EditJourneyEndPoint',
-                category: 'ItinerarySettings',
-                name: location.type,
-              });
-
-              let updatedOrigin = origin;
-              let destination = { ...location, ready: true };
-              if (location.type === 'CurrentLocation') {
-                destination = {
-                  ...location,
-                  gps: true,
-                  ready: !!location.lat,
-                };
-                if (origin.gps === true) {
-                  updatedOrigin = { set: false };
-                }
-              }
-
-              navigateTo({
-                base: locationWithTime,
-                origin: updatedOrigin,
-                destination,
-                context: isItinerary ? PREFIX_ITINERARY_SUMMARY : '',
-                router: this.context.router,
-                resetIndex: true,
-              });
-            }}
+            onSelect={this.props.onSelect}
+            onLocationSelected={this.props.onLocationSelected}
           />
           <ItinerarySearchControl
             className={cx('add-via-point', 'more', {
