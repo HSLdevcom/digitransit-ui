@@ -12,6 +12,7 @@ import MapLayerStore, { mapLayerShape } from '../store/MapLayerStore';
 import ComponentUsageExample from './ComponentUsageExample';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { replaceQueryParams } from '../util/queryUtils';
+import { MapMode } from '../constants';
 
 class SelectMapLayersDialog extends React.Component {
   constructor(props) {
@@ -313,7 +314,7 @@ class SelectMapLayersDialog extends React.Component {
               value="street"
               name="mapMode"
               onChange={() => {
-                this.switchMapLayers('default');
+                this.switchMapLayers(MapMode.Default);
               }}
               defaultChecked
             />
@@ -326,7 +327,7 @@ class SelectMapLayersDialog extends React.Component {
               value="satellite"
               name="mapMode"
               onChange={() => {
-                this.switchMapLayers('satellite');
+                this.switchMapLayers(MapMode.Satellite);
               }}
             />
             <FormattedMessage id="satellite" defaultMessage="Satellite" />
