@@ -260,7 +260,6 @@ class DTAutosuggest extends React.Component {
     };
     // must update suggestions
     this.setState(newState, () => this.fetchFunction({ value: '' }));
-
     this.props.isFocused(true);
     this.input.focus();
   };
@@ -478,7 +477,12 @@ class DTAutosuggest extends React.Component {
       },
       {
         selection:
-          suggestions.length > 0 ? suggestions[0].properties.label : '',
+          // eslint-disable-next-line no-nested-ternary
+          suggestions.length > 0
+            ? suggestions[0].properties.labelId
+              ? suggestions[0].properties.labelId
+              : suggestions[0].properties.label
+            : '',
       },
     );
     return (
