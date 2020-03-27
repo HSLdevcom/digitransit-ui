@@ -5,6 +5,10 @@
 const searchContext = {
   // Optional, used by default to get store for positions, favouriteLocations, StoreFavouriteRoutes, FavouriteStops, language.
   context: null,
+  positionStore: null,
+  startLocationWatch: null,
+  saveSearch: null,
+  updateViaPointsFromMap: null,
   getRoutes() {
     return Promise.resolve([]);
   },

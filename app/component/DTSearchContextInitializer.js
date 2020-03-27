@@ -12,7 +12,11 @@ import {
   getOldSearches,
   getFavouriteStops,
   getLanguage,
+  getPositionStore,
 } from '../util/storeUtils';
+import { startLocationWatch } from '../action/PositionActions';
+import { saveSearch } from '../action/SearchActions';
+import updateViaPointsFromMap from '../action/ViaPointsActions';
 
 export default function intializeSearchContext(
   context,
@@ -31,4 +35,8 @@ export default function intializeSearchContext(
   searchContext.getRoutes = getRoutes;
   searchContext.getStopAndStations = getStopAndStations;
   searchContext.getFavouriteRoutes = getFavouriteRoutes;
+  searchContext.positionStore = getPositionStore;
+  searchContext.startLocationWatch = startLocationWatch;
+  searchContext.saveSearch = saveSearch;
+  searchContext.updateViaPointsFromMap = updateViaPointsFromMap;
 }

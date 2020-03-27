@@ -51,7 +51,9 @@ class IndexPage extends React.Component {
     destination: dtLocationShape.isRequired,
     showSpinner: PropTypes.bool.isRequired,
     favourites: PropTypes.array,
+    getViaPointsFromMap: PropTypes.bool.isRequired,
     relayEnvironment: PropTypes.object.isRequired,
+    locationState: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -104,7 +106,6 @@ class IndexPage extends React.Component {
   render() {
     const { config, intl } = this.context;
     const { breakpoint, destination, origin, favourites } = this.props;
-
     // DT-3381 TODO: DTEndpointAutoSuggest currently does not search for stops or stations, as it should be. SearchUtils needs refactoring.
     return breakpoint === 'large' ? (
       <div
@@ -126,6 +127,8 @@ class IndexPage extends React.Component {
             originPlaceHolder="search-origin-index"
             destinationPlaceHolder="search-destination-index"
             searchContext={searchContext}
+            locationState={this.props.locationState}
+            getViaPointsFromMap={this.props.getViaPointsFromMap}
           />
           <div className="fpcfloat">
             <div className="frontpage-panel">
@@ -158,6 +161,7 @@ class IndexPage extends React.Component {
               isFocused={this.isFocused}
               onLocationSelected={e => e.stopPropagation()}
               searchContext={searchContext}
+              locationState={this.props.locationState}
             />
           </div>
         </ControlPanel>
@@ -189,6 +193,7 @@ class IndexPage extends React.Component {
             originPlaceHolder="search-origin"
             destinationPlaceHolder="search-destination"
             searchContext={searchContext}
+            locationState={this.props.locationState}
           />
           <div className="fpcfloat">
             <div className="frontpage-panel">
@@ -218,6 +223,7 @@ class IndexPage extends React.Component {
               isFocused={this.isFocused}
               onLocationSelected={e => e.stopPropagation()}
               searchContext={searchContext}
+              locationState={this.props.locationState}
             />
           </div>
         </ControlPanel>
@@ -294,7 +300,7 @@ const processLocation = (locationString, locationState, intl) => {
 
 const IndexPageWithPosition = connectToStores(
   IndexPageWithBreakpoint,
-  ['PositionStore'],
+  ['PositionStore', 'ViaPointsStore'],
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
 
@@ -347,6 +353,9 @@ const IndexPageWithPosition = connectToStores(
       });
     }
     newProps.lang = context.getStore('PreferencesStore').getLanguage();
+    newProps.getViaPointsFromMap = context
+      .getStore('ViaPointsStore')
+      .getViaPoints();
     newProps.favourites = [
       ...context.getStore('FavouriteStore').getLocations(),
       ...context.getStore('FavouriteStore').getStopsAndStations(),

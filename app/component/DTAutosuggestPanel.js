@@ -4,14 +4,12 @@ import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import DTAutoSuggest from './DTAutosuggest';
 import Icon from './Icon';
 import Select from './Select';
 import { isIe, isKeyboardSelectionEvent } from '../util/browser';
 import { navigateTo, PREFIX_ITINERARY_SUMMARY } from '../util/path';
 import { getIntermediatePlaces } from '../util/queryUtils';
-import updateViaPointsFromMap from '../action/ViaPointsActions';
 import { dtLocationShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
 import { withCurrentTime } from '../util/searchUtils';
@@ -87,6 +85,7 @@ class DTAutosuggestPanel extends React.Component {
     getViaPointsFromMap: PropTypes.bool,
     searchPanelText: PropTypes.string,
     searchContext: PropTypes.any.isRequired,
+    locationState: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -117,7 +116,10 @@ class DTAutosuggestPanel extends React.Component {
       this.setState({
         viaPoints: getIntermediatePlaces(this.context.match.location.query),
       });
-      this.context.executeAction(updateViaPointsFromMap, false);
+      this.context.executeAction(
+        this.props.searchContext.updateViaPointsFromMap,
+        false,
+      );
     }
   };
 
@@ -386,6 +388,7 @@ class DTAutosuggestPanel extends React.Component {
             value={this.value(origin)}
             isFocused={this.isFocused}
             searchContext={searchContext}
+            locationState={this.props.locationState}
             onLocationSelected={location => {
               addAnalyticsEvent({
                 action: 'EditJourneyStartPoint',
@@ -470,6 +473,7 @@ class DTAutosuggestPanel extends React.Component {
                   className="viapoint"
                   isFocused={this.isFocused}
                   searchContext={searchContext}
+                  locationState={this.props.locationState}
                   value={(o && o.address) || ''}
                   onLocationSelected={item =>
                     this.handleViaPointLocationSelected(item, i)
@@ -569,6 +573,7 @@ class DTAutosuggestPanel extends React.Component {
             className={this.class(this.props.destination)}
             isFocused={this.isFocused}
             searchContext={searchContext}
+            locationState={this.props.locationState}
             value={this.value(this.props.destination)}
             onLocationSelected={location => {
               addAnalyticsEvent({
@@ -621,13 +626,7 @@ class DTAutosuggestPanel extends React.Component {
   };
 }
 
-const DTAutosuggestPanelWithBreakpoint = connectToStores(
-  withBreakpoint(DTAutosuggestPanel),
-  ['ViaPointsStore'],
-  context => ({
-    getViaPointsFromMap: context.getStore('ViaPointsStore').getViaPoints(),
-  }),
-);
+const DTAutosuggestPanelWithBreakpoint = withBreakpoint(DTAutosuggestPanel);
 
 export {
   DTAutosuggestPanel as component,

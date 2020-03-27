@@ -3,18 +3,14 @@ import React from 'react';
 import cx from 'classnames';
 import { routerShape } from 'found';
 import { intlShape } from 'react-intl';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import Autosuggest from 'react-autosuggest';
 import { executeSearch, getAllEndpointLayers } from '../util/searchUtils';
 import SuggestionItem from './SuggestionItem';
 import { dtLocationShape } from '../util/shapes';
 import Icon from './Icon';
 import { getJson } from '../util/xhrPromise';
-import { saveSearch } from '../action/SearchActions';
 import Loading from './Loading';
 import { suggestionToLocation, getLabel } from '../util/suggestionUtils';
-import { startLocationWatch } from '../action/PositionActions';
-import PositionStore from '../store/PositionStore';
 
 class DTAutosuggest extends React.Component {
   static contextTypes = {
@@ -86,11 +82,15 @@ class DTAutosuggest extends React.Component {
     // wait until address is set or geolocationing fails
     if (
       this.state.pendingCurrentLocation &&
-      (locState.status === PositionStore.STATUS_FOUND_ADDRESS ||
+      (locState.status ===
+        this.props.searchContext.positionStore.STATUS_FOUND_ADDRESS ||
         locState.locationingFailed)
     ) {
       this.setState({ pendingCurrentLocation: false }, () => {
-        if (locState.status === PositionStore.STATUS_FOUND_ADDRESS) {
+        if (
+          locState.status ===
+          this.props.searchContext.positionStore.STATUS_FOUND_ADDRESS
+        ) {
           const location = {
             type: 'CurrentLocation',
             lat: locState.lat,
@@ -343,7 +343,10 @@ class DTAutosuggest extends React.Component {
   // DT-3263 ends
   finishSelect = (item, type) => {
     if (item.type.indexOf('Favourite') === -1) {
-      this.context.executeAction(saveSearch, { item, type });
+      this.context.executeAction(this.props.searchContext.saveSearch, {
+        item,
+        type,
+      });
     }
     // this.onSelect(item, type);
   };
@@ -392,7 +395,7 @@ class DTAutosuggest extends React.Component {
 
     if (item.properties.layer === 'currentPosition' && !item.properties.lat) {
       this.setState({ pendingCurrentLocation: true }, () =>
-        this.context.executeAction(startLocationWatch),
+        this.context.executeAction(this.props.searchContext.startLocationWatch),
       );
     } else {
       this.props.onLocationSelected(location);
@@ -418,11 +421,15 @@ class DTAutosuggest extends React.Component {
     const oldLocState = this.props.locationState;
     const newLocState = nextProps.locationState;
     const oldGeoloc =
-      oldLocState.status === PositionStore.STATUS_FOUND_ADDRESS ||
-      oldLocState.status === PositionStore.STATUS_FOUND_LOCATION;
+      oldLocState.status ===
+        this.props.searchContext.positionStore.STATUS_FOUND_ADDRESS ||
+      oldLocState.status ===
+        this.props.searchContext.positionStore.STATUS_FOUND_LOCATION;
     const newGeoloc =
-      newLocState.status === PositionStore.STATUS_FOUND_ADDRESS ||
-      newLocState.status === PositionStore.STATUS_FOUND_LOCATION;
+      newLocState.status ===
+        this.props.searchContext.positionStore.STATUS_FOUND_ADDRESS ||
+      newLocState.status ===
+        this.props.searchContext.positionStore.STATUS_FOUND_LOCATION;
     if (oldGeoloc && newGeoloc) {
       // changes between found-location / found-address do not count
       return false;
@@ -507,6 +514,4 @@ class DTAutosuggest extends React.Component {
   }
 }
 
-export default connectToStores(DTAutosuggest, [PositionStore], context => ({
-  locationState: context.getStore(PositionStore).getLocationState(),
-}));
+export default DTAutosuggest;
