@@ -135,7 +135,7 @@ class DTAutosuggest extends React.Component {
     this.props.isFocused(false);
     this.setState({
       editing: false,
-      value: this.props.value, // DT-3263: changed this.state.value from this.props.value
+      value: this.props.value,
     });
   };
 
@@ -162,7 +162,6 @@ class DTAutosuggest extends React.Component {
     }
   };
 
-  // DT-3263: not clear automatically suggestions: [] (e.g. user comes back with tabulator)
   onSuggestionsClearRequested = () => {
     this.setState({
       suggestions: [],
@@ -466,9 +465,21 @@ class DTAutosuggest extends React.Component {
     const ariaSuggestionLen = this.context.intl.formatMessage(
       {
         id: 'search-autosuggest-len',
-        defaultMessage: 'There are {len} Suggestions available',
+        defaultMessage: 'There are {len} suggestions available',
       },
-      { len: suggestions.length },
+      {
+        len: suggestions.length,
+      },
+    );
+    const ariaCurrentSuggestion = this.context.intl.formatMessage(
+      {
+        id: 'search-current-suggestion',
+        defaultMessage: 'Current selection: {selection}',
+      },
+      {
+        selection:
+          suggestions.length > 0 ? suggestions[0].properties.label : '',
+      },
     );
     return (
       <div className={cx(['autosuggest-input-container', this.props.id])}>
@@ -497,8 +508,19 @@ class DTAutosuggest extends React.Component {
                 onKeyDown={this.keyDown}
                 {...p}
               />
-              <span className="sr-only" role="alert">
+              <span
+                className="sr-only"
+                role="alert"
+                aria-hidden={!this.state.editing}
+              >
                 {ariaSuggestionLen}
+              </span>
+              <span
+                className="sr-only"
+                role="alert"
+                aria-hidden={!this.state.editing}
+              >
+                {ariaCurrentSuggestion}
               </span>
               {this.clearButton()}
             </>
