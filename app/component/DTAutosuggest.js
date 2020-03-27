@@ -133,10 +133,10 @@ class DTAutosuggest extends React.Component {
 
   onBlur = () => {
     this.props.isFocused(false);
-    this.setState(prevState => ({
+    this.setState({
       editing: false,
-      value: prevState.value, // DT-3263: changed this.state.value from this.props.value
-    }));
+      value: this.props.value, // DT-3263: changed this.state.value from this.props.value
+    });
   };
 
   onSelected = (e, ref) => {
@@ -164,9 +164,9 @@ class DTAutosuggest extends React.Component {
 
   // DT-3263: not clear automatically suggestions: [] (e.g. user comes back with tabulator)
   onSuggestionsClearRequested = () => {
-    /* this.setState({
+    this.setState({
       suggestions: [],
-    }); */
+    });
   };
 
   getSuggestionValue = suggestion => {
