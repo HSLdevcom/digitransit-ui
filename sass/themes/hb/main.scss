@@ -69,14 +69,15 @@
 }
 
 input[type='radio'] {
-  margin-right: 3px;
+  margin-right: 10px;
+  width: 20px;
 }
 
 .radio-label,
 .phone-label {
   font-family: $font-family;
   font-size: medium;
-  color: black;
+  color: inherit;
 }
 
 .phone-label {
