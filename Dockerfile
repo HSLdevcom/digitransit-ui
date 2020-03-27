@@ -1,4 +1,4 @@
-FROM node:10-slim
+FROM node:10
 MAINTAINER Reittiopas version: 0.1
 
 EXPOSE 8080
@@ -28,23 +28,10 @@ WORKDIR ${WORK}
 ADD . ${WORK}
 
 RUN \
-  # install dependencies
-  apt-get update && apt-get -qq install python make g++ gcc libpng16-16 libpng-dev nasm -y && \
-  yarn install && \
-  # build actual application
+  yarn install --silent && \
+  yarn add --force node-sass && \
   yarn run build && \
-
-  # clean up starts here
   rm -rf static docs test /tmp/* && \
-  # remove the dev dependencies from the final image, amazingly this saves 500MB
-  # https://github.com/yarnpkg/yarn/issues/696
-  yarn install --production --ignore-scripts --prefer-offline && \
-  # clean global npm depdency cache
-  yarn cache clean && \
-  # remove apt dependencies and caches
-  apt-get remove python make g++ gcc libpng16-16 libpng-dev nasm -y && \
-  apt-get autoremove -y && \
-  rm -rf /tmp/* /var/lib/apt/lists/* /var/cache/apt/* ${WORK}/node_modules/.cache && \
-  du -a / | sort -n -r | head -n 100
+  yarn cache clean
 
 CMD yarn run start

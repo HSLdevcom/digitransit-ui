@@ -12,6 +12,7 @@ const iltorb = require('iltorb');
 const zopfli = require('node-zopfli-es');
 
 const WebpackAssetsManifest = require('webpack-assets-manifest');
+const StatsPlugin = require('stats-webpack-plugin');
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
@@ -146,6 +147,7 @@ const productionPlugins = [
       to: path.join(__dirname, '_static/assets/geojson'),
     },
   ]),
+  new StatsPlugin('../stats.json', { chunkModules: true }),
   new WebpackAssetsManifest({ output: '../manifest.json' }),
 ];
 
