@@ -1,7 +1,7 @@
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import PropTypes from 'prop-types';
 import React from 'react';
-
+import { routerShape } from 'react-router';
 import BubbleDialog from './BubbleDialog';
 import Checkbox from './Checkbox';
 import { updateMapLayers } from '../action/MapLayerActions';
@@ -73,6 +73,13 @@ class SelectMapLayersDialog extends React.Component {
     };
     this.updateSetting({ geoJson });
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      mapMode: 'default',
+    };
+  }
 
   renderContents = (
     {
@@ -177,29 +184,27 @@ class SelectMapLayersDialog extends React.Component {
               }}
             />
           )}
-          {config.cityBike &&
-            config.cityBike.showCityBikes && (
-              <Checkbox
-                checked={citybike}
-                defaultMessage="Citybike station"
-                labelId="map-layer-citybike"
-                onChange={e => {
-                  this.updateSetting({ citybike: e.target.checked });
-                  this.sendLayerChangeAnalytic('Citybike', e.target.checked);
-                }}
-              />
-            )}
-          {config.roadworks &&
-            config.roadworks.showRoadworks && (
-              <Checkbox
-                checked={roadworks}
-                defaultMessage="Roadworks"
-                labelId="map-layer-roadworks"
-                onChange={e =>
-                  this.updateSetting({ roadworks: e.target.checked })
-                }
-              />
-            )}
+          {config.cityBike && config.cityBike.showCityBikes && (
+            <Checkbox
+              checked={citybike}
+              defaultMessage="Citybike station"
+              labelId="map-layer-citybike"
+              onChange={e => {
+                this.updateSetting({ citybike: e.target.checked });
+                this.sendLayerChangeAnalytic('Citybike', e.target.checked);
+              }}
+            />
+          )}
+          {config.roadworks && config.roadworks.showRoadworks && (
+            <Checkbox
+              checked={roadworks}
+              defaultMessage="Roadworks"
+              labelId="map-layer-roadworks"
+              onChange={e =>
+                this.updateSetting({ roadworks: e.target.checked })
+              }
+            />
+          )}
           {config.dynamicParkingLots &&
             config.dynamicParkingLots.showDynamicParkingLots && (
               <Checkbox
@@ -221,84 +226,94 @@ class SelectMapLayersDialog extends React.Component {
               }
             />
           )}
-          {config.parkAndRide &&
-            config.parkAndRide.showParkAndRide && (
-              <Checkbox
-                checked={parkAndRide}
-                defaultMessage="Park &amp; ride"
-                labelId="map-layer-park-and-ride"
-                onChange={e => {
-                  this.updateSetting({ parkAndRide: e.target.checked });
-                  this.sendLayerChangeAnalytic('ParkAndRide', e.target.checked);
-                }}
-              />
-            )}
+          {config.parkAndRide && config.parkAndRide.showParkAndRide && (
+            <Checkbox
+              checked={parkAndRide}
+              defaultMessage="Park &amp; ride"
+              labelId="map-layer-park-and-ride"
+              onChange={e => {
+                this.updateSetting({ parkAndRide: e.target.checked });
+                this.sendLayerChangeAnalytic('ParkAndRide', e.target.checked);
+              }}
+            />
+          )}
         </div>
-        {config.ticketSales &&
-          config.ticketSales.showTicketSales && (
-            <div className="checkbox-grouping">
-              <Checkbox
-                checked={ticketSales.ticketMachine}
-                defaultMessage="Ticket machine"
-                labelId="map-layer-ticket-sales-machine"
-                onChange={e => {
-                  this.updateTicketSalesSetting({
-                    ticketMachine: e.target.checked,
-                  });
-                  this.sendLayerChangeAnalytic(
-                    'TicketSalesMachine',
-                    e.target.checked,
-                  );
-                }}
-              />
-              <Checkbox
-                checked={ticketSales.salesPoint}
-                defaultMessage="Travel Card top up"
-                labelId="map-layer-ticket-sales-point"
-                onChange={e => {
-                  this.updateTicketSalesSetting({
-                    salesPoint: e.target.checked,
-                    servicePoint: e.target.checked,
-                  });
-                  this.sendLayerChangeAnalytic(
-                    'TicketSalesPoint',
-                    e.target.checked,
-                  );
-                }}
-              />
-            </div>
-          )}
-        {config.geoJson &&
-          Array.isArray(config.geoJson.layers) && (
-            <div className="checkbox-grouping">
-              {config.geoJson.layers.map(gj => (
-                <Checkbox
-                  checked={
-                    (gj.isOffByDefault && geoJson[gj.url] === true) ||
-                    (!gj.isOffByDefault && geoJson[gj.url] !== false)
-                  }
-                  defaultMessage={gj.name[lang]}
-                  key={gj.url}
-                  onChange={e => {
-                    const newSetting = {};
-                    newSetting[gj.url] = e.target.checked;
-                    this.updateGeoJsonSetting(newSetting);
-                    this.sendLayerChangeAnalytic('Zones', e.target.checked);
-                  }}
-                />
-              ))}
-            </div>
-          )}
+        {config.ticketSales && config.ticketSales.showTicketSales && (
           <div className="checkbox-grouping">
-            <label className="radio-label" htmlFor="street">
-              <input type="radio" id="street" value="street" name="mapMode" defaultChecked />
-              <FormattedMessage id="streets" defaultMessage="Streets"/>
-            </label>
-            <label className="radio-label" htmlFor="satellite">
-              <input type="radio" id="satellite" value="satellite" name="mapMode" />
-              <FormattedMessage id="satellite" defaultMessage="Satellite"/>
-            </label>
+            <Checkbox
+              checked={ticketSales.ticketMachine}
+              defaultMessage="Ticket machine"
+              labelId="map-layer-ticket-sales-machine"
+              onChange={e => {
+                this.updateTicketSalesSetting({
+                  ticketMachine: e.target.checked,
+                });
+                this.sendLayerChangeAnalytic(
+                  'TicketSalesMachine',
+                  e.target.checked,
+                );
+              }}
+            />
+            <Checkbox
+              checked={ticketSales.salesPoint}
+              defaultMessage="Travel Card top up"
+              labelId="map-layer-ticket-sales-point"
+              onChange={e => {
+                this.updateTicketSalesSetting({
+                  salesPoint: e.target.checked,
+                  servicePoint: e.target.checked,
+                });
+                this.sendLayerChangeAnalytic(
+                  'TicketSalesPoint',
+                  e.target.checked,
+                );
+              }}
+            />
           </div>
+        )}
+        {config.geoJson && Array.isArray(config.geoJson.layers) && (
+          <div className="checkbox-grouping">
+            {config.geoJson.layers.map(gj => (
+              <Checkbox
+                checked={
+                  (gj.isOffByDefault && geoJson[gj.url] === true) ||
+                  (!gj.isOffByDefault && geoJson[gj.url] !== false)
+                }
+                defaultMessage={gj.name[lang]}
+                key={gj.url}
+                onChange={e => {
+                  const newSetting = {};
+                  newSetting[gj.url] = e.target.checked;
+                  this.updateGeoJsonSetting(newSetting);
+                  this.sendLayerChangeAnalytic('Zones', e.target.checked);
+                }}
+              />
+            ))}
+          </div>
+        )}
+        <div className="checkbox-grouping">
+          <label className="radio-label" htmlFor="street">
+            <input
+              type="radio"
+              id="street"
+              value="street"
+              name="mapMode"
+              onChange={() => this.context.router.push({query: {mapMode: 'default'}})}
+              defaultChecked
+            />
+            <FormattedMessage id="streets" defaultMessage="Streets" />
+          </label>
+          <label className="radio-label" htmlFor="satellite">
+            <input
+              type="radio"
+              id="satellite"
+              value="satellite"
+              name="mapMode"
+              onChange={() => this.context.router.push({query: {mapMode: 'satellite'}})}
+            />
+            <FormattedMessage id="satellite" defaultMessage="Satellite" />
+          </label>
+        </div>
       </React.Fragment>
     );
   };
@@ -388,6 +403,10 @@ SelectMapLayersDialog.defaultProps = {
   config: {},
   isOpen: false,
   lang: 'fi',
+};
+
+SelectMapLayersDialog.contextTypes = {
+  router: routerShape,
 };
 
 SelectMapLayersDialog.description = (
