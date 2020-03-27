@@ -6,7 +6,6 @@ const APP_TITLE = 'stadtnavi';
 const APP_DESCRIPTION = '';
 const API_URL = process.env.API_URL || 'https://api.stadtnavi.de';
 const MAP_URL = process.env.MAP_URL || 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png';
-const MAP_KEY = process.env.MAP_KEY || '';
 const SEMI_TRANSPARENT_MAP_URL = process.env.SEMI_TRANSPARENT_MAP_URL || 'https://api.maptiler.com/maps/ffa4d49e-c68c-46c8-ab3f-60543337cecb/256/{z}/{x}/{y}.png?key=eA0drARBA1uPzLR6StGD';
 const GEOCODING_BASE_URL = process.env.GEOCODING_BASE_URL || `https://pelias.locationiq.org/v1`;
 const LOCATIONIQ_API_KEY = process.env.LOCATIONIQ_API_KEY;
@@ -115,7 +114,6 @@ export default configMerger(walttiConfig, {
 
   map: {
     useRetinaTiles: true,
-    key: MAP_KEY,
     tileSize: 256,
     zoomOffset: 0,
     attribution: {
