@@ -2,6 +2,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { routerShape } from 'react-router';
+import { FormattedMessage } from 'react-intl';
 import BubbleDialog from './BubbleDialog';
 import Checkbox from './Checkbox';
 import { updateMapLayers } from '../action/MapLayerActions';
@@ -10,9 +11,17 @@ import MapLayerStore, { mapLayerShape } from '../store/MapLayerStore';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { FormattedMessage } from 'react-intl';
+import { replaceQueryParams } from '../util/queryUtils';
 
 class SelectMapLayersDialog extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      mapMode: 'default',
+    };
+    this.switchMapLayers = this.switchMapLayers.bind(this);
+  }
+
   updateSetting = newSetting => {
     this.props.updateMapLayers({
       ...this.props.mapLayers,
@@ -74,12 +83,11 @@ class SelectMapLayersDialog extends React.Component {
     this.updateSetting({ geoJson });
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      mapMode: 'default',
-    };
-  }
+  switchMapLayers = map => {
+    this.setState({ mapMode: map });
+    const { mapMode } = this.state;
+    replaceQueryParams(this.context.router, { mapMode });
+  };
 
   renderContents = (
     {
@@ -298,7 +306,9 @@ class SelectMapLayersDialog extends React.Component {
               id="street"
               value="street"
               name="mapMode"
-              onChange={() => this.context.router.push({query: {mapMode: 'default'}})}
+              onChange={() => {
+                this.switchMapLayers('default');
+              }}
               defaultChecked
             />
             <FormattedMessage id="streets" defaultMessage="Streets" />
@@ -309,7 +319,9 @@ class SelectMapLayersDialog extends React.Component {
               id="satellite"
               value="satellite"
               name="mapMode"
-              onChange={() => this.context.router.push({query: {mapMode: 'satellite'}})}
+              onChange={() => {
+                this.switchMapLayers('satellite');
+              }}
             />
             <FormattedMessage id="satellite" defaultMessage="Satellite" />
           </label>
