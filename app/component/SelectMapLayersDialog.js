@@ -84,9 +84,10 @@ class SelectMapLayersDialog extends React.Component {
   };
 
   switchMapLayers = map => {
-    this.setState({ mapMode: map });
-    const { mapMode } = this.state;
-    replaceQueryParams(this.context.router, { mapMode });
+    this.setState({ mapMode: map }, () => {
+      const { mapMode } = this.state;
+      replaceQueryParams(this.context.router, { mapMode });
+    });
   };
 
   renderContents = (
