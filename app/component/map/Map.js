@@ -175,7 +175,7 @@ export default class Map extends React.Component {
           <AttributionControl
             position="bottomright"
             prefix={
-              config.map.attribution[(isSatellite ? 'satellite' : 'default')] ||
+              config.map.attribution[isSatellite ? 'satellite' : 'default'] ||
               '&copy; <a tabindex=-1 href=http://osm.org/copyright>OpenStreetMap</a>'
             }
           />
