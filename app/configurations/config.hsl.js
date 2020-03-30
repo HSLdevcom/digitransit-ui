@@ -498,6 +498,8 @@ export default {
     showStreetModeSelector: false, // DT-3470
     showLayerSelector: false, // DT-3470
     showStopMarkerPopupOnMobile: false, // DT-3470
+    showScaleBar: false, // DT-3470
+    showOSMCopyright: false, // DT-3470
   },
 
   stopCard: {
