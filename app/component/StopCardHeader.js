@@ -97,6 +97,7 @@ class StopCardHeader extends React.Component {
         code={this.headerConfig.showStopCode && stop.code ? stop.code : null}
         externalLink={this.getExternalLink(stop.code, isPopUp)}
         icons={icons}
+        backButtonColor={this.context.config.colors.primary}
       >
         {this.headerConfig.showZone &&
           stop.zoneId && (

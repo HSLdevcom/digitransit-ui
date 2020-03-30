@@ -20,7 +20,7 @@ const AppBarSmall = ({
   <React.Fragment>
     <DisruptionInfo />
     <nav className="top-bar">
-      {!disableBackButton && <BackButton />}
+      {!disableBackButton && <BackButton isMobileHeader />}
       <section className="title">
         <LogoSmall showLogo={showLogo} logo={logo} title={title} />
       </section>

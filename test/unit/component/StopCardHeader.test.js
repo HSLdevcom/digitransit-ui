@@ -28,6 +28,9 @@ describe('<StopCardHeader />', () => {
               showZone: true,
             },
           },
+          colors: {
+            primary: '#000000',
+          },
         },
       },
     });
@@ -54,6 +57,9 @@ describe('<StopCardHeader />', () => {
               virtualMonitorBaseUrl: '',
             },
           },
+          colors: {
+            primary: '#000000',
+          },
         },
       },
     });
@@ -79,6 +85,9 @@ describe('<StopCardHeader />', () => {
               showZone: false,
             },
           },
+          colors: {
+            primary: '#000000',
+          },
         },
       },
     });
@@ -103,6 +112,9 @@ describe('<StopCardHeader />', () => {
               showZone: true,
             },
           },
+          colors: {
+            primary: '#000000',
+          },
         },
       },
     });
@@ -124,10 +136,17 @@ describe('<StopCardHeader />', () => {
       },
     };
     const wrapper = mountWithIntl(<StopCardHeader {...props} />, {
-      context: { config: { stopCard: { header: {} } } },
+      context: {
+        config: { stopCard: { header: {} }, colors: { primary: '#000000' } },
+      },
     });
     expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(false);
-    expect(wrapper.find(Icon).prop('img')).to.equal('icon-icon_info');
+    expect(
+      wrapper
+        .find(Icon)
+        .at(1)
+        .prop('img'),
+    ).to.equal('icon-icon_info'); // DT-3472: back button's icon is at index 0
   });
 
   it('should use the caution icon when the stop has alerts and the alert level is not info', () => {
@@ -145,10 +164,17 @@ describe('<StopCardHeader />', () => {
       },
     };
     const wrapper = mountWithIntl(<StopCardHeader {...props} />, {
-      context: { config: { stopCard: { header: {} } } },
+      context: {
+        config: { stopCard: { header: {} }, colors: { primary: '#000000' } },
+      },
     });
     expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(false);
-    expect(wrapper.find(Icon).prop('img')).to.equal('icon-icon_caution');
+    expect(
+      wrapper
+        .find(Icon)
+        .at(1)
+        .prop('img'),
+    ).to.equal('icon-icon_caution'); // DT-3472: back button's icon is at index 0
   });
 
   it('should not use a header icon when the stop has alerts but no severity level', () => {
@@ -166,7 +192,9 @@ describe('<StopCardHeader />', () => {
       },
     };
     const wrapper = shallowWithIntl(<StopCardHeader {...props} />, {
-      context: { config: { stopCard: { header: {} } } },
+      context: {
+        config: { stopCard: { header: {} }, colors: { primary: '#000000' } },
+      },
     });
     expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(true);
   });
@@ -188,7 +216,9 @@ describe('<StopCardHeader />', () => {
       },
     };
     const wrapper = mountWithIntl(<StopCardHeader {...props} />, {
-      context: { config: { stopCard: { header: {} } } },
+      context: {
+        config: { stopCard: { header: {} }, colors: { primary: '#000000' } },
+      },
     });
     expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(true);
   });
