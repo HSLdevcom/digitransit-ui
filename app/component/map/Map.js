@@ -145,6 +145,8 @@ class Map extends React.Component {
     }
     */
 
+    const attribution = config.map.attribution[router.location.query.mapMode];
+
     return (
       <div aria-hidden="true">
         <LeafletMap
@@ -179,7 +181,7 @@ class Map extends React.Component {
           <AttributionControl
             position="bottomright"
             prefix={
-              config.map.attribution[router.location.query.mapMode] ||
+              attribution ||
               '&copy; <a tabindex=-1 href=http://osm.org/copyright>OpenStreetMap</a>'
             }
           />
