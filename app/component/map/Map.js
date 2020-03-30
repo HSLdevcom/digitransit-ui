@@ -17,7 +17,7 @@ import { withRouter, routerShape } from 'react-router';
 import PositionMarker from './PositionMarker';
 import VectorTileLayerContainer from './tile-layer/VectorTileLayerContainer';
 import { boundWithMinimumArea } from '../../util/geo-utils';
-import { isDebugTiles, isSatellite } from '../../util/browser';
+import { isDebugTiles } from '../../util/browser';
 import { BreakpointConsumer } from '../../util/withBreakpoint';
 import events from '../../util/events';
 import { MapMode } from '../../constants';
@@ -179,7 +179,7 @@ class Map extends React.Component {
           <AttributionControl
             position="bottomright"
             prefix={
-              config.map.attribution[isSatellite ? 'satellite' : 'default'] ||
+              config.map.attribution[router.location.query.mapMode] ||
               '&copy; <a tabindex=-1 href=http://osm.org/copyright>OpenStreetMap</a>'
             }
           />
