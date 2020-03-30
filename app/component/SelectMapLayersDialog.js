@@ -316,7 +316,7 @@ class SelectMapLayersDialog extends React.Component {
               onChange={() => {
                 this.switchMapLayers(MapMode.Default);
               }}
-              defaultChecked
+              checked={this.state.mapMode === MapMode.Default}
             />
             <FormattedMessage id="streets" defaultMessage="Streets" />
           </label>
@@ -329,6 +329,7 @@ class SelectMapLayersDialog extends React.Component {
               onChange={() => {
                 this.switchMapLayers(MapMode.Satellite);
               }}
+              checked={this.state.mapMode === MapMode.Satellite}
             />
             <FormattedMessage id="satellite" defaultMessage="Satellite" />
           </label>
