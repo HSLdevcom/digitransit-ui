@@ -327,8 +327,18 @@ export default class CarpoolOffer extends React.Component {
   render() {
     const { onToggleClick } = this.props;
 
+    const stopPropagation = ev => {
+      ev.stopPropagation();
+    };
+
     return (
-      <div className="customize-search carpool-offer">
+      // disabled because this thing only prevents events from propagating
+      // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+      <div
+        className="customize-search carpool-offer"
+        onClick={stopPropagation}
+        onKeyPress={stopPropagation}
+      >
         <button className="close-offcanvas" onClick={onToggleClick}>
           <Icon className="close-icon" img="icon-icon_close" />
         </button>
