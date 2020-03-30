@@ -13,18 +13,20 @@ import 'leaflet-active-area';
 // Webpack handles this by bundling it with the other css files
 import 'leaflet/dist/leaflet.css';
 
+import { withRouter, routerShape } from 'react-router';
 import PositionMarker from './PositionMarker';
 import VectorTileLayerContainer from './tile-layer/VectorTileLayerContainer';
 import { boundWithMinimumArea } from '../../util/geo-utils';
-import { isDebugTiles, isSatellite } from '../../util/browser';
+import { isDebugTiles } from '../../util/browser';
 import { BreakpointConsumer } from '../../util/withBreakpoint';
 import events from '../../util/events';
+import { MapMode } from '../../constants';
 
 const zoomOutText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_minus"/></svg>`;
 
 const zoomInText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_plus"/></svg>`;
 
-export default class Map extends React.Component {
+class Map extends React.Component {
   static propTypes = {
     animate: PropTypes.bool,
     bounds: PropTypes.array,
@@ -47,6 +49,7 @@ export default class Map extends React.Component {
     disableZoom: PropTypes.bool,
     activeArea: PropTypes.string,
     mapRef: PropTypes.func,
+    mapMode: PropTypes.string,
   };
 
   static defaultProps = {
@@ -60,6 +63,7 @@ export default class Map extends React.Component {
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
     config: PropTypes.object.isRequired,
+    router: routerShape,
   };
 
   componentDidMount() {
@@ -113,7 +117,7 @@ export default class Map extends React.Component {
 
   render() {
     const { zoom, boundsOptions } = this.props;
-    const { config } = this.context;
+    const { config, router } = this.context;
 
     const center =
       (!this.props.fitBounds &&
@@ -128,7 +132,7 @@ export default class Map extends React.Component {
     const mapUrls = [];
     if (isDebugTiles) {
       mapUrls.push(`${config.URL.OTP}inspector/tile/traversal/{z}/{x}/{y}.png`);
-    } else if (isSatellite) {
+    } else if (router.location.query.mapMode === MapMode.Satellite) {
       mapUrls.push(config.URL.MAP.satellite);
       mapUrls.push(config.URL.MAP.semiTransparent);
     } else {
@@ -140,6 +144,8 @@ export default class Map extends React.Component {
       mapUrl = mapUrl[this.props.lang] || config.URL.MAP.default;
     }
     */
+
+    const attribution = config.map.attribution[router.location.query.mapMode];
 
     return (
       <div aria-hidden="true">
@@ -175,7 +181,7 @@ export default class Map extends React.Component {
           <AttributionControl
             position="bottomright"
             prefix={
-              config.map.attribution ||
+              attribution ||
               '&copy; <a tabindex=-1 href=http://osm.org/copyright>OpenStreetMap</a>'
             }
           />
@@ -209,3 +215,5 @@ export default class Map extends React.Component {
     );
   }
 }
+
+export default withRouter(Map);
