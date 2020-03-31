@@ -136,7 +136,7 @@ class Map extends React.Component {
       mapUrls.push(config.URL.MAP.satellite);
       mapUrls.push(config.URL.MAP.semiTransparent);
     } else if (router.location.query.mapMode === MapMode.Bicycle) {
-      mapUrls.push(config.URL.MAP.bicycle);
+      mapUrls.push(config.URL.MAP.bikeMap);
     } else {
       mapUrls.push(config.URL.MAP.default);
     }
