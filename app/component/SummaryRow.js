@@ -93,10 +93,6 @@ RouteLeg.propTypes = {
   large: PropTypes.bool.isRequired,
 };
 
-RouteLeg.contextTypes = {
-  config: PropTypes.object.isRequired,
-};
-
 export const ModeLeg = ({ leg, mode, large }, { config }) => {
   const networkIcon =
     leg.from.bikeRentalStation &&

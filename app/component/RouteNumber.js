@@ -13,8 +13,8 @@ const LONG_ROUTE_NUMBER_LENGTH = 5;
 function RouteNumber(props, context) {
   let mode = props.mode.toLowerCase();
   const routeName =
-    mode === 'bus' && props.gtfsId && context.config.mapRouting
-      ? context.config.mapRouting(props.gtfsId).concat(props.text)
+    mode === 'bus' && props.gtfsId && context.config.getRoutePrefix
+      ? context.config.getRoutePrefix(props.gtfsId).concat(props.text)
       : props.text;
   const { alertSeverityLevel, color } = props;
 

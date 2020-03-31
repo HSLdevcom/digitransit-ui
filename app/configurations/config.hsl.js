@@ -538,7 +538,7 @@ export default {
 
   /* Function that can be used to configure route names before displaying them
      Takes routes gtfsId as input */
-  mapRouting: function mapRoute(routeId) {
+  getRoutePrefix: function routePrefix(routeId) {
     if (!routeId) {
       return '';
     }

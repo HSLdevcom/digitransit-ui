@@ -131,7 +131,6 @@ NextDeparturesList.propTypes = {
 
 NextDeparturesList.contextTypes = {
   router: routerShape.isRequired,
-  config: PropTypes.object.isRequired,
 };
 
 export default NextDeparturesList;

@@ -778,10 +778,8 @@ export default {
 
   /* Function that can be used to configure route names before displaying them
      Takes routes gtfsId as input */
-  mapRouting: function mapRoute(routeId) {
-    if (!routeId) {
-      return '';
-    }
-    return routeId.split(':')[1].substring(0, 1) === '7' ? 'U' : '';
+  // eslint-disable-next-line no-unused-vars
+  getRoutePrefix: function routePrefix(routeId) {
+    return '';
   },
 };
