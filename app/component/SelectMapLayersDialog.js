@@ -333,6 +333,19 @@ class SelectMapLayersDialog extends React.Component {
             />
             <FormattedMessage id="satellite" defaultMessage="Satellite" />
           </label>
+          <label className="radio-label" htmlFor="bicycle">
+            <input
+              type="radio"
+              id="bicycle"
+              value="bicycle"
+              name="mapMode"
+              onChange={() => {
+                this.switchMapLayers(MapMode.Bicycle);
+              }}
+              checked={this.state.mapMode === MapMode.Bicycle}
+            />
+            <FormattedMessage id="bicycle" defaultMessage="Bicycle" />
+          </label>
         </div>
       </React.Fragment>
     );
