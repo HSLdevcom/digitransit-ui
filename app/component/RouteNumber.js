@@ -235,7 +235,7 @@ RouteNumber.defaultProps = {
 
 RouteNumber.contextTypes = {
   intl: intlShape.isRequired,
-  config: PropTypes.object,
+  config: PropTypes.object.isRequired,
 };
 
 RouteNumber.displayName = 'RouteNumber';
