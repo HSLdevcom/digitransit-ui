@@ -18,9 +18,16 @@ class SelectMapLayersDialog extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mapMode: 'default',
+      mapMode: '',
     };
     this.switchMapLayers = this.switchMapLayers.bind(this);
+  }
+
+  componentDidMount() {
+    // set the initial value of the mapMode
+    this.setState({
+      mapMode: this.context.router.location.query.mapMode,
+    });
   }
 
   updateSetting = newSetting => {
