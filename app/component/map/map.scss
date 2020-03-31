@@ -568,19 +568,6 @@ div.origin-popup {
   position: absolute;
 }
 
-div.background-gradient {
-  width: 100%;
-  position: absolute;
-  top: 0px;
-  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
-  pointer-events: none;
-  z-index: index($zindex, map-gradient);
-  height: $small-map-height;
-  @media print {
-    display: none;
-  }
-}
-
 div.map-click-prevent-overlay {
   position: absolute;
   top: 0;
