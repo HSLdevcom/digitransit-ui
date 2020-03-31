@@ -81,7 +81,7 @@ function StopPageTabContainer(
 
   if (stop.routes && stop.routes.length > 0) {
     stop.routes.forEach(route => {
-      modesByRoute.push(stop.routes.mode); // DT-3387
+      modesByRoute.push(route.mode); // DT-3387
       const patternId = route.patterns.code;
       const hasActiveRouteAlert = isAlertActive(
         getCancelationsForRoute(route, patternId),
