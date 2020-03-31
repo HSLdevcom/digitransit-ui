@@ -1,39 +1,23 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { routerShape } from 'found';
 import SwipeableViews from 'react-swipeable-views';
 import { bindKeyboard } from 'react-swipeable-views-utils';
 import range from 'lodash/range';
-import { navigateTo } from '../util/path';
 import Icon from './Icon';
-import ComponentUsageExample from './ComponentUsageExample';
-import { dtLocationShape } from '../util/shapes';
-import { isMobile } from '../util/browser';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
 import FavouriteLocation from './FavouriteLocation';
 import EmptyFavouriteLocationSlot from './EmptyFavouriteLocationSlot';
 
 const SwipeableViewsKB = bindKeyboard(SwipeableViews);
 
+const isMobile =
+  typeof window !== 'undefined' &&
+  window !== null &&
+  navigator.userAgent.match(/Mobile/) != null;
+
 export default class FavouriteLocationsContainer extends React.Component {
-  static contextTypes = {
-    router: routerShape.isRequired,
-    config: PropTypes.object.isRequired,
-  };
-
-  static description = (
-    <div>
-      <p>Renders a container with favourite locations</p>
-      <ComponentUsageExample description="">
-        <FavouriteLocationsContainer />
-      </ComponentUsageExample>
-    </div>
-  );
-
   static propTypes = {
     favourites: PropTypes.array.isRequired,
-    currentTime: PropTypes.number,
-    origin: dtLocationShape,
+    onClickFavourite: PropTypes.func,
   };
 
   static SLOTS_PER_CLICK = 3;
@@ -74,28 +58,6 @@ export default class FavouriteLocationsContainer extends React.Component {
     });
   };
 
-  setDestination = (name, lat, lon) => {
-    const location = {
-      lat,
-      lon,
-      address: name,
-      ready: true,
-    };
-
-    addAnalyticsEvent({
-      action: 'EditJourneyEndPoint',
-      category: 'ItinerarySettings',
-      name: 'FavouritePanel',
-    });
-
-    navigateTo({
-      origin: this.props.origin,
-      destination: location,
-      context: '/',
-      router: this.context.router,
-    });
-  };
-
   slideRenderer = ({ key, index }) => {
     // 'add-new' slot at the end
     if (index === this.props.favourites.length) {
@@ -107,8 +69,7 @@ export default class FavouriteLocationsContainer extends React.Component {
       <FavouriteLocation
         key={key}
         favourite={favourite}
-        clickFavourite={this.setDestination}
-        currentTime={this.props.currentTime}
+        clickFavourite={this.props.onClickFavourite}
       />
     );
   };

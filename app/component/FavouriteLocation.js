@@ -4,15 +4,9 @@ import cx from 'classnames';
 import Link from 'found/lib/Link';
 
 import Icon from './Icon';
-import { isStop, isTerminal } from '../util/suggestionUtils';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const FavouriteLocation = ({ favourite, className, clickFavourite, key }) => {
-  const { name, favouriteId, lat, lon, selectedIconId, address } = favourite;
-  const favouriteType =
-    (isStop(favourite) || isTerminal(favourite)) && favourite.gtfsId
-      ? 'pysakki'
-      : 'sijainti';
+  const { name, favouriteId, selectedIconId, address } = favourite;
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
   return (
@@ -20,7 +14,7 @@ const FavouriteLocation = ({ favourite, className, clickFavourite, key }) => {
       key={key}
       data-swipeable="true"
       className={cx('new-favourite-location-content', className)}
-      onClick={() => clickFavourite(name, lat, lon)}
+      onClick={() => clickFavourite(favourite)}
     >
       <Icon className="favourite-location-icon" img={selectedIconId} />
       <div className="favourite-location">
@@ -28,15 +22,7 @@ const FavouriteLocation = ({ favourite, className, clickFavourite, key }) => {
         <div className="favourite-location-address">{address}</div>
       </div>
       <Link
-        onClick={e => {
-          e.stopPropagation();
-          addAnalyticsEvent({
-            category: 'Favourite',
-            action: 'EditFavourite',
-            name: null,
-          });
-        }}
-        to={`/suosikki/muokkaa/${favouriteType}/${favouriteId}`}
+        to={`/suosikki/muokkaa/sijainti/${favouriteId}`}
         className="cursor-pointer no-decoration"
       >
         <div className="favourite-edit-icon-click-area">

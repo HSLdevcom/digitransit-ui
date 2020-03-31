@@ -92,6 +92,22 @@ class IndexPage extends React.Component {
     }
   };
 
+  clickFavourite = favourite => {
+    const location = {
+      lat: favourite.lat,
+      lon: favourite.lon,
+      address: favourite.name,
+      ready: true,
+    };
+
+    navigateTo({
+      origin: this.props.origin,
+      destination: location,
+      context: '/',
+      router: this.props.router,
+    });
+  };
+
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     const { intl } = this.context;
@@ -122,7 +138,7 @@ class IndexPage extends React.Component {
           <div className="fpcfloat">
             <div className="frontpage-panel">
               <FavouriteLocationsContainer
-                origin={origin}
+                onClickFavourite={this.clickFavourite}
                 favourites={favourites}
               />
             </div>
@@ -179,7 +195,10 @@ class IndexPage extends React.Component {
           />
           <div className="fpcfloat">
             <div className="frontpage-panel">
-              <FavouriteLocationsContainer favourites={this.props.favourites} />
+              <FavouriteLocationsContainer
+                onClickFavourite={this.clickFavourite}
+                favourites={this.props.favourites}
+              />
             </div>
           </div>
           <div className="control-panel-separator-line" />
