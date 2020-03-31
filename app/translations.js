@@ -2673,7 +2673,8 @@ const translations = {
     'add-location': 'Adaugă locație',
     'add-location-to-favourites': 'Adaugă un punct important la favorite',
     'add-via-button-label': 'Adaugă intermediar',
-    'add-via-duration-button-label': 'Introdu durata staționării la punctul intermediar {index}',
+    'add-via-duration-button-label':
+      'Introdu durata staționării la punctul intermediar {index}',
     'add-via-duration-button-label-close':
       'Închideți selectorul de durată a staționării la punctul intermediar {index}',
     'add-via-duration-button-label-open':
@@ -2683,7 +2684,8 @@ const translations = {
       'Locații, adrese, stații. Selectați cu mouse-ul sau alegeți din săgețile tastaturii.',
     'search-autosuggest-len': 'Am găsit {len} sugestii',
     'select-date': 'Selectați data',
-    'set-time-earlier-button-label': 'Setați timpul călătoriei pentru mai devreme',
+    'set-time-earlier-button-label':
+      'Setați timpul călătoriei pentru mai devreme',
     'set-time-later-button-label': 'Setați timpul călătoriei pentru mai târziu',
     'set-time-now-button-label': 'Setează ora la cea curentă',
     'time-navigation-buttons': 'Butoane pentru modificarea orei',
@@ -2714,8 +2716,8 @@ const translations = {
     'bike-availability-short': 'Biciclete',
     'bike-not-allowed-bus': 'Bicicletele nu sunt permise în autobuz',
     'bike-not-allowed-tram': 'Bicicletele nu sunt permise în tramvai',
-    'biketransport-citybike': "Folosesc o bicicletă de închiriat",
-    'biketransport-only-bike': "Folosesc doar bicicleta",
+    'biketransport-citybike': 'Folosesc o bicicletă de închiriat',
+    'biketransport-only-bike': 'Folosesc doar bicicleta',
     'biking-amount': 'Distanța pe bicicletă',
     'biking-speed': 'Viteza mersului pe bicicletă',
     bus: 'Autobuz',
@@ -2738,9 +2740,9 @@ const translations = {
     citybike: 'Bicicletă de închiriat',
     'citybike-distance-duration': 'Bicicletă {distance} ({duration})',
     'citybike-network-headers': 'Biciclete, trotinete, scutere',
-    'citybike-off-season':
-      'Bicicletele vor fi disponibile din nou primăvara',
-    'citybike-register-required': 'Pentru a folosi biciclete de închiriat vă trebuie un cont',
+    'citybike-off-season': 'Bicicletele vor fi disponibile din nou primăvara',
+    'citybike-register-required':
+      'Pentru a folosi biciclete de închiriat vă trebuie un cont',
     citybike_off: 'Închis',
     'clear-button-label': 'Șterge',
     close: 'Închide',
@@ -2748,7 +2750,8 @@ const translations = {
     continue: 'Continuă',
     'create-account': 'Creare cont {contactName}',
     'cycle-distance-duration': 'Pedalați {distance} ({duration})',
-    'cyclewalk-distance-duration': 'Împingeți bicicleta {distance} ({duration})',
+    'cyclewalk-distance-duration':
+      'Împingeți bicicleta {distance} ({duration})',
     // eslint-disable-next-line sort-keys
     currentposition: 'Locația curentă',
     datasources: 'Surse de informații',
@@ -2801,8 +2804,7 @@ const translations = {
     'geolocation-denied-text':
       'Nu ați permis accesul la datele de localizare. Puteți schimba acest lucru în preferințele browserului.',
     'geolocation-failed-heading': 'Localizarea a eșuat',
-    'geolocation-failed-text':
-      'Browserul nu suportă servicii de localizare.',
+    'geolocation-failed-text': 'Browserul nu suportă servicii de localizare.',
     'geolocation-prompt-text':
       'Vă rugăm să acceptați cererea browserului privind localizarea.',
     'geolocation-timeout-heading':
@@ -2810,7 +2812,8 @@ const translations = {
     'geolocation-timeout-text':
       'Ați acceptat cererea de permitere a localizării?',
     'give-destination': 'Introduceți destinația',
-    'give-name-to-location': 'Dați locației un nume descriptiv și ușor de reținut',
+    'give-name-to-location':
+      'Dați locației un nume descriptiv și ușor de reținut',
     'give-origin': 'Introduceți punctul de plecare',
     'give-position': 'Introduceți locația sau punctul de plecare în câmp.',
     'give-route': 'Caută rută',
@@ -2818,7 +2821,8 @@ const translations = {
     'hour-short': 'h',
     'how-to-rate-service': 'Cum evaluați serviciul?',
     'in-addition': 'Pe lângă',
-    inquiry: 'Cum vi se pare noul planificator de călătorii? Vă rugăm să ne spuneți!',
+    inquiry:
+      'Cum vi se pare noul planificator de călătorii? Vă rugăm să ne spuneți!',
     instructions: 'Instrucțiuni',
     'itinerary-details.biking-leg':
       'La {time} pedalați {distance} de la {origin} la {destination}. Va dura aproximativ {duration}',
@@ -2855,8 +2859,7 @@ const translations = {
       'Itinerarul cu plecare la {departureDate} {departureTime} și sosire la {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Timp total {totalTime}. {distance}',
     'itinerary-summary-row.first-departure':
       '{vehicle} pleacă la {departureTime} de la {stopName}.',
-    'itinerary-summary-row.transfers':
-      'Schimbați cu {vehicle} la {stopName}',
+    'itinerary-summary-row.transfers': 'Schimbați cu {vehicle} la {stopName}',
     'itinerary-summary-row.walking-distance':
       'Distanța totală de mers pe jos {totalDistance}.',
     'itinerary-summary.show-on-map': 'Vedeți pe hartă {target}',
@@ -2886,7 +2889,7 @@ const translations = {
     'long-transfers-margin': '12 min',
     'main-menu-label-close': 'Închideți meniul principal',
     'main-menu-label-open': 'Deschideți meniul principal',
-    'main-mode': "Călătoresc cu",
+    'main-mode': 'Călătoresc cu',
     map: 'Harta',
     'map-layer-citybike': 'Închiriere biciclete',
     'map-layer-park-and-ride': 'Parcări Park & ride',
@@ -2925,16 +2928,14 @@ const translations = {
     'no-position-no-stops':
       'Nu v-am găsit locația. Nu putem afișa stații în zonă.',
     'no-route-already-at-destination': 'Sunteți deja la destinație.',
-    'no-route-end-date-not-in-range':
-      'Nu am găsit rute mai târziu în orar.',
+    'no-route-end-date-not-in-range': 'Nu am găsit rute mai târziu în orar.',
     'no-route-msg':
       'Nu s-a găsit nicio rută conform selecției. Schimbați punctul de plecare sau destinație.',
     'no-route-msg-with-changes':
       'Nu s-a găsit nicio rută conform selecției. Schimbați plecarea, destinația sau parametrii introduși ca preferințe.',
     'no-route-origin-near-destination':
       'Plecarea și destinația sunt în puncte prea apropiate. Vă rugăm să mutați una din ele.',
-    'no-route-start-date-too-early':
-      'Nu am găsit curse mai devreme în orar.',
+    'no-route-start-date-too-early': 'Nu am găsit curse mai devreme în orar.',
     'no-route-start-end': 'Selectați punctele de plecare și destinație.',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'Nicio călătorie găsită pentru data respectivă.',
@@ -3011,8 +3012,7 @@ const translations = {
     'route-least-elevation-changes': 'Evitați variația de altitudine',
     'route-least-transfers': 'Evitați schimbările de vehicul',
     'route-least-walking': 'Evitați mersul pe jos',
-    'route-not-possible':
-      'Rută indisponibiă. Cod eroare: "{error}"',
+    'route-not-possible': 'Rută indisponibiă. Cod eroare: "{error}"',
     'route-page.description': 'Ruta {shortName} - {longName}',
     'route-page.title': 'Ruta {shortName}',
     'route-page.title-short': 'Ruta',
@@ -3032,9 +3032,9 @@ const translations = {
     save: 'Salvare',
     'scooter-availability': 'Trotinete disponibile în stație',
     'scooter-availability-short': 'Trotinete electrice',
-    'scooter-distance-duration':
-      'Mergeți pe trotinetă {distance} ({duration})',
-    'scooter-register-required': 'Pentru a utiliza trotinetele, trebuie să vă autentificați',
+    'scooter-distance-duration': 'Mergeți pe trotinetă {distance} ({duration})',
+    'scooter-register-required':
+      'Pentru a utiliza trotinetele, trebuie să vă autentificați',
     'scooterwalk-distance-duration':
       'Împingeți trotineta {distance} ({duration})',
     search: 'Caută',
@@ -3130,8 +3130,7 @@ const translations = {
     'try-again': 'Încercați din nou',
     unpreferred: 'Evitați rutele',
     'use-citybike': 'Începeți să utilizați',
-    'use-national-service':
-      'Încercați și serviciul disponibil la',
+    'use-national-service': 'Încercați și serviciul disponibil la',
     'use-own-position': 'Folosiți locația curentă',
     'using-modes': 'Vreau să călătoresc cu',
     'very-likely': 'Foarte probabil',
@@ -3657,7 +3656,7 @@ const translations = {
     'your-favourites': 'Favoriter',
     zone: 'Zon',
     zones: 'Biljettzoner',
-  }
+  },
 };
 
 export default translations;
