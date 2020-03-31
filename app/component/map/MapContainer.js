@@ -14,7 +14,6 @@ function MapContainer({ className, children, ...props }) {
       <LazilyLoad modules={mapModules}>
         {({ Map }) => <Map {...props} />}
       </LazilyLoad>
-      <div className="background-gradient" />
       {children}
     </div>
   );

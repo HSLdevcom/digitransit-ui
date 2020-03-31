@@ -57,7 +57,7 @@ $content-background-color: $background-color;
     height: 60px;
     align-items: center;
     line-height: 1.8em;
-    box-shadow: 2px 0px 2px #575757;
+    // DT-3470 removed: box-shadow: 2px 0px 2px #575757;
 
     @media print {
       display: none;

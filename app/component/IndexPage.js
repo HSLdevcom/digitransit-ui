@@ -16,7 +16,6 @@ import storeDestination from '../action/destinationActions';
 import ControlPanel from './ControlPanel';
 import DTAutoSuggest from './DTAutosuggest';
 import DTAutosuggestPanel from './DTAutosuggestPanel';
-import PageFooter from './PageFooter';
 import { isBrowser } from '../util/browser';
 import searchContext from './searchContext';
 import {
@@ -36,7 +35,6 @@ const debug = d('IndexPage.js');
 
 class IndexPage extends React.Component {
   static contextTypes = {
-    config: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
     getStore: PropTypes.func.isRequired,
@@ -96,7 +94,7 @@ class IndexPage extends React.Component {
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
-    const { config, intl } = this.context;
+    const { intl } = this.context;
     const { breakpoint, destination, origin, favourites } = this.props;
 
     // DT-3381 TODO: DTEndpointAutoSuggest currently does not search for stops or stations, as it should be. SearchUtils needs refactoring.
@@ -156,11 +154,6 @@ class IndexPage extends React.Component {
           </div>
         </ControlPanel>
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
-        <div id="page-footer-container">
-          <PageFooter
-            content={(config.footer && config.footer.content) || []}
-          />
-        </div>
       </div>
     ) : (
       <div
