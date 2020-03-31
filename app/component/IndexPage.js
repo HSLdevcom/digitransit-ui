@@ -1,13 +1,12 @@
-/* eslint-disable react/no-unused-state */
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
-import { routerShape } from 'found';
+import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
 import isEqual from 'lodash/isEqual';
 import d from 'debug';
-import suggestionToLocation from '../util/suggestionUtils';
+import { suggestionToLocation } from '../util/suggestionUtils';
 import { getJson } from '../util/xhrPromise';
 import { withCurrentTime } from '../util/searchUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -28,7 +27,6 @@ import {
   parseLocation,
   isItinerarySearchObjects,
   navigateTo,
-  PREFIX_ITINERARY_SUMMARY,
 } from '../util/path';
 import OverlayWithSpinner from './visual/OverlayWithSpinner';
 import { dtLocationShape } from '../util/shapes';
@@ -47,6 +45,8 @@ class IndexPage extends React.Component {
     intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
     getStore: PropTypes.func.isRequired,
+    router: routerShape.isRequired,
+    match: matchShape.isRequired,
   };
 
   static propTypes = {
@@ -72,7 +72,9 @@ class IndexPage extends React.Component {
       context.executeAction(storeOrigin, props.origin);
     }
     this.state = {
+      // eslint-disable-next-line react/no-unused-state
       pendingCurrentLocation: false,
+      refs: [],
     };
   }
 
@@ -111,8 +113,44 @@ class IndexPage extends React.Component {
     }
   };
 
-  onLocationSelected = location => {
-    // console.log('onlocationselected')
+  storeReference = ref => {
+    this.setState(prevState => ({ refs: [...prevState.refs, ref] }));
+  };
+
+  onOriginSelected = location => {
+    const locationWithTime = withCurrentTime(
+      this.context.getStore,
+      this.context.match.location,
+    );
+    addAnalyticsEvent({
+      action: 'EditJourneyStartPoint',
+      category: 'ItinerarySettings',
+      name: location.type,
+    });
+    let newOrigin = { ...location, ready: true };
+    let { destination } = this.props;
+    if (location.type === 'CurrentLocation') {
+      newOrigin = { ...location, gps: true, ready: !!location.lat };
+      if (destination.gps === true) {
+        // destination has gps, clear destination
+        destination = { set: false };
+      }
+    }
+    if (!destination.set) {
+      // console.log('no dest set')
+      this.state.refs[1].focus();
+    }
+    navigateTo({
+      base: locationWithTime,
+      origin: newOrigin,
+      destination,
+      context: '', // PREFIX_ITINERARY_SUMMARY,
+      router: this.context.router,
+      resetIndex: true,
+    });
+  };
+
+  onDestinationSelected = location => {
     const locationWithTime = withCurrentTime(
       this.context.getStore,
       this.context.match.location,
@@ -123,7 +161,7 @@ class IndexPage extends React.Component {
       name: location.type,
     });
 
-    let updatedOrigin = origin;
+    let updatedOrigin = this.props.origin;
     let destination = { ...location, ready: true };
     if (location.type === 'CurrentLocation') {
       destination = {
@@ -140,8 +178,7 @@ class IndexPage extends React.Component {
       base: locationWithTime,
       origin: updatedOrigin,
       destination,
-      // is iitnirerary
-      context: PREFIX_ITINERARY_SUMMARY,
+      context: '', // PREFIX_ITINERARY_SUMMARY,
       router: this.context.router,
       resetIndex: true,
     });
@@ -157,13 +194,7 @@ class IndexPage extends React.Component {
     // this.onSelect(item, type);
   };
 
-  onSuggestionSelected = item => {
-    // console.log('oss')
-    // preferred route selection
-    // if (this.props.isPreferredRouteSearch && this.props.onRouteSelected) {
-    //   this.props.onRouteSelected(item);
-    //   return;
-    // }
+  onSuggestionSelected = (item, id) => {
     // route
     if (item.properties.link) {
       this.context.router.push(item.properties.link);
@@ -172,16 +203,30 @@ class IndexPage extends React.Component {
     // console.log( suggestionToLocation);
     const location = suggestionToLocation(item);
     if (item.properties.layer === 'currentPosition' && !item.properties.lat) {
+      // eslint-disable-next-line react/no-unused-state
       this.setState({ pendingCurrentLocation: true }, () =>
         this.context.executeAction(searchContext.startLocationWatch),
       );
     } else {
-      this.onLocationSelected(location);
+      // console.log('moiSuggsel ', id);
+      this.onLocationSelected(location, id);
     }
   };
 
-  onSelect = item => {
-    // console.log('onselect')
+  onLocationSelected = (location, id) => {
+    switch (id) {
+      case 'origin':
+        this.onOriginSelected(location);
+        break;
+      case 'destination':
+        this.onDestinationSelected(location);
+        break;
+      default:
+        this.onOriginSelected(location);
+    }
+  };
+
+  onSelect = (item, id) => {
     // type is destination unless timetable or route was clicked
     let type = 'endpoint';
     switch (item.type) {
@@ -202,11 +247,11 @@ class IndexPage extends React.Component {
           newItem.geometry.coordinates = geom.coordinates;
         }
         this.finishSelect(newItem, type);
-        this.onSuggestionSelected(item);
+        this.onSuggestionSelected(item, id);
       });
     } else {
       this.finishSelect(item, type);
-      this.onSuggestionSelected(item);
+      this.onSuggestionSelected(item, id);
     }
   };
 
@@ -232,12 +277,15 @@ class IndexPage extends React.Component {
             origin={origin}
             onSelect={this.onSelect}
             destination={destination}
+            refs={this.state.refs}
+            storeRef={this.storeReference}
             searchType="endpoint"
             originPlaceHolder="search-origin-index"
             destinationPlaceHolder="search-destination-index"
             searchContext={searchContext}
             locationState={this.props.locationState}
-            onLocationSelected={this.onLocationSelected}
+            onOriginSelected={this.onOriginSelected}
+            onDestinationSelected={this.onDestinationSelected}
             getViaPointsFromMap={this.props.getViaPointsFromMap}
           />
           <div className="fpcfloat">
@@ -263,6 +311,7 @@ class IndexPage extends React.Component {
               icon="mapMarker-via"
               id="searchfield-preferred"
               autoFocus={false}
+              storeRef={this.storeReference}
               refPoint={origin}
               className="destination"
               searchType="search"
@@ -299,6 +348,7 @@ class IndexPage extends React.Component {
               defaultMessage: 'Where to?',
             })}
             origin={origin}
+            storeRef={this.storeReference}
             destination={destination}
             searchType="all"
             onSelect={this.onSelect}
@@ -327,6 +377,7 @@ class IndexPage extends React.Component {
             <DTAutoSuggest
               icon="mapMarker-via"
               id="searchfield-preferred-bottom"
+              storeRef={this.storeReference}
               autoFocus={false}
               refPoint={origin}
               className="destination"

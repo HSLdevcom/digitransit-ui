@@ -9,7 +9,7 @@ import DTAutoSuggest from './DTAutosuggest';
 import Icon from './Icon';
 import Select from './Select';
 import { isIe, isKeyboardSelectionEvent } from '../util/browser';
-// import { navigateTo, PREFIX_ITINERARY_SUMMARY } from '../util/path';
+import { navigateTo, PREFIX_ITINERARY_SUMMARY } from '../util/path';
 import { getIntermediatePlaces } from '../util/queryUtils';
 import { dtLocationShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
@@ -88,7 +88,9 @@ class DTAutosuggestPanel extends React.Component {
     searchContext: PropTypes.any.isRequired,
     locationState: PropTypes.object.isRequired,
     onSelect: PropTypes.func,
-    onLocationSelected: PropTypes.func,
+    storeRef: PropTypes.func,
+    onOriginSelected: PropTypes.func,
+    onDestinationSelected: PropTypes.func,
   };
 
   static defaultProps = {
@@ -109,7 +111,6 @@ class DTAutosuggestPanel extends React.Component {
       activeSlackInputs: [],
       showDarkOverlay: false,
       viaPoints: this.props.initialViaPoints.map(vp => ({ ...vp })),
-      refs: [],
     };
   }
 
@@ -157,10 +158,6 @@ class DTAutosuggestPanel extends React.Component {
 
   isFocused = val => {
     this.setState({ showDarkOverlay: val });
-  };
-
-  storeReference = ref => {
-    this.setState(prevState => ({ refs: [...prevState.refs, ref] }));
   };
 
   updateViaPoints = viaPoints => {
@@ -338,10 +335,6 @@ class DTAutosuggestPanel extends React.Component {
     } = this.props;
     const { activeSlackInputs, isDraggingOverIndex, viaPoints } = this.state;
     const slackTime = this.getSlackTimeOptions();
-    const locationWithTime = withCurrentTime(
-      this.context.getStore,
-      this.context.match.location,
-    );
     const defaultSlackTimeValue = 0;
     const getViaPointSlackTimeOrDefault = (
       viaPoint,
@@ -349,7 +342,6 @@ class DTAutosuggestPanel extends React.Component {
     ) => (viaPoint && viaPoint.locationSlack) || defaultValue;
     const isViaPointSlackTimeInputActive = index =>
       activeSlackInputs.includes(index);
-
     return (
       <div
         className={cx([
@@ -383,7 +375,7 @@ class DTAutosuggestPanel extends React.Component {
               // Disable autofocus if using IE11
               isIe ? false : breakpoint === 'large' && !origin.ready
             }
-            storeRef={this.storeReference}
+            storeRef={this.props.storeRef}
             refPoint={origin}
             className={this.class(origin)}
             searchType={this.props.searchType}
@@ -393,7 +385,7 @@ class DTAutosuggestPanel extends React.Component {
             searchContext={searchContext}
             locationState={this.props.locationState}
             onSelect={this.props.onSelect}
-            onLocationSelected={this.props.onLocationSelected}
+            onLocationSelected={this.props.onOriginSelected}
           />
           <ItinerarySearchControl
             className="switch"
@@ -543,7 +535,7 @@ class DTAutosuggestPanel extends React.Component {
               // Disable autofocus if using IE11
               isIe ? false : breakpoint === 'large' && origin.ready
             }
-            storeRef={this.storeReference}
+            storeRef={this.props.storeRef}
             refPoint={origin}
             searchType={this.props.searchType}
             placeholder={this.props.destinationPlaceHolder}
@@ -551,9 +543,9 @@ class DTAutosuggestPanel extends React.Component {
             isFocused={this.isFocused}
             searchContext={searchContext}
             locationState={this.props.locationState}
-            value={this.value(this.props.destination)}
             onSelect={this.props.onSelect}
-            onLocationSelected={this.props.onLocationSelected}
+            value={this.value(this.props.destination)}
+            onLocationSelected={this.props.onDestinationSelected}
           />
           <ItinerarySearchControl
             className={cx('add-via-point', 'more', {
