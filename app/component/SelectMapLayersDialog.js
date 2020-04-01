@@ -1,7 +1,7 @@
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { routerShape } from 'react-router';
+import { routerShape, withRouter } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import BubbleDialog from './BubbleDialog';
 import Checkbox from './Checkbox';
@@ -15,14 +15,6 @@ import { replaceQueryParams } from '../util/queryUtils';
 import { MapMode } from '../constants';
 
 class SelectMapLayersDialog extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      mapMode: 'default',
-    };
-    this.switchMapLayers = this.switchMapLayers.bind(this);
-  }
-
   updateSetting = newSetting => {
     this.props.updateMapLayers({
       ...this.props.mapLayers,
@@ -84,11 +76,9 @@ class SelectMapLayersDialog extends React.Component {
     this.updateSetting({ geoJson });
   };
 
-  switchMapLayers = map => {
-    this.setState({ mapMode: map }, () => {
-      const { mapMode } = this.state;
-      replaceQueryParams(this.context.router, { mapMode });
-    });
+  switchMapLayers = mode => {
+    const mapMode = mode;
+    replaceQueryParams(this.context.router, { mapMode });
   };
 
   renderContents = (
@@ -316,7 +306,12 @@ class SelectMapLayersDialog extends React.Component {
               onChange={() => {
                 this.switchMapLayers(MapMode.Default);
               }}
-              checked={this.state.mapMode === MapMode.Default}
+              checked={
+                this.context.router.location &&
+                (this.context.router.location.query.mapMode ===
+                  MapMode.Default ||
+                  !this.context.router.location.query.mapMode)
+              }
             />
             <FormattedMessage id="streets" defaultMessage="Streets" />
           </label>
@@ -329,9 +324,28 @@ class SelectMapLayersDialog extends React.Component {
               onChange={() => {
                 this.switchMapLayers(MapMode.Satellite);
               }}
-              checked={this.state.mapMode === MapMode.Satellite}
+              checked={
+                this.context.router.location &&
+                this.context.router.location.query.mapMode === MapMode.Satellite
+              }
             />
             <FormattedMessage id="satellite" defaultMessage="Satellite" />
+          </label>
+          <label className="radio-label" htmlFor="bicycle">
+            <input
+              type="radio"
+              id="bicycle"
+              value="bicycle"
+              name="mapMode"
+              onChange={() => {
+                this.switchMapLayers(MapMode.Bicycle);
+              }}
+              checked={
+                this.context.router.location &&
+                this.context.router.location.query.mapMode === MapMode.Bicycle
+              }
+            />
+            <FormattedMessage id="bicycle" defaultMessage="Bicycle" />
           </label>
         </div>
       </React.Fragment>
@@ -512,4 +526,5 @@ const connectedComponent = connectToStores(
   },
 );
 
-export { connectedComponent as default, SelectMapLayersDialog as Component };
+export default withRouter(connectedComponent);
+export { SelectMapLayersDialog as Component };

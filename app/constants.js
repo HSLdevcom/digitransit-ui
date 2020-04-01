@@ -35,6 +35,7 @@ export const TransportMode = {
 export const MapMode = {
   Default: 'default',
   Satellite: 'satellite',
+  Bicycle: 'bicycle',
 };
 
 /**
