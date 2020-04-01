@@ -307,6 +307,7 @@ class SelectMapLayersDialog extends React.Component {
                 this.switchMapLayers(MapMode.Default);
               }}
               checked={
+                this.context.router.location &&
                 this.context.router.location.query.mapMode === MapMode.Default
               }
             />
@@ -322,6 +323,7 @@ class SelectMapLayersDialog extends React.Component {
                 this.switchMapLayers(MapMode.Satellite);
               }}
               checked={
+                this.context.router.location &&
                 this.context.router.location.query.mapMode === MapMode.Satellite
               }
             />
@@ -337,6 +339,7 @@ class SelectMapLayersDialog extends React.Component {
                 this.switchMapLayers(MapMode.Bicycle);
               }}
               checked={
+                this.context.router.location &&
                 this.context.router.location.query.mapMode === MapMode.Bicycle
               }
             />
