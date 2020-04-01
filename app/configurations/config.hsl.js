@@ -539,7 +539,7 @@ export default {
   /* Function that can be used to configure route names before displaying them
      Takes routes gtfsId as input */
   getRoutePrefix: function routePrefix(routeId) {
-    if (!routeId || !routeId.includes(':')) {
+    if (!routeId) {
       return '';
     }
     return routeId.split(':')[1].substring(0, 1) === '7' ? 'U' : '';

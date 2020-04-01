@@ -127,7 +127,7 @@ const exampleDeparture1 = {
     code: '28',
     headSign: 'Tampere',
     route: {
-      gtfsId: '123',
+      gtfsId: 'FOO:123',
       mode: 'RAIL',
       shortName: 'IC28',
     },
@@ -151,7 +151,7 @@ const exampleDeparture2 = {
     code: '154',
     headSign: 'Kamppi',
     route: {
-      gtfsId: '123',
+      gtfsId: 'HSL:123',
       mode: 'BUS',
       shortName: '154',
     },
