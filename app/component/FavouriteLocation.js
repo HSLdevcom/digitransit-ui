@@ -49,6 +49,7 @@ const FavouriteLocation = ({
           mode={firstTransitLeg.mode}
           realtime={firstTransitLeg.realTime}
           text={firstTransitLeg.route.shortName}
+          gtfsId={firstTransitLeg.route.gtfsId}
         />
         &nbsp;
         {departureTimeComponent}
@@ -114,6 +115,10 @@ FavouriteLocation.propTypes = {
   departureTime: PropTypes.number,
   currentTime: PropTypes.number,
   firstTransitLeg: PropTypes.object,
+};
+
+FavouriteLocation.contextTypes = {
+  config: PropTypes.object.isRequired,
 };
 
 FavouriteLocation.displayName = 'FavouriteLocation';

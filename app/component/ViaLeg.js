@@ -91,7 +91,11 @@ function ViaLeg(props, context) {
         <div className="itinerary-time-column-time via-departure-time">
           {moment(props.leg.startTime).format('HH:mm')}
         </div>
-        <RouteNumber mode={props.leg.mode.toLowerCase()} vertical />
+        <RouteNumber
+          mode={props.leg.mode.toLowerCase()}
+          vertical
+          gtfsId={props.leg.gtfsId}
+        />
       </div>
       <ItineraryCircleLine
         isVia
@@ -175,6 +179,7 @@ ViaLeg.propTypes = {
     startTime: PropTypes.number.isRequired,
     distance: PropTypes.number.isRequired,
     mode: PropTypes.string.isRequired,
+    gtfsId: PropTypes.string,
     from: PropTypes.shape({
       name: PropTypes.string.isRequired,
       stop: PropTypes.shape({

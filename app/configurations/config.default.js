@@ -775,4 +775,11 @@ export default {
 
   timetables: {},
   showLogin: false,
+
+  /* Function that can be used to configure route names before displaying them
+     Takes routes gtfsId as input */
+  // eslint-disable-next-line no-unused-vars
+  getRoutePrefix: function routePrefix(routeId) {
+    return '';
+  },
 };
