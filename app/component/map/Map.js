@@ -94,7 +94,7 @@ class Map extends React.Component {
     }
   };
 
-  loadMapLayers(mapUrl) {
+  loadMapLayers(mapUrl, attribution) {
     return (
       <TileLayer
         onLoad={this.setLoaded}
@@ -111,6 +111,7 @@ class Map extends React.Component {
         }
         minZoom={this.context.config.map.minZoom}
         maxZoom={this.context.config.map.maxZoom}
+        attribution={attribution}
       />
     );
   }
@@ -179,14 +180,8 @@ class Map extends React.Component {
           onPopupopen={this.onPopupopen}
           closePopupOnClick={false}
         >
-          {mapUrls.map(url => this.loadMapLayers(url))}
-          <AttributionControl
-            position="bottomright"
-            prefix={
-              attribution ||
-              '&copy; <a tabindex=-1 href=http://osm.org/copyright>OpenStreetMap</a>'
-            }
-          />
+          {mapUrls.map(url => this.loadMapLayers(url, attribution))}
+          <AttributionControl position="bottomright" prefix="" />
           {this.props.showScaleBar && (
             <ScaleControl
               imperial={false}
