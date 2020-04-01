@@ -13,16 +13,20 @@ export default class BackButton extends React.Component {
 
   static propTypes = {
     icon: PropTypes.string,
-    className: PropTypes.string,
     color: PropTypes.string,
+    iconClassName: PropTypes.string,
     title: PropTypes.node,
+    titleClassName: PropTypes.string, // DT-3472
+    customStyle: PropTypes.object, // DT-3472
   };
 
   static defaultProps = {
     icon: 'icon-icon_arrow-left',
-    className: 'back',
     color: 'white',
+    iconClassName: '',
     title: undefined,
+    titleClassName: undefined, // DT-3472
+    customStyle: undefined, // DT-3472
   };
 
   goBack = () => {
@@ -45,11 +49,14 @@ export default class BackButton extends React.Component {
   };
 
   render() {
+    const customStyle = this.props.customStyle
+      ? this.props.customStyle
+      : { paddingTop: '7px' };
     return (
       <div style={{ display: 'flex' }}>
         <button
           className="icon-holder noborder cursor-pointer"
-          style={{ paddingTop: '7px' }}
+          style={customStyle}
           onClick={this.goBack}
           aria-label={this.context.intl.formatMessage({
             id: 'back-button-title',
@@ -59,10 +66,19 @@ export default class BackButton extends React.Component {
           <Icon
             img={this.props.icon}
             color={this.props.color}
-            className={`${this.props.className} cursor-pointer`}
+            className={`${this.props.iconClassName} cursor-pointer`}
           />
         </button>
-        {this.props.title && <h1 className="h2">{this.props.title}</h1>}
+        {this.props.title &&
+          !this.props.titleClassName && (
+            <h1 className="h2">{this.props.title}</h1>
+          )}
+        {this.props.title &&
+          this.props.titleClassName && (
+            <span className={this.props.titleClassName}>
+              {this.props.title}
+            </span>
+          )}
       </div>
     );
   }

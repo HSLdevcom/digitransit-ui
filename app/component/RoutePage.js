@@ -32,6 +32,7 @@ import {
 import { PREFIX_ROUTES } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import BackButton from './BackButton'; // DT-3472
 
 const Tab = {
   Disruptions: 'hairiot',
@@ -328,6 +329,14 @@ class RoutePage extends React.Component {
               'bp-large': breakpoint === 'large',
             })}
           >
+            {breakpoint === 'large' && (
+              <BackButton
+                icon="icon-icon_arrow-collapse--left"
+                color={config.colors.primary}
+                iconClassName="arrow-icon"
+                customStyle={{ paddingTop: '25px' }}
+              />
+            )}
             {breakpoint === 'large' && (
               <RouteNumber
                 color={route.color ? `#${route.color}` : null}
