@@ -261,7 +261,6 @@ class DTAutosuggest extends React.Component {
     };
     // must update suggestions
     this.setState(newState, () => this.fetchFunction({ value: '' }));
-
     this.props.isFocused(true);
     this.input.focus();
   };
@@ -274,7 +273,6 @@ class DTAutosuggest extends React.Component {
         // reset at start, just in case we missed something
         pendingSelection: null,
       };
-
       // DT-3263: added stateKeyDown
       const stateKeyDown = {
         editing: true,
