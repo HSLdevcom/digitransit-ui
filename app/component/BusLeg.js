@@ -30,8 +30,12 @@ const exampleLeg = t1 => ({
   duration: 120,
   rentedBike: false,
   intermediatePlaces: [],
-  route: { gtfsId: '123', shortName: '57', mode: 'BUS' },
-  trip: { gtfsId: '123', tripHeadsign: 'Kontula', pattern: { code: '1057' } },
+  route: { gtfsId: 'HSL:123', shortName: '57', mode: 'BUS' },
+  trip: {
+    gtfsId: 'HSL:123',
+    tripHeadsign: 'Kontula',
+    pattern: { code: '1057' },
+  },
   from: { name: 'Ilmattarentie', stop: { code: '2194' } },
   to: { name: 'Helsinki', stop: { code: '0072 ' } },
 });
@@ -47,8 +51,12 @@ const exampleLegRealtime = t1 => ({
   duration: 120,
   rentedBike: false,
   intermediatePlaces: [],
-  route: { gtfsId: '123', shortName: '57', mode: 'BUS' },
-  trip: { gtfsId: '123', tripHeadsign: 'Kontula', pattern: { code: '1057' } },
+  route: { gtfsId: 'HSL:123', shortName: '57', mode: 'BUS' },
+  trip: {
+    gtfsId: 'HSL:123',
+    tripHeadsign: 'Kontula',
+    pattern: { code: '1057' },
+  },
   from: { name: 'Ilmattarentie', stop: { code: '2194' } },
   to: { name: 'Helsinki', stop: { code: '0072 ' } },
 });
