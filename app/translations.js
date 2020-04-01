@@ -756,7 +756,7 @@ const translations = {
     'avoid-walking': 'Avoid walking',
     'back-button-title': 'Go back to previous page',
     'back-to-front-page': 'Back to the front page',
-    bicycle: 'bike',
+    bicycle: 'Bicycle',
     'bicycle-distance-duration': 'Bike {distance} ({duration})',
     'bike-availability': 'Bikes available at the station right now',
     'bike-availability-short': 'Bikes',
