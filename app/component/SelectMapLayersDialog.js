@@ -308,7 +308,9 @@ class SelectMapLayersDialog extends React.Component {
               }}
               checked={
                 this.context.router.location &&
-                this.context.router.location.query.mapMode === MapMode.Default
+                (this.context.router.location.query.mapMode ===
+                  MapMode.Default ||
+                  !this.context.router.location.query.mapMode)
               }
             />
             <FormattedMessage id="streets" defaultMessage="Streets" />
