@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { routerShape, matchShape } from 'found';
 import { intlShape } from 'react-intl';
 import Icon from './Icon';
-import withBreakpoint from '../util/withBreakpoint'; // DT-3472
 
-class BackButton extends React.Component {
+export default class BackButton extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
     router: routerShape,
@@ -19,8 +18,6 @@ class BackButton extends React.Component {
     title: PropTypes.node,
     titleClassName: PropTypes.string, // DT-3472
     customStyle: PropTypes.object, // DT-3472
-    isMobileHeader: PropTypes.bool, // DT-3472
-    breakpoint: PropTypes.string, // DT-3472
   };
 
   static defaultProps = {
@@ -30,7 +27,6 @@ class BackButton extends React.Component {
     title: undefined,
     titleClassName: undefined, // DT-3472
     customStyle: undefined, // DT-3472
-    isMobileHeader: false, // DT-3472
   };
 
   goBack = () => {
@@ -56,40 +52,34 @@ class BackButton extends React.Component {
     const customStyle = this.props.customStyle
       ? this.props.customStyle
       : { paddingTop: '7px' };
-    if (this.props.breakpoint === 'large' || this.props.isMobileHeader) {
-      return (
-        <div style={{ display: 'flex' }}>
-          <button
-            className="icon-holder noborder cursor-pointer"
-            style={customStyle}
-            onClick={this.goBack}
-            aria-label={this.context.intl.formatMessage({
-              id: 'back-button-title',
-              defaultMessage: 'Go back to previous page',
-            })}
-          >
-            <Icon
-              img={this.props.icon}
-              color={this.props.color}
-              className={`${this.props.iconClassName} cursor-pointer`}
-            />
-          </button>
-          {this.props.title &&
-            !this.props.titleClassName && (
-              <h1 className="h2">{this.props.title}</h1>
-            )}
-          {this.props.title &&
-            this.props.titleClassName && (
-              <span className={this.props.titleClassName}>
-                {this.props.title}
-              </span>
-            )}
-        </div>
-      );
-    }
-    return null;
+    return (
+      <div style={{ display: 'flex' }}>
+        <button
+          className="icon-holder noborder cursor-pointer"
+          style={customStyle}
+          onClick={this.goBack}
+          aria-label={this.context.intl.formatMessage({
+            id: 'back-button-title',
+            defaultMessage: 'Go back to previous page',
+          })}
+        >
+          <Icon
+            img={this.props.icon}
+            color={this.props.color}
+            className={`${this.props.iconClassName} cursor-pointer`}
+          />
+        </button>
+        {this.props.title &&
+          !this.props.titleClassName && (
+            <h1 className="h2">{this.props.title}</h1>
+          )}
+        {this.props.title &&
+          this.props.titleClassName && (
+            <span className={this.props.titleClassName}>
+              {this.props.title}
+            </span>
+          )}
+      </div>
+    );
   }
 }
-
-const BackButtonWithBreakpoint = withBreakpoint(BackButton);
-export { BackButtonWithBreakpoint as default };

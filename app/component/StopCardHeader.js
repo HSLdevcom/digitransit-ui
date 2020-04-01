@@ -74,6 +74,7 @@ class StopCardHeader extends React.Component {
       icons,
       stop,
       isPopUp,
+      breakpoint, // DT-3472
     } = this.props;
     if (!stop) {
       return false;
@@ -97,6 +98,7 @@ class StopCardHeader extends React.Component {
         code={this.headerConfig.showStopCode && stop.code ? stop.code : null}
         externalLink={this.getExternalLink(stop.code, isPopUp)}
         icons={icons}
+        showBackButton={breakpoint === 'large'}
         backButtonColor={this.context.config.colors.primary}
       >
         {this.headerConfig.showZone &&
@@ -139,6 +141,7 @@ StopCardHeader.propTypes = {
   headingStyle: PropTypes.string,
   icons: PropTypes.arrayOf(PropTypes.node),
   isPopUp: PropTypes.bool,
+  breakpoint: PropTypes.string, // DT-3472
 };
 
 StopCardHeader.defaultProps = {

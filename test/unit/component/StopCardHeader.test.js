@@ -141,12 +141,7 @@ describe('<StopCardHeader />', () => {
       },
     });
     expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(false);
-    expect(
-      wrapper
-        .find(Icon)
-        .at(1)
-        .prop('img'),
-    ).to.equal('icon-icon_info'); // DT-3472: back button's icon is at index 0
+    expect(wrapper.find(Icon).prop('img')).to.equal('icon-icon_info');
   });
 
   it('should use the caution icon when the stop has alerts and the alert level is not info', () => {
@@ -169,12 +164,7 @@ describe('<StopCardHeader />', () => {
       },
     });
     expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(false);
-    expect(
-      wrapper
-        .find(Icon)
-        .at(1)
-        .prop('img'),
-    ).to.equal('icon-icon_caution'); // DT-3472: back button's icon is at index 0
+    expect(wrapper.find(Icon).prop('img')).to.equal('icon-icon_caution');
   });
 
   it('should not use a header icon when the stop has alerts but no severity level', () => {

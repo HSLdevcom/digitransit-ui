@@ -19,16 +19,19 @@ const CardHeader = ({
   icon,
   icons,
   unlinked,
+  showBackButton, // DT-3472
   backButtonColor, // DT-3472
 }) => (
   <Fragment>
     <div className={cx('card-header', className)}>
-      <BackButton
-        icon="icon-icon_arrow-collapse--left"
-        color={backButtonColor}
-        iconClassName="arrow-icon"
-        customStyle={{ paddingTop: '0px', marginBottom: '10px' }}
-      />
+      {showBackButton && (
+        <BackButton
+          icon="icon-icon_arrow-collapse--left"
+          color={backButtonColor}
+          iconClassName="arrow-icon"
+          customStyle={{ paddingTop: '0px', marginBottom: '10px' }}
+        />
+      )}
       {children}
       <div className="card-header-content">
         {icon ? (
@@ -106,6 +109,7 @@ CardHeader.propTypes = {
   icons: PropTypes.arrayOf(PropTypes.node),
   children: PropTypes.node,
   unlinked: PropTypes.bool,
+  showBackButton: PropTypes.bool, // DT-3472
   backButtonColor: PropTypes.string, // DT-3472
 };
 

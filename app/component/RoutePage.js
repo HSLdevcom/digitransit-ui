@@ -329,12 +329,14 @@ class RoutePage extends React.Component {
               'bp-large': breakpoint === 'large',
             })}
           >
-            <BackButton
-              icon="icon-icon_arrow-collapse--left"
-              color={config.colors.primary}
-              iconClassName="arrow-icon"
-              customStyle={{ paddingTop: '25px' }}
-            />
+            {breakpoint === 'large' && (
+              <BackButton
+                icon="icon-icon_arrow-collapse--left"
+                color={config.colors.primary}
+                iconClassName="arrow-icon"
+                customStyle={{ paddingTop: '25px' }}
+              />
+            )}
             {breakpoint === 'large' && (
               <RouteNumber
                 color={route.color ? `#${route.color}` : null}
