@@ -148,7 +148,8 @@ class Map extends React.Component {
     }
     */
 
-    const attribution = config.map.attribution[router.location.query.mapMode];
+    const mapMode = router.location.query.mapMode || MapMode.Default;
+    const attribution = config.map.attribution[mapMode];
 
     return (
       <div aria-hidden="true">
