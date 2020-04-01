@@ -328,6 +328,11 @@ it('should render "Routes, platforms" when vehicleMode is rail or subway but rou
       routes: [
         {
           mode: 'BUS',
+          patterns: [
+            {
+              code: 'HSL:9665A:0:02',
+            },
+          ],
         },
       ],
     },
