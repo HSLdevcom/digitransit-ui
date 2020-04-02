@@ -6,10 +6,6 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
 import isEqual from 'lodash/isEqual';
 import d from 'debug';
-import { suggestionToLocation } from '../util/suggestionUtils';
-import { getJson } from '../util/xhrPromise';
-import { withCurrentTime } from '../util/searchUtils';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 import {
   initGeolocation,
@@ -18,11 +14,10 @@ import {
 import storeOrigin from '../action/originActions';
 import storeDestination from '../action/destinationActions';
 import ControlPanel from './ControlPanel';
-import DTAutoSuggest from './DTAutosuggest';
-import DTAutosuggestPanel from './DTAutosuggestPanel';
+import DTAutosuggestContainer from './DTAutosuggestContainer';
 import PageFooter from './PageFooter';
 import { isBrowser } from '../util/browser';
-import searchContext from './searchContext';
+import searchContext from '../util/searchContext';
 import {
   parseLocation,
   isItinerarySearchObjects,
@@ -32,7 +27,7 @@ import OverlayWithSpinner from './visual/OverlayWithSpinner';
 import { dtLocationShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
-import intializeSearchContext from './DTSearchContextInitializer';
+import intializeSearchContext from '../util/DTSearchContextInitializer';
 import scrollTop from '../util/scroll';
 import FavouriteLocationsContainer from './FavouriteLocationsContainer';
 import getRelayEnvironment from '../util/getRelayEnvironment';
@@ -113,148 +108,6 @@ class IndexPage extends React.Component {
     }
   };
 
-  storeReference = ref => {
-    this.setState(prevState => ({ refs: [...prevState.refs, ref] }));
-  };
-
-  onOriginSelected = location => {
-    const locationWithTime = withCurrentTime(
-      this.context.getStore,
-      this.context.match.location,
-    );
-    addAnalyticsEvent({
-      action: 'EditJourneyStartPoint',
-      category: 'ItinerarySettings',
-      name: location.type,
-    });
-    let newOrigin = { ...location, ready: true };
-    let { destination } = this.props;
-    if (location.type === 'CurrentLocation') {
-      newOrigin = { ...location, gps: true, ready: !!location.lat };
-      if (destination.gps === true) {
-        // destination has gps, clear destination
-        destination = { set: false };
-      }
-    }
-    if (!destination.set) {
-      // console.log('no dest set')
-      this.state.refs[1].focus();
-    }
-    navigateTo({
-      base: locationWithTime,
-      origin: newOrigin,
-      destination,
-      context: '', // PREFIX_ITINERARY_SUMMARY,
-      router: this.context.router,
-      resetIndex: true,
-    });
-  };
-
-  onDestinationSelected = location => {
-    const locationWithTime = withCurrentTime(
-      this.context.getStore,
-      this.context.match.location,
-    );
-    addAnalyticsEvent({
-      action: 'EditJourneyEndPoint',
-      category: 'ItinerarySettings',
-      name: location.type,
-    });
-
-    let updatedOrigin = this.props.origin;
-    let destination = { ...location, ready: true };
-    if (location.type === 'CurrentLocation') {
-      destination = {
-        ...location,
-        gps: true,
-        ready: !!location.lat,
-      };
-      if (origin.gps === true) {
-        updatedOrigin = { set: false };
-      }
-    }
-
-    navigateTo({
-      base: locationWithTime,
-      origin: updatedOrigin,
-      destination,
-      context: '', // PREFIX_ITINERARY_SUMMARY,
-      router: this.context.router,
-      resetIndex: true,
-    });
-  };
-
-  finishSelect = (item, type) => {
-    if (item.type.indexOf('Favourite') === -1) {
-      this.context.executeAction(searchContext.saveSearch, {
-        item,
-        type,
-      });
-    }
-    // this.onSelect(item, type);
-  };
-
-  onSuggestionSelected = (item, id) => {
-    // route
-    if (item.properties.link) {
-      this.context.router.push(item.properties.link);
-      return;
-    }
-    // console.log( suggestionToLocation);
-    const location = suggestionToLocation(item);
-    if (item.properties.layer === 'currentPosition' && !item.properties.lat) {
-      // eslint-disable-next-line react/no-unused-state
-      this.setState({ pendingCurrentLocation: true }, () =>
-        this.context.executeAction(searchContext.startLocationWatch),
-      );
-    } else {
-      // console.log('moiSuggsel ', id);
-      this.onLocationSelected(location, id);
-    }
-  };
-
-  onLocationSelected = (location, id) => {
-    switch (id) {
-      case 'origin':
-        this.onOriginSelected(location);
-        break;
-      case 'destination':
-        this.onDestinationSelected(location);
-        break;
-      default:
-        this.onOriginSelected(location);
-    }
-  };
-
-  onSelect = (item, id) => {
-    // type is destination unless timetable or route was clicked
-    let type = 'endpoint';
-    switch (item.type) {
-      case 'Route':
-        type = 'search';
-        break;
-      default:
-    }
-
-    if (item.type === 'OldSearch' && item.properties.gid) {
-      getJson(this.context.config.URL.PELIAS_PLACE, {
-        ids: item.properties.gid,
-      }).then(data => {
-        const newItem = { ...item };
-        if (data.features != null && data.features.length > 0) {
-          // update only position. It is surprising if, say, the name changes at selection.
-          const geom = data.features[0].geometry;
-          newItem.geometry.coordinates = geom.coordinates;
-        }
-        this.finishSelect(newItem, type);
-        this.onSuggestionSelected(item, id);
-      });
-    } else {
-      this.finishSelect(item, type);
-      this.onSuggestionSelected(item, id);
-    }
-  };
-
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     const { config, intl } = this.context;
@@ -269,7 +122,8 @@ class IndexPage extends React.Component {
           `blurred`} fullscreen bp-${breakpoint}`}
       >
         <ControlPanel className="control-panel-container-left">
-          <DTAutosuggestPanel
+          <DTAutosuggestContainer
+            type="panel"
             searchPanelText={intl.formatMessage({
               id: 'where',
               defaultMessage: 'Where to?',
@@ -278,14 +132,11 @@ class IndexPage extends React.Component {
             onSelect={this.onSelect}
             destination={destination}
             refs={this.state.refs}
-            storeRef={this.storeReference}
             searchType="endpoint"
             originPlaceHolder="search-origin-index"
             destinationPlaceHolder="search-destination-index"
             searchContext={searchContext}
             locationState={this.props.locationState}
-            onOriginSelected={this.onOriginSelected}
-            onDestinationSelected={this.onDestinationSelected}
             getViaPointsFromMap={this.props.getViaPointsFromMap}
           />
           <div className="fpcfloat">
@@ -307,18 +158,16 @@ class IndexPage extends React.Component {
             </span>
           </div>
           <div>
-            <DTAutoSuggest
+            <DTAutosuggestContainer
+              type="field"
               icon="mapMarker-via"
               id="searchfield-preferred"
               autoFocus={false}
-              storeRef={this.storeReference}
               refPoint={origin}
               className="destination"
               searchType="search"
               placeholder="stop-near-you"
               value=""
-              onSelect={this.onSelect}
-              isFocused={this.isFocused}
               onLocationSelected={e => e.stopPropagation()}
               searchContext={searchContext}
               locationState={this.props.locationState}
@@ -342,21 +191,22 @@ class IndexPage extends React.Component {
       >
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
         <ControlPanel className="control-panel-container-bottom">
-          <DTAutosuggestPanel
+          <DTAutosuggestContainer
+            type="panel"
             searchPanelText={intl.formatMessage({
               id: 'where',
               defaultMessage: 'Where to?',
             })}
             origin={origin}
-            storeRef={this.storeReference}
-            destination={destination}
-            searchType="all"
             onSelect={this.onSelect}
-            onLocationSelected={this.onLocationSelected}
-            originPlaceHolder="search-origin"
-            destinationPlaceHolder="search-destination"
+            destination={destination}
+            refs={this.state.refs}
+            searchType="endpoint"
+            originPlaceHolder="search-origin-index"
+            destinationPlaceHolder="search-destination-index"
             searchContext={searchContext}
             locationState={this.props.locationState}
+            getViaPointsFromMap={this.props.getViaPointsFromMap}
           />
           <div className="fpcfloat">
             <div className="frontpage-panel">
@@ -374,18 +224,16 @@ class IndexPage extends React.Component {
             </span>
           </div>
           <div>
-            <DTAutoSuggest
+            <DTAutosuggestContainer
+              type="field"
               icon="mapMarker-via"
-              id="searchfield-preferred-bottom"
-              storeRef={this.storeReference}
+              id="searchfield-preferred"
               autoFocus={false}
               refPoint={origin}
               className="destination"
               searchType="search"
               placeholder="stop-near-you"
               value=""
-              onSelect={this.onSelect}
-              isFocused={this.isFocused}
               onLocationSelected={e => e.stopPropagation()}
               searchContext={searchContext}
               locationState={this.props.locationState}

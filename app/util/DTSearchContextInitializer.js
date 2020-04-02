@@ -4,7 +4,7 @@ import {
   getStopAndStations,
   getFavouriteRoutes,
   setRelayEnvironment,
-} from '../util/DTSearchUtils';
+} from './DTSearchUtils';
 import {
   getPositions,
   getFavouriteLocations,
@@ -13,7 +13,7 @@ import {
   getFavouriteStops,
   getLanguage,
   getPositionStore,
-} from '../util/storeUtils';
+} from './storeUtils';
 import { startLocationWatch } from '../action/PositionActions';
 import { saveSearch } from '../action/SearchActions';
 import updateViaPointsFromMap from '../action/ViaPointsActions';

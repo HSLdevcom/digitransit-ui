@@ -6,8 +6,8 @@ import { routerShape } from 'found';
 import DTAutoSuggest from './DTAutosuggest';
 import Icon from './Icon';
 import RouteDetails from './RouteDetails';
-import searchContext from './searchContext';
-import intializeSearchContext from './DTSearchContextInitializer';
+import searchContext from '../util/searchContext';
+import intializeSearchContext from '../util/DTSearchContextInitializer';
 import getRelayEnvironment from '../util/getRelayEnvironment';
 
 class PreferredRoutes extends React.Component {

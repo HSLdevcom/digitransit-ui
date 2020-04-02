@@ -6,7 +6,7 @@ import { describe, it } from 'mocha';
 import { mockContext, mockChildContextTypes } from './helpers/mock-context';
 import { mountWithIntl } from './helpers/mock-intl-enzyme';
 import DTAutoSuggest from '../../app/component/DTAutosuggest';
-import searchContext from '../../app/component/searchContext';
+import searchContext from '../../app/util/searchContext';
 
 describe('<DTAutoSuggest />', () => {
   it('should render with focus set', () => {
