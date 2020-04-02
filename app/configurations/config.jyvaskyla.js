@@ -152,7 +152,6 @@ export default configMerger(walttiConfig, {
           en: 'Zones',
         },
         url: '/assets/geojson/jkl_zone_lines_20200401.geojson',
-        isOffByDefault: true,
       },
     ],
   },
