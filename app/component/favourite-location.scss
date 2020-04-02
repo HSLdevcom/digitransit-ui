@@ -4,65 +4,83 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  border-radius: $border-radius;
-  border: 1px solid $medium-gray;
+  border-radius: 5px;
+  border: 1px solid #d9d9d9;
   cursor: pointer;
-  padding: $padding-xxsmall 0;
-  height: 100%;
 }
 
-.new-favourite-location-content {
-  @extend .favourite-button-shared;
-  padding: $padding-small;
-  // width: 10rem;
-  // height: 3rem;
-  // Use old sizes below until further design
-  line-height: 1.5;
-  position: relative;
-  min-height: 65px;
-  width: 95%;
+.new-favourite-locations-container {
+  display: flex;
+  width: calc(100% - 2em);
+  max-width: 400px;
+  height: 3rem;
+  flex-shrink: 1;
+  flex-direction: row;
+  margin: 1rem auto 0;
+  justify-content: space-between;
+  align-items: center;
 
-  .favourite-location-icon {
-    color: #007ac9;
-    vertical-align: middle;
-    font-size: 1.2em;
-  }
+  .new-favourite-location-content {
+    @extend .favourite-button-shared;
+    width: 42.25%;
+    max-width: 169px;
+    min-width: 140px;
+    height: 100%;
+    position: relative;
 
-  .favourite-location {
-    width: 7.5rem;
-    flex-direction: row;
-    padding-left: 0.25rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-align: start;
-
-    .favourite-location-name {
-      font-size: 12px;
-      font-weight: 700;
+    span.icon-container {
+      display: flex;
+      justify-content: space-between;
+      margin: 0 1rem;
     }
 
-    .favourite-location-address {
-      font-size: 11px;
-      font-weight: 400;
+    .favourite-location-icon {
+      color: #007ac9;
+    }
+
+    .favourite-location {
       white-space: nowrap;
       overflow: hidden;
-      text-overflow: ellipsis;
+      text-align: start;
+      width: 100%;
+      flex-direction: row;
+
+      .favourite-location-name {
+        font-size: 15px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.33;
+        letter-spacing: -0.6px;
+        color: #333333;
+      }
+
+      .favourite-location-address {
+        font-size: 12px;
+        margin-right: 1rem;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.67;
+        letter-spacing: -0.48px;
+        color: #666666;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
   }
 
-  // .favourite-edit-icon-link {
-  //   position: relative;
-  //   width: 12px;
-  //   height: 12px;
-  //   top: -20px;
-  //   // right: 0;
-  //   // bottom: 0;
+  .favourite-container-expand {
+    @extend .favourite-button-shared;
+    height: 100%;
+    writing-mode: vertical-lr;
+    width: 2.5rem;
 
-  //   .favourite-edit-icon {
-  //     color: $light-gray;
-  //     font-size: 10px;
-  //   }
-  // }
+    .favourite-expand-icon {
+      color: #007ac9;
+    }
+  }
 }
 
 .favourite-edit-icon-click-area {
