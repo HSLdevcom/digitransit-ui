@@ -135,14 +135,10 @@ class IndexPage extends React.Component {
             destinationPlaceHolder="search-destination-index"
             searchContext={searchContext}
           />
-          <div className="fpcfloat">
-            <div className="frontpage-panel">
-              <FavouriteLocationsContainer
-                onClickFavourite={this.clickFavourite}
-                favourites={favourites}
-              />
-            </div>
-          </div>
+          <FavouriteLocationsContainer
+            onClickFavourite={this.clickFavourite}
+            favourites={favourites}
+          />
           <div className="control-panel-separator-line" />
           <div className="stops-near-you-text">
             <span>
@@ -193,14 +189,10 @@ class IndexPage extends React.Component {
             destinationPlaceHolder="search-destination"
             searchContext={searchContext}
           />
-          <div className="fpcfloat">
-            <div className="frontpage-panel">
-              <FavouriteLocationsContainer
-                onClickFavourite={this.clickFavourite}
-                favourites={this.props.favourites}
-              />
-            </div>
-          </div>
+          <FavouriteLocationsContainer
+            onClickFavourite={this.clickFavourite}
+            favourites={this.props.favourites}
+          />
           <div className="control-panel-separator-line" />
           <div className="stops-near-you-text">
             <span>
