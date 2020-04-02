@@ -7,7 +7,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import ZoneIcon from './ZoneIcon';
-import { getZoneLabelColor } from '../util/mapIconUtils';
+import { getZoneLabelColor, getZoneLabel } from '../util/mapIconUtils';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 import ExternalLink from './ExternalLink';
 
@@ -47,13 +47,6 @@ class StopCardHeader extends React.Component {
         }{' '}
       </ExternalLink>
     );
-  }
-
-  getZoneLabel(zoneId) {
-    if (this.context.config.zoneIdMapping) {
-      return this.context.config.zoneIdMapping[zoneId];
-    }
-    return zoneId;
   }
 
   getZoneLabelSize(zoneId) {
@@ -102,7 +95,7 @@ class StopCardHeader extends React.Component {
           stop.zoneId && (
             <ZoneIcon
               showTitle
-              zoneId={this.getZoneLabel(stop.zoneId)}
+              zoneId={getZoneLabel(stop.zoneId, this.context.config)}
               zoneIdFontSize={
                 this.getZoneLabelSize(stop.zoneId)
                   ? this.getZoneLabelSize(stop.zoneId)

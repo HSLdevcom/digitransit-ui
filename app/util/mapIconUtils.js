@@ -358,3 +358,10 @@ export const getZoneLabelColor = config => {
   }
   return '#000';
 };
+
+export const getZoneLabel = (zoneId, config) => {
+  if (config.zoneIdMapping) {
+    return config.zoneIdMapping[zoneId];
+  }
+  return zoneId;
+};
