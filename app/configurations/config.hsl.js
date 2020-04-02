@@ -512,7 +512,7 @@ export default {
   useTicketIcons: true,
 
   cityBike: {
-    showCityBikes: false,
+    showCityBikes: true,
     networks: {
       smoove: {
         icon: 'citybike',
