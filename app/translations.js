@@ -645,7 +645,8 @@ const translations = {
     'arrive-leave': 'Arrive or leave at selected time',
     'search-autosuggest-label':
       'Venue, place and stopsearch. Navigate list with arrow keys and select with enter key',
-    'search-autosuggest-len': 'There are {len} Suggestions available',
+    'search-autosuggest-len':
+      'There {len, plural, =1 {is 1 suggestion} other {are {len} suggestions available}}',
     'search-current-suggestion': 'Current selection {selection}',
     'select-date': 'Select date',
     'set-time-earlier-button-label': 'Set travel time to earlier',
@@ -1425,8 +1426,9 @@ const translations = {
     'arrive-leave': 'Saavu tai lähde valittuna aikana',
     'search-autosuggest-label':
       'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
-    'search-autosuggest-len': ' Löydettiin {len} ehdotusta',
-    'search-current-suggestion': 'Tämänhetkinen sijainti {selection}',
+    'search-autosuggest-len':
+      ' Löydettiin {len, plural, =1 {1 ehdotus} other {{len} ehdotusta}}',
+    'search-current-suggestion': 'Tämänhetkinen valinta {selection}',
     // eslint-disable-next-line sort-keys
     'add-via-duration-button-label':
       'Aseta välipisteelle {index} pysähdyksen kesto',

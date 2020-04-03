@@ -13,7 +13,11 @@ import getRelayEnvironment from '../util/getRelayEnvironment';
 import { getJson } from '../util/xhrPromise';
 import { saveSearch } from '../action/SearchActions';
 import Loading from './Loading';
-import { suggestionToLocation, getLabel } from '../util/suggestionUtils';
+import {
+  suggestionToLocation,
+  getLabel,
+  suggestionToAriaContent,
+} from '../util/suggestionUtils';
 import { startLocationWatch } from '../action/PositionActions';
 import PositionStore from '../store/PositionStore';
 
@@ -432,6 +436,18 @@ class DTAutosuggest extends React.Component {
     return oldLocState.status !== newLocState.status;
   };
 
+  suggestionAsAriaContent() {
+    let label = [];
+    if (this.state.suggestions[0]) {
+      label = suggestionToAriaContent(
+        this.state.suggestions[0],
+        this.context.intl,
+        this.context.config.search.suggestions.useTransportIcons,
+      );
+    }
+    return label ? label.join(' - ') : '';
+  }
+
   render() {
     if (this.props.showSpinner && this.state.pendingCurrentLocation) {
       return <Loading />;
@@ -470,19 +486,14 @@ class DTAutosuggest extends React.Component {
         len: suggestions.length,
       },
     );
+
     const ariaCurrentSuggestion = this.context.intl.formatMessage(
       {
         id: 'search-current-suggestion',
         defaultMessage: 'Current selection: {selection}',
       },
       {
-        selection:
-          // eslint-disable-next-line no-nested-ternary
-          suggestions.length > 0
-            ? suggestions[0].properties.labelId
-              ? suggestions[0].properties.labelId
-              : suggestions[0].properties.label
-            : '',
+        selection: this.suggestionAsAriaContent(),
       },
     );
     return (
@@ -522,7 +533,7 @@ class DTAutosuggest extends React.Component {
               <span
                 className="sr-only"
                 role="alert"
-                aria-hidden={!this.state.editing}
+                aria-hidden={!this.state.editing || suggestions.length === 0}
               >
                 {ariaCurrentSuggestion}
               </span>

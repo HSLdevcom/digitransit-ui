@@ -4,14 +4,14 @@ import cx from 'classnames';
 import pure from 'recompose/pure';
 
 import Icon from './Icon';
-import { getNameLabel, getIcon } from '../util/suggestionUtils';
+import { getIcon, suggestionToAriaContent } from '../util/suggestionUtils';
 import ComponentUsageExample from './ComponentUsageExample';
 
 const SuggestionItem = pure(({ item, intl, useTransportIcons, loading }) => {
   let icon;
-  let iconstr;
+  //  let iconstr;
   if (item.properties.mode && useTransportIcons) {
-    iconstr = `icon-icon_${item.properties.mode}`;
+    //  iconstr = `icon-icon_${item.properties.mode}`;
     icon = (
       <Icon
         img={`icon-icon_${item.properties.mode}`}
@@ -20,13 +20,13 @@ const SuggestionItem = pure(({ item, intl, useTransportIcons, loading }) => {
     );
   } else {
     // DT-3262 Icon as string for screen readers
-    const layer = item.properties.layer.replace('route-', '').toLowerCase();
+    /* const layer = item.properties.layer.replace('route-', '').toLowerCase();
     if (intl) {
       iconstr = intl.formatMessage({
         id: layer,
         defaultMessage: layer,
       });
-    }
+    } */
     icon = (
       <Icon
         img={getIcon(item.properties.layer)}
@@ -34,8 +34,12 @@ const SuggestionItem = pure(({ item, intl, useTransportIcons, loading }) => {
       />
     );
   }
-  const [name, label] = getNameLabel(item.properties, false);
-  // DT-3262 For screen readers
+  // const [name, label] = getNameLabel(item.properties, false);
+  const [iconstr, name, label] = suggestionToAriaContent(
+    item,
+    intl,
+    useTransportIcons,
+  );
   const acri = (
     <div className="sr-only">
       <p>
