@@ -39,12 +39,11 @@ class DTAutosuggest extends React.Component {
     searchContext: PropTypes.any.isRequired,
     ariaLabel: PropTypes.string,
     onSelect: PropTypes.func,
-    onLocationSelected: PropTypes.func.isRequired,
-    onRouteSelected: PropTypes.func,
     isPreferredRouteSearch: PropTypes.bool,
-    locationState: PropTypes.object.isRequired,
+    locationState: PropTypes.object,
     showSpinner: PropTypes.bool,
     storeRef: PropTypes.func,
+    handleViaPoints: PropTypes.func,
   };
 
   static defaultProps = {
@@ -55,7 +54,6 @@ class DTAutosuggest extends React.Component {
     isFocused: () => {},
     value: '',
     isPreferredRouteSearch: false,
-    onRouteSelected: undefined,
     showSpinner: false,
     layers: getAllEndpointLayers(),
   };
@@ -104,7 +102,7 @@ class DTAutosuggest extends React.Component {
                 defaultMessage: 'Own Location',
               }),
           };
-          nextProps.onLocationSelected(location);
+          nextProps.onSelect(location, location.type);
         }
       });
     }
@@ -141,6 +139,10 @@ class DTAutosuggest extends React.Component {
   onSelected = (e, ref) => {
     this.props.isFocused(false);
     if (this.state.valid) {
+      if (this.props.handleViaPoints) {
+        // TODO: add and verify this viaPointHandling, since DT-3466 onLocationSelected has been removed
+        this.props.handleViaPoints(ref.suggestion, ref.suggestionIndex);
+      }
       this.setState(
         {
           editing: false,

@@ -38,9 +38,8 @@ class DTAutosuggestContainer extends React.Component {
     className: PropTypes.string,
     placeholder: PropTypes.string,
     value: PropTypes.string,
-    onLocationSelected: PropTypes.func,
     isItinerary: PropTypes.bool,
-    initialViaPoints: PropTypes.func,
+    initialViaPoints: PropTypes.array,
     updateViaPoints: PropTypes.func,
     swapOrder: PropTypes.func,
     refPoint: PropTypes.object,
@@ -62,72 +61,6 @@ class DTAutosuggestContainer extends React.Component {
     this.setState(prevState => ({ refs: [...prevState.refs, ref] }));
   };
 
-  onOriginSelected = location => {
-    const locationWithTime = withCurrentTime(
-      this.context.getStore,
-      this.context.match.location,
-    );
-    addAnalyticsEvent({
-      action: 'EditJourneyStartPoint',
-      category: 'ItinerarySettings',
-      name: location.type,
-    });
-    let newOrigin = { ...location, ready: true };
-    let { destination } = this.props;
-    if (location.type === 'CurrentLocation') {
-      newOrigin = { ...location, gps: true, ready: !!location.lat };
-      if (destination.gps === true) {
-        // destination has gps, clear destination
-        destination = { set: false };
-      }
-    }
-    if (!destination || !destination.set) {
-      this.state.refs[1].focus();
-    }
-    navigateTo({
-      base: locationWithTime,
-      origin: newOrigin,
-      destination,
-      context: '', // PREFIX_ITINERARY_SUMMARY,
-      router: this.context.router,
-      resetIndex: true,
-    });
-  };
-
-  onDestinationSelected = location => {
-    const locationWithTime = withCurrentTime(
-      this.context.getStore,
-      this.context.match.location,
-    );
-    addAnalyticsEvent({
-      action: 'EditJourneyEndPoint',
-      category: 'ItinerarySettings',
-      name: location.type,
-    });
-
-    let updatedOrigin = this.props.origin;
-    let destination = { ...location, ready: true };
-    if (location.type === 'CurrentLocation') {
-      destination = {
-        ...location,
-        gps: true,
-        ready: !!location.lat,
-      };
-      if (origin.gps === true) {
-        updatedOrigin = { set: false };
-      }
-    }
-
-    navigateTo({
-      base: locationWithTime,
-      origin: updatedOrigin,
-      destination,
-      context: '', // PREFIX_ITINERARY_SUMMARY,
-      router: this.context.router,
-      resetIndex: true,
-    });
-  };
-
   finishSelect = (item, type) => {
     if (item.type.indexOf('Favourite') === -1) {
       this.context.executeAction(this.props.searchContext.saveSearch, {
@@ -141,7 +74,12 @@ class DTAutosuggestContainer extends React.Component {
   onSuggestionSelected = (item, id) => {
     // route
     if (item.properties.link) {
-      this.context.router.push(item.properties.link);
+      this.selectRoute(item.properties.link);
+      return;
+    }
+    // favourite
+    if (id === 'favourite') {
+      this.selectFavourite(item, id);
       return;
     }
     const location = suggestionToLocation(item);
@@ -151,26 +89,69 @@ class DTAutosuggestContainer extends React.Component {
         this.context.executeAction(this.props.searchContext.startLocationWatch),
       );
     } else {
-      this.onLocationSelected(location, id);
+      this.selectLocation(location, id);
     }
   };
 
-  onLocationSelected = (location, id) => {
-    if (this.props.onLocationSelected) {
-      // If onLocationSelected is spesified by parent component,
-      // then this is not needed
-      return;
+  selectRoute(link) {
+    this.context.router.push(link);
+  }
+  // eslint-disable-next-line no-unused-vars
+  selectFavourite = (item, id) => {
+    // TODO Do what is needed  }
+  };
+
+  selectLocation = (location, id) => {
+    const locationWithTime = withCurrentTime(
+      this.context.getStore,
+      this.context.match.location,
+    );
+    addAnalyticsEvent({
+      action: 'EditJourneyEndPoint',
+      category: 'ItinerarySettings',
+      name: location.type,
+    });
+    let origin;
+    let destination;
+
+    if (id === 'origin') {
+      origin = { ...location, ready: true };
+      // eslint-disable-next-line prefer-destructuring
+      destination = this.props.destination;
+      if (location.type === 'CurrentLocation') {
+        origin = { ...location, gps: true, ready: !!location.lat };
+        if (destination.gps === true) {
+          // destination has gps, clear destination
+          destination = { set: false };
+        }
+      }
+      if (!destination || !destination.set) {
+        this.state.refs[1].focus();
+      }
+    } else if (id === 'destination') {
+      // eslint-disable-next-line prefer-destructuring
+      origin = this.props.origin;
+      destination = { ...location, ready: true };
+      if (location.type === 'CurrentLocation') {
+        destination = {
+          ...location,
+          gps: true,
+          ready: !!location.lat,
+        };
+        if (origin.gps === true) {
+          origin = { set: false };
+        }
+      }
     }
-    switch (id) {
-      case 'origin':
-        this.onOriginSelected(location);
-        break;
-      case 'destination':
-        this.onDestinationSelected(location);
-        break;
-      default:
-        this.onOriginSelected(location);
-    }
+
+    navigateTo({
+      base: locationWithTime,
+      origin,
+      destination,
+      context: '', // PREFIX_ITINERARY_SUMMARY,
+      router: this.context.router,
+      resetIndex: true,
+    });
   };
 
   onSelect = (item, id) => {
@@ -182,7 +163,10 @@ class DTAutosuggestContainer extends React.Component {
         break;
       default:
     }
-
+    if (id === 'CurrentLocation') {
+      // item is already a location.
+      this.selectLocation(item);
+    }
     if (item.type === 'OldSearch' && item.properties.gid) {
       getJson(this.context.config.URL.PELIAS_PLACE, {
         ids: item.properties.gid,
@@ -217,8 +201,6 @@ class DTAutosuggestContainer extends React.Component {
         destinationPlaceHolder={this.props.destinationPlaceHolder}
         searchContext={this.props.searchContext}
         locationState={this.props.locationState}
-        onOriginSelected={this.onOriginSelected}
-        nationSelected={this.onDestinationSelected}
         initialViaPoints={this.props.initialViaPoints}
         updateViaPoints={this.props.updateViaPoints}
         swapOrder={this.props.swapOrder}
@@ -241,7 +223,6 @@ class DTAutosuggestContainer extends React.Component {
         value={this.props.value}
         onSelect={this.onSelect}
         isFocused={this.isFocused}
-        onLocationSelected={this.props.onLocationSelected}
         onRouteSelected={this.props.onRouteSelected}
         searchContext={this.props.searchContext}
         locationState={this.props.locationState}

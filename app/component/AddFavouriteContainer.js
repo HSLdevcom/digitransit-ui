@@ -216,13 +216,12 @@ class AddFavouriteContainer extends React.Component {
               </h4>
               <DTAutosuggestContainer
                 type="field"
-                id="orddigin"
+                id="favourite"
                 refPoint={{ lat: 0, lon: 0 }}
                 searchType="endpoint"
                 placeholder="address"
                 value={favourite.address || ''}
                 layers={favouriteLayers}
-                onLocationSelected={this.setLocationProperties}
                 searchContext={searchContext}
                 showSpinner
               />

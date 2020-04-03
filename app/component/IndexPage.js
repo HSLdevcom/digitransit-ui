@@ -168,7 +168,6 @@ class IndexPage extends React.Component {
               searchType="search"
               placeholder="stop-near-you"
               value=""
-              onLocationSelected={e => e.stopPropagation()}
               searchContext={searchContext}
               locationState={this.props.locationState}
             />
@@ -234,7 +233,6 @@ class IndexPage extends React.Component {
               searchType="search"
               placeholder="stop-near-you"
               value=""
-              onLocationSelected={e => e.stopPropagation()}
               searchContext={searchContext}
               locationState={this.props.locationState}
             />

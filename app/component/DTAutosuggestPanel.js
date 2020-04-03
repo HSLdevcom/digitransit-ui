@@ -89,8 +89,6 @@ class DTAutosuggestPanel extends React.Component {
     locationState: PropTypes.object.isRequired,
     onSelect: PropTypes.func,
     storeRef: PropTypes.func,
-    onOriginSelected: PropTypes.func,
-    onDestinationSelected: PropTypes.func,
   };
 
   static defaultProps = {
@@ -385,7 +383,6 @@ class DTAutosuggestPanel extends React.Component {
             searchContext={searchContext}
             locationState={this.props.locationState}
             onSelect={this.props.onSelect}
-            onLocationSelected={this.props.onOriginSelected}
           />
           <ItinerarySearchControl
             className="switch"
@@ -444,7 +441,7 @@ class DTAutosuggestPanel extends React.Component {
                   locationState={this.props.locationState}
                   value={(o && o.address) || ''}
                   onSelect={this.props.onSelect}
-                  onLocationSelected={item =>
+                  handelViaPoints={item =>
                     this.handleViaPointLocationSelected(item, i)
                   }
                 />
@@ -545,7 +542,6 @@ class DTAutosuggestPanel extends React.Component {
             locationState={this.props.locationState}
             onSelect={this.props.onSelect}
             value={this.value(this.props.destination)}
-            onLocationSelected={this.props.onDestinationSelected}
           />
           <ItinerarySearchControl
             className={cx('add-via-point', 'more', {
