@@ -146,6 +146,21 @@ export function getLabel(properties) {
   }
 }
 
+export function suggestionToAriaContent(item, intl, useTransportIcons) {
+  let iconstr;
+  if (item.properties.mode && useTransportIcons) {
+    iconstr = `icon-icon_${item.mode}`;
+  } else {
+    const layer = item.properties.layer.replace('route-', '').toLowerCase();
+    iconstr = intl.formatMessage({
+      id: layer,
+      defaultMessage: layer,
+    });
+  }
+  const [name, label] = getNameLabel(item.properties, true);
+  return [iconstr, name, label];
+}
+
 export function suggestionToLocation(item) {
   const name = getLabel(item.properties);
   return {

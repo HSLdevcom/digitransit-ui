@@ -750,7 +750,9 @@ const translations = {
     'arrive-leave': 'Arrive or leave at selected time',
     'search-autosuggest-label':
       'Venue, place and stopsearch. Navigate list with arrow keys and select with enter key',
-    'search-autosuggest-len': 'There are {len} Suggestions available',
+    'search-autosuggest-len':
+      'There {len, plural, =1 {is 1 suggestion} other {are {len} suggestions}} available',
+    'search-current-suggestion': 'Current selection: {selection}',
     'select-date': 'Select date',
     'set-time-earlier-button-label': 'Set travel time to earlier',
     'set-time-later-button-label': 'Set travel time to later',
@@ -941,6 +943,7 @@ const translations = {
     'likely-to-use':
       'How likely are you to use this service rather than the current Journey Planner?',
     loading: 'Loading...',
+    localadmin: 'Locality',
     locate: 'Detect location',
     'location-examples': 'e.g. Home, Work, School,...',
     'location-from-map': 'Selected location',
@@ -1530,7 +1533,9 @@ const translations = {
     'arrive-leave': 'Saavu tai lähde valittuna aikana',
     'search-autosuggest-label':
       'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
-    'search-autosuggest-len': ' Löydettiin {len} ehdotusta',
+    'search-autosuggest-len':
+      ' Löydettiin {len, plural, =1 {1 ehdotus} other {{len} ehdotusta}}',
+    'search-current-suggestion': 'Tämänhetkinen valinta: {selection}',
     // eslint-disable-next-line sort-keys
     'add-via-duration-button-label':
       'Aseta välipisteelle {index} pysähdyksen kesto',
@@ -1725,6 +1730,7 @@ const translations = {
     'likely-to-use':
       'Kuinka todennäköisesti käyttäisit tätä palvelua ennemmin kuin nykyistä reittiopas-palvelua?',
     loading: 'Ladataan...',
+    localadmin: 'Paikkakunta',
     locate: 'Paikanna',
     'location-examples': 'esim. Koti, Työ, Koulu,...',
     'location-from-map': 'Valittu sijainti',
@@ -2620,8 +2626,9 @@ const translations = {
       'Öppna väljaren för varaktighet vid via-punkten',
     'arrive-leave': 'Anländer eller lämnar vid vald tid',
     'search-autosuggest-label':
-      'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
+      'Plats, linje och hållplatssökning. Navigera listan med piltangenterna och välj med Enter-tangeten',
     'search-autosuggest-len': 'Hittade {len} förslag',
+    'search-current-suggestion': 'Nuvarande val: {selection}',
     'select-date': 'Välj datum',
     'set-time-earlier-button-label': 'Ställ in restid till tidigare',
     'set-time-later-button-label': 'Ställ in restid till senare',
@@ -2813,6 +2820,7 @@ const translations = {
     'likely-to-use':
       'Hur sannolikt skulle du använda denna tjänst i stället för den nuvarande Reseplaneraren?',
     loading: 'Laddar...',
+    localadmin: 'Tätort',
     locate: 'Lokalisera',
     'location-examples': 't.ex. Hem, Arbetsplats, Skola,...',
     'location-from-map': 'Vald position',
