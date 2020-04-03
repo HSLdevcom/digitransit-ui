@@ -184,27 +184,29 @@ class SelectMapLayersDialog extends React.Component {
               }}
             />
           )}
-          {config.cityBike && config.cityBike.showCityBikes && (
-            <Checkbox
-              checked={citybike}
-              defaultMessage="Citybike station"
-              labelId="map-layer-citybike"
-              onChange={e => {
-                this.updateSetting({ citybike: e.target.checked });
-                this.sendLayerChangeAnalytic('Citybike', e.target.checked);
-              }}
-            />
-          )}
-          {config.roadworks && config.roadworks.showRoadworks && (
-            <Checkbox
-              checked={roadworks}
-              defaultMessage="Roadworks"
-              labelId="map-layer-roadworks"
-              onChange={e =>
-                this.updateSetting({ roadworks: e.target.checked })
-              }
-            />
-          )}
+          {config.cityBike &&
+            config.cityBike.showCityBikes && (
+              <Checkbox
+                checked={citybike}
+                defaultMessage="Citybike station"
+                labelId="map-layer-citybike"
+                onChange={e => {
+                  this.updateSetting({ citybike: e.target.checked });
+                  this.sendLayerChangeAnalytic('Citybike', e.target.checked);
+                }}
+              />
+            )}
+          {config.roadworks &&
+            config.roadworks.showRoadworks && (
+              <Checkbox
+                checked={roadworks}
+                defaultMessage="Roadworks"
+                labelId="map-layer-roadworks"
+                onChange={e =>
+                  this.updateSetting({ roadworks: e.target.checked })
+                }
+              />
+            )}
           {isTransportModeEnabled(transportModes.carpool) &&
             config.dynamicParkingLots &&
             config.dynamicParkingLots.showDynamicParkingLots && (
@@ -214,75 +216,80 @@ class SelectMapLayersDialog extends React.Component {
                 labelId="carpool-and-parking"
                 onChange={e => {
                   this.updateSetting({ dynamicParkingLots: e.target.checked });
-                  this.updateStopAndTerminalSetting({ carpool: e.target.checked });
+                  this.updateStopAndTerminalSetting({
+                    carpool: e.target.checked,
+                  });
                 }}
               />
             )}
-          {config.parkAndRide && config.parkAndRide.showParkAndRide && (
-            <Checkbox
-              checked={parkAndRide}
-              defaultMessage="Park &amp; ride"
-              labelId="map-layer-park-and-ride"
-              onChange={e => {
-                this.updateSetting({ parkAndRide: e.target.checked });
-                this.sendLayerChangeAnalytic('ParkAndRide', e.target.checked);
-              }}
-            />
-          )}
-        </div>
-        {config.ticketSales && config.ticketSales.showTicketSales && (
-          <div className="checkbox-grouping">
-            <Checkbox
-              checked={ticketSales.ticketMachine}
-              defaultMessage="Ticket machine"
-              labelId="map-layer-ticket-sales-machine"
-              onChange={e => {
-                this.updateTicketSalesSetting({
-                  ticketMachine: e.target.checked,
-                });
-                this.sendLayerChangeAnalytic(
-                  'TicketSalesMachine',
-                  e.target.checked,
-                );
-              }}
-            />
-            <Checkbox
-              checked={ticketSales.salesPoint}
-              defaultMessage="Travel Card top up"
-              labelId="map-layer-ticket-sales-point"
-              onChange={e => {
-                this.updateTicketSalesSetting({
-                  salesPoint: e.target.checked,
-                  servicePoint: e.target.checked,
-                });
-                this.sendLayerChangeAnalytic(
-                  'TicketSalesPoint',
-                  e.target.checked,
-                );
-              }}
-            />
-          </div>
-        )}
-        {config.geoJson && Array.isArray(config.geoJson.layers) && (
-          <div className="checkbox-grouping">
-            {config.geoJson.layers.map(gj => (
+          {config.parkAndRide &&
+            config.parkAndRide.showParkAndRide && (
               <Checkbox
-                checked={
-                  (gj.isOffByDefault && geoJson[gj.url] === true) ||
-                  (!gj.isOffByDefault && geoJson[gj.url] !== false)
-                }
-                defaultMessage={gj.name[lang]}
-                key={gj.url}
+                checked={parkAndRide}
+                defaultMessage="Park &amp; ride"
+                labelId="map-layer-park-and-ride"
                 onChange={e => {
-                  const newSetting = {};
-                  newSetting[gj.url] = e.target.checked;
-                  this.updateGeoJsonSetting(newSetting);
-                  this.sendLayerChangeAnalytic('Zones', e.target.checked);
+                  this.updateSetting({ parkAndRide: e.target.checked });
+                  this.sendLayerChangeAnalytic('ParkAndRide', e.target.checked);
                 }}
               />
-            ))}
-          </div>
-        )}
+            )}
+        </div>
+        {config.ticketSales &&
+          config.ticketSales.showTicketSales && (
+            <div className="checkbox-grouping">
+              <Checkbox
+                checked={ticketSales.ticketMachine}
+                defaultMessage="Ticket machine"
+                labelId="map-layer-ticket-sales-machine"
+                onChange={e => {
+                  this.updateTicketSalesSetting({
+                    ticketMachine: e.target.checked,
+                  });
+                  this.sendLayerChangeAnalytic(
+                    'TicketSalesMachine',
+                    e.target.checked,
+                  );
+                }}
+              />
+              <Checkbox
+                checked={ticketSales.salesPoint}
+                defaultMessage="Travel Card top up"
+                labelId="map-layer-ticket-sales-point"
+                onChange={e => {
+                  this.updateTicketSalesSetting({
+                    salesPoint: e.target.checked,
+                    servicePoint: e.target.checked,
+                  });
+                  this.sendLayerChangeAnalytic(
+                    'TicketSalesPoint',
+                    e.target.checked,
+                  );
+                }}
+              />
+            </div>
+          )}
+        {config.geoJson &&
+          Array.isArray(config.geoJson.layers) && (
+            <div className="checkbox-grouping">
+              {config.geoJson.layers.map(gj => (
+                <Checkbox
+                  checked={
+                    (gj.isOffByDefault && geoJson[gj.url] === true) ||
+                    (!gj.isOffByDefault && geoJson[gj.url] !== false)
+                  }
+                  defaultMessage={gj.name[lang]}
+                  key={gj.url}
+                  onChange={e => {
+                    const newSetting = {};
+                    newSetting[gj.url] = e.target.checked;
+                    this.updateGeoJsonSetting(newSetting);
+                    this.sendLayerChangeAnalytic('Zones', e.target.checked);
+                  }}
+                />
+              ))}
+            </div>
+          )}
         <div className="checkbox-grouping">
           <label className="radio-label" htmlFor="street">
             <input
