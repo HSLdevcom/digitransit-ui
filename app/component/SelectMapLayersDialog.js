@@ -41,7 +41,8 @@ class SelectMapLayersDialog extends React.Component {
       ...mapLayers.terminal,
       ...carpoolSetting,
     };
-    this.updateSetting({ stop, terminal, parkingSetting });
+    const { dynamicParkingLots } = parkingSetting;
+    this.updateSetting({ stop, terminal, dynamicParkingLots });
   };
 
   updateStopAndTerminalSetting = newSetting => {
