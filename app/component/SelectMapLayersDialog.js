@@ -31,6 +31,19 @@ class SelectMapLayersDialog extends React.Component {
     });
   };
 
+  updateCarpoolAndParkingSettings = (carpoolSetting, parkingSetting) => {
+    const { mapLayers } = this.props;
+    const stop = {
+      ...mapLayers.stop,
+      ...carpoolSetting,
+    };
+    const terminal = {
+      ...mapLayers.terminal,
+      ...carpoolSetting,
+    };
+    this.updateSetting({ stop, terminal, parkingSetting });
+  };
+
   updateStopAndTerminalSetting = newSetting => {
     const { mapLayers } = this.props;
     const stop = {
@@ -214,12 +227,12 @@ class SelectMapLayersDialog extends React.Component {
                 checked={dynamicParkingLots || terminal.carpool}
                 defaultMessage="Carpool & Parking"
                 labelId="carpool-and-parking"
-                onChange={e => {
-                  this.updateSetting({ dynamicParkingLots: e.target.checked });
-                  this.updateStopAndTerminalSetting({
-                    carpool: e.target.checked,
-                  });
-                }}
+                onChange={e =>
+                  this.updateCarpoolAndParkingSettings(
+                    { carpool: e.target.checked },
+                    { dynamicParkingLots: e.target.checked },
+                  )
+                }
               />
             )}
           {config.parkAndRide &&
