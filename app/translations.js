@@ -319,7 +319,7 @@ const translations = {
     'car-distance-duration': 'Auto {distance} ({duration})',
     car_park: 'PWK',
     carpool: 'Mitfahren',
-    'carpool-and-parking': 'Mifahren & parken',
+    'carpool-and-parking': 'Mitfahren & Parken',
     'carpool-distance-duration': 'Mitfahren {distance} ({duration})',
     'carpool-offer-success':
       'Ihr Inserat von {origin} nach {destination} wurde eingestellt.',
