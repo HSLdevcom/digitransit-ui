@@ -31,6 +31,20 @@ class SelectMapLayersDialog extends React.Component {
     });
   };
 
+  updateCarpoolAndParkingSettings = (carpoolSetting, parkingSetting) => {
+    const { mapLayers } = this.props;
+    const stop = {
+      ...mapLayers.stop,
+      ...carpoolSetting,
+    };
+    const terminal = {
+      ...mapLayers.terminal,
+      ...carpoolSetting,
+    };
+    const { dynamicParkingLots } = parkingSetting;
+    this.updateSetting({ stop, terminal, dynamicParkingLots });
+  };
+
   updateStopAndTerminalSetting = newSetting => {
     const { mapLayers } = this.props;
     const stop = {
@@ -213,27 +227,21 @@ class SelectMapLayersDialog extends React.Component {
                 }
               />
             )}
-          {config.dynamicParkingLots &&
+          {isTransportModeEnabled(transportModes.carpool) &&
+            config.dynamicParkingLots &&
             config.dynamicParkingLots.showDynamicParkingLots && (
               <Checkbox
-                checked={dynamicParkingLots}
-                defaultMessage="Parking"
-                labelId="map-layer-dynamic-parking-lots"
+                checked={dynamicParkingLots || terminal.carpool}
+                defaultMessage="Carpool & Parking"
+                labelId="carpool-and-parking"
                 onChange={e =>
-                  this.updateSetting({ dynamicParkingLots: e.target.checked })
+                  this.updateCarpoolAndParkingSettings(
+                    { carpool: e.target.checked },
+                    { dynamicParkingLots: e.target.checked },
+                  )
                 }
               />
             )}
-          {isTransportModeEnabled(transportModes.carpool) && (
-            <Checkbox
-              checked={terminal.carpool}
-              defaultMessage="Carpool stops"
-              labelId="map-layer-carpool"
-              onChange={e =>
-                this.updateStopAndTerminalSetting({ carpool: e.target.checked })
-              }
-            />
-          )}
           {config.parkAndRide &&
             config.parkAndRide.showParkAndRide && (
               <Checkbox
