@@ -915,7 +915,7 @@ const translations = {
     'main-menu-label-open': 'Open the main menu',
     'main-mode': "I'm travelling by",
     map: 'Map',
-    "map-background": 'Map background',
+    'map-background': 'Map background',
     'map-layer-carpool': 'Carpool stops',
     'map-layer-citybike': 'Citybike stations',
     'map-layer-dynamic-parking-lots': 'Parking',
