@@ -79,7 +79,7 @@ class SelectMapLayersDialog extends React.Component {
   switchMapLayers = mode => {
     const mapMode = mode;
     replaceQueryParams(this.context.router, { mapMode });
-    if (mapMode === 'default') {
+    if (mapMode === MapMode.Default) {
       clearQueryParams(
         this.context.router,
         Object.keys(this.context.router.location.query),
