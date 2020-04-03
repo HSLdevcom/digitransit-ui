@@ -86,7 +86,7 @@ class DTAutosuggestPanel extends React.Component {
     getViaPointsFromMap: PropTypes.bool,
     searchPanelText: PropTypes.string,
     searchContext: PropTypes.any.isRequired,
-    locationState: PropTypes.object.isRequired,
+    locationState: PropTypes.object,
     onSelect: PropTypes.func,
     storeRef: PropTypes.func,
   };
