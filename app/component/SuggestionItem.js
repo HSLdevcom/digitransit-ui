@@ -9,9 +9,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 
 const SuggestionItem = pure(({ item, intl, useTransportIcons, loading }) => {
   let icon;
-  //  let iconstr;
   if (item.properties.mode && useTransportIcons) {
-    //  iconstr = `icon-icon_${item.properties.mode}`;
     icon = (
       <Icon
         img={`icon-icon_${item.properties.mode}`}
@@ -19,14 +17,6 @@ const SuggestionItem = pure(({ item, intl, useTransportIcons, loading }) => {
       />
     );
   } else {
-    // DT-3262 Icon as string for screen readers
-    /* const layer = item.properties.layer.replace('route-', '').toLowerCase();
-    if (intl) {
-      iconstr = intl.formatMessage({
-        id: layer,
-        defaultMessage: layer,
-      });
-    } */
     icon = (
       <Icon
         img={getIcon(item.properties.layer)}
@@ -34,7 +24,6 @@ const SuggestionItem = pure(({ item, intl, useTransportIcons, loading }) => {
       />
     );
   }
-  // const [name, label] = getNameLabel(item.properties, false);
   const [iconstr, name, label] = suggestionToAriaContent(
     item,
     intl,

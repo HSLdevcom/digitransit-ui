@@ -646,7 +646,7 @@ const translations = {
     'search-autosuggest-label':
       'Venue, place and stopsearch. Navigate list with arrow keys and select with enter key',
     'search-autosuggest-len':
-      'There {len, plural, =1 {is 1 suggestion} other {are {len} suggestions available}}',
+      'There {len, plural, =1 {is 1 suggestion} other {are {len} suggestions}} available',
     'search-current-suggestion': 'Current selection: {selection}',
     'select-date': 'Select date',
     'set-time-earlier-button-label': 'Set travel time to earlier',
@@ -837,6 +837,7 @@ const translations = {
     'likely-to-use':
       'How likely are you to use this service rather than the current Journey Planner?',
     loading: 'Loading...',
+    localadmin: 'Locality',
     locate: 'Detect location',
     'location-examples': 'e.g. Home, Work, School,...',
     'location-from-map': 'Selected location',
@@ -1622,6 +1623,7 @@ const translations = {
     'likely-to-use':
       'Kuinka todennäköisesti käyttäisit tätä palvelua ennemmin kuin nykyistä reittiopas-palvelua?',
     loading: 'Ladataan...',
+    localadmin: 'Paikkakunta',
     locate: 'Paikanna',
     'location-examples': 'esim. Koti, Työ, Koulu,...',
     'location-from-map': 'Valittu sijainti',
@@ -2710,6 +2712,7 @@ const translations = {
     'likely-to-use':
       'Hur sannolikt skulle du använda denna tjänst i stället för den nuvarande Reseplaneraren?',
     loading: 'Laddar...',
+    localadmin: 'Tätort',
     locate: 'Lokalisera',
     'location-examples': 't.ex. Hem, Arbetsplats, Skola,...',
     'location-from-map': 'Vald position',
