@@ -11,7 +11,7 @@ import MapLayerStore, { mapLayerShape } from '../store/MapLayerStore';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { replaceQueryParams } from '../util/queryUtils';
+import { replaceQueryParams, clearQueryParams } from '../util/queryUtils';
 import { MapMode } from '../constants';
 
 class SelectMapLayersDialog extends React.Component {
@@ -79,6 +79,12 @@ class SelectMapLayersDialog extends React.Component {
   switchMapLayers = mode => {
     const mapMode = mode;
     replaceQueryParams(this.context.router, { mapMode });
+    if (mapMode === 'default') {
+      clearQueryParams(
+        this.context.router,
+        Object.keys(this.context.router.location.query),
+      );
+    }
   };
 
   renderContents = (
