@@ -211,7 +211,7 @@ class SelectMapLayersDialog extends React.Component {
             config.dynamicParkingLots &&
             config.dynamicParkingLots.showDynamicParkingLots && (
               <Checkbox
-                checked={dynamicParkingLots && terminal.carpool}
+                checked={dynamicParkingLots || terminal.carpool}
                 defaultMessage="Carpool & Parking"
                 labelId="carpool-and-parking"
                 onChange={e => {
