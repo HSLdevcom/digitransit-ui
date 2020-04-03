@@ -28,6 +28,9 @@ describe('<StopCardHeader />', () => {
               showZone: true,
             },
           },
+          colors: {
+            primary: '#000000',
+          },
         },
       },
     });
@@ -54,6 +57,9 @@ describe('<StopCardHeader />', () => {
               virtualMonitorBaseUrl: '',
             },
           },
+          colors: {
+            primary: '#000000',
+          },
         },
       },
     });
@@ -79,6 +85,9 @@ describe('<StopCardHeader />', () => {
               showZone: false,
             },
           },
+          colors: {
+            primary: '#000000',
+          },
         },
       },
     });
@@ -103,6 +112,9 @@ describe('<StopCardHeader />', () => {
               showZone: true,
             },
           },
+          colors: {
+            primary: '#000000',
+          },
         },
       },
     });
@@ -124,7 +136,9 @@ describe('<StopCardHeader />', () => {
       },
     };
     const wrapper = mountWithIntl(<StopCardHeader {...props} />, {
-      context: { config: { stopCard: { header: {} } } },
+      context: {
+        config: { stopCard: { header: {} }, colors: { primary: '#000000' } },
+      },
     });
     expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(false);
     expect(wrapper.find(Icon).prop('img')).to.equal('icon-icon_info');
@@ -145,7 +159,9 @@ describe('<StopCardHeader />', () => {
       },
     };
     const wrapper = mountWithIntl(<StopCardHeader {...props} />, {
-      context: { config: { stopCard: { header: {} } } },
+      context: {
+        config: { stopCard: { header: {} }, colors: { primary: '#000000' } },
+      },
     });
     expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(false);
     expect(wrapper.find(Icon).prop('img')).to.equal('icon-icon_caution');
@@ -166,7 +182,9 @@ describe('<StopCardHeader />', () => {
       },
     };
     const wrapper = shallowWithIntl(<StopCardHeader {...props} />, {
-      context: { config: { stopCard: { header: {} } } },
+      context: {
+        config: { stopCard: { header: {} }, colors: { primary: '#000000' } },
+      },
     });
     expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(true);
   });
@@ -188,7 +206,9 @@ describe('<StopCardHeader />', () => {
       },
     };
     const wrapper = mountWithIntl(<StopCardHeader {...props} />, {
-      context: { config: { stopCard: { header: {} } } },
+      context: {
+        config: { stopCard: { header: {} }, colors: { primary: '#000000' } },
+      },
     });
     expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(true);
   });

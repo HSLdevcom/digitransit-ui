@@ -172,11 +172,13 @@ class TopLevel extends React.Component {
     return (
       <Fragment>
         {!this.topBarOptions.hidden && (
+          // DT-3375: added style
           <AppBarContainer
             title={this.props.title}
             {...this.topBarOptions}
             {...this.state}
             homeUrl={homeUrl}
+            style={this.context.config.appBarStyle}
           />
         )}
         <section id="mainContent" className="content">

@@ -6,7 +6,8 @@ import hoistNonReactStatics from 'hoist-non-react-statics';
 
 const { Provider, Consumer } = createContext('large');
 
-function getClientBreakpoint() {
+export function getClientBreakpoint() {
+  // DT-3470: added export
   if (window.innerWidth < 400) {
     return 'small';
   }

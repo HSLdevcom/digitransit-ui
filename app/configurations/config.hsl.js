@@ -77,6 +77,7 @@ export default {
   sprites: 'assets/svg-sprite.hsl.svg',
 
   appBarLink: { name: 'HSL.fi', href: 'https://www.hsl.fi/' },
+  appBarStyle: 'hsl', // DT-3375
 
   nationalServiceLink: { name: 'matka.fi', href: 'https://opas.matka.fi/' },
 
@@ -493,6 +494,15 @@ export default {
     showZoneLimits: true,
   },
 
+  map: {
+    showZoomControl: false, // DT-3470
+    showStreetModeSelector: false, // DT-3470
+    showLayerSelector: false, // DT-3470
+    showStopMarkerPopupOnMobile: false, // DT-3470
+    showScaleBar: false, // DT-3470
+    showOSMCopyright: false, // DT-3470
+  },
+
   stopCard: {
     header: {
       showZone: true,
@@ -502,7 +512,7 @@ export default {
   useTicketIcons: true,
 
   cityBike: {
-    showCityBikes: false,
+    showCityBikes: true,
     networks: {
       smoove: {
         icon: 'citybike',

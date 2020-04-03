@@ -50,14 +50,14 @@ $content-background-color: $background-color;
   z-index: 1008;
 
   // Fixed navbar height for now, as dynamic height leads to Safari issues
-  height: $topbar-height;
-  min-height: $topbar-height;
+  // height: $topbar-height;
+  // min-height: $topbar-height;
 
   &.bp-large {
     height: 60px;
     align-items: center;
     line-height: 1.8em;
-    box-shadow: 2px 0px 2px #575757;
+    // DT-3470 removed: box-shadow: 2px 0px 2px #575757;
 
     @media print {
       display: none;

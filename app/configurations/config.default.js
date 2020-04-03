@@ -240,6 +240,13 @@ export default {
       passiveColor: '#758993',
     },
 
+    showZoomControl: true, // DT-3470
+    showStreetModeSelector: true, // DT-3470
+    showLayerSelector: true, // DT-3470
+    showStopMarkerPopupOnMobile: true, // DT-3470
+    showScaleBar: true, // DT-3470
+    showOSMCopyright: false, // DT-3470
+
     useModeIconsInNonTileLayer: false,
   },
 
@@ -283,6 +290,7 @@ export default {
   },
 
   appBarLink: { name: 'Digitransit', href: 'https://www.digitransit.fi/' },
+  appBarStyle: 'default', // DT-3375
 
   colors: {
     primary: '#00AFFF',
@@ -395,7 +403,7 @@ export default {
     },
 
     citybike: {
-      availableForSelection: false,
+      availableForSelection: true,
       defaultValue: false, // always false
     },
   },
