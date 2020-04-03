@@ -628,6 +628,8 @@ describe('<TransitLeg />', () => {
         config: {
           itinerary: {},
           showTicketInformation: true,
+          availableTickets: { HSL: { 'HSL:A': { price: 5.5, zones: ['A'] } } },
+          feedIds: ['HSL', 'HSLlautta'],
         },
         focusFunction: () => {},
       },
