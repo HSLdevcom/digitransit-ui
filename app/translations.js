@@ -647,7 +647,7 @@ const translations = {
       'Venue, place and stopsearch. Navigate list with arrow keys and select with enter key',
     'search-autosuggest-len':
       'There {len, plural, =1 {is 1 suggestion} other {are {len} suggestions available}}',
-    'search-current-suggestion': 'Current selection {selection}',
+    'search-current-suggestion': 'Current selection: {selection}',
     'select-date': 'Select date',
     'set-time-earlier-button-label': 'Set travel time to earlier',
     'set-time-later-button-label': 'Set travel time to later',
@@ -1428,7 +1428,7 @@ const translations = {
       'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
     'search-autosuggest-len':
       ' Löydettiin {len, plural, =1 {1 ehdotus} other {{len} ehdotusta}}',
-    'search-current-suggestion': 'Tämänhetkinen valinta {selection}',
+    'search-current-suggestion': 'Tämänhetkinen valinta: {selection}',
     // eslint-disable-next-line sort-keys
     'add-via-duration-button-label':
       'Aseta välipisteelle {index} pysähdyksen kesto',
@@ -2519,7 +2519,7 @@ const translations = {
     'search-autosuggest-label':
       'Plats, linje och hållplatssökning. Navigera listan med piltangenterna och välj med Enter-tangeten',
     'search-autosuggest-len': 'Hittade {len} förslag',
-    'search-current-suggestion': 'Nuvarande position {selection}',
+    'search-current-suggestion': 'Nuvarande val: {selection}',
     'select-date': 'Välj datum',
     'set-time-earlier-button-label': 'Ställ in restid till tidigare',
     'set-time-later-button-label': 'Ställ in restid till senare',
