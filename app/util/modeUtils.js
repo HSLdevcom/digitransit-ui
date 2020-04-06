@@ -260,6 +260,7 @@ export const getStreetMode = (location, config) => {
 
 /**
  * Updates the browser's url to reflect the selected street mode.
+ * If selected street mode is bicycle, changes the map to bike map.
  *
  * @param {*} streetMode The street mode to select
  * @param {*} config The configuration for the software installation
@@ -278,16 +279,12 @@ export const setStreetMode = (
     streetMode,
     isExclusive,
   );
-  if (router.location.state.prevMapMode) {
+  if (
+    modesQuery.modes !== 'BICYCLE' &&
+    router.location.state &&
+    router.location.state.prevMapMode
+  ) {
     setMapMode(router, router.location.state.prevMapMode);
-    const newLocation = {
-      ...router.location,
-      state: {
-        ...router.location.state,
-        prevMapMode: undefined,
-      },
-    };
-    router.replace(newLocation);
   }
   if (modesQuery.modes === 'CARPOOL') {
     modesQuery.modes = modesQuery.modes.concat(',WALK');
