@@ -48,6 +48,14 @@ export default {
       tampere: 'https://www.tampere.fi/ekstrat/ptdata/pdf/',
     },
   },
+  ENDPOINT: {
+    TAB_NEARBY: 'lahellasi',
+    TAB_FAVOURITES: 'suosikit',
+    PREFIX_ROUTES: 'linjat',
+    PREFIX_STOPS: 'pysakit',
+    PREFIX_TERMINALS: 'terminaalit',
+    PREFIX_ITINERARY_SUMMARY: 'reitti',
+  },
 
   APP_PATH: `${APP_PATH}`,
   title: 'Reittihaku',
