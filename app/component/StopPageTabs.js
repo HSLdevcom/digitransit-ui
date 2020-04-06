@@ -77,8 +77,8 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
   const modesByRoute = []; // DT-3387
 
   if (stop.routes && stop.routes.length > 0) {
-    modesByRoute.push(stop.routes.mode); // DT-3387
     stop.routes.forEach(route => {
+      modesByRoute.push(route.mode); // DT-3387
       const patternId = route.patterns.code;
       const hasActiveRouteAlert = isAlertActive(
         getCancelationsForRoute(route, patternId),
