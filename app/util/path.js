@@ -6,17 +6,13 @@ import {
   addressToItinerarySearch,
 } from './otpStrings';
 
-const config = require('../config').getNamedConfiguration(process.env.CONFIG);
-console.log(config.ENDPOINT);
-
 const debug = d('path.js');
-export const TAB_NEARBY = config.ENDPOINT.TAB_NEARBY;
-export const TAB_FAVOURITES = config.ENDPOINT.TAB_FAVOURITES;
-export const PREFIX_ROUTES = config.ENDPOINT.PREFIX_ROUTES;
-export const PREFIX_STOPS = config.ENDPOINT.PREFIX_STOPS;
-export const PREFIX_TERMINALS = config.ENDPOINT.PREFIX_TERMINALS;
-export const PREFIX_ITINERARY_SUMMARY =
-  config.ENDPOINT.PREFIX_ITINERARY_SUMMARY;
+export const TAB_NEARBY = 'indernaehe';
+export const TAB_FAVOURITES = 'gespeichertesuchen';
+export const PREFIX_ROUTES = 'routen';
+export const PREFIX_STOPS = 'haltestellen';
+export const PREFIX_TERMINALS = 'busbahnhoefe';
+export const PREFIX_ITINERARY_SUMMARY = 'reiseplan';
 export const stopUrl = id => id;
 
 export const getRoutePath = (origin, destination) =>

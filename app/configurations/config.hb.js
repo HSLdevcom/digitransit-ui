@@ -38,14 +38,6 @@ export default configMerger(walttiConfig, {
     PELIAS: `${GEOCODING_BASE_URL}/search${LOCATIONIQ_API_KEY ? '?api_key=' + LOCATIONIQ_API_KEY : ''}`,
     PELIAS_REVERSE_GEOCODER: `${GEOCODING_BASE_URL}/reverse${LOCATIONIQ_API_KEY ? '?api_key=' + LOCATIONIQ_API_KEY : ''}`,
   },
-  ENDPOINT: {
-    TAB_NEARBY: 'indernaehe',
-    TAB_FAVOURITES: 'gespeichertesuchen',
-    PREFIX_ROUTES: 'routen',
-    PREFIX_STOPS: 'haltestellen',
-    PREFIX_TERMINALS: 'busbahnhoefe',
-    PREFIX_ITINERARY_SUMMARY: 'reiseplan',
-  },
 
   availableLanguages: ['de', 'en'],
   defaultLanguage: 'de',
