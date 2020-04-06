@@ -77,8 +77,11 @@ function StopPageTabContainer(
     );
   const stopRoutesWithAlerts = [];
 
+  const modesByRoute = []; // DT-3387
+
   if (stop.routes && stop.routes.length > 0) {
     stop.routes.forEach(route => {
+      modesByRoute.push(route.mode); // DT-3387
       const patternId = route.patterns.code;
       const hasActiveRouteAlert = isAlertActive(
         getCancelationsForRoute(route, patternId),
@@ -114,6 +117,10 @@ function StopPageTabContainer(
           alert.alertSeverityLevel === AlertSeverityLevelType.Warning,
       )) &&
       'active-service-alert');
+
+  const uniqModesByRoutes = Array.from(new Set(modesByRoute)); // DT-3387
+  const modeByRoutesOrStop =
+    uniqModesByRoutes.length === 1 ? uniqModesByRoutes[0] : stop.vehicleMode; // DT-3387
 
   return (
     <div className="stop-page-content-wrapper">
@@ -186,12 +193,14 @@ function StopPageTabContainer(
               <div>
                 <FormattedMessage
                   id={
-                    stop.vehicleMode === 'RAIL' || stop.vehicleMode === 'SUBWAY'
+                    modeByRoutesOrStop === 'RAIL' ||
+                    modeByRoutesOrStop === 'SUBWAY'
                       ? 'routes-tracks'
                       : 'routes-platforms'
                   }
                   defaultMessage={
-                    stop.vehicleMode === 'RAIL' || stop.vehicleMode === 'SUBWAY'
+                    modeByRoutesOrStop === 'RAIL' ||
+                    modeByRoutesOrStop === 'SUBWAY'
                       ? 'routes-tracks'
                       : 'routes-platforms'
                   }
