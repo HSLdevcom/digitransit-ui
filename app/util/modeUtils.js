@@ -278,18 +278,30 @@ export const setStreetMode = (
     streetMode,
     isExclusive,
   );
-  /*
-  console.log(router);
   if (router.location.state.prevMapMode) {
     setMapMode(router, router.prevMapMode);
-    router.location.state.push({ prevMapMode: undefined });
-  } */
+    const newLocation = {
+      ...router.location,
+      state: {
+        ...router.location.state,
+        prevMapMode: undefined,
+      },
+    };
+    router.replace(newLocation);
+  }
   if (modesQuery.modes === 'CARPOOL') {
     modesQuery.modes = modesQuery.modes.concat(',WALK');
   }
   if (modesQuery.modes === 'BICYCLE') {
     if (getMapMode(router) !== MapMode.Bicycle) {
-      // router.location.state.push({ prevMapMode: getMapMode(router) });
+      const newLocation = {
+        ...router.location,
+        state: {
+          ...router.location.state,
+          prevMapMode: getMapMode(router),
+        },
+      };
+      router.replace(newLocation);
       setMapMode(router, MapMode.Bicycle);
     }
   }
