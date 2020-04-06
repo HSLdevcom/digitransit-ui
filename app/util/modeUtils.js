@@ -8,10 +8,26 @@ import {
 } from 'lodash';
 
 import inside from 'point-in-polygon';
+import { MapMode } from '../constants';
 import { replaceQueryParams } from './queryUtils';
 import { getCustomizedSettings } from '../store/localStorage';
 import { isInBoundingBox } from './geo-utils';
 import { addAnalyticsEvent } from './analyticsUtils';
+
+export const getMapMode = router => {
+  if (
+    router.location &&
+    router.location.query &&
+    router.location.query.mapMode
+  ) {
+    return router.location.query.mapMode;
+  }
+  return MapMode.Default;
+};
+
+export const setMapMode = (router, mapMode) => {
+  replaceQueryParams(router, { mapMode });
+};
 
 /**
  * Retrieves an array of street mode configurations that have specified
@@ -262,8 +278,20 @@ export const setStreetMode = (
     streetMode,
     isExclusive,
   );
+  /*
+  console.log(router);
+  if (router.location.state.prevMapMode) {
+    setMapMode(router, router.prevMapMode);
+    router.location.state.push({ prevMapMode: undefined });
+  } */
   if (modesQuery.modes === 'CARPOOL') {
     modesQuery.modes = modesQuery.modes.concat(',WALK');
+  }
+  if (modesQuery.modes === 'BICYCLE') {
+    if (getMapMode(router) !== MapMode.Bicycle) {
+      // router.location.state.push({ prevMapMode: getMapMode(router) });
+      setMapMode(router, MapMode.Bicycle);
+    }
   }
   replaceQueryParams(router, modesQuery);
 };
