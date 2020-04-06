@@ -8,10 +8,26 @@ import {
 } from 'lodash';
 
 import inside from 'point-in-polygon';
+import { MapMode } from '../constants';
 import { replaceQueryParams } from './queryUtils';
 import { getCustomizedSettings } from '../store/localStorage';
 import { isInBoundingBox } from './geo-utils';
 import { addAnalyticsEvent } from './analyticsUtils';
+
+export const getMapMode = router => {
+  if (
+    router.location &&
+    router.location.query &&
+    router.location.query.mapMode
+  ) {
+    return router.location.query.mapMode;
+  }
+  return MapMode.Default;
+};
+
+export const setMapMode = (router, mapMode) => {
+  replaceQueryParams(router, { mapMode });
+};
 
 /**
  * Retrieves an array of street mode configurations that have specified
@@ -244,6 +260,7 @@ export const getStreetMode = (location, config) => {
 
 /**
  * Updates the browser's url to reflect the selected street mode.
+ * If selected street mode is bicycle, changes the map to bike map.
  *
  * @param {*} streetMode The street mode to select
  * @param {*} config The configuration for the software installation
@@ -262,8 +279,28 @@ export const setStreetMode = (
     streetMode,
     isExclusive,
   );
+  if (
+    modesQuery.modes !== 'BICYCLE' &&
+    router.location.state &&
+    router.location.state.prevMapMode
+  ) {
+    setMapMode(router, router.location.state.prevMapMode);
+  }
   if (modesQuery.modes === 'CARPOOL') {
     modesQuery.modes = modesQuery.modes.concat(',WALK');
+  }
+  if (modesQuery.modes === 'BICYCLE') {
+    if (getMapMode(router) !== MapMode.Bicycle) {
+      const newLocation = {
+        ...router.location,
+        state: {
+          ...router.location.state,
+          prevMapMode: getMapMode(router),
+        },
+      };
+      router.replace(newLocation);
+      setMapMode(router, MapMode.Bicycle);
+    }
   }
   replaceQueryParams(router, modesQuery);
 };
