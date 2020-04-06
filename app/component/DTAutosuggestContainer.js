@@ -96,6 +96,7 @@ class DTAutosuggestContainer extends React.Component {
   selectRoute(link) {
     this.context.router.push(link);
   }
+
   // eslint-disable-next-line no-unused-vars
   selectFavourite = (item, id) => {
     // TODO Do what is needed  }

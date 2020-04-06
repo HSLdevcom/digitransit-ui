@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars  */
-/* eslint-disable no-unused-state */
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
@@ -10,9 +8,8 @@ import { executeSearch, getAllEndpointLayers } from '../util/searchUtils';
 import SuggestionItem from './SuggestionItem';
 import { dtLocationShape } from '../util/shapes';
 import Icon from './Icon';
-import { getJson } from '../util/xhrPromise';
 import Loading from './Loading';
-import { suggestionToLocation, getLabel } from '../util/suggestionUtils';
+import { getLabel } from '../util/suggestionUtils';
 
 class DTAutosuggest extends React.Component {
   static contextTypes = {

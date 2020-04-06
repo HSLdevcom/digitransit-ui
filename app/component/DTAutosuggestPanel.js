@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -9,11 +8,9 @@ import DTAutoSuggest from './DTAutosuggest';
 import Icon from './Icon';
 import Select from './Select';
 import { isIe, isKeyboardSelectionEvent } from '../util/browser';
-import { navigateTo, PREFIX_ITINERARY_SUMMARY } from '../util/path';
 import { getIntermediatePlaces } from '../util/queryUtils';
 import { dtLocationShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
-import { withCurrentTime } from '../util/searchUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 export const getEmptyViaPointPlaceHolder = () => ({});
