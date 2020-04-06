@@ -279,7 +279,7 @@ export const setStreetMode = (
     isExclusive,
   );
   if (router.location.state.prevMapMode) {
-    setMapMode(router, router.prevMapMode);
+    setMapMode(router, router.location.state.prevMapMode);
     const newLocation = {
       ...router.location,
       state: {
