@@ -174,7 +174,6 @@ class DTAutosuggest extends React.Component {
 
   checkPendingSelection = () => {
     // accept after all ongoing searches have finished
-
     if (this.state.pendingSelection && this.state.valid) {
       // finish the selection by picking first = best match
       this.setState(
@@ -185,7 +184,7 @@ class DTAutosuggest extends React.Component {
         () => {
           if (this.state.suggestions.length) {
             this.input.blur();
-            this.onSelect(this.state.suggestions[0]);
+            this.props.onSelect(this.state.suggestions[0], this.props.id);
           }
         },
       );
