@@ -757,7 +757,7 @@ export default {
     kotka: 'kotka',
     jyvaskyla: 'jyvaskyla',
     lahti: 'lahti',
-    kuopio: '(kuopio|localhost)',
+    kuopio: 'kuopio',
   },
 
   minutesToDepartureLimit: 9,
