@@ -5,23 +5,27 @@ import React from 'react';
 import StopCode from './StopCode';
 import Icon from './Icon';
 import ZoneIcon from './ZoneIcon';
+import { getZoneLabel } from '../util/mapIconUtils';
 
-function IntermediateLeg({
-  color,
-  mode,
-  arrivalTime,
-  realTime,
-  name,
-  stopCode,
-  focusFunction,
-  showCurrentZoneDelimiter,
-  showZoneLimits,
-  previousZoneId,
-  currentZoneId,
-  nextZoneId,
-  isCanceled,
-  zoneLabelColor,
-}) {
+function IntermediateLeg(
+  {
+    color,
+    mode,
+    arrivalTime,
+    realTime,
+    name,
+    stopCode,
+    focusFunction,
+    showCurrentZoneDelimiter,
+    showZoneLimits,
+    previousZoneId,
+    currentZoneId,
+    nextZoneId,
+    isCanceled,
+    zoneLabelColor,
+  },
+  context,
+) {
   const modeClassName = mode.toLowerCase();
   const isDualZone = currentZoneId && (previousZoneId || nextZoneId);
   const isTripleZone = currentZoneId && previousZoneId && nextZoneId;
@@ -45,7 +49,7 @@ function IntermediateLeg({
           <div className="zone-icons-container">
             {previousZoneId && (
               <ZoneIcon
-                zoneId={previousZoneId}
+                zoneId={getZoneLabel(previousZoneId, context.config)}
                 zoneLabelColor={zoneLabelColor}
                 zoneLabelHeight="20px"
                 zoneLabelWidth="20px"
@@ -55,7 +59,7 @@ function IntermediateLeg({
               />
             )}
             <ZoneIcon
-              zoneId={currentZoneId}
+              zoneId={getZoneLabel(currentZoneId, context.config)}
               className={cx({
                 'zone-delimiter':
                   showCurrentZoneDelimiter || (previousZoneId && currentZoneId),
@@ -69,7 +73,7 @@ function IntermediateLeg({
             />
             {nextZoneId && (
               <ZoneIcon
-                zoneId={nextZoneId}
+                zoneId={getZoneLabel(nextZoneId, context.config)}
                 zoneLabelColor={zoneLabelColor}
                 zoneLabelHeight="20px"
                 zoneLabelWidth="20px"
@@ -144,5 +148,7 @@ IntermediateLeg.defaultProps = {
   nextZoneId: undefined,
   isCanceled: false,
 };
+
+IntermediateLeg.contextTypes = { config: PropTypes.object.isRequired };
 
 export default IntermediateLeg;

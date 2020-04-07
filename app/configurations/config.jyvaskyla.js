@@ -142,4 +142,33 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
+
+  geoJson: {
+    layers: [
+      {
+        name: {
+          fi: 'Vyöhykkeet',
+          sv: 'Zoner',
+          en: 'Zones',
+        },
+        url: '/assets/geojson/jkl_zone_lines_20200401.geojson',
+      },
+    ],
+  },
+
+  zoneIdMapping: {
+    1: 'A',
+    2: 'B',
+    3: 'C',
+    4: 'D',
+  },
+  itinerary: {
+    showZoneLimits: true,
+  },
+
+  stopCard: {
+    header: {
+      showZone: true,
+    },
+  },
 });

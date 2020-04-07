@@ -22,7 +22,9 @@ describe('<IntermediateLeg />', () => {
       nextZoneId: 'bar',
       showZoneLimits: true,
     };
-    const wrapper = shallowWithIntl(<IntermediateLeg {...props} />);
+    const wrapper = shallowWithIntl(<IntermediateLeg {...props} />, {
+      context: { config: {} },
+    });
     expect(wrapper.find('.zone-dual')).to.have.lengthOf(1);
     expect(wrapper.find(ZoneIcon)).to.have.lengthOf(2);
   });
@@ -35,7 +37,9 @@ describe('<IntermediateLeg />', () => {
       previousZoneId: 'baz',
       showZoneLimits: true,
     };
-    const wrapper = shallowWithIntl(<IntermediateLeg {...props} />);
+    const wrapper = shallowWithIntl(<IntermediateLeg {...props} />, {
+      context: { config: {} },
+    });
     expect(wrapper.find('.zone-triple')).to.have.lengthOf(1);
     expect(wrapper.find(ZoneIcon)).to.have.lengthOf(3);
   });
@@ -48,7 +52,9 @@ describe('<IntermediateLeg />', () => {
       previousZoneId: 'baz',
       showZoneLimits: true,
     };
-    const wrapper = shallowWithIntl(<IntermediateLeg {...props} />);
+    const wrapper = shallowWithIntl(<IntermediateLeg {...props} />, {
+      context: { config: {} },
+    });
     expect(wrapper.find('.zone-dual')).to.have.lengthOf(0);
   });
 
@@ -59,7 +65,9 @@ describe('<IntermediateLeg />', () => {
       previousZoneId: 'baz',
       showZoneLimits: true,
     };
-    const wrapper = shallowWithIntl(<IntermediateLeg {...props} />);
+    const wrapper = shallowWithIntl(<IntermediateLeg {...props} />, {
+      context: { config: {} },
+    });
     expect(wrapper.find('.zone-previous')).to.have.lengthOf(1);
     expect(wrapper.find(ZoneIcon)).to.have.lengthOf(2);
   });
@@ -72,7 +80,9 @@ describe('<IntermediateLeg />', () => {
       previousZoneId: 'baz',
       showZoneLimits: false,
     };
-    const wrapper = shallowWithIntl(<IntermediateLeg {...props} />);
+    const wrapper = shallowWithIntl(<IntermediateLeg {...props} />, {
+      context: { config: {} },
+    });
     expect(wrapper.find('.zone-dual')).to.have.lengthOf(0);
     expect(wrapper.find('.zone-triple')).to.have.lengthOf(0);
     expect(wrapper.find('.zone-previous')).to.have.lengthOf(0);
@@ -94,7 +104,9 @@ describe('<IntermediateLeg />', () => {
       ...emptyProps,
       isCanceled: true,
     };
-    const wrapper = shallowWithIntl(<IntermediateLeg {...props} />);
+    const wrapper = shallowWithIntl(<IntermediateLeg {...props} />, {
+      context: { config: {} },
+    });
     expect(wrapper.find('.canceled')).to.have.lengthOf(1);
   });
 });
