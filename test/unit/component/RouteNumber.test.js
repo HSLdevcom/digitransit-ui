@@ -69,4 +69,36 @@ describe('<RouteNumber />', () => {
     const wrapper = mountWithIntl(<RouteNumber {...props} />);
     expect(wrapper.find(IconWithBigCaution)).to.have.lengthOf(1);
   });
+
+  it('should render a prefixed vehicle number according to getRoutePrefix', () => {
+    const props = {
+      mode: 'BUS',
+      text: '848',
+      gtfsId: 'HSL:7848',
+    };
+    const context = {
+      config: {
+        getRoutePrefix: () => 'U',
+      },
+    };
+    const wrapper = mountWithIntl(<RouteNumber {...props} />, { context });
+    expect(wrapper.find('.vehicle-number').text()).to.equal('U848');
+  });
+
+  it('should render a link when isLink, gtfsId and patternCode are defined', () => {
+    const props = {
+      mode: 'BUS',
+      text: '848',
+      gtfsId: 'HSL:7848',
+      patternCode: '1',
+      isLink: true,
+    };
+    const context = {
+      config: {
+        getRoutePrefix: () => 'U',
+      },
+    };
+    const wrapper = shallowWithIntl(<RouteNumber {...props} />, { context });
+    expect(wrapper.find('.route-name-link')).to.have.lengthOf(1);
+  });
 });

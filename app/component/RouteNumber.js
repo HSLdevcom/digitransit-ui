@@ -26,6 +26,7 @@ function RouteNumber(props, context) {
         to={`/${PREFIX_ROUTES}/${props.gtfsId}/pysakit/${
           props.patternCode
         }?sort=no`}
+        className="route-name-link"
       >
         {routeName}
       </Link>
