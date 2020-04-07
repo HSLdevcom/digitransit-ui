@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router';
 import cx from 'classnames';
-import { PREFIX_ROUTES } from '../util/path';
 import RouteNumber from './RouteNumber';
 
 export default function RouteHeader(props) {
@@ -18,24 +16,16 @@ export default function RouteHeader(props) {
 
   const routeLineText = ` ${props.route.shortName || ''}`;
 
-  // DT-3331: added query string sort=no to Link's to
-  const routeLine =
-    props.trip && props.pattern ? (
-      <Link
-        to={`/${PREFIX_ROUTES}/${props.route.gtfsId}/pysakit/${
-          props.pattern.code
-        }?sort=no`}
-      >
-        {routeLineText}
-      </Link>
-    ) : (
-      routeLineText
-    );
-
   return (
     <div className={cx('route-header', props.className)}>
       <h1 className={mode}>
-        <RouteNumber mode={mode} text={routeLine} gtfsId={props.route.gtfsId} />
+        <RouteNumber
+          mode={mode}
+          text={routeLineText}
+          gtfsId={props.route.gtfsId}
+          isLink={props.trip && props.pattern !== undefined}
+          patternCode={props.pattern.code}
+        />
         {trip}
       </h1>
     </div>
