@@ -3,7 +3,7 @@ import { Route, IndexRoute } from 'react-router';
 import Relay from 'react-relay/classic';
 
 import Error404 from './component/404';
-import { PREFIX_STOPS, PREFIX_TERMINALS } from './util/path';
+import { PREFIX_STOPS, PREFIX_TERMINALS, PREFIX_ROUTES } from './util/path';
 import {
   getDefault,
   loadRoute,
@@ -113,7 +113,7 @@ export default function getStopRoutes(isTerminal = false) {
           <Route path="kartta" fullscreenMap />
         </Route>
         <Route
-          path="linjat"
+          path={PREFIX_ROUTES}
           getComponent={getRoutesAndPlatformsForStops}
           queries={queries}
           render={RelayRenderer}

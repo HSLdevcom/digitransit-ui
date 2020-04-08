@@ -11,9 +11,10 @@ import Icon from './Icon';
 import withBreakpoint from '../util/withBreakpoint';
 import VehicleMarkerContainer from './map/VehicleMarkerContainer';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { PREFIX_STOPS, PREFIX_TERMINALS } from '../util/path';
 
 const getFullscreenTogglePath = (fullscreenMap, params) =>
-  `/${params.stopId ? 'pysakit' : 'terminaalit'}/${
+  `/${params.stopId ? PREFIX_STOPS : PREFIX_TERMINALS}/${
     params.stopId ? params.stopId : params.terminalId
   }${fullscreenMap ? '' : '/kartta'}`;
 
