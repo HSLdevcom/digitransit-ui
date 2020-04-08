@@ -2,13 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import { intlShape } from 'react-intl';
-import { Link } from 'react-router';
 import IconWithBigCaution from './IconWithBigCaution';
 import IconWithIcon from './IconWithIcon';
 import ComponentUsageExample from './ComponentUsageExample';
 import { realtimeDeparture as exampleRealtimeDeparture } from './ExampleData';
 import { isMobile } from '../util/browser';
-import { PREFIX_ROUTES } from '../util/path';
 
 const LONG_ROUTE_NUMBER_LENGTH = 5;
 
@@ -19,20 +17,6 @@ function RouteNumber(props, context) {
       ? context.config.getRoutePrefix(props.gtfsId).concat(props.text)
       : props.text;
   const { alertSeverityLevel, color } = props;
-
-  const routeNameOrLink =
-    props.isLink && props.gtfsId && props.patternCode ? (
-      <Link
-        to={`/${PREFIX_ROUTES}/${props.gtfsId}/pysakit/${
-          props.patternCode
-        }?sort=no`}
-        className="route-name-link"
-      >
-        {routeName}
-      </Link>
-    ) : (
-      routeName
-    );
 
   if (mode === 'bicycle' || mode === 'car') {
     mode += '-withoutBox';
@@ -126,7 +110,7 @@ function RouteNumber(props, context) {
           </div>
         )}
       </span>
-      {routeNameOrLink &&
+      {routeName &&
         (props.vertical === false ? (
           <span
             style={{
@@ -139,7 +123,7 @@ function RouteNumber(props, context) {
               hasNoShortName: hasNoShortName && longText && props.isRouteView,
             })}
           >
-            {routeNameOrLink}
+            {routeName}
           </span>
         ) : (
           <div className="vehicle-number-container-v">
@@ -150,7 +134,7 @@ function RouteNumber(props, context) {
                 long: longText,
               })}
             >
-              {routeNameOrLink}
+              {routeName}
             </span>
           </div>
         ))}
@@ -231,8 +215,6 @@ RouteNumber.propTypes = {
   icon: PropTypes.string,
   isRouteView: PropTypes.bool,
   gtfsId: PropTypes.string,
-  isLink: PropTypes.bool,
-  patternCode: PropTypes.string,
 };
 
 RouteNumber.defaultProps = {
@@ -249,8 +231,6 @@ RouteNumber.defaultProps = {
   isRouteView: false,
   icon: undefined,
   gtfsId: undefined,
-  isLink: false,
-  patternCode: undefined,
 };
 
 RouteNumber.contextTypes = {
