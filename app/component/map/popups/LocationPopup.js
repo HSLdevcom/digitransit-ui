@@ -13,7 +13,6 @@ import PreferencesStore from '../../../store/PreferencesStore';
 import { getLabel } from '../../../util/suggestionUtils';
 import { getJson } from '../../../util/xhrPromise';
 import { getZoneLabelColor } from '../../../util/mapIconUtils';
-import { findFeatures } from '../../../util/geo-utils';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 
 class LocationPopup extends React.Component {
@@ -23,7 +22,6 @@ class LocationPopup extends React.Component {
   };
 
   static propTypes = {
-    getGeoJsonData: PropTypes.func.isRequired,
     language: PropTypes.string.isRequired,
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired,
@@ -53,23 +51,24 @@ class LocationPopup extends React.Component {
         lang: this.props.language,
         size: 1,
         layers: 'address',
+        zones: 1,
       }),
     ];
-    if (config.geoJson && config.geoJson.zones) {
-      promises.push(this.props.getGeoJsonData(config.geoJson.zones.url));
+
+    function parseZoneName(fullZoneName) {
+      if (fullZoneName) {
+        return fullZoneName.split(':')[1];
+      }
+      return undefined;
     }
 
     Promise.all(promises).then(
-      ([data, zoneData]) => {
+      data => {
         let pointName;
-        const zones = findFeatures(
-          {
-            lat,
-            lon,
-          },
-          (zoneData && zoneData.data && zoneData.data.features) || [],
-        );
-        const zoneId = zones.length > 0 ? zones[0].Zone : undefined;
+        const zoneId =
+          data[0].zones && data[0].zones.length > 0
+            ? parseZoneName(data[0].zones[0])
+            : undefined;
         if (data.features != null && data.features.length > 0) {
           const match = data.features[0].properties;
           this.setState(prevState => ({
