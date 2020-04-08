@@ -29,7 +29,7 @@ import {
   getCancelationsForStop,
   getServiceAlertsForStopRoutes,
 } from '../util/alertUtils';
-import { PREFIX_ROUTES } from '../util/path';
+import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 import {
   RouteAlertsQuery,
@@ -39,7 +39,7 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const Tab = {
   Disruptions: 'hairiot',
-  Stops: 'pysakit',
+  Stops: PREFIX_STOPS,
   Timetable: 'aikataulu',
 };
 
@@ -231,7 +231,7 @@ class RoutePage extends React.Component {
       case 'aikataulu':
         action = 'OpenTimetableTab';
         break;
-      case 'pysakit':
+      case PREFIX_STOPS:
         action = 'OpenStopsTab';
         break;
       case 'hairiot':
