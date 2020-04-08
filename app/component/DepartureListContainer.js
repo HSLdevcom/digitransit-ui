@@ -249,7 +249,7 @@ class DepartureListContainer extends Component {
           <Link
             to={`/${PREFIX_ROUTES}/${
               departure.pattern.route.gtfsId
-            }/${PREFIX_STOPS}/${departure.pattern.code}`}
+            }/${PREFIX_STOPS}/${departure.pattern.code}?sort=no`}
             key={id}
             onClick={() => {
               addAnalyticsEvent({
