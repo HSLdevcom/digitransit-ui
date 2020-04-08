@@ -20,12 +20,14 @@ class MainMenuContainer extends Component {
   static propTypes = {
     homeUrl: PropTypes.string.isRequired,
     isOpen: PropTypes.bool,
-    loggedIn: PropTypes.bool.isRequired,
-    logIn: PropTypes.func.isRequired,
+    loggedIn: PropTypes.bool,
+    logIn: PropTypes.func,
   };
 
   static defaultProps = {
     isOpen: false,
+    loggedIn: false,
+    logIn: () => {},
   };
 
   mainMenuModules = {

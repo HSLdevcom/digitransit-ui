@@ -10,16 +10,18 @@ module.exports = {
   'rules': {
     'curly': ['error', 'all'],
     'lines-between-class-members': 'off',
+    'no-alert': 'error',
     'no-else-return': 'error',
     'no-plusplus': ['error', { "allowForLoopAfterthoughts": true }],
     'no-console': 'error',
+    'func-names': 'off',
     // react
     'react/button-has-type': 'off',
     'react/destructuring-assignment': 'off',
     'react/jsx-filename-extension': ['error', { "extensions": [".js"] }],
     'react/jsx-key': 'error',
     'react/forbid-foreign-prop-types': 'off',
-    'react/forbid-prop-types': ['warn', { forbid: ['any', 'array', 'object'] }],
+    'react/forbid-prop-types': ['off', { forbid: ['any', 'array', 'object'] }],
     'react/require-default-props': 'warn',
     
     // jsx-a11y

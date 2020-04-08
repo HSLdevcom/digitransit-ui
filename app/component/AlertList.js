@@ -106,7 +106,7 @@ AlertList.propTypes = {
   disableScrolling: PropTypes.bool,
   serviceAlerts: PropTypes.arrayOf(alertShape),
   showExpired: PropTypes.bool,
-  showRouteNameLink: PropTypes.bool.isRequired,
+  showRouteNameLink: PropTypes.bool,
 };
 
 AlertList.defaultProps = {
@@ -114,6 +114,7 @@ AlertList.defaultProps = {
   disableScrolling: false,
   serviceAlerts: [],
   showExpired: false,
+  showRouteNameLink: false,
 };
 
 AlertList.description = (

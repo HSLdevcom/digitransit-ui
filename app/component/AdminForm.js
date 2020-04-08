@@ -109,6 +109,7 @@ class AdminForm extends React.Component {
     const updateInputParam = (param, target, min) => {
       let newValue = target.value;
       if (newValue < min) {
+        // eslint-disable-next-line no-alert
         alert(`Insert a number that is greater than or equal to ${min}`);
         newValue = mergedCurrent[param];
       }
@@ -124,9 +125,11 @@ class AdminForm extends React.Component {
     const updateTriangleParam = (param, target) => {
       let newValue = target.value;
       if (newValue < 0) {
+        // eslint-disable-next-line no-alert
         alert(`Insert a number that is greater than or equal to 0`);
         newValue = mergedCurrent[param];
       } else if (newValue > 1) {
+        // eslint-disable-next-line no-alert
         alert(`Insert a number that is greater than or equal to 1`);
         newValue = mergedCurrent[param];
       }
