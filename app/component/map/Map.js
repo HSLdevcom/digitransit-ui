@@ -64,7 +64,6 @@ class Map extends React.Component {
     fitBounds: false,
     hilightedStops: [],
     leafletEvents: {},
-    padding: [],
     showStops: false,
     disableZoom: false,
     mapRef: null,
