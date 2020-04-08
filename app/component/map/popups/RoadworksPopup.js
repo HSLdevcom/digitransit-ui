@@ -28,8 +28,6 @@ class RoadworksPopup extends React.Component {
 
   static displayName = 'RoadworksPopup';
 
-  static propTypes = {};
-
   static formatDate(date) {
     return date.format('ll');
   }
