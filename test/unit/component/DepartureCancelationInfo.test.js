@@ -21,7 +21,7 @@ describe('<DepartureCancelationInfo />', () => {
       'en',
     );
     expect(wrapper.text()).to.equal(
-      'Bus 52 Arabianranta–Munkkiniemi at 11:16 is cancelled',
+      'Bus 52 Arabianranta–Munkkiniemi at 10:16 is cancelled',
     );
   });
 
@@ -32,7 +32,7 @@ describe('<DepartureCancelationInfo />', () => {
       'fi',
     );
     expect(wrapper.text()).to.equal(
-      'Bussin 52 lähtö Arabianranta–Munkkiniemi kello 11:16 on peruttu',
+      'Bussin 52 lähtö Arabianranta–Munkkiniemi kello 10:16 on peruttu',
     );
   });
 
@@ -43,7 +43,7 @@ describe('<DepartureCancelationInfo />', () => {
       'sv',
     );
     expect(wrapper.text()).to.equal(
-      'Avgång på linje 52 Arabianranta–Munkkiniemi kl. 11:16 är inställd',
+      'Avgång på linje 52 Arabianranta–Munkkiniemi kl. 10:16 är inställd',
     );
   });
 });
