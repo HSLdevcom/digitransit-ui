@@ -4,7 +4,7 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import Link from 'found/lib/Link';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
-import { PREFIX_ROUTES } from '../../../util/path';
+import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../util/path';
 
 import RouteHeader from '../../RouteHeader';
 
@@ -12,7 +12,7 @@ import { addFavourite } from '../../../action/FavouriteActions';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 
 function TripMarkerPopup(props) {
-  let patternPath = `/${PREFIX_ROUTES}/${props.route.gtfsId}/pysakit`;
+  let patternPath = `/${PREFIX_ROUTES}/${props.route.gtfsId}/${PREFIX_STOPS}`;
   let tripPath = patternPath;
 
   if (props.trip) {
