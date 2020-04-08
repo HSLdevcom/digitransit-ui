@@ -1,3 +1,5 @@
+import { PREFIX_ITINERARY_SUMMARY } from '../util/path';
+
 /* eslint-disable prefer-template */
 const CONFIG = 'matka';
 const APP_DESCRIPTION = 'Matka.fi–palvelu.';
@@ -64,7 +66,7 @@ export default {
 
   meta: {
     description: APP_DESCRIPTION,
-    keywords: 'reitti,reitit,opas,reittiopas,joukkoliikenne',
+    keywords: `${PREFIX_ITINERARY_SUMMARY},reitit,opas,reittiopas,joukkoliikenne`,
   },
 
   routeTimetables: {
