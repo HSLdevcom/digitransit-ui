@@ -70,6 +70,7 @@ CityBikeCard.contextTypes = {
 };
 
 CityBikeCard.defaultProps = {
+  className: '',
   language: 'en',
 };
 

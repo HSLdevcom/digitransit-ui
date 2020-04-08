@@ -12,7 +12,7 @@ const RouteTitle = ({ route, breakpoint }) =>
   breakpoint === 'large' || !route || !route.mode ? (
     <FormattedMessage id="route-page.title-short" defaultMessage="Route" />
   ) : (
-    <Link to={`/${PREFIX_ROUTES}/${route.gtfsId}`}>
+    <Link to={`/${PREFIX_ROUTES}/${route.gtfsId}`} onlyActiveOnIndex={false}>
       <RouteNumberContainer
         className="route-number-title"
         color={route.color}
@@ -31,6 +31,10 @@ RouteTitle.propTypes = {
     color: PropTypes.string,
   }),
   breakpoint: PropTypes.string,
+};
+
+RouteTitle.defaultProps = {
+  breakpoint: 'small',
 };
 
 export default Relay.createContainer(withBreakpoint(RouteTitle), {

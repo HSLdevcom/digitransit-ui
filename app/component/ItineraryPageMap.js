@@ -156,14 +156,14 @@ function ItineraryPageMap(
 }
 
 ItineraryPageMap.propTypes = {
-  itinerary: PropTypes.object,
+  itinerary: PropTypes.object.isRequired,
   params: PropTypes.shape({
     from: PropTypes.string.isRequired,
     to: PropTypes.string.isRequired,
   }).isRequired,
-  from: dtLocationShape,
-  to: dtLocationShape,
-  center: dtLocationShape,
+  from: dtLocationShape.isRequired,
+  to: dtLocationShape.isRequired,
+  center: dtLocationShape.isRequired,
   routes: PropTypes.arrayOf(
     PropTypes.shape({
       fullscreenMap: PropTypes.bool,

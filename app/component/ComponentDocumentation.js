@@ -80,7 +80,11 @@ ComponentDocumentation.propTypes = {
       propTypes: PropTypes.object,
     }).isRequired,
     PropTypes.func.isRequired,
-  ]),
+  ]).isRequired,
   mode: PropTypes.string,
   children: PropTypes.node,
+};
+
+ComponentDocumentation.defaultProps = {
+  mode: '',
 };

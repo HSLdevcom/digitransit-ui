@@ -44,4 +44,8 @@ ExternalLinkDecoration.propTypes = {
   className: PropTypes.string,
 };
 
+ExternalLinkDecoration.defaultProps = {
+  className: '',
+};
+
 export default ExternalLinkDecoration;

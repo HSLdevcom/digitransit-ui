@@ -39,6 +39,7 @@ function MainMenu(props, { config, intl }) {
               name: null,
             });
           }}
+          onlyActiveOnIndex={false}
         >
           <FormattedMessage id="frontpage" defaultMessage="Frontpage" />
         </Link>
@@ -78,12 +79,12 @@ function MainMenu(props, { config, intl }) {
 }
 
 MainMenu.propTypes = {
-  showDisruptionInfo: PropTypes.bool,
+  showDisruptionInfo: PropTypes.bool.isRequired,
   toggleVisibility: PropTypes.func.isRequired,
   visible: PropTypes.bool,
   homeUrl: PropTypes.string.isRequired,
-  loggedIn: PropTypes.bool,
-  logIn: PropTypes.func,
+  loggedIn: PropTypes.bool.isRequired,
+  logIn: PropTypes.func.isRequired,
 };
 
 MainMenu.defaultProps = {

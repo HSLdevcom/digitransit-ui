@@ -36,7 +36,7 @@ const CardHeader = ({
         </div>
       )}
       <div className="card-header-wrapper">
-        <span className={headingStyle || 'h4'}>
+        <span className={headingStyle}>
           {name}
           {externalLink || null}
           {headerIcon}
@@ -94,7 +94,10 @@ CardHeader.propTypes = {
 };
 
 CardHeader.defaultProps = {
-  headerIcon: undefined,
+  className: '',
+  headingStyle: 'h4',
+  icons: [],
+  unlinked: false,
 };
 
 export default CardHeader;

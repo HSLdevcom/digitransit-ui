@@ -48,13 +48,19 @@ class RouteStop extends React.PureComponent {
   static propTypes = {
     color: PropTypes.string,
     vehicle: PropTypes.object,
-    stop: PropTypes.object,
+    stop: PropTypes.object.isRequired,
     mode: PropTypes.string,
     className: PropTypes.string,
     distance: PropTypes.number,
     currentTime: PropTypes.number.isRequired,
     first: PropTypes.bool,
     last: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    className: '',
+    first: false,
+    last: false,
   };
 
   static description = () => (

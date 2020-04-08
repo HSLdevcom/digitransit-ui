@@ -25,7 +25,7 @@ LegAgencyInfo.contextTypes = {
 };
 
 LegAgencyInfo.propTypes = {
-  leg: PropTypes.object,
+  leg: PropTypes.object.isRequired,
 };
 
 export default Relay.createContainer(LegAgencyInfo, {

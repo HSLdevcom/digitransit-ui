@@ -100,6 +100,7 @@ ComponentUsageExample.propTypes = {
 };
 
 ComponentUsageExample.defaultProps = {
+  description: '',
   isFullscreen: false,
 };
 

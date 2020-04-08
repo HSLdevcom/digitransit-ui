@@ -187,10 +187,10 @@ ItinerarySummaryListContainer.propTypes = {
   from: locationShape.isRequired,
   intermediatePlaces: PropTypes.arrayOf(locationShape),
   itineraries: PropTypes.array,
-  locationState: PropTypes.object,
+  locationState: PropTypes.object.isRequired,
   onSelect: PropTypes.func.isRequired,
   onSelectImmediately: PropTypes.func.isRequired,
-  open: PropTypes.number,
+  open: PropTypes.number.isRequired,
   searchTime: PropTypes.number.isRequired,
   to: locationShape.isRequired,
 };

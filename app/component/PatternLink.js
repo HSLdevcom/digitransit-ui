@@ -15,6 +15,7 @@ function PatternLink({ mode, pattern, route, selected = false }) {
     <Link
       to={`/${PREFIX_ROUTES}/${route}/pysakit/${pattern}`}
       className="route-now-content"
+      onlyActiveOnIndex={false}
     >
       {icon}
     </Link>
@@ -26,6 +27,10 @@ PatternLink.propTypes = {
   pattern: PropTypes.string.isRequired,
   route: PropTypes.string.isRequired,
   selected: PropTypes.bool,
+};
+
+PatternLink.defaultProps = {
+  selected: false,
 };
 
 export default PatternLink;

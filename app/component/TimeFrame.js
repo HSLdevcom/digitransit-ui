@@ -48,5 +48,9 @@ TimeFrame.propTypes = {
   className: PropTypes.string,
 };
 
+TimeFrame.defaultProps = {
+  className: '',
+};
+
 TimeFrame.displayName = 'TimeFrame';
 export { TimeFrame as default };

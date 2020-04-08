@@ -21,9 +21,9 @@ const locationToOtp = location =>
 class OriginDestinationBar extends React.Component {
   static propTypes = {
     className: PropTypes.string,
-    destination: dtLocationShape,
+    destination: dtLocationShape.isRequired,
     location: PropTypes.object,
-    origin: dtLocationShape,
+    origin: dtLocationShape.isRequired,
   };
 
   static contextTypes = {

@@ -23,6 +23,10 @@ export default class MobileItineraryWrapper extends React.Component {
     }).isRequired,
   };
 
+  static defaultProps = {
+    fullscreenMap: false,
+  };
+
   static contextTypes = {
     router: routerShape.isRequired,
     location: PropTypes.object.isRequired,

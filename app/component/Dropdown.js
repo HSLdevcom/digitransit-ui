@@ -7,6 +7,7 @@ import Icon from './Icon';
 export default class Dropdown extends React.Component {
   static defaultProps = {
     isMobile: false,
+    list: [],
   };
 
   constructor(props) {

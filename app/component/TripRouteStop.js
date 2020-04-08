@@ -128,6 +128,13 @@ TripRouteStop.propTypes = {
   ]).isRequired,
 };
 
+TripRouteStop.defaultProps = {
+  vehicles: [],
+  color: null,
+  className: '',
+  stopPassed: false,
+};
+
 TripRouteStop.displayName = 'TripRouteStop';
 
 TripRouteStop.description = () => (
@@ -209,6 +216,7 @@ TripRouteStop.description = () => (
         distance={321}
         currentTime={exampleCurrentTime}
         selectedVehicle={false}
+        stoptime={null}
       />
     </ComponentUsageExample>
     <ComponentUsageExample description="With cancelation:">

@@ -159,7 +159,13 @@ Departure.propTypes = {
 
 Departure.defaultProps = {
   alertSeverityLevel: undefined,
+  canceled: false,
+  className: '',
+  isArrival: false,
+  isLastStop: false,
   showPlatformCode: false,
+  useUTC: false,
+  staticDeparture: false,
 };
 
 Departure.contextTypes = {

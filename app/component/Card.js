@@ -23,4 +23,8 @@ Card.propTypes = {
   children: PropTypes.node,
 };
 
+Card.defaultProps = {
+  className: '',
+};
+
 export default Card;

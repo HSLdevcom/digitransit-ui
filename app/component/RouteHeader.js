@@ -24,6 +24,7 @@ export default function RouteHeader(props) {
         to={`/${PREFIX_ROUTES}/${props.route.gtfsId}/pysakit/${
           props.pattern.code
         }`}
+        onlyActiveOnIndex={false}
       >
         {routeLineText}
       </Link>
@@ -48,6 +49,10 @@ RouteHeader.propTypes = {
     shortName: PropTypes.string,
   }).isRequired,
   trip: PropTypes.string,
-  pattern: PropTypes.shape({ code: PropTypes.string.isRequired }),
+  pattern: PropTypes.shape({ code: PropTypes.string.isRequired }).isRequired,
   className: PropTypes.string,
+};
+
+RouteHeader.defaultProps = {
+  className: '',
 };

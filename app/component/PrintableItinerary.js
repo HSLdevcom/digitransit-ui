@@ -211,6 +211,10 @@ TransferMap.propTypes = {
   mapsLoaded: PropTypes.func,
 };
 
+TransferMap.defaultProps = {
+  mapsLoaded: () => {},
+};
+
 const isWalking = legOrMode =>
   ['WALK', 'BICYCLE_WALK'].find(mode => mode === getLegMode(legOrMode));
 
@@ -328,6 +332,10 @@ PrintableLeg.propTypes = {
   context: PropTypes.object.isRequired,
   originalLegs: PropTypes.array.isRequired,
   mapsLoaded: PropTypes.func,
+};
+
+PrintableLeg.defaultProps = {
+  mapsLoaded: () => {},
 };
 
 class PrintableItinerary extends React.Component {

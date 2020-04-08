@@ -124,6 +124,8 @@ AppBarLarge.propTypes = {
 
 AppBarLarge.defaultProps = {
   logo: undefined,
+  loggedIn: false,
+  logIn: () => {},
 };
 
 AppBarLarge.displayName = 'AppBarLarge';

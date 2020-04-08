@@ -29,4 +29,8 @@ RouteListHeader.propTypes = {
   className: PropTypes.string,
 };
 
+RouteListHeader.defaultProps = {
+  className: '',
+};
+
 export default RouteListHeader;

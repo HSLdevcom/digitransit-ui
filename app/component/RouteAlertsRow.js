@@ -69,6 +69,7 @@ export default function RouteAlertsRow(
             key={gtfsIdList[i]}
             to={`/${PREFIX_ROUTES}/${gtfsIdList[i]}/pysakit/${gtfsIdList[i]}/`}
             className="route-alert-row-link"
+            onlyActiveOnIndex={false}
           >
             {' '}
             {identifier}{' '}
@@ -83,6 +84,7 @@ export default function RouteAlertsRow(
             key={gtfsIdList[i]}
             to={`/${PREFIX_STOPS}/${gtfsIdList[i]}`}
             className="route-alert-row-link"
+            onlyActiveOnIndex={false}
           >
             {' '}
             {identifier}{' '}
@@ -175,6 +177,10 @@ RouteAlertsRow.propTypes = {
   url: PropTypes.string,
   gtfsIds: PropTypes.string,
   showRouteNameLink: PropTypes.bool,
+};
+
+RouteAlertsRow.defaultProps = {
+  showRouteNameLink: false,
 };
 
 RouteAlertsRow.contextTypes = {

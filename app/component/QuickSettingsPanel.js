@@ -24,8 +24,8 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class QuickSettingsPanel extends React.Component {
   static propTypes = {
-    timeSelectorStartTime: PropTypes.number,
-    timeSelectorEndTime: PropTypes.number,
+    timeSelectorStartTime: PropTypes.number.isRequired,
+    timeSelectorEndTime: PropTypes.number.isRequired,
     timeSelectorServiceTimeRange: PropTypes.object.isRequired,
   };
 

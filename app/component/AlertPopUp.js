@@ -27,9 +27,13 @@ const AlertPopUp = props => (
 
 AlertPopUp.propTypes = {
   isPopUpOpen: PropTypes.bool,
-  textId: PropTypes.string,
-  icon: PropTypes.string,
-  togglePopUp: PropTypes.func,
+  textId: PropTypes.string.isRequired,
+  icon: PropTypes.string.isRequired,
+  togglePopUp: PropTypes.func.isRequired,
+};
+
+AlertPopUp.defaultProps = {
+  isPopUpOpen: false,
 };
 
 export default AlertPopUp;

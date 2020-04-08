@@ -35,13 +35,14 @@ class ItineraryLegs extends React.Component {
 
   static propTypes = {
     focusMap: PropTypes.func,
-    itinerary: PropTypes.object,
+    itinerary: PropTypes.object.isRequired,
     fares: PropTypes.array,
     toggleCanceledLegsBanner: PropTypes.func.isRequired,
     waitThreshold: PropTypes.number.isRequired,
   };
 
   static defaultProps = {
+    focusMap: () => {},
     fares: [],
   };
 

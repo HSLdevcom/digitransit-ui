@@ -55,8 +55,12 @@ const CanceledItineraryToggler = ({
 
 CanceledItineraryToggler.propTypes = {
   showItineraries: PropTypes.bool,
-  toggleShowCanceled: PropTypes.func,
+  toggleShowCanceled: PropTypes.func.isRequired,
   canceledItinerariesAmount: PropTypes.number,
+};
+
+CanceledItineraryToggler.defaultProps = {
+  showItineraries: false,
 };
 
 export default CanceledItineraryToggler;

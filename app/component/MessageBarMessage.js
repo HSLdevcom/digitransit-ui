@@ -91,7 +91,7 @@ const MessageBarMessage = ({ content, onMaximize, textColor }) => (
 );
 
 MessageBarMessage.propTypes = {
-  content: PropTypes.array,
+  content: PropTypes.array.isRequired,
   onMaximize: PropTypes.func.isRequired,
   textColor: PropTypes.string,
 };

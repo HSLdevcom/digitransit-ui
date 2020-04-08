@@ -12,6 +12,10 @@ class ModeFilter extends React.Component {
     buttonClass: PropTypes.string,
   };
 
+  static defaultProps = {
+    buttonClass: '',
+  };
+
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
     config: PropTypes.object.isRequired,

@@ -26,11 +26,11 @@ const IconWithTail = ({
   img,
   rotate,
   children,
-  desaturate = false,
-  scrollIntoView = false,
-  allVehicles = false,
+  desaturate,
+  scrollIntoView,
+  allVehicles,
   vehicleNumber,
-  useLargeIcon = false,
+  useLargeIcon,
 }) => (
   <span>
     {allVehicles && (
@@ -133,7 +133,7 @@ IconWithTail.description = () => (
       <IconWithTail desaturate img="icon-icon_bus-live" rotate={90} />
     </ComponentUsageExample>
     <ComponentUsageExample description="no tail">
-      <IconWithTail desaturate img="icon-icon_bus-live" />
+      <IconWithTail desaturate img="icon-icon_bus-live" rotate={0} />
     </ComponentUsageExample>
   </div>
 );
@@ -142,13 +142,21 @@ IconWithTail.propTypes = {
   id: PropTypes.string,
   className: PropTypes.string,
   img: PropTypes.string.isRequired,
-  rotate: PropTypes.number,
+  rotate: PropTypes.number.isRequired,
   children: PropTypes.element,
   desaturate: PropTypes.bool,
   scrollIntoView: PropTypes.bool,
   allVehicles: PropTypes.bool,
   vehicleNumber: PropTypes.string,
   useLargeIcon: PropTypes.bool,
+};
+
+IconWithTail.defaultProps = {
+  className: '',
+  desaturate: false,
+  scrollIntoView: false,
+  allVehicles: false,
+  useLargeIcon: false,
 };
 
 export default IconWithTail;

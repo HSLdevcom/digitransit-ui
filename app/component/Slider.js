@@ -5,7 +5,7 @@ import cx from 'classnames';
 class Slider extends React.Component {
   static propTypes = {
     className: PropTypes.string,
-    id: PropTypes.string,
+    id: PropTypes.string.isRequired,
     onSliderChange: PropTypes.func.isRequired,
     min: PropTypes.number,
     max: PropTypes.number,
@@ -14,7 +14,7 @@ class Slider extends React.Component {
     minText: PropTypes.string,
     maxText: PropTypes.string,
     writtenValue: PropTypes.string,
-    value: PropTypes.number,
+    value: PropTypes.number.isRequired,
   };
 
   static defaultProps = {
@@ -24,6 +24,7 @@ class Slider extends React.Component {
     headerText: '',
     minText: '',
     maxText: '',
+    className: '',
   };
 
   // eslint-disable-next-line

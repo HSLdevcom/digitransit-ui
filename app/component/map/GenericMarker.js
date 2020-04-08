@@ -62,6 +62,8 @@ class GenericMarker extends React.Component {
 
   static defaultProps = {
     shouldRender: () => true,
+    renderName: false,
+    name: '',
   };
 
   state = { zoom: this.props.leaflet.map.getZoom() };

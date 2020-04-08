@@ -14,7 +14,7 @@ const Message = ({ labelId, defaultMessage }) => {
 
 Message.propTypes = {
   labelId: PropTypes.string,
-  defaultMessage: PropTypes.string,
+  defaultMessage: PropTypes.string.isRequired,
 };
 
 export default Message;

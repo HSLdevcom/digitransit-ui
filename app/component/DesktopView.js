@@ -22,6 +22,7 @@ export default function DesktopView(
                 defaultMessage: 'Back to the front page',
               })}
               to={homeUrl}
+              onlyActiveOnIndex={false}
             >
               <Icon img="icon-icon_home" className="home-icon" />
             </Link>
@@ -49,11 +50,11 @@ export default function DesktopView(
 }
 
 DesktopView.propTypes = {
-  title: PropTypes.node,
-  header: PropTypes.node,
-  map: PropTypes.node,
-  content: PropTypes.node,
-  homeUrl: PropTypes.string,
+  title: PropTypes.node.isRequired,
+  header: PropTypes.node.isRequired,
+  map: PropTypes.node.isRequired,
+  content: PropTypes.node.isRequired,
+  homeUrl: PropTypes.string.isRequired,
   scrollable: PropTypes.bool,
 };
 

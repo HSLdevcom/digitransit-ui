@@ -17,7 +17,7 @@ class TopLevel extends React.Component {
     header: PropTypes.node,
     map: PropTypes.node,
     content: PropTypes.node,
-    title: PropTypes.node,
+    title: PropTypes.node.isRequired,
     meta: PropTypes.node,
     routes: PropTypes.arrayOf(
       PropTypes.shape({

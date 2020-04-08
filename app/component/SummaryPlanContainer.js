@@ -56,6 +56,7 @@ class SummaryPlanContainer extends React.Component {
     activeIndex: 0,
     error: undefined,
     itineraries: [],
+    locationState: {},
   };
 
   static contextTypes = {

@@ -96,7 +96,9 @@ class MapWithTrackingStateHandler extends React.Component {
   };
 
   static defaultProps = {
-    renderCustomButtons: undefined,
+    renderCustomButtons: () => {},
+    children: [],
+    messages: [],
   };
 
   constructor(props) {

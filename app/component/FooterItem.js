@@ -62,6 +62,11 @@ FooterItem.propTypes = {
   onClick: PropTypes.func,
 };
 
+FooterItem.defaultProps = {
+  name: '',
+  onClick: () => {},
+};
+
 FooterItem.contextTypes = {
   router: routerShape.isRequired,
 };

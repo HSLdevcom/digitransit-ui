@@ -57,7 +57,18 @@ class Map extends React.Component {
     loaded: () => {},
     showScaleBar: false,
     activeArea: null,
+    bounds: undefined,
+    boundsOptions: {},
+    center: false,
+    disableMapTracking: () => {},
+    fitBounds: false,
+    hilightedStops: [],
+    leafletEvents: {},
+    padding: [],
+    showStops: false,
+    disableZoom: false,
     mapRef: null,
+    mapMode: 'default',
   };
 
   static contextTypes = {

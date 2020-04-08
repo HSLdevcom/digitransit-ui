@@ -113,6 +113,9 @@ StopCardHeader.propTypes = {
 
 StopCardHeader.defaultProps = {
   stop: undefined,
+  className: '',
+  icons: [],
+  isPopUp: false,
 };
 
 StopCardHeader.contextTypes = {

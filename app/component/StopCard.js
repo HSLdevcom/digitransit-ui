@@ -14,6 +14,7 @@ function StopCard(props) {
     <Link
       to={`/${prefix}/${encodeURIComponent(props.stop.gtfsId)}`}
       className="no-decoration"
+      onlyActiveOnIndex={false}
     >
       <Card className={props.className}>
         <StopCardHeaderContainer
@@ -32,13 +33,20 @@ function StopCard(props) {
 StopCard.propTypes = {
   stop: PropTypes.shape({
     gtfsId: PropTypes.string.isRequired,
-  }),
+  }).isRequired,
   icons: PropTypes.arrayOf(PropTypes.node),
   distance: PropTypes.number,
   isPopUp: PropTypes.bool,
   className: PropTypes.string,
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
   isTerminal: PropTypes.bool,
+};
+
+StopCard.defaultProps = {
+  icons: [],
+  isPopUp: false,
+  className: '',
+  isTerminal: false,
 };
 
 export default StopCard;

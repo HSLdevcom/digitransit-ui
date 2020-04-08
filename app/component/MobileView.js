@@ -12,7 +12,7 @@ export default function MobileView({ header, map, content }) {
 }
 
 MobileView.propTypes = {
-  header: PropTypes.node,
-  map: PropTypes.node,
-  content: PropTypes.node,
+  header: PropTypes.node.isRequired,
+  map: PropTypes.node.isRequired,
+  content: PropTypes.node.isRequired,
 };

@@ -74,6 +74,8 @@ ToggleButton.propTypes = {
 
 ToggleButton.defaultProps = {
   showButtonTitle: false,
+  state: false,
+  className: '',
 };
 
 export default ToggleButton;

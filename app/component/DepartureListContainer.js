@@ -79,7 +79,13 @@ class DepartureListContainer extends Component {
   };
 
   static defaultProps = {
+    infiniteScroll: false,
+    showStops: false,
+    routeLinks: false,
+    className: '',
+    isTerminal: false,
     showPlatformCodes: false,
+    isStopPage: false,
   };
 
   constructor(props) {
@@ -257,6 +263,7 @@ class DepartureListContainer extends Component {
                 name: 'RightNowTab',
               });
             }}
+            onlyActiveOnIndex={false}
           >
             {departureObj}
           </Link>,

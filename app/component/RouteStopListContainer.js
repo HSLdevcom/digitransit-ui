@@ -24,6 +24,11 @@ class RouteStopListContainer extends React.PureComponent {
     breakpoint: PropTypes.string.isRequired,
   };
 
+  static defaultProps = {
+    className: '',
+    vehicles: {},
+  };
+
   static contextTypes = {
     config: PropTypes.object.isRequired,
   };

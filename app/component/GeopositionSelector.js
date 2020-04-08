@@ -13,7 +13,7 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class GeopositionSelector extends React.Component {
   static propTypes = {
-    destination: dtLocationShape,
+    destination: dtLocationShape.isRequired,
     tab: PropTypes.string.isRequired,
     locationState: PropTypes.shape({
       status: PropTypes.string.isRequired,
