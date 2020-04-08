@@ -1,3 +1,5 @@
+import { PREFIX_ITINERARY_SUMMARY } from '../../../../app/util/path';
+
 const moment = require('moment');
 
 module.exports = {
@@ -13,7 +15,7 @@ module.exports = {
 
   "Citybikes are used when it's the only modality": browser => {
     browser.url(
-      'http://localhost:8080/reitti/Katajanokka%3A%3A60.16716%2C24.97992/Kauppatori%3A%3A60.16736%2C24.95171?modes=WALK%2CCITYBIKE',
+      `http://localhost:8080/${PREFIX_ITINERARY_SUMMARY}/Katajanokka%3A%3A60.16716%2C24.97992/Kauppatori%3A%3A60.16736%2C24.95171?modes=WALK%2CCITYBIKE`,
     );
     browser.page.itinerarySummary().waitForItineraryRowOfType('citybike');
 
@@ -22,7 +24,7 @@ module.exports = {
 
   'Citybikes are not used when disabled': browser => {
     browser.url(
-      'http://localhost:8080/reitti/Katajanokka%3A%3A60.16716%2C24.97992/Kauppatori%3A%3A60.16736%2C24.95171?modes=WALK',
+      `http://localhost:8080/${PREFIX_ITINERARY_SUMMARY}/Katajanokka%3A%3A60.16716%2C24.97992/Kauppatori%3A%3A60.16736%2C24.95171?modes=WALK`,
     );
     browser.page.itinerarySummary().waitForFirstItineraryRow();
 
