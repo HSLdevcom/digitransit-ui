@@ -634,6 +634,7 @@ const translations = {
     accessibility: 'Accessibility',
     'accessibility-limited': 'Wheelchair',
     'accessibility-nolimit': 'No limits',
+    'add-home': 'Add home',
     'add-itinerary-via-point': 'Add via point for itinerary',
     'add-location-to-favourites': 'Add an important location to your Favorites',
     'add-via-button-label': 'Add via point',
@@ -642,6 +643,7 @@ const translations = {
       'Close stop duration selector at via point {index}',
     'add-via-duration-button-label-open':
       'Open stop duration selector at via point {index}',
+    'add-work': 'Add work',
     'arrive-leave': 'Arrive or leave at selected time',
     'search-autosuggest-label':
       'Venue, place and stopsearch. Navigate list with arrow keys and select with enter key',
@@ -1417,10 +1419,12 @@ const translations = {
     accessibility: 'Esteettömyys',
     'accessibility-limited': 'Liikun pyörätuolilla',
     'accessibility-nolimit': 'Ei rajoitusta',
+    'add-home': 'Lisää koti',
     'add-itinerary-via-point': 'Lisää reitille välipiste',
     'add-location-to-favourites':
       'Lisää sinulle tärkeä paikka Suosikkisi-välilehdelle',
     'add-via-button-label': 'Lisää välipiste',
+    'add-work': 'Lisää työ',
     'arrive-leave': 'Saavu tai lähde valittuna aikana',
     'search-autosuggest-label':
       'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',

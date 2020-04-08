@@ -2,16 +2,19 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import Icon from './Icon';
+import { isKeyboardSelectionEvent } from '../util/browser';
 
-const FavouriteLocation = ({ favourite, className, clickFavourite, key }) => {
+const FavouriteLocation = ({ favourite, className, clickFavourite }) => {
   const { name, selectedIconId, address } = favourite;
 
-  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
+  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-tabindex */
   return (
     <div
-      key={key}
       className={cx('new-favourite-location-content', className)}
+      onKeyPress={e => isKeyboardSelectionEvent(e) && clickFavourite(favourite)}
       onClick={() => clickFavourite(favourite)}
+      tabIndex="0"
+      aria-label={name}
     >
       <Icon className="favourite-location-icon" img={selectedIconId} />
       <div className="favourite-location">
@@ -25,7 +28,6 @@ const FavouriteLocation = ({ favourite, className, clickFavourite, key }) => {
 FavouriteLocation.propTypes = {
   favourite: PropTypes.object.isRequired,
   clickFavourite: PropTypes.func.isRequired,
-  key: PropTypes.string.isRequired,
   className: PropTypes.string,
 };
 
