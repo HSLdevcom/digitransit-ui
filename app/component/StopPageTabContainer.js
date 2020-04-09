@@ -28,13 +28,14 @@ import {
   PREFIX_STOPS,
   PREFIX_TERMINALS,
   PREFIX_DISRUPTION,
+  PREFIX_TIMETABLE,
 } from '../util/path';
 
 const Tab = {
   Disruptions: PREFIX_DISRUPTION,
   RightNow: 'right-now',
   RoutesAndPlatforms: PREFIX_ROUTES,
-  Timetable: 'aikataulu',
+  Timetable: PREFIX_TIMETABLE,
 };
 
 const getActiveTab = pathname => {

@@ -3,7 +3,12 @@ import { Route, IndexRoute, IndexRedirect } from 'react-router';
 import Relay from 'react-relay/classic';
 
 import Error404 from './component/404';
-import { PREFIX_DISRUPTION, PREFIX_ROUTES, PREFIX_STOPS } from './util/path';
+import {
+  PREFIX_DISRUPTION,
+  PREFIX_ROUTES,
+  PREFIX_STOPS,
+  PREFIX_TIMETABLE,
+} from './util/path';
 import { getDefault, ComponentLoading404Renderer } from './util/routerUtils';
 
 const RouteQueries = {
@@ -125,7 +130,7 @@ export default (
           </Route>
         </Route>
       </Route>
-      <Route path="aikataulu">
+      <Route path={PREFIX_TIMETABLE}>
         <IndexRedirect to=":routeId%3A0%3A01" />
         <Route
           path=":patternId"
