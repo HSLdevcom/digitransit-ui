@@ -3,7 +3,12 @@ import Route from 'found/lib/Route';
 import { graphql } from 'react-relay';
 
 import Error404 from './component/404';
-import { PREFIX_STOPS, PREFIX_TERMINALS } from './util/path';
+import {
+  PREFIX_STOPS,
+  PREFIX_TERMINALS,
+  PREFIX_ROUTES,
+  PREFIX_DISRUPTION,
+} from './util/path';
 import {
   getDefault,
   errorLoading,
@@ -229,7 +234,7 @@ export default function getStopRoutes(isTerminal = false) {
                 render={getComponentOrLoadingRenderer}
               />
               <Route
-                path="linjat"
+                path={PREFIX_ROUTES}
                 getComponent={() => {
                   return isTerminal
                     ? import(/* webpackChunkName: "stop" */ './component/TerminalRoutesAndPlatformsContainer')
@@ -243,7 +248,7 @@ export default function getStopRoutes(isTerminal = false) {
                 render={getComponentOrLoadingRenderer}
               />
               <Route
-                path="hairiot"
+                path={PREFIX_DISRUPTION}
                 getComponent={() => {
                   return isTerminal
                     ? import(/* webpackChunkName: "stop" */ './component/TerminalAlertsContainer')

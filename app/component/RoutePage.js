@@ -29,13 +29,13 @@ import {
   getCancelationsForStop,
   getServiceAlertsForStopRoutes,
 } from '../util/alertUtils';
-import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
+import { PREFIX_DISRUPTION, PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import BackButton from './BackButton'; // DT-3472
 
 const Tab = {
-  Disruptions: 'hairiot',
+  Disruptions: PREFIX_DISRUPTION,
   Stops: PREFIX_STOPS,
   Timetable: 'aikataulu',
 };
@@ -227,7 +227,7 @@ class RoutePage extends React.Component {
       case PREFIX_STOPS:
         action = 'OpenStopsTab';
         break;
-      case 'hairiot':
+      case PREFIX_DISRUPTION:
         action = 'OpenDisruptionsTab';
         break;
       default:
