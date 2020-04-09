@@ -13,7 +13,11 @@ import getRelayEnvironment from '../util/getRelayEnvironment';
 import { getJson } from '../util/xhrPromise';
 import { saveSearch } from '../action/SearchActions';
 import Loading from './Loading';
-import { suggestionToLocation, getLabel } from '../util/suggestionUtils';
+import {
+  suggestionToLocation,
+  getLabel,
+  suggestionToAriaContent,
+} from '../util/suggestionUtils';
 import { startLocationWatch } from '../action/PositionActions';
 import PositionStore from '../store/PositionStore';
 
@@ -133,10 +137,10 @@ class DTAutosuggest extends React.Component {
 
   onBlur = () => {
     this.props.isFocused(false);
-    this.setState(prevState => ({
+    this.setState({
       editing: false,
-      value: prevState.value, // DT-3263: changed this.state.value from this.props.value
-    }));
+      value: this.props.value,
+    });
   };
 
   onSelected = (e, ref) => {
@@ -162,11 +166,10 @@ class DTAutosuggest extends React.Component {
     }
   };
 
-  // DT-3263: not clear automatically suggestions: [] (e.g. user comes back with tabulator)
   onSuggestionsClearRequested = () => {
-    /* this.setState({
+    this.setState({
       suggestions: [],
-    }); */
+    });
   };
 
   getSuggestionValue = suggestion => {
@@ -261,7 +264,6 @@ class DTAutosuggest extends React.Component {
     };
     // must update suggestions
     this.setState(newState, () => this.fetchFunction({ value: '' }));
-
     this.props.isFocused(true);
     this.input.focus();
   };
@@ -274,7 +276,6 @@ class DTAutosuggest extends React.Component {
         // reset at start, just in case we missed something
         pendingSelection: null,
       };
-
       // DT-3263: added stateKeyDown
       const stateKeyDown = {
         editing: true,
@@ -434,6 +435,18 @@ class DTAutosuggest extends React.Component {
     return oldLocState.status !== newLocState.status;
   };
 
+  suggestionAsAriaContent() {
+    let label = [];
+    if (this.state.suggestions[0]) {
+      label = suggestionToAriaContent(
+        this.state.suggestions[0],
+        this.context.intl,
+        this.context.config.search.suggestions.useTransportIcons,
+      );
+    }
+    return label ? label.join(' - ') : '';
+  }
+
   render() {
     if (this.props.showSpinner && this.state.pendingCurrentLocation) {
       return <Loading />;
@@ -466,9 +479,21 @@ class DTAutosuggest extends React.Component {
     const ariaSuggestionLen = this.context.intl.formatMessage(
       {
         id: 'search-autosuggest-len',
-        defaultMessage: 'There are {len} Suggestions available',
+        defaultMessage: 'There are {len} suggestions available',
       },
-      { len: suggestions.length },
+      {
+        len: suggestions.length,
+      },
+    );
+
+    const ariaCurrentSuggestion = this.context.intl.formatMessage(
+      {
+        id: 'search-current-suggestion',
+        defaultMessage: 'Current selection: {selection}',
+      },
+      {
+        selection: this.suggestionAsAriaContent(),
+      },
     );
     return (
       <div className={cx(['autosuggest-input-container', this.props.id])}>
@@ -497,8 +522,19 @@ class DTAutosuggest extends React.Component {
                 onKeyDown={this.keyDown}
                 {...p}
               />
-              <span className="sr-only" role="alert">
+              <span
+                className="sr-only"
+                role="alert"
+                aria-hidden={!this.state.editing}
+              >
                 {ariaSuggestionLen}
+              </span>
+              <span
+                className="sr-only"
+                role="alert"
+                aria-hidden={!this.state.editing || suggestions.length === 0}
+              >
+                {ariaCurrentSuggestion}
               </span>
               {this.clearButton()}
             </>

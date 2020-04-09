@@ -13,36 +13,17 @@ import {
 } from './localStorage';
 import { isStop } from '../util/suggestionUtils';
 import { getGeocodingResult } from '../util/searchUtils';
-import {
-  getFavourites,
-  updateFavourites,
-  deleteFavourites,
-} from '../util/apiUtils';
 
 export default class FavouriteStore extends Store {
   static storeName = 'FavouriteStore';
 
-  favourites = [];
+  favourites = getFavouriteStorage();
 
   config = {};
 
   constructor(dispatcher) {
     super(dispatcher);
     this.config = dispatcher.getContext().config;
-
-    if (this.config.showLogin) {
-      getFavourites()
-        .then(res => {
-          this.favourites = res;
-          this.emitChange();
-        })
-        .catch(() => {
-          this.favourites = getFavouriteStorage();
-          this.emitChange();
-        });
-    } else {
-      this.favourites = getFavouriteStorage();
-    }
     this.migrateRoutes();
     this.migrateStops();
     this.migrateLocations();
@@ -110,18 +91,8 @@ export default class FavouriteStore extends Store {
       });
     }
     this.favourites = newFavourites;
-    if (this.config.showLogin) {
-      updateFavourites(this.favourites)
-        .then(() => {
-          this.emitChange();
-        })
-        .catch(() => {
-          setFavouriteStorage(this.favourites);
-          this.emitChange();
-        });
-    } else {
-      this.storeFavourites();
-    }
+    this.storeFavourites();
+    this.emitChange();
   }
 
   deleteFavourite(data) {
@@ -129,18 +100,8 @@ export default class FavouriteStore extends Store {
       favourite => favourite.favouriteId !== data.favouriteId,
     );
     this.favourites = newFavourites;
-    if (this.config.showLogin) {
-      deleteFavourites([data.favouriteId])
-        .then(() => {
-          this.emitChange();
-        })
-        .catch(() => {
-          setFavouriteStorage(this.favourites);
-          this.emitChange();
-        });
-    } else {
-      this.storeFavourites();
-    }
+    this.storeFavourites();
+    this.emitChange();
   }
 
   migrateRoutes() {

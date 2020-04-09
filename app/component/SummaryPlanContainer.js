@@ -501,7 +501,7 @@ class SummaryPlanContainer extends React.Component {
     const disableButtons = !itineraries || itineraries.length === 0;
 
     return (
-      <div className="summary" aria-live="polite" aria-atomic="true">
+      <div className="summary">
         <h2 className="sr-only">
           <FormattedMessage
             id="itinerary-summary-page.description"

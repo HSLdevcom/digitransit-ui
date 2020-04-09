@@ -22,6 +22,7 @@ import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
 import MapLayerStore, { mapLayerShape } from '../../../store/MapLayerStore';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import getRelayEnvironment from '../../../util/getRelayEnvironment';
+import { getClientBreakpoint } from '../../../util/withBreakpoint';
 
 const initialState = {
   selectableTargets: undefined,
@@ -250,6 +251,9 @@ class TileLayerContainer extends GridLayer {
     let popup = null;
     let contents;
 
+    const breakpoint = getClientBreakpoint(); // DT-3470
+    let showPopup = true; // DT-3470
+
     if (typeof this.state.selectableTargets !== 'undefined') {
       if (this.state.selectableTargets.length === 1) {
         let id;
@@ -257,6 +261,13 @@ class TileLayerContainer extends GridLayer {
           this.state.selectableTargets[0].layer === 'stop' &&
           this.state.selectableTargets[0].feature.properties.stops
         ) {
+          if (
+            !this.context.config.map.showStopMarkerPopupOnMobile &&
+            breakpoint === 'small'
+          ) {
+            // DT-3470
+            showPopup = false;
+          }
           id = this.state.selectableTargets[0].feature.properties.gtfsId;
           contents = (
             <TerminalMarkerPopup
@@ -266,6 +277,13 @@ class TileLayerContainer extends GridLayer {
             />
           );
         } else if (this.state.selectableTargets[0].layer === 'stop') {
+          if (
+            !this.context.config.map.showStopMarkerPopupOnMobile &&
+            breakpoint === 'small'
+          ) {
+            // DT-3470
+            showPopup = false;
+          }
           id = this.state.selectableTargets[0].feature.properties.gtfsId;
           contents = (
             <StopMarkerPopup
@@ -322,6 +340,13 @@ class TileLayerContainer extends GridLayer {
           </Popup>
         );
       } else if (this.state.selectableTargets.length > 1) {
+        if (
+          !this.context.config.map.showStopMarkerPopupOnMobile &&
+          breakpoint === 'small'
+        ) {
+          // DT-3470
+          showPopup = false;
+        }
         popup = (
           <Popup
             key={this.state.coords.toString()}
@@ -354,7 +379,7 @@ class TileLayerContainer extends GridLayer {
       }
     }
 
-    return popup;
+    return showPopup ? popup : null;
   }
 }
 

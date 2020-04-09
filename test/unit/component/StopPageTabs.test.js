@@ -270,3 +270,64 @@ describe('<StopPageTabs />', () => {
     ).to.equal('routes-platforms');
   });
 });
+
+// DT-3387
+it('should render "Routes, platforms" when vehicleMode is rail but route´s mode is bus', () => {
+  const props = {
+    breakpoint: 'large',
+    children: <div />,
+    routes: [],
+    stop: {
+      vehicleMode: 'RAIL',
+      routes: [
+        {
+          mode: 'BUS',
+          patterns: [
+            {
+              code: 'HSL:9665A:0:02',
+            },
+          ],
+        },
+      ],
+    },
+  };
+  const wrapper = shallowWithIntl(<StopPageTabs {...props} />, {
+    context,
+  });
+  expect(
+    wrapper
+      .find(FormattedMessage)
+      .at(2)
+      .props().id,
+  ).to.equal('routes-platforms');
+});
+
+it('should render "Routes, platforms" when vehicleMode is subway but route´s mode is bus', () => {
+  const props = {
+    breakpoint: 'large',
+    children: <div />,
+    routes: [],
+    stop: {
+      vehicleMode: 'SUBWAY',
+      routes: [
+        {
+          mode: 'BUS',
+          patterns: [
+            {
+              code: 'HSL:9665A:0:02',
+            },
+          ],
+        },
+      ],
+    },
+  };
+  const wrapper = shallowWithIntl(<StopPageTabs {...props} />, {
+    context,
+  });
+  expect(
+    wrapper
+      .find(FormattedMessage)
+      .at(2)
+      .props().id,
+  ).to.equal('routes-platforms');
+});

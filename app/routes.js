@@ -31,7 +31,7 @@ export default config => {
       {getStopRoutes()}
       {getStopRoutes(true) /* terminals */}
       {routeRoutes}
-      <Route path={`/${PREFIX_ITINERARY_SUMMARY}/:from/:to/:hash?`}>
+      <Route path={`/${PREFIX_ITINERARY_SUMMARY}/:from/:to`}>
         {{
           title: (
             <Route
@@ -150,38 +150,40 @@ export default config => {
             >
               {{
                 content: [
-                  <Route
-                    path="/tulosta"
-                    getComponent={() =>
-                      import(/* webpackChunkName: "itinerary" */ './component/PrintableItinerary').then(
-                        getDefault,
-                      )
-                    }
-                    printPage
-                    render={getComponentOrLoadingRenderer}
-                  />,
-                  <Route
-                    getComponent={() =>
-                      import(/* webpackChunkName: "itinerary" */ './component/ItineraryTab').then(
-                        getDefault,
-                      )
-                    }
-                    render={getComponentOrLoadingRenderer}
-                  />,
+                  <Route path="" />,
+                  <Route path="/:hash">
+                    <Route
+                      path="/tulosta"
+                      getComponent={() =>
+                        import(/* webpackChunkName: "itinerary" */ './component/PrintableItinerary').then(
+                          getDefault,
+                        )
+                      }
+                      printPage
+                      render={getComponentOrLoadingRenderer}
+                    />
+                    <Route
+                      getComponent={() =>
+                        import(/* webpackChunkName: "itinerary" */ './component/ItineraryTab').then(
+                          getDefault,
+                        )
+                      }
+                      render={getComponentOrLoadingRenderer}
+                    />
+                  </Route>,
                 ],
-                map: (
+                map: [
+                  <Route path="" />,
                   <Route
-                    path="(.*)?"
-                    getComponent={match =>
-                      match.params.hashId
-                        ? import(/* webpackChunkName: "itinerary" */ './component/ItineraryPageMap').then(
-                            getDefault,
-                          )
-                        : null
+                    path="/:hash/(.*)?"
+                    getComponent={() =>
+                      import(/* webpackChunkName: "itinerary" */ './component/ItineraryPageMap').then(
+                        getDefault,
+                      )
                     }
                     render={getComponentOrNullRenderer}
-                  />
-                ),
+                  />,
+                ],
               }}
             </Route>
           ),

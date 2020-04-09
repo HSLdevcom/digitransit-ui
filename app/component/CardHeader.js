@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { Fragment } from 'react';
 import cx from 'classnames';
 import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import SplitBars from './SplitBars';
 import Favourite from './Favourite';
+import BackButton from './BackButton'; // DT-3472
 
 const CardHeader = ({
   className,
@@ -18,40 +19,52 @@ const CardHeader = ({
   icon,
   icons,
   unlinked,
+  showBackButton, // DT-3472
+  backButtonColor, // DT-3472
 }) => (
-  <div className={cx('card-header', className)}>
-    {children}
-    <div className="card-header-content">
-      {icon ? (
-        <div
-          className="left"
-          style={{ fontSize: 32, paddingRight: 10, height: 32 }}
-        >
-          <Icon img={icon} />
-        </div>
-      ) : null}
-      {className === 'stop-page header' && (
-        <div className="stop-page-header_icon-container">
-          <Icon img="icon-icon_bus-stop" className="stop-page-header_icon" />
-        </div>
+  <Fragment>
+    <div className={cx('card-header', className)}>
+      {showBackButton && (
+        <BackButton
+          icon="icon-icon_arrow-collapse--left"
+          color={backButtonColor}
+          iconClassName="arrow-icon"
+          customStyle={{ paddingTop: '0px', marginBottom: '10px' }}
+        />
       )}
-      <div className="card-header-wrapper">
-        <span className={headingStyle || 'h4'}>
-          {name}
-          {externalLink || null}
-          {headerIcon}
-          {unlinked ? null : <span className="link-arrow"> ›</span>}
-        </span>
-        <div className="card-sub-header">
-          {code != null ? <p className="card-code">{code}</p> : null}
-          {description != null && description !== 'null' ? (
-            <p className="sub-header-h4">{description}</p>
-          ) : null}
+      {children}
+      <div className="card-header-content">
+        {icon ? (
+          <div
+            className="left"
+            style={{ fontSize: 32, paddingRight: 10, height: 32 }}
+          >
+            <Icon img={icon} />
+          </div>
+        ) : null}
+        {className === 'stop-page header' && (
+          <div className="stop-page-header_icon-container">
+            <Icon img="icon-icon_bus-stop" className="stop-page-header_icon" />
+          </div>
+        )}
+        <div className="card-header-wrapper">
+          <span className={headingStyle || 'h4'}>
+            {name}
+            {externalLink || null}
+            {headerIcon}
+            {unlinked ? null : <span className="link-arrow"> ›</span>}
+          </span>
+          <div className="card-sub-header">
+            {code != null ? <p className="card-code">{code}</p> : null}
+            {description != null && description !== 'null' ? (
+              <p className="sub-header-h4">{description}</p>
+            ) : null}
+          </div>
         </div>
+        {icons && icons.length ? <SplitBars>{icons}</SplitBars> : null}
       </div>
-      {icons && icons.length ? <SplitBars>{icons}</SplitBars> : null}
     </div>
-  </div>
+  </Fragment>
 );
 
 const emptyFunction = () => {};
@@ -96,6 +109,8 @@ CardHeader.propTypes = {
   icons: PropTypes.arrayOf(PropTypes.node),
   children: PropTypes.node,
   unlinked: PropTypes.bool,
+  showBackButton: PropTypes.bool, // DT-3472
+  backButtonColor: PropTypes.string, // DT-3472
 };
 
 CardHeader.defaultProps = {

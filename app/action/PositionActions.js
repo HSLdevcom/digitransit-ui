@@ -49,13 +49,13 @@ const setCurrentLocation = (actionContext, position) =>
   actionContext.dispatch('GeolocationFound', position);
 
 export function geolocatonCallback(actionContext, { pos, disableDebounce }) {
+  actionContext.dispatch('StartReverseGeocoding');
   setCurrentLocation(actionContext, {
     lat: pos.coords.latitude,
     lon: pos.coords.longitude,
     heading: pos.coords.heading,
     disableFiltering: disableDebounce,
   });
-
   if (disableDebounce) {
     runReverseGeocodingAction(
       actionContext,

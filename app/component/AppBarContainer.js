@@ -8,29 +8,76 @@ import AppBarSmall from './AppBarSmall';
 import AppBarLarge from './AppBarLarge';
 import { DesktopOrMobile } from '../util/withBreakpoint';
 
-const AppBarContainer = ({ router, match, homeUrl, logo, user, ...args }) => (
+// DT-3375: added style
+const AppBarContainer = ({
+  router,
+  match,
+  homeUrl,
+  logo,
+  user,
+  style,
+  ...args
+}) => (
   <Fragment>
     <a href="#mainContent" id="skip-to-content-link">
       <FormattedMessage id="skip-to-content" defaultMessage="Skip to content" />
     </a>
     <DesktopOrMobile
-      mobile={() => (
-        <AppBarSmall
-          {...args}
-          showLogo={match.location.pathname === homeUrl}
-          logo={logo}
-          homeUrl={homeUrl}
-          user={user}
-        />
-      )}
-      desktop={() => (
-        <AppBarLarge
-          {...args}
-          logo={logo}
-          titleClicked={() => router.push(homeUrl)}
-          user={user}
-        />
-      )}
+      mobile={() => {
+        if (style === 'hsl') {
+          return (
+            <div className="top-bar">
+              <span
+                style={{
+                  color: '#ffffff',
+                  fontSize: '1rem',
+                  padding: 10,
+                  paddingTop: 2,
+                  paddingBottom: 2,
+                }}
+              >
+                HSL navi - small
+              </span>
+            </div>
+          );
+        }
+        return (
+          <AppBarSmall
+            {...args}
+            showLogo={match.location.pathname === homeUrl}
+            logo={logo}
+            homeUrl={homeUrl}
+            user={user}
+          />
+        );
+      }}
+      desktop={() => {
+        if (style === 'hsl') {
+          return (
+            <div className="top-bar">
+              <span
+                style={{
+                  color: '#ffffff',
+                  fontSize: '2rem',
+                  padding: 60,
+                  paddingTop: 5,
+                  paddingBottom: 5,
+                }}
+              >
+                HSL navi - large
+              </span>
+            </div>
+          );
+        }
+        return (
+          <AppBarLarge
+            {...args}
+            logo={logo}
+            titleClicked={() => router.push(homeUrl)}
+            user={user}
+          />
+        );
+      }}
     />
   </Fragment>
 );
@@ -41,6 +88,7 @@ AppBarContainer.propTypes = {
   homeUrl: PropTypes.string.isRequired,
   logo: PropTypes.string,
   user: PropTypes.object,
+  style: PropTypes.string.isRequired, // DT-3375
 };
 
 const WithContext = connectToStores(

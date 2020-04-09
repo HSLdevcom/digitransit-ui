@@ -22,6 +22,10 @@ const defaultProps = {
     feedIds: [],
     stopsMinZoom: 0,
     showAllBusses: false,
+    map: {
+      // DT-3470
+      showZoomControl: true,
+    },
   },
   mapLayers: {
     geoJson: {},
@@ -43,6 +47,10 @@ const defaultContext = {
       },
     },
     showAllBusses: false,
+    map: {
+      // DT-3470
+      showZoomControl: true,
+    },
   },
   executeAction: sinon.stub(),
 };
