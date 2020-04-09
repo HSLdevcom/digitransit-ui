@@ -367,6 +367,15 @@ export default configMerger(walttiConfig, {
         },
         url: '/assets/geojson/hb-layers/charging.geojson',
       },
+      // LoRaWan map layer
+      {
+        name: {
+          fi: '',
+          en: 'LoRaWAN Gateways',
+          de: 'LoRaWAN Gateways',
+        },
+        url: '/assets/geojson/hb-layers/lorawan-gateways.geojson',
+      },
     ],
 },
 staticMessagesUrl: STATIC_MESSAGE_URL,
