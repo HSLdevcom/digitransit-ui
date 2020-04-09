@@ -22,7 +22,7 @@ module.exports = {
     'react/jsx-key': 'error',
     'react/forbid-foreign-prop-types': 'off',
     'react/forbid-prop-types': ['off', { forbid: ['any', 'array', 'object'] }],
-    'react/require-default-props': 'warn',
+    'react/require-default-props': 'off',
     
     // jsx-a11y
     'jsx-a11y/anchor-is-valid': [ 'error', {
