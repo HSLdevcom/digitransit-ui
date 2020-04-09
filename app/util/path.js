@@ -13,6 +13,7 @@ export const PREFIX_ROUTES = 'routen';
 export const PREFIX_STOPS = 'haltestellen';
 export const PREFIX_TERMINALS = 'busbahnhoefe';
 export const PREFIX_ITINERARY_SUMMARY = 'reiseplan';
+export const PREFIX_DISRUPTION = 'stoerungen';
 export const stopUrl = id => id;
 
 export const getRoutePath = (origin, destination) =>

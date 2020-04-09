@@ -25,13 +25,13 @@ import {
   isAlertActive,
   getActiveAlertSeverityLevel,
 } from '../util/alertUtils';
-import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
+import { PREFIX_DISRUPTION, PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 import { RouteAlertsQuery, StopAlertsQuery } from '../util/alertQueries';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const Tab = {
-  Disruptions: 'hairiot',
+  Disruptions: PREFIX_DISRUPTION,
   Stops: PREFIX_STOPS,
   Timetable: 'aikataulu',
 };
@@ -173,7 +173,7 @@ class RoutePage extends React.Component {
       case PREFIX_STOPS:
         action = 'OpenStopsTab';
         break;
-      case 'hairiot':
+      case PREFIX_DISRUPTION:
         action = 'OpenDisruptionsTab';
         break;
       default:
