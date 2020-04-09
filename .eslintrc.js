@@ -9,17 +9,20 @@ module.exports = {
   ],
   'rules': {
     'curly': ['error', 'all'],
-    'lines-between-class-members': 'warn',
-    'no-else-return': 'warn',
+    'lines-between-class-members': 'off',
+    'no-alert': 'error',
+    'no-else-return': 'error',
     'no-plusplus': ['error', { "allowForLoopAfterthoughts": true }],
     'no-console': 'error',
+    'func-names': 'off',
     // react
-    'react/button-has-type': 'warn',
+    'react/button-has-type': 'off',
     'react/destructuring-assignment': 'off',
     'react/jsx-filename-extension': ['error', { "extensions": [".js"] }],
     'react/jsx-key': 'error',
-    'react/forbid-prop-types': ['warn', { forbid: ['any', 'array', 'object'] }],
-    'react/require-default-props': 'warn',
+    'react/forbid-foreign-prop-types': 'off',
+    'react/forbid-prop-types': ['off', { forbid: ['any', 'array', 'object'] }],
+    'react/require-default-props': 'off',
     
     // jsx-a11y
     'jsx-a11y/anchor-is-valid': [ 'error', {

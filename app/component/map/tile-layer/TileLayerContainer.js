@@ -54,6 +54,10 @@ class TileLayerContainer extends GridLayer {
     }).isRequired,
   };
 
+  static defaultProps = {
+    disableMapTracking: () => {},
+  };
+
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
     intl: intlShape.isRequired,

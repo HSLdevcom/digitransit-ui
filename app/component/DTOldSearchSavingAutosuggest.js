@@ -22,7 +22,7 @@ class DTOldSearchSavingAutosuggest extends React.Component {
     placeholder: PropTypes.string,
     refPoint: dtLocationShape.isRequired,
     searchType: PropTypes.string.isRequired,
-    value: PropTypes.string,
+    value: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -30,6 +30,7 @@ class DTOldSearchSavingAutosuggest extends React.Component {
     icon: undefined,
     className: '',
     placeholder: '',
+    isFocused: () => {},
   };
 
   finishSelect = (item, type) => {

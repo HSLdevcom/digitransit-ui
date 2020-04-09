@@ -49,6 +49,7 @@ export class DTEndpointAutosuggestComponent extends React.Component {
     isPreferredRouteSearch: false,
     onRouteSelected: undefined,
     showSpinner: false,
+    isFocused: () => {},
   };
 
   state = {};

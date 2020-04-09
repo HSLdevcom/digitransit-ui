@@ -43,6 +43,7 @@ PlatformNumber.propTypes = {
 PlatformNumber.defaultProps = {
   number: undefined,
   short: true,
+  isRailOrSubway: false,
 };
 
 PlatformNumber.displayName = 'PlatformNumber';

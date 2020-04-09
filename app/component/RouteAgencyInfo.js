@@ -24,7 +24,7 @@ RouteAgencyInfo.contextTypes = {
 };
 
 RouteAgencyInfo.propTypes = {
-  route: PropTypes.object,
+  route: PropTypes.object.isRequired,
 };
 
 export default Relay.createContainer(RouteAgencyInfo, {

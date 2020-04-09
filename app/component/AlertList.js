@@ -114,6 +114,7 @@ AlertList.defaultProps = {
   disableScrolling: false,
   serviceAlerts: [],
   showExpired: false,
+  showRouteNameLink: false,
 };
 
 AlertList.description = (

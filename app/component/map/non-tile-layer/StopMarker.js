@@ -35,6 +35,12 @@ class StopMarker extends React.Component {
     selected: PropTypes.bool,
   };
 
+  static defaultProps = {
+    renderName: false,
+    disableModeIcons: false,
+    selected: false,
+  };
+
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
     config: PropTypes.object.isRequired,

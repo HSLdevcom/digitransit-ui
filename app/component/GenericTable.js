@@ -41,4 +41,8 @@ GenericTable.propTypes = {
   children: PropTypes.node,
 };
 
+GenericTable.defaultProps = {
+  showLabels: false,
+};
+
 export default GenericTable;

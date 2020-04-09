@@ -36,4 +36,8 @@ RouteList.propTypes = {
   }).isRequired,
 };
 
+RouteList.defaultProps = {
+  className: '',
+};
+
 export default RouteList;

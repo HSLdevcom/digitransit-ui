@@ -64,4 +64,11 @@ AppBarSmall.propTypes = {
   logIn: PropTypes.func,
 };
 
+AppBarSmall.defaultProps = {
+  disableBackButton: false,
+  showLogo: false,
+  loggedIn: false,
+  logIn: () => {},
+};
+
 export default AppBarSmall;

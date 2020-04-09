@@ -75,9 +75,9 @@ const StopPageActionBar = ({
 StopPageActionBar.displayName = 'StopPageActionBar';
 
 StopPageActionBar.propTypes = {
-  startDate: PropTypes.string,
-  selectedDate: PropTypes.string,
-  onDateChange: PropTypes.func,
+  startDate: PropTypes.string.isRequired,
+  selectedDate: PropTypes.string.isRequired,
+  onDateChange: PropTypes.func.isRequired,
   stopPDFURL: PropTypes.string,
 };
 

@@ -53,6 +53,11 @@ AppBarContainer.propTypes = {
   logIn: PropTypes.func,
 };
 
+AppBarContainer.defaultProps = {
+  loggedIn: false,
+  logIn: () => {},
+};
+
 const WithContext = getContext({
   location: locationShape.isRequired,
   router: routerShape.isRequired,

@@ -42,4 +42,9 @@ FavouriteIconTable.propTypes = {
   selectedIconId: PropTypes.string,
 };
 
+FavouriteIconTable.defaultProps = {
+  favouriteIconIds: [],
+  selectedIconId: '',
+};
+
 export default FavouriteIconTable;

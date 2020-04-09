@@ -32,7 +32,7 @@ AddIcon.description = () => (
 AddIcon.displayName = 'IconWithCaution';
 
 AddIcon.propTypes = {
-  id: PropTypes.string,
+  id: PropTypes.string.isRequired,
 };
 
 export default AddIcon;

@@ -20,8 +20,12 @@ const Favourite = ({ addFavourite, favourite, className }) => (
 
 Favourite.propTypes = {
   addFavourite: PropTypes.func.isRequired,
-  favourite: PropTypes.bool,
+  favourite: PropTypes.bool.isRequired,
   className: PropTypes.string,
+};
+
+Favourite.defaultProps = {
+  className: '',
 };
 
 Favourite.description = () => (

@@ -26,4 +26,8 @@ TripListHeader.propTypes = {
   className: PropTypes.string,
 };
 
+TripListHeader.defaultProps = {
+  className: '',
+};
+
 export default TripListHeader;

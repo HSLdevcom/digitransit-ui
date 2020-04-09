@@ -110,11 +110,15 @@ FavouriteLocation.description = () => (
 
 FavouriteLocation.propTypes = {
   favourite: PropTypes.object,
-  clickFavourite: PropTypes.func,
+  clickFavourite: PropTypes.func.isRequired,
   className: PropTypes.string,
   departureTime: PropTypes.number,
   currentTime: PropTypes.number,
   firstTransitLeg: PropTypes.object,
+};
+
+FavouriteLocation.defaultProps = {
+  className: '',
 };
 
 FavouriteLocation.displayName = 'FavouriteLocation';

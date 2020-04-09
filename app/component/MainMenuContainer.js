@@ -26,6 +26,8 @@ class MainMenuContainer extends Component {
 
   static defaultProps = {
     isOpen: false,
+    loggedIn: false,
+    logIn: () => {},
   };
 
   mainMenuModules = {

@@ -8,10 +8,10 @@ import routeCompare from '../util/route-compare';
 
 class FilterTimeTableModal extends React.Component {
   static propTypes = {
-    stop: PropTypes.object,
-    setRoutes: PropTypes.func,
-    showFilterModal: PropTypes.func,
-    showRoutesList: PropTypes.array,
+    stop: PropTypes.object.isRequired,
+    setRoutes: PropTypes.func.isRequired,
+    showFilterModal: PropTypes.func.isRequired,
+    showRoutesList: PropTypes.array.isRequired,
   };
 
   constructor(props) {

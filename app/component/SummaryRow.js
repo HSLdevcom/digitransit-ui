@@ -513,6 +513,11 @@ SummaryRow.propTypes = {
 SummaryRow.defaultProps = {
   zones: [],
   renderAlwaysNonTransitLegs: false,
+  passive: false,
+  open: false,
+  intermediatePlaces: [],
+  isCancelled: false,
+  showCancelled: false,
 };
 
 SummaryRow.contextTypes = {

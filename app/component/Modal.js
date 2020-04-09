@@ -17,6 +17,8 @@ class Modal extends React.Component {
 
   static defaultProps = {
     disableScrolling: false,
+    allowClicks: false,
+    open: false,
   };
 
   stopClickPropagation = e => {

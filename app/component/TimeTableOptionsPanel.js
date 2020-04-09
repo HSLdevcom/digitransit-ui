@@ -7,9 +7,9 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class TimeTableOptionsPanel extends React.Component {
   static propTypes = {
-    stop: PropTypes.object,
-    showRoutes: PropTypes.array,
-    showFilterModal: PropTypes.func,
+    stop: PropTypes.object.isRequired,
+    showRoutes: PropTypes.array.isRequired,
+    showFilterModal: PropTypes.func.isRequired,
   };
 
   getRouteNames = routes => {

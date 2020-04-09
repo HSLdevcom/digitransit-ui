@@ -72,6 +72,7 @@ class RoutingSettingsButtons extends React.Component {
         Number(settings.timeFactor) !==
         1.0
     ) {
+      // eslint-disable-next-line no-alert
       alert('Cycling safety, slope, and time factors should equal to 1.0');
     } else {
       setRoutingSettings(settings);

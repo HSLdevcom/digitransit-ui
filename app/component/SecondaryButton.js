@@ -37,6 +37,10 @@ secondaryButton.propTypes = {
   smallSize: PropTypes.bool,
 };
 
+secondaryButton.defaultProps = {
+  smallSize: false,
+};
+
 secondaryButton.contextTypes = {
   intl: intlShape.isRequired,
 };

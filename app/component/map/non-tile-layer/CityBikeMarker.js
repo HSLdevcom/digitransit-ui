@@ -57,12 +57,9 @@ class CityBikeMarker extends React.Component {
     transit: PropTypes.bool,
   };
 
-  static contextTypes = {
-    config: PropTypes.object.isRequired,
-  };
-
   static defaultProps = {
     showBikeAvailability: false,
+    transit: false,
   };
 
   static contextTypes = {

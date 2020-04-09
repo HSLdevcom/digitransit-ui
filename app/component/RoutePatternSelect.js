@@ -19,13 +19,17 @@ const DATE_FORMAT = 'YYYYMMDD';
 
 class RoutePatternSelect extends Component {
   static propTypes = {
-    params: PropTypes.object,
+    params: PropTypes.object.isRequired,
     className: PropTypes.string,
-    route: PropTypes.object,
+    route: PropTypes.object.isRequired,
     onSelectChange: PropTypes.func.isRequired,
     serviceDay: PropTypes.string.isRequired,
     relay: PropTypes.object.isRequired,
     gtfsId: PropTypes.string.isRequired,
+  };
+
+  static defaultProps = {
+    className: '',
   };
 
   static contextTypes = {

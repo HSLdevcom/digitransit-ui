@@ -28,6 +28,8 @@ class TripStopListContainer extends React.PureComponent {
 
   static defaultProps = {
     vehicles: {},
+    className: '',
+    breakpoint: '',
   };
 
   static contextTypes = {

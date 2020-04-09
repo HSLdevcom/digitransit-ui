@@ -78,11 +78,17 @@ RouteDestination.description = () => (
 );
 
 RouteDestination.propTypes = {
-  mode: PropTypes.string,
-  destination: PropTypes.string,
+  mode: PropTypes.string.isRequired,
+  destination: PropTypes.string.isRequired,
   className: PropTypes.string,
   isArrival: PropTypes.bool,
   isLastStop: PropTypes.bool,
+};
+
+RouteDestination.defaultProps = {
+  className: '',
+  isArrival: false,
+  isLastStop: false,
 };
 
 RouteDestination.contextTypes = {

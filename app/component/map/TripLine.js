@@ -6,8 +6,12 @@ import RouteLine from './route/RouteLine';
 const TripLine = props => <RouteLine thin {...props} />;
 
 TripLine.propTypes = {
-  pattern: PropTypes.object,
+  pattern: PropTypes.object.isRequired,
   filteredStops: PropTypes.array,
+};
+
+TripLine.defaultProps = {
+  filteredStops: [],
 };
 
 export default Relay.createContainer(TripLine, {

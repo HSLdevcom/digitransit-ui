@@ -116,6 +116,7 @@ IntermediateLeg.defaultProps = {
   currentZoneId: undefined,
   nextZoneId: undefined,
   isCanceled: false,
+  realTime: false,
 };
 
 export default IntermediateLeg;

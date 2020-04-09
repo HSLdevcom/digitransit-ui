@@ -25,4 +25,8 @@ Duration.propTypes = {
   className: PropTypes.string,
 };
 
+Duration.defaultProps = {
+  className: '',
+};
+
 export default Duration;

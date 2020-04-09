@@ -13,7 +13,7 @@ function WalkDistance(props) {
       ? `${roundedWalkDistanceInM}m`
       : `${roundedWalkDistanceInKm}km`;
 
-  const icon = `icon-${props.icon || 'icon_walk'}`;
+  const icon = `icon-${props.icon}`;
 
   return (
     <span className={cx(props.className)} style={{ whiteSpace: 'nowrap' }}>
@@ -31,6 +31,11 @@ WalkDistance.propTypes = {
   walkDistance: PropTypes.number.isRequired,
   icon: PropTypes.string,
   className: PropTypes.string,
+};
+
+WalkDistance.defaultProps = {
+  icon: 'icon_walk',
+  className: '',
 };
 
 WalkDistance.displayName = 'WalkDistance';

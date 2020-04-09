@@ -57,4 +57,8 @@ SelectedIconWithTail.propTypes = {
   fullscreenMap: PropTypes.bool,
 };
 
+SelectedIconWithTail.defaultProps = {
+  fullscreenMap: false,
+};
+
 export default SelectedIconWithTail;
