@@ -6,7 +6,12 @@ import Redirect from 'found/lib/Redirect';
 import { graphql } from 'react-relay';
 
 import Error404 from './component/404';
-import { PREFIX_DISRUPTION, PREFIX_ROUTES, PREFIX_STOPS } from './util/path';
+import {
+  PREFIX_DISRUPTION,
+  PREFIX_ROUTES,
+  PREFIX_STOPS,
+  PREFIX_TIMETABLE,
+} from './util/path';
 import {
   getDefault,
   getComponentOrNullRenderer,
@@ -169,9 +174,9 @@ export default (
               render={getComponentOrLoadingRenderer}
             />
           </Route>,
-          <Route path="aikataulu">
+          <Route path={PREFIX_TIMETABLE}>
             <Redirect
-              to={`/${PREFIX_ROUTES}/:routeId/aikataulu/:routeId%3A0%3A01`}
+              to={`/${PREFIX_ROUTES}/:routeId/${PREFIX_TIMETABLE}/:routeId%3A0%3A01`}
             />
             <Route
               path=":patternId"

@@ -13,6 +13,7 @@ export const PREFIX_STOPS = 'pysakit';
 export const PREFIX_TERMINALS = 'terminaalit';
 export const PREFIX_ITINERARY_SUMMARY = 'reitti';
 export const PREFIX_DISRUPTION = 'hairiot';
+export const PREFIX_TIMETABLE = 'aikataulu';
 export const stopUrl = id => id;
 
 export const getRoutePath = (origin, destination) =>

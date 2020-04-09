@@ -29,7 +29,12 @@ import {
   getCancelationsForStop,
   getServiceAlertsForStopRoutes,
 } from '../util/alertUtils';
-import { PREFIX_DISRUPTION, PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
+import {
+  PREFIX_DISRUPTION,
+  PREFIX_ROUTES,
+  PREFIX_STOPS,
+  PREFIX_TIMETABLE,
+} from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import BackButton from './BackButton'; // DT-3472
@@ -37,7 +42,7 @@ import BackButton from './BackButton'; // DT-3472
 const Tab = {
   Disruptions: PREFIX_DISRUPTION,
   Stops: PREFIX_STOPS,
-  Timetable: 'aikataulu',
+  Timetable: PREFIX_TIMETABLE,
 };
 
 const getActiveTab = pathname => {
@@ -221,7 +226,7 @@ class RoutePage extends React.Component {
     this.props.router.replace(path);
     let action;
     switch (tab) {
-      case 'aikataulu':
+      case PREFIX_TIMETABLE:
         action = 'OpenTimetableTab';
         break;
       case PREFIX_STOPS:

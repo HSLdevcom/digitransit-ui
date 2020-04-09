@@ -8,6 +8,7 @@ import {
   PREFIX_TERMINALS,
   PREFIX_ROUTES,
   PREFIX_DISRUPTION,
+  PREFIX_TIMETABLE,
 } from './util/path';
 import {
   getDefault,
@@ -219,7 +220,7 @@ export default function getStopRoutes(isTerminal = false) {
                 render={getComponentOrLoadingRenderer}
               />
               <Route
-                path="aikataulu"
+                path={PREFIX_TIMETABLE}
                 getComponent={() => {
                   return isTerminal
                     ? import(/* webpackChunkName: "stop" */ './component/TerminalTimetablePage')
