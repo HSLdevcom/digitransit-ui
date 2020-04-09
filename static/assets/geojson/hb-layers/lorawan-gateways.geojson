@@ -1,0 +1,178 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "gateway_desc": "LRABB_Herrenberg_01",
+        "gateway_id": "eui-7276ff000b03241e",
+        "icon": {
+          "id": "lorawanIcon",
+          "svg": ""
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            8.8291755,
+            48.6226392
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "gateway_desc": "LRABB_Herrenberg_02",
+        "gateway_id": "eui-7276ff000b0323a8",
+        "icon": {
+          "id": "lorawanIcon"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            8.8478541787,
+            48.61351925
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "gateway_desc": "LRABB_Herrenberg_03",
+        "gateway_id": "eui-7276ff000b032400",
+        "icon": {
+          "id": "lorawanIcon"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            8.8752811704,
+            48.59177235
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "gateway_desc": "LRABB_Herrenberg_04",
+        "gateway_id": "eui-7276ff000b032410",
+        "icon": {
+          "id": "lorawanIcon"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            8.8303055,
+            48.5834651
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "gateway_desc": "LRABB_schoenbuchturm",
+        "gateway_id": "eui-7276ff000b032232",
+        "icon": {
+          "id": "lorawanIcon"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            8.90928526,
+            48.60377519
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "gateway_desc": "gateway_herrenberg_0001",
+        "gateway_id": "eui-7276ff000b030c16",
+        "icon": {
+          "id": "lorawanIcon"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            8.87278152,
+            48.59764323
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "gateway_desc": "gateway_herrenberg_0002",
+        "gateway_id": "eui-7276ff000b030fca",
+        "icon": {
+          "id": "lorawanIcon"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            8.86913277,
+            48.59524912
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "gateway_desc": "gateway_herrenberg_0003",
+        "gateway_id": "eui-7276ff000b030895",
+        "icon": {
+          "id": "lorawanIcon"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            8.87569754,
+            48.59830607
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "gateway_desc": "gateway_herrenberg_0004",
+        "gateway_id": "eui-7276ff000b031199",
+        "icon": {
+          "id": "lorawanIcon"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            8.87086225,
+            48.59504191
+          ]
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "gateway_desc": "gateway_herrenberg_0005",
+        "gateway_id": "eui-7276ff0039040124",
+        "latitude": 48.59504191,
+        "longitude": 8.87086225,
+        "icon": {
+          "id": "lorawanIcon"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            8.87758101,
+            48.5909327
+          ]
+        }
+      }
+    }
+  ]
+}
