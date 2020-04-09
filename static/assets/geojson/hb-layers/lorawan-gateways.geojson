@@ -4,6 +4,8 @@
     {
       "type": "Feature",
       "properties": {
+        "name": "LoRaWAN Gateway",
+        "address": "LRABB_Herrenberg_01",
         "gateway_desc": "LRABB_Herrenberg_01",
         "gateway_id": "eui-7276ff000b03241e",
         "icon": {
@@ -22,6 +24,8 @@
     {
       "type": "Feature",
       "properties": {
+        "name": "LoRaWAN Gateway",
+        "address": "LRABB_Herrenberg_02",
         "gateway_desc": "LRABB_Herrenberg_02",
         "gateway_id": "eui-7276ff000b0323a8",
         "icon": {
@@ -39,6 +43,8 @@
     {
       "type": "Feature",
       "properties": {
+        "name": "LoRaWAN Gateway",
+        "address": "LRABB_Herrenberg_03",
         "gateway_desc": "LRABB_Herrenberg_03",
         "gateway_id": "eui-7276ff000b032400",
         "icon": {
@@ -56,6 +62,8 @@
     {
       "type": "Feature",
       "properties": {
+        "name": "LoRaWAN Gateway",
+        "address": "LRABB_Herrenberg_04",
         "gateway_desc": "LRABB_Herrenberg_04",
         "gateway_id": "eui-7276ff000b032410",
         "icon": {
@@ -73,6 +81,8 @@
     {
       "type": "Feature",
       "properties": {
+        "name": "LoRaWAN Gateway",
+        "address": "LRABB_schoenbuchturm",
         "gateway_desc": "LRABB_schoenbuchturm",
         "gateway_id": "eui-7276ff000b032232",
         "icon": {
@@ -90,6 +100,8 @@
     {
       "type": "Feature",
       "properties": {
+        "name": "LoRaWAN Gateway",
+        "address": "gateway_herrenberg_0001",
         "gateway_desc": "gateway_herrenberg_0001",
         "gateway_id": "eui-7276ff000b030c16",
         "icon": {
@@ -107,6 +119,8 @@
     {
       "type": "Feature",
       "properties": {
+        "name": "LoRaWAN Gateway",
+        "address": "gateway_herrenberg_0002",
         "gateway_desc": "gateway_herrenberg_0002",
         "gateway_id": "eui-7276ff000b030fca",
         "icon": {
@@ -124,6 +138,8 @@
     {
       "type": "Feature",
       "properties": {
+        "name": "LoRaWAN Gateway",
+        "address": "gateway_herrenberg_0003",
         "gateway_desc": "gateway_herrenberg_0003",
         "gateway_id": "eui-7276ff000b030895",
         "icon": {
@@ -141,6 +157,8 @@
     {
       "type": "Feature",
       "properties": {
+        "name": "LoRaWAN Gateway",
+        "address": "gateway_herrenberg_0004",
         "gateway_desc": "gateway_herrenberg_0004",
         "gateway_id": "eui-7276ff000b031199",
         "icon": {
@@ -158,6 +176,8 @@
     {
       "type": "Feature",
       "properties": {
+        "name": "LoRaWAN Gateway",
+        "address": "gateway_herrenberg_0005",
         "gateway_desc": "gateway_herrenberg_0005",
         "gateway_id": "eui-7276ff0039040124",
         "latitude": 48.59504191,
