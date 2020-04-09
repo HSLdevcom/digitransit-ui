@@ -3,7 +3,7 @@ import { Route, IndexRoute } from 'react-router';
 import Relay from 'react-relay/classic';
 
 import Error404 from './component/404';
-import { PREFIX_STOPS, PREFIX_TERMINALS, PREFIX_ROUTES } from './util/path';
+import { PREFIX_STOPS, PREFIX_TERMINALS, PREFIX_ROUTES, PREFIX_DISRUPTION } from './util/path';
 import {
   getDefault,
   loadRoute,
@@ -121,7 +121,7 @@ export default function getStopRoutes(isTerminal = false) {
           <Route path="kartta" fullscreenMap />
         </Route>
         <Route
-          path="hairiot"
+          path={PREFIX_DISRUPTION}
           getComponent={getDisruptions}
           queries={queries}
           render={RelayRenderer}
