@@ -102,6 +102,37 @@ export default configMerger(walttiConfig, {
   showAllBusses: true,
   showVehiclesOnStopPage: true,
 
+  cityBike: {
+    showCityBikes: true,
+    useUrl: {
+      fi: 'https://kaupunkipyorat.kuopio.fi/',
+      sv: 'https://kaupunkipyorat.kuopio.fi/?lang=2',
+      en: 'https://kaupunkipyorat.kuopio.fi/?lang=2',
+    },
+    networks: {
+      vilkku: {
+        icon: 'citybike',
+        name: {
+          fi: 'Vilkku',
+          sv: 'Vilkku',
+          en: 'Vilkku',
+        },
+        type: 'citybike',
+        url: {
+          fi: 'https://kaupunkipyorat.kuopio.fi/',
+          sv: 'https://kaupunkipyorat.kuopio.fi/?lang=2',
+          en: 'https://kaupunkipyorat.kuopio.fi/?lang=2',
+        },
+      },
+    },
+  },
+
+  transportModes: {
+    citybike: {
+      availableForSelection: true,
+    },
+  },
+
   footer: {
     content: [
       { label: `© Kuopio ${walttiConfig.YEAR}` },
