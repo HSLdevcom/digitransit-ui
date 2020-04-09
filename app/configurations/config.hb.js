@@ -375,6 +375,7 @@ export default configMerger(walttiConfig, {
           de: 'LoRaWAN Gateways',
         },
         url: '/assets/geojson/hb-layers/lorawan-gateways.geojson',
+        isOffByDefault: true,
       },
     ],
 },
