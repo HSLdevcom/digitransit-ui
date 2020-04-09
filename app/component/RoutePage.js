@@ -29,7 +29,12 @@ import {
   getCancelationsForStop,
   getServiceAlertsForStopRoutes,
 } from '../util/alertUtils';
-import { PREFIX_DISRUPTION, PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
+import {
+  PREFIX_DISRUPTION,
+  PREFIX_ROUTES,
+  PREFIX_STOPS,
+  PREFIX_TIMETABLE,
+} from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 import {
   RouteAlertsQuery,
@@ -40,7 +45,7 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 const Tab = {
   Disruptions: PREFIX_DISRUPTION,
   Stops: PREFIX_STOPS,
-  Timetable: 'aikataulu',
+  Timetable: PREFIX_TIMETABLE,
 };
 
 const getActiveTab = pathname => {
@@ -228,7 +233,7 @@ class RoutePage extends React.Component {
     this.context.router.replace(path);
     let action;
     switch (tab) {
-      case 'aikataulu':
+      case PREFIX_TIMETABLE:
         action = 'OpenTimetableTab';
         break;
       case PREFIX_STOPS:

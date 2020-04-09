@@ -24,13 +24,19 @@ import {
 } from '../util/alertUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { PREFIX_DISRUPTION, PREFIX_ROUTES, PREFIX_STOPS, PREFIX_TERMINALS } from '../util/path';
+import {
+  PREFIX_DISRUPTION,
+  PREFIX_ROUTES,
+  PREFIX_STOPS,
+  PREFIX_TERMINALS,
+  PREFIX_TIMETABLE,
+} from '../util/path';
 
 const Tab = {
   Disruptions: PREFIX_DISRUPTION,
   RightNow: 'right-now',
   RoutesAndPlatforms: PREFIX_ROUTES,
-  Timetable: 'aikataulu',
+  Timetable: PREFIX_TIMETABLE,
 };
 
 const getActiveTab = pathname => {
