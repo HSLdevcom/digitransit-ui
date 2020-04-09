@@ -235,10 +235,46 @@ VehicleMarkerContainer.defaultProps = {
 const connectedComponent = connectToStores(
   getRelayEnvironment(VehicleMarkerContainer),
   ['RealTimeInformationStore'],
-  (context, props) => ({
-    ...props,
-    vehicles: context.getStore('RealTimeInformationStore').vehicles,
-  }),
+  (context, props) => {
+    const { vehicles, itineraryVehicles } = context.getStore(
+      'RealTimeInformationStore',
+    );
+    if (itineraryVehicles) {
+      const filteredVehicles = Object.keys(vehicles)
+        .map(key => vehicles[key])
+        .filter(vehicle => {
+          let isValid = false;
+          if (itineraryVehicles.gtfsIdsOfTrip.includes(vehicle.tripId)) {
+            isValid = true;
+          }
+          if (
+            !isValid &&
+            itineraryVehicles.gtfsIdsOfRouteAndDirection.includes(
+              `${vehicle.route}_${vehicle.direction}`,
+            ) &&
+            itineraryVehicles.startTimes.includes(vehicle.tripStartTime)
+          ) {
+            isValid = true;
+          }
+          return isValid === true;
+        })
+        .reduce(
+          (obj, item) => ({
+            ...obj,
+            [item.id]: item,
+          }),
+          {},
+        );
+      return {
+        ...props,
+        vehicles: filteredVehicles,
+      };
+    }
+    return {
+      ...props,
+      vehicles,
+    };
+  },
 );
 
 const componentWithRelayEnvironment = getRelayEnvironment(

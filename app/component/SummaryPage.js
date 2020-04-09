@@ -20,7 +20,7 @@ import LocationMarker from './map/LocationMarker';
 import MobileItineraryWrapper from './MobileItineraryWrapper';
 import Loading from './Loading';
 import { getIntermediatePlaces } from '../util/queryUtils';
-import { validateServiceTimeRange } from '../util/timeUtils';
+import { validateServiceTimeRange, getStartTime } from '../util/timeUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
 import exampleData from './data/SummaryPage.ExampleData';
@@ -30,6 +30,12 @@ import triggerMessage from '../util/messageUtils';
 import MessageStore from '../store/MessageStore';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { otpToLocation } from '../util/otpStrings';
+
+import {
+  startRealTimeClient,
+  stopRealTimeClient,
+} from '../action/realTimeClientAction';
+import VehicleMarkerContainer from './map/VehicleMarkerContainer';
 
 export const ITINERARYFILTERING_DEFAULT = 1.5;
 
@@ -90,6 +96,26 @@ export function reportError(error) {
   });
 }
 
+const startClient = context => {
+  const { realTime } = context.config;
+  let agency;
+
+  /* handle multiple feedid case */
+  context.config.feedIds.forEach(ag => {
+    if (!agency && realTime[ag]) {
+      agency = ag;
+    }
+  });
+  const source = agency && realTime[agency];
+  if (source && source.active) {
+    const config = {
+      ...source,
+      agency,
+    };
+    context.executeAction(startRealTimeClient, config);
+  }
+};
+
 class SummaryPage extends React.Component {
   static contextTypes = {
     config: PropTypes.object,
@@ -144,6 +170,14 @@ class SummaryPage extends React.Component {
     ) {
       // eslint-disable-next-line no-unused-expressions
       import('../util/feedbackly');
+    }
+    startClient(this.context);
+  }
+
+  componentWillUnmount() {
+    const { client } = this.context.getStore('RealTimeInformationStore');
+    if (client) {
+      this.context.executeAction(stopRealTimeClient, client);
     }
   }
 
@@ -259,6 +293,35 @@ class SummaryPage extends React.Component {
       [centerPoint.lat - delta, centerPoint.lon - delta],
       [centerPoint.lat + delta, centerPoint.lon + delta],
     ];
+
+    let itineraryVehicles = {};
+    const gtfsIdsOfRouteAndDirection = [];
+    const gtfsIdsOfTrip = [];
+    const startTimes = [];
+    itineraries[activeIndex].legs.forEach(leg => {
+      if (leg.transitLeg && leg.trip) {
+        gtfsIdsOfTrip.push(leg.trip.gtfsId);
+        startTimes.push(
+          getStartTime(leg.trip.stoptimesForDate[0].scheduledDeparture),
+        );
+        gtfsIdsOfRouteAndDirection.push(
+          `${leg.route.gtfsId}_${leg.trip.directionId}`,
+        );
+      }
+    });
+    if (startTimes.length > 0) {
+      itineraryVehicles = {
+        gtfsIdsOfTrip,
+        gtfsIdsOfRouteAndDirection,
+        startTimes,
+      };
+    }
+    this.context.getStore(
+      'RealTimeInformationStore',
+    ).itineraryVehicles = itineraryVehicles;
+
+    leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
+
     return (
       <MapContainer
         className="summary-map"
@@ -466,10 +529,24 @@ const containerComponent = createFragmentContainer(SummaryPageWithBreakpoint, {
         ...PrintableItinerary_itinerary
         ...SummaryPlanContainer_itineraries
         legs {
+          mode
           ...ItineraryLine_legs
           transitLeg
           legGeometry {
             points
+          }
+          route {
+            gtfsId
+          }
+          trip {
+            gtfsId
+            directionId
+            stoptimesForDate {
+              scheduledDeparture
+            }
+            pattern {
+              ...RouteLine_pattern
+            }
           }
         }
       }
