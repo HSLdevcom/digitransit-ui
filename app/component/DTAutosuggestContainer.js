@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { matchShape, routerShape } from 'found';
 import { intlShape } from 'react-intl';
-import { suggestionToLocation } from '../util/suggestionUtils';
+import { suggestionToLocation, getLabel } from '../util/suggestionUtils';
 import { getJson } from '../util/xhrPromise';
 import { withCurrentTime } from '../util/searchUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -206,6 +206,8 @@ class DTAutosuggestContainer extends React.Component {
         updateViaPoints={this.props.updateViaPoints}
         swapOrder={this.props.swapOrder}
         getViaPointsFromMap={this.props.getViaPointsFromMap}
+        getLabel={getLabel}
+        addAnalyticsEvent={addAnalyticsEvent}
       />
     );
   }
@@ -229,6 +231,7 @@ class DTAutosuggestContainer extends React.Component {
         locationState={this.props.locationState}
         showSpinner={this.props.showSpinner}
         layers={this.props.layers}
+        getLabel={getLabel}
       />
     );
   }

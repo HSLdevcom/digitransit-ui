@@ -1,15 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { routerShape } from 'found';
 import { intlShape } from 'react-intl';
 import Autosuggest from 'react-autosuggest';
 import { executeSearch, getAllEndpointLayers } from '../util/searchUtils';
 import SuggestionItem from './SuggestionItem';
-import { dtLocationShape } from '../util/shapes';
 import Icon from './Icon';
 import Loading from './Loading';
-import { getLabel } from '../util/suggestionUtils';
 
 class DTAutosuggest extends React.Component {
   static contextTypes = {
@@ -17,7 +14,7 @@ class DTAutosuggest extends React.Component {
     getStore: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
-    router: routerShape.isRequired,
+    router: PropTypes.object.isRequired,
   };
 
   static propTypes = {
@@ -29,7 +26,7 @@ class DTAutosuggest extends React.Component {
     isFocused: PropTypes.func,
     layers: PropTypes.arrayOf(PropTypes.string),
     placeholder: PropTypes.string.isRequired,
-    refPoint: dtLocationShape.isRequired,
+    refPoint: PropTypes.object.isRequired,
     searchType: PropTypes.oneOf(['all', 'endpoint', 'search']).isRequired,
     // selectedFunction: PropTypes.func.isRequired,
     value: PropTypes.string,
@@ -41,6 +38,7 @@ class DTAutosuggest extends React.Component {
     showSpinner: PropTypes.bool,
     storeRef: PropTypes.func,
     handleViaPoints: PropTypes.func,
+    getLabel: PropTypes.func,
   };
 
   static defaultProps = {
@@ -168,7 +166,7 @@ class DTAutosuggest extends React.Component {
   };
 
   getSuggestionValue = suggestion => {
-    const value = getLabel(suggestion.properties);
+    const value = this.props.getLabel(suggestion.properties);
     return value;
   };
 
