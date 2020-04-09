@@ -653,12 +653,14 @@ describe('<TransitLeg />', () => {
           name: 'Test',
           stop: {},
         },
+        duration: 10000,
         intermediatePlaces: [],
         route: {
           gtfsId: '1234',
         },
         startTime: 1553856180000,
         to: {
+          name: 'Testitie',
           stop: {},
         },
         trip: {
