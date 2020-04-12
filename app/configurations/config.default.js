@@ -167,7 +167,7 @@ export default {
   maxBikingDistance: 100000,
   itineraryFiltering: 1.5, // drops 66% worse routes
   useUnpreferredRoutesPenalty: 1200, // adds 10 minute (weight) penalty to routes that are unpreferred
-  availableLanguages: ['fi', 'sv', 'en', 'fr', 'nb', 'de', 'ro'],
+  availableLanguages: ['fi', 'sv', 'en', 'fr', 'nb', 'de', 'da', 'es', 'ro'],
   defaultLanguage: 'en',
   // This timezone data will expire on 31.12.2020
   timezoneData:
