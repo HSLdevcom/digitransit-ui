@@ -39,6 +39,7 @@ class DTAutosuggest extends React.Component {
     storeRef: PropTypes.func,
     handleViaPoints: PropTypes.func,
     getLabel: PropTypes.func,
+    focusChange: PropTypes.func,
   };
 
   static defaultProps = {
@@ -146,6 +147,9 @@ class DTAutosuggest extends React.Component {
         () => {
           this.input.blur();
           this.props.onSelect(ref.suggestion, this.props.id);
+          if (this.props.focusChange) {
+            this.props.focusChange();
+          }
         },
       );
     } else {

@@ -53,13 +53,8 @@ class DTAutosuggestContainer extends React.Component {
     this.state = {
       // eslint-disable-next-line react/no-unused-state
       pendingCurrentLocation: false,
-      refs: [],
     };
   }
-
-  storeReference = ref => {
-    this.setState(prevState => ({ refs: [...prevState.refs, ref] }));
-  };
 
   finishSelect = (item, type) => {
     if (item.type.indexOf('Favourite') === -1) {
@@ -126,9 +121,6 @@ class DTAutosuggestContainer extends React.Component {
           destination = { set: false };
         }
       }
-      if (!destination || !destination.set) {
-        this.state.refs[1].focus();
-      }
     } else if (id === 'destination') {
       // eslint-disable-next-line prefer-destructuring
       origin = this.props.origin;
@@ -194,9 +186,7 @@ class DTAutosuggestContainer extends React.Component {
         origin={this.props.origin}
         onSelect={this.onSelect}
         destination={this.props.destination}
-        refs={this.state.refs}
         isItinerary={this.props.isItinerary}
-        storeRef={this.storeReference}
         searchType={this.props.searchType}
         originPlaceHolder={this.props.originPlaceHolder}
         destinationPlaceHolder={this.props.destinationPlaceHolder}
@@ -218,7 +208,6 @@ class DTAutosuggestContainer extends React.Component {
         icon={this.props.icon}
         id={this.props.id}
         autoFocus={this.props.autoFocus}
-        storeRef={this.storeReference}
         refPoint={this.props.refPoint}
         className={this.props.className}
         searchType={this.props.searchType}

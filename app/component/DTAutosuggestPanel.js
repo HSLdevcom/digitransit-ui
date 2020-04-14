@@ -80,7 +80,6 @@ class DTAutosuggestPanel extends React.Component {
     searchContext: PropTypes.any.isRequired,
     locationState: PropTypes.object,
     onSelect: PropTypes.func,
-    storeRef: PropTypes.func,
     getLabel: PropTypes.func,
     addAnalyticsEvent: PropTypes.func,
   };
@@ -103,6 +102,7 @@ class DTAutosuggestPanel extends React.Component {
       activeSlackInputs: [],
       showDarkOverlay: false,
       viaPoints: this.props.initialViaPoints.map(vp => ({ ...vp })),
+      refs: [],
     };
   }
 
@@ -138,6 +138,17 @@ class DTAutosuggestPanel extends React.Component {
 
   setDraggableViaPointRef = (element, index) => {
     this.draggableViaPoints[index] = element;
+  };
+
+  storeReference = ref => {
+    this.setState(prevState => ({ refs: [...prevState.refs, ref] }));
+  };
+
+  handleFocusChange = () => {
+    const { destination } = this.props;
+    if (!destination || !destination.set) {
+      this.state.refs[1].focus();
+    }
   };
 
   isKeyboardSelectionEvent = event => {
@@ -387,7 +398,7 @@ class DTAutosuggestPanel extends React.Component {
               // Disable autofocus if using IE11
               breakpoint === 'large' && !origin.ready
             }
-            storeRef={this.props.storeRef}
+            storeRef={this.storeReference}
             refPoint={origin}
             className={this.class(origin)}
             searchType={this.props.searchType}
@@ -398,6 +409,7 @@ class DTAutosuggestPanel extends React.Component {
             locationState={this.props.locationState}
             onSelect={this.props.onSelect}
             getLabel={this.props.getLabel}
+            focusChange={this.handleFocusChange}
           />
           <ItinerarySearchControl
             className="switch"
@@ -545,7 +557,7 @@ class DTAutosuggestPanel extends React.Component {
               // Disable autofocus if using IE11
               breakpoint === 'large' && origin.ready
             }
-            storeRef={this.props.storeRef}
+            storeRef={this.storeReference}
             refPoint={origin}
             searchType={this.props.searchType}
             placeholder={this.props.destinationPlaceHolder}
