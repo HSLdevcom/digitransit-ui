@@ -114,17 +114,5 @@ DynamicParkingLotsPopup.contextTypes = {
 };
 
 export default Relay.createContainer(DynamicParkingLotsPopup, {
-  fragments: {
-    /* station: () => Relay.QL`
-      fragment on BikeRentalStation {
-        stationId
-        name
-        lat
-        lon
-        bikesAvailable
-        spacesAvailable
-        state
-      }
-    `, */
-  },
+  fragments: {},
 });

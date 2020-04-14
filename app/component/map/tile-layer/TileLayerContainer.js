@@ -28,6 +28,7 @@ import TileContainer from './TileContainer';
 import Loading from '../../Loading';
 import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
 import MapLayerStore, { mapLayerShape } from '../../../store/MapLayerStore';
+import Covid19OpeningHoursPopup from '../popups/Covid19OpeningHoursPopup';
 
 const initialState = {
   selectableTargets: undefined,
@@ -294,6 +295,22 @@ class TileLayerContainer extends GridLayer {
               }}
               renderLoading={loadingPopup}
               renderFetched={data => <RoadworksPopup {...data} />}
+            />
+          );
+        } else if (this.state.selectableTargets[0].layer === 'covid19') {
+          contents = (
+            <Relay.RootContainer
+              Component={Covid19OpeningHoursPopup}
+              forceFetch
+              route={{
+                name: '',
+                queries: {},
+                params: {
+                  feature: this.state.selectableTargets[0].feature,
+                },
+              }}
+              renderLoading={loadingPopup}
+              renderFetched={data => <Covid19OpeningHoursPopup {...data} />}
             />
           );
         } else if (
