@@ -64,12 +64,24 @@ class Covid19OpeningHours {
     return 'poi_other';
   };
 
+  getSmallIcon = status => {
+    switch (status) {
+      case 'open':
+        return 'poi-open';
+      case 'closed':
+        return 'poi-closed';
+      default:
+        return 'poi';
+    }
+  };
+
   fetchAndDrawStatus = ({ geom, properties }) => {
     if (this.tile.coords.z <= this.config.covid19.smallIconZoom) {
-      return drawRoundIcon(this.tile, geom, 'car');
+      const icon = this.getSmallIcon(properties.status);
+      return drawRoundIcon(this.tile, geom, icon);
     }
 
-    const icon = this.getIcon(properties.normalized_cat);
+    const icon = this.getIcon(properties.cat);
 
     return drawIcon(icon, this.tile, geom, this.poiImageSize);
   };
