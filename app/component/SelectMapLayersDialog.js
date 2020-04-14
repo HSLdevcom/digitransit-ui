@@ -105,6 +105,7 @@ class SelectMapLayersDialog extends React.Component {
     {
       citybike,
       parkAndRide,
+      covid19,
       dynamicParkingLots,
       roadworks,
       stop,
@@ -254,6 +255,15 @@ class SelectMapLayersDialog extends React.Component {
                 }}
               />
             )}
+          <Checkbox
+            checked={covid19}
+            defaultMessage="Covid-19 opening hours"
+            labelId="map-layer-covid19"
+            onChange={e => {
+              this.updateSetting({ covid19: e.target.checked });
+              this.sendLayerChangeAnalytic('Covid19', e.target.checked);
+            }}
+          />
         </div>
         {config.ticketSales &&
           config.ticketSales.showTicketSales && (

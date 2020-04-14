@@ -70,6 +70,12 @@ class TileContainer {
         ) {
           return isEnabled;
         }
+        if (
+          layerName === 'covid19' &&
+          this.coords.z >= config.covid19.minZoom
+        ) {
+          return isEnabled;
+        }
         return false;
       })
       .map(Layer => new Layer(this, config, this.props.mapLayers));
