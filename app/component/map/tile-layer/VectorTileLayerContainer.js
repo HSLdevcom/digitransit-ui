@@ -38,9 +38,12 @@ export default function VectorTileLayerContainer(props, { config }) {
     if (config.roadworks && config.roadworks.showRoadworks) {
       layers.push(Roadworks);
     }
+
+    if (config.covid19 && config.covid19.show) {
+      layers.push(Covid19OpeningHours);
+    }
   }
 
-  layers.push(Covid19OpeningHours);
 
   return (
     <TileLayerContainer
