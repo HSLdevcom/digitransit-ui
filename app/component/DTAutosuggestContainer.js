@@ -10,6 +10,9 @@ import { navigateTo } from '../util/path';
 import DTAutoSuggest from './DTAutosuggest';
 import DTAutosuggestPanel from './DTAutosuggestPanel';
 import { dtLocationShape } from '../util/shapes';
+import searchContext from '../util/searchContext';
+import intializeSearchContext from '../util/DTSearchContextInitializer';
+import getRelayEnvironment from '../util/getRelayEnvironment';
 
 class DTAutosuggestContainer extends React.Component {
   static contextTypes = {
@@ -28,7 +31,6 @@ class DTAutosuggestContainer extends React.Component {
     destination: dtLocationShape,
     getViaPointsFromMap: PropTypes.bool,
     locationState: PropTypes.object,
-    searchContext: PropTypes.object.isRequired,
     searchType: PropTypes.string,
     originPlaceHolder: PropTypes.string,
     destinationPlaceHolder: PropTypes.string,
@@ -46,6 +48,7 @@ class DTAutosuggestContainer extends React.Component {
     onRouteSelected: PropTypes.func,
     showSpinner: PropTypes.bool,
     layers: PropTypes.array,
+    relayEnvironment: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -53,12 +56,32 @@ class DTAutosuggestContainer extends React.Component {
     this.state = {
       // eslint-disable-next-line react/no-unused-state
       pendingCurrentLocation: false,
+      isInitialized: false,
     };
   }
 
+  componentDidMount() {
+    this.initContext();
+  }
+
+  initContext() {
+    if (!this.state.isInitialized) {
+      intializeSearchContext(
+        this.context,
+        searchContext,
+        this.props.relayEnvironment,
+      );
+      this.setState({ isInitialized: true });
+    }
+  }
+
+  storeReference = ref => {
+    this.setState(prevState => ({ refs: [...prevState.refs, ref] }));
+  };
+
   finishSelect = (item, type) => {
     if (item.type.indexOf('Favourite') === -1) {
-      this.context.executeAction(this.props.searchContext.saveSearch, {
+      this.context.executeAction(searchContext.saveSearch, {
         item,
         type,
       });
@@ -81,7 +104,7 @@ class DTAutosuggestContainer extends React.Component {
     if (item.properties.layer === 'currentPosition' && !item.properties.lat) {
       // eslint-disable-next-line react/no-unused-state
       this.setState({ pendingCurrentLocation: true }, () =>
-        this.context.executeAction(this.props.searchContext.startLocationWatch),
+        this.context.executeAction(searchContext.startLocationWatch),
       );
     } else {
       this.selectLocation(location, id);
@@ -190,7 +213,7 @@ class DTAutosuggestContainer extends React.Component {
         searchType={this.props.searchType}
         originPlaceHolder={this.props.originPlaceHolder}
         destinationPlaceHolder={this.props.destinationPlaceHolder}
-        searchContext={this.props.searchContext}
+        searchContext={searchContext}
         locationState={this.props.locationState}
         initialViaPoints={this.props.initialViaPoints}
         updateViaPoints={this.props.updateViaPoints}
@@ -216,7 +239,7 @@ class DTAutosuggestContainer extends React.Component {
         onSelect={this.onSelect}
         isFocused={this.isFocused}
         onRouteSelected={this.props.onRouteSelected}
-        searchContext={this.props.searchContext}
+        searchContext={searchContext}
         locationState={this.props.locationState}
         showSpinner={this.props.showSpinner}
         layers={this.props.layers}
@@ -232,4 +255,4 @@ class DTAutosuggestContainer extends React.Component {
   }
 }
 
-export default DTAutosuggestContainer;
+export default getRelayEnvironment(DTAutosuggestContainer);

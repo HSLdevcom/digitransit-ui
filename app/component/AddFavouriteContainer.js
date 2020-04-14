@@ -13,8 +13,6 @@ import { addFavourite, deleteFavourite } from '../action/FavouriteActions';
 import { isStop, isTerminal } from '../util/suggestionUtils';
 import DTAutosuggestContainer from './DTAutosuggestContainer';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import searchContext from '../util/searchContext';
-import intializeSearchContext from '../util/DTSearchContextInitializer';
 
 class AddFavouriteContainer extends React.Component {
   static FavouriteIconIds = [
@@ -160,10 +158,6 @@ class AddFavouriteContainer extends React.Component {
     });
   };
 
-  componentDidMount() {
-    intializeSearchContext(this.context, searchContext);
-  }
-
   render() {
     const { favourite } = this.state;
     const favouriteLayers = [
@@ -222,7 +216,6 @@ class AddFavouriteContainer extends React.Component {
                 placeholder="address"
                 value={favourite.address || ''}
                 layers={favouriteLayers}
-                searchContext={searchContext}
                 showSpinner
               />
             </div>

@@ -379,7 +379,6 @@ class DTAutosuggest extends React.Component {
     if (this.props.showSpinner && this.state.pendingCurrentLocation) {
       return <Loading />;
     }
-
     const { value, suggestions } = this.state;
     const inputProps = {
       placeholder: this.context.intl.formatMessage({

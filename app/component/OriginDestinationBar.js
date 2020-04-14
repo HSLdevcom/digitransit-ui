@@ -13,9 +13,6 @@ import {
 } from '../util/queryUtils';
 import { dtLocationShape } from '../util/shapes';
 
-import searchContext from '../util/searchContext';
-import intializeSearchContext from '../util/DTSearchContextInitializer';
-
 const locationToOtp = location =>
   `${location.address}::${location.lat},${location.lon}${
     location.locationSlack ? `::${location.locationSlack}` : ''
@@ -40,10 +37,6 @@ class OriginDestinationBar extends React.Component {
     className: undefined,
     location: undefined,
   };
-
-  componentDidMount() {
-    intializeSearchContext(this.context, searchContext);
-  }
 
   get location() {
     return this.props.location || this.context.match.location;
@@ -87,7 +80,6 @@ class OriginDestinationBar extends React.Component {
           origin={this.props.origin}
           destination={this.props.destination}
           isItinerary
-          searchContext={searchContext}
           initialViaPoints={getIntermediatePlaces(this.location.query)}
           updateViaPoints={this.updateViaPoints}
           swapOrder={this.swapEndpoints}

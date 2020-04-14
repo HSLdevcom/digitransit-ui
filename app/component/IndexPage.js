@@ -16,7 +16,6 @@ import storeDestination from '../action/destinationActions';
 import ControlPanel from './ControlPanel';
 import DTAutosuggestContainer from './DTAutosuggestContainer';
 import { isBrowser } from '../util/browser';
-import searchContext from '../util/searchContext';
 import {
   parseLocation,
   isItinerarySearchObjects,
@@ -26,10 +25,8 @@ import OverlayWithSpinner from './visual/OverlayWithSpinner';
 import { dtLocationShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
-import intializeSearchContext from '../util/DTSearchContextInitializer';
 import scrollTop from '../util/scroll';
 import FavouriteLocationsContainer from './FavouriteLocationsContainer';
-import getRelayEnvironment from '../util/getRelayEnvironment';
 
 const debug = d('IndexPage.js');
 
@@ -51,7 +48,6 @@ class IndexPage extends React.Component {
     showSpinner: PropTypes.bool.isRequired,
     favourites: PropTypes.array,
     getViaPointsFromMap: PropTypes.bool.isRequired,
-    relayEnvironment: PropTypes.object.isRequired,
     locationState: PropTypes.object.isRequired,
   };
 
@@ -72,11 +68,6 @@ class IndexPage extends React.Component {
   }
 
   componentDidMount() {
-    intializeSearchContext(
-      this.context,
-      searchContext,
-      this.props.relayEnvironment,
-    );
     scrollTop();
   }
 
@@ -133,7 +124,6 @@ class IndexPage extends React.Component {
             searchType="endpoint"
             originPlaceHolder="search-origin-index"
             destinationPlaceHolder="search-destination-index"
-            searchContext={searchContext}
             locationState={this.props.locationState}
             getViaPointsFromMap={this.props.getViaPointsFromMap}
           />
@@ -166,7 +156,6 @@ class IndexPage extends React.Component {
               searchType="search"
               placeholder="stop-near-you"
               value=""
-              searchContext={searchContext}
               locationState={this.props.locationState}
             />
           </div>
@@ -196,7 +185,6 @@ class IndexPage extends React.Component {
             searchType="endpoint"
             originPlaceHolder="search-origin-index"
             destinationPlaceHolder="search-destination-index"
-            searchContext={searchContext}
             locationState={this.props.locationState}
             getViaPointsFromMap={this.props.getViaPointsFromMap}
           />
@@ -226,7 +214,6 @@ class IndexPage extends React.Component {
               searchType="search"
               placeholder="stop-near-you"
               value=""
-              searchContext={searchContext}
               locationState={this.props.locationState}
             />
           </div>
@@ -373,5 +360,7 @@ IndexPageWithPosition.contextTypes = {
   executeAction: PropTypes.func.isRequired,
   intl: intlShape,
 };
-const withRelay = getRelayEnvironment(IndexPageWithPosition);
-export { withRelay as default, IndexPageWithBreakpoint as Component };
+export {
+  IndexPageWithPosition as default,
+  IndexPageWithBreakpoint as Component,
+};
