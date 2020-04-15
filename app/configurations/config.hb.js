@@ -34,6 +34,7 @@ export default configMerger(walttiConfig, {
     STOP_MAP: `${API_URL}/map/v1/stop-map/`,
     DYNAMICPARKINGLOTS_MAP: `${API_URL}/map/v1/hb-parking-map/`,
     ROADWORKS_MAP: `${API_URL}/map/v1/roadworks-bw-map/`,
+    COVID19_MAP: `https://tiles.caresteouvert.fr/public.poi_osm_light/{z}/{x}/{y}.pbf`,
 
     PELIAS: `${GEOCODING_BASE_URL}/search${LOCATIONIQ_API_KEY ? '?api_key=' + LOCATIONIQ_API_KEY : ''}`,
     PELIAS_REVERSE_GEOCODER: `${GEOCODING_BASE_URL}/reverse${LOCATIONIQ_API_KEY ? '?api_key=' + LOCATIONIQ_API_KEY : ''}`,
@@ -91,6 +92,12 @@ export default configMerger(walttiConfig, {
     showRoadworks: true,
     roadworksSmallIconZoom: 16,
     roadworksMinZoom: 10
+  },
+
+  covid19: {
+    show: true,
+    smallIconZoom: 22,
+    minZoom: 15
   },
 
   mergeStopsByCode: true,

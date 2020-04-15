@@ -10,6 +10,7 @@ import isEqual from 'lodash/isEqual';
 import Popup from 'react-leaflet/es/Popup';
 import { withLeaflet } from 'react-leaflet/es/context';
 
+import { first } from 'lodash-es';
 import StopRoute from '../../../route/StopRoute';
 import TerminalRoute from '../../../route/TerminalRoute';
 import CityBikeRoute from '../../../route/CityBikeRoute';
@@ -28,6 +29,7 @@ import TileContainer from './TileContainer';
 import Loading from '../../Loading';
 import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
 import MapLayerStore, { mapLayerShape } from '../../../store/MapLayerStore';
+import Covid19OpeningHoursPopup from '../popups/Covid19OpeningHoursPopup';
 
 const initialState = {
   selectableTargets: undefined,
@@ -296,6 +298,9 @@ class TileLayerContainer extends GridLayer {
               renderFetched={data => <RoadworksPopup {...data} />}
             />
           );
+        } else if (this.state.selectableTargets[0].layer === 'covid19') {
+          const { feature } = first(this.state.selectableTargets);
+          contents = <Covid19OpeningHoursPopup feature={feature} />;
         } else if (
           this.state.selectableTargets[0].layer === 'parkAndRide' &&
           this.state.selectableTargets[0].feature.properties.facilityIds

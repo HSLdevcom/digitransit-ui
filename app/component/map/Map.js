@@ -107,6 +107,7 @@ class Map extends React.Component {
   loadMapLayers(mapUrl, attribution) {
     return (
       <TileLayer
+        key={mapUrl}
         onLoad={this.setLoaded}
         url={mapUrl}
         tileSize={this.context.config.map.tileSize || 256}

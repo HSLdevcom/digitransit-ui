@@ -349,6 +349,16 @@ $btn-heigth: 17px;
   left: 0;
 }
 
+.popup-opening-hours-container p {
+  margin: 0!important;
+}
+
+.popup-opening-hours-times {
+  display: inline-block;
+  position: fixed;
+  right: 40px;
+}
+
 .popup-container {
   position: absolute;
   left: 50%;

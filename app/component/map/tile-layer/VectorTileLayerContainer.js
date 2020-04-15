@@ -4,6 +4,7 @@ import React from 'react';
 import TileLayerContainer from './TileLayerContainer';
 import CityBikes from './CityBikes';
 import DynamicParkingLots from './DynamicParkingLots';
+import Covid19OpeningHours from './Covid19OpeningHours';
 import Roadworks from './Roadworks';
 import Stops from './Stops';
 import ParkAndRide from './ParkAndRide';
@@ -36,6 +37,10 @@ export default function VectorTileLayerContainer(props, { config }) {
 
     if (config.roadworks && config.roadworks.showRoadworks) {
       layers.push(Roadworks);
+    }
+
+    if (config.covid19 && config.covid19.show) {
+      layers.push(Covid19OpeningHours);
     }
   }
 
