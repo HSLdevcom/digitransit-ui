@@ -14,6 +14,21 @@ import cloneDeep from 'lodash/cloneDeep';
 const getLocality = suggestion =>
   suggestion.localadmin || suggestion.locality || '';
 
+const getStopCode = ({ id, code }) => {
+  if (code) {
+    return code;
+  }
+  if (
+    id === undefined ||
+    typeof id.indexOf === 'undefined' ||
+    id.indexOf('#') === -1
+  ) {
+    return undefined;
+  }
+  // id from pelias
+  return id.substring(id.indexOf('#') + 1);
+};
+
 const getNameLabel = memoize(
   (suggestion, plain = false) => {
     switch (suggestion.layer) {
@@ -29,7 +44,11 @@ const getNameLabel = memoize(
       case 'route-FERRY':
       case 'route-AIRPLANE':
         return !plain && suggestion.shortName
-          ? [suggestion.longName]
+          ? [
+              suggestion.gtfsId,
+              suggestion.mode.toLowerCase(),
+              suggestion.longName,
+            ]
           : [
               suggestion.shortName,
               suggestion.longName,
@@ -51,7 +70,12 @@ const getNameLabel = memoize(
       case 'stop':
         return plain
           ? [suggestion.name || suggestion.label, getLocality(suggestion)]
-          : [suggestion.name];
+          : [
+              suggestion.name,
+              suggestion.id,
+              getStopCode(suggestion),
+              getLocality(suggestion),
+            ];
       case 'station':
       default:
         return [suggestion.name || suggestion.label, getLocality(suggestion)];
