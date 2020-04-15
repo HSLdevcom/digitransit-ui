@@ -54,79 +54,70 @@ class Covid19OpeningHoursPopup extends React.Component {
     });
 
     return (
-      <p className="popup-opening-hours-container">
-        <p>
-          {intl.formatMessage({
-            id: 'monday',
-            defaultMessage: 'Mon',
-          })}{' '}
-          <p className="popup-opening-hours-times">
-            {mo.length === 0 ? closed : mo}
-          </p>
-        </p>
-        <p>
-          {intl.formatMessage({
-            id: 'tuesday',
-            defaultMessage: 'Tue',
-          })}{' '}
-          <p className="popup-opening-hours-times">
-            {tu.length === 0 ? closed : tu}
-          </p>
-        </p>
-        <p>
-          {intl.formatMessage({
-            id: 'wednesday',
-            defaultMessage: 'Wed',
-          })}{' '}
-          <p className="popup-opening-hours-times">
-            {we.length === 0 ? closed : we}
-          </p>
-        </p>
-        <p>
-          {intl.formatMessage({
-            id: 'thursday',
-            defaultMessage: 'Thu',
-          })}{' '}
-          <p className="popup-opening-hours-times">
-            {th.length === 0 ? closed : th}
-          </p>
-        </p>
-        <p>
-          {intl.formatMessage({
-            id: 'friday',
-            defaultMessage: 'Fri',
-          })}{' '}
-          <p className="popup-opening-hours-times">
-            {fr.length === 0 ? closed : fr}
-          </p>
-        </p>
-        <p>
-          {intl.formatMessage({
-            id: 'saturday',
-            defaultMessage: 'Sat',
-          })}{' '}
-          <p className="popup-opening-hours-times">
-            {sa.length === 0 ? closed : sa}
-          </p>
-        </p>
-        <p>
-          {intl.formatMessage({
-            id: 'sunday',
-            defaultMessage: 'Sun',
-          })}{' '}
-          <p className="popup-opening-hours-times">
-            {su.length === 0 ? closed : su}
-          </p>
-        </p>
-        <p>
-          {intl.formatMessage({
-            id: 'public-holidays',
-            defaultMessage: 'Public holidays',
-          })}{' '}
-          <p className="popup-opening-hours-times">
-            {ph.length === 0 ? closed : ph}
-          </p>
-        </p>
+      <p>
+        {intl.formatMessage({
+          id: 'monday',
+          defaultMessage: 'Mon',
+        })}{' '}
+        <span className="popup-opening-hours-times">
+          {mo.length === 0 ? closed : mo}
+        </span>
+        <br />
+        {intl.formatMessage({
+          id: 'tuesday',
+          defaultMessage: 'Tue',
+        })}{' '}
+        <span className="popup-opening-hours-times">
+          {tu.length === 0 ? closed : tu}
+        </span>
+        <br />
+        {intl.formatMessage({
+          id: 'wednesday',
+          defaultMessage: 'Wed',
+        })}{' '}
+        <span className="popup-opening-hours-times">
+          {we.length === 0 ? closed : we}
+        </span>
+        <br />
+        {intl.formatMessage({
+          id: 'thursday',
+          defaultMessage: 'Thu',
+        })}{' '}
+        <span className="popup-opening-hours-times">
+          {th.length === 0 ? closed : th}
+        </span>
+        <br />
+        {intl.formatMessage({
+          id: 'friday',
+          defaultMessage: 'Fri',
+        })}{' '}
+        <span className="popup-opening-hours-times">
+          {fr.length === 0 ? closed : fr}
+        </span>
+        <br />
+        {intl.formatMessage({
+          id: 'saturday',
+          defaultMessage: 'Sat',
+        })}{' '}
+        <span className="popup-opening-hours-times">
+          {sa.length === 0 ? closed : sa}
+        </span>
+        <br />
+        {intl.formatMessage({
+          id: 'sunday',
+          defaultMessage: 'Sun',
+        })}{' '}
+        <span className="popup-opening-hours-times">
+          {su.length === 0 ? closed : su}
+        </span>
+        <br />
+        {intl.formatMessage({
+          id: 'public-holidays',
+          defaultMessage: 'Public holidays',
+        })}{' '}
+        <span className="popup-opening-hours-times">
+          {ph.length === 0 ? closed : ph}
+        </span>
       </p>
     );
   };
@@ -164,13 +155,15 @@ class Covid19OpeningHoursPopup extends React.Component {
             <p>Covid-19 status: {status}</p>
             {/* eslint-disable-next-line camelcase */}
             {opening_hours ? (
-              <p>
-                <FormattedMessage
-                  id="opening-hours"
-                  defaultMessage="Opening hours"
-                />
+              <div>
+                <p>
+                  <FormattedMessage
+                    id="opening-hours"
+                    defaultMessage="Opening hours"
+                  />
+                </p>
                 {this.getOpeningHours()}
-              </p>
+              </div>
             ) : (
               ''
             )}
