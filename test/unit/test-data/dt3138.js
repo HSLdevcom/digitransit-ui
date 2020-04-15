@@ -1,3 +1,5 @@
+import { PREFIX_ROUTES } from "../../../app/util/path";
+
 export const disruptions = [
   {
     description:
@@ -459,7 +461,7 @@ export const serviceAlerts = [
     severityLevel: 'INFO',
     stop: {},
     url:
-      'https://www.hsl.fi/liikennetiedotteet/2019/runkolinja-550-seka-linjat-41-ja-552-siirtyvat-128-poikkeusreiteille',
+      `https://www.hsl.fi/liikennetiedotteet/2019/runkolinja-550-seka-${PREFIX_ROUTES}-41-ja-552-siirtyvat-128-poikkeusreiteille`,
     validityPeriod: {
       endTime: 1566592200,
       startTime: 1564246020,
