@@ -12,10 +12,7 @@ import { suggestionToAriaContent } from '../util/suggestionUtils';
 class DTAutosuggest extends React.Component {
   static contextTypes = {
     config: PropTypes.object.isRequired,
-    getStore: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    executeAction: PropTypes.func.isRequired,
-    router: PropTypes.object.isRequired,
   };
 
   static propTypes = {

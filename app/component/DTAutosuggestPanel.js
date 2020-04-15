@@ -58,10 +58,8 @@ ItinerarySearchControl.propTypes = {
 class DTAutosuggestPanel extends React.Component {
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
-    router: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
-    getStore: PropTypes.func.isRequired,
   };
 
   static propTypes = {
