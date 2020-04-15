@@ -57,7 +57,6 @@ ItinerarySearchControl.propTypes = {
  */
 class DTAutosuggestPanel extends React.Component {
   static contextTypes = {
-    executeAction: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
   };
@@ -71,6 +70,7 @@ class DTAutosuggestPanel extends React.Component {
     searchType: PropTypes.string,
     initialViaPoints: PropTypes.arrayOf(PropTypes.object),
     updateViaPoints: PropTypes.func,
+    updateViaPointsFromMap: PropTypes.func,
     breakpoint: PropTypes.string.isRequired,
     swapOrder: PropTypes.func,
     getViaPointsFromMap: PropTypes.bool,
@@ -110,10 +110,7 @@ class DTAutosuggestPanel extends React.Component {
       this.setState({
         viaPoints: getIntermediatePlaces(this.context.match.location.query),
       });
-      this.context.executeAction(
-        this.props.searchContext.updateViaPointsFromMap,
-        false,
-      );
+      this.props.updateViaPointsFromMap();
     }
   };
 

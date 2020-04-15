@@ -677,18 +677,3 @@ export const executeSearch = (searchContext, refPoint, data, callback) => {
   callback(null); // This means 'we are searching'
   debouncedSearch(searchContext, refPoint, data, callback);
 };
-
-export const withCurrentTime = (getStore, location) => {
-  const query = (location && location.query) || {};
-  return {
-    ...location,
-    query: {
-      ...query,
-      time: query.time
-        ? query.time
-        : getStore('TimeStore')
-            .getCurrentTime()
-            .unix(),
-    },
-  };
-};

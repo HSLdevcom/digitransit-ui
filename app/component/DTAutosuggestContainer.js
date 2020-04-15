@@ -4,7 +4,7 @@ import { matchShape, routerShape } from 'found';
 import { intlShape } from 'react-intl';
 import { suggestionToLocation, getLabel } from '../util/suggestionUtils';
 import { getJson } from '../util/xhrPromise';
-import { withCurrentTime } from '../util/searchUtils';
+import { withCurrentTime } from '../util/DTSearchUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { navigateTo } from '../util/path';
 import DTAutoSuggest from './DTAutosuggest';
@@ -170,6 +170,11 @@ class DTAutosuggestContainer extends React.Component {
     });
   };
 
+  // eslint-disable-next-line class-methods-use-this
+  updateViaPointsFromMap() {
+    searchContext.executeAction(searchContext.updateViaPointsFromMap, false);
+  }
+
   onSelect = (item, id) => {
     // type is destination unless timetable or route was clicked
     let type = 'endpoint';
@@ -217,6 +222,7 @@ class DTAutosuggestContainer extends React.Component {
         locationState={this.props.locationState}
         initialViaPoints={this.props.initialViaPoints}
         updateViaPoints={this.props.updateViaPoints}
+        updateViaPointsFromMap={this.updateViaPointsFromMap}
         swapOrder={this.props.swapOrder}
         getViaPointsFromMap={this.props.getViaPointsFromMap}
         getLabel={getLabel}

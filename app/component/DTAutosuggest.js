@@ -337,41 +337,6 @@ class DTAutosuggest extends React.Component {
     }
   };
 
-  shouldcomponentUpdate = (nextProps, nextState) => {
-    if (
-      this.state.pendingCurrentLocation !== nextState.pendingCurrentLocation
-    ) {
-      return true;
-    }
-    let changed;
-    Object.keys(nextProps).forEach(key => {
-      // shallow compare
-      if (key !== 'locationState' && this.props[key] !== nextProps[key]) {
-        changed = true;
-      }
-    });
-    if (changed) {
-      return true;
-    }
-    const oldLocState = this.props.locationState;
-    const newLocState = nextProps.locationState;
-    const oldGeoloc =
-      oldLocState.status ===
-        this.props.searchContext.positionStore.STATUS_FOUND_ADDRESS ||
-      oldLocState.status ===
-        this.props.searchContext.positionStore.STATUS_FOUND_LOCATION;
-    const newGeoloc =
-      newLocState.status ===
-        this.props.searchContext.positionStore.STATUS_FOUND_ADDRESS ||
-      newLocState.status ===
-        this.props.searchContext.positionStore.STATUS_FOUND_LOCATION;
-    if (oldGeoloc && newGeoloc) {
-      // changes between found-location / found-address do not count
-      return false;
-    }
-    return oldLocState.status !== newLocState.status;
-  };
-
   suggestionAsAriaContent() {
     let label = [];
     if (this.state.suggestions[0]) {

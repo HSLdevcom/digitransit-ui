@@ -93,3 +93,18 @@ export function getRoutes(input, config) {
     )
     .then(suggestions => take(suggestions, 10));
 }
+
+export const withCurrentTime = (getStore, location) => {
+  const query = (location && location.query) || {};
+  return {
+    ...location,
+    query: {
+      ...query,
+      time: query.time
+        ? query.time
+        : getStore('TimeStore')
+            .getCurrentTime()
+            .unix(),
+    },
+  };
+};
