@@ -6,9 +6,72 @@ import sortBy from 'lodash/sortBy';
 import debounce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
 import uniqWith from 'lodash/uniqWith';
+import isEqual from 'lodash/isEqual';
+import memoize from 'lodash/memoize';
+import escapeRegExp from 'lodash/escapeRegExp';
+import cloneDeep from 'lodash/cloneDeep';
 
-import { uniqByLabel } from './suggestionUtils';
+const getLocality = suggestion =>
+  suggestion.localadmin || suggestion.locality || '';
 
+const getNameLabel = memoize(
+  (suggestion, plain = false) => {
+    switch (suggestion.layer) {
+      case 'currentPosition':
+        return [suggestion.labelId, suggestion.address];
+      case 'favouritePlace':
+        return [suggestion.name, suggestion.address];
+      case 'favouriteRoute':
+      case 'route-BUS':
+      case 'route-TRAM':
+      case 'route-RAIL':
+      case 'route-SUBWAY':
+      case 'route-FERRY':
+      case 'route-AIRPLANE':
+        return !plain && suggestion.shortName
+          ? [suggestion.longName]
+          : [
+              suggestion.shortName,
+              suggestion.longName,
+              suggestion.agency ? suggestion.agency.name : undefined,
+            ];
+      case 'venue':
+      case 'address':
+        return [
+          suggestion.name,
+          suggestion.label.replace(
+            new RegExp(`${escapeRegExp(suggestion.name)}(,)?( )?`),
+            '',
+          ),
+        ];
+      case 'favouriteStation':
+      case 'favouriteStop':
+        return [suggestion.name];
+
+      case 'stop':
+        return plain
+          ? [suggestion.name || suggestion.label, getLocality(suggestion)]
+          : [suggestion.name];
+      case 'station':
+      default:
+        return [suggestion.name || suggestion.label, getLocality(suggestion)];
+    }
+  },
+  (item, plain) => {
+    const i = cloneDeep(item);
+    i.plain = plain;
+    return i;
+  },
+);
+
+export function uniqByLabel(features) {
+  return uniqWith(
+    features,
+    (feat1, feat2) =>
+      isEqual(getNameLabel(feat1.properties), getNameLabel(feat2.properties)) &&
+      feat1.properties.layer === feat2.properties.layer,
+  );
+}
 const PREFIX_ROUTES = 'linjat';
 /**
  * LayerType depicts the type of the point-of-interest.
