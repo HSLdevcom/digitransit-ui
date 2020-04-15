@@ -349,11 +349,18 @@ $btn-heigth: 17px;
   left: 0;
 }
 
-.popup-opening-hours {
-  width: 100%;
-  tr {
-    td:last-child {
-      text-align: right;
+.opening-hours {
+
+  .currently-open {
+    font-size: 13px;
+  }
+
+  table {
+    width: 100%;
+    tr {
+      td:last-child {
+        text-align: right;
+      }
     }
   }
 }
@@ -365,7 +372,7 @@ $btn-heigth: 17px;
   color: $poi-closed-color;
   padding: 0 3px;
   font-size: 12px;
-  margin-right: 3px;
+  margin-right: 5px;
   position: relative;
   top: -1px;
 }

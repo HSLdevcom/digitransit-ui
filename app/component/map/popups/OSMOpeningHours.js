@@ -45,7 +45,7 @@ export default class OSMOpeningHours extends React.Component {
 
     return (
       <p>
-        <table className="popup-opening-hours">
+        <table>
           <tbody>{weekdays.map(makeRow)}</tbody>
         </table>
       </p>
@@ -57,26 +57,21 @@ export default class OSMOpeningHours extends React.Component {
     const isOpenNow = opening.isOpenNow();
 
     return (
-      <div className="padding-vertical-small">
-        <div>
+      <div className="opening-hours">
+        <div className="currently-open">
           <FormattedMessage id="now" defaultMessage="Now" />{' '}
-          <b>
+          <strong>
             {isOpenNow ? (
               <FormattedMessage id="open" defaultMessage="open" />
             ) : (
               <FormattedMessage id="closed" defaultMessage="closed" />
             )}
-          </b>
+          </strong>
         </div>
-        <div>
-          <p>
-            <FormattedMessage
-              id="opening-hours"
-              defaultMessage="Opening hours"
-            />
-          </p>
+        <p>
+          <FormattedMessage id="opening-hours" defaultMessage="Opening hours" />
           {this.getOpeningHours(opening)}
-        </div>
+        </p>
       </div>
     );
   }
