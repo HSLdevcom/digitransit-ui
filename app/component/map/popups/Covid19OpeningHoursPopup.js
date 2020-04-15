@@ -7,7 +7,7 @@ import Card from '../../Card';
 import CardHeader from '../../CardHeader';
 import Loading from '../../Loading';
 import { getJson } from '../../../util/xhrPromise';
-import FormattedMessage from '../../StopTitle';
+import FormattedMessage from '../../Message';
 
 class Covid19OpeningHoursPopup extends React.Component {
   static contextTypes = {
@@ -145,6 +145,7 @@ class Covid19OpeningHoursPopup extends React.Component {
       status,
       cat,
       fid,
+
       // eslint-disable-next-line camelcase
       opening_hours,
     } = this.state.feature.properties;
