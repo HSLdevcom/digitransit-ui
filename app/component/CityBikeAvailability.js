@@ -50,6 +50,7 @@ CityBikeAvailability.description = () => (
         totalSpaces={3}
         fewAvailableCount={3}
         type="citybike"
+        useSpacesAvailable
       />
     </ComponentUsageExample>
   </div>
