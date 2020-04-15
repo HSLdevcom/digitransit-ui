@@ -1,34 +1,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { routerShape } from 'found';
 import { intlShape } from 'react-intl';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import Autosuggest from 'react-autosuggest';
 import { executeSearch, getAllEndpointLayers } from '../util/searchUtils';
 import SuggestionItem from './SuggestionItem';
-import { dtLocationShape } from '../util/shapes';
 import Icon from './Icon';
-import getRelayEnvironment from '../util/getRelayEnvironment';
-import { getJson } from '../util/xhrPromise';
-import { saveSearch } from '../action/SearchActions';
 import Loading from './Loading';
-import {
-  suggestionToLocation,
-  getLabel,
-  suggestionToAriaContent,
-} from '../util/suggestionUtils';
-import { startLocationWatch } from '../action/PositionActions';
-import PositionStore from '../store/PositionStore';
+import { suggestionToAriaContent } from '../util/suggestionUtils';
 
 class DTAutosuggest extends React.Component {
   static contextTypes = {
     config: PropTypes.object.isRequired,
-    getStore: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    relayEnvironment: PropTypes.object.isRequired,
-    executeAction: PropTypes.func.isRequired,
-    router: routerShape.isRequired,
   };
 
   static propTypes = {
@@ -40,20 +24,20 @@ class DTAutosuggest extends React.Component {
     isFocused: PropTypes.func,
     layers: PropTypes.arrayOf(PropTypes.string),
     placeholder: PropTypes.string.isRequired,
-    refPoint: dtLocationShape.isRequired,
+    refPoint: PropTypes.object.isRequired,
     searchType: PropTypes.oneOf(['all', 'endpoint', 'search']).isRequired,
     // selectedFunction: PropTypes.func.isRequired,
     value: PropTypes.string,
     searchContext: PropTypes.any.isRequired,
-    relayEnvironment: PropTypes.object.isRequired,
     ariaLabel: PropTypes.string,
     onSelect: PropTypes.func,
-    onLocationSelected: PropTypes.func.isRequired,
-    onRouteSelected: PropTypes.func,
     isPreferredRouteSearch: PropTypes.bool,
-    locationState: PropTypes.object.isRequired,
+    locationState: PropTypes.object,
     showSpinner: PropTypes.bool,
     storeRef: PropTypes.func,
+    handleViaPoints: PropTypes.func,
+    getLabel: PropTypes.func,
+    focusChange: PropTypes.func,
   };
 
   static defaultProps = {
@@ -64,7 +48,6 @@ class DTAutosuggest extends React.Component {
     isFocused: () => {},
     value: '',
     isPreferredRouteSearch: false,
-    onRouteSelected: undefined,
     showSpinner: false,
     layers: getAllEndpointLayers(),
   };
@@ -93,11 +76,15 @@ class DTAutosuggest extends React.Component {
     // wait until address is set or geolocationing fails
     if (
       this.state.pendingCurrentLocation &&
-      (locState.status === PositionStore.STATUS_FOUND_ADDRESS ||
+      (locState.status ===
+        this.props.searchContext.positionStore.STATUS_FOUND_ADDRESS ||
         locState.locationingFailed)
     ) {
       this.setState({ pendingCurrentLocation: false }, () => {
-        if (locState.status === PositionStore.STATUS_FOUND_ADDRESS) {
+        if (
+          locState.status ===
+          this.props.searchContext.positionStore.STATUS_FOUND_ADDRESS
+        ) {
           const location = {
             type: 'CurrentLocation',
             lat: locState.lat,
@@ -109,7 +96,7 @@ class DTAutosuggest extends React.Component {
                 defaultMessage: 'Own Location',
               }),
           };
-          nextProps.onLocationSelected(location);
+          nextProps.onSelect(location, location.type);
         }
       });
     }
@@ -146,6 +133,10 @@ class DTAutosuggest extends React.Component {
   onSelected = (e, ref) => {
     this.props.isFocused(false);
     if (this.state.valid) {
+      if (this.props.handleViaPoints) {
+        // TODO: add and verify this viaPointHandling, since DT-3466 onLocationSelected has been removed
+        this.props.handleViaPoints(ref.suggestion, ref.suggestionIndex);
+      }
       this.setState(
         {
           editing: false,
@@ -153,7 +144,10 @@ class DTAutosuggest extends React.Component {
         },
         () => {
           this.input.blur();
-          this.onSelect(ref.suggestion);
+          this.props.onSelect(ref.suggestion, this.props.id);
+          if (this.props.focusChange) {
+            this.props.focusChange();
+          }
         },
       );
     } else {
@@ -173,13 +167,12 @@ class DTAutosuggest extends React.Component {
   };
 
   getSuggestionValue = suggestion => {
-    const value = getLabel(suggestion.properties);
+    const value = this.props.getLabel(suggestion.properties);
     return value;
   };
 
   checkPendingSelection = () => {
     // accept after all ongoing searches have finished
-
     if (this.state.pendingSelection && this.state.valid) {
       // finish the selection by picking first = best match
       this.setState(
@@ -190,7 +183,7 @@ class DTAutosuggest extends React.Component {
         () => {
           if (this.state.suggestions.length) {
             this.input.blur();
-            this.onSelect(this.state.suggestions[0]);
+            this.props.onSelect(this.state.suggestions[0], this.props.id);
           }
         },
       );
@@ -223,7 +216,6 @@ class DTAutosuggest extends React.Component {
           type: this.props.searchType,
           config: this.context.config,
         },
-        this.props.relayEnvironment,
         searchResult => {
           if (searchResult == null) {
             return;
@@ -345,65 +337,6 @@ class DTAutosuggest extends React.Component {
     }
   };
 
-  // DT-3263 ends
-  finishSelect = (item, type) => {
-    if (item.type.indexOf('Favourite') === -1) {
-      this.context.executeAction(saveSearch, { item, type });
-    }
-    // this.onSelect(item, type);
-  };
-
-  onSelect = item => {
-    // type is destination unless timetable or route was clicked
-    let type = 'endpoint';
-    switch (item.type) {
-      case 'Route':
-        type = 'search';
-        break;
-      default:
-    }
-
-    if (item.type === 'OldSearch' && item.properties.gid) {
-      getJson(this.context.config.URL.PELIAS_PLACE, {
-        ids: item.properties.gid,
-      }).then(data => {
-        const newItem = { ...item };
-        if (data.features != null && data.features.length > 0) {
-          // update only position. It is surprising if, say, the name changes at selection.
-          const geom = data.features[0].geometry;
-          newItem.geometry.coordinates = geom.coordinates;
-        }
-        this.finishSelect(newItem, type);
-        this.onSuggestionSelected(item);
-      });
-    } else {
-      this.finishSelect(item, type);
-      this.onSuggestionSelected(item);
-    }
-  };
-
-  onSuggestionSelected = item => {
-    // preferred route selection
-    if (this.props.isPreferredRouteSearch && this.props.onRouteSelected) {
-      this.props.onRouteSelected(item);
-      return;
-    }
-    // route
-    if (item.properties.link) {
-      this.context.router.push(item.properties.link);
-      return;
-    }
-    const location = suggestionToLocation(item);
-
-    if (item.properties.layer === 'currentPosition' && !item.properties.lat) {
-      this.setState({ pendingCurrentLocation: true }, () =>
-        this.context.executeAction(startLocationWatch),
-      );
-    } else {
-      this.props.onLocationSelected(location);
-    }
-  };
-
   shouldcomponentUpdate = (nextProps, nextState) => {
     if (
       this.state.pendingCurrentLocation !== nextState.pendingCurrentLocation
@@ -423,11 +356,15 @@ class DTAutosuggest extends React.Component {
     const oldLocState = this.props.locationState;
     const newLocState = nextProps.locationState;
     const oldGeoloc =
-      oldLocState.status === PositionStore.STATUS_FOUND_ADDRESS ||
-      oldLocState.status === PositionStore.STATUS_FOUND_LOCATION;
+      oldLocState.status ===
+        this.props.searchContext.positionStore.STATUS_FOUND_ADDRESS ||
+      oldLocState.status ===
+        this.props.searchContext.positionStore.STATUS_FOUND_LOCATION;
     const newGeoloc =
-      newLocState.status === PositionStore.STATUS_FOUND_ADDRESS ||
-      newLocState.status === PositionStore.STATUS_FOUND_LOCATION;
+      newLocState.status ===
+        this.props.searchContext.positionStore.STATUS_FOUND_ADDRESS ||
+      newLocState.status ===
+        this.props.searchContext.positionStore.STATUS_FOUND_LOCATION;
     if (oldGeoloc && newGeoloc) {
       // changes between found-location / found-address do not count
       return false;
@@ -451,7 +388,6 @@ class DTAutosuggest extends React.Component {
     if (this.props.showSpinner && this.state.pendingCurrentLocation) {
       return <Loading />;
     }
-
     const { value, suggestions } = this.state;
     const inputProps = {
       placeholder: this.context.intl.formatMessage({
@@ -547,8 +483,4 @@ class DTAutosuggest extends React.Component {
   }
 }
 
-export default getRelayEnvironment(
-  connectToStores(DTAutosuggest, [PositionStore], context => ({
-    locationState: context.getStore(PositionStore).getLocationState(),
-  })),
-);
+export default DTAutosuggest;

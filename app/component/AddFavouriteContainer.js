@@ -11,9 +11,8 @@ import BackButton from './BackButton';
 import FavouriteIconTable from './FavouriteIconTable';
 import { addFavourite, deleteFavourite } from '../action/FavouriteActions';
 import { isStop, isTerminal } from '../util/suggestionUtils';
-import DTAutoSuggest from './DTAutosuggest';
+import DTAutosuggestContainer from './DTAutosuggestContainer';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import searchContext from './searchContext';
 
 class AddFavouriteContainer extends React.Component {
   static FavouriteIconIds = [
@@ -209,15 +208,14 @@ class AddFavouriteContainer extends React.Component {
                   defaultMessage="Specify location"
                 />
               </h4>
-              <DTAutoSuggest
-                id="origin"
+              <DTAutosuggestContainer
+                type="field"
+                id="favourite"
                 refPoint={{ lat: 0, lon: 0 }}
                 searchType="endpoint"
                 placeholder="address"
                 value={favourite.address || ''}
                 layers={favouriteLayers}
-                onLocationSelected={this.setLocationProperties}
-                searchContext={searchContext}
                 showSpinner
               />
             </div>

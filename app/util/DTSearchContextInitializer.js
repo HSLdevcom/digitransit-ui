@@ -3,7 +3,8 @@ import {
   getRoutes,
   getStopAndStations,
   getFavouriteRoutes,
-} from '../util/DTSearchUtils';
+  setRelayEnvironment,
+} from './DTSearchUtils';
 import {
   getPositions,
   getFavouriteLocations,
@@ -11,9 +12,18 @@ import {
   getOldSearches,
   getFavouriteStops,
   getLanguage,
-} from '../util/storeUtils';
+  getPositionStore,
+} from './storeUtils';
+import { startLocationWatch } from '../action/PositionActions';
+import { saveSearch } from '../action/SearchActions';
+import updateViaPointsFromMap from '../action/ViaPointsActions';
 
-export default function intializeSearchContext(context, searchContext) {
+export default function intializeSearchContext(
+  context,
+  searchContext,
+  relayEnvironment,
+) {
+  setRelayEnvironment(relayEnvironment);
   // DT-3424: Set SearchContext for Autosuggest and searchUtils.
   searchContext.context = context;
   searchContext.getOldSearches = getOldSearches;
@@ -25,4 +35,8 @@ export default function intializeSearchContext(context, searchContext) {
   searchContext.getRoutes = getRoutes;
   searchContext.getStopAndStations = getStopAndStations;
   searchContext.getFavouriteRoutes = getFavouriteRoutes;
+  searchContext.positionStore = getPositionStore;
+  searchContext.startLocationWatch = startLocationWatch;
+  searchContext.saveSearch = saveSearch;
+  searchContext.updateViaPointsFromMap = updateViaPointsFromMap;
 }
