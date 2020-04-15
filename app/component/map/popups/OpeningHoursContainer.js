@@ -10,6 +10,10 @@ export default class OpeningHoursContainer extends React.Component {
     intl: intlShape.isRequired,
   };
 
+  static propTypes = {
+    data: PropTypes.object.isRequired,
+  };
+
   getOpeningHours = opening => {
     const { intl } = this.context;
     const openingTable = opening.getTable();
@@ -90,9 +94,7 @@ export default class OpeningHoursContainer extends React.Component {
   };
 
   render() {
-    const opening = new SimpleOpeningHours(
-      this.state.feature.properties.opening_hours,
-    );
+    const opening = new SimpleOpeningHours(this.props.data);
     const isOpenNow = opening.isOpenNow();
 
     /*
