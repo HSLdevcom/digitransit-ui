@@ -1,13 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { intlShape } from 'react-intl';
+import { intlShape, FormattedMessage } from 'react-intl';
 import Relay from 'react-relay/classic';
 import { SimpleOpeningHours } from 'simple-opening-hours';
 import Card from '../../Card';
 import CardHeader from '../../CardHeader';
 import Loading from '../../Loading';
 import { getJson } from '../../../util/xhrPromise';
-import FormattedMessage from '../../Message';
 
 class Covid19OpeningHoursPopup extends React.Component {
   static contextTypes = {
