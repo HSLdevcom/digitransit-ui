@@ -7,6 +7,7 @@ import { executeSearch, getAllEndpointLayers } from '../util/searchUtils';
 import SuggestionItem from './SuggestionItem';
 import Icon from './Icon';
 import Loading from './Loading';
+import { suggestionToAriaContent } from '../util/suggestionUtils';
 
 class DTAutosuggest extends React.Component {
   static contextTypes = {
@@ -128,7 +129,7 @@ class DTAutosuggest extends React.Component {
     this.props.isFocused(false);
     this.setState({
       editing: false,
-      value: this.props.value, // DT-3263: changed this.state.value from this.props.value
+      value: this.props.value,
     });
   };
 
@@ -162,7 +163,6 @@ class DTAutosuggest extends React.Component {
     }
   };
 
-  // DT-3263: not clear automatically suggestions: [] (e.g. user comes back with tabulator)
   onSuggestionsClearRequested = () => {
     this.setState({
       suggestions: [],
@@ -375,6 +375,18 @@ class DTAutosuggest extends React.Component {
     return oldLocState.status !== newLocState.status;
   };
 
+  suggestionAsAriaContent() {
+    let label = [];
+    if (this.state.suggestions[0]) {
+      label = suggestionToAriaContent(
+        this.state.suggestions[0],
+        this.context.intl,
+        this.context.config.search.suggestions.useTransportIcons,
+      );
+    }
+    return label ? label.join(' - ') : '';
+  }
+
   render() {
     if (this.props.showSpinner && this.state.pendingCurrentLocation) {
       return <Loading />;
@@ -406,9 +418,21 @@ class DTAutosuggest extends React.Component {
     const ariaSuggestionLen = this.context.intl.formatMessage(
       {
         id: 'search-autosuggest-len',
-        defaultMessage: 'There are {len} Suggestions available',
+        defaultMessage: 'There are {len} suggestions available',
       },
-      { len: suggestions.length },
+      {
+        len: suggestions.length,
+      },
+    );
+
+    const ariaCurrentSuggestion = this.context.intl.formatMessage(
+      {
+        id: 'search-current-suggestion',
+        defaultMessage: 'Current selection: {selection}',
+      },
+      {
+        selection: this.suggestionAsAriaContent(),
+      },
     );
     return (
       <div className={cx(['autosuggest-input-container', this.props.id])}>
@@ -437,8 +461,19 @@ class DTAutosuggest extends React.Component {
                 onKeyDown={this.keyDown}
                 {...p}
               />
-              <span className="sr-only" role="alert">
+              <span
+                className="sr-only"
+                role="alert"
+                aria-hidden={!this.state.editing}
+              >
                 {ariaSuggestionLen}
+              </span>
+              <span
+                className="sr-only"
+                role="alert"
+                aria-hidden={!this.state.editing || suggestions.length === 0}
+              >
+                {ariaCurrentSuggestion}
               </span>
               {this.clearButton()}
             </>
