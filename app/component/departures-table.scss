@@ -65,8 +65,9 @@ table.nearby-departures-table {
           .city-bike-station-availability {
             padding-right: 0.3em;
           }
-          .bikes-total {
+          .bike-availability {
             padding-right: 0.3em;
+            display: inline-block;
           }
         }
         &.td-route-number {
