@@ -120,8 +120,8 @@ class Covid19OpeningHoursPopup extends React.Component {
         </p>
         <p>
           {intl.formatMessage({
-            id: 'public-holiday',
-            defaultMessage: 'Public holiday',
+            id: 'public-holidays',
+            defaultMessage: 'Public holidays',
           })}{' '}
           <p className="popup-opening-hours-times">
             {ph.length === 0 ? closed : ph}
