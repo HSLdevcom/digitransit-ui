@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import Relay from 'react-relay/classic';
+import SimpleOpeningHours from 'simple-opening-hours';
 import Card from '../../Card';
 import CardHeader from '../../CardHeader';
 import Loading from '../../Loading';
@@ -46,7 +47,7 @@ class Covid19OpeningHoursPopup extends React.Component {
         </div>
       );
     }
-    const { name, brand, status, cat, fid } = this.state.feature.properties;
+    const { name, brand, status, cat, fid, opening_hours } = this.state.feature.properties;
     return (
       <Card>
         <div className="padding-normal">
@@ -60,6 +61,9 @@ class Covid19OpeningHoursPopup extends React.Component {
           <div className="city-bike-container">
             <p>
               Covid-19 status: {status}
+            </p>
+            <p>
+              Opening hours
             </p>
             <p>
               Source: <a target="_blank" href={`https://www.bleibtoffen.de/place/${fid}`}>bleibtoffen.de</a>
