@@ -4,7 +4,7 @@ import cx from 'classnames';
 import pure from 'recompose/pure';
 
 import Icon from './Icon';
-import { getNameLabel, getIcon } from '../util/suggestionUtils';
+import { getIcon, getNameLabel } from '../util/suggestionUtils';
 import ComponentUsageExample from './ComponentUsageExample';
 
 const SuggestionItem = pure(

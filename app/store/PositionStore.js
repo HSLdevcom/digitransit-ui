@@ -31,6 +31,10 @@ export default class PositionStore extends Store {
 
   static STATUS_GEOLOCATION_NOT_SUPPORTED = 'geolocation-not-supported';
 
+  static REVERSE_GEOCODING_STATUS_READY = 'reverse-geocoding-ready';
+
+  static REVERSE_GEOCODING_STATUS_IN_PROGRESS = 'reverse-geocoding-in-progress';
+
   constructor(dispatcher) {
     if (
       isBrowser &&
@@ -141,6 +145,7 @@ export default class PositionStore extends Store {
     } else {
       this.address = '';
     }
+    this.reverseGeocodingStatus = PositionStore.REVERSE_GEOCODING_STATUS_READY;
     this.status = PositionStore.STATUS_FOUND_ADDRESS;
     this.emitChange();
   }
@@ -160,6 +165,9 @@ export default class PositionStore extends Store {
       //   reverse geocoding is in progress
       isLocationingInProgress:
         this.status === PositionStore.STATUS_SEARCHING_LOCATION,
+      isReverseGeocodingInProgress:
+        this.reverseGeocodingStatus ===
+        PositionStore.REVERSE_GEOCODING_STATUS_IN_PROGRESS,
       locationingFailed:
         this.status === PositionStore.STATUS_GEOLOCATION_DENIED ||
         this.status === PositionStore.STATUS_GEOLOCATION_TIMEOUT ||
@@ -178,6 +186,12 @@ export default class PositionStore extends Store {
 
   getWatchId = () => this.watchId;
 
+  startReverseGeocoding() {
+    this.reverseGeocodingStatus =
+      PositionStore.REVERSE_GEOCODING_STATUS_IN_PROGRESS;
+    this.emitChange();
+  }
+
   static handlers = {
     GeolocationSearch: 'geolocationSearch',
     GeolocationFound: 'storeLocation',
@@ -189,5 +203,6 @@ export default class PositionStore extends Store {
     AddressFound: 'storeAddress',
     GeolocationWatchStarted: 'storeWatchId',
     GeolocationWatchStopped: 'clearWatchId',
+    StartReverseGeocoding: 'startReverseGeocoding',
   };
 }

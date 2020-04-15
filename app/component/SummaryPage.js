@@ -9,6 +9,7 @@ import polyline from 'polyline-encoded';
 import { FormattedMessage } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import isEqual from 'lodash/isEqual';
+import { connectToStores } from 'fluxible-addons-react';
 import storeOrigin from '../action/originActions';
 import DesktopView from './DesktopView';
 import MobileView from './MobileView';
@@ -19,6 +20,7 @@ import ItineraryLine from './map/ItineraryLine';
 import LocationMarker from './map/LocationMarker';
 import MobileItineraryWrapper from './MobileItineraryWrapper';
 import Loading from './Loading';
+import { getRoutePath } from '../util/path';
 import { getIntermediatePlaces } from '../util/queryUtils';
 import { validateServiceTimeRange } from '../util/timeUtils';
 import withBreakpoint from '../util/withBreakpoint';
@@ -29,7 +31,8 @@ import { itineraryHasCancelation } from '../util/alertUtils';
 import triggerMessage from '../util/messageUtils';
 import MessageStore from '../store/MessageStore';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { otpToLocation } from '../util/otpStrings';
+import { otpToLocation, addressToItinerarySearch } from '../util/otpStrings';
+import { startLocationWatch } from '../action/PositionActions';
 
 export const ITINERARYFILTERING_DEFAULT = 1.5;
 
@@ -114,11 +117,13 @@ class SummaryPage extends React.Component {
     }),
     breakpoint: PropTypes.string.isRequired,
     error: PropTypes.object,
+    loadingPosition: PropTypes.bool,
   };
 
   static defaultProps = {
     map: undefined,
     error: undefined,
+    loadingPosition: false,
   };
 
   constructor(props, context) {
@@ -127,6 +132,7 @@ class SummaryPage extends React.Component {
     if (props.error) {
       reportError(props.error);
     }
+    this.resultsUpdatedAlertRef = React.createRef();
   }
 
   state = { center: null, loading: false };
@@ -145,9 +151,23 @@ class SummaryPage extends React.Component {
       // eslint-disable-next-line no-unused-expressions
       import('../util/feedbackly');
     }
+    //  alert screen reader when search results appear
+    if (this.resultsUpdatedAlertRef.current) {
+      this.resultsUpdatedAlertRef.current.innerHTML = this.resultsUpdatedAlertRef.current.innerHTML;
+    }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    // alert screen readers when results update
+    if (
+      this.resultsUpdatedAlertRef.current &&
+      this.props.plan.itineraries &&
+      JSON.stringify(prevProps.match.location) !==
+        JSON.stringify(this.props.match.location)
+    ) {
+      // refresh content to trigger the alert
+      this.resultsUpdatedAlertRef.current.innerHTML = this.resultsUpdatedAlertRef.current.innerHTML;
+    }
     if (this.props.error) {
       reportError(this.props.error);
     }
@@ -321,7 +341,14 @@ class SummaryPage extends React.Component {
         intermediatePlaces = [otpToLocation(query.intermediatePlaces)];
       }
     }
-
+    const screenReaderUpdateAlert = (
+      <span className="sr-only" role="alert" ref={this.resultsUpdatedAlertRef}>
+        <FormattedMessage
+          id="itinerary-page.update-alert"
+          defaultMessage="Search results updated"
+        />
+      </span>
+    );
     // added config.itinerary.serviceTimeRange parameter (DT-3175)
     const serviceTimeRange = validateServiceTimeRange(
       this.context.config.itinerary.serviceTimeRange,
@@ -329,25 +356,32 @@ class SummaryPage extends React.Component {
     );
     if (this.props.breakpoint === 'large') {
       let content;
-      if (this.state.loading === false && (error || this.props.plan)) {
+      if (
+        this.state.loading === false &&
+        this.props.loadingPosition === false &&
+        (error || this.props.plan)
+      ) {
         content = (
-          <SummaryPlanContainer
-            activeIndex={getActiveIndex(match.location, itineraries)}
-            plan={this.props.plan}
-            serviceTimeRange={serviceTimeRange}
-            itineraries={itineraries}
-            params={match.params}
-            error={error || this.state.error}
-            setLoading={this.setLoading}
-            setError={this.setError}
-          >
-            {this.props.content &&
-              React.cloneElement(this.props.content, {
-                itinerary: hasItineraries && itineraries[match.params.hash],
-                focus: this.updateCenter,
-                plan: this.props.plan,
-              })}
-          </SummaryPlanContainer>
+          <>
+            {screenReaderUpdateAlert}
+            <SummaryPlanContainer
+              activeIndex={getActiveIndex(match.location, itineraries)}
+              plan={this.props.plan}
+              serviceTimeRange={serviceTimeRange}
+              itineraries={itineraries}
+              params={match.params}
+              error={error || this.state.error}
+              setLoading={this.setLoading}
+              setError={this.setError}
+            >
+              {this.props.content &&
+                React.cloneElement(this.props.content, {
+                  itinerary: hasItineraries && itineraries[match.params.hash],
+                  focus: this.updateCenter,
+                  plan: this.props.plan,
+                })}
+            </SummaryPlanContainer>
+          </>
         );
       } else {
         content = (
@@ -383,7 +417,11 @@ class SummaryPage extends React.Component {
 
     let content;
 
-    if ((!error && !this.props.plan) || this.state.loading !== false) {
+    if (
+      (!error && !this.props.plan) ||
+      this.state.loading !== false ||
+      this.props.loadingPosition === true
+    ) {
       content = (
         <div style={{ position: 'relative', height: 200 }}>
           <Loading />
@@ -409,19 +447,22 @@ class SummaryPage extends React.Component {
       );
     } else {
       content = (
-        <SummaryPlanContainer
-          activeIndex={getActiveIndex(match.location, itineraries)}
-          plan={this.props.plan}
-          serviceTimeRange={serviceTimeRange}
-          itineraries={itineraries}
-          params={match.params}
-          error={error || this.state.error}
-          setLoading={this.setLoading}
-          setError={this.setError}
-          from={match.params.from}
-          to={match.params.to}
-          intermediatePlaces={intermediatePlaces}
-        />
+        <>
+          <SummaryPlanContainer
+            activeIndex={getActiveIndex(match.location, itineraries)}
+            plan={this.props.plan}
+            serviceTimeRange={serviceTimeRange}
+            itineraries={itineraries}
+            params={match.params}
+            error={error || this.state.error}
+            setLoading={this.setLoading}
+            setError={this.setError}
+            from={match.params.from}
+            to={match.params.to}
+            intermediatePlaces={intermediatePlaces}
+          />
+          {screenReaderUpdateAlert}
+        </>
       );
     }
 
@@ -454,7 +495,49 @@ SummaryPageWithBreakpoint.description = (
   </ComponentUsageExample>
 );
 
-const containerComponent = createFragmentContainer(SummaryPageWithBreakpoint, {
+// Handle geolocationing when url contains POS as origin/destination
+const PositioningWrapper = connectToStores(
+  SummaryPageWithBreakpoint,
+  ['PositionStore'],
+  (context, props) => {
+    const { from, to } = props.match.params;
+    if (from !== 'POS' && to !== 'POS') {
+      return props;
+    }
+
+    const locationState = context.getStore('PositionStore').getLocationState();
+    if (locationState.locationingFailed) {
+      // Error message is displayed by locationing message bar
+      return { ...props, loadingPosition: false };
+    }
+
+    if (
+      locationState.isLocationingInProgress ||
+      locationState.isReverseGeocodingInProgress
+    ) {
+      return { ...props, loadingPosition: true };
+    }
+
+    if (locationState.hasLocation) {
+      const locationForUrl = addressToItinerarySearch(locationState);
+      const newFrom = from === 'POS' ? locationForUrl : from;
+      const newTo = to === 'POS' ? locationForUrl : to;
+      props.router.replace(getRoutePath(newFrom, newTo));
+      return { ...props, loadingPosition: false };
+    }
+
+    // locationing not started...
+    context.executeAction(startLocationWatch);
+    return { ...props, loadingPosition: true };
+  },
+);
+
+PositioningWrapper.contextTypes = {
+  ...PositioningWrapper.contextTypes,
+  executeAction: PropTypes.func.isRequired,
+};
+
+const containerComponent = createFragmentContainer(PositioningWrapper, {
   plan: graphql`
     fragment SummaryPage_plan on Plan {
       ...SummaryPlanContainer_plan

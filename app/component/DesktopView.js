@@ -23,7 +23,7 @@ export default function DesktopView({
                 title={title}
                 icon="icon-icon_arrow-collapse--left"
                 color={bckBtnColor}
-                className="arrow-icon"
+                iconClassName="arrow-icon"
               />
             </div>
           </div>

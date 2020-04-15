@@ -96,6 +96,20 @@ describe('<RouteAlertsRow />', () => {
     expect(wrapper.find('.bus')).to.have.lengthOf(1);
   });
 
+  it('should render link for route', () => {
+    const props = {
+      entityType: 'route',
+      entityMode: 'bus',
+      entityIdentifier: '97N',
+      gtfsIds: 'HSL:2097N',
+      showRouteNameLink: true,
+    };
+    const wrapper = shallowWithIntl(<RouteAlertsRow {...props} />);
+    expect(wrapper.find('.route-alert-row-link').get(0).props.to).to.equal(
+      '/linjat/HSL:2097N/pysakit/HSL:2097N:0:01',
+    );
+  });
+
   it('should not render the identifier if gtfsIds not provided', () => {
     const props = {
       entityType: 'route',
