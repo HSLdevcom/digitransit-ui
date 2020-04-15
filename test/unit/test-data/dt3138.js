@@ -1,4 +1,7 @@
-import { PREFIX_ROUTES } from '../../../app/util/path';
+import {
+  PREFIX_ROUTES,
+  PREFIX_ITINERARY_SUMMARY,
+} from '../../../app/util/path';
 
 export const disruptions = [
   {
@@ -127,7 +130,7 @@ export const serviceAlerts = [
   {
     description:
       'Lähibussin 802 reitti muuttuu Laajasalossa 12.8. alkaen - Hevossalmentien lenkkiä ei ajeta.',
-    header: 'Lähibussin 802 reitti muuttuu Laajasalossa 12.8. alkaen',
+    header: `Lähibussin 802 reitti muuttuu Laajasalossa 12.8. alkaen`,
     route: {
       __dataID__: 'Um91dGU6SFNMOjE4MDI=',
       color: null,
@@ -137,8 +140,7 @@ export const serviceAlerts = [
     },
     severityLevel: 'INFO',
     stop: {},
-    url:
-      'https://www.hsl.fi/liikennetiedotteet/2019/lahibussin-802-reitti-muuttuu-laajasalossa-128-alkaen-hevossalmentien',
+    url: `https://www.hsl.fi/liikennetiedotteet/2019/lahibussin-802-${PREFIX_ITINERARY_SUMMARY}-muuttuu-laajasalossa-128-alkaen-hevossalmentien`,
     validityPeriod: {
       endTime: 1566246600,
       startTime: 1564729920,
