@@ -338,7 +338,7 @@ describe('<RoutePatternSelect />', () => {
       useCurrentTime: true,
       onSelectChange: () => {},
       gtfsId: 'HSL:1010',
-      activeTab: 'pysakit',
+      activeTab: PREFIX_STOPS,
       className: 'bp-large',
       serviceDay,
       relay: {
