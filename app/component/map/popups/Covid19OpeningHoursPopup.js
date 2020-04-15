@@ -57,32 +57,38 @@ class Covid19OpeningHoursPopup extends React.Component {
     if (opening_hours) {
       opening = new SimpleOpeningHours(opening_hours);
       openingTable = opening.getTable();
+      const { mo, tu, we, th, fr, sa, su, ph } = openingTable;
+
+      const closed = intl.formatMessage({
+        id: 'closed',
+        defaultMessage: 'Closed',
+      });
 
       openingHoursString = `${intl.formatMessage({
         id: 'monday-3',
         defaultMessage: 'Mon',
-      })}\t${openingTable.mo}\n${intl.formatMessage({
+      })}\t${mo.length === 0 ? closed : mo}\n${intl.formatMessage({
         id: 'tuesday-3',
         defaultMessage: 'Tue',
-      })}\t\t${openingTable.tu}\n${intl.formatMessage({
+      })}\t\t${tu.length === 0 ? closed : tu}\n${intl.formatMessage({
         id: 'wednesday-3',
         defaultMessage: 'Wed',
-      })}\t${openingTable.we}\n${intl.formatMessage({
+      })}\t${we.length === 0 ? closed : we}\n${intl.formatMessage({
         id: 'thursday-3',
         defaultMessage: 'Thu',
-      })}\t\t${openingTable.th}\n${intl.formatMessage({
+      })}\t\t${th.length === 0 ? closed : th}\n${intl.formatMessage({
         id: 'friday-3',
         defaultMessage: 'Fri',
-      })}\t\t${openingTable.fr}\n${intl.formatMessage({
+      })}\t\t${fr.length === 0 ? closed : fr}\n${intl.formatMessage({
         id: 'saturday-3',
         defaultMessage: 'Sat',
-      })}\t\t${openingTable.sa}\n${intl.formatMessage({
+      })}\t\t${sa.length === 0 ? closed : sa}\n${intl.formatMessage({
         id: 'sunday-3',
         defaultMessage: 'Sun',
-      })}\t\t${openingTable.su}\n${intl.formatMessage({
+      })}\t\t${su.length === 0 ? closed : su}\n${intl.formatMessage({
         id: 'holiday-3',
         defaultMessage: 'PH',
-      })}\t\t${openingTable.ph}`;
+      })}\t\t${ph.length === 0 ? closed : ph}`;
     }
 
     return (
