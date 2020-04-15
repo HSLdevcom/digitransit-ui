@@ -12,13 +12,7 @@ describe('<Availability />', () => {
       text: <p className="test-text">foo</p>,
       showStatusBar: true,
     };
-    const wrapper = shallowWithIntl(<Availability {...props} />, {
-      context: {
-        config: {
-          cityBike: { useSpacesAvailable: true },
-        },
-      },
-    });
+    const wrapper = shallowWithIntl(<Availability {...props} />);
     expect(wrapper.find('.test-text').text()).to.equal('foo');
   });
 
@@ -30,13 +24,7 @@ describe('<Availability />', () => {
       text: <p className="test-text">foo</p>,
       showStatusBar: true,
     };
-    const wrapper = shallowWithIntl(<Availability {...props} />, {
-      context: {
-        config: {
-          cityBike: { useSpacesAvailable: true },
-        },
-      },
-    });
+    const wrapper = shallowWithIntl(<Availability {...props} />);
     expect(wrapper.find('.available-few')).to.have.lengthOf(1);
     expect(wrapper.find('.available-none')).to.have.lengthOf(1);
   });
@@ -49,13 +37,7 @@ describe('<Availability />', () => {
       text: <p className="test-text">foo</p>,
       showStatusBar: false,
     };
-    const wrapper = shallowWithIntl(<Availability {...props} />, {
-      context: {
-        config: {
-          cityBike: { useSpacesAvailable: true },
-        },
-      },
-    });
+    const wrapper = shallowWithIntl(<Availability {...props} />);
     expect(wrapper.find('.available-few')).to.have.lengthOf(0);
     expect(wrapper.find('.available-none')).to.have.lengthOf(0);
   });
