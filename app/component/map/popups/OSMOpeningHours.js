@@ -38,7 +38,7 @@ export default class OSMOpeningHours extends React.Component {
               defaultMessage: day,
             })}
           </td>
-          <td>{hours.map(h => <div key={h}>{h}</div>)}</td>
+          <td>{hours.map(h => <span key={h}>{h}</span>)}</td>
         </tr>
       );
     };
@@ -57,8 +57,8 @@ export default class OSMOpeningHours extends React.Component {
     const isOpenNow = opening.isOpenNow();
 
     return (
-      <div className="opening-hours">
-        <div className="currently-open">
+      <section className="opening-hours">
+        <section className="currently-open">
           <FormattedMessage id="now" defaultMessage="Now" />{' '}
           <strong>
             {isOpenNow ? (
@@ -67,12 +67,17 @@ export default class OSMOpeningHours extends React.Component {
               <FormattedMessage id="closed" defaultMessage="closed" />
             )}
           </strong>
-        </div>
-        <p>
-          <FormattedMessage id="opening-hours" defaultMessage="Opening hours" />
+        </section>
+        <section>
+          <h4>
+            <FormattedMessage
+              id="opening-hours"
+              defaultMessage="Opening hours"
+            />
+          </h4>
           {this.getOpeningHours(opening)}
-        </p>
-      </div>
+        </section>
+      </section>
     );
   }
 }

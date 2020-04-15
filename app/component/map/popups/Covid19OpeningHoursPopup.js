@@ -68,26 +68,24 @@ class Covid19OpeningHoursPopup extends React.Component {
             headingStyle="h2"
           />
 
-          <div className="city-bike-container">
-            <p>
-              <span className="covid-19-badge">COVID-19</span>
-              <FormattedMessage
-                id={`covid-19-${status}`}
-                defaultMessage={status}
-              />
-            </p>
-            <p>{this.getOpeningHours()}</p>
-            <p>
-              Source:{' '}
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href={`https://www.bleibtoffen.de/place/${fid}`}
-              >
-                bleibtoffen.de
-              </a>
-            </p>
-          </div>
+          <p>
+            <span className="covid-19-badge">COVID-19</span>
+            <FormattedMessage
+              id={`covid-19-${status}`}
+              defaultMessage={status}
+            />
+          </p>
+          <p>{this.getOpeningHours()}</p>
+          <p>
+            <FormattedMessage id="source" defaultMessage="Source" />:{' '}
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href={`https://www.bleibtoffen.de/place/${fid}`}
+            >
+              bleibtoffen.de
+            </a>
+          </p>
         </div>
       </Card>
     );

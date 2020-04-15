@@ -350,16 +350,20 @@ $btn-heigth: 17px;
 }
 
 .opening-hours {
-
   .currently-open {
     font-size: 13px;
+    margin-bottom: 10px;
   }
 
   table {
+    border-collapse: collapse;
     width: 100%;
     tr {
       td:last-child {
         text-align: right;
+      }
+      span {
+        display: block;
       }
     }
   }
