@@ -67,7 +67,6 @@ class Covid19OpeningHoursPopup extends React.Component {
             className="padding-medium"
             headingStyle="h2"
           />
-
           <p>
             <span className="covid-19-badge">COVID-19</span>
             <FormattedMessage

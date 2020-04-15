@@ -10,7 +10,7 @@ export default class OSMOpeningHours extends React.Component {
   };
 
   static propTypes = {
-    openingHours: PropTypes.object.isRequired,
+    openingHours: PropTypes.string.isRequired,
   };
 
   getOpeningHours = opening => {
@@ -44,11 +44,9 @@ export default class OSMOpeningHours extends React.Component {
     };
 
     return (
-      <p>
-        <table>
-          <tbody>{weekdays.map(makeRow)}</tbody>
-        </table>
-      </p>
+      <table>
+        <tbody>{weekdays.map(makeRow)}</tbody>
+      </table>
     );
   };
 
@@ -57,8 +55,8 @@ export default class OSMOpeningHours extends React.Component {
     const isOpenNow = opening.isOpenNow();
 
     return (
-      <section className="opening-hours">
-        <section className="currently-open">
+      <div className="opening-hours">
+        <div className="currently-open">
           <FormattedMessage id="now" defaultMessage="Now" />{' '}
           <strong>
             {isOpenNow ? (
@@ -67,8 +65,8 @@ export default class OSMOpeningHours extends React.Component {
               <FormattedMessage id="closed" defaultMessage="closed" />
             )}
           </strong>
-        </section>
-        <section>
+        </div>
+        <div>
           <h4>
             <FormattedMessage
               id="opening-hours"
@@ -76,8 +74,8 @@ export default class OSMOpeningHours extends React.Component {
             />
           </h4>
           {this.getOpeningHours(opening)}
-        </section>
-      </section>
+        </div>
+      </div>
     );
   }
 }
