@@ -8,6 +8,7 @@ import {
   parseLocation,
   PREFIX_STOPS,
   PREFIX_ROUTES,
+  PREFIX_TERMINALS,
 } from '../util/path';
 import { dtLocationShape } from '../util/shapes';
 import AppBarContainer from './AppBarContainer';
@@ -107,7 +108,7 @@ class TopLevel extends React.Component {
         }
         break;
       case PREFIX_STOPS:
-      case 'terminaalit':
+      case PREFIX_TERMINALS:
         if (
           oldLocation.indexOf(newContext) !== 1 ||
           (prevProps.match.params.stopId &&
