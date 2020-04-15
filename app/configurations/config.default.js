@@ -273,6 +273,7 @@ export default {
     // When should bikeshare availability be rendered in orange rather than green
     fewAvailableCount: 3,
     networks: {},
+    useSpacesAvailable: true,
   },
 
   // Lowest level for stops and terminals are rendered
