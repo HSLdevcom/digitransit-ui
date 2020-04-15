@@ -73,7 +73,7 @@ export default class OSMOpeningHours extends React.Component {
             <FormattedMessage
               id="opening-hours"
               defaultMessage="Opening hours"
-            />:
+            />
           </p>
           {this.getOpeningHours(opening)}
         </div>

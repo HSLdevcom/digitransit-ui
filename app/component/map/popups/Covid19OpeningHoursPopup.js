@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
 import Relay from 'react-relay/classic';
-import { SimpleOpeningHours } from 'simple-opening-hours';
 import Card from '../../Card';
 import CardHeader from '../../CardHeader';
 import Loading from '../../Loading';
@@ -41,11 +40,11 @@ class Covid19OpeningHoursPopup extends React.Component {
   }
 
   getOpeningHours = () => {
-    return (
-      <OSMOpeningHours
-        openingHours={this.state.feature.properties.opening_hours}
-      />
-    );
+    const hours = this.state.feature.properties.opening_hours;
+    if (hours) {
+      return <OSMOpeningHours openingHours={hours} />;
+    }
+    return null;
   };
 
   render() {
@@ -66,10 +65,17 @@ class Covid19OpeningHoursPopup extends React.Component {
             description={cat}
             unlinked
             className="padding-medium"
+            headingStyle="h2"
           />
 
           <div className="city-bike-container">
-            <p>Covid-19 status: {status}</p>
+            <p>
+              <span className="covid-19-badge">COVID-19</span>
+              <FormattedMessage
+                id={`covid-19-${status}`}
+                defaultMessage={status}
+              />
+            </p>
             <p>{this.getOpeningHours()}</p>
             <p>
               <FormattedMessage id="source" defaultMessage="Source:" />

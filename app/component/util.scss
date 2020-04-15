@@ -358,6 +358,18 @@ $btn-heigth: 17px;
   }
 }
 
+.covid-19-badge {
+  border: 1px solid $poi-closed-color;
+  border-radius: 3px;
+  font-weight: bold;
+  color: $poi-closed-color;
+  padding: 0 3px;
+  font-size: 12px;
+  margin-right: 3px;
+  position: relative;
+  top: -1px;
+}
+
 .popup-container {
   position: absolute;
   left: 50%;
