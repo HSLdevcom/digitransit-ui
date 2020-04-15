@@ -76,7 +76,6 @@ class DTAutosuggestPanel extends React.Component {
     getViaPointsFromMap: PropTypes.bool,
     searchPanelText: PropTypes.string,
     searchContext: PropTypes.any.isRequired,
-    locationState: PropTypes.object,
     onSelect: PropTypes.func,
     getLabel: PropTypes.func,
     addAnalyticsEvent: PropTypes.func,
@@ -401,7 +400,6 @@ class DTAutosuggestPanel extends React.Component {
             value={this.value(origin)}
             isFocused={this.isFocused}
             searchContext={searchContext}
-            locationState={this.props.locationState}
             onSelect={this.props.onSelect}
             getLabel={this.props.getLabel}
             focusChange={this.handleFocusChange}
@@ -457,7 +455,6 @@ class DTAutosuggestPanel extends React.Component {
                   className="viapoint"
                   isFocused={this.isFocused}
                   searchContext={searchContext}
-                  locationState={this.props.locationState}
                   value={(o && o.address) || ''}
                   onSelect={this.props.onSelect}
                   handelViaPoints={item =>
@@ -559,7 +556,6 @@ class DTAutosuggestPanel extends React.Component {
             className={this.class(this.props.destination)}
             isFocused={this.isFocused}
             searchContext={searchContext}
-            locationState={this.props.locationState}
             onSelect={this.props.onSelect}
             value={this.value(this.props.destination)}
             getLabel={this.props.getLabel}

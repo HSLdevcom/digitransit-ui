@@ -30,7 +30,6 @@ class DTAutosuggestContainer extends React.Component {
     origin: dtLocationShape,
     destination: dtLocationShape,
     getViaPointsFromMap: PropTypes.bool,
-    locationState: PropTypes.object,
     searchType: PropTypes.string,
     originPlaceHolder: PropTypes.string,
     destinationPlaceHolder: PropTypes.string,
@@ -184,9 +183,9 @@ class DTAutosuggestContainer extends React.Component {
         break;
       default:
     }
-    if (id === 'CurrentLocation') {
+    if (item.type === 'CurrentLocation') {
       // item is already a location.
-      this.selectLocation(item);
+      this.selectLocation(item, id);
     }
     if (item.type === 'OldSearch' && item.properties.gid) {
       getJson(this.context.config.URL.PELIAS_PLACE, {
@@ -219,7 +218,6 @@ class DTAutosuggestContainer extends React.Component {
         originPlaceHolder={this.props.originPlaceHolder}
         destinationPlaceHolder={this.props.destinationPlaceHolder}
         searchContext={searchContext}
-        locationState={this.props.locationState}
         initialViaPoints={this.props.initialViaPoints}
         updateViaPoints={this.props.updateViaPoints}
         updateViaPointsFromMap={this.updateViaPointsFromMap}
@@ -246,7 +244,6 @@ class DTAutosuggestContainer extends React.Component {
         isFocused={this.isFocused}
         onRouteSelected={this.props.onRouteSelected}
         searchContext={searchContext}
-        locationState={this.props.locationState}
         showSpinner={this.props.showSpinner}
         layers={this.props.layers}
         getLabel={getLabel}

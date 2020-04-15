@@ -32,7 +32,6 @@ class DTAutosuggest extends React.Component {
     ariaLabel: PropTypes.string,
     onSelect: PropTypes.func,
     isPreferredRouteSearch: PropTypes.bool,
-    locationState: PropTypes.object,
     showSpinner: PropTypes.bool,
     storeRef: PropTypes.func,
     handleViaPoints: PropTypes.func,
@@ -72,34 +71,7 @@ class DTAutosuggest extends React.Component {
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps = nextProps => {
-    const locState = nextProps.locationState;
     // wait until address is set or geolocationing fails
-    if (
-      this.state.pendingCurrentLocation &&
-      (locState.status ===
-        this.props.searchContext.positionStore.STATUS_FOUND_ADDRESS ||
-        locState.locationingFailed)
-    ) {
-      this.setState({ pendingCurrentLocation: false }, () => {
-        if (
-          locState.status ===
-          this.props.searchContext.positionStore.STATUS_FOUND_ADDRESS
-        ) {
-          const location = {
-            type: 'CurrentLocation',
-            lat: locState.lat,
-            lon: locState.lon,
-            address:
-              locState.address ||
-              this.context.intl.formatMessage({
-                id: 'own-position',
-                defaultMessage: 'Own Location',
-              }),
-          };
-          nextProps.onSelect(location, location.type);
-        }
-      });
-    }
     if (nextProps.value !== this.state.value && !this.state.editing) {
       this.setState({
         value: nextProps.value,
