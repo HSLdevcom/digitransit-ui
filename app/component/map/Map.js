@@ -104,7 +104,8 @@ class Map extends React.Component {
     }
   };
 
-  loadMapLayers(mapUrl, attribution) {
+  loadMapLayer(mapUrl, attribution, index) {
+    const zIndex = -10 + index;
     return (
       <TileLayer
         key={mapUrl}
@@ -113,6 +114,7 @@ class Map extends React.Component {
         tileSize={this.context.config.map.tileSize || 256}
         zoomOffset={this.context.config.map.zoomOffset || 0}
         updateWhenIdle={false}
+        zIndex={zIndex}
         size={
           this.context.config.map.useRetinaTiles &&
           L.Browser.retina &&
@@ -192,7 +194,9 @@ class Map extends React.Component {
           onPopupopen={this.onPopupopen}
           closePopupOnClick={false}
         >
-          {mapUrls.map(url => this.loadMapLayers(url, attribution))}
+          {mapUrls.map((url, index) =>
+            this.loadMapLayer(url, attribution, index),
+          )}
           <AttributionControl position="bottomright" prefix="" />
           {this.props.showScaleBar && (
             <ScaleControl
