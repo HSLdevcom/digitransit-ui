@@ -349,14 +349,36 @@ $btn-heigth: 17px;
   left: 0;
 }
 
-.popup-opening-hours-container p {
-  margin: 0!important;
+.opening-hours {
+  .currently-open {
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    tr {
+      td:last-child {
+        text-align: right;
+      }
+      span {
+        display: block;
+      }
+    }
+  }
 }
 
-.popup-opening-hours-times {
-  display: inline-block;
-  position: fixed;
-  right: 40px;
+.covid-19-badge {
+  border: 1px solid $poi-closed-color;
+  border-radius: 3px;
+  font-weight: bold;
+  color: $poi-closed-color;
+  padding: 0 3px;
+  font-size: 12px;
+  margin-right: 5px;
+  position: relative;
+  top: -1px;
 }
 
 .popup-container {

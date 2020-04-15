@@ -1,13 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { intlShape } from 'react-intl';
+import { intlShape, FormattedMessage } from 'react-intl';
 import Relay from 'react-relay/classic';
-import { SimpleOpeningHours } from 'simple-opening-hours';
 import Card from '../../Card';
 import CardHeader from '../../CardHeader';
 import Loading from '../../Loading';
 import { getJson } from '../../../util/xhrPromise';
-import FormattedMessage from '../../StopTitle';
+import OSMOpeningHours from './OSMOpeningHours';
 
 class Covid19OpeningHoursPopup extends React.Component {
   static contextTypes = {
@@ -41,94 +40,11 @@ class Covid19OpeningHoursPopup extends React.Component {
   }
 
   getOpeningHours = () => {
-    const { intl } = this.context;
-    const opening = new SimpleOpeningHours(
-      this.state.feature.properties.opening_hours,
-    );
-    const openingTable = opening.getTable();
-    const { mo, tu, we, th, fr, sa, su, ph } = openingTable;
-
-    const closed = intl.formatMessage({
-      id: 'closed',
-      defaultMessage: 'Closed',
-    });
-
-    return (
-      <p className="popup-opening-hours-container">
-        <p>
-          {intl.formatMessage({
-            id: 'monday',
-            defaultMessage: 'Mon',
-          })}{' '}
-          <p className="popup-opening-hours-times">
-            {mo.length === 0 ? closed : mo}
-          </p>
-        </p>
-        <p>
-          {intl.formatMessage({
-            id: 'tuesday',
-            defaultMessage: 'Tue',
-          })}{' '}
-          <p className="popup-opening-hours-times">
-            {tu.length === 0 ? closed : tu}
-          </p>
-        </p>
-        <p>
-          {intl.formatMessage({
-            id: 'wednesday',
-            defaultMessage: 'Wed',
-          })}{' '}
-          <p className="popup-opening-hours-times">
-            {we.length === 0 ? closed : we}
-          </p>
-        </p>
-        <p>
-          {intl.formatMessage({
-            id: 'thursday',
-            defaultMessage: 'Thu',
-          })}{' '}
-          <p className="popup-opening-hours-times">
-            {th.length === 0 ? closed : th}
-          </p>
-        </p>
-        <p>
-          {intl.formatMessage({
-            id: 'friday',
-            defaultMessage: 'Fri',
-          })}{' '}
-          <p className="popup-opening-hours-times">
-            {fr.length === 0 ? closed : fr}
-          </p>
-        </p>
-        <p>
-          {intl.formatMessage({
-            id: 'saturday',
-            defaultMessage: 'Sat',
-          })}{' '}
-          <p className="popup-opening-hours-times">
-            {sa.length === 0 ? closed : sa}
-          </p>
-        </p>
-        <p>
-          {intl.formatMessage({
-            id: 'sunday',
-            defaultMessage: 'Sun',
-          })}{' '}
-          <p className="popup-opening-hours-times">
-            {su.length === 0 ? closed : su}
-          </p>
-        </p>
-        <p>
-          {intl.formatMessage({
-            id: 'public-holidays',
-            defaultMessage: 'Public holidays',
-          })}{' '}
-          <p className="popup-opening-hours-times">
-            {ph.length === 0 ? closed : ph}
-          </p>
-        </p>
-      </p>
-    );
+    const hours = this.state.feature.properties.opening_hours;
+    if (hours) {
+      return <OSMOpeningHours openingHours={hours} />;
+    }
+    return null;
   };
 
   render() {
@@ -139,15 +55,7 @@ class Covid19OpeningHoursPopup extends React.Component {
         </div>
       );
     }
-    const {
-      name,
-      brand,
-      status,
-      cat,
-      fid,
-      // eslint-disable-next-line camelcase
-      opening_hours,
-    } = this.state.feature.properties;
+    const { name, brand, status, cat, fid } = this.state.feature.properties;
 
     return (
       <Card>
@@ -157,33 +65,27 @@ class Covid19OpeningHoursPopup extends React.Component {
             description={cat}
             unlinked
             className="padding-medium"
+            headingStyle="h2"
           />
 
-          <div className="city-bike-container">
-            <p>Covid-19 status: {status}</p>
-            {/* eslint-disable-next-line camelcase */}
-            {opening_hours ? (
-              <p>
-                <FormattedMessage
-                  id="opening-hours"
-                  defaultMessage="Opening hours"
-                />
-                {this.getOpeningHours()}
-              </p>
-            ) : (
-              ''
-            )}
-            <p>
-              Source:{' '}
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href={`https://www.bleibtoffen.de/place/${fid}`}
-              >
-                bleibtoffen.de
-              </a>
-            </p>
-          </div>
+          <p>
+            <span className="covid-19-badge">COVID-19</span>
+            <FormattedMessage
+              id={`covid-19-${status}`}
+              defaultMessage={status}
+            />
+          </p>
+          <p>{this.getOpeningHours()}</p>
+          <p>
+            <FormattedMessage id="source" defaultMessage="Source" />:{' '}
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href={`https://www.bleibtoffen.de/place/${fid}`}
+            >
+              bleibtoffen.de
+            </a>
+          </p>
         </div>
       </Card>
     );
