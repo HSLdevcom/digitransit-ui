@@ -13,7 +13,7 @@ const getScale = glfun({
   stops: [[13, 0.8], [20, 1.6]],
 });
 
-const categoriesToRemove = ['public_transport_tickets'];
+const categoriesToRemove = ['vending_machine', 'public_transport_tickets'];
 
 class Covid19OpeningHours {
   constructor(tile, config) {
@@ -59,6 +59,7 @@ class Covid19OpeningHours {
     });
   };
 
+  // eslint-disable-next-line no-unused-vars
   getIcon = category => {
     return 'poi_other';
   };

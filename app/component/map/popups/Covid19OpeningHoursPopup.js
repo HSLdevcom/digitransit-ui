@@ -36,7 +36,7 @@ class Covid19OpeningHoursPopup extends React.Component {
     getJson(
       `https://features.caresteouvert.fr/collections/public.poi_osm/items/${fid}.json`,
     ).then(feature => {
-      this.setState({ feature , loading: false });
+      this.setState({ feature, loading: false });
     });
   }
 
@@ -48,12 +48,22 @@ class Covid19OpeningHoursPopup extends React.Component {
         </div>
       );
     }
-    const { name, brand, status, cat, fid, opening_hours } = this.state.feature.properties;
+    // eslint-disable-next-line camelcase
+    const {
+      name,
+      brand,
+      status,
+      cat,
+      fid,
+      // eslint-disable-next-line camelcase
+      opening_hours,
+    } = this.state.feature.properties;
     const { intl } = this.context;
     let opening;
     let openingTable;
     let openingHoursString;
 
+    // eslint-disable-next-line camelcase
     if (opening_hours) {
       opening = new SimpleOpeningHours(opening_hours);
       openingTable = opening.getTable();
@@ -95,26 +105,35 @@ class Covid19OpeningHoursPopup extends React.Component {
       <Card>
         <div className="padding-normal">
           <CardHeader
-            name={ name || brand || cat}
+            name={name || brand || cat}
             description={cat}
             unlinked
             className="padding-medium"
           />
 
           <div className="city-bike-container">
-            <p>
-              Covid-19 status: {status}
-            </p>
+            <p>Covid-19 status: {status}</p>
+            {/* eslint-disable-next-line camelcase */}
             {opening_hours ? (
               <p>
-                <FormattedMessage id="opening-hours" defaultMessage="Opening hours" />
+                <FormattedMessage
+                  id="opening-hours"
+                  defaultMessage="Opening hours"
+                />
                 <pre className="popup-opening-hours">{openingHoursString}</pre>
               </p>
             ) : (
               ''
             )}
             <p>
-              Source: <a target="_blank" href={`https://www.bleibtoffen.de/place/${fid}`}>bleibtoffen.de</a>
+              Source:{' '}
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href={`https://www.bleibtoffen.de/place/${fid}`}
+              >
+                bleibtoffen.de
+              </a>
             </p>
           </div>
         </div>
