@@ -65,7 +65,7 @@ const getNameLabel = memoize(
         ];
       case 'favouriteStation':
       case 'favouriteStop':
-        return [suggestion.name];
+        return [suggestion.name, suggestion.id, suggestion.address];
 
       case 'stop':
         return plain
