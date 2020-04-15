@@ -44,79 +44,39 @@ class Covid19OpeningHoursPopup extends React.Component {
     const opening = new SimpleOpeningHours(
       this.state.feature.properties.opening_hours,
     );
+    const weekdays = ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su', 'ph'];
     const openingTable = opening.getTable();
-    const { mo, tu, we, th, fr, sa, su, ph } = openingTable;
 
     const closed = intl.formatMessage({
       id: 'closed',
       defaultMessage: 'Closed',
     });
 
+    const makeRow = day => {
+      let hours;
+      if (openingTable[day].length === 0) {
+        hours = [closed];
+      } else {
+        hours = openingTable[day];
+      }
+      return (
+        <tr key={day}>
+          <td>
+            {intl.formatMessage({
+              id: `weekday-${day}`,
+              defaultMessage: day,
+            })}
+          </td>
+          <td>{hours.map(h => <div>{h}</div>)}</td>
+        </tr>
+      );
+    };
+
     return (
       <p>
-        {intl.formatMessage({
-          id: 'monday',
-          defaultMessage: 'Mon',
-        })}{' '}
-        <span className="popup-opening-hours-times">
-          {mo.length === 0 ? closed : mo}
-        </span>
-        <br />
-        {intl.formatMessage({
-          id: 'tuesday',
-          defaultMessage: 'Tue',
-        })}{' '}
-        <span className="popup-opening-hours-times">
-          {tu.length === 0 ? closed : tu}
-        </span>
-        <br />
-        {intl.formatMessage({
-          id: 'wednesday',
-          defaultMessage: 'Wed',
-        })}{' '}
-        <span className="popup-opening-hours-times">
-          {we.length === 0 ? closed : we}
-        </span>
-        <br />
-        {intl.formatMessage({
-          id: 'thursday',
-          defaultMessage: 'Thu',
-        })}{' '}
-        <span className="popup-opening-hours-times">
-          {th.length === 0 ? closed : th}
-        </span>
-        <br />
-        {intl.formatMessage({
-          id: 'friday',
-          defaultMessage: 'Fri',
-        })}{' '}
-        <span className="popup-opening-hours-times">
-          {fr.length === 0 ? closed : fr}
-        </span>
-        <br />
-        {intl.formatMessage({
-          id: 'saturday',
-          defaultMessage: 'Sat',
-        })}{' '}
-        <span className="popup-opening-hours-times">
-          {sa.length === 0 ? closed : sa}
-        </span>
-        <br />
-        {intl.formatMessage({
-          id: 'sunday',
-          defaultMessage: 'Sun',
-        })}{' '}
-        <span className="popup-opening-hours-times">
-          {su.length === 0 ? closed : su}
-        </span>
-        <br />
-        {intl.formatMessage({
-          id: 'public-holidays',
-          defaultMessage: 'Public holidays',
-        })}{' '}
-        <span className="popup-opening-hours-times">
-          {ph.length === 0 ? closed : ph}
-        </span>
+        <table className="popup-opening-hours">
+          <tbody>{weekdays.map(makeRow)}</tbody>
+        </table>
       </p>
     );
   };

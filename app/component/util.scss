@@ -349,10 +349,13 @@ $btn-heigth: 17px;
   left: 0;
 }
 
-.popup-opening-hours-times {
-  display: inline-block;
-  position: fixed;
-  right: 40px;
+.popup-opening-hours {
+  width: 100%;
+  tr {
+    td:last-child {
+      text-align: right;
+    }
+  }
 }
 
 .popup-container {
