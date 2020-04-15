@@ -35,8 +35,8 @@ class Covid19OpeningHoursPopup extends React.Component {
 
     getJson(
       `https://features.caresteouvert.fr/collections/public.poi_osm/items/${fid}.json`,
-    ).then(res => {
-      this.setState({ feature: res, loading: false });
+    ).then(feature => {
+      this.setState({ feature , loading: false });
     });
   }
 
