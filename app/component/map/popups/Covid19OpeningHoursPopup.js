@@ -167,8 +167,12 @@ class Covid19OpeningHoursPopup extends React.Component {
               ''
             )}
             <p>
-              Source:{' '}
+              <FormattedMessage
+                id="source"
+                defaultMessage="Source:"
+              />
               <a
+                style = {{'padding-left': '3px'}}
                 target="_blank"
                 rel="noopener noreferrer"
                 href={`https://www.bleibtoffen.de/place/${fid}`}
