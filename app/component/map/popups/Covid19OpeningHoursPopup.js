@@ -40,6 +40,97 @@ class Covid19OpeningHoursPopup extends React.Component {
     });
   }
 
+  getOpeningHours = () => {
+    const { intl } = this.context;
+    const opening = new SimpleOpeningHours(
+      this.state.feature.properties.opening_hours,
+    );
+    const openingTable = opening.getTable();
+    const { mo, tu, we, th, fr, sa, su, ph } = openingTable;
+
+    const closed = intl.formatMessage({
+      id: 'closed',
+      defaultMessage: 'Closed',
+    });
+
+    return (
+      <p className="popup-opening-hours-container">
+        <p>
+          {intl.formatMessage({
+            id: 'monday',
+            defaultMessage: 'Mon',
+          })}{' '}
+          <p className="popup-opening-hours-times">
+            {mo.length === 0 ? closed : mo}
+          </p>
+        </p>
+        <p>
+          {intl.formatMessage({
+            id: 'tuesday',
+            defaultMessage: 'Tue',
+          })}{' '}
+          <p className="popup-opening-hours-times">
+            {tu.length === 0 ? closed : tu}
+          </p>
+        </p>
+        <p>
+          {intl.formatMessage({
+            id: 'wednesday',
+            defaultMessage: 'Wed',
+          })}{' '}
+          <p className="popup-opening-hours-times">
+            {we.length === 0 ? closed : we}
+          </p>
+        </p>
+        <p>
+          {intl.formatMessage({
+            id: 'thursday',
+            defaultMessage: 'Thu',
+          })}{' '}
+          <p className="popup-opening-hours-times">
+            {th.length === 0 ? closed : th}
+          </p>
+        </p>
+        <p>
+          {intl.formatMessage({
+            id: 'friday',
+            defaultMessage: 'Fri',
+          })}{' '}
+          <p className="popup-opening-hours-times">
+            {fr.length === 0 ? closed : fr}
+          </p>
+        </p>
+        <p>
+          {intl.formatMessage({
+            id: 'saturday',
+            defaultMessage: 'Sat',
+          })}{' '}
+          <p className="popup-opening-hours-times">
+            {sa.length === 0 ? closed : sa}
+          </p>
+        </p>
+        <p>
+          {intl.formatMessage({
+            id: 'sunday',
+            defaultMessage: 'Sun',
+          })}{' '}
+          <p className="popup-opening-hours-times">
+            {su.length === 0 ? closed : su}
+          </p>
+        </p>
+        <p>
+          {intl.formatMessage({
+            id: 'public-holiday',
+            defaultMessage: 'Public holiday',
+          })}{' '}
+          <p className="popup-opening-hours-times">
+            {ph.length === 0 ? closed : ph}
+          </p>
+        </p>
+      </p>
+    );
+  };
+
   render() {
     if (this.state.loading) {
       return (
@@ -48,73 +139,46 @@ class Covid19OpeningHoursPopup extends React.Component {
         </div>
       );
     }
-    const { name, brand, status, cat, fid, opening_hours } = this.state.feature.properties;
-    const { intl } = this.context;
-    let opening;
-    let openingTable;
-    let openingHoursString;
-
-    if (opening_hours) {
-      opening = new SimpleOpeningHours(opening_hours);
-      openingTable = opening.getTable();
-      const { mo, tu, we, th, fr, sa, su, ph } = openingTable;
-
-      const closed = intl.formatMessage({
-        id: 'closed',
-        defaultMessage: 'Closed',
-      });
-
-      openingHoursString = `${intl.formatMessage({
-        id: 'monday-3',
-        defaultMessage: 'Mon',
-      })}\t${mo.length === 0 ? closed : mo}\n${intl.formatMessage({
-        id: 'tuesday-3',
-        defaultMessage: 'Tue',
-      })}\t\t${tu.length === 0 ? closed : tu}\n${intl.formatMessage({
-        id: 'wednesday-3',
-        defaultMessage: 'Wed',
-      })}\t${we.length === 0 ? closed : we}\n${intl.formatMessage({
-        id: 'thursday-3',
-        defaultMessage: 'Thu',
-      })}\t\t${th.length === 0 ? closed : th}\n${intl.formatMessage({
-        id: 'friday-3',
-        defaultMessage: 'Fri',
-      })}\t\t${fr.length === 0 ? closed : fr}\n${intl.formatMessage({
-        id: 'saturday-3',
-        defaultMessage: 'Sat',
-      })}\t\t${sa.length === 0 ? closed : sa}\n${intl.formatMessage({
-        id: 'sunday-3',
-        defaultMessage: 'Sun',
-      })}\t\t${su.length === 0 ? closed : su}\n${intl.formatMessage({
-        id: 'holiday-3',
-        defaultMessage: 'PH',
-      })}\t\t${ph.length === 0 ? closed : ph}`;
-    }
+    const {
+      name,
+      brand,
+      status,
+      cat,
+      fid,
+      opening_hours,
+    } = this.state.feature.properties;
 
     return (
       <Card>
         <div className="padding-normal">
           <CardHeader
-            name={ name || brand || cat}
+            name={name || brand || cat}
             description={cat}
             unlinked
             className="padding-medium"
           />
 
           <div className="city-bike-container">
-            <p>
-              Covid-19 status: {status}
-            </p>
+            <p>Covid-19 status: {status}</p>
             {opening_hours ? (
               <p>
-                <FormattedMessage id="opening-hours" defaultMessage="Opening hours" />
-                <pre className="popup-opening-hours">{openingHoursString}</pre>
+                <FormattedMessage
+                  id="opening-hours"
+                  defaultMessage="Opening hours"
+                />
+                {this.getOpeningHours()}
               </p>
             ) : (
               ''
             )}
             <p>
-              Source: <a target="_blank" href={`https://www.bleibtoffen.de/place/${fid}`}>bleibtoffen.de</a>
+              Source:{' '}
+              <a
+                target="_blank"
+                href={`https://www.bleibtoffen.de/place/${fid}`}
+              >
+                bleibtoffen.de
+              </a>
             </p>
           </div>
         </div>
