@@ -35,8 +35,8 @@ class Covid19OpeningHoursPopup extends React.Component {
 
     getJson(
       `https://features.caresteouvert.fr/collections/public.poi_osm/items/${fid}.json`,
-    ).then(res => {
-      this.setState({ feature: res, loading: false });
+    ).then(feature => {
+      this.setState({ feature, loading: false });
     });
   }
 
@@ -145,6 +145,7 @@ class Covid19OpeningHoursPopup extends React.Component {
       status,
       cat,
       fid,
+      // eslint-disable-next-line camelcase
       opening_hours,
     } = this.state.feature.properties;
 
@@ -160,6 +161,7 @@ class Covid19OpeningHoursPopup extends React.Component {
 
           <div className="city-bike-container">
             <p>Covid-19 status: {status}</p>
+            {/* eslint-disable-next-line camelcase */}
             {opening_hours ? (
               <p>
                 <FormattedMessage
@@ -175,6 +177,7 @@ class Covid19OpeningHoursPopup extends React.Component {
               Source:{' '}
               <a
                 target="_blank"
+                rel="noopener noreferrer"
                 href={`https://www.bleibtoffen.de/place/${fid}`}
               >
                 bleibtoffen.de

@@ -10,6 +10,7 @@ import isEqual from 'lodash/isEqual';
 import Popup from 'react-leaflet/es/Popup';
 import { withLeaflet } from 'react-leaflet/es/context';
 
+import { first } from 'lodash-es';
 import StopRoute from '../../../route/StopRoute';
 import TerminalRoute from '../../../route/TerminalRoute';
 import CityBikeRoute from '../../../route/CityBikeRoute';
@@ -298,21 +299,8 @@ class TileLayerContainer extends GridLayer {
             />
           );
         } else if (this.state.selectableTargets[0].layer === 'covid19') {
-          contents = (
-            <Relay.RootContainer
-              Component={Covid19OpeningHoursPopup}
-              forceFetch
-              route={{
-                name: '',
-                queries: {},
-                params: {
-                  feature: this.state.selectableTargets[0].feature,
-                },
-              }}
-              renderLoading={loadingPopup}
-              renderFetched={data => <Covid19OpeningHoursPopup {...data} />}
-            />
-          );
+          const { feature } = first(this.state.selectableTargets);
+          contents = <Covid19OpeningHoursPopup feature={feature} />;
         } else if (
           this.state.selectableTargets[0].layer === 'parkAndRide' &&
           this.state.selectableTargets[0].feature.properties.facilityIds

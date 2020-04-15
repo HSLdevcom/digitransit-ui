@@ -3,18 +3,17 @@ import Protobuf from 'pbf';
 import pick from 'lodash/pick';
 
 import range from 'lodash-es/range';
+import { includes } from 'lodash-es';
 import { isBrowser } from '../../../util/browser';
-import {
-  drawRoundIcon,
-  drawIcon,
-  drawAvailabilityBadge,
-} from '../../../util/mapIconUtils';
+import { drawRoundIcon, drawIcon } from '../../../util/mapIconUtils';
 import glfun from '../../../util/glfun';
 
 const getScale = glfun({
   base: 1,
   stops: [[13, 0.8], [20, 1.6]],
 });
+
+const categoriesToRemove = ['vending_machine', 'public_transport_tickets'];
 
 class Covid19OpeningHours {
   constructor(tile, config) {
@@ -23,8 +22,6 @@ class Covid19OpeningHours {
 
     this.scaleratio = (isBrowser && window.devicePixelRatio) || 1;
     this.poiImageSize = 20 * this.scaleratio * getScale(this.tile.coords.z);
-    this.availabilityImageSize =
-      14 * this.scaleratio * getScale(this.tile.coords.z);
 
     this.promise = this.fetchWithAction(this.fetchAndDrawStatus);
   }
@@ -47,11 +44,13 @@ class Covid19OpeningHours {
           const pois = vt.layers['public.poi_osm_light'] || { length: 0 };
           const { length } = pois;
 
-          this.features = range(length).map(index => {
-            const feature = pois.feature(index);
-            [[feature.geom]] = feature.loadGeometry();
-            return pick(feature, ['geom', 'properties']);
-          });
+          this.features = range(length)
+            .map(index => {
+              const feature = pois.feature(index);
+              [[feature.geom]] = feature.loadGeometry();
+              return pick(feature, ['geom', 'properties']);
+            })
+            .filter(f => !includes(categoriesToRemove, f.properties.cat));
 
           this.features.forEach(actionFn);
         },
@@ -60,6 +59,7 @@ class Covid19OpeningHours {
     });
   };
 
+  // eslint-disable-next-line no-unused-vars
   getIcon = category => {
     return 'poi_other';
   };
