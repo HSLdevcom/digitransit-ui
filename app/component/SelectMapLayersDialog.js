@@ -260,7 +260,7 @@ class SelectMapLayersDialog extends React.Component {
               <Checkbox
                 checked={covid19}
                 defaultMessage="Covid-19 opening hours"
-                labelId="map-layer-covid19"
+                labelId="map-layer-covid-19"
                 onChange={e => {
                   this.updateSetting({ covid19: e.target.checked });
                   this.sendLayerChangeAnalytic('Covid19', e.target.checked);
