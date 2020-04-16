@@ -21,7 +21,7 @@ class Covid19OpeningHours {
     this.config = config;
 
     this.scaleratio = (isBrowser && window.devicePixelRatio) || 1;
-    this.poiImageSize = 20 * this.scaleratio * getScale(this.tile.coords.z);
+    this.poiImageSize = 9 * this.scaleratio * getScale(this.tile.coords.z);
 
     this.promise = this.fetchWithAction(this.fetchAndDrawStatus);
   }
@@ -84,7 +84,15 @@ class Covid19OpeningHours {
     } */
 
     const icon = this.getIcon(properties.cat);
-    return drawRoundIcon(this.tile, geom, status, null, null, icon, 7);
+    return drawRoundIcon(
+      this.tile,
+      geom,
+      status,
+      null,
+      null,
+      icon,
+      this.poiImageSize,
+    );
   };
 
   onTimeChange = () => {
