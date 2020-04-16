@@ -60,7 +60,7 @@ class Covid19OpeningHours {
   };
 
   getIcon = category => {
-    return `poi_${category}` || 'poi_other';
+    return `poi_${category || 'other'}`;
   };
 
   getSmallIcon = status => {
