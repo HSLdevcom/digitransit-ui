@@ -63,19 +63,21 @@ class Covid19OpeningHours {
     return `poi_${category || 'other'}`;
   };
 
-  getSmallIcon = status => {
+  getRingType = status => {
     switch (status) {
       case 'open':
         return 'poi-open';
       case 'closed':
         return 'poi-closed';
+      case 'partial':
+        return 'poi-partial';
       default:
         return 'poi';
     }
   };
 
   fetchAndDrawStatus = ({ geom, properties }) => {
-    const status = this.getSmallIcon(properties.status);
+    const status = this.getRingType(properties.status);
 
     if (this.tile.coords.z <= this.config.covid19.smallIconZoom) {
       return drawRoundIcon(this.tile, geom, status);
