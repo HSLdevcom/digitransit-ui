@@ -78,10 +78,9 @@ class Covid19OpeningHours {
   fetchAndDrawStatus = ({ geom, properties }) => {
     const status = this.getSmallIcon(properties.status);
 
-    /*
     if (this.tile.coords.z <= this.config.covid19.smallIconZoom) {
       return drawRoundIcon(this.tile, geom, status);
-    } */
+    }
 
     const icon = this.getIcon(properties.cat);
     return drawRoundIcon(
@@ -96,7 +95,7 @@ class Covid19OpeningHours {
   };
 
   onTimeChange = () => {
-    if (this.tile.coords.z > this.config.cityBike.cityBikeSmallIconZoom) {
+    if (this.tile.coords.z > this.config.covid19.smallIconZoom) {
       this.fetchWithAction(this.fetchAndDrawStatus);
     }
   };
