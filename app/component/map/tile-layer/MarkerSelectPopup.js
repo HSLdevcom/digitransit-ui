@@ -10,6 +10,7 @@ import SelectTicketSalesRow from './SelectTicketSalesRow';
 import ComponentUsageExample from '../../ComponentUsageExample';
 import MarkerPopupBottom from '../MarkerPopupBottom';
 import { options } from '../../ExampleData';
+import SelectCovid19OpeningHoursRow from './SelectCovid19OpeningHoursRow';
 
 function MarkerSelectPopup(props) {
   const rows = props.options.map(option => {
@@ -54,6 +55,15 @@ function MarkerSelectPopup(props) {
         <SelectTicketSalesRow
           {...option.feature.properties}
           key={option.feature.properties.FID}
+          selectRow={() => props.selectRow(option)}
+        />
+      );
+    }
+    if (option.layer === 'covid19') {
+      return (
+        <SelectCovid19OpeningHoursRow
+          {...option.feature.properties}
+          key={option.feature.properties.fid}
           selectRow={() => props.selectRow(option)}
         />
       );

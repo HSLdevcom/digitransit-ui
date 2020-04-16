@@ -9,7 +9,6 @@ import OSMOpeningHours from './OSMOpeningHours';
 
 class Covid19OpeningHoursPopup extends React.Component {
   static contextTypes = {
-    config: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
   };
 

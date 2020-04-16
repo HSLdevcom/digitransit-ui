@@ -63,7 +63,7 @@ class Covid19OpeningHours {
     return `poi_${category || 'other'}`;
   };
 
-  getRingType = status => {
+  getIconStatus = status => {
     switch (status) {
       case 'open':
         return 'poi-open';
@@ -77,7 +77,7 @@ class Covid19OpeningHours {
   };
 
   fetchAndDrawStatus = ({ geom, properties }) => {
-    const status = this.getRingType(properties.status);
+    const status = this.getIconStatus(properties.status);
 
     if (this.tile.coords.z <= this.config.covid19.smallIconZoom) {
       return drawRoundIcon(this.tile, geom, status);
