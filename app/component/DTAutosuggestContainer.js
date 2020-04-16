@@ -209,6 +209,7 @@ class DTAutosuggestContainer extends React.Component {
   renderPanel() {
     return (
       <DTAutosuggestPanel
+        config={this.context.config}
         searchPanelText={this.props.searchPanelText}
         origin={this.props.origin}
         onSelect={this.onSelect}
@@ -232,6 +233,7 @@ class DTAutosuggestContainer extends React.Component {
   renderAutoSuggest() {
     return (
       <DTAutoSuggest
+        config={this.context.config}
         icon={this.props.icon}
         id={this.props.id}
         autoFocus={this.props.autoFocus}

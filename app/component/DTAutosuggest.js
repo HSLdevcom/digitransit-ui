@@ -11,11 +11,11 @@ import { suggestionToAriaContent } from '../util/suggestionUtils';
 
 class DTAutosuggest extends React.Component {
   static contextTypes = {
-    config: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
   };
 
   static propTypes = {
+    config: PropTypes.object.isRequired,
     autoFocus: PropTypes.bool,
     className: PropTypes.string,
     executeSearch: PropTypes.func,
@@ -186,7 +186,7 @@ class DTAutosuggest extends React.Component {
           layers: this.props.layers,
           input: value,
           type: this.props.searchType,
-          config: this.context.config,
+          config: this.props.config,
         },
         searchResult => {
           if (searchResult == null) {
@@ -279,9 +279,6 @@ class DTAutosuggest extends React.Component {
       item={item}
       intl={this.context.intl}
       loading={!this.state.valid}
-      useTransportIconsconfig={
-        this.context.config.search.suggestions.useTransportIcons
-      }
     />
   );
 
@@ -315,7 +312,7 @@ class DTAutosuggest extends React.Component {
       label = suggestionToAriaContent(
         this.state.suggestions[0],
         this.context.intl,
-        this.context.config.search.suggestions.useTransportIcons,
+        false,
       );
     }
     return label ? label.join(' - ') : '';

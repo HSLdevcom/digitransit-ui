@@ -62,6 +62,7 @@ class DTAutosuggestPanel extends React.Component {
   };
 
   static propTypes = {
+    config: PropTypes.object.isRequired,
     origin: PropTypes.object.isRequired,
     destination: PropTypes.object.isRequired,
     isItinerary: PropTypes.bool,
@@ -386,6 +387,7 @@ class DTAutosuggestPanel extends React.Component {
         />
         <div className="origin-input-container">
           <DTAutoSuggest
+            config={this.props.config}
             icon="mapMarker-from"
             id="origin"
             autoFocus={
@@ -440,6 +442,7 @@ class DTAutosuggestPanel extends React.Component {
                   <Icon img="icon-icon_ellipsis" />
                 </div>
                 <DTAutoSuggest
+                  config={this.props.config}
                   icon="mapMarker-via"
                   id="viapoint"
                   ariaLabel={this.context.intl.formatMessage(
@@ -543,6 +546,7 @@ class DTAutosuggestPanel extends React.Component {
         </div>
         <div className="destination-input-container">
           <DTAutoSuggest
+            config={this.props.config}
             icon="mapMarker-to"
             id="destination"
             autoFocus={
