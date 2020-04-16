@@ -5,7 +5,7 @@ const CONFIG = 'salo';
 const APP_TITLE = 'Salon Reittiopas';
 const APP_DESCRIPTION = 'Salon Uusi Reittiopas';
 
-const walttiConfig = require('./waltti').default;
+const walttiConfig = require('./config.waltti').default;
 
 const minLat = 59.9988816059;
 const maxLat = 60.5893601259;
