@@ -299,8 +299,12 @@ class TileLayerContainer extends GridLayer {
             />
           );
         } else if (this.state.selectableTargets[0].layer === 'covid19') {
-          const { feature } = first(this.state.selectableTargets);
-          contents = <Covid19OpeningHoursPopup feature={feature} />;
+          const {
+            feature: {
+              properties: { fid },
+            },
+          } = first(this.state.selectableTargets);
+          contents = <Covid19OpeningHoursPopup featureId={fid} />;
         } else if (
           this.state.selectableTargets[0].layer === 'parkAndRide' &&
           this.state.selectableTargets[0].feature.properties.facilityIds

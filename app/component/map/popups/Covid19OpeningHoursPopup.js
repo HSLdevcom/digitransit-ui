@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
-import Relay from 'react-relay/classic';
 import Card from '../../Card';
 import CardHeader from '../../CardHeader';
 import Loading from '../../Loading';
@@ -15,37 +14,41 @@ class Covid19OpeningHoursPopup extends React.Component {
   };
 
   static propTypes = {
-    feature: PropTypes.object.isRequired,
+    featureId: PropTypes.string.isRequired,
   };
 
   constructor(props) {
     super(props);
-    this.state = {
-      loading: true,
-    };
+    this.state = { loading: true };
+    this.fetchFeatureData(props.featureId);
   }
 
-  componentDidMount() {
-    const {
-      feature: {
-        properties: { fid },
-      },
-    } = this.props;
+  componentDidUpdate(prevProps) {
+    if (this.props.featureId !== prevProps.featureId) {
+      this.showSpinner(); // has to be in a separate method so that eslint is quiet
+      this.fetchFeatureData(this.props.featureId);
+    }
+  }
 
+  showSpinner() {
+    this.setState({ loading: true });
+  }
+
+  fetchFeatureData(id) {
     getJson(
-      `https://features.caresteouvert.fr/collections/public.poi_osm/items/${fid}.json`,
+      `https://features.caresteouvert.fr/collections/public.poi_osm/items/${id}.json`,
     ).then(feature => {
       this.setState({ feature, loading: false });
     });
   }
 
-  getOpeningHours = () => {
+  renderOpeningHours() {
     const hours = this.state.feature.properties.opening_hours;
     if (hours) {
       return <OSMOpeningHours openingHours={hours} />;
     }
     return null;
-  };
+  }
 
   render() {
     if (this.state.loading) {
@@ -55,7 +58,12 @@ class Covid19OpeningHoursPopup extends React.Component {
         </div>
       );
     }
-    const { name, brand, status, cat, fid } = this.state.feature.properties;
+    const {
+      properties: { name, brand, status, cat, fid },
+      geometry: {
+        coordinates: [long, lat],
+      },
+    } = this.state.feature;
 
     const translatedCat = this.context.intl.formatMessage({
       id: `poi-${cat}`,
@@ -79,15 +87,13 @@ class Covid19OpeningHoursPopup extends React.Component {
               defaultMessage={status}
             />
           </p>
-          <p>{this.getOpeningHours()}</p>
+          <p>{this.renderOpeningHours()}</p>
           <p>
             <FormattedMessage id="source" defaultMessage="Source" />:{' '}
             <a
               target="_blank"
               rel="noopener noreferrer"
-              href={`https://www.bleibtoffen.de/@${
-                this.state.feature.geometry.coordinates[1]
-              },${this.state.feature.geometry.coordinates[0]},18/place/${fid}`}
+              href={`https://www.bleibtoffen.de/@${lat},${long},18/place/${fid}`}
             >
               bleibtoffen.de
             </a>
@@ -98,6 +104,4 @@ class Covid19OpeningHoursPopup extends React.Component {
   }
 }
 
-export default Relay.createContainer(Covid19OpeningHoursPopup, {
-  fragments: {},
-});
+export default Covid19OpeningHoursPopup;
