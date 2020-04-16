@@ -59,7 +59,6 @@ class Covid19OpeningHours {
     });
   };
 
-  // eslint-disable-next-line no-unused-vars
   getIcon = category => {
     return `poi_${category || 'other'}`;
   };
