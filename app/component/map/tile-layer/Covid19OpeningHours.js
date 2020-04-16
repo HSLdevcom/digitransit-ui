@@ -84,15 +84,7 @@ class Covid19OpeningHours {
     } */
 
     const icon = this.getIcon(properties.cat);
-    return drawRoundIcon(
-      this.tile,
-      geom,
-      status,
-      null,
-      null,
-      icon,
-      this.poiImageSize,
-    );
+    return drawRoundIcon(this.tile, geom, status, null, null, icon, 7);
   };
 
   onTimeChange = () => {
