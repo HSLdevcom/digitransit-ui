@@ -22,6 +22,7 @@ const ParkAndRideAvailability = mapProps(
         {Number.isNaN(maxCapacity) ? 0 : maxCapacity})
       </p>
     ),
+    showStatusBar: true,
   }),
 )(Availability);
 
