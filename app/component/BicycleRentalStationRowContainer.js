@@ -67,7 +67,7 @@ const BicycleRentalStationRow = ({ distance, station }, { config, intl }) => {
             })}
           </span>
         </span>
-        <div className="bike-availability">
+        <span className="city-bike-station-availability">
           <span className="bikes-available">{station.bikesAvailable}</span>
           {config.cityBike.useSpacesAvailable && (
             <React.Fragment>
@@ -77,7 +77,7 @@ const BicycleRentalStationRow = ({ distance, station }, { config, intl }) => {
               </span>
             </React.Fragment>
           )}
-        </div>
+        </span>
         {availabilityIcon}
       </td>
     </tr>
