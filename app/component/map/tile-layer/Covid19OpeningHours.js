@@ -5,7 +5,7 @@ import pick from 'lodash/pick';
 import range from 'lodash-es/range';
 import { includes } from 'lodash-es';
 import { isBrowser } from '../../../util/browser';
-import { drawRoundIcon, drawIcon } from '../../../util/mapIconUtils';
+import { drawRoundIcon } from '../../../util/mapIconUtils';
 import glfun from '../../../util/glfun';
 
 const getScale = glfun({
@@ -61,7 +61,7 @@ class Covid19OpeningHours {
 
   // eslint-disable-next-line no-unused-vars
   getIcon = category => {
-    return 'poi_other';
+    return `poi_${category}` || 'poi_other';
   };
 
   getSmallIcon = status => {
@@ -76,14 +76,23 @@ class Covid19OpeningHours {
   };
 
   fetchAndDrawStatus = ({ geom, properties }) => {
+    const status = this.getSmallIcon(properties.status);
+
+    /*
     if (this.tile.coords.z <= this.config.covid19.smallIconZoom) {
-      const icon = this.getSmallIcon(properties.status);
-      return drawRoundIcon(this.tile, geom, icon);
-    }
+      return drawRoundIcon(this.tile, geom, status);
+    } */
 
     const icon = this.getIcon(properties.cat);
-
-    return drawIcon(icon, this.tile, geom, this.poiImageSize);
+    return drawRoundIcon(
+      this.tile,
+      geom,
+      status,
+      null,
+      null,
+      icon,
+      this.poiImageSize,
+    );
   };
 
   onTimeChange = () => {

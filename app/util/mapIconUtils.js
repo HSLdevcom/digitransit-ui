@@ -123,7 +123,15 @@ function drawIconImageBadge(
 }
 
 /* eslint-disable no-param-reassign */
-export function drawRoundIcon(tile, geom, type, customScale, platformNumber) {
+export function drawRoundIcon(
+  tile,
+  geom,
+  type,
+  customScale,
+  platformNumber,
+  icon,
+  imageSize,
+) {
   const scale = customScale || 1;
   const caseRadius = getCaseRadius(tile.coords.z) * scale;
   const stopRadius = getStopRadius(tile.coords.z) * scale;
@@ -179,6 +187,11 @@ export function drawRoundIcon(tile, geom, type, customScale, platformNumber) {
           geom.x / tile.ratio,
           geom.y / tile.ratio,
         );
+      }
+
+      if (icon && imageSize) {
+        // eslint-disable-next-line no-use-before-define
+        drawIcon(icon, tile, geom, imageSize);
       }
     }
   }
