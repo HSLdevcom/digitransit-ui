@@ -57,12 +57,17 @@ class Covid19OpeningHoursPopup extends React.Component {
     }
     const { name, brand, status, cat, fid } = this.state.feature.properties;
 
+    const translatedCat = this.context.intl.formatMessage({
+      id: `poi-${cat}`,
+      defaultMessage: cat,
+    });
+
     return (
       <Card>
         <div className="padding-normal">
           <CardHeader
-            name={name || brand || cat}
-            description={cat}
+            name={name || brand || translatedCat}
+            description={translatedCat}
             unlinked
             className="padding-medium"
             headingStyle="h2"
