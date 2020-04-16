@@ -85,7 +85,9 @@ class Covid19OpeningHoursPopup extends React.Component {
             <a
               target="_blank"
               rel="noopener noreferrer"
-              href={`https://www.bleibtoffen.de/place/${fid}`}
+              href={`https://www.bleibtoffen.de/@${
+                this.state.feature.geometry.coordinates[1]
+              },${this.state.feature.geometry.coordinates[0]},18/place/${fid}`}
             >
               bleibtoffen.de
             </a>
