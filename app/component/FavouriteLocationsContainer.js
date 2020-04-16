@@ -10,19 +10,30 @@ import EmptyFavouriteLocationSlot from './EmptyFavouriteLocationSlot';
 import SuggestionItem from './SuggestionItem';
 import { isKeyboardSelectionEvent } from '../util/browser';
 
-const CustomSuggestionItem = pure(({ text, iconId }) => (
-  <div className={cx('search-result')}>
-    <span className="autosuggestIcon">
-      <Icon img={iconId} color="#007ac9" className="havePosition" />
-    </span>
-    {/* <FormattedMessage
-        id="use-own-position"
-        defaultMessage="Use current location"
-      > */}
-    {<span className="use-own-position">{text}</span>}
-    {/* </FormattedMessage> */}
-  </div>
-));
+const CustomSuggestionItem = pure(({ item, suggestionProps }) => {
+  const { id, selected, onMouseEnter, index } = suggestionProps;
+  const { text, iconId } = item;
+  return (
+    <li
+      id={id}
+      className={cx('favourite-suggestion-item', selected ? 'highlighted' : '')}
+      onMouseEnter={() => onMouseEnter(index)}
+      role="option"
+      aria-selected={selected}
+      aria-label={text}
+    >
+      <span className="autosuggestIcon">
+        <Icon img={iconId} color="#007ac9" className="havePosition" />
+      </span>
+      {/* <FormattedMessage
+            id="use-own-position"
+            defaultMessage="Use current location"
+          > */}
+      {<span className="use-own-position">{text}</span>}
+      {/* </FormattedMessage> */}
+    </li>
+  );
+});
 
 export default class FavouriteLocationsContainer extends React.Component {
   static propTypes = {
@@ -63,31 +74,22 @@ export default class FavouriteLocationsContainer extends React.Component {
   }
 
   componentWillUnmount() {
-    document.removeListener('mousedown', this.handleClickOutside);
+    document.removeEventListener('mousedown', this.handleClickOutside);
   }
 
+  onBlur = () => {
+    this.setState({ listOpen: false });
+  };
+
   toggleList = () => {
-    return new Promise(resolve => {
-      this.setState(prevState => ({
-        listOpen: !prevState.listOpen,
-        highlightedIndex: 0,
-      }));
-      resolve();
-    });
+    this.setState(prevState => ({
+      listOpen: !prevState.listOpen,
+      highlightedIndex: 0,
+    }));
   };
 
   highlightSuggestion = index => {
     this.setState({ highlightedIndex: index });
-  };
-
-  listOnBlur = event => {
-    event.preventDefault();
-    if (
-      this.expandListRef.current &&
-      !this.expandListRef.current.contains(event.target)
-    ) {
-      this.setState({ listOpen: false });
-    }
   };
 
   handleClickOutside = event => {
@@ -103,18 +105,21 @@ export default class FavouriteLocationsContainer extends React.Component {
     }
   };
 
+  clickFavourite = favourite => {
+    return Promise.resolve(this.props.onClickFavourite(favourite)).then(() =>
+      this.toggleList(),
+    );
+  };
+
   handleKeyDown = event => {
-    const { favourites, highlightedIndex } = this.state;
-    const { onClickFavourite } = this.props;
+    const { favourites, highlightedIndex, listOpen } = this.state;
 
     if (isKeyboardSelectionEvent(event)) {
-      if (highlightedIndex < favourites.length) {
-        new Promise(resolve => {
-          onClickFavourite(favourites[highlightedIndex]);
-          resolve();
-        }).then(() => this.toggleList());
-      }
-      if (highlightedIndex === favourites.length) {
+      if (!listOpen) {
+        this.toggleList();
+      } else if (highlightedIndex < favourites.length) {
+        this.clickFavourite(favourites[highlightedIndex]);
+      } else if (highlightedIndex === favourites.length) {
         console.log('Add favourite');
         this.toggleList();
       } else if (highlightedIndex === favourites.length + 1) {
@@ -132,39 +137,31 @@ export default class FavouriteLocationsContainer extends React.Component {
     }
   };
 
-  renderSuggestion = (item, index, clickSuggestion, isFavourite) => {
-    const { highlightedIndex } = this.state;
-    const key = `favourite-suggestions-${index}`;
-    /* eslint-disable jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events */
+  renderSuggestion = (item, index) => {
+    const { highlightedIndex, favourites } = this.state;
+    const id = `favourite-suggestion-list--item-${index}`;
+    const selected = highlightedIndex === index;
+    const suggestionProps = {
+      id,
+      index,
+      selected,
+      onMouseEnter: this.highlightSuggestion,
+      onClickSuggestion: this.clickFavourite,
+    };
     return (
-      <li
-        key={key}
-        className={cx(
-          'favourite-suggestion-item',
-          highlightedIndex === index ? 'highlighted' : '',
-        )}
-        onClick={() =>
-          new Promise(resolve => {
-            clickSuggestion(item);
-            resolve();
-          }).then(() => this.setState({ listOpen: false }))
-        }
-        onMouseEnter={() => this.highlightSuggestion(index)}
-        onFocus={() => this.highlightSuggestion(index)}
-        role="option"
-        aria-selected={highlightedIndex === index}
-      >
-        {isFavourite && (
-          <SuggestionItem ref={item.name} item={item} isFavourite />
-        )}
-        {!isFavourite && (
-          <CustomSuggestionItem
-            key={key}
-            text={item.text}
-            iconId={item.iconId}
+      <React.Fragment key={`favourite-suggestion-item-${index}`}>
+        {index < favourites.length && (
+          <SuggestionItem
+            ref={item.name}
+            item={item}
+            suggestionProps={suggestionProps}
+            isFavourite
           />
         )}
-      </li>
+        {index >= favourites.length && (
+          <CustomSuggestionItem item={item} suggestionProps={suggestionProps} />
+        )}
+      </React.Fragment>
     );
   };
 
@@ -215,48 +212,33 @@ export default class FavouriteLocationsContainer extends React.Component {
             className="favourite-container-expand"
             ref={this.expandListRef}
             id="favourite-expand"
-            onClick={() =>
-              this.toggleList().then(() =>
-                this.suggestionListRef.current.focus(),
-              )
-            }
-            onKeyDown={e =>
-              isKeyboardSelectionEvent(e) &&
-              this.toggleList().then(() =>
-                this.suggestionListRef.current.focus(),
-              )
-            }
+            onClick={() => this.toggleList()}
+            onKeyDown={e => this.handleKeyDown(e)}
             tabIndex="0"
             role="button"
             aria-label="Expand favourites"
+            aria-controls="favourite-suggestion-list"
+            // aria-activedescendant={`favourite-suggestion-list--item-${highlightedIndex}`}
           >
             <Icon className="favourite-expand-icon" img={expandIcon} />
           </div>
         </div>
         <div className="favourite-suggestion-container">
           {listOpen && (
-            <ul
+            <div
               className="favourite-suggestion-list"
               id="favourite-suggestion-list"
               ref={this.suggestionListRef}
-              onKeyDown={e => this.handleKeyDown(e)}
-              onBlur={e => this.listOnBlur(e)}
-              tabIndex="0"
               role="listbox"
             >
               {favourites.map((item, index) =>
-                this.renderSuggestion(item, index, onClickFavourite, true),
+                this.renderSuggestion(item, index),
               )}
               {favourites.length > 0 && <div className="separator-line" />}
               {customSuggestions.map((item, index) =>
-                this.renderSuggestion(
-                  item,
-                  favourites.length + index,
-                  () => console.log(item.text),
-                  false,
-                ),
+                this.renderSuggestion(item, favourites.length + index),
               )}
-            </ul>
+            </div>
           )}
         </div>
       </React.Fragment>

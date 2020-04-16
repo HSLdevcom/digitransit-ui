@@ -98,7 +98,7 @@
     list-style-type: none;
     padding: 0;
     position: absolute;
-    z-index: index($zindex, search-overlay);
+    z-index: index($zindex, autosuggest-suggestion-container);
     width: calc(100% - 2em);
     max-width: 400px;
     margin: 0 auto;
