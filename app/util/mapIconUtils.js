@@ -122,8 +122,22 @@ function drawIconImageBadge(
   );
 }
 
+export function drawIcon(icon, tile, geom, imageSize) {
+  return getImageFromSpriteCache(icon, imageSize, imageSize).then(image => {
+    drawIconImage(image, tile, geom, imageSize, imageSize);
+  });
+}
+
 /* eslint-disable no-param-reassign */
-export function drawRoundIcon(tile, geom, type, customScale, platformNumber) {
+export function drawRoundIcon(
+  tile,
+  geom,
+  type,
+  customScale,
+  platformNumber,
+  icon,
+  imageSize,
+) {
   const scale = customScale || 1;
   const caseRadius = getCaseRadius(tile.coords.z) * scale;
   const stopRadius = getStopRadius(tile.coords.z) * scale;
@@ -179,6 +193,10 @@ export function drawRoundIcon(tile, geom, type, customScale, platformNumber) {
           geom.x / tile.ratio,
           geom.y / tile.ratio,
         );
+      }
+
+      if (icon && imageSize) {
+        drawIcon(icon, tile, geom, imageSize);
       }
     }
   }
@@ -306,12 +324,6 @@ export function drawAvailabilityBadge(
     badgeSize,
   ).then(image => {
     drawIconImageBadge(image, tile, geom, imageSize, badgeSize, scaleratio);
-  });
-}
-
-export function drawIcon(icon, tile, geom, imageSize) {
-  return getImageFromSpriteCache(icon, imageSize, imageSize).then(image => {
-    drawIconImage(image, tile, geom, imageSize, imageSize);
   });
 }
 
