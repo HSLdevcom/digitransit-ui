@@ -4,38 +4,18 @@ import React from 'react';
 import { matchShape, routerShape } from 'found';
 
 import SelectOptionContainer, {
-  getFiveStepOptions,
   getSpeedOptions,
-  optionsShape,
   valueShape,
 } from './SelectOptionContainer';
 import { replaceQueryParams } from '../../util/queryUtils';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 
 const BikingOptionsSection = (
-  { walkReluctance, walkReluctanceOptions, bikeSpeed, defaultSettings },
+  { bikeSpeed, defaultSettings },
   { router, match },
 ) => (
   <React.Fragment>
     {/* OTP uses the same walkReluctance setting for bike routing */}
-    <SelectOptionContainer
-      currentSelection={walkReluctance}
-      defaultValue={defaultSettings.walkReluctance}
-      highlightDefaultValue={false}
-      onOptionSelected={value => {
-        replaceQueryParams(router, match, { walkReluctance: value });
-        addAnalyticsEvent({
-          category: 'ItinerarySettings',
-          action: 'ChangeAmountOfBiking',
-          name: value,
-        });
-      }}
-      options={getFiveStepOptions(
-        defaultSettings.walkReluctance,
-        walkReluctanceOptions,
-      )}
-      title="biking-amount"
-    />
     <SelectOptionContainer
       currentSelection={bikeSpeed}
       defaultValue={defaultSettings.bikeSpeed}
@@ -61,8 +41,6 @@ BikingOptionsSection.propTypes = {
     walkReluctance: PropTypes.number.isRequired,
     bikeSpeed: PropTypes.number.isRequired,
   }).isRequired,
-  walkReluctance: valueShape.isRequired,
-  walkReluctanceOptions: optionsShape.isRequired,
 };
 
 BikingOptionsSection.contextTypes = {

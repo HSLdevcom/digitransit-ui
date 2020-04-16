@@ -282,8 +282,8 @@ export const getQuerySettings = query => {
       : defaultValue;
 
   return {
-    ...(hasKey('accessibilityOption') && {
-      accessibilityOption: getNumberValueOrDefault(query.accessibilityOption),
+    ...(hasKey('usingWheelchair') && {
+      usingWheelchair: getNumberValueOrDefault(query.usingWheelchair),
     }),
     ...(hasKey('bikeSpeed') && {
       bikeSpeed: getNumberValueOrDefault(query.bikeSpeed),

@@ -72,6 +72,7 @@
 
 .mode-option-container {
   display: flex;
+  border-bottom: 1px solid #e3e3e3;
 
   .option-checkbox {
     margin-top: 1em;
@@ -80,21 +81,18 @@
   .mode-option-block {
     width: 100%;
     height: 3.5em;
-    background-color: currentColor;
     margin-bottom: 0.1em;
     display: flex;
     cursor: pointer;
 
     span {
-      color: #fff;
+      color: #000;
     }
     .icon {
       font-size: 2.5em;
       margin-top: 0.2em;
     }
-    &.disabled {
-      background-color: rgb(187, 187, 187);
-    }
+
     .mode-icon {
       margin-left: 1em;
       margin-right: 1em;

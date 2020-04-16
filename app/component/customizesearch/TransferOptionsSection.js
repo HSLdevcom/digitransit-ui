@@ -1,72 +1,44 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape, routerShape } from 'found';
+import Toggle from 'material-ui/Toggle';
 
-import SelectOptionContainer, {
-  getFiveStepOptions,
-  getLinearStepOptions,
-  optionsShape,
-  valueShape,
-} from './SelectOptionContainer';
 import { replaceQueryParams } from '../../util/queryUtils';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 
 const TransferOptionsSection = (
-  { walkBoardCost, walkBoardCostOptions, minTransferTime, defaultSettings },
+  { defaultSettings, currentSettings, walkBoardCostHigh },
   { router, match },
 ) => (
   <React.Fragment>
-    <SelectOptionContainer
-      currentSelection={walkBoardCost}
-      defaultValue={defaultSettings.walkBoardCost}
-      highlightDefaultValue={false}
-      onOptionSelected={value => {
-        replaceQueryParams(router, match, { walkBoardCost: value });
+    <Toggle
+      toggled={currentSettings.walkBoardCost !== defaultSettings.walkBoardCost} // currentSelection
+      onToggle={(event, isInputChecked) => {
+        replaceQueryParams(router, match, {
+          walkBoardCost: isInputChecked
+            ? walkBoardCostHigh
+            : defaultSettings.walkBoardCost,
+        });
         addAnalyticsEvent({
           category: 'ItinerarySettings',
-          action: 'changeNumberOfTransfers',
-          name: value,
+          action: 'changeNumberOfTransfers', // Prolly need to change action name?
+          name: isInputChecked,
         });
       }}
-      options={getFiveStepOptions(
-        defaultSettings.walkBoardCost,
-        walkBoardCostOptions,
-      )}
       title="transfers"
-    />
-    <SelectOptionContainer
-      currentSelection={minTransferTime}
-      defaultValue={defaultSettings.minTransferTime}
-      displayPattern="number-of-minutes"
-      displayValueFormatter={seconds => seconds / 60}
-      onOptionSelected={value => {
-        replaceQueryParams(router, match, { minTransferTime: value });
-        addAnalyticsEvent({
-          category: 'ItinerarySettings',
-          action: 'ChangeTransferMargin',
-          name: value,
-        });
-      }}
-      options={getLinearStepOptions(
-        defaultSettings.minTransferTime,
-        60,
-        60,
-        12,
-      )}
-      sortByValue
-      title="transfers-margin"
+      name="Avoid Transfers"
+      label="Avoid Transfers"
+      labelStyle={{ color: '#707070' }}
     />
   </React.Fragment>
 );
 
 TransferOptionsSection.propTypes = {
-  minTransferTime: valueShape.isRequired,
   defaultSettings: PropTypes.shape({
     walkBoardCost: PropTypes.number.isRequired,
-    minTransferTime: PropTypes.number.isRequired,
   }).isRequired,
-  walkBoardCost: valueShape.isRequired,
-  walkBoardCostOptions: optionsShape.isRequired,
+  currentSettings: PropTypes.shape().isRequired,
+  walkBoardCostHigh: PropTypes.number.isRequired,
 };
 
 TransferOptionsSection.contextTypes = {
