@@ -1,7 +1,7 @@
 {
-  "name": "@digitransit-util/digitransit-util-tru-eq",
+  "name": "@digitransit-search-util/digitransit-search-util-tru-eq",
   "version": "0.0.1",
-  "description": "digitransit-util tru-eq module",
+  "description": "digitransit-search-util tru-eq module",
   "main": "index.js",
   "publishConfig": {
     "access": "public"
