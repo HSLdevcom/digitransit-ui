@@ -120,7 +120,7 @@
     "element-resize-detector": "1.2.0",
     "express": "4.16.3",
     "express-http-proxy": "1.2.0",
-    "express-session": "1.17.0",
+    "express-session": "1.17.1",
     "express-static-gzip": "0.3.2",
     "fluxible": "1.4.0",
     "fluxible-addons-react": "0.2.16",
