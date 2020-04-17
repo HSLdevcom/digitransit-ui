@@ -20,7 +20,6 @@ class Covid19OpeningHoursPopup extends React.Component {
     super(props);
     this.state = { loading: true };
     this.fetchFeatureData(props.featureId);
-    this.hasRegularHours = false;
   }
 
   componentDidUpdate(prevProps) {
@@ -43,16 +42,17 @@ class Covid19OpeningHoursPopup extends React.Component {
   }
 
   renderOpeningHours() {
-    const covidHours = this.state.feature.properties.opening_hours;
-    const regularHours = this.state.feature.properties.tags.opening_hours;
+    const {
+      feature: { properties },
+    } = this.state;
+    const covidHours = properties.opening_hours;
+    const regularHours = properties.tags.opening_hours;
 
     if (covidHours) {
-      this.hasRegularHours = false;
-      return <OSMOpeningHours openingHours={covidHours} />;
+      return <OSMOpeningHours openingHours={covidHours} displayStatus />;
     }
 
     if (regularHours) {
-      this.hasRegularHours = true;
       return <OSMOpeningHours openingHours={regularHours} />;
     }
 
@@ -68,7 +68,7 @@ class Covid19OpeningHoursPopup extends React.Component {
       );
     }
     const {
-      properties: { name, brand, status, cat, fid },
+      properties: { name, brand, status, cat, fid, tags },
       geometry: {
         coordinates: [long, lat],
       },
@@ -79,9 +79,7 @@ class Covid19OpeningHoursPopup extends React.Component {
       defaultMessage: cat,
     });
 
-    const website =
-      this.state.feature.properties.tags.website ||
-      this.state.feature.properties.tags['contact:facebook'];
+    const website = tags.website || tags['contact:facebook'];
 
     return (
       <Card>
@@ -102,7 +100,7 @@ class Covid19OpeningHoursPopup extends React.Component {
           )}
           <p>
             <span className="covid-19-badge">COVID-19</span>
-            {this.hasRegularHours ? (
+            {status === 'unknown' && tags.opening_hours ? (
               <FormattedMessage
                 id="covid-19-different-hours"
                 defaultMessage="Opening hours may be different"
