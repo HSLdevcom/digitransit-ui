@@ -80,6 +80,10 @@ class Covid19OpeningHoursPopup extends React.Component {
       defaultMessage: cat,
     });
 
+    const website =
+      this.state.feature.properties.tags.website ||
+      this.state.feature.properties.tags['contact:facebook'];
+
     return (
       <Card>
         <div className="padding-normal">
@@ -90,6 +94,13 @@ class Covid19OpeningHoursPopup extends React.Component {
             className="padding-medium"
             headingStyle="h2"
           />
+          {website ? (
+            <a target="_blank" rel="noopener noreferrer" href={website}>
+              <FormattedMessage id="website" defaultMessage="Website" />
+            </a>
+          ) : (
+            ''
+          )}
           <p>
             <span className="covid-19-badge">COVID-19</span>
             {this.hasRegularHours ? (
