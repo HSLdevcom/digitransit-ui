@@ -74,7 +74,7 @@ function MarkerSelectPopup(props) {
   return (
     <div className="card marker-select-popup">
       <h3 className="padding-normal gray">
-        <FormattedMessage id="choose-stop" defaultMessage="Choose stop" />
+        <FormattedMessage id="choose-option" defaultMessage="Choose option" />
       </h3>
       <hr className="no-margin gray" />
       <div className="scrollable momentum-scroll card-row">{rows}</div>
