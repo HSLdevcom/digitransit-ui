@@ -16,12 +16,11 @@ class Covid19OpeningHoursPopup extends React.Component {
     featureId: PropTypes.string.isRequired,
   };
 
-  hasRegularHours = false;
-
   constructor(props) {
     super(props);
     this.state = { loading: true };
     this.fetchFeatureData(props.featureId);
+    this.hasRegularHours = false;
   }
 
   componentDidUpdate(prevProps) {
