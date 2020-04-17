@@ -75,7 +75,6 @@ class ItineraryLegs extends React.Component {
 
   render() {
     const { itinerary, fares, waitThreshold } = this.props;
-
     const compressedLegs = compressLegs(itinerary.legs).map(leg => ({
       ...leg,
       fare:
@@ -87,7 +86,6 @@ class ItineraryLegs extends React.Component {
     if (numberOfLegs === 0) {
       return null;
     }
-
     let previousLeg;
     let nextLeg;
     const legs = [];

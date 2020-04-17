@@ -58,7 +58,7 @@
     background-color: $background-color;
 
     .vehicle-number {
-      color: $gray;
+      color: $white;
     }
   }
 
@@ -74,14 +74,9 @@
   }
 
   .itinerary-duration-and-distance {
-    max-width: 4em;
+    width: 100%;
     margin-top: $padding-small;
     margin-left: $padding-medium;
-  }
-
-  .itinerary-duration {
-    white-space: nowrap;
-    font-weight: $font-weight-bold;
   }
 
   .itinerary-biking-distance,
@@ -96,15 +91,24 @@
     }
   }
 
-  .itinerary-start-time {
+  .itinerary-duration-container {
+    width: 100%;
+    overflow: hidden;
     text-align: right;
-    padding-left: 5px;
+    padding-left: $padding-medium;
     min-width: 2em;
     @include font-narrow-medium;
     font-weight: $font-weight-bold;
 
+    .itinerary-start-time-and-end-time {
+      float: left;
+    }
+    .itinerary-duration {
+      float: right;
+      font-weight: $font-weight-bold;
+    }
     .itinerary-start-date {
-      display: block;
+      display: inline-block;
       text-align: right;
       min-width: 2em;
       margin-top: -1px;
@@ -122,7 +126,6 @@
         background-color: $gray;
         display: inline-block;
       }
-
       &.nobg {
         height: 0.8em;
         & > span {
@@ -133,24 +136,26 @@
   }
 
   .itinerary-end-time-and-distance {
-    max-width: 4em;
+    width: 100%;
   }
 
   .itinerary-end-time {
-    padding-left: 10px;
-    width: 3em;
+    width: 100%;
     margin-top: $padding-small;
     font-weight: $font-weight-bold;
   }
 
-  .itinerary-first-leg-start-time {
-    position: absolute;
+  .itinerary-first-leg-start-time-container {
     top: 3.77em;
     left: 2.3em;
-    text-align: right;
-    width: 3em;
+    padding-left: $padding-medium;
+    width: 100%;
     color: $distance-gray;
-
+    .itinerary-first-leg-start-time{
+      .first-leg-start-time-green {
+        color: green;
+      }
+  }
     &.small {
       font-size: $font-size-small;
       left: 1.2em;
@@ -167,17 +172,25 @@
 
     .leg {
       padding-top: $padding-small;
-      flex: 1 1 0px;
-      overflow: hidden;
+      min-width: 1px;
+      width: calc(var(--width));
+      height: 40px;
+      margin: 0 1px;
+
       justify-content: center;
       &.large {
         padding-top: 0;
       }
       .route-number {
-        width: 100%;
+        display: flex;
+        min-width: 0;
         &.vertical {
-          position: relative;
+          float: left;
+          width: calc(100%);
           .vehicle-number-container-v {
+            position: absolute;
+            z-index: 1;
+            left: 1.8em;
             overflow: visible;
           }
         }
@@ -205,14 +218,6 @@
       width: 100%;
     }
 
-    .line.walk,
-    .line.bicycle,
-    .line.car {
-      .bar-container {
-        left: 2em;
-      }
-    }
-
     .vcenter-children {
       display: flex;
       align-items: center;
@@ -221,31 +226,27 @@
     }
 
     div.bar-container {
+      width:100%;
       top: 0;
       left: 0;
       right: 0;
-      height: 100%;
       display: flex;
       position: absolute;
       align-items: center;
     }
 
     div.bar {
-      width: calc(100% - 1px);
+      width: 100%;
       z-index: -1;
-      background-color: currentColor;
+      background-color: white;
       border: 1px solid currentColor;
-      height: 6px;
-      border-width: 2px;
+      height: 24px;
+      //border-width: 2px;
       border-radius: $border-radius;
       &.call {
         border-color: #aaa;
       }
-      .bar-inner {
-        width: 100%;
-        height: 2px;
-        background-color: rgba(255, 255, 255, 0.25);
-      }
+
     }
 
     .line {
@@ -256,8 +257,7 @@
       text-align: center;
 
       .icon {
-        margin-left: 3px;
-        font-size: 1.35em;
+        font-size: 1.5em;
       }
     }
 
@@ -347,9 +347,9 @@
       font-size: 18px;
     }
 
-    .itinerary-start-time {
+    .itinerary-duration-container {
+      padding-left: $padding-medium;
       min-width: 50px;
-      font-size: 21px;
       padding-top: 17px;
 
       .itinerary-start-date {
@@ -370,14 +370,10 @@
       margin-top: 9px;
 
       .line .icon {
-        margin-top: 0;
-        margin-left: 8px;
-        font-size: $font-size-large;
+        margin-top: 2px;
       }
-
       .vehicle-number {
-        font-size: $font-size-normal;
-        margin-left: 8px;
+        font-size: $font-size-small;
       }
     }
 

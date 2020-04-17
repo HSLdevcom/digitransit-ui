@@ -13,6 +13,7 @@ import { getActiveLegAlertSeverityLevel } from '../util/alertUtils';
 import { displayDistance } from '../util/geo-utils';
 import {
   containsBiking,
+  compressLegs,
   getLegBadgeProps,
   getTotalBikingDistance,
   getTotalWalkingDistance,
@@ -37,24 +38,23 @@ import {
   exampleDataCanceled,
 } from './data/SummaryRow.ExampleData';
 
-const Leg = ({ routeNumber, leg, large }) => (
-  <div className="leg">
-    {large && (
+const Leg = ({ routeNumber, legLength }) => (
+  <div className="leg" style={{ '--width': `${legLength}%` }}>
+    {/* {large && (
       <div className="departure-stop overflow-fade">
         &nbsp;{(leg.transitLeg || leg.rentedBike) && leg.from.name}
       </div>
-    )}
+    )} */}
     {routeNumber}
   </div>
 );
 
 Leg.propTypes = {
   routeNumber: PropTypes.node.isRequired,
-  leg: PropTypes.object.isRequired,
-  large: PropTypes.bool.isRequired,
+  legLength: PropTypes.number.isRequired,
 };
 
-export const RouteLeg = ({ leg, large, intl }) => {
+export const RouteLeg = ({ leg, large, intl, legLength }) => {
   const isCallAgency = isCallAgencyPickupType(leg);
   let routeNumber;
   if (isCallAgency) {
@@ -82,22 +82,35 @@ export const RouteLeg = ({ leg, large, intl }) => {
       />
     );
   }
-
-  return <Leg leg={leg} routeNumber={routeNumber} large={large} />;
+  return (
+    <Leg
+      leg={leg}
+      routeNumber={routeNumber}
+      large={large}
+      legLength={legLength}
+    />
+  );
 };
 
 RouteLeg.propTypes = {
   leg: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
   large: PropTypes.bool.isRequired,
+  legLength: PropTypes.number.isRequired,
 };
 
-export const ModeLeg = ({ leg, mode, large }, { config }) => {
-  const networkIcon =
-    leg.from.bikeRentalStation &&
-    getCityBikeNetworkIcon(
-      getCityBikeNetworkConfig(leg.from.bikeRentalStation.networks[0], config),
-    );
+export const ModeLeg = ({ leg, mode, large, legLength }, { config }) => {
+  let networkIcon;
+  if (mode === 'BICYCLE' && leg.from.bikeRentalStation) {
+    networkIcon =
+      leg.from.bikeRentalStation &&
+      getCityBikeNetworkIcon(
+        getCityBikeNetworkConfig(
+          leg.from.bikeRentalStation.networks[0],
+          config,
+        ),
+      );
+  }
 
   const routeNumber = (
     <RouteNumber
@@ -110,13 +123,21 @@ export const ModeLeg = ({ leg, mode, large }, { config }) => {
       {...getLegBadgeProps(leg, config)}
     />
   );
-  return <Leg leg={leg} routeNumber={routeNumber} large={large} />;
+  return (
+    <Leg
+      leg={leg}
+      routeNumber={routeNumber}
+      large={large}
+      legLength={legLength}
+    />
+  );
 };
 
 ModeLeg.propTypes = {
   leg: PropTypes.object.isRequired,
   mode: PropTypes.string.isRequired,
   large: PropTypes.bool.isRequired,
+  legLength: PropTypes.number.isRequired,
 };
 
 ModeLeg.contextTypes = {
@@ -226,7 +247,13 @@ const SummaryRow = (
   const legs = [];
   let noTransitLegs = true;
 
-  data.legs.forEach(leg => {
+  const legLengthThreshold = 4;
+
+  const compressedLegs = compressLegs(data.legs).map(leg => ({
+    ...leg,
+  }));
+
+  compressedLegs.forEach(leg => {
     if (isTransitLeg(leg)) {
       noTransitLegs = false;
     }
@@ -238,11 +265,11 @@ const SummaryRow = (
   const vehicleNames = [];
   const stopNames = [];
 
-  data.legs.forEach((leg, i) => {
+  compressedLegs.forEach((leg, i) => {
     if (leg.rentedBike && lastLegRented) {
       return;
     }
-
+    let renderIcon = true;
     const isFirstLeg = i === 0;
     const isLastLeg = i === data.legs.length - 1;
     const previousLeg = data.legs[i - 1];
@@ -253,7 +280,25 @@ const SummaryRow = (
       leg,
     );
 
+    const legLength = leg.duration * 1000 / duration * 100;
+
     lastLegRented = leg.rentedBike;
+    if (legLength < legLengthThreshold) {
+      renderIcon = false;
+    }
+
+    if (leg.mode === 'WALK') {
+      legs.push(
+        <ModeLeg
+          key={`${leg.mode}_${leg.startTime}`}
+          renderIcon={renderIcon}
+          leg={leg}
+          mode="WALK"
+          legLength={legLength}
+          large={breakpoint === 'large'}
+        />,
+      );
+    }
 
     if (leg.rentedBike) {
       legs.push(
@@ -261,12 +306,11 @@ const SummaryRow = (
           key={`${leg.mode}_${leg.startTime}`}
           leg={leg}
           mode="CITYBIKE"
+          legLength={legLength}
           large={breakpoint === 'large'}
         />,
       );
-      return;
     }
-
     if (leg.intermediatePlace) {
       legs.push(<ViaLeg key={`via_${leg.mode}_${leg.startTime}`} />);
       if (
@@ -279,11 +323,11 @@ const SummaryRow = (
             key={`${leg.mode}_${leg.startTime}`}
             leg={leg}
             mode={leg.mode}
+            legLength={legLength}
             large={breakpoint === 'large'}
           />,
         );
       }
-      return;
     }
 
     const connectsFromViaPoint = () =>
@@ -302,6 +346,7 @@ const SummaryRow = (
           key={`${leg.mode}_${leg.startTime}`}
           leg={leg}
           intl={intl}
+          legLength={legLength}
           large={breakpoint === 'large'}
         />,
       );
@@ -317,7 +362,22 @@ const SummaryRow = (
         ),
       );
       stopNames.push(leg.from.name);
-      return;
+    }
+    if (nextLeg) {
+      const waitTime = nextLeg.startTime - leg.endTime;
+
+      if (waitTime > 1000) {
+        const waitLength = Math.round(waitTime / duration * 100);
+        legs.push(
+          <ModeLeg
+            key={`${leg.mode}_${leg.startTime}_wait`}
+            leg={leg}
+            legLength={waitLength}
+            mode="WAIT"
+            large={breakpoint === 'large'}
+          />,
+        );
+      }
     }
 
     const connectsToFirstViaPoint = () =>
@@ -336,6 +396,7 @@ const SummaryRow = (
           key={`${leg.mode}_${leg.startTime}`}
           leg={leg}
           mode={leg.mode}
+          legLength={legLength}
           large={breakpoint === 'large'}
         />,
       );
@@ -360,7 +421,18 @@ const SummaryRow = (
             small: breakpoint !== 'large',
           })}
         >
-          <LocalTime time={firstDeparture} />
+          <FormattedMessage
+            id="itinerary-summary-row.first-leg-start-time"
+            values={{
+              firstDepartureTime: (
+                <span className="first-leg-start-time-green">
+                  <LocalTime time={firstDeparture} />
+                </span>
+              ),
+              firstDepartureStopType: stopNames[0],
+              firstDepartureStop: stopNames[0],
+            }}
+          />
         </div>
       );
       firstLegStartTimeText = <LocalTime time={firstDeparture} />;
@@ -377,6 +449,14 @@ const SummaryRow = (
       'cancelled-itinerary': props.isCancelled,
     },
   ]);
+
+  const itineraryStartAndEndTime = (
+    <div>
+      <LocalTime time={startTime} />
+      <span> - </span>
+      <LocalTime time={endTime} />
+    </div>
+  );
 
   const isDefaultPosition = breakpoint !== 'large' && !onlyBiking(data);
   const renderBikingDistance = itinerary =>
@@ -542,7 +622,7 @@ const SummaryRow = (
                   <FormattedMessage id="itinerary-summary-row.clickable-area-description" />
                 </span>
                 <div
-                  className="itinerary-start-time"
+                  className="itinerary-duration-container"
                   key="startTime"
                   aria-hidden="true"
                 >
@@ -553,20 +633,22 @@ const SummaryRow = (
                   >
                     <span>{dateOrEmpty(startTime, refTime)}</span>
                   </span>
-                  <LocalTime time={startTime} />
+                  <div className="itinerary-start-time-and-end-time">
+                    {itineraryStartAndEndTime}
+                  </div>
+                  <div className="itinerary-duration">
+                    <RelativeDuration duration={duration} />
+                  </div>
                 </div>
                 <div className="itinerary-legs" key="legs" aria-hidden="true">
-                  {firstLegStartTime}
                   {legs}
                 </div>
                 <div
-                  className="itinerary-end-time-and-distance"
+                  className="itinerary-first-leg-start-time-container"
                   key="endtime-distance"
                   aria-hidden="true"
                 >
-                  <div className="itinerary-end-time">
-                    <LocalTime time={endTime} />
-                  </div>
+                  {firstLegStartTime}
                   {isDefaultPosition && renderBikingDistance(data)}
                 </div>
                 <div
@@ -574,16 +656,13 @@ const SummaryRow = (
                   key="duration-distance"
                   aria-hidden="true"
                 >
-                  <span className="itinerary-duration">
-                    <RelativeDuration duration={duration} />
-                  </span>
                   {!isDefaultPosition && renderBikingDistance(data)}
-                  {!onlyBiking(data) && (
+                  {/* {!onlyBiking(data) && (
                     <div className="itinerary-walking-distance">
                       <Icon img="icon-icon_walk" viewBox="6 0 40 40" />
                       {displayDistance(getTotalWalkingDistance(data), config)}
                     </div>
-                  )}
+                  )} */}
                 </div>
               </div>
               <div

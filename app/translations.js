@@ -923,6 +923,8 @@ const translations = {
       'Itinerary departing at {departureDate} {departureTime} and arriving at {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Total time {totalTime}. {distance}',
     'itinerary-summary-row.first-departure':
       '{vehicle} leaves at {departureTime} from stop {stopName}.',
+    'itinerary-summary-row.first-leg-start-time':
+      'Leaves {firstDepartureTime} from station {firstDepartureStop}',
     'itinerary-summary-row.transfers':
       'Transfer to {vehicle} on stop {stopName}',
     'itinerary-summary-row.walking-distance':
