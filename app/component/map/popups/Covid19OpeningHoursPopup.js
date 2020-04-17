@@ -16,6 +16,8 @@ class Covid19OpeningHoursPopup extends React.Component {
     featureId: PropTypes.string.isRequired,
   };
 
+  hasRegularHours = false;
+
   constructor(props) {
     super(props);
     this.state = { loading: true };
@@ -42,10 +44,19 @@ class Covid19OpeningHoursPopup extends React.Component {
   }
 
   renderOpeningHours() {
-    const hours = this.state.feature.properties.opening_hours;
-    if (hours) {
-      return <OSMOpeningHours openingHours={hours} />;
+    const covidHours = this.state.feature.properties.opening_hours;
+    const regularHours = this.state.feature.properties.tags.opening_hours;
+
+    if (covidHours) {
+      this.hasRegularHours = false;
+      return <OSMOpeningHours openingHours={covidHours} />;
     }
+
+    if (regularHours) {
+      this.hasRegularHours = true;
+      return <OSMOpeningHours openingHours={regularHours} />;
+    }
+
     return null;
   }
 
@@ -81,10 +92,17 @@ class Covid19OpeningHoursPopup extends React.Component {
           />
           <p>
             <span className="covid-19-badge">COVID-19</span>
-            <FormattedMessage
-              id={`covid-19-${status}`}
-              defaultMessage={status}
-            />
+            {this.hasRegularHours ? (
+              <FormattedMessage
+                id="covid-19-different-hours"
+                defaultMessage="Opening hours may be different"
+              />
+            ) : (
+              <FormattedMessage
+                id={`covid-19-${status}`}
+                defaultMessage={status}
+              />
+            )}
           </p>
           <p>{this.renderOpeningHours()}</p>
           <p>
