@@ -327,6 +327,7 @@ const translations = {
       'Ihr Inserat wird nach Ablauf der Zeit jedoch spätestens nach drei Monaten (bei regelmäßigen Fahrten) gelöscht.',
     cause: 'Grund',
     'char-left': 'Zeichen',
+    'choose-option': 'Option auswählen',
     'choose-stop': 'Haltestelle auswählen',
     'chosen-times-once':
       'Sie haben für den folgendes Datum und Uhrzeit inseriert: ',
@@ -866,6 +867,7 @@ const translations = {
       'Your offer will be deleted after the day of the ride. Regular ones will be removed after three months.',
     cause: 'cause',
     'char-left': 'characters',
+    'choose-option': 'Select option',
     'choose-stop': 'Select stop',
     'chosen-times-once': "You've set the following time: ",
     'chosen-times-recurring': "You've set the following times and days: ",

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import ComponentUsageExample from '../../ComponentUsageExample';
+import Icon from '../../Icon';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function SelectCovid19OpeningHoursRow(props, context) {
@@ -14,7 +15,14 @@ function SelectCovid19OpeningHoursRow(props, context) {
   return (
     <div className="no-margin">
       <div className="cursor-pointer select-row" onClick={selectRow}>
-        <div className="padding-vertical-normal select-row-icon" />
+        <div className="padding-vertical-normal select-row-icon">
+          <Icon
+            img={`poi_${cat || 'other'}`}
+            viewBox="0 0 18 18"
+            width={0.7}
+            height={0.7}
+          />
+        </div>
         <div className="padding-vertical-normal select-row-text">
           <span className="header-primary no-margin link-color">
             {name || brand || translatedCat} ›
