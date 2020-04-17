@@ -138,6 +138,20 @@ export default {
           en: 'https://www.foli.fi/en/citybikes',
         },
       },
+      vilkku: {
+        icon: 'citybike',
+        name: {
+          fi: 'Vilkku',
+          sv: 'Vilkku',
+          en: 'Vilkku',
+        },
+        type: 'citybike',
+        url: {
+          fi: 'https://kaupunkipyorat.kuopio.fi/',
+          sv: 'https://kaupunkipyorat.kuopio.fi/?lang=2',
+          en: 'https://kaupunkipyorat.kuopio.fi/?lang=2',
+        },
+      },
     },
   },
 
