@@ -11,6 +11,11 @@ export default class OSMOpeningHours extends React.Component {
 
   static propTypes = {
     openingHours: PropTypes.string.isRequired,
+    displayStatus: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    displayStatus: false,
   };
 
   getOpeningHours = opening => {
@@ -52,20 +57,25 @@ export default class OSMOpeningHours extends React.Component {
 
   render() {
     const opening = new SimpleOpeningHours(this.props.openingHours);
+    const { displayStatus } = this.props;
     const isOpenNow = opening.isOpenNow();
 
     return (
       <div className="opening-hours">
-        <div className="currently-open">
-          <FormattedMessage id="now" defaultMessage="Now" />{' '}
-          <strong>
-            {isOpenNow ? (
-              <FormattedMessage id="open" defaultMessage="open" />
-            ) : (
-              <FormattedMessage id="closed" defaultMessage="closed" />
-            )}
-          </strong>
-        </div>
+        {displayStatus ? (
+          <div className="currently-open">
+            <FormattedMessage id="now" defaultMessage="Now" />{' '}
+            <strong>
+              {isOpenNow ? (
+                <FormattedMessage id="open" defaultMessage="open" />
+              ) : (
+                <FormattedMessage id="closed" defaultMessage="closed" />
+              )}
+            </strong>
+          </div>
+        ) : (
+          ''
+        )}
         <div>
           <h4>
             <FormattedMessage
