@@ -42,10 +42,20 @@ class Covid19OpeningHoursPopup extends React.Component {
   }
 
   renderOpeningHours() {
-    const hours = this.state.feature.properties.opening_hours;
-    if (hours) {
-      return <OSMOpeningHours openingHours={hours} />;
+    const {
+      feature: { properties },
+    } = this.state;
+    const covidHours = properties.opening_hours;
+    const regularHours = properties.tags.opening_hours;
+
+    if (covidHours) {
+      return <OSMOpeningHours openingHours={covidHours} displayStatus />;
     }
+
+    if (regularHours) {
+      return <OSMOpeningHours openingHours={regularHours} />;
+    }
+
     return null;
   }
 
@@ -58,7 +68,7 @@ class Covid19OpeningHoursPopup extends React.Component {
       );
     }
     const {
-      properties: { name, brand, status, cat, fid },
+      properties: { name, brand, status, cat, fid, tags },
       geometry: {
         coordinates: [long, lat],
       },
@@ -68,6 +78,8 @@ class Covid19OpeningHoursPopup extends React.Component {
       id: `poi-${cat}`,
       defaultMessage: cat,
     });
+
+    const website = tags.website || tags['contact:facebook'];
 
     return (
       <Card>
@@ -79,12 +91,26 @@ class Covid19OpeningHoursPopup extends React.Component {
             className="padding-medium"
             headingStyle="h2"
           />
+          {website ? (
+            <a target="_blank" rel="noopener noreferrer" href={website}>
+              <FormattedMessage id="website" defaultMessage="Website" />
+            </a>
+          ) : (
+            ''
+          )}
           <p>
             <span className="covid-19-badge">COVID-19</span>
-            <FormattedMessage
-              id={`covid-19-${status}`}
-              defaultMessage={status}
-            />
+            {status === 'unknown' && tags.opening_hours ? (
+              <FormattedMessage
+                id="covid-19-different-hours"
+                defaultMessage="Opening hours may be different"
+              />
+            ) : (
+              <FormattedMessage
+                id={`covid-19-${status}`}
+                defaultMessage={status}
+              />
+            )}
           </p>
           <p>{this.renderOpeningHours()}</p>
           <p>
