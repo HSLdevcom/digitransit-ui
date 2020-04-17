@@ -5,7 +5,7 @@ import pick from 'lodash/pick';
 import range from 'lodash-es/range';
 import { includes } from 'lodash-es';
 import { isBrowser } from '../../../util/browser';
-import { drawRoundIcon } from '../../../util/mapIconUtils';
+import { drawRoundIcon, iconExists } from '../../../util/mapIconUtils';
 import glfun from '../../../util/glfun';
 
 const getScale = glfun({
@@ -59,8 +59,16 @@ class Covid19OpeningHours {
     });
   };
 
-  getIcon = category => {
-    return `poi_${category || 'other'}`;
+  // eslint-disable-next-line camelcase
+  static getIcon = (cat, normalized_cat) => {
+    const catIcon = `poi_${cat}`;
+    // some subcategories don't have icons so we show the root category
+    if (iconExists(catIcon)) {
+      // eslint-disable-next-line camelcase
+      return catIcon;
+    }
+    // eslint-disable-next-line camelcase
+    return `poi_${normalized_cat || 'other'}`;
   };
 
   getIconStatus = status => {
@@ -83,7 +91,10 @@ class Covid19OpeningHours {
       return drawRoundIcon(this.tile, geom, status);
     }
 
-    const icon = this.getIcon(properties.cat);
+    const icon = Covid19OpeningHours.getIcon(
+      properties.cat,
+      properties.normalized_cat,
+    );
     return drawRoundIcon(
       this.tile,
       geom,

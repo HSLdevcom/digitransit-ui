@@ -63,6 +63,7 @@ function MarkerSelectPopup(props) {
       return (
         <SelectCovid19OpeningHoursRow
           {...option.feature.properties}
+          normalizedCat={option.feature.properties.normalized_cat}
           key={option.feature.properties.fid}
           selectRow={() => props.selectRow(option)}
         />

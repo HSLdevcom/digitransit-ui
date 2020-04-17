@@ -49,6 +49,13 @@ export const getFill = memoize(selector => getStyleOrDefault(selector).fill);
 
 export const getModeColor = mode => getColor(`.${mode}`);
 
+export const iconExists = memoize(icon => {
+  if (!document) {
+    return null;
+  }
+  return !!document.getElementById(icon);
+});
+
 function getImageFromSpriteSync(icon, width, height, fill) {
   if (!document) {
     return null;

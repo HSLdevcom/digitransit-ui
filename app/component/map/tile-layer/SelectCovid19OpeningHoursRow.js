@@ -3,10 +3,11 @@ import React from 'react';
 import { intlShape } from 'react-intl';
 import ComponentUsageExample from '../../ComponentUsageExample';
 import Icon from '../../Icon';
+import Covid19OpeningHours from './Covid19OpeningHours';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function SelectCovid19OpeningHoursRow(props, context) {
-  const { name, brand, cat, selectRow } = props;
+  const { name, brand, cat, normalizedCat, selectRow } = props;
   const translatedCat = context.intl.formatMessage({
     id: `poi-${cat}`,
     defaultMessage: cat,
@@ -17,7 +18,7 @@ function SelectCovid19OpeningHoursRow(props, context) {
       <div className="cursor-pointer select-row" onClick={selectRow}>
         <div className="padding-vertical-normal select-row-icon">
           <Icon
-            img={`poi_${cat || 'other'}`}
+            img={Covid19OpeningHours.getIcon(cat, normalizedCat)}
             viewBox="0 0 18 18"
             width={0.7}
             height={0.7}
@@ -44,6 +45,7 @@ SelectCovid19OpeningHoursRow.propTypes = {
   name: PropTypes.string,
   brand: PropTypes.string,
   cat: PropTypes.string.isRequired,
+  normalizedCat: PropTypes.string.isRequired,
 };
 
 SelectCovid19OpeningHoursRow.description = () => (
