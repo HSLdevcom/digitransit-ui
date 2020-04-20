@@ -12,8 +12,14 @@ const DATE_FORMAT3 = 'D.';
 
 i18next.init({ lng: 'en', resources: {} });
 
+i18next.addResourceBundle('da', 'translation', translations.da);
+i18next.addResourceBundle('de', 'translation', translations.de);
 i18next.addResourceBundle('en', 'translation', translations.en);
+i18next.addResourceBundle('es', 'translation', translations.es);
 i18next.addResourceBundle('fi', 'translation', translations.fi);
+i18next.addResourceBundle('fr', 'translation', translations.fr);
+i18next.addResourceBundle('nb', 'translation', translations.nb);
+i18next.addResourceBundle('ro', 'translation', translations.ro);
 i18next.addResourceBundle('sv', 'translation', translations.sv);
 
 function translateText(objectToTranslate) {
