@@ -127,7 +127,7 @@
     "recompose": "0.30.0",
     "sanitize-html": "1.20.1",
     "serialize-javascript": "1.6.1",
-    "simple-opening-hours": "0.1.1",
+    "simple-opening-hours": "mfdz/simple-opening-hours",
     "uuidv4": "4.0.0",
     "zurb-foundation-5": "5.4.7"
   },

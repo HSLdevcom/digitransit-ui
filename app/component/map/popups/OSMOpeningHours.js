@@ -1,4 +1,4 @@
-import { SimpleOpeningHours } from 'simple-opening-hours';
+import SimpleOpeningHours from 'lehrenfried-simple-opening-hours';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape } from 'react-intl';
@@ -58,7 +58,7 @@ export default class OSMOpeningHours extends React.Component {
   render() {
     const opening = new SimpleOpeningHours(this.props.openingHours);
     const { displayStatus } = this.props;
-    const isOpenNow = opening.isOpenNow();
+    const isOpenNow = opening.isOpen();
 
     return (
       <div className="opening-hours">
