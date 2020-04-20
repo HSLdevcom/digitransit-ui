@@ -1,6 +1,6 @@
-# @digitransit-search-util/map-pelias-modality
+# @digitransit-search-util/get-geocoding-results
 
-# mapPeliasModality
+# getGeocodingResults
 
 <DESCRIPTION>
 
@@ -24,7 +24,7 @@ PRs and issues.
 Install this module individually:
 
 ```sh
-$ npm install @digitransit-search-util/map-pelias-modality
+$ npm install @digitransit-search-util/get-geocoding-results
 ```
 
 Or install the digitransit-search-util module that includes it as a function:
