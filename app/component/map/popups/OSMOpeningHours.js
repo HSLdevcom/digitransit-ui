@@ -1,4 +1,4 @@
-import SimpleOpeningHours from 'lehrenfried-simple-opening-hours';
+import SimpleOpeningHours from 'simple-opening-hours';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape } from 'react-intl';
