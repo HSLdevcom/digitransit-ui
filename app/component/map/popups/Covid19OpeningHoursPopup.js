@@ -103,19 +103,23 @@ class Covid19OpeningHoursPopup extends React.Component {
           ) : (
             ''
           )}
-          {hasDelivery || hasTakeaway ? (
-            <p>
-              {hasTakeaway ? (
-                <FormattedMessage id="covid-takeaway" defaultMessage="Take-away service available" />
-              ) : (
-                ''
-              )}
-              {hasDelivery ? (
-                <FormattedMessage id="covid-delivery" defaultMessage="Delivery service available" />
-              ) : (
-                ''
-              )}
-            </p>
+          {hasTakeaway ? (
+            <div>
+              <FormattedMessage
+                id="covid-takeaway"
+                defaultMessage="Take-away service available"
+              />
+            </div>
+          ) : (
+            ''
+          )}
+          {hasDelivery ? (
+            <div>
+              <FormattedMessage
+                id="covid-delivery"
+                defaultMessage="Delivery service available"
+              />
+            </div>
           ) : (
             ''
           )}
