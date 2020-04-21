@@ -2,7 +2,13 @@ import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import some from 'lodash/some';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { getHomeUrl, parseLocation, PREFIX_STOPS, PREFIX_ROUTES, PREFIX_TERMINALS } from '../util/path';
+import {
+  getHomeUrl,
+  parseLocation,
+  PREFIX_STOPS,
+  PREFIX_ROUTES,
+  PREFIX_TERMINALS,
+} from '../util/path';
 import { dtLocationShape } from '../util/shapes';
 import AppBarContainer from './AppBarContainer';
 import MobileView from './MobileView';
