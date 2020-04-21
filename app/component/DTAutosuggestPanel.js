@@ -65,6 +65,7 @@ class DTAutosuggestPanel extends React.Component {
     config: PropTypes.object.isRequired,
     origin: PropTypes.object.isRequired,
     destination: PropTypes.object.isRequired,
+    executeSearch: PropTypes.func,
     isItinerary: PropTypes.bool,
     originPlaceHolder: PropTypes.string,
     destinationPlaceHolder: PropTypes.string,
@@ -405,6 +406,7 @@ class DTAutosuggestPanel extends React.Component {
             onSelect={this.props.onSelect}
             getLabel={this.props.getLabel}
             focusChange={this.handleFocusChange}
+            executeSearch={this.props.executeSearch}
           />
           <ItinerarySearchControl
             className="switch"
@@ -464,6 +466,7 @@ class DTAutosuggestPanel extends React.Component {
                     this.handleViaPointLocationSelected(item, i)
                   }
                   getLabel={this.props.getLabel}
+                  executeSearch={this.props.executeSearch}
                 />
                 <div className="via-point-button-container">
                   <ItinerarySearchControl
@@ -563,6 +566,7 @@ class DTAutosuggestPanel extends React.Component {
             onSelect={this.props.onSelect}
             value={this.value(this.props.destination)}
             getLabel={this.props.getLabel}
+            executeSearch={this.props.executeSearch}
           />
           <ItinerarySearchControl
             className={cx('add-via-point', 'more', {
