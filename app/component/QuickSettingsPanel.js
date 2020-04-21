@@ -2,22 +2,23 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import { intlShape } from 'react-intl';
-import get from 'lodash/get';
 import { matchShape, routerShape } from 'found';
 
-import Icon from './Icon';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
-import TimeSelectorContainer from './TimeSelectorContainer';
 import { matchQuickOption } from '../util/planParamUtil';
 import { replaceQueryParams } from '../util/queryUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import Datetimepicker from './Datetimepicker';
 
 class QuickSettingsPanel extends React.Component {
+  // TODO decide if these are needed for new datepicker
+  /* eslint-disable react/no-unused-prop-types */
   static propTypes = {
     timeSelectorStartTime: PropTypes.number,
     timeSelectorEndTime: PropTypes.number,
     timeSelectorServiceTimeRange: PropTypes.object.isRequired,
   };
+  /* eslint-enable react/no-unused-prop-types */
 
   static contextTypes = {
     intl: intlShape.isRequired,
@@ -79,59 +80,20 @@ class QuickSettingsPanel extends React.Component {
   };
 
   render() {
-    const arriveBy = get(
-      this.context.match.location,
-      'query.arriveBy',
-      'false',
-    );
     const quickOption = matchQuickOption(this.context);
 
     return (
       <div className={cx(['quicksettings-container'])}>
-        <div className={cx('time-selector-settings-row')}>
-          <TimeSelectorContainer
-            startTime={this.props.timeSelectorStartTime}
-            endTime={this.props.timeSelectorEndTime}
-            serviceTimeRange={this.props.timeSelectorServiceTimeRange}
-          />
-          <div className="select-wrapper">
-            <select
-              aria-label={this.context.intl.formatMessage({
-                id: 'arrive-leave',
-                defaultMessage: 'Arrive or leave at selected time',
-              })}
-              className="arrive"
-              value={arriveBy}
-              onChange={this.setArriveBy}
-            >
-              <option value="false">
-                {this.context.intl.formatMessage({
-                  id: 'leaving-at',
-                  defaultMessage: 'Leaving',
-                })}
-              </option>
-              <option value="true">
-                {this.context.intl.formatMessage({
-                  id: 'arriving-at',
-                  defaultMessage: 'Arriving',
-                })}
-              </option>
-            </select>
-            <Icon
-              className="fake-select-arrow"
-              img="icon-icon_arrow-dropdown"
-            />
-          </div>
+        <Datetimepicker realtime={false} />
 
-          <div className="open-advanced-settings">
-            <RightOffcanvasToggle
-              onToggleClick={this.toggleCustomizeSearchOffcanvas}
-              hasChanges={
-                quickOption === 'saved-settings' ||
-                quickOption === 'custom-settings'
-              }
-            />
-          </div>
+        <div className="open-advanced-settings">
+          <RightOffcanvasToggle
+            onToggleClick={this.toggleCustomizeSearchOffcanvas}
+            hasChanges={
+              quickOption === 'saved-settings' ||
+              quickOption === 'custom-settings'
+            }
+          />
         </div>
       </div>
     );
