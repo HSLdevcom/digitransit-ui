@@ -1,6 +1,6 @@
-# @digitransit-search-util/get-current-position-if-empty
+# @digitransit-search-util/execute-search-immidiate
 
-# getCurrentPositionIfEmpty
+# executeSearchImmidiate
 
 <DESCRIPTION>
 
@@ -24,7 +24,7 @@ PRs and issues.
 Install this module individually:
 
 ```sh
-$ npm install @digitransit-search-util/get-current-position-if-empty
+$ npm install @digitransit-search-util/execute-search-immidiate
 ```
 
 Or install the digitransit-search-util module that includes it as a function:
