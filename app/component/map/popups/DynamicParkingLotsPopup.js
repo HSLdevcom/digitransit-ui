@@ -93,22 +93,20 @@ class DynamicParkingLotsPopup extends React.Component {
   }
 
   render() {
-    const desc = (
-      <div>
-        {this.getCapacity()}
-        {this.renderOpeningHours()}
-        {this.getUrl()}
-      </div>
-    );
     return (
       <Card>
         <div className="padding-normal">
           <CardHeader
             name={this.props.feature.properties.name}
-            description={desc}
+            description={this.getCapacity()}
             unlinked
-            className="padding-small"
+            className="padding-medium"
+            headingStyle="h2"
           />
+          <div>
+            {this.renderOpeningHours()}
+            {this.getUrl()}
+          </div>
         </div>
         <MarkerPopupBottom
           location={{
