@@ -24,6 +24,29 @@ const LayerType = {
   Street: 'street',
   Venue: 'venue',
 };
+const PREFIX_ROUTES = 'linjat';
+
+export const mapRoute = item => {
+  if (item === null || item === undefined) {
+    return null;
+  }
+
+  const link = `/${PREFIX_ROUTES}/${item.gtfsId}/pysakit/${
+    orderBy(item.patterns, 'code', ['asc'])[0].code
+  }`;
+
+  return {
+    type: 'Route',
+    properties: {
+      ...item,
+      layer: `route-${item.mode}`,
+      link,
+    },
+    geometry: {
+      coordinates: null,
+    },
+  };
+};
 
 /**
  * Tries to match the given search term agains the collection of properties
