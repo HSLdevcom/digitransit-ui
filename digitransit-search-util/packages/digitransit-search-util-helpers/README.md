@@ -1,6 +1,6 @@
-# @digitransit-search-util/get-old-searches
+# @digitransit-search-util/helpers
 
-# getOldSearches
+# helpers
 
 <DESCRIPTION>
 
@@ -24,7 +24,7 @@ PRs and issues.
 Install this module individually:
 
 ```sh
-$ npm install @digitransit-search-util/get-old-searches
+$ npm install @digitransit-search-util/helpers
 ```
 
 Or install the digitransit-search-util module that includes it as a function:
