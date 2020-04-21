@@ -7,6 +7,7 @@ import Card from '../../Card';
 import CardHeader from '../../CardHeader';
 import { station as exampleStation } from '../../ExampleData';
 import ComponentUsageExample from '../../ComponentUsageExample';
+import OSMOpeningHours from './OSMOpeningHours';
 
 class DynamicParkingLotsPopup extends React.Component {
   static contextTypes = {
@@ -80,10 +81,22 @@ class DynamicParkingLotsPopup extends React.Component {
     return null;
   }
 
+  renderOpeningHours() {
+    const {
+      feature: { properties },
+    } = this.props;
+    const openingHours = properties.opening_hours;
+    if (openingHours) {
+      return <OSMOpeningHours openingHours={openingHours} displayStatus />;
+    }
+    return null;
+  }
+
   render() {
     const desc = (
       <div>
         {this.getCapacity()}
+        {this.renderOpeningHours()}
         {this.getUrl()}
       </div>
     );
