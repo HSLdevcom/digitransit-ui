@@ -1,10 +1,11 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import PropTypes from 'prop-types';
 import React from 'react';
 import i18next from 'i18next';
 import cx from 'classnames';
 import Autosuggest from 'react-autosuggest';
 // import { executeSearch, getAllEndpointLayers } from './searchUtils';
-// import SuggestionItem from '@digitransit-component/digitransit-component-suggestion-item';
+import SuggestionItem from '@digitransit-component/digitransit-component-suggestion-item';
 // import { suggestionToAriaContent } from '../digitransit-component-suggestion-item/suggestionUtils';
 import translations from './helpers/translations';
 import './helpers/styles.scss';
