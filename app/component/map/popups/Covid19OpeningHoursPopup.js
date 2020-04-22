@@ -69,11 +69,16 @@ class Covid19OpeningHoursPopup extends React.Component {
       );
     }
     const {
-      properties: { name, brand, status, cat, fid, tags },
+      properties: { name, brand, status, cat, fid, tags, delivery, takeaway },
       geometry: {
         coordinates: [long, lat],
       },
     } = this.state.feature;
+
+    const hasDelivery =
+      tags['delivery:covid19'] === 'yes' || delivery === 'yes';
+    const hasTakeaway =
+      tags['takeaway:covid19'] === 'yes' || takeaway === 'yes';
 
     const translatedCat = this.context.intl.formatMessage({
       id: `poi-${cat}`,
@@ -96,6 +101,26 @@ class Covid19OpeningHoursPopup extends React.Component {
             <a target="_blank" rel="noopener noreferrer" href={website}>
               <FormattedMessage id="website" defaultMessage="Website" />
             </a>
+          ) : (
+            ''
+          )}
+          {hasTakeaway ? (
+            <div className="delivery-takeaway">
+              <FormattedMessage
+                id="covid-takeaway"
+                defaultMessage="Take-away service available"
+              />
+            </div>
+          ) : (
+            ''
+          )}
+          {hasDelivery ? (
+            <div className="delivery-takeaway">
+              <FormattedMessage
+                id="covid-delivery"
+                defaultMessage="Delivery service available"
+              />
+            </div>
           ) : (
             ''
           )}
