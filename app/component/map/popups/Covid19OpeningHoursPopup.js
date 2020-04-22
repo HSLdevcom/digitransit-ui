@@ -114,13 +114,17 @@ class Covid19OpeningHoursPopup extends React.Component {
           </p>
           <p>{this.renderOpeningHours()}</p>
           <p>
-            <FormattedMessage id="source" defaultMessage="Source" />:{' '}
             <a
               target="_blank"
               rel="noopener noreferrer"
               href={`https://www.bleibtoffen.de/@${lat},${long},18/place/${fid}`}
+              role="button"
+              className="btn btn-sm secondary-button"
             >
-              bleibtoffen.de
+              <FormattedMessage
+                id="covid-opening-edit"
+                defaultMessage="Edit on bleibtoffen.de"
+              />
             </a>
           </p>
         </div>
