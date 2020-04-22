@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
+import { Link } from 'react-router';
 import Card from '../../Card';
 import CardHeader from '../../CardHeader';
 import Loading from '../../Loading';
@@ -114,18 +115,18 @@ class Covid19OpeningHoursPopup extends React.Component {
           </p>
           <p>{this.renderOpeningHours()}</p>
           <p>
-            <a
+            <Link
+              href={`https://www.bleibtoffen.de/@${lat},${long},18/place/${fid}`}
               target="_blank"
               rel="noopener noreferrer"
-              href={`https://www.bleibtoffen.de/@${lat},${long},18/place/${fid}`}
-              role="button"
-              className="btn btn-sm secondary-button"
+              onlyActiveOnIndex={false}
+              className="link-as-button"
             >
               <FormattedMessage
                 id="covid-19-opening-edit"
                 defaultMessage="Edit on bleibtoffen.de"
               />
-            </a>
+            </Link>
           </p>
         </div>
       </Card>
