@@ -122,7 +122,7 @@ class Covid19OpeningHoursPopup extends React.Component {
               className="btn btn-sm secondary-button"
             >
               <FormattedMessage
-                id="covid-opening-edit"
+                id="covid-19-opening-edit"
                 defaultMessage="Edit on bleibtoffen.de"
               />
             </a>
