@@ -27,6 +27,7 @@ import withBreakpoint from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
 import scrollTop from '../util/scroll';
 import FavouriteLocationsContainer from './FavouriteLocationsContainer';
+import Datetimepicker from './Datetimepicker';
 
 const debug = d('IndexPage.js');
 
@@ -127,6 +128,7 @@ class IndexPage extends React.Component {
             locationState={this.props.locationState}
             getViaPointsFromMap={this.props.getViaPointsFromMap}
           />
+          <Datetimepicker realtime />
           <div className="fpcfloat">
             <div className="frontpage-panel">
               <FavouriteLocationsContainer
