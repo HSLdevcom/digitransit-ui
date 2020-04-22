@@ -1,6 +1,5 @@
+import moment from 'moment';
 import { PREFIX_ITINERARY_SUMMARY } from '../../../../app/util/path';
-
-const moment = require('moment');
 
 module.exports = {
   '@disabled': true, // TODO: change this whenever citybike period starts/ends
