@@ -208,7 +208,8 @@ export function executeSearchImmediate(
           language,
           focusPoint,
           sources,
-          config,
+          config.url.PELIAS,
+          new RegExp('.{2,}'),
         ),
       );
     }
@@ -235,6 +236,8 @@ export function executeSearchImmediate(
             focusPoint,
             sources,
             config,
+            config.url.PELIAS,
+            new RegExp('.{2,}'),
           ),
         );
       }
