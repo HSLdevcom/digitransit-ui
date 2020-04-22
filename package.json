@@ -45,6 +45,7 @@
     "digitransit-util-list": "lerna list",
     "digitransit-util-new-module": "node -r esm ./digitransit-util/scripts/create-new-module $1",
     "digitransit-search-util-new-module": "node -r esm ./digitransit-search-util/scripts/create-new-module $1",
+    "digitransit-search-util-docs": "node -r esm ./digitransit-search-util/scripts/generate-readmes",
     "digitransit-util-publish": "lerna publish --no-git-tag-version",
     "digitransit-util-tests": "yarn workspaces run test"
   },

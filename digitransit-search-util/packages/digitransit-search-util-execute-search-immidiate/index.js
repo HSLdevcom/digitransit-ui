@@ -10,7 +10,7 @@ import uniqByLabel from '@digitransit-search-util/digitransit-search-util-uniq-b
 import filterMatchingToInput from '@digitransit-search-util/digitransit-search-util-filter-matching-to-input';
 import getGeocodingResult from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
 
-export const getAllEndpointLayers = () => [
+export const getAllEndpointLayers = [
   'CurrentPosition',
   'FavouritePlace',
   'FavouriteStop',
