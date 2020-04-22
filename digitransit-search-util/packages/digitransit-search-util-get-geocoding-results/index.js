@@ -39,5 +39,7 @@ export default function getGeocodingResults(
   if (sources) {
     opts = { ...opts, sources };
   }
-  return getJson(PELIAS_URL, opts);
+  return getJson(PELIAS_URL, opts).then(res => {
+    return res.features;
+  });
 }

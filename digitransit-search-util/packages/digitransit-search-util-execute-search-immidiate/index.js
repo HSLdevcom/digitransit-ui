@@ -200,7 +200,8 @@ export function executeSearchImmediate(
           : {};
 
       const sources = get(config, 'searchSources', '').join(',');
-
+      const regex =
+        config && config.search ? config.search.minimalRegexp : undefined;
       searchComponents.push(
         getGeocodingResult(
           input,
@@ -208,8 +209,8 @@ export function executeSearchImmediate(
           language,
           focusPoint,
           sources,
-          config.url.PELIAS,
-          new RegExp('.{2,}'),
+          config.URL.PELIAS,
+          regex,
         ),
       );
     }
@@ -228,6 +229,8 @@ export function executeSearchImmediate(
         .join(',');
 
       if (sources) {
+        const regex =
+          config && config.search ? config.search.minimalRegexp : undefined;
         searchComponents.push(
           getGeocodingResult(
             input,
@@ -235,9 +238,8 @@ export function executeSearchImmediate(
             language,
             focusPoint,
             sources,
-            config,
-            config.url.PELIAS,
-            new RegExp('.{2,}'),
+            config.URL.PELIAS,
+            regex,
           ),
         );
       }
