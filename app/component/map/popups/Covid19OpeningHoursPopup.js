@@ -104,7 +104,7 @@ class Covid19OpeningHoursPopup extends React.Component {
             ''
           )}
           {hasTakeaway ? (
-            <div>
+            <div className="delivery-takeaway">
               <FormattedMessage
                 id="covid-takeaway"
                 defaultMessage="Take-away service available"
@@ -114,7 +114,7 @@ class Covid19OpeningHoursPopup extends React.Component {
             ''
           )}
           {hasDelivery ? (
-            <div>
+            <div className="delivery-takeaway">
               <FormattedMessage
                 id="covid-delivery"
                 defaultMessage="Delivery service available"
