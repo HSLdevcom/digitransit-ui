@@ -1,11 +1,11 @@
-import moment from 'moment';
 import { PREFIX_ITINERARY_SUMMARY } from '../../../../app/util/path';
 
 module.exports = {
   '@disabled': true, // TODO: change this whenever citybike period starts/ends
   tags: ['citybike'],
   'Citybike tests should be disabled during winter period': browser => {
-    const month = moment().month() + 1;
+    const d = new Date();
+    const month = d.getMonth() + 1;
     const winterMonths = [11, 12, 1, 2, 3];
     if (winterMonths.includes(month)) {
       browser.assert.fail('Citybike tests should be disabled in winter');
