@@ -69,7 +69,7 @@ Icon.defaultProps = {
  *    item={suggestionObject}
  * />
  */
-const SuggestionItem = pure(({ item, ariaContent }) => {
+const SuggestionItem = pure(({ item, ariaContent, loading }) => {
   const icon = (
     <Icon
       width={1.2}
@@ -93,6 +93,7 @@ const SuggestionItem = pure(({ item, ariaContent }) => {
       aria-hidden="true"
       className={cx('search-result', item.type, {
         favourite: item.type.startsWith('Favourite'),
+        loading,
       })}
     >
       <span aria-label={iconstr} className="autosuggestIcon">

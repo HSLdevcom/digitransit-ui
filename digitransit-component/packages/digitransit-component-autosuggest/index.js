@@ -337,18 +337,16 @@ class DTAutosuggest extends React.Component {
     }
   };
 
-  renderItem = item => (
-    /* eslint-disable react/jsx-no-undef */
-    <SuggestionItem
-      ref={item.name}
-      item={item}
-      // intl={this.context.intl}
-      loading={!this.state.valid}
-      // useTransportIconsconfig={
-      //   this.props.config.search.suggestions.useTransportIcons
-      // }
-    />
-  );
+  renderItem = item => {
+    const ariaContent = suggestionToAriaContent(item);
+    return (
+      <SuggestionItem
+        item={item}
+        ariaContent={ariaContent}
+        loading={!this.state.valid}
+      />
+    );
+  };
 
   // DT-3263 starts
   // eslint-disable-next-line consistent-return

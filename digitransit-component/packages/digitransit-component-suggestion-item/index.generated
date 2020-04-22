@@ -277,12 +277,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- // import i18next from 'i18next';
-// import translations from './helpers/translations';
-// i18next.init({ lng: 'en', resources: {} });
-// i18next.addResourceBundle('en', 'translation', translations.en);
-// i18next.addResourceBundle('fi', 'translation', translations.fi);
-// i18next.addResourceBundle('sv', 'translation', translations.sv);
+
 
 function getIcon(layer) {
   const layerIcon = new Map([['currentPosition', 'icon-icon_locate'], ['favouritePlace', 'icon-icon_star'], ['favouriteRoute', 'icon-icon_star'], ['favouriteStop', 'icon-icon_star'], ['favouriteStation', 'icon-icon_star'], ['favourite', 'icon-icon_star'], ['address', 'icon-icon_place'], ['stop', 'icon-icon_bus-stop'], ['locality', 'icon-icon_city'], ['station', 'icon-icon_station'], ['localadmin', 'icon-icon_city'], ['neighbourhood', 'icon-icon_city'], ['route-BUS', 'icon-icon_bus-withoutBox'], ['route-TRAM', 'icon-icon_tram-withoutBox'], ['route-RAIL', 'icon-icon_rail-withoutBox'], ['route-SUBWAY', 'icon-icon_subway-withoutBox'], ['route-FERRY', 'icon-icon_ferry-withoutBox'], ['route-AIRPLANE', 'icon-icon_airplane-withoutBox']]);
@@ -335,7 +330,8 @@ Icon.defaultProps = {
 
 const SuggestionItem = recompose_pure__WEBPACK_IMPORTED_MODULE_3___default()(({
   item,
-  ariaContent
+  ariaContent,
+  loading
 }) => {
   const icon = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(Icon, {
     width: 1.2,
@@ -350,7 +346,8 @@ const SuggestionItem = recompose_pure__WEBPACK_IMPORTED_MODULE_3___default()(({
   const ri = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     "aria-hidden": "true",
     className: classnames__WEBPACK_IMPORTED_MODULE_2___default()('search-result', item.type, {
-      favourite: item.type.startsWith('Favourite')
+      favourite: item.type.startsWith('Favourite'),
+      loading
     })
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
     "aria-label": iconstr,

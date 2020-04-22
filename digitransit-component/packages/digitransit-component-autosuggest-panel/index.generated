@@ -3465,16 +3465,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var recompose_pure__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
 /* harmony import */ var recompose_pure__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(recompose_pure__WEBPACK_IMPORTED_MODULE_3__);
+/* eslint-disable import/no-extraneous-dependencies */
 
 
 
- // import i18next from 'i18next';
-// import { getIcon, suggestionToAriaContent } from './suggestionUtils';
-// import translations from './helpers/translations';
-// i18next.init({ lng: 'en', resources: {} });
-// i18next.addResourceBundle('en', 'translation', translations.en);
-// i18next.addResourceBundle('fi', 'translation', translations.fi);
-// i18next.addResourceBundle('sv', 'translation', translations.sv);
+
 
 function getIcon(layer) {
   const layerIcon = new Map([['currentPosition', 'icon-icon_locate'], ['favouritePlace', 'icon-icon_star'], ['favouriteRoute', 'icon-icon_star'], ['favouriteStop', 'icon-icon_star'], ['favouriteStation', 'icon-icon_star'], ['favourite', 'icon-icon_star'], ['address', 'icon-icon_place'], ['stop', 'icon-icon_bus-stop'], ['locality', 'icon-icon_city'], ['station', 'icon-icon_station'], ['localadmin', 'icon-icon_city'], ['neighbourhood', 'icon-icon_city'], ['route-BUS', 'icon-icon_bus-withoutBox'], ['route-TRAM', 'icon-icon_tram-withoutBox'], ['route-RAIL', 'icon-icon_rail-withoutBox'], ['route-SUBWAY', 'icon-icon_subway-withoutBox'], ['route-FERRY', 'icon-icon_ferry-withoutBox'], ['route-AIRPLANE', 'icon-icon_airplane-withoutBox']]);
@@ -3518,14 +3513,16 @@ Icon.defaultProps = {
   width: undefined
 };
 /**
- * General component description in JSDoc format. Markdown is *supported*.
- * 
+ * SuggestionItem renders suggestions for digitransit-autosuggest component.
  * @example
- * <SuggestionItem />
+ * <SuggestionItem
+ *    item={suggestionObject}
+ * />
  */
 
 const SuggestionItem = recompose_pure__WEBPACK_IMPORTED_MODULE_3___default()(({
   item,
+  ariaContent,
   loading
 }) => {
   const icon = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(Icon, {
@@ -3534,12 +3531,7 @@ const SuggestionItem = recompose_pure__WEBPACK_IMPORTED_MODULE_3___default()(({
     color: "#007ac9",
     img: getIcon(item.properties.layer)
   });
-  const [iconstr, name, label] = ['icon', item.properties.name, item.properties.label]; // const [iconstr, name, label] = suggestionToAriaContent(
-  //   item,
-  //   intl,
-  //   useTransportIcons,
-  // );
-
+  const [iconstr, name, label] = ariaContent;
   const acri = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "sr-only"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, ' ', iconstr, " - ", name, " - ", label));
@@ -3561,7 +3553,7 @@ const SuggestionItem = recompose_pure__WEBPACK_IMPORTED_MODULE_3___default()(({
 });
 SuggestionItem.propTypes = {
   item: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.object,
-  useTransportIcons: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool
+  ariaContent: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string)
 };
 /* harmony default export */ __webpack_exports__["default"] = (SuggestionItem);
 
@@ -13996,19 +13988,14 @@ class index_DTAutosuggest extends react_default.a.Component {
       }
     };
 
-    this.renderItem = item =>
-    /*#__PURE__*/
-
-    /* eslint-disable react/jsx-no-undef */
-    react_default.a.createElement(index_generated_default.a, {
-      ref: item.name,
-      item: item // intl={this.context.intl}
-      ,
-      loading: !this.state.valid // useTransportIconsconfig={
-      //   this.props.config.search.suggestions.useTransportIcons
-      // }
-
-    });
+    this.renderItem = item => {
+      const ariaContent = suggestionToAriaContent(item);
+      return /*#__PURE__*/react_default.a.createElement(index_generated_default.a, {
+        item: item,
+        ariaContent: ariaContent,
+        loading: !this.state.valid
+      });
+    };
 
     this.keyDown = event => {
       const keyCode = event.keyCode || event.which;
@@ -14080,7 +14067,6 @@ class index_DTAutosuggest extends react_default.a.Component {
     const ariaCurrentSuggestion = esm_i18next.t('search-current-suggestion', {
       selection: this.suggestionAsAriaContent()
     });
-    console.log(ariaCurrentSuggestion);
     return /*#__PURE__*/react_default.a.createElement("div", {
       className: classnames_default()(['autosuggest-input-container', this.props.id])
     }, this.props.icon && /*#__PURE__*/react_default.a.createElement("div", {
