@@ -1,5 +1,5 @@
 module.exports = {
-  '@disabled': false, // TODO: change this whenever citybike period starts/ends
+  '@disabled': true, // TODO: change this whenever citybike period starts/ends
   tags: ['citybike'],
   'Citybike tests should be disabled during winter period': browser => {
     const d = new Date();
