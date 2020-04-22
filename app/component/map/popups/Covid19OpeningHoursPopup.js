@@ -7,6 +7,7 @@ import CardHeader from '../../CardHeader';
 import Loading from '../../Loading';
 import { getJson } from '../../../util/xhrPromise';
 import OSMOpeningHours from './OSMOpeningHours';
+import MarkerPopupBottom from '../MarkerPopupBottom';
 
 class Covid19OpeningHoursPopup extends React.Component {
   static contextTypes = {
@@ -114,21 +115,26 @@ class Covid19OpeningHoursPopup extends React.Component {
             )}
           </p>
           <p>{this.renderOpeningHours()}</p>
-          <p>
-            <Link
-              href={`https://www.bleibtoffen.de/@${lat},${long},18/place/${fid}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              onlyActiveOnIndex={false}
-              className="link-as-button"
-            >
-              <FormattedMessage
-                id="covid-19-opening-edit"
-                defaultMessage="Edit on bleibtoffen.de"
-              />
-            </Link>
-          </p>
+          <Link
+            href={`https://www.bleibtoffen.de/@${lat},${long},18/place/${fid}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            onlyActiveOnIndex={false}
+            className="link-as-button"
+          >
+            <FormattedMessage
+              id="covid-19-opening-edit"
+              defaultMessage="Edit on bleibtoffen.de"
+            />
+          </Link>
         </div>
+        <MarkerPopupBottom
+          location={{
+            address: name,
+            lat,
+            lon: long,
+          }}
+        />
       </Card>
     );
   }
