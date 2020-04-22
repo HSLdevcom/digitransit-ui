@@ -1,21 +1,21 @@
-import os
+import os, sys
 from svgpathtools import svg2paths
-# import fileinput
 
-isDownloaded = os.path.isdir('../caresteouvert')
-if not isDownloaded:
+# Update the caresteouvert repo.
+if not os.path.isdir('caresteouvert'):
     os.system('git clone git@github.com:osmontrouge/caresteouvert.git')
 else:
-    os.system('cd ../caresteouvert')
+    os.chdir('caresteouvert')
     os.system('git pull')
-    os.system('cd ..')
+    os.chdir('..')
 
-# Move to the icons dir.
-icons = os.listdir('../caresteouvert/icons')
+# List the icon filenames.
+icons = os.listdir('caresteouvert/icons')
 new_code = ''
 
+# Get the paths from each svg file and build info as needed.
 for icon in icons:
-    attributes = svg2paths('../caresteouvert/icons/'+icon)
+    attributes = svg2paths('caresteouvert/icons/'+icon)
 
     id = 'poi_' + icon.split('.')[0]
 
@@ -27,26 +27,41 @@ for icon in icons:
 
     new_code += new_icon
 
-sprite = 'static/assets/svg-sprite.hb.svg'
+source = 'static/assets/svg-sprite.hb.svg'
+tmp = 'static/assets/tmp.svg'
 
-# For this solution Covid POI icons should be the last group of icons in the sprite file.
-f = open(sprite, "r")
+# For this solution Covid POI icons should be between two specific comment lines!
+# Remove old version of icons, create a new, temporary file.
+keep = 1
+with open(source) as infile, open(tmp, "w") as outfile:
+    for line in infile:
+        if line.__contains__("COVID POI ICONS START"):
+            outfile.write(line)
+            keep = 0
+        if keep:
+            outfile.write(line)
+        if line.__contains__("COVID POI ICONS END"):
+            outfile.write(line)
+            keep = 1
+
+# Find first comment line in the temporary file.
+f = open(tmp, "r")
 contents = f.readlines()
 f.close()
 
-# TODO: remove old icons
+for num, line in enumerate(contents, 1):
+    if 'COVID POI ICONS START' in line:
+        start = num
+        break
 
-contents.insert(-3, new_code)
+# Insert new icons into the temporary file, after the comment line.
+contents.insert(start, new_code)
 
-f = open(sprite, "w")
+# Overwrite the original file with the new data.
+f = open(source, "w")
 contents = "".join(contents)
 f.write(contents)
 f.close()
 
-""" # Another solution could be
-for line in fileinput.FileInput(sprite, inplace=1):
-    if 'COVID POI ICONS START' in line:
-        line.replace(line, line + '\n' + new_code)
-    print(line, end="")
-"""
-
+# Remove the temporary file.
+os.remove(tmp)
