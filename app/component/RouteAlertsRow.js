@@ -67,7 +67,9 @@ export default function RouteAlertsRow(
       ? entityIdentifier.split(',').map((identifier, i) => (
           <Link
             key={gtfsIdList[i]}
-            to={`/${PREFIX_ROUTES}/${gtfsIdList[i]}/pysakit/${gtfsIdList[i]}/`}
+            to={`/${PREFIX_ROUTES}/${gtfsIdList[i]}/${PREFIX_STOPS}/${
+              gtfsIdList[i]
+            }/`}
             className="route-alert-row-link"
             onlyActiveOnIndex={false}
           >

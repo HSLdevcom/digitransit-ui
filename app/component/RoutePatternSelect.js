@@ -13,7 +13,7 @@ import {
   routePatterns as exampleRoutePatterns,
   twoRoutePatterns as exampleTwoRoutePatterns,
 } from './ExampleData';
-import { PREFIX_ROUTES } from '../util/path';
+import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 
 const DATE_FORMAT = 'YYYYMMDD';
 
@@ -82,7 +82,9 @@ class RoutePatternSelect extends Component {
     });
 
     if (options.every(o => o.key !== params.patternId)) {
-      router.replace(`/${PREFIX_ROUTES}/${gtfsId}/pysakit/${options[0].key}`);
+      router.replace(
+        `/${PREFIX_ROUTES}/${gtfsId}/${PREFIX_STOPS}/${options[0].key}`,
+      );
     } else if (options.length > 0 && this.state.loading === true) {
       this.setState({ loading: false });
     }

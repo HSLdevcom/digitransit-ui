@@ -1,5 +1,6 @@
 import { getActiveIndex } from '../../../app/component/SummaryPage';
 import { RealtimeStateType } from '../../../app/constants';
+import { PREFIX_ITINERARY_SUMMARY } from '../../../app/util/path';
 
 describe('<SummaryPage />', () => {
   describe('getActiveIndex', () => {
@@ -14,7 +15,7 @@ describe('<SummaryPage />', () => {
     });
 
     it('should retrieve the value from location pathname', () => {
-      const location = { pathname: '/reitti/from/to/5' };
+      const location = { pathname: `/${PREFIX_ITINERARY_SUMMARY}/from/to/5` };
       expect(getActiveIndex(location)).to.equal(5);
     });
 

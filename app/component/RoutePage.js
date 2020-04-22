@@ -25,15 +25,20 @@ import {
   isAlertActive,
   getActiveAlertSeverityLevel,
 } from '../util/alertUtils';
-import { PREFIX_ROUTES } from '../util/path';
+import {
+  PREFIX_DISRUPTION,
+  PREFIX_ROUTES,
+  PREFIX_STOPS,
+  PREFIX_TIMETABLE,
+} from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 import { RouteAlertsQuery, StopAlertsQuery } from '../util/alertQueries';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const Tab = {
-  Disruptions: 'hairiot',
-  Stops: 'pysakit',
-  Timetable: 'aikataulu',
+  Disruptions: PREFIX_DISRUPTION,
+  Stops: PREFIX_STOPS,
+  Timetable: PREFIX_TIMETABLE,
 };
 
 const getActiveTab = pathname => {
@@ -167,13 +172,13 @@ class RoutePage extends React.Component {
     this.context.router.replace(path);
     let action;
     switch (tab) {
-      case 'aikataulu':
+      case PREFIX_TIMETABLE:
         action = 'OpenTimetableTab';
         break;
-      case 'pysakit':
+      case PREFIX_STOPS:
         action = 'OpenStopsTab';
         break;
-      case 'hairiot':
+      case PREFIX_DISRUPTION:
         action = 'OpenDisruptionsTab';
         break;
       default:

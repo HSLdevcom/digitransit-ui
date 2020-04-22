@@ -4,14 +4,16 @@ import Relay from 'react-relay/classic';
 import { Link } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
-import { PREFIX_ROUTES } from '../../../util/path';
+import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../util/path';
 
 import RouteHeader from '../../RouteHeader';
 
 import { addFavouriteRoute } from '../../../action/FavouriteActions';
 
 function FuzzyTripMarkerPopup(props) {
-  let patternPath = `/${PREFIX_ROUTES}/${props.trip.route.gtfsId}/pysakit`;
+  let patternPath = `/${PREFIX_ROUTES}/${
+    props.trip.route.gtfsId
+  }/${PREFIX_STOPS}`;
   let tripPath = patternPath;
 
   if (props.trip.fuzzyTrip) {

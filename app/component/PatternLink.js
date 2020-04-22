@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import IconWithTail from './IconWithTail';
 import SelectedIconWithTail from './SelectedIconWithTail';
-import { PREFIX_ROUTES } from '../util/path';
+import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 
 function PatternLink({ mode, pattern, route, selected = false }) {
   const imgName = `icon-icon_${mode}-live`;
@@ -13,7 +13,7 @@ function PatternLink({ mode, pattern, route, selected = false }) {
 
   return (
     <Link
-      to={`/${PREFIX_ROUTES}/${route}/pysakit/${pattern}`}
+      to={`/${PREFIX_ROUTES}/${route}/${PREFIX_STOPS}/${pattern}`}
       className="route-now-content"
       onlyActiveOnIndex={false}
     >
