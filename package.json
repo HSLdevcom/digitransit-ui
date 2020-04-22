@@ -6,7 +6,8 @@
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "private": true,
   "workspaces": [
-    "digitransit-util/packages/*"
+    "digitransit-util/packages/*",
+    "digitransit-search-util/packages/*"
   ],
   "scripts": {
     "static": "mkdir -p _static/js; mkdir -p _static/css; cp -r static/* _static",
@@ -43,6 +44,7 @@
     "digitransit-util-docs": "node -r esm ./digitransit-util/scripts/generate-readmes",
     "digitransit-util-list": "lerna list",
     "digitransit-util-new-module": "node -r esm ./digitransit-util/scripts/create-new-module $1",
+    "digitransit-search-util-new-module": "node -r esm ./digitransit-search-util/scripts/create-new-module $1",
     "digitransit-util-publish": "lerna publish --no-git-tag-version",
     "digitransit-util-tests": "yarn workspaces run test"
   },
