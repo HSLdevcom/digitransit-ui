@@ -273,11 +273,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var recompose_pure__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
 /* harmony import */ var recompose_pure__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(recompose_pure__WEBPACK_IMPORTED_MODULE_3__);
+/* eslint-disable import/no-extraneous-dependencies */
 
 
 
  // import i18next from 'i18next';
-// import { getIcon, suggestionToAriaContent } from './suggestionUtils';
 // import translations from './helpers/translations';
 // i18next.init({ lng: 'en', resources: {} });
 // i18next.addResourceBundle('en', 'translation', translations.en);
@@ -326,15 +326,16 @@ Icon.defaultProps = {
   width: undefined
 };
 /**
- * General component description in JSDoc format. Markdown is *supported*.
- * 
+ * SuggestionItem renders suggestions for digitransit-autosuggest component.
  * @example
- * <SuggestionItem />
+ * <SuggestionItem
+ *    item={suggestionObject}
+ * />
  */
 
 const SuggestionItem = recompose_pure__WEBPACK_IMPORTED_MODULE_3___default()(({
   item,
-  loading
+  ariaContent
 }) => {
   const icon = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(Icon, {
     width: 1.2,
@@ -342,20 +343,14 @@ const SuggestionItem = recompose_pure__WEBPACK_IMPORTED_MODULE_3___default()(({
     color: "#007ac9",
     img: getIcon(item.properties.layer)
   });
-  const [iconstr, name, label] = ['icon', item.properties.name, item.properties.label]; // const [iconstr, name, label] = suggestionToAriaContent(
-  //   item,
-  //   intl,
-  //   useTransportIcons,
-  // );
-
+  const [iconstr, name, label] = ariaContent;
   const acri = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "sr-only"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, ' ', iconstr, " - ", name, " - ", label));
   const ri = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     "aria-hidden": "true",
     className: classnames__WEBPACK_IMPORTED_MODULE_2___default()('search-result', item.type, {
-      favourite: item.type.startsWith('Favourite'),
-      loading
+      favourite: item.type.startsWith('Favourite')
     })
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
     "aria-label": iconstr,
@@ -369,7 +364,7 @@ const SuggestionItem = recompose_pure__WEBPACK_IMPORTED_MODULE_3___default()(({
 });
 SuggestionItem.propTypes = {
   item: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.object,
-  useTransportIcons: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool
+  ariaContent: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string)
 };
 /* harmony default export */ __webpack_exports__["default"] = (SuggestionItem);
 

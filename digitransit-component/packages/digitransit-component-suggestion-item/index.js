@@ -3,15 +3,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import pure from 'recompose/pure';
-// import i18next from 'i18next';
-// import { suggestionToAriaContent } from './suggestionUtils';
-// import translations from './helpers/translations';
-
-// i18next.init({ lng: 'en', resources: {} });
-
-// i18next.addResourceBundle('en', 'translation', translations.en);
-// i18next.addResourceBundle('fi', 'translation', translations.fi);
-// i18next.addResourceBundle('sv', 'translation', translations.sv);
 
 function getIcon(layer) {
   const layerIcon = new Map([
@@ -78,7 +69,7 @@ Icon.defaultProps = {
  *    item={suggestionObject}
  * />
  */
-const SuggestionItem = pure(({ item }) => {
+const SuggestionItem = pure(({ item, ariaContent }) => {
   const icon = (
     <Icon
       width={1.2}
@@ -87,16 +78,8 @@ const SuggestionItem = pure(({ item }) => {
       img={getIcon(item.properties.layer)}
     />
   );
-  const [iconstr, name, label] = [
-    'icon',
-    item.properties.name,
-    item.properties.label,
-  ];
-  // const [iconstr, name, label] = suggestionToAriaContent(
-  //   item,
-  //   intl,
-  //   useTransportIcons,
-  // );
+
+  const [iconstr, name, label] = ariaContent;
   const acri = (
     <div className="sr-only">
       <p>
@@ -132,7 +115,7 @@ const SuggestionItem = pure(({ item }) => {
 
 SuggestionItem.propTypes = {
   item: PropTypes.object,
-  useTransportIcons: PropTypes.bool,
+  ariaContent: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default SuggestionItem;
