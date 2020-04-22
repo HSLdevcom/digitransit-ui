@@ -4,9 +4,12 @@ import React from 'react';
 import i18next from 'i18next';
 import cx from 'classnames';
 import Autosuggest from 'react-autosuggest';
-// import { executeSearch, getAllEndpointLayers } from './searchUtils';
+import {
+  executeSearch,
+  getAllEndpointLayers,
+} from '@digitransit-search-util/digitransit-search-util-execute-search-immidiate';
 import SuggestionItem from '@digitransit-component/digitransit-component-suggestion-item';
-// import { suggestionToAriaContent } from '../digitransit-component-suggestion-item/suggestionUtils';
+import { getNameLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import translations from './helpers/translations';
 import './helpers/styles.scss';
 
@@ -27,6 +30,18 @@ const Loading = props => (
 Loading.propTypes = {
   children: PropTypes.node,
 };
+
+function suggestionToAriaContent(item) {
+  let iconstr;
+  if (item.properties.mode) {
+    iconstr = `icon-icon_${item.mode}`;
+  } else {
+    const layer = item.properties.layer.replace('route-', '').toLowerCase();
+    iconstr = i18next.t(layer);
+  }
+  const [name, label] = getNameLabel(item.properties, true);
+  return [iconstr, name, label];
+}
 
 function Icon({ className, color, img, height, width, margin }) {
   return (
@@ -56,6 +71,7 @@ Icon.propTypes = {
 };
 
 Icon.defaultProps = {
+  className: undefined,
   color: undefined,
   height: undefined,
   margin: undefined,
@@ -67,7 +83,6 @@ class DTAutosuggest extends React.Component {
     config: PropTypes.object,
     autoFocus: PropTypes.bool,
     className: PropTypes.string,
-    executeSearch: PropTypes.func,
     icon: PropTypes.string,
     id: PropTypes.string.isRequired,
     isFocused: PropTypes.func,
@@ -91,20 +106,12 @@ class DTAutosuggest extends React.Component {
   static defaultProps = {
     autoFocus: false,
     className: '',
-    executeSearch: () => {},
     icon: undefined,
     isFocused: () => {},
     value: '',
     isPreferredRouteSearch: false,
     showSpinner: false,
-    layers: [
-      'CurrentPosition',
-      'FavouritePlace',
-      'FavouriteStop',
-      'OldSearch',
-      'Geocoding',
-      'Stops',
-    ],
+    layers: getAllEndpointLayers,
     language: 'en',
   };
 
@@ -237,7 +244,7 @@ class DTAutosuggest extends React.Component {
 
   fetchFunction = ({ value }) =>
     this.setState({ valid: false }, () => {
-      this.props.executeSearch(
+      executeSearch(
         this.props.searchContext,
         this.props.refPoint,
         {
@@ -368,16 +375,11 @@ class DTAutosuggest extends React.Component {
   };
 
   suggestionAsAriaContent = () => {
-    // const label = [];
-    // if (this.state.suggestions[0]) {
-    //   label = suggestionToAriaContent(
-    //     this.state.suggestions[0],
-    //     this.context.intl,
-    //     this.props.config.search.suggestions.useTransportIcons,
-    //   );
-    // }
-    // return label ? label.join(' - ') : '';
-    return 'placeholder';
+    let label = [];
+    if (this.state.suggestions[0]) {
+      label = suggestionToAriaContent(this.state.suggestions[0]);
+    }
+    return label ? label.join(' - ') : '';
   };
 
   render() {
@@ -404,7 +406,6 @@ class DTAutosuggest extends React.Component {
     const ariaCurrentSuggestion = i18next.t('search-current-suggestion', {
       selection: this.suggestionAsAriaContent(),
     });
-
     return (
       <div className={cx(['autosuggest-input-container', this.props.id])}>
         {this.props.icon && (

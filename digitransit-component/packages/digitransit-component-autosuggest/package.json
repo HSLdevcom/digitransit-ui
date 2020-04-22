@@ -33,7 +33,10 @@
     "react": "^16.13.0",
     "react-autosuggest": "10.0.0",
     "react-autowhatever": "10.2.1",
-    "recompose": "0.30.0"
+    "recompose": "0.30.0",
+    "@digitransit-search-util/digitransit-search-util-execute-search-immidiate": "^0.0.1",
+    "@digitransit-search-util/digitransit-search-util-uniq-by-label": "^0.0.1",
+    "@digitransit-component/digitransit-component-suggestion-item": "^0.0.1"
   },
   "devDependencies": {
     "@babel/core": "7.8.3",
