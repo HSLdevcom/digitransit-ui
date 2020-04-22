@@ -22,7 +22,7 @@ const getStopCode = ({ id, code }) => {
   return id.substring(id.indexOf('#') + 1);
 };
 
-const getNameLabel = memoize(
+export const getNameLabel = memoize(
   (suggestion, plain = false) => {
     switch (suggestion.layer) {
       case 'currentPosition':
