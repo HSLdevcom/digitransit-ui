@@ -22,7 +22,6 @@ export default class OSMOpeningHours extends React.Component {
     const { intl } = this.context;
     const weekdays = ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su', 'ph'];
     const openingTable = opening.getTable();
-
     const closed = intl.formatMessage({
       id: 'closed',
       defaultMessage: 'Closed',

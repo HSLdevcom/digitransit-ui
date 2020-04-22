@@ -7,6 +7,7 @@ import { mockContext } from '../helpers/mock-context';
 import { Component as RoutePatternSelect } from '../../../app/component/RoutePatternSelect';
 import dt2887 from '../test-data/dt2887';
 import dt2887b from '../test-data/dt2887b';
+import { PREFIX_STOPS } from '../../../app/util/path';
 
 describe('<RoutePatternSelect />', () => {
   it('should render', () => {
@@ -36,7 +37,7 @@ describe('<RoutePatternSelect />', () => {
 
   it('should render a toggle element with divs if there are no patterns with trips', () => {
     const props = {
-      activeTab: 'pysakit',
+      activeTab: PREFIX_STOPS,
       gtfsId: 'HSL:3002U',
       onSelectChange: () => {},
       params: {
@@ -77,7 +78,7 @@ describe('<RoutePatternSelect />', () => {
 
   it('should redirect to the first existing pattern if there is no matching pattern available', () => {
     const props = {
-      activeTab: 'pysakit',
+      activeTab: PREFIX_STOPS,
       gtfsId: 'HSL:3002U',
       onSelectChange: () => {},
       params: {
@@ -123,7 +124,7 @@ describe('<RoutePatternSelect />', () => {
 
   it('should not crash if there are no patterns with trips available for the current date', () => {
     const props = {
-      activeTab: 'pysakit',
+      activeTab: PREFIX_STOPS,
       gtfsId: 'HSL:3002U',
       onSelectChange: () => {},
       params: {
@@ -159,7 +160,7 @@ describe('<RoutePatternSelect />', () => {
 
   it('should not display a single pattern as a div inside a select element', () => {
     const props = {
-      activeTab: 'pysakit',
+      activeTab: PREFIX_STOPS,
       gtfsId: 'LINKKI:9422',
       onSelectChange: () => {},
       params: {

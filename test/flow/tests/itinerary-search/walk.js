@@ -1,9 +1,11 @@
+import { PREFIX_ITINERARY_SUMMARY } from '../../../../app/util/path';
+
 module.exports = {
   '@disabled': true, // toggling mode buttons fails too often
   tags: ['walk'],
   'Walk in the park': browser => {
     browser.url(
-      'http://localhost:8080/reitti/Katajanokka%3A%3A60.16716%2C24.97992/Kauppatori%3A%3A60.16736%2C24.95171?modes=WALK',
+      `http://localhost:8080/${PREFIX_ITINERARY_SUMMARY}/Katajanokka%3A%3A60.16716%2C24.97992/Kauppatori%3A%3A60.16736%2C24.95171?modes=WALK`,
     );
 
     browser.url(browser.launch_url);

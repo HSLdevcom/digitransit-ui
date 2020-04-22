@@ -6,7 +6,7 @@ import Distance from './Distance';
 import RouteNumber from './RouteNumber';
 import RouteDestination from './RouteDestination';
 import DepartureTime from './DepartureTime';
-import { PREFIX_ROUTES } from '../util/path';
+import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 
 // TODO: Alerts aren't showing properly
 // Need to implement logic as per DepartureListContainer
@@ -72,7 +72,7 @@ function NextDeparturesList(props, context) {
 
       const departureLinkUrl = `/${PREFIX_ROUTES}/${
         stoptime.pattern.route.gtfsId
-      }/pysakit/${stoptime.pattern.code}`;
+      }/${PREFIX_STOPS}/${stoptime.pattern.code}`;
 
       // In case there's only one departure for the route,
       // add a dummy cell to keep the table layout from breaking

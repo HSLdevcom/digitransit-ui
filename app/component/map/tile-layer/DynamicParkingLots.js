@@ -2,6 +2,7 @@ import { VectorTile } from '@mapbox/vector-tile';
 import Protobuf from 'pbf';
 import pick from 'lodash/pick';
 
+import SimpleOpeningHours from 'simple-opening-hours';
 import { isBrowser } from '../../../util/browser';
 import {
   drawRoundIcon,
@@ -85,6 +86,12 @@ class DynamicParkingLots {
 
     const icon = this.getIcon(properties.lot_type);
 
+    let isOpenNow = true;
+    if (properties.opening_hours) {
+      const opening = new SimpleOpeningHours(properties.opening_hours);
+      isOpenNow = opening.isOpen();
+    }
+
     return drawIcon(
       `icon-icon_${icon}`,
       this.tile,
@@ -93,9 +100,9 @@ class DynamicParkingLots {
     ).then(() => {
       if (properties.free !== undefined) {
         let avail;
-        if (properties.free === 0) {
+        if (properties.free === 0 || !isOpenNow) {
           avail = 'no';
-        } else if (properties.free < 3) {
+        } else if (properties.free / properties.total < 0.1) {
           avail = 'poor';
         } else {
           avail = 'good';
