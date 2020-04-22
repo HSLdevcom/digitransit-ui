@@ -12,25 +12,26 @@ import { isKeyboardSelectionEvent } from '../util/browser';
 
 const CustomSuggestionItem = pure(({ item, suggestionProps }) => {
   const { id, selected, onMouseEnter, index } = suggestionProps;
-  const { text, iconId } = item;
+  const { text, iconId, color } = item;
   return (
     <li
       id={id}
-      className={cx('favourite-suggestion-item', selected ? 'highlighted' : '')}
+      className={cx(
+        'favourite-suggestion-item',
+        'custom',
+        selected ? 'highlighted' : '',
+      )}
       onMouseEnter={() => onMouseEnter(index)}
       role="option"
       aria-selected={selected}
       aria-label={text}
     >
-      <span className="autosuggestIcon">
-        <Icon img={iconId} color="#007ac9" className="havePosition" />
-      </span>
-      {/* <FormattedMessage
-            id="use-own-position"
-            defaultMessage="Use current location"
-          > */}
-      {<span className="use-own-position">{text}</span>}
-      {/* </FormattedMessage> */}
+      <div className="search-result">
+        <span className="autosuggestIcon">
+          <Icon img={iconId} color={color} />
+        </span>
+        <span className="use-own-position">{text}</span>
+      </div>
     </li>
   );
 });
@@ -76,10 +77,6 @@ export default class FavouriteLocationsContainer extends React.Component {
   componentWillUnmount() {
     document.removeEventListener('mousedown', this.handleClickOutside);
   }
-
-  onBlur = () => {
-    this.setState({ listOpen: false });
-  };
 
   toggleList = () => {
     this.setState(prevState => ({
@@ -134,6 +131,8 @@ export default class FavouriteLocationsContainer extends React.Component {
       const next =
         highlightedIndex === favourites.length + 1 ? 0 : highlightedIndex + 1;
       this.highlightSuggestion(next);
+    } else if (event.key === 'Tab') {
+      this.setState({ listOpen: false });
     }
   };
 
@@ -167,16 +166,16 @@ export default class FavouriteLocationsContainer extends React.Component {
 
   render() {
     const { onClickFavourite } = this.props;
-    const { listOpen, favourites, home, work } = this.state;
+    const { listOpen, favourites, home, work, highlightedIndex } = this.state;
 
     const expandIcon =
       favourites.length === 0 ? 'icon-icon_plus' : 'icon-icon_arrow-dropdown';
 
     const customSuggestions = [
-      { text: 'Lisää paikka', iconId: 'icon-icon_star' },
-      { text: 'Muokkaa', iconId: 'icon-icon_edit' },
+      { text: 'Lisää paikka', iconId: 'icon-icon_star', color: '#007ac9' },
+      { text: 'Muokkaa', iconId: 'icon-icon_edit', color: '#007ac9' },
     ];
-    /* eslint-disable anchor-is-valid, jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/no-noninteractive-element-interactions */
+    /* eslint-disable anchor-is-valid, jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/role-supports-aria-props */
     return (
       <React.Fragment>
         <div className="new-favourite-locations-container">
@@ -211,21 +210,21 @@ export default class FavouriteLocationsContainer extends React.Component {
           <div
             className="favourite-container-expand"
             ref={this.expandListRef}
-            id="favourite-expand"
+            id="favourite-expand-button"
             onClick={() => this.toggleList()}
             onKeyDown={e => this.handleKeyDown(e)}
             tabIndex="0"
             role="button"
             aria-label="Expand favourites"
             aria-controls="favourite-suggestion-list"
-            // aria-activedescendant={`favourite-suggestion-list--item-${highlightedIndex}`}
+            aria-activedescendant={`favourite-suggestion-list--item-${highlightedIndex}`}
           >
             <Icon className="favourite-expand-icon" img={expandIcon} />
           </div>
         </div>
         <div className="favourite-suggestion-container">
           {listOpen && (
-            <div
+            <ul
               className="favourite-suggestion-list"
               id="favourite-suggestion-list"
               ref={this.suggestionListRef}
@@ -238,7 +237,7 @@ export default class FavouriteLocationsContainer extends React.Component {
               {customSuggestions.map((item, index) =>
                 this.renderSuggestion(item, favourites.length + index),
               )}
-            </div>
+            </ul>
           )}
         </div>
       </React.Fragment>
