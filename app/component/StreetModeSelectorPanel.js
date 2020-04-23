@@ -9,6 +9,7 @@ import BikingOptionsSection from './customizesearch/BikingOptionsSection';
 class StreetModeSelectorPanel extends React.Component {
   render() {
     const {
+      selectStreetMode,
       selectedStreetMode,
       streetModeConfigs,
       currentSettings,
@@ -32,28 +33,34 @@ class StreetModeSelectorPanel extends React.Component {
               <div key={`mode-option-${mode.name}`}>
                 <div className="mode-option-container">
                   <div className="mode-option-block">
-                    <Icon
-                      className={`${mode}-icon`}
-                      img={`icon-icon_${mode.icon}`}
+                    <div className="mode-icon">
+                      <Icon
+                        className={`${mode}-icon`}
+                        img={`icon-icon_${mode.icon}`}
+                      />
+                    </div>
+                    <div className="mode-name">
+                      <FormattedMessage
+                        className="mode-name"
+                        id={mode.name.toLowerCase()}
+                        defaultMessage={mode.name.toLowerCase()}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <Toggle
+                      toggled={selectedStreetMode === mode.name}
+                      onToggle={() => selectStreetMode(mode.name.toUpperCase())}
+                      style={{ top: '12px', width: 'auto' }}
                     />
                   </div>
-                  <Toggle
-                    toggled={selectedStreetMode === mode.name}
-                    defaultMessage={mode.name}
-                    onToggle={() =>
-                      this.props.selectStreetMode(mode.name.toUpperCase())
-                    }
-                    style={{ top: '12px', width: 'auto' }}
-                  />
                 </div>
                 {selectedStreetMode === 'BICYCLE' &&
                   mode.name === 'BICYCLE' && (
-                    <div>
-                      <BikingOptionsSection
-                        bikeSpeed={currentSettings.bikeSpeed}
-                        defaultSettings={defaultSettings}
-                      />
-                    </div>
+                    <BikingOptionsSection
+                      bikeSpeed={currentSettings.bikeSpeed}
+                      defaultSettings={defaultSettings}
+                    />
                   )}
               </div>
             ))}
@@ -66,12 +73,8 @@ class StreetModeSelectorPanel extends React.Component {
 StreetModeSelectorPanel.propTypes = {
   selectStreetMode: PropTypes.func.isRequired,
   selectedStreetMode: PropTypes.string,
-  currentSettings: PropTypes.arrayOf(
-    PropTypes.shape({
-      walkReluctance: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
-  defaultSettings: PropTypes.array.isRequired,
+  currentSettings: PropTypes.object.isRequired,
+  defaultSettings: PropTypes.object.isRequired,
   streetModeConfigs: PropTypes.arrayOf(
     PropTypes.shape({
       defaultValue: PropTypes.bool.isRequired,

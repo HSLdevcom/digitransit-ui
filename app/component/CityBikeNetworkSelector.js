@@ -21,8 +21,8 @@ const CityBikeNetworkSelector = (
       <Icon
         className={`${network.icon}-icon`}
         img={`icon-icon_${network.icon}`}
-        height="0.5"
-        width="0.5"
+        height={0.5}
+        width={0.5}
       />
       <Toggle
         toggled={
@@ -37,7 +37,7 @@ const CityBikeNetworkSelector = (
           getStore('PreferencesStore').getLanguage(),
         )}
         onToggle={() => {
-          updateValue(network.name);
+          updateValue(network.networkName);
         }}
         labelStyle={{ color: '#707070' }}
         style={{ margin: '0.35em 0em 0em 0.5em' }}

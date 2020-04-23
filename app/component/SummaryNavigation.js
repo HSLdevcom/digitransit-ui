@@ -10,6 +10,7 @@ import { getDrawerWidth, isBrowser } from '../util/browser';
 import { parseLocation } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { setSettingsData } from '../util/queryUtils';
 
 class SummaryNavigation extends React.Component {
   static propTypes = {
@@ -71,6 +72,7 @@ class SummaryNavigation extends React.Component {
   }
 
   onRequestChange = newState => {
+    setSettingsData(this.context.match, this.context.router);
     this.internalSetOffcanvas(newState);
   };
 

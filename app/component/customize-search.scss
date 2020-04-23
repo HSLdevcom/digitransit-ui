@@ -25,9 +25,9 @@
 
 .settings-option-container {
   padding: 1.5em 1em 0 1em;
+  border-bottom: 5px solid #e3e3e4;
 
   & + .settings-option-container {
-    border-top: 1px solid #e3e3e4;
     padding-bottom: 1.5em;
   }
 

@@ -2,28 +2,16 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
-import Toggle from 'material-ui/Toggle';
 
 import Icon from './Icon';
 import FareZoneSelector from './FareZoneSelector';
-import ResetCustomizedSettingsButton from './ResetCustomizedSettingsButton';
-import SaveCustomizedSettingsButton from './SaveCustomizedSettingsButton';
-import LoadCustomizedSettingsButton from './LoadCustomizedSettingsButton';
 import StreetModeSelectorPanel from './StreetModeSelectorPanel';
-import TransferOptionsSection from './customizesearch/TransferOptionsSection';
 import TransportModesSection from './customizesearch/TransportModesSection';
 import WalkingOptionsSection from './customizesearch/WalkingOptionsSection';
-import { resetCustomizedSettings } from '../store/localStorage';
+import AccessibilityOptionSection from './customizesearch/AccessibilityOptionSection';
 import * as ModeUtils from '../util/modeUtils';
 import { getDefaultSettings, getCurrentSettings } from '../util/planParamUtil';
-import {
-  addPreferredRoute,
-  addUnpreferredRoute,
-  clearQueryParams,
-  removePreferredRoute,
-  removeUnpreferredRoute,
-  replaceQueryParams,
-} from '../util/queryUtils';
+import { replaceQueryParams } from '../util/queryUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class CustomizeSearch extends React.Component {
@@ -39,40 +27,6 @@ class CustomizeSearch extends React.Component {
   };
 
   defaultSettings = getDefaultSettings(this.context.config);
-
-  onRouteSelected = (val, preferType) => {
-    const routeToAdd = val.properties.gtfsId.replace(':', '__');
-    if (preferType === 'preferred') {
-      addPreferredRoute(this.context.router, routeToAdd, this.context.match);
-    } else {
-      addUnpreferredRoute(this.context.router, routeToAdd, this.context.match);
-    }
-  };
-
-  removeRoute = (routeToRemove, preferType) => {
-    if (preferType === 'preferred') {
-      removePreferredRoute(
-        this.context.router,
-        routeToRemove,
-        this.context.match,
-      );
-    } else {
-      removeUnpreferredRoute(
-        this.context.router,
-        routeToRemove,
-        this.context.match,
-      );
-    }
-  };
-
-  resetParameters = () => {
-    resetCustomizedSettings();
-    clearQueryParams(
-      this.context.router,
-      this.context.match,
-      Object.keys(this.defaultSettings),
-    );
-  };
 
   render() {
     const { config, match, intl, router } = this.context;
@@ -117,14 +71,8 @@ class CustomizeSearch extends React.Component {
         <div className="settings-option-container">
           <TransportModesSection
             config={config}
-            currentModes={currentSettings.modes}
-          />
-        </div>
-        <div className="settings-option-container">
-          <TransferOptionsSection
-            defaultSettings={this.defaultSettings}
             currentSettings={currentSettings}
-            walkBoardCostHigh={config.walkBoardCostHigh}
+            defaultSettings={this.defaultSettings}
           />
         </div>
         <div className="settings-option-container">
@@ -168,39 +116,11 @@ class CustomizeSearch extends React.Component {
           />
         )}
         <div className="settings-option-container">
-          <Toggle
-            toggled={!!currentSettings.usingWheelchair} // converts to int to bool
-            title="accessibility"
-            label="Wheelchair"
-            labelStyle={{ color: '#707070' }}
-            onToggle={(event, isInputChecked) => {
-              replaceQueryParams(router, match, {
-                usingWheelchair: isInputChecked ? 1 : 0,
-              });
-            }}
+          <AccessibilityOptionSection
+            currentSettings={currentSettings}
+            router={router}
+            match={match}
           />
-        </div>
-        <div className="settings-option-container save-controls-container">
-          <div style={{ display: 'flex' }}>
-            <SaveCustomizedSettingsButton
-              noSettingsFound={this.resetParameters}
-            />
-            <LoadCustomizedSettingsButton
-              noSettingsFound={this.resetParameters}
-            />
-          </div>
-          <div>
-            <ResetCustomizedSettingsButton
-              onReset={() => {
-                this.resetParameters();
-                addAnalyticsEvent({
-                  action: 'ResetSettings',
-                  category: 'ItinerarySettings',
-                  name: null,
-                });
-              }}
-            />
-          </div>
         </div>
       </div>
     );

@@ -13,6 +13,7 @@ import {
   toggleTransportMode,
   isBikeRestricted,
 } from '../../util/modeUtils';
+import TransferOptionsSection from './TransferOptionsSection';
 import CityBikeNetworkSelector from '../CityBikeNetworkSelector';
 import {
   updateCitybikeNetworks,
@@ -20,10 +21,11 @@ import {
 } from '../../util/citybikes';
 
 const TransportModesSection = (
-  { config, currentModes },
+  { config, currentSettings, defaultSettings },
   { intl, router, match },
 ) => {
   const transportModes = getAvailableTransportModes(config);
+  const currentModes = currentSettings.modes;
 
   return (
     <React.Fragment>
@@ -87,8 +89,6 @@ const TransportModesSection = (
             </div>
             <Toggle
               toggled={currentModes.filter(o2 => o2 === mode).length > 0}
-              defaultMessage={mode}
-              labelId={mode.toLowerCase()}
               onToggle={() =>
                 !isBikeRestricted(match.location, config, mode) &&
                 toggleTransportMode(mode, config, router, match)
@@ -97,43 +97,51 @@ const TransportModesSection = (
             />
           </div>
         ))}
+        {currentModes.includes('CITYBIKE') &&
+          config.cityBike.networks &&
+          Object.keys(config.cityBike.networks).length > 1 &&
+          config.transportModes.citybike &&
+          config.transportModes.citybike.availableForSelection && (
+            <div
+              className="mode-option-container"
+              style={{
+                display: 'inline-block',
+                width: '100%',
+                padding: '10px 0px 0px 30px',
+              }}
+            >
+              <FormattedMessage
+                id="citybike-network-header"
+                defaultMessage={intl.formatMessage({
+                  id: 'citybike-network-headers',
+                  defaultMessage: 'Citybikes and scooters',
+                })}
+              />
+              <CityBikeNetworkSelector
+                isUsingCitybike={currentModes.includes('CITYBIKE')}
+                currentOptions={getCitybikeNetworks(match.location, config)}
+                updateValue={value =>
+                  updateCitybikeNetworks(
+                    getCitybikeNetworks(match.location, config),
+                    value.toUpperCase(),
+                    config,
+                    router,
+                    currentModes.includes('CITYBIKE'),
+                    match,
+                  )
+                }
+              />
+            </div>
+          )}
         <div
           className="mode-option-container"
-          style={{
-            display: 'inline-block',
-            width: '100%',
-            padding: '10px 0px 0px 30px',
-          }}
+          style={{ padding: '1em 0 0 1em', height: '3.5em' }}
         >
-          {currentModes.includes('CITYBIKE') &&
-            config.cityBike.networks &&
-            Object.keys(config.cityBike.networks).length > 1 &&
-            config.transportModes.citybike &&
-            config.transportModes.citybike.availableForSelection && (
-              <div>
-                <FormattedMessage
-                  id="citybike-network-header"
-                  defaultMessage={intl.formatMessage({
-                    id: 'citybike-network-headers',
-                    defaultMessage: 'Citybikes and scooters',
-                  })}
-                />
-                <CityBikeNetworkSelector
-                  isUsingCitybike={currentModes.includes('CITYBIKE')}
-                  currentOptions={getCitybikeNetworks(match.location, config)}
-                  updateValue={value =>
-                    updateCitybikeNetworks(
-                      getCitybikeNetworks(match.location, config),
-                      value.toUpperCase(),
-                      config,
-                      router,
-                      currentModes.includes('CITYBIKE'),
-                      match,
-                    )
-                  }
-                />
-              </div>
-            )}
+          <TransferOptionsSection
+            defaultSettings={defaultSettings}
+            currentSettings={currentSettings}
+            walkBoardCostHigh={config.walkBoardCostHigh}
+          />
         </div>
       </div>
     </React.Fragment>
@@ -142,7 +150,9 @@ const TransportModesSection = (
 
 TransportModesSection.propTypes = {
   config: PropTypes.object.isRequired,
-  currentModes: PropTypes.arrayOf(PropTypes.string).isRequired,
+  // currentSettings: PropTypes.arrayOf(PropTypes.string).isRequired,
+  currentSettings: PropTypes.object.isRequired,
+  defaultSettings: PropTypes.object.isRequired,
 };
 
 TransportModesSection.contextTypes = {

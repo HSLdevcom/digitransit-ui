@@ -12,7 +12,7 @@ const TransferOptionsSection = (
 ) => (
   <React.Fragment>
     <Toggle
-      toggled={currentSettings.walkBoardCost !== defaultSettings.walkBoardCost} // currentSelection
+      toggled={currentSettings.walkBoardCost !== defaultSettings.walkBoardCost}
       onToggle={(event, isInputChecked) => {
         replaceQueryParams(router, match, {
           walkBoardCost: isInputChecked
@@ -37,7 +37,7 @@ TransferOptionsSection.propTypes = {
   defaultSettings: PropTypes.shape({
     walkBoardCost: PropTypes.number.isRequired,
   }).isRequired,
-  currentSettings: PropTypes.shape().isRequired,
+  currentSettings: PropTypes.object.isRequired,
   walkBoardCostHigh: PropTypes.number.isRequired,
 };
 

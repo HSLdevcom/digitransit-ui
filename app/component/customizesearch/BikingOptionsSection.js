@@ -28,7 +28,7 @@ const BikingOptionsSection = (
           name: value,
         });
       }}
-      options={getSpeedOptions(defaultSettings.bikeSpeed, 10, 21)}
+      options={getSpeedOptions(defaultSettings.bikeSpeed, 10, 5)}
       sortByValue
       title="biking-speed"
     />
