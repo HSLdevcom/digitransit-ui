@@ -112,7 +112,7 @@ class DTAutosuggest extends React.Component {
     isPreferredRouteSearch: false,
     showSpinner: false,
     layers: getAllEndpointLayers,
-    lang: 'en',
+    lang: 'fi',
   };
 
   constructor(props) {

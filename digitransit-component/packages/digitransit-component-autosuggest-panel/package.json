@@ -33,7 +33,8 @@
     "react-autosuggest": "10.0.0",
     "react-autowhatever": "10.2.1",
     "recompose": "0.30.0",
-    "@digitransit-component/digitransit-component-autosuggest": "^0.0.1"
+    "@digitransit-component/digitransit-component-autosuggest": "^0.0.1",
+    "@digitransit-component/digitransit-component-with-breakpoint": "^0.0.1"
   },
   "devDependencies": {
     "@babel/core": "7.8.3",

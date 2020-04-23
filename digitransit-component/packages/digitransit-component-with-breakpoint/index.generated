@@ -1,0 +1,232 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getClientBreakpoint = getClientBreakpoint;
+exports.getServerBreakpoint = getServerBreakpoint;
+exports.DesktopOrMobile = DesktopOrMobile;
+exports.default = exports.BreakpointConsumer = exports.BreakpointProvider = exports.ClientProvider = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _throttle = _interopRequireDefault(require("lodash/throttle"));
+
+var _hoistNonReactStatics = _interopRequireDefault(require("hoist-non-react-statics"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var _createContext = (0, _react.createContext)('large'),
+    Provider = _createContext.Provider,
+    Consumer = _createContext.Consumer;
+
+function getClientBreakpoint() {
+  // DT-3470: added export
+  if (window.innerWidth < 400) {
+    return 'small';
+  }
+
+  if (window.innerWidth < 900) {
+    return 'medium';
+  }
+
+  return 'large';
+}
+
+function getServerBreakpoint(userAgent) {
+  return userAgent && userAgent.toLowerCase().includes('mobile') ? 'small' : 'large';
+}
+
+var ClientProvider = /*#__PURE__*/function (_React$Component) {
+  _inherits(ClientProvider, _React$Component);
+
+  var _super = _createSuper(ClientProvider);
+
+  function ClientProvider() {
+    var _this;
+
+    _classCallCheck(this, ClientProvider);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty(_assertThisInitialized(_this), "state", {
+      breakpoint: _this.props.serverGuessedBreakpoint || getClientBreakpoint()
+    });
+
+    return _this;
+  }
+
+  _createClass(ClientProvider, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      this.updateBreakpoint = (0, _throttle.default)(function () {
+        return _this2.setState(function (_ref) {
+          var breakpoint = _ref.breakpoint;
+          return getClientBreakpoint() !== breakpoint ? {
+            breakpoint: getClientBreakpoint()
+          } : null;
+        });
+      }, 100);
+      this.updateBreakpoint();
+      window.addEventListener('resize', this.updateBreakpoint);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      window.removeEventListener('resize', this.updateBreakpoint);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/_react.default.createElement(Provider, _extends({
+        value: this.state.breakpoint
+      }, this.props));
+    }
+  }]);
+
+  return ClientProvider;
+}(_react.default.Component);
+
+exports.ClientProvider = ClientProvider;
+
+_defineProperty(ClientProvider, "propTypes", {
+  children: _propTypes.default.node.isRequired,
+  serverGuessedBreakpoint: _propTypes.default.string
+});
+
+_defineProperty(ClientProvider, "defaultProps", {
+  serverGuessedBreakpoint: null
+});
+
+var BreakpointProvider = Provider;
+/**
+ * Extracts breakpoint information (can be one of: large, medium and small) from the context.
+ */
+
+exports.BreakpointProvider = BreakpointProvider;
+var BreakpointConsumer = Consumer;
+exports.BreakpointConsumer = BreakpointConsumer;
+
+function DesktopOrMobile(_ref2) {
+  var desktop = _ref2.desktop,
+      mobile = _ref2.mobile;
+  return /*#__PURE__*/_react.default.createElement(Consumer, null, function (breakpoint) {
+    return breakpoint === 'large' ? desktop() : mobile();
+  });
+}
+
+DesktopOrMobile.propTypes = {
+  desktop: _propTypes.default.func.isRequired,
+  mobile: _propTypes.default.func.isRequired
+};
+
+function getDisplayName(Component) {
+  return Component.displayName || Component.name || 'Component';
+}
+/**
+ * Extends the given Component with breakpoint handling. The breakpoint is
+ * extracted from context and given to the extended component as a property.
+ *
+ * @param {*} Component The component to extend with breakpoint handling
+ * @param {boolean} forwardRef Whether any ref given to the HOC should be forwarded to the extended Component.
+ */
+
+
+function withBreakpoint(Component) {
+  var _ref3 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
+    forwardRef: false
+  },
+      forwardRef = _ref3.forwardRef;
+
+  var WithBreakpoint = /*#__PURE__*/function (_React$Component2) {
+    _inherits(WithBreakpoint, _React$Component2);
+
+    var _super2 = _createSuper(WithBreakpoint);
+
+    function WithBreakpoint() {
+      _classCallCheck(this, WithBreakpoint);
+
+      return _super2.apply(this, arguments);
+    }
+
+    _createClass(WithBreakpoint, [{
+      key: "render",
+      value: function render() {
+        // eslint-disable-next-line react/prop-types
+        var _this$props = this.props,
+            breakpoint = _this$props.breakpoint,
+            forwardedRef = _this$props.forwardedRef,
+            rest = _objectWithoutProperties(_this$props, ["breakpoint", "forwardedRef"]);
+
+        return /*#__PURE__*/_react.default.createElement(Component, _extends({
+          breakpoint: breakpoint,
+          ref: forwardedRef
+        }, rest));
+      }
+    }]);
+
+    return WithBreakpoint;
+  }(_react.default.Component);
+
+  WithBreakpoint.displayName = "WithBreakpoint(".concat(getDisplayName(Component), ")");
+  (0, _hoistNonReactStatics.default)(WithBreakpoint, Component);
+  return forwardRef ? _react.default.forwardRef(function (props, ref) {
+    return /*#__PURE__*/_react.default.createElement(Consumer, null, function (breakpoint) {
+      return /*#__PURE__*/_react.default.createElement(WithBreakpoint, _extends({}, props, {
+        breakpoint: breakpoint,
+        forwardedRef: ref
+      }));
+    });
+  }) : function (props) {
+    return /*#__PURE__*/_react.default.createElement(Consumer, null, function (breakpoint) {
+      return /*#__PURE__*/_react.default.createElement(WithBreakpoint, _extends({}, props, {
+        breakpoint: breakpoint
+      }));
+    });
+  };
+}
+
+var _default = withBreakpoint;
+exports.default = _default;

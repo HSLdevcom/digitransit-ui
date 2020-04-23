@@ -13926,7 +13926,7 @@ index_DTAutosuggest.defaultProps = {
   isPreferredRouteSearch: false,
   showSpinner: false,
   layers: getAllEndpointLayers,
-  lang: 'en'
+  lang: 'fi'
 };
 /* harmony default export */ var index = __webpack_exports__["default"] = (index_DTAutosuggest);
 

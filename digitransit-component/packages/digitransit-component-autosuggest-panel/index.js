@@ -4,14 +4,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import i18next from 'i18next';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
+import withBreakpoint from '@digitransit-component/digitransit-component-with-breakpoint';
 import Select from './helpers/Select';
 import Icon from './helpers/Icon';
 import translations from './helpers/translations';
 import './helpers/styles.scss';
-// import { getIntermediatePlaces } from '../util/queryUtils';
-// import withBreakpoint from '../util/withBreakpoint';
 
-i18next.init({ lng: 'en', resources: {} });
+i18next.init({ lng: 'fi', resources: {} });
 
 i18next.addResourceBundle('en', 'translation', translations.en);
 i18next.addResourceBundle('fi', 'translation', translations.fi);
@@ -87,6 +86,7 @@ class DTAutosuggestPanel extends React.Component {
     onSelect: PropTypes.func,
     getLabel: PropTypes.func,
     addAnalyticsEvent: PropTypes.func,
+    lang: PropTypes.string,
   };
 
   static defaultProps = {
@@ -98,6 +98,7 @@ class DTAutosuggestPanel extends React.Component {
     swapOrder: undefined,
     updateViaPoints: () => {},
     getViaPointsFromMap: false,
+    lang: 'fi',
   };
 
   constructor(props) {
@@ -110,6 +111,16 @@ class DTAutosuggestPanel extends React.Component {
       refs: [],
     };
   }
+
+  componentDidMount = () => {
+    i18next.changeLanguage(this.props.lang);
+  };
+
+  componentDidUpdate = prevProps => {
+    if (prevProps.lang !== this.props.lang) {
+      i18next.changeLanguage(this.props.lang);
+    }
+  };
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps = () => {
@@ -408,6 +419,7 @@ class DTAutosuggestPanel extends React.Component {
             onSelect={this.props.onSelect}
             getLabel={this.props.getLabel}
             focusChange={this.handleFocusChange}
+            lang={this.props.lang}
           />
           <ItinerarySearchControl
             className="switch"
@@ -460,6 +472,7 @@ class DTAutosuggestPanel extends React.Component {
                     this.handleViaPointLocationSelected(item, i)
                   }
                   getLabel={this.props.getLabel}
+                  lang={this.props.lang}
                 />
                 <div className="via-point-button-container">
                   <ItinerarySearchControl
@@ -550,6 +563,7 @@ class DTAutosuggestPanel extends React.Component {
             onSelect={this.props.onSelect}
             value={this.value(this.props.destination)}
             getLabel={this.props.getLabel}
+            lang={this.props.lang}
           />
           <ItinerarySearchControl
             className={cx('add-via-point', 'more', {
@@ -570,10 +584,9 @@ class DTAutosuggestPanel extends React.Component {
   };
 }
 
-export default DTAutosuggestPanel;
-// const DTAutosuggestPanelWithBreakpoint = withBreakpoint(DTAutosuggestPanel);
+const DTAutosuggestPanelWithBreakpoint = withBreakpoint(DTAutosuggestPanel);
 
-// export {
-//   DTAutosuggestPanel as component,
-//   DTAutosuggestPanelWithBreakpoint as default,
-// };
+export {
+  DTAutosuggestPanel as component,
+  DTAutosuggestPanelWithBreakpoint as default,
+};
