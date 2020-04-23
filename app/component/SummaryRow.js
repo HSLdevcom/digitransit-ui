@@ -298,9 +298,7 @@ const SummaryRow = (
           large={breakpoint === 'large'}
         />,
       );
-    }
-
-    if (leg.rentedBike) {
+    } else if (leg.rentedBike) {
       legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
@@ -310,7 +308,28 @@ const SummaryRow = (
           large={breakpoint === 'large'}
         />,
       );
+    } else if (leg.mode === 'CAR') {
+      legs.push(
+        <ModeLeg
+          key={`${leg.mode}_${leg.startTime}`}
+          leg={leg}
+          mode="CAR"
+          legLength={legLength}
+          large={breakpoint === 'large'}
+        />,
+      );
+    } else if (leg.mode === 'BICYCLE' || leg.mode === 'BICYCLE_WALK') {
+      legs.push(
+        <ModeLeg
+          key={`${leg.mode}_${leg.startTime}`}
+          leg={leg}
+          mode={leg.mode}
+          legLength={legLength}
+          large={breakpoint === 'large'}
+        />,
+      );
     }
+
     if (leg.intermediatePlace) {
       legs.push(<ViaLeg key={`via_${leg.mode}_${leg.startTime}`} />);
       if (
@@ -391,7 +410,7 @@ const SummaryRow = (
       (isFirstLeg && connectsToFirstViaPoint()) ||
       (isLastLeg && connectsFromLastViaPoint())
     ) {
-      legs.push(
+      /* legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
           leg={leg}
@@ -399,7 +418,7 @@ const SummaryRow = (
           legLength={legLength}
           large={breakpoint === 'large'}
         />,
-      );
+      ); */
     }
   });
 
