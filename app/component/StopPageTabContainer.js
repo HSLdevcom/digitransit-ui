@@ -24,12 +24,19 @@ import {
 } from '../util/alertUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import {
+  PREFIX_DISRUPTION,
+  PREFIX_ROUTES,
+  PREFIX_STOPS,
+  PREFIX_TERMINALS,
+  PREFIX_TIMETABLE,
+} from '../util/path';
 
 const Tab = {
-  Disruptions: 'hairiot',
+  Disruptions: PREFIX_DISRUPTION,
   RightNow: 'right-now',
-  RoutesAndPlatforms: 'linjat',
-  Timetable: 'aikataulu',
+  RoutesAndPlatforms: PREFIX_ROUTES,
+  Timetable: PREFIX_TIMETABLE,
 };
 
 const getActiveTab = pathname => {
@@ -55,7 +62,7 @@ function StopPageTabContainer(
   const activeTab = getActiveTab(pathname);
   const isTerminal = params.terminalId != null;
   const urlBase = `/${
-    isTerminal ? 'terminaalit' : 'pysakit'
+    isTerminal ? PREFIX_TERMINALS : PREFIX_STOPS
   }/${encodeURIComponent(
     params.terminalId ? params.terminalId : params.stopId,
   )}`;

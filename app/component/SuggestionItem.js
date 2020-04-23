@@ -15,6 +15,7 @@ import {
   getGTFSId,
 } from '../util/suggestionUtils';
 import ComponentUsageExample from './ComponentUsageExample';
+import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 
 const SuggestionItem = pure(
   ({ item, intl, useTransportIcons, doNotShowLinkToStop, loading }) => {
@@ -167,7 +168,7 @@ const exampleRoute = {
     mode: 'FERRY',
     longName: 'Kauppatori - Suomenlinna',
     layer: 'route-FERRY',
-    link: '/linjat/HSL:1019',
+    link: `/${PREFIX_ROUTES}/HSL:1019`,
   },
 };
 
@@ -182,7 +183,7 @@ const exampleStop = {
     code: '0221',
     mode: 'tram',
     layer: 'stop',
-    link: '/pysakit/HSL:1130446',
+    link: `/${PREFIX_STOPS}/HSL:1130446`,
   },
 };
 

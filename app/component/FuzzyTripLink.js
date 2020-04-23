@@ -4,7 +4,7 @@ import Relay from 'react-relay/classic';
 import { Link } from 'react-router';
 import cx from 'classnames';
 import IconWithTail from './IconWithTail';
-import { PREFIX_ROUTES } from '../util/path';
+import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 function FuzzyTripLink(props) {
@@ -19,9 +19,10 @@ function FuzzyTripLink(props) {
   if (props.trip.trip) {
     return (
       <Link
-        to={`/${PREFIX_ROUTES}/${props.trip.trip.route.gtfsId}/pysakit/${
-          props.trip.trip.pattern.code
-        }/${props.trip.trip.gtfsId}`}
+        to={`/${PREFIX_ROUTES}/${
+          props.trip.trip.route.gtfsId
+        }/${PREFIX_STOPS}/${props.trip.trip.pattern.code}
+        /${props.trip.trip.gtfsId}`}
         className="route-now-content"
         onClick={() => {
           addAnalyticsEvent({

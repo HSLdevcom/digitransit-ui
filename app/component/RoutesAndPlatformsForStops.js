@@ -10,7 +10,7 @@ import uniqBy from 'lodash/uniqBy';
 import Departure from './Departure';
 import DepartureListHeader from './DepartureListHeader';
 import Icon from './Icon';
-import { PREFIX_ROUTES } from '../util/path';
+import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { routeNameCompare } from '../util/searchUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
@@ -93,7 +93,9 @@ const RoutesAndPlatformsForStops = props => {
   const timeTableRows = mappedRoutes.map(route => (
     <Link
       to={`/${PREFIX_ROUTES}/${route.pattern.route.gtfsId ||
-        route.pattern.route.gtfsId}/pysakit/${route.pattern.code}?sort=no`}
+        route.pattern.route.gtfsId}/${PREFIX_STOPS}/${
+        route.pattern.code
+      }?sort=no`}
       key={`${route.pattern.code}-${route.headsign}-${route.pattern.route.id ||
         route.pattern.route.gtfsId}-${route.stop.platformCode}`}
       onClick={() => {

@@ -4,6 +4,7 @@ import fetchMock from 'fetch-mock';
 import oldParamParser from '../../app/util/oldParamParser';
 
 import config from '../../app/configurations/config.default';
+import { PREFIX_ITINERARY_SUMMARY } from '../../app/util/path';
 
 const largeMaxAgeConf = {
   ...config,
@@ -121,7 +122,7 @@ describe('oldParamParser', () => {
   it('query with all the required parameters and utm parameters should return a valid redirect url with utm params', async () => {
     const url = await oldParamParser(query, largeMaxAgeConf);
     const urlSplit = url.split('/');
-    expect(urlSplit[1]).to.equal('reitti');
+    expect(urlSplit[1]).to.equal(PREFIX_ITINERARY_SUMMARY);
     expect(urlSplit[2]).to.equal(
       encodeURIComponent('Lapinlahdenkatu 1a, Helsinki::60.166408,24.932251'),
     );
@@ -142,7 +143,7 @@ describe('oldParamParser', () => {
   it('query with all the required parameters, utm parameters and time that is older than queryMaxAgeDays should return a valid redirect url with utm params and no time param', async () => {
     const url = await oldParamParser(query, smallMaxAgeConf);
     const urlSplit = url.split('/');
-    expect(urlSplit[1]).to.equal('reitti');
+    expect(urlSplit[1]).to.equal(PREFIX_ITINERARY_SUMMARY);
     expect(urlSplit[2]).to.equal(
       encodeURIComponent('Lapinlahdenkatu 1a, Helsinki::60.166408,24.932251'),
     );
@@ -179,7 +180,7 @@ describe('oldParamParser', () => {
 
     const url = await oldParamParser(noTimeQuery, largeMaxAgeConf);
     expect(url).to.equal(
-      `/reitti/${encodeURIComponent(
+      `/${PREFIX_ITINERARY_SUMMARY}/${encodeURIComponent(
         'Lapinlahdenkatu 1a, Helsinki::60.166408,24.932251',
       )}/${encodeURIComponent(
         'Koivikkotie 10, Helsinki::60.225099,24.930026',
@@ -192,7 +193,7 @@ describe('oldParamParser', () => {
 
     const url = await oldParamParser(queryWithoutUtm, largeMaxAgeConf);
     const urlSplit = url.split('/');
-    expect(urlSplit[1]).to.equal('reitti');
+    expect(urlSplit[1]).to.equal(PREFIX_ITINERARY_SUMMARY);
     expect(urlSplit[2]).to.equal(
       encodeURIComponent('Lapinlahdenkatu 1a, Helsinki::60.166408,24.932251'),
     );
@@ -288,7 +289,7 @@ describe('oldParamParser', () => {
 
     const result = await oldParamParser(parsed, config);
     expect(result).to.equal(
-      '/reitti/Helsinki%3A%3A60.166641%2C24.943537/Hyvink%C3%A4%C3%A4n%20Tieluiska%20Oy%20%2F%20Vantaan%20multa-asema%2C%20Pitk%C3%A4suontie%202%2C%20Vantaa%3A%3A60.262989%2C25.123135/',
+      `/${PREFIX_ITINERARY_SUMMARY}/Helsinki%3A%3A60.166641%2C24.943537/Hyvink%C3%A4%C3%A4n%20Tieluiska%20Oy%20%2F%20Vantaan%20multa-asema%2C%20Pitk%C3%A4suontie%202%2C%20Vantaa%3A%3A60.262989%2C25.123135/`,
     );
   });
 });
