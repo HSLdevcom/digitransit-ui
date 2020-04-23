@@ -13,7 +13,7 @@ import { getNameLabel } from '@digitransit-search-util/digitransit-search-util-u
 import translations from './helpers/translations';
 import './helpers/styles.scss';
 
-i18next.init({ lng: 'en', resources: {} });
+i18next.init({ lng: 'fi', resources: {} });
 
 i18next.addResourceBundle('en', 'translation', translations.en);
 i18next.addResourceBundle('fi', 'translation', translations.fi);
@@ -100,7 +100,7 @@ class DTAutosuggest extends React.Component {
     handleViaPoints: PropTypes.func,
     getLabel: PropTypes.func,
     focusChange: PropTypes.func,
-    language: PropTypes.string,
+    lang: PropTypes.string,
   };
 
   static defaultProps = {
@@ -112,7 +112,7 @@ class DTAutosuggest extends React.Component {
     isPreferredRouteSearch: false,
     showSpinner: false,
     layers: getAllEndpointLayers,
-    language: 'en',
+    lang: 'en',
   };
 
   constructor(props) {
@@ -131,7 +131,13 @@ class DTAutosuggest extends React.Component {
     if (this.props.autoFocus && this.input) {
       this.input.focus();
     }
-    i18next.changeLanguage(this.props.language);
+    i18next.changeLanguage(this.props.lang);
+  };
+
+  componentDidUpdate = prevProps => {
+    if (prevProps.lang !== this.props.lang) {
+      i18next.changeLanguage(this.props.lang);
+    }
   };
 
   // eslint-disable-next-line camelcase
