@@ -81,3 +81,12 @@ export const validateServiceTimeRange = (
 
   return { start, end };
 };
+
+// DT-3473
+// converts the given parameter into a string in format HH:mm
+// Input: time - seconds since midnight
+export function getStartTimeWithColon(time) {
+  const hours = `0${Math.floor(time / 60 / 60)}`.slice(-2);
+  const mins = `0${(time / 60) % 60}`.slice(-2);
+  return `${hours}:${mins}`;
+}

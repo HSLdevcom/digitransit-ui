@@ -22,7 +22,11 @@ import MobileItineraryWrapper from './MobileItineraryWrapper';
 import Loading from './Loading';
 import { getRoutePath } from '../util/path';
 import { getIntermediatePlaces } from '../util/queryUtils';
-import { validateServiceTimeRange, getStartTime } from '../util/timeUtils';
+import {
+  validateServiceTimeRange,
+  getStartTime,
+  getStartTimeWithColon,
+} from '../util/timeUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
 import exampleData from './data/SummaryPage.ExampleData';
@@ -37,6 +41,7 @@ import { startLocationWatch } from '../action/PositionActions';
 import {
   startRealTimeClient,
   stopRealTimeClient,
+  changeRealTimeClientTopics,
 } from '../action/realTimeClientAction';
 import VehicleMarkerContainer from './map/VehicleMarkerContainer';
 
@@ -99,26 +104,46 @@ export function reportError(error) {
   });
 }
 
-const startClient = context => {
-  const { realTime } = context.config;
+const asItineraryVehicles = (context, plan, match) => {
+  const { config } = context;
+  const { realTime } = config;
   let agency;
 
   /* handle multiple feedid case */
-  context.config.feedIds.forEach(ag => {
+  config.feedIds.forEach(ag => {
     if (!agency && realTime[ag]) {
       agency = ag;
     }
   });
-  const source = agency && realTime[agency];
-  if (source && source.active) {
-    const config = {
-      ...source,
-      agency,
-    };
-    context.executeAction(startRealTimeClient, config);
-  }
-};
+  const itineraries = (plan && plan.itineraries) || [];
+  const activeIndex = getActiveIndex(match.location, itineraries);
+  const itineraryVehicles = [];
 
+  itineraries[activeIndex].legs.forEach(leg => {
+    if (leg.transitLeg && leg.trip) {
+      let vehicle;
+      if (agency === 'HSL') {
+        vehicle = {
+          route: leg.route.gtfsId.split(':')[1],
+          mode: leg.mode.toLowerCase(),
+          direction: Number(leg.trip.directionId),
+          tripStartTime: getStartTimeWithColon(
+            leg.trip.stoptimesForDate[0].scheduledDeparture,
+          ),
+        };
+      } else {
+        vehicle = {
+          route: leg.route.gtfsId.split(':')[1],
+          tripId: leg.trip.gtfsId.split(':')[1],
+        };
+      }
+      if (vehicle) {
+        itineraryVehicles.push(vehicle);
+      }
+    }
+  });
+  return itineraryVehicles;
+};
 class SummaryPage extends React.Component {
   static contextTypes = {
     config: PropTypes.object,
@@ -163,6 +188,51 @@ class SummaryPage extends React.Component {
 
   state = { center: null, loading: false };
 
+  configClient = itineraryVehicles => {
+    const { config } = this.context;
+    const { realTime } = config;
+    let agency;
+
+    /* handle multiple feedid case */
+    config.feedIds.forEach(ag => {
+      if (!agency && realTime[ag]) {
+        agency = ag;
+      }
+    });
+    const source = agency && realTime[agency];
+    if (source && source.active) {
+      return {
+        ...source,
+        agency,
+        options: itineraryVehicles,
+      };
+    }
+    return null;
+  };
+
+  startClient = itineraryVehicles => {
+    const clientConfig = this.configClient(itineraryVehicles);
+    if (clientConfig) {
+      this.context.executeAction(startRealTimeClient, clientConfig);
+    }
+  };
+
+  updateClient = departures => {
+    const { client, topics } = this.context.getStore(
+      'RealTimeInformationStore',
+    );
+    if (client) {
+      const clientConfig = this.configClient(departures);
+      if (clientConfig) {
+        this.context.executeAction(changeRealTimeClientTopics, {
+          ...clientConfig,
+          client,
+          oldTopics: topics,
+        });
+      }
+    }
+  };
+
   componentDidMount() {
     const host =
       this.context.headers &&
@@ -177,7 +247,12 @@ class SummaryPage extends React.Component {
       // eslint-disable-next-line no-unused-expressions
       import('../util/feedbackly');
     }
-    startClient(this.context);
+    const itineryVehicles = asItineraryVehicles(
+      this.context,
+      this.props.plan,
+      this.props.match,
+    );
+    this.startClient(itineryVehicles);
   }
 
   componentWillUnmount() {
@@ -205,6 +280,12 @@ class SummaryPage extends React.Component {
     if (this.props.error) {
       reportError(this.props.error);
     }
+    const itineryVehicles = asItineraryVehicles(
+      this.context,
+      this.props.plan,
+      this.props.match,
+    );
+    this.updateClient(itineryVehicles);
   }
 
   setLoading = loading => {
