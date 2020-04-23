@@ -1,0 +1,61 @@
+Arguments: 
+  /usr/local/bin/node /usr/share/yarn/bin/yarn.js add classnames
+
+PATH: 
+  /usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+
+Yarn version: 
+  1.21.1
+
+Node version: 
+  10.18.1
+
+Platform: 
+  linux x64
+
+Trace: 
+  SyntaxError: /home/joonas/workspace/digitransit/digitransit-ui/digitransit-component/packages/digitransit-component-autosuggest/package.json: Unexpected token } in JSON at position 1070
+      at JSON.parse (<anonymous>)
+      at /usr/share/yarn/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/usr/share/yarn/lib/cli.js:310:30)
+      at /usr/share/yarn/lib/cli.js:321:13
+
+npm manifest: 
+  {
+    "name": "@digitransit-component/digitransit-component-autosuggest",
+    "version": "0.0.0",
+    "description": "digitransit-component autosuggest module",
+    "main": "index.generated",
+    "publishConfig": {
+      "access": "public"
+    },
+    "scripts": {
+      "build:index": "babel index.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-proposal-class-properties --out-file index.generated",
+      "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-proposal-class-properties --out-file test.generated",
+      "test": "mocha -r esm test.generated",
+      "docs": "node -r esm ../../scripts/generate-readmes",
+      "publish": "yarn publish --access public"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git://github.com/HSLdevcom/digitransit-ui.git"
+    },
+    "keywords": [
+      "digitransit-component",
+      "Autosuggest"
+    ],
+    "author": "Digitransit Authors",
+    "license": "(AGPL-3.0 OR EUPL-1.2)",
+    "peerDependencies": {
+      "i18next": "^19.3.3",
+      "prop-types": "^15.7.2",
+      "react": "^16.13.0",
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

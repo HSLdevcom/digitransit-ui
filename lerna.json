@@ -1,6 +1,7 @@
 {
   "packages": [
-    "digitransit-util/packages/*"
+    "digitransit-util/packages/*",
+    "digitransit-search-util/packages/*"
   ],
   "version": "independent",
   "npmClient": "yarn",

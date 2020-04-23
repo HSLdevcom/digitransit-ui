@@ -4,7 +4,7 @@ import { matchShape, routerShape } from 'found';
 import { intlShape } from 'react-intl';
 import { suggestionToLocation, getLabel } from '../util/suggestionUtils';
 import { getJson } from '../util/xhrPromise';
-import { withCurrentTime } from '../util/searchUtils';
+import { withCurrentTime } from '../util/DTSearchUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { navigateTo } from '../util/path';
 import DTAutoSuggest from './DTAutosuggest';
@@ -30,7 +30,6 @@ class DTAutosuggestContainer extends React.Component {
     origin: dtLocationShape,
     destination: dtLocationShape,
     getViaPointsFromMap: PropTypes.bool,
-    locationState: PropTypes.object,
     searchType: PropTypes.string,
     originPlaceHolder: PropTypes.string,
     destinationPlaceHolder: PropTypes.string,
@@ -170,6 +169,11 @@ class DTAutosuggestContainer extends React.Component {
     });
   };
 
+  // eslint-disable-next-line class-methods-use-this
+  updateViaPointsFromMap() {
+    searchContext.executeAction(searchContext.updateViaPointsFromMap, false);
+  }
+
   onSelect = (item, id) => {
     // type is destination unless timetable or route was clicked
     let type = 'endpoint';
@@ -179,9 +183,9 @@ class DTAutosuggestContainer extends React.Component {
         break;
       default:
     }
-    if (id === 'CurrentLocation') {
+    if (item.type === 'CurrentLocation') {
       // item is already a location.
-      this.selectLocation(item);
+      this.selectLocation(item, id);
     }
     if (item.type === 'OldSearch' && item.properties.gid) {
       getJson(this.context.config.URL.PELIAS_PLACE, {
@@ -205,6 +209,7 @@ class DTAutosuggestContainer extends React.Component {
   renderPanel() {
     return (
       <DTAutosuggestPanel
+        config={this.context.config}
         searchPanelText={this.props.searchPanelText}
         origin={this.props.origin}
         onSelect={this.onSelect}
@@ -214,9 +219,9 @@ class DTAutosuggestContainer extends React.Component {
         originPlaceHolder={this.props.originPlaceHolder}
         destinationPlaceHolder={this.props.destinationPlaceHolder}
         searchContext={searchContext}
-        locationState={this.props.locationState}
         initialViaPoints={this.props.initialViaPoints}
         updateViaPoints={this.props.updateViaPoints}
+        updateViaPointsFromMap={this.updateViaPointsFromMap}
         swapOrder={this.props.swapOrder}
         getViaPointsFromMap={this.props.getViaPointsFromMap}
         getLabel={getLabel}
@@ -228,6 +233,7 @@ class DTAutosuggestContainer extends React.Component {
   renderAutoSuggest() {
     return (
       <DTAutoSuggest
+        config={this.context.config}
         icon={this.props.icon}
         id={this.props.id}
         autoFocus={this.props.autoFocus}
@@ -240,7 +246,6 @@ class DTAutosuggestContainer extends React.Component {
         isFocused={this.isFocused}
         onRouteSelected={this.props.onRouteSelected}
         searchContext={searchContext}
-        locationState={this.props.locationState}
         showSpinner={this.props.showSpinner}
         layers={this.props.layers}
         getLabel={getLabel}

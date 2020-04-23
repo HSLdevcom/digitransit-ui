@@ -1,0 +1,126 @@
+$gray: #666;
+$medium-gray: #ccc;
+$current-location-color:  #F653B9;
+$favourite-color: #f092cd;
+$visited-link-color: #8c4799;
+$font-size-small: 0.92rem;
+$font-size-xxsmall: 0.8rem;
+$font-weight-medium: 500;
+$font-family-narrow: "Gotham XNarrow SSm A","Gotham XNarrow SSm B", Arial, Georgia, Serif;
+$font-size-normal: 1rem;
+$font-weight-bold: 700;
+
+.autosuggestIcon {
+  color: #cbcbcb;
+  padding: 0 0.6em;
+  font-size: $font-size-normal;
+
+  svg.havePosition {
+    vertical-align: -0.15em;
+  }
+}
+
+.search-result {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-height: 2em;
+  overflow-x: hidden;
+
+  &.loading:not(.CurrentLocation) {
+    // These are importatn in over to override the styling for the loading phase of the search
+    svg.icon {
+      stroke: $medium-gray !important;
+      fill: $medium-gray !important;
+      background: $medium-gray !important;
+    }
+
+    .suggestion-name,
+    .suggestion-type,
+    .suggestion-label {
+      &,
+      * {
+        color: $medium-gray !important;
+        background: $medium-gray !important;
+      }
+    }
+  }
+
+  .havePosition {
+    color: $current-location-color;
+  }
+
+  .noPosition {
+    color: $current-location-color;
+  }
+
+  .search-position {
+    color: $current-location-color;
+  }
+
+  &.favourite svg.icon {
+    stroke: $favourite-color;
+    fill: $favourite-color;
+  }
+
+  &.CurrentLocation svg.icon {
+    color: $current-location-color;
+  }
+
+  .use-own-position,
+  .suggestion-name,
+  .suggestion-label {
+    margin: 0;
+  }
+
+  .suggestion-name,
+  .use-own-position {
+    font-size: $font-size-small;
+  }
+
+  .suggestion-name {
+    span {
+      .bus,
+      .tram,
+      .rail,
+      .subway,
+      .ferry,
+      .airplane {
+        font-weight: $font-weight-medium;
+        font-family: $font-family-narrow;
+        font-size: $font-size-normal;
+      }
+      .suggestion-type {
+        font-size: $font-size-xxsmall;
+        font-weight: $font-weight-bold;
+        text-transform: uppercase;
+        color: $gray;
+      }
+    }
+  }
+
+  &.OldSearch,
+  &.FavouritePlace,
+  &.FavouriteStop,
+  &.CurrentLocation {
+    p.suggestion-name,
+    span.suggestion-type {
+      color: $visited-link-color;
+    }
+  }
+
+  .suggestion-label {
+    font-size: $font-size-xxsmall;
+    color: $gray;
+  }
+}
+
+.sr-only:not(:focus):not(:active) {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}

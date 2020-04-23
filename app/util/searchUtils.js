@@ -6,13 +6,97 @@ import sortBy from 'lodash/sortBy';
 import debounce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
 import uniqWith from 'lodash/uniqWith';
+import isEqual from 'lodash/isEqual';
+import memoize from 'lodash/memoize';
+import escapeRegExp from 'lodash/escapeRegExp';
+import cloneDeep from 'lodash/cloneDeep';
 
-import { getJson } from './xhrPromise';
-import { distance } from './geo-utils';
-import { uniqByLabel } from './suggestionUtils';
-import mapPeliasModality from './pelias-to-modality-mapper';
-import { PREFIX_ROUTES } from './path';
+const getLocality = suggestion =>
+  suggestion.localadmin || suggestion.locality || '';
 
+const getStopCode = ({ id, code }) => {
+  if (code) {
+    return code;
+  }
+  if (
+    id === undefined ||
+    typeof id.indexOf === 'undefined' ||
+    id.indexOf('#') === -1
+  ) {
+    return undefined;
+  }
+  // id from pelias
+  return id.substring(id.indexOf('#') + 1);
+};
+
+const getNameLabel = memoize(
+  (suggestion, plain = false) => {
+    switch (suggestion.layer) {
+      case 'currentPosition':
+        return [suggestion.labelId, suggestion.address];
+      case 'favouritePlace':
+        return [suggestion.name, suggestion.address];
+      case 'favouriteRoute':
+      case 'route-BUS':
+      case 'route-TRAM':
+      case 'route-RAIL':
+      case 'route-SUBWAY':
+      case 'route-FERRY':
+      case 'route-AIRPLANE':
+        return !plain && suggestion.shortName
+          ? [
+              suggestion.gtfsId,
+              suggestion.mode.toLowerCase(),
+              suggestion.longName,
+            ]
+          : [
+              suggestion.shortName,
+              suggestion.longName,
+              suggestion.agency ? suggestion.agency.name : undefined,
+            ];
+      case 'venue':
+      case 'address':
+        return [
+          suggestion.name,
+          suggestion.label.replace(
+            new RegExp(`${escapeRegExp(suggestion.name)}(,)?( )?`),
+            '',
+          ),
+        ];
+      case 'favouriteStation':
+      case 'favouriteStop':
+        return [suggestion.name, suggestion.id, suggestion.address];
+
+      case 'stop':
+        return plain
+          ? [suggestion.name || suggestion.label, getLocality(suggestion)]
+          : [
+              suggestion.name,
+              suggestion.id,
+              getStopCode(suggestion),
+              getLocality(suggestion),
+            ];
+      case 'station':
+      default:
+        return [suggestion.name || suggestion.label, getLocality(suggestion)];
+    }
+  },
+  (item, plain) => {
+    const i = cloneDeep(item);
+    i.plain = plain;
+    return i;
+  },
+);
+
+export function uniqByLabel(features) {
+  return uniqWith(
+    features,
+    (feat1, feat2) =>
+      isEqual(getNameLabel(feat1.properties), getNameLabel(feat2.properties)) &&
+      feat1.properties.layer === feat2.properties.layer,
+  );
+}
+const PREFIX_ROUTES = 'linjat';
 /**
  * LayerType depicts the type of the point-of-interest.
  */
@@ -58,6 +142,83 @@ export const mapRoute = item => {
     },
   };
 };
+function serialize(obj, prefix) {
+  if (!obj) {
+    return '';
+  }
+
+  return Object.keys(obj)
+    .map(p => {
+      const k = prefix || p;
+      const v = obj[p];
+
+      return typeof v === 'object'
+        ? serialize(v, k)
+        : `${encodeURIComponent(k)}=${encodeURIComponent(v)}`;
+    })
+    .join('&');
+}
+
+function mapPeliasModality(features, config) {
+  if (!config.search.mapPeliasModality) {
+    return features;
+  }
+
+  const mapping = config.search.peliasMapping;
+  return features.map(feature => {
+    const mappedFeature = { ...feature };
+    const categories = feature.properties.category;
+    if (categories) {
+      for (let i = 0; i < categories.length; i++) {
+        const category = categories[i];
+        if (category in mapping) {
+          mappedFeature.properties.mode = mapping[category];
+
+          if (config.search.peliasLayer) {
+            mappedFeature.properties.layer = config.search.peliasLayer(
+              category,
+            );
+          }
+          break;
+        }
+      }
+    }
+    if (config.search.peliasLocalization) {
+      return config.search.peliasLocalization(mappedFeature);
+    }
+    return mappedFeature;
+  });
+}
+
+// Return Promise for a url json get request
+function getJson(url, params) {
+  return fetch(
+    encodeURI(url) +
+      (params ? (url.search(/\?/) === -1 ? '?' : '&') + serialize(params) : ''),
+    {
+      timeout: 10000,
+      method: 'GET',
+
+      headers: {
+        Accept: 'application/json',
+      },
+    },
+  ).then(res => res.json());
+}
+
+const RADIUS = 6371000;
+
+function distance(latlon1, latlon2) {
+  const rad = Math.PI / 180;
+  const lat1 = latlon1.lat * rad;
+  const lat2 = latlon2.lat * rad;
+  const sinDLat = Math.sin((latlon2.lat - latlon1.lat) * rad / 2);
+  const sinDLon = Math.sin((latlon2.lon - latlon1.lon) * rad / 2);
+  const a =
+    sinDLat * sinDLat + Math.cos(lat1) * Math.cos(lat2) * sinDLon * sinDLon;
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return RADIUS * c;
+}
 
 export function routeNameCompare(a, b) {
   const a1 =
@@ -286,7 +447,6 @@ export function getGeocodingResult(
   if (sources) {
     opts = { ...opts, sources };
   }
-
   return getJson(config.URL.PELIAS, opts).then(response =>
     mapPeliasModality(response.features, config),
   );
@@ -676,19 +836,4 @@ const debouncedSearch = debounce(executeSearchImmediate, 300, {
 export const executeSearch = (searchContext, refPoint, data, callback) => {
   callback(null); // This means 'we are searching'
   debouncedSearch(searchContext, refPoint, data, callback);
-};
-
-export const withCurrentTime = (getStore, location) => {
-  const query = (location && location.query) || {};
-  return {
-    ...location,
-    query: {
-      ...query,
-      time: query.time
-        ? query.time
-        : getStore('TimeStore')
-            .getCurrentTime()
-            .unix(),
-    },
-  };
 };

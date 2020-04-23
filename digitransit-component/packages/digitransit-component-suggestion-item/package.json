@@ -1,0 +1,46 @@
+{
+  "name": "@digitransit-component/digitransit-component-suggestion-item",
+  "version": "0.0.0",
+  "description": "digitransit-component suggestion-item module",
+  "main": "index.generated",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build:index": "webpack --config webpack.config.babel.js",
+    "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-proposal-class-properties --out-file test.generated",
+    "test": "mocha -r esm test.generated",
+    "docs": "node -r esm ../../scripts/generate-readmes",
+    "publish": "yarn publish --access public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/HSLdevcom/digitransit-ui.git"
+  },
+  "keywords": [
+    "digitransit-component",
+    "SuggestionItem"
+  ],
+  "author": "Digitransit Authors",
+  "license": "(AGPL-3.0 OR EUPL-1.2)",
+  "peerDependencies": {
+    "classnames": "2.2.6",
+    "i18next": "^19.3.3",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.0",
+    "recompose": "0.30.0"
+  },
+  "devDependencies": {
+    "@babel/core": "7.8.3",
+    "@babel/plugin-proposal-class-properties": "7.8.3",
+    "@babel/preset-env": "7.8.3",
+    "@babel/preset-react": "7.8.3",
+    "babel-loader": "8.1.0",
+    "css-loader": "3.5.2",
+    "file-loader": "6.0.0",
+    "sass-loader": "8.0.2",
+    "url-loader": "4.1.0",
+    "webpack": "4.42.1",
+    "webpack-cli": "3.3.11"
+  }
+}
