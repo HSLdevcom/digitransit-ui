@@ -97,6 +97,13 @@ class CustomizeSearch extends React.Component {
             defaultSettings={this.defaultSettings}
           />
         </div>
+        <div className="settings-option-container">
+          <AccessibilityOptionSection
+            currentSettings={currentSettings}
+            router={router}
+            match={match}
+          />
+        </div>
         {config.showTicketSelector && (
           <FareZoneSelector
             headerText={intl.formatMessage({
@@ -115,13 +122,6 @@ class CustomizeSearch extends React.Component {
             }}
           />
         )}
-        <div className="settings-option-container">
-          <AccessibilityOptionSection
-            currentSettings={currentSettings}
-            router={router}
-            match={match}
-          />
-        </div>
       </div>
     );
   }
