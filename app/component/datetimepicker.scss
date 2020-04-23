@@ -1,0 +1,74 @@
+.dt-datetimepicker {
+  .top-row-container {
+    display: flex;
+  }
+  .textbutton {
+    margin-left: 5px;
+    background: none;
+    border: none;
+    color: #666666;
+    padding: 0;
+    &.active {
+      color: $primary-color;
+    }
+    &:focus {
+      @include default-focus-outline;
+    }
+  }
+
+  .radio-textbutton-label {
+    margin-left: 5px;
+    background: none;
+    border: none;
+    color: #666666;
+    padding: 0;
+    &.active {
+      color: $primary-color;
+    }
+    &:focus-within {
+      @include default-focus-outline;
+    }
+  }
+
+  .radio-textbutton {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+
+  .close-button {
+    margin-left: auto;
+    background: none;
+    color: $primary-color;
+    padding: 0;
+  }
+  .react-autosuggest__container  {
+    position: relative;
+    .react-autosuggest__suggestions-container--open {
+      position: absolute;
+      z-index: index($zindex, 'autosuggest-suggestion-container');
+      max-height: 20vh; // TODO 5 items
+      overflow-x: hidden;
+      overflow-y: scroll;
+
+      top: 63px; // TODO change later
+    }
+    .react-autosuggest__input {
+      margin: 0px;
+    }
+    .combobox-container {
+      border: solid black 1px;
+    }
+    .combobox-input {
+      margin: 0px;
+    }
+  }
+
+  .picker-container {
+    display: flex;
+  }
+}

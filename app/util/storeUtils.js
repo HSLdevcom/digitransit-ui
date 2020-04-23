@@ -1,3 +1,9 @@
+import PositionStore from '../store/PositionStore';
+
+export const getPositionStore = () => {
+  return PositionStore;
+};
+
 export const getPositions = context => {
   return context.getStore('PositionStore').getLocationState();
 };

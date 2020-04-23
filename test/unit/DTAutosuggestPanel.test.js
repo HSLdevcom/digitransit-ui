@@ -9,7 +9,7 @@ import {
   getEmptyViaPointPlaceHolder,
 } from '../../app/component/DTAutosuggestPanel';
 import { otpToLocation } from '../../app/util/otpStrings';
-import searchContext from '../../app/component/searchContext';
+import searchContext from '../../app/util/searchContext';
 
 describe('<DTAutosuggestPanel />', () => {
   const selectors = {

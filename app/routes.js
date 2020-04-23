@@ -258,9 +258,9 @@ export default config => {
           }
         />
       )}
-      <Route path="/js/:name" Component={Error404} />
-      <Route path="/css/:name" Component={Error404} />
-      <Route path="/assets/:name" Component={Error404} />
+      <Route path="/js/*" Component={Error404} />
+      <Route path="/css/*" Component={Error404} />
+      <Route path="/assets/*" Component={Error404} />
       <Route path="/:from?/:to?" topBarOptions={{ disableBackButton: true }}>
         {{
           title: (

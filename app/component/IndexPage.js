@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
-import { routerShape } from 'found';
+import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
 import isEqual from 'lodash/isEqual';
@@ -14,10 +14,8 @@ import {
 import storeOrigin from '../action/originActions';
 import storeDestination from '../action/destinationActions';
 import ControlPanel from './ControlPanel';
-import DTAutoSuggest from './DTAutosuggest';
-import DTAutosuggestPanel from './DTAutosuggestPanel';
+import DTAutosuggestContainer from './DTAutosuggestContainer';
 import { isBrowser } from '../util/browser';
-import searchContext from './searchContext';
 import {
   parseLocation,
   isItinerarySearchObjects,
@@ -27,9 +25,9 @@ import OverlayWithSpinner from './visual/OverlayWithSpinner';
 import { dtLocationShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
-import intializeSearchContext from './DTSearchContextInitializer';
 import scrollTop from '../util/scroll';
 import FavouriteLocationsContainer from './FavouriteLocationsContainer';
+import Datetimepicker from './Datetimepicker';
 
 const debug = d('IndexPage.js');
 
@@ -38,6 +36,8 @@ class IndexPage extends React.Component {
     intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
     getStore: PropTypes.func.isRequired,
+    router: routerShape.isRequired,
+    match: matchShape.isRequired,
   };
 
   static propTypes = {
@@ -48,6 +48,8 @@ class IndexPage extends React.Component {
     destination: dtLocationShape.isRequired,
     showSpinner: PropTypes.bool.isRequired,
     favourites: PropTypes.array,
+    getViaPointsFromMap: PropTypes.bool.isRequired,
+    locationState: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -59,10 +61,14 @@ class IndexPage extends React.Component {
     if (this.props.autoSetOrigin) {
       context.executeAction(storeOrigin, props.origin);
     }
+    this.state = {
+      // eslint-disable-next-line react/no-unused-state
+      pendingCurrentLocation: false,
+      refs: [],
+    };
   }
 
   componentDidMount() {
-    intializeSearchContext(this.context, searchContext);
     scrollTop();
   }
 
@@ -96,7 +102,6 @@ class IndexPage extends React.Component {
   render() {
     const { intl } = this.context;
     const { breakpoint, destination, origin, favourites } = this.props;
-
     // DT-3381 TODO: DTEndpointAutoSuggest currently does not search for stops or stations, as it should be. SearchUtils needs refactoring.
     return breakpoint === 'large' ? (
       <div
@@ -107,18 +112,23 @@ class IndexPage extends React.Component {
           `blurred`} fullscreen bp-${breakpoint}`}
       >
         <ControlPanel className="control-panel-container-left">
-          <DTAutosuggestPanel
+          <DTAutosuggestContainer
+            type="panel"
             searchPanelText={intl.formatMessage({
               id: 'where',
               defaultMessage: 'Where to?',
             })}
             origin={origin}
+            onSelect={this.onSelect}
             destination={destination}
+            refs={this.state.refs}
             searchType="endpoint"
             originPlaceHolder="search-origin-index"
             destinationPlaceHolder="search-destination-index"
-            searchContext={searchContext}
+            locationState={this.props.locationState}
+            getViaPointsFromMap={this.props.getViaPointsFromMap}
           />
+          <Datetimepicker realtime />
           <div className="fpcfloat">
             <div className="frontpage-panel">
               <FavouriteLocationsContainer
@@ -138,7 +148,8 @@ class IndexPage extends React.Component {
             </span>
           </div>
           <div>
-            <DTAutoSuggest
+            <DTAutosuggestContainer
+              type="field"
               icon="mapMarker-via"
               id="searchfield-preferred"
               autoFocus={false}
@@ -147,9 +158,7 @@ class IndexPage extends React.Component {
               searchType="search"
               placeholder="stop-near-you"
               value=""
-              isFocused={this.isFocused}
-              onLocationSelected={e => e.stopPropagation()}
-              searchContext={searchContext}
+              locationState={this.props.locationState}
             />
           </div>
         </ControlPanel>
@@ -165,17 +174,21 @@ class IndexPage extends React.Component {
       >
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
         <ControlPanel className="control-panel-container-bottom">
-          <DTAutosuggestPanel
+          <DTAutosuggestContainer
+            type="panel"
             searchPanelText={intl.formatMessage({
               id: 'where',
               defaultMessage: 'Where to?',
             })}
             origin={origin}
+            onSelect={this.onSelect}
             destination={destination}
-            searchType="all"
-            originPlaceHolder="search-origin"
-            destinationPlaceHolder="search-destination"
-            searchContext={searchContext}
+            refs={this.state.refs}
+            searchType="endpoint"
+            originPlaceHolder="search-origin-index"
+            destinationPlaceHolder="search-destination-index"
+            locationState={this.props.locationState}
+            getViaPointsFromMap={this.props.getViaPointsFromMap}
           />
           <div className="fpcfloat">
             <div className="frontpage-panel">
@@ -193,18 +206,17 @@ class IndexPage extends React.Component {
             </span>
           </div>
           <div>
-            <DTAutoSuggest
+            <DTAutosuggestContainer
+              type="field"
               icon="mapMarker-via"
-              id="searchfield-preferred-bottom"
+              id="searchfield-preferred"
               autoFocus={false}
               refPoint={origin}
               className="destination"
               searchType="search"
               placeholder="stop-near-you"
               value=""
-              isFocused={this.isFocused}
-              onLocationSelected={e => e.stopPropagation()}
-              searchContext={searchContext}
+              locationState={this.props.locationState}
             />
           </div>
         </ControlPanel>
@@ -281,7 +293,7 @@ const processLocation = (locationString, locationState, intl) => {
 
 const IndexPageWithPosition = connectToStores(
   IndexPageWithBreakpoint,
-  ['PositionStore'],
+  ['PositionStore', 'ViaPointsStore'],
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
 
@@ -334,6 +346,9 @@ const IndexPageWithPosition = connectToStores(
       });
     }
     newProps.lang = context.getStore('PreferencesStore').getLanguage();
+    newProps.getViaPointsFromMap = context
+      .getStore('ViaPointsStore')
+      .getViaPoints();
     newProps.favourites = [
       ...context.getStore('FavouriteStore').getLocations(),
       ...context.getStore('FavouriteStore').getStopsAndStations(),
@@ -347,7 +362,6 @@ IndexPageWithPosition.contextTypes = {
   executeAction: PropTypes.func.isRequired,
   intl: intlShape,
 };
-
 export {
   IndexPageWithPosition as default,
   IndexPageWithBreakpoint as Component,

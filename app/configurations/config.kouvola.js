@@ -5,7 +5,7 @@ const CONFIG = 'kouvola';
 const APP_TITLE = 'Kouvolan reittiopas';
 const APP_DESCRIPTION = 'Kouvolan reittiopas';
 
-const walttiConfig = require('./waltti').default;
+const walttiConfig = require('./config.waltti').default;
 
 const minLat = 60.574886232976134;
 const maxLat = 61.2909051236272;
