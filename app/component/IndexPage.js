@@ -8,7 +8,6 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
 import isEqual from 'lodash/isEqual';
 import d from 'debug';
-
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
 import {
   initGeolocation,
@@ -16,7 +15,6 @@ import {
 } from '../action/PositionActions';
 import storeOrigin from '../action/originActions';
 import storeDestination from '../action/destinationActions';
-import ControlPanel from './ControlPanel';
 import DTAutosuggestContainer from './DTAutosuggestContainer';
 import { isBrowser } from '../util/browser';
 import {
@@ -118,7 +116,7 @@ class IndexPage extends React.Component {
           origin.gpsError === false &&
           `blurred`} fullscreen bp-${breakpoint}`}
       >
-        <ControlPanel className="control-panel-container-left">
+        <CtrlPanel instance="hsl" language={lang} position="left">
           <DTAutosuggestContainer
             type="panel"
             searchPanelText={intl.formatMessage({
@@ -134,7 +132,9 @@ class IndexPage extends React.Component {
             destinationPlaceHolder="search-destination-index"
             locationState={this.props.locationState}
             getViaPointsFromMap={this.props.getViaPointsFromMap}
+            lang={lang}
           />
+          <CtrlPanel.SeparatorLine />
           <Datetimepicker realtime />
           <div className="fpcfloat">
             <div className="frontpage-panel">
@@ -144,7 +144,7 @@ class IndexPage extends React.Component {
               />
             </div>
           </div>
-          <div className="control-panel-separator-line" />
+          <CtrlPanel.SeparatorLine />
           <div className="stops-near-you-text">
             <span>
               {' '}
@@ -168,7 +168,7 @@ class IndexPage extends React.Component {
               locationState={this.props.locationState}
             />
           </div>
-        </ControlPanel>
+        </CtrlPanel>
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
       </div>
     ) : (
@@ -180,7 +180,7 @@ class IndexPage extends React.Component {
           `blurred`} bp-${breakpoint}`}
       >
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
-        <ControlPanel className="control-panel-container-bottom">
+        <CtrlPanel instance="hsl" language={lang} position="bottom">
           <DTAutosuggestContainer
             type="panel"
             searchPanelText={intl.formatMessage({
@@ -197,12 +197,17 @@ class IndexPage extends React.Component {
             locationState={this.props.locationState}
             getViaPointsFromMap={this.props.getViaPointsFromMap}
           />
+          <CtrlPanel.SeparatorLine />
+          <Datetimepicker realtime />
           <div className="fpcfloat">
             <div className="frontpage-panel">
-              <FavouriteLocationsContainer favourites={this.props.favourites} />
+              <FavouriteLocationsContainer
+                origin={origin}
+                favourites={favourites}
+              />
             </div>
           </div>
-          <div className="control-panel-separator-line" />
+          <CtrlPanel.SeparatorLine />
           <div className="stops-near-you-text">
             <span>
               {' '}
@@ -226,7 +231,7 @@ class IndexPage extends React.Component {
               locationState={this.props.locationState}
             />
           </div>
-        </ControlPanel>
+        </CtrlPanel>
       </div>
     );
   }
