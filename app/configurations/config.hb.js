@@ -47,10 +47,13 @@ export default configMerger(walttiConfig, {
 
   defaultSettings: {
     optimize: "TRIANGLE",
+    safetyFactor: 0.4,
+    slopeFactor: 0.3,
+    timeFactor: 0.3,
     triangle: {
-      safetyFactor: 0.8,
-      slopeFactor: 0.1,
-      timeFactor: 0.1,
+      safetyFactor: 0.4,
+      slopeFactor: 0.3,
+      timeFactor: 0.3,
     }
   },
 
