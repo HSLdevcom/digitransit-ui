@@ -99,7 +99,7 @@ export default {
   },
 
   defaultSettings: {
-    accessibilityOption: 0,
+    usingWheelchair: 0,
     bikeSpeed: 5,
     minTransferTime: 120,
     optimize: 'QUICK',
@@ -131,6 +131,9 @@ export default {
       most: 0.2,
     },
   },
+
+  walkBoardCost: 600,
+  walkBoardCostHigh: 1200,
 
   quickOptions: {
     public_transport: {
@@ -418,7 +421,7 @@ export default {
     },
 
     walk: {
-      availableForSelection: true,
+      availableForSelection: false,
       defaultValue: false,
       exclusive: true,
       icon: 'walk',
@@ -446,18 +449,7 @@ export default {
     },
   },
 
-  accessibilityOptions: [
-    {
-      messageId: 'accessibility-nolimit',
-      displayName: 'Ei rajoitusta',
-      value: '0',
-    },
-    {
-      messageId: 'accessibility-limited',
-      displayName: 'Liikun pyörätuolilla',
-      value: '1',
-    },
-  ],
+  usingWheelchair: 0,
 
   moment: {
     relativeTimeThreshold: {
