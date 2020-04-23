@@ -46,7 +46,12 @@ export default configMerger(walttiConfig, {
   MATOMO_URL: process.env.MATOMO_URL,
 
   defaultSettings: {
-    optimize: "GREENWAYS",
+    optimize: "TRIANGLE",
+    triangle: {
+      safetyFactor: 0.8,
+      slopeFactor: 0.1,
+      timeFactor: 0.1,
+    }
   },
 
   appBarLink: {
