@@ -1,0 +1,251 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _i18next = _interopRequireDefault(require("i18next"));
+
+var _styles = require("./helpers/styles");
+
+var _translations = _interopRequireDefault(require("./helpers/translations"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+_i18next.default.init({
+  lng: 'en',
+  resources: {}
+});
+
+_i18next.default.addResourceBundle('en', 'translation', _translations.default.en);
+
+_i18next.default.addResourceBundle('fi', 'translation', _translations.default.fi);
+
+_i18next.default.addResourceBundle('sv', 'translation', _translations.default.sv);
+
+function SeparatorLine() {
+  return _react.default.createElement("div", {
+    id: "SeparatorLine",
+    style: (0, _styles.getStyleSeparatorLine)()
+  });
+}
+
+function OriginToDestination(_ref) {
+  var showTitle = _ref.showTitle,
+      language = _ref.language;
+
+  _i18next.default.changeLanguage(language);
+
+  return _react.default.createElement("div", {
+    id: "OriginToDestination"
+  }, showTitle && _react.default.createElement("span", null, _i18next.default.t('title-origin-to-destination')), showTitle && _react.default.createElement("br", null), _react.default.createElement("input", {
+    style: (0, _styles.getStyleInput)(),
+    placeholder: _i18next.default.t('placeholder-origin')
+  }), _react.default.createElement("br", null), _react.default.createElement("input", {
+    style: (0, _styles.getStyleInput)(),
+    placeholder: _i18next.default.t('placeholder-destination')
+  }));
+}
+
+OriginToDestination.propTypes = {
+  showTitle: _propTypes.default.bool,
+  language: _propTypes.default.string
+};
+OriginToDestination.defaultProps = {
+  showTitle: false,
+  language: 'fi'
+};
+
+function NearStopsAndRoutes(_ref2) {
+  var buttons = _ref2.buttons,
+      showTitle = _ref2.showTitle,
+      language = _ref2.language;
+
+  _i18next.default.changeLanguage(language);
+
+  return _react.default.createElement("div", {
+    id: "NearStopsAndRoutes"
+  }, showTitle && _react.default.createElement("span", null, _i18next.default.t('title-route-stop-station')), showTitle && _react.default.createElement("br", null), buttons.length > 0 && _react.default.createElement("div", {
+    role: "group",
+    "arial-label": _i18next.default.t('pick-mode')
+  }, buttons.map(function (button) {
+    var h = 1.5;
+    var w = 1.5;
+    var c;
+
+    if (button === 'subway') {
+      h = 1.6;
+      w = 1.6;
+      c = '#ff6319';
+    }
+
+    return _react.default.createElement(Icon, {
+      key: button,
+      img: "icon-icon_".concat(button),
+      height: h,
+      width: w,
+      margin: 0.5,
+      color: c
+    });
+  })), _react.default.createElement("input", {
+    style: (0, _styles.getStyleInput)(),
+    placeholder: _i18next.default.t('placeholder-route-stop-station')
+  }), _react.default.createElement("br", null));
+}
+
+NearStopsAndRoutes.propTypes = {
+  buttons: _propTypes.default.array,
+  showTitle: _propTypes.default.bool,
+  language: _propTypes.default.string
+};
+NearStopsAndRoutes.defaultProps = {
+  buttons: [],
+  showTitle: false,
+  language: 'fi'
+};
+
+function Icon(_ref3) {
+  var color = _ref3.color,
+      img = _ref3.img,
+      height = _ref3.height,
+      width = _ref3.width,
+      margin = _ref3.margin;
+  return _react.default.createElement("span", {
+    "aria-hidden": true,
+    className: "icon-container"
+  }, _react.default.createElement("svg", {
+    style: {
+      fill: color || null,
+      height: height ? "".concat(height, "em") : null,
+      width: width ? "".concat(width, "em") : null,
+      marginRight: margin ? "".concat(margin, "em") : null
+    }
+  }, _react.default.createElement("use", {
+    xlinkHref: "#".concat(img)
+  })));
+}
+
+Icon.propTypes = {
+  color: _propTypes.default.string,
+  height: _propTypes.default.number,
+  img: _propTypes.default.string.isRequired,
+  margin: _propTypes.default.number,
+  width: _propTypes.default.number
+};
+Icon.defaultProps = {
+  color: undefined,
+  height: undefined,
+  margin: undefined,
+  width: undefined
+};
+/**
+ * CtrlPanel gathers multiple components to same area (desktop-size: left or mobile-size: bottom)
+ *
+ * @example
+ * <CtrlPanel language="fi" position="left">
+ *    <CtrlPanel.OriginToDestination showTitle />
+ *    <CtrlPanel.SeparatorLine />
+ *    <CtrlPanel.NearStopsAndRoutes
+ *      showTitle
+ *      buttons={['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike']}
+ *    />
+ *  </CtrlPanel>
+ */
+
+var CtrlPanel = /*#__PURE__*/function (_React$Component) {
+  _inherits(CtrlPanel, _React$Component);
+
+  function CtrlPanel() {
+    _classCallCheck(this, CtrlPanel);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(CtrlPanel).apply(this, arguments));
+  }
+
+  _createClass(CtrlPanel, [{
+    key: "render",
+    value: function render() {
+      var _this = this;
+
+      var style = (0, _styles.getStyleMain)();
+
+      if (this.props.position === 'bottom') {
+        style = (0, _styles.getStyleMainBottom)();
+      }
+
+      var children = _react.default.Children.map(this.props.children, function (child) {
+        if (!CtrlPanel.validTypes.includes(child.type)) {
+          console.error('invalid child of CtrlPanel:', child.type);
+        }
+
+        var lang = _this.props.language;
+
+        if (lang === undefined) {
+          lang = 'fi';
+        }
+
+        _i18next.default.changeLanguage(lang);
+
+        return _react.default.cloneElement(child, {
+          language: lang
+        });
+      });
+
+      return _react.default.createElement(_react.Fragment, null, _react.default.createElement("div", {
+        key: "main",
+        style: style
+      }, children));
+    }
+  }]);
+
+  return CtrlPanel;
+}(_react.default.Component);
+
+_defineProperty(CtrlPanel, "NearStopsAndRoutes", NearStopsAndRoutes);
+
+_defineProperty(CtrlPanel, "OriginToDestination", OriginToDestination);
+
+_defineProperty(CtrlPanel, "SeparatorLine", SeparatorLine);
+
+_defineProperty(CtrlPanel, "validTypes", [NearStopsAndRoutes, SeparatorLine, OriginToDestination]);
+
+_defineProperty(CtrlPanel, "propTypes", {
+  children: _propTypes.default.node,
+  language: _propTypes.default.string.isRequired,
+  position: _propTypes.default.string.isRequired
+});
+
+_defineProperty(CtrlPanel, "defaultProps", {
+  children: []
+});
+
+var _default = CtrlPanel;
+exports.default = _default;
