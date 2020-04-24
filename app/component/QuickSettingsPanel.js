@@ -17,6 +17,7 @@ import {
   matchQuickOption,
   getQuickOptionSets,
   getApplicableQuickOptionSets,
+  getCurrentSettings,
 } from '../util/planParamUtil';
 import { getCustomizedSettings } from '../store/localStorage';
 import { replaceQueryParams, clearQueryParams } from '../util/queryUtils';
@@ -50,6 +51,20 @@ class QuickSettingsPanel extends React.Component {
     toggleAirplaneState: () => this.toggleTransportMode('airplane'),
     toggleCarpoolState: () => this.toggleTransportMode('carpool'),
   };
+
+  componentDidMount() {
+    const defaultOption = matchQuickOption(this.context);
+    const { config, router, query } = this.context;
+    const currentSettings = getCurrentSettings(config, query);
+    if (defaultOption === QuickOptionSetType.DefaultRoute) {
+      replaceQueryParams(router, {
+        optimize: currentSettings.optimize,
+        safetyFactor: currentSettings.safetyFactor,
+        slopeFactor: currentSettings.slopeFactor,
+        timeFactor: currentSettings.timeFactor,
+      });
+    }
+  }
 
   onRequestChange = newState => {
     this.internalSetOffcanvas(newState);
