@@ -121,7 +121,7 @@ export default configMerger(walttiConfig, {
           {
             type: 'text',
             content:
-              'The route guide has been updated 24.4.2020. During the coronavirus pandemic, trips may be cancelled. Please check possible changes before traveling ',
+              'The journey planner has been updated on 24.4.2020. During the coronavirus pandemic, trips may be cancelled. Please check possible changes before traveling ',
           },
           {
             type: 'a',
