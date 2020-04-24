@@ -107,41 +107,43 @@ export function reportError(error) {
 const asItineraryVehicles = (context, plan, match) => {
   const { config } = context;
   const { realTime } = config;
-  let agency;
+  let useFuzzyTripMatching = false;
 
   /* handle multiple feedid case */
-  config.feedIds.forEach(ag => {
-    if (!agency && realTime[ag]) {
-      agency = ag;
+  config.feedIds.forEach(feedId => {
+    if (!useFuzzyTripMatching && realTime[feedId].useFuzzyTripMatching) {
+      useFuzzyTripMatching = true;
     }
   });
   const itineraries = (plan && plan.itineraries) || [];
   const activeIndex = getActiveIndex(match.location, itineraries);
   const itineraryVehicles = [];
 
-  itineraries[activeIndex].legs.forEach(leg => {
-    if (leg.transitLeg && leg.trip) {
-      let vehicle;
-      if (agency === 'HSL') {
-        vehicle = {
-          route: leg.route.gtfsId.split(':')[1],
-          mode: leg.mode.toLowerCase(),
-          direction: Number(leg.trip.directionId),
-          tripStartTime: getStartTimeWithColon(
-            leg.trip.stoptimesForDate[0].scheduledDeparture,
-          ),
-        };
-      } else {
-        vehicle = {
-          route: leg.route.gtfsId.split(':')[1],
-          tripId: leg.trip.gtfsId.split(':')[1],
-        };
+  if (itineraries.length > 0) {
+    itineraries[activeIndex].legs.forEach(leg => {
+      if (leg.transitLeg && leg.trip) {
+        let vehicle;
+        if (useFuzzyTripMatching) {
+          vehicle = {
+            route: leg.route.gtfsId.split(':')[1],
+            mode: leg.mode.toLowerCase(),
+            direction: Number(leg.trip.directionId),
+            tripStartTime: getStartTimeWithColon(
+              leg.trip.stoptimesForDate[0].scheduledDeparture,
+            ),
+          };
+        } else {
+          vehicle = {
+            route: leg.route.gtfsId.split(':')[1],
+            tripId: leg.trip.gtfsId.split(':')[1],
+          };
+        }
+        if (vehicle) {
+          itineraryVehicles.push(vehicle);
+        }
       }
-      if (vehicle) {
-        itineraryVehicles.push(vehicle);
-      }
-    }
-  });
+    });
+  }
   return itineraryVehicles;
 };
 class SummaryPage extends React.Component {
@@ -204,7 +206,7 @@ class SummaryPage extends React.Component {
       return {
         ...source,
         agency,
-        options: itineraryVehicles,
+        options: itineraryVehicles.length > 0 ? itineraryVehicles : null,
       };
     }
     return null;
@@ -399,17 +401,20 @@ class SummaryPage extends React.Component {
     const gtfsIdsOfRouteAndDirection = [];
     const gtfsIdsOfTrip = [];
     const startTimes = [];
-    itineraries[activeIndex].legs.forEach(leg => {
-      if (leg.transitLeg && leg.trip) {
-        gtfsIdsOfTrip.push(leg.trip.gtfsId);
-        startTimes.push(
-          getStartTime(leg.trip.stoptimesForDate[0].scheduledDeparture),
-        );
-        gtfsIdsOfRouteAndDirection.push(
-          `${leg.route.gtfsId}_${leg.trip.directionId}`,
-        );
-      }
-    });
+
+    if (itineraries.length > 0) {
+      itineraries[activeIndex].legs.forEach(leg => {
+        if (leg.transitLeg && leg.trip) {
+          gtfsIdsOfTrip.push(leg.trip.gtfsId);
+          startTimes.push(
+            getStartTime(leg.trip.stoptimesForDate[0].scheduledDeparture),
+          );
+          gtfsIdsOfRouteAndDirection.push(
+            `${leg.route.gtfsId}_${leg.trip.directionId}`,
+          );
+        }
+      });
+    }
     if (startTimes.length > 0) {
       itineraryVehicles = {
         gtfsIdsOfTrip,
