@@ -29,11 +29,5 @@
     "prop-types": "^15.7.2",
     "react": "^16.13.0",
     "recompose": "0.30.0"
-  },
-  "devDependencies": {
-    "css-loader": "3.5.2",
-    "sass-loader": "8.0.2",
-    "webpack": "4.42.1",
-    "webpack-cli": "3.3.11"
   }
 }

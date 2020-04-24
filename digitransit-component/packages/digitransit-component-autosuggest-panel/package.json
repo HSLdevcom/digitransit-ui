@@ -35,18 +35,5 @@
     "recompose": "0.30.0",
     "@digitransit-component/digitransit-component-autosuggest": "^0.0.1",
     "@digitransit-component/digitransit-component-with-breakpoint": "^0.0.1"
-  },
-  "devDependencies": {
-    "@babel/core": "7.8.3",
-    "@babel/plugin-proposal-class-properties": "7.8.3",
-    "@babel/preset-env": "7.8.3",
-    "@babel/preset-react": "7.8.3",
-    "babel-loader": "8.1.0",
-    "css-loader": "3.5.2",
-    "file-loader": "6.0.0",
-    "sass-loader": "8.0.2",
-    "url-loader": "4.1.0",
-    "webpack": "4.42.1",
-    "webpack-cli": "3.3.11"
   }
 }
