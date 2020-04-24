@@ -3,64 +3,33 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import pure from 'recompose/pure';
+import Icon from './helpers/Icon';
 
 function getIcon(layer) {
   const layerIcon = new Map([
-    ['currentPosition', 'icon-icon_locate'],
-    ['favouritePlace', 'icon-icon_star'],
-    ['favouriteRoute', 'icon-icon_star'],
-    ['favouriteStop', 'icon-icon_star'],
-    ['favouriteStation', 'icon-icon_star'],
-    ['favourite', 'icon-icon_star'],
-    ['address', 'icon-icon_place'],
-    ['stop', 'icon-icon_bus-stop'],
-    ['locality', 'icon-icon_city'],
-    ['station', 'icon-icon_station'],
-    ['localadmin', 'icon-icon_city'],
-    ['neighbourhood', 'icon-icon_city'],
-    ['route-BUS', 'icon-icon_bus-withoutBox'],
-    ['route-TRAM', 'icon-icon_tram-withoutBox'],
-    ['route-RAIL', 'icon-icon_rail-withoutBox'],
-    ['route-SUBWAY', 'icon-icon_subway-withoutBox'],
-    ['route-FERRY', 'icon-icon_ferry-withoutBox'],
-    ['route-AIRPLANE', 'icon-icon_airplane-withoutBox'],
+    ['currentPosition', `Locate`],
+    ['favouritePlace', 'Star'],
+    ['favouriteRoute', 'Star'],
+    ['favouriteStop', 'Star'],
+    ['favouriteStation', 'Star'],
+    ['favourite', 'Star'],
+    ['address', 'Place'],
+    ['stop', 'Busstop'],
+    ['locality', 'City'],
+    ['station', 'Station'],
+    ['localadmin', 'City'],
+    ['neighbourhood', 'City'],
+    ['route-BUS', 'Bus'],
+    ['route-TRAM', 'Tram'],
+    ['route-RAIL', 'Rail'],
+    ['route-SUBWAY', 'Subway'],
+    ['route-FERRY', 'Ferry'],
+    ['route-AIRPLANE', 'Airplane'],
   ]);
 
-  const defaultIcon = 'icon-icon_place';
+  const defaultIcon = 'Place';
   return layerIcon.get(layer) || defaultIcon;
 }
-
-function Icon({ color, img, height, width, margin }) {
-  return (
-    <span aria-hidden className="icon-container">
-      <svg
-        style={{
-          fill: color || null,
-          height: height ? `${height}em` : null,
-          width: width ? `${width}em` : null,
-          marginRight: margin ? `${margin}em` : null,
-        }}
-      >
-        <use xlinkHref={`#${img}`} />
-      </svg>
-    </span>
-  );
-}
-
-Icon.propTypes = {
-  color: PropTypes.string,
-  height: PropTypes.number,
-  img: PropTypes.string.isRequired,
-  margin: PropTypes.number,
-  width: PropTypes.number,
-};
-
-Icon.defaultProps = {
-  color: undefined,
-  height: undefined,
-  margin: undefined,
-  width: undefined,
-};
 
 /**
  * SuggestionItem renders suggestions for digitransit-autosuggest component.
