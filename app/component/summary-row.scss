@@ -57,9 +57,6 @@
     border-left-color: $background-color;
     background-color: $background-color;
 
-    .vehicle-number {
-      color: $white;
-    }
   }
 
   h3, h4 {
@@ -97,7 +94,7 @@
     text-align: right;
     padding-left: $padding-medium;
     min-width: 2em;
-    @include font-narrow-medium;
+    //@include font-narrow-medium;
     font-weight: $font-weight-bold;
 
     .itinerary-start-time-and-end-time {
@@ -105,12 +102,10 @@
     }
     .itinerary-duration {
       float: right;
-      font-weight: $font-weight-bold;
     }
     .itinerary-start-date {
       display: inline-block;
       text-align: right;
-      min-width: 2em;
       margin-top: -1px;
       margin-bottom: -2px;
       line-height: 1;
@@ -121,7 +116,7 @@
         text-transform: capitalize;
         border-bottom-left-radius: 2px;
         border-bottom-right-radius: 2px;
-        padding: $padding-xsmall $padding-small;
+        //padding: $padding-xsmall $padding-small;
         color: $white;
         background-color: $gray;
         display: inline-block;
@@ -171,7 +166,6 @@
     flex: 1 1 0px;
 
     .leg {
-      padding-top: $padding-small;
       min-width: 1px;
       width: calc(var(--width));
       height: 40px;
@@ -190,8 +184,14 @@
           .vehicle-number-container-v {
             position: absolute;
             z-index: 1;
-            left: 1.8em;
+            left: 1.5em;
             overflow: visible;
+            .vehicle-number {
+              color: $white;
+            }
+            .walking-time {
+              font-size: $font-size-small;
+            }
           }
         }
       }
@@ -238,13 +238,21 @@
     div.bar {
       width: 100%;
       z-index: -1;
-      background-color: white;
+      background-color: currentColor;
       border: 1px solid currentColor;
-      height: 24px;
+      height: 1.5em;
       //border-width: 2px;
       border-radius: $border-radius;
       &.call {
         border-color: #aaa;
+      }
+      &.wait {
+        background-color: white;
+        border: 1px solid $light-gray
+      }
+      &.walk {
+        background-color: $light-gray;
+        border: 1px solid $light-gray
       }
 
     }
@@ -262,9 +270,21 @@
     }
 
     .special-icon {
-      .icon {
-        padding-bottom: 1px; // fixes icon clipping in Safari on iOS
+      &.wait {
+        .icon {
+          margin-top: 0.25em;
+          height: 0.5em;
+        }
       }
+      &.walk {
+        .icon {
+          height: 0.66em;
+          margin-top: 0.17em;
+        }
+      }
+      /* .icon {
+        //padding-bottom: 1px; // fixes icon clipping in Safari on iOS
+      } */
       .icon-badge {
         left: 0;
         top: -0.75em;
@@ -337,11 +357,6 @@
       margin-top: 10px;
     }
 
-    .itinerary-duration {
-      font-size: 18px;
-      @include font-narrow-medium;
-    }
-
     .itinerary-biking-distance,
     .itinerary-walking-distance {
       font-size: 18px;
@@ -355,6 +370,7 @@
       .itinerary-start-date {
         @include font-narrow-book;
         font-size: $font-size-xxsmall;
+        float: left;
         & > span {
           border-radius: $border-radius-small;
         }
@@ -367,11 +383,8 @@
 
     .itinerary-legs {
       padding-top: 0;
-      margin-top: 9px;
+      margin-top: 7px;
 
-      .line .icon {
-        margin-top: 2px;
-      }
       .vehicle-number {
         font-size: $font-size-small;
       }

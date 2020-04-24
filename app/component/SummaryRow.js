@@ -99,7 +99,10 @@ RouteLeg.propTypes = {
   legLength: PropTypes.number.isRequired,
 };
 
-export const ModeLeg = ({ leg, mode, large, legLength }, { config }) => {
+export const ModeLeg = (
+  { leg, mode, large, legLength, walkingTime, renderIcon },
+  { config },
+) => {
   let networkIcon;
   if (mode === 'BICYCLE' && leg.from.bikeRentalStation) {
     networkIcon =
@@ -111,12 +114,13 @@ export const ModeLeg = ({ leg, mode, large, legLength }, { config }) => {
         ),
       );
   }
-
   const routeNumber = (
     <RouteNumber
       mode={mode}
       text=""
       className={cx('line', mode.toLowerCase())}
+      walkingTime={walkingTime}
+      renderIcon={renderIcon}
       vertical
       withBar
       icon={networkIcon}
@@ -138,6 +142,8 @@ ModeLeg.propTypes = {
   mode: PropTypes.string.isRequired,
   large: PropTypes.bool.isRequired,
   legLength: PropTypes.number.isRequired,
+  walkingTime: PropTypes.number,
+  renderIcon: PropTypes.bool,
 };
 
 ModeLeg.contextTypes = {
@@ -247,8 +253,6 @@ const SummaryRow = (
   const legs = [];
   let noTransitLegs = true;
 
-  const legLengthThreshold = 4;
-
   const compressedLegs = compressLegs(data.legs).map(leg => ({
     ...leg,
   }));
@@ -264,12 +268,16 @@ const SummaryRow = (
   let firstLegStartTimeText = null;
   const vehicleNames = [];
   const stopNames = [];
+  const legLengthThreshold = 7;
 
   compressedLegs.forEach((leg, i) => {
     if (leg.rentedBike && lastLegRented) {
       return;
     }
     let renderIcon = true;
+    let waiting = false;
+    let waitTime;
+    let legLength;
     const isFirstLeg = i === 0;
     const isLastLeg = i === data.legs.length - 1;
     const previousLeg = data.legs[i - 1];
@@ -279,20 +287,33 @@ const SummaryRow = (
       slackDuration,
       leg,
     );
+    const waitThreshold = 180000;
 
-    const legLength = leg.duration * 1000 / duration * 100;
+    legLength = leg.duration * 1000 / duration * 100;
+    if (nextLeg) {
+      waitTime = nextLeg.startTime - leg.endTime;
+      if (waitTime > waitThreshold) {
+        waiting = true;
+      } else {
+        legLength = (leg.duration * 1000 + waitTime) / duration * 100;
+      }
+    }
+    if (legLength < legLengthThreshold) {
+      renderIcon = false;
+    }
 
     lastLegRented = leg.rentedBike;
     if (legLength < legLengthThreshold) {
       renderIcon = false;
     }
-
     if (leg.mode === 'WALK') {
+      const walkingTime = Math.floor(leg.duration / 60);
       legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
           renderIcon={renderIcon}
           leg={leg}
+          walkingTime={walkingTime}
           mode="WALK"
           legLength={legLength}
           large={breakpoint === 'large'}
@@ -382,23 +403,19 @@ const SummaryRow = (
       );
       stopNames.push(leg.from.name);
     }
-    if (nextLeg) {
-      const waitTime = nextLeg.startTime - leg.endTime;
 
-      if (waitTime > 1000) {
-        const waitLength = Math.round(waitTime / duration * 100);
-        legs.push(
-          <ModeLeg
-            key={`${leg.mode}_${leg.startTime}_wait`}
-            leg={leg}
-            legLength={waitLength}
-            mode="WAIT"
-            large={breakpoint === 'large'}
-          />,
-        );
-      }
+    if (waiting) {
+      const waitLength = Math.round(waitTime / duration * 100);
+      legs.push(
+        <ModeLeg
+          key={`${leg.mode}_${leg.startTime}_wait`}
+          leg={leg}
+          legLength={waitLength}
+          mode="WAIT"
+          large={breakpoint === 'large'}
+        />,
+      );
     }
-
     const connectsToFirstViaPoint = () =>
       getViaPointIndex(nextLeg, intermediatePlaces) === 0;
     const connectsFromLastViaPoint = () =>
@@ -670,19 +687,19 @@ const SummaryRow = (
                   {firstLegStartTime}
                   {isDefaultPosition && renderBikingDistance(data)}
                 </div>
-                <div
+                {/* <div
                   className="itinerary-duration-and-distance"
                   key="duration-distance"
                   aria-hidden="true"
                 >
                   {!isDefaultPosition && renderBikingDistance(data)}
-                  {/* {!onlyBiking(data) && (
+                  /* {!onlyBiking(data) && (
                     <div className="itinerary-walking-distance">
                       <Icon img="icon-icon_walk" viewBox="6 0 40 40" />
                       {displayDistance(getTotalWalkingDistance(data), config)}
                     </div>
-                  )} */}
-                </div>
+                  )} 
+                </div> */}
               </div>
               <div
                 tabIndex="0"

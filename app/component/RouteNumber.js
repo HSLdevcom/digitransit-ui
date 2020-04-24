@@ -11,11 +11,11 @@ import { isMobile } from '../util/browser';
 const LONG_ROUTE_NUMBER_LENGTH = 6;
 
 function RouteNumber(props, context) {
-  let mode = props.mode.toLowerCase();
+  const mode = props.mode.toLowerCase();
   const { alertSeverityLevel, color } = props;
 
   if (mode === 'bicycle' || mode === 'car') {
-    mode += '-withoutBox';
+    // mode += '-withoutBox';
   }
 
   const longText = props.text && props.text.length >= LONG_ROUTE_NUMBER_LENGTH;
@@ -124,7 +124,6 @@ function RouteNumber(props, context) {
         ) : (
           <div className="vehicle-number-container-v">
             <span
-              style={{ color: props.color ? props.color : null }}
               className={cx('vehicle-number', mode, {
                 'overflow-fade': longText && props.fadeLong,
                 long: longText,
@@ -132,6 +131,12 @@ function RouteNumber(props, context) {
             >
               {props.text}
             </span>
+          </div>
+        ))}
+      {props.renderIcon === true &&
+        (mode === 'walk' && (
+          <div className="vehicle-number-container-v">
+            <span className="walking-time">{props.walkingTime}</span>
           </div>
         ))}
     </span>
@@ -210,6 +215,8 @@ RouteNumber.propTypes = {
   badgeText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   icon: PropTypes.string,
   isRouteView: PropTypes.bool,
+  renderIcon: PropTypes.bool,
+  walkingTime: PropTypes.number,
 };
 
 RouteNumber.defaultProps = {
