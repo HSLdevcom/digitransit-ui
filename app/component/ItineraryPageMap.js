@@ -12,6 +12,7 @@ import { isBrowser } from '../util/browser';
 import { dtLocationShape } from '../util/shapes';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import withBreakpoint from '../util/withBreakpoint';
+import VehicleMarkerContainer from './map/VehicleMarkerContainer'; // DT-3473
 
 let L;
 
@@ -39,6 +40,7 @@ function ItineraryPageMap(
       position={otpToLocation(to)}
       type="to"
     />,
+    <VehicleMarkerContainer key="vehicles" useLargeIcon />,
   ];
 
   if (match.location.query && match.location.query.intermediatePlaces) {
