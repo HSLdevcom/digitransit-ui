@@ -1,39 +1,25 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Airplane from './assets/airplane.svg';
-import Bus from './assets/bus.svg';
-import Busstop from './assets/bus_stop.svg';
-import City from './assets/city.svg';
-import Ferry from './assets/ferry.svg';
-import Locate from './assets/locate.svg';
-import Place from './assets/place.svg';
-import Rail from './assets/rail.svg';
-import Star from './assets/star.svg';
-import Station from './assets/station.svg';
-import Subway from './assets/subway.svg';
-import Tram from './assets/tram.svg';
+import cx from 'classnames';
+import close from './assets/close.svg';
+import mapmarkerFrom from './assets/mapmarker-from.svg';
+import mapmarkerTo from './assets/mapmarker-to.svg';
+import mapmarkerVia from './assets/mapmarker-via.svg';
+import search from './assets/search.svg';
 
 const IconMap = {
-  Airplane,
-  Bus,
-  Busstop,
-  City,
-  Ferry,
-  Locate,
-  Place,
-  Rail,
-  Star,
-  Station,
-  Subway,
-  Tram,
+  close,
+  'mapMarker-via': mapmarkerVia,
+  'mapMarker-from': mapmarkerFrom,
+  'mapMarker-to': mapmarkerTo,
+  search,
 };
 
-function Icon({ color, img, height, width, margin }) {
+function Icon({ className, color, img, height, width, margin }) {
   return (
     <span aria-hidden className="icon-container">
       <svg
-        xmlns="http://www.w3.org/2000/svg"
-        xmlnsXlink="http://www.w3.org/1999/xlink"
+        className={cx('icon', className)}
         style={{
           fill: color || null,
           height: height ? `${height}em` : null,
@@ -48,6 +34,7 @@ function Icon({ color, img, height, width, margin }) {
 }
 
 Icon.propTypes = {
+  className: PropTypes.string,
   color: PropTypes.string,
   height: PropTypes.number,
   img: PropTypes.string.isRequired,
@@ -56,6 +43,7 @@ Icon.propTypes = {
 };
 
 Icon.defaultProps = {
+  className: undefined,
   color: undefined,
   height: undefined,
   margin: undefined,

@@ -729,7 +729,7 @@ var pure_default = /*#__PURE__*/__webpack_require__.n(pure);
 /* harmony default export */ var subway = ("data:image/svg+xml;base64,PHN2ZyBhcmlhLWhpZGRlbj0idHJ1ZSIgc3R5bGU9InBvc2l0aW9uOiBhYnNvbHV0ZTsgd2lkdGg6IDA7IGhlaWdodDogMDsiIHdpZHRoPSIwIiBoZWlnaHQ9IjAiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+Cgk8ZGVmcz4KICAgICAgICA8c3ltYm9sIGlkPSJpY29uIiB2aWV3Qm94PSIwIDAgMTAyNCAxMDI0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4KICAgICAgICAgICAgPHBhdGggZD0iTTczMi4yMzcgNDAxLjI0M3YtMjEuMDM3YzAtMS4yNTIgMi41MDUtMi40NzMgNS4wMDktMi40NzN2NTA0LjkyMWgxNTYuMDU2VjE0MS4zNDdoLTIzMC4yOEw1MTguMjk2IDY0Ny41MjFsLTIuNTA0IDM0LjY1NWgtMy43ODhsLTMuNzg4LTM0LjY1NS0xNDQuNjkyLTUwNi4xNzRIMTMxLjk2djc0MS4zMDdoMTU4LjU2VjM3Ny43MzNjMS4yNTMgMCAzLjc4OSAxLjIyIDMuNzg5IDIuNDczdjIxLjAzN2wxNDAuOTM2IDQ4MS40MTFoMTU0Ljc3M2wxNDIuMjItNDgxLjQxMXoiIGZpbGw9IiNmZmYiLz4KICAgICAgICA8L3N5bWJvbD4KICAgIDwvZGVmcz4KPC9zdmc+Cg==");
 // CONCATENATED MODULE: ./helpers/assets/tram.svg
 /* harmony default export */ var tram = ("data:image/svg+xml;base64,PHN2ZyBhcmlhLWhpZGRlbj0idHJ1ZSIgc3R5bGU9InBvc2l0aW9uOiBhYnNvbHV0ZTsgd2lkdGg6IDA7IGhlaWdodDogMDsiIHdpZHRoPSIwIiBoZWlnaHQ9IjAiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+Cgk8ZGVmcz4KCQk8c3ltYm9sIGlkPSJpY29uIiB2aWV3Qm94PSIwIDAgMTAyNCAxMDI0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4KCQkJPHBhdGggY2xhc3M9InBhdGgxIiBkPSJNNzczLjA4NiAyMjcuMDU3YzcuNDIgMTcuODEgMTEuODcxIDQzLjAzOSAxMS44NzEgNjIuMzN2NTM0LjI3MWMwIDI2LjcxMS0xOS4yOTEgNDMuMDM5LTQ0LjUyNCA0Ny40OS04My4xMDYgMTYuMzI1LTE1NC4zNDEgMjIuMjYtMjI4LjU0NSAyMi4yNi03Ny4xNzQgMC0xNDYuOTI0LTUuOTM1LTIyNy4wNjQtMjIuMjYtMjYuNzE0LTQuNDU0LTQ0LjUyNC0yMC43NzktNDQuNTI0LTQ3LjQ5di01MzQuMjcxYzAtMTkuMjk0IDAtNDQuNTI0IDcuNDItNjIuMzNsMjUuMjI2LTYwLjg0NWM4LjkwNS0xNy44MSAxOS4yOTQtMjUuMjMgNDAuMDczLTMxLjE2NSA1OS4zNjQtMTYuMzI1IDEwOC4zMzktMjIuMjYgMTY5LjE4NC0yMy43NDV2LTUxLjk0NGgtMTA4LjMzOWMtMTcuODEgMC0zMS4xNjUtMTMuMzU5LTMxLjE2NS0yOC4xOTkgMC0xNy44MSAxMy4zNTUtMzEuMTY1IDMxLjE2NS0zMS4xNjVoMjc5LjAwNGMxNC44NCAwIDI2LjcxNCAxMy4zNTUgMjYuNzE0IDMxLjE2NSAwIDE0Ljg0LTExLjg3NCAyOC4xOTktMjYuNzE0IDI4LjE5OWgtMTA5LjgyNHY1MS45NDRjNTkuMzY0IDEuNDgxIDEwNS4zNzMgNy40MiAxNjkuMTg0IDIzLjc0NSAxNy44MSA0LjQ1NCAyOC4xOTYgMTMuMzU1IDM1LjYxNiAzMS4xNjVsMjUuMjQxIDYwLjg0NXpNNzE4LjE3MyA5NjYuMTI4YzEzLjM1OSAwIDI4LjIwMyAxMy4zNTUgMjguMjAzIDI2LjcxMSAwIDE5LjI5NC0xNC44NCAzMS4xNjUtMjguMjAzIDMxLjE2NWgtNDExLjA4OGMtMTYuMzI1IDAtMjYuNzE0LTExLjg3NC0yNi43MTQtMzEuMTY1IDAtMTMuMzU1IDEwLjM5LTI2LjcxMSAyNi43MTQtMjYuNzExaDQ0LjUyNHYtNDQuNTI0bDU0LjkxIDcuNDJ2MzcuMTA0aDIxMi4yMjR2LTM3LjFsNTQuOTE0LTcuNDJ2NDQuNTI0aDQ0LjUxN3pNMzYzLjQ3OSA3MzcuNTc5YzAtMjAuNzc2LTE0Ljg0LTM3LjEwNC0zNS42MTYtMzcuMTA0LTE5LjI5MSAwLTM0LjEzMSAxNi4zMjUtMzQuMTMxIDM3LjEwNCAwIDE5LjI5NCAxNC44NCAzMi42NSAzNC4xMzEgMzIuNjUgMjAuNzc2IDAgMzUuNjE2LTEzLjM1NSAzNS42MTYtMzIuNjV6TTI5NS4yMSA2MzguMTQ1YzU5LjM2NCAxNC44NCAxMzkuNTA0IDI2LjcxNCAyMTYuNjc4IDI2LjcxNCA3OC42NTUgMCAxNTguNzk1LTEwLjM5IDIxNS4xOS0yNi43MTR2LTM2MC42MjloLTQzMS44Njd2MzYwLjYyOXpNNzM3LjQ3MSA3MzcuNTc5YzAtMjAuNzc2LTE2LjMyNS0zNy4xMDQtMzcuMTA0LTM3LjEwNC0xOS4yOTEgMC0zMi42NTMgMTYuMzI1LTMyLjY1MyAzNy4xMDQgMCAxOS4yOTQgMTMuMzU5IDMyLjY1IDMyLjY1MyAzMi42NSAyMC43NzYgMCAzNy4xMDQtMTMuMzU1IDM3LjEwNC0zMi42NXoiPjwvcGF0aD4KCQk8L3N5bWJvbD4KCTwvZGVmcz4KPC9zdmc+");
-// CONCATENATED MODULE: ./helpers/icon-map.js
+// CONCATENATED MODULE: ./helpers/Icon.js
 
 
 
@@ -742,7 +742,9 @@ var pure_default = /*#__PURE__*/__webpack_require__.n(pure);
 
 
 
-/* harmony default export */ var icon_map = ({
+
+
+const IconMap = {
   Airplane: airplane,
   Bus: bus,
   Busstop: bus_stop,
@@ -755,11 +757,7 @@ var pure_default = /*#__PURE__*/__webpack_require__.n(pure);
   Station: station,
   Subway: subway,
   Tram: tram
-});
-// CONCATENATED MODULE: ./helpers/Icon.js
-
-
-
+};
 
 function Icon({
   color,
@@ -781,7 +779,7 @@ function Icon({
       marginRight: margin ? `${margin}em` : null
     }
   }, /*#__PURE__*/react_default.a.createElement("use", {
-    xlinkHref: `${icon_map[img]}#icon`
+    xlinkHref: `${IconMap[img]}#icon`
   })));
 }
 
@@ -811,36 +809,7 @@ function getIcon(layer) {
   const layerIcon = new Map([['currentPosition', `Locate`], ['favouritePlace', 'Star'], ['favouriteRoute', 'Star'], ['favouriteStop', 'Star'], ['favouriteStation', 'Star'], ['favourite', 'Star'], ['address', 'Place'], ['stop', 'Busstop'], ['locality', 'City'], ['station', 'Station'], ['localadmin', 'City'], ['neighbourhood', 'City'], ['route-BUS', 'Bus'], ['route-TRAM', 'Tram'], ['route-RAIL', 'Rail'], ['route-SUBWAY', 'Subway'], ['route-FERRY', 'Ferry'], ['route-AIRPLANE', 'Airplane']]);
   const defaultIcon = 'Place';
   return layerIcon.get(layer) || defaultIcon;
-} // function Icon({ color, img, height, width, margin }) {
-//   return (
-//     <span aria-hidden className="icon-container">
-//       <svg
-//         style={{
-//           fill: color || null,
-//           height: height ? `${height}em` : null,
-//           width: width ? `${width}em` : null,
-//           marginRight: margin ? `${margin}em` : null,
-//         }}
-//       >
-//         <use xlinkHref={`#${img}`} />
-//       </svg>
-//     </span>
-//   );
-// }
-// Icon.propTypes = {
-//   color: PropTypes.string,
-//   height: PropTypes.number,
-//   img: PropTypes.string.isRequired,
-//   margin: PropTypes.number,
-//   width: PropTypes.number,
-// };
-// Icon.defaultProps = {
-//   color: undefined,
-//   height: undefined,
-//   margin: undefined,
-//   width: undefined,
-// };
-
+}
 /**
  * SuggestionItem renders suggestions for digitransit-autosuggest component.
  * @example

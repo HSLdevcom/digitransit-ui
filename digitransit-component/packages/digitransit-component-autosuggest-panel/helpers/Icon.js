@@ -1,6 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import plus from './assets/plus.svg';
+import attention from './assets/attention.svg';
+import dropdown from './assets/dropdown.svg';
+import close from './assets/close.svg';
+import time from './assets/time.svg';
+import ellipsis from './assets/ellipsis.svg';
+import directionB from './assets/direction_b.svg';
+
+const IconMap = {
+  plus,
+  attention,
+  'arrow-dropdown': dropdown,
+  close,
+  time,
+  ellipsis,
+  'direction-b': directionB,
+};
 
 function Icon({ className, color, img, height, width, margin }) {
   return (
@@ -14,7 +31,7 @@ function Icon({ className, color, img, height, width, margin }) {
           marginRight: margin ? `${margin}em` : null,
         }}
       >
-        <use xlinkHref={`#${img}`} />
+        <use xlinkHref={`${IconMap[img]}#icon`} />
       </svg>
     </span>
   );

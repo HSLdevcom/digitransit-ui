@@ -430,7 +430,7 @@ class DTAutosuggestPanel extends React.Component {
             }
             aria-label={i18next.t('swap-order-button-label')}
           >
-            <Icon img="icon-icon_direction-b" />
+            <Icon img="direction-b" />
           </ItinerarySearchControl>
         </div>
         <div className="viapoints-container">
@@ -452,7 +452,7 @@ class DTAutosuggestPanel extends React.Component {
                   onDragStart={e => this.handleStartViaPointDragging(e, i)}
                   style={{ cursor: 'move' }}
                 >
-                  <Icon img="icon-icon_ellipsis" />
+                  <Icon img="ellipsis" />
                 </div>
                 <DTAutoSuggest
                   config={this.props.config}
@@ -490,9 +490,9 @@ class DTAutosuggestPanel extends React.Component {
                       { index: i + 1 },
                     )}
                   >
-                    <Icon img="icon-icon_time" />
+                    <Icon img="time" />
                     <Icon
-                      img="icon-icon_attention"
+                      img="attention"
                       className={cx('super-icon', {
                         collapsed:
                           isViaPointSlackTimeInputActive(i) ||
@@ -513,7 +513,7 @@ class DTAutosuggestPanel extends React.Component {
                       index: i + 1,
                     })}
                   >
-                    <Icon img="icon-icon_close" />
+                    <Icon img="close" />
                   </ItinerarySearchControl>
                 </div>
               </div>
@@ -535,10 +535,7 @@ class DTAutosuggestPanel extends React.Component {
                       index: i + 1,
                     })}
                   />
-                  <Icon
-                    className="fake-select-arrow"
-                    img="icon-icon_arrow-dropdown"
-                  />
+                  <Icon className="fake-select-arrow" img="arrow-dropdown" />
                 </div>
               </div>
             </div>
@@ -576,7 +573,7 @@ class DTAutosuggestPanel extends React.Component {
             }
             aria-label={i18next.t('add-via-button-label')}
           >
-            <Icon img="icon-icon_plus" />
+            <Icon img="plus" />
           </ItinerarySearchControl>
         </div>
       </div>

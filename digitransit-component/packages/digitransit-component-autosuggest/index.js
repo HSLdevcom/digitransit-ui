@@ -10,6 +10,7 @@ import {
 } from '@digitransit-search-util/digitransit-search-util-execute-search-immidiate';
 import SuggestionItem from '@digitransit-component/digitransit-component-suggestion-item';
 import { getNameLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
+import Icon from './helpers/Icon';
 import translations from './helpers/translations';
 import './helpers/styles.scss';
 
@@ -42,41 +43,6 @@ function suggestionToAriaContent(item) {
   const [name, label] = getNameLabel(item.properties, true);
   return [iconstr, name, label];
 }
-
-function Icon({ className, color, img, height, width, margin }) {
-  return (
-    <span aria-hidden className="icon-container">
-      <svg
-        className={cx('icon', className)}
-        style={{
-          fill: color || null,
-          height: height ? `${height}em` : null,
-          width: width ? `${width}em` : null,
-          marginRight: margin ? `${margin}em` : null,
-        }}
-      >
-        <use xlinkHref={`#${img}`} />
-      </svg>
-    </span>
-  );
-}
-
-Icon.propTypes = {
-  className: PropTypes.string,
-  color: PropTypes.string,
-  height: PropTypes.number,
-  img: PropTypes.string.isRequired,
-  margin: PropTypes.number,
-  width: PropTypes.number,
-};
-
-Icon.defaultProps = {
-  className: undefined,
-  color: undefined,
-  height: undefined,
-  margin: undefined,
-  width: undefined,
-};
 
 class DTAutosuggest extends React.Component {
   static propTypes = {
@@ -234,7 +200,7 @@ class DTAutosuggest extends React.Component {
   };
 
   clearButton = () => {
-    const img = this.state.value ? 'icon-icon_close' : 'icon-icon_search';
+    const img = this.state.value ? 'close' : 'search';
     return (
       <button
         className="noborder clear-input"
@@ -414,7 +380,7 @@ class DTAutosuggest extends React.Component {
       <div className={cx(['autosuggest-input-container', this.props.id])}>
         {this.props.icon && (
           <div className={cx(['autosuggest-input-icon', this.props.id])}>
-            <Icon img={`icon-icon_${this.props.icon}`} />
+            <Icon img={`${this.props.icon}`} />
           </div>
         )}
         <Autosuggest
