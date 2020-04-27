@@ -8,9 +8,20 @@
 
 General component description in JSDoc format. Markdown is _supported_.
 
-### Parameters
+### Props
 
--   `props`  
+- `searchContext`
+- `origin` and `destination`: 
+- `searchType` **string** The possible values are:
+   - `all`
+   - `endpoint` 
+   - `search`
+- `lang` **string** Which language to use. The possible values are:
+   - `en`
+   - `fi`
+   - `sv`
+- `onSelect` **function** Will be called when user selects a suggestion.
+- `config` **object**
 
 ### Examples
 
@@ -20,12 +31,9 @@ General component description in JSDoc format. Markdown is _supported_.
    origin={}
    destination={}
    isItinerary={false}
-   originPlaceHolder="Origin"
-   destinationPlaceHolder="Destination"
+   originPlaceHolder="Enter origin"
+   destinationPlaceHolder="Enter destination"
    className=""
-   placeholder=""
-   icon=""
-   id=""
    searchType=""
    searchContext={}
    value=""
