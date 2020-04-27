@@ -104,15 +104,19 @@ export function reportError(error) {
   });
 }
 
-const asItineraryVehicles = (context, plan, match) => {
+const getTopicOptions = (context, plan, match) => {
   const { config } = context;
   const { realTime } = config;
-  let useFuzzyTripMatching = false;
+  let useFuzzyTripMatch = false;
 
   /* handle multiple feedid case */
   config.feedIds.forEach(feedId => {
-    if (!useFuzzyTripMatching && realTime[feedId].useFuzzyTripMatching) {
-      useFuzzyTripMatching = true;
+    if (
+      !useFuzzyTripMatch &&
+      realTime[feedId] &&
+      realTime[feedId].useFuzzyTripMatching
+    ) {
+      useFuzzyTripMatch = true;
     }
   });
   const itineraries = (plan && plan.itineraries) || [];
@@ -123,7 +127,7 @@ const asItineraryVehicles = (context, plan, match) => {
     itineraries[activeIndex].legs.forEach(leg => {
       if (leg.transitLeg && leg.trip) {
         let vehicle;
-        if (useFuzzyTripMatching) {
+        if (useFuzzyTripMatch) {
           vehicle = {
             route: leg.route.gtfsId.split(':')[1],
             mode: leg.mode.toLowerCase(),
@@ -193,19 +197,19 @@ class SummaryPage extends React.Component {
   configClient = itineraryVehicles => {
     const { config } = this.context;
     const { realTime } = config;
-    let agency;
+    let feedId;
 
     /* handle multiple feedid case */
-    config.feedIds.forEach(ag => {
-      if (!agency && realTime[ag]) {
-        agency = ag;
+    config.feedIds.forEach(fId => {
+      if (!feedId && realTime[fId]) {
+        feedId = fId;
       }
     });
-    const source = agency && realTime[agency];
+    const source = feedId && realTime[feedId];
     if (source && source.active) {
       return {
         ...source,
-        agency,
+        agency: feedId,
         options: itineraryVehicles.length > 0 ? itineraryVehicles : null,
       };
     }
@@ -249,7 +253,7 @@ class SummaryPage extends React.Component {
       // eslint-disable-next-line no-unused-expressions
       import('../util/feedbackly');
     }
-    const itineryVehicles = asItineraryVehicles(
+    const itineryVehicles = getTopicOptions(
       this.context,
       this.props.plan,
       this.props.match,
@@ -282,7 +286,7 @@ class SummaryPage extends React.Component {
     if (this.props.error) {
       reportError(this.props.error);
     }
-    const itineryVehicles = asItineraryVehicles(
+    const itineryVehicles = getTopicOptions(
       this.context,
       this.props.plan,
       this.props.match,

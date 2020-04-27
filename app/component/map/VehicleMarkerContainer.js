@@ -244,14 +244,19 @@ const connectedComponent = connectToStores(
         .map(key => vehicles[key])
         .filter(vehicle => {
           let isValid = false;
-          if (itineraryVehicles.gtfsIdsOfTrip.includes(vehicle.tripId)) {
+          if (
+            itineraryVehicles.gtfsIdsOfTrip &&
+            itineraryVehicles.gtfsIdsOfTrip.includes(vehicle.tripId)
+          ) {
             isValid = true;
           }
           if (
             !isValid &&
+            itineraryVehicles.gtfsIdsOfRouteAndDirection &&
             itineraryVehicles.gtfsIdsOfRouteAndDirection.includes(
               `${vehicle.route}_${vehicle.direction}`,
             ) &&
+            itineraryVehicles.startTimes &&
             itineraryVehicles.startTimes.includes(vehicle.tripStartTime)
           ) {
             isValid = true;
