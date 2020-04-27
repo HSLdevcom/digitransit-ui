@@ -64,7 +64,29 @@ ItinerarySearchControl.propTypes = {
  * General component description in JSDoc format. Markdown is *supported*.
  *
  * @example
- * <DTAutosuggestPanel />
+ * <DTAutosuggestPanel
+ *    config={}
+ *    origin={}
+ *    destination={}
+ *    isItinerary={false}
+ *    originPlaceHolder="Origin"
+ *    destinationPlaceHolder="Destination"
+ *    className=""
+ *    placeholder=""
+ *    icon=""
+ *    id=""
+ *    searchType=""
+ *    searchContext={}
+ *    value=""
+ *    ariaLabel=""
+ *    autoFocus={}
+ *    ariaLabel=""
+ *    onSelect={}
+ *    lang="fi"
+ *    showSpinner={false}
+ *    addAnalyticsEvent={}
+ *    getLabel={}
+ * />
  */
 class DTAutosuggestPanel extends React.Component {
   static propTypes = {

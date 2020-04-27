@@ -44,6 +44,25 @@ function suggestionToAriaContent(item) {
   return [iconstr, name, label];
 }
 
+/**
+ * @example
+ * <DTAutosuggest
+ *    className=""
+ *    placeholder=""
+ *    icon=""
+ *    id=""
+ *    searchType=""
+ *    searchContext={}
+ *    value=""
+ *    ariaLabel=""
+ *    autoFocus={}
+ *    ariaLabel=""
+ *    onSelect={}
+ *    lang="fi"
+ *    showSpinner={false}
+ *    getLabel={}
+ * />
+ */
 class DTAutosuggest extends React.Component {
   static propTypes = {
     config: PropTypes.object,
