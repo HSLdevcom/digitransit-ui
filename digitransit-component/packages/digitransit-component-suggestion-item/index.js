@@ -36,6 +36,8 @@ function getIcon(layer) {
  * @example
  * <SuggestionItem
  *    item={suggestionObject}
+ *    ariaContent={'Station - Pasila - Helsinki'}
+ *    loading={false}
  * />
  */
 const SuggestionItem = pure(({ item, ariaContent, loading }) => {
