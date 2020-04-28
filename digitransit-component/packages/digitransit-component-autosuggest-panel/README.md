@@ -6,45 +6,105 @@
 
 **Extends React.Component**
 
-General component description in JSDoc format. Markdown is _supported_.
+Panel that renders two DTAutosuggest search fields, including viapoint handling
 
-### Props
+### Parameters
 
-- `searchContext`
-- `origin` and `destination`: 
-- `searchType` **string** The possible values are:
-   - `all`
-   - `endpoint` 
-   - `search`
-- `lang` **string** Which language to use. The possible values are:
-   - `en`
-   - `fi`
-   - `sv`
-- `onSelect` **function** Will be called when user selects a suggestion.
-- `config` **object**
+-   `props`  
 
 ### Examples
 
 ```javascript
+const config = {
+ search: {
+  identify searches for route numbers/labels: bus | train | metro 
+   lineRegexp: new RegExp(
+    '(^[0-9]+[a-z]?$|^[yuleapinkrtdz]$|(^m[12]?b?$))',
+    'i',
+      ),
+  suggestions: {
+    useTransportIcons: false,
+  },
+  usePeliasStops: false,
+  mapPeliasModality: false,
+  peliasMapping: {},
+  peliasLayer: null,
+  peliasLocalization: null,
+  minimalRegexp: new RegExp('.{2,}'),
+},
+  autoSuggest: {
+  // Let Pelias suggest based on current user location
+  locationAware: true,
+},
+ searchParams: {},
+  URL: {
+    PELIAS: https://dev-api.digitransit.fi/geocoding/v1'
+  },
+  feedIds: [],
+ }
+const origin = {
+ lat: 60.169196,
+ lon: 24.957674,
+ address: 'Aleksanterinkatu, Helsinki',
+ set: true,
+ ready: true,
+}
+const destination = {
+  lat: 60.199093,
+  lon: 24.940536,
+  address: 'Opastinsilta 6, Helsinki',
+  set: true,
+  ready: true,
+}
+onSelect() {
+ return null;
+ }
+const searchContex = {
+ // Optional, used by default to get store for positions, favouriteLocations, StoreFavouriteRoutes, FavouriteStops, language.
+ context: null,
+positionStore: null,
+startLocationWatch: null,
+saveSearch: null,
+updateViaPointsFromMap: null,
+getRoutes() {
+  return Promise.resolve([]);
+},
+getStopAndStations() {
+  return Promise.resolve([]);
+},
+getFavouriteRoutes() {
+  return Promise.resolve([]);
+},
+getPositions: () => {
+  return {
+    lat: 0,
+    lon: 0,
+    address: undefined,
+    status: 'no-location',
+    hasLocation: false,
+    isLocationingInProgress: false,
+    locationingFailed: false,
+  };
+},
+getFavouriteLocations: () => [],
+getStoredFavouriteRoutes: () => [],
+getOldSearches: () => [],
+getFavouriteStops: () => [],
+getLanguage: () => 'en',
+ }
 <DTAutosuggestPanel
-   config={}
-   origin={}
-   destination={}
+   config={config}
+   origin={origin}
+   destination={destination}
    isItinerary={false}
-   originPlaceHolder="Enter origin"
-   destinationPlaceHolder="Enter destination"
-   className=""
-   searchType=""
-   searchContext={}
-   value=""
-   ariaLabel=""
-   autoFocus={}
-   ariaLabel=""
-   onSelect={}
+   originPlaceHolder="Search for Origin"
+   destinationPlaceHolder="Search for Destination"
+   searchType="endpoint"
+   searchContext={searchContext}
+   onSelect={this.onSelect}
    lang="fi"
-   showSpinner={false}
-   addAnalyticsEvent={}
-   getLabel={}
+   addAnalyticsEvent={null}
+   getLabel={ () => "Label" }
 />
 ```
 

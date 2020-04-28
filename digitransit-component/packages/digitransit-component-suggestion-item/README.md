@@ -8,46 +8,6 @@ SuggestionItem renders suggestions for digitransit-autosuggest component.
 
 ### Examples
 
-Suggestions are fetched from https://api.digitransit.fi/geocoding/v1.
-Example suggestion object:
-```
-{
-   "type": "Feature",
-   "geometry": {
-      "type": "Point",
-      "coordinates": [
-         24.934074,
-         60.198118
-      ],
-   },
-   "properties": {
-      "id": "GTFS:HSL:1000004",
-      "gid": "gtfshsl:station:GTFS:HSL:1000004",
-      "layer": "station",
-      "source": "gtfshsl",
-      "source_id": "GTFS:HSL:1000004",
-      "name": "Pasila",
-      "postalcode": "00520",
-      "postalcode_gid": "whosonfirst:postalcode:421473063",
-      "confidence": 1,
-      "accuracy": "centroid",
-      "country": "Suomi",
-      "country_gid": "whosonfirst:country:0",
-      "country_a": "FIN",
-      "region": "Uusimaa",
-      "region_gid": "whosonfirst:region:85683067",
-      "localadmin": "Helsinki",
-      "localadmin_gid": "whosonfirst:localadmin:907199715",
-      "locality": "Helsinki",
-      "locality_gid": "whosonfirst:locality:101748417",
-      "neighbourhood": "Keski-Pasila",
-      "neighbourhood_gid": "whosonfirst:neighbourhood:1108727043",
-      "label": "Pasila (bussipysäkki), Keski-Pasila, Helsinki"
-   }
-}
-```
-
-
 ```javascript
 <SuggestionItem
    item={suggestionObject}

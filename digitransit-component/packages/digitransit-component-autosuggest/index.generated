@@ -3685,19 +3685,19 @@ module.exports = shallowEqual;
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
-// EXTERNAL MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/prop-types/index.js
+// EXTERNAL MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/prop-types/index.js
 var prop_types = __webpack_require__(1);
 var prop_types_default = /*#__PURE__*/__webpack_require__.n(prop_types);
 
-// EXTERNAL MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/react/index.js
+// EXTERNAL MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/react/index.js
 var react = __webpack_require__(0);
 var react_default = /*#__PURE__*/__webpack_require__.n(react);
 
-// EXTERNAL MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/classnames/index.js
+// EXTERNAL MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/classnames/index.js
 var classnames = __webpack_require__(5);
 var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 
-// EXTERNAL MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/recompose/pure.js
+// EXTERNAL MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/recompose/pure.js
 var pure = __webpack_require__(6);
 var pure_default = /*#__PURE__*/__webpack_require__.n(pure);
 
@@ -3811,6 +3811,8 @@ function getIcon(layer) {
  * @example
  * <SuggestionItem
  *    item={suggestionObject}
+ *    ariaContent={'Station - Pasila - Helsinki'}
+ *    loading={false}
  * />
  */
 
@@ -9947,15 +9949,15 @@ function toComment(sourceMap) {
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
-// EXTERNAL MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/prop-types/index.js
+// EXTERNAL MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/prop-types/index.js
 var prop_types = __webpack_require__(0);
 var prop_types_default = /*#__PURE__*/__webpack_require__.n(prop_types);
 
-// EXTERNAL MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/react/index.js
+// EXTERNAL MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/react/index.js
 var react = __webpack_require__(1);
 var react_default = /*#__PURE__*/__webpack_require__.n(react);
 
-// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/typeof.js
+// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/typeof.js
 function _typeof(obj) {
   "@babel/helpers - typeof";
 
@@ -9971,7 +9973,7 @@ function _typeof(obj) {
 
   return _typeof(obj);
 }
-// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/defineProperty.js
+// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/defineProperty.js
 function _defineProperty(obj, key, value) {
   if (key in obj) {
     Object.defineProperty(obj, key, {
@@ -9986,7 +9988,7 @@ function _defineProperty(obj, key, value) {
 
   return obj;
 }
-// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/objectSpread.js
+// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/objectSpread.js
 
 function _objectSpread(target) {
   for (var i = 1; i < arguments.length; i++) {
@@ -10006,13 +10008,13 @@ function _objectSpread(target) {
 
   return target;
 }
-// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/classCallCheck.js
+// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/classCallCheck.js
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
   }
 }
-// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/createClass.js
+// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/createClass.js
 function _defineProperties(target, props) {
   for (var i = 0; i < props.length; i++) {
     var descriptor = props[i];
@@ -10028,7 +10030,7 @@ function _createClass(Constructor, protoProps, staticProps) {
   if (staticProps) _defineProperties(Constructor, staticProps);
   return Constructor;
 }
-// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js
+// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js
 function _assertThisInitialized(self) {
   if (self === void 0) {
     throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -10036,7 +10038,7 @@ function _assertThisInitialized(self) {
 
   return self;
 }
-// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js
+// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js
 
 
 function _possibleConstructorReturn(self, call) {
@@ -10046,14 +10048,14 @@ function _possibleConstructorReturn(self, call) {
 
   return _assertThisInitialized(self);
 }
-// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js
+// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js
 function _getPrototypeOf(o) {
   _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
     return o.__proto__ || Object.getPrototypeOf(o);
   };
   return _getPrototypeOf(o);
 }
-// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
+// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
 function _setPrototypeOf(o, p) {
   _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
     o.__proto__ = p;
@@ -10062,7 +10064,7 @@ function _setPrototypeOf(o, p) {
 
   return _setPrototypeOf(o, p);
 }
-// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/inherits.js
+// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/inherits.js
 
 function _inherits(subClass, superClass) {
   if (typeof superClass !== "function" && superClass !== null) {
@@ -10078,7 +10080,7 @@ function _inherits(subClass, superClass) {
   });
   if (superClass) _setPrototypeOf(subClass, superClass);
 }
-// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
+// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
 function _arrayLikeToArray(arr, len) {
   if (len == null || len > arr.length) len = arr.length;
 
@@ -10088,16 +10090,16 @@ function _arrayLikeToArray(arr, len) {
 
   return arr2;
 }
-// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
+// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
 
 function _arrayWithoutHoles(arr) {
   if (Array.isArray(arr)) return _arrayLikeToArray(arr);
 }
-// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/iterableToArray.js
+// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/iterableToArray.js
 function _iterableToArray(iter) {
   if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
 }
-// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
+// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
 
 function _unsupportedIterableToArray(o, minLen) {
   if (!o) return;
@@ -10107,11 +10109,11 @@ function _unsupportedIterableToArray(o, minLen) {
   if (n === "Map" || n === "Set") return Array.from(n);
   if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
 }
-// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
+// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
   throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
-// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
+// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
 
 
 
@@ -10119,15 +10121,15 @@ function _nonIterableSpread() {
 function _toConsumableArray(arr) {
   return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
 }
-// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
+// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
 function _arrayWithHoles(arr) {
   if (Array.isArray(arr)) return arr;
 }
-// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
+// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
 function _nonIterableRest() {
   throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
-// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/toArray.js
+// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/toArray.js
 
 
 
@@ -10135,7 +10137,7 @@ function _nonIterableRest() {
 function _toArray(arr) {
   return _arrayWithHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableRest();
 }
-// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
+// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
 function _iterableToArrayLimit(arr, i) {
   if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
   var _arr = [];
@@ -10162,7 +10164,7 @@ function _iterableToArrayLimit(arr, i) {
 
   return _arr;
 }
-// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/slicedToArray.js
+// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/slicedToArray.js
 
 
 
@@ -10170,7 +10172,7 @@ function _iterableToArrayLimit(arr, i) {
 function _slicedToArray(arr, i) {
   return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
 }
-// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/dist/esm/i18next.js
+// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/dist/esm/i18next.js
 
 
 
@@ -12512,31 +12514,31 @@ var i18next = new i18next_I18n();
 
 /* harmony default export */ var esm_i18next = (i18next);
 
-// EXTERNAL MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/classnames/index.js
+// EXTERNAL MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/classnames/index.js
 var classnames = __webpack_require__(15);
 var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 
-// EXTERNAL MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/react-autosuggest/dist/index.js
+// EXTERNAL MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/react-autosuggest/dist/index.js
 var dist = __webpack_require__(75);
 var dist_default = /*#__PURE__*/__webpack_require__.n(dist);
 
-// EXTERNAL MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/lodash/orderBy.js
+// EXTERNAL MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/lodash/orderBy.js
 var orderBy = __webpack_require__(10);
 var orderBy_default = /*#__PURE__*/__webpack_require__.n(orderBy);
 
-// EXTERNAL MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/lodash/debounce.js
+// EXTERNAL MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/lodash/debounce.js
 var debounce = __webpack_require__(76);
 var debounce_default = /*#__PURE__*/__webpack_require__.n(debounce);
 
-// EXTERNAL MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/lodash/flatten.js
+// EXTERNAL MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/lodash/flatten.js
 var flatten = __webpack_require__(45);
 var flatten_default = /*#__PURE__*/__webpack_require__.n(flatten);
 
-// EXTERNAL MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/lodash/sortBy.js
+// EXTERNAL MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/lodash/sortBy.js
 var sortBy = __webpack_require__(77);
 var sortBy_default = /*#__PURE__*/__webpack_require__.n(sortBy);
 
-// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/digitransit-search-util/packages/digitransit-search-util-distance/index.js
+// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/digitransit-search-util/packages/digitransit-search-util-distance/index.js
 /**
  * Calculates distance betweeh two points.
  *
@@ -12568,23 +12570,23 @@ function distance(latlon1, latlon2) {
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return RADIUS * c;
 }
-// EXTERNAL MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/lodash/take.js
+// EXTERNAL MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/lodash/take.js
 var take = __webpack_require__(78);
 var take_default = /*#__PURE__*/__webpack_require__.n(take);
 
-// EXTERNAL MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/lodash/get.js
+// EXTERNAL MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/lodash/get.js
 var lodash_get = __webpack_require__(9);
 var get_default = /*#__PURE__*/__webpack_require__.n(lodash_get);
 
-// EXTERNAL MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/lodash/isString.js
+// EXTERNAL MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/lodash/isString.js
 var isString = __webpack_require__(11);
 var isString_default = /*#__PURE__*/__webpack_require__.n(isString);
 
-// EXTERNAL MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/lodash/uniqWith.js
+// EXTERNAL MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/lodash/uniqWith.js
 var uniqWith = __webpack_require__(26);
 var uniqWith_default = /*#__PURE__*/__webpack_require__.n(uniqWith);
 
-// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/digitransit-search-util/packages/digitransit-search-util-tru-eq/index.js
+// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/digitransit-search-util/packages/digitransit-search-util-tru-eq/index.js
 /**
  *  accept equality of non nullish values
  *
@@ -12599,7 +12601,7 @@ var uniqWith_default = /*#__PURE__*/__webpack_require__.n(uniqWith);
 function truEq(val1, val2) {
   return val1 && val2 && val1 === val2;
 }
-// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/digitransit-search-util/packages/digitransit-search-util-is-duplicate/index.js
+// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/digitransit-search-util/packages/digitransit-search-util-is-duplicate/index.js
 
 /**
  * Checks that is items duplicate
@@ -12656,7 +12658,7 @@ function isDuplicate(item1, item2) {
 
   return false;
 }
-// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/digitransit-search-util/packages/digitransit-search-util-helpers/index.js
+// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/digitransit-search-util/packages/digitransit-search-util-helpers/index.js
 
 
 
@@ -12831,23 +12833,23 @@ const sortSearchResults = (config, results, term = '') => {
   }], ['desc', 'desc']);
   return uniqWith_default()(orderedResults, isDuplicate);
 };
-// EXTERNAL MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/lodash/isEqual.js
+// EXTERNAL MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/lodash/isEqual.js
 var isEqual = __webpack_require__(79);
 var isEqual_default = /*#__PURE__*/__webpack_require__.n(isEqual);
 
-// EXTERNAL MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/lodash/memoize.js
+// EXTERNAL MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/lodash/memoize.js
 var memoize = __webpack_require__(44);
 var memoize_default = /*#__PURE__*/__webpack_require__.n(memoize);
 
-// EXTERNAL MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/lodash/escapeRegExp.js
+// EXTERNAL MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/lodash/escapeRegExp.js
 var escapeRegExp = __webpack_require__(80);
 var escapeRegExp_default = /*#__PURE__*/__webpack_require__.n(escapeRegExp);
 
-// EXTERNAL MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/lodash/cloneDeep.js
+// EXTERNAL MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/lodash/cloneDeep.js
 var cloneDeep = __webpack_require__(81);
 var cloneDeep_default = /*#__PURE__*/__webpack_require__.n(cloneDeep);
 
-// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/digitransit-search-util/packages/digitransit-search-util-uniq-by-label/index.js
+// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/digitransit-search-util/packages/digitransit-search-util-uniq-by-label/index.js
 
 
 
@@ -12923,7 +12925,7 @@ const getNameLabel = memoize_default()((suggestion, plain = false) => {
 function uniqByLabel(features) {
   return uniqWith_default()(features, (feat1, feat2) => isEqual_default()(getNameLabel(feat1.properties), getNameLabel(feat2.properties)) && feat1.properties.layer === feat2.properties.layer);
 }
-// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/digitransit-search-util/packages/digitransit-search-util-filter-matching-to-input/index.js
+// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/digitransit-search-util/packages/digitransit-search-util-filter-matching-to-input/index.js
 
 /**
  * Function that filters list matching to input.
@@ -12990,7 +12992,7 @@ function filterMatchingToInput(list, Input, fields) {
 
   return list;
 }
-// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/digitransit-search-util/packages/digitransit-search-util-serialize/index.js
+// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/digitransit-search-util/packages/digitransit-search-util-serialize/index.js
 /**
  * Serializes objects
  *
@@ -13013,7 +13015,7 @@ function serialize(obj, prefix) {
     return typeof v === 'object' ? serialize(v, k) : `${encodeURIComponent(k)}=${encodeURIComponent(v)}`;
   }).join('&');
 }
-// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/digitransit-search-util/packages/digitransit-search-util-get-json/index.js
+// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/digitransit-search-util/packages/digitransit-search-util-get-json/index.js
 
 /**
  *  Return Promise for a url json get request
@@ -13038,7 +13040,7 @@ function getJson(url, params) {
     }
   }).then(res => res.json());
 }
-// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/digitransit-search-util/packages/digitransit-search-util-get-geocoding-results/index.js
+// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/digitransit-search-util/packages/digitransit-search-util-get-geocoding-results/index.js
 
 const DEFAULT_PELIAS_URL = 'https://api.digitransit.fi/geocoding/v1/search';
 /**
@@ -13082,7 +13084,7 @@ function getGeocodingResults(searchString, searchParams, lang, focusPoint, sourc
     return res.features;
   });
 }
-// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/digitransit-search-util/packages/digitransit-search-util-execute-search-immidiate/index.js
+// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/digitransit-search-util/packages/digitransit-search-util-execute-search-immidiate/index.js
 
 
 
@@ -13582,6 +13584,26 @@ function suggestionToAriaContent(item) {
   const [name, label] = getNameLabel(item.properties, true);
   return [iconstr, name, label];
 }
+/**
+ * @example
+ * <DTAutosuggest
+ *    className=""
+ *    placeholder=""
+ *    icon=""
+ *    id=""
+ *    searchType=""
+ *    searchContext={}
+ *    value=""
+ *    ariaLabel=""
+ *    autoFocus={}
+ *    ariaLabel=""
+ *    onSelect={}
+ *    lang="fi"
+ *    showSpinner={false}
+ *    getLabel={}
+ * />
+ */
+
 
 class index_DTAutosuggest extends react_default.a.Component {
   constructor(props) {
