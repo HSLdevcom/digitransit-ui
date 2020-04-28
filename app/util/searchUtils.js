@@ -11,7 +11,7 @@ import { getJson } from './xhrPromise';
 import { distance } from './geo-utils';
 import { uniqByLabel } from './suggestionUtils';
 import mapPeliasModality from './pelias-to-modality-mapper';
-import { PREFIX_ROUTES } from './path';
+import { PREFIX_ROUTES, PREFIX_STOPS } from './path';
 
 /**
  * LayerType depicts the type of the point-of-interest.
@@ -42,7 +42,7 @@ export const mapRoute = item => {
     return null;
   }
 
-  const link = `/${PREFIX_ROUTES}/${item.gtfsId}/pysakit/${
+  const link = `/${PREFIX_ROUTES}/${item.gtfsId}/${PREFIX_STOPS}/${
     orderBy(item.patterns, 'code', ['asc'])[0].code
   }`;
 

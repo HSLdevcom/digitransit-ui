@@ -64,7 +64,7 @@ export default {
 
   meta: {
     description: APP_DESCRIPTION,
-    keywords: 'reitti,reitit,opas,reittiopas,joukkoliikenne',
+    keywords: `reitti,reitit,opas,reittiopas,joukkoliikenne`,
   },
 
   routeTimetables: {
