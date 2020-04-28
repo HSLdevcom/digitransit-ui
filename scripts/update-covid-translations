@@ -34,6 +34,8 @@ with open('app/translations.js') as f:
         if line.__contains__("},"):
             keep = False
 
+print("New translations are for:", trans)
+
 # Get the new German translations
 f = open('caresteouvert/locales/de.json',)
 data = json.load(f)
