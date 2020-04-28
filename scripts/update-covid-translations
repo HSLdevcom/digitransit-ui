@@ -69,29 +69,3 @@ for line in fileinput.FileInput("app/translations.js", inplace=1):
         for trans in new_en_trans:
             line = line.replace(line, line+trans)
     print(line, end='')
-
-"""
-# Rerender content of translations file to alphabetical order.
-de = False
-en = False
-de_rows = []
-en_rows = []
-with open('app/translations.js', 'r') as f:
-    for num, line in enumerate(f, 1):
-        if line == "  de: {\n":
-            de = True
-            de_num = num
-        if de:
-            de_rows.append(line)
-        if line == "  en: {\n":
-            en = True
-            en_num = num
-        if en:
-            en_rows.append(line)
-        if "}," in line:
-            de = False
-            en = False
-
-de_rows.sort()
-en_rows.sort()
-"""
