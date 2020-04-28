@@ -12,7 +12,6 @@ import {
   getOldSearches,
   getFavouriteStops,
   getLanguage,
-  getPositionStore,
 } from './storeUtils';
 import { startLocationWatch } from '../action/PositionActions';
 import { saveSearch } from '../action/SearchActions';
@@ -35,7 +34,6 @@ export default function intializeSearchContext(
   searchContext.getRoutes = getRoutes;
   searchContext.getStopAndStations = getStopAndStations;
   searchContext.getFavouriteRoutes = getFavouriteRoutes;
-  searchContext.positionStore = getPositionStore;
   searchContext.startLocationWatch = startLocationWatch;
   searchContext.saveSearch = saveSearch;
   searchContext.updateViaPointsFromMap = updateViaPointsFromMap;
