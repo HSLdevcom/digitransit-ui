@@ -107,18 +107,7 @@ export function reportError(error) {
 const getTopicOptions = (context, plan, match) => {
   const { config } = context;
   const { realTime } = config;
-  let useFuzzyTripMatch = false;
 
-  /* handle multiple feedid case */
-  config.feedIds.forEach(feedId => {
-    if (
-      !useFuzzyTripMatch &&
-      realTime[feedId] &&
-      realTime[feedId].useFuzzyTripMatching
-    ) {
-      useFuzzyTripMatch = true;
-    }
-  });
   const itineraries = (plan && plan.itineraries) || [];
   const activeIndex = getActiveIndex(match.location, itineraries);
   const itineraryVehicles = [];
@@ -126,9 +115,11 @@ const getTopicOptions = (context, plan, match) => {
   if (itineraries.length > 0) {
     itineraries[activeIndex].legs.forEach(leg => {
       if (leg.transitLeg && leg.trip) {
+        const feedId = leg.trip.gtfsId.split(':')[0];
         let vehicle;
-        if (useFuzzyTripMatch) {
+        if (realTime[feedId] && realTime[feedId].useFuzzyTripMatching) {
           vehicle = {
+            feedId,
             route: leg.route.gtfsId.split(':')[1],
             mode: leg.mode.toLowerCase(),
             direction: Number(leg.trip.directionId),
@@ -138,6 +129,7 @@ const getTopicOptions = (context, plan, match) => {
           };
         } else {
           vehicle = {
+            feedId,
             route: leg.route.gtfsId.split(':')[1],
             tripId: leg.trip.gtfsId.split(':')[1],
           };
@@ -197,10 +189,12 @@ class SummaryPage extends React.Component {
   configClient = itineraryVehicles => {
     const { config } = this.context;
     const { realTime } = config;
+    const feedIds = Array.from(
+      new Set(itineraryVehicles.map(vehicle => vehicle.feedId)),
+    );
     let feedId;
-
     /* handle multiple feedid case */
-    config.feedIds.forEach(fId => {
+    feedIds.forEach(fId => {
       if (!feedId && realTime[fId]) {
         feedId = fId;
       }
@@ -223,19 +217,24 @@ class SummaryPage extends React.Component {
     }
   };
 
-  updateClient = departures => {
+  updateClient = itineraryVehicles => {
     const { client, topics } = this.context.getStore(
       'RealTimeInformationStore',
     );
+    const clientConfig = this.configClient(itineraryVehicles);
+
     if (client) {
-      const clientConfig = this.configClient(departures);
       if (clientConfig) {
         this.context.executeAction(changeRealTimeClientTopics, {
           ...clientConfig,
           client,
           oldTopics: topics,
         });
+        return;
       }
+      this.context.executeAction(stopRealTimeClient, client);
+    } else {
+      this.startClient(itineraryVehicles);
     }
   };
 
