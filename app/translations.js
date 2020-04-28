@@ -262,6 +262,13 @@ const translations = {
   },
 
   de: {
+    'poi-bar': 'Kneipe',
+    'poi-childcare': 'Kinderbetreuung',
+    'poi-flower': 'Garten & Blumen',
+    'poi-health_center': 'Medizinische Einrichtung',
+    'poi-hotel': 'Unterkunft',
+    'poi-tourism_info': 'Tourist-Info',
+    'poi-townhall': 'Rathaus',
     'about-this-service': 'Über diesen Service',
     'accept-carpool-policy':
       'Ich habe die <a href="{policyUrl}" target="_blank">Datenschutzbestimmungen</a> und die <a href="{termsUrl}" target="_blank">AGB</a> gelesen und erkläre mich einverstanden.',
@@ -812,6 +819,13 @@ const translations = {
   },
 
   en: {
+    'poi-bar': 'Bar',
+    'poi-childcare': 'Childcare',
+    'poi-flower': 'Garden / flower',
+    'poi-health_center': 'Health center',
+    'poi-hotel': 'Hosting',
+    'poi-tourism_info': 'Tourism information',
+    'poi-townhall': 'Townhall',
     'about-this-service': 'About the service',
     'accept-carpool-policy':
       'I have read and agreed to the privacy <a href="{policyUrl}" targe="_blank">policy</a> and <a href="{termsUrl}" target="_blank">terms of use</a>.',
