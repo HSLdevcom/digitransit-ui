@@ -15,9 +15,22 @@ Panel that renders two DTAutosuggest search fields, including viapoint handling
 ### Examples
 
 ```javascript
+const searchContext = {
+  getFavouriteLocations: () => ({}),    // Function that returns array of favourite locations.
+  getFavouriteStops: () => ({}),        // Function that returns array of favourite stops.
+  getLanguage: () => ({}),              // Function that returns current language.
+  getStoredFavouriteRoutes: () => ({}), // Function that returns array of favourite routes.
+  getPositions: () => ({}),             // Function that returns user's geolocation.
+  getRoutes: () => ({}),                // Function that fetches routes from graphql API.
+  getStopAndStations: () => ({}),       // Function that fetches favourite stops and stations from graphql API.
+  getFavouriteRoutes: () => ({}),       // Function that fetches favourite routes from graphql API.
+  startLocationWatch: () => ({}),       // Function that locates users geolocation.
+  saveSearch: () => ({}),               // Function that saves search to old searches store.
+  updateViaPointsFromMap: () => ({}),   // Function that update via points to via point store.
+};
 const config = {
  search: {
-  identify searches for route numbers/labels: bus | train | metro 
+  identify searches for route numbers/labels: bus | train | metro
    lineRegexp: new RegExp(
     '(^[0-9]+[a-z]?$|^[yuleapinkrtdz]$|(^m[12]?b?$))',
     'i',
@@ -58,39 +71,6 @@ const destination = {
 }
 onSelect() {
  return null;
- }
-const searchContex = {
- // Optional, used by default to get store for positions, favouriteLocations, StoreFavouriteRoutes, FavouriteStops, language.
- context: null,
-positionStore: null,
-startLocationWatch: null,
-saveSearch: null,
-updateViaPointsFromMap: null,
-getRoutes() {
-  return Promise.resolve([]);
-},
-getStopAndStations() {
-  return Promise.resolve([]);
-},
-getFavouriteRoutes() {
-  return Promise.resolve([]);
-},
-getPositions: () => {
-  return {
-    lat: 0,
-    lon: 0,
-    address: undefined,
-    status: 'no-location',
-    hasLocation: false,
-    isLocationingInProgress: false,
-    locationingFailed: false,
-  };
-},
-getFavouriteLocations: () => [],
-getStoredFavouriteRoutes: () => [],
-getOldSearches: () => [],
-getFavouriteStops: () => [],
-getLanguage: () => 'en',
  }
 <DTAutosuggestPanel
    config={config}
