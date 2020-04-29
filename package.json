@@ -111,6 +111,8 @@
     }
   },
   "dependencies": {
+    "@digitransit-search-util/digitransit-search-util-get-json": "^0.0.1",
+    "@digitransit-search-util/digitransit-search-util-suggestion-to-location": "^0.0.1",
     "@babel/core": "7.8.7",
     "@babel/plugin-proposal-class-properties": "7.8.3",
     "@babel/plugin-proposal-json-strings": "7.8.3",
