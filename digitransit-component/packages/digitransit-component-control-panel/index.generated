@@ -208,10 +208,6 @@ var CtrlPanel = /*#__PURE__*/function (_React$Component) {
       }
 
       var children = _react.default.Children.map(this.props.children, function (child) {
-        if (!CtrlPanel.validTypes.includes(child.type)) {
-          console.error('invalid child of CtrlPanel:', child.type);
-        }
-
         var lang = _this.props.language;
 
         if (lang === undefined) {
@@ -240,8 +236,6 @@ _defineProperty(CtrlPanel, "NearStopsAndRoutes", NearStopsAndRoutes);
 _defineProperty(CtrlPanel, "OriginToDestination", OriginToDestination);
 
 _defineProperty(CtrlPanel, "SeparatorLine", SeparatorLine);
-
-_defineProperty(CtrlPanel, "validTypes", [NearStopsAndRoutes, SeparatorLine, OriginToDestination]);
 
 _defineProperty(CtrlPanel, "propTypes", {
   children: _propTypes.default.node,

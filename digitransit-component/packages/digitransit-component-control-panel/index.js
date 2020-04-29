@@ -154,8 +154,6 @@ class CtrlPanel extends React.Component {
 
   static SeparatorLine = SeparatorLine;
 
-  static validTypes = [NearStopsAndRoutes, SeparatorLine, OriginToDestination];
-
   static propTypes = {
     children: PropTypes.node,
     language: PropTypes.string.isRequired,
@@ -172,9 +170,6 @@ class CtrlPanel extends React.Component {
       style = getStyleMainBottom();
     }
     const children = React.Children.map(this.props.children, child => {
-      if (!CtrlPanel.validTypes.includes(child.type)) {
-        console.error('invalid child of CtrlPanel:', child.type);
-      }
       let lang = this.props.language;
       if (lang === undefined) {
         lang = 'fi';
