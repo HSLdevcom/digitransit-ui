@@ -15,7 +15,6 @@ import {
 } from './storeUtils';
 import { startLocationWatch } from '../action/PositionActions';
 import { saveSearch } from '../action/SearchActions';
-import updateViaPointsFromMap from '../action/ViaPointsActions';
 
 export default function intializeSearchContext(
   context,
@@ -36,5 +35,4 @@ export default function intializeSearchContext(
   searchContext.getFavouriteRoutes = getFavouriteRoutes;
   searchContext.startLocationWatch = startLocationWatch;
   searchContext.saveSearch = saveSearch;
-  searchContext.updateViaPointsFromMap = updateViaPointsFromMap;
 }

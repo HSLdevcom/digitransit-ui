@@ -31,7 +31,6 @@ class DTAutosuggestContainer extends React.Component {
     searchPanelText: PropTypes.string,
     origin: dtLocationShape,
     destination: dtLocationShape,
-    getViaPointsFromMap: PropTypes.bool,
     searchType: PropTypes.string,
     originPlaceHolder: PropTypes.string,
     destinationPlaceHolder: PropTypes.string,
@@ -226,7 +225,6 @@ class DTAutosuggestContainer extends React.Component {
         updateViaPoints={this.props.updateViaPoints}
         updateViaPointsFromMap={this.updateViaPointsFromMap}
         swapOrder={this.props.swapOrder}
-        getViaPointsFromMap={this.props.getViaPointsFromMap}
         getLabel={getLabel}
         addAnalyticsEvent={addAnalyticsEvent}
         lang={this.props.lang}
