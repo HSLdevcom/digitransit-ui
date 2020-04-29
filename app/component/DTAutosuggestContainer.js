@@ -6,7 +6,6 @@ import { intlShape } from 'react-intl';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
-import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import { withCurrentTime } from '../util/DTSearchUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -218,9 +217,7 @@ class DTAutosuggestContainer extends React.Component {
         searchContext={searchContext}
         initialViaPoints={this.props.initialViaPoints}
         updateViaPoints={this.props.updateViaPoints}
-        updateViaPointsFromMap={this.updateViaPointsFromMap}
         swapOrder={this.props.swapOrder}
-        getLabel={getLabel}
         addAnalyticsEvent={addAnalyticsEvent}
         lang={this.props.lang}
       />
@@ -245,7 +242,6 @@ class DTAutosuggestContainer extends React.Component {
         searchContext={searchContext}
         showSpinner={this.props.showSpinner}
         layers={this.props.layers}
-        getLabel={getLabel}
         lang={this.props.lang}
       />
     );
