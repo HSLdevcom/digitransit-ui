@@ -1,4 +1,4 @@
-import getNameLabel from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
+import { getNameLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 /**
  * Returns label for properties
  *
