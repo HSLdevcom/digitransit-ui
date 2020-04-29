@@ -29,15 +29,19 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -53,7 +57,7 @@ _i18next.default.addResourceBundle('fi', 'translation', _translations.default.fi
 _i18next.default.addResourceBundle('sv', 'translation', _translations.default.sv);
 
 function SeparatorLine() {
-  return _react.default.createElement("div", {
+  return /*#__PURE__*/_react.default.createElement("div", {
     id: "SeparatorLine",
     style: (0, _styles.getStyleSeparatorLine)()
   });
@@ -65,12 +69,12 @@ function OriginToDestination(_ref) {
 
   _i18next.default.changeLanguage(language);
 
-  return _react.default.createElement("div", {
+  return /*#__PURE__*/_react.default.createElement("div", {
     id: "OriginToDestination"
-  }, showTitle && _react.default.createElement("span", null, _i18next.default.t('title-origin-to-destination')), showTitle && _react.default.createElement("br", null), _react.default.createElement("input", {
+  }, showTitle && /*#__PURE__*/_react.default.createElement("span", null, _i18next.default.t('title-origin-to-destination')), showTitle && /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("input", {
     style: (0, _styles.getStyleInput)(),
     placeholder: _i18next.default.t('placeholder-origin')
-  }), _react.default.createElement("br", null), _react.default.createElement("input", {
+  }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("input", {
     style: (0, _styles.getStyleInput)(),
     placeholder: _i18next.default.t('placeholder-destination')
   }));
@@ -92,9 +96,9 @@ function NearStopsAndRoutes(_ref2) {
 
   _i18next.default.changeLanguage(language);
 
-  return _react.default.createElement("div", {
+  return /*#__PURE__*/_react.default.createElement("div", {
     id: "NearStopsAndRoutes"
-  }, showTitle && _react.default.createElement("span", null, _i18next.default.t('title-route-stop-station')), showTitle && _react.default.createElement("br", null), buttons.length > 0 && _react.default.createElement("div", {
+  }, showTitle && /*#__PURE__*/_react.default.createElement("span", null, _i18next.default.t('title-route-stop-station')), showTitle && /*#__PURE__*/_react.default.createElement("br", null), buttons.length > 0 && /*#__PURE__*/_react.default.createElement("div", {
     role: "group",
     "arial-label": _i18next.default.t('pick-mode')
   }, buttons.map(function (button) {
@@ -108,7 +112,7 @@ function NearStopsAndRoutes(_ref2) {
       c = '#ff6319';
     }
 
-    return _react.default.createElement(Icon, {
+    return /*#__PURE__*/_react.default.createElement(Icon, {
       key: button,
       img: "icon-icon_".concat(button),
       height: h,
@@ -116,10 +120,10 @@ function NearStopsAndRoutes(_ref2) {
       margin: 0.5,
       color: c
     });
-  })), _react.default.createElement("input", {
+  })), /*#__PURE__*/_react.default.createElement("input", {
     style: (0, _styles.getStyleInput)(),
     placeholder: _i18next.default.t('placeholder-route-stop-station')
-  }), _react.default.createElement("br", null));
+  }), /*#__PURE__*/_react.default.createElement("br", null));
 }
 
 NearStopsAndRoutes.propTypes = {
@@ -139,17 +143,17 @@ function Icon(_ref3) {
       height = _ref3.height,
       width = _ref3.width,
       margin = _ref3.margin;
-  return _react.default.createElement("span", {
+  return /*#__PURE__*/_react.default.createElement("span", {
     "aria-hidden": true,
     className: "icon-container"
-  }, _react.default.createElement("svg", {
+  }, /*#__PURE__*/_react.default.createElement("svg", {
     style: {
       fill: color || null,
       height: height ? "".concat(height, "em") : null,
       width: width ? "".concat(width, "em") : null,
       marginRight: margin ? "".concat(margin, "em") : null
     }
-  }, _react.default.createElement("use", {
+  }, /*#__PURE__*/_react.default.createElement("use", {
     xlinkHref: "#".concat(img)
   })));
 }
@@ -184,10 +188,12 @@ Icon.defaultProps = {
 var CtrlPanel = /*#__PURE__*/function (_React$Component) {
   _inherits(CtrlPanel, _React$Component);
 
+  var _super = _createSuper(CtrlPanel);
+
   function CtrlPanel() {
     _classCallCheck(this, CtrlPanel);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(CtrlPanel).apply(this, arguments));
+    return _super.apply(this, arguments);
   }
 
   _createClass(CtrlPanel, [{
@@ -219,7 +225,7 @@ var CtrlPanel = /*#__PURE__*/function (_React$Component) {
         });
       });
 
-      return _react.default.createElement(_react.Fragment, null, _react.default.createElement("div", {
+      return /*#__PURE__*/_react.default.createElement(_react.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
         key: "main",
         style: style
       }, children));

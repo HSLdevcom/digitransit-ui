@@ -19,12 +19,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
   adapter: new _enzymeAdapterReact.default()
 });
 (0, _mocha.describe)('Testing @digitransit-component/digitransit-component-control-panel module', function () {
-  var wrapper = (0, _enzyme.shallow)(_react.default.createElement(_.default, {
+  var wrapper = (0, _enzyme.shallow)( /*#__PURE__*/_react.default.createElement(_.default, {
     language: "fi",
     position: "left"
-  }, _react.default.createElement(_.default.OriginToDestination, {
+  }, /*#__PURE__*/_react.default.createElement(_.default.OriginToDestination, {
     showTitle: true
-  }), _react.default.createElement(_.default.SeparatorLine, null), _react.default.createElement(_.default.NearStopsAndRoutes, {
+  }), /*#__PURE__*/_react.default.createElement(_.default.SeparatorLine, null), /*#__PURE__*/_react.default.createElement(_.default.NearStopsAndRoutes, {
     showTitle: true,
     buttons: ['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike']
   })));
