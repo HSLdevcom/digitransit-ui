@@ -5,7 +5,7 @@ import { matchShape, routerShape } from 'found';
 import { intlShape } from 'react-intl';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
-import { getJson } from '@digitransit-search-util/digitransit-search-util-get-json';
+import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import { withCurrentTime } from '../util/DTSearchUtils';
