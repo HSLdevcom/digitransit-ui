@@ -19,7 +19,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
   adapter: new _enzymeAdapterReact.default()
 });
 (0, _mocha.describe)('Testing @digitransit-component/digitransit-component-suggestion-item module', function () {
-  var wrapper = (0, _enzyme.shallow)( /*#__PURE__*/_react.default.createElement(_.default, null));
+  var item = {};
+  var ariaContent = ['iconstr', 'label', 'name'];
+  var wrapper = (0, _enzyme.shallow)( /*#__PURE__*/_react.default.createElement(_.default, {
+    item: item,
+    ariaContent: ariaContent
+  }));
   (0, _mocha.it)('should render', function () {
     (0, _chai.expect)(wrapper.isEmptyRender()).to.equal(false);
   });

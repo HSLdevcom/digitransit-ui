@@ -12,7 +12,6 @@ import SuggestionItem from '@digitransit-component/digitransit-component-suggest
 import { getNameLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import Icon from './helpers/Icon';
 import translations from './helpers/translations';
-import './helpers/styles.scss';
 
 i18next.init({ lng: 'fi', resources: {} });
 

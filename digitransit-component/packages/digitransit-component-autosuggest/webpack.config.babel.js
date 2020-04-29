@@ -2,9 +2,10 @@ module.exports = {
   mode: 'production',
   entry: './index.js',
   output: {
+    globalObject: "typeof self !== 'undefined' ? self : this",
     filename: 'index.generated',
     path: __dirname,
-    libraryTarget: 'commonjs2',
+    libraryTarget: 'umd',
   },
   module: {
     rules: [
@@ -22,17 +23,15 @@ module.exports = {
         },
       },
       {
-        test: /\.scss$/,
-        use: ['css-loader', 'sass-loader'],
-      },
-      {
-        test: /\.css$/,
-        use: ['css-loader'],
-      },
-      {
         test: /\.svg$/,
         loader: 'url-loader',
       },
     ],
   },
+  externals: [
+    {
+      react: 'umd react',
+      'react-dom': 'umd react-dom',
+    },
+  ],
 };

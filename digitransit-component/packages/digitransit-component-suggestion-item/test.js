@@ -9,7 +9,11 @@ import SuggestionItem from '.';
 configure({ adapter: new Adapter() });
 
 describe('Testing @digitransit-component/digitransit-component-suggestion-item module', () => {
-  const wrapper = shallow(<SuggestionItem />);
+  const item = {};
+  const ariaContent = ['iconstr', 'label', 'name'];
+  const wrapper = shallow(
+    <SuggestionItem item={item} ariaContent={ariaContent} />,
+  );
 
   it('should render', () => {
     expect(wrapper.isEmptyRender()).to.equal(false);

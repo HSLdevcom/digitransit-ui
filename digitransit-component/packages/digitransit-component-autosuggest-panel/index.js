@@ -8,7 +8,6 @@ import withBreakpoint from '@digitransit-component/digitransit-component-with-br
 import Select from './helpers/Select';
 import Icon from './helpers/Icon';
 import translations from './helpers/translations';
-import './helpers/styles.scss';
 
 i18next.init({ lng: 'fi', resources: {} });
 

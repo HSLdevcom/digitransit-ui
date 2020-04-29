@@ -2,9 +2,10 @@ module.exports = {
   mode: 'production',
   entry: './index.js',
   output: {
+    globalObject: "typeof self !== 'undefined' ? self : this",
     filename: 'index.generated',
     path: __dirname,
-    libraryTarget: 'commonjs2',
+    libraryTarget: 'umd',
   },
   module: {
     rules: [
@@ -17,16 +18,9 @@ module.exports = {
           presets: [['@babel/preset-react', { useBuiltIns: true }]],
           plugins: [
             ['@babel/plugin-proposal-class-properties', { loose: true }],
+            ['@babel/plugin-proposal-numeric-separator', { loose: true }],
           ],
         },
-      },
-      {
-        test: /\.scss$/,
-        use: ['css-loader', 'sass-loader'],
-      },
-      {
-        test: /\.css$/,
-        use: ['css-loader'],
       },
       {
         test: /\.svg$/,
@@ -34,4 +28,10 @@ module.exports = {
       },
     ],
   },
+  externals: [
+    {
+      react: 'umd react',
+      'react-dom': 'umd react-dom',
+    },
+  ],
 };
