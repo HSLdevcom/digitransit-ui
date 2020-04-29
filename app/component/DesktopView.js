@@ -15,7 +15,7 @@ export default function DesktopView(
     <div className="desktop">
       <div className="main-content">
         <div className="desktop-title">
-          <h2>
+          <div className="title-container h2">
             <Link
               title={formatMessage({
                 id: 'back-to-front-page',
@@ -30,8 +30,8 @@ export default function DesktopView(
               img="icon-icon_arrow-collapse--right"
               className="arrow-icon"
             />
-            {title}
-          </h2>
+            <h1 className="h2">{title}</h1>
+          </div>
         </div>
         <div
           className={cx('scrollable-content-wrapper', {

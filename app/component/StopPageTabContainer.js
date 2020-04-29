@@ -6,11 +6,9 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import Relay from 'react-relay/classic';
 import { Link } from 'react-router';
 import some from 'lodash/some';
-
+import { AlertSeverityLevelType } from '../constants';
 import Icon from './Icon';
 import {
-  RouteAlertsQuery,
-  StopAlertsQuery,
   RouteAlertsWithContentQuery,
   StopAlertsWithContentQuery,
 } from '../util/alertQueries';
@@ -20,6 +18,9 @@ import {
   getServiceAlertsForStopRoutes,
   isAlertActive,
   getActiveAlertSeverityLevel,
+  getCancelationsForRoute,
+  getServiceAlertsForRoute,
+  getServiceAlertsForRouteStops,
 } from '../util/alertUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -72,7 +73,6 @@ function StopPageTabContainer(
     [...getServiceAlertsForStop(stop), ...getServiceAlertsForStopRoutes(stop)],
     currentTime,
   );
-
   const hasActiveServiceAlerts =
     getActiveAlertSeverityLevel(
       getServiceAlertsForStop(stop, intl),
@@ -82,10 +82,52 @@ function StopPageTabContainer(
       getServiceAlertsForStopRoutes(stop, intl),
       currentTime,
     );
+  const stopRoutesWithAlerts = [];
+
+  const modesByRoute = []; // DT-3387
+
+  if (stop.routes && stop.routes.length > 0) {
+    stop.routes.forEach(route => {
+      modesByRoute.push(route.mode); // DT-3387
+      const patternId = route.patterns.code;
+      const hasActiveRouteAlert = isAlertActive(
+        getCancelationsForRoute(route, patternId),
+        [
+          ...getServiceAlertsForRoute(route, patternId),
+          ...getServiceAlertsForRouteStops(route, patternId),
+        ],
+        currentTime,
+      );
+      const hasActiveRouteServiceAlerts = getActiveAlertSeverityLevel(
+        getServiceAlertsForRoute(route, patternId),
+        currentTime,
+      );
+      return (
+        (hasActiveRouteAlert || hasActiveRouteServiceAlerts) &&
+        stopRoutesWithAlerts.push(...route.alerts)
+      );
+    });
+  }
 
   const disruptionClassName =
-    (hasActiveAlert && 'active-disruption-alert') ||
-    (hasActiveServiceAlerts && 'active-service-alert');
+    ((hasActiveAlert ||
+      stopRoutesWithAlerts.some(
+        alert =>
+          alert.alertSeverityLevel === AlertSeverityLevelType.Severe ||
+          alert.alertSeverityLevel === AlertSeverityLevelType.Warning,
+      )) &&
+      'active-disruption-alert') ||
+    ((hasActiveServiceAlerts ||
+      stopRoutesWithAlerts.some(
+        alert =>
+          alert.alertSeverityLevel === AlertSeverityLevelType.Severe ||
+          alert.alertSeverityLevel === AlertSeverityLevelType.Warning,
+      )) &&
+      'active-service-alert');
+
+  const uniqModesByRoutes = Array.from(new Set(modesByRoute)); // DT-3387
+  const modeByRoutesOrStop =
+    uniqModesByRoutes.length === 1 ? uniqModesByRoutes[0] : stop.vehicleMode; // DT-3387
 
   return (
     <div className="stop-page-content-wrapper">
@@ -158,12 +200,14 @@ function StopPageTabContainer(
               <div>
                 <FormattedMessage
                   id={
-                    stop.vehicleMode === 'RAIL' || stop.vehicleMode === 'SUBWAY'
+                    modeByRoutesOrStop === 'RAIL' ||
+                    modeByRoutesOrStop === 'SUBWAY'
                       ? 'routes-tracks'
                       : 'routes-platforms'
                   }
                   defaultMessage={
-                    stop.vehicleMode === 'RAIL' || stop.vehicleMode === 'SUBWAY'
+                    modeByRoutesOrStop === 'RAIL' ||
+                    modeByRoutesOrStop === 'SUBWAY'
                       ? 'routes-tracks'
                       : 'routes-platforms'
                   }
@@ -175,8 +219,9 @@ function StopPageTabContainer(
             to={`${urlBase}/${Tab.Disruptions}`}
             className={cx('stop-tab-singletab', {
               active: activeTab === Tab.Disruptions,
-              'alert-active': hasActiveAlert,
-              'service-alert-active': hasActiveServiceAlerts,
+              'alert-active': hasActiveAlert || stopRoutesWithAlerts.length > 0,
+              'service-alert-active':
+                hasActiveServiceAlerts || stopRoutesWithAlerts.length > 0,
             })}
             onClick={() => {
               addAnalyticsEvent({
@@ -191,7 +236,11 @@ function StopPageTabContainer(
                 <Icon
                   className={`stop-page-tab_icon ${disruptionClassName ||
                     `no-alerts`}`}
-                  img={hasActiveAlert ? 'icon-icon_caution' : 'icon-icon_info'}
+                  img={
+                    disruptionClassName === 'active-disruption-alert'
+                      ? 'icon-icon_caution'
+                      : 'icon-icon_info'
+                  }
                 />
               </div>
               <div className={`${disruptionClassName || `no-alerts`}`}>
@@ -264,7 +313,6 @@ const containerComponent = Relay.createContainer(
     fragments: {
       stop: () => Relay.QL`
         fragment on Stop {
-          ${StopAlertsQuery}
           ${StopAlertsWithContentQuery}
           vehicleMode
           stoptimes: stoptimesWithoutPatterns(
@@ -279,9 +327,24 @@ const containerComponent = Relay.createContainer(
                 code
               }
               route {
-                ${RouteAlertsQuery}
+                gtfsId
+                shortName
+                longName
+                mode
+                color
                 ${RouteAlertsWithContentQuery}
               }
+            }
+          }
+          routes {
+            gtfsId
+            shortName
+            longName
+            mode
+            color
+            ${RouteAlertsWithContentQuery}
+            patterns {
+              code
             }
           }
         }

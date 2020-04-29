@@ -73,7 +73,7 @@ export default {
   realTimePatch: REALTIME_PATCH,
 
   // Google Tag Manager id
-  GTMid: 'GTM-PZV2S2V',
+  GTMid: process.env.GTM_ID || null,
 
   /*
    * by default search endpoints from all but gtfs sources, correct gtfs source
@@ -104,7 +104,7 @@ export default {
     minTransferTime: 120,
     optimize: 'QUICK',
     preferredRoutes: [],
-    ticketTypes: null,
+    ticketTypes: 'none',
     transferPenalty: 0,
     unpreferredRoutes: [],
     walkBoardCost: 600,
@@ -164,7 +164,7 @@ export default {
   maxBikingDistance: 100000,
   itineraryFiltering: 1.5, // drops 66% worse routes
   useUnpreferredRoutesPenalty: 1200, // adds 10 minute (weight) penalty to routes that are unpreferred
-  availableLanguages: ['fi', 'sv', 'en', 'fr', 'nb', 'de'],
+  availableLanguages: ['fi', 'sv', 'en', 'fr', 'nb', 'de', 'ro'],
   defaultLanguage: 'en',
   // This timezone data will expire on 31.12.2020
   timezoneData:
@@ -192,6 +192,8 @@ export default {
     },
 
     showZoneLimits: false,
+    // Number of days to include to the service time range from the future (DT-3317)
+    serviceTimeRange: 30,
   },
 
   nearestStopDistance: {
@@ -393,7 +395,7 @@ export default {
     },
 
     citybike: {
-      availableForSelection: false,
+      availableForSelection: true,
       defaultValue: false, // always false
     },
 
@@ -786,4 +788,11 @@ export default {
 
   timetables: {},
   showLogin: false,
+
+  /* Function that can be used to configure route names before displaying them
+     Takes routes gtfsId as input */
+  // eslint-disable-next-line no-unused-vars
+  getRoutePrefix: function routePrefix(routeId) {
+    return '';
+  },
 };

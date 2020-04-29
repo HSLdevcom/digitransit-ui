@@ -6,7 +6,10 @@ import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import ItineraryTimePicker from './ItineraryTimePicker';
 
-export default function TimeSelectors({ time, dates, changeTime, changeDate }) {
+export default function TimeSelectors(
+  { time, dates, changeTime, changeDate },
+  { intl },
+) {
   return (
     <div className="time-selectors">
       <ItineraryTimePicker
@@ -15,7 +18,15 @@ export default function TimeSelectors({ time, dates, changeTime, changeDate }) {
         changeTime={changeTime}
       />
       <div className="select-wrapper">
-        <select className="date" value={`${time.unix()}`} onChange={changeDate}>
+        <select
+          aria-label={intl.formatMessage({
+            id: 'select-date',
+            defaultMessage: 'Select date',
+          })}
+          className="date"
+          value={`${time.unix()}`}
+          onChange={changeDate}
+        >
           {dates}
         </select>
         <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />

@@ -70,9 +70,10 @@ function NextDeparturesList(props, context) {
         context.router.push(val);
       };
 
+      // DT-3331: added query string sort=no to Link's to
       const departureLinkUrl = `/${PREFIX_ROUTES}/${
         stoptime.pattern.route.gtfsId
-      }/${PREFIX_STOPS}/${stoptime.pattern.code}`;
+      }/${PREFIX_STOPS}/${stoptime.pattern.code}?sort=no`;
 
       // In case there's only one departure for the route,
       // add a dummy cell to keep the table layout from breaking
@@ -103,6 +104,7 @@ function NextDeparturesList(props, context) {
               alertSeverityLevel={departure.alertSeverityLevel}
               mode={stoptime.pattern.route.mode}
               text={stoptime.pattern.route.shortName}
+              gtfsId={stoptime.pattern.route.gtfsId}
             />
           </td>
           <td className="td-destination">

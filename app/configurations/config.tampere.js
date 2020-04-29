@@ -16,7 +16,7 @@ const maxLon = 24.9;
 export default configMerger(walttiConfig, {
   CONFIG,
 
-  appBarLink: { name: 'Nysse', href: 'http://www.nysse.fi/' },
+  appBarLink: { name: 'Nysse', href: 'https://joukkoliikenne.tampere.fi/' },
 
   colors: {
     primary: '#1c57cf',
@@ -36,7 +36,7 @@ export default configMerger(walttiConfig, {
 
   favicon: './sass/themes/tampere/favicon.png',
 
-  feedIds: ['tampere'],
+  feedIds: ['tampere', 'TampereVR'],
 
   geoJson: {
     layers: [
@@ -68,6 +68,8 @@ export default configMerger(walttiConfig, {
 
   itinerary: {
     showZoneLimits: true,
+    // Number of days to include to the service time range from the future (DT-3175)
+    serviceTimeRange: 60,
   },
 
   stopCard: {
@@ -76,7 +78,6 @@ export default configMerger(walttiConfig, {
       virtualMonitorBaseUrl: 'https://tremonitori.digitransit.fi/stop/tampere:',
     },
   },
-
   showTicketInformation: true,
 
   useTicketIcons: true,
@@ -85,7 +86,7 @@ export default configMerger(walttiConfig, {
     primaryAgencyName: 'Tampereen seudun joukkoliikenne',
   },
 
-  ticketLink: 'http://joukkoliikenne.tampere.fi/liput-ja-hinnat.html',
+  ticketLink: 'https://joukkoliikenne.tampere.fi/liput-ja-hinnat.html',
 
   // mapping fareId from OTP fare identifiers to human readable form
   fareMapping: function mapFareId(fareId) {
@@ -143,7 +144,7 @@ export default configMerger(walttiConfig, {
         name: 'footer-feedback',
         nameEn: 'Submit feedback',
         href:
-          'http://joukkoliikenne.tampere.fi/ohjeita-ja-tietoa/asiakaspalvelu/palaute.html',
+          'https://joukkoliikenne.tampere.fi/ohjeita-ja-tietoa/asiakaspalvelu/palaute.html',
         icon: 'icon-icon_speech-bubble',
       },
       {
@@ -155,6 +156,53 @@ export default configMerger(walttiConfig, {
     ],
   },
 
+  staticMessages: [
+    {
+      id: '3',
+      priority: -1,
+      shouldTrigger: true,
+      persistence: 'repeat',
+      content: {
+        fi: [
+          {
+            type: 'text',
+            content:
+              'Vuoroja voi peruuntua virusepidemian aikana. Tarkista matkasi tiedot ennakkoon. Perutut bussivuorot näkyvät yliviivattuna punaisella eivätkä ne tule reittiehdotuksiin. Perutut junavuorot voi tarkistaa ',
+          },
+          {
+            type: 'a',
+            content: 'VR:n palveluista',
+            href: 'https://www.vr.fi/cs/vr/fi/liikennetilanne',
+          },
+        ],
+        en: [
+          {
+            type: 'text',
+            content:
+              'Trips may be canceled during the virus epidemic. Check our travel information in advance. Cancelled bus trips appear in red and do not appear in route suggestions. Please check cancelled train trips at ',
+          },
+          {
+            type: 'a',
+            content: "VR's services",
+            href: 'https://www.vr.fi/cs/vr/en/traffic_info',
+          },
+        ],
+        sv: [
+          {
+            type: 'text',
+            content:
+              'Trips may be canceled during the virus epidemic. Check our travel information in advance. Cancelled bus trips appear in red and do not appear in route suggestions. Please check cancelled train trips at ',
+          },
+          {
+            type: 'a',
+            content: "VR's services",
+            href: 'https://www.vr.fi/cs/vr/sv/trafikinfo',
+          },
+        ],
+      },
+    },
+  ],
+
   aboutThisService: {
     fi: [
       {
@@ -163,7 +211,7 @@ export default configMerger(walttiConfig, {
           'Tervetuloa reittioppaaseen! Tämän palvelun tarjoaa Tampereen seudun joukkoliikenne (Nysse) reittisuunnittelua varten Tampereen kaupunkiseudun alueella (Kangasala, Lempäälä, Nokia, Orivesi, Pirkkala, Tampere, Vesilahti ja Ylöjärvi). Palvelu perustuu Digitransit-palvelualustaan.',
         ],
         link:
-          'http://joukkoliikenne.tampere.fi/ohjeita-ja-tietoa/digipalvelut/ohje-repa-reittiopas.html',
+          'https://joukkoliikenne.tampere.fi/ohjeita-ja-tietoa/digipalvelut/ohje-repa-reittiopas.html',
       },
       {
         header: 'Digitransit-palvelualusta',
@@ -235,6 +283,6 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  // Number of days to include to the service time range from the future (DT-3175)
-  itineraryFutureDays: 60,
+  // boarding a long distance train with bicycle costs extra
+  modesWithNoBike: ['RAIL'],
 });

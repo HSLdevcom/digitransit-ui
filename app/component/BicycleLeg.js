@@ -16,13 +16,14 @@ import {
   getCityBikeNetworkId,
   CityBikeNetworkType,
 } from '../util/citybikes';
+import { isKeyboardSelectionEvent } from '../util/browser';
 
 function BicycleLeg({ focusAction, index, leg }, { config }) {
   let stopsDescription;
   const distance = displayDistance(parseInt(leg.distance, 10), config);
   const duration = durationToString(leg.duration * 1000);
   let { mode } = leg;
-  let legDescription = <span>{leg.from.name}</span>;
+  let legDescription = <span>{leg.from ? leg.from.name : ''}</span>;
   const firstLegClassName = index === 0 ? 'start' : '';
   let modeClassName = 'bicycle';
 
@@ -68,7 +69,7 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
     legDescription = (
       <FormattedMessage
         id={isScooter ? 'rent-scooter-at' : 'rent-cycle-at'}
-        values={{ station: leg.from.name }}
+        values={{ station: leg.from ? leg.from.name : '' }}
         defaultMessage="Rent a bike at {station} station"
       />
     );
@@ -82,10 +83,24 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
     }
   }
 
-  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div key={index} className="row itinerary-row">
-      <div className="small-2 columns itinerary-time-column">
+      <span className="sr-only">
+        {leg.rentedBike === true && legDescription}
+        {(leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK') &&
+          stopsDescription}
+        <FormattedMessage
+          id="itinerary-details.biking-leg"
+          values={{
+            time: moment(leg.startTime).format('HH:mm'),
+            distance,
+            origin: leg.from ? leg.from.name : '',
+            destination: leg.to ? leg.to.name : '',
+            duration,
+          }}
+        />
+      </span>
+      <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
           {moment(leg.startTime).format('HH:mm')}
         </div>
@@ -99,13 +114,24 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
       <ItineraryCircleLine index={index} modeClassName={modeClassName} />
       <div
         onClick={focusAction}
+        onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
+        role="button"
+        tabIndex="0"
         className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${mode.toLowerCase()}`}
       >
-        <div className="itinerary-leg-first-row">
+        <span className="sr-only">
+          <FormattedMessage
+            id="itinerary-summary.show-on-map"
+            values={{ target: leg.from.name || '' }}
+          />
+        </span>
+        <div className="itinerary-leg-first-row" aria-hidden="true">
           {legDescription}
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>
-        <div className="itinerary-leg-action">{stopsDescription}</div>
+        <div className="itinerary-leg-action" aria-hidden="true">
+          {stopsDescription}
+        </div>
       </div>
     </div>
   );

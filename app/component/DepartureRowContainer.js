@@ -50,9 +50,10 @@ const DepartureRow = ({ departure, currentTime, distance }, context) => {
     context.router.push(val);
   };
 
+  // DT-3331: added query string sort=no
   const departureLinkUrl = `/${PREFIX_ROUTES}/${
     departure.pattern.route.gtfsId
-  }/${PREFIX_STOPS}/${departure.pattern.code}`;
+  }/${PREFIX_STOPS}/${departure.pattern.code}?sort=no`;
 
   // In case there's only one departure for the route,
   // add a dummy cell to keep the table layout from breaking
@@ -126,7 +127,7 @@ const exampleDeparture1 = {
     code: '28',
     headSign: 'Tampere',
     route: {
-      gtfsId: '123',
+      gtfsId: 'FOO:123',
       mode: 'RAIL',
       shortName: 'IC28',
     },
@@ -150,7 +151,7 @@ const exampleDeparture2 = {
     code: '154',
     headSign: 'Kamppi',
     route: {
-      gtfsId: '123',
+      gtfsId: 'HSL:123',
       mode: 'BUS',
       shortName: '154',
     },

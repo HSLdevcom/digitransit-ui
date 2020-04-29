@@ -129,6 +129,102 @@ describe('<StopPageTabContainer />', () => {
     expect(wrapper.find('.alert-active')).to.have.lengthOf(1);
   });
 
+  it('should mark the disruptions tab as having an active disruption alert due to a stop SEVERE level service alert', () => {
+    const props = {
+      breakpoint: 'large',
+      children: <div />,
+      location: {
+        pathname: 'foobar',
+      },
+      params: {
+        terminalId: 'HSL:2211275',
+      },
+      routes: [],
+      stop: {
+        alerts: [
+          {
+            alertSeverityLevel: AlertSeverityLevelType.Severe,
+          },
+        ],
+        stoptimesForServiceDate: [],
+      },
+    };
+    const wrapper = shallowWithIntl(<StopPageTabContainer {...props} />);
+    expect(wrapper.find('.active-disruption-alert')).to.have.lengthOf(2);
+  });
+
+  it('should mark the disruptions tab as having an active disruption alert due to a stop WARNING level service alert', () => {
+    const props = {
+      breakpoint: 'large',
+      children: <div />,
+      location: {
+        pathname: 'foobar',
+      },
+      params: {
+        terminalId: 'HSL:2211275',
+      },
+      routes: [],
+      stop: {
+        alerts: [
+          {
+            alertSeverityLevel: AlertSeverityLevelType.Warning,
+          },
+        ],
+        stoptimesForServiceDate: [],
+      },
+    };
+    const wrapper = shallowWithIntl(<StopPageTabContainer {...props} />);
+    expect(wrapper.find('.active-disruption-alert')).to.have.lengthOf(2);
+  });
+
+  it('should mark the disruptions tab as having an active info alert due to a stop UNKNOWN_SEVERITY level service alert', () => {
+    const props = {
+      breakpoint: 'large',
+      children: <div />,
+      location: {
+        pathname: 'foobar',
+      },
+      params: {
+        terminalId: 'HSL:2211275',
+      },
+      routes: [],
+      stop: {
+        alerts: [
+          {
+            alertSeverityLevel: AlertSeverityLevelType.Unkown,
+          },
+        ],
+        stoptimesForServiceDate: [],
+      },
+    };
+    const wrapper = shallowWithIntl(<StopPageTabContainer {...props} />);
+    expect(wrapper.find('.active-disruption-alert')).to.have.lengthOf(2);
+  });
+
+  it('should mark the disruptions tab as having an active info alert due to a stop INFO level service alert', () => {
+    const props = {
+      breakpoint: 'large',
+      children: <div />,
+      location: {
+        pathname: 'foobar',
+      },
+      params: {
+        terminalId: 'HSL:2211275',
+      },
+      routes: [],
+      stop: {
+        alerts: [
+          {
+            alertSeverityLevel: AlertSeverityLevelType.Info,
+          },
+        ],
+        stoptimesForServiceDate: [],
+      },
+    };
+    const wrapper = shallowWithIntl(<StopPageTabContainer {...props} />);
+    expect(wrapper.find('.active-service-alert')).to.have.lengthOf(2);
+  });
+
   it('should render empty if stop information is missing', () => {
     const props = {
       breakpoint: 'large',
@@ -215,4 +311,73 @@ describe('<StopPageTabContainer />', () => {
         .props().id,
     ).to.equal('routes-platforms');
   });
+});
+
+// DT-3387
+it('should render "Routes, platforms" when vehicleMode is rail but route´s mode is bus', () => {
+  const props = {
+    breakpoint: 'large',
+    children: <div />,
+    location: {
+      pathname: 'foobar',
+    },
+    params: {
+      stopId: 'HSL:2211275',
+    },
+    routes: [],
+    stop: {
+      vehicleMode: 'RAIL',
+      routes: [
+        {
+          mode: 'BUS',
+          patterns: [
+            {
+              code: 'HSL:9665A:0:02',
+            },
+          ],
+        },
+      ],
+    },
+  };
+  const wrapper = shallowWithIntl(<StopPageTabContainer {...props} />);
+  expect(
+    wrapper
+      .find(FormattedMessage)
+      .at(2)
+      .props().id,
+  ).to.equal('routes-platforms');
+});
+
+it('should render "Routes, platforms" when vehicleMode is subway but route´s mode is bus', () => {
+  const props = {
+    breakpoint: 'large',
+    children: <div />,
+    location: {
+      pathname: 'foobar',
+    },
+    params: {
+      stopId: 'HSL:2211275',
+    },
+    routes: [],
+    stop: {
+      vehicleMode: 'SUBWAY',
+      routes: [
+        {
+          mode: 'BUS',
+          patterns: [
+            {
+              code: 'HSL:9665A:0:02',
+            },
+          ],
+        },
+      ],
+    },
+  };
+  const wrapper = shallowWithIntl(<StopPageTabContainer {...props} />);
+  expect(
+    wrapper
+      .find(FormattedMessage)
+      .at(2)
+      .props().id,
+  ).to.equal('routes-platforms');
 });

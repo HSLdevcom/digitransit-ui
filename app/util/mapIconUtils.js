@@ -301,12 +301,20 @@ export function drawParkAndRideIcon(tile, geom, width, height) {
   );
 }
 
-export function drawCitybikeNotInUseIcon(tile, geom, imageSize) {
+export function drawCitybikeNotInUseIcon(
+  tile,
+  geom,
+  imageSize,
+  badgeSize,
+  scaleratio,
+) {
   return getImageFromSpriteCache(
     'icon-icon_not-in-use',
-    imageSize,
-    imageSize,
-  ).then(image => drawIconImage(image, tile, geom, imageSize, imageSize));
+    badgeSize,
+    badgeSize,
+  ).then(image =>
+    drawIconImageBadge(image, tile, geom, imageSize, badgeSize, scaleratio),
+  );
 }
 
 export function drawAvailabilityBadge(
@@ -362,3 +370,17 @@ export function drawAvailabilityValue(
   tile.ctx.textBaseline = 'middle';
   tile.ctx.fillText(value, x, y);
 }
+
+export const getZoneLabelColor = config => {
+  if (typeof config.colors !== 'undefined' && config.colors.primary) {
+    return config.colors.primary;
+  }
+  return '#000';
+};
+
+export const getZoneLabel = (zoneId, config) => {
+  if (config.zoneIdMapping) {
+    return config.zoneIdMapping[zoneId];
+  }
+  return zoneId;
+};

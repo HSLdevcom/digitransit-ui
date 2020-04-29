@@ -502,22 +502,8 @@ export default {
   useTicketIcons: true,
 
   cityBike: {
-    showCityBikes: false,
+    showCityBikes: true,
     networks: {
-      samocat: {
-        icon: 'scooter',
-        name: {
-          fi: 'Vuosaari',
-          sv: 'Nordsjö',
-          en: 'Vuosaari',
-        },
-        type: 'scooter',
-        url: {
-          fi: 'https://www.hsl.fi/potkulaudat',
-          sv: 'https://www.hsl.fi/sv/stadssparkcyklar',
-          en: 'https://www.hsl.fi/en/cityscooters',
-        },
-      },
       smoove: {
         icon: 'citybike',
         name: {
@@ -547,5 +533,15 @@ export default {
         },
       },
     },
+  },
+  showLogin: true,
+
+  /* Function that can be used to configure route names before displaying them
+     Takes routes gtfsId as input */
+  getRoutePrefix: function routePrefix(routeId) {
+    if (!routeId) {
+      return '';
+    }
+    return routeId.split(':')[1].substring(0, 1) === '7' ? 'U' : '';
   },
 };

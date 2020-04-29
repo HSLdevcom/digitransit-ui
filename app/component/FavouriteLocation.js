@@ -19,8 +19,7 @@ const FavouriteLocation = ({
   firstTransitLeg,
   clickFavourite,
 }) => {
-  const { locationName, id, lat, lon, selectedIconId } = favourite;
-
+  const { name, favouriteId, lat, lon, selectedIconId } = favourite;
   let departureTimeComponent;
   if (departureTime && currentTime < departureTime) {
     // Departure is in the future
@@ -50,6 +49,7 @@ const FavouriteLocation = ({
           mode={firstTransitLeg.mode}
           realtime={firstTransitLeg.realTime}
           text={firstTransitLeg.route.shortName}
+          gtfsId={firstTransitLeg.route.gtfsId}
         />
         &nbsp;
         {departureTimeComponent}
@@ -68,11 +68,11 @@ const FavouriteLocation = ({
     <div
       data-swipeable="true"
       className={cx('favourite-location-content', className)}
-      onClick={() => clickFavourite(locationName, lat, lon)}
+      onClick={() => clickFavourite(name, lat, lon)}
     >
       <div className="favourite-location-arrival">
         <Icon className="favourite-location-icon" img={selectedIconId} />
-        <div className="favourite-location-name">{locationName}</div>
+        <div className="favourite-location-name">{name}</div>
       </div>
 
       {info}
@@ -85,7 +85,7 @@ const FavouriteLocation = ({
             name: null,
           });
         }}
-        to={`/suosikki/muokkaa/${favouriteType}/${id}`}
+        to={`/suosikki/muokkaa/${favouriteType}/${favouriteId}`}
         className="cursor-pointer no-decoration"
       >
         <div className="favourite-edit-icon-click-area">
@@ -117,8 +117,8 @@ FavouriteLocation.propTypes = {
   firstTransitLeg: PropTypes.object,
 };
 
-FavouriteLocation.defaultProps = {
-  className: '',
+FavouriteLocation.contextTypes = {
+  config: PropTypes.object.isRequired,
 };
 
 FavouriteLocation.displayName = 'FavouriteLocation';

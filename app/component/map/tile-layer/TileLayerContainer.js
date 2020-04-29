@@ -30,6 +30,7 @@ import Loading from '../../Loading';
 import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
 import MapLayerStore, { mapLayerShape } from '../../../store/MapLayerStore';
 import Covid19OpeningHoursPopup from '../popups/Covid19OpeningHoursPopup';
+import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 
 const initialState = {
   selectableTargets: undefined,
@@ -75,6 +76,7 @@ class TileLayerContainer extends GridLayer {
     ref: 'popup',
     onClose: () => this.setState({ ...initialState }),
     autoPan: false,
+    onOpen: () => this.sendAnalytics(),
   };
 
   merc = new SphericalMercator({
@@ -211,6 +213,47 @@ class TileLayerContainer extends GridLayer {
 
   selectRow = option =>
     this.setState({ selectableTargets: [option], showSpinner: true });
+
+  /**
+   * Send an analytics event on opening popup
+   */
+  sendAnalytics() {
+    let name = null;
+    let type = null;
+    if (this.state.selectableTargets.length === 0) {
+      return;
+      // event for clicking somewhere else on the map will be handled in LocationPopup
+    }
+    if (this.state.selectableTargets.length === 1) {
+      const target = this.state.selectableTargets[0];
+      const { properties } = target.feature;
+      name = target.layer;
+      switch (name) {
+        case 'ticketSales':
+          type = properties.TYYPPI;
+          break;
+        case 'stop':
+          ({ type } = properties);
+          if (properties.stops) {
+            type += '_TERMINAL';
+          }
+          break;
+        default:
+          break;
+      }
+    } else {
+      name = 'multiple';
+    }
+    const pathPrefixMatch = window.location.pathname.match(/^\/([a-z]{2,})\//);
+    const context = pathPrefixMatch ? pathPrefixMatch[1] : 'index';
+    addAnalyticsEvent({
+      action: 'SelectMapPoint',
+      category: 'Map',
+      name,
+      type,
+      source: context,
+    });
+  }
 
   render() {
     let popup = null;

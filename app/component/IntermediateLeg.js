@@ -5,22 +5,27 @@ import React from 'react';
 import StopCode from './StopCode';
 import Icon from './Icon';
 import ZoneIcon from './ZoneIcon';
+import { getZoneLabel } from '../util/mapIconUtils';
 
-function IntermediateLeg({
-  color,
-  mode,
-  arrivalTime,
-  realTime,
-  name,
-  stopCode,
-  focusFunction,
-  showCurrentZoneDelimiter,
-  showZoneLimits,
-  previousZoneId,
-  currentZoneId,
-  nextZoneId,
-  isCanceled,
-}) {
+function IntermediateLeg(
+  {
+    color,
+    mode,
+    arrivalTime,
+    realTime,
+    name,
+    stopCode,
+    focusFunction,
+    showCurrentZoneDelimiter,
+    showZoneLimits,
+    previousZoneId,
+    currentZoneId,
+    nextZoneId,
+    isCanceled,
+    zoneLabelColor,
+  },
+  context,
+) {
   const modeClassName = mode.toLowerCase();
   const isDualZone = currentZoneId && (previousZoneId || nextZoneId);
   const isTripleZone = currentZoneId && previousZoneId && nextZoneId;
@@ -42,16 +47,41 @@ function IntermediateLeg({
       {showZoneLimits &&
         currentZoneId && (
           <div className="zone-icons-container">
-            {previousZoneId && <ZoneIcon zoneId={previousZoneId} />}
+            {previousZoneId && (
+              <ZoneIcon
+                zoneId={getZoneLabel(previousZoneId, context.config)}
+                zoneLabelColor={zoneLabelColor}
+                zoneLabelHeight="20px"
+                zoneLabelWidth="20px"
+                zoneLabelLineHeight="20px"
+                zoneIdFontSize="16px"
+                zoneLabelMarginLeft="-5px"
+              />
+            )}
             <ZoneIcon
-              zoneId={currentZoneId}
+              zoneId={getZoneLabel(currentZoneId, context.config)}
               className={cx({
                 'zone-delimiter':
                   showCurrentZoneDelimiter || (previousZoneId && currentZoneId),
               })}
+              zoneLabelColor={zoneLabelColor}
+              zoneLabelHeight="20px"
+              zoneLabelWidth="20px"
+              zoneLabelLineHeight="20px"
+              zoneIdFontSize="16px"
+              zoneLabelMarginLeft="-5px"
             />
             {nextZoneId && (
-              <ZoneIcon zoneId={nextZoneId} className="zone-delimiter" />
+              <ZoneIcon
+                zoneId={getZoneLabel(nextZoneId, context.config)}
+                zoneLabelColor={zoneLabelColor}
+                zoneLabelHeight="20px"
+                zoneLabelWidth="20px"
+                zoneLabelLineHeight="20px"
+                zoneIdFontSize="16px"
+                className="zone-delimiter"
+                zoneLabelMarginLeft="-5px"
+              />
             )}
           </div>
         )}
@@ -107,6 +137,7 @@ IntermediateLeg.propTypes = {
   currentZoneId: PropTypes.string,
   nextZoneId: PropTypes.string,
   isCanceled: PropTypes.bool,
+  zoneLabelColor: PropTypes.string,
 };
 
 IntermediateLeg.defaultProps = {
@@ -118,5 +149,7 @@ IntermediateLeg.defaultProps = {
   isCanceled: false,
   realTime: false,
 };
+
+IntermediateLeg.contextTypes = { config: PropTypes.object.isRequired };
 
 export default IntermediateLeg;

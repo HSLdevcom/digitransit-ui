@@ -53,7 +53,9 @@ export function validateParams(req, config) {
   );
 
   if (req.query.modes) {
-    const modeArray = req.query.modes.split(',');
+    const modeArray = Array.isArray(req.query.modes)
+      ? req.query.modes
+      : req.query.modes.split(',');
     modeArray.forEach(key => {
       if (availableModes.indexOf(key) === -1) {
         url = removeUrlParam(req, 'modes');

@@ -2,28 +2,19 @@
 
 .front-page {
   .nofavs-img {
-    height: 160px;
+    height: 80px;
     width: 100%;
     max-width: 160px;
     margin: 0 auto;
-    margin-bottom: 1em;
-    margin-top: 2.5em;
+    margin-top: 4.5em;
   }
 
-  &.bp-medium {
-    .nofavs-img {
-      height: 240px;
-      width: 100%;
-      max-width: 240px;
-    }
-  }
-
-  &.bp-small {
-    .nofavs-img {
-      height: 160px;
-      width: 100%;
-      max-width: 160px;
-    }
+  .no-favourites-icon {
+    fill: transparent;
+    stroke: $link-color;
+    stroke-width: 25px;
+    width: 56px;
+    height: 56px;
   }
 
   .nofavs-p {

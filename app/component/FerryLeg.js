@@ -31,8 +31,13 @@ const exampleLeg = t1 => ({
   rentedBike: false,
   intermediatePlaces: [],
   route: { gtfsId: '123', shortName: '19', mode: 'FERRY' },
-  trip: { tripHeadsign: 'Suomenlinna, päälait', pattern: { code: '123' } },
+  trip: {
+    gtfsId: '123',
+    tripHeadsign: 'Suomenlinna, päälait',
+    pattern: { code: '123' },
+  },
   from: { name: 'Kauppatori', stop: { code: '0099' } },
+  to: { name: 'Suomenlinna, päälait', stop: { code: '0072 ' } },
 });
 
 FerryLeg.description = () => {

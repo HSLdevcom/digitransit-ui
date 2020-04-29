@@ -58,7 +58,7 @@ const FavouritesPanel = ({
   routes,
   currentTime,
   favouriteLocations,
-  favouriteStops,
+  favouriteStopsAndStations,
   breakpoint,
 }) =>
   isBrowser && (
@@ -66,7 +66,7 @@ const FavouritesPanel = ({
       <FavouriteLocationsContainer
         origin={origin}
         currentTime={currentTime}
-        favourites={[...favouriteLocations, ...favouriteStops]}
+        favourites={[...favouriteLocations, ...favouriteStopsAndStations]}
       />
       <div
         className={`nearby-table-container ${breakpoint !== 'large' &&
@@ -93,7 +93,7 @@ FavouritesPanel.propTypes = {
   origin: dtLocationShape.isRequired, // eslint-disable-line react/no-typos
   currentTime: PropTypes.number.isRequired,
   favouriteLocations: PropTypes.array,
-  favouriteStops: PropTypes.array,
+  favouriteStopsAndStations: PropTypes.array,
   breakpoint: PropTypes.string.isRequired,
 };
 
@@ -102,7 +102,10 @@ const FilteredFavouritesPanel = shouldUpdate(
     nextProps.currentTime !== props.currentTime ||
     !isEqual(nextProps.routes, props.routes) ||
     !isEqual(nextProps.favouriteLocations, props.favouriteLocations) ||
-    !isEqual(nextProps.favouriteStops, props.favouriteStops) ||
+    !isEqual(
+      nextProps.favouriteStopsAndStations,
+      props.favouriteStopsAndStations,
+    ) ||
     nextProps.origin.gps !== props.origin.gps ||
     (!nextProps.origin.gps &&
       (nextProps.origin.lat !== props.origin.lat ||
@@ -116,21 +119,16 @@ export default connectToStores(
       panelctx={{ ...ctx, tab: TAB_FAVOURITES }}
     />
   ),
-  [
-    'FavouriteRoutesStore',
-    'TimeStore',
-    'FavouriteLocationStore',
-    'FavouriteStopsStore',
-  ],
+  ['FavouriteStore', 'TimeStore'],
   context => ({
-    routes: context.getStore('FavouriteRoutesStore').getRoutes(),
+    routes: context.getStore('FavouriteStore').getRoutes(),
     currentTime: context
       .getStore('TimeStore')
       .getCurrentTime()
       .unix(),
-    favouriteLocations: context
-      .getStore('FavouriteLocationStore')
-      .getLocations(),
-    favouriteStops: context.getStore('FavouriteStopsStore').getStops(),
+    favouriteLocations: context.getStore('FavouriteStore').getLocations(),
+    favouriteStopsAndStations: context
+      .getStore('FavouriteStore')
+      .getStopsAndStations(),
   }),
 );

@@ -218,6 +218,41 @@ describe('fareUtils', () => {
       expect(unknown.routeGtfsId).to.equal('FOO:1234');
       expect(unknown.routeName).to.equal('Merisataman lautta');
     });
+    it('should map route and agency props for unknown fares, even without known fares', () => {
+      const routes = [
+        {
+          agency: {
+            gtfsId: 'HSL:HSL',
+          },
+          gtfsId: 'HSL:1003',
+          longName: 'Olympiaterminaali - Eira - Kallio - Meilahti',
+        },
+        {
+          agency: {
+            fareUrl: 'foobaz',
+            gtfsId: 'FOO:BAR',
+            name: 'Merisataman lauttaliikenne',
+          },
+          gtfsId: 'FOO:1234',
+          longName: 'Merisataman lautta',
+        },
+      ];
+
+      const result = getFares(undefined, routes, defaultConfig);
+      expect(result).to.have.lengthOf(2);
+      expect(result.filter(fare => fare.isUnknown)).to.have.lengthOf(2);
+
+      const unknown = result.find(fare => fare.isUnknown);
+      expect(unknown.agency).to.deep.equal({
+        fareUrl: undefined,
+        gtfsId: 'HSL:HSL',
+        name: undefined,
+      });
+      expect(unknown.routeGtfsId).to.equal('HSL:1003');
+      expect(unknown.routeName).to.equal(
+        'Olympiaterminaali - Eira - Kallio - Meilahti',
+      );
+    });
 
     it('should not suggest unknown tickets if the total fare is known', () => {
       const fares = [

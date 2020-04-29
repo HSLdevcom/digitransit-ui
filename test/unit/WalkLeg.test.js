@@ -19,6 +19,10 @@ describe('<WalkLeg />', () => {
           name: 'Veturitori',
           stop: null,
         },
+        to: {
+          name: 'Testipaikka',
+          stop: null,
+        },
         mode: 'WALK',
         rentedBike: false,
         startTime: 1529589709000,
@@ -45,6 +49,10 @@ describe('<WalkLeg />', () => {
         duration: 289,
         from: {
           name: 'Veturitori',
+          stop: null,
+        },
+        to: {
+          name: 'Testipaikka',
           stop: null,
         },
         mode: 'WALK',
@@ -89,6 +97,10 @@ describe('<WalkLeg />', () => {
           name: 'Veturitori',
           stop: null,
         },
+        to: {
+          name: 'Testipaikka',
+          stop: null,
+        },
         mode: 'WALK',
         rentedBike: false,
         startTime: 1529589709000,
@@ -101,6 +113,10 @@ describe('<WalkLeg />', () => {
             networks: ['foobar'],
           },
           name: 'Kaisaniemenpuisto',
+          stop: null,
+        },
+        to: {
+          name: 'Testipaikka',
           stop: null,
         },
         mode: 'BICYCLE',
@@ -146,6 +162,10 @@ describe('<WalkLeg />', () => {
               },
             ],
           },
+        },
+        to: {
+          name: 'Testipaikka',
+          stop: null,
         },
         mode: 'WALK',
         rentedBike: false,

@@ -2,13 +2,24 @@ import ceil from 'lodash/ceil';
 import moment from 'moment';
 import { parseFeedMQTT } from './gtfsRtParser';
 
-const modeTranslate = {
-  train: 'rail',
-  metro: 'subway',
+const standardModes = ['bus', 'tram', 'ferry'];
+
+const getMode = mode => {
+  if (standardModes.includes(mode)) {
+    return mode;
+  }
+  if (mode === 'train') {
+    return 'rail';
+  }
+  if (mode === 'metro') {
+    return 'subway';
+  }
+  // bus mode should be used as fallback if mode is not one of the standard modes
+  return 'bus';
 };
 
 // getTopic
-// Returns MQTT topic to be subscribed
+// Returns a MQTT topic to be subscribed to
 // Input: options - route, direction, tripStartTime are used to generate the topic
 function getTopic(options, settings) {
   const route = options.route ? options.route : '+';
@@ -73,7 +84,7 @@ export function parseMessage(topic, message, agency) {
         parsedMessage.oday && parsedMessage.oday !== 'XXX'
           ? parsedMessage.oday
           : moment().format('YYYY-MM-DD'),
-      mode: modeTranslate[mode] ? modeTranslate[mode] : mode,
+      mode: getMode(mode),
       next_stop: `${agency}:${nextStop}`,
       timestamp: parsedMessage.tsi,
       lat: ceil(parsedMessage.lat, 5),

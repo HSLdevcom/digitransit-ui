@@ -1,8 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { LeafletProvider } from 'react-leaflet/es/context';
+import sinon from 'sinon';
 
-import { mountWithIntl } from '../../../helpers/mock-intl-enzyme';
+import {
+  shallowWithIntl,
+  mountWithIntl,
+} from '../../../helpers/mock-intl-enzyme';
 import {
   mockChildContextTypes,
   mockContext,
@@ -10,6 +14,7 @@ import {
 import TileLayerContainer, {
   Component,
 } from '../../../../../app/component/map/tile-layer/TileLayerContainer';
+import * as analytics from '../../../../../app/util/analyticsUtils';
 
 describe('<TileLayerContainer />', () => {
   it('should have an onClose handler defined for the popup', () => {
@@ -88,5 +93,42 @@ describe('<TileLayerContainer />', () => {
         .at(0)
         .prop('onClose'),
     ).to.not.equal(undefined);
+  });
+  it('should call addAnalyticsEvent on open', () => {
+    const props = {
+      tileSize: 1,
+      zoomOffset: 1,
+      mapLayers: { stop: {}, terminal: {}, ticketSales: {} },
+      leaflet: {
+        map: {
+          addLayer: () => null,
+          addEventParent: () => null,
+          closePopup: () => null,
+          removeEventParent: () => null,
+          options: { maxZoom: null, minZoom: null },
+        },
+      },
+    };
+    const spy = sinon.spy(analytics, 'addAnalyticsEvent');
+    const wrapper = shallowWithIntl(<Component {...props} />, {
+      context: {
+        ...mockContext,
+        getStore: () => ({
+          addChangeListener: () => {},
+          getCurrentTime: () => ({ unix: () => 123457890 }),
+          getMapLayers: () => ({
+            stop: {},
+            terminal: {},
+            ticketSales: {},
+          }),
+          on: () => {},
+        }),
+        config: { cityBike: {} },
+      },
+    });
+    wrapper.setState({ selectableTargets: [{ feature: { properties: {} } }] });
+    wrapper.prop('onOpen')();
+    expect(spy.calledOnce).to.equal(true);
+    spy.restore();
   });
 });

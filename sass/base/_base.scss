@@ -156,6 +156,7 @@ h1 a {
 }
 
 div.spinner-loader {
+  z-index: 40000;
   position: absolute;
   left: 50%;
   margin: $spinner-size * 0.25 0 0 $spinner-size * -0.5;
@@ -240,4 +241,16 @@ body select {
     stroke: white;
     stroke-width: 12;
   }
+}
+/*
+  Use this for content only intended for screen readers
+*/
+.sr-only:not(:focus):not(:active) {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
 }

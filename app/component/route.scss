@@ -823,6 +823,10 @@ div.route-tabs {
   }
   #select-route-pattern {
     cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: none;
   }
 
   button.toggle-direction,

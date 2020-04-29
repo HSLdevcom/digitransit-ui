@@ -7,7 +7,7 @@ const APP_TITLE = 'Matka.fi';
 const YEAR = 1900 + new Date().getYear();
 const STATIC_MESSAGE_URL =
   process.env.STATIC_MESSAGE_URL ||
-  'https://beta.vayla.fi/joukkoliikenne/yleisviesti/';
+  'https://tyokalu.navici.com/yleisviestipalvelu/messages/';
 
 // route timetable data needs to be up-to-date before this is enabled
 // const HSLRouteTimetable = require('./timetableConfigUtils').default.HSLRoutes;
@@ -98,6 +98,34 @@ export default {
   cityBike: {
     showCityBikes: true,
     networks: {
+      smoove: {
+        icon: 'citybike',
+        name: {
+          fi: 'Helsinki ja Espoo',
+          sv: 'Helsingfors och Esbo',
+          en: 'Helsinki and Espoo',
+        },
+        type: 'citybike',
+        url: {
+          fi: 'https://www.hsl.fi/kaupunkipyorat',
+          sv: 'https://www.hsl.fi/sv/stadscyklar',
+          en: 'https://www.hsl.fi/en/citybikes',
+        },
+      },
+      vantaa: {
+        icon: 'citybike-secondary',
+        name: {
+          fi: 'Vantaa',
+          sv: 'Vanda',
+          en: 'Vantaa',
+        },
+        type: 'citybike',
+        url: {
+          fi: 'https://www.hsl.fi/kaupunkipyorat',
+          sv: 'https://www.hsl.fi/sv/stadscyklar',
+          en: 'https://www.hsl.fi/en/citybikes',
+        },
+      },
       turku: {
         icon: 'citybike',
         name: {

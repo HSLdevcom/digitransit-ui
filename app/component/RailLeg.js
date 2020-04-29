@@ -21,6 +21,7 @@ const RailLeg = ({ leg, focusAction, index }) => (
 
 const exampleLeg = t1 => ({
   realTime: false,
+  stop: { zoneId: 'A' },
   transitLeg: true,
   startTime: t1 + 20000,
   endTime: t1 + 30000,
@@ -31,8 +32,9 @@ const exampleLeg = t1 => ({
   rentedBike: false,
   intermediatePlaces: [],
   route: { gtfsId: '123', shortName: 'P', mode: 'RAIL' },
-  trip: { tripHeadsign: 'Helsinki', pattern: { code: '123' } },
+  trip: { gtfsId: '123', tripHeadsign: 'Helsinki', pattern: { code: '123' } },
   from: { name: 'Käpylä', stop: { code: '0072' } },
+  to: { name: 'Helsinki', stop: { code: '0072 ' } },
 });
 
 RailLeg.description = () => {

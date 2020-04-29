@@ -5,7 +5,7 @@ module.exports = {
   sessionRequestTimeout: 120000,
   sessionsPerBrowser: 1,
   suitesPerSession: 50,
-  retry: 10,
+  retry: 5,
   tolerance: 10,
   antialiasingTolerance: 10,
   compositeImage: true,
@@ -17,20 +17,6 @@ module.exports = {
     parallelLimit: 3,
   },
   browsers: {
-    ie11: {
-      windowSize: '600x1024',
-      desiredCapabilities: {
-        os: 'Windows',
-        os_version: '10',
-        browserName: 'internet explorer',
-        browser: 'IE',
-        browser_version: '11',
-        locationContextEnabled: false,
-        'browserstack.selenium_version': '3.14.0',
-        'browserstack.timezone': 'Europe/Helsinki',
-        'browserstack.video': false,
-      },
-    },
     chrome: {
       windowSize: '600x1024',
       desiredCapabilities: {
@@ -39,12 +25,12 @@ module.exports = {
         browserName: 'chrome',
         browser_version: '72',
         locationContextEnabled: false,
-        'browserstack.selenium_version': '3.14.0',
+        'browserstack.selenium_version': '3.141.59',
         'browserstack.timezone': 'Europe/Helsinki',
         'browserstack.video': false,
       },
     },
-    safari11: {
+    safari: {
       windowSize: '600x1024',
       desiredCapabilities: {
         os: 'OS X',
@@ -52,12 +38,12 @@ module.exports = {
         browserName: 'safari',
         browser_version: '11.1',
         locationContextEnabled: false,
-        'browserstack.selenium_version': '3.14.0',
+        'browserstack.selenium_version': '3.141.59',
         'browserstack.timezone': 'Europe/Helsinki',
         'browserstack.video': false,
       },
     },
-    edge17: {
+    edge: {
       windowSize: '600x1024',
       desiredCapabilities: {
         os: 'Windows',
@@ -65,7 +51,7 @@ module.exports = {
         browserName: 'edge',
         browser_version: '17.0',
         locationContextEnabled: false,
-        'browserstack.selenium_version': '3.14.0',
+        'browserstack.selenium_version': '3.141.59',
         'browserstack.timezone': 'Europe/Helsinki',
         'browserstack.video': false,
       },

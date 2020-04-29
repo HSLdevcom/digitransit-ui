@@ -24,6 +24,9 @@ describe('<BicycleLeg />', () => {
             networks: ['foobar'],
           },
         },
+        to: {
+          name: 'Testipaikka',
+        },
       },
     };
     const wrapper = shallowWithIntl(<BicycleLeg {...props} />, {
@@ -52,6 +55,9 @@ describe('<BicycleLeg />', () => {
             bikesAvailable: 0,
             networks: ['foobar'],
           },
+        },
+        to: {
+          name: 'Testipaikka',
         },
       },
     };
@@ -89,6 +95,9 @@ describe('<BicycleLeg />', () => {
             networks: ['foobar'],
           },
         },
+        to: {
+          name: 'Testipaikka',
+        },
       },
     };
     const wrapper = shallowWithIntl(<BicycleLeg {...props} />, {
@@ -125,6 +134,9 @@ describe('<BicycleLeg />', () => {
             networks: ['foobar'],
           },
         },
+        to: {
+          name: 'Testipaikka',
+        },
       },
     };
     const wrapper = shallowWithIntl(<BicycleLeg {...props} />, {
@@ -139,9 +151,9 @@ describe('<BicycleLeg />', () => {
     expect(
       wrapper
         .find(FormattedMessage)
-        .at(1)
-        .prop('id'),
-    ).to.equal('cycle-distance-duration');
+        .find('[id="cycle-distance-duration"]')
+        .exists(),
+    ).to.equal(true);
   });
 
   it('should guide the user to ride a scooter', () => {
@@ -161,6 +173,9 @@ describe('<BicycleLeg />', () => {
             networks: ['foobar'],
           },
         },
+        to: {
+          name: 'Testipaikka',
+        },
       },
     };
     const wrapper = shallowWithIntl(<BicycleLeg {...props} />, {
@@ -175,9 +190,9 @@ describe('<BicycleLeg />', () => {
     expect(
       wrapper
         .find(FormattedMessage)
-        .at(1)
-        .prop('id'),
-    ).to.equal('scooter-distance-duration');
+        .find('[id="scooter-distance-duration"]')
+        .exists(),
+    ).to.equal(true);
   });
 
   it('should guide the user to walk a bike', () => {
@@ -196,6 +211,9 @@ describe('<BicycleLeg />', () => {
             bikesAvailable: 0,
             networks: ['foobar'],
           },
+        },
+        to: {
+          name: 'Testipaikka',
         },
       },
     };
@@ -232,6 +250,9 @@ describe('<BicycleLeg />', () => {
             bikesAvailable: 0,
             networks: ['foobar'],
           },
+        },
+        to: {
+          name: 'Testipaikka',
         },
       },
     };

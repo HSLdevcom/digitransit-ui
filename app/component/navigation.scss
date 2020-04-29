@@ -37,6 +37,7 @@ $content-background-color: $background-color;
   align-items: center;
   text-align: center;
   cursor: pointer;
+  white-space: nowrap;
 }
 .top-bar {
   position: relative;
@@ -344,11 +345,18 @@ section.content {
     color: $primary-font-color;
   }
 
-  h2 {
+  .title-container {
     @include font-medium;
     color: $primary-font-color;
     margin: 20px 30px;
     line-height: 1;
+  }
+
+  h1 {
+    @include font-medium;
+    color: $primary-font-color;
+    // line-height: 1;
+    display: inline;
   }
 
   .home-icon {

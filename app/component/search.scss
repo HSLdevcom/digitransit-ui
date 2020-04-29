@@ -52,10 +52,14 @@ $item-border-color: #eee;
 
   .autosuggest-input-icon {
     margin-top: 0.75em;
+    z-index: index($zindex, search-input-icon)
   }
 
   button.clear-input {
     font-size: 1rem;
+  }
+  .autosuggest-panel .react-autosuggest__container .react-autosuggest__suggestions-container--open {
+    top: 3rem;
   }
 }
 
@@ -396,6 +400,7 @@ div.map {
       overflow-y: scroll;
       position: absolute;
       width: 100%;
+      top: calc(3 * 0.875rem);
     }
   }
 
@@ -410,12 +415,12 @@ div.map {
   display: flex;
 
   & > div:nth-child(1) {
-    order: 2;
-    border-left: 1px solid rgba(151, 151, 151, 0.2);
-  }
-  & > div:nth-child(2) {
     order: 1;
     border-left: none;
+  }
+  & > div:nth-child(2) {
+    order: 2;
+    border-left: 1px solid rgba(151, 151, 151, 0.2);
   }
 }
 
@@ -505,10 +510,7 @@ div.map {
 
 .isItinerary {
   .autosuggest-input-icon {
-    &.origin,
-    &.destination {
-      z-index: 1;
-    }
+    z-index: index($zindex, search-input-icon)
   }
 }
 
@@ -676,6 +678,10 @@ input.react-autosuggest__input {
   }
 }
 
+.react-autosuggest__container {
+  display: flex;
+}
+
 .react-autosuggest__container--open .react-autosuggest__input {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
@@ -690,9 +696,10 @@ input.react-autosuggest__input {
   transition: border 0s;
   &:focus {
     box-shadow: none;
-    outline: none;
+    @include default-focus-outline;
     border: none;
     background: $white;
+    z-index: index($zindex, search-input-focus);
   }
 }
 
@@ -722,6 +729,7 @@ button.clear-input {
   }
   &:focus {
     background-color: $white;
+    @include default-focus-outline;
   }
 }
 

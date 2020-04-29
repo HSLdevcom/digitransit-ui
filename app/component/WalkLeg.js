@@ -16,6 +16,7 @@ import {
 } from '../util/citybikes';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
+import { isKeyboardSelectionEvent } from '../util/browser';
 
 function WalkLeg(
   { children, focusAction, index, leg, previousLeg },
@@ -35,10 +36,35 @@ function WalkLeg(
     config,
   ).type;
 
-  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
+  const returnNotice =
+    previousLeg && previousLeg.rentedBike ? (
+      <FormattedMessage
+        id={
+          networkType === CityBikeNetworkType.Scooter
+            ? 'return-scooter-to'
+            : 'return-cycle-to'
+        }
+        values={{ station: leg.from ? leg.from.name : '' }}
+        defaultMessage="Return the bike to {station} station"
+      />
+    ) : null;
+
   return (
     <div key={index} className="row itinerary-row">
-      <div className="small-2 columns itinerary-time-column">
+      <span className="sr-only">
+        {returnNotice}
+        <FormattedMessage
+          id="itinerary-details.walk-leg"
+          values={{
+            time: moment(leg.startTime).format('HH:mm'),
+            distance,
+            duration,
+            origin: leg.from ? leg.from.name : '',
+            destination: leg.to ? leg.to.name : '',
+          }}
+        />
+      </span>
+      <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
           {moment(leg.startTime).format('HH:mm')}
         </div>
@@ -47,23 +73,20 @@ function WalkLeg(
       <ItineraryCircleLine index={index} modeClassName={modeClassName} />
       <div
         onClick={focusAction}
+        onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
+        role="button"
+        tabIndex="0"
         className={`small-9 columns itinerary-instruction-column ${leg.mode.toLowerCase()}`}
       >
-        <div className="itinerary-leg-first-row">
+        <span className="sr-only">
+          <FormattedMessage
+            id="itinerary-summary.show-on-map"
+            values={{ target: leg.from.name || '' }}
+          />
+        </span>
+        <div className="itinerary-leg-first-row" aria-hidden="true">
           <div>
-            {previousLeg && previousLeg.rentedBike ? (
-              <FormattedMessage
-                id={
-                  networkType === CityBikeNetworkType.Scooter
-                    ? 'return-scooter-to'
-                    : 'return-cycle-to'
-                }
-                values={{ station: leg.from.name }}
-                defaultMessage="Return the bike to {station} station"
-              />
-            ) : (
-              leg.from.name
-            )}
+            {returnNotice || leg.from.name}
             <ServiceAlertIcon
               className="inline-icon"
               severityLevel={getActiveAlertSeverityLevel(
@@ -75,7 +98,7 @@ function WalkLeg(
           </div>
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>
-        <div className="itinerary-leg-action">
+        <div className="itinerary-leg-action" aria-hidden="true">
           <FormattedMessage
             id="walk-distance-duration"
             values={{ distance, duration }}

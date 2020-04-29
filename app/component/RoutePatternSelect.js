@@ -1,3 +1,6 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable func-names */
+/* eslint-disable import/no-unresolved */
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Relay from 'react-relay/classic';
@@ -6,7 +9,10 @@ import sortBy from 'lodash/sortBy';
 import { routerShape } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import moment from 'moment';
-
+import {
+  enrichPatterns,
+  routePatternOptionText,
+} from '@digitransit-util/digitransit-util';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import {
@@ -14,7 +20,8 @@ import {
   twoRoutePatterns as exampleTwoRoutePatterns,
 } from './ExampleData';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
-
+import { addAnalyticsEvent } from '../util/analyticsUtils';
+// DT-3317
 const DATE_FORMAT = 'YYYYMMDD';
 
 class RoutePatternSelect extends Component {
@@ -26,6 +33,8 @@ class RoutePatternSelect extends Component {
     serviceDay: PropTypes.string.isRequired,
     relay: PropTypes.object.isRequired,
     gtfsId: PropTypes.string.isRequired,
+    useCurrentTime: PropTypes.bool, // DT-3182
+    lang: PropTypes.string.isRequired, // DT-3347
   };
 
   static defaultProps = {
@@ -34,6 +43,8 @@ class RoutePatternSelect extends Component {
 
   static contextTypes = {
     router: routerShape.isRequired,
+    config: PropTypes.object, // DT-3317
+    getStore: PropTypes.func.isRequired, // DT-3347
   };
 
   constructor(props) {
@@ -52,34 +63,53 @@ class RoutePatternSelect extends Component {
   };
 
   getOptions = () => {
-    const { gtfsId, params, route } = this.props;
+    const { gtfsId, params, route, useCurrentTime, lang } = this.props; // DT-3182: added useCurrentTime, DT-3347: added lang
     const { router } = this.context;
-
     const { patterns } = route;
 
     if (patterns.length === 0) {
       return null;
     }
 
-    const options = sortBy(patterns, 'code').map(pattern => {
-      if (patterns.length === 2) {
-        return (
-          <div
-            key={pattern.code}
-            value={pattern.code}
-            className="route-option-togglable"
-          >
-            {pattern.stops[0].name} ➔ {pattern.headsign}
-          </div>
-        );
-      }
+    const futureTrips = enrichPatterns(
+      patterns,
+      useCurrentTime,
+      this.context.config.itinerary.serviceTimeRange,
+    );
 
-      return (
-        <option key={pattern.code} value={pattern.code}>
-          {pattern.stops[0].name} ➔ {pattern.headsign}
-        </option>
-      );
-    });
+    if (futureTrips.length === 0) {
+      return null;
+    }
+
+    // DT-3182: added sortBy 'tripsForDate.length' (reverse() = descending)
+    // DT-2531: added sortBy 'activeDates.length'
+    const options = sortBy(
+      sortBy(
+        sortBy(sortBy(futureTrips, 'code').reverse(), 'activeDates.length'),
+        'activeDates[0]',
+      ).reverse(),
+      'tripsForDate.length',
+    )
+      .reverse()
+      .map(pattern => {
+        // DT-2531 changed to correct variable (maybe confusing with variable 'patterns')
+        if (futureTrips.length === 2) {
+          return (
+            <div
+              key={pattern.code}
+              value={pattern.code}
+              className="route-option-togglable"
+            >
+              {routePatternOptionText(lang, pattern, true)}
+            </div>
+          );
+        }
+        return (
+          <option key={pattern.code} value={pattern.code}>
+            {routePatternOptionText(lang, pattern, false)}
+          </option>
+        );
+      });
 
     if (options.every(o => o.key !== params.patternId)) {
       router.replace(
@@ -104,6 +134,14 @@ class RoutePatternSelect extends Component {
               id="select-route-pattern"
               onChange={e => this.props.onSelectChange(e.target.value)}
               value={this.props.params && this.props.params.patternId}
+              // mousedown works for detecting select box open atleast for firefox, chrome and edge
+              onMouseDown={() => {
+                addAnalyticsEvent({
+                  category: 'Route',
+                  action: 'OpenDirectionMenu',
+                  name: null,
+                });
+              }}
             >
               {options}
             </select>
@@ -179,6 +217,7 @@ RoutePatternSelect.description = () => (
   </div>
 );
 
+// DT-2531: added activeDates
 const withStore = connectToStores(
   Relay.createContainer(RoutePatternSelect, {
     initialVariables: {
@@ -193,9 +232,9 @@ const withStore = connectToStores(
           stops {
             name
           }
-          tripsForDate(serviceDay: $serviceDay) {
+          tripsForDate(serviceDate: $serviceDay) {
             id
-            stoptimes: stoptimesForDate(serviceDay: $serviceDay) {
+            stoptimes: stoptimesForDate(serviceDate: $serviceDay) {
               scheduledArrival
               scheduledDeparture
               serviceDay
@@ -204,17 +243,21 @@ const withStore = connectToStores(
               }
             }
           }
+          activeDates: trips {
+            day: activeDates
+          }
         }
       }
       `,
     },
   }),
-  [],
+  ['PreferencesStore'],
   context => ({
     serviceDay: context
       .getStore('TimeStore')
       .getCurrentTime()
       .format(DATE_FORMAT),
+    lang: context.getStore('PreferencesStore').getLanguage(), // DT-3347
   }),
 );
 

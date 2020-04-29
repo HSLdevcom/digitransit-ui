@@ -59,23 +59,23 @@ const OriginSelector = (
     : favouriteLocations
         .map(f => (
           <OriginSelectorRow
-            key={`fl-${f.locationName}`}
+            key={`fl-${f.name}`}
             icon={getIcon('favourite')}
             onClick={() => {
-              setOrigin({ ...f, address: f.locationName });
+              setOrigin({ ...f, address: f.name });
             }}
-            label={f.locationName}
+            label={f.name}
           />
         ))
         .concat(
           favouriteStops.map(f => (
             <OriginSelectorRow
-              key={`fs-${f.locationName}`}
+              key={`fs-${f.name}`}
               icon={getIcon('favourite')}
               onClick={() => {
-                setOrigin({ ...f, address: f.locationName });
+                setOrigin({ ...f, address: f.name });
               }}
-              label={f.locationName}
+              label={f.name}
             />
           )),
         )
@@ -139,12 +139,10 @@ OriginSelector.contextTypes = {
 
 const connectedComponent = connectToStores(
   OriginSelector,
-  ['FavouriteLocationStore', 'FavouriteStopsStore', 'OldSearchesStore'],
+  ['OldSearchesStore', 'FavouriteStore'],
   context => ({
-    favouriteLocations: context
-      .getStore('FavouriteLocationStore')
-      .getLocations(),
-    favouriteStops: context.getStore('FavouriteStopsStore').getStops(),
+    favouriteLocations: context.getStore('FavouriteStore').getLocations(),
+    favouriteStops: context.getStore('FavouriteStore').getStopsAndStations(),
     oldSearches: context
       .getStore('OldSearchesStore')
       .getOldSearches('endpoint'),
