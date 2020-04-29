@@ -1,0 +1,26 @@
+"use strict";
+
+var _react = _interopRequireDefault(require("react"));
+
+var _enzymeAdapterReact = _interopRequireDefault(require("enzyme-adapter-react-16"));
+
+var _chai = require("chai");
+
+var _mocha = require("mocha");
+
+var _enzyme = require("enzyme");
+
+var _ = _interopRequireDefault(require("."));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/* eslint-disable import/no-extraneous-dependencies */
+(0, _enzyme.configure)({
+  adapter: new _enzymeAdapterReact.default()
+});
+(0, _mocha.describe)('Testing @digitransit-component/digitransit-component-with-breakpoint module', function () {
+  var wrapper = (0, _enzyme.shallow)( /*#__PURE__*/_react.default.createElement(_.default, null));
+  (0, _mocha.it)('should render', function () {
+    (0, _chai.expect)(wrapper.isEmptyRender()).to.equal(false);
+  });
+});

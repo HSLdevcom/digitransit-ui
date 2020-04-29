@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-autosuggest-panel",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "digitransit-component autosuggest-panel module",
   "main": "index.generated",
   "publishConfig": {
@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build:index": "webpack --config webpack.config.babel.js",
-    "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-proposal-class-properties --out-file test.generated",
+    "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-proposal-class-properties,@babel/plugin-proposal-numeric-separator --out-file test.generated",
     "test": "mocha -r esm test.generated",
     "docs": "node -r esm ../../scripts/generate-readmes",
     "publish": "yarn publish --access public"
