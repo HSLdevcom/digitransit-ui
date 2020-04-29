@@ -127,11 +127,14 @@ class Covid19OpeningHoursPopup extends React.Component {
           )}
           <p>
             <span className="covid-19-badge">COVID-19</span>
+            {/* eslint-disable-next-line no-nested-ternary */}
             {status === 'unknown' && tags.opening_hours ? (
               <FormattedMessage
                 id="covid-19-different-hours"
                 defaultMessage="Opening hours may be different"
               />
+            ) : status === 'open_adapted' ? (
+              <FormattedMessage id="covid-19-partial" defaultMessage={status} />
             ) : (
               <FormattedMessage
                 id={`covid-19-${status}`}
