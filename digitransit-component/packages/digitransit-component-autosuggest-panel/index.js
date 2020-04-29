@@ -74,7 +74,6 @@ ItinerarySearchControl.propTypes = {
  *   getFavouriteRoutes: () => ({}),       // Function that fetches favourite routes from graphql API.
  *   startLocationWatch: () => ({}),       // Function that locates users geolocation.
  *   saveSearch: () => ({}),               // Function that saves search to old searches store.
- *   updateViaPointsFromMap: () => ({}),   // Function that update via points to via point store.
  * };
  * const config = {
  *  search: {
@@ -99,7 +98,7 @@ ItinerarySearchControl.propTypes = {
  * },
  *  searchParams: {},
  *   URL: {
- *     PELIAS: https://dev-api.digitransit.fi/geocoding/v1'
+ *     PELIAS: 'https://dev-api.digitransit.fi/geocoding/v1'
  *   },
  *   feedIds: [],
  *  }
@@ -125,14 +124,11 @@ ItinerarySearchControl.propTypes = {
  *    origin={origin}
  *    destination={destination}
  *    isItinerary={false}
- *    originPlaceHolder="Search for Origin"
- *    destinationPlaceHolder="Search for Destination"
  *    searchType="endpoint"
  *    searchContext={searchContext}
  *    onSelect={this.onSelect}
  *    lang="fi"
  *    addAnalyticsEvent={null}
- *    getLabel={ () => "Label" }
  * />
  */
 class DTAutosuggestPanel extends React.Component {
@@ -146,14 +142,12 @@ class DTAutosuggestPanel extends React.Component {
     searchType: PropTypes.string,
     initialViaPoints: PropTypes.arrayOf(PropTypes.object),
     updateViaPoints: PropTypes.func,
-    updateViaPointsFromMap: PropTypes.func,
     breakpoint: PropTypes.string.isRequired,
     swapOrder: PropTypes.func,
     getViaPointsFromMap: PropTypes.bool,
     searchPanelText: PropTypes.string,
     searchContext: PropTypes.any.isRequired,
     onSelect: PropTypes.func,
-    getLabel: PropTypes.func,
     addAnalyticsEvent: PropTypes.func,
     lang: PropTypes.string,
   };
@@ -197,7 +191,6 @@ class DTAutosuggestPanel extends React.Component {
       this.setState({
         viaPoints: [], // getIntermediatePlaces(this.context.match.location.query),
       });
-      this.props.updateViaPointsFromMap();
     }
   };
 
@@ -486,7 +479,6 @@ class DTAutosuggestPanel extends React.Component {
             isFocused={this.isFocused}
             searchContext={searchContext}
             onSelect={this.props.onSelect}
-            getLabel={this.props.getLabel}
             focusChange={this.handleFocusChange}
             lang={this.props.lang}
           />
@@ -540,7 +532,6 @@ class DTAutosuggestPanel extends React.Component {
                   handelViaPoints={item =>
                     this.handleViaPointLocationSelected(item, i)
                   }
-                  getLabel={this.props.getLabel}
                   lang={this.props.lang}
                 />
                 <div className="via-point-button-container">
@@ -628,7 +619,6 @@ class DTAutosuggestPanel extends React.Component {
             searchContext={searchContext}
             onSelect={this.props.onSelect}
             value={this.value(this.props.destination)}
-            getLabel={this.props.getLabel}
             lang={this.props.lang}
           />
           <ItinerarySearchControl

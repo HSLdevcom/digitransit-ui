@@ -26,7 +26,6 @@ const searchContext = {
   getFavouriteRoutes: () => ({}),       // Function that fetches favourite routes from graphql API.
   startLocationWatch: () => ({}),       // Function that locates users geolocation.
   saveSearch: () => ({}),               // Function that saves search to old searches store.
-  updateViaPointsFromMap: () => ({}),   // Function that update via points to via point store.
 };
 const config = {
  search: {
@@ -51,7 +50,7 @@ const config = {
 },
  searchParams: {},
   URL: {
-    PELIAS: https://dev-api.digitransit.fi/geocoding/v1'
+    PELIAS: 'https://dev-api.digitransit.fi/geocoding/v1'
   },
   feedIds: [],
  }
@@ -77,14 +76,11 @@ onSelect() {
    origin={origin}
    destination={destination}
    isItinerary={false}
-   originPlaceHolder="Search for Origin"
-   destinationPlaceHolder="Search for Destination"
    searchType="endpoint"
    searchContext={searchContext}
    onSelect={this.onSelect}
    lang="fi"
    addAnalyticsEvent={null}
-   getLabel={ () => "Label" }
 />
 ```
 

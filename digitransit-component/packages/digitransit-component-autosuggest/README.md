@@ -24,7 +24,6 @@ const searchContext = {
   getFavouriteRoutes: () => ({}),       // Function that fetches favourite routes from graphql API.
   startLocationWatch: () => ({}),       // Function that locates users geolocation.
   saveSearch: () => ({}),               // Function that saves search to old searches store.
-  updateViaPointsFromMap: () => ({}),   // Function that update via points to via point store.
 };
 const config = {
  search: {
@@ -53,7 +52,6 @@ const config = {
   },
   feedIds: [],
 };
-const searchContext = {};
 // Refpoint defines selected input's location.
 const refPoint = {
    address: "Pasila, Helsinki",
@@ -71,20 +69,18 @@ const placeholder = "stop-near-you";
 const icon = 'origin';
 return (
  <DTAutosuggest
-   className=""
-   placeholder=""
-   icon=""
-   id="origin"
-   searchType=""
-   searchContext={}
+   config={config}
+   searchContext={searchContext}
+   icon="origin"
+   id="id"
+   refPoint={refPoint}
+   placeholder={placeholder}
+   searchType="endpoint"
    value=""
-   ariaLabel=""
-   autoFocus={}
-   ariaLabel=""
-   onSelect={}
-   lang={lang}
+   onSelect={onSelect}
+   autoFocus={false}
    showSpinner={false}
-   getLabel={}
+   lang={lang}
  />
 );
 ```

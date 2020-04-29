@@ -7,7 +7,7 @@
 		var a = typeof exports === 'object' ? factory(require("react")) : factory(root["react"]);
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
-})(typeof self !== 'undefined' ? self : this, function(__WEBPACK_EXTERNAL_MODULE__1__) {
+})(typeof self !== 'undefined' ? self : this, function(__WEBPACK_EXTERNAL_MODULE__0__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -96,6 +96,12 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE__0__;
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -111,12 +117,6 @@ if (false) { var throwOnDirectAccess, ReactIs; } else {
   module.exports = __webpack_require__(8)();
 }
 
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE__1__;
 
 /***/ }),
 /* 2 */
@@ -181,7 +181,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(true)
-		module.exports = factory(__webpack_require__(1));
+		module.exports = factory(__webpack_require__(0));
 	else { var i, a; }
 })(typeof self !== 'undefined' ? self : this, function(__WEBPACK_EXTERNAL_MODULE__1__) {
 return /******/ (function(modules) { // webpackBootstrap
@@ -13151,6 +13151,57 @@ const executeSearch = (searchContext, refPoint, data, callback) => {
 var index_generated = __webpack_require__(82);
 var index_generated_default = /*#__PURE__*/__webpack_require__.n(index_generated);
 
+// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/digitransit-search-util/packages/digitransit-search-util-get-label/index.js
+
+/**
+ * Returns label for properties
+ *
+ * @name getLabel
+ * @param {*} properties object that contains 
+ * @returns {Boolean} true/false
+ * @example
+ * const properties: {
+    "id": "GTFS:MATKA:318915",
+    "gid": "gtfsmatka:station:GTFS:MATKA:318915",
+    "layer": "station",
+    "source": "gtfsmatka",
+    "source_id": "GTFS:MATKA:318915",
+    "name": "Rautatientori",
+    "postalcode": "00100",
+    "postalcode_gid": "whosonfirst:postalcode:421479569",
+    "confidence": 1,
+    "accuracy": "centroid",
+    "country": "Suomi",
+    "country_gid": "whosonfirst:country:0",
+    "country_a": "FIN",
+    "region": "Uusimaa",
+    "region_gid": "whosonfirst:region:85683067",
+    "localadmin": "Helsinki",
+    "localadmin_gid": "whosonfirst:localadmin:907199715",
+    "locality": "Helsinki",
+    "locality_gid": "whosonfirst:locality:101748417",
+    "neighbourhood": "Kluuvi",
+    "neighbourhood_gid": "whosonfirst:neighbourhood:85898847",
+    "label": "Rautatientori, koillinen, Kluuvi, Helsinki"
+    }
+ * digitransit-search-util.getLabel(param1, param2);
+ * //=true
+ */
+
+function getLabel(properties) {
+  const parts = getNameLabel(properties, true);
+
+  switch (properties.layer) {
+    case 'currentPosition':
+      return parts[1] || parts[0];
+
+    case 'favouritePlace':
+      return parts[0];
+
+    default:
+      return parts.length > 1 && parts[1] !== '' ? parts.join(', ') : parts[1] || parts[0];
+  }
+}
 // CONCATENATED MODULE: ./helpers/assets/close.svg
 /* harmony default export */ var assets_close = ("data:image/svg+xml;base64,PHN2ZyBhcmlhLWhpZGRlbj0idHJ1ZSIgc3R5bGU9InBvc2l0aW9uOiBhYnNvbHV0ZTsgd2lkdGg6IDA7IGhlaWdodDogMDsiIHdpZHRoPSIwIiBoZWlnaHQ9IjAiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CjxkZWZzPgo8c3ltYm9sIGlkPSJpY29uIiB2aWV3Qm94PSIwIDAgMTAyNCAxMDI0Ij4KCTxwYXRoIGNsYXNzPSJwYXRoMSIgZD0iTTYxMC4zMzIgNTEybDM5My4zMjItMzkzLjMyNmMyNy4xNTItMjcuMTUyIDI3LjE1Mi03MS4xNyAwLTk4LjMxOC0yNy4xNDgtMjcuMTUyLTcxLjE3LTI3LjE1Mi05OC4zMjEgMGwtMzkzLjMyMiAzOTMuMzIyLTM5My4zMjItMzkzLjMyNmMtMjcuMTUyLTI3LjE1Mi03MS4xNy0yNy4xNTItOTguMzE4IDBsLTAuMDA3IDAuMDA0Yy0yNy4xNTIgMjcuMTUyLTI3LjE1MiA3MS4xNyAwIDk4LjMyMWwzOTMuMzI2IDM5My4zMjItMzkzLjMyNiAzOTMuMzIyYy0yNy4xNTIgMjcuMTUyLTI3LjE1MiA3MS4xNyAwIDk4LjMyMWwwLjAwNCAwLjAwNGMyNy4xNTIgMjcuMTQ4IDcxLjE3IDI3LjE0OCA5OC4zMTggMGwzOTMuMzIyLTM5My4zMjYgMzkzLjMyNiAzOTMuMzIyYzI3LjE1MiAyNy4xNTIgNzEuMTcgMjcuMTUyIDk4LjMyMSAwIDI3LjE0OC0yNy4xNTIgMjcuMTQ4LTcxLjE3IDAtOTguMzE4bC0zOTMuMzIyLTM5My4zMjZ6Ij48L3BhdGg+Cjwvc3ltYm9sPgo8L2RlZnM+Cjwvc3ZnPg==");
 // CONCATENATED MODULE: ./helpers/assets/mapmarker-from.svg
@@ -13356,6 +13407,7 @@ const translations = {
 
 
 
+
 esm_i18next.init({
   lng: 'fi',
   resources: {}
@@ -13400,7 +13452,6 @@ function suggestionToAriaContent(item) {
  *   getFavouriteRoutes: () => ({}),       // Function that fetches favourite routes from graphql API.
  *   startLocationWatch: () => ({}),       // Function that locates users geolocation.
  *   saveSearch: () => ({}),               // Function that saves search to old searches store.
- *   updateViaPointsFromMap: () => ({}),   // Function that update via points to via point store.
  * };
  * const config = {
  *  search: {
@@ -13429,7 +13480,6 @@ function suggestionToAriaContent(item) {
  *   },
  *   feedIds: [],
  * };
- * const searchContext = {};
  * // Refpoint defines selected input's location.
  * const refPoint = {
  *    address: "Pasila, Helsinki",
@@ -13447,20 +13497,18 @@ function suggestionToAriaContent(item) {
  * const icon = 'origin';
  * return (
  *  <DTAutosuggest
- *    className=""
- *    placeholder=""
- *    icon=""
- *    id="origin"
- *    searchType=""
- *    searchContext={}
+ *    config={config}
+ *    searchContext={searchContext}
+ *    icon="origin"
+ *    id="id"
+ *    refPoint={refPoint}
+ *    placeholder={placeholder}
+ *    searchType="endpoint"
  *    value=""
- *    ariaLabel=""
- *    autoFocus={}
- *    ariaLabel=""
- *    onSelect={}
- *    lang={lang}
+ *    onSelect={onSelect}
+ *    autoFocus={false}
  *    showSpinner={false}
- *    getLabel={}
+ *    lang={lang}
  *  />
  * );
  */
@@ -13557,7 +13605,7 @@ class index_DTAutosuggest extends external_react_default.a.Component {
     };
 
     this.getSuggestionValue = suggestion => {
-      const value = this.props.getLabel(suggestion.properties);
+      const value = getLabel(suggestion.properties);
       return value;
     };
 
@@ -13815,7 +13863,6 @@ index_DTAutosuggest.propTypes = {
   showSpinner: prop_types_default.a.bool,
   storeRef: prop_types_default.a.func,
   handleViaPoints: prop_types_default.a.func,
-  getLabel: prop_types_default.a.func,
   focusChange: prop_types_default.a.func,
   lang: prop_types_default.a.string
 };
@@ -13915,9 +13962,9 @@ exports.getServerBreakpoint = getServerBreakpoint;
 exports.DesktopOrMobile = DesktopOrMobile;
 exports.default = exports.BreakpointConsumer = exports.BreakpointProvider = exports.ClientProvider = void 0;
 
-var _react = _interopRequireWildcard(__webpack_require__(1));
+var _react = _interopRequireWildcard(__webpack_require__(0));
 
-var _propTypes = _interopRequireDefault(__webpack_require__(0));
+var _propTypes = _interopRequireDefault(__webpack_require__(1));
 
 var _throttle = _interopRequireDefault(__webpack_require__(10));
 
@@ -14911,19 +14958,19 @@ __webpack_require__.d(__webpack_exports__, "getEmptyViaPointPlaceHolder", functi
 __webpack_require__.d(__webpack_exports__, "component", function() { return /* binding */ index_DTAutosuggestPanel; });
 __webpack_require__.d(__webpack_exports__, "default", function() { return /* binding */ DTAutosuggestPanelWithBreakpoint; });
 
-// EXTERNAL MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/classnames/index.js
+// EXTERNAL MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/classnames/index.js
 var classnames = __webpack_require__(2);
 var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 
-// EXTERNAL MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/prop-types/index.js
-var prop_types = __webpack_require__(0);
+// EXTERNAL MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/prop-types/index.js
+var prop_types = __webpack_require__(1);
 var prop_types_default = /*#__PURE__*/__webpack_require__.n(prop_types);
 
 // EXTERNAL MODULE: external "react"
-var external_react_ = __webpack_require__(1);
+var external_react_ = __webpack_require__(0);
 var external_react_default = /*#__PURE__*/__webpack_require__.n(external_react_);
 
-// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/typeof.js
+// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/typeof.js
 function _typeof(obj) {
   "@babel/helpers - typeof";
 
@@ -14939,7 +14986,7 @@ function _typeof(obj) {
 
   return _typeof(obj);
 }
-// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/defineProperty.js
+// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/defineProperty.js
 function _defineProperty(obj, key, value) {
   if (key in obj) {
     Object.defineProperty(obj, key, {
@@ -14954,7 +15001,7 @@ function _defineProperty(obj, key, value) {
 
   return obj;
 }
-// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/objectSpread.js
+// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/objectSpread.js
 
 function _objectSpread(target) {
   for (var i = 1; i < arguments.length; i++) {
@@ -14974,13 +15021,13 @@ function _objectSpread(target) {
 
   return target;
 }
-// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/classCallCheck.js
+// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/classCallCheck.js
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
   }
 }
-// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/createClass.js
+// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/createClass.js
 function _defineProperties(target, props) {
   for (var i = 0; i < props.length; i++) {
     var descriptor = props[i];
@@ -14996,7 +15043,7 @@ function _createClass(Constructor, protoProps, staticProps) {
   if (staticProps) _defineProperties(Constructor, staticProps);
   return Constructor;
 }
-// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js
+// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js
 function _assertThisInitialized(self) {
   if (self === void 0) {
     throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -15004,7 +15051,7 @@ function _assertThisInitialized(self) {
 
   return self;
 }
-// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js
+// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js
 
 
 function _possibleConstructorReturn(self, call) {
@@ -15014,14 +15061,14 @@ function _possibleConstructorReturn(self, call) {
 
   return _assertThisInitialized(self);
 }
-// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js
+// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js
 function _getPrototypeOf(o) {
   _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
     return o.__proto__ || Object.getPrototypeOf(o);
   };
   return _getPrototypeOf(o);
 }
-// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
+// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
 function _setPrototypeOf(o, p) {
   _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
     o.__proto__ = p;
@@ -15030,7 +15077,7 @@ function _setPrototypeOf(o, p) {
 
   return _setPrototypeOf(o, p);
 }
-// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/inherits.js
+// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/inherits.js
 
 function _inherits(subClass, superClass) {
   if (typeof superClass !== "function" && superClass !== null) {
@@ -15046,7 +15093,7 @@ function _inherits(subClass, superClass) {
   });
   if (superClass) _setPrototypeOf(subClass, superClass);
 }
-// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
+// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
 function _arrayLikeToArray(arr, len) {
   if (len == null || len > arr.length) len = arr.length;
 
@@ -15056,16 +15103,16 @@ function _arrayLikeToArray(arr, len) {
 
   return arr2;
 }
-// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
+// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
 
 function _arrayWithoutHoles(arr) {
   if (Array.isArray(arr)) return _arrayLikeToArray(arr);
 }
-// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/iterableToArray.js
+// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/iterableToArray.js
 function _iterableToArray(iter) {
   if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
 }
-// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
+// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
 
 function _unsupportedIterableToArray(o, minLen) {
   if (!o) return;
@@ -15075,11 +15122,11 @@ function _unsupportedIterableToArray(o, minLen) {
   if (n === "Map" || n === "Set") return Array.from(n);
   if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
 }
-// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
+// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
   throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
-// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
+// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
 
 
 
@@ -15087,15 +15134,15 @@ function _nonIterableSpread() {
 function _toConsumableArray(arr) {
   return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
 }
-// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
+// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
 function _arrayWithHoles(arr) {
   if (Array.isArray(arr)) return arr;
 }
-// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
+// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
 function _nonIterableRest() {
   throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
-// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/toArray.js
+// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/toArray.js
 
 
 
@@ -15103,7 +15150,7 @@ function _nonIterableRest() {
 function _toArray(arr) {
   return _arrayWithHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableRest();
 }
-// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
+// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
 function _iterableToArrayLimit(arr, i) {
   if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
   var _arr = [];
@@ -15130,7 +15177,7 @@ function _iterableToArrayLimit(arr, i) {
 
   return _arr;
 }
-// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/slicedToArray.js
+// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/node_modules/@babel/runtime/helpers/esm/slicedToArray.js
 
 
 
@@ -15138,7 +15185,7 @@ function _iterableToArrayLimit(arr, i) {
 function _slicedToArray(arr, i) {
   return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
 }
-// CONCATENATED MODULE: /Users/antikainenjo/Projects/Digitransit/digitransit-ui/node_modules/i18next/dist/esm/i18next.js
+// CONCATENATED MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/i18next/dist/esm/i18next.js
 
 
 
@@ -17708,7 +17755,6 @@ ItinerarySearchControl.propTypes = {
  *   getFavouriteRoutes: () => ({}),       // Function that fetches favourite routes from graphql API.
  *   startLocationWatch: () => ({}),       // Function that locates users geolocation.
  *   saveSearch: () => ({}),               // Function that saves search to old searches store.
- *   updateViaPointsFromMap: () => ({}),   // Function that update via points to via point store.
  * };
  * const config = {
  *  search: {
@@ -17766,7 +17812,6 @@ ItinerarySearchControl.propTypes = {
  *    onSelect={this.onSelect}
  *    lang="fi"
  *    addAnalyticsEvent={null}
- *    getLabel={ () => "Label" }
  * />
  */
 
@@ -17790,7 +17835,6 @@ class index_DTAutosuggestPanel extends external_react_default.a.Component {
           viaPoints: [] // getIntermediatePlaces(this.context.match.location.query),
 
         });
-        this.props.updateViaPointsFromMap();
       }
     };
 
@@ -18077,7 +18121,6 @@ class index_DTAutosuggestPanel extends external_react_default.a.Component {
         isFocused: this.isFocused,
         searchContext: searchContext,
         onSelect: this.props.onSelect,
-        getLabel: this.props.getLabel,
         focusChange: this.handleFocusChange,
         lang: this.props.lang
       }), /*#__PURE__*/external_react_default.a.createElement(ItinerarySearchControl, {
@@ -18128,7 +18171,6 @@ class index_DTAutosuggestPanel extends external_react_default.a.Component {
         value: o && o.address || '',
         onSelect: this.props.onSelect,
         handelViaPoints: item => this.handleViaPointLocationSelected(item, i),
-        getLabel: this.props.getLabel,
         lang: this.props.lang
       }), /*#__PURE__*/external_react_default.a.createElement("div", {
         className: "via-point-button-container"
@@ -18191,7 +18233,6 @@ class index_DTAutosuggestPanel extends external_react_default.a.Component {
         searchContext: searchContext,
         onSelect: this.props.onSelect,
         value: this.value(this.props.destination),
-        getLabel: this.props.getLabel,
         lang: this.props.lang
       }), /*#__PURE__*/external_react_default.a.createElement(ItinerarySearchControl, {
         className: classnames_default()('add-via-point', 'more', {
@@ -18228,14 +18269,12 @@ index_DTAutosuggestPanel.propTypes = {
   searchType: prop_types_default.a.string,
   initialViaPoints: prop_types_default.a.arrayOf(prop_types_default.a.object),
   updateViaPoints: prop_types_default.a.func,
-  updateViaPointsFromMap: prop_types_default.a.func,
   breakpoint: prop_types_default.a.string.isRequired,
   swapOrder: prop_types_default.a.func,
   getViaPointsFromMap: prop_types_default.a.bool,
   searchPanelText: prop_types_default.a.string,
   searchContext: prop_types_default.a.any.isRequired,
   onSelect: prop_types_default.a.func,
-  getLabel: prop_types_default.a.func,
   addAnalyticsEvent: prop_types_default.a.func,
   lang: prop_types_default.a.string
 };

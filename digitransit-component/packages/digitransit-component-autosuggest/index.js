@@ -10,6 +10,7 @@ import {
 } from '@digitransit-search-util/digitransit-search-util-execute-search-immidiate';
 import SuggestionItem from '@digitransit-component/digitransit-component-suggestion-item';
 import { getNameLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
+import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
 import Icon from './helpers/Icon';
 import translations from './helpers/translations';
 
@@ -56,7 +57,6 @@ function suggestionToAriaContent(item) {
  *   getFavouriteRoutes: () => ({}),       // Function that fetches favourite routes from graphql API.
  *   startLocationWatch: () => ({}),       // Function that locates users geolocation.
  *   saveSearch: () => ({}),               // Function that saves search to old searches store.
- *   updateViaPointsFromMap: () => ({}),   // Function that update via points to via point store.
  * };
  * const config = {
  *  search: {
@@ -85,7 +85,6 @@ function suggestionToAriaContent(item) {
  *   },
  *   feedIds: [],
  * };
- * const searchContext = {};
  * // Refpoint defines selected input's location.
  * const refPoint = {
  *    address: "Pasila, Helsinki",
@@ -103,20 +102,18 @@ function suggestionToAriaContent(item) {
  * const icon = 'origin';
  * return (
  *  <DTAutosuggest
- *    className=""
- *    placeholder=""
- *    icon=""
- *    id="origin"
- *    searchType=""
- *    searchContext={}
+ *    config={config}
+ *    searchContext={searchContext}
+ *    icon="origin"
+ *    id="id"
+ *    refPoint={refPoint}
+ *    placeholder={placeholder}
+ *    searchType="endpoint"
  *    value=""
- *    ariaLabel=""
- *    autoFocus={}
- *    ariaLabel=""
- *    onSelect={}
- *    lang={lang}
+ *    onSelect={onSelect}
+ *    autoFocus={false}
  *    showSpinner={false}
- *    getLabel={}
+ *    lang={lang}
  *  />
  * );
  */
@@ -140,7 +137,6 @@ class DTAutosuggest extends React.Component {
     showSpinner: PropTypes.bool,
     storeRef: PropTypes.func,
     handleViaPoints: PropTypes.func,
-    getLabel: PropTypes.func,
     focusChange: PropTypes.func,
     lang: PropTypes.string,
   };
@@ -252,7 +248,7 @@ class DTAutosuggest extends React.Component {
   };
 
   getSuggestionValue = suggestion => {
-    const value = this.props.getLabel(suggestion.properties);
+    const value = getLabel(suggestion.properties);
     return value;
   };
 
