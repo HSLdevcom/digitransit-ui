@@ -171,11 +171,6 @@ class DTAutosuggestContainer extends React.Component {
     });
   };
 
-  // eslint-disable-next-line class-methods-use-this
-  updateViaPointsFromMap() {
-    searchContext.executeAction(searchContext.updateViaPointsFromMap, false);
-  }
-
   onSelect = (item, id) => {
     // type is destination unless timetable or route was clicked
     let type = 'endpoint';
