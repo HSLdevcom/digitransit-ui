@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import Toggle from 'material-ui/Toggle';
+import Toggle from './Toggle';
 import Icon from './Icon';
 import BikingOptionsSection from './customizesearch/BikingOptionsSection';
 
@@ -51,7 +51,6 @@ class StreetModeSelectorPanel extends React.Component {
                     <Toggle
                       toggled={selectedStreetMode === mode.name}
                       onToggle={() => selectStreetMode(mode.name.toUpperCase())}
-                      style={{ top: '12px', width: 'auto' }}
                     />
                   </div>
                 </div>

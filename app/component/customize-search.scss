@@ -21,6 +21,21 @@
     top: 4rem;
     z-index: index($zindex, autosuggest-suggestion-container)
   }
+
+  .toggle-container span {
+    padding-top: 1em;
+    width: 100%;
+  }
+
+  .citybike-network-container {
+    .toggle {
+      top: 1px;
+    }
+
+    .icon-container {
+      margin-right: 0.5em;
+    }
+  }
 }
 
 .settings-option-container {

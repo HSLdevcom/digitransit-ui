@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape, routerShape } from 'found';
-import Toggle from 'material-ui/Toggle';
+import { FormattedMessage } from 'react-intl';
+import Toggle from '../Toggle';
 
 import { replaceQueryParams } from '../../util/queryUtils';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
@@ -11,25 +12,36 @@ const TransferOptionsSection = (
   { router, match },
 ) => (
   <React.Fragment>
-    <Toggle
-      toggled={currentSettings.walkBoardCost !== defaultSettings.walkBoardCost}
-      onToggle={(event, isInputChecked) => {
-        replaceQueryParams(router, match, {
-          walkBoardCost: isInputChecked
-            ? walkBoardCostHigh
-            : defaultSettings.walkBoardCost,
-        });
-        addAnalyticsEvent({
-          category: 'ItinerarySettings',
-          action: 'changeNumberOfTransfers', // Prolly need to change action name?
-          name: isInputChecked,
-        });
+    <div
+      className="mode-option-container toggle-container"
+      style={{
+        padding: '0 0 0 1em',
+        height: '3.5em',
       }}
-      title="transfers"
-      name="Avoid Transfers"
-      label="Avoid Transfers"
-      labelStyle={{ color: '#707070' }}
-    />
+    >
+      <FormattedMessage
+        id="avoid-transfers-label"
+        defaultMessage="Avoid transfers"
+      />
+      <Toggle
+        toggled={
+          currentSettings.walkBoardCost !== defaultSettings.walkBoardCost
+        }
+        onToggle={e => {
+          replaceQueryParams(router, match, {
+            walkBoardCost: e.target.checked
+              ? walkBoardCostHigh
+              : defaultSettings.walkBoardCost,
+          });
+          addAnalyticsEvent({
+            category: 'ItinerarySettings',
+            action: 'changeNumberOfTransfers',
+            name: e.target.checked,
+          });
+        }}
+        title="transfers"
+      />
+    </div>
   </React.Fragment>
 );
 

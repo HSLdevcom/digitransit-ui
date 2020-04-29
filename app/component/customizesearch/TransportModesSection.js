@@ -4,7 +4,7 @@ import { intlShape, FormattedMessage } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 
 import cx from 'classnames';
-import Toggle from 'material-ui/Toggle';
+import Toggle from '../Toggle';
 import Icon from '../Icon';
 import IconWithBigCaution from '../IconWithBigCaution';
 import { isKeyboardSelectionEvent } from '../../util/browser';
@@ -26,7 +26,6 @@ const TransportModesSection = (
 ) => {
   const transportModes = getAvailableTransportModes(config);
   const currentModes = currentSettings.modes;
-
   return (
     <React.Fragment>
       <div className="transport-mode-subheader">
@@ -93,7 +92,7 @@ const TransportModesSection = (
                 !isBikeRestricted(match.location, config, mode) &&
                 toggleTransportMode(mode, config, router, match)
               }
-              style={{ top: '12px', width: 'auto' }}
+              title={mode}
             />
           </div>
         ))}
@@ -133,16 +132,11 @@ const TransportModesSection = (
               />
             </div>
           )}
-        <div
-          className="mode-option-container"
-          style={{ padding: '1em 0 0 1em', height: '3.5em' }}
-        >
-          <TransferOptionsSection
-            defaultSettings={defaultSettings}
-            currentSettings={currentSettings}
-            walkBoardCostHigh={config.walkBoardCostHigh}
-          />
-        </div>
+        <TransferOptionsSection
+          defaultSettings={defaultSettings}
+          currentSettings={currentSettings}
+          walkBoardCostHigh={config.walkBoardCostHigh}
+        />
       </div>
     </React.Fragment>
   );
@@ -150,7 +144,6 @@ const TransportModesSection = (
 
 TransportModesSection.propTypes = {
   config: PropTypes.object.isRequired,
-  // currentSettings: PropTypes.arrayOf(PropTypes.string).isRequired,
   currentSettings: PropTypes.object.isRequired,
   defaultSettings: PropTypes.object.isRequired,
 };
