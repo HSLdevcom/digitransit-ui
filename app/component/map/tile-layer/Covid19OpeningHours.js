@@ -74,6 +74,7 @@ class Covid19OpeningHours {
   getIconStatus = status => {
     switch (status) {
       case 'open':
+      case 'open_adapted':
         return 'poi-open';
       case 'closed':
         return 'poi-closed';
