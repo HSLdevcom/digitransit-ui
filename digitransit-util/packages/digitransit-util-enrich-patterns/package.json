@@ -19,7 +19,7 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "dependencies": {
-    "@digitransit-util/digitransit-util-day-range-allowed-diff": "^1.0.0",
-    "@digitransit-util/digitransit-util-day-range-pattern": "^1.0.0"
+    "@digitransit-util/digitransit-util-day-range-allowed-diff": "^1.0.2",
+    "@digitransit-util/digitransit-util-day-range-pattern": "^1.0.2"
   }
 }

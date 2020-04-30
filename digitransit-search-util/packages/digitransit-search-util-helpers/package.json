@@ -21,7 +21,7 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "dependencies": {
-    "lodash": "4.17.14",
-    "@digitransit-search-util/digitransit-search-util-is-duplicate": "^0.0.1"
+    "@digitransit-search-util/digitransit-search-util-is-duplicate": "^0.0.1",
+    "lodash": "4.17.14"
   }
 }

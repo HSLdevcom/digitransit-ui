@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-with-breakpoint",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "digitransit-component with-breakpoint module",
   "main": "index.generated",
   "publishConfig": {
@@ -23,10 +23,10 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "peerDependencies": {
+    "hoist-non-react-statics": "2.5.4",
     "i18next": "^19.3.3",
-    "prop-types": "^15.7.2",
-    "react": "^16.13.0",
     "lodash": "4.17.14",
-    "hoist-non-react-statics": "2.5.4"
+    "prop-types": "^15.7.2",
+    "react": "^16.13.0"
   }
 }

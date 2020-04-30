@@ -21,7 +21,7 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "dependencies": {
-    "node-fetch": "2.3.0",
-    "@digitransit-search-util/digitransit-search-util-serialize": "^0.0.1"
+    "@digitransit-search-util/digitransit-search-util-serialize": "^0.0.1",
+    "node-fetch": "2.3.0"
   }
 }
