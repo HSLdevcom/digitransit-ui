@@ -153,7 +153,10 @@ describe('<QuickSettingsPanel />', () => {
       const settings = {
         ...getDefaultSettings(defaultConfig),
         modes: StreetMode.Bicycle,
-        optimize: OptimizeType.Greenways,
+        optimize: OptimizeType.Triangle,
+        safetyFactor: 0.7,
+        slopeFactor: 0.15,
+        timeFactor: 0.15,
       };
       setCustomizedSettings({
         ...settings,

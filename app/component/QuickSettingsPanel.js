@@ -11,7 +11,7 @@ import Icon from './Icon';
 import ModeFilter from './ModeFilter';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
 import TimeSelectorContainer from './TimeSelectorContainer';
-import { QuickOptionSetType } from '../constants';
+import { OptimizeType, QuickOptionSetType } from '../constants';
 import { getModes, getStreetMode, isBikeRestricted } from '../util/modeUtils';
 import {
   matchQuickOption,
@@ -56,7 +56,10 @@ class QuickSettingsPanel extends React.Component {
     const defaultOption = matchQuickOption(this.context);
     const { config, router, query } = this.context;
     const currentSettings = getCurrentSettings(config, query);
-    if (defaultOption === QuickOptionSetType.DefaultRoute) {
+    if (
+      currentSettings.optimize === OptimizeType.Triangle &&
+      defaultOption === QuickOptionSetType.DefaultRoute
+    ) {
       replaceQueryParams(router, {
         optimize: currentSettings.optimize,
         safetyFactor: currentSettings.safetyFactor,
