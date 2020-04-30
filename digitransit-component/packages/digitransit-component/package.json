@@ -14,10 +14,10 @@
     "docs": "node -r esm ../../scripts/generate-readmes"
   },
   "dependencies": {
-    "@digitransit-component/digitransit-autosuggest": "^0.0.2",
-    "@digitransit-component/digitransit-autosuggest-panel": "^0.0.2",
-    "@digitransit-component/digitransit-control-panel": "^0.0.4",
-    "@digitransit-component/digitransit-suggestion-item": "^0.0.2",
-    "@digitransit-component/digitransit-with-breakpoint": "^0.0.2"
+    "@digitransit-component/digitransit-autosuggest": "latest",
+    "@digitransit-component/digitransit-autosuggest-panel": "latest",
+    "@digitransit-component/digitransit-control-panel": "latest",
+    "@digitransit-component/digitransit-suggestion-item": "latest",
+    "@digitransit-component/digitransit-with-breakpoint": "latest"
   }
 }
