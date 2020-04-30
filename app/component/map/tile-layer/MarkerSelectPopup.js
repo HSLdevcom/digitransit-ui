@@ -11,6 +11,7 @@ import ComponentUsageExample from '../../ComponentUsageExample';
 import MarkerPopupBottom from '../MarkerPopupBottom';
 import { options } from '../../ExampleData';
 import SelectCovid19OpeningHoursRow from './SelectCovid19OpeningHoursRow';
+import RoadworksRow from './RoadworksRow';
 
 function MarkerSelectPopup(props) {
   const rows = props.options.map(option => {
@@ -65,6 +66,15 @@ function MarkerSelectPopup(props) {
           {...option.feature.properties}
           normalizedCat={option.feature.properties.normalized_cat}
           key={option.feature.properties.fid}
+          selectRow={() => props.selectRow(option)}
+        />
+      );
+    }
+    if (option.layer === 'roadworks') {
+      return (
+        <RoadworksRow
+          {...option.feature}
+          key={option.feature.properties.Baustellennummer}
           selectRow={() => props.selectRow(option)}
         />
       );
