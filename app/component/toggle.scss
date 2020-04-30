@@ -10,7 +10,7 @@
     top: 1em;
 
     &.checked {
-      border: #007ac9 1px solid;
+      border: $primary-color 1px solid;
 
       &:before {
         color: $primary-color;
@@ -60,9 +60,9 @@
     -webkit-transition: .4s;
     transition: .4s;
 
-    &:hover {
+    /* &:hover {
       border: 1px solid $primary-color;
-    }
+    } */
   }
 
   .slider:before {
@@ -78,11 +78,11 @@
   }
 
   input:checked + .slider {
-    background-color: #2196F3;
+    background-color: $primary-color;
   }
 
   input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
+    box-shadow: 0 0 1px $primary-color;
   }
 
   input:checked + .slider:before {
@@ -94,7 +94,6 @@
   /* Rounded sliders */
   .slider.round {
     border-radius: 34px;
-    // border: 1px solid #e3e3e3;
     background: #e3e3e3;
   }
 

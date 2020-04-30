@@ -4,6 +4,7 @@ import { matchShape, routerShape } from 'found';
 import { FormattedMessage } from 'react-intl';
 import Toggle from '../Toggle';
 import { replaceQueryParams } from '../../util/queryUtils';
+import Icon from '../Icon';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class AccessibilityOptionSection extends React.Component {
@@ -22,6 +23,12 @@ class AccessibilityOptionSection extends React.Component {
             height: '3.5em',
           }}
         >
+          <Icon
+            className="wheelchair-icon"
+            img="icon-icon_wheelchair"
+            height={2}
+            width={2}
+          />
           <FormattedMessage
             id="accessibility-label"
             defaultMessage="Wheelchair"
@@ -29,9 +36,9 @@ class AccessibilityOptionSection extends React.Component {
           <Toggle
             toggled={!!currentSettings.usingWheelchair}
             title="accessibility"
-            onToggle={(event, isInputChecked) => {
+            onToggle={e => {
               replaceQueryParams(router, match, {
-                usingWheelchair: isInputChecked ? 1 : 0,
+                usingWheelchair: e.target.checked ? 1 : 0,
               });
             }}
           />

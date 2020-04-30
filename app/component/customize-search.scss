@@ -22,9 +22,15 @@
     z-index: index($zindex, autosuggest-suggestion-container)
   }
 
-  .toggle-container span {
-    padding-top: 1em;
-    width: 100%;
+  .toggle-container {
+    span {
+      padding-top: 1em;
+      width: 100%;
+    }
+    .icon-container {
+      width: auto;
+      margin: 0 1em 0 0;
+    }
   }
 
   .citybike-network-container {
@@ -88,6 +94,10 @@
 .mode-option-container {
   display: flex;
   border-bottom: 1px solid #e3e3e3;
+
+  .icon-container {
+    width: auto;
+  }
 
   .option-checkbox {
     margin-top: 1em;
