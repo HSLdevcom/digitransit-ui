@@ -66,6 +66,7 @@ export const replaceQueryParams = (router, newParams) => {
 
   const removeTriangleFactors =
     newParams.optimize &&
+    location.query &&
     location.query.optimize &&
     newParams.optimize !== location.query.optimize &&
     location.query.optimize === OptimizeType.Triangle;

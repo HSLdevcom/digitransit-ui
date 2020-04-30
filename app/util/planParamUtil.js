@@ -483,7 +483,10 @@ export const getQuickOptionSets = context => {
     },
     [QuickOptionSetType.PreferGreenways]: {
       ...defaultSettings,
-      optimize: OptimizeType.Greenways,
+      optimize: OptimizeType.Triangle,
+      safetyFactor: 0.7,
+      slopeFactor: 0.15,
+      timeFactor: 0.15,
     },
   };
 
