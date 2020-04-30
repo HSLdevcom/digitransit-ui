@@ -221,9 +221,9 @@ class SummaryPage extends React.Component {
     const { client, topics } = this.context.getStore(
       'RealTimeInformationStore',
     );
-    const clientConfig = this.configClient(itineraryVehicles);
 
     if (client) {
+      const clientConfig = this.configClient(itineraryVehicles);
       if (clientConfig) {
         this.context.executeAction(changeRealTimeClientTopics, {
           ...clientConfig,
@@ -252,12 +252,6 @@ class SummaryPage extends React.Component {
       // eslint-disable-next-line no-unused-expressions
       import('../util/feedbackly');
     }
-    const itineryVehicles = getTopicOptions(
-      this.context,
-      this.props.plan,
-      this.props.match,
-    );
-    this.startClient(itineryVehicles);
   }
 
   componentWillUnmount() {
