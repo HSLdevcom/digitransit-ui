@@ -55,13 +55,18 @@ class Roadworks {
       );
     });
 
-  fetchAndDrawStatus = ({ geom, properties }) => {
+  static getIconSuffix = properties => {
     let suffix = '';
     if (properties.Vollsperrung === 1) {
       suffix = '-full-closure';
     } else if (properties.Halbseitige_Sperrung === 1) {
       suffix = '-oneway-closure';
     }
+    return suffix;
+  };
+
+  fetchAndDrawStatus = ({ geom, properties }) => {
+    const suffix = Roadworks.getIconSuffix(properties);
     return drawIcon(
       `icon-icon_roadworks${suffix}`,
       this.tile,
