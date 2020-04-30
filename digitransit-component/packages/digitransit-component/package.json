@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "a JavaScript library for Digitransit",
   "main": "digitransit-component",
   "module": "digitransit-component.mjs",
@@ -14,10 +14,10 @@
     "docs": "node -r esm ../../scripts/generate-readmes"
   },
   "dependencies": {
-    "@digitransit-component/digitransit-autosuggest": "latest",
-    "@digitransit-component/digitransit-autosuggest-panel": "latest",
-    "@digitransit-component/digitransit-control-panel": "latest",
-    "@digitransit-component/digitransit-suggestion-item": "latest",
-    "@digitransit-component/digitransit-with-breakpoint": "latest"
+    "@digitransit-component/digitransit-autosuggest": "0.0.x",
+    "@digitransit-component/digitransit-autosuggest-panel": "0.0.x",
+    "@digitransit-component/digitransit-control-panel": "0.0.x",
+    "@digitransit-component/digitransit-suggestion-item": "0.0.x",
+    "@digitransit-component/digitransit-with-breakpoint": "0.0.x"
   }
 }
