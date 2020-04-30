@@ -10,8 +10,7 @@
     "build:index": "webpack --config webpack.config.babel.js",
     "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-proposal-class-properties,@babel/plugin-proposal-numeric-separator --out-file test.generated",
     "test": "mocha -r esm test.generated",
-    "docs": "node -r esm ../../scripts/generate-readmes",
-    "publish": "yarn publish --access public"
+    "docs": "node -r esm ../../scripts/generate-readmes"
   },
   "repository": {
     "type": "git",
@@ -24,6 +23,10 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "peerDependencies": {
+    "@digitransit-search-util/digitransit-search-util-get-label": "^0.0.1",
+    "@digitransit-search-util/digitransit-search-util-execute-search-immidiate": "^0.0.1",
+    "@digitransit-search-util/digitransit-search-util-uniq-by-label": "^0.0.1",
+    "@digitransit-component/digitransit-component-suggestion-item": "^0.0.1",
     "classnames": "2.2.6",
     "i18next": "^19.3.3",
     "lodash": "4.17.14",
@@ -32,10 +35,6 @@
     "react": "^16.13.0",
     "react-autosuggest": "10.0.0",
     "react-autowhatever": "10.2.1",
-    "recompose": "0.30.0",
-    "@digitransit-search-util/digitransit-search-util-get-label": "^0.0.1",
-    "@digitransit-search-util/digitransit-search-util-execute-search-immidiate": "^0.0.1",
-    "@digitransit-search-util/digitransit-search-util-uniq-by-label": "^0.0.1",
-    "@digitransit-component/digitransit-component-suggestion-item": "^0.0.1"
+    "recompose": "0.30.0"
   }
 }

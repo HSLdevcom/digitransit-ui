@@ -563,7 +563,7 @@ module.exports = shallowEqual;
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
-// EXTERNAL MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/prop-types/index.js
+// EXTERNAL MODULE: /Users/kimmo.hujanen/HSL/digitransit-ui/node_modules/prop-types/index.js
 var prop_types = __webpack_require__(1);
 var prop_types_default = /*#__PURE__*/__webpack_require__.n(prop_types);
 
@@ -571,11 +571,11 @@ var prop_types_default = /*#__PURE__*/__webpack_require__.n(prop_types);
 var external_react_ = __webpack_require__(0);
 var external_react_default = /*#__PURE__*/__webpack_require__.n(external_react_);
 
-// EXTERNAL MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/classnames/index.js
+// EXTERNAL MODULE: /Users/kimmo.hujanen/HSL/digitransit-ui/node_modules/classnames/index.js
 var classnames = __webpack_require__(5);
 var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 
-// EXTERNAL MODULE: /home/joonas/workspace/digitransit/digitransit-ui/node_modules/recompose/pure.js
+// EXTERNAL MODULE: /Users/kimmo.hujanen/HSL/digitransit-ui/node_modules/recompose/pure.js
 var pure = __webpack_require__(6);
 var pure_default = /*#__PURE__*/__webpack_require__.n(pure);
 

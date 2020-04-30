@@ -11,10 +11,13 @@
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "scripts": {
     "test": "mocha -r esm test.js",
-    "docs": "node -r esm ../../scripts/generate-readmes",
-    "publish": "yarn publish --access public"
+    "docs": "node -r esm ../../scripts/generate-readmes"
   },
   "dependencies": {
-    "@digitransit-component/digitransit-component-control-panel": "^0.0.3"
+    "@digitransit-component/digitransit-autosuggest": "^0.0.1",
+    "@digitransit-component/digitransit-autosuggest-panel": "^0.0.1",
+    "@digitransit-component/digitransit-control-panel": "^0.0.3",
+    "@digitransit-component/digitransit-suggestion-item": "^0.0.1",
+    "@digitransit-component/digitransit-with-breakpoint": "^0.0.1"
   }
 }
