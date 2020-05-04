@@ -5,10 +5,10 @@ import pick from 'lodash/pick';
 
 import { isBrowser } from '../../../util/browser';
 import {
-  drawAvailabilityBadge,
   drawAvailabilityValue,
   drawIcon,
   drawRoundIcon,
+  drawCitybikeNotInUseIcon,
   getMapIconScale,
 } from '../../../util/mapIconUtils';
 
@@ -113,25 +113,17 @@ class CityBikes {
             ),
           );
 
-          if (result.state === BIKESTATION_CLOSED) {
-            // Draw just plain grey base icon
+          if (
+            result.state === BIKESTATION_CLOSED ||
+            result.state === BIKESTATION_OFF
+          ) {
             return drawIcon(
-              `${iconName}_off`,
-              this.tile,
-              geom,
-              this.citybikeImageSize,
-            );
-          }
-
-          if (result.state === BIKESTATION_OFF) {
-            return drawIcon(
-              `${iconName}_off`,
+              iconName,
               this.tile,
               geom,
               this.citybikeImageSize,
             ).then(() =>
-              drawAvailabilityBadge(
-                'no',
+              drawCitybikeNotInUseIcon(
                 this.tile,
                 geom,
                 this.citybikeImageSize,

@@ -98,6 +98,53 @@ export default configMerger(walttiConfig, {
     ],
   },
 
+  staticMessages: [
+    {
+      id: '3',
+      priority: -1,
+      shouldTrigger: true,
+      persistence: 'repeat',
+      content: {
+        fi: [
+          {
+            type: 'text',
+            content:
+              'Koronaepidemian vuoksi reittiopas ei ole ajan tasalla. Tarkista muutokset ennen matkaa ',
+          },
+          {
+            type: 'a',
+            content: 'www.lsl.fi',
+            href: 'http://www.lsl.fi',
+          },
+        ],
+        en: [
+          {
+            type: 'text',
+            content:
+              'Due to the coronary epidemic the route guide is out of date. Please check changes before traveling ',
+          },
+          {
+            type: 'a',
+            content: 'www.lsl.fi',
+            href: 'http://www.lsl.fi',
+          },
+        ],
+        sv: [
+          {
+            type: 'text',
+            content:
+              'På grund av coronaviruset är ruttguiden inaktuell. Kontrollera innan du reser ',
+          },
+          {
+            type: 'a',
+            content: 'www.lsl.fi',
+            href: 'http://www.lsl.fi',
+          },
+        ],
+      },
+    },
+  ],
+
   aboutThisService: {
     fi: [
       {
@@ -143,5 +190,22 @@ export default configMerger(walttiConfig, {
         ],
       },
     ],
+  },
+  zoneIdMapping: {
+    1: 'A',
+    2: 'B',
+    3: 'C',
+    4: 'D',
+    5: 'E',
+    6: 'F1',
+    7: 'F2',
+    8: 'G',
+    9: 'H',
+    10: 'I',
+  },
+  stopCard: {
+    header: {
+      showZone: true,
+    },
   },
 });

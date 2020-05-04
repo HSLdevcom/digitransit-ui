@@ -18,12 +18,13 @@ export default function RouteHeader(props) {
 
   const routeLineText = ` ${props.route.shortName || ''}`;
 
+  // DT-3331: added query string sort=no to Link's to
   const routeLine =
     props.trip && props.pattern ? (
       <Link
         to={`/${PREFIX_ROUTES}/${props.route.gtfsId}/${PREFIX_STOPS}/${
           props.pattern.code
-        }`}
+        }?sort=no`}
         onlyActiveOnIndex={false}
       >
         {routeLineText}
@@ -35,7 +36,7 @@ export default function RouteHeader(props) {
   return (
     <div className={cx('route-header', props.className)}>
       <h1 className={mode}>
-        <RouteNumber mode={mode} text={routeLine} />
+        <RouteNumber mode={mode} text={routeLine} gtfsId={props.route.gtfsId} />
         {trip}
       </h1>
     </div>

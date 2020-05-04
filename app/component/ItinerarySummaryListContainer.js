@@ -64,7 +64,7 @@ function ItinerarySummaryListContainer(
     const canceledItinerariesCount = itineraries.filter(itineraryHasCancelation)
       .length;
     return (
-      <div className="summary-list-container">
+      <div className="summary-list-container" role="list">
         {isBrowser && summaries}
         {isBrowser &&
           canceledItinerariesCount > 0 && (

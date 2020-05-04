@@ -262,6 +262,14 @@ export function resetRoutingSettings() {
   }
 }
 
+export function getFavouriteStorage() {
+  return getItemAsJson('favouriteStore');
+}
+
+export function setFavouriteStorage(data) {
+  return setItem('favouriteStore', data);
+}
+
 export function getFavouriteLocationsStorage() {
   return getItemAsJson('favouriteLocations');
 }

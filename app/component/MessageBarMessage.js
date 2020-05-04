@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import uuid from 'uuidv4';
 import Obfuscate from 'react-obfuscate';
+import { uuid } from 'uuidv4';
 import Icon from './Icon';
 
 const heading = (e, key, color) => {

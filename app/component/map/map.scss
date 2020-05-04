@@ -9,6 +9,10 @@ div.map {
     background: rgba(255, 255, 255, 0.4);
     color: $dark-gray;
   }
+  .leaflet-container .leaflet-popup-close-button {
+    width: 32px;
+    height: 32px;
+  }
 }
 
 .below-map {
@@ -47,9 +51,6 @@ div.map.full {
   max-height: 100%;
   flex-grow: 1;
   flex-basis: 0;
-}
-div.background-gradient {
-  height: $small-map-height;
 }
 div.below-map {
   height: calc(100% - #{$small-map-height});
@@ -92,6 +93,7 @@ div.leaflet-container {
   background: none;
   z-index: index($zindex, map-container);
   @include font-map-container;
+
 }
 
 div.current-location-marker > span > svg.icon {
@@ -566,6 +568,7 @@ div.origin-popup {
 }
 
 div.background-gradient {
+  height: $small-map-height;
   width: 100%;
   position: absolute;
   top: 0px;
@@ -661,7 +664,7 @@ div.map-click-prevent-overlay {
   border: none;
   background: transparent;
   cursor: none;
-  interactive: false;
+  // interactive: false; commented out due to lint error
   font-size: 50px;
   color: $primary-color;
 }

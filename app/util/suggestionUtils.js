@@ -55,7 +55,7 @@ export const getNameLabel = memoize(
       case 'currentPosition':
         return [suggestion.labelId, suggestion.address];
       case 'favouritePlace':
-        return [suggestion.locationName, suggestion.address];
+        return [suggestion.name, suggestion.address];
       case 'favouriteRoute':
       case 'route-BUS':
       case 'route-TRAM':
@@ -93,9 +93,9 @@ export const getNameLabel = memoize(
       case 'favouriteStation':
       case 'favouriteStop':
         return plain
-          ? [suggestion.locationName]
+          ? [suggestion.name]
           : [
-              suggestion.locationName,
+              suggestion.name,
               <span key={suggestion.id}>{suggestion.address}</span>,
             ];
       case 'stop':
@@ -148,11 +148,11 @@ export function getLabel(properties) {
 
 export function suggestionToLocation(item) {
   const name = getLabel(item.properties);
-
   return {
+    id: item.properties.gid,
     address: name,
     type: item.type,
-    id: getGTFSId(item.properties),
+    gtfsId: getGTFSId(item.properties),
     code: getStopCode(item.properties),
     layer: item.properties.layer,
     lat:

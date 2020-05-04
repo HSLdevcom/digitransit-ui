@@ -99,7 +99,7 @@ export const station = {
 
 export const favouriteLocation = {
   favourite: {
-    locationName: 'Työ',
+    name: 'Työ',
     selectedIconId: 'icon-icon_place',
   },
   arrivalTime: 1444175199,
@@ -610,7 +610,7 @@ export const routePatterns = {
   patterns: [
     {
       code: 'HSL:1010:1:02',
-      headsign: 'Kirurgi',
+      headsign: 'Pikku Huopalahti',
       stops: [
         {
           name: 'Korppaanmäki',
@@ -684,7 +684,7 @@ export const routePatterns = {
     },
     {
       code: 'HSL:1010:0:01',
-      headsign: 'Kirurgi',
+      headsign: 'Pikku Huopalahti',
       stops: [
         {
           name: 'Korppaanmäki',
@@ -726,7 +726,7 @@ export const twoRoutePatterns = {
   patterns: [
     {
       code: 'HSL:1010:1:02',
-      headsign: 'Kirurgi',
+      headsign: 'Pikku Huopalahti',
       stops: [
         {
           name: 'Korppaanmäki',

@@ -36,6 +36,7 @@ import { isBrowser } from '../util/browser';
 import { itineraryHasCancelation } from '../util/alertUtils';
 import triggerMessage from '../util/messageUtils';
 import MessageStore from '../store/MessageStore';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 export const ITINERARYFILTERING_DEFAULT = 1.5;
 
@@ -78,12 +79,33 @@ export const getActiveIndex = (
   return itineraryIndex > 0 ? itineraryIndex : defaultValue;
 };
 
+/**
+ * Report any errors that happen when showing summary
+ *
+ * @param {Error|string|any} error
+ */
+export function reportError(error) {
+  if (!error) {
+    return;
+  }
+  addAnalyticsEvent({
+    category: 'Itinerary',
+    action: 'ErrorLoading',
+    name: 'SummaryPage',
+    message: error.message || error,
+    stack: error.stack || null,
+  });
+}
+
 class SummaryPage extends React.Component {
   static contextTypes = {
     queryAggregator: PropTypes.shape({
       readyState: PropTypes.shape({
         done: PropTypes.bool.isRequired,
-        error: PropTypes.string,
+        error: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.instanceOf(Error),
+        ]),
       }).isRequired,
     }).isRequired,
     router: routerShape.isRequired,
@@ -132,6 +154,11 @@ class SummaryPage extends React.Component {
   constructor(props, context) {
     super(props, context);
     context.executeAction(storeOrigin, props.from);
+    const error = get(context, 'queryAggregator.readyState.error', null);
+    if (error) {
+      reportError(error);
+    }
+    this.resultsUpdatedAlertRef = React.createRef();
   }
 
   state = { center: null, loading: false };
@@ -150,6 +177,10 @@ class SummaryPage extends React.Component {
       // eslint-disable-next-line no-unused-expressions
       import('../util/feedbackly');
     }
+    //  alert screen reader when search results appear
+    if (this.resultsUpdatedAlertRef.current) {
+      this.resultsUpdatedAlertRef.current.innerHTML = this.resultsUpdatedAlertRef.current.innerHTML;
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -162,11 +193,28 @@ class SummaryPage extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    // alert screen readers when results update
+    if (
+      this.resultsUpdatedAlertRef.current &&
+      this.props.plan.plan.itineraries &&
+      JSON.stringify(prevProps.location) !== JSON.stringify(this.props.location)
+    ) {
+      // refresh content to trigger the alert
+      this.resultsUpdatedAlertRef.current.innerHTML = this.resultsUpdatedAlertRef.current.innerHTML;
+    }
+    const error = get(this.context, 'queryAggregator.readyState.error', null);
+    if (error) {
+      reportError(error);
+    }
+  }
+
   setLoading = loading => {
     this.setState({ loading });
   };
 
   setError = error => {
+    reportError(error);
     this.context.queryAggregator.readyState.error = error;
   };
 
@@ -317,32 +365,44 @@ class SummaryPage extends React.Component {
       latestArrivalTime = Math.max(...itineraries.map(i => i.endTime));
     }
 
-    // added itineraryFutureDays parameter (DT-3175)
+    const screenReaderUpdateAlert = (
+      <span className="sr-only" role="alert" ref={this.resultsUpdatedAlertRef}>
+        <FormattedMessage
+          id="itinerary-page.update-alert"
+          defaultMessage="Search results updated"
+        />
+      </span>
+    );
+
+    // added config.itinerary.serviceTimeRange parameter (DT-3175)
     const serviceTimeRange = validateServiceTimeRange(
-      get(this.context, 'config.itineraryFutureDays'),
+      this.context.config.itinerary.serviceTimeRange,
       this.props.serviceTimeRange,
     );
     if (this.props.breakpoint === 'large') {
       let content;
       if (this.state.loading === false && (done || error !== null)) {
         content = (
-          <SummaryPlanContainer
-            activeIndex={getActiveIndex(location, itineraries)}
-            plan={this.props.plan.plan}
-            serviceTimeRange={serviceTimeRange}
-            itineraries={itineraries}
-            params={this.props.params}
-            error={error}
-            setLoading={this.setLoading}
-            setError={this.setError}
-          >
-            {this.props.content &&
-              React.cloneElement(this.props.content, {
-                itinerary:
-                  hasItineraries && itineraries[this.props.params.hash],
-                focus: this.updateCenter,
-              })}
-          </SummaryPlanContainer>
+          <>
+            {screenReaderUpdateAlert}
+            <SummaryPlanContainer
+              activeIndex={getActiveIndex(location, itineraries)}
+              plan={this.props.plan.plan}
+              serviceTimeRange={serviceTimeRange}
+              itineraries={itineraries}
+              params={this.props.params}
+              error={error}
+              setLoading={this.setLoading}
+              setError={this.setError}
+            >
+              {this.props.content &&
+                React.cloneElement(this.props.content, {
+                  itinerary:
+                    hasItineraries && itineraries[this.props.params.hash],
+                  focus: this.updateCenter,
+                })}
+            </SummaryPlanContainer>
+          </>
         );
       } else {
         content = (
@@ -402,16 +462,19 @@ class SummaryPage extends React.Component {
       );
     } else {
       content = (
-        <SummaryPlanContainer
-          activeIndex={getActiveIndex(location, itineraries)}
-          plan={this.props.plan.plan}
-          serviceTimeRange={serviceTimeRange}
-          itineraries={itineraries}
-          params={this.props.params}
-          error={error}
-          setLoading={this.setLoading}
-          setError={this.setError}
-        />
+        <>
+          <SummaryPlanContainer
+            activeIndex={getActiveIndex(location, itineraries)}
+            plan={this.props.plan.plan}
+            serviceTimeRange={serviceTimeRange}
+            itineraries={itineraries}
+            params={this.props.params}
+            error={error}
+            setLoading={this.setLoading}
+            setError={this.setError}
+          />
+          {screenReaderUpdateAlert}
+        </>
       );
     }
 

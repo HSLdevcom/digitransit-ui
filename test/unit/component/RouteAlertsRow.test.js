@@ -6,6 +6,7 @@ import RouteAlertsRow from '../../../app/component/RouteAlertsRow';
 import RouteNumber from '../../../app/component/RouteNumber';
 import ServiceAlertIcon from '../../../app/component/ServiceAlertIcon';
 import { AlertSeverityLevelType } from '../../../app/constants';
+import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../app/util/path';
 
 describe('<RouteAlertsRow />', () => {
   it('should not render a div for the routeLine if it is missing', () => {
@@ -94,6 +95,20 @@ describe('<RouteAlertsRow />', () => {
     };
     const wrapper = shallowWithIntl(<RouteAlertsRow {...props} />);
     expect(wrapper.find('.bus')).to.have.lengthOf(1);
+  });
+
+  it('should render link for route', () => {
+    const props = {
+      entityType: 'route',
+      entityMode: 'bus',
+      entityIdentifier: '97N',
+      gtfsIds: 'HSL:2097N',
+      showRouteNameLink: true,
+    };
+    const wrapper = shallowWithIntl(<RouteAlertsRow {...props} />);
+    expect(wrapper.find('.route-alert-row-link').get(0).props.to).to.equal(
+      `/${PREFIX_ROUTES}/HSL:2097N/${PREFIX_STOPS}/HSL:2097N:0:01`,
+    );
   });
 
   it('should not render the identifier if gtfsIds not provided', () => {

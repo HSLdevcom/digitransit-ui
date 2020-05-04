@@ -21,3 +21,6 @@ tags
 coverage
 caresteouvert
 package-lock.json
+sessions/
+run*.sh
+app/**/__generated__

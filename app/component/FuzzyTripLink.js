@@ -5,6 +5,7 @@ import { Link } from 'react-router';
 import cx from 'classnames';
 import IconWithTail from './IconWithTail';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 function FuzzyTripLink(props) {
   const icon = (
@@ -23,6 +24,13 @@ function FuzzyTripLink(props) {
         }/${PREFIX_STOPS}/${props.trip.trip.pattern.code}
         /${props.trip.trip.gtfsId}`}
         className="route-now-content"
+        onClick={() => {
+          addAnalyticsEvent({
+            category: 'Route',
+            action: 'OpenTripInformation',
+            name: props.mode.toUpperCase(),
+          });
+        }}
       >
         {icon}
       </Link>

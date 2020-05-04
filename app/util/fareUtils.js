@@ -40,7 +40,7 @@ export const getFares = (fares, routes, config) => {
   const unknownTotalFare =
     fares && fares[0] && fares[0].type === 'regular' && fares[0].cents === -1;
   const unknownFares = (
-    (unknownTotalFare && Array.isArray(routes) && routes) ||
+    ((unknownTotalFare || !fares) && Array.isArray(routes) && routes) ||
     []
   )
     .filter(route => !routesWithFares.includes(route.gtfsId))

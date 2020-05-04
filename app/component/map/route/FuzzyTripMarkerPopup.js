@@ -8,7 +8,8 @@ import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../util/path';
 
 import RouteHeader from '../../RouteHeader';
 
-import { addFavouriteRoute } from '../../../action/FavouriteActions';
+import { addFavourite } from '../../../action/FavouriteActions';
+import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 
 function FuzzyTripMarkerPopup(props) {
   let patternPath = `/${PREFIX_ROUTES}/${
@@ -31,7 +32,16 @@ function FuzzyTripMarkerPopup(props) {
         addFavouriteRoute={props.addAsFavouriteRoute}
       />
       <div className="bottom location">
-        <Link to={tripPath}>
+        <Link
+          to={tripPath}
+          onClick={() => {
+            addAnalyticsEvent({
+              category: 'Map',
+              action: 'OpenTripInformation',
+              name: props.trip.route.mode,
+            });
+          }}
+        >
           <FormattedMessage
             id="trip-information"
             defaultMessage="Trip Information"
@@ -50,6 +60,7 @@ FuzzyTripMarkerPopup.propTypes = {
   trip: PropTypes.shape({
     route: PropTypes.shape({
       gtfsId: PropTypes.string.isRequired,
+      mode: PropTypes.string,
     }).isRequired,
     fuzzyTrip: PropTypes.shape({
       gtfsId: PropTypes.string,
@@ -68,14 +79,17 @@ FuzzyTripMarkerPopup.propTypes = {
 
 const FuzzyTripMarkerPopupWithFavourite = connectToStores(
   FuzzyTripMarkerPopup,
-  ['FavouriteRoutesStore'],
+  ['FavouriteStore'],
   (context, props) => ({
     favourite: context
-      .getStore('FavouriteRoutesStore')
+      .getStore('FavouriteStore')
       .isFavourite(props.trip.route.gtfsId),
     addAsFavouriteRoute: e => {
       e.stopPropagation();
-      context.executeAction(addFavouriteRoute, props.trip.route.gtfsId);
+      context.executeAction(addFavourite, {
+        type: 'route',
+        gtfsId: props.trip.route.gtfsId,
+      });
     },
   }),
 );

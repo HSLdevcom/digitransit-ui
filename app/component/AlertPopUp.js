@@ -7,7 +7,7 @@ import Icon from './Icon';
 
 const AlertPopUp = props => (
   <FullscreenDialog
-    className={props.textId}
+    className={props.className}
     renderContent={() => (
       <React.Fragment>
         {props.icon && (
@@ -26,6 +26,7 @@ const AlertPopUp = props => (
 );
 
 AlertPopUp.propTypes = {
+  className: PropTypes.string,
   isPopUpOpen: PropTypes.bool,
   textId: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,

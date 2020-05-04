@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 import { routerShape, locationShape } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import getContext from 'recompose/getContext';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import AppBarSmall from './AppBarSmall';
 import AppBarLarge from './AppBarLarge';
 import { DesktopOrMobile } from '../util/withBreakpoint';
@@ -12,8 +13,7 @@ const AppBarContainer = ({
   location,
   homeUrl,
   logo,
-  loggedIn,
-  logIn,
+  user,
   ...args
 }) => (
   <Fragment>
@@ -27,8 +27,7 @@ const AppBarContainer = ({
           showLogo
           logo={logo}
           homeUrl={homeUrl}
-          loggedIn={loggedIn}
-          logIn={() => logIn()}
+          user={user}
         />
       )}
       desktop={() => (
@@ -36,8 +35,7 @@ const AppBarContainer = ({
           {...args}
           logo={logo}
           titleClicked={() => router.push(homeUrl)}
-          loggedIn={loggedIn}
-          logIn={() => logIn()}
+          user={user}
         />
       )}
     />
@@ -49,19 +47,19 @@ AppBarContainer.propTypes = {
   router: routerShape.isRequired,
   homeUrl: PropTypes.string.isRequired,
   logo: PropTypes.string,
-  loggedIn: PropTypes.bool,
-  logIn: PropTypes.func,
+  user: PropTypes.object,
 };
 
-AppBarContainer.defaultProps = {
-  loggedIn: false,
-  logIn: () => {},
-};
-
-const WithContext = getContext({
-  location: locationShape.isRequired,
-  router: routerShape.isRequired,
-})(AppBarContainer);
+const WithContext = connectToStores(
+  getContext({
+    location: locationShape.isRequired,
+    router: routerShape.isRequired,
+  })(AppBarContainer),
+  ['UserStore'],
+  context => ({
+    user: context.getStore('UserStore').getUser(),
+  }),
+);
 
 WithContext.propTypes = {
   disableBackButton: PropTypes.bool,

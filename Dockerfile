@@ -29,7 +29,6 @@ ADD . ${WORK}
 
 RUN \
   yarn install --silent && \
-  yarn add --force node-sass && \
   yarn run build && \
   rm -rf static docs test /tmp/* && \
   yarn cache clean

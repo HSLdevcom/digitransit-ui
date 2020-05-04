@@ -62,10 +62,11 @@
     }
   }
 
-  h2 {
+  h3, h4 {
     @include font-medium;
     flex-grow: 1;
     margin: 0.5em;
+    line-height: 1.5;
   }
 
   .itinerary-timeframe {
@@ -306,7 +307,7 @@
   }
 
   .itinerary-tab {
-    width: calc(100% - 120px);
+    width: auto;
     margin-left: 34px;
     margin-right: 10px;
     border-top: solid 1px $light-gray;
@@ -332,7 +333,7 @@
       width: 75px;
     }
 
-    h2 {
+    h3, h4 {
       margin-top: 10px;
     }
 
@@ -410,6 +411,21 @@
   .call {
     //text color
     color: $black;
+  }
+  .summary-clickable-area {
+      display: flex;
+      flex: auto;
+      flex-wrap: wrap;
+  }
+
+  .itinerary-summary-visible {
+    flex: auto;
+    flex-direction: column;
+  }
+
+  .itinerary-summary-header {
+      display: flex;
+      flex: auto;
   }
 }
 

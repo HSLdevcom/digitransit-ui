@@ -7,6 +7,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import ZoneIcon from './ZoneIcon';
+import { getZoneLabelColor, getZoneLabel } from '../util/mapIconUtils';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 import ExternalLink from './ExternalLink';
 
@@ -48,6 +49,16 @@ class StopCardHeader extends React.Component {
     );
   }
 
+  getZoneLabelSize(zoneId) {
+    if (
+      this.context.config.zoneIdFontSize &&
+      typeof this.context.config.zoneIdFontSize[zoneId] !== 'undefined'
+    ) {
+      return this.context.config.zoneIdFontSize[zoneId];
+    }
+    return '26px';
+  }
+
   render() {
     const {
       className,
@@ -81,7 +92,18 @@ class StopCardHeader extends React.Component {
         icons={icons}
       >
         {this.headerConfig.showZone &&
-          stop.zoneId && <ZoneIcon showTitle zoneId={stop.zoneId} />}
+          stop.zoneId && (
+            <ZoneIcon
+              showTitle
+              zoneId={getZoneLabel(stop.zoneId, this.context.config)}
+              zoneIdFontSize={
+                this.getZoneLabelSize(stop.zoneId)
+                  ? this.getZoneLabelSize(stop.zoneId)
+                  : null
+              }
+              zoneLabelColor={getZoneLabelColor(this.context.config)}
+            />
+          )}
       </CardHeader>
     );
   }

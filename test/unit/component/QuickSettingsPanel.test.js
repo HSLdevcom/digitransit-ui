@@ -20,6 +20,7 @@ import {
   matchQuickOption,
 } from '../../../app/util/planParamUtil';
 import { createMemoryMockRouter } from '../helpers/mock-router';
+import { fixArrayParams } from '../../../app/util/queryUtils';
 
 const getDefaultProps = () => ({
   timeSelectorStartTime: 1535447686000,
@@ -158,11 +159,9 @@ describe('<QuickSettingsPanel />', () => {
         slopeFactor: 0.15,
         timeFactor: 0.15,
       };
-      setCustomizedSettings({
-        ...settings,
-      });
+      setCustomizedSettings(settings);
       const router = { ...createMemoryMockRouter() };
-      router.replace({ query: { ...settings } });
+      router.replace({ query: fixArrayParams(settings) });
 
       const context = {
         config: { ...defaultConfig },

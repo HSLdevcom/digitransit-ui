@@ -39,6 +39,7 @@ export class DTEndpointAutosuggestComponent extends React.Component {
     isPreferredRouteSearch: PropTypes.bool,
     locationState: PropTypes.object.isRequired,
     showSpinner: PropTypes.bool,
+    ariaLabel: PropTypes.string,
   };
 
   static defaultProps = {
@@ -160,6 +161,7 @@ export class DTEndpointAutosuggestComponent extends React.Component {
         id={this.props.id}
         layers={this.props.layers}
         className={this.props.className}
+        ariaLabel={this.props.ariaLabel}
       />
     );
   };

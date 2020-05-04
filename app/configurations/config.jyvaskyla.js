@@ -115,8 +115,8 @@ export default configMerger(walttiConfig, {
       {
         header: 'Tietoja palvelusta',
         paragraphs: [
-          'Tämän palvelun tarjoaa Jyväskylän seudun joukkoliikenne reittisuunnittelua varten Jyväskylän, Laukaan ja Muuramen alueella. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit-palvelualustaan.',
-          'Pysäkkiajat palvelussa ovat aina arvioita lukuun ottamatta linjojen lähtö- ja päätepysäkkejä sekä eräitä kiinteäaikaisia välipysäkkejä. Ruuhkattomaan aikaan auto voi edetä pysäkille ehdotettua aikaa nopeammin ja ruuhka-aikoina myöhemmin. Pysäkillä kannattaa kyydin varmistamiseksi olla aina riittävän ajoissa.',
+          'Tämä palvelu on tarkoitettu helpottamaan suunnittelua, kun teet matkoja Jyväskylän, Laukaan ja Muuramen alueella. Esitetyt joukkoliikenteen aikataulut ja reitit perustuvat Linkki-paikallisliikenteen osalta voimassa olevaan aikatauludataan. Seutuliikenteen aikataulu- ja reittitiedot perustuvat liikennöitsijöiden ilmoittamiin aikataulutietoihin. Voit tutkia palvelun avulla myös kävelyn, pyöräilyn ja yksityisautoilun reittejä, mutta nämä eivät kaikilta osin ole ajantasaisia. Palvelu perustuu valtakunnallisessa käytössä olevaan Digitransit-palvelualustaan.',
+          'Reittiopas näyttää Linkki-liikenteestä sekä linja-autojen gps-seurantaan perustuvia, reaaliaikaisia aikatauluarvioita että aikataulusuunnitelman mukaisia aikataulutietoja. Reaaliaikaisena tieto näkyy silloin, kun vuoro on liikkeellä ja lähettää palveluun seurantatietoa. Reaaliaikaisen tiedon tunnistaa saapumisajan ohessa vilkkuvasta reaaliaikasymbolista. Ole pysäkillä ajoissa, sillä välipysäkeille ei jäädä odottamaan arvion mukaista lähtöaikaa, vaan auton matka jatkuu välittömästi.',
         ],
       },
     ],
@@ -125,7 +125,8 @@ export default configMerger(walttiConfig, {
       {
         header: 'Om tjänsten',
         paragraphs: [
-          'Den här tjänsten erbjuds av Jyväskylän seudun joukkoliikenne för reseplanering inom Jyväskylä, Laukaa och Muurame region. Reseplaneraren täcker med vissa begränsningar kollektivtrafik, promenad, cykling samt privatbilism. Tjänsten baserar sig på Digitransit-plattformen.',
+          'Denna tjänst är avsedd att underlätta planeringen, när du reser i Jyväskylä, Laukaa och Muurame. Utvalda kollektivtrafikens tidtabeller och rutter är baserad på Linkki-lokaltrafikens giltiga tidtabellsdata. Regiontrafikens tidtabeller och ruttinformationer är baserad på tidtabellsinformationen från kollektivtrafikföretag. Med hjälp av reseplaneraren kan du också utforska gång-, cyklingsrutten samt rutter för privatbilismen. Tjänsten är baserad på Digitransit, som är riksomfattande serviceplattform för reseplanerare.',
+          'Reseplaneraren visar Linkki-lokaltrafikens tidtabell både i realtid baserad på GPS-spårning av bussar såväl som schemalagd tidtabellsinformation. Informationen visas i realtid när en busstur är i rörelse och skickar spårningsinformation till tjänsten. Realtidsinformation identifieras med en blinkande realtidsymbol vid sidan av ankomsttiden. Det lönar sig att vara på hållplatsen i tid, eftersom på mellanliggande hållplats väntar bussen inte för att kunna avgå enligt tidtabellen utan fortsätter resan omedelbart.',
         ],
       },
     ],
@@ -134,9 +135,40 @@ export default configMerger(walttiConfig, {
       {
         header: 'About this service',
         paragraphs: [
-          'This service is provided by Jyväskylän seudun joukkoliikenne for route planning in Jyväskylä, Laukaa and Muurame region. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.',
+          'This service is intended to facilitate planning when traveling in the Jyväskylä, Laukaa and Muurame areas. The public transport timetables and routes shown are based on the current data for local traffic (Linkki). Regional transport timetables and route information are based on the timetable information from transport service provider. With the help of the journey planner you can also explore the walking and cycling route as well routes for private motoring. The service is based on Digitransit, which is a nationwide service platform for journey planner.',
+          'The journey planner shows both estimated real-time timetables for Linkki based on GPS tracking of buses as well as scheduled timetable information. The information is displayed in real time when a bus shift is in motion and sends tracking information to the service. Real-time information is identified by a flashing real-time symbol beside the arrival time.',
+          'It is important for the passengers to arrive early at the bus stop because at the intermediate bus stop the bus does not wait to be able to depart according to the timetable but continues the journey immediately.',
         ],
       },
     ],
+  },
+
+  geoJson: {
+    layers: [
+      {
+        name: {
+          fi: 'Vyöhykkeet',
+          sv: 'Zoner',
+          en: 'Zones',
+        },
+        url: '/assets/geojson/jkl_zone_lines_20200401.geojson',
+      },
+    ],
+  },
+
+  zoneIdMapping: {
+    1: 'A',
+    2: 'B',
+    3: 'C',
+    4: 'D',
+  },
+  itinerary: {
+    showZoneLimits: true,
+  },
+
+  stopCard: {
+    header: {
+      showZone: true,
+    },
   },
 });

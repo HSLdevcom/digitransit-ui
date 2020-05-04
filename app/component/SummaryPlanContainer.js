@@ -6,6 +6,7 @@ import Relay from 'react-relay/classic';
 import { routerShape } from 'react-router';
 import getContext from 'recompose/getContext';
 
+import { FormattedMessage } from 'react-intl';
 import ItinerarySummaryListContainer from './ItinerarySummaryListContainer';
 import TimeNavigationButtons from './TimeNavigationButtons';
 import TimeStore from '../store/TimeStore';
@@ -417,6 +418,12 @@ class SummaryPlanContainer extends React.Component {
 
     return (
       <div className="summary">
+        <h2 className="sr-only">
+          <FormattedMessage
+            id="itinerary-summary-page.description"
+            defaultMessage="Route suggestions"
+          />
+        </h2>
         <ItinerarySummaryListContainer
           activeIndex={activeIndex}
           currentTime={currentTime}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { isBrowser } from '../util/browser';
+import Icon from './Icon';
 
 const NoFavouritesPanel = () => (
   <div className="nofavs row">
@@ -8,16 +9,12 @@ const NoFavouritesPanel = () => (
       <div className="nofavs-p black text-center">
         <div className="nofavs-img">
           {isBrowser && (
-            <img
-              // eslint-disable-next-line global-require
-              src={require('../configurations/images/default/favourites_empty_tip.png')}
-              alt="No favourites tip icon"
-            />
+            <Icon className="no-favourites-icon" img="icon-icon_star" />
           )}
         </div>
         <FormattedMessage
           id="no-favourites"
-          defaultMessage="Use the star buttons to add routes or stops to your favorites. Your favorites are shown on this page."
+          defaultMessage="Use star button to add routes to your favorites. Your favorite routes are shown on this page."
         />
       </div>
     </div>
