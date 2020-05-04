@@ -211,9 +211,21 @@ class SummaryPage extends React.Component {
   };
 
   startClient = itineraryVehicles => {
+    const { itineraryVehicleTopics } = this.context.getStore(
+      'RealTimeInformationStore',
+    );
+
     const clientConfig = this.configClient(itineraryVehicles);
-    if (clientConfig) {
+    if (
+      clientConfig &&
+      (itineraryVehicleTopics === undefined ||
+        JSON.stringify(itineraryVehicles) !==
+          JSON.stringify(itineraryVehicleTopics))
+    ) {
       this.context.executeAction(startRealTimeClient, clientConfig);
+      this.context.getStore(
+        'RealTimeInformationStore',
+      ).itineraryVehicleTopics = itineraryVehicles;
     }
   };
 
