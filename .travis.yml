@@ -29,12 +29,12 @@ jobs:
       script:
         - yarn install
         - yarn lint
-    - stage: test
-      env: FLOW=1
-      node_js: '10'
-      script:
-        - yarn install
-        - test/flow.sh
+          #- stage: test
+          #env: FLOW=1
+          #node_js: '10'
+          #script:
+          #- yarn install
+          #- test/flow.sh
     - stage: test
       env: UNIT=1
       node_js: '10'
