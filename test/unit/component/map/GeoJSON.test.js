@@ -136,17 +136,5 @@ describe('<GeoJSON />', () => {
       expect(marker._radius).to.not.equal(undefined);
       expect(marker._tooltip._content).to.equal(feature.properties.textOnly);
     });
-
-    it('should bind popup content and mark the marker as interactive', () => {
-      const feature = {
-        properties: {
-          popupContent: '<div>Test</div>',
-        },
-      };
-
-      const marker = getMarker(feature);
-      expect(marker.options.interactive).to.equal(true);
-      expect(marker._popup._content).to.equal(feature.properties.popupContent);
-    });
   });
 });
