@@ -4,6 +4,7 @@ import React from 'react';
 import cx from 'classnames';
 import pure from 'recompose/pure';
 import Icon from './helpers/Icon';
+import styles from './helpers/styles.scss';
 
 function getIcon(layer) {
   const layerIcon = new Map([
@@ -49,10 +50,9 @@ const SuggestionItem = pure(({ item, ariaContent, loading }) => {
       img={getIcon(item.properties.layer)}
     />
   );
-
   const [iconstr, name, label] = ariaContent;
   const acri = (
-    <div className="sr-only">
+    <div className={styles['sr-only']}>
       <p>
         {' '}
         {iconstr} - {name} - {label}
@@ -62,17 +62,17 @@ const SuggestionItem = pure(({ item, ariaContent, loading }) => {
   const ri = (
     <div
       aria-hidden="true"
-      className={cx('search-result', item.type, {
+      className={cx(styles['search-result'], styles[item.type], {
         favourite: item.type.startsWith('Favourite'),
         loading,
       })}
     >
-      <span aria-label={iconstr} className="autosuggestIcon">
+      <span aria-label={iconstr} className={styles.autosuggestIcon}>
         {icon}
       </span>
       <div>
-        <p className="suggestion-name">{name}</p>
-        <p className="suggestion-label">{label}</p>
+        <p className={styles['suggestion-name']}>{name}</p>
+        <p className={styles['suggestion-label']}>{label}</p>
       </div>
     </div>
   );

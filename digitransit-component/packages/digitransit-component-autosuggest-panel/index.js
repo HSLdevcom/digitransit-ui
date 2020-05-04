@@ -8,6 +8,7 @@ import withBreakpoint from '@digitransit-component/digitransit-component-with-br
 import Select from './helpers/Select';
 import Icon from './helpers/Icon';
 import translations from './helpers/translations';
+import styles from './helpers/styles.scss';
 
 i18next.init({ lng: 'fi', resources: {} });
 
@@ -37,10 +38,10 @@ const ItinerarySearchControl = ({
 }) =>
   enabled &&
   onClick && (
-    <div className="itinerary-search-control">
+    <div className={styles['itinerary-search-control']}>
       <div
         {...rest}
-        className={cx(className, 'cursor-pointer')}
+        className={`${styles[className]}, ${styles['cursor-pointer']}`}
         onClick={onClick}
         onKeyPress={onKeyPress}
         role="button"
@@ -439,7 +440,7 @@ class DTAutosuggestPanel extends React.Component {
     return (
       <div
         className={cx([
-          'autosuggest-panel',
+          styles['autosuggest-panel'],
           {
             small: breakpoint !== 'large',
             isItinerary,
@@ -448,20 +449,20 @@ class DTAutosuggestPanel extends React.Component {
       >
         {' '}
         {searchPanelText ? (
-          <div className="autosuggest-searchpanel-text">
+          <div className={styles['autosuggest-searchpanel-text']}>
             <span> {searchPanelText}</span>
           </div>
         ) : null}
         <div
           className={cx([
-            'dark-overlay',
+            styles['dark-overlay'],
             {
               hidden: !this.state.showDarkOverlay,
               isItinerary,
             },
           ])}
         />
-        <div className="origin-input-container">
+        <div className={styles['origin-input-container']}>
           <DTAutoSuggest
             config={this.props.config}
             icon="mapMarker-from"
@@ -483,7 +484,7 @@ class DTAutosuggestPanel extends React.Component {
             lang={this.props.lang}
           />
           <ItinerarySearchControl
-            className="switch"
+            className={styles.switch}
             enabled={isItinerary}
             onClick={() => this.handleSwapOrderClick()}
             onKeyPress={e =>
@@ -494,10 +495,10 @@ class DTAutosuggestPanel extends React.Component {
             <Icon img="direction-b" />
           </ItinerarySearchControl>
         </div>
-        <div className="viapoints-container">
+        <div className={styles['viapoints-container']}>
           {viaPoints.map((o, i) => (
             <div
-              className={cx('viapoint-container', {
+              className={cx(styles['viapoint-container'], {
                 'drop-target-before': i === isDraggingOverIndex,
               })}
               key={`viapoint-${i}`} // eslint-disable-line
@@ -505,9 +506,11 @@ class DTAutosuggestPanel extends React.Component {
               onDrop={e => this.handleOnViaPointDrop(e, i)}
               ref={el => this.setDraggableViaPointRef(el, i)}
             >
-              <div className={`viapoint-input-container viapoint-${i + 1}`}>
+              <div
+                className={styles[`viapoint-input-container viapoint-${i + 1}`]}
+              >
                 <div
-                  className="viapoint-before"
+                  className={styles['viapoint-before']}
                   draggable
                   onDragEnd={this.handleOnViaPointDragEnd}
                   onDragStart={e => this.handleStartViaPointDragging(e, i)}
@@ -534,9 +537,9 @@ class DTAutosuggestPanel extends React.Component {
                   }
                   lang={this.props.lang}
                 />
-                <div className="via-point-button-container">
+                <div className={styles['via-point-button-container']}>
                   <ItinerarySearchControl
-                    className="add-via-point-slack"
+                    className={styles['add-via-point-slack']}
                     enabled={isItinerary}
                     onClick={() => this.handleToggleViaPointSlackClick(i)}
                     onKeyPress={e =>
@@ -553,7 +556,7 @@ class DTAutosuggestPanel extends React.Component {
                     <Icon img="time" />
                     <Icon
                       img="attention"
-                      className={cx('super-icon', {
+                      className={cx(styles['super-icon'], {
                         collapsed:
                           isViaPointSlackTimeInputActive(i) ||
                           getViaPointSlackTimeOrDefault(viaPoints[i]) ===
@@ -562,7 +565,7 @@ class DTAutosuggestPanel extends React.Component {
                     />
                   </ItinerarySearchControl>
                   <ItinerarySearchControl
-                    className="remove-via-point"
+                    className={styles['remove-via-point']}
                     enabled={isItinerary}
                     onClick={() => this.handleRemoveViaPointClick(i)}
                     onKeyPress={e =>
@@ -578,12 +581,12 @@ class DTAutosuggestPanel extends React.Component {
                 </div>
               </div>
               <div
-                className={cx('input-viapoint-slack-container', {
+                className={cx(styles['input-viapoint-slack-container'], {
                   collapsed: !isViaPointSlackTimeInputActive(i),
                 })}
               >
                 <span>{i18next.t('viapoint-slack-amount')}</span>
-                <div className="select-wrapper">
+                <div className={styles['select-wrapper']}>
                   <Select
                     name="viapoint-slack-amount"
                     selected={`${getViaPointSlackTimeOrDefault(viaPoints[i])}`}
@@ -595,13 +598,16 @@ class DTAutosuggestPanel extends React.Component {
                       index: i + 1,
                     })}
                   />
-                  <Icon className="fake-select-arrow" img="arrow-dropdown" />
+                  <Icon
+                    className={styles['fake-select-arrow']}
+                    img="arrow-dropdown"
+                  />
                 </div>
               </div>
             </div>
           ))}
         </div>
-        <div className="destination-input-container">
+        <div className={styles['destination-input-container']}>
           <DTAutoSuggest
             config={this.props.config}
             icon="mapMarker-to"
@@ -622,7 +628,7 @@ class DTAutosuggestPanel extends React.Component {
             lang={this.props.lang}
           />
           <ItinerarySearchControl
-            className={cx('add-via-point', 'more', {
+            className={cx(styles['add-via-point'], styles.more, {
               collapsed: viaPoints.length > 4,
             })}
             enabled={isItinerary}

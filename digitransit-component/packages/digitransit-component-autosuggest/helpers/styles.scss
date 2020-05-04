@@ -1,3 +1,4 @@
+/* stylelint-disable */ 
 @import './hsl_theme';
 
 $search-result-background-color: $white;
@@ -41,31 +42,30 @@ $leaflet-overlay: 800;
   }
 }
 
-.front-page {
-  //for index page only
-  .autosuggest-input-container {
-    box-shadow: 1.5px 2.6px 10px 0 rgba(0, 0, 0, 0.2);
-  }
+//for index page only
+.autosuggest-input-container {
+  box-shadow: 1.5px 2.6px 10px 0 rgba(0, 0, 0, 0.2);
+}
 
-  .origin-input-container,
-  .destination-input-container,
-  #origin,
-  #destination {
-    margin: 0;
-    font-size: 1rem;
-  }
+.origin-input-container,
+.destination-input-container,
+#origin,
+#destination {
+  margin: 0;
+  font-size: 1rem;
+}
 
-  .autosuggest-input-icon {
-    margin-top: 0.75em;
-    z-index: index($zindex, search-input-icon)
-  }
+.autosuggest-input-icon {
+  margin-top: 0.75em;
+  z-index: index($zindex, search-input-icon)
+}
 
-  button.clear-input {
-    font-size: 1rem;
-  }
-  .autosuggest-panel .react-autosuggest__container .react-autosuggest__suggestions-container--open {
-    top: 3rem;
-  }
+button.clear-input {
+  font-size: 1rem;
+}
+
+.autosuggest-panel .container .suggestionsContainerOpen {
+  top: 3em;
 }
 
 /*Placeholder selectors can't be nested and need to be put 1 at a time, these are for the
@@ -112,7 +112,6 @@ input field Placeholder texts */
 }
 
 ul.react-autowhatever__items-list {
-  // @extend .momentum-scroll;
   list-style-type: none;
   background: $white;
   border: 1px solid $light-gray;
@@ -131,7 +130,7 @@ ul.react-autowhatever__items-list {
   }
 }
 
-.react-autosuggest__suggestion--highlighted {
+.suggestionHighlighted {
   color: $search-result-text-highlight-color;
   font-family: $search-result-text-font-family;
   font-weight: $search-result-text-font-weight;
@@ -139,7 +138,7 @@ ul.react-autowhatever__items-list {
   background-color: $search-result-text-highlight-background-color;
 }
 
-.react-autosuggest__suggestions-container {
+.suggestionsContainer {
   background-color: white;
 
   .suggestion-name {
@@ -163,7 +162,7 @@ ul.react-autowhatever__items-list {
     }
   }
 
-  .react-autosuggest__suggestions-list {
+  .suggestionsList {
     margin-top: -0.2em;
     margin-bottom: 0;
     padding-top: 0px;
@@ -175,7 +174,7 @@ ul.react-autowhatever__items-list {
   }
 }
 
-.react-autosuggest__suggestion {
+.suggestion {
   padding-top: 3px;
   padding-bottom: 3px;
   margin: 0;
@@ -188,7 +187,7 @@ ul.react-autowhatever__items-list {
   border-bottom: 1px solid $light-gray;
 }
 
-.react-autosuggest__suggestion .icon {
+.suggestion .icon {
   margin-right: 4px;
   fill: #cbcbcb;
 }
@@ -254,7 +253,6 @@ ul.react-autowhatever__items-list {
   .suggestion-name,
   .suggestion-label {
     margin: 0;
-    // @include font-book;
   }
 
   .suggestion-name,
@@ -327,7 +325,6 @@ ul.react-autowhatever__items-list {
     }
     div.suggestion-item-timetable-label {
       display: inline-block;
-      // @include font-bold;
       color: $link-color;
       text-transform: uppercase;
       font-size: $font-size-xxxsmall;
@@ -361,11 +358,11 @@ div.map {
   }
 }
 
-.react-autosuggest__container {
+.container {
   display: flex;
   width: 100%;
 
-  .react-autosuggest__suggestions-container--open {
+  .suggestionsContainerOpen {
     background: #fff;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
@@ -382,7 +379,7 @@ div.map {
   &.isItinerary {
     width: 100%;
 
-    input.react-autosuggest__input {
+    input.input {
       background: $white;
     }
 
@@ -410,10 +407,10 @@ div.map {
     }
   }
 
-  .react-autosuggest__container {
+  .container {
     width: 100%;
 
-    .react-autosuggest__suggestions-container--open {
+    .suggestionsContainerOpen {
       background: #fff;
       border-bottom-left-radius: 4px;
       border-bottom-right-radius: 4px;
@@ -427,8 +424,8 @@ div.map {
   }
 
   &.small
-    .react-autosuggest__container
-    .react-autosuggest__suggestions-container--open {
+    .container
+    .suggestionsContainerOpen {
     max-height: unset;
   }
 }
@@ -509,7 +506,7 @@ div.map {
     left: 0;  // DT-3381: TODO Placeholder values!
   }
 
-  .react-autosuggest__container {
+  .container {
     margin: 0 auto;
   }
 }
@@ -542,7 +539,7 @@ div.map {
   }
 }
 
-input.react-autosuggest__input {
+input.input {
   &.destination,
   &.location,
   &.position,
@@ -551,7 +548,6 @@ input.react-autosuggest__input {
   }
 
   background-color: $white;
-  // @include font-medium;
   border: 1px solid #fff;
   border-radius: 4px;
   height: $search-form-input-height;
@@ -617,6 +613,10 @@ input.react-autosuggest__input {
   position: relative;
   width: 80%; // DT-3381: TODO Placeholder values
   left: 60px; // DT-3381: TODO Placeholder values
+  &.isItinerary {
+    width: 100%;
+    left: 0;
+  }
     &.searchfield-preferred-bottom{
       left: 0;
       width: inherit;
@@ -720,7 +720,7 @@ input.react-autosuggest__input {
   }
 }
 
-.react-autosuggest__container--open .react-autosuggest__input {
+.containerOpen .input {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
   box-shadow: none;
@@ -728,20 +728,19 @@ input.react-autosuggest__input {
   border: none;
 }
 
-.react-autosuggest__container input {
+.container input {
   box-shadow: none;
   outline: none;
   transition: border 0s;
   &:focus {
     box-shadow: none;
-    // @include default-focus-outline;
     border: none;
     background: $white;
     z-index: index($zindex, search-input-focus);
   }
 }
 
-input.react-autosuggest__input::-ms-clear {
+input.input::-ms-clear {
   display: none;
 }
 
@@ -767,11 +766,10 @@ button.clear-input {
   }
   &:focus {
     background-color: $white;
-    // @include default-focus-outline;
   }
 }
 
-.react-autosuggest__container--open {
+.containerOpen {
   button.clear-input {
     border-bottom-right-radius: 0;
   }
@@ -779,4 +777,14 @@ button.clear-input {
 
 .suggestion-is-updating {
   visibility: hidden;
+}
+
+.sr-only:not(:focus):not(:active) {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
 }

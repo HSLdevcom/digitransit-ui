@@ -32,8 +32,6 @@ function Icon({ color, img, height, width, margin }) {
   return (
     <span aria-hidden className="icon-container">
       <svg
-        xmlns="http://www.w3.org/2000/svg"
-        xmlnsXlink="http://www.w3.org/1999/xlink"
         style={{
           fill: color || null,
           height: height ? `${height}em` : null,

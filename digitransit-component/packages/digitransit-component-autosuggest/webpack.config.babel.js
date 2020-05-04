@@ -24,9 +24,30 @@ module.exports = {
       },
       {
         test: /\.svg$/,
-        loader: 'url-loader',
+        use: {
+          loader: 'url-loader',
+        },
+      },
+      {
+        test: /\.s(a|c)ss$/,
+        use: [
+          'iso-morphic-style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2,
+              modules: true,
+            },
+          },
+          {
+            loader: 'sass-loader',
+          },
+        ],
       },
     ],
+  },
+  resolve: {
+    extensions: ['.js', '.scss'],
   },
   externals: [
     {

@@ -13,6 +13,7 @@ import { getNameLabel } from '@digitransit-search-util/digitransit-search-util-u
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
 import Icon from './helpers/Icon';
 import translations from './helpers/translations';
+import styles from './helpers/styles.scss';
 
 i18next.init({ lng: 'fi', resources: {} });
 
@@ -21,9 +22,9 @@ i18next.addResourceBundle('fi', 'translation', translations.fi);
 i18next.addResourceBundle('sv', 'translation', translations.sv);
 
 const Loading = props => (
-  <div className="spinner-loader">
+  <div className={styles['spinner-loader']}>
     {(props && props.children) || (
-      <span className="sr-only">{i18next.t('loading')}</span>
+      <span className={styles['sr-only']}>{i18next.t('loading')}</span>
     )}
   </div>
 );
@@ -274,14 +275,15 @@ class DTAutosuggest extends React.Component {
   clearButton = () => {
     const img = this.state.value ? 'close' : 'search';
     return (
+      // eslint-disable-next-line react/button-has-type
       <button
-        className="noborder clear-input"
+        className={styles['clear-input']}
         onClick={this.clearInput}
         aria-label={i18next.t(
           this.state.value ? 'clear-button-label' : 'search-button-label',
         )}
       >
-        <Icon img={img} />
+        <Icon img={img} width={1.1} height={1.1} />
       </button>
     );
   };
@@ -434,7 +436,7 @@ class DTAutosuggest extends React.Component {
       value,
       onChange: this.onChange,
       onBlur: this.onBlur,
-      className: `react-autosuggest__input ${this.props.className}`,
+      className: `${styles.input} ${styles[this.props.className]}`,
       onKeyDown: this.keyDown, // DT-3263
     };
     const ariaBarId = this.props.id.replace('searchfield-', '');
@@ -449,10 +451,20 @@ class DTAutosuggest extends React.Component {
       selection: this.suggestionAsAriaContent(),
     });
     return (
-      <div className={cx(['autosuggest-input-container', this.props.id])}>
+      <div
+        className={cx([
+          styles['autosuggest-input-container'],
+          styles[this.props.id],
+        ])}
+      >
         {this.props.icon && (
-          <div className={cx(['autosuggest-input-icon', this.props.id])}>
-            <Icon img={`${this.props.icon}`} />
+          <div
+            className={cx([
+              styles['autosuggest-input-icon'],
+              styles[this.props.id],
+            ])}
+          >
+            <Icon img={`${this.props.icon}`} width={1.45} height={1.45} />
           </div>
         )}
         <Autosuggest
@@ -466,6 +478,7 @@ class DTAutosuggest extends React.Component {
           focusInputOnSuggestionClick={false}
           shouldRenderSuggestions={() => this.state.editing}
           highlightFirstSuggestion
+          theme={styles}
           renderInputComponent={p => (
             <>
               <input
@@ -476,14 +489,14 @@ class DTAutosuggest extends React.Component {
                 {...p}
               />
               <span
-                className="sr-only"
+                className={styles['sr-only']}
                 role="alert"
                 // aria-hidden={!this.state.editing}
               >
                 {ariaSuggestionLen}
               </span>
               <span
-                className="sr-only"
+                className={styles['sr-only']}
                 role="alert"
                 aria-hidden={!this.state.editing || suggestions.length === 0}
               >
