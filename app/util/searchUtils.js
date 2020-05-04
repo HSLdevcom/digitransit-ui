@@ -13,6 +13,7 @@ import cloneDeep from 'lodash/cloneDeep';
 
 const getLocality = suggestion =>
   suggestion.localadmin || suggestion.locality || '';
+const PREFIX_STOPS = 'pysakit';
 
 const getStopCode = ({ id, code }) => {
   if (code) {
@@ -126,7 +127,7 @@ export const mapRoute = item => {
     return null;
   }
 
-  const link = `/${PREFIX_ROUTES}/${item.gtfsId}/pysakit/${
+  const link = `/${PREFIX_ROUTES}/${item.gtfsId}/${PREFIX_STOPS}/${
     orderBy(item.patterns, 'code', ['asc'])[0].code
   }`;
 

@@ -156,7 +156,9 @@ class MarkerPopupBottom extends React.Component {
             defaultMessage="Route from here"
           />
         </div>
-        {this.context.match.location.pathname.startsWith('/reitti/') &&
+        {this.context.match.location.pathname.startsWith(
+          `/${PREFIX_ITINERARY_SUMMARY}/`,
+        ) &&
           getIntermediatePlaces(this.context.match.location.query).length <
             5 && (
             <div

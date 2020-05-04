@@ -91,7 +91,7 @@ export const isKeyboardSelectionEvent = event => {
  */
 export const getDrawerWidth = (
   window,
-  { minWidth = 291, maxWidth = 600 } = {},
+  { minWidth = 291, maxWidth = 400 } = {},
 ) => {
   if (typeof window !== 'undefined') {
     return 0.5 * window.innerWidth > minWidth

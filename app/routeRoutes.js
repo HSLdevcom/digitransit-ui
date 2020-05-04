@@ -6,7 +6,12 @@ import Redirect from 'found/lib/Redirect';
 import { graphql } from 'react-relay';
 
 import Error404 from './component/404';
-import { PREFIX_ROUTES } from './util/path';
+import {
+  PREFIX_DISRUPTION,
+  PREFIX_ROUTES,
+  PREFIX_STOPS,
+  PREFIX_TIMETABLE,
+} from './util/path';
 import {
   getDefault,
   getComponentOrNullRenderer,
@@ -80,7 +85,7 @@ export default (
         ),
         map: [
           <Route
-            path="pysakit/:patternId/:tripId"
+            path={`${PREFIX_STOPS}/:patternId/:tripId`}
             getComponent={() =>
               import(/* webpackChunkName: "route" */ './component/RouteMapContainer').then(
                 getDefault,
@@ -122,9 +127,9 @@ export default (
           <Route path="(.?)*" />,
         ],
         content: [
-          <Route path="pysakit">
+          <Route path={PREFIX_STOPS}>
             <Redirect
-              to={`/${PREFIX_ROUTES}/:routeId/pysakit/:routeId%3A0%3A01`}
+              to={`/${PREFIX_ROUTES}/:routeId/${PREFIX_STOPS}/:routeId%3A0%3A01`}
             />
             <Route
               path=":patternId"
@@ -169,9 +174,9 @@ export default (
               render={getComponentOrLoadingRenderer}
             />
           </Route>,
-          <Route path="aikataulu">
+          <Route path={PREFIX_TIMETABLE}>
             <Redirect
-              to={`/${PREFIX_ROUTES}/:routeId/aikataulu/:routeId%3A0%3A01`}
+              to={`/${PREFIX_ROUTES}/:routeId/${PREFIX_TIMETABLE}/:routeId%3A0%3A01`}
             />
             <Route
               path=":patternId"
@@ -193,9 +198,9 @@ export default (
               render={getComponentOrLoadingRenderer}
             />
           </Route>,
-          <Route path="hairiot">
+          <Route path={PREFIX_DISRUPTION}>
             <Redirect
-              to={`/${PREFIX_ROUTES}/:routeId/hairiot/:routeId%3A0%3A01`}
+              to={`/${PREFIX_ROUTES}/:routeId/${PREFIX_DISRUPTION}/:routeId%3A0%3A01`}
             />
             <Route
               path=":patternId"

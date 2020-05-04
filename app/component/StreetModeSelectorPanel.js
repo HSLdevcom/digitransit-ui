@@ -1,68 +1,80 @@
-import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import Toggle from 'material-ui/Toggle';
+import Icon from './Icon';
+import BikingOptionsSection from './customizesearch/BikingOptionsSection';
 
-import ToggleButton from './ToggleButton';
-import { isKeyboardSelectionEvent } from '../util/browser';
-
+// eslint-disable-next-line react/prefer-stateless-function
 class StreetModeSelectorPanel extends React.Component {
-  getStreetModeSelectButtons() {
+  render() {
     const {
+      selectStreetMode,
       selectedStreetMode,
-      showButtonTitles,
       streetModeConfigs,
+      currentSettings,
+      defaultSettings,
     } = this.props;
-
     if (!streetModeConfigs.length) {
       return null;
     }
-
-    return streetModeConfigs.map(streetMode => {
-      const { exclusive, icon, name } = streetMode;
-      const isSelected = name === selectedStreetMode;
-      const labelId = `street-mode-${name.toLowerCase()}`;
-      return (
-        <ToggleButton
-          checkedClass="selected"
-          key={name}
-          icon={icon}
-          label={labelId}
-          onBtnClick={() => this.selectStreetMode(name, exclusive)}
-          onKeyDown={e =>
-            isKeyboardSelectionEvent(e) &&
-            this.selectStreetMode(name, exclusive)
-          }
-          showButtonTitle={showButtonTitles}
-          state={isSelected}
-        />
-      );
-    });
-  }
-
-  selectStreetMode(name, exclusive) {
-    this.props.selectStreetMode(name.toUpperCase(), exclusive);
-  }
-
-  render() {
     return (
-      <div className={cx('street-mode-selector-panel', this.props.className)}>
-        <div className="street-mode-selector-panel-header">
-          <FormattedMessage id="main-mode" defaultMessage="I'm travelling by" />
+      <React.Fragment>
+        <div className="transport-modes-container">
+          <div className="transport-mode-subheader">
+            <FormattedMessage
+              id="pick-street-mode"
+              defaultMessage="Your own transportation modes"
+            />
+          </div>
+          {streetModeConfigs
+            .filter(mode => mode.availableForSelection)
+            .map(mode => (
+              <div key={`mode-option-${mode.name}`}>
+                <div className="mode-option-container">
+                  <div className="mode-option-block">
+                    <div className="mode-icon">
+                      <Icon
+                        className={`${mode}-icon`}
+                        img={`icon-icon_${mode.icon}`}
+                      />
+                    </div>
+                    <div className="mode-name">
+                      <FormattedMessage
+                        className="mode-name"
+                        id={mode.name.toLowerCase()}
+                        defaultMessage={mode.name.toLowerCase()}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <Toggle
+                      toggled={selectedStreetMode === mode.name}
+                      onToggle={() => selectStreetMode(mode.name.toUpperCase())}
+                      style={{ top: '12px', width: 'auto' }}
+                    />
+                  </div>
+                </div>
+                {selectedStreetMode === 'BICYCLE' &&
+                  mode.name === 'BICYCLE' && (
+                    <BikingOptionsSection
+                      bikeSpeed={currentSettings.bikeSpeed}
+                      defaultSettings={defaultSettings}
+                    />
+                  )}
+              </div>
+            ))}
         </div>
-        <div className="street-mode-selector-panel-buttons">
-          {this.getStreetModeSelectButtons()}
-        </div>
-      </div>
+      </React.Fragment>
     );
   }
 }
 
 StreetModeSelectorPanel.propTypes = {
-  className: PropTypes.string,
   selectStreetMode: PropTypes.func.isRequired,
   selectedStreetMode: PropTypes.string,
-  showButtonTitles: PropTypes.bool,
+  currentSettings: PropTypes.object.isRequired,
+  defaultSettings: PropTypes.object.isRequired,
   streetModeConfigs: PropTypes.arrayOf(
     PropTypes.shape({
       defaultValue: PropTypes.bool.isRequired,
@@ -73,9 +85,7 @@ StreetModeSelectorPanel.propTypes = {
 };
 
 StreetModeSelectorPanel.defaultProps = {
-  className: undefined,
   selectedStreetMode: undefined,
-  showButtonTitles: false,
   streetModeConfigs: [],
 };
 

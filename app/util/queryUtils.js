@@ -1,13 +1,38 @@
-import { isEmpty, xor } from 'lodash';
+import { isEmpty, isEqual } from 'lodash';
 import isString from 'lodash/isString';
 import omit from 'lodash/omit';
 import trim from 'lodash/trim';
 import cloneDeep from 'lodash/cloneDeep';
+import { config } from 'react-transition-group';
 
 import { otpToLocation } from './otpStrings';
 import { OptimizeType } from '../constants';
-import { getCustomizedSettings } from '../store/localStorage';
+import {
+  getCustomizedSettings,
+  setCustomizedSettings,
+  resetCustomizedSettings,
+} from '../store/localStorage';
 import { addAnalyticsEvent } from './analyticsUtils';
+import { getCurrentSettings, getDefaultSettings } from './planParamUtil';
+
+export const setSettingsData = (match, router) => {
+  // eslint-disable-next-line no-use-before-define
+  const querySettings = getQuerySettings(match.location.query);
+  const customizedSettings = getCustomizedSettings();
+  const currentSettings = getCurrentSettings(config, match.location.query);
+  const defaultSettings = getDefaultSettings(config);
+
+  if (
+    (isEmpty(querySettings) && isEmpty(customizedSettings)) ||
+    isEqual(currentSettings, defaultSettings)
+  ) {
+    resetCustomizedSettings();
+    // eslint-disable-next-line no-use-before-define
+    clearQueryParams(router, match, Object.keys(defaultSettings));
+  } else {
+    setCustomizedSettings(querySettings);
+  }
+};
 
 /**
  * Removes selected itinerary index from url (pathname) and
@@ -160,112 +185,6 @@ const getArrayValueOrDefault = (value, defaultValue = []) => {
 };
 
 /**
- * Adds the given route as a preferred or unpreferred route in the routing request.
- *
- * @param {*} query query params
- * @param {*} preferred If this valus is true, gets preferredRoutes, else gets unpreferredRoutes
- */
-const getRoutes = (query, preferred) => {
-  const routesType = preferred ? 'preferredRoutes' : 'unpreferredRoutes';
-  if (query && query[routesType]) {
-    return getArrayValueOrDefault(query[routesType]);
-  }
-  const routes = getCustomizedSettings()[routesType];
-  if (Array.isArray(routes) && !isEmpty(routes)) {
-    return routes;
-  }
-  return [];
-};
-
-/**
- * Adds the given route as a preferred or unpreferred route in the routing request.
- *
- * @param {*} router The router
- * @param {*} routeToAdd The route identifier to add
- * @param {*} preferred If this valus is true, add to preferredRoutes, else add to unpreferredRoutes
- * @param {*} match The match object from found
- */
-const addRoute = (router, routeToAdd, preferred, match) => {
-  const { query } = match.location;
-  const routes = getRoutes(query, preferred);
-  if (routes.includes(routeToAdd)) {
-    return;
-  }
-
-  routes.push(routeToAdd);
-  replaceQueryParams(router, match, {
-    [`${preferred ? 'preferred' : 'unpreferred'}Routes`]: routes.join(','),
-  });
-  const action = preferred ? 'PreferRoute' : 'AvoidRoute';
-  addAnalyticsEvent({
-    action,
-    category: 'ItinerarySettings',
-    name: routeToAdd,
-  });
-};
-
-/**
- * Removes the given route from preferred or unpreferred routes in the routing request.
- *
- * @param {*} router The router
- * @param {*} routeToRemove The route identifier to remove
- * @param {*} preferred This value is true if removed from preferredRoutes, false if from unpreferredRoutes
- * @param {*} match The match object from found
- */
-const removeRoute = (router, routeToRemove, preferred, match) => {
-  const { query } = match.location;
-  // routes will have existing routes - routeToRemove
-  const currentRoutes = getRoutes(query, preferred);
-  if (!currentRoutes.includes(routeToRemove)) {
-    return;
-  }
-  const routes = xor(currentRoutes, [routeToRemove]);
-  const routesType = `${preferred ? 'preferred' : 'unpreferred'}Routes`;
-
-  replaceQueryParams(router, match, { [routesType]: routes.join(',') });
-};
-
-/**
- * Adds the given route as a preferred option in the routing request.
- *
- * @param {*} router The router
- * @param {*} routeToAdd The route identifier to add
- * @param {*} match The match object from found
- */
-export const addPreferredRoute = (router, routeToAdd, match) =>
-  addRoute(router, routeToAdd, true, match);
-
-/**
- * Removes the given route from the preferred options in the routing request.
- *
- * @param {*} router The router
- * @param {*} routeToRemove The route identifier to remove
- * @param {*} match The match object from found
- */
-export const removePreferredRoute = (router, routeToRemove, match) =>
-  removeRoute(router, routeToRemove, true, match);
-
-/**
- * Adds the given route as an unpreferred option in the routing request.
- *
- * @param {*} router The router
- * @param {*} routeToAdd The route identifier to add
- * @param {*} match The match object from found
- */
-export const addUnpreferredRoute = (router, routeToAdd, match) =>
-  addRoute(router, routeToAdd, false, match);
-
-/**
- * Removes the given route from the unpreferred options in the routing request.
- *
- * @param {*} router The router
- * @param {*} routeToRemove The route identifier to remove
- * @param {*} match The match object from found
- */
-export const removeUnpreferredRoute = (router, routeToRemove, match) =>
-  removeRoute(router, routeToRemove, false, match);
-
-/**
  * Retrieves all the user-customizable settings from the url.
  *
  * @param {*} query The query part of the current url
@@ -282,8 +201,8 @@ export const getQuerySettings = query => {
       : defaultValue;
 
   return {
-    ...(hasKey('accessibilityOption') && {
-      accessibilityOption: getNumberValueOrDefault(query.accessibilityOption),
+    ...(hasKey('usingWheelchair') && {
+      usingWheelchair: getNumberValueOrDefault(query.usingWheelchair),
     }),
     ...(hasKey('bikeSpeed') && {
       bikeSpeed: getNumberValueOrDefault(query.bikeSpeed),
