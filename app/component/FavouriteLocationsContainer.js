@@ -166,7 +166,9 @@ export default class FavouriteLocationsContainer extends React.Component {
     const { listOpen, favourites, home, work, highlightedIndex } = this.state;
 
     const expandIcon =
-      favourites.length === 0 ? 'icon-icon_plus' : 'icon-icon_arrow-dropdown';
+      this.props.favourites.length === 0
+        ? 'icon-icon_plus'
+        : 'icon-icon_arrow-dropdown';
 
     const customSuggestions = [
       { text: 'Lisää paikka', iconId: 'icon-icon_star', color: '#007ac9' },
