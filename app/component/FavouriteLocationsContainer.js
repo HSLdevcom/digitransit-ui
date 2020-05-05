@@ -67,8 +67,8 @@ export default class FavouriteLocationsContainer extends React.Component {
     );
     const filteredFavourites = favourites.filter(
       favourite =>
-        (home && favourite.favouriteId !== home.favouriteId) ||
-        (work && favourite.favouriteId !== work.favouriteId),
+        favourite.favouriteId !== (home && home.favouriteId) &&
+        favourite.favouriteId !== (work && work.favouriteId),
     );
     this.setState({ favourites: filteredFavourites, home, work });
   }
