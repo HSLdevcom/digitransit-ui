@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import PropTypes from 'prop-types';
 import React from 'react';
 import find from 'lodash/find';
@@ -110,28 +109,26 @@ export default class FavouriteLocationsContainer extends React.Component {
 
   handleKeyDown = event => {
     const { favourites, highlightedIndex, listOpen } = this.state;
-
+    const key = (event && (event.key || event.which || event.keyCode)) || '';
     if (isKeyboardSelectionEvent(event)) {
       if (!listOpen) {
         this.toggleList();
       } else if (highlightedIndex < favourites.length) {
         this.clickFavourite(favourites[highlightedIndex]);
       } else if (highlightedIndex === favourites.length) {
-        console.log('Add favourite');
         this.toggleList();
       } else if (highlightedIndex === favourites.length + 1) {
-        console.log('Edit');
         this.toggleList();
       }
-    } else if (event.key === 'ArrowUp') {
+    } else if (key === 'ArrowUp' || key === 38) {
       const next =
         highlightedIndex === 0 ? favourites.length + 1 : highlightedIndex - 1;
       this.highlightSuggestion(next);
-    } else if (event.key === 'ArrowDown') {
+    } else if (key === 'ArrowDown' || key === 40) {
       const next =
         highlightedIndex === favourites.length + 1 ? 0 : highlightedIndex + 1;
       this.highlightSuggestion(next);
-    } else if (event.key === 'Tab') {
+    } else if (key === 'Tab' || key === 9) {
       this.setState({ listOpen: false });
     }
   };
