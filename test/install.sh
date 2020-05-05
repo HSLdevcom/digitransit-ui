@@ -8,6 +8,6 @@ fi
 
 set -e
 
-yarn install
+yarn setup
 yarn lint
 yarn build

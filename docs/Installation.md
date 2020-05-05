@@ -23,7 +23,7 @@ sudo make install
 ```
 
 ## Installation
-- `yarn install`
+- `yarn setup`
 
 
 ## Start development version
