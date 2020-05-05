@@ -12,7 +12,7 @@ import Icon from '../../../app/component/Icon';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../app/util/path';
 
 describe('<RoutePage />', () => {
-  it.skip('should set the activeAlert class if there is an alert and no patternId', () => {
+  it('should set the activeAlert class if there is an alert and no patternId', () => {
     const props = {
       breakpoint: 'large',
       location: {
@@ -34,7 +34,7 @@ describe('<RoutePage />', () => {
     expect(wrapper.find('.activeAlert')).to.have.lengthOf(1);
   });
 
-  it.skip('should set the activeAlert class if there is an alert and a matching patternId', () => {
+  it('should set the activeAlert class if there is an alert and a matching patternId', () => {
     const props = {
       breakpoint: 'large',
       location: {
@@ -64,7 +64,7 @@ describe('<RoutePage />', () => {
     expect(wrapper.find('.activeAlert')).to.have.lengthOf(1);
   });
 
-  it.skip('should not set the activeAlert class if there is an alert and no matching patternId', () => {
+  it('should not set the activeAlert class if there is an alert and no matching patternId', () => {
     const props = {
       breakpoint: 'large',
       location: {
@@ -94,7 +94,7 @@ describe('<RoutePage />', () => {
     expect(wrapper.find('.activeAlert')).to.have.lengthOf(0);
   });
 
-  it.skip('should start the real time client after mounting', () => {
+  it('should start the real time client after mounting', () => {
     const props = {
       breakpoint: 'large',
       location: {
@@ -131,7 +131,7 @@ describe('<RoutePage />', () => {
     expect(context.executeAction.args[0][0]).to.equal(startRealTimeClient);
   });
 
-  it.skip('should not start the real time client after mounting if realtime is not active', () => {
+  it('should not start the real time client after mounting if realtime is not active', () => {
     const props = {
       breakpoint: 'large',
       location: {
@@ -166,7 +166,7 @@ describe('<RoutePage />', () => {
     expect(context.executeAction.callCount).to.equal(0);
   });
 
-  it.skip('should set the activeAlert class if there is a cancelation for today', () => {
+  it('should set the activeAlert class if there is a cancelation for today', () => {
     const props = {
       breakpoint: 'large',
       location: {
@@ -202,7 +202,7 @@ describe('<RoutePage />', () => {
     expect(wrapper.find('.activeAlert')).to.have.lengthOf(1);
   });
 
-  it.skip('should set the activeAlert class if one of the stops in this pattern has an alert', () => {
+  it('should set the activeAlert class if one of the stops in this pattern has an alert', () => {
     const props = {
       breakpoint: 'large',
       location: {
@@ -238,7 +238,7 @@ describe('<RoutePage />', () => {
     expect(wrapper.find('.activeAlert')).to.have.lengthOf(1);
   });
 
-  it.skip('should set the activeAlert class if there are alerts for the current route with and without pattern information', () => {
+  it('should set the activeAlert class if there are alerts for the current route with and without pattern information', () => {
     const props = {
       breakpoint: 'large',
       location: {
@@ -272,7 +272,7 @@ describe('<RoutePage />', () => {
   });
 
   describe('componentDidMount', () => {
-    it.skip('should ignore a missing pattern', () => {
+    it('should ignore a missing pattern', () => {
       const props = {
         breakpoint: 'large',
         location: {
@@ -303,7 +303,7 @@ describe('<RoutePage />', () => {
   });
 
   describe('onPatternChange', () => {
-    it.skip('should ignore a missing pattern', () => {
+    it('should ignore a missing pattern', () => {
       const props = {
         breakpoint: 'large',
         location: {
@@ -336,7 +336,7 @@ describe('<RoutePage />', () => {
     });
   });
 
-  it.skip('should mark the disruptions tab as having an active info alert due to a route INFO level service alert', () => {
+  it('should mark the disruptions tab as having an active info alert due to a route INFO level service alert', () => {
     const props = {
       breakpoint: 'large',
       location: {
@@ -365,7 +365,7 @@ describe('<RoutePage />', () => {
     ).to.equal('route-page-tab_icon active-service-alert');
   });
 
-  it.skip('should mark the disruptions tab as having an active info alert due to a route WARNING level service alert', () => {
+  it('should mark the disruptions tab as having an active info alert due to a route WARNING level service alert', () => {
     const props = {
       breakpoint: 'large',
       location: {
@@ -394,7 +394,7 @@ describe('<RoutePage />', () => {
     ).to.equal('route-page-tab_icon active-disruption-alert');
   });
 
-  it.skip('should mark the disruptions tab as having an active info alert due to a route SEVERE level service alert', () => {
+  it('should mark the disruptions tab as having an active info alert due to a route SEVERE level service alert', () => {
     const props = {
       breakpoint: 'large',
       location: {

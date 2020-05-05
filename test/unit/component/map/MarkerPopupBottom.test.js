@@ -14,7 +14,7 @@ import { PREFIX_ITINERARY_SUMMARY } from '../../../../app/util/path';
 
 describe('<MarkerPopupBottom />', () => {
   describe('routeFrom', () => {
-    it.skip('should reset the summaryPageSelected state', () => {
+    it('should reset the summaryPageSelected state', () => {
       const props = {
         location: {},
       };
@@ -54,7 +54,7 @@ describe('<MarkerPopupBottom />', () => {
   });
 
   describe('routeTo', () => {
-    it.skip('should reset the summaryPageSelected state', () => {
+    it('should reset the summaryPageSelected state', () => {
       const props = {
         location: {},
       };
@@ -92,7 +92,7 @@ describe('<MarkerPopupBottom />', () => {
       expect(state.summaryPageSelected).to.equal(0);
     });
   });
-  it.skip('should render a viapoint button when in route view', () => {
+  it('should render a viapoint button when in route view', () => {
     const props = {
       location: {},
       leaflet: {

@@ -153,7 +153,7 @@ const props = {
 };
 
 describe('<SummaryPlanContainer />', () => {
-  it.skip('should disable the earlier/later buttons if there are no itineraries available', () => {
+  it('should disable the earlier/later buttons if there are no itineraries available', () => {
     const wrapper = mountWithIntl(<SummaryPlanContainer {...props} />, {
       context: {
         ...mockContext,
@@ -173,7 +173,7 @@ describe('<SummaryPlanContainer />', () => {
 
   // Sometimes OTP cannot return proper response. "itineraries" are null and
   // "error" contains information about what happened
-  it.skip('should disable the earlier/later buttons if OTP does not return a response', () => {
+  it('should disable the earlier/later buttons if OTP does not return a response', () => {
     const props2 = {
       ...props,
       itineraries: null,
@@ -196,7 +196,7 @@ describe('<SummaryPlanContainer />', () => {
     ).to.have.lengthOf(1);
   });
 
-  it.skip('should inform user if origin and destination are close to each other', () => {
+  it('should inform user if origin and destination are close to each other', () => {
     const props3 = {
       ...props,
       itineraries: null,
@@ -220,7 +220,7 @@ describe('<SummaryPlanContainer />', () => {
     ).to.have.lengthOf(1);
   });
 
-  it.skip('should inform if user is already at destination', () => {
+  it('should inform if user is already at destination', () => {
     const props4 = {
       ...props,
       itineraries: null,

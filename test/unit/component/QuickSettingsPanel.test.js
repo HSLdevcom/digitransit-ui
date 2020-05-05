@@ -46,7 +46,7 @@ const getDefaultContext = (config, modes = undefined) => {
 };
 
 describe('<QuickSettingsPanel />', () => {
-  it.skip('should render quick options based on availableOptionSets', () => {
+  it('should render quick options based on availableOptionSets', () => {
     const props = getDefaultProps();
     const config = {
       ...defaultConfig,
@@ -70,7 +70,7 @@ describe('<QuickSettingsPanel />', () => {
     ).to.have.lengthOf(1);
   });
 
-  it.skip('should have the default route option always available', () => {
+  it('should have the default route option always available', () => {
     const props = getDefaultProps();
     const context = getDefaultContext(defaultConfig);
     const wrapper = mountWithIntl(<QuickSettingsPanel {...props} />, {
@@ -89,7 +89,7 @@ describe('<QuickSettingsPanel />', () => {
     });
   });
 
-  it.skip('should have the "least elevation changes" routing option available for biking', () => {
+  it('should have the "least elevation changes" routing option available for biking', () => {
     const props = getDefaultProps();
     const context = getDefaultContext(defaultConfig);
     context.location.query.modes = 'BICYCLE';
@@ -107,14 +107,14 @@ describe('<QuickSettingsPanel />', () => {
   });
 
   describe('matchQuickOption', () => {
-    it.skip('should return "default-route" by default', () => {
+    it('should return "default-route" by default', () => {
       const context = getDefaultContext(defaultConfig);
 
       const currentOption = matchQuickOption(context);
       expect(currentOption).to.equal(QuickOptionSetType.DefaultRoute);
     });
 
-    it.skip('should return "custom-settings" if no matching quick option set is found', () => {
+    it('should return "custom-settings" if no matching quick option set is found', () => {
       const context = getDefaultContext(defaultConfig);
       context.location.query.optimize = 'UNKNOWN';
 
@@ -122,7 +122,7 @@ describe('<QuickSettingsPanel />', () => {
       expect(currentOption).to.equal('custom-settings');
     });
 
-    it.skip('should return "saved-settings" if the current settings come from localStorage', () => {
+    it('should return "saved-settings" if the current settings come from localStorage', () => {
       setCustomizedSettings({
         optimize: OptimizeType.Triangle,
         safetyFactor: 0.4,
@@ -136,7 +136,7 @@ describe('<QuickSettingsPanel />', () => {
       expect(currentOption).to.equal(QuickOptionSetType.SavedSettings);
     });
 
-    it.skip('should still return "saved-settings" if the current settings come from localStorage and they match another quick option set', () => {
+    it('should still return "saved-settings" if the current settings come from localStorage and they match another quick option set', () => {
       setCustomizedSettings({ ...getDefaultSettings(defaultConfig) });
 
       const context = getDefaultContext(defaultConfig);
@@ -145,7 +145,7 @@ describe('<QuickSettingsPanel />', () => {
       expect(currentOption).to.equal(QuickOptionSetType.SavedSettings);
     });
 
-    it.skip('should return the matching quick option set if the query and localStorage contain the same matching settings', () => {
+    it('should return the matching quick option set if the query and localStorage contain the same matching settings', () => {
       const settings = {
         ...getDefaultSettings(defaultConfig),
         modes: StreetMode.Bicycle,
@@ -167,7 +167,7 @@ describe('<QuickSettingsPanel />', () => {
   });
 
   describe('setQuickOption', () => {
-    it.skip('should remove all query params if the selected mode is "saved-settings"', () => {
+    it('should remove all query params if the selected mode is "saved-settings"', () => {
       setCustomizedSettings({
         modes: StreetMode.Bicycle,
         optimize: OptimizeType.Greenways,
@@ -199,7 +199,7 @@ describe('<QuickSettingsPanel />', () => {
   });
 
   describe('togglePopUp', () => {
-    it.skip('should toggle the popup', () => {
+    it('should toggle the popup', () => {
       const wrapper = shallowWithIntl(
         <QuickSettingsPanel {...getDefaultProps()} />,
         {

@@ -43,7 +43,7 @@ describe('Stops', () => {
       expect(mock.called()).to.equal(true);
     });
 
-    it.skip('should retrieve alert data for the given stop', done => {
+    it('should retrieve alert data for the given stop', done => {
       const gtfsId = 'HSL:1172143';
       fetchMock.get(`${config.URL.STOP_MAP}3/1/2.pbf`, {
         status: 404,

@@ -348,7 +348,7 @@ describe('modeUtils', () => {
   });
 
   describe('setStreetMode', () => {
-    it.skip('should apply the selected streetMode to the current url', () => {
+    it('should apply the selected streetMode to the current url', () => {
       const streetMode = StreetMode.ParkAndRide;
       const router = createMemoryMockRouter;
       router.location = {
@@ -368,7 +368,7 @@ describe('modeUtils', () => {
       expect(modes).to.contain(TransportMode.Citybike);
     });
 
-    it.skip('should remove every other mode from the current url when isExclusive=true', () => {
+    it('should remove every other mode from the current url when isExclusive=true', () => {
       const streetMode = StreetMode.ParkAndRide;
       const router = createMemoryMockRouter;
       router.location = {

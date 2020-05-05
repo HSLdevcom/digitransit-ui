@@ -18,7 +18,7 @@ describe('<OriginDestinationBar />', () => {
   // });
 
   describe('swapEndpoints', () => {
-    it.skip('should also swap via points in the query', () => {
+    it('should also swap via points in the query', () => {
       const props = {
         searchContext,
         destination: {},

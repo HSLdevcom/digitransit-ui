@@ -75,14 +75,14 @@ describe('queryUtils', () => {
   });
 
   describe('setIntermediatePlaces', () => {
-    it.skip('should not modify the query if the parameter is neither a string nor an array', () => {
+    it('should not modify the query if the parameter is neither a string nor an array', () => {
       const router = createMemoryMockRouter();
       utils.setIntermediatePlaces(router, {});
       const { intermediatePlaces } = router.getCurrentLocation().query;
       expect(intermediatePlaces).to.equal(undefined);
     });
 
-    it.skip('should not modify the query if the parameter is an array but not a string array', () => {
+    it('should not modify the query if the parameter is an array but not a string array', () => {
       const router = createMemoryMockRouter();
       const intermediatePlaces = [
         {
@@ -104,7 +104,7 @@ describe('queryUtils', () => {
       );
     });
 
-    it.skip('should modify the query if the parameter is a string', () => {
+    it('should modify the query if the parameter is a string', () => {
       const router = createMemoryMockRouter();
       const intermediatePlace = 'Kera, Espoo::60.217992,24.75494';
 
@@ -115,7 +115,7 @@ describe('queryUtils', () => {
       );
     });
 
-    it.skip('should modify the query if the parameter is a string array', () => {
+    it('should modify the query if the parameter is a string array', () => {
       const router = createMemoryMockRouter();
       const intermediatePlaces = [
         'Kera, Espoo::60.217992,24.75494',
@@ -204,7 +204,7 @@ describe('queryUtils', () => {
   });
 
   describe('clearQueryParams', () => {
-    it.skip('should remove only given parameters', () => {
+    it('should remove only given parameters', () => {
       const router = createMemoryMockRouter();
       router.replace({
         query: {
@@ -262,7 +262,7 @@ describe('queryUtils', () => {
   });
 
   describe('replaceQueryParams', () => {
-    it.skip('should remove triangle factors if OptimizeType is not TRIANGLE', () => {
+    it('should remove triangle factors if OptimizeType is not TRIANGLE', () => {
       const router = createMemoryMockRouter();
       router.replace({
         query: {
@@ -289,7 +289,7 @@ describe('queryUtils', () => {
       expect(keys).to.not.include('timeFactor');
     });
 
-    it.skip('should should not remove triangle factors when OptimizeType is missing from new params', () => {
+    it('should should not remove triangle factors when OptimizeType is missing from new params', () => {
       const router = createMemoryMockRouter();
       router.replace({
         query: {
@@ -369,7 +369,7 @@ describe('queryUtils', () => {
   });
 
   describe('setPreferGreenways', () => {
-    it.skip('should not call replace on router if already enabled', () => {
+    it('should not call replace on router if already enabled', () => {
       let callCount = 0;
       const router = {
         replace: () => {
@@ -380,7 +380,7 @@ describe('queryUtils', () => {
       expect(callCount).to.equal(0);
     });
 
-    it.skip('should call replace on router even if already enabled when forced', () => {
+    it('should call replace on router even if already enabled when forced', () => {
       let callParams;
       const router = {
         ...createMemoryMockRouter(),
@@ -392,7 +392,7 @@ describe('queryUtils', () => {
       expect(callParams.query.optimize).to.equal(OptimizeType.Greenways);
     });
 
-    it.skip('should call replace on router when disabled', () => {
+    it('should call replace on router when disabled', () => {
       let callCount = 0;
       const router = {
         ...createMemoryMockRouter(),
@@ -404,7 +404,7 @@ describe('queryUtils', () => {
       expect(callCount).to.equal(1);
     });
 
-    it.skip('should use OptimizeType TRIANGLE when other triangle factors are in use', () => {
+    it('should use OptimizeType TRIANGLE when other triangle factors are in use', () => {
       let callParams;
       const router = {
         ...createMemoryMockRouter(),
@@ -427,7 +427,7 @@ describe('queryUtils', () => {
   });
 
   describe('setAvoidElevationChanges', () => {
-    it.skip('should not call replace on router if already enabled', () => {
+    it('should not call replace on router if already enabled', () => {
       let callCount = 0;
       const router = {
         replace: () => {
@@ -440,7 +440,7 @@ describe('queryUtils', () => {
       expect(callCount).to.equal(0);
     });
 
-    it.skip('should call replace on router even if already enabled when forced', () => {
+    it('should call replace on router even if already enabled when forced', () => {
       let callParams;
       const router = {
         ...createMemoryMockRouter(),
@@ -466,7 +466,7 @@ describe('queryUtils', () => {
       });
     });
 
-    it.skip('should call replace on router when disabled', () => {
+    it('should call replace on router when disabled', () => {
       let callCount = 0;
       const router = {
         ...createMemoryMockRouter(),
@@ -478,7 +478,7 @@ describe('queryUtils', () => {
       expect(callCount).to.equal(1);
     });
 
-    it.skip('should use OptimizeType TRIANGLE when other triangle factors are in use', () => {
+    it('should use OptimizeType TRIANGLE when other triangle factors are in use', () => {
       let callParams;
       const router = {
         ...createMemoryMockRouter(),
@@ -499,7 +499,7 @@ describe('queryUtils', () => {
       });
     });
 
-    it.skip('should convert to OptimizeType TRIANGLE when the current OptimizeType is GREENWAYS', () => {
+    it('should convert to OptimizeType TRIANGLE when the current OptimizeType is GREENWAYS', () => {
       let callParams;
       const router = {
         ...createMemoryMockRouter(),
@@ -534,7 +534,7 @@ describe('queryUtils', () => {
       expect(callCount).to.equal(0);
     });
 
-    it.skip('should switch to just one factor enabled if two factors are currently enabled', () => {
+    it('should switch to just one factor enabled if two factors are currently enabled', () => {
       let callParams;
       const router = {
         ...createMemoryMockRouter(),
@@ -560,7 +560,7 @@ describe('queryUtils', () => {
       });
     });
 
-    it.skip('should switch to default optimize', () => {
+    it('should switch to default optimize', () => {
       let callParams;
       const router = {
         ...createMemoryMockRouter(),
@@ -597,7 +597,7 @@ describe('queryUtils', () => {
       expect(callCount).to.equal(0);
     });
 
-    it.skip('should switch to just one factor enabled if two factors are currently enabled', () => {
+    it('should switch to just one factor enabled if two factors are currently enabled', () => {
       let callParams;
       const router = {
         ...createMemoryMockRouter(),
@@ -620,7 +620,7 @@ describe('queryUtils', () => {
       });
     });
 
-    it.skip('should switch to default optimize', () => {
+    it('should switch to default optimize', () => {
       let callParams;
       const router = {
         ...createMemoryMockRouter(),

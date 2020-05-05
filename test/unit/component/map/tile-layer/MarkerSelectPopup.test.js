@@ -4,7 +4,7 @@ import { shallowWithIntl } from '../../../helpers/mock-intl-enzyme';
 import MarkerSelectPopup from '../../../../../app/component/map/tile-layer/MarkerSelectPopup';
 
 describe('<MarkerSelectPopup />', () => {
-  it.skip('should use a unique key for each row when the rows include citybike stops', () => {
+  it('should use a unique key for each row when the rows include citybike stops', () => {
     const props = {
       options: [
         {

@@ -36,7 +36,7 @@ describe('<CustomizeSearch />', () => {
     fetchMock.restore();
   });
 
-  it.skip('should read preferred routes from the url', () => {
+  it('should read preferred routes from the url', () => {
     const wrapper = mountWithIntl(
       <CustomizeSearch onToggleClick={() => {}} />,
       {
@@ -61,7 +61,7 @@ describe('<CustomizeSearch />', () => {
     expect(routesContainer.find('.route-name')).to.have.lengthOf(1);
   });
 
-  it.skip('should read unpreferred routes from the url', () => {
+  it('should read unpreferred routes from the url', () => {
     const wrapper = mountWithIntl(
       <CustomizeSearch onToggleClick={() => {}} />,
       {
@@ -86,7 +86,7 @@ describe('<CustomizeSearch />', () => {
     expect(routesContainer.find('.route-name')).to.have.lengthOf(1);
   });
 
-  it.skip('should show citybike network selector when many networks are available', () => {
+  it('should show citybike network selector when many networks are available', () => {
     const wrapper = mountWithIntl(
       <CustomizeSearch onToggleClick={() => {}} />,
       {
@@ -114,7 +114,7 @@ describe('<CustomizeSearch />', () => {
     expect(wrapper.find(CityBikeNetworkSelector)).to.have.lengthOf(1);
   });
 
-  it.skip('should hide citybike network selector when citybike routing is disabled', () => {
+  it('should hide citybike network selector when citybike routing is disabled', () => {
     const wrapper = mountWithIntl(
       <CustomizeSearch onToggleClick={() => {}} />,
       {
