@@ -260,6 +260,12 @@ export default configMerger(walttiConfig, {
   },
 
   transportModes: {
+    bus: {
+      availableForSelection: true,
+      defaultValue: true,
+      smallIconZoom: 16,
+    },
+
     rail: {
       availableForSelection: true,
       defaultValue: true,
