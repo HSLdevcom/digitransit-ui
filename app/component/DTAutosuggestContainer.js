@@ -49,6 +49,7 @@ class DTAutosuggestContainer extends React.Component {
     showSpinner: PropTypes.bool,
     layers: PropTypes.array,
     relayEnvironment: PropTypes.object.isRequired,
+    onFavouriteSelected: PropTypes.func,
   };
 
   constructor(props) {
@@ -97,7 +98,7 @@ class DTAutosuggestContainer extends React.Component {
     }
     // favourite
     if (id === 'favourite') {
-      this.selectFavourite(item, id);
+      this.selectFavourite(item);
       return;
     }
     const location = suggestionToLocation(item);
@@ -116,8 +117,8 @@ class DTAutosuggestContainer extends React.Component {
   }
 
   // eslint-disable-next-line no-unused-vars
-  selectFavourite = (item, id) => {
-    // TODO Do what is needed  }
+  selectFavourite = item => {
+    this.props.onFavouriteSelected(item);
   };
 
   selectLocation = (location, id) => {
