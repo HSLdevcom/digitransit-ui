@@ -10,19 +10,25 @@ import serialize from '@digitransit-search-util/digitransit-search-util-serializ
  * digitransit-search-util.getJson(param1, param2);
  * //=response
  */
-const fetch = require('node-fetch');
+const axios = require('axios').default;
 
 export default function getJson(url, params) {
-  return fetch(
-    encodeURI(url) +
-      (params ? (url.search(/\?/) === -1 ? '?' : '&') + serialize(params) : ''),
-    {
-      timeout: 10000,
-      method: 'GET',
+  return axios
+    .get(
+      encodeURI(url) +
+        (params
+          ? (url.search(/\?/) === -1 ? '?' : '&') + serialize(params)
+          : ''),
+      {
+        timeout: 10000,
+        method: 'GET',
 
-      headers: {
-        Accept: 'application/json',
+        headers: {
+          Accept: 'application/json',
+        },
       },
-    },
-  ).then(res => res.json());
+    )
+    .then(res => {
+      return res.data;
+    });
 }
