@@ -55,4 +55,5 @@ module.exports = {
       'react-dom': 'umd react-dom',
     },
   ],
+  target: 'node',
 };
