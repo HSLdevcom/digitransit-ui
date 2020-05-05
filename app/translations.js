@@ -2618,6 +2618,7 @@ const translations = {
     accessibility: 'Tillgänglighet',
     'accessibility-limited': 'Med rullstolen',
     'accessibility-nolimit': 'Ingen begränsning',
+    'add-home': 'Lägg till hem',
     'add-itinerary-via-point': 'Lägg till mellanstopp',
     'add-location-to-favourites':
       'Lägg till en plats som är viktig för dig på fliken Favoriter',
@@ -2628,6 +2629,7 @@ const translations = {
       'Stäng väljaren för varaktighet vid via-punkten',
     'add-via-duration-button-label-open':
       'Öppna väljaren för varaktighet vid via-punkten',
+    'add-work': 'Lägg till arbete',
     'arrive-leave': 'Anländer eller lämnar vid vald tid',
     'search-autosuggest-label':
       'Plats, linje och hållplatssökning. Navigera listan med piltangenterna och välj med Enter-tangeten',
