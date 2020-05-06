@@ -1,49 +1,44 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cx from 'classnames';
-import plus from './assets/plus.svg';
-import attention from './assets/attention.svg';
-import dropdown from './assets/dropdown.svg';
-import close from './assets/close.svg';
-import time from './assets/time.svg';
-import ellipsis from './assets/ellipsis.svg';
-import directionB from './assets/direction_b.svg';
+import Plus from './assets/plus.svg';
+import Attention from './assets/attention.svg';
+import Dropdown from './assets/dropdown.svg';
+import Close from './assets/close.svg';
+import Time from './assets/time.svg';
+import Ellipsis from './assets/ellipsis.svg';
+import DirectionB from './assets/direction_b.svg';
 
-const IconMap = {
-  plus,
-  attention,
-  'arrow-dropdown': dropdown,
-  close,
-  time,
-  ellipsis,
-  'direction-b': directionB,
+const IconMap = style => {
+  return {
+    plus: <Plus style={style} />,
+    attention: <Attention style={style} />,
+    'arrow-dropdown': <Dropdown style={style} />,
+    close: <Close style={style} />,
+    time: <Time style={style} />,
+    ellipsis: <Ellipsis style={style} />,
+    'direction-b': <DirectionB style={style} />,
+  };
 };
 
-function Icon({ className, color, img, height, width, margin }) {
-  return (
-    <span aria-hidden className="icon-container">
-      <svg
-        className={cx('icon', className)}
-        style={{
-          fill: color || null,
-          height: height ? `${height}em` : null,
-          width: width ? `${width}em` : null,
-          marginRight: margin ? `${margin}em` : null,
-        }}
-      >
-        <use xlinkHref={`${IconMap[img]}#icon`} />
-      </svg>
-    </span>
-  );
+function Icon({ color, img, height, width, margin, rotate }) {
+  const style = {
+    fill: color || null,
+    height: height ? `${height}em` : null,
+    width: width ? `${width}em` : null,
+    marginRight: margin ? `${margin}em` : null,
+    transform: rotate ? `rotate(${rotate}deg)` : null,
+  };
+  const icons = IconMap(style);
+  return <span aria-hidden>{icons[img]}</span>;
 }
 
 Icon.propTypes = {
-  className: PropTypes.string,
   color: PropTypes.string,
   height: PropTypes.number,
   img: PropTypes.string.isRequired,
   margin: PropTypes.number,
   width: PropTypes.number,
+  rotate: PropTypes.number,
 };
 
 Icon.defaultProps = {
@@ -51,6 +46,7 @@ Icon.defaultProps = {
   height: undefined,
   margin: undefined,
   width: undefined,
+  rotate: undefined,
 };
 
 export default Icon;
