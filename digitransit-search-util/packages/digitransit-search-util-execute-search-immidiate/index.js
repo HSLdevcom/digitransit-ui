@@ -131,6 +131,7 @@ function getOldSearches(oldSearches, input, dropLayers) {
  *
  */
 export function executeSearchImmediate(
+  geocodingLayers,
   searchContext,
   refPoint,
   { input, type, layers, config },
@@ -151,7 +152,6 @@ export function executeSearchImmediate(
   const position = getPositions(context);
   const endpointSearches = { type: 'endpoint', term: input, results: [] };
   const searchSearches = { type: 'search', term: input, results: [] };
-
   let endpointSearchesPromise;
   let searchSearchesPromise;
   const endpointLayers = layers || getAllEndpointLayers();
@@ -184,6 +184,7 @@ export function executeSearchImmediate(
       if (!endpointLayers.includes('FavouritePlace')) {
         dropLayers.push('favouritePlace');
       }
+      dropLayers.push('stop');
       searchComponents.push(
         getOldSearches(oldEndpointSearches, input, dropLayers),
       );
@@ -211,6 +212,7 @@ export function executeSearchImmediate(
           sources,
           config.URL.PELIAS,
           regex,
+          geocodingLayers,
         ),
       );
     }
@@ -240,6 +242,7 @@ export function executeSearchImmediate(
             sources,
             config.URL.PELIAS,
             regex,
+            geocodingLayers,
           ),
         );
       }
@@ -289,14 +292,44 @@ export function executeSearchImmediate(
   }
 
   if (type === SearchType.Search || type === SearchType.All) {
+    const searchComponents = [];
     const oldSearches = prevSearches(context);
     const favouriteRoutes = getStoredFavouriteRoutes(context);
+    const focusPoint =
+      config.autoSuggest.locationAware && position.hasLocation
+        ? {
+            // Round coordinates to approx 1 km, in order to improve caching
+            'focus.point.lat': position.lat.toFixed(2),
+            'focus.point.lon': position.lon.toFixed(2),
+          }
+        : {};
+    const sources = get(config, 'feedIds', [])
+      .map(v => `gtfs${v}`)
+      .join(',');
 
-    searchSearchesPromise = Promise.all([
+    if (sources) {
+      const regex =
+        config && config.search ? config.search.minimalRegexp : undefined;
+      searchComponents.push(
+        getGeocodingResult(
+          input,
+          undefined,
+          'fi',
+          focusPoint,
+          sources,
+          config.URL.PELIAS,
+          regex,
+          geocodingLayers,
+        ),
+      );
+    }
+    const dropLayers = ['street', 'address', 'venue', 'station']; // todo this shouldn't be hardcoded
+    searchComponents.push(
       getFavouriteRoutes(favouriteRoutes, input),
-      getOldSearches(oldSearches, input),
+      getOldSearches(oldSearches, input, dropLayers),
       getRoutes(input, config),
-    ])
+    );
+    searchSearchesPromise = Promise.all(searchComponents)
       .then(flatten)
       .then(uniqByLabel)
       .then(results => {
@@ -335,7 +368,13 @@ const debouncedSearch = debounce(executeSearchImmediate, 300, {
   leading: true,
 });
 
-export const executeSearch = (searchContext, refPoint, data, callback) => {
+export const executeSearch = (
+  geocodingLayers,
+  searchContext,
+  refPoint,
+  data,
+  callback,
+) => {
   callback(null); // This means 'we are searching'
-  debouncedSearch(searchContext, refPoint, data, callback);
+  debouncedSearch(geocodingLayers, searchContext, refPoint, data, callback);
 };

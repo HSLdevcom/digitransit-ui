@@ -115,6 +115,8 @@ function suggestionToAriaContent(item) {
  *    autoFocus={false}
  *    showSpinner={false}
  *    lang={lang}
+ *    geocodingLayers={['stop', 'venue', 'address']} // Layers that is searched from geocoding. If not provided all layers is used.
+ *
  *  />
  * );
  */
@@ -140,6 +142,7 @@ class DTAutosuggest extends React.Component {
     handleViaPoints: PropTypes.func,
     focusChange: PropTypes.func,
     lang: PropTypes.string,
+    geocodingLayers: PropTypes.arrayOf(PropTypes.string),
   };
 
   static defaultProps = {
@@ -152,6 +155,7 @@ class DTAutosuggest extends React.Component {
     showSpinner: false,
     layers: getAllEndpointLayers,
     lang: 'fi',
+    geocodingLayers: [],
   };
 
   constructor(props) {
@@ -291,6 +295,7 @@ class DTAutosuggest extends React.Component {
   fetchFunction = ({ value }) =>
     this.setState({ valid: false }, () => {
       executeSearch(
+        this.props.geocodingLayers,
         this.props.searchContext,
         this.props.refPoint,
         {

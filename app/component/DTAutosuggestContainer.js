@@ -95,6 +95,10 @@ class DTAutosuggestContainer extends React.Component {
       this.selectRoute(item.properties.link);
       return;
     }
+    if (id === 'stop-route-station') {
+      this.selectStopStation(item);
+      return;
+    }
     // favourite
     if (id === 'favourite') {
       this.selectFavourite(item, id);
@@ -114,6 +118,20 @@ class DTAutosuggestContainer extends React.Component {
   selectRoute(link) {
     this.context.router.push(link);
   }
+
+  selectStopStation = item => {
+    const id = item.properties.id.replace('GTFS:', '').replace(':', '%3A');
+    let path = 'pysakit/';
+    switch (item.properties.layer) {
+      case 'station':
+        path = 'terminaalit/';
+        break;
+      default:
+    }
+    const link = path.concat(id);
+
+    this.context.router.push(link);
+  };
 
   // eslint-disable-next-line no-unused-vars
   selectFavourite = (item, id) => {
@@ -203,6 +221,8 @@ class DTAutosuggestContainer extends React.Component {
   };
 
   renderPanel() {
+    // TODO: This should be defined in upper level
+    const geocodingLayers = ['station', 'venue', 'address'];
     return (
       <DTAutosuggestPanel
         config={this.context.config}
@@ -220,11 +240,14 @@ class DTAutosuggestContainer extends React.Component {
         swapOrder={this.props.swapOrder}
         addAnalyticsEvent={addAnalyticsEvent}
         lang={this.props.lang}
+        geocodingLayers={geocodingLayers}
       />
     );
   }
 
   renderAutoSuggest() {
+    // TODO: This should be defined in upper level
+    const geocodingLayers = ['stop', 'station'];
     return (
       <DTAutoSuggest
         config={this.context.config}
@@ -243,6 +266,7 @@ class DTAutosuggestContainer extends React.Component {
         showSpinner={this.props.showSpinner}
         layers={this.props.layers}
         lang={this.props.lang}
+        geocodingLayers={geocodingLayers}
       />
     );
   }

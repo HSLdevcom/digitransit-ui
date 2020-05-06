@@ -158,7 +158,7 @@ class IndexPage extends React.Component {
             <DTAutosuggestContainer
               type="field"
               icon="mapMarker-via"
-              id="searchfield-preferred"
+              id="stop-route-station"
               autoFocus={false}
               refPoint={origin}
               className="destination"
@@ -221,7 +221,7 @@ class IndexPage extends React.Component {
             <DTAutosuggestContainer
               type="field"
               icon="mapMarker-via"
-              id="searchfield-preferred"
+              id="stop-route-station"
               autoFocus={false}
               refPoint={origin}
               className="destination"

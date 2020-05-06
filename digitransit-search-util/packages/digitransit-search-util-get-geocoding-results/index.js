@@ -11,6 +11,7 @@ const DEFAULT_PELIAS_URL = 'https://api.digitransit.fi/geocoding/v1/search';
  * @param {Object} focusPoint (Optional) Own Position (PELIAS API)
  * @param {String} sources (Optional) search sources (e.g OSM, GTFS..)
  * @param {Object} minimalRegexp (Optional) Regexp for testing
+ * @param {*} geocodingLayers (Optional) Array of strings that is used to determine which layers is searched, e.g. ['venue', 'address', 'stop']
  * @returns {String} Results in JSON form
  * @example
  * digitransit-search-util.getGeocodingResults("result");
@@ -24,6 +25,7 @@ export default function getGeocodingResults(
   sources,
   peliasUrl,
   minimalRegexp,
+  geocodingLayers,
 ) {
   const text = searchString ? searchString.trim() : null;
   if (
@@ -38,6 +40,10 @@ export default function getGeocodingResults(
   let opts = { text, ...searchParams, ...focusPoint, lang };
   if (sources) {
     opts = { ...opts, sources };
+  }
+  if (geocodingLayers) {
+    const layers = geocodingLayers.toString();
+    opts = { ...opts, layers };
   }
   return getJson(PELIAS_URL, opts).then(res => {
     return res.features;

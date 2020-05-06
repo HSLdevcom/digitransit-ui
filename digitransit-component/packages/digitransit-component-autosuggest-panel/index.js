@@ -120,6 +120,7 @@ ItinerarySearchControl.propTypes = {
  * onSelect() {
  *  return null;
  *  }
+ * const geocodingLayers= ['venue', 'address', 'stop']
  * <DTAutosuggestPanel
  *    config={config}
  *    origin={origin}
@@ -130,6 +131,7 @@ ItinerarySearchControl.propTypes = {
  *    onSelect={this.onSelect}
  *    lang="fi"
  *    addAnalyticsEvent={null}
+ *    geocodingLayers={geocodingLayers}
  * />
  */
 class DTAutosuggestPanel extends React.Component {
@@ -151,6 +153,7 @@ class DTAutosuggestPanel extends React.Component {
     onSelect: PropTypes.func,
     addAnalyticsEvent: PropTypes.func,
     lang: PropTypes.string,
+    geocodingLayers: PropTypes.arrayOf(PropTypes.string),
   };
 
   static defaultProps = {
@@ -163,6 +166,7 @@ class DTAutosuggestPanel extends React.Component {
     updateViaPoints: () => {},
     getViaPointsFromMap: false,
     lang: 'fi',
+    geocodingLayers: [],
   };
 
   constructor(props) {
@@ -482,6 +486,7 @@ class DTAutosuggestPanel extends React.Component {
             onSelect={this.props.onSelect}
             focusChange={this.handleFocusChange}
             lang={this.props.lang}
+            geocodingLayers={this.props.geocodingLayers}
           />
           <ItinerarySearchControl
             className={styles.switch}
@@ -626,6 +631,7 @@ class DTAutosuggestPanel extends React.Component {
             onSelect={this.props.onSelect}
             value={this.value(this.props.destination)}
             lang={this.props.lang}
+            geocodingLayers={this.props.geocodingLayers}
           />
           <ItinerarySearchControl
             className={cx(styles['add-via-point'], styles.more, {
