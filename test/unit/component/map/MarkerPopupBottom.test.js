@@ -10,6 +10,7 @@ import { createMemoryMockRouter } from '../../helpers/mock-router';
 import MarkerPopupBottom, {
   Component as MarkerPopupBottomWithoutLeaflet,
 } from '../../../../app/component/map/MarkerPopupBottom';
+import { PREFIX_ITINERARY_SUMMARY } from '../../../../app/util/path';
 
 describe('<MarkerPopupBottom />', () => {
   describe('routeFrom', () => {
@@ -115,7 +116,7 @@ describe('<MarkerPopupBottom />', () => {
           ...mockContext,
           location: {
             ...router.getCurrentLocation(),
-            pathname: '/reitti/',
+            pathname: `/${PREFIX_ITINERARY_SUMMARY}/`,
             query: {
               intermediatePlaces: [
                 'Nordenskiöldinkatu 5, Helsinki::60.18754243199426,24.918216001392587',

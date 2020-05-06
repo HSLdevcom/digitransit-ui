@@ -1,0 +1,790 @@
+/* stylelint-disable */ 
+@import './hsl_theme';
+
+$search-result-background-color: $white;
+$search-result-text-font-family: $font-family;
+$search-result-text-font-weight: $font-weight-book;
+$search-result-text-letter-spacing: $letter-spacing;
+$search-result-text-color: $black;
+$search-result-text-highlight-color: $black;
+$search-result-text-highlight-font-weight: $font-weight-book;
+$search-result-text-highlight-background-color: darken($background-color, 5%);
+$search-result-border-radius: $border-radius;
+$search-result-max-height: 130px;
+$search-result-icon-color: $gray;
+$search-form-icon-color: $white;
+$search-form-border-radius: $border-radius;
+$search-form-transparency: 0.5;
+$search-form-input-height: 3em;
+$search-form-input-overlay-height: 27px;
+$search-form-input-overlay-border-color: #e1e1e1;
+$search-form-input-overlay-background-color: #eef1f3;
+$search-form-location-icon-size: 18px;
+$search-header-height: 45px;
+$item-border-color: #eee;
+$zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
+  map-buttons, context-panel, search-panel, search-overlay, preferred-input, destination-input,
+  viapoint-input-5, viapoint-input-4, viapoint-input-3, viapoint-input-2,
+  viapoint-input-1, origin-input, search-input-focus, search-input-icon, autosuggest-suggestion-container, front;
+$leaflet-overlay: 800;
+
+.search-container {
+  margin-left: 5%;
+  pointer-events: none;
+  position: absolute;
+  width: 52.5%;
+  z-index: 25;
+
+  & .autosuggest-input-container,
+  & .street-mode-selector-popup-options,
+  & .street-mode-selector-popup-toggle {
+    pointer-events: auto;
+  }
+}
+
+//for index page only
+.autosuggest-input-container {
+  box-shadow: 1.5px 2.6px 10px 0 rgba(0, 0, 0, 0.2);
+}
+
+.origin-input-container,
+.destination-input-container,
+#origin,
+#destination {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.autosuggest-input-icon {
+  margin-top: 0.75em;
+  z-index: index($zindex, search-input-icon)
+}
+
+button.clear-input {
+  font-size: 1rem;
+}
+
+.autosuggest-panel .container .suggestionsContainerOpen {
+  top: 3em;
+}
+
+/*Placeholder selectors can't be nested and need to be put 1 at a time, these are for the
+input field Placeholder texts */
+#origin::placeholder {
+  color: #666666;
+  opacity: 1;
+}
+#origin::-webkit-input-placeholder {
+  color: #666666;
+  opacity: 1;
+}
+#origin:-moz-placeholder {
+  color: #666666;
+  opacity: 1;
+}
+#origin::-moz-placeholder {
+  color: #666666;
+  opacity: 1;
+}
+#origin:-ms-input-placeholder {
+  color: #666666;
+  opacity: 1;
+}
+#destination::-ms-input-placeholder {
+  color: #666666;
+  opacity: 1;
+}
+#destination::-webkit-input-placeholder {
+  color: #666666;
+  opacity: 1;
+}
+#destination:-moz-placeholder {
+  color: #666666;
+  opacity: 1;
+}
+#destination::-moz-placeholder {
+  color: #666666;
+  opacity: 1;
+}
+#destination::placeholder {
+  color: #666666;
+  opacity: 1;
+}
+
+ul.react-autowhatever__items-list {
+  list-style-type: none;
+  background: $white;
+  border: 1px solid $light-gray;
+  padding: 4px 11px;
+  overflow-y: auto;
+  width: calc(100% + 22px);
+  margin: 0 -11px;
+
+  li {
+    white-space: nowrap;
+    overflow: hidden;
+
+    &:not(:last-child) {
+      border-bottom: solid 1px $item-border-color;
+    }
+  }
+}
+
+.suggestionHighlighted {
+  color: $search-result-text-highlight-color;
+  font-family: $search-result-text-font-family;
+  font-weight: $search-result-text-font-weight;
+  letter-spacing: $search-result-text-letter-spacing;
+  background-color: $search-result-text-highlight-background-color;
+}
+
+.suggestionsContainer {
+  background-color: white;
+
+  .suggestion-name {
+    span {
+      .bus,
+      .tram,
+      .rail,
+      .subway,
+      .ferry,
+      .airplane {
+        font-weight: $font-weight-medium;
+        font-family: $font-family-narrow;
+        font-size: $font-size-normal;
+      }
+      .suggestion-type {
+        font-size: $font-size-xxsmall;
+        font-weight: $font-weight-bold;
+        text-transform: uppercase;
+        color: $gray;
+      }
+    }
+  }
+
+  .suggestionsList {
+    margin-top: -0.2em;
+    margin-bottom: 0;
+    padding-top: 0px;
+    padding-left: 0;
+    background: $white;
+    li:hover {
+      background: $search-result-text-highlight-background-color;
+    }
+  }
+}
+
+.suggestion {
+  padding-top: 3px;
+  padding-bottom: 3px;
+  margin: 0;
+  cursor: pointer;
+  list-style: none;
+  display: block;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  white-space: nowrap;
+  border-bottom: 1px solid $light-gray;
+}
+
+.suggestion .icon {
+  margin-right: 4px;
+  fill: #cbcbcb;
+}
+
+.autosuggestIcon {
+  color: #cbcbcb;
+  padding: 0 0.6em;
+  font-size: $font-size-normal;
+
+  svg.havePosition {
+    vertical-align: -0.15em;
+  }
+}
+
+.search-result {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-height: 2em;
+  overflow-x: hidden;
+
+  &.loading:not(.CurrentLocation) {
+    // These are importatn in over to override the styling for the loading phase of the search
+    svg.icon {
+      stroke: $medium-gray !important;
+      fill: $medium-gray !important;
+      background: $medium-gray !important;
+    }
+
+    .suggestion-name,
+    .suggestion-type,
+    .suggestion-label {
+      &,
+      * {
+        color: $medium-gray !important;
+        background: $medium-gray !important;
+      }
+    }
+  }
+
+  .havePosition {
+    color: $current-location-color;
+  }
+
+  .noPosition {
+    color: $current-location-color;
+  }
+
+  .search-position {
+    color: $current-location-color;
+  }
+
+  &.favourite svg.icon {
+    stroke: $favourite-color;
+    fill: $favourite-color;
+  }
+
+  &.CurrentLocation svg.icon {
+    color: $current-location-color;
+  }
+
+  .use-own-position,
+  .suggestion-name,
+  .suggestion-label {
+    margin: 0;
+  }
+
+  .suggestion-name,
+  .use-own-position {
+    font-size: $font-size-small;
+  }
+
+  .suggestion-name {
+    span {
+      .bus,
+      .tram,
+      .rail,
+      .subway,
+      .ferry,
+      .airplane {
+        font-weight: $font-weight-medium;
+        font-family: $font-family-narrow;
+        font-size: $font-size-normal;
+      }
+      .suggestion-type {
+        font-size: $font-size-xxsmall;
+        font-weight: $font-weight-bold;
+        text-transform: uppercase;
+        color: $gray;
+      }
+    }
+  }
+
+  &.OldSearch,
+  &.FavouritePlace,
+  &.FavouriteStop,
+  &.CurrentLocation {
+    p.suggestion-name,
+    span.suggestion-type {
+      color: $visited-link-color;
+    }
+  }
+
+  .suggestion-label {
+    font-size: $font-size-xxsmall;
+    color: $gray;
+  }
+}
+
+.suggestion-item-stop {
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  > div {
+    flex-grow: 1;
+  }
+  .suggestion-item-timetable {
+    margin: 1px 0px 1px 0px;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    display: flex;
+    align-items: center;
+    flex-grow: 0;
+    flex-shrink: 0;
+    border-left: 1px solid $item-border-color;
+    a {
+      display: flex;
+      align-items: center;
+    }
+    span {
+      //icon span
+      display: inline-block;
+      padding-right: $padding-small;
+      color: $link-color;
+    }
+    div.suggestion-item-timetable-label {
+      display: inline-block;
+      color: $link-color;
+      text-transform: uppercase;
+      font-size: $font-size-xxxsmall;
+    }
+    a > span > svg {
+      fill: $link-color;
+    }
+  }
+}
+
+.small .suggestion-item-stop {
+  > div {
+    width: 0em;
+  }
+  .suggestion-item-timetable {
+    width: 8em;
+  }
+}
+
+.suggestion-label {
+  .itinerary-stop-code {
+    display: inline-block;
+    margin-right: 4px;
+  }
+}
+
+div.map {
+  .search-modal {
+    top: -40px;
+    bottom: -50px;
+  }
+}
+
+.container {
+  display: flex;
+  width: 100%;
+
+  .suggestionsContainerOpen {
+    background: #fff;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    max-height: 60vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    position: absolute;
+    width: 100%;
+    top: calc(3 * 0.875rem);
+  }
+}
+
+.autosuggest-panel {
+  &.isItinerary {
+    width: 100%;
+
+    input.input {
+      background: $white;
+    }
+
+    .clear-input {
+      border-top: 1px solid #ddd;
+      border-right: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
+    }
+  }
+
+  .dark-overlay {
+    z-index: index($zindex, search-overlay);
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: rgba(0, 0, 0, 0.57);
+
+    &.hidden {
+      display: none;
+    }
+    &.isItinerary {
+      position: fixed;
+    }
+  }
+
+  .container {
+    width: 100%;
+
+    .suggestionsContainerOpen {
+      background: #fff;
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+      max-height: 60vh;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      position: absolute;
+      width: 100%;
+      top: calc(3 * 0.875rem);
+    }
+  }
+
+  &.small
+    .container
+    .suggestionsContainerOpen {
+    max-height: unset;
+  }
+}
+
+.via-point-button-container {
+  display: flex;
+
+  & > div:nth-child(1) {
+    order: 1;
+    border-left: none;
+  }
+  & > div:nth-child(2) {
+    order: 2;
+    border-left: 1px solid rgba(151, 151, 151, 0.2);
+  }
+}
+
+.itinerary-search-control {
+  align-items: center;
+  color: $link-color;
+  display: flex;
+  justify-content: center;
+  min-width: 3em;
+
+  & + .itinerary-search-control {
+    border-left: 1px solid rgba(151, 151, 151, 0.2);
+  }
+
+  *:hover {
+    color: #0062a1;
+  }
+
+  .switch {
+    font-size: 1.8em;
+    .icon {
+      transform: rotate(90deg);
+    }
+  }
+
+  .add-via-point-slack {
+    & > span:nth-child(2) {
+      display: inline;
+      position: relative;
+
+      .super-icon {
+        fill: $hilight-color;
+        font-size: $font-size-xxsmall;
+        position: absolute;
+        right: -0.5em;
+        top: -0.5em;
+      }
+    }
+  }
+}
+
+.small.autosuggest-panel {
+  width:100%;
+
+  .autosuggest-searchpanel-text {
+    margin: 30px 0px 0px 16px; // DT-3381: TODO Placeholder values!
+  }
+
+  &.isItinerary {
+    .autosuggest-input-container {
+      &.origin,
+      &.destination,
+      &.viapoint {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+      }
+    }
+  }
+
+  .autosuggest-input-container {
+    margin: 1em 1em 0 1em;
+    width: calc(100% - 2em);
+    left: 0;  // DT-3381: TODO Placeholder values!
+  }
+
+  .container {
+    margin: 0 auto;
+  }
+}
+
+.autosuggest-input-icon {
+  display: block;
+  position: absolute;
+  width: 1.45em;
+  height: 1.45em;
+  margin-top: 0.6em;
+  margin-left: 0.5em;
+
+  &.destination {
+    color: $to-color;
+  }
+
+  &.origin {
+    color: $from-color;
+  }
+
+  .icon {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.isItinerary {
+  .autosuggest-input-icon {
+    z-index: index($zindex, search-input-icon)
+  }
+}
+
+input.input {
+  &.destination,
+  &.location,
+  &.position,
+  &.viapoint {
+    padding-left: 3em;
+  }
+
+  background-color: $white;
+  border: 1px solid #fff;
+  border-radius: 4px;
+  height: $search-form-input-height;
+  padding: 10px;
+  outline: 0;
+  appearance: none;
+  box-shadow: none;
+}
+
+.viapoint-container {
+  display: flex;
+  flex-wrap: wrap;
+
+  &.drop-target-before::before {
+    border-top: 1px solid $link-color;
+    content: '';
+    display: block;
+    margin-top: -0.25em;
+    width: 100%;
+  }
+}
+
+.origin-input-container,
+.viapoint-input-container,
+.destination-input-container {
+  display: flex;
+  flex: 1 0 100%;
+  margin-bottom: 0.5em;
+
+  input[type='text'] {
+    margin: 0;
+  }
+}
+
+.viapoint-input-container {
+  &.viapoint-1 > div.viapoint {
+    z-index: index($zindex, viapoint-input-1);
+  }
+
+  &.viapoint-2 > div.viapoint {
+    z-index: index($zindex, viapoint-input-2);
+  }
+
+  &.viapoint-3 > div.viapoint {
+    z-index: index($zindex, viapoint-input-3);
+  }
+
+  &.viapoint-4 > div.viapoint {
+    z-index: index($zindex, viapoint-input-4);
+  }
+
+  &.viapoint-5 > div.viapoint {
+    z-index: index($zindex, viapoint-input-5);
+  }
+}
+
+.autosuggest-searchpanel-text {
+  font-size: $font-size-xlarge;
+  margin: 30px 0px 0px 60px; // DT-3381: TODO Placeholder values
+}
+.autosuggest-input-container {
+  margin-top: 1em;
+  position: relative;
+  width: 80%; // DT-3381: TODO Placeholder values
+  left: 60px; // DT-3381: TODO Placeholder values
+  &.isItinerary {
+    width: 100%;
+    left: 0;
+  }
+    &.searchfield-preferred-bottom{
+      left: 0;
+      width: inherit;
+      margin-left: 1em;
+      margin-right: 1em;
+    }
+  &.origin {
+    z-index: index($zindex, origin-input);
+  }
+
+  &.destination {
+    z-index: index($zindex, destination-input);
+  }
+
+  &.searchfield-preferred {
+    z-index: index($zindex, preferred-input);
+  }
+}
+
+.isItinerary .autosuggest-input-container {
+  margin: 0;
+
+  input[type='text'] {
+    border-top: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+  }
+}
+
+.viapoint-before {
+  align-items: center;
+  display: flex;
+
+  .icon {
+    color: rgb(207, 207, 207);
+    font-size: 1.3em;
+    transform: rotate(90deg);
+  }
+}
+
+.input-viapoint-slack-container {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+  margin: 0 6em 0.5em 0;
+
+  span {
+    font-weight: 400;
+  }
+  .select-wrapper {
+    display: flex;
+    flex-direction: row;
+    color: $link-color;
+    margin-left: 0.5em;
+    flex: 0 1 6em;
+    > span {
+      margin-left: -1.4rem;
+      pointer-events: none;
+    }
+    .fake-select-arrow {
+      font-size: 0.7rem;
+      color: $primary-color;
+      margin-top: 1em;
+    }
+  }
+
+  select {
+    vertical-align: middle;
+    text-align: left;
+    margin: 0;
+    padding: 0 1rem 0 0.9em;
+    font-family: $font-family;
+    font-size: $font-size-xxsmall;
+    display: inline-block;
+    background-color: $white;
+    color: $link-color;
+    border-radius: 5px;
+    border: solid 1px #ddd;
+    appearance: none;
+    font-weight: 700;
+    height: 2.6em;
+
+    &:hover {
+      background-color: $white;
+      border: solid 1px #007ac9;
+    }
+    &:focus {
+      background-color: $white;
+    }
+    &.text-time-selector,
+    &.desktop {
+      padding: 0 0.5em 0 0.5em;
+      margin: 0 -0.5em 0 0;
+      text-align: center;
+    }
+    &.arrive,
+    &.select-route-modes {
+      width: 100%;
+    }
+  }
+}
+
+.containerOpen .input {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  box-shadow: none;
+  outline: none;
+  border: none;
+}
+
+.container input {
+  box-shadow: none;
+  outline: none;
+  transition: border 0s;
+  &:focus {
+    box-shadow: none;
+    border: none;
+    background: $white;
+    z-index: index($zindex, search-input-focus);
+  }
+}
+
+input.input::-ms-clear {
+  display: none;
+}
+
+button.clear-input {
+  display: flex;
+  background: $white;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  align-items: center;
+  padding: 8px 12px 8px 12px;
+  margin-left: -4px;
+  font-size: 0.875rem; //for sizing the height of button
+  height: 3em;
+  margin-bottom: 0px;
+  color: $gray;
+  outline: none;
+  span {
+    //icon size
+    font-size: 1.1rem;
+  }
+  &:hover {
+    background: $white;
+  }
+  &:focus {
+    background-color: $white;
+  }
+}
+
+.containerOpen {
+  button.clear-input {
+    border-bottom-right-radius: 0;
+  }
+}
+
+.suggestion-is-updating {
+  visibility: hidden;
+}
+
+.sr-only:not(:focus):not(:active) {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}

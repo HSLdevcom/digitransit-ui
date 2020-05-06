@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable import/no-extraneous-dependencies */
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
@@ -6,14 +8,13 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
 import isEqual from 'lodash/isEqual';
 import d from 'debug';
-
+import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
 import {
   initGeolocation,
   checkPositioningPermission,
 } from '../action/PositionActions';
 import storeOrigin from '../action/originActions';
 import storeDestination from '../action/destinationActions';
-import ControlPanel from './ControlPanel';
 import DTAutosuggestContainer from './DTAutosuggestContainer';
 import { isBrowser } from '../util/browser';
 import {
@@ -50,10 +51,12 @@ class IndexPage extends React.Component {
     favourites: PropTypes.array,
     getViaPointsFromMap: PropTypes.bool.isRequired,
     locationState: PropTypes.object.isRequired,
+    lang: PropTypes.string,
   };
 
   static defaultProps = {
     autoSetOrigin: true,
+    lang: 'fi',
   };
 
   constructor(props, context) {
@@ -101,7 +104,9 @@ class IndexPage extends React.Component {
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     const { intl } = this.context;
-    const { breakpoint, destination, origin, favourites } = this.props;
+    const { breakpoint, destination, origin, favourites, lang } = this.props;
+    // const { mapExpanded } = this.state; // TODO verify
+
     // DT-3381 TODO: DTEndpointAutoSuggest currently does not search for stops or stations, as it should be. SearchUtils needs refactoring.
     return breakpoint === 'large' ? (
       <div
@@ -111,7 +116,7 @@ class IndexPage extends React.Component {
           origin.gpsError === false &&
           `blurred`} fullscreen bp-${breakpoint}`}
       >
-        <ControlPanel className="control-panel-container-left">
+        <CtrlPanel instance="hsl" language={lang} position="left">
           <DTAutosuggestContainer
             type="panel"
             searchPanelText={intl.formatMessage({
@@ -127,7 +132,9 @@ class IndexPage extends React.Component {
             destinationPlaceHolder="search-destination-index"
             locationState={this.props.locationState}
             getViaPointsFromMap={this.props.getViaPointsFromMap}
+            lang={lang}
           />
+          <CtrlPanel.SeparatorLine />
           <Datetimepicker realtime />
           <div className="fpcfloat">
             <div className="frontpage-panel">
@@ -137,7 +144,7 @@ class IndexPage extends React.Component {
               />
             </div>
           </div>
-          <div className="control-panel-separator-line" />
+          <CtrlPanel.SeparatorLine />
           <div className="stops-near-you-text">
             <span>
               {' '}
@@ -161,7 +168,7 @@ class IndexPage extends React.Component {
               locationState={this.props.locationState}
             />
           </div>
-        </ControlPanel>
+        </CtrlPanel>
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
       </div>
     ) : (
@@ -173,7 +180,7 @@ class IndexPage extends React.Component {
           `blurred`} bp-${breakpoint}`}
       >
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
-        <ControlPanel className="control-panel-container-bottom">
+        <CtrlPanel instance="hsl" language={lang} position="bottom">
           <DTAutosuggestContainer
             type="panel"
             searchPanelText={intl.formatMessage({
@@ -190,12 +197,17 @@ class IndexPage extends React.Component {
             locationState={this.props.locationState}
             getViaPointsFromMap={this.props.getViaPointsFromMap}
           />
+          <CtrlPanel.SeparatorLine />
+          <Datetimepicker realtime />
           <div className="fpcfloat">
             <div className="frontpage-panel">
-              <FavouriteLocationsContainer favourites={this.props.favourites} />
+              <FavouriteLocationsContainer
+                origin={origin}
+                favourites={favourites}
+              />
             </div>
           </div>
-          <div className="control-panel-separator-line" />
+          <CtrlPanel.SeparatorLine />
           <div className="stops-near-you-text">
             <span>
               {' '}
@@ -219,7 +231,7 @@ class IndexPage extends React.Component {
               locationState={this.props.locationState}
             />
           </div>
-        </ControlPanel>
+        </CtrlPanel>
       </div>
     );
   }
@@ -360,7 +372,6 @@ const IndexPageWithPosition = connectToStores(
 IndexPageWithPosition.contextTypes = {
   ...IndexPageWithPosition.contextTypes,
   executeAction: PropTypes.func.isRequired,
-  intl: intlShape,
 };
 export {
   IndexPageWithPosition as default,

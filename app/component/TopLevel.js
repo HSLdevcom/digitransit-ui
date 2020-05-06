@@ -3,7 +3,13 @@ import React, { Fragment } from 'react';
 import some from 'lodash/some';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { matchShape, routerShape } from 'found';
-import { getHomeUrl, parseLocation } from '../util/path';
+import {
+  getHomeUrl,
+  parseLocation,
+  PREFIX_STOPS,
+  PREFIX_ROUTES,
+  PREFIX_TERMINALS,
+} from '../util/path';
 import { dtLocationShape } from '../util/shapes';
 import AppBarContainer from './AppBarContainer';
 import MobileView from './MobileView';
@@ -87,7 +93,7 @@ class TopLevel extends React.Component {
     // send tracking calls when visiting a new stop or route
     const newContext = newLocation.slice(1, newLocation.indexOf('/', 1));
     switch (newContext) {
-      case 'linjat':
+      case PREFIX_ROUTES:
         if (
           oldLocation.indexOf(newContext) !== 1 ||
           (prevProps.match.params.routeId &&
@@ -101,8 +107,8 @@ class TopLevel extends React.Component {
           });
         }
         break;
-      case 'pysakit':
-      case 'terminaalit':
+      case PREFIX_STOPS:
+      case PREFIX_TERMINALS:
         if (
           oldLocation.indexOf(newContext) !== 1 ||
           (prevProps.match.params.stopId &&
