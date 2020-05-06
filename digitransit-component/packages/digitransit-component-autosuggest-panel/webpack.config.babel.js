@@ -42,10 +42,6 @@ module.exports = {
         },
       },
       {
-        test: /\.svg$/,
-        loader: 'url-loader',
-      },
-      {
         test: /\.s(a|c)ss$/,
         use: [
           'iso-morphic-style-loader',
