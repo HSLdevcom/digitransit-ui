@@ -185,9 +185,7 @@ export const getSettings = () => {
     walkBoardCost: getNumberValueOrDefault(custSettings.walkBoardCost),
     modes: undefined,
     minTransferTime: getNumberValueOrDefault(custSettings.minTransferTime),
-    accessibilityOption: getNumberValueOrDefault(
-      custSettings.accessibilityOption,
-    ),
+    usingWheelChair: getNumberValueOrDefault(custSettings.usingWheelChair),
     ticketTypes: custSettings.ticketTypes,
     transferPenalty: getNumberValueOrDefault(custSettings.transferPenalty),
     maxWalkDistance: getNumberValueOrDefault(routingSettings.maxWalkDistance),
@@ -260,7 +258,7 @@ export const preparePlanParams = config => (
   {
     location: {
       query: {
-        accessibilityOption,
+        usingWheelChair,
         arriveBy,
         bikeSpeed,
         intermediatePlaces,
@@ -337,10 +335,8 @@ export const preparePlanParams = config => (
         arriveBy: arriveBy === 'true',
         maxWalkDistance: getMaxWalkDistance(modesOrDefault, settings, config),
         wheelchair:
-          getNumberValueOrDefault(
-            accessibilityOption,
-            settings.accessibilityOption,
-          ) === 1,
+          getNumberValueOrDefault(usingWheelChair, settings.usingWheelChair) ===
+          1,
         transferPenalty: getNumberValueOrDefault(
           transferPenalty,
           settings.transferPenalty,

@@ -4,37 +4,17 @@ import React from 'react';
 import { matchShape, routerShape } from 'found';
 
 import SelectOptionContainer, {
-  getFiveStepOptions,
   getSpeedOptions,
-  optionsShape,
   valueShape,
 } from './SelectOptionContainer';
 import { replaceQueryParams } from '../../util/queryUtils';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 
 const WalkingOptionsSection = (
-  { walkReluctance, walkReluctanceOptions, walkSpeed, defaultSettings },
+  { walkSpeed, defaultSettings },
   { router, match },
 ) => (
   <React.Fragment>
-    <SelectOptionContainer
-      currentSelection={walkReluctance}
-      defaultValue={defaultSettings.walkReluctance}
-      highlightDefaultValue={false}
-      onOptionSelected={value => {
-        replaceQueryParams(router, match, { walkReluctance: value });
-        addAnalyticsEvent({
-          category: 'ItinerarySettings',
-          action: 'ChangeAmountOfWalking',
-          name: value,
-        });
-      }}
-      options={getFiveStepOptions(
-        defaultSettings.walkReluctance,
-        walkReluctanceOptions,
-      )}
-      title="walking"
-    />
     <SelectOptionContainer
       currentSelection={walkSpeed}
       defaultValue={defaultSettings.walkSpeed}
@@ -47,7 +27,7 @@ const WalkingOptionsSection = (
           name: value,
         });
       }}
-      options={getSpeedOptions(defaultSettings.walkSpeed, 1, 12)}
+      options={getSpeedOptions(defaultSettings.walkSpeed, 3, 4)}
       sortByValue
       title="walking-speed"
     />
@@ -59,8 +39,6 @@ WalkingOptionsSection.propTypes = {
     walkReluctance: PropTypes.number.isRequired,
     walkSpeed: PropTypes.number.isRequired,
   }).isRequired,
-  walkReluctance: valueShape.isRequired,
-  walkReluctanceOptions: optionsShape.isRequired,
   walkSpeed: valueShape.isRequired,
 };
 

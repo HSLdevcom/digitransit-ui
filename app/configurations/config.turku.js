@@ -6,7 +6,7 @@ const APP_TITLE = 'Fölin reittiopas';
 const APP_DESCRIPTION =
   'Fölin reittiopas uudistuu. Tule mukaan! Ota uuden uuden sukupolven matkaopas käyttöösi.';
 
-const walttiConfig = require('./waltti').default;
+const walttiConfig = require('./config.waltti').default;
 
 export default configMerger(walttiConfig, {
   CONFIG,

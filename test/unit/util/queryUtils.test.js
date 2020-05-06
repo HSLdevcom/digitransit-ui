@@ -7,6 +7,7 @@ import defaultConfig from '../../../app/configurations/config.default';
 import { getDefaultModes } from '../../../app/util/modeUtils';
 import * as utils from '../../../app/util/queryUtils';
 import { OptimizeType } from '../../../app/constants';
+import { PREFIX_ITINERARY_SUMMARY } from '../../../app/util/path';
 
 describe('queryUtils', () => {
   describe('getIntermediatePlaces', () => {
@@ -202,106 +203,6 @@ describe('queryUtils', () => {
     });
   });
 
-  describe('addPreferredRoute', () => {
-    it.skip('should add a route as a preferred option', () => {
-      const routeToAdd = 'HSL__1052';
-      const router = createMemoryMockRouter();
-      utils.addPreferredRoute(router, routeToAdd);
-      expect(router.getCurrentLocation().query).to.deep.equal({
-        preferredRoutes: routeToAdd,
-      });
-    });
-
-    it.skip('should not add the same route as a preferred option twice', () => {
-      const routeToAdd = 'HSL__1052';
-      const router = createMemoryMockRouter();
-      utils.addPreferredRoute(router, routeToAdd);
-      utils.addPreferredRoute(router, routeToAdd);
-      expect(router.getCurrentLocation().query).to.deep.equal({
-        preferredRoutes: routeToAdd,
-      });
-    });
-
-    it.skip('should add multiple routes as preferred options', () => {
-      const router = createMemoryMockRouter();
-      utils.addPreferredRoute(router, 'HSL__1052');
-      utils.addPreferredRoute(router, 'HSL__7480');
-      expect(router.getCurrentLocation().query).to.deep.equal({
-        preferredRoutes: 'HSL__1052,HSL__7480',
-      });
-    });
-  });
-
-  describe('addUnpreferredRoute', () => {
-    it.skip('should add a route as an unpreferred option', () => {
-      const routeToAdd = 'HSL__1052';
-      const router = createMemoryMockRouter();
-      utils.addUnpreferredRoute(router, routeToAdd);
-      expect(router.getCurrentLocation().query).to.deep.equal({
-        unpreferredRoutes: routeToAdd,
-      });
-    });
-
-    it.skip('should not add the same route as an unpreferred option twice', () => {
-      const routeToAdd = 'HSL__1052';
-      const router = createMemoryMockRouter();
-      utils.addUnpreferredRoute(router, routeToAdd);
-      utils.addUnpreferredRoute(router, routeToAdd);
-      expect(router.getCurrentLocation().query).to.deep.equal({
-        unpreferredRoutes: routeToAdd,
-      });
-    });
-
-    it.skip('should add multiple routes as unpreferred options', () => {
-      const router = createMemoryMockRouter();
-      utils.addUnpreferredRoute(router, 'HSL__1052');
-      utils.addUnpreferredRoute(router, 'HSL__7480');
-      expect(router.getCurrentLocation().query).to.deep.equal({
-        unpreferredRoutes: 'HSL__1052,HSL__7480',
-      });
-    });
-  });
-
-  describe('removePreferredRoute', () => {
-    it.skip('should remove a preferred route option', () => {
-      const router = createMemoryMockRouter();
-      utils.addPreferredRoute(router, 'HSL__1052');
-      utils.removePreferredRoute(router, 'HSL__1052');
-      expect(router.getCurrentLocation().query).to.deep.equal({
-        preferredRoutes: '',
-      });
-    });
-
-    it.skip('should ignore a missing preferred route', () => {
-      const router = createMemoryMockRouter();
-      utils.addPreferredRoute(router, 'HSL__1052');
-      utils.removePreferredRoute(router, 'foobar');
-      expect(router.getCurrentLocation().query).to.deep.equal({
-        preferredRoutes: 'HSL__1052',
-      });
-    });
-  });
-
-  describe('removeUnpreferredRoute', () => {
-    it.skip('should remove a Unpreferred route option', () => {
-      const router = createMemoryMockRouter();
-      utils.addUnpreferredRoute(router, 'HSL__1052');
-      utils.removeUnpreferredRoute(router, 'HSL__1052');
-      expect(router.getCurrentLocation().query).to.deep.equal({
-        unpreferredRoutes: '',
-      });
-    });
-
-    it.skip('should ignore a missing Unpreferred route', () => {
-      const router = createMemoryMockRouter();
-      utils.addUnpreferredRoute(router, 'HSL__1052');
-      utils.removeUnpreferredRoute(router, 'foobar');
-      expect(router.getCurrentLocation().query).to.deep.equal({
-        unpreferredRoutes: 'HSL__1052',
-      });
-    });
-  });
-
   describe('clearQueryParams', () => {
     it.skip('should remove only given parameters', () => {
       const router = createMemoryMockRouter();
@@ -341,23 +242,21 @@ describe('queryUtils', () => {
 
     it('should remove selected itinerary index from url', () => {
       let location = {
-        pathname:
-          '/reitti/Helsinki%2C Helsinki%3A%3A60.166641%2C24.943537/Espoo%2C Espoo%3A%3A60.206376%2C24.656729/1',
+        pathname: `/${PREFIX_ITINERARY_SUMMARY}/Helsinki%2C Helsinki%3A%3A60.166641%2C24.943537/Espoo%2C Espoo%3A%3A60.206376%2C24.656729/1`,
       };
       location = utils.resetSelectedItineraryIndex(location);
       expect(location.pathname).to.equal(
-        '/reitti/Helsinki%2C Helsinki%3A%3A60.166641%2C24.943537/Espoo%2C Espoo%3A%3A60.206376%2C24.656729',
+        `/${PREFIX_ITINERARY_SUMMARY}/Helsinki%2C Helsinki%3A%3A60.166641%2C24.943537/Espoo%2C Espoo%3A%3A60.206376%2C24.656729`,
       );
     });
 
     it('should not modify url without itinerary index', () => {
       let location = {
-        pathname:
-          '/reitti/Helsinki%2C Helsinki%3A%3A60.166641%2C24.943537/Espoo%2C Espoo%3A%3A60.206376%2C24.656729',
+        pathname: `/${PREFIX_ITINERARY_SUMMARY}/Helsinki%2C Helsinki%3A%3A60.166641%2C24.943537/Espoo%2C Espoo%3A%3A60.206376%2C24.656729`,
       };
       location = utils.resetSelectedItineraryIndex(location);
       expect(location.pathname).to.equal(
-        '/reitti/Helsinki%2C Helsinki%3A%3A60.166641%2C24.943537/Espoo%2C Espoo%3A%3A60.206376%2C24.656729',
+        `/${PREFIX_ITINERARY_SUMMARY}/Helsinki%2C Helsinki%3A%3A60.166641%2C24.943537/Espoo%2C Espoo%3A%3A60.206376%2C24.656729`,
       );
     });
   });

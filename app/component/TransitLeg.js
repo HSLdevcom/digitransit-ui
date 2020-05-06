@@ -20,11 +20,12 @@ import {
   legHasCancelation,
   tripHasCancelationForStop,
 } from '../util/alertUtils';
-import { PREFIX_ROUTES } from '../util/path';
+import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { durationToString } from '../util/timeUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { getZoneLabelColor } from '../util/mapIconUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
+import { shouldShowFareInfo } from '../util/fareUtils';
 import { AlertSeverityLevelType } from '../constants';
 
 class TransitLeg extends React.Component {
@@ -251,7 +252,7 @@ class TransitLeg extends React.Component {
               }
             }}
             to={
-              `/${PREFIX_ROUTES}/${leg.route.gtfsId}/pysakit/${
+              `/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_STOPS}/${
                 leg.trip.pattern.code
               }/${leg.trip.gtfsId}`
               // TODO: Create a helper function for generationg links
@@ -336,7 +337,7 @@ class TransitLeg extends React.Component {
           </div>
           {leg.fare &&
             leg.fare.isUnknown &&
-            config.showTicketInformation && (
+            shouldShowFareInfo(config) && (
               <div className="disclaimer-container unknown-fare-disclaimer__leg">
                 <div className="description-container">
                   <span className="accent">

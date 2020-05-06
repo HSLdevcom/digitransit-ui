@@ -7,9 +7,10 @@ import LazilyLoad, { importLazy } from './LazilyLoad';
 import OriginDestinationBar from './OriginDestinationBar';
 import QuickSettingsPanel from './QuickSettingsPanel';
 import { getDrawerWidth, isBrowser } from '../util/browser';
-import { parseLocation } from '../util/path';
+import { parseLocation, PREFIX_ITINERARY_SUMMARY } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { setSettingsData } from '../util/queryUtils';
 
 class SummaryNavigation extends React.Component {
   static propTypes = {
@@ -49,7 +50,7 @@ class SummaryNavigation extends React.Component {
         this.context.match.location.state.customizeSearchOffcanvas &&
         (!location.state || !location.state.customizeSearchOffcanvas) &&
         !this.transitionDone &&
-        location.pathname.startsWith('/reitti/')
+        location.pathname.startsWith(`/${PREFIX_ITINERARY_SUMMARY}/`)
       ) {
         this.transitionDone = true;
         const newLocation = {
@@ -71,6 +72,7 @@ class SummaryNavigation extends React.Component {
   }
 
   onRequestChange = newState => {
+    setSettingsData(this.context.match, this.context.router);
     this.internalSetOffcanvas(newState);
   };
 
