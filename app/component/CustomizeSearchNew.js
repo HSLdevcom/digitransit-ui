@@ -106,10 +106,6 @@ class CustomizeSearch extends React.Component {
         </div>
         {config.showTicketSelector && (
           <FareZoneSelector
-            headerText={intl.formatMessage({
-              id: 'zones',
-              defaultMessage: 'Fare zones',
-            })}
             options={ticketOptions}
             currentOption={currentSettings.ticketTypes || 'none'}
             updateValue={value => {

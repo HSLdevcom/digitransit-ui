@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape, routerShape } from 'found';
 
-import SelectOptionContainer, {
-  getSpeedOptions,
-  valueShape,
-} from './SelectOptionContainer';
+import Dropdown, { getSpeedOptions, valueShape } from '../Dropdown';
 import { replaceQueryParams } from '../../util/queryUtils';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 
@@ -16,7 +13,7 @@ const BikingOptionsSection = (
 ) => (
   <React.Fragment>
     {/* OTP uses the same walkReluctance setting for bike routing */}
-    <SelectOptionContainer
+    <Dropdown
       currentSelection={bikeSpeed}
       defaultValue={defaultSettings.bikeSpeed}
       displayValueFormatter={value => `${ceil(value * 3.6, 1)} km/h`}
@@ -29,8 +26,9 @@ const BikingOptionsSection = (
         });
       }}
       options={getSpeedOptions(defaultSettings.bikeSpeed, 16, 5)}
-      sortByValue
-      title="biking-speed"
+      formatOptions
+      labelText="biking-speed"
+      highlightDefaultValue
     />
   </React.Fragment>
 );

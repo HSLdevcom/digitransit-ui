@@ -1,5 +1,5 @@
 .customize-search {
-  background: #f4f4f5;
+  background: #ffffff;
   color: $black;
   height: 100%;
   line-height: 35px;
@@ -45,8 +45,8 @@
 }
 
 .settings-option-container {
-  padding: 1.5em 1em 0 1em;
-  border-bottom: 5px solid #e3e3e4;
+  padding: 1em 1em 0 1em;
+  border-bottom: 5px solid #f4f4f5;
 
   & + .settings-option-container {
     padding-bottom: 1.5em;
@@ -88,6 +88,12 @@
   > div:last-child > .mode-option-block {
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
+  }
+
+  .dropdown-wrapper {
+    margin-left: 3.5em;
+    padding-bottom: 1em;
+    border-bottom: 1px solid #e3e3e3;
   }
 }
 

@@ -3,19 +3,16 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape, routerShape } from 'found';
 
-import SelectOptionContainer, {
-  getSpeedOptions,
-  valueShape,
-} from './SelectOptionContainer';
 import { replaceQueryParams } from '../../util/queryUtils';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
+import Dropdown, { getSpeedOptions, valueShape } from '../Dropdown';
 
 const WalkingOptionsSection = (
   { walkSpeed, defaultSettings },
   { router, match },
 ) => (
   <React.Fragment>
-    <SelectOptionContainer
+    <Dropdown
       currentSelection={walkSpeed}
       defaultValue={defaultSettings.walkSpeed}
       displayValueFormatter={value => `${ceil(value * 3.6, 1)} km/h`}
@@ -28,8 +25,9 @@ const WalkingOptionsSection = (
         });
       }}
       options={getSpeedOptions(defaultSettings.walkSpeed, 3, 4)}
-      sortByValue
-      title="walking-speed"
+      labelText="walking-speed"
+      highlightDefaulValue
+      formatOptions
     />
   </React.Fragment>
 );
