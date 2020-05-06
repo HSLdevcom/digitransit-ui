@@ -371,7 +371,7 @@ export default function(req, res, next) {
       .catch(err => {
         // eslint-disable-next-line no-console
         console.log(err);
-        return ['', undefined];
+        return ['There was an error fetching your data.', undefined];
       });
 
     const [[content, relayData]] = await Promise.all([
