@@ -15,8 +15,26 @@ module.exports = {
         loader: 'babel-loader',
         options: {
           configFile: false,
-          presets: [['@babel/preset-react', { useBuiltIns: true }]],
+          presets: [
+            [
+              '@babel/preset-env',
+              {
+                // loose is needed by older Androids < 4.3 and IE10
+                loose: true,
+                modules: false,
+              },
+            ],
+            ['@babel/preset-react', { useBuiltIns: true }],
+          ],
           plugins: [
+            [
+              '@babel/plugin-transform-runtime',
+              {
+                helpers: true,
+                regenerator: true,
+                useESModules: true,
+              },
+            ],
             ['@babel/plugin-proposal-class-properties', { loose: true }],
             ['@babel/plugin-proposal-numeric-separator', { loose: true }],
           ],
