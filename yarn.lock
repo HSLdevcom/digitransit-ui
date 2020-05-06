@@ -1323,37 +1323,42 @@
     unique-filename "^1.1.1"
     which "^1.3.1"
 
-"@hsl-fi/hooks@0.1.1":
+"@hsl-fi/hooks@^0.1.1":
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/@hsl-fi/hooks/-/hooks-0.1.1.tgz#25764a9ca60863cc9d412ede2be6e5dc8332d21b"
   integrity sha512-31PvC9CKy+FoHwXug+o9rw3ruBXDLSzh7HpAgAjqGxsac70qKseOUzhvPyLNGAU3Fsln941yGEPZnJi0XsVYPQ==
 
-"@hsl-fi/icon-config@0.1.1":
+"@hsl-fi/icon-config@^0.1.1":
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/@hsl-fi/icon-config/-/icon-config-0.1.1.tgz#b40c7be367d6acfed3f9fe270be436fa19d73b7d"
   integrity sha512-ZlzhFVLiWxCZIugC4k8ZHi17fGoL/+SWbx8Y4myDTZ8KYGIKaY8QsNQ3OITJEt/M7sgN/2euJiVklJTGn4fV9Q==
 
-"@hsl-fi/icons@0.1.4":
+"@hsl-fi/icons@^0.1.4":
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/@hsl-fi/icons/-/icons-0.1.4.tgz#2a4f3d2d3fb9a2a275f17f68ef3f9e9d55c22d74"
   integrity sha512-hzW5tocBHu6jpB1dj7GvL5QnS9ysS7uxT1myMx/cMq/oeUJW353J8RKYfjKddfy71B2PXD9VO67yJHj2XZATaQ==
 
-"@hsl-fi/site-header@0.1.7":
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/@hsl-fi/site-header/-/site-header-0.1.7.tgz#e46d879778b0c8e28a6ae7c8dc57cc3598977654"
-  integrity sha512-EscZ7KhWU1zvkn3UXB+rFV2c3Ucl7BYanVFr9tGrDKqqE24UNtB024nqGQDgC5yctDD1DlUC12bHw24/7dA0Yg==
-  dependencies:
-    "@hsl-fi/hooks" "0.1.1"
-    "@hsl-fi/icons" "0.1.4"
-    "@hsl-fi/utilities" "0.1.4"
+"@hsl-fi/icons@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@hsl-fi/icons/-/icons-0.2.1.tgz#3e55b879d859e1d1d29474e39a6d237ac83fbbb4"
+  integrity sha512-VXYAf+8lea97sas2vGDyc1UL3Z7zFcc4yUbj3dMVmQ9HW1shbKch1Clx5VWlCkkwwRMbAV/3ZYU94P57DG7gfA==
 
-"@hsl-fi/utilities@0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@hsl-fi/utilities/-/utilities-0.1.4.tgz#6397bfbc2487a00c37339dec36712e4aa491c109"
-  integrity sha512-kWnQvQ5UqdJ1sI0R5XIjNeVnOSWUljiXFn9g9CJr4s/PQb2m7p8wBCeob/vCUPb1IHYPKVI2obE1/1sTG3xRjg==
+"@hsl-fi/site-header@0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@hsl-fi/site-header/-/site-header-0.2.0.tgz#2b1837082bea5e66a1b09828fee2d34e11ba73c9"
+  integrity sha512-M/O3FcljZalJEPtiN1/dKpTBmDMdxJh/bYifjQjNvc2kcQqbsL3ZKsqAu+DTYtQV0eNuOLjL3inq4d8UyZpVAA==
   dependencies:
-    "@hsl-fi/icon-config" "0.1.1"
-    "@hsl-fi/icons" "0.1.4"
+    "@hsl-fi/hooks" "^0.1.1"
+    "@hsl-fi/icons" "^0.2.1"
+    "@hsl-fi/utilities" "^0.2.1"
+
+"@hsl-fi/utilities@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@hsl-fi/utilities/-/utilities-0.2.1.tgz#2dc9a0989c018e96ec8868a3143fd0b0aff2b6be"
+  integrity sha512-XsznzGuT9RglEq5doV6OwnkezZVxqBOwAMOqDBwKfWrj1qx34xNKiIo7x+T/R3JAWKgo8P+zbtHGQABDHi0nlQ==
+  dependencies:
+    "@hsl-fi/icon-config" "^0.1.1"
+    "@hsl-fi/icons" "^0.1.4"
 
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.0.0"
