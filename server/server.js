@@ -33,6 +33,16 @@ if (process.env.NODE_ENV === 'production' && process.env.SENTRY_SECRET_DSN) {
   });
 }
 
+process.on('uncaughtException', error => {
+  // perhaps this is a little too careful but i want to make sure that things like out of memory errors
+  // are still crashing the process as there is no point in trying to recover from these.
+  if (error.name === 'RRNLRequestError') {
+    console.log('Unhandled Error', error);
+  } else {
+    throw error;
+  }
+});
+
 /* ********* Server ********* */
 const express = require('express');
 const expressStaticGzip = require('express-static-gzip');
