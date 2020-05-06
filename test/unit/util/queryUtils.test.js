@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 
-import { createMemoryMockRouter, mockMatch } from '../helpers/mock-router';
+import { mockMatch } from '../helpers/mock-router';
 
 import defaultConfig from '../../../app/configurations/config.default';
 import { getDefaultModes } from '../../../app/util/modeUtils';
@@ -76,14 +76,23 @@ describe('queryUtils', () => {
 
   describe('setIntermediatePlaces', () => {
     it('should not modify the query if the parameter is neither a string nor an array', () => {
-      const router = createMemoryMockRouter();
-      utils.setIntermediatePlaces(router, {});
-      const { intermediatePlaces } = router.getCurrentLocation().query;
-      expect(intermediatePlaces).to.equal(undefined);
+      let callParams;
+      const router = {
+        replace: params => {
+          callParams = params;
+        },
+      };
+      utils.setIntermediatePlaces(router, mockMatch, {});
+      expect(callParams).to.equal(undefined);
     });
 
     it('should not modify the query if the parameter is an array but not a string array', () => {
-      const router = createMemoryMockRouter();
+      let callParams;
+      const router = {
+        replace: params => {
+          callParams = params;
+        },
+      };
       const intermediatePlaces = [
         {
           lat: 60.217992,
@@ -97,36 +106,42 @@ describe('queryUtils', () => {
         },
       ];
 
-      utils.setIntermediatePlaces(router, intermediatePlaces);
+      utils.setIntermediatePlaces(router, mockMatch, intermediatePlaces);
 
-      expect(router.getCurrentLocation().query.intermediatePlaces).to.equal(
-        undefined,
-      );
+      expect(callParams).to.equal(undefined);
     });
 
     it('should modify the query if the parameter is a string', () => {
-      const router = createMemoryMockRouter();
+      let callParams;
+      const router = {
+        replace: params => {
+          callParams = params;
+        },
+      };
       const intermediatePlace = 'Kera, Espoo::60.217992,24.75494';
 
-      utils.setIntermediatePlaces(router, intermediatePlace);
+      utils.setIntermediatePlaces(router, mockMatch, intermediatePlace);
 
-      expect(router.getCurrentLocation().query.intermediatePlaces).to.equal(
-        intermediatePlace,
-      );
+      expect(callParams.query.intermediatePlaces).to.equal(intermediatePlace);
     });
 
     it('should modify the query if the parameter is a string array', () => {
-      const router = createMemoryMockRouter();
+      let callParams;
+      const router = {
+        replace: params => {
+          callParams = params;
+        },
+      };
       const intermediatePlaces = [
         'Kera, Espoo::60.217992,24.75494',
         'Leppävaara, Espoo::60.219235,24.81329',
       ];
 
-      utils.setIntermediatePlaces(router, intermediatePlaces);
+      utils.setIntermediatePlaces(router, mockMatch, intermediatePlaces);
 
-      expect(
-        router.getCurrentLocation().query.intermediatePlaces,
-      ).to.deep.equal(intermediatePlaces);
+      expect(callParams.query.intermediatePlaces).to.deep.equal(
+        intermediatePlaces,
+      );
     });
   });
 
@@ -205,15 +220,23 @@ describe('queryUtils', () => {
 
   describe('clearQueryParams', () => {
     it('should remove only given parameters', () => {
-      const router = createMemoryMockRouter();
-      router.replace({
-        query: {
-          foo: 'bar',
-          bar: 'baz',
+      let callParams;
+      const router = {
+        replace: params => {
+          callParams = params;
         },
-      });
-      utils.clearQueryParams(router, 'foo');
-      expect(router.getCurrentLocation().query).to.deep.equal({
+      };
+      const match = {
+        ...mockMatch,
+        location: {
+          query: {
+            foo: 'bar',
+            bar: 'baz',
+          },
+        },
+      };
+      utils.clearQueryParams(router, match, 'foo');
+      expect(callParams.query).to.deep.equal({
         bar: 'baz',
       });
     });
@@ -258,59 +281,6 @@ describe('queryUtils', () => {
       expect(location.pathname).to.equal(
         `/${PREFIX_ITINERARY_SUMMARY}/Helsinki%2C Helsinki%3A%3A60.166641%2C24.943537/Espoo%2C Espoo%3A%3A60.206376%2C24.656729`,
       );
-    });
-  });
-
-  describe('replaceQueryParams', () => {
-    it('should remove triangle factors if OptimizeType is not TRIANGLE', () => {
-      const router = createMemoryMockRouter();
-      router.replace({
-        query: {
-          optimize: OptimizeType.Triangle,
-          safetyFactor: 0.2,
-          slopeFactor: 0.3,
-          timeFactor: 0.5,
-        },
-      });
-
-      utils.replaceQueryParams(router, {
-        optimize: OptimizeType.Safe,
-        safetyFactor: 0.1,
-        slopeFactor: 0.2,
-        timeFactor: 0.7,
-      });
-
-      const { query } = router.getCurrentLocation();
-      const keys = Object.keys(query);
-
-      expect(query.optimize).to.equal(OptimizeType.Safe);
-      expect(keys).to.not.include('safetyFactor');
-      expect(keys).to.not.include('slopeFactor');
-      expect(keys).to.not.include('timeFactor');
-    });
-
-    it('should should not remove triangle factors when OptimizeType is missing from new params', () => {
-      const router = createMemoryMockRouter();
-      router.replace({
-        query: {
-          optimize: OptimizeType.Triangle,
-          safetyFactor: 0.2,
-          slopeFactor: 0.3,
-          timeFactor: 0.5,
-        },
-      });
-
-      utils.replaceQueryParams(router, {
-        walkBoardCost: 400,
-      });
-
-      const { query } = router.getCurrentLocation();
-
-      expect(query.optimize).to.equal(OptimizeType.Triangle);
-      expect(query.walkBoardCost).to.equal('400');
-      expect(query.safetyFactor).to.equal('0.2');
-      expect(query.slopeFactor).to.equal('0.3');
-      expect(query.timeFactor).to.equal('0.5');
     });
   });
 
