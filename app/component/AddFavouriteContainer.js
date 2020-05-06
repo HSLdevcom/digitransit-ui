@@ -77,8 +77,8 @@ class AddFavouriteContainer extends React.Component {
         gtfsId: location.properties.gtfsId,
         code: location.properties.code,
         layer: location.properties.layer,
-        lat: location.geometry.coordinates[0],
-        lon: location.geometry.coordinates[1],
+        lat: location.geometry.coordinates[1],
+        lon: location.geometry.coordinates[0],
         address: location.properties.label,
       },
     }));
