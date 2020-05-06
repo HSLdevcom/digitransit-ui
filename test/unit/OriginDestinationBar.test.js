@@ -3,12 +3,12 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import moment from 'moment';
 
-import { createMemoryMockRouter } from './helpers/mock-router';
+import { mockMatch, mockRouter } from './helpers/mock-router';
 import { mockContext, mockChildContextTypes } from './helpers/mock-context';
 import { mountWithIntl } from './helpers/mock-intl-enzyme';
 import OriginDestinationBar from '../../app/component/OriginDestinationBar';
 import searchContext from '../../app/util/searchContext';
-import { replaceQueryParams } from '../../app/util/queryUtils';
+import { setIntermediatePlaces } from '../../app/util/queryUtils';
 
 describe('<OriginDestinationBar />', () => {
   // TODO: this component does not initialize anything from the url
@@ -25,20 +25,31 @@ describe('<OriginDestinationBar />', () => {
         origin: {},
       };
 
-      const router = createMemoryMockRouter();
-      router.isActive = () => {};
-      router.setRouteLeaveHook = () => {};
+      let callParams;
+      const router = {
+        ...mockRouter,
+        replace: params => {
+          callParams = params;
+        },
+      };
 
-      replaceQueryParams(router, {
-        intermediatePlaces: [
-          'Kluuvi, luoteinen, Kluuvi, Helsinki::60.173123,24.948365',
-          'Kamppi 1241, Helsinki::60.169119,24.932058',
-        ],
-      });
+      setIntermediatePlaces(router, mockMatch, [
+        'Kluuvi, luoteinen, Kluuvi, Helsinki::60.173123,24.948365',
+        'Kamppi 1241, Helsinki::60.169119,24.932058',
+      ]);
 
       const comp = mountWithIntl(<OriginDestinationBar {...props} />, {
         context: {
           ...mockContext,
+          match: {
+            ...mockMatch,
+            location: {
+              ...mockMatch.location,
+              query: {
+                ...callParams.query,
+              },
+            },
+          },
           getStore: () => ({
             getCurrentTime: () => moment(),
             getViaPoints: () => {},
@@ -61,9 +72,7 @@ describe('<OriginDestinationBar />', () => {
 
       comp.find('.itinerary-search-control > .switch').simulate('click');
 
-      expect(
-        router.getCurrentLocation().query.intermediatePlaces,
-      ).to.deep.equal([
+      expect(callParams.query.intermediatePlaces).to.deep.equal([
         'Kamppi 1241, Helsinki::60.169119,24.932058',
         'Kluuvi, luoteinen, Kluuvi, Helsinki::60.173123,24.948365',
       ]);
