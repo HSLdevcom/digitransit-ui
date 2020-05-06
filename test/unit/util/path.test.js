@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { createMemoryMockRouter } from '../helpers/mock-router';
 
 import * as utils from '../../../app/util/path';
 
@@ -28,7 +27,12 @@ describe('path', () => {
           summaryPageSelected: 2,
         },
       };
-      const router = createMemoryMockRouter();
+      let callParams;
+      const router = {
+        push: params => {
+          callParams = params;
+        },
+      };
       utils.navigateTo({
         origin: mockOrigin,
         destination: mockDestination,
@@ -37,8 +41,7 @@ describe('path', () => {
         base: mockBase,
         resetIndex: true,
       });
-      const location = router.getCurrentLocation();
-      expect(location.state.summaryPageSelected).to.equal(0);
+      expect(callParams.state.summaryPageSelected).to.equal(0);
     });
 
     it('should not reset selected itinerary index when not required', () => {
@@ -47,7 +50,12 @@ describe('path', () => {
           summaryPageSelected: 2,
         },
       };
-      const router = createMemoryMockRouter();
+      let callParams;
+      const router = {
+        push: params => {
+          callParams = params;
+        },
+      };
       utils.navigateTo({
         origin: mockOrigin,
         destination: mockDestination,
@@ -55,8 +63,7 @@ describe('path', () => {
         router,
         base: mockBase,
       });
-      const location = router.getCurrentLocation();
-      expect(location.state.summaryPageSelected).to.equal(2);
+      expect(callParams.state.summaryPageSelected).to.equal(2);
     });
   });
 });
