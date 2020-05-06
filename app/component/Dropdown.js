@@ -78,7 +78,6 @@ class Dropdown extends React.Component {
 
   constructor(props) {
     super(props);
-    // this.onClick = this.toggleDropdown.bind(this);
     this.state = { showDropdown: false };
   }
 
@@ -197,11 +196,12 @@ class Dropdown extends React.Component {
               : currentSelection}
           </h4>
           <Icon
-            className="fake-select-arrow"
-            img="icon-icon_arrow-dropdown"
-            style={
-              this.state.showDropdown ? { transform: 'rotate(180deg);' } : ''
+            className={
+              this.state.showDropdown
+                ? 'fake-select-arrow inverted'
+                : 'fake-select-arrow'
             }
+            img="icon-icon_arrow-dropdown"
           />
         </span>
         {showDropdown && (

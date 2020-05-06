@@ -1,5 +1,9 @@
 .dropdown-wrapper {
   margin-bottom: 1em;
+
+  .inverted {
+    transform: rotate(180deg);
+  }
   .dropdown {
     list-style-type: none;
     display: inline-block;

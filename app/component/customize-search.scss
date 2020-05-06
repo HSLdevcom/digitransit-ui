@@ -34,10 +34,13 @@
   }
 
   .citybike-network-container {
-    .toggle {
-      top: 1px;
-    }
+    .option-toggle-container {
+      width: 100%;
 
+      .toggle {
+        top: 1px;
+      }
+    }
     .icon-container {
       margin-right: 0.5em;
     }
