@@ -10,7 +10,7 @@ fi
 
 set -e
 
-yarn install
+yarn setup
 free -m
 nproc
 yarn build

@@ -11,11 +11,11 @@ import { suggestionToAriaContent } from '../util/suggestionUtils';
 
 class DTAutosuggest extends React.Component {
   static contextTypes = {
-    config: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
   };
 
   static propTypes = {
+    config: PropTypes.object.isRequired,
     autoFocus: PropTypes.bool,
     className: PropTypes.string,
     executeSearch: PropTypes.func,
@@ -32,7 +32,6 @@ class DTAutosuggest extends React.Component {
     ariaLabel: PropTypes.string,
     onSelect: PropTypes.func,
     isPreferredRouteSearch: PropTypes.bool,
-    locationState: PropTypes.object,
     showSpinner: PropTypes.bool,
     storeRef: PropTypes.func,
     handleViaPoints: PropTypes.func,
@@ -72,34 +71,7 @@ class DTAutosuggest extends React.Component {
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps = nextProps => {
-    const locState = nextProps.locationState;
     // wait until address is set or geolocationing fails
-    if (
-      this.state.pendingCurrentLocation &&
-      (locState.status ===
-        this.props.searchContext.positionStore.STATUS_FOUND_ADDRESS ||
-        locState.locationingFailed)
-    ) {
-      this.setState({ pendingCurrentLocation: false }, () => {
-        if (
-          locState.status ===
-          this.props.searchContext.positionStore.STATUS_FOUND_ADDRESS
-        ) {
-          const location = {
-            type: 'CurrentLocation',
-            lat: locState.lat,
-            lon: locState.lon,
-            address:
-              locState.address ||
-              this.context.intl.formatMessage({
-                id: 'own-position',
-                defaultMessage: 'Own Location',
-              }),
-          };
-          nextProps.onSelect(location, location.type);
-        }
-      });
-    }
     if (nextProps.value !== this.state.value && !this.state.editing) {
       this.setState({
         value: nextProps.value,
@@ -214,7 +186,7 @@ class DTAutosuggest extends React.Component {
           layers: this.props.layers,
           input: value,
           type: this.props.searchType,
-          config: this.context.config,
+          config: this.props.config,
         },
         searchResult => {
           if (searchResult == null) {
@@ -307,9 +279,6 @@ class DTAutosuggest extends React.Component {
       item={item}
       intl={this.context.intl}
       loading={!this.state.valid}
-      useTransportIconsconfig={
-        this.context.config.search.suggestions.useTransportIcons
-      }
     />
   );
 
@@ -337,48 +306,13 @@ class DTAutosuggest extends React.Component {
     }
   };
 
-  shouldcomponentUpdate = (nextProps, nextState) => {
-    if (
-      this.state.pendingCurrentLocation !== nextState.pendingCurrentLocation
-    ) {
-      return true;
-    }
-    let changed;
-    Object.keys(nextProps).forEach(key => {
-      // shallow compare
-      if (key !== 'locationState' && this.props[key] !== nextProps[key]) {
-        changed = true;
-      }
-    });
-    if (changed) {
-      return true;
-    }
-    const oldLocState = this.props.locationState;
-    const newLocState = nextProps.locationState;
-    const oldGeoloc =
-      oldLocState.status ===
-        this.props.searchContext.positionStore.STATUS_FOUND_ADDRESS ||
-      oldLocState.status ===
-        this.props.searchContext.positionStore.STATUS_FOUND_LOCATION;
-    const newGeoloc =
-      newLocState.status ===
-        this.props.searchContext.positionStore.STATUS_FOUND_ADDRESS ||
-      newLocState.status ===
-        this.props.searchContext.positionStore.STATUS_FOUND_LOCATION;
-    if (oldGeoloc && newGeoloc) {
-      // changes between found-location / found-address do not count
-      return false;
-    }
-    return oldLocState.status !== newLocState.status;
-  };
-
   suggestionAsAriaContent() {
     let label = [];
     if (this.state.suggestions[0]) {
       label = suggestionToAriaContent(
         this.state.suggestions[0],
         this.context.intl,
-        this.context.config.search.suggestions.useTransportIcons,
+        false,
       );
     }
     return label ? label.join(' - ') : '';

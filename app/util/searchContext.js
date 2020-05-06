@@ -8,7 +8,6 @@ const searchContext = {
   positionStore: null,
   startLocationWatch: null,
   saveSearch: null,
-  updateViaPointsFromMap: null,
   getRoutes() {
     return Promise.resolve([]);
   },

@@ -30,6 +30,7 @@ describe('<DTAutosuggestPanel />', () => {
     context = { ...mockContext };
     childContextTypes = { ...mockChildContextTypes };
     mockData = {
+      config: {},
       breakpoint: 'large',
       origin: {
         lat: 60.169196,

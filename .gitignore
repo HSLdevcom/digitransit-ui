@@ -22,3 +22,5 @@ coverage
 sessions/
 run*.sh
 app/**/__generated__
+digitransit-component/packages/**/*.generated
+yarn-error.log
