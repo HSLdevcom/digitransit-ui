@@ -206,6 +206,7 @@
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "10.0.3",
     "babel-loader": "8.0.6",
+    "babel-plugin-inline-react-svg": "1.1.1",
     "babel-plugin-istanbul": "6.0.0",
     "babel-plugin-styled-components": "1.10.7",
     "babel-plugin-transform-react-remove-prop-types": "0.4.24",

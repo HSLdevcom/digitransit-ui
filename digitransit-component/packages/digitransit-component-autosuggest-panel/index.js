@@ -465,7 +465,7 @@ class DTAutosuggestPanel extends React.Component {
         <div className={styles['origin-input-container']}>
           <DTAutoSuggest
             config={this.props.config}
-            icon="mapMarker-from"
+            icon="mapMarker"
             id="origin"
             autoFocus={
               // Disable autofocus if using IE11
@@ -610,7 +610,7 @@ class DTAutosuggestPanel extends React.Component {
         <div className={styles['destination-input-container']}>
           <DTAutoSuggest
             config={this.props.config}
-            icon="mapMarker-to"
+            icon="mapMarker"
             id="destination"
             autoFocus={
               // Disable autofocus if using IE11
