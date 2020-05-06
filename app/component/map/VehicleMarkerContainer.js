@@ -236,28 +236,30 @@ const connectedComponent = connectToStores(
   getRelayEnvironment(VehicleMarkerContainer),
   ['RealTimeInformationStore'],
   (context, props) => {
-    const { vehicles, itineraryVehicles } = context.getStore(
+    const { vehicles, storedItineraryVehicleInfos } = context.getStore(
       'RealTimeInformationStore',
     );
-    if (itineraryVehicles) {
+    if (storedItineraryVehicleInfos) {
       const filteredVehicles = Object.keys(vehicles)
         .map(key => vehicles[key])
         .filter(vehicle => {
           let isValid = false;
           if (
-            itineraryVehicles.gtfsIdsOfTrip &&
-            itineraryVehicles.gtfsIdsOfTrip.includes(vehicle.tripId)
+            storedItineraryVehicleInfos.gtfsIdsOfTrip &&
+            storedItineraryVehicleInfos.gtfsIdsOfTrip.includes(vehicle.tripId)
           ) {
             isValid = true;
           }
           if (
             !isValid &&
-            itineraryVehicles.gtfsIdsOfRouteAndDirection &&
-            itineraryVehicles.gtfsIdsOfRouteAndDirection.includes(
+            storedItineraryVehicleInfos.gtfsIdsOfRouteAndDirection &&
+            storedItineraryVehicleInfos.gtfsIdsOfRouteAndDirection.includes(
               `${vehicle.route}_${vehicle.direction}`,
             ) &&
-            itineraryVehicles.startTimes &&
-            itineraryVehicles.startTimes.includes(vehicle.tripStartTime)
+            storedItineraryVehicleInfos.startTimes &&
+            storedItineraryVehicleInfos.startTimes.includes(
+              vehicle.tripStartTime,
+            )
           ) {
             isValid = true;
           }

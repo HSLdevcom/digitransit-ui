@@ -10,6 +10,7 @@ import { FormattedMessage } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import isEqual from 'lodash/isEqual';
 import { connectToStores } from 'fluxible-addons-react';
+import isEmpty from 'lodash/isEmpty';
 import storeOrigin from '../action/originActions';
 import DesktopView from './DesktopView';
 import MobileView from './MobileView';
@@ -110,15 +111,15 @@ const getTopicOptions = (context, plan, match) => {
 
   const itineraries = (plan && plan.itineraries) || [];
   const activeIndex = getActiveIndex(match.location, itineraries);
-  const itineraryVehicles = [];
+  const itineraryTopics = [];
 
   if (itineraries.length > 0) {
     itineraries[activeIndex].legs.forEach(leg => {
       if (leg.transitLeg && leg.trip) {
         const feedId = leg.trip.gtfsId.split(':')[0];
-        let vehicle;
+        let topic;
         if (realTime[feedId] && realTime[feedId].useFuzzyTripMatching) {
-          vehicle = {
+          topic = {
             feedId,
             route: leg.route.gtfsId.split(':')[1],
             mode: leg.mode.toLowerCase(),
@@ -128,19 +129,19 @@ const getTopicOptions = (context, plan, match) => {
             ),
           };
         } else {
-          vehicle = {
+          topic = {
             feedId,
             route: leg.route.gtfsId.split(':')[1],
             tripId: leg.trip.gtfsId.split(':')[1],
           };
         }
-        if (vehicle) {
-          itineraryVehicles.push(vehicle);
+        if (topic) {
+          itineraryTopics.push(topic);
         }
       }
     });
   }
-  return itineraryVehicles;
+  return itineraryTopics;
 };
 class SummaryPage extends React.Component {
   static contextTypes = {
@@ -177,20 +178,30 @@ class SummaryPage extends React.Component {
 
   constructor(props, context) {
     super(props, context);
+
     context.executeAction(storeOrigin, otpToLocation(props.match.params.from));
     if (props.error) {
       reportError(props.error);
     }
     this.resultsUpdatedAlertRef = React.createRef();
+
+    const itineraryTopics = getTopicOptions(
+      this.context,
+      this.props.plan,
+      this.props.match,
+    );
+    if (itineraryTopics && itineraryTopics.length > 0) {
+      this.startClient(itineraryTopics);
+    }
   }
 
   state = { center: null, loading: false };
 
-  configClient = itineraryVehicles => {
+  configClient = itineraryTopics => {
     const { config } = this.context;
     const { realTime } = config;
     const feedIds = Array.from(
-      new Set(itineraryVehicles.map(vehicle => vehicle.feedId)),
+      new Set(itineraryTopics.map(topic => topic.feedId)),
     );
     let feedId;
     /* handle multiple feedid case */
@@ -204,38 +215,36 @@ class SummaryPage extends React.Component {
       return {
         ...source,
         agency: feedId,
-        options: itineraryVehicles.length > 0 ? itineraryVehicles : null,
+        options: itineraryTopics.length > 0 ? itineraryTopics : null,
       };
     }
     return null;
   };
 
-  startClient = itineraryVehicles => {
-    const { itineraryVehicleTopics } = this.context.getStore(
+  startClient = itineraryTopics => {
+    const { storedItineraryTopics } = this.context.getStore(
       'RealTimeInformationStore',
     );
-
-    const clientConfig = this.configClient(itineraryVehicles);
     if (
-      clientConfig &&
-      (itineraryVehicleTopics === undefined ||
-        JSON.stringify(itineraryVehicles) !==
-          JSON.stringify(itineraryVehicleTopics))
+      itineraryTopics &&
+      !isEmpty(itineraryTopics) &&
+      !storedItineraryTopics
     ) {
+      const clientConfig = this.configClient(itineraryTopics);
       this.context.executeAction(startRealTimeClient, clientConfig);
       this.context.getStore(
         'RealTimeInformationStore',
-      ).itineraryVehicleTopics = itineraryVehicles;
+      ).storedItineraryTopics = itineraryTopics;
     }
   };
 
-  updateClient = itineraryVehicles => {
+  updateClient = itineraryTopics => {
     const { client, topics } = this.context.getStore(
       'RealTimeInformationStore',
     );
 
     if (client) {
-      const clientConfig = this.configClient(itineraryVehicles);
+      const clientConfig = this.configClient(itineraryTopics);
       if (clientConfig) {
         this.context.executeAction(changeRealTimeClientTopics, {
           ...clientConfig,
@@ -244,9 +253,21 @@ class SummaryPage extends React.Component {
         });
         return;
       }
+      this.stopClient();
+    }
+
+    if (!isEmpty(itineraryTopics)) {
+      this.startClient(itineraryTopics);
+    }
+  };
+
+  stopClient = () => {
+    const { client } = this.context.getStore('RealTimeInformationStore');
+    if (client) {
       this.context.executeAction(stopRealTimeClient, client);
-    } else {
-      this.startClient(itineraryVehicles);
+      this.context.getStore(
+        'RealTimeInformationStore',
+      ).storedItineraryTopics = undefined;
     }
   };
 
@@ -267,10 +288,7 @@ class SummaryPage extends React.Component {
   }
 
   componentWillUnmount() {
-    const { client } = this.context.getStore('RealTimeInformationStore');
-    if (client) {
-      this.context.executeAction(stopRealTimeClient, client);
-    }
+    this.stopClient();
     //  alert screen reader when search results appear
     if (this.resultsUpdatedAlertRef.current) {
       this.resultsUpdatedAlertRef.current.innerHTML = this.resultsUpdatedAlertRef.current.innerHTML;
@@ -291,12 +309,12 @@ class SummaryPage extends React.Component {
     if (this.props.error) {
       reportError(this.props.error);
     }
-    const itineryVehicles = getTopicOptions(
+    const itineraryTopics = getTopicOptions(
       this.context,
       this.props.plan,
       this.props.match,
     );
-    this.updateClient(itineryVehicles);
+    this.updateClient(itineraryTopics);
   }
 
   setLoading = loading => {
@@ -433,9 +451,11 @@ class SummaryPage extends React.Component {
     }
     this.context.getStore(
       'RealTimeInformationStore',
-    ).itineraryVehicles = itineraryVehicles;
+    ).storedItineraryVehicleInfos = itineraryVehicles;
 
-    leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
+    if (!isEmpty(itineraryVehicles)) {
+      leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
+    }
 
     return (
       <MapContainer
