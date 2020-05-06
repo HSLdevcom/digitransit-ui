@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 
-import { createMemoryMockRouter } from '../helpers/mock-router';
+import { createMemoryMockRouter, mockMatch } from '../helpers/mock-router';
 
 import defaultConfig from '../../../app/configurations/config.default';
 import { getDefaultModes } from '../../../app/util/modeUtils';
@@ -376,43 +376,46 @@ describe('queryUtils', () => {
           callCount += 1;
         },
       };
-      utils.setPreferGreenways(router, OptimizeType.Greenways);
+      utils.setPreferGreenways(router, mockMatch, OptimizeType.Greenways);
       expect(callCount).to.equal(0);
     });
 
     it('should call replace on router even if already enabled when forced', () => {
       let callParams;
       const router = {
-        ...createMemoryMockRouter(),
         replace: params => {
           callParams = params;
         },
       };
-      utils.setPreferGreenways(router, OptimizeType.Greenways, {}, true);
+      utils.setPreferGreenways(
+        router,
+        mockMatch,
+        OptimizeType.Greenways,
+        {},
+        true,
+      );
       expect(callParams.query.optimize).to.equal(OptimizeType.Greenways);
     });
 
     it('should call replace on router when disabled', () => {
       let callCount = 0;
       const router = {
-        ...createMemoryMockRouter(),
         replace: () => {
           callCount += 1;
         },
       };
-      utils.setPreferGreenways(router, OptimizeType.Quick);
+      utils.setPreferGreenways(router, mockMatch, OptimizeType.Quick);
       expect(callCount).to.equal(1);
     });
 
     it('should use OptimizeType TRIANGLE when other triangle factors are in use', () => {
       let callParams;
       const router = {
-        ...createMemoryMockRouter(),
         replace: params => {
           callParams = params;
         },
       };
-      utils.setPreferGreenways(router, OptimizeType.Triangle, {
+      utils.setPreferGreenways(router, mockMatch, OptimizeType.Triangle, {
         safetyFactor: utils.FACTOR_DISABLED,
         slopeFactor: utils.ONE_FACTOR_ENABLED,
         timeFactor: utils.FACTOR_DISABLED,
@@ -434,7 +437,7 @@ describe('queryUtils', () => {
           callCount += 1;
         },
       };
-      utils.setAvoidElevationChanges(router, OptimizeType.Triangle, {
+      utils.setAvoidElevationChanges(router, mockMatch, OptimizeType.Triangle, {
         slopeFactor: utils.ONE_FACTOR_ENABLED,
       });
       expect(callCount).to.equal(0);
@@ -443,13 +446,13 @@ describe('queryUtils', () => {
     it('should call replace on router even if already enabled when forced', () => {
       let callParams;
       const router = {
-        ...createMemoryMockRouter(),
         replace: params => {
           callParams = params;
         },
       };
       utils.setAvoidElevationChanges(
         router,
+        mockMatch,
         OptimizeType.Triangle,
         {
           safetyFactor: utils.TWO_FACTORS_ENABLED,
@@ -469,24 +472,22 @@ describe('queryUtils', () => {
     it('should call replace on router when disabled', () => {
       let callCount = 0;
       const router = {
-        ...createMemoryMockRouter(),
         replace: () => {
           callCount += 1;
         },
       };
-      utils.setAvoidElevationChanges(router, OptimizeType.Quick);
+      utils.setAvoidElevationChanges(router, mockMatch, OptimizeType.Quick);
       expect(callCount).to.equal(1);
     });
 
     it('should use OptimizeType TRIANGLE when other triangle factors are in use', () => {
       let callParams;
       const router = {
-        ...createMemoryMockRouter(),
         replace: params => {
           callParams = params;
         },
       };
-      utils.setAvoidElevationChanges(router, OptimizeType.Triangle, {
+      utils.setAvoidElevationChanges(router, mockMatch, OptimizeType.Triangle, {
         safetyFactor: utils.ONE_FACTOR_ENABLED,
         slopeFactor: utils.FACTOR_DISABLED,
         timeFactor: utils.FACTOR_DISABLED,
@@ -502,12 +503,11 @@ describe('queryUtils', () => {
     it('should convert to OptimizeType TRIANGLE when the current OptimizeType is GREENWAYS', () => {
       let callParams;
       const router = {
-        ...createMemoryMockRouter(),
         replace: params => {
           callParams = params;
         },
       };
-      utils.setAvoidElevationChanges(router, OptimizeType.Greenways);
+      utils.setAvoidElevationChanges(router, mockMatch, OptimizeType.Greenways);
       expect(callParams.query).to.deep.equal({
         optimize: OptimizeType.Triangle,
         safetyFactor: utils.TWO_FACTORS_ENABLED,
@@ -527,6 +527,7 @@ describe('queryUtils', () => {
       };
       utils.resetPreferGreenways(
         router,
+        mockMatch,
         OptimizeType.Safe,
         {},
         OptimizeType.Quick,
@@ -537,13 +538,13 @@ describe('queryUtils', () => {
     it('should switch to just one factor enabled if two factors are currently enabled', () => {
       let callParams;
       const router = {
-        ...createMemoryMockRouter(),
         replace: params => {
           callParams = params;
         },
       };
       utils.resetPreferGreenways(
         router,
+        mockMatch,
         OptimizeType.Triangle,
         {
           safetyFactor: utils.TWO_FACTORS_ENABLED,
@@ -563,13 +564,13 @@ describe('queryUtils', () => {
     it('should switch to default optimize', () => {
       let callParams;
       const router = {
-        ...createMemoryMockRouter(),
         replace: params => {
           callParams = params;
         },
       };
       utils.resetPreferGreenways(
         router,
+        mockMatch,
         OptimizeType.Greenways,
         {},
         OptimizeType.Quick,
@@ -590,6 +591,7 @@ describe('queryUtils', () => {
       };
       utils.resetAvoidElevationChanges(
         router,
+        mockMatch,
         OptimizeType.Safe,
         {},
         OptimizeType.Quick,
@@ -600,13 +602,13 @@ describe('queryUtils', () => {
     it('should switch to just one factor enabled if two factors are currently enabled', () => {
       let callParams;
       const router = {
-        ...createMemoryMockRouter(),
         replace: params => {
           callParams = params;
         },
       };
       utils.resetAvoidElevationChanges(
         router,
+        mockMatch,
         OptimizeType.Triangle,
         {
           safetyFactor: utils.TWO_FACTORS_ENABLED,
@@ -623,13 +625,13 @@ describe('queryUtils', () => {
     it('should switch to default optimize', () => {
       let callParams;
       const router = {
-        ...createMemoryMockRouter(),
         replace: params => {
           callParams = params;
         },
       };
       utils.resetAvoidElevationChanges(
         router,
+        mockMatch,
         OptimizeType.Triangle,
         {
           safetyFactor: utils.FACTOR_DISABLED,
