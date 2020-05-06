@@ -32,13 +32,17 @@ export default class Line extends React.Component {
     // own layer) to bottom. Note that all polylines do render inside the
     // same SVG, so CSS z-index can't be used.
     if (this.props.thin) {
-      this.line.leafletElement.bringToBack();
-      this.halo.leafletElement.bringToBack();
+      if (this.line) {
+        this.line.leafletElement.bringToBack();
+      }
+      if (this.halo) {
+        this.halo.leafletElement.bringToBack();
+      }
     }
   }
 
   componentDidUpdate() {
-    if (!(this.props.passive && this.props.thin)) {
+    if (!(this.props.passive && this.props.thin) && this.line) {
       this.line.leafletElement.bringToFront();
     }
   }
@@ -54,6 +58,10 @@ export default class Line extends React.Component {
       filteredPoints = this.props.geometry.filter(
         point => point.lat !== null && point.lon !== null,
       );
+    }
+
+    if (!filteredPoints || filteredPoints.length === 0) {
+      return null;
     }
 
     const lineConfig = this.context.config.map.line;

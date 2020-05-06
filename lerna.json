@@ -1,13 +1,15 @@
 {
   "packages": [
-    "digitransit-util/packages/*"
+    "digitransit-util/packages/*",
+    "digitransit-search-util/packages/*",
+    "digitransit-component/packages/*"
   ],
   "version": "independent",
   "npmClient": "yarn",
   "useWorkspaces": true,
   "command": {
     "publish": {
-      "conventionalCommits": true
+      "conventionalCommits": false
     }
   }
 }
