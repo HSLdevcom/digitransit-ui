@@ -101,6 +101,22 @@ class IndexPage extends React.Component {
     }
   };
 
+  clickFavourite = favourite => {
+    const location = {
+      lat: favourite.lat,
+      lon: favourite.lon,
+      address: favourite.name,
+      ready: true,
+    };
+
+    navigateTo({
+      origin: this.props.origin,
+      destination: location,
+      context: '/',
+      router: this.props.router,
+    });
+  };
+
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     const { intl } = this.context;
@@ -136,14 +152,10 @@ class IndexPage extends React.Component {
           />
           <CtrlPanel.SeparatorLine />
           <Datetimepicker realtime />
-          <div className="fpcfloat">
-            <div className="frontpage-panel">
-              <FavouriteLocationsContainer
-                origin={origin}
-                favourites={favourites}
-              />
-            </div>
-          </div>
+          <FavouriteLocationsContainer
+            onClickFavourite={this.clickFavourite}
+            favourites={this.props.favourites}
+          />
           <CtrlPanel.SeparatorLine />
           <div className="stops-near-you-text">
             <span>
@@ -199,14 +211,10 @@ class IndexPage extends React.Component {
           />
           <CtrlPanel.SeparatorLine />
           <Datetimepicker realtime />
-          <div className="fpcfloat">
-            <div className="frontpage-panel">
-              <FavouriteLocationsContainer
-                origin={origin}
-                favourites={favourites}
-              />
-            </div>
-          </div>
+          <FavouriteLocationsContainer
+            onClickFavourite={this.clickFavourite}
+            favourites={this.props.favourites}
+          />
           <CtrlPanel.SeparatorLine />
           <div className="stops-near-you-text">
             <span>
