@@ -25,7 +25,6 @@ import { getDefaultSettings, getCurrentSettings } from '../util/planParamUtil';
 import {
   addPreferredRoute,
   addUnpreferredRoute,
-  clearQueryParams,
   removePreferredRoute,
   removeUnpreferredRoute,
   replaceQueryParams,
@@ -66,7 +65,7 @@ class CustomizeSearch extends React.Component {
 
   resetParameters = () => {
     resetCustomizedSettings();
-    clearQueryParams(this.context.router, Object.keys(this.defaultSettings));
+    replaceQueryParams(this.context.router, this.defaultSettings);
   };
 
   render() {
