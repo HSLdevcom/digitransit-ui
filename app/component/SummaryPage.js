@@ -64,6 +64,9 @@ export const getActiveIndex = (
   defaultValue = 0,
 ) => {
   if (state) {
+    if (state.summaryPageSelected >= itineraries.length) {
+      return defaultValue;
+    }
     return state.summaryPageSelected || defaultValue;
   }
 
@@ -74,6 +77,9 @@ export const getActiveIndex = (
    */
   const lastURLSegment = pathname && pathname.split('/').pop();
   if (!Number.isNaN(Number(lastURLSegment))) {
+    if (Number(lastURLSegment) >= itineraries.length) {
+      return defaultValue;
+    }
     return Number(lastURLSegment);
   }
 
@@ -84,6 +90,9 @@ export const getActiveIndex = (
     itineraries,
     itinerary => !itineraryHasCancelation(itinerary),
   );
+  if (itineraryIndex >= itineraries.length) {
+    return defaultValue;
+  }
   return itineraryIndex > 0 ? itineraryIndex : defaultValue;
 };
 
