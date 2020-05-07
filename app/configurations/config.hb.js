@@ -45,6 +45,9 @@ export default configMerger(walttiConfig, {
 
   MATOMO_URL: process.env.MATOMO_URL,
 
+  /* disable the "next" column of the Route panel as it can be confusing sometimes: https://github.com/mfdz/digitransit-ui/issues/167 */
+  displayNextDeparture: false,
+
   defaultSettings: {
     optimize: "TRIANGLE",
     safetyFactor: 0.4,
