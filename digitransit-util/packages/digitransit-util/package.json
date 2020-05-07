@@ -11,7 +11,8 @@
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "scripts": {
     "test": "mocha -r esm test.js",
-    "docs": "node -r esm ../../scripts/generate-readmes"
+    "docs": "node -r esm ../../scripts/generate-readmes",
+    "publish": "yarn login && yarn publish --access public"
   },
   "dependencies": {
     "@digitransit-util/digitransit-util-day-range-allowed-diff": "^1.0.2",

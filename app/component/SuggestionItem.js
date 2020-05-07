@@ -4,69 +4,141 @@ import cx from 'classnames';
 import pure from 'recompose/pure';
 
 import Icon from './Icon';
-import { getIcon, suggestionToAriaContent } from '../util/suggestionUtils';
+import { getIcon, getNameLabel } from '../util/suggestionUtils';
 import ComponentUsageExample from './ComponentUsageExample';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 
-const SuggestionItem = pure(({ item, intl, useTransportIcons, loading }) => {
-  let icon;
-  if (item.properties.mode && useTransportIcons) {
-    icon = (
-      <Icon
-        img={`icon-icon_${item.properties.mode}`}
-        className={item.properties.mode}
-      />
-    );
-  } else {
-    icon = (
-      <Icon
-        img={getIcon(item.properties.layer)}
-        className={item.iconClass || ''}
-      />
-    );
-  }
-  const [iconstr, name, label] = suggestionToAriaContent(
+const SuggestionItem = pure(
+  ({
     item,
     intl,
     useTransportIcons,
-  );
-  const acri = (
-    <div className="sr-only">
-      <p>
-        {' '}
-        {iconstr} - {name} - {label}
-      </p>
-    </div>
-  );
-  const ri = (
-    <div
-      aria-hidden="true"
-      className={cx('search-result', item.type, {
-        favourite: item.type.startsWith('Favourite'),
-        loading,
-      })}
-    >
-      <span aria-label={iconstr} className="autosuggestIcon">
-        {icon}
-      </span>
-      <div>
-        <p className="suggestion-name">{name}</p>
-        <p className="suggestion-label">{label}</p>
+    loading,
+    suggestionProps,
+    isFavourite,
+  }) => {
+    let icon;
+    let iconstr;
+    if (isFavourite) {
+      iconstr = item.selectedIconId;
+      icon = <Icon img={item.selectedIconId} />;
+      const [name, label] = [item.name, item.address];
+      const acri = (
+        <div className="sr-only">
+          <p>
+            {' '}
+            {iconstr} - {name} - {label}
+          </p>
+        </div>
+      );
+      const ri = (
+        <div
+          aria-hidden="true"
+          className={cx('search-result', item.type, {
+            favourite: item.type.startsWith('Favourite'),
+            loading,
+          })}
+        >
+          <span aria-label={iconstr} className="autosuggestIcon">
+            {icon}
+          </span>
+          <div>
+            <p className="suggestion-name">{name}</p>
+            <p className="suggestion-label">{label}</p>
+          </div>
+        </div>
+      );
+      const {
+        id,
+        index,
+        selected,
+        onMouseEnter,
+        onClickSuggestion,
+      } = suggestionProps;
+      /* eslint-disable jsx-a11y/click-events-have-key-events */
+      return (
+        <li
+          id={id}
+          className={cx(
+            'favourite-suggestion-item',
+            selected ? 'highlighted' : '',
+          )}
+          onMouseEnter={() => onMouseEnter(index)}
+          onClick={() => onClickSuggestion(item)}
+          aria-selected={selected}
+          aria-label={`${name} - ${label}`}
+          role="option"
+        >
+          {acri}
+          {ri}
+        </li>
+      );
+    }
+    if (item.properties && item.properties.mode && useTransportIcons) {
+      iconstr = `icon-icon_${item.properties.mode}`;
+      icon = (
+        <Icon
+          img={`icon-icon_${item.properties.mode}`}
+          className={item.properties.mode}
+        />
+      );
+    } else {
+      // DT-3262 Icon as string for screen readers
+      const layer = item.properties.layer.replace('route-', '').toLowerCase();
+      if (intl) {
+        iconstr = intl.formatMessage({
+          id: layer,
+          defaultMessage: layer,
+        });
+      }
+      icon = (
+        <Icon
+          img={getIcon(item.properties.layer)}
+          className={item.iconClass || ''}
+        />
+      );
+    }
+    const [name, label] = getNameLabel(item.properties, false);
+    // DT-3262 For screen readers
+    const acri = (
+      <div className="sr-only">
+        <p>
+          {' '}
+          {iconstr} - {name} - {label}
+        </p>
       </div>
-    </div>
-  );
-
-  return (
-    <div>
-      {acri}
-      {ri}
-    </div>
-  );
-});
+    );
+    const ri = (
+      <div
+        aria-hidden="true"
+        className={cx('search-result', item.type, {
+          favourite: item.type.startsWith('Favourite'),
+          loading,
+        })}
+      >
+        <span aria-label={iconstr} className="autosuggestIcon">
+          {icon}
+        </span>
+        <div>
+          <p className="suggestion-name">{name}</p>
+          <p className="suggestion-label">{label}</p>
+        </div>
+      </div>
+    );
+    return (
+      <div>
+        {acri}
+        {ri}
+      </div>
+    );
+  },
+);
 
 SuggestionItem.propTypes = {
   item: PropTypes.object,
   useTransportIcons: PropTypes.bool,
+  isFavourite: PropTypes.bool,
+  suggestionProps: PropTypes.object,
 };
 
 SuggestionItem.displayName = 'SuggestionItem';

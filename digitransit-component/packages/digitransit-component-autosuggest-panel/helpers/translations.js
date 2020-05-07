@@ -1,0 +1,45 @@
+const translations = {
+  en: {
+    'add-via-button-label': 'Add via point',
+    'add-via-duration-button-label': 'Set stop duration at via point {{index}}',
+    'add-via-duration-button-label-close':
+      'Close stop duration selector at via point {{index}}',
+    'add-via-duration-button-label-open':
+      'Open stop duration selector at via point {{index}}',
+    'minute-short': 'min',
+    'remove-via-button-label': 'Remove via point {{index}}',
+    'swap-order-button-label': 'Reverse origin and destination',
+    'via-point-index': 'Via point {{index}}',
+    'viapoint-slack-amount': 'Stop duration',
+  },
+  fi: {
+    'add-via-button-label': 'Lisää välipiste',
+    'add-via-duration-button-label':
+      'Aseta välipisteelle {{index}} pysähdyksen kesto',
+    'add-via-duration-button-label-close':
+      'Avaa välipisteen {{index}} pysähdyksen kesto valitsin',
+    'add-via-duration-button-label-open':
+      'Sulje välipisteen {{index}} pysähdyksen kesto valitsin',
+    'minute-short': 'min',
+    'remove-via-button-label': 'Poista välipiste {{index}}',
+    'swap-order-button-label': 'Käännä reitin suunta vastakkaiseksi',
+    'via-point-index': 'Välipiste {{index}}',
+    'viapoint-slack-amount': 'Pysähdyksen kesto',
+  },
+  sv: {
+    'add-via-button-label': 'Lägg till viapunkt',
+    'add-via-duration-button-label':
+      'Ställ in varaktighet för viapunkten {{index}}',
+    'add-via-duration-button-label-close':
+      'Stäng väljaren för varaktighet vid via-punkten {{index}}',
+    'add-via-duration-button-label-open':
+      'Öppna väljaren för varaktighet vid via-punkten {{index}}',
+    'minute-short': 'min',
+    'remove-via-button-label': 'Ta bort viapunkt {{index}}',
+    'swap-order-button-label': 'Sväng ruttens riktning till den motsatta',
+    'via-point-index': 'Via punkt {{index}}',
+    'viapoint-slack-amount': 'Stoppets varaktighet',
+  },
+};
+
+export default translations;
