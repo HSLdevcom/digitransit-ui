@@ -14,7 +14,7 @@ const STATIC_MESSAGE_URL =
   process.env.STATIC_MESSAGE_URL ||
   '/assets/messages/message.hb.json';
 
-const walttiConfig = require('./waltti').default;
+const walttiConfig = require('./config.waltti.js').default;
 
 const minLat = 48.55525;
 const maxLat = 48.64040;
