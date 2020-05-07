@@ -9,7 +9,11 @@ import Icon from './Icon';
 import RelativeDuration from './RelativeDuration';
 import { renderZoneTicket } from './ZoneTicket';
 import PreferencesStore from '../store/PreferencesStore';
-import { getFares, getAlternativeFares } from '../util/fareUtils';
+import {
+  getFares,
+  getAlternativeFares,
+  shouldShowFareInfo,
+} from '../util/fareUtils';
 import { displayDistance } from '../util/geo-utils';
 import { getTotalWalkingDistance, getZones, getRoutes } from '../util/legUtils';
 
@@ -107,7 +111,7 @@ class PrintableItineraryHeader extends React.Component {
             ),
           })}
           {fares.length > 0 &&
-            config.showTicketInformation &&
+            shouldShowFareInfo(config) &&
             this.createHeaderBlock({
               name: 'ticket',
               textId: fares.length > 1 ? 'tickets' : 'ticket',

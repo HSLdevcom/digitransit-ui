@@ -3,18 +3,15 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
-import { withCurrentTime } from '../util/searchUtils';
+import { withCurrentTime } from '../util/DTSearchUtils';
 import ComponentUsageExample from './ComponentUsageExample';
-import DTAutosuggestPanel from './DTAutosuggestPanel';
+import DTAutosuggestContainer from './DTAutosuggestContainer';
 import { PREFIX_ITINERARY_SUMMARY, navigateTo } from '../util/path';
 import {
   getIntermediatePlaces,
   setIntermediatePlaces,
 } from '../util/queryUtils';
 import { dtLocationShape } from '../util/shapes';
-
-import searchContext from './searchContext';
-import intializeSearchContext from './DTSearchContextInitializer';
 
 const locationToOtp = location =>
   `${location.address}::${location.lat},${location.lon}${
@@ -40,10 +37,6 @@ class OriginDestinationBar extends React.Component {
     className: undefined,
     location: undefined,
   };
-
-  componentDidMount() {
-    intializeSearchContext(this.context, searchContext);
-  }
 
   get location() {
     return this.props.location || this.context.match.location;
@@ -82,11 +75,11 @@ class OriginDestinationBar extends React.Component {
           'flex-horizontal',
         )}
       >
-        <DTAutosuggestPanel
+        <DTAutosuggestContainer
+          type="panel"
           origin={this.props.origin}
           destination={this.props.destination}
           isItinerary
-          searchContext={searchContext}
           initialViaPoints={getIntermediatePlaces(this.location.query)}
           updateViaPoints={this.updateViaPoints}
           swapOrder={this.swapEndpoints}

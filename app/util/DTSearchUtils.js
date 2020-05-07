@@ -12,7 +12,15 @@ import favouriteStationsQuery from './favouriteStations';
 import favouriteStopsQuery from './favouriteStops';
 import favouriteRoutesQuery from './favouriteRoutes';
 
-export const getStopAndStations = (favourites, relayEnvironment) => {
+let relayEnvironment = null;
+
+export function setRelayEnvironment(environment) {
+  relayEnvironment = environment;
+}
+export const getStopAndStations = favourites => {
+  if (!relayEnvironment) {
+    return Promise.resolve([]);
+  }
   return fetchQuery(relayEnvironment, favouriteStopsQuery, {
     ids: favourites.map(item => item.gtfsId),
   }).then(dataStops =>
@@ -34,7 +42,10 @@ export const getStopAndStations = (favourites, relayEnvironment) => {
   );
 };
 
-export function getFavouriteRoutes(favourites, input, relayEnvironment) {
+export function getFavouriteRoutes(favourites, input) {
+  if (!relayEnvironment) {
+    return Promise.resolve([]);
+  }
   return fetchQuery(relayEnvironment, favouriteRoutesQuery, { ids: favourites })
     .then(data => data.routes.map(mapRoute))
     .then(routes => routes.filter(route => !!route))
@@ -55,7 +66,10 @@ export function getFavouriteRoutes(favourites, input, relayEnvironment) {
       routes.sort((x, y) => routeNameCompare(x.properties, y.properties)),
     );
 }
-export function getRoutes(input, config, relayEnvironment) {
+export function getRoutes(input, config) {
+  if (!relayEnvironment) {
+    return Promise.resolve([]);
+  }
   if (typeof input !== 'string' || input.trim().length === 0) {
     return Promise.resolve([]);
   }
@@ -79,3 +93,18 @@ export function getRoutes(input, config, relayEnvironment) {
     )
     .then(suggestions => take(suggestions, 10));
 }
+
+export const withCurrentTime = (getStore, location) => {
+  const query = (location && location.query) || {};
+  return {
+    ...location,
+    query: {
+      ...query,
+      time: query.time
+        ? query.time
+        : getStore('TimeStore')
+            .getCurrentTime()
+            .unix(),
+    },
+  };
+};

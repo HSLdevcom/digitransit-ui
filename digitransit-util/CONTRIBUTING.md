@@ -31,7 +31,7 @@ digitransit-util-<MODULE NAME>
 ```
 To get started with a new module navigate to the root directory and run
 ```
-$ yarn run digitransit-ui-new-module <MODULE NAME>
+$ yarn run digitransit-util-new-module <MODULE NAME>
 ```
 it will create a new folder inside `packages` with a simple boilerplate for your module.
 
@@ -51,16 +51,10 @@ it will create a new folder inside `packages` with a simple boilerplate for your
 
 ## Publishing
 
-Install lerna:
+Publish **inside a module:**:
 
 ```bash
-$ npm install -g lerna
-```
-
-Publish:
-
-```bash
-$ lerna publish
+$ yarn publish
 ```
 
 ## Documentation

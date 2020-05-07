@@ -4,7 +4,7 @@ import { matchShape, routerShape } from 'found';
 import { FormattedMessage } from 'react-intl';
 import { withLeaflet } from 'react-leaflet/es/context';
 import updateViaPointsFromMap from '../../action/ViaPointsActions';
-import { withCurrentTime } from '../../util/searchUtils';
+import { withCurrentTime } from '../../util/DTSearchUtils';
 import {
   PREFIX_ROUTES,
   PREFIX_STOPS,
@@ -156,7 +156,9 @@ class MarkerPopupBottom extends React.Component {
             defaultMessage="Route from here"
           />
         </div>
-        {this.context.match.location.pathname.startsWith('/reitti/') &&
+        {this.context.match.location.pathname.startsWith(
+          `/${PREFIX_ITINERARY_SUMMARY}/`,
+        ) &&
           getIntermediatePlaces(this.context.match.location.query).length <
             5 && (
             <div

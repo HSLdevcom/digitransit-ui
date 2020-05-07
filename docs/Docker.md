@@ -39,6 +39,7 @@ There are also optional variables:
 - `-e STATIC_MESSAGE_URL=<..>`
 - `-e RELAY_FETCH_TIMEOUT=<..>`
 - `-e NODE_OPTS=<..>`
+- `-e BASE_CONFIG=true`
 
 ## Build new snapshot image
 Only Linux and Mac OS are supported.

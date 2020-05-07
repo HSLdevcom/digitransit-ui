@@ -26,20 +26,20 @@ jobs:
       env: LINT=1
       node_js: '10'
       script:
-        - yarn install
+        - yarn setup
         - yarn lint
     # Temporarely disabled for development in next branch    
     # - stage: test
     #   env: FLOW=1
     #   node_js: '10'
     #   script:
-    #     - yarn install
+    #     - yarn setup
     #     - test/flow.sh
     - stage: test
       env: UNIT=1
       node_js: '10'
       script:
-        - yarn install
+        - yarn setup
         - yarn relay
         - yarn run test-coverage
         - yarn run test-report

@@ -12,7 +12,7 @@ import {
   patternIdPredicate,
 } from '../util/alertUtils';
 import { isBrowser } from '../util/browser';
-import { PREFIX_ROUTES } from '../util/path';
+import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import {
   stopRealTimeClient,
   startRealTimeClient,
@@ -246,9 +246,9 @@ class DepartureListContainer extends Component {
       if (this.props.routeLinks) {
         departureObjs.push(
           <Link
-            to={`/${PREFIX_ROUTES}/${departure.pattern.route.gtfsId}/pysakit/${
-              departure.pattern.code
-            }?sort=no`}
+            to={`/${PREFIX_ROUTES}/${
+              departure.pattern.route.gtfsId
+            }/${PREFIX_STOPS}/${departure.pattern.code}?sort=no`}
             key={id}
             onClick={() => {
               addAnalyticsEvent({

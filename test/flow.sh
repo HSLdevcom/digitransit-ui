@@ -15,7 +15,7 @@ sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable
 sudo apt-get update
 sudo apt-get install -y fonts-liberation google-chrome-stable
 
-#yarn install
+#yarn setup
 
 CONFIG=hsl yarn dev &
 sleep 2 # Sleep so that server starts in time for tests even if available route timetables can't be loaded
