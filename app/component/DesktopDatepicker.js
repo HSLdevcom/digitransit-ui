@@ -45,11 +45,13 @@ function DesktopDatepicker({ value, onChange, getDisplay }) {
     }
     handleTimestamp(newValue);
   };
-
+  const selected = moment(value);
   const dateSuggestions = Array(30)
     .fill()
     .map((_, i) =>
       moment()
+        .hour(selected.hour())
+        .minute(selected.minute())
         .add(i * 24, 'hours')
         .valueOf(),
     );

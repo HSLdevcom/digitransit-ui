@@ -8,7 +8,7 @@ import RightOffcanvasToggle from './RightOffcanvasToggle';
 import { matchQuickOption } from '../util/planParamUtil';
 import { replaceQueryParams } from '../util/queryUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import Datetimepicker from './Datetimepicker';
+import DatetimepickerContainer from './DatetimepickerContainer';
 
 class QuickSettingsPanel extends React.Component {
   // TODO decide if these are needed for new datepicker
@@ -84,7 +84,7 @@ class QuickSettingsPanel extends React.Component {
 
     return (
       <div className={cx(['quicksettings-container'])}>
-        <Datetimepicker realtime={false} />
+        <DatetimepickerContainer realtime={false} />
 
         <div className="open-advanced-settings">
           <RightOffcanvasToggle

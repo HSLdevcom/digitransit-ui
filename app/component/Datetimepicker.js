@@ -3,56 +3,67 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import { intlShape, FormattedMessage } from 'react-intl';
-import { matchShape, routerShape } from 'found';
 import uniqueId from 'lodash/uniqueId';
 import ComponentUsageExample from './ComponentUsageExample';
 import DesktopDatepicker from './DesktopDatepicker';
 import DesktopTimepicker from './DesktopTimepicker';
-import { replaceQueryParams } from '../util/queryUtils';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
 
-function getInitialTimestamp(match) {
-  return match.location.query.time
-    ? moment(Number(match.location.query.time) * 1000).valueOf()
-    : moment().valueOf();
-}
-
-function getInitialUseNow(match) {
-  return !match.location.query.time;
-}
-
-function getInitialDepartureOrArrival(match) {
-  return match.location.query.arriveBy ? 'arrival' : 'departure';
-}
-
-function Datetimepicker({ realtime }, context) {
-  const { router, match } = context;
-
+function Datetimepicker(
+  {
+    timestamp,
+    onTimeChange,
+    onDateChange,
+    departureOrArrival,
+    onNowClick,
+    onDepartureClick,
+    onArrivalClick,
+  },
+  context,
+) {
   const [isOpen, changeOpen] = useState(false);
-  const [timestamp, changeTimestamp] = useState(getInitialTimestamp(match));
-  const [nowSelected, changeNow] = useState(getInitialUseNow(match));
-  const [departureOrArrival, changeDepartureOrArrival] = useState(
-    getInitialDepartureOrArrival(match),
-  );
-  // for tracking realtime
+  const [displayTimestamp, changeDisplayTimestamp] = useState(timestamp);
+  // timer for updating displayTimestamp in real time
   const [timerId, setTimer] = useState(null);
   // for input labels
   const [htmlId] = useState(uniqueId('datetimepicker-'));
 
-  const changeTimeParam = newTime => {
-    if (!newTime) {
-      replaceQueryParams(router, match, {
-        time: undefined,
-      });
-    } else {
-      const seconds = Math.round(newTime / 1000);
-      replaceQueryParams(router, match, {
-        time: seconds,
-      });
-    }
-  };
+  const nowSelected = timestamp === null;
 
-  // param date is timestamp
+  // update displayTimestamp in real time if timestamp === null
+  useEffect(
+    () => {
+      if (!nowSelected) {
+        changeDisplayTimestamp(timestamp);
+        if (timerId) {
+          clearInterval(timerId);
+          setTimer(null);
+        }
+        return undefined;
+      }
+      if (nowSelected) {
+        changeDisplayTimestamp(moment().valueOf());
+        // TODO ensure there aren't multiple timers running
+        if (timerId) {
+          clearInterval(timerId);
+        }
+        const newId = setInterval(() => {
+          const minuteChanged = !moment(displayTimestamp).isSame(
+            moment(),
+            'minute',
+          );
+          if (minuteChanged) {
+            changeDisplayTimestamp(moment().valueOf());
+          }
+        }, 5000);
+        setTimer(newId);
+        return () => clearInterval(newId);
+      }
+      return undefined;
+    },
+    [timestamp],
+  );
+
+  // param date should be timestamp
   const getDateDisplay = date => {
     const time = moment(date);
     if (time.isSame(moment(), 'day')) {
@@ -65,82 +76,9 @@ function Datetimepicker({ realtime }, context) {
     return time.format('dd D.M.');
   };
 
+  // param time is timestamp
   const getTimeDisplay = time => {
     return moment(time).format('HH:mm');
-  };
-  // update url params when state changes
-  useEffect(
-    () => {
-      if (!nowSelected) {
-        changeTimeParam(timestamp);
-      }
-    },
-    [timestamp],
-  );
-  useEffect(
-    () => {
-      if (nowSelected) {
-        changeTimeParam(undefined);
-      }
-    },
-    [nowSelected],
-  );
-
-  useEffect(
-    () => {
-      if (departureOrArrival === 'arrival') {
-        replaceQueryParams(router, match, {
-          arriveBy: true,
-        });
-      } else {
-        replaceQueryParams(router, match, {
-          arriveBy: undefined,
-        });
-      }
-    },
-    [departureOrArrival],
-  );
-
-  useEffect(
-    function setRealtimeClock() {
-      if (!realtime) {
-        return undefined;
-      }
-      if (nowSelected) {
-        // TODO ensure there aren't multiple timers running
-        const newId = setInterval(() => {
-          const minuteChanged = !moment(timestamp).isSame(moment(), 'minute');
-          if (minuteChanged) {
-            changeTimestamp(moment().valueOf());
-          }
-        }, 5000);
-        setTimer(newId);
-        return () => clearInterval(newId);
-      }
-      clearInterval(timerId);
-      return undefined;
-    },
-    [nowSelected],
-  );
-
-  // TODO combine these later if they have no difference
-  const onDateChange = newValue => {
-    changeNow(false);
-    changeTimestamp(newValue);
-    addAnalyticsEvent({
-      action: 'EditJourneyDate',
-      category: 'ItinerarySettings',
-      name: null,
-    });
-  };
-  const onTimeChange = newValue => {
-    changeNow(false);
-    changeTimestamp(newValue);
-    addAnalyticsEvent({
-      action: 'EditJourneyTime',
-      category: 'ItinerarySettings',
-      name: null,
-    });
   };
 
   const isMobile = false; // TODO
@@ -173,7 +111,9 @@ function Datetimepicker({ realtime }, context) {
                         : 'datetimepicker.arrival'
                     }
                   />
-                  {`${getDateDisplay(timestamp)} ${getTimeDisplay(timestamp)}`}
+                  {`${getDateDisplay(displayTimestamp)} ${getTimeDisplay(
+                    displayTimestamp,
+                  )}`}
                 </>
               )}
             </button>
@@ -186,11 +126,7 @@ function Datetimepicker({ realtime }, context) {
               type="button"
               className={cx('textbutton', nowSelected ? 'active' : '')}
               onClick={() => {
-                if (realtime) {
-                  changeNow(true);
-                }
-                changeDepartureOrArrival('departure');
-                changeTimestamp(moment().valueOf());
+                onNowClick();
               }}
             >
               <FormattedMessage id="datetimepicker.departure-now" />
@@ -211,17 +147,9 @@ function Datetimepicker({ realtime }, context) {
                 type="radio"
                 className="radio-textbutton"
                 onChange={() => {
-                  if (departureOrArrival !== 'departure') {
-                    changeDepartureOrArrival('departure');
-                    addAnalyticsEvent({
-                      event: 'sendMatomoEvent',
-                      category: 'ItinerarySettings',
-                      action: 'LeavingArrivingSelection',
-                      name: 'SelectLeaving',
-                    });
-                  }
+                  onDepartureClick();
                 }}
-                checked={departureOrArrival === 'departure'}
+                checked={!nowSelected && departureOrArrival === 'departure'}
               />
             </label>
             <label
@@ -238,16 +166,7 @@ function Datetimepicker({ realtime }, context) {
                 type="radio"
                 className="radio-textbutton"
                 onChange={() => {
-                  if (departureOrArrival !== 'arrival') {
-                    changeDepartureOrArrival('arrival');
-                    changeNow(false);
-                    addAnalyticsEvent({
-                      event: 'sendMatomoEvent',
-                      category: 'ItinerarySettings',
-                      action: 'LeavingArrivingSelection',
-                      name: 'SelectArriving',
-                    });
-                  }
+                  onArrivalClick();
                 }}
                 checked={departureOrArrival === 'arrival'}
               />
@@ -270,15 +189,19 @@ function Datetimepicker({ realtime }, context) {
               <>
                 <span>
                   <DesktopDatepicker
-                    value={timestamp}
-                    onChange={onDateChange}
+                    value={displayTimestamp}
+                    onChange={newValue => {
+                      onDateChange(newValue);
+                    }}
                     getDisplay={getDateDisplay}
                   />
                 </span>
                 <span>
                   <DesktopTimepicker
-                    value={timestamp}
-                    onChange={onTimeChange}
+                    value={displayTimestamp}
+                    onChange={newValue => {
+                      onTimeChange(newValue);
+                    }}
                     getDisplay={getTimeDisplay}
                   />
                 </span>
@@ -292,16 +215,21 @@ function Datetimepicker({ realtime }, context) {
 }
 
 Datetimepicker.propTypes = {
-  realtime: PropTypes.bool.isRequired,
+  timestamp: PropTypes.number, // timestamp in milliseconds, null to update in realtime
+  onTimeChange: PropTypes.func.isRequired,
+  onDateChange: PropTypes.func.isRequired,
+  departureOrArrival: PropTypes.oneOf(['departure', 'arrival']).isRequired,
+  onNowClick: PropTypes.func.isRequired,
+  onDepartureClick: PropTypes.func.isRequired,
+  onArrivalClick: PropTypes.func.isRequired,
 };
+
+Datetimepicker.defaultProps = { timestamp: null };
 
 Datetimepicker.contextTypes = {
   intl: intlShape.isRequired,
-  router: routerShape.isRequired,
-  match: matchShape.isRequired,
-  config: PropTypes.object.isRequired,
 };
 
-Datetimepicker.description = <ComponentUsageExample />;
+Datetimepicker.description = <ComponentUsageExample />; // TODO
 
 export { Datetimepicker as default, Datetimepicker as Component };
