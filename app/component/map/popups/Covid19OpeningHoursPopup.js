@@ -50,7 +50,7 @@ class Covid19OpeningHoursPopup extends React.Component {
     const covidHours = properties.opening_hours;
     const regularHours = properties.tags.opening_hours;
 
-    if (covidHours) {
+    if (covidHours && covidHours !== 'open') {
       return <OSMOpeningHours openingHours={covidHours} displayStatus />;
     }
 
