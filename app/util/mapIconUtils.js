@@ -173,7 +173,7 @@ export function drawRoundIcon(
     );
     tile.ctx.fill();
 
-    if (hubRadius > 4) {
+    if (hubRadius > 0) {
       tile.ctx.beginPath();
       tile.ctx.fillStyle = '#fff';
       tile.ctx.arc(

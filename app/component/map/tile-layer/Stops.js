@@ -9,20 +9,14 @@ import {
   drawRoundIcon,
   drawTerminalIcon,
   drawRoundIconAlertBadge,
-  drawIcon,
 } from '../../../util/mapIconUtils';
 import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
-import glfun from '../../../util/glfun';
 
 /**
  * The period of time, in ms, to have the results cached.
  */
 const CACHE_PERIOD_MS = 1000 * 60 * 5; // 5 minutes
 const cache = {};
-const getScale = glfun({
-  base: 1,
-  stops: [[13, 0.8], [20, 1.6]],
-});
 
 class Stops {
   constructor(
@@ -60,20 +54,6 @@ class Stops {
         this.tile.coords.z >= this.config.terminalNamesZoom
           ? feature.properties.name
           : false,
-      );
-      return;
-    }
-
-    if (
-      feature.properties.type === 'BUS' &&
-      this.config.transportModes &&
-      this.tile.coords.z >= this.config.transportModes.bus.smallIconZoom
-    ) {
-      drawIcon(
-        'icon_map-bus',
-        this.tile,
-        feature.geom,
-        18 * getScale(this.tile.coords.z),
       );
       return;
     }
