@@ -14,6 +14,7 @@ class StreetModeSelectorPanel extends React.Component {
       streetModeConfigs,
       currentSettings,
       defaultSettings,
+      defaultOptions,
     } = this.props;
     if (!streetModeConfigs.length) {
       return null;
@@ -59,6 +60,7 @@ class StreetModeSelectorPanel extends React.Component {
                     <BikingOptionsSection
                       bikeSpeed={currentSettings.bikeSpeed}
                       defaultSettings={defaultSettings}
+                      bikeSpeedOptions={defaultOptions.bikeSpeed}
                     />
                   )}
               </div>
@@ -74,6 +76,7 @@ StreetModeSelectorPanel.propTypes = {
   selectedStreetMode: PropTypes.string,
   currentSettings: PropTypes.object.isRequired,
   defaultSettings: PropTypes.object.isRequired,
+  defaultOptions: PropTypes.object.isRequired,
   streetModeConfigs: PropTypes.arrayOf(
     PropTypes.shape({
       defaultValue: PropTypes.bool.isRequired,

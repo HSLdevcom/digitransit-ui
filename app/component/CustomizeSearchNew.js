@@ -63,7 +63,7 @@ class CustomizeSearch extends React.Component {
         <div className="settings-option-container">
           <WalkingOptionsSection
             walkReluctance={currentSettings.walkReluctance}
-            walkReluctanceOptions={config.defaultOptions.walkReluctance}
+            walkSpeedOptions={config.defaultOptions.walkSpeed}
             walkSpeed={currentSettings.walkSpeed}
             defaultSettings={this.defaultSettings}
           />
@@ -95,6 +95,7 @@ class CustomizeSearch extends React.Component {
             streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
             currentSettings={currentSettings}
             defaultSettings={this.defaultSettings}
+            defaultOptions={config.defaultOptions}
           />
         </div>
         <div className="settings-option-container">

@@ -2,14 +2,15 @@ import ceil from 'lodash/ceil';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape, routerShape } from 'found';
+import { intlShape } from 'react-intl';
 
-import Dropdown, { getSpeedOptions, valueShape } from '../Dropdown';
+import Dropdown, { getFiveStepOptions, valueShape } from '../Dropdown';
 import { replaceQueryParams } from '../../util/queryUtils';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 
 const BikingOptionsSection = (
-  { bikeSpeed, defaultSettings },
-  { router, match },
+  { bikeSpeed, defaultSettings, bikeSpeedOptions },
+  { router, match, intl },
 ) => (
   <React.Fragment>
     {/* OTP uses the same walkReluctance setting for bike routing */}
@@ -25,16 +26,16 @@ const BikingOptionsSection = (
           name: value,
         });
       }}
-      options={getSpeedOptions(defaultSettings.bikeSpeed, 16, 5)}
+      options={getFiveStepOptions(bikeSpeedOptions)}
       formatOptions
-      labelText="biking-speed"
-      highlightDefaultValue
+      labelText={intl.formatMessage({ id: 'biking-speed' })}
     />
   </React.Fragment>
 );
 
 BikingOptionsSection.propTypes = {
   bikeSpeed: valueShape.isRequired,
+  bikeSpeedOptions: PropTypes.array.isRequired,
   defaultSettings: PropTypes.shape({
     walkReluctance: PropTypes.number.isRequired,
     bikeSpeed: PropTypes.number.isRequired,
@@ -44,6 +45,7 @@ BikingOptionsSection.propTypes = {
 BikingOptionsSection.contextTypes = {
   router: routerShape.isRequired,
   match: matchShape.isRequired,
+  intl: intlShape.isRequired,
 };
 
 export default BikingOptionsSection;

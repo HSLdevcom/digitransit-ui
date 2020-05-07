@@ -11,6 +11,7 @@
     width: 100%;
 
     li {
+        font-weight: 400;
         cursor: pointer;
         color: $primary-color;
         margin-bottom: 5px;
@@ -30,7 +31,6 @@
         .icon-container {
           float: right;
           margin: 0px 1em 0px 0px;
-          transform: rotate(-35deg); //Turn dropdown arrow into checkmark
         }
     }
   }
@@ -40,6 +40,7 @@
       cursor: pointer;
       display: flex;
       padding: 0px 0px 0px 1em;
+      margin: 0px 0px 1em 0px;
       outline: none !important;
 
       .dropdown-label-text {
@@ -55,7 +56,7 @@
 
   .icon-container {
       float: right;
-      margin: 0.75em;
+      margin: 1.1em 0px 0px 0px;
       color: $primary-color;
   }
 }

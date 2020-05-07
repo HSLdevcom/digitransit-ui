@@ -130,6 +130,8 @@ export default {
       more: 1,
       most: 0.2,
     },
+    walkSpeed: [0.7, 1.0, 1.2, 1.52, 1.77],
+    bikeSpeed: [2.7, 4.15, 5, 6.94, 8.33],
   },
 
   walkBoardCost: 600,

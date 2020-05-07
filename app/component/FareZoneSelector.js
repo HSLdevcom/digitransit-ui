@@ -45,7 +45,9 @@ class FareZoneSelector extends React.Component {
           currentSelection={this.props.currentOption}
           options={mappedOptions}
           onOptionSelected={value => this.props.updateValue(value)}
-          formatOption={false}
+          displayValueFormatter={value =>
+            value.split(':')[1] ? value.split(':')[1] : value
+          }
         />
       </div>
     );

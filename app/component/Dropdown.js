@@ -2,46 +2,35 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { intlShape } from 'react-intl';
 import Icon from './Icon';
 
 /**
- * Builds an array of options starting from the minimum value, including default value
- * and having a total of stepCount steps with a size of stepSize.
+ * Builds an array of options: least, less, default, more, most with preset
+ * multipliers or given values for each option. Note: a higher value (relative to
+ * the given value) means less/worse.
  *
- * @param {number} defaultValue The default value.
- * @param {number} minValue The minimum value.
- * @param {number} stepSize The size of the step.
- * @param {number} stepCount The total count of steps.
+ * @param {*} options The options to select from.
  */
-export const getLinearStepOptions = (
-  defaultValue,
-  minValue,
-  stepSize,
-  stepCount,
-) => {
-  const options = [defaultValue];
-  for (let i = 0; i < stepCount; ++i) {
-    const currentValue = minValue + i * stepSize;
-    if (Math.abs(currentValue - defaultValue) > 0.01) {
-      options.push(currentValue);
-    }
-  }
-  return options;
-};
-
-/**
- * Builds an array of options starting from the minimum value, including default value
- * and having a total of stepCount steps.
- *
- * @param {number} defaultValue The default value (in m/s).
- * @param {number} minValue The minimum value (in km/h).
- * @param {number} stepCount The total count of steps.
- */
-export const getSpeedOptions = (defaultValue, minValue, stepCount) => {
-  const KPH = 0.2777; // an approximation of 1 / 3.6 which is 1 km/h in m/s
-  return getLinearStepOptions(defaultValue, minValue * KPH, KPH, stepCount);
-};
+export const getFiveStepOptions = options => [
+  {
+    title: 'option-least',
+    value: options.least || options[0],
+  },
+  {
+    title: 'option-less',
+    value: options.less || options[1],
+  },
+  { title: 'option-default', value: options[2] },
+  {
+    title: 'option-more',
+    value: options.more || options[3],
+  },
+  {
+    title: 'option-most',
+    value: options.most || options[4],
+  },
+];
 
 /**
  * Represents the types of acceptable values.
@@ -134,13 +123,12 @@ class Dropdown extends React.Component {
         ? `${intl.formatMessage({
             id: 'option-default',
           })} (${str})`
-        : `${str}`;
+        : `${str} (${Math.ceil(value * 3.6, 1)} km/h)`;
     }
 
     function getFormattedValue(value) {
       return displayValueFormatter ? displayValueFormatter(value) : value;
     }
-
     const selectOptions = formatOptions
       ? options.map(
           o =>
@@ -149,7 +137,7 @@ class Dropdown extends React.Component {
                   displayName: `${o.title}_${o.value}`,
                   displayNameObject: applyDefaultValueIdentifier(
                     o.value,
-                    this.contenxt.intl.formatMessage(
+                    this.context.intl.formatMessage(
                       { id: o.title },
                       {
                         title: o.title,
@@ -184,17 +172,12 @@ class Dropdown extends React.Component {
           role="Button"
           tabIndex="0"
         >
-          <h4 className="dropdown-label-text">
-            <FormattedMessage
-              id="dropdown-label-text"
-              defaultMessage={labelText}
-            />
-          </h4>
-          <h4 className="dropdown-label-value">
+          <p className="dropdown-label-text">{labelText}</p>
+          <p className="dropdown-label-value">
             {displayValueFormatter
               ? displayValueFormatter(currentSelection)
               : currentSelection}
-          </h4>
+          </p>
           <Icon
             className={
               this.state.showDropdown
