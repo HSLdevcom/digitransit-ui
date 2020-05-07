@@ -6,7 +6,7 @@ import RouteAlertsRow from '../../../app/component/RouteAlertsRow';
 import RouteNumber from '../../../app/component/RouteNumber';
 import ServiceAlertIcon from '../../../app/component/ServiceAlertIcon';
 import { AlertSeverityLevelType } from '../../../app/constants';
-import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../app/util/path';
+import { PREFIX_STOPS, PREFIX_ROUTES } from '../../../app/util/path';
 
 describe('<RouteAlertsRow />', () => {
   it('should not render a div for the routeLine if it is missing', () => {

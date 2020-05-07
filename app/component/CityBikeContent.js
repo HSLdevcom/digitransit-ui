@@ -26,6 +26,7 @@ const CityBikeContent = ({ station, lang }, { config }) => (
         totalSpaces={station.bikesAvailable + station.spacesAvailable}
         fewAvailableCount={config.cityBike.fewAvailableCount}
         type={getCityBikeType(station.networks, config)}
+        useSpacesAvailable={config.cityBike.useSpacesAvailable}
       />
     )}
     {config.transportModes.citybike.availableForSelection &&

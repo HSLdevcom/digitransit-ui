@@ -8,12 +8,10 @@ import Card from '../../Card';
 import CardHeader from '../../CardHeader';
 import Loading from '../../Loading';
 import ZoneIcon from '../../ZoneIcon';
-import GeoJsonStore from '../../../store/GeoJsonStore';
 import PreferencesStore from '../../../store/PreferencesStore';
 import { getLabel } from '../../../util/suggestionUtils';
 import { getJson } from '../../../util/xhrPromise';
 import { getZoneLabelColor } from '../../../util/mapIconUtils';
-import { findFeatures } from '../../../util/geo-utils';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 
 class LocationPopup extends React.Component {
@@ -23,7 +21,6 @@ class LocationPopup extends React.Component {
   };
 
   static propTypes = {
-    getGeoJsonData: PropTypes.func.isRequired,
     language: PropTypes.string.isRequired,
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired,
@@ -45,31 +42,24 @@ class LocationPopup extends React.Component {
     const { lat, lon } = this.props;
     const { config } = this.context;
 
-    const promises = [
-      getJson(config.URL.PELIAS_REVERSE_GEOCODER, {
-        'point.lat': lat,
-        'point.lon': lon,
-        'boundary.circle.radius': 0.1, // 100m
-        lang: this.props.language,
-        size: 1,
-        layers: 'address',
-      }),
-    ];
-    if (config.geoJson && config.geoJson.zones) {
-      promises.push(this.props.getGeoJsonData(config.geoJson.zones.url));
+    function parseZoneName(fullZoneName) {
+      if (fullZoneName) {
+        return fullZoneName.split(':')[1];
+      }
+      return undefined;
     }
 
-    Promise.all(promises).then(
-      ([data, zoneData]) => {
+    getJson(config.URL.PELIAS_REVERSE_GEOCODER, {
+      'point.lat': lat,
+      'point.lon': lon,
+      'boundary.circle.radius': 0.1, // 100m
+      lang: this.props.language,
+      size: 1,
+      layers: 'address',
+      zones: 1,
+    }).then(
+      data => {
         let pointName;
-        const zones = findFeatures(
-          {
-            lat,
-            lon,
-          },
-          (zoneData && zoneData.data && zoneData.data.features) || [],
-        );
-        const zoneId = zones.length > 0 ? zones[0].Zone : undefined;
         if (data.features != null && data.features.length > 0) {
           const match = data.features[0].properties;
           this.setState(prevState => ({
@@ -77,7 +67,14 @@ class LocationPopup extends React.Component {
             location: {
               ...prevState.location,
               address: getLabel(match),
-              zoneId,
+              zoneId: parseZoneName(
+                // eslint-disable-next-line no-nested-ternary
+                match.zones
+                  ? match.zones[0]
+                  : data.zones
+                    ? data.zones[0]
+                    : undefined,
+              ),
             },
           }));
           pointName = 'FreeAddress';
@@ -90,7 +87,7 @@ class LocationPopup extends React.Component {
                 id: 'location-from-map',
                 defaultMessage: 'Selected location',
               }),
-              zoneId,
+              zoneId: parseZoneName(data.zones ? data.zones[0] : undefined),
             },
           }));
           pointName = 'NoAddress';
@@ -154,11 +151,10 @@ class LocationPopup extends React.Component {
 
 const connectedComponent = connectToStores(
   LocationPopup,
-  [GeoJsonStore, PreferencesStore],
+  [PreferencesStore],
   ({ getStore }) => {
     const language = getStore(PreferencesStore).getLanguage();
-    const { getGeoJsonData } = getStore(GeoJsonStore);
-    return { getGeoJsonData, language };
+    return { language };
   },
 );
 

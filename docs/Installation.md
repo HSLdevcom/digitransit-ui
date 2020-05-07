@@ -40,9 +40,10 @@ Look up 'husky' in `package.json` to see the details.
 
 ## Configuration application
 Digitransit ui can be configured in multiple ways. You can
-- Change between National and Regional versions using CONFIG parameter
-- Switch API backend using API_URL parameter
-- Enable Sentry client side error monitoring using SENTRY_* parameters
+- Change between National and Regional versions using `CONFIG` parameter
+  - Alternatively, use `BASE_CONFIG` if server is supposed to serve multiple configurations which have same base configuration. It is used server side at start up and request's host specific config based on `host` or `x-forwarded-host` header is merged into it before returning config to client.
+- Switch API backend using `API_URL` parameter
+- Enable Sentry client side error monitoring using `SENTRY_*` parameters
 
 Note that you can combine multiple configuration parameters.
 

@@ -76,7 +76,6 @@ export const RouteLeg = ({ leg, large, intl }) => {
       <RouteNumberContainer
         alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
         route={leg.route}
-        trip={leg.trip}
         className={cx('line', leg.mode.toLowerCase())}
         vertical
         withBar

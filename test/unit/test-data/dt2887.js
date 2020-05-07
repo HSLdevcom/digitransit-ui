@@ -1,10 +1,11 @@
 import moment from 'moment';
+import { PREFIX_STOPS } from '../../../app/util/path';
 
 export default {
   lang: 'fi', // DT-3347
   onSelectChange: () => {},
   gtfsId: 'HSL:1010',
-  activeTab: 'pysakit',
+  activeTab: PREFIX_STOPS,
   className: 'bp-large',
   serviceDay: '20190306',
   relay: {
