@@ -15,7 +15,14 @@ describe('<StopRoutesAndPlatforms />', () => {
       stop: dt2715a,
       params: { terminalId: 'HSL:1000202' },
     };
-    const wrapper = shallowWithIntl(<StopRoutesAndPlatforms {...props} />);
+    const context = {
+      match: {
+        params: {},
+      },
+    };
+    const wrapper = shallowWithIntl(<StopRoutesAndPlatforms {...props} />, {
+      context,
+    });
 
     expect(wrapper.find('.departure-list')).to.have.lengthOf(1);
   });
@@ -23,7 +30,6 @@ describe('<StopRoutesAndPlatforms />', () => {
   it('should calculate the correct amount of unique departures', () => {
     const props = {
       stop: dt2715a,
-      params: { terminalId: 'HSL:1000202' },
     };
     const sortedProps = mapRoutes(props.stop, 'terminal');
 
@@ -33,9 +39,15 @@ describe('<StopRoutesAndPlatforms />', () => {
   it('should render as many departures as it receives for a terminal', () => {
     const props = {
       stop: dt2715a,
-      params: { terminalId: 'HSL:1000202' },
     };
-    const wrapper = shallowWithIntl(<StopRoutesAndPlatforms {...props} />);
+    const context = {
+      match: {
+        params: { terminalId: 'HSL:1000202' },
+      },
+    };
+    const wrapper = shallowWithIntl(<StopRoutesAndPlatforms {...props} />, {
+      context,
+    });
 
     expect(wrapper.find('.departure')).to.have.lengthOf(
       mapRoutes(props.stop, 'terminal').length,
@@ -45,9 +57,15 @@ describe('<StopRoutesAndPlatforms />', () => {
   it('should render as many departures as it receives for a stop', () => {
     const props = {
       stop: dt2715b,
-      params: { stopId: 'HSL:1173105' },
     };
-    const wrapper = shallowWithIntl(<StopRoutesAndPlatforms {...props} />);
+    const context = {
+      match: {
+        params: { stopId: 'HSL:1173105' },
+      },
+    };
+    const wrapper = shallowWithIntl(<StopRoutesAndPlatforms {...props} />, {
+      context,
+    });
 
     expect(wrapper.find('.departure')).to.have.lengthOf(
       mapRoutes(props.stop, 'stop').length,
@@ -56,13 +74,19 @@ describe('<StopRoutesAndPlatforms />', () => {
 
   it("should show a 'no departures' indicator", () => {
     const props = {
-      params: { stopId: 'HSL:1173105' },
       stop: {
         stops: [],
         stoptimesForPatterns: [],
       },
     };
-    const wrapper = shallowWithIntl(<StopRoutesAndPlatforms {...props} />);
+    const context = {
+      match: {
+        params: { stopId: 'HSL:1173105' },
+      },
+    };
+    const wrapper = shallowWithIntl(<StopRoutesAndPlatforms {...props} />, {
+      context,
+    });
     expect(wrapper.find('.stop-no-departures-container')).to.have.lengthOf(1);
   });
 });
