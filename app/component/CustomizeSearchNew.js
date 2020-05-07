@@ -13,7 +13,7 @@ import LoadCustomizedSettingsButton from './LoadCustomizedSettingsButton';
 import StreetModeSelectorPanel from './StreetModeSelectorPanel';
 import BikeTransportOptionsSection from './customizesearch/BikeTransportOptionsSection';
 import BikingOptionsSection from './customizesearch/BikingOptionsSection';
-import RoutePreferencesSection from './customizesearch/RoutePreferencesSection';
+// import RoutePreferencesSection from './customizesearch/RoutePreferencesSection';
 import SelectOptionContainer from './customizesearch/SelectOptionContainer';
 import TransferOptionsSection from './customizesearch/TransferOptionsSection';
 import TransportModesSection from './customizesearch/TransportModesSection';
@@ -25,7 +25,6 @@ import { getDefaultSettings, getCurrentSettings } from '../util/planParamUtil';
 import {
   addPreferredRoute,
   addUnpreferredRoute,
-  clearQueryParams,
   removePreferredRoute,
   removeUnpreferredRoute,
   replaceQueryParams,
@@ -66,7 +65,7 @@ class CustomizeSearch extends React.Component {
 
   resetParameters = () => {
     resetCustomizedSettings();
-    clearQueryParams(this.context.router, Object.keys(this.defaultSettings));
+    replaceQueryParams(this.context.router, this.defaultSettings);
   };
 
   render() {
@@ -203,6 +202,7 @@ class CustomizeSearch extends React.Component {
           unPreferredRoutes={currentSettings.unpreferredRoutes}
           removeRoute={this.removeRoute}
         />
+        {/*
         <div className="settings-option-container">
           <RoutePreferencesSection
             optimize={currentSettings.optimize}
@@ -214,6 +214,7 @@ class CustomizeSearch extends React.Component {
             defaultSettings={this.defaultSettings}
           />
         </div>
+        */}
         <div className="settings-option-container">
           <SelectOptionContainer
             currentSelection={currentSettings.accessibilityOption}
