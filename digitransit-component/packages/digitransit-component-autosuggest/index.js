@@ -283,7 +283,7 @@ class DTAutosuggest extends React.Component {
           this.state.value ? 'clear-button-label' : 'search-button-label',
         )}
       >
-        <Icon img={img} width={1.1} height={1.1} />
+        <Icon img={img} width={1.1} height={1.1} color="#666" />
       </button>
     );
   };
@@ -450,6 +450,10 @@ class DTAutosuggest extends React.Component {
     const ariaCurrentSuggestion = i18next.t('search-current-suggestion', {
       selection: this.suggestionAsAriaContent(),
     });
+    const iconColor = {
+      origin: '#64be14',
+      destination: '#ec5188',
+    };
     return (
       <div
         className={cx([
@@ -464,7 +468,12 @@ class DTAutosuggest extends React.Component {
               styles[this.props.id],
             ])}
           >
-            <Icon img={`${this.props.icon}`} width={1.45} height={1.45} />
+            <Icon
+              img={`${this.props.icon}`}
+              width={1.45}
+              height={1.45}
+              color={iconColor[this.props.id]}
+            />
           </div>
         )}
         <Autosuggest

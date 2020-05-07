@@ -1,40 +1,31 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import cx from 'classnames';
-import close from './assets/close.svg';
-import mapmarkerFrom from './assets/mapmarker-from.svg';
-import mapmarkerTo from './assets/mapmarker-to.svg';
-import mapmarkerVia from './assets/mapmarker-via.svg';
-import search from './assets/search.svg';
+import Close from './assets/close.svg';
+import Mapmarker from './assets/mapmarker.svg';
+import MapmarkerVia from './assets/mapmarker-via.svg';
+import Search from './assets/search.svg';
 
-const IconMap = {
-  close,
-  'mapMarker-via': mapmarkerVia,
-  'mapMarker-from': mapmarkerFrom,
-  'mapMarker-to': mapmarkerTo,
-  search,
+const IconMap = style => {
+  return {
+    close: <Close style={style} />,
+    'mapMarker-via': <MapmarkerVia style={style} />,
+    mapMarker: <Mapmarker style={style} />,
+    search: <Search style={style} />,
+  };
 };
 
-function Icon({ className, color, img, height, width, margin }) {
-  return (
-    <span aria-hidden className="icon-container">
-      <svg
-        className={cx('icon', className)}
-        style={{
-          fill: color || null,
-          height: height ? `${height}em` : null,
-          width: width ? `${width}em` : null,
-          marginRight: margin ? `${margin}em` : null,
-        }}
-      >
-        <use xlinkHref={`${IconMap[img]}#icon`} />
-      </svg>
-    </span>
-  );
+function Icon({ color, img, height, width, margin }) {
+  const style = {
+    fill: color || null,
+    height: height ? `${height}em` : null,
+    width: width ? `${width}em` : null,
+    marginRight: margin ? `${margin}em` : null,
+  };
+  const icons = IconMap(style);
+  return <span aria-hidden>{icons[img]}</span>;
 }
 
 Icon.propTypes = {
-  className: PropTypes.string,
   color: PropTypes.string,
   height: PropTypes.number,
   img: PropTypes.string.isRequired,
@@ -43,7 +34,6 @@ Icon.propTypes = {
 };
 
 Icon.defaultProps = {
-  className: undefined,
   color: undefined,
   height: undefined,
   margin: undefined,
