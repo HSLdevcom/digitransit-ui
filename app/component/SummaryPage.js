@@ -277,6 +277,9 @@ class SummaryPage extends React.Component {
       this.context.getStore(
         'RealTimeInformationStore',
       ).storedItineraryTopics = undefined;
+      this.context.getStore(
+        'RealTimeInformationStore',
+      ).storedItineraryVehicleInfos = undefined;
     }
   };
 

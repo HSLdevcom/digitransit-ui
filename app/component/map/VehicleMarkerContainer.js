@@ -3,6 +3,7 @@ import React from 'react';
 import { graphql, QueryRenderer } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
+import isEmpty from 'lodash/isEmpty';
 import TripMarkerPopup from './route/TripMarkerPopup';
 import IconWithTail from '../IconWithTail';
 import IconMarker from './IconMarker';
@@ -239,7 +240,7 @@ const connectedComponent = connectToStores(
     const { vehicles, storedItineraryVehicleInfos } = context.getStore(
       'RealTimeInformationStore',
     );
-    if (storedItineraryVehicleInfos) {
+    if (storedItineraryVehicleInfos && !isEmpty(storedItineraryVehicleInfos)) {
       const filteredVehicles = Object.keys(vehicles)
         .map(key => vehicles[key])
         .filter(vehicle => {
