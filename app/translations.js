@@ -358,7 +358,7 @@ const translations = {
     'covid-19-partial': 'Veränderte Öffnungszeiten',
     'covid-19-unknown': 'Unbekannte Öffnungszeiten',
     'covid-delivery': 'Lieferservice möglich',
-    'covid-takeaway': 'Mitnehmen möglich',
+    'covid-takeaway': 'Abholung möglich',
     'create-account': '{contactName}-Konto anlegen',
     currentposition: 'Aktuelle Position',
     'cycle-distance-duration': 'Radfahren: {distance} ({duration})',
