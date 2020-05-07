@@ -24,7 +24,7 @@ describe('<SummaryPage />', () => {
     it('should retrieve the value from location pathname', () => {
       const location = { pathname: `/${PREFIX_ITINERARY_SUMMARY}/from/to/5` };
       const itineraries = [1, 2, 3, 4, 5, 6, 7, 8];
-      expect(getActiveIndex(location)).to.equal(5);
+      expect(getActiveIndex(location, itineraries)).to.equal(5);
     });
 
     it('should use the first non-canceled itinerary', () => {
