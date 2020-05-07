@@ -11,42 +11,42 @@ const initLanguage = language => {
   if (language === 'fi') {
     i18next.addResourceBundle('fi', 'translation', {
       traveling_name: 'Matkustaminen',
-      traveling_url: '/matkustaminen/',
+      traveling_url: 'https://www.hsl.fi/reitit-ja-aikataulut',
       tickets_and_fares_name: 'Liput ja hinnat',
-      tickets_and_fares_url: '/liput-ja-hinnat/',
+      tickets_and_fares_url: 'https://www.hsl.fi/liput-ja-hinnat',
       information_name: 'Asiakaspalvelu',
-      information_url: '/asiakaspalvelu/',
+      information_url: 'https://www.hsl.fi/ohjeita-ja-tietoja',
       hsl_name: 'HSL',
-      hsl_url: '/hsl/',
-      search_url: '/haku/',
+      hsl_url: 'https://www.hsl.fi/',
+      search_url: 'https://www.hsl.fi/search/solr',
       change_language: 'Vaihda kieli',
     });
   }
   if (language === 'sv') {
     i18next.addResourceBundle('sv', 'translation', {
       traveling_name: 'Resor',
-      traveling_url: '/resor/',
+      traveling_url: 'https://www.hsl.fi/sv/tidtabeller-och-rutter',
       tickets_and_fares_name: 'Biljetter och priser',
-      tickets_and_fares_url: '/biljetter-och-priser/',
+      tickets_and_fares_url: 'https://www.hsl.fi/sv/biljetter-och-priser',
       information_name: 'Information',
-      information_url: '/information-sv/',
+      information_url: '/https://www.hsl.fi/sv/hjalp-och-info',
       hsl_name: 'HRT',
-      hsl_url: '/hsl/',
-      search_url: '/sok/',
+      hsl_url: 'https://www.hsl.fi/sv',
+      search_url: '/https://www.hsl.fi/sv/search/solr',
       change_language: 'Välj språk',
     });
   }
   if (language === 'en') {
     i18next.addResourceBundle('en', 'translation', {
       traveling_name: 'Traveling',
-      traveling_url: '/traveling/',
+      traveling_url: 'https://www.hsl.fi/en/timetables-and-routes',
       tickets_and_fares_name: 'Tickets and fares',
-      tickets_and_fares_url: '/tickets-and-fares/',
+      tickets_and_fares_url: 'https://www.hsl.fi/en/tickets-and-fares',
       information_name: 'Information',
-      information_url: '/information-en/',
+      information_url: 'https://www.hsl.fi/en/help-and-info',
       hsl_name: 'HSL',
-      hsl_url: '/hsl/',
-      search_url: '/search/',
+      hsl_url: 'https://www.hsl.fi/en',
+      search_url: 'https://www.hsl.fi/en/search/solr',
       change_language: 'Change language',
     });
   }

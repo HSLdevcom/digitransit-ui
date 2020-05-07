@@ -34,9 +34,15 @@ describe('<AppBarHsl />', () => {
       },
     });
     expect(wrapper.name()).to.equal('SiteHeader');
-    expect(wrapper.prop('searchPage')).to.equal('/haku/');
-    expect(wrapper.prop('searchPage')).to.not.equal('/sok/');
-    expect(wrapper.prop('searchPage')).to.not.equal('/search/');
+    expect(wrapper.prop('searchPage')).to.equal(
+      'https://www.hsl.fi/search/solr',
+    );
+    expect(wrapper.prop('searchPage')).to.not.equal(
+      '/https://www.hsl.fi/sv/search/solr',
+    );
+    expect(wrapper.prop('searchPage')).to.not.equal(
+      'https://www.hsl.fi/en/search/solr',
+    );
   });
 
   it("language should be 'sv'", () => {
@@ -53,9 +59,15 @@ describe('<AppBarHsl />', () => {
       },
     });
     expect(wrapper.name()).to.equal('SiteHeader');
-    expect(wrapper.prop('searchPage')).to.not.equal('/haku/');
-    expect(wrapper.prop('searchPage')).to.equal('/sok/');
-    expect(wrapper.prop('searchPage')).to.not.equal('/search/');
+    expect(wrapper.prop('searchPage')).to.not.equal(
+      'https://www.hsl.fi/search/solr',
+    );
+    expect(wrapper.prop('searchPage')).to.equal(
+      '/https://www.hsl.fi/sv/search/solr',
+    );
+    expect(wrapper.prop('searchPage')).to.not.equal(
+      'https://www.hsl.fi/en/search/solr',
+    );
   });
 
   it("language should be 'en'", () => {
@@ -72,8 +84,14 @@ describe('<AppBarHsl />', () => {
       },
     });
     expect(wrapper.name()).to.equal('SiteHeader');
-    expect(wrapper.prop('searchPage')).to.not.equal('/haku/');
-    expect(wrapper.prop('searchPage')).to.not.equal('/sok/');
-    expect(wrapper.prop('searchPage')).to.equal('/search/');
+    expect(wrapper.prop('searchPage')).to.not.equal(
+      'https://www.hsl.fi/search/solr',
+    );
+    expect(wrapper.prop('searchPage')).to.not.equal(
+      '/https://www.hsl.fi/sv/search/solr',
+    );
+    expect(wrapper.prop('searchPage')).to.equal(
+      'https://www.hsl.fi/en/search/solr',
+    );
   });
 });

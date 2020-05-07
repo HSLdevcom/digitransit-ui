@@ -119,7 +119,7 @@
     "@babel/register": "7.8.3",
     "@digitransit-search-util/digitransit-search-util-get-json": "^0.0.1",
     "@digitransit-search-util/digitransit-search-util-suggestion-to-location": "^0.0.1",
-    "@hsl-fi/site-header": "0.1.7",
+    "@hsl-fi/site-header": "0.2.0",
     "@mapbox/sphericalmercator": "1.1.0",
     "@mapbox/vector-tile": "1.3.1",
     "babel-plugin-dynamic-import-node": "2.3.0",
