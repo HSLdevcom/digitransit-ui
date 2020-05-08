@@ -8,6 +8,7 @@ import reject from 'lodash/reject';
 import RouteDestination from '../../RouteDestination';
 import routeCompare from '../../../util/route-compare';
 import ComponentUsageExample from '../../ComponentUsageExample';
+import Icon from '../../Icon';
 
 function getName(pattern) {
   if (pattern.shortName) {
@@ -64,22 +65,26 @@ function SelectStopRow(props) {
     <div className="no-margin">
       <div className="cursor-pointer select-row" onClick={props.selectRow}>
         <div className="padding-vertical-normal select-row-icon">
-          <svg
-            viewBox="0 0 30 30"
-            width="30"
-            height="30"
-            style={{ position: 'relative', left: 5 }}
-            className={`${props.type.toLowerCase()} left`}
-          >
-            <circle
-              r="8"
-              cx="15"
-              cy="15"
-              strokeWidth="3"
-              fill="None"
-              stroke="currentColor"
-            />
-          </svg>
+          {props.type === 'BUS' ? (
+            <Icon img="icon_map-bus" />
+          ) : (
+            <svg
+              viewBox="0 0 30 30"
+              width="30"
+              height="30"
+              style={{ position: 'relative', left: 5 }}
+              className={`${props.type.toLowerCase()} left`}
+            >
+              <circle
+                r="8"
+                cx="15"
+                cy="15"
+                strokeWidth="3"
+                fill="None"
+                stroke="currentColor"
+              />
+            </svg>
+          )}
         </div>
         <div className="padding-vertical-normal select-row-text">
           <span className="header-primary no-margin link-color">
