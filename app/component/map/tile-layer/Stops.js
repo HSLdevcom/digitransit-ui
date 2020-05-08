@@ -9,6 +9,8 @@ import {
   drawRoundIcon,
   drawTerminalIcon,
   drawRoundIconAlertBadge,
+  drawIcon,
+  getStopRadius,
 } from '../../../util/mapIconUtils';
 import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
 
@@ -30,6 +32,8 @@ class Stops {
     this.mapLayers = mapLayers;
     this.promise = this.getPromise();
     this.getCurrentTime = getCurrentTime;
+    this.scaleratio =
+      (typeof window !== 'undefined' && window.devicePixelRatio) || 1;
   }
 
   static getName = () => 'stop';
@@ -54,6 +58,20 @@ class Stops {
         this.tile.coords.z >= this.config.terminalNamesZoom
           ? feature.properties.name
           : false,
+      );
+      return;
+    }
+
+    if (
+      feature.properties.type === 'BUS' &&
+      this.config.transportModes &&
+      this.tile.coords.z >= this.config.transportModes.bus.smallIconZoom
+    ) {
+      drawIcon(
+        'icon_map-bus',
+        this.tile,
+        feature.geom,
+        3 * getStopRadius(this.tile.coords.z) * this.scaleratio,
       );
       return;
     }
