@@ -42,7 +42,7 @@
   user-select: none;
   $distance-gray: #7b7b7b;
   font-size: $font-size-normal;
-  @include font-narrow-medium;
+  @include font-medium;
   white-space: nowrap;
   position: relative;
 
@@ -94,8 +94,7 @@
     text-align: right;
     padding-left: $padding-medium;
     min-width: 2em;
-    //@include font-narrow-medium;
-    font-weight: $font-weight-bold;
+    letter-spacing: -0.5px;
 
     .itinerary-start-time-and-end-time {
       float: left;
@@ -143,7 +142,10 @@
   .itinerary-first-leg-start-time-container {
     top: 3.77em;
     left: 2.3em;
+    @include font-book;
+    font-size: $font-size-small;
     padding-left: $padding-medium;
+    padding-top: 12px;
     width: 100%;
     color: $distance-gray;
     .itinerary-first-leg-start-time{
@@ -168,9 +170,7 @@
     .leg {
       min-width: 1px;
       width: calc(var(--width));
-      height: 40px;
       margin: 0 1px;
-
       justify-content: center;
       &.large {
         padding-top: 0;
@@ -188,9 +188,11 @@
             overflow: visible;
             .vehicle-number {
               color: $white;
+              @include font-narrow-medium;
+              font-size: $font-size-small;
             }
             .walking-time {
-              font-size: $font-size-small;
+              font-size: $font-size-xxxsmall;
             }
           }
         }
@@ -269,7 +271,7 @@
       }
     }
 
-    .special-icon {
+    .special-icon, .icon{
       &.wait {
         .icon {
           margin-top: 0.25em;
@@ -278,13 +280,11 @@
       }
       &.walk {
         .icon {
-          height: 0.66em;
-          margin-top: 0.17em;
+          height: 0.45em;
+          width: 0.45em;
         }
       }
-      /* .icon {
-        //padding-bottom: 1px; // fixes icon clipping in Safari on iOS
-      } */
+
       .icon-badge {
         left: 0;
         top: -0.75em;

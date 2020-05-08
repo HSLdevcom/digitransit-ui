@@ -862,6 +862,8 @@ const translations = {
     'footer-faq': 'FAQ',
     'footer-feedback': 'Submit feedback',
     'footer-link-to-privacy-policy': 'Privacy policy',
+    'from-station': 'from station',
+    'from-stop': 'from stop',
     frontpage: 'Frontpage',
     'generic-error': 'There was an error',
     'geolocate-yourself': 'Detect your location',
@@ -1654,6 +1656,8 @@ const translations = {
     'footer-faq': 'UKK',
     'footer-feedback': 'Anna palautetta',
     'footer-link-to-privacy-policy': 'Rekisteriseloste',
+    'from-station': 'asemalta',
+    'from-stop': 'pysäkiltä',
     frontpage: 'Etusivu',
     'generic-error': 'Tapahtui virhe',
     'geolocate-yourself': 'Paikanna',
@@ -1710,6 +1714,8 @@ const translations = {
       'Lähtö {departureDate} kello {departureTime}. Perillä {arrivalDate} kello {arrivalTime}. {firstDeparture} {transfers} Matka-aika {totalTime}. {distance}',
     'itinerary-summary-row.first-departure':
       '{vehicle} lähtee asemalta {stopName} kello {departureTime}.',
+    'itinerary-summary-row.first-leg-start-time':
+      'Lähtee klo {firstDepartureTime} {firstDepartureStopType} {firstDepartureStop}',
     'itinerary-summary-row.transfers': 'Vaihto {vehicle} pysäkillä {stopName}',
     'itinerary-summary-row.walking-distance':
       'Kävelyä yhteensä {totalDistance}.',
@@ -2737,6 +2743,8 @@ const translations = {
     'footer-faq': 'Frågor och svar',
     'footer-feedback': 'Skicka respons',
     'footer-link-to-privacy-policy': 'Registerbeskrivning',
+    'from-station': 'från stationen',
+    'from-stop': 'från stopp',
     frontpage: 'Framsidan',
     'generic-error': 'Det hände ett fel',
     'geolocate-yourself': 'Sök position',

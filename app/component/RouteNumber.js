@@ -80,7 +80,7 @@ function RouteNumber(props, context) {
         })}
         role="img"
       >
-        {props.vertical === true ? (
+        {props.vertical === true && mode !== 'walk' ? (
           <div className={`special-icon ${mode}`}>
             {getIcon(
               props.icon,
@@ -91,7 +91,9 @@ function RouteNumber(props, context) {
             )}
           </div>
         ) : (
-          getIcon(props.icon, props.isCallAgency, props.hasDisruption)
+          <div className={`icon ${mode}`}>
+            {getIcon(props.icon, props.isCallAgency, props.hasDisruption)}
+          </div>
         )}
         {props.withBar && (
           <div className="bar-container">
@@ -107,21 +109,7 @@ function RouteNumber(props, context) {
         )}
       </span>
       {props.text &&
-        (props.vertical === false ? (
-          <span
-            style={{
-              color: props.color ? props.color : null,
-              fontSize: longText && isMobile ? '17px' : null,
-            }}
-            className={cx('vehicle-number', mode, {
-              'overflow-fade': longText && props.fadeLong,
-              long: longText,
-              hasNoShortName: hasNoShortName && longText && props.isRouteView,
-            })}
-          >
-            {props.text}
-          </span>
-        ) : (
+        (props.renderNumber === true && (
           <div className="vehicle-number-container-v">
             <span
               className={cx('vehicle-number', mode, {
@@ -133,7 +121,7 @@ function RouteNumber(props, context) {
             </span>
           </div>
         ))}
-      {props.renderIcon === true &&
+      {props.renderNumber === true &&
         (mode === 'walk' && (
           <div className="vehicle-number-container-v">
             <span className="walking-time">{props.walkingTime}</span>
@@ -214,8 +202,7 @@ RouteNumber.propTypes = {
   badgeFill: PropTypes.string,
   badgeText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   icon: PropTypes.string,
-  isRouteView: PropTypes.bool,
-  renderIcon: PropTypes.bool,
+  renderNumber: PropTypes.bool,
   walkingTime: PropTypes.number,
 };
 
@@ -230,7 +217,6 @@ RouteNumber.defaultProps = {
   text: '',
   withBar: false,
   isCallAgency: false,
-  isRouteView: false,
   icon: undefined,
 };
 

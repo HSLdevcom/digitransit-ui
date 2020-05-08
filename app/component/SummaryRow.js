@@ -41,10 +41,10 @@ import {
 const Leg = ({ routeNumber, legLength }) => (
   <div className="leg" style={{ '--width': `${legLength}%` }}>
     {/* {large && (
-      <div className="departure-stop overflow-fade">
+      <div className="departure-stop overflow-fade">  // Stop name
         &nbsp;{(leg.transitLeg || leg.rentedBike) && leg.from.name}
       </div>
-    )} */}
+     )} */}
     {routeNumber}
   </div>
 );
@@ -54,7 +54,7 @@ Leg.propTypes = {
   legLength: PropTypes.number.isRequired,
 };
 
-export const RouteLeg = ({ leg, large, intl, legLength }) => {
+export const RouteLeg = ({ leg, large, intl, legLength, renderNumber }) => {
   const isCallAgency = isCallAgencyPickupType(leg);
   let routeNumber;
   if (isCallAgency) {
@@ -79,6 +79,7 @@ export const RouteLeg = ({ leg, large, intl, legLength }) => {
         className={cx('line', leg.mode.toLowerCase())}
         vertical
         withBar
+        renderNumber={renderNumber}
       />
     );
   }
@@ -97,10 +98,11 @@ RouteLeg.propTypes = {
   intl: intlShape.isRequired,
   large: PropTypes.bool.isRequired,
   legLength: PropTypes.number.isRequired,
+  renderNumber: PropTypes.bool,
 };
 
 export const ModeLeg = (
-  { leg, mode, large, legLength, walkingTime, renderIcon },
+  { leg, mode, large, legLength, walkingTime, renderNumber },
   { config },
 ) => {
   let networkIcon;
@@ -120,7 +122,7 @@ export const ModeLeg = (
       text=""
       className={cx('line', mode.toLowerCase())}
       walkingTime={walkingTime}
-      renderIcon={renderIcon}
+      renderNumber={renderNumber}
       vertical
       withBar
       icon={networkIcon}
@@ -143,7 +145,7 @@ ModeLeg.propTypes = {
   large: PropTypes.bool.isRequired,
   legLength: PropTypes.number.isRequired,
   walkingTime: PropTypes.number,
-  renderIcon: PropTypes.bool,
+  renderNumber: PropTypes.bool,
 };
 
 ModeLeg.contextTypes = {
@@ -252,7 +254,6 @@ const SummaryRow = (
   const slackDuration = getTotalSlackDuration(intermediatePlaces);
   const legs = [];
   let noTransitLegs = true;
-
   const compressedLegs = compressLegs(data.legs).map(leg => ({
     ...leg,
   }));
@@ -263,55 +264,66 @@ const SummaryRow = (
     }
   });
 
-  let lastLegRented = false;
   let firstLegStartTime = null;
-  let firstLegStartTimeText = null;
   const vehicleNames = [];
   const stopNames = [];
-  const legLengthThreshold = 7;
+  const renderBarThreshold = 4;
+  const renderNumberThreshold = 9;
+  let addition = 0;
 
   compressedLegs.forEach((leg, i) => {
-    if (leg.rentedBike && lastLegRented) {
-      return;
-    }
-    let renderIcon = true;
+    let renderNumber = true;
+    let renderBar = true;
     let waiting = false;
     let waitTime;
     let legLength;
-    const isFirstLeg = i === 0;
-    const isLastLeg = i === data.legs.length - 1;
-    const previousLeg = data.legs[i - 1];
-    const nextLeg = data.legs[i + 1];
+    let waitLength;
+    const isLastLeg = i === compressedLegs.length - 1;
+    const isNextLegLast = i + 1 === compressedLegs.length - 1;
+    const previousLeg = compressedLegs[i - 1];
+    const lastLeg = compressedLegs[compressedLegs.length - 1];
+    const nextLeg = compressedLegs[i + 1];
     const isThresholdMet = checkRelativeDurationThreshold(
       duration,
       slackDuration,
       leg,
     );
     const waitThreshold = 180000;
-
     legLength = leg.duration * 1000 / duration * 100;
+
     if (nextLeg) {
       waitTime = nextLeg.startTime - leg.endTime;
-      if (waitTime > waitThreshold) {
+      waitLength = Math.round(waitTime / duration * 100);
+      if (waitTime > waitThreshold || waitLength > renderBarThreshold) {
         waiting = true;
       } else {
         legLength = (leg.duration * 1000 + waitTime) / duration * 100;
       }
     }
-    if (legLength < legLengthThreshold) {
-      renderIcon = false;
+    if (addition > 0) {
+      legLength += addition;
+    }
+    if (isNextLegLast) {
+      const lastLegLength = lastLeg.duration * 1000 / duration * 100;
+      if (lastLegLength < renderBarThreshold) {
+        legLength += lastLegLength;
+      }
+    }
+    if (legLength < renderBarThreshold) {
+      renderBar = false;
+      addition = legLength;
     }
 
-    lastLegRented = leg.rentedBike;
-    if (legLength < legLengthThreshold) {
-      renderIcon = false;
+    if (legLength < renderNumberThreshold) {
+      renderNumber = false;
     }
-    if (leg.mode === 'WALK') {
+
+    if (leg.mode === 'WALK' && renderBar) {
       const walkingTime = Math.floor(leg.duration / 60);
       legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
-          renderIcon={renderIcon}
+          renderNumber={renderNumber}
           leg={leg}
           walkingTime={walkingTime}
           mode="WALK"
@@ -385,6 +397,7 @@ const SummaryRow = (
         <RouteLeg
           key={`${leg.mode}_${leg.startTime}`}
           leg={leg}
+          renderNumber={renderNumber}
           intl={intl}
           legLength={legLength}
           large={breakpoint === 'large'}
@@ -405,7 +418,14 @@ const SummaryRow = (
     }
 
     if (waiting) {
-      const waitLength = Math.round(waitTime / duration * 100);
+      if (addition > 0) {
+        waitLength += addition;
+        if (waitLength > renderBarThreshold) {
+          addition = 0;
+        } else {
+          addition = waitLength;
+        }
+      }
       legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}_wait`}
@@ -416,41 +436,29 @@ const SummaryRow = (
         />,
       );
     }
-    const connectsToFirstViaPoint = () =>
-      getViaPointIndex(nextLeg, intermediatePlaces) === 0;
-    const connectsFromLastViaPoint = () =>
-      getViaPointIndex(leg, intermediatePlaces) === intermediatePlaces &&
-      intermediatePlaces.length - 1;
-
-    if (
-      (noTransitLegs && isThresholdMet) ||
-      (isFirstLeg && connectsToFirstViaPoint()) ||
-      (isLastLeg && connectsFromLastViaPoint())
-    ) {
-      /* legs.push(
-        <ModeLeg
-          key={`${leg.mode}_${leg.startTime}`}
-          leg={leg}
-          mode={leg.mode}
-          legLength={legLength}
-          large={breakpoint === 'large'}
-        />,
-      ); */
-    }
   });
 
   if (!noTransitLegs) {
     let firstDeparture = false;
+    let firstDepartureStartTime;
     if (
       data.legs[1] != null &&
       !(data.legs[1].rentedBike || data.legs[0].transitLeg)
     ) {
-      firstDeparture = data.legs[1].startTime;
+      firstDepartureStartTime = data.legs[1].startTime;
+      [, firstDeparture] = data.legs;
     }
     if (data.legs[0].transitLeg && !data.legs[0].rentedBike) {
-      firstDeparture = data.legs[0].startTime;
+      [firstDeparture] = data.legs;
+      firstDepartureStartTime = data.legs[0].startTime;
     }
     if (firstDeparture) {
+      let firstDepartureStopType;
+      if (firstDeparture.mode === 'RAIL' || firstDeparture.mode === 'SUBWAY') {
+        firstDepartureStopType = 'from-station';
+      } else {
+        firstDepartureStopType = 'from-stop';
+      }
       firstLegStartTime = (
         <div
           className={cx('itinerary-first-leg-start-time', {
@@ -462,16 +470,17 @@ const SummaryRow = (
             values={{
               firstDepartureTime: (
                 <span className="first-leg-start-time-green">
-                  <LocalTime time={firstDeparture} />
+                  <LocalTime time={firstDepartureStartTime} />
                 </span>
               ),
-              firstDepartureStopType: stopNames[0],
+              firstDepartureStopType: (
+                <FormattedMessage id={firstDepartureStopType} />
+              ),
               firstDepartureStop: stopNames[0],
             }}
           />
         </div>
       );
-      firstLegStartTimeText = <LocalTime time={firstDeparture} />;
     }
   }
 
@@ -522,7 +531,7 @@ const SummaryRow = (
                   id="itinerary-summary-row.first-departure"
                   values={{
                     vehicle: vehicleNames[0],
-                    departureTime: firstLegStartTimeText,
+                    departureTime: firstLegStartTime,
                     stopName: stopNames[0],
                   }}
                 />
