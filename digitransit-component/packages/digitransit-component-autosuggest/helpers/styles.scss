@@ -140,7 +140,7 @@ ul.react-autowhatever__items-list {
 
 .suggestionsContainer {
   background-color: white;
-
+  z-index: index($zindex, 'autosuggest-suggestion-container');
   .suggestion-name {
     span {
       .bus,
@@ -546,7 +546,9 @@ input.input {
   &.viapoint {
     padding-left: 3em;
   }
-
+  &.favourite {
+    padding-left: 1.25em;
+  }
   background-color: $white;
   border: 1px solid #fff;
   border-radius: 4px;
