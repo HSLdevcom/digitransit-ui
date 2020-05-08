@@ -5,7 +5,7 @@ import { LeafletProvider } from 'react-leaflet/es/context';
 
 import { mockContext, mockChildContextTypes } from '../../helpers/mock-context';
 import { mountWithIntl } from '../../helpers/mock-intl-enzyme';
-import { createMemoryMockRouter } from '../../helpers/mock-router';
+import { mockMatch, mockRouter } from '../../helpers/mock-router';
 
 import MarkerPopupBottom, {
   Component as MarkerPopupBottomWithoutLeaflet,
@@ -19,12 +19,22 @@ describe('<MarkerPopupBottom />', () => {
         location: {},
       };
 
-      const router = createMemoryMockRouter();
-      router.replace({
-        state: {
-          summaryPageSelected: 1,
+      let callParams;
+      const router = {
+        ...mockRouter,
+        replace: params => {
+          callParams = params;
         },
-      });
+      };
+      const match = {
+        ...mockMatch,
+        location: {
+          ...mockMatch.location,
+          state: {
+            summaryPageSelected: 1,
+          },
+        },
+      };
 
       let instance;
       mountWithIntl(
@@ -39,7 +49,7 @@ describe('<MarkerPopupBottom />', () => {
         {
           context: {
             ...mockContext,
-            location: router.getCurrentLocation(),
+            match,
             router,
           },
           childContextTypes: mockChildContextTypes,
@@ -48,7 +58,7 @@ describe('<MarkerPopupBottom />', () => {
 
       instance.routeFrom();
 
-      const { state } = router.getCurrentLocation();
+      const { state } = callParams;
       expect(state.summaryPageSelected).to.equal(0);
     });
   });
@@ -59,12 +69,22 @@ describe('<MarkerPopupBottom />', () => {
         location: {},
       };
 
-      const router = createMemoryMockRouter();
-      router.replace({
-        state: {
-          summaryPageSelected: 1,
+      let callParams;
+      const router = {
+        ...mockRouter,
+        replace: params => {
+          callParams = params;
         },
-      });
+      };
+      const match = {
+        ...mockMatch,
+        location: {
+          ...mockMatch.location,
+          state: {
+            summaryPageSelected: 1,
+          },
+        },
+      };
 
       let instance;
       mountWithIntl(
@@ -79,7 +99,7 @@ describe('<MarkerPopupBottom />', () => {
         {
           context: {
             ...mockContext,
-            location: router.getCurrentLocation(),
+            match,
             router,
           },
           childContextTypes: mockChildContextTypes,
@@ -88,7 +108,7 @@ describe('<MarkerPopupBottom />', () => {
 
       instance.routeTo();
 
-      const { state } = router.getCurrentLocation();
+      const { state } = callParams;
       expect(state.summaryPageSelected).to.equal(0);
     });
   });
@@ -102,29 +122,30 @@ describe('<MarkerPopupBottom />', () => {
       },
     };
 
-    const router = createMemoryMockRouter();
-    router.replace({
-      state: {
-        summaryPageSelected: 1,
+    const match = {
+      ...mockMatch,
+      location: {
+        ...mockMatch.location,
+        state: {
+          summaryPageSelected: 1,
+        },
+        pathname: `/${PREFIX_ITINERARY_SUMMARY}/`,
+        query: {
+          intermediatePlaces: [
+            'Nordenskiöldinkatu 5, Helsinki::60.18754243199426,24.918216001392587',
+            'Minna Canthin katu 24, Helsinki::60.18788144268873,24.91545734471498',
+          ],
+        },
       },
-    });
+    };
 
     const wrapper = mountWithIntl(
       <MarkerPopupBottomWithoutLeaflet {...props} />,
       {
         context: {
           ...mockContext,
-          location: {
-            ...router.getCurrentLocation(),
-            pathname: `/${PREFIX_ITINERARY_SUMMARY}/`,
-            query: {
-              intermediatePlaces: [
-                'Nordenskiöldinkatu 5, Helsinki::60.18754243199426,24.918216001392587',
-                'Minna Canthin katu 24, Helsinki::60.18788144268873,24.91545734471498',
-              ],
-            },
-          },
-          router,
+          match,
+          router: mockRouter,
         },
         childContextTypes: mockChildContextTypes,
       },

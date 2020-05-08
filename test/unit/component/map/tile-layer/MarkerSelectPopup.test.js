@@ -2,6 +2,7 @@ import React from 'react';
 
 import { shallowWithIntl } from '../../../helpers/mock-intl-enzyme';
 import MarkerSelectPopup from '../../../../../app/component/map/tile-layer/MarkerSelectPopup';
+import { mockMatch } from '../../../helpers/mock-router';
 
 describe('<MarkerSelectPopup />', () => {
   it('should use a unique key for each row when the rows include citybike stops', () => {
@@ -41,7 +42,11 @@ describe('<MarkerSelectPopup />', () => {
         lng: 24.933235645294193,
       },
     };
-    const wrapper = shallowWithIntl(<MarkerSelectPopup {...props} />);
+    const wrapper = shallowWithIntl(<MarkerSelectPopup {...props} />, {
+      context: {
+        match: mockMatch,
+      },
+    });
     expect(wrapper.isEmptyRender()).to.equal(false);
   });
 });
