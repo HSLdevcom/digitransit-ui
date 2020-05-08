@@ -49,6 +49,7 @@ class DTAutosuggestContainer extends React.Component {
     layers: PropTypes.array,
     relayEnvironment: PropTypes.object.isRequired,
     lang: PropTypes.string,
+    geocodingLayers: PropTypes.arrayOf(PropTypes.string),
   };
 
   constructor(props) {
@@ -121,10 +122,10 @@ class DTAutosuggestContainer extends React.Component {
 
   selectStopStation = item => {
     const id = item.properties.id.replace('GTFS:', '').replace(':', '%3A');
-    let path = 'pysakit/';
+    let path = '/pysakit/';
     switch (item.properties.layer) {
       case 'station':
-        path = 'terminaalit/';
+        path = '/terminaalit/';
         break;
       default:
     }
@@ -221,8 +222,6 @@ class DTAutosuggestContainer extends React.Component {
   };
 
   renderPanel() {
-    // TODO: This should be defined in upper level
-    const geocodingLayers = ['station', 'venue', 'address'];
     return (
       <DTAutosuggestPanel
         config={this.context.config}
@@ -240,14 +239,12 @@ class DTAutosuggestContainer extends React.Component {
         swapOrder={this.props.swapOrder}
         addAnalyticsEvent={addAnalyticsEvent}
         lang={this.props.lang}
-        geocodingLayers={geocodingLayers}
+        geocodingLayers={this.props.geocodingLayers}
       />
     );
   }
 
   renderAutoSuggest() {
-    // TODO: This should be defined in upper level
-    const geocodingLayers = ['stop', 'station'];
     return (
       <DTAutoSuggest
         config={this.context.config}
@@ -266,7 +263,7 @@ class DTAutosuggestContainer extends React.Component {
         showSpinner={this.props.showSpinner}
         layers={this.props.layers}
         lang={this.props.lang}
-        geocodingLayers={geocodingLayers}
+        geocodingLayers={this.props.geocodingLayers}
       />
     );
   }

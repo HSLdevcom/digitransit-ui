@@ -96,7 +96,10 @@ function getFavouriteStops(stopsAndStations, input, origin) {
           : stops,
     );
 }
-
+function getDropLayers(layers) {
+  const allLayers = ['street', 'address', 'venue', 'station', 'stop'];
+  return allLayers.filter(l => !layers.includes(l));
+}
 function getOldSearches(oldSearches, input, dropLayers) {
   let matchingOldSearches = filterMatchingToInput(oldSearches, input, [
     'properties.name',
@@ -155,7 +158,7 @@ export function executeSearchImmediate(
   let endpointSearchesPromise;
   let searchSearchesPromise;
   const endpointLayers = layers || getAllEndpointLayers();
-
+  const dropLayers = getDropLayers(geocodingLayers);
   if (type === SearchType.Endpoint || type === SearchType.All) {
     const favouriteLocations = locations(context);
     const oldEndpointSearches = prevSearches(context, 'endpoint');
@@ -179,12 +182,11 @@ export function executeSearchImmediate(
       );
     }
     if (endpointLayers.includes('OldSearch')) {
-      const dropLayers = ['currentPosition'];
+      dropLayers.push('currentPosition');
       // old searches should also obey the layers definition
       if (!endpointLayers.includes('FavouritePlace')) {
         dropLayers.push('favouritePlace');
       }
-      dropLayers.push('stop');
       searchComponents.push(
         getOldSearches(oldEndpointSearches, input, dropLayers),
       );
@@ -323,7 +325,7 @@ export function executeSearchImmediate(
         ),
       );
     }
-    const dropLayers = ['street', 'address', 'venue', 'station']; // todo this shouldn't be hardcoded
+
     searchComponents.push(
       getFavouriteRoutes(favouriteRoutes, input),
       getOldSearches(oldSearches, input, dropLayers),

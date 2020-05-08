@@ -107,7 +107,6 @@ class IndexPage extends React.Component {
     const { breakpoint, destination, origin, favourites, lang } = this.props;
     // const { mapExpanded } = this.state; // TODO verify
 
-    // DT-3381 TODO: DTEndpointAutoSuggest currently does not search for stops or stations, as it should be. SearchUtils needs refactoring.
     return breakpoint === 'large' ? (
       <div
         className={`front-page flex-vertical ${origin &&
@@ -133,6 +132,7 @@ class IndexPage extends React.Component {
             locationState={this.props.locationState}
             getViaPointsFromMap={this.props.getViaPointsFromMap}
             lang={lang}
+            geocodingLayers={['street', 'station', 'venue', 'address']}
           />
           <CtrlPanel.SeparatorLine />
           <Datetimepicker realtime />
@@ -166,6 +166,7 @@ class IndexPage extends React.Component {
               placeholder="stop-near-you"
               value=""
               locationState={this.props.locationState}
+              geocodingLayers={['station', 'stop']}
             />
           </div>
         </CtrlPanel>
@@ -196,6 +197,7 @@ class IndexPage extends React.Component {
             destinationPlaceHolder="search-destination-index"
             locationState={this.props.locationState}
             getViaPointsFromMap={this.props.getViaPointsFromMap}
+            geocodingLayers={['street', 'station', 'venue', 'address']}
           />
           <CtrlPanel.SeparatorLine />
           <Datetimepicker realtime />
@@ -229,6 +231,7 @@ class IndexPage extends React.Component {
               placeholder="stop-near-you"
               value=""
               locationState={this.props.locationState}
+              geocodingLayers={['station', 'stop']}
             />
           </div>
         </CtrlPanel>
