@@ -3,8 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { matchShape, routerShape } from 'found';
 import { intlShape } from 'react-intl';
-import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
-import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
+import loadable from '@loadable/component';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import { withCurrentTime } from '../util/DTSearchUtils';
@@ -14,6 +13,16 @@ import { dtLocationShape } from '../util/shapes';
 import searchContext from '../util/searchContext';
 import intializeSearchContext from '../util/DTSearchContextInitializer';
 import getRelayEnvironment from '../util/getRelayEnvironment';
+
+const DTAutoSuggest = loadable(
+  () => import('@digitransit-component/digitransit-component-autosuggest'),
+  { ssr: true },
+);
+const DTAutosuggestPanel = loadable(
+  () =>
+    import('@digitransit-component/digitransit-component-autosuggest-panel'),
+  { ssr: true },
+);
 
 class DTAutosuggestContainer extends React.Component {
   static contextTypes = {
