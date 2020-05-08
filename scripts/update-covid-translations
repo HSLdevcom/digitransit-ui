@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import os, sys
 import json
-import fileinput
 
 # Update the caresteouvert repo.
 if not os.path.isdir('caresteouvert'):
@@ -21,51 +20,50 @@ for key in data['categories']:
 
 f.close()
 
-# Filter the categories we do not have translations for locally
-keep = False
-with open('app/translations.js') as f:
-    for line in f:
-        if line.__contains__("de: {"):
-            keep = True
-        if keep and line.__contains__("poi-"):
-            word = line.split("': ")[0].split("-")[1]
-            if word in trans:
-                trans.remove(word)
-        if line.__contains__("},"):
-            keep = False
+# Filter the categories we do not have translations for locally (enough to check the German version)
+with open('app/translations/de.json') as f:
+  data = json.load(f)
+
+for key in data:
+    if key.startswith("poi-"):
+        name = key.split("': ")[0].split("-")[1]
+        if name in trans:
+            trans.remove(name)
 
 print("New translations are for:", trans)
 
 # Get the new German translations
-f = open('caresteouvert/locales/de.json',)
-data = json.load(f)
+with open('caresteouvert/locales/de.json') as f:
+    data = json.load(f)
 
-new_de_trans = []
+new_de_trans = {}
 for key in data['categories']:
     if key in trans:
-        new_de_trans.append("    'poi-" + key +"': '" + data['categories'][key] + "',\n")
-
-f.close()
-new_de_trans.sort()
+        new_de_trans['poi-' + key] = data['categories'][key]
 
 # Get the new English translations
-f = open('caresteouvert/locales/en.json',)
-data = json.load(f)
+with open('caresteouvert/locales/en.json') as f:
+    data = json.load(f)
 
-new_en_trans = []
+new_en_trans = {}
 for key in data['categories']:
     if key in trans:
-        new_en_trans.append("    'poi-" + key +"': '" + data['categories'][key] + "',\n")
+        new_en_trans['poi-' + key] = data['categories'][key]
 
-f.close()
-new_en_trans.sort()
+# Write the new German translations
+with open('app/translations/de.json', 'r') as f:
+  data = json.load(f)
 
-# Write the new translations to file.
-for line in fileinput.FileInput("app/translations.js", inplace=1):
-    if line == "  de: {\n":
-        for trans in new_de_trans:
-            line = line.replace(line, line+trans)
-    if line == "  en: {\n":
-        for trans in new_en_trans:
-            line = line.replace(line, line+trans)
-    print(line, end='')
+data.update(new_de_trans)
+
+with open('app/translations/de.json', 'w') as jsonFile:
+    json.dump(data, jsonFile, indent = 2, sort_keys=True)
+
+# Write the new English translations
+with open('app/translations/en.json', 'r') as f:
+  data = json.load(f)
+
+data.update(new_en_trans)
+
+with open('app/translations/en.json', 'w') as jsonFile:
+    json.dump(data, jsonFile, indent = 2, sort_keys=True)
