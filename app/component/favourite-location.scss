@@ -121,6 +121,104 @@
   }
 }
 
+.favourite-modal-container {
+  display: flex;
+  flex-direction: column;
+
+  .favourite-modal-close {
+    width: 100%;
+    padding: 30px 34px 0 0;
+    text-align: right;
+  }
+
+  .favourite-modal-main {
+    text-align: left;
+
+    .favourite-modal-header {
+      width: 100%;
+      padding-left: 53px;
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 1.33;
+      letter-spacing: -0.6px;
+      color: #333333;
+    }
+    .favourite-modal-location-search {
+      padding: 11px 44px 0 43px;
+    }
+    .favourite-modal-name {
+      padding: 9px 44px 0 43px;
+
+      .favourite-modal-input {
+        display: flex;
+        width: 100%;
+        height: 44px;
+        border-radius: 5px;
+        border: solid 1px #888888;
+        background-color: #ffffff;
+        appearance: none;
+        padding-left: 20px;
+        font-size: 15px;
+        line-height: 1.2;
+        letter-spacing: -0.5px;
+        color: #666666;
+      }
+    }
+  }
+  .favourite-modal-text {
+    padding: 27px 0 0 53px;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: -0.53px;
+    color: #333333;
+  }
+  .favourite-modal-icons {
+    padding: 11px 44px 0 43px;
+  }
+
+  .favourite-modal-save {
+    display: flex;
+    padding: 31px 44px 0 43px;
+   .favourite-modal-button {
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: -0.5px;
+      width: 100%;
+      height: 50px;
+      border-radius: 25px;
+
+      &:active {
+        background: $standalone-btn-active-color;
+      }
+      &.delete {
+        background: $background-color;
+        color: $gray-blue;
+        border: 1.5px solid $gray-blue;
+        &:active {
+          background: $medium-gray;
+        }
+      }
+      &.disabled {
+        background: #bbb;
+        &:active {
+          background: #bbb;
+        }
+      }
+      &.cancel {
+        background: $background-color;
+        color: $gray-blue;
+        max-width: 200px;
+        border-radius: 0;
+        span {
+          border-bottom: 2px dotted $gray-blue;
+        }
+      }
+   }
+  }
+}
+
+//---New styles above--------------------------------------------------
+
 .favourite-edit-icon-click-area {
   //background-color: rgb(10,80,190);
   border-bottom: 1px solid $light-gray;
