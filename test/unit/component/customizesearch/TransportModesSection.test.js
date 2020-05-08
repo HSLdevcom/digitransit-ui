@@ -2,7 +2,8 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
 
-import { createMemoryMockRouter } from '../../helpers/mock-router';
+import Toggle from 'material-ui/Toggle';
+import { mockMatch, mockRouter } from '../../helpers/mock-router';
 import { mountWithIntl } from '../../helpers/mock-intl-enzyme';
 import { mockContext, mockChildContextTypes } from '../../helpers/mock-context';
 
@@ -10,11 +11,24 @@ import TransportModesSection from '../../../../app/component/customizesearch/Tra
 
 describe('<TransportModesSection />', () => {
   it('should change the selected transport modes upon clicking a checkbox', () => {
-    const router = createMemoryMockRouter;
-    router.replace({ query: { modes: 'BUS' } });
+    let callParams;
+    const router = {
+      ...mockRouter,
+      replace: params => {
+        callParams = params;
+      },
+    };
+    const match = {
+      ...mockMatch,
+      location: {
+        ...mockMatch.location,
+        query: { modes: 'BUS' },
+      },
+    };
 
     const props = {
       config: {
+        walkBoardCostHigh: 100,
         transportModes: {
           bus: {
             availableForSelection: true,
@@ -26,30 +40,32 @@ describe('<TransportModesSection />', () => {
           },
         },
       },
-      currentModes: router.getCurrentLocation().query.modes.split(','),
+      currentSettings: { modes: ['BUS'] },
+      defaultSettings: { walkBoardCost: 50 },
     };
     const wrapper = mountWithIntl(<TransportModesSection {...props} />, {
-      context: { ...mockContext, router },
+      context: { ...mockContext, router, match },
       childContextTypes: { ...mockChildContextTypes },
     });
 
     expect(
       wrapper
-        .find('.option-checkbox input')
+        .find(Toggle)
         .at(0)
-        .prop('checked'),
+        .prop('toggled'),
     ).to.equal(true);
     expect(
       wrapper
-        .find('.option-checkbox input')
+        .find(Toggle)
         .at(1)
-        .prop('checked'),
+        .prop('toggled'),
     ).to.equal(false);
 
     wrapper
-      .find('.option-checkbox input')
+      .find(Toggle)
       .at(1)
-      .simulate('change', { target: { checked: true } });
-    expect(router.getCurrentLocation().query.modes).to.equal('BUS,RAIL');
+      .props()
+      .onToggle();
+    expect(callParams.query).to.deep.equal({ modes: 'BUS,RAIL' });
   });
 });
