@@ -5,7 +5,7 @@ const CONFIG = 'kotka';
 const APP_TITLE = 'Uusi Reittiopas';
 const APP_DESCRIPTION = 'Uusi Reittiopas - kotka';
 
-const walttiConfig = require('./waltti').default;
+const walttiConfig = require('./config.waltti').default;
 
 const minLat = 60.423693;
 const maxLat = 60.688566;

@@ -20,7 +20,7 @@ describe('<BicycleRentalStationRow />', () => {
     const wrapper = shallowWithIntl(<BicycleRentalStationRow {...props} />, {
       context: {
         config: {
-          cityBike: {},
+          cityBike: { useSpacesAvailable: true },
         },
       },
     });
@@ -34,7 +34,13 @@ describe('<BicycleRentalStationRow />', () => {
         state: BIKESTATION_CLOSED,
       },
     };
-    const wrapper = shallowWithIntl(<BicycleRentalStationRow {...props} />);
+    const wrapper = shallowWithIntl(<BicycleRentalStationRow {...props} />, {
+      context: {
+        config: {
+          cityBike: { useSpacesAvailable: true },
+        },
+      },
+    });
     expect(wrapper.find(RouteNumber).prop('icon')).to.contain('_off');
   });
 
@@ -45,7 +51,13 @@ describe('<BicycleRentalStationRow />', () => {
         state: BIKESTATION_OFF,
       },
     };
-    const wrapper = shallowWithIntl(<BicycleRentalStationRow {...props} />);
+    const wrapper = shallowWithIntl(<BicycleRentalStationRow {...props} />, {
+      context: {
+        config: {
+          cityBike: { useSpacesAvailable: true },
+        },
+      },
+    });
     expect(wrapper.find(RouteNumber).prop('icon')).to.contain('_off');
   });
 
@@ -59,7 +71,10 @@ describe('<BicycleRentalStationRow />', () => {
     };
     const wrapper = shallowWithIntl(<BicycleRentalStationRow {...props} />, {
       context: {
-        config: { cityBike: { networks: { foobar: { icon: 'foobaz' } } } },
+        config: {
+          cityBike: { networks: { foobar: { icon: 'foobaz' } } },
+          useSpacesAvailable: true,
+        },
       },
     });
     expect(wrapper.find(RouteNumber).prop('icon')).to.equal('icon-icon_foobaz');
@@ -75,11 +90,56 @@ describe('<BicycleRentalStationRow />', () => {
     };
     const wrapper = shallowWithIntl(<BicycleRentalStationRow {...props} />, {
       context: {
-        config: { cityBike: { networks: { foobar: { icon: 'foobaz' } } } },
+        config: {
+          cityBike: {
+            networks: { foobar: { icon: 'foobaz' } },
+            useSpacesAvailable: true,
+          },
+        },
       },
     });
     expect(wrapper.find(RouteNumber).prop('icon')).to.equal(
       'icon-icon_foobaz_off',
     );
+  });
+
+  it('should show bikesAvailable and spacesAvailable values when useSpacesAvailable is true', () => {
+    const props = {
+      distance: 0,
+      station: {
+        state: BIKESTATION_ON,
+        bikesAvailable: 2,
+        spacesAvailable: 3,
+      },
+    };
+    const wrapper = shallowWithIntl(<BicycleRentalStationRow {...props} />, {
+      context: {
+        config: {
+          cityBike: { useSpacesAvailable: true },
+        },
+      },
+    });
+    expect(wrapper.find('.bikes-available').text()).to.equal('2');
+    expect(wrapper.find('.bikes-total').text()).to.equal('5');
+  });
+
+  it('should show bikesAvailable but no spacesAvailable value when useSpacesAvailable is false', () => {
+    const props = {
+      distance: 0,
+      station: {
+        state: BIKESTATION_ON,
+        bikesAvailable: 2,
+        spacesAvailable: 3,
+      },
+    };
+    const wrapper = shallowWithIntl(<BicycleRentalStationRow {...props} />, {
+      context: {
+        config: {
+          cityBike: { useSpacesAvailable: false },
+        },
+      },
+    });
+    expect(wrapper.find('.bikes-available').text()).to.equal('2');
+    expect(wrapper.find('.bikes-total')).to.have.lengthOf(0);
   });
 });

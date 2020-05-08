@@ -25,10 +25,10 @@ import {
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import {
+  PREFIX_DISRUPTION,
   PREFIX_ROUTES,
   PREFIX_STOPS,
   PREFIX_TERMINALS,
-  PREFIX_DISRUPTION,
   PREFIX_TIMETABLE,
 } from '../util/path';
 

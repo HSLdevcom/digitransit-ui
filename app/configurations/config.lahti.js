@@ -5,7 +5,7 @@ const CONFIG = 'lahti';
 const APP_TITLE = 'Uusi Reittiopas';
 const APP_DESCRIPTION = 'Uusi Reittiopas - Lahti';
 
-const walttiConfig = require('./waltti').default;
+const walttiConfig = require('./config.waltti').default;
 
 const minLat = 60.692506;
 const maxLat = 61.790694;
@@ -100,7 +100,7 @@ export default configMerger(walttiConfig, {
 
   staticMessages: [
     {
-      id: '3',
+      id: '4',
       priority: -1,
       shouldTrigger: true,
       persistence: 'repeat',
@@ -109,7 +109,7 @@ export default configMerger(walttiConfig, {
           {
             type: 'text',
             content:
-              'Koronaepidemian vuoksi reittiopas ei ole ajan tasalla. Tarkista muutokset ennen matkaa ',
+              'Reittiopas on päivitetty 24.4.2020. Koronatilanteen aikana vuoroihin voi tulla muutoksia, jotka eivät näy reittioppaassa. Tarkista koronan vaikutukset joukkoliikenteeseen ennen matkaa ',
           },
           {
             type: 'a',
@@ -121,7 +121,7 @@ export default configMerger(walttiConfig, {
           {
             type: 'text',
             content:
-              'Due to the coronary epidemic the route guide is out of date. Please check changes before traveling ',
+              'The journey planner has been updated on 24.4.2020. During the coronavirus pandemic, trips may be cancelled. Please check possible changes before traveling ',
           },
           {
             type: 'a',
@@ -133,7 +133,7 @@ export default configMerger(walttiConfig, {
           {
             type: 'text',
             content:
-              'På grund av coronaviruset är ruttguiden inaktuell. Kontrollera innan du reser ',
+              'Ruttguiden har uppdaterats 22.4.2020. Under coronapandemin kan resor avbrytas. Kontrollera eventuella ändringar innan du reser ',
           },
           {
             type: 'a',

@@ -36,7 +36,7 @@ export default function RouteHeader(props) {
   return (
     <div className={cx('route-header', props.className)}>
       <h1 className={mode}>
-        <RouteNumber mode={mode} text={routeLine} gtfsId={props.route.gtfsId} />
+        <RouteNumber mode={mode} text={routeLine} />
         {trip}
       </h1>
     </div>

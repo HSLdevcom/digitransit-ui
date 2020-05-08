@@ -104,7 +104,6 @@ function NextDeparturesList(props, context) {
               alertSeverityLevel={departure.alertSeverityLevel}
               mode={stoptime.pattern.route.mode}
               text={stoptime.pattern.route.shortName}
-              gtfsId={stoptime.pattern.route.gtfsId}
             />
           </td>
           <td className="td-destination">

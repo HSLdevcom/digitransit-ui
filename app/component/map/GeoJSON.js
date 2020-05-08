@@ -91,12 +91,6 @@ const getMarker = (feature, latlng, icons = {}) => {
     marker = L.circleMarker(latlng, { interactive });
   }
 
-  if (properties.popupContent) {
-    marker.bindPopup(properties.popupContent, {
-      className: 'geoJsonPopup',
-    });
-  }
-
   return marker;
 };
 
@@ -174,6 +168,14 @@ class GeoJSON extends React.Component {
       : defaultLineStyle;
   };
 
+  addPopup = (feature, layer) => {
+    if (feature.properties.popupContent) {
+      layer.bindPopup(feature.properties.popupContent, {
+        className: 'geoJsonPopup',
+      });
+    }
+  };
+
   render() {
     const { bounds, data } = this.props;
     if (!data || !Array.isArray(data.features)) {
@@ -189,6 +191,7 @@ class GeoJSON extends React.Component {
           data={data}
           pointToLayer={this.pointToLayer}
           style={this.styler}
+          onEachFeature={this.addPopup}
         />
       );
     }

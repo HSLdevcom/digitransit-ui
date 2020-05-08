@@ -22,6 +22,7 @@ import {
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 // DT-3317
+
 const DATE_FORMAT = 'YYYYMMDD';
 
 class RoutePatternSelect extends Component {

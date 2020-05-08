@@ -115,8 +115,8 @@ describe('<RoutePatternSelect />', () => {
     const serviceDayInSecs = currentDay.getTime() / 1000;
 
     const props = {
-      activeTab: PREFIX_STOPS,
       lang: 'fi', // DT-3347
+      activeTab: PREFIX_STOPS,
       gtfsId: 'HSL:3002U',
       onSelectChange: () => {},
       params: {
@@ -186,8 +186,8 @@ describe('<RoutePatternSelect />', () => {
 
   it('should not crash if there are no patterns with trips available for the current date', () => {
     const props = {
-      activeTab: PREFIX_STOPS,
       lang: 'fi', // DT-3347
+      activeTab: PREFIX_STOPS,
       gtfsId: 'HSL:3002U',
       onSelectChange: () => {},
       params: {
@@ -228,8 +228,8 @@ describe('<RoutePatternSelect />', () => {
 
   it('should not display a single pattern as a div inside a select element', () => {
     const props = {
-      activeTab: PREFIX_STOPS,
       lang: 'fi', // DT-3347
+      activeTab: PREFIX_STOPS,
       gtfsId: 'LINKKI:9422',
       onSelectChange: () => {},
       params: {
@@ -338,7 +338,7 @@ describe('<RoutePatternSelect />', () => {
       useCurrentTime: true,
       onSelectChange: () => {},
       gtfsId: 'HSL:1010',
-      activeTab: 'pysakit',
+      activeTab: PREFIX_STOPS,
       className: 'bp-large',
       serviceDay,
       relay: {

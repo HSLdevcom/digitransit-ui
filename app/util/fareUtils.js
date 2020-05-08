@@ -87,3 +87,16 @@ export const getAlternativeFares = (zones, currentFares, allFares) => {
   }
   return alternativeFares;
 };
+
+/**
+ * This function resolves if fare info should be shown.
+ * Fare information is shown if showTicketInformation is true in config
+ * and availableTickets includes tickets for some feedId from config.
+ *
+ * @param {*} config configuration.
+ */
+export const shouldShowFareInfo = config =>
+  config.showTicketInformation &&
+  config.availableTickets &&
+  Array.isArray(config.feedIds) &&
+  config.feedIds.some(feedId => config.availableTickets[feedId]);

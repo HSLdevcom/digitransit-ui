@@ -604,6 +604,55 @@ describe('<TransitLeg />', () => {
         config: {
           itinerary: {},
           showTicketInformation: true,
+          availableTickets: { HSL: { 'HSL:A': { price: 5.5, zones: ['A'] } } },
+          feedIds: ['HSL', 'HSLlautta'],
+        },
+        focusFunction: () => {},
+      },
+    });
+    expect(wrapper.find('.disclaimer-container')).to.have.lengthOf(1);
+    expect(wrapper.find('.agency-link')).to.have.lengthOf(1);
+  });
+
+  it('should not show a disclaimer for an unknown ticket when there is nothing for feedIds in availableTickets', () => {
+    const props = {
+      ...defaultProps,
+      leg: {
+        fare: {
+          isUnknown: true,
+          agency: {
+            name: 'foogency',
+            fareUrl: 'https://www.hsl.fi',
+          },
+        },
+        from: {
+          name: 'Test',
+          stop: {},
+        },
+        intermediatePlaces: [],
+        route: {
+          gtfsId: '1234',
+        },
+        startTime: 1553856180000,
+        to: {
+          stop: {},
+        },
+        trip: {
+          gtfsId: 'A1234',
+          pattern: {
+            code: 'A',
+          },
+        },
+      },
+      mode: 'BUS',
+    };
+    const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
+      context: {
+        config: {
+          itinerary: {},
+          showTicketInformation: true,
+          availableTickets: { HSL: { 'foo:A': { price: 5.5, zones: ['A'] } } },
+          feedIds: ['HSL', 'HSLlautta'],
         },
         focusFunction: () => {},
       },

@@ -340,7 +340,7 @@ describe('<RoutePage />', () => {
     const props = {
       breakpoint: 'large',
       location: {
-        pathname: '/linjat/HSL:1063/pysakit/HSL:1063:0:01',
+        pathname: `/${PREFIX_ROUTES}/HSL:1063/${PREFIX_STOPS}/HSL:1063:0:01`,
       },
       params: {
         routeId: 'HSL:1063',
@@ -369,7 +369,7 @@ describe('<RoutePage />', () => {
     const props = {
       breakpoint: 'large',
       location: {
-        pathname: '/linjat/HSL:1063/pysakit/HSL:1063:0:01',
+        pathname: `/${PREFIX_ROUTES}/HSL:1063/${PREFIX_STOPS}/HSL:1063:0:01`,
       },
       params: {
         routeId: 'HSL:1063',
@@ -398,7 +398,7 @@ describe('<RoutePage />', () => {
     const props = {
       breakpoint: 'large',
       location: {
-        pathname: '/linjat/HSL:1063/pysakit/HSL:1063:0:01',
+        pathname: `/${PREFIX_ROUTES}/HSL:1063/${PREFIX_STOPS}/HSL:1063:0:01`,
       },
       params: {
         routeId: 'HSL:1063',

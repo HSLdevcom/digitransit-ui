@@ -5,7 +5,7 @@ const CONFIG = 'kuopio';
 const APP_TITLE = 'Reittiopas Kuopio';
 const APP_DESCRIPTION = 'Reittiopas Kuopio';
 
-const walttiConfig = require('./waltti').default;
+const walttiConfig = require('./config.waltti').default;
 
 export default configMerger(walttiConfig, {
   CONFIG,
@@ -101,6 +101,38 @@ export default configMerger(walttiConfig, {
 
   showAllBusses: true,
   showVehiclesOnStopPage: true,
+
+  cityBike: {
+    showCityBikes: true,
+    useSpacesAvailable: false,
+    useUrl: {
+      fi: 'https://kaupunkipyorat.kuopio.fi/',
+      sv: 'https://kaupunkipyorat.kuopio.fi/?lang=2',
+      en: 'https://kaupunkipyorat.kuopio.fi/?lang=2',
+    },
+    networks: {
+      vilkku: {
+        icon: 'citybike',
+        name: {
+          fi: 'Vilkku',
+          sv: 'Vilkku',
+          en: 'Vilkku',
+        },
+        type: 'citybike',
+        url: {
+          fi: 'https://kaupunkipyorat.kuopio.fi/',
+          sv: 'https://kaupunkipyorat.kuopio.fi/?lang=2',
+          en: 'https://kaupunkipyorat.kuopio.fi/?lang=2',
+        },
+      },
+    },
+  },
+
+  transportModes: {
+    citybike: {
+      availableForSelection: true,
+    },
+  },
 
   footer: {
     content: [
