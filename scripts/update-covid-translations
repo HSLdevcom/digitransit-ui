@@ -67,3 +67,5 @@ data.update(new_en_trans)
 
 with open('app/translations/en.json', 'w') as jsonFile:
     json.dump(data, jsonFile, indent = 2, sort_keys=True)
+
+os.system('yarn lint-translations')
