@@ -121,7 +121,7 @@
   "no-transfers-margin": "Ingen",
   "no-trips-found": "Ingen reiser tilgjenelig for denne dagen.",
   "now": "Nå",
-  "number-of-intermediate-stops": "{number, plural, \u003d0 {Ingen stopp} other {{number} stopp} }",
+  "number-of-intermediate-stops": "{number, plural, =0 {Ingen stopp} other {{number} stopp} }",
   "off-canvas-info": "Ved å logge inn kan du finne tilbake til dine favoritter på andre enheter",
   "or": "eller",
   "origin": "Fra",
