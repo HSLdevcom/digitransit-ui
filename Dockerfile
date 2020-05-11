@@ -28,8 +28,8 @@ WORKDIR ${WORK}
 ADD . ${WORK}
 
 RUN \
-  yarn setup --silent && \
-  yarn run build && \
+  yarn setup && \
+  yarn build && \
   rm -rf static docs test /tmp/* && \
   yarn cache clean
 

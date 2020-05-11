@@ -67,6 +67,8 @@ export default {
     routeSelector: defaultRouteSelector,
 
     active: true,
+
+    useFuzzyTripMatching: true, // DT-3473
   },
   tampere: {
     mqttTopicResolver: walttiTopicResolver,

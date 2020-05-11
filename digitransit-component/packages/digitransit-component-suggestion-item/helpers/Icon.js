@@ -13,36 +13,32 @@ import Station from './assets/station.svg';
 import Subway from './assets/subway.svg';
 import Tram from './assets/tram.svg';
 
-const IconMap = {
-  Airplane,
-  Bus,
-  Busstop,
-  City,
-  Ferry,
-  Locate,
-  Place,
-  Rail,
-  Star,
-  Station,
-  Subway,
-  Tram,
+const IconMap = style => {
+  return {
+    Airplane: <Airplane style={style} />,
+    Bus: <Bus style={style} />,
+    Busstop: <Busstop style={style} />,
+    City: <City style={style} />,
+    Ferry: <Ferry style={style} />,
+    Locate: <Locate style={style} />,
+    Place: <Place style={style} />,
+    Rail: <Rail style={style} />,
+    Star: <Star style={style} />,
+    Station: <Station style={style} />,
+    Subway: <Subway style={style} />,
+    Tram: <Tram style={style} />,
+  };
 };
 
 function Icon({ color, img, height, width, margin }) {
-  return (
-    <span aria-hidden className="icon-container">
-      <svg
-        style={{
-          fill: color || null,
-          height: height ? `${height}em` : null,
-          width: width ? `${width}em` : null,
-          marginRight: margin ? `${margin}em` : null,
-        }}
-      >
-        <use xlinkHref={`${IconMap[img]}#icon`} />
-      </svg>
-    </span>
-  );
+  const style = {
+    fill: color || null,
+    height: height ? `${height}em` : null,
+    width: width ? `${width}em` : null,
+    marginRight: margin ? `${margin}em` : null,
+  };
+  const icons = IconMap(style);
+  return <span aria-hidden>{icons[img]}</span>;
 }
 
 Icon.propTypes = {

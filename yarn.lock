@@ -1146,6 +1146,13 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
+"@babel/runtime@^7.7.7":
+  version "7.9.6"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.9.6.tgz#a9102eb5cadedf3f31d08a9ecf294af7827ea29f"
+  integrity sha512-64AF1xY3OAkFHqOb9s4jpgk1Mm5vDZ4L3acHvAml+53nO1XbXLuDodsVpO4OIUsmemlUHMxNdYMNJmsvOwLrvQ==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
 "@babel/template@^7.4.0", "@babel/template@^7.7.4", "@babel/template@^7.8.3", "@babel/template@^7.8.6":
   version "7.8.6"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.8.6.tgz#86b22af15f828dfb086474f964dcc3e39c43ce2b"
@@ -1381,37 +1388,42 @@
     unique-filename "^1.1.1"
     which "^1.3.1"
 
-"@hsl-fi/hooks@0.1.1":
+"@hsl-fi/hooks@^0.1.1":
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/@hsl-fi/hooks/-/hooks-0.1.1.tgz#25764a9ca60863cc9d412ede2be6e5dc8332d21b"
   integrity sha512-31PvC9CKy+FoHwXug+o9rw3ruBXDLSzh7HpAgAjqGxsac70qKseOUzhvPyLNGAU3Fsln941yGEPZnJi0XsVYPQ==
 
-"@hsl-fi/icon-config@0.1.1":
+"@hsl-fi/icon-config@^0.1.1":
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/@hsl-fi/icon-config/-/icon-config-0.1.1.tgz#b40c7be367d6acfed3f9fe270be436fa19d73b7d"
   integrity sha512-ZlzhFVLiWxCZIugC4k8ZHi17fGoL/+SWbx8Y4myDTZ8KYGIKaY8QsNQ3OITJEt/M7sgN/2euJiVklJTGn4fV9Q==
 
-"@hsl-fi/icons@0.1.4":
+"@hsl-fi/icons@^0.1.4":
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/@hsl-fi/icons/-/icons-0.1.4.tgz#2a4f3d2d3fb9a2a275f17f68ef3f9e9d55c22d74"
   integrity sha512-hzW5tocBHu6jpB1dj7GvL5QnS9ysS7uxT1myMx/cMq/oeUJW353J8RKYfjKddfy71B2PXD9VO67yJHj2XZATaQ==
 
-"@hsl-fi/site-header@0.1.7":
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/@hsl-fi/site-header/-/site-header-0.1.7.tgz#e46d879778b0c8e28a6ae7c8dc57cc3598977654"
-  integrity sha512-EscZ7KhWU1zvkn3UXB+rFV2c3Ucl7BYanVFr9tGrDKqqE24UNtB024nqGQDgC5yctDD1DlUC12bHw24/7dA0Yg==
-  dependencies:
-    "@hsl-fi/hooks" "0.1.1"
-    "@hsl-fi/icons" "0.1.4"
-    "@hsl-fi/utilities" "0.1.4"
+"@hsl-fi/icons@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@hsl-fi/icons/-/icons-0.2.1.tgz#3e55b879d859e1d1d29474e39a6d237ac83fbbb4"
+  integrity sha512-VXYAf+8lea97sas2vGDyc1UL3Z7zFcc4yUbj3dMVmQ9HW1shbKch1Clx5VWlCkkwwRMbAV/3ZYU94P57DG7gfA==
 
-"@hsl-fi/utilities@0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@hsl-fi/utilities/-/utilities-0.1.4.tgz#6397bfbc2487a00c37339dec36712e4aa491c109"
-  integrity sha512-kWnQvQ5UqdJ1sI0R5XIjNeVnOSWUljiXFn9g9CJr4s/PQb2m7p8wBCeob/vCUPb1IHYPKVI2obE1/1sTG3xRjg==
+"@hsl-fi/site-header@0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@hsl-fi/site-header/-/site-header-0.2.0.tgz#2b1837082bea5e66a1b09828fee2d34e11ba73c9"
+  integrity sha512-M/O3FcljZalJEPtiN1/dKpTBmDMdxJh/bYifjQjNvc2kcQqbsL3ZKsqAu+DTYtQV0eNuOLjL3inq4d8UyZpVAA==
   dependencies:
-    "@hsl-fi/icon-config" "0.1.1"
-    "@hsl-fi/icons" "0.1.4"
+    "@hsl-fi/hooks" "^0.1.1"
+    "@hsl-fi/icons" "^0.2.1"
+    "@hsl-fi/utilities" "^0.2.1"
+
+"@hsl-fi/utilities@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@hsl-fi/utilities/-/utilities-0.2.1.tgz#2dc9a0989c018e96ec8868a3143fd0b0aff2b6be"
+  integrity sha512-XsznzGuT9RglEq5doV6OwnkezZVxqBOwAMOqDBwKfWrj1qx34xNKiIo7x+T/R3JAWKgo8P+zbtHGQABDHi0nlQ==
+  dependencies:
+    "@hsl-fi/icon-config" "^0.1.1"
+    "@hsl-fi/icons" "^0.1.4"
 
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.0.0"
@@ -2112,6 +2124,14 @@
   dependencies:
     npmlog "^4.1.2"
     write-file-atomic "^2.3.0"
+
+"@loadable/component@5.12.0":
+  version "5.12.0"
+  resolved "https://registry.yarnpkg.com/@loadable/component/-/component-5.12.0.tgz#34d056d15f53dc08d04e9203cad6867cf4f7306c"
+  integrity sha512-eDG7FPZ8tCFA/mqu2IrYV6eS+UxGBo21PwtEV9QpkpYrx25xKRXzJUm36yfQPK3o7jXu43xpPkwiU4mLWcjJlw==
+  dependencies:
+    "@babel/runtime" "^7.7.7"
+    hoist-non-react-statics "^3.3.1"
 
 "@mapbox/point-geometry@~0.1.0":
   version "0.1.0"
@@ -3405,6 +3425,17 @@ babel-plugin-dynamic-import-node@^2.3.0:
   integrity sha512-jZVI+s9Zg3IqA/kdi0i6UDCybUI3aSBLnglhYbSSjKlV7yF1F/5LWv8MakQmvYpnbJDS6fcBL2KzHSxNCMtWSQ==
   dependencies:
     object.assign "^4.1.0"
+
+babel-plugin-inline-react-svg@1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/babel-plugin-inline-react-svg/-/babel-plugin-inline-react-svg-1.1.1.tgz#3fce30c5653a6c032c21ccc2b3e0141cd494b1d8"
+  integrity sha512-KCCzSKJUigDXd/dxJDE6uNyVTYE46FiTt8Md3vpYHtbADeTjOLJq5LkmaVpISplxKCK25VZU8sha2Km6uIEFJA==
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.0.0"
+    "@babel/parser" "^7.0.0"
+    lodash.isplainobject "^4.0.6"
+    resolve "^1.10.0"
+    svgo "^0.7.2"
 
 babel-plugin-istanbul@6.0.0:
   version "6.0.0"
@@ -4819,6 +4850,13 @@ circular-json@^0.3.1:
   resolved "https://registry.yarnpkg.com/circular-json/-/circular-json-0.3.3.tgz#815c99ea84f6809529d2f45791bdf82711352d66"
   integrity sha512-UZK3NBx2Mca+b5LsG7bY183pHWt5Y1xts4P3Pz7ENTwGVnJOUWbRb3ocjvX7hx9tq/yTAdclXm9sZ38gNuem4A==
 
+clap@^1.0.9:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/clap/-/clap-1.2.3.tgz#4f36745b32008492557f46412d66d50cb99bce51"
+  integrity sha512-4CoL/A3hf90V3VIEjeuhSvlGFEHKzOz+Wfc2IVZc+FaUgU0ZQafJTP49fvnULipOPcAfqhyI2duwQyns6xqjYA==
+  dependencies:
+    chalk "^1.1.3"
+
 class-utils@^0.3.5:
   version "0.3.6"
   resolved "https://registry.yarnpkg.com/class-utils/-/class-utils-0.3.6.tgz#f93369ae8b9a7ce02fd41faad0ca83033190c463"
@@ -4980,7 +5018,7 @@ co@~3.0.6:
   resolved "https://registry.yarnpkg.com/co/-/co-3.0.6.tgz#1445f226c5eb956138e68c9ac30167ea7d2e6bda"
   integrity sha1-FEXyJsXrlWE45oyawwFn6n0ua9o=
 
-coa@^1.0.1:
+coa@^1.0.1, coa@~1.0.1:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/coa/-/coa-1.0.4.tgz#a9ef153660d6a86a8bdec0289a5c684d217432fd"
   integrity sha1-qe8VNmDWqGqL3sAomlxoTSF0Mv0=
@@ -5091,6 +5129,11 @@ colors@^1.1.2:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/colors/-/colors-1.4.0.tgz#c50491479d4c1bdaed2c9ced32cf7c7dc2360f78"
   integrity sha512-a+UqTh4kgZg/SlGvfbzDHpgRu7AAQOmmqRHJnxhRZICKFUT91brVhNNt58CMWU9PsBbv3PDCZUHbVxuDiH2mtA==
+
+colors@~1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/colors/-/colors-1.1.2.tgz#168a4701756b6a7f51a12ce0c97bfa28c084ed63"
+  integrity sha1-FopHAXVran9RoSzgyXv6KMCE7WM=
 
 columnify@^1.5.4:
   version "1.5.4"
@@ -5875,6 +5918,14 @@ csso@^4.0.2:
   integrity sha512-NL3spysxUkcrOgnpsT4Xdl2aiEiBG6bXswAABQVHcMrfjjBisFOKwLDOmf4wf32aPdcJws1zds2B0Rg+jqMyHQ==
   dependencies:
     css-tree "1.0.0-alpha.39"
+
+csso@~2.3.1:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/csso/-/csso-2.3.2.tgz#ddd52c587033f49e94b71fc55569f252e8ff5f85"
+  integrity sha1-3dUsWHAz9J6Utx/FVWnyUuj/X4U=
+  dependencies:
+    clap "^1.0.9"
+    source-map "^0.5.3"
 
 cssom@0.3.x, cssom@^0.3.4:
   version "0.3.8"
@@ -7187,6 +7238,11 @@ esprima@3.x.x:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/esprima/-/esprima-3.1.3.tgz#fdca51cee6133895e3c88d535ce49dbff62a4633"
   integrity sha1-/cpRzuYTOJXjyI1TXOSdv/YqRjM=
+
+esprima@^2.6.0:
+  version "2.7.3"
+  resolved "https://registry.yarnpkg.com/esprima/-/esprima-2.7.3.tgz#96e3b70d5779f6ad49cd032673d1c312767ba581"
+  integrity sha1-luO3DVd59q1JzQMmc9HDEnZ7pYE=
 
 esprima@^4.0.0, esprima@^4.0.1:
   version "4.0.1"
@@ -10636,6 +10692,14 @@ js-yaml@^3.10.0, js-yaml@^3.12.0, js-yaml@^3.13.1, js-yaml@^3.2.5:
   dependencies:
     argparse "^1.0.7"
     esprima "^4.0.0"
+
+js-yaml@~3.7.0:
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.7.0.tgz#5c967ddd837a9bfdca5f2de84253abe8a1c03b80"
+  integrity sha1-XJZ93YN6m/3KXy3oQlOr6KHAO4A=
+  dependencies:
+    argparse "^1.0.7"
+    esprima "^2.6.0"
 
 jsbn@~0.1.0:
   version "0.1.1"
@@ -15050,6 +15114,11 @@ react-lifecycles-compat@^3.0.2:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-loadable-visibility@3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/react-loadable-visibility/-/react-loadable-visibility-3.0.2.tgz#4363c9c7c0ded917304618c9b69c13de89470832"
+  integrity sha512-gH5VUNdQ8QYAPAfJPXaYYJsXXHr4aEiIlieNChUPtfo/J4oEMsMRavy3eaoKglaItZmbT7q/gt1ToazOlPDHCA==
+
 react-motion@0.5.2:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/react-motion/-/react-motion-0.5.2.tgz#0dd3a69e411316567927917c6626551ba0607316"
@@ -16171,7 +16240,7 @@ sass-loader@8.0.2:
     schema-utils "^2.6.1"
     semver "^6.3.0"
 
-sax@>=0.6.0, sax@~1.2.4:
+sax@>=0.6.0, sax@~1.2.1, sax@~1.2.4:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
   integrity sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
@@ -17388,6 +17457,19 @@ svg2png@~3.0.1:
     phantomjs-prebuilt "^2.1.10"
     pn "^1.0.0"
     yargs "^3.31.0"
+
+svgo@^0.7.2:
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/svgo/-/svgo-0.7.2.tgz#9f5772413952135c6fefbf40afe6a4faa88b4bb5"
+  integrity sha1-n1dyQTlSE1xv779Ar+ak+qiLS7U=
+  dependencies:
+    coa "~1.0.1"
+    colors "~1.1.2"
+    csso "~2.3.1"
+    js-yaml "~3.7.0"
+    mkdirp "~0.5.1"
+    sax "~1.2.1"
+    whet.extend "~0.9.9"
 
 svgo@^1.0.0:
   version "1.3.2"
@@ -18952,6 +19034,11 @@ whatwg-url@^7.0.0:
     lodash.sortby "^4.7.0"
     tr46 "^1.0.1"
     webidl-conversions "^4.0.2"
+
+whet.extend@~0.9.9:
+  version "0.9.9"
+  resolved "https://registry.yarnpkg.com/whet.extend/-/whet.extend-0.9.9.tgz#f877d5bf648c97e5aa542fadc16d6a259b9c11a1"
+  integrity sha1-+HfVv2SMl+WqVC+twW1qJZucEaE=
 
 which-module@^1.0.0:
   version "1.0.0"

@@ -465,7 +465,7 @@ class DTAutosuggestPanel extends React.Component {
         <div className={styles['origin-input-container']}>
           <DTAutoSuggest
             config={this.props.config}
-            icon="mapMarker-from"
+            icon="mapMarker"
             id="origin"
             autoFocus={
               // Disable autofocus if using IE11
@@ -492,7 +492,7 @@ class DTAutosuggestPanel extends React.Component {
             }
             aria-label={i18next.t('swap-order-button-label')}
           >
-            <Icon img="direction-b" />
+            <Icon img="direction-b" width={1.8} height={1.8} rotate={90} />
           </ItinerarySearchControl>
         </div>
         <div className={styles['viapoints-container']}>
@@ -516,7 +516,7 @@ class DTAutosuggestPanel extends React.Component {
                   onDragStart={e => this.handleStartViaPointDragging(e, i)}
                   style={{ cursor: 'move' }}
                 >
-                  <Icon img="ellipsis" />
+                  <Icon img="ellipsis" width={1.3} height={1.3} rotate={90} />
                 </div>
                 <DTAutoSuggest
                   config={this.props.config}
@@ -553,9 +553,12 @@ class DTAutosuggestPanel extends React.Component {
                       { index: i + 1 },
                     )}
                   >
-                    <Icon img="time" />
+                    <Icon img="time" width={0.8} height={0.8} />
                     <Icon
                       img="attention"
+                      width={0.8}
+                      height={0.8}
+                      color="#f092cd"
                       className={cx(styles['super-icon'], {
                         collapsed:
                           isViaPointSlackTimeInputActive(i) ||
@@ -576,7 +579,7 @@ class DTAutosuggestPanel extends React.Component {
                       index: i + 1,
                     })}
                   >
-                    <Icon img="close" />
+                    <Icon img="close" width={1.1} height={1.1} />
                   </ItinerarySearchControl>
                 </div>
               </div>
@@ -599,7 +602,9 @@ class DTAutosuggestPanel extends React.Component {
                     })}
                   />
                   <Icon
-                    className={styles['fake-select-arrow']}
+                    width={0.7}
+                    height={0.7}
+                    color="#007ac9"
                     img="arrow-dropdown"
                   />
                 </div>
@@ -610,7 +615,7 @@ class DTAutosuggestPanel extends React.Component {
         <div className={styles['destination-input-container']}>
           <DTAutoSuggest
             config={this.props.config}
-            icon="mapMarker-to"
+            icon="mapMarker"
             id="destination"
             autoFocus={
               // Disable autofocus if using IE11
@@ -638,7 +643,7 @@ class DTAutosuggestPanel extends React.Component {
             }
             aria-label={i18next.t('add-via-button-label')}
           >
-            <Icon img="plus" />
+            <Icon img="plus" width={1.1} height={1.1} />
           </ItinerarySearchControl>
         </div>
       </div>
