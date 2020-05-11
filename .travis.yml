@@ -39,9 +39,8 @@ jobs:
       node_js: '10'
       script:
         - yarn install
-        - yarn test-coverage
-        - gcov
-        - yarn test-report
+        - yarn run test-coverage
+        - yarn run test-report
 
     - stage: visual
       env: VISUAL=chrome
