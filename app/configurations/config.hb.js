@@ -126,9 +126,6 @@ export default configMerger(walttiConfig, {
 
   timezoneData: 'Europe/Berlin|CET CEST CEMT|-10 -20 -30|01010101010101210101210101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010|-2aFe0 11d0 1iO0 11A0 1o00 11A0 Qrc0 6i00 WM0 1fA0 1cM0 1cM0 1cM0 kL0 Nc0 m10 WM0 1ao0 1cp0 dX0 jz0 Dd0 1io0 17c0 1fA0 1a00 1ehA0 1a00 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1fA0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1fA0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1fA0 1o00 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o 00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00|41e5',
 
-  /* disable the "next" column of the Route panel as it can be confusing sometimes: https://github.com/mfdz/digitransit-ui/issues/167 */
-  displayNextDeparture: false,
-
   map: {
     useRetinaTiles: true,
     tileSize: 256,
@@ -144,10 +141,10 @@ export default configMerger(walttiConfig, {
   searchSources: ['oa', 'osm'],
 
   searchParams: {
-    'boundary.rect.min_lat': 48.4521,
-    'boundary.rect.max_lat': 48.85,
-    'boundary.rect.min_lon': 8.5,
-    'boundary.rect.max_lon': 9.2780,
+    'boundary.rect.min_lat': 48.34164,
+    'boundary.rect.max_lat': 48.97661,
+    'boundary.rect.min_lon': 9.95635,
+    'boundary.rect.max_lon': 8.530883,
   },
 
   areaPolygon: [
