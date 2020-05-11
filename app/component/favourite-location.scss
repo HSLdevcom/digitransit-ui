@@ -129,12 +129,11 @@
   flex-direction: column;
   .favourite-modal-top {
     display: flex;
-    flex-direction: column;
-    padding-top: 30px;
+    flex-direction: row;
     width: 100%;
     .favourite-modal-header {
       width: 100%;
-      padding-left: 53px;
+      padding: 46px 0 0 53px;
       font-size: 18px;
       font-weight: 500;
       line-height: 1.33;
@@ -142,8 +141,9 @@
       color: #333333;
     }
     .favourite-modal-close {
+      height: 16px;
+      margin: 30px 34px 0 0;
       text-align: right;
-      margin-right: 34px;
     }
   }
   .favourite-modal-main {
