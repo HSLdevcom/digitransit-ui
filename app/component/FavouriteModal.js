@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import isNumber from 'lodash/isNumber';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import DTAutosuggestContainer from './DTAutosuggestContainer';
 import DTModal from './DTModal';
 import Icon from './Icon';
@@ -30,6 +30,10 @@ class FavouriteModal extends React.Component {
       favouriteId: PropTypes.string,
     }),
     addAnalyticsEvent: PropTypes.func,
+  };
+
+  static contextTypes = {
+    intl: intlShape.isRequired,
   };
 
   static defaultProps = {
@@ -168,11 +172,15 @@ class FavouriteModal extends React.Component {
       <DTModal show={this.props.show}>
         <div className="favourite-modal-container">
           <div className="favourite-modal-top">
+            <div className="favourite-modal-header">Tallenna paikka</div>
             <div
               className="favourite-modal-close"
               role="button"
               tabIndex="0"
               onClick={() => this.props.handleClose()}
+              aria-label={this.context.intl.formatMessage({
+                id: 'close-favourite-module',
+              })}
             >
               <Icon
                 className="cursor-pointer"
@@ -182,7 +190,6 @@ class FavouriteModal extends React.Component {
                 color="#007ac9"
               />
             </div>
-            <div className="favourite-modal-header">Tallenna paikka</div>
           </div>
           <div className="favourite-modal-main">
             <div className="favourite-modal-location-search">
