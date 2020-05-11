@@ -1,9 +1,45 @@
 .dt-datetimepicker {
+  border: none;
+  max-width: 400px;
+  padding: 0;
+  margin-left: 12px;
+  margin-right: 12px;
+
   .top-row-container {
+    margin-left: 19px;
     display: flex;
+
+    .time-icon {
+      svg.icon {
+        width: 16px;
+        height: 16px;
+      }
+    }
+    .dropdown-icon {
+      margin-left: 11px;
+      color: $primary-color;
+      svg.icon {
+        width: 14px;
+        height: 10px;
+      }
+    }
+    .close-icon {
+      svg.icon {
+        width: 11px;
+        height: 11px;
+        transform: rotate(45deg);
+        border-radius: 1px;
+      }
+    }
+    button, label {
+      font-size: 15px;
+      letter-spacing: -0.5px;
+      line-height: 1;
+    }
   }
   .textbutton {
-    margin-left: 5px;
+    margin-left: 15px;
+    margin-top: 2px;
     background: none;
     border: none;
     color: #666666;
@@ -16,12 +52,18 @@
     }
   }
 
+  .combobox-left {
+    margin-right: 8px;
+  }
+
   .radio-textbutton-label {
-    margin-left: 5px;
+    margin-left: 12px;
+    margin-top: 2px;
     background: none;
     border: none;
     color: #666666;
     padding: 0;
+    height: min-content;
     &.active {
       color: $primary-color;
     }
@@ -42,29 +84,96 @@
 
   .close-button {
     margin-left: auto;
+    margin-right: 17.5px;
     background: none;
     color: $primary-color;
     padding: 0;
   }
   .react-autosuggest__container  {
     position: relative;
+    // max-width: 196px;
+
+    .react-autosuggest__suggestion {
+      font-size: 15px;
+      line-height: 49px;
+      border-bottom: 1px solid #dddddd;
+
+      padding: 0 0 0 12px;
+      letter-spacing: -0.6px;
+      color: #333333;
+    }
+    .react-autosuggest__suggestion--highlighted {
+      font-weight: $font-weight-medium;
+    }
+
     .react-autosuggest__suggestions-container--open {
       position: absolute;
       z-index: index($zindex, 'autosuggest-suggestion-container');
-      max-height: 20vh; // TODO 5 items
+      max-height: 250px;
       overflow-x: hidden;
       overflow-y: scroll;
+      border-radius: 5px;
+      box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.06);
+      border: 1px rgba(0,0,0,0.1) solid;
+      top: 60px;
 
-      top: 63px; // TODO change later
+      -ms-overflow-style: none;  /* Internet Explorer 10+ */
+      scrollbar-width: none;  /* Firefox */
+      &::-webkit-scrollbar {
+        display: none;  /* Safari and Chrome */
+      }
     }
     .react-autosuggest__input {
-      margin: 0px;
+      margin: -4px 0 0 12px;
+      padding-left: 0;
+      border: none;
+      height: 26px;
+      &:focus {
+        outline: none;
+      }
     }
+
+    .combobox-label {
+      font-size: 12px;
+      line-height: 20px;
+      color: #666666;
+      letter-spacing: -0.48px;
+      margin-left: 12px;
+      margin-top: 4px;
+    }
+
     .combobox-container {
-      border: solid black 1px;
+      border: solid #888888 1px;
+      display: flex;
+      align-items: center;
+      border-radius: 5px;
+      height: 50px;
+      // width: 196px;
+      flex-grow: 1;
+      &:focus-within {
+        border-color: $primary-color;
+      }
     }
-    .combobox-input {
-      margin: 0px;
+    .combobox-icon {
+      color: $primary-color;
+      border-left: solid #888888 1px;
+      height: 35px;
+
+      &.date-input-icon {
+        padding: 8px 11px 0 11px;
+        svg.icon {
+          width: 20px;
+          height: 18px;
+        }
+      }
+
+      &.time-input-icon {
+        padding: 9px 13px 0 13px;
+          svg.icon {
+          width: 16px;
+          height: 16px;
+        }
+      }
     }
   }
 

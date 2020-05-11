@@ -7,6 +7,7 @@ import uniqueId from 'lodash/uniqueId';
 import ComponentUsageExample from './ComponentUsageExample';
 import DesktopDatepicker from './DesktopDatepicker';
 import DesktopTimepicker from './DesktopTimepicker';
+import Icon from './Icon';
 
 function Datetimepicker(
   {
@@ -90,6 +91,9 @@ function Datetimepicker(
       </legend>
       {!isOpen ? (
         <div className="top-row-container">
+          <span className="time-icon">
+            <Icon img="icon-icon_time" viewBox="0 0 16 16" />
+          </span>
           <label htmlFor={`${htmlId}-open`}>
             <span className="sr-only">
               <FormattedMessage id="datetimepicker.accessible-open" />
@@ -111,17 +115,23 @@ function Datetimepicker(
                         : 'datetimepicker.arrival'
                     }
                   />
-                  {`${getDateDisplay(displayTimestamp)} ${getTimeDisplay(
+                  {` ${getDateDisplay(displayTimestamp)} ${getTimeDisplay(
                     displayTimestamp,
                   )}`}
                 </>
               )}
             </button>
+            <span className="dropdown-icon">
+              <Icon img="icon-icon_arrow-dropdown" />
+            </span>
           </label>
         </div>
       ) : (
         <>
           <div className="top-row-container">
+            <span className="time-icon">
+              <Icon img="icon-icon_time" viewBox="0 0 16 16" />
+            </span>
             <button
               type="button"
               className={cx('textbutton', nowSelected ? 'active' : '')}
@@ -176,7 +186,9 @@ function Datetimepicker(
               className="close-button"
               onClick={() => changeOpen(false)}
             >
-              X
+              <span className="close-icon">
+                <Icon img="icon-icon_plus" />
+              </span>
               <span className="sr-only">
                 <FormattedMessage id="datetimepicker.accessible-close" />
               </span>
@@ -187,7 +199,7 @@ function Datetimepicker(
               'TODO mobile view'
             ) : (
               <>
-                <span>
+                <span className="combobox-left">
                   <DesktopDatepicker
                     value={displayTimestamp}
                     onChange={newValue => {

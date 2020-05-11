@@ -210,7 +210,7 @@ class IndexPage extends React.Component {
             targets={['Locations', 'CurrentPosition']}
           />
           <CtrlPanel.SeparatorLine />
-          <Datetimepicker realtime />
+          <DatetimepickerContainer realtime />
           <FavouriteLocationsContainer
             favourites={this.props.favourites}
             onClickFavourite={this.clickFavourite}

@@ -4,6 +4,7 @@ import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 import Autosuggest from 'react-autosuggest';
 import ComponentUsageExample from './ComponentUsageExample';
+import Icon from './Icon';
 
 // TODO decide later if this and DesktopTimepicker should be merged
 function DesktopDatepicker({ value, onChange, getDisplay }) {
@@ -72,12 +73,17 @@ function DesktopDatepicker({ value, onChange, getDisplay }) {
         onSuggestionsClearRequested={() => null}
         renderInputComponent={inputProps => {
           return (
-            <div className="combobox-container">
-              <label className="combobox-label" htmlFor={inputProps.id}>
-                <FormattedMessage id="datetimepicker.date" />
+            <label className="combobox-container" htmlFor={inputProps.id}>
+              <span>
+                <span className="combobox-label">
+                  <FormattedMessage id="datetimepicker.date" />
+                </span>
                 <input {...inputProps} />
-              </label>
-            </div>
+              </span>
+              <span className="combobox-icon date-input-icon">
+                <Icon img="icon-icon_calendar" viewBox="0 0 20 18" />
+              </span>
+            </label>
           );
         }}
       />
