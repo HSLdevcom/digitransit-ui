@@ -35,7 +35,7 @@ const SuggestionItem = pure(
         <div
           aria-hidden="true"
           className={cx('search-result', item.type, {
-            favourite: item.type.startsWith('Favourite'),
+            // favourite: item.type.startsWith('Favourite'),
             loading,
           })}
         >

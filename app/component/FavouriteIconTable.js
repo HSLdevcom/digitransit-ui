@@ -12,13 +12,14 @@ const FavouriteIconTable = ({
 }) => {
   const columns = favouriteIconIds.map(value => (
     <button
+      type="button"
       key={value}
       className={cx('favourite-icon-table-column', {
         'selected-icon': value === selectedIconId,
       })}
       onClick={() => handleClick(value)}
     >
-      <Icon img={value} />
+      <Icon img={value} height={1.125} width={1.125} />
     </button>
   ));
 

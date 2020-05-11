@@ -7,6 +7,8 @@ import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
 import isEqual from 'lodash/isEqual';
+import differenceWith from 'lodash/differenceWith';
+import isEmpty from 'lodash/isEmpty';
 import d from 'debug';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
 import {
@@ -14,6 +16,7 @@ import {
   checkPositioningPermission,
 } from '../action/PositionActions';
 import storeOrigin from '../action/originActions';
+import { addFavourite, deleteFavourite } from '../action/FavouriteActions';
 import storeDestination from '../action/destinationActions';
 import DTAutosuggestContainer from './DTAutosuggestContainer';
 import { isBrowser } from '../util/browser';
@@ -117,6 +120,10 @@ class IndexPage extends React.Component {
     });
   };
 
+  addFavourite = favourite => {
+    this.context.executeAction(addFavourite, favourite);
+  };
+
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     const { intl } = this.context;
@@ -153,20 +160,21 @@ class IndexPage extends React.Component {
           <CtrlPanel.SeparatorLine />
           <Datetimepicker realtime />
           <FavouriteLocationsContainer
+            favourites={favourites}
             onClickFavourite={this.clickFavourite}
-            favourites={this.props.favourites}
+            onAddFavourite={this.addFavourite}
           />
           <CtrlPanel.SeparatorLine />
-          <div className="stops-near-you-text">
-            <span>
-              {' '}
-              {intl.formatMessage({
-                id: 'stop-near-you-title',
-                defaultMessage: 'Stops and lines near you',
-              })}
-            </span>
-          </div>
-          <div>
+          <div className="stops-near-you-container">
+            <div className="stops-near-you-text">
+              <span>
+                {' '}
+                {intl.formatMessage({
+                  id: 'stop-near-you-title',
+                  defaultMessage: 'Stops and lines near you',
+                })}
+              </span>
+            </div>
             <DTAutosuggestContainer
               type="field"
               icon="mapMarker-via"
@@ -212,32 +220,35 @@ class IndexPage extends React.Component {
           <CtrlPanel.SeparatorLine />
           <Datetimepicker realtime />
           <FavouriteLocationsContainer
-            onClickFavourite={this.clickFavourite}
             favourites={this.props.favourites}
+            onClickFavourite={this.clickFavourite}
+            onAddFavourite={this.addFavourite}
           />
           <CtrlPanel.SeparatorLine />
-          <div className="stops-near-you-text">
-            <span>
-              {' '}
-              {intl.formatMessage({
-                id: 'stop-near-you-title',
-                defaultMessage: 'Stops and lines near you',
-              })}
-            </span>
-          </div>
-          <div>
-            <DTAutosuggestContainer
-              type="field"
-              icon="mapMarker-via"
-              id="searchfield-preferred"
-              autoFocus={false}
-              refPoint={origin}
-              className="destination"
-              searchType="search"
-              placeholder="stop-near-you"
-              value=""
-              locationState={this.props.locationState}
-            />
+          <div className="stops-near-you-container">
+            <div className="stops-near-you-text">
+              <span>
+                {' '}
+                {intl.formatMessage({
+                  id: 'stop-near-you-title',
+                  defaultMessage: 'Stops and lines near you',
+                })}
+              </span>
+            </div>
+            <div>
+              <DTAutosuggestContainer
+                type="field"
+                icon="mapMarker-via"
+                id="searchfield-preferred"
+                autoFocus={false}
+                refPoint={origin}
+                className="destination"
+                searchType="search"
+                placeholder="stop-near-you"
+                value=""
+                locationState={this.props.locationState}
+              />
+            </div>
           </div>
         </CtrlPanel>
       </div>
@@ -247,16 +258,17 @@ class IndexPage extends React.Component {
 
 const Index = shouldUpdate(
   // update only when origin/destination/breakpoint or language changes
-  (props, nextProps) =>
-    !(
+  (props, nextProps) => {
+    return !(
       isEqual(nextProps.origin, props.origin) &&
       isEqual(nextProps.destination, props.destination) &&
       isEqual(nextProps.breakpoint, props.breakpoint) &&
       isEqual(nextProps.lang, props.lang) &&
       isEqual(nextProps.locationState, props.locationState) &&
       isEqual(nextProps.showSpinner, props.showSpinner) &&
-      isEqual(nextProps.favourites, props.favourites)
-    ),
+      isEmpty(differenceWith(nextProps.favourites, props.favourites, isEqual))
+    );
+  },
 )(IndexPage);
 
 const IndexPageWithBreakpoint = withBreakpoint(Index);
@@ -313,7 +325,7 @@ const processLocation = (locationString, locationState, intl) => {
 
 const IndexPageWithPosition = connectToStores(
   IndexPageWithBreakpoint,
-  ['PositionStore', 'ViaPointsStore'],
+  ['PositionStore', 'ViaPointsStore', 'FavouriteStore'],
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
 
