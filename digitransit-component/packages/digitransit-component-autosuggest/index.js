@@ -116,7 +116,20 @@ function suggestionToAriaContent(item) {
  *    showSpinner={false}
  *    lang={lang}
  *    geocodingLayers={['stop', 'venue', 'address']} // Layers that is searched from geocoding. If not provided all layers is used.
- *
+ *    searchTypeLayers={[
+ *             'CurrentPosition',
+ *             'FavouritePlace',
+ *             'OldSearch',
+ *             'Geocoding',
+ *           ]} // Depicts what type of features autosuggest should search. All available are:
+ * //              CurrentPosition
+ * //              FavouritePlace
+ * //              FavouriteStop
+ * //              OldSearch
+ * //              FavouriteRoutes
+ * //              Routes
+ * //              Geocoding
+ * //              Stops
  *  />
  * );
  */
@@ -143,6 +156,7 @@ class DTAutosuggest extends React.Component {
     focusChange: PropTypes.func,
     lang: PropTypes.string,
     geocodingLayers: PropTypes.arrayOf(PropTypes.string),
+    searchTypeLayers: PropTypes.arrayOf(PropTypes.string),
   };
 
   static defaultProps = {
@@ -295,13 +309,12 @@ class DTAutosuggest extends React.Component {
   fetchFunction = ({ value }) =>
     this.setState({ valid: false }, () => {
       executeSearch(
+        this.props.searchTypeLayers,
         this.props.geocodingLayers,
         this.props.searchContext,
         this.props.refPoint,
         {
-          layers: this.props.layers,
           input: value,
-          type: this.props.searchType,
           config: this.props.config,
         },
         searchResult => {

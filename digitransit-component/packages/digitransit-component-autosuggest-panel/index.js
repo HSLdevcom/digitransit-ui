@@ -132,6 +132,20 @@ ItinerarySearchControl.propTypes = {
  *    lang="fi"
  *    addAnalyticsEvent={null}
  *    geocodingLayers={geocodingLayers}
+ *    searchTypeLayers={[
+ *             'CurrentPosition',
+ *             'FavouritePlace',
+ *             'OldSearch',
+ *             'Geocoding',
+ *           ]} // Depicts what type of features autosuggest should search. All available are:
+ * //              CurrentPosition
+ * //              FavouritePlace
+ * //              FavouriteStop
+ * //              OldSearch
+ * //              FavouriteRoutes
+ * //              Routes
+ * //              Geocoding
+ * //              Stops
  * />
  */
 class DTAutosuggestPanel extends React.Component {
@@ -154,6 +168,7 @@ class DTAutosuggestPanel extends React.Component {
     addAnalyticsEvent: PropTypes.func,
     lang: PropTypes.string,
     geocodingLayers: PropTypes.arrayOf(PropTypes.string),
+    searchTypeLayers: PropTypes.arrayOf(PropTypes.string),
   };
 
   static defaultProps = {
@@ -487,6 +502,7 @@ class DTAutosuggestPanel extends React.Component {
             focusChange={this.handleFocusChange}
             lang={this.props.lang}
             geocodingLayers={this.props.geocodingLayers}
+            searchTypeLayers={this.props.searchTypeLayers}
           />
           <ItinerarySearchControl
             className={styles.switch}
@@ -541,6 +557,7 @@ class DTAutosuggestPanel extends React.Component {
                     this.handleViaPointLocationSelected(item, i)
                   }
                   lang={this.props.lang}
+                  searchTypeLayers={this.props.searchTypeLayers}
                 />
                 <div className={styles['via-point-button-container']}>
                   <ItinerarySearchControl
@@ -632,6 +649,7 @@ class DTAutosuggestPanel extends React.Component {
             value={this.value(this.props.destination)}
             lang={this.props.lang}
             geocodingLayers={this.props.geocodingLayers}
+            searchTypeLayers={this.props.searchTypeLayers}
           />
           <ItinerarySearchControl
             className={cx(styles['add-via-point'], styles.more, {

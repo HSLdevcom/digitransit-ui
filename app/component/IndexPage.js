@@ -133,6 +133,12 @@ class IndexPage extends React.Component {
             getViaPointsFromMap={this.props.getViaPointsFromMap}
             lang={lang}
             geocodingLayers={['street', 'station', 'venue', 'address']}
+            searchTypeLayers={[
+              'CurrentPosition',
+              'FavouritePlace',
+              'OldSearch',
+              'Geocoding',
+            ]}
           />
           <CtrlPanel.SeparatorLine />
           <Datetimepicker realtime />
@@ -167,6 +173,14 @@ class IndexPage extends React.Component {
               value=""
               locationState={this.props.locationState}
               geocodingLayers={['station', 'stop']}
+              searchTypeLayers={[
+                'FavouriteStop',
+                'FavouriteRoutes',
+                'Geocoding',
+                'OldSearch',
+                'Stops',
+                'Routes',
+              ]}
             />
           </div>
         </CtrlPanel>
@@ -198,6 +212,12 @@ class IndexPage extends React.Component {
             locationState={this.props.locationState}
             getViaPointsFromMap={this.props.getViaPointsFromMap}
             geocodingLayers={['street', 'station', 'venue', 'address']}
+            searchTypeLayers={[
+              'CurrentPosition',
+              'FavouritePlace',
+              'OldSearch',
+              'Geocoding',
+            ]}
           />
           <CtrlPanel.SeparatorLine />
           <Datetimepicker realtime />
@@ -232,6 +252,14 @@ class IndexPage extends React.Component {
               value=""
               locationState={this.props.locationState}
               geocodingLayers={['station', 'stop']}
+              searchTypeLayers={[
+                'FavouriteStop',
+                'FavouriteRoutes',
+                'Geocoding',
+                'OldSearch',
+                'Stops',
+                'Routes',
+              ]}
             />
           </div>
         </CtrlPanel>

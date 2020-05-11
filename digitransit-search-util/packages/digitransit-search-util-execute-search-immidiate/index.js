@@ -19,15 +19,6 @@ export const getAllEndpointLayers = [
   'Stops',
 ];
 
-/**
- * SearchType depicts the type of the search.
- */
-const SearchType = {
-  All: 'all',
-  Endpoint: 'endpoint',
-  Search: 'search',
-};
-
 function getFavouriteLocations(favourites, input) {
   return Promise.resolve(
     orderBy(
@@ -128,16 +119,16 @@ function getOldSearches(oldSearches, input, dropLayers) {
     }),
   );
 }
-
 /**
  * Executes the search
  *
  */
-export function executeSearchImmediate(
+export function getSearchResults(
+  searchTypeLayers,
   geocodingLayers,
   searchContext,
   refPoint,
-  { input, type, layers, config },
+  { input, config },
   callback,
 ) {
   const {
@@ -153,150 +144,48 @@ export function executeSearchImmediate(
     context,
   } = searchContext;
   const position = getPositions(context);
-  const endpointSearches = { type: 'endpoint', term: input, results: [] };
-  const searchSearches = { type: 'search', term: input, results: [] };
-  let endpointSearchesPromise;
-  let searchSearchesPromise;
-  const endpointLayers = layers || getAllEndpointLayers();
   const dropLayers = getDropLayers(geocodingLayers);
-  if (type === SearchType.Endpoint || type === SearchType.All) {
-    const favouriteLocations = locations(context);
-    const oldEndpointSearches = prevSearches(context, 'endpoint');
-    const favouriteStops = stops(context);
-    const language = getLanguage(context);
-    const searchComponents = [];
-
-    if (
-      endpointLayers.includes('CurrentPosition') &&
-      position.status !== 'geolocation-not-supported'
-    ) {
-      searchComponents.push(getCurrentPositionIfEmpty(input, position));
-    }
-    if (endpointLayers.includes('FavouritePlace')) {
-      searchComponents.push(getFavouriteLocations(favouriteLocations, input));
-    }
-    if (endpointLayers.includes('FavouriteStop')) {
-      const stopsAndStations = getStopAndStations(favouriteStops);
-      searchComponents.push(
-        getFavouriteStops(stopsAndStations, input, refPoint),
-      );
-    }
-    if (endpointLayers.includes('OldSearch')) {
-      dropLayers.push('currentPosition');
-      // old searches should also obey the layers definition
-      if (!endpointLayers.includes('FavouritePlace')) {
-        dropLayers.push('favouritePlace');
-      }
-      searchComponents.push(
-        getOldSearches(oldEndpointSearches, input, dropLayers),
-      );
-    }
-
-    if (endpointLayers.includes('Geocoding')) {
-      const focusPoint =
-        config.autoSuggest.locationAware && position.hasLocation
-          ? {
-              // Round coordinates to approx 1 km, in order to improve caching
-              'focus.point.lat': position.lat.toFixed(2),
-              'focus.point.lon': position.lon.toFixed(2),
-            }
-          : {};
-
-      const sources = get(config, 'searchSources', '').join(',');
-      const regex =
-        config && config.search ? config.search.minimalRegexp : undefined;
-      searchComponents.push(
-        getGeocodingResult(
-          input,
-          config.searchParams,
-          language,
-          focusPoint,
-          sources,
-          config.URL.PELIAS,
-          regex,
-          geocodingLayers,
-        ),
-      );
-    }
-
-    if (endpointLayers.includes('Stops')) {
-      const focusPoint =
-        config.autoSuggest.locationAware && position.hasLocation
-          ? {
-              // Round coordinates to approx 1 km, in order to improve caching
-              'focus.point.lat': position.lat.toFixed(2),
-              'focus.point.lon': position.lon.toFixed(2),
-            }
-          : {};
-      const sources = get(config, 'feedIds', [])
-        .map(v => `gtfs${v}`)
-        .join(',');
-
-      if (sources) {
-        const regex =
-          config && config.search ? config.search.minimalRegexp : undefined;
-        searchComponents.push(
-          getGeocodingResult(
-            input,
-            undefined,
-            language,
-            focusPoint,
-            sources,
-            config.URL.PELIAS,
-            regex,
-            geocodingLayers,
-          ),
-        );
-      }
-    }
-
-    endpointSearchesPromise = Promise.all(searchComponents)
-      .then(resultsArray => {
-        if (
-          endpointLayers.includes('Stops') &&
-          endpointLayers.includes('Geocoding')
-        ) {
-          // sort & combine pelias results into single array
-          const modifiedResultsArray = [];
-          for (let i = 0; i < resultsArray.length - 2; i++) {
-            modifiedResultsArray.push(resultsArray[i]);
-          }
-          const sorted = orderBy(
-            resultsArray[resultsArray.length - 1].concat(
-              resultsArray[resultsArray.length - 2],
-            ),
-            [u => u.properties.confidence],
-            ['desc'],
-          );
-          modifiedResultsArray.push(sorted);
-          return modifiedResultsArray;
-        }
-        return resultsArray;
-      })
-      .then(flatten)
-      .then(uniqByLabel)
-      .then(results => {
-        endpointSearches.results = results;
-      })
-      .catch(err => {
-        endpointSearches.error = err;
-      });
-
-    if (type === SearchType.Endpoint) {
-      endpointSearchesPromise.then(() =>
-        callback({
-          ...endpointSearches,
-          results: sortSearchResults(config, endpointSearches.results, input),
-        }),
-      );
-      return;
-    }
+  const searchComponents = [];
+  const searches = { type: 'all', term: input, results: [] };
+  if (
+    searchTypeLayers.includes('CurrentPosition') &&
+    position.status !== 'geolocation-not-supported'
+  ) {
+    searchComponents.push(getCurrentPositionIfEmpty(input, position));
   }
-
-  if (type === SearchType.Search || type === SearchType.All) {
-    const searchComponents = [];
-    const oldSearches = prevSearches(context);
+  if (searchTypeLayers.includes('FavouritePlace')) {
+    const favouriteLocations = locations(context);
+    searchComponents.push(getFavouriteLocations(favouriteLocations, input));
+  }
+  if (searchTypeLayers.includes('FavouriteStop')) {
+    const favouriteStops = stops(context);
+    const stopsAndStations = getStopAndStations(favouriteStops);
+    searchComponents.push(getFavouriteStops(stopsAndStations, input, refPoint));
+  }
+  if (searchTypeLayers.includes('OldSearch')) {
+    const oldEndpointSearches = searchTypeLayers.includes('Route')
+      ? prevSearches(context)
+      : prevSearches(context, 'endpoint');
+    dropLayers.push('currentPosition');
+    // old searches should also obey the layers definition
+    if (!searchTypeLayers.includes('FavouritePlace')) {
+      dropLayers.push('favouritePlace');
+    }
+    searchComponents.push(
+      getOldSearches(oldEndpointSearches, input, dropLayers),
+    );
+  }
+  if (searchTypeLayers.includes('FavouriteRoutes')) {
     const favouriteRoutes = getStoredFavouriteRoutes(context);
+    searchComponents.push(getFavouriteRoutes(favouriteRoutes, input));
+  }
+  if (searchTypeLayers.includes('Routes')) {
+    searchComponents.push(getRoutes(input, config));
+  }
+  if (searchTypeLayers.includes('Geocoding')) {
+    // eslint-disable-next-line prefer-destructuring
+    let searchParams = config.searchParams;
+    const language = getLanguage(context);
     const focusPoint =
       config.autoSuggest.locationAware && position.hasLocation
         ? {
@@ -305,72 +194,54 @@ export function executeSearchImmediate(
             'focus.point.lon': position.lon.toFixed(2),
           }
         : {};
-    const sources = get(config, 'feedIds', [])
-      .map(v => `gtfs${v}`)
-      .join(',');
 
-    if (sources) {
-      const regex =
-        config && config.search ? config.search.minimalRegexp : undefined;
-      searchComponents.push(
-        getGeocodingResult(
-          input,
-          undefined,
-          'fi',
-          focusPoint,
-          sources,
-          config.URL.PELIAS,
-          regex,
-          geocodingLayers,
-        ),
+    let sources = get(config, 'searchSources', '').join(',');
+    if (searchTypeLayers.includes('Stops')) {
+      searchParams = undefined;
+      sources = sources.concat(',').concat(
+        get(config, 'feedIds', [])
+          .map(v => `gtfs${v}`)
+          .join(','),
       );
     }
-
+    const regex =
+      config && config.search ? config.search.minimalRegexp : undefined;
     searchComponents.push(
-      getFavouriteRoutes(favouriteRoutes, input),
-      getOldSearches(oldSearches, input, dropLayers),
-      getRoutes(input, config),
+      getGeocodingResult(
+        input,
+        searchParams,
+        language,
+        focusPoint,
+        sources,
+        config.URL.PELIAS,
+        regex,
+        geocodingLayers,
+      ),
     );
-    searchSearchesPromise = Promise.all(searchComponents)
-      .then(flatten)
-      .then(uniqByLabel)
-      .then(results => {
-        searchSearches.results = results;
-      })
-      .catch(err => {
-        searchSearches.error = err;
-      });
-
-    if (type === 'search') {
-      searchSearchesPromise.then(() => {
-        callback({
-          ...searchSearches,
-          results: sortSearchResults(config, searchSearches.results, input),
-        });
-      });
-      return;
-    }
   }
-
-  Promise.all([endpointSearchesPromise, searchSearchesPromise]).then(() => {
-    const results = [];
-    if (endpointSearches && Array.isArray(endpointSearches.results)) {
-      results.push(...endpointSearches.results);
-    }
-    if (searchSearches && Array.isArray(searchSearches.results)) {
-      results.push(...searchSearches.results);
-    }
+  const searchResultsPromise = Promise.all(searchComponents)
+    .then(flatten)
+    .then(uniqByLabel)
+    .then(results => {
+      searches.results = results;
+    })
+    .catch(err => {
+      searches.error = err;
+    });
+  searchResultsPromise.then(() => {
     callback({
-      results: sortSearchResults(config, results, input),
+      ...searches,
+      results: sortSearchResults(config, searches.results, input),
     });
   });
 }
 
-const debouncedSearch = debounce(executeSearchImmediate, 300, {
+const debouncedSearch = debounce(getSearchResults, 300, {
   leading: true,
 });
 
 export const executeSearch = (
+  searchTypeLayers,
   geocodingLayers,
   searchContext,
   refPoint,
@@ -378,5 +249,12 @@ export const executeSearch = (
   callback,
 ) => {
   callback(null); // This means 'we are searching'
-  debouncedSearch(geocodingLayers, searchContext, refPoint, data, callback);
+  debouncedSearch(
+    searchTypeLayers,
+    geocodingLayers,
+    searchContext,
+    refPoint,
+    data,
+    callback,
+  );
 };

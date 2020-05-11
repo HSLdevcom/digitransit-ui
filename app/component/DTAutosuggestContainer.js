@@ -50,6 +50,7 @@ class DTAutosuggestContainer extends React.Component {
     relayEnvironment: PropTypes.object.isRequired,
     lang: PropTypes.string,
     geocodingLayers: PropTypes.arrayOf(PropTypes.string),
+    searchTypeLayers: PropTypes.arrayOf(PropTypes.string),
   };
 
   constructor(props) {
@@ -240,6 +241,7 @@ class DTAutosuggestContainer extends React.Component {
         addAnalyticsEvent={addAnalyticsEvent}
         lang={this.props.lang}
         geocodingLayers={this.props.geocodingLayers}
+        searchTypeLayers={this.props.searchTypeLayers}
       />
     );
   }
@@ -264,6 +266,7 @@ class DTAutosuggestContainer extends React.Component {
         layers={this.props.layers}
         lang={this.props.lang}
         geocodingLayers={this.props.geocodingLayers}
+        searchTypeLayers={this.props.searchTypeLayers}
       />
     );
   }
