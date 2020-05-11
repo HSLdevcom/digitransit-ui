@@ -45,8 +45,8 @@ const FavouriteLocation = ({
 };
 
 FavouriteLocation.propTypes = {
-  favourite: PropTypes.object.isRequired,
   clickFavourite: PropTypes.func.isRequired,
+  favourite: PropTypes.object,
   className: PropTypes.string,
   iconId: PropTypes.string,
   text: PropTypes.string,

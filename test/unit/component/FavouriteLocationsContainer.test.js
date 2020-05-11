@@ -3,7 +3,6 @@ import { describe, it } from 'mocha';
 import React from 'react';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import FavouriteLocationsContainer from '../../../app/component/FavouriteLocationsContainer';
-import EmptyFavouriteLocationSlot from '../../../app/component/EmptyFavouriteLocationSlot';
 import Icon from '../../../app/component/Icon';
 import FavouriteLocation from '../../../app/component/FavouriteLocation';
 
@@ -11,6 +10,7 @@ describe('<FavouriteLocationsContainer />', () => {
   const props = {
     favourites: [],
     onClickFavourite: () => ({}),
+    onAddFavourite: () => ({}),
   };
   const home = {
     name: 'Home',
@@ -26,13 +26,13 @@ describe('<FavouriteLocationsContainer />', () => {
     const wrapper = shallowWithIntl(<FavouriteLocationsContainer {...props} />);
     expect(
       wrapper
-        .find(EmptyFavouriteLocationSlot)
+        .find(FavouriteLocation)
         .at(0)
         .prop('text'),
     ).to.equal('add-home');
     expect(
       wrapper
-        .find(EmptyFavouriteLocationSlot)
+        .find(FavouriteLocation)
         .at(1)
         .prop('text'),
     ).to.equal('add-work');
@@ -44,12 +44,18 @@ describe('<FavouriteLocationsContainer />', () => {
     const wrapper = shallowWithIntl(
       <FavouriteLocationsContainer {...props} favourites={favourites} />,
     );
-    expect(wrapper.find(EmptyFavouriteLocationSlot).prop('text')).to.equal(
-      'add-home',
-    );
-    expect(wrapper.find(FavouriteLocation).prop('favourite')).to.own.include(
-      work,
-    );
+    expect(
+      wrapper
+        .find(FavouriteLocation)
+        .at(0)
+        .prop('text'),
+    ).to.equal('add-home');
+    expect(
+      wrapper
+        .find(FavouriteLocation)
+        .at(1)
+        .prop('favourite'),
+    ).to.own.include(work);
     expect(wrapper.find(Icon).prop('img')).to.equal('icon-icon_arrow-dropdown');
   });
 
@@ -58,12 +64,18 @@ describe('<FavouriteLocationsContainer />', () => {
     const wrapper = shallowWithIntl(
       <FavouriteLocationsContainer {...props} favourites={favourites} />,
     );
-    expect(wrapper.find(EmptyFavouriteLocationSlot).prop('text')).to.equal(
-      'add-work',
-    );
-    expect(wrapper.find(FavouriteLocation).prop('favourite')).to.own.include(
-      home,
-    );
+    expect(
+      wrapper
+        .find(FavouriteLocation)
+        .at(0)
+        .prop('favourite'),
+    ).to.own.include(home);
+    expect(
+      wrapper
+        .find(FavouriteLocation)
+        .at(1)
+        .prop('text'),
+    ).to.equal('add-work');
     expect(wrapper.find(Icon).prop('img')).to.equal('icon-icon_arrow-dropdown');
   });
 
