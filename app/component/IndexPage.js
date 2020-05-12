@@ -255,32 +255,6 @@ class IndexPage extends React.Component {
               />
             </div>
           </div>
-          <CtrlPanel.SeparatorLine />
-          <div className="stops-near-you-text">
-            <span>
-              {' '}
-              {intl.formatMessage({
-                id: 'stop-near-you-title',
-                defaultMessage: 'Stops and lines near you',
-              })}
-            </span>
-          </div>
-          <div>
-            <DTAutosuggestContainer
-              type="field"
-              icon="mapMarker-via"
-              id="stop-route-station"
-              autoFocus={false}
-              refPoint={origin}
-              className="destination"
-              searchType="search"
-              placeholder="stop-near-you"
-              value=""
-              locationState={this.props.locationState}
-              sources={['Favourite', 'History', 'Datasource']}
-              targets={['Stops', 'Routes']}
-            />
-          </div>
         </CtrlPanel>
       </div>
     );
