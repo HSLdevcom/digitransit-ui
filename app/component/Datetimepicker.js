@@ -5,8 +5,7 @@ import moment from 'moment';
 import { intlShape, FormattedMessage } from 'react-intl';
 import uniqueId from 'lodash/uniqueId';
 import ComponentUsageExample from './ComponentUsageExample';
-import DesktopDatepicker from './DesktopDatepicker';
-import DesktopTimepicker from './DesktopTimepicker';
+import DesktopDatetimepicker from './DesktopDatetimepicker';
 import Icon from './Icon';
 
 function Datetimepicker(
@@ -81,6 +80,52 @@ function Datetimepicker(
   const getTimeDisplay = time => {
     return moment(time).format('HH:mm');
   };
+
+  const validateDate = value => {
+    if (value.match(/[0-9]{1,2}\.[0-9]{1,2}\./) !== null) {
+      // TODO check NaN
+      const values = value.split('.');
+      const date = Number(values[0]);
+      // TODO check that numbers are in range
+      const month = Number(values[1]);
+      const newStamp = moment(displayTimestamp)
+        .month(month - 1) // moment month is 0-indexed
+        .date(date);
+      return newStamp;
+    }
+    return false;
+  };
+
+  const validateTime = value => {
+    if (value.match(/[0-9]{1,2}(\.|:)[0-9]{2}/) !== null) {
+      const splitter = value.includes('.') ? '.' : ':';
+      const values = value.split(splitter);
+      // TODO check NaN
+      const hours = Number(values[0]);
+      const minutes = Number(values[1]);
+      // TODO check that numbers are in range
+      const newStamp = moment(displayTimestamp)
+        .hours(hours)
+        .minutes(minutes)
+        .valueOf();
+      return newStamp;
+    }
+    return false;
+  };
+
+  const selectedMoment = moment(displayTimestamp);
+  const timeSelectItemCount = 24 * 4;
+  const timeSelectItemDiff = 1000 * 60 * 15; // 15 minutes in ms
+  const timeSelectStartTime = moment(displayTimestamp)
+    .startOf('day')
+    .valueOf();
+  const dateSelectItemCount = 30;
+  const dateSelectItemDiff = 1000 * 60 * 60 * 24; // 24 hrs in ms
+  const dateSelectStartTime = moment()
+    .startOf('day')
+    .hour(selectedMoment.hour())
+    .minute(selectedMoment.minute())
+    .valueOf();
 
   const isMobile = false; // TODO
   // TODO accessible opening
@@ -200,21 +245,43 @@ function Datetimepicker(
             ) : (
               <>
                 <span className="combobox-left">
-                  <DesktopDatepicker
+                  <DesktopDatetimepicker
                     value={displayTimestamp}
                     onChange={newValue => {
                       onDateChange(newValue);
                     }}
                     getDisplay={getDateDisplay}
+                    itemCount={dateSelectItemCount}
+                    itemDiff={dateSelectItemDiff}
+                    startTime={dateSelectStartTime}
+                    validate={validateDate}
+                    icon={
+                      <span className="combobox-icon date-input-icon">
+                        <Icon img="icon-icon_calendar" viewBox="0 0 20 18" />
+                      </span>
+                    }
+                    id="dateselector"
+                    labelMessageId="datetimepicker.date"
                   />
                 </span>
                 <span>
-                  <DesktopTimepicker
+                  <DesktopDatetimepicker
                     value={displayTimestamp}
                     onChange={newValue => {
                       onTimeChange(newValue);
                     }}
                     getDisplay={getTimeDisplay}
+                    itemCount={timeSelectItemCount}
+                    itemDiff={timeSelectItemDiff}
+                    startTime={timeSelectStartTime}
+                    validate={validateTime}
+                    icon={
+                      <span className="combobox-icon time-input-icon">
+                        <Icon img="icon-icon_time" viewBox="0 0 16 16" />
+                      </span>
+                    }
+                    id="timeselector"
+                    labelMessageId="datetimepicker.time"
                   />
                 </span>
               </>
