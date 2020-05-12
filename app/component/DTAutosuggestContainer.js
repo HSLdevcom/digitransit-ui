@@ -39,7 +39,6 @@ class DTAutosuggestContainer extends React.Component {
     searchPanelText: PropTypes.string,
     origin: dtLocationShape,
     destination: dtLocationShape,
-    searchType: PropTypes.string,
     originPlaceHolder: PropTypes.string,
     destinationPlaceHolder: PropTypes.string,
     icon: PropTypes.string,
@@ -53,9 +52,7 @@ class DTAutosuggestContainer extends React.Component {
     updateViaPoints: PropTypes.func,
     swapOrder: PropTypes.func,
     refPoint: PropTypes.object,
-    onRouteSelected: PropTypes.func,
     showSpinner: PropTypes.bool,
-    layers: PropTypes.array,
     relayEnvironment: PropTypes.object.isRequired,
     onFavouriteSelected: PropTypes.func,
     lang: PropTypes.string,
@@ -241,7 +238,6 @@ class DTAutosuggestContainer extends React.Component {
         onSelect={this.onSelect}
         destination={this.props.destination}
         isItinerary={this.props.isItinerary}
-        searchType={this.props.searchType}
         originPlaceHolder={this.props.originPlaceHolder}
         destinationPlaceHolder={this.props.destinationPlaceHolder}
         searchContext={searchContext}
@@ -265,15 +261,12 @@ class DTAutosuggestContainer extends React.Component {
         autoFocus={this.props.autoFocus}
         refPoint={this.props.refPoint}
         className={this.props.className}
-        searchType={this.props.searchType}
         placeholder={this.props.placeholder}
         value={this.props.value}
         onSelect={this.onSelect}
         isFocused={this.isFocused}
-        onRouteSelected={this.props.onRouteSelected}
         searchContext={searchContext}
         showSpinner={this.props.showSpinner}
-        layers={this.props.layers}
         lang={this.props.lang}
         sources={this.props.sources}
         targets={this.props.targets}

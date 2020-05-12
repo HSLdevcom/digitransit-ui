@@ -4,10 +4,7 @@ import React from 'react';
 import i18next from 'i18next';
 import cx from 'classnames';
 import Autosuggest from 'react-autosuggest';
-import {
-  executeSearch,
-  getAllEndpointLayers,
-} from '@digitransit-search-util/digitransit-search-util-execute-search-immidiate';
+import { executeSearch } from '@digitransit-search-util/digitransit-search-util-execute-search-immidiate';
 import SuggestionItem from '@digitransit-component/digitransit-component-suggestion-item';
 import { getNameLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
@@ -127,7 +124,6 @@ class DTAutosuggest extends React.Component {
     icon: PropTypes.string,
     id: PropTypes.string.isRequired,
     isFocused: PropTypes.func,
-    layers: PropTypes.arrayOf(PropTypes.string),
     placeholder: PropTypes.string.isRequired,
     refPoint: PropTypes.object.isRequired,
     value: PropTypes.string,
@@ -152,7 +148,6 @@ class DTAutosuggest extends React.Component {
     value: '',
     isPreferredRouteSearch: false,
     showSpinner: false,
-    layers: getAllEndpointLayers,
     lang: 'fi',
     sources: [],
     targets: [],
