@@ -222,7 +222,7 @@ class TileLayerContainer extends GridLayer {
       name = target.layer;
       switch (name) {
         case 'ticketSales':
-          type = properties.TYYPPI;
+          type = properties.Tyyppi;
           break;
         case 'stop':
           ({ type } = properties);
@@ -343,7 +343,7 @@ class TileLayerContainer extends GridLayer {
             />
           );
         } else if (this.state.selectableTargets[0].layer === 'ticketSales') {
-          id = this.state.selectableTargets[0].feature.properties.FID;
+          id = this.state.selectableTargets[0].feature.properties.NID_fi;
           contents = (
             <TicketSalesPopup
               {...this.state.selectableTargets[0].feature.properties}
