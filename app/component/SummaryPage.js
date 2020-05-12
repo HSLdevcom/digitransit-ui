@@ -10,6 +10,7 @@ import { FormattedMessage } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import isEqual from 'lodash/isEqual';
 import { connectToStores } from 'fluxible-addons-react';
+import isEmpty from 'lodash/isEmpty';
 import storeOrigin from '../action/originActions';
 import DesktopView from './DesktopView';
 import MobileView from './MobileView';
@@ -22,7 +23,11 @@ import MobileItineraryWrapper from './MobileItineraryWrapper';
 import Loading from './Loading';
 import { getRoutePath } from '../util/path';
 import { getIntermediatePlaces } from '../util/queryUtils';
-import { validateServiceTimeRange } from '../util/timeUtils';
+import {
+  validateServiceTimeRange,
+  getStartTime,
+  getStartTimeWithColon,
+} from '../util/timeUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
 import exampleData from './data/SummaryPage.ExampleData';
@@ -33,6 +38,13 @@ import MessageStore from '../store/MessageStore';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { otpToLocation, addressToItinerarySearch } from '../util/otpStrings';
 import { startLocationWatch } from '../action/PositionActions';
+
+import {
+  startRealTimeClient,
+  stopRealTimeClient,
+  changeRealTimeClientTopics,
+} from '../action/realTimeClientAction';
+import VehicleMarkerContainer from './map/VehicleMarkerContainer';
 
 export const ITINERARYFILTERING_DEFAULT = 1.5;
 
@@ -52,6 +64,9 @@ export const getActiveIndex = (
   defaultValue = 0,
 ) => {
   if (state) {
+    if (state.summaryPageSelected >= itineraries.length) {
+      return defaultValue;
+    }
     return state.summaryPageSelected || defaultValue;
   }
 
@@ -62,6 +77,9 @@ export const getActiveIndex = (
    */
   const lastURLSegment = pathname && pathname.split('/').pop();
   if (!Number.isNaN(Number(lastURLSegment))) {
+    if (Number(lastURLSegment) >= itineraries.length) {
+      return defaultValue;
+    }
     return Number(lastURLSegment);
   }
 
@@ -72,6 +90,9 @@ export const getActiveIndex = (
     itineraries,
     itinerary => !itineraryHasCancelation(itinerary),
   );
+  if (itineraryIndex >= itineraries.length) {
+    return defaultValue;
+  }
   return itineraryIndex > 0 ? itineraryIndex : defaultValue;
 };
 
@@ -93,6 +114,44 @@ export function reportError(error) {
   });
 }
 
+const getTopicOptions = (context, plan, match) => {
+  const { config } = context;
+  const { realTime } = config;
+
+  const itineraries = (plan && plan.itineraries) || [];
+  const activeIndex = getActiveIndex(match.location, itineraries);
+  const itineraryTopics = [];
+
+  if (itineraries.length > 0) {
+    itineraries[activeIndex].legs.forEach(leg => {
+      if (leg.transitLeg && leg.trip) {
+        const feedId = leg.trip.gtfsId.split(':')[0];
+        let topic;
+        if (realTime[feedId] && realTime[feedId].useFuzzyTripMatching) {
+          topic = {
+            feedId,
+            route: leg.route.gtfsId.split(':')[1],
+            mode: leg.mode.toLowerCase(),
+            direction: Number(leg.trip.directionId),
+            tripStartTime: getStartTimeWithColon(
+              leg.trip.stoptimesForDate[0].scheduledDeparture,
+            ),
+          };
+        } else {
+          topic = {
+            feedId,
+            route: leg.route.gtfsId.split(':')[1],
+            tripId: leg.trip.gtfsId.split(':')[1],
+          };
+        }
+        if (topic) {
+          itineraryTopics.push(topic);
+        }
+      }
+    });
+  }
+  return itineraryTopics;
+};
 class SummaryPage extends React.Component {
   static contextTypes = {
     config: PropTypes.object,
@@ -128,14 +187,101 @@ class SummaryPage extends React.Component {
 
   constructor(props, context) {
     super(props, context);
+
     context.executeAction(storeOrigin, otpToLocation(props.match.params.from));
     if (props.error) {
       reportError(props.error);
     }
     this.resultsUpdatedAlertRef = React.createRef();
+
+    const itineraryTopics = getTopicOptions(
+      this.context,
+      this.props.plan,
+      this.props.match,
+    );
+    if (itineraryTopics && itineraryTopics.length > 0) {
+      this.startClient(itineraryTopics);
+    }
   }
 
   state = { center: null, loading: false };
+
+  configClient = itineraryTopics => {
+    const { config } = this.context;
+    const { realTime } = config;
+    const feedIds = Array.from(
+      new Set(itineraryTopics.map(topic => topic.feedId)),
+    );
+    let feedId;
+    /* handle multiple feedid case */
+    feedIds.forEach(fId => {
+      if (!feedId && realTime[fId]) {
+        feedId = fId;
+      }
+    });
+    const source = feedId && realTime[feedId];
+    if (source && source.active) {
+      return {
+        ...source,
+        agency: feedId,
+        options: itineraryTopics.length > 0 ? itineraryTopics : null,
+      };
+    }
+    return null;
+  };
+
+  startClient = itineraryTopics => {
+    const { storedItineraryTopics } = this.context.getStore(
+      'RealTimeInformationStore',
+    );
+    if (
+      itineraryTopics &&
+      !isEmpty(itineraryTopics) &&
+      !storedItineraryTopics
+    ) {
+      const clientConfig = this.configClient(itineraryTopics);
+      this.context.executeAction(startRealTimeClient, clientConfig);
+      this.context.getStore(
+        'RealTimeInformationStore',
+      ).storedItineraryTopics = itineraryTopics;
+    }
+  };
+
+  updateClient = itineraryTopics => {
+    const { client, topics } = this.context.getStore(
+      'RealTimeInformationStore',
+    );
+
+    if (client) {
+      const clientConfig = this.configClient(itineraryTopics);
+      if (clientConfig) {
+        this.context.executeAction(changeRealTimeClientTopics, {
+          ...clientConfig,
+          client,
+          oldTopics: topics,
+        });
+        return;
+      }
+      this.stopClient();
+    }
+
+    if (!isEmpty(itineraryTopics)) {
+      this.startClient(itineraryTopics);
+    }
+  };
+
+  stopClient = () => {
+    const { client } = this.context.getStore('RealTimeInformationStore');
+    if (client) {
+      this.context.executeAction(stopRealTimeClient, client);
+      this.context.getStore(
+        'RealTimeInformationStore',
+      ).storedItineraryTopics = undefined;
+      this.context.getStore(
+        'RealTimeInformationStore',
+      ).storedItineraryVehicleInfos = undefined;
+    }
+  };
 
   componentDidMount() {
     const host =
@@ -151,6 +297,10 @@ class SummaryPage extends React.Component {
       // eslint-disable-next-line no-unused-expressions
       import('../util/feedbackly');
     }
+  }
+
+  componentWillUnmount() {
+    this.stopClient();
     //  alert screen reader when search results appear
     if (this.resultsUpdatedAlertRef.current) {
       this.resultsUpdatedAlertRef.current.innerHTML = this.resultsUpdatedAlertRef.current.innerHTML;
@@ -171,6 +321,12 @@ class SummaryPage extends React.Component {
     if (this.props.error) {
       reportError(this.props.error);
     }
+    const itineraryTopics = getTopicOptions(
+      this.context,
+      this.props.plan,
+      this.props.match,
+    );
+    this.updateClient(itineraryTopics);
   }
 
   setLoading = loading => {
@@ -279,6 +435,40 @@ class SummaryPage extends React.Component {
       [centerPoint.lat - delta, centerPoint.lon - delta],
       [centerPoint.lat + delta, centerPoint.lon + delta],
     ];
+
+    let itineraryVehicles = {};
+    const gtfsIdsOfRouteAndDirection = [];
+    const gtfsIdsOfTrip = [];
+    const startTimes = [];
+
+    if (itineraries.length > 0) {
+      itineraries[activeIndex].legs.forEach(leg => {
+        if (leg.transitLeg && leg.trip) {
+          gtfsIdsOfTrip.push(leg.trip.gtfsId);
+          startTimes.push(
+            getStartTime(leg.trip.stoptimesForDate[0].scheduledDeparture),
+          );
+          gtfsIdsOfRouteAndDirection.push(
+            `${leg.route.gtfsId}_${leg.trip.directionId}`,
+          );
+        }
+      });
+    }
+    if (startTimes.length > 0) {
+      itineraryVehicles = {
+        gtfsIdsOfTrip,
+        gtfsIdsOfRouteAndDirection,
+        startTimes,
+      };
+    }
+    this.context.getStore(
+      'RealTimeInformationStore',
+    ).storedItineraryVehicleInfos = itineraryVehicles;
+
+    if (!isEmpty(itineraryVehicles)) {
+      leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
+    }
+
     return (
       <MapContainer
         className="summary-map"
@@ -549,10 +739,24 @@ const containerComponent = createFragmentContainer(PositioningWrapper, {
         ...PrintableItinerary_itinerary
         ...SummaryPlanContainer_itineraries
         legs {
+          mode
           ...ItineraryLine_legs
           transitLeg
           legGeometry {
             points
+          }
+          route {
+            gtfsId
+          }
+          trip {
+            gtfsId
+            directionId
+            stoptimesForDate {
+              scheduledDeparture
+            }
+            pattern {
+              ...RouteLine_pattern
+            }
           }
         }
       }

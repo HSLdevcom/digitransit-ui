@@ -3,8 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { matchShape, routerShape } from 'found';
 import { intlShape } from 'react-intl';
-import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
-import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
+import loadable from '@loadable/component';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import { withCurrentTime } from '../util/DTSearchUtils';
@@ -14,6 +13,16 @@ import { dtLocationShape } from '../util/shapes';
 import searchContext from '../util/searchContext';
 import intializeSearchContext from '../util/DTSearchContextInitializer';
 import getRelayEnvironment from '../util/getRelayEnvironment';
+
+const DTAutoSuggest = loadable(
+  () => import('@digitransit-component/digitransit-component-autosuggest'),
+  { ssr: true },
+);
+const DTAutosuggestPanel = loadable(
+  () =>
+    import('@digitransit-component/digitransit-component-autosuggest-panel'),
+  { ssr: true },
+);
 
 class DTAutosuggestContainer extends React.Component {
   static contextTypes = {
@@ -48,6 +57,7 @@ class DTAutosuggestContainer extends React.Component {
     showSpinner: PropTypes.bool,
     layers: PropTypes.array,
     relayEnvironment: PropTypes.object.isRequired,
+    onFavouriteSelected: PropTypes.func,
     lang: PropTypes.string,
     sources: PropTypes.arrayOf(PropTypes.string),
     targets: PropTypes.arrayOf(PropTypes.string),
@@ -103,7 +113,7 @@ class DTAutosuggestContainer extends React.Component {
     }
     // favourite
     if (id === 'favourite') {
-      this.selectFavourite(item, id);
+      this.selectFavourite(item);
       return;
     }
     const location = suggestionToLocation(item);
@@ -136,8 +146,8 @@ class DTAutosuggestContainer extends React.Component {
   };
 
   // eslint-disable-next-line no-unused-vars
-  selectFavourite = (item, id) => {
-    // TODO Do what is needed  }
+  selectFavourite = item => {
+    this.props.onFavouriteSelected(item);
   };
 
   selectLocation = (location, id) => {

@@ -37,12 +37,9 @@ module.exports = {
             ],
             ['@babel/plugin-proposal-class-properties', { loose: true }],
             ['@babel/plugin-proposal-numeric-separator', { loose: true }],
+            ['inline-react-svg'],
           ],
         },
-      },
-      {
-        test: /\.svg$/,
-        loader: 'url-loader',
       },
       {
         test: /\.s(a|c)ss$/,

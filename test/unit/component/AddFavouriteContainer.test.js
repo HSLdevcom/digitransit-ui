@@ -20,14 +20,16 @@ describe('<AddFavouriteContainer />', () => {
       wrapper.setState({ favourite });
 
       const location = {
-        id: 'id',
-        gtfsId: 'gtfsId',
-        favouriteId: 'fav-id',
-        code: 'loc-code',
-        layer: 'foo',
-        lat: 63,
-        lon: 25,
-        address: 'loc-address',
+        geometry: {
+          coordinates: [25, 63],
+        },
+        properties: {
+          gid: 'id',
+          gtfsId: 'gtfsId',
+          code: 'loc-code',
+          layer: 'foo',
+          label: 'loc-address',
+        },
       };
       wrapper.instance().setLocationProperties(location);
 
