@@ -120,7 +120,8 @@ ItinerarySearchControl.propTypes = {
  * onSelect() {
  *  return null;
  *  }
- * const geocodingLayers= ['venue', 'address', 'stop']
+ * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes and CurrentPosition. Leave empty to search all targets.
+ * const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches), and Datasource. Leave empty to use all sources.
  * <DTAutosuggestPanel
  *    config={config}
  *    origin={origin}
@@ -131,22 +132,8 @@ ItinerarySearchControl.propTypes = {
  *    onSelect={this.onSelect}
  *    lang="fi"
  *    addAnalyticsEvent={null}
- *    geocodingLayers={geocodingLayers}
- *    searchTypeLayers={[
- *             'CurrentPosition',
- *             'FavouritePlace',
- *             'OldSearch',
- *             'Geocoding',
- *           ]} // Depicts what type of features autosuggest should search. All available are:
- * //              CurrentPosition
- * //              FavouritePlace
- * //              FavouriteStop
- * //              OldSearch
- * //              FavouriteRoutes
- * //              Routes
- * //              Geocoding
- * //              Stops
- * />
+ *    sources={sources}
+ *    targets={targets}
  */
 class DTAutosuggestPanel extends React.Component {
   static propTypes = {
@@ -167,8 +154,8 @@ class DTAutosuggestPanel extends React.Component {
     onSelect: PropTypes.func,
     addAnalyticsEvent: PropTypes.func,
     lang: PropTypes.string,
-    geocodingLayers: PropTypes.arrayOf(PropTypes.string),
-    searchTypeLayers: PropTypes.arrayOf(PropTypes.string),
+    sources: PropTypes.arrayOf(PropTypes.string),
+    targets: PropTypes.arrayOf(PropTypes.string),
   };
 
   static defaultProps = {
@@ -181,7 +168,7 @@ class DTAutosuggestPanel extends React.Component {
     updateViaPoints: () => {},
     getViaPointsFromMap: false,
     lang: 'fi',
-    geocodingLayers: [],
+    sources: [],
   };
 
   constructor(props) {
@@ -501,8 +488,8 @@ class DTAutosuggestPanel extends React.Component {
             onSelect={this.props.onSelect}
             focusChange={this.handleFocusChange}
             lang={this.props.lang}
-            geocodingLayers={this.props.geocodingLayers}
-            searchTypeLayers={this.props.searchTypeLayers}
+            sources={this.props.sources}
+            targets={this.props.targets}
           />
           <ItinerarySearchControl
             className={styles.switch}
@@ -557,7 +544,7 @@ class DTAutosuggestPanel extends React.Component {
                     this.handleViaPointLocationSelected(item, i)
                   }
                   lang={this.props.lang}
-                  searchTypeLayers={this.props.searchTypeLayers}
+                  targets={this.props.targets}
                 />
                 <div className={styles['via-point-button-container']}>
                   <ItinerarySearchControl
@@ -648,8 +635,8 @@ class DTAutosuggestPanel extends React.Component {
             onSelect={this.props.onSelect}
             value={this.value(this.props.destination)}
             lang={this.props.lang}
-            geocodingLayers={this.props.geocodingLayers}
-            searchTypeLayers={this.props.searchTypeLayers}
+            sources={this.props.sources}
+            targets={this.props.targets}
           />
           <ItinerarySearchControl
             className={cx(styles['add-via-point'], styles.more, {

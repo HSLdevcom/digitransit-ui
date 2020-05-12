@@ -101,6 +101,8 @@ function suggestionToAriaContent(item) {
  * };
  * const placeholder = "stop-near-you";
  * const icon = 'origin';
+ * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes and CurrentPosition. Leave empty to search all targets.
+ * const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches) and Datasource. Leave empty to use all sources.
  * return (
  *  <DTAutosuggest
  *    config={config}
@@ -115,23 +117,8 @@ function suggestionToAriaContent(item) {
  *    autoFocus={false}
  *    showSpinner={false}
  *    lang={lang}
- *    geocodingLayers={['stop', 'venue', 'address']} // Layers that is searched from geocoding. If not provided all layers is used.
- *    searchTypeLayers={[
- *             'CurrentPosition',
- *             'FavouritePlace',
- *             'OldSearch',
- *             'Geocoding',
- *           ]} // Depicts what type of features autosuggest should search. All available are:
- * //              CurrentPosition
- * //              FavouritePlace
- * //              FavouriteStop
- * //              OldSearch
- * //              FavouriteRoutes
- * //              Routes
- * //              Geocoding
- * //              Stops
- *  />
- * );
+ *    sources={sources}
+ *    targets={targets}
  */
 class DTAutosuggest extends React.Component {
   static propTypes = {
@@ -155,8 +142,8 @@ class DTAutosuggest extends React.Component {
     handleViaPoints: PropTypes.func,
     focusChange: PropTypes.func,
     lang: PropTypes.string,
-    geocodingLayers: PropTypes.arrayOf(PropTypes.string),
-    searchTypeLayers: PropTypes.arrayOf(PropTypes.string),
+    sources: PropTypes.arrayOf(PropTypes.string),
+    targets: PropTypes.arrayOf(PropTypes.string),
   };
 
   static defaultProps = {
@@ -169,7 +156,8 @@ class DTAutosuggest extends React.Component {
     showSpinner: false,
     layers: getAllEndpointLayers,
     lang: 'fi',
-    geocodingLayers: [],
+    sources: [],
+    targets: [],
   };
 
   constructor(props) {
@@ -309,8 +297,8 @@ class DTAutosuggest extends React.Component {
   fetchFunction = ({ value }) =>
     this.setState({ valid: false }, () => {
       executeSearch(
-        this.props.searchTypeLayers,
-        this.props.geocodingLayers,
+        this.props.targets,
+        this.props.sources,
         this.props.searchContext,
         this.props.refPoint,
         {

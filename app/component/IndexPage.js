@@ -132,13 +132,8 @@ class IndexPage extends React.Component {
             locationState={this.props.locationState}
             getViaPointsFromMap={this.props.getViaPointsFromMap}
             lang={lang}
-            geocodingLayers={['street', 'station', 'venue', 'address']}
-            searchTypeLayers={[
-              'CurrentPosition',
-              'FavouritePlace',
-              'OldSearch',
-              'Geocoding',
-            ]}
+            sources={['Favourite', 'History', 'Datasource']}
+            targets={['Locations', 'CurrentPosition']}
           />
           <CtrlPanel.SeparatorLine />
           <Datetimepicker realtime />
@@ -172,15 +167,8 @@ class IndexPage extends React.Component {
               placeholder="stop-near-you"
               value=""
               locationState={this.props.locationState}
-              geocodingLayers={['station', 'stop']}
-              searchTypeLayers={[
-                'FavouriteStop',
-                'FavouriteRoutes',
-                'Geocoding',
-                'OldSearch',
-                'Stops',
-                'Routes',
-              ]}
+              sources={['Favourite', 'History', 'Datasource']}
+              targets={['Stops', 'Routes']}
             />
           </div>
         </CtrlPanel>
@@ -211,13 +199,8 @@ class IndexPage extends React.Component {
             destinationPlaceHolder="search-destination-index"
             locationState={this.props.locationState}
             getViaPointsFromMap={this.props.getViaPointsFromMap}
-            geocodingLayers={['street', 'station', 'venue', 'address']}
-            searchTypeLayers={[
-              'CurrentPosition',
-              'FavouritePlace',
-              'OldSearch',
-              'Geocoding',
-            ]}
+            sources={['Favourite', 'History', 'Datasource']}
+            targets={['Locations', 'CurrentPosition']}
           />
           <CtrlPanel.SeparatorLine />
           <Datetimepicker realtime />
@@ -251,15 +234,8 @@ class IndexPage extends React.Component {
               placeholder="stop-near-you"
               value=""
               locationState={this.props.locationState}
-              geocodingLayers={['station', 'stop']}
-              searchTypeLayers={[
-                'FavouriteStop',
-                'FavouriteRoutes',
-                'Geocoding',
-                'OldSearch',
-                'Stops',
-                'Routes',
-              ]}
+              sources={['Favourite', 'History', 'Datasource']}
+              targets={['Stops', 'Routes']}
             />
           </div>
         </CtrlPanel>

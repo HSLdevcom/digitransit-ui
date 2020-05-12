@@ -49,8 +49,8 @@ class DTAutosuggestContainer extends React.Component {
     layers: PropTypes.array,
     relayEnvironment: PropTypes.object.isRequired,
     lang: PropTypes.string,
-    geocodingLayers: PropTypes.arrayOf(PropTypes.string),
-    searchTypeLayers: PropTypes.arrayOf(PropTypes.string),
+    sources: PropTypes.arrayOf(PropTypes.string),
+    targets: PropTypes.arrayOf(PropTypes.string),
   };
 
   constructor(props) {
@@ -240,8 +240,8 @@ class DTAutosuggestContainer extends React.Component {
         swapOrder={this.props.swapOrder}
         addAnalyticsEvent={addAnalyticsEvent}
         lang={this.props.lang}
-        geocodingLayers={this.props.geocodingLayers}
-        searchTypeLayers={this.props.searchTypeLayers}
+        sources={this.props.sources}
+        targets={this.props.targets}
       />
     );
   }
@@ -265,8 +265,8 @@ class DTAutosuggestContainer extends React.Component {
         showSpinner={this.props.showSpinner}
         layers={this.props.layers}
         lang={this.props.lang}
-        geocodingLayers={this.props.geocodingLayers}
-        searchTypeLayers={this.props.searchTypeLayers}
+        sources={this.props.sources}
+        targets={this.props.targets}
       />
     );
   }
