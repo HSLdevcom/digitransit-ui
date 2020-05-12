@@ -3,6 +3,7 @@ import React from 'react';
 import { graphql, QueryRenderer } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
+import isEmpty from 'lodash/isEmpty';
 import TripMarkerPopup from './route/TripMarkerPopup';
 import IconWithTail from '../IconWithTail';
 import IconMarker from './IconMarker';
@@ -235,10 +236,53 @@ VehicleMarkerContainer.defaultProps = {
 const connectedComponent = connectToStores(
   getRelayEnvironment(VehicleMarkerContainer),
   ['RealTimeInformationStore'],
-  (context, props) => ({
-    ...props,
-    vehicles: context.getStore('RealTimeInformationStore').vehicles,
-  }),
+  (context, props) => {
+    const { vehicles, storedItineraryVehicleInfos } = context.getStore(
+      'RealTimeInformationStore',
+    );
+    if (storedItineraryVehicleInfos && !isEmpty(storedItineraryVehicleInfos)) {
+      const filteredVehicles = Object.keys(vehicles)
+        .map(key => vehicles[key])
+        .filter(vehicle => {
+          let isValid = false;
+          if (
+            storedItineraryVehicleInfos.gtfsIdsOfTrip &&
+            storedItineraryVehicleInfos.gtfsIdsOfTrip.includes(vehicle.tripId)
+          ) {
+            isValid = true;
+          }
+          if (
+            !isValid &&
+            storedItineraryVehicleInfos.gtfsIdsOfRouteAndDirection &&
+            storedItineraryVehicleInfos.gtfsIdsOfRouteAndDirection.includes(
+              `${vehicle.route}_${vehicle.direction}`,
+            ) &&
+            storedItineraryVehicleInfos.startTimes &&
+            storedItineraryVehicleInfos.startTimes.includes(
+              vehicle.tripStartTime,
+            )
+          ) {
+            isValid = true;
+          }
+          return isValid === true;
+        })
+        .reduce(
+          (obj, item) => ({
+            ...obj,
+            [item.id]: item,
+          }),
+          {},
+        );
+      return {
+        ...props,
+        vehicles: filteredVehicles,
+      };
+    }
+    return {
+      ...props,
+      vehicles,
+    };
+  },
 );
 
 const componentWithRelayEnvironment = getRelayEnvironment(

@@ -379,6 +379,7 @@ div.map {
 }
 
 .autosuggest-panel {
+  padding: 0 60px;
   &.isItinerary {
     width: 100%;
 
@@ -610,13 +611,12 @@ input.react-autosuggest__input {
 
 .autosuggest-searchpanel-text {
   font-size: $font-size-xlarge;
-  margin: 30px 0px 0px 60px; // DT-3381: TODO Placeholder values
+  margin-top: 30px;
 }
 .autosuggest-input-container {
   margin-top: 1em;
   position: relative;
-  width: 80%; // DT-3381: TODO Placeholder values
-  left: 60px; // DT-3381: TODO Placeholder values
+  width: 100%;
     &.searchfield-preferred-bottom{
       left: 0;
       width: inherit;

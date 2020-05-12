@@ -73,13 +73,13 @@ class AddFavouriteContainer extends React.Component {
       favourite: {
         ...prevState.favourite,
         favouriteId: prevState.favourite.favouriteId,
-        gid: location.id,
-        gtfsId: location.gtfsId,
-        code: location.code,
-        layer: location.layer,
-        lat: location.lat,
-        lon: location.lon,
-        address: location.address,
+        gid: location.properties.gid,
+        gtfsId: location.properties.gtfsId,
+        code: location.properties.code,
+        layer: location.properties.layer,
+        lat: location.geometry.coordinates[1],
+        lon: location.geometry.coordinates[0],
+        address: location.properties.label,
       },
     }));
   };
@@ -216,6 +216,7 @@ class AddFavouriteContainer extends React.Component {
                 placeholder="address"
                 value={favourite.address || ''}
                 layers={favouriteLayers}
+                onFavouriteSelected={this.setLocationProperties}
                 showSpinner
               />
             </div>
