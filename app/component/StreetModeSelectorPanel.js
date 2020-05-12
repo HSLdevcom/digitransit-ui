@@ -21,7 +21,7 @@ class StreetModeSelectorPanel extends React.Component {
     }
     return (
       <React.Fragment>
-        <div className="transport-modes-container">
+        <div className="street-modes-container">
           <div className="transport-mode-subheader">
             <FormattedMessage
               id="pick-street-mode"
@@ -76,7 +76,7 @@ StreetModeSelectorPanel.propTypes = {
   selectedStreetMode: PropTypes.string,
   currentSettings: PropTypes.object.isRequired,
   defaultSettings: PropTypes.object.isRequired,
-  defaultOptions: PropTypes.object.isRequired,
+  defaultOptions: PropTypes.array.isRequired,
   streetModeConfigs: PropTypes.arrayOf(
     PropTypes.shape({
       defaultValue: PropTypes.bool.isRequired,

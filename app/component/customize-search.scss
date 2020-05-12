@@ -70,6 +70,9 @@
   span {
     font-weight: 400;
   }
+  .mode-option-container:last-of-type {
+    border: none;
+  }
 }
 
 .transport-mode-header {
@@ -82,15 +85,13 @@
   }
 }
 
-.transport-modes-container {
-  > div:first-child > .mode-option-block {
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
+.street-modes-container {
+  > div {
+    border-bottom: 1px solid #e3e3e3;
   }
 
-  > div:last-child > .mode-option-block {
-    border-bottom-left-radius: 6px;
-    border-bottom-right-radius: 6px;
+  :last-child, :first-child {
+    border: none;
   }
 
   .dropdown-wrapper {
@@ -141,6 +142,7 @@
       display: flex;
       flex-direction: column;
       margin-top: 1em;
+      width:100%;
       span {
         line-height: 1.1em;
       }

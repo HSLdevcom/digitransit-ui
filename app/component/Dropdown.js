@@ -3,6 +3,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
+import ceil from 'lodash/ceil';
 import Icon from './Icon';
 
 /**
@@ -123,7 +124,7 @@ class Dropdown extends React.Component {
         ? `${intl.formatMessage({
             id: 'option-default',
           })} (${str})`
-        : `${str} (${Math.ceil(value * 3.6, 1)} km/h)`;
+        : `${str} (${ceil(value * 3.6, 1)} km/h)`;
     }
 
     function getFormattedValue(value) {
