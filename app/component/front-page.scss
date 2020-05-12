@@ -306,9 +306,12 @@ $heading-color: #858585;
   border-top: 1px solid #ddd;
   background: $background-color-lighter;
 }
-.stops-near-you-text {
-  font-size: $font-size-large;
-  margin: 30px 0px 0px 60px; // DT-3381: TODO Placeholder values
+
+.stops-near-you-container {
+  padding: 30px 60px 0;
+  .stops-near-you-text {
+    font-size: $font-size-large;
+  }
 }
 .map-container {
   display: flex;

@@ -3,16 +3,20 @@ import React from 'react';
 import find from 'lodash/find';
 import cx from 'classnames';
 import pure from 'recompose/pure';
+import differenceWith from 'lodash/differenceWith';
+import isEqual from 'lodash/isEqual';
+import isEmpty from 'lodash/isEmpty';
 import Icon from './Icon';
 import FavouriteLocation from './FavouriteLocation';
-import EmptyFavouriteLocationSlot from './EmptyFavouriteLocationSlot';
 import SuggestionItem from './SuggestionItem';
+import FavouriteModal from './FavouriteModal';
 import { isKeyboardSelectionEvent } from '../util/browser';
 
 const CustomSuggestionItem = pure(({ item, suggestionProps }) => {
   const { id, selected, onMouseEnter, index } = suggestionProps;
-  const { text, iconId, color } = item;
+  const { text, iconId, color, onClick } = item;
   return (
+    /* eslint-disable-next-line jsx-a11y/click-events-have-key-events */
     <li
       id={id}
       className={cx(
@@ -21,6 +25,7 @@ const CustomSuggestionItem = pure(({ item, suggestionProps }) => {
         selected ? 'highlighted' : '',
       )}
       onMouseEnter={() => onMouseEnter(index)}
+      onClick={() => onClick()}
       role="option"
       aria-selected={selected}
       aria-label={text}
@@ -38,6 +43,7 @@ const CustomSuggestionItem = pure(({ item, suggestionProps }) => {
 export default class FavouriteLocationsContainer extends React.Component {
   static propTypes = {
     favourites: PropTypes.array.isRequired,
+    onAddFavourite: PropTypes.func.isRequired,
     onClickFavourite: PropTypes.func,
   };
 
@@ -49,6 +55,8 @@ export default class FavouriteLocationsContainer extends React.Component {
       favourites: [],
       home: null,
       work: null,
+      modalOpen: false,
+      prefilledFavourite: {},
     };
     this.expandListRef = React.createRef();
     this.suggestionListRef = React.createRef();
@@ -70,7 +78,42 @@ export default class FavouriteLocationsContainer extends React.Component {
         favourite.favouriteId !== (home && home.favouriteId) &&
         favourite.favouriteId !== (work && work.favouriteId),
     );
-    this.setState({ favourites: filteredFavourites, home, work });
+    this.setState({
+      favourites: filteredFavourites,
+      home,
+      work,
+    });
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { favourites, home, work } = prevState;
+    const nextFavourites = nextProps.favourites;
+
+    if (
+      !isEmpty(
+        differenceWith(nextFavourites, [...favourites, home, work], isEqual),
+      )
+    ) {
+      const nextHome = find(
+        nextFavourites,
+        favourite => favourite.name === 'Home' || favourite.name === 'Koti',
+      );
+      const nextWork = find(
+        nextFavourites,
+        favourite => favourite.name === 'Work' || favourite.name === 'Työ',
+      );
+      const filteredFavourites = nextFavourites.filter(
+        favourite =>
+          favourite.favouriteId !== (nextHome && nextHome.favouriteId) &&
+          favourite.favouriteId !== (nextWork && nextWork.favouriteId),
+      );
+      return {
+        favourites: filteredFavourites,
+        home: nextHome,
+        work: nextWork,
+      };
+    }
+    return null;
   }
 
   componentWillUnmount() {
@@ -116,7 +159,7 @@ export default class FavouriteLocationsContainer extends React.Component {
       } else if (highlightedIndex < favourites.length) {
         this.clickFavourite(favourites[highlightedIndex]);
       } else if (highlightedIndex === favourites.length) {
-        this.toggleList();
+        this.openModal();
       } else if (highlightedIndex === favourites.length + 1) {
         this.toggleList();
       }
@@ -161,9 +204,25 @@ export default class FavouriteLocationsContainer extends React.Component {
     );
   };
 
+  openModal = () => {
+    this.setState({ listOpen: false, modalOpen: true });
+  };
+
+  closeModal = () => {
+    this.setState({ modalOpen: false, prefilledFavourite: {} });
+  };
+
   render() {
     const { onClickFavourite } = this.props;
-    const { listOpen, favourites, home, work, highlightedIndex } = this.state;
+    const {
+      listOpen,
+      favourites,
+      home,
+      work,
+      highlightedIndex,
+      modalOpen,
+      prefilledFavourite,
+    } = this.state;
 
     const expandIcon =
       this.props.favourites.length === 0
@@ -171,7 +230,12 @@ export default class FavouriteLocationsContainer extends React.Component {
         : 'icon-icon_arrow-dropdown';
 
     const customSuggestions = [
-      { text: 'Lisää paikka', iconId: 'icon-icon_star', color: '#007ac9' },
+      {
+        text: 'Lisää paikka',
+        iconId: 'icon-icon_star-with-circle',
+        color: '#007ac9',
+        onClick: this.openModal,
+      },
       { text: 'Muokkaa', iconId: 'icon-icon_edit', color: '#007ac9' },
     ];
     /* eslint-disable anchor-is-valid, jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/role-supports-aria-props */
@@ -179,11 +243,20 @@ export default class FavouriteLocationsContainer extends React.Component {
       <React.Fragment>
         <div className="new-favourite-locations-container">
           {!home && (
-            <EmptyFavouriteLocationSlot
-              index={0}
+            <FavouriteLocation
               text="add-home"
               defaultMessage="Add home"
               iconId="icon-icon_home"
+              clickFavourite={() => {
+                this.setState({
+                  prefilledFavourite: {
+                    name: 'Koti',
+                    selectedIconId: 'icon-icon_home',
+                  },
+                });
+                this.openModal();
+              }}
+              isEmpty
             />
           )}
           {home && (
@@ -193,11 +266,20 @@ export default class FavouriteLocationsContainer extends React.Component {
             />
           )}
           {!work && (
-            <EmptyFavouriteLocationSlot
-              index={1}
+            <FavouriteLocation
               text="add-work"
               defaultMessage="Add work"
               iconId="icon-icon_work"
+              clickFavourite={() => {
+                this.setState({
+                  prefilledFavourite: {
+                    name: 'Työ',
+                    selectedIconId: 'icon-icon_work',
+                  },
+                });
+                this.openModal();
+              }}
+              isEmpty
             />
           )}
           {work && (
@@ -207,7 +289,12 @@ export default class FavouriteLocationsContainer extends React.Component {
             />
           )}
           <div
-            className="favourite-container-expand"
+            className={cx(
+              'favourite-container-expand',
+              expandIcon === 'icon-icon_arrow-dropdown' && listOpen
+                ? 'rotate-icon'
+                : '',
+            )}
             ref={this.expandListRef}
             id="favourite-expand-button"
             onClick={() => this.toggleList()}
@@ -239,6 +326,14 @@ export default class FavouriteLocationsContainer extends React.Component {
             </ul>
           )}
         </div>
+        {modalOpen && (
+          <FavouriteModal
+            favourite={prefilledFavourite}
+            show={modalOpen}
+            handleClose={this.closeModal}
+            addFavourite={this.props.onAddFavourite}
+          />
+        )}
       </React.Fragment>
     );
   }

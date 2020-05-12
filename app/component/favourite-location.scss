@@ -69,6 +69,9 @@
         overflow: hidden;
         text-overflow: ellipsis;
       }
+      &.rotate-icon {
+        transform: rotate(-180deg);
+      }
     }
   }
 
@@ -120,6 +123,90 @@
     }
   }
 }
+
+.favourite-modal-container {
+  display: flex;
+  flex-direction: column;
+  .favourite-modal-top {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    .favourite-modal-header {
+      width: 100%;
+      padding: 46px 0 0 53px;
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 1.33;
+      letter-spacing: -0.6px;
+      color: #333333;
+    }
+    .favourite-modal-close {
+      height: 16px;
+      margin: 30px 34px 0 0;
+      text-align: right;
+    }
+  }
+  .favourite-modal-main {
+    text-align: left;
+    .favourite-modal-location-search {
+      padding: 11px 44px 0 43px;
+    }
+    .favourite-modal-name {
+      padding: 9px 44px 0 43px;
+
+      .favourite-modal-input {
+        display: flex;
+        width: 100%;
+        height: 44px;
+        border-radius: 5px;
+        border: solid 1px #888888;
+        background-color: #ffffff;
+        appearance: none;
+        padding-left: 20px;
+        font-size: 15px;
+        line-height: 1.2;
+        letter-spacing: -0.5px;
+        color: #666666;
+      }
+    }
+  }
+  .favourite-modal-text {
+    padding: 27px 0 0 53px;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: -0.53px;
+    color: #333333;
+  }
+  .favourite-modal-icons {
+    padding: 11px 44px 0 43px;
+  }
+
+  .favourite-modal-save {
+    display: flex;
+    padding: 31px 44px 0 43px;
+    .favourite-modal-button {
+      width: 100%;
+      height: 50px;
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 0;
+      letter-spacing: -0.5px;
+      border-radius: 25px;
+      text-align: center;
+      &:active {
+        background: #0062a1;
+      }
+      &.disabled {
+        background: #bbb;
+        &:active {
+          background: #bbb;
+        }
+      }
+   }
+  }
+}
+
+//---New styles above--------------------------------------------------
 
 .favourite-edit-icon-click-area {
   //background-color: rgb(10,80,190);
