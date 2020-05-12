@@ -120,17 +120,19 @@ ItinerarySearchControl.propTypes = {
  * onSelect() {
  *  return null;
  *  }
+ * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes and CurrentPosition. Leave empty to search all targets.
+ * const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches), and Datasource. Leave empty to use all sources.
  * <DTAutosuggestPanel
  *    config={config}
  *    origin={origin}
  *    destination={destination}
  *    isItinerary={false}
- *    searchType="endpoint"
  *    searchContext={searchContext}
  *    onSelect={this.onSelect}
  *    lang="fi"
  *    addAnalyticsEvent={null}
- * />
+ *    sources={sources}
+ *    targets={targets}
  */
 class DTAutosuggestPanel extends React.Component {
   static propTypes = {
@@ -140,7 +142,6 @@ class DTAutosuggestPanel extends React.Component {
     isItinerary: PropTypes.bool,
     originPlaceHolder: PropTypes.string,
     destinationPlaceHolder: PropTypes.string,
-    searchType: PropTypes.string,
     initialViaPoints: PropTypes.arrayOf(PropTypes.object),
     updateViaPoints: PropTypes.func,
     breakpoint: PropTypes.string.isRequired,
@@ -151,6 +152,8 @@ class DTAutosuggestPanel extends React.Component {
     onSelect: PropTypes.func,
     addAnalyticsEvent: PropTypes.func,
     lang: PropTypes.string,
+    sources: PropTypes.arrayOf(PropTypes.string),
+    targets: PropTypes.arrayOf(PropTypes.string),
   };
 
   static defaultProps = {
@@ -158,11 +161,11 @@ class DTAutosuggestPanel extends React.Component {
     isItinerary: false,
     originPlaceHolder: 'give-origin',
     destinationPlaceHolder: 'give-destination',
-    searchType: 'endpoint',
     swapOrder: undefined,
     updateViaPoints: () => {},
     getViaPointsFromMap: false,
     lang: 'fi',
+    sources: [],
   };
 
   constructor(props) {
@@ -474,7 +477,6 @@ class DTAutosuggestPanel extends React.Component {
             storeRef={this.storeReference}
             refPoint={origin}
             className={this.class(origin)}
-            searchType={this.props.searchType}
             placeholder={this.props.originPlaceHolder}
             value={this.value(origin)}
             isFocused={this.isFocused}
@@ -482,6 +484,8 @@ class DTAutosuggestPanel extends React.Component {
             onSelect={this.props.onSelect}
             focusChange={this.handleFocusChange}
             lang={this.props.lang}
+            sources={this.props.sources}
+            targets={this.props.targets}
           />
           <ItinerarySearchControl
             className={styles.switch}
@@ -525,7 +529,6 @@ class DTAutosuggestPanel extends React.Component {
                   ariaLabel={i18next.t('via-point-index', { index: i + 1 })}
                   autoFocus={breakpoint === 'large'}
                   refPoint={this.props.origin}
-                  searchType="endpoint"
                   placeholder="via-point"
                   className="viapoint"
                   isFocused={this.isFocused}
@@ -536,6 +539,7 @@ class DTAutosuggestPanel extends React.Component {
                     this.handleViaPointLocationSelected(item, i)
                   }
                   lang={this.props.lang}
+                  targets={this.props.targets}
                 />
                 <div className={styles['via-point-button-container']}>
                   <ItinerarySearchControl
@@ -623,7 +627,6 @@ class DTAutosuggestPanel extends React.Component {
             }
             storeRef={this.storeReference}
             refPoint={origin}
-            searchType={this.props.searchType}
             placeholder={this.props.destinationPlaceHolder}
             className={this.class(this.props.destination)}
             isFocused={this.isFocused}
@@ -631,6 +634,8 @@ class DTAutosuggestPanel extends React.Component {
             onSelect={this.props.onSelect}
             value={this.value(this.props.destination)}
             lang={this.props.lang}
+            sources={this.props.sources}
+            targets={this.props.targets}
           />
           <ItinerarySearchControl
             className={cx(styles['add-via-point'], styles.more, {

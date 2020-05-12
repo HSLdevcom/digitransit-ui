@@ -4,10 +4,7 @@ import React from 'react';
 import i18next from 'i18next';
 import cx from 'classnames';
 import Autosuggest from 'react-autosuggest';
-import {
-  executeSearch,
-  getAllEndpointLayers,
-} from '@digitransit-search-util/digitransit-search-util-execute-search-immidiate';
+import { executeSearch } from '@digitransit-search-util/digitransit-search-util-execute-search-immidiate';
 import SuggestionItem from '@digitransit-component/digitransit-component-suggestion-item';
 import { getNameLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
@@ -101,6 +98,8 @@ function suggestionToAriaContent(item) {
  * };
  * const placeholder = "stop-near-you";
  * const icon = 'origin';
+ * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes and CurrentPosition. Leave empty to search all targets.
+ * const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches) and Datasource. Leave empty to use all sources.
  * return (
  *  <DTAutosuggest
  *    config={config}
@@ -109,14 +108,13 @@ function suggestionToAriaContent(item) {
  *    id="id"
  *    refPoint={refPoint}
  *    placeholder={placeholder}
- *    searchType="endpoint"
  *    value=""
  *    onSelect={onSelect}
  *    autoFocus={false}
  *    showSpinner={false}
  *    lang={lang}
- *  />
- * );
+ *    sources={sources}
+ *    targets={targets}
  */
 class DTAutosuggest extends React.Component {
   static propTypes = {
@@ -126,10 +124,8 @@ class DTAutosuggest extends React.Component {
     icon: PropTypes.string,
     id: PropTypes.string.isRequired,
     isFocused: PropTypes.func,
-    layers: PropTypes.arrayOf(PropTypes.string),
     placeholder: PropTypes.string.isRequired,
     refPoint: PropTypes.object.isRequired,
-    searchType: PropTypes.oneOf(['all', 'endpoint', 'search']).isRequired,
     value: PropTypes.string,
     searchContext: PropTypes.any.isRequired,
     ariaLabel: PropTypes.string,
@@ -140,6 +136,8 @@ class DTAutosuggest extends React.Component {
     handleViaPoints: PropTypes.func,
     focusChange: PropTypes.func,
     lang: PropTypes.string,
+    sources: PropTypes.arrayOf(PropTypes.string),
+    targets: PropTypes.arrayOf(PropTypes.string),
   };
 
   static defaultProps = {
@@ -150,8 +148,9 @@ class DTAutosuggest extends React.Component {
     value: '',
     isPreferredRouteSearch: false,
     showSpinner: false,
-    layers: getAllEndpointLayers,
     lang: 'fi',
+    sources: [],
+    targets: [],
   };
 
   constructor(props) {
@@ -291,12 +290,12 @@ class DTAutosuggest extends React.Component {
   fetchFunction = ({ value }) =>
     this.setState({ valid: false }, () => {
       executeSearch(
+        this.props.targets,
+        this.props.sources,
         this.props.searchContext,
         this.props.refPoint,
         {
-          layers: this.props.layers,
           input: value,
-          type: this.props.searchType,
           config: this.props.config,
         },
         searchResult => {

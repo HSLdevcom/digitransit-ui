@@ -19,15 +19,6 @@ export const getAllEndpointLayers = [
   'Stops',
 ];
 
-/**
- * SearchType depicts the type of the search.
- */
-const SearchType = {
-  All: 'all',
-  Endpoint: 'endpoint',
-  Search: 'search',
-};
-
 function getFavouriteLocations(favourites, input) {
   return Promise.resolve(
     orderBy(
@@ -96,7 +87,10 @@ function getFavouriteStops(stopsAndStations, input, origin) {
           : stops,
     );
 }
-
+// function getDropLayers(layers) {
+//   const allLayers = ['street', 'address', 'venue', 'station', 'stop'];
+//   return allLayers.filter(l => !layers.includes(l));
+// }
 function getOldSearches(oldSearches, input, dropLayers) {
   let matchingOldSearches = filterMatchingToInput(oldSearches, input, [
     'properties.name',
@@ -125,15 +119,18 @@ function getOldSearches(oldSearches, input, dropLayers) {
     }),
   );
 }
-
+const routeLayers = ['route-TRAM', 'route-BUS', 'route-RAIL', 'route-FERRY'];
+const locationLayers = ['favouritePlace', 'venue', 'address', 'street'];
 /**
  * Executes the search
  *
  */
-export function executeSearchImmediate(
+export function getSearchResults(
+  targets,
+  sources,
   searchContext,
   refPoint,
-  { input, type, layers, config },
+  { input, config },
   callback,
 ) {
   const {
@@ -148,194 +145,148 @@ export function executeSearchImmediate(
     getRoutes,
     context,
   } = searchContext;
+  // if no targets are provided, search them all.
+  const allTargets = !targets || targets.length === 0;
+  // if no sources are provided, use them all.
+  const allSources = !sources || sources.length === 0;
   const position = getPositions(context);
-  const endpointSearches = { type: 'endpoint', term: input, results: [] };
-  const searchSearches = { type: 'search', term: input, results: [] };
+  const searchComponents = [];
+  const searches = { type: 'all', term: input, results: [] };
+  const language = getLanguage(context);
+  const focusPoint =
+    config.autoSuggest.locationAware && position.hasLocation
+      ? {
+          // Round coordinates to approx 1 km, in order to improve caching
+          'focus.point.lat': position.lat.toFixed(2),
+          'focus.point.lon': position.lon.toFixed(2),
+        }
+      : {};
 
-  let endpointSearchesPromise;
-  let searchSearchesPromise;
-  const endpointLayers = layers || getAllEndpointLayers();
+  if (
+    targets.includes('CurrentPosition') &&
+    position.status !== 'geolocation-not-supported'
+  ) {
+    searchComponents.push(getCurrentPositionIfEmpty(input, position));
+  }
 
-  if (type === SearchType.Endpoint || type === SearchType.All) {
-    const favouriteLocations = locations(context);
-    const oldEndpointSearches = prevSearches(context, 'endpoint');
-    const favouriteStops = stops(context);
-    const language = getLanguage(context);
-    const searchComponents = [];
-
-    if (
-      endpointLayers.includes('CurrentPosition') &&
-      position.status !== 'geolocation-not-supported'
-    ) {
-      searchComponents.push(getCurrentPositionIfEmpty(input, position));
-    }
-    if (endpointLayers.includes('FavouritePlace')) {
+  if (allTargets || targets.includes('Locations')) {
+    // eslint-disable-next-line prefer-destructuring
+    const searchParams = config.searchParams;
+    if (allSources || sources.includes('Favourite')) {
+      const favouriteLocations = locations(context);
       searchComponents.push(getFavouriteLocations(favouriteLocations, input));
     }
-    if (endpointLayers.includes('FavouriteStop')) {
+    if (allSources || sources.includes('Datasource')) {
+      const regex =
+        config && config.search ? config.search.minimalRegexp : undefined;
+      const geocodingLayers = ['station', 'venue', 'address', 'street'];
+      const geocodingSources = get(config, 'searchSources', '').join(',');
+      searchComponents.push(
+        getGeocodingResult(
+          input,
+          searchParams,
+          language,
+          focusPoint,
+          geocodingSources,
+          config.URL.PELIAS,
+          regex,
+          geocodingLayers,
+        ),
+      );
+    }
+    if (allSources || sources.includes('History')) {
+      const locationHistory = prevSearches(context, 'endpoint');
+      const dropLayers = ['currentPosition', 'stop'];
+      dropLayers.push(...routeLayers);
+      searchComponents.push(getOldSearches(locationHistory, input, dropLayers));
+    }
+  }
+
+  if (allTargets || targets.includes('Stops')) {
+    if (allSources || sources.includes('Favourite')) {
+      const favouriteStops = stops(context);
       const stopsAndStations = getStopAndStations(favouriteStops);
       searchComponents.push(
         getFavouriteStops(stopsAndStations, input, refPoint),
       );
     }
-    if (endpointLayers.includes('OldSearch')) {
-      const dropLayers = ['currentPosition'];
-      // old searches should also obey the layers definition
-      if (!endpointLayers.includes('FavouritePlace')) {
-        dropLayers.push('favouritePlace');
-      }
-      searchComponents.push(
-        getOldSearches(oldEndpointSearches, input, dropLayers),
-      );
-    }
-
-    if (endpointLayers.includes('Geocoding')) {
-      const focusPoint =
-        config.autoSuggest.locationAware && position.hasLocation
-          ? {
-              // Round coordinates to approx 1 km, in order to improve caching
-              'focus.point.lat': position.lat.toFixed(2),
-              'focus.point.lon': position.lon.toFixed(2),
-            }
-          : {};
-
-      const sources = get(config, 'searchSources', '').join(',');
+    if (allSources || sources.includes('Datasource')) {
       const regex =
         config && config.search ? config.search.minimalRegexp : undefined;
+      const geocodingLayers = ['stop', 'station', 'street'];
+      const geocodingSources = get(config, 'feedIds', [])
+        .map(v => `gtfs${v}`)
+        .join(',');
       searchComponents.push(
         getGeocodingResult(
           input,
-          config.searchParams,
+          undefined,
           language,
           focusPoint,
-          sources,
+          geocodingSources,
           config.URL.PELIAS,
           regex,
+          geocodingLayers,
         ),
       );
     }
-
-    if (endpointLayers.includes('Stops')) {
-      const focusPoint =
-        config.autoSuggest.locationAware && position.hasLocation
-          ? {
-              // Round coordinates to approx 1 km, in order to improve caching
-              'focus.point.lat': position.lat.toFixed(2),
-              'focus.point.lon': position.lon.toFixed(2),
-            }
-          : {};
-      const sources = get(config, 'feedIds', [])
-        .map(v => `gtfs${v}`)
-        .join(',');
-
-      if (sources) {
-        const regex =
-          config && config.search ? config.search.minimalRegexp : undefined;
-        searchComponents.push(
-          getGeocodingResult(
-            input,
-            undefined,
-            language,
-            focusPoint,
-            sources,
-            config.URL.PELIAS,
-            regex,
-          ),
-        );
-      }
-    }
-
-    endpointSearchesPromise = Promise.all(searchComponents)
-      .then(resultsArray => {
-        if (
-          endpointLayers.includes('Stops') &&
-          endpointLayers.includes('Geocoding')
-        ) {
-          // sort & combine pelias results into single array
-          const modifiedResultsArray = [];
-          for (let i = 0; i < resultsArray.length - 2; i++) {
-            modifiedResultsArray.push(resultsArray[i]);
-          }
-          const sorted = orderBy(
-            resultsArray[resultsArray.length - 1].concat(
-              resultsArray[resultsArray.length - 2],
-            ),
-            [u => u.properties.confidence],
-            ['desc'],
-          );
-          modifiedResultsArray.push(sorted);
-          return modifiedResultsArray;
-        }
-        return resultsArray;
-      })
-      .then(flatten)
-      .then(uniqByLabel)
-      .then(results => {
-        endpointSearches.results = results;
-      })
-      .catch(err => {
-        endpointSearches.error = err;
-      });
-
-    if (type === SearchType.Endpoint) {
-      endpointSearchesPromise.then(() =>
-        callback({
-          ...endpointSearches,
-          results: sortSearchResults(config, endpointSearches.results, input),
-        }),
-      );
-      return;
+    if (allSources || sources.includes('History')) {
+      const stopHistory = prevSearches(context);
+      const dropLayers = ['currentPosition', 'favouritePlace'];
+      dropLayers.push(...routeLayers);
+      dropLayers.push(...locationLayers);
+      searchComponents.push(getOldSearches(stopHistory, input, dropLayers));
     }
   }
 
-  if (type === SearchType.Search || type === SearchType.All) {
-    const oldSearches = prevSearches(context);
-    const favouriteRoutes = getStoredFavouriteRoutes(context);
-
-    searchSearchesPromise = Promise.all([
-      getFavouriteRoutes(favouriteRoutes, input),
-      getOldSearches(oldSearches, input),
-      getRoutes(input, config),
-    ])
-      .then(flatten)
-      .then(uniqByLabel)
-      .then(results => {
-        searchSearches.results = results;
-      })
-      .catch(err => {
-        searchSearches.error = err;
-      });
-
-    if (type === 'search') {
-      searchSearchesPromise.then(() => {
-        callback({
-          ...searchSearches,
-          results: sortSearchResults(config, searchSearches.results, input),
-        });
-      });
-      return;
+  if (allTargets || targets.includes('Routes')) {
+    if (allSources || sources.includes('Favourites')) {
+      const favouriteRoutes = getStoredFavouriteRoutes(context);
+      searchComponents.push(getFavouriteRoutes(favouriteRoutes, input));
+    }
+    searchComponents.push(getRoutes(input, config));
+    if (allSources || sources.includes('History')) {
+      const routeHistory = prevSearches(context);
+      const dropLayers = [
+        'currentPosition',
+        'favouritePlace',
+        'stop',
+        'station',
+      ];
+      dropLayers.push(...locationLayers);
+      searchComponents.push(getOldSearches(routeHistory, input, dropLayers));
     }
   }
 
-  Promise.all([endpointSearchesPromise, searchSearchesPromise]).then(() => {
-    const results = [];
-    if (endpointSearches && Array.isArray(endpointSearches.results)) {
-      results.push(...endpointSearches.results);
-    }
-    if (searchSearches && Array.isArray(searchSearches.results)) {
-      results.push(...searchSearches.results);
-    }
+  const searchResultsPromise = Promise.all(searchComponents)
+    .then(flatten)
+    .then(uniqByLabel)
+    .then(results => {
+      searches.results = results;
+    })
+    .catch(err => {
+      searches.error = err;
+    });
+  searchResultsPromise.then(() => {
     callback({
-      results: sortSearchResults(config, results, input),
+      ...searches,
+      results: sortSearchResults(config, searches.results, input),
     });
   });
 }
 
-const debouncedSearch = debounce(executeSearchImmediate, 300, {
+const debouncedSearch = debounce(getSearchResults, 300, {
   leading: true,
 });
 
-export const executeSearch = (searchContext, refPoint, data, callback) => {
+export const executeSearch = (
+  targets,
+  sources,
+  searchContext,
+  refPoint,
+  data,
+  callback,
+) => {
   callback(null); // This means 'we are searching'
-  debouncedSearch(searchContext, refPoint, data, callback);
+  debouncedSearch(targets, sources, searchContext, refPoint, data, callback);
 };
