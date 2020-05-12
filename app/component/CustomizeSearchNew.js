@@ -63,7 +63,7 @@ class CustomizeSearch extends React.Component {
         <div className="settings-option-container">
           <WalkingOptionsSection
             walkReluctance={currentSettings.walkReluctance}
-            walkReluctanceOptions={config.defaultOptions.walkReluctance}
+            walkSpeedOptions={config.defaultOptions.walkSpeed}
             walkSpeed={currentSettings.walkSpeed}
             defaultSettings={this.defaultSettings}
           />
@@ -95,6 +95,7 @@ class CustomizeSearch extends React.Component {
             streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
             currentSettings={currentSettings}
             defaultSettings={this.defaultSettings}
+            defaultOptions={config.defaultOptions}
           />
         </div>
         <div className="settings-option-container">
@@ -106,10 +107,6 @@ class CustomizeSearch extends React.Component {
         </div>
         {config.showTicketSelector && (
           <FareZoneSelector
-            headerText={intl.formatMessage({
-              id: 'zones',
-              defaultMessage: 'Fare zones',
-            })}
             options={ticketOptions}
             currentOption={currentSettings.ticketTypes || 'none'}
             updateValue={value => {

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import Toggle from 'material-ui/Toggle';
+import Toggle from './Toggle';
 import Icon from './Icon';
 import BikingOptionsSection from './customizesearch/BikingOptionsSection';
 
@@ -14,13 +14,14 @@ class StreetModeSelectorPanel extends React.Component {
       streetModeConfigs,
       currentSettings,
       defaultSettings,
+      defaultOptions,
     } = this.props;
     if (!streetModeConfigs.length) {
       return null;
     }
     return (
       <React.Fragment>
-        <div className="transport-modes-container">
+        <div className="street-modes-container">
           <div className="transport-mode-subheader">
             <FormattedMessage
               id="pick-street-mode"
@@ -51,7 +52,6 @@ class StreetModeSelectorPanel extends React.Component {
                     <Toggle
                       toggled={selectedStreetMode === mode.name}
                       onToggle={() => selectStreetMode(mode.name.toUpperCase())}
-                      style={{ top: '12px', width: 'auto' }}
                     />
                   </div>
                 </div>
@@ -60,6 +60,7 @@ class StreetModeSelectorPanel extends React.Component {
                     <BikingOptionsSection
                       bikeSpeed={currentSettings.bikeSpeed}
                       defaultSettings={defaultSettings}
+                      bikeSpeedOptions={defaultOptions.bikeSpeed}
                     />
                   )}
               </div>
@@ -75,6 +76,7 @@ StreetModeSelectorPanel.propTypes = {
   selectedStreetMode: PropTypes.string,
   currentSettings: PropTypes.object.isRequired,
   defaultSettings: PropTypes.object.isRequired,
+  defaultOptions: PropTypes.array.isRequired,
   streetModeConfigs: PropTypes.arrayOf(
     PropTypes.shape({
       defaultValue: PropTypes.bool.isRequired,
