@@ -127,7 +127,6 @@ ItinerarySearchControl.propTypes = {
  *    origin={origin}
  *    destination={destination}
  *    isItinerary={false}
- *    searchType="endpoint"
  *    searchContext={searchContext}
  *    onSelect={this.onSelect}
  *    lang="fi"
@@ -143,7 +142,6 @@ class DTAutosuggestPanel extends React.Component {
     isItinerary: PropTypes.bool,
     originPlaceHolder: PropTypes.string,
     destinationPlaceHolder: PropTypes.string,
-    searchType: PropTypes.string,
     initialViaPoints: PropTypes.arrayOf(PropTypes.object),
     updateViaPoints: PropTypes.func,
     breakpoint: PropTypes.string.isRequired,
@@ -163,7 +161,6 @@ class DTAutosuggestPanel extends React.Component {
     isItinerary: false,
     originPlaceHolder: 'give-origin',
     destinationPlaceHolder: 'give-destination',
-    searchType: 'endpoint',
     swapOrder: undefined,
     updateViaPoints: () => {},
     getViaPointsFromMap: false,
@@ -480,7 +477,6 @@ class DTAutosuggestPanel extends React.Component {
             storeRef={this.storeReference}
             refPoint={origin}
             className={this.class(origin)}
-            searchType={this.props.searchType}
             placeholder={this.props.originPlaceHolder}
             value={this.value(origin)}
             isFocused={this.isFocused}
@@ -533,7 +529,6 @@ class DTAutosuggestPanel extends React.Component {
                   ariaLabel={i18next.t('via-point-index', { index: i + 1 })}
                   autoFocus={breakpoint === 'large'}
                   refPoint={this.props.origin}
-                  searchType="endpoint"
                   placeholder="via-point"
                   className="viapoint"
                   isFocused={this.isFocused}
@@ -632,7 +627,6 @@ class DTAutosuggestPanel extends React.Component {
             }
             storeRef={this.storeReference}
             refPoint={origin}
-            searchType={this.props.searchType}
             placeholder={this.props.destinationPlaceHolder}
             className={this.class(this.props.destination)}
             isFocused={this.isFocused}

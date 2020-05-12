@@ -52,7 +52,6 @@ class IndexPage extends React.Component {
     destination: dtLocationShape.isRequired,
     showSpinner: PropTypes.bool.isRequired,
     favourites: PropTypes.array,
-    getViaPointsFromMap: PropTypes.bool.isRequired,
     locationState: PropTypes.object.isRequired,
     lang: PropTypes.string,
   };
@@ -70,7 +69,6 @@ class IndexPage extends React.Component {
     this.state = {
       // eslint-disable-next-line react/no-unused-state
       pendingCurrentLocation: false,
-      refs: [],
     };
   }
 
@@ -146,14 +144,10 @@ class IndexPage extends React.Component {
               defaultMessage: 'Where to?',
             })}
             origin={origin}
-            onSelect={this.onSelect}
             destination={destination}
-            refs={this.state.refs}
-            searchType="endpoint"
             originPlaceHolder="search-origin-index"
             destinationPlaceHolder="search-destination-index"
             locationState={this.props.locationState}
-            getViaPointsFromMap={this.props.getViaPointsFromMap}
             lang={lang}
             sources={['Favourite', 'History', 'Datasource']}
             targets={['Locations', 'CurrentPosition']}
@@ -183,7 +177,6 @@ class IndexPage extends React.Component {
               autoFocus={false}
               refPoint={origin}
               className="destination"
-              searchType="search"
               placeholder="stop-near-you"
               value=""
               locationState={this.props.locationState}
@@ -211,14 +204,10 @@ class IndexPage extends React.Component {
               defaultMessage: 'Where to?',
             })}
             origin={origin}
-            onSelect={this.onSelect}
             destination={destination}
-            refs={this.state.refs}
-            searchType="endpoint"
             originPlaceHolder="search-origin-index"
             destinationPlaceHolder="search-destination-index"
             locationState={this.props.locationState}
-            getViaPointsFromMap={this.props.getViaPointsFromMap}
             sources={['Favourite', 'History', 'Datasource']}
             targets={['Locations', 'CurrentPosition']}
           />
@@ -248,7 +237,6 @@ class IndexPage extends React.Component {
                 autoFocus={false}
                 refPoint={origin}
                 className="destination"
-                searchType="search"
                 placeholder="stop-near-you"
                 value=""
                 locationState={this.props.locationState}
@@ -383,9 +371,6 @@ const IndexPageWithPosition = connectToStores(
       });
     }
     newProps.lang = context.getStore('PreferencesStore').getLanguage();
-    newProps.getViaPointsFromMap = context
-      .getStore('ViaPointsStore')
-      .getViaPoints();
     newProps.favourites = [
       ...context.getStore('FavouriteStore').getLocations(),
       ...context.getStore('FavouriteStore').getStopsAndStations(),

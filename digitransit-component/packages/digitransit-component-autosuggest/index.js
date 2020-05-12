@@ -111,7 +111,6 @@ function suggestionToAriaContent(item) {
  *    id="id"
  *    refPoint={refPoint}
  *    placeholder={placeholder}
- *    searchType="endpoint"
  *    value=""
  *    onSelect={onSelect}
  *    autoFocus={false}
@@ -131,7 +130,6 @@ class DTAutosuggest extends React.Component {
     layers: PropTypes.arrayOf(PropTypes.string),
     placeholder: PropTypes.string.isRequired,
     refPoint: PropTypes.object.isRequired,
-    searchType: PropTypes.oneOf(['all', 'endpoint', 'search']).isRequired,
     value: PropTypes.string,
     searchContext: PropTypes.any.isRequired,
     ariaLabel: PropTypes.string,
