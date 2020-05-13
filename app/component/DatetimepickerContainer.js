@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
 import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
@@ -22,38 +22,57 @@ function getInitialDepartureOrArrival(match) {
 function DatetimepickerContainer({ realtime }, context) {
   const { router, match } = context;
 
-  const [timestamp, changeTimestamp] = useState(
+  const [timestamp, changeTimestampState] = useState(
     getInitialTimestamp(match, realtime),
   );
   const [departureOrArrival, changeDepartureOrArrival] = useState(
     getInitialDepartureOrArrival(match),
   );
 
-  const setParams = debounce((newTime, newDepartureOrArrival) => {
+  // change url query param time
+  const setTimeParam = debounce(newTime => {
     let time;
     if (newTime) {
       time = Math.round(newTime / 1000);
     }
-    let arriveBy;
-    if (newDepartureOrArrival === 'arrival') {
-      arriveBy = true;
+    const oldTime = match.location.query.time;
+    // TODO does changed work?
+    const changed =
+      (!oldTime && newTime) ||
+      (oldTime && !moment(newTime).isSame(moment(oldTime * 1000), 'minute'));
+    if (!changed) {
+      return;
     }
     replaceQueryParams(router, match, {
       time,
+    });
+  }, 10);
+
+  // change url query param arriveBy
+  const setDepartureOrArrivalParam = debounce(newValue => {
+    let arriveBy;
+    if (newValue === 'arrival') {
+      arriveBy = true;
+    }
+    if (match.location.query.arriveBy === arriveBy) {
+      return;
+    }
+    replaceQueryParams(router, match, {
       arriveBy,
     });
   }, 10);
 
-  useEffect(() => setParams(timestamp, departureOrArrival), [
-    timestamp,
-    departureOrArrival,
-  ]);
+  const onTimestampChange = newTimestamp => {
+    changeTimestampState(newTimestamp);
+    setTimeParam(newTimestamp);
+  };
 
   const onTimeChange = newTime => {
     if (newTime === null) {
-      return; // TODO
+      onTimestampChange(moment().valueOf());
+      return;
     }
-    changeTimestamp(newTime);
+    onTimestampChange(newTime);
     addAnalyticsEvent({
       action: 'EditJourneyTime',
       category: 'ItinerarySettings',
@@ -63,9 +82,10 @@ function DatetimepickerContainer({ realtime }, context) {
 
   const onDateChange = newDate => {
     if (newDate === null) {
-      return; // TODO
+      onTimestampChange(moment().valueOf());
+      return;
     }
-    changeTimestamp(newDate);
+    onTimestampChange(newDate);
     addAnalyticsEvent({
       action: 'EditJourneyDate',
       category: 'ItinerarySettings',
@@ -73,23 +93,25 @@ function DatetimepickerContainer({ realtime }, context) {
     });
   };
 
-  const setDepartureNow = () => {
+  const onNowClick = () => {
     changeDepartureOrArrival('departure');
+    setDepartureOrArrivalParam('departure');
     if (realtime) {
-      changeTimestamp(null);
+      onTimestampChange(null);
     } else {
-      changeTimestamp(moment().valueOf());
+      onTimestampChange(moment().valueOf());
     }
   };
 
   const onDepartureClick = () => {
     if (timestamp === null) {
-      changeTimestamp(moment().valueOf());
+      onTimestampChange(moment().valueOf());
     }
     if (departureOrArrival === 'departure') {
       return;
     }
     changeDepartureOrArrival('departure');
+    setDepartureOrArrivalParam('departure');
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
@@ -100,12 +122,13 @@ function DatetimepickerContainer({ realtime }, context) {
 
   const onArrivalClick = () => {
     if (timestamp === null) {
-      changeTimestamp(moment().valueOf());
+      onTimestampChange(moment().valueOf());
     }
     if (departureOrArrival === 'arrival') {
       return;
     }
     changeDepartureOrArrival('arrival');
+    setDepartureOrArrivalParam('arrival');
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
@@ -120,7 +143,7 @@ function DatetimepickerContainer({ realtime }, context) {
       onTimeChange={onTimeChange}
       onDateChange={onDateChange}
       departureOrArrival={departureOrArrival}
-      onNowClick={setDepartureNow}
+      onNowClick={onNowClick}
       onDepartureClick={onDepartureClick}
       onArrivalClick={onArrivalClick}
     />
