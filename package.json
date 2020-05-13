@@ -51,7 +51,8 @@
     "digitransit-util-tests": "lerna run test --scope '@digitransit-util/*'",
     "digitransit-component-docs": "node -r esm ./digitransit-component/scripts/generate-readmes",
     "digitransit-component-new-module": "node -r esm ./digitransit-component/scripts/create-new-module $1",
-    "digitransit-component-tests": "lerna run test --scope '@digitransit-component/*'"
+    "digitransit-component-tests": "lerna run test --scope '@digitransit-component/*'",
+    "digitransit-build-components": "yarn lerna run build:index --scope '@digitransit-component/*'"
   },
   "main": "server.js",
   "repository": {
