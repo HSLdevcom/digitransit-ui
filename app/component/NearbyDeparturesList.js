@@ -38,6 +38,7 @@ const constructPlacesList = values => {
           departure={o.node.place}
           currentTime={values.currentTime}
           timeRange={values.timeRange}
+          displayNextDeparture={values.displayNextDeparture}
         />
       );
     } else if (o.node.place.__typename === 'BikeRentalStation') {
@@ -55,37 +56,46 @@ const constructPlacesList = values => {
   return sortedList;
 };
 
-const PlaceAtDistanceList = ({
-  nearest: { places },
-  currentTime,
-  timeRange,
-}) => {
+const PlaceAtDistanceList = (
+  { nearest: { places }, currentTime, timeRange },
+  context,
+) => {
+  const { displayNextDeparture } = context.config;
+  const headers = [
+    {
+      id: 'to-stop',
+      defaultMessage: 'To Stop',
+    },
+    {
+      id: 'route',
+      defaultMessage: 'Route',
+    },
+    {
+      id: 'destination',
+      defaultMessage: 'Destination',
+    },
+    {
+      id: 'leaves',
+      defaultMessage: 'Leaves',
+    },
+  ];
+  if (displayNextDeparture) {
+    headers.push({
+      id: 'next',
+      defaultMessage: 'Next',
+    });
+  }
+
   if (places && places.edges) {
     return (
       <DeparturesTable
-        headers={[
-          {
-            id: 'to-stop',
-            defaultMessage: 'To Stop',
-          },
-          {
-            id: 'route',
-            defaultMessage: 'Route',
-          },
-          {
-            id: 'destination',
-            defaultMessage: 'Destination',
-          },
-          {
-            id: 'leaves',
-            defaultMessage: 'Leaves',
-          },
-          {
-            id: 'next',
-            defaultMessage: 'Next',
-          },
-        ]}
-        content={constructPlacesList({ places, currentTime, timeRange })}
+        headers={headers}
+        content={constructPlacesList({
+          places,
+          currentTime,
+          timeRange,
+          displayNextDeparture,
+        })}
       />
     );
   }
@@ -100,6 +110,10 @@ PlaceAtDistanceList.propTypes = {
   }).isRequired,
   currentTime: PropTypes.number.isRequired,
   timeRange: PropTypes.number.isRequired,
+};
+
+PlaceAtDistanceList.contextTypes = {
+  config: PropTypes.object,
 };
 
 export default Relay.createContainer(PlaceAtDistanceList, {
