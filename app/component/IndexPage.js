@@ -240,6 +240,8 @@ class IndexPage extends React.Component {
                 placeholder="stop-near-you"
                 value=""
                 locationState={this.props.locationState}
+                sources={['Favourite', 'History', 'Datasource']}
+                targets={['Stops', 'Routes']}
               />
             </div>
           </div>

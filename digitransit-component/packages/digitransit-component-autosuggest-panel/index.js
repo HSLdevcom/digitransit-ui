@@ -535,7 +535,7 @@ class DTAutosuggestPanel extends React.Component {
                   searchContext={searchContext}
                   value={(o && o.address) || ''}
                   onSelect={this.props.onSelect}
-                  handelViaPoints={item =>
+                  handleViaPoints={item =>
                     this.handleViaPointLocationSelected(item, i)
                   }
                   lang={this.props.lang}
