@@ -15,6 +15,8 @@ export const isDebugTiles =
   isBrowser && window.location.search.indexOf('debugTiles') !== -1;
 export const isBikeSafetyTiles =
   isBrowser && window.location.search.indexOf('bikeSafety') !== -1;
+export const isSelfHostedTiles =
+  isBrowser && window.location.search.indexOf('selfHostedTiles') !== -1;
 export const isMobile =
   isBrowser && navigator.userAgent.match(/Mobile/) != null;
 export const isFirefox =
