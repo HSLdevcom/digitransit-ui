@@ -68,60 +68,58 @@ function DesktopDatetimepicker({
     }
     handleTimestamp(newValue);
   };
-
+  const inputId = `${id}-input`;
+  const labelId = `${id}-label`;
   return (
     <>
-      <Autosuggest
-        id={id}
-        suggestions={timeSuggestions}
-        getSuggestionValue={s => s.toString()}
-        renderSuggestion={s => getDisplay(s)}
-        onSuggestionsFetchRequested={() => null}
-        shouldRenderSuggestions={() => true}
-        inputProps={{
-          value: displayValue,
-          onChange: onInputChange,
-          onFocus: () => {
-            changeOpen(true);
-          },
-          onBlur: () => {
-            changeOpen(false);
-          },
-        }}
-        focusInputOnSuggestionClick={false}
-        onSuggestionsClearRequested={() => null}
-        renderInputComponent={inputProps => {
-          return (
-            <label className="combobox-container" htmlFor={inputProps.id}>
-              <span>
-                <span className="combobox-label">
-                  <FormattedMessage id={labelMessageId} />
-                </span>
-                <input {...inputProps} />
-              </span>
-              {icon}
-            </label>
-          );
-        }}
-        renderSuggestionsContainer={({ containerProps, children }) => {
-          // set refs for autosuggest library and scrollbar positioning
-          const { ref, ...otherRefs } = containerProps;
-          const containerRef = elem => {
-            if (elem) {
-              scrollRef.current = elem;
-              ref(elem);
-            }
-          };
-          return (
-            <div {...otherRefs} ref={containerRef}>
-              {children}
-            </div>
-          );
-        }}
-      />
+      <label className="combobox-container" htmlFor={inputId}>
+        <span className="left-column">
+          <span className="combobox-label" id={labelId}>
+            <FormattedMessage id={labelMessageId} />
+          </span>
+          <Autosuggest
+            id={id}
+            suggestions={timeSuggestions}
+            getSuggestionValue={s => s.toString()}
+            renderSuggestion={s => getDisplay(s)}
+            onSuggestionsFetchRequested={() => null}
+            shouldRenderSuggestions={() => true}
+            inputProps={{
+              value: displayValue,
+              onChange: onInputChange,
+              onFocus: () => {
+                changeOpen(true);
+              },
+              onBlur: () => {
+                changeOpen(false);
+              },
+              id: inputId,
+              'aria-labelledby': labelId,
+              'aria-autocomplete': 'none',
+            }}
+            focusInputOnSuggestionClick={false}
+            onSuggestionsClearRequested={() => null}
+            renderSuggestionsContainer={({ containerProps, children }) => {
+              // set refs for autosuggest library and scrollbar positioning
+              const { ref, ...otherRefs } = containerProps;
+              const containerRef = elem => {
+                if (elem) {
+                  scrollRef.current = elem;
+                  ref(elem);
+                }
+              };
+              return (
+                <div tabIndex="-1" {...otherRefs} ref={containerRef}>
+                  {children}
+                </div>
+              );
+            }}
+          />
+        </span>
+        {icon}
+      </label>
     </>
   );
-  // TODO accessibility for focusonclick=false
 }
 DesktopDatetimepicker.propTypes = {
   value: PropTypes.number.isRequired,

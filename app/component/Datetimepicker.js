@@ -130,62 +130,80 @@ function Datetimepicker(
   const isMobile = false; // TODO
   // TODO accessible opening
   return (
-    <fieldset className="dt-datetimepicker">
+    <fieldset className="dt-datetimepicker" id={`${htmlId}-root`}>
       <legend className="sr-only">
         <FormattedMessage id="datetimepicker.accessible-title" />
       </legend>
       {!isOpen ? (
-        <div className="top-row-container">
-          <span className="time-icon">
-            <Icon img="icon-icon_time" viewBox="0 0 16 16" />
-          </span>
-          <label htmlFor={`${htmlId}-open`}>
-            <span className="sr-only">
-              <FormattedMessage id="datetimepicker.accessible-open" />
+        <>
+          <div className="top-row-container">
+            <span className="time-icon">
+              <Icon img="icon-icon_time" viewBox="0 0 16 16" />
             </span>
-            <button
-              id={`${htmlId}-open`}
-              type="button"
-              className="textbutton active"
-              onClick={() => changeOpen(true)}
-            >
-              {nowSelected && departureOrArrival === 'departure' ? (
-                <FormattedMessage id="datetimepicker.departure-now" />
-              ) : (
-                <>
-                  <FormattedMessage
-                    id={
-                      departureOrArrival === 'departure'
-                        ? 'datetimepicker.departure'
-                        : 'datetimepicker.arrival'
-                    }
-                  />
-                  {` ${getDateDisplay(displayTimestamp)} ${getTimeDisplay(
-                    displayTimestamp,
-                  )}`}
-                </>
-              )}
-            </button>
-            <span className="dropdown-icon">
-              <Icon img="icon-icon_arrow-dropdown" />
-            </span>
-          </label>
-        </div>
+            <label htmlFor={`${htmlId}-open`}>
+              <span className="sr-only">
+                <FormattedMessage id="datetimepicker.accessible-open" />
+              </span>
+              <button
+                id={`${htmlId}-open`}
+                type="button"
+                className="textbutton active"
+                aria-controls={`${htmlId}-root`}
+                aria-expanded="false"
+                onClick={() => changeOpen(true)}
+              >
+                {nowSelected && departureOrArrival === 'departure' ? (
+                  <FormattedMessage id="datetimepicker.departure-now" />
+                ) : (
+                  <>
+                    <FormattedMessage
+                      id={
+                        departureOrArrival === 'departure'
+                          ? 'datetimepicker.departure'
+                          : 'datetimepicker.arrival'
+                      }
+                    />
+                    {` ${getDateDisplay(displayTimestamp)} ${getTimeDisplay(
+                      displayTimestamp,
+                    )}`}
+                  </>
+                )}
+                <span className="dropdown-icon">
+                  <Icon img="icon-icon_arrow-dropdown" />
+                </span>
+              </button>
+            </label>
+          </div>
+          <div />
+        </>
       ) : (
         <>
           <div className="top-row-container">
             <span className="time-icon">
               <Icon img="icon-icon_time" viewBox="0 0 16 16" />
             </span>
-            <button
-              type="button"
-              className={cx('textbutton', nowSelected ? 'active' : '')}
-              onClick={() => {
-                onNowClick();
-              }}
+            <label
+              htmlFor={`${htmlId}-now`}
+              className={cx(
+                'radio-textbutton-label',
+                'first-radio',
+                departureOrArrival === 'departure' && nowSelected
+                  ? 'active'
+                  : undefined,
+              )}
             >
               <FormattedMessage id="datetimepicker.departure-now" />
-            </button>
+              <input
+                id={`${htmlId}-now`}
+                name="departureOrArrival"
+                type="radio"
+                className="radio-textbutton"
+                onChange={() => {
+                  onNowClick();
+                }}
+                checked={nowSelected && departureOrArrival === 'departure'}
+              />
+            </label>
             <label
               htmlFor={`${htmlId}-departure`}
               className={cx(
@@ -229,6 +247,8 @@ function Datetimepicker(
             <button
               type="button"
               className="close-button"
+              aria-controls={`${htmlId}-root`}
+              aria-expanded="true"
               onClick={() => changeOpen(false)}
             >
               <span className="close-icon">
@@ -260,7 +280,7 @@ function Datetimepicker(
                         <Icon img="icon-icon_calendar" viewBox="0 0 20 18" />
                       </span>
                     }
-                    id="dateselector"
+                    id={`${htmlId}-date`}
                     labelMessageId="datetimepicker.date"
                   />
                 </span>
@@ -280,7 +300,7 @@ function Datetimepicker(
                         <Icon img="icon-icon_time" viewBox="0 0 16 16" />
                       </span>
                     }
-                    id="timeselector"
+                    id={`${htmlId}-time`}
                     labelMessageId="datetimepicker.time"
                   />
                 </span>

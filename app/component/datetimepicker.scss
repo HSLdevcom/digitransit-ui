@@ -70,6 +70,9 @@
     &:focus-within {
       @include default-focus-outline;
     }
+    &.first-radio {
+      margin-left: 15px;
+    }
   }
 
   .radio-textbutton {
@@ -88,10 +91,61 @@
     background: none;
     color: $primary-color;
     padding: 0;
+    &:focus {
+      @include default-focus-outline;
+    }
   }
+
+  .combobox-container {
+    border: solid #888888 1px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    height: 50px;
+    // width: 196px;
+    flex-grow: 1;
+    &:focus-within {
+      border-color: $primary-color;
+    }
+    .left-column {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  .combobox-label {
+    font-size: 12px;
+    line-height: 20px;
+    color: #666666;
+    letter-spacing: -0.48px;
+    margin-left: 12px;
+    margin-top: 4px;
+  }
+
+  .combobox-icon {
+    color: $primary-color;
+    border-left: solid #888888 1px;
+    height: 35px;
+
+    &.date-input-icon {
+      padding: 8px 11px 0 11px;
+      svg.icon {
+        width: 20px;
+        height: 18px;
+      }
+    }
+
+    &.time-input-icon {
+      padding: 9px 13px 0 13px;
+        svg.icon {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+
   .react-autosuggest__container  {
     position: relative;
-    // max-width: 196px;
 
     .react-autosuggest__suggestion {
       font-size: 15px;
@@ -115,7 +169,8 @@
       border-radius: 5px;
       box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.06);
       border: 1px rgba(0,0,0,0.1) solid;
-      top: 60px;
+      top: 35px;
+      width: calc(100% + 43px); // 43px == width of icon next to input
 
       -ms-overflow-style: none;  /* Internet Explorer 10+ */
       scrollbar-width: none;  /* Firefox */
@@ -124,55 +179,12 @@
       }
     }
     .react-autosuggest__input {
-      margin: -4px 0 0 12px;
-      padding-left: 0;
+      margin: -4px 0 0 0;
+      padding-left: 12px;
       border: none;
       height: 26px;
       &:focus {
         outline: none;
-      }
-    }
-
-    .combobox-label {
-      font-size: 12px;
-      line-height: 20px;
-      color: #666666;
-      letter-spacing: -0.48px;
-      margin-left: 12px;
-      margin-top: 4px;
-    }
-
-    .combobox-container {
-      border: solid #888888 1px;
-      display: flex;
-      align-items: center;
-      border-radius: 5px;
-      height: 50px;
-      // width: 196px;
-      flex-grow: 1;
-      &:focus-within {
-        border-color: $primary-color;
-      }
-    }
-    .combobox-icon {
-      color: $primary-color;
-      border-left: solid #888888 1px;
-      height: 35px;
-
-      &.date-input-icon {
-        padding: 8px 11px 0 11px;
-        svg.icon {
-          width: 20px;
-          height: 18px;
-        }
-      }
-
-      &.time-input-icon {
-        padding: 9px 13px 0 13px;
-          svg.icon {
-          width: 16px;
-          height: 16px;
-        }
       }
     }
   }
