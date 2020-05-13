@@ -6,6 +6,7 @@ import cx from 'classnames';
 import Autosuggest from 'react-autosuggest';
 import { executeSearch } from '@digitransit-search-util/digitransit-search-util-execute-search-immidiate';
 import SuggestionItem from '@digitransit-component/digitransit-component-suggestion-item';
+import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import { getNameLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
 import Icon from './helpers/Icon';
@@ -215,8 +216,10 @@ class DTAutosuggest extends React.Component {
     this.props.isFocused(false);
     if (this.state.valid) {
       if (this.props.handleViaPoints) {
-        // TODO: add and verify this viaPointHandling, since DT-3466 onLocationSelected has been removed
-        this.props.handleViaPoints(ref.suggestion, ref.suggestionIndex);
+        this.props.handleViaPoints(
+          suggestionToLocation(ref.suggestion),
+          ref.suggestionIndex,
+        );
       }
       this.setState(
         {
@@ -225,7 +228,9 @@ class DTAutosuggest extends React.Component {
         },
         () => {
           this.input.blur();
-          this.props.onSelect(ref.suggestion, this.props.id);
+          if (!this.props.handleViaPoints) {
+            this.props.onSelect(ref.suggestion, this.props.id);
+          }
           if (this.props.focusChange) {
             this.props.focusChange();
           }
