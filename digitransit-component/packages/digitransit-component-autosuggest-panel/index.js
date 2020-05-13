@@ -76,33 +76,6 @@ ItinerarySearchControl.propTypes = {
  *   startLocationWatch: () => ({}),       // Function that locates users geolocation.
  *   saveSearch: () => ({}),               // Function that saves search to old searches store.
  * };
- * const config = {
- *  search: {
- *   identify searches for route numbers/labels: bus | train | metro
- *    lineRegexp: new RegExp(
- *     '(^[0-9]+[a-z]?$|^[yuleapinkrtdz]$|(^m[12]?b?$))',
- *     'i',
- *       ),
- *   suggestions: {
- *     useTransportIcons: false,
- *   },
- *   usePeliasStops: false,
- *   mapPeliasModality: false,
- *   peliasMapping: {},
- *   peliasLayer: null,
- *   peliasLocalization: null,
- *   minimalRegexp: new RegExp('.{2,}'),
- * },
- *   autoSuggest: {
- *   // Let Pelias suggest based on current user location
- *   locationAware: true,
- * },
- *  searchParams: {},
- *   URL: {
- *     PELIAS: 'https://dev-api.digitransit.fi/geocoding/v1'
- *   },
- *   feedIds: [],
- *  }
  * const origin = {
  *  lat: 60.169196,
  *  lon: 24.957674,
@@ -123,7 +96,7 @@ ItinerarySearchControl.propTypes = {
  * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes and CurrentPosition. Leave empty to search all targets.
  * const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches), and Datasource. Leave empty to use all sources.
  * <DTAutosuggestPanel
- *    config={config}
+
  *    origin={origin}
  *    destination={destination}
  *    isItinerary={false}
@@ -136,7 +109,6 @@ ItinerarySearchControl.propTypes = {
  */
 class DTAutosuggestPanel extends React.Component {
   static propTypes = {
-    config: PropTypes.object.isRequired,
     origin: PropTypes.object.isRequired,
     destination: PropTypes.object.isRequired,
     isItinerary: PropTypes.bool,
@@ -467,7 +439,6 @@ class DTAutosuggestPanel extends React.Component {
         />
         <div className={styles['origin-input-container']}>
           <DTAutoSuggest
-            config={this.props.config}
             icon="mapMarker"
             id="origin"
             autoFocus={
@@ -523,7 +494,6 @@ class DTAutosuggestPanel extends React.Component {
                   <Icon img="ellipsis" width={1.3} height={1.3} rotate={90} />
                 </div>
                 <DTAutoSuggest
-                  config={this.props.config}
                   icon="mapMarker-via"
                   id="viapoint"
                   ariaLabel={i18next.t('via-point-index', { index: i + 1 })}
@@ -618,7 +588,6 @@ class DTAutosuggestPanel extends React.Component {
         </div>
         <div className={styles['destination-input-container']}>
           <DTAutoSuggest
-            config={this.props.config}
             icon="mapMarker"
             id="destination"
             autoFocus={

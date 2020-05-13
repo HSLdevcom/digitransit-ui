@@ -4,7 +4,6 @@ import flatten from 'lodash/flatten';
 import sortBy from 'lodash/sortBy';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import take from 'lodash/take';
-import get from 'lodash/get';
 import { sortSearchResults } from '@digitransit-search-util/digitransit-search-util-helpers';
 import uniqByLabel from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import filterMatchingToInput from '@digitransit-search-util/digitransit-search-util-filter-matching-to-input';
@@ -130,7 +129,7 @@ export function getSearchResults(
   sources,
   searchContext,
   refPoint,
-  { input, config },
+  { input },
   callback,
 ) {
   const {
@@ -144,6 +143,13 @@ export function getSearchResults(
     getStoredFavouriteRoutes,
     getRoutes,
     context,
+    isPeliasLocationAware: locationAware,
+    minimalRegexp,
+    lineRegexp,
+    URL_PELIAS,
+    feedIDs,
+    geocodingSearchParams,
+    geocodingSources,
   } = searchContext;
   // if no targets are provided, search them all.
   const allTargets = !targets || targets.length === 0;
@@ -154,7 +160,7 @@ export function getSearchResults(
   const searches = { type: 'all', term: input, results: [] };
   const language = getLanguage(context);
   const focusPoint =
-    config.autoSuggest.locationAware && position.hasLocation
+    locationAware && position.hasLocation
       ? {
           // Round coordinates to approx 1 km, in order to improve caching
           'focus.point.lat': position.lat.toFixed(2),
@@ -171,24 +177,23 @@ export function getSearchResults(
 
   if (allTargets || targets.includes('Locations')) {
     // eslint-disable-next-line prefer-destructuring
-    const searchParams = config.searchParams;
+    const searchParams = geocodingSearchParams;
     if (allSources || sources.includes('Favourite')) {
       const favouriteLocations = locations(context);
       searchComponents.push(getFavouriteLocations(favouriteLocations, input));
     }
     if (allSources || sources.includes('Datasource')) {
-      const regex =
-        config && config.search ? config.search.minimalRegexp : undefined;
+      const regex = minimalRegexp || undefined;
       const geocodingLayers = ['station', 'venue', 'address', 'street'];
-      const geocodingSources = get(config, 'searchSources', '').join(',');
+      const geosources = geocodingSources.join(',');
       searchComponents.push(
         getGeocodingResult(
           input,
           searchParams,
           language,
           focusPoint,
-          geocodingSources,
-          config.URL.PELIAS,
+          geosources,
+          URL_PELIAS,
           regex,
           geocodingLayers,
         ),
@@ -211,20 +216,17 @@ export function getSearchResults(
       );
     }
     if (allSources || sources.includes('Datasource')) {
-      const regex =
-        config && config.search ? config.search.minimalRegexp : undefined;
+      const regex = minimalRegexp || undefined;
       const geocodingLayers = ['stop', 'station', 'street'];
-      const geocodingSources = get(config, 'feedIds', [])
-        .map(v => `gtfs${v}`)
-        .join(',');
+      const feedis = feedIDs.map(v => `gtfs${v}`).join(',');
       searchComponents.push(
         getGeocodingResult(
           input,
           undefined,
           language,
           focusPoint,
-          geocodingSources,
-          config.URL.PELIAS,
+          feedis,
+          URL_PELIAS,
           regex,
           geocodingLayers,
         ),
@@ -244,7 +246,7 @@ export function getSearchResults(
       const favouriteRoutes = getStoredFavouriteRoutes(context);
       searchComponents.push(getFavouriteRoutes(favouriteRoutes, input));
     }
-    searchComponents.push(getRoutes(input, config));
+    searchComponents.push(getRoutes(input, feedIDs));
     if (allSources || sources.includes('History')) {
       const routeHistory = prevSearches(context);
       const dropLayers = [
@@ -270,7 +272,7 @@ export function getSearchResults(
   searchResultsPromise.then(() => {
     callback({
       ...searches,
-      results: sortSearchResults(config, searches.results, input),
+      results: sortSearchResults(lineRegexp, searches.results, input),
     });
   });
 }

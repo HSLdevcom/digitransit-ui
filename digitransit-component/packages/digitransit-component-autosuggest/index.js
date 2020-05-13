@@ -57,33 +57,6 @@ function suggestionToAriaContent(item) {
  *   startLocationWatch: () => ({}),       // Function that locates users geolocation.
  *   saveSearch: () => ({}),               // Function that saves search to old searches store.
  * };
- * const config = {
- *  search: {
- *   identify searches for route numbers/labels: bus | train | metro
- *    lineRegexp: new RegExp(
- *     '(^[0-9]+[a-z]?$|^[yuleapinkrtdz]$|(^m[12]?b?$))',
- *     'i',
- *       ),
- *   suggestions: {
- *     useTransportIcons: false,
- *   },
- *   usePeliasStops: false,
- *   mapPeliasModality: false,
- *   peliasMapping: {},
- *   peliasLayer: null,
- *   peliasLocalization: null,
- *   minimalRegexp: new RegExp('.{2,}'),
- * },
- *   autoSuggest: {
- *   // Let Pelias suggest based on current user location
- *   locationAware: true,
- * },
- *  searchParams: {},
- *   URL: {
- *     PELIAS: https://dev-api.digitransit.fi/geocoding/v1'
- *   },
- *   feedIds: [],
- * };
  * // Refpoint defines selected input's location.
  * const refPoint = {
  *    address: "Pasila, Helsinki",
@@ -103,7 +76,6 @@ function suggestionToAriaContent(item) {
  * const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches) and Datasource. Leave empty to use all sources.
  * return (
  *  <DTAutosuggest
- *    config={config}
  *    searchContext={searchContext}
  *    icon="origin"
  *    id="id"
@@ -119,7 +91,6 @@ function suggestionToAriaContent(item) {
  */
 class DTAutosuggest extends React.Component {
   static propTypes = {
-    config: PropTypes.object,
     autoFocus: PropTypes.bool,
     className: PropTypes.string,
     icon: PropTypes.string,
@@ -301,7 +272,6 @@ class DTAutosuggest extends React.Component {
         this.props.refPoint,
         {
           input: value,
-          config: this.props.config,
         },
         searchResult => {
           if (searchResult == null) {
