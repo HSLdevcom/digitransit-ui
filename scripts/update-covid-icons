@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import os, sys
-from svgpathtools import svg2paths
+from bs4 import BeautifulSoup
 
 # Update the caresteouvert repo.
 if not os.path.isdir('caresteouvert'):
@@ -16,16 +16,21 @@ new_code = ''
 
 # Get the paths from each svg file and build info as needed.
 for icon in icons:
-    attributes = svg2paths('caresteouvert/icons/'+icon)
+    iconId = 'poi_' + icon.split('.')[0]
 
-    id = 'poi_' + icon.split('.')[0]
+    with open('caresteouvert/icons/'+icon) as file:
+        xml = file.read().replace('\n', '')
 
-    path_string = ''
-    for path in attributes[1]:
-        path_string += '<path d="' + path['d'] + '" />'
+    soup = BeautifulSoup(xml, features="xml")
+    svg = soup.svg
+    path_string = ""
+    for tag in svg:
+        if str(tag).startswith('<g '):
+            path_string += str(tag)
+        if str(tag).startswith('<path '):
+            path_string += str(tag)
 
-    new_icon = '\t<symbol id="' + id + '" viewBox="0 0 18 18">\n\t\t' + path_string + '\n\t</symbol>\n'
-
+    new_icon = '\t<symbol id="' + iconId + '" viewBox="0 0 18 18">\n\t\t' + path_string + '\n\t</symbol>\n'
     new_code += new_icon
 
 source = 'static/assets/svg-sprite.hb.svg'
