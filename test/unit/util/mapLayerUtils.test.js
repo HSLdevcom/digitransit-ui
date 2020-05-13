@@ -166,7 +166,7 @@ describe('mapLayerUtils', () => {
     it('should use the config to match ticketSales features', () => {
       const feature = {
         properties: {
-          TYYPPI: 'foobar',
+          Tyyppi: 'foobar',
         },
       };
       const layerName = 'ticketSales';

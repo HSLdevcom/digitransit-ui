@@ -303,7 +303,7 @@ class TileLayerContainer extends GridLayer {
       ({ id } = target.feature);
       contents = this.getParkAndRideContent(id, target);
     } else if (target.layer === 'ticketSales') {
-      id = target.feature.properties.FID;
+      id = target.feature.properties.NID_fi;
       contents = <TicketSalesPopup {...target.feature.properties} />;
     }
     return (
@@ -359,7 +359,7 @@ class TileLayerContainer extends GridLayer {
       name = target.layer;
       switch (name) {
         case 'ticketSales':
-          type = properties.TYYPPI;
+          type = properties.Tyyppi;
           break;
         case 'stop':
           ({ type } = properties);
