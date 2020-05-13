@@ -18,7 +18,10 @@ import {
 import { isCallAgencyDeparture } from '../util/legUtils';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 
-const DepartureRow = ({ departure, currentTime, distance }, context) => {
+const DepartureRow = (
+  { departure, currentTime, distance, displayNextDeparture },
+  context,
+) => {
   let departureTimes;
   let stopAlerts = [];
   let headsign;
@@ -55,18 +58,24 @@ const DepartureRow = ({ departure, currentTime, distance }, context) => {
     departure.pattern.route.gtfsId
   }/${PREFIX_STOPS}/${departure.pattern.code}?sort=no`;
 
+  // In case displayNextDeparture is false, only show one departure.
   // In case there's only one departure for the route,
   // add a dummy cell to keep the table layout from breaking
-  const departureTimesChecked =
-    departureTimes.length < 2
-      ? [
+  const departureTimesChecked = () => {
+    if (displayNextDeparture) {
+      if (departureTimes.length < 2) {
+        return [
           departureTimes[0],
           <td
             key={`${departureTimes[0].key}-empty`}
             className="td-departure-times"
           />,
-        ]
-      : departureTimes;
+        ];
+      }
+      return departureTimes;
+    }
+    return [departureTimes[0]];
+  };
 
   const hasActiveAlert = isAlertActive(
     departure.stoptimes.filter(stoptimeHasCancelation),
@@ -105,7 +114,7 @@ const DepartureRow = ({ departure, currentTime, distance }, context) => {
           }
         />
       </td>
-      {departureTimesChecked}
+      {departureTimesChecked()}
     </tr>
   );
 };
@@ -116,6 +125,11 @@ DepartureRow.propTypes = {
   departure: PropTypes.object.isRequired,
   distance: PropTypes.number.isRequired,
   currentTime: PropTypes.number.isRequired,
+  displayNextDeparture: PropTypes.bool,
+};
+
+DepartureRow.defaultProps = {
+  displayNextDeparture: true,
 };
 
 DepartureRow.contextTypes = {
