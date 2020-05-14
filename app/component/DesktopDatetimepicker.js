@@ -16,6 +16,7 @@ function DesktopDatetimepicker({
   id,
   labelMessageId,
   icon,
+  disableTyping,
 }) {
   const [displayValue, changeDisplayValue] = useState(getDisplay(value));
 
@@ -60,7 +61,9 @@ function DesktopDatetimepicker({
     let validated;
     switch (method) {
       case 'type':
-        changeDisplayValue(newValue);
+        if (!disableTyping) {
+          changeDisplayValue(newValue);
+        }
         break;
       case 'inputenter':
         validated = validate(newValue);
@@ -123,6 +126,7 @@ function DesktopDatetimepicker({
               id: inputId,
               'aria-labelledby': labelId,
               'aria-autocomplete': 'none',
+              readOnly: disableTyping,
             }}
             focusInputOnSuggestionClick={false}
             onSuggestionsClearRequested={() => null}
@@ -159,7 +163,13 @@ DesktopDatetimepicker.propTypes = {
   id: PropTypes.string.isRequired,
   labelMessageId: PropTypes.string.isRequired,
   icon: PropTypes.node.isRequired,
+  disableTyping: PropTypes.bool,
 };
+
+DesktopDatetimepicker.defaultProps = {
+  disableTyping: false,
+};
+
 DesktopDatetimepicker.description = <ComponentUsageExample />;
 
 export default DesktopDatetimepicker;

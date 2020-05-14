@@ -186,6 +186,9 @@
       &:focus {
         outline: none;
       }
+      &:read-only {
+        background: inherit;
+      }
     }
   }
 

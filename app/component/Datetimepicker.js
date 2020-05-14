@@ -287,6 +287,7 @@ function Datetimepicker(
                     }
                     id={`${htmlId}-date`}
                     labelMessageId="datetimepicker.date"
+                    disableTyping
                   />
                 </span>
                 <span>
