@@ -2,8 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape, routerShape } from 'found';
 import { FormattedMessage } from 'react-intl';
-import Toggle from 'material-ui/Toggle';
+import Toggle from '../Toggle';
 import { replaceQueryParams } from '../../util/queryUtils';
+import Icon from '../Icon';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class AccessibilityOptionSection extends React.Component {
@@ -15,17 +16,33 @@ class AccessibilityOptionSection extends React.Component {
           id="accessibility-header"
           defaultMessage="Accessibility"
         />
-        <Toggle
-          toggled={!!currentSettings.usingWheelchair}
-          title="accessibility"
-          label="Wheelchair"
-          labelStyle={{ color: '#707070' }}
-          onToggle={(event, isInputChecked) => {
-            replaceQueryParams(router, match, {
-              usingWheelchair: isInputChecked ? 1 : 0,
-            });
+        <div
+          className="mode-option-container toggle-container"
+          style={{
+            padding: '0 0 0 1em',
+            height: '3.5em',
           }}
-        />
+        >
+          <Icon
+            className="wheelchair-icon"
+            img="icon-icon_wheelchair"
+            height={2}
+            width={2}
+          />
+          <FormattedMessage
+            id="accessibility-label"
+            defaultMessage="Wheelchair"
+          />
+          <Toggle
+            toggled={!!currentSettings.usingWheelchair}
+            title="accessibility"
+            onToggle={e => {
+              replaceQueryParams(router, match, {
+                usingWheelchair: e.target.checked ? 1 : 0,
+              });
+            }}
+          />
+        </div>
       </React.Fragment>
     );
   }

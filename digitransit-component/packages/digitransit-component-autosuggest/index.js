@@ -4,11 +4,9 @@ import React from 'react';
 import i18next from 'i18next';
 import cx from 'classnames';
 import Autosuggest from 'react-autosuggest';
-import {
-  executeSearch,
-  getAllEndpointLayers,
-} from '@digitransit-search-util/digitransit-search-util-execute-search-immidiate';
+import { executeSearch } from '@digitransit-search-util/digitransit-search-util-execute-search-immidiate';
 import SuggestionItem from '@digitransit-component/digitransit-component-suggestion-item';
+import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import { getNameLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
 import Icon from './helpers/Icon';
@@ -59,33 +57,6 @@ function suggestionToAriaContent(item) {
  *   startLocationWatch: () => ({}),       // Function that locates users geolocation.
  *   saveSearch: () => ({}),               // Function that saves search to old searches store.
  * };
- * const config = {
- *  search: {
- *   identify searches for route numbers/labels: bus | train | metro
- *    lineRegexp: new RegExp(
- *     '(^[0-9]+[a-z]?$|^[yuleapinkrtdz]$|(^m[12]?b?$))',
- *     'i',
- *       ),
- *   suggestions: {
- *     useTransportIcons: false,
- *   },
- *   usePeliasStops: false,
- *   mapPeliasModality: false,
- *   peliasMapping: {},
- *   peliasLayer: null,
- *   peliasLocalization: null,
- *   minimalRegexp: new RegExp('.{2,}'),
- * },
- *   autoSuggest: {
- *   // Let Pelias suggest based on current user location
- *   locationAware: true,
- * },
- *  searchParams: {},
- *   URL: {
- *     PELIAS: https://dev-api.digitransit.fi/geocoding/v1'
- *   },
- *   feedIds: [],
- * };
  * // Refpoint defines selected input's location.
  * const refPoint = {
  *    address: "Pasila, Helsinki",
@@ -101,35 +72,31 @@ function suggestionToAriaContent(item) {
  * };
  * const placeholder = "stop-near-you";
  * const icon = 'origin';
+ * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes and CurrentPosition. Leave empty to search all targets.
+ * const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches) and Datasource. Leave empty to use all sources.
  * return (
  *  <DTAutosuggest
- *    config={config}
  *    searchContext={searchContext}
  *    icon="origin"
  *    id="id"
  *    refPoint={refPoint}
  *    placeholder={placeholder}
- *    searchType="endpoint"
  *    value=""
  *    onSelect={onSelect}
  *    autoFocus={false}
  *    showSpinner={false}
  *    lang={lang}
- *  />
- * );
+ *    sources={sources}
+ *    targets={targets}
  */
 class DTAutosuggest extends React.Component {
   static propTypes = {
-    config: PropTypes.object,
     autoFocus: PropTypes.bool,
     className: PropTypes.string,
     icon: PropTypes.string,
     id: PropTypes.string.isRequired,
-    isFocused: PropTypes.func,
-    layers: PropTypes.arrayOf(PropTypes.string),
     placeholder: PropTypes.string.isRequired,
     refPoint: PropTypes.object.isRequired,
-    searchType: PropTypes.oneOf(['all', 'endpoint', 'search']).isRequired,
     value: PropTypes.string,
     searchContext: PropTypes.any.isRequired,
     ariaLabel: PropTypes.string,
@@ -140,18 +107,20 @@ class DTAutosuggest extends React.Component {
     handleViaPoints: PropTypes.func,
     focusChange: PropTypes.func,
     lang: PropTypes.string,
+    sources: PropTypes.arrayOf(PropTypes.string),
+    targets: PropTypes.arrayOf(PropTypes.string),
   };
 
   static defaultProps = {
     autoFocus: false,
     className: '',
     icon: undefined,
-    isFocused: () => {},
     value: '',
     isPreferredRouteSearch: false,
     showSpinner: false,
-    layers: getAllEndpointLayers,
     lang: 'fi',
+    sources: [],
+    targets: [],
   };
 
   constructor(props) {
@@ -195,7 +164,6 @@ class DTAutosuggest extends React.Component {
     };
     if (!this.state.editing) {
       newState.editing = true;
-      this.props.isFocused(true);
       this.setState(newState, () => this.fetchFunction({ value: newValue }));
     } else if (method !== 'enter' || this.state.valid) {
       // test above drops unnecessary update
@@ -205,7 +173,6 @@ class DTAutosuggest extends React.Component {
   };
 
   onBlur = () => {
-    this.props.isFocused(false);
     this.setState({
       editing: false,
       value: this.props.value,
@@ -213,11 +180,12 @@ class DTAutosuggest extends React.Component {
   };
 
   onSelected = (e, ref) => {
-    this.props.isFocused(false);
     if (this.state.valid) {
       if (this.props.handleViaPoints) {
-        // TODO: add and verify this viaPointHandling, since DT-3466 onLocationSelected has been removed
-        this.props.handleViaPoints(ref.suggestion, ref.suggestionIndex);
+        this.props.handleViaPoints(
+          suggestionToLocation(ref.suggestion),
+          ref.suggestionIndex,
+        );
       }
       this.setState(
         {
@@ -226,7 +194,9 @@ class DTAutosuggest extends React.Component {
         },
         () => {
           this.input.blur();
-          this.props.onSelect(ref.suggestion, this.props.id);
+          if (!this.props.handleViaPoints) {
+            this.props.onSelect(ref.suggestion, this.props.id);
+          }
           if (this.props.focusChange) {
             this.props.focusChange();
           }
@@ -289,13 +259,12 @@ class DTAutosuggest extends React.Component {
   fetchFunction = ({ value }) =>
     this.setState({ valid: false }, () => {
       executeSearch(
+        this.props.targets,
+        this.props.sources,
         this.props.searchContext,
         this.props.refPoint,
         {
-          layers: this.props.layers,
           input: value,
-          type: this.props.searchType,
-          config: this.props.config,
         },
         searchResult => {
           if (searchResult == null) {
@@ -336,13 +305,11 @@ class DTAutosuggest extends React.Component {
     };
     // must update suggestions
     this.setState(newState, () => this.fetchFunction({ value: '' }));
-    this.props.isFocused(true);
     this.input.focus();
   };
 
   inputClicked = inputValue => {
     if (!this.state.editing) {
-      this.props.isFocused(true);
       const newState = {
         editing: true,
         // reset at start, just in case we missed something

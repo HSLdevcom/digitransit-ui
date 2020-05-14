@@ -67,6 +67,9 @@ input[type='text'] {
     li:hover {
       background: $search-result-text-highlight-background-color;
     }
+    li:not(:last-child) {
+      border-bottom: 1px solid #ddd;
+    }
   }
 }
 
@@ -79,13 +82,10 @@ input[type='text'] {
   overflow-x: hidden;
   overflow-y: hidden;
   white-space: nowrap;
-  border-bottom: 1px solid #ddd;
 }
 
 .suggestionHighlighted {
-  color: #000;
-  font-weight: 400;
-  letter-spacing: 0;
+  background-color: $search-result-text-highlight-background-color;
 }
 
 .autosuggest-input-container {

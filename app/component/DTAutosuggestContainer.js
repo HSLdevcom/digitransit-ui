@@ -39,7 +39,6 @@ class DTAutosuggestContainer extends React.Component {
     searchPanelText: PropTypes.string,
     origin: dtLocationShape,
     destination: dtLocationShape,
-    searchType: PropTypes.string,
     originPlaceHolder: PropTypes.string,
     destinationPlaceHolder: PropTypes.string,
     icon: PropTypes.string,
@@ -53,12 +52,12 @@ class DTAutosuggestContainer extends React.Component {
     updateViaPoints: PropTypes.func,
     swapOrder: PropTypes.func,
     refPoint: PropTypes.object,
-    onRouteSelected: PropTypes.func,
     showSpinner: PropTypes.bool,
-    layers: PropTypes.array,
     relayEnvironment: PropTypes.object.isRequired,
     onFavouriteSelected: PropTypes.func,
     lang: PropTypes.string,
+    sources: PropTypes.arrayOf(PropTypes.string),
+    targets: PropTypes.arrayOf(PropTypes.string),
   };
 
   constructor(props) {
@@ -105,6 +104,10 @@ class DTAutosuggestContainer extends React.Component {
       this.selectRoute(item.properties.link);
       return;
     }
+    if (id === 'stop-route-station') {
+      this.selectStopStation(item);
+      return;
+    }
     // favourite
     if (id === 'favourite') {
       this.selectFavourite(item);
@@ -124,6 +127,20 @@ class DTAutosuggestContainer extends React.Component {
   selectRoute(link) {
     this.context.router.push(link);
   }
+
+  selectStopStation = item => {
+    const id = item.properties.id.replace('GTFS:', '').replace(':', '%3A');
+    let path = '/pysakit/';
+    switch (item.properties.layer) {
+      case 'station':
+        path = '/terminaalit/';
+        break;
+      default:
+    }
+    const link = path.concat(id);
+
+    this.context.router.push(link);
+  };
 
   // eslint-disable-next-line no-unused-vars
   selectFavourite = item => {
@@ -221,7 +238,6 @@ class DTAutosuggestContainer extends React.Component {
         onSelect={this.onSelect}
         destination={this.props.destination}
         isItinerary={this.props.isItinerary}
-        searchType={this.props.searchType}
         originPlaceHolder={this.props.originPlaceHolder}
         destinationPlaceHolder={this.props.destinationPlaceHolder}
         searchContext={searchContext}
@@ -230,6 +246,8 @@ class DTAutosuggestContainer extends React.Component {
         swapOrder={this.props.swapOrder}
         addAnalyticsEvent={addAnalyticsEvent}
         lang={this.props.lang}
+        sources={this.props.sources}
+        targets={this.props.targets}
       />
     );
   }
@@ -243,16 +261,15 @@ class DTAutosuggestContainer extends React.Component {
         autoFocus={this.props.autoFocus}
         refPoint={this.props.refPoint}
         className={this.props.className}
-        searchType={this.props.searchType}
         placeholder={this.props.placeholder}
         value={this.props.value}
         onSelect={this.onSelect}
         isFocused={this.isFocused}
-        onRouteSelected={this.props.onRouteSelected}
         searchContext={searchContext}
         showSpinner={this.props.showSpinner}
-        layers={this.props.layers}
         lang={this.props.lang}
+        sources={this.props.sources}
+        targets={this.props.targets}
       />
     );
   }

@@ -7,22 +7,6 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
 
 .autosuggest-panel {
   width: 100%;
-  .dark-overlay {
-    z-index: index($zindex, search-overlay);
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    left: 0;
-    top: 0;
-    background: rgba(0, 0, 0, 0.57);
-
-    &.hidden {
-      display: none;
-    }
-    &.isItinerary {
-      position: fixed;
-    }
-  }
 }
 
 .autosuggest-searchpanel-text {
@@ -114,7 +98,6 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
 
 .itinerary-search-control {
   align-items: center;
-  // color: $link-color;
   display: flex;
   justify-content: center;
   min-width: 3em;

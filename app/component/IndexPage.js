@@ -52,7 +52,6 @@ class IndexPage extends React.Component {
     destination: dtLocationShape.isRequired,
     showSpinner: PropTypes.bool.isRequired,
     favourites: PropTypes.array,
-    getViaPointsFromMap: PropTypes.bool.isRequired,
     locationState: PropTypes.object.isRequired,
     lang: PropTypes.string,
   };
@@ -70,7 +69,6 @@ class IndexPage extends React.Component {
     this.state = {
       // eslint-disable-next-line react/no-unused-state
       pendingCurrentLocation: false,
-      refs: [],
     };
   }
 
@@ -130,7 +128,6 @@ class IndexPage extends React.Component {
     const { breakpoint, destination, origin, favourites, lang } = this.props;
     // const { mapExpanded } = this.state; // TODO verify
 
-    // DT-3381 TODO: DTEndpointAutoSuggest currently does not search for stops or stations, as it should be. SearchUtils needs refactoring.
     return breakpoint === 'large' ? (
       <div
         className={`front-page flex-vertical ${origin &&
@@ -140,25 +137,21 @@ class IndexPage extends React.Component {
           `blurred`} fullscreen bp-${breakpoint}`}
       >
         <CtrlPanel instance="hsl" language={lang} position="left">
-          <div className="autosuggest-container">
-            <DTAutosuggestContainer
-              type="panel"
-              searchPanelText={intl.formatMessage({
-                id: 'where',
-                defaultMessage: 'Where to?',
-              })}
-              origin={origin}
-              onSelect={this.onSelect}
-              destination={destination}
-              refs={this.state.refs}
-              searchType="endpoint"
-              originPlaceHolder="search-origin-index"
-              destinationPlaceHolder="search-destination-index"
-              locationState={this.props.locationState}
-              getViaPointsFromMap={this.props.getViaPointsFromMap}
-              lang={lang}
-            />
-          </div>
+          <DTAutosuggestContainer
+            type="panel"
+            searchPanelText={intl.formatMessage({
+              id: 'where',
+              defaultMessage: 'Where to?',
+            })}
+            origin={origin}
+            destination={destination}
+            originPlaceHolder="search-origin-index"
+            destinationPlaceHolder="search-destination-index"
+            locationState={this.props.locationState}
+            lang={lang}
+            sources={['Favourite', 'History', 'Datasource']}
+            targets={['Locations', 'CurrentPosition']}
+          />
           <CtrlPanel.SeparatorLine />
           <Datetimepicker realtime />
           <FavouriteLocationsContainer
@@ -167,29 +160,28 @@ class IndexPage extends React.Component {
             onAddFavourite={this.addFavourite}
           />
           <CtrlPanel.SeparatorLine />
-          <div className="stops-near-you-container">
-            <div className="stops-near-you-text">
-              <span>
-                {' '}
-                {intl.formatMessage({
-                  id: 'stop-near-you-title',
-                  defaultMessage: 'Stops and lines near you',
-                })}
-              </span>
-            </div>
-            <DTAutosuggestContainer
-              type="field"
-              icon="mapMarker-via"
-              id="searchfield-preferred"
-              autoFocus={false}
-              refPoint={origin}
-              className="destination"
-              searchType="search"
-              placeholder="stop-near-you"
-              value=""
-              locationState={this.props.locationState}
-            />
+          <div className="stops-near-you-text">
+            <span>
+              {' '}
+              {intl.formatMessage({
+                id: 'stop-near-you-title',
+                defaultMessage: 'Stops and lines near you',
+              })}
+            </span>
           </div>
+          <DTAutosuggestContainer
+            type="field"
+            icon="mapMarker-via"
+            id="stop-route-station"
+            autoFocus={false}
+            refPoint={origin}
+            className="destination"
+            placeholder="stop-near-you"
+            value=""
+            locationState={this.props.locationState}
+            sources={['Favourite', 'History', 'Datasource']}
+            targets={['Stops', 'Routes']}
+          />
         </CtrlPanel>
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
       </div>
@@ -203,24 +195,20 @@ class IndexPage extends React.Component {
       >
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
         <CtrlPanel instance="hsl" language={lang} position="bottom">
-          <div className="autosuggest-container">
-            <DTAutosuggestContainer
-              type="panel"
-              searchPanelText={intl.formatMessage({
-                id: 'where',
-                defaultMessage: 'Where to?',
-              })}
-              origin={origin}
-              onSelect={this.onSelect}
-              destination={destination}
-              refs={this.state.refs}
-              searchType="endpoint"
-              originPlaceHolder="search-origin-index"
-              destinationPlaceHolder="search-destination-index"
-              locationState={this.props.locationState}
-              getViaPointsFromMap={this.props.getViaPointsFromMap}
-            />
-          </div>
+          <DTAutosuggestContainer
+            type="panel"
+            searchPanelText={intl.formatMessage({
+              id: 'where',
+              defaultMessage: 'Where to?',
+            })}
+            origin={origin}
+            destination={destination}
+            originPlaceHolder="search-origin-index"
+            destinationPlaceHolder="search-destination-index"
+            locationState={this.props.locationState}
+            sources={['Favourite', 'History', 'Datasource']}
+            targets={['Locations', 'CurrentPosition']}
+          />
           <CtrlPanel.SeparatorLine />
           <Datetimepicker realtime />
           <FavouriteLocationsContainer
@@ -229,29 +217,28 @@ class IndexPage extends React.Component {
             onAddFavourite={this.addFavourite}
           />
           <CtrlPanel.SeparatorLine />
-          <div className="stops-near-you-container">
-            <div className="stops-near-you-text">
-              <span>
-                {' '}
-                {intl.formatMessage({
-                  id: 'stop-near-you-title',
-                  defaultMessage: 'Stops and lines near you',
-                })}
-              </span>
-            </div>
-            <DTAutosuggestContainer
-              type="field"
-              icon="mapMarker-via"
-              id="searchfield-preferred"
-              autoFocus={false}
-              refPoint={origin}
-              className="destination"
-              searchType="search"
-              placeholder="stop-near-you"
-              value=""
-              locationState={this.props.locationState}
-            />
+          <div className="stops-near-you-text">
+            <span>
+              {' '}
+              {intl.formatMessage({
+                id: 'stop-near-you-title',
+                defaultMessage: 'Stops and lines near you',
+              })}
+            </span>
           </div>
+          <DTAutosuggestContainer
+            type="field"
+            icon="mapMarker-via"
+            id="searchfield-preferred"
+            autoFocus={false}
+            refPoint={origin}
+            className="destination"
+            placeholder="stop-near-you"
+            value=""
+            locationState={this.props.locationState}
+            sources={['Favourite', 'History', 'Datasource']}
+            targets={['Stops', 'Routes']}
+          />
         </CtrlPanel>
       </div>
     );
@@ -380,9 +367,6 @@ const IndexPageWithPosition = connectToStores(
       });
     }
     newProps.lang = context.getStore('PreferencesStore').getLanguage();
-    newProps.getViaPointsFromMap = context
-      .getStore('ViaPointsStore')
-      .getViaPoints();
     newProps.favourites = [
       ...context.getStore('FavouriteStore').getLocations(),
       ...context.getStore('FavouriteStore').getStopsAndStations(),

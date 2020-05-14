@@ -11,31 +11,27 @@ export function getStyleMain() {
     flexDirection: 'column',
     alignItems: 'stretch',
     backgroundColor: '#ffffff',
-    position: 'absolute',
     height: '100%',
-    width: 600,
-    minWidth: 600,
+    width: 'calc(100% - 2em)',
+    maxWidth: 400,
     zIndex: 20,
-    paddingLeft: 30,
+    margin: '0 auto',
   };
 }
 
 export function getStyleMainBottom() {
   return {
     backgroundColor: '#ffffff',
-    width: '100%',
+    width: 'calc(100% - 2em)',
+    margin: '0 auto',
     paddingBottom: 32,
-    paddingLeft: 10,
   };
 }
 
 export function getStyleSeparatorLine() {
   return {
     display: 'block',
-    width: 'auto',
-    margin: '0 auto',
-    marginLeft: 0,
-    marginRight: '1em',
+    width: '100%',
     marginTop: '1em',
     borderTop: '1px solid #ddd',
     background: '#f4f4f5',

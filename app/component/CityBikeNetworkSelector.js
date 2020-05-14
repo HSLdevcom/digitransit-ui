@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Toggle from 'material-ui/Toggle';
+import Toggle from './Toggle';
 import Icon from './Icon';
 import {
   mapDefaultNetworkProperties,
@@ -14,7 +14,7 @@ const CityBikeNetworkSelector = (
 ) => {
   const mappedCheckboxes = mapDefaultNetworkProperties(config).map(network => (
     <div
-      className="mode-option-block"
+      className="mode-option-block citybike-network-container"
       key={`cb-${network.networkName}`}
       style={{ height: '2.5em' }}
     >
@@ -39,8 +39,6 @@ const CityBikeNetworkSelector = (
         onToggle={() => {
           updateValue(network.networkName);
         }}
-        labelStyle={{ color: '#707070' }}
-        style={{ margin: '0.35em 0em 0em 0.5em' }}
       />
     </div>
   ));
