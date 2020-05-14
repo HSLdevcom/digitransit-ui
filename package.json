@@ -96,7 +96,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && git-precommit-checks",
+      "pre-commit": "lint-staged && yarn lint-translations && git-precommit-checks",
       "pre-push": "npm run test-unit"
     }
   },
