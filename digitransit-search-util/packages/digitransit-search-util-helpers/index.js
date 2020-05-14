@@ -125,16 +125,13 @@ export const getLayerRank = (layer, source) => {
  * @param {*[]} results The search results that were received
  * @param {String} term The search term that was used
  */
-export const sortSearchResults = (config, results, term = '') => {
+export const sortSearchResults = (lineRegexp, results, term = '') => {
   if (!Array.isArray(results)) {
     return results;
   }
 
   const isLineIdentifier = value =>
-    isString(value) &&
-    config.search &&
-    config.search.lineRegexp &&
-    config.search.lineRegexp.test(value);
+    isString(value) && lineRegexp && lineRegexp.test(value);
 
   const normalizedTerm = normalize(term);
   const isLineSearch = isLineIdentifier(normalizedTerm);
