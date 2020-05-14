@@ -53,20 +53,35 @@ function DesktopDatetimepicker({
     }
     onChange(asNumber);
   };
-  // TODO show error when invalid value left in?
-  // newValue is string
+
+  // only enter or click will trigger actual change of value
+  // if user first types something in field and then selects an item from list, both 'inputenter' and 'enter' events will trigger, this needs to be handled.
   const onInputChange = (_, { newValue, method }) => {
-    if (method === 'type') {
-      // TODO improve validation
-      changeDisplayValue(newValue);
-      const validated = validate(newValue);
-      if (validated) {
-        handleTimestamp(validated);
-      } else {
-        return;
-      }
+    let validated;
+    switch (method) {
+      case 'type':
+        changeDisplayValue(newValue);
+        break;
+      case 'inputenter':
+        validated = validate(newValue);
+        if (validated !== null) {
+          handleTimestamp(validated);
+        } else {
+          // TODO handle invalid input?
+        }
+        break;
+      case 'enter':
+      case 'click':
+        handleTimestamp(newValue);
+        break;
+      case 'escape':
+        changeDisplayValue(getDisplay(value));
+        break;
+      case 'up':
+      case 'down':
+      default:
+        break;
     }
-    handleTimestamp(newValue);
   };
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;
@@ -92,6 +107,18 @@ function DesktopDatetimepicker({
               },
               onBlur: () => {
                 changeOpen(false);
+                changeDisplayValue(getDisplay(value));
+              },
+              onKeyDown: e => {
+                if (e.keyCode === 13) {
+                  if (e.target.value !== getDisplay(value)) {
+                    // this means user probably typed something
+                    onInputChange(e, {
+                      newValue: e.target.value,
+                      method: 'inputenter',
+                    });
+                  }
+                }
               },
               id: inputId,
               'aria-labelledby': labelId,

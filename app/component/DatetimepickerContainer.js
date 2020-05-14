@@ -67,7 +67,7 @@ function DatetimepickerContainer({ realtime }, context) {
     setTimeParam(newTimestamp);
   };
 
-  const onTimeChange = newTime => {
+  const onTimeChange = debounce(newTime => {
     if (newTime === null) {
       onTimestampChange(moment().valueOf());
       return;
@@ -78,9 +78,9 @@ function DatetimepickerContainer({ realtime }, context) {
       category: 'ItinerarySettings',
       name: null,
     });
-  };
+  }, 10);
 
-  const onDateChange = newDate => {
+  const onDateChange = debounce(newDate => {
     if (newDate === null) {
       onTimestampChange(moment().valueOf());
       return;
@@ -91,7 +91,7 @@ function DatetimepickerContainer({ realtime }, context) {
       category: 'ItinerarySettings',
       name: null,
     });
-  };
+  }, 10);
 
   const onNowClick = () => {
     changeDepartureOrArrival('departure');

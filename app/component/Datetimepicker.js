@@ -97,20 +97,25 @@ function Datetimepicker(
   };
 
   const validateTime = value => {
-    if (value.match(/[0-9]{1,2}(\.|:)[0-9]{2}/) !== null) {
-      const splitter = value.includes('.') ? '.' : ':';
-      const values = value.split(splitter);
-      // TODO check NaN
+    const trimmed = value.trim();
+    if (trimmed.match(/^[0-9]{1,2}(\.|:)[0-9]{2}$/) !== null) {
+      const splitter = trimmed.includes('.') ? '.' : ':';
+      const values = trimmed.split(splitter);
       const hours = Number(values[0]);
+      const hoursValid = !Number.isNaN(hours) && hours >= 0 && hours <= 23;
       const minutes = Number(values[1]);
-      // TODO check that numbers are in range
+      const minutesValid =
+        !Number.isNaN(minutes) && minutes >= 0 && minutes <= 59;
+      if (!minutesValid || !hoursValid) {
+        return null;
+      }
       const newStamp = moment(displayTimestamp)
         .hours(hours)
         .minutes(minutes)
         .valueOf();
       return newStamp;
     }
-    return false;
+    return null;
   };
 
   const selectedMoment = moment(displayTimestamp);
