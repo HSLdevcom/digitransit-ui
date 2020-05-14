@@ -20,13 +20,12 @@ const IconMap = style => {
   };
 };
 
-function Icon({ color, img, height, width, margin, rotate }) {
+function Icon({ color, img, height, width, margin }) {
   const style = {
     fill: color || null,
     height: height ? `${height}em` : null,
     width: width ? `${width}em` : null,
     marginRight: margin ? `${margin}em` : null,
-    transform: rotate ? `rotate(${rotate}deg)` : null,
   };
   const icons = IconMap(style);
   return <span aria-hidden>{icons[img]}</span>;
@@ -38,7 +37,6 @@ Icon.propTypes = {
   img: PropTypes.string.isRequired,
   margin: PropTypes.number,
   width: PropTypes.number,
-  rotate: PropTypes.number,
 };
 
 Icon.defaultProps = {
@@ -46,7 +44,6 @@ Icon.defaultProps = {
   height: undefined,
   margin: undefined,
   width: undefined,
-  rotate: undefined,
 };
 
 export default Icon;

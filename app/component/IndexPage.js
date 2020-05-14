@@ -160,30 +160,28 @@ class IndexPage extends React.Component {
             onAddFavourite={this.addFavourite}
           />
           <CtrlPanel.SeparatorLine />
-          <div className="stops-near-you-container">
-            <div className="stops-near-you-text">
-              <span>
-                {' '}
-                {intl.formatMessage({
-                  id: 'stop-near-you-title',
-                  defaultMessage: 'Stops and lines near you',
-                })}
-              </span>
-            </div>
-            <DTAutosuggestContainer
-              type="field"
-              icon="mapMarker-via"
-              id="stop-route-station"
-              autoFocus={false}
-              refPoint={origin}
-              className="destination"
-              placeholder="stop-near-you"
-              value=""
-              locationState={this.props.locationState}
-              sources={['Favourite', 'History', 'Datasource']}
-              targets={['Stops', 'Routes']}
-            />
+          <div className="stops-near-you-text">
+            <span>
+              {' '}
+              {intl.formatMessage({
+                id: 'stop-near-you-title',
+                defaultMessage: 'Stops and lines near you',
+              })}
+            </span>
           </div>
+          <DTAutosuggestContainer
+            type="field"
+            icon="mapMarker-via"
+            id="stop-route-station"
+            autoFocus={false}
+            refPoint={origin}
+            className="destination"
+            placeholder="stop-near-you"
+            value=""
+            locationState={this.props.locationState}
+            sources={['Favourite', 'History', 'Datasource']}
+            targets={['Stops', 'Routes']}
+          />
         </CtrlPanel>
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
       </div>
@@ -219,32 +217,28 @@ class IndexPage extends React.Component {
             onAddFavourite={this.addFavourite}
           />
           <CtrlPanel.SeparatorLine />
-          <div className="stops-near-you-container">
-            <div className="stops-near-you-text">
-              <span>
-                {' '}
-                {intl.formatMessage({
-                  id: 'stop-near-you-title',
-                  defaultMessage: 'Stops and lines near you',
-                })}
-              </span>
-            </div>
-            <div>
-              <DTAutosuggestContainer
-                type="field"
-                icon="mapMarker-via"
-                id="searchfield-preferred"
-                autoFocus={false}
-                refPoint={origin}
-                className="destination"
-                placeholder="stop-near-you"
-                value=""
-                locationState={this.props.locationState}
-                sources={['Favourite', 'History', 'Datasource']}
-                targets={['Stops', 'Routes']}
-              />
-            </div>
+          <div className="stops-near-you-text">
+            <span>
+              {' '}
+              {intl.formatMessage({
+                id: 'stop-near-you-title',
+                defaultMessage: 'Stops and lines near you',
+              })}
+            </span>
           </div>
+          <DTAutosuggestContainer
+            type="field"
+            icon="mapMarker-via"
+            id="searchfield-preferred"
+            autoFocus={false}
+            refPoint={origin}
+            className="destination"
+            placeholder="stop-near-you"
+            value=""
+            locationState={this.props.locationState}
+            sources={['Favourite', 'History', 'Datasource']}
+            targets={['Stops', 'Routes']}
+          />
         </CtrlPanel>
       </div>
     );

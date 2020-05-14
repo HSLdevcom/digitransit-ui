@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Airplane from './assets/airplane.svg';
+import Arrow from './assets/arrow.svg';
 import Bus from './assets/bus.svg';
 import Busstop from './assets/bus_stop.svg';
 import City from './assets/city.svg';
@@ -12,10 +13,12 @@ import Star from './assets/star.svg';
 import Station from './assets/station.svg';
 import Subway from './assets/subway.svg';
 import Tram from './assets/tram.svg';
+import Map from './assets/map.svg';
 
 const IconMap = style => {
   return {
     Airplane: <Airplane style={style} />,
+    Arrow: <Arrow style={style} />,
     Bus: <Bus style={style} />,
     Busstop: <Busstop style={style} />,
     City: <City style={style} />,
@@ -27,6 +30,7 @@ const IconMap = style => {
     Station: <Station style={style} />,
     Subway: <Subway style={style} />,
     Tram: <Tram style={style} />,
+    Map: <Map style={style} />,
   };
 };
 

@@ -278,6 +278,8 @@ $heading-color: #858585;
   //small, mid
   display: flex;
   flex-direction: column;
+  background-color: #fff;
+  padding-top: 30px;
 }
 .control-panel-container-left {
   display: flex;
@@ -307,12 +309,12 @@ $heading-color: #858585;
   background: $background-color-lighter;
 }
 
-.stops-near-you-container {
-  padding: 30px 60px 0;
-  .stops-near-you-text {
-    font-size: $font-size-large;
-  }
+.stops-near-you-text {
+  font-size: $font-size-large;
+  padding-top: 30px;
+  margin-bottom: 1rem;
 }
+
 .map-container {
   display: flex;
   flex-basis: 50%;

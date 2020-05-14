@@ -95,7 +95,6 @@ class DTAutosuggest extends React.Component {
     className: PropTypes.string,
     icon: PropTypes.string,
     id: PropTypes.string.isRequired,
-    isFocused: PropTypes.func,
     placeholder: PropTypes.string.isRequired,
     refPoint: PropTypes.object.isRequired,
     value: PropTypes.string,
@@ -116,7 +115,6 @@ class DTAutosuggest extends React.Component {
     autoFocus: false,
     className: '',
     icon: undefined,
-    isFocused: () => {},
     value: '',
     isPreferredRouteSearch: false,
     showSpinner: false,
@@ -166,7 +164,6 @@ class DTAutosuggest extends React.Component {
     };
     if (!this.state.editing) {
       newState.editing = true;
-      this.props.isFocused(true);
       this.setState(newState, () => this.fetchFunction({ value: newValue }));
     } else if (method !== 'enter' || this.state.valid) {
       // test above drops unnecessary update
@@ -176,7 +173,6 @@ class DTAutosuggest extends React.Component {
   };
 
   onBlur = () => {
-    this.props.isFocused(false);
     this.setState({
       editing: false,
       value: this.props.value,
@@ -184,7 +180,6 @@ class DTAutosuggest extends React.Component {
   };
 
   onSelected = (e, ref) => {
-    this.props.isFocused(false);
     if (this.state.valid) {
       if (this.props.handleViaPoints) {
         this.props.handleViaPoints(
@@ -248,17 +243,15 @@ class DTAutosuggest extends React.Component {
   };
 
   clearButton = () => {
-    const img = this.state.value ? 'close' : 'search';
+    const img = 'close';
     return (
-      // eslint-disable-next-line react/button-has-type
       <button
+        type="button"
         className={styles['clear-input']}
         onClick={this.clearInput}
-        aria-label={i18next.t(
-          this.state.value ? 'clear-button-label' : 'search-button-label',
-        )}
+        aria-label={i18next.t('clear-button-label')}
       >
-        <Icon img={img} width={1.1} height={1.1} color="#666" />
+        <Icon img={img} width={1} height={1} color="#007ac9" />
       </button>
     );
   };
@@ -312,13 +305,11 @@ class DTAutosuggest extends React.Component {
     };
     // must update suggestions
     this.setState(newState, () => this.fetchFunction({ value: '' }));
-    this.props.isFocused(true);
     this.input.focus();
   };
 
   inputClicked = inputValue => {
     if (!this.state.editing) {
-      this.props.isFocused(true);
       const newState = {
         editing: true,
         // reset at start, just in case we missed something
@@ -410,7 +401,9 @@ class DTAutosuggest extends React.Component {
       value,
       onChange: this.onChange,
       onBlur: this.onBlur,
-      className: `${styles.input} ${styles[this.props.className]}`,
+      className: `${styles.input} ${styles[this.props.className]} ${
+        this.state.value ? styles.hasValue : ''
+      }`,
       onKeyDown: this.keyDown, // DT-3263
     };
     const ariaBarId = this.props.id.replace('searchfield-', '');
@@ -485,7 +478,7 @@ class DTAutosuggest extends React.Component {
               >
                 {ariaCurrentSuggestion}
               </span>
-              {this.clearButton()}
+              {this.state.value && this.clearButton()}
             </>
           )}
           onSuggestionSelected={this.onSelected}

@@ -41,7 +41,7 @@ const ItinerarySearchControl = ({
     <div className={styles['itinerary-search-control']}>
       <div
         {...rest}
-        className={`${styles[className]}, ${styles['cursor-pointer']}`}
+        className={`${styles[className]}`}
         onClick={onClick}
         onKeyPress={onKeyPress}
         role="button"
@@ -145,7 +145,6 @@ class DTAutosuggestPanel extends React.Component {
     this.draggableViaPoints = [];
     this.state = {
       activeSlackInputs: [],
-      showDarkOverlay: false,
       viaPoints: this.props.initialViaPoints.map(vp => ({ ...vp })),
       refs: [],
     };
@@ -216,10 +215,6 @@ class DTAutosuggestPanel extends React.Component {
 
   class = location =>
     location && location.gps === true ? 'position' : 'location';
-
-  isFocused = val => {
-    this.setState({ showDarkOverlay: val });
-  };
 
   updateViaPoints = viaPoints => {
     if (viaPoints.length === 0) {
@@ -428,15 +423,6 @@ class DTAutosuggestPanel extends React.Component {
             <span> {searchPanelText}</span>
           </div>
         ) : null}
-        <div
-          className={cx([
-            styles['dark-overlay'],
-            {
-              hidden: !this.state.showDarkOverlay,
-              isItinerary,
-            },
-          ])}
-        />
         <div className={styles['origin-input-container']}>
           <DTAutoSuggest
             icon="mapMarker"
@@ -450,7 +436,6 @@ class DTAutosuggestPanel extends React.Component {
             className={this.class(origin)}
             placeholder={this.props.originPlaceHolder}
             value={this.value(origin)}
-            isFocused={this.isFocused}
             searchContext={searchContext}
             onSelect={this.props.onSelect}
             focusChange={this.handleFocusChange}
@@ -459,7 +444,7 @@ class DTAutosuggestPanel extends React.Component {
             targets={this.props.targets}
           />
           <ItinerarySearchControl
-            className={styles.switch}
+            className="switch"
             enabled={isItinerary}
             onClick={() => this.handleSwapOrderClick()}
             onKeyPress={e =>
@@ -470,6 +455,11 @@ class DTAutosuggestPanel extends React.Component {
             <Icon img="direction-b" width={1.8} height={1.8} rotate={90} />
           </ItinerarySearchControl>
         </div>
+        {viaPoints.length === 0 && (
+          <div className={styles['rectangle-container']}>
+            <div className={styles.rectangle} />
+          </div>
+        )}
         <div className={styles['viapoints-container']}>
           {viaPoints.map((o, i) => (
             <div
@@ -491,7 +481,7 @@ class DTAutosuggestPanel extends React.Component {
                   onDragStart={e => this.handleStartViaPointDragging(e, i)}
                   style={{ cursor: 'move' }}
                 >
-                  <Icon img="ellipsis" width={1.3} height={1.3} rotate={90} />
+                  <Icon img="ellipsis" width={1.3} height={1.3} />
                 </div>
                 <DTAutoSuggest
                   icon="mapMarker-via"
@@ -501,7 +491,6 @@ class DTAutosuggestPanel extends React.Component {
                   refPoint={this.props.origin}
                   placeholder="via-point"
                   className="viapoint"
-                  isFocused={this.isFocused}
                   searchContext={searchContext}
                   value={(o && o.address) || ''}
                   onSelect={this.props.onSelect}
@@ -598,7 +587,6 @@ class DTAutosuggestPanel extends React.Component {
             refPoint={origin}
             placeholder={this.props.destinationPlaceHolder}
             className={this.class(this.props.destination)}
-            isFocused={this.isFocused}
             searchContext={searchContext}
             onSelect={this.props.onSelect}
             value={this.value(this.props.destination)}
