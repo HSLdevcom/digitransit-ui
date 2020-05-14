@@ -80,7 +80,7 @@ function RouteNumber(props, context) {
         })}
         role="img"
       >
-        {props.vertical === true && mode !== 'walk' ? (
+        {props.vertical === true && props.isTransitLeg === true ? (
           <div className={`special-icon ${mode}`}>
             {getIcon(
               props.icon,
@@ -122,9 +122,9 @@ function RouteNumber(props, context) {
           </div>
         ))}
       {props.renderNumber === true &&
-        (mode === 'walk' && (
-          <div className="vehicle-number-container-v">
-            <span className="walking-time">{props.walkingTime}</span>
+        (props.isTransitLeg === false && (
+          <div className={`leg-duration-container ${mode} `}>
+            <span className="leg-duration">{props.walkingTime}</span>
           </div>
         ))}
     </span>
@@ -204,6 +204,7 @@ RouteNumber.propTypes = {
   icon: PropTypes.string,
   renderNumber: PropTypes.bool,
   walkingTime: PropTypes.number,
+  isTransitLeg: PropTypes.bool,
 };
 
 RouteNumber.defaultProps = {

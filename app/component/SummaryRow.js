@@ -40,11 +40,6 @@ import {
 
 const Leg = ({ routeNumber, legLength }) => (
   <div className="leg" style={{ '--width': `${legLength}%` }}>
-    {/* {large && (
-      <div className="departure-stop overflow-fade">  // Stop name
-        &nbsp;{(leg.transitLeg || leg.rentedBike) && leg.from.name}
-      </div>
-     )} */}
     {routeNumber}
   </div>
 );
@@ -54,7 +49,14 @@ Leg.propTypes = {
   legLength: PropTypes.number.isRequired,
 };
 
-export const RouteLeg = ({ leg, large, intl, legLength, renderNumber }) => {
+export const RouteLeg = ({
+  leg,
+  large,
+  intl,
+  legLength,
+  renderNumber,
+  isTransitLeg,
+}) => {
   const isCallAgency = isCallAgencyPickupType(leg);
   let routeNumber;
   if (isCallAgency) {
@@ -62,6 +64,7 @@ export const RouteLeg = ({ leg, large, intl, legLength, renderNumber }) => {
       id: 'pay-attention',
       defaultMessage: 'Pay Attention',
     });
+
     routeNumber = (
       <RouteNumber
         mode="call"
@@ -69,6 +72,7 @@ export const RouteLeg = ({ leg, large, intl, legLength, renderNumber }) => {
         className={cx('line', 'call')}
         vertical
         withBar
+        isTransitLeg={isTransitLeg}
       />
     );
   } else {
@@ -79,6 +83,7 @@ export const RouteLeg = ({ leg, large, intl, legLength, renderNumber }) => {
         className={cx('line', leg.mode.toLowerCase())}
         vertical
         withBar
+        isTransitLeg={isTransitLeg}
         renderNumber={renderNumber}
       />
     );
@@ -99,10 +104,15 @@ RouteLeg.propTypes = {
   large: PropTypes.bool.isRequired,
   legLength: PropTypes.number.isRequired,
   renderNumber: PropTypes.bool,
+  isTransitLeg: PropTypes.bool,
+};
+
+RouteLeg.defaultProps = {
+  isTransitLeg: true,
 };
 
 export const ModeLeg = (
-  { leg, mode, large, legLength, walkingTime, renderNumber },
+  { leg, mode, large, legLength, walkingTime, renderNumber, isTransitLeg },
   { config },
 ) => {
   let networkIcon;
@@ -122,6 +132,7 @@ export const ModeLeg = (
       text=""
       className={cx('line', mode.toLowerCase())}
       walkingTime={walkingTime}
+      isTransitLeg={isTransitLeg}
       renderNumber={renderNumber}
       vertical
       withBar
@@ -146,6 +157,7 @@ ModeLeg.propTypes = {
   legLength: PropTypes.number.isRequired,
   walkingTime: PropTypes.number,
   renderNumber: PropTypes.bool,
+  isTransitLeg: PropTypes.bool,
 };
 
 ModeLeg.contextTypes = {
@@ -246,7 +258,7 @@ const SummaryRow = (
   { data, breakpoint, intermediatePlaces, zones, ...props },
   { intl, intl: { formatMessage }, config },
 ) => {
-  const isTransitLeg = leg => leg.transitLeg || leg.rentedBike;
+  const isTransitLeg = leg => leg.transitLeg; // || leg.rentedBike;
   const refTime = moment(props.refTime);
   const startTime = moment(data.startTime);
   const endTime = moment(data.endTime);
@@ -267,7 +279,7 @@ const SummaryRow = (
   let firstLegStartTime = null;
   const vehicleNames = [];
   const stopNames = [];
-  const renderBarThreshold = 4;
+  const renderBarThreshold = 5;
   const renderNumberThreshold = 9;
   let addition = 0;
 
@@ -309,9 +321,12 @@ const SummaryRow = (
         legLength += lastLegLength;
       }
     }
-    if (legLength < renderBarThreshold) {
+    if (legLength < renderBarThreshold && !leg.transitLeg) {
       renderBar = false;
       addition = legLength;
+    } else if (legLength < renderBarThreshold && leg.transitLeg) {
+      addition += legLength - renderBarThreshold;
+      legLength = renderBarThreshold;
     }
 
     if (legLength < renderNumberThreshold) {
@@ -324,6 +339,7 @@ const SummaryRow = (
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
           renderNumber={renderNumber}
+          isTransitLeg={false}
           leg={leg}
           walkingTime={walkingTime}
           mode="WALK"
@@ -332,10 +348,14 @@ const SummaryRow = (
         />,
       );
     } else if (leg.rentedBike) {
+      const bikingTime = Math.floor(leg.duration / 60);
       legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
+          isTransitLeg={false}
+          renderNumber={renderNumber}
           leg={leg}
+          walkingTime={bikingTime}
           mode="CITYBIKE"
           legLength={legLength}
           large={breakpoint === 'large'}
@@ -355,6 +375,7 @@ const SummaryRow = (
       legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
+          isTransitLeg={false}
           leg={leg}
           mode={leg.mode}
           legLength={legLength}
@@ -443,12 +464,13 @@ const SummaryRow = (
     let firstDepartureStartTime;
     if (
       data.legs[1] != null &&
-      !(data.legs[1].rentedBike || data.legs[0].transitLeg)
+      (data.legs[1].rentedBike || data.legs[1].transitLeg)
     ) {
       firstDepartureStartTime = data.legs[1].startTime;
       [, firstDeparture] = data.legs;
     }
-    if (data.legs[0].transitLeg && !data.legs[0].rentedBike) {
+
+    if (data.legs[0].transitLeg || data.legs[0].rentedBike) {
       [firstDeparture] = data.legs;
       firstDepartureStartTime = data.legs[0].startTime;
     }
@@ -459,7 +481,33 @@ const SummaryRow = (
       } else {
         firstDepartureStopType = 'from-stop';
       }
-      firstLegStartTime = (
+      firstLegStartTime = firstDeparture.rentedBike ? (
+        <div
+          className={cx('itinerary-first-leg-start-time', {
+            small: breakpoint !== 'large',
+          })}
+        >
+          <FormattedMessage
+            id="itinerary-summary-row.first-leg-start-time-citybike"
+            values={{
+              firstDepartureTime: (
+                <span className="first-leg-start-time-green">
+                  <LocalTime time={firstDepartureStartTime} />
+                </span>
+              ),
+              firstDepartureStop: firstDeparture.from.name,
+            }}
+          />
+          <div>
+            <FormattedMessage
+              id="bikes-available"
+              values={{
+                amount: firstDeparture.from.bikeRentalStation.bikesAvailable,
+              }}
+            />
+          </div>
+        </div>
+      ) : (
         <div
           className={cx('itinerary-first-leg-start-time', {
             small: breakpoint !== 'large',
@@ -482,6 +530,16 @@ const SummaryRow = (
         </div>
       );
     }
+  } else {
+    firstLegStartTime = (
+      <div
+        className={cx('itinerary-first-leg-start-time', {
+          small: breakpoint !== 'large',
+        })}
+      >
+        <FormattedMessage id="itinerary-summary-row.no-transit-legs" />
+      </div>
+    );
   }
 
   const classes = cx([
