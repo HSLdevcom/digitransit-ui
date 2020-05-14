@@ -194,7 +194,7 @@ class FavouriteModal extends React.Component {
           <div className="favourite-modal-main">
             <div className="favourite-modal-location-search">
               <DTAutosuggestContainer
-                className="favourite searchfield-preferred"
+                className="favourite"
                 type="field"
                 id="favourite"
                 refPoint={{ lat: 0, lon: 0 }}

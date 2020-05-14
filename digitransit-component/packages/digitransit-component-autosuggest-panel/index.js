@@ -484,7 +484,7 @@ class DTAutosuggestPanel extends React.Component {
             lang={this.props.lang}
           />
           <ItinerarySearchControl
-            className={styles.switch}
+            className="switch"
             enabled={isItinerary}
             onClick={() => this.handleSwapOrderClick()}
             onKeyPress={e =>
@@ -495,6 +495,11 @@ class DTAutosuggestPanel extends React.Component {
             <Icon img="direction-b" width={1.8} height={1.8} rotate={90} />
           </ItinerarySearchControl>
         </div>
+        {viaPoints.length === 0 && (
+          <div className={styles['rectangle-container']}>
+            <div className={styles.rectangle} />
+          </div>
+        )}
         <div className={styles['viapoints-container']}>
           {viaPoints.map((o, i) => (
             <div
@@ -516,7 +521,7 @@ class DTAutosuggestPanel extends React.Component {
                   onDragStart={e => this.handleStartViaPointDragging(e, i)}
                   style={{ cursor: 'move' }}
                 >
-                  <Icon img="ellipsis" width={1.3} height={1.3} rotate={90} />
+                  <Icon img="ellipsis" width={1.3} height={1.3} />
                 </div>
                 <DTAutoSuggest
                   config={this.props.config}

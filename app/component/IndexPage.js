@@ -140,23 +140,25 @@ class IndexPage extends React.Component {
           `blurred`} fullscreen bp-${breakpoint}`}
       >
         <CtrlPanel instance="hsl" language={lang} position="left">
-          <DTAutosuggestContainer
-            type="panel"
-            searchPanelText={intl.formatMessage({
-              id: 'where',
-              defaultMessage: 'Where to?',
-            })}
-            origin={origin}
-            onSelect={this.onSelect}
-            destination={destination}
-            refs={this.state.refs}
-            searchType="endpoint"
-            originPlaceHolder="search-origin-index"
-            destinationPlaceHolder="search-destination-index"
-            locationState={this.props.locationState}
-            getViaPointsFromMap={this.props.getViaPointsFromMap}
-            lang={lang}
-          />
+          <div className="autosuggest-container">
+            <DTAutosuggestContainer
+              type="panel"
+              searchPanelText={intl.formatMessage({
+                id: 'where',
+                defaultMessage: 'Where to?',
+              })}
+              origin={origin}
+              onSelect={this.onSelect}
+              destination={destination}
+              refs={this.state.refs}
+              searchType="endpoint"
+              originPlaceHolder="search-origin-index"
+              destinationPlaceHolder="search-destination-index"
+              locationState={this.props.locationState}
+              getViaPointsFromMap={this.props.getViaPointsFromMap}
+              lang={lang}
+            />
+          </div>
           <CtrlPanel.SeparatorLine />
           <Datetimepicker realtime />
           <FavouriteLocationsContainer
@@ -201,22 +203,24 @@ class IndexPage extends React.Component {
       >
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
         <CtrlPanel instance="hsl" language={lang} position="bottom">
-          <DTAutosuggestContainer
-            type="panel"
-            searchPanelText={intl.formatMessage({
-              id: 'where',
-              defaultMessage: 'Where to?',
-            })}
-            origin={origin}
-            onSelect={this.onSelect}
-            destination={destination}
-            refs={this.state.refs}
-            searchType="endpoint"
-            originPlaceHolder="search-origin-index"
-            destinationPlaceHolder="search-destination-index"
-            locationState={this.props.locationState}
-            getViaPointsFromMap={this.props.getViaPointsFromMap}
-          />
+          <div className="autosuggest-container">
+            <DTAutosuggestContainer
+              type="panel"
+              searchPanelText={intl.formatMessage({
+                id: 'where',
+                defaultMessage: 'Where to?',
+              })}
+              origin={origin}
+              onSelect={this.onSelect}
+              destination={destination}
+              refs={this.state.refs}
+              searchType="endpoint"
+              originPlaceHolder="search-origin-index"
+              destinationPlaceHolder="search-destination-index"
+              locationState={this.props.locationState}
+              getViaPointsFromMap={this.props.getViaPointsFromMap}
+            />
+          </div>
           <CtrlPanel.SeparatorLine />
           <Datetimepicker realtime />
           <FavouriteLocationsContainer
@@ -235,20 +239,18 @@ class IndexPage extends React.Component {
                 })}
               </span>
             </div>
-            <div>
-              <DTAutosuggestContainer
-                type="field"
-                icon="mapMarker-via"
-                id="searchfield-preferred"
-                autoFocus={false}
-                refPoint={origin}
-                className="destination"
-                searchType="search"
-                placeholder="stop-near-you"
-                value=""
-                locationState={this.props.locationState}
-              />
-            </div>
+            <DTAutosuggestContainer
+              type="field"
+              icon="mapMarker-via"
+              id="searchfield-preferred"
+              autoFocus={false}
+              refPoint={origin}
+              className="destination"
+              searchType="search"
+              placeholder="stop-near-you"
+              value=""
+              locationState={this.props.locationState}
+            />
           </div>
         </CtrlPanel>
       </div>

@@ -273,17 +273,15 @@ class DTAutosuggest extends React.Component {
   };
 
   clearButton = () => {
-    const img = this.state.value ? 'close' : 'search';
+    const img = 'close';
     return (
-      // eslint-disable-next-line react/button-has-type
       <button
+        type="button"
         className={styles['clear-input']}
         onClick={this.clearInput}
-        aria-label={i18next.t(
-          this.state.value ? 'clear-button-label' : 'search-button-label',
-        )}
+        aria-label={i18next.t('clear-button-label')}
       >
-        <Icon img={img} width={1.1} height={1.1} color="#666" />
+        <Icon img={img} width={1} height={1} color="#007ac9" />
       </button>
     );
   };
@@ -436,7 +434,9 @@ class DTAutosuggest extends React.Component {
       value,
       onChange: this.onChange,
       onBlur: this.onBlur,
-      className: `${styles.input} ${styles[this.props.className]}`,
+      className: `${styles.input} ${styles[this.props.className]} ${
+        this.state.value ? styles.hasValue : ''
+      }`,
       onKeyDown: this.keyDown, // DT-3263
     };
     const ariaBarId = this.props.id.replace('searchfield-', '');
@@ -511,7 +511,7 @@ class DTAutosuggest extends React.Component {
               >
                 {ariaCurrentSuggestion}
               </span>
-              {this.clearButton()}
+              {this.state.value && this.clearButton()}
             </>
           )}
           onSuggestionSelected={this.onSelected}

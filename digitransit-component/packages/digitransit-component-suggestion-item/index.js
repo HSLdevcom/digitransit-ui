@@ -44,9 +44,9 @@ function getIcon(layer) {
 const SuggestionItem = pure(({ item, ariaContent, loading }) => {
   const icon = (
     <Icon
-      width={1.2}
-      height={1.2}
-      color="#007ac9"
+      // width={1.2}
+      height={1.5}
+      color="#888888"
       img={getIcon(item.properties.layer)}
     />
   );
@@ -67,13 +67,16 @@ const SuggestionItem = pure(({ item, ariaContent, loading }) => {
         loading,
       })}
     >
-      <span aria-label={iconstr} className={styles.autosuggestIcon}>
+      <span aria-label={iconstr} className={styles['suggestion-icon']}>
         {icon}
       </span>
       <div>
         <p className={styles['suggestion-name']}>{name}</p>
         <p className={styles['suggestion-label']}>{label}</p>
       </div>
+      <span className={styles.right}>
+        <Icon width={0.625} height={1.063} img="Arrow" />
+      </span>
     </div>
   );
 
