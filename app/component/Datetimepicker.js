@@ -17,6 +17,7 @@ function Datetimepicker(
     onNowClick,
     onDepartureClick,
     onArrivalClick,
+    embedWhenClosed,
   },
   context,
 ) {
@@ -178,6 +179,7 @@ function Datetimepicker(
                 </span>
               </button>
             </label>
+            <span className="right-edge">{embedWhenClosed}</span>
           </div>
           <div />
         </>
@@ -249,20 +251,22 @@ function Datetimepicker(
                 checked={departureOrArrival === 'arrival'}
               />
             </label>
-            <button
-              type="button"
-              className="close-button"
-              aria-controls={`${htmlId}-root`}
-              aria-expanded="true"
-              onClick={() => changeOpen(false)}
-            >
-              <span className="close-icon">
-                <Icon img="icon-icon_plus" />
-              </span>
-              <span className="sr-only">
-                <FormattedMessage id="datetimepicker.accessible-close" />
-              </span>
-            </button>
+            <span className="right-edge">
+              <button
+                type="button"
+                className="close-button"
+                aria-controls={`${htmlId}-root`}
+                aria-expanded="true"
+                onClick={() => changeOpen(false)}
+              >
+                <span className="close-icon">
+                  <Icon img="icon-icon_plus" />
+                </span>
+                <span className="sr-only">
+                  <FormattedMessage id="datetimepicker.accessible-close" />
+                </span>
+              </button>
+            </span>
           </div>
           <div className="picker-container">
             {isMobile ? (
@@ -327,9 +331,10 @@ Datetimepicker.propTypes = {
   onNowClick: PropTypes.func.isRequired,
   onDepartureClick: PropTypes.func.isRequired,
   onArrivalClick: PropTypes.func.isRequired,
+  embedWhenClosed: PropTypes.node,
 };
 
-Datetimepicker.defaultProps = { timestamp: null };
+Datetimepicker.defaultProps = { timestamp: null, embedWhenClosed: null };
 
 Datetimepicker.contextTypes = {
   intl: intlShape.isRequired,

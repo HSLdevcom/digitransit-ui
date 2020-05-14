@@ -19,7 +19,7 @@ function getInitialDepartureOrArrival(match) {
   return match.location.query.arriveBy ? 'arrival' : 'departure';
 }
 
-function DatetimepickerContainer({ realtime }, context) {
+function DatetimepickerContainer({ realtime, embedWhenClosed }, context) {
   const { router, match } = context;
 
   const [timestamp, changeTimestampState] = useState(
@@ -146,12 +146,18 @@ function DatetimepickerContainer({ realtime }, context) {
       onNowClick={onNowClick}
       onDepartureClick={onDepartureClick}
       onArrivalClick={onArrivalClick}
+      embedWhenClosed={embedWhenClosed}
     />
   );
 }
 
 DatetimepickerContainer.propTypes = {
   realtime: PropTypes.bool.isRequired,
+  embedWhenClosed: PropTypes.node,
+};
+
+DatetimepickerContainer.defaultProps = {
+  embedWhenClosed: null,
 };
 
 DatetimepickerContainer.contextTypes = {

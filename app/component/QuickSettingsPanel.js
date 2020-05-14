@@ -84,17 +84,20 @@ class QuickSettingsPanel extends React.Component {
 
     return (
       <div className={cx(['quicksettings-container'])}>
-        <DatetimepickerContainer realtime={false} />
-
-        <div className="open-advanced-settings">
-          <RightOffcanvasToggle
-            onToggleClick={this.toggleCustomizeSearchOffcanvas}
-            hasChanges={
-              quickOption === 'saved-settings' ||
-              quickOption === 'custom-settings'
-            }
-          />
-        </div>
+        <DatetimepickerContainer
+          realtime={false}
+          embedWhenClosed={
+            <div className="open-advanced-settings">
+              <RightOffcanvasToggle
+                onToggleClick={this.toggleCustomizeSearchOffcanvas}
+                hasChanges={
+                  quickOption === 'saved-settings' ||
+                  quickOption === 'custom-settings'
+                }
+              />
+            </div>
+          }
+        />
       </div>
     );
   }

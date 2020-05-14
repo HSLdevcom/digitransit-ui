@@ -86,7 +86,6 @@
   }
 
   .close-button {
-    margin-left: auto;
     margin-right: 17.5px;
     background: none;
     color: $primary-color;
@@ -94,6 +93,10 @@
     &:focus {
       @include default-focus-outline;
     }
+  }
+
+  .right-edge {
+    margin-left: auto;
   }
 
   .combobox-container {
