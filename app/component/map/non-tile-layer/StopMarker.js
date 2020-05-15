@@ -34,14 +34,14 @@ class StopMarker extends React.Component {
     renderName: PropTypes.bool,
     disableModeIcons: PropTypes.bool,
     selected: PropTypes.bool,
-    isBusIcon: PropTypes.bool,
+    icon: PropTypes.string,
   };
 
   static defaultProps = {
     renderName: false,
     disableModeIcons: false,
     selected: false,
-    isBusIcon: false,
+    icon: null,
   };
 
   static contextTypes = {
@@ -86,8 +86,9 @@ class StopMarker extends React.Component {
     const stroke = stopRadius - hubRadius;
 
     // see app/util/mapIconUtils.js for the canvas version
-    let iconSvg = this.props.isBusIcon
-      ? `<svg viewBox="0 0 32.53 32.53">
+    let iconSvg =
+      this.props.icon === this.props.mode
+        ? `<svg viewBox="0 0 32.53 32.53">
     <g transform="matrix(0.06561676,0,0,0.0756361,-0.02376853,-0.01456643)">
     <polygon
             points="442.98,281.66 437.76,290.66 427.5,290.66 422.28,281.66 427.5,272.84 437.76,272.84 "
@@ -108,7 +109,7 @@ class StopMarker extends React.Component {
             id="7" />
     </g>
     </svg>`
-      : `
+        : `
       <svg viewBox="0 0 ${radius * 2} ${radius * 2}">
         <circle class="stop-halo" cx="${radius}" cy="${radius}" r="${radius}"/>
         <circle class="stop" cx="${radius}" cy="${radius}" r="${inner}" stroke-width="${stroke}"/>
