@@ -99,7 +99,7 @@ ItinerarySearchControl.propTypes = {
 
  *    origin={origin}
  *    destination={destination}
- *    isItinerary={false}
+ *    showMultiPointControls={false}
  *    searchContext={searchContext}
  *    onSelect={this.onSelect}
  *    lang="fi"
@@ -111,14 +111,13 @@ class DTAutosuggestPanel extends React.Component {
   static propTypes = {
     origin: PropTypes.object.isRequired,
     destination: PropTypes.object.isRequired,
-    isItinerary: PropTypes.bool,
+    showMultiPointControls: PropTypes.bool,
     originPlaceHolder: PropTypes.string,
     destinationPlaceHolder: PropTypes.string,
     initialViaPoints: PropTypes.arrayOf(PropTypes.object),
     updateViaPoints: PropTypes.func,
     breakpoint: PropTypes.string.isRequired,
     swapOrder: PropTypes.func,
-    getViaPointsFromMap: PropTypes.bool,
     searchPanelText: PropTypes.string,
     searchContext: PropTypes.any.isRequired,
     onSelect: PropTypes.func,
@@ -130,12 +129,11 @@ class DTAutosuggestPanel extends React.Component {
 
   static defaultProps = {
     initialViaPoints: [],
-    isItinerary: false,
+    showMultiPointControls: false,
     originPlaceHolder: 'give-origin',
     destinationPlaceHolder: 'give-destination',
     swapOrder: undefined,
     updateViaPoints: () => {},
-    getViaPointsFromMap: false,
     lang: 'fi',
     sources: [],
   };
@@ -157,15 +155,6 @@ class DTAutosuggestPanel extends React.Component {
   componentDidUpdate = prevProps => {
     if (prevProps.lang !== this.props.lang) {
       i18next.changeLanguage(this.props.lang);
-    }
-  };
-
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps = () => {
-    if (this.props.getViaPointsFromMap) {
-      this.setState({
-        viaPoints: [], // getIntermediatePlaces(this.context.match.location.query),
-      });
     }
   };
 
@@ -393,7 +382,7 @@ class DTAutosuggestPanel extends React.Component {
   render = () => {
     const {
       breakpoint,
-      isItinerary,
+      showMultiPointControls,
       origin,
       searchPanelText,
       searchContext,
@@ -413,7 +402,7 @@ class DTAutosuggestPanel extends React.Component {
           styles['autosuggest-panel'],
           {
             small: breakpoint !== 'large',
-            isItinerary,
+            showMultiPointControls,
           },
         ])}
       >
@@ -445,7 +434,7 @@ class DTAutosuggestPanel extends React.Component {
           />
           <ItinerarySearchControl
             className="switch"
-            enabled={isItinerary}
+            enabled={showMultiPointControls}
             onClick={() => this.handleSwapOrderClick()}
             onKeyPress={e =>
               this.isKeyboardSelectionEvent(e) && this.handleSwapOrderClick()
@@ -503,7 +492,7 @@ class DTAutosuggestPanel extends React.Component {
                 <div className={styles['via-point-button-container']}>
                   <ItinerarySearchControl
                     className={styles['add-via-point-slack']}
-                    enabled={isItinerary}
+                    enabled={showMultiPointControls}
                     onClick={() => this.handleToggleViaPointSlackClick(i)}
                     onKeyPress={e =>
                       this.isKeyboardSelectionEvent(e) &&
@@ -532,7 +521,7 @@ class DTAutosuggestPanel extends React.Component {
                   </ItinerarySearchControl>
                   <ItinerarySearchControl
                     className={styles['remove-via-point']}
-                    enabled={isItinerary}
+                    enabled={showMultiPointControls}
                     onClick={() => this.handleRemoveViaPointClick(i)}
                     onKeyPress={e =>
                       this.isKeyboardSelectionEvent(e) &&
@@ -598,7 +587,7 @@ class DTAutosuggestPanel extends React.Component {
             className={cx(styles['add-via-point'], styles.more, {
               collapsed: viaPoints.length > 4,
             })}
-            enabled={isItinerary}
+            enabled={showMultiPointControls}
             onClick={() => this.handleAddViaPointClick()}
             onKeyPress={e =>
               this.isKeyboardSelectionEvent(e) && this.handleAddViaPointClick()

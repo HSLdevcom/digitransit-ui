@@ -35,6 +35,7 @@ class DTAutosuggestContainer extends React.Component {
   };
 
   static propTypes = {
+    ariaLabel: PropTypes.string,
     type: PropTypes.string.isRequired,
     searchPanelText: PropTypes.string,
     origin: dtLocationShape,
@@ -44,15 +45,13 @@ class DTAutosuggestContainer extends React.Component {
     icon: PropTypes.string,
     id: PropTypes.string,
     autoFocus: PropTypes.bool,
-    className: PropTypes.string,
     placeholder: PropTypes.string,
     value: PropTypes.string,
-    isItinerary: PropTypes.bool,
+    showMultiPointControls: PropTypes.bool,
     initialViaPoints: PropTypes.array,
     updateViaPoints: PropTypes.func,
     swapOrder: PropTypes.func,
     refPoint: PropTypes.object,
-    showSpinner: PropTypes.bool,
     relayEnvironment: PropTypes.object.isRequired,
     onFavouriteSelected: PropTypes.func,
     lang: PropTypes.string,
@@ -232,12 +231,11 @@ class DTAutosuggestContainer extends React.Component {
   renderPanel() {
     return (
       <DTAutosuggestPanel
-        config={this.context.config}
         searchPanelText={this.props.searchPanelText}
         origin={this.props.origin}
         onSelect={this.onSelect}
         destination={this.props.destination}
-        isItinerary={this.props.isItinerary}
+        showMultiPointControls={this.props.showMultiPointControls}
         originPlaceHolder={this.props.originPlaceHolder}
         destinationPlaceHolder={this.props.destinationPlaceHolder}
         searchContext={searchContext}
@@ -255,18 +253,15 @@ class DTAutosuggestContainer extends React.Component {
   renderAutoSuggest() {
     return (
       <DTAutoSuggest
-        config={this.context.config}
+        ariaLabel={this.props.ariaLabel}
         icon={this.props.icon}
         id={this.props.id}
         autoFocus={this.props.autoFocus}
         refPoint={this.props.refPoint}
-        className={this.props.className}
         placeholder={this.props.placeholder}
         value={this.props.value}
         onSelect={this.onSelect}
-        isFocused={this.isFocused}
         searchContext={searchContext}
-        showSpinner={this.props.showSpinner}
         lang={this.props.lang}
         sources={this.props.sources}
         targets={this.props.targets}

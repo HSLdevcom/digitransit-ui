@@ -392,7 +392,7 @@ class DTAutosuggest extends React.Component {
   };
 
   render() {
-    if (this.props.showSpinner && this.state.pendingCurrentLocation) {
+    if (this.state.pendingCurrentLocation) {
       return <Loading />;
     }
     const { value, suggestions } = this.state;
@@ -401,9 +401,7 @@ class DTAutosuggest extends React.Component {
       value,
       onChange: this.onChange,
       onBlur: this.onBlur,
-      className: `${styles.input} ${styles[this.props.className]} ${
-        this.state.value ? styles.hasValue : ''
-      }`,
+      className: `${styles.input}  ${this.state.value ? styles.hasValue : ''}`,
       onKeyDown: this.keyDown, // DT-3263
     };
     const ariaBarId = this.props.id.replace('searchfield-', '');
@@ -417,9 +415,14 @@ class DTAutosuggest extends React.Component {
     const ariaCurrentSuggestion = i18next.t('search-current-suggestion', {
       selection: this.suggestionAsAriaContent(),
     });
+    const iconSize = {
+      mapMarker: { height: 1.45, width: 1.45 },
+      search: { height: 1, width: 1 },
+    };
     const iconColor = {
       origin: '#64be14',
       destination: '#ec5188',
+      'stop-route-station': '#888888',
     };
     return (
       <div
@@ -437,8 +440,8 @@ class DTAutosuggest extends React.Component {
           >
             <Icon
               img={`${this.props.icon}`}
-              width={1.45}
-              height={1.45}
+              width={iconSize[this.props.icon].width}
+              height={iconSize[this.props.icon].height}
               color={iconColor[this.props.id]}
             />
           </div>

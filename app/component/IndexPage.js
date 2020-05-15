@@ -147,7 +147,6 @@ class IndexPage extends React.Component {
             destination={destination}
             originPlaceHolder="search-origin-index"
             destinationPlaceHolder="search-destination-index"
-            locationState={this.props.locationState}
             lang={lang}
             sources={['Favourite', 'History', 'Datasource']}
             targets={['Locations', 'CurrentPosition']}
@@ -171,7 +170,7 @@ class IndexPage extends React.Component {
           </div>
           <DTAutosuggestContainer
             type="field"
-            icon="mapMarker-via"
+            icon="search"
             id="stop-route-station"
             autoFocus={false}
             refPoint={origin}
@@ -205,7 +204,6 @@ class IndexPage extends React.Component {
             destination={destination}
             originPlaceHolder="search-origin-index"
             destinationPlaceHolder="search-destination-index"
-            locationState={this.props.locationState}
             sources={['Favourite', 'History', 'Datasource']}
             targets={['Locations', 'CurrentPosition']}
           />
@@ -228,14 +226,13 @@ class IndexPage extends React.Component {
           </div>
           <DTAutosuggestContainer
             type="field"
-            icon="mapMarker-via"
+            icon="search"
             id="searchfield-preferred"
             autoFocus={false}
             refPoint={origin}
             className="destination"
             placeholder="stop-near-you"
             value=""
-            locationState={this.props.locationState}
             sources={['Favourite', 'History', 'Datasource']}
             targets={['Stops', 'Routes']}
           />
