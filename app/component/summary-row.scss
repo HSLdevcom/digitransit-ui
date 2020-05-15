@@ -197,7 +197,7 @@
             .vehicle-number {
               color: $white;
               @include font-narrow-medium;
-              font-size: $font-size-small;
+              font-size: $font-size-normal;
             }
           }
           .leg-duration-container {

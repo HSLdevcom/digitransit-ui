@@ -276,10 +276,12 @@ const SummaryRow = (
     }
   });
   let renderBarThreshold = 5.5;
-  let renderNumberThreshold = 11;
+  let renderLegDurationThreshold = 8;
+  let renderRouteNumberThreshold = 11;
   if (breakpoint === 'small') {
     renderBarThreshold = 8;
-    renderNumberThreshold = 15;
+    renderLegDurationThreshold = 12;
+    renderRouteNumberThreshold = 15;
   }
   let firstLegStartTime = null;
   const vehicleNames = [];
@@ -331,10 +333,9 @@ const SummaryRow = (
       addition += legLength - renderBarThreshold;
       legLength = renderBarThreshold;
     }
-
-    if (legLength < renderNumberThreshold) {
-      renderNumber = false;
-    }
+    renderNumber = isLegOnFoot(leg)
+      ? legLength > renderLegDurationThreshold
+      : legLength > renderRouteNumberThreshold;
 
     if (isLegOnFoot(leg) && renderBar) {
       const walkingTime = Math.floor(leg.duration / 60);
