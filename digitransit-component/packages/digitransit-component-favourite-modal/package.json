@@ -1,0 +1,36 @@
+{
+  "name": "@digitransit-component/digitransit-component-favourite-modal",
+  "version": "0.0.0",
+  "description": "digitransit-component favourite-modal module",
+  "main": "index.generated",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build:index": "babel index.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-proposal-class-properties --out-file index.generated",
+    "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-proposal-class-properties --out-file test.generated",
+    "test": "mocha -r esm test.generated",
+    "docs": "node -r esm ../../scripts/generate-readmes"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/HSLdevcom/digitransit-ui.git"
+  },
+  "keywords": [
+    "digitransit-component",
+    "FavouriteModal"
+  ],
+  "author": "Digitransit Authors",
+  "license": "(AGPL-3.0 OR EUPL-1.2)",
+  "dependencies": {
+    "@digitransit-component/digitransit-component-autosuggest": "0.0.7"
+  },
+  "peerDependencies": {
+    "classnames": "2.2.6",
+    "i18next": "^19.3.3",
+    "lodash": "4.17.14",
+    "lodash-es": "4.17.14",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.0"
+  }
+}
