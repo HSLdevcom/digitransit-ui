@@ -6,8 +6,8 @@ import isEqual from 'lodash/isEqual';
 import orderBy from 'lodash/orderBy';
 import moment from 'moment';
 
+import { getNameLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import { getOldSearchesStorage, setOldSearchesStorage } from './localStorage';
-import { getNameLabel } from '../util/suggestionUtils';
 
 /**
  * The current version number of this store.
