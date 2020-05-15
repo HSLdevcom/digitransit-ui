@@ -18,6 +18,7 @@
     "@digitransit-component/digitransit-component-autosuggest-panel": "^0.0.7",
     "@digitransit-component/digitransit-component-control-panel": "^0.0.6",
     "@digitransit-component/digitransit-component-suggestion-item": "^0.0.4",
-    "@digitransit-component/digitransit-component-with-breakpoint": "^0.0.3"
+    "@digitransit-component/digitransit-component-with-breakpoint": "^0.0.3",
+    "@digitransit-component/digitransit-component-icon": "0.0.1"
   }
 }
