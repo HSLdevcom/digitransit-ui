@@ -33,11 +33,9 @@
   padding-left: $padding-medium;
   padding-right: 0;
   padding-top: 0.5em;
-  padding-bottom: 0.5em;
   overflow: hidden;
   background-color: $white;
-  border-bottom: 1px solid $light-gray;
-  border-left: 0.3em $action-color solid;
+  //border-left: 0.3em $action-color solid;
   display: flex;
   user-select: none;
   $distance-gray: #7b7b7b;
@@ -55,7 +53,7 @@
 
   &.passive {
     border-left-color: $background-color;
-    background-color: $background-color;
+    //background-color: $background-color;
 
   }
 
@@ -94,7 +92,11 @@
     text-align: right;
     padding-left: $padding-medium;
     min-width: 2em;
+    font-size: $font-size-large;
+    font-stretch: normal;
     letter-spacing: -0.5px;
+    line-height: normal;
+    font-style: normal;
 
     .itinerary-start-time-and-end-time {
       float: left;
@@ -115,7 +117,6 @@
         text-transform: capitalize;
         border-bottom-left-radius: 2px;
         border-bottom-right-radius: 2px;
-        //padding: $padding-xsmall $padding-small;
         color: $white;
         background-color: $gray;
         display: inline-block;
@@ -143,16 +144,19 @@
     top: 3.77em;
     left: 2.3em;
     @include font-book;
-    font-size: $font-size-small;
     padding-left: $padding-medium;
     padding-top: 12px;
     width: 100%;
-    max-width: inherit;
+    max-width: 100%;
     overflow: none;
     color: $distance-gray;
 
     .itinerary-first-leg-start-time{
-      max-width: 200px;
+      font-size: $font-size-small;
+      //max-width: 270px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: normal;
       .first-leg-start-time-green {
         color: green;
       }
@@ -204,7 +208,7 @@
               font-size: $font-size-xxxsmall;
               color: $black;
             }
-            &.citybike {
+            &.citybike, &.bicycle {
               .leg-duration{
                 padding-left: 5px;
               }
@@ -300,13 +304,12 @@
           width: 0.45em;
         }
       }
-      &.citybike {
+      &.citybike, &.car, &.bicycle {
         .icon {
-          height: 0.68em;
-          width: 0.68em;
+          height: 0.67em;
+          width: 0.67em;
         }
       }
-
       .icon-badge {
         left: 0;
         top: -0.75em;
@@ -425,9 +428,6 @@
       font-size: 20px;
       border: 0;
     }
-    .action-arrow span > svg {
-      transform: rotate(90deg);
-    }
     &.open {
       flex-wrap: wrap;
 
@@ -444,6 +444,8 @@
     color: $black;
   }
   .summary-clickable-area {
+      border-bottom: 1px solid $light-gray;
+      padding-bottom: 0.5em;
       display: flex;
       flex: auto;
       flex-wrap: wrap;
@@ -493,6 +495,7 @@
 
 .mobile .itinerary-legs .leg {
   height: 2em;
+  padding-top: 5px;
 }
 
 .mobile {

@@ -96,8 +96,14 @@ export const getLegMode = legOrMode => {
  * @param {*} leg1 the first leg
  * @param {*} leg2 the second leg
  */
-const continueWithBicycle = (leg1, leg2) =>
-  getLegMode(leg1) === LegMode.Bicycle && getLegMode(leg2) === LegMode.Bicycle;
+const continueWithBicycle = (leg1, leg2) => {
+  const isBicycle1 =
+    leg1.mode === LegMode.Bicycle || leg1.mode === LegMode.Walk;
+  const isBicycle2 =
+    leg2.mode === LegMode.Bicycle || leg2.mode === LegMode.Walk;
+  return isBicycle1 && isBicycle2;
+};
+
 const bikingEnded = leg1 => {
   return leg1.from.bikeRentalStation && leg1.mode === 'WALK';
 };
@@ -118,7 +124,6 @@ export const compressLegs = originalLegs => {
         !originalLegs[1].rentedBike));
   const compressedLegs = [];
   let compressedLeg;
-
   forEach(originalLegs, currentLeg => {
     if (!compressedLeg) {
       compressedLeg = cloneDeep(currentLeg);

@@ -782,6 +782,7 @@ const translations = {
     'bike-availability': 'Bikes available at the station right now',
     'bike-not-allowed-bus': 'Bikes are not allowed on the bus',
     'bike-not-allowed-tram': 'Bikes are not allowed on the tram',
+    'bikes-available': '{amount} bikes at the station ',
     'biketransport-citybike': "I'm using a citybike",
     'biketransport-only-bike': "I'm travelling only by bike",
     'biking-amount': 'Amount of biking',
@@ -926,7 +927,10 @@ const translations = {
     'itinerary-summary-row.first-departure':
       '{vehicle} leaves at {departureTime} from stop {stopName}.',
     'itinerary-summary-row.first-leg-start-time':
-      'Leaves {firstDepartureTime} from station {firstDepartureStop}',
+      'Leaves at {firstDepartureTime} {firstDepartureStopType} {firstDepartureStop}',
+    'itinerary-summary-row.first-leg-start-time-citybike':
+      'Departure at {firstDepartureTime} from {firstDepartureStop} bike station',
+    'itinerary-summary-row.no-transit-legs': 'Leave when it suits you',
     'itinerary-summary-row.transfers':
       'Transfer to {vehicle} on stop {stopName}',
     'itinerary-summary-row.walking-distance':
@@ -2665,6 +2669,7 @@ const translations = {
     'bike-availability': 'Antal cyklar just nu',
     'bike-not-allowed-bus': 'Cyklar är inte tillåtna på bussen',
     'bike-not-allowed-tram': 'Cyklar är inte tillåtna på spårvagnen',
+    'bikes-available': '{amount} cyklar vid stationen',
     'biketransport-citybike': 'Jag använder en stadscykel',
     'biketransport-only-bike': 'Jag reser bara med cykel',
     'biking-amount': 'Antal cyklar',
@@ -2809,6 +2814,11 @@ const translations = {
       'Avgång {departureDate} klockan {departureTime}. Framme {arrivalDate} klockan {arrivalTime}. {firstDeparture} {transfers} Restid {totalTime}. {distance}',
     'itinerary-summary-row.first-departure':
       '{vehicle} avgår från station {stopName} klockan {departureTime}.',
+    'itinerary-summary-row.first-leg-start-time':
+      'Avgår kl {firstDepartureTime} {firstDepartureStopType} {firstDepartureStop}',
+    'itinerary-summary-row.first-leg-start-time-citybike':
+      'Avgång kl {firstDepartureTime} från {firstDepartureStop} stadscykelstation',
+    'itinerary-summary-row.no-transit-legs': 'Lämna när det passar dig',
     'itinerary-summary-row.transfers':
       'Byte {vehicle} vid hållplats {stopName}',
     'itinerary-summary-row.walking-distance':

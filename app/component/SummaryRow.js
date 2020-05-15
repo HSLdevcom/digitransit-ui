@@ -18,7 +18,6 @@ import {
   getTotalBikingDistance,
   getTotalWalkingDistance,
   isCallAgencyPickupType,
-  onlyBiking,
 } from '../util/legUtils';
 import { sameDay, dateOrEmpty } from '../util/timeUtils';
 import withBreakpoint from '../util/withBreakpoint';
@@ -258,7 +257,8 @@ const SummaryRow = (
   { data, breakpoint, intermediatePlaces, zones, ...props },
   { intl, intl: { formatMessage }, config },
 ) => {
-  const isTransitLeg = leg => leg.transitLeg; // || leg.rentedBike;
+  const isTransitLeg = leg => leg.transitLeg;
+  const isLegOnFoot = leg => leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK';
   const refTime = moment(props.refTime);
   const startTime = moment(data.startTime);
   const endTime = moment(data.endTime);
@@ -275,12 +275,15 @@ const SummaryRow = (
       noTransitLegs = false;
     }
   });
-
+  let renderBarThreshold = 5.5;
+  let renderNumberThreshold = 11;
+  if (breakpoint === 'small') {
+    renderBarThreshold = 8;
+    renderNumberThreshold = 15;
+  }
   let firstLegStartTime = null;
   const vehicleNames = [];
   const stopNames = [];
-  const renderBarThreshold = 5;
-  const renderNumberThreshold = 9;
   let addition = 0;
 
   compressedLegs.forEach((leg, i) => {
@@ -321,10 +324,10 @@ const SummaryRow = (
         legLength += lastLegLength;
       }
     }
-    if (legLength < renderBarThreshold && !leg.transitLeg) {
+    if (legLength < renderBarThreshold && isLegOnFoot(leg)) {
       renderBar = false;
       addition = legLength;
-    } else if (legLength < renderBarThreshold && leg.transitLeg) {
+    } else if (legLength < renderBarThreshold && !isLegOnFoot(leg)) {
       addition += legLength - renderBarThreshold;
       legLength = renderBarThreshold;
     }
@@ -333,7 +336,7 @@ const SummaryRow = (
       renderNumber = false;
     }
 
-    if (leg.mode === 'WALK' && renderBar) {
+    if (isLegOnFoot(leg) && renderBar) {
       const walkingTime = Math.floor(leg.duration / 60);
       legs.push(
         <ModeLeg
@@ -371,11 +374,14 @@ const SummaryRow = (
           large={breakpoint === 'large'}
         />,
       );
-    } else if (leg.mode === 'BICYCLE' || leg.mode === 'BICYCLE_WALK') {
+    } else if (leg.mode === 'BICYCLE' && renderBar) {
+      const bikingTime = Math.floor(leg.duration / 60);
       legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
           isTransitLeg={false}
+          renderNumber={renderNumber}
+          walkingTime={bikingTime}
           leg={leg}
           mode={leg.mode}
           legLength={legLength}
@@ -561,15 +567,6 @@ const SummaryRow = (
     </div>
   );
 
-  const isDefaultPosition = breakpoint !== 'large' && !onlyBiking(data);
-  const renderBikingDistance = itinerary =>
-    containsBiking(itinerary) && (
-      <div className="itinerary-biking-distance">
-        <Icon img="icon-icon_biking" viewBox="0 0 40 40" />
-        {displayDistance(getTotalBikingDistance(itinerary), config)}
-      </div>
-    );
-
   const showDetails = props.open || props.children;
 
   //  accessible representation for summary
@@ -752,21 +749,7 @@ const SummaryRow = (
                   aria-hidden="true"
                 >
                   {firstLegStartTime}
-                  {isDefaultPosition && renderBikingDistance(data)}
                 </div>
-                {/* <div
-                  className="itinerary-duration-and-distance"
-                  key="duration-distance"
-                  aria-hidden="true"
-                >
-                  {!isDefaultPosition && renderBikingDistance(data)}
-                  /* {!onlyBiking(data) && (
-                    <div className="itinerary-walking-distance">
-                      <Icon img="icon-icon_walk" viewBox="6 0 40 40" />
-                      {displayDistance(getTotalWalkingDistance(data), config)}
-                    </div>
-                  )} 
-                </div> */}
               </div>
               <div
                 tabIndex="0"

@@ -13,11 +13,6 @@ const LONG_ROUTE_NUMBER_LENGTH = 6;
 function RouteNumber(props, context) {
   const mode = props.mode.toLowerCase();
   const { alertSeverityLevel, color } = props;
-
-  if (mode === 'bicycle' || mode === 'car') {
-    // mode += '-withoutBox';
-  }
-
   const longText = props.text && props.text.length >= LONG_ROUTE_NUMBER_LENGTH;
   // Checks if route only has letters without identifying numbers and
   // length doesn't fit in the tab view
@@ -80,7 +75,7 @@ function RouteNumber(props, context) {
         })}
         role="img"
       >
-        {props.vertical === true && props.isTransitLeg === true ? (
+        {props.isTransitLeg === true ? (
           <div className={`special-icon ${mode}`}>
             {getIcon(
               props.icon,
