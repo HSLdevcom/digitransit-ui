@@ -29,7 +29,7 @@ export default configMerger(walttiConfig, {
       default: MAP_URL,
       satellite: `${API_URL}/tiles/orthophoto/{z}/{x}/{y}.jpg`,
       semiTransparent: SEMI_TRANSPARENT_MAP_URL,
-      selfHosted: `${API_URL}/tiles/streets/{z}/{x}/{y}.png`,
+      selfHosted: `${API_URL}/tiles/streets/{z}/{x}/{y}{r}.png`,
       bicycle: 'https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png',
     },
     STOP_MAP: `${API_URL}/map/v1/stop-map/`,
@@ -121,7 +121,7 @@ export default configMerger(walttiConfig, {
     carpool: 'CARPOOL',
   },
 
-  logo: 'hb/stadtnavi-logo.svg',
+  logo: 'hb/stadtnavi-herrenberg-logo.svg',
 
   GTMid: '',
 
