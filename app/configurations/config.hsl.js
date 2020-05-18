@@ -471,10 +471,9 @@ export default {
     featureMapping: {
       ticketSales: {
         Palvelupiste: 'servicePoint',
-        'HSL Automaatti MNL': 'ticketMachine',
-        'HSL Automaatti KL': 'ticketMachine',
+        Monilippuautomaatti: 'ticketMachine',
+        Kertalippuautomaatti: 'ticketMachine',
         Myyntipiste: 'salesPoint',
-        'R-kioski': 'salesPoint',
       },
     },
   },
