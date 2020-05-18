@@ -66,7 +66,7 @@ writeFileSync(join(folderPath, 'package.json'), `{
     "access": "public"
   },
   "scripts": {
-    "build:index": "babel index.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-proposal-class-properties --out-file index.generated",
+    "build:index": "webpack --config webpack.config.babel.js && yarn run docs",
     "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-proposal-class-properties --out-file test.generated",
     "test": "mocha -r esm test.generated",
     "docs": "node -r esm ../../scripts/generate-readmes"

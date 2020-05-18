@@ -11,7 +11,7 @@
     "digitransit-component/packages/*"
   ],
   "scripts": {
-    "setup": "yarn install && yarn lerna run build:index --scope '@digitransit-component/*'",
+    "setup": "yarn install && yarn run digitransit-build-components",
     "static": "mkdir -p _static/js; mkdir -p _static/css; cp -r static/* _static",
     "win-static": "xcopy static\\* _static /e /s /y /i& if not exist _static\\js mkdir _static\\js& if not exist _static\\css mkdir _static\\css",
     "prebuild": "yarn run static && yarn run relay",
@@ -52,7 +52,7 @@
     "digitransit-component-docs": "node -r esm ./digitransit-component/scripts/generate-readmes",
     "digitransit-component-new-module": "node -r esm ./digitransit-component/scripts/create-new-module $1",
     "digitransit-component-tests": "lerna run test --scope '@digitransit-component/*'",
-    "digitransit-build-components": "yarn lerna run build:index --scope '@digitransit-component/*'"
+    "digitransit-build-components": "lerna run build:index --scope '@digitransit-component/*'"
   },
   "main": "server.js",
   "repository": {
