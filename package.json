@@ -9,7 +9,7 @@
     "digitransit-util/packages/*"
   ],
   "scripts": {
-    "static": "mkdir -p _static/js; mkdir -p _static/css; cp -r static/* _static",
+    "static": "mkdir -p _static/js; mkdir -p _static/css; cp -r static/* _static && yarn lint-translations",
     "win-static": "xcopy static\\* _static /e /s /y /i& if not exist _static\\js mkdir _static\\js& if not exist _static\\css mkdir _static\\css",
     "prebuild": "yarn run static",
     "predev": "yarn run static",
@@ -96,7 +96,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && git-precommit-checks",
+      "pre-commit": "lint-staged && yarn lint-translations && git-precommit-checks",
       "pre-push": "npm run test-unit"
     }
   },
