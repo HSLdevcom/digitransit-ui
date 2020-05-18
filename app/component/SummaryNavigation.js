@@ -12,6 +12,7 @@ import * as ModeUtils from '../util/modeUtils';
 import { parseLocation, PREFIX_ITINERARY_SUMMARY } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { MapMode, StreetMode } from '../constants';
 
 class SummaryNavigation extends React.Component {
   static propTypes = {
@@ -37,6 +38,7 @@ class SummaryNavigation extends React.Component {
     config: PropTypes.object.isRequired,
     router: routerShape,
     location: PropTypes.object.isRequired,
+    getStore: PropTypes.func.isRequired,
   };
 
   customizeSearchModules = {
@@ -116,6 +118,14 @@ class SummaryNavigation extends React.Component {
             category: 'ItinerarySettings',
             name: streetMode,
           });
+          const MapModeStore = this.context.getStore('MapModeStore');
+          if (streetMode === StreetMode.Bicycle) {
+            MapModeStore.setPrevMapMode(MapModeStore.getMapMode());
+            MapModeStore.setMapMode(MapMode.Bicycle);
+          }
+          if (streetMode !== StreetMode.Bicycle) {
+            MapModeStore.setMapMode(MapModeStore.getPrevMapMode());
+          }
         }}
         streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
       />

@@ -5,6 +5,7 @@ export default class MapModeStore extends Store {
   static storeName = 'MapModeStore';
   static existingMapModes = Object.values(MapMode);
   mapMode = MapMode.Default;
+  prevMapMode = this.mapMode;
 
   static handlers = {
     SetMapMode: 'setMapMode',
@@ -29,5 +30,11 @@ export default class MapModeStore extends Store {
       this.mapMode = MapMode.Default;
     }
     this.emitChange();
+  };
+
+  getPrevMapMode = () => this.prevMapMode;
+
+  setPrevMapMode = mapMode => {
+    this.prevMapMode = mapMode;
   };
 }

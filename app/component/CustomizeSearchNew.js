@@ -3,7 +3,7 @@ import React from 'react';
 import { intlShape } from 'react-intl';
 import { routerShape } from 'react-router';
 
-import { StreetMode } from '../constants';
+import { MapMode, StreetMode } from '../constants';
 import Icon from './Icon';
 import FareZoneSelector from './FareZoneSelector';
 import PreferredRoutes from './PreferredRoutes';
@@ -38,6 +38,7 @@ class CustomizeSearch extends React.Component {
     router: routerShape.isRequired,
     location: PropTypes.object.isRequired,
     config: PropTypes.object.isRequired,
+    getStore: PropTypes.func.isRequired,
   };
 
   static propTypes = {
@@ -115,6 +116,14 @@ class CustomizeSearch extends React.Component {
                 category: 'ItinerarySettings',
                 name: streetMode,
               });
+              const MapModeStore = this.context.getStore('MapModeStore');
+              if (streetMode === StreetMode.Bicycle) {
+                MapModeStore.setPrevMapMode(MapModeStore.getMapMode());
+                MapModeStore.setMapMode(MapMode.Bicycle);
+              }
+              if (streetMode !== StreetMode.Bicycle) {
+                MapModeStore.setMapMode(MapModeStore.getPrevMapMode());
+              }
             }}
             showButtonTitles
             streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}

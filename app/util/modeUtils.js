@@ -14,7 +14,7 @@ import { getCustomizedSettings } from '../store/localStorage';
 import { isInBoundingBox } from './geo-utils';
 import { addAnalyticsEvent } from './analyticsUtils';
 
-export const getMapMode = router => {
+export const getMapModeURL = router => {
   if (
     router.location &&
     router.location.query &&
@@ -25,7 +25,7 @@ export const getMapMode = router => {
   return MapMode.Default;
 };
 
-export const setMapMode = (router, mapMode) => {
+export const setMapModeURL = (router, mapMode) => {
   replaceQueryParams(router, { mapMode });
 };
 
@@ -284,22 +284,22 @@ export const setStreetMode = (
     router.location.state &&
     router.location.state.prevMapMode
   ) {
-    setMapMode(router, router.location.state.prevMapMode);
+    setMapModeURL(router, router.location.state.prevMapMode);
   }
   if (modesQuery.modes === 'CARPOOL') {
     modesQuery.modes = modesQuery.modes.concat(',WALK');
   }
   if (modesQuery.modes === 'BICYCLE') {
-    if (getMapMode(router) !== MapMode.Bicycle) {
+    if (getMapModeURL(router) !== MapMode.Bicycle) {
       const newLocation = {
         ...router.location,
         state: {
           ...router.location.state,
-          prevMapMode: getMapMode(router),
+          prevMapMode: getMapModeURL(router),
         },
       };
       router.replace(newLocation);
-      setMapMode(router, MapMode.Bicycle);
+      setMapModeURL(router, MapMode.Bicycle);
     }
   }
   replaceQueryParams(router, modesQuery);
