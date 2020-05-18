@@ -7,15 +7,6 @@ import uniqByLabel from '@digitransit-search-util/digitransit-search-util-uniq-b
 import filterMatchingToInput from '@digitransit-search-util/digitransit-search-util-filter-matching-to-input';
 import getGeocodingResult from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
 
-export const getAllEndpointLayers = [
-  'CurrentPosition',
-  'FavouritePlace',
-  'FavouriteStop',
-  'OldSearch',
-  'Geocoding',
-  'Stops',
-];
-
 function getFavouriteLocations(favourites, input) {
   return Promise.resolve(
     orderBy(
@@ -119,10 +110,10 @@ export function getSearchResults(
     getOldSearches: prevSearches,
     getFavouriteStops: stops,
     getLanguage,
-    getStopAndStations,
+    getStopAndStationsQuery,
+    getFavouriteRoutesQuery,
     getFavouriteRoutes,
-    getStoredFavouriteRoutes,
-    getRoutes,
+    getRoutesQuery,
     context,
     isPeliasLocationAware: locationAware,
     minimalRegexp,
@@ -191,7 +182,7 @@ export function getSearchResults(
   if (allTargets || targets.includes('Stops')) {
     if (allSources || sources.includes('Favourite')) {
       const favouriteStops = stops(context);
-      const stopsAndStations = getStopAndStations(favouriteStops);
+      const stopsAndStations = getStopAndStationsQuery(favouriteStops);
       searchComponents.push(getFavouriteStops(stopsAndStations, input));
     }
     if (allSources || sources.includes('Datasource')) {
@@ -222,10 +213,10 @@ export function getSearchResults(
 
   if (allTargets || targets.includes('Routes')) {
     if (allSources || sources.includes('Favourites')) {
-      const favouriteRoutes = getStoredFavouriteRoutes(context);
-      searchComponents.push(getFavouriteRoutes(favouriteRoutes, input));
+      const favouriteRoutes = getFavouriteRoutes(context);
+      searchComponents.push(getFavouriteRoutesQuery(favouriteRoutes, input));
     }
-    searchComponents.push(getRoutes(input, feedIDs));
+    searchComponents.push(getRoutesQuery(input, feedIDs));
     if (allSources || sources.includes('History')) {
       const routeHistory = prevSearches(context);
       const dropLayers = [

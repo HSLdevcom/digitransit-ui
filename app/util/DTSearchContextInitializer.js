@@ -1,14 +1,14 @@
 /* eslint-disable no-param-reassign */
 import {
-  getRoutes,
-  getStopAndStations,
-  getFavouriteRoutes,
+  getRoutesQuery,
+  getStopAndStationsQuery,
+  getFavouriteRoutesQuery,
   setRelayEnvironment,
-} from './DTSearchUtils';
+} from './DTSearchQueryUtils';
 import {
   getPositions,
   getFavouriteLocations,
-  getFavouriteRoutes as getStoredFavouriteRoutes,
+  getFavouriteRoutes,
   getOldSearches,
   getFavouriteStops,
   getLanguage,
@@ -42,11 +42,11 @@ export default function intializeSearchContext(
   searchContext.getFavouriteLocations = getFavouriteLocations;
   searchContext.getFavouriteStops = getFavouriteStops;
   searchContext.getLanguage = getLanguage;
-  searchContext.getStoredFavouriteRoutes = getStoredFavouriteRoutes;
+  searchContext.getStoredFavouriteRoutes = getFavouriteRoutes;
   searchContext.getPositions = getPositions;
-  searchContext.getRoutes = getRoutes;
-  searchContext.getStopAndStations = getStopAndStations;
-  searchContext.getFavouriteRoutes = getFavouriteRoutes;
+  searchContext.getRoutesQuery = getRoutesQuery;
+  searchContext.getStopAndStations = getStopAndStationsQuery;
+  searchContext.getFavouriteRoutes = getFavouriteRoutesQuery;
   searchContext.startLocationWatch = startLocationWatch;
   searchContext.saveSearch = saveSearch;
 }

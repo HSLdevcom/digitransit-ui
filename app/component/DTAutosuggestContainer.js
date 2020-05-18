@@ -6,7 +6,7 @@ import { intlShape } from 'react-intl';
 import loadable from '@loadable/component';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
-import { withCurrentTime } from '../util/DTSearchUtils';
+import { withCurrentTime } from '../util/DTSearchQueryUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { navigateTo } from '../util/path';
 import { dtLocationShape } from '../util/shapes';
@@ -93,7 +93,6 @@ class DTAutosuggestContainer extends React.Component {
         type,
       });
     }
-    // this.onSelect(item, type);
   };
 
   onSuggestionSelected = (item, id) => {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
-import { withCurrentTime } from '../util/DTSearchUtils';
+import { withCurrentTime } from '../util/DTSearchQueryUtils';
 import ComponentUsageExample from './ComponentUsageExample';
 import DTAutosuggestContainer from './DTAutosuggestContainer';
 import { PREFIX_ITINERARY_SUMMARY, navigateTo } from '../util/path';

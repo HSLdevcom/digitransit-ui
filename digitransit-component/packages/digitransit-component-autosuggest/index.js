@@ -49,11 +49,11 @@ function suggestionToAriaContent(item) {
  *   getFavouriteLocations: () => ({}),    // Function that returns array of favourite locations.
  *   getFavouriteStops: () => ({}),        // Function that returns array of favourite stops.
  *   getLanguage: () => ({}),              // Function that returns current language.
- *   getStoredFavouriteRoutes: () => ({}), // Function that returns array of favourite routes.
+ *   getFavouriteRoutes: () => ({}), // Function that returns array of favourite routes.
  *   getPositions: () => ({}),             // Function that returns user's geolocation.
- *   getRoutes: () => ({}),                // Function that fetches routes from graphql API.
- *   getStopAndStations: () => ({}),       // Function that fetches favourite stops and stations from graphql API.
- *   getFavouriteRoutes: () => ({}),       // Function that fetches favourite routes from graphql API.
+ *   getRoutesQuery: () => ({}),                // Function that fetches routes from graphql API.
+ *   getStopAndStationsQuery: () => ({}),       // Function that fetches favourite stops and stations from graphql API.
+ *   getFavouriteRoutesQuery: () => ({}),       // Function that fetches favourite routes from graphql API.
  *   startLocationWatch: () => ({}),       // Function that locates users geolocation.
  *   saveSearch: () => ({}),               // Function that saves search to old searches store.
  * };

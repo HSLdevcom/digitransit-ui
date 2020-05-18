@@ -1,5 +1,5 @@
 /**
- *  Function template required for searchUtils earch. One can use DTSearchutils and storeUtils for
+ *  Function template required for searchUtils earch. One can use DTSearchQueryutils and storeUtils for
  * default implementation, or provide their own.
  */
 const searchContext = {
@@ -15,10 +15,10 @@ const searchContext = {
   URL_PELIAS: '',
   geocodingSearchParams: null,
   geocodingSources: '',
-  getRoutes() {
+  getRoutesQuery() {
     return Promise.resolve([]);
   },
-  getStopAndStations() {
+  getStopAndStationsQuery() {
     return Promise.resolve([]);
   },
   getFavouriteRoutes() {
