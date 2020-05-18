@@ -1,8 +1,6 @@
 import orderBy from 'lodash/orderBy';
 import debounce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
-import sortBy from 'lodash/sortBy';
-import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import take from 'lodash/take';
 import { sortSearchResults } from '@digitransit-search-util/digitransit-search-util-helpers';
 import uniqByLabel from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
@@ -61,30 +59,14 @@ function getCurrentPositionIfEmpty(input, position) {
   return Promise.resolve([]);
 }
 
-function getFavouriteStops(stopsAndStations, input, origin) {
-  const refLatLng = origin &&
-    origin.lat &&
-    origin.lon && { lat: origin.lat, lng: origin.lon };
-
-  return stopsAndStations
-    .then(stops =>
-      filterMatchingToInput(stops, input, [
-        'properties.name',
-        'properties.name',
-        'properties.address',
-      ]),
-    )
-    .then(
-      stops =>
-        refLatLng
-          ? sortBy(stops, stop =>
-              distance(refLatLng, {
-                lat: stop.lat,
-                lon: stop.lon,
-              }),
-            )
-          : stops,
-    );
+function getFavouriteStops(stopsAndStations, input) {
+  return stopsAndStations.then(stops =>
+    filterMatchingToInput(stops, input, [
+      'properties.name',
+      'properties.name',
+      'properties.address',
+    ]),
+  );
 }
 // function getDropLayers(layers) {
 //   const allLayers = ['street', 'address', 'venue', 'station', 'stop'];
@@ -128,7 +110,6 @@ export function getSearchResults(
   targets,
   sources,
   searchContext,
-  refPoint,
   { input },
   callback,
 ) {
@@ -211,9 +192,7 @@ export function getSearchResults(
     if (allSources || sources.includes('Favourite')) {
       const favouriteStops = stops(context);
       const stopsAndStations = getStopAndStations(favouriteStops);
-      searchComponents.push(
-        getFavouriteStops(stopsAndStations, input, refPoint),
-      );
+      searchComponents.push(getFavouriteStops(stopsAndStations, input));
     }
     if (allSources || sources.includes('Datasource')) {
       const regex = minimalRegexp || undefined;
@@ -285,10 +264,9 @@ export const executeSearch = (
   targets,
   sources,
   searchContext,
-  refPoint,
   data,
   callback,
 ) => {
   callback(null); // This means 'we are searching'
-  debouncedSearch(targets, sources, searchContext, refPoint, data, callback);
+  debouncedSearch(targets, sources, searchContext, data, callback);
 };

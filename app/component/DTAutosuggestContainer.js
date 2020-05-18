@@ -51,7 +51,6 @@ class DTAutosuggestContainer extends React.Component {
     initialViaPoints: PropTypes.array,
     updateViaPoints: PropTypes.func,
     swapOrder: PropTypes.func,
-    refPoint: PropTypes.object,
     relayEnvironment: PropTypes.object.isRequired,
     onFavouriteSelected: PropTypes.func,
     lang: PropTypes.string,
@@ -257,7 +256,6 @@ class DTAutosuggestContainer extends React.Component {
         icon={this.props.icon}
         id={this.props.id}
         autoFocus={this.props.autoFocus}
-        refPoint={this.props.refPoint}
         placeholder={this.props.placeholder}
         value={this.props.value}
         onSelect={this.onSelect}

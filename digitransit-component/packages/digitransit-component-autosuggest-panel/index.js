@@ -421,7 +421,6 @@ class DTAutosuggestPanel extends React.Component {
               breakpoint === 'large' && !origin.ready
             }
             storeRef={this.storeReference}
-            refPoint={origin}
             className={this.class(origin)}
             placeholder={this.props.originPlaceHolder}
             value={this.value(origin)}
@@ -477,7 +476,6 @@ class DTAutosuggestPanel extends React.Component {
                   id="viapoint"
                   ariaLabel={i18next.t('via-point-index', { index: i + 1 })}
                   autoFocus={breakpoint === 'large'}
-                  refPoint={this.props.origin}
                   placeholder="via-point"
                   className="viapoint"
                   searchContext={searchContext}
@@ -573,7 +571,6 @@ class DTAutosuggestPanel extends React.Component {
               breakpoint === 'large' && origin.ready
             }
             storeRef={this.storeReference}
-            refPoint={origin}
             placeholder={this.props.destinationPlaceHolder}
             className={this.class(this.props.destination)}
             searchContext={searchContext}

@@ -52,7 +52,6 @@ class IndexPage extends React.Component {
     destination: dtLocationShape.isRequired,
     showSpinner: PropTypes.bool.isRequired,
     favourites: PropTypes.array,
-    locationState: PropTypes.object.isRequired,
     lang: PropTypes.string,
   };
 
@@ -177,7 +176,6 @@ class IndexPage extends React.Component {
             className="destination"
             placeholder="stop-near-you"
             value=""
-            locationState={this.props.locationState}
             sources={['Favourite', 'History', 'Datasource']}
             targets={['Stops', 'Routes']}
           />
