@@ -18,7 +18,6 @@ import { DesktopOrMobile } from '../util/withBreakpoint';
 import { getUser } from '../util/apiUtils';
 import setUser from '../action/userActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { MapMode } from '../constants';
 
 class TopLevel extends React.Component {
   static propTypes = {
@@ -50,6 +49,7 @@ class TopLevel extends React.Component {
     headers: PropTypes.object.isRequired,
     config: PropTypes.object.isRequired,
     executeAction: PropTypes.func.isRequired,
+    getStore: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -152,7 +152,7 @@ class TopLevel extends React.Component {
 
     let content;
 
-    const mapMode = this.props.location.query.mapMode || MapMode.Default;
+    const mapMode = this.context.getStore('MapModeStore').getMapMode();
     const homeUrl = `${getHomeUrl(
       this.props.origin,
       parseLocation(this.props.params.to),
