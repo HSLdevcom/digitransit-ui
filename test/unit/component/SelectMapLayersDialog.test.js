@@ -19,6 +19,8 @@ describe('<SelectMapLayersDialog />', () => {
         ticketSales: {},
       },
       updateMapLayers: () => {},
+      currentMapMode: 'default',
+      setMapMode: () => {},
     };
     const wrapper = mountWithIntl(<SelectMapLayersDialog isOpen {...props} />, {
       context: { ...mockContext },
@@ -45,6 +47,8 @@ describe('<SelectMapLayersDialog />', () => {
       updateMapLayers: layers => {
         mapLayers = { ...layers };
       },
+      currentMapMode: 'default',
+      setMapMode: () => {},
     };
     const wrapper = mountWithIntl(<SelectMapLayersDialog isOpen {...props} />, {
       context: { ...mockContext },
@@ -79,6 +83,8 @@ describe('<SelectMapLayersDialog />', () => {
       updateMapLayers: layers => {
         mapLayers = { ...layers };
       },
+      currentMapMode: 'default',
+      setMapMode: () => {},
     };
     const wrapper = mountWithIntl(<SelectMapLayersDialog isOpen {...props} />, {
       context: { ...mockContext },
@@ -113,6 +119,8 @@ describe('<SelectMapLayersDialog />', () => {
       updateMapLayers: layers => {
         mapLayers = { ...layers };
       },
+      currentMapMode: 'default',
+      setMapMode: () => {},
     };
     const wrapper = mountWithIntl(<SelectMapLayersDialog isOpen {...props} />, {
       context: { ...mockContext },
@@ -147,6 +155,8 @@ describe('<SelectMapLayersDialog />', () => {
       updateMapLayers: layers => {
         mapLayers = { ...layers };
       },
+      currentMapMode: 'default',
+      setMapMode: () => {},
     };
     const wrapper = mountWithIntl(<SelectMapLayersDialog isOpen {...props} />, {
       context: { ...mockContext },
@@ -183,6 +193,8 @@ describe('<SelectMapLayersDialog />', () => {
       updateMapLayers: layers => {
         mapLayers = { ...layers };
       },
+      currentMapMode: 'default',
+      setMapMode: () => {},
     };
     const wrapper = mountWithIntl(<SelectMapLayersDialog isOpen {...props} />, {
       context: { ...mockContext },
@@ -220,6 +232,8 @@ describe('<SelectMapLayersDialog />', () => {
       updateMapLayers: layers => {
         mapLayers = { ...layers };
       },
+      currentMapMode: 'default',
+      setMapMode: () => {},
     };
     const wrapper = mountWithIntl(<SelectMapLayersDialog isOpen {...props} />, {
       context: { ...mockContext },
@@ -255,6 +269,8 @@ describe('<SelectMapLayersDialog />', () => {
       updateMapLayers: layers => {
         mapLayers = { ...layers };
       },
+      currentMapMode: 'default',
+      setMapMode: () => {},
     };
     const wrapper = mountWithIntl(<SelectMapLayersDialog isOpen {...props} />, {
       context: { ...mockContext },
@@ -291,6 +307,8 @@ describe('<SelectMapLayersDialog />', () => {
       updateMapLayers: layers => {
         mapLayers = { ...layers };
       },
+      currentMapMode: 'default',
+      setMapMode: () => {},
     };
     const wrapper = mountWithIntl(<SelectMapLayersDialog isOpen {...props} />, {
       context: { ...mockContext },
@@ -322,6 +340,8 @@ describe('<SelectMapLayersDialog />', () => {
       updateMapLayers: layers => {
         mapLayers = { ...layers };
       },
+      currentMapMode: 'default',
+      setMapMode: () => {},
     };
     const wrapper = mountWithIntl(<SelectMapLayersDialog isOpen {...props} />, {
       context: { ...mockContext },
@@ -356,6 +376,8 @@ describe('<SelectMapLayersDialog />', () => {
       updateMapLayers: layers => {
         mapLayers = { ...layers };
       },
+      currentMapMode: 'default',
+      setMapMode: () => {},
     };
     const wrapper = mountWithIntl(<SelectMapLayersDialog isOpen {...props} />, {
       context: { ...mockContext },
@@ -413,6 +435,8 @@ describe('<SelectMapLayersDialog />', () => {
       updateMapLayers: layers => {
         mapLayers = { ...layers };
       },
+      currentMapMode: 'default',
+      setMapMode: () => {},
     };
     const wrapper = mountWithIntl(<SelectMapLayersDialog isOpen {...props} />, {
       context: { ...mockContext },
