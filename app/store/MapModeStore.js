@@ -23,7 +23,7 @@ export default class MapModeStore extends Store {
   getMapMode = () => this.mapMode;
 
   setMapMode = mapMode => {
-    if (mapMode in this.existingMapModes) {
+    if (MapModeStore.existingMapModes.includes(mapMode)) {
       this.mapMode = mapMode;
     } else {
       this.mapMode = MapMode.Default;
