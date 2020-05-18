@@ -3,32 +3,32 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import pure from 'recompose/pure';
-import Icon from './helpers/Icon';
+import Icon from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
 
 function getIcon(layer) {
   const layerIcon = new Map([
-    ['currentPosition', `Locate`],
-    ['favouritePlace', 'Star'],
-    ['favouriteRoute', 'Star'],
-    ['favouriteStop', 'Star'],
-    ['favouriteStation', 'Star'],
-    ['favourite', 'Star'],
-    ['address', 'Place'],
-    ['stop', 'Busstop'],
-    ['locality', 'City'],
-    ['station', 'Station'],
-    ['localadmin', 'City'],
-    ['neighbourhood', 'City'],
-    ['route-BUS', 'Bus'],
-    ['route-TRAM', 'Tram'],
-    ['route-RAIL', 'Rail'],
-    ['route-SUBWAY', 'Subway'],
-    ['route-FERRY', 'Ferry'],
-    ['route-AIRPLANE', 'Airplane'],
+    ['currentPosition', 'locate'],
+    ['favouritePlace', 'star'],
+    ['favouriteRoute', 'star'],
+    ['favouriteStop', 'star'],
+    ['favouriteStation', 'star'],
+    ['favourite', 'star'],
+    ['address', 'place'],
+    ['stop', 'busstop'],
+    ['locality', 'city'],
+    ['station', 'station'],
+    ['localadmin', 'city'],
+    ['neighbourhood', 'city'],
+    ['route-BUS', 'bus'],
+    ['route-TRAM', 'tram'],
+    ['route-RAIL', 'rail'],
+    ['route-SUBWAY', 'subway'],
+    ['route-FERRY', 'ferry'],
+    ['route-AIRPLANE', 'airplane'],
   ]);
 
-  const defaultIcon = 'Place';
+  const defaultIcon = 'place';
   return layerIcon.get(layer) || defaultIcon;
 }
 

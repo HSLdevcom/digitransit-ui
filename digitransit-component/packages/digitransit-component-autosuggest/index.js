@@ -9,7 +9,7 @@ import SuggestionItem from '@digitransit-component/digitransit-component-suggest
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import { getNameLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
-import Icon from './helpers/Icon';
+import Icon from '@digitransit-component/digitransit-component-icon';
 import translations from './helpers/translations';
 import styles from './helpers/styles.scss';
 
