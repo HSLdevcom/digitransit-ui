@@ -1,28 +1,16 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { matchShape, routerShape } from 'found';
 import { intlShape } from 'react-intl';
-import loadable from '@loadable/component';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import { withCurrentTime } from '../util/DTSearchQueryUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { navigateTo } from '../util/path';
-import { dtLocationShape } from '../util/shapes';
 import searchContext from '../util/searchContext';
 import intializeSearchContext from '../util/DTSearchContextInitializer';
 import getRelayEnvironment from '../util/getRelayEnvironment';
-
-const DTAutoSuggest = loadable(
-  () => import('@digitransit-component/digitransit-component-autosuggest'),
-  { ssr: true },
-);
-const DTAutosuggestPanel = loadable(
-  () =>
-    import('@digitransit-component/digitransit-component-autosuggest-panel'),
-  { ssr: true },
-);
 
 class DTAutosuggestContainer extends React.Component {
   static contextTypes = {
@@ -35,27 +23,11 @@ class DTAutosuggestContainer extends React.Component {
   };
 
   static propTypes = {
-    ariaLabel: PropTypes.string,
-    type: PropTypes.string.isRequired,
-    searchPanelText: PropTypes.string,
-    origin: dtLocationShape,
-    destination: dtLocationShape,
-    originPlaceHolder: PropTypes.string,
-    destinationPlaceHolder: PropTypes.string,
-    icon: PropTypes.string,
-    id: PropTypes.string,
-    autoFocus: PropTypes.bool,
-    placeholder: PropTypes.string,
-    value: PropTypes.string,
-    showMultiPointControls: PropTypes.bool,
-    initialViaPoints: PropTypes.array,
-    updateViaPoints: PropTypes.func,
-    swapOrder: PropTypes.func,
+    origin: PropTypes.object,
+    destination: PropTypes.object,
+    children: PropTypes.node,
     relayEnvironment: PropTypes.object.isRequired,
     onFavouriteSelected: PropTypes.func,
-    lang: PropTypes.string,
-    sources: PropTypes.arrayOf(PropTypes.string),
-    targets: PropTypes.arrayOf(PropTypes.string),
   };
 
   constructor(props) {
@@ -226,50 +198,18 @@ class DTAutosuggestContainer extends React.Component {
     }
   };
 
-  renderPanel() {
-    return (
-      <DTAutosuggestPanel
-        searchPanelText={this.props.searchPanelText}
-        origin={this.props.origin}
-        onSelect={this.onSelect}
-        destination={this.props.destination}
-        showMultiPointControls={this.props.showMultiPointControls}
-        originPlaceHolder={this.props.originPlaceHolder}
-        destinationPlaceHolder={this.props.destinationPlaceHolder}
-        searchContext={searchContext}
-        initialViaPoints={this.props.initialViaPoints}
-        updateViaPoints={this.props.updateViaPoints}
-        swapOrder={this.props.swapOrder}
-        addAnalyticsEvent={addAnalyticsEvent}
-        lang={this.props.lang}
-        sources={this.props.sources}
-        targets={this.props.targets}
-      />
-    );
-  }
-
-  renderAutoSuggest() {
-    return (
-      <DTAutoSuggest
-        ariaLabel={this.props.ariaLabel}
-        icon={this.props.icon}
-        id={this.props.id}
-        autoFocus={this.props.autoFocus}
-        placeholder={this.props.placeholder}
-        value={this.props.value}
-        onSelect={this.onSelect}
-        searchContext={searchContext}
-        lang={this.props.lang}
-        sources={this.props.sources}
-        targets={this.props.targets}
-      />
-    );
-  }
-
   render() {
-    return this.props.type === 'panel'
-      ? this.renderPanel()
-      : this.renderAutoSuggest();
+    const children = React.Children.map(this.props.children, child => {
+      return React.cloneElement(child, {
+        searchContext,
+        addAnalyticsEvent,
+        onSelect: this.onSelect,
+      });
+    });
+    return <Fragment>{children}</Fragment>;
+    // return this.props.type === 'panel'
+    //   ? this.renderPanel()
+    //   : this.renderAutoSuggest();
   }
 }
 

@@ -6,6 +6,7 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import isEmpty from 'lodash/isEmpty';
 import isNumber from 'lodash/isNumber';
+import loadable from '@loadable/component';
 import Icon from './Icon';
 import BackButton from './BackButton';
 import FavouriteIconTable from './FavouriteIconTable';
@@ -14,6 +15,10 @@ import { isStop, isTerminal } from '../util/suggestionUtils';
 import DTAutosuggestContainer from './DTAutosuggestContainer';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
+const DTAutoSuggest = loadable(
+  () => import('@digitransit-component/digitransit-component-autosuggest'),
+  { ssr: true },
+);
 class AddFavouriteContainer extends React.Component {
   static FavouriteIconIds = [
     'icon-icon_place',
@@ -160,13 +165,6 @@ class AddFavouriteContainer extends React.Component {
 
   render() {
     const { favourite } = this.state;
-    const favouriteLayers = [
-      'CurrentPosition',
-      'Geocoding',
-      'OldSearch',
-      'Stops',
-    ];
-
     return (
       <div className="fullscreen">
         <div className="add-favourite-container">
@@ -209,16 +207,17 @@ class AddFavouriteContainer extends React.Component {
                 />
               </h4>
               <DTAutosuggestContainer
-                type="field"
-                id="favourite"
-                refPoint={{ lat: 0, lon: 0 }}
-                searchType="endpoint"
-                placeholder="address"
-                value={favourite.address || ''}
-                layers={favouriteLayers}
                 onFavouriteSelected={this.setLocationProperties}
-                showSpinner
-              />
+              >
+                <DTAutoSuggest
+                  id="favourite"
+                  autoFocus={false}
+                  placeholder="address"
+                  value={favourite.address || ''}
+                  sources={['Favourite', 'History', 'Datasource']}
+                  targets={['Stops', 'Routes']}
+                />
+              </DTAutosuggestContainer>
             </div>
             <div className="add-favourite-container__give-name">
               <h4>

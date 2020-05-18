@@ -4,11 +4,16 @@ import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import isNumber from 'lodash/isNumber';
 import { FormattedMessage, intlShape } from 'react-intl';
+import loadable from '@loadable/component';
 import DTAutosuggestContainer from './DTAutosuggestContainer';
 import DTModal from './DTModal';
 import Icon from './Icon';
 import FavouriteIconTable from './FavouriteIconTable';
 
+const DTAutoSuggest = loadable(
+  () => import('@digitransit-component/digitransit-component-autosuggest'),
+  { ssr: true },
+);
 const isStop = ({ layer }) => layer === 'stop' || layer === 'favouriteStop';
 
 const isTerminal = ({ layer }) =>
@@ -205,6 +210,18 @@ class FavouriteModal extends React.Component {
                 onFavouriteSelected={this.setLocationProperties}
                 showSpinner
               />
+              <DTAutosuggestContainer
+                onFavouriteSelected={this.setLocationProperties}
+              >
+                <DTAutoSuggest
+                  id="favourite"
+                  autoFocus={false}
+                  placeholder="address"
+                  value={favourite.address || ''}
+                  sources={['Favourite', 'History', 'Datasource']}
+                  targets={['Stops', 'Routes']}
+                />
+              </DTAutosuggestContainer>
             </div>
             <div className="favourite-modal-name">
               <input

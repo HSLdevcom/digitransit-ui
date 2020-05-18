@@ -42,11 +42,11 @@ export default function intializeSearchContext(
   searchContext.getFavouriteLocations = getFavouriteLocations;
   searchContext.getFavouriteStops = getFavouriteStops;
   searchContext.getLanguage = getLanguage;
-  searchContext.getStoredFavouriteRoutes = getFavouriteRoutes;
+  searchContext.getFavouriteRoutes = getFavouriteRoutes;
   searchContext.getPositions = getPositions;
   searchContext.getRoutesQuery = getRoutesQuery;
   searchContext.getStopAndStations = getStopAndStationsQuery;
-  searchContext.getFavouriteRoutes = getFavouriteRoutesQuery;
+  searchContext.getFavouriteRoutesQuery = getFavouriteRoutesQuery;
   searchContext.startLocationWatch = startLocationWatch;
   searchContext.saveSearch = saveSearch;
 }

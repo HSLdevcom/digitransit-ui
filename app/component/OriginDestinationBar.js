@@ -3,16 +3,23 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
+import loadable from '@loadable/component';
 import { withCurrentTime } from '../util/DTSearchQueryUtils';
 import ComponentUsageExample from './ComponentUsageExample';
 import DTAutosuggestContainer from './DTAutosuggestContainer';
 import { PREFIX_ITINERARY_SUMMARY, navigateTo } from '../util/path';
+
 import {
   getIntermediatePlaces,
   setIntermediatePlaces,
 } from '../util/queryUtils';
 import { dtLocationShape } from '../util/shapes';
 
+const DTAutosuggestPanel = loadable(
+  () =>
+    import('@digitransit-component/digitransit-component-autosuggest-panel'),
+  { ssr: true },
+);
 const locationToOtp = location =>
   `${location.address}::${location.lat},${location.lon}${
     location.locationSlack ? `::${location.locationSlack}` : ''
@@ -76,15 +83,22 @@ class OriginDestinationBar extends React.Component {
         )}
       >
         <DTAutosuggestContainer
-          type="panel"
           origin={this.props.origin}
           destination={this.props.destination}
-          showMultiPointControls
-          initialViaPoints={getIntermediatePlaces(this.location.query)}
-          updateViaPoints={this.updateViaPoints}
-          swapOrder={this.swapEndpoints}
-          targets={['Locations', 'CurrentPosition']}
-        />
+        >
+          <DTAutosuggestPanel
+            origin={this.props.origin}
+            destination={this.props.destination}
+            showMultiPointControls
+            originPlaceHolder="search-origin-index"
+            destinationPlaceHolder="search-destination-index"
+            initialViaPoints={getIntermediatePlaces(this.location.query)}
+            updateViaPoints={this.updateViaPoints}
+            swapOrder={this.swapEndpoints}
+            sources={['Favourite', 'History', 'Datasource']}
+            targets={['Locations', 'CurrentPosition']}
+          />
+        </DTAutosuggestContainer>
       </div>
     );
   }

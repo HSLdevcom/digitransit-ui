@@ -21,7 +21,7 @@ const searchContext = {
   getStopAndStationsQuery() {
     return Promise.resolve([]);
   },
-  getFavouriteRoutes() {
+  getFavouriteRoutesQuery() {
     return Promise.resolve([]);
   },
   getPositions: () => {
@@ -36,9 +36,9 @@ const searchContext = {
     };
   },
   getFavouriteLocations: () => [],
-  getStoredFavouriteRoutes: () => [],
   getOldSearches: () => [],
   getFavouriteStops: () => [],
+  getFavouriterRoutes: () => [],
   getLanguage: () => 'en',
 };
 
