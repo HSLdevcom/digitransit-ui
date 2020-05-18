@@ -239,7 +239,8 @@ $btn-heigth: 17px;
   &.subway,
   &.ferry,
   &.airplane,
-  &.citybike {
+  &.citybike,
+  &.carpool {
     .icon {
       color: $btn-icon-color-active;
     }
