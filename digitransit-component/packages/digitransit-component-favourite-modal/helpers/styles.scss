@@ -1,5 +1,13 @@
+$favourite-icon-column-border-color: #d9d9d9;
+$favourite-icon-border-radius: 5px;
+
+$selected-icon-font-color: #fff;
+$not-selected-icon-font-color: #007ac9;
+
+$selected-icon-background-color: #333;
+$not-selected-icon-background-color: #fff;
+
 .favouriteModal {
-  display: block;
   position: fixed;
   width: 100%;
   height: 100%;
@@ -19,23 +27,22 @@
   }
 }
 
-$favourite-icon-column-border-color: #d9d9d9;
-$favourite-icon-border-radius: 5px;
+.display-block {
+  display: block;
+}
 
-$selected-icon-font-color: #fff;
-$not-selected-icon-font-color: #007ac9;
-
-$selected-icon-background-color: #333;
-$not-selected-icon-background-color: #fff;
+.display-none {
+  display: none;
+}
 
 .generic-table > .row {
   display: flex;
 }
 
 .generic-table__label-container{
-  font-size: $font-size-xxsmall;
+  font-size: 0.8rem;
   margin-top: 3px;
-  color: $gray;
+  color: #666;
   height: 16px;
   max-width: 62.5rem;
   margin-left: auto;
@@ -50,7 +57,6 @@ $not-selected-icon-background-color: #fff;
   height: 48px;
   margin-bottom: 0;
   text-align: center;
-  @include font-medium;
   font-size: 17px;
   border-top: solid 1px $favourite-icon-column-border-color;
   border-bottom: solid 1px $favourite-icon-column-border-color;
@@ -108,6 +114,7 @@ $not-selected-icon-background-color: #fff;
       color: #333333;
     }
     .favourite-modal-close {
+      cursor: pointer;
       height: 16px;
       margin: 30px 34px 0 0;
       text-align: right;

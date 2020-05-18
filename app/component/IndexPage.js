@@ -30,8 +30,8 @@ import { dtLocationShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
 import scrollTop from '../util/scroll';
-import FavouriteLocationsContainer from './FavouriteLocationsContainer';
 import Datetimepicker from './Datetimepicker';
+import FavouritesContainer from './FavouritesContainer';
 
 const debug = d('IndexPage.js');
 
@@ -51,7 +51,18 @@ class IndexPage extends React.Component {
     origin: dtLocationShape.isRequired,
     destination: dtLocationShape.isRequired,
     showSpinner: PropTypes.bool.isRequired,
-    favourites: PropTypes.array,
+    favourites: PropTypes.arrayOf(
+      PropTypes.shape({
+        address: PropTypes.string,
+        gtfsId: PropTypes.string,
+        gid: PropTypes.string,
+        lat: PropTypes.number,
+        name: PropTypes.string,
+        lon: PropTypes.number,
+        selectedIconId: PropTypes.string,
+        favouriteId: PropTypes.string,
+      }),
+    ),
     locationState: PropTypes.object.isRequired,
     lang: PropTypes.string,
   };
@@ -59,6 +70,7 @@ class IndexPage extends React.Component {
   static defaultProps = {
     autoSetOrigin: true,
     lang: 'fi',
+    favourites: [],
   };
 
   constructor(props, context) {
@@ -154,10 +166,10 @@ class IndexPage extends React.Component {
           />
           <CtrlPanel.SeparatorLine />
           <Datetimepicker realtime />
-          <FavouriteLocationsContainer
+          <FavouritesContainer
             favourites={favourites}
-            onClickFavourite={this.clickFavourite}
             onAddFavourite={this.addFavourite}
+            onClickFavourite={this.clickFavourite}
           />
           <CtrlPanel.SeparatorLine />
           <div className="stops-near-you-text">
@@ -211,10 +223,10 @@ class IndexPage extends React.Component {
           />
           <CtrlPanel.SeparatorLine />
           <Datetimepicker realtime />
-          <FavouriteLocationsContainer
-            favourites={this.props.favourites}
-            onClickFavourite={this.clickFavourite}
+          <FavouritesContainer
+            favourites={favourites}
             onAddFavourite={this.addFavourite}
+            onClickFavourite={this.clickFavourite}
           />
           <CtrlPanel.SeparatorLine />
           <div className="stops-near-you-text">

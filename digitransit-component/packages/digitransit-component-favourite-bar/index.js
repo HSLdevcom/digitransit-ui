@@ -59,8 +59,20 @@ FavouriteLocation.propTypes = {
 
 class FavouriteBar extends React.Component {
   static propTypes = {
-    favourites: PropTypes.array.isRequired,
+    favourites: PropTypes.arrayOf(
+      PropTypes.shape({
+        address: PropTypes.string,
+        gtfsId: PropTypes.string,
+        gid: PropTypes.string,
+        lat: PropTypes.number,
+        name: PropTypes.string,
+        lon: PropTypes.number,
+        selectedIconId: PropTypes.string,
+        favouriteId: PropTypes.string,
+      }),
+    ).isRequired,
     onClickFavourite: PropTypes.func,
+    onAddPlace: PropTypes.func,
     lang: PropTypes.string,
   };
 
@@ -174,10 +186,17 @@ class FavouriteBar extends React.Component {
     }
   };
 
-  clickFavourite = favourite => {
-    return Promise.resolve(this.props.onClickFavourite(favourite)).then(() =>
-      this.toggleList(),
-    );
+  suggestionSelected = () => {
+    const { favourites, highlightedIndex } = this.state;
+    if (highlightedIndex < favourites.length) {
+      this.props.onClickFavourite(favourites[highlightedIndex]);
+    } else if (highlightedIndex === favourites.length) {
+      this.props.onAddPlace();
+    }
+    // else if (highlightedIndex === favourites.length + 1) {
+    // click on edit suggestion
+    // }
+    this.toggleList();
   };
 
   handleKeyDown = event => {
@@ -186,12 +205,8 @@ class FavouriteBar extends React.Component {
     if (isKeyboardSelectionEvent(event)) {
       if (!listOpen) {
         this.toggleList();
-      } else if (highlightedIndex < favourites.length) {
-        this.clickFavourite(favourites[highlightedIndex]);
-      } else if (highlightedIndex === favourites.length) {
-        this.toggleList();
-      } else if (highlightedIndex === favourites.length + 1) {
-        this.toggleList();
+      } else {
+        this.suggestionSelected();
       }
     } else if (key === 'ArrowUp' || key === 38) {
       const next =
@@ -206,12 +221,7 @@ class FavouriteBar extends React.Component {
     }
   };
 
-  renderSuggestion = (
-    item,
-    index,
-    onClickSuggestion,
-    className = undefined,
-  ) => {
+  renderSuggestion = (item, index, className = undefined) => {
     const { highlightedIndex } = this.state;
     const id = `favourite-suggestion-list--item-${index}`;
     const selected = highlightedIndex === index;
@@ -225,7 +235,7 @@ class FavouriteBar extends React.Component {
           selected ? styles.highlighted : '',
         )}
         onMouseEnter={() => this.highlightSuggestion(index)}
-        onClick={() => onClickSuggestion(item)}
+        onClick={this.suggestionSelected}
         aria-selected={selected}
         role="option"
       >
@@ -244,13 +254,11 @@ class FavouriteBar extends React.Component {
       {
         name: i18next.t('add-place'),
         selectedIconId: 'favourite',
-        onClick: this.openModal,
       },
       {
         name: 'Muokkaa',
         selectedIconId: 'edit',
         iconColor: '#007ac9',
-        onClick: () => ({}),
       },
     ];
     /* eslint-disable anchor-is-valid, jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/role-supports-aria-props */
@@ -321,18 +329,13 @@ class FavouriteBar extends React.Component {
               role="listbox"
             >
               {favourites.map((item, index) =>
-                this.renderSuggestion(
-                  { ...item, iconColor: '#007ac9' },
-                  index,
-                  this.clickFavourite,
-                ),
+                this.renderSuggestion({ ...item, iconColor: '#007ac9' }, index),
               )}
               {favourites.length > 0 && <div className={styles.divider} />}
               {customSuggestions.map((item, index) =>
                 this.renderSuggestion(
                   item,
                   favourites.length + index,
-                  item.onClick,
                   'favouriteCustom',
                 ),
               )}

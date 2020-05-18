@@ -1,11 +1,12 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import i18next from 'i18next';
 import isEmpty from 'lodash/isEmpty';
 import isNumber from 'lodash/isNumber';
-import DTAutosuggestContainer from '@digitransit-component/digitransit-component-autosuggest';
+// import DTAutosuggest from '@digitransit-component/digitransit-component-autosuggest';
+import Icon from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
 import translations from './helpers/translations';
 
@@ -20,20 +21,58 @@ const isStop = ({ layer }) => layer === 'stop' || layer === 'favouriteStop';
 const isTerminal = ({ layer }) =>
   layer === 'station' || layer === 'favouriteStation';
 
-const Modal = ({ children }) => {
+const Modal = ({ show, children }) => {
   return (
-    <div className={styles.favouriteModal}>
+    <div
+      className={cx(
+        styles.favouriteModal,
+        show ? styles['display-block'] : styles['display-none'],
+      )}
+    >
       <section className={styles.modalMain}>{children}</section>
     </div>
   );
 };
 
 Modal.propTypes = {
+  show: PropTypes.bool.isRequired,
   children: PropTypes.node,
 };
 
 Modal.defaultProps = {
   children: [],
+};
+
+const FavouriteIconTableButton = ({
+  key,
+  value,
+  selectedIconId,
+  handleClick,
+}) => {
+  const [isHovered, setHover] = useState(false);
+  const iconColor =
+    value === selectedIconId || isHovered ? '#ffffff' : '#007ac9';
+  return (
+    <button
+      type="button"
+      key={key}
+      className={cx(styles['favourite-icon-table-column'], {
+        [styles['selected-icon']]: value === selectedIconId,
+      })}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      onClick={() => handleClick(value)}
+    >
+      <Icon img={value} height={1.125} width={1.125} color={iconColor} />
+    </button>
+  );
+};
+
+FavouriteIconTableButton.propTypes = {
+  handleClick: PropTypes.func.isRequired,
+  key: PropTypes.string,
+  value: PropTypes.string,
+  selectedIconId: PropTypes.string,
 };
 
 const FavouriteIconTable = ({
@@ -42,16 +81,12 @@ const FavouriteIconTable = ({
   handleClick,
 }) => {
   const columns = favouriteIconIds.map(value => (
-    <button
-      type="button"
+    <FavouriteIconTableButton
       key={value}
-      className={cx(styles['favourite-icon-table-column'], {
-        [styles['selected-icon']]: value === selectedIconId,
-      })}
-      onClick={() => handleClick(value)}
-    >
-      {/* <Icon img={value} height={1.125} width={1.125} /> */}
-    </button>
+      value={value}
+      selectedIconId={selectedIconId}
+      handleClick={handleClick}
+    />
   ));
 
   return (
@@ -69,6 +104,9 @@ FavouriteIconTable.propTypes = {
 
 class FavouriteModal extends React.Component {
   static propTypes = {
+    // config: PropTypes.object,
+    // searchContext: PropTypes.config,
+    show: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
     addFavourite: PropTypes.func.isRequired,
     favourite: PropTypes.shape({
@@ -82,6 +120,7 @@ class FavouriteModal extends React.Component {
       favouriteId: PropTypes.string,
     }),
     addAnalyticsEvent: PropTypes.func,
+    // lang: PropTypes.string,
   };
 
   static defaultProps = {
@@ -103,12 +142,12 @@ class FavouriteModal extends React.Component {
   };
 
   static favouriteIconIds = [
-    'icon-icon_place',
-    'icon-icon_home',
-    'icon-icon_work',
-    'icon-icon_sport',
-    'icon-icon_school',
-    'icon-icon_shopping',
+    'place',
+    'home',
+    'work',
+    'sport',
+    'school',
+    'shopping',
   ];
 
   state = {
@@ -209,15 +248,15 @@ class FavouriteModal extends React.Component {
   };
 
   render = () => {
-    const favouriteLayers = [
-      'CurrentPosition',
-      'Geocoding',
-      'OldSearch',
-      'Stops',
-    ];
+    // const favouriteLayers = [
+    //   'CurrentPosition',
+    //   'Geocoding',
+    //   'OldSearch',
+    //   'Stops',
+    // ];
     const { favourite } = this.state;
     return (
-      <Modal>
+      <Modal show={this.props.show}>
         <div className={styles['favourite-modal-container']}>
           <div className={styles['favourite-modal-top']}>
             <div className={styles['favourite-modal-header']}>
@@ -228,33 +267,26 @@ class FavouriteModal extends React.Component {
               role="button"
               tabIndex="0"
               onClick={() => this.props.handleClose()}
-              aria-label={this.context.intl.formatMessage({
-                id: 'close-favourite-module',
-              })}
+              aria-label={i18next.t('close-favourite-modal')}
             >
-              {/* <Icon
-                className={styles['cursor-pointer']}
-                img="icon-icon_close"
-                width={1}
-                height={1}
-                color="#007ac9"
-              /> */}
+              <Icon img="close" width={1} height={1} color="#007ac9" />
             </div>
           </div>
           <div className={styles['favourite-modal-main']}>
             <div className={styles['favourite-modal-location-search']}>
-              <DTAutosuggestContainer
-                className={styles.favourite}
-                type="field"
+              {/* <DTAutosuggest
+                className="favourite"
                 id="favourite"
+                config={this.props.config}
+                searchContext={this.props.searchContext}
                 refPoint={{ lat: 0, lon: 0 }}
-                searchType="endpoint"
-                placeholder="address"
+                placeholder="search-address-or-place"
                 value={favourite.address || ''}
-                layers={favouriteLayers}
-                onFavouriteSelected={this.setLocationProperties}
-                showSpinner
-              />
+                onSelect={this.setLocationProperties}
+                lang={this.props.lang}
+                sources={['Favourite', 'History', 'Datasource']}
+                targets={['Stops', 'Routes']}
+              /> */}
             </div>
             <div className={styles['favourite-modal-name']}>
               <input

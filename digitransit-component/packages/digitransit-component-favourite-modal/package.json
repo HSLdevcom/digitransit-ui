@@ -7,7 +7,7 @@
     "access": "public"
   },
   "scripts": {
-    "build:index": "babel index.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-proposal-class-properties --out-file index.generated",
+    "build:index": "webpack --config webpack.config.babel.js",
     "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-proposal-class-properties --out-file test.generated",
     "test": "mocha -r esm test.generated",
     "docs": "node -r esm ../../scripts/generate-readmes"
@@ -23,7 +23,8 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "dependencies": {
-    "@digitransit-component/digitransit-component-autosuggest": "0.0.7"
+    "@digitransit-component/digitransit-component-autosuggest": "0.0.7",
+    "@digitransit-component/digitransit-component-icon": "0.0.1"
   },
   "peerDependencies": {
     "classnames": "2.2.6",
