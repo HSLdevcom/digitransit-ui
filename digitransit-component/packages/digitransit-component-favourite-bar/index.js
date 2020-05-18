@@ -7,10 +7,9 @@ import differenceWith from 'lodash/differenceWith';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import SuggestionItem from '@digitransit-component/digitransit-component-suggestion-item';
-import Icon from './helpers/Icon';
+import Icon from '@digitransit-component/digitransit-component-icon';
 import translations from './helpers/translations';
 import styles from './helpers/styles.scss';
-// import FavouriteModal from './FavouriteModal';
 
 i18next.init({ lng: 'fi', resources: {} });
 
@@ -39,12 +38,9 @@ const FavouriteLocation = ({ className, clickItem, iconId, text, label }) => {
       tabIndex="0"
       aria-label={text}
     >
-      <Icon
-        className={styles.icon}
-        height={1.125}
-        img={iconId}
-        color="#007ac9"
-      />
+      <span className={styles.icon}>
+        <Icon height={1.125} img={iconId} color="#007ac9" />
+      </span>
       <div className={styles.location}>
         <div className={styles.name}>{text}</div>
         <div className={styles.address}>{label}</div>
