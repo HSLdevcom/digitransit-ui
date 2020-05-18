@@ -17,11 +17,7 @@ import { withRouter, routerShape } from 'react-router';
 import PositionMarker from './PositionMarker';
 import VectorTileLayerContainer from './tile-layer/VectorTileLayerContainer';
 import { boundWithMinimumArea } from '../../util/geo-utils';
-import {
-  isDebugTiles,
-  isBikeSafetyTiles,
-  isSelfHostedTiles,
-} from '../../util/browser';
+import { isDebugTiles, isBikeSafetyTiles } from '../../util/browser';
 import { BreakpointConsumer } from '../../util/withBreakpoint';
 import events from '../../util/events';
 import { MapMode } from '../../constants';
@@ -154,8 +150,6 @@ class Map extends React.Component {
       mapUrls.push(
         `${config.URL.OTP}inspector/tile/bike-safety/{z}/{x}/{y}.png`,
       );
-    } else if (isSelfHostedTiles) {
-      mapUrls.push(config.URL.MAP.selfHosted);
     } else if (router.location.query.mapMode === MapMode.Satellite) {
       mapUrls.push(config.URL.MAP.satellite);
       mapUrls.push(config.URL.MAP.semiTransparent);
