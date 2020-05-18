@@ -14,6 +14,7 @@ import 'leaflet-active-area';
 import 'leaflet/dist/leaflet.css';
 
 import { withRouter, routerShape } from 'react-router';
+import { connectToStores } from 'fluxible-addons-react';
 import PositionMarker from './PositionMarker';
 import VectorTileLayerContainer from './tile-layer/VectorTileLayerContainer';
 import { boundWithMinimumArea } from '../../util/geo-utils';
@@ -49,7 +50,7 @@ class Map extends React.Component {
     disableZoom: PropTypes.bool,
     activeArea: PropTypes.string,
     mapRef: PropTypes.func,
-    mapMode: PropTypes.string,
+    currentMapMode: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -67,7 +68,6 @@ class Map extends React.Component {
     showStops: false,
     disableZoom: false,
     mapRef: null,
-    mapMode: 'default',
   };
 
   static contextTypes = {
@@ -131,7 +131,7 @@ class Map extends React.Component {
 
   render() {
     const { zoom, boundsOptions } = this.props;
-    const { config, router } = this.context;
+    const { config } = this.context;
 
     const center =
       (!this.props.fitBounds &&
@@ -143,6 +143,8 @@ class Map extends React.Component {
       boundsOptions.paddingTopLeft = this.props.padding;
     }
 
+    const { currentMapMode } = this.props;
+
     const mapUrls = [];
     if (isDebugTiles) {
       mapUrls.push(`${config.URL.OTP}inspector/tile/traversal/{z}/{x}/{y}.png`);
@@ -150,10 +152,10 @@ class Map extends React.Component {
       mapUrls.push(
         `${config.URL.OTP}inspector/tile/bike-safety/{z}/{x}/{y}.png`,
       );
-    } else if (router.location.query.mapMode === MapMode.Satellite) {
+    } else if (currentMapMode === MapMode.Satellite) {
       mapUrls.push(config.URL.MAP.satellite);
       mapUrls.push(config.URL.MAP.semiTransparent);
-    } else if (router.location.query.mapMode === MapMode.Bicycle) {
+    } else if (currentMapMode === MapMode.Bicycle) {
       mapUrls.push(config.URL.MAP.bicycle);
     } else {
       mapUrls.push(config.URL.MAP.default);
@@ -165,8 +167,7 @@ class Map extends React.Component {
     }
     */
 
-    const mapMode = router.location.query.mapMode || MapMode.Default;
-    const attribution = config.map.attribution[mapMode];
+    const attribution = config.map.attribution[currentMapMode];
 
     return (
       <div aria-hidden="true">
@@ -233,4 +234,8 @@ class Map extends React.Component {
   }
 }
 
-export default withRouter(Map);
+const connectedComponent = connectToStores(Map, ['MapModeStore'], context => ({
+  currentMapMode: context.getStore('MapModeStore').getMapMode(),
+}));
+
+export default withRouter(connectedComponent);

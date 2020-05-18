@@ -13,6 +13,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { replaceQueryParams, clearQueryParams } from '../util/queryUtils';
 import { MapMode } from '../constants';
+import { setMapMode } from '../action/MapModeActions';
 
 class SelectMapLayersDialog extends React.Component {
   updateSetting = newSetting => {
@@ -99,6 +100,7 @@ class SelectMapLayersDialog extends React.Component {
         Object.keys(this.context.router.location.query),
       );
     }
+    this.props.setMapMode(mapMode);
   };
 
   renderContents = (
@@ -116,6 +118,7 @@ class SelectMapLayersDialog extends React.Component {
     },
     config,
     lang,
+    currentMapMode,
   ) => {
     const isTransportModeEnabled = transportMode =>
       transportMode && transportMode.availableForSelection;
@@ -339,12 +342,7 @@ class SelectMapLayersDialog extends React.Component {
               onChange={() => {
                 this.switchMapLayers(MapMode.Default);
               }}
-              checked={
-                this.context.router.location &&
-                (this.context.router.location.query.mapMode ===
-                  MapMode.Default ||
-                  !this.context.router.location.query.mapMode)
-              }
+              checked={currentMapMode === MapMode.Default}
             />
             <FormattedMessage id="streets" defaultMessage="Streets" />
           </label>
@@ -357,10 +355,7 @@ class SelectMapLayersDialog extends React.Component {
               onChange={() => {
                 this.switchMapLayers(MapMode.Satellite);
               }}
-              checked={
-                this.context.router.location &&
-                this.context.router.location.query.mapMode === MapMode.Satellite
-              }
+              checked={currentMapMode === MapMode.Satellite}
             />
             <FormattedMessage id="satellite" defaultMessage="Satellite" />
           </label>
@@ -373,10 +368,7 @@ class SelectMapLayersDialog extends React.Component {
               onChange={() => {
                 this.switchMapLayers(MapMode.Bicycle);
               }}
-              checked={
-                this.context.router.location &&
-                this.context.router.location.query.mapMode === MapMode.Bicycle
-              }
+              checked={currentMapMode === MapMode.Bicycle}
             />
             <FormattedMessage id="bicycle" defaultMessage="Bicycle" />
           </label>
@@ -386,7 +378,7 @@ class SelectMapLayersDialog extends React.Component {
   };
 
   render() {
-    const { config, lang, isOpen, mapLayers } = this.props;
+    const { config, lang, isOpen, mapLayers, currentMapMode } = this.props;
     const tooltip =
       config.mapLayers &&
       config.mapLayers.tooltip &&
@@ -402,7 +394,7 @@ class SelectMapLayersDialog extends React.Component {
         isOpen={isOpen}
         tooltip={tooltip}
       >
-        {this.renderContents(mapLayers, config, lang)}
+        {this.renderContents(mapLayers, config, lang, currentMapMode)}
       </BubbleDialog>
     );
   }
@@ -464,6 +456,8 @@ SelectMapLayersDialog.propTypes = {
   mapLayers: mapLayerShape.isRequired,
   updateMapLayers: PropTypes.func.isRequired,
   lang: PropTypes.string,
+  currentMapMode: PropTypes.string.isRequired,
+  setMapMode: PropTypes.func.isRequired,
 };
 
 SelectMapLayersDialog.defaultProps = {
@@ -512,6 +506,8 @@ SelectMapLayersDialog.description = (
           ticketSales: { ticketMachine: true },
         }}
         updateMapLayers={() => {}}
+        currentMapMode="default"
+        setMapMode={() => {}}
       />
     </div>
   </ComponentUsageExample>
@@ -540,7 +536,7 @@ export const getGeoJsonLayersOrDefault = (
 
 const connectedComponent = connectToStores(
   SelectMapLayersDialog,
-  [GeoJsonStore, MapLayerStore, 'PreferencesStore'],
+  [GeoJsonStore, MapLayerStore, 'PreferencesStore', 'MapModeStore'],
   ({ config, executeAction, getStore }) => ({
     config: {
       ...config,
@@ -552,6 +548,8 @@ const connectedComponent = connectToStores(
     updateMapLayers: mapLayers =>
       executeAction(updateMapLayers, { ...mapLayers }),
     lang: getStore('PreferencesStore').getLanguage(),
+    currentMapMode: getStore('MapModeStore').getMapMode(),
+    setMapMode: mapMode => executeAction(setMapMode, mapMode),
   }),
   {
     config: mapLayersConfigShape,
