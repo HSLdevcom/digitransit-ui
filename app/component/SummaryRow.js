@@ -389,7 +389,6 @@ const SummaryRow = (
         />,
       );
     }
-
     if (leg.intermediatePlace) {
       legs.push(<ViaLeg key={`via_${leg.mode}_${leg.startTime}`} />);
       if (
@@ -408,7 +407,6 @@ const SummaryRow = (
         );
       }
     }
-
     const connectsFromViaPoint = () =>
       getViaPointIndex(leg, intermediatePlaces) > -1;
 

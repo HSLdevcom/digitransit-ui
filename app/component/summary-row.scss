@@ -35,7 +35,6 @@
   padding-top: 0.5em;
   overflow: hidden;
   background-color: $white;
-  //border-left: 0.3em $action-color solid;
   display: flex;
   user-select: none;
   $distance-gray: #7b7b7b;
@@ -53,8 +52,6 @@
 
   &.passive {
     border-left-color: $background-color;
-    //background-color: $background-color;
-
   }
 
   h3, h4 {
@@ -260,7 +257,6 @@
       background-color: currentColor;
       border: 1px solid currentColor;
       height: 1.5em;
-      //border-width: 2px;
       border-radius: $border-radius;
       &.call {
         border-color: #aaa;
