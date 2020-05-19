@@ -42,4 +42,18 @@ describe('translations', () => {
       'the Swedish translations are missing for these Finnish terms',
     );
   });
+
+  it('German translations should have all the English terms', () => {
+    const missing = {};
+    Object.keys(translations.en)
+      .filter(key => !ignoredTerms.includes(key))
+      .filter(key => translations.de[key] === undefined)
+      .forEach(key => {
+        missing[key] = translations.en[key];
+      });
+    expect(missing).to.deep.equal(
+      {},
+      'the German translations are missing for these English terms',
+    );
+  });
 });
