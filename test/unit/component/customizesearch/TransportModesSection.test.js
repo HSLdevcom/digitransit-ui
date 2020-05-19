@@ -2,12 +2,12 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
 
-import Toggle from 'material-ui/Toggle';
 import { mockMatch, mockRouter } from '../../helpers/mock-router';
 import { mountWithIntl } from '../../helpers/mock-intl-enzyme';
 import { mockContext, mockChildContextTypes } from '../../helpers/mock-context';
 
 import TransportModesSection from '../../../../app/component/customizesearch/TransportModesSection';
+import Toggle from '../../../../app/component/Toggle';
 
 describe('<TransportModesSection />', () => {
   it('should change the selected transport modes upon clicking a checkbox', () => {

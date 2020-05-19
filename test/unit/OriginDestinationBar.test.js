@@ -7,16 +7,11 @@ import { mockMatch, mockRouter } from './helpers/mock-router';
 import { mockContext, mockChildContextTypes } from './helpers/mock-context';
 import { mountWithIntl } from './helpers/mock-intl-enzyme';
 import OriginDestinationBar from '../../app/component/OriginDestinationBar';
+import DTAutosuggestContainer from '../../app/component/DTAutosuggestContainer';
 import searchContext from '../../app/util/searchContext';
 import { setIntermediatePlaces } from '../../app/util/queryUtils';
 
 describe('<OriginDestinationBar />', () => {
-  // TODO: this component does not initialize anything from the url
-  // it('should initialize viapoints from url', () => {
-  //   wrapper.setState({ isViaPoint: true, viaPointNames: exampleViapoints });
-  //   expect(wrapper.state('viaPointNames')).to.equal(exampleViapoints);
-  // });
-
   describe('swapEndpoints', () => {
     it('should also swap via points in the query', () => {
       const props = {
@@ -38,7 +33,7 @@ describe('<OriginDestinationBar />', () => {
         'Kamppi 1241, Helsinki::60.169119,24.932058',
       ]);
 
-      const comp = mountWithIntl(<OriginDestinationBar {...props} />, {
+      const wrapper = mountWithIntl(<OriginDestinationBar {...props} />, {
         context: {
           ...mockContext,
           match: {
@@ -48,6 +43,25 @@ describe('<OriginDestinationBar />', () => {
               query: {
                 ...callParams.query,
               },
+            },
+          },
+          config: {
+            autoSuggest: {
+              locationAware: true,
+            },
+            URL: {
+              PELIAS: 'foo.com',
+            },
+            search: {
+              suggestions: {
+                useTransportIcons: false,
+              },
+              usePeliasStops: false,
+              mapPeliasModality: false,
+              peliasMapping: {},
+              peliasLayer: null,
+              peliasLocalization: null,
+              minimalRegexp: new RegExp('.{2,}'),
             },
           },
           getStore: () => ({
@@ -70,7 +84,7 @@ describe('<OriginDestinationBar />', () => {
         childContextTypes: mockChildContextTypes,
       });
 
-      comp.find('.itinerary-search-control > .switch').simulate('click');
+      wrapper.find(DTAutosuggestContainer).prop('swapOrder')();
 
       expect(callParams.query.intermediatePlaces).to.deep.equal([
         'Kamppi 1241, Helsinki::60.169119,24.932058',
