@@ -2,11 +2,12 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
 
-import { mockContext, mockChildContextTypes } from '../helpers/mock-context';
-import { mountWithIntl } from '../helpers/mock-intl-enzyme';
+import { mockContext } from '../helpers/mock-context';
+import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import defaultConfig from '../../../app/configurations/config.default';
 
 import { Component as SummaryPlanContainer } from '../../../app/component/SummaryPlanContainer';
+import TimeNavigationButtons from '../../../app/component/TimeNavigationButtons';
 
 const config = {
   areaPolygon: defaultConfig.areaPolygon,
@@ -154,21 +155,16 @@ const props = {
 
 describe('<SummaryPlanContainer />', () => {
   it('should disable the earlier/later buttons if there are no itineraries available', () => {
-    const wrapper = mountWithIntl(<SummaryPlanContainer {...props} />, {
+    const wrapper = shallowWithIntl(<SummaryPlanContainer {...props} />, {
       context: {
         ...mockContext,
         config,
       },
-      childContextTypes: {
-        ...mockChildContextTypes,
-      },
     });
-    expect(
-      wrapper.find('.time-navigation-earlier-btn[disabled=true]'),
-    ).to.have.lengthOf(1);
-    expect(
-      wrapper.find('.time-navigation-later-btn[disabled=true]'),
-    ).to.have.lengthOf(1);
+    const timeNavigationButtons = wrapper.find(TimeNavigationButtons);
+    expect(timeNavigationButtons).to.have.lengthOf(1);
+    expect(timeNavigationButtons.prop('isEarlierDisabled')).to.equal(true);
+    expect(timeNavigationButtons.prop('isLaterDisabled')).to.equal(true);
   });
 
   // Sometimes OTP cannot return proper response. "itineraries" are null and
@@ -179,73 +175,15 @@ describe('<SummaryPlanContainer />', () => {
       itineraries: null,
       error: 'Error: Server does not return response for request with id...',
     };
-    const wrapper = mountWithIntl(<SummaryPlanContainer {...props2} />, {
+    const wrapper = shallowWithIntl(<SummaryPlanContainer {...props2} />, {
       context: {
         ...mockContext,
         config,
       },
-      childContextTypes: {
-        ...mockChildContextTypes,
-      },
     });
-    expect(
-      wrapper.find('.time-navigation-earlier-btn[disabled=true]'),
-    ).to.have.lengthOf(1);
-    expect(
-      wrapper.find('.time-navigation-later-btn[disabled=true]'),
-    ).to.have.lengthOf(1);
-  });
-
-  it('should inform user if origin and destination are close to each other', () => {
-    const props3 = {
-      ...props,
-      itineraries: null,
-      params: {
-        from: 'Kamppi, Helsinki::60.169022,24.931691',
-        to: 'Kamppi, Helsinki::60.169022,24.931691',
-      },
-    };
-    const wrapper = mountWithIntl(<SummaryPlanContainer {...props3} />, {
-      context: {
-        ...mockContext,
-        config,
-      },
-      childContextTypes: {
-        ...mockChildContextTypes,
-      },
-    });
-    expect(wrapper.find('.no-route-icon .info')).to.have.lengthOf(1);
-    expect(
-      wrapper.find({ id: 'no-route-origin-near-destination' }),
-    ).to.have.lengthOf(1);
-  });
-
-  it('should inform if user is already at destination', () => {
-    const props4 = {
-      ...props,
-      itineraries: null,
-      locationState: {
-        lat: 60.169022,
-        lon: 24.931691,
-        hasLocation: true,
-      },
-      params: {
-        from: 'Kamppi, Helsinki::60.169022,24.931691',
-        to: 'Kamppi, Helsinki::60.169022,24.931691',
-      },
-    };
-    const wrapper = mountWithIntl(<SummaryPlanContainer {...props4} />, {
-      context: {
-        ...mockContext,
-        config,
-      },
-      childContextTypes: {
-        ...mockChildContextTypes,
-      },
-    });
-    expect(wrapper.find('.no-route-icon .info')).to.have.lengthOf(1);
-    expect(
-      wrapper.find({ id: 'no-route-already-at-destination' }),
-    ).to.have.lengthOf(1);
+    const timeNavigationButtons = wrapper.find(TimeNavigationButtons);
+    expect(timeNavigationButtons).to.have.lengthOf(1);
+    expect(timeNavigationButtons.prop('isEarlierDisabled')).to.equal(true);
+    expect(timeNavigationButtons.prop('isLaterDisabled')).to.equal(true);
   });
 });
