@@ -17,9 +17,11 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '10'
-      - name: install dependencies
+      - name: Install dependencies
         run: yarn install
       - name: eslint
         run: yarn lint
-      - name: unit tests
+      - name: Unit tests
         run: yarn test-unit
+      - name: Build docker image
+        run: test/deploy.sh
