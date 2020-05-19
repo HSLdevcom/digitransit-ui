@@ -8,6 +8,7 @@ const PolygonWithText = props => {
   if (props.position && props.text) {
     return (
       <Marker
+        zIndexOffset={1000}
         position={props.position}
         icon={L.divIcon({
           html: `<span style="width:100px;height:50px;border:1px solid #000; background-color: #D3D3D3; white-space: nowrap; padding: 5px;">${

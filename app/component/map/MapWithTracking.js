@@ -349,6 +349,24 @@ class MapWithTrackingStateHandler extends React.Component {
     }));
   }
 
+  getCoordinates = () => {
+    if (!this.mapElement || !this.mapElement.leafletElement) {
+      return;
+    }
+
+    const centerOfMap = this.mapElement.leafletElement.getCenter();
+
+    this.setState({
+      locationOfMapCenter: {
+        address: '',
+        position: {
+          lat: centerOfMap.lat,
+          lon: centerOfMap.lng,
+        },
+      },
+    });
+  };
+
   getMapLocation = () => {
     if (!this.mapElement || !this.mapElement.leafletElement) {
       return;
@@ -628,7 +646,7 @@ class MapWithTrackingStateHandler extends React.Component {
           onDragend: this.endDragging,
           onDrag:
             this.props.originFromMap || this.props.destinationFromMap
-              ? this.getMapLocation
+              ? this.getCoordinates
               : null,
           onZoomend:
             this.props.originFromMap || this.props.destinationFromMap
