@@ -1,22 +1,11 @@
 import orderBy from 'lodash/orderBy';
 import debounce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
-import sortBy from 'lodash/sortBy';
-import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import take from 'lodash/take';
 import { sortSearchResults } from '@digitransit-search-util/digitransit-search-util-helpers';
 import uniqByLabel from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import filterMatchingToInput from '@digitransit-search-util/digitransit-search-util-filter-matching-to-input';
 import getGeocodingResult from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
-
-export const getAllEndpointLayers = [
-  'CurrentPosition',
-  'FavouritePlace',
-  'FavouriteStop',
-  'OldSearch',
-  'Geocoding',
-  'Stops',
-];
 
 function getFavouriteLocations(favourites, input) {
   return Promise.resolve(
@@ -61,30 +50,14 @@ function getCurrentPositionIfEmpty(input, position) {
   return Promise.resolve([]);
 }
 
-function getFavouriteStops(stopsAndStations, input, origin) {
-  const refLatLng = origin &&
-    origin.lat &&
-    origin.lon && { lat: origin.lat, lng: origin.lon };
-
-  return stopsAndStations
-    .then(stops =>
-      filterMatchingToInput(stops, input, [
-        'properties.name',
-        'properties.name',
-        'properties.address',
-      ]),
-    )
-    .then(
-      stops =>
-        refLatLng
-          ? sortBy(stops, stop =>
-              distance(refLatLng, {
-                lat: stop.lat,
-                lon: stop.lon,
-              }),
-            )
-          : stops,
-    );
+function getFavouriteStops(stopsAndStations, input) {
+  return stopsAndStations.then(stops =>
+    filterMatchingToInput(stops, input, [
+      'properties.name',
+      'properties.name',
+      'properties.address',
+    ]),
+  );
 }
 // function getDropLayers(layers) {
 //   const allLayers = ['street', 'address', 'venue', 'station', 'stop'];
@@ -128,7 +101,6 @@ export function getSearchResults(
   targets,
   sources,
   searchContext,
-  refPoint,
   { input },
   callback,
 ) {
@@ -138,10 +110,10 @@ export function getSearchResults(
     getOldSearches: prevSearches,
     getFavouriteStops: stops,
     getLanguage,
-    getStopAndStations,
+    getStopAndStationsQuery,
+    getFavouriteRoutesQuery,
     getFavouriteRoutes,
-    getStoredFavouriteRoutes,
-    getRoutes,
+    getRoutesQuery,
     context,
     isPeliasLocationAware: locationAware,
     minimalRegexp,
@@ -210,10 +182,8 @@ export function getSearchResults(
   if (allTargets || targets.includes('Stops')) {
     if (allSources || sources.includes('Favourite')) {
       const favouriteStops = stops(context);
-      const stopsAndStations = getStopAndStations(favouriteStops);
-      searchComponents.push(
-        getFavouriteStops(stopsAndStations, input, refPoint),
-      );
+      const stopsAndStations = getStopAndStationsQuery(favouriteStops);
+      searchComponents.push(getFavouriteStops(stopsAndStations, input));
     }
     if (allSources || sources.includes('Datasource')) {
       const regex = minimalRegexp || undefined;
@@ -243,10 +213,10 @@ export function getSearchResults(
 
   if (allTargets || targets.includes('Routes')) {
     if (allSources || sources.includes('Favourites')) {
-      const favouriteRoutes = getStoredFavouriteRoutes(context);
-      searchComponents.push(getFavouriteRoutes(favouriteRoutes, input));
+      const favouriteRoutes = getFavouriteRoutes(context);
+      searchComponents.push(getFavouriteRoutesQuery(favouriteRoutes, input));
     }
-    searchComponents.push(getRoutes(input, feedIDs));
+    searchComponents.push(getRoutesQuery(input, feedIDs));
     if (allSources || sources.includes('History')) {
       const routeHistory = prevSearches(context);
       const dropLayers = [
@@ -285,10 +255,9 @@ export const executeSearch = (
   targets,
   sources,
   searchContext,
-  refPoint,
   data,
   callback,
 ) => {
   callback(null); // This means 'we are searching'
-  debouncedSearch(targets, sources, searchContext, refPoint, data, callback);
+  debouncedSearch(targets, sources, searchContext, data, callback);
 };

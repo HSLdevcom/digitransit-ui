@@ -11,6 +11,7 @@ import differenceWith from 'lodash/differenceWith';
 import isEmpty from 'lodash/isEmpty';
 import d from 'debug';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
+import loadable from '@loadable/component';
 import {
   initGeolocation,
   checkPositioningPermission,
@@ -35,6 +36,15 @@ import FavouritesContainer from './FavouritesContainer';
 
 const debug = d('IndexPage.js');
 
+const DTAutoSuggest = loadable(
+  () => import('@digitransit-component/digitransit-component-autosuggest'),
+  { ssr: true },
+);
+const DTAutosuggestPanel = loadable(
+  () =>
+    import('@digitransit-component/digitransit-component-autosuggest-panel'),
+  { ssr: true },
+);
 class IndexPage extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
@@ -63,7 +73,6 @@ class IndexPage extends React.Component {
         favouriteId: PropTypes.string,
       }),
     ),
-    locationState: PropTypes.object.isRequired,
     lang: PropTypes.string,
   };
 
@@ -139,7 +148,6 @@ class IndexPage extends React.Component {
     const { intl } = this.context;
     const { breakpoint, destination, origin, favourites, lang } = this.props;
     // const { mapExpanded } = this.state; // TODO verify
-
     return breakpoint === 'large' ? (
       <div
         className={`front-page flex-vertical ${origin &&
@@ -149,20 +157,21 @@ class IndexPage extends React.Component {
           `blurred`} fullscreen bp-${breakpoint}`}
       >
         <CtrlPanel instance="hsl" language={lang} position="left">
-          <DTAutosuggestContainer
-            type="panel"
-            searchPanelText={intl.formatMessage({
-              id: 'where',
-              defaultMessage: 'Where to?',
-            })}
-            origin={origin}
-            destination={destination}
-            originPlaceHolder="search-origin-index"
-            destinationPlaceHolder="search-destination-index"
-            lang={lang}
-            sources={['Favourite', 'History', 'Datasource']}
-            targets={['Locations', 'CurrentPosition']}
-          />
+          <DTAutosuggestContainer origin={origin} destination={destination}>
+            <DTAutosuggestPanel
+              searchPanelText={intl.formatMessage({
+                id: 'where',
+                defaultMessage: 'Where to?',
+              })}
+              origin={origin}
+              destination={destination}
+              originPlaceHolder="search-origin-index"
+              destinationPlaceHolder="search-destination-index"
+              lang={lang}
+              sources={['Favourite', 'History', 'Datasource']}
+              targets={['Locations', 'CurrentPosition']}
+            />
+          </DTAutosuggestContainer>
           <CtrlPanel.SeparatorLine />
           <Datetimepicker realtime />
           <FavouritesContainer
@@ -180,19 +189,19 @@ class IndexPage extends React.Component {
               })}
             </span>
           </div>
-          <DTAutosuggestContainer
-            type="field"
-            icon="search"
-            id="stop-route-station"
-            autoFocus={false}
-            refPoint={origin}
-            className="destination"
-            placeholder="stop-near-you"
-            value=""
-            locationState={this.props.locationState}
-            sources={['Favourite', 'History', 'Datasource']}
-            targets={['Stops', 'Routes']}
-          />
+          <DTAutosuggestContainer>
+            <DTAutoSuggest
+              ariaLabel="Select route, station or stop"
+              icon="search"
+              id="stop-route-station"
+              autoFocus={false}
+              placeholder="stop-near-you"
+              value=""
+              lang={this.props.lang}
+              sources={['Favourite', 'History', 'Datasource']}
+              targets={['Stops', 'Routes']}
+            />
+          </DTAutosuggestContainer>
         </CtrlPanel>
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
       </div>

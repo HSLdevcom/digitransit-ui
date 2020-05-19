@@ -49,21 +49,13 @@ function suggestionToAriaContent(item) {
  *   getFavouriteLocations: () => ({}),    // Function that returns array of favourite locations.
  *   getFavouriteStops: () => ({}),        // Function that returns array of favourite stops.
  *   getLanguage: () => ({}),              // Function that returns current language.
- *   getStoredFavouriteRoutes: () => ({}), // Function that returns array of favourite routes.
+ *   getFavouriteRoutes: () => ({}), // Function that returns array of favourite routes.
  *   getPositions: () => ({}),             // Function that returns user's geolocation.
- *   getRoutes: () => ({}),                // Function that fetches routes from graphql API.
- *   getStopAndStations: () => ({}),       // Function that fetches favourite stops and stations from graphql API.
- *   getFavouriteRoutes: () => ({}),       // Function that fetches favourite routes from graphql API.
+ *   getRoutesQuery: () => ({}),                // Function that fetches routes from graphql API.
+ *   getStopAndStationsQuery: () => ({}),       // Function that fetches favourite stops and stations from graphql API.
+ *   getFavouriteRoutesQuery: () => ({}),       // Function that fetches favourite routes from graphql API.
  *   startLocationWatch: () => ({}),       // Function that locates users geolocation.
  *   saveSearch: () => ({}),               // Function that saves search to old searches store.
- * };
- * // Refpoint defines selected input's location.
- * const refPoint = {
- *    address: "Pasila, Helsinki",
- *    lat: 60.198118,
- *    lon: 24.934074,
- *    ready: true,
- *    set: true
  * };
  * const lang = 'fi'; // en, fi or sv
  * const onSelect = () => {
@@ -79,7 +71,6 @@ function suggestionToAriaContent(item) {
  *    searchContext={searchContext}
  *    icon="origin"
  *    id="id"
- *    refPoint={refPoint}
  *    placeholder={placeholder}
  *    value=""
  *    onSelect={onSelect}
@@ -96,7 +87,6 @@ class DTAutosuggest extends React.Component {
     icon: PropTypes.string,
     id: PropTypes.string.isRequired,
     placeholder: PropTypes.string.isRequired,
-    refPoint: PropTypes.object.isRequired,
     value: PropTypes.string,
     searchContext: PropTypes.any.isRequired,
     ariaLabel: PropTypes.string,
@@ -262,7 +252,6 @@ class DTAutosuggest extends React.Component {
         this.props.targets,
         this.props.sources,
         this.props.searchContext,
-        this.props.refPoint,
         {
           input: value,
         },
@@ -417,6 +406,7 @@ class DTAutosuggest extends React.Component {
     });
     const iconSize = {
       mapMarker: { height: 1.45, width: 1.45 },
+      'mapMarker-via': { height: 1.45, width: 1.45 },
       search: { height: 1, width: 1 },
     };
     const iconColor = {

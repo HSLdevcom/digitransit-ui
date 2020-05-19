@@ -15,7 +15,7 @@ let relayEnvironment = null;
 export function setRelayEnvironment(environment) {
   relayEnvironment = environment;
 }
-export const getStopAndStations = favourites => {
+export const getStopAndStationsQuery = favourites => {
   if (!relayEnvironment) {
     return Promise.resolve([]);
   }
@@ -40,7 +40,7 @@ export const getStopAndStations = favourites => {
   );
 };
 
-export function getFavouriteRoutes(favourites, input) {
+export function getFavouriteRoutesQuery(favourites, input) {
   if (!relayEnvironment) {
     return Promise.resolve([]);
   }
@@ -64,7 +64,7 @@ export function getFavouriteRoutes(favourites, input) {
       routes.sort((x, y) => routeNameCompare(x.properties, y.properties)),
     );
 }
-export function getRoutes(input, feedIds) {
+export function getRoutesQuery(input, feedIds) {
   if (!relayEnvironment) {
     return Promise.resolve([]);
   }
