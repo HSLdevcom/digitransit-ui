@@ -146,6 +146,8 @@ export default configMerger(walttiConfig, {
     'boundary.rect.max_lat': 48.97661,
     'boundary.rect.min_lon': 9.95635,
     'boundary.rect.max_lon': 8.530883,
+    'focus.point.lat': 48.5957,
+    'focus.point.lon': 8.8675
   },
 
   areaPolygon: [
