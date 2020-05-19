@@ -35,8 +35,6 @@ function IndexPageMap(
   { match, router, breakpoint, origin, destination },
   { config },
 ) {
-  const [mapExpanded, toggleFullscreen] = useState(false);
-
   let map;
   if (breakpoint === 'large') {
     map = (
@@ -56,6 +54,19 @@ function IndexPageMap(
       />
     );
   } else {
+    const originFromMap =
+      match && match.location
+        ? match.location.pathname.indexOf('SelectFromMap') === 1
+        : false;
+    const destinationFromMap =
+      match && match.location
+        ? match.location.pathname.indexOf('SelectFromMap') > 1
+        : false;
+
+    const [mapExpanded, toggleFullscreen] = useState(
+      originFromMap || destinationFromMap,
+    );
+
     map = (
       <>
         <div
@@ -75,6 +86,8 @@ function IndexPageMap(
                 {config.map.showLayerSelector && renderMapLayerSelector()}
               </>
             )}
+            originFromMap={originFromMap}
+            destinationFromMap={destinationFromMap}
           />
         </div>
         {/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}

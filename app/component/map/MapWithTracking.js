@@ -21,6 +21,8 @@ import {
 } from '../../action/realTimeClientAction';
 import triggerMessage from '../../util/messageUtils';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
+import { getJson } from '../../util/xhrPromise';
+import { getLabel } from '../../util/suggestionUtils';
 
 const DEFAULT_ZOOM = 12;
 const FOCUS_ZOOM = 16;
@@ -39,6 +41,11 @@ const onlyUpdateCoordChanges = onlyUpdateForKeys([
 const locationMarkerModules = {
   LocationMarker: () =>
     importLazy(import(/* webpackChunkName: "map" */ './LocationMarker')),
+};
+
+const polygonWithTextModules = {
+  PolygonWithText: () =>
+    importLazy(import(/* webpackChunkName: "map" */ './PolygonWithText')),
 };
 
 const jsonModules = {
@@ -98,10 +105,15 @@ class MapWithTrackingStateHandler extends React.Component {
     renderCustomButtons: PropTypes.func,
     mapLayers: mapLayerShape.isRequired,
     messages: PropTypes.array,
+    originFromMap: PropTypes.bool,
+    destinationFromMap: PropTypes.bool,
+    language: PropTypes.string,
   };
 
   static defaultProps = {
     renderCustomButtons: undefined,
+    originFromMap: false,
+    destinationFromMap: false,
   };
 
   constructor(props) {
@@ -251,6 +263,18 @@ class MapWithTrackingStateHandler extends React.Component {
     }
   }
 
+  centerMapViewToWantedCoordinates = (coordinates, zoomLevel) => {
+    if (!this.mapElement || !this.mapElement.leafletElement) {
+      return;
+    }
+
+    const { leafletElement } = this.mapElement;
+    if (coordinates) {
+      const zoom = zoomLevel || leafletElement.getZoom();
+      leafletElement.setView(coordinates, zoom, { animate: true });
+    }
+  };
+
   setMapElementRef = element => {
     if (element && this.mapElement !== element) {
       this.mapElement = element;
@@ -279,9 +303,6 @@ class MapWithTrackingStateHandler extends React.Component {
   };
 
   updateCurrentBounds = () => {
-    if (!this.mapElement || !this.mapElement.leafletElement) {
-      return;
-    }
     const newBounds = this.mapElement.leafletElement.getBounds();
     const { bounds } = this.state;
     if (bounds && bounds.equals(newBounds)) {
@@ -328,6 +349,112 @@ class MapWithTrackingStateHandler extends React.Component {
     }));
   }
 
+  getCoordinates = () => {
+    if (!this.mapElement || !this.mapElement.leafletElement) {
+      return;
+    }
+
+    const centerOfMap = this.mapElement.leafletElement.getCenter();
+
+    this.setState({
+      locationOfMapCenter: {
+        address: '',
+        position: {
+          lat: centerOfMap.lat,
+          lon: centerOfMap.lng,
+        },
+      },
+    });
+  };
+
+  getMapLocation = () => {
+    if (!this.mapElement || !this.mapElement.leafletElement) {
+      return;
+    }
+
+    const centerOfMap = this.mapElement.leafletElement.getCenter();
+
+    if (
+      this.state.locationOfMapCenter &&
+      this.state.locationOfMapCenter.lat === centerOfMap.lat &&
+      this.state.locationOfMapCenter.lon === centerOfMap.lng
+    ) {
+      return;
+    }
+
+    getJson(this.context.config.URL.PELIAS_REVERSE_GEOCODER, {
+      'point.lat': centerOfMap.lat,
+      'point.lon': centerOfMap.lng,
+      'boundary.circle.radius': 0.1, // 100m
+      lang: this.props.language,
+      size: 1,
+      layers: 'address',
+      zones: 1,
+    }).then(
+      data => {
+        if (data.features != null && data.features.length > 0) {
+          const match = data.features[0].properties;
+          this.setState(prevState => ({
+            locationOfMapCenter: {
+              ...prevState.locationOfMapCenter,
+              address: getLabel(match),
+              position: {
+                lat: centerOfMap.lat,
+                lon: centerOfMap.lng,
+              },
+            },
+          }));
+        } else {
+          this.setState(prevState => ({
+            locationOfMapCenter: {
+              ...prevState.locationOfMapCenter,
+              address: 'Selected location',
+              position: {
+                lat: centerOfMap.lat,
+                lon: centerOfMap.lng,
+              },
+            },
+          }));
+        }
+      },
+      () => {
+        this.setState({
+          locationOfMapCenter: {
+            address: 'Selected location',
+            position: {
+              lat: centerOfMap.lat,
+              lon: centerOfMap.lng,
+            },
+          },
+        });
+      },
+    );
+  };
+
+  endDragging = () => {
+    if (!this.mapElement || !this.mapElement.leafletElement) {
+      return;
+    }
+    this.updateCurrentBounds();
+    if (this.props.originFromMap || this.props.destinationFromMap) {
+      this.getMapLocation();
+    }
+  };
+
+  endZoom = () => {
+    if (!this.mapElement || !this.mapElement.leafletElement) {
+      return;
+    }
+    if (
+      (this.props.originFromMap || this.props.destinationFromMap) &&
+      this.state.locationOfMapCenter
+    ) {
+      this.centerMapViewToWantedCoordinates(
+        this.state.locationOfMapCenter.position,
+      );
+    }
+  };
+
   render() {
     const {
       position,
@@ -339,7 +466,8 @@ class MapWithTrackingStateHandler extends React.Component {
       mapLayers,
       ...rest
     } = this.props;
-    const { geoJson } = this.state;
+    const { geoJson, locationOfMapCenter } = this.state;
+
     let location;
     if (
       this.state.focusOnOrigin &&
@@ -377,7 +505,7 @@ class MapWithTrackingStateHandler extends React.Component {
       );
     }
 
-    if (origin && origin.ready === true) {
+    if (!this.props.originFromMap && origin && origin.ready === true) {
       leafletObjs.push(
         <LazilyLoad modules={locationMarkerModules} key="from">
           {({ LocationMarker }) => (
@@ -386,7 +514,11 @@ class MapWithTrackingStateHandler extends React.Component {
         </LazilyLoad>,
       );
     }
-    if (destination && destination.ready === true) {
+    if (
+      !this.props.destinationFromMap &&
+      destination &&
+      destination.ready === true
+    ) {
       leafletObjs.push(
         <LazilyLoad modules={locationMarkerModules} key="to">
           {({ LocationMarker }) => (
@@ -394,6 +526,51 @@ class MapWithTrackingStateHandler extends React.Component {
           )}
         </LazilyLoad>,
       );
+    }
+    let positionSelectingFromMap;
+
+    if (this.props.originFromMap || this.props.destinationFromMap) {
+      const defaultLocation = config.defaultMapCenter || config.defaultEndpoint;
+      positionSelectingFromMap =
+        locationOfMapCenter && locationOfMapCenter.position
+          ? locationOfMapCenter.position
+          : defaultLocation;
+      const markerKeyOrType = this.props.originFromMap ? 'from' : 'to';
+      leafletObjs.push(
+        <LazilyLoad modules={locationMarkerModules} key={markerKeyOrType}>
+          {({ LocationMarker }) => (
+            <LocationMarker
+              position={positionSelectingFromMap}
+              type={markerKeyOrType}
+            />
+          )}
+        </LazilyLoad>,
+      );
+
+      if (!locationOfMapCenter && positionSelectingFromMap) {
+        leafletObjs.push(
+          <LazilyLoad modules={polygonWithTextModules} key="moveMapInfo">
+            {({ PolygonWithText }) => (
+              <PolygonWithText
+                position={positionSelectingFromMap}
+                text="Valitse määränpää siirtämällä karttaa"
+              />
+            )}
+          </LazilyLoad>,
+        );
+      }
+      if (locationOfMapCenter && positionSelectingFromMap) {
+        leafletObjs.push(
+          <LazilyLoad modules={polygonWithTextModules} key="markerInfo">
+            {({ PolygonWithText }) => (
+              <PolygonWithText
+                position={positionSelectingFromMap}
+                text={locationOfMapCenter.address}
+              />
+            )}
+          </LazilyLoad>,
+        );
+      }
     }
 
     if (geoJson) {
@@ -421,19 +598,60 @@ class MapWithTrackingStateHandler extends React.Component {
       btnClassName = cx(btnClassName, 'roomForZoomControl');
     }
 
+    let latitudeOfComponent = null;
+    if (
+      !latitudeOfComponent &&
+      !locationOfMapCenter &&
+      positionSelectingFromMap
+    ) {
+      latitudeOfComponent = positionSelectingFromMap.lat;
+    }
+    if (!latitudeOfComponent && locationOfMapCenter) {
+      latitudeOfComponent = locationOfMapCenter.lat;
+    }
+    if (!latitudeOfComponent && location) {
+      latitudeOfComponent = location.lat;
+    }
+
+    let longitudeOfComponent = null;
+    if (
+      !longitudeOfComponent &&
+      !locationOfMapCenter &&
+      positionSelectingFromMap
+    ) {
+      longitudeOfComponent = positionSelectingFromMap.lon;
+    }
+    if (!longitudeOfComponent && locationOfMapCenter) {
+      longitudeOfComponent = locationOfMapCenter.lng;
+    }
+    if (!longitudeOfComponent && location) {
+      longitudeOfComponent = location.lon;
+    }
+
     return (
       <Component
-        lat={location ? location.lat : null}
-        lon={location ? location.lon : null}
-        zoom={this.state.initialZoom}
+        lat={latitudeOfComponent}
+        lon={longitudeOfComponent}
+        zoom={
+          this.props.originFromMap || this.props.destinationFromMap
+            ? DEFAULT_ZOOM
+            : this.state.initialZoom
+        }
         mapTracking={this.state.mapTracking}
         className="flex-grow"
         origin={origin}
         destination={destination}
         leafletEvents={{
           onDragstart: this.disableMapTracking,
-          onDragend: this.updateCurrentBounds,
-          onZoomend: this.updateCurrentBounds,
+          onDragend: this.endDragging,
+          onDrag:
+            this.props.originFromMap || this.props.destinationFromMap
+              ? this.getCoordinates
+              : null,
+          onZoomend:
+            this.props.originFromMap || this.props.destinationFromMap
+              ? this.endZoom
+              : null,
         }}
         disableMapTracking={this.disableMapTracking}
         {...rest}
