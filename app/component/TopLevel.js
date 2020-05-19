@@ -49,6 +49,7 @@ class TopLevel extends React.Component {
     headers: PropTypes.object.isRequired,
     config: PropTypes.object.isRequired,
     executeAction: PropTypes.func.isRequired,
+    getStore: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -151,10 +152,11 @@ class TopLevel extends React.Component {
 
     let content;
 
-    const homeUrl = getHomeUrl(
+    const mapMode = this.context.getStore('MapModeStore').getMapMode();
+    const homeUrl = `${getHomeUrl(
       this.props.origin,
       parseLocation(this.props.params.to),
-    );
+    )}?mapMode=${mapMode}`;
 
     if (this.props.children || !(this.props.map || this.props.header)) {
       content = this.props.children || this.props.content;

@@ -13,6 +13,7 @@ import RealTimeInformationStore from './store/RealTimeInformationStore';
 import TimeStore from './store/TimeStore';
 import FavouriteCityBikeStationStore from './store/FavouriteCityBikeStationStore';
 import MapLayerStore from './store/MapLayerStore';
+import MapModeStore from './store/MapModeStore';
 import GeoJsonStore from './store/GeoJsonStore';
 import CanceledLegsBarStore from './store/CanceledLegsBarStore';
 import ViaPointsStore from './store/ViaPointsStore';
@@ -36,6 +37,7 @@ export default config => {
   app.registerStore(TimeStore);
   app.registerStore(FavouriteCityBikeStationStore);
   app.registerStore(MapLayerStore);
+  app.registerStore(MapModeStore);
   app.registerStore(GeoJsonStore);
   app.registerStore(CanceledLegsBarStore);
   app.registerStore(ViaPointsStore);

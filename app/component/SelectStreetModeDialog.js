@@ -9,6 +9,7 @@ import { isKeyboardSelectionEvent } from '../util/browser';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { MapMode, StreetMode } from '../constants';
 
 class SelectStreetModeDialog extends React.Component {
   constructor(props) {
@@ -78,6 +79,14 @@ class SelectStreetModeDialog extends React.Component {
         if (applyFocus && this.dialogRef) {
           this.dialogRef.closeDialog(applyFocus);
         }
+        const MapModeStore = this.context.getStore('MapModeStore');
+        if (streetMode === StreetMode.Bicycle) {
+          MapModeStore.setPrevMapMode(MapModeStore.getMapMode());
+          MapModeStore.setMapMode(MapMode.Bicycle);
+        }
+        if (streetMode !== StreetMode.Bicycle) {
+          MapModeStore.setMapMode(MapModeStore.getPrevMapMode());
+        }
       },
     );
   }
@@ -128,6 +137,7 @@ SelectStreetModeDialog.defaultProps = {
 
 SelectStreetModeDialog.contextTypes = {
   intl: intlShape.isRequired,
+  getStore: PropTypes.func.isRequired,
 };
 
 SelectStreetModeDialog.description = (
