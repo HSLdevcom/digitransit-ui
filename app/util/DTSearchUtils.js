@@ -1,12 +1,10 @@
 import merge from 'lodash/merge';
 import take from 'lodash/take';
 import { fetchQuery } from 'react-relay';
+import routeNameCompare from '@digitransit-search-util/digitransit-search-util-route-name-compare';
+import { mapRoute } from '@digitransit-search-util/digitransit-search-util-helpers';
+import filterMatchingToInput from '@digitransit-search-util/digitransit-search-util-filter-matching-to-input';
 import { isStop } from './suggestionUtils';
-import {
-  mapRoute,
-  routeNameCompare,
-  filterMatchingToInput,
-} from './searchUtils';
 import searchRoutesQuery from './searchRoutes';
 import favouriteStationsQuery from './favouriteStations';
 import favouriteStopsQuery from './favouriteStops';

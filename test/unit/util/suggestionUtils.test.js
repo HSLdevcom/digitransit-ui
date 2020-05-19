@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
+import { getNameLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import { getNameLabel } from '../../../app/util/suggestionUtils';
 
 const testdata = {
   stop: {

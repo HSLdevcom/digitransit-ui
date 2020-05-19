@@ -1,6 +1,6 @@
 // Parse from, to and time parameters from old reittiopas searches
 import moment from 'moment-timezone/moment-timezone';
-import { getGeocodingResult } from './searchUtils';
+import getGeocodingResults from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
 import { locationToOTP } from './otpStrings';
 import { kkj2ToWgs84 } from './geo-utils';
 import { PREFIX_ITINERARY_SUMMARY } from './path';
@@ -31,7 +31,7 @@ function parseLocation(location, input, config) {
         }),
       );
     }
-    return getGeocodingResult(
+    return getGeocodingResults(
       location,
       config.searchParams,
       null,
@@ -44,7 +44,7 @@ function parseLocation(location, input, config) {
   }
   if (input) {
     const decoded = input.replace('+', ' ');
-    return getGeocodingResult(
+    return getGeocodingResults(
       decoded,
       config.searchParams,
       null,

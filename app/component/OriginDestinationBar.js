@@ -79,11 +79,11 @@ class OriginDestinationBar extends React.Component {
           type="panel"
           origin={this.props.origin}
           destination={this.props.destination}
-          isItinerary
+          showMultiPointControls
           initialViaPoints={getIntermediatePlaces(this.location.query)}
           updateViaPoints={this.updateViaPoints}
           swapOrder={this.swapEndpoints}
-          targets={['Locations']}
+          targets={['Locations', 'CurrentPosition']}
         />
       </div>
     );

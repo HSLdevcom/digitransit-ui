@@ -3,8 +3,9 @@ import React from 'react';
 import cx from 'classnames';
 import pure from 'recompose/pure';
 
+import { getNameLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import Icon from './Icon';
-import { getIcon, getNameLabel } from '../util/suggestionUtils';
+import { getIcon } from '../util/suggestionUtils';
 import ComponentUsageExample from './ComponentUsageExample';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 
