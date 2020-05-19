@@ -19,7 +19,9 @@ class FareZoneSelector extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { currentOption: props.currentOption };
+    this.state = {
+      currentOption: props.currentOption,
+    };
   }
 
   createFareZoneObjects = options => {
@@ -50,7 +52,10 @@ class FareZoneSelector extends React.Component {
             id: 'zones',
             defaultMessage: 'Fare zones',
           })}
-          currentSelection={this.state.currentOption}
+          currentSelection={{
+            title: this.state.currentOption,
+            value: this.state.currentOption,
+          }}
           options={mappedOptions}
           onOptionSelected={value => {
             setCustomizedSettings({ ticketTypes: value });

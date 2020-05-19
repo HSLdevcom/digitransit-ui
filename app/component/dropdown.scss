@@ -45,12 +45,14 @@
 
       .dropdown-label-text {
         float: left;
-        width: 70%;
+        width: 60%;
       }
       .dropdown-label-value {
         float: right;
         color: $primary-color;
-        width: 30%;
+        width: 40%;
+        padding-right: 1em;
+        direction: rtl;
       }
   }
 

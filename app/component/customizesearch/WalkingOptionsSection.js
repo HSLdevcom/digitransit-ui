@@ -1,4 +1,3 @@
-import ceil from 'lodash/ceil';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape } from 'found';
@@ -11,20 +10,20 @@ import Dropdown, { getFiveStepOptions } from '../Dropdown';
 class WalkingOptionsSection extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { currentSettings: props.currentSettings };
+    this.state = {
+      currentSettings: props.currentSettings,
+      options: getFiveStepOptions(this.props.walkSpeedOptions),
+    };
   }
 
   render() {
     return (
       <React.Fragment>
         <Dropdown
-          currentSelection={
-            this.state.currentSettings.walkSpeed
-              ? this.state.currentSettings.walkSpeed
-              : this.props.defaultSettings.walkSpeed
-          }
+          currentSelection={this.state.options.find(
+            option => option.value === this.state.currentSettings.walkSpeed,
+          )}
           defaultValue={this.props.defaultSettings.walkSpeed}
-          displayValueFormatter={value => `${ceil(value * 3.6, 1)} km/h`}
           onOptionSelected={value => {
             this.setState(
               { currentSettings: { walkSpeed: value } },
@@ -36,7 +35,7 @@ class WalkingOptionsSection extends React.Component {
               name: value,
             });
           }}
-          options={getFiveStepOptions(this.props.walkSpeedOptions)}
+          options={this.state.options}
           labelText={this.context.intl.formatMessage({ id: 'walking-speed' })}
           highlightDefaulValue
           formatOptions

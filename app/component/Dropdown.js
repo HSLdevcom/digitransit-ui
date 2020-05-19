@@ -3,7 +3,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
-import ceil from 'lodash/ceil';
 import Icon from './Icon';
 
 /**
@@ -46,7 +45,7 @@ class Dropdown extends React.Component {
     labelText: PropTypes.string.isRequired,
     options: PropTypes.array.isRequired,
     displayValueFormatter: PropTypes.func,
-    currentSelection: valueShape.isRequired,
+    currentSelection: PropTypes.object.isRequired,
     highlightDefaultValue: PropTypes.bool,
     defaultValue: valueShape,
     displayPattern: PropTypes.string,
@@ -86,7 +85,7 @@ class Dropdown extends React.Component {
     return dropdownOptions.map(option => (
       <li
         className={
-          option.value === this.props.currentSelection ? 'selected' : ''
+          option.value === this.props.currentSelection.value ? 'selected' : ''
         }
         key={option.displayName + option.value}
         value={option.value}
@@ -95,7 +94,7 @@ class Dropdown extends React.Component {
         {option.displayNameObject
           ? option.displayNameObject
           : option.displayName}
-        {option.value === this.props.currentSelection && (
+        {option.value === this.props.currentSelection.value && (
           <h4 className="selected-checkmark">&#10003;</h4>
           /* <Icon
             className="selected-checkmark"
@@ -124,7 +123,7 @@ class Dropdown extends React.Component {
         ? `${intl.formatMessage({
             id: 'option-default',
           })} (${str})`
-        : `${str} (${ceil(value * 3.6, 1)} km/h)`;
+        : str;
     }
 
     function getFormattedValue(value) {
@@ -176,8 +175,10 @@ class Dropdown extends React.Component {
           <p className="dropdown-label-text">{labelText}</p>
           <p className="dropdown-label-value">
             {displayValueFormatter
-              ? displayValueFormatter(currentSelection)
-              : currentSelection}
+              ? displayValueFormatter(currentSelection.title)
+              : `${intl.formatMessage({
+                  id: currentSelection.title,
+                })}`}
           </p>
           <Icon
             className={

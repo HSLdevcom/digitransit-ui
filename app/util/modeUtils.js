@@ -95,7 +95,7 @@ export const buildStreetModeQuery = (
   return {
     modes: isExclusive
       ? streetMode.toUpperCase()
-      : transportModes.concat(streetMode.toUpperCase()).join(','),
+      : transportModes.concat(streetMode.toUpperCase()),
   };
 };
 
@@ -350,7 +350,7 @@ export const toggleCitybikesAndNetworks = (
   }
   const modes = xor(getModes(currentLocation, config), [
     transportMode.toUpperCase(),
-  ]).join(',');
+  ]);
   setCustomizedSettings({
     modes,
     allowedBikeRentalNetworks: networks,

@@ -1,4 +1,3 @@
-import ceil from 'lodash/ceil';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape } from 'found';
@@ -11,19 +10,23 @@ import { setCustomizedSettings } from '../../store/localStorage';
 class BikingOptionsSection extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { bikeSpeed: props.bikeSpeed };
+    this.state = {
+      bikeSpeed: props.bikeSpeed,
+      options: getFiveStepOptions(props.bikeSpeedOptions),
+    };
   }
 
   render() {
-    const { defaultSettings, bikeSpeedOptions } = this.props;
+    const { defaultSettings } = this.props;
     const { intl } = this.context;
     return (
       <React.Fragment>
         {/* OTP uses the same walkReluctance setting for bike routing */}
         <Dropdown
-          currentSelection={this.state.bikeSpeed}
+          currentSelection={this.state.options.find(
+            option => option.value === this.state.bikeSpeed,
+          )}
           defaultValue={defaultSettings.bikeSpeed}
-          displayValueFormatter={value => `${ceil(value * 3.6, 1)} km/h`}
           onOptionSelected={value => {
             setCustomizedSettings({ bikeSpeed: value });
             addAnalyticsEvent({
@@ -33,7 +36,7 @@ class BikingOptionsSection extends React.Component {
             });
             this.setState({ bikeSpeed: value });
           }}
-          options={getFiveStepOptions(bikeSpeedOptions)}
+          options={this.state.options}
           formatOptions
           labelText={intl.formatMessage({ id: 'biking-speed' })}
         />
