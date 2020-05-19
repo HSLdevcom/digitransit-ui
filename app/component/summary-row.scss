@@ -148,12 +148,10 @@
     padding-top: 12px;
     width: 100%;
     max-width: 100%;
-    overflow: none;
     color: $distance-gray;
 
     .itinerary-first-leg-start-time{
       font-size: $font-size-small;
-      //max-width: 270px;
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: normal;

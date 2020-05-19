@@ -276,12 +276,12 @@ const SummaryRow = (
     }
   });
   let renderBarThreshold = 5.5;
-  let renderLegDurationThreshold = 8;
-  let renderRouteNumberThreshold = 11;
+  let renderLegDurationThreshold = 8.5;
+  let renderRouteNumberThreshold = 12;
   if (breakpoint === 'small') {
     renderBarThreshold = 8;
     renderLegDurationThreshold = 12;
-    renderRouteNumberThreshold = 15;
+    renderRouteNumberThreshold = 18;
   }
   let firstLegStartTime = null;
   const vehicleNames = [];
@@ -307,7 +307,6 @@ const SummaryRow = (
     );
     const waitThreshold = 180000;
     legLength = leg.duration * 1000 / duration * 100;
-
     if (nextLeg) {
       waitTime = nextLeg.startTime - leg.endTime;
       waitLength = Math.round(waitTime / duration * 100);
@@ -467,20 +466,7 @@ const SummaryRow = (
   });
 
   if (!noTransitLegs) {
-    let firstDeparture = false;
-    let firstDepartureStartTime;
-    if (
-      data.legs[1] != null &&
-      (data.legs[1].rentedBike || data.legs[1].transitLeg)
-    ) {
-      firstDepartureStartTime = data.legs[1].startTime;
-      [, firstDeparture] = data.legs;
-    }
-
-    if (data.legs[0].transitLeg || data.legs[0].rentedBike) {
-      [firstDeparture] = data.legs;
-      firstDepartureStartTime = data.legs[0].startTime;
-    }
+    const firstDeparture = compressedLegs.find(isTransitLeg);
     if (firstDeparture) {
       let firstDepartureStopType;
       if (firstDeparture.mode === 'RAIL' || firstDeparture.mode === 'SUBWAY') {
@@ -499,7 +485,7 @@ const SummaryRow = (
             values={{
               firstDepartureTime: (
                 <span className="first-leg-start-time-green">
-                  <LocalTime time={firstDepartureStartTime} />
+                  <LocalTime time={firstDeparture.startTime} />
                 </span>
               ),
               firstDepartureStop: firstDeparture.from.name,
@@ -525,7 +511,7 @@ const SummaryRow = (
             values={{
               firstDepartureTime: (
                 <span className="first-leg-start-time-green">
-                  <LocalTime time={firstDepartureStartTime} />
+                  <LocalTime time={firstDeparture.startTime} />
                 </span>
               ),
               firstDepartureStopType: (
