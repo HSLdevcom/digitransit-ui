@@ -1,6 +1,5 @@
 import { expect } from 'chai';
-import fetchMock from 'fetch-mock';
-import { after, before, describe, it } from 'mocha';
+import { describe, it } from 'mocha';
 import React from 'react';
 
 import CustomizeSearch from '../../../app/component/CustomizeSearchNew';
@@ -17,23 +16,6 @@ const mergedConfig = {
 };
 
 describe('<CustomizeSearch />', () => {
-  before(() => {
-    fetchMock.post('/graphql', {
-      data: {
-        route: {
-          id: 'Um91dGU6SFNMOjI1NTA=',
-          shortName: '550',
-          longName: 'Itäkeskus-Westendinasema',
-          mode: 'BUS',
-        },
-      },
-    });
-  });
-
-  after(() => {
-    fetchMock.restore();
-  });
-
   it('should hide citybike network selector when citybike routing is disabled', () => {
     const wrapper = mountWithIntl(
       <CustomizeSearch onToggleClick={() => {}} />,
