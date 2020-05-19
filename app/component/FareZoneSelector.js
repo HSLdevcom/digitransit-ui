@@ -2,14 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import uniqBy from 'lodash/uniqBy';
 import { intlShape } from 'react-intl';
-import Icon from './Icon';
-import Select from './Select';
+import Dropdown from './Dropdown';
 
 class FareZoneSelector extends React.Component {
   static propTypes = {
     options: PropTypes.array.isRequired,
     currentOption: PropTypes.string.isRequired,
-    headerText: PropTypes.string.isRequired,
     updateValue: PropTypes.func.isRequired,
   };
 
@@ -38,22 +36,19 @@ class FareZoneSelector extends React.Component {
   render() {
     const mappedOptions = this.createFareZoneObjects(this.props.options);
     return (
-      <div className="settings-option-container ticket-options-container">
-        <div className="option-container">
-          <h1>{this.props.headerText}</h1>
-          <div className="select-container">
-            <Select
-              name="ticket"
-              selected={this.props.currentOption}
-              options={mappedOptions}
-              onSelectChange={e => this.props.updateValue(e.target.value)}
-            />
-            <Icon
-              className="fake-select-arrow"
-              img="icon-icon_arrow-dropdown"
-            />
-          </div>
-        </div>
+      <div className="settings-option-container">
+        <Dropdown
+          labelText={this.context.intl.formatMessage({
+            id: 'zones',
+            defaultMessage: 'Fare zones',
+          })}
+          currentSelection={this.props.currentOption}
+          options={mappedOptions}
+          onOptionSelected={value => this.props.updateValue(value)}
+          displayValueFormatter={value =>
+            value.split(':')[1] ? value.split(':')[1] : value
+          }
+        />
       </div>
     );
   }

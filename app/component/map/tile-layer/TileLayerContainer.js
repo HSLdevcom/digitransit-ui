@@ -362,6 +362,13 @@ class TileLayerContainer extends GridLayer {
           </Popup>
         );
       } else if (this.state.selectableTargets.length === 0) {
+        if (
+          !this.context.config.map.showStopMarkerPopupOnMobile &&
+          breakpoint === 'small'
+        ) {
+          // DT-3470
+          showPopup = false;
+        }
         popup = (
           <Popup
             key={this.state.coords.toString()}

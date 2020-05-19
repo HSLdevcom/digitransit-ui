@@ -12,11 +12,9 @@ import {
   getOldSearches,
   getFavouriteStops,
   getLanguage,
-  getPositionStore,
 } from './storeUtils';
 import { startLocationWatch } from '../action/PositionActions';
 import { saveSearch } from '../action/SearchActions';
-import updateViaPointsFromMap from '../action/ViaPointsActions';
 
 export default function intializeSearchContext(
   context,
@@ -26,6 +24,20 @@ export default function intializeSearchContext(
   setRelayEnvironment(relayEnvironment);
   // DT-3424: Set SearchContext for Autosuggest and searchUtils.
   searchContext.context = context;
+  const { config } = context;
+  searchContext.isPeliasLocationAware = config.autoSuggest.locationAware;
+  searchContext.minimalRegexp = config.search
+    ? config.search.minimalRegexp
+    : undefined;
+  searchContext.lineRegexp = config.search
+    ? config.search.lineRegexp
+    : undefined;
+  searchContext.URL_PELIAS = config.URL.PELIAS;
+  // FeedId's like  [HSL, HSLLautta]
+  searchContext.feedIDs = config.feedIds;
+  // searchSources e.g. [oa,osm,nlsfi.]
+  searchContext.geocodingSources = config.searchSources;
+  searchContext.geocodingSearchParams = config.searchParams;
   searchContext.getOldSearches = getOldSearches;
   searchContext.getFavouriteLocations = getFavouriteLocations;
   searchContext.getFavouriteStops = getFavouriteStops;
@@ -35,8 +47,6 @@ export default function intializeSearchContext(
   searchContext.getRoutes = getRoutes;
   searchContext.getStopAndStations = getStopAndStations;
   searchContext.getFavouriteRoutes = getFavouriteRoutes;
-  searchContext.positionStore = getPositionStore;
   searchContext.startLocationWatch = startLocationWatch;
   searchContext.saveSearch = saveSearch;
-  searchContext.updateViaPointsFromMap = updateViaPointsFromMap;
 }

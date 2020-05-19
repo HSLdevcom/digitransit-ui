@@ -26,6 +26,8 @@ $body-font-weight: $font-weight-medium;
 @import '../app/component/route';
 @import '../app/component/customize-search';
 @import '../app/component/checkbox';
+@import '../app/component/toggle';
+@import '../app/component/dropdown';
 @import '../app/component/no-route-popup';
 @import '../app/component/summary-row';
 @import '../app/component/summary';
@@ -51,6 +53,7 @@ $body-font-weight: $font-weight-medium;
 @import '../app/component/itinerary-profile';
 @import '../app/component/datetimepicker';
 @import '~zurb-foundation-5/scss/foundation/components/forms';
+@import '../app/component/modal.scss';
 
 /* Modal */
 @import '~foundation-apps/scss/helpers/breakpoints';

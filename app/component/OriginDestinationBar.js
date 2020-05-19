@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
-import { withCurrentTime } from '../util/searchUtils';
+import { withCurrentTime } from '../util/DTSearchUtils';
 import ComponentUsageExample from './ComponentUsageExample';
 import DTAutosuggestContainer from './DTAutosuggestContainer';
 import { PREFIX_ITINERARY_SUMMARY, navigateTo } from '../util/path';
@@ -83,6 +83,7 @@ class OriginDestinationBar extends React.Component {
           initialViaPoints={getIntermediatePlaces(this.location.query)}
           updateViaPoints={this.updateViaPoints}
           swapOrder={this.swapEndpoints}
+          targets={['Locations']}
         />
       </div>
     );

@@ -738,6 +738,7 @@ const translations = {
     accessibility: 'Accessibility',
     'accessibility-limited': 'Wheelchair',
     'accessibility-nolimit': 'No limits',
+    'add-home': 'Add home',
     'add-itinerary-via-point': 'Add via point for itinerary',
     'add-location-to-favourites': 'Add an important location to your Favorites',
     'add-via-button-label': 'Add via point',
@@ -746,6 +747,7 @@ const translations = {
       'Close stop duration selector at via point {index}',
     'add-via-duration-button-label-open':
       'Open stop duration selector at via point {index}',
+    'add-work': 'Add work',
     'arrive-leave': 'Arrive or leave at selected time',
     'search-autosuggest-label':
       'Venue, place and stopsearch. Navigate list with arrow keys and select with enter key',
@@ -813,6 +815,7 @@ const translations = {
     citybike_off: 'Closed',
     'clear-button-label': 'Clear',
     close: 'Close',
+    'close-favourite-module': 'Close the favourite module',
     'contact-information': '{contactName} contact details',
     continue: 'Continue',
     'create-account': 'Create {contactName} account',
@@ -1018,11 +1021,11 @@ const translations = {
       '{number, plural, =0 {0 minutes} one {1 minute} other {{number} minutes}}',
     'off-canvas-info':
       'Log in to the service to save your favorites and utilize them on other devices',
-    'option-default': 'Default',
-    'option-least': 'Least',
-    'option-less': 'Less',
-    'option-more': 'More',
-    'option-most': 'Most',
+    'option-default': 'Average',
+    'option-least': 'Slow',
+    'option-less': 'Calm',
+    'option-more': 'Prompt',
+    'option-most': 'Fast',
     or: 'or',
     origin: 'Origin',
     'origin-outside-service':
@@ -1533,10 +1536,12 @@ const translations = {
     accessibility: 'Esteettömyys',
     'accessibility-limited': 'Liikun pyörätuolilla',
     'accessibility-nolimit': 'Ei rajoitusta',
+    'add-home': 'Lisää koti',
     'add-itinerary-via-point': 'Lisää reitille välipiste',
     'add-location-to-favourites':
       'Lisää sinulle tärkeä paikka Suosikkisi-välilehdelle',
     'add-via-button-label': 'Lisää välipiste',
+    'add-work': 'Lisää työ',
     'arrive-leave': 'Saavu tai lähde valittuna aikana',
     'search-autosuggest-label':
       'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
@@ -1611,6 +1616,7 @@ const translations = {
     citybike_off: 'Suljettu',
     'clear-button-label': 'Tyhjennä',
     close: 'Sulje',
+    'close-favourite-module': 'Sulje suosikkimoduuli',
     'contact-information': '{contactName}:n yhteystiedot',
     continue: 'Jatka',
     'create-account': 'Luo {contactName} tunnus',
@@ -1813,11 +1819,11 @@ const translations = {
       '{number, plural, =0 {0 minuuttia} one {1 minuutti} other {{number} minuuttia}}',
     'off-canvas-info':
       'Kirjautumalla palveluun saat suosikit talteen ja voit hyödyntää niitä muillakin laitteillasi',
-    'option-default': 'Oletusarvo',
-    'option-least': 'Vähiten',
-    'option-less': 'Vähemmän',
-    'option-more': 'Enemmän',
-    'option-most': 'Eniten',
+    'option-default': 'Keskimääräinen',
+    'option-least': 'Hidas',
+    'option-less': 'Rauhallinen',
+    'option-more': 'Ripeä',
+    'option-most': 'Nopea',
     or: 'tai',
     origin: 'Lähtöpaikka',
     'origin-label-change': 'Vaihda lähtöpaikka',
@@ -3128,6 +3134,7 @@ const translations = {
     accessibility: 'Tillgänglighet',
     'accessibility-limited': 'Med rullstolen',
     'accessibility-nolimit': 'Ingen begränsning',
+    'add-home': 'Lägg till hem',
     'add-itinerary-via-point': 'Lägg till mellanstopp',
     'add-location-to-favourites':
       'Lägg till en plats som är viktig för dig på fliken Favoriter',
@@ -3138,6 +3145,7 @@ const translations = {
       'Stäng väljaren för varaktighet vid via-punkten',
     'add-via-duration-button-label-open':
       'Öppna väljaren för varaktighet vid via-punkten',
+    'add-work': 'Lägg till arbete',
     'arrive-leave': 'Anländer eller lämnar vid vald tid',
     'search-autosuggest-label':
       'Plats, linje och hållplatssökning. Navigera listan med piltangenterna och välj med Enter-tangeten',
@@ -3204,6 +3212,7 @@ const translations = {
     citybike_off: 'Stängd',
     'clear-button-label': 'Töm',
     close: 'Stäng',
+    'close-favourite-module': 'Stäng favoritmodulen',
     'contact-information': '{contactName} Kontaktuppgifter',
     continue: 'Fortsätt',
     'create-account': 'Skapa {contactName} konto',

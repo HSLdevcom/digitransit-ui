@@ -1,0 +1,129 @@
+/* stylelint-disable */ 
+
+$zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
+  map-buttons, context-panel, search-panel, search-overlay, preferred-input, destination-input,
+  viapoint-input-5, viapoint-input-4, viapoint-input-3, viapoint-input-2,
+  viapoint-input-1, origin-input, search-input-focus, search-input-icon, rectangle, autosuggest-suggestion-container, front;
+
+.autosuggest-panel {
+  width: 100%;
+}
+
+.autosuggest-searchpanel-text {
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -0.8px;
+  color: #333333;
+  margin-bottom: 1em;
+}
+
+.origin-input-container,
+.destination-input-container {
+  display: flex;
+  flex: 1 0 100%;
+
+  input[type='text'] {
+    margin: 0;
+  }
+}
+
+.via-point-button-container {
+  display: flex;
+
+  & > div:nth-child(1) {
+    order: 1;
+    border-left: none;
+  }
+  & > div:nth-child(2) {
+    order: 2;
+    border-left: 1px solid rgba(151, 151, 151, 0.2);
+  }
+}
+
+.viapoint-input-container {
+  display: flex;
+  flex: 1 0 100%;
+
+  input[type='text'] {
+    margin: 0;
+  }
+  &.viapoint-1 > div.viapoint {
+    z-index: index($zindex, viapoint-input-1);
+  }
+
+  &.viapoint-2 > div.viapoint {
+    z-index: index($zindex, viapoint-input-2);
+  }
+
+  &.viapoint-3 > div.viapoint {
+    z-index: index($zindex, viapoint-input-3);
+  }
+
+  &.viapoint-4 > div.viapoint {
+    z-index: index($zindex, viapoint-input-4);
+  }
+
+  &.viapoint-5 > div.viapoint {
+    z-index: index($zindex, viapoint-input-5);
+  }
+}
+
+.input-viapoint-slack-container {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+  margin: 0 6em 0.5em 0;
+
+  span {
+    font-weight: 400;
+  }
+  .select-wrapper {
+    display: flex;
+    flex-direction: row;
+    // color: $link-color;
+    margin-left: 0.5em;
+    flex: 0 1 6em;
+    > span {
+      margin-left: -1.4rem;
+      pointer-events: none;
+    }
+    .fake-select-arrow {
+      font-size: 0.7rem;
+      // color: $primary-color;
+      margin-top: 1em;
+    }
+  }
+}
+
+.itinerary-search-control {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  min-width: 3em;
+
+  & + .itinerary-search-control {
+    border-left: 1px solid rgba(151, 151, 151, 0.2);
+  }
+
+  .switch {
+    cursor: pointer;
+  }
+}
+
+.rectangle-container {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  width: 1.45em;
+  margin-top: 11px;
+  margin-left: 15px;
+  z-index: index($zindex, 'rectangle');
+  .rectangle {
+    width: 4px;
+    height: 21px;
+    border-radius: 2px;
+    background-color: #dddddd;
+    margin-top: -16.5px;
+  }
+}

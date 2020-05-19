@@ -66,7 +66,7 @@ export function getFavouriteRoutes(favourites, input) {
       routes.sort((x, y) => routeNameCompare(x.properties, y.properties)),
     );
 }
-export function getRoutes(input, config) {
+export function getRoutes(input, feedIds) {
   if (!relayEnvironment) {
     return Promise.resolve([]);
   }
@@ -79,10 +79,7 @@ export function getRoutes(input, config) {
   }
 
   return fetchQuery(relayEnvironment, searchRoutesQuery, {
-    feeds:
-      Array.isArray(config.feedIds) && config.feedIds.length > 0
-        ? config.feedIds
-        : null,
+    feeds: Array.isArray(feedIds) && feedIds.length > 0 ? feedIds : null,
     name: input,
   })
     .then(data =>
@@ -93,3 +90,18 @@ export function getRoutes(input, config) {
     )
     .then(suggestions => take(suggestions, 10));
 }
+
+export const withCurrentTime = (getStore, location) => {
+  const query = (location && location.query) || {};
+  return {
+    ...location,
+    query: {
+      ...query,
+      time: query.time
+        ? query.time
+        : getStore('TimeStore')
+            .getCurrentTime()
+            .unix(),
+    },
+  };
+};

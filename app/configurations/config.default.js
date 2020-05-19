@@ -100,7 +100,7 @@ export default {
 
   defaultSettings: {
     usingWheelchair: 0,
-    bikeSpeed: 5,
+    bikeSpeed: 5.55,
     minTransferTime: 120,
     optimize: 'QUICK',
     preferredRoutes: [],
@@ -109,7 +109,7 @@ export default {
     unpreferredRoutes: [],
     walkBoardCost: 600,
     walkReluctance: 2,
-    walkSpeed: 1.2,
+    walkSpeed: 1.38,
   },
 
   /**
@@ -130,6 +130,8 @@ export default {
       more: 1,
       most: 0.2,
     },
+    walkSpeed: [1.05, 1.22, 1.38, 1.52, 1.77],
+    bikeSpeed: [2.77, 4.15, 5.55, 6.94, 8.33],
   },
 
   walkBoardCost: 600,

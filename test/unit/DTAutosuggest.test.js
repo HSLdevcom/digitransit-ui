@@ -11,6 +11,7 @@ import searchContext from '../../app/util/searchContext';
 describe('<DTAutoSuggest />', () => {
   it('should render with focus set', () => {
     const props = {
+      config: {},
       searchContext,
       autoFocus: true,
       id: 'origin',

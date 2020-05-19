@@ -57,26 +57,27 @@ ItinerarySearchControl.propTypes = {
  */
 class DTAutosuggestPanel extends React.Component {
   static contextTypes = {
-    executeAction: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
   };
 
   static propTypes = {
+    config: PropTypes.object.isRequired,
     origin: PropTypes.object.isRequired,
     destination: PropTypes.object.isRequired,
+    executeSearch: PropTypes.func,
     isItinerary: PropTypes.bool,
     originPlaceHolder: PropTypes.string,
     destinationPlaceHolder: PropTypes.string,
     searchType: PropTypes.string,
     initialViaPoints: PropTypes.arrayOf(PropTypes.object),
     updateViaPoints: PropTypes.func,
+    updateViaPointsFromMap: PropTypes.func,
     breakpoint: PropTypes.string.isRequired,
     swapOrder: PropTypes.func,
     getViaPointsFromMap: PropTypes.bool,
     searchPanelText: PropTypes.string,
     searchContext: PropTypes.any.isRequired,
-    locationState: PropTypes.object,
     onSelect: PropTypes.func,
     getLabel: PropTypes.func,
     addAnalyticsEvent: PropTypes.func,
@@ -110,10 +111,7 @@ class DTAutosuggestPanel extends React.Component {
       this.setState({
         viaPoints: getIntermediatePlaces(this.context.match.location.query),
       });
-      this.context.executeAction(
-        this.props.searchContext.updateViaPointsFromMap,
-        false,
-      );
+      this.props.updateViaPointsFromMap();
     }
   };
 
@@ -390,6 +388,7 @@ class DTAutosuggestPanel extends React.Component {
         />
         <div className="origin-input-container">
           <DTAutoSuggest
+            config={this.props.config}
             icon="mapMarker-from"
             id="origin"
             autoFocus={
@@ -404,10 +403,10 @@ class DTAutosuggestPanel extends React.Component {
             value={this.value(origin)}
             isFocused={this.isFocused}
             searchContext={searchContext}
-            locationState={this.props.locationState}
             onSelect={this.props.onSelect}
             getLabel={this.props.getLabel}
             focusChange={this.handleFocusChange}
+            executeSearch={this.props.executeSearch}
           />
           <ItinerarySearchControl
             className="switch"
@@ -445,6 +444,7 @@ class DTAutosuggestPanel extends React.Component {
                   <Icon img="icon-icon_ellipsis" />
                 </div>
                 <DTAutoSuggest
+                  config={this.props.config}
                   icon="mapMarker-via"
                   id="viapoint"
                   ariaLabel={this.context.intl.formatMessage(
@@ -460,13 +460,13 @@ class DTAutosuggestPanel extends React.Component {
                   className="viapoint"
                   isFocused={this.isFocused}
                   searchContext={searchContext}
-                  locationState={this.props.locationState}
                   value={(o && o.address) || ''}
                   onSelect={this.props.onSelect}
                   handelViaPoints={item =>
                     this.handleViaPointLocationSelected(item, i)
                   }
                   getLabel={this.props.getLabel}
+                  executeSearch={this.props.executeSearch}
                 />
                 <div className="via-point-button-container">
                   <ItinerarySearchControl
@@ -549,6 +549,7 @@ class DTAutosuggestPanel extends React.Component {
         </div>
         <div className="destination-input-container">
           <DTAutoSuggest
+            config={this.props.config}
             icon="mapMarker-to"
             id="destination"
             autoFocus={
@@ -562,10 +563,10 @@ class DTAutosuggestPanel extends React.Component {
             className={this.class(this.props.destination)}
             isFocused={this.isFocused}
             searchContext={searchContext}
-            locationState={this.props.locationState}
             onSelect={this.props.onSelect}
             value={this.value(this.props.destination)}
             getLabel={this.props.getLabel}
+            executeSearch={this.props.executeSearch}
           />
           <ItinerarySearchControl
             className={cx('add-via-point', 'more', {

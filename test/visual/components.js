@@ -210,4 +210,4 @@ testVariation('SelectStreetModeDialog').then(skip('ie11'));
 testVariation('SelectMapLayersDialog').then(skip('ie11'));
 testVariation('MainMenuContainer');
 
-testVariation('OriginDestinationBar', 'with-viapoint', 2);
+// testVariation('OriginDestinationBar', 'with-viapoint', 2);

@@ -1,21 +1,19 @@
-$favourite-icon-column-border-color: #E1E0E0;
+$favourite-icon-column-border-color: #d9d9d9;
 $favourite-icon-border-radius: 5px;
 
-$selected-icon-font-color: $white;
-$not-selected-icon-font-color: $gray-blue;
+$selected-icon-font-color: #fff;
+$not-selected-icon-font-color: #007ac9;
 
-$selected-icon-background-color: $dark-gray;
-$not-selected-icon-background-color: $white;
+$selected-icon-background-color: #333;
+$not-selected-icon-background-color: #fff;
 
 .favourite-icon-table-column {
   flex: 1;
   padding: 0;
   background: $not-selected-icon-background-color;
   float: left;
-  height: 40px;
-  line-height: 45px;
+  height: 48px;
   margin-bottom: 0;
-  vertical-align: middle;
   text-align: center;
   @include font-medium;
   font-size: 17px;
@@ -31,6 +29,16 @@ $not-selected-icon-background-color: $white;
   color: $selected-icon-font-color;
 }
 
+.favourite-icon-table-column:hover {
+  background: $selected-icon-background-color;
+  color: $selected-icon-font-color;
+}
+
+.favourite-icon-table-column:focus {
+  background: $selected-icon-background-color;
+  color: $selected-icon-font-color;
+}
+
 .favourite-icon-table-column:first-child {
   border-left: solid 1px $favourite-icon-column-border-color;
   border-top-left-radius: $favourite-icon-border-radius;
@@ -41,7 +49,6 @@ $not-selected-icon-background-color: $white;
 .favourite-icon-table-column:last-child {
   border-top-right-radius: $favourite-icon-border-radius;
   border-bottom-right-radius: $favourite-icon-border-radius;
-
 }
 
 .selected-icon {
