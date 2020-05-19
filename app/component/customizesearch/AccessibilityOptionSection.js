@@ -1,21 +1,20 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { matchShape, routerShape } from 'found';
 import { FormattedMessage } from 'react-intl';
 import Toggle from '../Toggle';
-import { replaceQueryParams } from '../../util/queryUtils';
+import { setCustomizedSettings } from '../../store/localStorage';
 import Icon from '../Icon';
 
-// eslint-disable-next-line react/prefer-stateless-function
 class AccessibilityOptionSection extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { usingWheelchair: props.currentSettings.usingWheelchair };
+  }
+
   render() {
-    const { currentSettings, router, match } = this.props;
     return (
       <React.Fragment>
-        <FormattedMessage
-          id="accessibility-header"
-          defaultMessage="Accessibility"
-        />
+        <FormattedMessage id="accessibility" defaultMessage="Accessibility" />
         <div
           className="mode-option-container toggle-container"
           style={{
@@ -30,16 +29,21 @@ class AccessibilityOptionSection extends React.Component {
             width={2}
           />
           <FormattedMessage
-            id="accessibility-label"
+            id="accessibility-limited"
             defaultMessage="Wheelchair"
           />
           <Toggle
-            toggled={!!currentSettings.usingWheelchair}
+            toggled={!!this.state.usingWheelchair}
             title="accessibility"
             onToggle={e => {
-              replaceQueryParams(router, match, {
-                usingWheelchair: e.target.checked ? 1 : 0,
-              });
+              this.setState(
+                {
+                  usingWheelchair: e.target.checked ? 1 : 0,
+                },
+                setCustomizedSettings({
+                  usingWheelchair: e.target.checked ? 1 : 0,
+                }),
+              );
             }}
           />
         </div>
@@ -50,8 +54,6 @@ class AccessibilityOptionSection extends React.Component {
 
 AccessibilityOptionSection.propTypes = {
   currentSettings: PropTypes.object.isRequired,
-  router: routerShape.isRequired,
-  match: matchShape.isRequired,
 };
 
 export default AccessibilityOptionSection;

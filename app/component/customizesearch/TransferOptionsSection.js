@@ -3,47 +3,57 @@ import React from 'react';
 import { matchShape, routerShape } from 'found';
 import { FormattedMessage } from 'react-intl';
 import Toggle from '../Toggle';
+import { setCustomizedSettings } from '../../store/localStorage';
 
-import { replaceQueryParams } from '../../util/queryUtils';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 
-const TransferOptionsSection = (
-  { defaultSettings, currentSettings, walkBoardCostHigh },
-  { router, match },
-) => (
-  <React.Fragment>
-    <div
-      className="mode-option-container toggle-container"
-      style={{
-        padding: '0 0 0 1em',
-        height: '3.5em',
-      }}
-    >
-      <FormattedMessage
-        id="avoid-transfers-label"
-        defaultMessage="Avoid transfers"
-      />
-      <Toggle
-        toggled={
-          currentSettings.walkBoardCost !== defaultSettings.walkBoardCost
-        }
-        onToggle={e => {
-          replaceQueryParams(router, match, {
-            walkBoardCost: e.target.checked
-              ? walkBoardCostHigh
-              : defaultSettings.walkBoardCost,
-          });
-          addAnalyticsEvent({
-            category: 'ItinerarySettings',
-            action: 'changeNumberOfTransfers',
-            name: e.target.checked,
-          });
-        }}
-        title="transfers"
-      />
-    </div>
-  </React.Fragment>
-);
+class TransferOptionsSection extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { walkBoardCost: props.currentSettings.walkBoardCost };
+  }
+
+  render() {
+    const { defaultSettings, walkBoardCostHigh } = this.props;
+    return (
+      <React.Fragment>
+        <div
+          className="mode-option-container toggle-container"
+          style={{
+            padding: '0 0 0 1em',
+            height: '3.5em',
+          }}
+        >
+          <FormattedMessage
+            id="avoid-transfers"
+            defaultMessage="Avoid transfers"
+          />
+          <Toggle
+            toggled={this.state.walkBoardCost !== defaultSettings.walkBoardCost}
+            onToggle={e => {
+              this.setState({
+                walkBoardCost: e.target.checked
+                  ? walkBoardCostHigh
+                  : defaultSettings.walkBoardCost,
+              });
+              setCustomizedSettings({
+                walkBoardCost: e.target.checked
+                  ? walkBoardCostHigh
+                  : defaultSettings.walkBoardCost,
+              });
+              addAnalyticsEvent({
+                category: 'ItinerarySettings',
+                action: 'changeNumberOfTransfers',
+                name: e.target.checked,
+              });
+            }}
+            title="transfers"
+          />
+        </div>
+      </React.Fragment>
+    );
+  }
+}
 
 TransferOptionsSection.propTypes = {
   defaultSettings: PropTypes.shape({

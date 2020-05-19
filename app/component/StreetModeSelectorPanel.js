@@ -1,21 +1,22 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { matchShape } from 'found';
 import { FormattedMessage } from 'react-intl';
 import Toggle from './Toggle';
 import Icon from './Icon';
 import BikingOptionsSection from './customizesearch/BikingOptionsSection';
+import { setStreetMode } from '../util/modeUtils';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
-// eslint-disable-next-line react/prefer-stateless-function
 class StreetModeSelectorPanel extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { selectedStreetMode: props.selectedStreetMode };
+  }
+
   render() {
-    const {
-      selectStreetMode,
-      selectedStreetMode,
-      streetModeConfigs,
-      currentSettings,
-      defaultSettings,
-      defaultOptions,
-    } = this.props;
+    const { streetModeConfigs, currentSettings, defaultSettings } = this.props;
+    const { config, match } = this.context;
     if (!streetModeConfigs.length) {
       return null;
     }
@@ -50,17 +51,27 @@ class StreetModeSelectorPanel extends React.Component {
                   </div>
                   <div>
                     <Toggle
-                      toggled={selectedStreetMode === mode.name}
-                      onToggle={() => selectStreetMode(mode.name.toUpperCase())}
+                      toggled={this.state.selectedStreetMode === mode.name}
+                      onToggle={() => {
+                        setStreetMode(mode.name.toUpperCase(), config, match);
+                        addAnalyticsEvent({
+                          action: 'SelectTravelingModeFromSettings',
+                          category: 'ItinerarySettings',
+                          name: mode.name.toUpperCase(),
+                        });
+                        this.setState({
+                          selectedStreetMode: mode.name,
+                        });
+                      }}
                     />
                   </div>
                 </div>
-                {selectedStreetMode === 'BICYCLE' &&
+                {this.state.selectedStreetMode === 'BICYCLE' &&
                   mode.name === 'BICYCLE' && (
                     <BikingOptionsSection
                       bikeSpeed={currentSettings.bikeSpeed}
                       defaultSettings={defaultSettings}
-                      bikeSpeedOptions={defaultOptions.bikeSpeed}
+                      bikeSpeedOptions={config.defaultOptions.bikeSpeed}
                     />
                   )}
               </div>
@@ -72,11 +83,9 @@ class StreetModeSelectorPanel extends React.Component {
 }
 
 StreetModeSelectorPanel.propTypes = {
-  selectStreetMode: PropTypes.func.isRequired,
   selectedStreetMode: PropTypes.string,
   currentSettings: PropTypes.object.isRequired,
   defaultSettings: PropTypes.object.isRequired,
-  defaultOptions: PropTypes.array.isRequired,
   streetModeConfigs: PropTypes.arrayOf(
     PropTypes.shape({
       defaultValue: PropTypes.bool.isRequired,
@@ -84,6 +93,11 @@ StreetModeSelectorPanel.propTypes = {
       name: PropTypes.string.isRequired,
     }),
   ),
+};
+
+StreetModeSelectorPanel.contextTypes = {
+  config: PropTypes.object.isRequired,
+  match: matchShape.isRequired,
 };
 
 StreetModeSelectorPanel.defaultProps = {

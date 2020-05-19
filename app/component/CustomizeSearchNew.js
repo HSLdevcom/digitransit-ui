@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
-import { matchShape, routerShape } from 'found';
+import { matchShape } from 'found';
 
 import Icon from './Icon';
 import FareZoneSelector from './FareZoneSelector';
@@ -11,13 +11,10 @@ import WalkingOptionsSection from './customizesearch/WalkingOptionsSection';
 import AccessibilityOptionSection from './customizesearch/AccessibilityOptionSection';
 import * as ModeUtils from '../util/modeUtils';
 import { getDefaultSettings, getCurrentSettings } from '../util/planParamUtil';
-import { replaceQueryParams } from '../util/queryUtils';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class CustomizeSearch extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
-    router: routerShape.isRequired,
     match: matchShape.isRequired,
     config: PropTypes.object.isRequired,
   };
@@ -29,7 +26,7 @@ class CustomizeSearch extends React.Component {
   defaultSettings = getDefaultSettings(this.context.config);
 
   render() {
-    const { config, match, intl, router } = this.context;
+    const { config, match, intl } = this.context;
     const { onToggleClick } = this.props;
     const currentSettings = getCurrentSettings(config, match.location.query);
     let ticketOptions = [];
@@ -55,7 +52,7 @@ class CustomizeSearch extends React.Component {
         <div className="settings-option-container">
           <h1>
             {intl.formatMessage({
-              id: 'customize-search-header',
+              id: 'settings',
               defaultMessage: 'Settings',
             })}
           </h1>
@@ -64,7 +61,7 @@ class CustomizeSearch extends React.Component {
           <WalkingOptionsSection
             walkReluctance={currentSettings.walkReluctance}
             walkSpeedOptions={config.defaultOptions.walkSpeed}
-            walkSpeed={currentSettings.walkSpeed}
+            currentSettings={currentSettings}
             defaultSettings={this.defaultSettings}
           />
         </div>
@@ -78,45 +75,18 @@ class CustomizeSearch extends React.Component {
         <div className="settings-option-container">
           <StreetModeSelectorPanel
             selectedStreetMode={ModeUtils.getStreetMode(match.location, config)}
-            selectStreetMode={(streetMode, isExclusive) => {
-              ModeUtils.setStreetMode(
-                streetMode,
-                config,
-                router,
-                match,
-                isExclusive,
-              );
-              addAnalyticsEvent({
-                action: 'SelectTravelingModeFromSettings',
-                category: 'ItinerarySettings',
-                name: streetMode,
-              });
-            }}
             streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
             currentSettings={currentSettings}
             defaultSettings={this.defaultSettings}
-            defaultOptions={config.defaultOptions}
           />
         </div>
         <div className="settings-option-container">
-          <AccessibilityOptionSection
-            currentSettings={currentSettings}
-            router={router}
-            match={match}
-          />
+          <AccessibilityOptionSection currentSettings={currentSettings} />
         </div>
         {config.showTicketSelector && (
           <FareZoneSelector
             options={ticketOptions}
             currentOption={currentSettings.ticketTypes || 'none'}
-            updateValue={value => {
-              replaceQueryParams(router, match, { ticketTypes: value });
-              addAnalyticsEvent({
-                category: 'ItinerarySettings',
-                action: 'ChangeFareZones',
-                name: value,
-              });
-            }}
           />
         )}
       </div>

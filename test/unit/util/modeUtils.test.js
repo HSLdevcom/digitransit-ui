@@ -82,74 +82,31 @@ const intermediatePlaces = [
 
 describe('modeUtils', () => {
   describe('getModes', () => {
-    it('should decode modes from the location query', () => {
-      const location = {
-        query: {
-          modes: 'WALK,BICYCLE,BUS',
-        },
-      };
-
-      const modes = utils.getModes(location, config);
-      expect(modes.length).to.equal(3);
-      expect(modes).to.contain(StreetMode.Walk);
-      expect(modes).to.contain(StreetMode.Bicycle);
-      expect(modes).to.contain(TransportMode.Bus);
-    });
-
-    it('should return all modes in UPPERCASE', () => {
-      const location = {
-        query: {
-          modes: 'walk,BUS',
-        },
-      };
-
-      const modes = utils.getModes(location, config);
-      expect(modes.length).to.equal(2);
-      expect(modes).to.contain(StreetMode.Walk);
-      expect(modes).to.contain(TransportMode.Bus);
-    });
-
-    it('should retrieve modes from localStorage if the location query is not available', () => {
+    it('should retrieve modes from localStorage', () => {
       setCustomizedSettings({
         modes: [StreetMode.ParkAndRide, TransportMode.Bus],
       });
-      const location = {
-        query: {
-          modes: undefined,
-        },
-      };
 
-      const modes = utils.getModes(location, config);
+      const modes = utils.getModes(config);
       expect(modes.length).to.equal(2);
       expect(modes).to.contain(StreetMode.ParkAndRide);
       expect(modes).to.contain(TransportMode.Bus);
     });
 
-    it('should retrieve all modes with "defaultValue": true from config if the location query is not available and localStorage has an empty modes list', () => {
+    it('should retrieve all modes with "defaultValue": true from config if localStorage has an empty modes list', () => {
       setCustomizedSettings({
         modes: [],
       });
-      const location = {
-        query: {
-          modes: undefined,
-        },
-      };
 
-      const modes = utils.getModes(location, config);
+      const modes = utils.getModes(config);
       expect(modes.length).to.equal(3);
       expect(modes).to.contain(StreetMode.Walk);
       expect(modes).to.contain(TransportMode.Bus);
       expect(modes).to.contain(TransportMode.Rail);
     });
 
-    it('should retrieve all modes with "defaultValue": true from config if the location query and localStorage are not available', () => {
-      const location = {
-        query: {
-          modes: undefined,
-        },
-      };
-
-      const modes = utils.getModes(location, config);
+    it('should retrieve all modes with "defaultValue": true from config if localStorage is not available', () => {
+      const modes = utils.getModes(config);
       expect(modes.length).to.equal(3);
       expect(modes).to.contain(StreetMode.Walk);
       expect(modes).to.contain(TransportMode.Bus);
@@ -295,7 +252,7 @@ describe('modeUtils', () => {
         streetMode,
       );
 
-      const modes = query.modes ? query.modes.split(',') : [];
+      const modes = query.modes ? query.modes : [];
       expect(modes.length).to.equal(4);
       expect(modes).to.contain(StreetMode.Walk);
       expect(modes).to.contain(TransportMode.Rail);
@@ -318,7 +275,7 @@ describe('modeUtils', () => {
         streetMode,
       );
 
-      const modes = query.modes ? query.modes.split(',') : [];
+      const modes = query.modes ? query.modes : [];
       expect(modes.length).to.equal(3);
       expect(modes).to.contain(StreetMode.Walk);
       expect(modes).to.contain(TransportMode.Rail);
@@ -341,7 +298,7 @@ describe('modeUtils', () => {
         true,
       );
 
-      const modes = query.modes ? query.modes.split(',') : [];
+      const modes = query.modes ? query.modes : [];
       expect(modes.length).to.equal(1);
       expect(modes).to.contain(StreetMode.Walk);
     });

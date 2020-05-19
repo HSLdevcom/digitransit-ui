@@ -1,37 +1,50 @@
 import ceil from 'lodash/ceil';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { matchShape, routerShape } from 'found';
+import { matchShape } from 'found';
 import { intlShape } from 'react-intl';
+import { setCustomizedSettings } from '../../store/localStorage';
 
-import { replaceQueryParams } from '../../util/queryUtils';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import Dropdown, { getFiveStepOptions, valueShape } from '../Dropdown';
+import Dropdown, { getFiveStepOptions } from '../Dropdown';
 
-const WalkingOptionsSection = (
-  { walkSpeed, defaultSettings, walkSpeedOptions },
-  { router, match, intl },
-) => (
-  <React.Fragment>
-    <Dropdown
-      currentSelection={walkSpeed}
-      defaultValue={defaultSettings.walkSpeed}
-      displayValueFormatter={value => `${ceil(value * 3.6, 1)} km/h`}
-      onOptionSelected={value => {
-        replaceQueryParams(router, match, { walkSpeed: value });
-        addAnalyticsEvent({
-          category: 'ItinerarySettings',
-          action: 'ChangeWalkingSpeed',
-          name: value,
-        });
-      }}
-      options={getFiveStepOptions(walkSpeedOptions)}
-      labelText={intl.formatMessage({ id: 'walking-speed' })}
-      highlightDefaulValue
-      formatOptions
-    />
-  </React.Fragment>
-);
+class WalkingOptionsSection extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { currentSettings: props.currentSettings };
+  }
+
+  render() {
+    return (
+      <React.Fragment>
+        <Dropdown
+          currentSelection={
+            this.state.currentSettings.walkSpeed
+              ? this.state.currentSettings.walkSpeed
+              : this.props.defaultSettings.walkSpeed
+          }
+          defaultValue={this.props.defaultSettings.walkSpeed}
+          displayValueFormatter={value => `${ceil(value * 3.6, 1)} km/h`}
+          onOptionSelected={value => {
+            this.setState(
+              { currentSettings: { walkSpeed: value } },
+              setCustomizedSettings({ walkSpeed: value }),
+            );
+            addAnalyticsEvent({
+              category: 'ItinerarySettings',
+              action: 'ChangeWalkingSpeed',
+              name: value,
+            });
+          }}
+          options={getFiveStepOptions(this.props.walkSpeedOptions)}
+          labelText={this.context.intl.formatMessage({ id: 'walking-speed' })}
+          highlightDefaulValue
+          formatOptions
+        />
+      </React.Fragment>
+    );
+  }
+}
 
 WalkingOptionsSection.propTypes = {
   defaultSettings: PropTypes.shape({
@@ -39,11 +52,10 @@ WalkingOptionsSection.propTypes = {
     walkSpeed: PropTypes.number.isRequired,
   }).isRequired,
   walkSpeedOptions: PropTypes.array.isRequired,
-  walkSpeed: valueShape.isRequired,
+  currentSettings: PropTypes.object.isRequired,
 };
 
 WalkingOptionsSection.contextTypes = {
-  router: routerShape.isRequired,
   match: matchShape.isRequired,
   intl: intlShape.isRequired,
 };

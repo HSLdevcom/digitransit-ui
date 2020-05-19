@@ -2,8 +2,10 @@ import isEmpty from 'lodash/isEmpty';
 import isString from 'lodash/isString';
 import without from 'lodash/without';
 import { toggleCitybikesAndNetworks } from './modeUtils';
-import { getCustomizedSettings } from '../store/localStorage';
-import { replaceQueryParams } from './queryUtils';
+import {
+  getCustomizedSettings,
+  setCustomizedSettings,
+} from '../store/localStorage';
 
 export const BIKESTATION_ON = 'Station on';
 export const BIKESTATION_OFF = 'Station off';
@@ -77,20 +79,13 @@ export const mapDefaultNetworkProperties = config => {
 };
 
 /**
- * Retrieves all chosen citybike networks from the URI,
+ * Retrieves all chosen citybike networks from the
  * localstorage or default configuration.
  *
- * @param {*} location The current location
  * @param {*} config The configuration for the software installation
  */
 
-export const getCitybikeNetworks = (location, config) => {
-  if (location && location.query && location.query.allowedBikeRentalNetworks) {
-    return decodeURI(location.query.allowedBikeRentalNetworks)
-      .split('?')[0]
-      .split(',')
-      .map(m => m.toUpperCase());
-  }
+export const getCitybikeNetworks = config => {
   const { allowedBikeRentalNetworks } = getCustomizedSettings();
   if (
     Array.isArray(allowedBikeRentalNetworks) &&
@@ -140,7 +135,7 @@ export const updateCitybikeNetworks = (
         match,
         getDefaultNetworks(config).join(),
       );
-      return;
+      return getDefaultNetworks(config);
     }
     toggleCitybikesAndNetworks(
       'citybike',
@@ -149,12 +144,13 @@ export const updateCitybikeNetworks = (
       match,
       chosenNetworks.join(','),
     );
-    return;
+    return chosenNetworks;
   }
 
-  replaceQueryParams(router, match, {
-    allowedBikeRentalNetworks: chosenNetworks.join(','),
+  setCustomizedSettings({
+    allowedBikeRentalNetworks: chosenNetworks,
   });
+  return chosenNetworks;
 };
 
 // Returns network specific url if it exists. Defaults to cityBike.useUrl

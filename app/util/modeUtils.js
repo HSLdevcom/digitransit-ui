@@ -8,8 +8,10 @@ import {
 } from 'lodash';
 
 import inside from 'point-in-polygon';
-import { replaceQueryParams } from './queryUtils';
-import { getCustomizedSettings } from '../store/localStorage';
+import {
+  getCustomizedSettings,
+  setCustomizedSettings,
+} from '../store/localStorage';
 import { isInBoundingBox } from './geo-utils';
 import { addAnalyticsEvent } from './analyticsUtils';
 
@@ -243,18 +245,16 @@ export const getStreetMode = (location, config) => {
 };
 
 /**
- * Updates the browser's url to reflect the selected street mode.
+ * Updates the localStorage to reflect the selected street mode.
  *
  * @param {*} streetMode The street mode to select
  * @param {*} config The configuration for the software installation
- * @param {*} router The router
  * @param {*} match The match object from found
  * @param {boolean} isExclusive True, if only this mode shoud be selected; otherwise false.
  */
 export const setStreetMode = (
   streetMode,
   config,
-  router,
   match,
   isExclusive = false,
 ) => {
@@ -264,7 +264,7 @@ export const setStreetMode = (
     streetMode,
     isExclusive,
   );
-  replaceQueryParams(router, match, modesQuery);
+  setCustomizedSettings(modesQuery);
 };
 
 /**
@@ -299,14 +299,15 @@ export const isBikeRestricted = (location, config, modes) => {
 };
 
 /**
- * Updates the browser's url to reflect the selected transport mode.
+ * Updates the localStorage to reflect the selected transport mode.
  *
  * @param {*} transportMode The transport mode to select
  * @param {*} config The configuration for the software installation
  * @param {*} router The router
  * @param {*} match The match object from found
+ * @returns {String[]} an array of currently selected modes
  */
-export const toggleTransportMode = (transportMode, config, router, match) => {
+export function toggleTransportMode(transportMode, config, match) {
   const currentLocation = match.location;
   let actionName;
   if (getModes(currentLocation, config).includes(transportMode.toUpperCase())) {
@@ -320,27 +321,26 @@ export const toggleTransportMode = (transportMode, config, router, match) => {
     name: transportMode,
   });
   if (isBikeRestricted(currentLocation, config, transportMode)) {
-    return;
+    return {};
   }
   const modes = xor(getModes(currentLocation, config), [
     transportMode.toUpperCase(),
-  ]).join(',');
-  replaceQueryParams(router, match, { modes });
-};
+  ]);
+  setCustomizedSettings({ modes });
+  return modes;
+}
 
 /**
- * Updates the browser's url to enable citybikes WITH all networks
+ * Updates the localStorage to enable citybikes WITH all networks
  *
  * @param {*} transportMode The transport mode to select
  * @param {*} config The configuration for the software installation
- * @param {*} router The router
  * @param {*} networks The citybike networks to be allowed
  * @param {*} match The match object from found
  */
 export const toggleCitybikesAndNetworks = (
   transportMode,
   config,
-  router,
   networks,
   match,
 ) => {
@@ -351,7 +351,7 @@ export const toggleCitybikesAndNetworks = (
   const modes = xor(getModes(currentLocation, config), [
     transportMode.toUpperCase(),
   ]).join(',');
-  replaceQueryParams(router, match, {
+  setCustomizedSettings({
     modes,
     allowedBikeRentalNetworks: networks,
   });

@@ -3,18 +3,24 @@ import React from 'react';
 import uniqBy from 'lodash/uniqBy';
 import { intlShape } from 'react-intl';
 import Dropdown from './Dropdown';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { setCustomizedSettings } from '../store/localStorage';
 
 class FareZoneSelector extends React.Component {
   static propTypes = {
     options: PropTypes.array.isRequired,
     currentOption: PropTypes.string.isRequired,
-    updateValue: PropTypes.func.isRequired,
   };
 
   static contextTypes = {
     config: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
   };
+
+  constructor(props) {
+    super(props);
+    this.state = { currentOption: props.currentOption };
+  }
 
   createFareZoneObjects = options => {
     const { intl, config } = this.context;
@@ -34,17 +40,27 @@ class FareZoneSelector extends React.Component {
   };
 
   render() {
-    const mappedOptions = this.createFareZoneObjects(this.props.options);
+    const { options } = this.props;
+    const { intl } = this.context;
+    const mappedOptions = this.createFareZoneObjects(options);
     return (
       <div className="settings-option-container">
         <Dropdown
-          labelText={this.context.intl.formatMessage({
+          labelText={intl.formatMessage({
             id: 'zones',
             defaultMessage: 'Fare zones',
           })}
-          currentSelection={this.props.currentOption}
+          currentSelection={this.state.currentOption}
           options={mappedOptions}
-          onOptionSelected={value => this.props.updateValue(value)}
+          onOptionSelected={value => {
+            setCustomizedSettings({ ticketTypes: value });
+            addAnalyticsEvent({
+              category: 'ItinerarySettings',
+              action: 'ChangeFareZones',
+              name: value,
+            });
+            this.setState({ currentOption: value });
+          }}
           displayValueFormatter={value =>
             value.split(':')[1] ? value.split(':')[1] : value
           }
