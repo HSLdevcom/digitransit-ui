@@ -8,6 +8,13 @@ const searchContext = {
   positionStore: null,
   startLocationWatch: null,
   saveSearch: null,
+  isPeliasLocationAware: false,
+  minimalRegexp: null,
+  lineRegexp: null,
+  feedIDs: [],
+  URL_PELIAS: '',
+  geocodingSearchParams: null,
+  geocodingSources: '',
   getRoutes() {
     return Promise.resolve([]);
   },

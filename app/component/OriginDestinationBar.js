@@ -83,6 +83,7 @@ class OriginDestinationBar extends React.Component {
           initialViaPoints={getIntermediatePlaces(this.location.query)}
           updateViaPoints={this.updateViaPoints}
           swapOrder={this.swapEndpoints}
+          targets={['Locations']}
         />
       </div>
     );
