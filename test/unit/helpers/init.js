@@ -72,7 +72,6 @@ before('setting up the environment', () => {
 
 after('resetting the environment', () => {
   console.error.restore();
-  Link.render.restore();
   // TODO this could be renabled when dependencies don't throw warnings
   // console.warn.restore();
 });
