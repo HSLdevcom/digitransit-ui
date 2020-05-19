@@ -6,8 +6,9 @@ import { matchShape, routerShape } from 'found';
 import loadable from '@loadable/component';
 import { withCurrentTime } from '../util/DTSearchQueryUtils';
 import ComponentUsageExample from './ComponentUsageExample';
-import DTAutosuggestContainer from './DTAutosuggestContainer';
 import { PREFIX_ITINERARY_SUMMARY, navigateTo } from '../util/path';
+import withSearchContext from './DTAutosuggestContainer';
+import getRelayEnvironment from '../util/getRelayEnvironment';
 
 import {
   getIntermediatePlaces,
@@ -20,11 +21,22 @@ const DTAutosuggestPanel = loadable(
     import('@digitransit-component/digitransit-component-autosuggest-panel'),
   { ssr: true },
 );
+const panelSources = ['Favourite', 'History', 'Datasource'];
+const panelTargets = ['Locations', 'CurrentPosition'];
+let panelData = {
+  sources: panelSources,
+  targets: panelTargets,
+  showMultiPointControls: true,
+  originPlaceHolder: 'search-origin-index',
+  destinationPlaceHolder: 'search-destination-index',
+};
+
 const locationToOtp = location =>
   `${location.address}::${location.lat},${location.lon}${
     location.locationSlack ? `::${location.locationSlack}` : ''
   }`;
 
+let AutosuggestPanelWithSearchContext;
 class OriginDestinationBar extends React.Component {
   static propTypes = {
     className: PropTypes.string,
@@ -45,6 +57,25 @@ class OriginDestinationBar extends React.Component {
     location: undefined,
   };
 
+  constructor(props, context) {
+    super(props);
+
+    panelData = {
+      ...panelData,
+      ...this.props,
+      initialViaPoints: getIntermediatePlaces(
+        this.props.location
+          ? this.props.location.query
+          : context.match.location.query,
+      ),
+      updateViaPoints: this.updateViaPoints,
+      swapOrder: this.swapEndpoints,
+    };
+    AutosuggestPanelWithSearchContext = getRelayEnvironment(
+      withSearchContext(panelData, DTAutosuggestPanel),
+    );
+  }
+
   get location() {
     return this.props.location || this.context.match.location;
   }
@@ -63,6 +94,12 @@ class OriginDestinationBar extends React.Component {
     if (intermediatePlaces.length > 1) {
       location.query.intermediatePlaces.reverse();
     }
+    panelData.origin = this.props.destination;
+    panelData.destination = this.props.origin;
+    AutosuggestPanelWithSearchContext = getRelayEnvironment(
+      withSearchContext(panelData, DTAutosuggestPanel),
+    );
+
     navigateTo({
       base: locationWithTime,
       origin: this.props.destination,
@@ -82,7 +119,8 @@ class OriginDestinationBar extends React.Component {
           'flex-horizontal',
         )}
       >
-        <DTAutosuggestContainer
+        <AutosuggestPanelWithSearchContext />
+        {/* <DTAutosuggestContainer
           origin={this.props.origin}
           destination={this.props.destination}
         >
@@ -98,7 +136,7 @@ class OriginDestinationBar extends React.Component {
             sources={['Favourite', 'History', 'Datasource']}
             targets={['Locations', 'CurrentPosition']}
           />
-        </DTAutosuggestContainer>
+        </DTAutosuggestContainer> */}
       </div>
     );
   }
