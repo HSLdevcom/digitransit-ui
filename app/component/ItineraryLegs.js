@@ -222,14 +222,14 @@ class ItineraryLegs extends React.Component {
 
     return (
       <span role="list">
-        {legs.map(item => (
-          <span
-            role="listitem"
-            key={`${item.props.leg && item.props.leg.mode}_${item.props.index}`}
-          >
-            {item}
-          </span>
-        ))}
+        {legs.map((item, idx) => {
+          const listKey = `leg_${idx}`;
+          return (
+            <span role="listitem" key={listKey}>
+              {item}
+            </span>
+          );
+        })}
       </span>
     );
   }

@@ -1,6 +1,7 @@
 # GeoJSON map layers
 
 Contents of the front page background map can be expanded by defining GeoJson data sources in the configuration file.
+Such additional geometry should be defined using WGS84 coordinate system.
 
 The format of the geojson configuration entry is the following:
 
@@ -197,7 +198,7 @@ into the configuration file (see the example configuration in the beginning of t
 
 ## Popups
 
-A point feature can include a popup menu which opens when the feature is clicked/tapped.
+A feature can include a popup menu which opens when the feature is clicked/tapped.
 The content of the menu is defined as a html string in a property called `'popupContent'`. Alternatively,
 another property can define the content and the name of the content attribute is defined in the metadata.
 

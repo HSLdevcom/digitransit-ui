@@ -1,0 +1,47 @@
+/* stylelint-disable */ 
+
+.search-result {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-height: 49px;
+  overflow-x: hidden;
+
+  .suggestion-name {
+    padding: 0;
+    margin: 0;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: -0.43px;
+    color: #333333;
+  }
+
+  .suggestion-label {
+    padding: 0;
+    margin: 0;
+    font-size: 11px;
+    letter-spacing: -0.37px;
+    color: #666666;
+  }
+
+  .right {
+    position: absolute;
+    right: 10px;
+  }
+}
+
+.suggestion-icon {
+  width: 49px;
+  text-align: center;
+  padding-top: 6px;
+}
+
+.sr-only:not(:focus):not(:active) {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}

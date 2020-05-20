@@ -354,20 +354,27 @@ function setUpAvailableTickets() {
         },
         err => {
           console.log(err);
-          // If after 5 tries no available ticketTypes are found, start server anyway
-          resolve();
-          console.log('failed to load availableTickets at launch, retrying');
-          // Continue attempts to fetch available ticketTypes in the background for one day once every minute
-          retryFetch(`${config.URL.OTP}index/graphql`, options, 1440, 60000)
-            .then(res => res.json())
-            .then(
-              result => {
-                processTicketTypeResult(result);
-              },
-              error => {
-                console.log(error);
-              },
-            );
+          if (process.env.BASE_CONFIG) {
+            // Patching of availableTickets into cached configs would not work with BASE_CONFIG
+            // if availableTickets are fetched after launch
+            console.log('failed to load availableTickets at launch, exiting');
+            process.exit(1);
+          } else {
+            // If after 5 tries no available ticketTypes are found, start server anyway
+            resolve();
+            console.log('failed to load availableTickets at launch, retrying');
+            // Continue attempts to fetch available ticketTypes in the background for one day once every minute
+            retryFetch(`${config.URL.OTP}index/graphql`, options, 1440, 60000)
+              .then(res => res.json())
+              .then(
+                result => {
+                  processTicketTypeResult(result);
+                },
+                error => {
+                  console.log(error);
+                },
+              );
+          }
         },
       );
   });

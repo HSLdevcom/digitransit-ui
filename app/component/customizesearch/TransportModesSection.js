@@ -4,7 +4,7 @@ import { intlShape, FormattedMessage } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 
 import cx from 'classnames';
-import Checkbox from '../Checkbox';
+import Toggle from '../Toggle';
 import Icon from '../Icon';
 import IconWithBigCaution from '../IconWithBigCaution';
 import { isKeyboardSelectionEvent } from '../../util/browser';
@@ -13,27 +13,25 @@ import {
   toggleTransportMode,
   isBikeRestricted,
 } from '../../util/modeUtils';
+import TransferOptionsSection from './TransferOptionsSection';
+import CityBikeNetworkSelector from '../CityBikeNetworkSelector';
+import {
+  updateCitybikeNetworks,
+  getCitybikeNetworks,
+} from '../../util/citybikes';
 
 const TransportModesSection = (
-  { config, currentModes },
+  { config, currentSettings, defaultSettings },
   { intl, router, match },
 ) => {
   const transportModes = getAvailableTransportModes(config);
-
+  const currentModes = currentSettings.modes;
   return (
     <React.Fragment>
-      <div className="transport-mode-header">
-        <h1>
-          {intl.formatMessage({
-            id: 'public-transport',
-            defaultMessage: 'Public Transport',
-          })}
-        </h1>
-      </div>
       <div className="transport-mode-subheader">
         <FormattedMessage
           id="pick-mode"
-          defaultMessage="Pick a transport mode"
+          defaultMessage="Transportation modes"
         />
       </div>
       <div className="transport-modes-container">
@@ -42,16 +40,6 @@ const TransportModesSection = (
             className="mode-option-container"
             key={`mode-option-${mode.toLowerCase()}`}
           >
-            <Checkbox
-              checked={currentModes.filter(o2 => o2 === mode).length > 0}
-              defaultMessage={mode}
-              labelId={mode.toLowerCase()}
-              onChange={() =>
-                !isBikeRestricted(match.location, config, mode) &&
-                toggleTransportMode(mode, config, router, match)
-              }
-              showLabel={false}
-            />
             <div
               role="button"
               tabIndex={0}
@@ -98,8 +86,57 @@ const TransportModesSection = (
                 )}
               </div>
             </div>
+            <Toggle
+              toggled={currentModes.filter(o2 => o2 === mode).length > 0}
+              onToggle={() =>
+                !isBikeRestricted(match.location, config, mode) &&
+                toggleTransportMode(mode, config, router, match)
+              }
+              title={mode}
+            />
           </div>
         ))}
+        {currentModes.includes('CITYBIKE') &&
+          config.cityBike.networks &&
+          Object.keys(config.cityBike.networks).length > 1 &&
+          config.transportModes.citybike &&
+          config.transportModes.citybike.availableForSelection && (
+            <div
+              className="mode-option-container"
+              style={{
+                display: 'inline-block',
+                width: '100%',
+                padding: '10px 0px 0px 30px',
+              }}
+            >
+              <FormattedMessage
+                id="citybike-network-header"
+                defaultMessage={intl.formatMessage({
+                  id: 'citybike-network-headers',
+                  defaultMessage: 'Citybikes and scooters',
+                })}
+              />
+              <CityBikeNetworkSelector
+                isUsingCitybike={currentModes.includes('CITYBIKE')}
+                currentOptions={getCitybikeNetworks(match.location, config)}
+                updateValue={value =>
+                  updateCitybikeNetworks(
+                    getCitybikeNetworks(match.location, config),
+                    value.toUpperCase(),
+                    config,
+                    router,
+                    currentModes.includes('CITYBIKE'),
+                    match,
+                  )
+                }
+              />
+            </div>
+          )}
+        <TransferOptionsSection
+          defaultSettings={defaultSettings}
+          currentSettings={currentSettings}
+          walkBoardCostHigh={config.walkBoardCostHigh}
+        />
       </div>
     </React.Fragment>
   );
@@ -107,7 +144,8 @@ const TransportModesSection = (
 
 TransportModesSection.propTypes = {
   config: PropTypes.object.isRequired,
-  currentModes: PropTypes.arrayOf(PropTypes.string).isRequired,
+  currentSettings: PropTypes.object.isRequired,
+  defaultSettings: PropTypes.object.isRequired,
 };
 
 TransportModesSection.contextTypes = {

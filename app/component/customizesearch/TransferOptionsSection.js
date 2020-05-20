@@ -1,72 +1,56 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape, routerShape } from 'found';
+import { FormattedMessage } from 'react-intl';
+import Toggle from '../Toggle';
 
-import SelectOptionContainer, {
-  getFiveStepOptions,
-  getLinearStepOptions,
-  optionsShape,
-  valueShape,
-} from './SelectOptionContainer';
 import { replaceQueryParams } from '../../util/queryUtils';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 
 const TransferOptionsSection = (
-  { walkBoardCost, walkBoardCostOptions, minTransferTime, defaultSettings },
+  { defaultSettings, currentSettings, walkBoardCostHigh },
   { router, match },
 ) => (
   <React.Fragment>
-    <SelectOptionContainer
-      currentSelection={walkBoardCost}
-      defaultValue={defaultSettings.walkBoardCost}
-      highlightDefaultValue={false}
-      onOptionSelected={value => {
-        replaceQueryParams(router, match, { walkBoardCost: value });
-        addAnalyticsEvent({
-          category: 'ItinerarySettings',
-          action: 'changeNumberOfTransfers',
-          name: value,
-        });
+    <div
+      className="mode-option-container toggle-container"
+      style={{
+        padding: '0 0 0 1em',
+        height: '3.5em',
       }}
-      options={getFiveStepOptions(
-        defaultSettings.walkBoardCost,
-        walkBoardCostOptions,
-      )}
-      title="transfers"
-    />
-    <SelectOptionContainer
-      currentSelection={minTransferTime}
-      defaultValue={defaultSettings.minTransferTime}
-      displayPattern="number-of-minutes"
-      displayValueFormatter={seconds => seconds / 60}
-      onOptionSelected={value => {
-        replaceQueryParams(router, match, { minTransferTime: value });
-        addAnalyticsEvent({
-          category: 'ItinerarySettings',
-          action: 'ChangeTransferMargin',
-          name: value,
-        });
-      }}
-      options={getLinearStepOptions(
-        defaultSettings.minTransferTime,
-        60,
-        60,
-        12,
-      )}
-      sortByValue
-      title="transfers-margin"
-    />
+    >
+      <FormattedMessage
+        id="avoid-transfers-label"
+        defaultMessage="Avoid transfers"
+      />
+      <Toggle
+        toggled={
+          currentSettings.walkBoardCost !== defaultSettings.walkBoardCost
+        }
+        onToggle={e => {
+          replaceQueryParams(router, match, {
+            walkBoardCost: e.target.checked
+              ? walkBoardCostHigh
+              : defaultSettings.walkBoardCost,
+          });
+          addAnalyticsEvent({
+            category: 'ItinerarySettings',
+            action: 'changeNumberOfTransfers',
+            name: e.target.checked,
+          });
+        }}
+        title="transfers"
+      />
+    </div>
   </React.Fragment>
 );
 
 TransferOptionsSection.propTypes = {
-  minTransferTime: valueShape.isRequired,
   defaultSettings: PropTypes.shape({
     walkBoardCost: PropTypes.number.isRequired,
-    minTransferTime: PropTypes.number.isRequired,
   }).isRequired,
-  walkBoardCost: valueShape.isRequired,
-  walkBoardCostOptions: optionsShape.isRequired,
+  currentSettings: PropTypes.object.isRequired,
+  walkBoardCostHigh: PropTypes.number.isRequired,
 };
 
 TransferOptionsSection.contextTypes = {

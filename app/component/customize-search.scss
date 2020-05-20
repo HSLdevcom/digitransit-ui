@@ -1,5 +1,5 @@
 .customize-search {
-  background: #f4f4f5;
+  background: #ffffff;
   color: $black;
   height: 100%;
   line-height: 35px;
@@ -21,13 +21,37 @@
     top: 4rem;
     z-index: index($zindex, autosuggest-suggestion-container)
   }
+
+  .toggle-container {
+    span {
+      padding-top: 1em;
+      width: 100%;
+    }
+    .icon-container {
+      width: auto;
+      margin: 0 1em 0 0;
+    }
+  }
+
+  .citybike-network-container {
+    .option-toggle-container {
+      width: 100%;
+
+      .toggle {
+        top: 1px;
+      }
+    }
+    .icon-container {
+      margin-right: 0.5em;
+    }
+  }
 }
 
 .settings-option-container {
-  padding: 1.5em 1em 0 1em;
+  padding: 1em 1em 0 1em;
+  border-bottom: 5px solid #f4f4f5;
 
   & + .settings-option-container {
-    border-top: 1px solid #e3e3e4;
     padding-bottom: 1.5em;
   }
 
@@ -46,6 +70,9 @@
   span {
     font-weight: 400;
   }
+  .mode-option-container:last-of-type {
+    border: none;
+  }
 }
 
 .transport-mode-header {
@@ -58,20 +85,29 @@
   }
 }
 
-.transport-modes-container {
-  > div:first-child > .mode-option-block {
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
+.street-modes-container {
+  > div {
+    border-bottom: 1px solid #e3e3e3;
   }
 
-  > div:last-child > .mode-option-block {
-    border-bottom-left-radius: 6px;
-    border-bottom-right-radius: 6px;
+  :last-child, :first-child {
+    border: none;
+  }
+
+  .dropdown-wrapper {
+    margin-left: 3.5em;
+    padding-bottom: 1em;
+    border-bottom: 1px solid #e3e3e3;
   }
 }
 
 .mode-option-container {
   display: flex;
+  border-bottom: 1px solid #e3e3e3;
+
+  .icon-container {
+    width: auto;
+  }
 
   .option-checkbox {
     margin-top: 1em;
@@ -80,21 +116,18 @@
   .mode-option-block {
     width: 100%;
     height: 3.5em;
-    background-color: currentColor;
     margin-bottom: 0.1em;
     display: flex;
     cursor: pointer;
 
     span {
-      color: #fff;
+      color: #000;
     }
     .icon {
       font-size: 2.5em;
       margin-top: 0.2em;
     }
-    &.disabled {
-      background-color: rgb(187, 187, 187);
-    }
+
     .mode-icon {
       margin-left: 1em;
       margin-right: 1em;
@@ -109,6 +142,7 @@
       display: flex;
       flex-direction: column;
       margin-top: 1em;
+      width:100%;
       span {
         line-height: 1.1em;
       }

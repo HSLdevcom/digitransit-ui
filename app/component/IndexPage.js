@@ -1,23 +1,25 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable import/no-extraneous-dependencies */
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
-import { routerShape } from 'found';
+import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
 import isEqual from 'lodash/isEqual';
+import differenceWith from 'lodash/differenceWith';
+import isEmpty from 'lodash/isEmpty';
 import d from 'debug';
-
+import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
 import {
   initGeolocation,
   checkPositioningPermission,
 } from '../action/PositionActions';
 import storeOrigin from '../action/originActions';
+import { addFavourite, deleteFavourite } from '../action/FavouriteActions';
 import storeDestination from '../action/destinationActions';
-import ControlPanel from './ControlPanel';
-import DTAutoSuggest from './DTAutosuggest';
-import DTAutosuggestPanel from './DTAutosuggestPanel';
+import DTAutosuggestContainer from './DTAutosuggestContainer';
 import { isBrowser } from '../util/browser';
-import searchContext from './searchContext';
 import {
   parseLocation,
   isItinerarySearchObjects,
@@ -27,9 +29,9 @@ import OverlayWithSpinner from './visual/OverlayWithSpinner';
 import { dtLocationShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
-import intializeSearchContext from './DTSearchContextInitializer';
 import scrollTop from '../util/scroll';
 import FavouriteLocationsContainer from './FavouriteLocationsContainer';
+import Datetimepicker from './Datetimepicker';
 
 const debug = d('IndexPage.js');
 
@@ -38,6 +40,8 @@ class IndexPage extends React.Component {
     intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
     getStore: PropTypes.func.isRequired,
+    router: routerShape.isRequired,
+    match: matchShape.isRequired,
   };
 
   static propTypes = {
@@ -48,10 +52,13 @@ class IndexPage extends React.Component {
     destination: dtLocationShape.isRequired,
     showSpinner: PropTypes.bool.isRequired,
     favourites: PropTypes.array,
+    locationState: PropTypes.object.isRequired,
+    lang: PropTypes.string,
   };
 
   static defaultProps = {
     autoSetOrigin: true,
+    lang: 'fi',
   };
 
   constructor(props, context) {
@@ -59,10 +66,13 @@ class IndexPage extends React.Component {
     if (this.props.autoSetOrigin) {
       context.executeAction(storeOrigin, props.origin);
     }
+    this.state = {
+      // eslint-disable-next-line react/no-unused-state
+      pendingCurrentLocation: false,
+    };
   }
 
   componentDidMount() {
-    intializeSearchContext(this.context, searchContext);
     scrollTop();
   }
 
@@ -92,12 +102,32 @@ class IndexPage extends React.Component {
     }
   };
 
+  clickFavourite = favourite => {
+    const location = {
+      lat: favourite.lat,
+      lon: favourite.lon,
+      address: favourite.name,
+      ready: true,
+    };
+
+    navigateTo({
+      origin: this.props.origin,
+      destination: location,
+      context: '/',
+      router: this.props.router,
+    });
+  };
+
+  addFavourite = favourite => {
+    this.context.executeAction(addFavourite, favourite);
+  };
+
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     const { intl } = this.context;
-    const { breakpoint, destination, origin, favourites } = this.props;
+    const { breakpoint, destination, origin, favourites, lang } = this.props;
+    // const { mapExpanded } = this.state; // TODO verify
 
-    // DT-3381 TODO: DTEndpointAutoSuggest currently does not search for stops or stations, as it should be. SearchUtils needs refactoring.
     return breakpoint === 'large' ? (
       <div
         className={`front-page flex-vertical ${origin &&
@@ -106,28 +136,30 @@ class IndexPage extends React.Component {
           origin.gpsError === false &&
           `blurred`} fullscreen bp-${breakpoint}`}
       >
-        <ControlPanel className="control-panel-container-left">
-          <DTAutosuggestPanel
+        <CtrlPanel instance="hsl" language={lang} position="left">
+          <DTAutosuggestContainer
+            type="panel"
             searchPanelText={intl.formatMessage({
               id: 'where',
               defaultMessage: 'Where to?',
             })}
             origin={origin}
             destination={destination}
-            searchType="endpoint"
             originPlaceHolder="search-origin-index"
             destinationPlaceHolder="search-destination-index"
-            searchContext={searchContext}
+            locationState={this.props.locationState}
+            lang={lang}
+            sources={['Favourite', 'History', 'Datasource']}
+            targets={['Locations', 'CurrentPosition']}
           />
-          <div className="fpcfloat">
-            <div className="frontpage-panel">
-              <FavouriteLocationsContainer
-                origin={origin}
-                favourites={favourites}
-              />
-            </div>
-          </div>
-          <div className="control-panel-separator-line" />
+          <CtrlPanel.SeparatorLine />
+          <Datetimepicker realtime />
+          <FavouriteLocationsContainer
+            favourites={favourites}
+            onClickFavourite={this.clickFavourite}
+            onAddFavourite={this.addFavourite}
+          />
+          <CtrlPanel.SeparatorLine />
           <div className="stops-near-you-text">
             <span>
               {' '}
@@ -137,22 +169,20 @@ class IndexPage extends React.Component {
               })}
             </span>
           </div>
-          <div>
-            <DTAutoSuggest
-              icon="mapMarker-via"
-              id="searchfield-preferred"
-              autoFocus={false}
-              refPoint={origin}
-              className="destination"
-              searchType="search"
-              placeholder="stop-near-you"
-              value=""
-              isFocused={this.isFocused}
-              onLocationSelected={e => e.stopPropagation()}
-              searchContext={searchContext}
-            />
-          </div>
-        </ControlPanel>
+          <DTAutosuggestContainer
+            type="field"
+            icon="mapMarker-via"
+            id="stop-route-station"
+            autoFocus={false}
+            refPoint={origin}
+            className="destination"
+            placeholder="stop-near-you"
+            value=""
+            locationState={this.props.locationState}
+            sources={['Favourite', 'History', 'Datasource']}
+            targets={['Stops', 'Routes']}
+          />
+        </CtrlPanel>
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
       </div>
     ) : (
@@ -164,25 +194,29 @@ class IndexPage extends React.Component {
           `blurred`} bp-${breakpoint}`}
       >
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
-        <ControlPanel className="control-panel-container-bottom">
-          <DTAutosuggestPanel
+        <CtrlPanel instance="hsl" language={lang} position="bottom">
+          <DTAutosuggestContainer
+            type="panel"
             searchPanelText={intl.formatMessage({
               id: 'where',
               defaultMessage: 'Where to?',
             })}
             origin={origin}
             destination={destination}
-            searchType="all"
-            originPlaceHolder="search-origin"
-            destinationPlaceHolder="search-destination"
-            searchContext={searchContext}
+            originPlaceHolder="search-origin-index"
+            destinationPlaceHolder="search-destination-index"
+            locationState={this.props.locationState}
+            sources={['Favourite', 'History', 'Datasource']}
+            targets={['Locations', 'CurrentPosition']}
           />
-          <div className="fpcfloat">
-            <div className="frontpage-panel">
-              <FavouriteLocationsContainer favourites={this.props.favourites} />
-            </div>
-          </div>
-          <div className="control-panel-separator-line" />
+          <CtrlPanel.SeparatorLine />
+          <Datetimepicker realtime />
+          <FavouriteLocationsContainer
+            favourites={this.props.favourites}
+            onClickFavourite={this.clickFavourite}
+            onAddFavourite={this.addFavourite}
+          />
+          <CtrlPanel.SeparatorLine />
           <div className="stops-near-you-text">
             <span>
               {' '}
@@ -192,22 +226,20 @@ class IndexPage extends React.Component {
               })}
             </span>
           </div>
-          <div>
-            <DTAutoSuggest
-              icon="mapMarker-via"
-              id="searchfield-preferred-bottom"
-              autoFocus={false}
-              refPoint={origin}
-              className="destination"
-              searchType="search"
-              placeholder="stop-near-you"
-              value=""
-              isFocused={this.isFocused}
-              onLocationSelected={e => e.stopPropagation()}
-              searchContext={searchContext}
-            />
-          </div>
-        </ControlPanel>
+          <DTAutosuggestContainer
+            type="field"
+            icon="mapMarker-via"
+            id="searchfield-preferred"
+            autoFocus={false}
+            refPoint={origin}
+            className="destination"
+            placeholder="stop-near-you"
+            value=""
+            locationState={this.props.locationState}
+            sources={['Favourite', 'History', 'Datasource']}
+            targets={['Stops', 'Routes']}
+          />
+        </CtrlPanel>
       </div>
     );
   }
@@ -215,16 +247,17 @@ class IndexPage extends React.Component {
 
 const Index = shouldUpdate(
   // update only when origin/destination/breakpoint or language changes
-  (props, nextProps) =>
-    !(
+  (props, nextProps) => {
+    return !(
       isEqual(nextProps.origin, props.origin) &&
       isEqual(nextProps.destination, props.destination) &&
       isEqual(nextProps.breakpoint, props.breakpoint) &&
       isEqual(nextProps.lang, props.lang) &&
       isEqual(nextProps.locationState, props.locationState) &&
       isEqual(nextProps.showSpinner, props.showSpinner) &&
-      isEqual(nextProps.favourites, props.favourites)
-    ),
+      isEmpty(differenceWith(nextProps.favourites, props.favourites, isEqual))
+    );
+  },
 )(IndexPage);
 
 const IndexPageWithBreakpoint = withBreakpoint(Index);
@@ -281,7 +314,7 @@ const processLocation = (locationString, locationState, intl) => {
 
 const IndexPageWithPosition = connectToStores(
   IndexPageWithBreakpoint,
-  ['PositionStore'],
+  ['PositionStore', 'ViaPointsStore', 'FavouriteStore'],
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
 
@@ -345,9 +378,7 @@ const IndexPageWithPosition = connectToStores(
 IndexPageWithPosition.contextTypes = {
   ...IndexPageWithPosition.contextTypes,
   executeAction: PropTypes.func.isRequired,
-  intl: intlShape,
 };
-
 export {
   IndexPageWithPosition as default,
   IndexPageWithBreakpoint as Component,

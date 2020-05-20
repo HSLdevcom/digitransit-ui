@@ -2,41 +2,19 @@ import ceil from 'lodash/ceil';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape, routerShape } from 'found';
+import { intlShape } from 'react-intl';
 
-import SelectOptionContainer, {
-  getFiveStepOptions,
-  getSpeedOptions,
-  optionsShape,
-  valueShape,
-} from './SelectOptionContainer';
+import Dropdown, { getFiveStepOptions, valueShape } from '../Dropdown';
 import { replaceQueryParams } from '../../util/queryUtils';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 
 const BikingOptionsSection = (
-  { walkReluctance, walkReluctanceOptions, bikeSpeed, defaultSettings },
-  { router, match },
+  { bikeSpeed, defaultSettings, bikeSpeedOptions },
+  { router, match, intl },
 ) => (
   <React.Fragment>
     {/* OTP uses the same walkReluctance setting for bike routing */}
-    <SelectOptionContainer
-      currentSelection={walkReluctance}
-      defaultValue={defaultSettings.walkReluctance}
-      highlightDefaultValue={false}
-      onOptionSelected={value => {
-        replaceQueryParams(router, match, { walkReluctance: value });
-        addAnalyticsEvent({
-          category: 'ItinerarySettings',
-          action: 'ChangeAmountOfBiking',
-          name: value,
-        });
-      }}
-      options={getFiveStepOptions(
-        defaultSettings.walkReluctance,
-        walkReluctanceOptions,
-      )}
-      title="biking-amount"
-    />
-    <SelectOptionContainer
+    <Dropdown
       currentSelection={bikeSpeed}
       defaultValue={defaultSettings.bikeSpeed}
       displayValueFormatter={value => `${ceil(value * 3.6, 1)} km/h`}
@@ -48,26 +26,26 @@ const BikingOptionsSection = (
           name: value,
         });
       }}
-      options={getSpeedOptions(defaultSettings.bikeSpeed, 10, 21)}
-      sortByValue
-      title="biking-speed"
+      options={getFiveStepOptions(bikeSpeedOptions)}
+      formatOptions
+      labelText={intl.formatMessage({ id: 'biking-speed' })}
     />
   </React.Fragment>
 );
 
 BikingOptionsSection.propTypes = {
   bikeSpeed: valueShape.isRequired,
+  bikeSpeedOptions: PropTypes.array.isRequired,
   defaultSettings: PropTypes.shape({
     walkReluctance: PropTypes.number.isRequired,
     bikeSpeed: PropTypes.number.isRequired,
   }).isRequired,
-  walkReluctance: valueShape.isRequired,
-  walkReluctanceOptions: optionsShape.isRequired,
 };
 
 BikingOptionsSection.contextTypes = {
   router: routerShape.isRequired,
   match: matchShape.isRequired,
+  intl: intlShape.isRequired,
 };
 
 export default BikingOptionsSection;

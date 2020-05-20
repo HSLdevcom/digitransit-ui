@@ -7,6 +7,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import AppBarSmall from './AppBarSmall';
 import AppBarLarge from './AppBarLarge';
 import { DesktopOrMobile } from '../util/withBreakpoint';
+import AppBarHsl from './AppBarHsl'; // DT-3376
 
 // DT-3375: added style
 const AppBarContainer = ({
@@ -16,6 +17,7 @@ const AppBarContainer = ({
   logo,
   user,
   style,
+  lang,
   ...args
 }) => (
   <Fragment>
@@ -25,21 +27,7 @@ const AppBarContainer = ({
     <DesktopOrMobile
       mobile={() => {
         if (style === 'hsl') {
-          return (
-            <div className="top-bar">
-              <span
-                style={{
-                  color: '#ffffff',
-                  fontSize: '1rem',
-                  padding: 10,
-                  paddingTop: 2,
-                  paddingBottom: 2,
-                }}
-              >
-                HSL navi - small
-              </span>
-            </div>
-          );
+          return <AppBarHsl lang={lang} />;
         }
         return (
           <AppBarSmall
@@ -53,21 +41,7 @@ const AppBarContainer = ({
       }}
       desktop={() => {
         if (style === 'hsl') {
-          return (
-            <div className="top-bar">
-              <span
-                style={{
-                  color: '#ffffff',
-                  fontSize: '2rem',
-                  padding: 60,
-                  paddingTop: 5,
-                  paddingBottom: 5,
-                }}
-              >
-                HSL navi - large
-              </span>
-            </div>
-          );
+          return <AppBarHsl lang={lang} />;
         }
         return (
           <AppBarLarge
@@ -89,6 +63,7 @@ AppBarContainer.propTypes = {
   logo: PropTypes.string,
   user: PropTypes.object,
   style: PropTypes.string.isRequired, // DT-3375
+  lang: PropTypes.string, // DT-3376
 };
 
 const WithContext = connectToStores(
@@ -96,9 +71,10 @@ const WithContext = connectToStores(
     match: matchShape.isRequired,
     router: routerShape.isRequired,
   })(AppBarContainer),
-  ['UserStore'],
+  ['UserStore', 'PreferencesStore'],
   context => ({
     user: context.getStore('UserStore').getUser(),
+    lang: context.getStore('PreferencesStore').getLanguage(), // DT-3376
   }),
 );
 

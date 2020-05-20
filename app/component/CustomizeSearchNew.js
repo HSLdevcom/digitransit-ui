@@ -3,34 +3,15 @@ import React from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 
-import { StreetMode } from '../constants';
 import Icon from './Icon';
 import FareZoneSelector from './FareZoneSelector';
-import PreferredRoutes from './PreferredRoutes';
-import ResetCustomizedSettingsButton from './ResetCustomizedSettingsButton';
-import SaveCustomizedSettingsButton from './SaveCustomizedSettingsButton';
-import LoadCustomizedSettingsButton from './LoadCustomizedSettingsButton';
 import StreetModeSelectorPanel from './StreetModeSelectorPanel';
-import BikeTransportOptionsSection from './customizesearch/BikeTransportOptionsSection';
-import BikingOptionsSection from './customizesearch/BikingOptionsSection';
-import RoutePreferencesSection from './customizesearch/RoutePreferencesSection';
-import SelectOptionContainer from './customizesearch/SelectOptionContainer';
-import TransferOptionsSection from './customizesearch/TransferOptionsSection';
 import TransportModesSection from './customizesearch/TransportModesSection';
 import WalkingOptionsSection from './customizesearch/WalkingOptionsSection';
-import CityBikeNetworkSelector from './CityBikeNetworkSelector';
-import { resetCustomizedSettings } from '../store/localStorage';
+import AccessibilityOptionSection from './customizesearch/AccessibilityOptionSection';
 import * as ModeUtils from '../util/modeUtils';
 import { getDefaultSettings, getCurrentSettings } from '../util/planParamUtil';
-import {
-  addPreferredRoute,
-  addUnpreferredRoute,
-  clearQueryParams,
-  removePreferredRoute,
-  removeUnpreferredRoute,
-  replaceQueryParams,
-} from '../util/queryUtils';
-import { updateCitybikeNetworks, getCitybikeNetworks } from '../util/citybikes';
+import { replaceQueryParams } from '../util/queryUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class CustomizeSearch extends React.Component {
@@ -47,48 +28,10 @@ class CustomizeSearch extends React.Component {
 
   defaultSettings = getDefaultSettings(this.context.config);
 
-  onRouteSelected = (val, preferType) => {
-    const routeToAdd = val.properties.gtfsId.replace(':', '__');
-    if (preferType === 'preferred') {
-      addPreferredRoute(this.context.router, routeToAdd, this.context.match);
-    } else {
-      addUnpreferredRoute(this.context.router, routeToAdd, this.context.match);
-    }
-  };
-
-  removeRoute = (routeToRemove, preferType) => {
-    if (preferType === 'preferred') {
-      removePreferredRoute(
-        this.context.router,
-        routeToRemove,
-        this.context.match,
-      );
-    } else {
-      removeUnpreferredRoute(
-        this.context.router,
-        routeToRemove,
-        this.context.match,
-      );
-    }
-  };
-
-  resetParameters = () => {
-    resetCustomizedSettings();
-    clearQueryParams(
-      this.context.router,
-      this.context.match,
-      Object.keys(this.defaultSettings),
-    );
-  };
-
   render() {
     const { config, match, intl, router } = this.context;
-    const {
-      config: { accessibilityOptions },
-    } = this.context;
     const { onToggleClick } = this.props;
     const currentSettings = getCurrentSettings(config, match.location.query);
-    const isUsingBicycle = currentSettings.modes.includes(StreetMode.Bicycle);
     let ticketOptions = [];
     if (config.showTicketSelector && config.availableTickets) {
       Object.keys(config.availableTickets).forEach(key => {
@@ -110,8 +53,30 @@ class CustomizeSearch extends React.Component {
           <Icon className="close-icon" img="icon-icon_close" />
         </button>
         <div className="settings-option-container">
+          <h1>
+            {intl.formatMessage({
+              id: 'customize-search-header',
+              defaultMessage: 'Settings',
+            })}
+          </h1>
+        </div>
+        <div className="settings-option-container">
+          <WalkingOptionsSection
+            walkReluctance={currentSettings.walkReluctance}
+            walkSpeedOptions={config.defaultOptions.walkSpeed}
+            walkSpeed={currentSettings.walkSpeed}
+            defaultSettings={this.defaultSettings}
+          />
+        </div>
+        <div className="settings-option-container">
+          <TransportModesSection
+            config={config}
+            currentSettings={currentSettings}
+            defaultSettings={this.defaultSettings}
+          />
+        </div>
+        <div className="settings-option-container">
           <StreetModeSelectorPanel
-            className="customized-settings"
             selectedStreetMode={ModeUtils.getStreetMode(match.location, config)}
             selectStreetMode={(streetMode, isExclusive) => {
               ModeUtils.setStreetMode(
@@ -127,52 +92,21 @@ class CustomizeSearch extends React.Component {
                 name: streetMode,
               });
             }}
-            showButtonTitles
             streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
-          />
-        </div>
-        {isUsingBicycle && (
-          <div className="settings-option-container">
-            <BikeTransportOptionsSection currentModes={currentSettings.modes} />
-          </div>
-        )}
-        <div className="settings-option-container">
-          <TransportModesSection
-            config={config}
-            currentModes={currentSettings.modes}
-          />
-        </div>
-        <div className="settings-option-container">
-          {isUsingBicycle ? (
-            <BikingOptionsSection
-              walkReluctance={currentSettings.walkReluctance}
-              walkReluctanceOptions={config.defaultOptions.walkReluctance}
-              bikeSpeed={currentSettings.bikeSpeed}
-              defaultSettings={this.defaultSettings}
-            />
-          ) : (
-            <WalkingOptionsSection
-              walkReluctance={currentSettings.walkReluctance}
-              walkReluctanceOptions={config.defaultOptions.walkReluctance}
-              walkSpeed={currentSettings.walkSpeed}
-              defaultSettings={this.defaultSettings}
-            />
-          )}
-        </div>
-        <div className="settings-option-container">
-          <TransferOptionsSection
-            walkBoardCost={currentSettings.walkBoardCost}
-            walkBoardCostOptions={config.defaultOptions.walkBoardCost}
-            minTransferTime={currentSettings.minTransferTime}
+            currentSettings={currentSettings}
             defaultSettings={this.defaultSettings}
+            defaultOptions={config.defaultOptions}
+          />
+        </div>
+        <div className="settings-option-container">
+          <AccessibilityOptionSection
+            currentSettings={currentSettings}
+            router={router}
+            match={match}
           />
         </div>
         {config.showTicketSelector && (
           <FareZoneSelector
-            headerText={intl.formatMessage({
-              id: 'zones',
-              defaultMessage: 'Fare zones',
-            })}
             options={ticketOptions}
             currentOption={currentSettings.ticketTypes || 'none'}
             updateValue={value => {
@@ -185,89 +119,6 @@ class CustomizeSearch extends React.Component {
             }}
           />
         )}
-        {config.cityBike.networks &&
-          Object.keys(config.cityBike.networks).length > 1 &&
-          config.transportModes.citybike &&
-          config.transportModes.citybike.availableForSelection && (
-            <CityBikeNetworkSelector
-              headerText={intl.formatMessage({
-                id: 'citybike-network-headers',
-                defaultMessage: 'Citybikes and scooters',
-              })}
-              isUsingCitybike={currentSettings.modes.includes('CITYBIKE')}
-              currentOptions={getCitybikeNetworks(match.location, config)}
-              updateValue={value =>
-                updateCitybikeNetworks(
-                  getCitybikeNetworks(match.location, config),
-                  value.toUpperCase(),
-                  config,
-                  router,
-                  currentSettings.modes.includes('CITYBIKE'),
-                  match,
-                )
-              }
-            />
-          )}
-        <PreferredRoutes
-          onRouteSelected={this.onRouteSelected}
-          preferredRoutes={currentSettings.preferredRoutes}
-          unPreferredRoutes={currentSettings.unpreferredRoutes}
-          removeRoute={this.removeRoute}
-        />
-        <div className="settings-option-container">
-          <RoutePreferencesSection
-            optimize={currentSettings.optimize}
-            triangleFactors={{
-              safetyFactor: currentSettings.safetyFactor,
-              slopeFactor: currentSettings.slopeFactor,
-              timeFactor: currentSettings.timeFactor,
-            }}
-            defaultSettings={this.defaultSettings}
-          />
-        </div>
-        <div className="settings-option-container">
-          <SelectOptionContainer
-            currentSelection={currentSettings.accessibilityOption}
-            defaultValue={this.defaultSettings.accessibilityOption}
-            options={accessibilityOptions.map((o, i) => ({
-              title: accessibilityOptions[i].messageId,
-              value: accessibilityOptions[i].value,
-            }))}
-            onOptionSelected={value => {
-              replaceQueryParams(router, match, {
-                accessibilityOption: value,
-              });
-              addAnalyticsEvent({
-                category: 'ItinerarySettings',
-                action: 'ChangeAccessibility',
-                name: value,
-              });
-            }}
-            title="accessibility"
-          />
-        </div>
-        <div className="settings-option-container save-controls-container">
-          <div style={{ display: 'flex' }}>
-            <SaveCustomizedSettingsButton
-              noSettingsFound={this.resetParameters}
-            />
-            <LoadCustomizedSettingsButton
-              noSettingsFound={this.resetParameters}
-            />
-          </div>
-          <div>
-            <ResetCustomizedSettingsButton
-              onReset={() => {
-                this.resetParameters();
-                addAnalyticsEvent({
-                  action: 'ResetSettings',
-                  category: 'ItinerarySettings',
-                  name: null,
-                });
-              }}
-            />
-          </div>
-        </div>
       </div>
     );
   }

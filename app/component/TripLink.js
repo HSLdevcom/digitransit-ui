@@ -4,7 +4,7 @@ import { QueryRenderer, graphql } from 'react-relay';
 import Link from 'found/lib/Link';
 import cx from 'classnames';
 import IconWithTail from './IconWithTail';
-import { PREFIX_ROUTES } from '../util/path';
+import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import getRelayEnvironment from '../util/getRelayEnvironment';
 
@@ -46,7 +46,7 @@ function TripLink({ vehicle, relayEnvironment }) {
         const trip = props.trip.gtfsId;
         return (
           <Link
-            to={`/${PREFIX_ROUTES}/${route}/pysakit/${pattern}/${trip}`}
+            to={`/${PREFIX_ROUTES}/${route}/${PREFIX_STOPS}/${pattern}/${trip}`}
             className="route-now-content"
             onClick={() => {
               addAnalyticsEvent({

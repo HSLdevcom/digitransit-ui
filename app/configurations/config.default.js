@@ -99,8 +99,8 @@ export default {
   },
 
   defaultSettings: {
-    accessibilityOption: 0,
-    bikeSpeed: 5,
+    usingWheelchair: 0,
+    bikeSpeed: 5.55,
     minTransferTime: 120,
     optimize: 'QUICK',
     preferredRoutes: [],
@@ -109,7 +109,7 @@ export default {
     unpreferredRoutes: [],
     walkBoardCost: 600,
     walkReluctance: 2,
-    walkSpeed: 1.2,
+    walkSpeed: 1.38,
   },
 
   /**
@@ -130,7 +130,12 @@ export default {
       more: 1,
       most: 0.2,
     },
+    walkSpeed: [1.05, 1.22, 1.38, 1.52, 1.77],
+    bikeSpeed: [2.77, 4.15, 5.55, 6.94, 8.33],
   },
+
+  walkBoardCost: 600,
+  walkBoardCostHigh: 1200,
 
   quickOptions: {
     public_transport: {
@@ -164,7 +169,7 @@ export default {
   maxBikingDistance: 100000,
   itineraryFiltering: 1.5, // drops 66% worse routes
   useUnpreferredRoutesPenalty: 1200, // adds 10 minute (weight) penalty to routes that are unpreferred
-  availableLanguages: ['fi', 'sv', 'en', 'fr', 'nb', 'de'],
+  availableLanguages: ['fi', 'sv', 'en', 'fr', 'nb', 'de', 'da', 'es', 'ro'],
   defaultLanguage: 'en',
   // This timezone data will expire on 31.12.2020
   timezoneData:
@@ -273,6 +278,7 @@ export default {
     // When should bikeshare availability be rendered in orange rather than green
     fewAvailableCount: 3,
     networks: {},
+    useSpacesAvailable: true,
   },
 
   // Lowest level for stops and terminals are rendered
@@ -417,7 +423,7 @@ export default {
     },
 
     walk: {
-      availableForSelection: true,
+      availableForSelection: false,
       defaultValue: false,
       exclusive: true,
       icon: 'walk',
@@ -445,18 +451,7 @@ export default {
     },
   },
 
-  accessibilityOptions: [
-    {
-      messageId: 'accessibility-nolimit',
-      displayName: 'Ei rajoitusta',
-      value: '0',
-    },
-    {
-      messageId: 'accessibility-limited',
-      displayName: 'Liikun pyörätuolilla',
-      value: '1',
-    },
-  ],
+  usingWheelchair: 0,
 
   moment: {
     relativeTimeThreshold: {

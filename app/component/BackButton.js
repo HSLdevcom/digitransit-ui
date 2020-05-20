@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { routerShape, matchShape } from 'found';
 import { intlShape } from 'react-intl';
 import Icon from './Icon';
+import { PREFIX_ITINERARY_SUMMARY } from '../util/path';
 
 export default class BackButton extends React.Component {
   static contextTypes = {
@@ -38,7 +39,7 @@ export default class BackButton extends React.Component {
     } else if (
       this.context.match.location.action === 'POP' &&
       Array.isArray(pathArray) &&
-      pathArray[0] === 'reitti'
+      pathArray[0] === PREFIX_ITINERARY_SUMMARY
     ) {
       this.context.router.push(
         `/${pathArray[1]}/-${this.context.match.location.search}`,

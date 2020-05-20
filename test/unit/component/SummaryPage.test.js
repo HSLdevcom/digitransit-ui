@@ -5,13 +5,15 @@ import {
   reportError,
 } from '../../../app/component/SummaryPage';
 import { RealtimeStateType } from '../../../app/constants';
+import { PREFIX_ITINERARY_SUMMARY } from '../../../app/util/path';
 import * as analytics from '../../../app/util/analyticsUtils';
 
 describe('<SummaryPage />', () => {
   describe('getActiveIndex', () => {
     it('should return the value from location state', () => {
       const location = { state: { summaryPageSelected: 1 } };
-      expect(getActiveIndex(location)).to.equal(1);
+      const itineraries = [1, 2];
+      expect(getActiveIndex(location, itineraries)).to.equal(1);
     });
 
     it('should return the default value if location state exists but has no value', () => {
@@ -20,8 +22,9 @@ describe('<SummaryPage />', () => {
     });
 
     it('should retrieve the value from location pathname', () => {
-      const location = { pathname: '/reitti/from/to/5' };
-      expect(getActiveIndex(location)).to.equal(5);
+      const location = { pathname: `/${PREFIX_ITINERARY_SUMMARY}/from/to/5` };
+      const itineraries = [1, 2, 3, 4, 5, 6, 7, 8];
+      expect(getActiveIndex(location, itineraries)).to.equal(5);
     });
 
     it('should use the first non-canceled itinerary', () => {

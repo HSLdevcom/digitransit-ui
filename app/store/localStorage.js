@@ -98,9 +98,9 @@ export function setCustomizedSettings(data) {
   const optimize = getValueOrDefault(data.optimize, oldSettings.optimize);
 
   const newSettings = {
-    accessibilityOption: getNumberValueOrDefault(
-      data.accessibilityOption,
-      oldSettings.accessibilityOption,
+    usingWheelchair: getNumberValueOrDefault(
+      data.usingWheelchair,
+      oldSettings.usingWheelchair,
     ),
     bikeSpeed: getNumberValueOrDefault(data.bikeSpeed, oldSettings.bikeSpeed),
     minTransferTime: getNumberValueOrDefault(
