@@ -43,32 +43,6 @@ describe('Stops', () => {
       expect(mock.called()).to.equal(true);
     });
 
-    it.skip('should retrieve alert data for the given stop', done => {
-      const gtfsId = 'HSL:1172143';
-      fetchMock.get(`${config.URL.STOP_MAP}3/1/2.pbf`, {
-        status: 404,
-      });
-      fetchMock.post('/graphql', {
-        data: {
-          stop: {
-            alerts: [
-              {
-                alertSeverityLevel: AlertSeverityLevelType.Info,
-              },
-            ],
-          },
-        },
-      });
-
-      const layer = new Stops(tile, config, []);
-      layer.drawStop = (stopFeature, large, alertSeverityLevel) => {
-        expect(stopFeature.properties.gtfsId).to.equal(gtfsId);
-        expect(alertSeverityLevel).to.equal(AlertSeverityLevelType.Info);
-        done();
-      };
-      layer.fetchStatusAndDrawStop({ properties: { gtfsId } });
-    });
-
     it('should attempt to draw an icon with an alert badge', () => {
       fetchMock.get(`${config.URL.STOP_MAP}3/1/2.pbf`, {
         status: 404,

@@ -1,6 +1,3 @@
-import MemoryProtocol from 'farce/lib/MemoryProtocol';
-import createFarceRouter from 'found/lib/createFarceRouter';
-
 const mockMatcher = {
   routeConfig: [],
   match: () => {},
@@ -40,6 +37,3 @@ export const mockMatch = {
     getComponent: () => {},
   },
 };
-
-export const createMemoryMockRouter = () =>
-  createFarceRouter({ historyProtocol: new MemoryProtocol('/') });

@@ -142,7 +142,7 @@ class MarkerPopupBottom extends React.Component {
       .map(locationToOtp);
     this.props.leaflet.map.closePopup();
 
-    setIntermediatePlaces(this.context.router, viaPoints, this.context.match);
+    setIntermediatePlaces(this.context.router, this.context.match, viaPoints);
     this.context.executeAction(updateViaPointsFromMap, true);
   };
 
