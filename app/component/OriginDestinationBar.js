@@ -120,23 +120,6 @@ class OriginDestinationBar extends React.Component {
         )}
       >
         <AutosuggestPanelWithSearchContext />
-        {/* <DTAutosuggestContainer
-          origin={this.props.origin}
-          destination={this.props.destination}
-        >
-          <DTAutosuggestPanel
-            origin={this.props.origin}
-            destination={this.props.destination}
-            showMultiPointControls
-            originPlaceHolder="search-origin-index"
-            destinationPlaceHolder="search-destination-index"
-            initialViaPoints={getIntermediatePlaces(this.location.query)}
-            updateViaPoints={this.updateViaPoints}
-            swapOrder={this.swapEndpoints}
-            sources={['Favourite', 'History', 'Datasource']}
-            targets={['Locations', 'CurrentPosition']}
-          />
-        </DTAutosuggestContainer> */}
       </div>
     );
   }

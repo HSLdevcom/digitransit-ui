@@ -88,6 +88,11 @@ class IndexPage extends React.Component {
       ...this.props,
       sources: panelSources,
       targets: panelTargets,
+      searchPanelText: context.intl.formatMessage({
+        id: 'where',
+        defaultMessage: 'Where to?',
+      }),
+      disableAutoFocus: false,
     };
     AutosuggestPanelWithSearchContext = getRelayEnvironment(
       withSearchContext(panelData, DTAutosuggestPanel),
