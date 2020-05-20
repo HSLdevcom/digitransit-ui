@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-expressions */
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { mockMatch } from '../helpers/mock-router';
 import { StreetMode, TransportMode } from '../../../app/constants';
 import * as utils from '../../../app/util/modeUtils';
 import { setCustomizedSettings } from '../../../app/store/localStorage';
@@ -231,12 +230,10 @@ describe('modeUtils', () => {
 
   describe('buildStreetModeQuery', () => {
     it('should remove all other streetModes from the query but leave the transportModes', () => {
-      const location = {
-        query: {
-          modes: 'CAR,WALK,RAIL,BUS,CITYBIKE',
-        },
-      };
-      const currentModes = utils.getModes(location, config);
+      setCustomizedSettings({
+        modes: ['CAR', 'WALK', 'RAIL', 'BUS', 'CITYBIKE'],
+      });
+      const currentModes = utils.getModes(config);
       const streetMode = StreetMode.Walk;
 
       const query = utils.buildStreetModeQuery(
@@ -254,12 +251,10 @@ describe('modeUtils', () => {
     });
 
     it('should always include default transportModes in the query when isExclusive=false and no transportModes are selected', () => {
-      const location = {
-        query: {
-          modes: 'CAR',
-        },
-      };
-      const currentModes = utils.getModes(location, config);
+      setCustomizedSettings({
+        modes: ['CAR'],
+      });
+      const currentModes = utils.getModes(config);
       const streetMode = StreetMode.Walk;
 
       const query = utils.buildStreetModeQuery(
@@ -274,51 +269,18 @@ describe('modeUtils', () => {
       expect(modes).to.contain(TransportMode.Rail);
       expect(modes).to.contain(TransportMode.Bus);
     });
-
-    it('should remove every other mode from the query when isExclusive=true', () => {
-      const location = {
-        query: {
-          modes: 'CAR,WALK,RAIL,BUS,CITYBIKE',
-        },
-      };
-      const currentModes = utils.getModes(location, config);
-      const streetMode = StreetMode.Walk;
-
-      const query = utils.buildStreetModeQuery(
-        config,
-        currentModes,
-        streetMode,
-        true,
-      );
-
-      const modes = query.modes ? query.modes : [];
-      expect(modes.length).to.equal(1);
-      expect(modes).to.contain(StreetMode.Walk);
-    });
   });
 
   describe('setStreetMode', () => {
-    it('should apply the selected streetMode to the current url', () => {
+    it('should apply the selected streetMode to the localStorage', () => {
+      setCustomizedSettings({
+        modes: ['CAR', 'WALK', 'RAIL', 'BUS', 'CITYBIKE'],
+      });
       const streetMode = StreetMode.ParkAndRide;
-      let callParams;
-      const router = {
-        replace: params => {
-          callParams = params;
-        },
-      };
-      const match = {
-        ...mockMatch,
-        location: {
-          query: {
-            modes: 'CAR,WALK,RAIL,BUS,CITYBIKE',
-          },
-        },
-      };
 
-      utils.setStreetMode(streetMode, config, router, match);
+      utils.setStreetMode(streetMode, config);
 
-      const { query } = callParams;
-      const modes = query.modes ? query.modes.split(',') : [];
+      const modes = utils.getModes(config);
       expect(modes.length).to.equal(4);
       expect(modes).to.contain(StreetMode.ParkAndRide);
       expect(modes).to.contain(TransportMode.Rail);
@@ -326,27 +288,15 @@ describe('modeUtils', () => {
       expect(modes).to.contain(TransportMode.Citybike);
     });
 
-    it('should remove every other mode from the current url when isExclusive=true', () => {
+    it('should remove every other mode from the localStorage when isExclusive=true', () => {
       const streetMode = StreetMode.ParkAndRide;
-      let callParams;
-      const router = {
-        replace: params => {
-          callParams = params;
-        },
-      };
-      const match = {
-        ...mockMatch,
-        location: {
-          query: {
-            modes: 'CAR,WALK,RAIL,BUS,CITYBIKE',
-          },
-        },
-      };
+      setCustomizedSettings({
+        modes: ['WALK', 'RAIL', 'BUS', 'CITYBIKE'],
+      });
 
-      utils.setStreetMode(streetMode, config, router, match, true);
+      utils.setStreetMode(streetMode, config, true);
 
-      const { query } = callParams;
-      const modes = query.modes ? query.modes.split(',') : [];
+      const modes = utils.getModes(config);
       expect(modes.length).to.equal(1);
       expect(modes).to.contain(StreetMode.ParkAndRide);
     });
@@ -849,11 +799,9 @@ describe('modeUtils', () => {
 
   describe('isBikeRestricted', () => {
     it('should return true if using a bike and attempting to choose a mode and config with restricted bike usage', () => {
-      const location = {
-        query: {
-          modes: 'BICYCLE,SUBWAY,RAIL',
-        },
-      };
+      setCustomizedSettings({
+        modes: ['BICYCLE', 'SUBWAY', 'RAIL'],
+      });
       const modeConfig = {
         modesWithNoBike: ['BUS', 'TRAM'],
         streetModes: {
@@ -868,17 +816,15 @@ describe('modeUtils', () => {
         },
       };
       const mode = 'BUS';
-      const result = utils.isBikeRestricted(location, modeConfig, mode);
+      const result = utils.isBikeRestricted(modeConfig, mode);
       expect(result).to.equal(true);
     });
   });
   describe('isBikeRestricted', () => {
     it('should return true if an array of transport modes causes restrictions to bicycling', () => {
-      const location = {
-        query: {
-          modes: 'BICYCLE',
-        },
-      };
+      setCustomizedSettings({
+        modes: ['BICYCLE'],
+      });
       const modeConfig = {
         ...config,
         modesWithNoBike: ['BUS', 'TRAM'],
@@ -890,7 +836,7 @@ describe('modeUtils', () => {
         },
       };
       const modes = ['BUS', 'SUBWAY', 'RAIL'];
-      const result = utils.isBikeRestricted(location, modeConfig, modes);
+      const result = utils.isBikeRestricted(modeConfig, modes);
       expect(result).to.equal(true);
     });
   });

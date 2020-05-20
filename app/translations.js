@@ -3454,6 +3454,7 @@ const translations = {
     'pick-mode-subway-enabled': 'Metro valt',
     'pick-mode-tram-disabled': 'Spårvagn inte vald',
     'pick-mode-tram-enabled': 'Spårvagn valt',
+    'pick-street-mode': 'Egna transportmedel',
     'place-route-or-keyword': 'Destination, linje eller hållplats',
     'platform-num': 'Plattform {platformCode}',
     'platform-short': 'Plattf. {platformCode}',

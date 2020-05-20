@@ -102,7 +102,6 @@ export const getCitybikeNetworks = config => {
  * @param currentSettings the current settings
  * @param newValue the network to be added/removed
  * @param config The configuration for the software installation
- * @param router the router
  * @param isUsingCitybike if citybike is enabled
  */
 
@@ -110,9 +109,7 @@ export const updateCitybikeNetworks = (
   currentSettings,
   newValue,
   config,
-  router,
   isUsingCitybike,
-  match,
 ) => {
   const mappedcurrentSettings = currentSettings.map(o => o.toUpperCase());
 
@@ -131,19 +128,11 @@ export const updateCitybikeNetworks = (
       toggleCitybikesAndNetworks(
         'citybike',
         config,
-        router,
-        match,
         getDefaultNetworks(config).join(),
       );
       return getDefaultNetworks(config);
     }
-    toggleCitybikesAndNetworks(
-      'citybike',
-      config,
-      router,
-      match,
-      chosenNetworks.join(','),
-    );
+    toggleCitybikesAndNetworks('citybike', config, chosenNetworks.join(','));
     return chosenNetworks;
   }
 

@@ -52,13 +52,13 @@ class TransportModesSection extends React.Component {
                   isKeyboardSelectionEvent(e) &&
                   !isBikeRestricted(match.location, config, mode) &&
                   this.setState({
-                    modes: toggleTransportMode(mode, config, match),
+                    modes: toggleTransportMode(mode, config),
                   })
                 }
                 onClick={() =>
                   !isBikeRestricted(match.location, config, mode) &&
                   this.setState({
-                    modes: toggleTransportMode(mode, config, match),
+                    modes: toggleTransportMode(mode, config),
                   })
                 }
               >
@@ -96,7 +96,7 @@ class TransportModesSection extends React.Component {
                 onToggle={() =>
                   !isBikeRestricted(match.location, config, mode) &&
                   this.setState({
-                    modes: toggleTransportMode(mode, config, match),
+                    modes: toggleTransportMode(mode, config),
                   })
                 }
                 title={mode}

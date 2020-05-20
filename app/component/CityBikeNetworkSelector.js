@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { matchShape, routerShape } from 'found';
 import Toggle from './Toggle';
 import Icon from './Icon';
 import {
@@ -21,7 +20,7 @@ class CityBikeNetworkSelector extends React.Component {
 
   render() {
     const { isUsingCitybike } = this.props;
-    const { config, getStore, match, router } = this.context;
+    const { config, getStore } = this.context;
     return (
       <React.Fragment>
         {mapDefaultNetworkProperties(config).map(network => (
@@ -54,9 +53,7 @@ class CityBikeNetworkSelector extends React.Component {
                     getCitybikeNetworks(config),
                     network.networkName.toUpperCase(),
                     config,
-                    router,
                     isUsingCitybike,
-                    match,
                   ),
                 });
               }}
@@ -76,8 +73,6 @@ CityBikeNetworkSelector.propTypes = {
 CityBikeNetworkSelector.contextTypes = {
   config: PropTypes.object.isRequired,
   getStore: PropTypes.func.isRequired,
-  match: matchShape.isRequired,
-  router: routerShape.isRequired,
 };
 
 export default CityBikeNetworkSelector;
