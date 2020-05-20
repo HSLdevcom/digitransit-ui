@@ -7,7 +7,7 @@ import loadable from '@loadable/component';
 import { withCurrentTime } from '../util/DTSearchQueryUtils';
 import ComponentUsageExample from './ComponentUsageExample';
 import { PREFIX_ITINERARY_SUMMARY, navigateTo } from '../util/path';
-import withSearchContext from './DTAutosuggestContainer';
+import withSearchContext from './withSearchContext';
 import getRelayEnvironment from '../util/getRelayEnvironment';
 
 import {

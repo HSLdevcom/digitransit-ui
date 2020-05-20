@@ -20,7 +20,7 @@ import {
 import storeOrigin from '../action/originActions';
 import { addFavourite, deleteFavourite } from '../action/FavouriteActions';
 import storeDestination from '../action/destinationActions';
-import withSearchContext from './DTAutosuggestContainer';
+import withSearchContext from './withSearchContext';
 import { isBrowser } from '../util/browser';
 import {
   parseLocation,
