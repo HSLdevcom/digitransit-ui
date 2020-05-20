@@ -31,7 +31,7 @@ import withBreakpoint from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
 import scrollTop from '../util/scroll';
 import FavouriteLocationsContainer from './FavouriteLocationsContainer';
-import Datetimepicker from './Datetimepicker';
+import DatetimepickerContainer from './DatetimepickerContainer';
 
 const debug = d('IndexPage.js');
 
@@ -153,7 +153,7 @@ class IndexPage extends React.Component {
             targets={['Locations', 'CurrentPosition']}
           />
           <CtrlPanel.SeparatorLine />
-          <Datetimepicker realtime />
+          <DatetimepickerContainer realtime />
           <FavouriteLocationsContainer
             favourites={favourites}
             onClickFavourite={this.clickFavourite}
@@ -210,7 +210,7 @@ class IndexPage extends React.Component {
             targets={['Locations', 'CurrentPosition']}
           />
           <CtrlPanel.SeparatorLine />
-          <Datetimepicker realtime />
+          <DatetimepickerContainer realtime />
           <FavouriteLocationsContainer
             favourites={this.props.favourites}
             onClickFavourite={this.clickFavourite}
