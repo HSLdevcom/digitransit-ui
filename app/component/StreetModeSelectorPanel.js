@@ -76,7 +76,7 @@ StreetModeSelectorPanel.propTypes = {
   selectedStreetMode: PropTypes.string,
   currentSettings: PropTypes.object.isRequired,
   defaultSettings: PropTypes.object.isRequired,
-  defaultOptions: PropTypes.array.isRequired,
+  defaultOptions: PropTypes.object.isRequired,
   streetModeConfigs: PropTypes.arrayOf(
     PropTypes.shape({
       defaultValue: PropTypes.bool.isRequired,

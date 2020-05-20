@@ -11,7 +11,7 @@ import { navigateTo } from '../util/path';
 import searchContext from '../util/searchContext';
 import intializeSearchContext from '../util/DTSearchContextInitializer';
 
-export default function withSearchContext(data, WrappedComponent) {
+export default function withSearchContext(WrappedComponent) {
   return class extends React.Component {
     static contextTypes = {
       config: PropTypes.object.isRequired,
@@ -132,7 +132,7 @@ export default function withSearchContext(data, WrappedComponent) {
       if (id === 'origin') {
         origin = { ...location, ready: true };
         // eslint-disable-next-line prefer-destructuring
-        destination = data.destination;
+        destination = this.props.destination;
         if (location.type === 'CurrentLocation') {
           origin = { ...location, gps: true, ready: !!location.lat };
           if (destination.gps === true) {
@@ -142,7 +142,7 @@ export default function withSearchContext(data, WrappedComponent) {
         }
       } else if (id === 'destination') {
         // eslint-disable-next-line prefer-destructuring
-        origin = data.origin;
+        origin = this.props.origin;
         destination = { ...location, ready: true };
         if (location.type === 'CurrentLocation') {
           destination = {
@@ -204,7 +204,7 @@ export default function withSearchContext(data, WrappedComponent) {
           searchContext={searchContext}
           addAnalyticsEvent={addAnalyticsEvent}
           onSelect={this.onSelect}
-          {...data}
+          {...this.props}
         />
       );
     }

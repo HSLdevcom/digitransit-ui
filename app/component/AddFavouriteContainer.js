@@ -12,7 +12,7 @@ import BackButton from './BackButton';
 import FavouriteIconTable from './FavouriteIconTable';
 import { addFavourite, deleteFavourite } from '../action/FavouriteActions';
 import { isStop, isTerminal } from '../util/suggestionUtils';
-import DTAutosuggestContainer from './DTAutosuggestContainer';
+import DTAutosuggestContainer from './WithSearchContext';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const DTAutoSuggest = loadable(

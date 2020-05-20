@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 
-import { createMemoryMockRouter } from '../helpers/mock-router';
+import { mockMatch } from '../helpers/mock-router';
 
 import defaultConfig from '../../../app/configurations/config.default';
 import { getDefaultModes } from '../../../app/util/modeUtils';
@@ -75,15 +75,24 @@ describe('queryUtils', () => {
   });
 
   describe('setIntermediatePlaces', () => {
-    it.skip('should not modify the query if the parameter is neither a string nor an array', () => {
-      const router = createMemoryMockRouter();
-      utils.setIntermediatePlaces(router, {});
-      const { intermediatePlaces } = router.getCurrentLocation().query;
-      expect(intermediatePlaces).to.equal(undefined);
+    it('should not modify the query if the parameter is neither a string nor an array', () => {
+      let callParams;
+      const router = {
+        replace: params => {
+          callParams = params;
+        },
+      };
+      utils.setIntermediatePlaces(router, mockMatch, {});
+      expect(callParams).to.equal(undefined);
     });
 
-    it.skip('should not modify the query if the parameter is an array but not a string array', () => {
-      const router = createMemoryMockRouter();
+    it('should not modify the query if the parameter is an array but not a string array', () => {
+      let callParams;
+      const router = {
+        replace: params => {
+          callParams = params;
+        },
+      };
       const intermediatePlaces = [
         {
           lat: 60.217992,
@@ -97,36 +106,42 @@ describe('queryUtils', () => {
         },
       ];
 
-      utils.setIntermediatePlaces(router, intermediatePlaces);
+      utils.setIntermediatePlaces(router, mockMatch, intermediatePlaces);
 
-      expect(router.getCurrentLocation().query.intermediatePlaces).to.equal(
-        undefined,
-      );
+      expect(callParams).to.equal(undefined);
     });
 
-    it.skip('should modify the query if the parameter is a string', () => {
-      const router = createMemoryMockRouter();
+    it('should modify the query if the parameter is a string', () => {
+      let callParams;
+      const router = {
+        replace: params => {
+          callParams = params;
+        },
+      };
       const intermediatePlace = 'Kera, Espoo::60.217992,24.75494';
 
-      utils.setIntermediatePlaces(router, intermediatePlace);
+      utils.setIntermediatePlaces(router, mockMatch, intermediatePlace);
 
-      expect(router.getCurrentLocation().query.intermediatePlaces).to.equal(
-        intermediatePlace,
-      );
+      expect(callParams.query.intermediatePlaces).to.equal(intermediatePlace);
     });
 
-    it.skip('should modify the query if the parameter is a string array', () => {
-      const router = createMemoryMockRouter();
+    it('should modify the query if the parameter is a string array', () => {
+      let callParams;
+      const router = {
+        replace: params => {
+          callParams = params;
+        },
+      };
       const intermediatePlaces = [
         'Kera, Espoo::60.217992,24.75494',
         'Leppävaara, Espoo::60.219235,24.81329',
       ];
 
-      utils.setIntermediatePlaces(router, intermediatePlaces);
+      utils.setIntermediatePlaces(router, mockMatch, intermediatePlaces);
 
-      expect(
-        router.getCurrentLocation().query.intermediatePlaces,
-      ).to.deep.equal(intermediatePlaces);
+      expect(callParams.query.intermediatePlaces).to.deep.equal(
+        intermediatePlaces,
+      );
     });
   });
 
@@ -204,16 +219,24 @@ describe('queryUtils', () => {
   });
 
   describe('clearQueryParams', () => {
-    it.skip('should remove only given parameters', () => {
-      const router = createMemoryMockRouter();
-      router.replace({
-        query: {
-          foo: 'bar',
-          bar: 'baz',
+    it('should remove only given parameters', () => {
+      let callParams;
+      const router = {
+        replace: params => {
+          callParams = params;
         },
-      });
-      utils.clearQueryParams(router, 'foo');
-      expect(router.getCurrentLocation().query).to.deep.equal({
+      };
+      const match = {
+        ...mockMatch,
+        location: {
+          query: {
+            foo: 'bar',
+            bar: 'baz',
+          },
+        },
+      };
+      utils.clearQueryParams(router, match, 'foo');
+      expect(callParams.query).to.deep.equal({
         bar: 'baz',
       });
     });
@@ -258,59 +281,6 @@ describe('queryUtils', () => {
       expect(location.pathname).to.equal(
         `/${PREFIX_ITINERARY_SUMMARY}/Helsinki%2C Helsinki%3A%3A60.166641%2C24.943537/Espoo%2C Espoo%3A%3A60.206376%2C24.656729`,
       );
-    });
-  });
-
-  describe('replaceQueryParams', () => {
-    it.skip('should remove triangle factors if OptimizeType is not TRIANGLE', () => {
-      const router = createMemoryMockRouter();
-      router.replace({
-        query: {
-          optimize: OptimizeType.Triangle,
-          safetyFactor: 0.2,
-          slopeFactor: 0.3,
-          timeFactor: 0.5,
-        },
-      });
-
-      utils.replaceQueryParams(router, {
-        optimize: OptimizeType.Safe,
-        safetyFactor: 0.1,
-        slopeFactor: 0.2,
-        timeFactor: 0.7,
-      });
-
-      const { query } = router.getCurrentLocation();
-      const keys = Object.keys(query);
-
-      expect(query.optimize).to.equal(OptimizeType.Safe);
-      expect(keys).to.not.include('safetyFactor');
-      expect(keys).to.not.include('slopeFactor');
-      expect(keys).to.not.include('timeFactor');
-    });
-
-    it.skip('should should not remove triangle factors when OptimizeType is missing from new params', () => {
-      const router = createMemoryMockRouter();
-      router.replace({
-        query: {
-          optimize: OptimizeType.Triangle,
-          safetyFactor: 0.2,
-          slopeFactor: 0.3,
-          timeFactor: 0.5,
-        },
-      });
-
-      utils.replaceQueryParams(router, {
-        walkBoardCost: 400,
-      });
-
-      const { query } = router.getCurrentLocation();
-
-      expect(query.optimize).to.equal(OptimizeType.Triangle);
-      expect(query.walkBoardCost).to.equal('400');
-      expect(query.safetyFactor).to.equal('0.2');
-      expect(query.slopeFactor).to.equal('0.3');
-      expect(query.timeFactor).to.equal('0.5');
     });
   });
 
@@ -369,50 +339,53 @@ describe('queryUtils', () => {
   });
 
   describe('setPreferGreenways', () => {
-    it.skip('should not call replace on router if already enabled', () => {
+    it('should not call replace on router if already enabled', () => {
       let callCount = 0;
       const router = {
         replace: () => {
           callCount += 1;
         },
       };
-      utils.setPreferGreenways(router, OptimizeType.Greenways);
+      utils.setPreferGreenways(router, mockMatch, OptimizeType.Greenways);
       expect(callCount).to.equal(0);
     });
 
-    it.skip('should call replace on router even if already enabled when forced', () => {
+    it('should call replace on router even if already enabled when forced', () => {
       let callParams;
       const router = {
-        ...createMemoryMockRouter(),
         replace: params => {
           callParams = params;
         },
       };
-      utils.setPreferGreenways(router, OptimizeType.Greenways, {}, true);
+      utils.setPreferGreenways(
+        router,
+        mockMatch,
+        OptimizeType.Greenways,
+        {},
+        true,
+      );
       expect(callParams.query.optimize).to.equal(OptimizeType.Greenways);
     });
 
-    it.skip('should call replace on router when disabled', () => {
+    it('should call replace on router when disabled', () => {
       let callCount = 0;
       const router = {
-        ...createMemoryMockRouter(),
         replace: () => {
           callCount += 1;
         },
       };
-      utils.setPreferGreenways(router, OptimizeType.Quick);
+      utils.setPreferGreenways(router, mockMatch, OptimizeType.Quick);
       expect(callCount).to.equal(1);
     });
 
-    it.skip('should use OptimizeType TRIANGLE when other triangle factors are in use', () => {
+    it('should use OptimizeType TRIANGLE when other triangle factors are in use', () => {
       let callParams;
       const router = {
-        ...createMemoryMockRouter(),
         replace: params => {
           callParams = params;
         },
       };
-      utils.setPreferGreenways(router, OptimizeType.Triangle, {
+      utils.setPreferGreenways(router, mockMatch, OptimizeType.Triangle, {
         safetyFactor: utils.FACTOR_DISABLED,
         slopeFactor: utils.ONE_FACTOR_ENABLED,
         timeFactor: utils.FACTOR_DISABLED,
@@ -427,29 +400,29 @@ describe('queryUtils', () => {
   });
 
   describe('setAvoidElevationChanges', () => {
-    it.skip('should not call replace on router if already enabled', () => {
+    it('should not call replace on router if already enabled', () => {
       let callCount = 0;
       const router = {
         replace: () => {
           callCount += 1;
         },
       };
-      utils.setAvoidElevationChanges(router, OptimizeType.Triangle, {
+      utils.setAvoidElevationChanges(router, mockMatch, OptimizeType.Triangle, {
         slopeFactor: utils.ONE_FACTOR_ENABLED,
       });
       expect(callCount).to.equal(0);
     });
 
-    it.skip('should call replace on router even if already enabled when forced', () => {
+    it('should call replace on router even if already enabled when forced', () => {
       let callParams;
       const router = {
-        ...createMemoryMockRouter(),
         replace: params => {
           callParams = params;
         },
       };
       utils.setAvoidElevationChanges(
         router,
+        mockMatch,
         OptimizeType.Triangle,
         {
           safetyFactor: utils.TWO_FACTORS_ENABLED,
@@ -466,27 +439,25 @@ describe('queryUtils', () => {
       });
     });
 
-    it.skip('should call replace on router when disabled', () => {
+    it('should call replace on router when disabled', () => {
       let callCount = 0;
       const router = {
-        ...createMemoryMockRouter(),
         replace: () => {
           callCount += 1;
         },
       };
-      utils.setAvoidElevationChanges(router, OptimizeType.Quick);
+      utils.setAvoidElevationChanges(router, mockMatch, OptimizeType.Quick);
       expect(callCount).to.equal(1);
     });
 
-    it.skip('should use OptimizeType TRIANGLE when other triangle factors are in use', () => {
+    it('should use OptimizeType TRIANGLE when other triangle factors are in use', () => {
       let callParams;
       const router = {
-        ...createMemoryMockRouter(),
         replace: params => {
           callParams = params;
         },
       };
-      utils.setAvoidElevationChanges(router, OptimizeType.Triangle, {
+      utils.setAvoidElevationChanges(router, mockMatch, OptimizeType.Triangle, {
         safetyFactor: utils.ONE_FACTOR_ENABLED,
         slopeFactor: utils.FACTOR_DISABLED,
         timeFactor: utils.FACTOR_DISABLED,
@@ -499,15 +470,14 @@ describe('queryUtils', () => {
       });
     });
 
-    it.skip('should convert to OptimizeType TRIANGLE when the current OptimizeType is GREENWAYS', () => {
+    it('should convert to OptimizeType TRIANGLE when the current OptimizeType is GREENWAYS', () => {
       let callParams;
       const router = {
-        ...createMemoryMockRouter(),
         replace: params => {
           callParams = params;
         },
       };
-      utils.setAvoidElevationChanges(router, OptimizeType.Greenways);
+      utils.setAvoidElevationChanges(router, mockMatch, OptimizeType.Greenways);
       expect(callParams.query).to.deep.equal({
         optimize: OptimizeType.Triangle,
         safetyFactor: utils.TWO_FACTORS_ENABLED,
@@ -527,6 +497,7 @@ describe('queryUtils', () => {
       };
       utils.resetPreferGreenways(
         router,
+        mockMatch,
         OptimizeType.Safe,
         {},
         OptimizeType.Quick,
@@ -534,16 +505,16 @@ describe('queryUtils', () => {
       expect(callCount).to.equal(0);
     });
 
-    it.skip('should switch to just one factor enabled if two factors are currently enabled', () => {
+    it('should switch to just one factor enabled if two factors are currently enabled', () => {
       let callParams;
       const router = {
-        ...createMemoryMockRouter(),
         replace: params => {
           callParams = params;
         },
       };
       utils.resetPreferGreenways(
         router,
+        mockMatch,
         OptimizeType.Triangle,
         {
           safetyFactor: utils.TWO_FACTORS_ENABLED,
@@ -560,16 +531,16 @@ describe('queryUtils', () => {
       });
     });
 
-    it.skip('should switch to default optimize', () => {
+    it('should switch to default optimize', () => {
       let callParams;
       const router = {
-        ...createMemoryMockRouter(),
         replace: params => {
           callParams = params;
         },
       };
       utils.resetPreferGreenways(
         router,
+        mockMatch,
         OptimizeType.Greenways,
         {},
         OptimizeType.Quick,
@@ -590,6 +561,7 @@ describe('queryUtils', () => {
       };
       utils.resetAvoidElevationChanges(
         router,
+        mockMatch,
         OptimizeType.Safe,
         {},
         OptimizeType.Quick,
@@ -597,16 +569,16 @@ describe('queryUtils', () => {
       expect(callCount).to.equal(0);
     });
 
-    it.skip('should switch to just one factor enabled if two factors are currently enabled', () => {
+    it('should switch to just one factor enabled if two factors are currently enabled', () => {
       let callParams;
       const router = {
-        ...createMemoryMockRouter(),
         replace: params => {
           callParams = params;
         },
       };
       utils.resetAvoidElevationChanges(
         router,
+        mockMatch,
         OptimizeType.Triangle,
         {
           safetyFactor: utils.TWO_FACTORS_ENABLED,
@@ -620,16 +592,16 @@ describe('queryUtils', () => {
       });
     });
 
-    it.skip('should switch to default optimize', () => {
+    it('should switch to default optimize', () => {
       let callParams;
       const router = {
-        ...createMemoryMockRouter(),
         replace: params => {
           callParams = params;
         },
       };
       utils.resetAvoidElevationChanges(
         router,
+        mockMatch,
         OptimizeType.Triangle,
         {
           safetyFactor: utils.FACTOR_DISABLED,

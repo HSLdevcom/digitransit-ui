@@ -65,6 +65,16 @@ ItinerarySearchControl.propTypes = {
  *
  * @example
  * const searchContext = {
+ *   isPeliasLocationAware: false // true / false does Let Pelias suggest based on current user location
+ *   minimalRegexp: undefined // used for testing min. regexp. For example: new RegExp('.{2,}'),
+ *   lineRegexp: undefined //  identify searches for route numbers/labels: bus | train | metro. For example: new RegExp(
+ *    //   '(^[0-9]+[a-z]?$|^[yuleapinkrtdz]$|(^m[12]?b?$))',
+ *    //  'i',
+ *    //  ),
+ *   URL_PELIAS: '' // url for pelias searches
+ *   feedIDs: ['HSL', 'HSLLautta'] // FeedId's like  [HSL, HSLLautta]
+ *   geocodingSources: ['oa','osm','nlsfi']  // sources for geocoding
+ *   geocodingSearchParams; {}  // Searchparmas fro geocoding
  *   getFavouriteLocations: () => ({}),    // Function that returns array of favourite locations.
  *   getFavouriteStops: () => ({}),        // Function that returns array of favourite stops.
  *   getLanguage: () => ({}),              // Function that returns current language.
@@ -76,6 +86,7 @@ ItinerarySearchControl.propTypes = {
  *   startLocationWatch: () => ({}),       // Function that locates users geolocation.
  *   saveSearch: () => ({}),               // Function that saves search to old searches store.
  * };
+ *
  * const origin = {
  *  lat: 60.169196,
  *  lon: 24.957674,
@@ -83,6 +94,7 @@ ItinerarySearchControl.propTypes = {
  *  set: true,
  *  ready: true,
  * }
+ *
  * const destination = {
  *   lat: 60.199093,
  *   lon: 24.940536,
@@ -91,19 +103,25 @@ ItinerarySearchControl.propTypes = {
  *   ready: true,
  * }
  * onSelect() {
- *  return null;
+ *  return null;  // Define what to do when a suggestion is being selected. None by default.
  *  }
  * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes and CurrentPosition. Leave empty to search all targets.
  * const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches), and Datasource. Leave empty to use all sources.
  * <DTAutosuggestPanel
-
- *    origin={origin}
- *    destination={destination}
- *    showMultiPointControls={false}
+ *    origin={origin} // Selected origin point
+ *    destination={destination} // Selected destination point
+ *    originPlaceHolder={'Give origin'} // Optional Give string shown initially inside origin search field
+ *    destinationPlaceHolder={'Give destination'} // Optional Give string shown initally inside destination search field
+ *    breakpoint={'large'} // Required. available options are 'small' or 'large'. Large shows panel styles etc. meant for desktop and small shows panel styles etc meant for mobile.
+ *    showMultiPointControls={false} // Optional. If true, controls for via points and reversing is being shown.
+ *    initialViaPoints={[]} // Optional.  If showMultiPointControls is set to true, pass initial via points to the panel. Currently no default implementation is given.
+ *    updateViaPoints={() => return []} // Optional. If showMultiPointControls is set to true, define how to update your via point list with this function. Currenlty no default implementation is given.
+ *    swapOrder={() => return null} // Optional. If showMultiPointControls is set to true, define how to swap order of your points (origin, destination, viapoints). Currently no default implementation is given.
  *    searchContext={searchContext}
  *    onSelect={this.onSelect}
- *    lang="fi"
- *    addAnalyticsEvent={null}
+ *    lang="fi" // Define language fi sv or en.
+ *    addAnalyticsEvent={null} // Optional. you can record an analytics event if you wish. if passed, component will pass an category, action, name parameters to addAnalyticsEvent
+ *    disableAutoFocus={false} // Optional. use this to disable autofocus completely from DTAutosuggestPanel
  *    sources={sources}
  *    targets={targets}
  */
@@ -123,6 +141,7 @@ class DTAutosuggestPanel extends React.Component {
     onSelect: PropTypes.func,
     addAnalyticsEvent: PropTypes.func,
     lang: PropTypes.string,
+    disableAutoFocus: PropTypes.bool,
     sources: PropTypes.arrayOf(PropTypes.string),
     targets: PropTypes.arrayOf(PropTypes.string),
   };
@@ -136,6 +155,8 @@ class DTAutosuggestPanel extends React.Component {
     updateViaPoints: () => {},
     lang: 'fi',
     sources: [],
+    targets: [],
+    disableAutoFocus: false,
   };
 
   constructor(props) {
@@ -386,6 +407,7 @@ class DTAutosuggestPanel extends React.Component {
       origin,
       searchPanelText,
       searchContext,
+      disableAutoFocus,
     } = this.props;
     const { activeSlackInputs, isDraggingOverIndex, viaPoints } = this.state;
     const slackTime = this.getSlackTimeOptions();
@@ -417,8 +439,9 @@ class DTAutosuggestPanel extends React.Component {
             icon="mapMarker"
             id="origin"
             autoFocus={
-              // Disable autofocus if using IE11
-              breakpoint === 'large' && !origin.ready
+              disableAutoFocus === true
+                ? false
+                : breakpoint === 'large' && !origin.ready
             }
             storeRef={this.storeReference}
             className={this.class(origin)}
@@ -475,7 +498,9 @@ class DTAutosuggestPanel extends React.Component {
                   icon="mapMarker-via"
                   id="viapoint"
                   ariaLabel={i18next.t('via-point-index', { index: i + 1 })}
-                  autoFocus={breakpoint === 'large'}
+                  autoFocus={
+                    disableAutoFocus === true ? false : breakpoint === 'large'
+                  }
                   placeholder="via-point"
                   className="viapoint"
                   searchContext={searchContext}
@@ -485,6 +510,7 @@ class DTAutosuggestPanel extends React.Component {
                     this.handleViaPointLocationSelected(item, i)
                   }
                   lang={this.props.lang}
+                  sources={this.props.sources}
                   targets={this.props.targets}
                 />
                 <div className={styles['via-point-button-container']}>
@@ -567,8 +593,9 @@ class DTAutosuggestPanel extends React.Component {
             icon="mapMarker"
             id="destination"
             autoFocus={
-              // Disable autofocus if using IE11
-              breakpoint === 'large' && origin.ready
+              disableAutoFocus === true
+                ? false
+                : breakpoint === 'large' && origin.ready
             }
             storeRef={this.storeReference}
             placeholder={this.props.destinationPlaceHolder}

@@ -5,7 +5,7 @@ import isEmpty from 'lodash/isEmpty';
 import isNumber from 'lodash/isNumber';
 import { FormattedMessage, intlShape } from 'react-intl';
 import loadable from '@loadable/component';
-import DTAutosuggestContainer from './DTAutosuggestContainer';
+import DTAutosuggestContainer from './WithSearchContext';
 import DTModal from './DTModal';
 import Icon from './Icon';
 import FavouriteIconTable from './FavouriteIconTable';

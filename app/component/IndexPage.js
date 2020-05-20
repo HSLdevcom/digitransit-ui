@@ -20,7 +20,7 @@ import {
 import storeOrigin from '../action/originActions';
 import { addFavourite, deleteFavourite } from '../action/FavouriteActions';
 import storeDestination from '../action/destinationActions';
-import withSearchContext from './DTAutosuggestContainer';
+import withSearchContext from './WithSearchContext';
 import { isBrowser } from '../util/browser';
 import {
   parseLocation,
@@ -49,7 +49,6 @@ const DTAutosuggestPanel = loadable(
 
 let AutosuggestPanelWithSearchContext;
 let AutosuggestWithSearchContext;
-let panelData = {};
 class IndexPage extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
@@ -92,29 +91,12 @@ class IndexPage extends React.Component {
     if (this.props.autoSetOrigin) {
       context.executeAction(storeOrigin, props.origin);
     }
-    const panelSources = ['Favourite', 'History', 'Datasource'];
-    const panelTargets = ['Locations', 'CurrentPosition'];
-    const autosuggestSources = ['Favourite', 'History', 'Datasource'];
-    const autosuggestTargets = ['Stops', 'Routes'];
-    panelData = {
-      ...this.props,
-      sources: panelSources,
-      targets: panelTargets,
-    };
+
     AutosuggestPanelWithSearchContext = getRelayEnvironment(
-      withSearchContext(panelData, DTAutosuggestPanel),
+      withSearchContext(DTAutosuggestPanel),
     );
-    const autosuggestData = {
-      sources: autosuggestSources,
-      targets: autosuggestTargets,
-      icon: 'search',
-      id: 'stop-route-station',
-      autoFocus: false,
-      placeholder: 'stop-near-you',
-      value: '',
-    };
     AutosuggestWithSearchContext = getRelayEnvironment(
-      withSearchContext(autosuggestData, DTAutoSuggest),
+      withSearchContext(DTAutoSuggest),
     );
     this.state = {
       // eslint-disable-next-line react/no-unused-state
@@ -128,13 +110,6 @@ class IndexPage extends React.Component {
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps = nextProps => {
-    panelData = {
-      ...panelData,
-      ...nextProps,
-    };
-    AutosuggestPanelWithSearchContext = getRelayEnvironment(
-      withSearchContext(panelData, DTAutosuggestPanel),
-    );
     this.handleLocationProps(nextProps);
   };
 
@@ -199,7 +174,19 @@ class IndexPage extends React.Component {
           origin={origin}
           position="left"
         >
-          <AutosuggestPanelWithSearchContext />
+          <AutosuggestPanelWithSearchContext
+            searchPanelText={intl.formatMessage({
+              id: 'where',
+              defaultMessage: 'Where to?',
+            })}
+            origin={origin}
+            destination={destination}
+            originPlaceHolder="search-origin-index"
+            destinationPlaceHolder="search-destination-index"
+            lang={lang}
+            sources={['Favourite', 'History', 'Datasource']}
+            targets={['Locations', 'CurrentPosition']}
+          />
           <CtrlPanel.SeparatorLine />
           <Datetimepicker realtime />
           <FavouritesContainer
@@ -217,7 +204,17 @@ class IndexPage extends React.Component {
               })}
             </span>
           </div>
-          <AutosuggestWithSearchContext />
+          <AutosuggestWithSearchContext
+            icon="search"
+            id="stop-route-station"
+            autoFocus={false}
+            refPoint={origin}
+            className="destination"
+            placeholder="stop-near-you"
+            value=""
+            sources={['Favourite', 'History', 'Datasource']}
+            targets={['Stops', 'Routes']}
+          />
         </CtrlPanel>
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
       </div>
@@ -231,7 +228,19 @@ class IndexPage extends React.Component {
       >
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
         <CtrlPanel instance="hsl" language={lang} position="bottom">
-          <AutosuggestPanelWithSearchContext />
+          <AutosuggestPanelWithSearchContext
+            searchPanelText={intl.formatMessage({
+              id: 'where',
+              defaultMessage: 'Where to?',
+            })}
+            origin={origin}
+            destination={destination}
+            originPlaceHolder="search-origin-index"
+            destinationPlaceHolder="search-destination-index"
+            lang={lang}
+            sources={['Favourite', 'History', 'Datasource']}
+            targets={['Locations', 'CurrentPosition']}
+          />
           <CtrlPanel.SeparatorLine />
           <Datetimepicker realtime />
           <FavouritesContainer
@@ -249,7 +258,17 @@ class IndexPage extends React.Component {
               })}
             </span>
           </div>
-          <AutosuggestWithSearchContext />
+          <AutosuggestWithSearchContext
+            icon="search"
+            id="stop-route-station"
+            autoFocus={false}
+            refPoint={origin}
+            className="destination"
+            placeholder="stop-near-you"
+            value=""
+            sources={['Favourite', 'History', 'Datasource']}
+            targets={['Stops', 'Routes']}
+          />
         </CtrlPanel>
       </div>
     );

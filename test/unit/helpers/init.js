@@ -2,6 +2,8 @@
 import { expect } from 'chai';
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import Link from 'found/lib/Link';
+import * as relay from 'react-relay';
 import { JSDOM } from 'jsdom';
 import { after, afterEach, before } from 'mocha';
 import { stub } from 'sinon';
@@ -52,12 +54,17 @@ global.expect = expect;
 const noop = () => null;
 require.extensions['.png'] = noop;
 
+const MockLink = ({ children }) => children;
+const MockQueryRenderer = ({ render }) => render();
+
 // set up mocha hooks
 before('setting up the environment', () => {
   const callback = warning => {
     throw new Error(warning);
   };
   stub(console, 'error').callsFake(callback);
+  stub(Link, 'render').value(MockLink);
+  stub(relay, 'QueryRenderer').value(MockQueryRenderer);
   // TODO this could be renabled when dependencies don't throw warnings
   // stub(console, 'warn').callsFake(callback);
   configure({ adapter: new Adapter() });

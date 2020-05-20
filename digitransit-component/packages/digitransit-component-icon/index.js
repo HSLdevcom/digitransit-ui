@@ -66,7 +66,18 @@ const IconMap = style => {
   };
 };
 
-function Icon({ color, img, height, width, rotate }) {
+/**
+ * Icon renders predefined Svg icons as react component.
+ * @example
+ * <Icon
+ *    img="bus"       // Key of svg, required
+ *    height={1}      // Height as em, optional
+ *    width={1}       // Width as em, optional
+ *    color="#007ac9" // Color of image, optional
+ *    rotate={90}     // How many degrees to rotate image, optional
+ * />
+ */
+const Icon = ({ color, img, height, width, rotate }) => {
   const style = {
     fill: color || null,
     height: height ? `${height}em` : null,
@@ -75,7 +86,7 @@ function Icon({ color, img, height, width, rotate }) {
   };
   const icons = IconMap(style);
   return <span aria-hidden>{icons[img]}</span>;
-}
+};
 
 Icon.propTypes = {
   color: PropTypes.string,

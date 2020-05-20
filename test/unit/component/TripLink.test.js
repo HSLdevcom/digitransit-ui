@@ -1,12 +1,12 @@
 import React from 'react';
 
 import { Component as TripLink } from '../../../app/component/TripLink';
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
+import IconWithTail from '../../../app/component/IconWithTail';
+import { mountWithIntl } from '../helpers/mock-intl-enzyme';
 
 describe('<TripLink />', () => {
-  it.skip('should render content and icon', () => {
+  it('should render content and icon', () => {
     const props = {
-      mode: 'bus',
       trip: {
         trip: {
           route: {
@@ -18,10 +18,16 @@ describe('<TripLink />', () => {
           gtfsId: 'OULU:12345',
         },
       },
+      vehicle: {
+        mode: 'bus',
+        id: 'OULU:1074',
+        tripId: 'OULU:0000075602101021',
+      },
+      relayEnvironment: {},
     };
 
-    const wrapper = shallowWithIntl(<TripLink {...props} />);
+    const wrapper = mountWithIntl(<TripLink {...props} />);
     expect(wrapper.find('.route-now-content')).to.have.lengthOf(1);
-    expect(wrapper.find('.tail-icon')).to.have.lengthOf(1);
+    expect(wrapper.find(IconWithTail)).to.have.lengthOf(1);
   });
 });

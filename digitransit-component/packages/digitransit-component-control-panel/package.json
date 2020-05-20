@@ -1,13 +1,13 @@
 {
   "name": "@digitransit-component/digitransit-component-control-panel",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "digitransit-component control-panel module",
   "main": "index.generated",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build:index": "webpack --config webpack.config.babel.js",
+    "build:index": "webpack --config webpack.config.babel.js && yarn run docs",
     "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-proposal-class-properties --out-file test.generated",
     "test": "mocha -r esm test.generated",
     "docs": "node -r esm ../../scripts/generate-readmes"
