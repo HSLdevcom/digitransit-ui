@@ -6,7 +6,7 @@ import ServiceAlertIcon from '../../../app/component/ServiceAlertIcon';
 import { AlertSeverityLevelType } from '../../../app/constants';
 
 describe('<RouteStop />', () => {
-  it.skip('should not render a service alert icon for the stop', () => {
+  it('should not render a service alert icon for the stop', () => {
     const props = {
       currentTime: 1471515614,
       stop: {
@@ -17,7 +17,7 @@ describe('<RouteStop />', () => {
     expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(true);
   });
 
-  it.skip('should render a service alert icon for the stop', () => {
+  it('should render a service alert icon for the stop', () => {
     const props = {
       currentTime: 1471515614,
       stop: {
@@ -32,7 +32,7 @@ describe('<RouteStop />', () => {
     expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(false);
   });
 
-  it.skip('should not render a service alert icon for the stop if the alert is not active', () => {
+  it('should not render a service alert icon for the stop if the alert is not active', () => {
     const props = {
       currentTime: 1471515614,
       stop: {
