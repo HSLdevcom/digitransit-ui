@@ -178,50 +178,6 @@ export const ViaLeg = () => (
   </div>
 );
 
-/**
- * Calculates the total slack time spent (in ms) in all of the intermediate places that
- * the itinerary may contain.
- *
- * @param {*} intermediatePlaces Any intermediate places that the itinerary contains
- */
-const getTotalSlackDuration = intermediatePlaces => {
-  if (!Array.isArray(intermediatePlaces)) {
-    return 0;
-  }
-  const getLocationSlackTimeInMsOrDefault = (location, defaultValue = 0) =>
-    (location && location.locationSlack) * 1000 || defaultValue;
-  return intermediatePlaces.reduce(
-    (a, b) =>
-      getLocationSlackTimeInMsOrDefault(a) +
-      getLocationSlackTimeInMsOrDefault(b),
-    0,
-  );
-};
-
-/**
- * The relative duration of a leg that, if not met, may result in the leg being
- * discarded from the top level summary view.
- */
-const LEG_DURATION_THRESHOLD = 0.025;
-
-/**
- * Checks that the given leg's duration is big enough to be considered for
- * showing in the top level summary view.
- *
- * @param {number} totalDuration The total duration of the itinerary (in ms)
- * @param {number} totalSlackDuration The total slack duration of the itinerary (in ms)
- * @param {*} leg The leg to check the threshold for
- */
-const checkRelativeDurationThreshold = (
-  totalDuration,
-  totalSlackDuration,
-  leg,
-) =>
-  totalDuration <= totalSlackDuration ||
-  moment(leg.endTime).diff(moment(leg.startTime)) /
-    (totalDuration - totalSlackDuration) >
-    LEG_DURATION_THRESHOLD;
-
 const getViaPointIndex = (leg, intermediatePlaces) => {
   if (!leg || !Array.isArray(intermediatePlaces)) {
     return -1;
@@ -229,28 +185,6 @@ const getViaPointIndex = (leg, intermediatePlaces) => {
   return intermediatePlaces.findIndex(
     place => place.lat === leg.from.lat && place.lon === leg.from.lon,
   );
-};
-
-/**
- * Checks if the leg connects two consecutive via points.
- *
- * @param {*} leg The leg to check the connection for
- * @param {*} nextLeg The next leg in the itinerary
- * @param {[*]} intermediatePlaces The intermediate places in the itinerary
- */
-const isViaPointConnectingLeg = (leg, nextLeg, intermediatePlaces) => {
-  if (!nextLeg || !Array.isArray(intermediatePlaces)) {
-    return false;
-  }
-  const startIndex = getViaPointIndex(leg, intermediatePlaces);
-  if (startIndex === -1) {
-    return false;
-  }
-  const endIndex = getViaPointIndex(nextLeg, intermediatePlaces);
-  if (endIndex === -1) {
-    return false;
-  }
-  return endIndex - startIndex === 1; // via points have to be right after the other
 };
 
 const SummaryRow = (
@@ -263,7 +197,6 @@ const SummaryRow = (
   const startTime = moment(data.startTime);
   const endTime = moment(data.endTime);
   const duration = endTime.diff(startTime);
-  const slackDuration = getTotalSlackDuration(intermediatePlaces);
   const legs = [];
   let noTransitLegs = true;
   const compressedLegs = compressLegs(data.legs).map(leg => ({
@@ -295,16 +228,10 @@ const SummaryRow = (
     let waitTime;
     let legLength;
     let waitLength;
-    const isLastLeg = i === compressedLegs.length - 1;
     const isNextLegLast = i + 1 === compressedLegs.length - 1;
     const previousLeg = compressedLegs[i - 1];
     const lastLeg = compressedLegs[compressedLegs.length - 1];
     const nextLeg = compressedLegs[i + 1];
-    const isThresholdMet = checkRelativeDurationThreshold(
-      duration,
-      slackDuration,
-      leg,
-    );
     const waitThreshold = 180000;
     legLength = leg.duration * 1000 / duration * 100;
     if (nextLeg) {
@@ -335,6 +262,10 @@ const SummaryRow = (
     renderNumber = isLegOnFoot(leg)
       ? legLength > renderLegDurationThreshold
       : legLength > renderRouteNumberThreshold;
+
+    if (leg.intermediatePlace) {
+      legs.push(<ViaLeg key={`via_${leg.mode}_${leg.startTime}`} />);
+    }
 
     if (isLegOnFoot(leg) && renderBar) {
       const walkingTime = Math.floor(leg.duration / 60);
@@ -389,24 +320,7 @@ const SummaryRow = (
         />,
       );
     }
-    if (leg.intermediatePlace) {
-      legs.push(<ViaLeg key={`via_${leg.mode}_${leg.startTime}`} />);
-      if (
-        (noTransitLegs && isThresholdMet) ||
-        isViaPointConnectingLeg(leg, nextLeg, intermediatePlaces) ||
-        isLastLeg
-      ) {
-        legs.push(
-          <ModeLeg
-            key={`${leg.mode}_${leg.startTime}`}
-            leg={leg}
-            mode={leg.mode}
-            legLength={legLength}
-            large={breakpoint === 'large'}
-          />,
-        );
-      }
-    }
+
     const connectsFromViaPoint = () =>
       getViaPointIndex(leg, intermediatePlaces) > -1;
 
