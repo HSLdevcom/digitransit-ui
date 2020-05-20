@@ -7,7 +7,7 @@ import { mockMatch, mockRouter } from './helpers/mock-router';
 import { mockContext, mockChildContextTypes } from './helpers/mock-context';
 import { mountWithIntl } from './helpers/mock-intl-enzyme';
 import OriginDestinationBar from '../../app/component/OriginDestinationBar';
-import DTAutosuggestContainer from '../../app/component/DTAutosuggestContainer';
+import DTAutosuggestContainer from '../../app/component/WithSearchContext';
 import searchContext from '../../app/util/searchContext';
 import { setIntermediatePlaces } from '../../app/util/queryUtils';
 
