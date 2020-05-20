@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import Toggle from './Toggle';
 import Icon from './Icon';
 import BikingOptionsSection from './customizesearch/BikingOptionsSection';
-import { setStreetMode } from '../util/modeUtils';
+import { toggleStreetMode } from '../util/modeUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class StreetModeSelectorPanel extends React.Component {
@@ -16,7 +16,7 @@ class StreetModeSelectorPanel extends React.Component {
 
   render() {
     const { streetModeConfigs, currentSettings, defaultSettings } = this.props;
-    const { config, match } = this.context;
+    const { config } = this.context;
     if (!streetModeConfigs.length) {
       return null;
     }
@@ -30,7 +30,7 @@ class StreetModeSelectorPanel extends React.Component {
             />
           </div>
           {streetModeConfigs
-            .filter(mode => mode.availableForSelection)
+            .filter(mode => mode.availableForSelection && !mode.defaultValue)
             .map(mode => (
               <div key={`mode-option-${mode.name}`}>
                 <div className="mode-option-container">
@@ -53,15 +53,19 @@ class StreetModeSelectorPanel extends React.Component {
                     <Toggle
                       toggled={this.state.selectedStreetMode === mode.name}
                       onToggle={() => {
-                        setStreetMode(mode.name.toUpperCase(), config, match);
-                        addAnalyticsEvent({
-                          action: 'SelectTravelingModeFromSettings',
-                          category: 'ItinerarySettings',
-                          name: mode.name.toUpperCase(),
-                        });
-                        this.setState({
-                          selectedStreetMode: mode.name,
-                        });
+                        this.setState(
+                          {
+                            selectedStreetMode: toggleStreetMode(
+                              mode.name.toUpperCase(),
+                              config,
+                            ),
+                          },
+                          addAnalyticsEvent({
+                            action: 'SelectTravelingModeFromSettings',
+                            category: 'ItinerarySettings',
+                            name: this.state.selectedStreetMode,
+                          }),
+                        );
                       }}
                     />
                   </div>

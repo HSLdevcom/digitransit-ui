@@ -263,7 +263,6 @@ export const preparePlanParams = config => (
         bikeSpeed,
         intermediatePlaces,
         minTransferTime,
-        modes,
         optimize,
         preferredRoutes,
         safetyFactor,
@@ -290,7 +289,7 @@ export const preparePlanParams = config => (
   });
   const modesOrDefault = filterModes(
     config,
-    getModes({ query: { modes } }, config),
+    getModes(config),
     fromLocation,
     toLocation,
     intermediatePlaceLocations,
@@ -427,11 +426,8 @@ export const preparePlanParams = config => (
 };
 
 export const getApplicableQuickOptionSets = context => {
-  const {
-    config,
-    match: { location },
-  } = context;
-  const streetMode = getStreetMode(location, config).toLowerCase();
+  const { config } = context;
+  const streetMode = getStreetMode(config).toLowerCase();
   return [
     QuickOptionSetType.DefaultRoute,
     ...(config.quickOptions[streetMode]

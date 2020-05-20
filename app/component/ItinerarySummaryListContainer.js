@@ -116,7 +116,7 @@ function ItinerarySummaryListContainer(
     }
   } else {
     const quickOption = matchQuickOption(context);
-    const currentModes = getModes(context.match.location, context.config);
+    const currentModes = getModes(context.config);
     const modesDefault =
       Object.entries(context.config.transportModes).every(
         ([mode, modeConfig]) =>

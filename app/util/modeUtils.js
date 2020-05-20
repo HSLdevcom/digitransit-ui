@@ -202,18 +202,11 @@ export const getDefaultModes = config => [
 
 /**
  * Retrieves all modes (as in both transport and street modes)
- * from either 1. the URI, 2. localStorage or 3. the default configuration.
+ * from either the localStorage or the default configuration.
  *
- * @param {*} location The current location
  * @param {*} config The configuration for the software installation
  */
-export const getModes = (location, config) => {
-  if (location && location.query && location.query.modes) {
-    return decodeURI(location.query.modes)
-      .split('?')[0]
-      .split(',')
-      .map(m => m.toUpperCase());
-  }
+export const getModes = config => {
   const { modes } = getCustomizedSettings();
   if (Array.isArray(modes) && !isEmpty(modes)) {
     return modes;
@@ -222,16 +215,15 @@ export const getModes = (location, config) => {
 };
 
 /**
- * Retrieves the current street mode from either 1. the URI, 2. localStorage
- * or 3. the default configuration. This will return undefined if no
+ * Retrieves the current street mode from either the localStorage
+ * or the default configuration. This will return undefined if no
  * applicable street mode can be found.
  *
- * @param {*} location The current location
  * @param {*} config The configuration for the software installation
  */
-export const getStreetMode = (location, config) => {
+export const getStreetMode = config => {
   const currentStreetModes = intersection(
-    getModes(location, config),
+    getModes(config),
     getAvailableStreetModes(config),
   );
   if (currentStreetModes.length > 0) {
@@ -252,19 +244,32 @@ export const getStreetMode = (location, config) => {
  * @param {*} match The match object from found
  * @param {boolean} isExclusive True, if only this mode shoud be selected; otherwise false.
  */
-export const setStreetMode = (
-  streetMode,
-  config,
-  match,
-  isExclusive = false,
-) => {
+export const setStreetMode = (streetMode, config, isExclusive = false) => {
   const modesQuery = buildStreetModeQuery(
     config,
-    getModes(match.location, config),
+    getModes(config),
     streetMode,
     isExclusive,
   );
   setCustomizedSettings(modesQuery);
+};
+
+/**
+ *  Toggles a streetmode, defaults to configs default street mode. Returns a streetmode
+ *  that was selected
+ *
+ *  @param {*} streetMode The street mode to select
+ *  @param {*} config The configuration for the software installation
+ *  @returns {String} the streetMode that was enabled
+ */
+export const toggleStreetMode = (streetMode, config) => {
+  const currentStreetModes = getStreetMode(config);
+  if (currentStreetModes.includes(streetMode)) {
+    setStreetMode(getDefaultStreetModes(config)[0], config);
+    return getDefaultStreetModes(config)[0];
+  }
+  setStreetMode(streetMode, config);
+  return streetMode;
 };
 
 /**
@@ -284,7 +289,7 @@ export const hasBikeRestriction = (config, mode) =>
  * @param {*} modes The inputted mode or modes to be tested
  */
 export const isBikeRestricted = (location, config, modes) => {
-  if (config.modesWithNoBike && getStreetMode(location, config) === 'BICYCLE') {
+  if (config.modesWithNoBike && getStreetMode(config) === 'BICYCLE') {
     if (
       Array.isArray(modes) &&
       modes.some(o => config.modesWithNoBike.includes(o))
@@ -310,7 +315,7 @@ export const isBikeRestricted = (location, config, modes) => {
 export function toggleTransportMode(transportMode, config, match) {
   const currentLocation = match.location;
   let actionName;
-  if (getModes(currentLocation, config).includes(transportMode.toUpperCase())) {
+  if (getModes(config).includes(transportMode.toUpperCase())) {
     actionName = 'SettingsDisableTransportMode';
   } else {
     actionName = 'SettingsEnableTransportMode';
@@ -323,9 +328,7 @@ export function toggleTransportMode(transportMode, config, match) {
   if (isBikeRestricted(currentLocation, config, transportMode)) {
     return {};
   }
-  const modes = xor(getModes(currentLocation, config), [
-    transportMode.toUpperCase(),
-  ]);
+  const modes = xor(getModes(config), [transportMode.toUpperCase()]);
   setCustomizedSettings({ modes });
   return modes;
 }
@@ -348,9 +351,7 @@ export const toggleCitybikesAndNetworks = (
   if (isBikeRestricted(currentLocation, config, transportMode)) {
     return;
   }
-  const modes = xor(getModes(currentLocation, config), [
-    transportMode.toUpperCase(),
-  ]);
+  const modes = xor(getModes(config), [transportMode.toUpperCase()]);
   setCustomizedSettings({
     modes,
     allowedBikeRentalNetworks: networks,

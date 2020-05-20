@@ -74,7 +74,7 @@ class CustomizeSearch extends React.Component {
         </div>
         <div className="settings-option-container">
           <StreetModeSelectorPanel
-            selectedStreetMode={ModeUtils.getStreetMode(match.location, config)}
+            selectedStreetMode={ModeUtils.getStreetMode(config)}
             streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
             currentSettings={currentSettings}
             defaultSettings={this.defaultSettings}
