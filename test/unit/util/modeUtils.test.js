@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { createMemoryMockRouter } from '../helpers/mock-router';
+import { mockMatch } from '../helpers/mock-router';
 import { StreetMode, TransportMode } from '../../../app/constants';
 import * as utils from '../../../app/util/modeUtils';
 import { setCustomizedSettings } from '../../../app/store/localStorage';
@@ -348,18 +348,26 @@ describe('modeUtils', () => {
   });
 
   describe('setStreetMode', () => {
-    it.skip('should apply the selected streetMode to the current url', () => {
+    it('should apply the selected streetMode to the current url', () => {
       const streetMode = StreetMode.ParkAndRide;
-      const router = createMemoryMockRouter;
-      router.location = {
-        query: {
-          modes: 'CAR,WALK,RAIL,BUS,CITYBIKE',
+      let callParams;
+      const router = {
+        replace: params => {
+          callParams = params;
+        },
+      };
+      const match = {
+        ...mockMatch,
+        location: {
+          query: {
+            modes: 'CAR,WALK,RAIL,BUS,CITYBIKE',
+          },
         },
       };
 
-      utils.setStreetMode(streetMode, config, router);
+      utils.setStreetMode(streetMode, config, router, match);
 
-      const { query } = router.getCurrentLocation();
+      const { query } = callParams;
       const modes = query.modes ? query.modes.split(',') : [];
       expect(modes.length).to.equal(4);
       expect(modes).to.contain(StreetMode.ParkAndRide);
@@ -368,18 +376,26 @@ describe('modeUtils', () => {
       expect(modes).to.contain(TransportMode.Citybike);
     });
 
-    it.skip('should remove every other mode from the current url when isExclusive=true', () => {
+    it('should remove every other mode from the current url when isExclusive=true', () => {
       const streetMode = StreetMode.ParkAndRide;
-      const router = createMemoryMockRouter;
-      router.location = {
-        query: {
-          modes: 'CAR,WALK,RAIL,BUS,CITYBIKE',
+      let callParams;
+      const router = {
+        replace: params => {
+          callParams = params;
+        },
+      };
+      const match = {
+        ...mockMatch,
+        location: {
+          query: {
+            modes: 'CAR,WALK,RAIL,BUS,CITYBIKE',
+          },
         },
       };
 
-      utils.setStreetMode(streetMode, config, router, true);
+      utils.setStreetMode(streetMode, config, router, match, true);
 
-      const { query } = router.getCurrentLocation();
+      const { query } = callParams;
       const modes = query.modes ? query.modes.split(',') : [];
       expect(modes.length).to.equal(1);
       expect(modes).to.contain(StreetMode.ParkAndRide);

@@ -15,7 +15,7 @@ import {
 import { addAnalyticsEvent } from './analyticsUtils';
 import { getCurrentSettings, getDefaultSettings } from './planParamUtil';
 
-export const setSettingsData = (match, router) => {
+export const setSettingsData = (router, match) => {
   // eslint-disable-next-line no-use-before-define
   const querySettings = getQuerySettings(match.location.query);
   const customizedSettings = getCustomizedSettings();
@@ -161,10 +161,10 @@ export const getIntermediatePlaces = query => {
  * Updates the intermediatePlaces query parameter with the given values.
  *
  * @param {*} router The router
- * @param {String|String[]} newIntermediatePlaces A string or an array of intermediate locations
  * @param {*} match The match object from found
+ * @param {String|String[]} newIntermediatePlaces A string or an array of intermediate locations
  */
-export const setIntermediatePlaces = (router, newIntermediatePlaces, match) => {
+export const setIntermediatePlaces = (router, match, newIntermediatePlaces) => {
   if (
     isString(newIntermediatePlaces) ||
     (Array.isArray(newIntermediatePlaces) &&

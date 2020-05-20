@@ -83,8 +83,8 @@ class OriginDestinationBar extends React.Component {
   updateViaPoints = newViaPoints =>
     setIntermediatePlaces(
       this.context.router,
-      newViaPoints.map(locationToOtp),
       this.context.match,
+      newViaPoints.map(locationToOtp),
     );
 
   swapEndpoints = () => {

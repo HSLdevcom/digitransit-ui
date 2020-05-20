@@ -72,7 +72,7 @@ class SummaryNavigation extends React.Component {
   }
 
   onRequestChange = newState => {
-    setSettingsData(this.context.match, this.context.router);
+    setSettingsData(this.context.router, this.context.match);
     this.internalSetOffcanvas(newState);
   };
 

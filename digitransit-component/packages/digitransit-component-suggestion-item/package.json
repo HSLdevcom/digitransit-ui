@@ -1,13 +1,13 @@
 {
   "name": "@digitransit-component/digitransit-component-suggestion-item",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "digitransit-component suggestion-item module",
   "main": "index.generated",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build:index": "webpack --config webpack.config.babel.js",
+    "build:index": "webpack --config webpack.config.babel.js && yarn run docs",
     "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-proposal-class-properties --out-file test.generated",
     "test": "mocha -r esm test.generated",
     "docs": "node -r esm ../../scripts/generate-readmes"
@@ -22,6 +22,9 @@
   ],
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
+  "dependencies": {
+    "@digitransit-component/digitransit-component-icon": "0.0.1"
+  },
   "peerDependencies": {
     "classnames": "2.2.6",
     "i18next": "^19.3.3",

@@ -9,7 +9,6 @@ import CityBikeNetworkSelector from '../../../app/component/CityBikeNetworkSelec
 
 import { mockContext, mockChildContextTypes } from '../helpers/mock-context';
 import { mountWithIntl } from '../helpers/mock-intl-enzyme';
-import { createMemoryMockRouter } from '../helpers/mock-router';
 import defaultConfig from '../../../app/configurations/config.default';
 import hslConfig from '../../../app/configurations/config.hsl';
 
@@ -129,10 +128,6 @@ describe('<CustomizeSearch />', () => {
               },
             },
           },
-          location: {
-            ...mockContext.location,
-          },
-          router: createMemoryMockRouter(),
         },
         childContextTypes: {
           ...mockChildContextTypes,

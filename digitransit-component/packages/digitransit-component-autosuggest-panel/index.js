@@ -5,8 +5,8 @@ import React from 'react';
 import i18next from 'i18next';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import withBreakpoint from '@digitransit-component/digitransit-component-with-breakpoint';
+import Icon from '@digitransit-component/digitransit-component-icon';
 import Select from './helpers/Select';
-import Icon from './helpers/Icon';
 import translations from './helpers/translations';
 import styles from './helpers/styles.scss';
 
