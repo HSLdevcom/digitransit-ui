@@ -34,12 +34,14 @@ class StopMarker extends React.Component {
     renderName: PropTypes.bool,
     disableModeIcons: PropTypes.bool,
     selected: PropTypes.bool,
+    endPoint: PropTypes.bool,
   };
 
   static defaultProps = {
     renderName: false,
     disableModeIcons: false,
     selected: false,
+    endPoint: false,
   };
 
   static contextTypes = {
@@ -101,6 +103,29 @@ class StopMarker extends React.Component {
 
     if (radius === 0) {
       iconSvg = '';
+    }
+
+    if (this.props.mode === 'bus' && this.props.endPoint) {
+      const icon = Icon.asString({
+        img: 'icon_map-bus',
+        className: 'mode-icon',
+      });
+      let size;
+      if (zoom <= this.context.config.stopsSmallMaxZoom) {
+        size = this.context.config.stopsIconSize.small;
+      } else if (this.props.selected) {
+        size = this.context.config.stopsIconSize.selected;
+      } else {
+        size = this.context.config.stopsIconSize.default;
+      }
+      return L.divIcon({
+        html: icon,
+        iconSize: [size + 3, size + 3],
+        className: cx('cursor-pointer', this.props.mode, {
+          small: size === this.context.config.stopsIconSize.small,
+          selected: this.props.selected,
+        }),
+      });
     }
 
     return L.divIcon({
