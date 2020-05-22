@@ -128,7 +128,6 @@ export default function withSearchContext(WrappedComponent) {
       });
       let origin;
       let destination;
-
       if (id === 'origin') {
         origin = { ...location, ready: true };
         // eslint-disable-next-line prefer-destructuring
@@ -154,6 +153,8 @@ export default function withSearchContext(WrappedComponent) {
             origin = { set: false };
           }
         }
+      } else if (id === 'favourite') {
+        return;
       }
 
       navigateTo({

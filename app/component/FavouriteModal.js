@@ -166,12 +166,6 @@ class FavouriteModal extends React.Component {
   };
 
   render = () => {
-    const favouriteLayers = [
-      'CurrentPosition',
-      'Geocoding',
-      'OldSearch',
-      'Stops',
-    ];
     const { favourite } = this.state;
     return (
       <DTModal show={this.props.show}>
@@ -198,18 +192,6 @@ class FavouriteModal extends React.Component {
           </div>
           <div className="favourite-modal-main">
             <div className="favourite-modal-location-search">
-              <DTAutosuggestContainer
-                className="favourite"
-                type="field"
-                id="favourite"
-                refPoint={{ lat: 0, lon: 0 }}
-                searchType="endpoint"
-                placeholder="address"
-                value={favourite.address || ''}
-                layers={favouriteLayers}
-                onFavouriteSelected={this.setLocationProperties}
-                showSpinner
-              />
               <DTAutosuggestContainer
                 onFavouriteSelected={this.setLocationProperties}
               >

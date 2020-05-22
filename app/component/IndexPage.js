@@ -18,7 +18,7 @@ import {
   checkPositioningPermission,
 } from '../action/PositionActions';
 import storeOrigin from '../action/originActions';
-import { addFavourite, deleteFavourite } from '../action/FavouriteActions';
+import { addFavourite } from '../action/FavouriteActions';
 import storeDestination from '../action/destinationActions';
 import withSearchContext from './WithSearchContext';
 import { isBrowser } from '../util/browser';
@@ -247,6 +247,7 @@ class IndexPage extends React.Component {
             favourites={favourites}
             onAddFavourite={this.addFavourite}
             onClickFavourite={this.clickFavourite}
+            lang={lang}
           />
           <CtrlPanel.SeparatorLine />
           <div className="stops-near-you-text">
