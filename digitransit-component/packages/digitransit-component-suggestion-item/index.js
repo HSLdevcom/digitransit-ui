@@ -85,7 +85,7 @@ const SuggestionItem = pure(({ item, ariaContent, loading, className }) => {
         <p className={styles['suggestion-label']}>{label}</p>
       </div>
       <span className={styles.right}>
-        <Icon width={0.625} height={1.063} img="Arrow" />
+        <Icon width={0.625} height={1.063} img="arrow" />
       </span>
     </div>
   );
