@@ -197,17 +197,13 @@ class FavouriteModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      selectedIconId: null,
+      name: props.prefilledFavourite.name || '',
+      selectedIconId: props.prefilledFavourite.selectedIconId || null,
     };
   }
 
   componentDidMount = () => {
     i18next.changeLanguage(this.props.lang);
-    this.setState({
-      name: this.props.prefilledFavourite.name || '',
-      selectedIconId: this.props.prefilledFavourite.selectedIconId || null,
-    });
   };
 
   componentDidUpdate = prevProps => {
