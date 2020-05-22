@@ -1,3 +1,27 @@
+$primary-color: #007ac9;
+$font-weight-medium: 500;
+@mixin default-focus-outline {
+  /* First apply outline that is used in Edge and Firefox */
+  outline: 1px dotted #212121;
+  /* Then override outline for webkit browsers like Chrome, this has no effect on other browsers */
+  outline: 5px auto -webkit-focus-ring-color; /* stylelint-disable-line declaration-block-no-duplicate-properties */
+}
+
+$zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
+  map-buttons, context-panel, search-panel, search-overlay, preferred-input, destination-input,
+  viapoint-input-5, viapoint-input-4, viapoint-input-3, viapoint-input-2,
+  viapoint-input-1, origin-input, search-input-focus, search-input-icon, autosuggest-suggestion-container, front;
+
+.sr-only:not(:focus):not(:active) {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
 .dt-datetimepicker {
   border: none;
   max-width: 400px;
@@ -10,21 +34,22 @@
     display: flex;
 
     .time-icon {
-      svg.icon {
+      svg {
         width: 16px;
         height: 16px;
       }
     }
     .dropdown-icon {
       margin-left: 11px;
-      color: $primary-color;
-      svg.icon {
+      svg {
+        fill: $primary-color;
         width: 14px;
         height: 10px;
       }
     }
     .close-icon {
-      svg.icon {
+      svg {
+        fill: $primary-color;
         width: 11px;
         height: 11px;
         transform: rotate(45deg);
@@ -132,7 +157,7 @@
 
     &.date-input-icon {
       padding: 8px 11px 0 11px;
-      svg.icon {
+      svg {
         width: 20px;
         height: 18px;
       }
@@ -140,30 +165,30 @@
 
     &.time-input-icon {
       padding: 9px 13px 0 13px;
-        svg.icon {
+        svg {
         width: 16px;
         height: 16px;
       }
     }
   }
 
-  .react-autosuggest__container  {
+  .container  {
     position: relative;
 
-    .react-autosuggest__suggestion {
+    .suggestion {
       font-size: 15px;
       line-height: 49px;
+      height: 50px;
       border-bottom: 1px solid #dddddd;
-
       padding: 0 0 0 12px;
       letter-spacing: -0.6px;
       color: #333333;
     }
-    .react-autosuggest__suggestion--highlighted {
+    .suggestionHighlighted {
       font-weight: $font-weight-medium;
     }
 
-    .react-autosuggest__suggestions-container--open {
+    .suggestionsContainerOpen {
       position: absolute;
       z-index: index($zindex, 'autosuggest-suggestion-container');
       max-height: 250px;
@@ -180,8 +205,12 @@
       &::-webkit-scrollbar {
         display: none;  /* Safari and Chrome */
       }
+      ul {
+        padding: 0;
+        margin: 0;
+      }
     }
-    .react-autosuggest__input {
+    .input {
       margin: -4px 0 0 0;
       padding-left: 12px;
       border: none;
@@ -189,9 +218,15 @@
       &:focus {
         outline: none;
       }
-      &:read-only {
-        background: inherit;
-      }
+      background: inherit;
+      font-weight: $font-weight-medium;
+      box-shadow: none;
+      font-size: 15px;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.33;
+      letter-spacing: -0.6px;
+      color: #333333;
     }
   }
 

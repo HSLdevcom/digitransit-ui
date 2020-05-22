@@ -4,9 +4,14 @@ import moment from 'moment';
 import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import debounce from 'lodash/debounce';
+import loadable from '@loadable/component';
 import { replaceQueryParams } from '../util/queryUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import Datetimepicker from './Datetimepicker';
+
+const Datetimepicker = loadable(
+  () => import('@digitransit-component/digitransit-component-datetimepicker'),
+  { ssr: true },
+);
 
 function getInitialTimestamp(match, realtime) {
   const now = realtime ? null : moment().valueOf();
