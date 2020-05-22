@@ -23,7 +23,6 @@ import CityBikeContent from './CityBikeContent';
 import CityBikeAvailability from './CityBikeAvailability';
 import CityBikeUse from './CityBikeUse';
 import CityBikePopupContainer from './map/popups/CityBikePopupContainer';
-import TimeSelectors from './TimeSelectors';
 import TimeNavigationButtons from './TimeNavigationButtons';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
 import TripRouteStop from './TripRouteStop';
@@ -112,7 +111,6 @@ const components = {
   CityBikePopupContainer,
   Availability,
   ParkAndRideAvailability,
-  TimeSelectors,
   TimeNavigationButtons,
   RightOffcanvasToggle,
   TripRouteStop,

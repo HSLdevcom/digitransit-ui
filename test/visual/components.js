@@ -137,8 +137,6 @@ testVariation('TimeNavigationButtons', 'hovered', 1, [], actions => {
     .wait(400); // Wait for animation to happen
 });
 
-testVariation('TimeSelectors');
-
 testVariation('RightOffcanvasToggle', 'default');
 testVariation('RightOffcanvasToggle', 'adjusted', 2);
 
