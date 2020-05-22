@@ -16,7 +16,7 @@ const translations = {
   sv: {
     'choose-icon': 'Välj platsens ikon',
     'close-favourite-modal': 'Stäng favoritmodalen',
-    'input-placeholder': 'Anna paikalle nimi (vapaaehtoinen)',
+    'input-placeholder': 'Ange platsens namn (frivilligt)',
     save: 'Spara',
     'save-place': 'Spara plats',
   },

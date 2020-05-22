@@ -13,7 +13,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   cursor: pointer;
 }
 
-.favouriteContainer {
+.favourite-container {
   display: flex;
   position: relative;
   z-index: 1;
@@ -25,7 +25,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   justify-content: space-between;
   align-items: center;
 
-  .content {
+  .favourite-content {
     @extend .button-shared;
     width: 42.25%;
     max-width: 169px;
@@ -33,13 +33,15 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     height: 100%;
     position: relative;
 
-    span.icon {
+    .icon{
       display: flex;
       width: 50px;
+      height: 100%;
       justify-content: center;
+      padding: 12px 0;
     }
 
-    .location {
+    .favourite-location {
       white-space: nowrap;
       overflow: hidden;
       text-align: start;
@@ -80,7 +82,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   }
 }
 
-.favouriteSuggestionContainer {
+.favourite-suggestion-container {
   position: relative;
   display: flex;
   justify-content: center;
@@ -89,8 +91,10 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     display: block;
     height: 6px;
     background-color: #f4f4f5;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }
-  .suggestionList {
+  .favourite-suggestion-list {
+    max-height: 30vh;
     list-style-type: none;
     padding: 0;
     position: absolute;
@@ -102,8 +106,12 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     border: solid 1px rgba(0, 0, 0, 0.1);
     background-color: #ffffff;
     overflow-x: hidden;
+    overflow-y: scroll;
+    li:not(:last-child) {
+      border-bottom: 1px solid #ddd;
+    }
   }
-  .suggestionItem {
+  .favourite-suggestion-item {
     cursor: pointer;
     &.highlighted {
       background-color: darken(#ffffff, 5%);

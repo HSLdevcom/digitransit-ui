@@ -5,7 +5,6 @@ import cx from 'classnames';
 import i18next from 'i18next';
 import isEmpty from 'lodash/isEmpty';
 import isNumber from 'lodash/isNumber';
-// import DTAutosuggest from '@digitransit-component/digitransit-component-autosuggest';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
 import translations from './helpers/translations';
@@ -42,7 +41,13 @@ Modal.propTypes = {
 Modal.defaultProps = {
   children: [],
 };
-
+const FavouriteIconIdToNameMap = {
+  'icon-icon_home': 'home',
+  'icon-icon_work': 'work',
+  'icon-icon_sport': 'sport',
+  'icon-icon_school': 'school',
+  'icon-icon_shopping': 'shopping',
+};
 const FavouriteIconTableButton = ({
   key,
   value,
@@ -51,13 +56,16 @@ const FavouriteIconTableButton = ({
 }) => {
   const [isHovered, setHover] = useState(false);
   const iconColor =
-    value === selectedIconId || isHovered ? '#ffffff' : '#007ac9';
+    value === FavouriteIconIdToNameMap[selectedIconId] || isHovered
+      ? '#ffffff'
+      : '#007ac9';
   return (
     <button
       type="button"
       key={key}
       className={cx(styles['favourite-icon-table-column'], {
-        [styles['selected-icon']]: value === selectedIconId,
+        [styles['selected-icon']]:
+          value === FavouriteIconIdToNameMap[selectedIconId],
       })}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
@@ -104,41 +112,25 @@ FavouriteIconTable.propTypes = {
 
 class FavouriteModal extends React.Component {
   static propTypes = {
-    // config: PropTypes.object,
-    // searchContext: PropTypes.config,
     show: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
     addFavourite: PropTypes.func.isRequired,
-    favourite: PropTypes.shape({
+    autosuggestComponent: PropTypes.node,
+    location: PropTypes.shape({
       address: PropTypes.string,
       gtfsId: PropTypes.string,
-      gid: PropTypes.string,
+      id: PropTypes.string,
       lat: PropTypes.number,
-      name: PropTypes.string,
       lon: PropTypes.number,
+      layer: PropTypes.string,
+      defaultName: PropTypes.string,
+    }),
+    prefilledFavourite: PropTypes.shape({
+      name: PropTypes.string,
       selectedIconId: PropTypes.string,
-      favouriteId: PropTypes.string,
     }),
     addAnalyticsEvent: PropTypes.func,
-    // lang: PropTypes.string,
-  };
-
-  static defaultProps = {
-    favourite: {
-      address: undefined,
-      lat: undefined,
-      name: '',
-      lon: undefined,
-      selectedIconId: undefined,
-    },
-  };
-
-  static FavouriteIconIdToNameMap = {
-    'icon-icon_home': 'home',
-    'icon-icon_work': 'work',
-    'icon-icon_sport': 'sport',
-    'icon-icon_school': 'school',
-    'icon-icon_shopping': 'shopping',
+    lang: PropTypes.string,
   };
 
   static favouriteIconIds = [
@@ -150,111 +142,103 @@ class FavouriteModal extends React.Component {
     'shopping',
   ];
 
-  state = {
-    favourite: { ...this.props.favourite },
-    defaultName: '',
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: '',
+      selectedIconId: null,
+    };
+  }
+
+  componentDidMount = () => {
+    i18next.changeLanguage(this.props.lang);
   };
 
-  setLocationProperties = location => {
-    this.setState(prevState => ({
-      favourite: {
-        ...prevState.favourite,
-        favouriteId: prevState.favourite.favouriteId,
-        gid: location.properties.gid,
-        gtfsId: location.properties.gtfsId,
-        code: location.properties.code,
-        layer: location.properties.layer,
-        lat: location.geometry.coordinates[1],
-        lon: location.geometry.coordinates[0],
-        address: location.properties.label,
-      },
-      defaultName: location.properties.name,
-    }));
+  static getDerivedStateFromProps = (nextProps, prevState) => {
+    if (
+      nextProps.prefilledFavourite.name !== prevState.name ||
+      nextProps.prefilledFavourite.selectedIconId !== prevState.selectedIconId
+    ) {
+      return {
+        name: nextProps.prefilledFavourite.name || '',
+        selectedIconId: nextProps.prefilledFavourite.selectedIconId || null,
+      };
+    }
+    return null;
+  };
+
+  componentDidUpdate = prevProps => {
+    if (prevProps.lang !== this.props.lang) {
+      i18next.changeLanguage(this.props.lang);
+    }
+  };
+
+  componentWillUnmount = () => {
+    this.setState({ name: '', selectedIconId: null });
   };
 
   specifyName = event => {
-    const name = event.target.value;
-    this.setState(prevState => ({
-      favourite: { ...prevState.favourite, name },
-    }));
+    const input = event.target.value;
+    this.setState({
+      name: input,
+    });
   };
 
   selectIcon = id => {
-    this.setState(prevState => {
-      const favourite = { ...prevState.favourite, selectedIconId: id };
-      // If the user hasn't set a location name yet,
-      // let's attempt to autodetermine it based on the icon they chose.
-      // if (isEmpty(favourite.name)) {
-      //   const suggestedName = FavouriteModal.FavouriteIconIdToNameMap[id];
-      //   if (suggestedName) {
-      //     // If there is a suggested name in the map,
-      //     // attempt to translate it, then assign it to
-      //     // the update favourite object.
-      //     // suggestedName = this.context.intl.formatMessage({
-      //     //   id: `location-${suggestedName}`,
-      //     //   defaultMessage: suggestedName,
-      //     // });
-      //     favourite.name = suggestedName;
-      //   }
-      // }
-      return { favourite };
+    this.setState({
+      selectedIconId: `icon-icon_${id}`,
     });
   };
 
   canSave = () =>
-    !isEmpty(this.state.favourite.selectedIconId) &&
-    isNumber(this.state.favourite.lat) &&
-    isNumber(this.state.favourite.lon);
+    !isEmpty(this.state.selectedIconId) &&
+    isNumber(this.props.location.lat) &&
+    isNumber(this.props.location.lon);
 
   save = () => {
     if (this.canSave()) {
-      const name = isEmpty(this.state.favourite.name)
-        ? this.state.defaultName
-        : this.state.favourite.name;
+      const name = isEmpty(this.state.name)
+        ? this.props.location.defaultName
+        : this.state.name;
+      const favourite = {
+        name,
+        address: this.props.location.address,
+        gtfsId: this.props.location.gtfsId,
+        gid: this.props.location.id,
+        lat: this.props.location.lat,
+        lon: this.props.location.lon,
+        layer: this.props.location.layer,
+      };
       if (
-        (isStop(this.state.favourite) || isTerminal(this.state.favourite)) &&
-        this.state.favourite.gtfsId
+        (isStop(this.props.location) || isTerminal(this.props.location)) &&
+        this.props.location.gtfsId
       ) {
-        const favourite = isTerminal(this.state.favourite)
-          ? { ...this.state.favourite, type: 'station', name }
-          : { ...this.state.favourite, type: 'stop', name };
-
-        this.props.addFavourite(favourite);
+        const type = isTerminal(this.props.location) ? 'station' : 'stop';
+        this.props.addFavourite({
+          ...favourite,
+          type,
+          selectedIconId: this.state.selectedIconId,
+        });
       } else {
         this.props.addFavourite({
-          ...this.state.favourite,
+          ...favourite,
           type: 'place',
-          name,
+          selectedIconId: this.state.selectedIconId,
         });
       }
       if (this.props.addAnalyticsEvent) {
         this.props.addAnalyticsEvent({
           category: 'Favourite',
           action: 'SaveFavourite',
-          name: this.state.favourite.selectedIconId,
+          name: this.state.selectedIconId,
         });
       }
-      this.setState({
-        favourite: {
-          address: undefined,
-          lat: undefined,
-          name: '',
-          lon: undefined,
-          selectedIconId: undefined,
-        },
-      });
       this.props.handleClose();
     }
   };
 
   render = () => {
-    // const favouriteLayers = [
-    //   'CurrentPosition',
-    //   'Geocoding',
-    //   'OldSearch',
-    //   'Stops',
-    // ];
-    const { favourite } = this.state;
+    const { name, selectedIconId } = this.state;
     return (
       <Modal show={this.props.show}>
         <div className={styles['favourite-modal-container']}>
@@ -274,24 +258,12 @@ class FavouriteModal extends React.Component {
           </div>
           <div className={styles['favourite-modal-main']}>
             <div className={styles['favourite-modal-location-search']}>
-              {/* <DTAutosuggest
-                className="favourite"
-                id="favourite"
-                config={this.props.config}
-                searchContext={this.props.searchContext}
-                refPoint={{ lat: 0, lon: 0 }}
-                placeholder="search-address-or-place"
-                value={favourite.address || ''}
-                onSelect={this.setLocationProperties}
-                lang={this.props.lang}
-                sources={['Favourite', 'History', 'Datasource']}
-                targets={['Stops', 'Routes']}
-              /> */}
+              {this.props.autosuggestComponent}
             </div>
             <div className={styles['favourite-modal-name']}>
               <input
                 className={styles['favourite-modal-input']}
-                value={favourite.name || ''}
+                value={name || ''}
                 placeholder={i18next.t('input-placeholder')}
                 onChange={this.specifyName}
               />
@@ -303,8 +275,8 @@ class FavouriteModal extends React.Component {
           <div className={styles['favourite-modal-icons']}>
             <FavouriteIconTable
               selectedIconId={(() => {
-                if (favourite.selectedIconId !== 'undefined' || null) {
-                  return favourite.selectedIconId;
+                if (selectedIconId !== undefined || null) {
+                  return selectedIconId;
                 }
                 return undefined;
               })()}

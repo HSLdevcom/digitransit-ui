@@ -6,6 +6,7 @@ import i18next from 'i18next';
 import differenceWith from 'lodash/differenceWith';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
+import escapeRegExp from 'lodash/escapeRegExp';
 import SuggestionItem from '@digitransit-component/digitransit-component-suggestion-item';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import translations from './helpers/translations';
@@ -32,16 +33,16 @@ const FavouriteLocation = ({ className, clickItem, iconId, text, label }) => {
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-tabindex */
   return (
     <div
-      className={cx(styles.content, styles[className])}
+      className={cx(styles['favourite-content'], styles[className])}
       onKeyPress={e => isKeyboardSelectionEvent(e) && clickItem}
       onClick={clickItem}
       tabIndex="0"
       aria-label={text}
     >
       <span className={styles.icon}>
-        <Icon height={1.125} img={iconId} color="#007ac9" />
+        <Icon width={1.125} height={1.125} img={iconId} color="#007ac9" />
       </span>
-      <div className={styles.location}>
+      <div className={styles['favourite-location']}>
         <div className={styles.name}>{text}</div>
         <div className={styles.address}>{label}</div>
       </div>
@@ -73,6 +74,8 @@ class FavouriteBar extends React.Component {
     ).isRequired,
     onClickFavourite: PropTypes.func,
     onAddPlace: PropTypes.func,
+    onAddHome: PropTypes.func,
+    onAddWork: PropTypes.func,
     lang: PropTypes.string,
   };
 
@@ -98,16 +101,22 @@ class FavouriteBar extends React.Component {
   }
 
   componentDidMount() {
-    i18next.changeLanguage('en');
+    i18next.changeLanguage(this.props.lang);
     document.addEventListener('mousedown', this.handleClickOutside);
     const { favourites } = this.props;
     const home = find(
       favourites,
-      favourite => favourite.name === 'Home' || favourite.name === 'Koti',
+      favourite =>
+        favourite.name === 'Home' ||
+        favourite.name === 'Koti' ||
+        favourite.name === 'Hem',
     );
     const work = find(
       favourites,
-      favourite => favourite.name === 'Work' || favourite.name === 'Työ',
+      favourite =>
+        favourite.name === 'Work' ||
+        favourite.name === 'Työ' ||
+        favourite.name === 'Arbetsplats',
     );
     const filteredFavourites = favourites.filter(
       favourite =>
@@ -132,11 +141,17 @@ class FavouriteBar extends React.Component {
     ) {
       const nextHome = find(
         nextFavourites,
-        favourite => favourite.name === 'Home' || favourite.name === 'Koti',
+        favourite =>
+          favourite.name === 'Home' ||
+          favourite.name === 'Koti' ||
+          favourite.name === 'Hem',
       );
       const nextWork = find(
         nextFavourites,
-        favourite => favourite.name === 'Work' || favourite.name === 'Työ',
+        favourite =>
+          favourite.name === 'Work' ||
+          favourite.name === 'Työ' ||
+          favourite.name === 'Arbetsplats',
       );
       const filteredFavourites = nextFavourites.filter(
         favourite =>
@@ -225,13 +240,12 @@ class FavouriteBar extends React.Component {
     const { highlightedIndex } = this.state;
     const id = `favourite-suggestion-list--item-${index}`;
     const selected = highlightedIndex === index;
-    // const ariaContent = [item.selectedIconId, item.name, item.label];
     return (
       <li
         key={`favourite-suggestion-item-${index}`}
         id={id}
         className={cx(
-          styles.suggestionItem,
+          styles['favourite-suggestion-item'],
           selected ? styles.highlighted : '',
         )}
         onMouseEnter={() => this.highlightSuggestion(index)}
@@ -249,14 +263,13 @@ class FavouriteBar extends React.Component {
     const { listOpen, favourites, home, work, highlightedIndex } = this.state;
 
     const expandIcon = this.props.favourites.length === 0 ? 'plus' : 'arrow';
-
     const customSuggestions = [
       {
         name: i18next.t('add-place'),
         selectedIconId: 'favourite',
       },
       {
-        name: 'Muokkaa',
+        name: i18next.t('edit'),
         selectedIconId: 'edit',
         iconColor: '#007ac9',
       },
@@ -264,12 +277,12 @@ class FavouriteBar extends React.Component {
     /* eslint-disable anchor-is-valid, jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/role-supports-aria-props */
     return (
       <React.Fragment>
-        <div className={styles.favouriteContainer}>
+        <div className={styles['favourite-container']}>
           {!home && (
             <FavouriteLocation
               text={i18next.t('add-home')}
               iconId="home"
-              clickItem={() => ({})}
+              clickItem={() => this.props.onAddHome()}
             />
           )}
           {home && (
@@ -286,7 +299,7 @@ class FavouriteBar extends React.Component {
             <FavouriteLocation
               text={i18next.t('add-work')}
               iconId="work"
-              clickItem={() => ({})}
+              clickItem={() => this.props.onAddWork()}
             />
           )}
           {work && (
@@ -307,7 +320,7 @@ class FavouriteBar extends React.Component {
             onKeyDown={e => this.handleKeyDown(e)}
             tabIndex="0"
             role="button"
-            aria-label="Expand favourites"
+            aria-label={i18next.t('open-favourites')}
             aria-controls="favourite-suggestion-list"
             aria-activedescendant={`favourite-suggestion-list--item-${highlightedIndex}`}
           >
@@ -320,16 +333,28 @@ class FavouriteBar extends React.Component {
             />
           </div>
         </div>
-        <div className={styles.favouriteSuggestionContainer}>
+        <div className={styles['favourite-suggestion-container']}>
           {listOpen && (
             <ul
-              className={styles.suggestionList}
+              className={styles['favourite-suggestion-list']}
               id="favourite-suggestion-list"
               ref={this.suggestionListRef}
               role="listbox"
             >
               {favourites.map((item, index) =>
-                this.renderSuggestion({ ...item, iconColor: '#007ac9' }, index),
+                this.renderSuggestion(
+                  {
+                    ...item,
+                    address: item.address
+                      ? item.address.replace(
+                          new RegExp(`${escapeRegExp(item.name)}(,)?( )?`),
+                          '',
+                        )
+                      : '',
+                    iconColor: '#007ac9',
+                  },
+                  index,
+                ),
               )}
               {favourites.length > 0 && <div className={styles.divider} />}
               {customSuggestions.map((item, index) =>
