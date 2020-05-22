@@ -318,40 +318,30 @@ class FavouriteBar extends React.Component {
     return (
       <React.Fragment>
         <div className={styles['favourite-container']}>
-          {!home && (
-            <FavouriteLocation
-              text={i18next.t('add-home')}
-              iconId="home"
-              clickItem={() => this.props.onAddHome()}
-            />
-          )}
-          {home && (
-            <FavouriteLocation
-              text={home.name}
-              label={work.address}
-              clickItem={() => onClickFavourite(home)}
-              iconId={
-                FavouriteBar.FavouriteIconIdToNameMap[home.selectedIconId]
-              }
-            />
-          )}
-          {!work && (
-            <FavouriteLocation
-              text={i18next.t('add-work')}
-              iconId="work"
-              clickItem={() => this.props.onAddWork()}
-            />
-          )}
-          {work && (
-            <FavouriteLocation
-              text={work.name}
-              label={work.address}
-              clickItem={() => onClickFavourite(work)}
-              iconId={
-                FavouriteBar.FavouriteIconIdToNameMap[work.selectedIconId]
-              }
-            />
-          )}
+          <FavouriteLocation
+            text={(home && home.name) || i18next.t('add-home')}
+            label={(home && home.address) || ''}
+            clickItem={() =>
+              home ? onClickFavourite(home) : this.props.onAddHome()
+            }
+            iconId={
+              home && home.selectedIconId
+                ? FavouriteBar.FavouriteIconIdToNameMap[home.selectedIconId]
+                : 'home'
+            }
+          />
+          <FavouriteLocation
+            text={(work && work.name) || i18next.t('add-work')}
+            label={(work && work.address) || ''}
+            clickItem={() =>
+              work ? onClickFavourite(work) : this.props.onAddWork()
+            }
+            iconId={
+              work && work.selectedIconId
+                ? FavouriteBar.FavouriteIconIdToNameMap[work.selectedIconId]
+                : 'work'
+            }
+          />
           <div
             className={styles.expandButton}
             ref={this.expandListRef}
