@@ -20,21 +20,15 @@ const isStop = ({ layer }) => layer === 'stop' || layer === 'favouriteStop';
 const isTerminal = ({ layer }) =>
   layer === 'station' || layer === 'favouriteStation';
 
-const Modal = ({ show, children }) => {
+const Modal = ({ children }) => {
   return (
-    <div
-      className={cx(
-        styles.favouriteModal,
-        show ? styles['display-block'] : styles['display-none'],
-      )}
-    >
+    <div className={styles.favouriteModal}>
       <section className={styles.modalMain}>{children}</section>
     </div>
   );
 };
 
 Modal.propTypes = {
-  show: PropTypes.bool.isRequired,
   children: PropTypes.node,
 };
 
@@ -110,12 +104,52 @@ FavouriteIconTable.propTypes = {
   selectedIconId: PropTypes.string,
 };
 
+/**
+ * @example
+ * <FavouriteModal
+ *   show={modalOpen}
+ *   handleClose={handleClose}
+ *   addFavourite={onAddFavourite}
+ *   location={selectedLocation}
+ *   prefilledFavourite={prefilledFavourite}
+ *   lang={lang}
+ *   autosuggestComponent={
+ *     <AutoSuggest
+ *       sources={['History', 'Datasource']}
+ *       targets={['Locations', 'CurrentPosition', 'Stops']}
+ *       id="favourite"
+ *       autoFocus={false}
+ *       placeholder="search-address-or-place"
+ *       value={selectedLocation.address || ''}
+ *       onFavouriteSelected={this.setLocationProperties}
+ *       lang={lang}
+ *     />
+ *   }
+ * />
+ */
 class FavouriteModal extends React.Component {
   static propTypes = {
-    show: PropTypes.bool.isRequired,
+    /** Required.
+     * @type{function} */
     handleClose: PropTypes.func.isRequired,
+    /** Required.
+     * @type{function} */
     addFavourite: PropTypes.func.isRequired,
+    /** Optional.
+     * Autosuggest component for searching new favourites.
+     * @type{node}
+     */
     autosuggestComponent: PropTypes.node,
+    /** Optional.
+     * @type{object}
+     * @property {string} address
+     * @property {string} gtfsId
+     * @property {number} lat
+     * @property {number} lon
+     * @property {string} id
+     * @property {string} layer
+     * @property {string} defaultName
+     */
     location: PropTypes.shape({
       address: PropTypes.string,
       gtfsId: PropTypes.string,
@@ -125,12 +159,30 @@ class FavouriteModal extends React.Component {
       layer: PropTypes.string,
       defaultName: PropTypes.string,
     }),
+    /** Optional.
+     * Object to prefill input field for name and/or selected icon.
+     * @type{object}
+     *  @property {string} name
+     *  @property {string} selectedIconId
+     */
     prefilledFavourite: PropTypes.shape({
       name: PropTypes.string,
       selectedIconId: PropTypes.string,
     }),
+    /** Optional.
+     * @type{function} */
     addAnalyticsEvent: PropTypes.func,
+    /** Optional. Language, fi, en or sv.
+     * @type{string} */
     lang: PropTypes.string,
+  };
+
+  static defaultProps = {
+    lang: 'fi',
+    prefilledFavourite: {
+      name: undefined,
+      selectedIconId: undefined,
+    },
   };
 
   static favouriteIconIds = [
@@ -152,19 +204,10 @@ class FavouriteModal extends React.Component {
 
   componentDidMount = () => {
     i18next.changeLanguage(this.props.lang);
-  };
-
-  static getDerivedStateFromProps = (nextProps, prevState) => {
-    if (
-      nextProps.prefilledFavourite.name !== prevState.name ||
-      nextProps.prefilledFavourite.selectedIconId !== prevState.selectedIconId
-    ) {
-      return {
-        name: nextProps.prefilledFavourite.name || '',
-        selectedIconId: nextProps.prefilledFavourite.selectedIconId || null,
-      };
-    }
-    return null;
+    this.setState({
+      name: this.props.prefilledFavourite.name || '',
+      selectedIconId: this.props.prefilledFavourite.selectedIconId || null,
+    });
   };
 
   componentDidUpdate = prevProps => {
@@ -240,7 +283,7 @@ class FavouriteModal extends React.Component {
   render = () => {
     const { name, selectedIconId } = this.state;
     return (
-      <Modal show={this.props.show}>
+      <Modal>
         <div className={styles['favourite-modal-container']}>
           <div className={styles['favourite-modal-top']}>
             <div className={styles['favourite-modal-header']}>
@@ -270,7 +313,7 @@ class FavouriteModal extends React.Component {
             </div>
           </div>
           <div className={styles['favourite-modal-text']}>
-            {i18next.t('save-place')}
+            {i18next.t('choose-icon')}
           </div>
           <div className={styles['favourite-modal-icons']}>
             <FavouriteIconTable

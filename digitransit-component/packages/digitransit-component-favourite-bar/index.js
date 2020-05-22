@@ -64,8 +64,8 @@ FavouriteLocation.propTypes = {
  * Work is found in finnish (Työ), in English (Work) or in Swedish (Arbetsplats).
  * @example
  * <FavouriteBar
- *   favourites={this.props.favourites}
- *   onClickFavourite={this.props.onClickFavourite}
+ *   favourites={favourites}
+ *   onClickFavourite={onClickFavourite}
  *   onAddPlace={this.addPlace}
  *   onAddHome={this.addHome}
  *   onAddWork={this.addWork}
@@ -74,7 +74,8 @@ FavouriteLocation.propTypes = {
  */
 class FavouriteBar extends React.Component {
   static propTypes = {
-    /** Array of favourites, favourite object contains following properties.
+    /** Required. Array of favourites, favourite object contains following properties.
+     * @type {Array<object>}
      * @property {string} address
      * @property {string} gtfsId
      * @property {string} gid
@@ -96,16 +97,27 @@ class FavouriteBar extends React.Component {
         favouriteId: PropTypes.string,
       }),
     ).isRequired,
-    /** Function for clicking favourites. */
+    /** Optional. Function for clicking favourites. */
     onClickFavourite: PropTypes.func,
-    /** Function for selecter "Add place from suggetions" */
+    /** Optional. Function for selecting "Add place" from suggestions. */
     onAddPlace: PropTypes.func,
-    /** Function for "Add home" button. */
+    /** Optional. Function for selected "Edit" from suggestions. */
+    onEdit: PropTypes.func,
+    /** Optional. Function for "Add home" button. */
     onAddHome: PropTypes.func,
-    /** Function for "Add work" button. */
+    /** Optional. Function for "Add work" button. */
     onAddWork: PropTypes.func,
-    /** Language, fi, en or sv. */
+    /** Optional. Language, fi, en or sv. */
     lang: PropTypes.string,
+  };
+
+  static defaultProps = {
+    onClickFavourite: () => ({}),
+    onAddPlace: () => ({}),
+    onEdit: () => ({}),
+    onAddHome: () => ({}),
+    onAddWork: () => ({}),
+    lang: 'fi',
   };
 
   static FavouriteIconIdToNameMap = {
@@ -236,10 +248,9 @@ class FavouriteBar extends React.Component {
       this.props.onClickFavourite(favourites[highlightedIndex]);
     } else if (highlightedIndex === favourites.length) {
       this.props.onAddPlace();
+    } else if (highlightedIndex === favourites.length + 1) {
+      this.props.onEdit();
     }
-    // else if (highlightedIndex === favourites.length + 1) {
-    // click on edit suggestion
-    // }
     this.toggleList();
   };
 
