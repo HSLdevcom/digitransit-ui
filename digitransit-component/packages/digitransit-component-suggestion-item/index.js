@@ -26,6 +26,12 @@ function getIcon(layer) {
     ['route-SUBWAY', 'subway'],
     ['route-FERRY', 'ferry'],
     ['route-AIRPLANE', 'airplane'],
+    ['edit', 'edit'],
+    ['icon-icon_home', 'home'],
+    ['icon-icon_work', 'work'],
+    ['icon-icon_sport', 'sport'],
+    ['icon-icon_school', 'school'],
+    ['icon-icon_shopping', 'shopping'],
   ]);
 
   const defaultIcon = 'place';
