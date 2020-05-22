@@ -1307,6 +1307,39 @@
   dependencies:
     find-up "^4.0.0"
 
+"@digitransit-component/digitransit-component-autosuggest-panel@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-autosuggest-panel/-/digitransit-component-autosuggest-panel-0.0.8.tgz#fdabe47bb95aac0bf3165cd9c8b91b54bfb30d54"
+  integrity sha512-Noy2PMKa03Zp6XGJA8DevbxPgKhe3LvObw9pzrBMqWP8ROQHPsFciO2tqyyWHWKZ0g6CXse7sdVQC/flXW0Ivw==
+  dependencies:
+    "@digitransit-component/digitransit-component-autosuggest" "^0.0.8"
+    "@digitransit-component/digitransit-component-icon" "0.0.1"
+    "@digitransit-component/digitransit-component-with-breakpoint" "^0.0.3"
+
+"@digitransit-component/digitransit-component-autosuggest@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-autosuggest/-/digitransit-component-autosuggest-0.0.8.tgz#0f6e8612912155e69d578e1dac0f36cf4121d15c"
+  integrity sha512-oOvVLe4kxo2bPx20fZYmC3RZ08EZWodKWZn2gKrXGyM92IW8KHxGbUuFBqFZRjWsS1H6WBGrVoyrk1SBZmrXQA==
+  dependencies:
+    "@digitransit-component/digitransit-component-icon" "0.0.1"
+    "@digitransit-component/digitransit-component-suggestion-item" "^0.0.5"
+    "@digitransit-search-util/digitransit-search-util-execute-search-immidiate" "^0.0.3"
+    "@digitransit-search-util/digitransit-search-util-get-label" "^0.0.1"
+    "@digitransit-search-util/digitransit-search-util-suggestion-to-location" "^0.0.1"
+    "@digitransit-search-util/digitransit-search-util-uniq-by-label" "^0.0.1"
+
+"@digitransit-search-util/digitransit-search-util-execute-search-immidiate@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-execute-search-immidiate/-/digitransit-search-util-execute-search-immidiate-0.0.3.tgz#b7a7351347e1caf5c344fde45e28f172714ca757"
+  integrity sha512-pBBVBhzK3JDD0MrQEUpcfTZh5x7faab0F7EQdwXKeK4FRfQtJVRz/PrL8sDsFNCigpuJvk2fq6co549qyrGLxA==
+  dependencies:
+    "@digitransit-search-util/digitransit-search-util-distance" "^0.0.1"
+    "@digitransit-search-util/digitransit-search-util-filter-matching-to-input" "^0.0.1"
+    "@digitransit-search-util/digitransit-search-util-get-geocoding-results" "^0.0.2"
+    "@digitransit-search-util/digitransit-search-util-helpers" "^0.0.2"
+    "@digitransit-search-util/digitransit-search-util-uniq-by-label" "^0.0.1"
+    lodash "4.17.14"
+
 "@evocateur/libnpmaccess@^3.1.2":
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/@evocateur/libnpmaccess/-/libnpmaccess-3.1.2.tgz#ecf7f6ce6b004e9f942b098d92200be4a4b1c845"

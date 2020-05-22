@@ -19,6 +19,8 @@ function parseGeocodingResults(results) {
 }
 
 function parseLocation(location, input, config) {
+  const peliasUrl = config.URL.pelias;
+  const minimalRegexp = config.search ? config.search.minimalRegexp : null;
   if (location) {
     const parsedFrom = placeParser.exec(location);
     if (parsedFrom) {
@@ -31,13 +33,15 @@ function parseLocation(location, input, config) {
         }),
       );
     }
+
     return getGeocodingResults(
       location,
       config.searchParams,
       null,
       null,
       null,
-      config,
+      peliasUrl,
+      minimalRegexp,
     )
       .then(parseGeocodingResults)
       .catch(() => ' ');
@@ -50,7 +54,8 @@ function parseLocation(location, input, config) {
       null,
       null,
       null,
-      config,
+      peliasUrl,
+      minimalRegexp,
     )
       .then(parseGeocodingResults)
       .catch(() => ' ');
