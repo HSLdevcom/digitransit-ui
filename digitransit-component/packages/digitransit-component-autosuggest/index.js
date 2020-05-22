@@ -399,7 +399,11 @@ class DTAutosuggest extends React.Component {
       value,
       onChange: this.onChange,
       onBlur: this.onBlur,
-      className: `${styles.input}  ${this.state.value ? styles.hasValue : ''}`,
+      className: cx(
+        `${styles.input} ${styles[this.props.id] || ''} ${
+          this.state.value ? styles.hasValue : ''
+        }`,
+      ),
       onKeyDown: this.keyDown, // DT-3263
     };
     const ariaBarId = this.props.id.replace('searchfield-', '');
