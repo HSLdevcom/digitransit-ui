@@ -58,8 +58,32 @@ FavouriteLocation.propTypes = {
   label: PropTypes.string,
 };
 
+/**
+ * FavouriteBar renders favourites. It searches favourites for home and work by name.
+ * Home is found in finnish (Koti), in English (Home) or in Swedish (Hem).
+ * Work is found in finnish (Työ), in English (Work) or in Swedish (Arbetsplats).
+ * @example
+ * <FavouriteBar
+ *   favourites={this.props.favourites}
+ *   onClickFavourite={this.props.onClickFavourite}
+ *   onAddPlace={this.addPlace}
+ *   onAddHome={this.addHome}
+ *   onAddWork={this.addWork}
+ *   lang={this.props.lang}
+ * />
+ */
 class FavouriteBar extends React.Component {
   static propTypes = {
+    /** Array of favourites, favourite object contains following properties.
+     * @property {string} address
+     * @property {string} gtfsId
+     * @property {string} gid
+     * @property {number} lat
+     * @property {number} lon
+     * @property {string} name
+     * @property {string} selectedIconId
+     * @property {string} favouriteId
+     */
     favourites: PropTypes.arrayOf(
       PropTypes.shape({
         address: PropTypes.string,
@@ -72,10 +96,15 @@ class FavouriteBar extends React.Component {
         favouriteId: PropTypes.string,
       }),
     ).isRequired,
+    /** Function for clicking favourites. */
     onClickFavourite: PropTypes.func,
+    /** Function for selecter "Add place from suggetions" */
     onAddPlace: PropTypes.func,
+    /** Function for "Add home" button. */
     onAddHome: PropTypes.func,
+    /** Function for "Add work" button. */
     onAddWork: PropTypes.func,
+    /** Language, fi, en or sv. */
     lang: PropTypes.string,
   };
 
