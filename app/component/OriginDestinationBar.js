@@ -16,10 +16,14 @@ import {
 } from '../util/queryUtils';
 import { dtLocationShape } from '../util/shapes';
 
-const DTAutosuggestPanel = loadable(
-  () =>
-    import('@digitransit-component/digitransit-component-autosuggest-panel'),
-  { ssr: true },
+const DTAutosuggestPanel = getRelayEnvironment(
+  withSearchContext(
+    loadable(
+      () =>
+        import('@digitransit-component/digitransit-component-autosuggest-panel'),
+      { ssr: true },
+    ),
+  ),
 );
 
 const locationToOtp = location =>
@@ -27,7 +31,6 @@ const locationToOtp = location =>
     location.locationSlack ? `::${location.locationSlack}` : ''
   }`;
 
-let AutosuggestPanelWithSearchContext;
 class OriginDestinationBar extends React.Component {
   static propTypes = {
     className: PropTypes.string,
@@ -47,13 +50,6 @@ class OriginDestinationBar extends React.Component {
     className: undefined,
     location: undefined,
   };
-
-  constructor(props) {
-    super(props);
-    AutosuggestPanelWithSearchContext = getRelayEnvironment(
-      withSearchContext(DTAutosuggestPanel),
-    );
-  }
 
   get location() {
     return this.props.location || this.context.match.location;
@@ -93,7 +89,7 @@ class OriginDestinationBar extends React.Component {
           'flex-horizontal',
         )}
       >
-        <AutosuggestPanelWithSearchContext
+        <DTAutosuggestPanel
           origin={this.props.origin}
           destination={this.props.destination}
           originPlaceHolder="search-origin-index"

@@ -37,18 +37,24 @@ import FavouritesContainer from './FavouritesContainer';
 
 const debug = d('IndexPage.js');
 
-const DTAutoSuggest = loadable(
-  () => import('@digitransit-component/digitransit-component-autosuggest'),
-  { ssr: true },
+const DTAutoSuggest = getRelayEnvironment(
+  withSearchContext(
+    loadable(
+      () => import('@digitransit-component/digitransit-component-autosuggest'),
+      { ssr: true },
+    ),
+  ),
 );
-const DTAutosuggestPanel = loadable(
-  () =>
-    import('@digitransit-component/digitransit-component-autosuggest-panel'),
-  { ssr: true },
+const DTAutosuggestPanel = getRelayEnvironment(
+  withSearchContext(
+    loadable(
+      () =>
+        import('@digitransit-component/digitransit-component-autosuggest-panel'),
+      { ssr: true },
+    ),
+  ),
 );
 
-let AutosuggestPanelWithSearchContext;
-let AutosuggestWithSearchContext;
 class IndexPage extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
@@ -91,13 +97,6 @@ class IndexPage extends React.Component {
     if (this.props.autoSetOrigin) {
       context.executeAction(storeOrigin, props.origin);
     }
-
-    AutosuggestPanelWithSearchContext = getRelayEnvironment(
-      withSearchContext(DTAutosuggestPanel),
-    );
-    AutosuggestWithSearchContext = getRelayEnvironment(
-      withSearchContext(DTAutoSuggest),
-    );
     this.state = {
       // eslint-disable-next-line react/no-unused-state
       pendingCurrentLocation: false,
@@ -174,7 +173,7 @@ class IndexPage extends React.Component {
           origin={origin}
           position="left"
         >
-          <AutosuggestPanelWithSearchContext
+          <DTAutosuggestPanel
             searchPanelText={intl.formatMessage({
               id: 'where',
               defaultMessage: 'Where to?',
@@ -204,7 +203,7 @@ class IndexPage extends React.Component {
               })}
             </span>
           </div>
-          <AutosuggestWithSearchContext
+          <DTAutoSuggest
             icon="search"
             id="stop-route-station"
             autoFocus={false}
@@ -228,7 +227,7 @@ class IndexPage extends React.Component {
       >
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
         <CtrlPanel instance="hsl" language={lang} position="bottom">
-          <AutosuggestPanelWithSearchContext
+          <DTAutosuggestPanel
             searchPanelText={intl.formatMessage({
               id: 'where',
               defaultMessage: 'Where to?',
@@ -259,7 +258,7 @@ class IndexPage extends React.Component {
               })}
             </span>
           </div>
-          <AutosuggestWithSearchContext
+          <DTAutoSuggest
             icon="search"
             id="stop-route-station"
             autoFocus={false}
