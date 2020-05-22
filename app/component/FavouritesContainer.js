@@ -124,32 +124,33 @@ class FavouritesContainer extends React.Component {
           onAddWork={this.addWork}
           lang={this.props.lang}
         />
-        <FavouriteModal
-          show={this.state.modalOpen}
-          handleClose={() =>
-            this.setState({
-              modalOpen: false,
-              prefilledFavourite: {},
-              selectedLocation: {},
-            })
-          }
-          addFavourite={this.props.onAddFavourite}
-          location={this.state.selectedLocation}
-          prefilledFavourite={this.state.prefilledFavourite}
-          lang={this.props.lang}
-          autosuggestComponent={
-            <AutoSuggestWithSearchContext
-              sources={['History', 'Datasource']}
-              targets={['Locations', 'CurrentPosition', 'Stops']}
-              id="favourite"
-              autoFocus={false}
-              placeholder="search-address-or-place"
-              value={this.state.selectedLocation.address || ''}
-              onFavouriteSelected={this.setLocationProperties}
-              lang={this.props.lang}
-            />
-          }
-        />
+        {this.state.modalOpen && (
+          <FavouriteModal
+            handleClose={() =>
+              this.setState({
+                modalOpen: false,
+                prefilledFavourite: {},
+                selectedLocation: {},
+              })
+            }
+            addFavourite={this.props.onAddFavourite}
+            location={this.state.selectedLocation}
+            prefilledFavourite={this.state.prefilledFavourite}
+            lang={this.props.lang}
+            autosuggestComponent={
+              <AutoSuggestWithSearchContext
+                sources={['History', 'Datasource']}
+                targets={['Locations', 'CurrentPosition', 'Stops']}
+                id="favourite"
+                autoFocus={false}
+                placeholder="search-address-or-place"
+                value={this.state.selectedLocation.address || ''}
+                onFavouriteSelected={this.setLocationProperties}
+                lang={this.props.lang}
+              />
+            }
+          />
+        )}
       </React.Fragment>
     );
   }
