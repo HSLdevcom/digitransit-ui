@@ -1,8 +1,8 @@
 .origin-destination-bar {
   background-color: $background-color-lighter;
-  width: 100%;
-  padding-left: $padding-medium;
-  padding-right: $padding-medium;
+  width: calc(100% - 2em);
+  max-width: 400px;
+  margin: 0 auto;
   padding-top: calc(#{$padding-large} - 15px);
   display: flex;
   justify-content: space-around;

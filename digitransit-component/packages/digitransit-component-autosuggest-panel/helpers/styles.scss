@@ -21,7 +21,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
 .destination-input-container {
   display: flex;
   flex: 1 0 100%;
-
+  margin-top: 9px;
   input[type='text'] {
     margin: 0;
   }
@@ -100,14 +100,17 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   align-items: center;
   display: flex;
   justify-content: center;
-  min-width: 3em;
-
+  min-width: 40px;
+  margin: auto;
+  cursor: pointer;
   & + .itinerary-search-control {
     border-left: 1px solid rgba(151, 151, 151, 0.2);
   }
-
-  .switch {
-    cursor: pointer;
+  .opposite {
+    height: 17px;
+  }
+  .add-via-point {
+    height: 22px;
   }
 }
 

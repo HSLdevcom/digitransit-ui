@@ -41,7 +41,7 @@ const ItinerarySearchControl = ({
     <div className={styles['itinerary-search-control']}>
       <div
         {...rest}
-        className={`${styles[className]}`}
+        className={className}
         onClick={onClick}
         onKeyPress={onKeyPress}
         role="button"
@@ -444,7 +444,7 @@ class DTAutosuggestPanel extends React.Component {
             targets={this.props.targets}
           />
           <ItinerarySearchControl
-            className="switch"
+            className={styles.opposite}
             enabled={isItinerary}
             onClick={() => this.handleSwapOrderClick()}
             onKeyPress={e =>
@@ -452,7 +452,7 @@ class DTAutosuggestPanel extends React.Component {
             }
             aria-label={i18next.t('swap-order-button-label')}
           >
-            <Icon img="direction-b" width={1.8} height={1.8} rotate={90} />
+            <Icon img="opposite" width={1.0625} height={1.1875} />
           </ItinerarySearchControl>
         </div>
         {viaPoints.length === 0 && (
@@ -605,7 +605,7 @@ class DTAutosuggestPanel extends React.Component {
             }
             aria-label={i18next.t('add-via-button-label')}
           >
-            <Icon img="plus" width={1.1} height={1.1} />
+            <Icon img="viapoint" width={1.25} height={1.375} />
           </ItinerarySearchControl>
         </div>
       </div>
