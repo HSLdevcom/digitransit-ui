@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-datetimepicker",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "digitransit-component datetimepicker module",
   "main": "index.generated",
   "publishConfig": {
@@ -23,7 +23,7 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "dependencies": {
-    "@digitransit-component/digitransit-component-icon": "0.0.1"
+    "@digitransit-component/digitransit-component-icon": "~0.0.2"
   },
   "peerDependencies": {
     "i18next": "^19.3.3",
