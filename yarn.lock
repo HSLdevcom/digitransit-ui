@@ -1316,17 +1316,6 @@
     "@digitransit-component/digitransit-component-icon" "0.0.1"
     "@digitransit-component/digitransit-component-with-breakpoint" "^0.0.3"
 
-"@digitransit-component/digitransit-component-autosuggest@0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-autosuggest/-/digitransit-component-autosuggest-0.0.7.tgz#43b451991a9c5de8d09d17d9cd1f3a4b2220d8b1"
-  integrity sha512-WvLbIpMC9a1eN4lXD4Fj3298/HE7Qi+RstbwIFvELl6kH13I3wwjfklx9fL+GVquFbUbuCsMYjkh69lR/HYDUw==
-  dependencies:
-    "@digitransit-component/digitransit-component-suggestion-item" "^0.0.4"
-    "@digitransit-search-util/digitransit-search-util-execute-search-immidiate" "^0.0.3"
-    "@digitransit-search-util/digitransit-search-util-get-label" "^0.0.1"
-    "@digitransit-search-util/digitransit-search-util-suggestion-to-location" "^0.0.1"
-    "@digitransit-search-util/digitransit-search-util-uniq-by-label" "^0.0.1"
-
 "@digitransit-component/digitransit-component-autosuggest@^0.0.8":
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-autosuggest/-/digitransit-component-autosuggest-0.0.8.tgz#0f6e8612912155e69d578e1dac0f36cf4121d15c"
@@ -1339,10 +1328,17 @@
     "@digitransit-search-util/digitransit-search-util-suggestion-to-location" "^0.0.1"
     "@digitransit-search-util/digitransit-search-util-uniq-by-label" "^0.0.1"
 
-"@digitransit-component/digitransit-component-suggestion-item@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-suggestion-item/-/digitransit-component-suggestion-item-0.0.4.tgz#b528b07431780382ef1fe232eb624da648669214"
-  integrity sha512-oq7scgcCwealxqixRGlu1CSipIVSOkV48Hx5Vh7M2tLLq0pHbXPjI+c6OdgBPb7m14grmRuOJ82KlTORvk80Ww==
+"@digitransit-component/digitransit-component-control-panel@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-control-panel/-/digitransit-component-control-panel-0.0.7.tgz#5e4685f976f86df9555b86588fd470bfb1f032bf"
+  integrity sha512-ro7BhY81PwGlsJdjMaWR5eE09sI0UL0Hj1eo7ncp0Jp06gQN34gFcG+mGCFrMscQKcUcckPnmW9jyzoQewA2gA==
+
+"@digitransit-component/digitransit-component-suggestion-item@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-suggestion-item/-/digitransit-component-suggestion-item-0.0.5.tgz#31bd427ab2b7489ebc98472e93bd9402facddb4d"
+  integrity sha512-0mFRnDKANASxsHCW1BkbIbn5BIxR2OPo6uykIyxXw+kgyTBTCRF81yAQfs7OaaXKhSzkb6vSC6cZWyKtcSNRzw==
+  dependencies:
+    "@digitransit-component/digitransit-component-icon" "0.0.1"
 
 "@digitransit-search-util/digitransit-search-util-execute-search-immidiate@^0.0.3":
   version "0.0.3"
