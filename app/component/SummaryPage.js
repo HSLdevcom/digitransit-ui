@@ -502,16 +502,19 @@ class SummaryPage extends React.Component {
     }
 
     // Call props.map directly in order to render to same map instance
-    const map = this.props.map
-      ? this.props.map.type(
-          {
-            itinerary: itineraries && itineraries[match.params.hash],
-            center: this.state.center,
-            ...this.props,
-          },
-          this.context,
-        )
-      : this.renderMap();
+    let map;
+    if (this.props.breakpoint === 'large') {
+      map = this.props.map
+        ? this.props.map.type(
+            {
+              itinerary: itineraries && itineraries[match.params.hash],
+              center: this.state.center,
+              ...this.props,
+            },
+            this.context,
+          )
+        : this.renderMap();
+    }
 
     let earliestStartTime;
     let latestArrivalTime;
