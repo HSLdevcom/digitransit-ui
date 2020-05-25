@@ -1307,6 +1307,11 @@
   dependencies:
     find-up "^4.0.0"
 
+"@digitransit-component/digitransit-component-icon@0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-icon/-/digitransit-component-icon-0.0.1.tgz#52bb6b61d2598aa14c990335da7436343dca9538"
+  integrity sha512-Igwsf6GECkKVjfiIVjj/KNYhcQh+BIU+Xu09f07OFGnBIbPifgupidHN6BAF/CPUgpiH6EnDvaEiPFve1fRw7g==
+
 "@evocateur/libnpmaccess@^3.1.2":
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/@evocateur/libnpmaccess/-/libnpmaccess-3.1.2.tgz#ecf7f6ce6b004e9f942b098d92200be4a4b1c845"

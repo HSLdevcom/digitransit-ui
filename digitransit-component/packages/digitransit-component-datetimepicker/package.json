@@ -1,7 +1,7 @@
 {
-  "name": "@digitransit-component/digitransit-component-icon",
-  "version": "0.0.2",
-  "description": "digitransit-component icon module",
+  "name": "@digitransit-component/digitransit-component-datetimepicker",
+  "version": "0.0.1",
+  "description": "digitransit-component datetimepicker module",
   "main": "index.generated",
   "publishConfig": {
     "access": "public"
@@ -18,13 +18,21 @@
   },
   "keywords": [
     "digitransit-component",
-    "Icon"
+    "Datetimepicker"
   ],
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
+  "dependencies": {
+    "@digitransit-component/digitransit-component-icon": "~0.0.2"
+  },
   "peerDependencies": {
     "i18next": "^19.3.3",
+    "lodash": "4.17.14",
+    "lodash-es": "4.17.14",
+    "moment": "2.25.3",
+    "moment-timezone": "0.5.28",
     "prop-types": "^15.7.2",
-    "react": "^16.13.0"
+    "react": "^16.13.0",
+    "react-autosuggest": "10.0.0"
   }
 }

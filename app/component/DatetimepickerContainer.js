@@ -4,9 +4,14 @@ import moment from 'moment';
 import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import debounce from 'lodash/debounce';
+import loadable from '@loadable/component';
 import { replaceQueryParams } from '../util/queryUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import Datetimepicker from './Datetimepicker';
+
+const Datetimepicker = loadable(
+  () => import('@digitransit-component/digitransit-component-datetimepicker'),
+  { ssr: true },
+);
 
 function getInitialTimestamp(match, realtime) {
   const now = realtime ? null : moment().valueOf();
@@ -30,41 +35,44 @@ function DatetimepickerContainer({ realtime, embedWhenClosed }, context) {
   );
 
   // change url query param time
-  const setTimeParam = debounce(newTime => {
+  const setParams = debounce(params => {
     let time;
-    if (newTime) {
-      time = Math.round(newTime / 1000);
+    let arriveBy;
+    switch (params.timestamp) {
+      case undefined:
+        time = Math.round(timestamp / 1000);
+        break;
+      case null:
+        time = undefined;
+        break;
+      default:
+        time = Math.round(params.timestamp / 1000);
+        break;
     }
-    const oldTime = match.location.query.time;
-    // TODO does changed work?
-    const changed =
-      (!oldTime && newTime) ||
-      (oldTime && !moment(newTime).isSame(moment(oldTime * 1000), 'minute'));
-    if (!changed) {
-      return;
+
+    switch (params.departureOrArrival) {
+      case undefined:
+        arriveBy = departureOrArrival === 'arrival' ? true : undefined;
+        break;
+      case 'arrival':
+        arriveBy = true;
+        break;
+      case 'departure':
+        arriveBy = undefined;
+        break;
+      default:
+        break;
     }
+
     replaceQueryParams(router, match, {
       time,
-    });
-  }, 10);
-
-  // change url query param arriveBy
-  const setDepartureOrArrivalParam = debounce(newValue => {
-    let arriveBy;
-    if (newValue === 'arrival') {
-      arriveBy = true;
-    }
-    if (match.location.query.arriveBy === arriveBy) {
-      return;
-    }
-    replaceQueryParams(router, match, {
       arriveBy,
     });
   }, 10);
 
   const onTimestampChange = newTimestamp => {
     changeTimestampState(newTimestamp);
-    setTimeParam(newTimestamp);
+    setParams({ timestamp: newTimestamp });
   };
 
   const onTimeChange = debounce(newTime => {
@@ -95,46 +103,53 @@ function DatetimepickerContainer({ realtime, embedWhenClosed }, context) {
 
   const onNowClick = () => {
     changeDepartureOrArrival('departure');
-    setDepartureOrArrivalParam('departure');
-    if (realtime) {
-      onTimestampChange(null);
-    } else {
-      onTimestampChange(moment().valueOf());
-    }
+    const newTimestamp = realtime ? null : moment().valueOf();
+    changeTimestampState(newTimestamp);
+    setParams({ departureOrArrival: 'departure', timestamp: newTimestamp });
   };
 
   const onDepartureClick = () => {
+    const changes = {};
     if (timestamp === null) {
-      onTimestampChange(moment().valueOf());
+      const now = moment().valueOf();
+      changeTimestampState(now);
+      changes.timestamp = now;
     }
-    if (departureOrArrival === 'departure') {
-      return;
+    if (departureOrArrival !== 'departure') {
+      changeDepartureOrArrival('departure');
+      addAnalyticsEvent({
+        event: 'sendMatomoEvent',
+        category: 'ItinerarySettings',
+        action: 'LeavingArrivingSelection',
+        name: 'SelectLeaving',
+      });
+      changes.departureOrArrival = 'departure';
     }
-    changeDepartureOrArrival('departure');
-    setDepartureOrArrivalParam('departure');
-    addAnalyticsEvent({
-      event: 'sendMatomoEvent',
-      category: 'ItinerarySettings',
-      action: 'LeavingArrivingSelection',
-      name: 'SelectLeaving',
-    });
+    if (changes.timestamp || changes.departureOrArrival) {
+      setParams(changes);
+    }
   };
 
   const onArrivalClick = () => {
+    const changes = {};
     if (timestamp === null) {
-      onTimestampChange(moment().valueOf());
+      const now = moment().valueOf();
+      changeTimestampState(now);
+      changes.timestamp = now;
     }
-    if (departureOrArrival === 'arrival') {
-      return;
+    if (departureOrArrival !== 'arrival') {
+      changeDepartureOrArrival('arrival');
+      addAnalyticsEvent({
+        event: 'sendMatomoEvent',
+        category: 'ItinerarySettings',
+        action: 'LeavingArrivingSelection',
+        name: 'SelectArriving',
+      });
+      changes.departureOrArrival = 'arrival';
     }
-    changeDepartureOrArrival('arrival');
-    setDepartureOrArrivalParam('arrival');
-    addAnalyticsEvent({
-      event: 'sendMatomoEvent',
-      category: 'ItinerarySettings',
-      action: 'LeavingArrivingSelection',
-      name: 'SelectArriving',
-    });
+    if (changes.timestamp || changes.departureOrArrival) {
+      setParams(changes);
+    }
   };
 
   return (

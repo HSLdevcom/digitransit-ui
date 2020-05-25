@@ -1,10 +1,38 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import moment from 'moment';
-import { FormattedMessage } from 'react-intl';
 import Autosuggest from 'react-autosuggest';
-import ComponentUsageExample from './ComponentUsageExample';
+import styles from './styles.scss';
 
+/**
+ * Component to display a date or time input on desktop.
+ *
+ * @param {Object} props
+ * @param {Number} props.value    Currently selected time. Unix timestamp in milliseconds
+ * @param {function} props.onChange     This is called with new timestamp when input is changed
+ * @param {function} props.getDisplay   Function to get a string representation from a timestamp
+ * @param {Number} props.itemCount      Number of time values that is shown in dropdown
+ * @param {Number} itemDiff             Difference in milliseconds between time values in dropdown
+ * @param {Number} startTime            Timestamp for the first selectable dropdown value
+ * @param {function} validate           Function to validate input when user types something and hits enter. Parameter is input as stringstring, return number timestamp if input is valid or null if invalid.
+ * @param {string} id                   Id prefix for labels and aria attributes. Should be unique in page
+ * @param {string} label                Text to show as input label
+ * @param {node} icon                   JSX for icon to show in input
+ * @param {boolean} disableTyping       Set to true to disable typing in the input
+ *
+ * @example
+ * <DesktopDatetimepicker
+ *   value={1590133823000}
+ *   onChange={timestamp => update(timestamp)}
+ *   getDisplay={timestamp => formatTime(timestamp)}
+ *   itemCount={24 * 4}
+ *   itemDiff={1000 * 60 * 15} // 15 minute intervals
+ *   startTime{startOfToday}
+ *   validate=(input => validateTimeString(input))
+ *   id="timeinput"
+ *   icon="<Icon />"
+ *   disableTyping={false} // can be omitted if not true
+ */
 function DesktopDatetimepicker({
   value,
   onChange,
@@ -14,7 +42,7 @@ function DesktopDatetimepicker({
   startTime,
   validate,
   id,
-  labelMessageId,
+  label,
   icon,
   disableTyping,
 }) {
@@ -66,11 +94,13 @@ function DesktopDatetimepicker({
         }
         break;
       case 'inputenter':
-        validated = validate(newValue);
-        if (validated !== null) {
-          handleTimestamp(validated);
-        } else {
-          // TODO handle invalid input?
+        if (!disableTyping) {
+          validated = validate(newValue);
+          if (validated !== null) {
+            handleTimestamp(validated);
+          } else {
+            // TODO handle invalid input?
+          }
         }
         break;
       case 'enter':
@@ -90,10 +120,10 @@ function DesktopDatetimepicker({
   const labelId = `${id}-label`;
   return (
     <>
-      <label className="combobox-container" htmlFor={inputId}>
-        <span className="left-column">
-          <span className="combobox-label" id={labelId}>
-            <FormattedMessage id={labelMessageId} />
+      <label className={styles['combobox-container']} htmlFor={inputId}>
+        <span className={styles['left-column']}>
+          <span className={styles['combobox-label']} id={labelId}>
+            {label}
           </span>
           <Autosuggest
             id={id}
@@ -145,6 +175,7 @@ function DesktopDatetimepicker({
                 </div>
               );
             }}
+            theme={styles}
           />
         </span>
         {icon}
@@ -161,7 +192,7 @@ DesktopDatetimepicker.propTypes = {
   startTime: PropTypes.number.isRequired,
   validate: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
-  labelMessageId: PropTypes.string.isRequired,
+  label: PropTypes.node.isRequired,
   icon: PropTypes.node.isRequired,
   disableTyping: PropTypes.bool,
 };
@@ -169,7 +200,5 @@ DesktopDatetimepicker.propTypes = {
 DesktopDatetimepicker.defaultProps = {
   disableTyping: false,
 };
-
-DesktopDatetimepicker.description = <ComponentUsageExample />;
 
 export default DesktopDatetimepicker;
