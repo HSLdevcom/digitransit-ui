@@ -179,12 +179,14 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       font-size: 15px;
       line-height: 49px;
       height: 50px;
-      border-bottom: 1px solid #dddddd;
+      border-top: 1px solid #dddddd;
       padding: 0 0 0 12px;
       letter-spacing: -0.6px;
       color: #333333;
+      font-weight: $font-weight-medium;
     }
     .suggestionHighlighted {
+      font-size: 15px;
       font-weight: $font-weight-medium;
     }
 
@@ -199,7 +201,6 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       border: 1px rgba(0,0,0,0.1) solid;
       top: 35px;
       width: calc(100% + 43px); // 43px == width of icon next to input
-
       -ms-overflow-style: none;  /* Internet Explorer 10+ */
       scrollbar-width: none;  /* Firefox */
       &::-webkit-scrollbar {

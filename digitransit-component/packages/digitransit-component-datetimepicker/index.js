@@ -51,47 +51,53 @@ function Datetimepicker({
   embedWhenClosed,
 }) {
   const [isOpen, changeOpen] = useState(false);
-  const [displayTimestamp, changeDisplayTimestamp] = useState(timestamp);
+  const [displayTimestamp, changeDisplayTimestamp] = useState(
+    timestamp || moment().valueOf(),
+  );
   // timer for updating displayTimestamp in real time
   const [timerId, setTimer] = useState(null);
   // for input labels
   const [htmlId] = useState(uniqueId('datetimepicker-'));
 
   const nowSelected = timestamp === null;
-
-  // update displayTimestamp in real time if timestamp === null
   useEffect(
     () => {
-      if (!nowSelected) {
+      if (nowSelected) {
+        changeDisplayTimestamp(moment().valueOf());
+      } else {
         // clear timer
-        changeDisplayTimestamp(timestamp);
         if (timerId) {
           clearInterval(timerId);
           setTimer(null);
         }
-        return undefined;
+        changeDisplayTimestamp(timestamp);
       }
-      if (nowSelected) {
-        // set new timer
-        changeDisplayTimestamp(moment().valueOf());
-        if (timerId) {
-          clearInterval(timerId);
-        }
-        const newId = setInterval(() => {
-          const minuteChanged = !moment(displayTimestamp).isSame(
-            moment(),
-            'minute',
-          );
-          if (minuteChanged) {
-            changeDisplayTimestamp(moment().valueOf());
-          }
-        }, 5000);
-        setTimer(newId);
-        return () => clearInterval(newId);
-      }
-      return undefined;
     },
     [timestamp],
+  );
+
+  // set timer to update displayTimestamp when minute changes if nowSelected
+  useEffect(
+    () => {
+      if (!nowSelected) {
+        return undefined;
+      }
+      if (timerId) {
+        clearInterval(timerId);
+      }
+      const newId = setInterval(() => {
+        const now = moment().valueOf();
+        const sameMinute = moment(displayTimestamp).isSame(now, 'minute');
+        if (!sameMinute) {
+          clearInterval(newId);
+          setTimer(null);
+          changeDisplayTimestamp(now);
+        }
+      }, 5000);
+      setTimer(newId);
+      return () => clearInterval(newId);
+    },
+    [displayTimestamp],
   );
 
   // param date is timestamp
@@ -200,6 +206,8 @@ function Datetimepicker({
             <span className={styles['time-icon']}>
               <Icon img="time" />
             </span>
+            <span />
+            {/* This empty span prevents a weird focus bug on chrome */}
             <label
               htmlFor={`${htmlId}-now`}
               className={`${styles['radio-textbutton-label']} ${
@@ -217,10 +225,9 @@ function Datetimepicker({
                 id={`${htmlId}-now`}
                 name="departureOrArrival"
                 type="radio"
+                value="now"
                 className={styles['radio-textbutton']}
-                onChange={() => {
-                  onNowClick();
-                }}
+                onChange={() => onNowClick()}
                 checked={nowSelected && departureOrArrival === 'departure'}
               />
             </label>
@@ -240,6 +247,7 @@ function Datetimepicker({
                 id={`${htmlId}-departure`}
                 name="departureOrArrival"
                 type="radio"
+                value="departure"
                 className={styles['radio-textbutton']}
                 onChange={() => {
                   onDepartureClick();
@@ -261,6 +269,7 @@ function Datetimepicker({
                 id={`${htmlId}-arrival`}
                 name="departureOrArrival"
                 type="radio"
+                value="arrival"
                 className={styles['radio-textbutton']}
                 onChange={() => {
                   onArrivalClick();
