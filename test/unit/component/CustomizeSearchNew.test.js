@@ -83,7 +83,7 @@ describe('<CustomizeSearch />', () => {
     const routesContainer = component.find(
       '.avoid-routes-container .preferred-routes-list',
     );
-    expect(routesContainer.find('.route-name')).to.have.lengthOf(1);
+    expect(routesContainer.find('.route-name')).to.have.lengthOf(0);
   });
 
   it('should show citybike network selector when many networks are available', () => {

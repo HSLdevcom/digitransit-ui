@@ -107,7 +107,8 @@ class PreferredRoutes extends React.Component {
     return (
       <div className="settings-option-container">
         {this.renderPreferredRouteNumbers()}
-        {this.renderAvoidingRoutes()}
+        {/* Do not show "avoid routes" functionality.
+        this.renderAvoidingRoutes() */}
       </div>
     );
   }
