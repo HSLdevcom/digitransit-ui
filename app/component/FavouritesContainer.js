@@ -40,15 +40,6 @@ class FavouritesContainer extends React.Component {
 
   static propTypes = {
     favourites: PropTypes.arrayOf(favouriteShape),
-    selectedLocation: PropTypes.shape({
-      address: PropTypes.string,
-      gtfsId: PropTypes.string,
-      id: PropTypes.string,
-      lat: PropTypes.number,
-      lon: PropTypes.number,
-      layer: PropTypes.string,
-      defaultName: PropTypes.string,
-    }),
     onAddFavourite: PropTypes.func,
     onClickFavourite: PropTypes.func,
     lang: PropTypes.string,
@@ -56,16 +47,6 @@ class FavouritesContainer extends React.Component {
 
   static defaultProps = {
     favourites: [],
-    selectedLocation: {
-      id: undefined,
-      address: undefined,
-      type: undefined,
-      gtfsId: undefined,
-      code: undefined,
-      layer: undefined,
-      lat: undefined,
-      lon: undefined,
-    },
   };
 
   constructor(props) {
@@ -142,7 +123,6 @@ class FavouritesContainer extends React.Component {
                 sources={['History', 'Datasource']}
                 targets={['Locations', 'CurrentPosition', 'Stops']}
                 id="favourite"
-                autoFocus={false}
                 placeholder="search-address-or-place"
                 value={this.state.selectedLocation.address || ''}
                 onFavouriteSelected={this.setLocationProperties}
