@@ -182,12 +182,12 @@ testVariation('SummaryRow', 'small', 2);
 
 testVariation('CallAgencyWarning');
 
-testVariation('CurrentPositionSuggestionItem', 'with-position').then(
-  skip('ie11'),
-);
-testVariation('CurrentPositionSuggestionItem', 'no-position', 2).then(
-  skip('ie11'),
-);
+// testVariation('CurrentPositionSuggestionItem', 'with-position').then(
+//   skip('ie11'),
+// );
+// testVariation('CurrentPositionSuggestionItem', 'no-position', 2).then(
+//   skip('ie11'),
+// );
 
 // testVariation('SuggestionItem', 'Favourite');
 // testVariation('SuggestionItem', 'Address', 2);
