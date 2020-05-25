@@ -292,6 +292,7 @@ export default config => {
           ),
           map: (
             <Route
+              disableMapOnMobile
               getComponent={() =>
                 import(/* webpackChunkName: "itinerary" */ './component/map/IndexPageMap.js').then(
                   getDefault,
