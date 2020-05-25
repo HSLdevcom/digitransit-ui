@@ -17,8 +17,8 @@ const smallMaxAgeConf = {
 };
 
 const query = {
-  from_in: 'lapinlahdenkatu 1',
-  to_in: 'koivikkotie 10',
+  from_in: 'lapinlahdenkatu 1a',
+  to_in: 'koivikkotie 10 helsinki',
   timetype: 'arrival',
   hour: '13',
   minute: '51',
@@ -171,8 +171,8 @@ describe('oldParamParser', () => {
 
   it('query with no time but with utm should return a valid redirect url ', async () => {
     const noTimeQuery = {
-      from_in: 'lapinlahdenkatu 1',
-      to_in: 'koivikkotie 10',
+      from_in: 'lapinlahdenkatu 1a',
+      to_in: 'koivikkotie 10 helsinki',
       utm_campaign: 'hsl.fi',
       utm_source: 'etusivu-reittihaku',
       utm_medium: 'referral',
