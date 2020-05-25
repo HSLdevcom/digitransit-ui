@@ -115,7 +115,15 @@ const PointFeatureMarker = ({ feature, icons, language }) => {
 
   const { icon } = properties;
   const header = getPropertyValueOrDefault(properties, 'name', language);
-  const address = getPropertyValueOrDefault(properties, 'address', language);
+  let address = getPropertyValueOrDefault(properties, 'address', language);
+
+  if (properties.name === 'Fahrradreparaturstation') {
+    address =
+      language === 'de'
+        ? 'Derzeit nicht in Betrieb – voraussichtlich Anfang / Mitte Juni mit verbessertem Angebot wieder verfügbar – ggf. mit leicht geändertem Standort.'
+        : 'Currently out of order. The service will resume in June, possibly at a slightly different location.';
+  }
+
   const city = getPropertyValueOrDefault(properties, 'city', language);
   const description = city ? `${address}, ${city}` : address;
   const useDescriptionAsHeader = !header;
