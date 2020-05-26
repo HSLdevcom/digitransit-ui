@@ -5,15 +5,15 @@ import debounce from 'lodash/debounce';
 import Datetimepicker from './helpers/Datetimepicker';
 
 /**
- * This is the container component that renders Datetimepicker. Values for timestamp and arriveBy correspond to Digitransit query params time and arriveBy.
+ * This is the container component that renders Datetimepicker. Renders separate input fields for date and time selection. Values for timestamp and arriveBy correspond to Digitransit query params time and arriveBy.
  *
  * @param {Object} props
  *
  * @param {boolean} props.realtime                  Determine if selected time should be updated in realtime when 'now' is selected.
  * @param {Number} props.initialTimestamp           Initial value for selected time. Unix timestamp in seconds. Updating this will change timepicker value but the correct value is kept in component state even if this is not updated.
- * @param {boolean} props.initialArriveBy           Initial value for arriveBy. Determines if picker is in arrival mode (true) or departure mode (false)
- * @param {function} props.onTimeChange             Called with (time, arriveBy) when time input changes. time is number timestamp in seconds, arriveBy is 'true' or undefined
- * @param {function} props.onDateChange             Called with (time, arriveBy) when date input changes. time is number timestamp in seconds, arriveBy is 'true' or undefined
+ * @param {boolean} props.initialArriveBy           Initial value for arriveBy. Determines if picker is in arrival mode (true) or departure mode (false). Correct value is kept in component state even if this is not updated. Changing this will also trigger change in the component.
+ * @param {function} props.onTimeChange             Called with (time, arriveBy) when time input changes. time is number timestamp in seconds, arriveBy is boolean
+ * @param {function} props.onDateChange             Called with (time, arriveBy) when date input changes. time is number timestamp in seconds, arriveBy is boolean
  * @param {function} props.onNowClick               Called when "depart now" button is clicked
  * @param {function} props.onDepartureClick         Called with (time) when "departure" button is clicked. time is current input value in seconds
  * @param {function} props.onArrivalClick           Called with (time) when "arrival" button is clicked. time is current input value in seconds
@@ -25,7 +25,7 @@ import Datetimepicker from './helpers/Datetimepicker';
  * <DatetimepickerStateContainer
  *   realtime={true}
  *   initialTimestamp={1590133823}
- *   initialArriveBy={'true'}
+ *   initialArriveBy={false}
  *   onTimeChange={(time, arriveBy) => changeUrl(time, arriveBy)}
  *   onDateChange={(time, arriveBy) => changeUrl(time, arriveBy)}
  *   onNowClick={() => changeUrl(undefined, undefined)}
