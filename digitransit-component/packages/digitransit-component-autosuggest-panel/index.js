@@ -482,38 +482,51 @@ class DTAutosuggestPanel extends React.Component {
               onDrop={e => this.handleOnViaPointDrop(e, i)}
               ref={el => this.setDraggableViaPointRef(el, i)}
             >
-              <div
-                className={styles[`viapoint-input-container viapoint-${i + 1}`]}
-              >
-                <div
-                  className={styles['viapoint-before']}
-                  draggable
-                  onDragEnd={this.handleOnViaPointDragEnd}
-                  onDragStart={e => this.handleStartViaPointDragging(e, i)}
-                  style={{ cursor: 'move' }}
-                >
-                  <Icon img="ellipsis" width={1.3} height={1.3} />
-                </div>
-                <DTAutoSuggest
-                  icon="mapMarker-via"
-                  id="viapoint"
-                  ariaLabel={i18next.t('via-point-index', { index: i + 1 })}
-                  autoFocus={
-                    disableAutoFocus === true ? false : breakpoint === 'large'
-                  }
-                  placeholder="via-point"
-                  className="viapoint"
-                  searchContext={searchContext}
-                  value={(o && o.address) || ''}
-                  onSelect={this.props.onSelect}
-                  handleViaPoints={item =>
-                    this.handleViaPointLocationSelected(item, i)
-                  }
-                  lang={this.props.lang}
-                  sources={this.props.sources}
-                  targets={this.props.targets}
-                />
-                <div className={styles['via-point-button-container']}>
+              <div className={styles['light-gray-background']}>
+                <div className={styles.row}>
+                  <div
+                    className={styles['viapoint-before']}
+                    draggable
+                    onDragEnd={this.handleOnViaPointDragEnd}
+                    onDragStart={e => this.handleStartViaPointDragging(e, i)}
+                    style={{ cursor: 'move' }}
+                  >
+                    <Icon
+                      img="ellipsis"
+                      color="#cccccc"
+                      rotate={90}
+                      height={1.25}
+                    />
+                  </div>
+                  <div
+                    className={cx(
+                      `${styles['viapoint-input-container']} ${
+                        styles[`viapoint-${i + 1}`]
+                      }`,
+                    )}
+                  >
+                    <DTAutoSuggest
+                      icon="mapMarker-via"
+                      id="viapoint"
+                      ariaLabel={i18next.t('via-point-index', { index: i + 1 })}
+                      autoFocus={
+                        disableAutoFocus === true
+                          ? false
+                          : breakpoint === 'large'
+                      }
+                      placeholder="via-point"
+                      className="viapoint"
+                      searchContext={searchContext}
+                      value={(o && o.address) || ''}
+                      onSelect={this.props.onSelect}
+                      handleViaPoints={item =>
+                        this.handleViaPointLocationSelected(item, i)
+                      }
+                      lang={this.props.lang}
+                      sources={this.props.sources}
+                      targets={this.props.targets}
+                    />
+                  </div>
                   <ItinerarySearchControl
                     className={styles['add-via-point-slack']}
                     enabled={showMultiPointControls}
@@ -529,62 +542,57 @@ class DTAutosuggestPanel extends React.Component {
                       { index: i + 1 },
                     )}
                   >
-                    <Icon img="time" width={0.8} height={0.8} />
-                    <Icon
-                      img="attention"
-                      width={0.8}
-                      height={0.8}
-                      color="#f092cd"
-                      className={cx(styles['super-icon'], {
-                        collapsed:
-                          isViaPointSlackTimeInputActive(i) ||
-                          getViaPointSlackTimeOrDefault(viaPoints[i]) ===
-                            defaultSlackTimeValue,
+                    <Icon img="time" width={1.125} height={1.1875} />
+                  </ItinerarySearchControl>
+                </div>
+                <div
+                  className={cx(styles['input-viapoint-slack-container'], {
+                    collapsed: !isViaPointSlackTimeInputActive(i),
+                  })}
+                >
+                  <span>{i18next.t('viapoint-slack-amount')}</span>
+                  <div className={styles['select-wrapper']}>
+                    <Select
+                      name="viapoint-slack-amount"
+                      selected={`${getViaPointSlackTimeOrDefault(
+                        viaPoints[i],
+                      )}`}
+                      options={slackTime}
+                      onSelectChange={e =>
+                        this.handleViaPointSlackTimeSelected(e.target.value, i)
+                      }
+                      ariaLabel={i18next.t('add-via-duration-button-label', {
+                        index: i + 1,
                       })}
                     />
-                  </ItinerarySearchControl>
-                  <ItinerarySearchControl
-                    className={styles['remove-via-point']}
-                    enabled={showMultiPointControls}
-                    onClick={() => this.handleRemoveViaPointClick(i)}
-                    onKeyPress={e =>
-                      this.isKeyboardSelectionEvent(e) &&
-                      this.handleRemoveViaPointClick(i)
-                    }
-                    aria-label={i18next.t('remove-via-button-label', {
-                      index: i + 1,
-                    })}
-                  >
-                    <Icon img="close" width={1.1} height={1.1} />
-                  </ItinerarySearchControl>
+                    <Icon
+                      width={0.7}
+                      height={0.7}
+                      color="#007ac9"
+                      img="arrow-dropdown"
+                    />
+                  </div>
                 </div>
               </div>
-              <div
-                className={cx(styles['input-viapoint-slack-container'], {
-                  collapsed: !isViaPointSlackTimeInputActive(i),
+              <ItinerarySearchControl
+                className={styles['remove-via-point']}
+                enabled={showMultiPointControls}
+                onClick={() => this.handleRemoveViaPointClick(i)}
+                onKeyPress={e =>
+                  this.isKeyboardSelectionEvent(e) &&
+                  this.handleRemoveViaPointClick(i)
+                }
+                aria-label={i18next.t('remove-via-button-label', {
+                  index: i + 1,
                 })}
               >
-                <span>{i18next.t('viapoint-slack-amount')}</span>
-                <div className={styles['select-wrapper']}>
-                  <Select
-                    name="viapoint-slack-amount"
-                    selected={`${getViaPointSlackTimeOrDefault(viaPoints[i])}`}
-                    options={slackTime}
-                    onSelectChange={e =>
-                      this.handleViaPointSlackTimeSelected(e.target.value, i)
-                    }
-                    ariaLabel={i18next.t('add-via-duration-button-label', {
-                      index: i + 1,
-                    })}
-                  />
-                  <Icon
-                    width={0.7}
-                    height={0.7}
-                    color="#007ac9"
-                    img="arrow-dropdown"
-                  />
-                </div>
-              </div>
+                <Icon
+                  img="close"
+                  color="#007ac9"
+                  width={0.875}
+                  height={0.875}
+                />
+              </ItinerarySearchControl>
             </div>
           ))}
         </div>

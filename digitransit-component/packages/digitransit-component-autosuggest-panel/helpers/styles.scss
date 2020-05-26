@@ -27,6 +27,66 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   }
 }
 
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.viapoints-container {
+  display: flex;
+  flex-direction: column;
+
+  .viapoint-container {
+    display: flex;
+    margin-top: 6px;
+    min-height: 50px;
+
+    .light-gray-background {
+      display: flex;
+      padding: 3px 0;
+      flex-direction: column;
+      background: #f4f4f5;
+      border-radius: 5px;
+      width: 100%;
+
+      .viapoint-before {
+        display: flex;
+        min-width: 27px;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .viapoint-input-container {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        input[type='text'] {
+          margin: 0;
+        }
+        &.viapoint-1 > div.viapoint {
+          z-index: index($zindex, viapoint-input-1);
+        }
+
+        &.viapoint-2 > div.viapoint {
+          z-index: index($zindex, viapoint-input-2);
+        }
+
+        &.viapoint-3 > div.viapoint {
+          z-index: index($zindex, viapoint-input-3);
+        }
+
+        &.viapoint-4 > div.viapoint {
+          z-index: index($zindex, viapoint-input-4);
+        }
+
+        &.viapoint-5 > div.viapoint {
+          z-index: index($zindex, viapoint-input-5);
+        }
+      }
+    }
+  }
+}
+
 .via-point-button-container {
   display: flex;
 
@@ -40,77 +100,62 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   }
 }
 
-.viapoint-input-container {
-  display: flex;
-  flex: 1 0 100%;
-
-  input[type='text'] {
-    margin: 0;
-  }
-  &.viapoint-1 > div.viapoint {
-    z-index: index($zindex, viapoint-input-1);
-  }
-
-  &.viapoint-2 > div.viapoint {
-    z-index: index($zindex, viapoint-input-2);
-  }
-
-  &.viapoint-3 > div.viapoint {
-    z-index: index($zindex, viapoint-input-3);
-  }
-
-  &.viapoint-4 > div.viapoint {
-    z-index: index($zindex, viapoint-input-4);
-  }
-
-  &.viapoint-5 > div.viapoint {
-    z-index: index($zindex, viapoint-input-5);
-  }
-}
-
 .input-viapoint-slack-container {
-  align-items: center;
   display: flex;
-  flex: 1;
-  justify-content: flex-end;
-  margin: 0 6em 0.5em 0;
-
-  span {
-    font-weight: 400;
-  }
-  .select-wrapper {
-    display: flex;
-    flex-direction: row;
-    // color: $link-color;
-    margin-left: 0.5em;
-    flex: 0 1 6em;
-    > span {
-      margin-left: -1.4rem;
-      pointer-events: none;
-    }
-    .fake-select-arrow {
-      font-size: 0.7rem;
-      // color: $primary-color;
-      margin-top: 1em;
-    }
-  }
+  flex-direction: column;
 }
+// .input-viapoint-slack-container {
+//   align-items: center;
+//   display: flex;
+//   flex: 1;
+//   justify-content: flex-end;
+//   margin: 0 6em 0.5em 0;
+
+//   span {
+//     font-weight: 400;
+//   }
+//   .select-wrapper {
+//     display: flex;
+//     flex-direction: row;
+//     // color: $link-color;
+//     margin-left: 0.5em;
+//     flex: 0 1 6em;
+//     > span {
+//       margin-left: -1.4rem;
+//       pointer-events: none;
+//     }
+//     .fake-select-arrow {
+//       font-size: 0.7rem;
+//       // color: $primary-color;
+//       margin-top: 1em;
+//     }
+//   }
+// }
 
 .itinerary-search-control {
-  align-items: center;
   display: flex;
+  align-items: center;
   justify-content: center;
-  min-width: 40px;
-  margin: auto;
+  text-align: center;
+  max-height: 50px;
   cursor: pointer;
   & + .itinerary-search-control {
     border-left: 1px solid rgba(151, 151, 151, 0.2);
   }
   .opposite {
     height: 17px;
+    min-width: 40px;
   }
   .add-via-point {
     height: 22px;
+    min-width: 40px;
+  }
+  .add-via-point-slack {
+    height: 19px;
+    min-width: 47px;
+  }
+  .remove-via-point {
+    min-width: 40px;
   }
 }
 
