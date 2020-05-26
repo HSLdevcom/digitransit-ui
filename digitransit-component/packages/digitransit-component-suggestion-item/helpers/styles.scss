@@ -14,6 +14,11 @@
     font-weight: 500;
     letter-spacing: -0.43px;
     color: #333333;
+
+    &.favouriteCustom {
+      color: #007ac9;
+      font-size: 15px;
+    }
   }
 
   .suggestion-label {

@@ -23,7 +23,6 @@ import CityBikeContent from './CityBikeContent';
 import CityBikeAvailability from './CityBikeAvailability';
 import CityBikeUse from './CityBikeUse';
 import CityBikePopupContainer from './map/popups/CityBikePopupContainer';
-import TimeSelectors from './TimeSelectors';
 import TimeNavigationButtons from './TimeNavigationButtons';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
 import TripRouteStop from './TripRouteStop';
@@ -51,8 +50,6 @@ import SplitBars from './SplitBars';
 import InfoIcon from './InfoIcon';
 import Favourite from './Favourite';
 import DepartureListHeader from './DepartureListHeader';
-import CurrentPositionSuggestionItem from './CurrentPositionSuggestionItem';
-import SuggestionItem from './SuggestionItem';
 import SelectedStopPopupContent from './SelectedStopPopupContent';
 import { Component as LangSelect } from './LangSelect';
 import ExternalLink from './ExternalLink';
@@ -112,7 +109,6 @@ const components = {
   CityBikePopupContainer,
   Availability,
   ParkAndRideAvailability,
-  TimeSelectors,
   TimeNavigationButtons,
   RightOffcanvasToggle,
   TripRouteStop,
@@ -139,8 +135,6 @@ const components = {
   InfoIcon,
   Favourite,
   DepartureListHeader,
-  CurrentPositionSuggestionItem,
-  SuggestionItem,
   SelectedStopPopupContent,
   SummaryRow,
   ExternalLink,

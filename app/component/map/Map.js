@@ -158,7 +158,7 @@ export default class Map extends React.Component {
           {config.map.showOSMCopyright && (
             <AttributionControl
               position="bottomright"
-              prefix="&copy; <a tabindex=&quot;-1&quot; href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a>"
+              prefix="<a tabindex=&quot;-1&quot; href=&quot;http://osm.org/copyright&quot;>&copy; OpenStreetMap</a>"
             />
           )}
           {this.props.showScaleBar &&

@@ -1,0 +1,237 @@
+$primary-color: #007ac9;
+$font-weight-medium: 500;
+@mixin default-focus-outline {
+  /* First apply outline that is used in Edge and Firefox */
+  outline: 1px dotted #212121;
+  /* Then override outline for webkit browsers like Chrome, this has no effect on other browsers */
+  outline: 5px auto -webkit-focus-ring-color; /* stylelint-disable-line declaration-block-no-duplicate-properties */
+}
+
+$zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
+  map-buttons, context-panel, search-panel, search-overlay, preferred-input, destination-input,
+  viapoint-input-5, viapoint-input-4, viapoint-input-3, viapoint-input-2,
+  viapoint-input-1, origin-input, search-input-focus, search-input-icon, autosuggest-suggestion-container, front;
+
+.sr-only:not(:focus):not(:active) {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+.dt-datetimepicker {
+  border: none;
+  max-width: 400px;
+  padding: 0;
+  margin-left: 0;
+  margin-right: 0;
+
+  .top-row-container {
+    margin-left: 19px;
+    display: flex;
+
+    .time-icon {
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+    .dropdown-icon {
+      margin-left: 11px;
+      svg {
+        fill: $primary-color;
+        width: 14px;
+        height: 10px;
+      }
+    }
+    .close-icon {
+      svg {
+        fill: $primary-color;
+        width: 11px;
+        height: 11px;
+        transform: rotate(45deg);
+        border-radius: 1px;
+      }
+    }
+    button, label {
+      font-size: 15px;
+      letter-spacing: -0.5px;
+      line-height: 1;
+    }
+  }
+  .textbutton {
+    margin-left: 15px;
+    margin-top: 2px;
+    background: none;
+    border: none;
+    color: #666666;
+    padding: 0;
+    &.active {
+      color: $primary-color;
+    }
+    &:focus {
+      @include default-focus-outline;
+    }
+  }
+
+  .combobox-left {
+    margin-right: 8px;
+  }
+
+  .radio-textbutton-label {
+    margin-left: 12px;
+    margin-top: 2px;
+    background: none;
+    border: none;
+    color: #666666;
+    padding: 0;
+    height: min-content;
+    &.active {
+      color: $primary-color;
+    }
+    &:focus-within {
+      @include default-focus-outline;
+    }
+    &.first-radio {
+      margin-left: 15px;
+    }
+  }
+
+  .radio-textbutton {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+
+  .close-button {
+    margin-right: 17.5px;
+    background: none;
+    color: $primary-color;
+    padding: 0;
+    &:focus {
+      @include default-focus-outline;
+    }
+  }
+
+  .right-edge {
+    margin-left: auto;
+  }
+
+  .combobox-container {
+    border: solid #888888 1px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    height: 50px;
+    // width: 196px;
+    flex-grow: 1;
+    &:focus-within {
+      border-color: $primary-color;
+    }
+    .left-column {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  .combobox-label {
+    font-size: 12px;
+    line-height: 20px;
+    color: #666666;
+    letter-spacing: -0.48px;
+    margin-left: 12px;
+    margin-top: 4px;
+  }
+
+  .combobox-icon {
+    color: $primary-color;
+    border-left: solid #888888 1px;
+    height: 35px;
+
+    &.date-input-icon {
+      padding: 8px 11px 0 11px;
+      svg {
+        width: 20px;
+        height: 18px;
+      }
+    }
+
+    &.time-input-icon {
+      padding: 9px 13px 0 13px;
+        svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+
+  .container  {
+    position: relative;
+
+    .suggestion {
+      font-size: 15px;
+      line-height: 49px;
+      height: 50px;
+      border-top: 1px solid #dddddd;
+      padding: 0 0 0 12px;
+      letter-spacing: -0.6px;
+      color: #333333;
+      font-weight: $font-weight-medium;
+    }
+    .suggestionHighlighted {
+      font-size: 15px;
+      font-weight: $font-weight-medium;
+    }
+
+    .suggestionsContainerOpen {
+      position: absolute;
+      z-index: index($zindex, 'autosuggest-suggestion-container');
+      max-height: 250px;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      border-radius: 5px;
+      box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.06);
+      border: 1px rgba(0,0,0,0.1) solid;
+      top: 35px;
+      width: calc(100% + 43px); // 43px == width of icon next to input
+      -ms-overflow-style: none;  /* Internet Explorer 10+ */
+      scrollbar-width: none;  /* Firefox */
+      &::-webkit-scrollbar {
+        display: none;  /* Safari and Chrome */
+      }
+      ul {
+        padding: 0;
+        margin: 0;
+      }
+    }
+    .input {
+      margin: -4px 0 0 0;
+      padding-left: 12px;
+      border: none;
+      height: 26px;
+      &:focus {
+        outline: none;
+      }
+      background: inherit;
+      font-weight: $font-weight-medium;
+      box-shadow: none;
+      font-size: 15px;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.33;
+      letter-spacing: -0.6px;
+      color: #333333;
+    }
+  }
+
+  .picker-container {
+    display: flex;
+  }
+}

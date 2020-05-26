@@ -7,11 +7,11 @@ import cx from 'classnames';
 import startsWith from 'lodash/startsWith';
 import { matchShape } from 'found';
 
+import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import ExternalLink from './ExternalLink';
 import Icon from './Icon';
 import SummaryRow from './SummaryRow';
 import { isBrowser } from '../util/browser';
-import { distance } from '../util/geo-utils';
 import { getZones } from '../util/legUtils';
 import CanceledItineraryToggler from './CanceledItineraryToggler';
 import { itineraryHasCancelation } from '../util/alertUtils';

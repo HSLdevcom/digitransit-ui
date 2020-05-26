@@ -214,7 +214,7 @@ export default {
     controls: {
       zoom: {
         // available controls positions: 'topleft', 'topright', 'bottomleft, 'bottomright'
-        position: 'bottomleft',
+        position: 'bottomright',
       },
       scale: {
         position: 'bottomright',
@@ -250,7 +250,7 @@ export default {
     showLayerSelector: true, // DT-3470
     showStopMarkerPopupOnMobile: true, // DT-3470
     showScaleBar: true, // DT-3470
-    showOSMCopyright: false, // DT-3470
+    showOSMCopyright: true, // DT-3470, DT-3397
 
     useModeIconsInNonTileLayer: false,
   },

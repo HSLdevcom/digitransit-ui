@@ -16,17 +16,28 @@ Panel that renders two DTAutosuggest search fields, including viapoint handling
 
 ```javascript
 const searchContext = {
+  isPeliasLocationAware: false // true / false does Let Pelias suggest based on current user location
+  minimalRegexp: undefined // used for testing min. regexp. For example: new RegExp('.{2,}'),
+  lineRegexp: undefined //  identify searches for route numbers/labels: bus | train | metro. For example: new RegExp(
+   //   '(^[0-9]+[a-z]?$|^[yuleapinkrtdz]$|(^m[12]?b?$))',
+   //  'i',
+   //  ),
+  URL_PELIAS: '' // url for pelias searches
+  feedIDs: ['HSL', 'HSLLautta'] // FeedId's like  [HSL, HSLLautta]
+  geocodingSources: ['oa','osm','nlsfi']  // sources for geocoding
+  geocodingSearchParams; {}  // Searchparmas fro geocoding
   getFavouriteLocations: () => ({}),    // Function that returns array of favourite locations.
   getFavouriteStops: () => ({}),        // Function that returns array of favourite stops.
   getLanguage: () => ({}),              // Function that returns current language.
   getStoredFavouriteRoutes: () => ({}), // Function that returns array of favourite routes.
   getPositions: () => ({}),             // Function that returns user's geolocation.
   getRoutes: () => ({}),                // Function that fetches routes from graphql API.
-  getStopAndStations: () => ({}),       // Function that fetches favourite stops and stations from graphql API.
+  getStopAndStationsQuery: () => ({}),       // Function that fetches favourite stops and stations from graphql API.
   getFavouriteRoutes: () => ({}),       // Function that fetches favourite routes from graphql API.
   startLocationWatch: () => ({}),       // Function that locates users geolocation.
   saveSearch: () => ({}),               // Function that saves search to old searches store.
 };
+
 const origin = {
  lat: 60.169196,
  lon: 24.957674,
@@ -34,6 +45,7 @@ const origin = {
  set: true,
  ready: true,
 }
+
 const destination = {
   lat: 60.199093,
   lon: 24.940536,
@@ -42,19 +54,25 @@ const destination = {
   ready: true,
 }
 onSelect() {
- return null;
+ return null;  // Define what to do when a suggestion is being selected. None by default.
  }
 const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes and CurrentPosition. Leave empty to search all targets.
 const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches), and Datasource. Leave empty to use all sources.
 <DTAutosuggestPanel
-
-   origin={origin}
-   destination={destination}
-   isItinerary={false}
+   origin={origin} // Selected origin point
+   destination={destination} // Selected destination point
+   originPlaceHolder={'Give origin'} // Optional Give string shown initially inside origin search field
+   destinationPlaceHolder={'Give destination'} // Optional Give string shown initally inside destination search field
+   breakpoint={'large'} // Required. available options are 'small' or 'large'. Large shows panel styles etc. meant for desktop and small shows panel styles etc meant for mobile.
+   showMultiPointControls={false} // Optional. If true, controls for via points and reversing is being shown.
+   initialViaPoints={[]} // Optional.  If showMultiPointControls is set to true, pass initial via points to the panel. Currently no default implementation is given.
+   updateViaPoints={() => return []} // Optional. If showMultiPointControls is set to true, define how to update your via point list with this function. Currenlty no default implementation is given.
+   swapOrder={() => return null} // Optional. If showMultiPointControls is set to true, define how to swap order of your points (origin, destination, viapoints). Currently no default implementation is given.
    searchContext={searchContext}
    onSelect={this.onSelect}
-   lang="fi"
-   addAnalyticsEvent={null}
+   lang="fi" // Define language fi sv or en.
+   addAnalyticsEvent={null} // Optional. you can record an analytics event if you wish. if passed, component will pass an category, action, name parameters to addAnalyticsEvent
+   disableAutoFocus={false} // Optional. use this to disable autofocus completely from DTAutosuggestPanel
    sources={sources}
    targets={targets}
 ```

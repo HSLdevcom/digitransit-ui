@@ -6,8 +6,7 @@ import { mockChildContextTypes } from '../helpers/mock-context';
 import { mountWithIntl } from '../helpers/mock-intl-enzyme';
 
 import QuickSettingsPanel from '../../../app/component/QuickSettingsPanel';
-import Datetimepicker from '../../../app/component/Datetimepicker';
-import RightOffcanvasToggle from '../../../app/component/RightOffcanvasToggle';
+import DatetimepickerContainer from '../../../app/component/DatetimepickerContainer';
 import defaultConfig from '../../../app/configurations/config.default';
 import { mockMatch, mockRouter } from '../helpers/mock-router';
 
@@ -21,7 +20,7 @@ const getDefaultProps = () => ({
 });
 
 describe('<QuickSettingsPanel />', () => {
-  it('should render time picker and advanced settings toggle', () => {
+  it('should render time picker', () => {
     const props = getDefaultProps();
     const wrapper = mountWithIntl(<QuickSettingsPanel {...props} />, {
       context: {
@@ -32,7 +31,7 @@ describe('<QuickSettingsPanel />', () => {
       childContextTypes: { ...mockChildContextTypes },
     });
 
-    expect(wrapper.find(Datetimepicker)).to.have.lengthOf(1);
-    expect(wrapper.find(RightOffcanvasToggle)).to.have.lengthOf(1);
+    expect(wrapper.find(DatetimepickerContainer)).to.have.lengthOf(1);
+    wrapper.unmount();
   });
 });
