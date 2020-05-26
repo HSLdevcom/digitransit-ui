@@ -4,7 +4,7 @@ import { matchShape, routerShape } from 'found';
 import { FormattedMessage } from 'react-intl';
 import { withLeaflet } from 'react-leaflet/es/context';
 import updateViaPointsFromMap from '../../action/ViaPointsActions';
-import { withCurrentTime } from '../../util/DTSearchUtils';
+import { withCurrentTime } from '../../util/DTSearchQueryUtils';
 import {
   PREFIX_ROUTES,
   PREFIX_STOPS,

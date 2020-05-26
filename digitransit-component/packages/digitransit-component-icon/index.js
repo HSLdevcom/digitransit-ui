@@ -31,6 +31,7 @@ import Time from './assets/time.svg';
 import Ellipsis from './assets/ellipsis.svg';
 import Opposite from './assets/opposite.svg';
 import Viapoint from './assets/viapoint.svg';
+import Calendar from './assets/calendar.svg';
 
 const IconMap = style => {
   return {
@@ -65,6 +66,7 @@ const IconMap = style => {
     ellipsis: <Ellipsis style={style} />,
     opposite: <Opposite style={style} />,
     viapoint: <Viapoint style={style} />,
+    calendar: <Calendar style={style} />,
   };
 };
 

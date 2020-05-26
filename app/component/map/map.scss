@@ -6,12 +6,33 @@ div.map {
   max-height: 100%;
   position: relative;
   .leaflet-container .leaflet-control-attribution {
-    background: rgba(255, 255, 255, 0.4);
-    color: $dark-gray;
+    //background: rgba(255, 255, 255, 0.4);
+    //color: $dark-gray;
+    //margin: 0px 10px 20px 0px;
+    width: 107px;
+    height: 22px;
+    opacity: 0.7;
+    border-radius: 11px;
+    background-color: #ffffff;
+    margin: 0px 10px 10px 0px;
   }
   .leaflet-container .leaflet-popup-close-button {
     width: 32px;
     height: 32px;
+  }
+  .leaflet-container .leaflet-control-attribution a {
+    width: 94px;
+    height: 11px;
+    font-family: $font-family;
+    font-size: 11px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: -0.7px;
+    text-align: right;
+    color: #666666;
+    vertical-align: -3px;
   }
 }
 
@@ -57,24 +78,26 @@ div.below-map {
   height: calc(100% - #{$small-map-height});
 }
 
-div.leaflet-bottom.leaflet-left div.leaflet-control-zoom {
-  color: $gray-blue;
-  border: none;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
-  margin-bottom: 14px;
-  margin-left: 20px;
+div.leaflet-bottom.leaflet-right div.leaflet-control-zoom {
+  width: 36px;
+  height: 73px;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
+  background-color: #ffffff;
+  margin-right: 30px;
+  margin-bottom: 30px;
   .icon {
-    font-size: 17px;
+    font-size: 18px;
   }
   a {
     display: flex;
     align-items: center;
     justify-content: space-around;
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
-    font-size: 22px;
-    color: currentColor;
+    width: 36px;
+    height: 36px;
+    line-height: 18px;
+    font-size: 18px;
+    color: $primary-color;
   }
 }
 
@@ -576,10 +599,10 @@ div.map-click-prevent-overlay {
   z-index: 801;
 }
 
-.leaflet-control-scale.leaflet-control {
+div.leaflet-control-scale.leaflet-control {
   //front page
-  margin-right: 20px;
-  margin-bottom: 20px;
+  margin-right: 30px;
+  margin-bottom: 33px;
   cursor: grab;
 }
 
@@ -604,20 +627,20 @@ div.map-click-prevent-overlay {
   cursor: grab;
 }
 
-.leaflet-control-scale-line {
-  background: none;
-  border: none;
+div.leaflet-control-scale-line {
   text-align: right;
-  margin-bottom: -2px;
+  margin-bottom: -4px;
   cursor: grab;
+  background: rgba(255, 255, 255, 0);
+  border: none;
 }
 
 .leaflet-control-scale::after {
   content: '';
   display: block;
-  border-bottom: 1px solid $gray;
-  border-left: 1px solid $gray;
-  border-right: 1px solid $gray;
+  border-bottom: 1px solid #888888;
+  border-left: 1px solid #888888;
+  border-right: 1px solid #888888;
   height: 4px;
   background: none;
   cursor: grab;

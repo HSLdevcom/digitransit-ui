@@ -137,8 +137,6 @@ testVariation('TimeNavigationButtons', 'hovered', 1, [], actions => {
     .wait(400); // Wait for animation to happen
 });
 
-testVariation('TimeSelectors');
-
 testVariation('RightOffcanvasToggle', 'default');
 testVariation('RightOffcanvasToggle', 'adjusted', 2);
 
@@ -181,13 +179,6 @@ testVariation('SummaryRow', 'large', 1);
 testVariation('SummaryRow', 'small', 2);
 
 testVariation('CallAgencyWarning');
-
-testVariation('CurrentPositionSuggestionItem', 'with-position').then(
-  skip('ie11'),
-);
-testVariation('CurrentPositionSuggestionItem', 'no-position', 2).then(
-  skip('ie11'),
-);
 
 // testVariation('SuggestionItem', 'Favourite');
 // testVariation('SuggestionItem', 'Address', 2);
