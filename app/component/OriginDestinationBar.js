@@ -3,15 +3,28 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
-import { withCurrentTime } from '../util/DTSearchUtils';
+import loadable from '@loadable/component';
+import { withCurrentTime } from '../util/DTSearchQueryUtils';
 import ComponentUsageExample from './ComponentUsageExample';
-import DTAutosuggestContainer from './DTAutosuggestContainer';
 import { PREFIX_ITINERARY_SUMMARY, navigateTo } from '../util/path';
+import withSearchContext from './WithSearchContext';
+import getRelayEnvironment from '../util/getRelayEnvironment';
+
 import {
   getIntermediatePlaces,
   setIntermediatePlaces,
 } from '../util/queryUtils';
 import { dtLocationShape } from '../util/shapes';
+
+const DTAutosuggestPanel = getRelayEnvironment(
+  withSearchContext(
+    loadable(
+      () =>
+        import('@digitransit-component/digitransit-component-autosuggest-panel'),
+      { ssr: true },
+    ),
+  ),
+);
 
 const locationToOtp = location =>
   `${location.address}::${location.lat},${location.lon}${
@@ -56,6 +69,7 @@ class OriginDestinationBar extends React.Component {
     if (intermediatePlaces.length > 1) {
       location.query.intermediatePlaces.reverse();
     }
+
     navigateTo({
       base: locationWithTime,
       origin: this.props.destination,
@@ -75,16 +89,22 @@ class OriginDestinationBar extends React.Component {
           'flex-horizontal',
         )}
       >
-        <DTAutosuggestContainer
-          type="panel"
+        <DTAutosuggestPanel
           origin={this.props.origin}
           destination={this.props.destination}
-          isItinerary
-          initialViaPoints={getIntermediatePlaces(this.location.query)}
+          originPlaceHolder="search-origin-index"
+          destinationPlaceHolder="search-destination-index"
+          showMultiPointControls
+          initialViaPoints={getIntermediatePlaces(
+            this.props.location
+              ? this.props.location.query
+              : this.context.match.location.query,
+          )}
           updateViaPoints={this.updateViaPoints}
           swapOrder={this.swapEndpoints}
-          targets={['Locations']}
-        />
+          sources={['Favourite', 'History', 'Datasource']}
+          targets={['Locations', 'CurrentPosition']}
+        />{' '}
       </div>
     );
   }

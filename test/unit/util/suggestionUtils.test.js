@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import { getNameLabel } from '../../../app/util/suggestionUtils';
+import { getNameLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 
 const testdata = {
   stop: {
@@ -32,12 +31,6 @@ const testdata = {
 
 describe('suggestionUtils', () => {
   describe('getNameLabel', () => {
-    it('should include locality in jsx-formatted gtfs stop label', () => {
-      const label = getNameLabel(testdata.stop, false);
-      const wrapper = shallowWithIntl(label[1], {});
-      expect(wrapper.find('span').text()).to.have.string('Helsinki');
-    });
-
     it('should include locality in plaintext gtfs stop label', () => {
       const label = getNameLabel(testdata.stop, true);
       expect(label[1]).to.equal('Helsinki');

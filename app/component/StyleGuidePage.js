@@ -50,8 +50,6 @@ import SplitBars from './SplitBars';
 import InfoIcon from './InfoIcon';
 import Favourite from './Favourite';
 import DepartureListHeader from './DepartureListHeader';
-import CurrentPositionSuggestionItem from './CurrentPositionSuggestionItem';
-import SuggestionItem from './SuggestionItem';
 import SelectedStopPopupContent from './SelectedStopPopupContent';
 import { Component as LangSelect } from './LangSelect';
 import ExternalLink from './ExternalLink';
@@ -137,8 +135,6 @@ const components = {
   InfoIcon,
   Favourite,
   DepartureListHeader,
-  CurrentPositionSuggestionItem,
-  SuggestionItem,
   SelectedStopPopupContent,
   SummaryRow,
   ExternalLink,

@@ -7,11 +7,11 @@ import { matchShape } from 'found';
 import orderBy from 'lodash/orderBy';
 import uniqBy from 'lodash/uniqBy';
 
+import routeNameCompare from '@digitransit-search-util/digitransit-search-util-route-name-compare';
 import Departure from './Departure';
 import DepartureListHeader from './DepartureListHeader';
 import Icon from './Icon';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
-import { routeNameCompare } from '../util/searchUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 export const mapRoutes = (stopFromProps, stopType) => {

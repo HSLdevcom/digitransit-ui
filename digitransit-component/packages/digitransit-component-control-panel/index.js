@@ -175,7 +175,7 @@ class CtrlPanel extends React.Component {
         lang = 'fi';
       }
       i18next.changeLanguage(lang);
-      return React.cloneElement(child, { language: lang });
+      return React.cloneElement(child, { lang });
     });
     return (
       <Fragment>

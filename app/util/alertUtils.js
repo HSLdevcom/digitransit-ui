@@ -6,12 +6,12 @@ import isEmpty from 'lodash/isEmpty';
 import groupBy from 'lodash/groupBy';
 import PropTypes from 'prop-types';
 
+import routeNameCompare from '@digitransit-search-util/digitransit-search-util-route-name-compare';
 import {
   RealtimeStateType,
   AlertSeverityLevelType,
   AlertEffectType,
 } from '../constants';
-import { routeNameCompare } from './searchUtils';
 
 /**
  * Checks if the alert is for the given pattern.

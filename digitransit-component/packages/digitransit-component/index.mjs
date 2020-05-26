@@ -22,3 +22,9 @@ export {
 export {
   default as Icon,
 } from '@digitransit-component/digitransit-component-icon';
+export {
+  default as FavouriteBar,
+} from '@digitransit-component/digitransit-component-favourite-bar';
+export {
+  default as FavouriteModal,
+} from '@digitransit-component/digitransit-component-favourite-modal';

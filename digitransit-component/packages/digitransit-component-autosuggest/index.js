@@ -46,46 +46,48 @@ function suggestionToAriaContent(item) {
 /**
  * @example
  * const searchContext = {
+ *   isPeliasLocationAware: false // true / false does Let Pelias suggest based on current user location
+ *   minimalRegexp: undefined // used for testing min. regexp. For example: new RegExp('.{2,}'),
+ *   lineRegexp: undefined //  identify searches for route numbers/labels: bus | train | metro. For example: new RegExp(
+ *    //   '(^[0-9]+[a-z]?$|^[yuleapinkrtdz]$|(^m[12]?b?$))',
+ *    //  'i',
+ *    //  ),
+ *   URL_PELIAS: '' // url for pelias searches
+ *   feedIDs: ['HSL', 'HSLLautta'] // FeedId's like  [HSL, HSLLautta]
+ *   geocodingSources: ['oa','osm','nlsfi']  // sources for geocoding
+ *   geocodingSearchParams; {}  // Searchparmas fro geocoding
  *   getFavouriteLocations: () => ({}),    // Function that returns array of favourite locations.
  *   getFavouriteStops: () => ({}),        // Function that returns array of favourite stops.
  *   getLanguage: () => ({}),              // Function that returns current language.
  *   getStoredFavouriteRoutes: () => ({}), // Function that returns array of favourite routes.
  *   getPositions: () => ({}),             // Function that returns user's geolocation.
  *   getRoutes: () => ({}),                // Function that fetches routes from graphql API.
- *   getStopAndStations: () => ({}),       // Function that fetches favourite stops and stations from graphql API.
+ *   getStopAndStationsQuery: () => ({}),       // Function that fetches favourite stops and stations from graphql API.
  *   getFavouriteRoutes: () => ({}),       // Function that fetches favourite routes from graphql API.
  *   startLocationWatch: () => ({}),       // Function that locates users geolocation.
  *   saveSearch: () => ({}),               // Function that saves search to old searches store.
  * };
- * // Refpoint defines selected input's location.
- * const refPoint = {
- *    address: "Pasila, Helsinki",
- *    lat: 60.198118,
- *    lon: 24.934074,
- *    ready: true,
- *    set: true
- * };
  * const lang = 'fi'; // en, fi or sv
  * const onSelect = () => {
- *    // Funtionality when user selects a suggesions.
+ *    // Funtionality when user selects a suggesions. No default implementation is given.
  *    return null;
  * };
  * const placeholder = "stop-near-you";
- * const icon = 'origin';
  * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes and CurrentPosition. Leave empty to search all targets.
  * const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches) and Datasource. Leave empty to use all sources.
  * return (
  *  <DTAutosuggest
  *    searchContext={searchContext}
- *    icon="origin"
- *    id="id"
- *    refPoint={refPoint}
- *    placeholder={placeholder}
- *    value=""
+ *    icon="origin" // Optional String for icon that is shown left of searchfield. used with Icon library
+ *    id="origin" // used for style props and info for component.
+ *    placeholder={placeholder} // String that is showns initally in search field
+ *    value="" // e.g. user typed string that is shown in search field
  *    onSelect={onSelect}
- *    autoFocus={false}
- *    showSpinner={false}
+ *    autoFocus={false} // defines that should this field be automatically focused when page is loaded.
  *    lang={lang}
+ *    handelViaPoints={() => return null } // Optional Via point handling logic. This is currently managed with DTAutosuggestpanel by default, but if DTAutosuggest is used seperatelly own implementation must be provided.
+ *    focusChange={() => return null} // When suggestion is selected, handle changing focus. This is currently managed with DTAutosuggestpanel by default, but if DTAutosuggest is used seperatelly own implementation must be provided.
+ *    storeRef={() => return null} // Functionality to store refs. Currenlty managed with DTAutosuggestpanel by default, but if DTAutosuggest is used seperatelly own implementation must be provided.
  *    sources={sources}
  *    targets={targets}
  */
@@ -96,13 +98,11 @@ class DTAutosuggest extends React.Component {
     icon: PropTypes.string,
     id: PropTypes.string.isRequired,
     placeholder: PropTypes.string.isRequired,
-    refPoint: PropTypes.object.isRequired,
     value: PropTypes.string,
     searchContext: PropTypes.any.isRequired,
     ariaLabel: PropTypes.string,
     onSelect: PropTypes.func,
     isPreferredRouteSearch: PropTypes.bool,
-    showSpinner: PropTypes.bool,
     storeRef: PropTypes.func,
     handleViaPoints: PropTypes.func,
     focusChange: PropTypes.func,
@@ -117,7 +117,6 @@ class DTAutosuggest extends React.Component {
     icon: undefined,
     value: '',
     isPreferredRouteSearch: false,
-    showSpinner: false,
     lang: 'fi',
     sources: [],
     targets: [],
@@ -262,7 +261,6 @@ class DTAutosuggest extends React.Component {
         this.props.targets,
         this.props.sources,
         this.props.searchContext,
-        this.props.refPoint,
         {
           input: value,
         },
@@ -392,7 +390,7 @@ class DTAutosuggest extends React.Component {
   };
 
   render() {
-    if (this.props.showSpinner && this.state.pendingCurrentLocation) {
+    if (this.state.pendingCurrentLocation) {
       return <Loading />;
     }
     const { value, suggestions } = this.state;
@@ -401,9 +399,11 @@ class DTAutosuggest extends React.Component {
       value,
       onChange: this.onChange,
       onBlur: this.onBlur,
-      className: `${styles.input} ${styles[this.props.className]} ${
-        this.state.value ? styles.hasValue : ''
-      }`,
+      className: cx(
+        `${styles.input} ${styles[this.props.id] || ''} ${
+          this.state.value ? styles.hasValue : ''
+        }`,
+      ),
       onKeyDown: this.keyDown, // DT-3263
     };
     const ariaBarId = this.props.id.replace('searchfield-', '');
@@ -417,9 +417,15 @@ class DTAutosuggest extends React.Component {
     const ariaCurrentSuggestion = i18next.t('search-current-suggestion', {
       selection: this.suggestionAsAriaContent(),
     });
+    const iconSize = {
+      mapMarker: { height: 1.45, width: 1.45 },
+      'mapMarker-via': { height: 1.45, width: 1.45 },
+      search: { height: 1, width: 1 },
+    };
     const iconColor = {
       origin: '#64be14',
       destination: '#ec5188',
+      'stop-route-station': '#888888',
     };
     return (
       <div
@@ -437,8 +443,8 @@ class DTAutosuggest extends React.Component {
           >
             <Icon
               img={`${this.props.icon}`}
-              width={1.45}
-              height={1.45}
+              width={iconSize[this.props.icon].width}
+              height={iconSize[this.props.icon].height}
               color={iconColor[this.props.id]}
             />
           </div>
