@@ -2,58 +2,48 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Toggle from '../Toggle';
-import { setCustomizedSettings } from '../../store/localStorage';
+import { saveRoutingSettings } from '../../action/SearchSettingsActions';
 import Icon from '../Icon';
 
-class AccessibilityOptionSection extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { usingWheelchair: props.currentSettings.usingWheelchair };
-  }
-
-  render() {
-    return (
-      <React.Fragment>
-        <FormattedMessage id="accessibility" defaultMessage="Accessibility" />
-        <div
-          className="mode-option-container toggle-container"
-          style={{
-            padding: '0 0 0 1em',
-            height: '3.5em',
-          }}
-        >
-          <Icon
-            className="wheelchair-icon"
-            img="icon-icon_wheelchair"
-            height={2}
-            width={2}
-          />
-          <FormattedMessage
-            id="accessibility-limited"
-            defaultMessage="Wheelchair"
-          />
-          <Toggle
-            toggled={!!this.state.usingWheelchair}
-            title="accessibility"
-            onToggle={e => {
-              this.setState(
-                {
-                  usingWheelchair: e.target.checked ? 1 : 0,
-                },
-                setCustomizedSettings({
-                  usingWheelchair: e.target.checked ? 1 : 0,
-                }),
-              );
-            }}
-          />
-        </div>
-      </React.Fragment>
-    );
-  }
-}
+const AccessibilityOptionSection = ({ currentSettings }, { executeAction }) => (
+  <React.Fragment>
+    <FormattedMessage id="accessibility" defaultMessage="Accessibility" />
+    <div
+      className="mode-option-container toggle-container"
+      style={{
+        padding: '0 0 0 1em',
+        height: '3.5em',
+      }}
+    >
+      <Icon
+        className="wheelchair-icon"
+        img="icon-icon_wheelchair"
+        height={2}
+        width={2}
+      />
+      <FormattedMessage
+        id="accessibility-limited"
+        defaultMessage="Wheelchair"
+      />
+      <Toggle
+        toggled={!!currentSettings.usingWheelchair}
+        title="accessibility"
+        onToggle={e => {
+          executeAction(saveRoutingSettings, {
+            usingWheelchair: e.target.checked ? 1 : 0,
+          });
+        }}
+      />
+    </div>
+  </React.Fragment>
+);
 
 AccessibilityOptionSection.propTypes = {
   currentSettings: PropTypes.object.isRequired,
+};
+
+AccessibilityOptionSection.contextTypes = {
+  executeAction: PropTypes.func.isRequired,
 };
 
 export default AccessibilityOptionSection;

@@ -40,7 +40,7 @@ export const valueShape = PropTypes.oneOfType([
   PropTypes.number,
 ]);
 
-class Dropdown extends React.Component {
+class SearchSettingsDropdown extends React.Component {
   static propTypes = {
     labelText: PropTypes.string.isRequired,
     options: PropTypes.array.isRequired,
@@ -165,15 +165,15 @@ class Dropdown extends React.Component {
       : options;
 
     return (
-      <div className="dropdown-wrapper">
+      <div className="settings-dropdown-wrapper">
         <span
-          className="dropdown-label"
+          className="settings-dropdown-label"
           onClick={() => this.toggleDropdown(this.state.showDropdown)}
           role="Button"
           tabIndex="0"
         >
-          <p className="dropdown-label-text">{labelText}</p>
-          <p className="dropdown-label-value">
+          <p className="settings-dropdown-label-text">{labelText}</p>
+          <p className="settings-dropdown-label-value">
             {displayValueFormatter
               ? displayValueFormatter(currentSelection.title)
               : `${intl.formatMessage({
@@ -190,7 +190,7 @@ class Dropdown extends React.Component {
           />
         </span>
         {showDropdown && (
-          <ul className="dropdown">
+          <ul className="settings-dropdown">
             {this.getOptionTags(selectOptions, this.state.showDropdown)}
           </ul>
         )}
@@ -199,4 +199,4 @@ class Dropdown extends React.Component {
   }
 }
 
-export default Dropdown;
+export default SearchSettingsDropdown;

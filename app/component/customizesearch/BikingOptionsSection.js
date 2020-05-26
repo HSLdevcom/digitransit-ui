@@ -2,41 +2,37 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape } from 'found';
 import { intlShape } from 'react-intl';
+import { saveRoutingSettings } from '../../action/SearchSettingsActions';
 
-import Dropdown, { getFiveStepOptions, valueShape } from '../Dropdown';
+import SearchSettingsDropdown, {
+  getFiveStepOptions,
+  valueShape,
+} from '../SearchSettingsDropdown';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import { setCustomizedSettings } from '../../store/localStorage';
 
+// eslint-disable-next-line react/prefer-stateless-function
 class BikingOptionsSection extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      bikeSpeed: props.bikeSpeed,
-      options: getFiveStepOptions(props.bikeSpeedOptions),
-    };
-  }
-
   render() {
-    const { defaultSettings } = this.props;
+    const { defaultSettings, bikeSpeed } = this.props;
     const { intl } = this.context;
+    const options = getFiveStepOptions(this.props.bikeSpeedOptions);
     return (
       <React.Fragment>
         {/* OTP uses the same walkReluctance setting for bike routing */}
-        <Dropdown
-          currentSelection={this.state.options.find(
-            option => option.value === this.state.bikeSpeed,
-          )}
+        <SearchSettingsDropdown
+          currentSelection={options.find(option => option.value === bikeSpeed)}
           defaultValue={defaultSettings.bikeSpeed}
           onOptionSelected={value => {
-            setCustomizedSettings({ bikeSpeed: value });
+            this.context.executeAction(saveRoutingSettings, {
+              bikeSpeed: value,
+            });
             addAnalyticsEvent({
               category: 'ItinerarySettings',
               action: 'ChangeBikingSpeed',
               name: value,
             });
-            this.setState({ bikeSpeed: value });
           }}
-          options={this.state.options}
+          options={options}
           formatOptions
           labelText={intl.formatMessage({ id: 'biking-speed' })}
         />
@@ -57,6 +53,7 @@ BikingOptionsSection.propTypes = {
 BikingOptionsSection.contextTypes = {
   match: matchShape.isRequired,
   intl: intlShape.isRequired,
+  executeAction: PropTypes.func.isRequired,
 };
 
 export default BikingOptionsSection;

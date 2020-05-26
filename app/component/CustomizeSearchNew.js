@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
-import { matchShape } from 'found';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import Icon from './Icon';
 import FareZoneSelector from './FareZoneSelector';
@@ -10,25 +10,30 @@ import TransportModesSection from './customizesearch/TransportModesSection';
 import WalkingOptionsSection from './customizesearch/WalkingOptionsSection';
 import AccessibilityOptionSection from './customizesearch/AccessibilityOptionSection';
 import * as ModeUtils from '../util/modeUtils';
-import { getDefaultSettings, getCurrentSettings } from '../util/planParamUtil';
+import { getDefaultSettings } from '../util/planParamUtil';
 
 class CustomizeSearch extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
-    match: matchShape.isRequired,
     config: PropTypes.object.isRequired,
   };
 
   static propTypes = {
     onToggleClick: PropTypes.func.isRequired,
+    customizedSettings: PropTypes.object.isRequired,
   };
 
   defaultSettings = getDefaultSettings(this.context.config);
 
   render() {
-    const { config, match, intl } = this.context;
-    const { onToggleClick } = this.props;
-    const currentSettings = getCurrentSettings(config, match.location.query);
+    const { config, intl } = this.context;
+    const { onToggleClick, customizedSettings } = this.props;
+    // Merge default and customized settings
+    const currentSettings = Object.assign(
+      {},
+      this.defaultSettings,
+      customizedSettings,
+    );
     let ticketOptions = [];
     if (config.showTicketSelector && config.availableTickets) {
       Object.keys(config.availableTickets).forEach(key => {
@@ -94,4 +99,14 @@ class CustomizeSearch extends React.Component {
   }
 }
 
-export default CustomizeSearch;
+const withStore = connectToStores(
+  CustomizeSearch,
+  ['RoutingSettingsStore'],
+  context => ({
+    customizedSettings: context
+      .getStore('RoutingSettingsStore')
+      .getRoutingSettings(),
+  }),
+);
+
+export { withStore as default, CustomizeSearch as component };

@@ -1,49 +1,41 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { matchShape } from 'found';
 import { intlShape } from 'react-intl';
-import { setCustomizedSettings } from '../../store/localStorage';
+import { saveRoutingSettings } from '../../action/SearchSettingsActions';
 
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import Dropdown, { getFiveStepOptions } from '../Dropdown';
+import SearchSettingsDropdown, {
+  getFiveStepOptions,
+} from '../SearchSettingsDropdown';
 
-class WalkingOptionsSection extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentSettings: props.currentSettings,
-      options: getFiveStepOptions(this.props.walkSpeedOptions),
-    };
-  }
-
-  render() {
-    return (
-      <React.Fragment>
-        <Dropdown
-          currentSelection={this.state.options.find(
-            option => option.value === this.state.currentSettings.walkSpeed,
-          )}
-          defaultValue={this.props.defaultSettings.walkSpeed}
-          onOptionSelected={value => {
-            this.setState(
-              { currentSettings: { walkSpeed: value } },
-              setCustomizedSettings({ walkSpeed: value }),
-            );
-            addAnalyticsEvent({
-              category: 'ItinerarySettings',
-              action: 'ChangeWalkingSpeed',
-              name: value,
-            });
-          }}
-          options={this.state.options}
-          labelText={this.context.intl.formatMessage({ id: 'walking-speed' })}
-          highlightDefaulValue
-          formatOptions
-        />
-      </React.Fragment>
-    );
-  }
-}
+const WalkingOptionsSection = (
+  { currentSettings, defaultSettings, walkSpeedOptions },
+  { intl, executeAction },
+  options = getFiveStepOptions(walkSpeedOptions),
+) => (
+  <React.Fragment>
+    <SearchSettingsDropdown
+      currentSelection={options.find(
+        option => option.value === currentSettings.walkSpeed,
+      )}
+      defaultValue={defaultSettings.walkSpeed}
+      onOptionSelected={value => {
+        executeAction(saveRoutingSettings, {
+          walkSpeed: value,
+        });
+        addAnalyticsEvent({
+          category: 'ItinerarySettings',
+          action: 'ChangeWalkingSpeed',
+          name: value,
+        });
+      }}
+      options={options}
+      labelText={intl.formatMessage({ id: 'walking-speed' })}
+      highlightDefaulValue
+      formatOptions
+    />
+  </React.Fragment>
+);
 
 WalkingOptionsSection.propTypes = {
   defaultSettings: PropTypes.shape({
@@ -55,8 +47,8 @@ WalkingOptionsSection.propTypes = {
 };
 
 WalkingOptionsSection.contextTypes = {
-  match: matchShape.isRequired,
   intl: intlShape.isRequired,
+  executeAction: PropTypes.func.isRequired,
 };
 
 export default WalkingOptionsSection;

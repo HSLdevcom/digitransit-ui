@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import uniqBy from 'lodash/uniqBy';
 import { intlShape } from 'react-intl';
-import Dropdown from './Dropdown';
+import SearchSettingsDropdown from './SearchSettingsDropdown';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { setCustomizedSettings } from '../store/localStorage';
+import { saveRoutingSettings } from '../action/SearchSettingsActions';
 
 class FareZoneSelector extends React.Component {
   static propTypes = {
@@ -15,14 +15,8 @@ class FareZoneSelector extends React.Component {
   static contextTypes = {
     config: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
+    executeAction: PropTypes.func.isRequired,
   };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentOption: props.currentOption,
-    };
-  }
 
   createFareZoneObjects = options => {
     const { intl, config } = this.context;
@@ -42,29 +36,30 @@ class FareZoneSelector extends React.Component {
   };
 
   render() {
-    const { options } = this.props;
+    const { options, currentOption } = this.props;
     const { intl } = this.context;
     const mappedOptions = this.createFareZoneObjects(options);
     return (
       <div className="settings-option-container">
-        <Dropdown
+        <SearchSettingsDropdown
           labelText={intl.formatMessage({
             id: 'zones',
             defaultMessage: 'Fare zones',
           })}
           currentSelection={{
-            title: this.state.currentOption,
-            value: this.state.currentOption,
+            title: currentOption,
+            value: currentOption,
           }}
           options={mappedOptions}
           onOptionSelected={value => {
-            setCustomizedSettings({ ticketTypes: value });
+            this.context.executeAction(saveRoutingSettings, {
+              ticketTypes: value,
+            });
             addAnalyticsEvent({
               category: 'ItinerarySettings',
               action: 'ChangeFareZones',
               name: value,
             });
-            this.setState({ currentOption: value });
           }}
           displayValueFormatter={value =>
             value.split(':')[1] ? value.split(':')[1] : value
