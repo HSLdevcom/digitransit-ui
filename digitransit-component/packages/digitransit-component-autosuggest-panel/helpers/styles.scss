@@ -112,18 +112,17 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
 }
 
 .rectangle-container {
-  display: flex;
-  justify-content: center;
-  position: absolute;
+  display: block;
+  position: relative;
   width: 1.45em;
-  margin-top: 11px;
-  margin-left: 15px;
   z-index: index($zindex, 'rectangle');
   .rectangle {
+    position: absolute;
     width: 4px;
     height: 21px;
     border-radius: 2px;
     background-color: #dddddd;
-    margin-top: -16.5px;
+    margin-left: 24.3px;
+    margin-top: -5.5px;
   }
 }

@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 
+import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
 import MarkerPopupBottom from '../MarkerPopupBottom';
 import Card from '../../Card';
 import CardHeader from '../../CardHeader';
 import Loading from '../../Loading';
 import ZoneIcon from '../../ZoneIcon';
 import PreferencesStore from '../../../store/PreferencesStore';
-import { getLabel } from '../../../util/suggestionUtils';
 import { getJson } from '../../../util/xhrPromise';
 import { getZoneLabelColor } from '../../../util/mapIconUtils';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';

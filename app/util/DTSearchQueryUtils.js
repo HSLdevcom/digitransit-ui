@@ -1,12 +1,10 @@
 import merge from 'lodash/merge';
 import take from 'lodash/take';
 import { fetchQuery } from 'react-relay';
+import routeNameCompare from '@digitransit-search-util/digitransit-search-util-route-name-compare';
+import { mapRoute } from '@digitransit-search-util/digitransit-search-util-helpers';
+import filterMatchingToInput from '@digitransit-search-util/digitransit-search-util-filter-matching-to-input';
 import { isStop } from './suggestionUtils';
-import {
-  mapRoute,
-  routeNameCompare,
-  filterMatchingToInput,
-} from './searchUtils';
 import searchRoutesQuery from './searchRoutes';
 import favouriteStationsQuery from './favouriteStations';
 import favouriteStopsQuery from './favouriteStops';
@@ -17,7 +15,7 @@ let relayEnvironment = null;
 export function setRelayEnvironment(environment) {
   relayEnvironment = environment;
 }
-export const getStopAndStations = favourites => {
+export const getStopAndStationsQuery = favourites => {
   if (!relayEnvironment) {
     return Promise.resolve([]);
   }
@@ -42,7 +40,7 @@ export const getStopAndStations = favourites => {
   );
 };
 
-export function getFavouriteRoutes(favourites, input) {
+export function getFavouriteRoutesQuery(favourites, input) {
   if (!relayEnvironment) {
     return Promise.resolve([]);
   }
@@ -66,7 +64,7 @@ export function getFavouriteRoutes(favourites, input) {
       routes.sort((x, y) => routeNameCompare(x.properties, y.properties)),
     );
 }
-export function getRoutes(input, feedIds) {
+export function getRoutesQuery(input, feedIds) {
   if (!relayEnvironment) {
     return Promise.resolve([]);
   }

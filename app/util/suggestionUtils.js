@@ -1,15 +1,5 @@
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import uniqWith from 'lodash/uniqWith';
-import isEqual from 'lodash/isEqual';
 import memoize from 'lodash/memoize';
-import escapeRegExp from 'lodash/escapeRegExp';
-import cloneDeep from 'lodash/cloneDeep';
-
-import StopCode from '../component/StopCode';
-
-const getLocality = suggestion =>
-  suggestion.localadmin || suggestion.locality || '';
+import { getNameLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 
 memoize.Cache = Map;
 
@@ -49,88 +39,6 @@ export const isStop = ({ layer }) =>
 export const isTerminal = ({ layer }) =>
   layer === 'station' || layer === 'favouriteStation';
 
-export const getNameLabel = memoize(
-  (suggestion, plain = false) => {
-    switch (suggestion.layer) {
-      case 'currentPosition':
-        return [suggestion.labelId, suggestion.address];
-      case 'favouritePlace':
-        return [suggestion.name, suggestion.address];
-      case 'favouriteRoute':
-      case 'route-BUS':
-      case 'route-TRAM':
-      case 'route-RAIL':
-      case 'route-SUBWAY':
-      case 'route-FERRY':
-      case 'route-AIRPLANE':
-        return !plain && suggestion.shortName
-          ? [
-              <span key={suggestion.gtfsId}>
-                <span className={suggestion.mode.toLowerCase()}>
-                  {suggestion.shortName}
-                </span>
-                <span className="suggestion-type">
-                  &nbsp;-&nbsp;
-                  <FormattedMessage id="route" defaultMessage="Route" />
-                </span>
-              </span>,
-              suggestion.longName,
-            ]
-          : [
-              suggestion.shortName,
-              suggestion.longName,
-              suggestion.agency ? suggestion.agency.name : undefined,
-            ];
-      case 'venue':
-      case 'address':
-        return [
-          suggestion.name,
-          suggestion.label.replace(
-            new RegExp(`${escapeRegExp(suggestion.name)}(,)?( )?`),
-            '',
-          ),
-        ];
-      case 'favouriteStation':
-      case 'favouriteStop':
-        return plain
-          ? [suggestion.name]
-          : [
-              suggestion.name,
-              <span key={suggestion.id}>{suggestion.address}</span>,
-            ];
-      case 'stop':
-        return plain
-          ? [suggestion.name || suggestion.label, getLocality(suggestion)]
-          : [
-              suggestion.name,
-              <span key={suggestion.id}>
-                {getStopCode(suggestion) && (
-                  <StopCode code={getStopCode(suggestion)} />
-                )}
-                {getLocality(suggestion)}
-              </span>,
-            ];
-      case 'station':
-      default:
-        return [suggestion.name || suggestion.label, getLocality(suggestion)];
-    }
-  },
-  (item, plain) => {
-    const i = cloneDeep(item);
-    i.plain = plain;
-    return i;
-  },
-);
-
-export function uniqByLabel(features) {
-  return uniqWith(
-    features,
-    (feat1, feat2) =>
-      isEqual(getNameLabel(feat1.properties), getNameLabel(feat2.properties)) &&
-      feat1.properties.layer === feat2.properties.layer,
-  );
-}
-
 export function getLabel(properties) {
   const parts = getNameLabel(properties, true);
 
@@ -159,28 +67,6 @@ export function suggestionToAriaContent(item, intl, useTransportIcons) {
   }
   const [name, label] = getNameLabel(item.properties, true);
   return [iconstr, name, label];
-}
-
-export function suggestionToLocation(item) {
-  const name = getLabel(item.properties);
-  return {
-    id: item.properties.gid,
-    address: name,
-    type: item.type,
-    gtfsId: getGTFSId(item.properties),
-    code: getStopCode(item.properties),
-    layer: item.properties.layer,
-    lat:
-      item.lat ||
-      (item.geometry &&
-        item.geometry.coordinates &&
-        item.geometry.coordinates[1]),
-    lon:
-      item.lon ||
-      (item.geometry &&
-        item.geometry.coordinates &&
-        item.geometry.coordinates[0]),
-  };
 }
 
 export function getIcon(layer) {

@@ -3,6 +3,7 @@ import includes from 'lodash/includes';
 import find from 'lodash/find';
 import moment from 'moment';
 import { uuid } from 'uuidv4';
+import getGeocodingResults from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
 import {
   getFavouriteStorage,
   setFavouriteStorage,
@@ -12,7 +13,6 @@ import {
   removeItem,
 } from './localStorage';
 import { isStop } from '../util/suggestionUtils';
-import { getGeocodingResult } from '../util/searchUtils';
 
 export default class FavouriteStore extends Store {
   static storeName = 'FavouriteStore';
@@ -133,7 +133,7 @@ export default class FavouriteStore extends Store {
   migrateLocations() {
     const locations = getFavouriteLocationsStorage();
     locations.forEach(location => {
-      getGeocodingResult(
+      getGeocodingResults(
         location.address,
         this.config.searchParams,
         null,
