@@ -42,7 +42,7 @@ const CityBikeNetworkSelector = (
           )}
           onToggle={() => {
             executeAction(saveRoutingSettings, {
-              currentOptions: updateCitybikeNetworks(
+              allowedBikeRentalNetworks: updateCitybikeNetworks(
                 getCitybikeNetworks(config),
                 network.networkName.toUpperCase(),
                 config,

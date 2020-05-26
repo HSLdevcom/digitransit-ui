@@ -9,7 +9,6 @@ import { mockContext, mockChildContextTypes } from '../../helpers/mock-context';
 import { getModes } from '../../../../app/util/modeUtils';
 import TransportModesSection from '../../../../app/component/customizesearch/TransportModesSection';
 import Toggle from '../../../../app/component/Toggle';
-import { setCustomizedSettings } from '../../../../app/store/localStorage';
 
 describe('<TransportModesSection />', () => {
   it('should change the selected transport modes upon clicking a checkbox', () => {
@@ -20,9 +19,6 @@ describe('<TransportModesSection />', () => {
         query: {},
       },
     };
-    setCustomizedSettings({
-      modes: ['BUS'],
-    });
 
     const props = {
       config: {

@@ -324,24 +324,5 @@ export function toggleTransportMode(transportMode, config) {
     return {};
   }
   const modes = xor(getModes(config), [transportMode.toUpperCase()]);
-  setCustomizedSettings({ modes });
   return modes;
 }
-
-/**
- * Updates the localStorage to enable citybikes WITH all networks
- *
- * @param {*} transportMode The transport mode to select
- * @param {*} config The configuration for the software installation
- * @param {*} networks The citybike networks to be allowed
- */
-export const toggleCitybikesAndNetworks = (transportMode, config, networks) => {
-  if (isBikeRestricted(config, transportMode)) {
-    return;
-  }
-  const modes = xor(getModes(config), [transportMode.toUpperCase()]);
-  setCustomizedSettings({
-    modes,
-    allowedBikeRentalNetworks: networks,
-  });
-};

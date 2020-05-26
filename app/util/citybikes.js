@@ -1,7 +1,6 @@
 import isEmpty from 'lodash/isEmpty';
 import isString from 'lodash/isString';
 import without from 'lodash/without';
-import { toggleCitybikesAndNetworks } from './modeUtils';
 import {
   getCustomizedSettings,
   setCustomizedSettings,
@@ -103,6 +102,7 @@ export const getCitybikeNetworks = config => {
  * @param newValue the network to be added/removed
  * @param config The configuration for the software installation
  * @param isUsingCitybike if citybike is enabled
+ * @returns the updated citybike networks
  */
 
 export const updateCitybikeNetworks = (
@@ -125,14 +125,8 @@ export const updateCitybikeNetworks = (
 
   if (chosenNetworks.length === 0 || !isUsingCitybike) {
     if (chosenNetworks.length === 0) {
-      toggleCitybikesAndNetworks(
-        'citybike',
-        config,
-        getDefaultNetworks(config).join(),
-      );
       return getDefaultNetworks(config);
     }
-    toggleCitybikesAndNetworks('citybike', config, chosenNetworks.join(','));
     return chosenNetworks;
   }
 
