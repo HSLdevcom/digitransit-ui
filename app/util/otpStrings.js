@@ -52,6 +52,9 @@ export const locationToOTP = location => {
   if (location.set === false) {
     return '-';
   }
+  if (location.type === 'SelectFromMap') {
+    return `${location.type}`;
+  }
   return `${location.address}::${location.lat},${location.lon}`;
 };
 

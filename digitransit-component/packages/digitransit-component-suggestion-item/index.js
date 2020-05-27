@@ -32,6 +32,7 @@ function getIcon(layer) {
     ['icon-icon_sport', 'sport'],
     ['icon-icon_school', 'school'],
     ['icon-icon_shopping', 'shopping'],
+    ['selectFromMap', 'select-from-map'],
   ]);
 
   const defaultIcon = 'place';
@@ -55,6 +56,7 @@ const SuggestionItem = pure(({ item, ariaContent, loading, className }) => {
   const icon = (
     <Icon height={1.5} color={item.iconColor || '#888888'} img={iconId} />
   );
+
   const [iconstr, name, label] = ariaContent || [
     iconId,
     item.name,

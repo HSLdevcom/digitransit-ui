@@ -31,7 +31,7 @@ function selectPositionFomMap() {
       lat: null,
       lon: null,
       properties: {
-        labelId: 'select-position-from-map',
+        labelId: 'select-from-map',
         layer: 'selectFromMap',
         address: 'SelectFromMap',
         lat: null,

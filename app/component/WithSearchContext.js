@@ -132,6 +132,12 @@ export default function withSearchContext(WrappedComponent) {
         origin = { ...location, ready: true };
         // eslint-disable-next-line prefer-destructuring
         destination = this.props.destination;
+        if (location.type === 'SelectFromMap') {
+          origin = {
+            ...location,
+            ready: !!location.lat,
+          };
+        }
         if (location.type === 'CurrentLocation') {
           origin = { ...location, gps: true, ready: !!location.lat };
           if (destination.gps === true) {
@@ -143,6 +149,12 @@ export default function withSearchContext(WrappedComponent) {
         // eslint-disable-next-line prefer-destructuring
         origin = this.props.origin;
         destination = { ...location, ready: true };
+        if (location.type === 'SelectFromMap') {
+          destination = {
+            ...location,
+            ready: !!location.lat,
+          };
+        }
         if (location.type === 'CurrentLocation') {
           destination = {
             ...location,

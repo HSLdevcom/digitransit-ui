@@ -31,6 +31,7 @@ import Time from './assets/time.svg';
 import Ellipsis from './assets/ellipsis.svg';
 import DirectionB from './assets/direction_b.svg';
 import Calendar from './assets/calendar.svg';
+import SelectFromMap from './assets/select-from-map.svg';
 
 const IconMap = style => {
   return {
@@ -65,6 +66,7 @@ const IconMap = style => {
     ellipsis: <Ellipsis style={style} />,
     'direction-b': <DirectionB style={style} />,
     calendar: <Calendar style={style} />,
+    'select-from-map': <SelectFromMap style={style} />,
   };
 };
 

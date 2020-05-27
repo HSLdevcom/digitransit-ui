@@ -270,7 +270,10 @@ class DTAutosuggest extends React.Component {
           }
           // XXX translates current location
           const suggestions = (searchResult.results || []).map(suggestion => {
-            if (suggestion.type === 'CurrentLocation') {
+            if (
+              suggestion.type === 'CurrentLocation' ||
+              suggestion.type === 'SelectFromMap'
+            ) {
               const translated = { ...suggestion };
               translated.properties.labelId = i18next.t(
                 suggestion.properties.labelId,

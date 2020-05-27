@@ -184,7 +184,7 @@ class IndexPage extends React.Component {
             destinationPlaceHolder="search-destination-index"
             lang={lang}
             sources={['Favourite', 'History', 'Datasource']}
-            targets={['Locations', 'CurrentPosition', 'SelectPositionFomMap']}
+            targets={['Locations', 'CurrentPosition']}
           />
           <CtrlPanel.SeparatorLine />
           <DatetimepickerContainer realtime />
