@@ -39,7 +39,6 @@ const WalkingOptionsSection = (
 
 WalkingOptionsSection.propTypes = {
   defaultSettings: PropTypes.shape({
-    walkReluctance: PropTypes.number.isRequired,
     walkSpeed: PropTypes.number.isRequired,
   }).isRequired,
   walkSpeedOptions: PropTypes.array.isRequired,

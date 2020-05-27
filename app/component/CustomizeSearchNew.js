@@ -29,11 +29,7 @@ class CustomizeSearch extends React.Component {
     const { config, intl } = this.context;
     const { onToggleClick, customizedSettings } = this.props;
     // Merge default and customized settings
-    const currentSettings = Object.assign(
-      {},
-      this.defaultSettings,
-      customizedSettings,
-    );
+    const currentSettings = { ...this.defaultSettings, ...customizedSettings };
     let ticketOptions = [];
     if (config.showTicketSelector && config.availableTickets) {
       Object.keys(config.availableTickets).forEach(key => {
@@ -64,7 +60,6 @@ class CustomizeSearch extends React.Component {
         </div>
         <div className="settings-option-container">
           <WalkingOptionsSection
-            walkReluctance={currentSettings.walkReluctance}
             walkSpeedOptions={config.defaultOptions.walkSpeed}
             currentSettings={currentSettings}
             defaultSettings={this.defaultSettings}

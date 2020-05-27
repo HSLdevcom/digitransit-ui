@@ -18,7 +18,6 @@ class BikingOptionsSection extends React.Component {
     const options = getFiveStepOptions(this.props.bikeSpeedOptions);
     return (
       <React.Fragment>
-        {/* OTP uses the same walkReluctance setting for bike routing */}
         <SearchSettingsDropdown
           currentSelection={options.find(option => option.value === bikeSpeed)}
           defaultValue={defaultSettings.bikeSpeed}
@@ -45,7 +44,6 @@ BikingOptionsSection.propTypes = {
   bikeSpeed: valueShape.isRequired,
   bikeSpeedOptions: PropTypes.array.isRequired,
   defaultSettings: PropTypes.shape({
-    walkReluctance: PropTypes.number.isRequired,
     bikeSpeed: PropTypes.number.isRequired,
   }).isRequired,
 };

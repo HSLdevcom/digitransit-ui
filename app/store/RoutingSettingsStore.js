@@ -18,14 +18,11 @@ class RoutingSettingsStore extends Store {
     return settings;
   }
 
-  saveRoutingSettings(data) {
-    const settings = this.getRoutingSettings();
-    const key = Object.keys(data)[0];
-    const value = data[Object.keys(data)[0]];
-
-    settings[key] = value;
-    setSearchSettingsStorage(settings);
-    this.emitChange(data);
+  saveRoutingSettings(changedSettings) {
+    const oldSettings = this.getRoutingSettings();
+    const newSettings = { ...oldSettings, ...changedSettings };
+    setSearchSettingsStorage(newSettings);
+    this.emitChange(changedSettings);
   }
 
   static handlers = {
