@@ -17,6 +17,7 @@ class QuickSettingsPanel extends React.Component {
     timeSelectorStartTime: PropTypes.number,
     timeSelectorEndTime: PropTypes.number,
     timeSelectorServiceTimeRange: PropTypes.object.isRequired,
+    toggleSettings: PropTypes.func.isRequired,
   };
   /* eslint-enable react/no-unused-prop-types */
 
@@ -55,6 +56,7 @@ class QuickSettingsPanel extends React.Component {
       category: 'ItinerarySettings',
       name: null,
     });
+    // console.log(this.context.match.location.state);
     this.internalSetOffcanvas(!this.getOffcanvasState());
   };
 
@@ -65,7 +67,7 @@ class QuickSettingsPanel extends React.Component {
       action: 'ExtraSettingsPanelClick',
       name: newState ? 'ExtraSettingsPanelOpen' : 'ExtraSettingsPanelClose',
     });
-
+    this.props.toggleSettings(newState);
     if (newState) {
       this.context.router.push({
         ...this.context.match.location,
