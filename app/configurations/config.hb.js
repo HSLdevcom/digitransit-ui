@@ -6,7 +6,7 @@ const APP_TITLE = 'stadtnavi';
 const APP_DESCRIPTION = '';
 const API_URL = process.env.API_URL || 'https://api.stadtnavi.de';
 const MAP_URL = process.env.MAP_URL || 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png';
-const SEMI_TRANSPARENT_MAP_URL = process.env.SEMI_TRANSPARENT_MAP_URL || `${API_URL}/tiles/satellite-overlay/{z}/{x}/{y}{r}.png`;
+const SEMI_TRANSPARENT_MAP_URL = process.env.SEMI_TRANSPARENT_MAP_URL || 'https://api.maptiler.com/maps/ffa4d49e-c68c-46c8-ab3f-60543337cecb/256/{z}/{x}/{y}.png?key=eA0drARBA1uPzLR6StGD';
 const GEOCODING_BASE_URL = process.env.GEOCODING_BASE_URL || `https://pelias.locationiq.org/v1`;
 const LOCATIONIQ_API_KEY = process.env.LOCATIONIQ_API_KEY;
 const YEAR = 1900 + new Date().getYear();
@@ -26,10 +26,10 @@ export default configMerger(walttiConfig, {
   URL: {
     OTP: process.env.OTP_URL || `${API_URL}/routing/v1/router/`,
     MAP: {
-      default: `${API_URL}/tiles/streets/{z}/{x}/{y}{r}.png`,
-      //default: MAP_URL,
+      default: MAP_URL,
       satellite: `${API_URL}/tiles/orthophoto/{z}/{x}/{y}.jpg`,
       semiTransparent: SEMI_TRANSPARENT_MAP_URL,
+      selfHosted: `${API_URL}/tiles/streets/{z}/{x}/{y}{r}.png`,
       bicycle: 'https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png',
     },
     STOP_MAP: `${API_URL}/map/v1/stop-map/`,
