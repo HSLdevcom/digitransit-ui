@@ -115,17 +115,36 @@ const PointFeatureMarker = ({ feature, icons, language }) => {
 
   const { icon } = properties;
   const header = getPropertyValueOrDefault(properties, 'name', language);
-  let address = getPropertyValueOrDefault(properties, 'address', language);
+  let popupContent = getPropertyValueOrDefault(
+    properties,
+    'popupContent',
+    language,
+  );
+  // Use header as default, so address wont be undefined.
+  const address = getPropertyValueOrDefault(
+    properties,
+    'address',
+    language,
+    header,
+  );
 
   if (properties.name === 'Fahrradreparaturstation') {
-    address =
+    popupContent =
       language === 'de'
         ? 'Derzeit nicht in Betrieb – voraussichtlich Anfang / Mitte Juni mit verbessertem Angebot wieder verfügbar – ggf. mit leicht geändertem Standort.'
         : 'Currently out of order. The service will resume in June, possibly at a slightly different location.';
   }
 
   const city = getPropertyValueOrDefault(properties, 'city', language);
-  const description = city ? `${address}, ${city}` : address;
+  let description = null;
+  // Only display address field as description if it is a real address + add city if exists.
+  if (address !== header && city) {
+    description = `${address}, ${city}`;
+  } else if (address !== header) {
+    description = address;
+  } else if (city) {
+    description = city;
+  }
   const useDescriptionAsHeader = !header;
 
   const hasCustomIcon = icon && icon.id && icons[icon.id];
@@ -154,6 +173,7 @@ const PointFeatureMarker = ({ feature, icons, language }) => {
             name={useDescriptionAsHeader ? description : header}
             unlinked
           />
+          {popupContent && <div className="card-text">{popupContent}</div>}
         </div>
       </Card>
       <MarkerPopupBottom

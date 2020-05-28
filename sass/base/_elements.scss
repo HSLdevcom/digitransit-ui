@@ -9,6 +9,13 @@ $border-radius-rounded: 30px;
   line-height: $line-height-normal;
   overflow-x: hidden;
 }
+
+.card-text {
+  font-size: 1.2em;
+  font-family: $font-family;
+  margin: 3px 0;
+}
+
 .card-header {
   background-color: $white;
   padding: 0.4em 0 0.5em;

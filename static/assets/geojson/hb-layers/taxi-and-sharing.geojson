@@ -7,12 +7,12 @@
         "name_en": "Taxi stand",
         "name_de": "Taxi-Stellplatz",
         "name": "Taxi-Stellplatz",
-        "address": "",
-        "address_de": "",
-        "address_en": "",
+        "popupContent": "",
+        "popupContent_de": "",
+        "popupContent_en": "",
         "icon": {
           "id": "taxiIcon",
-          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"Ebene_1\" data-name=\"Ebene 1\" viewBox=\"0 0 32.53 32.53\">\n  <defs>\n    <style>\n      .cls-2{fill:#fff}\n    </style>\n  </defs>\n  <path fill=\"#f1b736\" d=\"M313.29 384.05A16.27 16.27 0 11297 367.78a16.27 16.27 0 0116.26 16.27\" transform=\"translate(-280.76 -367.78)\"/>\n  <path d=\"M306.79 379.63a1.54 1.54 0 00-.3 0l-1 .29-1.1-2.67a2.53 2.53 0 00-2.16-1.45h-.73v-2.21a.71.71 0 00-.71-.71h-7.47a.71.71 0 00-.71.71v2.21h-.74a2.51 2.51 0 00-2.16 1.45l-1.1 2.67-1-.29a1.54 1.54 0 00-.3 0 .91.91 0 00-.91 1v.57a1.17 1.17 0 001.18 1.17h.07l-.15.39a8.66 8.66 0 00-.55 2.8v5.33a1.17 1.17 0 001.17 1.17h1.41a1.18 1.18 0 001.18-1.17v-1.31h12.72v1.31a1.17 1.17 0 001.17 1.17h1.4a1.18 1.18 0 001.17-1.17v-5.33a8.93 8.93 0 00-.55-2.8l-.16-.39h.09a1.17 1.17 0 001.18-1.17v-.57a.91.91 0 00-.94-1zm-6.93-5.77h.54v2h-.58zm-3.9 0h.65l.78 1.95.71-.88-.68-1h.61l.35.57.35-.57h.61l-.68 1 .72.9h-.63l-.4-.63-.4.63h-1.21l-.14-.41h-.74l-.14.41h-.58l.79-2zm-1.91 2v-1.55h-.65v-.35h2v.35h-.66v1.55h-.58zm-4.64 5.86l1.67-4.06a1.53 1.53 0 011.29-.87h9.29a1.54 1.54 0 011.3.87l1.66 4.06a.58.58 0 01-.58.87H290a.59.59 0 01-.59-.91zm3.76 5.22a.47.47 0 01-.47.47h-3.18a.48.48 0 01-.47-.47v-1.5a.48.48 0 01.47-.48h3.18a.48.48 0 01.47.48zm11.78 0a.47.47 0 01-.47.47h-3.18a.47.47 0 01-.47-.47v-1.5a.48.48 0 01.47-.48h3.18a.48.48 0 01.47.48z\" class=\"cls-2\" transform=\"translate(-280.76 -367.78)\"/>\n  <path d=\"M296.52 375l-.23-.54-.29.54z\" class=\"cls-2\" transform=\"translate(-280.76 -367.78)\"/>\n</svg>"
+          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"Ebene_1\" data-name=\"Ebene 1\" viewBox=\"0 0 32.53 32.53\">  <defs>    <style>      .cls-2{fill:#fff}    </style>  </defs>  <path fill=\"#f1b736\" d=\"M313.29 384.05A16.27 16.27 0 11297 367.78a16.27 16.27 0 0116.26 16.27\" transform=\"translate(-280.76 -367.78)\"/>  <path d=\"M306.79 379.63a1.54 1.54 0 00-.3 0l-1 .29-1.1-2.67a2.53 2.53 0 00-2.16-1.45h-.73v-2.21a.71.71 0 00-.71-.71h-7.47a.71.71 0 00-.71.71v2.21h-.74a2.51 2.51 0 00-2.16 1.45l-1.1 2.67-1-.29a1.54 1.54 0 00-.3 0 .91.91 0 00-.91 1v.57a1.17 1.17 0 001.18 1.17h.07l-.15.39a8.66 8.66 0 00-.55 2.8v5.33a1.17 1.17 0 001.17 1.17h1.41a1.18 1.18 0 001.18-1.17v-1.31h12.72v1.31a1.17 1.17 0 001.17 1.17h1.4a1.18 1.18 0 001.17-1.17v-5.33a8.93 8.93 0 00-.55-2.8l-.16-.39h.09a1.17 1.17 0 001.18-1.17v-.57a.91.91 0 00-.94-1zm-6.93-5.77h.54v2h-.58zm-3.9 0h.65l.78 1.95.71-.88-.68-1h.61l.35.57.35-.57h.61l-.68 1 .72.9h-.63l-.4-.63-.4.63h-1.21l-.14-.41h-.74l-.14.41h-.58l.79-2zm-1.91 2v-1.55h-.65v-.35h2v.35h-.66v1.55h-.58zm-4.64 5.86l1.67-4.06a1.53 1.53 0 011.29-.87h9.29a1.54 1.54 0 011.3.87l1.66 4.06a.58.58 0 01-.58.87H290a.59.59 0 01-.59-.91zm3.76 5.22a.47.47 0 01-.47.47h-3.18a.48.48 0 01-.47-.47v-1.5a.48.48 0 01.47-.48h3.18a.48.48 0 01.47.48zm11.78 0a.47.47 0 01-.47.47h-3.18a.47.47 0 01-.47-.47v-1.5a.48.48 0 01.47-.48h3.18a.48.48 0 01.47.48z\" class=\"cls-2\" transform=\"translate(-280.76 -367.78)\"/>  <path d=\"M296.52 375l-.23-.54-.29.54z\" class=\"cls-2\" transform=\"translate(-280.76 -367.78)\"/></svg>"
         }
       },
       "geometry": {
@@ -29,9 +29,9 @@
         "name_en": "Taxi stand",
         "name_de": "Taxi-Stellplatz",
         "name": "Taxi-Stellplatz",
-        "address": "",
-        "address_de": "",
-        "address_en": "",
+        "popupContent": "",
+        "popupContent_de": "",
+        "popupContent_en": "",
         "icon": {
           "id": "taxiIcon"
         }
@@ -50,9 +50,9 @@
         "name_en": "Taxi stand",
         "name_de": "Taxi-Stellplatz",
         "name": "Taxi-Stellplatz",
-        "address": "",
-        "address_de": "",
-        "address_en": "",
+        "popupContent": "",
+        "popupContent_de": "",
+        "popupContent_en": "",
         "icon": {
           "id": "taxiIcon"
         }
@@ -71,9 +71,9 @@
         "name": "Marktplatz",
         "name_en": "Marktplatz",
         "name_de": "Marktplatz",
-        "address": "",
-        "address_de": "",
-        "address_en": "",
+        "popupContent": "",
+        "popupContent_de": "",
+        "popupContent_en": "",
         "icon": {
           "id": "taxiIcon"
         }
@@ -92,9 +92,9 @@
         "name": "Stern Center",
         "name_en": "Stern Center",
         "name_de": "Stern Center",
-        "address": "",
-        "address_de": "",
-        "address_en": "",
+        "popupContent": "",
+        "popupContent_de": "",
+        "popupContent_en": "",
         "icon": {
           "id": "taxiIcon"
         }
@@ -113,9 +113,9 @@
         "name": "Taxi Schmid",
         "name_en": "Taxi Schmid",
         "name_de": "Taxi Schmid",
-        "address": "",
-        "address_de": "",
-        "address_en": "",
+        "popupContent": "",
+        "popupContent_de": "",
+        "popupContent_en": "",
         "icon": {
           "id": "taxiIcon"
         }
@@ -134,9 +134,9 @@
         "name_en": "Taxi stand",
         "name_de": "Taxi-Stellplatz",
         "name": "Taxi-Stellplatz",
-        "address": "",
-        "address_de": "",
-        "address_en": "",
+        "popupContent": "",
+        "popupContent_de": "",
+        "popupContent_en": "",
         "icon": {
           "id": "taxiIcon"
         }
@@ -155,9 +155,9 @@
         "name": "Taxi Winter",
         "name_en": "Taxi Winter",
         "name_de": "Taxi Winter",
-        "address": "Telefon: +49 7034 7494",
-        "address_de": "Telefon: +49 7034 7494",
-        "address_en": "Phone: +49 7034 7494",
+        "popupContent": "Telefon: +49 7034 7494",
+        "popupContent_de": "Telefon: +49 7034 7494",
+        "popupContent_en": "Phone: +49 7034 7494",
         "icon": {
           "id": "taxiIcon"
         }
@@ -176,9 +176,9 @@
         "name": "Fuchs Mobil",
         "name_en": "Fuchs Mobil",
         "name_de": "Fuchs Mobil",
-        "address": "Telefon: +49 7073 1839700",
-        "address_de": "Telefon: +49 7073 1839700",
-        "address_en": "Phone: +49 7073 1839700",
+        "popupContent": "Telefon: +49 7073 1839700",
+        "popupContent_de": "Telefon: +49 7073 1839700",
+        "popupContent_en": "Phone: +49 7073 1839700",
         "icon": {
           "id": "taxiIcon"
         }
@@ -197,12 +197,12 @@
         "name": "B\u00f6blingen",
         "name_en": "B\u00f6blingen",
         "name_de": "B\u00f6blingen",
-        "address": "Stellpl\u00e4tze: 1, Barrierefrei: ja",
-        "address_de": "Stellpl\u00e4tze: 1, Barrierefrei: ja",
-        "address_en": "Capacity: 1, Wheelchair: yes",
+        "popupContent": "Stellpl\u00e4tze: 1, Barrierefrei: ja",
+        "popupContent_de": "Stellpl\u00e4tze: 1, Barrierefrei: ja",
+        "popupContent_en": "Capacity: 1, Wheelchair: yes",
         "icon": {
           "id": "carShareIcon",
-          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"Ebene_1\" data-name=\"Ebene 1\" viewBox=\"0 0 32.53 32.53\">\n  <defs>\n    <style>\n      .cls-2{fill:#fff}\n    </style>\n  </defs>\n  <path fill=\"#ff834a\" d=\"M320.34 384.05a16.27 16.27 0 11-16.26-16.27 16.26 16.26 0 0116.26 16.27\" transform=\"translate(-287.81 -367.78)\"/>\n  <path d=\"M304.35 370.35a4.7 4.7 0 11-3.3 8l.73-.76a3.5 3.5 0 002.57 1.08 3.56 3.56 0 002.59-1.07 3.62 3.62 0 000-5.16 3.55 3.55 0 00-2.59-1.06 3.64 3.64 0 00-3.65 3.64h1.57l-2.1 2.1-.05-.07-2-2h1.56a4.69 4.69 0 014.7-4.7zm-.51 2.62h.78v2.2l1.83 1.1-.39.64-2.22-1.35zM312 385.46a.67.67 0 00-.24 0l-.83.23-.89-2.16a2 2 0 00-1.75-1.17h-8.38a2 2 0 00-1.75 1.17l-.88 2.15-.83-.22a.67.67 0 00-.24 0 .73.73 0 00-.73.78v.46a1 1 0 00.95.95h.06l-.13.31a7 7 0 00-.45 2.26v4.31a1 1 0 00.95 1H298a1 1 0 00.95-1v-1.06h10.28v1.06a1 1 0 001 1h1.15a1 1 0 00.95-1v-4.31a7 7 0 00-.45-2.26l-.13-.31h.08a1 1 0 00.95-.95v-.46a.74.74 0 00-.78-.78zm-14.05 1.66l1.35-3.28a1.22 1.22 0 011-.71h7.52a1.23 1.23 0 011.05.71l1.34 3.28a.47.47 0 01-.47.7h-11.35a.47.47 0 01-.47-.7zm.6 4.71a1.23 1.23 0 111.22-1.23 1.23 1.23 0 01-1.25 1.23zm11.22 0a1.23 1.23 0 111.23-1.23 1.23 1.23 0 01-1.26 1.23z\" class=\"cls-2\" transform=\"translate(-287.81 -367.78)\"/>\n</svg>\n"
+          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"Ebene_1\" data-name=\"Ebene 1\" viewBox=\"0 0 32.53 32.53\">  <defs>    <style>      .cls-2{fill:#fff}    </style>  </defs>  <path fill=\"#ff834a\" d=\"M320.34 384.05a16.27 16.27 0 11-16.26-16.27 16.26 16.26 0 0116.26 16.27\" transform=\"translate(-287.81 -367.78)\"/>  <path d=\"M304.35 370.35a4.7 4.7 0 11-3.3 8l.73-.76a3.5 3.5 0 002.57 1.08 3.56 3.56 0 002.59-1.07 3.62 3.62 0 000-5.16 3.55 3.55 0 00-2.59-1.06 3.64 3.64 0 00-3.65 3.64h1.57l-2.1 2.1-.05-.07-2-2h1.56a4.69 4.69 0 014.7-4.7zm-.51 2.62h.78v2.2l1.83 1.1-.39.64-2.22-1.35zM312 385.46a.67.67 0 00-.24 0l-.83.23-.89-2.16a2 2 0 00-1.75-1.17h-8.38a2 2 0 00-1.75 1.17l-.88 2.15-.83-.22a.67.67 0 00-.24 0 .73.73 0 00-.73.78v.46a1 1 0 00.95.95h.06l-.13.31a7 7 0 00-.45 2.26v4.31a1 1 0 00.95 1H298a1 1 0 00.95-1v-1.06h10.28v1.06a1 1 0 001 1h1.15a1 1 0 00.95-1v-4.31a7 7 0 00-.45-2.26l-.13-.31h.08a1 1 0 00.95-.95v-.46a.74.74 0 00-.78-.78zm-14.05 1.66l1.35-3.28a1.22 1.22 0 011-.71h7.52a1.23 1.23 0 011.05.71l1.34 3.28a.47.47 0 01-.47.7h-11.35a.47.47 0 01-.47-.7zm.6 4.71a1.23 1.23 0 111.22-1.23 1.23 1.23 0 01-1.25 1.23zm11.22 0a1.23 1.23 0 111.23-1.23 1.23 1.23 0 01-1.26 1.23z\" class=\"cls-2\" transform=\"translate(-287.81 -367.78)\"/></svg>"
         }
       },
       "geometry": {
@@ -219,9 +219,9 @@
         "name": "stadtmobil",
         "name_en": "stadtmobil",
         "name_de": "stadtmobil",
-        "address": "Stellpl\u00e4tze: 4",
-        "address_de": "Stellpl\u00e4tze: 4",
-        "address_en": "Capacity: 4",
+        "popupContent": "Stellpl\u00e4tze: 4",
+        "popupContent_de": "Stellpl\u00e4tze: 4",
+        "popupContent_en": "Capacity: 4",
         "icon": {
           "id": "carShareIcon"
         }
@@ -240,9 +240,9 @@
         "name": "Mariengarage Herrenberg",
         "name_en": "Mariengarage Herrenberg",
         "name_de": "Mariengarage Herrenberg",
-        "address": "Stellpl\u00e4tze: 1",
-        "address_de": "Stellpl\u00e4tze: 1",
-        "address_en": "Capacity: 1",
+        "popupContent": "Stellpl\u00e4tze: 1",
+        "popupContent_de": "Stellpl\u00e4tze: 1",
+        "popupContent_en": "Capacity: 1",
         "icon": {
           "id": "carShareIcon"
         }
@@ -261,9 +261,9 @@
         "name": "Bahnhof (Flugfeld-/Nordseite)",
         "name_en": "Bahnhof (Flugfeld-/Nordseite)",
         "name_de": "Bahnhof (Flugfeld-/Nordseite)",
-        "address": "Stellpl\u00e4tze: 1, Barrierefrei: ja",
-        "address_de": "Stellpl\u00e4tze: 1, Barrierefrei: ja",
-        "address_en": "Capacity: 1, Wheelchair: yes",
+        "popupContent": "Stellpl\u00e4tze: 1, Barrierefrei: ja",
+        "popupContent_de": "Stellpl\u00e4tze: 1, Barrierefrei: ja",
+        "popupContent_en": "Capacity: 1, Wheelchair: yes",
         "icon": {
           "id": "carShareIcon"
         }
@@ -282,9 +282,9 @@
         "name": "Hulb Bahnhof",
         "name_en": "Hulb Bahnhof",
         "name_de": "Hulb Bahnhof",
-        "address": "Stellpl\u00e4tze: 1, Barrierefrei: begrenzt",
-        "address_de": "Stellpl\u00e4tze: 1, Barrierefrei: begrenzt",
-        "address_en": "Capacity: 1, Wheelchair: limited",
+        "popupContent": "Stellpl\u00e4tze: 1, Barrierefrei: begrenzt",
+        "popupContent_de": "Stellpl\u00e4tze: 1, Barrierefrei: begrenzt",
+        "popupContent_en": "Capacity: 1, Wheelchair: limited",
         "icon": {
           "id": "carShareIcon"
         }
@@ -303,9 +303,9 @@
         "name": "teilAuto",
         "name_en": "teilAuto",
         "name_de": "teilAuto",
-        "address": "Stellpl\u00e4tze: 1, Telefon: +49 7071 1388335, Barrierefrei: ja",
-        "address_de": "Stellpl\u00e4tze: 1, Telefon: +49 7071 1388335, Barrierefrei: ja",
-        "address_en": "Capacity: 1, Phone: +49 7071 1388335, Wheelchair: yes",
+        "popupContent": "Stellpl\u00e4tze: 1, Telefon: +49 7071 1388335, Barrierefrei: ja",
+        "popupContent_de": "Stellpl\u00e4tze: 1, Telefon: +49 7071 1388335, Barrierefrei: ja",
+        "popupContent_en": "Capacity: 1, Phone: +49 7071 1388335, Wheelchair: yes",
         "icon": {
           "id": "carShareIcon"
         }
@@ -324,9 +324,9 @@
         "name_en": "Car sharing",
         "name_de": "Car-Sharing",
         "name": "Car-Sharing",
-        "address": "Stellpl\u00e4tze: 1",
-        "address_de": "Stellpl\u00e4tze: 1",
-        "address_en": "Capacity: 1",
+        "popupContent": "Stellpl\u00e4tze: 1",
+        "popupContent_de": "Stellpl\u00e4tze: 1",
+        "popupContent_en": "Capacity: 1",
         "icon": {
           "id": "carShareIcon"
         }
@@ -345,9 +345,9 @@
         "name": "G\u00e4rtringen",
         "name_en": "G\u00e4rtringen",
         "name_de": "G\u00e4rtringen",
-        "address": "Stellpl\u00e4tze: 1, Barrierefrei: ja",
-        "address_de": "Stellpl\u00e4tze: 1, Barrierefrei: ja",
-        "address_en": "Capacity: 1, Wheelchair: yes",
+        "popupContent": "Stellpl\u00e4tze: 1, Barrierefrei: ja",
+        "popupContent_de": "Stellpl\u00e4tze: 1, Barrierefrei: ja",
+        "popupContent_en": "Capacity: 1, Wheelchair: yes",
         "icon": {
           "id": "carShareIcon"
         }
@@ -366,12 +366,12 @@
         "name": "ebikestation",
         "name_en": "ebikestation",
         "name_de": "ebikestation",
-        "address": "Telefon: +49 30 69205046, Geb\u00fchrenpflichtig:: ja, Barrierefrei: ja",
-        "address_de": "Telefon: +49 30 69205046, Geb\u00fchrenpflichtig:: ja, Barrierefrei: ja",
-        "address_en": "Phone: +49 30 69205046, Fee: yes, Wheelchair: yes",
+        "popupContent": "Telefon: +49 30 69205046, Geb\u00fchrenpflichtig: ja, Barrierefrei: ja",
+        "popupContent_de": "Telefon: +49 30 69205046, Geb\u00fchrenpflichtig: ja, Barrierefrei: ja",
+        "popupContent_en": "Phone: +49 30 69205046, Fee: yes, Wheelchair: yes",
         "icon": {
           "id": "bikeRentIcon",
-          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"Ebene_1\" data-name=\"Ebene 1\" viewBox=\"0 0 32.53 32.53\">\n  <defs>\n    <style>\n      .cls-2{fill:#fff}\n    </style>\n  </defs>\n  <path fill=\"#ff834a\" d=\"M313.29 384.05A16.27 16.27 0 11297 367.78a16.26 16.26 0 0116.26 16.27\" transform=\"translate(-280.76 -367.78)\"/>\n  <path d=\"M299.66 384.43a1.47 1.47 0 01-1.05-.44 1.38 1.38 0 01-.46-1 1.57 1.57 0 011.51-1.51 1.39 1.39 0 011 .46 1.47 1.47 0 01.44 1.05 1.43 1.43 0 01-.44 1 1.45 1.45 0 01-1 .44zm-7.87 4.88a3.59 3.59 0 012.65 1.09 3.65 3.65 0 011.07 2.67 3.66 3.66 0 01-3.72 3.73 3.69 3.69 0 01-2.67-1.07 3.57 3.57 0 01-1.09-2.66 3.63 3.63 0 011.09-2.67 3.67 3.67 0 012.67-1.09zm0 6.36a2.58 2.58 0 002.6-2.6 2.56 2.56 0 00-.76-1.86 2.44 2.44 0 00-1.84-.77 2.5 2.5 0 00-1.86.77 2.54 2.54 0 00-.78 1.86 2.49 2.49 0 00.78 1.85 2.56 2.56 0 001.86.75zm4.32-7.48l1.65 1.72v4.64h-1.47v-3.73l-2.43-2.1a1.19 1.19 0 01-.42-1.06 1.42 1.42 0 01.42-1.05l2.14-2.11a1.19 1.19 0 011.06-.42 1.86 1.86 0 011.19.42l1.44 1.44a3.64 3.64 0 002.67 1.12v1.51a5.14 5.14 0 01-3.79-1.58l-.6-.59zm6.15 1.12a3.72 3.72 0 013.76 3.76 3.57 3.57 0 01-1.09 2.66 3.66 3.66 0 01-2.67 1.07 3.66 3.66 0 01-3.72-3.73 3.65 3.65 0 011.07-2.67 3.59 3.59 0 012.65-1.09zm0 6.36a2.56 2.56 0 001.86-.75 2.49 2.49 0 00.78-1.85 2.54 2.54 0 00-.78-1.86 2.5 2.5 0 00-1.86-.77 2.45 2.45 0 00-1.84.77 2.56 2.56 0 00-.76 1.86 2.58 2.58 0 002.6 2.6zM297.3 370.35a4.7 4.7 0 11-3.31 8l.74-.76a3.5 3.5 0 002.57 1.08 3.56 3.56 0 002.59-1.07 3.62 3.62 0 000-5.16 3.55 3.55 0 00-2.59-1.06 3.64 3.64 0 00-3.65 3.64h1.57l-2.11 2.1v-.07l-2-2h1.57a4.69 4.69 0 014.7-4.7zm-.52 2.62h.79v2.2l1.83 1.1-.39.64-2.23-1.35z\" class=\"cls-2\" transform=\"translate(-280.76 -367.78)\"/>\n</svg>"
+          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"Ebene_1\" data-name=\"Ebene 1\" viewBox=\"0 0 32.53 32.53\">  <defs>    <style>      .cls-2{fill:#fff}    </style>  </defs>  <path fill=\"#ff834a\" d=\"M313.29 384.05A16.27 16.27 0 11297 367.78a16.26 16.26 0 0116.26 16.27\" transform=\"translate(-280.76 -367.78)\"/>  <path d=\"M299.66 384.43a1.47 1.47 0 01-1.05-.44 1.38 1.38 0 01-.46-1 1.57 1.57 0 011.51-1.51 1.39 1.39 0 011 .46 1.47 1.47 0 01.44 1.05 1.43 1.43 0 01-.44 1 1.45 1.45 0 01-1 .44zm-7.87 4.88a3.59 3.59 0 012.65 1.09 3.65 3.65 0 011.07 2.67 3.66 3.66 0 01-3.72 3.73 3.69 3.69 0 01-2.67-1.07 3.57 3.57 0 01-1.09-2.66 3.63 3.63 0 011.09-2.67 3.67 3.67 0 012.67-1.09zm0 6.36a2.58 2.58 0 002.6-2.6 2.56 2.56 0 00-.76-1.86 2.44 2.44 0 00-1.84-.77 2.5 2.5 0 00-1.86.77 2.54 2.54 0 00-.78 1.86 2.49 2.49 0 00.78 1.85 2.56 2.56 0 001.86.75zm4.32-7.48l1.65 1.72v4.64h-1.47v-3.73l-2.43-2.1a1.19 1.19 0 01-.42-1.06 1.42 1.42 0 01.42-1.05l2.14-2.11a1.19 1.19 0 011.06-.42 1.86 1.86 0 011.19.42l1.44 1.44a3.64 3.64 0 002.67 1.12v1.51a5.14 5.14 0 01-3.79-1.58l-.6-.59zm6.15 1.12a3.72 3.72 0 013.76 3.76 3.57 3.57 0 01-1.09 2.66 3.66 3.66 0 01-2.67 1.07 3.66 3.66 0 01-3.72-3.73 3.65 3.65 0 011.07-2.67 3.59 3.59 0 012.65-1.09zm0 6.36a2.56 2.56 0 001.86-.75 2.49 2.49 0 00.78-1.85 2.54 2.54 0 00-.78-1.86 2.5 2.5 0 00-1.86-.77 2.45 2.45 0 00-1.84.77 2.56 2.56 0 00-.76 1.86 2.58 2.58 0 002.6 2.6zM297.3 370.35a4.7 4.7 0 11-3.31 8l.74-.76a3.5 3.5 0 002.57 1.08 3.56 3.56 0 002.59-1.07 3.62 3.62 0 000-5.16 3.55 3.55 0 00-2.59-1.06 3.64 3.64 0 00-3.65 3.64h1.57l-2.11 2.1v-.07l-2-2h1.57a4.69 4.69 0 014.7-4.7zm-.52 2.62h.79v2.2l1.83 1.1-.39.64-2.23-1.35z\" class=\"cls-2\" transform=\"translate(-280.76 -367.78)\"/></svg>"
         }
       },
       "geometry": {
@@ -388,9 +388,9 @@
         "name": "Bahnhof B\u00f6blingen/Talstra\u00dfe",
         "name_en": "Bahnhof B\u00f6blingen/Talstra\u00dfe",
         "name_de": "Bahnhof B\u00f6blingen/Talstra\u00dfe",
-        "address": "Stellpl\u00e4tze: 12",
-        "address_de": "Stellpl\u00e4tze: 12",
-        "address_en": "Capacity: 12",
+        "popupContent": "Stellpl\u00e4tze: 12",
+        "popupContent_de": "Stellpl\u00e4tze: 12",
+        "popupContent_en": "Capacity: 12",
         "icon": {
           "id": "bikeRentIcon"
         }
@@ -409,9 +409,9 @@
         "name": "ebikestation",
         "name_en": "ebikestation",
         "name_de": "ebikestation",
-        "address": "Stellpl\u00e4tze: 10, Barrierefrei: begrenzt",
-        "address_de": "Stellpl\u00e4tze: 10, Barrierefrei: begrenzt",
-        "address_en": "Capacity: 10, Wheelchair: limited",
+        "popupContent": "Stellpl\u00e4tze: 10, Barrierefrei: begrenzt",
+        "popupContent_de": "Stellpl\u00e4tze: 10, Barrierefrei: begrenzt",
+        "popupContent_en": "Capacity: 10, Wheelchair: limited",
         "icon": {
           "id": "bikeRentIcon"
         }
@@ -430,9 +430,9 @@
         "name_en": "Bike rental",
         "name_de": "Fahrradverleih",
         "name": "Fahrradverleih",
-        "address": "",
-        "address_de": "",
-        "address_en": "",
+        "popupContent": "",
+        "popupContent_de": "",
+        "popupContent_en": "",
         "icon": {
           "id": "bikeRentIcon"
         }
@@ -451,9 +451,9 @@
         "name": "Bahnhof Goldberg/Leipziger Stra\u00dfe",
         "name_en": "Bahnhof Goldberg/Leipziger Stra\u00dfe",
         "name_de": "Bahnhof Goldberg/Leipziger Stra\u00dfe",
-        "address": "Stellpl\u00e4tze: 6",
-        "address_de": "Stellpl\u00e4tze: 6",
-        "address_en": "Capacity: 6",
+        "popupContent": "Stellpl\u00e4tze: 6",
+        "popupContent_de": "Stellpl\u00e4tze: 6",
+        "popupContent_en": "Capacity: 6",
         "icon": {
           "id": "bikeRentIcon"
         }
@@ -472,9 +472,9 @@
         "name_en": "Bike rental",
         "name_de": "Fahrradverleih",
         "name": "Fahrradverleih",
-        "address": "Stellpl\u00e4tze: 6",
-        "address_de": "Stellpl\u00e4tze: 6",
-        "address_en": "Capacity: 6",
+        "popupContent": "Stellpl\u00e4tze: 6",
+        "popupContent_de": "Stellpl\u00e4tze: 6",
+        "popupContent_en": "Capacity: 6",
         "icon": {
           "id": "bikeRentIcon"
         }
@@ -493,9 +493,9 @@
         "name_en": "Bike rental",
         "name_de": "Fahrradverleih",
         "name": "Fahrradverleih",
-        "address": "",
-        "address_de": "",
-        "address_en": "",
+        "popupContent": "",
+        "popupContent_de": "",
+        "popupContent_en": "",
         "icon": {
           "id": "bikeRentIcon"
         }

@@ -7,12 +7,12 @@
         "name": "Fahrradparkplatz Bahnhof Herrenberg",
         "name_en": "Fahrradparkplatz Bahnhof Herrenberg",
         "name_de": "Fahrradparkplatz Bahnhof Herrenberg",
-        "address": "Stellpl\u00e4tze: 132",
-        "address_de": "Stellpl\u00e4tze: 132",
-        "address_en": "Capacity: 132",
+        "popupContent": "Stellpl\u00e4tze: 132",
+        "popupContent_de": "Stellpl\u00e4tze: 132",
+        "popupContent_en": "Capacity: 132",
         "icon": {
           "id": "bikeParkCovIcon",
-          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"Ebene_1\" data-name=\"Ebene 1\" viewBox=\"0 0 32.53 32.53\">\n  <defs>\n    <style>\n      .cls-2{fill:#fff}\n    </style>\n  </defs>\n  <path fill=\"#005ab4\" d=\"M320.34 384.05a16.27 16.27 0 11-16.26-16.27 16.27 16.27 0 0116.26 16.27\" transform=\"translate(-287.81 -367.78)\"/>\n  <path d=\"M298.37 373v.32a.6.6 0 00.83.56l4.65-1.9a.61.61 0 01.46 0l4.64 1.9a.61.61 0 00.84-.56V373a.6.6 0 00-.38-.56l-5.1-2.09a.61.61 0 00-.46 0l-5.11 2.09a.6.6 0 00-.37.56\" class=\"cls-2\" transform=\"translate(-287.81 -367.78)\"/>\n  <path d=\"M307.13 376.2a2.34 2.34 0 00-2.51-2.37h-2.95v7.6h1.49v-2.86h1.46a2.34 2.34 0 002.51-2.37m-1.49 0a1 1 0 01-1.1 1h-1.38v-2.09h1.38a1 1 0 011.1 1.05M306.71 384.17a1.47 1.47 0 01-1-.44 1.38 1.38 0 01-.46-1 1.43 1.43 0 01.46-1.05 1.41 1.41 0 011-.46 1.38 1.38 0 011 .46 1.49 1.49 0 01.44 1.05 1.5 1.5 0 01-1.48 1.48zm-7.87 4.88a3.57 3.57 0 012.65 1.09 3.66 3.66 0 011.08 2.67 3.67 3.67 0 01-3.73 3.73 3.69 3.69 0 01-2.67-1.07 3.57 3.57 0 01-1.09-2.66 3.63 3.63 0 011.09-2.67 3.67 3.67 0 012.67-1.09zm0 6.36a2.56 2.56 0 002.6-2.6 2.59 2.59 0 00-.75-1.86 2.51 2.51 0 00-1.85-.77 2.63 2.63 0 00-2.63 2.63 2.48 2.48 0 00.77 1.85 2.57 2.57 0 001.86.75zm4.32-7.48l1.65 1.72v4.64h-1.47v-3.73l-2.43-2.1a1.19 1.19 0 01-.42-1.06 1.42 1.42 0 01.42-1l2.11-2.11a1.19 1.19 0 011.06-.42 1.86 1.86 0 011.19.42l1.44 1.44a3.64 3.64 0 002.67 1.12v1.52a5.15 5.15 0 01-3.79-1.59l-.6-.59zm6.15 1.12a3.72 3.72 0 013.76 3.76 3.57 3.57 0 01-1.09 2.66 3.66 3.66 0 01-2.67 1.07 3.66 3.66 0 01-3.72-3.73 3.69 3.69 0 011.07-2.67 3.59 3.59 0 012.65-1.09zm0 6.36a2.56 2.56 0 001.86-.75 2.49 2.49 0 00.78-1.85 2.65 2.65 0 00-2.64-2.63 2.49 2.49 0 00-1.84.77 2.56 2.56 0 00-.76 1.86 2.58 2.58 0 002.6 2.6z\" class=\"cls-2\" transform=\"translate(-287.81 -367.78)\"/>\n</svg>"
+          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"Ebene_1\" data-name=\"Ebene 1\" viewBox=\"0 0 32.53 32.53\">  <defs>    <style>      .cls-2{fill:#fff}    </style>  </defs>  <path fill=\"#005ab4\" d=\"M320.34 384.05a16.27 16.27 0 11-16.26-16.27 16.27 16.27 0 0116.26 16.27\" transform=\"translate(-287.81 -367.78)\"/>  <path d=\"M298.37 373v.32a.6.6 0 00.83.56l4.65-1.9a.61.61 0 01.46 0l4.64 1.9a.61.61 0 00.84-.56V373a.6.6 0 00-.38-.56l-5.1-2.09a.61.61 0 00-.46 0l-5.11 2.09a.6.6 0 00-.37.56\" class=\"cls-2\" transform=\"translate(-287.81 -367.78)\"/>  <path d=\"M307.13 376.2a2.34 2.34 0 00-2.51-2.37h-2.95v7.6h1.49v-2.86h1.46a2.34 2.34 0 002.51-2.37m-1.49 0a1 1 0 01-1.1 1h-1.38v-2.09h1.38a1 1 0 011.1 1.05M306.71 384.17a1.47 1.47 0 01-1-.44 1.38 1.38 0 01-.46-1 1.43 1.43 0 01.46-1.05 1.41 1.41 0 011-.46 1.38 1.38 0 011 .46 1.49 1.49 0 01.44 1.05 1.5 1.5 0 01-1.48 1.48zm-7.87 4.88a3.57 3.57 0 012.65 1.09 3.66 3.66 0 011.08 2.67 3.67 3.67 0 01-3.73 3.73 3.69 3.69 0 01-2.67-1.07 3.57 3.57 0 01-1.09-2.66 3.63 3.63 0 011.09-2.67 3.67 3.67 0 012.67-1.09zm0 6.36a2.56 2.56 0 002.6-2.6 2.59 2.59 0 00-.75-1.86 2.51 2.51 0 00-1.85-.77 2.63 2.63 0 00-2.63 2.63 2.48 2.48 0 00.77 1.85 2.57 2.57 0 001.86.75zm4.32-7.48l1.65 1.72v4.64h-1.47v-3.73l-2.43-2.1a1.19 1.19 0 01-.42-1.06 1.42 1.42 0 01.42-1l2.11-2.11a1.19 1.19 0 011.06-.42 1.86 1.86 0 011.19.42l1.44 1.44a3.64 3.64 0 002.67 1.12v1.52a5.15 5.15 0 01-3.79-1.59l-.6-.59zm6.15 1.12a3.72 3.72 0 013.76 3.76 3.57 3.57 0 01-1.09 2.66 3.66 3.66 0 01-2.67 1.07 3.66 3.66 0 01-3.72-3.73 3.69 3.69 0 011.07-2.67 3.59 3.59 0 012.65-1.09zm0 6.36a2.56 2.56 0 001.86-.75 2.49 2.49 0 00.78-1.85 2.65 2.65 0 00-2.64-2.63 2.49 2.49 0 00-1.84.77 2.56 2.56 0 00-.76 1.86 2.58 2.58 0 002.6 2.6z\" class=\"cls-2\" transform=\"translate(-287.81 -367.78)\"/></svg>"
         }
       },
       "geometry": {
@@ -29,9 +29,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "",
-        "address_de": "",
-        "address_en": "",
+        "popupContent": "",
+        "popupContent_de": "",
+        "popupContent_en": "",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -50,9 +50,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "",
-        "address_de": "",
-        "address_en": "",
+        "popupContent": "",
+        "popupContent_de": "",
+        "popupContent_en": "",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -71,9 +71,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "",
-        "address_de": "",
-        "address_en": "",
+        "popupContent": "",
+        "popupContent_de": "",
+        "popupContent_en": "",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -92,9 +92,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 40, Geb\u00fchrenpflichtig:: nein",
-        "address_de": "Stellpl\u00e4tze: 40, Geb\u00fchrenpflichtig:: nein",
-        "address_en": "Capacity: 40, Fee: no",
+        "popupContent": "Stellpl\u00e4tze: 40, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 40, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 40, Fee: no",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -113,9 +113,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 40, Geb\u00fchrenpflichtig:: nein",
-        "address_de": "Stellpl\u00e4tze: 40, Geb\u00fchrenpflichtig:: nein",
-        "address_en": "Capacity: 40, Fee: no",
+        "popupContent": "Stellpl\u00e4tze: 40, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 40, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 40, Fee: no",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -134,9 +134,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 50, Geb\u00fchrenpflichtig:: nein",
-        "address_de": "Stellpl\u00e4tze: 50, Geb\u00fchrenpflichtig:: nein",
-        "address_en": "Capacity: 50, Fee: no",
+        "popupContent": "Stellpl\u00e4tze: 50, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 50, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 50, Fee: no",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -155,9 +155,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 196, Geb\u00fchrenpflichtig:: nein",
-        "address_de": "Stellpl\u00e4tze: 196, Geb\u00fchrenpflichtig:: nein",
-        "address_en": "Capacity: 196, Fee: no",
+        "popupContent": "Stellpl\u00e4tze: 196, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 196, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 196, Fee: no",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -176,9 +176,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 50",
-        "address_de": "Stellpl\u00e4tze: 50",
-        "address_en": "Capacity: 50",
+        "popupContent": "Stellpl\u00e4tze: 50",
+        "popupContent_de": "Stellpl\u00e4tze: 50",
+        "popupContent_en": "Capacity: 50",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -197,9 +197,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 14",
-        "address_de": "Stellpl\u00e4tze: 14",
-        "address_en": "Capacity: 14",
+        "popupContent": "Stellpl\u00e4tze: 14",
+        "popupContent_de": "Stellpl\u00e4tze: 14",
+        "popupContent_en": "Capacity: 14",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -218,9 +218,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 40",
-        "address_de": "Stellpl\u00e4tze: 40",
-        "address_en": "Capacity: 40",
+        "popupContent": "Stellpl\u00e4tze: 40",
+        "popupContent_de": "Stellpl\u00e4tze: 40",
+        "popupContent_en": "Capacity: 40",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -239,9 +239,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "",
-        "address_de": "",
-        "address_en": "",
+        "popupContent": "Stellpl\u00e4tze: 24",
+        "popupContent_de": "Stellpl\u00e4tze: 24",
+        "popupContent_en": "Capacity: 24",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -260,9 +260,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 100",
-        "address_de": "Stellpl\u00e4tze: 100",
-        "address_en": "Capacity: 100",
+        "popupContent": "Stellpl\u00e4tze: 100",
+        "popupContent_de": "Stellpl\u00e4tze: 100",
+        "popupContent_en": "Capacity: 100",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -281,9 +281,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 100",
-        "address_de": "Stellpl\u00e4tze: 100",
-        "address_en": "Capacity: 100",
+        "popupContent": "Stellpl\u00e4tze: 100",
+        "popupContent_de": "Stellpl\u00e4tze: 100",
+        "popupContent_en": "Capacity: 100",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -302,9 +302,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 60",
-        "address_de": "Stellpl\u00e4tze: 60",
-        "address_en": "Capacity: 60",
+        "popupContent": "Stellpl\u00e4tze: 60",
+        "popupContent_de": "Stellpl\u00e4tze: 60",
+        "popupContent_en": "Capacity: 60",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -323,9 +323,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 30",
-        "address_de": "Stellpl\u00e4tze: 30",
-        "address_en": "Capacity: 30",
+        "popupContent": "Stellpl\u00e4tze: 30",
+        "popupContent_de": "Stellpl\u00e4tze: 30",
+        "popupContent_en": "Capacity: 30",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -333,8 +333,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.9089414,
-          48.5618172
+          8.9089419,
+          48.5618222
         ]
       }
     },
@@ -344,9 +344,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "",
-        "address_de": "",
-        "address_en": "",
+        "popupContent": "",
+        "popupContent_de": "",
+        "popupContent_en": "",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -365,9 +365,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 30, Geb\u00fchrenpflichtig:: nein",
-        "address_de": "Stellpl\u00e4tze: 30, Geb\u00fchrenpflichtig:: nein",
-        "address_en": "Capacity: 30, Fee: no",
+        "popupContent": "Stellpl\u00e4tze: 30, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 30, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 30, Fee: no",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -386,9 +386,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "",
-        "address_de": "",
-        "address_en": "",
+        "popupContent": "",
+        "popupContent_de": "",
+        "popupContent_en": "",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -407,9 +407,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "",
-        "address_de": "",
-        "address_en": "",
+        "popupContent": "",
+        "popupContent_de": "",
+        "popupContent_en": "",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -428,9 +428,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "",
-        "address_de": "",
-        "address_en": "",
+        "popupContent": "",
+        "popupContent_de": "",
+        "popupContent_en": "",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -449,9 +449,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 10",
-        "address_de": "Stellpl\u00e4tze: 10",
-        "address_en": "Capacity: 10",
+        "popupContent": "Stellpl\u00e4tze: 10",
+        "popupContent_de": "Stellpl\u00e4tze: 10",
+        "popupContent_en": "Capacity: 10",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -470,9 +470,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 32",
-        "address_de": "Stellpl\u00e4tze: 32",
-        "address_en": "Capacity: 32",
+        "popupContent": "Stellpl\u00e4tze: 32",
+        "popupContent_de": "Stellpl\u00e4tze: 32",
+        "popupContent_en": "Capacity: 32",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -491,9 +491,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "",
-        "address_de": "",
-        "address_en": "",
+        "popupContent": "",
+        "popupContent_de": "",
+        "popupContent_en": "",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -512,9 +512,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Geb\u00fchrenpflichtig:: nein",
-        "address_de": "Geb\u00fchrenpflichtig:: nein",
-        "address_en": "Fee: no",
+        "popupContent": "Stellpl\u00e4tze: 36, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 36, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 36, Fee: no",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -522,8 +522,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.9429489,
-          48.6616624
+          8.8680318,
+          48.5850229
         ]
       }
     },
@@ -533,9 +533,93 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 24",
-        "address_de": "Stellpl\u00e4tze: 24",
-        "address_en": "Capacity: 24",
+        "popupContent": "Stellpl\u00e4tze: 54, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 54, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 54, Fee: no",
+        "icon": {
+          "id": "bikeParkCovIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.9429158,
+          48.6616755
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Covered bike park",
+        "name_de": "\u00dcberdachter Fahrradstellplatz",
+        "name": "\u00dcberdachter Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 48",
+        "popupContent_de": "Stellpl\u00e4tze: 48",
+        "popupContent_en": "Capacity: 48",
+        "icon": {
+          "id": "bikeParkCovIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.9452658,
+          48.6627925
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Covered bike park",
+        "name_de": "\u00dcberdachter Fahrradstellplatz",
+        "name": "\u00dcberdachter Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 21",
+        "popupContent_de": "Stellpl\u00e4tze: 21",
+        "popupContent_en": "Capacity: 21",
+        "icon": {
+          "id": "bikeParkCovIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.942657,
+          48.6623814
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Covered bike park",
+        "name_de": "\u00dcberdachter Fahrradstellplatz",
+        "name": "\u00dcberdachter Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 8",
+        "popupContent_de": "Stellpl\u00e4tze: 8",
+        "popupContent_en": "Capacity: 8",
+        "icon": {
+          "id": "bikeParkCovIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.9426941,
+          48.6623062
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Covered bike park",
+        "name_de": "\u00dcberdachter Fahrradstellplatz",
+        "name": "\u00dcberdachter Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 24",
+        "popupContent_de": "Stellpl\u00e4tze: 24",
+        "popupContent_en": "Capacity: 24",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -554,9 +638,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 30",
-        "address_de": "Stellpl\u00e4tze: 30",
-        "address_en": "Capacity: 30",
+        "popupContent": "Stellpl\u00e4tze: 30",
+        "popupContent_de": "Stellpl\u00e4tze: 30",
+        "popupContent_en": "Capacity: 30",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -575,9 +659,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 24",
-        "address_de": "Stellpl\u00e4tze: 24",
-        "address_en": "Capacity: 24",
+        "popupContent": "Stellpl\u00e4tze: 24",
+        "popupContent_de": "Stellpl\u00e4tze: 24",
+        "popupContent_en": "Capacity: 24",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -596,9 +680,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 16",
-        "address_de": "Stellpl\u00e4tze: 16",
-        "address_en": "Capacity: 16",
+        "popupContent": "Stellpl\u00e4tze: 16",
+        "popupContent_de": "Stellpl\u00e4tze: 16",
+        "popupContent_en": "Capacity: 16",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -617,9 +701,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 10, Geb\u00fchrenpflichtig:: nein",
-        "address_de": "Stellpl\u00e4tze: 10, Geb\u00fchrenpflichtig:: nein",
-        "address_en": "Capacity: 10, Fee: no",
+        "popupContent": "Stellpl\u00e4tze: 10, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 10, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 10, Fee: no",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -638,9 +722,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 6",
-        "address_de": "Stellpl\u00e4tze: 6",
-        "address_en": "Capacity: 6",
+        "popupContent": "Stellpl\u00e4tze: 6",
+        "popupContent_de": "Stellpl\u00e4tze: 6",
+        "popupContent_en": "Capacity: 6",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -659,9 +743,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 16, Geb\u00fchrenpflichtig:: nein",
-        "address_de": "Stellpl\u00e4tze: 16, Geb\u00fchrenpflichtig:: nein",
-        "address_en": "Capacity: 16, Fee: no",
+        "popupContent": "Stellpl\u00e4tze: 16, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 16, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 16, Fee: no",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -680,9 +764,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 14, Geb\u00fchrenpflichtig:: nein",
-        "address_de": "Stellpl\u00e4tze: 14, Geb\u00fchrenpflichtig:: nein",
-        "address_en": "Capacity: 14, Fee: no",
+        "popupContent": "Stellpl\u00e4tze: 14, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 14, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 14, Fee: no",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -701,9 +785,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 130",
-        "address_de": "Stellpl\u00e4tze: 130",
-        "address_en": "Capacity: 130",
+        "popupContent": "Stellpl\u00e4tze: 130",
+        "popupContent_de": "Stellpl\u00e4tze: 130",
+        "popupContent_en": "Capacity: 130",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -722,9 +806,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 16",
-        "address_de": "Stellpl\u00e4tze: 16",
-        "address_en": "Capacity: 16",
+        "popupContent": "Stellpl\u00e4tze: 16",
+        "popupContent_de": "Stellpl\u00e4tze: 16",
+        "popupContent_en": "Capacity: 16",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -743,9 +827,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 16",
-        "address_de": "Stellpl\u00e4tze: 16",
-        "address_en": "Capacity: 16",
+        "popupContent": "Stellpl\u00e4tze: 16",
+        "popupContent_de": "Stellpl\u00e4tze: 16",
+        "popupContent_en": "Capacity: 16",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -764,9 +848,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 8",
-        "address_de": "Stellpl\u00e4tze: 8",
-        "address_en": "Capacity: 8",
+        "popupContent": "Stellpl\u00e4tze: 8",
+        "popupContent_de": "Stellpl\u00e4tze: 8",
+        "popupContent_en": "Capacity: 8",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -785,9 +869,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 44",
-        "address_de": "Stellpl\u00e4tze: 44",
-        "address_en": "Capacity: 44",
+        "popupContent": "Stellpl\u00e4tze: 44",
+        "popupContent_de": "Stellpl\u00e4tze: 44",
+        "popupContent_en": "Capacity: 44",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -795,7 +879,7 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          9.0039432,
+          9.0040183,
           48.6881945
         ]
       }
@@ -806,9 +890,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 12",
-        "address_de": "Stellpl\u00e4tze: 12",
-        "address_en": "Capacity: 12",
+        "popupContent": "Stellpl\u00e4tze: 12",
+        "popupContent_de": "Stellpl\u00e4tze: 12",
+        "popupContent_en": "Capacity: 12",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -816,8 +900,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          9.0043816,
-          48.6884627
+          9.0044078,
+          48.6884437
         ]
       }
     },
@@ -827,9 +911,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 6",
-        "address_de": "Stellpl\u00e4tze: 6",
-        "address_en": "Capacity: 6",
+        "popupContent": "Stellpl\u00e4tze: 6",
+        "popupContent_de": "Stellpl\u00e4tze: 6",
+        "popupContent_en": "Capacity: 6",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -848,9 +932,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 50",
-        "address_de": "Stellpl\u00e4tze: 50",
-        "address_en": "Capacity: 50",
+        "popupContent": "Stellpl\u00e4tze: 50",
+        "popupContent_de": "Stellpl\u00e4tze: 50",
+        "popupContent_en": "Capacity: 50",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -869,9 +953,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 6",
-        "address_de": "Stellpl\u00e4tze: 6",
-        "address_en": "Capacity: 6",
+        "popupContent": "Stellpl\u00e4tze: 6",
+        "popupContent_de": "Stellpl\u00e4tze: 6",
+        "popupContent_en": "Capacity: 6",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -890,9 +974,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "",
-        "address_de": "",
-        "address_en": "",
+        "popupContent": "",
+        "popupContent_de": "",
+        "popupContent_en": "",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -911,9 +995,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 40",
-        "address_de": "Stellpl\u00e4tze: 40",
-        "address_en": "Capacity: 40",
+        "popupContent": "Stellpl\u00e4tze: 40",
+        "popupContent_de": "Stellpl\u00e4tze: 40",
+        "popupContent_en": "Capacity: 40",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -932,9 +1016,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 12",
-        "address_de": "Stellpl\u00e4tze: 12",
-        "address_en": "Capacity: 12",
+        "popupContent": "Stellpl\u00e4tze: 12",
+        "popupContent_de": "Stellpl\u00e4tze: 12",
+        "popupContent_en": "Capacity: 12",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -953,9 +1037,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 30, Geb\u00fchrenpflichtig:: nein",
-        "address_de": "Stellpl\u00e4tze: 30, Geb\u00fchrenpflichtig:: nein",
-        "address_en": "Capacity: 30, Fee: no",
+        "popupContent": "Stellpl\u00e4tze: 30, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 30, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 30, Fee: no",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -974,30 +1058,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 48",
-        "address_de": "Stellpl\u00e4tze: 48",
-        "address_en": "Capacity: 48",
-        "icon": {
-          "id": "bikeParkCovIcon"
-        }
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          8.9453099,
-          48.6628131
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name_en": "Covered bike park",
-        "name_de": "\u00dcberdachter Fahrradstellplatz",
-        "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 30",
-        "address_de": "Stellpl\u00e4tze: 30",
-        "address_en": "Capacity: 30",
+        "popupContent": "Stellpl\u00e4tze: 30",
+        "popupContent_de": "Stellpl\u00e4tze: 30",
+        "popupContent_en": "Capacity: 30",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1016,9 +1079,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Geb\u00fchrenpflichtig:: nein",
-        "address_de": "Geb\u00fchrenpflichtig:: nein",
-        "address_en": "Fee: no",
+        "popupContent": "Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Fee: no",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1037,9 +1100,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 24, Geb\u00fchrenpflichtig:: nein",
-        "address_de": "Stellpl\u00e4tze: 24, Geb\u00fchrenpflichtig:: nein",
-        "address_en": "Capacity: 24, Fee: no",
+        "popupContent": "Stellpl\u00e4tze: 24, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 24, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 24, Fee: no",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1058,9 +1121,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 20, Geb\u00fchrenpflichtig:: nein",
-        "address_de": "Stellpl\u00e4tze: 20, Geb\u00fchrenpflichtig:: nein",
-        "address_en": "Capacity: 20, Fee: no",
+        "popupContent": "Stellpl\u00e4tze: 20, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 20, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 20, Fee: no",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1079,9 +1142,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 24, Geb\u00fchrenpflichtig:: nein",
-        "address_de": "Stellpl\u00e4tze: 24, Geb\u00fchrenpflichtig:: nein",
-        "address_en": "Capacity: 24, Fee: no",
+        "popupContent": "Stellpl\u00e4tze: 24, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 24, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 24, Fee: no",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1100,9 +1163,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 20",
-        "address_de": "Stellpl\u00e4tze: 20",
-        "address_en": "Capacity: 20",
+        "popupContent": "Stellpl\u00e4tze: 20",
+        "popupContent_de": "Stellpl\u00e4tze: 20",
+        "popupContent_en": "Capacity: 20",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1121,9 +1184,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 28",
-        "address_de": "Stellpl\u00e4tze: 28",
-        "address_en": "Capacity: 28",
+        "popupContent": "Stellpl\u00e4tze: 28",
+        "popupContent_de": "Stellpl\u00e4tze: 28",
+        "popupContent_en": "Capacity: 28",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1142,9 +1205,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 16",
-        "address_de": "Stellpl\u00e4tze: 16",
-        "address_en": "Capacity: 16",
+        "popupContent": "Stellpl\u00e4tze: 16",
+        "popupContent_de": "Stellpl\u00e4tze: 16",
+        "popupContent_en": "Capacity: 16",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1163,9 +1226,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 14",
-        "address_de": "Stellpl\u00e4tze: 14",
-        "address_en": "Capacity: 14",
+        "popupContent": "Stellpl\u00e4tze: 14",
+        "popupContent_de": "Stellpl\u00e4tze: 14",
+        "popupContent_en": "Capacity: 14",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1184,9 +1247,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 8",
-        "address_de": "Stellpl\u00e4tze: 8",
-        "address_en": "Capacity: 8",
+        "popupContent": "Stellpl\u00e4tze: 8",
+        "popupContent_de": "Stellpl\u00e4tze: 8",
+        "popupContent_en": "Capacity: 8",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1205,9 +1268,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 6",
-        "address_de": "Stellpl\u00e4tze: 6",
-        "address_en": "Capacity: 6",
+        "popupContent": "Stellpl\u00e4tze: 6",
+        "popupContent_de": "Stellpl\u00e4tze: 6",
+        "popupContent_en": "Capacity: 6",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1226,9 +1289,9 @@
         "name": "Edeka Dagersheim",
         "name_en": "Edeka Dagersheim",
         "name_de": "Edeka Dagersheim",
-        "address": "Stellpl\u00e4tze: 20",
-        "address_de": "Stellpl\u00e4tze: 20",
-        "address_en": "Capacity: 20",
+        "popupContent": "Stellpl\u00e4tze: 20",
+        "popupContent_de": "Stellpl\u00e4tze: 20",
+        "popupContent_en": "Capacity: 20",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1247,9 +1310,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 12",
-        "address_de": "Stellpl\u00e4tze: 12",
-        "address_en": "Capacity: 12",
+        "popupContent": "Stellpl\u00e4tze: 12",
+        "popupContent_de": "Stellpl\u00e4tze: 12",
+        "popupContent_en": "Capacity: 12",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1268,9 +1331,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 7",
-        "address_de": "Stellpl\u00e4tze: 7",
-        "address_en": "Capacity: 7",
+        "popupContent": "Stellpl\u00e4tze: 7",
+        "popupContent_de": "Stellpl\u00e4tze: 7",
+        "popupContent_en": "Capacity: 7",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1289,9 +1352,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 3",
-        "address_de": "Stellpl\u00e4tze: 3",
-        "address_en": "Capacity: 3",
+        "popupContent": "Stellpl\u00e4tze: 3",
+        "popupContent_de": "Stellpl\u00e4tze: 3",
+        "popupContent_en": "Capacity: 3",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1310,9 +1373,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 5",
-        "address_de": "Stellpl\u00e4tze: 5",
-        "address_en": "Capacity: 5",
+        "popupContent": "Stellpl\u00e4tze: 5",
+        "popupContent_de": "Stellpl\u00e4tze: 5",
+        "popupContent_en": "Capacity: 5",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1331,9 +1394,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 25",
-        "address_de": "Stellpl\u00e4tze: 25",
-        "address_en": "Capacity: 25",
+        "popupContent": "Stellpl\u00e4tze: 25",
+        "popupContent_de": "Stellpl\u00e4tze: 25",
+        "popupContent_en": "Capacity: 25",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1352,9 +1415,9 @@
         "name_en": "Covered bike park",
         "name_de": "\u00dcberdachter Fahrradstellplatz",
         "name": "\u00dcberdachter Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 10",
-        "address_de": "Stellpl\u00e4tze: 10",
-        "address_en": "Capacity: 10",
+        "popupContent": "Stellpl\u00e4tze: 10",
+        "popupContent_de": "Stellpl\u00e4tze: 10",
+        "popupContent_en": "Capacity: 10",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1370,15 +1433,57 @@
     {
       "type": "Feature",
       "properties": {
+        "name_en": "Covered bike park",
+        "name_de": "\u00dcberdachter Fahrradstellplatz",
+        "name": "\u00dcberdachter Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 8",
+        "popupContent_de": "Stellpl\u00e4tze: 8",
+        "popupContent_en": "Capacity: 8",
+        "icon": {
+          "id": "bikeParkCovIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.9144085,
+          48.642879
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Covered bike park",
+        "name_de": "\u00dcberdachter Fahrradstellplatz",
+        "name": "\u00dcberdachter Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 12",
+        "popupContent_de": "Stellpl\u00e4tze: 12",
+        "popupContent_en": "Capacity: 12",
+        "icon": {
+          "id": "bikeParkCovIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.9393038,
+          48.6614065
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "",
-        "address_de": "",
-        "address_en": "",
+        "popupContent": "",
+        "popupContent_de": "",
+        "popupContent_en": "",
         "icon": {
           "id": "bikeParkOpIcon",
-          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"Ebene_1\" data-name=\"Ebene 1\" viewBox=\"0 0 32.53 32.53\">\n  <defs>\n    <style>\n      .cls-2{fill:#fff}\n    </style>\n  </defs>\n  <path fill=\"#005ab4\" d=\"M699.51 384.05a16.27 16.27 0 11-16.27-16.27 16.27 16.27 0 0116.27 16.27\" transform=\"translate(-666.98 -367.78)\"/>\n  <path d=\"M687.7 374.17a3 3 0 00-3.18-3h-3.73v9.64h1.88v-3.63h1.85a3 3 0 003.18-3m-1.88 0a1.27 1.27 0 01-1.39 1.31h-1.76v-2.64h1.76a1.28 1.28 0 011.39 1.33M685.88 384.17a1.47 1.47 0 01-1.06-.44 1.38 1.38 0 01-.45-1 1.54 1.54 0 011.51-1.51 1.42 1.42 0 011 .45 1.5 1.5 0 01.43 1.06 1.49 1.49 0 01-1.47 1.47zm-7.88 4.89a3.55 3.55 0 012.65 1.09 3.62 3.62 0 011.07 2.67 3.66 3.66 0 01-3.72 3.72 3.62 3.62 0 01-2.67-1.07 3.55 3.55 0 01-1.09-2.65 3.72 3.72 0 013.76-3.76zm0 6.36a2.59 2.59 0 002.6-2.6 2.53 2.53 0 00-.76-1.86 2.46 2.46 0 00-1.84-.78 2.66 2.66 0 00-2.64 2.64 2.46 2.46 0 00.78 1.84 2.53 2.53 0 001.86.76zm4.32-7.49l1.65 1.73v4.63h-1.47v-3.72l-2.43-2.11a1.18 1.18 0 01-.42-1 1.45 1.45 0 01.42-1.06l2.11-2.11a1.18 1.18 0 011-.42 1.87 1.87 0 011.2.42l1.44 1.45a3.68 3.68 0 002.67 1.12v1.51a5.2 5.2 0 01-3.8-1.58l-.59-.6zm6.15 1.13a3.72 3.72 0 013.76 3.76 3.55 3.55 0 01-1.09 2.65 3.65 3.65 0 01-2.67 1.07 3.67 3.67 0 01-3.73-3.72 3.63 3.63 0 011.08-2.67 3.55 3.55 0 012.66-1.09zm0 6.36a2.53 2.53 0 001.86-.76 2.45 2.45 0 00.77-1.84 2.62 2.62 0 00-4.48-1.86 2.56 2.56 0 00-.75 1.86 2.58 2.58 0 002.6 2.6z\" class=\"cls-2\" transform=\"translate(-666.98 -367.78)\"/>\n</svg>"
+          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"Ebene_1\" data-name=\"Ebene 1\" viewBox=\"0 0 32.53 32.53\">  <defs>    <style>      .cls-2{fill:#fff}    </style>  </defs>  <path fill=\"#005ab4\" d=\"M699.51 384.05a16.27 16.27 0 11-16.27-16.27 16.27 16.27 0 0116.27 16.27\" transform=\"translate(-666.98 -367.78)\"/>  <path d=\"M687.7 374.17a3 3 0 00-3.18-3h-3.73v9.64h1.88v-3.63h1.85a3 3 0 003.18-3m-1.88 0a1.27 1.27 0 01-1.39 1.31h-1.76v-2.64h1.76a1.28 1.28 0 011.39 1.33M685.88 384.17a1.47 1.47 0 01-1.06-.44 1.38 1.38 0 01-.45-1 1.54 1.54 0 011.51-1.51 1.42 1.42 0 011 .45 1.5 1.5 0 01.43 1.06 1.49 1.49 0 01-1.47 1.47zm-7.88 4.89a3.55 3.55 0 012.65 1.09 3.62 3.62 0 011.07 2.67 3.66 3.66 0 01-3.72 3.72 3.62 3.62 0 01-2.67-1.07 3.55 3.55 0 01-1.09-2.65 3.72 3.72 0 013.76-3.76zm0 6.36a2.59 2.59 0 002.6-2.6 2.53 2.53 0 00-.76-1.86 2.46 2.46 0 00-1.84-.78 2.66 2.66 0 00-2.64 2.64 2.46 2.46 0 00.78 1.84 2.53 2.53 0 001.86.76zm4.32-7.49l1.65 1.73v4.63h-1.47v-3.72l-2.43-2.11a1.18 1.18 0 01-.42-1 1.45 1.45 0 01.42-1.06l2.11-2.11a1.18 1.18 0 011-.42 1.87 1.87 0 011.2.42l1.44 1.45a3.68 3.68 0 002.67 1.12v1.51a5.2 5.2 0 01-3.8-1.58l-.59-.6zm6.15 1.13a3.72 3.72 0 013.76 3.76 3.55 3.55 0 01-1.09 2.65 3.65 3.65 0 01-2.67 1.07 3.67 3.67 0 01-3.73-3.72 3.63 3.63 0 011.08-2.67 3.55 3.55 0 012.66-1.09zm0 6.36a2.53 2.53 0 001.86-.76 2.45 2.45 0 00.77-1.84 2.62 2.62 0 00-4.48-1.86 2.56 2.56 0 00-.75 1.86 2.58 2.58 0 002.6 2.6z\" class=\"cls-2\" transform=\"translate(-666.98 -367.78)\"/></svg>"
         }
       },
       "geometry": {
@@ -1395,9 +1500,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 7",
-        "address_de": "Stellpl\u00e4tze: 7",
-        "address_en": "Capacity: 7",
+        "popupContent": "Stellpl\u00e4tze: 7",
+        "popupContent_de": "Stellpl\u00e4tze: 7",
+        "popupContent_en": "Capacity: 7",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1416,9 +1521,51 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "",
-        "address_de": "",
-        "address_en": "",
+        "popupContent": "Stellpl\u00e4tze: 6",
+        "popupContent_de": "Stellpl\u00e4tze: 6",
+        "popupContent_en": "Capacity: 6",
+        "icon": {
+          "id": "bikeParkOpIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.997639,
+          48.6880699
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Open-air bike park",
+        "name_de": "Fahrradstellplatz",
+        "name": "Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 6",
+        "popupContent_de": "Stellpl\u00e4tze: 6",
+        "popupContent_en": "Capacity: 6",
+        "icon": {
+          "id": "bikeParkOpIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.9940446,
+          48.6858405
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Open-air bike park",
+        "name_de": "Fahrradstellplatz",
+        "name": "Fahrradstellplatz",
+        "popupContent": "",
+        "popupContent_de": "",
+        "popupContent_en": "",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1437,9 +1584,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 18",
-        "address_de": "Stellpl\u00e4tze: 18",
-        "address_en": "Capacity: 18",
+        "popupContent": "Stellpl\u00e4tze: 18",
+        "popupContent_de": "Stellpl\u00e4tze: 18",
+        "popupContent_en": "Capacity: 18",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1458,9 +1605,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 48",
-        "address_de": "Stellpl\u00e4tze: 48",
-        "address_en": "Capacity: 48",
+        "popupContent": "Stellpl\u00e4tze: 48",
+        "popupContent_de": "Stellpl\u00e4tze: 48",
+        "popupContent_en": "Capacity: 48",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1479,9 +1626,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 6",
-        "address_de": "Stellpl\u00e4tze: 6",
-        "address_en": "Capacity: 6",
+        "popupContent": "Stellpl\u00e4tze: 6",
+        "popupContent_de": "Stellpl\u00e4tze: 6",
+        "popupContent_en": "Capacity: 6",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1500,9 +1647,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 4",
-        "address_de": "Stellpl\u00e4tze: 4",
-        "address_en": "Capacity: 4",
+        "popupContent": "Stellpl\u00e4tze: 4",
+        "popupContent_de": "Stellpl\u00e4tze: 4",
+        "popupContent_en": "Capacity: 4",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1521,9 +1668,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 10",
-        "address_de": "Stellpl\u00e4tze: 10",
-        "address_en": "Capacity: 10",
+        "popupContent": "Stellpl\u00e4tze: 10",
+        "popupContent_de": "Stellpl\u00e4tze: 10",
+        "popupContent_en": "Capacity: 10",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1542,9 +1689,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 3",
-        "address_de": "Stellpl\u00e4tze: 3",
-        "address_en": "Capacity: 3",
+        "popupContent": "Stellpl\u00e4tze: 3",
+        "popupContent_de": "Stellpl\u00e4tze: 3",
+        "popupContent_en": "Capacity: 3",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1563,9 +1710,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 5, Geb\u00fchrenpflichtig:: nein",
-        "address_de": "Stellpl\u00e4tze: 5, Geb\u00fchrenpflichtig:: nein",
-        "address_en": "Capacity: 5, Fee: no",
+        "popupContent": "Stellpl\u00e4tze: 5, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 5, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 5, Fee: no",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1584,9 +1731,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 9",
-        "address_de": "Stellpl\u00e4tze: 9",
-        "address_en": "Capacity: 9",
+        "popupContent": "Stellpl\u00e4tze: 9",
+        "popupContent_de": "Stellpl\u00e4tze: 9",
+        "popupContent_en": "Capacity: 9",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1605,9 +1752,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 58",
-        "address_de": "Stellpl\u00e4tze: 58",
-        "address_en": "Capacity: 58",
+        "popupContent": "Stellpl\u00e4tze: 58",
+        "popupContent_de": "Stellpl\u00e4tze: 58",
+        "popupContent_en": "Capacity: 58",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1626,9 +1773,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 18",
-        "address_de": "Stellpl\u00e4tze: 18",
-        "address_en": "Capacity: 18",
+        "popupContent": "Stellpl\u00e4tze: 18",
+        "popupContent_de": "Stellpl\u00e4tze: 18",
+        "popupContent_en": "Capacity: 18",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1647,9 +1794,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 8",
-        "address_de": "Stellpl\u00e4tze: 8",
-        "address_en": "Capacity: 8",
+        "popupContent": "Stellpl\u00e4tze: 8",
+        "popupContent_de": "Stellpl\u00e4tze: 8",
+        "popupContent_en": "Capacity: 8",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1668,9 +1815,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 6",
-        "address_de": "Stellpl\u00e4tze: 6",
-        "address_en": "Capacity: 6",
+        "popupContent": "Stellpl\u00e4tze: 6",
+        "popupContent_de": "Stellpl\u00e4tze: 6",
+        "popupContent_en": "Capacity: 6",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1689,9 +1836,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 8",
-        "address_de": "Stellpl\u00e4tze: 8",
-        "address_en": "Capacity: 8",
+        "popupContent": "Stellpl\u00e4tze: 8",
+        "popupContent_de": "Stellpl\u00e4tze: 8",
+        "popupContent_en": "Capacity: 8",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1710,9 +1857,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 4",
-        "address_de": "Stellpl\u00e4tze: 4",
-        "address_en": "Capacity: 4",
+        "popupContent": "Stellpl\u00e4tze: 4",
+        "popupContent_de": "Stellpl\u00e4tze: 4",
+        "popupContent_en": "Capacity: 4",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1731,9 +1878,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 8",
-        "address_de": "Stellpl\u00e4tze: 8",
-        "address_en": "Capacity: 8",
+        "popupContent": "Stellpl\u00e4tze: 8",
+        "popupContent_de": "Stellpl\u00e4tze: 8",
+        "popupContent_en": "Capacity: 8",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1752,9 +1899,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 2",
-        "address_de": "Stellpl\u00e4tze: 2",
-        "address_en": "Capacity: 2",
+        "popupContent": "Stellpl\u00e4tze: 2",
+        "popupContent_de": "Stellpl\u00e4tze: 2",
+        "popupContent_en": "Capacity: 2",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1773,9 +1920,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 12",
-        "address_de": "Stellpl\u00e4tze: 12",
-        "address_en": "Capacity: 12",
+        "popupContent": "Stellpl\u00e4tze: 12",
+        "popupContent_de": "Stellpl\u00e4tze: 12",
+        "popupContent_en": "Capacity: 12",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1794,9 +1941,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 34",
-        "address_de": "Stellpl\u00e4tze: 34",
-        "address_en": "Capacity: 34",
+        "popupContent": "Stellpl\u00e4tze: 34",
+        "popupContent_de": "Stellpl\u00e4tze: 34",
+        "popupContent_en": "Capacity: 34",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1815,9 +1962,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 2",
-        "address_de": "Stellpl\u00e4tze: 2",
-        "address_en": "Capacity: 2",
+        "popupContent": "Stellpl\u00e4tze: 2",
+        "popupContent_de": "Stellpl\u00e4tze: 2",
+        "popupContent_en": "Capacity: 2",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1836,9 +1983,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 2",
-        "address_de": "Stellpl\u00e4tze: 2",
-        "address_en": "Capacity: 2",
+        "popupContent": "Stellpl\u00e4tze: 2",
+        "popupContent_de": "Stellpl\u00e4tze: 2",
+        "popupContent_en": "Capacity: 2",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1857,9 +2004,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 8",
-        "address_de": "Stellpl\u00e4tze: 8",
-        "address_en": "Capacity: 8",
+        "popupContent": "Stellpl\u00e4tze: 8",
+        "popupContent_de": "Stellpl\u00e4tze: 8",
+        "popupContent_en": "Capacity: 8",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1878,9 +2025,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 8",
-        "address_de": "Stellpl\u00e4tze: 8",
-        "address_en": "Capacity: 8",
+        "popupContent": "Stellpl\u00e4tze: 8",
+        "popupContent_de": "Stellpl\u00e4tze: 8",
+        "popupContent_en": "Capacity: 8",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1899,9 +2046,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 20",
-        "address_de": "Stellpl\u00e4tze: 20",
-        "address_en": "Capacity: 20",
+        "popupContent": "Stellpl\u00e4tze: 20",
+        "popupContent_de": "Stellpl\u00e4tze: 20",
+        "popupContent_en": "Capacity: 20",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1920,9 +2067,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 2",
-        "address_de": "Stellpl\u00e4tze: 2",
-        "address_en": "Capacity: 2",
+        "popupContent": "Stellpl\u00e4tze: 2",
+        "popupContent_de": "Stellpl\u00e4tze: 2",
+        "popupContent_en": "Capacity: 2",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1941,9 +2088,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 4",
-        "address_de": "Stellpl\u00e4tze: 4",
-        "address_en": "Capacity: 4",
+        "popupContent": "Stellpl\u00e4tze: 4",
+        "popupContent_de": "Stellpl\u00e4tze: 4",
+        "popupContent_en": "Capacity: 4",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1962,9 +2109,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 10, Geb\u00fchrenpflichtig:: nein",
-        "address_de": "Stellpl\u00e4tze: 10, Geb\u00fchrenpflichtig:: nein",
-        "address_en": "Capacity: 10, Fee: no",
+        "popupContent": "Stellpl\u00e4tze: 10, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 10, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 10, Fee: no",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1983,9 +2130,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 10",
-        "address_de": "Stellpl\u00e4tze: 10",
-        "address_en": "Capacity: 10",
+        "popupContent": "Stellpl\u00e4tze: 10",
+        "popupContent_de": "Stellpl\u00e4tze: 10",
+        "popupContent_en": "Capacity: 10",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2004,9 +2151,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 6",
-        "address_de": "Stellpl\u00e4tze: 6",
-        "address_en": "Capacity: 6",
+        "popupContent": "Stellpl\u00e4tze: 6",
+        "popupContent_de": "Stellpl\u00e4tze: 6",
+        "popupContent_en": "Capacity: 6",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2025,9 +2172,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 100",
-        "address_de": "Stellpl\u00e4tze: 100",
-        "address_en": "Capacity: 100",
+        "popupContent": "Stellpl\u00e4tze: 100",
+        "popupContent_de": "Stellpl\u00e4tze: 100",
+        "popupContent_en": "Capacity: 100",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2046,9 +2193,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 6",
-        "address_de": "Stellpl\u00e4tze: 6",
-        "address_en": "Capacity: 6",
+        "popupContent": "Stellpl\u00e4tze: 6",
+        "popupContent_de": "Stellpl\u00e4tze: 6",
+        "popupContent_en": "Capacity: 6",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2067,9 +2214,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 42",
-        "address_de": "Stellpl\u00e4tze: 42",
-        "address_en": "Capacity: 42",
+        "popupContent": "Stellpl\u00e4tze: 42",
+        "popupContent_de": "Stellpl\u00e4tze: 42",
+        "popupContent_en": "Capacity: 42",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2088,9 +2235,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 10",
-        "address_de": "Stellpl\u00e4tze: 10",
-        "address_en": "Capacity: 10",
+        "popupContent": "Stellpl\u00e4tze: 10",
+        "popupContent_de": "Stellpl\u00e4tze: 10",
+        "popupContent_en": "Capacity: 10",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2109,9 +2256,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 28",
-        "address_de": "Stellpl\u00e4tze: 28",
-        "address_en": "Capacity: 28",
+        "popupContent": "Stellpl\u00e4tze: 28",
+        "popupContent_de": "Stellpl\u00e4tze: 28",
+        "popupContent_en": "Capacity: 28",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2130,9 +2277,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 16",
-        "address_de": "Stellpl\u00e4tze: 16",
-        "address_en": "Capacity: 16",
+        "popupContent": "Stellpl\u00e4tze: 16",
+        "popupContent_de": "Stellpl\u00e4tze: 16",
+        "popupContent_en": "Capacity: 16",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2151,9 +2298,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 24",
-        "address_de": "Stellpl\u00e4tze: 24",
-        "address_en": "Capacity: 24",
+        "popupContent": "Stellpl\u00e4tze: 24",
+        "popupContent_de": "Stellpl\u00e4tze: 24",
+        "popupContent_en": "Capacity: 24",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2172,9 +2319,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 8",
-        "address_de": "Stellpl\u00e4tze: 8",
-        "address_en": "Capacity: 8",
+        "popupContent": "Stellpl\u00e4tze: 8",
+        "popupContent_de": "Stellpl\u00e4tze: 8",
+        "popupContent_en": "Capacity: 8",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2193,9 +2340,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 4",
-        "address_de": "Stellpl\u00e4tze: 4",
-        "address_en": "Capacity: 4",
+        "popupContent": "Stellpl\u00e4tze: 4",
+        "popupContent_de": "Stellpl\u00e4tze: 4",
+        "popupContent_en": "Capacity: 4",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2214,9 +2361,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 12",
-        "address_de": "Stellpl\u00e4tze: 12",
-        "address_en": "Capacity: 12",
+        "popupContent": "Stellpl\u00e4tze: 12",
+        "popupContent_de": "Stellpl\u00e4tze: 12",
+        "popupContent_en": "Capacity: 12",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2235,9 +2382,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 6",
-        "address_de": "Stellpl\u00e4tze: 6",
-        "address_en": "Capacity: 6",
+        "popupContent": "Stellpl\u00e4tze: 6",
+        "popupContent_de": "Stellpl\u00e4tze: 6",
+        "popupContent_en": "Capacity: 6",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2256,9 +2403,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 4",
-        "address_de": "Stellpl\u00e4tze: 4",
-        "address_en": "Capacity: 4",
+        "popupContent": "Stellpl\u00e4tze: 4",
+        "popupContent_de": "Stellpl\u00e4tze: 4",
+        "popupContent_en": "Capacity: 4",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2277,9 +2424,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 34",
-        "address_de": "Stellpl\u00e4tze: 34",
-        "address_en": "Capacity: 34",
+        "popupContent": "Stellpl\u00e4tze: 34",
+        "popupContent_de": "Stellpl\u00e4tze: 34",
+        "popupContent_en": "Capacity: 34",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2298,9 +2445,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 10",
-        "address_de": "Stellpl\u00e4tze: 10",
-        "address_en": "Capacity: 10",
+        "popupContent": "Stellpl\u00e4tze: 10",
+        "popupContent_de": "Stellpl\u00e4tze: 10",
+        "popupContent_en": "Capacity: 10",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2319,9 +2466,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 10",
-        "address_de": "Stellpl\u00e4tze: 10",
-        "address_en": "Capacity: 10",
+        "popupContent": "Stellpl\u00e4tze: 10",
+        "popupContent_de": "Stellpl\u00e4tze: 10",
+        "popupContent_en": "Capacity: 10",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2340,9 +2487,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 10",
-        "address_de": "Stellpl\u00e4tze: 10",
-        "address_en": "Capacity: 10",
+        "popupContent": "Stellpl\u00e4tze: 10",
+        "popupContent_de": "Stellpl\u00e4tze: 10",
+        "popupContent_en": "Capacity: 10",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2361,9 +2508,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 50",
-        "address_de": "Stellpl\u00e4tze: 50",
-        "address_en": "Capacity: 50",
+        "popupContent": "Stellpl\u00e4tze: 50",
+        "popupContent_de": "Stellpl\u00e4tze: 50",
+        "popupContent_en": "Capacity: 50",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2382,9 +2529,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 8",
-        "address_de": "Stellpl\u00e4tze: 8",
-        "address_en": "Capacity: 8",
+        "popupContent": "Stellpl\u00e4tze: 8",
+        "popupContent_de": "Stellpl\u00e4tze: 8",
+        "popupContent_en": "Capacity: 8",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2403,9 +2550,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 20",
-        "address_de": "Stellpl\u00e4tze: 20",
-        "address_en": "Capacity: 20",
+        "popupContent": "Stellpl\u00e4tze: 20",
+        "popupContent_de": "Stellpl\u00e4tze: 20",
+        "popupContent_en": "Capacity: 20",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2424,9 +2571,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 14, Geb\u00fchrenpflichtig:: nein",
-        "address_de": "Stellpl\u00e4tze: 14, Geb\u00fchrenpflichtig:: nein",
-        "address_en": "Capacity: 14, Fee: no",
+        "popupContent": "Stellpl\u00e4tze: 14, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 14, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 14, Fee: no",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2445,9 +2592,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 10, Geb\u00fchrenpflichtig:: nein",
-        "address_de": "Stellpl\u00e4tze: 10, Geb\u00fchrenpflichtig:: nein",
-        "address_en": "Capacity: 10, Fee: no",
+        "popupContent": "Stellpl\u00e4tze: 10, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 10, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 10, Fee: no",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2466,9 +2613,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 4, Geb\u00fchrenpflichtig:: nein",
-        "address_de": "Stellpl\u00e4tze: 4, Geb\u00fchrenpflichtig:: nein",
-        "address_en": "Capacity: 4, Fee: no",
+        "popupContent": "Stellpl\u00e4tze: 4, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 4, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 4, Fee: no",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2487,9 +2634,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 5, Geb\u00fchrenpflichtig:: nein",
-        "address_de": "Stellpl\u00e4tze: 5, Geb\u00fchrenpflichtig:: nein",
-        "address_en": "Capacity: 5, Fee: no",
+        "popupContent": "Stellpl\u00e4tze: 5, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 5, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 5, Fee: no",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2508,9 +2655,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 8",
-        "address_de": "Stellpl\u00e4tze: 8",
-        "address_en": "Capacity: 8",
+        "popupContent": "Stellpl\u00e4tze: 8",
+        "popupContent_de": "Stellpl\u00e4tze: 8",
+        "popupContent_en": "Capacity: 8",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2529,9 +2676,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 20",
-        "address_de": "Stellpl\u00e4tze: 20",
-        "address_en": "Capacity: 20",
+        "popupContent": "Stellpl\u00e4tze: 20",
+        "popupContent_de": "Stellpl\u00e4tze: 20",
+        "popupContent_en": "Capacity: 20",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2550,9 +2697,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "",
-        "address_de": "",
-        "address_en": "",
+        "popupContent": "",
+        "popupContent_de": "",
+        "popupContent_en": "",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2571,9 +2718,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "",
-        "address_de": "",
-        "address_en": "",
+        "popupContent": "",
+        "popupContent_de": "",
+        "popupContent_en": "",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2592,9 +2739,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "",
-        "address_de": "",
-        "address_en": "",
+        "popupContent": "",
+        "popupContent_de": "",
+        "popupContent_en": "",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2613,9 +2760,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Geb\u00fchrenpflichtig:: nein",
-        "address_de": "Geb\u00fchrenpflichtig:: nein",
-        "address_en": "Fee: no",
+        "popupContent": "Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Fee: no",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2634,9 +2781,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 6",
-        "address_de": "Stellpl\u00e4tze: 6",
-        "address_en": "Capacity: 6",
+        "popupContent": "Stellpl\u00e4tze: 6",
+        "popupContent_de": "Stellpl\u00e4tze: 6",
+        "popupContent_en": "Capacity: 6",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2655,9 +2802,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 5, Geb\u00fchrenpflichtig:: nein",
-        "address_de": "Stellpl\u00e4tze: 5, Geb\u00fchrenpflichtig:: nein",
-        "address_en": "Capacity: 5, Fee: no",
+        "popupContent": "Stellpl\u00e4tze: 5, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 5, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 5, Fee: no",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2676,9 +2823,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 3, Geb\u00fchrenpflichtig:: nein",
-        "address_de": "Stellpl\u00e4tze: 3, Geb\u00fchrenpflichtig:: nein",
-        "address_en": "Capacity: 3, Fee: no",
+        "popupContent": "Stellpl\u00e4tze: 3, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 3, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 3, Fee: no",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2697,9 +2844,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 5, Geb\u00fchrenpflichtig:: nein",
-        "address_de": "Stellpl\u00e4tze: 5, Geb\u00fchrenpflichtig:: nein",
-        "address_en": "Capacity: 5, Fee: no",
+        "popupContent": "Stellpl\u00e4tze: 5, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 5, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 5, Fee: no",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2718,9 +2865,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 8",
-        "address_de": "Stellpl\u00e4tze: 8",
-        "address_en": "Capacity: 8",
+        "popupContent": "Stellpl\u00e4tze: 8",
+        "popupContent_de": "Stellpl\u00e4tze: 8",
+        "popupContent_en": "Capacity: 8",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2739,9 +2886,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 6",
-        "address_de": "Stellpl\u00e4tze: 6",
-        "address_en": "Capacity: 6",
+        "popupContent": "Stellpl\u00e4tze: 6",
+        "popupContent_de": "Stellpl\u00e4tze: 6",
+        "popupContent_en": "Capacity: 6",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2760,9 +2907,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 8",
-        "address_de": "Stellpl\u00e4tze: 8",
-        "address_en": "Capacity: 8",
+        "popupContent": "Stellpl\u00e4tze: 8",
+        "popupContent_de": "Stellpl\u00e4tze: 8",
+        "popupContent_en": "Capacity: 8",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2781,9 +2928,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 2",
-        "address_de": "Stellpl\u00e4tze: 2",
-        "address_en": "Capacity: 2",
+        "popupContent": "Stellpl\u00e4tze: 2",
+        "popupContent_de": "Stellpl\u00e4tze: 2",
+        "popupContent_en": "Capacity: 2",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2802,9 +2949,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 6",
-        "address_de": "Stellpl\u00e4tze: 6",
-        "address_en": "Capacity: 6",
+        "popupContent": "Stellpl\u00e4tze: 6",
+        "popupContent_de": "Stellpl\u00e4tze: 6",
+        "popupContent_en": "Capacity: 6",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2823,9 +2970,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 16",
-        "address_de": "Stellpl\u00e4tze: 16",
-        "address_en": "Capacity: 16",
+        "popupContent": "Stellpl\u00e4tze: 16",
+        "popupContent_de": "Stellpl\u00e4tze: 16",
+        "popupContent_en": "Capacity: 16",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2844,9 +2991,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 2",
-        "address_de": "Stellpl\u00e4tze: 2",
-        "address_en": "Capacity: 2",
+        "popupContent": "Stellpl\u00e4tze: 2",
+        "popupContent_de": "Stellpl\u00e4tze: 2",
+        "popupContent_en": "Capacity: 2",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2865,9 +3012,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 2",
-        "address_de": "Stellpl\u00e4tze: 2",
-        "address_en": "Capacity: 2",
+        "popupContent": "Stellpl\u00e4tze: 2",
+        "popupContent_de": "Stellpl\u00e4tze: 2",
+        "popupContent_en": "Capacity: 2",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2886,9 +3033,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 12",
-        "address_de": "Stellpl\u00e4tze: 12",
-        "address_en": "Capacity: 12",
+        "popupContent": "Stellpl\u00e4tze: 12",
+        "popupContent_de": "Stellpl\u00e4tze: 12",
+        "popupContent_en": "Capacity: 12",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2907,9 +3054,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 2",
-        "address_de": "Stellpl\u00e4tze: 2",
-        "address_en": "Capacity: 2",
+        "popupContent": "Stellpl\u00e4tze: 2",
+        "popupContent_de": "Stellpl\u00e4tze: 2",
+        "popupContent_en": "Capacity: 2",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2928,9 +3075,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 2",
-        "address_de": "Stellpl\u00e4tze: 2",
-        "address_en": "Capacity: 2",
+        "popupContent": "Stellpl\u00e4tze: 2",
+        "popupContent_de": "Stellpl\u00e4tze: 2",
+        "popupContent_en": "Capacity: 2",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2949,9 +3096,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 2",
-        "address_de": "Stellpl\u00e4tze: 2",
-        "address_en": "Capacity: 2",
+        "popupContent": "Stellpl\u00e4tze: 2",
+        "popupContent_de": "Stellpl\u00e4tze: 2",
+        "popupContent_en": "Capacity: 2",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2970,9 +3117,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 2",
-        "address_de": "Stellpl\u00e4tze: 2",
-        "address_en": "Capacity: 2",
+        "popupContent": "Stellpl\u00e4tze: 2",
+        "popupContent_de": "Stellpl\u00e4tze: 2",
+        "popupContent_en": "Capacity: 2",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2991,9 +3138,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 2",
-        "address_de": "Stellpl\u00e4tze: 2",
-        "address_en": "Capacity: 2",
+        "popupContent": "Stellpl\u00e4tze: 2",
+        "popupContent_de": "Stellpl\u00e4tze: 2",
+        "popupContent_en": "Capacity: 2",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3012,9 +3159,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 7",
-        "address_de": "Stellpl\u00e4tze: 7",
-        "address_en": "Capacity: 7",
+        "popupContent": "Stellpl\u00e4tze: 7",
+        "popupContent_de": "Stellpl\u00e4tze: 7",
+        "popupContent_en": "Capacity: 7",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3033,9 +3180,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 3",
-        "address_de": "Stellpl\u00e4tze: 3",
-        "address_en": "Capacity: 3",
+        "popupContent": "Stellpl\u00e4tze: 3",
+        "popupContent_de": "Stellpl\u00e4tze: 3",
+        "popupContent_en": "Capacity: 3",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3054,9 +3201,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 12",
-        "address_de": "Stellpl\u00e4tze: 12",
-        "address_en": "Capacity: 12",
+        "popupContent": "Stellpl\u00e4tze: 12",
+        "popupContent_de": "Stellpl\u00e4tze: 12",
+        "popupContent_en": "Capacity: 12",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3075,9 +3222,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 6",
-        "address_de": "Stellpl\u00e4tze: 6",
-        "address_en": "Capacity: 6",
+        "popupContent": "Stellpl\u00e4tze: 6",
+        "popupContent_de": "Stellpl\u00e4tze: 6",
+        "popupContent_en": "Capacity: 6",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3096,9 +3243,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 6",
-        "address_de": "Stellpl\u00e4tze: 6",
-        "address_en": "Capacity: 6",
+        "popupContent": "Stellpl\u00e4tze: 6",
+        "popupContent_de": "Stellpl\u00e4tze: 6",
+        "popupContent_en": "Capacity: 6",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3117,9 +3264,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 10",
-        "address_de": "Stellpl\u00e4tze: 10",
-        "address_en": "Capacity: 10",
+        "popupContent": "Stellpl\u00e4tze: 10",
+        "popupContent_de": "Stellpl\u00e4tze: 10",
+        "popupContent_en": "Capacity: 10",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3138,9 +3285,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 6",
-        "address_de": "Stellpl\u00e4tze: 6",
-        "address_en": "Capacity: 6",
+        "popupContent": "Stellpl\u00e4tze: 6",
+        "popupContent_de": "Stellpl\u00e4tze: 6",
+        "popupContent_en": "Capacity: 6",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3159,9 +3306,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 10",
-        "address_de": "Stellpl\u00e4tze: 10",
-        "address_en": "Capacity: 10",
+        "popupContent": "Stellpl\u00e4tze: 10",
+        "popupContent_de": "Stellpl\u00e4tze: 10",
+        "popupContent_en": "Capacity: 10",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3180,9 +3327,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 26",
-        "address_de": "Stellpl\u00e4tze: 26",
-        "address_en": "Capacity: 26",
+        "popupContent": "Stellpl\u00e4tze: 26",
+        "popupContent_de": "Stellpl\u00e4tze: 26",
+        "popupContent_en": "Capacity: 26",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3201,9 +3348,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 6",
-        "address_de": "Stellpl\u00e4tze: 6",
-        "address_en": "Capacity: 6",
+        "popupContent": "Stellpl\u00e4tze: 6",
+        "popupContent_de": "Stellpl\u00e4tze: 6",
+        "popupContent_en": "Capacity: 6",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3222,9 +3369,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 8",
-        "address_de": "Stellpl\u00e4tze: 8",
-        "address_en": "Capacity: 8",
+        "popupContent": "Stellpl\u00e4tze: 8",
+        "popupContent_de": "Stellpl\u00e4tze: 8",
+        "popupContent_en": "Capacity: 8",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3243,9 +3390,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 16",
-        "address_de": "Stellpl\u00e4tze: 16",
-        "address_en": "Capacity: 16",
+        "popupContent": "Stellpl\u00e4tze: 16",
+        "popupContent_de": "Stellpl\u00e4tze: 16",
+        "popupContent_en": "Capacity: 16",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3264,9 +3411,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 9",
-        "address_de": "Stellpl\u00e4tze: 9",
-        "address_en": "Capacity: 9",
+        "popupContent": "Stellpl\u00e4tze: 9",
+        "popupContent_de": "Stellpl\u00e4tze: 9",
+        "popupContent_en": "Capacity: 9",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3285,9 +3432,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "",
-        "address_de": "",
-        "address_en": "",
+        "popupContent": "",
+        "popupContent_de": "",
+        "popupContent_en": "",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3306,9 +3453,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 16",
-        "address_de": "Stellpl\u00e4tze: 16",
-        "address_en": "Capacity: 16",
+        "popupContent": "Stellpl\u00e4tze: 16",
+        "popupContent_de": "Stellpl\u00e4tze: 16",
+        "popupContent_en": "Capacity: 16",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3327,9 +3474,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 10",
-        "address_de": "Stellpl\u00e4tze: 10",
-        "address_en": "Capacity: 10",
+        "popupContent": "Stellpl\u00e4tze: 10",
+        "popupContent_de": "Stellpl\u00e4tze: 10",
+        "popupContent_en": "Capacity: 10",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3348,9 +3495,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "",
-        "address_de": "",
-        "address_en": "",
+        "popupContent": "",
+        "popupContent_de": "",
+        "popupContent_en": "",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3369,9 +3516,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 3",
-        "address_de": "Stellpl\u00e4tze: 3",
-        "address_en": "Capacity: 3",
+        "popupContent": "Stellpl\u00e4tze: 3",
+        "popupContent_de": "Stellpl\u00e4tze: 3",
+        "popupContent_en": "Capacity: 3",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3390,9 +3537,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 6",
-        "address_de": "Stellpl\u00e4tze: 6",
-        "address_en": "Capacity: 6",
+        "popupContent": "Stellpl\u00e4tze: 6",
+        "popupContent_de": "Stellpl\u00e4tze: 6",
+        "popupContent_en": "Capacity: 6",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3411,9 +3558,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 6",
-        "address_de": "Stellpl\u00e4tze: 6",
-        "address_en": "Capacity: 6",
+        "popupContent": "Stellpl\u00e4tze: 6",
+        "popupContent_de": "Stellpl\u00e4tze: 6",
+        "popupContent_en": "Capacity: 6",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3432,9 +3579,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 8",
-        "address_de": "Stellpl\u00e4tze: 8",
-        "address_en": "Capacity: 8",
+        "popupContent": "Stellpl\u00e4tze: 8",
+        "popupContent_de": "Stellpl\u00e4tze: 8",
+        "popupContent_en": "Capacity: 8",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3453,9 +3600,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 4",
-        "address_de": "Stellpl\u00e4tze: 4",
-        "address_en": "Capacity: 4",
+        "popupContent": "Stellpl\u00e4tze: 4",
+        "popupContent_de": "Stellpl\u00e4tze: 4",
+        "popupContent_en": "Capacity: 4",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3474,9 +3621,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 8",
-        "address_de": "Stellpl\u00e4tze: 8",
-        "address_en": "Capacity: 8",
+        "popupContent": "Stellpl\u00e4tze: 8",
+        "popupContent_de": "Stellpl\u00e4tze: 8",
+        "popupContent_en": "Capacity: 8",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3495,9 +3642,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 2",
-        "address_de": "Stellpl\u00e4tze: 2",
-        "address_en": "Capacity: 2",
+        "popupContent": "Stellpl\u00e4tze: 2",
+        "popupContent_de": "Stellpl\u00e4tze: 2",
+        "popupContent_en": "Capacity: 2",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3516,9 +3663,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 2",
-        "address_de": "Stellpl\u00e4tze: 2",
-        "address_en": "Capacity: 2",
+        "popupContent": "Stellpl\u00e4tze: 2",
+        "popupContent_de": "Stellpl\u00e4tze: 2",
+        "popupContent_en": "Capacity: 2",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3537,9 +3684,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 4",
-        "address_de": "Stellpl\u00e4tze: 4",
-        "address_en": "Capacity: 4",
+        "popupContent": "Stellpl\u00e4tze: 4",
+        "popupContent_de": "Stellpl\u00e4tze: 4",
+        "popupContent_en": "Capacity: 4",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3558,9 +3705,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 4",
-        "address_de": "Stellpl\u00e4tze: 4",
-        "address_en": "Capacity: 4",
+        "popupContent": "Stellpl\u00e4tze: 4",
+        "popupContent_de": "Stellpl\u00e4tze: 4",
+        "popupContent_en": "Capacity: 4",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3579,9 +3726,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 10",
-        "address_de": "Stellpl\u00e4tze: 10",
-        "address_en": "Capacity: 10",
+        "popupContent": "Stellpl\u00e4tze: 10",
+        "popupContent_de": "Stellpl\u00e4tze: 10",
+        "popupContent_en": "Capacity: 10",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3600,9 +3747,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 12",
-        "address_de": "Stellpl\u00e4tze: 12",
-        "address_en": "Capacity: 12",
+        "popupContent": "Stellpl\u00e4tze: 12",
+        "popupContent_de": "Stellpl\u00e4tze: 12",
+        "popupContent_en": "Capacity: 12",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3621,9 +3768,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 6",
-        "address_de": "Stellpl\u00e4tze: 6",
-        "address_en": "Capacity: 6",
+        "popupContent": "Stellpl\u00e4tze: 6",
+        "popupContent_de": "Stellpl\u00e4tze: 6",
+        "popupContent_en": "Capacity: 6",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3642,9 +3789,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 6",
-        "address_de": "Stellpl\u00e4tze: 6",
-        "address_en": "Capacity: 6",
+        "popupContent": "Stellpl\u00e4tze: 6",
+        "popupContent_de": "Stellpl\u00e4tze: 6",
+        "popupContent_en": "Capacity: 6",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3663,9 +3810,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 3",
-        "address_de": "Stellpl\u00e4tze: 3",
-        "address_en": "Capacity: 3",
+        "popupContent": "Stellpl\u00e4tze: 3",
+        "popupContent_de": "Stellpl\u00e4tze: 3",
+        "popupContent_en": "Capacity: 3",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3684,9 +3831,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 4",
-        "address_de": "Stellpl\u00e4tze: 4",
-        "address_en": "Capacity: 4",
+        "popupContent": "Stellpl\u00e4tze: 4",
+        "popupContent_de": "Stellpl\u00e4tze: 4",
+        "popupContent_en": "Capacity: 4",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3705,9 +3852,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 4",
-        "address_de": "Stellpl\u00e4tze: 4",
-        "address_en": "Capacity: 4",
+        "popupContent": "Stellpl\u00e4tze: 4",
+        "popupContent_de": "Stellpl\u00e4tze: 4",
+        "popupContent_en": "Capacity: 4",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3726,9 +3873,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 4",
-        "address_de": "Stellpl\u00e4tze: 4",
-        "address_en": "Capacity: 4",
+        "popupContent": "Stellpl\u00e4tze: 4",
+        "popupContent_de": "Stellpl\u00e4tze: 4",
+        "popupContent_en": "Capacity: 4",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3747,9 +3894,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 8",
-        "address_de": "Stellpl\u00e4tze: 8",
-        "address_en": "Capacity: 8",
+        "popupContent": "Stellpl\u00e4tze: 8",
+        "popupContent_de": "Stellpl\u00e4tze: 8",
+        "popupContent_en": "Capacity: 8",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3768,9 +3915,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 6",
-        "address_de": "Stellpl\u00e4tze: 6",
-        "address_en": "Capacity: 6",
+        "popupContent": "Stellpl\u00e4tze: 6",
+        "popupContent_de": "Stellpl\u00e4tze: 6",
+        "popupContent_en": "Capacity: 6",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3789,9 +3936,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 6",
-        "address_de": "Stellpl\u00e4tze: 6",
-        "address_en": "Capacity: 6",
+        "popupContent": "Stellpl\u00e4tze: 6",
+        "popupContent_de": "Stellpl\u00e4tze: 6",
+        "popupContent_en": "Capacity: 6",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3810,9 +3957,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 2",
-        "address_de": "Stellpl\u00e4tze: 2",
-        "address_en": "Capacity: 2",
+        "popupContent": "Stellpl\u00e4tze: 2",
+        "popupContent_de": "Stellpl\u00e4tze: 2",
+        "popupContent_en": "Capacity: 2",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3831,9 +3978,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 7",
-        "address_de": "Stellpl\u00e4tze: 7",
-        "address_en": "Capacity: 7",
+        "popupContent": "Stellpl\u00e4tze: 7",
+        "popupContent_de": "Stellpl\u00e4tze: 7",
+        "popupContent_en": "Capacity: 7",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3852,9 +3999,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 7",
-        "address_de": "Stellpl\u00e4tze: 7",
-        "address_en": "Capacity: 7",
+        "popupContent": "Stellpl\u00e4tze: 7",
+        "popupContent_de": "Stellpl\u00e4tze: 7",
+        "popupContent_en": "Capacity: 7",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3873,9 +4020,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 4",
-        "address_de": "Stellpl\u00e4tze: 4",
-        "address_en": "Capacity: 4",
+        "popupContent": "Stellpl\u00e4tze: 4",
+        "popupContent_de": "Stellpl\u00e4tze: 4",
+        "popupContent_en": "Capacity: 4",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3894,9 +4041,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 3",
-        "address_de": "Stellpl\u00e4tze: 3",
-        "address_en": "Capacity: 3",
+        "popupContent": "Stellpl\u00e4tze: 3",
+        "popupContent_de": "Stellpl\u00e4tze: 3",
+        "popupContent_en": "Capacity: 3",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3915,9 +4062,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 2",
-        "address_de": "Stellpl\u00e4tze: 2",
-        "address_en": "Capacity: 2",
+        "popupContent": "Stellpl\u00e4tze: 2",
+        "popupContent_de": "Stellpl\u00e4tze: 2",
+        "popupContent_en": "Capacity: 2",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3936,9 +4083,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 5",
-        "address_de": "Stellpl\u00e4tze: 5",
-        "address_en": "Capacity: 5",
+        "popupContent": "Stellpl\u00e4tze: 5",
+        "popupContent_de": "Stellpl\u00e4tze: 5",
+        "popupContent_en": "Capacity: 5",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3957,9 +4104,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 6",
-        "address_de": "Stellpl\u00e4tze: 6",
-        "address_en": "Capacity: 6",
+        "popupContent": "Stellpl\u00e4tze: 6",
+        "popupContent_de": "Stellpl\u00e4tze: 6",
+        "popupContent_en": "Capacity: 6",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3978,9 +4125,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 7",
-        "address_de": "Stellpl\u00e4tze: 7",
-        "address_en": "Capacity: 7",
+        "popupContent": "Stellpl\u00e4tze: 7",
+        "popupContent_de": "Stellpl\u00e4tze: 7",
+        "popupContent_en": "Capacity: 7",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3999,9 +4146,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 8",
-        "address_de": "Stellpl\u00e4tze: 8",
-        "address_en": "Capacity: 8",
+        "popupContent": "Stellpl\u00e4tze: 8",
+        "popupContent_de": "Stellpl\u00e4tze: 8",
+        "popupContent_en": "Capacity: 8",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4020,9 +4167,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 5",
-        "address_de": "Stellpl\u00e4tze: 5",
-        "address_en": "Capacity: 5",
+        "popupContent": "Stellpl\u00e4tze: 5",
+        "popupContent_de": "Stellpl\u00e4tze: 5",
+        "popupContent_en": "Capacity: 5",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4041,9 +4188,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 8",
-        "address_de": "Stellpl\u00e4tze: 8",
-        "address_en": "Capacity: 8",
+        "popupContent": "Stellpl\u00e4tze: 8",
+        "popupContent_de": "Stellpl\u00e4tze: 8",
+        "popupContent_en": "Capacity: 8",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4062,9 +4209,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 5",
-        "address_de": "Stellpl\u00e4tze: 5",
-        "address_en": "Capacity: 5",
+        "popupContent": "Stellpl\u00e4tze: 5",
+        "popupContent_de": "Stellpl\u00e4tze: 5",
+        "popupContent_en": "Capacity: 5",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4083,9 +4230,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 6",
-        "address_de": "Stellpl\u00e4tze: 6",
-        "address_en": "Capacity: 6",
+        "popupContent": "Stellpl\u00e4tze: 6",
+        "popupContent_de": "Stellpl\u00e4tze: 6",
+        "popupContent_en": "Capacity: 6",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4104,9 +4251,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "",
-        "address_de": "",
-        "address_en": "",
+        "popupContent": "",
+        "popupContent_de": "",
+        "popupContent_en": "",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4125,9 +4272,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 25",
-        "address_de": "Stellpl\u00e4tze: 25",
-        "address_en": "Capacity: 25",
+        "popupContent": "Stellpl\u00e4tze: 25",
+        "popupContent_de": "Stellpl\u00e4tze: 25",
+        "popupContent_en": "Capacity: 25",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4146,9 +4293,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 12",
-        "address_de": "Stellpl\u00e4tze: 12",
-        "address_en": "Capacity: 12",
+        "popupContent": "Stellpl\u00e4tze: 12",
+        "popupContent_de": "Stellpl\u00e4tze: 12",
+        "popupContent_en": "Capacity: 12",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4167,9 +4314,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 20",
-        "address_de": "Stellpl\u00e4tze: 20",
-        "address_en": "Capacity: 20",
+        "popupContent": "Stellpl\u00e4tze: 20",
+        "popupContent_de": "Stellpl\u00e4tze: 20",
+        "popupContent_en": "Capacity: 20",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4188,9 +4335,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "address": "Stellpl\u00e4tze: 10",
-        "address_de": "Stellpl\u00e4tze: 10",
-        "address_en": "Capacity: 10",
+        "popupContent": "Stellpl\u00e4tze: 10",
+        "popupContent_de": "Stellpl\u00e4tze: 10",
+        "popupContent_en": "Capacity: 10",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4200,6 +4347,300 @@
         "coordinates": [
           9.0280634,
           48.7028077
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Open-air bike park",
+        "name_de": "Fahrradstellplatz",
+        "name": "Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 6",
+        "popupContent_de": "Stellpl\u00e4tze: 6",
+        "popupContent_en": "Capacity: 6",
+        "icon": {
+          "id": "bikeParkOpIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.0248222,
+          48.7016088
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Open-air bike park",
+        "name_de": "Fahrradstellplatz",
+        "name": "Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 6",
+        "popupContent_de": "Stellpl\u00e4tze: 6",
+        "popupContent_en": "Capacity: 6",
+        "icon": {
+          "id": "bikeParkOpIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.0062083,
+          48.6808601
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Open-air bike park",
+        "name_de": "Fahrradstellplatz",
+        "name": "Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 1",
+        "popupContent_de": "Stellpl\u00e4tze: 1",
+        "popupContent_en": "Capacity: 1",
+        "icon": {
+          "id": "bikeParkOpIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8939235,
+          48.6235447
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Open-air bike park",
+        "name_de": "Fahrradstellplatz",
+        "name": "Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 6",
+        "popupContent_de": "Stellpl\u00e4tze: 6",
+        "popupContent_en": "Capacity: 6",
+        "icon": {
+          "id": "bikeParkOpIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8926749,
+          48.6232371
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Open-air bike park",
+        "name_de": "Fahrradstellplatz",
+        "name": "Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 8",
+        "popupContent_de": "Stellpl\u00e4tze: 8",
+        "popupContent_en": "Capacity: 8",
+        "icon": {
+          "id": "bikeParkOpIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8926387,
+          48.62316
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Open-air bike park",
+        "name_de": "Fahrradstellplatz",
+        "name": "Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 4",
+        "popupContent_de": "Stellpl\u00e4tze: 4",
+        "popupContent_en": "Capacity: 4",
+        "icon": {
+          "id": "bikeParkOpIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8928559,
+          48.623199
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Open-air bike park",
+        "name_de": "Fahrradstellplatz",
+        "name": "Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 4",
+        "popupContent_de": "Stellpl\u00e4tze: 4",
+        "popupContent_en": "Capacity: 4",
+        "icon": {
+          "id": "bikeParkOpIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8924697,
+          48.6231104
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Open-air bike park",
+        "name_de": "Fahrradstellplatz",
+        "name": "Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 2",
+        "popupContent_de": "Stellpl\u00e4tze: 2",
+        "popupContent_en": "Capacity: 2",
+        "icon": {
+          "id": "bikeParkOpIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.892066,
+          48.6231219
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Open-air bike park",
+        "name_de": "Fahrradstellplatz",
+        "name": "Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 2",
+        "popupContent_de": "Stellpl\u00e4tze: 2",
+        "popupContent_en": "Capacity: 2",
+        "icon": {
+          "id": "bikeParkOpIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8917817,
+          48.6230971
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Open-air bike park",
+        "name_de": "Fahrradstellplatz",
+        "name": "Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 2",
+        "popupContent_de": "Stellpl\u00e4tze: 2",
+        "popupContent_en": "Capacity: 2",
+        "icon": {
+          "id": "bikeParkOpIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8901959,
+          48.6230368
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Open-air bike park",
+        "name_de": "Fahrradstellplatz",
+        "name": "Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 8",
+        "popupContent_de": "Stellpl\u00e4tze: 8",
+        "popupContent_en": "Capacity: 8",
+        "icon": {
+          "id": "bikeParkOpIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8974557,
+          48.6372103
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Open-air bike park",
+        "name_de": "Fahrradstellplatz",
+        "name": "Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 3",
+        "popupContent_de": "Stellpl\u00e4tze: 3",
+        "popupContent_en": "Capacity: 3",
+        "icon": {
+          "id": "bikeParkOpIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.9036299,
+          48.6417557
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Open-air bike park",
+        "name_de": "Fahrradstellplatz",
+        "name": "Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 14",
+        "popupContent_de": "Stellpl\u00e4tze: 14",
+        "popupContent_en": "Capacity: 14",
+        "icon": {
+          "id": "bikeParkOpIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8697299,
+          48.5985604
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Open-air bike park",
+        "name_de": "Fahrradstellplatz",
+        "name": "Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 26",
+        "popupContent_de": "Stellpl\u00e4tze: 26",
+        "popupContent_en": "Capacity: 26",
+        "icon": {
+          "id": "bikeParkOpIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8700397,
+          48.5983865
         ]
       }
     }
