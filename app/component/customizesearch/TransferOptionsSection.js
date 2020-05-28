@@ -1,15 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { matchShape, routerShape } from 'found';
 import { FormattedMessage } from 'react-intl';
 import Toggle from '../Toggle';
-
-import { replaceQueryParams } from '../../util/queryUtils';
+import { saveRoutingSettings } from '../../action/SearchSettingsActions';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 
 const TransferOptionsSection = (
-  { defaultSettings, currentSettings, walkBoardCostHigh },
-  { router, match },
+  { defaultSettings, walkBoardCostHigh, currentSettings },
+  { executeAction },
 ) => (
   <React.Fragment>
     <div
@@ -19,16 +17,13 @@ const TransferOptionsSection = (
         height: '3.5em',
       }}
     >
-      <FormattedMessage
-        id="avoid-transfers-label"
-        defaultMessage="Avoid transfers"
-      />
+      <FormattedMessage id="avoid-transfers" defaultMessage="Avoid transfers" />
       <Toggle
         toggled={
           currentSettings.walkBoardCost !== defaultSettings.walkBoardCost
         }
         onToggle={e => {
-          replaceQueryParams(router, match, {
+          executeAction(saveRoutingSettings, {
             walkBoardCost: e.target.checked
               ? walkBoardCostHigh
               : defaultSettings.walkBoardCost,
@@ -54,8 +49,7 @@ TransferOptionsSection.propTypes = {
 };
 
 TransferOptionsSection.contextTypes = {
-  router: routerShape.isRequired,
-  match: matchShape.isRequired,
+  executeAction: PropTypes.func.isRequired,
 };
 
 export default TransferOptionsSection;

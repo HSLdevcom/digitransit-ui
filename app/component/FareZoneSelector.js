@@ -2,18 +2,20 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import uniqBy from 'lodash/uniqBy';
 import { intlShape } from 'react-intl';
-import Dropdown from './Dropdown';
+import SearchSettingsDropdown from './SearchSettingsDropdown';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { saveRoutingSettings } from '../action/SearchSettingsActions';
 
 class FareZoneSelector extends React.Component {
   static propTypes = {
     options: PropTypes.array.isRequired,
     currentOption: PropTypes.string.isRequired,
-    updateValue: PropTypes.func.isRequired,
   };
 
   static contextTypes = {
     config: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
+    executeAction: PropTypes.func.isRequired,
   };
 
   createFareZoneObjects = options => {
@@ -34,17 +36,31 @@ class FareZoneSelector extends React.Component {
   };
 
   render() {
-    const mappedOptions = this.createFareZoneObjects(this.props.options);
+    const { options, currentOption } = this.props;
+    const { intl } = this.context;
+    const mappedOptions = this.createFareZoneObjects(options);
     return (
       <div className="settings-option-container">
-        <Dropdown
-          labelText={this.context.intl.formatMessage({
+        <SearchSettingsDropdown
+          labelText={intl.formatMessage({
             id: 'zones',
             defaultMessage: 'Fare zones',
           })}
-          currentSelection={this.props.currentOption}
+          currentSelection={{
+            title: currentOption,
+            value: currentOption,
+          }}
           options={mappedOptions}
-          onOptionSelected={value => this.props.updateValue(value)}
+          onOptionSelected={value => {
+            this.context.executeAction(saveRoutingSettings, {
+              ticketTypes: value,
+            });
+            addAnalyticsEvent({
+              category: 'ItinerarySettings',
+              action: 'ChangeFareZones',
+              name: value,
+            });
+          }}
           displayValueFormatter={value =>
             value.split(':')[1] ? value.split(':')[1] : value
           }
