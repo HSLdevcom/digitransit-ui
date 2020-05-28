@@ -26,7 +26,7 @@ export const SettingsDrawer = ({
 
 SettingsDrawer.propTypes = {
   open: PropTypes.bool.isRequired,
-  width: PropTypes.string.isRequired,
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   onToggleClick: PropTypes.func.isRequired,
   settingsParams: PropTypes.object.isRequired,
 };
