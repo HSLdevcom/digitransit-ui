@@ -26,7 +26,6 @@ import {
   getCityBikeNetworkIcon,
   getCityBikeNetworkConfig,
 } from '../util/citybikes';
-
 import ComponentUsageExample from './ComponentUsageExample';
 import {
   exampleData,
@@ -202,7 +201,6 @@ const SummaryRow = (
   const compressedLegs = compressLegs(data.legs).map(leg => ({
     ...leg,
   }));
-
   compressedLegs.forEach(leg => {
     if (isTransitLeg(leg)) {
       noTransitLegs = false;
