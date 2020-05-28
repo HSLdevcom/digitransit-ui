@@ -1,12 +1,17 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
+import 'moment/locale/fi';
 import uniqueId from 'lodash/uniqueId';
 import i18next from 'i18next';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import DesktopDatetimepicker from './DesktopDatetimepicker';
+import MobileDatepicker from './MobileDatepicker';
+import MobileTimepicker from './MobileTimepicker';
 import translations from './translations';
 import styles from './styles.scss';
+import isMobile from './isMobile';
+import dateTimeInputIsSupported from './dateTimeInputIsSupported';
 
 i18next.init({ lng: 'fi', resources: {} });
 i18next.addResourceBundle('en', 'translation', translations.en);
@@ -59,6 +64,8 @@ function Datetimepicker({
   // for input labels
   const [htmlId] = useState(uniqueId('datetimepicker-'));
 
+  const [useMobileInputs] = useState(isMobile() && dateTimeInputIsSupported());
+
   const nowSelected = timestamp === null;
   useEffect(
     () => {
@@ -109,7 +116,7 @@ function Datetimepicker({
     if (time.isSame(moment().add(1, 'day'), 'day')) {
       return i18next.t('tomorrow');
     }
-    return time.format('dd D.M.');
+    return time.locale('fi').format('dd D.M.');
   };
 
   // param time is timestamp
@@ -153,7 +160,6 @@ function Datetimepicker({
     .minute(selectedMoment.minute())
     .valueOf();
 
-  const isMobile = false; // TODO
   return (
     <fieldset className={styles['dt-datetimepicker']} id={`${htmlId}-root`}>
       <legend className={styles['sr-only']}>
@@ -295,8 +301,51 @@ function Datetimepicker({
             </span>
           </div>
           <div className={styles['picker-container']}>
-            {isMobile ? (
-              'TODO mobile view'
+            {useMobileInputs ? (
+              <>
+                <span
+                  className={`${styles['combobox-left']} ${
+                    styles['combobox-mobile-container']
+                  }`}
+                >
+                  <MobileDatepicker
+                    value={displayTimestamp}
+                    getDisplay={getDateDisplay}
+                    onChange={onDateChange}
+                    itemCount={dateSelectItemCount}
+                    startTime={dateSelectStartTime}
+                    id={`${htmlId}-date`}
+                    label={i18next.t('date')}
+                    icon={
+                      <span
+                        className={`${styles['combobox-icon']} ${
+                          styles['date-input-icon']
+                        }`}
+                      >
+                        <Icon img="calendar" />
+                      </span>
+                    }
+                  />
+                </span>
+                <span className={styles['combobox-mobile-container']}>
+                  <MobileTimepicker
+                    value={displayTimestamp}
+                    getDisplay={getTimeDisplay}
+                    onChange={onTimeChange}
+                    id={`${htmlId}-time`}
+                    label={i18next.t('time')}
+                    icon={
+                      <span
+                        className={`${styles['combobox-icon']} ${
+                          styles['time-input-icon']
+                        }`}
+                      >
+                        <Icon img="time" />
+                      </span>
+                    }
+                  />
+                </span>
+              </>
             ) : (
               <>
                 <span className={styles['combobox-left']}>
