@@ -2,8 +2,8 @@
 import configMerger from '../util/configMerger';
 
 const CONFIG = 'hb';
-const APP_TITLE = 'stadtnavi';
-const APP_DESCRIPTION = '';
+const APP_TITLE = 'stadtnavi Herrenberg';
+const APP_DESCRIPTION = 'Gemeinsam Mobiilität neu denken - die intermodale Verbindungssuche mit offenen, lokalen Daten';
 const API_URL = process.env.API_URL || 'https://api.stadtnavi.de';
 const MAP_URL = process.env.MAP_URL || 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png';
 const SEMI_TRANSPARENT_MAP_URL = process.env.SEMI_TRANSPARENT_MAP_URL || 'https://api.maptiler.com/maps/ffa4d49e-c68c-46c8-ab3f-60543337cecb/256/{z}/{x}/{y}.png?key=eA0drARBA1uPzLR6StGD';
