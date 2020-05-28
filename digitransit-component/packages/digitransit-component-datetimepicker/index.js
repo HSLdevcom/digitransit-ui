@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import debounce from 'lodash/debounce';
 import Datetimepicker from './helpers/Datetimepicker';
+
+moment.tz.setDefault('Europe/Helsinki');
 
 /**
  * This is the container component that renders Datetimepicker. Renders separate input fields for date and time selection. Values for timestamp and arriveBy correspond to Digitransit query params time and arriveBy.

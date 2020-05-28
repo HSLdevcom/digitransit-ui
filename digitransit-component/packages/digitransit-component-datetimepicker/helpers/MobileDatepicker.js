@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import styles from './styles.scss';
+
+moment.tz.setDefault('Europe/Helsinki');
 
 /**
  * Component to display a date input on mobile

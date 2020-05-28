@@ -3,6 +3,8 @@ import React from 'react';
 import moment from 'moment';
 import styles from './styles.scss';
 
+moment.tz.setDefault('Europe/Helsinki');
+
 /**
  * Component to display a time input on mobile
  */

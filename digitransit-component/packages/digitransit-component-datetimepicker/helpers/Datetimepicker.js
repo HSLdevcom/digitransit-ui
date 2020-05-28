@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import 'moment/locale/fi';
 import uniqueId from 'lodash/uniqueId';
 import i18next from 'i18next';
@@ -13,6 +13,7 @@ import styles from './styles.scss';
 import isMobile from './isMobile';
 import dateTimeInputIsSupported from './dateTimeInputIsSupported';
 
+moment.tz.setDefault('Europe/Helsinki');
 i18next.init({ lng: 'fi', resources: {} });
 i18next.addResourceBundle('en', 'translation', translations.en);
 i18next.addResourceBundle('fi', 'translation', translations.fi);
