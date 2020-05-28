@@ -214,6 +214,7 @@ RouteNumber.defaultProps = {
   withBar: false,
   isCallAgency: false,
   icon: undefined,
+  renderNumber: true,
 };
 
 RouteNumber.contextTypes = {
