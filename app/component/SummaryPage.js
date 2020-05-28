@@ -205,7 +205,7 @@ class SummaryPage extends React.Component {
     }
   }
 
-  state = { center: null, loading: false /* ,  settingsOpen: true */ };
+  state = { center: null, loading: false };
 
   configClient = itineraryTopics => {
     const { config } = this.context;
@@ -482,8 +482,8 @@ class SummaryPage extends React.Component {
   }
 
   getOffcanvasState = () =>
-    (this.context.match.location.state &&
-      this.context.match.location.state.customizeSearchOffcanvas) ||
+    (this.props.match.location.state &&
+      this.props.match.location.state.customizeSearchOffcanvas) ||
     false;
 
   toggleCustomizeSearchOffcanvas = () => {
@@ -503,9 +503,9 @@ class SummaryPage extends React.Component {
     });
     if (newState) {
       this.context.router.push({
-        ...this.context.match.location,
+        ...this.props.match.location,
         state: {
-          ...this.context.match.location.state,
+          ...this.props.match.location.state,
           customizeSearchOffcanvas: newState,
         },
       });
@@ -632,25 +632,15 @@ class SummaryPage extends React.Component {
               serviceTimeRange={serviceTimeRange}
               startTime={earliestStartTime}
               endTime={latestArrivalTime}
-              // toggleSettings={state => this.setState({ settingsOpen: state })}
-              toggleSettings={newState =>
-                this.context.router.push({
-                  state: { customizeSearchOffcanvas: newState },
-                })
-              }
+              toggleSettings={this.toggleCustomizeSearchOffcanvas}
             />
           }
           content={content}
           settingsDrawer={
             <SettingsDrawer
               open={this.getOffcanvasState()}
-              width={getDrawerWidth()}
-              // onToggleClick={state => this.setState({ settingsOpen: state })}
-              onToggleClick={newState =>
-                this.context.router.push({
-                  state: { customizeSearchOffcanvas: newState },
-                })
-              }
+              width={getDrawerWidth(window)}
+              onToggleClick={this.toggleCustomizeSearchOffcanvas}
               settingsParams={{}}
             />
           }
@@ -721,6 +711,7 @@ class SummaryPage extends React.Component {
               serviceTimeRange={serviceTimeRange}
               startTime={earliestStartTime}
               endTime={latestArrivalTime}
+              toggleSettings={this.toggleCustomizeSearchOffcanvas}
             />
           ) : (
             false
@@ -728,6 +719,14 @@ class SummaryPage extends React.Component {
         }
         content={content}
         map={map}
+        settingsDrawer={
+          <SettingsDrawer
+            open={this.getOffcanvasState()}
+            width={getDrawerWidth(window)}
+            onToggleClick={this.toggleCustomizeSearchOffcanvas}
+            settingsParams={{}}
+          />
+        }
       />
     );
   }

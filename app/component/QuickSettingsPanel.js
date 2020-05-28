@@ -6,8 +6,6 @@ import { matchShape, routerShape } from 'found';
 
 import RightOffcanvasToggle from './RightOffcanvasToggle';
 import { matchQuickOption } from '../util/planParamUtil';
-import { replaceQueryParams } from '../util/queryUtils';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
 import DatetimepickerContainer from './DatetimepickerContainer';
 
 class QuickSettingsPanel extends React.Component {
@@ -30,59 +28,9 @@ class QuickSettingsPanel extends React.Component {
 
   state = {};
 
-  onRequestChange = newState => {
-    this.internalSetOffcanvas(newState);
-  };
-
-  getOffcanvasState = () =>
-    (this.context.match.location.state &&
-      this.context.match.location.state.customizeSearchOffcanvas) ||
-    false;
-
-  setArriveBy = ({ target }) => {
-    const arriveBy = target.value;
-    addAnalyticsEvent({
-      event: 'sendMatomoEvent',
-      category: 'ItinerarySettings',
-      action: 'LeavingArrivingSelection',
-      name: arriveBy === 'true' ? 'SelectArriving' : 'SelectLeaving',
-    });
-    replaceQueryParams(this.context.router, this.context.match, { arriveBy });
-  };
-
-  toggleCustomizeSearchOffcanvas = () => {
-    addAnalyticsEvent({
-      action: 'OpenSettings',
-      category: 'ItinerarySettings',
-      name: null,
-    });
-    // console.log(this.context.match.location.state);
-    this.internalSetOffcanvas(!this.getOffcanvasState());
-  };
-
-  internalSetOffcanvas = newState => {
-    addAnalyticsEvent({
-      event: 'sendMatomoEvent',
-      category: 'ItinerarySettings',
-      action: 'ExtraSettingsPanelClick',
-      name: newState ? 'ExtraSettingsPanelOpen' : 'ExtraSettingsPanelClose',
-    });
-    this.props.toggleSettings(newState);
-    if (newState) {
-      this.context.router.push({
-        ...this.context.match.location,
-        state: {
-          ...this.context.match.location.state,
-          customizeSearchOffcanvas: newState,
-        },
-      });
-    } else {
-      this.context.router.go(-1);
-    }
-  };
-
   render() {
     const quickOption = matchQuickOption(this.context);
+    const { toggleSettings } = this.props;
 
     return (
       <div className={cx(['quicksettings-container'])}>
@@ -91,7 +39,7 @@ class QuickSettingsPanel extends React.Component {
           embedWhenClosed={
             <div className="open-advanced-settings">
               <RightOffcanvasToggle
-                onToggleClick={this.toggleCustomizeSearchOffcanvas}
+                onToggleClick={toggleSettings}
                 hasChanges={
                   quickOption === 'saved-settings' ||
                   quickOption === 'custom-settings'

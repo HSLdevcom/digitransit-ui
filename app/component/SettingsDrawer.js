@@ -4,11 +4,8 @@ import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import CustomizeSearch from './CustomizeSearchNew';
 
-// import { isKeyboardSelectionEvent } from '../util/browser';
-
 export const SettingsDrawer = ({
   open,
-  // onRequestChange,
   width,
   onToggleClick,
   settingsParams,
@@ -29,15 +26,9 @@ export const SettingsDrawer = ({
 
 SettingsDrawer.propTypes = {
   open: PropTypes.bool.isRequired,
-  onRequestChange: PropTypes.func,
-  width: PropTypes.number,
+  width: PropTypes.string.isRequired,
   onToggleClick: PropTypes.func.isRequired,
   settingsParams: PropTypes.object.isRequired,
-};
-
-SettingsDrawer.defaultProps = {
-  width: 400,
-  onRequestChange: undefined,
 };
 
 SettingsDrawer.contextTypes = {

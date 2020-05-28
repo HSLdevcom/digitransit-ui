@@ -1,10 +1,21 @@
+.offcanvas {
+  overflow-x:hidden;
+  overflow-y:auto;
+  height: 90vh;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+}
+.offcanvas::-webkit-scrollbar { /* WebKit */
+  width: 0;
+  height: 0;
+}
+
 .customize-search {
   background: #ffffff;
   color: $black;
-  height: 100%;
   line-height: 35px;
-  overflow-y: auto;
   position: relative;
+  box-shadow: inset 5px 0px 5px 0px #f4f4f5;
 
   .close-offcanvas {
     position: absolute;
@@ -50,6 +61,7 @@
 .settings-option-container {
   padding: 1em 1em 0 1em;
   border-bottom: 5px solid #f4f4f5;
+  font-weight: 500;
 
   & + .settings-option-container {
     padding-bottom: 1.5em;
@@ -67,9 +79,6 @@
     margin-top: -0.4em;
   }
 
-  span {
-    font-weight: 400;
-  }
   .mode-option-container:last-of-type {
     border: none;
   }
