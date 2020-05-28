@@ -31,13 +31,14 @@ import {
 import withBreakpoint from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
 import exampleData from './data/SummaryPage.ExampleData';
-import { isBrowser } from '../util/browser';
+import { isBrowser, getDrawerWidth } from '../util/browser';
 import { itineraryHasCancelation } from '../util/alertUtils';
 import triggerMessage from '../util/messageUtils';
 import MessageStore from '../store/MessageStore';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { otpToLocation, addressToItinerarySearch } from '../util/otpStrings';
 import { startLocationWatch } from '../action/PositionActions';
+import { SettingsDrawer } from './SettingsDrawer';
 
 import {
   startRealTimeClient,
@@ -480,6 +481,39 @@ class SummaryPage extends React.Component {
     );
   }
 
+  getOffcanvasState = () =>
+    (this.props.match.location.state &&
+      this.props.match.location.state.customizeSearchOffcanvas) ||
+    false;
+
+  toggleCustomizeSearchOffcanvas = () => {
+    this.internalSetOffcanvas(!this.getOffcanvasState());
+  };
+
+  onRequestChange = newState => {
+    this.internalSetOffcanvas(newState);
+  };
+
+  internalSetOffcanvas = newState => {
+    addAnalyticsEvent({
+      event: 'sendMatomoEvent',
+      category: 'ItinerarySettings',
+      action: 'ExtraSettingsPanelClick',
+      name: newState ? 'ExtraSettingsPanelOpen' : 'ExtraSettingsPanelClose',
+    });
+    if (newState) {
+      this.context.router.push({
+        ...this.props.match.location,
+        state: {
+          ...this.props.match.location.state,
+          customizeSearchOffcanvas: newState,
+        },
+      });
+    } else {
+      this.context.router.go(-1);
+    }
+  };
+
   render() {
     const { match, error } = this.props;
 
@@ -598,9 +632,18 @@ class SummaryPage extends React.Component {
               serviceTimeRange={serviceTimeRange}
               startTime={earliestStartTime}
               endTime={latestArrivalTime}
+              toggleSettings={this.toggleCustomizeSearchOffcanvas}
             />
           }
           content={content}
+          settingsDrawer={
+            <SettingsDrawer
+              open={this.getOffcanvasState()}
+              width={getDrawerWidth(window)}
+              onToggleClick={this.toggleCustomizeSearchOffcanvas}
+              settingsParams={{}}
+            />
+          }
           map={map}
           scrollable
           bckBtnColor={this.context.config.colors.primary}
@@ -668,6 +711,7 @@ class SummaryPage extends React.Component {
               serviceTimeRange={serviceTimeRange}
               startTime={earliestStartTime}
               endTime={latestArrivalTime}
+              toggleSettings={this.toggleCustomizeSearchOffcanvas}
             />
           ) : (
             false
@@ -675,6 +719,14 @@ class SummaryPage extends React.Component {
         }
         content={content}
         map={map}
+        settingsDrawer={
+          <SettingsDrawer
+            open={this.getOffcanvasState()}
+            width={getDrawerWidth(window)}
+            onToggleClick={this.toggleCustomizeSearchOffcanvas}
+            settingsParams={{}}
+          />
+        }
       />
     );
   }
