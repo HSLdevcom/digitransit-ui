@@ -32,6 +32,7 @@ import Ellipsis from './assets/ellipsis.svg';
 import Opposite from './assets/opposite.svg';
 import Viapoint from './assets/viapoint.svg';
 import Calendar from './assets/calendar.svg';
+import SelectFromMap from './assets/select-from-map.svg';
 
 const IconMap = style => {
   return {
@@ -67,6 +68,7 @@ const IconMap = style => {
     opposite: <Opposite style={style} />,
     viapoint: <Viapoint style={style} />,
     calendar: <Calendar style={style} />,
+    'select-from-map': <SelectFromMap style={style} />,
   };
 };
 

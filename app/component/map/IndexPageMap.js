@@ -25,7 +25,7 @@ const renderStreetModeSelector = (config, router, match) => (
         action: 'SelectTravelingModeFromIndexPage',
         name: streetMode,
       });
-      ModeUtils.setStreetMode(streetMode, config, router, match, isExclusive);
+      ModeUtils.setStreetMode(streetMode, config, isExclusive);
     }}
     streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
   />

@@ -13,6 +13,7 @@ module.exports = {
     'no-else-return': 'warn',
     'no-plusplus': ['error', { "allowForLoopAfterthoughts": true }],
     'no-console': 'error',
+    'import/no-extraneous-dependencies': 'off',
     // react
     'react/button-has-type': 'warn',
     'react/destructuring-assignment': 'off',

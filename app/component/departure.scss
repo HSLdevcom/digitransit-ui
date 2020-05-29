@@ -181,7 +181,7 @@
 .route-number {
   vertical-align: top;
   position: relative;
-  display: inline-block;
+  display: flex;
   min-width: 64px;
   &.vertical {
     max-width: 100%;

@@ -35,8 +35,9 @@ import { getNameLabel } from '@digitransit-search-util/digitransit-search-util-u
  */
 export default function getLabel(properties) {
   const parts = getNameLabel(properties, true);
-
   switch (properties.layer) {
+    case 'selectFromMap':
+      return parts[1] || parts[0];
     case 'currentPosition':
       return parts[1] || parts[0];
     case 'favouritePlace':

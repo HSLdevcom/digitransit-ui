@@ -32,5 +32,6 @@ describe('<QuickSettingsPanel />', () => {
     });
 
     expect(wrapper.find(DatetimepickerContainer)).to.have.lengthOf(1);
+    wrapper.unmount();
   });
 });

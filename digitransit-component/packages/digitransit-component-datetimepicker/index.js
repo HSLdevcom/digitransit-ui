@@ -1,373 +1,181 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
-import uniqueId from 'lodash/uniqueId';
-import i18next from 'i18next';
-import Icon from '@digitransit-component/digitransit-component-icon';
-import DesktopDatetimepicker from './helpers/DesktopDatetimepicker';
-import translations from './helpers/translations';
-import styles from './helpers/styles.scss';
-
-i18next.init({ lng: 'fi', resources: {} });
-i18next.addResourceBundle('en', 'translation', translations.en);
-i18next.addResourceBundle('fi', 'translation', translations.fi);
-i18next.addResourceBundle('sv', 'translation', translations.sv);
+import debounce from 'lodash/debounce';
+import Datetimepicker from './helpers/Datetimepicker';
 
 /**
- * This component renders combobox style inputs for selecting date and time. This is a controlled component, timestamp is the current value of both inputs.
+ * This is the container component that renders Datetimepicker. Renders separate input fields for date and time selection. Values for timestamp and arriveBy correspond to Digitransit query params time and arriveBy.
+ *
  * @param {Object} props
  *
- * @param {Number} props.timestamp      Currently selected time as a unix timestamp in milliseconds. Set to null to signify that "now" is selected. Displayed time is updated in realtime when set to null
- * @param {function} props.onTimeChange       Called with new timestamp when time input changes
- * @param {function} props.onDateChange       Called with new timestamp when date input changes
- * @param {'arrival'|'departure'} props.departureOrArrival   Determine if input is set to choose departure or arrival time
- * @param {function} props.onNowClick         Called when "depart now" button is clicked
- * @param {function} props.onDepartureClick   Called when "departure" button is clicked
- * @param {function} props.onArrivalClick     Called when "arrival" button is clicked
- * @param {node} props.embedWhenClosed        JSX element to render in the corner when input is closed
+ * @param {boolean} props.realtime                  Determine if selected time should be updated in realtime when 'now' is selected.
+ * @param {Number} props.initialTimestamp           Initial value for selected time. Unix timestamp in seconds. Updating this will change timepicker value but the correct value is kept in component state even if this is not updated.
+ * @param {boolean} props.initialArriveBy           Initial value for arriveBy. Determines if picker is in arrival mode (true) or departure mode (false). Correct value is kept in component state even if this is not updated. Changing this will also trigger change in the component.
+ * @param {function} props.onTimeChange             Called with (time, arriveBy) when time input changes. time is number timestamp in seconds, arriveBy is boolean
+ * @param {function} props.onDateChange             Called with (time, arriveBy) when date input changes. time is number timestamp in seconds, arriveBy is boolean
+ * @param {function} props.onNowClick               Called when "depart now" button is clicked
+ * @param {function} props.onDepartureClick         Called with (time) when "departure" button is clicked. time is current input value in seconds
+ * @param {function} props.onArrivalClick           Called with (time) when "arrival" button is clicked. time is current input value in seconds
+ * @param {node} props.embedWhenClosed              JSX element to render in the corner when input is closed
  *
  *
  *
  * @example
- * <Datetimepicker
- *   timestamp={1590133823000}
- *   onTimeChange={(newTimestamp) => update(newTimestamp)}
- *   onDateChange={(newTimestamp) => update(newTimestamp)}
- *   departureOrArrival={'departure'}
- *   onNowClick={() => setTimestampToNull()}
- *   onDepartureClick={() => departureClicked()}
- *   onArrivalClick={() => arrivalClicked()}
+ * <DatetimepickerStateContainer
+ *   realtime={true}
+ *   initialTimestamp={1590133823}
+ *   initialArriveBy={false}
+ *   onTimeChange={(time, arriveBy) => changeUrl(time, arriveBy)}
+ *   onDateChange={(time, arriveBy) => changeUrl(time, arriveBy)}
+ *   onNowClick={() => changeUrl(undefined, undefined)}
+ *   onDepartureClick={(time) => changeUrl(time, 'true')}
+ *   onArrivalClick={(time) => changeUrl(time, undefined)}
  *   embedWhenClosed={<button />}
  * />
  */
-function Datetimepicker({
-  timestamp,
-  onTimeChange,
-  onDateChange,
-  departureOrArrival,
-  onNowClick,
+function DatetimepickerStateContainer({
+  realtime,
+  initialArriveBy,
+  initialTimestamp,
   onDepartureClick,
   onArrivalClick,
+  onTimeChange,
+  onDateChange,
+  onNowClick,
   embedWhenClosed,
 }) {
-  const [isOpen, changeOpen] = useState(false);
-  const [displayTimestamp, changeDisplayTimestamp] = useState(
-    timestamp || moment().valueOf(),
+  const initialNow = realtime ? null : moment().valueOf();
+  const [timestamp, changeTimestampState] = useState(
+    initialTimestamp ? initialTimestamp * 1000 : initialNow,
   );
-  // timer for updating displayTimestamp in real time
-  const [timerId, setTimer] = useState(null);
-  // for input labels
-  const [htmlId] = useState(uniqueId('datetimepicker-'));
+  const [departureOrArrival, changeDepartureOrArrival] = useState(
+    initialArriveBy === true ? 'arrival' : 'departure',
+  );
 
-  const nowSelected = timestamp === null;
+  // update state if props change
   useEffect(
     () => {
-      if (nowSelected) {
-        changeDisplayTimestamp(moment().valueOf());
-      } else {
-        // clear timer
-        if (timerId) {
-          clearInterval(timerId);
-          setTimer(null);
+      const bothNull = timestamp === null && initialTimestamp === undefined;
+      const oneNull = timestamp === null || initialTimestamp === undefined;
+      const sameTime = Math.round(timestamp / 1000) === initialTimestamp;
+      const timestampChanged = !bothNull && (oneNull || !sameTime);
+      if (timestampChanged) {
+        if (initialTimestamp === undefined) {
+          changeTimestampState(null);
+        } else {
+          changeTimestampState(initialTimestamp * 1000);
         }
-        changeDisplayTimestamp(timestamp);
+      }
+      if (!initialArriveBy === (departureOrArrival === 'arrival')) {
+        changeDepartureOrArrival(
+          initialArriveBy === true ? 'arrival' : 'departure',
+        );
       }
     },
-    [timestamp],
+    [initialTimestamp, initialArriveBy],
   );
 
-  // set timer to update displayTimestamp when minute changes if nowSelected
-  useEffect(
-    () => {
-      if (!nowSelected) {
-        return undefined;
-      }
-      if (timerId) {
-        clearInterval(timerId);
-      }
-      const newId = setInterval(() => {
-        const now = moment().valueOf();
-        const sameMinute = moment(displayTimestamp).isSame(now, 'minute');
-        if (!sameMinute) {
-          clearInterval(newId);
-          setTimer(null);
-          changeDisplayTimestamp(now);
-        }
-      }, 5000);
-      setTimer(newId);
-      return () => clearInterval(newId);
-    },
-    [displayTimestamp],
-  );
+  const timeChanged = debounce(newTime => {
+    if (newTime === null) {
+      changeTimestampState(moment().valueOf());
+      onTimeChange(
+        Math.round(moment().valueOf() / 1000),
+        departureOrArrival === 'arrival',
+      );
+      return;
+    }
+    changeTimestampState(newTime);
+    onTimeChange(Math.round(newTime / 1000), departureOrArrival === 'arrival');
+  }, 10);
 
-  // param date is timestamp
-  const getDateDisplay = date => {
-    const time = moment(date);
-    if (time.isSame(moment(), 'day')) {
-      return i18next.t('today');
+  const dateChanged = debounce(newDate => {
+    if (newDate === null) {
+      changeTimestampState(moment().valueOf());
+      onDateChange(
+        Math.round(moment().valueOf() / 1000),
+        departureOrArrival === 'arrival',
+      );
+      return;
     }
-    if (time.isSame(moment().add(1, 'day'), 'day')) {
-      return i18next.t('tomorrow');
-    }
-    return time.format('dd D.M.');
+    changeTimestampState(newDate);
+    onDateChange(Math.round(newDate / 1000), departureOrArrival === 'arrival');
+  }, 10);
+
+  const nowClicked = () => {
+    changeDepartureOrArrival('departure');
+    const newTimestamp = realtime ? null : moment().valueOf();
+    changeTimestampState(newTimestamp);
+    onNowClick();
   };
 
-  // param time is timestamp
-  const getTimeDisplay = time => {
-    return moment(time).format('HH:mm');
-  };
-
-  const validateTime = value => {
-    const trimmed = value.trim();
-    if (trimmed.match(/^[0-9]{1,2}(\.|:)[0-9]{2}$/) !== null) {
-      const splitter = trimmed.includes('.') ? '.' : ':';
-      const values = trimmed.split(splitter);
-      const hours = Number(values[0]);
-      const hoursValid = !Number.isNaN(hours) && hours >= 0 && hours <= 23;
-      const minutes = Number(values[1]);
-      const minutesValid =
-        !Number.isNaN(minutes) && minutes >= 0 && minutes <= 59;
-      if (!minutesValid || !hoursValid) {
-        return null;
-      }
-      const newStamp = moment(displayTimestamp)
-        .hours(hours)
-        .minutes(minutes)
-        .valueOf();
-      return newStamp;
+  const departureClicked = () => {
+    let changed = false;
+    let newTime = timestamp;
+    if (timestamp === null) {
+      const now = moment().valueOf();
+      changeTimestampState(now);
+      newTime = now;
+      changed = true;
     }
-    return null;
+    if (departureOrArrival !== 'departure') {
+      changeDepartureOrArrival('departure');
+      changed = true;
+    }
+    if (changed) {
+      onDepartureClick(Math.round(newTime / 1000));
+    }
   };
 
-  const selectedMoment = moment(displayTimestamp);
-  const timeSelectItemCount = 24 * 4;
-  const timeSelectItemDiff = 1000 * 60 * 15; // 15 minutes in ms
-  const timeSelectStartTime = moment(displayTimestamp)
-    .startOf('day')
-    .valueOf();
-  const dateSelectItemCount = 30;
-  const dateSelectItemDiff = 1000 * 60 * 60 * 24; // 24 hrs in ms
-  const dateSelectStartTime = moment()
-    .startOf('day')
-    .hour(selectedMoment.hour())
-    .minute(selectedMoment.minute())
-    .valueOf();
+  const arrivalClicked = () => {
+    let changed = false;
+    let newTime = timestamp;
+    if (timestamp === null) {
+      const now = moment().valueOf();
+      changeTimestampState(now);
+      newTime = now;
+      changed = true;
+    }
+    if (departureOrArrival !== 'arrival') {
+      changeDepartureOrArrival('arrival');
+      changed = true;
+    }
+    if (changed) {
+      onArrivalClick(Math.round(newTime / 1000));
+    }
+  };
 
-  const isMobile = false; // TODO
   return (
-    <fieldset className={styles['dt-datetimepicker']} id={`${htmlId}-root`}>
-      <legend className={styles['sr-only']}>
-        {i18next.t('accessible-title')}
-      </legend>
-      {!isOpen ? (
-        <>
-          <div className={styles['top-row-container']}>
-            <span className={styles['time-icon']}>
-              <Icon img="time" />
-            </span>
-            <label htmlFor={`${htmlId}-open`}>
-              <span className={styles['sr-only']}>
-                {i18next.t('accessible-open')}
-              </span>
-              <button
-                id={`${htmlId}-open`}
-                type="button"
-                className={`${styles.textbutton} ${styles.active}`}
-                aria-controls={`${htmlId}-root`}
-                aria-expanded="false"
-                onClick={() => changeOpen(true)}
-              >
-                {nowSelected && departureOrArrival === 'departure' ? (
-                  i18next.t('departure-now')
-                ) : (
-                  <>
-                    {i18next.t(
-                      departureOrArrival === 'departure'
-                        ? 'departure'
-                        : 'arrival',
-                    )}
-                    {` ${getDateDisplay(
-                      displayTimestamp,
-                    ).toLowerCase()} ${getTimeDisplay(displayTimestamp)}`}
-                  </>
-                )}
-                <span className={styles['dropdown-icon']}>
-                  <Icon img="arrow-dropdown" />
-                </span>
-              </button>
-            </label>
-            <span className={styles['right-edge']}>{embedWhenClosed}</span>
-          </div>
-          <div />
-        </>
-      ) : (
-        <>
-          <div className={styles['top-row-container']}>
-            <span className={styles['time-icon']}>
-              <Icon img="time" />
-            </span>
-            <span />
-            {/* This empty span prevents a weird focus bug on chrome */}
-            <label
-              htmlFor={`${htmlId}-now`}
-              className={`${styles['radio-textbutton-label']} ${
-                styles['first-radio']
-              } ${
-                styles[
-                  departureOrArrival === 'departure' && nowSelected
-                    ? 'active'
-                    : undefined
-                ]
-              }`}
-            >
-              {i18next.t('departure-now')}
-              <input
-                id={`${htmlId}-now`}
-                name="departureOrArrival"
-                type="radio"
-                value="now"
-                className={styles['radio-textbutton']}
-                onChange={() => onNowClick()}
-                checked={nowSelected && departureOrArrival === 'departure'}
-              />
-            </label>
-            <label
-              htmlFor={`${htmlId}-departure`}
-              className={`${styles['radio-textbutton-label']}
-                ${
-                  styles[
-                    departureOrArrival === 'departure' && !nowSelected
-                      ? 'active'
-                      : undefined
-                  ]
-                }`}
-            >
-              {i18next.t('departure')}
-              <input
-                id={`${htmlId}-departure`}
-                name="departureOrArrival"
-                type="radio"
-                value="departure"
-                className={styles['radio-textbutton']}
-                onChange={() => {
-                  onDepartureClick();
-                }}
-                checked={!nowSelected && departureOrArrival === 'departure'}
-              />
-            </label>
-            <label
-              htmlFor={`${htmlId}-arrival`}
-              className={`${styles['radio-textbutton-label']}
-                ${
-                  styles[
-                    departureOrArrival === 'arrival' ? 'active' : undefined
-                  ]
-                }`}
-            >
-              {i18next.t('arrival')}
-              <input
-                id={`${htmlId}-arrival`}
-                name="departureOrArrival"
-                type="radio"
-                value="arrival"
-                className={styles['radio-textbutton']}
-                onChange={() => {
-                  onArrivalClick();
-                }}
-                checked={departureOrArrival === 'arrival'}
-              />
-            </label>
-            <span className={styles['right-edge']}>
-              <button
-                type="button"
-                className={styles['close-button']}
-                aria-controls={`${htmlId}-root`}
-                aria-expanded="true"
-                onClick={() => changeOpen(false)}
-              >
-                <span className={styles['close-icon']}>
-                  <Icon img="plus" />
-                </span>
-                <span className={styles['sr-only']}>
-                  {i18next.t('accessible-close')}
-                </span>
-              </button>
-            </span>
-          </div>
-          <div className={styles['picker-container']}>
-            {isMobile ? (
-              'TODO mobile view'
-            ) : (
-              <>
-                <span className={styles['combobox-left']}>
-                  <DesktopDatetimepicker
-                    value={displayTimestamp}
-                    onChange={newValue => {
-                      onDateChange(newValue);
-                    }}
-                    getDisplay={getDateDisplay}
-                    itemCount={dateSelectItemCount}
-                    itemDiff={dateSelectItemDiff}
-                    startTime={dateSelectStartTime}
-                    validate={() => null}
-                    icon={
-                      <span
-                        className={`${styles['combobox-icon']} ${
-                          styles['date-input-icon']
-                        }`}
-                      >
-                        <Icon img="calendar" />
-                      </span>
-                    }
-                    id={`${htmlId}-date`}
-                    label={i18next.t('date')}
-                    disableTyping
-                  />
-                </span>
-                <span>
-                  <DesktopDatetimepicker
-                    value={displayTimestamp}
-                    onChange={newValue => {
-                      onTimeChange(newValue);
-                    }}
-                    getDisplay={getTimeDisplay}
-                    itemCount={timeSelectItemCount}
-                    itemDiff={timeSelectItemDiff}
-                    startTime={timeSelectStartTime}
-                    validate={validateTime}
-                    icon={
-                      <span
-                        className={`${styles['combobox-icon']} ${
-                          styles['time-input-icon']
-                        }`}
-                      >
-                        <Icon img="time" />
-                      </span>
-                    }
-                    id={`${htmlId}-time`}
-                    label={i18next.t('time')}
-                  />
-                </span>
-              </>
-            )}
-          </div>
-        </>
-      )}
-    </fieldset>
+    <Datetimepicker
+      timestamp={timestamp}
+      onTimeChange={timeChanged}
+      onDateChange={dateChanged}
+      departureOrArrival={departureOrArrival}
+      onNowClick={nowClicked}
+      onDepartureClick={departureClicked}
+      onArrivalClick={arrivalClicked}
+      embedWhenClosed={embedWhenClosed}
+    />
   );
 }
 
-Datetimepicker.propTypes = {
-  timestamp: PropTypes.number,
-  onTimeChange: PropTypes.func.isRequired,
-  onDateChange: PropTypes.func.isRequired,
-  departureOrArrival: PropTypes.oneOf(['departure', 'arrival']).isRequired,
-  onNowClick: PropTypes.func.isRequired,
+DatetimepickerStateContainer.propTypes = {
+  realtime: PropTypes.bool,
+  initialTimestamp: PropTypes.number,
+  initialArriveBy: PropTypes.bool,
   onDepartureClick: PropTypes.func.isRequired,
   onArrivalClick: PropTypes.func.isRequired,
+  onTimeChange: PropTypes.func.isRequired,
+  onDateChange: PropTypes.func.isRequired,
+  onNowClick: PropTypes.func.isRequired,
   embedWhenClosed: PropTypes.node,
 };
 
-Datetimepicker.defaultProps = { timestamp: null, embedWhenClosed: null };
+DatetimepickerStateContainer.defaultProps = {
+  realtime: false,
+  initialArriveBy: undefined,
+  initialTimestamp: undefined,
+  embedWhenClosed: null,
+};
 
-export default Datetimepicker;
+export default DatetimepickerStateContainer;

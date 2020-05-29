@@ -23,6 +23,30 @@ function getFavouriteLocations(favourites, input) {
     })),
   );
 }
+function selectPositionFomMap(input) {
+  if (typeof input !== 'string' || input.length === 0) {
+    return Promise.resolve([
+      {
+        type: 'SelectFromMap',
+        address: 'SelectFromMap',
+        lat: null,
+        lon: null,
+        properties: {
+          labelId: 'select-from-map',
+          layer: 'selectFromMap',
+          address: 'SelectFromMap',
+          lat: null,
+          lon: null,
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: [],
+        },
+      },
+    ]);
+  }
+  return Promise.resolve([]);
+}
 
 function getCurrentPositionIfEmpty(input, position) {
   if (typeof input !== 'string' || input.length === 0) {
@@ -146,7 +170,9 @@ export function getSearchResults(
   ) {
     searchComponents.push(getCurrentPositionIfEmpty(input, position));
   }
-
+  if (allTargets || targets.includes('MapPosition')) {
+    searchComponents.push(selectPositionFomMap(input));
+  }
   if (allTargets || targets.includes('Locations')) {
     // eslint-disable-next-line prefer-destructuring
     const searchParams = geocodingSearchParams;
@@ -173,7 +199,7 @@ export function getSearchResults(
     }
     if (allSources || sources.includes('History')) {
       const locationHistory = prevSearches(context, 'endpoint');
-      const dropLayers = ['currentPosition', 'stop'];
+      const dropLayers = ['currentPosition', 'selectFromMap', 'stop'];
       dropLayers.push(...routeLayers);
       searchComponents.push(getOldSearches(locationHistory, input, dropLayers));
     }
@@ -204,7 +230,7 @@ export function getSearchResults(
     }
     if (allSources || sources.includes('History')) {
       const stopHistory = prevSearches(context);
-      const dropLayers = ['currentPosition', 'favouritePlace'];
+      const dropLayers = ['currentPosition', 'selectFromMap', 'favouritePlace'];
       dropLayers.push(...routeLayers);
       dropLayers.push(...locationLayers);
       searchComponents.push(getOldSearches(stopHistory, input, dropLayers));
@@ -221,6 +247,7 @@ export function getSearchResults(
       const routeHistory = prevSearches(context);
       const dropLayers = [
         'currentPosition',
+        'selectFromMap',
         'favouritePlace',
         'stop',
         'station',

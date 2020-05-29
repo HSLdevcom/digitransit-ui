@@ -34,6 +34,7 @@ export const mockContext = {
     }),
     getMessages: () => [],
     removeListener: noop,
+    getRoutingSettings: () => ({}),
   }),
   match: mockMatch,
   muiTheme,
