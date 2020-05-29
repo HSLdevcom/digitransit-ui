@@ -275,7 +275,7 @@ export default async function(req, res, next) {
     try {
       relayData = await environment.relaySSRMiddleware.getCache();
     } catch {
-      relayData = {};
+      relayData = [];
     }
 
     const spriteName = config.sprites;
