@@ -17,6 +17,7 @@ const getDefaultProps = () => ({
     start: 1534798800,
     end: 1538081999,
   },
+  toggleSettings: () => {},
 });
 
 describe('<QuickSettingsPanel />', () => {

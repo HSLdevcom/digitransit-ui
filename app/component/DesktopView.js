@@ -9,6 +9,7 @@ export default function DesktopView({
   header,
   map,
   content,
+  settingsDrawer,
   scrollable,
   bckBtnColor,
   bckBtnVisible,
@@ -38,6 +39,7 @@ export default function DesktopView({
         </div>
       </div>
       <div className="map-content">
+        {settingsDrawer}
         <ErrorBoundary>{map}</ErrorBoundary>
       </div>
     </div>
@@ -49,6 +51,7 @@ DesktopView.propTypes = {
   header: PropTypes.node,
   map: PropTypes.node,
   content: PropTypes.node,
+  settingsDrawer: PropTypes.node,
   scrollable: PropTypes.bool,
   bckBtnColor: PropTypes.string,
   bckBtnVisible: PropTypes.bool, // DT-3471
