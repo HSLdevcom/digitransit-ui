@@ -23,26 +23,29 @@ function getFavouriteLocations(favourites, input) {
     })),
   );
 }
-function selectPositionFomMap() {
-  return Promise.resolve([
-    {
-      type: 'SelectFromMap',
-      address: 'SelectFromMap',
-      lat: null,
-      lon: null,
-      properties: {
-        labelId: 'select-from-map',
-        layer: 'selectFromMap',
+function selectPositionFomMap(input) {
+  if (typeof input !== 'string' || input.length === 0) {
+    return Promise.resolve([
+      {
+        type: 'SelectFromMap',
         address: 'SelectFromMap',
         lat: null,
         lon: null,
+        properties: {
+          labelId: 'select-from-map',
+          layer: 'selectFromMap',
+          address: 'SelectFromMap',
+          lat: null,
+          lon: null,
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: [],
+        },
       },
-      geometry: {
-        type: 'Point',
-        coordinates: [],
-      },
-    },
-  ]);
+    ]);
+  }
+  return Promise.resolve([]);
 }
 
 function getCurrentPositionIfEmpty(input, position) {
@@ -168,7 +171,7 @@ export function getSearchResults(
     searchComponents.push(getCurrentPositionIfEmpty(input, position));
   }
   if (targets.includes('SelectPositionFomMap')) {
-    searchComponents.push(selectPositionFomMap());
+    searchComponents.push(selectPositionFomMap(input));
   }
   if (allTargets || targets.includes('Locations')) {
     // eslint-disable-next-line prefer-destructuring

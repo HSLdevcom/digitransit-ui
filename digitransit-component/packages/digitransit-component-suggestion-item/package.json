@@ -28,6 +28,6 @@
     "prop-types": "^15.7.2",
     "react": "^16.13.0",
     "recompose": "0.30.0",
-    "@digitransit-component/digitransit-component-icon": "^0.0.1"
+    "@digitransit-component/digitransit-component-icon": "^0.0.3"
   }
 }
