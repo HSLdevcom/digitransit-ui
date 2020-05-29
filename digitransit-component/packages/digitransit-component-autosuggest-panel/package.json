@@ -25,7 +25,7 @@
   "dependencies": {
     "@digitransit-component/digitransit-component-autosuggest": "^1.0.1",
     "@digitransit-component/digitransit-component-with-breakpoint": "^0.0.3",
-    "@digitransit-component/digitransit-component-icon": "0.0.1"
+    "@digitransit-component/digitransit-component-icon": "0.0.3"
   },
   "peerDependencies": {
     "classnames": "2.2.6",
