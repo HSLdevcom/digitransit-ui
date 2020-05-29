@@ -170,7 +170,7 @@ export function getSearchResults(
   ) {
     searchComponents.push(getCurrentPositionIfEmpty(input, position));
   }
-  if (allTargets || targets.includes('SelectPositionFomMap')) {
+  if (allTargets || targets.includes('MapPosition')) {
     searchComponents.push(selectPositionFomMap(input));
   }
   if (allTargets || targets.includes('Locations')) {
