@@ -89,17 +89,7 @@ const Icon = ({ color, img, height, width, rotate }) => {
     transform: rotate ? `rotate(${rotate}deg)` : null,
   };
   const icons = IconMap(style);
-  return (
-    <span
-      style={{
-        height: height ? `${height}em` : null,
-        width: width ? `${width}em` : null,
-      }}
-      aria-hidden
-    >
-      {icons[img]}
-    </span>
-  );
+  return <React.Fragment>{icons[img]}</React.Fragment>;
 };
 
 Icon.propTypes = {
