@@ -127,33 +127,6 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   display: flex;
   flex-direction: column;
 }
-// .input-viapoint-slack-container {
-//   align-items: center;
-//   display: flex;
-//   flex: 1;
-//   justify-content: flex-end;
-//   margin: 0 6em 0.5em 0;
-
-//   span {
-//     font-weight: 400;
-//   }
-//   .select-wrapper {
-//     display: flex;
-//     flex-direction: row;
-//     // color: $link-color;
-//     margin-left: 0.5em;
-//     flex: 0 1 6em;
-//     > span {
-//       margin-left: -1.4rem;
-//       pointer-events: none;
-//     }
-//     .fake-select-arrow {
-//       font-size: 0.7rem;
-//       // color: $primary-color;
-//       margin-top: 1em;
-//     }
-//   }
-// }
 
 .itinerary-search-control {
   display: flex;
