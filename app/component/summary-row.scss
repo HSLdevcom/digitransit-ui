@@ -49,9 +49,10 @@
       color: $cancelation-red;
     }
   }
-
   &.passive {
-    border-left-color: $background-color;
+    .summary-clickable-area {
+      border-bottom: 1px solid $light-gray;
+    }
   }
 
   h3, h4 {
@@ -87,7 +88,6 @@
     width: 100%;
     overflow: hidden;
     text-align: right;
-    padding-left: $padding-medium;
     min-width: 2em;
     font-size: $font-size-large;
     font-stretch: normal;
@@ -141,7 +141,6 @@
     top: 3.77em;
     left: 2.3em;
     @include font-book;
-    padding-left: $padding-medium;
     padding-top: 12px;
     width: 100%;
     max-width: 100%;
@@ -164,10 +163,8 @@
   }
 
   .itinerary-legs {
-    padding-left: $padding-medium;
     display: flex;
     white-space: nowrap;
-    min-width: 0;
     flex: 1 1 0px;
 
     .leg {
@@ -382,7 +379,6 @@
     }
 
     .itinerary-duration-container {
-      padding-left: $padding-medium;
       min-width: 50px;
       padding-top: 17px;
 
@@ -424,11 +420,9 @@
     }
     &.open {
       flex-wrap: wrap;
-
       .action-arrow span > svg {
         transform: rotate(-90deg);
       }
-
       min-height: 75px;
     }
   }
@@ -438,13 +432,17 @@
     color: $black;
   }
   .summary-clickable-area {
-      border-bottom: 1px solid $light-gray;
-      padding-bottom: 0.5em;
-      display: flex;
-      flex: auto;
-      flex-wrap: wrap;
+    border-bottom: 1px solid #888;
+    padding-bottom: 0.5em;
+    display: flex;
+    flex: auto;
+    flex-wrap: wrap;
+    outline: none;
+    transition: border 0.4s ease;
   }
-
+  .summary-clickable-area:hover {
+    border-bottom: 1px solid #666;
+  }
   .itinerary-summary-visible {
     flex: auto;
     flex-direction: column;
