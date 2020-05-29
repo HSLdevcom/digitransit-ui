@@ -44,6 +44,7 @@ const translations = {
     tram: 'Tram',
     'use-own-position': 'Use current location',
     venue: 'Venue',
+    'via-point': 'Via point',
     where: 'Where to?',
   },
   fi: {
@@ -91,6 +92,7 @@ const translations = {
     tram: 'Raitiovaunu',
     'use-own-position': 'Käytä nykyistä sijaintia',
     venue: 'Paikka',
+    'via-point': 'Välipiste',
     where: 'Minne mennään?',
   },
   sv: {
@@ -137,6 +139,7 @@ const translations = {
     tram: 'Spårvagn',
     'use-own-position': 'Använd min position',
     venue: 'Mötesplats',
+    'via-point': 'Via punkt',
     where: 'Var till?',
   },
 };
