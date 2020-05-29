@@ -785,6 +785,7 @@ const translations = {
     'bike-availability': 'Bikes available at the station right now',
     'bike-not-allowed-bus': 'Bikes are not allowed on the bus',
     'bike-not-allowed-tram': 'Bikes are not allowed on the tram',
+    'bikes-available': '{amount} bikes at the station ',
     'biketransport-citybike': "I'm using a citybike",
     'biketransport-only-bike': "I'm travelling only by bike",
     'biking-amount': 'Amount of biking',
@@ -866,6 +867,8 @@ const translations = {
     'footer-faq': 'FAQ',
     'footer-feedback': 'Submit feedback',
     'footer-link-to-privacy-policy': 'Privacy policy',
+    'from-station': 'from station',
+    'from-stop': 'from stop',
     frontpage: 'Frontpage',
     'generic-error': 'There was an error',
     'geolocate-yourself': 'Detect your location',
@@ -927,6 +930,11 @@ const translations = {
       'Itinerary departing at {departureDate} {departureTime} and arriving at {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Total time {totalTime}. {distance}',
     'itinerary-summary-row.first-departure':
       '{vehicle} leaves at {departureTime} from stop {stopName}.',
+    'itinerary-summary-row.first-leg-start-time':
+      'Leaves at {firstDepartureTime} {firstDepartureStopType} {firstDepartureStop}',
+    'itinerary-summary-row.first-leg-start-time-citybike':
+      'Departure at {firstDepartureTime} from {firstDepartureStop} bike station',
+    'itinerary-summary-row.no-transit-legs': 'Leave when it suits you',
     'itinerary-summary-row.transfers':
       'Transfer to {vehicle} on stop {stopName}',
     'itinerary-summary-row.walking-distance':
@@ -1579,6 +1587,7 @@ const translations = {
     'bike-availability': 'Pyöriä asemalla juuri nyt',
     'bike-not-allowed-bus': 'Pyörää ei voi kuljettaa bussissa',
     'bike-not-allowed-tram': 'Pyörää ei voi kuljettaa raitiovaunussa',
+    'bikes-available': 'Pyöriä asemalla {amount}',
     'biketransport-citybike': 'Käytän kaupunkipyörää',
     'biketransport-only-bike': 'Liikun vain pyörällä',
     'biking-amount': 'Pyöräilyn määrä',
@@ -1663,6 +1672,8 @@ const translations = {
     'footer-faq': 'UKK',
     'footer-feedback': 'Anna palautetta',
     'footer-link-to-privacy-policy': 'Rekisteriseloste',
+    'from-station': 'asemalta',
+    'from-stop': 'pysäkiltä',
     frontpage: 'Etusivu',
     'generic-error': 'Tapahtui virhe',
     'geolocate-yourself': 'Paikanna',
@@ -1719,6 +1730,11 @@ const translations = {
       'Lähtö {departureDate} kello {departureTime}. Perillä {arrivalDate} kello {arrivalTime}. {firstDeparture} {transfers} Matka-aika {totalTime}. {distance}',
     'itinerary-summary-row.first-departure':
       '{vehicle} lähtee asemalta {stopName} kello {departureTime}.',
+    'itinerary-summary-row.first-leg-start-time':
+      'Lähtee klo {firstDepartureTime} {firstDepartureStopType} {firstDepartureStop}',
+    'itinerary-summary-row.first-leg-start-time-citybike':
+      'Lähtö klo {firstDepartureTime} kaupunkipyöräasemalta {firstDepartureStop}',
+    'itinerary-summary-row.no-transit-legs': 'Lähde, kun sinulle sopii',
     'itinerary-summary-row.transfers': 'Vaihto {vehicle} pysäkillä {stopName}',
     'itinerary-summary-row.walking-distance':
       'Kävelyä yhteensä {totalDistance}.',
@@ -3160,6 +3176,7 @@ const translations = {
     'bike-availability': 'Antal cyklar just nu',
     'bike-not-allowed-bus': 'Cyklar är inte tillåtna på bussen',
     'bike-not-allowed-tram': 'Cyklar är inte tillåtna på spårvagnen',
+    'bikes-available': '{amount} cyklar vid stationen',
     'biketransport-citybike': 'Jag använder en stadscykel',
     'biketransport-only-bike': 'Jag reser bara med cykel',
     'biking-amount': 'Antal cyklar',
@@ -3243,6 +3260,8 @@ const translations = {
     'footer-faq': 'Frågor och svar',
     'footer-feedback': 'Skicka respons',
     'footer-link-to-privacy-policy': 'Registerbeskrivning',
+    'from-station': 'från stationen',
+    'from-stop': 'från stopp',
     frontpage: 'Framsidan',
     'generic-error': 'Det hände ett fel',
     'geolocate-yourself': 'Sök position',
@@ -3303,6 +3322,11 @@ const translations = {
       'Avgång {departureDate} klockan {departureTime}. Framme {arrivalDate} klockan {arrivalTime}. {firstDeparture} {transfers} Restid {totalTime}. {distance}',
     'itinerary-summary-row.first-departure':
       '{vehicle} avgår från station {stopName} klockan {departureTime}.',
+    'itinerary-summary-row.first-leg-start-time':
+      'Avgår kl {firstDepartureTime} {firstDepartureStopType} {firstDepartureStop}',
+    'itinerary-summary-row.first-leg-start-time-citybike':
+      'Avgång kl {firstDepartureTime} från {firstDepartureStop} stadscykelstation',
+    'itinerary-summary-row.no-transit-legs': 'Lämna när det passar dig',
     'itinerary-summary-row.transfers':
       'Byte {vehicle} vid hållplats {stopName}',
     'itinerary-summary-row.walking-distance':

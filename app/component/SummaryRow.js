@@ -13,11 +13,11 @@ import { getActiveLegAlertSeverityLevel } from '../util/alertUtils';
 import { displayDistance } from '../util/geo-utils';
 import {
   containsBiking,
+  compressLegs,
   getLegBadgeProps,
   getTotalBikingDistance,
   getTotalWalkingDistance,
   isCallAgencyPickupType,
-  onlyBiking,
 } from '../util/legUtils';
 import { sameDay, dateOrEmpty } from '../util/timeUtils';
 import withBreakpoint from '../util/withBreakpoint';
@@ -26,7 +26,6 @@ import {
   getCityBikeNetworkIcon,
   getCityBikeNetworkConfig,
 } from '../util/citybikes';
-
 import ComponentUsageExample from './ComponentUsageExample';
 import {
   exampleData,
@@ -37,24 +36,25 @@ import {
   exampleDataCanceled,
 } from './data/SummaryRow.ExampleData';
 
-const Leg = ({ routeNumber, leg, large }) => (
-  <div className="leg">
-    {large && (
-      <div className="departure-stop overflow-fade">
-        &nbsp;{(leg.transitLeg || leg.rentedBike) && leg.from.name}
-      </div>
-    )}
+const Leg = ({ routeNumber, legLength }) => (
+  <div className="leg" style={{ '--width': `${legLength}%` }}>
     {routeNumber}
   </div>
 );
 
 Leg.propTypes = {
   routeNumber: PropTypes.node.isRequired,
-  leg: PropTypes.object.isRequired,
-  large: PropTypes.bool.isRequired,
+  legLength: PropTypes.number.isRequired,
 };
 
-export const RouteLeg = ({ leg, large, intl }) => {
+export const RouteLeg = ({
+  leg,
+  large,
+  intl,
+  legLength,
+  renderNumber,
+  isTransitLeg,
+}) => {
   const isCallAgency = isCallAgencyPickupType(leg);
   let routeNumber;
   if (isCallAgency) {
@@ -62,6 +62,7 @@ export const RouteLeg = ({ leg, large, intl }) => {
       id: 'pay-attention',
       defaultMessage: 'Pay Attention',
     });
+
     routeNumber = (
       <RouteNumber
         mode="call"
@@ -69,6 +70,7 @@ export const RouteLeg = ({ leg, large, intl }) => {
         className={cx('line', 'call')}
         vertical
         withBar
+        isTransitLeg={isTransitLeg}
       />
     );
   } else {
@@ -79,44 +81,81 @@ export const RouteLeg = ({ leg, large, intl }) => {
         className={cx('line', leg.mode.toLowerCase())}
         vertical
         withBar
+        isTransitLeg={isTransitLeg}
+        renderNumber={renderNumber}
       />
     );
   }
-
-  return <Leg leg={leg} routeNumber={routeNumber} large={large} />;
+  return (
+    <Leg
+      leg={leg}
+      routeNumber={routeNumber}
+      large={large}
+      legLength={legLength}
+    />
+  );
 };
 
 RouteLeg.propTypes = {
   leg: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
   large: PropTypes.bool.isRequired,
+  legLength: PropTypes.number.isRequired,
+  renderNumber: PropTypes.bool,
+  isTransitLeg: PropTypes.bool,
 };
 
-export const ModeLeg = ({ leg, mode, large }, { config }) => {
-  const networkIcon =
-    leg.from.bikeRentalStation &&
-    getCityBikeNetworkIcon(
-      getCityBikeNetworkConfig(leg.from.bikeRentalStation.networks[0], config),
-    );
+RouteLeg.defaultProps = {
+  isTransitLeg: true,
+};
 
+export const ModeLeg = (
+  { leg, mode, large, legLength, walkingTime, renderNumber, isTransitLeg },
+  { config },
+) => {
+  let networkIcon;
+  if (mode === 'BICYCLE' && leg.from.bikeRentalStation) {
+    networkIcon =
+      leg.from.bikeRentalStation &&
+      getCityBikeNetworkIcon(
+        getCityBikeNetworkConfig(
+          leg.from.bikeRentalStation.networks[0],
+          config,
+        ),
+      );
+  }
   const routeNumber = (
     <RouteNumber
       mode={mode}
       text=""
       className={cx('line', mode.toLowerCase())}
+      walkingTime={walkingTime}
+      isTransitLeg={isTransitLeg}
+      renderNumber={renderNumber}
       vertical
       withBar
       icon={networkIcon}
       {...getLegBadgeProps(leg, config)}
     />
   );
-  return <Leg leg={leg} routeNumber={routeNumber} large={large} />;
+  return (
+    <Leg
+      leg={leg}
+      routeNumber={routeNumber}
+      large={large}
+      legLength={legLength}
+    />
+  );
 };
 
 ModeLeg.propTypes = {
   leg: PropTypes.object.isRequired,
   mode: PropTypes.string.isRequired,
   large: PropTypes.bool.isRequired,
+  legLength: PropTypes.number.isRequired,
+  walkingTime: PropTypes.number,
+  renderNumber: PropTypes.bool,
+  isTransitLeg: PropTypes.bool,
 };
 
 ModeLeg.contextTypes = {
@@ -138,50 +177,6 @@ export const ViaLeg = () => (
   </div>
 );
 
-/**
- * Calculates the total slack time spent (in ms) in all of the intermediate places that
- * the itinerary may contain.
- *
- * @param {*} intermediatePlaces Any intermediate places that the itinerary contains
- */
-const getTotalSlackDuration = intermediatePlaces => {
-  if (!Array.isArray(intermediatePlaces)) {
-    return 0;
-  }
-  const getLocationSlackTimeInMsOrDefault = (location, defaultValue = 0) =>
-    (location && location.locationSlack) * 1000 || defaultValue;
-  return intermediatePlaces.reduce(
-    (a, b) =>
-      getLocationSlackTimeInMsOrDefault(a) +
-      getLocationSlackTimeInMsOrDefault(b),
-    0,
-  );
-};
-
-/**
- * The relative duration of a leg that, if not met, may result in the leg being
- * discarded from the top level summary view.
- */
-const LEG_DURATION_THRESHOLD = 0.025;
-
-/**
- * Checks that the given leg's duration is big enough to be considered for
- * showing in the top level summary view.
- *
- * @param {number} totalDuration The total duration of the itinerary (in ms)
- * @param {number} totalSlackDuration The total slack duration of the itinerary (in ms)
- * @param {*} leg The leg to check the threshold for
- */
-const checkRelativeDurationThreshold = (
-  totalDuration,
-  totalSlackDuration,
-  leg,
-) =>
-  totalDuration <= totalSlackDuration ||
-  moment(leg.endTime).diff(moment(leg.startTime)) /
-    (totalDuration - totalSlackDuration) >
-    LEG_DURATION_THRESHOLD;
-
 const getViaPointIndex = (leg, intermediatePlaces) => {
   if (!leg || !Array.isArray(intermediatePlaces)) {
     return -1;
@@ -191,99 +186,137 @@ const getViaPointIndex = (leg, intermediatePlaces) => {
   );
 };
 
-/**
- * Checks if the leg connects two consecutive via points.
- *
- * @param {*} leg The leg to check the connection for
- * @param {*} nextLeg The next leg in the itinerary
- * @param {[*]} intermediatePlaces The intermediate places in the itinerary
- */
-const isViaPointConnectingLeg = (leg, nextLeg, intermediatePlaces) => {
-  if (!nextLeg || !Array.isArray(intermediatePlaces)) {
-    return false;
-  }
-  const startIndex = getViaPointIndex(leg, intermediatePlaces);
-  if (startIndex === -1) {
-    return false;
-  }
-  const endIndex = getViaPointIndex(nextLeg, intermediatePlaces);
-  if (endIndex === -1) {
-    return false;
-  }
-  return endIndex - startIndex === 1; // via points have to be right after the other
-};
-
 const SummaryRow = (
   { data, breakpoint, intermediatePlaces, zones, ...props },
   { intl, intl: { formatMessage }, config },
 ) => {
-  const isTransitLeg = leg => leg.transitLeg || leg.rentedBike;
+  const isTransitLeg = leg => leg.transitLeg;
+  const isLegOnFoot = leg => leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK';
   const refTime = moment(props.refTime);
   const startTime = moment(data.startTime);
   const endTime = moment(data.endTime);
   const duration = endTime.diff(startTime);
-  const slackDuration = getTotalSlackDuration(intermediatePlaces);
   const legs = [];
   let noTransitLegs = true;
-
-  data.legs.forEach(leg => {
+  const compressedLegs = compressLegs(data.legs).map(leg => ({
+    ...leg,
+  }));
+  compressedLegs.forEach(leg => {
     if (isTransitLeg(leg)) {
       noTransitLegs = false;
     }
   });
-
-  let lastLegRented = false;
+  let renderBarThreshold = 5.5;
+  let renderLegDurationThreshold = 8.5;
+  let renderRouteNumberThreshold = 12;
+  if (breakpoint === 'small') {
+    renderBarThreshold = 8;
+    renderLegDurationThreshold = 12;
+    renderRouteNumberThreshold = 18;
+  }
   let firstLegStartTime = null;
-  let firstLegStartTimeText = null;
   const vehicleNames = [];
   const stopNames = [];
+  let addition = 0;
 
-  data.legs.forEach((leg, i) => {
-    if (leg.rentedBike && lastLegRented) {
-      return;
+  compressedLegs.forEach((leg, i) => {
+    let renderNumber = true;
+    let renderBar = true;
+    let waiting = false;
+    let waitTime;
+    let legLength;
+    let waitLength;
+    const isNextLegLast = i + 1 === compressedLegs.length - 1;
+    const previousLeg = compressedLegs[i - 1];
+    const lastLeg = compressedLegs[compressedLegs.length - 1];
+    const nextLeg = compressedLegs[i + 1];
+    const waitThreshold = 180000;
+    legLength = leg.duration * 1000 / duration * 100;
+    if (nextLeg) {
+      waitTime = nextLeg.startTime - leg.endTime;
+      waitLength = Math.round(waitTime / duration * 100);
+      if (waitTime > waitThreshold || waitLength > renderBarThreshold) {
+        waiting = true;
+      } else {
+        legLength = (leg.duration * 1000 + waitTime) / duration * 100;
+      }
+    }
+    if (addition > 0) {
+      legLength += addition;
+    }
+    if (isNextLegLast) {
+      const lastLegLength = lastLeg.duration * 1000 / duration * 100;
+      if (lastLegLength < renderBarThreshold) {
+        legLength += lastLegLength;
+      }
+    }
+    if (legLength < renderBarThreshold && isLegOnFoot(leg)) {
+      renderBar = false;
+      addition = legLength;
+    } else if (legLength < renderBarThreshold && !isLegOnFoot(leg)) {
+      addition += legLength - renderBarThreshold;
+      legLength = renderBarThreshold;
+    }
+    renderNumber = isLegOnFoot(leg)
+      ? legLength > renderLegDurationThreshold
+      : legLength > renderRouteNumberThreshold;
+
+    if (leg.intermediatePlace) {
+      legs.push(<ViaLeg key={`via_${leg.mode}_${leg.startTime}`} />);
     }
 
-    const isFirstLeg = i === 0;
-    const isLastLeg = i === data.legs.length - 1;
-    const previousLeg = data.legs[i - 1];
-    const nextLeg = data.legs[i + 1];
-    const isThresholdMet = checkRelativeDurationThreshold(
-      duration,
-      slackDuration,
-      leg,
-    );
-
-    lastLegRented = leg.rentedBike;
-
-    if (leg.rentedBike) {
+    if (isLegOnFoot(leg) && renderBar) {
+      const walkingTime = Math.floor(leg.duration / 60);
+      legs.push(
+        <ModeLeg
+          key={`${leg.mode}_${leg.startTime}`}
+          renderNumber={renderNumber}
+          isTransitLeg={false}
+          leg={leg}
+          walkingTime={walkingTime}
+          mode="WALK"
+          legLength={legLength}
+          large={breakpoint === 'large'}
+        />,
+      );
+    } else if (leg.rentedBike) {
+      const bikingTime = Math.floor(leg.duration / 60);
+      legs.push(
+        <ModeLeg
+          key={`${leg.mode}_${leg.startTime}`}
+          isTransitLeg={false}
+          renderNumber={renderNumber}
+          leg={leg}
+          walkingTime={bikingTime}
+          mode="CITYBIKE"
+          legLength={legLength}
+          large={breakpoint === 'large'}
+        />,
+      );
+    } else if (leg.mode === 'CAR') {
       legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
           leg={leg}
-          mode="CITYBIKE"
+          mode="CAR"
+          legLength={legLength}
           large={breakpoint === 'large'}
         />,
       );
-      return;
-    }
-
-    if (leg.intermediatePlace) {
-      legs.push(<ViaLeg key={`via_${leg.mode}_${leg.startTime}`} />);
-      if (
-        (noTransitLegs && isThresholdMet) ||
-        isViaPointConnectingLeg(leg, nextLeg, intermediatePlaces) ||
-        isLastLeg
-      ) {
-        legs.push(
-          <ModeLeg
-            key={`${leg.mode}_${leg.startTime}`}
-            leg={leg}
-            mode={leg.mode}
-            large={breakpoint === 'large'}
-          />,
-        );
-      }
-      return;
+    } else if (leg.mode === 'BICYCLE' && renderBar) {
+      const bikingTime = Math.floor(leg.duration / 60);
+      legs.push(
+        <ModeLeg
+          key={`${leg.mode}_${leg.startTime}`}
+          isTransitLeg={false}
+          renderNumber={renderNumber}
+          walkingTime={bikingTime}
+          leg={leg}
+          mode={leg.mode}
+          legLength={legLength}
+          large={breakpoint === 'large'}
+        />,
+      );
     }
 
     const connectsFromViaPoint = () =>
@@ -301,7 +334,9 @@ const SummaryRow = (
         <RouteLeg
           key={`${leg.mode}_${leg.startTime}`}
           leg={leg}
+          renderNumber={renderNumber}
           intl={intl}
+          legLength={legLength}
           large={breakpoint === 'large'}
         />,
       );
@@ -317,25 +352,23 @@ const SummaryRow = (
         ),
       );
       stopNames.push(leg.from.name);
-      return;
     }
 
-    const connectsToFirstViaPoint = () =>
-      getViaPointIndex(nextLeg, intermediatePlaces) === 0;
-    const connectsFromLastViaPoint = () =>
-      getViaPointIndex(leg, intermediatePlaces) === intermediatePlaces &&
-      intermediatePlaces.length - 1;
-
-    if (
-      (noTransitLegs && isThresholdMet) ||
-      (isFirstLeg && connectsToFirstViaPoint()) ||
-      (isLastLeg && connectsFromLastViaPoint())
-    ) {
+    if (waiting) {
+      if (addition > 0) {
+        waitLength += addition;
+        if (waitLength > renderBarThreshold) {
+          addition = 0;
+        } else {
+          addition = waitLength;
+        }
+      }
       legs.push(
         <ModeLeg
-          key={`${leg.mode}_${leg.startTime}`}
+          key={`${leg.mode}_${leg.startTime}_wait`}
           leg={leg}
-          mode={leg.mode}
+          legLength={waitLength}
+          mode="WAIT"
           large={breakpoint === 'large'}
         />,
       );
@@ -343,28 +376,73 @@ const SummaryRow = (
   });
 
   if (!noTransitLegs) {
-    let firstDeparture = false;
-    if (
-      data.legs[1] != null &&
-      !(data.legs[1].rentedBike || data.legs[0].transitLeg)
-    ) {
-      firstDeparture = data.legs[1].startTime;
-    }
-    if (data.legs[0].transitLeg && !data.legs[0].rentedBike) {
-      firstDeparture = data.legs[0].startTime;
-    }
+    const firstDeparture = compressedLegs.find(isTransitLeg);
     if (firstDeparture) {
-      firstLegStartTime = (
+      let firstDepartureStopType;
+      if (firstDeparture.mode === 'RAIL' || firstDeparture.mode === 'SUBWAY') {
+        firstDepartureStopType = 'from-station';
+      } else {
+        firstDepartureStopType = 'from-stop';
+      }
+      firstLegStartTime = firstDeparture.rentedBike ? (
         <div
           className={cx('itinerary-first-leg-start-time', {
             small: breakpoint !== 'large',
           })}
         >
-          <LocalTime time={firstDeparture} />
+          <FormattedMessage
+            id="itinerary-summary-row.first-leg-start-time-citybike"
+            values={{
+              firstDepartureTime: (
+                <span className="first-leg-start-time-green">
+                  <LocalTime time={firstDeparture.startTime} />
+                </span>
+              ),
+              firstDepartureStop: firstDeparture.from.name,
+            }}
+          />
+          <div>
+            <FormattedMessage
+              id="bikes-available"
+              values={{
+                amount: firstDeparture.from.bikeRentalStation.bikesAvailable,
+              }}
+            />
+          </div>
+        </div>
+      ) : (
+        <div
+          className={cx('itinerary-first-leg-start-time', {
+            small: breakpoint !== 'large',
+          })}
+        >
+          <FormattedMessage
+            id="itinerary-summary-row.first-leg-start-time"
+            values={{
+              firstDepartureTime: (
+                <span className="first-leg-start-time-green">
+                  <LocalTime time={firstDeparture.startTime} />
+                </span>
+              ),
+              firstDepartureStopType: (
+                <FormattedMessage id={firstDepartureStopType} />
+              ),
+              firstDepartureStop: stopNames[0],
+            }}
+          />
         </div>
       );
-      firstLegStartTimeText = <LocalTime time={firstDeparture} />;
     }
+  } else {
+    firstLegStartTime = (
+      <div
+        className={cx('itinerary-first-leg-start-time', {
+          small: breakpoint !== 'large',
+        })}
+      >
+        <FormattedMessage id="itinerary-summary-row.no-transit-legs" />
+      </div>
+    );
   }
 
   const classes = cx([
@@ -378,14 +456,13 @@ const SummaryRow = (
     },
   ]);
 
-  const isDefaultPosition = breakpoint !== 'large' && !onlyBiking(data);
-  const renderBikingDistance = itinerary =>
-    containsBiking(itinerary) && (
-      <div className="itinerary-biking-distance">
-        <Icon img="icon-icon_biking" viewBox="0 0 40 40" />
-        {displayDistance(getTotalBikingDistance(itinerary), config)}
-      </div>
-    );
+  const itineraryStartAndEndTime = (
+    <div>
+      <LocalTime time={startTime} />
+      <span> - </span>
+      <LocalTime time={endTime} />
+    </div>
+  );
 
   const showDetails = props.open || props.children;
 
@@ -406,7 +483,7 @@ const SummaryRow = (
                   id="itinerary-summary-row.first-departure"
                   values={{
                     vehicle: vehicleNames[0],
-                    departureTime: firstLegStartTimeText,
+                    departureTime: firstLegStartTime,
                     stopName: stopNames[0],
                   }}
                 />
@@ -542,7 +619,7 @@ const SummaryRow = (
                   <FormattedMessage id="itinerary-summary-row.clickable-area-description" />
                 </span>
                 <div
-                  className="itinerary-start-time"
+                  className="itinerary-duration-container"
                   key="startTime"
                   aria-hidden="true"
                 >
@@ -553,37 +630,22 @@ const SummaryRow = (
                   >
                     <span>{dateOrEmpty(startTime, refTime)}</span>
                   </span>
-                  <LocalTime time={startTime} />
+                  <div className="itinerary-start-time-and-end-time">
+                    {itineraryStartAndEndTime}
+                  </div>
+                  <div className="itinerary-duration">
+                    <RelativeDuration duration={duration} />
+                  </div>
                 </div>
                 <div className="itinerary-legs" key="legs" aria-hidden="true">
-                  {firstLegStartTime}
                   {legs}
                 </div>
                 <div
-                  className="itinerary-end-time-and-distance"
+                  className="itinerary-first-leg-start-time-container"
                   key="endtime-distance"
                   aria-hidden="true"
                 >
-                  <div className="itinerary-end-time">
-                    <LocalTime time={endTime} />
-                  </div>
-                  {isDefaultPosition && renderBikingDistance(data)}
-                </div>
-                <div
-                  className="itinerary-duration-and-distance"
-                  key="duration-distance"
-                  aria-hidden="true"
-                >
-                  <span className="itinerary-duration">
-                    <RelativeDuration duration={duration} />
-                  </span>
-                  {!isDefaultPosition && renderBikingDistance(data)}
-                  {!onlyBiking(data) && (
-                    <div className="itinerary-walking-distance">
-                      <Icon img="icon-icon_walk" viewBox="6 0 40 40" />
-                      {displayDistance(getTotalWalkingDistance(data), config)}
-                    </div>
-                  )}
+                  {firstLegStartTime}
                 </div>
               </div>
               <div

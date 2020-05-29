@@ -33,16 +33,13 @@
   padding-left: $padding-medium;
   padding-right: 0;
   padding-top: 0.5em;
-  padding-bottom: 0.5em;
   overflow: hidden;
   background-color: $white;
-  border-bottom: 1px solid $light-gray;
-  border-left: 0.3em $action-color solid;
   display: flex;
   user-select: none;
   $distance-gray: #7b7b7b;
   font-size: $font-size-normal;
-  @include font-narrow-medium;
+  @include font-medium;
   white-space: nowrap;
   position: relative;
 
@@ -55,11 +52,6 @@
 
   &.passive {
     border-left-color: $background-color;
-    background-color: $background-color;
-
-    .vehicle-number {
-      color: $gray;
-    }
   }
 
   h3, h4 {
@@ -74,14 +66,9 @@
   }
 
   .itinerary-duration-and-distance {
-    max-width: 4em;
+    width: 100%;
     margin-top: $padding-small;
     margin-left: $padding-medium;
-  }
-
-  .itinerary-duration {
-    white-space: nowrap;
-    font-weight: $font-weight-bold;
   }
 
   .itinerary-biking-distance,
@@ -96,17 +83,27 @@
     }
   }
 
-  .itinerary-start-time {
+  .itinerary-duration-container {
+    width: 100%;
+    overflow: hidden;
     text-align: right;
-    padding-left: 5px;
+    padding-left: $padding-medium;
     min-width: 2em;
-    @include font-narrow-medium;
-    font-weight: $font-weight-bold;
+    font-size: $font-size-large;
+    font-stretch: normal;
+    letter-spacing: -0.5px;
+    line-height: normal;
+    font-style: normal;
 
+    .itinerary-start-time-and-end-time {
+      float: left;
+    }
+    .itinerary-duration {
+      float: right;
+    }
     .itinerary-start-date {
-      display: block;
       text-align: right;
-      min-width: 2em;
+      float: left;
       margin-top: -1px;
       margin-bottom: -2px;
       line-height: 1;
@@ -117,12 +114,10 @@
         text-transform: capitalize;
         border-bottom-left-radius: 2px;
         border-bottom-right-radius: 2px;
-        padding: $padding-xsmall $padding-small;
         color: $white;
         background-color: $gray;
         display: inline-block;
       }
-
       &.nobg {
         height: 0.8em;
         & > span {
@@ -133,24 +128,34 @@
   }
 
   .itinerary-end-time-and-distance {
-    max-width: 4em;
+    width: 100%;
   }
 
   .itinerary-end-time {
-    padding-left: 10px;
-    width: 3em;
+    width: 100%;
     margin-top: $padding-small;
     font-weight: $font-weight-bold;
   }
 
-  .itinerary-first-leg-start-time {
-    position: absolute;
+  .itinerary-first-leg-start-time-container {
     top: 3.77em;
     left: 2.3em;
-    text-align: right;
-    width: 3em;
+    @include font-book;
+    padding-left: $padding-medium;
+    padding-top: 12px;
+    width: 100%;
+    max-width: 100%;
     color: $distance-gray;
 
+    .itinerary-first-leg-start-time{
+      font-size: $font-size-small;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: normal;
+      .first-leg-start-time-green {
+        color: green;
+      }
+  }
     &.small {
       font-size: $font-size-small;
       left: 1.2em;
@@ -166,19 +171,43 @@
     flex: 1 1 0px;
 
     .leg {
-      padding-top: $padding-small;
-      flex: 1 1 0px;
-      overflow: hidden;
+      min-width: 1px;
+      width: calc(var(--width));
+      margin: 0 1px;
       justify-content: center;
       &.large {
         padding-top: 0;
       }
       .route-number {
-        width: 100%;
+        display: flex;
+        min-width: 0;
         &.vertical {
-          position: relative;
+          float: left;
+          width: calc(100%);
           .vehicle-number-container-v {
+            position: absolute;
+            z-index: 1;
+            left: 1.5em;
             overflow: visible;
+            .vehicle-number {
+              color: $white;
+              @include font-narrow-medium;
+              font-size: $font-size-normal;
+            }
+          }
+          .leg-duration-container {
+            left: 1.5em;
+            position: absolute;
+            z-index: 1;
+            .leg-duration {
+              font-size: $font-size-xxxsmall;
+              color: $black;
+            }
+            &.citybike, &.bicycle {
+              .leg-duration{
+                padding-left: 5px;
+              }
+            }
           }
         }
       }
@@ -205,14 +234,6 @@
       width: 100%;
     }
 
-    .line.walk,
-    .line.bicycle,
-    .line.car {
-      .bar-container {
-        left: 2em;
-      }
-    }
-
     .vcenter-children {
       display: flex;
       align-items: center;
@@ -221,31 +242,34 @@
     }
 
     div.bar-container {
+      width:100%;
       top: 0;
       left: 0;
       right: 0;
-      height: 100%;
       display: flex;
       position: absolute;
       align-items: center;
     }
 
     div.bar {
-      width: calc(100% - 1px);
+      width: 100%;
       z-index: -1;
       background-color: currentColor;
       border: 1px solid currentColor;
-      height: 6px;
-      border-width: 2px;
+      height: 1.5em;
       border-radius: $border-radius;
       &.call {
         border-color: #aaa;
       }
-      .bar-inner {
-        width: 100%;
-        height: 2px;
-        background-color: rgba(255, 255, 255, 0.25);
+      &.wait {
+        background-color: white;
+        border: 1px solid $light-gray
       }
+      &.walk {
+        background-color: $light-gray;
+        border: 1px solid $light-gray
+      }
+
     }
 
     .line {
@@ -256,14 +280,29 @@
       text-align: center;
 
       .icon {
-        margin-left: 3px;
-        font-size: 1.35em;
+        font-size: 1.5em;
       }
     }
 
-    .special-icon {
-      .icon {
-        padding-bottom: 1px; // fixes icon clipping in Safari on iOS
+    .special-icon, .icon{
+      &.wait {
+        .icon {
+          margin-bottom: 0.04em;
+          height: 0.34em;
+          width: 0.34em;
+        }
+      }
+      &.walk {
+        .icon {
+          height: 0.45em;
+          width: 0.45em;
+        }
+      }
+      &.citybike, &.car, &.bicycle {
+        .icon {
+          height: 0.67em;
+          width: 0.67em;
+        }
       }
       .icon-badge {
         left: 0;
@@ -337,24 +376,20 @@
       margin-top: 10px;
     }
 
-    .itinerary-duration {
-      font-size: 18px;
-      @include font-narrow-medium;
-    }
-
     .itinerary-biking-distance,
     .itinerary-walking-distance {
       font-size: 18px;
     }
 
-    .itinerary-start-time {
+    .itinerary-duration-container {
+      padding-left: $padding-medium;
       min-width: 50px;
-      font-size: 21px;
       padding-top: 17px;
 
       .itinerary-start-date {
         @include font-narrow-book;
         font-size: $font-size-xxsmall;
+        float: left;
         & > span {
           border-radius: $border-radius-small;
         }
@@ -367,17 +402,10 @@
 
     .itinerary-legs {
       padding-top: 0;
-      margin-top: 9px;
-
-      .line .icon {
-        margin-top: 0;
-        margin-left: 8px;
-        font-size: $font-size-large;
-      }
+      margin-top: 7px;
 
       .vehicle-number {
-        font-size: $font-size-normal;
-        margin-left: 8px;
+        font-size: $font-size-small;
       }
     }
 
@@ -393,9 +421,6 @@
     .action-arrow {
       font-size: 20px;
       border: 0;
-    }
-    .action-arrow span > svg {
-      transform: rotate(90deg);
     }
     &.open {
       flex-wrap: wrap;
@@ -413,6 +438,8 @@
     color: $black;
   }
   .summary-clickable-area {
+      border-bottom: 1px solid $light-gray;
+      padding-bottom: 0.5em;
       display: flex;
       flex: auto;
       flex-wrap: wrap;
@@ -461,7 +488,8 @@
 }
 
 .mobile .itinerary-legs .leg {
-  height: 3.4em;
+  height: 2em;
+  padding-top: 5px;
 }
 
 .mobile {

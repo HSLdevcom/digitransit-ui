@@ -359,17 +359,17 @@ describe('legUtils', () => {
   ];
 
   describe('compressLegs', () => {
-    it('should apply the "BICYCLE_WALK" mode to compressed legs', () => {
+    it('should compress walking legs when using own bicycle', () => {
       const compressedLegs = utils.compressLegs(originalLegs);
 
       expect(
         compressedLegs.filter(leg => leg.to.name === 'Jorvas, Kirkkonummi')[0]
           .mode,
-      ).to.equal('BICYCLE_WALK');
+      ).to.equal('BICYCLE');
       expect(
         compressedLegs.filter(leg => leg.from.name === 'Jorvas, Kirkkonummi')[0]
           .mode,
-      ).to.equal('BICYCLE_WALK');
+      ).to.equal('BICYCLE');
     });
 
     it('should not compress intermediate legs', () => {
@@ -387,7 +387,6 @@ describe('legUtils', () => {
       expect(
         compressedLegs.filter(leg => leg.intermediatePlace).length,
       ).to.equal(2);
-      expect(compressedLegs.length).to.equal(5);
     });
   });
 
