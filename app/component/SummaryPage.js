@@ -636,7 +636,7 @@ class SummaryPage extends React.Component {
           settingsDrawer={
             <SettingsDrawer
               open={this.getOffcanvasState()}
-              width={getDrawerWidth(window)}
+              width={getDrawerWidth(window, { maxWidth: 475 })}
               onToggleClick={this.toggleCustomizeSearchOffcanvas}
             />
           }
@@ -719,7 +719,7 @@ class SummaryPage extends React.Component {
         settingsDrawer={
           <SettingsDrawer
             open={this.getOffcanvasState()}
-            width={getDrawerWidth(window)}
+            width={getDrawerWidth(window, { maxWidth: 475 })}
             onToggleClick={this.toggleCustomizeSearchOffcanvas}
           />
         }

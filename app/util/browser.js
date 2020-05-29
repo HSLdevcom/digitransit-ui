@@ -87,7 +87,7 @@ export const isKeyboardSelectionEvent = event => {
  *
  * @param {*} window The browser's window object.
  * @param {number} minWidth The minimum width (in pixels) for the component.
- * @param {numbner} maxWidth The maximum width (in pixels) for the component.
+ * @param {number} maxWidth The maximum width (in pixels) for the component.
  */
 export const getDrawerWidth = (
   window,
