@@ -1,4 +1,5 @@
 /* stylelint-disable */ 
+$primary-color: #007ac9;
 
 $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   map-buttons, context-panel, search-panel, search-overlay, preferred-input, destination-input,
@@ -38,9 +39,13 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
 
   .viapoint-container {
     display: flex;
+    flex: 1 0 100%;
     margin-top: 6px;
     min-height: 50px;
-
+    &.drop-target-before {
+      border-top: 1px solid $primary-color;
+      width: 100%;
+    }
     .light-gray-background {
       display: flex;
       padding: 3px 0;
@@ -85,6 +90,24 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       }
     }
   }
+}
+
+.viapoint-slack-time {
+  font-size: 13px;
+  font-weight: normal;
+  letter-spacing: -0.36px;
+  color: #333333;
+  padding-left: 27px;
+  padding-top: 12px;
+  padding-bottom: 10px;
+}
+
+.select-wrapper {
+  display: flex;
+  height: 50px;
+  margin-top: 9px;
+  padding-left: 27px;
+  padding-right: 47px;
 }
 
 .via-point-button-container {
@@ -156,6 +179,20 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   }
   .remove-via-point {
     min-width: 40px;
+  }
+}
+
+.combobox-icon {
+  color: $primary-color;
+  border-left: solid #888888 1px;
+  height: 35px;
+
+  &.time-input-icon {
+    padding: 9px 13px 0 13px;
+      svg {
+      width: 18px;
+      height: 19px;
+    }
   }
 }
 

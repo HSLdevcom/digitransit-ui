@@ -184,8 +184,7 @@ class DTAutosuggestPanel extends React.Component {
     for (let i = 0; i <= 9; i++) {
       const valueInMinutes = i * 10;
       timeOptions.push({
-        displayName: `${i}`,
-        displayNameObject: `${valueInMinutes} ${i18next.t('minute-short')}`,
+        displayName: `${valueInMinutes} ${i18next.t('minute-short')}`,
         value: valueInMinutes * 60,
       });
     }
@@ -400,6 +399,10 @@ class DTAutosuggestPanel extends React.Component {
     event.dataTransfer.setData('text', `${isDraggingIndex}`);
   };
 
+  getSlackDisplay = slackInSeconds => {
+    return `${slackInSeconds / 60} ${i18next.t('minute-short')}`;
+  };
+
   render = () => {
     const {
       breakpoint,
@@ -475,7 +478,7 @@ class DTAutosuggestPanel extends React.Component {
           {viaPoints.map((o, i) => (
             <div
               className={cx(styles['viapoint-container'], {
-                'drop-target-before': i === isDraggingOverIndex,
+                [styles['drop-target-before']]: i === isDraggingOverIndex,
               })}
               key={`viapoint-${i}`} // eslint-disable-line
               onDragOver={e => this.handleOnViaPointDragOver(e, i)}
@@ -545,31 +548,40 @@ class DTAutosuggestPanel extends React.Component {
                     <Icon img="time" width={1.125} height={1.1875} />
                   </ItinerarySearchControl>
                 </div>
+                {!isViaPointSlackTimeInputActive(i) &&
+                  viaPoints[i] &&
+                  viaPoints[i].locationSlack > 0 && (
+                    <span
+                      className={styles['viapoint-slack-time']}
+                    >{`${i18next.t(
+                      'viapoint-slack-amount',
+                    )}: ${this.getSlackDisplay(
+                      viaPoints[i].locationSlack,
+                    )}`}</span>
+                  )}
                 <div
                   className={cx(styles['input-viapoint-slack-container'], {
                     collapsed: !isViaPointSlackTimeInputActive(i),
                   })}
                 >
-                  <span>{i18next.t('viapoint-slack-amount')}</span>
                   <div className={styles['select-wrapper']}>
                     <Select
-                      name="viapoint-slack-amount"
-                      selected={`${getViaPointSlackTimeOrDefault(
-                        viaPoints[i],
-                      )}`}
+                      id={`viapoint-slack-${i}`}
+                      label={i18next.t('viapoint-slack-amount')}
                       options={slackTime}
-                      onSelectChange={e =>
-                        this.handleViaPointSlackTimeSelected(e.target.value, i)
+                      value={getViaPointSlackTimeOrDefault(viaPoints[i])}
+                      getDisplay={this.getSlackDisplay}
+                      viaPointIndex={i}
+                      icon={
+                        <span
+                          className={`${styles['combobox-icon']} ${
+                            styles['time-input-icon']
+                          }`}
+                        >
+                          <Icon img="time" />
+                        </span>
                       }
-                      ariaLabel={i18next.t('add-via-duration-button-label', {
-                        index: i + 1,
-                      })}
-                    />
-                    <Icon
-                      width={0.7}
-                      height={0.7}
-                      color="#007ac9"
-                      img="arrow-dropdown"
+                      onSlackTimeSelected={this.handleViaPointSlackTimeSelected}
                     />
                   </div>
                 </div>
