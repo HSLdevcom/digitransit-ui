@@ -4,19 +4,11 @@ import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import CustomizeSearch from './CustomizeSearchNew';
 
-export const SettingsDrawer = ({
-  open,
-  width,
-  onToggleClick,
-  settingsParams,
-}) => {
+export const SettingsDrawer = ({ open, width, onToggleClick }) => {
   if (open) {
     return (
       <div className="offcanvas" style={{ width }}>
-        <CustomizeSearch
-          params={settingsParams}
-          onToggleClick={onToggleClick}
-        />
+        <CustomizeSearch onToggleClick={onToggleClick} />
       </div>
     );
   } else {
@@ -28,7 +20,6 @@ SettingsDrawer.propTypes = {
   open: PropTypes.bool.isRequired,
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   onToggleClick: PropTypes.func.isRequired,
-  settingsParams: PropTypes.object.isRequired,
 };
 
 SettingsDrawer.contextTypes = {

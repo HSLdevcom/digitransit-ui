@@ -638,7 +638,6 @@ class SummaryPage extends React.Component {
               open={this.getOffcanvasState()}
               width={getDrawerWidth(window)}
               onToggleClick={this.toggleCustomizeSearchOffcanvas}
-              settingsParams={{}}
             />
           }
           map={map}
@@ -722,7 +721,6 @@ class SummaryPage extends React.Component {
             open={this.getOffcanvasState()}
             width={getDrawerWidth(window)}
             onToggleClick={this.toggleCustomizeSearchOffcanvas}
-            settingsParams={{}}
           />
         }
       />
