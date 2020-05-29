@@ -1,10 +1,10 @@
-.dropdown-wrapper {
+.settings-dropdown-wrapper {
   margin-bottom: 1em;
 
   .inverted {
     transform: rotate(180deg);
   }
-  .dropdown {
+  .settings-dropdown {
     list-style-type: none;
     display: inline-block;
     padding: 0px 1em 0 1em;
@@ -35,7 +35,7 @@
     }
   }
 
-  .dropdown-label {
+  .settings-dropdown-label {
       height: 2em;
       cursor: pointer;
       display: flex;
@@ -43,14 +43,16 @@
       margin: 0px 0px 1em 0px;
       outline: none !important;
 
-      .dropdown-label-text {
+      .settings-dropdown-label-text {
         float: left;
-        width: 70%;
+        width: 60%;
       }
-      .dropdown-label-value {
+      .settings-dropdown-label-value {
         float: right;
         color: $primary-color;
-        width: 30%;
+        width: 40%;
+        padding-right: 1em;
+        direction: rtl;
       }
   }
 

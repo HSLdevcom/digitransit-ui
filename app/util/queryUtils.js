@@ -17,20 +17,19 @@ import { getCurrentSettings, getDefaultSettings } from './planParamUtil';
 
 export const setSettingsData = (router, match) => {
   // eslint-disable-next-line no-use-before-define
-  const querySettings = getQuerySettings(match.location.query);
   const customizedSettings = getCustomizedSettings();
   const currentSettings = getCurrentSettings(config, match.location.query);
   const defaultSettings = getDefaultSettings(config);
 
   if (
-    (isEmpty(querySettings) && isEmpty(customizedSettings)) ||
+    isEmpty(customizedSettings) ||
     isEqual(currentSettings, defaultSettings)
   ) {
     resetCustomizedSettings();
     // eslint-disable-next-line no-use-before-define
     clearQueryParams(router, match, Object.keys(defaultSettings));
   } else {
-    setCustomizedSettings(querySettings);
+    setCustomizedSettings(customizedSettings);
   }
 };
 

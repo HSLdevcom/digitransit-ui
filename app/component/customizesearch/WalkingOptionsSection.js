@@ -1,31 +1,35 @@
-import ceil from 'lodash/ceil';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { matchShape, routerShape } from 'found';
 import { intlShape } from 'react-intl';
+import { saveRoutingSettings } from '../../action/SearchSettingsActions';
 
-import { replaceQueryParams } from '../../util/queryUtils';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import Dropdown, { getFiveStepOptions, valueShape } from '../Dropdown';
+import SearchSettingsDropdown, {
+  getFiveStepOptions,
+} from '../SearchSettingsDropdown';
 
 const WalkingOptionsSection = (
-  { walkSpeed, defaultSettings, walkSpeedOptions },
-  { router, match, intl },
+  { currentSettings, defaultSettings, walkSpeedOptions },
+  { intl, executeAction },
+  options = getFiveStepOptions(walkSpeedOptions),
 ) => (
   <React.Fragment>
-    <Dropdown
-      currentSelection={walkSpeed}
+    <SearchSettingsDropdown
+      currentSelection={options.find(
+        option => option.value === currentSettings.walkSpeed,
+      )}
       defaultValue={defaultSettings.walkSpeed}
-      displayValueFormatter={value => `${ceil(value * 3.6, 1)} km/h`}
       onOptionSelected={value => {
-        replaceQueryParams(router, match, { walkSpeed: value });
+        executeAction(saveRoutingSettings, {
+          walkSpeed: value,
+        });
         addAnalyticsEvent({
           category: 'ItinerarySettings',
           action: 'ChangeWalkingSpeed',
           name: value,
         });
       }}
-      options={getFiveStepOptions(walkSpeedOptions)}
+      options={options}
       labelText={intl.formatMessage({ id: 'walking-speed' })}
       highlightDefaulValue
       formatOptions
@@ -35,17 +39,15 @@ const WalkingOptionsSection = (
 
 WalkingOptionsSection.propTypes = {
   defaultSettings: PropTypes.shape({
-    walkReluctance: PropTypes.number.isRequired,
     walkSpeed: PropTypes.number.isRequired,
   }).isRequired,
   walkSpeedOptions: PropTypes.array.isRequired,
-  walkSpeed: valueShape.isRequired,
+  currentSettings: PropTypes.object.isRequired,
 };
 
 WalkingOptionsSection.contextTypes = {
-  router: routerShape.isRequired,
-  match: matchShape.isRequired,
   intl: intlShape.isRequired,
+  executeAction: PropTypes.func.isRequired,
 };
 
 export default WalkingOptionsSection;

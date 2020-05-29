@@ -8,8 +8,10 @@ import {
 } from 'lodash';
 
 import inside from 'point-in-polygon';
-import { replaceQueryParams } from './queryUtils';
-import { getCustomizedSettings } from '../store/localStorage';
+import {
+  getCustomizedSettings,
+  setCustomizedSettings,
+} from '../store/localStorage';
 import { isInBoundingBox } from './geo-utils';
 import { addAnalyticsEvent } from './analyticsUtils';
 
@@ -92,8 +94,8 @@ export const buildStreetModeQuery = (
   }
   return {
     modes: isExclusive
-      ? streetMode.toUpperCase()
-      : transportModes.concat(streetMode.toUpperCase()).join(','),
+      ? [streetMode.toUpperCase()]
+      : transportModes.concat(streetMode.toUpperCase()),
   };
 };
 
@@ -200,18 +202,11 @@ export const getDefaultModes = config => [
 
 /**
  * Retrieves all modes (as in both transport and street modes)
- * from either 1. the URI, 2. localStorage or 3. the default configuration.
+ * from either the localStorage or the default configuration.
  *
- * @param {*} location The current location
  * @param {*} config The configuration for the software installation
  */
-export const getModes = (location, config) => {
-  if (location && location.query && location.query.modes) {
-    return decodeURI(location.query.modes)
-      .split('?')[0]
-      .split(',')
-      .map(m => m.toUpperCase());
-  }
+export const getModes = config => {
   const { modes } = getCustomizedSettings();
   if (Array.isArray(modes) && !isEmpty(modes)) {
     return modes;
@@ -220,16 +215,15 @@ export const getModes = (location, config) => {
 };
 
 /**
- * Retrieves the current street mode from either 1. the URI, 2. localStorage
- * or 3. the default configuration. This will return undefined if no
+ * Retrieves the current street mode from either the localStorage
+ * or the default configuration. This will return undefined if no
  * applicable street mode can be found.
  *
- * @param {*} location The current location
  * @param {*} config The configuration for the software installation
  */
-export const getStreetMode = (location, config) => {
+export const getStreetMode = config => {
   const currentStreetModes = intersection(
-    getModes(location, config),
+    getModes(config),
     getAvailableStreetModes(config),
   );
   if (currentStreetModes.length > 0) {
@@ -243,28 +237,38 @@ export const getStreetMode = (location, config) => {
 };
 
 /**
- * Updates the browser's url to reflect the selected street mode.
+ * Updates the localStorage to reflect the selected street mode.
  *
  * @param {*} streetMode The street mode to select
  * @param {*} config The configuration for the software installation
- * @param {*} router The router
- * @param {*} match The match object from found
  * @param {boolean} isExclusive True, if only this mode shoud be selected; otherwise false.
  */
-export const setStreetMode = (
-  streetMode,
-  config,
-  router,
-  match,
-  isExclusive = false,
-) => {
+export const setStreetMode = (streetMode, config, isExclusive = false) => {
   const modesQuery = buildStreetModeQuery(
     config,
-    getModes(match.location, config),
+    getModes(config),
     streetMode,
     isExclusive,
   );
-  replaceQueryParams(router, match, modesQuery);
+  setCustomizedSettings(modesQuery);
+};
+
+/**
+ *  Toggles a streetmode, defaults to configs default street mode. Returns a streetmode
+ *  that was selected
+ *
+ *  @param {*} streetMode The street mode to select
+ *  @param {*} config The configuration for the software installation
+ *  @returns {String} the streetMode that was enabled
+ */
+export const toggleStreetMode = (streetMode, config) => {
+  const currentStreetModes = getStreetMode(config);
+  if (currentStreetModes.includes(streetMode)) {
+    setStreetMode(getDefaultStreetModes(config)[0], config);
+    return getDefaultStreetModes(config)[0];
+  }
+  setStreetMode(streetMode, config);
+  return streetMode;
 };
 
 /**
@@ -279,12 +283,11 @@ export const hasBikeRestriction = (config, mode) =>
 /**
  * Checks if the user is trying to bring a bicycle
  * to a vehicle with restrictions. Currently exclusive to HSL
- * @param {*} location The router
  * @param {*} config The configuration for the software installation
  * @param {*} modes The inputted mode or modes to be tested
  */
-export const isBikeRestricted = (location, config, modes) => {
-  if (config.modesWithNoBike && getStreetMode(location, config) === 'BICYCLE') {
+export const isBikeRestricted = (config, modes) => {
+  if (config.modesWithNoBike && getStreetMode(config) === 'BICYCLE') {
     if (
       Array.isArray(modes) &&
       modes.some(o => config.modesWithNoBike.includes(o))
@@ -299,17 +302,15 @@ export const isBikeRestricted = (location, config, modes) => {
 };
 
 /**
- * Updates the browser's url to reflect the selected transport mode.
+ * Updates the localStorage to reflect the selected transport mode.
  *
  * @param {*} transportMode The transport mode to select
  * @param {*} config The configuration for the software installation
- * @param {*} router The router
- * @param {*} match The match object from found
+ * @returns {String[]} an array of currently selected modes
  */
-export const toggleTransportMode = (transportMode, config, router, match) => {
-  const currentLocation = match.location;
+export function toggleTransportMode(transportMode, config) {
   let actionName;
-  if (getModes(currentLocation, config).includes(transportMode.toUpperCase())) {
+  if (getModes(config).includes(transportMode.toUpperCase())) {
     actionName = 'SettingsDisableTransportMode';
   } else {
     actionName = 'SettingsEnableTransportMode';
@@ -319,40 +320,9 @@ export const toggleTransportMode = (transportMode, config, router, match) => {
     category: 'ItinerarySettings',
     name: transportMode,
   });
-  if (isBikeRestricted(currentLocation, config, transportMode)) {
-    return;
+  if (isBikeRestricted(config, transportMode)) {
+    return {};
   }
-  const modes = xor(getModes(currentLocation, config), [
-    transportMode.toUpperCase(),
-  ]).join(',');
-  replaceQueryParams(router, match, { modes });
-};
-
-/**
- * Updates the browser's url to enable citybikes WITH all networks
- *
- * @param {*} transportMode The transport mode to select
- * @param {*} config The configuration for the software installation
- * @param {*} router The router
- * @param {*} networks The citybike networks to be allowed
- * @param {*} match The match object from found
- */
-export const toggleCitybikesAndNetworks = (
-  transportMode,
-  config,
-  router,
-  networks,
-  match,
-) => {
-  const currentLocation = match.location;
-  if (isBikeRestricted(currentLocation, config, transportMode)) {
-    return;
-  }
-  const modes = xor(getModes(currentLocation, config), [
-    transportMode.toUpperCase(),
-  ]).join(',');
-  replaceQueryParams(router, match, {
-    modes,
-    allowedBikeRentalNetworks: networks,
-  });
-};
+  const modes = xor(getModes(config), [transportMode.toUpperCase()]);
+  return modes;
+}

@@ -3,7 +3,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
-import ceil from 'lodash/ceil';
 import Icon from './Icon';
 
 /**
@@ -41,12 +40,12 @@ export const valueShape = PropTypes.oneOfType([
   PropTypes.number,
 ]);
 
-class Dropdown extends React.Component {
+class SearchSettingsDropdown extends React.Component {
   static propTypes = {
     labelText: PropTypes.string.isRequired,
     options: PropTypes.array.isRequired,
     displayValueFormatter: PropTypes.func,
-    currentSelection: valueShape.isRequired,
+    currentSelection: PropTypes.object.isRequired,
     highlightDefaultValue: PropTypes.bool,
     defaultValue: valueShape,
     displayPattern: PropTypes.string,
@@ -86,7 +85,7 @@ class Dropdown extends React.Component {
     return dropdownOptions.map(option => (
       <li
         className={
-          option.value === this.props.currentSelection ? 'selected' : ''
+          option.value === this.props.currentSelection.value ? 'selected' : ''
         }
         key={option.displayName + option.value}
         value={option.value}
@@ -95,7 +94,7 @@ class Dropdown extends React.Component {
         {option.displayNameObject
           ? option.displayNameObject
           : option.displayName}
-        {option.value === this.props.currentSelection && (
+        {option.value === this.props.currentSelection.value && (
           <h4 className="selected-checkmark">&#10003;</h4>
           /* <Icon
             className="selected-checkmark"
@@ -124,7 +123,7 @@ class Dropdown extends React.Component {
         ? `${intl.formatMessage({
             id: 'option-default',
           })} (${str})`
-        : `${str} (${ceil(value * 3.6, 1)} km/h)`;
+        : str;
     }
 
     function getFormattedValue(value) {
@@ -166,18 +165,20 @@ class Dropdown extends React.Component {
       : options;
 
     return (
-      <div className="dropdown-wrapper">
+      <div className="settings-dropdown-wrapper">
         <span
-          className="dropdown-label"
+          className="settings-dropdown-label"
           onClick={() => this.toggleDropdown(this.state.showDropdown)}
           role="Button"
           tabIndex="0"
         >
-          <p className="dropdown-label-text">{labelText}</p>
-          <p className="dropdown-label-value">
+          <p className="settings-dropdown-label-text">{labelText}</p>
+          <p className="settings-dropdown-label-value">
             {displayValueFormatter
-              ? displayValueFormatter(currentSelection)
-              : currentSelection}
+              ? displayValueFormatter(currentSelection.title)
+              : `${intl.formatMessage({
+                  id: currentSelection.title,
+                })}`}
           </p>
           <Icon
             className={
@@ -189,7 +190,7 @@ class Dropdown extends React.Component {
           />
         </span>
         {showDropdown && (
-          <ul className="dropdown">
+          <ul className="settings-dropdown">
             {this.getOptionTags(selectOptions, this.state.showDropdown)}
           </ul>
         )}
@@ -198,4 +199,4 @@ class Dropdown extends React.Component {
   }
 }
 
-export default Dropdown;
+export default SearchSettingsDropdown;

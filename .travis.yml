@@ -1,6 +1,6 @@
 sudo: required
 
-dist: trusty
+dist: bionic
 
 branches:
   only:
@@ -28,7 +28,7 @@ jobs:
       script:
         - yarn setup
         - yarn lint
-    # Temporarely disabled for development in next branch    
+    # Temporarely disabled for development in next branch
     # - stage: test
     #   env: FLOW=1
     #   node_js: '10'
