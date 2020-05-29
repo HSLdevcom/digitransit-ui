@@ -311,13 +311,13 @@ export function getGeocodingResult(
     opts = { ...opts, sources };
   }
 
-  return getJson(config.URL.PELIAS, opts).then(response =>
-    mapPeliasModality(response.features, config),
+  return getJson(`${config.URL.GEOCODING_BASE_URL}/search`, opts).then(
+    response => mapPeliasModality(response.features, config),
   );
 }
 
 export function searchPlace(ids, config) {
-  return getJson(config.URL.PELIAS_PLACE, {
+  return getJson(`${config.URL.GEOCODING_BASE_URL}/place`, {
     ids,
   });
 }
@@ -830,5 +830,5 @@ export const withCurrentTime = (getStore, location) => {
 };
 
 export function reverseGeocode(opts, config) {
-  return getJson(config.URL.PELIAS_REVERSE_GEOCODER, opts);
+  return getJson(`${config.URL.GEOCODING_BASE_URL}/reverse`, opts);
 }
