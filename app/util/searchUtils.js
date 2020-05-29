@@ -828,3 +828,7 @@ export const withCurrentTime = (getStore, location) => {
     },
   };
 };
+
+export function reverseGeocode(opts, config) {
+  return getJson(config.URL.PELIAS_REVERSE_GEOCODER, opts);
+}
