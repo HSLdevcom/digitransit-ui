@@ -5,7 +5,6 @@ import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 
 import RightOffcanvasToggle from './RightOffcanvasToggle';
-import { matchQuickOption } from '../util/planParamUtil';
 import DatetimepickerContainer from './DatetimepickerContainer';
 
 class QuickSettingsPanel extends React.Component {
@@ -29,7 +28,6 @@ class QuickSettingsPanel extends React.Component {
   state = {};
 
   render() {
-    const quickOption = matchQuickOption(this.context);
     const { toggleSettings } = this.props;
 
     return (
@@ -38,13 +36,7 @@ class QuickSettingsPanel extends React.Component {
           realtime={false}
           embedWhenClosed={
             <div className="open-advanced-settings">
-              <RightOffcanvasToggle
-                onToggleClick={toggleSettings}
-                hasChanges={
-                  quickOption === 'saved-settings' ||
-                  quickOption === 'custom-settings'
-                }
-              />
+              <RightOffcanvasToggle onToggleClick={toggleSettings} />
             </div>
           }
         />

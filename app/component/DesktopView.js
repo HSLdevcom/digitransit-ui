@@ -38,8 +38,8 @@ export default function DesktopView({
           <ErrorBoundary>{content}</ErrorBoundary>
         </div>
       </div>
-      {settingsDrawer}
       <div className="map-content">
+        {settingsDrawer}
         <ErrorBoundary>{map}</ErrorBoundary>
       </div>
     </div>

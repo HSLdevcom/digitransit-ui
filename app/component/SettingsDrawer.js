@@ -4,10 +4,10 @@ import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import CustomizeSearch from './CustomizeSearchNew';
 
-export const SettingsDrawer = ({ open, width, onToggleClick }) => {
+export const SettingsDrawer = ({ open, onToggleClick, mobile }) => {
   if (open) {
     return (
-      <div className="offcanvas" style={{ width }}>
+      <div className={`offcanvas${mobile ? '-mobile' : ''}`}>
         <CustomizeSearch onToggleClick={onToggleClick} />
       </div>
     );
@@ -18,8 +18,12 @@ export const SettingsDrawer = ({ open, width, onToggleClick }) => {
 
 SettingsDrawer.propTypes = {
   open: PropTypes.bool.isRequired,
-  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   onToggleClick: PropTypes.func.isRequired,
+  mobile: PropTypes.bool,
+};
+
+SettingsDrawer.defaultProps = {
+  mobile: false,
 };
 
 SettingsDrawer.contextTypes = {

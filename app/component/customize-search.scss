@@ -1,4 +1,5 @@
 .offcanvas {
+  width: 400px;
   overflow-x:hidden;
   overflow-y:auto;
   height: 90vh;
@@ -8,6 +9,9 @@
 .offcanvas::-webkit-scrollbar { /* WebKit */
   width: 0;
   height: 0;
+}
+.offcanvas-mobile {
+  width: 100%;
 }
 
 .customize-search {

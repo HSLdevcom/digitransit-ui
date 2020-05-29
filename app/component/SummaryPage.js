@@ -31,7 +31,7 @@ import {
 import withBreakpoint from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
 import exampleData from './data/SummaryPage.ExampleData';
-import { isBrowser, getDrawerWidth } from '../util/browser';
+import { isBrowser } from '../util/browser';
 import { itineraryHasCancelation } from '../util/alertUtils';
 import triggerMessage from '../util/messageUtils';
 import MessageStore from '../store/MessageStore';
@@ -636,7 +636,6 @@ class SummaryPage extends React.Component {
           settingsDrawer={
             <SettingsDrawer
               open={this.getOffcanvasState()}
-              width={getDrawerWidth(window, { maxWidth: 475 })}
               onToggleClick={this.toggleCustomizeSearchOffcanvas}
             />
           }
@@ -719,8 +718,8 @@ class SummaryPage extends React.Component {
         settingsDrawer={
           <SettingsDrawer
             open={this.getOffcanvasState()}
-            width={getDrawerWidth(window, { maxWidth: 475 })}
             onToggleClick={this.toggleCustomizeSearchOffcanvas}
+            mobile
           />
         }
       />
