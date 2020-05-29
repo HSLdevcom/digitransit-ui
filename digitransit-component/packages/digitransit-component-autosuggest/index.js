@@ -73,7 +73,7 @@ function suggestionToAriaContent(item) {
  *    return null;
  * };
  * const placeholder = "stop-near-you";
- * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes and CurrentPosition. Leave empty to search all targets.
+ * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, MapPosition and CurrentPosition. Leave empty to search all targets.
  * const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches) and Datasource. Leave empty to use all sources.
  * return (
  *  <DTAutosuggest
@@ -270,7 +270,10 @@ class DTAutosuggest extends React.Component {
           }
           // XXX translates current location
           const suggestions = (searchResult.results || []).map(suggestion => {
-            if (suggestion.type === 'CurrentLocation') {
+            if (
+              suggestion.type === 'CurrentLocation' ||
+              suggestion.type === 'SelectFromMap'
+            ) {
               const translated = { ...suggestion };
               translated.properties.labelId = i18next.t(
                 suggestion.properties.labelId,

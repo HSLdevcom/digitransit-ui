@@ -20,6 +20,7 @@ const LayerType = {
   FavouriteStation: 'favouriteStation',
   FavouritePlace: 'favouritePlace',
   Station: 'station',
+  SelectFromMap: 'selectFromMap',
   Stop: 'stop',
   Street: 'street',
   Venue: 'venue',
@@ -91,6 +92,8 @@ export const getLayerRank = (layer, source) => {
   switch (layer) {
     case LayerType.CurrentPosition:
       return 1;
+    case LayerType.SelectFromMap:
+      return 0.8;
     case LayerType.FavouriteStation:
     case LayerType.FavouritePlace:
     case LayerType.FavouriteStop:
