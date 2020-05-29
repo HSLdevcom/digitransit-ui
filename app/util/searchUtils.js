@@ -316,6 +316,12 @@ export function getGeocodingResult(
   );
 }
 
+export function searchPlace(ids, config) {
+  return getJson(config.URL.PELIAS_PLACE, {
+    ids,
+  });
+}
+
 function getFavouriteRoutes(favourites, input) {
   const query = Relay.createQuery(
     Relay.QL`
