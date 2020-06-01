@@ -315,7 +315,7 @@ class RoutePage extends React.Component {
     const useCurrentTime = activeTab === Tab.Stops; // DT-3182
 
     return (
-      <div>
+      <div className="route-page-container">
         <div className="header-for-printing">
           <h1>
             <FormattedMessage
@@ -327,7 +327,11 @@ class RoutePage extends React.Component {
           </h1>
         </div>
         {route.type === 715 && <CallAgencyWarning route={route} />}
-        <div className="route-container">
+        <div
+          className={cx('route-container', {
+            'bp-large': breakpoint === 'large',
+          })}
+        >
           {breakpoint === 'large' && (
             <BackButton
               icon="icon-icon_arrow-collapse--left"
@@ -337,15 +341,13 @@ class RoutePage extends React.Component {
             />
           )}
           <div className="route-header">
-            {breakpoint === 'large' && (
-              <RouteNumber
-                color={route.color ? `#${route.color}` : null}
-                mode={route.mode}
-                text={route.shortName}
-                isRouteView
-                renderNumber={false}
-              />
-            )}
+            <RouteNumber
+              color={route.color ? `#${route.color}` : null}
+              mode={route.mode}
+              text={route.shortName}
+              isRouteView
+              renderNumber={false}
+            />
             <div className="route-info">
               <div className={cx('route-short-name', route.mode.toLowerCase())}>
                 {route.shortName}

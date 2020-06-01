@@ -3,6 +3,7 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import some from 'lodash/some';
 import { matchShape, routerShape } from 'found';
+import cx from 'classnames';
 import RouteListHeader from './RouteListHeader';
 import RouteStopListContainer from './RouteStopListContainer';
 import withBreakpoint from '../util/withBreakpoint';
@@ -47,7 +48,11 @@ class PatternStopsContainer extends React.PureComponent {
     }
 
     return (
-      <div className="route-page-content">
+      <div
+        className={cx('route-page-content', {
+          'bp-large': this.props.breakpoint === 'large',
+        })}
+      >
         <RouteListHeader
           key="header"
           className={`bp-${this.props.breakpoint}`}
