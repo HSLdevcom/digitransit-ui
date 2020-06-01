@@ -41,7 +41,7 @@ const ItinerarySearchControl = ({
     <div className={styles['itinerary-search-control']}>
       <div
         {...rest}
-        className={`${styles[className]}`}
+        className={className}
         onClick={onClick}
         onKeyPress={onKeyPress}
         role="button"
@@ -184,8 +184,7 @@ class DTAutosuggestPanel extends React.Component {
     for (let i = 0; i <= 9; i++) {
       const valueInMinutes = i * 10;
       timeOptions.push({
-        displayName: `${i}`,
-        displayNameObject: `${valueInMinutes} ${i18next.t('minute-short')}`,
+        displayName: `${valueInMinutes} ${i18next.t('minute-short')}`,
         value: valueInMinutes * 60,
       });
     }
@@ -400,6 +399,10 @@ class DTAutosuggestPanel extends React.Component {
     event.dataTransfer.setData('text', `${isDraggingIndex}`);
   };
 
+  getSlackDisplay = slackInSeconds => {
+    return `${slackInSeconds / 60} ${i18next.t('minute-short')}`;
+  };
+
   render = () => {
     const {
       breakpoint,
@@ -455,7 +458,7 @@ class DTAutosuggestPanel extends React.Component {
             targets={this.props.targets}
           />
           <ItinerarySearchControl
-            className="switch"
+            className={styles.opposite}
             enabled={showMultiPointControls}
             onClick={() => this.handleSwapOrderClick()}
             onKeyPress={e =>
@@ -463,7 +466,7 @@ class DTAutosuggestPanel extends React.Component {
             }
             aria-label={i18next.t('swap-order-button-label')}
           >
-            <Icon img="direction-b" width={1.8} height={1.8} rotate={90} />
+            <Icon img="opposite" width={1.0625} height={1.1875} />
           </ItinerarySearchControl>
         </div>
         {viaPoints.length === 0 && (
@@ -475,45 +478,58 @@ class DTAutosuggestPanel extends React.Component {
           {viaPoints.map((o, i) => (
             <div
               className={cx(styles['viapoint-container'], {
-                'drop-target-before': i === isDraggingOverIndex,
+                [styles['drop-target-before']]: i === isDraggingOverIndex,
               })}
               key={`viapoint-${i}`} // eslint-disable-line
               onDragOver={e => this.handleOnViaPointDragOver(e, i)}
               onDrop={e => this.handleOnViaPointDrop(e, i)}
               ref={el => this.setDraggableViaPointRef(el, i)}
             >
-              <div
-                className={styles[`viapoint-input-container viapoint-${i + 1}`]}
-              >
-                <div
-                  className={styles['viapoint-before']}
-                  draggable
-                  onDragEnd={this.handleOnViaPointDragEnd}
-                  onDragStart={e => this.handleStartViaPointDragging(e, i)}
-                  style={{ cursor: 'move' }}
-                >
-                  <Icon img="ellipsis" width={1.3} height={1.3} />
-                </div>
-                <DTAutoSuggest
-                  icon="mapMarker-via"
-                  id="viapoint"
-                  ariaLabel={i18next.t('via-point-index', { index: i + 1 })}
-                  autoFocus={
-                    disableAutoFocus === true ? false : breakpoint === 'large'
-                  }
-                  placeholder="via-point"
-                  className="viapoint"
-                  searchContext={searchContext}
-                  value={(o && o.address) || ''}
-                  onSelect={this.props.onSelect}
-                  handleViaPoints={item =>
-                    this.handleViaPointLocationSelected(item, i)
-                  }
-                  lang={this.props.lang}
-                  sources={this.props.sources}
-                  targets={this.props.targets}
-                />
-                <div className={styles['via-point-button-container']}>
+              <div className={styles['light-gray-background']}>
+                <div className={styles.row}>
+                  <div
+                    className={styles['viapoint-before']}
+                    draggable
+                    onDragEnd={this.handleOnViaPointDragEnd}
+                    onDragStart={e => this.handleStartViaPointDragging(e, i)}
+                    style={{ cursor: 'move' }}
+                  >
+                    <Icon
+                      img="ellipsis"
+                      color="#cccccc"
+                      rotate={90}
+                      height={1.25}
+                    />
+                  </div>
+                  <div
+                    className={cx(
+                      `${styles['viapoint-input-container']} ${
+                        styles[`viapoint-${i + 1}`]
+                      }`,
+                    )}
+                  >
+                    <DTAutoSuggest
+                      icon="mapMarker-via"
+                      id="viapoint"
+                      ariaLabel={i18next.t('via-point-index', { index: i + 1 })}
+                      autoFocus={
+                        disableAutoFocus === true
+                          ? false
+                          : breakpoint === 'large'
+                      }
+                      placeholder="via-point"
+                      className="viapoint"
+                      searchContext={searchContext}
+                      value={(o && o.address) || ''}
+                      onSelect={this.props.onSelect}
+                      handleViaPoints={item =>
+                        this.handleViaPointLocationSelected(item, i)
+                      }
+                      lang={this.props.lang}
+                      sources={this.props.sources}
+                      targets={this.props.targets}
+                    />
+                  </div>
                   <ItinerarySearchControl
                     className={styles['add-via-point-slack']}
                     enabled={showMultiPointControls}
@@ -529,62 +545,66 @@ class DTAutosuggestPanel extends React.Component {
                       { index: i + 1 },
                     )}
                   >
-                    <Icon img="time" width={0.8} height={0.8} />
-                    <Icon
-                      img="attention"
-                      width={0.8}
-                      height={0.8}
-                      color="#f092cd"
-                      className={cx(styles['super-icon'], {
-                        collapsed:
-                          isViaPointSlackTimeInputActive(i) ||
-                          getViaPointSlackTimeOrDefault(viaPoints[i]) ===
-                            defaultSlackTimeValue,
-                      })}
-                    />
-                  </ItinerarySearchControl>
-                  <ItinerarySearchControl
-                    className={styles['remove-via-point']}
-                    enabled={showMultiPointControls}
-                    onClick={() => this.handleRemoveViaPointClick(i)}
-                    onKeyPress={e =>
-                      this.isKeyboardSelectionEvent(e) &&
-                      this.handleRemoveViaPointClick(i)
-                    }
-                    aria-label={i18next.t('remove-via-button-label', {
-                      index: i + 1,
-                    })}
-                  >
-                    <Icon img="close" width={1.1} height={1.1} />
+                    <Icon img="time" width={1.125} height={1.1875} />
                   </ItinerarySearchControl>
                 </div>
+                {!isViaPointSlackTimeInputActive(i) &&
+                  viaPoints[i] &&
+                  viaPoints[i].locationSlack > 0 && (
+                    <span
+                      className={styles['viapoint-slack-time']}
+                    >{`${i18next.t(
+                      'viapoint-slack-amount',
+                    )}: ${this.getSlackDisplay(
+                      viaPoints[i].locationSlack,
+                    )}`}</span>
+                  )}
+                <div
+                  className={cx(styles['input-viapoint-slack-container'], {
+                    collapsed: !isViaPointSlackTimeInputActive(i),
+                  })}
+                >
+                  <div className={styles['select-wrapper']}>
+                    <Select
+                      id={`viapoint-slack-${i}`}
+                      label={i18next.t('viapoint-slack-amount')}
+                      options={slackTime}
+                      value={getViaPointSlackTimeOrDefault(viaPoints[i])}
+                      getDisplay={this.getSlackDisplay}
+                      viaPointIndex={i}
+                      icon={
+                        <span
+                          className={`${styles['combobox-icon']} ${
+                            styles['time-input-icon']
+                          }`}
+                        >
+                          <Icon img="time" />
+                        </span>
+                      }
+                      onSlackTimeSelected={this.handleViaPointSlackTimeSelected}
+                    />
+                  </div>
+                </div>
               </div>
-              <div
-                className={cx(styles['input-viapoint-slack-container'], {
-                  collapsed: !isViaPointSlackTimeInputActive(i),
+              <ItinerarySearchControl
+                className={styles['remove-via-point']}
+                enabled={showMultiPointControls}
+                onClick={() => this.handleRemoveViaPointClick(i)}
+                onKeyPress={e =>
+                  this.isKeyboardSelectionEvent(e) &&
+                  this.handleRemoveViaPointClick(i)
+                }
+                aria-label={i18next.t('remove-via-button-label', {
+                  index: i + 1,
                 })}
               >
-                <span>{i18next.t('viapoint-slack-amount')}</span>
-                <div className={styles['select-wrapper']}>
-                  <Select
-                    name="viapoint-slack-amount"
-                    selected={`${getViaPointSlackTimeOrDefault(viaPoints[i])}`}
-                    options={slackTime}
-                    onSelectChange={e =>
-                      this.handleViaPointSlackTimeSelected(e.target.value, i)
-                    }
-                    ariaLabel={i18next.t('add-via-duration-button-label', {
-                      index: i + 1,
-                    })}
-                  />
-                  <Icon
-                    width={0.7}
-                    height={0.7}
-                    color="#007ac9"
-                    img="arrow-dropdown"
-                  />
-                </div>
-              </div>
+                <Icon
+                  img="close"
+                  color="#007ac9"
+                  width={0.875}
+                  height={0.875}
+                />
+              </ItinerarySearchControl>
             </div>
           ))}
         </div>
@@ -618,7 +638,7 @@ class DTAutosuggestPanel extends React.Component {
             }
             aria-label={i18next.t('add-via-button-label')}
           >
-            <Icon img="plus" width={1.1} height={1.1} />
+            <Icon img="viapoint" width={1.25} height={1.375} />
           </ItinerarySearchControl>
         </div>
       </div>
