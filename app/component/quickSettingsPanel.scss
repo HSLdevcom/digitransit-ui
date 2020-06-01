@@ -170,8 +170,8 @@
 .right-offcanvas-toggle {
   span {
     color: $link-color;
-    @include font-bold;
-    font-size: 0.8rem;
+    letter-spacing: -0.5px;
+    font-weight: $font-weight-medium;
     margin-left: $padding-xsmall;
     text-align: center;
   }
@@ -180,11 +180,12 @@
   color: $link-color;
   display: flex;
   align-items: center;
-  min-height: 30px;
-
+  line-height: 1;
+  .settings-button-text {
+    margin-top: 2px;
+  }
   > div {
-    padding: $padding-small;
-    height: 100%;
+    padding: 0;
     > div {
       display: flex;
     }

@@ -28,7 +28,9 @@ export default function RightOffcanvasToggle(
           <div className="icon-holder">
             <Icon img="icon-icon_settings" />
           </div>
-          <FormattedMessage id="settings" defaultMessage="Settings" />
+          <span className="settings-button-text">
+            <FormattedMessage id="settings" defaultMessage="Settings" />
+          </span>
         </div>
       </div>
     </div>

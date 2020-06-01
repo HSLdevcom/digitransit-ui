@@ -179,25 +179,29 @@ function Datetimepicker({
               <button
                 id={`${htmlId}-open`}
                 type="button"
-                className={`${styles.textbutton} ${styles.active}`}
+                className={`${styles.textbutton} ${styles.active} ${
+                  styles['open-button']
+                }`}
                 aria-controls={`${htmlId}-root`}
                 aria-expanded="false"
                 onClick={() => changeOpen(true)}
               >
-                {nowSelected && departureOrArrival === 'departure' ? (
-                  i18next.t('departure-now')
-                ) : (
-                  <>
-                    {i18next.t(
-                      departureOrArrival === 'departure'
-                        ? 'departure'
-                        : 'arrival',
-                    )}
-                    {` ${getDateDisplay(
-                      displayTimestamp,
-                    ).toLowerCase()} ${getTimeDisplay(displayTimestamp)}`}
-                  </>
-                )}
+                <span>
+                  {nowSelected && departureOrArrival === 'departure' ? (
+                    i18next.t('departure-now')
+                  ) : (
+                    <>
+                      {i18next.t(
+                        departureOrArrival === 'departure'
+                          ? 'departure'
+                          : 'arrival',
+                      )}
+                      {` ${getDateDisplay(
+                        displayTimestamp,
+                      ).toLowerCase()} ${getTimeDisplay(displayTimestamp)}`}
+                    </>
+                  )}
+                </span>
                 <span className={styles['dropdown-icon']}>
                   <Icon img="arrow-dropdown" />
                 </span>
@@ -401,6 +405,7 @@ function Datetimepicker({
               </>
             )}
           </div>
+          <div className={styles['separator-line']} />
         </>
       )}
     </fieldset>
