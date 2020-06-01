@@ -5,7 +5,7 @@ import { matchShape, routerShape } from 'found';
 import { intlShape } from 'react-intl';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
-import { withCurrentTime } from '../util/DTSearchQueryUtils';
+import { withCurrentTime } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { navigateTo } from '../util/path';
 import searchContext from '../util/searchContext';
@@ -117,10 +117,7 @@ export default function withSearchContext(WrappedComponent) {
     };
 
     selectLocation = (location, id) => {
-      const locationWithTime = withCurrentTime(
-        this.context.getStore,
-        this.context.match.location,
-      );
+      const locationWithTime = withCurrentTime(this.context.match.location);
       addAnalyticsEvent({
         action: 'EditJourneyEndPoint',
         category: 'ItinerarySettings',

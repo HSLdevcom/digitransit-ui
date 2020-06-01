@@ -23,4 +23,6 @@ sessions/
 run*.sh
 app/**/__generated__
 digitransit-component/packages/**/*.generated
+digitransit-search-util/packages/**/*.generated
+digitransit-search-util/packages/**/__generated__
 yarn-error.log

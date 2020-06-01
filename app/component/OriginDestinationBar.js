@@ -4,7 +4,7 @@ import React from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import loadable from '@loadable/component';
-import { withCurrentTime } from '../util/DTSearchQueryUtils';
+import { withCurrentTime } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import ComponentUsageExample from './ComponentUsageExample';
 import { PREFIX_ITINERARY_SUMMARY, navigateTo } from '../util/path';
 import withSearchContext from './WithSearchContext';
@@ -64,7 +64,7 @@ class OriginDestinationBar extends React.Component {
 
   swapEndpoints = () => {
     const { location } = this;
-    const locationWithTime = withCurrentTime(this.context.getStore, location);
+    const locationWithTime = withCurrentTime(location);
     const intermediatePlaces = getIntermediatePlaces(location.query);
     if (intermediatePlaces.length > 1) {
       location.query.intermediatePlaces.reverse();
