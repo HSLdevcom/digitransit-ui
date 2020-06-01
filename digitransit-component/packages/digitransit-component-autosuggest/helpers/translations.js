@@ -1,6 +1,7 @@
 const translations = {
   en: {
     address: 'Address',
+    'address-place-or-business': 'Address, place or business',
     'add-via-button-label': 'Add via point',
     'add-via-duration-button-label': 'Set stop duration at via point {{index}}',
     'add-via-duration-button-label-close':
@@ -50,6 +51,7 @@ const translations = {
   },
   fi: {
     address: 'Osoite',
+    'address-place-or-business': 'Osoite, paikka tai yritys',
     'add-via-button-label': 'Lisää välipiste',
     'add-via-duration-button-label':
       'Aseta välipisteelle {{index}} pysähdyksen kesto',
@@ -99,6 +101,7 @@ const translations = {
   },
   sv: {
     address: 'Adress',
+    'address-place-or-business': 'Adress, plats eller företag',
     'add-via-button-label': 'Lägg till viapunkt',
     'add-via-duration-button-label':
       'Ställ in varaktighet för viapunkten {{index}}',
