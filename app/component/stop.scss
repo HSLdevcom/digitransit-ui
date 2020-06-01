@@ -8,8 +8,8 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  border-top: 1px solid #dddddd;
   position: relative;
+  background-color: white;
 
   @media print {
     display: block;
@@ -23,10 +23,12 @@
 }
 
 .stop-page.header {
-  background-color: $background-color;
   @include font-bold;
   @media print {
     padding-left: 0;
+  }
+  .card-header-content {
+    padding-top: 2em;
   }
 }
 
@@ -66,13 +68,11 @@
   .h3 {
     font-size: 24px;
   }
-  .sub-header-h4 {
-    font-size: 18px;
-  }
 
   .card-code {
-    font-size: 14px;
+    font-size: 11px;
     margin-right: 10px;
+    margin-left: 10px;
   }
 }
 
@@ -85,7 +85,7 @@
     border-radius: $border-radius;
     font-size: $font-size-xxsmall;
     color: $gray-blue;
-    margin-right: 3px;
+    // margin: 0px 3px 0px 3px;
     padding: 0px 2px 0px 2px;
   }
   .description {
@@ -115,9 +115,9 @@
 
 .stop-tab-container {
   display: flex;
-  border-top-color: #dddddd;
-  border-top-width: 2px;
-  padding-bottom: 0;
+  background-color: #dddddd;
+  border-radius: 5px;
+  margin: 0.5em 1.5em 1em 1.5em;
   position: relative;
   > button {
     outline: 0;
@@ -137,22 +137,21 @@
 
 .stop-tab-singletab,
 .stop-tab-singletab:hover {
+  display: flex;
+  align-items: center;
+  height: 3.5em;
+  flex-grow: 1;
   text-transform: uppercase;
   font-size: $font-size-xxsmall;
-  width: 50%;
-  text-align: center;
-  background-color: $background-color;
+  border-radius: 3px;
   cursor: pointer;
-  border-top: 4px solid $background-color;
-  color: $primary-color;
+  color: #333333;
+  text-align: center;
   transition: 0.1s all ease-in;
-  border-bottom: 1px solid $light-gray;
-  padding-bottom: 0.8em;
   padding-top: 0;
-  margin-bottom: 0;
-  padding-left: 0.8em;
-  padding-right: 0.8em;
-  height: 5.8em;
+  margin: 2px;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
   text-decoration: none;
 
   + .stop-tab-singletab {
@@ -167,9 +166,8 @@
   &.active,
   &.active:hover {
     background-color: $white;
-    border-bottom: 1px solid transparent;
-    border-top: 4px solid $primary-color;
     color: $black;
+    font-weight: 500;
     svg {
       stroke: $black;
       fill: $black;
@@ -217,13 +215,14 @@
 .stop-tab-singletab-container {
   display: block;
   margin: 0 auto;
-  font-weight: bold;
-  line-height: 1.2;
   letter-spacing: -0.4px;
-  margin-top: 0.8em;
   span {
     font-size: $font-size-xxxsmall;
   }
+}
+
+.stop-page-departure-wrapper {
+  padding: 0em 2em 0em 2em;
 }
 
 .stop-page-tab_icon {

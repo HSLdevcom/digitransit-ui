@@ -43,6 +43,7 @@ $border-radius-rounded: 30px;
     margin-top: -10px;
   }
   .card-sub-header {
+    display: flex;
     p {
       display: inline;
     }
@@ -52,6 +53,7 @@ $border-radius-rounded: 30px;
       font-size: $font-size-xxsmall;
       color: $gray-blue;
       margin-right: 3px;
+      margin-left: 3px;
       padding: 0px 2px 0px 2px;
     }
   }

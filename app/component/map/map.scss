@@ -236,6 +236,9 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
     &.leaflet-popup-scrolled {
       overflow: inherit;
     }
+    .card-sub-header {
+      display: flex;
+    }
   }
   .card {
     border: none;
