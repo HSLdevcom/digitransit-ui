@@ -218,8 +218,8 @@
         "name": "Fahrrad Kaiser",
         "name_en": "Fahrrad Kaiser",
         "name_de": "Fahrrad Kaiser",
-        "popupContent": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; So 09:00-16:00;Telefon: +49 7031 43589 0, Barrierefrei: begrenzt",
-        "popupContent_de": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; So 09:00-16:00;Telefon: +49 7031 43589 0, Barrierefrei: begrenzt",
+        "popupContent": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; Sa 09:00-16:00;Telefon: +49 7031 43589 0, Barrierefrei: begrenzt",
+        "popupContent_de": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; Sa 09:00-16:00;Telefon: +49 7031 43589 0, Barrierefrei: begrenzt",
         "popupContent_en": "Opening hours: Mo-Fr 10:00-19:00; Sa 09:00-16:00;Phone: +49 7031 43589 0, Wheelchair: limited",
         "icon": {
           "id": "bikeShopIcon",
@@ -240,8 +240,8 @@
         "name": "Radzentrum Nagold",
         "name_en": "Radzentrum Nagold",
         "name_de": "Radzentrum Nagold",
-        "popupContent": "\u00d6ffnungszeiten: Mo 13:00-18:30;Di-Fr 09:30-18:30;So 09:00-16:00, Barrierefrei: ja",
-        "popupContent_de": "\u00d6ffnungszeiten: Mo 13:00-18:30;Di-Fr 09:30-18:30;So 09:00-16:00, Barrierefrei: ja",
+        "popupContent": "\u00d6ffnungszeiten: Mo 13:00-18:30;Di-Fr 09:30-18:30;Sa 09:00-16:00, Barrierefrei: ja",
+        "popupContent_de": "\u00d6ffnungszeiten: Mo 13:00-18:30;Di-Fr 09:30-18:30;Sa 09:00-16:00, Barrierefrei: ja",
         "popupContent_en": "Opening hours: Mo 13:00-18:30;Tu-Fr 09:30-18:30;Sa 09:00-16:00, Wheelchair: yes",
         "icon": {
           "id": "bikeShopIcon"
@@ -261,8 +261,8 @@
         "name": "Radsport Kimmerle",
         "name_en": "Radsport Kimmerle",
         "name_de": "Radsport Kimmerle",
-        "popupContent": "\u00d6ffnungszeiten: Mo-Fr 09:00-12:30;Mo-Di,Do-Fr 15:00-17:30;So 09:00-13:00, Barrierefrei: nein",
-        "popupContent_de": "\u00d6ffnungszeiten: Mo-Fr 09:00-12:30;Mo-Di,Do-Fr 15:00-17:30;So 09:00-13:00, Barrierefrei: nein",
+        "popupContent": "\u00d6ffnungszeiten: Mo-Fr 09:00-12:30;Mo-Di,Do-Fr 15:00-17:30;Sa 09:00-13:00, Barrierefrei: nein",
+        "popupContent_de": "\u00d6ffnungszeiten: Mo-Fr 09:00-12:30;Mo-Di,Do-Fr 15:00-17:30;Sa 09:00-13:00, Barrierefrei: nein",
         "popupContent_en": "Opening hours: Mo-Fr 09:00-12:30;Mo-Tu,Th-Fr 15:00-17:30;Sa 09:00-13:00, Wheelchair: no",
         "icon": {
           "id": "bikeShopIcon"
@@ -324,8 +324,8 @@
         "name": "bikeshop2000",
         "name_en": "bikeshop2000",
         "name_de": "bikeshop2000",
-        "popupContent": "\u00d6ffnungszeiten: Di-Fr 14:00-18:00; So 10:00-14:00;",
-        "popupContent_de": "\u00d6ffnungszeiten: Di-Fr 14:00-18:00; So 10:00-14:00;",
+        "popupContent": "\u00d6ffnungszeiten: Di-Fr 14:00-18:00; Sa 10:00-14:00;",
+        "popupContent_de": "\u00d6ffnungszeiten: Di-Fr 14:00-18:00; Sa 10:00-14:00;",
         "popupContent_en": "Opening hours: Tu-Fr 14:00-18:00; Sa 10:00-14:00;",
         "icon": {
           "id": "bikeShopIcon"
@@ -345,8 +345,8 @@
         "name": "Radhof Schill",
         "name_en": "Radhof Schill",
         "name_de": "Radhof Schill",
-        "popupContent": "\u00d6ffnungszeiten: Mo-Di,Do-Fr 09:00-12:30,14:00-18:30;Mi 09:00-12:30;So 09:00-13:00, Barrierefrei: begrenzt",
-        "popupContent_de": "\u00d6ffnungszeiten: Mo-Di,Do-Fr 09:00-12:30,14:00-18:30;Mi 09:00-12:30;So 09:00-13:00, Barrierefrei: begrenzt",
+        "popupContent": "\u00d6ffnungszeiten: Mo-Di,Do-Fr 09:00-12:30,14:00-18:30;Mi 09:00-12:30;Sa 09:00-13:00, Barrierefrei: begrenzt",
+        "popupContent_de": "\u00d6ffnungszeiten: Mo-Di,Do-Fr 09:00-12:30,14:00-18:30;Mi 09:00-12:30;Sa 09:00-13:00, Barrierefrei: begrenzt",
         "popupContent_en": "Opening hours: Mo-Tu,Th-Fr 09:00-12:30,14:00-18:30;We 09:00-12:30;Sa 09:00-13:00, Wheelchair: limited",
         "icon": {
           "id": "bikeShopIcon"
@@ -408,8 +408,8 @@
         "name": "Radsport Holczer",
         "name_en": "Radsport Holczer",
         "name_de": "Radsport Holczer",
-        "popupContent": "\u00d6ffnungszeiten: Mo-Di,Fr 09:00-18:30; Do 09:00-20:00; So 09:00-14:00, Barrierefrei: ja",
-        "popupContent_de": "\u00d6ffnungszeiten: Mo-Di,Fr 09:00-18:30; Do 09:00-20:00; So 09:00-14:00, Barrierefrei: ja",
+        "popupContent": "\u00d6ffnungszeiten: Mo-Di,Fr 09:00-18:30; Do 09:00-20:00; Sa 09:00-14:00, Barrierefrei: ja",
+        "popupContent_de": "\u00d6ffnungszeiten: Mo-Di,Fr 09:00-18:30; Do 09:00-20:00; Sa 09:00-14:00, Barrierefrei: ja",
         "popupContent_en": "Opening hours: Mo-Tu,Fr 09:00-18:30; Th 09:00-20:00; Sa 09:00-14:00, Wheelchair: yes",
         "icon": {
           "id": "bikeShopIcon"
@@ -429,8 +429,8 @@
         "name": "Sportivo",
         "name_en": "Sportivo",
         "name_de": "Sportivo",
-        "popupContent": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; So 10:00-18:00, Barrierefrei: ja",
-        "popupContent_de": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; So 10:00-18:00, Barrierefrei: ja",
+        "popupContent": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; Sa 10:00-18:00, Barrierefrei: ja",
+        "popupContent_de": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; Sa 10:00-18:00, Barrierefrei: ja",
         "popupContent_en": "Opening hours: Mo-Fr 10:00-19:00; Sa 10:00-18:00, Wheelchair: yes",
         "icon": {
           "id": "bikeShopIcon"
@@ -555,8 +555,8 @@
         "name": "HAICO",
         "name_en": "HAICO",
         "name_de": "HAICO",
-        "popupContent": "Telefon: +49 7073 852520, \u00d6ffnungszeiten: Mo-Di 17:00-20:00, Do-Fr 17:00-20:00, So 10:00-14:00;Barrierefrei: nein",
-        "popupContent_de": "Telefon: +49 7073 852520, \u00d6ffnungszeiten: Mo-Di 17:00-20:00, Do-Fr 17:00-20:00, So 10:00-14:00;Barrierefrei: nein",
+        "popupContent": "Telefon: +49 7073 852520, \u00d6ffnungszeiten: Mo-Di 17:00-20:00, Do-Fr 17:00-20:00, Sa 10:00-14:00;Barrierefrei: nein",
+        "popupContent_de": "Telefon: +49 7073 852520, \u00d6ffnungszeiten: Mo-Di 17:00-20:00, Do-Fr 17:00-20:00, Sa 10:00-14:00;Barrierefrei: nein",
         "popupContent_en": "Phone: +49 7073 852520, Opening hours: Mo-Tu 17:00-20:00, Th-Fr 17:00-20:00, Sa 10:00-14:00;Wheelchair: no",
         "icon": {
           "id": "bikeShopIcon"
@@ -618,8 +618,8 @@
         "name": "Weigl GmbH Zweiradzentrale",
         "name_en": "Weigl GmbH Zweiradzentrale",
         "name_de": "Weigl GmbH Zweiradzentrale",
-        "popupContent": "\u00d6ffnungszeiten: Mo-So 08:30-13:00; Mo 14:00-18:30, Di 14:00-18:30, Do 14:00-18:30, Fr 14:00-18:30, Telefon: +49 7031 700922",
-        "popupContent_de": "\u00d6ffnungszeiten: Mo-So 08:30-13:00; Mo 14:00-18:30, Di 14:00-18:30, Do 14:00-18:30, Fr 14:00-18:30, Telefon: +49 7031 700922",
+        "popupContent": "\u00d6ffnungszeiten: Mo-Sa 08:30-13:00; Mo 14:00-18:30, Di 14:00-18:30, Do 14:00-18:30, Fr 14:00-18:30, Telefon: +49 7031 700922",
+        "popupContent_de": "\u00d6ffnungszeiten: Mo-Sa 08:30-13:00; Mo 14:00-18:30, Di 14:00-18:30, Do 14:00-18:30, Fr 14:00-18:30, Telefon: +49 7031 700922",
         "popupContent_en": "Opening hours: Mo-Sa 08:30-13:00; Mo 14:00-18:30, Tu 14:00-18:30, Th 14:00-18:30, Fr 14:00-18:30, Phone: +49 7031 700922",
         "icon": {
           "id": "bikeShopIcon"
@@ -660,8 +660,8 @@
         "name": "Die RADgeber",
         "name_en": "Die RADgeber",
         "name_de": "Die RADgeber",
-        "popupContent": "Telefon: +49 7034 652345, \u00d6ffnungszeiten: Mo-Fr 09:00-12:30,14:30-18:30; Mi 09:00-12:30; So 09:00-13:00;Barrierefrei: ja",
-        "popupContent_de": "Telefon: +49 7034 652345, \u00d6ffnungszeiten: Mo-Fr 09:00-12:30,14:30-18:30; Mi 09:00-12:30; So 09:00-13:00;Barrierefrei: ja",
+        "popupContent": "Telefon: +49 7034 652345, \u00d6ffnungszeiten: Mo-Fr 09:00-12:30,14:30-18:30; Mi 09:00-12:30; Sa 09:00-13:00;Barrierefrei: ja",
+        "popupContent_de": "Telefon: +49 7034 652345, \u00d6ffnungszeiten: Mo-Fr 09:00-12:30,14:30-18:30; Mi 09:00-12:30; Sa 09:00-13:00;Barrierefrei: ja",
         "popupContent_en": "Phone: +49 7034 652345, Opening hours: Mo-Fr 09:00-12:30,14:30-18:30; We 09:00-12:30; Sa 09:00-13:00;Wheelchair: yes",
         "icon": {
           "id": "bikeShopIcon"
@@ -744,8 +744,8 @@
         "name": "Radwelt Ehningen",
         "name_en": "Radwelt Ehningen",
         "name_de": "Radwelt Ehningen",
-        "popupContent": "\u00d6ffnungszeiten: Mo-Fr 16:00-18:00; So 10:00-12:00;Barrierefrei: ja",
-        "popupContent_de": "\u00d6ffnungszeiten: Mo-Fr 16:00-18:00; So 10:00-12:00;Barrierefrei: ja",
+        "popupContent": "\u00d6ffnungszeiten: Mo-Fr 16:00-18:00; Sa 10:00-12:00;Barrierefrei: ja",
+        "popupContent_de": "\u00d6ffnungszeiten: Mo-Fr 16:00-18:00; Sa 10:00-12:00;Barrierefrei: ja",
         "popupContent_en": "Opening hours: Mo-Fr 16:00-18:00; Sa 10:00-12:00;Wheelchair: yes",
         "icon": {
           "id": "bikeShopIcon"
@@ -765,8 +765,8 @@
         "name": "Bikemax",
         "name_en": "Bikemax",
         "name_de": "Bikemax",
-        "popupContent": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; So 10:00-18:00, Barrierefrei: nein",
-        "popupContent_de": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; So 10:00-18:00, Barrierefrei: nein",
+        "popupContent": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; Sa 10:00-18:00, Barrierefrei: nein",
+        "popupContent_de": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; Sa 10:00-18:00, Barrierefrei: nein",
         "popupContent_en": "Opening hours: Mo-Fr 10:00-19:00; Sa 10:00-18:00, Wheelchair: no",
         "icon": {
           "id": "bikeShopIcon"
@@ -786,8 +786,8 @@
         "name": "Radlager",
         "name_en": "Radlager",
         "name_de": "Radlager",
-        "popupContent": "Telefon: +49 7032 795792, \u00d6ffnungszeiten: Mo-Di 09:15-12:30, 14:30-18:30; Do-Fr 09:15-12:30, 14:30-18:30; So 09:15-13:00, Barrierefrei: begrenzt",
-        "popupContent_de": "Telefon: +49 7032 795792, \u00d6ffnungszeiten: Mo-Di 09:15-12:30, 14:30-18:30; Do-Fr 09:15-12:30, 14:30-18:30; So 09:15-13:00, Barrierefrei: begrenzt",
+        "popupContent": "Telefon: +49 7032 795792, \u00d6ffnungszeiten: Mo-Di 09:15-12:30, 14:30-18:30; Do-Fr 09:15-12:30, 14:30-18:30; Sa 09:15-13:00, Barrierefrei: begrenzt",
+        "popupContent_de": "Telefon: +49 7032 795792, \u00d6ffnungszeiten: Mo-Di 09:15-12:30, 14:30-18:30; Do-Fr 09:15-12:30, 14:30-18:30; Sa 09:15-13:00, Barrierefrei: begrenzt",
         "popupContent_en": "Phone: +49 7032 795792, Opening hours: Mo-Tu 09:15-12:30, 14:30-18:30; Th-Fr 09:15-12:30, 14:30-18:30; Sa 09:15-13:00, Wheelchair: limited",
         "icon": {
           "id": "bikeShopIcon"

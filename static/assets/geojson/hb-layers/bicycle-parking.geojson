@@ -4251,9 +4251,9 @@
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
-        "popupContent": "",
-        "popupContent_de": "",
-        "popupContent_en": "",
+        "popupContent": "Stellpl\u00e4tze: 6",
+        "popupContent_de": "Stellpl\u00e4tze: 6",
+        "popupContent_en": "Capacity: 6",
         "icon": {
           "id": "bikeParkOpIcon"
         }
