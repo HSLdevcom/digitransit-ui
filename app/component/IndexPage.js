@@ -186,7 +186,6 @@ class IndexPage extends React.Component {
             sources={['Favourite', 'History', 'Datasource']}
             targets={['Locations', 'CurrentPosition']}
           />
-          <CtrlPanel.SeparatorLine />
           <DatetimepickerContainer realtime />
           <FavouritesContainer
             favourites={favourites}
@@ -239,7 +238,6 @@ class IndexPage extends React.Component {
             sources={['Favourite', 'History', 'Datasource']}
             targets={['Locations', 'CurrentPosition', 'MapPosition']}
           />
-          <CtrlPanel.SeparatorLine />
           <DatetimepickerContainer realtime />
           <FavouritesContainer
             favourites={this.props.favourites}
