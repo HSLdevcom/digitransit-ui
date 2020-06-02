@@ -39,7 +39,7 @@ function Departure({
     );
   }
   return (
-    <p className={cx('departure', 'route-detail-text', className)}>
+    <div className={cx('departure', 'route-detail-text', className)}>
       {!staticDeparture && (
         <DepartureTime
           departureTime={departure.stoptime}
@@ -74,7 +74,7 @@ function Departure({
       ) : (
         platformNumber
       )}
-    </p>
+    </div>
   );
 }
 

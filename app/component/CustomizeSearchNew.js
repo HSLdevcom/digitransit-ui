@@ -47,7 +47,12 @@ class CustomizeSearch extends React.Component {
 
     return (
       <div className="customize-search">
-        <button className="close-offcanvas" onClick={onToggleClick}>
+        <button
+          className="close-offcanvas"
+          onClick={() => {
+            onToggleClick(false);
+          }}
+        >
           <Icon className="close-icon" img="icon-icon_close" />
         </button>
         <div className="settings-option-container">

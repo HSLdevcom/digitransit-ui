@@ -271,7 +271,12 @@ export default async function(req, res, next) {
 
     const contentWithBreakpoint = `<div id="app" data-initial-breakpoint="${breakpoint}">${content}</div>\n`;
 
-    const relayData = await environment.relaySSRMiddleware.getCache();
+    let relayData;
+    try {
+      relayData = await environment.relaySSRMiddleware.getCache();
+    } catch {
+      relayData = [];
+    }
 
     const spriteName = config.sprites;
 

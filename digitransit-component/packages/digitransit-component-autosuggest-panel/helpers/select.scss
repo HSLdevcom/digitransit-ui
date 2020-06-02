@@ -1,0 +1,107 @@
+$font-weight-medium: 500;
+$primary-color: #007ac9;
+$suggestion-highlight-background-color: darken(#eef1f3, 5%);
+
+$zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
+  map-buttons, context-panel, search-panel, search-overlay, preferred-input, destination-input,
+  viapoint-input-5, viapoint-input-4, viapoint-input-3, viapoint-input-2,
+  viapoint-input-1, origin-input, search-input-focus, search-input-icon, rectangle, autosuggest-suggestion-container, front;
+
+.combobox-container {
+  background-color: #fff;
+  border: solid #888888 1px;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  height: 50px;
+  justify-content: space-between;
+  // width: 196px;
+  flex-grow: 1;
+  &:focus-within {
+    border-color: $primary-color;
+  }
+  .left-column {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+.combobox-label {
+  font-size: 12px;
+  line-height: 20px;
+  color: #666666;
+  letter-spacing: -0.48px;
+  margin-left: 12px;
+  margin-top: 4px;
+}
+
+.container  {
+  position: relative;
+  .suggestion {
+    font-size: 15px;
+    line-height: 49px;
+    height: 50px;
+    padding: 0 0 0 12px;
+    letter-spacing: -0.6px;
+    color: #333333;
+    font-weight: $font-weight-medium;
+  }
+  .suggestionHighlighted {
+    font-size: 15px;
+    font-weight: $font-weight-medium;
+    background: $suggestion-highlight-background-color;
+  }
+
+  .suggestionsContainerOpen {
+    position: absolute;
+    background-color: #fff;
+    z-index: index($zindex, 'autosuggest-suggestion-container');
+    max-height: 250px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    border-radius: 5px;
+    box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.06);
+    border: 1px rgba(0,0,0,0.1) solid;
+    top: 35px;
+    width: calc(100% + 45px); // 43px == width of icon next to input
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+    &::-webkit-scrollbar {
+      display: none;  /* Safari and Chrome */
+    }
+    ul {
+      padding: 0;
+      margin: 0;
+    }
+    li:not(:last-child) {
+      border-bottom: 1px solid #ddd;
+    }
+  }
+  .input {
+    appearance: none;
+    margin: -4px 0 0 0;
+    padding-left: 12px;
+    border: none;
+    height: 26px;
+    &:focus {
+      outline: none;
+      border: none;
+      box-shadow: none;
+      background: #fff;
+    }
+    &:read-only {
+      cursor: pointer;
+      background: #fff;
+    }
+    background: #fff;
+    font-weight: $font-weight-medium;
+    box-shadow: none;
+    font-size: 15px;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.33;
+    letter-spacing: -0.6px;
+    color: #333333;
+  }
+}

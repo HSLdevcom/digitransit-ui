@@ -138,7 +138,6 @@ testVariation('TimeNavigationButtons', 'hovered', 1, [], actions => {
 });
 
 testVariation('RightOffcanvasToggle', 'default');
-testVariation('RightOffcanvasToggle', 'adjusted', 2);
 
 testVariation('MarkerSelectPopup');
 testVariation('SelectStopRow');
