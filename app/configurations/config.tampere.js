@@ -156,53 +156,6 @@ export default configMerger(walttiConfig, {
     ],
   },
 
-  staticMessages: [
-    {
-      id: '3',
-      priority: -1,
-      shouldTrigger: true,
-      persistence: 'repeat',
-      content: {
-        fi: [
-          {
-            type: 'text',
-            content:
-              'Vuoroja voi peruuntua virusepidemian aikana. Tarkista matkasi tiedot ennakkoon. Perutut bussivuorot näkyvät yliviivattuna punaisella eivätkä ne tule reittiehdotuksiin. Perutut junavuorot voi tarkistaa ',
-          },
-          {
-            type: 'a',
-            content: 'VR:n palveluista',
-            href: 'https://www.vr.fi/cs/vr/fi/liikennetilanne',
-          },
-        ],
-        en: [
-          {
-            type: 'text',
-            content:
-              'Trips may be canceled during the virus epidemic. Check our travel information in advance. Cancelled bus trips appear in red and do not appear in route suggestions. Please check cancelled train trips at ',
-          },
-          {
-            type: 'a',
-            content: "VR's services",
-            href: 'https://www.vr.fi/cs/vr/en/traffic_info',
-          },
-        ],
-        sv: [
-          {
-            type: 'text',
-            content:
-              'Trips may be canceled during the virus epidemic. Check our travel information in advance. Cancelled bus trips appear in red and do not appear in route suggestions. Please check cancelled train trips at ',
-          },
-          {
-            type: 'a',
-            content: "VR's services",
-            href: 'https://www.vr.fi/cs/vr/sv/trafikinfo',
-          },
-        ],
-      },
-    },
-  ],
-
   aboutThisService: {
     fi: [
       {
