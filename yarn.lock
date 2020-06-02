@@ -16766,9 +16766,9 @@ simple-get@^3.0.3:
     once "^1.3.1"
     simple-concat "^1.0.0"
 
-simple-opening-hours@mfdz/simple-opening-hours#d3f6813b5bbd5b16bfa44ecf6bc6a9893742e8dc:
+simple-opening-hours@mfdz/simple-opening-hours#56577ac7:
   version "1.0.1"
-  resolved "https://codeload.github.com/mfdz/simple-opening-hours/tar.gz/d3f6813b5bbd5b16bfa44ecf6bc6a9893742e8dc"
+  resolved "https://codeload.github.com/mfdz/simple-opening-hours/tar.gz/56577ac7b1865611b0d5305bda9664415dc20694"
 
 simple-swizzle@^0.2.2:
   version "0.2.2"
