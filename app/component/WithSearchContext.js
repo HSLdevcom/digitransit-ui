@@ -5,7 +5,7 @@ import { matchShape, routerShape } from 'found';
 import { intlShape } from 'react-intl';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
-import { withCurrentTime } from '../util/DTSearchQueryUtils';
+import moment from 'moment';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { navigateTo } from '../util/path';
 import searchContext from '../util/searchContext';
@@ -67,7 +67,7 @@ export default function withSearchContext(WrappedComponent) {
       }
     };
 
-    onSuggestionSelected = (item, id) => {
+    onSuggestionSelected = (item, id, datetimePickerQuery) => {
       // route
       if (item.properties.link) {
         this.selectRoute(item.properties.link);
@@ -89,7 +89,7 @@ export default function withSearchContext(WrappedComponent) {
           this.context.executeAction(searchContext.startLocationWatch),
         );
       } else {
-        this.selectLocation(location, id);
+        this.selectLocation(location, id, datetimePickerQuery);
       }
     };
 
@@ -116,10 +116,10 @@ export default function withSearchContext(WrappedComponent) {
       this.props.onFavouriteSelected(item);
     };
 
-    selectLocation = (location, id) => {
-      const locationWithTime = withCurrentTime(
-        this.context.getStore,
-        this.context.match.location,
+    selectLocation = (location, id, datetimePickerQuery) => {
+      const locationWithTime = this.locationWithDateTimePicker(
+        location,
+        datetimePickerQuery,
       );
       addAnalyticsEvent({
         action: 'EditJourneyEndPoint',
@@ -167,7 +167,7 @@ export default function withSearchContext(WrappedComponent) {
       });
     };
 
-    onSelect = (item, id) => {
+    onSelect = (item, id, datetimePickerQuery) => {
       // type is destination unless timetable or route was clicked
       let type = 'endpoint';
       switch (item.type) {
@@ -178,7 +178,7 @@ export default function withSearchContext(WrappedComponent) {
       }
       if (item.type === 'CurrentLocation') {
         // item is already a location.
-        this.selectLocation(item, id);
+        this.selectLocation(item, id, datetimePickerQuery);
       }
       if (item.type === 'OldSearch' && item.properties.gid) {
         getJson(this.context.config.URL.PELIAS_PLACE, {
@@ -191,12 +191,38 @@ export default function withSearchContext(WrappedComponent) {
             newItem.geometry.coordinates = geom.coordinates;
           }
           this.finishSelect(newItem, type);
-          this.onSuggestionSelected(item, id);
+          this.onSuggestionSelected(item, id, datetimePickerQuery);
         });
       } else {
         this.finishSelect(item, type);
-        this.onSuggestionSelected(item, id);
+        this.onSuggestionSelected(item, id, datetimePickerQuery);
       }
+    };
+
+    locationWithDateTimePicker = (location, datetimePickerQuery) => {
+      const query = (location && location.query) || {};
+      if (datetimePickerQuery && datetimePickerQuery.arriveBy) {
+        return {
+          ...location,
+          query: {
+            ...query,
+            time: datetimePickerQuery.time
+              ? datetimePickerQuery.time
+              : moment().unix(),
+            arriveBy: datetimePickerQuery.arriveBy,
+          },
+        };
+      }
+      return {
+        ...location,
+        query: {
+          ...query,
+          time:
+            datetimePickerQuery && datetimePickerQuery.time
+              ? datetimePickerQuery.time
+              : moment().unix(),
+        },
+      };
     };
 
     render() {

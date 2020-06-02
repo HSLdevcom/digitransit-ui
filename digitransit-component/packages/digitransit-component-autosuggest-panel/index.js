@@ -124,6 +124,7 @@ ItinerarySearchControl.propTypes = {
  *    disableAutoFocus={false} // Optional. use this to disable autofocus completely from DTAutosuggestPanel
  *    sources={sources}
  *    targets={targets}
+ *    datetimePickerQuery={datetimePickerQuery} // Optional. E.g. { time: 1591156800, arriveBy: true }
  */
 class DTAutosuggestPanel extends React.Component {
   static propTypes = {
@@ -144,6 +145,7 @@ class DTAutosuggestPanel extends React.Component {
     disableAutoFocus: PropTypes.bool,
     sources: PropTypes.arrayOf(PropTypes.string),
     targets: PropTypes.arrayOf(PropTypes.string),
+    datetimePickerQuery: PropTypes.object,
   };
 
   static defaultProps = {
@@ -157,6 +159,7 @@ class DTAutosuggestPanel extends React.Component {
     sources: [],
     targets: [],
     disableAutoFocus: false,
+    datetimePickerQuery: {},
   };
 
   constructor(props) {
@@ -453,6 +456,7 @@ class DTAutosuggestPanel extends React.Component {
             lang={this.props.lang}
             sources={this.props.sources}
             targets={this.props.targets}
+            datetimePickerQuery={this.props.datetimePickerQuery}
           />
           <ItinerarySearchControl
             className="switch"
@@ -512,6 +516,7 @@ class DTAutosuggestPanel extends React.Component {
                   lang={this.props.lang}
                   sources={this.props.sources}
                   targets={this.props.targets}
+                  datetimePickerQuery={this.props.datetimePickerQuery}
                 />
                 <div className={styles['via-point-button-container']}>
                   <ItinerarySearchControl
@@ -606,6 +611,7 @@ class DTAutosuggestPanel extends React.Component {
             lang={this.props.lang}
             sources={this.props.sources}
             targets={this.props.targets}
+            datetimePickerQuery={this.props.datetimePickerQuery}
           />
           <ItinerarySearchControl
             className={cx(styles['add-via-point'], styles.more, {

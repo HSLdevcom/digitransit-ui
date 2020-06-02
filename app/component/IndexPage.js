@@ -34,6 +34,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import scrollTop from '../util/scroll';
 import FavouritesContainer from './FavouritesContainer';
 import DatetimepickerContainer from './DatetimepickerContainer';
+import { getTimeAndArriveByFromURL } from '../util/queryUtils';
 
 const debug = d('IndexPage.js');
 
@@ -84,6 +85,7 @@ class IndexPage extends React.Component {
       }),
     ),
     lang: PropTypes.string,
+    datetimePickerQuery: PropTypes.object,
   };
 
   static defaultProps = {
@@ -156,9 +158,17 @@ class IndexPage extends React.Component {
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     const { intl } = this.context;
-    const { breakpoint, destination, origin, favourites, lang } = this.props;
+    const {
+      breakpoint,
+      destination,
+      origin,
+      favourites,
+      lang,
+      datetimePickerQuery,
+    } = this.props;
 
     // const { mapExpanded } = this.state; // TODO verify
+
     return breakpoint === 'large' ? (
       <div
         className={`front-page flex-vertical ${origin &&
@@ -185,6 +195,7 @@ class IndexPage extends React.Component {
             lang={lang}
             sources={['Favourite', 'History', 'Datasource']}
             targets={['Locations', 'CurrentPosition']}
+            datetimePickerQuery={datetimePickerQuery}
           />
           <CtrlPanel.SeparatorLine />
           <DatetimepickerContainer realtime />
@@ -283,7 +294,10 @@ const Index = shouldUpdate(
       isEqual(nextProps.lang, props.lang) &&
       isEqual(nextProps.locationState, props.locationState) &&
       isEqual(nextProps.showSpinner, props.showSpinner) &&
-      isEmpty(differenceWith(nextProps.favourites, props.favourites, isEqual))
+      isEmpty(
+        differenceWith(nextProps.favourites, props.favourites, isEqual),
+      ) &&
+      isEqual(nextProps.datetimePickerQuery, props.datetimePickerQuery)
     );
   },
 )(IndexPage);
@@ -347,6 +361,7 @@ const IndexPageWithPosition = connectToStores(
     const locationState = context.getStore('PositionStore').getLocationState();
 
     const { from, to } = props.match.params;
+    const { location } = props.match;
 
     const newProps = {};
 
@@ -399,6 +414,7 @@ const IndexPageWithPosition = connectToStores(
       ...context.getStore('FavouriteStore').getLocations(),
       ...context.getStore('FavouriteStore').getStopsAndStations(),
     ];
+    newProps.datetimePickerQuery = getTimeAndArriveByFromURL(location);
     return newProps;
   },
 );
