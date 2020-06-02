@@ -10,7 +10,6 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
         options: {
@@ -24,7 +23,6 @@ module.exports = {
                 modules: false,
               },
             ],
-            ['@babel/preset-react', { useBuiltIns: true }],
           ],
           plugins: [
             ['relay', { compat: true, schema: 'schema.json' }],
@@ -36,38 +34,13 @@ module.exports = {
                 useESModules: true,
               },
             ],
-            ['@babel/plugin-proposal-class-properties', { loose: true }],
-            ['@babel/plugin-proposal-numeric-separator', { loose: true }],
-            ['inline-react-svg'],
           ],
         },
-      },
-      {
-        test: /\.s(a|c)ss$/,
-        use: [
-          'iso-morphic-style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 2,
-              modules: true,
-            },
-          },
-          {
-            loader: 'sass-loader',
-          },
-        ],
       },
     ],
   },
   resolve: {
-    extensions: ['.js', '.scss'],
+    extensions: ['.js'],
   },
-  externals: [
-    {
-      react: 'umd react',
-      'react-dom': 'umd react-dom',
-    },
-  ],
   target: 'node',
 };
