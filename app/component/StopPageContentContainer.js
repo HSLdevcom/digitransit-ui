@@ -45,7 +45,7 @@ class StopPageContent extends React.Component {
       );
     }
     return (
-      <div className="stop-page-departure-wrapper">
+      <div className="stop-page-departure-wrapper stop-scroll-container momentum-scroll">
         <DepartureListHeader />
         <div className="stop-scroll-container momentum-scroll">
           <DepartureListContainer

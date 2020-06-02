@@ -73,6 +73,7 @@
     font-size: 11px;
     margin-right: 10px;
     margin-left: 10px;
+    font-weight: 500;
   }
 }
 
@@ -85,8 +86,6 @@
     border-radius: $border-radius;
     font-size: $font-size-xxsmall;
     color: $gray-blue;
-    // margin: 0px 3px 0px 3px;
-    padding: 0px 2px 0px 2px;
   }
   .description {
     color: $gray-blue;
@@ -117,7 +116,7 @@
   display: flex;
   background-color: #dddddd;
   border-radius: 5px;
-  margin: 0.5em 1.5em 1em 1.5em;
+  margin: 0.5em 2em 1em 2em;
   position: relative;
   > button {
     outline: 0;
@@ -139,9 +138,8 @@
 .stop-tab-singletab:hover {
   display: flex;
   align-items: center;
-  height: 3.5em;
+  height: 3em;
   flex-grow: 1;
-  text-transform: uppercase;
   font-size: $font-size-xxsmall;
   border-radius: 3px;
   cursor: pointer;

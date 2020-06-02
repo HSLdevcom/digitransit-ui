@@ -71,10 +71,11 @@ const CardHeader = (
               stop.zoneId && (
                 <ZoneIcon
                   zoneId={getZoneLabel(stop.zoneId, config)}
-                  zoneIdFontSize="14px"
+                  zoneIdFontSize="11px"
                   zoneLabelColor={getZoneLabelColor(config)}
-                  zoneLabelHeight="28px"
-                  zoneLabelWidth="28px"
+                  zoneLabelHeight="15px"
+                  zoneLabelWidth="15px"
+                  zoneLabelLineHeight="15px"
                 />
               )}
           </div>
