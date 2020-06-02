@@ -1,17 +1,83 @@
 import merge from 'lodash/merge';
 import take from 'lodash/take';
-import { fetchQuery } from 'react-relay';
+import moment from 'moment';
+import { fetchQuery, graphql } from 'react-relay';
 import routeNameCompare from '@digitransit-search-util/digitransit-search-util-route-name-compare';
-import { mapRoute } from '@digitransit-search-util/digitransit-search-util-helpers';
+import {
+  mapRoute,
+  isStop,
+} from '@digitransit-search-util/digitransit-search-util-helpers';
 import filterMatchingToInput from '@digitransit-search-util/digitransit-search-util-filter-matching-to-input';
-import { isStop } from './suggestionUtils';
-import searchRoutesQuery from './searchRoutes';
-import favouriteStationsQuery from './favouriteStations';
-import favouriteStopsQuery from './favouriteStops';
-import favouriteRoutesQuery from './favouriteRoutes';
 
 let relayEnvironment = null;
 
+const searchRoutesQuery = graphql`
+  query digitransitSearchUtilQueryUtilsSearchRoutesQuery(
+    $feeds: [String!]!
+    $name: String
+  ) {
+    viewer {
+      routes(feeds: $feeds, name: $name) {
+        gtfsId
+        agency {
+          name
+        }
+        shortName
+        mode
+        longName
+        patterns {
+          code
+        }
+      }
+    }
+  }
+`;
+
+const favouriteStationsQuery = graphql`
+  query digitransitSearchUtilQueryUtilsFavouriteStationsQuery(
+    $ids: [String!]!
+  ) {
+    stations(ids: $ids) {
+      gtfsId
+      lat
+      lon
+      name
+    }
+  }
+`;
+
+const favouriteStopsQuery = graphql`
+  query digitransitSearchUtilQueryUtilsFavouriteStopsQuery($ids: [String!]!) {
+    stops(ids: $ids) {
+      gtfsId
+      lat
+      lon
+      name
+      code
+    }
+  }
+`;
+
+const favouriteRoutesQuery = () => {
+  return graphql`
+    query digitransitSearchUtilQueryUtilsFavouriteRoutesQuery(
+      $ids: [String!]!
+    ) {
+      routes(ids: $ids) {
+        gtfsId
+        agency {
+          name
+        }
+        shortName
+        mode
+        longName
+        patterns {
+          code
+        }
+      }
+    }
+  `;
+};
 export function setRelayEnvironment(environment) {
   relayEnvironment = environment;
 }
@@ -64,6 +130,7 @@ export function getFavouriteRoutesQuery(favourites, input) {
       routes.sort((x, y) => routeNameCompare(x.properties, y.properties)),
     );
 }
+
 export function getRoutesQuery(input, feedIds) {
   if (!relayEnvironment) {
     return Promise.resolve([]);
@@ -89,17 +156,29 @@ export function getRoutesQuery(input, feedIds) {
     .then(suggestions => take(suggestions, 10));
 }
 
-export const withCurrentTime = (getStore, location) => {
+export const withCurrentTime = location => {
   const query = (location && location.query) || {};
   return {
     ...location,
     query: {
       ...query,
-      time: query.time
-        ? query.time
-        : getStore('TimeStore')
-            .getCurrentTime()
-            .unix(),
+      time: query.time ? query.time : moment().unix(),
     },
   };
+};
+
+/**
+ * Returns object with time and/or arriveBy keys and values
+ * @param {*} location
+ */
+export const getTimeAndArriveByFromURL = location => {
+  const query = (location && location.query) || {};
+  const object = {};
+  if (query && query.time) {
+    object.time = query.time;
+  }
+  if (query && query.arriveBy) {
+    object.arriveBy = query.arriveBy;
+  }
+  return object;
 };
