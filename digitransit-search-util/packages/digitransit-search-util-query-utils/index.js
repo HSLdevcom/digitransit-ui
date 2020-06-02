@@ -12,7 +12,7 @@ import filterMatchingToInput from '@digitransit-search-util/digitransit-search-u
 let relayEnvironment = null;
 
 const searchRoutesQuery = graphql`
-  query digitransitSearchUtilSearchQueryUtilsSearchRoutesQuery(
+  query digitransitSearchUtilQueryUtilsSearchRoutesQuery(
     $feeds: [String!]!
     $name: String
   ) {
@@ -34,7 +34,7 @@ const searchRoutesQuery = graphql`
 `;
 
 const favouriteStationsQuery = graphql`
-  query digitransitSearchUtilSearchQueryUtilsFavouriteStationsQuery(
+  query digitransitSearchUtilQueryUtilsFavouriteStationsQuery(
     $ids: [String!]!
   ) {
     stations(ids: $ids) {
@@ -47,9 +47,7 @@ const favouriteStationsQuery = graphql`
 `;
 
 const favouriteStopsQuery = graphql`
-  query digitransitSearchUtilSearchQueryUtilsFavouriteStopsQuery(
-    $ids: [String!]!
-  ) {
+  query digitransitSearchUtilQueryUtilsFavouriteStopsQuery($ids: [String!]!) {
     stops(ids: $ids) {
       gtfsId
       lat
@@ -62,7 +60,7 @@ const favouriteStopsQuery = graphql`
 
 const favouriteRoutesQuery = () => {
   return graphql`
-    query digitransitSearchUtilSearchQueryUtilsFavouriteRoutesQuery(
+    query digitransitSearchUtilQueryUtilsFavouriteRoutesQuery(
       $ids: [String!]!
     ) {
       routes(ids: $ids) {

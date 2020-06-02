@@ -7,9 +7,10 @@
     "access": "public"
   },
   "scripts": {
-    "build:index": "webpack --config webpack.config.babel.js && yarn run docs",
+    "build:index": "yarn run relay && webpack --config webpack.config.babel.js && yarn run docs",
     "test": "mocha -r esm test.js",
-    "docs": "node -r esm ../../scripts/generate-readmes"
+    "docs": "node -r esm ../../scripts/generate-readmes",
+    "relay": "relay-compiler --src . --schema schema.json --extensions=js --extensions=jsx --extensions=generated"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
   "dependencies": {
     "lodash": "4.17.14",
     "react-relay": "9.0.0",
+    "relay-compiler": "9.0.0",
     "babel-plugin-relay": "9.0.0"
   },
   "peerDependencies": {
