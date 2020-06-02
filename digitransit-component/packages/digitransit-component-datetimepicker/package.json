@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-datetimepicker",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "digitransit-component datetimepicker module",
   "main": "index.generated",
   "publishConfig": {
