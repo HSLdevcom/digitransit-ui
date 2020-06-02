@@ -292,7 +292,8 @@ export default config => {
           ),
           map: (
             <Route
-              disableMapOnMobile
+              // TODO: Must be decided how we will handle selecting from map!
+              // disableMapOnMobile
               getComponent={() =>
                 import(/* webpackChunkName: "itinerary" */ './component/map/IndexPageMap.js').then(
                   getDefault,

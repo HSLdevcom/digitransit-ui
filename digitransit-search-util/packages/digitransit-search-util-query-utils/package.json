@@ -1,0 +1,36 @@
+{
+  "name": "@digitransit-search-util/digitransit-search-util-query-utils",
+  "version": "0.0.1",
+  "description": "digitransit-search-util query-utils module",
+  "main": "index.generated",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build:index": "yarn run relay && webpack --config webpack.config.babel.js && yarn run docs",
+    "test": "mocha -r esm test.js",
+    "docs": "node -r esm ../../scripts/generate-readmes",
+    "relay": "relay-compiler --src . --schema schema.json --extensions=js --extensions=jsx --extensions=generated"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/HSLdevcom/digitransit-ui.git"
+  },
+  "keywords": [
+    "digitransit-search-util",
+    "QueryUtils"
+  ],
+  "author": "Digitransit Authors",
+  "license": "(AGPL-3.0 OR EUPL-1.2)",
+  "dependencies": {
+    "lodash": "4.17.14",
+    "react-relay": "9.0.0",
+    "relay-compiler": "9.0.0",
+    "babel-plugin-relay": "9.0.0"
+  },
+  "peerDependencies": {
+   "@digitransit-search-util/digitransit-search-util-route-name-compare": "^0.0.1",
+   "@digitransit-search-util/digitransit-search-util-helpers": "^0.0.4",
+   "@digitransit-search-util/digitransit-search-util-filter-matching-to-input": "^0.0.1"
+  }
+}

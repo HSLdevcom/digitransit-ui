@@ -260,6 +260,7 @@
 
 .summary-list-container {
   width: 100%;
+  background-color: $white;
 }
 
 .desktop .summary-list-container {
@@ -293,6 +294,6 @@
 }
 
 .summary-navigation-container {
-  background-color: $background-color-lighter;
+  background-color: #fff;
   flex: 0 0 auto;
 }

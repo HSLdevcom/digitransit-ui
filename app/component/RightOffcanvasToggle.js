@@ -6,7 +6,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { isKeyboardSelectionEvent } from '../util/browser';
 
 export default function RightOffcanvasToggle(
-  { onToggleClick, hasChanges },
+  { onToggleClick },
   { intl: { formatMessage } },
 ) {
   const label = formatMessage({
@@ -26,16 +26,11 @@ export default function RightOffcanvasToggle(
       >
         <div>
           <div className="icon-holder">
-            {hasChanges ? (
-              <Icon img="icon-icon_settings-adjusted" />
-            ) : (
-              <Icon img="icon-icon_settings" />
-            )}
-            {hasChanges ? (
-              <Icon img="icon-icon_attention" className="super-icon" />
-            ) : null}
+            <Icon img="icon-icon_settings" />
           </div>
-          <FormattedMessage id="settings" defaultMessage="Settings" />
+          <span className="settings-button-text">
+            <FormattedMessage id="settings" defaultMessage="Settings" />
+          </span>
         </div>
       </div>
     </div>
@@ -44,11 +39,6 @@ export default function RightOffcanvasToggle(
 
 RightOffcanvasToggle.propTypes = {
   onToggleClick: PropTypes.func.isRequired,
-  hasChanges: PropTypes.bool,
-};
-
-RightOffcanvasToggle.defaultProps = {
-  hasChanges: false,
 };
 
 RightOffcanvasToggle.contextTypes = {
@@ -60,11 +50,8 @@ RightOffcanvasToggle.displayName = 'RightOffcanvasToggle';
 RightOffcanvasToggle.description = () => (
   <div>
     <p>A toggle for the itinerary search preferences.</p>
-    <ComponentUsageExample description="Preferences are default preferences">
+    <ComponentUsageExample>
       <RightOffcanvasToggle onToggleClick={() => {}} />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="User has modified the preferences">
-      <RightOffcanvasToggle onToggleClick={() => {}} hasChanges />
     </ComponentUsageExample>
   </div>
 );

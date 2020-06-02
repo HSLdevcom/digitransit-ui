@@ -12,6 +12,7 @@ import isEmpty from 'lodash/isEmpty';
 import d from 'debug';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
 import loadable from '@loadable/component';
+import { getTimeAndArriveByFromURL } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import getRelayEnvironment from '../util/getRelayEnvironment';
 import {
   initGeolocation,
@@ -34,7 +35,6 @@ import ComponentUsageExample from './ComponentUsageExample';
 import scrollTop from '../util/scroll';
 import FavouritesContainer from './FavouritesContainer';
 import DatetimepickerContainer from './DatetimepickerContainer';
-import { getTimeAndArriveByFromURL } from '../util/queryUtils';
 
 const debug = d('IndexPage.js');
 
@@ -248,7 +248,7 @@ class IndexPage extends React.Component {
             destinationPlaceHolder="search-destination-index"
             lang={lang}
             sources={['Favourite', 'History', 'Datasource']}
-            targets={['Locations', 'CurrentPosition']}
+            targets={['Locations', 'CurrentPosition', 'MapPosition']}
           />
           <CtrlPanel.SeparatorLine />
           <DatetimepickerContainer realtime />

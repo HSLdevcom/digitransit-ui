@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
-import { matchShape, routerShape } from 'found';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import Icon from './Icon';
 import FareZoneSelector from './FareZoneSelector';
@@ -10,28 +10,26 @@ import TransportModesSection from './customizesearch/TransportModesSection';
 import WalkingOptionsSection from './customizesearch/WalkingOptionsSection';
 import AccessibilityOptionSection from './customizesearch/AccessibilityOptionSection';
 import * as ModeUtils from '../util/modeUtils';
-import { getDefaultSettings, getCurrentSettings } from '../util/planParamUtil';
-import { replaceQueryParams } from '../util/queryUtils';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { getDefaultSettings } from '../util/planParamUtil';
 
 class CustomizeSearch extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
-    router: routerShape.isRequired,
-    match: matchShape.isRequired,
     config: PropTypes.object.isRequired,
   };
 
   static propTypes = {
     onToggleClick: PropTypes.func.isRequired,
+    customizedSettings: PropTypes.object.isRequired,
   };
 
   defaultSettings = getDefaultSettings(this.context.config);
 
   render() {
-    const { config, match, intl, router } = this.context;
-    const { onToggleClick } = this.props;
-    const currentSettings = getCurrentSettings(config, match.location.query);
+    const { config, intl } = this.context;
+    const { onToggleClick, customizedSettings } = this.props;
+    // Merge default and customized settings
+    const currentSettings = { ...this.defaultSettings, ...customizedSettings };
     let ticketOptions = [];
     if (config.showTicketSelector && config.availableTickets) {
       Object.keys(config.availableTickets).forEach(key => {
@@ -49,22 +47,26 @@ class CustomizeSearch extends React.Component {
 
     return (
       <div className="customize-search">
-        <button className="close-offcanvas" onClick={onToggleClick}>
+        <button
+          className="close-offcanvas"
+          onClick={() => {
+            onToggleClick(false);
+          }}
+        >
           <Icon className="close-icon" img="icon-icon_close" />
         </button>
         <div className="settings-option-container">
           <h1>
             {intl.formatMessage({
-              id: 'customize-search-header',
+              id: 'settings',
               defaultMessage: 'Settings',
             })}
           </h1>
         </div>
         <div className="settings-option-container">
           <WalkingOptionsSection
-            walkReluctance={currentSettings.walkReluctance}
             walkSpeedOptions={config.defaultOptions.walkSpeed}
-            walkSpeed={currentSettings.walkSpeed}
+            currentSettings={currentSettings}
             defaultSettings={this.defaultSettings}
           />
         </div>
@@ -77,46 +79,19 @@ class CustomizeSearch extends React.Component {
         </div>
         <div className="settings-option-container">
           <StreetModeSelectorPanel
-            selectedStreetMode={ModeUtils.getStreetMode(match.location, config)}
-            selectStreetMode={(streetMode, isExclusive) => {
-              ModeUtils.setStreetMode(
-                streetMode,
-                config,
-                router,
-                match,
-                isExclusive,
-              );
-              addAnalyticsEvent({
-                action: 'SelectTravelingModeFromSettings',
-                category: 'ItinerarySettings',
-                name: streetMode,
-              });
-            }}
+            selectedStreetMode={ModeUtils.getStreetMode(config)}
             streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
             currentSettings={currentSettings}
             defaultSettings={this.defaultSettings}
-            defaultOptions={config.defaultOptions}
           />
         </div>
         <div className="settings-option-container">
-          <AccessibilityOptionSection
-            currentSettings={currentSettings}
-            router={router}
-            match={match}
-          />
+          <AccessibilityOptionSection currentSettings={currentSettings} />
         </div>
         {config.showTicketSelector && (
           <FareZoneSelector
             options={ticketOptions}
             currentOption={currentSettings.ticketTypes || 'none'}
-            updateValue={value => {
-              replaceQueryParams(router, match, { ticketTypes: value });
-              addAnalyticsEvent({
-                category: 'ItinerarySettings',
-                action: 'ChangeFareZones',
-                name: value,
-              });
-            }}
           />
         )}
       </div>
@@ -124,4 +99,14 @@ class CustomizeSearch extends React.Component {
   }
 }
 
-export default CustomizeSearch;
+const withStore = connectToStores(
+  CustomizeSearch,
+  ['RoutingSettingsStore'],
+  context => ({
+    customizedSettings: context
+      .getStore('RoutingSettingsStore')
+      .getRoutingSettings(),
+  }),
+);
+
+export { withStore as default, CustomizeSearch as component };

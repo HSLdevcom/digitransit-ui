@@ -38,6 +38,7 @@ import MessageStore from '../store/MessageStore';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { otpToLocation, addressToItinerarySearch } from '../util/otpStrings';
 import { startLocationWatch } from '../action/PositionActions';
+import { SettingsDrawer } from './SettingsDrawer';
 
 import {
   startRealTimeClient,
@@ -480,6 +481,39 @@ class SummaryPage extends React.Component {
     );
   }
 
+  getOffcanvasState = () =>
+    (this.props.match.location.state &&
+      this.props.match.location.state.customizeSearchOffcanvas) ||
+    false;
+
+  toggleCustomizeSearchOffcanvas = () => {
+    this.internalSetOffcanvas(!this.getOffcanvasState());
+  };
+
+  onRequestChange = newState => {
+    this.internalSetOffcanvas(newState);
+  };
+
+  internalSetOffcanvas = newState => {
+    addAnalyticsEvent({
+      event: 'sendMatomoEvent',
+      category: 'ItinerarySettings',
+      action: 'ExtraSettingsPanelClick',
+      name: newState ? 'ExtraSettingsPanelOpen' : 'ExtraSettingsPanelClose',
+    });
+    if (newState) {
+      this.context.router.push({
+        ...this.props.match.location,
+        state: {
+          ...this.props.match.location.state,
+          customizeSearchOffcanvas: newState,
+        },
+      });
+    } else {
+      this.context.router.go(-1);
+    }
+  };
+
   render() {
     const { match, error } = this.props;
 
@@ -502,19 +536,16 @@ class SummaryPage extends React.Component {
     }
 
     // Call props.map directly in order to render to same map instance
-    let map;
-    if (this.props.breakpoint === 'large') {
-      map = this.props.map
-        ? this.props.map.type(
-            {
-              itinerary: itineraries && itineraries[match.params.hash],
-              center: this.state.center,
-              ...this.props,
-            },
-            this.context,
-          )
-        : this.renderMap();
-    }
+    let map = this.props.map
+      ? this.props.map.type(
+          {
+            itinerary: itineraries && itineraries[match.params.hash],
+            center: this.state.center,
+            ...this.props,
+          },
+          this.context,
+        )
+      : this.renderMap();
 
     let earliestStartTime;
     let latestArrivalTime;
@@ -598,9 +629,16 @@ class SummaryPage extends React.Component {
               serviceTimeRange={serviceTimeRange}
               startTime={earliestStartTime}
               endTime={latestArrivalTime}
+              toggleSettings={this.toggleCustomizeSearchOffcanvas}
             />
           }
           content={content}
+          settingsDrawer={
+            <SettingsDrawer
+              open={this.getOffcanvasState()}
+              onToggleClick={this.toggleCustomizeSearchOffcanvas}
+            />
+          }
           map={map}
           scrollable
           bckBtnColor={this.context.config.colors.primary}
@@ -639,6 +677,7 @@ class SummaryPage extends React.Component {
         </MobileItineraryWrapper>
       );
     } else {
+      map = undefined;
       content = (
         <>
           <SummaryPlanContainer
@@ -668,6 +707,7 @@ class SummaryPage extends React.Component {
               serviceTimeRange={serviceTimeRange}
               startTime={earliestStartTime}
               endTime={latestArrivalTime}
+              toggleSettings={this.toggleCustomizeSearchOffcanvas}
             />
           ) : (
             false
@@ -675,6 +715,13 @@ class SummaryPage extends React.Component {
         }
         content={content}
         map={map}
+        settingsDrawer={
+          <SettingsDrawer
+            open={this.getOffcanvasState()}
+            onToggleClick={this.toggleCustomizeSearchOffcanvas}
+            mobile
+          />
+        }
       />
     );
   }

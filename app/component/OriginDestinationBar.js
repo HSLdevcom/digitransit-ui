@@ -4,7 +4,8 @@ import React from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import loadable from '@loadable/component';
-import { withCurrentTime } from '../util/DTSearchQueryUtils';
+import { withCurrentTime } from '@digitransit-search-util/digitransit-search-util-query-utils';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import ComponentUsageExample from './ComponentUsageExample';
 import { PREFIX_ITINERARY_SUMMARY, navigateTo } from '../util/path';
 import withSearchContext from './WithSearchContext';
@@ -37,6 +38,7 @@ class OriginDestinationBar extends React.Component {
     destination: dtLocationShape,
     origin: dtLocationShape,
     location: PropTypes.object,
+    language: PropTypes.string,
   };
 
   static contextTypes = {
@@ -49,6 +51,7 @@ class OriginDestinationBar extends React.Component {
   static defaultProps = {
     className: undefined,
     location: undefined,
+    language: 'fi',
   };
 
   get location() {
@@ -64,7 +67,7 @@ class OriginDestinationBar extends React.Component {
 
   swapEndpoints = () => {
     const { location } = this;
-    const locationWithTime = withCurrentTime(this.context.getStore, location);
+    const locationWithTime = withCurrentTime(location);
     const intermediatePlaces = getIntermediatePlaces(location.query);
     if (intermediatePlaces.length > 1) {
       location.query.intermediatePlaces.reverse();
@@ -104,6 +107,7 @@ class OriginDestinationBar extends React.Component {
           swapOrder={this.swapEndpoints}
           sources={['Favourite', 'History', 'Datasource']}
           targets={['Locations', 'CurrentPosition']}
+          lang={this.props.language}
         />{' '}
       </div>
     );
@@ -144,4 +148,12 @@ OriginDestinationBar.description = (
   </React.Fragment>
 );
 
-export default OriginDestinationBar;
+const connectedComponent = connectToStores(
+  OriginDestinationBar,
+  ['PreferencesStore'],
+  context => ({
+    language: context.getStore('PreferencesStore').getLanguage(),
+  }),
+);
+
+export { connectedComponent as default, OriginDestinationBar as Component };

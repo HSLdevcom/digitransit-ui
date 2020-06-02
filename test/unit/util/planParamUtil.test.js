@@ -17,7 +17,7 @@ const defaultProps = [
 
 describe('planParamUtil', () => {
   describe('preparePlanParams', () => {
-    it('should return mode defaults from config if modes are missing from both the current URI and localStorage', () => {
+    it('should return mode defaults from config if modes are missing from the localStorage', () => {
       const config = {
         modeToOTP: {
           bus: 'bus',
@@ -497,6 +497,9 @@ describe('planParamUtil', () => {
     });
 
     it('should have disableRemainingWeightHeuristic as false when CITYBIKE is not selected nor BICYCLE + TRANSIT + viapoints at the same time', () => {
+      setCustomizedSettings({
+        modes: ['BICYCLE', 'FERRY', 'SUBWAY', 'RAIL'],
+      });
       const params = utils.preparePlanParams(defaultConfig)(
         {
           from,
@@ -504,9 +507,7 @@ describe('planParamUtil', () => {
         },
         {
           location: {
-            query: {
-              modes: 'BICYCLE,FERRY,SUBWAY,RAIL',
-            },
+            query: {},
           },
         },
       );
@@ -515,6 +516,9 @@ describe('planParamUtil', () => {
     });
 
     it('should have disableRemainingWeightHeuristic as true when CITYBIKE is selected', () => {
+      setCustomizedSettings({
+        modes: ['CITYBIKE', 'BUS', 'TRAM', 'FERRY', 'SUBWAY', 'RAIL'],
+      });
       const params = utils.preparePlanParams(defaultConfig)(
         {
           from,
@@ -522,9 +526,7 @@ describe('planParamUtil', () => {
         },
         {
           location: {
-            query: {
-              modes: 'CITYBIKE,BUS,TRAM,FERRY,SUBWAY,RAIL',
-            },
+            query: {},
           },
         },
       );
@@ -535,6 +537,9 @@ describe('planParamUtil', () => {
     });
 
     it('should have disableRemainingWeightHeuristic as true when BICYCLE + TRANSIT + viapoints at the same time', () => {
+      setCustomizedSettings({
+        modes: ['BICYCLE', 'FERRY', 'SUBWAY', 'RAIL'],
+      });
       const params = utils.preparePlanParams(defaultConfig)(
         {
           from,
@@ -543,7 +548,6 @@ describe('planParamUtil', () => {
         {
           location: {
             query: {
-              modes: 'BICYCLE,FERRY,SUBWAY,RAIL',
               intermediatePlaces: 'Vantaa,+Vantaa::60.298134,25.006641',
             },
           },

@@ -14,7 +14,6 @@ import { AlertSeverityLevelType } from '../../../app/constants';
 import RouteNumberContainer from '../../../app/component/RouteNumberContainer';
 
 import dcw12 from '../test-data/dcw12';
-import dcw31 from '../test-data/dcw31';
 import dt2830 from '../test-data/dt2830';
 
 const defaultProps = {
@@ -26,71 +25,6 @@ const defaultProps = {
 };
 
 describe('<SummaryRow />', () => {
-  it('should not show walking distance in desktop view for biking-only itineraries', () => {
-    const props = {
-      ...defaultProps,
-      data: dcw31.onlyBiking,
-      refTime: dcw31.onlyBiking.startTime,
-    };
-    const wrapper = shallowWithIntl(<SummaryRow {...props} />, {
-      context: { config: {} },
-    });
-    expect(wrapper.find('.itinerary-walking-distance')).to.have.lengthOf(0);
-  });
-
-  it('should not show walking distance in mobile view for biking-only itineraries', () => {
-    const props = {
-      ...defaultProps,
-      breakpoint: 'small',
-      data: dcw31.onlyBiking,
-      refTime: dcw31.onlyBiking.startTime,
-    };
-    const wrapper = shallowWithIntl(<SummaryRow {...props} />, {
-      context: { config: {} },
-    });
-    expect(wrapper.find('.itinerary-walking-distance')).to.have.lengthOf(0);
-  });
-
-  it('should show biking distance before walking distance in desktop view', () => {
-    const props = {
-      ...defaultProps,
-      data: dcw31.bikingAndWalking,
-      refTime: dcw31.bikingAndWalking.startTime,
-    };
-    const wrapper = shallowWithIntl(<SummaryRow {...props} />, {
-      context: { config: {} },
-    });
-    expect(
-      wrapper
-        .find('.itinerary-duration-and-distance')
-        .childAt(1)
-        .prop('className'),
-    ).to.equal('itinerary-biking-distance');
-    expect(
-      wrapper
-        .find('.itinerary-duration-and-distance')
-        .childAt(2)
-        .prop('className'),
-    ).to.equal('itinerary-walking-distance');
-  });
-
-  it('should show biking distance instead of walking distance in mobile view for biking-only itineraries', () => {
-    const props = {
-      ...defaultProps,
-      breakpoint: 'small',
-      data: dcw31.onlyBiking,
-      refTime: dcw31.onlyBiking.startTime,
-    };
-    const wrapper = shallowWithIntl(<SummaryRow {...props} />, {
-      context: { config: {} },
-    });
-    expect(
-      wrapper.find(
-        '.itinerary-duration-and-distance > .itinerary-biking-distance',
-      ),
-    ).to.have.lengthOf(1);
-  });
-
   it('should display both walking legs in the summary view', () => {
     const props = {
       ...defaultProps,
@@ -104,8 +38,8 @@ describe('<SummaryRow />', () => {
       context: { config: {} },
     });
 
-    expect(wrapper.find('.itinerary-legs').children()).to.have.lengthOf(3);
-    expect(wrapper.find(ModeLeg)).to.have.lengthOf(2);
+    expect(wrapper.find('.itinerary-legs').children()).to.have.lengthOf(4);
+    expect(wrapper.find(ModeLeg)).to.have.lengthOf(3); // two walk legs and a wait leg
     expect(wrapper.find(ViaLeg)).to.have.lengthOf(1);
   });
 
@@ -125,12 +59,9 @@ describe('<SummaryRow />', () => {
       },
       childContextTypes: { ...mockChildContextTypes },
     });
-
     const legs = wrapper.find('.itinerary-legs');
-    expect(legs.children()).to.have.lengthOf(5);
-    expect(legs.childAt(0).text()).to.contain('Velodrominrinne');
-    expect(legs.childAt(2).text()).to.contain('Näkinsilta');
-    expect(legs.childAt(4).text()).to.contain('Albertinkatu');
+    expect(legs.find(ModeLeg)).to.have.lengthOf.above(3);
+    expect(wrapper.find(ViaLeg)).to.have.lengthOf(2);
   });
 
   it('should hide short legs from the summary view for a non-transit itinerary', () => {
@@ -148,34 +79,12 @@ describe('<SummaryRow />', () => {
     });
 
     const legs = wrapper.find('.itinerary-legs');
-    expect(legs.children()).to.have.lengthOf(6);
+    expect(legs.children()).to.have.lengthOf(5);
     expect(legs.childAt(0).is(ModeLeg)).to.equal(true);
     expect(legs.childAt(1).is(ViaLeg)).to.equal(true);
     expect(legs.childAt(2).is(ModeLeg)).to.equal(true);
     expect(legs.childAt(3).is(ViaLeg)).to.equal(true);
     expect(legs.childAt(4).is(ModeLeg)).to.equal(true);
-    expect(legs.childAt(5).is(ModeLeg)).to.equal(true);
-  });
-
-  it('should ignore locationSlack when hiding short legs', () => {
-    const props = {
-      ...defaultProps,
-      data: dcw12.shortRailRouteWithLongSlacktime.data,
-      intermediatePlaces:
-        dcw12.shortRailRouteWithLongSlacktime.intermediatePlaces,
-      passive: false,
-      refTime: dcw12.shortRailRouteWithLongSlacktime.refTime,
-    };
-    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
-      context: { ...mockContext },
-      childContextTypes: { ...mockChildContextTypes },
-    });
-
-    const legs = wrapper.find('.itinerary-legs');
-    expect(legs.children()).to.have.lengthOf(4);
-    expect(legs.childAt(1).is(RouteLeg)).to.equal(true);
-    expect(legs.childAt(2).is(ViaLeg)).to.equal(true);
-    expect(legs.childAt(3).is(RouteLeg)).to.equal(true);
   });
 
   it('should show a connecting walk leg between via points for transit itinerary', () => {
@@ -193,13 +102,9 @@ describe('<SummaryRow />', () => {
       childContextTypes: { ...mockChildContextTypes },
     });
 
-    const legs = wrapper.find('.itinerary-legs');
-    expect(legs.children()).to.have.lengthOf(6);
-    expect(legs.childAt(1).is(RouteLeg)).to.equal(true);
-    expect(legs.childAt(2).is(ViaLeg)).to.equal(true);
-    expect(legs.childAt(3).is(ModeLeg)).to.equal(true);
-    expect(legs.childAt(4).is(ViaLeg)).to.equal(true);
-    expect(legs.childAt(5).is(RouteLeg)).to.equal(true);
+    expect(wrapper.find(ViaLeg)).to.have.lengthOf(2);
+    expect(wrapper.find(RouteLeg)).to.have.lengthOf(2);
+    expect(wrapper.find(ModeLeg)).to.have.lengthOf.above(0);
   });
 
   it('should show a connecting walk leg between last via point and end for transit itinerary', () => {
@@ -220,9 +125,8 @@ describe('<SummaryRow />', () => {
 
     const legs = wrapper.find('.itinerary-legs');
     expect(legs.children()).to.have.lengthOf(4);
-    expect(legs.childAt(1).is(RouteLeg)).to.equal(true);
-    expect(legs.childAt(2).is(ViaLeg)).to.equal(true);
-    expect(legs.childAt(3).is(ModeLeg)).to.equal(true);
+    expect(legs.childAt(0).is(RouteLeg)).to.equal(true);
+    expect(legs.childAt(legs.length).is(ModeLeg)).to.equal(true);
   });
 
   it('should show a connecting walk leg between start and first via point for transit itinerary', () => {
@@ -243,9 +147,8 @@ describe('<SummaryRow />', () => {
 
     const legs = wrapper.find('.itinerary-legs');
     expect(legs.children()).to.have.lengthOf(4);
-    expect(legs.childAt(1).is(ModeLeg)).to.equal(true);
-    expect(legs.childAt(2).is(ViaLeg)).to.equal(true);
-    expect(legs.childAt(3).is(RouteLeg)).to.equal(true);
+    expect(legs.childAt(0).is(ModeLeg)).to.equal(true);
+    expect(legs.childAt(1).is(ViaLeg)).to.equal(true);
   });
 
   it('should show a via point for transit itinerary when the via point is at a stop', () => {
@@ -262,11 +165,7 @@ describe('<SummaryRow />', () => {
       childContextTypes: { ...mockChildContextTypes },
     });
 
-    const legs = wrapper.find('.itinerary-legs');
-    expect(legs.children()).to.have.lengthOf(4);
-    expect(legs.childAt(1).is(RouteLeg)).to.equal(true);
-    expect(legs.childAt(2).is(ViaLeg)).to.equal(true);
-    expect(legs.childAt(3).is(RouteLeg)).to.equal(true);
+    expect(wrapper.find(ViaLeg)).to.have.lengthOf(1);
   });
 
   it('should show the really short first walking leg for a transit itinerary', () => {
@@ -283,15 +182,9 @@ describe('<SummaryRow />', () => {
       childContextTypes: { ...mockChildContextTypes },
     });
 
-    const legs = wrapper.find('.itinerary-legs');
-    expect(legs.children()).to.have.lengthOf(8);
-    expect(legs.childAt(1).is(ModeLeg)).to.equal(true);
-    expect(legs.childAt(2).is(ViaLeg)).to.equal(true);
-    expect(legs.childAt(3).is(RouteLeg)).to.equal(true);
-    expect(legs.childAt(4).is(ViaLeg)).to.equal(true);
-    expect(legs.childAt(5).is(RouteLeg)).to.equal(true);
-    expect(legs.childAt(6).is(ViaLeg)).to.equal(true);
-    expect(legs.childAt(7).is(ModeLeg)).to.equal(true);
+    expect(wrapper.find(ViaLeg)).to.have.lengthOf(3);
+    expect(wrapper.find(RouteLeg)).to.have.lengthOf(2);
+    expect(wrapper.find(ModeLeg)).to.have.lengthOf.above(2);
   });
 
   it('should indicate which itineraries are canceled', () => {

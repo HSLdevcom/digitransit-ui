@@ -11,13 +11,8 @@ import { isMobile } from '../util/browser';
 const LONG_ROUTE_NUMBER_LENGTH = 6;
 
 function RouteNumber(props, context) {
-  let mode = props.mode.toLowerCase();
+  const mode = props.mode.toLowerCase();
   const { alertSeverityLevel, color } = props;
-
-  if (mode === 'bicycle' || mode === 'car') {
-    mode += '-withoutBox';
-  }
-
   const longText = props.text && props.text.length >= LONG_ROUTE_NUMBER_LENGTH;
   // Checks if route only has letters without identifying numbers and
   // length doesn't fit in the tab view
@@ -80,7 +75,7 @@ function RouteNumber(props, context) {
         })}
         role="img"
       >
-        {props.vertical === true ? (
+        {props.isTransitLeg === true ? (
           <div className={`special-icon ${mode}`}>
             {getIcon(
               props.icon,
@@ -91,7 +86,9 @@ function RouteNumber(props, context) {
             )}
           </div>
         ) : (
-          getIcon(props.icon, props.isCallAgency, props.hasDisruption)
+          <div className={`icon ${mode}`}>
+            {getIcon(props.icon, props.isCallAgency, props.hasDisruption)}
+          </div>
         )}
         {props.withBar && (
           <div className="bar-container">
@@ -107,24 +104,9 @@ function RouteNumber(props, context) {
         )}
       </span>
       {props.text &&
-        (props.vertical === false ? (
-          <span
-            style={{
-              color: props.color ? props.color : null,
-              fontSize: longText && isMobile ? '17px' : null,
-            }}
-            className={cx('vehicle-number', mode, {
-              'overflow-fade': longText && props.fadeLong,
-              long: longText,
-              hasNoShortName: hasNoShortName && longText && props.isRouteView,
-            })}
-          >
-            {props.text}
-          </span>
-        ) : (
+        (props.renderNumber === true && (
           <div className="vehicle-number-container-v">
             <span
-              style={{ color: props.color ? props.color : null }}
               className={cx('vehicle-number', mode, {
                 'overflow-fade': longText && props.fadeLong,
                 long: longText,
@@ -132,6 +114,12 @@ function RouteNumber(props, context) {
             >
               {props.text}
             </span>
+          </div>
+        ))}
+      {props.renderNumber === true &&
+        (props.isTransitLeg === false && (
+          <div className={`leg-duration-container ${mode} `}>
+            <span className="leg-duration">{props.walkingTime}</span>
           </div>
         ))}
     </span>
@@ -209,7 +197,9 @@ RouteNumber.propTypes = {
   badgeFill: PropTypes.string,
   badgeText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   icon: PropTypes.string,
-  isRouteView: PropTypes.bool,
+  renderNumber: PropTypes.bool,
+  walkingTime: PropTypes.number,
+  isTransitLeg: PropTypes.bool,
 };
 
 RouteNumber.defaultProps = {
@@ -223,8 +213,8 @@ RouteNumber.defaultProps = {
   text: '',
   withBar: false,
   isCallAgency: false,
-  isRouteView: false,
   icon: undefined,
+  renderNumber: true,
 };
 
 RouteNumber.contextTypes = {

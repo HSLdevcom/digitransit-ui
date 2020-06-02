@@ -29,8 +29,10 @@ import Attention from './assets/attention.svg';
 import Dropdown from './assets/dropdown.svg';
 import Time from './assets/time.svg';
 import Ellipsis from './assets/ellipsis.svg';
-import DirectionB from './assets/direction_b.svg';
+import Opposite from './assets/opposite.svg';
+import Viapoint from './assets/viapoint.svg';
 import Calendar from './assets/calendar.svg';
+import SelectFromMap from './assets/select-from-map.svg';
 
 const IconMap = style => {
   return {
@@ -63,8 +65,10 @@ const IconMap = style => {
     'arrow-dropdown': <Dropdown style={style} />,
     time: <Time style={style} />,
     ellipsis: <Ellipsis style={style} />,
-    'direction-b': <DirectionB style={style} />,
+    opposite: <Opposite style={style} />,
+    viapoint: <Viapoint style={style} />,
     calendar: <Calendar style={style} />,
+    'select-from-map': <SelectFromMap style={style} />,
   };
 };
 
@@ -87,7 +91,7 @@ const Icon = ({ color, img, height, width, rotate }) => {
     transform: rotate ? `rotate(${rotate}deg)` : null,
   };
   const icons = IconMap(style);
-  return <span aria-hidden>{icons[img]}</span>;
+  return <React.Fragment>{icons[img]}</React.Fragment>;
 };
 
 Icon.propTypes = {

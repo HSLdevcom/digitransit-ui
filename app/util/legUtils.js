@@ -32,6 +32,16 @@ export function isCallAgencyDeparture(departure) {
   return departure.pickupType === 'CALL_AGENCY';
 }
 
+const sameBicycleNetwork = (leg1, leg2) => {
+  if (leg1.from.bikeRentalStation && leg2.from.bikeRentalStation) {
+    return (
+      leg1.from.bikeRentalStation.networks[0] ===
+      leg2.from.bikeRentalStation.networks[0]
+    );
+  }
+  return true;
+};
+
 /**
  * Checks if both of the legs exist and are taken with a rented bicycle (rentedBike === true).
  *
@@ -42,7 +52,8 @@ const continueWithRentedBicycle = (leg1, leg2) =>
   leg1 != null &&
   leg1.rentedBike === true &&
   leg2 != null &&
-  leg2.rentedBike === true;
+  leg2.rentedBike === true &&
+  sameBicycleNetwork(leg1, leg2);
 
 /**
  * The leg mode depicts different types of leg available.
@@ -85,9 +96,17 @@ export const getLegMode = legOrMode => {
  * @param {*} leg1 the first leg
  * @param {*} leg2 the second leg
  */
-const continueWithBicycle = (leg1, leg2) =>
-  getLegMode(leg1) === LegMode.Bicycle && getLegMode(leg2) === LegMode.Bicycle;
+const continueWithBicycle = (leg1, leg2) => {
+  const isBicycle1 =
+    leg1.mode === LegMode.Bicycle || leg1.mode === LegMode.Walk;
+  const isBicycle2 =
+    leg2.mode === LegMode.Bicycle || leg2.mode === LegMode.Walk;
+  return isBicycle1 && isBicycle2;
+};
 
+const bikingEnded = leg1 => {
+  return leg1.from.bikeRentalStation && leg1.mode === 'WALK';
+};
 /**
  * Compresses the incoming legs (affects only legs with mode BICYCLE, WALK or CITYBIKE). These are combined
  * so that the person will be walking their bicycle and there won't be multiple similar legs
@@ -105,19 +124,16 @@ export const compressLegs = originalLegs => {
         !originalLegs[1].rentedBike));
   const compressedLegs = [];
   let compressedLeg;
-
   forEach(originalLegs, currentLeg => {
     if (!compressedLeg) {
       compressedLeg = cloneDeep(currentLeg);
       return;
     }
-
     if (currentLeg.intermediatePlace) {
       compressedLegs.push(compressedLeg);
       compressedLeg = cloneDeep(currentLeg);
       return;
     }
-
     if (usingOwnBicycle && continueWithBicycle(compressedLeg, currentLeg)) {
       compressedLeg.duration += currentLeg.duration;
       compressedLeg.distance += currentLeg.distance;
@@ -129,12 +145,13 @@ export const compressLegs = originalLegs => {
 
     if (
       currentLeg.rentedBike &&
-      continueWithRentedBicycle(compressedLeg, currentLeg)
+      continueWithRentedBicycle(compressedLeg, currentLeg) &&
+      !bikingEnded(currentLeg)
     ) {
       compressedLeg.duration += currentLeg.duration;
       compressedLeg.distance += currentLeg.distance;
       compressedLeg.to = currentLeg.to;
-      compressedLeg.endTime += currentLeg.endTime;
+      compressedLeg.endTime = currentLeg.endTime;
       compressedLeg.mode = LegMode.CityBike;
       return;
     }
@@ -154,7 +171,6 @@ export const compressLegs = originalLegs => {
   if (compressedLeg) {
     compressedLegs.push(compressedLeg);
   }
-
   return compressedLegs;
 };
 

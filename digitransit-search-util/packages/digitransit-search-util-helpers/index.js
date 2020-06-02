@@ -20,11 +20,14 @@ const LayerType = {
   FavouriteStation: 'favouriteStation',
   FavouritePlace: 'favouritePlace',
   Station: 'station',
+  SelectFromMap: 'selectFromMap',
   Stop: 'stop',
   Street: 'street',
   Venue: 'venue',
 };
 const PREFIX_ROUTES = 'linjat';
+export const isStop = ({ layer }) =>
+  layer === 'stop' || layer === 'favouriteStop';
 
 export const mapRoute = item => {
   if (item === null || item === undefined) {
@@ -91,7 +94,11 @@ export const getLayerRank = (layer, source) => {
   switch (layer) {
     case LayerType.CurrentPosition:
       return 1;
+    case LayerType.SelectFromMap:
+      return 0.8;
     case LayerType.FavouriteStation:
+    case LayerType.FavouritePlace:
+    case LayerType.FavouriteStop:
       return 0.45;
     case LayerType.Station: {
       if (isString(source) && source.indexOf('gtfs') === 0) {
@@ -99,10 +106,6 @@ export const getLayerRank = (layer, source) => {
       }
       return 0.43;
     }
-    case LayerType.FavouritePlace:
-      return 0.42;
-    case LayerType.FavouriteStop:
-      return 0.41;
     default:
       // venue, address, street, route-xxx
       return 0.4;
