@@ -22,6 +22,7 @@ moment.tz.setDefault('Europe/Helsinki');
  * @param {function} props.onDepartureClick         Called with (time) when "departure" button is clicked. time is current input value in seconds
  * @param {function} props.onArrivalClick           Called with (time) when "arrival" button is clicked. time is current input value in seconds
  * @param {node} props.embedWhenClosed              JSX element to render in the corner when input is closed
+ * @param {string} props.lang                       Language selection. Default 'en'
  *
  * @example
  * <Datetimepicker
@@ -34,6 +35,7 @@ moment.tz.setDefault('Europe/Helsinki');
  *   onDepartureClick={(time) => changeUrl(time, 'true')}
  *   onArrivalClick={(time) => changeUrl(time, undefined)}
  *   embedWhenClosed={<button />}
+ *   lang={'en'}
  * />
  */
 function DatetimepickerStateContainer({
@@ -46,6 +48,7 @@ function DatetimepickerStateContainer({
   onDateChange,
   onNowClick,
   embedWhenClosed,
+  lang,
 }) {
   const initialNow = realtime ? null : moment().valueOf();
   const [timestamp, changeTimestampState] = useState(
@@ -157,6 +160,7 @@ function DatetimepickerStateContainer({
       onDepartureClick={departureClicked}
       onArrivalClick={arrivalClicked}
       embedWhenClosed={embedWhenClosed}
+      lang={lang}
     />
   );
 }
@@ -171,6 +175,7 @@ DatetimepickerStateContainer.propTypes = {
   onDateChange: PropTypes.func.isRequired,
   onNowClick: PropTypes.func.isRequired,
   embedWhenClosed: PropTypes.node,
+  lang: PropTypes.string,
 };
 
 DatetimepickerStateContainer.defaultProps = {
@@ -178,6 +183,7 @@ DatetimepickerStateContainer.defaultProps = {
   initialArriveBy: undefined,
   initialTimestamp: undefined,
   embedWhenClosed: null,
+  lang: 'en',
 };
 
 export default DatetimepickerStateContainer;
