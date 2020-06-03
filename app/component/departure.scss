@@ -57,6 +57,7 @@
   color: $black;
   @include font-narrow-book;
   font-size: $font-size-normal;
+  padding-right: 1em;
   .vehicle-number {
     mask-image: none;
   }

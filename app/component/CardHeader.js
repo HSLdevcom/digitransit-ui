@@ -42,7 +42,7 @@ const CardHeader = (
           icon="icon-icon_arrow-collapse--left"
           color={backButtonColor}
           iconClassName="arrow-icon"
-          customStyle={{ alignItems: 'center', marginRight: '1em' }}
+          customStyle={{ marginRight: '1em', marginTop: '0.4em' }}
         />
       )}
       <div className="card-header-content">

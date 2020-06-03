@@ -27,9 +27,6 @@
   @media print {
     padding-left: 0;
   }
-  .card-header-content {
-    padding-top: 2em;
-  }
 }
 
 .stop-no-alerts-container,
@@ -116,7 +113,7 @@
   display: flex;
   background-color: #dddddd;
   border-radius: 5px;
-  margin: 0.5em 2em 1em 2em;
+  margin: 0.5em 4em 1em 4em;
   position: relative;
   > button {
     outline: 0;
@@ -220,7 +217,7 @@
 }
 
 .stop-page-departure-wrapper {
-  padding: 0em 2em 0em 2em;
+  padding: 0em 3.75em 0em 3.75em;
 }
 
 .stop-page-tab_icon {
