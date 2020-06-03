@@ -24,6 +24,10 @@ export const getOldSearches = (context, type) => {
   return context.getStore('OldSearchesStore').getOldSearches(type);
 };
 
+export const clearOldSearches = context => {
+  return context.getStore('OldSearchesStore').clearOldSearches();
+};
+
 export const getLanguage = context => {
   return context.getStore('PreferencesStore').getLanguage();
 };

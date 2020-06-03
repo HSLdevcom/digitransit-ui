@@ -12,6 +12,7 @@ import {
   getOldSearches,
   getFavouriteStops,
   getLanguage,
+  clearOldSearches,
 } from './storeUtils';
 import { startLocationWatch } from '../action/PositionActions';
 import { saveSearch } from '../action/SearchActions';
@@ -49,4 +50,5 @@ export default function intializeSearchContext(
   searchContext.getFavouriteRoutesQuery = getFavouriteRoutesQuery;
   searchContext.startLocationWatch = startLocationWatch;
   searchContext.saveSearch = saveSearch;
+  searchContext.clearOldSearches = clearOldSearches;
 }
