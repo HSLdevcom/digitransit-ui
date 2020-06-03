@@ -89,6 +89,15 @@ class OldSearchesStore extends Store {
       .map(item => item.item);
   }
 
+  clearOldSearches() {
+    const storage = {
+      version: STORE_VERSION,
+      items: [],
+    };
+    setOldSearchesStorage(storage);
+    this.emitChange();
+  }
+
   static handlers = {
     SaveSearch: 'saveSearch',
   };
