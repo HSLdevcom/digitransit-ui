@@ -2,7 +2,6 @@ $small-map-height: 10rem;
 $stop-thin-opacity: 0.2;
 
 div.map {
-  width: 100%;
   max-height: 100%;
   position: relative;
   .leaflet-container .leaflet-control-attribution {
@@ -234,6 +233,9 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
     width: 18rem !important;
     &.leaflet-popup-scrolled {
       overflow: inherit;
+    }
+    .card-sub-header {
+      display: flex;
     }
   }
   .card {

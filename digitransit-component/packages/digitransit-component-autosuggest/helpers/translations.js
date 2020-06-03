@@ -45,6 +45,7 @@ const translations = {
     'use-own-position': 'Use current location',
     'select-from-map': 'Select position from map',
     venue: 'Venue',
+    'via-point': 'Via point',
     where: 'Where to?',
   },
   fi: {
@@ -93,6 +94,7 @@ const translations = {
     'use-own-position': 'Käytä nykyistä sijaintia',
     'select-from-map': 'Valitse sijainti kartalta',
     venue: 'Paikka',
+    'via-point': 'Välipiste',
     where: 'Minne mennään?',
   },
   sv: {
@@ -140,6 +142,7 @@ const translations = {
     'use-own-position': 'Använd min position',
     'select-from-map': 'Välj position från kartan',
     venue: 'Mötesplats',
+    'via-point': 'Via punkt',
     where: 'Var till?',
   },
 };

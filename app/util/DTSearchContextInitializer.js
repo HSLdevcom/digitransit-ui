@@ -4,7 +4,7 @@ import {
   getStopAndStationsQuery,
   getFavouriteRoutesQuery,
   setRelayEnvironment,
-} from './DTSearchQueryUtils';
+} from '@digitransit-search-util/digitransit-search-util-query-utils';
 import {
   getPositions,
   getFavouriteLocations,

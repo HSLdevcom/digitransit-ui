@@ -45,7 +45,7 @@ class TerminalPageContent extends React.Component {
       );
     }
     return (
-      <React.Fragment>
+      <div className="stop-page-departure-wrapper stop-scroll-container momentum-scroll">
         <DepartureListHeader />
         <div className="stop-scroll-container momentum-scroll">
           <DepartureListContainer
@@ -55,13 +55,13 @@ class TerminalPageContent extends React.Component {
             routeLinks
             infiniteScroll
             isTerminal
-            rowClasses="padding-normal border-bottom"
+            rowClasses="padding-vertical-normal border-bottom"
             currentTime={this.props.currentTime}
             showPlatformCodes
             isTerminalPage
           />
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }

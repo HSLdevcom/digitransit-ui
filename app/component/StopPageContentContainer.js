@@ -45,7 +45,7 @@ class StopPageContent extends React.Component {
       );
     }
     return (
-      <React.Fragment>
+      <div className="stop-page-departure-wrapper stop-scroll-container momentum-scroll">
         <DepartureListHeader />
         <div className="stop-scroll-container momentum-scroll">
           <DepartureListContainer
@@ -54,13 +54,13 @@ class StopPageContent extends React.Component {
             className="stop-page momentum-scroll"
             routeLinks
             infiniteScroll
-            rowClasses="padding-normal border-bottom"
+            rowClasses="padding-vertical-normal border-bottom"
             currentTime={this.props.currentTime}
             showPlatformCodes
             isStopPage
           />
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }

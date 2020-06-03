@@ -1,11 +1,15 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import debounce from 'lodash/debounce';
 import Datetimepicker from './helpers/Datetimepicker';
 
+moment.tz.setDefault('Europe/Helsinki');
+
 /**
- * This is the container component that renders Datetimepicker. Renders separate input fields for date and time selection. Values for timestamp and arriveBy correspond to Digitransit query params time and arriveBy.
+ * This component renders an input to choose a date and time. Renders separate input fields for date and time selection. Values for timestamp and arriveBy correspond to Digitransit query params time and arriveBy. This component will display a native date input on mobile and a custom one for desktop. Mobile detection is done by parsing user agent.
+ *
+ * @alias Datetimepicker
  *
  * @param {Object} props
  *
@@ -19,10 +23,8 @@ import Datetimepicker from './helpers/Datetimepicker';
  * @param {function} props.onArrivalClick           Called with (time) when "arrival" button is clicked. time is current input value in seconds
  * @param {node} props.embedWhenClosed              JSX element to render in the corner when input is closed
  *
- *
- *
  * @example
- * <DatetimepickerStateContainer
+ * <Datetimepicker
  *   realtime={true}
  *   initialTimestamp={1590133823}
  *   initialArriveBy={false}

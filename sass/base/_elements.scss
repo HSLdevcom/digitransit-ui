@@ -29,7 +29,6 @@ $border-radius-rounded: 30px;
     display: flex;
     font-size: $font-size-xxsmall;
     font-weight: $font-weight-medium;
-    padding-bottom: $padding-small;
 
     .icon {
       display: block;
@@ -43,8 +42,10 @@ $border-radius-rounded: 30px;
     margin-top: -10px;
   }
   .card-sub-header {
+    display: flex;
     p {
       display: inline;
+      margin-right: 3px;
     }
     .card-code {
       border: 1px solid $light-gray;
@@ -52,7 +53,8 @@ $border-radius-rounded: 30px;
       font-size: $font-size-xxsmall;
       color: $gray-blue;
       margin-right: 3px;
-      padding: 0px 2px 0px 2px;
+      margin-left: 3px;
+      padding: 2px 2px 0px 2px;
     }
   }
 }
