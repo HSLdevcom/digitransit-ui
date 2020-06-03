@@ -9,7 +9,6 @@ import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import { startRealTimeClient } from '../../../app/action/realTimeClientAction';
 import { Component as RoutePage } from '../../../app/component/RoutePage';
 import { AlertSeverityLevelType } from '../../../app/constants';
-import Icon from '../../../app/component/Icon';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../app/util/path';
 
 describe('<RoutePage />', () => {
@@ -419,12 +418,7 @@ describe('<RoutePage />', () => {
     const wrapper = shallowWithIntl(<RoutePage {...props} />, {
       context: { ...mockContext, config: { colors: { primary: '#00AFFF' } } },
     });
-    expect(
-      wrapper
-        .find(Icon)
-        .at(2)
-        .props().className,
-    ).to.equal('route-page-tab_icon active-service-alert');
+    expect(wrapper.find('.active-service-alert')).to.have.lengthOf(1);
   });
 
   it('should mark the disruptions tab as having an active info alert due to a route WARNING level service alert', () => {
@@ -460,12 +454,7 @@ describe('<RoutePage />', () => {
     const wrapper = shallowWithIntl(<RoutePage {...props} />, {
       context: { ...mockContext, config: { colors: { primary: '#00AFFF' } } },
     });
-    expect(
-      wrapper
-        .find(Icon)
-        .at(2)
-        .props().className,
-    ).to.equal('route-page-tab_icon active-disruption-alert');
+    expect(wrapper.find('.active-disruption-alert')).to.have.lengthOf(1);
   });
 
   it('should mark the disruptions tab as having an active info alert due to a route SEVERE level service alert', () => {
@@ -501,11 +490,6 @@ describe('<RoutePage />', () => {
     const wrapper = shallowWithIntl(<RoutePage {...props} />, {
       context: { ...mockContext, config: { colors: { primary: '#00AFFF' } } },
     });
-    expect(
-      wrapper
-        .find(Icon)
-        .at(2)
-        .props().className,
-    ).to.equal('route-page-tab_icon active-disruption-alert');
+    expect(wrapper.find('.active-disruption-alert')).to.have.lengthOf(1);
   });
 });

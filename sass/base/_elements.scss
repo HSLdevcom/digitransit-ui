@@ -129,26 +129,19 @@ $border-radius-rounded: 30px;
 
 .favourite-icon {
   padding: 0;
-  height: 24px;
-  width: 24px;
   .icon.favourite {
-    height: 24px;
-    width: 24px;
-    stroke: $medium-gray;
-    stroke-width: 50px;
+    height: 30px;
+    width: 30px;
     fill: transparent;
-
-    &:hover {
-      stroke: $favourite-color;
-    }
-
+    stroke: #DDDDDD;
     &.selected {
-      fill: $favourite-color;
-      stroke: $background-color;
+      stroke: transparent;
     }
-
+    &:hover {
+      stroke: #BBBBBB;
+    }
     &.selected:hover {
-      stroke: $light-gray;
+      stroke: transparent;
     }
   }
 }
