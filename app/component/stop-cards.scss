@@ -21,7 +21,8 @@
 .stop-page {
   overflow-y: auto;
   &.card-header {
-    padding: 0.75em 1em 0.5em;
+    display: flex;
+    padding: 3em 3.75em 0em 3.75em;
     position: relative;
     flex: 0 0 auto;
     overflow: hidden;
@@ -32,6 +33,10 @@
   }
   .card-sub-header {
     margin-top: -0.2em;
+    .card-sub-header-address {
+      font-size: 13px;
+      color: #666666;
+    }
   }
   a {
     color: $black;
