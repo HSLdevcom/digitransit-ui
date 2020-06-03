@@ -47,7 +47,13 @@ class FareZoneSelector extends React.Component {
             defaultMessage: 'Fare zones',
           })}
           currentSelection={{
-            title: currentOption,
+            title:
+              currentOption === 'none'
+                ? intl.formatMessage({
+                    defaultMessage: 'ticket-type-none',
+                    id: 'ticket-type-none',
+                  })
+                : currentOption,
             value: currentOption,
           }}
           options={mappedOptions}
