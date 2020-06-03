@@ -135,7 +135,7 @@
 .stop-tab-singletab:hover {
   display: flex;
   align-items: center;
-  height: 3em;
+  min-height: 3em;
   flex-grow: 1;
   font-size: $font-size-xxsmall;
   border-radius: 3px;
