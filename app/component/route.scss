@@ -179,6 +179,12 @@ $margin-left-right: 1.25em;
     transform: scale(2.86);
   }
 }
+.route-details-upper-row {
+  display: flex;
+  justify-content: space-between;
+  min-width: calc(100% - (13% + 15px));
+  flex-direction: row;
+}
 
 .location-details_container {
   max-width: 100%;
@@ -236,49 +242,30 @@ $margin-left-right: 1.25em;
     }
   }
   .route-stop-row_content-container {
-    width: 100%;
+    width: calc(100% - (13% + 15px + 1em));
     margin-left: 1em;
     display: block;
     border-bottom: 1px solid #eef1f3;
     margin-top: 0.3em;
-    padding-right: 1em;
     a {
-      display: flex;
       text-decoration: none;
       justify-content: space-between;
       .route-details_container {
-        font-size: $font-size-normal;
+        flex-grow: 1;
         display: flex;
-        flex-direction: column;
-        flex: 2 0 0;
-        div {
-          display: flex;
+        min-width: 0;
+        font-size: 0.9375rem;
+        .route-stop-name {
+          min-width: 0;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
           span {
             text-decoration: none;
           }
-          .itinerary-stop-code {
-            display: block;
-            max-height: 18px;
-          }
-          .route-stop-address {
-            font-family: $font-family-narrow;
-            font-weight: 400;
-            letter-spacing: 0;
-            color: #666;
-            display: block;
-            word-break: keep-all;
-            mask-image: linear-gradient(
-              to left,
-              transparent,
-              rgba(0, 0, 0, 0.2) 5px,
-              black 7px,
-              black
-            );
-            height: 1.25rem;
-            overflow: hidden;
-            width: 100%;
-          }
           .drop-off-container {
+            white-space: nowrap;
             color: $gray;
             font-size: $font-size-xsmall;
             font-family: $font-family-narrow;
@@ -295,12 +282,39 @@ $margin-left-right: 1.25em;
             width: 13px;
             height: 12px;
             background: url(drop_off_svg($gray));
-          }
         }
       }
+      .route-details-bottom-row {
+        display: flex;
+        .itinerary-stop-code {
+          margin-left: 0;
+          display: block;
+          max-height: 18px;
+        }
+        .route-stop-address {
+          font-family: $font-family-narrow;
+          font-weight: 400;
+          line-height: 1.25rem;
+          letter-spacing: 0;
+          color: #666;
+          display: block;
+          word-break: keep-all;
+          mask-image: linear-gradient(
+            to left,
+            transparent,
+            rgba(0, 0, 0, 0.2) 5px,
+            black 7px,
+            black
+          );
+          height: 1.25rem;
+          overflow: hidden;
+          width: 100%;
+        }
+    }
       .departure-times-container {
         display: flex;
         color: $black;
+        flex: 0 1 auto;
         font-size: $font-size-small;
         .route-stop-time {
           span {
@@ -309,7 +323,7 @@ $margin-left-right: 1.25em;
               white-space: unset;
               display: block;
               text-align: right;
-              font-size: 1rem;
+              font-size: 0.9375rem;
             }
           }
         }
@@ -358,6 +372,7 @@ $margin-left-right: 1.25em;
   }
   .route-info {
     flex: 1;
+    min-width: 0;
     .route-short-name {
       @include font-narrow-medium;
       font-size: 1.4em;
@@ -694,6 +709,7 @@ $margin-left-right: 1.25em;
     width: calc(100% / 3);
     padding-top: 0.45em;
     text-align: center;
+    letter-spacing: -0.42px;
     border-radius: 3px;
     color: #333;
     font-weight: normal;

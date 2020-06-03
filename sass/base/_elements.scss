@@ -130,11 +130,16 @@ $border-radius-rounded: 30px;
   .icon.favourite {
     height: 30px;
     width: 30px;
-    stroke: none;
     fill: transparent;
+    stroke: #DDDDDD;
     &.selected {
-      fill: $favourite-color;
-      //stroke: $background-color;
+      stroke: transparent;
+    }
+    &:hover {
+      stroke: #BBBBBB;
+    }
+    &.selected:hover {
+      stroke: transparent;
     }
   }
 }

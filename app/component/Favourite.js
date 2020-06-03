@@ -33,7 +33,9 @@ const Favourite = ({ addFavourite, deleteFavourite, favourite, className }) => {
     >
       <Icon
         className={cx('favourite', { selected: favourite })}
-        img="icon-icon_star-with-circle"
+        img={
+          favourite ? 'icon-icon_star-with-circle' : 'icon-icon_star-unselected'
+        }
       />
     </span>
   );
