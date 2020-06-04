@@ -170,7 +170,7 @@ export function drawRoundIcon(tile, geom, type, customScale, platformNumber) {
         const multiplier = (length > 3 && 1.2) || (length === 3 && 1.4) || 1.6;
         tile.ctx.font = `${multiplier *
           hubRadius *
-          tile.scaleratio}px Gotham XNarrow SSm A, Gotham XNarrow SSm B, Arial, sans-serif`;
+          tile.scaleratio}px Gotham XNarrow A, Gotham XNarrow B, Arial, sans-serif`;
         tile.ctx.fillStyle = '#333';
         tile.ctx.textAlign = 'center';
         tile.ctx.textBaseline = 'middle';
@@ -257,7 +257,7 @@ export function drawTerminalIcon(tile, geom, type, name) {
       tile.ctx.textAlign = 'center';
       tile.ctx.textBaseline = 'top';
       tile.ctx.font = `500 ${FONT_SIZE * tile.scaleratio}px
-          Gotham Rounded SSm A, Gotham Rounded SSm B, Arial, Georgia, Serif`;
+          Gotham Rounded A, Gotham Rounded B, Arial, Georgia, Serif`;
       let y = iconSize / 2 + 2 * tile.scaleratio;
       name.split(' ').forEach(part => {
         tile.ctx.strokeText(part, geom.x / tile.ratio, geom.y / tile.ratio + y);
@@ -345,7 +345,7 @@ export function drawAvailabilityValue(
   tile.ctx.fill();
 
   tile.ctx.font = `${0.7 * badgeSize}px
-    Gotham XNarrow SSm A, Gotham XNarrow SSm B, Arial, sans-serif`;
+  Gotham XNarrow SSm A, Gotham Rounded A, Gotham Rounded B, Arial, Georgia, serif;`;
   tile.ctx.fillStyle = '#fff';
   tile.ctx.textAlign = 'center';
   tile.ctx.textBaseline = 'middle';

@@ -39,12 +39,11 @@ $rail-color: $hsl-rail-red;
 $ferry-color: $hsl-ferry-blue;
 
 /* Fonts */
-$font-family: "Gotham Rounded SSm A","Gotham Rounded SSm B", Arial, Georgia, Serif;
+$font-family: "Gotham Rounded A","Gotham Rounded  B", Arial, Georgia, Serif;
 $font-weight-medium: 500;
 $letter-spacing: -0.025em;
 $font-size-medium-large: 1rem;
 
-$font-family-narrow: "Gotham XNarrow SSm A","Gotham XNarrow SSm B", Arial, Georgia, Serif;
-
+$font-family-narrow:  'Gotham XNarrow SSm A', 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, serif;
 /* Spinner */
 $spinner-image: url('hsl-spinner.png');
