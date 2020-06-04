@@ -4,6 +4,10 @@
   flex-direction: column;
 }
 
+.summary {
+  background-color: $white;
+}
+
 .summary-no-route-found {
   padding: 1em;
   .external-no-route .external-link-container {
@@ -259,6 +263,7 @@
 }
 
 .summary-list-container {
+  border-top: 1px solid #ddd;
   width: 100%;
   background-color: $white;
 }

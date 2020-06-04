@@ -562,27 +562,29 @@ const SummaryRow = (
                   </h4>
                 </div>
               </div>
-              <div
-                tabIndex="0"
-                role="button"
-                title={formatMessage({
-                  id: 'itinerary-page.hide-details',
-                })}
-                key="arrow"
-                className="action-arrow-click-area noborder flex-vertical"
-                onClick={e => {
-                  e.stopPropagation();
-                  props.onSelectImmediately(props.hash);
-                }}
-                onKeyPress={e =>
-                  isKeyboardSelectionEvent(e) &&
-                  props.onSelectImmediately(props.hash)
-                }
-              >
-                <div className="action-arrow flex-grow">
-                  <Icon img="icon-icon_arrow-collapse--right" />
+              {props.breakpoint !== 'small' && (
+                <div
+                  tabIndex="0"
+                  role="button"
+                  title={formatMessage({
+                    id: 'itinerary-page.hide-details',
+                  })}
+                  key="arrow"
+                  className="action-arrow-click-area noborder flex-vertical"
+                  onClick={e => {
+                    e.stopPropagation();
+                    props.onSelectImmediately(props.hash);
+                  }}
+                  onKeyPress={e =>
+                    isKeyboardSelectionEvent(e) &&
+                    props.onSelectImmediately(props.hash)
+                  }
+                >
+                  <div className="action-arrow flex-grow">
+                    <Icon img="icon-icon_arrow-collapse--right" />
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
             {/* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
             <span
@@ -648,27 +650,29 @@ const SummaryRow = (
                   {firstLegStartTime}
                 </div>
               </div>
-              <div
-                tabIndex="0"
-                role="button"
-                title={formatMessage({
-                  id: 'itinerary-page.show-details',
-                })}
-                key="arrow"
-                className="action-arrow-click-area flex-vertical noborder"
-                onClick={e => {
-                  e.stopPropagation();
-                  props.onSelectImmediately(props.hash);
-                }}
-                onKeyPress={e =>
-                  isKeyboardSelectionEvent(e) &&
-                  props.onSelectImmediately(props.hash)
-                }
-              >
-                <div className="action-arrow flex-grow">
-                  <Icon img="icon-icon_arrow-collapse--right" />
+              {props.breakpoint !== 'small' && (
+                <div
+                  tabIndex="0"
+                  role="button"
+                  title={formatMessage({
+                    id: 'itinerary-page.show-details',
+                  })}
+                  key="arrow"
+                  className="action-arrow-click-area flex-vertical noborder"
+                  onClick={e => {
+                    e.stopPropagation();
+                    props.onSelectImmediately(props.hash);
+                  }}
+                  onKeyPress={e =>
+                    isKeyboardSelectionEvent(e) &&
+                    props.onSelectImmediately(props.hash)
+                  }
+                >
+                  <div className="action-arrow flex-grow">
+                    <Icon img="icon-icon_arrow-collapse--right" />
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
             <span
               className="itinerary-details-container"
