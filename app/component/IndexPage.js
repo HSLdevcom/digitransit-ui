@@ -155,7 +155,7 @@ class IndexPage extends React.Component {
   };
 
   // DT-3551: handle logic for Traffic now link
-  handleClick = e => {
+  trafficNowHandler = e => {
     e.preventDefault();
     window.location = this.context.config.trafficNowLink;
   };
@@ -226,7 +226,7 @@ class IndexPage extends React.Component {
           />
           <CtrlPanel.SeparatorLine />
           {trafficNowLink !== '' && (
-            <TrafficNowLink handleClick={this.handleClick} />
+            <TrafficNowLink handleClick={this.trafficNowHandler} />
           )}
         </CtrlPanel>
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
@@ -284,7 +284,7 @@ class IndexPage extends React.Component {
           />
           <CtrlPanel.SeparatorLine />
           {trafficNowLink !== '' && (
-            <TrafficNowLink handleClick={this.handleClick} />
+            <TrafficNowLink handleClick={this.trafficNowHandler} />
           )}
         </CtrlPanel>
       </div>
