@@ -75,7 +75,12 @@ $margin-left-right: 1.25em;
 
 .mobile {
   .route-page-container{
-    padding-top: 1em;
+    border-radius: 15px 15px 0 0;
+    padding-top: 0;
+    background-color: transparent;
+    position: relative;
+    top: -15px;
+    z-index: 2;
   }
 }
 .route-page-container {
@@ -84,8 +89,10 @@ $margin-left-right: 1.25em;
 }
 
 .route-page-content {
-  padding: 0 $margin-left-right;
+  padding: 1.5em $margin-left-right 0;
   display: flex;
+  position: relative;
+  top: -15px;
   flex-direction: column;
   max-height: 100%;
   flex-grow: 1;
@@ -95,6 +102,7 @@ $margin-left-right: 1.25em;
     flex-basis 500ms cubic-bezier(0.215, 0.61, 0.355, 1);
 
   &.bp-large {
+    top: 0;
     padding: 0 $margin-left-right-large;
   }
   &:empty {
@@ -182,7 +190,7 @@ $margin-left-right: 1.25em;
 .route-details-upper-row {
   display: flex;
   justify-content: space-between;
-  min-width: calc(100% - (13% + 15px));
+  min-width: calc(100% - 13% - 15px);
   flex-direction: row;
 }
 
@@ -242,7 +250,7 @@ $margin-left-right: 1.25em;
     }
   }
   .route-stop-row_content-container {
-    width: calc(100% - (13% + 15px + 1em));
+    width: calc(100% - 13% - 15px - 1em);
     margin-left: 1em;
     display: block;
     border-bottom: 1px solid #eef1f3;
@@ -683,9 +691,10 @@ $margin-left-right: 1.25em;
 }
 .route-container {
   background-color: white;
-  padding: 0 $margin-left-right;
+  padding: 1em $margin-left-right 0;
+  border-radius: 15px 15px 0 0;
   &.bp-large {
-    padding: 0 $margin-left-right-large;
+    padding: 0 $margin-left-right-large 1.5em;
   }
   .back-button {
     position: absolute;
@@ -747,7 +756,6 @@ $margin-left-right: 1.25em;
 
 .route-pattern-select {
   height: 2.5em;
-  margin-bottom: 1.5em;
   position: relative;
   .route-option {
     background: $white;

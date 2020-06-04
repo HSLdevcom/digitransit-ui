@@ -61,6 +61,11 @@ div.map {
     }
   }
 }
+.mobile {
+  .map.full {
+    z-index: 1;
+  }
+}
 
 div.map.small {
   min-height: $small-map-height;
