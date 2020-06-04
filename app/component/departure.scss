@@ -11,7 +11,6 @@
   background: $white;
   display: flex;
   justify-content: flex-start;
-  line-height: $line-height-normal;
   margin: 0;
   overflow-y: visible;
   position: relative;
@@ -58,6 +57,7 @@
   color: $black;
   @include font-narrow-book;
   font-size: $font-size-normal;
+  padding-right: 1em;
   .vehicle-number {
     mask-image: none;
   }
@@ -330,7 +330,7 @@
   @include font-narrow-book;
   font-size: $font-size-small;
   white-space: nowrap;
-  padding-left: 1.5em;
+  padding-left: 0.5em;
   line-height: $line-height-normal;
   border-bottom: 1px solid $light-gray;
 
@@ -364,11 +364,11 @@
     width: 50px;
   }
   .route-destination-header {
-    padding-left: 1.5em;
+    padding-left: 2em;
   }
   .time-header {
     width: 50px;
-    margin-right: 30px;
+    margin-right: 20px;
   }
 }
 

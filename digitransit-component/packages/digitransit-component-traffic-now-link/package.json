@@ -1,7 +1,7 @@
 {
-  "name": "@digitransit-component/digitransit-component-suggestion-item",
-  "version": "0.0.6",
-  "description": "digitransit-component suggestion-item module",
+  "name": "@digitransit-component/digitransit-component-traffic-now-link",
+  "version": "0.0.0",
+  "description": "digitransit-component traffic-now-link module",
   "main": "index.generated",
   "publishConfig": {
     "access": "public"
@@ -18,15 +18,13 @@
   },
   "keywords": [
     "digitransit-component",
-    "SuggestionItem"
+    "TrafficNowLink"
   ],
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "peerDependencies": {
-    "classnames": "2.2.6",
     "i18next": "^19.3.3",
     "prop-types": "^15.7.2",
-    "react": "^16.13.0",
-    "recompose": "0.30.0"
+    "react": "^16.13.0"
   }
 }

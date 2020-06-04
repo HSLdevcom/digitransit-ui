@@ -180,16 +180,18 @@ class RouteStop extends React.PureComponent {
               });
             }}
           >
-            <div className={` route-details_container ${mode}`}>
-              <div>
-                <span>{stop.name}</span>
-                <ServiceAlertIcon
-                  className="inline-icon"
-                  severityLevel={getActiveAlertSeverityLevel(
-                    stop.alerts,
-                    currentTime,
-                  )}
-                />
+            <div className="route-details-upper-row">
+              <div className={` route-details_container ${mode}`}>
+                <div className="route-stop-name">
+                  <span>{stop.name}</span>
+                  <ServiceAlertIcon
+                    className="inline-icon"
+                    severityLevel={getActiveAlertSeverityLevel(
+                      stop.alerts,
+                      currentTime,
+                    )}
+                  />
+                </div>
                 {patternExists &&
                   stop.stopTimesForPattern[0].pickupType === 'NONE' &&
                   !last && (
@@ -202,31 +204,31 @@ class RouteStop extends React.PureComponent {
                     </span>
                   )}
               </div>
-              <div>
-                {stop.code && <StopCode code={stop.code} />}
-                <span className="route-stop-address">{stop.desc}</span>
-                {'\u2002'}
-                {distance && (
-                  <WalkDistance
-                    className="nearest-route-stop"
-                    icon="icon_location-with-user"
-                    walkDistance={distance}
-                  />
-                )}
-              </div>
+              {patternExists && (
+                <div className="departure-times-container">
+                  {stop.stopTimesForPattern.map(stopTime => (
+                    <div
+                      key={stopTime.scheduledDeparture}
+                      className="route-stop-time"
+                    >
+                      {fromStopTime(stopTime, currentTime)}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
-            {patternExists && (
-              <div className="departure-times-container">
-                {stop.stopTimesForPattern.map(stopTime => (
-                  <div
-                    key={stopTime.scheduledDeparture}
-                    className="route-stop-time"
-                  >
-                    {fromStopTime(stopTime, currentTime)}
-                  </div>
-                ))}
-              </div>
-            )}
+            <div className="route-details-bottom-row">
+              {stop.code && <StopCode code={stop.code} />}
+              <span className="route-stop-address">{stop.desc}</span>
+              {'\u2002'}
+              {distance && (
+                <WalkDistance
+                  className="nearest-route-stop"
+                  icon="icon_location-with-user"
+                  walkDistance={distance}
+                />
+              )}
+            </div>
           </Link>
         </div>
       </div>

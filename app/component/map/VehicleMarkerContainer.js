@@ -60,7 +60,7 @@ function getVehicleIcon(
       element: <IconWithTail img={`icon-icon_${mode}-live`} rotate={heading} />,
       className: `vehicle-icon ${mode} ${useSmallIcon ? 'small-map-icon' : ''}`,
       iconSize: [20, 20],
-      iconAnchor: [10, 10],
+      iconAnchor: [15, 15],
     };
   }
 
