@@ -184,19 +184,3 @@ export const withCurrentTime = location => {
     },
   };
 };
-
-/**
- * Returns object with time and/or arriveBy keys and values
- * @param {*} location
- */
-export const getTimeAndArriveByFromURL = location => {
-  const query = (location && location.query) || {};
-  const object = {};
-  if (query && query.time) {
-    object.time = query.time;
-  }
-  if (query && query.arriveBy) {
-    object.arriveBy = query.arriveBy;
-  }
-  return object;
-};
