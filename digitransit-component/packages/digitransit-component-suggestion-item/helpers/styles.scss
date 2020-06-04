@@ -1,5 +1,16 @@
 /* stylelint-disable */ 
 
+.suggestion-item-container {
+  display: flex;
+  &.Currentlocation {
+    height: 50px;
+  }
+  &.SelectFromMap {
+    height: 50px;
+  }
+}
+
+
 .search-result {
   display: flex;
   flex-direction: row;
@@ -39,6 +50,35 @@
   width: 49px;
   text-align: center;
   padding-top: 6px;
+  // Default size
+  svg {
+    width: 22px;
+    height: 22px;
+  }
+  .place, .busstop, .select-from-map {
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+  .locate, .edit {
+    svg {
+      width: 22px;
+      height: 22px;
+    }
+  }
+  .star, .work {
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  .school, .sport, .shopping {
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
 }
 
 .sr-only:not(:focus):not(:active) {
