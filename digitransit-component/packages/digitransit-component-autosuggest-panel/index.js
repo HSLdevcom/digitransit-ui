@@ -434,7 +434,7 @@ class DTAutosuggestPanel extends React.Component {
         {' '}
         {searchPanelText ? (
           <div className={styles['autosuggest-searchpanel-text']}>
-            <span> {searchPanelText}</span>
+            <h2> {searchPanelText}</h2>
           </div>
         ) : null}
         <div className={styles['origin-input-container']}>

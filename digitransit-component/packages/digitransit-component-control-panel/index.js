@@ -170,12 +170,15 @@ class CtrlPanel extends React.Component {
       style = getStyleMainBottom();
     }
     const children = React.Children.map(this.props.children, child => {
-      let lang = this.props.language;
-      if (lang === undefined) {
-        lang = 'fi';
+      if (child) {
+        let lang = this.props.language;
+        if (lang === undefined) {
+          lang = 'fi';
+        }
+        i18next.changeLanguage(lang);
+        return React.cloneElement(child, { lang });
       }
-      i18next.changeLanguage(lang);
-      return React.cloneElement(child, { lang });
+      return null;
     });
     return (
       <Fragment>
