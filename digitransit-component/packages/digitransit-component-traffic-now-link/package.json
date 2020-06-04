@@ -1,13 +1,13 @@
 {
-  "name": "@digitransit-component/digitransit-component-icon",
-  "version": "0.0.6",
-  "description": "digitransit-component icon module",
+  "name": "@digitransit-component/digitransit-component-traffic-now-link",
+  "version": "0.0.0",
+  "description": "digitransit-component traffic-now-link module",
   "main": "index.generated",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build:index": "webpack --config webpack.config.babel.js",
+    "build:index": "webpack --config webpack.config.babel.js && yarn run docs",
     "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-proposal-class-properties --out-file test.generated",
     "test": "mocha -r esm test.generated",
     "docs": "node -r esm ../../scripts/generate-readmes"
@@ -18,7 +18,7 @@
   },
   "keywords": [
     "digitransit-component",
-    "Icon"
+    "TrafficNowLink"
   ],
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",

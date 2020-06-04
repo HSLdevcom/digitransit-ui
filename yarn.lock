@@ -1369,6 +1369,11 @@
   resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-icon/-/digitransit-component-icon-0.0.1.tgz#52bb6b61d2598aa14c990335da7436343dca9538"
   integrity sha512-Igwsf6GECkKVjfiIVjj/KNYhcQh+BIU+Xu09f07OFGnBIbPifgupidHN6BAF/CPUgpiH6EnDvaEiPFve1fRw7g==
 
+"@digitransit-component/digitransit-component-icon@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-icon/-/digitransit-component-icon-0.0.4.tgz#b49edc0b74ef3306259acb4960a7fe5075d54d87"
+  integrity sha512-HH1ndu0r0N0IAGkbKIdjsjEUOyOMNTZiy+QWqURmglvuhxy25jVx+lJhTvQaX3jRo6/kENiV4PiXzsoN6k1/fA==
+
 "@digitransit-component/digitransit-component-suggestion-item@^0.0.5":
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-suggestion-item/-/digitransit-component-suggestion-item-0.0.5.tgz#31bd427ab2b7489ebc98472e93bd9402facddb4d"

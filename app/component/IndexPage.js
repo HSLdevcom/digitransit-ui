@@ -37,6 +37,10 @@ import DatetimepickerContainer from './DatetimepickerContainer';
 
 const debug = d('IndexPage.js');
 
+const TrafficNowLink = loadable(
+  () => import('@digitransit-component/digitransit-component-traffic-now-link'),
+  { ssr: true },
+);
 const DTAutoSuggest = getRelayEnvironment(
   withSearchContext(
     loadable(
@@ -62,6 +66,7 @@ class IndexPage extends React.Component {
     getStore: PropTypes.func.isRequired,
     router: routerShape.isRequired,
     match: matchShape.isRequired,
+    config: PropTypes.object.isRequired,
   };
 
   static propTypes = {
@@ -149,15 +154,21 @@ class IndexPage extends React.Component {
     });
   };
 
+  // DT-3551: handle logic for Traffic now link
+  handleClick = e => {
+    e.preventDefault();
+    window.location = this.context.config.trafficNowLink;
+  };
+
   addFavourite = favourite => {
     this.context.executeAction(addFavourite, favourite);
   };
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
-    const { intl } = this.context;
+    const { intl, config } = this.context;
+    const { trafficNowLink } = config;
     const { breakpoint, destination, origin, favourites, lang } = this.props;
-
     // const { mapExpanded } = this.state; // TODO verify
     return breakpoint === 'large' ? (
       <div
@@ -195,13 +206,13 @@ class IndexPage extends React.Component {
           />
           <CtrlPanel.SeparatorLine />
           <div className="stops-near-you-text">
-            <span>
+            <h2>
               {' '}
               {intl.formatMessage({
                 id: 'stop-near-you-title',
                 defaultMessage: 'Stops and lines near you',
               })}
-            </span>
+            </h2>
           </div>
           <DTAutoSuggest
             icon="search"
@@ -213,6 +224,10 @@ class IndexPage extends React.Component {
             sources={['Favourite', 'History', 'Datasource']}
             targets={['Stops', 'Routes']}
           />
+          <CtrlPanel.SeparatorLine />
+          {trafficNowLink !== '' && (
+            <TrafficNowLink handleClick={this.handleClick} />
+          )}
         </CtrlPanel>
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
       </div>
@@ -249,13 +264,13 @@ class IndexPage extends React.Component {
           />
           <CtrlPanel.SeparatorLine />
           <div className="stops-near-you-text">
-            <span>
+            <h2>
               {' '}
               {intl.formatMessage({
                 id: 'stop-near-you-title',
                 defaultMessage: 'Stops and lines near you',
               })}
-            </span>
+            </h2>
           </div>
           <DTAutoSuggest
             icon="search"
@@ -267,6 +282,10 @@ class IndexPage extends React.Component {
             sources={['Favourite', 'History', 'Datasource']}
             targets={['Stops', 'Routes']}
           />
+          <CtrlPanel.SeparatorLine />
+          {trafficNowLink !== '' && (
+            <TrafficNowLink handleClick={this.handleClick} />
+          )}
         </CtrlPanel>
       </div>
     );

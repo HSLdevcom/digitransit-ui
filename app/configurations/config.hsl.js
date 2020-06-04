@@ -510,7 +510,7 @@ export default {
   },
 
   useTicketIcons: true,
-
+  trafficNowLink: 'https://dev.hslfi.hsldev.com/',
   cityBike: {
     showCityBikes: true,
     networks: {
