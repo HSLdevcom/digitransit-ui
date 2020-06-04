@@ -178,7 +178,7 @@ class IndexPage extends React.Component {
       lang,
       itineraryParams,
     } = this.props;
-    
+
     // const { mapExpanded } = this.state; // TODO verify
 
     return breakpoint === 'large' ? (
