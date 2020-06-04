@@ -118,7 +118,7 @@ export default function withSearchContext(WrappedComponent) {
     };
 
     selectLocation = (location, id) => {
-      const locationWithTime = this.locationWithDateTimePicker(
+      const locationWithItineraryParams = this.addItineraryParamsToLocation(
         location,
         this.props.itineraryParams,
       );
@@ -171,7 +171,7 @@ export default function withSearchContext(WrappedComponent) {
       }
 
       navigateTo({
-        base: locationWithTime,
+        base: locationWithItineraryParams,
         origin,
         destination,
         context: '', // PREFIX_ITINERARY_SUMMARY,
@@ -212,7 +212,7 @@ export default function withSearchContext(WrappedComponent) {
       }
     };
 
-    locationWithDateTimePicker = (location, itineraryParams) => {
+    addItineraryParamsToLocation = (location, itineraryParams) => {
       const query = (location && location.query) || {};
       if (itineraryParams && itineraryParams.arriveBy) {
         return {

@@ -12,7 +12,6 @@ import isEmpty from 'lodash/isEmpty';
 import d from 'debug';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
 import loadable from '@loadable/component';
-import { getTimeAndArriveByFromURL } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import getRelayEnvironment from '../util/getRelayEnvironment';
 import {
   initGeolocation,
@@ -372,6 +371,18 @@ const processLocation = (locationString, locationState, intl) => {
     location = { set: false };
   }
   return location;
+};
+
+const getTimeAndArriveByFromURL = location => {
+  const query = (location && location.query) || {};
+  const object = {};
+  if (query && query.time) {
+    object.time = query.time;
+  }
+  if (query && query.arriveBy) {
+    object.arriveBy = query.arriveBy;
+  }
+  return object;
 };
 
 const IndexPageWithPosition = connectToStores(
