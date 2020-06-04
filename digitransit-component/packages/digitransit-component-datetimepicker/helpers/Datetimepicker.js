@@ -14,7 +14,8 @@ import isMobile from './isMobile';
 import dateTimeInputIsSupported from './dateTimeInputIsSupported';
 
 moment.tz.setDefault('Europe/Helsinki');
-i18next.init({ lng: 'fi', resources: {} });
+moment.locale('en');
+i18next.init({ lng: 'en', resources: {} });
 i18next.addResourceBundle('en', 'translation', translations.en);
 i18next.addResourceBundle('fi', 'translation', translations.fi);
 i18next.addResourceBundle('sv', 'translation', translations.sv);
@@ -31,7 +32,7 @@ i18next.addResourceBundle('sv', 'translation', translations.sv);
  * @param {function} props.onDepartureClick   Called when "departure" button is clicked
  * @param {function} props.onArrivalClick     Called when "arrival" button is clicked
  * @param {node} props.embedWhenClosed        JSX element to render in the corner when input is closed
- *
+ * @param {string} props.lang                 Language selection
  *
  *
  * @example
@@ -44,6 +45,7 @@ i18next.addResourceBundle('sv', 'translation', translations.sv);
  *   onDepartureClick={() => departureClicked()}
  *   onArrivalClick={() => arrivalClicked()}
  *   embedWhenClosed={<button />}
+ *   lang={'en'}
  * />
  */
 function Datetimepicker({
@@ -55,6 +57,7 @@ function Datetimepicker({
   onDepartureClick,
   onArrivalClick,
   embedWhenClosed,
+  lang,
 }) {
   const [isOpen, changeOpen] = useState(false);
   const [displayTimestamp, changeDisplayTimestamp] = useState(
@@ -66,6 +69,15 @@ function Datetimepicker({
   const [htmlId] = useState(uniqueId('datetimepicker-'));
 
   const [useMobileInputs] = useState(isMobile() && dateTimeInputIsSupported());
+
+  const translationSettings = { lng: lang };
+
+  useEffect(
+    () => {
+      moment.locale(lang);
+    },
+    [lang],
+  );
 
   const nowSelected = timestamp === null;
   useEffect(
@@ -112,12 +124,12 @@ function Datetimepicker({
   const getDateDisplay = date => {
     const time = moment(date);
     if (time.isSame(moment(), 'day')) {
-      return i18next.t('today');
+      return i18next.t('today', translationSettings);
     }
     if (time.isSame(moment().add(1, 'day'), 'day')) {
-      return i18next.t('tomorrow');
+      return i18next.t('tomorrow', translationSettings);
     }
-    return time.locale('fi').format('dd D.M.');
+    return time.format('dd D.M.');
   };
 
   // param time is timestamp
@@ -164,7 +176,7 @@ function Datetimepicker({
   return (
     <fieldset className={styles['dt-datetimepicker']} id={`${htmlId}-root`}>
       <legend className={styles['sr-only']}>
-        {i18next.t('accessible-title')}
+        {i18next.t('accessible-title', translationSettings)}
       </legend>
       {!isOpen ? (
         <>
@@ -174,7 +186,7 @@ function Datetimepicker({
             </span>
             <label htmlFor={`${htmlId}-open`}>
               <span className={styles['sr-only']}>
-                {i18next.t('accessible-open')}
+                {i18next.t('accessible-open', translationSettings)}
               </span>
               <button
                 id={`${htmlId}-open`}
@@ -188,13 +200,14 @@ function Datetimepicker({
               >
                 <span>
                   {nowSelected && departureOrArrival === 'departure' ? (
-                    i18next.t('departure-now')
+                    i18next.t('departure-now', translationSettings)
                   ) : (
                     <>
                       {i18next.t(
                         departureOrArrival === 'departure'
                           ? 'departure'
                           : 'arrival',
+                        translationSettings,
                       )}
                       {` ${getDateDisplay(
                         displayTimestamp,
@@ -231,7 +244,7 @@ function Datetimepicker({
                 ]
               }`}
             >
-              {i18next.t('departure-now')}
+              {i18next.t('departure-now', translationSettings)}
               <input
                 id={`${htmlId}-now`}
                 name="departureOrArrival"
@@ -253,7 +266,7 @@ function Datetimepicker({
                   ]
                 }`}
             >
-              {i18next.t('departure')}
+              {i18next.t('departure', translationSettings)}
               <input
                 id={`${htmlId}-departure`}
                 name="departureOrArrival"
@@ -275,7 +288,7 @@ function Datetimepicker({
                   ]
                 }`}
             >
-              {i18next.t('arrival')}
+              {i18next.t('arrival', translationSettings)}
               <input
                 id={`${htmlId}-arrival`}
                 name="departureOrArrival"
@@ -300,7 +313,7 @@ function Datetimepicker({
                   <Icon img="plus" />
                 </span>
                 <span className={styles['sr-only']}>
-                  {i18next.t('accessible-close')}
+                  {i18next.t('accessible-close', translationSettings)}
                 </span>
               </button>
             </span>
@@ -320,7 +333,7 @@ function Datetimepicker({
                     itemCount={dateSelectItemCount}
                     startTime={dateSelectStartTime}
                     id={`${htmlId}-date`}
-                    label={i18next.t('date')}
+                    label={i18next.t('date', translationSettings)}
                     icon={
                       <span
                         className={`${styles['combobox-icon']} ${
@@ -338,7 +351,7 @@ function Datetimepicker({
                     getDisplay={getTimeDisplay}
                     onChange={onTimeChange}
                     id={`${htmlId}-time`}
-                    label={i18next.t('time')}
+                    label={i18next.t('time', translationSettings)}
                     icon={
                       <span
                         className={`${styles['combobox-icon']} ${
@@ -374,7 +387,7 @@ function Datetimepicker({
                       </span>
                     }
                     id={`${htmlId}-date`}
-                    label={i18next.t('date')}
+                    label={i18next.t('date', translationSettings)}
                     disableTyping
                   />
                 </span>
@@ -399,7 +412,7 @@ function Datetimepicker({
                       </span>
                     }
                     id={`${htmlId}-time`}
-                    label={i18next.t('time')}
+                    label={i18next.t('time', translationSettings)}
                   />
                 </span>
               </>
@@ -421,6 +434,7 @@ Datetimepicker.propTypes = {
   onDepartureClick: PropTypes.func.isRequired,
   onArrivalClick: PropTypes.func.isRequired,
   embedWhenClosed: PropTypes.node,
+  lang: PropTypes.string.isRequired,
 };
 
 Datetimepicker.defaultProps = { timestamp: null, embedWhenClosed: null };

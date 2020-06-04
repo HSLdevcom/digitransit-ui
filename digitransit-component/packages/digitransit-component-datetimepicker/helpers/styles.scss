@@ -26,8 +26,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   border: none;
   max-width: 400px;
   padding: 0;
-  margin-left: 0;
-  margin-right: 0;
+  margin: 20px 0 20px 0;
 
   font-size: 15px;
   font-weight: $font-weight-medium;
@@ -46,8 +45,8 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
 
     .time-icon {
       svg {
-        width: 16px;
-        height: 16px;
+        width: 18px;
+        height: 19px;
       }
     }
     .dropdown-icon {
@@ -189,8 +188,8 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     &.time-input-icon {
       padding: 9px 13px 0 13px;
         svg {
-        width: 16px;
-        height: 16px;
+        width: 18px;
+        height: 19px;
       }
     }
   }
@@ -232,7 +231,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       }
     }
     .input {
-      margin: -4px 0 0 0;
+      margin: -7px 0 0 0;
       padding-left: 12px;
       padding-right: 0;
       border: none;
@@ -294,7 +293,8 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   .separator-line {
     display: block;
     width: 100%;
-    margin-top: 1em;
+    margin-top: 30px;
+    margin-bottom: 10px;
     border-top: 1px solid rgb(221, 221, 221);
     background: rgb(244, 244, 245);
   }
