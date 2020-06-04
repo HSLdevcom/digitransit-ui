@@ -33,6 +33,7 @@ import Opposite from './assets/opposite.svg';
 import Viapoint from './assets/viapoint.svg';
 import Calendar from './assets/calendar.svg';
 import SelectFromMap from './assets/select-from-map.svg';
+import CautionWhite from './assets/caution_white_exclamation.svg';
 
 const IconMap = style => {
   return {
@@ -69,6 +70,7 @@ const IconMap = style => {
     viapoint: <Viapoint style={style} />,
     calendar: <Calendar style={style} />,
     'select-from-map': <SelectFromMap style={style} />,
+    'caution-white': <CautionWhite style={style} />,
   };
 };
 
