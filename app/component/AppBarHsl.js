@@ -83,9 +83,21 @@ const AppBarHsl = ({ lang }, { match }) => {
     ],
     searchPage: i18next.t('search_url'),
     languages: [
-      { name: 'fi', url: `/fi${location.pathname}`, selected: lang === 'fi' },
-      { name: 'sv', url: `/sv${location.pathname}`, selected: lang === 'sv' },
-      { name: 'en', url: `/en${location.pathname}`, selected: lang === 'en' },
+      {
+        name: 'fi',
+        url: `/fi${location.pathname}${location.search}`,
+        selected: lang === 'fi',
+      },
+      {
+        name: 'sv',
+        url: `/sv${location.pathname}${location.search}`,
+        selected: lang === 'sv',
+      },
+      {
+        name: 'en',
+        url: `/en${location.pathname}${location.search}`,
+        selected: lang === 'en',
+      },
     ],
     breadcrumb: [],
   };
