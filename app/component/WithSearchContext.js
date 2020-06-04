@@ -67,7 +67,7 @@ export default function withSearchContext(WrappedComponent) {
       }
     };
 
-    onSuggestionSelected = (item, id, datetimePickerQuery) => {
+    onSuggestionSelected = (item, id, itineraryParams) => {
       // route
       if (item.properties.link) {
         this.selectRoute(item.properties.link);
@@ -89,7 +89,7 @@ export default function withSearchContext(WrappedComponent) {
           this.context.executeAction(searchContext.startLocationWatch),
         );
       } else {
-        this.selectLocation(location, id, datetimePickerQuery);
+        this.selectLocation(location, id, itineraryParams);
       }
     };
 
@@ -116,10 +116,10 @@ export default function withSearchContext(WrappedComponent) {
       this.props.onFavouriteSelected(item);
     };
 
-    selectLocation = (location, id, datetimePickerQuery) => {
+    selectLocation = (location, id, itineraryParams) => {
       const locationWithTime = this.locationWithDateTimePicker(
         location,
-        datetimePickerQuery,
+        itineraryParams,
       );
       addAnalyticsEvent({
         action: 'EditJourneyEndPoint',
@@ -179,7 +179,7 @@ export default function withSearchContext(WrappedComponent) {
       });
     };
 
-    onSelect = (item, id, datetimePickerQuery) => {
+    onSelect = (item, id, itineraryParams) => {
       // type is destination unless timetable or route was clicked
       let type = 'endpoint';
       switch (item.type) {
@@ -190,7 +190,7 @@ export default function withSearchContext(WrappedComponent) {
       }
       if (item.type === 'CurrentLocation') {
         // item is already a location.
-        this.selectLocation(item, id, datetimePickerQuery);
+        this.selectLocation(item, id, itineraryParams);
       }
       if (item.type === 'OldSearch' && item.properties.gid) {
         getJson(this.context.config.URL.PELIAS_PLACE, {
@@ -203,25 +203,23 @@ export default function withSearchContext(WrappedComponent) {
             newItem.geometry.coordinates = geom.coordinates;
           }
           this.finishSelect(newItem, type);
-          this.onSuggestionSelected(item, id, datetimePickerQuery);
+          this.onSuggestionSelected(item, id, itineraryParams);
         });
       } else {
         this.finishSelect(item, type);
-        this.onSuggestionSelected(item, id, datetimePickerQuery);
+        this.onSuggestionSelected(item, id, itineraryParams);
       }
     };
 
-    locationWithDateTimePicker = (location, datetimePickerQuery) => {
+    locationWithDateTimePicker = (location, itineraryParams) => {
       const query = (location && location.query) || {};
-      if (datetimePickerQuery && datetimePickerQuery.arriveBy) {
+      if (itineraryParams && itineraryParams.arriveBy) {
         return {
           ...location,
           query: {
             ...query,
-            time: datetimePickerQuery.time
-              ? datetimePickerQuery.time
-              : moment().unix(),
-            arriveBy: datetimePickerQuery.arriveBy,
+            time: itineraryParams.time ? itineraryParams.time : moment().unix(),
+            arriveBy: itineraryParams.arriveBy,
           },
         };
       }
@@ -230,8 +228,8 @@ export default function withSearchContext(WrappedComponent) {
         query: {
           ...query,
           time:
-            datetimePickerQuery && datetimePickerQuery.time
-              ? datetimePickerQuery.time
+            itineraryParams && itineraryParams.time
+              ? itineraryParams.time
               : moment().unix(),
         },
       };

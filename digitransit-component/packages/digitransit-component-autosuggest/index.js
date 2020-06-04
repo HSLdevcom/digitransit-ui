@@ -90,7 +90,7 @@ function suggestionToAriaContent(item) {
  *    storeRef={() => return null} // Functionality to store refs. Currenlty managed with DTAutosuggestpanel by default, but if DTAutosuggest is used seperatelly own implementation must be provided.
  *    sources={sources}
  *    targets={targets}
- *    datetimePickerQuery={datetimePickerQuery} datetimePickerQuery={datetimePickerQuery} // Optional. E.g. { time: 1591156800, arriveBy: true }
+ *    itineraryParams={itineraryParams} itineraryParams={itineraryParams} // Optional. E.g. { time: 1591156800, arriveBy: true }
  */
 class DTAutosuggest extends React.Component {
   static propTypes = {
@@ -110,7 +110,7 @@ class DTAutosuggest extends React.Component {
     lang: PropTypes.string,
     sources: PropTypes.arrayOf(PropTypes.string),
     targets: PropTypes.arrayOf(PropTypes.string),
-    datetimePickerQuery: PropTypes.object,
+    itineraryParams: PropTypes.object,
   };
 
   static defaultProps = {
@@ -199,7 +199,7 @@ class DTAutosuggest extends React.Component {
             this.props.onSelect(
               ref.suggestion,
               this.props.id,
-              this.props.datetimePickerQuery,
+              this.props.itineraryParams,
             );
           }
           if (this.props.focusChange) {

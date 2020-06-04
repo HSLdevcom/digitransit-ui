@@ -85,7 +85,7 @@ class IndexPage extends React.Component {
       }),
     ),
     lang: PropTypes.string,
-    datetimePickerQuery: PropTypes.object,
+    itineraryParams: PropTypes.object,
   };
 
   static defaultProps = {
@@ -164,7 +164,7 @@ class IndexPage extends React.Component {
       origin,
       favourites,
       lang,
-      datetimePickerQuery,
+      itineraryParams,
     } = this.props;
 
     // const { mapExpanded } = this.state; // TODO verify
@@ -195,7 +195,7 @@ class IndexPage extends React.Component {
             lang={lang}
             sources={['Favourite', 'History', 'Datasource']}
             targets={['Locations', 'CurrentPosition']}
-            datetimePickerQuery={datetimePickerQuery}
+            itineraryParams={itineraryParams}
           />
           <CtrlPanel.SeparatorLine />
           <DatetimepickerContainer realtime />
@@ -297,7 +297,7 @@ const Index = shouldUpdate(
       isEmpty(
         differenceWith(nextProps.favourites, props.favourites, isEqual),
       ) &&
-      isEqual(nextProps.datetimePickerQuery, props.datetimePickerQuery)
+      isEqual(nextProps.itineraryParams, props.itineraryParams)
     );
   },
 )(IndexPage);
@@ -414,7 +414,7 @@ const IndexPageWithPosition = connectToStores(
       ...context.getStore('FavouriteStore').getLocations(),
       ...context.getStore('FavouriteStore').getStopsAndStations(),
     ];
-    newProps.datetimePickerQuery = getTimeAndArriveByFromURL(location);
+    newProps.itineraryParams = getTimeAndArriveByFromURL(location);
     return newProps;
   },
 );
