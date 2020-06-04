@@ -124,7 +124,6 @@ ItinerarySearchControl.propTypes = {
  *    disableAutoFocus={false} // Optional. use this to disable autofocus completely from DTAutosuggestPanel
  *    sources={sources}
  *    targets={targets}
- *    itineraryParams={itineraryParams} // Optional. E.g. { time: 1591156800, arriveBy: true }
  */
 class DTAutosuggestPanel extends React.Component {
   static propTypes = {
@@ -145,7 +144,6 @@ class DTAutosuggestPanel extends React.Component {
     disableAutoFocus: PropTypes.bool,
     sources: PropTypes.arrayOf(PropTypes.string),
     targets: PropTypes.arrayOf(PropTypes.string),
-    itineraryParams: PropTypes.object,
   };
 
   static defaultProps = {
@@ -159,7 +157,6 @@ class DTAutosuggestPanel extends React.Component {
     sources: [],
     targets: [],
     disableAutoFocus: false,
-    itineraryParams: {},
   };
 
   constructor(props) {
@@ -459,7 +456,6 @@ class DTAutosuggestPanel extends React.Component {
             lang={this.props.lang}
             sources={this.props.sources}
             targets={this.props.targets}
-            itineraryParams={this.props.itineraryParams}
           />
           <ItinerarySearchControl
             className={styles.opposite}
@@ -532,7 +528,6 @@ class DTAutosuggestPanel extends React.Component {
                       lang={this.props.lang}
                       sources={this.props.sources}
                       targets={this.props.targets}
-                      itineraryParams={this.props.itineraryParams}
                     />
                   </div>
                   <ItinerarySearchControl
@@ -631,7 +626,6 @@ class DTAutosuggestPanel extends React.Component {
             lang={this.props.lang}
             sources={this.props.sources}
             targets={this.props.targets}
-            itineraryParams={this.props.itineraryParams}
           />
           <ItinerarySearchControl
             className={cx(styles['add-via-point'], styles.more, {

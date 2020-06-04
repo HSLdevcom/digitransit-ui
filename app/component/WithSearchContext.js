@@ -28,6 +28,7 @@ export default function withSearchContext(WrappedComponent) {
       children: PropTypes.node,
       relayEnvironment: PropTypes.object.isRequired,
       onFavouriteSelected: PropTypes.func,
+      itineraryParams: PropTypes.object,
     };
 
     constructor(props) {
@@ -67,7 +68,7 @@ export default function withSearchContext(WrappedComponent) {
       }
     };
 
-    onSuggestionSelected = (item, id, itineraryParams) => {
+    onSuggestionSelected = (item, id) => {
       // route
       if (item.properties.link) {
         this.selectRoute(item.properties.link);
@@ -89,7 +90,7 @@ export default function withSearchContext(WrappedComponent) {
           this.context.executeAction(searchContext.startLocationWatch),
         );
       } else {
-        this.selectLocation(location, id, itineraryParams);
+        this.selectLocation(location, id, this.props.itineraryParams);
       }
     };
 
@@ -116,10 +117,10 @@ export default function withSearchContext(WrappedComponent) {
       this.props.onFavouriteSelected(item);
     };
 
-    selectLocation = (location, id, itineraryParams) => {
+    selectLocation = (location, id) => {
       const locationWithTime = this.locationWithDateTimePicker(
         location,
-        itineraryParams,
+        this.props.itineraryParams,
       );
       addAnalyticsEvent({
         action: 'EditJourneyEndPoint',
@@ -179,7 +180,7 @@ export default function withSearchContext(WrappedComponent) {
       });
     };
 
-    onSelect = (item, id, itineraryParams) => {
+    onSelect = (item, id) => {
       // type is destination unless timetable or route was clicked
       let type = 'endpoint';
       switch (item.type) {
@@ -190,7 +191,7 @@ export default function withSearchContext(WrappedComponent) {
       }
       if (item.type === 'CurrentLocation') {
         // item is already a location.
-        this.selectLocation(item, id, itineraryParams);
+        this.selectLocation(item, id);
       }
       if (item.type === 'OldSearch' && item.properties.gid) {
         getJson(this.context.config.URL.PELIAS_PLACE, {
@@ -203,11 +204,11 @@ export default function withSearchContext(WrappedComponent) {
             newItem.geometry.coordinates = geom.coordinates;
           }
           this.finishSelect(newItem, type);
-          this.onSuggestionSelected(item, id, itineraryParams);
+          this.onSuggestionSelected(item, id);
         });
       } else {
         this.finishSelect(item, type);
-        this.onSuggestionSelected(item, id, itineraryParams);
+        this.onSuggestionSelected(item, id);
       }
     };
 
