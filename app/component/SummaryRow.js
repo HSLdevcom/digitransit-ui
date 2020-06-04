@@ -196,6 +196,7 @@ const SummaryRow = (
   const startTime = moment(data.startTime);
   const endTime = moment(data.endTime);
   const duration = endTime.diff(startTime);
+  const mobile = bp => !(bp === 'large');
   const legs = [];
   let noTransitLegs = true;
   const compressedLegs = compressLegs(data.legs).map(leg => ({
@@ -206,13 +207,13 @@ const SummaryRow = (
       noTransitLegs = false;
     }
   });
-  let renderBarThreshold = 5.5;
-  let renderLegDurationThreshold = 8.5;
-  let renderRouteNumberThreshold = 12;
+  let renderBarThreshold = 6;
+  let renderLegDurationThreshold = 9;
+  let renderRouteNumberThreshold = 12.5;
   if (breakpoint === 'small') {
     renderBarThreshold = 8;
     renderLegDurationThreshold = 12;
-    renderRouteNumberThreshold = 18;
+    renderRouteNumberThreshold = 17;
   }
   let firstLegStartTime = null;
   const vehicleNames = [];
@@ -650,7 +651,7 @@ const SummaryRow = (
                   {firstLegStartTime}
                 </div>
               </div>
-              {props.breakpoint !== 'small' && (
+              {mobile(breakpoint) !== true && (
                 <div
                   tabIndex="0"
                   role="button"

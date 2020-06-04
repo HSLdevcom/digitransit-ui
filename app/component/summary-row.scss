@@ -31,7 +31,7 @@
 .itinerary-summary-row {
   min-height: 50px;
   padding-left: 0.9375em;
-  padding-right: 0;
+  padding-right: 0.9375em;
   overflow: hidden;
   background-color: $white;
   display: flex;
@@ -352,8 +352,7 @@
   &.bp-large {
     min-height: 100px;
     border-left-width: 8px;
-    padding-left: 3.75em;
-    padding-top: 0;
+    padding: 0 0 0 3.75em;
 
     .leg.via {
       .itinerary-icon {
