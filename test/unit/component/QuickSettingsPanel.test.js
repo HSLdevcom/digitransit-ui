@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
 
-import { mockChildContextTypes } from '../helpers/mock-context';
+import { mockChildContextTypes, mockContext } from '../helpers/mock-context';
 import { mountWithIntl } from '../helpers/mock-intl-enzyme';
 
 import QuickSettingsPanel from '../../../app/component/QuickSettingsPanel';
@@ -28,6 +28,7 @@ describe('<QuickSettingsPanel />', () => {
         router: mockRouter,
         match: mockMatch,
         config: defaultConfig,
+        getStore: mockContext.getStore,
       },
       childContextTypes: { ...mockChildContextTypes },
     });
