@@ -19,6 +19,7 @@ const MobileSearch = ({
   label,
   onSuggestionSelected,
   clearOldSearches,
+  onKeyDown,
 }) => {
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;
@@ -67,7 +68,6 @@ const MobileSearch = ({
             shouldRenderSuggestions={() => true}
             inputProps={{
               ...inputProps,
-              onBlur: () => null,
               className: cx(
                 `${styles.input} ${styles[id] || ''} ${
                   inputProps.value ? styles.hasValue : ''
@@ -76,7 +76,12 @@ const MobileSearch = ({
               autoFocus: true,
             }}
             renderInputComponent={p => (
-              <input aria-label={ariaLabel} id={id} {...p} />
+              <input
+                aria-label={ariaLabel}
+                id={id}
+                onKeyDown={onKeyDown}
+                {...p}
+              />
             )}
             theme={styles}
             onSuggestionSelected={onSelect}
@@ -104,6 +109,7 @@ MobileSearch.propTypes = {
   onSuggestionSelected: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
   clearOldSearches: PropTypes.func.isRequired,
+  onKeyDown: PropTypes.func.isRequired,
   ariaLabel: PropTypes.string,
 };
 

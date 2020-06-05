@@ -20,11 +20,6 @@ i18next.addResourceBundle('en', 'translation', translations.en);
 i18next.addResourceBundle('fi', 'translation', translations.fi);
 i18next.addResourceBundle('sv', 'translation', translations.sv);
 
-const isMobile =
-  typeof window !== 'undefined' &&
-  window !== null &&
-  navigator.userAgent.match(/Mobile/) != null;
-
 const Loading = props => (
   <div className={styles['spinner-loader']}>
     {(props && props.children) || (
@@ -115,6 +110,7 @@ class DTAutosuggest extends React.Component {
     lang: PropTypes.string,
     sources: PropTypes.arrayOf(PropTypes.string),
     targets: PropTypes.arrayOf(PropTypes.string),
+    isMobile: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -126,6 +122,7 @@ class DTAutosuggest extends React.Component {
     lang: 'fi',
     sources: [],
     targets: [],
+    isMobile: false,
   };
 
   constructor(props) {
@@ -204,7 +201,7 @@ class DTAutosuggest extends React.Component {
             this.props.onSelect(ref.suggestion, this.props.id);
             this.setState({ renderMobileSearch: false });
           }
-          if (this.props.focusChange) {
+          if (this.props.focusChange && !this.props.isMobile) {
             this.props.focusChange();
           }
         },
@@ -250,7 +247,6 @@ class DTAutosuggest extends React.Component {
   };
 
   clearButton = () => {
-    const img = 'close';
     return (
       <button
         type="button"
@@ -258,13 +254,13 @@ class DTAutosuggest extends React.Component {
         onClick={this.clearInput}
         aria-label={i18next.t('clear-button-label')}
       >
-        <Icon img={img} width={1} height={1} color="#007ac9" />
+        <Icon img="close" />
       </button>
     );
   };
 
   fetchFunction = ({ value }) =>
-    this.setState({ valid: false, renderMobileSearch: isMobile }, () => {
+    this.setState({ valid: false }, () => {
       executeSearch(
         this.props.targets,
         this.props.sources,
@@ -314,7 +310,9 @@ class DTAutosuggest extends React.Component {
     };
     // must update suggestions
     this.setState(newState, () => this.fetchFunction({ value: '' }));
-    this.input.focus();
+    if (!this.props.isMobile) {
+      this.input.focus();
+    }
   };
 
   inputClicked = inputValue => {
@@ -364,7 +362,7 @@ class DTAutosuggest extends React.Component {
         item={item}
         ariaContent={ariaContent}
         loading={!this.state.valid}
-        isMobile={isMobile}
+        isMobile={this.props.isMobile}
       />
     );
   };
@@ -418,6 +416,7 @@ class DTAutosuggest extends React.Component {
       value,
       onChange: this.onChange,
       onBlur: this.onBlur,
+      onFocus: () => this.setState({ renderMobileSearch: this.props.isMobile }),
       className: cx(
         `${styles.input} ${styles[this.props.id] || ''} ${
           this.state.value ? styles.hasValue : ''
@@ -471,6 +470,7 @@ class DTAutosuggest extends React.Component {
             ariaLabel={SearchBarId.concat(' ').concat(ariaLabelText)}
             label={i18next.t(this.props.id)}
             onSuggestionSelected={this.onSelected}
+            onKeyDown={this.keyDown}
           />
         )}
         {!renderMobileSearch && (
