@@ -31,6 +31,8 @@ class TrafficNowLink extends React.Component {
     handleClick: PropTypes.func.isRequired,
     /* Language. Supported languages are en, sv, fi */
     lang: PropTypes.string,
+    /* href. if provided show <a> link  */
+    href: PropTypes.string,
   };
 
   static defaultProps = {
@@ -39,7 +41,6 @@ class TrafficNowLink extends React.Component {
 
   render() {
     i18next.changeLanguage(this.props.lang);
-
     return (
       <div
         className={styles.banner}
@@ -55,7 +56,10 @@ class TrafficNowLink extends React.Component {
             height={1.25}
             width={1.125}
           />{' '}
-          <h3 className={styles.text}> {i18next.t('traffic')} </h3>
+          <a style={{ textDecoration: 'none' }} href={this.props.href}>
+            {' '}
+            <h3 className={styles.text}> {i18next.t('traffic')} </h3>{' '}
+          </a>
         </div>
 
         <span>
