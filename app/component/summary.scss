@@ -297,6 +297,12 @@
 .mobile .street-mode-selector-panel-container {
   padding: 0 $padding-small;
 }
+.mobile {
+  background-color: white;
+  .summary-navigation-container {
+    margin: 0 1.25em;
+  }
+}
 
 .summary-navigation-container {
   background-color: #fff;
