@@ -52,8 +52,40 @@
   margin-top: 10px;
 }
 .mobile {
+  background-color: $white;
   .stop-page-header_icon-container {
     display: none;
+  }
+  .stop-page {
+    &.card-header {
+      padding: 1em 1em 0em 1em;
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+      z-index: 2;
+      position: relative;
+      top: -15px;
+      box-shadow: 0 -10px 10px 0 rgba(0, 0, 0, 0.2);
+    }
+  }
+  .card-header-wrapper {
+    .h3 {
+      font-size: 18px;
+    }
+    .card-sub-header {
+      min-height: 2em;
+      margin-top: -0.4em;
+      .card-sub-header-address {
+        margin-top: 0.5em;
+      }
+      .card-code {
+        margin-top: 0.5em;
+        margin-right: 0.5em;
+      }
+      .zone-icon-container {
+        margin-top: -0.5em;
+        margin-left: -0.5em;
+      }
+    }
   }
 }
 
