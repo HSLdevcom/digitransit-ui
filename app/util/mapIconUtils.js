@@ -170,7 +170,7 @@ export function drawRoundIcon(tile, geom, type, customScale, platformNumber) {
         const multiplier = (length > 3 && 1.2) || (length === 3 && 1.4) || 1.6;
         tile.ctx.font = `${multiplier *
           hubRadius *
-          tile.scaleratio}px Gotham XNarrow A, Gotham XNarrow B, Arial, sans-serif`;
+          tile.scaleratio}px Gotham XNarrow A, Gotham Rounded A, Gotham Rounded B, Arial, sans-serif`;
         tile.ctx.fillStyle = '#333';
         tile.ctx.textAlign = 'center';
         tile.ctx.textBaseline = 'middle';

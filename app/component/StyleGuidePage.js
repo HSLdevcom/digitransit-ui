@@ -273,8 +273,8 @@ function getFonts() {
           fontWeight: '400',
         }}
       >
-        Secondary font: &quot;Gotham XNarrow SSm A&quot;, &quot;Gotham XNarrow
-        SSm B&quot;, Arial, Georgia, Serif
+        Secondary font: &quot;Gotham XNarrow SSm A&quot;, &quot;Gotham Rounded
+        A&quot;, &quot;Gotham Rounded B&quot;, Arial, Georgia, Serif
         <span className="code">@include font-narrow-book</span>
       </p>
       <p
@@ -284,8 +284,8 @@ function getFonts() {
           fontWeight: '500',
         }}
       >
-        Secondary font: &quot;Gotham XNarrow SSm A&quot;, &quot;Gotham XNarrow
-        SSm B&quot;, Arial, Georgia, Serif
+        Secondary font: &quot;Gotham XNarrow SSm A&quot;, &quot;Gotham Rounded
+        A&quot;, &quot;Gotham Rounded B&quot;, Arial, Georgia, Serif
         <span className="code">@include font-narrow-medium</span>
       </p>
     </section>
