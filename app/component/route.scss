@@ -697,6 +697,7 @@ $margin-left-right: 1.25em;
   box-shadow: 0 -5px 5px 0 rgba(0, 0, 0, 0.2);
   &.bp-large {
     padding: 0 $margin-left-right-large 1.5em;
+    box-shadow: none;
   }
   .back-button {
     position: absolute;
