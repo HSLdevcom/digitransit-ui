@@ -14,7 +14,7 @@ const StreetModeSelectorPanel = (
 ) => (
   <React.Fragment>
     <div className="street-modes-container">
-      <div className="transport-mode-subheader">
+      <div className="transport-mode-subheader settings-header">
         <FormattedMessage
           id="pick-street-mode"
           defaultMessage="Your own transportation modes"

@@ -6,7 +6,7 @@
     cursor: pointer;
     position: absolute;
     left: 0;
-    top: 1em;
+    top: 0.75em;
 
     &.checked {
       border: $primary-color 1px solid;
@@ -35,8 +35,8 @@
   .toggle {
     position: relative;
     display: inline-block;
-    width: 60px;
-    height: 34px;
+    width: 51px;
+    height: 31px;
     float: right;
   }
 
@@ -58,10 +58,6 @@
     background-color: #ccc;
     -webkit-transition: .4s;
     transition: .4s;
-
-    /* &:hover {
-      border: 1px solid $primary-color;
-    } */
   }
 
   .slider:before {
@@ -69,8 +65,8 @@
     content: "";
     height: 26px;
     width: 26px;
-    left: 4px;
-    bottom: 4px;
+    left: 0px;
+    bottom: 1px;
     background-color: white;
     -webkit-transition: .4s;
     transition: .4s;
@@ -85,18 +81,24 @@
   }
 
   input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
+    -webkit-transform: translateX(21px);
+    -ms-transform: translateX(21px);
+    transform: translateX(21px);
   }
 
   /* Rounded sliders */
   .slider.round {
     border-radius: 34px;
-    background: #e3e3e3;
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
   }
 
   .slider.round:before {
     border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.05), 0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 3px 1px 0 rgba(0, 0, 0, 0.05);
+    border: solid 0.5px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
   }
 }

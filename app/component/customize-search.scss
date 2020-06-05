@@ -38,6 +38,10 @@
   }
 
   .toggle-container {
+    .settings-header {
+      padding-top: 1em;
+      width: 100%;
+    }
     span {
       padding-top: 1em;
       width: 100%;
@@ -47,13 +51,16 @@
       margin: 0 1em 0 0;
     }
   }
-
-  .citybike-network-container {
+  .mode-option-block.citybike-network-container:nth-child(2) {
+    border-bottom: 1px solid #e3e3e3;
+  }
+  .mode-option-block.citybike-network-container {
+    margin-bottom: 0.75em;
     .option-toggle-container {
       width: 100%;
 
       .toggle {
-        top: 1px;
+        top: 0px;
       }
     }
     .icon-container {
@@ -63,7 +70,7 @@
 }
 
 .settings-option-container {
-  padding: 1em 1em 0 1em;
+  padding: 0.5em 1em 0 1em;
   border-bottom: 5px solid #f4f4f5;
   font-weight: 500;
 
@@ -73,10 +80,11 @@
 
   h1 {
     text-transform: none;
-    font-size: $font-size-normal;
+    font-size: $font-size-xlarge;
     letter-spacing: -0.6pt;
-    font-weight: $font-weight-bold;
+    font-weight: 500;
     font-family: $font-family;
+    padding: 1em 0.5em 0.5em 0.5em;
   }
 
   .option-checkbox-container > span {
@@ -86,6 +94,9 @@
   .mode-option-container:last-of-type {
     border: none;
   }
+}
+.settings-option-container:first-of-type {
+  border-bottom: 1px solid #dddddd;
 }
 
 .transport-mode-header {
@@ -98,19 +109,32 @@
   }
 }
 
+.settings-header {
+  font-size: $font-size-normal;
+  color: $gray;
+  font-weight: normal;
+  padding-left: 1em;
+}
+
+.settings-header-citybike {
+  padding-left: 0;
+}
+
 .street-modes-container {
   > div {
     border-bottom: 1px solid #e3e3e3;
   }
 
-  :last-child, :first-child {
+  :last-child {
     border: none;
   }
-
+  .transport-mode-subheader {
+    border: none;
+  }
   .settings-dropdown-wrapper {
-    margin-left: 2em;
+    margin-left: 3.2em;
     padding-bottom: 1em;
-    border-bottom: 1px solid #e3e3e3;
+    padding-top: 0.2em;
   }
 }
 
