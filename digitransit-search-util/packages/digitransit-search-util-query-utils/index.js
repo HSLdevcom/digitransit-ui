@@ -1,5 +1,6 @@
 import merge from 'lodash/merge';
 import take from 'lodash/take';
+import flatten from 'lodash/flatten';
 import moment from 'moment';
 import { fetchQuery, graphql } from 'react-relay';
 import routeNameCompare from '@digitransit-search-util/digitransit-search-util-route-name-compare';
@@ -58,26 +59,23 @@ const favouriteStopsQuery = graphql`
   }
 `;
 
-const favouriteRoutesQuery = () => {
-  return graphql`
-    query digitransitSearchUtilQueryUtilsFavouriteRoutesQuery(
-      $ids: [String!]!
-    ) {
-      routes(ids: $ids) {
-        gtfsId
-        agency {
-          name
-        }
-        shortName
-        mode
-        longName
-        patterns {
-          code
-        }
+const favouriteRoutesQuery = graphql`
+  query digitransitSearchUtilQueryUtilsFavouriteRoutesQuery($ids: [String!]!) {
+    routes(ids: $ids) {
+      gtfsId
+      agency {
+        name
+      }
+      shortName
+      mode
+      longName
+      patterns {
+        code
       }
     }
-  `;
-};
+  }
+`;
+
 /**
  * Set you Relay environment
  * @param {*} environment Your Relay environment
@@ -94,25 +92,71 @@ export const getStopAndStationsQuery = favourites => {
   if (!relayEnvironment) {
     return Promise.resolve([]);
   }
-  return fetchQuery(relayEnvironment, favouriteStopsQuery, {
-    ids: favourites.map(item => item.gtfsId),
-  }).then(dataStops =>
-    fetchQuery(relayEnvironment, favouriteStationsQuery, {
-      ids: favourites.map(item => item.gtfsId),
-    }).then(dataStations =>
-      merge(dataStops.stops, dataStations.stations, favourites).map(stop => ({
-        type: 'FavouriteStop',
-        properties: {
-          ...stop,
-          label: stop.name,
-          layer: isStop(stop) ? 'favouriteStop' : 'favouriteStation',
-        },
-        geometry: {
-          coordinates: [stop.lon, stop.lat],
-        },
-      })),
-    ),
+  const queries = [];
+  const ids = favourites.map(item => item.gtfsId);
+  queries.push(
+    fetchQuery(relayEnvironment, favouriteStopsQuery, {
+      ids,
+    }),
   );
+  queries.push(
+    fetchQuery(relayEnvironment, favouriteStationsQuery, {
+      ids,
+    }),
+  );
+  return Promise.all(queries)
+    .then(qres =>
+      qres.map(stopOrStation => {
+        return stopOrStation.stops
+          ? stopOrStation.stops
+          : stopOrStation.stations;
+      }),
+    )
+    .then(flatten)
+    .then(result => result.filter(res => res !== null))
+    .then(stopsAndStations =>
+      // Attention, do not remove [] unless you are absolutely sure what you are doing!
+      merge([], stopsAndStations, favourites).map(stop => {
+        const favourite = {
+          type: 'FavouriteStop',
+          properties: {
+            ...stop,
+            label: stop.name,
+            layer: isStop(stop) ? 'favouriteStop' : 'favouriteStation',
+          },
+          geometry: {
+            coordinates: [stop.lon, stop.lat],
+          },
+        };
+        return favourite;
+      }),
+    );
+  // return fetchQuery(relayEnvironment, favouriteStopsQuery, {
+  //   ids: favourites.map(item => item.gtfsId),
+  // }).then(dataStops =>
+  //   fetchQuery(relayEnvironment, favouriteStationsQuery, {
+  //     ids: favourites.map(item => item.gtfsId),
+  //   }).then(dataStations => {
+  //     const stops = dataStops.stops.filter(stop => stop !== null);
+  //     const stations = dataStations.stations.filter(
+  //       station => station !== null,
+  //     );
+  //     return merge(stops, stations, favourites).map(stop => {
+  //       const obj = {
+  //         type: 'FavouriteStop',
+  //         properties: {
+  //           ...stop,
+  //           label: stop.name,
+  //           layer: isStop(stop) ? 'favouriteStop' : 'favouriteStation',
+  //         },
+  //         geometry: {
+  //           coordinates: [stop.lon, stop.lat],
+  //         },
+  //       };
+  //       return obj;
+  //     });
+  //   }),
+  // );
 };
 
 /**
