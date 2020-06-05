@@ -532,7 +532,7 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.10.1"
 
-"@babel/plugin-syntax-dynamic-import@7.8.3", "@babel/plugin-syntax-dynamic-import@^7.0.0", "@babel/plugin-syntax-dynamic-import@^7.8.0":
+"@babel/plugin-syntax-dynamic-import@7.8.3", "@babel/plugin-syntax-dynamic-import@^7.0.0", "@babel/plugin-syntax-dynamic-import@^7.7.4", "@babel/plugin-syntax-dynamic-import@^7.8.0":
   version "7.8.3"
   resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-dynamic-import/-/plugin-syntax-dynamic-import-7.8.3.tgz#62bf98b2da3cd21d626154fc96ee5b3cb68eacb3"
   integrity sha512-5gdGbFon+PszYzqs83S3E5mpi7/y/8M9eC90MRTZfduQOYW76ig6SOSPNe41IG5LoP3FGBn2N0RjVDSQiS94kQ==
@@ -1374,10 +1374,10 @@
   resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-icon/-/digitransit-component-icon-0.0.4.tgz#b49edc0b74ef3306259acb4960a7fe5075d54d87"
   integrity sha512-HH1ndu0r0N0IAGkbKIdjsjEUOyOMNTZiy+QWqURmglvuhxy25jVx+lJhTvQaX3jRo6/kENiV4PiXzsoN6k1/fA==
 
-"@digitransit-component/digitransit-component-suggestion-item@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-suggestion-item/-/digitransit-component-suggestion-item-0.0.5.tgz#31bd427ab2b7489ebc98472e93bd9402facddb4d"
-  integrity sha512-0mFRnDKANASxsHCW1BkbIbn5BIxR2OPo6uykIyxXw+kgyTBTCRF81yAQfs7OaaXKhSzkb6vSC6cZWyKtcSNRzw==
+"@digitransit-component/digitransit-component-suggestion-item@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-suggestion-item/-/digitransit-component-suggestion-item-0.0.6.tgz#18d08e629ef6464602ebccb382867ea6f6e74b3c"
+  integrity sha512-30RU5RCRiaYVKgV8qANMzPRZ5yetscAIItvE1Yt/e181KgYeJBVi5amsTO9W20lp3JqLr5QugqV6aF5lnkx1xw==
   dependencies:
     "@digitransit-component/digitransit-component-icon" "0.0.1"
 
@@ -2200,6 +2200,13 @@
   dependencies:
     npmlog "^4.1.2"
     write-file-atomic "^2.3.0"
+
+"@loadable/babel-plugin@5.12.0":
+  version "5.12.0"
+  resolved "https://registry.yarnpkg.com/@loadable/babel-plugin/-/babel-plugin-5.12.0.tgz#de18d4637eb8f4bdecd694a6737880b3e2094d4c"
+  integrity sha512-hb4TDUalaGogsCASEi0fD9Jn0Y2nQybupGgJQAxmx2KrLKxRoWfg78bJMabvownonsq3MEWgUWqb0c3m0uX9vQ==
+  dependencies:
+    "@babel/plugin-syntax-dynamic-import" "^7.7.4"
 
 "@loadable/component@5.12.0":
   version "5.12.0"
