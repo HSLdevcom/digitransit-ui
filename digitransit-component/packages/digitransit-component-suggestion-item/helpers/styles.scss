@@ -2,7 +2,12 @@
 
 .suggestion-item-container {
   display: flex;
-  &.Currentlocation {
+}
+
+.mobile {
+  height: 59px;
+  margin: 0 10px;
+  &.CurrentLocation {
     height: 50px;
   }
   &.SelectFromMap {
@@ -10,6 +15,13 @@
   }
 }
 
+li:not(:first-child) > div.suggestion-item-container {
+  border-top: 1px solid #ddd;
+}
+
+li:last-child > div.suggestion-item-container.mobile {
+  border-top: none;
+}
 
 .search-result {
   display: flex;
@@ -40,9 +52,21 @@
     color: #666666;
   }
 
-  .right {
+  .arrow-icon {
+    display: flex;
+    align-items: center;
     position: absolute;
     right: 10px;
+    svg {
+      width: 17px;
+      height: 17px;
+    }
+    &.mobile {
+      svg {
+        width: 12px;
+        height: 21px;
+      }
+    }
   }
 }
 

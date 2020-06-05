@@ -75,7 +75,7 @@ const SuggestionItem = pure(
     const ri = (
       <div
         aria-hidden="true"
-        className={cx(styles['search-result'], styles[item.type], {
+        className={cx(styles['search-result'], {
           loading,
         })}
       >
@@ -88,17 +88,24 @@ const SuggestionItem = pure(
           </p>
           <p className={styles['suggestion-label']}>{label}</p>
         </div>
-        <span className={styles.right}>
-          <Icon width={0.625} height={1.063} img="arrow" />
+        <span
+          className={cx(styles['arrow-icon'], {
+            [styles.mobile]: isMobile,
+          })}
+        >
+          <Icon img="arrow" />
         </span>
       </div>
     );
-
     return (
       <div
-        className={cx(styles['suggestion-item-container'], styles[item.type], {
-          [styles.mobile]: isMobile,
-        })}
+        className={cx(
+          styles['suggestion-item-container'],
+          {
+            [styles.mobile]: isMobile,
+          },
+          styles[item.type],
+        )}
       >
         {acri}
         {ri}
