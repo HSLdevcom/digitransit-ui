@@ -120,6 +120,7 @@ class FavouritesContainer extends React.Component {
             location={this.state.selectedLocation}
             prefilledFavourite={this.state.prefilledFavourite}
             lang={this.props.lang}
+            isMobile={this.props.isMobile}
             autosuggestComponent={
               <AutoSuggestWithSearchContext
                 sources={['History', 'Datasource']}
