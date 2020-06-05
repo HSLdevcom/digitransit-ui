@@ -694,6 +694,7 @@ $margin-left-right: 1.25em;
   background-color: white;
   padding: 1em $margin-left-right 0;
   border-radius: 15px 15px 0 0;
+  box-shadow: 0 -5px 5px 0 rgba(0, 0, 0, 0.2);
   &.bp-large {
     padding: 0 $margin-left-right-large 1.5em;
   }
