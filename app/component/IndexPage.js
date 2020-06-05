@@ -238,6 +238,8 @@ class IndexPage extends React.Component {
             lang={lang}
             sources={['Favourite', 'History', 'Datasource']}
             targets={['Locations', 'CurrentPosition', 'MapPosition']}
+            disableAutoFocus
+            isMobile
           />
           <CtrlPanel.SeparatorLine />
           <DatetimepickerContainer realtime />
@@ -246,6 +248,7 @@ class IndexPage extends React.Component {
             onClickFavourite={this.clickFavourite}
             onAddFavourite={this.addFavourite}
             lang={lang}
+            isMobile
           />
           <CtrlPanel.SeparatorLine />
           <div className="stops-near-you-text">
@@ -266,6 +269,7 @@ class IndexPage extends React.Component {
             value=""
             sources={['Favourite', 'History', 'Datasource']}
             targets={['Stops', 'Routes']}
+            isMobile
           />
         </CtrlPanel>
       </div>

@@ -43,10 +43,12 @@ class FavouritesContainer extends React.Component {
     onAddFavourite: PropTypes.func,
     onClickFavourite: PropTypes.func,
     lang: PropTypes.string,
+    isMobile: PropTypes.bool,
   };
 
   static defaultProps = {
     favourites: [],
+    isMobile: false,
   };
 
   constructor(props) {
@@ -127,6 +129,7 @@ class FavouritesContainer extends React.Component {
                 value={this.state.selectedLocation.address || ''}
                 onFavouriteSelected={this.setLocationProperties}
                 lang={this.props.lang}
+                isMobile={this.props.isMobile}
               />
             }
           />
