@@ -91,8 +91,9 @@ h1,
 h2,
 .h2 {
   font-family: $font-family;
-  font-weight: $font-weight-bold;
   font-size: $font-size-large;
+  font-weight: $font-weight-medium;
+  letter-spacing: $letter-spacing-front-page;
   color: $black;
   text-transform: none;
 }

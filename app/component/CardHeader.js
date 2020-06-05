@@ -3,25 +3,38 @@ import React, { Fragment } from 'react';
 import cx from 'classnames';
 import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
+import ZoneIcon from './ZoneIcon';
 import SplitBars from './SplitBars';
 import Favourite from './Favourite';
 import BackButton from './BackButton'; // DT-3472
+import { getZoneLabelColor } from '../util/mapIconUtils';
 
-const CardHeader = ({
-  className,
-  children,
-  headerIcon,
-  headingStyle,
-  name,
-  description,
-  code,
-  externalLink,
-  icon,
-  icons,
-  unlinked,
-  showBackButton, // DT-3472
-  backButtonColor, // DT-3472
-}) => (
+function getZoneLabel(zoneId, config) {
+  if (config.zoneIdMapping) {
+    return config.zoneIdMapping[zoneId];
+  }
+  return zoneId;
+}
+
+const CardHeader = (
+  {
+    className,
+    children,
+    headerIcon,
+    headingStyle,
+    stop,
+    description,
+    code,
+    externalLink,
+    icon,
+    icons,
+    unlinked,
+    showBackButton, // DT-3472
+    backButtonColor, // DT-3472
+    headerConfig,
+  },
+  { config },
+) => (
   <Fragment>
     <div className={cx('card-header', className)}>
       {showBackButton && (
@@ -29,10 +42,13 @@ const CardHeader = ({
           icon="icon-icon_arrow-collapse--left"
           color={backButtonColor}
           iconClassName="arrow-icon"
-          customStyle={{ paddingTop: '0px', marginBottom: '10px' }}
+          customStyle={{
+            marginTop: '0.4em',
+            position: 'absolute',
+            left: '1.5em',
+          }}
         />
       )}
-      {children}
       <div className="card-header-content">
         {icon ? (
           <div
@@ -42,28 +58,36 @@ const CardHeader = ({
             <Icon img={icon} />
           </div>
         ) : null}
-        {className === 'stop-page header' && (
-          <div className="stop-page-header_icon-container">
-            <Icon img="icon-icon_bus-stop" className="stop-page-header_icon" />
-          </div>
-        )}
         <div className="card-header-wrapper">
           <span className={headingStyle || 'h4'}>
-            {name}
+            {stop.name}
             {externalLink || null}
             {headerIcon}
             {unlinked ? null : <span className="link-arrow"> ›</span>}
           </span>
           <div className="card-sub-header">
-            {code != null ? <p className="card-code">{code}</p> : null}
             {description != null && description !== 'null' ? (
-              <p className="sub-header-h4">{description}</p>
+              <p className="card-sub-header-address">{description}</p>
             ) : null}
+            {code != null ? <p className="card-code">{code}</p> : null}
+            {headerConfig &&
+              headerConfig.showZone &&
+              stop.zoneId && (
+                <ZoneIcon
+                  zoneId={getZoneLabel(stop.zoneId, config)}
+                  zoneIdFontSize="11px"
+                  zoneLabelColor={getZoneLabelColor(config)}
+                  zoneLabelHeight="15px"
+                  zoneLabelWidth="15px"
+                  zoneLabelLineHeight="15px"
+                />
+              )}
           </div>
         </div>
         {icons && icons.length ? <SplitBars>{icons}</SplitBars> : null}
       </div>
     </div>
+    {children}
   </Fragment>
 );
 
@@ -101,7 +125,7 @@ CardHeader.propTypes = {
   className: PropTypes.string,
   headerIcon: PropTypes.node,
   headingStyle: PropTypes.string,
-  name: PropTypes.string.isRequired,
+  stop: PropTypes.object,
   description: PropTypes.string.isRequired,
   code: PropTypes.string,
   externalLink: PropTypes.node,
@@ -111,10 +135,16 @@ CardHeader.propTypes = {
   unlinked: PropTypes.bool,
   showBackButton: PropTypes.bool, // DT-3472
   backButtonColor: PropTypes.string, // DT-3472
+  headerConfig: PropTypes.object,
 };
 
 CardHeader.defaultProps = {
   headerIcon: undefined,
+  stop: {},
+};
+
+CardHeader.contextTypes = {
+  config: PropTypes.object.isRequired,
 };
 
 export default CardHeader;

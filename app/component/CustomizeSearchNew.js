@@ -91,7 +91,7 @@ class CustomizeSearch extends React.Component {
         {config.showTicketSelector && (
           <FareZoneSelector
             options={ticketOptions}
-            currentOption={currentSettings.ticketTypes || 'none'}
+            currentOption={currentSettings.ticketTypes}
           />
         )}
       </div>

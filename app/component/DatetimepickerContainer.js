@@ -3,6 +3,7 @@ import React from 'react';
 import { matchShape, routerShape } from 'found';
 import debounce from 'lodash/debounce';
 import loadable from '@loadable/component';
+import { connectToStores } from 'fluxible-addons-react';
 import { replaceQueryParams } from '../util/queryUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
@@ -11,7 +12,7 @@ const Datetimepicker = loadable(
   { ssr: true },
 );
 
-function DatetimepickerContainer({ realtime, embedWhenClosed }, context) {
+function DatetimepickerContainer({ realtime, embedWhenClosed, lang }, context) {
   const { router, match } = context;
 
   const setParams = debounce((time, arriveBy) => {
@@ -74,6 +75,7 @@ function DatetimepickerContainer({ realtime, embedWhenClosed }, context) {
       onDepartureClick={onDepartureClick}
       onArrivalClick={onArrivalClick}
       embedWhenClosed={embedWhenClosed}
+      lang={lang}
     />
   );
 }
@@ -81,10 +83,12 @@ function DatetimepickerContainer({ realtime, embedWhenClosed }, context) {
 DatetimepickerContainer.propTypes = {
   realtime: PropTypes.bool.isRequired,
   embedWhenClosed: PropTypes.node,
+  lang: PropTypes.string,
 };
 
 DatetimepickerContainer.defaultProps = {
   embedWhenClosed: null,
+  lang: 'en',
 };
 
 DatetimepickerContainer.contextTypes = {
@@ -93,4 +97,12 @@ DatetimepickerContainer.contextTypes = {
   config: PropTypes.object.isRequired,
 };
 
-export default DatetimepickerContainer;
+const withLang = connectToStores(
+  DatetimepickerContainer,
+  ['PreferencesStore'],
+  context => ({
+    lang: context.getStore('PreferencesStore').getLanguage(),
+  }),
+);
+
+export { withLang as default, DatetimepickerContainer as Component };

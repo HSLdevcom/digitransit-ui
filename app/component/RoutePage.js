@@ -7,7 +7,6 @@ import cx from 'classnames';
 import sortBy from 'lodash/sortBy'; // DT-3182
 import { matchShape, routerShape } from 'found';
 
-import Icon from './Icon';
 import CallAgencyWarning from './CallAgencyWarning';
 import FavouriteRouteContainer from './FavouriteRouteContainer';
 import RoutePatternSelect from './RoutePatternSelect';
@@ -316,7 +315,7 @@ class RoutePage extends React.Component {
     const useCurrentTime = activeTab === Tab.Stops; // DT-3182
 
     return (
-      <div>
+      <div className="route-page-container">
         <div className="header-for-printing">
           <h1>
             <FormattedMessage
@@ -328,28 +327,39 @@ class RoutePage extends React.Component {
           </h1>
         </div>
         {route.type === 715 && <CallAgencyWarning route={route} />}
-        <div className="tabs route-tabs">
-          <nav
-            className={cx('tabs-navigation', {
-              'bp-large': breakpoint === 'large',
-            })}
-          >
-            {breakpoint === 'large' && (
-              <BackButton
-                icon="icon-icon_arrow-collapse--left"
-                color={config.colors.primary}
-                iconClassName="arrow-icon"
-                customStyle={{ paddingTop: '25px' }}
-              />
-            )}
-            {breakpoint === 'large' && (
-              <RouteNumber
-                color={route.color ? `#${route.color}` : null}
-                mode={route.mode}
-                text={route.shortName}
-                isRouteView
-              />
-            )}
+        <div
+          className={cx('route-container', {
+            'bp-large': breakpoint === 'large',
+          })}
+        >
+          {breakpoint === 'large' && (
+            <BackButton
+              icon="icon-icon_arrow-collapse--left"
+              color={config.colors.primary}
+              iconClassName="arrow-icon"
+              customStyle={{ paddingTop: '25px' }}
+            />
+          )}
+          <div className="route-header">
+            <RouteNumber
+              color={route.color ? `#${route.color}` : null}
+              mode={route.mode}
+              text={route.shortName}
+              isRouteView
+              renderNumber={false}
+            />
+            <div className="route-info">
+              <div className={cx('route-short-name', route.mode.toLowerCase())}>
+                {route.shortName}
+              </div>
+              <div className="route-long-name">{route.longName}</div>
+            </div>
+            <FavouriteRouteContainer
+              className="route-page-header"
+              gtfsId={route.gtfsId}
+            />
+          </div>
+          <div className="route-tabs">
             <a
               className={cx({ 'is-active': activeTab === Tab.Stops })}
               onClick={() => {
@@ -357,7 +367,6 @@ class RoutePage extends React.Component {
               }}
             >
               <div>
-                <Icon img="icon-icon_bus-stop" />
                 <FormattedMessage id="stops" defaultMessage="Stops" />
               </div>
             </a>
@@ -368,7 +377,6 @@ class RoutePage extends React.Component {
               }}
             >
               <div>
-                <Icon img="icon-icon_schedule" />
                 <FormattedMessage id="timetable" defaultMessage="Timetable" />
               </div>
             </a>
@@ -385,22 +393,13 @@ class RoutePage extends React.Component {
                 className={`tab-route-disruption ${disruptionClassName ||
                   `no-alerts`}`}
               >
-                <Icon
-                  className={`route-page-tab_icon ${disruptionClassName ||
-                    `no-alerts`}`}
-                  img={hasActiveAlert ? 'icon-icon_caution' : 'icon-icon_info'}
-                />
                 <FormattedMessage
                   id="disruptions"
                   defaultMessage="Disruptions"
                 />
               </div>
             </a>
-            <FavouriteRouteContainer
-              className="route-page-header"
-              gtfsId={route.gtfsId}
-            />
-          </nav>
+          </div>
           {patternId && (
             <RoutePatternSelect
               params={match.params}

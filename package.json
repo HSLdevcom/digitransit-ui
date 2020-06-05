@@ -11,7 +11,7 @@
     "digitransit-component/packages/*"
   ],
   "scripts": {
-    "setup": "yarn install && yarn run digitransit-build-components",
+    "setup": "yarn install && yarn run digitransit-build-components && yarn run build-search-utils",
     "static": "mkdir -p _static/js; mkdir -p _static/css; cp -r static/* _static",
     "win-static": "xcopy static\\* _static /e /s /y /i& if not exist _static\\js mkdir _static\\js& if not exist _static\\css mkdir _static\\css",
     "prebuild": "yarn run static && yarn run relay",
@@ -40,8 +40,8 @@
     "start": "NODE_ENV=production node $NODE_OPTS server/server",
     "win-start": "set NODE_ENV=production&& set CONFIG=hsl&& node server/server.js",
     "add-theme": "node build/add-theme",
-    "relay": "relay-compiler --src ./app/ --schema ./build/schema.json",
-    "relay-watch": "relay-compiler --src ./app/ --schema ./build/schema.json --watch",
+    "relay": "relay-compiler --src ./. --schema ./build/schema.json",
+    "relay-watch": "relay-compiler --src . --schema ./build/schema.json --watch",
     "digitransit-npm-publish": "lerna publish from-package --no-git-tag-version --no-push",
     "digitransit-search-util-docs": "node -r esm ./digitransit-search-util/scripts/generate-readmes",
     "digitransit-search-util-new-module": "node -r esm ./digitransit-search-util/scripts/create-new-module $1",
@@ -52,7 +52,8 @@
     "digitransit-component-docs": "node -r esm ./digitransit-component/scripts/generate-readmes",
     "digitransit-component-new-module": "node -r esm ./digitransit-component/scripts/create-new-module $1",
     "digitransit-component-tests": "lerna run test --scope '@digitransit-component/*'",
-    "digitransit-build-components": "lerna run build:index --scope '@digitransit-component/*'"
+    "digitransit-build-components": "lerna run build:index --scope '@digitransit-component/*'",
+    "build-search-utils": "lerna run build:index --scope '@digitransit-search-util/digitransit-search-util-query-utils'"
   },
   "main": "server.js",
   "repository": {

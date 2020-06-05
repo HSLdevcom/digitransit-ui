@@ -5,7 +5,7 @@ import { matchShape, routerShape } from 'found';
 import { intlShape } from 'react-intl';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
-import { withCurrentTime } from '../util/DTSearchQueryUtils';
+import moment from 'moment';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { navigateTo } from '../util/path';
 import searchContext from '../util/searchContext';
@@ -28,6 +28,7 @@ export default function withSearchContext(WrappedComponent) {
       children: PropTypes.node,
       relayEnvironment: PropTypes.object.isRequired,
       onFavouriteSelected: PropTypes.func,
+      itineraryParams: PropTypes.object,
     };
 
     constructor(props) {
@@ -89,7 +90,7 @@ export default function withSearchContext(WrappedComponent) {
           this.context.executeAction(searchContext.startLocationWatch),
         );
       } else {
-        this.selectLocation(location, id);
+        this.selectLocation(location, id, this.props.itineraryParams);
       }
     };
 
@@ -117,9 +118,9 @@ export default function withSearchContext(WrappedComponent) {
     };
 
     selectLocation = (location, id) => {
-      const locationWithTime = withCurrentTime(
-        this.context.getStore,
-        this.context.match.location,
+      const locationWithItineraryParams = this.addItineraryParamsToLocation(
+        location,
+        this.props.itineraryParams,
       );
       addAnalyticsEvent({
         action: 'EditJourneyEndPoint',
@@ -170,7 +171,7 @@ export default function withSearchContext(WrappedComponent) {
       }
 
       navigateTo({
-        base: locationWithTime,
+        base: locationWithItineraryParams,
         origin,
         destination,
         context: '', // PREFIX_ITINERARY_SUMMARY,
@@ -209,6 +210,30 @@ export default function withSearchContext(WrappedComponent) {
         this.finishSelect(item, type);
         this.onSuggestionSelected(item, id);
       }
+    };
+
+    addItineraryParamsToLocation = (location, itineraryParams) => {
+      const query = (location && location.query) || {};
+      if (itineraryParams && itineraryParams.arriveBy) {
+        return {
+          ...location,
+          query: {
+            ...query,
+            time: itineraryParams.time ? itineraryParams.time : moment().unix(),
+            arriveBy: itineraryParams.arriveBy,
+          },
+        };
+      }
+      return {
+        ...location,
+        query: {
+          ...query,
+          time:
+            itineraryParams && itineraryParams.time
+              ? itineraryParams.time
+              : moment().unix(),
+        },
+      };
     };
 
     render() {

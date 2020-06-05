@@ -1,20 +1,95 @@
 import merge from 'lodash/merge';
 import take from 'lodash/take';
-import { fetchQuery } from 'react-relay';
+import moment from 'moment';
+import { fetchQuery, graphql } from 'react-relay';
 import routeNameCompare from '@digitransit-search-util/digitransit-search-util-route-name-compare';
-import { mapRoute } from '@digitransit-search-util/digitransit-search-util-helpers';
+import {
+  mapRoute,
+  isStop,
+} from '@digitransit-search-util/digitransit-search-util-helpers';
 import filterMatchingToInput from '@digitransit-search-util/digitransit-search-util-filter-matching-to-input';
-import { isStop } from './suggestionUtils';
-import searchRoutesQuery from './searchRoutes';
-import favouriteStationsQuery from './favouriteStations';
-import favouriteStopsQuery from './favouriteStops';
-import favouriteRoutesQuery from './favouriteRoutes';
 
 let relayEnvironment = null;
 
+const searchRoutesQuery = graphql`
+  query digitransitSearchUtilQueryUtilsSearchRoutesQuery(
+    $feeds: [String!]!
+    $name: String
+  ) {
+    viewer {
+      routes(feeds: $feeds, name: $name) {
+        gtfsId
+        agency {
+          name
+        }
+        shortName
+        mode
+        longName
+        patterns {
+          code
+        }
+      }
+    }
+  }
+`;
+
+const favouriteStationsQuery = graphql`
+  query digitransitSearchUtilQueryUtilsFavouriteStationsQuery(
+    $ids: [String!]!
+  ) {
+    stations(ids: $ids) {
+      gtfsId
+      lat
+      lon
+      name
+    }
+  }
+`;
+
+const favouriteStopsQuery = graphql`
+  query digitransitSearchUtilQueryUtilsFavouriteStopsQuery($ids: [String!]!) {
+    stops(ids: $ids) {
+      gtfsId
+      lat
+      lon
+      name
+      code
+    }
+  }
+`;
+
+const favouriteRoutesQuery = () => {
+  return graphql`
+    query digitransitSearchUtilQueryUtilsFavouriteRoutesQuery(
+      $ids: [String!]!
+    ) {
+      routes(ids: $ids) {
+        gtfsId
+        agency {
+          name
+        }
+        shortName
+        mode
+        longName
+        patterns {
+          code
+        }
+      }
+    }
+  `;
+};
+/**
+ * Set you Relay environment
+ * @param {*} environment Your Relay environment
+ *
+ */
 export function setRelayEnvironment(environment) {
   relayEnvironment = environment;
 }
+/**
+ * Returns Stop and station objects .
+ * @param {*} favourites
+ */
 export const getStopAndStationsQuery = favourites => {
   if (!relayEnvironment) {
     return Promise.resolve([]);
@@ -40,6 +115,11 @@ export const getStopAndStationsQuery = favourites => {
   );
 };
 
+/**
+ * Returns Favourite Route objects depending on input
+ * @param {String} input Search text, if empty no objects are returned
+ * @param {*} favourites
+ */
 export function getFavouriteRoutesQuery(favourites, input) {
   if (!relayEnvironment) {
     return Promise.resolve([]);
@@ -64,6 +144,11 @@ export function getFavouriteRoutesQuery(favourites, input) {
       routes.sort((x, y) => routeNameCompare(x.properties, y.properties)),
     );
 }
+/**
+ * Returns Route objects depending on input
+ * @param {String} input Search text, if empty no objects are returned
+ * @param {*} feedIds
+ */
 export function getRoutesQuery(input, feedIds) {
   if (!relayEnvironment) {
     return Promise.resolve([]);
@@ -89,17 +174,13 @@ export function getRoutesQuery(input, feedIds) {
     .then(suggestions => take(suggestions, 10));
 }
 
-export const withCurrentTime = (getStore, location) => {
+export const withCurrentTime = location => {
   const query = (location && location.query) || {};
   return {
     ...location,
     query: {
       ...query,
-      time: query.time
-        ? query.time
-        : getStore('TimeStore')
-            .getCurrentTime()
-            .unix(),
+      time: query.time ? query.time : moment().unix(),
     },
   };
 };

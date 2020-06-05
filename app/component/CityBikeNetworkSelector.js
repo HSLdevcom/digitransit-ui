@@ -31,10 +31,8 @@ const CityBikeNetworkSelector = (
         <Toggle
           toggled={
             isUsingCitybike &&
-            currentOptions.filter(
-              option =>
-                option.toUpperCase() === network.networkName.toUpperCase(),
-            ).length > 0
+            currentOptions.filter(option => option === network.networkName)
+              .length > 0
           }
           label={getCityBikeNetworkName(
             getCityBikeNetworkConfig(network.networkName, config),
@@ -44,7 +42,7 @@ const CityBikeNetworkSelector = (
             executeAction(saveRoutingSettings, {
               allowedBikeRentalNetworks: updateCitybikeNetworks(
                 getCitybikeNetworks(config),
-                network.networkName.toUpperCase(),
+                network.networkName,
                 config,
                 isUsingCitybike,
               ),

@@ -1,11 +1,15 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import debounce from 'lodash/debounce';
 import Datetimepicker from './helpers/Datetimepicker';
 
+moment.tz.setDefault('Europe/Helsinki');
+
 /**
- * This is the container component that renders Datetimepicker. Renders separate input fields for date and time selection. Values for timestamp and arriveBy correspond to Digitransit query params time and arriveBy.
+ * This component renders an input to choose a date and time. Renders separate input fields for date and time selection. Values for timestamp and arriveBy correspond to Digitransit query params time and arriveBy. This component will display a native date input on mobile and a custom one for desktop. Mobile detection is done by parsing user agent.
+ *
+ * @alias Datetimepicker
  *
  * @param {Object} props
  *
@@ -18,11 +22,10 @@ import Datetimepicker from './helpers/Datetimepicker';
  * @param {function} props.onDepartureClick         Called with (time) when "departure" button is clicked. time is current input value in seconds
  * @param {function} props.onArrivalClick           Called with (time) when "arrival" button is clicked. time is current input value in seconds
  * @param {node} props.embedWhenClosed              JSX element to render in the corner when input is closed
- *
- *
+ * @param {string} props.lang                       Language selection. Default 'en'
  *
  * @example
- * <DatetimepickerStateContainer
+ * <Datetimepicker
  *   realtime={true}
  *   initialTimestamp={1590133823}
  *   initialArriveBy={false}
@@ -32,6 +35,7 @@ import Datetimepicker from './helpers/Datetimepicker';
  *   onDepartureClick={(time) => changeUrl(time, 'true')}
  *   onArrivalClick={(time) => changeUrl(time, undefined)}
  *   embedWhenClosed={<button />}
+ *   lang={'en'}
  * />
  */
 function DatetimepickerStateContainer({
@@ -44,6 +48,7 @@ function DatetimepickerStateContainer({
   onDateChange,
   onNowClick,
   embedWhenClosed,
+  lang,
 }) {
   const initialNow = realtime ? null : moment().valueOf();
   const [timestamp, changeTimestampState] = useState(
@@ -155,6 +160,7 @@ function DatetimepickerStateContainer({
       onDepartureClick={departureClicked}
       onArrivalClick={arrivalClicked}
       embedWhenClosed={embedWhenClosed}
+      lang={lang}
     />
   );
 }
@@ -169,6 +175,7 @@ DatetimepickerStateContainer.propTypes = {
   onDateChange: PropTypes.func.isRequired,
   onNowClick: PropTypes.func.isRequired,
   embedWhenClosed: PropTypes.node,
+  lang: PropTypes.string,
 };
 
 DatetimepickerStateContainer.defaultProps = {
@@ -176,6 +183,7 @@ DatetimepickerStateContainer.defaultProps = {
   initialArriveBy: undefined,
   initialTimestamp: undefined,
   embedWhenClosed: null,
+  lang: 'en',
 };
 
 export default DatetimepickerStateContainer;

@@ -26,17 +26,27 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   border: none;
   max-width: 400px;
   padding: 0;
-  margin-left: 0;
-  margin-right: 0;
+  margin: 20px 0 20px 0;
 
+  font-size: 15px;
+  font-weight: $font-weight-medium;
+
+  button, label {
+    font-size: 1em;
+    font-weight: inherit;
+  }
   .top-row-container {
-    margin-left: 19px;
+    margin: 0 0 0 19px;
     display: flex;
+
+    @media (max-width: 320px) {
+      margin-left: 14px;
+    }
 
     .time-icon {
       svg {
-        width: 16px;
-        height: 16px;
+        width: 18px;
+        height: 19px;
       }
     }
     .dropdown-icon {
@@ -57,7 +67,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       }
     }
     button, label {
-      font-size: 15px;
+      font-size: 1em;
       letter-spacing: -0.5px;
       line-height: 1;
     }
@@ -109,9 +119,16 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     white-space: nowrap;
     width: 1px;
   }
-
+  .open-button {
+    display: flex;
+    margin-bottom: 0;
+  }
   .close-button {
-    margin-right: 17.5px;
+    position: relative;
+    top: -2px;
+    border: 0;
+    font-weight: normal;
+    margin: -2px 0 0 0;
     background: none;
     color: $primary-color;
     padding: 0;
@@ -122,6 +139,10 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
 
   .right-edge {
     margin-left: auto;
+    margin-right: 17.5px;
+    @media (max-width: 320px) {
+      margin-right: 12px;
+    }
   }
 
   .combobox-container {
@@ -138,16 +159,17 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     .left-column {
       display: flex;
       flex-direction: column;
+      flex-grow: 1;
     }
   }
 
   .combobox-label {
-    font-size: 12px;
+    font-size: 0.8em;
     line-height: 20px;
     color: #666666;
     letter-spacing: -0.48px;
-    margin-left: 12px;
-    margin-top: 4px;
+    margin: 4px auto 0 12px;
+    width: 60px;
   }
 
   .combobox-icon {
@@ -166,8 +188,8 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     &.time-input-icon {
       padding: 9px 13px 0 13px;
         svg {
-        width: 16px;
-        height: 16px;
+        width: 18px;
+        height: 19px;
       }
     }
   }
@@ -176,18 +198,15 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     position: relative;
 
     .suggestion {
-      font-size: 15px;
       line-height: 49px;
       height: 50px;
       border-top: 1px solid #dddddd;
       padding: 0 0 0 12px;
       letter-spacing: -0.6px;
       color: #333333;
-      font-weight: $font-weight-medium;
     }
     .suggestionHighlighted {
-      font-size: 15px;
-      font-weight: $font-weight-medium;
+      background: #dfe5e8;
     }
 
     .suggestionsContainerOpen {
@@ -212,17 +231,17 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       }
     }
     .input {
-      margin: -4px 0 0 0;
+      margin: -7px 0 0 0;
       padding-left: 12px;
+      padding-right: 0;
       border: none;
       height: 26px;
       &:focus {
         outline: none;
       }
       background: inherit;
-      font-weight: $font-weight-medium;
+      font-weight: inherit;
       box-shadow: none;
-      font-size: 15px;
       font-stretch: normal;
       font-style: normal;
       line-height: 1.33;
@@ -232,6 +251,51 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   }
 
   .picker-container {
+    margin: 16px 0 0 0;
     display: flex;
+  }
+
+  .combobox-mobile-container {
+    flex-grow: 1;
+  }
+  .mobile-input-display {
+    position: absolute;
+    margin: -4px 0 0 0;
+    padding: 26px 0 10px 12px;
+    border: none;
+    height: 26px;
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+    background: inherit;
+    box-shadow: none;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.33;
+    letter-spacing: -0.6px;
+    color: #333333;
+  }
+  .mobile-input-hidden {
+    margin-bottom: 12px;
+    height: 0px;
+    width: 0;
+    background: inherit;
+    color: transparent;
+    outline: none;
+    box-shadow: none;
+    border: none;
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+  }
+  .separator-line {
+    display: block;
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    border-top: 1px solid rgb(221, 221, 221);
+    background: rgb(244, 244, 245);
   }
 }

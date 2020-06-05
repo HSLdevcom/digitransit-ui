@@ -94,33 +94,6 @@ describe('<StopCardHeader />', () => {
     expect(wrapper.find(ZoneIcon)).to.have.lengthOf(0);
   });
 
-  it('should render the zone icon', () => {
-    const props = {
-      stop: {
-        code: '1270',
-        desc: 'Hietaniemenkatu',
-        gtfsId: 'HSL:1130181',
-        name: 'Hietaniemi',
-        zoneId: 'A',
-      },
-    };
-    const wrapper = shallowWithIntl(<StopCardHeader {...props} />, {
-      context: {
-        config: {
-          stopCard: {
-            header: {
-              showZone: true,
-            },
-          },
-          colors: {
-            primary: '#000000',
-          },
-        },
-      },
-    });
-    expect(wrapper.find(ZoneIcon)).to.have.lengthOf(1);
-  });
-
   it('should use the info icon when the stop has alerts and the alert level is info', () => {
     const props = {
       stop: {

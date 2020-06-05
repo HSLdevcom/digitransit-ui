@@ -6,7 +6,6 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'found/lib/Link';
 import { matchShape } from 'found';
 import { AlertSeverityLevelType } from '../constants';
-import Icon from './Icon';
 import {
   getCancelationsForStop,
   getServiceAlertsForStop,
@@ -144,9 +143,6 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
         >
           <div className="stop-tab-singletab-container">
             <div>
-              <Icon className="stop-page-tab_icon" img="icon-icon_right-now" />
-            </div>
-            <div>
               <FormattedMessage id="right-now" defaultMessage="right now" />
             </div>
           </div>
@@ -166,9 +162,6 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
         >
           <div className="stop-tab-singletab-container">
             <div>
-              <Icon className="stop-page-tab_icon" img="icon-icon_schedule" />
-            </div>
-            <div>
               <FormattedMessage id="timetable" defaultMessage="timetable" />
             </div>
           </div>
@@ -187,9 +180,6 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
           }}
         >
           <div className="stop-tab-singletab-container">
-            <div>
-              <Icon className="stop-page-tab_icon" img="icon-icon_info" />
-            </div>
             <div>
               <FormattedMessage
                 id={
@@ -225,17 +215,6 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
           }}
         >
           <div className="stop-tab-singletab-container">
-            <div>
-              <Icon
-                className={`stop-page-tab_icon ${disruptionClassName ||
-                  `no-alerts`}`}
-                img={
-                  disruptionClassName === 'active-disruption-alert'
-                    ? 'icon-icon_caution'
-                    : 'icon-icon_info'
-                }
-              />
-            </div>
             <div className={`${disruptionClassName || `no-alerts`}`}>
               <FormattedMessage id="disruptions" />
             </div>

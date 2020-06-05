@@ -179,7 +179,7 @@ class RoutePatternSelect extends Component {
                 )
               }
             >
-              <Icon img="icon-icon_direction-b" />
+              <Icon img="icon-icon_direction-c" />
             </button>
           </div>
         )}

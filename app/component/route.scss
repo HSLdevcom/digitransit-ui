@@ -2,16 +2,17 @@
   @return 'data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2713%27%20height%3D%2712%27%3E%3Cg%20stroke%3D%27none%27%20stroke-width%3D%271%27%20fill%3D%27none%27%20fill-rule%3D%27evenodd%27%3E%3Cpath%20fill%3D%27#{rgba($color, $alpha)}%27%20d%3D%27M6.06%2C0%20C9.38%2C0%2012.08%2C2.68%2012.08%2C6.02%20C12.08%2C9.34%209.38%2C12.02%206.06%2C12.02%20C2.74%2C12.02%200.04%2C9.34%200.04%2C6.02%20C0.04%2C2.68%202.74%2C0%206.06%2C0%20Z%20M7.2%2C9.2%20L7.2%2C5.94%20C7.2%2C5.3%206.78%2C4.8%206.14%2C4.8%20L5.04%2C4.8%20C4.5%2C4.8%204.18%2C5.16%204.18%2C5.62%20C4.18%2C6.02%204.44%2C6.44%205.28%2C6.44%20L5.28%2C9.2%20C5.28%2C9.84%205.62%2C10.34%206.24%2C10.34%20C6.88%2C10.34%207.2%2C9.84%207.2%2C9.2%20Z%20M7.36%2C2.78%20L7.36%2C2.68%20C7.36%2C2%206.8%2C1.56%206.06%2C1.56%20C5.32%2C1.56%204.76%2C2%204.76%2C2.68%20L4.76%2C2.78%20C4.76%2C3.46%205.32%2C3.92%206.06%2C3.92%20C6.8%2C3.92%207.36%2C3.46%207.36%2C2.78%20Z%27%3E%3C%2Fpath%3E%3C%2Fg%3E%3C%2Fsvg%3E';
 }
 
-$route-header-height: 65px;
 $route-schedule-date-height: 36px;
+$margin-left-right-large: 3.75em;
+$margin-left-right: 1.25em;
 
 /* table headers */
 .route-list-header {
   border-bottom: solid 1px #eef1f3;
+  border-top: solid 1px #eef1f3;
   @include font-narrow-medium;
   line-height: $line-height-normal;
   flex-shrink: 0;
-
   overflow: hidden;
   div,
   .columns.route-stop-time {
@@ -25,7 +26,7 @@ $route-schedule-date-height: 36px;
 
   &.bp-large {
     &.route-stop {
-      padding: 8px 10px 5px 20px;
+      padding: 1em 0;
     }
 
     div,
@@ -72,7 +73,18 @@ $route-schedule-date-height: 36px;
   }
 }
 
+.mobile {
+  .route-page-container{
+    padding-top: 1em;
+  }
+}
+.route-page-container {
+  background-color: $white;
+  padding-top: 3.125em;
+}
+
 .route-page-content {
+  padding: 0 $margin-left-right;
   display: flex;
   flex-direction: column;
   max-height: 100%;
@@ -82,6 +94,9 @@ $route-schedule-date-height: 36px;
   transition: flex-grow 500ms cubic-bezier(0.215, 0.61, 0.355, 1),
     flex-basis 500ms cubic-bezier(0.215, 0.61, 0.355, 1);
 
+  &.bp-large {
+    padding: 0 $margin-left-right-large;
+  }
   &:empty {
     flex-basis: 0;
     flex-grow: 0;
@@ -94,19 +109,17 @@ $route-schedule-date-height: 36px;
   .route-list-header {
     display: flex;
     flex-direction: row;
-    flex: 0 0 2em;
     .route-stop-now {
-      padding-left: 0.5em;
-      flex: 0 0 7em;
-      max-width: 5.7em;
+      flex: 0 0 6em;
+      max-width: 5em;
     }
     .route-stop-name {
-      flex: 1 0 12em;
+      flex: 1 0 11em;
     }
     .route-stop-time {
       text-align: left;
       padding-right: 0.6em;
-      flex: 0 1 3.5em;
+      flex: 0 0 3.7em;
     }
   }
 }
@@ -137,7 +150,7 @@ $route-schedule-date-height: 36px;
 .bp-large {
   &.location-details_container .route-now-content {
     & svg {
-      font-size: 6em;
+      font-size: 4em;
     }
   }
 }
@@ -165,6 +178,12 @@ $route-schedule-date-height: 36px;
   .large-icon {
     transform: scale(2.86);
   }
+}
+.route-details-upper-row {
+  display: flex;
+  justify-content: space-between;
+  min-width: calc(100% - (13% + 15px));
+  flex-direction: row;
 }
 
 .location-details_container {
@@ -223,49 +242,30 @@ $route-schedule-date-height: 36px;
     }
   }
   .route-stop-row_content-container {
-    width: 100%;
+    width: calc(100% - (13% + 15px + 1em));
     margin-left: 1em;
     display: block;
     border-bottom: 1px solid #eef1f3;
     margin-top: 0.3em;
-    padding-right: 1em;
     a {
-      display: flex;
       text-decoration: none;
       justify-content: space-between;
       .route-details_container {
-        font-size: $font-size-normal;
+        flex-grow: 1;
         display: flex;
-        flex-direction: column;
-        flex: 2 0 0;
-        div {
-          display: flex;
+        min-width: 0;
+        font-size: 0.9375rem;
+        .route-stop-name {
+          min-width: 0;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
           span {
             text-decoration: none;
           }
-          .itinerary-stop-code {
-            display: block;
-            max-height: 18px;
-          }
-          .route-stop-address {
-            font-family: $font-family-narrow;
-            font-weight: 400;
-            letter-spacing: 0;
-            color: #666;
-            display: block;
-            word-break: keep-all;
-            mask-image: linear-gradient(
-              to left,
-              transparent,
-              rgba(0, 0, 0, 0.2) 5px,
-              black 7px,
-              black
-            );
-            height: 1.25rem;
-            overflow: hidden;
-            width: 100%;
-          }
           .drop-off-container {
+            white-space: nowrap;
             color: $gray;
             font-size: $font-size-xsmall;
             font-family: $font-family-narrow;
@@ -282,12 +282,39 @@ $route-schedule-date-height: 36px;
             width: 13px;
             height: 12px;
             background: url(drop_off_svg($gray));
-          }
         }
       }
+      .route-details-bottom-row {
+        display: flex;
+        .itinerary-stop-code {
+          margin-left: 0;
+          display: block;
+          max-height: 18px;
+        }
+        .route-stop-address {
+          font-family: $font-family-narrow;
+          font-weight: 400;
+          line-height: 1.25rem;
+          letter-spacing: 0;
+          color: #666;
+          display: block;
+          word-break: keep-all;
+          mask-image: linear-gradient(
+            to left,
+            transparent,
+            rgba(0, 0, 0, 0.2) 5px,
+            black 7px,
+            black
+          );
+          height: 1.25rem;
+          overflow: hidden;
+          width: 100%;
+        }
+    }
       .departure-times-container {
         display: flex;
         color: $black;
+        flex: 0 1 auto;
         font-size: $font-size-small;
         .route-stop-time {
           span {
@@ -296,6 +323,7 @@ $route-schedule-date-height: 36px;
               white-space: unset;
               display: block;
               text-align: right;
+              font-size: 0.9375rem;
             }
           }
         }
@@ -333,27 +361,40 @@ $route-schedule-date-height: 36px;
 }
 
 .route-header {
-  margin: 0 15px;
-  line-height: 1;
-  flex-shrink: 0;
-  border-bottom: solid 1px $light-gray;
-  height: $route-header-height; // Ugly hact ko get the tabs to have fixed height
-  h1 {
-    @include font-narrow-book;
-    font-size: 24pt;
-    padding: 0.4em 0 0.2em;
-    .vehicle-number {
-      padding-left: 0.25em;
+  display: flex;
+  //margin: 10px $margin-left-right;
+  .route-number {
+    min-width: 53px;
+    .icon {
+      height: 40px;
+      width: 40px;
+    }
+  }
+  .route-info {
+    flex: 1;
+    min-width: 0;
+    .route-short-name {
+      @include font-narrow-medium;
+      font-size: 1.4em;
+      line-height: 1.1;
+    }
+    .route-long-name {
+      @include font-book;
+      font-size: $font-size-xxsmall;
+      font-weight: normal;
+      line-height: 1.38;
+      letter-spacing: -0.43px;
     }
   }
 }
 
+.vehicle-icon {
+  width: 100px;
+  height: 100px;
+}
 .route-page-header.favourite-icon {
-  position: absolute;
-  top: 17px;
-  right: 20px;
-  height: 22px;
-  width: 22px;
+  padding-right: 9px;
+  max-height: 30px;
   @media print {
     display: none;
   }
@@ -453,7 +494,7 @@ $route-schedule-date-height: 36px;
 
 .route-schedule-stop-select {
   select {
-    border: 1px solid $light-gray;
+    border: 1px solid #888;
     border-radius: 5px;
     padding: 2px 33px 2px 10px;
     background-color: #fff;
@@ -620,7 +661,7 @@ $route-schedule-date-height: 36px;
     font-size: 9pt;
     line-height: 18px;
     height: 19px;
-    background-color: $white;
+
     color: $primary-color;
     border-bottom: none !important;
     font-weight: 500;
@@ -640,147 +681,41 @@ $route-schedule-date-height: 36px;
     }
   }
 }
+.route-container {
+  background-color: white;
+  padding: 0 $margin-left-right;
+  &.bp-large {
+    padding: 0 $margin-left-right-large;
+  }
+  .back-button {
+    position: absolute;
+    left: 1.5em;
+    top: 1.6em;
+  }
+}
 
+.navigation-tabs {
+  width: 100%;
+}
 // Tabs
-div.route-tabs {
+.route-tabs {
+  height: 2.5em;
   display: flex;
-  flex-direction: column;
-  flex: 0 0 auto;
-
-  .tabs-navigation {
-    flex-shrink: 0;
-    width: calc(100% - 20px);
-    margin: 0 10px;
-    padding: 0 3px;
-    border-bottom: 1px solid $light-gray;
-    @media print {
-      padding-left: 0 !important;
-      margin-left: 0 !important;
-      border: none;
-      .route-number {
-        margin-left: 0 !important;
-      }
-    }
-
-    a {
-      @include font-bold;
-      padding: 8px 0 5px;
-      border: none;
-      pointer-events: auto;
-      display: inline-block;
-      text-decoration: none;
-      font-size: $font-size-xxsmall;
-      min-width: 6em;
-      @media print {
-        display: none;
-      }
-
-      .no-alerts span {
-        color:rgb(183, 183, 183);
-      }
-
-      .route-page-tab_icon {
-        &.no-alerts.icon {
-          fill: rgb(183, 183, 183);
-        }
-        &.active-disruption-alert.icon {
-          fill: $cancelation-red;
-        }
-        &.active-service-alert {
-          &.icon {
-            stroke: $primary-color;
-            fill: $primary-color;
-          }
-      }
-    }
-
-      .active-service-alert {
-        &:hover {
-          .icon {
-          stroke: lighten($black, 20%);
-          fill: lighten($black, 20%);
-        }
-      }
-    }
-    .tab-route-disruption {
-      &:hover span {
-        fill: lighten($black, 20%);
-        color: lighten($black, 20%);
-      }
-    }
-
-      &.activeAlert,
-      &.activeAlert.is-active,
-      &.activeAlert:hover {
-        .icon {
-          fill: $cancelation-red;
-        }
-      }
-
-      &.is-active {
-        border-bottom: 2px solid $link-color;
-        color: $black;
-
-        .icon {
-          fill: $black;
-        }
-        .no-alerts span {
-          color: $black;
-        }
-        .route-page-tab_icon {
-          &.no-alerts.icon {
-            fill: $black;
-          }
-          &.active-disruption-alert.icon {
-            fill: $black;
-          }
-          &.active-service-alert {
-            &.icon {
-            stroke: $black;
-            fill: $black;
-            }
-        }
-      }
-        .active-service-alert {
-            &:hover {
-              .icon {
-              stroke: lighten($black, 20%);
-              fill: lighten($black, 20%);
-            }
-          }
-        }
-      }
-
-      &:hover {
-        color: lighten($black, 20%);
-
-        .icon {
-          fill: lighten($black, 20%);
-        }
-      }
-
-      > div {
-        border-right: 1px solid $light-gray;
-        display: block;
-        margin: 0 0 0 1px;
-        padding: 3px 7px;
-        text-decoration: none;
-        text-align: center;
-        line-height: 1.3em;
-      }
-
-      &:last-child > div {
-        border-right: none;
-      }
-
-      .icon {
-        display: block;
-        width: 1.5em;
-        height: 1.5em;
-        fill: $link-color;
-        color: $background-color;
-        margin: $padding-small auto;
-      }
+  background-color: $light-gray;
+  margin: 1.25em 0 2em 0;
+  border: 2px solid $light-gray;
+  border-radius: 3px;
+  a {
+    width: calc(100% / 3);
+    padding-top: 0.45em;
+    text-align: center;
+    letter-spacing: -0.42px;
+    border-radius: 3px;
+    color: #333;
+    font-weight: normal;
+    &.is-active {
+      font-weight: 500;
+      background-color: $white;
     }
   }
 
@@ -788,7 +723,6 @@ div.route-tabs {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-
     background: white;
     > div {
       flex-grow: 1;
@@ -812,14 +746,13 @@ div.route-tabs {
 }
 
 .route-pattern-select {
-  padding: 8px 10px 5px 10px;
-  background-color: #eef1f3;
+  height: 2.5em;
+  margin-bottom: 1.5em;
   position: relative;
-  min-height: 49px;
-
   .route-option {
     background: $white;
-    font-weight: 500;
+    font-size: $font-size-xsmall;
+    font-weight: normal;
   }
   #select-route-pattern {
     cursor: pointer;
@@ -834,13 +767,12 @@ div.route-tabs {
     background: $white;
     padding: 0;
     position: absolute;
-    top: 0.5em;
-    right: 1.3em;
+    top: 0.6em;
+    right: 0.9em;
     display: block;
     cursor: pointer;
     pointer-events: all;
-    transform: rotate(90deg);
-    font-size: 1.5em;
+    font-size: 1.15em;
     .icon {
       color: $link-color;
       position: static;
@@ -860,8 +792,9 @@ div.route-tabs {
 
   .route-option-togglable {
     margin-top: 0.4em;
-    max-height: 1.4em;
     overflow: hidden;
+    line-height: 1.2;
+    padding-top: 0.4em;
   }
 
   select,
@@ -872,7 +805,7 @@ div.route-tabs {
     @include font-medium;
     height: 2.5rem;
     border-radius: 5px;
-    border: 1px solid $light-gray;
+    border: 1px solid #888;
     appearance: none;
 
     option {
@@ -882,7 +815,7 @@ div.route-tabs {
 
     &:focus {
       outline: none;
-      border: 1px solid $light-gray;
+      border: 1px solid #888;
     }
     @media print {
       border: 0;
@@ -892,8 +825,8 @@ div.route-tabs {
   .icon {
     color: $gray-blue;
     position: absolute;
-    right: 23px;
-    top: 1.25rem;
+    right: 1rem;
+    top: 0.8rem;
     pointer-events: none;
     @media print {
       display: none;
@@ -901,7 +834,6 @@ div.route-tabs {
   }
 
   &.bp-large {
-    padding: 10px 20px;
     @media print {
       padding-left: 0;
     }
@@ -913,19 +845,14 @@ div.route-tabs {
 
     select,
     .route-option {
-      height: 40px;
-      font-size: 18px;
+      font-size: $font-size-small;
+      font-weight: normal;
       padding: 0 48px 0 20px;
       -webkit-padding-end: 48px;
       -webkit-padding-start: 20px;
       @media print {
         padding-left: 0;
       }
-    }
-
-    .icon {
-      right: 38px;
-      top: 23px;
     }
   }
 }

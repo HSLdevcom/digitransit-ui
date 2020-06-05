@@ -18,7 +18,7 @@ export default {
     STOP_MAP: `${MAP_URL}/map/v1/hsl-stop-map/`,
     PARK_AND_RIDE_MAP: `${MAP_URL}/map/v1/hsl-parkandride-map/`,
     TICKET_SALES_MAP: `${MAP_URL}/map/v1/hsl-ticket-sales-map/`,
-    FONT: 'https://cloud.typography.com/6364294/7572592/css/fonts.css',
+    FONT: 'https://cloud.typography.com/6364294/7432412/css/fonts.css',
     CITYBIKE_MAP: `${MAP_URL}/map/v1/hsl-citybike-map/`,
   },
 
@@ -510,7 +510,7 @@ export default {
   },
 
   useTicketIcons: true,
-
+  trafficNowLink: 'https://dev.hslfi.hsldev.com/',
   cityBike: {
     showCityBikes: true,
     networks: {

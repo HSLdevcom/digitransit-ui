@@ -135,7 +135,7 @@ class RoutingSettingsButtons extends React.Component {
             width: 'auto',
             fontSize: '0.8rem',
             fontFamily:
-              '"Gotham Rounded SSm A", "Gotham Rounded SSm B", Arial, Georgia, Serif',
+              '"Gotham Rounded A", "Gotham Rounded B", Arial, Georgia, Serif',
           }}
         />
       </div>

@@ -3,8 +3,8 @@ import React from 'react';
 import { matchShape, routerShape } from 'found';
 import { FormattedMessage } from 'react-intl';
 import { withLeaflet } from 'react-leaflet/es/context';
+import { withCurrentTime } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import updateViaPointsFromMap from '../../action/ViaPointsActions';
-import { withCurrentTime } from '../../util/DTSearchQueryUtils';
 import {
   PREFIX_ROUTES,
   PREFIX_STOPS,
@@ -83,10 +83,7 @@ class MarkerPopupBottom extends React.Component {
       category: 'ItinerarySettings',
       name: 'MapPopup',
     });
-    const locationWithTime = withCurrentTime(
-      this.context.getStore,
-      this.context.match.location,
-    );
+    const locationWithTime = withCurrentTime(this.context.match.location);
 
     const { pathname } = this.context.match.location;
     const [, context] = pathname.split('/');
@@ -110,10 +107,7 @@ class MarkerPopupBottom extends React.Component {
       category: 'ItinerarySettings',
       name: 'MapPopup',
     });
-    const locationWithTime = withCurrentTime(
-      this.context.getStore,
-      this.context.match.location,
-    );
+    const locationWithTime = withCurrentTime(this.context.match.location);
 
     const { pathname } = this.context.match.location;
     const [, context] = pathname.split('/');

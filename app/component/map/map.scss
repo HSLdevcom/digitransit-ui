@@ -61,7 +61,11 @@ div.map {
     }
   }
 }
-
+.mobile {
+  .map.full {
+    z-index: 1;
+  }
+}
 div.map.small {
   min-height: $small-map-height;
 }
@@ -102,6 +106,7 @@ div.leaflet-bottom.leaflet-right div.leaflet-control-zoom {
 
 .map .leaflet-bottom {
   z-index: $leaflet-overlay;
+  bottom: 0.5em;
 
   @media print {
     display: none;
@@ -149,10 +154,9 @@ div.leaflet-marker-icon.vehicle-icon {
   border: none;
   background: none;
   > span > svg.icon {
-    width: 1em;
-    height: 1em;
+    width: 1.5em;
+    height: 1.5em;
     top: -0.25em;
-    left: -0.25em;
   }
 }
 
@@ -234,6 +238,9 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
     width: 18rem !important;
     &.leaflet-popup-scrolled {
       overflow: inherit;
+    }
+    .card-sub-header {
+      display: flex;
     }
   }
   .card {

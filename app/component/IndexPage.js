@@ -37,6 +37,10 @@ import DatetimepickerContainer from './DatetimepickerContainer';
 
 const debug = d('IndexPage.js');
 
+const TrafficNowLink = loadable(
+  () => import('@digitransit-component/digitransit-component-traffic-now-link'),
+  { ssr: true },
+);
 const DTAutoSuggest = getRelayEnvironment(
   withSearchContext(
     loadable(
@@ -62,6 +66,7 @@ class IndexPage extends React.Component {
     getStore: PropTypes.func.isRequired,
     router: routerShape.isRequired,
     match: matchShape.isRequired,
+    config: PropTypes.object.isRequired,
   };
 
   static propTypes = {
@@ -84,6 +89,7 @@ class IndexPage extends React.Component {
       }),
     ),
     lang: PropTypes.string,
+    itineraryParams: PropTypes.object,
   };
 
   static defaultProps = {
@@ -149,16 +155,31 @@ class IndexPage extends React.Component {
     });
   };
 
+  // DT-3551: handle logic for Traffic now link
+  trafficNowHandler = e => {
+    e.preventDefault();
+    window.location = this.context.config.trafficNowLink;
+  };
+
   addFavourite = favourite => {
     this.context.executeAction(addFavourite, favourite);
   };
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
-    const { intl } = this.context;
-    const { breakpoint, destination, origin, favourites, lang } = this.props;
+    const { intl, config } = this.context;
+    const { trafficNowLink } = config;
+    const {
+      breakpoint,
+      destination,
+      origin,
+      favourites,
+      lang,
+      itineraryParams,
+    } = this.props;
 
     // const { mapExpanded } = this.state; // TODO verify
+
     return breakpoint === 'large' ? (
       <div
         className={`front-page flex-vertical ${origin &&
@@ -185,8 +206,8 @@ class IndexPage extends React.Component {
             lang={lang}
             sources={['Favourite', 'History', 'Datasource']}
             targets={['Locations', 'CurrentPosition']}
+            itineraryParams={itineraryParams}
           />
-          <CtrlPanel.SeparatorLine />
           <DatetimepickerContainer realtime />
           <FavouritesContainer
             favourites={favourites}
@@ -195,13 +216,13 @@ class IndexPage extends React.Component {
           />
           <CtrlPanel.SeparatorLine />
           <div className="stops-near-you-text">
-            <span>
+            <h2>
               {' '}
               {intl.formatMessage({
                 id: 'stop-near-you-title',
                 defaultMessage: 'Stops and lines near you',
               })}
-            </span>
+            </h2>
           </div>
           <DTAutoSuggest
             icon="search"
@@ -213,6 +234,10 @@ class IndexPage extends React.Component {
             sources={['Favourite', 'History', 'Datasource']}
             targets={['Stops', 'Routes']}
           />
+          <CtrlPanel.SeparatorLine />
+          {trafficNowLink !== '' && (
+            <TrafficNowLink handleClick={this.trafficNowHandler} />
+          )}
         </CtrlPanel>
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
       </div>
@@ -241,7 +266,6 @@ class IndexPage extends React.Component {
             disableAutoFocus
             isMobile
           />
-          <CtrlPanel.SeparatorLine />
           <DatetimepickerContainer realtime />
           <FavouritesContainer
             favourites={this.props.favourites}
@@ -252,13 +276,13 @@ class IndexPage extends React.Component {
           />
           <CtrlPanel.SeparatorLine />
           <div className="stops-near-you-text">
-            <span>
+            <h2>
               {' '}
               {intl.formatMessage({
                 id: 'stop-near-you-title',
                 defaultMessage: 'Stops and lines near you',
               })}
-            </span>
+            </h2>
           </div>
           <DTAutoSuggest
             icon="search"
@@ -271,6 +295,10 @@ class IndexPage extends React.Component {
             targets={['Stops', 'Routes']}
             isMobile
           />
+          <CtrlPanel.SeparatorLine />
+          {trafficNowLink !== '' && (
+            <TrafficNowLink handleClick={this.trafficNowHandler} />
+          )}
         </CtrlPanel>
       </div>
     );
@@ -287,7 +315,10 @@ const Index = shouldUpdate(
       isEqual(nextProps.lang, props.lang) &&
       isEqual(nextProps.locationState, props.locationState) &&
       isEqual(nextProps.showSpinner, props.showSpinner) &&
-      isEmpty(differenceWith(nextProps.favourites, props.favourites, isEqual))
+      isEmpty(
+        differenceWith(nextProps.favourites, props.favourites, isEqual),
+      ) &&
+      isEqual(nextProps.itineraryParams, props.itineraryParams)
     );
   },
 )(IndexPage);
@@ -344,6 +375,18 @@ const processLocation = (locationString, locationState, intl) => {
   return location;
 };
 
+const getTimeAndArriveByFromURL = location => {
+  const query = (location && location.query) || {};
+  const object = {};
+  if (query && query.time) {
+    object.time = query.time;
+  }
+  if (query && query.arriveBy) {
+    object.arriveBy = query.arriveBy;
+  }
+  return object;
+};
+
 const IndexPageWithPosition = connectToStores(
   IndexPageWithBreakpoint,
   ['PositionStore', 'ViaPointsStore', 'FavouriteStore'],
@@ -351,6 +394,7 @@ const IndexPageWithPosition = connectToStores(
     const locationState = context.getStore('PositionStore').getLocationState();
 
     const { from, to } = props.match.params;
+    const { location } = props.match;
 
     const newProps = {};
 
@@ -403,6 +447,7 @@ const IndexPageWithPosition = connectToStores(
       ...context.getStore('FavouriteStore').getLocations(),
       ...context.getStore('FavouriteStore').getStopsAndStations(),
     ];
+    newProps.itineraryParams = getTimeAndArriveByFromURL(location);
     return newProps;
   },
 );

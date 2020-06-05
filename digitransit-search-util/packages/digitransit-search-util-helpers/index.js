@@ -26,6 +26,8 @@ const LayerType = {
   Venue: 'venue',
 };
 const PREFIX_ROUTES = 'linjat';
+export const isStop = ({ layer }) =>
+  layer === 'stop' || layer === 'favouriteStop';
 
 export const mapRoute = item => {
   if (item === null || item === undefined) {
