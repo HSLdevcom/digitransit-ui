@@ -164,10 +164,10 @@ $border-radius-rounded: 30px;
   }
   &.routePage,
   &.stopPage {
-    bottom: 0.7em;
+    bottom: 2em;
     top: auto;
     &.expanded {
-      bottom: 0.5em;
+      bottom: 2em;
       top: auto;
     }
   }
