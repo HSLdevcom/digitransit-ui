@@ -54,7 +54,7 @@ export default class BackButton extends React.Component {
       ? this.props.customStyle
       : { paddingTop: '7px' };
     return (
-      <div style={{ display: 'flex' }}>
+      <div className="back-button" style={{ display: 'flex' }}>
         <button
           className="icon-holder noborder cursor-pointer"
           style={customStyle}
@@ -72,7 +72,7 @@ export default class BackButton extends React.Component {
         </button>
         {this.props.title &&
           !this.props.titleClassName && (
-            <h1 className="h2">{this.props.title}</h1>
+            <h2 className="h2">{this.props.title}</h2>
           )}
         {this.props.title &&
           this.props.titleClassName && (
