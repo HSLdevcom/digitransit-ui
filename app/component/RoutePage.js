@@ -260,6 +260,7 @@ class RoutePage extends React.Component {
     }
 
     const activeTab = getActiveTab(match.location.pathname);
+
     const currentTime = moment().unix();
     const hasActiveAlert = isAlertActive(
       getCancelationsForRoute(route, patternId),
@@ -315,7 +316,7 @@ class RoutePage extends React.Component {
     const useCurrentTime = activeTab === Tab.Stops; // DT-3182
 
     return (
-      <div className="route-page-container">
+      <div className={cx('route-page-container', activeTab)}>
         <div className="header-for-printing">
           <h1>
             <FormattedMessage
