@@ -251,39 +251,41 @@ function getFonts() {
       </p>
       <span className="code">$font-family</span>
       <p style={{ fontWeight: '400' }}>
-        Primary font: &quot;Gotham Rounded SSm A&quot;,&quot; Gotham Rounded SSm
+        Primary font: &quot;Gotham Rounded A &quot;,&quot; Gotham Rounded
         B&quot; Arial, Georgia, Serif
         <span className="code">@include font-book</span>
       </p>
       <p style={{ fontWeight: '500' }}>
-        Primary font: &quot;Gotham Rounded SSm A&quot;,&quot; Gotham Rounded SSm
+        Primary font: &quot;Gotham Rounded A&quot;,&quot; Gotham Rounded
         B&quot;, Arial, Georgia, Serif
         <span className="code">@include font-medium</span>
       </p>
       <p style={{ fontWeight: '700' }}>
-        Primary font: &quot;Gotham Rounded SSm A&quot;,&quot; Gotham Rounded SSm
+        Primary font: &quot;Gotham Rounded A&quot;,&quot; Gotham Rounded
         B&quot;, Arial, Georgia, Serif
         <span className="code">@include font-bold</span>
       </p>
       <span className="code">$font-family-narrow</span>
       <p
         style={{
-          fontFamily: '"Gotham XNarrow SSm A","Gotham XNarrow SSm B"',
+          fontFamily:
+            '"Gotham XNarrow SSm A", "Gotham Rounded A", "Gotham Rounded B"',
           fontWeight: '400',
         }}
       >
-        Secondary font: &quot;Gotham XNarrow SSm A&quot;, &quot;Gotham XNarrow
-        SSm B&quot;, Arial, Georgia, Serif
+        Secondary font: &quot;Gotham XNarrow SSm A&quot;, &quot;Gotham Rounded
+        A&quot;, &quot;Gotham Rounded B&quot;, Arial, Georgia, Serif
         <span className="code">@include font-narrow-book</span>
       </p>
       <p
         style={{
-          fontFamily: '"Gotham XNarrow SSm A","Gotham XNarrow SSm B"',
+          fontFamily:
+            '"Gotham XNarrow SSm A", "Gotham Rounded A", "Gotham Rounded B"',
           fontWeight: '500',
         }}
       >
-        Secondary font: &quot;Gotham XNarrow SSm A&quot;, &quot;Gotham XNarrow
-        SSm B&quot;, Arial, Georgia, Serif
+        Secondary font: &quot;Gotham XNarrow SSm A&quot;, &quot;Gotham Rounded
+        A&quot;, &quot;Gotham Rounded B&quot;, Arial, Georgia, Serif
         <span className="code">@include font-narrow-medium</span>
       </p>
     </section>

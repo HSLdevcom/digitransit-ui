@@ -66,7 +66,6 @@ div.map {
     z-index: 1;
   }
 }
-
 div.map.small {
   min-height: $small-map-height;
 }
@@ -107,6 +106,7 @@ div.leaflet-bottom.leaflet-right div.leaflet-control-zoom {
 
 .map .leaflet-bottom {
   z-index: $leaflet-overlay;
+  bottom: 0.5em;
 
   @media print {
     display: none;

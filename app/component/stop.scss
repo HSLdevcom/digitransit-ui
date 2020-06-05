@@ -125,12 +125,6 @@
   background: $white;
 }
 
-.mobilel {
-  .stop-tabs-fillerline {
-    height: 5px;
-  }
-}
-
 .stop-tab-singletab,
 .stop-tab-singletab:hover {
   display: flex;
@@ -643,6 +637,16 @@ hr.action-bar {
 
   .stop-tab-container {
     border-bottom: none;
+    margin: 0em 1em 1em 1em;
+  }
+  .stop-page-content-wrapper {
+    top: -15px;
+  }
+  .stop-tabs-fillerline {
+    height: 5px;
+  }
+  .stop-page-departure-wrapper {
+    padding: 0em 1em 0em 1em;
   }
 
   .filter-stop-modal {
