@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import some from 'lodash/some';
 import { matchShape, routerShape } from 'found';
 import cx from 'classnames';
 import RouteListHeader from './RouteListHeader';
@@ -36,12 +35,9 @@ class PatternStopsContainer extends React.PureComponent {
     if (!this.props.pattern) {
       return false;
     }
-
     if (
-      some(
-        this.props.match.location.state &&
-          this.props.match.location.state.fullscreenMap === true,
-      ) &&
+      this.props.match.location.state &&
+      this.props.match.location.state.fullscreenMap &&
       this.props.breakpoint !== 'large'
     ) {
       return <div className="route-page-content" />;
