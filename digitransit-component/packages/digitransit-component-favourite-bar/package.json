@@ -24,7 +24,7 @@
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "dependencies": {
     "@digitransit-component/digitransit-component-icon": "^0.0.1",
-    "@digitransit-component/digitransit-component-suggestion-item": "^0.0.6"
+    "@digitransit-component/digitransit-component-suggestion-item": "^0.0.7"
   },
   "peerDependencies": {
     "classnames": "2.2.6",
