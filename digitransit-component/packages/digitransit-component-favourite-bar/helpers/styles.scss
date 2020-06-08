@@ -3,6 +3,8 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   viapoint-input-5, viapoint-input-4, viapoint-input-3, viapoint-input-2,
   viapoint-input-1, origin-input, search-input-focus, search-input-icon, rectangle, autosuggest-suggestion-container, front;
 
+$favourite-highlight-background-color: #F4F4F5;
+
 .button-shared {
   display: flex;
   flex-direction: row;
@@ -90,7 +92,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     display: block;
     height: 6px;
     background-color: #f4f4f5;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
   }
   .favourite-suggestion-list {
     max-height: 30vh;
@@ -106,14 +108,11 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     background-color: #ffffff;
     overflow-x: hidden;
     overflow-y: scroll;
-    li:not(:last-child) {
-      border-bottom: 1px solid #ddd;
-    }
   }
   .favourite-suggestion-item {
     cursor: pointer;
     &.highlighted {
-      background-color: darken(#ffffff, 5%);
+      background-color: $favourite-highlight-background-color;
     }
     &.custom {
       color: #007ac9;

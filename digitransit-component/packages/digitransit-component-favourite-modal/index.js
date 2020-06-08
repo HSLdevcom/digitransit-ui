@@ -20,20 +20,29 @@ const isStop = ({ layer }) => layer === 'stop' || layer === 'favouriteStop';
 const isTerminal = ({ layer }) =>
   layer === 'station' || layer === 'favouriteStation';
 
-const Modal = ({ children }) => {
+const Modal = ({ children, isMobile }) => {
   return (
-    <div className={styles.favouriteModal}>
-      <section className={styles.modalMain}>{children}</section>
+    <div className={cx(styles.favouriteModal)}>
+      <section
+        className={cx(
+          styles.modalMain,
+          isMobile ? styles['modal-mobile'] : styles['modal-desktop'],
+        )}
+      >
+        {children}
+      </section>
     </div>
   );
 };
 
 Modal.propTypes = {
   children: PropTypes.node,
+  isMobile: PropTypes.bool,
 };
 
 Modal.defaultProps = {
   children: [],
+  isMobile: false,
 };
 const FavouriteIconIdToNameMap = {
   'icon-icon_home': 'home',
@@ -175,6 +184,8 @@ class FavouriteModal extends React.Component {
     /** Optional. Language, fi, en or sv.
      * @type{string} */
     lang: PropTypes.string,
+    /** Optional. */
+    isMobile: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -183,6 +194,7 @@ class FavouriteModal extends React.Component {
       name: undefined,
       selectedIconId: undefined,
     },
+    isMobile: false,
   };
 
   static favouriteIconIds = [
@@ -279,7 +291,7 @@ class FavouriteModal extends React.Component {
   render = () => {
     const { name, selectedIconId } = this.state;
     return (
-      <Modal>
+      <Modal isMobile={this.props.isMobile}>
         <div className={styles['favourite-modal-container']}>
           <div className={styles['favourite-modal-top']}>
             <div className={styles['favourite-modal-header']}>

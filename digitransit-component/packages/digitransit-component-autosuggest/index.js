@@ -12,6 +12,7 @@ import getLabel from '@digitransit-search-util/digitransit-search-util-get-label
 import Icon from '@digitransit-component/digitransit-component-icon';
 import translations from './helpers/translations';
 import styles from './helpers/styles.scss';
+import MobileSearch from './helpers/MobileSearch';
 
 i18next.init({ lng: 'fi', resources: {} });
 
@@ -109,6 +110,7 @@ class DTAutosuggest extends React.Component {
     lang: PropTypes.string,
     sources: PropTypes.arrayOf(PropTypes.string),
     targets: PropTypes.arrayOf(PropTypes.string),
+    isMobile: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -120,6 +122,7 @@ class DTAutosuggest extends React.Component {
     lang: 'fi',
     sources: [],
     targets: [],
+    isMobile: false,
   };
 
   constructor(props) {
@@ -131,6 +134,7 @@ class DTAutosuggest extends React.Component {
       editing: false,
       valid: true,
       pendingCurrentLocation: false,
+      renderMobileSearch: false,
     };
   }
 
@@ -195,8 +199,9 @@ class DTAutosuggest extends React.Component {
           this.input.blur();
           if (!this.props.handleViaPoints) {
             this.props.onSelect(ref.suggestion, this.props.id);
+            this.setState({ renderMobileSearch: false });
           }
-          if (this.props.focusChange) {
+          if (this.props.focusChange && !this.props.isMobile) {
             this.props.focusChange();
           }
         },
@@ -242,7 +247,6 @@ class DTAutosuggest extends React.Component {
   };
 
   clearButton = () => {
-    const img = 'close';
     return (
       <button
         type="button"
@@ -250,7 +254,7 @@ class DTAutosuggest extends React.Component {
         onClick={this.clearInput}
         aria-label={i18next.t('clear-button-label')}
       >
-        <Icon img={img} width={1} height={1} color="#007ac9" />
+        <Icon img="close" />
       </button>
     );
   };
@@ -306,7 +310,9 @@ class DTAutosuggest extends React.Component {
     };
     // must update suggestions
     this.setState(newState, () => this.fetchFunction({ value: '' }));
-    this.input.focus();
+    if (!this.props.isMobile) {
+      this.input.focus();
+    }
   };
 
   inputClicked = inputValue => {
@@ -356,6 +362,7 @@ class DTAutosuggest extends React.Component {
         item={item}
         ariaContent={ariaContent}
         loading={!this.state.valid}
+        isMobile={this.props.isMobile}
       />
     );
   };
@@ -392,16 +399,24 @@ class DTAutosuggest extends React.Component {
     return label ? label.join(' - ') : '';
   };
 
+  clearOldSearches = () => {
+    const { context, clearOldSearches } = this.props.searchContext;
+    if (context && clearOldSearches) {
+      clearOldSearches(context);
+    }
+  };
+
   render() {
     if (this.state.pendingCurrentLocation) {
       return <Loading />;
     }
-    const { value, suggestions } = this.state;
+    const { value, suggestions, renderMobileSearch } = this.state;
     const inputProps = {
       placeholder: i18next.t(this.props.placeholder),
       value,
       onChange: this.onChange,
       onBlur: this.onBlur,
+      onFocus: () => this.setState({ renderMobileSearch: this.props.isMobile }),
       className: cx(
         `${styles.input} ${styles[this.props.id] || ''} ${
           this.state.value ? styles.hasValue : ''
@@ -431,69 +446,101 @@ class DTAutosuggest extends React.Component {
       'stop-route-station': '#888888',
     };
     return (
-      <div
-        className={cx([
-          styles['autosuggest-input-container'],
-          styles[this.props.id],
-        ])}
-      >
-        {this.props.icon && (
+      <React.Fragment>
+        {renderMobileSearch && (
+          <MobileSearch
+            clearOldSearches={this.clearOldSearches}
+            id={this.props.id}
+            suggestions={[
+              ...suggestions,
+              {
+                type: 'clear-search-history',
+                labelId: i18next.t('clear-search-history'),
+              },
+            ]}
+            inputProps={{
+              ...inputProps,
+              onBlur: () => null,
+            }}
+            fetchFunction={this.fetchFunction}
+            onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+            getSuggestionValue={this.getSuggestionValue}
+            renderSuggestion={this.renderItem}
+            closeHandle={() => this.setState({ renderMobileSearch: false })}
+            ariaLabel={SearchBarId.concat(' ').concat(ariaLabelText)}
+            label={i18next.t(this.props.id)}
+            onSuggestionSelected={this.onSelected}
+            onKeyDown={this.keyDown}
+          />
+        )}
+        {!renderMobileSearch && (
           <div
             className={cx([
-              styles['autosuggest-input-icon'],
+              styles['autosuggest-input-container'],
               styles[this.props.id],
             ])}
           >
-            <Icon
-              img={`${this.props.icon}`}
-              width={iconSize[this.props.icon].width}
-              height={iconSize[this.props.icon].height}
-              color={iconColor[this.props.id]}
+            {this.props.icon && (
+              <div
+                className={cx([
+                  styles['autosuggest-input-icon'],
+                  styles[this.props.id],
+                ])}
+              >
+                <Icon
+                  img={`${this.props.icon}`}
+                  width={iconSize[this.props.icon].width}
+                  height={iconSize[this.props.icon].height}
+                  color={iconColor[this.props.id]}
+                />
+              </div>
+            )}
+            <Autosuggest
+              id={this.props.id}
+              suggestions={suggestions}
+              onSuggestionsFetchRequested={this.fetchFunction}
+              onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+              getSuggestionValue={this.getSuggestionValue}
+              renderSuggestion={this.renderItem}
+              inputProps={inputProps}
+              focusInputOnSuggestionClick={false}
+              shouldRenderSuggestions={() => this.state.editing}
+              highlightFirstSuggestion
+              theme={styles}
+              renderInputComponent={p => (
+                <>
+                  <input
+                    aria-label={SearchBarId.concat(' ').concat(ariaLabelText)}
+                    id={this.props.id}
+                    onClick={this.inputClicked}
+                    onKeyDown={this.keyDown}
+                    {...p}
+                  />
+                  <span
+                    className={styles['sr-only']}
+                    role="alert"
+                    // aria-hidden={!this.state.editing}
+                  >
+                    {ariaSuggestionLen}
+                  </span>
+                  <span
+                    className={styles['sr-only']}
+                    role="alert"
+                    aria-hidden={
+                      !this.state.editing || suggestions.length === 0
+                    }
+                  >
+                    {ariaCurrentSuggestion}
+                  </span>
+                  {this.state.value && this.clearButton()}
+                </>
+              )}
+              onSuggestionSelected={this.onSelected}
+              ref={this.storeInputReference}
             />
           </div>
         )}
-        <Autosuggest
-          id={this.props.id}
-          suggestions={suggestions}
-          onSuggestionsFetchRequested={this.fetchFunction}
-          onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-          getSuggestionValue={this.getSuggestionValue}
-          renderSuggestion={this.renderItem}
-          inputProps={inputProps}
-          focusInputOnSuggestionClick={false}
-          shouldRenderSuggestions={() => this.state.editing}
-          highlightFirstSuggestion
-          theme={styles}
-          renderInputComponent={p => (
-            <>
-              <input
-                aria-label={SearchBarId.concat(' ').concat(ariaLabelText)}
-                id={this.props.id}
-                onClick={this.inputClicked}
-                onKeyDown={this.keyDown}
-                {...p}
-              />
-              <span
-                className={styles['sr-only']}
-                role="alert"
-                // aria-hidden={!this.state.editing}
-              >
-                {ariaSuggestionLen}
-              </span>
-              <span
-                className={styles['sr-only']}
-                role="alert"
-                aria-hidden={!this.state.editing || suggestions.length === 0}
-              >
-                {ariaCurrentSuggestion}
-              </span>
-              {this.state.value && this.clearButton()}
-            </>
-          )}
-          onSuggestionSelected={this.onSelected}
-          ref={this.storeInputReference}
-        />
-      </div>
+      </React.Fragment>
     );
   }
 }

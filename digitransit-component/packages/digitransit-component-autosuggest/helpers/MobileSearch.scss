@@ -1,0 +1,140 @@
+
+$font-weight-medium: 500;
+$primary-color: #007ac9;
+$suggestion-highlight-background-color: #F4F4F5;
+
+$zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
+  map-buttons, context-panel, search-panel, search-overlay, preferred-input, destination-input,
+  viapoint-input-5, viapoint-input-4, viapoint-input-3, viapoint-input-2,
+  viapoint-input-1, origin-input, search-input-focus, search-input-icon, rectangle, autosuggest-suggestion-container, front;
+
+input[type='text'] {
+  margin: 0;
+  padding: 0;
+}
+
+.fullscreen-root {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: #fff;
+  z-index: 1000;
+}
+
+.combobox-container {
+  margin: 15px 10px 0;
+  border: solid #888888 1px;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  height: 60px;
+  justify-content: space-between;
+  .right-column {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+.combobox-icon {
+  height: 21px;
+  padding-left: 13px;
+  padding-right: 17px;
+  svg {
+    width: 12px;
+    height: 21px;
+    transform: rotate(-180deg);
+  }
+}
+
+.combobox-label {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: -0.2px;
+  color: #333333;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+  .input {
+    appearance: none;
+    margin: -4px 0 0 0;
+    border: none;
+    height: 26px;
+    font-weight: normal;
+    box-shadow: none;
+    font-size: 15px;
+    letter-spacing: -0.5px;
+    color: #666666;
+    &:focus {
+      outline: none;
+      border: none;
+      box-shadow: none;
+      background: #fff;
+    }
+  }
+}
+
+.hasValue {
+  color: #333333;
+}
+
+.suggestion {
+  font-size: 15px;
+  min-height: 50px;
+  letter-spacing: -0.6px;
+  color: #333333;
+  font-weight: $font-weight-medium;
+}
+
+.suggestionHighlighted {
+  font-size: 15px;
+  background: $suggestion-highlight-background-color;
+}
+
+.suggestionsContainerOpen {
+  display: flex;
+  position: absolute;
+  margin-bottom: auto;
+  z-index: index($zindex, 'autosuggest-suggestion-container');
+  width: 100vw;
+  max-height: calc(100% - 75px);
+  top: 75px;
+  left: 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+  &::-webkit-scrollbar {
+    display: none;  /* Safari and Chrome */
+  }
+  .suggestionsList {
+    width: 100vw;
+    list-style: none;
+    padding-left: 0;
+    li:hover, li:focus, li:active {
+      background: $suggestion-highlight-background-color;
+    }
+  }
+}
+
+.clear-search-history {
+  display: flex;
+  margin-top: auto;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 62px;
+  background: #f4f4f5;
+  color: $primary-color;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.42px;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}

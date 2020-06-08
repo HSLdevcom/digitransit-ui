@@ -48,66 +48,86 @@ function getIcon(layer) {
  *    loading={false}
  * />
  */
-const SuggestionItem = pure(({ item, ariaContent, loading, className }) => {
-  const iconId =
-    item && item.selectedIconId
-      ? getIcon(item.selectedIconId)
-      : getIcon(item.properties.layer);
-  const icon = (
-    <Icon height={1.5} color={item.iconColor || '#888888'} img={iconId} />
-  );
-
-  const [iconstr, name, label] = ariaContent || [
-    iconId,
-    item.name,
-    item.address,
-  ];
-  const acri = (
-    <div className={styles['sr-only']}>
-      <p>
-        {' '}
-        {iconstr} - {name} - {label}
-      </p>
-    </div>
-  );
-  const ri = (
-    <div
-      aria-hidden="true"
-      className={cx(styles['search-result'], styles[item.type], {
-        loading,
-      })}
-    >
-      <span aria-label={iconstr} className={styles['suggestion-icon']}>
-        {icon}
+const SuggestionItem = pure(
+  ({ item, ariaContent, loading, className, isMobile }) => {
+    const iconId =
+      item && item.selectedIconId
+        ? getIcon(item.selectedIconId)
+        : getIcon(
+            item && item.properties && item.properties.layer
+              ? item.properties.layer
+              : 'place',
+          );
+    const icon = (
+      <span className={styles[iconId]}>
+        <Icon color={item.iconColor || '#888888'} img={iconId} />
       </span>
-      <div>
-        <p className={cx(styles['suggestion-name'], styles[className])}>
-          {name}
+    );
+    const [iconstr, name, label] = ariaContent || [
+      iconId,
+      item.name,
+      item.address,
+    ];
+    const acri = (
+      <div className={styles['sr-only']}>
+        <p>
+          {' '}
+          {iconstr} - {name} - {label}
         </p>
-        <p className={styles['suggestion-label']}>{label}</p>
       </div>
-      <span className={styles.right}>
-        <Icon width={0.625} height={1.063} img="arrow" />
-      </span>
-    </div>
-  );
-
-  return (
-    <div>
-      {acri}
-      {ri}
-    </div>
-  );
-});
+    );
+    const ri = (
+      <div
+        aria-hidden="true"
+        className={cx(styles['search-result'], {
+          loading,
+        })}
+      >
+        <span aria-label={iconstr} className={styles['suggestion-icon']}>
+          {icon}
+        </span>
+        <div>
+          <p className={cx(styles['suggestion-name'], styles[className])}>
+            {name}
+          </p>
+          <p className={styles['suggestion-label']}>{label}</p>
+        </div>
+        <span
+          className={cx(styles['arrow-icon'], {
+            [styles.mobile]: isMobile,
+          })}
+        >
+          <Icon img="arrow" />
+        </span>
+      </div>
+    );
+    return (
+      <div
+        className={cx(
+          styles['suggestion-item-container'],
+          {
+            [styles.mobile]: isMobile,
+          },
+          styles[item.type],
+        )}
+      >
+        {acri}
+        {ri}
+      </div>
+    );
+  },
+);
 
 SuggestionItem.propTypes = {
   item: PropTypes.object,
   ariaContent: PropTypes.arrayOf(PropTypes.string),
   className: PropTypes.string,
+  isMobile: PropTypes.bool,
 };
 
 SuggestionItem.defaultProps = {
   className: undefined,
+  isMobile: false,
 };
 
 export default SuggestionItem;

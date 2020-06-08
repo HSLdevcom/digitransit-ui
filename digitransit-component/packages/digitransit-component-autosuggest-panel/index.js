@@ -144,6 +144,7 @@ class DTAutosuggestPanel extends React.Component {
     disableAutoFocus: PropTypes.bool,
     sources: PropTypes.arrayOf(PropTypes.string),
     targets: PropTypes.arrayOf(PropTypes.string),
+    isMobile: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -157,6 +158,7 @@ class DTAutosuggestPanel extends React.Component {
     sources: [],
     targets: [],
     disableAutoFocus: false,
+    isMobile: false,
   };
 
   constructor(props) {
@@ -459,6 +461,7 @@ class DTAutosuggestPanel extends React.Component {
             lang={this.props.lang}
             sources={this.props.sources}
             targets={this.props.targets}
+            isMobile={this.props.isMobile}
           />
           <ItinerarySearchControl
             className={styles.opposite}
@@ -531,6 +534,7 @@ class DTAutosuggestPanel extends React.Component {
                       lang={this.props.lang}
                       sources={this.props.sources}
                       targets={this.props.targets}
+                      isMobile={this.props.isMobile}
                     />
                   </div>
                   <ItinerarySearchControl
@@ -629,6 +633,7 @@ class DTAutosuggestPanel extends React.Component {
             lang={this.props.lang}
             sources={this.props.sources}
             targets={this.props.targets}
+            isMobile={this.props.isMobile}
           />
           <ItinerarySearchControl
             className={cx(styles['add-via-point'], styles.more, {
