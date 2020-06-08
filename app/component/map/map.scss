@@ -301,6 +301,13 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
   }
 }
 
+.location-popup-wrapper {
+  display: flex;
+  .zone-icon-container {
+    margin-top: 25px;
+  }
+}
+
 .popup {
   left: -21px !important;
   .route-header {

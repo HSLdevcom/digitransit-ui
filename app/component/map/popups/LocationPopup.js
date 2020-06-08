@@ -24,7 +24,6 @@ class LocationPopup extends React.Component {
     language: PropTypes.string.isRequired,
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
   };
 
   constructor(props) {
@@ -129,17 +128,20 @@ class LocationPopup extends React.Component {
     const { zoneId } = this.state.location;
     return (
       <Card>
-        <div className="card-padding">
+        <div className="card-padding location-popup-wrapper">
           <CardHeader
             name={this.state.location.address}
-            description={this.props.name}
+            description={this.state.location.address}
             unlinked
             className="padding-small"
           >
             <ZoneIcon
-              showTitle
               zoneId={zoneId}
               zoneLabelColor={getZoneLabelColor(this.context.config)}
+              zoneIdFontSize="11px"
+              zoneLabelHeight="15px"
+              zoneLabelWidth="15px"
+              zoneLabelLineHeight="15px"
             />
           </CardHeader>
         </div>
