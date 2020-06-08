@@ -7,7 +7,9 @@ import Icon from '../Icon';
 
 const AccessibilityOptionSection = ({ currentSettings }, { executeAction }) => (
   <React.Fragment>
-    <FormattedMessage id="accessibility" defaultMessage="Accessibility" />
+    <div className="accessibility-header settings-header">
+      <FormattedMessage id="accessibility" defaultMessage="Accessibility" />
+    </div>
     <div
       className="mode-option-container toggle-container"
       style={{

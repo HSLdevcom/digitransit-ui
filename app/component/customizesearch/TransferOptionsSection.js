@@ -17,7 +17,12 @@ const TransferOptionsSection = (
         height: '3.5em',
       }}
     >
-      <FormattedMessage id="avoid-transfers" defaultMessage="Avoid transfers" />
+      <div className="settings-header">
+        <FormattedMessage
+          id="avoid-transfers"
+          defaultMessage="Avoid transfers"
+        />
+      </div>
       <Toggle
         toggled={
           currentSettings.walkBoardCost !== defaultSettings.walkBoardCost

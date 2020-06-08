@@ -1535,7 +1535,7 @@ const translations = {
   fi: {
     'about-this-service': 'Tietoja palvelusta',
     accessibility: 'Esteettömyys',
-    'accessibility-limited': 'Pyörätuoli',
+    'accessibility-limited': 'Pyörätuoli tai lastenvaunut',
     'accessibility-nolimit': 'Ei rajoitusta',
     'add-home': 'Lisää koti',
     'add-itinerary-via-point': 'Lisää reitille välipiste',
