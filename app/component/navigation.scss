@@ -184,7 +184,13 @@ $content-background-color: $background-color;
 
 .back-button {
   button {
+    padding-top: 0 !important;
     position: absolute;
+    left: 0.5em;
+    .icon {
+      height: 1.3em;
+      width: 1.3em;
+    }
   }
   .h2 {
     font-size: 1.2em;

@@ -1,7 +1,7 @@
 .origin-destination-bar {
   background-color: #fff;
   max-width: 400px;
-  margin: 0 1.25em;
+
   display: flex;
   justify-content: space-around;
   align-items: initial;
@@ -12,8 +12,6 @@
 
 .mobile {
   .origin-destination-bar {
-    padding-left: $padding-small;
-    padding-right: $padding-small;
     z-index: 999;
   }
 }

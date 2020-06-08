@@ -1,3 +1,8 @@
+
+.top-row-container {
+  margin: 0;
+}
+
 .quicksettings-container {
   display: block;
   background-color: $white;
@@ -155,6 +160,7 @@
   }
 }
 .mobile .quicksettings-container {
+  margin: 0 auto;
   .bottom-row .select-wrapper {
     flex: 1 1 auto;
     overflow: hidden;
