@@ -301,6 +301,27 @@
   background-color: white;
   .summary-navigation-container {
     margin: 0 1.25em;
+
+    .back-button {
+      button {
+        position: absolute;
+        top: 1.5em;
+        left: 0.9375em;
+        width: 40px;
+        height: 40px;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        .icon-container {
+          padding-right: 2px;
+          padding-top: 4px;
+        }
+      }
+      h2{
+        width: 100%;
+        text-align: center;
+        margin: 1.5em 0 1em 0;
+      }
+    }
   }
 }
 
