@@ -53,7 +53,11 @@ const SuggestionItem = pure(
     const iconId =
       item && item.selectedIconId
         ? getIcon(item.selectedIconId)
-        : getIcon(item.properties.layer);
+        : getIcon(
+            item && item.properties && item.properties.layer
+              ? item.properties.layer
+              : 'place',
+          );
     const icon = (
       <span className={styles[iconId]}>
         <Icon color={item.iconColor || '#888888'} img={iconId} />
