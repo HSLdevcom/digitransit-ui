@@ -295,13 +295,10 @@ export const preparePlanParams = config => (
     intermediatePlaceLocations,
   );
   const defaultSettings = { ...getDefaultSettings(config) };
-
   const allowedBikeRentalNetworksMapped =
-    (allowedBikeRentalNetworks &&
-      (getBikeNetworks(allowedBikeRentalNetworks) ||
-        settings.allowedBikeRentalNetworks.map(o => o.toLowerCase()))) ||
-    defaultSettings.allowedBikeRentalNetworks.map(o => o.toLowerCase());
-
+    (allowedBikeRentalNetworks && getBikeNetworks(allowedBikeRentalNetworks)) ||
+    settings.allowedBikeRentalNetworks ||
+    defaultSettings.allowedBikeRentalNetworks;
   return {
     ...defaultSettings,
     ...omitBy(

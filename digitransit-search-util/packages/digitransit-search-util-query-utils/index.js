@@ -78,9 +78,18 @@ const favouriteRoutesQuery = () => {
     }
   `;
 };
+/**
+ * Set you Relay environment
+ * @param {*} environment Your Relay environment
+ *
+ */
 export function setRelayEnvironment(environment) {
   relayEnvironment = environment;
 }
+/**
+ * Returns Stop and station objects .
+ * @param {*} favourites
+ */
 export const getStopAndStationsQuery = favourites => {
   if (!relayEnvironment) {
     return Promise.resolve([]);
@@ -106,6 +115,11 @@ export const getStopAndStationsQuery = favourites => {
   );
 };
 
+/**
+ * Returns Favourite Route objects depending on input
+ * @param {String} input Search text, if empty no objects are returned
+ * @param {*} favourites
+ */
 export function getFavouriteRoutesQuery(favourites, input) {
   if (!relayEnvironment) {
     return Promise.resolve([]);
@@ -130,7 +144,11 @@ export function getFavouriteRoutesQuery(favourites, input) {
       routes.sort((x, y) => routeNameCompare(x.properties, y.properties)),
     );
 }
-
+/**
+ * Returns Route objects depending on input
+ * @param {String} input Search text, if empty no objects are returned
+ * @param {*} feedIds
+ */
 export function getRoutesQuery(input, feedIds) {
   if (!relayEnvironment) {
     return Promise.resolve([]);
@@ -165,20 +183,4 @@ export const withCurrentTime = location => {
       time: query.time ? query.time : moment().unix(),
     },
   };
-};
-
-/**
- * Returns object with time and/or arriveBy keys and values
- * @param {*} location
- */
-export const getTimeAndArriveByFromURL = location => {
-  const query = (location && location.query) || {};
-  const object = {};
-  if (query && query.time) {
-    object.time = query.time;
-  }
-  if (query && query.arriveBy) {
-    object.arriveBy = query.arriveBy;
-  }
-  return object;
 };

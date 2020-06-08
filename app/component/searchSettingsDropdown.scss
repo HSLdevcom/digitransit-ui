@@ -9,7 +9,7 @@
     width: 100%;
 
     li {
-        font-size: $font-size-small;
+        font-size: 15px;
         font-weight: 500;
         cursor: pointer;
         color: $primary-color;
@@ -43,7 +43,8 @@
       outline: none !important;
 
       .settings-dropdown-label-text {
-        font-size: $font-size-small;
+        font-size: $font-size-normal;
+        color: $gray;
         float: left;
         width: 60%;
       }
@@ -51,7 +52,7 @@
         font-size: $font-size-small;
         float: right;
         color: $primary-color;
-        width: 40%;
+        width: 100%;
         padding-right: 1em;
         direction: rtl;
         font-weight: 500;

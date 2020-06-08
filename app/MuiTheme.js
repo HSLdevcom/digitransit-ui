@@ -1,6 +1,5 @@
 export default config => ({
-  fontFamily:
-    'Gotham Rounded SSm A","Gotham Rounded SSm B", Arial, Georgia, Serif',
+  fontFamily: 'Gotham Rounded A, Gotham Rounded B, Arial, Georgia, serif',
   palette: {
     textColor: '#fff',
     primary1Color: config.colors.primary,

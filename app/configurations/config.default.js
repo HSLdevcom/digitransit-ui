@@ -770,6 +770,8 @@ export default {
 
   showAllBusses: false,
   showVehiclesOnStopPage: false,
+  // DT-3551: Link to traffic information page.
+  trafficNowLink: '',
   mapLayers: {
     featureMapping: {
       ticketSales: {},

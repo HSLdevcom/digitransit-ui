@@ -20,7 +20,7 @@ const CityBikeNetworkSelector = (
       <div
         className="mode-option-block citybike-network-container"
         key={`cb-${network.networkName}`}
-        style={{ height: '2.5em' }}
+        style={{ height: '3em' }}
       >
         <Icon
           className={`${network.icon}-icon`}
@@ -31,10 +31,8 @@ const CityBikeNetworkSelector = (
         <Toggle
           toggled={
             isUsingCitybike &&
-            currentOptions.filter(
-              option =>
-                option.toUpperCase() === network.networkName.toUpperCase(),
-            ).length > 0
+            currentOptions.filter(option => option === network.networkName)
+              .length > 0
           }
           label={getCityBikeNetworkName(
             getCityBikeNetworkConfig(network.networkName, config),
@@ -44,7 +42,7 @@ const CityBikeNetworkSelector = (
             executeAction(saveRoutingSettings, {
               allowedBikeRentalNetworks: updateCitybikeNetworks(
                 getCitybikeNetworks(config),
-                network.networkName.toUpperCase(),
+                network.networkName,
                 config,
                 isUsingCitybike,
               ),

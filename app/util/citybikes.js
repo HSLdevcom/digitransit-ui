@@ -1,10 +1,7 @@
 import isEmpty from 'lodash/isEmpty';
 import isString from 'lodash/isString';
 import without from 'lodash/without';
-import {
-  getCustomizedSettings,
-  setCustomizedSettings,
-} from '../store/localStorage';
+import { getCustomizedSettings } from '../store/localStorage';
 
 export const BIKESTATION_ON = 'Station on';
 export const BIKESTATION_OFF = 'Station off';
@@ -64,7 +61,7 @@ export const getCityBikeNetworkConfig = (networkId, config) => {
 export const getDefaultNetworks = config => {
   const mappedNetworks = [];
   Object.keys(config.cityBike.networks).forEach(key =>
-    mappedNetworks.push(key.toUpperCase()),
+    mappedNetworks.push(key),
   );
   return mappedNetworks;
 };
@@ -111,14 +108,12 @@ export const updateCitybikeNetworks = (
   config,
   isUsingCitybike,
 ) => {
-  const mappedcurrentSettings = currentSettings.map(o => o.toUpperCase());
-
   let chosenNetworks;
 
   if (isUsingCitybike) {
-    chosenNetworks = mappedcurrentSettings.find(o => o === newValue)
-      ? without(mappedcurrentSettings, newValue)
-      : mappedcurrentSettings.concat([newValue]);
+    chosenNetworks = currentSettings.find(o => o === newValue)
+      ? without(currentSettings, newValue)
+      : currentSettings.concat([newValue]);
   } else {
     chosenNetworks = [newValue];
   }
@@ -130,9 +125,6 @@ export const updateCitybikeNetworks = (
     return chosenNetworks;
   }
 
-  setCustomizedSettings({
-    allowedBikeRentalNetworks: chosenNetworks,
-  });
   return chosenNetworks;
 };
 

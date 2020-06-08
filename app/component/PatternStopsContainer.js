@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import some from 'lodash/some';
 import { matchShape, routerShape } from 'found';
+import cx from 'classnames';
 import RouteListHeader from './RouteListHeader';
 import RouteStopListContainer from './RouteStopListContainer';
 import withBreakpoint from '../util/withBreakpoint';
@@ -35,19 +35,20 @@ class PatternStopsContainer extends React.PureComponent {
     if (!this.props.pattern) {
       return false;
     }
-
     if (
-      some(
-        this.props.match.location.state &&
-          this.props.match.location.state.fullscreenMap === true,
-      ) &&
+      this.props.match.location.state &&
+      this.props.match.location.state.fullscreenMap &&
       this.props.breakpoint !== 'large'
     ) {
       return <div className="route-page-content" />;
     }
 
     return (
-      <div className="route-page-content">
+      <div
+        className={cx('route-page-content', {
+          'bp-large': this.props.breakpoint === 'large',
+        })}
+      >
         <RouteListHeader
           key="header"
           className={`bp-${this.props.breakpoint}`}

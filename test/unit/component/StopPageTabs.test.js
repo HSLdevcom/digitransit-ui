@@ -137,7 +137,7 @@ describe('<StopPageTabs />', () => {
     const wrapper = shallowWithIntl(<StopPageTabs {...props} />, {
       context,
     });
-    expect(wrapper.find('.active-disruption-alert')).to.have.lengthOf(2);
+    expect(wrapper.find('.active-disruption-alert')).to.have.lengthOf(1);
   });
 
   it('should mark the disruptions tab as having an active disruption alert due to a stop WARNING level service alert', () => {
@@ -157,7 +157,7 @@ describe('<StopPageTabs />', () => {
     const wrapper = shallowWithIntl(<StopPageTabs {...props} />, {
       context,
     });
-    expect(wrapper.find('.active-disruption-alert')).to.have.lengthOf(2);
+    expect(wrapper.find('.active-disruption-alert')).to.have.lengthOf(1);
   });
 
   it('should mark the disruptions tab as having an active info alert due to a stop UNKNOWN_SEVERITY level service alert', () => {
@@ -177,7 +177,7 @@ describe('<StopPageTabs />', () => {
     const wrapper = shallowWithIntl(<StopPageTabs {...props} />, {
       context,
     });
-    expect(wrapper.find('.active-disruption-alert')).to.have.lengthOf(2);
+    expect(wrapper.find('.active-disruption-alert')).to.have.lengthOf(1);
   });
 
   it('should mark the disruptions tab as having an active info alert due to a stop INFO level service alert', () => {
@@ -197,7 +197,7 @@ describe('<StopPageTabs />', () => {
     const wrapper = shallowWithIntl(<StopPageTabs {...props} />, {
       context,
     });
-    expect(wrapper.find('.active-service-alert')).to.have.lengthOf(2);
+    expect(wrapper.find('.active-service-alert')).to.have.lengthOf(1);
   });
 
   it('should render empty if stop information is missing', () => {

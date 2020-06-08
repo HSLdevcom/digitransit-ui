@@ -29,7 +29,6 @@ $border-radius-rounded: 30px;
     display: flex;
     font-size: $font-size-xxsmall;
     font-weight: $font-weight-medium;
-    padding-bottom: $padding-small;
 
     .icon {
       display: block;
@@ -43,8 +42,10 @@ $border-radius-rounded: 30px;
     margin-top: -10px;
   }
   .card-sub-header {
+    display: flex;
     p {
       display: inline;
+      margin-right: 3px;
     }
     .card-code {
       border: 1px solid $light-gray;
@@ -52,7 +53,8 @@ $border-radius-rounded: 30px;
       font-size: $font-size-xxsmall;
       color: $gray-blue;
       margin-right: 3px;
-      padding: 0px 2px 0px 2px;
+      margin-left: 3px;
+      padding: 2px 2px 0px 2px;
     }
   }
 }
@@ -127,26 +129,19 @@ $border-radius-rounded: 30px;
 
 .favourite-icon {
   padding: 0;
-  height: 24px;
-  width: 24px;
   .icon.favourite {
-    height: 24px;
-    width: 24px;
-    stroke: $medium-gray;
-    stroke-width: 50px;
+    height: 30px;
+    width: 30px;
     fill: transparent;
-
-    &:hover {
-      stroke: $favourite-color;
-    }
-
+    stroke: #DDDDDD;
     &.selected {
-      fill: $favourite-color;
-      stroke: $background-color;
+      stroke: transparent;
     }
-
+    &:hover {
+      stroke: #BBBBBB;
+    }
     &.selected:hover {
-      stroke: $light-gray;
+      stroke: transparent;
     }
   }
 }
@@ -167,12 +162,15 @@ $border-radius-rounded: 30px;
   &.expanded {
     top: -3em;
   }
-  &.routePage,
+  &.routePage {
+    bottom: 1.5em;
+    top: auto;
+  }
   &.stopPage {
-    bottom: 0.7em;
+    bottom: 2em;
     top: auto;
     &.expanded {
-      bottom: 0.5em;
+      bottom: 2em;
       top: auto;
     }
   }
