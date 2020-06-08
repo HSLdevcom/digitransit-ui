@@ -226,6 +226,11 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
   .route-header {
     height: auto;
     border: none;
+
+    h1 {
+      display: flex;
+      padding: 0.5em;
+    }
   }
 
   .leaflet-popup-content-wrapper {
@@ -443,9 +448,10 @@ div.origin-popup {
 
 .route-header {
   .route-header-trip {
-    position: absolute;
     top: 0.7em;
-    margin-left: 1em;
+    height: 1.5em;
+    margin-top: 0.2em;
+    margin-left: 0.5em;
     font-size: 70%;
     padding: 0.1em 0.4em;
     border: solid 1px $light-gray;
