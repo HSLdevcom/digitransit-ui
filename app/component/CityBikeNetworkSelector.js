@@ -20,7 +20,7 @@ const CityBikeNetworkSelector = (
       <div
         className="mode-option-block citybike-network-container"
         key={`cb-${network.networkName}`}
-        style={{ height: '2.5em' }}
+        style={{ height: '3em' }}
       >
         <Icon
           className={`${network.icon}-icon`}

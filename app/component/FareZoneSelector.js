@@ -24,7 +24,10 @@ class FareZoneSelector extends React.Component {
       displayName: config.fareMapping(o),
       value: o,
     }));
-    constructedOptions.push({
+    const sortedOptions = constructedOptions.sort((a, b) =>
+      a.displayName.localeCompare(b.displayName),
+    );
+    sortedOptions.unshift({
       displayName: 'none',
       displayNameObject: intl.formatMessage({
         defaultMessage: 'ticket-type-none',
@@ -32,7 +35,7 @@ class FareZoneSelector extends React.Component {
       }),
       value: 'none',
     });
-    return uniqBy(constructedOptions, 'value');
+    return uniqBy(sortedOptions, 'value');
   };
 
   render() {
