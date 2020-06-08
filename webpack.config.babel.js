@@ -199,6 +199,7 @@ module.exports = {
             '@babel/plugin-syntax-dynamic-import',
             ['@babel/plugin-proposal-class-properties', { loose: true }],
             '@babel/plugin-proposal-json-strings',
+            '@loadable/babel-plugin',
           ],
         },
       },

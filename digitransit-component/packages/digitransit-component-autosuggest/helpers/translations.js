@@ -1,6 +1,7 @@
 const translations = {
   en: {
     address: 'Address',
+    'address-place-or-business': 'Address, place or business',
     'add-via-button-label': 'Add via point',
     'add-via-duration-button-label': 'Set stop duration at via point {{index}}',
     'add-via-duration-button-label-close':
@@ -10,6 +11,7 @@ const translations = {
     airplane: 'Flight',
     bus: 'bus',
     'clear-button-label': 'Clear',
+    'clear-search-history': 'Clear search history',
     currentposition: 'Current position',
     destination: 'Destination',
     'give-origin': 'Enter your origin.',
@@ -50,6 +52,7 @@ const translations = {
   },
   fi: {
     address: 'Osoite',
+    'address-place-or-business': 'Osoite, paikka tai yritys',
     'add-via-button-label': 'Lisää välipiste',
     'add-via-duration-button-label':
       'Aseta välipisteelle {{index}} pysähdyksen kesto',
@@ -60,6 +63,7 @@ const translations = {
     airplane: 'Lentokone',
     bus: 'bussi',
     'clear-button-label': 'Tyhjennä',
+    'clear-search-history': 'Tyhjennä hakuhistoria',
     currentposition: 'Tämänhetkinen sijainti',
     destination: 'Määränpää',
     ferry: 'Lautta',
@@ -99,6 +103,7 @@ const translations = {
   },
   sv: {
     address: 'Adress',
+    'address-place-or-business': 'Adress, plats eller företag',
     'add-via-button-label': 'Lägg till viapunkt',
     'add-via-duration-button-label':
       'Ställ in varaktighet för viapunkten {{index}}',
@@ -109,6 +114,7 @@ const translations = {
     airplane: 'Flyg',
     bus: 'Bussi',
     'clear-button-label': 'Töm',
+    'clear-search-history': 'Töm sökhistoriken',
     currentposition: 'Nuvarande position',
     destination: 'Destination',
     ferry: 'Färja',

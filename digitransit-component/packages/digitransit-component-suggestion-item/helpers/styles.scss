@@ -1,5 +1,28 @@
 /* stylelint-disable */ 
 
+.suggestion-item-container {
+  display: flex;
+}
+
+.mobile {
+  height: 59px;
+  margin: 0 10px;
+  &.CurrentLocation {
+    height: 50px;
+  }
+  &.SelectFromMap {
+    height: 50px;
+  }
+}
+
+li:not(:first-child) > div.suggestion-item-container {
+  border-top: 1px solid #ddd;
+}
+
+li:last-child > div.suggestion-item-container.mobile {
+  border-top: none;
+}
+
 .search-result {
   display: flex;
   flex-direction: row;
@@ -29,9 +52,21 @@
     color: #666666;
   }
 
-  .right {
+  .arrow-icon {
+    display: flex;
+    align-items: center;
     position: absolute;
     right: 10px;
+    svg {
+      width: 17px;
+      height: 17px;
+    }
+    &.mobile {
+      svg {
+        width: 12px;
+        height: 21px;
+      }
+    }
   }
 }
 
@@ -39,6 +74,35 @@
   width: 49px;
   text-align: center;
   padding-top: 6px;
+  // Default size
+  svg {
+    width: 22px;
+    height: 22px;
+  }
+  .place, .busstop, .select-from-map {
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+  .locate, .edit {
+    svg {
+      width: 22px;
+      height: 22px;
+    }
+  }
+  .star, .work {
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  .school, .sport, .shopping {
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
 }
 
 .sr-only:not(:focus):not(:active) {
