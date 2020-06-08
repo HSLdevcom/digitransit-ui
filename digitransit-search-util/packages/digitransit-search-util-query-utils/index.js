@@ -131,32 +131,6 @@ export const getStopAndStationsQuery = favourites => {
         return favourite;
       }),
     );
-  // return fetchQuery(relayEnvironment, favouriteStopsQuery, {
-  //   ids: favourites.map(item => item.gtfsId),
-  // }).then(dataStops =>
-  //   fetchQuery(relayEnvironment, favouriteStationsQuery, {
-  //     ids: favourites.map(item => item.gtfsId),
-  //   }).then(dataStations => {
-  //     const stops = dataStops.stops.filter(stop => stop !== null);
-  //     const stations = dataStations.stations.filter(
-  //       station => station !== null,
-  //     );
-  //     return merge(stops, stations, favourites).map(stop => {
-  //       const obj = {
-  //         type: 'FavouriteStop',
-  //         properties: {
-  //           ...stop,
-  //           label: stop.name,
-  //           layer: isStop(stop) ? 'favouriteStop' : 'favouriteStation',
-  //         },
-  //         geometry: {
-  //           coordinates: [stop.lon, stop.lat],
-  //         },
-  //       };
-  //       return obj;
-  //     });
-  //   }),
-  // );
 };
 
 /**
