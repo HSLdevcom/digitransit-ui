@@ -416,6 +416,7 @@ class DTAutosuggest extends React.Component {
       value,
       onChange: this.onChange,
       onBlur: this.onBlur,
+      onFocus: () => this.setState({ renderMobileSearch: this.props.isMobile }),
       className: cx(
         `${styles.input} ${styles[this.props.id] || ''} ${
           this.state.value ? styles.hasValue : ''
@@ -460,8 +461,6 @@ class DTAutosuggest extends React.Component {
             inputProps={{
               ...inputProps,
               onBlur: () => null,
-              onFocus: () =>
-                this.setState({ renderMobileSearch: this.props.isMobile }),
             }}
             fetchFunction={this.fetchFunction}
             onSuggestionsClearRequested={this.onSuggestionsClearRequested}
