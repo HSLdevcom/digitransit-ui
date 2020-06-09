@@ -65,6 +65,11 @@ div.map {
   .map.full {
     z-index: 1;
   }
+  .location-popup-wrapper {
+    .zone-icon-container {
+      margin-top: 10px;
+    }
+  }
 }
 div.map.small {
   min-height: $small-map-height;
