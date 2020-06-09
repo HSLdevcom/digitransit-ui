@@ -8,9 +8,8 @@ import lodashFilter from 'lodash/filter';
 import isEqual from 'lodash/isEqual';
 import Popup from 'react-leaflet/es/Popup';
 import { withLeaflet } from 'react-leaflet/es/context';
+import { matchShape, routerShape } from 'found';
 
-import TerminalMarkerPopup from '../popups/TerminalMarkerPopupContainer';
-import StopMarkerPopup from '../popups/StopMarkerPopupContainer';
 import MarkerSelectPopup from './MarkerSelectPopup';
 import CityBikePopup from '../popups/CityBikePopupContainer';
 import ParkAndRideHubPopup from '../popups/ParkAndRideHubPopupContainer';
@@ -23,6 +22,7 @@ import MapLayerStore, { mapLayerShape } from '../../../store/MapLayerStore';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import getRelayEnvironment from '../../../util/getRelayEnvironment';
 import { getClientBreakpoint } from '../../../util/withBreakpoint';
+import { PREFIX_STOPS, PREFIX_TERMINALS } from '../../../util/path';
 
 const initialState = {
   selectableTargets: undefined,
@@ -57,12 +57,12 @@ class TileLayerContainer extends GridLayer {
     intl: intlShape.isRequired,
     config: PropTypes.object.isRequired,
     relayEnvironment: PropTypes.object.isRequired,
+    match: matchShape.isRequired,
+    router: routerShape.isRequired,
   };
 
   PopupOptions = {
-    offset: [110, 16],
-    minWidth: 260,
-    maxWidth: 260,
+    offset: [0, 0],
     autoPanPaddingTopLeft: [5, 125],
     className: 'popup',
     ref: 'popup',
@@ -83,10 +83,6 @@ class TileLayerContainer extends GridLayer {
     this.context = context;
     this.state = {
       ...initialState,
-      currentTime: context
-        .getStore('TimeStore')
-        .getCurrentTime()
-        .unix(),
     };
     this.leafletElement.createTile = this.createTile;
   }
@@ -116,8 +112,6 @@ class TileLayerContainer extends GridLayer {
     let activeTiles;
 
     if (e.currentTime) {
-      this.setState({ currentTime: e.currentTime.unix() });
-
       /* eslint-disable no-underscore-dangle */
       activeTiles = lodashFilter(
         this.leafletElement._tiles,
@@ -174,7 +168,21 @@ class TileLayerContainer extends GridLayer {
       } = this.props;
       const { coords: prevCoords } = this.state;
       const popup = map._popup; // eslint-disable-line no-underscore-dangle
-
+      // navigate to stop page if single stop is clicked
+      if (
+        selectableTargets.length === 1 &&
+        selectableTargets[0].layer === 'stop'
+      ) {
+        const prefix = selectableTargets[0].feature.properties.stops
+          ? PREFIX_TERMINALS
+          : PREFIX_STOPS;
+        this.context.router.replace(
+          `/${prefix}/${encodeURIComponent(
+            selectableTargets[0].feature.properties.gtfsId,
+          )}`,
+        );
+        return;
+      }
       if (
         popup &&
         popup.isOpen() &&
@@ -257,42 +265,7 @@ class TileLayerContainer extends GridLayer {
     if (typeof this.state.selectableTargets !== 'undefined') {
       if (this.state.selectableTargets.length === 1) {
         let id;
-        if (
-          this.state.selectableTargets[0].layer === 'stop' &&
-          this.state.selectableTargets[0].feature.properties.stops
-        ) {
-          if (
-            !this.context.config.map.showStopMarkerPopupOnMobile &&
-            breakpoint === 'small'
-          ) {
-            // DT-3470
-            showPopup = false;
-          }
-          id = this.state.selectableTargets[0].feature.properties.gtfsId;
-          contents = (
-            <TerminalMarkerPopup
-              terminalId={id}
-              currentTime={this.state.currentTime}
-              context={this.context}
-            />
-          );
-        } else if (this.state.selectableTargets[0].layer === 'stop') {
-          if (
-            !this.context.config.map.showStopMarkerPopupOnMobile &&
-            breakpoint === 'small'
-          ) {
-            // DT-3470
-            showPopup = false;
-          }
-          id = this.state.selectableTargets[0].feature.properties.gtfsId;
-          contents = (
-            <StopMarkerPopup
-              stopId={id}
-              currentTime={this.state.currentTime}
-              context={this.context}
-            />
-          );
-        } else if (this.state.selectableTargets[0].layer === 'citybike') {
+        if (this.state.selectableTargets[0].layer === 'citybike') {
           ({ id } = this.state.selectableTargets[0].feature.properties);
           contents = <CityBikePopup stationId={id} context={this.context} />;
         } else if (
@@ -351,13 +324,12 @@ class TileLayerContainer extends GridLayer {
           <Popup
             key={this.state.coords.toString()}
             {...this.PopupOptions}
-            maxHeight={220}
             position={this.state.coords}
+            maxWidth="300px"
           >
             <MarkerSelectPopup
               selectRow={this.selectRow}
               options={this.state.selectableTargets}
-              location={this.state.coords}
             />
           </Popup>
         );
