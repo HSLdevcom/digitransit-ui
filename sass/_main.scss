@@ -10,6 +10,7 @@ $body-font-weight: $font-weight-medium;
 @import 'base/form';
 @import 'base/helper-classes';
 @import 'base/elements';
+@import 'base/fonts';
 
 @import '~zurb-foundation-5/scss/foundation/components/grid';
 @import 'base/helper-classes-after-foundations';

@@ -220,7 +220,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.(eot|png|ttf|woff|svg|jpeg|jpg)$/,
+        test: /\.(eot|png|ttf|woff(2)?|svg|jpeg|jpg)$/,
         loader: isDevelopment ? 'file-loader' : 'url-loader',
         options: { limit: 10000, outputPath: 'assets' },
       },
