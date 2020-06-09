@@ -1157,7 +1157,7 @@ const translations = {
     station: 'Station',
     stop: 'Stop',
     'stop-near-you': 'Search stops and routes near you',
-    'stop-near-you-title': 'Search stops and lines',
+    'stop-near-you-title': 'Search for stops and routes',
     'stop-number': 'Stop number',
     'stop-page.description': 'Stop {name} - {code}',
     'stop-page.title': 'Stop {name} - {code}',
