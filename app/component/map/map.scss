@@ -330,6 +330,7 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
   }
   .leaflet-popup-content {
     margin: 0;
+    min-width: 240px;
     &.leaflet-popup-scrolled {
       overflow: inherit;
       height: auto !important;
