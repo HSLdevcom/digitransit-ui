@@ -20,6 +20,8 @@ const cache = {};
 const query = graphql`
   query StopsQuery($id: String!) {
     stop: stop(id: $id) {
+      desc
+      gtfsId
       alerts {
         alertSeverityLevel
         effectiveEndDate
@@ -110,6 +112,10 @@ class Stops {
     const currentTime = this.getCurrentTime();
     const callback = ({ stop: result }) => {
       cache[gtfsId] = currentTime;
+      const i = this.features.findIndex(
+        f => f.properties.gtfsId === result.gtfsId,
+      );
+      this.features[i].properties.desc = result.desc;
       this.drawStop(
         stopFeature,
         large,
