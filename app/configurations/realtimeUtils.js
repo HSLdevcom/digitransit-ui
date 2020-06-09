@@ -215,4 +215,17 @@ export default {
 
     active: true,
   },
+  Hameenlinna: {
+    mqttTopicResolver: walttiTopicResolver,
+
+    mqtt: 'wss://mqtt.lmj.fi/mqtt',
+
+    credentials: { username: 'user', password: 'userpass' },
+
+    gtfsrt: true,
+
+    routeSelector: defaultRouteSelector,
+
+    active: true,
+  },
 };
