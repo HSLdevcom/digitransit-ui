@@ -419,6 +419,10 @@ const IndexPageWithPosition = connectToStores(
           debug('Auto Initialising geolocation');
 
           context.executeAction(initGeolocation);
+        } else if (status.state === 'prompt') {
+          debug('Still prompting');
+          // eslint-disable-next-line no-useless-return
+          return;
         } else {
           // clear gps & redirect
           if (newProps.origin.gps === true) {
