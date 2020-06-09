@@ -591,6 +591,7 @@ class SummaryPage extends React.Component {
             <>
               {screenReaderUpdateAlert}
               <ItineraryTab
+                key={match.params.hash.toString()}
                 activeIndex={getActiveIndex(match.location, itineraries)}
                 plan={this.props.plan}
                 serviceTimeRange={serviceTimeRange}
@@ -601,14 +602,8 @@ class SummaryPage extends React.Component {
                 error={error || this.state.error}
                 setLoading={this.setLoading}
                 setError={this.setError}
-              >
-                {this.props.content &&
-                  React.cloneElement(this.props.content, {
-                    itinerary: hasItineraries && itineraries[match.params.hash],
-                    focus: this.updateCenter,
-                    plan: this.props.plan,
-                  })}
-              </ItineraryTab>
+                focus={this.updateCenter}
+              />
             </>
           );
           return (
