@@ -1,18 +1,15 @@
 .origin-destination-bar {
   background-color: #fff;
-  width: calc(100% - 2em);
-  max-width: 400px;
-  margin: 0 auto;
-  padding-top: calc(#{$padding-large} - 15px);
   display: flex;
   justify-content: space-around;
   align-items: initial;
+  &.bp-large {
+    margin: 0 3.75em;
+  }
 }
 
 .mobile {
   .origin-destination-bar {
-    padding-left: $padding-small;
-    padding-right: $padding-small;
     z-index: 999;
   }
 }

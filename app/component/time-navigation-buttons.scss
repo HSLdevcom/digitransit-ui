@@ -1,14 +1,19 @@
 .time-navigation-buttons {
   display: flex;
-  margin: 5px 10px;
+  margin: 15px 10px;
   flex-shrink: 0;
+  background-color: $white;
 
   button {
-    font-size: $font-size-small;
+    font-size: 0.9375em;
     width: 100%;
     min-height: 30px;
     margin-right: $padding-small;
     margin-bottom: 0;
+    background-color: $white;
+    color: #666;
+    border: 1px solid #666;
+    transition: border 0.3s ease;
 
     &:first-child {
       margin-left: 0;
@@ -17,13 +22,18 @@
     &:last-child {
       margin-right: 0;
     }
+    &:hover {
+      border: 1px solid #333;
+      color: #333;
+      background-color: $white;
+    }
   }
   &.bp-large {
-    margin: 20px;
+    margin: 30px 4.0625em 30px 3.4375em;
 
     button {
-      font-size: 18px;
-      height: 40px;
+      font-size: 0.9375em;
+      height: 0.9375em;
     }
   }
 
