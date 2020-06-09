@@ -60,9 +60,6 @@ class RouteStop extends React.PureComponent {
 
   static defaultProps = {
     displayNextDeparture: true,
-  };
-
-  static defaultProps = {
     className: '',
     first: false,
     last: false,
@@ -257,7 +254,7 @@ class RouteStop extends React.PureComponent {
                       key={stopTime.scheduledDeparture}
                       className="route-stop-time"
                     >
-                      {fromStopTime(stopTime, currentTime)}
+                      {fromStopTime(stopTime, currentTime, true, true)}
                     </div>
                   ))
                 ) : (
@@ -265,7 +262,12 @@ class RouteStop extends React.PureComponent {
                     key={stop.stopTimesForPattern[0].scheduledDeparture}
                     className="route-stop-time"
                   >
-                    {fromStopTime(stop.stopTimesForPattern[0], currentTime)}
+                    {fromStopTime(
+                      stop.stopTimesForPattern[0],
+                      currentTime,
+                      true,
+                      true,
+                    )}
                   </div>
                 )}
               </div>

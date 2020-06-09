@@ -347,9 +347,9 @@
   .time-header {
     font-weight: inherit;
     text-align: right;
-    width: 3.5em;
+    width: 4em;
     padding-right: $padding-medium;
-    margin-right: $padding-medium;
+    margin-right: $padding-large;
   }
 }
 
@@ -367,7 +367,7 @@
     padding-left: 1.5em;
   }
   .time-header {
-    width: 50px;
+    width: 60px;
     margin-right: 30px;
   }
 }

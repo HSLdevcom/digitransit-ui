@@ -26,7 +26,11 @@ describe('<TripRouteStop />', () => {
       stoptime: {},
     };
     const wrapper = mountWithIntl(<TripRouteStop {...props} />, {
-      context: { config: {} },
+      context: {
+        config: {
+          itinerary: { delayThreshold: 60 },
+        },
+      },
       childContextTypes: { config: PropTypes.object },
     });
     expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(true);

@@ -43,6 +43,7 @@ const DepartureRow = (
             realtime={departureTime.realtime}
             currentTime={currentTime}
             canceled={canceled}
+            departureDelay={departureTime.departureDelay}
           />
         </td>
       );
@@ -232,6 +233,7 @@ export default Relay.createContainer(DepartureRow, {
           realtimeState
           realtimeDeparture
           scheduledDeparture
+          departureDelay
           realtimeArrival
           scheduledArrival
           pickupType

@@ -70,6 +70,9 @@
 .realtime {
   color: $realtime-color;
 }
+.late {
+  color: $late-color;
+}
 .to {
   color: $to-color;
 }
@@ -172,6 +175,9 @@
 }
 .no-decoration {
   text-decoration: none;
+}
+.linethrough {
+  text-decoration: line-through;
 }
 .large-text {
   font-size: 1.1em;

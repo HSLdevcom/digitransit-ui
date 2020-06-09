@@ -14,28 +14,45 @@ import {
 } from './ExampleData';
 
 function DepartureTime(props, context) {
-  let shownTime;
-  const timeDiffInMinutes = Math.floor(
-    (props.departureTime - props.currentTime) / 60,
-  );
+  let shownTime = props.departureTime ? (
+    <LocalTime forceUtc={props.useUTC} time={props.departureTime} />
+  ) : null;
+  let originalTime = null;
+  const isLate =
+    props.departureDelay >= context.config.itinerary.delayThreshold;
 
-  if (
-    timeDiffInMinutes < 0 ||
-    timeDiffInMinutes > context.config.minutesToDepartureLimit
-  ) {
-    shownTime = (
-      <LocalTime forceUtc={props.useUTC} time={props.departureTime} />
-    );
-  } else if (timeDiffInMinutes === 0) {
-    shownTime = <FormattedMessage id="arriving-soon" defaultMessage="Now" />;
+  if (props.displayOriginalTime) {
+    originalTime = props.realtime &&
+      isLate && [
+        <span key="time" className="text-right gray linethrough">
+          <LocalTime
+            forceUtc={props.useUTC}
+            time={props.departureTime - props.departureDelay}
+          />{' '}
+        </span>,
+      ];
   } else {
-    shownTime = (
-      <FormattedMessage
-        id="departure-time-in-minutes"
-        defaultMessage="{minutes} min"
-        values={{ minutes: timeDiffInMinutes }}
-      />
+    const timeDiffInMinutes = Math.floor(
+      (props.departureTime - props.currentTime) / 60,
     );
+    if (
+      timeDiffInMinutes < 0 ||
+      timeDiffInMinutes > context.config.minutesToDepartureLimit
+    ) {
+      shownTime = (
+        <LocalTime forceUtc={props.useUTC} time={props.departureTime} />
+      );
+    } else if (timeDiffInMinutes === 0) {
+      shownTime = <FormattedMessage id="arriving-soon" defaultMessage="Now" />;
+    } else {
+      shownTime = (
+        <FormattedMessage
+          id="departure-time-in-minutes"
+          defaultMessage="{minutes} min"
+          values={{ minutes: timeDiffInMinutes }}
+        />
+      );
+    }
   }
 
   let realtime;
@@ -47,7 +64,10 @@ function DepartureTime(props, context) {
           defaultMessage: 'Real time',
         })}
       >
-        <Icon img="icon-icon_realtime" className="realtime-icon realtime" />
+        <Icon
+          img="icon-icon_realtime"
+          className={cx('realtime-icon', { late: isLate, realtime: !isLate })}
+        />
       </span>
     );
   }
@@ -60,11 +80,13 @@ function DepartureTime(props, context) {
           {
             realtime: props.realtime,
             canceled: props.canceled,
+            late: isLate,
           },
           props.className,
         )}
       >
         {realtime}
+        {originalTime}
         {shownTime}
       </span>
       {props.canceled &&
@@ -77,6 +99,11 @@ function DepartureTime(props, context) {
 
 DepartureTime.contextTypes = {
   intl: intlShape.isRequired, // eslint-disable-line react/no-typos
+  config: PropTypes.shape({
+    itinerary: PropTypes.shape({
+      delayThreshold: PropTypes.number,
+    }).isRequired,
+  }).isRequired,
 };
 
 DepartureTime.description = () => (
@@ -125,6 +152,8 @@ DepartureTime.propTypes = {
   style: PropTypes.object,
   useUTC: PropTypes.bool,
   showCancelationIcon: PropTypes.bool,
+  departureDelay: PropTypes.number,
+  displayOriginalTime: PropTypes.bool,
 };
 
 DepartureTime.defaultProps = {
@@ -133,6 +162,7 @@ DepartureTime.defaultProps = {
   realtime: false,
   useUTC: false,
   showCancelationIcon: false,
+  displayOriginalTime: false,
 };
 
 DepartureTime.contextTypes = {
@@ -161,6 +191,7 @@ export const mapStopTime = (stoptime, pattern) => ({
   realtime: stoptime.realtimeDeparture !== -1 && stoptime.realtime,
   pattern: pattern && pattern.pattern,
   trip: stoptime.trip,
+  departureDelay: stoptime.departureDelay,
 });
 
 /**
@@ -168,15 +199,18 @@ export const mapStopTime = (stoptime, pattern) => ({
  *  @param stoptime stoptime from graphql
  *  @param currentTime
  *  @param showCancelationIcon whether an icon should be shown if the departure is canceled.
+ *  @param displayOriginalTime whether original time should be shown if there's a delay.
  */
 export const fromStopTime = (
   stoptime,
   currentTime,
   showCancelationIcon = true,
+  displayOriginalTime = false,
 ) => (
   <DepartureTime
     currentTime={currentTime}
     {...mapStopTime(stoptime)}
     showCancelationIcon={showCancelationIcon}
+    displayOriginalTime={displayOriginalTime}
   />
 );

@@ -141,6 +141,7 @@ const containerComponent = Relay.createContainer(
               realtime
               realtimeState
               realtimeDeparture
+              departureDelay
               serviceDay
               scheduledDeparture
               pickupType

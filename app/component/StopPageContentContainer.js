@@ -63,6 +63,7 @@ class StopPageContent extends React.Component {
             currentTime={this.props.currentTime}
             showPlatformCodes
             isStopPage
+            displayOriginalTime
           />
         </div>
       </React.Fragment>

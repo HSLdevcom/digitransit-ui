@@ -21,6 +21,7 @@ describe('<DepartureListContainer />', () => {
           scheduledArrival: 1050,
           scheduledDeparture: 1100,
           serviceDay: 0,
+          departureDelay: 0,
           trip: {
             pattern: {
               code: 'foo',

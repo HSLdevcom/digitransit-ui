@@ -60,6 +60,7 @@ const asDepartures = stoptimes =>
           headsign: stoptime.stopHeadsign,
           trip: stoptime.trip,
           pickupType: stoptime.pickupType,
+          departureDelay: stoptime.departureDelay,
         };
       });
 
@@ -76,6 +77,7 @@ class DepartureListContainer extends Component {
     isTerminal: PropTypes.bool,
     showPlatformCodes: PropTypes.bool,
     isStopPage: PropTypes.bool,
+    displayOriginalTime: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -86,6 +88,7 @@ class DepartureListContainer extends Component {
     isTerminal: false,
     showPlatformCodes: false,
     isStopPage: false,
+    displayOriginalTime: false,
   };
 
   constructor(props) {
@@ -98,7 +101,11 @@ class DepartureListContainer extends Component {
     if (this.context.config.showVehiclesOnStopPage && this.props.isStopPage) {
       const departures = asDepartures(this.props.stoptimes)
         .filter(departure => !(this.props.isTerminal && departure.isArrival))
-        .filter(departure => this.props.currentTime < departure.stoptime);
+        .filter(
+          departure =>
+            this.props.currentTime <
+            departure.stoptime + departure.departureDelay,
+        );
       this.startClient(departures);
     }
   }
@@ -107,7 +114,11 @@ class DepartureListContainer extends Component {
     if (this.context.config.showVehiclesOnStopPage && this.props.isStopPage) {
       const departures = asDepartures(this.props.stoptimes)
         .filter(departure => !(this.props.isTerminal && departure.isArrival))
-        .filter(departure => this.props.currentTime < departure.stoptime)
+        .filter(
+          departure =>
+            this.props.currentTime <
+            departure.stoptime + departure.departureDelay,
+        )
         .filter(departure => departure.realtime);
 
       this.updateClient(departures);
@@ -203,7 +214,11 @@ class DepartureListContainer extends Component {
 
     const departures = asDepartures(stoptimes)
       .filter(departure => !(isTerminal && departure.isArrival))
-      .filter(departure => currentTime < departure.stoptime)
+      .filter(
+        departure =>
+          this.props.currentTime <
+          departure.stoptime + departure.departureDelay,
+      )
       .slice(0, limit);
 
     departures.forEach(departure => {
@@ -246,6 +261,7 @@ class DepartureListContainer extends Component {
           isArrival={departure.isArrival}
           isLastStop={departure.isLastStop}
           showPlatformCode={this.props.showPlatformCodes}
+          displayOriginalTime={this.props.displayOriginalTime}
         />
       );
 
@@ -298,6 +314,7 @@ const containerComponent = Relay.createContainer(DepartureListContainer, {
           realtimeState
           realtimeDeparture
           scheduledDeparture
+          departureDelay
           realtimeArrival
           scheduledArrival
           realtime

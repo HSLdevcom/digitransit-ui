@@ -17,7 +17,11 @@ const muiTheme = getMuiTheme({
  * their propType requirements.
  */
 export const mockContext = {
-  config: {},
+  config: {
+    itinerary: {
+      delayThreshold: 180,
+    },
+  },
   executeAction: noop,
   getStore: () => ({
     on: noop,

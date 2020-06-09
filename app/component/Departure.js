@@ -27,6 +27,7 @@ function Departure({
   showPlatformCode,
   staticDeparture,
   useUTC,
+  displayOriginalTime,
 }) {
   const mode = departure.pattern.route.mode.toLowerCase();
   let platformNumber = false;
@@ -43,10 +44,12 @@ function Departure({
       {!staticDeparture && (
         <DepartureTime
           departureTime={departure.stoptime}
+          departureDelay={departure.departureDelay}
           realtime={departure.realtime}
           currentTime={currentTime}
           canceled={canceled}
           useUTC={useUTC}
+          displayOriginalTime={displayOriginalTime}
         />
       )}
       <RouteNumberContainer
@@ -155,6 +158,7 @@ Departure.propTypes = {
   showPlatformCode: PropTypes.bool,
   useUTC: PropTypes.bool,
   staticDeparture: PropTypes.bool,
+  displayOriginalTime: PropTypes.bool,
 };
 
 Departure.defaultProps = {
@@ -166,6 +170,7 @@ Departure.defaultProps = {
   showPlatformCode: false,
   useUTC: false,
   staticDeparture: false,
+  displayOriginalTime: false,
 };
 
 Departure.contextTypes = {

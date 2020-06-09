@@ -21,7 +21,10 @@ describe('<Departure />', () => {
     };
     const wrapper = mountWithIntl(<Departure {...props} />, {
       context: {
-        config: { minutesToDepartureLimit: 9 },
+        config: {
+          minutesToDepartureLimit: 9,
+          itinerary: { delayThreshold: 60 },
+        },
       },
     });
     expect(wrapper.find('span.destination').text()).to.equal('Pirttiniemi');
@@ -35,7 +38,10 @@ describe('<Departure />', () => {
     };
     const wrapper = mountWithIntl(<Departure {...props} />, {
       context: {
-        config: { minutesToDepartureLimit: 9 },
+        config: {
+          minutesToDepartureLimit: 9,
+          itinerary: { delayThreshold: 60 },
+        },
       },
     });
     expect(wrapper.find('span.destination').text()).to.equal('Rautatientori');
@@ -49,7 +55,10 @@ describe('<Departure />', () => {
     };
     const wrapper = mountWithIntl(<Departure {...props} />, {
       context: {
-        config: { minutesToDepartureLimit: 9 },
+        config: {
+          minutesToDepartureLimit: 9,
+          itinerary: { delayThreshold: 60 },
+        },
       },
     });
     expect(wrapper.find('span.destination').text()).to.equal('Pasila');
@@ -63,7 +72,10 @@ describe('<Departure />', () => {
     };
     const wrapper = mountWithIntl(<Departure {...props} />, {
       context: {
-        config: { minutesToDepartureLimit: 9 },
+        config: {
+          minutesToDepartureLimit: 9,
+          itinerary: { delayThreshold: 60 },
+        },
       },
     });
     expect(wrapper.find('span.destination').text()).to.equal('Keskusta');
@@ -77,7 +89,10 @@ describe('<Departure />', () => {
     };
     const wrapper = mountWithIntl(<Departure {...props} />, {
       context: {
-        config: { minutesToDepartureLimit: 9 },
+        config: {
+          minutesToDepartureLimit: 9,
+          itinerary: { delayThreshold: 60 },
+        },
       },
     });
     expect(wrapper.find('span.destination').text()).to.equal(

@@ -55,6 +55,10 @@ export default configMerger(walttiConfig, {
     timeFactor: 0.3,
   },
 
+  itinerary: {
+    delayThreshold: 60,
+  },
+
   appBarLink: {
     name: 'Feedback',
     href: 'https://stadtnavi.de/feedback',

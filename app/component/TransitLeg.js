@@ -113,16 +113,16 @@ class TransitLeg extends React.Component {
   renderMain = () => {
     const { children, focusAction, index, leg, mode } = this.props;
     const { config, intl } = this.context;
+    const isLate = leg.departureDelay >= config.itinerary.delayThreshold;
 
     const originalTime = leg.realTime &&
-      leg.departureDelay &&
-      leg.departureDelay >= config.itinerary.delayThreshold && [
-        <br key="br" />,
+      isLate && [
         <span key="time" className="original-time">
           {moment(leg.startTime)
             .subtract(leg.departureDelay, 's')
             .format('HH:mm')}
         </span>,
+        <br key="br" />,
       ];
     const LegRouteName = leg.from.name.concat(' - ').concat(leg.to.name);
     const firstLegClassName = index === 0 ? ' start' : '';
@@ -261,10 +261,18 @@ class TransitLeg extends React.Component {
             <span className="sr-only">{children}</span>
             <span aria-hidden="true">
               <div className="itinerary-time-column-time">
-                <span className={cx({ canceled: legHasCancelation(leg) })}>
-                  {moment(leg.startTime).format('HH:mm')}
+                <span className={cx({ realtime: leg.realTime, late: isLate })}>
+                  {leg.realTime && (
+                    <Icon
+                      img="icon-icon_realtime"
+                      className="realtime-icon realtime"
+                    />
+                  )}
+                  {originalTime}
+                  <span className={cx({ canceled: legHasCancelation(leg) })}>
+                    {moment(leg.startTime).format('HH:mm')}
+                  </span>
                 </span>
-                {originalTime}
               </div>
               <RouteNumber //  shouldn't this be a route number container instead???
                 alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
