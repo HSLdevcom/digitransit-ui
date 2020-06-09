@@ -1,7 +1,6 @@
 @charset "UTF-8";
 
 $topbar-height: 40px;
-$itinerary-summary-height: 40px;
 $itinerary-tab-switch-height: 48px;
 
 @mixin getCircleSvg($stroke, $fill) {
@@ -96,6 +95,7 @@ $itinerary-tab-switch-height: 48px;
 .itinerary-tabs__scroll {
   background: $white;
   flex-grow: 1;
+  padding: 0 3.75em;
 }
 
 .itinerary-main {
@@ -245,14 +245,25 @@ $itinerary-tab-switch-height: 48px;
 .itinerary-summary {
   flex-grow: 0;
   flex-shrink: 0; //for ie mobile
+  position: absolute;
+  top: 52px;
+  right: 60px;
   color: $gray;
   font-weight: $font-weight-book;
-  font-size: 10pt;
-  padding: 10px;
-  height: $itinerary-summary-height;
-  border-top: solid 1px $light-gray;
-  border-bottom: solid 1px $light-gray;
-  background: transparent;
+  .icon-container {
+    vertical-align: text-bottom;
+  }
+  .icon {
+    height: 1.2em;
+    width: 1.2em;
+  }
+  .duration {
+    padding-left: 12px;
+  }
+  .duration, .walk-distance {
+    font-size: $font-size-small;
+    vertical-align: super;
+  }
 }
 
 .itinerary-icon-container {
@@ -301,13 +312,13 @@ $itinerary-tab-switch-height: 48px;
 }
 
 .duration {
-  font-weight: $font-weight-bold;
+  font-weight: 500;
 }
 
 .duration--itinerary-summary,
 .timeframe--itinerary-summary,
 .biking-distance--itinerary-summary {
-  padding-right: 10px;
+  padding-right: 27px;
 }
 
 .itinerary-disclaimer {
@@ -886,6 +897,9 @@ div.itinerary-container-content {
   min-height: 100%;
   //for ie mobile
   max-height: 100%;
+  .desktop-title {
+    position: relative;
+  }
 }
 
 @media print {
@@ -906,6 +920,7 @@ div.itinerary-container-content {
 }
 
 .itinerary-tab .itinerary-timeframe {
+  background-color: $white;
   padding-top: 15px;
 }
 
