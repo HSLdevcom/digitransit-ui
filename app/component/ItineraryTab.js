@@ -9,7 +9,6 @@ import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 import TicketInformation from './TicketInformation';
 import RouteInformation from './RouteInformation';
-import ItineraryProfile from './ItineraryProfile';
 import ItinerarySummary from './ItinerarySummary';
 import TimeFrame from './TimeFrame';
 import DateWarning from './DateWarning';
@@ -147,10 +146,10 @@ class ItineraryTab extends React.Component {
                   itinerary={itinerary}
                   focusMap={this.handleFocus}
                 />
-                <ItineraryProfile
+                {/* <ItineraryProfile
                   itinerary={itinerary}
                   small={breakpoint !== 'large'}
-                />
+                /> */}
                 {shouldShowFareInfo(config) && (
                   <TicketInformation
                     fares={fares}

@@ -126,6 +126,7 @@ class TransitLeg extends React.Component {
       ];
     const LegRouteName = leg.from.name.concat(' - ').concat(leg.to.name);
     const firstLegClassName = index === 0 ? ' start' : '';
+    // const [address, place] = leg.from.name.split(', ');
     /* const modeClassName =
       `${this.props.mode.toLowerCase()}${this.props.index === 0 ? ' from' : ''}`;
     */
@@ -266,7 +267,7 @@ class TransitLeg extends React.Component {
                 </span>
                 {originalTime}
               </div>
-              <RouteNumber //  shouldn't this be a route number container instead???
+              {/* <RouteNumber //  shouldn't this be a route number container instead???
                 alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
                 mode={mode.toLowerCase()}
                 color={leg.route ? `#${leg.route.color}` : 'currentColor'}
@@ -274,7 +275,7 @@ class TransitLeg extends React.Component {
                 realtime={leg.realTime}
                 vertical
                 fadeLong
-              />
+              /> */}
             </span>
           </Link>
         </div>
@@ -301,7 +302,7 @@ class TransitLeg extends React.Component {
             />
           </span>
           <div className="itinerary-leg-first-row" aria-hidden="true">
-            <div>
+            <div className="transit-leg-row">
               {leg.from.name}
               <ServiceAlertIcon
                 className="inline-icon"
@@ -310,14 +311,16 @@ class TransitLeg extends React.Component {
                   leg.startTime / 1000,
                 )}
               />
-              {this.stopCode(leg.from.stop && leg.from.stop.code)}
-              <PlatformNumber
-                number={leg.from.stop.platformCode}
-                short={false}
-                isRailOrSubway={
-                  modeClassName === 'rail' || modeClassName === 'subway'
-                }
-              />
+              <div className="stop-code-container">
+                {this.stopCode(leg.from.stop && leg.from.stop.code)}
+                <PlatformNumber
+                  number={leg.from.stop.platformCode}
+                  short
+                  isRailOrSubway={
+                    modeClassName === 'rail' || modeClassName === 'subway'
+                  }
+                />
+              </div>
             </div>
             <Icon
               img="icon-icon_search-plus"
@@ -325,7 +328,15 @@ class TransitLeg extends React.Component {
             />
           </div>
           <div className="itinerary-transit-leg-route" aria-hidden="true">
-            {children}
+            <RouteNumber
+              mode={mode.toLowerCase()}
+              color={leg.route ? `#${leg.route.color}` : 'currentColor'}
+              text={leg.route && leg.route.shortName}
+              realtime={false}
+              withBar
+              fadeLong
+            />
+            <div className="headsign">{leg.trip.tripHeadsign}</div>
           </div>
           <LegAgencyInfo leg={leg} />
           <div>

@@ -91,7 +91,9 @@ $itinerary-tab-switch-height: 48px;
     transition: flex-grow 300ms;
   }
 }
-
+.itinerary-list-container {
+  padding-bottom: 1.75em;
+}
 .itinerary-tabs__scroll {
   background: $white;
   flex-grow: 1;
@@ -376,6 +378,7 @@ $itinerary-tab-switch-height: 48px;
       display: flex;
       justify-content: space-between;
       margin-top: $padding-small;
+      flex: 0;
 
       &.multi-component + .multi-component {
         border-top: 1px solid $light-gray;
@@ -383,7 +386,12 @@ $itinerary-tab-switch-height: 48px;
       }
 
       div {
-        flex-shrink: 1;
+        display: flex;
+        flex: 0;
+        .ticket-description {
+          display: flex;
+          padding-left: 3px;
+        }
         .ticket-identifier {
           @include font-medium;
           color: $black;
@@ -397,21 +405,23 @@ $itinerary-tab-switch-height: 48px;
 }
 
 .zone-ticket-multiple-options {
-
+  display: flex;
+  flex: 0;
   span + span {
     margin-left: $padding-xsmall;
+  }
+  .or {
+    display: block !important;
+    padding: 0 3px;
+    flex: 0;
   }
 }
 
 .zone-ticket {
-  /* !important is needed because of print page */
-  background: $primary-color !important;
-  border-radius: 25px;
-  color: #fff;
-  letter-spacing: 9px;
-  padding: 1px 0px 1px 7px;
+  color: #333;
+  letter-spacing: -0.5px;
   text-align: center;
-  font-size: 14px;
+  font-size: $font-size-small;
 }
 
 .desktop {
@@ -648,7 +658,24 @@ $itinerary-tab-switch-height: 48px;
       white-space: normal;
       color: $black;
       @include font-medium;
-
+      font-size: $font-size-small;
+      padding: 0.625em 0;
+      .place {
+        font-size: $font-size-xsmall;
+        font-weight: normal;
+      }
+      .platform-short {
+        @include font-medium;
+        padding-left: 7px;
+        font-weight: normal;
+        font-size: $font-size-xsmall;
+      }
+      .stop-code-container {
+        padding-top: 5px;
+        .itinerary-stop-code {
+          margin-left: 0;
+        }
+      }
       .itinerary-leg-first-row__arrow {
         @include font-medium;
         font-size: 0.6em;
@@ -662,7 +689,46 @@ $itinerary-tab-switch-height: 48px;
         max-width: calc(100% - 20px);
       }
     }
-
+    .itinerary-transit-leg-route {
+      display: flex;
+      background-color: #f4f4f5;
+      border-radius: 5px;
+      .headsign{
+        padding-top: 10px;
+      }
+      .route-number {
+        padding: 7px;
+        width: 74px;
+        height: calc(1.5em + 14px);
+        .vehicle-number {
+          color: $white;
+          width: calc(60px - 1.5em);
+          position: absolute;
+          left: 1.5em;
+          text-align: center;
+          padding-top: 3px;
+        }
+        .icon {
+          position: absolute;
+          height: 1.5em;
+          width: 1.5em;
+          z-index: 1;
+        }
+        .bar-container {
+          width: 60px;
+          height: 1.5em;
+          display: flex;
+          position: absolute;
+          .bar {
+            width: 100%;
+            background-color: currentColor;
+            border: 1px solid currentColor;
+            height: 1.5em;
+            border-radius: $border-radius;
+          }
+        }
+      }
+      }
     .itinerary-leg-text-gray {
       @include font-book;
       color: $gray;
@@ -680,7 +746,9 @@ $itinerary-tab-switch-height: 48px;
     }
 
     .itinerary-leg-action {
-      margin-top: 12px;
+      border-top: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
+      padding: 1em 0;
       @extend .itinerary-leg-text-gray;
     }
 
@@ -691,13 +759,17 @@ $itinerary-tab-switch-height: 48px;
     }
 
     .intermediate-stop-info-container {
-      margin-top: 6px;
+      max-height: 3.75em;
+      padding: 1em 0;
+      border-bottom: 1px solid #ddd;
+      border-top: 1px solid #ddd;
     }
 
     .intermediate-stops-link {
-      @include font-bold;
-      color: $gray-blue;
-      border-bottom: 2px dotted $gray-blue;
+      color: $primary-color;
+      font-weight: 500;
+      line-height: 1.2;
+      border-bottom: none;
     }
 
     .intermediate-stops-duration {
@@ -714,11 +786,11 @@ $itinerary-tab-switch-height: 48px;
   margin-left: 0;
 
   .itinerary-time-column {
-    @include font-narrow-medium;
+    @include font-medium;
     font-size: 10pt;
 
     .itinerary-time-column-time {
-      font-size: 21px;
+      font-size: $font-size-small;
     }
 
     .icon {
@@ -1411,5 +1483,11 @@ $font-print-decrease: 0.7;
         vertical-align: super;
       }
     }
+  }
+}
+
+.address-container {
+  .address {
+    padding-bottom: 0.5em;
   }
 }

@@ -7,6 +7,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import RouteNumber from './RouteNumber';
+import PlatformNumber from './PlatformNumber';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 import {
@@ -25,6 +26,8 @@ function WalkLeg(
   const distance = displayDistance(parseInt(leg.distance, 10), config);
   const duration = durationToString(leg.duration * 1000);
   const modeClassName = 'walk';
+  const isFirstLeg = i => i === 0;
+  const [address, place] = leg.from.name.split(/, (.+)/);
 
   const networkType = getCityBikeNetworkConfig(
     getCityBikeNetworkId(
@@ -84,20 +87,46 @@ function WalkLeg(
             values={{ target: leg.from.name || '' }}
           />
         </span>
-        <div className="itinerary-leg-first-row" aria-hidden="true">
-          <div>
-            {returnNotice || leg.from.name}
-            <ServiceAlertIcon
-              className="inline-icon"
-              severityLevel={getActiveAlertSeverityLevel(
-                leg.from.stop && leg.from.stop.alerts,
-                leg.startTime / 1000,
-              )}
+        {isFirstLeg(index) ? (
+          <div className="itinerary-leg-first-row" aria-hidden="true">
+            <div className="address-container">
+              <div className="address">{address}</div>
+              <div className="place">{place}</div>
+            </div>
+            <Icon
+              img="icon-icon_search-plus"
+              className="itinerary-search-icon"
             />
-            {children}
           </div>
-          <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
-        </div>
+        ) : (
+          <div className="itinerary-leg-first-row" aria-hidden="true">
+            <div className="walk-leg-row">
+              {returnNotice || leg.from.name}
+              <ServiceAlertIcon
+                className="inline-icon"
+                severityLevel={getActiveAlertSeverityLevel(
+                  leg.from.stop && leg.from.stop.alerts,
+                  leg.startTime / 1000,
+                )}
+              />
+              <div className="stop-code-container">
+                {children}
+                <PlatformNumber
+                  number={leg.from.stop.platformCode}
+                  short
+                  isRailOrSubway={
+                    modeClassName === 'rail' || modeClassName === 'subway'
+                  }
+                />
+              </div>
+            </div>
+            <Icon
+              img="icon-icon_search-plus"
+              className="itinerary-search-icon"
+            />
+          </div>
+        )}
+
         <div className="itinerary-leg-action" aria-hidden="true">
           <FormattedMessage
             id="walk-distance-duration"

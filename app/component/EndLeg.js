@@ -9,6 +9,7 @@ import { isKeyboardSelectionEvent } from '../util/browser';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function EndLeg(props) {
+  const [address, place] = props.to.split(', ');
   const modeClassName = 'end';
   return (
     <div key={props.index} className="row itinerary-row">
@@ -49,7 +50,10 @@ function EndLeg(props) {
           />
         </span>
         <div className="itinerary-leg-first-row" aria-hidden="true">
-          <div>{props.to}</div>
+          <div className="address-container">
+            <div className="address">{address}</div>
+            <div className="place">{place}</div>
+          </div>
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>
       </div>

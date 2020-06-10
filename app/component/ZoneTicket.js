@@ -13,7 +13,9 @@ export const renderZoneTicket = (fareId, alternativeFares) => {
     const options = [<ZoneTicket key={fareId} ticketType={fareId} />];
     for (let i = 0; i < alternativeFares.length; i++) {
       options.push(
-        <FormattedMessage key={`${alternativeFares[i]}-or`} id="or" />,
+        <div className="or">
+          <FormattedMessage key={`${alternativeFares[i]}-or`} id="or" />
+        </div>,
       );
       options.push(
         <ZoneTicket

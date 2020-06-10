@@ -220,7 +220,7 @@ class ItineraryLegs extends React.Component {
     );
 
     return (
-      <span role="list">
+      <span className="itinerary-list-container" role="list">
         {legs.map((item, idx) => {
           const listKey = `leg_${idx}`;
           return (
