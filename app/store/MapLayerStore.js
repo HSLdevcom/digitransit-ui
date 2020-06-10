@@ -23,6 +23,7 @@ class MapLayerStore extends Store {
       ticketMachine: true,
     },
     showAllBusses: false,
+    dynamicParkingLots: true,
     geoJson: {},
   };
 
