@@ -10,7 +10,7 @@ function Duration(props) {
 
   return (
     <span className={cx(props.className)}>
-      <Icon img="icon-icon_time" />
+      <Icon img="icon-icon_wait" />
       <span className="duration">{duration}</span>
     </span>
   );

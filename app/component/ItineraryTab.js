@@ -15,6 +15,7 @@ import TimeFrame from './TimeFrame';
 import DateWarning from './DateWarning';
 import ItineraryLegs from './ItineraryLegs';
 import SecondaryButton from './SecondaryButton';
+import BackButton from './BackButton';
 import { getRoutes, getZones } from '../util/legUtils';
 import { BreakpointConsumer } from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -92,9 +93,27 @@ class ItineraryTab extends React.Component {
                   className="timeframe--itinerary-summary"
                 />
               </ItinerarySummary>
+            
             ) : (
-              <div className="itinerary-timeframe" key="timeframe">
-                <DateWarning date={itinerary.startTime} refTime={plan.date} />
+              <div className="desktop-title" key="header">
+                <div className="title-container h2">
+                  <BackButton
+                    title={
+                      <FormattedMessage
+                        id="itinerary-page.title"
+                        defaultMessage="Itinerary suggestions"
+                      />
+                    }
+                    icon="icon-icon_arrow-collapse--left"
+                    color={config.colors.primary}
+                    iconClassName="arrow-icon"
+                  />
+                </div>
+                
+                    <div className="itinerary-timeframe" key="timeframe">
+                    <ItinerarySummary itinerary={itinerary} key="summary" />
+                      <DateWarning date={itinerary.startTime} refTime={plan.date} />
+                </div>
               </div>
             ),
             <div className="momentum-scroll itinerary-tabs__scroll" key="legs">
@@ -122,7 +141,7 @@ class ItineraryTab extends React.Component {
                         />
                       </div>
                     </div>
-                  )}
+                        )}
                 <ItineraryLegs
                   fares={fares}
                   itinerary={itinerary}
@@ -137,7 +156,7 @@ class ItineraryTab extends React.Component {
                     fares={fares}
                     zones={getZones(itinerary.legs)}
                     legs={itinerary.legs}
-                  />
+                />
                 )}
                 {config.showRouteInformation && <RouteInformation />}
               </div>
@@ -157,10 +176,11 @@ class ItineraryTab extends React.Component {
                   />
                 </div>
               )}
-            </div>,
+            </div>
+            
           ]}
         </BreakpointConsumer>
-      </div>
+        </div>
     );
   }
 }

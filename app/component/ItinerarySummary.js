@@ -34,7 +34,7 @@ ItinerarySummary.description = () =>
 
 ItinerarySummary.propTypes = {
   itinerary: PropTypes.object.isRequired,
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
 };
 
 ItinerarySummary.displayName = 'ItinerarySummary';
