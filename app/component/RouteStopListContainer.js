@@ -77,6 +77,8 @@ class RouteStopListContainer extends React.PureComponent {
           nearest.distance <
             this.context.config.nearestStopDistance.maxShownDistance &&
           nearest.stop.gtfsId) === stop.gtfsId;
+      const prevStopPattern =
+        i > 0 ? stops[i - 1].stopTimesForPattern[0] : null;
 
       return (
         <RouteStop
@@ -96,6 +98,9 @@ class RouteStopListContainer extends React.PureComponent {
           first={i === 0}
           className={rowClassName}
           displayNextDeparture={this.context.config.displayNextDeparture}
+          prevVehicleDeparture={
+            prevStopPattern ? prevStopPattern.scheduledDeparture : null
+          }
         />
       );
     });
