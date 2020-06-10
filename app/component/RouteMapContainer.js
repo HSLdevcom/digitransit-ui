@@ -130,24 +130,26 @@ class RouteMapContainer extends React.PureComponent {
             />
           )}
         {breakpoint !== 'large' && (
-          <div
-            className={cx('fullscreen-toggle', 'routePage', {
-              expanded: fullscreen,
-            })}
-            onClick={toggleFullscreenMap}
-          >
-            {fullscreen ? (
-              <Icon img="icon-icon_minimize" className="cursor-pointer" />
-            ) : (
-              <Icon img="icon-icon_maximize" className="cursor-pointer" />
-            )}
-          </div>
+          <React.Fragment>
+            <BackButton
+              icon="icon-icon_arrow-collapse--left"
+              iconClassName="arrow-icon"
+              color={config.colors.primary}
+            />
+            <div
+              className={cx('fullscreen-toggle', 'routePage', {
+                expanded: fullscreen,
+              })}
+              onClick={toggleFullscreenMap}
+            >
+              {fullscreen ? (
+                <Icon img="icon-icon_minimize" className="cursor-pointer" />
+              ) : (
+                <Icon img="icon-icon_maximize" className="cursor-pointer" />
+              )}
+            </div>
+          </React.Fragment>
         )}
-        <BackButton
-          icon="icon-icon_arrow-collapse--left"
-          iconClassName="arrow-icon"
-          color={config.colors.primary}
-        />
       </MapContainer>
     );
   }

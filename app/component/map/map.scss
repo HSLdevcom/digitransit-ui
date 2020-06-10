@@ -65,6 +65,19 @@ div.map {
   .map.full {
     z-index: 1;
   }
+  .back-button {
+    .icon-holder, .icon-holder:focus, .icon-holder:hover {
+      padding: 0.55em 0.2em 0px 0px !important;
+      z-index: 805;
+      background: white;
+      height: 2.5em;
+      width: 2.5em;
+      border-radius: 50%;
+      box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.2);
+      left: 25px;
+      top: 29px;
+    }
+  }
 }
 div.map.small {
   min-height: $small-map-height;
@@ -703,19 +716,5 @@ div.leaflet-control-scale-line {
   @include font-medium;
   .leaflet-popup-content-wrapper {
     border-radius: $border-radius;
-  }
-}
-
-.back-button {
-  .icon-holder, .icon-holder:focus, .icon-holder:hover {
-    padding: 0.55em 0.2em 0px 0px !important;
-    z-index: 805;
-    background: white;
-    height: 2.5em;
-    width: 2.5em;
-    border-radius: 50%;
-    box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.2);
-    left: 25px;
-    top: 29px;
   }
 }
