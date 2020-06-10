@@ -12,6 +12,7 @@ import VehicleMarkerContainer from './map/VehicleMarkerContainer';
 import { getStartTime } from '../util/timeUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import BackButton from './BackButton';
 
 class RouteMapContainer extends React.PureComponent {
   static propTypes = {
@@ -21,6 +22,10 @@ class RouteMapContainer extends React.PureComponent {
     lat: PropTypes.number,
     lon: PropTypes.number,
     breakpoint: PropTypes.string.isRequired,
+  };
+
+  static contextTypes = {
+    config: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -45,6 +50,7 @@ class RouteMapContainer extends React.PureComponent {
   render() {
     const { pattern, lat, lon, match, router, breakpoint } = this.props;
     const { hasCentered, shouldFitBounds } = this.state;
+    const { config } = this.context;
 
     const fullscreen =
       match.location.state && match.location.state.fullscreenMap === true;
@@ -124,18 +130,25 @@ class RouteMapContainer extends React.PureComponent {
             />
           )}
         {breakpoint !== 'large' && (
-          <div
-            className={cx('fullscreen-toggle', 'routePage', {
-              expanded: fullscreen,
-            })}
-            onClick={toggleFullscreenMap}
-          >
-            {fullscreen ? (
-              <Icon img="icon-icon_minimize" className="cursor-pointer" />
-            ) : (
-              <Icon img="icon-icon_maximize" className="cursor-pointer" />
-            )}
-          </div>
+          <React.Fragment>
+            <BackButton
+              icon="icon-icon_arrow-collapse--left"
+              iconClassName="arrow-icon"
+              color={config.colors.primary}
+            />
+            <div
+              className={cx('fullscreen-toggle', 'routePage', {
+                expanded: fullscreen,
+              })}
+              onClick={toggleFullscreenMap}
+            >
+              {fullscreen ? (
+                <Icon img="icon-icon_minimize" className="cursor-pointer" />
+              ) : (
+                <Icon img="icon-icon_maximize" className="cursor-pointer" />
+              )}
+            </div>
+          </React.Fragment>
         )}
       </MapContainer>
     );
