@@ -59,7 +59,7 @@ const AppBarHsl = ({ lang }, { match }) => {
   initLanguage(lang);
 
   const navigation = {
-    startPage: '/',
+    startPage: 'https://uusi.hsl.fi/',
     menu: [
       {
         name: i18next.t('traveling_name'),

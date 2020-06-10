@@ -33,7 +33,9 @@ const TimeFrame = ({ className, startTime, endTime, refTime }) => {
 
   return (
     <span className={className}>
-      {dateTime(start, now)} - {time(end)}
+      {dateTime(start, now)}
+      <span> - </span>
+      {time(end)}
     </span>
   );
 };

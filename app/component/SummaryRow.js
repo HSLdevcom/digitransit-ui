@@ -208,8 +208,8 @@ const SummaryRow = (
     }
   });
   let renderBarThreshold = 6;
-  let renderLegDurationThreshold = 9;
-  let renderRouteNumberThreshold = 12.5;
+  let renderLegDurationThreshold = 10.5;
+  let renderRouteNumberThreshold = 14;
   if (breakpoint === 'small') {
     renderBarThreshold = 8;
     renderLegDurationThreshold = 12;

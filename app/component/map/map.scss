@@ -65,6 +65,7 @@ div.map {
   .map.full {
     z-index: 1;
   }
+
   .back-button {
     .icon-holder, .icon-holder:focus, .icon-holder:hover {
       padding: 0.55em 0.2em 0px 0px !important;
@@ -76,6 +77,12 @@ div.map {
       box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.2);
       left: 25px;
       top: 29px;
+    }
+  }
+
+  .location-popup-wrapper {
+    .zone-icon-container {
+      margin-top: 10px;
     }
   }
 }
