@@ -4,6 +4,8 @@ import cx from 'classnames'; // DT-3470
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 import getContext from 'recompose/getContext';
+import { intlShape } from 'react-intl';
+import { matchShape, routerShape } from 'found';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
 import ComponentUsageExample from '../ComponentUsageExample';
 import MapContainer from './MapContainer';
@@ -43,9 +45,18 @@ const locationMarkerModules = {
     importLazy(import(/* webpackChunkName: "map" */ './LocationMarker')),
 };
 
-const polygonWithTextModules = {
-  PolygonWithText: () =>
-    importLazy(import(/* webpackChunkName: "map" */ './PolygonWithText')),
+const locationMarkerWithPermanentTooltipModules = {
+  LocationMarkerWithPermanentTooltip: () =>
+    importLazy(
+      import(/* webpackChunkName: "map" */ './LocationMarkerWithPermanentTooltip'),
+    ),
+};
+
+const confirmLocationFromMapButtonModules = {
+  ConfirmLocationFromMapButton: () =>
+    importLazy(
+      import(/* webpackChunkName: "map" */ './ConfirmLocationFromMapButton'),
+    ),
 };
 
 const jsonModules = {
@@ -108,6 +119,8 @@ class MapWithTrackingStateHandler extends React.Component {
     originFromMap: PropTypes.bool,
     destinationFromMap: PropTypes.bool,
     language: PropTypes.string,
+    match: matchShape,
+    router: routerShape,
   };
 
   static defaultProps = {
@@ -299,6 +312,7 @@ class MapWithTrackingStateHandler extends React.Component {
       mapTracking: false,
       focusOnOrigin: false,
       focusOnDestination: false,
+      dragging: true,
     });
   };
 
@@ -368,6 +382,8 @@ class MapWithTrackingStateHandler extends React.Component {
   };
 
   getMapLocation = () => {
+    const { intl } = this.context;
+
     if (!this.mapElement || !this.mapElement.leafletElement) {
       return;
     }
@@ -402,17 +418,22 @@ class MapWithTrackingStateHandler extends React.Component {
                 lat: centerOfMap.lat,
                 lon: centerOfMap.lng,
               },
+              onlyCoordinates: false,
             },
           }));
         } else {
           this.setState(prevState => ({
             locationOfMapCenter: {
               ...prevState.locationOfMapCenter,
-              address: 'Selected location',
+              address: intl.formatMessage({
+                id: 'location-from-map',
+                defaultMessage: 'Selected location',
+              }), // + ', ' + JSON.stringify(centerOfMap.lat).match(/[0-9]{1,3}.[0-9]{6}/) + ' ' + JSON.stringify(centerOfMap.lng).match(/[0-9]{1,3}.[0-9]{6}/),
               position: {
                 lat: centerOfMap.lat,
                 lon: centerOfMap.lng,
               },
+              onlyCoordinates: true,
             },
           }));
         }
@@ -420,11 +441,15 @@ class MapWithTrackingStateHandler extends React.Component {
       () => {
         this.setState({
           locationOfMapCenter: {
-            address: 'Selected location',
+            address: intl.formatMessage({
+              id: 'location-from-map',
+              defaultMessage: 'Selected location',
+            }), // + ', ' + JSON.stringify(centerOfMap.lat).match(/[0-9]{1,3}.[0-9]{6}/) + ' ' + JSON.stringify(centerOfMap.lng).match(/[0-9]{1,3}.[0-9]{6}/),
             position: {
               lat: centerOfMap.lat,
               lon: centerOfMap.lng,
             },
+            onlyCoordinates: true,
           },
         });
       },
@@ -439,6 +464,10 @@ class MapWithTrackingStateHandler extends React.Component {
     if (this.props.originFromMap || this.props.destinationFromMap) {
       this.getMapLocation();
     }
+
+    this.setState({
+      dragging: false,
+    });
   };
 
   endZoom = () => {
@@ -455,6 +484,21 @@ class MapWithTrackingStateHandler extends React.Component {
     }
   };
 
+  stripAddress = (address, position) => {
+    if (!this.state.dragging && address !== '') {
+      const newAddress = address.split(', ');
+      let strippedAddress = newAddress[0];
+      if (!this.state.locationOfMapCenter.onlyCoordinates) {
+        strippedAddress = `${strippedAddress}, ${newAddress[1]}`;
+      }
+      strippedAddress = `${strippedAddress}::${JSON.stringify(
+        position.lat,
+      )},${JSON.stringify(position.lon)}`;
+      return strippedAddress;
+    }
+    return '';
+  };
+
   render() {
     const {
       position,
@@ -467,6 +511,7 @@ class MapWithTrackingStateHandler extends React.Component {
       ...rest
     } = this.props;
     const { geoJson, locationOfMapCenter } = this.state;
+    const { intl } = this.context;
 
     let location;
     if (
@@ -549,11 +594,34 @@ class MapWithTrackingStateHandler extends React.Component {
 
       if (!locationOfMapCenter && positionSelectingFromMap) {
         leafletObjs.push(
-          <LazilyLoad modules={polygonWithTextModules} key="moveMapInfo">
-            {({ PolygonWithText }) => (
-              <PolygonWithText
+          <LazilyLoad
+            modules={locationMarkerWithPermanentTooltipModules}
+            key="moveMapInfo"
+          >
+            {({ LocationMarkerWithPermanentTooltip }) => (
+              <LocationMarkerWithPermanentTooltip
                 position={positionSelectingFromMap}
-                text="Valitse määränpää siirtämällä karttaa"
+              />
+            )}
+          </LazilyLoad>,
+        );
+        leafletObjs.push(
+          <LazilyLoad
+            modules={confirmLocationFromMapButtonModules}
+            key="confirm1"
+          >
+            {({ ConfirmLocationFromMapButton }) => (
+              <ConfirmLocationFromMapButton
+                idx="btn1"
+                mapSize={
+                  this.mapElement && this.mapElement.leafletElement
+                    ? this.mapElement.leafletElement.getSize()
+                    : undefined
+                }
+                name={intl.formatMessage({
+                  id: 'location-from-map-confirm',
+                  defaultMessage: 'Confirm selection',
+                })}
               />
             )}
           </LazilyLoad>,
@@ -561,11 +629,43 @@ class MapWithTrackingStateHandler extends React.Component {
       }
       if (locationOfMapCenter && positionSelectingFromMap) {
         leafletObjs.push(
-          <LazilyLoad modules={polygonWithTextModules} key="markerInfo">
-            {({ PolygonWithText }) => (
-              <PolygonWithText
+          <LazilyLoad
+            modules={locationMarkerWithPermanentTooltipModules}
+            key="markerInfo"
+          >
+            {({ LocationMarkerWithPermanentTooltip }) => (
+              <LocationMarkerWithPermanentTooltip
                 position={positionSelectingFromMap}
                 text={locationOfMapCenter.address}
+              />
+            )}
+          </LazilyLoad>,
+        );
+        leafletObjs.push(
+          <LazilyLoad
+            modules={confirmLocationFromMapButtonModules}
+            key="confirm2"
+          >
+            {({ ConfirmLocationFromMapButton }) => (
+              <ConfirmLocationFromMapButton
+                idx="btn2"
+                isEnabled
+                match={this.props.match}
+                router={this.props.router}
+                address={this.stripAddress(
+                  locationOfMapCenter.address,
+                  positionSelectingFromMap,
+                )}
+                mapSize={
+                  this.mapElement && this.mapElement.leafletElement
+                    ? this.mapElement.leafletElement.getSize()
+                    : undefined
+                }
+                name={intl.formatMessage({
+                  id: 'location-from-map-confirm',
+                  defaultMessage: 'Confirm selection',
+                })}
+                color={config.colors.primary}
               />
             )}
           </LazilyLoad>,
@@ -684,6 +784,7 @@ MapWithTrackingStateHandler.contextTypes = {
   executeAction: PropTypes.func,
   getStore: PropTypes.func,
   config: PropTypes.object,
+  intl: intlShape,
 };
 
 // todo convert to use origin prop

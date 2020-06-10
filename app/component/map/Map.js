@@ -47,6 +47,8 @@ export default class Map extends React.Component {
     disableZoom: PropTypes.bool,
     activeArea: PropTypes.string,
     mapRef: PropTypes.func,
+    originFromMap: PropTypes.bool,
+    destinationFromMap: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -157,7 +159,11 @@ export default class Map extends React.Component {
           />
           {config.map.showOSMCopyright && (
             <AttributionControl
-              position="bottomright"
+              position={
+                this.props.originFromMap || this.props.destinationFromMap
+                  ? 'bottomleft'
+                  : 'bottomright'
+              }
               prefix="<a tabindex=&quot;-1&quot; href=&quot;http://osm.org/copyright&quot;>&copy; OpenStreetMap</a>"
             />
           )}

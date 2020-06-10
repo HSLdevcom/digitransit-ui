@@ -24,7 +24,7 @@ class TopLevel extends React.Component {
   static propTypes = {
     children: PropTypes.node,
     header: PropTypes.node,
-    map: PropTypes.node,
+    map: PropTypes.any,
     content: PropTypes.node,
     title: PropTypes.node,
     meta: PropTypes.node,

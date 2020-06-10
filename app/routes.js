@@ -21,6 +21,8 @@ import {
 import getStopRoutes from './stopRoutes';
 import routeRoutes from './routeRoutes';
 
+import SelectFromMapHeader from './component/SelectFromMapHeader';
+
 export const historyMiddlewares = [queryMiddleware];
 
 export const render = createRender({});
@@ -261,6 +263,54 @@ export default config => {
       <Route path="/js/*" Component={Error404} />
       <Route path="/css/*" Component={Error404} />
       <Route path="/assets/*" Component={Error404} />
+      <Route path="/:from?/SelectFromMap" topBarOptions={{ hidden: true }}>
+        {{
+          header: (
+            <Route
+              getComponent={() =>
+                import(/* webpackChunkName: "itinerary" */ './component/SelectFromMapHeader.js').then(
+                  getDefault,
+                )
+              }
+              render={() => <SelectFromMapHeader isDestination />}
+            />
+          ),
+          map: (
+            <Route
+              // disableMapOnMobile
+              getComponent={() =>
+                import(/* webpackChunkName: "itinerary" */ './component/map/SelectFromMapPageMap.js').then(
+                  getDefault,
+                )
+              }
+            />
+          ),
+        }}
+      </Route>
+      <Route path="/SelectFromMap/:to?" topBarOptions={{ hidden: true }}>
+        {{
+          header: (
+            <Route
+              getComponent={() =>
+                import(/* webpackChunkName: "itinerary" */ './component/SelectFromMapHeader.js').then(
+                  getDefault,
+                )
+              }
+              render={() => <SelectFromMapHeader isDestination={false} />}
+            />
+          ),
+          map: (
+            <Route
+              // disableMapOnMobile
+              getComponent={() =>
+                import(/* webpackChunkName: "itinerary" */ './component/map/SelectFromMapPageMap.js').then(
+                  getDefault,
+                )
+              }
+            />
+          ),
+        }}
+      </Route>
       <Route path="/:from?/:to?" topBarOptions={{ disableBackButton: true }}>
         {{
           title: (
@@ -293,7 +343,7 @@ export default config => {
           map: (
             <Route
               // TODO: Must be decided how we will handle selecting from map!
-              // disableMapOnMobile
+              disableMapOnMobile
               getComponent={() =>
                 import(/* webpackChunkName: "itinerary" */ './component/map/IndexPageMap.js').then(
                   getDefault,

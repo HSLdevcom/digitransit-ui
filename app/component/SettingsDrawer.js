@@ -11,9 +11,8 @@ export const SettingsDrawer = ({ open, onToggleClick, mobile }) => {
         <CustomizeSearch onToggleClick={onToggleClick} />
       </div>
     );
-  } else {
-    return null;
   }
+  return null;
 };
 
 SettingsDrawer.propTypes = {

@@ -14,6 +14,9 @@ div.map {
     border-radius: 11px;
     background-color: #ffffff;
     margin: 0px 10px 10px 0px;
+    position: relative;
+    top: -5px;
+    left: 10px;
   }
   .leaflet-container .leaflet-popup-close-button {
     width: 32px;
@@ -602,8 +605,8 @@ div.map-click-prevent-overlay {
 
 div.leaflet-control-scale.leaflet-control {
   //front page
-  margin-right: 30px;
-  margin-bottom: 33px;
+  margin-right: 10px;
+  margin-bottom: 20px;
   cursor: grab;
 }
 

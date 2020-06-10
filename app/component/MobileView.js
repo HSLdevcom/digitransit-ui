@@ -16,7 +16,7 @@ export default function MobileView({ header, map, content, settingsDrawer }) {
 
 MobileView.propTypes = {
   header: PropTypes.node,
-  map: PropTypes.node,
+  map: PropTypes.any,
   content: PropTypes.node,
   settingsDrawer: PropTypes.node,
 };
