@@ -310,9 +310,7 @@ class DTAutosuggest extends React.Component {
     };
     // must update suggestions
     this.setState(newState, () => this.fetchFunction({ value: '' }));
-    if (!this.props.isMobile) {
-      this.input.focus();
-    }
+    this.input.focus();
   };
 
   inputClicked = inputValue => {
