@@ -466,7 +466,12 @@ class DTAutosuggest extends React.Component {
             onSuggestionsClearRequested={this.onSuggestionsClearRequested}
             getSuggestionValue={this.getSuggestionValue}
             renderSuggestion={this.renderItem}
-            closeHandle={() => this.setState({ renderMobileSearch: false })}
+            closeHandle={() =>
+              this.setState({
+                renderMobileSearch: false,
+                value: this.props.value,
+              })
+            }
             ariaLabel={SearchBarId.concat(' ').concat(ariaLabelText)}
             label={i18next.t(this.props.id)}
             onSuggestionSelected={this.onSelected}
