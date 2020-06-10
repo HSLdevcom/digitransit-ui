@@ -183,8 +183,19 @@ $content-background-color: $background-color;
 }
 
 .back-button {
-  .icon {
-    font-size: $font-size-large;
+  button {
+    padding-top: 0 !important;
+    position: absolute;
+    left: 0.5em;
+    .icon {
+      height: 1.3em;
+      width: 1.3em;
+    }
+  }
+  .h2 {
+    font-size: 1.2em;
+    margin: 0 0 0 2.5em;
+    font-weight: 500;
   }
 }
 
@@ -347,7 +358,7 @@ section.content {
   .title-container {
     @include font-medium;
     color: #333333; // DT-3358: was $primary-font-color
-    margin: 20px 30px;
+    margin: 50px 0 16px 0;
     line-height: 1;
   }
 

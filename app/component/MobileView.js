@@ -7,8 +7,8 @@ export default function MobileView({ header, map, content, settingsDrawer }) {
   }
   return (
     <div className="mobile">
-      {header}
       {map}
+      {header}
       {content}
     </div>
   );

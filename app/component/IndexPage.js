@@ -188,57 +188,59 @@ class IndexPage extends React.Component {
           origin.gpsError === false &&
           `blurred`} fullscreen bp-${breakpoint}`}
       >
-        <CtrlPanel
-          instance="hsl"
-          language={lang}
-          origin={origin}
-          position="left"
-        >
-          <DTAutosuggestPanel
-            searchPanelText={intl.formatMessage({
-              id: 'where',
-              defaultMessage: 'Where to?',
-            })}
+        <div style={{ display: isBrowser ? 'block' : 'none' }}>
+          <CtrlPanel
+            instance="hsl"
+            language={lang}
             origin={origin}
-            destination={destination}
-            originPlaceHolder="search-origin-index"
-            destinationPlaceHolder="search-destination-index"
-            lang={lang}
-            sources={['Favourite', 'History', 'Datasource']}
-            targets={['Locations', 'CurrentPosition']}
-            itineraryParams={itineraryParams}
-          />
-          <DatetimepickerContainer realtime />
-          <FavouritesContainer
-            favourites={favourites}
-            onAddFavourite={this.addFavourite}
-            onClickFavourite={this.clickFavourite}
-          />
-          <CtrlPanel.SeparatorLine />
-          <div className="stops-near-you-text">
-            <h2>
-              {' '}
-              {intl.formatMessage({
-                id: 'stop-near-you-title',
-                defaultMessage: 'Stops and lines near you',
+            position="left"
+          >
+            <DTAutosuggestPanel
+              searchPanelText={intl.formatMessage({
+                id: 'where',
+                defaultMessage: 'Where to?',
               })}
-            </h2>
-          </div>
-          <DTAutoSuggest
-            icon="search"
-            id="stop-route-station"
-            refPoint={origin}
-            className="destination"
-            placeholder="stop-near-you"
-            value=""
-            sources={['Favourite', 'History', 'Datasource']}
-            targets={['Stops', 'Routes']}
-          />
-          <CtrlPanel.SeparatorLine />
-          {trafficNowLink !== '' && (
-            <TrafficNowLink handleClick={this.trafficNowHandler} />
-          )}
-        </CtrlPanel>
+              origin={origin}
+              destination={destination}
+              originPlaceHolder="search-origin-index"
+              destinationPlaceHolder="search-destination-index"
+              lang={lang}
+              sources={['Favourite', 'History', 'Datasource']}
+              targets={['Locations', 'CurrentPosition']}
+              itineraryParams={itineraryParams}
+            />
+            <DatetimepickerContainer realtime />
+            <FavouritesContainer
+              favourites={favourites}
+              onAddFavourite={this.addFavourite}
+              onClickFavourite={this.clickFavourite}
+            />
+            <CtrlPanel.SeparatorLine />
+            <div className="stops-near-you-text">
+              <h2>
+                {' '}
+                {intl.formatMessage({
+                  id: 'stop-near-you-title',
+                  defaultMessage: 'Stops and lines near you',
+                })}
+              </h2>
+            </div>
+            <DTAutoSuggest
+              icon="search"
+              id="stop-route-station"
+              refPoint={origin}
+              className="destination"
+              placeholder="stop-near-you"
+              value=""
+              sources={['Favourite', 'History', 'Datasource']}
+              targets={['Stops', 'Routes']}
+            />
+            <CtrlPanel.SeparatorLine />
+            {trafficNowLink !== '' && (
+              <TrafficNowLink handleClick={this.trafficNowHandler} />
+            )}
+          </CtrlPanel>
+        </div>
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
       </div>
     ) : (
@@ -250,52 +252,58 @@ class IndexPage extends React.Component {
           `blurred`} bp-${breakpoint}`}
       >
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
-        <CtrlPanel instance="hsl" language={lang} position="bottom">
-          <DTAutosuggestPanel
-            searchPanelText={intl.formatMessage({
-              id: 'where',
-              defaultMessage: 'Where to?',
-            })}
-            origin={origin}
-            destination={destination}
-            originPlaceHolder="search-origin-index"
-            destinationPlaceHolder="search-destination-index"
-            lang={lang}
-            sources={['Favourite', 'History', 'Datasource']}
-            targets={['Locations', 'CurrentPosition', 'MapPosition']}
-          />
-          <DatetimepickerContainer realtime />
-          <FavouritesContainer
-            favourites={this.props.favourites}
-            onClickFavourite={this.clickFavourite}
-            onAddFavourite={this.addFavourite}
-            lang={lang}
-          />
-          <CtrlPanel.SeparatorLine />
-          <div className="stops-near-you-text">
-            <h2>
-              {' '}
-              {intl.formatMessage({
-                id: 'stop-near-you-title',
-                defaultMessage: 'Stops and lines near you',
+        <div style={{ display: isBrowser ? 'block' : 'none' }}>
+          <CtrlPanel instance="hsl" language={lang} position="bottom">
+            <DTAutosuggestPanel
+              searchPanelText={intl.formatMessage({
+                id: 'where',
+                defaultMessage: 'Where to?',
               })}
-            </h2>
-          </div>
-          <DTAutoSuggest
-            icon="search"
-            id="stop-route-station"
-            refPoint={origin}
-            className="destination"
-            placeholder="stop-near-you"
-            value=""
-            sources={['Favourite', 'History', 'Datasource']}
-            targets={['Stops', 'Routes']}
-          />
-          <CtrlPanel.SeparatorLine />
-          {trafficNowLink !== '' && (
-            <TrafficNowLink handleClick={this.trafficNowHandler} />
-          )}
-        </CtrlPanel>
+              origin={origin}
+              destination={destination}
+              originPlaceHolder="search-origin-index"
+              destinationPlaceHolder="search-destination-index"
+              lang={lang}
+              sources={['Favourite', 'History', 'Datasource']}
+              targets={['Locations', 'CurrentPosition', 'MapPosition']}
+              disableAutoFocus
+              isMobile
+            />
+            <DatetimepickerContainer realtime />
+            <FavouritesContainer
+              favourites={this.props.favourites}
+              onClickFavourite={this.clickFavourite}
+              onAddFavourite={this.addFavourite}
+              lang={lang}
+              isMobile
+            />
+            <CtrlPanel.SeparatorLine />
+            <div className="stops-near-you-text">
+              <h2>
+                {' '}
+                {intl.formatMessage({
+                  id: 'stop-near-you-title',
+                  defaultMessage: 'Stops and lines near you',
+                })}
+              </h2>
+            </div>
+            <DTAutoSuggest
+              icon="search"
+              id="stop-route-station"
+              refPoint={origin}
+              className="destination"
+              placeholder="stop-near-you"
+              value=""
+              sources={['Favourite', 'History', 'Datasource']}
+              targets={['Stops', 'Routes']}
+              isMobile
+            />
+            <CtrlPanel.SeparatorLine />
+            {trafficNowLink !== '' && (
+              <TrafficNowLink handleClick={this.trafficNowHandler} />
+            )}
+          </CtrlPanel>
+        </div>
       </div>
     );
   }
@@ -415,6 +423,10 @@ const IndexPageWithPosition = connectToStores(
           debug('Auto Initialising geolocation');
 
           context.executeAction(initGeolocation);
+        } else if (status.state === 'prompt') {
+          debug('Still prompting');
+          // eslint-disable-next-line no-useless-return
+          return;
         } else {
           // clear gps & redirect
           if (newProps.origin.gps === true) {

@@ -2,12 +2,14 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape, routerShape } from 'found';
+import { FormattedMessage } from 'react-intl';
 
 import OriginDestinationBar from './OriginDestinationBar';
 import QuickSettingsPanel from './QuickSettingsPanel';
 import { isBrowser } from '../util/browser';
 import { parseLocation, PREFIX_ITINERARY_SUMMARY } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
+import BackButton from './BackButton';
 
 class SummaryNavigation extends React.Component {
   static propTypes = {
@@ -66,13 +68,26 @@ class SummaryNavigation extends React.Component {
 
   render() {
     const className = cx({ 'bp-large': this.props.breakpoint === 'large' });
-
     return (
       <div className="summary-navigation-container">
+        {this.props.breakpoint !== 'large' && (
+          <BackButton
+            title={
+              <FormattedMessage
+                id="summary-page.title"
+                defaultMessage="Itinerary suggestions"
+              />
+            }
+            icon="icon-icon_arrow-collapse--left"
+            iconClassName="arrow-icon"
+            color={this.context.config.colors.primary}
+          />
+        )}
         <OriginDestinationBar
           className={className}
           origin={parseLocation(this.props.params.from)}
           destination={parseLocation(this.props.params.to)}
+          isMobile={this.props.breakpoint === 'small'}
         />
         {isBrowser && (
           <React.Fragment>

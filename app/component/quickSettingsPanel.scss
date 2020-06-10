@@ -1,8 +1,12 @@
+
+.top-row-container {
+  margin: 0;
+}
+
 .quicksettings-container {
   display: block;
-  background-color: $background-color-lighter;
-  padding: $padding-small $padding-medium 1em $padding-medium;
-
+  background-color: $white;
+  margin: 0 3.75em;
   .bottom-row {
     margin-top: 0.3em;
     display: flex;
@@ -156,10 +160,7 @@
   }
 }
 .mobile .quicksettings-container {
-  padding-bottom: $padding-medium;
-  padding-left: $padding-small;
-  padding-right: $padding-small;
-
+  margin: 0 auto;
   .bottom-row .select-wrapper {
     flex: 1 1 auto;
     overflow: hidden;

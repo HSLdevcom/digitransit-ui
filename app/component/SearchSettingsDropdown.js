@@ -95,11 +95,11 @@ class SearchSettingsDropdown extends React.Component {
           ? option.displayNameObject
           : option.displayName}
         {option.value === this.props.currentSelection.value && (
-          <h4 className="selected-checkmark">&#10003;</h4>
-          /* <Icon
+          <Icon
             className="selected-checkmark"
-            img="icon-icon_arrow-dropdown"
-          /> */
+            img="icon-icon_check"
+            viewBox="0 0 15 11"
+          />
         )}
       </li>
     ));

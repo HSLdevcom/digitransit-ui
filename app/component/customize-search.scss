@@ -38,6 +38,10 @@
   }
 
   .toggle-container {
+    .settings-header {
+      padding-top: 1em;
+      width: 100%;
+    }
     span {
       padding-top: 1em;
       width: 100%;
@@ -47,13 +51,16 @@
       margin: 0 1em 0 0;
     }
   }
-
-  .citybike-network-container {
+  .mode-option-block.citybike-network-container:nth-child(2) {
+    border-bottom: 1px solid #e3e3e3;
+  }
+  .mode-option-block.citybike-network-container {
+    margin-bottom: 0.75em;
     .option-toggle-container {
       width: 100%;
 
       .toggle {
-        top: 1px;
+        top: 0px;
       }
     }
     .icon-container {
@@ -63,7 +70,7 @@
 }
 
 .settings-option-container {
-  padding: 1em 1em 0 1em;
+  padding: 0.5em 1em 0 1em;
   border-bottom: 5px solid #f4f4f5;
   font-weight: 500;
 
@@ -73,10 +80,11 @@
 
   h1 {
     text-transform: none;
-    font-size: $font-size-normal;
+    font-size: $font-size-xlarge;
     letter-spacing: -0.6pt;
-    font-weight: $font-weight-bold;
+    font-weight: 500;
     font-family: $font-family;
+    padding: 1em 0.5em 0.5em 0.5em;
   }
 
   .option-checkbox-container > span {
@@ -86,6 +94,9 @@
   .mode-option-container:last-of-type {
     border: none;
   }
+}
+.settings-option-container:first-of-type {
+  border-bottom: 1px solid #dddddd;
 }
 
 .transport-mode-header {
@@ -98,20 +109,15 @@
   }
 }
 
-.street-modes-container {
-  > div {
-    border-bottom: 1px solid #e3e3e3;
-  }
+.settings-header {
+  font-size: $font-size-normal;
+  color: $gray;
+  font-weight: normal;
+  padding-left: 1em;
+}
 
-  :last-child, :first-child {
-    border: none;
-  }
-
-  .settings-dropdown-wrapper {
-    margin-left: 2em;
-    padding-bottom: 1em;
-    border-bottom: 1px solid #e3e3e3;
-  }
+.settings-header-citybike {
+  padding-left: 0;
 }
 
 .mode-option-container {
@@ -292,32 +298,5 @@
         border: solid 1px #007ac9;
       }
     }
-  }
-}
-
-.street-mode-selector-panel.customized-settings {
-  flex-direction: column;
-
-  .street-mode-selector-panel-header {
-    margin-bottom: 0.5em;
-    padding-left: 0;
-
-    span {
-      color: rgb(51, 51, 51);
-      text-transform: uppercase;
-      letter-spacing: -0.6pt;
-      font-size: $font-size-normal;
-      font-weight: $font-weight-bold;
-      font-family: $font-family;
-    }
-  }
-
-  .street-mode-selector-panel-buttons button {
-    flex-grow: 1;
-    margin-bottom: 0;
-  }
-
-  .toggle-button-title {
-    margin-bottom: 1.5em;
   }
 }

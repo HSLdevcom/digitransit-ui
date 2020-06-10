@@ -39,6 +39,7 @@ class OriginDestinationBar extends React.Component {
     origin: dtLocationShape,
     location: PropTypes.object,
     language: PropTypes.string,
+    isMobile: PropTypes.bool,
   };
 
   static contextTypes = {
@@ -52,6 +53,7 @@ class OriginDestinationBar extends React.Component {
     className: undefined,
     location: undefined,
     language: 'fi',
+    isMobile: false,
   };
 
   get location() {
@@ -108,6 +110,8 @@ class OriginDestinationBar extends React.Component {
           sources={['Favourite', 'History', 'Datasource']}
           targets={['Locations', 'CurrentPosition']}
           lang={this.props.language}
+          disableAutoFocus={this.props.isMobile}
+          isMobile={this.props.isMobile}
         />{' '}
       </div>
     );

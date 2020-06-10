@@ -72,7 +72,7 @@ export default class BackButton extends React.Component {
         </button>
         {this.props.title &&
           !this.props.titleClassName && (
-            <h1 className="h2">{this.props.title}</h1>
+            <h2 className="h2">{this.props.title}</h2>
           )}
         {this.props.title &&
           this.props.titleClassName && (

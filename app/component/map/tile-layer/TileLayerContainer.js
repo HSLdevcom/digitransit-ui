@@ -377,7 +377,6 @@ class TileLayerContainer extends GridLayer {
             position={this.state.coords}
           >
             <LocationPopup
-              name="" // TODO: fill in name from reverse geocoding, possibly in a container.
               lat={this.state.coords.lat}
               lon={this.state.coords.lng}
             />

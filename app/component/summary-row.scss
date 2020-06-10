@@ -30,9 +30,8 @@
 
 .itinerary-summary-row {
   min-height: 50px;
-  padding-left: $padding-medium;
-  padding-right: 0;
-  padding-top: 0.5em;
+  padding-left: 0.9375em;
+  padding-right: 0.9375em;
   overflow: hidden;
   background-color: $white;
   display: flex;
@@ -89,11 +88,12 @@
     overflow: hidden;
     text-align: right;
     min-width: 2em;
-    font-size: $font-size-large;
+    font-size: 1.125em;
     font-stretch: normal;
     letter-spacing: -0.5px;
     line-height: normal;
     font-style: normal;
+    padding-top: 20px;
 
     .itinerary-start-time-and-end-time {
       float: left;
@@ -141,13 +141,13 @@
     top: 3.77em;
     left: 2.3em;
     @include font-book;
-    padding-top: 12px;
+    padding-top: 10px;
     width: 100%;
     max-width: 100%;
     color: $distance-gray;
 
     .itinerary-first-leg-start-time{
-      font-size: $font-size-small;
+      font-size: $font-size-xxsmall;
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: normal;
@@ -352,8 +352,7 @@
   &.bp-large {
     min-height: 100px;
     border-left-width: 8px;
-    padding-left: 20px;
-    padding-top: 0;
+    padding: 0 0 0 3.75em;
 
     .leg.via {
       .itinerary-icon {
@@ -380,7 +379,6 @@
 
     .itinerary-duration-container {
       min-width: 50px;
-      padding-top: 17px;
 
       .itinerary-start-date {
         @include font-narrow-book;
@@ -412,7 +410,7 @@
     }
 
     .action-arrow-click-area {
-      padding: 0 20px 0 10px;
+      padding: 0 25px 0 20px;
     }
     .action-arrow {
       font-size: 20px;
@@ -433,7 +431,7 @@
   }
   .summary-clickable-area {
     border-bottom: 1px solid #888;
-    padding-bottom: 0.5em;
+    padding-bottom: 0.9375em;
     display: flex;
     flex: auto;
     flex-wrap: wrap;
@@ -486,7 +484,6 @@
 }
 
 .mobile .itinerary-legs .leg {
-  height: 2em;
   padding-top: 5px;
 }
 
