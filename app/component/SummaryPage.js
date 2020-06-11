@@ -46,6 +46,7 @@ import {
   changeRealTimeClientTopics,
 } from '../action/realTimeClientAction';
 import VehicleMarkerContainer from './map/VehicleMarkerContainer';
+import ItineraryTab from './ItineraryTab';
 
 export const ITINERARYFILTERING_DEFAULT = 1.5;
 
@@ -585,6 +586,41 @@ class SummaryPage extends React.Component {
         this.props.loadingPosition === false &&
         (error || this.props.plan)
       ) {
+        if (match.params.hash) {
+          content = (
+            <>
+              {screenReaderUpdateAlert}
+              <ItineraryTab
+                key={match.params.hash.toString()}
+                activeIndex={getActiveIndex(match.location, itineraries)}
+                plan={this.props.plan}
+                serviceTimeRange={serviceTimeRange}
+                itinerary={
+                  itineraries[getActiveIndex(match.location, itineraries)]
+                }
+                params={match.params}
+                error={error || this.state.error}
+                setLoading={this.setLoading}
+                setError={this.setError}
+                focus={this.updateCenter}
+              />
+            </>
+          );
+          return (
+            <DesktopView
+              title={
+                <FormattedMessage
+                  id="itinerary-page.title"
+                  defaultMessage="Itinerary suggestions"
+                />
+              }
+              content={content}
+              map={map}
+              scrollable
+              bckBtnVisible={false}
+            />
+          );
+        }
         content = (
           <>
             {screenReaderUpdateAlert}

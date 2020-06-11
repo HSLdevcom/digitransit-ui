@@ -33,7 +33,7 @@ describe('<AppBarHsl />', () => {
         },
       },
     });
-    expect(wrapper.name()).to.equal('SiteHeader');
+    expect(wrapper.name()).to.equal('ForwardRef');
     expect(wrapper.prop('searchPage')).to.equal(
       'https://www.hsl.fi/search/solr',
     );
@@ -58,7 +58,7 @@ describe('<AppBarHsl />', () => {
         },
       },
     });
-    expect(wrapper.name()).to.equal('SiteHeader');
+    expect(wrapper.name()).to.equal('ForwardRef');
     expect(wrapper.prop('searchPage')).to.not.equal(
       'https://www.hsl.fi/search/solr',
     );
@@ -83,7 +83,7 @@ describe('<AppBarHsl />', () => {
         },
       },
     });
-    expect(wrapper.name()).to.equal('SiteHeader');
+    expect(wrapper.name()).to.equal('ForwardRef');
     expect(wrapper.prop('searchPage')).to.not.equal(
       'https://www.hsl.fi/search/solr',
     );

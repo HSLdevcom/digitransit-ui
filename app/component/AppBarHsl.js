@@ -2,8 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import i18next from 'i18next';
 import { matchShape, routerShape } from 'found';
+import loadable from '@loadable/component';
 
-import SiteHeader from '@hsl-fi/site-header';
+const SiteHeader = loadable(() => import('@hsl-fi/site-header'), { ssr: true });
 
 const initLanguage = language => {
   i18next.init({ lang: language, resources: {} });
@@ -58,7 +59,7 @@ const AppBarHsl = ({ lang }, { match }) => {
   initLanguage(lang);
 
   const navigation = {
-    startPage: '/',
+    startPage: 'https://uusi.hsl.fi/',
     menu: [
       {
         name: i18next.t('traveling_name'),
