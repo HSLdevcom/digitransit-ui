@@ -78,17 +78,19 @@ const favouriteRoutesQuery = graphql`
 
 /** Verifies that the data for favourites is coherent and current and fixes errors */
 const verify = (stopStationMap, favourites) => {
-  const result = favourites.map(favourite => {
-    const fromQuery = stopStationMap[favourite.gtfsId];
-    if (fromQuery) {
-      favourite.lat = fromQuery.lat;
-      favourite.lon = fromQuery.lon;
+  const result = favourites
+    .map(favourite => {
+      const fromQuery = stopStationMap[favourite.gtfsId];
+      if (fromQuery) {
+        favourite.lat = fromQuery.lat;
+        favourite.lon = fromQuery.lon;
 
-      return favourite;
-    }
-    return null;
-  });
-  return result.filter(r => r !== null);
+        return favourite;
+      }
+      return null;
+    })
+    .filter(r => r !== null);
+  return result;
 };
 /**
  * Set you Relay environment
