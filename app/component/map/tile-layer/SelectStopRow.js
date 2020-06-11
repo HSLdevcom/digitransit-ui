@@ -1,96 +1,61 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-
-import { FormattedMessage } from 'react-intl';
-import uniqBy from 'lodash/uniqBy';
-import reject from 'lodash/reject';
-
-import RouteDestination from '../../RouteDestination';
-import routeCompare from '../../../util/route-compare';
+import Link from 'found/lib/Link';
+import Icon from '../../Icon';
 import ComponentUsageExample from '../../ComponentUsageExample';
+import { PREFIX_TERMINALS, PREFIX_STOPS } from '../../../util/path';
 
-function getName(pattern) {
-  if (pattern.shortName) {
-    return (
-      <span
-        key={pattern.shortName}
-        className={`${pattern.type.toLowerCase()} vehicle-number`}
-      >
-        {pattern.shortName}
-      </span>
-    );
-  }
-  return null;
-}
-
-function SelectStopRow(props) {
-  const patternData = JSON.parse(props.patterns).sort(routeCompare);
-  const patterns = [];
-
-  patterns.push(
-    <div key="first" className="route-detail-text">
-      <span
-        className={`${patternData[0].type.toLowerCase()} vehicle-number no-padding`}
-      >
-        {patternData[0].shortName}
-      </span>
-      {'\u00a0'}
-      <RouteDestination
-        mode={patternData[0].type}
-        destination={patternData[0].headsign}
-      />
-    </div>,
-  );
-
-  if (patternData.length > 1) {
-    const otherPatterns = reject(patternData, [
-      'shortName',
-      patternData[0].shortName,
-    ]);
-    if (otherPatterns.length > 0) {
-      patterns.push(
-        <div key="second" className="route-detail-text">
-          <span className="gray">
-            <FormattedMessage id="in-addition" defaultMessage="In addition" />
-          </span>
-          {uniqBy(otherPatterns, pattern => pattern.shortName).map(getName)}
-        </div>,
-      );
-    }
+function SelectStopRow({ gtfsId, type, name, code, terminal, desc }) {
+  let iconId;
+  switch (type) {
+    case 'TRAM':
+      iconId = 'icon-icon_tram';
+      break;
+    case 'RAIL':
+      iconId = 'icon-icon_rail';
+      break;
+    case 'BUS':
+      iconId = 'icon-icon_bus';
+      break;
+    case 'SUBWAY':
+      iconId = 'icon-icon_subway';
+      break;
+    case 'FERRY':
+      iconId = 'icon-icon_ferry';
+      break;
+    case 'AIRPLANE':
+      iconId = 'icon-icon_airplane';
+      break;
+    default:
+      iconId = 'icon-icon_bus';
+      break;
   }
 
-  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
+  const showDesc = desc && desc !== 'null';
+  const showCode = code && code !== 'null';
+
+  const prefix = terminal ? PREFIX_TERMINALS : PREFIX_STOPS;
   return (
-    <div className="no-margin">
-      <div className="cursor-pointer select-row" onClick={props.selectRow}>
-        <div className="padding-vertical-normal select-row-icon">
-          <svg
-            viewBox="0 0 30 30"
-            width="30"
-            height="30"
-            style={{ position: 'relative', left: 5 }}
-            className={`${props.type.toLowerCase()} left`}
-          >
-            <circle
-              r="8"
-              cx="15"
-              cy="15"
-              strokeWidth="3"
-              fill="None"
-              stroke="currentColor"
-            />
-          </svg>
-        </div>
-        <div className="padding-vertical-normal select-row-text">
-          <span className="header-primary no-margin link-color">
-            {props.name} ›
+    <Link
+      className="stop-popup-choose-row"
+      to={`/${prefix}/${encodeURIComponent(gtfsId)}`}
+    >
+      <span className="choose-row-left-column" aria-hidden="true">
+        <Icon img={iconId} />
+      </span>
+      <span className="choose-row-center-column">
+        <h5 className="choose-row-header">{name}</h5>
+        {(showDesc || showCode) && (
+          <span className="choose-row-text">
+            {showDesc && <span className="choose-row-address">{desc}</span>}
+            {showCode && <span className="choose-row-number">{code}</span>}
           </span>
-          {patterns}
-        </div>
-        <div className="clear" />
-      </div>
-      <hr className="no-margin gray" />
-    </div>
+        )}
+      </span>
+      <span className="choose-row-right-column">
+        <Icon img="icon-icon_arrow-collapse--right" />
+      </span>
+    </Link>
   );
 }
 
@@ -101,22 +66,29 @@ SelectStopRow.description = () => (
     <p>Renders a select stop row</p>
     <ComponentUsageExample description="">
       <SelectStopRow
-        name="DIAKONIAPUISTO"
-        selectRow={() => {}}
+        gtfsId="TEST"
         type="BUS"
-        patterns={
-          '[{"headsign":"Kuninkaanmäki","type":"BUS","shortName":"518"}]'
-        }
+        name="Testipysäkki"
+        code="X0000"
+        desc="Testikatu"
       />
     </ComponentUsageExample>
   </div>
 );
 
 SelectStopRow.propTypes = {
+  gtfsId: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  selectRow: PropTypes.func.isRequired,
-  patterns: PropTypes.string.isRequired,
+  code: PropTypes.string,
+  desc: PropTypes.string,
+  terminal: PropTypes.bool,
+};
+
+SelectStopRow.defaultProps = {
+  terminal: false,
+  code: null,
+  desc: null,
 };
 
 export default SelectStopRow;

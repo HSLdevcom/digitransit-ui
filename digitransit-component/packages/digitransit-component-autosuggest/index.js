@@ -310,9 +310,7 @@ class DTAutosuggest extends React.Component {
     };
     // must update suggestions
     this.setState(newState, () => this.fetchFunction({ value: '' }));
-    if (!this.props.isMobile) {
-      this.input.focus();
-    }
+    this.input.focus();
   };
 
   inputClicked = inputValue => {
@@ -466,7 +464,12 @@ class DTAutosuggest extends React.Component {
             onSuggestionsClearRequested={this.onSuggestionsClearRequested}
             getSuggestionValue={this.getSuggestionValue}
             renderSuggestion={this.renderItem}
-            closeHandle={() => this.setState({ renderMobileSearch: false })}
+            closeHandle={() =>
+              this.setState({
+                renderMobileSearch: false,
+                value: this.props.value,
+              })
+            }
             ariaLabel={SearchBarId.concat(' ').concat(ariaLabelText)}
             label={i18next.t(this.props.id)}
             onSuggestionSelected={this.onSelected}
