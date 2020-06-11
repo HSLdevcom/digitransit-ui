@@ -31,6 +31,9 @@ function SelectStopRow({ gtfsId, type, name, code, terminal, desc }) {
       break;
   }
 
+  const showDesc = desc && desc !== 'null';
+  const showCode = code && code !== 'null';
+
   const prefix = terminal ? PREFIX_TERMINALS : PREFIX_STOPS;
   return (
     <Link
@@ -42,10 +45,10 @@ function SelectStopRow({ gtfsId, type, name, code, terminal, desc }) {
       </span>
       <span className="choose-row-center-column">
         <h5 className="choose-row-header">{name}</h5>
-        {(desc || code) && (
+        {(showDesc || showCode) && (
           <span className="choose-row-text">
-            <span className="choose-row-address">{desc}</span>
-            {code && <span className="choose-row-number">{code}</span>}
+            {showDesc && <span className="choose-row-address">{desc}</span>}
+            {showCode && <span className="choose-row-number">{code}</span>}
           </span>
         )}
       </span>
