@@ -48,7 +48,7 @@ class CustomizeSearch extends React.Component {
         <button
           className="close-offcanvas"
           onClick={() => {
-            onToggleClick(false);
+            onToggleClick();
           }}
         >
           <Icon className="close-icon" img="icon-icon_close" />
