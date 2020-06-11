@@ -27,6 +27,7 @@ jobs:
       env: LINT=1
       node_js: '10'
       script:
+        - rm -rf node_modules
         - yarn setup
         - yarn lint
     # Temporarely disabled for development in next branch
@@ -40,6 +41,7 @@ jobs:
       env: UNIT=1
       node_js: '10'
       script:
+        - rm -rf node_modules
         - yarn setup
         - yarn relay
         - yarn run test-coverage
