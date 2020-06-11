@@ -6,13 +6,14 @@ import { intlShape } from 'react-intl';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import moment from 'moment';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { navigateTo } from '../util/path';
 import searchContext from '../util/searchContext';
 import intializeSearchContext from '../util/DTSearchContextInitializer';
 
 export default function withSearchContext(WrappedComponent) {
-  return class extends React.Component {
+  class ComponentWithSearchContext extends React.Component {
     static contextTypes = {
       config: PropTypes.object.isRequired,
       intl: intlShape.isRequired,
@@ -29,6 +30,7 @@ export default function withSearchContext(WrappedComponent) {
       relayEnvironment: PropTypes.object.isRequired,
       onFavouriteSelected: PropTypes.func,
       itineraryParams: PropTypes.object,
+      locationState: PropTypes.object,
     };
 
     constructor(props) {
@@ -37,11 +39,58 @@ export default function withSearchContext(WrappedComponent) {
         // eslint-disable-next-line react/no-unused-state
         pendingCurrentLocation: false,
         isInitialized: false,
+        positioningSelectedFrom: '',
       };
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+      if (prevState.isInitialized) {
+        const locState = nextProps.locationState;
+        if (
+          (prevState.pendingCurrentLocation &&
+            locState.status === 'found-address') ||
+          locState.locationingFailed
+        ) {
+          return {
+            pendingCurrentLocation: false,
+            positioningSelectedFrom: null,
+          };
+        }
+      }
+      return null;
     }
 
     componentDidMount() {
       this.initContext();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+      const locState = this.props.locationState;
+      if (
+        prevState.pendingCurrentLocation !== this.state.pendingCurrentLocation
+      ) {
+        if (locState.status === 'found-address') {
+          const location = {
+            type: 'CurrentLocation',
+            lat: locState.lat,
+            lon: locState.lon,
+            gid: locState.gid,
+            name: locState.name,
+            layer: locState.layer,
+            address:
+              locState.address ||
+              this.context.intl.formatMessage({
+                id: 'own-position',
+                defaultMessage: 'Own Location',
+              }),
+          };
+          if (prevState.positioningSelectedFrom === 'favourite') {
+            this.selectFavourite(location);
+          } else {
+            this.selectLocation(location, prevState.positioningSelectedFrom);
+          }
+        }
+      }
     }
 
     initContext() {
@@ -69,8 +118,11 @@ export default function withSearchContext(WrappedComponent) {
     };
 
     onSuggestionSelected = (item, id) => {
+      if (!id) {
+        return;
+      }
       // route
-      if (item.properties.link) {
+      if (item.properties && item.properties.link) {
         this.selectRoute(item.properties.link);
         return;
       }
@@ -84,9 +136,14 @@ export default function withSearchContext(WrappedComponent) {
         return;
       }
       const location = suggestionToLocation(item);
-      if (item.properties.layer === 'currentPosition' && !item.properties.lat) {
+      if (
+        item.properties &&
+        item.properties.layer === 'currentPosition' &&
+        !item.properties.lat
+      ) {
         // eslint-disable-next-line react/no-unused-state
-        this.setState({ pendingCurrentLocation: true }, () =>
+        this.setState(
+          { pendingCurrentLocation: true, positioningSelectedFrom: id },
           this.context.executeAction(searchContext.startLocationWatch),
         );
       } else {
@@ -114,7 +171,21 @@ export default function withSearchContext(WrappedComponent) {
 
     // eslint-disable-next-line no-unused-vars
     selectFavourite = item => {
-      this.props.onFavouriteSelected(item);
+      if (
+        item.properties &&
+        item.properties.layer === 'currentPosition' &&
+        !item.properties.lat
+      ) {
+        this.setState(
+          {
+            pendingCurrentLocation: true,
+            positioningSelectedFrom: 'favourite',
+          },
+          () => this.context.executeAction(searchContext.startLocationWatch),
+        );
+      } else {
+        this.props.onFavouriteSelected(item);
+      }
     };
 
     selectLocation = (location, id) => {
@@ -246,5 +317,13 @@ export default function withSearchContext(WrappedComponent) {
         />
       );
     }
-  };
+  }
+  const componentWithPosition = connectToStores(
+    ComponentWithSearchContext,
+    ['PositionStore'],
+    context => ({
+      locationState: context.getStore('PositionStore').getLocationState(),
+    }),
+  );
+  return componentWithPosition;
 }
