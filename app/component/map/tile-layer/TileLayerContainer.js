@@ -308,7 +308,12 @@ class TileLayerContainer extends GridLayer {
           );
         }
         popup = (
-          <Popup {...this.PopupOptions} key={id} position={this.state.coords}>
+          <Popup
+            {...this.PopupOptions}
+            key={id}
+            position={this.state.coords}
+            className={`${this.PopupOptions.className} single-popup`}
+          >
             {contents}
           </Popup>
         );
@@ -326,6 +331,7 @@ class TileLayerContainer extends GridLayer {
             {...this.PopupOptions}
             position={this.state.coords}
             maxWidth="300px"
+            className={`${this.PopupOptions.className} choice-popup`}
           >
             <MarkerSelectPopup
               selectRow={this.selectRow}
@@ -347,6 +353,7 @@ class TileLayerContainer extends GridLayer {
             {...this.PopupOptions}
             maxHeight={220}
             position={this.state.coords}
+            className={`${this.PopupOptions.className} single-popup`}
           >
             <LocationPopup
               lat={this.state.coords.lat}

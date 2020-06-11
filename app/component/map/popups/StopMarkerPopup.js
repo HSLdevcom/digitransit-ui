@@ -5,6 +5,7 @@ import { createRefetchContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import PopupMock from './PopupMock';
+import MarkerPopupBottom from '../MarkerPopupBottom';
 import StopCardContainer from '../../StopCardContainer';
 import ComponentUsageExample from '../../ComponentUsageExample';
 
@@ -33,6 +34,13 @@ class StopMarkerPopup extends React.PureComponent {
           limit={NUMBER_OF_DEPARTURES}
           isPopUp
           className="card-padding"
+        />
+        <MarkerPopupBottom
+          location={{
+            address: stop.name,
+            lat: stop.lat,
+            lon: stop.lon,
+          }}
         />
       </div>
     );
