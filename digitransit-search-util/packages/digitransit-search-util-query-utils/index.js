@@ -1,4 +1,4 @@
-import merge from 'lodash/merge';
+/* eslint-disable no-param-reassign */
 import take from 'lodash/take';
 import flatten from 'lodash/flatten';
 import moment from 'moment';
@@ -76,6 +76,28 @@ const favouriteRoutesQuery = graphql`
   }
 `;
 
+/** Verifies that the data for favourites is coherent and current and fixes errors */
+const verify = (stopsAndStations, favourites) => {
+  // eslint-disable-next-line func-names
+  const stopStationMap = stopsAndStations.reduce(function(map, stopOrStation) {
+    // eslint-disable-next-line no-param-reassign
+    map[stopOrStation.gtfsId] = stopOrStation;
+    return map;
+  }, {});
+  const result = favourites.map(favourite => {
+    const fromQuery = stopStationMap[favourite.gtfsId];
+    if (fromQuery) {
+      favourite.lat =
+        favourite.lat === fromQuery.lat ? favourite.lat : fromQuery.lat;
+      favourite.lon =
+        favourite.lon === fromQuery.lon ? favourite.lon : fromQuery.lon;
+
+      return favourite;
+    }
+    return null;
+  });
+  return result.filter(r => r !== null);
+};
 /**
  * Set you Relay environment
  * @param {*} environment Your Relay environment
@@ -116,7 +138,7 @@ export const getStopAndStationsQuery = favourites => {
     .then(result => result.filter(res => res !== null))
     .then(stopsAndStations =>
       // Attention, do not remove [] unless you are absolutely sure what you are doing!
-      merge([], stopsAndStations, favourites).map(stop => {
+      verify(stopsAndStations, favourites).map(stop => {
         const favourite = {
           type: 'FavouriteStop',
           properties: {
