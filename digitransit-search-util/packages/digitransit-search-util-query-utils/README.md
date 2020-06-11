@@ -8,7 +8,7 @@ Verifies that the data for favourites is coherent and current and fixes errors
 
 ### Parameters
 
--   `stopsAndStations`  
+-   `stopStationMap`  
 -   `favourites`  
 
 ## setRelayEnvironment

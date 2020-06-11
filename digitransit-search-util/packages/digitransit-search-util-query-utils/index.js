@@ -77,20 +77,12 @@ const favouriteRoutesQuery = graphql`
 `;
 
 /** Verifies that the data for favourites is coherent and current and fixes errors */
-const verify = (stopsAndStations, favourites) => {
-  // eslint-disable-next-line func-names
-  const stopStationMap = stopsAndStations.reduce(function(map, stopOrStation) {
-    // eslint-disable-next-line no-param-reassign
-    map[stopOrStation.gtfsId] = stopOrStation;
-    return map;
-  }, {});
+const verify = (stopStationMap, favourites) => {
   const result = favourites.map(favourite => {
     const fromQuery = stopStationMap[favourite.gtfsId];
     if (fromQuery) {
-      favourite.lat =
-        favourite.lat === fromQuery.lat ? favourite.lat : fromQuery.lat;
-      favourite.lon =
-        favourite.lon === fromQuery.lon ? favourite.lon : fromQuery.lon;
+      favourite.lat = fromQuery.lat;
+      favourite.lon = fromQuery.lon;
 
       return favourite;
     }
@@ -136,8 +128,18 @@ export const getStopAndStationsQuery = favourites => {
     )
     .then(flatten)
     .then(result => result.filter(res => res !== null))
-    .then(stopsAndStations =>
-      verify(stopsAndStations, favourites).map(stop => {
+    .then(stopsAndStations => {
+      // eslint-disable-next-line func-names
+      const stopStationMap = stopsAndStations.reduce(function(
+        map,
+        stopOrStation,
+      ) {
+        // eslint-disable-next-line no-param-reassign
+        map[stopOrStation.gtfsId] = stopOrStation;
+        return map;
+      },
+      {});
+      return verify(stopStationMap, favourites).map(stop => {
         const favourite = {
           type: 'FavouriteStop',
           properties: {
@@ -150,8 +152,8 @@ export const getStopAndStationsQuery = favourites => {
           },
         };
         return favourite;
-      }),
-    );
+      });
+    });
 };
 
 /**
