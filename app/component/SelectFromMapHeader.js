@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import i18next from 'i18next';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { matchShape } from 'found';
 import BackButton from './BackButton';
 
 const initLanguage = language => {
@@ -27,9 +28,23 @@ const initLanguage = language => {
   }
 };
 
-const SelectFromMapHeaderComponent = (props, { config }) => {
-  initLanguage(props.language);
+const getUrlToBack = location => {
+  const { pathname, search } = location;
+  const pathArray = pathname.substring(1).split('/');
+  if (pathArray[0] === 'SelectFromMap' && pathArray[1] === '-') {
+    return `/${search}`;
+  } else if (pathArray[0] === '-' && pathArray[1] === 'SelectFromMap') {
+    return `/${search}`;
+  } else if (pathArray[0] === 'SelectFromMap' && pathArray[1] !== '-') {
+    return `/-/${pathArray[1]}${search}`;
+  } else if (pathArray[0] !== '-' && pathArray[1] === 'SelectFromMap') {
+    return `/${pathArray[0]}/-${search}`;
+  }
+  return undefined;
+};
 
+const SelectFromMapHeaderComponent = (props, { config, match }) => {
+  initLanguage(props.language);
   return (
     <React.Fragment>
       <div
@@ -47,9 +62,10 @@ const SelectFromMapHeaderComponent = (props, { config }) => {
             marginTop: '1em',
             left: '1.5em',
           }}
-        />
-        <div
-          style={{
+          title={
+            props.isDestination ? i18next.t('destination') : i18next.t('origin')
+          }
+          titleCustomStyle={{
             fontSize: 18,
             fontWeight: 500,
             fontStretch: 'normal',
@@ -60,12 +76,12 @@ const SelectFromMapHeaderComponent = (props, { config }) => {
             verticalAlign: 'text-top',
             color: '#333333',
             position: 'relative',
-            top: '-1.25em',
+            top: '0.75em',
+            left: '5em',
             whiteSpace: 'nowrap',
           }}
-        >
-          {props.isDestination ? i18next.t('destination') : i18next.t('origin')}
-        </div>
+          urlToBack={getUrlToBack(match.location)}
+        />
       </div>
     </React.Fragment>
   );
@@ -78,6 +94,7 @@ SelectFromMapHeaderComponent.propTypes = {
 
 SelectFromMapHeaderComponent.contextTypes = {
   config: PropTypes.object.isRequired,
+  match: matchShape,
 };
 
 const connectedComponent = connectToStores(

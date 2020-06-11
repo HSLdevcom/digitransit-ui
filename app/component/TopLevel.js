@@ -32,6 +32,7 @@ class TopLevel extends React.Component {
     origin: dtLocationShape,
     user: PropTypes.object,
     router: routerShape,
+    selectFromMapHeader: PropTypes.node,
   };
 
   static contextTypes = {
@@ -160,6 +161,7 @@ class TopLevel extends React.Component {
               map={this.disableMapOnMobile || this.props.map}
               content={this.props.content}
               header={this.props.header}
+              selectFromMapHeader={this.props.selectFromMapHeader}
             />
           )}
           desktop={() => (

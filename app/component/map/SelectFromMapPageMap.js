@@ -42,8 +42,8 @@ function SelectFromMapPageMap({
     map = (
       <MapWithTracking
         breakpoint={breakpoint}
-        showStops={!(originFromMap || destinationFromMap)}
-        showScaleBar={!!(originFromMap || destinationFromMap)}
+        showStops={false}
+        showScaleBar
         origin={origin}
         destination={destination}
         originFromMap={originFromMap}

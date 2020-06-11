@@ -140,7 +140,11 @@ export default class Map extends React.Component {
           {...this.props.leafletOptions}
           boundsOptions={boundsOptions}
           {...this.props.leafletEvents}
-          onPopupopen={this.onPopupopen}
+          onPopupopen={
+            !this.props.originFromMap && !this.props.destinationFromMap
+              ? this.onPopupopen
+              : null
+          }
           closePopupOnClick={false}
         >
           <TileLayer
@@ -187,12 +191,16 @@ export default class Map extends React.Component {
             }
           </BreakpointConsumer>
           {this.props.leafletObjs}
-          <VectorTileLayerContainer
-            hilightedStops={this.props.hilightedStops}
-            showStops={this.props.showStops}
-            disableMapTracking={this.props.disableMapTracking}
-          />
-          <PositionMarker key="position" />
+          {!this.props.originFromMap &&
+            !this.props.destinationFromMap && (
+              <VectorTileLayerContainer
+                hilightedStops={this.props.hilightedStops}
+                showStops={this.props.showStops}
+                disableMapTracking={this.props.disableMapTracking}
+              />
+            )}
+          {!this.props.originFromMap &&
+            !this.props.destinationFromMap && <PositionMarker key="position" />}
         </LeafletMap>
       </div>
     );

@@ -265,7 +265,7 @@ export default config => {
       <Route path="/assets/*" Component={Error404} />
       <Route path="/:from?/SelectFromMap" topBarOptions={{ hidden: true }}>
         {{
-          header: (
+          selectFromMapHeader: (
             <Route
               getComponent={() =>
                 import(/* webpackChunkName: "itinerary" */ './component/SelectFromMapHeader.js').then(
@@ -289,7 +289,7 @@ export default config => {
       </Route>
       <Route path="/SelectFromMap/:to?" topBarOptions={{ hidden: true }}>
         {{
-          header: (
+          selectFromMapHeader: (
             <Route
               getComponent={() =>
                 import(/* webpackChunkName: "itinerary" */ './component/SelectFromMapHeader.js').then(

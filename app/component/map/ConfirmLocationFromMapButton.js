@@ -6,28 +6,31 @@ import { getRoutePath, getEndpointPath } from '../../util/path';
 const ConfirmLocationFromMapButton = props => {
   const redirect = () => {
     if (props.address) {
-      const pathname = props.match.location.pathname.split('/');
+      const pathname = props.match.location.pathname.substring(1).split('/');
       const itineraryParams = props.match.location.search;
-      if (pathname.length === 3 && pathname[2] === 'SelectFromMap') {
+
+      // origin already set, get destination
+      if (pathname[0] !== '-' && pathname[1] === 'SelectFromMap') {
         props.router.push(
-          getRoutePath(pathname[1], props.address) + itineraryParams,
+          getRoutePath(pathname[0], props.address) + itineraryParams,
         );
       }
-      if (
-        pathname.length === 3 &&
-        pathname[1] === 'SelectFromMap' &&
-        pathname[2] === '-'
-      ) {
+
+      // destination already set, get origin
+      if (pathname[0] === 'SelectFromMap' && pathname[1] !== '-') {
+        props.router.push(
+          getRoutePath(props.address, pathname[1]) + itineraryParams,
+        );
+      }
+
+      // origin not set, get destination
+      if (pathname[0] === '-' && pathname[1] === 'SelectFromMap') {
+        props.router.push(getEndpointPath('', props.address) + itineraryParams);
+      }
+
+      // destination not set, get origin
+      if (pathname[0] === 'SelectFromMap' && pathname[1] === '-') {
         props.router.push(getEndpointPath(props.address, '') + itineraryParams);
-      }
-      if (
-        pathname.length === 3 &&
-        pathname[1] === 'SelectFromMap' &&
-        pathname[2] !== '-'
-      ) {
-        props.router.push(
-          getRoutePath(props.address, pathname[2]) + itineraryParams,
-        );
       }
     }
   };

@@ -268,6 +268,7 @@ class IndexPage extends React.Component {
               targets={['Locations', 'CurrentPosition', 'MapPosition']}
               disableAutoFocus
               isMobile
+              itineraryParams={itineraryParams}
             />
             <DatetimepickerContainer realtime />
             <FavouritesContainer

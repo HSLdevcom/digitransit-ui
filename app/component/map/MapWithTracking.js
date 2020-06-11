@@ -138,7 +138,11 @@ class MapWithTrackingStateHandler extends React.Component {
     this.state = {
       geoJson: {},
       initialZoom: hasOriginorPosition ? FOCUS_ZOOM : DEFAULT_ZOOM,
-      mapTracking: props.origin.gps && props.position.hasLocation,
+      mapTracking:
+        props.origin.gps &&
+        props.position.hasLocation &&
+        !props.originFromMap &&
+        !props.destinationFromMap,
       focusOnOrigin: props.origin.ready,
       focusOnDestination: !props.origin.ready && props.destination.ready,
       origin: props.origin,
@@ -296,7 +300,7 @@ class MapWithTrackingStateHandler extends React.Component {
 
   enableMapTracking = () => {
     this.setState({
-      mapTracking: true,
+      mapTracking: !(this.props.originFromMap || this.props.destinationFromMap),
       focusOnOrigin: false,
       focusOnDestination: false,
     });
@@ -330,7 +334,7 @@ class MapWithTrackingStateHandler extends React.Component {
   usePosition(origin) {
     this.setState(prevState => ({
       origin,
-      mapTracking: true,
+      mapTracking: !(this.props.originFromMap || this.props.destinationFromMap),
       focusOnOrigin: false,
       focusOnDestination: false,
       initialZoom:
@@ -484,7 +488,7 @@ class MapWithTrackingStateHandler extends React.Component {
     }
   };
 
-  stripAddress = (address, position) => {
+  createAddress = (address, position) => {
     if (!this.state.dragging && address !== '') {
       const newAddress = address.split(', ');
       let strippedAddress = newAddress[0];
@@ -497,6 +501,17 @@ class MapWithTrackingStateHandler extends React.Component {
       return strippedAddress;
     }
     return '';
+  };
+
+  stripAddressAndCoordinates = input => {
+    const addressAndCoordinates = input.split('::');
+    const address = addressAndCoordinates[0];
+    const coordinates = addressAndCoordinates[1].split(',');
+    return {
+      address,
+      lat: coordinates[0],
+      lon: coordinates[1],
+    };
   };
 
   render() {
@@ -550,6 +565,9 @@ class MapWithTrackingStateHandler extends React.Component {
       );
     }
 
+    let originAdded = false;
+    let destinationAdded = false;
+
     if (!this.props.originFromMap && origin && origin.ready === true) {
       leafletObjs.push(
         <LazilyLoad modules={locationMarkerModules} key="from">
@@ -558,6 +576,7 @@ class MapWithTrackingStateHandler extends React.Component {
           )}
         </LazilyLoad>,
       );
+      originAdded = true;
     }
     if (
       !this.props.destinationFromMap &&
@@ -571,7 +590,48 @@ class MapWithTrackingStateHandler extends React.Component {
           )}
         </LazilyLoad>,
       );
+      destinationAdded = true;
     }
+
+    if (
+      (this.props.originFromMap && !destinationAdded) ||
+      (this.props.destinationFromMap && !originAdded)
+    ) {
+      const pathArray = this.props.match
+        ? this.props.match.location.pathname.substring(1).split('/')
+        : [];
+      const originExists =
+        !originAdded &&
+        Array.isArray(pathArray) &&
+        pathArray[0] !== '-' &&
+        pathArray[0] !== 'SelectFromMap';
+      const destinationExists =
+        !destinationAdded &&
+        Array.isArray(pathArray) &&
+        pathArray[1] !== '-' &&
+        pathArray[1] !== 'SelectFromMap';
+      if (
+        (!originAdded && originExists) ||
+        (!destinationAdded && destinationExists)
+      ) {
+        leafletObjs.push(
+          <LazilyLoad
+            modules={locationMarkerModules}
+            key={originExists ? 'from' : 'to'}
+          >
+            {({ LocationMarker }) => (
+              <LocationMarker
+                position={this.stripAddressAndCoordinates(
+                  decodeURIComponent(pathArray[originExists ? 0 : 1]),
+                )}
+                type={originExists ? 'from' : 'to'}
+              />
+            )}
+          </LazilyLoad>,
+        );
+      }
+    }
+
     let positionSelectingFromMap;
 
     if (this.props.originFromMap || this.props.destinationFromMap) {
@@ -652,7 +712,7 @@ class MapWithTrackingStateHandler extends React.Component {
                 isEnabled
                 match={this.props.match}
                 router={this.props.router}
-                address={this.stripAddress(
+                address={this.createAddress(
                   locationOfMapCenter.address,
                   positionSelectingFromMap,
                 )}
