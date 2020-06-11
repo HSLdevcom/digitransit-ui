@@ -1,5 +1,6 @@
-import merge from 'lodash/merge';
+/* eslint-disable no-param-reassign */
 import take from 'lodash/take';
+import flatten from 'lodash/flatten';
 import moment from 'moment';
 import { fetchQuery, graphql } from 'react-relay';
 import routeNameCompare from '@digitransit-search-util/digitransit-search-util-route-name-compare';
@@ -58,25 +59,38 @@ const favouriteStopsQuery = graphql`
   }
 `;
 
-const favouriteRoutesQuery = () => {
-  return graphql`
-    query digitransitSearchUtilQueryUtilsFavouriteRoutesQuery(
-      $ids: [String!]!
-    ) {
-      routes(ids: $ids) {
-        gtfsId
-        agency {
-          name
-        }
-        shortName
-        mode
-        longName
-        patterns {
-          code
-        }
+const favouriteRoutesQuery = graphql`
+  query digitransitSearchUtilQueryUtilsFavouriteRoutesQuery($ids: [String!]!) {
+    routes(ids: $ids) {
+      gtfsId
+      agency {
+        name
+      }
+      shortName
+      mode
+      longName
+      patterns {
+        code
       }
     }
-  `;
+  }
+`;
+
+/** Verifies that the data for favourites is coherent and current and fixes errors */
+const verify = (stopStationMap, favourites) => {
+  const result = favourites
+    .map(favourite => {
+      const fromQuery = stopStationMap[favourite.gtfsId];
+      if (fromQuery) {
+        favourite.lat = fromQuery.lat;
+        favourite.lon = fromQuery.lon;
+
+        return favourite;
+      }
+      return null;
+    })
+    .filter(r => r !== null);
+  return result;
 };
 /**
  * Set you Relay environment
@@ -94,25 +108,54 @@ export const getStopAndStationsQuery = favourites => {
   if (!relayEnvironment) {
     return Promise.resolve([]);
   }
-  return fetchQuery(relayEnvironment, favouriteStopsQuery, {
-    ids: favourites.map(item => item.gtfsId),
-  }).then(dataStops =>
-    fetchQuery(relayEnvironment, favouriteStationsQuery, {
-      ids: favourites.map(item => item.gtfsId),
-    }).then(dataStations =>
-      merge(dataStops.stops, dataStations.stations, favourites).map(stop => ({
-        type: 'FavouriteStop',
-        properties: {
-          ...stop,
-          label: stop.name,
-          layer: isStop(stop) ? 'favouriteStop' : 'favouriteStation',
-        },
-        geometry: {
-          coordinates: [stop.lon, stop.lat],
-        },
-      })),
-    ),
+  const queries = [];
+  const ids = favourites.map(item => item.gtfsId);
+  queries.push(
+    fetchQuery(relayEnvironment, favouriteStopsQuery, {
+      ids,
+    }),
   );
+  queries.push(
+    fetchQuery(relayEnvironment, favouriteStationsQuery, {
+      ids,
+    }),
+  );
+  return Promise.all(queries)
+    .then(qres =>
+      qres.map(stopOrStation => {
+        return stopOrStation.stops
+          ? stopOrStation.stops
+          : stopOrStation.stations;
+      }),
+    )
+    .then(flatten)
+    .then(result => result.filter(res => res !== null))
+    .then(stopsAndStations => {
+      // eslint-disable-next-line func-names
+      const stopStationMap = stopsAndStations.reduce(function(
+        map,
+        stopOrStation,
+      ) {
+        // eslint-disable-next-line no-param-reassign
+        map[stopOrStation.gtfsId] = stopOrStation;
+        return map;
+      },
+      {});
+      return verify(stopStationMap, favourites).map(stop => {
+        const favourite = {
+          type: 'FavouriteStop',
+          properties: {
+            ...stop,
+            label: stop.name,
+            layer: isStop(stop) ? 'favouriteStop' : 'favouriteStation',
+          },
+          geometry: {
+            coordinates: [stop.lon, stop.lat],
+          },
+        };
+        return favourite;
+      });
+    });
 };
 
 /**
