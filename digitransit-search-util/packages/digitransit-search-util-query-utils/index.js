@@ -137,7 +137,6 @@ export const getStopAndStationsQuery = favourites => {
     .then(flatten)
     .then(result => result.filter(res => res !== null))
     .then(stopsAndStations =>
-      // Attention, do not remove [] unless you are absolutely sure what you are doing!
       verify(stopsAndStations, favourites).map(stop => {
         const favourite = {
           type: 'FavouriteStop',
