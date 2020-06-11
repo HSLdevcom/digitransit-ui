@@ -176,7 +176,7 @@ class TileLayerContainer extends GridLayer {
         const prefix = selectableTargets[0].feature.properties.stops
           ? PREFIX_TERMINALS
           : PREFIX_STOPS;
-        this.context.router.replace(
+        this.context.router.push(
           `/${prefix}/${encodeURIComponent(
             selectableTargets[0].feature.properties.gtfsId,
           )}`,
