@@ -42,10 +42,12 @@ function SelectStopRow({ gtfsId, type, name, code, terminal, desc }) {
       </span>
       <span className="choose-row-center-column">
         <h5 className="choose-row-header">{name}</h5>
-        <span className="choose-row-text">
-          <span className="choose-row-address">{desc}</span>
-          {code && <span className="choose-row-number">{code}</span>}
-        </span>
+        {(desc || code) && (
+          <span className="choose-row-text">
+            <span className="choose-row-address">{desc}</span>
+            {code && <span className="choose-row-number">{code}</span>}
+          </span>
+        )}
       </span>
       <span className="choose-row-right-column">
         <Icon img="icon-icon_arrow-collapse--right" />
