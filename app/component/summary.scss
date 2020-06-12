@@ -305,12 +305,14 @@
     .back-button {
       button {
         position: absolute;
+        box-shadow: none;
         top: 1.5em;
         left: 0.9375em;
         width: 40px;
         height: 40px;
         border: 1px solid #ddd;
         border-radius: 20px;
+        padding: 0 !important;
         .icon-container {
           padding-right: 2px;
           padding-top: 4px;

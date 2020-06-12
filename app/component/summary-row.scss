@@ -93,7 +93,7 @@
     letter-spacing: -0.5px;
     line-height: normal;
     font-style: normal;
-    padding-top: 20px;
+    padding-top: 18px;
 
     .itinerary-start-time-and-end-time {
       float: left;
@@ -188,7 +188,7 @@
             overflow: visible;
             .vehicle-number {
               color: $white;
-              @include font-narrow-medium;
+              @include font-narrow-book;
               font-size: $font-size-normal;
             }
           }
@@ -253,7 +253,7 @@
       z-index: -1;
       background-color: currentColor;
       border: 1px solid currentColor;
-      height: 1.5em;
+      height: 24px;
       border-radius: $border-radius;
       &.call {
         border-color: #aaa;
@@ -277,25 +277,25 @@
       text-align: center;
 
       .icon {
-        font-size: 1.5em;
+        font-size: 24px;
       }
     }
 
     .special-icon, .icon{
       &.wait {
         .icon {
-          margin-bottom: 0.04em;
-          height: 0.34em;
-          width: 0.34em;
+          margin-bottom: 0.1em;
+          height: 0.5em;
+          width: 0.5em;
         }
       }
       &.walk {
         .icon {
-          height: 0.45em;
-          width: 0.45em;
+          height: 0.7em;
+          width: 0.7em;
         }
       }
-      &.citybike, &.car, &.bicycle {
+      &.car, &.bicycle {
         .icon {
           height: 0.67em;
           width: 0.67em;
