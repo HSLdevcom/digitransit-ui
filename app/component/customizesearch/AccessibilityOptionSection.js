@@ -10,13 +10,7 @@ const AccessibilityOptionSection = ({ currentSettings }, { executeAction }) => (
     <div className="accessibility-header settings-header">
       <FormattedMessage id="accessibility" defaultMessage="Accessibility" />
     </div>
-    <div
-      className="mode-option-container toggle-container"
-      style={{
-        padding: '0 0 0 1em',
-        height: '3.5em',
-      }}
-    >
+    <div className="mode-option-container toggle-container accessibility-container">
       <Icon
         className="wheelchair-icon"
         img="icon-icon_wheelchair"

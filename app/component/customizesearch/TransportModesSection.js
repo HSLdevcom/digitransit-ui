@@ -14,12 +14,11 @@ import {
   toggleTransportMode,
   isBikeRestricted,
 } from '../../util/modeUtils';
-import TransferOptionsSection from './TransferOptionsSection';
 import CityBikeNetworkSelector from '../CityBikeNetworkSelector';
 import { getCitybikeNetworks } from '../../util/citybikes';
 
 const TransportModesSection = (
-  { config, defaultSettings, currentSettings },
+  { config, currentSettings },
   { match, intl, executeAction },
   transportModes = getAvailableTransportModes(config),
   modes = currentSettings.modes,
@@ -124,11 +123,6 @@ const TransportModesSection = (
             />
           </div>
         )}
-      <TransferOptionsSection
-        defaultSettings={defaultSettings}
-        currentSettings={currentSettings}
-        walkBoardCostHigh={config.walkBoardCostHigh}
-      />
     </div>
   </React.Fragment>
 );
@@ -136,7 +130,6 @@ const TransportModesSection = (
 TransportModesSection.propTypes = {
   config: PropTypes.object.isRequired,
   currentSettings: PropTypes.object.isRequired,
-  defaultSettings: PropTypes.object.isRequired,
 };
 
 TransportModesSection.contextTypes = {

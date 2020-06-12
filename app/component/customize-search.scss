@@ -12,6 +12,72 @@
 }
 .offcanvas-mobile {
   width: 100%;
+  height: 100%;
+  background: #f4f4f5;
+  .settings-option-container {
+    padding: 0.5em 1em 0 1em;
+    h1 {
+      text-align: center;
+      padding: 1em 0.5em 1em 0.5em;
+      font-size: $font-size-large;
+    }
+    .mode-option-container {
+      .mode-icon {
+        margin-left: 0px
+      }
+    }
+    .settings-dropdown-wrapper {
+      .settings-dropdown-label {
+        padding: 0px;
+      }
+    }
+    .settings-header {
+      padding-left: 0px;
+    }
+    .avoid-transfers-container {
+      padding: 0px;
+      height: 3.5em;
+    }
+    .accessibility-container {
+      padding: 0px;
+      height: 3.5em;
+    }
+  }
+  .customize-search {
+    box-shadow: none;
+    .close-offcanvas {
+      top: 1.5em;
+      left: 0.9375em;
+      border: solid 1px #dddddd;
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      padding-top: 4px;
+      padding-right: 2px;
+      .close-icon {
+        width: 1.3em;
+        height: 1.3em;
+      }
+    }
+    .toggle-container {
+      .settings-header {
+        padding-top: 0.5em;
+      }
+      span {
+        padding-top: 0.5em;
+      }
+    }
+  }
+}
+
+.settings-dropdown-wrapper {
+  line-height: 1em;
+  .settings-dropdown li {
+    line-height: 2em;
+  }
+  .fake-select-arrow {
+    height: 0.5em;
+  }
 }
 
 .customize-search {
@@ -39,7 +105,7 @@
 
   .toggle-container {
     .settings-header {
-      padding-top: 1em;
+      padding-top: 0.5em;
       width: 100%;
     }
     span {
@@ -71,11 +137,11 @@
 
 .settings-option-container {
   padding: 0.5em 1em 0 1em;
-  border-bottom: 5px solid #f4f4f5;
+  border-bottom: 10px solid #f4f4f5;
   font-weight: 500;
 
   & + .settings-option-container {
-    padding-bottom: 1.5em;
+    padding-bottom: 0.5em;
   }
 
   h1 {
@@ -84,7 +150,7 @@
     letter-spacing: -0.6pt;
     font-weight: 500;
     font-family: $font-family;
-    padding: 1em 0.5em 0.5em 0.5em;
+    padding: 1.5em 0.5em 0.5em 0.5em;
   }
 
   .option-checkbox-container > span {
@@ -95,7 +161,7 @@
     border: none;
   }
 }
-.settings-option-container:first-of-type {
+.settings-option-container:first-of-type, .settings-option-container:nth-of-type(3) {
   border-bottom: 1px solid #dddddd;
 }
 
@@ -161,7 +227,7 @@
     .mode-name {
       display: flex;
       flex-direction: column;
-      margin-top: 1em;
+      margin-top: 1.2em;
       width:100%;
       span {
         line-height: 1.1em;
@@ -299,4 +365,17 @@
       }
     }
   }
+}
+
+.avoid-transfers-container {
+  padding: 0 0 0 1em;
+  height: 3.5em;
+  .settings-header {
+    padding-left: 0px;
+  }
+}
+
+.accessibility-container {
+  padding: 0 0 0 1em;
+  height: 3.5em;
 }
