@@ -19,6 +19,7 @@ const LayerType = {
   FavouriteStop: 'favouriteStop',
   FavouriteStation: 'favouriteStation',
   FavouritePlace: 'favouritePlace',
+  FavouriteRoute: 'favouriteRoute',
   Station: 'station',
   SelectFromMap: 'selectFromMap',
   Stop: 'stop',
@@ -99,6 +100,7 @@ export const getLayerRank = (layer, source) => {
     case LayerType.FavouriteStation:
     case LayerType.FavouritePlace:
     case LayerType.FavouriteStop:
+    case LayerType.FavouriteRoute:
       return 0.45;
     case LayerType.Station: {
       if (isString(source) && source.indexOf('gtfs') === 0) {

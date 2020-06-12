@@ -1374,6 +1374,17 @@
   resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-icon/-/digitransit-component-icon-0.0.4.tgz#b49edc0b74ef3306259acb4960a7fe5075d54d87"
   integrity sha512-HH1ndu0r0N0IAGkbKIdjsjEUOyOMNTZiy+QWqURmglvuhxy25jVx+lJhTvQaX3jRo6/kENiV4PiXzsoN6k1/fA==
 
+"@digitransit-search-util/digitransit-search-util-execute-search-immidiate@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-execute-search-immidiate/-/digitransit-search-util-execute-search-immidiate-0.0.5.tgz#db61fdd7edea214fd7d6762d09145a170e64244b"
+  integrity sha512-rdDGtv40JqTE5n7+k5RfHLr5eUdJ8rv2WOh64fH5FsMP57OIHyhMLdNFlLkprgrMNRpgrZsJG/AsF78SCNVc9A==
+  dependencies:
+    "@digitransit-search-util/digitransit-search-util-filter-matching-to-input" "^0.0.1"
+    "@digitransit-search-util/digitransit-search-util-get-geocoding-results" "^0.0.2"
+    "@digitransit-search-util/digitransit-search-util-helpers" "^0.0.4"
+    "@digitransit-search-util/digitransit-search-util-uniq-by-label" "^0.0.1"
+    lodash "4.17.14"
+
 "@digitransit-search-util/digitransit-search-util-helpers@^0.0.4":
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-helpers/-/digitransit-search-util-helpers-0.0.4.tgz#47cd1ed8fe20d2e75e40eb7619665ba426e28529"
