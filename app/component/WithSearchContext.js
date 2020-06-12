@@ -156,10 +156,13 @@ export default function withSearchContext(WrappedComponent) {
     }
 
     selectStopStation = item => {
-      const id = item.properties.id.replace('GTFS:', '').replace(':', '%3A');
+      // DT-3577 Favourite's doesn't have id property, use gtfsId instead
+      let id = item.properties.id ? item.properties.id : item.properties.gtfsId;
+      id = id.replace('GTFS:', '').replace(':', '%3A');
       let path = '/pysakit/';
       switch (item.properties.layer) {
         case 'station':
+        case 'favouriteStation':
           path = '/terminaalit/';
           break;
         default:

@@ -5,11 +5,9 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import Icon from './Icon';
 import FareZoneSelector from './FareZoneSelector';
-import StreetModeSelectorPanel from './StreetModeSelectorPanel';
 import TransportModesSection from './customizesearch/TransportModesSection';
 import WalkingOptionsSection from './customizesearch/WalkingOptionsSection';
 import AccessibilityOptionSection from './customizesearch/AccessibilityOptionSection';
-import * as ModeUtils from '../util/modeUtils';
 import { getDefaultSettings } from '../util/planParamUtil';
 
 class CustomizeSearch extends React.Component {
@@ -73,14 +71,6 @@ class CustomizeSearch extends React.Component {
         <div className="settings-option-container">
           <TransportModesSection
             config={config}
-            currentSettings={currentSettings}
-            defaultSettings={this.defaultSettings}
-          />
-        </div>
-        <div className="settings-option-container">
-          <StreetModeSelectorPanel
-            selectedStreetMode={ModeUtils.getStreetMode(config)}
-            streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
             currentSettings={currentSettings}
             defaultSettings={this.defaultSettings}
           />

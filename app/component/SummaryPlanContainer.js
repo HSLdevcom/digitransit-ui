@@ -112,15 +112,10 @@ class SummaryPlanContainer extends React.Component {
         this.props.params.to,
       )}/${index}`;
 
-      if (this.props.breakpoint === 'large') {
-        newState.pathname = indexPath;
-        this.context.router.replace(newState);
-      } else {
-        newState.pathname = basePath;
-        this.context.router.replace(newState);
-        newState.pathname = indexPath;
-        this.context.router.push(newState);
-      }
+      newState.pathname = basePath;
+      this.context.router.replace(newState);
+      newState.pathname = indexPath;
+      this.context.router.push(newState);
     }
   };
 
@@ -499,7 +494,6 @@ class SummaryPlanContainer extends React.Component {
         moment(location.query.time).unix()) ||
       currentTime;
     const disableButtons = !itineraries || itineraries.length === 0;
-
     return (
       <div className="summary">
         <h2 className="sr-only">

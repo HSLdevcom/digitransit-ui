@@ -26,7 +26,6 @@ class StopMarkerPopup extends React.PureComponent {
 
   render() {
     const { currentTime, stop } = this.props;
-
     return (
       <div className="card">
         <StopCardContainer

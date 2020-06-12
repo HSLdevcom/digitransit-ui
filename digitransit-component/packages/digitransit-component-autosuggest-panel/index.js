@@ -517,7 +517,7 @@ class DTAutosuggestPanel extends React.Component {
                   >
                     <DTAutoSuggest
                       icon="mapMarker-via"
-                      id="viapoint"
+                      id="via-point"
                       ariaLabel={i18next.t('via-point-index', { index: i + 1 })}
                       autoFocus={
                         disableAutoFocus === true

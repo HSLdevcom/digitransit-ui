@@ -1,23 +1,7 @@
-.terminal-platforms {
-  overflow-y: auto;
-  max-height: 130px;
-}
-
-.platform{
-  border-top: solid $light-gray 1pt;
-}
-
-.platform-icon {
-  height: 2em;
-  width: 2em;
-  float: left;
-  margin: 0 0.5em;
-}
-
 .marker-select-popup {
   margin: 0;
   .card-row {
-    max-height: 176px;
+    max-height: 150px;
   }
 }
 
@@ -38,5 +22,89 @@
   flex: 1 0 0;
   .vehicle-number {
     padding: 0 2px;
+  }
+}
+
+.stop-popup-choose-header {
+  font-size: 13px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.35px;
+  color: #333333;
+  padding: 12px 12px 0 12px;
+  height: 40px;
+}
+
+.stop-popup-choose-row {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  padding: 4px 8px 0 8px;
+  border-bottom: 1px solid #dddddd;
+  text-decoration: none;
+  min-width: max-content;
+
+  .choose-row-left-column {
+    margin: 0 16px 0 8px;
+    .icon-container>svg {
+      height: 24px;
+      width: 24px;
+    }
+  }
+
+  .choose-row-center-column {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .choose-row-header {
+    font-size: 13px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.54;
+    letter-spacing: -0.52px;
+    color: #333333;
+    margin: 0;
+  }
+
+  .choose-row-text {
+    margin-top: -5px;
+  }
+
+  .choose-row-address {
+    font-size: 11px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.82;
+    letter-spacing: -0.44px;
+    color: #666666;
+  }
+
+  .choose-row-number {
+    margin-left: 5px;
+    border-radius: 3px;
+    border: solid 1px #dddddd;
+    font-size: 11px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: -0.37px;
+    text-align: center;
+    color: #666666;
+    padding: 0 2px;
+  }
+  .choose-row-right-column {
+    color: $primary-color;
+    margin: 0 4px 0 20px;
+    .icon-container>svg {
+      height: 20px;
+      width: 16px;
+    }
   }
 }

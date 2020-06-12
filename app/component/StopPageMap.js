@@ -9,6 +9,7 @@ import Icon from './Icon';
 import withBreakpoint from '../util/withBreakpoint';
 import VehicleMarkerContainer from './map/VehicleMarkerContainer';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import BackButton from './BackButton';
 
 const toggleFullscreenMap = (fullscreenMap, location, router) => {
   addAnalyticsEvent({
@@ -80,6 +81,13 @@ const StopPageMap = ({ stop, breakpoint }, { config, match, router }) => {
   } else {
     children.push(fullscreenMapOverlay(fullscreenMap, match.location, router));
     children.push(fullscreenMapToggle(fullscreenMap, match.location, router));
+    children.push(
+      <BackButton
+        icon="icon-icon_arrow-collapse--left"
+        color={config.colors.primary}
+        iconClassName="arrow-icon"
+      />,
+    );
   }
 
   const showScale = fullscreenMap || breakpoint === 'large';
