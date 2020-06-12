@@ -73,6 +73,9 @@ export default class PositionStore extends Store {
     this.lon = 0;
     this.heading = null;
     this.address = undefined;
+    this.gid = undefined;
+    this.name = undefined;
+    this.layer = undefined;
     this.status = PositionStore.STATUS_NO_LOCATION;
     this.emitChange();
   }
@@ -145,6 +148,9 @@ export default class PositionStore extends Store {
     } else {
       this.address = '';
     }
+    this.gid = location.gid;
+    this.name = location.name;
+    this.layer = location.layer;
     this.reverseGeocodingStatus = PositionStore.REVERSE_GEOCODING_STATUS_READY;
     this.status = PositionStore.STATUS_FOUND_ADDRESS;
     this.emitChange();
@@ -155,6 +161,9 @@ export default class PositionStore extends Store {
       lat: this.lat,
       lon: this.lon,
       address: this.address,
+      gid: this.gid,
+      name: this.name,
+      layer: this.layer,
       status: this.status,
       hasLocation:
         (this.status === PositionStore.STATUS_FOUND_ADDRESS ||

@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "a JavaScript library for Digitransit",
   "main": "digitransit-component",
   "module": "digitransit-component.mjs",
@@ -14,13 +14,13 @@
     "docs": "node -r esm ../../scripts/generate-readmes"
   },
   "dependencies": {
-    "@digitransit-component/digitransit-component-autosuggest": "^1.0.5",
-    "@digitransit-component/digitransit-component-autosuggest-panel": "^1.0.3",
-    "@digitransit-component/digitransit-component-control-panel": "^0.0.7",
-    "@digitransit-component/digitransit-component-suggestion-item": "^0.0.7",
-    "@digitransit-component/digitransit-component-with-breakpoint": "^0.0.3",
-    "@digitransit-component/digitransit-component-icon": "^0.0.4",
-    "@digitransit-component/digitransit-component-favourite-bar": "^0.0.2",
-    "@digitransit-component/digitransit-component-favourite-modal": "^0.0.2"
+    "@digitransit-component/digitransit-component-autosuggest": "latest",
+    "@digitransit-component/digitransit-component-autosuggest-panel": "latest",
+    "@digitransit-component/digitransit-component-control-panel": "latest",
+    "@digitransit-component/digitransit-component-suggestion-item": "latest",
+    "@digitransit-component/digitransit-component-with-breakpoint": "latest",
+    "@digitransit-component/digitransit-component-icon": "latest",
+    "@digitransit-component/digitransit-component-favourite-bar": "latest",
+    "@digitransit-component/digitransit-component-favourite-modal": "latest"
   }
 }
