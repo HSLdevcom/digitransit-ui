@@ -1476,10 +1476,10 @@
   resolved "https://registry.yarnpkg.com/@hsl-fi/icons/-/icons-0.2.1.tgz#3e55b879d859e1d1d29474e39a6d237ac83fbbb4"
   integrity sha512-VXYAf+8lea97sas2vGDyc1UL3Z7zFcc4yUbj3dMVmQ9HW1shbKch1Clx5VWlCkkwwRMbAV/3ZYU94P57DG7gfA==
 
-"@hsl-fi/site-header@0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@hsl-fi/site-header/-/site-header-0.2.0.tgz#2b1837082bea5e66a1b09828fee2d34e11ba73c9"
-  integrity sha512-M/O3FcljZalJEPtiN1/dKpTBmDMdxJh/bYifjQjNvc2kcQqbsL3ZKsqAu+DTYtQV0eNuOLjL3inq4d8UyZpVAA==
+"@hsl-fi/site-header@0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@hsl-fi/site-header/-/site-header-0.2.1.tgz#d340987f3fabb751b5e2a2673881e9974369583a"
+  integrity sha512-w6pmODFadZsGj9aKngB5vPTauHr8ukHLXyBeifXr+XjEqdFO7se06fS1KsEOzSynln71TTpYd3aDOPv17DXjwg==
   dependencies:
     "@hsl-fi/hooks" "^0.1.1"
     "@hsl-fi/icons" "^0.2.1"

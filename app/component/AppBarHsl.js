@@ -88,7 +88,7 @@ const AppBarHsl = ({ lang }, { match }) => {
         name: 'fi',
         url: `/fi${location.pathname}${location.search}`,
         selected: lang === 'fi',
-      },
+      } /* ,
       {
         name: 'sv',
         url: `/sv${location.pathname}${location.search}`,
@@ -98,7 +98,7 @@ const AppBarHsl = ({ lang }, { match }) => {
         name: 'en',
         url: `/en${location.pathname}${location.search}`,
         selected: lang === 'en',
-      },
+      }, */,
     ],
     breadcrumb: [],
   };
@@ -106,6 +106,7 @@ const AppBarHsl = ({ lang }, { match }) => {
   const localizations = {
     mainNavigationLabel: 'main',
     changeLanguageButtonLabel: i18next.t('change_language'),
+    changeToLanguageLinkLabelFunction: () => false,
   };
 
   return (
