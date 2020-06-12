@@ -21,8 +21,9 @@ function FuzzyTripLink(props) {
       <Link
         to={`/${PREFIX_ROUTES}/${
           props.trip.trip.route.gtfsId
-        }/${PREFIX_STOPS}/${props.trip.trip.pattern.code}
-        /${props.trip.trip.gtfsId}`}
+        }/${PREFIX_STOPS}/${props.trip.trip.pattern.code}/${
+          props.trip.trip.gtfsId
+        }`}
         className="route-now-content"
         onClick={() => {
           addAnalyticsEvent({
