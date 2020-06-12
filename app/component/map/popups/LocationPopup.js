@@ -10,7 +10,7 @@ import Loading from '../../Loading';
 import ZoneIcon from '../../ZoneIcon';
 import PreferencesStore from '../../../store/PreferencesStore';
 import { getLabel } from '../../../util/suggestionUtils';
-import { getJson } from '../../../util/xhrPromise';
+import { reverseGeocode } from '../../../util/searchUtils';
 import { getZoneLabelColor } from '../../../util/mapIconUtils';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 
@@ -49,15 +49,18 @@ class LocationPopup extends React.Component {
       return undefined;
     }
 
-    getJson(config.URL.PELIAS_REVERSE_GEOCODER, {
-      'point.lat': lat,
-      'point.lon': lon,
-      'boundary.circle.radius': 0.1, // 100m
-      lang: this.props.language,
-      size: 1,
-      layers: 'address',
-      zones: 1,
-    }).then(
+    reverseGeocode(
+      {
+        'point.lat': lat,
+        'point.lon': lon,
+        'boundary.circle.radius': 0.1, // 100m
+        lang: this.props.language,
+        size: 1,
+        layers: 'address',
+        zones: 1,
+      },
+      config,
+    ).then(
       data => {
         let pointName;
         if (data.features != null && data.features.length > 0) {
