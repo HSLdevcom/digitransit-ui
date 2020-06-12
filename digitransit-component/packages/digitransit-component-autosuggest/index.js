@@ -91,6 +91,7 @@ function suggestionToAriaContent(item) {
  *    storeRef={() => return null} // Functionality to store refs. Currenlty managed with DTAutosuggestpanel by default, but if DTAutosuggest is used seperatelly own implementation must be provided.
  *    sources={sources}
  *    targets={targets}
+ *    isMobile  // Optional. Defaults to false. Whether to use mobile search.
  */
 class DTAutosuggest extends React.Component {
   static propTypes = {
