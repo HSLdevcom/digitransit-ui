@@ -34,6 +34,7 @@ const searchContext = {
   getFavouriteRoutes: () => ({}),       // Function that fetches favourite routes from graphql API.
   startLocationWatch: () => ({}),       // Function that locates users geolocation.
   saveSearch: () => ({}),               // Function that saves search to old searches store.
+  clearOldSearches: () => ({}),            // Function that clears old searches store.
 };
 const lang = 'fi'; // en, fi or sv
 const onSelect = () => {
