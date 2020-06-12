@@ -127,7 +127,7 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
         </span>
         <div className="itinerary-leg-first-row" aria-hidden="true">
           {legDescription}
-          <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
+          <Icon img="icon-icon_show-on-map" className="itinerary-search-icon" />
         </div>
         <div className="itinerary-leg-action" aria-hidden="true">
           {stopsDescription}

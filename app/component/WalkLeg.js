@@ -1,4 +1,5 @@
 import moment from 'moment';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -71,7 +72,6 @@ function WalkLeg(
         <div className="itinerary-time-column-time">
           {moment(leg.startTime).format('HH:mm')}
         </div>
-        <RouteNumber mode={leg.mode.toLowerCase()} vertical />
       </div>
       <ItineraryCircleLine index={index} modeClassName={modeClassName} />
       <div
@@ -88,13 +88,16 @@ function WalkLeg(
           />
         </span>
         {isFirstLeg(index) ? (
-          <div className="itinerary-leg-first-row" aria-hidden="true">
+          <div
+            className={cx('itinerary-leg-first-row', 'walk')}
+            aria-hidden="true"
+          >
             <div className="address-container">
               <div className="address">{address}</div>
               <div className="place">{place}</div>
             </div>
             <Icon
-              img="icon-icon_search-plus"
+              img="icon-icon_show-on-map"
               className="itinerary-search-icon"
             />
           </div>
@@ -111,17 +114,19 @@ function WalkLeg(
               />
               <div className="stop-code-container">
                 {children}
-                <PlatformNumber
-                  number={leg.from.stop.platformCode}
-                  short
-                  isRailOrSubway={
-                    modeClassName === 'rail' || modeClassName === 'subway'
-                  }
-                />
+                {leg.from.stop && (
+                  <PlatformNumber
+                    number={leg.from.stop.platformCode}
+                    short
+                    isRailOrSubway={
+                      modeClassName === 'rail' || modeClassName === 'subway'
+                    }
+                  />
+                )}
               </div>
             </div>
             <Icon
-              img="icon-icon_search-plus"
+              img="icon-icon_show-on-map"
               className="itinerary-search-icon"
             />
           </div>
@@ -133,6 +138,7 @@ function WalkLeg(
             values={{ distance, duration }}
             defaultMessage="Walk {distance} ({duration})"
           />
+          <RouteNumber mode={leg.mode} vertical />
         </div>
       </div>
     </div>

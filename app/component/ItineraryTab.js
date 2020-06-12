@@ -13,7 +13,6 @@ import ItinerarySummary from './ItinerarySummary';
 import TimeFrame from './TimeFrame';
 import DateWarning from './DateWarning';
 import ItineraryLegs from './ItineraryLegs';
-import SecondaryButton from './SecondaryButton';
 import BackButton from './BackButton';
 import { getRoutes, getZones } from '../util/legUtils';
 import { BreakpointConsumer } from '../util/withBreakpoint';
@@ -159,14 +158,14 @@ class ItineraryTab extends React.Component {
                 )}
                 {config.showRouteInformation && <RouteInformation />}
               </div>
-              <div className="row print-itinerary-button-container">
+              {/* <div className="row print-itinerary-button-container">
                 <SecondaryButton
                   ariaLabel="print"
                   buttonName="print"
                   buttonClickAction={e => this.printItinerary(e)}
                   buttonIcon="icon-icon_print"
                 />
-              </div>
+                </div> */}
               {config.showDisclaimer && (
                 <div className="itinerary-disclaimer">
                   <FormattedMessage

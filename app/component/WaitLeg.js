@@ -4,6 +4,7 @@ import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 
 import RouteNumber from './RouteNumber';
+import PlatformNumber from './PlatformNumber';
 import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import { durationToString } from '../util/timeUtils';
@@ -11,7 +12,7 @@ import ItineraryCircleLine from './ItineraryCircleLine';
 import { isKeyboardSelectionEvent } from '../util/browser';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-function WaitLeg(props) {
+function WaitLeg({ children, leg, startTime, waitTime, focusAction, index }) {
   const modeClassName = 'wait';
   return (
     <div className="row itinerary-row">
@@ -19,20 +20,20 @@ function WaitLeg(props) {
         <FormattedMessage
           id="wait-amount-of-time"
           values={{
-            duration: durationToString(props.waitTime),
+            duration: durationToString(waitTime),
           }}
         />
       </span>
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
-          {moment(props.startTime).format('HH:mm')}
+          {moment(startTime).format('HH:mm')}
         </div>
         <RouteNumber mode="wait" vertical />
       </div>
-      <ItineraryCircleLine modeClassName={modeClassName} index={props.index} />
+      <ItineraryCircleLine modeClassName={modeClassName} index={index} />
       <div
-        onClick={props.focusAction}
-        onKeyPress={e => isKeyboardSelectionEvent(e) && props.focusAction(e)}
+        onClick={focusAction}
+        onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
         role="button"
         tabIndex="0"
         className="small-9 columns itinerary-instruction-column wait"
@@ -40,20 +41,31 @@ function WaitLeg(props) {
         <span className="sr-only">
           <FormattedMessage
             id="itinerary-summary.show-on-map"
-            values={{ target: props.leg.to.name || '' }}
+            values={{ target: leg.to.name || '' }}
           />
         </span>
-        <div className="itinerary-leg-first-row" aria-hidden="true">
+        <div className="itinerary-leg-first-row wait" aria-hidden="true">
           <div>
-            {props.leg.to.name}
-            {props.children}
+            {leg.to.name}
+            <div className="stop-code-container">
+              {children}
+              {leg.from.stop && (
+                <PlatformNumber
+                  number={leg.from.stop.platformCode}
+                  short
+                  isRailOrSubway={
+                    modeClassName === 'rail' || modeClassName === 'subway'
+                  }
+                />
+              )}
+            </div>
           </div>
-          <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
+          <Icon img="icon-icon_show-on-map" className="itinerary-search-icon" />
         </div>
         <div className="itinerary-leg-action" aria-hidden="true">
           <FormattedMessage
             id="wait-amount-of-time"
-            values={{ duration: `(${durationToString(props.waitTime)})` }}
+            values={{ duration: `(${durationToString(waitTime)})` }}
             defaultMessage="Wait {duration}"
           />
         </div>

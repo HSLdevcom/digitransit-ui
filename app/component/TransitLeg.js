@@ -174,6 +174,11 @@ class TransitLeg extends React.Component {
           <span className="intermediate-stops-duration" aria-hidden="true">
             ({durationToString(stopLeg.duration * 1000)})
           </span>
+          <Icon
+            img="icon-icon_arrow-collapse--right"
+            className="itinerary-search-icon"
+            color={config.colors.primary}
+          />
         </div>
       );
     };
@@ -267,15 +272,6 @@ class TransitLeg extends React.Component {
                 </span>
                 {originalTime}
               </div>
-              {/* <RouteNumber //  shouldn't this be a route number container instead???
-                alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
-                mode={mode.toLowerCase()}
-                color={leg.route ? `#${leg.route.color}` : 'currentColor'}
-                text={leg.route && leg.route.shortName}
-                realtime={leg.realTime}
-                vertical
-                fadeLong
-              /> */}
             </span>
           </Link>
         </div>
@@ -301,7 +297,10 @@ class TransitLeg extends React.Component {
               values={{ target: leg.from.name || '' }}
             />
           </span>
-          <div className="itinerary-leg-first-row" aria-hidden="true">
+          <div
+            className={cx('itinerary-leg-first-row', 'transit')}
+            aria-hidden="true"
+          >
             <div className="transit-leg-row">
               {leg.from.name}
               <ServiceAlertIcon
@@ -323,7 +322,7 @@ class TransitLeg extends React.Component {
               </div>
             </div>
             <Icon
-              img="icon-icon_search-plus"
+              img="icon-icon_show-on-map"
               className="itinerary-search-icon"
             />
           </div>

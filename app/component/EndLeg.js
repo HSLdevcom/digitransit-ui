@@ -54,7 +54,7 @@ function EndLeg(props) {
             <div className="address">{address}</div>
             <div className="place">{place}</div>
           </div>
-          <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
+          <Icon img="icon-icon_show-on-map" className="itinerary-search-icon" />
         </div>
       </div>
     </div>

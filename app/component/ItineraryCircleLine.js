@@ -20,8 +20,16 @@ class ItineraryCircleLine extends React.Component {
     imageUrl: 'none',
   };
 
+  isFirstChild = () => {
+    return this.props.index === 0 && this.props.isVia === false;
+  };
+
+  renderBottomMarker = () => {
+    return !(this.props.modeClassName === 'wait' || this.props.index === 0);
+  };
+
   componentDidMount() {
-    import(/* webpackChunkName: "dotted-line" */ `../configurations/images/default/dotted-line-bg.png`).then(
+    import(/* webpackChunkName: "dotted-line" */ `../configurations/images/default/dotted-line.svg`).then(
       imageUrl => {
         this.setState({ imageUrl: `url(${imageUrl.default})` });
       },
@@ -29,7 +37,7 @@ class ItineraryCircleLine extends React.Component {
   }
 
   getMarker = () => {
-    if (this.props.index === 0 && this.props.isVia === false) {
+    if (this.isFirstChild()) {
       return (
         <div className="itinerary-icon-container">
           <Icon
@@ -38,6 +46,9 @@ class ItineraryCircleLine extends React.Component {
           />
         </div>
       );
+    }
+    if (this.props.modeClassName === 'walk') {
+      return <></>;
     }
     if (this.props.isVia === true) {
       return (
@@ -57,15 +68,7 @@ class ItineraryCircleLine extends React.Component {
           height={28}
           style={{ fill: this.props.color, stroke: this.props.color }}
         >
-          <circle
-            stroke="white"
-            strokeWidth="2"
-            width={28}
-            cx={11}
-            cy={10}
-            r={6}
-          />
-          <circle strokeWidth="2" width={28} cx={11} cy={10} r={4} />
+          <circle strokeWidth="5" width={28} cx={11} cy={10} r={8} />
         </svg>
       </div>
     );
@@ -90,10 +93,12 @@ class ItineraryCircleLine extends React.Component {
         aria-hidden="true"
       >
         {marker}
+
         <div
           style={legBeforeLineStyle}
           className={`leg-before-line ${this.props.modeClassName}`}
         />
+        {this.renderBottomMarker() && <>{marker}</>}
       </div>
     );
   }
