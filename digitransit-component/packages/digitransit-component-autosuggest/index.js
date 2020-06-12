@@ -67,6 +67,7 @@ function suggestionToAriaContent(item) {
  *   getFavouriteRoutes: () => ({}),       // Function that fetches favourite routes from graphql API.
  *   startLocationWatch: () => ({}),       // Function that locates users geolocation.
  *   saveSearch: () => ({}),               // Function that saves search to old searches store.
+ *   clearOldSearches: () => ({}),            // Function that clears old searches store.
  * };
  * const lang = 'fi'; // en, fi or sv
  * const onSelect = () => {
@@ -91,6 +92,7 @@ function suggestionToAriaContent(item) {
  *    storeRef={() => return null} // Functionality to store refs. Currenlty managed with DTAutosuggestpanel by default, but if DTAutosuggest is used seperatelly own implementation must be provided.
  *    sources={sources}
  *    targets={targets}
+ *    isMobile  // Optional. Defaults to false. Whether to use mobile search.
  */
 class DTAutosuggest extends React.Component {
   static propTypes = {

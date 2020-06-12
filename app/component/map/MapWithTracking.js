@@ -4,6 +4,8 @@ import cx from 'classnames'; // DT-3470
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 import getContext from 'recompose/getContext';
+import { intlShape } from 'react-intl';
+import { matchShape, routerShape } from 'found';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
 import ComponentUsageExample from '../ComponentUsageExample';
 import MapContainer from './MapContainer';
@@ -43,9 +45,18 @@ const locationMarkerModules = {
     importLazy(import(/* webpackChunkName: "map" */ './LocationMarker')),
 };
 
-const polygonWithTextModules = {
-  PolygonWithText: () =>
-    importLazy(import(/* webpackChunkName: "map" */ './PolygonWithText')),
+const locationMarkerWithPermanentTooltipModules = {
+  LocationMarkerWithPermanentTooltip: () =>
+    importLazy(
+      import(/* webpackChunkName: "map" */ './LocationMarkerWithPermanentTooltip'),
+    ),
+};
+
+const confirmLocationFromMapButtonModules = {
+  ConfirmLocationFromMapButton: () =>
+    importLazy(
+      import(/* webpackChunkName: "map" */ './ConfirmLocationFromMapButton'),
+    ),
 };
 
 const jsonModules = {
@@ -108,6 +119,8 @@ class MapWithTrackingStateHandler extends React.Component {
     originFromMap: PropTypes.bool,
     destinationFromMap: PropTypes.bool,
     language: PropTypes.string,
+    match: matchShape,
+    router: routerShape,
   };
 
   static defaultProps = {
@@ -125,7 +138,11 @@ class MapWithTrackingStateHandler extends React.Component {
     this.state = {
       geoJson: {},
       initialZoom: hasOriginorPosition ? FOCUS_ZOOM : DEFAULT_ZOOM,
-      mapTracking: props.origin.gps && props.position.hasLocation,
+      mapTracking:
+        props.origin.gps &&
+        props.position.hasLocation &&
+        !props.originFromMap &&
+        !props.destinationFromMap,
       focusOnOrigin: props.origin.ready,
       focusOnDestination: !props.origin.ready && props.destination.ready,
       origin: props.origin,
@@ -283,7 +300,7 @@ class MapWithTrackingStateHandler extends React.Component {
 
   enableMapTracking = () => {
     this.setState({
-      mapTracking: true,
+      mapTracking: !(this.props.originFromMap || this.props.destinationFromMap),
       focusOnOrigin: false,
       focusOnDestination: false,
     });
@@ -299,6 +316,7 @@ class MapWithTrackingStateHandler extends React.Component {
       mapTracking: false,
       focusOnOrigin: false,
       focusOnDestination: false,
+      dragging: true,
     });
   };
 
@@ -316,7 +334,7 @@ class MapWithTrackingStateHandler extends React.Component {
   usePosition(origin) {
     this.setState(prevState => ({
       origin,
-      mapTracking: true,
+      mapTracking: !(this.props.originFromMap || this.props.destinationFromMap),
       focusOnOrigin: false,
       focusOnDestination: false,
       initialZoom:
@@ -368,6 +386,8 @@ class MapWithTrackingStateHandler extends React.Component {
   };
 
   getMapLocation = () => {
+    const { intl } = this.context;
+
     if (!this.mapElement || !this.mapElement.leafletElement) {
       return;
     }
@@ -402,17 +422,22 @@ class MapWithTrackingStateHandler extends React.Component {
                 lat: centerOfMap.lat,
                 lon: centerOfMap.lng,
               },
+              onlyCoordinates: false,
             },
           }));
         } else {
           this.setState(prevState => ({
             locationOfMapCenter: {
               ...prevState.locationOfMapCenter,
-              address: 'Selected location',
+              address: intl.formatMessage({
+                id: 'location-from-map',
+                defaultMessage: 'Selected location',
+              }), // + ', ' + JSON.stringify(centerOfMap.lat).match(/[0-9]{1,3}.[0-9]{6}/) + ' ' + JSON.stringify(centerOfMap.lng).match(/[0-9]{1,3}.[0-9]{6}/),
               position: {
                 lat: centerOfMap.lat,
                 lon: centerOfMap.lng,
               },
+              onlyCoordinates: true,
             },
           }));
         }
@@ -420,11 +445,15 @@ class MapWithTrackingStateHandler extends React.Component {
       () => {
         this.setState({
           locationOfMapCenter: {
-            address: 'Selected location',
+            address: intl.formatMessage({
+              id: 'location-from-map',
+              defaultMessage: 'Selected location',
+            }), // + ', ' + JSON.stringify(centerOfMap.lat).match(/[0-9]{1,3}.[0-9]{6}/) + ' ' + JSON.stringify(centerOfMap.lng).match(/[0-9]{1,3}.[0-9]{6}/),
             position: {
               lat: centerOfMap.lat,
               lon: centerOfMap.lng,
             },
+            onlyCoordinates: true,
           },
         });
       },
@@ -439,6 +468,10 @@ class MapWithTrackingStateHandler extends React.Component {
     if (this.props.originFromMap || this.props.destinationFromMap) {
       this.getMapLocation();
     }
+
+    this.setState({
+      dragging: false,
+    });
   };
 
   endZoom = () => {
@@ -455,6 +488,32 @@ class MapWithTrackingStateHandler extends React.Component {
     }
   };
 
+  createAddress = (address, position) => {
+    if (!this.state.dragging && address !== '') {
+      const newAddress = address.split(', ');
+      let strippedAddress = newAddress[0];
+      if (!this.state.locationOfMapCenter.onlyCoordinates) {
+        strippedAddress = `${strippedAddress}, ${newAddress[1]}`;
+      }
+      strippedAddress = `${strippedAddress}::${JSON.stringify(
+        position.lat,
+      )},${JSON.stringify(position.lon)}`;
+      return strippedAddress;
+    }
+    return '';
+  };
+
+  stripAddressAndCoordinates = input => {
+    const addressAndCoordinates = input.split('::');
+    const address = addressAndCoordinates[0];
+    const coordinates = addressAndCoordinates[1].split(',');
+    return {
+      address,
+      lat: coordinates[0],
+      lon: coordinates[1],
+    };
+  };
+
   render() {
     const {
       position,
@@ -467,6 +526,7 @@ class MapWithTrackingStateHandler extends React.Component {
       ...rest
     } = this.props;
     const { geoJson, locationOfMapCenter } = this.state;
+    const { intl } = this.context;
 
     let location;
     if (
@@ -505,6 +565,9 @@ class MapWithTrackingStateHandler extends React.Component {
       );
     }
 
+    let originAdded = false;
+    let destinationAdded = false;
+
     if (!this.props.originFromMap && origin && origin.ready === true) {
       leafletObjs.push(
         <LazilyLoad modules={locationMarkerModules} key="from">
@@ -513,6 +576,7 @@ class MapWithTrackingStateHandler extends React.Component {
           )}
         </LazilyLoad>,
       );
+      originAdded = true;
     }
     if (
       !this.props.destinationFromMap &&
@@ -526,7 +590,48 @@ class MapWithTrackingStateHandler extends React.Component {
           )}
         </LazilyLoad>,
       );
+      destinationAdded = true;
     }
+
+    if (
+      (this.props.originFromMap && !destinationAdded) ||
+      (this.props.destinationFromMap && !originAdded)
+    ) {
+      const pathArray = this.props.match
+        ? this.props.match.location.pathname.substring(1).split('/')
+        : [];
+      const originExists =
+        !originAdded &&
+        Array.isArray(pathArray) &&
+        pathArray[0] !== '-' &&
+        pathArray[0] !== 'SelectFromMap';
+      const destinationExists =
+        !destinationAdded &&
+        Array.isArray(pathArray) &&
+        pathArray[1] !== '-' &&
+        pathArray[1] !== 'SelectFromMap';
+      if (
+        (!originAdded && originExists) ||
+        (!destinationAdded && destinationExists)
+      ) {
+        leafletObjs.push(
+          <LazilyLoad
+            modules={locationMarkerModules}
+            key={originExists ? 'from' : 'to'}
+          >
+            {({ LocationMarker }) => (
+              <LocationMarker
+                position={this.stripAddressAndCoordinates(
+                  decodeURIComponent(pathArray[originExists ? 0 : 1]),
+                )}
+                type={originExists ? 'from' : 'to'}
+              />
+            )}
+          </LazilyLoad>,
+        );
+      }
+    }
+
     let positionSelectingFromMap;
 
     if (this.props.originFromMap || this.props.destinationFromMap) {
@@ -549,11 +654,34 @@ class MapWithTrackingStateHandler extends React.Component {
 
       if (!locationOfMapCenter && positionSelectingFromMap) {
         leafletObjs.push(
-          <LazilyLoad modules={polygonWithTextModules} key="moveMapInfo">
-            {({ PolygonWithText }) => (
-              <PolygonWithText
+          <LazilyLoad
+            modules={locationMarkerWithPermanentTooltipModules}
+            key="moveMapInfo"
+          >
+            {({ LocationMarkerWithPermanentTooltip }) => (
+              <LocationMarkerWithPermanentTooltip
                 position={positionSelectingFromMap}
-                text="Valitse määränpää siirtämällä karttaa"
+              />
+            )}
+          </LazilyLoad>,
+        );
+        leafletObjs.push(
+          <LazilyLoad
+            modules={confirmLocationFromMapButtonModules}
+            key="confirm1"
+          >
+            {({ ConfirmLocationFromMapButton }) => (
+              <ConfirmLocationFromMapButton
+                idx="btn1"
+                mapSize={
+                  this.mapElement && this.mapElement.leafletElement
+                    ? this.mapElement.leafletElement.getSize()
+                    : undefined
+                }
+                name={intl.formatMessage({
+                  id: 'location-from-map-confirm',
+                  defaultMessage: 'Confirm selection',
+                })}
               />
             )}
           </LazilyLoad>,
@@ -561,11 +689,43 @@ class MapWithTrackingStateHandler extends React.Component {
       }
       if (locationOfMapCenter && positionSelectingFromMap) {
         leafletObjs.push(
-          <LazilyLoad modules={polygonWithTextModules} key="markerInfo">
-            {({ PolygonWithText }) => (
-              <PolygonWithText
+          <LazilyLoad
+            modules={locationMarkerWithPermanentTooltipModules}
+            key="markerInfo"
+          >
+            {({ LocationMarkerWithPermanentTooltip }) => (
+              <LocationMarkerWithPermanentTooltip
                 position={positionSelectingFromMap}
                 text={locationOfMapCenter.address}
+              />
+            )}
+          </LazilyLoad>,
+        );
+        leafletObjs.push(
+          <LazilyLoad
+            modules={confirmLocationFromMapButtonModules}
+            key="confirm2"
+          >
+            {({ ConfirmLocationFromMapButton }) => (
+              <ConfirmLocationFromMapButton
+                idx="btn2"
+                isEnabled
+                match={this.props.match}
+                router={this.props.router}
+                address={this.createAddress(
+                  locationOfMapCenter.address,
+                  positionSelectingFromMap,
+                )}
+                mapSize={
+                  this.mapElement && this.mapElement.leafletElement
+                    ? this.mapElement.leafletElement.getSize()
+                    : undefined
+                }
+                name={intl.formatMessage({
+                  id: 'location-from-map-confirm',
+                  defaultMessage: 'Confirm selection',
+                })}
+                color={config.colors.primary}
               />
             )}
           </LazilyLoad>,
@@ -684,6 +844,7 @@ MapWithTrackingStateHandler.contextTypes = {
   executeAction: PropTypes.func,
   getStore: PropTypes.func,
   config: PropTypes.object,
+  intl: intlShape,
 };
 
 // todo convert to use origin prop

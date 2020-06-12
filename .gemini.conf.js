@@ -49,7 +49,7 @@ module.exports = {
         os: 'Windows',
         os_version: '10',
         browserName: 'edge',
-        browser_version: '17.0',
+        browser_version: '80.0',
         locationContextEnabled: false,
         'browserstack.selenium_version': '3.141.59',
         'browserstack.timezone': 'Europe/Helsinki',

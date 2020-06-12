@@ -38,7 +38,7 @@ const favouriteShape = PropTypes.shape({
 
 class FavouritesContainer extends React.Component {
   static contextTypes = {
-    intl: intlShape,
+    intl: intlShape.isRequired,
   };
 
   static propTypes = {
@@ -63,12 +63,13 @@ class FavouritesContainer extends React.Component {
     };
   }
 
-  setLocationProperties = suggestion => {
-    const location = suggestionToLocation(suggestion);
+  setLocationProperties = item => {
+    const location =
+      item.type === 'CurrentLocation' ? item : suggestionToLocation(item);
     this.setState({
       selectedLocation: {
         ...location,
-        defaultName: suggestion.properties.name,
+        defaultName: item.name || item.properties.name,
       },
     });
   };
