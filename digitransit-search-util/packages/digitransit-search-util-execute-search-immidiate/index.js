@@ -176,6 +176,9 @@ export function getSearchResults(
     if (allSources || sources.includes('Favourite')) {
       const favouriteLocations = locations(context);
       searchComponents.push(getFavouriteLocations(favouriteLocations, input));
+      const favouriteStops = stops(context);
+      const stopsAndStations = getStopAndStationsQuery(favouriteStops);
+      searchComponents.push(getFavouriteStops(stopsAndStations, input));
     }
     if (allSources || sources.includes('Datasource')) {
       const regex = minimalRegexp || undefined;
