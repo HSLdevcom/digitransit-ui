@@ -252,7 +252,12 @@ class IndexPage extends React.Component {
           `blurred`} bp-${breakpoint}`}
       >
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
-        <div style={{ display: isBrowser ? 'block' : 'none' }}>
+        <div
+          style={{
+            display: isBrowser ? 'block' : 'none',
+            backgroundColor: '#ffffff',
+          }}
+        >
           <CtrlPanel instance="hsl" language={lang} position="bottom">
             <DTAutosuggestPanel
               searchPanelText={intl.formatMessage({
