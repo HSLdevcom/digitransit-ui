@@ -106,6 +106,7 @@ const AppBarHsl = ({ lang }, { match }) => {
   const localizations = {
     mainNavigationLabel: 'main',
     changeLanguageButtonLabel: i18next.t('change_language'),
+    changeToLanguageLinkLabelFunction: () => false,
   };
 
   return (
