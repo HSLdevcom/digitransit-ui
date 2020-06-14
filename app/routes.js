@@ -142,19 +142,22 @@ export default config => {
                 }
               `}
               prepareVariables={preparePlanParams(config)}
-              render={({ Component, props, error, match }) =>
-                props ? (
-                  <Component {...props} error={error} loading={false} />
-                ) : (
-                  <Component
-                    plan={{}}
-                    serviceTimeRange={validateServiceTimeRange()}
-                    match={match}
-                    loading
-                    error={error}
-                  />
-                )
-              }
+              render={({ Component, props, error, match }) => {
+                if (Component) {
+                  return props ? (
+                    <Component {...props} error={error} loading={false} />
+                  ) : (
+                    <Component
+                      plan={{}}
+                      serviceTimeRange={validateServiceTimeRange()}
+                      match={match}
+                      loading
+                      error={error}
+                    />
+                  );
+                }
+                return undefined;
+              }}
             >
               {{
                 content: [
