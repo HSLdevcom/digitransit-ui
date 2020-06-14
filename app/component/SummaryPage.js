@@ -48,8 +48,6 @@ import {
 import VehicleMarkerContainer from './map/VehicleMarkerContainer';
 import ItineraryTab from './ItineraryTab';
 
-export const ITINERARYFILTERING_DEFAULT = 1.5;
-
 /**
  * Returns the actively selected itinerary's index. Attempts to look for
  * the information in the location's state and pathname, respectively.
