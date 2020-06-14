@@ -176,12 +176,14 @@ class SummaryPage extends React.Component {
     }),
     breakpoint: PropTypes.string.isRequired,
     error: PropTypes.object,
+    loading: PropTypes.bool,
     loadingPosition: PropTypes.bool,
   };
 
   static defaultProps = {
     map: undefined,
     error: undefined,
+    loading: false,
     loadingPosition: false,
   };
 
@@ -582,6 +584,7 @@ class SummaryPage extends React.Component {
       if (
         this.state.loading === false &&
         this.props.loadingPosition === false &&
+        this.props.loading === false &&
         (error || this.props.plan)
       ) {
         if (match.params.hash) {
