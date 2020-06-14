@@ -35,7 +35,7 @@ export default config => {
       {getStopRoutes(true) /* terminals */}
       {routeRoutes}
       <Route path={`/${PREFIX_ITINERARY_SUMMARY}/:from/:to`}>
-        {isBrowser && {
+        {{
           title: (
             <Route
               path="(.*)?"
@@ -46,7 +46,7 @@ export default config => {
               }
             />
           ),
-          content: (
+          content: isBrowser ? (
             <Route
               getComponent={() =>
                 import(/* webpackChunkName: "itinerary" */ './component/SummaryPage').then(
@@ -198,6 +198,15 @@ export default config => {
                 ],
               }}
             </Route>
+          ) : (
+            <Route
+              path="(.*)?"
+              getComponent={() =>
+                import(/* webpackChunkName: "itinerary" */ './component/Loading').then(
+                  getDefault,
+                )
+              }
+            />
           ),
           meta: (
             <Route
