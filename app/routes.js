@@ -22,6 +22,7 @@ import routeRoutes from './routeRoutes';
 
 import SelectFromMapHeader from './component/SelectFromMapHeader';
 import { validateServiceTimeRange } from './util/timeUtils';
+import { isBrowser } from './util/browser';
 
 export const historyMiddlewares = [queryMiddleware];
 
@@ -34,7 +35,7 @@ export default config => {
       {getStopRoutes(true) /* terminals */}
       {routeRoutes}
       <Route path={`/${PREFIX_ITINERARY_SUMMARY}/:from/:to`}>
-        {{
+        {isBrowser && {
           title: (
             <Route
               path="(.*)?"
