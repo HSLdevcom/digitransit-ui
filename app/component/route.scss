@@ -390,16 +390,21 @@ $margin-left-right: 1.25em;
     flex: 1;
     min-width: 0;
     .route-short-name {
-      @include font-narrow-medium;
-      font-size: 1.4em;
-      line-height: 1.1;
+      font-family: $font-family-narrow;
+      font-size: 21px;
+      font-weight: 500;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
     }
     .route-long-name {
       @include font-book;
-      font-size: $font-size-xxsmall;
+      font-size: 13px;
       font-weight: normal;
       line-height: 1.38;
       letter-spacing: -0.43px;
+      color: #666666;
     }
   }
 }
@@ -409,8 +414,6 @@ $margin-left-right: 1.25em;
   height: 100px;
 }
 .route-page-header.favourite-icon {
-  padding-right: 9px;
-  max-height: 30px;
   @media print {
     display: none;
   }
@@ -697,7 +700,7 @@ $margin-left-right: 1.25em;
 }
 .route-container {
   background-color: white;
-  padding: 1em $margin-left-right 0;
+  padding: 20px 20px 0 20px;
   border-radius: 15px 15px 0 0;
   box-shadow: 0 -5px 5px 0 rgba(0, 0, 0, 0.2);
   &.bp-large {
@@ -720,7 +723,7 @@ $margin-left-right: 1.25em;
   background-color: $light-gray;
   margin: 1.25em 0 2em 0;
   border: 2px solid $light-gray;
-  border-radius: 3px;
+  border-radius: 5px;
   a {
     width: calc(100% / 3);
     padding-top: 0.45em;

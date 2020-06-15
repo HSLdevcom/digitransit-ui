@@ -23,6 +23,9 @@ function reverseGeocodeAddress(actionContext, location) {
       const match = data.features[0].properties;
       actionContext.dispatch('AddressFound', {
         address: match.name,
+        gid: match.gid,
+        name: match.name,
+        layer: match.layer,
         city: match.localadmin || match.locality,
       });
     } else {

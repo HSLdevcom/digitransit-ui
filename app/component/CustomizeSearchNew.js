@@ -9,6 +9,7 @@ import TransportModesSection from './customizesearch/TransportModesSection';
 import WalkingOptionsSection from './customizesearch/WalkingOptionsSection';
 import AccessibilityOptionSection from './customizesearch/AccessibilityOptionSection';
 import { getDefaultSettings } from '../util/planParamUtil';
+import TransferOptionsSection from './customizesearch/TransferOptionsSection';
 
 class CustomizeSearch extends React.Component {
   static contextTypes = {
@@ -19,13 +20,18 @@ class CustomizeSearch extends React.Component {
   static propTypes = {
     onToggleClick: PropTypes.func.isRequired,
     customizedSettings: PropTypes.object.isRequired,
+    mobile: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    mobile: false,
   };
 
   defaultSettings = getDefaultSettings(this.context.config);
 
   render() {
     const { config, intl } = this.context;
-    const { onToggleClick, customizedSettings } = this.props;
+    const { onToggleClick, customizedSettings, mobile } = this.props;
     // Merge default and customized settings
     const currentSettings = { ...this.defaultSettings, ...customizedSettings };
     let ticketOptions = [];
@@ -42,6 +48,11 @@ class CustomizeSearch extends React.Component {
         return a.split('').reverse() > b.split('').reverse() ? 1 : -1;
       });
     }
+    const backIcon = mobile ? (
+      <Icon className="close-icon" img="icon-icon_arrow-collapse--left" />
+    ) : (
+      <Icon className="close-icon" img="icon-icon_close" />
+    );
 
     return (
       <div className="customize-search">
@@ -51,7 +62,7 @@ class CustomizeSearch extends React.Component {
             onToggleClick(false);
           }}
         >
-          <Icon className="close-icon" img="icon-icon_close" />
+          {backIcon}
         </button>
         <div className="settings-option-container">
           <h1>
@@ -72,7 +83,13 @@ class CustomizeSearch extends React.Component {
           <TransportModesSection
             config={config}
             currentSettings={currentSettings}
+          />
+        </div>
+        <div className="settings-option-container">
+          <TransferOptionsSection
             defaultSettings={this.defaultSettings}
+            currentSettings={currentSettings}
+            walkBoardCostHigh={config.walkBoardCostHigh}
           />
         </div>
         <div className="settings-option-container">

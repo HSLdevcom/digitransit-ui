@@ -7,6 +7,7 @@ import {
   getStyleInput,
   getStyleMain,
   getStyleMainBottom,
+  getStyleSeparatorDiv,
   getStyleSeparatorLine,
 } from './helpers/styles';
 import translations from './helpers/translations';
@@ -18,7 +19,11 @@ i18next.addResourceBundle('fi', 'translation', translations.fi);
 i18next.addResourceBundle('sv', 'translation', translations.sv);
 
 function SeparatorLine() {
-  return <div id="SeparatorLine" style={getStyleSeparatorLine()} />;
+  return (
+    <div id="SeparatorDiv" style={getStyleSeparatorDiv()}>
+      <div id="SeparatorLine" style={getStyleSeparatorLine()} />
+    </div>
+  );
 }
 
 function OriginToDestination({ showTitle, language }) {
