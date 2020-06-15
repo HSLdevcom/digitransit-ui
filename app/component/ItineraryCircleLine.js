@@ -68,7 +68,7 @@ class ItineraryCircleLine extends React.Component {
           height={28}
           style={{ fill: this.props.color, stroke: this.props.color }}
         >
-          <circle strokeWidth="5" width={28} cx={11} cy={10} r={8} />
+          <circle strokeWidth="4" width={28} cx={11} cy={10} r={6} />
         </svg>
       </div>
     );

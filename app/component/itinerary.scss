@@ -520,7 +520,7 @@ $itinerary-tab-switch-height: 48px;
     height:100%;
     top: 0.7em;
     position: absolute;
-    left: 8px;
+    left: 7px;
     border-left: 8px solid;
 
     &.walk,
@@ -766,10 +766,15 @@ $itinerary-tab-switch-height: 48px;
       margin-bottom: 1px;
       height: 60px;
       @extend .itinerary-leg-text-gray;
+      :first-child {
+        height: 100%;
+        display: flex;
+        align-items: center;
+      }
       .route-number {
         position: absolute;
         z-index: 3;
-        bottom: 1em;
+        bottom: 1.2em;
         left: -1.6em;
         .icon {
           font-size: 24px;
