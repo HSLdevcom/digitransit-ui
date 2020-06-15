@@ -118,7 +118,7 @@ export function reportError(error) {
 
 const getTopicOptions = (context, plan, match) => {
   const { config } = context;
-  const { realTime } = config;
+  const { realTime, feedIds } = config;
 
   const itineraries = (plan && plan.itineraries) || [];
   const activeIndex = getActiveIndex(match.location, itineraries);
@@ -129,22 +129,28 @@ const getTopicOptions = (context, plan, match) => {
       if (leg.transitLeg && leg.trip) {
         const feedId = leg.trip.gtfsId.split(':')[0];
         let topic;
-        if (realTime[feedId] && realTime[feedId].useFuzzyTripMatching) {
-          topic = {
-            feedId,
-            route: leg.route.gtfsId.split(':')[1],
-            mode: leg.mode.toLowerCase(),
-            direction: Number(leg.trip.directionId),
-            tripStartTime: getStartTimeWithColon(
-              leg.trip.stoptimesForDate[0].scheduledDeparture,
-            ),
-          };
-        } else {
-          topic = {
-            feedId,
-            route: leg.route.gtfsId.split(':')[1],
-            tripId: leg.trip.gtfsId.split(':')[1],
-          };
+        if (
+          Array.isArray(realTime) &&
+          !realTime.isEmpty &&
+          feedIds.includes(feedId)
+        ) {
+          if (realTime[feedId] && realTime[feedId].useFuzzyTripMatching) {
+            topic = {
+              feedId,
+              route: leg.route.gtfsId.split(':')[1],
+              mode: leg.mode.toLowerCase(),
+              direction: Number(leg.trip.directionId),
+              tripStartTime: getStartTimeWithColon(
+                leg.trip.stoptimesForDate[0].scheduledDeparture,
+              ),
+            };
+          } else if (realTime[feedId]) {
+            topic = {
+              feedId,
+              route: leg.route.gtfsId.split(':')[1],
+              tripId: leg.trip.gtfsId.split(':')[1],
+            };
+          }
         }
         if (topic) {
           itineraryTopics.push(topic);
@@ -333,7 +339,9 @@ class SummaryPage extends React.Component {
         this.props.plan,
         this.props.match,
       );
-      this.updateClient(itineraryTopics);
+      if (itineraryTopics && itineraryTopics.length > 0) {
+        this.updateClient(itineraryTopics);
+      }
     }
   }
 
