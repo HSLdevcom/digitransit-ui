@@ -129,11 +129,7 @@ const getTopicOptions = (context, plan, match) => {
       if (leg.transitLeg && leg.trip) {
         const feedId = leg.trip.gtfsId.split(':')[0];
         let topic;
-        if (
-          Array.isArray(realTime) &&
-          !realTime.isEmpty &&
-          feedIds.includes(feedId)
-        ) {
+        if (realTime && feedIds.includes(feedId)) {
           if (realTime[feedId] && realTime[feedId].useFuzzyTripMatching) {
             topic = {
               feedId,
