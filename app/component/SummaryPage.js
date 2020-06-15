@@ -47,6 +47,7 @@ import {
 } from '../action/realTimeClientAction';
 import VehicleMarkerContainer from './map/VehicleMarkerContainer';
 import ItineraryTab from './ItineraryTab';
+import { getCurrentSettings } from '../util/planParamUtil';
 
 export const ITINERARYFILTERING_DEFAULT = 1.5;
 
@@ -206,7 +207,7 @@ class SummaryPage extends React.Component {
     }
   }
 
-  state = { center: null, loading: false };
+  state = { center: null, loading: false, settingsOpen: false };
 
   configClient = itineraryTopics => {
     const { config } = this.context;
@@ -482,10 +483,7 @@ class SummaryPage extends React.Component {
     );
   }
 
-  getOffcanvasState = () =>
-    (this.props.match.location.state &&
-      this.props.match.location.state.customizeSearchOffcanvas) ||
-    false;
+  getOffcanvasState = () => this.state.settingsOpen;
 
   toggleCustomizeSearchOffcanvas = () => {
     this.internalSetOffcanvas(!this.getOffcanvasState());
@@ -503,15 +501,39 @@ class SummaryPage extends React.Component {
       name: newState ? 'ExtraSettingsPanelOpen' : 'ExtraSettingsPanelClose',
     });
     if (newState) {
-      this.context.router.push({
-        ...this.props.match.location,
-        state: {
-          ...this.props.match.location.state,
-          customizeSearchOffcanvas: newState,
-        },
-      });
+      this.setState({ settingsOpen: newState });
+      if (this.props.breakpoint !== 'large') {
+        this.context.router.push({
+          ...this.props.match.location,
+          state: {
+            ...this.props.match.location.state,
+            customizeSearchOffcanvas: newState,
+          },
+        });
+      } else {
+        this.setState({
+          settingsOnOpen: getCurrentSettings(this.context.config, ''),
+        });
+      }
     } else {
-      this.context.router.go(-1);
+      this.setState({ settingsOpen: newState });
+      if (this.props.breakpoint !== 'large') {
+        this.context.router.go(-1);
+      } else {
+        this.setState(
+          {
+            settingsOnClose: getCurrentSettings(this.context.config, ''),
+          },
+          // eslint-disable-next-line func-names
+          function() {
+            if (
+              !isEqual(this.state.settingsOnOpen, this.state.settingsOnClose)
+            ) {
+              window.location.reload();
+            }
+          },
+        );
+      }
     }
   };
 

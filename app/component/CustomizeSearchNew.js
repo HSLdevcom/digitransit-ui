@@ -59,7 +59,7 @@ class CustomizeSearch extends React.Component {
         <button
           className="close-offcanvas"
           onClick={() => {
-            onToggleClick(false);
+            onToggleClick();
           }}
         >
           {backIcon}
