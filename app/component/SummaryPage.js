@@ -49,8 +49,6 @@ import VehicleMarkerContainer from './map/VehicleMarkerContainer';
 import ItineraryTab from './ItineraryTab';
 import { getCurrentSettings } from '../util/planParamUtil';
 
-export const ITINERARYFILTERING_DEFAULT = 1.5;
-
 /**
  * Returns the actively selected itinerary's index. Attempts to look for
  * the information in the location's state and pathname, respectively.
@@ -179,12 +177,14 @@ class SummaryPage extends React.Component {
     }),
     breakpoint: PropTypes.string.isRequired,
     error: PropTypes.object,
+    loading: PropTypes.bool,
     loadingPosition: PropTypes.bool,
   };
 
   static defaultProps = {
     map: undefined,
     error: undefined,
+    loading: false,
     loadingPosition: false,
   };
 
@@ -357,7 +357,11 @@ class SummaryPage extends React.Component {
   }
 
   renderMap() {
-    const { match, plan } = this.props;
+    const { match, plan, breakpoint } = this.props;
+    // don't render map on mobile
+    if (breakpoint !== 'large') {
+      return undefined;
+    }
     const {
       config: { defaultEndpoint },
     } = this.context;
@@ -606,6 +610,7 @@ class SummaryPage extends React.Component {
       if (
         this.state.loading === false &&
         this.props.loadingPosition === false &&
+        this.props.loading === false &&
         (error || this.props.plan)
       ) {
         if (match.params.hash) {
@@ -709,6 +714,7 @@ class SummaryPage extends React.Component {
     if (
       (!error && !this.props.plan) ||
       this.state.loading !== false ||
+      this.props.loading !== false ||
       this.props.loadingPosition === true
     ) {
       content = (
