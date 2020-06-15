@@ -198,7 +198,7 @@ class SummaryPage extends React.Component {
     }
     this.resultsUpdatedAlertRef = React.createRef();
 
-    if (this.context.config.showVehiclesOnSummaryPage) {
+    if (this.showVehicles()) {
       const itineraryTopics = getTopicOptions(
         this.context,
         this.props.plan,
@@ -306,7 +306,7 @@ class SummaryPage extends React.Component {
   }
 
   componentWillUnmount() {
-    if (this.context.config.showVehiclesOnSummaryPage) {
+    if (this.showVehicles()) {
       this.stopClient();
     }
     //  alert screen reader when search results appear
@@ -329,7 +329,7 @@ class SummaryPage extends React.Component {
     if (this.props.error) {
       reportError(this.props.error);
     }
-    if (this.context.config.showVehiclesOnSummaryPage) {
+    if (this.showVehicles()) {
       const itineraryTopics = getTopicOptions(
         this.context,
         this.props.plan,
@@ -523,6 +523,13 @@ class SummaryPage extends React.Component {
     } else {
       this.context.router.go(-1);
     }
+  };
+
+  showVehicles = () => {
+    return (
+      this.context.config.showVehiclesOnSummaryPage &&
+      (this.props.breakpoint === 'large' || this.props.match.params.hash)
+    );
   };
 
   render() {
