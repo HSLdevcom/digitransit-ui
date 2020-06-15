@@ -58,13 +58,13 @@ describe('<AppBarHsl />', () => {
     });
     expect(wrapper.name()).to.equal('ForwardRef');
     expect(wrapper.prop('searchPage')).to.not.equal(
-      'https://www.hsl.fi/search/solr',
+      'https://www.uusi.hsl.fi/search/solr',
     );
     expect(wrapper.prop('searchPage')).to.equal(
-      '/https://www.hsl.fi/sv/search/solr',
+      '/https://www.uusi.hsl.fi/sv/search/solr',
     );
     expect(wrapper.prop('searchPage')).to.not.equal(
-      'https://www.hsl.fi/en/search/solr',
+      'https://www.uusi.hsl.fi/en/search/solr',
     );
   });
 
@@ -83,13 +83,13 @@ describe('<AppBarHsl />', () => {
     });
     expect(wrapper.name()).to.equal('ForwardRef');
     expect(wrapper.prop('searchPage')).to.not.equal(
-      'https://www.hsl.fi/search/solr',
+      'https://www.uusi.hsl.fi/search/solr',
     );
     expect(wrapper.prop('searchPage')).to.not.equal(
-      '/https://www.hsl.fi/sv/search/solr',
+      '/https://www.uusi.hsl.fi/sv/search/solr',
     );
     expect(wrapper.prop('searchPage')).to.equal(
-      'https://www.hsl.fi/en/search/solr',
+      'https://www.uusi.hsl.fi/en/search/solr',
     );
   });
   */
