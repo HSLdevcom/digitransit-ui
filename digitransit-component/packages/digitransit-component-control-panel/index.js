@@ -8,6 +8,7 @@ import {
   getStyleMain,
   getStyleMainBottom,
   getStyleSeparatorDiv,
+  getStyleSeparatorDiv2,
   getStyleSeparatorLine,
 } from './helpers/styles';
 import translations from './helpers/translations';
@@ -18,13 +19,26 @@ i18next.addResourceBundle('en', 'translation', translations.en);
 i18next.addResourceBundle('fi', 'translation', translations.fi);
 i18next.addResourceBundle('sv', 'translation', translations.sv);
 
-function SeparatorLine() {
+function SeparatorLine({ usePaddingBottom20 }) {
   return (
-    <div id="SeparatorDiv" style={getStyleSeparatorDiv()}>
+    <div
+      id="SeparatorDiv"
+      style={
+        usePaddingBottom20 ? getStyleSeparatorDiv2() : getStyleSeparatorDiv()
+      }
+    >
       <div id="SeparatorLine" style={getStyleSeparatorLine()} />
     </div>
   );
 }
+
+SeparatorLine.propTypes = {
+  usePaddingBottom20: PropTypes.bool,
+};
+
+SeparatorLine.defaultProps = {
+  usePaddingBottom20: false,
+};
 
 function OriginToDestination({ showTitle, language }) {
   i18next.changeLanguage(language);

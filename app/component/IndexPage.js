@@ -215,7 +215,7 @@ class IndexPage extends React.Component {
               onAddFavourite={this.addFavourite}
               onClickFavourite={this.clickFavourite}
             />
-            <CtrlPanel.SeparatorLine />
+            <CtrlPanel.SeparatorLine usePaddingBottom20 />
             <div className="stops-near-you-text">
               <h2>
                 {' '}
