@@ -356,7 +356,11 @@ class SummaryPage extends React.Component {
   }
 
   renderMap() {
-    const { match, plan } = this.props;
+    const { match, plan, breakpoint } = this.props;
+    // don't render map on mobile
+    if (breakpoint !== 'large') {
+      return undefined;
+    }
     const {
       config: { defaultEndpoint },
     } = this.context;
