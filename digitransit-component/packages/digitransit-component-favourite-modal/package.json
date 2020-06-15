@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-favourite-modal",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "digitransit-component favourite-modal module",
   "main": "index.generated",
   "publishConfig": {
@@ -23,7 +23,7 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "dependencies": {
-    "@digitransit-component/digitransit-component-icon": "0.0.1"
+    "@digitransit-component/digitransit-component-icon": "latest"
   },
   "peerDependencies": {
     "classnames": "2.2.6",

@@ -47,8 +47,7 @@ import {
 } from '../action/realTimeClientAction';
 import VehicleMarkerContainer from './map/VehicleMarkerContainer';
 import ItineraryTab from './ItineraryTab';
-
-export const ITINERARYFILTERING_DEFAULT = 1.5;
+import { getCurrentSettings } from '../util/planParamUtil';
 
 /**
  * Returns the actively selected itinerary's index. Attempts to look for
@@ -118,7 +117,7 @@ export function reportError(error) {
 
 const getTopicOptions = (context, plan, match) => {
   const { config } = context;
-  const { realTime } = config;
+  const { realTime, feedIds } = config;
 
   const itineraries = (plan && plan.itineraries) || [];
   const activeIndex = getActiveIndex(match.location, itineraries);
@@ -129,22 +128,24 @@ const getTopicOptions = (context, plan, match) => {
       if (leg.transitLeg && leg.trip) {
         const feedId = leg.trip.gtfsId.split(':')[0];
         let topic;
-        if (realTime[feedId] && realTime[feedId].useFuzzyTripMatching) {
-          topic = {
-            feedId,
-            route: leg.route.gtfsId.split(':')[1],
-            mode: leg.mode.toLowerCase(),
-            direction: Number(leg.trip.directionId),
-            tripStartTime: getStartTimeWithColon(
-              leg.trip.stoptimesForDate[0].scheduledDeparture,
-            ),
-          };
-        } else {
-          topic = {
-            feedId,
-            route: leg.route.gtfsId.split(':')[1],
-            tripId: leg.trip.gtfsId.split(':')[1],
-          };
+        if (realTime && feedIds.includes(feedId)) {
+          if (realTime[feedId] && realTime[feedId].useFuzzyTripMatching) {
+            topic = {
+              feedId,
+              route: leg.route.gtfsId.split(':')[1],
+              mode: leg.mode.toLowerCase(),
+              direction: Number(leg.trip.directionId),
+              tripStartTime: getStartTimeWithColon(
+                leg.trip.stoptimesForDate[0].scheduledDeparture,
+              ),
+            };
+          } else if (realTime[feedId]) {
+            topic = {
+              feedId,
+              route: leg.route.gtfsId.split(':')[1],
+              tripId: leg.trip.gtfsId.split(':')[1],
+            };
+          }
         }
         if (topic) {
           itineraryTopics.push(topic);
@@ -178,12 +179,14 @@ class SummaryPage extends React.Component {
     }),
     breakpoint: PropTypes.string.isRequired,
     error: PropTypes.object,
+    loading: PropTypes.bool,
     loadingPosition: PropTypes.bool,
   };
 
   static defaultProps = {
     map: undefined,
     error: undefined,
+    loading: false,
     loadingPosition: false,
   };
 
@@ -196,17 +199,19 @@ class SummaryPage extends React.Component {
     }
     this.resultsUpdatedAlertRef = React.createRef();
 
-    const itineraryTopics = getTopicOptions(
-      this.context,
-      this.props.plan,
-      this.props.match,
-    );
-    if (itineraryTopics && itineraryTopics.length > 0) {
-      this.startClient(itineraryTopics);
+    if (this.showVehicles()) {
+      const itineraryTopics = getTopicOptions(
+        this.context,
+        this.props.plan,
+        this.props.match,
+      );
+      if (itineraryTopics && itineraryTopics.length > 0) {
+        this.startClient(itineraryTopics);
+      }
     }
   }
 
-  state = { center: null, loading: false };
+  state = { center: null, loading: false, settingsOpen: false };
 
   configClient = itineraryTopics => {
     const { config } = this.context;
@@ -302,7 +307,9 @@ class SummaryPage extends React.Component {
   }
 
   componentWillUnmount() {
-    this.stopClient();
+    if (this.showVehicles()) {
+      this.stopClient();
+    }
     //  alert screen reader when search results appear
     if (this.resultsUpdatedAlertRef.current) {
       this.resultsUpdatedAlertRef.current.innerHTML = this.resultsUpdatedAlertRef.current.innerHTML;
@@ -323,12 +330,16 @@ class SummaryPage extends React.Component {
     if (this.props.error) {
       reportError(this.props.error);
     }
-    const itineraryTopics = getTopicOptions(
-      this.context,
-      this.props.plan,
-      this.props.match,
-    );
-    this.updateClient(itineraryTopics);
+    if (this.showVehicles()) {
+      const itineraryTopics = getTopicOptions(
+        this.context,
+        this.props.plan,
+        this.props.match,
+      );
+      if (itineraryTopics && itineraryTopics.length > 0) {
+        this.updateClient(itineraryTopics);
+      }
+    }
   }
 
   setLoading = loading => {
@@ -356,7 +367,11 @@ class SummaryPage extends React.Component {
   }
 
   renderMap() {
-    const { match, plan } = this.props;
+    const { match, plan, breakpoint } = this.props;
+    // don't render map on mobile
+    if (breakpoint !== 'large') {
+      return undefined;
+    }
     const {
       config: { defaultEndpoint },
     } = this.context;
@@ -482,10 +497,7 @@ class SummaryPage extends React.Component {
     );
   }
 
-  getOffcanvasState = () =>
-    (this.props.match.location.state &&
-      this.props.match.location.state.customizeSearchOffcanvas) ||
-    false;
+  getOffcanvasState = () => this.state.settingsOpen;
 
   toggleCustomizeSearchOffcanvas = () => {
     this.internalSetOffcanvas(!this.getOffcanvasState());
@@ -503,16 +515,47 @@ class SummaryPage extends React.Component {
       name: newState ? 'ExtraSettingsPanelOpen' : 'ExtraSettingsPanelClose',
     });
     if (newState) {
-      this.context.router.push({
-        ...this.props.match.location,
-        state: {
-          ...this.props.match.location.state,
-          customizeSearchOffcanvas: newState,
-        },
-      });
+      this.setState({ settingsOpen: newState });
+      if (this.props.breakpoint !== 'large') {
+        this.context.router.push({
+          ...this.props.match.location,
+          state: {
+            ...this.props.match.location.state,
+            customizeSearchOffcanvas: newState,
+          },
+        });
+      } else {
+        this.setState({
+          settingsOnOpen: getCurrentSettings(this.context.config, ''),
+        });
+      }
     } else {
-      this.context.router.go(-1);
+      this.setState({ settingsOpen: newState });
+      if (this.props.breakpoint !== 'large') {
+        this.context.router.go(-1);
+      } else {
+        this.setState(
+          {
+            settingsOnClose: getCurrentSettings(this.context.config, ''),
+          },
+          // eslint-disable-next-line func-names
+          function() {
+            if (
+              !isEqual(this.state.settingsOnOpen, this.state.settingsOnClose)
+            ) {
+              window.location.reload();
+            }
+          },
+        );
+      }
     }
+  };
+
+  showVehicles = () => {
+    return (
+      this.context.config.showVehiclesOnSummaryPage &&
+      (this.props.breakpoint === 'large' || this.props.match.params.hash)
+    );
   };
 
   render() {
@@ -584,6 +627,7 @@ class SummaryPage extends React.Component {
       if (
         this.state.loading === false &&
         this.props.loadingPosition === false &&
+        this.props.loading === false &&
         (error || this.props.plan)
       ) {
         if (match.params.hash) {
@@ -687,6 +731,7 @@ class SummaryPage extends React.Component {
     if (
       (!error && !this.props.plan) ||
       this.state.loading !== false ||
+      this.props.loading !== false ||
       this.props.loadingPosition === true
     ) {
       content = (

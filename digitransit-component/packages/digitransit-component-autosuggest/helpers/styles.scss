@@ -19,7 +19,7 @@ input[type='text'] {
   .input {
     &.favourite {
       padding-left: 1.25em;
-      padding-right: 34px;
+      padding-right: 44px;
     }
     display: flex;
     width: 100%;
@@ -36,7 +36,12 @@ input[type='text'] {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-
+    &:focus {
+      background: #fff;
+      outline: none;
+      border: solid 1px $primary-color;
+      box-shadow: none;
+    }
     @media screen and (min-width: 768px) {
       font-size: 15px;
       height: 42px;
@@ -167,7 +172,7 @@ button.clear-input {
   transition: none;
 
   svg {
-    fill: #888888;
+    fill: $primary-color;
     width: 16px;
     height: 16px;
   }

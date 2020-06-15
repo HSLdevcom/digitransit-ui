@@ -1,7 +1,15 @@
 .quicksettings-container {
   display: block;
   background-color: $white;
-  margin: 0 4.5em 0 3.75em;
+  margin: 0 3.75em;
+  .datetimepicker-container {
+    margin: 20px 0 12px 0;
+    .datetimepicker-top-row {
+      @media (max-width: 375px) {
+        margin: 0 0 0 7px;
+      }
+    }
+  }
   .bottom-row {
     margin-top: 0.3em;
     display: flex;
