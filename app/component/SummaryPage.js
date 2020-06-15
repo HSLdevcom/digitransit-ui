@@ -511,20 +511,28 @@ class SummaryPage extends React.Component {
           },
         });
       } else {
-        this.settingsOnOpen = getCurrentSettings(this.context.config, '');
+        this.setState({
+          settingsOnOpen: getCurrentSettings(this.context.config, ''),
+        });
       }
     } else {
       this.setState({ settingsOpen: newState });
       if (this.props.breakpoint !== 'large') {
         this.context.router.go(-1);
       } else {
-        this.settingsOnClose = getCurrentSettings(this.context.config, '');
-        if (
-          JSON.stringify(this.settingsOnOpen) !==
-          JSON.stringify(this.settingsOnClose)
-        ) {
-          window.location.reload();
-        }
+        this.setState(
+          {
+            settingsOnClose: getCurrentSettings(this.context.config, ''),
+          },
+          // eslint-disable-next-line func-names
+          function() {
+            if (
+              !isEqual(this.state.settingsOnOpen, this.state.settingsOnClose)
+            ) {
+              window.location.reload();
+            }
+          },
+        );
       }
     }
   };
