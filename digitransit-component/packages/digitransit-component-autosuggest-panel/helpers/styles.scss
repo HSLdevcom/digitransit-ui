@@ -149,10 +149,16 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   .opposite {
     height: 17px;
     min-width: 40px;
+    svg {
+      font-size: 16px;
+    }
   }
   .add-via-point {
     height: 22px;
     min-width: 40px;
+    svg {
+      font-size: 16px;
+    }
   }
   .add-via-point-slack {
     height: 19px;
