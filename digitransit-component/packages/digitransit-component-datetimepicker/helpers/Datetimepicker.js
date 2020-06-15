@@ -322,7 +322,11 @@ function Datetimepicker({
               </button>
             </span>
           </div>
-          <div className={styles['picker-container']}>
+          <div
+            className={`${
+              styles['picker-container']
+            } datetimepicker-bottom-row-open`}
+          >
             {useMobileInputs ? (
               <>
                 <span
