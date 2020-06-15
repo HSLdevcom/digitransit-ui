@@ -8,7 +8,7 @@ export const SettingsDrawer = ({ open, onToggleClick, mobile }) => {
   if (open) {
     return (
       <div className={`offcanvas${mobile ? '-mobile' : ''}`}>
-        <CustomizeSearch onToggleClick={onToggleClick} />
+        <CustomizeSearch onToggleClick={onToggleClick} mobile={mobile} />
       </div>
     );
   }
