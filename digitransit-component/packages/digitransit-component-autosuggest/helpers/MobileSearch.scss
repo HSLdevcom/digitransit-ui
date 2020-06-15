@@ -41,17 +41,21 @@ input[type='text'] {
 }
 
 .combobox-icon {
-  height: 21px;
-  padding-left: 13px;
-  padding-right: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 52px;
   svg {
-    width: 12px;
+    width: 14px;
     height: 21px;
     transform: rotate(-180deg);
   }
 }
 
 .combobox-label {
+  position: relative;
+  top: -2px;
   font-size: 12px;
   font-weight: 500;
   letter-spacing: -0.2px;
@@ -62,15 +66,19 @@ input[type='text'] {
   display: flex;
   width: 100%;
   .input {
-    appearance: none;
+    position: relative;
+    top: 2px;
     margin: -4px 0 0 0;
     border: none;
     height: 26px;
     font-weight: normal;
     box-shadow: none;
-    font-size: 15px;
+    font-size: 16px;
     letter-spacing: -0.5px;
     color: #666666;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
     &:focus {
       outline: none;
       border: none;

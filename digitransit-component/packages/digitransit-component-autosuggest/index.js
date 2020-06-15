@@ -435,16 +435,7 @@ class DTAutosuggest extends React.Component {
     const ariaCurrentSuggestion = i18next.t('search-current-suggestion', {
       selection: this.suggestionAsAriaContent(),
     });
-    const iconSize = {
-      mapMarker: { height: 1.45, width: 1.45 },
-      'mapMarker-via': { height: 1.45, width: 1.45 },
-      search: { height: 1, width: 1 },
-    };
-    const iconColor = {
-      origin: '#64be14',
-      destination: '#ec5188',
-      'stop-route-station': '#888888',
-    };
+
     return (
       <React.Fragment>
         {renderMobileSearch && (
@@ -492,12 +483,7 @@ class DTAutosuggest extends React.Component {
                   styles[this.props.id],
                 ])}
               >
-                <Icon
-                  img={`${this.props.icon}`}
-                  width={iconSize[this.props.icon].width}
-                  height={iconSize[this.props.icon].height}
-                  color={iconColor[this.props.id]}
-                />
+                <Icon img={`${this.props.icon}`} />
               </div>
             )}
             <Autosuggest
