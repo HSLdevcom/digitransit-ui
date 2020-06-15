@@ -6,7 +6,6 @@ import queryMiddleware from 'farce/lib/queryMiddleware';
 import createRender from 'found/lib/createRender';
 
 import Error404 from './component/404';
-import Loading from './component/LoadingPage';
 import TopLevel from './component/TopLevel';
 
 import { PREFIX_ITINERARY_SUMMARY } from './util/path';
@@ -22,6 +21,8 @@ import getStopRoutes from './stopRoutes';
 import routeRoutes from './routeRoutes';
 
 import SelectFromMapHeader from './component/SelectFromMapHeader';
+import { validateServiceTimeRange } from './util/timeUtils';
+import { isBrowser } from './util/browser';
 
 export const historyMiddlewares = [queryMiddleware];
 
@@ -45,7 +46,7 @@ export default config => {
               }
             />
           ),
-          content: (
+          content: isBrowser ? (
             <Route
               getComponent={() =>
                 import(/* webpackChunkName: "itinerary" */ './component/SummaryPage').then(
@@ -142,13 +143,22 @@ export default config => {
                 }
               `}
               prepareVariables={preparePlanParams(config)}
-              render={({ Component, props, error }) =>
-                Component && props ? (
-                  <Component {...props} error={error} />
-                ) : (
-                  <Loading />
-                )
-              }
+              render={({ Component, props, error, match }) => {
+                if (Component) {
+                  return props ? (
+                    <Component {...props} error={error} loading={false} />
+                  ) : (
+                    <Component
+                      plan={{}}
+                      serviceTimeRange={validateServiceTimeRange()}
+                      match={match}
+                      loading
+                      error={error}
+                    />
+                  );
+                }
+                return undefined;
+              }}
             >
               {{
                 content: [
@@ -188,6 +198,15 @@ export default config => {
                 ],
               }}
             </Route>
+          ) : (
+            <Route
+              path="(.*)?"
+              getComponent={() =>
+                import(/* webpackChunkName: "itinerary" */ './component/Loading').then(
+                  getDefault,
+                )
+              }
+            />
           ),
           meta: (
             <Route
