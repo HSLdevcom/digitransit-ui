@@ -862,7 +862,9 @@ $itinerary-tab-switch-height: 48px;
     }
 
     .itinerary-search-icon {
-      font-size: 24px;
+      font-size: 18px;
+      margin-right: 14px;
+      transform: rotate(90deg);
     }
   }
 }
