@@ -28,8 +28,8 @@ $not-selected-icon-background-color: #fff;
       transform: translate(-50%,-50%);
     }
     &.modal-mobile {
-      width: 100vw;
-      height: 100vh;
+      width: 100%;
+      height: 100%;
     }
   }
 }
