@@ -311,8 +311,10 @@ $heading-color: #858585;
 
 .stops-near-you-text {
   font-size: $font-size-large;
-  padding-top: 30px;
   margin-bottom: 1rem;
+  h2 {
+    margin: 0;
+  }
 }
 
 .map-container {

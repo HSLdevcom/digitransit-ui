@@ -10,13 +10,7 @@ const TransferOptionsSection = (
   { executeAction },
 ) => (
   <React.Fragment>
-    <div
-      className="mode-option-container toggle-container"
-      style={{
-        padding: '0 0 0 1em',
-        height: '3.5em',
-      }}
-    >
+    <div className="mode-option-container toggle-container avoid-transfers-container">
       <div className="settings-header">
         <FormattedMessage
           id="avoid-transfers"
