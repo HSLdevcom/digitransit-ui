@@ -183,10 +183,10 @@ function Datetimepicker({
           <div
             className={`${styles['top-row-container']} datetimepicker-top-row`}
           >
-            <span className={styles['time-icon']}>
-              <Icon img="time" />
-            </span>
             <label className={styles['label-open']} htmlFor={`${htmlId}-open`}>
+              <span className={styles['time-icon']}>
+                <Icon img="time" />
+              </span>
               <span className={styles['sr-only']}>
                 {i18next.t('accessible-open', translationSettings)}
               </span>
@@ -231,9 +231,6 @@ function Datetimepicker({
           <div
             className={`${styles['top-row-container']} datetimepicker-top-row`}
           >
-            <span className={styles['time-icon']}>
-              <Icon img="time" />
-            </span>
             <span />
             {/* This empty span prevents a weird focus bug on chrome */}
             <label
@@ -248,7 +245,12 @@ function Datetimepicker({
                 ]
               }`}
             >
-              {i18next.t('departure-now', translationSettings)}
+              <span className={styles['time-icon']}>
+                <Icon img="time" />
+              </span>
+              <span className={styles['now-text']}>
+                {i18next.t('departure-now', translationSettings)}
+              </span>
               <input
                 id={`${htmlId}-now`}
                 name="departureOrArrival"
