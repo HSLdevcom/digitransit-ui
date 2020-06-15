@@ -35,15 +35,15 @@ describe('<AppBarHsl />', () => {
     });
     expect(wrapper.name()).to.equal('ForwardRef');
     expect(wrapper.prop('searchPage')).to.equal('https://www.uusi.hsl.fi/haku');
-    expect(wrapper.prop('searchPage')).to.not.equal(
+    /* expect(wrapper.prop('searchPage')).to.not.equal(
       '/https://www.uusi.hsl.fi/sv/search/solr',
     );
     expect(wrapper.prop('searchPage')).to.not.equal(
       'https://www.uusi.hsl.fi/en/search/solr',
-    );
+    ); */
   });
 
-  it("language should be 'sv'", () => {
+  /* it("language should be 'sv'", () => {
     const props = {
       lang: 'sv',
     };
@@ -92,4 +92,5 @@ describe('<AppBarHsl />', () => {
       'https://www.uusi.hsl.fi/en/search/solr',
     );
   });
+  */
 });
