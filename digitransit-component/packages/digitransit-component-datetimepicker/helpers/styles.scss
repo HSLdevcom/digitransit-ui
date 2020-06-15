@@ -26,7 +26,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   border: none;
   max-width: 400px;
   padding: 0;
-  margin: 20px 0 20px 0;
+  margin: 0;
 
   font-size: 15px;
   font-weight: $font-weight-medium;
@@ -35,9 +35,16 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     font-size: 1em;
     font-weight: inherit;
   }
+
+  label button {
+    cursor: pointer;
+    font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
+  }
+
   .top-row-container {
-    margin: 0 0 0 19px;
+    margin: 0 0 0 18px;
     display: flex;
+    height: 28px;
 
     @media (max-width: 320px) {
       margin-left: 14px;
@@ -50,7 +57,9 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       }
     }
     .dropdown-icon {
-      margin-left: 11px;
+      margin-left: 9px;
+      position: relative;
+      top: 1px;
       svg {
         fill: $primary-color;
         width: 14px;
@@ -64,6 +73,17 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
         height: 11px;
         transform: rotate(45deg);
         border-radius: 1px;
+        path {
+          stroke: #007ac9;
+          stroke-width: 30;
+        }
+      }
+    }
+    label {
+      cursor: pointer;
+      &.label-open {
+        align-items: flex-start;
+        display: flex;
       }
     }
     button, label {
@@ -73,7 +93,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     }
   }
   .textbutton {
-    margin-left: 15px;
+    margin-left: 14px;
     margin-top: 2px;
     background: none;
     border: none;
@@ -88,16 +108,26 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   }
 
   .combobox-left {
-    margin-right: 8px;
+    margin-right: 3px;
+    @media screen and (min-width: 768px) {
+      margin-right: 4px;
+    }
+  }
+
+  .combobox-right {
+    margin-left: 3px;
+    @media screen and (min-width: 768px) {
+      margin-right: 4px;
+    }
   }
 
   .radio-textbutton-label {
-    margin-left: 12px;
-    margin-top: 2px;
+    margin: 2px 0 0 13px;
     background: none;
     border: none;
     color: #666666;
     padding: 0;
+    cursor: pointer;
     height: min-content;
     &.active {
       color: $primary-color;
@@ -106,7 +136,13 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       @include default-focus-outline;
     }
     &.first-radio {
-      margin-left: 15px;
+      margin: 0;
+      display: flex;
+      align-items: flex-start;
+      .now-text {
+        margin: 2px 0 0 14px;
+      }
+
     }
   }
 
@@ -123,7 +159,10 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     display: flex;
     margin-bottom: 0;
   }
-  .close-button {
+  button.close-button {
+    width: 44px;
+    height: 30px;
+    transition: transform 0.2s;
     position: relative;
     top: -2px;
     border: 0;
@@ -132,26 +171,30 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     background: none;
     color: $primary-color;
     padding: 0;
+    line-height: normal;
     &:focus {
       @include default-focus-outline;
+    }
+    &:hover {
+      transform: scale(1.2);
     }
   }
 
   .right-edge {
     margin-left: auto;
-    margin-right: 17.5px;
-    @media (max-width: 320px) {
-      margin-right: 12px;
-    }
+    margin-right: 0;
+    position: relative;
+    top: -2px;
   }
 
   .combobox-container {
+    cursor: pointer;
+    font-family: 'Gotham Rounded A', 'Gotham Rounded B',Arial, Georgia, Serif;
     border: solid #888888 1px;
     display: flex;
     align-items: center;
     border-radius: 5px;
     height: 50px;
-    // width: 196px;
     flex-grow: 1;
     &:focus-within {
       border-color: $primary-color;
@@ -161,14 +204,18 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       flex-direction: column;
       flex-grow: 1;
     }
+    input, span {
+      cursor: pointer;
+    }
   }
 
   .combobox-label {
-    font-size: 0.8em;
-    line-height: 20px;
-    color: #666666;
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 1.67;
     letter-spacing: -0.48px;
-    margin: 4px auto 0 12px;
+    margin: 2px auto 0 11px;
+    color: #666666;
     width: 60px;
   }
 
@@ -178,7 +225,12 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     height: 35px;
 
     &.date-input-icon {
-      padding: 8px 11px 0 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      flex-shrink: 0;
+      width: 43px;
       svg {
         width: 20px;
         height: 18px;
@@ -186,7 +238,12 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     }
 
     &.time-input-icon {
-      padding: 9px 13px 0 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      flex-shrink: 0;
+      width: 43px;
         svg {
         width: 18px;
         height: 19px;
@@ -231,7 +288,6 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       }
     }
     .input {
-      margin: -7px 0 0 0;
       padding-left: 12px;
       padding-right: 0;
       border: none;
@@ -240,18 +296,21 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
         outline: none;
       }
       background: inherit;
-      font-weight: inherit;
       box-shadow: none;
       font-stretch: normal;
       font-style: normal;
       line-height: 1.33;
       letter-spacing: -0.6px;
       color: #333333;
+      font-size: 15px;
+      font-weight: 500;
+      margin: -6px 0 0 -1px;
+      position: relative;
     }
   }
 
   .picker-container {
-    margin: 16px 0 0 0;
+    margin: 11px 0 0 0;
     display: flex;
   }
 
@@ -260,7 +319,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   }
   .mobile-input-display {
     position: absolute;
-    margin: -4px 0 0 0;
+    margin: -7px 0 0 -1px;
     padding: 26px 0 10px 12px;
     border: none;
     height: 26px;
@@ -277,6 +336,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     color: #333333;
   }
   .mobile-input-hidden {
+    font-size: 16px;
     margin-bottom: 12px;
     height: 0px;
     width: 0;
@@ -289,13 +349,5 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       outline: none;
       box-shadow: none;
     }
-  }
-  .separator-line {
-    display: block;
-    width: 100%;
-    margin-top: 30px;
-    margin-bottom: 10px;
-    border-top: 1px solid rgb(221, 221, 221);
-    background: rgb(244, 244, 245);
   }
 }

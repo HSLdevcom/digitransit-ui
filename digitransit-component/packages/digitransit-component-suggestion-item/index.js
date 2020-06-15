@@ -96,7 +96,7 @@ const SuggestionItem = pure(
         <span aria-label={iconstr} className={styles['suggestion-icon']}>
           {icon}
         </span>
-        <div>
+        <div className={styles['suggestion-result']}>
           <p className={cx(styles['suggestion-name'], styles[className])}>
             {name}
           </p>

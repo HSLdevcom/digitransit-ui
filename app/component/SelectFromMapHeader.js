@@ -77,10 +77,12 @@ const SelectFromMapHeaderComponent = (props, { config, match }) => {
             color: '#333333',
             position: 'relative',
             top: '0.75em',
-            left: '5em',
             whiteSpace: 'nowrap',
+            marginLeft: 'calc(50% - 1em)', // DT-3614
+            transform: 'translateX(-50%)', // DT-3614
           }}
           urlToBack={getUrlToBack(match.location)}
+          className="back-button-select-from-map"
         />
       </div>
     </React.Fragment>

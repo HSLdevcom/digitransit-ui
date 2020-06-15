@@ -780,4 +780,7 @@ export default {
 
   timetables: {},
   showLogin: !!process.env.OIDC_CLIENT_ID,
+
+  // DT-3611
+  showVehiclesOnSummaryPage: false,
 };
