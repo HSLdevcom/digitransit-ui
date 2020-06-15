@@ -1,34 +1,38 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { matchShape } from 'found';
 
 import SelectStopRow from './SelectStopRow';
-import SelectTerminalRow from './SelectTerminalRow';
 import SelectCityBikeRow from './SelectCityBikeRow';
 import SelectParkAndRideRow from './SelectParkAndRideRow';
 import SelectTicketSalesRow from './SelectTicketSalesRow';
 import ComponentUsageExample from '../../ComponentUsageExample';
-import MarkerPopupBottom from '../MarkerPopupBottom';
 import { options } from '../../ExampleData';
 
-function MarkerSelectPopup(props, context) {
+function MarkerSelectPopup(props) {
   const rows = props.options.map(option => {
     if (option.layer === 'stop' && option.feature.properties.stops) {
       return (
-        <SelectTerminalRow
-          {...option.feature.properties}
+        <SelectStopRow
+          terminal
+          gtfsId={option.feature.properties.gtfsId}
+          code={option.feature.properties.code || null}
+          name={option.feature.properties.name}
+          type={option.feature.properties.type}
           key={option.feature.properties.gtfsId}
-          selectRow={() => props.selectRow(option)}
+          desc={option.feature.properties.desc}
         />
       );
     }
     if (option.layer === 'stop') {
       return (
         <SelectStopRow
-          {...option.feature.properties}
+          gtfsId={option.feature.properties.gtfsId}
+          code={option.feature.properties.code || null}
+          name={option.feature.properties.name}
+          type={option.feature.properties.type}
           key={option.feature.properties.gtfsId}
-          selectRow={() => props.selectRow(option)}
+          desc={option.feature.properties.desc}
         />
       );
     }
@@ -64,22 +68,11 @@ function MarkerSelectPopup(props, context) {
 
   return (
     <div className="card marker-select-popup">
-      <h3 className="padding-normal gray">
+      <h3 className="stop-popup-choose-header">
         <FormattedMessage id="choose-stop" defaultMessage="Choose stop" />
       </h3>
       <hr className="no-margin gray" />
       <div className="scrollable momentum-scroll card-row">{rows}</div>
-      <div>
-        <MarkerPopupBottom
-          location={{
-            address:
-              props.options[0].feature.properties.name ||
-              props.options[0].feature.properties.NIMI,
-            lat: context.match.location.lat,
-            lon: context.match.location.lng,
-          }}
-        />
-      </div>
     </div>
   );
 }
@@ -90,15 +83,7 @@ MarkerSelectPopup.description = (
   <div className="popup">
     <p>Renders a marker select popup</p>
     <ComponentUsageExample description="">
-      <MarkerSelectPopup
-        options={options}
-        selectRow={() => {}}
-        location={{
-          lat: 60.169522909062366,
-          lng: 24.933385848999027,
-          address: 'Kamppi (kaukoliikenneterminaali)',
-        }}
-      />
+      <MarkerSelectPopup options={options} selectRow={() => {}} />
     </ComponentUsageExample>
   </div>
 );
@@ -106,10 +91,6 @@ MarkerSelectPopup.description = (
 MarkerSelectPopup.propTypes = {
   options: PropTypes.array.isRequired,
   selectRow: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
-};
-
-MarkerSelectPopup.contextTypes = {
-  match: matchShape.isRequired,
 };
 
 export default MarkerSelectPopup;

@@ -6,7 +6,24 @@ import pure from 'recompose/pure';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
 
-function getIcon(layer) {
+function getIconProperties(item) {
+  let iconId;
+  let iconColor = '#888888';
+  if (item && item.selectedIconId) {
+    iconId = item.selectedIconId;
+  } else if (item && item.properties) {
+    iconId = item.properties.selectedIconId || item.properties.layer;
+  }
+  if (item && item.iconColor) {
+    // eslint-disable-next-line prefer-destructuring
+    iconColor = item.iconColor;
+  } else if (
+    item &&
+    item.properties &&
+    item.properties.layer.includes('favourite')
+  ) {
+    iconColor = '#007ac9';
+  }
   const layerIcon = new Map([
     ['currentPosition', 'locate'],
     ['favouritePlace', 'star'],
@@ -36,7 +53,7 @@ function getIcon(layer) {
   ]);
 
   const defaultIcon = 'place';
-  return layerIcon.get(layer) || defaultIcon;
+  return [layerIcon.get(iconId) || defaultIcon, iconColor];
 }
 
 /**
@@ -50,17 +67,10 @@ function getIcon(layer) {
  */
 const SuggestionItem = pure(
   ({ item, ariaContent, loading, className, isMobile }) => {
-    const iconId =
-      item && item.selectedIconId
-        ? getIcon(item.selectedIconId)
-        : getIcon(
-            item && item.properties && item.properties.layer
-              ? item.properties.layer
-              : 'place',
-          );
+    const [iconId, iconColor] = getIconProperties(item);
     const icon = (
       <span className={styles[iconId]}>
-        <Icon color={item.iconColor || '#888888'} img={iconId} />
+        <Icon color={iconColor} img={iconId} />
       </span>
     );
     const [iconstr, name, label] = ariaContent || [

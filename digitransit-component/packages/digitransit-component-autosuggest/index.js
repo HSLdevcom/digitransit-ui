@@ -67,6 +67,7 @@ function suggestionToAriaContent(item) {
  *   getFavouriteRoutes: () => ({}),       // Function that fetches favourite routes from graphql API.
  *   startLocationWatch: () => ({}),       // Function that locates users geolocation.
  *   saveSearch: () => ({}),               // Function that saves search to old searches store.
+ *   clearOldSearches: () => ({}),            // Function that clears old searches store.
  * };
  * const lang = 'fi'; // en, fi or sv
  * const onSelect = () => {
@@ -91,6 +92,7 @@ function suggestionToAriaContent(item) {
  *    storeRef={() => return null} // Functionality to store refs. Currenlty managed with DTAutosuggestpanel by default, but if DTAutosuggest is used seperatelly own implementation must be provided.
  *    sources={sources}
  *    targets={targets}
+ *    isMobile  // Optional. Defaults to false. Whether to use mobile search.
  */
 class DTAutosuggest extends React.Component {
   static propTypes = {
@@ -310,9 +312,7 @@ class DTAutosuggest extends React.Component {
     };
     // must update suggestions
     this.setState(newState, () => this.fetchFunction({ value: '' }));
-    if (!this.props.isMobile) {
-      this.input.focus();
-    }
+    this.input.focus();
   };
 
   inputClicked = inputValue => {
@@ -435,16 +435,7 @@ class DTAutosuggest extends React.Component {
     const ariaCurrentSuggestion = i18next.t('search-current-suggestion', {
       selection: this.suggestionAsAriaContent(),
     });
-    const iconSize = {
-      mapMarker: { height: 1.45, width: 1.45 },
-      'mapMarker-via': { height: 1.45, width: 1.45 },
-      search: { height: 1, width: 1 },
-    };
-    const iconColor = {
-      origin: '#64be14',
-      destination: '#ec5188',
-      'stop-route-station': '#888888',
-    };
+
     return (
       <React.Fragment>
         {renderMobileSearch && (
@@ -466,7 +457,12 @@ class DTAutosuggest extends React.Component {
             onSuggestionsClearRequested={this.onSuggestionsClearRequested}
             getSuggestionValue={this.getSuggestionValue}
             renderSuggestion={this.renderItem}
-            closeHandle={() => this.setState({ renderMobileSearch: false })}
+            closeHandle={() =>
+              this.setState({
+                renderMobileSearch: false,
+                value: this.props.value,
+              })
+            }
             ariaLabel={SearchBarId.concat(' ').concat(ariaLabelText)}
             label={i18next.t(this.props.id)}
             onSuggestionSelected={this.onSelected}
@@ -487,12 +483,7 @@ class DTAutosuggest extends React.Component {
                   styles[this.props.id],
                 ])}
               >
-                <Icon
-                  img={`${this.props.icon}`}
-                  width={iconSize[this.props.icon].width}
-                  height={iconSize[this.props.icon].height}
-                  color={iconColor[this.props.id]}
-                />
+                <Icon img={`${this.props.icon}`} />
               </div>
             )}
             <Autosuggest

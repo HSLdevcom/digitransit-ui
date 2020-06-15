@@ -14,10 +14,17 @@ div.map {
     border-radius: 11px;
     background-color: #ffffff;
     margin: 0px 10px 10px 10px;
+    position: relative;
+    top: -5px;
+    left: 10px;
   }
   .leaflet-container .leaflet-popup-close-button {
+    color: $primary-color;
     width: 32px;
     height: 32px;
+    top: 12px;
+    right: 4px;
+    padding: 0;
   }
   .leaflet-container .leaflet-control-attribution a {
     width: 94px;
@@ -65,6 +72,21 @@ div.map {
   .map.full {
     z-index: 1;
   }
+
+  .back-button {
+    .icon-holder, .icon-holder:focus, .icon-holder:hover {
+      padding: 0.55em 0.2em 0px 0px !important;
+      z-index: 805;
+      background: white;
+      height: 2.5em;
+      width: 2.5em;
+      border-radius: 50%;
+      box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.2);
+      left: 25px;
+      top: 29px;
+    }
+  }
+
   .location-popup-wrapper {
     .zone-icon-container {
       margin-top: 10px;
@@ -319,20 +341,18 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
 }
 
 .popup {
-  left: -21px !important;
   .route-header {
     height: auto;
     border: none;
   }
 
   .leaflet-popup-content-wrapper {
-    border-radius: $border-radius;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
     padding: 0;
     margin-bottom: 5px;
   }
   .leaflet-popup-content {
     margin: 0;
-    width: 20rem !important;
     &.leaflet-popup-scrolled {
       overflow: inherit;
       height: auto !important;
@@ -340,6 +360,7 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
   }
   .card {
     border: none;
+    border-radius: 4px;
     > a {
       display: block;
     }
@@ -389,29 +410,43 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
   }
 
   .leaflet-popup-tip-container {
-    margin: -5px 0px;
-    left: 0px;
+    margin-top: -6px;
     .leaflet-popup-tip {
-      background: $background-color;
+      width: 15px;
+      height: 15px;
     }
   }
 }
 
+.single-popup {
+ .leaflet-popup-content {
+   width: 300px;
+ }
+}
+
+.choice-popup {
+ .leaflet-popup-content {
+   min-width: 240px;
+ }
+}
+
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 14px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 div.origin-popup {
   font-size: $font-size-xxsmall;
   cursor: pointer;
-  width: 15em;
+  min-width: 15em;
   left: -21px !important;
 
   .origin-popup-header {
     @include font-bold;
     text-transform: uppercase;
     color: $link-color;
+    width: 90%;
+    margin-bottom: 3px;
 
     .icon {
       margin: 0 0 -2px 8px;
@@ -425,16 +460,20 @@ div.origin-popup {
     overflow: hidden;
 
     .leaflet-popup-content {
-      margin: 8px;
+      margin: 12px 8px 8px 8px;
       svg.right-arrow {
         height: 9px;
+      }
+      .card-code {
+        margin-right: 5px;
+        padding: 2px;
       }
     }
   }
 
   .origin-popup-name {
     @include font-book;
-    height: 1.3em;
+    height: 1.5em;
     width: 200px;
     text-transform: none;
     color: $black;
@@ -625,8 +664,8 @@ div.map-click-prevent-overlay {
 
 div.leaflet-control-scale.leaflet-control {
   //front page
-  margin-right: 30px;
-  margin-bottom: 33px;
+  margin-right: 10px;
+  margin-bottom: 20px;
   cursor: grab;
 }
 

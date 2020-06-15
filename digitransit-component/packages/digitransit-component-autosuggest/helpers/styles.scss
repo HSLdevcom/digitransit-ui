@@ -19,7 +19,7 @@ input[type='text'] {
   .input {
     &.favourite {
       padding-left: 1.25em;
-      padding-right: 34px;
+      padding-right: 44px;
     }
     display: flex;
     width: 100%;
@@ -27,13 +27,31 @@ input[type='text'] {
     border-radius: 5px;
     border: solid 1px #888888;
     background-color: #ffffff;
-    appearance: none;
     padding-left: 50px;
     padding-right: 44px;
     font-size: 16px;
     line-height: 1.2;
     letter-spacing: -0.5px;
     color: #666666;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    &:focus {
+      background: #fff;
+      outline: none;
+      border: solid 1px $primary-color;
+      box-shadow: none;
+    }
+    @media screen and (min-width: 768px) {
+      font-size: 15px;
+      height: 42px;
+      padding-left: 49px;
+    }
+
+    &::placeholder {
+      color: #666666;
+      font-size: 15px;
+    }
   }
 }
 
@@ -111,14 +129,24 @@ input[type='text'] {
 .autosuggest-input-icon {
   display: block;
   position: absolute;
-  width: 1.45em;
-  height: 1.45em;
+  width: 16px;
+  height: 24px;
   margin-top: 11px;
-  margin-left: 15px;
+  margin-left: 19px;
 
-  .icon {
-    width: 100%;
-    height: 100%;
+  &.origin {
+    svg {
+      fill: $from-color;
+      width: 16px;
+      height: 24px;
+    }
+  }
+  &.destination {
+    svg {
+      fill: $to-color;
+      width: 16px;
+      height: 24px;
+    }
   }
 }
 

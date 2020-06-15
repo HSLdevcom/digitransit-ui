@@ -28,12 +28,25 @@ export function getStyleMainBottom() {
   };
 }
 
-export function getStyleSeparatorLine() {
+export function getStyleSeparatorDiv() {
   return {
+    position: 'relative',
     display: 'block',
     width: '100%',
-    marginTop: '1em',
-    borderTop: '1px solid #ddd',
-    background: '#f4f4f5',
+    marginTop: 30,
+    marginBottom: 29,
+  };
+}
+
+export function getStyleSeparatorLine() {
+  return {
+    backgroundColor: '#dddddd',
+    content: '',
+    display: 'block',
+    height: 1,
+    position: 'absolute',
+    bottom: 0,
+    right: -11,
+    left: -11,
   };
 }

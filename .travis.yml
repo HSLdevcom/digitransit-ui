@@ -6,6 +6,7 @@ branches:
   only:
     - master
     - next
+    - next-prod
     - /20(1[7-9]|2[0-9])[0-1][0-9][0-3][0-9]/
 
 cache: yarn
@@ -26,6 +27,7 @@ jobs:
       env: LINT=1
       node_js: '10'
       script:
+        - rm -rf node_modules
         - yarn setup
         - yarn lint
     # Temporarely disabled for development in next branch
@@ -39,6 +41,7 @@ jobs:
       env: UNIT=1
       node_js: '10'
       script:
+        - rm -rf node_modules
         - yarn setup
         - yarn relay
         - yarn run test-coverage
@@ -56,10 +59,10 @@ jobs:
       env: VISUAL=safari
       node_js: '10'
       script: test/visual.sh
-  #  - stage: visual
-  #    env: VISUAL=edge
-  #    node_js: '10'
-  #    script: test/visual.sh
+    - stage: visual
+      env: VISUAL=edge
+      node_js: '10'
+      script: test/visual.sh
 
     - stage: build and deploy container
       node_js: '10'

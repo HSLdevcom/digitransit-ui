@@ -180,11 +180,13 @@ function Datetimepicker({
       </legend>
       {!isOpen ? (
         <>
-          <div className={styles['top-row-container']}>
+          <div
+            className={`${styles['top-row-container']} datetimepicker-top-row`}
+          >
             <span className={styles['time-icon']}>
               <Icon img="time" />
             </span>
-            <label htmlFor={`${htmlId}-open`}>
+            <label className={styles['label-open']} htmlFor={`${htmlId}-open`}>
               <span className={styles['sr-only']}>
                 {i18next.t('accessible-open', translationSettings)}
               </span>
@@ -226,7 +228,9 @@ function Datetimepicker({
         </>
       ) : (
         <>
-          <div className={styles['top-row-container']}>
+          <div
+            className={`${styles['top-row-container']} datetimepicker-top-row`}
+          >
             <span className={styles['time-icon']}>
               <Icon img="time" />
             </span>
@@ -318,7 +322,11 @@ function Datetimepicker({
               </button>
             </span>
           </div>
-          <div className={styles['picker-container']}>
+          <div
+            className={`${
+              styles['picker-container']
+            } datetimepicker-bottom-row-open`}
+          >
             {useMobileInputs ? (
               <>
                 <span
@@ -345,7 +353,11 @@ function Datetimepicker({
                     }
                   />
                 </span>
-                <span className={styles['combobox-mobile-container']}>
+                <span
+                  className={`${styles['combobox-right']} ${
+                    styles['combobox-mobile-container']
+                  }`}
+                >
                   <MobileTimepicker
                     value={displayTimestamp}
                     getDisplay={getTimeDisplay}
@@ -418,7 +430,6 @@ function Datetimepicker({
               </>
             )}
           </div>
-          <div className={styles['separator-line']} />
         </>
       )}
     </fieldset>

@@ -124,6 +124,7 @@ ItinerarySearchControl.propTypes = {
  *    disableAutoFocus={false} // Optional. use this to disable autofocus completely from DTAutosuggestPanel
  *    sources={sources}
  *    targets={targets}
+ *    isMobile  // Optional. Defaults to false. Whether to use mobile search.
  */
 class DTAutosuggestPanel extends React.Component {
   static propTypes = {
@@ -516,7 +517,7 @@ class DTAutosuggestPanel extends React.Component {
                   >
                     <DTAutoSuggest
                       icon="mapMarker-via"
-                      id="viapoint"
+                      id="via-point"
                       ariaLabel={i18next.t('via-point-index', { index: i + 1 })}
                       autoFocus={
                         disableAutoFocus === true

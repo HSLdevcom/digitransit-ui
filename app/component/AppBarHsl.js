@@ -12,42 +12,42 @@ const initLanguage = language => {
   if (language === 'fi') {
     i18next.addResourceBundle('fi', 'translation', {
       traveling_name: 'Matkustaminen',
-      traveling_url: 'https://www.hsl.fi/reitit-ja-aikataulut',
+      traveling_url: 'https://www.uusi.hsl.fi/matkustaminen',
       tickets_and_fares_name: 'Liput ja hinnat',
-      tickets_and_fares_url: 'https://www.hsl.fi/liput-ja-hinnat',
+      tickets_and_fares_url: 'https://www.uusi.hsl.fi/liput-ja-hinnat',
       information_name: 'Asiakaspalvelu',
-      information_url: 'https://www.hsl.fi/ohjeita-ja-tietoja',
+      information_url: 'https://www.uusi.hsl.fi/asiakaspalvelu',
       hsl_name: 'HSL',
-      hsl_url: 'https://www.hsl.fi/',
-      search_url: 'https://www.hsl.fi/search/solr',
+      hsl_url: 'https://www.uusi.hsl.fi/hsl',
+      search_url: 'https://www.uusi.hsl.fi/haku',
       change_language: 'Vaihda kieli',
     });
   }
   if (language === 'sv') {
     i18next.addResourceBundle('sv', 'translation', {
       traveling_name: 'Resor',
-      traveling_url: 'https://www.hsl.fi/sv/tidtabeller-och-rutter',
+      traveling_url: 'https://www.uusi.hsl.fi/sv/tidtabeller-och-rutter',
       tickets_and_fares_name: 'Biljetter och priser',
-      tickets_and_fares_url: 'https://www.hsl.fi/sv/biljetter-och-priser',
+      tickets_and_fares_url: 'https://www.uusi.hsl.fi/sv/biljetter-och-priser',
       information_name: 'Information',
-      information_url: '/https://www.hsl.fi/sv/hjalp-och-info',
+      information_url: '/https://www.uusi.hsl.fi/sv/hjalp-och-info',
       hsl_name: 'HRT',
-      hsl_url: 'https://www.hsl.fi/sv',
-      search_url: '/https://www.hsl.fi/sv/search/solr',
+      hsl_url: 'https://www.uusi.hsl.fi/sv',
+      search_url: '/https://www.uusi.hsl.fi/sv/search/solr',
       change_language: 'Välj språk',
     });
   }
   if (language === 'en') {
     i18next.addResourceBundle('en', 'translation', {
       traveling_name: 'Traveling',
-      traveling_url: 'https://www.hsl.fi/en/timetables-and-routes',
+      traveling_url: 'https://www.uusi.hsl.fi/en/timetables-and-routes',
       tickets_and_fares_name: 'Tickets and fares',
-      tickets_and_fares_url: 'https://www.hsl.fi/en/tickets-and-fares',
+      tickets_and_fares_url: 'https://www.uusi.hsl.fi/en/tickets-and-fares',
       information_name: 'Information',
-      information_url: 'https://www.hsl.fi/en/help-and-info',
+      information_url: 'https://www.uusi.hsl.fi/en/help-and-info',
       hsl_name: 'HSL',
-      hsl_url: 'https://www.hsl.fi/en',
-      search_url: 'https://www.hsl.fi/en/search/solr',
+      hsl_url: 'https://www.uusi.hsl.fi/en',
+      search_url: 'https://www.uusi.hsl.fi/en/search/solr',
       change_language: 'Change language',
     });
   }
@@ -88,7 +88,7 @@ const AppBarHsl = ({ lang }, { match }) => {
         name: 'fi',
         url: `/fi${location.pathname}${location.search}`,
         selected: lang === 'fi',
-      },
+      } /* ,
       {
         name: 'sv',
         url: `/sv${location.pathname}${location.search}`,
@@ -98,7 +98,7 @@ const AppBarHsl = ({ lang }, { match }) => {
         name: 'en',
         url: `/en${location.pathname}${location.search}`,
         selected: lang === 'en',
-      },
+      }, */,
     ],
     breadcrumb: [],
   };
@@ -106,6 +106,7 @@ const AppBarHsl = ({ lang }, { match }) => {
   const localizations = {
     mainNavigationLabel: 'main',
     changeLanguageButtonLabel: i18next.t('change_language'),
+    changeToLanguageLinkLabelFunction: () => false,
   };
 
   return (

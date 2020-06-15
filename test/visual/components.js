@@ -190,11 +190,6 @@ testVariation('DateWarning', 'tomorrow-show-warning', 2);
 testVariation('Error404');
 
 testVariation('StopMarkerPopup', 'empty', 1);
-testVariation('StopMarkerPopup', 'basic', 2, [
-  'div.departure-list > p:nth-child(2) > span.realtime svg.realtime',
-  'p:nth-child(2) > span.route-destination > span > span.last-stop-icon',
-  'p:nth-child(4) > span.route-destination > span > span.last-stop-icon',
-]).then(skip(['ie11', 'edge17']));
 
 testVariation('SelectStreetModeDialog').then(skip('ie11'));
 testVariation('SelectMapLayersDialog').then(skip('ie11'));

@@ -25,7 +25,8 @@ if [[ -n "$TRAVIS_TAG" || ( "$TRAVIS_PULL_REQUEST" = "false") ]]; then
     else
       BRANCH_IMAGE=$DOCKER_IMAGE:$TRAVIS_BRANCH
     fi
-    CI_IMAGE=$DOCKER_IMAGE:ci-$TRAVIS_COMMIT
+    dt=$(date '+%d.%m.%Y_%H-%M-%S')
+    CI_IMAGE=$DOCKER_IMAGE:"$TRAVIS_BRANCH"_"$dt"_"$TRAVIS_COMMIT"
     echo -e "export const COMMIT_ID = \"${TRAVIS_COMMIT}\";\nexport const BUILD_TIME = \""`date -Iminutes -u`"\";" > app/buildInfo.js
     docker build -t $CI_IMAGE .
     echo "Pushing ci image to Docker Hub"

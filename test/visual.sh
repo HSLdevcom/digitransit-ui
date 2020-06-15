@@ -10,6 +10,7 @@ fi
 
 set -e
 
+rm -rf node_modules
 yarn setup
 free -m
 nproc

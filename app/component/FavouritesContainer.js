@@ -4,11 +4,14 @@ import { intlShape } from 'react-intl';
 import loadable from '@loadable/component';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import withSearchContext from './WithSearchContext';
+import getRelayEnvironment from '../util/getRelayEnvironment';
 
-const AutoSuggestWithSearchContext = withSearchContext(
-  loadable(
-    () => import('@digitransit-component/digitransit-component-autosuggest'),
-    { ssr: true },
+const AutoSuggestWithSearchContext = getRelayEnvironment(
+  withSearchContext(
+    loadable(
+      () => import('@digitransit-component/digitransit-component-autosuggest'),
+      { ssr: true },
+    ),
   ),
 );
 
@@ -35,7 +38,7 @@ const favouriteShape = PropTypes.shape({
 
 class FavouritesContainer extends React.Component {
   static contextTypes = {
-    intl: intlShape,
+    intl: intlShape.isRequired,
   };
 
   static propTypes = {
@@ -60,12 +63,13 @@ class FavouritesContainer extends React.Component {
     };
   }
 
-  setLocationProperties = suggestion => {
-    const location = suggestionToLocation(suggestion);
+  setLocationProperties = item => {
+    const location =
+      item.type === 'CurrentLocation' ? item : suggestionToLocation(item);
     this.setState({
       selectedLocation: {
         ...location,
-        defaultName: suggestion.properties.name,
+        defaultName: item.name || item.properties.name,
       },
     });
   };

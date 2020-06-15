@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { routerShape, matchShape } from 'found';
 import { intlShape } from 'react-intl';
 import Icon from './Icon';
-import { PREFIX_ITINERARY_SUMMARY } from '../util/path';
 
 export default class BackButton extends React.Component {
   static contextTypes = {
@@ -19,6 +18,9 @@ export default class BackButton extends React.Component {
     title: PropTypes.node,
     titleClassName: PropTypes.string, // DT-3472
     customStyle: PropTypes.object, // DT-3472
+    titleCustomStyle: PropTypes.object,
+    urlToBack: PropTypes.string,
+    className: PropTypes.string, // DT-3614
   };
 
   static defaultProps = {
@@ -28,22 +30,16 @@ export default class BackButton extends React.Component {
     title: undefined,
     titleClassName: undefined, // DT-3472
     customStyle: undefined, // DT-3472
+    titleCustomStyle: undefined,
+    urlToBack: undefined,
+    className: 'back-button', // DT-3614
   };
 
-  goBack = () => {
-    const pathArray = this.context.match.location.pathname
-      .substring(1)
-      .split('/');
-    if (this.context.match.location.index > 0) {
+  goBack = urlToGo => {
+    if (urlToGo) {
+      this.context.router.push(urlToGo);
+    } else if (this.context.match.location.index > 0) {
       this.context.router.go(-1);
-    } else if (
-      this.context.match.location.action === 'POP' &&
-      Array.isArray(pathArray) &&
-      pathArray[0] === PREFIX_ITINERARY_SUMMARY
-    ) {
-      this.context.router.push(
-        `/${pathArray[1]}/-${this.context.match.location.search}`,
-      );
     } else {
       this.context.router.push('/');
     }
@@ -54,11 +50,11 @@ export default class BackButton extends React.Component {
       ? this.props.customStyle
       : { paddingTop: '7px' };
     return (
-      <div className="back-button" style={{ display: 'flex' }}>
+      <div className={this.props.className} style={{ display: 'flex' }}>
         <button
           className="icon-holder noborder cursor-pointer"
           style={customStyle}
-          onClick={this.goBack}
+          onClick={() => this.goBack(this.props.urlToBack)}
           aria-label={this.context.intl.formatMessage({
             id: 'back-button-title',
             defaultMessage: 'Go back to previous page',
@@ -71,14 +67,20 @@ export default class BackButton extends React.Component {
           />
         </button>
         {this.props.title &&
-          !this.props.titleClassName && (
+          !this.props.titleClassName &&
+          !this.props.titleCustomStyle && (
             <h2 className="h2">{this.props.title}</h2>
           )}
         {this.props.title &&
-          this.props.titleClassName && (
+          this.props.titleClassName &&
+          !this.props.titleCustomStyle && (
             <span className={this.props.titleClassName}>
               {this.props.title}
             </span>
+          )}
+        {this.props.title &&
+          this.props.titleCustomStyle && (
+            <span style={this.props.titleCustomStyle}>{this.props.title}</span>
           )}
       </div>
     );

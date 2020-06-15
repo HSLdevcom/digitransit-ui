@@ -30,7 +30,13 @@ export const getNameLabel = memoize(
       case 'selectFromMap':
         return [suggestion.labelId];
       case 'favouritePlace':
-        return [suggestion.name, suggestion.address];
+        return [
+          suggestion.name,
+          suggestion.address.replace(
+            new RegExp(`${escapeRegExp(suggestion.name)}(,)?( )?`),
+            '',
+          ),
+        ];
       case 'favouriteRoute':
       case 'route-BUS':
       case 'route-TRAM':
@@ -60,7 +66,14 @@ export const getNameLabel = memoize(
         ];
       case 'favouriteStation':
       case 'favouriteStop':
-        return [suggestion.name, suggestion.id, suggestion.address];
+        return [
+          suggestion.name,
+          suggestion.id,
+          suggestion.address.replace(
+            new RegExp(`${escapeRegExp(suggestion.name)}(,)?( )?`),
+            '',
+          ),
+        ];
 
       case 'stop':
         return plain

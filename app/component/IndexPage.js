@@ -209,7 +209,9 @@ class IndexPage extends React.Component {
               targets={['Locations', 'CurrentPosition']}
               itineraryParams={itineraryParams}
             />
-            <DatetimepickerContainer realtime />
+            <div className="datetimepicker-container">
+              <DatetimepickerContainer realtime />
+            </div>
             <FavouritesContainer
               favourites={favourites}
               onAddFavourite={this.addFavourite}
@@ -252,7 +254,12 @@ class IndexPage extends React.Component {
           `blurred`} bp-${breakpoint}`}
       >
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
-        <div style={{ display: isBrowser ? 'block' : 'none' }}>
+        <div
+          style={{
+            display: isBrowser ? 'block' : 'none',
+            backgroundColor: '#ffffff',
+          }}
+        >
           <CtrlPanel instance="hsl" language={lang} position="bottom">
             <DTAutosuggestPanel
               searchPanelText={intl.formatMessage({
@@ -268,8 +275,11 @@ class IndexPage extends React.Component {
               targets={['Locations', 'CurrentPosition', 'MapPosition']}
               disableAutoFocus
               isMobile
+              itineraryParams={itineraryParams}
             />
-            <DatetimepickerContainer realtime />
+            <div className="datetimepicker-container">
+              <DatetimepickerContainer realtime />
+            </div>
             <FavouritesContainer
               favourites={this.props.favourites}
               onClickFavourite={this.clickFavourite}

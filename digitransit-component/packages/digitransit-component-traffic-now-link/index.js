@@ -53,17 +53,16 @@ class TrafficNowLink extends React.Component {
           <Icon
             img="caution-white"
             color="#007ac9"
-            height={1.25}
-            width={1.125}
+            height={1.375}
+            width={1.25}
           />{' '}
-          <a style={{ textDecoration: 'none' }} href={this.props.href}>
-            {' '}
-            <h3 className={styles.text}> {i18next.t('traffic')} </h3>{' '}
+          <a className={styles.text} href={this.props.href}>
+            {i18next.t('traffic')}
           </a>
         </div>
 
         <span>
-          <Icon width={1.25} height={1.125} img="arrow" />
+          <Icon width={0.8125} height={1.1875} img="arrow" />
         </span>
       </div>
     );

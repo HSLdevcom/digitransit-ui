@@ -75,18 +75,15 @@ function getCurrentPositionIfEmpty(input, position) {
 }
 
 function getFavouriteStops(stopsAndStations, input) {
-  return stopsAndStations.then(stops =>
-    filterMatchingToInput(stops, input, [
+  return stopsAndStations.then(stops => {
+    return filterMatchingToInput(stops, input, [
       'properties.name',
       'properties.name',
       'properties.address',
-    ]),
-  );
+    ]);
+  });
 }
-// function getDropLayers(layers) {
-//   const allLayers = ['street', 'address', 'venue', 'station', 'stop'];
-//   return allLayers.filter(l => !layers.includes(l));
-// }
+
 function getOldSearches(oldSearches, input, dropLayers) {
   let matchingOldSearches = filterMatchingToInput(oldSearches, input, [
     'properties.name',
@@ -179,6 +176,9 @@ export function getSearchResults(
     if (allSources || sources.includes('Favourite')) {
       const favouriteLocations = locations(context);
       searchComponents.push(getFavouriteLocations(favouriteLocations, input));
+      const favouriteStops = stops(context);
+      const stopsAndStations = getStopAndStationsQuery(favouriteStops);
+      searchComponents.push(getFavouriteStops(stopsAndStations, input));
     }
     if (allSources || sources.includes('Datasource')) {
       const regex = minimalRegexp || undefined;
@@ -238,7 +238,7 @@ export function getSearchResults(
   }
 
   if (allTargets || targets.includes('Routes')) {
-    if (allSources || sources.includes('Favourites')) {
+    if (allSources || sources.includes('Favourite')) {
       const favouriteRoutes = getFavouriteRoutes(context);
       searchComponents.push(getFavouriteRoutesQuery(favouriteRoutes, input));
     }

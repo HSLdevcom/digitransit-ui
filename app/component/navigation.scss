@@ -199,6 +199,12 @@ $content-background-color: $background-color;
   }
 }
 
+.back-button-select-from-map { // DT-3614
+  .icon {
+    font-size: $font-size-large;
+  }
+}
+
 .main-menu {
   padding: 0;
   background: $black;
