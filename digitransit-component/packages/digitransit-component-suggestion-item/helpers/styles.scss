@@ -23,56 +23,69 @@ li:last-child > div.suggestion-item-container.mobile {
   border-top: none;
 }
 
+
 .search-result {
   display: flex;
   flex-direction: row;
   align-items: center;
   min-height: 49px;
-  overflow-x: hidden;
 
-  .suggestion-name {
-    padding: 0;
-    margin: 0;
-    font-weight: 500;
-    color: #333333;
-    font-size: 15px !important;
-    letter-spacing: -0.5px;
-    line-height: 1.5;
+  .suggestion-result {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    position: absolute;
+    padding-left: 49px;
+    padding-right: 27px;
+    .suggestion-name {
+      padding-right: 27px;
+      margin: 0;
+      font-weight: 500;
+      color: #333333;
+      font-size: 15px !important;
+      letter-spacing: -0.5px;
+      line-height: 1.5;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
 
-    @media screen and (min-width: 768px) {
+      @media screen and (min-width: 768px) {
+        font-size: 13px !important;
+        letter-spacing: -0.43px;
+        line-height: 1;
+      }
+
+      &.favouriteCustom {
+        color: #007ac9;
+        font-size: 15px;
+      }
+    }
+
+    .suggestion-label {
+      margin: 0;
+      color: #666666;
       font-size: 13px !important;
+      font-weight: 400;
       letter-spacing: -0.43px;
-      line-height: 1;
-    }
+      line-height: 1.38;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
 
-    &.favouriteCustom {
-      color: #007ac9;
-      font-size: 15px;
-    }
-  }
-
-  .suggestion-label {
-    padding: 0;
-    margin: 0;
-    color: #666666;
-    color: #666666;
-    font-size: 13px !important;
-    font-weight: 400;
-    letter-spacing: -0.43px;
-    line-height: 1.38;
-
-    @media screen and (min-width: 768px) {
-      font-size: 11px !important;
-      letter-spacing: -0.37px;
-      line-height: 1.64;
+      @media screen and (min-width: 768px) {
+        font-size: 11px !important;
+        letter-spacing: -0.37px;
+        line-height: 1.64;
+      }
     }
   }
 
   .arrow-icon {
     display: flex;
+    width: 27px;
     align-items: center;
     position: absolute;
-    right: 10px;
+    right: 0;
     svg {
       width: 17px;
       height: 17px;
