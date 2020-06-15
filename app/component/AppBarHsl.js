@@ -12,14 +12,14 @@ const initLanguage = language => {
   if (language === 'fi') {
     i18next.addResourceBundle('fi', 'translation', {
       traveling_name: 'Matkustaminen',
-      traveling_url: 'https://www.uusi.hsl.fi/reitit-ja-aikataulut',
+      traveling_url: 'https://www.uusi.hsl.fi/matkustaminen',
       tickets_and_fares_name: 'Liput ja hinnat',
       tickets_and_fares_url: 'https://www.uusi.hsl.fi/liput-ja-hinnat',
       information_name: 'Asiakaspalvelu',
-      information_url: 'https://www.uusi.hsl.fi/ohjeita-ja-tietoja',
+      information_url: 'https://www.uusi.hsl.fi/asiakaspalvelu',
       hsl_name: 'HSL',
-      hsl_url: 'https://www.uusi.hsl.fi/',
-      search_url: 'https://www.uusi.hsl.fi/search/solr',
+      hsl_url: 'https://www.uusi.hsl.fi/hsl',
+      search_url: 'https://www.uusi.hsl.fi/haku',
       change_language: 'Vaihda kieli',
     });
   }
