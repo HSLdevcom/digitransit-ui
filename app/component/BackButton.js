@@ -20,6 +20,7 @@ export default class BackButton extends React.Component {
     customStyle: PropTypes.object, // DT-3472
     titleCustomStyle: PropTypes.object,
     urlToBack: PropTypes.string,
+    className: PropTypes.string, // DT-3614
   };
 
   static defaultProps = {
@@ -31,6 +32,7 @@ export default class BackButton extends React.Component {
     customStyle: undefined, // DT-3472
     titleCustomStyle: undefined,
     urlToBack: undefined,
+    className: 'back-button', // DT-3614
   };
 
   goBack = urlToGo => {
@@ -48,7 +50,7 @@ export default class BackButton extends React.Component {
       ? this.props.customStyle
       : { paddingTop: '7px' };
     return (
-      <div className="back-button" style={{ display: 'flex' }}>
+      <div className={this.props.className} style={{ display: 'flex' }}>
         <button
           className="icon-holder noborder cursor-pointer"
           style={customStyle}
