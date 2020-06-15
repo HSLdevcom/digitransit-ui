@@ -60,7 +60,7 @@ export default {
       );
     },
 
-    mqtt: 'wss://test92.rt.hsl.fi/',
+    mqtt: 'wss://test92.rt.hsl.fi',
 
     gtfsrt: false,
 
