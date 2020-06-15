@@ -688,6 +688,7 @@ class SummaryPage extends React.Component {
     if (
       (!error && !this.props.plan) ||
       this.state.loading !== false ||
+      this.props.loading !== false ||
       this.props.loadingPosition === true
     ) {
       content = (
