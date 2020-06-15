@@ -116,7 +116,7 @@ input[type='text'] {
     z-index: index($zindex, destination-input);
   }
 
-  &.searchfield-preferred {
+  &.stop-route-station {
     z-index: index($zindex, preferred-input);
   }
 }
@@ -141,6 +141,15 @@ input[type='text'] {
       fill: $to-color;
       width: 16px;
       height: 24px;
+    }
+  }
+  &.stop-route-station {
+    margin-top: 14px;
+    margin-left: 18px;
+    svg {
+      fill: #888888;
+      width: 16px;
+      height: 16px;
     }
   }
 }
