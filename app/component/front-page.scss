@@ -280,6 +280,10 @@ $heading-color: #858585;
   flex-direction: column;
   background-color: #fff;
   padding-top: 30px;
+
+  .datetimepicker-container {
+    margin: 20px 0 20px 0;
+  }
 }
 .control-panel-container-left {
   display: flex;

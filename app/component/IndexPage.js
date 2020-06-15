@@ -209,7 +209,9 @@ class IndexPage extends React.Component {
               targets={['Locations', 'CurrentPosition']}
               itineraryParams={itineraryParams}
             />
-            <DatetimepickerContainer realtime />
+            <div className="datetimepicker-container">
+              <DatetimepickerContainer realtime />
+            </div>
             <FavouritesContainer
               favourites={favourites}
               onAddFavourite={this.addFavourite}
@@ -275,7 +277,9 @@ class IndexPage extends React.Component {
               isMobile
               itineraryParams={itineraryParams}
             />
-            <DatetimepickerContainer realtime />
+            <div className="datetimepicker-container">
+              <DatetimepickerContainer realtime />
+            </div>
             <FavouritesContainer
               favourites={this.props.favourites}
               onClickFavourite={this.clickFavourite}
