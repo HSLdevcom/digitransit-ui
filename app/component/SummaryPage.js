@@ -196,13 +196,15 @@ class SummaryPage extends React.Component {
     }
     this.resultsUpdatedAlertRef = React.createRef();
 
-    const itineraryTopics = getTopicOptions(
-      this.context,
-      this.props.plan,
-      this.props.match,
-    );
-    if (itineraryTopics && itineraryTopics.length > 0) {
-      this.startClient(itineraryTopics);
+    if (this.context.config.showVehiclesOnSummaryPage) {
+      const itineraryTopics = getTopicOptions(
+        this.context,
+        this.props.plan,
+        this.props.match,
+      );
+      if (itineraryTopics && itineraryTopics.length > 0) {
+        this.startClient(itineraryTopics);
+      }
     }
   }
 
@@ -302,7 +304,9 @@ class SummaryPage extends React.Component {
   }
 
   componentWillUnmount() {
-    this.stopClient();
+    if (this.context.config.showVehiclesOnSummaryPage) {
+      this.stopClient();
+    }
     //  alert screen reader when search results appear
     if (this.resultsUpdatedAlertRef.current) {
       this.resultsUpdatedAlertRef.current.innerHTML = this.resultsUpdatedAlertRef.current.innerHTML;
@@ -323,12 +327,14 @@ class SummaryPage extends React.Component {
     if (this.props.error) {
       reportError(this.props.error);
     }
-    const itineraryTopics = getTopicOptions(
-      this.context,
-      this.props.plan,
-      this.props.match,
-    );
-    this.updateClient(itineraryTopics);
+    if (this.context.config.showVehiclesOnSummaryPage) {
+      const itineraryTopics = getTopicOptions(
+        this.context,
+        this.props.plan,
+        this.props.match,
+      );
+      this.updateClient(itineraryTopics);
+    }
   }
 
   setLoading = loading => {
