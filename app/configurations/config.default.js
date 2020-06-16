@@ -209,8 +209,8 @@ export default {
     useRetinaTiles: true,
     tileSize: 512,
     zoomOffset: -1,
-    minZoom: 1,
-    maxZoom: 18,
+    minZoom: 9,
+    maxZoom: 17,
     controls: {
       zoom: {
         // available controls positions: 'topleft', 'topright', 'bottomleft, 'bottomright'
