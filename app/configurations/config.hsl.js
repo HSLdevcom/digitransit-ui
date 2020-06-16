@@ -510,7 +510,8 @@ export default {
   },
 
   useTicketIcons: true,
-  trafficNowLink: 'https://dev.hslfi.hsldev.com/',
+  trafficNowLink:
+    'https://uusi.hsl.fi/matkustaminen/liikennetiedotteet-ja-hairiot',
   cityBike: {
     showCityBikes: true,
     networks: {
