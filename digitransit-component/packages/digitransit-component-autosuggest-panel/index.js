@@ -473,7 +473,7 @@ class DTAutosuggestPanel extends React.Component {
             }
             aria-label={i18next.t('swap-order-button-label')}
           >
-            <Icon img="opposite" width={1.0625} height={1.1875} />
+            <Icon img="opposite" width={1.1875} height={1.0625} />
           </ItinerarySearchControl>
         </div>
         {viaPoints.length === 0 && (

@@ -11,13 +11,13 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
 }
 
 .autosuggest-searchpanel-text {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 500;
-  letter-spacing: -0.6px;
+  letter-spacing: -0.8px;
   color: #333333;
-  margin-top: 0;
+  //margin-top: 0;
   margin-bottom: 17px;
-  line-height: 24px;
+  //line-height: 24px;
 
   @media screen and (min-width: 768px) {
     font-size: 24px;
@@ -31,7 +31,6 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
 .destination-input-container {
   display: flex;
   flex: 1 0 100%;
-  margin-top: 9px;
   input[type='text'] {
     margin: 0;
   }
@@ -150,10 +149,16 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   .opposite {
     height: 17px;
     min-width: 40px;
+    svg {
+      font-size: 16px;
+    }
   }
   .add-via-point {
     height: 22px;
     min-width: 40px;
+    svg {
+      font-size: 16px;
+    }
   }
   .add-via-point-slack {
     height: 19px;
@@ -181,7 +186,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
 .rectangle-container {
   display: block;
   position: relative;
-  width: 1.45em;
+  height: 9px;
   z-index: index($zindex, 'rectangle');
   .rectangle {
     position: absolute;
@@ -189,7 +194,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     height: 21px;
     border-radius: 2px;
     background-color: #dddddd;
-    margin-left: 24.3px;
-    margin-top: -5.5px;
+    margin-left: 25px;
+    margin-top: -5px;
   }
 }

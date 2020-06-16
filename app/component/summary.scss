@@ -303,23 +303,21 @@
     margin: 0 1.25em;
 
     .back-button {
-      button {
+      .icon-holder {
         position: absolute;
+        box-shadow: none;
+        font-size: 16px;
         top: 1.5em;
         left: 0.9375em;
-        width: 40px;
-        height: 40px;
         border: 1px solid #ddd;
-        border-radius: 20px;
         .icon-container {
-          padding-right: 2px;
-          padding-top: 4px;
+          height: inherit;
         }
       }
       h2 {
         width: 100%;
         text-align: center;
-        margin: 1.5em 0 1em 0;
+        margin: 1.7em 0 calc(1em - 2px) 0;
       }
     }
   }

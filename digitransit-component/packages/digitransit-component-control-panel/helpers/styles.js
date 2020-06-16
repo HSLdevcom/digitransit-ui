@@ -33,20 +33,32 @@ export function getStyleSeparatorDiv() {
     position: 'relative',
     display: 'block',
     width: '100%',
-    marginTop: 30,
-    marginBottom: 29,
+    // marginTop: 20,
+    marginBottom: 19,
+    paddingBottom: 29,
+  };
+}
+
+export function getStyleSeparatorDiv2() {
+  return {
+    position: 'relative',
+    display: 'block',
+    width: '100%',
+    // marginTop: 20,
+    marginBottom: 19,
+    paddingBottom: 20,
   };
 }
 
 export function getStyleSeparatorLine() {
   return {
-    backgroundColor: '#dddddd',
+    backgroundColor: '#ccc',
     content: '',
     display: 'block',
     height: 1,
     position: 'absolute',
     bottom: 0,
-    right: -11,
-    left: -11,
+    right: -5,
+    left: -5,
   };
 }
