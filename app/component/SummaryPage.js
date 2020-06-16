@@ -570,21 +570,27 @@ class SummaryPage extends React.Component {
       itineraries = [];
     }
 
+    const from = otpToLocation(match.params.from);
+
     if (match.routes.some(route => route.printPage) && hasItineraries) {
       return React.cloneElement(this.props.content, {
         itinerary: itineraries[match.params.hash],
         focus: this.updateCenter,
-        from: otpToLocation(match.params.from),
+        from,
         to: otpToLocation(match.params.to),
       });
     }
+
+    const center = this.state.center
+      ? this.state.center
+      : { lat: from.lat, lon: from.lon };
 
     // Call props.map directly in order to render to same map instance
     let map = this.props.map
       ? this.props.map.type(
           {
             itinerary: itineraries && itineraries[match.params.hash],
-            center: this.state.center,
+            center,
             ...this.props,
           },
           this.context,
