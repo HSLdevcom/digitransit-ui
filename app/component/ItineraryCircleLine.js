@@ -36,8 +36,8 @@ class ItineraryCircleLine extends React.Component {
     );
   }
 
-  getMarker = () => {
-    if (this.isFirstChild()) {
+  getMarker = top => {
+    if (this.isFirstChild() && top) {
       return (
         <div className="itinerary-icon-container">
           <Icon
@@ -48,6 +48,9 @@ class ItineraryCircleLine extends React.Component {
       );
     }
     if (this.props.modeClassName === 'walk') {
+      return <></>;
+    }
+    if (!top && this.props.modeClassName === 'wait') {
       return <></>;
     }
     if (this.props.isVia === true) {
@@ -75,7 +78,8 @@ class ItineraryCircleLine extends React.Component {
   };
 
   render() {
-    const marker = this.getMarker();
+    const topMarker = this.getMarker(true);
+    const bottomMarker = this.getMarker(false);
     const legBeforeLineStyle = { color: this.props.color };
     if (
       isBrowser &&
@@ -92,13 +96,13 @@ class ItineraryCircleLine extends React.Component {
         className={`leg-before ${this.props.modeClassName}`}
         aria-hidden="true"
       >
-        {marker}
+        {topMarker}
 
         <div
           style={legBeforeLineStyle}
           className={`leg-before-line ${this.props.modeClassName}`}
         />
-        {this.renderBottomMarker() && <>{marker}</>}
+        {bottomMarker}
       </div>
     );
   }

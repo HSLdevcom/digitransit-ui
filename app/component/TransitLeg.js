@@ -149,36 +149,36 @@ class TransitLeg extends React.Component {
       );
 
       return (
-        <div className="intermediate-stop-info-container">
-          {stopCount === 0 ? (
-            <span className="intermediate-stop-no-stops">{message}</span>
-          ) : (
-            <span
-              role="button"
-              tabIndex="0"
-              className="intermediate-stops-link pointer-cursor"
-              onClick={e => {
-                e.stopPropagation();
-                toggleFunction();
-              }}
-              onKeyPress={e => {
-                if (isKeyboardSelectionEvent(e)) {
-                  e.stopPropagation();
-                  toggleFunction();
-                }
-              }}
-            >
-              {message}
+        <div
+          role="button"
+          tabIndex="0"
+          className="intermediate-stops-clickable pointer-cursor"
+          onClick={e => {
+            e.stopPropagation();
+            toggleFunction();
+          }}
+          onKeyPress={e => {
+            if (isKeyboardSelectionEvent(e)) {
+              e.stopPropagation();
+              toggleFunction();
+            }
+          }}
+        >
+          <div className="intermediate-stop-info-container">
+            {stopCount === 0 ? (
+              <span className="intermediate-stop-no-stops">{message}</span>
+            ) : (
+              <span className="intermediate-stops-amount">{message}</span>
+            )}{' '}
+            <span className="intermediate-stops-duration" aria-hidden="true">
+              ({durationToString(stopLeg.duration * 1000)})
             </span>
-          )}{' '}
-          <span className="intermediate-stops-duration" aria-hidden="true">
-            ({durationToString(stopLeg.duration * 1000)})
-          </span>
-          <Icon
-            img="icon-icon_arrow-collapse--right"
-            className="itinerary-search-icon"
-            color={config.colors.primary}
-          />
+            <Icon
+              img="icon-icon_arrow-collapse--right"
+              className="itinerary-search-icon"
+              color={config.colors.primary}
+            />
+          </div>
         </div>
       );
     };

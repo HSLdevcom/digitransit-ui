@@ -697,6 +697,13 @@ $itinerary-tab-switch-height: 48px;
       span.itinerary-stop-code {
         vertical-align: 2px;
       }
+      .icon-container {
+        padding-right: 11px;
+        margin-top: 4px;
+        .icon {
+          font-size: 24px;
+        }
+      }
 
       > :first-child {
         flex-grow: 1;
@@ -792,25 +799,29 @@ $itinerary-tab-switch-height: 48px;
       @extend .itinerary-leg-text-gray;
     }
 
-    .intermediate-stop-info-container {
-      max-height: 3.75em;
-      padding: 1em 0;
+    .intermediate-stops-clickable {
+      height: 60px;
       border-bottom: 1px solid #ddd;
       border-top: 1px solid #ddd;
-      .icon-container {
-        float: right;
+      > * {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        .icon-container {
+          float: right;
+        }
       }
-    }
-
-    .intermediate-stops-link {
-      color: $primary-color;
-      font-weight: 500;
-      line-height: 1.2;
-      border-bottom: none;
-    }
-
-    .intermediate-stops-duration {
-      color: $gray;
+      .intermediate-stops-amount {
+        color: $primary-color;
+        font-weight: 500;
+        line-height: 1.2;
+        border-bottom: none;
+        padding-right: 4px;
+      }
+      .intermediate-stops-duration {
+        color: $gray;
+        flex: 1;
+      }
     }
   }
 }
@@ -865,11 +876,12 @@ $itinerary-tab-switch-height: 48px;
       font-size: 13px;
       margin-left: -24px;
     }
-
-    .itinerary-search-icon {
-      font-size: 18px;
-      margin-right: 14px;
-      transform: rotate(90deg);
+    .intermediate-stop-info-container {
+      .itinerary-search-icon {
+        font-size: 18px;
+        margin-right: 14px;
+        transform: rotate(90deg);
+      }
     }
   }
 }
