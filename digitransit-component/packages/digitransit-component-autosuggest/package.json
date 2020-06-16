@@ -23,13 +23,13 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "dependencies": {
-    "@digitransit-component/digitransit-component-suggestion-item": "latest",
     "@digitransit-search-util/digitransit-search-util-get-label": "^0.0.1",
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": "^0.0.1",
     "@digitransit-search-util/digitransit-search-util-suggestion-to-location": "^0.0.1"
   },
   "peerDependencies": {
     "@digitransit-component/digitransit-component-icon": "latest",
+    "@digitransit-component/digitransit-component-suggestion-item": "latest",
     "@digitransit-search-util/digitransit-search-util-execute-search-immidiate": "^0.0.5",
     "classnames": "2.2.6",
     "i18next": "^19.3.3",

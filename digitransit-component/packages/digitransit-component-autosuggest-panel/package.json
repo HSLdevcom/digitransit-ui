@@ -22,12 +22,10 @@
   ],
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
-  "dependencies": {
-    "@digitransit-component/digitransit-component-autosuggest": "latest",
-    "@digitransit-component/digitransit-component-with-breakpoint": "^0.0.3",
-    "@digitransit-component/digitransit-component-icon": "latest"
-  },
   "peerDependencies": {
+    "@digitransit-component/digitransit-component-autosuggest": "latest",
+    "@digitransit-component/digitransit-component-icon": "latest",
+    "@digitransit-component/digitransit-component-with-breakpoint": "^0.0.3",
     "classnames": "2.2.6",
     "i18next": "^19.3.3",
     "lodash": "4.17.14",
