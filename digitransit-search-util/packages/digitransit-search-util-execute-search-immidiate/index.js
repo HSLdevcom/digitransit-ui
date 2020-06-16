@@ -74,6 +74,31 @@ function getCurrentPositionIfEmpty(input, position) {
   return Promise.resolve([]);
 }
 
+function selectFromOwnLocations(input) {
+  if (typeof input !== 'string' || input.length === 0) {
+    return Promise.resolve([
+      {
+        type: 'SelectFromOwnLocations',
+        address: 'SelectFromOwnLocations',
+        lat: null,
+        lon: null,
+        properties: {
+          labelId: 'select-from-own-locations',
+          layer: 'selectFromOwnLocations',
+          address: 'selectFromOwnLocations',
+          lat: null,
+          lon: null,
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: [],
+        },
+      },
+    ]);
+  }
+  return Promise.resolve([]);
+}
+
 function getFavouriteStops(stopsAndStations, input) {
   return stopsAndStations.then(stops => {
     return filterMatchingToInput(stops, input, [
@@ -169,6 +194,9 @@ export function getSearchResults(
   }
   if (allTargets || targets.includes('MapPosition')) {
     searchComponents.push(selectPositionFomMap(input));
+  }
+  if (targets.includes('SelectFromOwnLocations')) {
+    searchComponents.push(selectFromOwnLocations(input));
   }
   if (allTargets || targets.includes('Locations')) {
     // eslint-disable-next-line prefer-destructuring

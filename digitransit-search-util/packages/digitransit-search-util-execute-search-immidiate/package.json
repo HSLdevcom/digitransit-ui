@@ -20,7 +20,7 @@
   ],
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
-  "dependencies": {
+  "peerDependencies": {
     "@digitransit-search-util/digitransit-search-util-filter-matching-to-input": "^0.0.1",
     "@digitransit-search-util/digitransit-search-util-get-geocoding-results": "^0.0.2",
     "@digitransit-search-util/digitransit-search-util-helpers": "^0.0.4",

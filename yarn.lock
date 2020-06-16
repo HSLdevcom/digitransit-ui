@@ -1423,14 +1423,6 @@
   resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-with-breakpoint/-/digitransit-component-with-breakpoint-0.0.3.tgz#fa31eed369a5c43cbb14dc7d5d8d49323a5c8674"
   integrity sha512-PwJmjRGwVuLNoBRGoFr3F0bLb+p5oOWamFm5PNEajGD8PCfX+yCbeEfr0kWpbZ7whR/VAqyNIMmXmoDX8hwRcQ==
 
-"@digitransit-search-util/digitransit-search-util-helpers@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-helpers/-/digitransit-search-util-helpers-0.0.4.tgz#47cd1ed8fe20d2e75e40eb7619665ba426e28529"
-  integrity sha512-Zg5covmCZsgzQDxwnLL2/zC+6dQKJNY89qU+OhRGgSDqt6vUoV8Q1NUJgUpbdO7deGgUFaPyJBuOQMIM0YsyVQ==
-  dependencies:
-    "@digitransit-search-util/digitransit-search-util-is-duplicate" "^0.0.1"
-    lodash "4.17.14"
-
 "@evocateur/libnpmaccess@^3.1.2":
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/@evocateur/libnpmaccess/-/libnpmaccess-3.1.2.tgz#ecf7f6ce6b004e9f942b098d92200be4a4b1c845"

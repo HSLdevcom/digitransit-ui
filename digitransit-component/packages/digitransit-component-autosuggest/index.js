@@ -278,7 +278,8 @@ class DTAutosuggest extends React.Component {
           const suggestions = (searchResult.results || []).map(suggestion => {
             if (
               suggestion.type === 'CurrentLocation' ||
-              suggestion.type === 'SelectFromMap'
+              suggestion.type === 'SelectFromMap' ||
+              suggestion.type === 'SelectFromOwnLocations'
             ) {
               const translated = { ...suggestion };
               translated.properties.labelId = i18next.t(
