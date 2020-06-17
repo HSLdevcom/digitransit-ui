@@ -107,6 +107,11 @@ export default configMerger(walttiConfig, {
     minZoom: 15
   },
 
+  cityBike: {
+    showStationId: false,
+    useSpacesAvailable: false,
+  },
+
   mergeStopsByCode: true,
 
   title: APP_TITLE,
