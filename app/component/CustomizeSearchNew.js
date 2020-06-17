@@ -72,35 +72,37 @@ class CustomizeSearch extends React.Component {
             })}
           </h1>
         </div>
-        <div className="settings-option-container">
-          <WalkingOptionsSection
-            walkSpeedOptions={config.defaultOptions.walkSpeed}
-            currentSettings={currentSettings}
-            defaultSettings={this.defaultSettings}
-          />
+        <div className="scrollable-content-wrapper momentum-scroll">
+          <div className="settings-option-container">
+            <WalkingOptionsSection
+              walkSpeedOptions={config.defaultOptions.walkSpeed}
+              currentSettings={currentSettings}
+              defaultSettings={this.defaultSettings}
+            />
+          </div>
+          <div className="settings-option-container">
+            <TransportModesSection
+              config={config}
+              currentSettings={currentSettings}
+            />
+          </div>
+          <div className="settings-option-container">
+            <TransferOptionsSection
+              defaultSettings={this.defaultSettings}
+              currentSettings={currentSettings}
+              walkBoardCostHigh={config.walkBoardCostHigh}
+            />
+          </div>
+          <div className="settings-option-container">
+            <AccessibilityOptionSection currentSettings={currentSettings} />
+          </div>
+          {config.showTicketSelector && (
+            <FareZoneSelector
+              options={ticketOptions}
+              currentOption={currentSettings.ticketTypes}
+            />
+          )}
         </div>
-        <div className="settings-option-container">
-          <TransportModesSection
-            config={config}
-            currentSettings={currentSettings}
-          />
-        </div>
-        <div className="settings-option-container">
-          <TransferOptionsSection
-            defaultSettings={this.defaultSettings}
-            currentSettings={currentSettings}
-            walkBoardCostHigh={config.walkBoardCostHigh}
-          />
-        </div>
-        <div className="settings-option-container">
-          <AccessibilityOptionSection currentSettings={currentSettings} />
-        </div>
-        {config.showTicketSelector && (
-          <FareZoneSelector
-            options={ticketOptions}
-            currentOption={currentSettings.ticketTypes}
-          />
-        )}
       </div>
     );
   }
