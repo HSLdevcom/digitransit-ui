@@ -11,16 +11,6 @@ export default class MapModeStore extends Store {
     SetMapMode: 'setMapMode',
   };
 
-  constructor(dispatcher) {
-    super(dispatcher);
-
-    const { router } = dispatcher.getContext();
-    this.mapMode =
-      router && router.query && router.query.mapMode
-        ? router.query.mapMode
-        : MapMode.Default;
-  }
-
   getMapMode = () => this.mapMode;
 
   setMapMode = mapMode => {

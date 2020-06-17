@@ -22,6 +22,7 @@ import { isDebugTiles, isBikeSafetyTiles } from '../../util/browser';
 import { BreakpointConsumer } from '../../util/withBreakpoint';
 import events from '../../util/events';
 import { MapMode } from '../../constants';
+import { setMapMode } from '../../action/MapModeActions';
 
 const zoomOutText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_minus"/></svg>`;
 
@@ -51,6 +52,7 @@ class Map extends React.Component {
     activeArea: PropTypes.string,
     mapRef: PropTypes.func,
     currentMapMode: PropTypes.string.isRequired,
+    setMapMode: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -131,7 +133,7 @@ class Map extends React.Component {
 
   render() {
     const { zoom, boundsOptions } = this.props;
-    const { config } = this.context;
+    const { config, router } = this.context;
 
     const center =
       (!this.props.fitBounds &&
@@ -143,7 +145,14 @@ class Map extends React.Component {
       boundsOptions.paddingTopLeft = this.props.padding;
     }
 
-    const { currentMapMode } = this.props;
+    let currentMapMode;
+    if (router && router.location.query && router.location.query.mapMode) {
+      currentMapMode = router.location.query.mapMode;
+      this.props.setMapMode(currentMapMode);
+    } else {
+      // eslint-disable-next-line prefer-destructuring
+      currentMapMode = this.props.currentMapMode;
+    }
 
     const mapUrls = [];
     if (isDebugTiles) {
@@ -234,8 +243,16 @@ class Map extends React.Component {
   }
 }
 
-const connectedComponent = connectToStores(Map, ['MapModeStore'], context => ({
-  currentMapMode: context.getStore('MapModeStore').getMapMode(),
-}));
+const connectedComponent = connectToStores(
+  Map,
+  ['MapModeStore'],
+  context => ({
+    currentMapMode: context.getStore('MapModeStore').getMapMode(),
+    setMapMode: mapMode => context.executeAction(setMapMode, mapMode),
+  }),
+  {
+    executeAction: PropTypes.func,
+  },
+);
 
 export default withRouter(connectedComponent);
