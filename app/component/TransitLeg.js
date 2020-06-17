@@ -113,7 +113,6 @@ class TransitLeg extends React.Component {
   renderMain = () => {
     const { children, focusAction, index, leg, mode } = this.props;
     const { config, intl } = this.context;
-
     const originalTime = leg.realTime &&
       leg.departureDelay &&
       leg.departureDelay >= config.itinerary.delayThreshold && [

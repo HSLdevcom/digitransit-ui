@@ -39,6 +39,7 @@ class ItineraryLegs extends React.Component {
     fares: PropTypes.array,
     toggleCanceledLegsBanner: PropTypes.func.isRequired,
     waitThreshold: PropTypes.number.isRequired,
+    setMapZoomToLeg: PropTypes.func,
   };
 
   static defaultProps = {
@@ -69,6 +70,11 @@ class ItineraryLegs extends React.Component {
       action: 'ZoomMapToStopLocation',
       name: null,
     });
+  };
+
+  setMapZoomToLeg = leg => e => {
+    e.stopPropagation();
+    this.props.setMapZoomToLeg(leg);
   };
 
   stopCode = stop => stop && stop.code && <StopCode code={stop.code} />;
@@ -179,6 +185,7 @@ class ItineraryLegs extends React.Component {
             leg={leg}
             previousLeg={previousLeg}
             focusAction={this.focus(leg.from)}
+            setMapZoomToLeg={this.setMapZoomToLeg(leg)}
           >
             {this.stopCode(leg.from.stop)}
           </WalkLeg>,

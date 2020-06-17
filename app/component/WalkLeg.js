@@ -21,7 +21,7 @@ import { durationToString } from '../util/timeUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
 
 function WalkLeg(
-  { children, focusAction, index, leg, previousLeg },
+  { children, focusAction, setMapZoomToLeg, index, leg, previousLeg },
   { config },
 ) {
   const distance = displayDistance(parseInt(leg.distance, 10), config);
@@ -75,10 +75,6 @@ function WalkLeg(
       </div>
       <ItineraryCircleLine index={index} modeClassName={modeClassName} />
       <div
-        onClick={focusAction}
-        onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
-        role="button"
-        tabIndex="0"
         className={`small-9 columns itinerary-instruction-column ${leg.mode.toLowerCase()}`}
       >
         <span className="sr-only">
@@ -91,6 +87,10 @@ function WalkLeg(
           <div
             className={cx('itinerary-leg-first-row', 'walk')}
             aria-hidden="true"
+            onClick={focusAction}
+            onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
+            role="button"
+            tabIndex="0"
           >
             <div className="address-container">
               <div className="address">{address}</div>
@@ -102,7 +102,14 @@ function WalkLeg(
             />
           </div>
         ) : (
-          <div className="itinerary-leg-first-row" aria-hidden="true">
+          <div
+            className="itinerary-leg-first-row"
+            aria-hidden="true"
+            onClick={focusAction}
+            onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
+            role="button"
+            tabIndex="0"
+          >
             <div className="walk-leg-row">
               {returnNotice || leg.from.name}
               <ServiceAlertIcon
@@ -132,7 +139,14 @@ function WalkLeg(
           </div>
         )}
 
-        <div className="itinerary-leg-action" aria-hidden="true">
+        <div
+          className="itinerary-leg-action"
+          aria-hidden="true"
+          onClick={setMapZoomToLeg}
+          onKeyPress={e => isKeyboardSelectionEvent(e) && setMapZoomToLeg(e)}
+          role="button"
+          tabIndex="0"
+        >
           <FormattedMessage
             id="walk-distance-duration"
             values={{ distance, duration }}
@@ -192,6 +206,7 @@ WalkLeg.propTypes = {
   index: PropTypes.number.isRequired,
   leg: walkLegShape.isRequired,
   previousLeg: walkLegShape,
+  setMapZoomToLeg: PropTypes.func.isRequired,
 };
 
 WalkLeg.defaultProps = {

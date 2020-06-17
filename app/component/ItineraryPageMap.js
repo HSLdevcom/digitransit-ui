@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import get from 'lodash/get';
-import polyline from 'polyline-encoded';
 import { matchShape, routerShape } from 'found';
-
 import LocationMarker from './map/LocationMarker';
 import ItineraryLine from './map/ItineraryLine';
 import MapContainer from './map/MapContainer';
@@ -24,7 +22,7 @@ if (isBrowser) {
 let timeout;
 
 function ItineraryPageMap(
-  { itinerary, center, breakpoint },
+  { itinerary, center, breakpoint, bounds },
   { router, match },
 ) {
   const { from, to } = match.params;
@@ -100,10 +98,8 @@ function ItineraryPageMap(
     <div className="map-click-prevent-overlay" onClick={toggleFullscreenMap} />
   );
 
-  let bounds;
-
   if (!center && itinerary && !itinerary.legs[0].transitLeg) {
-    bounds = polyline.decode(itinerary.legs[0].legGeometry.points);
+    // bounds = polyline.decode(itinerary.legs[0].legGeometry.points);
   }
 
   const showScale = fullscreen || breakpoint === 'large';
@@ -163,6 +159,7 @@ ItineraryPageMap.propTypes = {
   itinerary: PropTypes.object,
   center: dtLocationShape,
   breakpoint: PropTypes.string.isRequired,
+  bounds: PropTypes.array,
 };
 
 ItineraryPageMap.contextTypes = {

@@ -29,6 +29,7 @@ class ItineraryTab extends React.Component {
     }).isRequired,
     itinerary: PropTypes.object.isRequired,
     focus: PropTypes.func.isRequired,
+    setMapZoomToLeg: PropTypes.func.isRequired,
   };
 
   static contextTypes = {
@@ -55,6 +56,7 @@ class ItineraryTab extends React.Component {
       lon,
     });
   };
+
 
   printItinerary = e => {
     e.stopPropagation();
@@ -144,6 +146,7 @@ class ItineraryTab extends React.Component {
                   fares={fares}
                   itinerary={itinerary}
                   focusMap={this.handleFocus}
+                  setMapZoomToLeg={this.props.setMapZoomToLeg}
                 />
                 {/* <ItineraryProfile
                   itinerary={itinerary}
