@@ -227,7 +227,12 @@ export function getSearchResults(
     }
     if (allSources || sources.includes('History')) {
       const locationHistory = prevSearches(context, 'endpoint');
-      const dropLayers = ['currentPosition', 'selectFromMap', 'stop'];
+      const dropLayers = [
+        'currentPosition',
+        'selectFromMap',
+        'selectFromOwnLocations',
+        'stop',
+      ];
       dropLayers.push(...routeLayers);
       searchComponents.push(getOldSearches(locationHistory, input, dropLayers));
     }
@@ -258,7 +263,12 @@ export function getSearchResults(
     }
     if (allSources || sources.includes('History')) {
       const stopHistory = prevSearches(context);
-      const dropLayers = ['currentPosition', 'selectFromMap', 'favouritePlace'];
+      const dropLayers = [
+        'currentPosition',
+        'selectFromMap',
+        'selectFromOwnLocations',
+        'favouritePlace',
+      ];
       dropLayers.push(...routeLayers);
       dropLayers.push(...locationLayers);
       searchComponents.push(getOldSearches(stopHistory, input, dropLayers));
@@ -276,6 +286,7 @@ export function getSearchResults(
       const dropLayers = [
         'currentPosition',
         'selectFromMap',
+        'selectFromOwnLocations',
         'favouritePlace',
         'stop',
         'station',
