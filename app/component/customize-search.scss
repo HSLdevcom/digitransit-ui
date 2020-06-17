@@ -81,7 +81,7 @@
 .desktop {
   .customize-search {
     .scrollable-content-wrapper {
-      overflow-y: scroll;
+      overflow-y: auto;
       overflow-x: hidden;
       display: flex;
       flex-basis: 0px;
