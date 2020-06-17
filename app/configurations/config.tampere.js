@@ -162,44 +162,33 @@ export default configMerger(walttiConfig, {
 
   staticMessages: [
     {
-      id: '3',
+      id: '4',
       priority: -1,
       persistence: 'repeat',
       content: {
         fi: [
           {
-            type: 'text',
-            content:
-              'Vuoroja voi peruuntua virusepidemian aikana. Tarkista matkasi tiedot ennakkoon. Perutut bussivuorot näkyvät yliviivattuna punaisella eivätkä ne tule reittiehdotuksiin. Perutut junavuorot voi tarkistaa ',
-          },
-          {
             type: 'a',
-            content: 'VR:n palveluista',
-            href: 'https://www.vr.fi/cs/vr/fi/liikennetilanne',
+            content:
+              'Tutustu turvallisen matkustamisen ohjeisiin koronaviruksen aikana tästä linkistä',
+            href:
+              'https://joukkoliikenne.tampere.fi/aikataulut-ja-reitit/poikkeusinfo/liikennetiedotteet/korona-viruksen-vaikutukset-nysse-liikenteeseen.html',
           },
         ],
         en: [
           {
-            type: 'text',
-            content:
-              'Trips may be canceled during the virus epidemic. Check our travel information in advance. Cancelled bus trips appear in red and do not appear in route suggestions. Please check cancelled train trips at ',
-          },
-          {
             type: 'a',
-            content: "VR's services",
-            href: 'https://www.vr.fi/cs/vr/en/traffic_info',
+            content: 'Please check instructions for safe travelling here',
+            href:
+              'https://joukkoliikenne.tampere.fi/aikataulut-ja-reitit/poikkeusinfo/liikennetiedotteet/korona-viruksen-vaikutukset-nysse-liikenteeseen.html',
           },
         ],
         sv: [
           {
-            type: 'text',
-            content:
-              'Trips may be canceled during the virus epidemic. Check our travel information in advance. Cancelled bus trips appear in red and do not appear in route suggestions. Please check cancelled train trips at ',
-          },
-          {
             type: 'a',
-            content: "VR's services",
-            href: 'https://www.vr.fi/cs/vr/sv/trafikinfo',
+            content: 'Please check instructions for safe travelling here',
+            href:
+              'https://joukkoliikenne.tampere.fi/aikataulut-ja-reitit/poikkeusinfo/liikennetiedotteet/korona-viruksen-vaikutukset-nysse-liikenteeseen.html',
           },
         ],
       },
