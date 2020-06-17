@@ -135,6 +135,10 @@ input[type='text'] {
   margin-top: 0;
   margin-left: 19px;
 
+  svg {
+    width: 16px;
+    height: 24px;
+  }
   &.origin {
     svg {
       fill: $from-color;
