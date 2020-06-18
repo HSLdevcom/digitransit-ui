@@ -6,6 +6,7 @@ const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const GEOCODING_BASE_URL = `${API_URL}/geocoding/v1`;
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
+const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || '';
 const APP_PATH = process.env.APP_CONTEXT || '';
 const { SENTRY_DSN } = process.env;
 const PORT = process.env.PORT || 8080;
@@ -27,8 +28,8 @@ export default {
     MAP_URL,
     OTP: process.env.OTP_URL || `${API_URL}/routing/v1/routers/finland/`,
     MAP: {
-      default: `${MAP_URL}/map/v1/hsl-map/`,
-      sv: `${MAP_URL}/map/v1/hsl-map-sv/`,
+      default: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-map/`,
+      sv: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-map-sv/`,
     },
     STOP_MAP: `${MAP_URL}/map/v1/finland-stop-map/`,
     CITYBIKE_MAP: `${MAP_URL}/map/v1/finland-citybike-map/`,
