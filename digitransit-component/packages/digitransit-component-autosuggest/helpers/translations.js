@@ -9,6 +9,7 @@ const translations = {
     'add-via-duration-button-label-open':
       'Open stop duration selector at via point {{index}}',
     airplane: 'Flight',
+    back: 'Back',
     bus: 'bus',
     'clear-button-label': 'Clear',
     'clear-search-history': 'Clear search history',
@@ -48,7 +49,7 @@ const translations = {
     tram: 'Tram',
     'use-own-position': 'Use current location',
     'select-from-map': 'Select position from map',
-    'select-from-own-locations': 'Choose from own locations',
+    'select-from-own-locations': 'Select from own locations',
     venue: 'Venue',
     'via-point': 'Via point',
     where: 'Where to?',
@@ -64,6 +65,7 @@ const translations = {
     'add-via-duration-button-label-open':
       'Sulje välipisteen {{index}} pysähdyksen kesto valitsin',
     airplane: 'Lentokone',
+    back: 'Takaisin',
     bus: 'bussi',
     'clear-button-label': 'Tyhjennä',
     'clear-search-history': 'Tyhjennä hakuhistoria',
@@ -118,6 +120,7 @@ const translations = {
     'add-via-duration-button-label-open':
       'Öppna väljaren för varaktighet vid via-punkten {{index}}',
     airplane: 'Flyg',
+    back: 'Tillbaka',
     bus: 'Bussi',
     'clear-button-label': 'Töm',
     'clear-search-history': 'Töm sökhistoriken',
@@ -155,7 +158,7 @@ const translations = {
     tram: 'Spårvagn',
     'use-own-position': 'Använd min position',
     'select-from-map': 'Välj position från kartan',
-    'select-from-own-locations': 'Choose from own locations',
+    'select-from-own-locations': 'Select from own locations',
     venue: 'Mötesplats',
     'via-point': 'Via punkt',
     where: 'Var till?',
