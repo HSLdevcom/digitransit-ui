@@ -28,8 +28,8 @@ export const getNameLabel = memoize(
       case 'currentPosition':
         return [suggestion.labelId, suggestion.address];
       case 'selectFromMap':
-        return [suggestion.labelId];
       case 'selectFromOwnLocations':
+      case 'back':
         return [suggestion.labelId];
       case 'favouritePlace':
         return [
