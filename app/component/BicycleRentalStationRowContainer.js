@@ -46,7 +46,7 @@ const BicycleRentalStationRow = ({ distance, station }, { config, intl }) => {
         <RouteNumber
           icon={isOff ? `${networkIcon}_off` : networkIcon}
           mode={isOff ? 'citybike_off' : 'citybike'}
-          text={station.stationId}
+          text={config.cityBike.showStationId ? station.stationId : null}
         />
       </td>
       <td className="td-bikestation" colSpan="1">

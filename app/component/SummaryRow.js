@@ -94,10 +94,14 @@ RouteLeg.propTypes = {
 
 export const ModeLeg = ({ leg, mode, large }, { config }) => {
   const networkIcon =
-    leg.from.bikeRentalStation &&
-    getCityBikeNetworkIcon(
-      getCityBikeNetworkConfig(leg.from.bikeRentalStation.networks[0], config),
-    );
+    mode === 'CITYBIKE'
+      ? getCityBikeNetworkIcon(
+          getCityBikeNetworkConfig(
+            leg.from.bikeRentalStation.networks[0],
+            config,
+          ),
+        )
+      : null;
 
   const routeNumber = (
     <RouteNumber

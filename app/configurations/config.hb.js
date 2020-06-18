@@ -107,6 +107,25 @@ export default configMerger(walttiConfig, {
     minZoom: 15
   },
 
+  cityBike: {
+    showStationId: false,
+    useSpacesAvailable: false,
+    networks: {
+      regiorad: {
+        icon: 'citybike',
+        name: {
+          de: 'RegioRad',
+          en: 'RegioRad',
+        },
+        type: 'citybike',
+        url: {
+          de: 'https://www.regioradstuttgart.de/de',
+          en: 'https://www.regioradstuttgart.de/en',
+        },
+      },
+    }
+  },
+
   mergeStopsByCode: true,
 
   title: APP_TITLE,
@@ -288,7 +307,8 @@ export default configMerger(walttiConfig, {
     },
 
     citybike: {
-      availableForSelection: false,
+      availableForSelection: true,
+      defaultValue: false,
     },
 
     airplane: {
