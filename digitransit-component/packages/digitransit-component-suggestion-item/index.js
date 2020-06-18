@@ -104,13 +104,15 @@ const SuggestionItem = pure(
           </p>
           <p className={styles['suggestion-label']}>{label}</p>
         </div>
-        <span
-          className={cx(styles['arrow-icon'], {
-            [styles.mobile]: isMobile,
-          })}
-        >
-          <Icon img="arrow" />
-        </span>
+        {iconId !== 'arrow' && (
+          <span
+            className={cx(styles['arrow-icon'], {
+              [styles.mobile]: isMobile,
+            })}
+          >
+            <Icon img="arrow" />
+          </span>
+        )}
       </div>
     );
     return (
