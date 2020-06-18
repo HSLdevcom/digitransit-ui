@@ -51,6 +51,7 @@ function getIconProperties(item) {
     ['icon-icon_shopping', 'shopping'],
     ['selectFromMap', 'select-from-map'],
     ['selectFromOwnLocations', 'star'],
+    ['back', 'arrow'],
   ]);
 
   const defaultIcon = 'place';
