@@ -6,8 +6,7 @@ import { FormattedMessage } from 'react-intl';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
-import ItineraryCircleLine from './ItineraryCircleLine';
-import RouteNumber from './RouteNumber';
+import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import PlatformNumber from './PlatformNumber';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
@@ -73,7 +72,10 @@ function WalkLeg(
           {moment(leg.startTime).format('HH:mm')}
         </div>
       </div>
-      <ItineraryCircleLine index={index} modeClassName={modeClassName} />
+      <ItineraryCircleLineWithIcon
+        index={index}
+        modeClassName={modeClassName}
+      />
       <div
         className={`small-9 columns itinerary-instruction-column ${leg.mode.toLowerCase()}`}
       >
@@ -85,7 +87,7 @@ function WalkLeg(
         </span>
         {isFirstLeg(index) ? (
           <div
-            className={cx('itinerary-leg-first-row', 'walk')}
+            className={cx('itinerary-leg-first-row', 'walk', 'first')}
             aria-hidden="true"
             onClick={focusAction}
             onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
@@ -139,20 +141,29 @@ function WalkLeg(
           </div>
         )}
 
-        <div
-          className="itinerary-leg-action"
-          aria-hidden="true"
-          onClick={setMapZoomToLeg}
-          onKeyPress={e => isKeyboardSelectionEvent(e) && setMapZoomToLeg(e)}
-          role="button"
-          tabIndex="0"
-        >
-          <FormattedMessage
-            id="walk-distance-duration"
-            values={{ distance, duration }}
-            defaultMessage="Walk {distance} ({duration})"
-          />
-          <RouteNumber mode={leg.mode} vertical />
+        <div className="itinerary-leg-action" aria-hidden="true">
+          <div className="itinerary-leg-action-content">
+            <FormattedMessage
+              id="walk-distance-duration"
+              values={{ distance, duration }}
+              defaultMessage="Walk {distance} ({duration})"
+            />
+
+            <div
+              className="itinerary-zoom-on-map"
+              onClick={setMapZoomToLeg}
+              onKeyPress={e =>
+                isKeyboardSelectionEvent(e) && setMapZoomToLeg(e)
+              }
+              role="button"
+              tabIndex="0"
+            >
+              <Icon
+                img="icon-icon_show-on-map"
+                className="itinerary-search-icon"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

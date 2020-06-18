@@ -40,7 +40,6 @@ function ItineraryPageMap(
     />,
     <VehicleMarkerContainer key="vehicles" useLargeIcon />,
   ];
-
   if (match.location.query && match.location.query.intermediatePlaces) {
     if (Array.isArray(match.location.query.intermediatePlaces)) {
       match.location.query.intermediatePlaces
@@ -108,12 +107,12 @@ function ItineraryPageMap(
   // stop, emulate a click on the map to open up the popup
   const onCenterMap = element => {
     const map = get(element, 'leafletElement', null);
-    if (!map || !center) {
+    if (!map || (!center && !bounds)) {
       return;
     }
     map.closePopup();
     clearTimeout(timeout);
-    if (fullscreen || breakpoint === 'large') {
+    if (fullscreen || (breakpoint === 'large' && !bounds)) {
       const latlngPoint = new L.LatLng(center.lat, center.lon);
       map.eachLayer(layer => {
         if (

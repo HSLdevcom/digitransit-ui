@@ -27,6 +27,7 @@ import { getZoneLabelColor } from '../util/mapIconUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import { shouldShowFareInfo } from '../util/fareUtils';
 import { AlertSeverityLevelType } from '../constants';
+import ZoneIcon from './ZoneIcon';
 
 class TransitLeg extends React.Component {
   constructor(props) {
@@ -52,6 +53,24 @@ class TransitLeg extends React.Component {
       showIntermediateStops: !prevState.showIntermediateStops,
     }));
   };
+
+  getZoneChange() {
+    const { leg } = this.props;
+    if (leg.intermediatePlaces.length > 0) {
+      const startZone = leg.intermediatePlaces[0].stop.zoneId;
+      const endZone =
+        leg.intermediatePlaces[leg.intermediatePlaces.length - 1].stop.zoneId;
+      if (startZone !== endZone && !this.state.showIntermediateStops) {
+        return (
+          <div className="time-column-zone-icons-container">
+            <ZoneIcon zoneId={startZone} />
+            <ZoneIcon zoneId={endZone} className="zone-delimiter" />
+          </div>
+        );
+      }
+    }
+    return null;
+  }
 
   renderIntermediate() {
     const { leg, mode } = this.props;
@@ -100,6 +119,7 @@ class TransitLeg extends React.Component {
             nextZoneId={
               (isLastPlace && nextZoneIdDiffers && nextZoneId) || undefined
             }
+            isLastPlace={isLastPlace}
             isCanceled={isCanceled}
             zoneLabelColor={getZoneLabelColor(this.context.config)}
           />
@@ -154,7 +174,9 @@ class TransitLeg extends React.Component {
           className="intermediate-stops-clickable pointer-cursor"
           onClick={e => {
             e.stopPropagation();
-            toggleFunction();
+            if (stopCount > 0) {
+              toggleFunction();
+            }
           }}
           onKeyPress={e => {
             if (isKeyboardSelectionEvent(e)) {
@@ -163,7 +185,11 @@ class TransitLeg extends React.Component {
             }
           }}
         >
-          <div className="intermediate-stop-info-container">
+          <div
+            className={cx('intermediate-stop-info-container', {
+              open: this.state.showIntermediateStops,
+            })}
+          >
             {stopCount === 0 ? (
               <span className="intermediate-stop-no-stops">{message}</span>
             ) : (
@@ -232,6 +258,7 @@ class TransitLeg extends React.Component {
       }
       alertDescription = <FormattedMessage id={id} />;
     }
+    const zoneIcons = this.getZoneChange();
 
     return (
       <div key={index} className="row itinerary-row">
@@ -271,6 +298,7 @@ class TransitLeg extends React.Component {
                 </span>
                 {originalTime}
               </div>
+              {zoneIcons}
             </span>
           </Link>
         </div>
@@ -279,6 +307,7 @@ class TransitLeg extends React.Component {
           index={index}
           modeClassName={modeClassName}
           color={leg.route ? `#${leg.route.color}` : 'currentColor'}
+          renderBottomMarker={!this.state.showIntermediateStops}
         />
         <div
           style={{

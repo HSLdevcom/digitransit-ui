@@ -213,21 +213,16 @@ $itinerary-tab-switch-height: 48px;
   }
 
   .zone-icons-container {
-    left: calc(-100% / 12);
-    padding-top: $padding-xxsmall;
-    position: absolute;
-
+    position: relative;
+    float: right;
+    margin-right: 3px;
+    width: 29px;
+    top: -8px;
     .zone-icon-container {
       position: relative;
-
-      &.zone-delimiter::before {
+      &.zone-delimiter {
         border-top: 1px solid $light-gray;
-        content: '';
-        display: block;
-        left: -0.5em;
-        position: absolute;
-        top: -0.5em;
-        width: 2em;
+        padding: 4px 0;
       }
 
       & + .zone-icon-container {
@@ -273,6 +268,10 @@ $itinerary-tab-switch-height: 48px;
   height: 17px;
   left: 2px;
   z-index: 10;
+  &.start {
+    top: 12px;
+    left: 3px;
+  }
 }
 
 .itinerary-icon {
@@ -442,11 +441,63 @@ $itinerary-tab-switch-height: 48px;
 .call-agency {
   background-color: yellow;
 }
+.leg-before-circle {
+  &.top {
+    top: 7px;
+  }
+  position: absolute;
+  z-index: 9;
+  @include setModeCircles(#fff);
+  &.circle-fill {
+    &.bus {
+      @include setModeCircles($bus-color);
+    }
+    &.airplane {
+      @include setModeCircles($airplane-color);
+    }
+    &.tram {
+      @include setModeCircles($tram-color);
+    }
+    &.subway {
+      @include setModeCircles($metro-color);
+    }
+    &.rail {
+      @include setModeCircles($rail-color);
+    }
+    &.ferry {
+      @include setModeCircles($ferry-color);
+    }
+    &.citybike {
+      @include setModeCircles($citybike-color);
+    }
+    &.walk {
+      @include setModeCircles($walk-color);
+    }
+    &.wait {
+      @include setModeCircles($wait-color);
+    }
+    &.bicycle {
+      @include setModeCircles($bicycle-color);
+    }
+    &.bicycle_walk {
+      @include setModeCircles($walk-color);
+    }
+    &.car {
+      @include setModeCircles($car-color);
+    }
+    &.via {
+      @include setModeCircles($walk-color);
+    }
+    &.call {
+      @include setModeCircles($bus-color);
+    }
+  }
+}
 
 .row.itinerary-row {
   position: relative;
   line-height: 1.1;
-  color: $medium-gray;
+  color: #aaa;
   width: 100%;
   max-width: 100%;
   display: flex;
@@ -455,7 +506,6 @@ $itinerary-tab-switch-height: 48px;
     min-width: 15px;
     max-width: 25px;
     position: relative;
-
     :last-child {
       bottom: -2.3em;
     }
@@ -464,64 +514,51 @@ $itinerary-tab-switch-height: 48px;
       bottom: initial;
       }
     }
-  }
-
-  .leg-before-circle {
-    position: absolute;
-    z-index: 9;
-    @include setModeCircles(#fff);
-    &.circle-fill {
-      &.bus {
-        @include setModeCircles($bus-color);
+    &.walk {
+      .route-number {
+        top: 33%;
+        .icon-container .icon {
+          font-size: 24px;
+        }
       }
-      &.airplane {
-        @include setModeCircles($airplane-color);
-      }
-      &.tram {
-        @include setModeCircles($tram-color);
-      }
-      &.subway {
-        @include setModeCircles($metro-color);
-      }
-      &.rail {
-        @include setModeCircles($rail-color);
-      }
-      &.ferry {
-        @include setModeCircles($ferry-color);
-      }
-      &.citybike {
-        @include setModeCircles($citybike-color);
-      }
-      &.walk {
-        @include setModeCircles($walk-color);
-      }
-      &.wait {
-        @include setModeCircles($wait-color);
-      }
-      &.bicycle {
-        @include setModeCircles($bicycle-color);
-      }
-      &.bicycle_walk {
-        @include setModeCircles($walk-color);
-      }
-      &.car {
-        @include setModeCircles($car-color);
-      }
-      &.via {
-        @include setModeCircles($walk-color);
-      }
-      &.call {
-        @include setModeCircles($bus-color);
+    }
+    &.wait{
+      .route-number {
+        top: 35%;
+        left: 1px;
+        .icon-container {
+          .icon {
+            font-size: 18px;
+          }
+        }
       }
     }
   }
-
   .leg-before-line {
-    height:100%;
+    height: 102%;
     top: 0.7em;
     position: absolute;
     left: 7px;
     border-left: 8px solid;
+    &.wait {
+      height: 50%;
+      border: 4px solid;
+      border-radius: 4px;
+
+      &.bottom{
+        height: 18%;
+        top: 85%;
+      }
+    }
+    &.walk {
+      height: 48%;
+      background-position-y: 6px;
+      &.bottom {
+        background-position-y: 5px;
+        height: 18%;
+        top: 85%;
+      }
+    }
 
     &.walk,
     &.bicycle_walk {
@@ -550,9 +587,31 @@ $itinerary-tab-switch-height: 48px;
     color: $black;
     margin-bottom: 0.5em;
     flex-grow: 0;
+    top: 8px;
 
     a {
       text-decoration: none;
+    }
+    .time-column-zone-icons-container {
+      position: relative;
+      top: 2.5em;
+      .zone-icon-container {
+        position: relative;
+        padding: 4px 0;
+        margin-right: 3px;
+        width: 29px;
+        &.zone-delimiter {
+          border-top: 1px solid $light-gray;
+        }
+        .circle {
+          height: 20px !important;
+          width: 20px !important;
+          color: $white !important;
+          background-color: $primary-color !important;
+          font-size: 16px !important;
+          line-height: 20px !important;
+        }
+      }
     }
 
     &.call {
@@ -648,12 +707,7 @@ $itinerary-tab-switch-height: 48px;
     @include font-book;
     font-size: 10pt;
     padding-left: 0.5em;
-    margin-bottom: 6px;
     min-height: 4.15em;
-
-    &.intermediate {
-      min-height: 5px;
-    }
 
     &.via {
       min-height: 5em;
@@ -664,6 +718,7 @@ $itinerary-tab-switch-height: 48px;
     }
 
     .itinerary-leg-first-row {
+      height: 60px;
       display: flex;
       flex-direction: row;
       white-space: normal;
@@ -671,8 +726,9 @@ $itinerary-tab-switch-height: 48px;
       @include font-medium;
       font-size: $font-size-small;
       padding: 0.625em 0;
-      &.transit, &.wait {
-        padding: 2px 0 0.625em 0;
+      border-top: 1px solid #ddd;
+      &.first {
+        border-top: none;
       }
       .place {
         font-size: $font-size-xsmall;
@@ -768,15 +824,27 @@ $itinerary-tab-switch-height: 48px;
 
     .itinerary-leg-action {
       border-top: 1px solid #ddd;
-      border-bottom: 1px solid #ddd;
       padding: 1.2em 0;
       margin-bottom: 1px;
       height: 60px;
       @extend .itinerary-leg-text-gray;
-      :first-child {
+      .itinerary-leg-action-content {
         height: 100%;
         display: flex;
         align-items: center;
+        :first-child {
+          flex-grow: 1;
+        }
+        .itinerary-zoom-on-map {
+          flex-grow: 0;
+          .icon-container {
+            padding-right: 11px;
+            margin-top: 4px;
+            .icon {
+              font-size: 24px;
+            }
+          }
+        }
       }
       .route-number {
         position: absolute;
@@ -801,7 +869,6 @@ $itinerary-tab-switch-height: 48px;
 
     .intermediate-stops-clickable {
       height: 60px;
-      border-bottom: 1px solid #ddd;
       border-top: 1px solid #ddd;
       > * {
         display: flex;
@@ -839,6 +906,7 @@ $itinerary-tab-switch-height: 48px;
 
     .itinerary-time-column-time {
       font-size: $font-size-small;
+      text-align: right;
     }
 
     .icon {
@@ -865,7 +933,12 @@ $itinerary-tab-switch-height: 48px;
 
     &.intermediate {
       min-height: 10px;
-      margin-bottom: 7px;
+      .itinerary-leg-row-intermediate {
+        color: #333;
+        font-size: 15px;
+        font-weight: 500;
+        padding-bottom: 22px;
+      }
     }
 
     &.end {
@@ -881,6 +954,11 @@ $itinerary-tab-switch-height: 48px;
         font-size: 18px;
         margin-right: 14px;
         transform: rotate(90deg);
+      }
+      &.open {
+        .itinerary-search-icon {
+          transform: rotate(270deg);
+        }
       }
     }
   }
@@ -1155,10 +1233,6 @@ div.itinerary-container-content {
   .agency-link-container {
     padding: 0;
   }
-}
-
-.itinerary-leg-container {
-  margin-left: calc(100% / 6);
 }
 
 .vehicle-number-container-v {

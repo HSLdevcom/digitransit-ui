@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Icon from './Icon';
+import RouteNumber from './RouteNumber';
 import { isBrowser } from '../util/browser';
 
-class ItineraryCircleLine extends React.Component {
+class ItineraryCircleLineWithIcon extends React.Component {
   static defaultProps = {
     isVia: false,
     color: null,
-    renderBottomMarker: true,
   };
 
   static propTypes = {
@@ -15,7 +15,6 @@ class ItineraryCircleLine extends React.Component {
     modeClassName: PropTypes.string.isRequired,
     isVia: PropTypes.bool,
     color: PropTypes.string,
-    renderBottomMarker: PropTypes.bool,
   };
 
   state = {
@@ -35,15 +34,18 @@ class ItineraryCircleLine extends React.Component {
   }
 
   getMarker = top => {
-    if (this.isFirstChild() && top) {
+    if (this.isFirstChild()) {
       return (
-        <div className="itinerary-icon-container">
+        <div className="itinerary-icon-container start">
           <Icon
             img="icon-icon_mapMarker-from"
             className="itinerary-icon from from-it"
           />
         </div>
       );
+    }
+    if (this.props.modeClassName === 'walk') {
+      return <></>;
     }
     if (this.props.isVia === true) {
       return (
@@ -75,7 +77,6 @@ class ItineraryCircleLine extends React.Component {
 
   render() {
     const topMarker = this.getMarker(true);
-    const bottomMarker = this.getMarker(false);
     const legBeforeLineStyle = { color: this.props.color };
     if (
       isBrowser &&
@@ -86,7 +87,6 @@ class ItineraryCircleLine extends React.Component {
       // eslint-disable-next-line global-require
       legBeforeLineStyle.backgroundImage = this.state.imageUrl;
     }
-
     return (
       <div
         className={`leg-before ${this.props.modeClassName}`}
@@ -98,10 +98,14 @@ class ItineraryCircleLine extends React.Component {
           style={legBeforeLineStyle}
           className={`leg-before-line ${this.props.modeClassName}`}
         />
-        {this.props.renderBottomMarker && <>{bottomMarker}</>}
+        <RouteNumber mode={this.props.modeClassName} vertical />
+        <div
+          style={legBeforeLineStyle}
+          className={`leg-before-line ${this.props.modeClassName} bottom`}
+        />
       </div>
     );
   }
 }
 
-export default ItineraryCircleLine;
+export default ItineraryCircleLineWithIcon;
