@@ -44,6 +44,26 @@ function suggestionToAriaContent(item) {
   return [iconstr, name, label];
 }
 
+const getBackSuggestion = () => {
+  return {
+    type: 'back',
+    address: 'back',
+    lat: null,
+    lon: null,
+    properties: {
+      labelId: i18next.t('back'),
+      layer: 'back',
+      address: 'back',
+      lat: null,
+      lon: null,
+    },
+    geometry: {
+      type: 'Point',
+      coordinates: [],
+    },
+  };
+};
+
 /**
  * @example
  * const searchContext = {
@@ -137,6 +157,9 @@ class DTAutosuggest extends React.Component {
       valid: true,
       pendingCurrentLocation: false,
       renderMobileSearch: false,
+      sources: props.sources,
+      targets: props.targets,
+      showBackSuggestion: false,
     };
   }
 
@@ -186,6 +209,34 @@ class DTAutosuggest extends React.Component {
 
   onSelected = (e, ref) => {
     if (this.state.valid) {
+      if (ref.suggestion.type === 'SelectFromOwnLocations') {
+        this.setState(
+          {
+            sources: ['Favourite'],
+            targets: ['Locations'],
+            pendingSelection: ref.suggestion.type,
+            showBackSuggestion: true,
+          },
+          () => {
+            this.fetchFunction({ value: '' });
+          },
+        );
+        return;
+      }
+      if (ref.suggestion.type === 'back') {
+        this.setState(
+          {
+            sources: this.props.sources,
+            targets: this.props.targets,
+            pendingSelection: ref.suggestion.type,
+            showBackSuggestion: false,
+          },
+          () => {
+            this.fetchFunction({ value: '' });
+          },
+        );
+        return;
+      }
       if (this.props.handleViaPoints) {
         this.props.handleViaPoints(
           suggestionToLocation(ref.suggestion),
@@ -221,6 +272,10 @@ class DTAutosuggest extends React.Component {
   onSuggestionsClearRequested = () => {
     this.setState({
       suggestions: [],
+      sources: this.props.sources,
+      targets: this.props.targets,
+      editing: false,
+      showBackSuggestion: false,
     });
   };
 
@@ -230,8 +285,22 @@ class DTAutosuggest extends React.Component {
   };
 
   checkPendingSelection = () => {
-    // accept after all ongoing searches have finished
-    if (this.state.pendingSelection && this.state.valid) {
+    if (
+      (this.state.pendingSelection === 'SelectFromOwnLocations' ||
+        this.state.pendingSelection === 'back') &&
+      this.state.valid
+    ) {
+      this.setState(
+        {
+          pendingSelection: null,
+          editing: true,
+        },
+        () => {
+          this.input.focus();
+        },
+      );
+      // accept after all ongoing searches have finished
+    } else if (this.state.pendingSelection && this.state.valid) {
       // finish the selection by picking first = best match
       this.setState(
         {
@@ -264,8 +333,8 @@ class DTAutosuggest extends React.Component {
   fetchFunction = ({ value }) =>
     this.setState({ valid: false }, () => {
       executeSearch(
-        this.props.targets,
-        this.props.sources,
+        this.state.targets,
+        this.state.sources,
         this.props.searchContext,
         {
           input: value,
@@ -411,7 +480,12 @@ class DTAutosuggest extends React.Component {
     if (this.state.pendingCurrentLocation) {
       return <Loading />;
     }
-    const { value, suggestions, renderMobileSearch } = this.state;
+    const {
+      value,
+      suggestions,
+      renderMobileSearch,
+      showBackSuggestion,
+    } = this.state;
     const inputProps = {
       placeholder: i18next.t(this.props.placeholder),
       value,
@@ -488,8 +562,13 @@ class DTAutosuggest extends React.Component {
               </div>
             )}
             <Autosuggest
+              alwaysRenderSuggestions={this.state.editing}
               id={this.props.id}
-              suggestions={suggestions}
+              suggestions={
+                showBackSuggestion
+                  ? [getBackSuggestion(), ...suggestions]
+                  : suggestions
+              }
               onSuggestionsFetchRequested={this.fetchFunction}
               onSuggestionsClearRequested={this.onSuggestionsClearRequested}
               getSuggestionValue={this.getSuggestionValue}
