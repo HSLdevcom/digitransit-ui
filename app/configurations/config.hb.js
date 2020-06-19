@@ -308,7 +308,7 @@ export default configMerger(walttiConfig, {
 
     citybike: {
       availableForSelection: true,
-      defaultValue: false,
+      defaultValue: true,
     },
 
     airplane: {
