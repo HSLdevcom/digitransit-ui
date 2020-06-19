@@ -35,6 +35,7 @@ export default configMerger(walttiConfig, {
     DYNAMICPARKINGLOTS_MAP: `${API_URL}/map/v1/hb-parking-map/`,
     ROADWORKS_MAP: `${API_URL}/map/v1/roadworks-bw-map/`,
     COVID19_MAP: `https://tiles.caresteouvert.fr/public.poi_osm_light/{z}/{x}/{y}.pbf`,
+    CITYBIKE_MAP: `${API_URL}/map/v1/regiorad-map/`,
   },
 
   availableLanguages: ['de', 'en'],
@@ -110,6 +111,7 @@ export default configMerger(walttiConfig, {
   cityBike: {
     showStationId: false,
     useSpacesAvailable: false,
+    showCityBikes: true,
     networks: {
       regiorad: {
         icon: 'citybike',
@@ -308,7 +310,7 @@ export default configMerger(walttiConfig, {
 
     citybike: {
       availableForSelection: true,
-      defaultValue: false,
+      defaultValue: true,
     },
 
     airplane: {
