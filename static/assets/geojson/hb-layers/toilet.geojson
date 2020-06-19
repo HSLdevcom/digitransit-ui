@@ -4,9 +4,9 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "Kreissparkasse B\u00f6blingen",
-        "name_en": "Kreissparkasse B\u00f6blingen",
-        "name_de": "Kreissparkasse B\u00f6blingen",
+        "name": "Nette Toilette \"Kreissparkasse B\u00f6blingen\"",
+        "name_en": "Public toilet \"Kreissparkasse B\u00f6blingen\"",
+        "name_de": "Nette Toilette \"Kreissparkasse B\u00f6blingen\"",
         "address": "Wickelm\u00f6glichkeit: nein, Barrierefrei: ja",
         "address_de": "Wickelm\u00f6glichkeit: nein, Barrierefrei: ja",
         "address_en": "Changing table: no, Wheelchair: yes",
@@ -26,9 +26,9 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "Volkshochschule Herrenberg",
-        "name_en": "Volkshochschule Herrenberg",
-        "name_de": "Volkshochschule Herrenberg",
+        "name": "Nette Toilette \"Volkshochschule Herrenberg\"",
+        "name_en": "Public toilet \"Volkshochschule Herrenberg\"",
+        "name_de": "Nette Toilette \"Volkshochschule Herrenberg\"",
         "address": "Wickelm\u00f6glichkeit: nein, \u00d6ffnungszeiten: Mo-Fr 07:30-22:30",
         "address_de": "Wickelm\u00f6glichkeit: nein, \u00d6ffnungszeiten: Mo-Fr 07:30-22:30",
         "address_en": "Changing table: no, Opening hours: Mo-Fr 07:30-22:30",
@@ -47,9 +47,9 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "Barista",
-        "name_en": "Barista",
-        "name_de": "Barista",
+        "name": "Nette Toilette \"Barista\"",
+        "name_en": "Public toilet \"Barista\"",
+        "name_de": "Nette Toilette \"Barista\"",
         "address": "Wickelm\u00f6glichkeit: ja, \u00d6ffnungszeiten: Mo-Do 08:30-23:00; Fr 8:30-01:00; Sa 09:00-01:00; So 10:00-22:00, Barrierefrei: nein",
         "address_de": "Wickelm\u00f6glichkeit: ja, \u00d6ffnungszeiten: Mo-Do 08:30-23:00; Fr 8:30-01:00; Sa 09:00-01:00; So 10:00-22:00, Barrierefrei: nein",
         "address_en": "Changing table: yes, Opening hours: Mo-Th 08:30-23:00; Fr 8:30-01:00; Sa 09:00-01:00; Su 10:00-22:00, Wheelchair: no",
@@ -68,9 +68,9 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "Schlosskeller",
-        "name_en": "Schlosskeller",
-        "name_de": "Schlosskeller",
+        "name": "Nette Toilette \"Schlosskeller\"",
+        "name_en": "Public toilet \"Schlosskeller\"",
+        "name_de": "Nette Toilette \"Schlosskeller\"",
         "address": "Wickelm\u00f6glichkeit: nein, Barrierefrei: begrenzt",
         "address_de": "Wickelm\u00f6glichkeit: nein, Barrierefrei: begrenzt",
         "address_en": "Changing table: no, Wheelchair: limited",
@@ -89,9 +89,9 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "Dolce Vita",
-        "name_en": "Dolce Vita",
-        "name_de": "Dolce Vita",
+        "name": "Nette Toilette \"Dolce Vita\"",
+        "name_en": "Public toilet \"Dolce Vita\"",
+        "name_de": "Nette Toilette \"Dolce Vita\"",
         "address": "Wickelm\u00f6glichkeit: nein, \u00d6ffnungszeiten: Mo-Sa 10:00-23:00, So 15:00-20:00, Barrierefrei: ja",
         "address_de": "Wickelm\u00f6glichkeit: nein, \u00d6ffnungszeiten: Mo-Sa 10:00-23:00, So 15:00-20:00, Barrierefrei: ja",
         "address_en": "Changing table: no, Opening hours: Mo-Sa 10:00-23:00, Su 15:00-20:00, Wheelchair: yes",
@@ -110,9 +110,9 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "Edeka Center",
-        "name_en": "Edeka Center",
-        "name_de": "Edeka Center",
+        "name": "Nette Toilette \"Edeka Center\"",
+        "name_en": "Public toilet \"Edeka Center\"",
+        "name_de": "Nette Toilette \"Edeka Center\"",
         "address": "Wickelm\u00f6glichkeit: ja, \u00d6ffnungszeiten: Mo-Fr 08:00-22:00; Sa 08:00-22:00;Barrierefrei: ja",
         "address_de": "Wickelm\u00f6glichkeit: ja, \u00d6ffnungszeiten: Mo-Fr 08:00-22:00; Sa 08:00-22:00;Barrierefrei: ja",
         "address_en": "Changing table: yes, Opening hours: Mo-Fr 08:00-22:00; Sa 08:00-22:00;Wheelchair: yes",
@@ -131,9 +131,9 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "Mauerwerk",
-        "name_en": "Mauerwerk",
-        "name_de": "Mauerwerk",
+        "name": "Nette Toilette \"Mauerwerk\"",
+        "name_en": "Public toilet \"Mauerwerk\"",
+        "name_de": "Nette Toilette \"Mauerwerk\"",
         "address": "Wickelm\u00f6glichkeit: ja, Telefon: +49 7032 9553280, \u00d6ffnungszeiten: Mo-Fr 17:00-24:00; Sa 17:00-24:00; So 09:30-24:00; PH 09:30-24:00, Barrierefrei: nein",
         "address_de": "Wickelm\u00f6glichkeit: ja, Telefon: +49 7032 9553280, \u00d6ffnungszeiten: Mo-Fr 17:00-24:00; Sa 17:00-24:00; So 09:30-24:00; PH 09:30-24:00, Barrierefrei: nein",
         "address_en": "Changing table: yes, Phone: +49 7032 9553280, Opening hours: Mo-Fr 17:00-24:00; Sa 17:00-24:00; Su 09:30-24:00; PH 09:30-24:00, Wheelchair: no",
@@ -152,9 +152,9 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "Naturfreundehaus",
-        "name_en": "Naturfreundehaus",
-        "name_de": "Naturfreundehaus",
+        "name": "Nette Toilette \"Naturfreundehaus\"",
+        "name_en": "Public toilet \"Naturfreundehaus\"",
+        "name_de": "Nette Toilette \"Naturfreundehaus\"",
         "address": "Wickelm\u00f6glichkeit: ja, Barrierefrei: begrenzt",
         "address_de": "Wickelm\u00f6glichkeit: ja, Barrierefrei: begrenzt",
         "address_en": "Changing table: yes, Wheelchair: limited",
@@ -173,9 +173,9 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "La Piazza",
-        "name_en": "La Piazza",
-        "name_de": "La Piazza",
+        "name": "Nette Toilette \"La Piazza\"",
+        "name_en": "Public toilet \"La Piazza\"",
+        "name_de": "Nette Toilette \"La Piazza\"",
         "address": "Wickelm\u00f6glichkeit: ja, Telefon: +49 7032 330207, \u00d6ffnungszeiten: Mo-So 09:00-24:00, Barrierefrei: ja",
         "address_de": "Wickelm\u00f6glichkeit: ja, Telefon: +49 7032 330207, \u00d6ffnungszeiten: Mo-So 09:00-24:00, Barrierefrei: ja",
         "address_en": "Changing table: yes, Phone: +49 7032 330207, Opening hours: Mo-Su 09:00-24:00, Wheelchair: yes",
@@ -194,9 +194,9 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "B\u00fcrgeramt",
-        "name_en": "B\u00fcrgeramt",
-        "name_de": "B\u00fcrgeramt",
+        "name": "Nette Toilette \"B\u00fcrgeramt\"",
+        "name_en": "Public toilet \"B\u00fcrgeramt\"",
+        "name_de": "Nette Toilette \"B\u00fcrgeramt\"",
         "address": "Wickelm\u00f6glichkeit: ja, \u00d6ffnungszeiten: Mo-Mi 08:30-17:00; Do 08:30-18:30; Fr 08:30-12:00; Sa 09:30-12:00, Barrierefrei: ja",
         "address_de": "Wickelm\u00f6glichkeit: ja, \u00d6ffnungszeiten: Mo-Mi 08:30-17:00; Do 08:30-18:30; Fr 08:30-12:00; Sa 09:30-12:00, Barrierefrei: ja",
         "address_en": "Changing table: yes, Opening hours: Mo-We 08:30-17:00; Th 08:30-18:30; Fr 08:30-12:00; Sa 09:30-12:00, Wheelchair: yes",
