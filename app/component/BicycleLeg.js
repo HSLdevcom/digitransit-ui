@@ -2,16 +2,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
-import RouteNumber from './RouteNumber';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
-import { getLegBadgeProps } from '../util/legUtils';
 import {
-  getCityBikeNetworkIcon,
   getCityBikeNetworkConfig,
   getCityBikeNetworkId,
   CityBikeNetworkType,
@@ -60,11 +57,7 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
     );
   }
 
-  let networkIcon;
-
   if (leg.rentedBike === true) {
-    networkIcon = networkConfig && getCityBikeNetworkIcon(networkConfig);
-
     modeClassName = 'citybike';
     legDescription = (
       <FormattedMessage
@@ -104,12 +97,6 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
         <div className="itinerary-time-column-time">
           {moment(leg.startTime).format('HH:mm')}
         </div>
-        <RouteNumber
-          mode={mode}
-          vertical
-          icon={networkIcon}
-          {...getLegBadgeProps(leg, config)}
-        />
       </div>
       <ItineraryCircleLine index={index} modeClassName={modeClassName} />
       <div

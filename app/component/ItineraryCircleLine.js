@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import cx from 'classnames';
 import Icon from './Icon';
 import { isBrowser } from '../util/browser';
 
@@ -35,14 +36,33 @@ class ItineraryCircleLine extends React.Component {
   }
 
   getMarker = top => {
+    const circleMarker = (
+      <div
+        className={`leg-before-circle circle ${this.props.modeClassName} ${
+          top ? 'top' : ''
+        }`}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width={28}
+          height={28}
+          style={{ fill: this.props.color, stroke: this.props.color }}
+        >
+          <circle strokeWidth="4" width={28} cx={11} cy={10} r={6} />
+        </svg>
+      </div>
+    );
     if (this.isFirstChild() && top) {
       return (
-        <div className="itinerary-icon-container">
-          <Icon
-            img="icon-icon_mapMarker-from"
-            className="itinerary-icon from from-it"
-          />
-        </div>
+        <>
+          <div className="itinerary-icon-container start">
+            <Icon
+              img="icon-icon_mapMarker-from"
+              className="itinerary-icon from from-it"
+            />
+          </div>
+          {circleMarker}
+        </>
       );
     }
     if (this.props.isVia === true) {
@@ -89,7 +109,9 @@ class ItineraryCircleLine extends React.Component {
 
     return (
       <div
-        className={`leg-before ${this.props.modeClassName}`}
+        className={cx('leg-before', this.props.modeClassName, {
+          first: this.props.index === 0,
+        })}
         aria-hidden="true"
       >
         {topMarker}

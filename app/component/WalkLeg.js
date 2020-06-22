@@ -3,6 +3,7 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import Link from 'found/lib/Link';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
@@ -10,6 +11,7 @@ import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import PlatformNumber from './PlatformNumber';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
+import { PREFIX_STOPS } from '../util/path';
 import {
   CityBikeNetworkType,
   getCityBikeNetworkId,
@@ -89,38 +91,79 @@ function WalkLeg(
           <div
             className={cx('itinerary-leg-first-row', 'walk', 'first')}
             aria-hidden="true"
-            onClick={focusAction}
-            onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
-            role="button"
-            tabIndex="0"
           >
             <div className="address-container">
-              <div className="address">{address}</div>
+              <div className="address">
+                {address}
+                {leg.from.stop && (
+                  <Icon
+                    img="icon-icon_arrow-collapse--right"
+                    className="itinerary-arrow-icon"
+                    color="#333"
+                  />
+                )}
+              </div>
               <div className="place">{place}</div>
             </div>
-            <Icon
-              img="icon-icon_show-on-map"
-              className="itinerary-search-icon"
-            />
+            <div
+              className="itinerary-map-action"
+              onClick={focusAction}
+              onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
+              role="button"
+              tabIndex="0"
+            >
+              <Icon
+                img="icon-icon_show-on-map"
+                className="itinerary-search-icon"
+              />
+            </div>
           </div>
         ) : (
-          <div
-            className="itinerary-leg-first-row"
-            aria-hidden="true"
-            onClick={focusAction}
-            onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
-            role="button"
-            tabIndex="0"
-          >
-            <div className="walk-leg-row">
-              {returnNotice || leg.from.name}
-              <ServiceAlertIcon
-                className="inline-icon"
-                severityLevel={getActiveAlertSeverityLevel(
-                  leg.from.stop && leg.from.stop.alerts,
-                  leg.startTime / 1000,
-                )}
-              />
+          <div className="itinerary-leg-first-row" aria-hidden="true">
+            <div className="itinerary-leg-row">
+              {leg.from.stop ? (
+                <Link
+                  onClick={e => {
+                    e.stopPropagation();
+                  }}
+                  onKeyPress={e => {
+                    if (isKeyboardSelectionEvent(e)) {
+                      e.stopPropagation();
+                    }
+                  }}
+                  to={`/${PREFIX_STOPS}/${leg.from.stop.gtfsId}`}
+                >
+                  {returnNotice || leg.from.name}
+                  <Icon
+                    img="icon-icon_arrow-collapse--right"
+                    className="itinerary-arrow-icon"
+                    color="#333"
+                  />
+                  <ServiceAlertIcon
+                    className="inline-icon"
+                    severityLevel={getActiveAlertSeverityLevel(
+                      leg.from.stop && leg.from.stop.alerts,
+                      leg.startTime / 1000,
+                    )}
+                  />
+                </Link>
+              ) : (
+                <>
+                  {returnNotice || leg.from.name}
+                  <Icon
+                    img="icon-icon_arrow-collapse--right"
+                    className="itinerary-arrow-icon"
+                    color="#333"
+                  />
+                  <ServiceAlertIcon
+                    className="inline-icon"
+                    severityLevel={getActiveAlertSeverityLevel(
+                      leg.from.stop && leg.from.stop.alerts,
+                      leg.startTime / 1000,
+                    )}
+                  />
+                </>
+              )}
               <div className="stop-code-container">
                 {children}
                 {leg.from.stop && (
@@ -134,10 +177,18 @@ function WalkLeg(
                 )}
               </div>
             </div>
-            <Icon
-              img="icon-icon_show-on-map"
-              className="itinerary-search-icon"
-            />
+            <div
+              className="itinerary-map-action"
+              onClick={focusAction}
+              onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
+              role="button"
+              tabIndex="0"
+            >
+              <Icon
+                img="icon-icon_show-on-map"
+                className="itinerary-search-icon"
+              />
+            </div>
           </div>
         )}
 
@@ -150,7 +201,7 @@ function WalkLeg(
             />
 
             <div
-              className="itinerary-zoom-on-map"
+              className="itinerary-map-action"
               onClick={setMapZoomToLeg}
               onKeyPress={e =>
                 isKeyboardSelectionEvent(e) && setMapZoomToLeg(e)

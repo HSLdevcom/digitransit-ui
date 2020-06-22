@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
+import Link from 'found/lib/Link';
 import { FormattedMessage } from 'react-intl';
 import PlatformNumber from './PlatformNumber';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -8,6 +9,7 @@ import Icon from './Icon';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { isKeyboardSelectionEvent } from '../util/browser';
+import { PREFIX_STOPS } from '../util/path';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function WaitLeg({ children, leg, startTime, waitTime, focusAction, index }) {
@@ -39,8 +41,25 @@ function WaitLeg({ children, leg, startTime, waitTime, focusAction, index }) {
           />
         </span>
         <div className="itinerary-leg-first-row wait" aria-hidden="true">
-          <div>
-            {leg.to.name}
+          <div className="itinerary-leg-row">
+            <Link
+              onClick={e => {
+                e.stopPropagation();
+              }}
+              onKeyPress={e => {
+                if (isKeyboardSelectionEvent(e)) {
+                  e.stopPropagation();
+                }
+              }}
+              to={`/${PREFIX_STOPS}/${leg.to.stop.gtfsId}`}
+            >
+              {leg.to.name}
+              <Icon
+                img="icon-icon_arrow-collapse--right"
+                className="itinerary-arrow-icon"
+                color="#333"
+              />
+            </Link>
             <div className="stop-code-container">
               {children}
               {leg.from &&
@@ -65,7 +84,7 @@ function WaitLeg({ children, leg, startTime, waitTime, focusAction, index }) {
               defaultMessage="Wait {duration}"
             />
             <div
-              className="itinerary-zoom-on-map"
+              className="itinerary-map-action"
               onClick={focusAction}
               onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
               role="button"

@@ -144,7 +144,6 @@ class TransitLeg extends React.Component {
         </span>,
       ];
     const LegRouteName = leg.from.name.concat(' - ').concat(leg.to.name);
-    const firstLegClassName = index === 0 ? ' start' : '';
     // const [address, place] = leg.from.name.split(', ');
     /* const modeClassName =
       `${this.props.mode.toLowerCase()}${this.props.index === 0 ? ' from' : ''}`;
@@ -267,20 +266,10 @@ class TransitLeg extends React.Component {
           <Link
             onClick={e => {
               e.stopPropagation();
-              addAnalyticsEvent({
-                category: 'Itinerary',
-                action: 'OpenRouteFromItinerary',
-                name: mode,
-              });
             }}
             onKeyPress={e => {
               if (isKeyboardSelectionEvent(e)) {
                 e.stopPropagation();
-                addAnalyticsEvent({
-                  category: 'Itinerary',
-                  action: 'OpenRouteFromItinerary',
-                  name: mode,
-                });
               }
             }}
             to={
@@ -313,11 +302,11 @@ class TransitLeg extends React.Component {
           style={{
             color: leg.route ? `#${leg.route.color}` : 'currentColor',
           }}
-          onClick={focusAction}
-          onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
-          role="button"
-          tabIndex="0"
-          className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${modeClassName}`}
+          className={cx(
+            'small-9 columns itinerary-instruction-column',
+            { first: index === 0 },
+            modeClassName,
+          )}
         >
           <span className="sr-only">
             <FormattedMessage
@@ -326,11 +315,35 @@ class TransitLeg extends React.Component {
             />
           </span>
           <div
-            className={cx('itinerary-leg-first-row', 'transit')}
+            className={cx('itinerary-leg-first-row', 'transit', {
+              first: index === 0,
+            })}
             aria-hidden="true"
           >
-            <div className="transit-leg-row">
-              {leg.from.name}
+            <div className="itinerary-leg-row">
+              <Link
+                onClick={e => {
+                  e.stopPropagation();
+                  addAnalyticsEvent({
+                    category: 'Itinerary',
+                    action: 'OpenRouteFromItinerary',
+                    name: mode,
+                  });
+                }}
+                onKeyPress={e => {
+                  if (isKeyboardSelectionEvent(e)) {
+                    e.stopPropagation();
+                  }
+                }}
+                to={`/${PREFIX_STOPS}/${leg.from.stop.gtfsId}`}
+              >
+                {leg.from.name}
+                <Icon
+                  img="icon-icon_arrow-collapse--right"
+                  className="itinerary-arrow-icon"
+                  color="#333"
+                />
+              </Link>
               <ServiceAlertIcon
                 className="inline-icon"
                 severityLevel={getActiveAlertSeverityLevel(
@@ -349,10 +362,18 @@ class TransitLeg extends React.Component {
                 />
               </div>
             </div>
-            <Icon
-              img="icon-icon_show-on-map"
-              className="itinerary-search-icon"
-            />
+            <div
+              className="itinerary-map-action"
+              onClick={focusAction}
+              onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
+              role="button"
+              tabIndex="0"
+            >
+              <Icon
+                img="icon-icon_show-on-map"
+                className="itinerary-search-icon"
+              />
+            </div>
           </div>
           <div className="itinerary-transit-leg-route" aria-hidden="true">
             <RouteNumber

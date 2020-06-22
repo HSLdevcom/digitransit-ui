@@ -2,6 +2,7 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ZoneIcon from './ZoneIcon';
+import Icon from './Icon';
 
 function IntermediateLeg({
   color,
@@ -105,6 +106,11 @@ function IntermediateLeg({
       >
         <div className="itinerary-leg-row-intermediate">
           <div className="itinerary-intermediate-stop-name">{` ${name}`}</div>
+          <Icon
+            img="icon-icon_arrow-collapse--right"
+            className="itinerary-arrow-icon"
+            color="#333"
+          />
         </div>
       </div>
     </div>

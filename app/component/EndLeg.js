@@ -36,13 +36,7 @@ function EndLeg(props) {
           />
         </div>
       </div>
-      <div
-        onClick={props.focusAction}
-        onKeyPress={e => isKeyboardSelectionEvent(e) && props.focusAction(e)}
-        role="button"
-        tabIndex="0"
-        className="small-9 columns itinerary-instruction-column to end"
-      >
+      <div className="small-9 columns itinerary-instruction-column to end">
         <span className="sr-only">
           <FormattedMessage
             id="itinerary-summary.show-on-map"
@@ -54,7 +48,20 @@ function EndLeg(props) {
             <div className="address">{address}</div>
             <div className="place">{place}</div>
           </div>
-          <Icon img="icon-icon_show-on-map" className="itinerary-search-icon" />
+          <div
+            className="itinerary-map-action"
+            onClick={props.focusAction}
+            onKeyPress={e =>
+              isKeyboardSelectionEvent(e) && props.focusAction(e)
+            }
+            role="button"
+            tabIndex="0"
+          >
+            <Icon
+              img="icon-icon_show-on-map"
+              className="itinerary-search-icon"
+            />
+          </div>
         </div>
       </div>
     </div>

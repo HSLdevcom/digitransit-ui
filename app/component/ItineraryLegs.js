@@ -72,6 +72,10 @@ class ItineraryLegs extends React.Component {
     });
   };
 
+  isLegOnFoot = leg => {
+    return leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK';
+  };
+
   setMapZoomToLeg = leg => e => {
     e.stopPropagation();
     this.props.setMapZoomToLeg(leg);
@@ -120,6 +124,18 @@ class ItineraryLegs extends React.Component {
             arrivalTime={startTime}
             focusAction={this.focus(leg.from)}
           />,
+        );
+      } else if (this.isLegOnFoot(leg)) {
+        legs.push(
+          <WalkLeg
+            index={j}
+            leg={leg}
+            previousLeg={previousLeg}
+            focusAction={this.focus(leg.from)}
+            setMapZoomToLeg={this.setMapZoomToLeg(leg)}
+          >
+            {this.stopCode(leg.from.stop)}
+          </WalkLeg>,
         );
       } else if (leg.mode === 'BUS') {
         legs.push(
@@ -177,18 +193,6 @@ class ItineraryLegs extends React.Component {
           <CarLeg index={j} leg={leg} focusAction={this.focus(leg.from)}>
             {this.stopCode(leg.from.stop)}
           </CarLeg>,
-        );
-      } else {
-        legs.push(
-          <WalkLeg
-            index={j}
-            leg={leg}
-            previousLeg={previousLeg}
-            focusAction={this.focus(leg.from)}
-            setMapZoomToLeg={this.setMapZoomToLeg(leg)}
-          >
-            {this.stopCode(leg.from.stop)}
-          </WalkLeg>,
         );
       }
 
