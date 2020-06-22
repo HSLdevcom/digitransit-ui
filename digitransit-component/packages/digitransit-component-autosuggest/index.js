@@ -44,26 +44,6 @@ function suggestionToAriaContent(item) {
   return [iconstr, name, label];
 }
 
-const getBackSuggestion = () => {
-  return {
-    type: 'back',
-    address: 'back',
-    lat: null,
-    lon: null,
-    properties: {
-      labelId: i18next.t('back'),
-      layer: 'back',
-      address: 'back',
-      lat: null,
-      lon: null,
-    },
-    geometry: {
-      type: 'Point',
-      coordinates: [],
-    },
-  };
-};
-
 /**
  * @example
  * const searchContext = {
@@ -159,7 +139,6 @@ class DTAutosuggest extends React.Component {
       renderMobileSearch: false,
       sources: props.sources,
       targets: props.targets,
-      showBackSuggestion: false,
     };
   }
 
@@ -212,10 +191,9 @@ class DTAutosuggest extends React.Component {
       if (ref.suggestion.type === 'SelectFromOwnLocations') {
         this.setState(
           {
-            sources: ['Favourite'],
+            sources: ['Favourite', 'Back'],
             targets: ['Locations'],
             pendingSelection: ref.suggestion.type,
-            showBackSuggestion: true,
           },
           () => {
             this.fetchFunction({ value: '' });
@@ -229,7 +207,6 @@ class DTAutosuggest extends React.Component {
             sources: this.props.sources,
             targets: this.props.targets,
             pendingSelection: ref.suggestion.type,
-            showBackSuggestion: false,
           },
           () => {
             this.fetchFunction({ value: '' });
@@ -275,11 +252,16 @@ class DTAutosuggest extends React.Component {
       sources: this.props.sources,
       targets: this.props.targets,
       editing: false,
-      showBackSuggestion: false,
     });
   };
 
   getSuggestionValue = suggestion => {
+    if (
+      suggestion.type === 'SelectFromOwnLocations' ||
+      suggestion.type === 'back'
+    ) {
+      return '';
+    }
     const value = getLabel(suggestion.properties);
     return value;
   };
@@ -348,7 +330,8 @@ class DTAutosuggest extends React.Component {
             if (
               suggestion.type === 'CurrentLocation' ||
               suggestion.type === 'SelectFromMap' ||
-              suggestion.type === 'SelectFromOwnLocations'
+              suggestion.type === 'SelectFromOwnLocations' ||
+              suggestion.type === 'back'
             ) {
               const translated = { ...suggestion };
               translated.properties.labelId = i18next.t(
@@ -480,12 +463,7 @@ class DTAutosuggest extends React.Component {
     if (this.state.pendingCurrentLocation) {
       return <Loading />;
     }
-    const {
-      value,
-      suggestions,
-      renderMobileSearch,
-      showBackSuggestion,
-    } = this.state;
+    const { value, suggestions, renderMobileSearch } = this.state;
     const inputProps = {
       placeholder: i18next.t(this.props.placeholder),
       value,
@@ -564,11 +542,7 @@ class DTAutosuggest extends React.Component {
             <Autosuggest
               alwaysRenderSuggestions={this.state.editing}
               id={this.props.id}
-              suggestions={
-                showBackSuggestion
-                  ? [getBackSuggestion(), ...suggestions]
-                  : suggestions
-              }
+              suggestions={suggestions}
               onSuggestionsFetchRequested={this.fetchFunction}
               onSuggestionsClearRequested={this.onSuggestionsClearRequested}
               getSuggestionValue={this.getSuggestionValue}

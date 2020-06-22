@@ -50,7 +50,7 @@ function getIconProperties(item) {
     ['icon-icon_school', 'school'],
     ['icon-icon_shopping', 'shopping'],
     ['selectFromMap', 'select-from-map'],
-    ['selectFromOwnLocations', 'star'],
+    ['ownLocations', 'star'],
     ['back', 'arrow'],
   ]);
 
