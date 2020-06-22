@@ -38,7 +38,8 @@ export default function getLabel(properties) {
   switch (properties.layer) {
     case 'selectFromMap':
     case 'currentPosition':
-    case 'selectFromOwnLocations':
+    case 'ownLocations':
+    case 'back':
       return parts[1] || parts[0];
     case 'favouritePlace':
       return parts[0];

@@ -84,7 +84,7 @@ function selectFromOwnLocations(input) {
         lon: null,
         properties: {
           labelId: 'select-from-own-locations',
-          layer: 'selectFromOwnLocations',
+          layer: 'ownLocations',
           address: 'selectFromOwnLocations',
           lat: null,
           lon: null,
@@ -97,6 +97,28 @@ function selectFromOwnLocations(input) {
     ]);
   }
   return Promise.resolve([]);
+}
+
+function getBackSuggestion() {
+  return Promise.resolve([
+    {
+      type: 'back',
+      address: 'back',
+      lat: null,
+      lon: null,
+      properties: {
+        labelId: 'back',
+        layer: 'back',
+        address: 'back',
+        lat: null,
+        lon: null,
+      },
+      geometry: {
+        type: 'Point',
+        coordinates: [],
+      },
+    },
+  ]);
 }
 
 function getFavouriteStops(stopsAndStations, input) {
@@ -207,6 +229,9 @@ export function getSearchResults(
       const favouriteStops = stops(context);
       const stopsAndStations = getStopAndStationsQuery(favouriteStops);
       searchComponents.push(getFavouriteStops(stopsAndStations, input));
+      if (sources.includes('Back')) {
+        searchComponents.push(getBackSuggestion());
+      }
     }
     if (allSources || sources.includes('Datasource')) {
       const regex = minimalRegexp || undefined;
@@ -230,8 +255,9 @@ export function getSearchResults(
       const dropLayers = [
         'currentPosition',
         'selectFromMap',
-        'selectFromOwnLocations',
+        'ownLocations',
         'stop',
+        'back',
       ];
       dropLayers.push(...routeLayers);
       searchComponents.push(getOldSearches(locationHistory, input, dropLayers));
@@ -266,8 +292,9 @@ export function getSearchResults(
       const dropLayers = [
         'currentPosition',
         'selectFromMap',
-        'selectFromOwnLocations',
+        'ownLocations',
         'favouritePlace',
+        'back',
       ];
       dropLayers.push(...routeLayers);
       dropLayers.push(...locationLayers);
@@ -286,10 +313,11 @@ export function getSearchResults(
       const dropLayers = [
         'currentPosition',
         'selectFromMap',
-        'selectFromOwnLocations',
         'favouritePlace',
         'stop',
         'station',
+        'ownLocations',
+        'back',
       ];
       dropLayers.push(...locationLayers);
       searchComponents.push(getOldSearches(routeHistory, input, dropLayers));
