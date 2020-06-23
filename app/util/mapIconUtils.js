@@ -353,9 +353,9 @@ export function drawAvailabilityValue(
 ) {
   const radius = badgeSize / 2;
   const x =
-    calculateIconBadgePosition(geom.x, tile, imageSize, radius, scaleratio) + 1;
+    calculateIconBadgePosition(geom.x, tile, imageSize, radius, scaleratio) + 3;
   const y =
-    calculateIconBadgePosition(geom.y, tile, imageSize, radius, scaleratio) + 1;
+    calculateIconBadgePosition(geom.y, tile, imageSize, radius, scaleratio) + 3;
 
   tile.ctx.beginPath();
   tile.ctx.fillStyle =
