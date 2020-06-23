@@ -22,10 +22,8 @@
   ],
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
-  "dependencies": {
-    "@digitransit-component/digitransit-component-icon": "latest"
-  },
   "peerDependencies": {
+    "@digitransit-component/digitransit-component-icon": "latest",
     "classnames": "2.2.6",
     "i18next": "^19.3.3",
     "lodash": "4.17.14",

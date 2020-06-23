@@ -294,6 +294,8 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       height: 26px;
       &:focus {
         outline: none;
+        border: none;
+        background: none;
       }
       background: inherit;
       box-shadow: none;

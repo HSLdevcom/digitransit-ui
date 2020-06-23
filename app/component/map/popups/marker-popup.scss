@@ -3,6 +3,11 @@
   .card-row {
     max-height: 150px;
   }
+  .select-scroll-container {
+    min-width: max-content;
+    overflow-y: auto;
+    overflow-x: hidden,
+  }
 }
 
 .select-row {
@@ -44,7 +49,6 @@
   padding: 4px 8px 0 8px;
   border-bottom: 1px solid #dddddd;
   text-decoration: none;
-  min-width: max-content;
 
   .choose-row-left-column {
     margin: 0 16px 0 8px;
@@ -55,7 +59,7 @@
   }
 
   .choose-row-center-column {
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
     flex-grow: 1;
   }
@@ -73,6 +77,8 @@
 
   .choose-row-text {
     margin-top: -5px;
+    display: inline-flex;
+    align-items: center;
   }
 
   .choose-row-address {
@@ -83,6 +89,7 @@
     line-height: 1.82;
     letter-spacing: -0.44px;
     color: #666666;
+    flex-shrink: 0;
   }
 
   .choose-row-number {

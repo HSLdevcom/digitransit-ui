@@ -127,13 +127,18 @@ input[type='text'] {
 }
 
 .autosuggest-input-icon {
-  display: block;
+  display: flex;
   position: absolute;
+  align-items: center;
   width: 16px;
-  height: 24px;
-  margin-top: 11px;
+  height: 100%;
+  margin-top: 0;
   margin-left: 19px;
 
+  svg {
+    width: 16px;
+    height: 24px;
+  }
   &.origin {
     svg {
       fill: $from-color;
@@ -149,8 +154,6 @@ input[type='text'] {
     }
   }
   &.stop-route-station {
-    margin-top: 14px;
-    margin-left: 18px;
     svg {
       fill: #888888;
       width: 16px;
