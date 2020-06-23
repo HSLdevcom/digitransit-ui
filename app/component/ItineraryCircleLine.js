@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import Icon from './Icon';
-import { isBrowser } from '../util/browser';
 
 class ItineraryCircleLine extends React.Component {
   static defaultProps = {
@@ -19,21 +18,9 @@ class ItineraryCircleLine extends React.Component {
     renderBottomMarker: PropTypes.bool,
   };
 
-  state = {
-    imageUrl: 'none',
-  };
-
   isFirstChild = () => {
     return this.props.index === 0 && this.props.isVia === false;
   };
-
-  componentDidMount() {
-    import(/* webpackChunkName: "dotted-line" */ `../configurations/images/default/dotted-line.svg`).then(
-      imageUrl => {
-        this.setState({ imageUrl: `url(${imageUrl.default})` });
-      },
-    );
-  }
 
   getMarker = top => {
     const circleMarker = (
@@ -97,15 +84,6 @@ class ItineraryCircleLine extends React.Component {
     const topMarker = this.getMarker(true);
     const bottomMarker = this.getMarker(false);
     const legBeforeLineStyle = { color: this.props.color };
-    if (
-      isBrowser &&
-      (this.props.modeClassName === 'walk' ||
-        this.props.modeClassName === 'bicycle' ||
-        this.props.modeClassName === 'bicycle_walk')
-    ) {
-      // eslint-disable-next-line global-require
-      legBeforeLineStyle.backgroundImage = this.state.imageUrl;
-    }
 
     return (
       <div

@@ -100,10 +100,6 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
       </div>
       <ItineraryCircleLine index={index} modeClassName={modeClassName} />
       <div
-        onClick={focusAction}
-        onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
-        role="button"
-        tabIndex="0"
         className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${mode.toLowerCase()}`}
       >
         <span className="sr-only">
@@ -114,7 +110,18 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
         </span>
         <div className="itinerary-leg-first-row" aria-hidden="true">
           {legDescription}
-          <Icon img="icon-icon_show-on-map" className="itinerary-search-icon" />
+          <div
+            className="itinerary-map-action"
+            onClick={focusAction}
+            onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
+            role="button"
+            tabIndex="0"
+          >
+            <Icon
+              img="icon-icon_show-on-map"
+              className="itinerary-search-icon"
+            />
+          </div>
         </div>
         <div className="itinerary-leg-action" aria-hidden="true">
           {stopsDescription}

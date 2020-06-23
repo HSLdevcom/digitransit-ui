@@ -57,9 +57,8 @@ class TransitLeg extends React.Component {
   getZoneChange() {
     const { leg } = this.props;
     if (leg.intermediatePlaces.length > 0) {
-      const startZone = leg.intermediatePlaces[0].stop.zoneId;
-      const endZone =
-        leg.intermediatePlaces[leg.intermediatePlaces.length - 1].stop.zoneId;
+      const startZone = leg.from.stop.zoneId;
+      const endZone = leg.to.stop.zoneId;
       if (startZone !== endZone && !this.state.showIntermediateStops) {
         return (
           <div className="time-column-zone-icons-container">
@@ -378,6 +377,7 @@ class TransitLeg extends React.Component {
           <div className="itinerary-transit-leg-route" aria-hidden="true">
             <RouteNumber
               mode={mode.toLowerCase()}
+              alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
               color={leg.route ? `#${leg.route.color}` : 'currentColor'}
               text={leg.route && leg.route.shortName}
               realtime={false}

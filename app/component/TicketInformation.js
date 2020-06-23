@@ -99,11 +99,14 @@ export default function TicketInformation(
     );
   });
 
-  const button = fares.map(fare => {
+  const button = fares.map((fare, i) => {
     return (
       fare.agency &&
       fare.agency.fareUrl && (
-        <div className="ticket-type-agency-link" key="button">
+        <div
+          className="ticket-type-agency-link"
+          key={i} // eslint-disable-line react/no-array-index-key
+        >
           <ExternalLink
             className="itinerary-ticket-external-link"
             href={`${fare.agency.fareUrl}${getUtmParameters(
@@ -139,58 +142,6 @@ export default function TicketInformation(
           />:
         </div>
         {faresInfo}
-
-        {/* {fares.map((fare, i) => (
-          <div
-            className={cx('ticket-type-zone', {
-              'multi-component': isMultiComponent,
-            })}
-            key={i} // eslint-disable-line react/no-array-index-key
-          >
-            {fare.isUnknown ? (
-              <div>
-                <div className="ticket-identifier">{unknownFareRouteName}</div>
-                {fare.agency && (
-                  <div className="ticket-description">{fare.agency.name}</div>
-                )}
-              </div>
-            ) : (
-              <div>
-                <div className="ticket-identifier">
-                  {config.useTicketIcons
-                    ? renderZoneTicket(fare.ticketName, alternativeFares)
-                    : fare.ticketName}
-                </div>
-                {config.showTicketPrice && (
-                  <div className="ticket-description">
-                    {`${(fare.cents / 100).toFixed(2)}€`}
-                  </div>
-                )}
-              </div>
-            )}
-            {fare.agency &&
-              fare.agency.fareUrl && (
-                <div className="ticket-type-agency-link">
-                  <ExternalLink
-                    className="itinerary-ticket-external-link"
-                    href={`${fare.agency.fareUrl}${getUtmParameters(
-                      fare.agency,
-                      config,
-                    )}`}
-                    onClick={() => {
-                      addAnalyticsEvent({
-                        category: 'Itinerary',
-                        action: 'OpenHowToBuyTicket',
-                        name: null,
-                      });
-                    }}
-                  >
-                    {intl.formatMessage({ id: 'extra-info' })}
-                  </ExternalLink>
-                </div>
-              )}
-          </div>
-        ))} */}
       </div>
       {button}
       {config.ticketLink && (

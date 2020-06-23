@@ -149,7 +149,7 @@ describe('<TicketInformation />', () => {
       context: { config: defaultConfig },
     });
 
-    expect(wrapper.find('.ticket-description').text()).to.contain('5.50 €');
+    expect(wrapper.find('.ticket-description').text()).to.contain('5.50€');
   });
 
   it('should not show the total fare when showTicketPrice is false', () => {
@@ -411,7 +411,7 @@ describe('<TicketInformation />', () => {
     expect(ticketWrapper.find('.ticket-description').text()).to.equal(
       'Merisataman lauttaliikenne',
     );
-    expect(ticketWrapper.find(ExternalLink).prop('href')).to.equal('foobaz');
+    expect(wrapper.find(ExternalLink).prop('href')).to.equal('foobaz');
   });
 
   describe('getUtmParameters', () => {

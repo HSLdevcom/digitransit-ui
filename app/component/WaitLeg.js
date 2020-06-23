@@ -103,7 +103,10 @@ function WaitLeg({ children, leg, startTime, waitTime, focusAction, index }) {
 }
 
 const exampleLeg = () => ({
-  to: { name: 'Ilmattarentie' },
+  to: {
+    name: 'Ilmattarentie',
+    stop: { gtfsId: 'FOO:123' },
+  },
 });
 
 WaitLeg.description = () => {
