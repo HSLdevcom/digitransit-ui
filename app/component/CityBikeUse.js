@@ -19,7 +19,7 @@ const CityBikeUse = ({ url, type }) => (
         defaultMessage="To use city bikes, you need to register"
       />
     </p>
-    <a href={url}>
+    <a href={url} rel="noopener noreferrer" target="_blank">
       <button
         className="use-bike-button cursor-pointer"
         onClick={() => {
