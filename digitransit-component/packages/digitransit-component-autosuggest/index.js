@@ -229,7 +229,12 @@ class DTAutosuggest extends React.Component {
           this.input.blur();
           if (!this.props.handleViaPoints) {
             this.props.onSelect(ref.suggestion, this.props.id);
-            this.setState({ renderMobileSearch: false });
+            this.setState({
+              renderMobileSearch: false,
+              sources: this.props.sources,
+              targets: this.props.targets,
+              suggestions: [],
+            });
           }
           if (this.props.focusChange && !this.props.isMobile) {
             this.props.focusChange();
@@ -341,10 +346,11 @@ class DTAutosuggest extends React.Component {
             }
             return suggestion;
           });
-
           if (
             value === this.state.value ||
-            value === this.state.pendingSelection
+            value === this.state.pendingSelection ||
+            this.state.pendingSelection === 'SelectFromOwnLocations' ||
+            this.state.pendingSelection === 'back'
           ) {
             this.setState(
               {
@@ -394,6 +400,7 @@ class DTAutosuggest extends React.Component {
           );
         }
       } else {
+        this.fetchFunction({ value: this.state.value });
         this.setState(newState);
       }
     }
