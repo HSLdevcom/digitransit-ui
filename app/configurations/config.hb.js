@@ -126,6 +126,14 @@ export default configMerger(walttiConfig, {
           en: 'https://www.regioradstuttgart.de/',
         },
       },
+      taxi: {
+        icon: 'regiorad',
+        name: {
+          de: 'Taxistand',
+          en: 'taxi stand',
+        },
+        type: 'citybike',
+      },
     }
   },
 
