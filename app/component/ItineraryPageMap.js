@@ -1,15 +1,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import get from 'lodash/get';
+import cx from 'classnames';
 import { matchShape, routerShape } from 'found';
 import LocationMarker from './map/LocationMarker';
 import ItineraryLine from './map/ItineraryLine';
 import MapContainer from './map/MapContainer';
 import { otpToLocation } from '../util/otpStrings';
+import Icon from './Icon';
 import { isBrowser } from '../util/browser';
 import { dtLocationShape } from '../util/shapes';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import withBreakpoint from '../util/withBreakpoint';
+import BackButton from './BackButton';
 import VehicleMarkerContainer from './map/VehicleMarkerContainer'; // DT-3473
 
 let L;
@@ -23,9 +26,10 @@ let timeout;
 
 function ItineraryPageMap(
   { itinerary, center, breakpoint, bounds },
-  { router, match },
+  { router, match, config },
 ) {
   const { from, to } = match.params;
+
   const leafletObjs = [
     <LocationMarker
       key="fromMarker"
@@ -112,7 +116,7 @@ function ItineraryPageMap(
     }
     map.closePopup();
     clearTimeout(timeout);
-    if (fullscreen || (breakpoint === 'large' && !bounds)) {
+    if ((fullscreen && !bounds) || (breakpoint === 'large' && !bounds)) {
       const latlngPoint = new L.LatLng(center.lat, center.lon);
       map.eachLayer(layer => {
         if (
@@ -150,6 +154,21 @@ function ItineraryPageMap(
       hideOrigin
     >
       {breakpoint !== 'large' && overlay}
+      <BackButton
+        icon="icon-icon_arrow-collapse--left"
+        iconClassName="arrow-icon"
+        color={config.colors.primary}
+      />
+      <div
+        className={cx('fullscreen-toggle', 'itineraryPage')}
+        onClick={toggleFullscreenMap}
+      >
+        {fullscreen ? (
+          <Icon img="icon-icon_minimize" className="cursor-pointer" />
+        ) : (
+          <Icon img="icon-icon_maximize" className="cursor-pointer" />
+        )}
+      </div>
     </MapContainer>
   );
 }
@@ -164,6 +183,7 @@ ItineraryPageMap.propTypes = {
 ItineraryPageMap.contextTypes = {
   match: matchShape.isRequired,
   router: routerShape.isRequired,
+  config: PropTypes.object,
 };
 
 export default withBreakpoint(ItineraryPageMap);

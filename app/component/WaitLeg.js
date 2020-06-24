@@ -74,7 +74,18 @@ function WaitLeg({ children, leg, startTime, waitTime, focusAction, index }) {
                 )}
             </div>
           </div>
-          <Icon img="icon-icon_show-on-map" className="itinerary-search-icon" />
+          <div
+            className="itinerary-map-action"
+            onClick={focusAction}
+            onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
+            role="button"
+            tabIndex="0"
+          >
+            <Icon
+              img="icon-icon_show-on-map"
+              className="itinerary-search-icon"
+            />
+          </div>
         </div>
         <div className="itinerary-leg-action" aria-hidden="true">
           <div className="itinerary-leg-action-content">

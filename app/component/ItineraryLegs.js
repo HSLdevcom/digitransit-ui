@@ -186,7 +186,12 @@ class ItineraryLegs extends React.Component {
         leg.mode === 'BICYCLE_WALK'
       ) {
         legs.push(
-          <BicycleLeg index={j} leg={leg} focusAction={this.focus(leg.from)} />,
+          <BicycleLeg
+            index={j}
+            leg={leg}
+            focusAction={this.focus(leg.from)}
+            setMapZoomToLeg={this.setMapZoomToLeg(leg)}
+          />,
         );
       } else if (leg.mode === 'CAR') {
         legs.push(

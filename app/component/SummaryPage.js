@@ -772,6 +772,9 @@ class SummaryPage extends React.Component {
           itineraries={itineraries}
           params={match.params}
           focus={this.updateCenter}
+          plan={this.props.plan}
+          serviceTimeRange={this.props.serviceTimeRange}
+          setMapZoomToLeg={this.setMapZoomToLeg}
         >
           {this.props.content &&
             itineraries.map((itinerary, i) =>

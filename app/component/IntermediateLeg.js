@@ -1,7 +1,10 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
+import Link from 'found/lib/Link';
 import ZoneIcon from './ZoneIcon';
+import { PREFIX_STOPS } from '../util/path';
+import { isKeyboardSelectionEvent } from '../util/browser';
 import Icon from './Icon';
 
 function IntermediateLeg({
@@ -9,6 +12,7 @@ function IntermediateLeg({
   mode,
   name,
   focusFunction,
+  gtfsId,
   showCurrentZoneDelimiter,
   showZoneLimits,
   previousZoneId,
@@ -104,14 +108,26 @@ function IntermediateLeg({
       <div
         className={`small-9 columns itinerary-instruction-column intermediate ${modeClassName}`}
       >
-        <div className="itinerary-leg-row-intermediate">
-          <div className="itinerary-intermediate-stop-name">{` ${name}`}</div>
-          <Icon
-            img="icon-icon_arrow-collapse--right"
-            className="itinerary-arrow-icon"
-            color="#333"
-          />
-        </div>
+        <Link
+          onClick={e => {
+            e.stopPropagation();
+          }}
+          onKeyPress={e => {
+            if (isKeyboardSelectionEvent(e)) {
+              e.stopPropagation();
+            }
+          }}
+          to={`/${PREFIX_STOPS}/${gtfsId}`}
+        >
+          <div className="itinerary-leg-row-intermediate">
+            <div className="itinerary-intermediate-stop-name">{` ${name}`}</div>
+            <Icon
+              img="icon-icon_arrow-collapse--right"
+              className="itinerary-arrow-icon"
+              color="#333"
+            />
+          </div>
+        </Link>
       </div>
     </div>
   );
@@ -129,6 +145,7 @@ IntermediateLeg.propTypes = {
   nextZoneId: PropTypes.string,
   zoneLabelColor: PropTypes.string,
   isLastPlace: PropTypes.bool,
+  gtfsId: PropTypes.string,
 };
 
 IntermediateLeg.defaultProps = {

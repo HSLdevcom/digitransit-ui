@@ -15,7 +15,7 @@ import {
 } from '../util/citybikes';
 import { isKeyboardSelectionEvent } from '../util/browser';
 
-function BicycleLeg({ focusAction, index, leg }, { config }) {
+function BicycleLeg({ focusAction, index, leg, setMapZoomToLeg }, { config }) {
   let stopsDescription;
   const distance = displayDistance(parseInt(leg.distance, 10), config);
   const duration = durationToString(leg.duration * 1000);
@@ -124,7 +124,23 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
           </div>
         </div>
         <div className="itinerary-leg-action" aria-hidden="true">
-          {stopsDescription}
+          <div className="itinerary-leg-action-content">
+            {stopsDescription}
+            <div
+              className="itinerary-map-action"
+              onClick={setMapZoomToLeg}
+              onKeyPress={e =>
+                isKeyboardSelectionEvent(e) && setMapZoomToLeg(e)
+              }
+              role="button"
+              tabIndex="0"
+            >
+              <Icon
+                img="icon-icon_show-on-map"
+                className="itinerary-search-icon"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -268,6 +284,7 @@ BicycleLeg.propTypes = {
   }).isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
+  setMapZoomToLeg: PropTypes.func.isRequired,
 };
 
 BicycleLeg.contextTypes = { config: PropTypes.object.isRequired };

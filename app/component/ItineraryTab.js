@@ -10,7 +10,6 @@ import Icon from './Icon';
 import TicketInformation from './TicketInformation';
 import RouteInformation from './RouteInformation';
 import ItinerarySummary from './ItinerarySummary';
-import TimeFrame from './TimeFrame';
 import DateWarning from './DateWarning';
 import ItineraryLegs from './ItineraryLegs';
 import BackButton from './BackButton';
@@ -85,15 +84,7 @@ class ItineraryTab extends React.Component {
         <BreakpointConsumer>
           {breakpoint => [
             breakpoint !== 'large' ? (
-              <ItinerarySummary itinerary={itinerary} key="summary">
-                <TimeFrame
-                  startTime={itinerary.startTime}
-                  endTime={itinerary.endTime}
-                  refTime={plan.date}
-                  className="timeframe--itinerary-summary"
-                />
-              </ItinerarySummary>
-            
+              <ItinerarySummary itinerary={itinerary} key="summary"/>
             ) : (
               <div className="desktop-title" key="header">
                 <div className="title-container h2">
@@ -109,10 +100,9 @@ class ItineraryTab extends React.Component {
                     iconClassName="arrow-icon"
                   />
                 </div>
-                
                     <div className="itinerary-timeframe" key="timeframe">
                     <ItinerarySummary itinerary={itinerary} key="summary" />
-                      <DateWarning date={itinerary.startTime} refTime={plan.date} />
+                    <DateWarning date={itinerary.startTime} refTime={plan.date} />
                 </div>
               </div>
             ),
@@ -122,7 +112,6 @@ class ItineraryTab extends React.Component {
                   'bp-large': breakpoint === 'large',
                 })}
               >
-
                 {shouldShowFareInfo(config) &&
                   fares.some(fare => fare.isUnknown) && (
                     <div className="disclaimer-container unknown-fare-disclaimer__top">
@@ -148,10 +137,6 @@ class ItineraryTab extends React.Component {
                   focusMap={this.handleFocus}
                   setMapZoomToLeg={this.props.setMapZoomToLeg}
                 />
-                {/* <ItineraryProfile
-                  itinerary={itinerary}
-                  small={breakpoint !== 'large'}
-                /> */}
                 {shouldShowFareInfo(config) && (
                   <TicketInformation
                     fares={fares}
@@ -161,14 +146,6 @@ class ItineraryTab extends React.Component {
                 )}
                 {config.showRouteInformation && <RouteInformation />}
               </div>
-              {/* <div className="row print-itinerary-button-container">
-                <SecondaryButton
-                  ariaLabel="print"
-                  buttonName="print"
-                  buttonClickAction={e => this.printItinerary(e)}
-                  buttonIcon="icon-icon_print"
-                />
-                </div> */}
               {config.showDisclaimer && (
                 <div className="itinerary-disclaimer">
                   <FormattedMessage
@@ -178,7 +155,6 @@ class ItineraryTab extends React.Component {
                 </div>
               )}
             </div>
-            
           ]}
         </BreakpointConsumer>
         </div>

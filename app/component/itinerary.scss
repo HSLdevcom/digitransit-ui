@@ -215,6 +215,10 @@ $itinerary-tab-switch-height: 48px;
     top: -8px;
     .zone-icon-container {
       position: relative;
+      top: -2px;
+      .circle {
+        padding: 0;
+      }
       &.zone-delimiter {
         border-top: 1px solid $light-gray;
         padding: 9px 0 0 0;
@@ -253,7 +257,6 @@ $itinerary-tab-switch-height: 48px;
     padding-left: 12px;
   }
   .duration, .walk-distance {
-    font-size: $font-size-small;
     vertical-align: super;
   }
 }
@@ -303,7 +306,6 @@ $itinerary-tab-switch-height: 48px;
 }
 
 .duration--itinerary-summary,
-.timeframe--itinerary-summary,
 .biking-distance--itinerary-summary {
   padding-right: 27px;
 }
@@ -396,6 +398,7 @@ $itinerary-tab-switch-height: 48px;
         .ticket-description {
           display: flex;
           padding-left: 3px;
+          white-space: nowrap;
         }
         .ticket-identifier {
           @include font-medium;
@@ -504,7 +507,7 @@ $itinerary-tab-switch-height: 48px;
     &.first {
       .leg-before-line {
         top: 42px;
-        height: calc(100% - 20px);
+        height: calc(100% - 30px);
       }
       .leg-before-circle {
         &.top {
@@ -513,7 +516,7 @@ $itinerary-tab-switch-height: 48px;
       }
     }
     :last-child {
-      bottom: -2.3em;
+      bottom: -2.4em;
     }
     &.end {
       :last-child {
@@ -594,7 +597,6 @@ $itinerary-tab-switch-height: 48px;
   }
 
   .itinerary-time-column {
-    @include font-narrow-medium;
     font-size: 1em;
     text-align: center;
     color: $black;
@@ -623,6 +625,7 @@ $itinerary-tab-switch-height: 48px;
           background-color: $primary-color !important;
           font-size: 16px !important;
           line-height: 20px !important;
+          padding-right: 1px;
         }
       }
     }
@@ -716,15 +719,18 @@ $itinerary-tab-switch-height: 48px;
   }
 
   .itinerary-instruction-column {
-    cursor: pointer;
     @include font-book;
     font-size: $font-size-normal;
     padding-left: 0.5em;
     min-height: 4.15em;
     padding-right: 0;
     &.intermediate {
+      a {
+        text-decoration: none;
+      }
       min-height: 10px;
       .itinerary-leg-row-intermediate {
+        cursor: pointer;
         color: #333;
         font-size: 15px;
         font-weight: 500;
@@ -745,6 +751,7 @@ $itinerary-tab-switch-height: 48px;
       margin-left: -24px;
     }
     .intermediate-stop-info-container {
+      cursor: pointer;
       .itinerary-search-icon {
         font-size: 18px;
         margin-right: 14px;
@@ -771,7 +778,6 @@ $itinerary-tab-switch-height: 48px;
       white-space: normal;
       color: $black;
       @include font-medium;
-      font-size: $font-size-small;
       padding: 0.625em 0;
       border-top: 1px solid #ddd;
       .itinerary-leg-row {
@@ -834,33 +840,39 @@ $itinerary-tab-switch-height: 48px;
       }
       .route-number {
         padding: 7px;
-        width: 74px;
+        width: calc(3.75em + 14px);
         height: calc(1.5em + 14px);
+        font-size: 16px;
+        .vcenter-children {
+          position: relative;
+          width: 100%;
+        }
         .subicon-info, .subicon-caution {
           font-size: 50% !important;
-          position: absolute !important;
-          bottom: -14px !important;
-          left: -2px !important;
         }
         .vehicle-number {
           color: $white;
           width: calc(60px - 1.5em);
+          font-size: 1rem;
           position: absolute;
           left: 1.5em;
           text-align: center;
-          padding-top: 3px;
+          padding: 4px 0 0 0;
+          margin: 0 0 0 5px;
         }
         .icon {
-          position: absolute;
           height: 1.5em;
           width: 1.5em;
           z-index: 1;
+          top: 0;
+          position: relative;
         }
         .bar-container {
-          width: 60px;
+          width: 3.75em;
           height: 1.5em;
           display: flex;
           position: absolute;
+          top: 0;
           .bar {
             width: 100%;
             background-color: currentColor;
@@ -874,10 +886,6 @@ $itinerary-tab-switch-height: 48px;
     .itinerary-leg-text-gray {
       @include font-book;
       color: $gray;
-    }
-
-    .itinerary-transit-leg-route span {
-      white-space: initial;
     }
 
     .itinerary-transit-leg-route,
@@ -925,6 +933,7 @@ $itinerary-tab-switch-height: 48px;
     .intermediate-stops-clickable {
       height: 60px;
       border-top: 1px solid #ddd;
+      outline: none;
       > * {
         display: flex;
         align-items: center;
@@ -972,7 +981,9 @@ $itinerary-tab-switch-height: 48px;
 
 .bp-large .row.itinerary-row {
   margin-left: 0;
-
+  .itinerary-instruction-column {
+    font-size: $font-size-small;
+  }
   .itinerary-time-column {
     @include font-medium;
     font-size: 10pt;
@@ -1587,11 +1598,19 @@ $font-print-decrease: 0.7;
 }
 
 .mobile {
+  .itinerary-tab {
+    border-radius: 15px 15px 0 0;
+    position: relative;
+    top: -15px;
+    z-index: 2;
+    background-color: white;
+    box-shadow: 0 -5px 5px 0 rgba(0, 0, 0, 0.2);
+  }
   .itinerary-tabs__scroll {
-    padding: 0 0.3em;
+    padding: 0;
   }
   .itinerary-main {
-    margin: 0 $padding-small;
+    margin: 0 0.4em 0 0.8em;
   }
   .itinerary-row {
     .leg-before-line {
@@ -1619,23 +1638,13 @@ $font-print-decrease: 0.7;
     flex-grow: 0;
     flex-shrink: 0; //for ie mobile
     color: $gray;
-    position: inherit;
+    position: static;
     font-weight: $font-weight-book;
-    font-size: 10pt;
-    padding: 10px;
-    height: 40px;
-    border-top: solid 1px $light-gray;
-    border-bottom: solid 1px $light-gray;
+    padding: 20px 25px 5px;
     background: transparent;
     .duration--itinerary-summary,
-    .timeframe--itinerary-summary,
     .biking-distance--itinerary-summary {
       padding-right: 10px;
-    }
-    .timeframe--itinerary-summary {
-      span {
-        vertical-align: super;
-      }
     }
   }
 }

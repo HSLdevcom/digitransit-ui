@@ -99,6 +99,7 @@ class TransitLeg extends React.Component {
           <IntermediateLeg
             color={leg.route ? `#${leg.route.color}` : 'currentColor'}
             key={place.stop.gtfsId}
+            gtfsId={place.stop.gtfsId}
             mode={mode}
             name={place.stop.name}
             arrivalTime={place.arrivalTime}
