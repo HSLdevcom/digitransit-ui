@@ -20,7 +20,8 @@
   ],
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
-  "peerDependencies": {
-    "lodash": "^4.17.14"
+  "dependencies": {
+    "lodash": "^4.17.14",
+    "lodash-es": "^4.17.14"
   }
 }
