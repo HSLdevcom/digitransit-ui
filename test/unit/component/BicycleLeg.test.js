@@ -9,6 +9,7 @@ describe('<BicycleLeg />', () => {
   it('should guide the user to rent a citybike', () => {
     const props = {
       focusAction: () => {},
+      setMapZoomToLeg: () => {},
       index: 1,
       leg: {
         distance: 0,
@@ -48,6 +49,7 @@ describe('<BicycleLeg />', () => {
   it('should guide the user to rent a scooter', () => {
     const props = {
       focusAction: () => {},
+      setMapZoomToLeg: () => {},
       index: 1,
       leg: {
         distance: 0,
@@ -87,6 +89,7 @@ describe('<BicycleLeg />', () => {
   it('should guide the user to ride a bike', () => {
     const props = {
       focusAction: () => {},
+      setMapZoomToLeg: () => {},
       index: 1,
       leg: {
         distance: 0,
@@ -126,6 +129,7 @@ describe('<BicycleLeg />', () => {
   it('should guide the user to ride a scooter', () => {
     const props = {
       focusAction: () => {},
+      setMapZoomToLeg: () => {},
       index: 1,
       leg: {
         distance: 0,
@@ -165,6 +169,7 @@ describe('<BicycleLeg />', () => {
   it('should guide the user to walk a bike', () => {
     const props = {
       focusAction: () => {},
+      setMapZoomToLeg: () => {},
       index: 1,
       leg: {
         distance: 0,
@@ -204,6 +209,7 @@ describe('<BicycleLeg />', () => {
   it('should guide the user to walk a scooter', () => {
     const props = {
       focusAction: () => {},
+      setMapZoomToLeg: () => {},
       index: 1,
       leg: {
         distance: 0,

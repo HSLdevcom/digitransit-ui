@@ -149,7 +149,7 @@ describe('<TicketInformation />', () => {
       context: { config: defaultConfig },
     });
 
-    expect(wrapper.find('.ticket-description').text()).to.contain('5.50€');
+    expect(wrapper.find('.ticket-description').text()).to.contain('5.50 €');
   });
 
   it('should not show the total fare when showTicketPrice is false', () => {
