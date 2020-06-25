@@ -1,4 +1,7 @@
 /* stylelint-disable */ 
+@import '~@hsl-fi/sass/colors';
+@import '~@hsl-fi/sass/mixins/screen';
+@import '~@hsl-fi/sass/mixins/text';
 
 $primary-color: #007ac9;
 $from-color: #64be14;
@@ -21,6 +24,7 @@ input[type='text'] {
       padding-left: 1.25em;
       padding-right: 44px;
     }
+    @include text-typography(small);
     display: flex;
     width: 100%;
     height: 44px;
@@ -29,7 +33,6 @@ input[type='text'] {
     background-color: #ffffff;
     padding-left: 50px;
     padding-right: 44px;
-    font-size: 16px;
     line-height: 1.2;
     letter-spacing: -0.5px;
     color: #666666;
@@ -42,8 +45,7 @@ input[type='text'] {
       border: solid 1px $primary-color;
       box-shadow: none;
     }
-    @media screen and (min-width: 768px) {
-      font-size: 15px;
+    @include min-width(tablet) {
       height: 42px;
       padding-left: 49px;
     }

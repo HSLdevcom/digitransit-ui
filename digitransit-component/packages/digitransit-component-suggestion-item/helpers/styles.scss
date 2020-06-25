@@ -1,4 +1,7 @@
 /* stylelint-disable */ 
+@import '~@hsl-fi/sass/colors';
+@import '~@hsl-fi/sass/mixins/screen';
+@import '~@hsl-fi/sass/mixins/text';
 
 .suggestion-item-container {
   display: flex;
@@ -48,7 +51,7 @@ li:last-child > div.suggestion-item-container.mobile {
       overflow: hidden;
       text-overflow: ellipsis;
 
-      @media screen and (min-width: 768px) {
+      @include min-width(tablet) {
         font-size: 13px !important;
         letter-spacing: -0.43px;
         line-height: 1;
@@ -71,7 +74,7 @@ li:last-child > div.suggestion-item-container.mobile {
       overflow: hidden;
       text-overflow: ellipsis;
 
-      @media screen and (min-width: 768px) {
+      @include min-width(tablet) {
         font-size: 11px !important;
         letter-spacing: -0.37px;
         line-height: 1.64;
