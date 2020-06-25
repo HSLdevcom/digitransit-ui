@@ -1418,6 +1418,27 @@
   resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-with-breakpoint/-/digitransit-component-with-breakpoint-0.0.3.tgz#fa31eed369a5c43cbb14dc7d5d8d49323a5c8674"
   integrity sha512-PwJmjRGwVuLNoBRGoFr3F0bLb+p5oOWamFm5PNEajGD8PCfX+yCbeEfr0kWpbZ7whR/VAqyNIMmXmoDX8hwRcQ==
 
+"@digitransit-search-util/digitransit-search-util-get-label@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-get-label/-/digitransit-search-util-get-label-0.0.1.tgz#bb039f32243321018b6cc0c877365f056b7c5b40"
+  integrity sha512-8Nr+0LGjwmQLaqBvqNDRh3wnw+IQFb06bhot11BD6zMJDgmwqp95xwIkoGfNiGPijKuFModoeGi4wZCQwbORwQ==
+  dependencies:
+    "@digitransit-search-util/digitransit-search-util-uniq-by-label" "^0.0.1"
+
+"@digitransit-search-util/digitransit-search-util-suggestion-to-location@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-suggestion-to-location/-/digitransit-search-util-suggestion-to-location-0.0.1.tgz#8e33d77238b8aa8071900d360530c49f4be3ca08"
+  integrity sha512-HfcbYvmA+i0/7SJ88GqjUibk74Exfgj3GyCFceDDDH4G2+8n30dA61AmSXP5uLqR7l4Xbq3Fh0Y/hQKyUR8nQA==
+  dependencies:
+    "@digitransit-search-util/digitransit-search-util-get-label" "^0.0.1"
+
+"@digitransit-search-util/digitransit-search-util-uniq-by-label@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-uniq-by-label/-/digitransit-search-util-uniq-by-label-0.0.1.tgz#e9961677e48f9c994ffcc6f8a5a6530887ed980d"
+  integrity sha512-01AFET14HOu2tAkTUApZNFyn4tk0EdylNiljs8jm2nGeMdwV3pLD1rDXiBr4Fmz5YPyGQLeE1ewIp2oZBvjrUw==
+  dependencies:
+    lodash "4.17.14"
+
 "@evocateur/libnpmaccess@^3.1.2":
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/@evocateur/libnpmaccess/-/libnpmaccess-3.1.2.tgz#ecf7f6ce6b004e9f942b098d92200be4a4b1c845"
@@ -1511,6 +1532,11 @@
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/@hsl-fi/icons/-/icons-0.2.1.tgz#3e55b879d859e1d1d29474e39a6d237ac83fbbb4"
   integrity sha512-VXYAf+8lea97sas2vGDyc1UL3Z7zFcc4yUbj3dMVmQ9HW1shbKch1Clx5VWlCkkwwRMbAV/3ZYU94P57DG7gfA==
+
+"@hsl-fi/sass@ ^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@hsl-fi/sass/-/sass-0.1.1.tgz#b120d36f7a089343c3cba256d9f9a3972b78ba64"
+  integrity sha512-tzf2A5NBJF/p7HFIzi//uTKYVrMGgNgRlK0eG65UW6Q2LJ+TPRUep7WUx+MeACZ7HQJw2Q4lfPj149zUfJSzlw==
 
 "@hsl-fi/site-header@0.2.1":
   version "0.2.1"
