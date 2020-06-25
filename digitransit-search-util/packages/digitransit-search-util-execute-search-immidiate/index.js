@@ -1,4 +1,3 @@
-import orderBy from 'lodash/orderBy';
 import debounce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
 import take from 'lodash/take';
@@ -9,10 +8,7 @@ import getGeocodingResult from '@digitransit-search-util/digitransit-search-util
 
 function getFavouriteLocations(favourites, input) {
   return Promise.resolve(
-    orderBy(
-      filterMatchingToInput(favourites, input, ['address', 'name']),
-      feature => feature.name,
-    ).map(item => ({
+    filterMatchingToInput(favourites, input, ['address', 'name']).map(item => ({
       type: 'FavouritePlace',
       properties: {
         ...item,
