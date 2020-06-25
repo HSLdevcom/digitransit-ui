@@ -1647,7 +1647,7 @@ const translations = {
     destination: 'Määränpää',
     'destination-label-change': 'Vaihda määränpää',
     'destination-outside-service':
-      'Reittiehdotuksia ei löytynyt, koska lähtöpaikka ja määränpää ovat niin lähellä toisiaan.',
+      'Reittiehdotuksia ei löytynyt, koska määränpää sijaitsee palvelualueen ulkopuolella.',
     'destination-placeholder': 'Kirjoita määränpää, linja tai pysäkki',
     'dialog-return-to-map': 'Takaisin karttaan',
     'digitransit-platform': 'Digitransit-palvelualusta',
@@ -1834,7 +1834,7 @@ const translations = {
     origin: 'Lähtöpaikka',
     'origin-label-change': 'Vaihda lähtöpaikka',
     'origin-outside-service':
-      'Emme valitettavasti löytäneet yhtään reittiehdotusta kyseiselle välille. Muuta lähtöosoitetta, joka sijaitsee palvelualueen ulkopuolella.',
+      'Reittiehdotuksia ei löytynyt, koska lähtöpaikka sijaitsee palvelualueen ulkopuolella.',
     'origin-placeholder': 'Mistä? - osoite tai pysäkki',
     'own-position': 'Nykyinen sijaintisi',
     'page-not-found': 'Etsimääsi sivua ei löytynyt.',
