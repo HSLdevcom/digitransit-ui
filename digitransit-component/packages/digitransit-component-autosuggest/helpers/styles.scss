@@ -24,7 +24,7 @@ input[type='text'] {
       padding-left: 1.25em;
       padding-right: 44px;
     }
-    @include text-typography(small);
+    font-size: 16px;
     display: flex;
     width: 100%;
     height: 44px;
@@ -46,6 +46,7 @@ input[type='text'] {
       box-shadow: none;
     }
     @include min-width(tablet) {
+      font-size: 15px;
       height: 42px;
       padding-left: 49px;
     }
