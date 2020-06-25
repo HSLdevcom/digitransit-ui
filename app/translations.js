@@ -1010,6 +1010,8 @@ const translations = {
       'Unfortunately no routes were found for your journey. Try changing your settings, origin or destination.',
     'no-route-origin-near-destination':
       'The origin and the destination are close to each other. Please change either location.',
+    'no-route-origin-same-as-destination':
+      'No routes were found because the origin is same as the destination.',
     'no-route-start-date-too-early':
       'Current timetable does not include routes departing earlier.',
     'no-route-start-end': 'Please select origin and destination.',
@@ -1209,8 +1211,9 @@ const translations = {
     'try-again': 'Try again',
     unpreferred: 'Avoid routes',
     'use-citybike': 'Start using',
-    'use-national-service':
-      'You can also try the national service available at',
+    'use-national-service-postfix': ' service.',
+    'use-national-service-prefix':
+      'We recommend trying the route search from the nationwide ',
     'use-own-position': 'Use current location',
     'using-modes': 'I want to travel by',
     'very-likely': 'Very likely',
@@ -1644,7 +1647,7 @@ const translations = {
     destination: 'Määränpää',
     'destination-label-change': 'Vaihda määränpää',
     'destination-outside-service':
-      'Emme valitettavasti löytäneet yhtään reittiehdotusta kyseiselle välille. Muuta määränpään osoitetta, joka sijaitsee palvelualueen ulkopuolella.',
+      'Reittiehdotuksia ei löytynyt, koska lähtöpaikka ja määränpää ovat niin lähellä toisiaan.',
     'destination-placeholder': 'Kirjoita määränpää, linja tai pysäkki',
     'dialog-return-to-map': 'Takaisin karttaan',
     'digitransit-platform': 'Digitransit-palvelualusta',
@@ -1803,15 +1806,15 @@ const translations = {
       'Sijaintisi ei ole tiedossa, joten emme voi näyttää lähimpiä pysäkkejä.',
     'no-route-already-at-destination': 'Olet jo perillä.',
     'no-route-end-date-not-in-range':
-      'Käytössä oleva aikataulu ei sisällä myöhäisempiä reittejä.',
-    'no-route-msg':
-      'Emme löytäneet reittiehdotuksia antamillasi tiedoilla. Kokeile muokata lähtöpaikkaa tai määränpäätä.',
+      'Aikataulu ei sisällä myöhäisempiä reittejä.',
+    'no-route-msg': 'Reittiehdotuksia ei valitettavasti löytynyt.',
     'no-route-msg-with-changes':
-      'Emme löytäneet reittiehdotuksia antamillasi tiedoilla. Kokeile muokata asetuksia, lähtöpaikkaa tai määränpäätä.',
+      'Reittiehdotuksia ei valitettavasti löytynyt. Ole hyvä ja tarkasta asettamasi hakuasetukset tai yritä muuttaa lähtöpaikkaa tai määränpäätä.',
     'no-route-origin-near-destination':
-      'Lähtöpaikka ja määränpää ovat liian lähekkäin. Muuta lähdön tai määränpään osoitetta.',
-    'no-route-start-date-too-early':
-      'Käytössä oleva aikataulu ei sisällä aiempia reittejä.',
+      'Reittiehdotuksia ei löytynyt, koska lähtöpaikka ja määränpää ovat niin lähellä toisiaan.',
+    'no-route-origin-same-as-destination':
+      'Reittiehdotuksia ei löytynyt, koska lähtöpaikka on sama kuin määränpää.',
+    'no-route-start-date-too-early': 'Aikataulu ei sisällä aiempia reittejä.',
     'no-route-start-end': 'Valitse lähtöpaikka ja määränpää.',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'Valitulle päivälle ei löydy matkoja.',
@@ -2012,6 +2015,9 @@ const translations = {
     'use-citybike': 'Ota käyttöön',
     'use-national-service':
       'Voit myös hakea samaa reittiä oheisen linkin koko maan kattavasta palvelusta:',
+    'use-national-service-postfix': '-palvelusta.',
+    'use-national-service-prefix':
+      'Suosittelemme kokeilemaan reittihakua koko maan kattavasta ',
     'use-own-position': 'Käytä nykyistä sijaintia',
     'using-modes': 'Haluan kulkea',
     'very-likely': 'Erittäin todennäköistä',
@@ -3404,6 +3410,8 @@ const translations = {
       'Vi hittade inga ruttförslag som passar dina önskemål. Försök pånytt med andra inställningar, annan avfärdsplats eller annan destination.',
     'no-route-origin-near-destination':
       'Din avfärdsplats och destination är väldigt nära varandra, vill du ändra avfärdsplats eller destination?',
+    'no-route-origin-same-as-destination':
+      'No routes were found because the origin is same as the destination.',
     'no-route-start-date-too-early':
       'Tidtabellen har inga resor som avgår tidigare.',
     'no-route-start-end': 'Välj avfärdsplats och destination.',
@@ -3605,6 +3613,9 @@ const translations = {
     unpreferred: 'Undvik rutter',
     'use-citybike': 'Ta i bruk',
     'use-national-service': 'Du kan också använda national tjänsten:',
+    'use-national-service-postfix': '-tjänsten.',
+    'use-national-service-prefix':
+      'Vi rekommenderar att du testar ruttens sökning från den rikstäckande ',
     'use-own-position': 'Använd min position',
     'using-modes': 'Jag vill åka',
     'very-likely': 'Väldigt sannolikt',
