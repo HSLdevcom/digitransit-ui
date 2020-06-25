@@ -1369,13 +1369,9 @@
     "@digitransit-component/digitransit-component-with-breakpoint" "^0.0.3"
 
 "@digitransit-component/digitransit-component-autosuggest@latest":
-  version "1.0.10"
-  resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-autosuggest/-/digitransit-component-autosuggest-1.0.10.tgz#b9b4ce74797babfa985cccaf39fe31ef1611a893"
-  integrity sha512-kiobDrhieUeqb9BB2qf37eQxoDSKt02VgRmbd/9hey95AKlcfmZgDuZF3Inf9WqNiPfCV3YGZvVYxJLkaifUpQ==
-  dependencies:
-    "@digitransit-search-util/digitransit-search-util-get-label" "^0.0.1"
-    "@digitransit-search-util/digitransit-search-util-suggestion-to-location" "^0.0.1"
-    "@digitransit-search-util/digitransit-search-util-uniq-by-label" "^0.0.1"
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-autosuggest/-/digitransit-component-autosuggest-1.0.11.tgz#62dfeb6cbf7bd79bea3052d1a97a1f009615190c"
+  integrity sha512-7EhlFIlSDk8Om8kWeDm34C9KnJG2v3UYRkYOn7ebyG4pnpVDq4AgRfwT5cfdIXgurwQQhXWH7ZpFGFW/YKgIVw==
 
 "@digitransit-component/digitransit-component-control-panel@latest":
   version "0.0.11"
@@ -1413,21 +1409,34 @@
   integrity sha512-bztC0UHCD5AVzfLyDGEaMbgtkKaX8ao+wbWtejDlXcB+EP+/rTZguEe0XR7CrCj0fPRad1w3tzi8NlTmhjEbHw==
 
 "@digitransit-component/digitransit-component-suggestion-item@latest":
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-suggestion-item/-/digitransit-component-suggestion-item-0.0.9.tgz#77aee294b89c4075d10cd43abdad0cb79abba95c"
-  integrity sha512-Yo/v03+uCObgPDehKHsrSzF3UVgAMlW4Ki2xjtmmq6g1tocxf/trGwUZqMUMCRVflgMisLkWegKd9W4+UDGqoA==
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-suggestion-item/-/digitransit-component-suggestion-item-0.0.10.tgz#c5f6d477d1bd8ca08e00f28582d3eaffecbb4088"
+  integrity sha512-jtgtZ21iHgrahgOOXbl3wMob8SQaE8MYZiJQAqmxYa4k7QmE5x1JGj9fwb9NLTwE7VJ/2+XNX6SvW20kof1uXQ==
 
 "@digitransit-component/digitransit-component-with-breakpoint@latest":
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-with-breakpoint/-/digitransit-component-with-breakpoint-0.0.3.tgz#fa31eed369a5c43cbb14dc7d5d8d49323a5c8674"
   integrity sha512-PwJmjRGwVuLNoBRGoFr3F0bLb+p5oOWamFm5PNEajGD8PCfX+yCbeEfr0kWpbZ7whR/VAqyNIMmXmoDX8hwRcQ==
 
-"@digitransit-search-util/digitransit-search-util-helpers@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-helpers/-/digitransit-search-util-helpers-0.0.4.tgz#47cd1ed8fe20d2e75e40eb7619665ba426e28529"
-  integrity sha512-Zg5covmCZsgzQDxwnLL2/zC+6dQKJNY89qU+OhRGgSDqt6vUoV8Q1NUJgUpbdO7deGgUFaPyJBuOQMIM0YsyVQ==
+"@digitransit-search-util/digitransit-search-util-get-label@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-get-label/-/digitransit-search-util-get-label-0.0.1.tgz#bb039f32243321018b6cc0c877365f056b7c5b40"
+  integrity sha512-8Nr+0LGjwmQLaqBvqNDRh3wnw+IQFb06bhot11BD6zMJDgmwqp95xwIkoGfNiGPijKuFModoeGi4wZCQwbORwQ==
   dependencies:
-    "@digitransit-search-util/digitransit-search-util-is-duplicate" "^0.0.1"
+    "@digitransit-search-util/digitransit-search-util-uniq-by-label" "^0.0.1"
+
+"@digitransit-search-util/digitransit-search-util-suggestion-to-location@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-suggestion-to-location/-/digitransit-search-util-suggestion-to-location-0.0.1.tgz#8e33d77238b8aa8071900d360530c49f4be3ca08"
+  integrity sha512-HfcbYvmA+i0/7SJ88GqjUibk74Exfgj3GyCFceDDDH4G2+8n30dA61AmSXP5uLqR7l4Xbq3Fh0Y/hQKyUR8nQA==
+  dependencies:
+    "@digitransit-search-util/digitransit-search-util-get-label" "^0.0.1"
+
+"@digitransit-search-util/digitransit-search-util-uniq-by-label@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-uniq-by-label/-/digitransit-search-util-uniq-by-label-0.0.1.tgz#e9961677e48f9c994ffcc6f8a5a6530887ed980d"
+  integrity sha512-01AFET14HOu2tAkTUApZNFyn4tk0EdylNiljs8jm2nGeMdwV3pLD1rDXiBr4Fmz5YPyGQLeE1ewIp2oZBvjrUw==
+  dependencies:
     lodash "4.17.14"
 
 "@evocateur/libnpmaccess@^3.1.2":
@@ -11548,6 +11557,11 @@ lodash-es@4.17.14:
   resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.14.tgz#12a95a963cc5955683cee3b74e85458954f37ecc"
   integrity sha512-7zchRrGa8UZXjD/4ivUWP1867jDkhzTG2c/uj739utSd7O/pFFdxspCemIFKEEjErbcqRzn8nKnGsi7mvTgRPA==
 
+lodash-es@^4.17.14:
+  version "4.17.15"
+  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.15.tgz#21bd96839354412f23d7a10340e5eac6ee455d78"
+  integrity sha512-rlrc3yU3+JNOpZ9zj5pQtxnx2THmvRykwL4Xlxoa8I9lHBlVbbyPhgyPMioxVZ4NqyxaVVtaJnzsyOidQIhyyQ==
+
 lodash._arraycopy@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/lodash._arraycopy/-/lodash._arraycopy-3.0.0.tgz#76e7b7c1f1fb92547374878a562ed06a3e50f6e1"
@@ -12695,7 +12709,7 @@ moment-timezone@0.5.31:
   dependencies:
     moment ">= 2.9.0"
 
-moment@2.27.0, "moment@>= 2.9.0":
+"moment@>= 2.9.0", moment@^2.27.0:
   version "2.27.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.27.0.tgz#8bff4e3e26a236220dfe3e36de756b6ebaa0105d"
   integrity sha512-al0MUK7cpIcglMv3YF13qSgdAIqxHTO7brRtaz3DlSULbqfazqkc5kEjNrLDOM7fsjshoFIihnU8snrP7zUvhQ==

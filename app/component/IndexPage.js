@@ -205,8 +205,12 @@ class IndexPage extends React.Component {
               originPlaceHolder="search-origin-index"
               destinationPlaceHolder="search-destination-index"
               lang={lang}
-              sources={['Favourite', 'History', 'Datasource']}
-              targets={['Locations', 'CurrentPosition']}
+              sources={['History', 'Datasource']}
+              targets={[
+                'Locations',
+                'CurrentPosition',
+                'SelectFromOwnLocations',
+              ]}
               itineraryParams={itineraryParams}
             />
             <div className="datetimepicker-container">

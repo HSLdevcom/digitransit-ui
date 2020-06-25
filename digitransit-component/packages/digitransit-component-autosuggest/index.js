@@ -137,6 +137,8 @@ class DTAutosuggest extends React.Component {
       valid: true,
       pendingCurrentLocation: false,
       renderMobileSearch: false,
+      sources: props.sources,
+      targets: props.targets,
     };
   }
 
@@ -186,6 +188,32 @@ class DTAutosuggest extends React.Component {
 
   onSelected = (e, ref) => {
     if (this.state.valid) {
+      if (ref.suggestion.type === 'SelectFromOwnLocations') {
+        this.setState(
+          {
+            sources: ['Favourite', 'Back'],
+            targets: ['Locations'],
+            pendingSelection: ref.suggestion.type,
+          },
+          () => {
+            this.fetchFunction({ value: '' });
+          },
+        );
+        return;
+      }
+      if (ref.suggestion.type === 'back') {
+        this.setState(
+          {
+            sources: this.props.sources,
+            targets: this.props.targets,
+            pendingSelection: ref.suggestion.type,
+          },
+          () => {
+            this.fetchFunction({ value: '' });
+          },
+        );
+        return;
+      }
       if (this.props.handleViaPoints) {
         this.props.handleViaPoints(
           suggestionToLocation(ref.suggestion),
@@ -201,7 +229,12 @@ class DTAutosuggest extends React.Component {
           this.input.blur();
           if (!this.props.handleViaPoints) {
             this.props.onSelect(ref.suggestion, this.props.id);
-            this.setState({ renderMobileSearch: false });
+            this.setState({
+              renderMobileSearch: false,
+              sources: this.props.sources,
+              targets: this.props.targets,
+              suggestions: [],
+            });
           }
           if (this.props.focusChange && !this.props.isMobile) {
             this.props.focusChange();
@@ -221,17 +254,40 @@ class DTAutosuggest extends React.Component {
   onSuggestionsClearRequested = () => {
     this.setState({
       suggestions: [],
+      sources: this.props.sources,
+      targets: this.props.targets,
+      editing: false,
     });
   };
 
   getSuggestionValue = suggestion => {
+    if (
+      suggestion.type === 'SelectFromOwnLocations' ||
+      suggestion.type === 'back'
+    ) {
+      return '';
+    }
     const value = getLabel(suggestion.properties);
     return value;
   };
 
   checkPendingSelection = () => {
-    // accept after all ongoing searches have finished
-    if (this.state.pendingSelection && this.state.valid) {
+    if (
+      (this.state.pendingSelection === 'SelectFromOwnLocations' ||
+        this.state.pendingSelection === 'back') &&
+      this.state.valid
+    ) {
+      this.setState(
+        {
+          pendingSelection: null,
+          editing: true,
+        },
+        () => {
+          this.input.focus();
+        },
+      );
+      // accept after all ongoing searches have finished
+    } else if (this.state.pendingSelection && this.state.valid) {
       // finish the selection by picking first = best match
       this.setState(
         {
@@ -264,8 +320,8 @@ class DTAutosuggest extends React.Component {
   fetchFunction = ({ value }) =>
     this.setState({ valid: false }, () => {
       executeSearch(
-        this.props.targets,
-        this.props.sources,
+        this.state.targets,
+        this.state.sources,
         this.props.searchContext,
         {
           input: value,
@@ -278,7 +334,9 @@ class DTAutosuggest extends React.Component {
           const suggestions = (searchResult.results || []).map(suggestion => {
             if (
               suggestion.type === 'CurrentLocation' ||
-              suggestion.type === 'SelectFromMap'
+              suggestion.type === 'SelectFromMap' ||
+              suggestion.type === 'SelectFromOwnLocations' ||
+              suggestion.type === 'back'
             ) {
               const translated = { ...suggestion };
               translated.properties.labelId = i18next.t(
@@ -288,10 +346,11 @@ class DTAutosuggest extends React.Component {
             }
             return suggestion;
           });
-
           if (
             value === this.state.value ||
-            value === this.state.pendingSelection
+            value === this.state.pendingSelection ||
+            this.state.pendingSelection === 'SelectFromOwnLocations' ||
+            this.state.pendingSelection === 'back'
           ) {
             this.setState(
               {
@@ -341,6 +400,7 @@ class DTAutosuggest extends React.Component {
           );
         }
       } else {
+        this.fetchFunction({ value: this.state.value });
         this.setState(newState);
       }
     }
@@ -487,6 +547,7 @@ class DTAutosuggest extends React.Component {
               </div>
             )}
             <Autosuggest
+              alwaysRenderSuggestions={this.state.editing}
               id={this.props.id}
               suggestions={suggestions}
               onSuggestionsFetchRequested={this.fetchFunction}
