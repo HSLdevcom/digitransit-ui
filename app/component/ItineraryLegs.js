@@ -123,6 +123,7 @@ class ItineraryLegs extends React.Component {
             leg={leg}
             arrivalTime={startTime}
             focusAction={this.focus(leg.from)}
+            setMapZoomToLeg={this.setMapZoomToLeg(leg)}
           />,
         );
       } else if (this.isLegOnFoot(leg)) {

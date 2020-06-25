@@ -197,11 +197,13 @@ class TransitLeg extends React.Component {
             <span className="intermediate-stops-duration" aria-hidden="true">
               ({durationToString(stopLeg.duration * 1000)})
             </span>
-            <Icon
-              img="icon-icon_arrow-collapse--right"
-              className="itinerary-search-icon"
-              color={config.colors.primary}
-            />
+            {stopCount !== 0 && (
+              <Icon
+                img="icon-icon_arrow-collapse--right"
+                className="itinerary-search-icon"
+                color={config.colors.primary}
+              />
+            )}
           </div>
         </div>
       );

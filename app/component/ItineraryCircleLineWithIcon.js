@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import cx from 'classnames';
 import Icon from './Icon';
 import RouteNumber from './RouteNumber';
 import { isBrowser } from '../util/browser';
@@ -34,6 +35,16 @@ class ItineraryCircleLineWithIcon extends React.Component {
   }
 
   getMarker = top => {
+    if (this.props.isVia === true) {
+      return (
+        <div className="itinerary-icon-container">
+          <Icon
+            img="icon-icon_mapMarker-via"
+            className="itinerary-icon via via-it"
+          />
+        </div>
+      );
+    }
     if (this.isFirstChild()) {
       return (
         <div className="itinerary-icon-container start">
@@ -46,16 +57,6 @@ class ItineraryCircleLineWithIcon extends React.Component {
     }
     if (this.props.modeClassName === 'walk') {
       return <></>;
-    }
-    if (this.props.isVia === true) {
-      return (
-        <div className="itinerary-icon-container">
-          <Icon
-            img="icon-icon_mapMarker-via"
-            className="itinerary-icon via via-it"
-          />
-        </div>
-      );
     }
     return (
       <div
@@ -89,7 +90,9 @@ class ItineraryCircleLineWithIcon extends React.Component {
     }
     return (
       <div
-        className={`leg-before ${this.props.modeClassName}`}
+        className={cx('leg-before', this.props.modeClassName, {
+          via: this.props.isVia,
+        })}
         aria-hidden="true"
       >
         {topMarker}
