@@ -2013,8 +2013,6 @@ const translations = {
     'try-again': 'Yritä uudelleen',
     unpreferred: 'Vältä linjoja',
     'use-citybike': 'Ota käyttöön',
-    'use-national-service':
-      'Voit myös hakea samaa reittiä oheisen linkin koko maan kattavasta palvelusta:',
     'use-national-service-postfix': '-palvelusta.',
     'use-national-service-prefix':
       'Suosittelemme kokeilemaan reittihakua koko maan kattavasta ',
