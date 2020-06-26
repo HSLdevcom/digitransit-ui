@@ -93,7 +93,7 @@ export default config => {
                   $allowedBikeRentalNetworks: [String]
                   $locale: String
                 ) {
-                  plan(
+                  plan: plan(
                     fromPlace: $fromPlace
                     toPlace: $toPlace
                     intermediatePlaces: $intermediatePlaces
@@ -134,6 +134,49 @@ export default config => {
                     locale: $locale
                   ) {
                     ...SummaryPage_plan
+                  }
+
+                  walkPlan: plan(
+                    fromPlace: $fromPlace
+                    toPlace: $toPlace
+                    intermediatePlaces: $intermediatePlaces
+                    numItineraries: $numItineraries
+                    modes: "WALK"
+                    date: $date
+                    time: $time
+                    walkReluctance: $walkReluctance
+                    walkBoardCost: $walkBoardCost
+                    minTransferTime: $minTransferTime
+                    walkSpeed: $walkSpeed
+                    maxWalkDistance: $maxWalkDistance
+                    wheelchair: $wheelchair
+                    ticketTypes: $ticketTypes
+                    disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
+                    arriveBy: $arriveBy
+                    transferPenalty: $transferPenalty
+                    ignoreRealtimeUpdates: $ignoreRealtimeUpdates
+                    maxPreTransitTime: $maxPreTransitTime
+                    walkOnStreetReluctance: $walkOnStreetReluctance
+                    waitReluctance: $waitReluctance
+                    bikeSpeed: $bikeSpeed
+                    bikeSwitchTime: $bikeSwitchTime
+                    bikeSwitchCost: $bikeSwitchCost
+                    bikeBoardCost: $bikeBoardCost
+                    optimize: $optimize
+                    triangle: $triangle
+                    carParkCarLegWeight: $carParkCarLegWeight
+                    maxTransfers: $maxTransfers
+                    waitAtBeginningFactor: $waitAtBeginningFactor
+                    heuristicStepsPerMainStep: $heuristicStepsPerMainStep
+                    compactLegsByReversedSearch: $compactLegsByReversedSearch
+                    itineraryFiltering: $itineraryFiltering
+                    modeWeight: $modeWeight
+                    preferred: $preferred
+                    unpreferred: $unpreferred
+                    allowedBikeRentalNetworks: $allowedBikeRentalNetworks
+                    locale: $locale
+                  ) {
+                    ...SummaryPage_walkPlan
                   }
 
                   serviceTimeRange {
