@@ -1513,6 +1513,21 @@
     unique-filename "^1.1.1"
     which "^1.3.1"
 
+"@hsl-fi/animated-spinner@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@hsl-fi/animated-spinner/-/animated-spinner-0.1.0.tgz#5e1649be4712b04bb07d98295da9d3f515cae35a"
+  integrity sha512-YBcKxbm/oSki7rVobEwXdvMers3d4o+gpaVzoJcR60dvuz70IgSJNvIq4NK7EoEF/3owEHu8GmyFGl+zvV4EyA==
+  dependencies:
+    "@hsl-fi/icons" "^0.2.1"
+
+"@hsl-fi/container-spinner@0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@hsl-fi/container-spinner/-/container-spinner-0.2.0.tgz#b0acd3a652979ecfeadfcc99f4cd81c755bc3e61"
+  integrity sha512-6uVcm5Olkeq5EC9e3E1/TR0/yotnFbpd/c9ZfwvJdPuupwYzIj3AcFy5ETtPGB+IL0LnXUVkfpS3DELxXeuPpQ==
+  dependencies:
+    "@hsl-fi/animated-spinner" "^0.1.0"
+    "@hsl-fi/utilities" "^0.2.1"
+
 "@hsl-fi/hooks@^0.1.1":
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/@hsl-fi/hooks/-/hooks-0.1.1.tgz#25764a9ca60863cc9d412ede2be6e5dc8332d21b"
