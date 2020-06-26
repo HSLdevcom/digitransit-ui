@@ -180,11 +180,13 @@ function Datetimepicker({
       </legend>
       {!isOpen ? (
         <>
-          <div className={styles['top-row-container']}>
-            <span className={styles['time-icon']}>
-              <Icon img="time" />
-            </span>
-            <label htmlFor={`${htmlId}-open`}>
+          <div
+            className={`${styles['top-row-container']} datetimepicker-top-row`}
+          >
+            <label className={styles['label-open']} htmlFor={`${htmlId}-open`}>
+              <span className={styles['time-icon']}>
+                <Icon img="time" />
+              </span>
               <span className={styles['sr-only']}>
                 {i18next.t('accessible-open', translationSettings)}
               </span>
@@ -226,10 +228,9 @@ function Datetimepicker({
         </>
       ) : (
         <>
-          <div className={styles['top-row-container']}>
-            <span className={styles['time-icon']}>
-              <Icon img="time" />
-            </span>
+          <div
+            className={`${styles['top-row-container']} datetimepicker-top-row`}
+          >
             <span />
             {/* This empty span prevents a weird focus bug on chrome */}
             <label
@@ -244,7 +245,12 @@ function Datetimepicker({
                 ]
               }`}
             >
-              {i18next.t('departure-now', translationSettings)}
+              <span className={styles['time-icon']}>
+                <Icon img="time" />
+              </span>
+              <span className={styles['now-text']}>
+                {i18next.t('departure-now', translationSettings)}
+              </span>
               <input
                 id={`${htmlId}-now`}
                 name="departureOrArrival"
@@ -318,7 +324,11 @@ function Datetimepicker({
               </button>
             </span>
           </div>
-          <div className={styles['picker-container']}>
+          <div
+            className={`${
+              styles['picker-container']
+            } datetimepicker-bottom-row-open`}
+          >
             {useMobileInputs ? (
               <>
                 <span
@@ -345,7 +355,11 @@ function Datetimepicker({
                     }
                   />
                 </span>
-                <span className={styles['combobox-mobile-container']}>
+                <span
+                  className={`${styles['combobox-right']} ${
+                    styles['combobox-mobile-container']
+                  }`}
+                >
                   <MobileTimepicker
                     value={displayTimestamp}
                     getDisplay={getTimeDisplay}
@@ -418,7 +432,6 @@ function Datetimepicker({
               </>
             )}
           </div>
-          <div className={styles['separator-line']} />
         </>
       )}
     </fieldset>

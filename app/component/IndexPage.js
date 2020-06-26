@@ -205,17 +205,23 @@ class IndexPage extends React.Component {
               originPlaceHolder="search-origin-index"
               destinationPlaceHolder="search-destination-index"
               lang={lang}
-              sources={['Favourite', 'History', 'Datasource']}
-              targets={['Locations', 'CurrentPosition']}
+              sources={['History', 'Datasource']}
+              targets={[
+                'Locations',
+                'CurrentPosition',
+                'SelectFromOwnLocations',
+              ]}
               itineraryParams={itineraryParams}
             />
-            <DatetimepickerContainer realtime />
+            <div className="datetimepicker-container">
+              <DatetimepickerContainer realtime />
+            </div>
             <FavouritesContainer
               favourites={favourites}
               onAddFavourite={this.addFavourite}
               onClickFavourite={this.clickFavourite}
             />
-            <CtrlPanel.SeparatorLine />
+            <CtrlPanel.SeparatorLine usePaddingBottom20 />
             <div className="stops-near-you-text">
               <h2>
                 {' '}
@@ -275,7 +281,9 @@ class IndexPage extends React.Component {
               isMobile
               itineraryParams={itineraryParams}
             />
-            <DatetimepickerContainer realtime />
+            <div className="datetimepicker-container">
+              <DatetimepickerContainer realtime />
+            </div>
             <FavouritesContainer
               favourites={this.props.favourites}
               onClickFavourite={this.clickFavourite}

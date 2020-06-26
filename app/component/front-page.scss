@@ -279,7 +279,14 @@ $heading-color: #858585;
   display: flex;
   flex-direction: column;
   background-color: #fff;
-  padding-top: 30px;
+  padding: 25px 10px;
+  .datetimepicker-container {
+    margin: 20px 0 20px 0;
+    .datetimepicker-bottom-row-open {
+      padding-bottom: 30px;
+      border-bottom: 1px solid rgb(221, 221, 221);
+    }
+  }
 }
 .control-panel-container-left {
   display: flex;
@@ -310,10 +317,10 @@ $heading-color: #858585;
 }
 
 .stops-near-you-text {
-  font-size: $font-size-large;
-  margin-bottom: 1rem;
   h2 {
     margin: 0;
+    font-size: 18px;
+    margin-bottom: 17px;
   }
 }
 

@@ -32,14 +32,16 @@ class QuickSettingsPanel extends React.Component {
 
     return (
       <div className={cx(['quicksettings-container'])}>
-        <DatetimepickerContainer
-          realtime={false}
-          embedWhenClosed={
-            <div className="open-advanced-settings">
-              <RightOffcanvasToggle onToggleClick={toggleSettings} />
-            </div>
-          }
-        />
+        <div className="datetimepicker-container">
+          <DatetimepickerContainer
+            realtime={false}
+            embedWhenClosed={
+              <div className="open-advanced-settings">
+                <RightOffcanvasToggle onToggleClick={toggleSettings} />
+              </div>
+            }
+          />
+        </div>
       </div>
     );
   }

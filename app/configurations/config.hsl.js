@@ -3,6 +3,7 @@ const CONFIG = 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
+const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || '';
 const STATIC_MESSAGE_URL =
   process.env.STATIC_MESSAGE_URL || 'https://dev-yleisviesti.digitransit.fi';
 const APP_DESCRIPTION = 'Helsingin seudun liikenteen Reittiopas.';
@@ -15,11 +16,11 @@ export default {
 
   URL: {
     OTP: process.env.OTP_URL || `${API_URL}/routing/v1/routers/hsl/`,
-    STOP_MAP: `${MAP_URL}/map/v1/hsl-stop-map/`,
-    PARK_AND_RIDE_MAP: `${MAP_URL}/map/v1/hsl-parkandride-map/`,
-    TICKET_SALES_MAP: `${MAP_URL}/map/v1/hsl-ticket-sales-map/`,
+    STOP_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-stop-map/`,
+    PARK_AND_RIDE_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-parkandride-map/`,
+    TICKET_SALES_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-ticket-sales-map/`,
     FONT: 'https://cloud.typography.com/6364294/7432412/css/fonts.css',
-    CITYBIKE_MAP: `${MAP_URL}/map/v1/hsl-citybike-map/`,
+    CITYBIKE_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-citybike-map/`,
   },
 
   contactName: {
@@ -510,7 +511,8 @@ export default {
   },
 
   useTicketIcons: true,
-  trafficNowLink: 'https://dev.hslfi.hsldev.com/',
+  trafficNowLink:
+    'https://uusi.hsl.fi/matkustaminen/liikennetiedotteet-ja-hairiot',
   cityBike: {
     showCityBikes: true,
     networks: {
@@ -544,4 +546,7 @@ export default {
       },
     },
   },
+
+  // DT-3611
+  showVehiclesOnSummaryPage: true,
 };

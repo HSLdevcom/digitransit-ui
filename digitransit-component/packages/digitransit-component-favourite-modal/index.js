@@ -8,6 +8,8 @@ import isNumber from 'lodash/isNumber';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
 import translations from './helpers/translations';
+import DesktopModal from './helpers/DesktopModal';
+import MobileModal from './helpers/MobileModal';
 
 i18next.init({ lng: 'fi', resources: {} });
 
@@ -292,61 +294,60 @@ class FavouriteModal extends React.Component {
     const { name, selectedIconId } = this.state;
     return (
       <Modal isMobile={this.props.isMobile}>
-        <div className={styles['favourite-modal-container']}>
-          <div className={styles['favourite-modal-top']}>
-            <div className={styles['favourite-modal-header']}>
-              {i18next.t('save-place')}
-            </div>
-            <div
-              className={styles['favourite-modal-close']}
-              role="button"
-              tabIndex="0"
-              onClick={() => this.props.handleClose()}
-              aria-label={i18next.t('close-favourite-modal')}
-            >
-              <Icon img="close" width={1} height={1} color="#007ac9" />
-            </div>
-          </div>
-          <div className={styles['favourite-modal-main']}>
-            <div className={styles['favourite-modal-location-search']}>
-              {this.props.autosuggestComponent}
-            </div>
-            <div className={styles['favourite-modal-name']}>
-              <input
-                className={styles['favourite-modal-input']}
-                value={name || ''}
-                placeholder={i18next.t('input-placeholder')}
-                onChange={this.specifyName}
+        {!this.props.isMobile && (
+          <DesktopModal
+            headerText={i18next.t('save-place')}
+            closeArialLabel={i18next.t('close-favourite-modal')}
+            autosuggestComponent={this.props.autosuggestComponent}
+            closeModal={this.props.handleClose}
+            inputPlaceholder={i18next.t('input-placeholder')}
+            specifyName={this.specifyName}
+            name={name || ''}
+            chooseIconText={i18next.t('choose-icon')}
+            favouriteIconTable={
+              <FavouriteIconTable
+                selectedIconId={(() => {
+                  if (selectedIconId !== undefined || null) {
+                    return selectedIconId;
+                  }
+                  return undefined;
+                })()}
+                favouriteIconIds={FavouriteModal.favouriteIconIds}
+                handleClick={this.selectIcon}
               />
-            </div>
-          </div>
-          <div className={styles['favourite-modal-text']}>
-            {i18next.t('choose-icon')}
-          </div>
-          <div className={styles['favourite-modal-icons']}>
-            <FavouriteIconTable
-              selectedIconId={(() => {
-                if (selectedIconId !== undefined || null) {
-                  return selectedIconId;
-                }
-                return undefined;
-              })()}
-              favouriteIconIds={FavouriteModal.favouriteIconIds}
-              handleClick={this.selectIcon}
-            />
-          </div>
-          <div className={styles['favourite-modal-save']}>
-            <button
-              type="button"
-              className={`${styles['favourite-modal-button']} ${
-                this.canSave() ? '' : styles.disabled
-              }`}
-              onClick={this.save}
-            >
-              {i18next.t('save')}
-            </button>
-          </div>
-        </div>
+            }
+            saveFavourite={this.save}
+            saveText={i18next.t('save')}
+            canSave={this.canSave}
+          />
+        )}
+        {this.props.isMobile && (
+          <MobileModal
+            headerText={i18next.t('save-place')}
+            closeArialLabel={i18next.t('close-favourite-modal')}
+            autosuggestComponent={this.props.autosuggestComponent}
+            closeModal={this.props.handleClose}
+            inputPlaceholder={i18next.t('input-placeholder')}
+            specifyName={this.specifyName}
+            name={name || ''}
+            chooseIconText={i18next.t('choose-icon')}
+            favouriteIconTable={
+              <FavouriteIconTable
+                selectedIconId={(() => {
+                  if (selectedIconId !== undefined || null) {
+                    return selectedIconId;
+                  }
+                  return undefined;
+                })()}
+                favouriteIconIds={FavouriteModal.favouriteIconIds}
+                handleClick={this.selectIcon}
+              />
+            }
+            saveFavourite={this.save}
+            saveText={i18next.t('save')}
+            canSave={this.canSave}
+          />
+        )}
       </Modal>
     );
   };

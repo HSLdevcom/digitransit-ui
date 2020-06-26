@@ -50,6 +50,8 @@ function getIconProperties(item) {
     ['icon-icon_school', 'school'],
     ['icon-icon_shopping', 'shopping'],
     ['selectFromMap', 'select-from-map'],
+    ['ownLocations', 'star'],
+    ['back', 'arrow'],
   ]);
 
   const defaultIcon = 'place';
@@ -96,19 +98,21 @@ const SuggestionItem = pure(
         <span aria-label={iconstr} className={styles['suggestion-icon']}>
           {icon}
         </span>
-        <div>
+        <div className={styles['suggestion-result']}>
           <p className={cx(styles['suggestion-name'], styles[className])}>
             {name}
           </p>
           <p className={styles['suggestion-label']}>{label}</p>
         </div>
-        <span
-          className={cx(styles['arrow-icon'], {
-            [styles.mobile]: isMobile,
-          })}
-        >
-          <Icon img="arrow" />
-        </span>
+        {iconId !== 'arrow' && (
+          <span
+            className={cx(styles['arrow-icon'], {
+              [styles.mobile]: isMobile,
+            })}
+          >
+            <Icon img="arrow" />
+          </span>
+        )}
       </div>
     );
     return (
