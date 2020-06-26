@@ -176,7 +176,7 @@ class SummaryPage extends React.Component {
     }).isRequired,
     walkPlan: PropTypes.shape({
       itineraries: PropTypes.array,
-    }),
+    }).isRequired,
     serviceTimeRange: PropTypes.shape({
       start: PropTypes.number.isRequired,
       end: PropTypes.number.isRequired,
@@ -196,7 +196,6 @@ class SummaryPage extends React.Component {
     error: undefined,
     loading: false,
     loadingPosition: false,
-    walkPlan: undefined,
   };
 
   constructor(props, context) {
@@ -617,7 +616,10 @@ class SummaryPage extends React.Component {
     const showWalkOptionButton =
       itineraryDistance < this.context.config.suggestWalkMaxDistance;
 
-    const showStreetModeSelector = showWalkOptionButton;
+    const hasWalkItinerary =
+      this.props.walkPlan && Array.isArray(this.props.walkPlan.itineraries);
+
+    const showStreetModeSelector = hasWalkItinerary && showWalkOptionButton;
 
     const hasItineraries =
       this.props.plan && Array.isArray(this.props.plan.itineraries);

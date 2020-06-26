@@ -193,6 +193,7 @@ export default config => {
                   ) : (
                     <Component
                       plan={{}}
+                      walkPlan={{}}
                       serviceTimeRange={validateServiceTimeRange()}
                       match={match}
                       loading
