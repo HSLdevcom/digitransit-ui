@@ -289,7 +289,7 @@ export default configMerger(walttiConfig, {
     ],
   },
 
-  redirectReittiopasParams: false,
+  redirectReittiopasParams: true,
 
   themeMap: {
     hb: 'hb',
