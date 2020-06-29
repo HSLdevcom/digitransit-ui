@@ -47,7 +47,11 @@ import {
 } from '../action/realTimeClientAction';
 import VehicleMarkerContainer from './map/VehicleMarkerContainer';
 import ItineraryTab from './ItineraryTab';
+import { StreetModeSelector } from './StreetModeSelector';
+import { estimateItineraryDistance } from '../util/geo-utils';
 import { getCurrentSettings } from '../util/planParamUtil';
+
+export const ITINERARYFILTERING_DEFAULT = 1.5;
 
 /**
  * Returns the actively selected itinerary's index. Attempts to look for
@@ -162,11 +166,15 @@ class SummaryPage extends React.Component {
     headers: PropTypes.object.isRequired,
     getStore: PropTypes.func,
     router: routerShape.isRequired, // DT-3358
+    match: matchShape.isRequired,
   };
 
   static propTypes = {
     match: matchShape.isRequired,
     plan: PropTypes.shape({
+      itineraries: PropTypes.array,
+    }).isRequired,
+    walkPlan: PropTypes.shape({
       itineraries: PropTypes.array,
     }).isRequired,
     serviceTimeRange: PropTypes.shape({
@@ -211,7 +219,47 @@ class SummaryPage extends React.Component {
     }
   }
 
-  state = { center: null, loading: false, settingsOpen: false };
+  state = {
+    center: null,
+    loading: false,
+    settingsOpen: false,
+    streetMode:
+      this.props.match.location && this.props.match.location.state
+        ? this.props.match.location.state.streetMode
+        : '',
+  };
+
+  setStreetMode = newStreetMode => {
+    this.setState(
+      { streetMode: newStreetMode },
+      this.selectFirstItinerary(newStreetMode),
+    );
+  };
+
+  resetStreetMode = () => {
+    this.setState({ streetMode: '' });
+  };
+
+  selectFirstItinerary = newStreetMode => {
+    addAnalyticsEvent({
+      event: 'sendMatomoEvent',
+      category: 'Itinerary',
+      action: 'OpenItineraryDetails',
+      name: 0,
+    });
+    const newState = {
+      ...this.context.match.location,
+      state: { summaryPageSelected: 0, streetMode: newStreetMode },
+    };
+
+    const indexPath = `${getRoutePath(
+      this.context.match.params.from,
+      this.context.match.params.to,
+    )}/0`;
+
+    newState.pathname = indexPath;
+    this.context.router.push(newState);
+  };
 
   configClient = itineraryTopics => {
     const { config } = this.context;
@@ -560,11 +608,28 @@ class SummaryPage extends React.Component {
 
   render() {
     const { match, error } = this.props;
+    const itineraryDistance = estimateItineraryDistance(
+      match.params.from,
+      match.params.to,
+      match.location.query.intermediatePlaces,
+    );
+    const showWalkOptionButton =
+      itineraryDistance < this.context.config.suggestWalkMaxDistance;
+
+    const hasWalkItinerary =
+      this.props.walkPlan && Array.isArray(this.props.walkPlan.itineraries);
+
+    const showStreetModeSelector = hasWalkItinerary && showWalkOptionButton;
 
     const hasItineraries =
       this.props.plan && Array.isArray(this.props.plan.itineraries);
-    let itineraries = hasItineraries ? this.props.plan.itineraries : [];
-
+    let itineraries;
+    if (this.state.streetMode === 'walk') {
+      // eslint-disable-next-line prefer-destructuring
+      itineraries = this.props.walkPlan.itineraries;
+    } else {
+      itineraries = hasItineraries ? this.props.plan.itineraries : [];
+    }
     // Remove old itineraries if new query cannot find a route
     if (error && hasItineraries) {
       itineraries = [];
@@ -653,6 +718,7 @@ class SummaryPage extends React.Component {
                 setLoading={this.setLoading}
                 setError={this.setError}
                 focus={this.updateCenter}
+                resetStreetMode={this.resetStreetMode}
               />
             </>
           );
@@ -710,13 +776,22 @@ class SummaryPage extends React.Component {
             />
           }
           header={
-            <SummaryNavigation
-              params={match.params}
-              serviceTimeRange={serviceTimeRange}
-              startTime={earliestStartTime}
-              endTime={latestArrivalTime}
-              toggleSettings={this.toggleCustomizeSearchOffcanvas}
-            />
+            <React.Fragment>
+              <SummaryNavigation
+                params={match.params}
+                serviceTimeRange={serviceTimeRange}
+                startTime={earliestStartTime}
+                endTime={latestArrivalTime}
+                toggleSettings={this.toggleCustomizeSearchOffcanvas}
+              />
+              {showStreetModeSelector && (
+                <StreetModeSelector
+                  showWalkOptionButton
+                  onButtonClick={this.setStreetMode}
+                  walkItinerary={this.props.walkPlan.itineraries[0]}
+                />
+              )}
+            </React.Fragment>
           }
           content={content}
           settingsDrawer={
@@ -759,6 +834,7 @@ class SummaryPage extends React.Component {
                 itinerary,
                 plan: this.props.plan,
                 serviceTimeRange: this.props.serviceTimeRange,
+                resetStreetMode: this.resetStreetMode,
               }),
             )}
         </MobileItineraryWrapper>
@@ -789,13 +865,22 @@ class SummaryPage extends React.Component {
       <MobileView
         header={
           !match.params.hash ? (
-            <SummaryNavigation
-              params={match.params}
-              serviceTimeRange={serviceTimeRange}
-              startTime={earliestStartTime}
-              endTime={latestArrivalTime}
-              toggleSettings={this.toggleCustomizeSearchOffcanvas}
-            />
+            <React.Fragment>
+              <SummaryNavigation
+                params={match.params}
+                serviceTimeRange={serviceTimeRange}
+                startTime={earliestStartTime}
+                endTime={latestArrivalTime}
+                toggleSettings={this.toggleCustomizeSearchOffcanvas}
+              />
+              {showStreetModeSelector && (
+                <StreetModeSelector
+                  showWalkOptionButton
+                  onButtonClick={this.setStreetMode}
+                  walkItinerary={this.props.walkPlan.itineraries[0]}
+                />
+              )}
+            </React.Fragment>
           ) : (
             false
           )
@@ -895,6 +980,43 @@ const containerComponent = createFragmentContainer(PositioningWrapper, {
               ...RouteLine_pattern
             }
           }
+        }
+      }
+    }
+  `,
+  walkPlan: graphql`
+    fragment SummaryPage_walkPlan on Plan {
+      ...SummaryPlanContainer_plan
+      ...ItineraryTab_plan
+      itineraries {
+        walkDistance
+        duration
+        startTime
+        endTime
+        ...ItineraryTab_itinerary
+        ...PrintableItinerary_itinerary
+        ...SummaryPlanContainer_itineraries
+        legs {
+          mode
+          ...ItineraryLine_legs
+          transitLeg
+          legGeometry {
+            points
+          }
+          route {
+            gtfsId
+          }
+          trip {
+            gtfsId
+            directionId
+            stoptimesForDate {
+              scheduledDeparture
+            }
+            pattern {
+              ...RouteLine_pattern
+            }
+          }
+          distance
         }
       }
     }
