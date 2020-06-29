@@ -14,9 +14,9 @@ export default configMerger(walttiConfig, {
   appBarLink: { name: 'Lappeenranta', href: 'http://www.lappeenranta.fi/' },
 
   colors: {
-    primary: '#7AB92A',
+    primary: '#ea4097',
     iconColors: {
-      'mode-bus': '#7AB92A',
+      'mode-bus': '#ea4097',
     },
   },
 
@@ -27,7 +27,9 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
-  textLogo: true, // title text instead of logo img
+  textLogo: false, // title text instead of logo img
+
+  logo: 'lappeenranta/logo.png',
 
   favicon: './app/configurations/images/lappeenranta/bussi_fin.jpeg',
 
