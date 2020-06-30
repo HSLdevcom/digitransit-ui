@@ -58,6 +58,8 @@ export default configMerger(walttiConfig, {
       : '';
   },
 
+  showTicketPrice: true,
+
   searchParams: {
     'boundary.rect.min_lat': 62.454915,
     'boundary.rect.max_lat': 63.469325,
