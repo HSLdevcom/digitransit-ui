@@ -21,7 +21,6 @@ import { getModes } from '../util/modeUtils';
 function ItinerarySummaryListContainer(
   {
     activeIndex,
-    children,
     currentTime,
     error,
     from,
@@ -30,7 +29,6 @@ function ItinerarySummaryListContainer(
     itineraries,
     onSelect,
     onSelectImmediately,
-    open,
     searchTime,
     to,
   },
@@ -40,7 +38,6 @@ function ItinerarySummaryListContainer(
   const { config } = context;
 
   if (!error && itineraries && itineraries.length > 0) {
-    const openedIndex = open && Number(open);
     const summaries = itineraries.map((itinerary, i) => (
       <SummaryRow
         refTime={searchTime}
@@ -55,9 +52,7 @@ function ItinerarySummaryListContainer(
         isCancelled={itineraryHasCancelation(itinerary)}
         showCancelled={showCancelled}
         zones={config.stopCard.header.showZone ? getZones(itinerary.legs) : []}
-      >
-        {i === openedIndex && children}
-      </SummaryRow>
+      />
     ));
 
     const canceledItinerariesCount = itineraries.filter(itineraryHasCancelation)
@@ -178,7 +173,6 @@ const locationShape = PropTypes.shape({
 ItinerarySummaryListContainer.propTypes = {
   activeIndex: PropTypes.number.isRequired,
   currentTime: PropTypes.number.isRequired,
-  children: PropTypes.node,
   error: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.shape({ message: PropTypes.string }),
@@ -189,7 +183,6 @@ ItinerarySummaryListContainer.propTypes = {
   locationState: PropTypes.object,
   onSelect: PropTypes.func.isRequired,
   onSelectImmediately: PropTypes.func.isRequired,
-  open: PropTypes.number,
   searchTime: PropTypes.number.isRequired,
   to: locationShape.isRequired,
 };
