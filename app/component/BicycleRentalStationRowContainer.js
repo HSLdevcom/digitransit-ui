@@ -54,32 +54,34 @@ const BicycleRentalStationRow = ({ distance, station }, { config, intl }) => {
           {station.name}
         </span>
       </td>
-      <td className="td-available-bikes" colSpan="2">
-        <span className="city-bike-station-availability">
-          <span className="bikes-label">
-            {intl.formatMessage({
-              id: `${
-                networkConfig.type === CityBikeNetworkType.CityBike
-                  ? 'bike'
-                  : 'scooter'
-              }-availability-short`,
-              defaultMessage: 'Bikes',
-            })}
+      {getCityBikeNetworkId(station.networks) !== 'taxi' && (
+        <td className="td-available-bikes" colSpan="2">
+          <span className="city-bike-station-availability">
+            <span className="bikes-label">
+              {intl.formatMessage({
+                id: `${
+                  networkConfig.type === CityBikeNetworkType.CityBike
+                    ? 'bike'
+                    : 'scooter'
+                }-availability-short`,
+                defaultMessage: 'Bikes',
+              })}
+            </span>
           </span>
-        </span>
-        <span className="city-bike-station-availability">
-          <span className="bikes-available">{station.bikesAvailable}</span>
-          {config.cityBike.useSpacesAvailable && (
-            <React.Fragment>
-              /
-              <span className="bikes-total">
-                {station.bikesAvailable + station.spacesAvailable}
-              </span>
-            </React.Fragment>
-          )}
-        </span>
-        {availabilityIcon}
-      </td>
+          <span className="city-bike-station-availability">
+            <span className="bikes-available">{station.bikesAvailable}</span>
+            {config.cityBike.useSpacesAvailable && (
+              <React.Fragment>
+                /
+                <span className="bikes-total">
+                  {station.bikesAvailable + station.spacesAvailable}
+                </span>
+              </React.Fragment>
+            )}
+          </span>
+          {availabilityIcon}
+        </td>
+      )}
     </tr>
   );
 };

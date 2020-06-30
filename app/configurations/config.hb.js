@@ -127,7 +127,7 @@ export default configMerger(walttiConfig, {
         },
       },
       taxi: {
-        icon: 'regiorad',
+        icon: 'taxi',
         name: {
           de: 'Taxistand',
           en: 'taxi stand',
