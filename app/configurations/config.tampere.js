@@ -156,6 +156,42 @@ export default configMerger(walttiConfig, {
     ],
   },
 
+  staticMessages: [
+    {
+      id: '4',
+      priority: -1,
+      shouldTrigger: true,
+      persistence: 'repeat',
+      content: {
+        fi: [
+          {
+            type: 'a',
+            content:
+              'Tutustu turvallisen matkustamisen ohjeisiin koronaviruksen aikana tästä linkistä',
+            href:
+              'https://joukkoliikenne.tampere.fi/aikataulut-ja-reitit/poikkeusinfo/liikennetiedotteet/korona-viruksen-vaikutukset-nysse-liikenteeseen.html',
+          },
+        ],
+        en: [
+          {
+            type: 'a',
+            content: 'Please check instructions for safe travelling here',
+            href:
+              'https://joukkoliikenne.tampere.fi/aikataulut-ja-reitit/poikkeusinfo/liikennetiedotteet/korona-viruksen-vaikutukset-nysse-liikenteeseen.html',
+          },
+        ],
+        sv: [
+          {
+            type: 'a',
+            content: 'Please check instructions for safe travelling here',
+            href:
+              'https://joukkoliikenne.tampere.fi/aikataulut-ja-reitit/poikkeusinfo/liikennetiedotteet/korona-viruksen-vaikutukset-nysse-liikenteeseen.html',
+          },
+        ],
+      },
+    },
+  ],
+
   aboutThisService: {
     fi: [
       {
