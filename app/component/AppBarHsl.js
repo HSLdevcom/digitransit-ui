@@ -3,6 +3,7 @@ import React from 'react';
 import i18next from 'i18next';
 import { matchShape, routerShape } from 'found';
 import loadable from '@loadable/component';
+import SharedLocalStorageObserver from '@hsl-fi/shared-local-storage';
 
 const SiteHeader = loadable(() => import('@hsl-fi/site-header'), { ssr: true });
 
@@ -110,13 +111,20 @@ const AppBarHsl = ({ lang }, { match }) => {
   };
 
   return (
-    <SiteHeader
-      startPage={startPage}
-      menu={menu}
-      searchPage={searchPage}
-      languages={languages}
-      localizations={localizations}
-    />
+    <>
+      {/* This component should always be mounted */}
+      <SharedLocalStorageObserver
+        keys={['saved-searches', 'favouriteStore']}
+        url="https://uusi.hsl.fi/local-storage-emitter"
+      />
+      <SiteHeader
+        startPage={startPage}
+        menu={menu}
+        searchPage={searchPage}
+        languages={languages}
+        localizations={localizations}
+      />
+    </>
   );
 };
 
