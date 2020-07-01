@@ -138,6 +138,7 @@
     "express-session": "1.17.0",
     "express-static-gzip": "0.3.2",
     "farce": "0.2.8",
+    "fast-xml-parser": "3.17.4",
     "fluxible": "1.4.0",
     "fluxible-addons-react": "0.2.16",
     "found": "0.4.9",
