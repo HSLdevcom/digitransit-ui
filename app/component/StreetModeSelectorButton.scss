@@ -8,9 +8,10 @@
 	color: #333333;
 	border: solid 1px #d9d9d9;
 	background-color: #ffffff;
-	// justify-content: center;
 	align-items: center;
 	padding: 5px 15px 5px 20px;
+	margin-left: 5px;
+	margin-right: 5px;
 
 	.disabled-overlay {
 		z-index: 1;
@@ -30,8 +31,8 @@
 		left: 0;
 		position: absolute;
 		display: flex;
-    justify-content: center;
-    align-items: center;
+		justify-content: center;
+		align-items: center;
 	}
 
 	.icon-container {
@@ -47,7 +48,7 @@
 	  font-size: 13px;
 		font-weight: 500;
 		height: 1.2em;
-    line-height: 1.2em;
+		line-height: 1.2em;
 	}
 	.street-mode-button-length {
 	  font-size: 11px;

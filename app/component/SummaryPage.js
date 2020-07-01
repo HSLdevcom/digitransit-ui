@@ -177,6 +177,9 @@ class SummaryPage extends React.Component {
     walkPlan: PropTypes.shape({
       itineraries: PropTypes.array,
     }).isRequired,
+    bikePlan: PropTypes.shape({
+      itineraries: PropTypes.array,
+    }).isRequired,
     serviceTimeRange: PropTypes.shape({
       start: PropTypes.number.isRequired,
       end: PropTypes.number.isRequired,
@@ -379,13 +382,18 @@ class SummaryPage extends React.Component {
       reportError(this.props.error);
     }
     if (this.showVehicles()) {
-      const itineraryTopics = getTopicOptions(
-        this.context,
-        this.props.plan,
-        this.props.match,
-      );
-      if (itineraryTopics && itineraryTopics.length > 0) {
-        this.updateClient(itineraryTopics);
+      if (this.state.streetMode !== '') {
+        // Remove vehicle markers on walk or bike itinerary
+        this.updateClient([]);
+      } else {
+        const itineraryTopics = getTopicOptions(
+          this.context,
+          this.props.plan,
+          this.props.match,
+        );
+        if (itineraryTopics && itineraryTopics.length > 0) {
+          this.updateClient(itineraryTopics);
+        }
       }
     }
   }
@@ -415,7 +423,7 @@ class SummaryPage extends React.Component {
   }
 
   renderMap() {
-    const { match, plan, breakpoint } = this.props;
+    const { match, plan, breakpoint, walkPlan, bikePlan } = this.props;
     // don't render map on mobile
     if (breakpoint !== 'large') {
       return undefined;
@@ -423,7 +431,16 @@ class SummaryPage extends React.Component {
     const {
       config: { defaultEndpoint },
     } = this.context;
-    const itineraries = (plan && plan.itineraries) || [];
+
+    let itineraries;
+
+    if (this.state.streetMode === 'walk') {
+      itineraries = (walkPlan && walkPlan.itineraries) || [];
+    } else if (this.state.streetMode === 'bike') {
+      itineraries = (bikePlan && bikePlan.itineraries) || [];
+    } else {
+      itineraries = (plan && plan.itineraries) || [];
+    }
     const activeIndex = getActiveIndex(match.location, itineraries);
     const from = otpToLocation(match.params.from);
     const to = otpToLocation(match.params.to);
@@ -613,13 +630,30 @@ class SummaryPage extends React.Component {
       match.params.to,
       match.location.query.intermediatePlaces,
     );
+    const currentSettings = getCurrentSettings(this.context.config, '');
+
     const showWalkOptionButton =
-      itineraryDistance < this.context.config.suggestWalkMaxDistance;
+      itineraryDistance < this.context.config.suggestWalkMaxDistance &&
+      currentSettings.usingWheelchair !== 1;
+
+    const showBikeOptionButton =
+      itineraryDistance < this.context.config.suggestBikeMaxDistance &&
+      currentSettings.usingWheelchair !== 1;
 
     const hasWalkItinerary =
-      this.props.walkPlan && Array.isArray(this.props.walkPlan.itineraries);
+      this.props.walkPlan &&
+      Array.isArray(this.props.walkPlan.itineraries) &&
+      this.props.walkPlan.itineraries.length;
 
-    const showStreetModeSelector = hasWalkItinerary && showWalkOptionButton;
+    const hasBikeItinerary =
+      this.props.bikePlan &&
+      Array.isArray(this.props.bikePlan.itineraries) &&
+      this.props.bikePlan.itineraries.length;
+
+    const showStreetModeSelector =
+      hasWalkItinerary &&
+      hasBikeItinerary &&
+      (showBikeOptionButton || showWalkOptionButton);
 
     const hasItineraries =
       this.props.plan && Array.isArray(this.props.plan.itineraries);
@@ -627,6 +661,9 @@ class SummaryPage extends React.Component {
     if (this.state.streetMode === 'walk') {
       // eslint-disable-next-line prefer-destructuring
       itineraries = this.props.walkPlan.itineraries;
+    } else if (this.state.streetMode === 'bike') {
+      // eslint-disable-next-line prefer-destructuring
+      itineraries = this.props.bikePlan.itineraries;
     } else {
       itineraries = hasItineraries ? this.props.plan.itineraries : [];
     }
@@ -718,7 +755,6 @@ class SummaryPage extends React.Component {
                 setLoading={this.setLoading}
                 setError={this.setError}
                 focus={this.updateCenter}
-                resetStreetMode={this.resetStreetMode}
               />
             </>
           );
@@ -783,12 +819,15 @@ class SummaryPage extends React.Component {
                 startTime={earliestStartTime}
                 endTime={latestArrivalTime}
                 toggleSettings={this.toggleCustomizeSearchOffcanvas}
+                resetStreetMode={this.resetStreetMode}
               />
               {showStreetModeSelector && (
                 <StreetModeSelector
-                  showWalkOptionButton
+                  showWalkOptionButton={showWalkOptionButton}
+                  showBikeOptionButton={showBikeOptionButton}
                   onButtonClick={this.setStreetMode}
                   walkItinerary={this.props.walkPlan.itineraries[0]}
+                  bikeItinerary={this.props.bikePlan.itineraries[0]}
                 />
               )}
             </React.Fragment>
@@ -834,7 +873,6 @@ class SummaryPage extends React.Component {
                 itinerary,
                 plan: this.props.plan,
                 serviceTimeRange: this.props.serviceTimeRange,
-                resetStreetMode: this.resetStreetMode,
               }),
             )}
         </MobileItineraryWrapper>
@@ -872,12 +910,15 @@ class SummaryPage extends React.Component {
                 startTime={earliestStartTime}
                 endTime={latestArrivalTime}
                 toggleSettings={this.toggleCustomizeSearchOffcanvas}
+                resetStreetMode={this.resetStreetMode}
               />
               {showStreetModeSelector && (
                 <StreetModeSelector
-                  showWalkOptionButton
+                  showWalkOptionButton={showWalkOptionButton}
+                  showBikeOptionButton={showBikeOptionButton}
                   onButtonClick={this.setStreetMode}
                   walkItinerary={this.props.walkPlan.itineraries[0]}
+                  bikeItinerary={this.props.bikePlan.itineraries[0]}
                 />
               )}
             </React.Fragment>
@@ -990,6 +1031,42 @@ const containerComponent = createFragmentContainer(PositioningWrapper, {
       ...ItineraryTab_plan
       itineraries {
         walkDistance
+        duration
+        startTime
+        endTime
+        ...ItineraryTab_itinerary
+        ...PrintableItinerary_itinerary
+        ...SummaryPlanContainer_itineraries
+        legs {
+          mode
+          ...ItineraryLine_legs
+          transitLeg
+          legGeometry {
+            points
+          }
+          route {
+            gtfsId
+          }
+          trip {
+            gtfsId
+            directionId
+            stoptimesForDate {
+              scheduledDeparture
+            }
+            pattern {
+              ...RouteLine_pattern
+            }
+          }
+          distance
+        }
+      }
+    }
+  `,
+  bikePlan: graphql`
+    fragment SummaryPage_bikePlan on Plan {
+      ...SummaryPlanContainer_plan
+      ...ItineraryTab_plan
+      itineraries {
         duration
         startTime
         endTime

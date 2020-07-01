@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { matchShape, routerShape } from 'found';
 import { StreetModeSelectorButton } from './StreetModeSelectorButton';
 
 export const StreetModeSelector = ({
   showWalkOptionButton,
+  showBikeOptionButton,
   onButtonClick,
   walkItinerary,
+  bikeItinerary,
 }) => {
   return (
     <div className="street-mode-selector-container">
@@ -17,20 +18,23 @@ export const StreetModeSelector = ({
         itinerary={walkItinerary}
         onClick={onButtonClick}
       />
+      <StreetModeSelectorButton
+        icon="icon-icon_cyclist"
+        name="bike"
+        active={showBikeOptionButton}
+        itinerary={bikeItinerary}
+        onClick={onButtonClick}
+      />
     </div>
   );
 };
 
 StreetModeSelector.propTypes = {
   showWalkOptionButton: PropTypes.bool.isRequired,
+  showBikeOptionButton: PropTypes.bool.isRequired,
   onButtonClick: PropTypes.func.isRequired,
   walkItinerary: PropTypes.object.isRequired,
-};
-
-StreetModeSelector.contextTypes = {
-  config: PropTypes.object.isRequired,
-  router: routerShape,
-  match: matchShape.isRequired,
+  bikeItinerary: PropTypes.object.isRequired,
 };
 
 export default StreetModeSelector;
