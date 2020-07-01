@@ -91,13 +91,13 @@ export default class CarpoolOffer extends React.Component {
       },
       phoneNumber: this.state.phoneNumber,
       time: {
-        type: this.isRegularly ? 'recurring' : 'one-off',
+        type: this.state.isRegularly ? 'recurring' : 'one-off',
         departureTime: new Moment(this.props.start).format('HH:mm'),
       },
     };
 
-    if (this.isRegularly) {
-      carpoolOffer.time.weekdays = this.days;
+    if (this.state.isRegularly) {
+      carpoolOffer.time.weekdays = this.state.days;
     } else {
       carpoolOffer.time.date = new Moment(this.props.start).format(
         'YYYY-MM-DD',

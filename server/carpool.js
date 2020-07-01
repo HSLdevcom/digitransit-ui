@@ -5,7 +5,7 @@ const calulateWeekdays = days => {
   const result = {};
   Object.keys(days).forEach(weekday => {
     const value = days[weekday];
-    const bool = value === '1';
+    const bool = value ? '1' : '0';
     result[weekday.toLowerCase()] = bool;
   });
   return result;
@@ -22,7 +22,7 @@ const calculateDate = options => {
   if (options.time.date) {
     return options.time.date.replace(/-/g, '');
   }
-  return null;
+  return moment().format('YYYYMMDD');
 };
 
 const postCarpoolOffer = options => {
