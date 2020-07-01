@@ -20,7 +20,7 @@ const calculateReoccur = options => {
 
 const calculateDate = options => {
   if (options.time.date) {
-    return options.time.date.replace('-', '');
+    return options.time.date.replace(/-/g, '');
   }
   return null;
 };
@@ -32,12 +32,13 @@ const postCarpoolOffer = options => {
     Enterdate: moment().unix(),
     IDuser: '830d39a4-3584-6f04-a178-25176353b359',
     Places: '3',
+    Prefgender: 'g',
     Privacy: {
       Name: '1',
       Mobile: '1',
       Email: '1',
       Landline: '1',
-      Licenseplate: '1',
+      NumberPlate: '1',
       Car: '1',
     },
     Relevance: '10',
@@ -48,14 +49,14 @@ const postCarpoolOffer = options => {
         Origin: {
           Address: options.origin.label,
           CountryName: 'Deutschland',
-          CountryCode: 'Deutschland',
+          CountryCode: 'DE',
           Latitude: options.origin.lat,
           Longitude: options.origin.lon,
         },
         Destination: {
           Address: options.destination.label,
           CountryName: 'Deutschland',
-          CountryCode: 'Deutschland',
+          CountryCode: 'DE',
           Latitude: options.destination.lat,
           Longitude: options.destination.lon,
         },
@@ -66,6 +67,8 @@ const postCarpoolOffer = options => {
     Startdate: calculateDate(options),
     Starttime: options.time.departureTime.replace(':', ''),
     Triptype: 'offer',
+    Associations: null,
+    ExclusiveAssociations: null,
   };
 
   const headers = {
@@ -74,7 +77,7 @@ const postCarpoolOffer = options => {
     'content-type': 'application/json',
   };
 
-  return fetch('https://service.live.ride2go.com/trip', {
+  return fetch('https://harveydent.api.prod.services.rd2g.de/trip', {
     method: 'post',
     body: JSON.stringify(body),
     headers,
