@@ -134,6 +134,14 @@ export default configMerger(walttiConfig, {
         },
         type: 'citybike',
       },
+      "car-sharing": {
+        icon: 'car-sharing',
+        name: {
+          de: 'Car-Sharing',
+          en: 'car sharing',
+        },
+        type: 'citybike',
+      },
     }
   },
 
@@ -401,15 +409,6 @@ export default configMerger(walttiConfig, {
           de: "Rund um's Fahrrad",
         },
         url: '/assets/geojson/hb-layers/bicycleinfrastructure.geojson',
-      },
-      // sharing options
-      {
-        name: {
-          fi: '',
-          en: 'Taxi & Sharing',
-          de: 'Taxi & Sharing-Angebot',
-        },
-        url: '/assets/geojson/hb-layers/taxi-and-sharing.geojson',
       },
       // Charging stations
       {
