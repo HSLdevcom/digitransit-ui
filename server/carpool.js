@@ -74,7 +74,7 @@ const postCarpoolOffer = options => {
     'content-type': 'application/json',
   };
 
-  return fetch('https://harveydent.api.prod.services.rd2g.de/trip', {
+  return fetch('https://service.live.ride2go.com/trip', {
     method: 'post',
     body: JSON.stringify(body),
     headers,
