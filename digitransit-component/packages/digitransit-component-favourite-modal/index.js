@@ -164,7 +164,7 @@ class FavouriteModal extends React.Component {
     location: PropTypes.shape({
       address: PropTypes.string,
       gtfsId: PropTypes.string,
-      id: PropTypes.string,
+      gid: PropTypes.string,
       lat: PropTypes.number,
       lon: PropTypes.number,
       layer: PropTypes.string,
@@ -257,7 +257,7 @@ class FavouriteModal extends React.Component {
         name,
         address: this.props.location.address,
         gtfsId: this.props.location.gtfsId,
-        gid: this.props.location.id,
+        gid: this.props.location.gid,
         lat: this.props.location.lat,
         lon: this.props.location.lon,
         layer: this.props.location.layer,
