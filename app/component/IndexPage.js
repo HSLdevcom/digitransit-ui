@@ -157,8 +157,9 @@ class IndexPage extends React.Component {
 
   // DT-3551: handle logic for Traffic now link
   trafficNowHandler = e => {
-    e.preventDefault();
-    window.location = this.context.config.trafficNowLink;
+    if (!e.keyCode || e.keyCode === 32 || e.keyCode === 13) {
+      window.location = this.context.config.trafficNowLink;
+    }
   };
 
   addFavourite = favourite => {

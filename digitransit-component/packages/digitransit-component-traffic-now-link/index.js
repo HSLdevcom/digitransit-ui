@@ -27,7 +27,7 @@ i18next.addResourceBundle('sv', 'translation', translations.sv);
  */
 class TrafficNowLink extends React.Component {
   static propTypes = {
-    /** Required. Function to handle when the banner is clicked. */
+    /** Required. Function to handle when the banner is clicked. Also for KeyDown events */
     handleClick: PropTypes.func.isRequired,
     /* Language. Supported languages are en, sv, fi */
     lang: PropTypes.string,
@@ -47,6 +47,7 @@ class TrafficNowLink extends React.Component {
         tabIndex="0"
         role="button"
         onClick={e => this.props.handleClick(e)}
+        onKeyDown={e => this.props.handleClick(e)}
       >
         <div className={styles.caution}>
           {' '}
