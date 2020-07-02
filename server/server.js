@@ -380,7 +380,7 @@ function setUpAvailableTickets() {
   });
 }
 
-function setUpOpenData() {
+function setUpOpenWeatherData() {
   const options = {
     ignoreAttributes: true,
     ignoreNameSpace: true,
@@ -413,7 +413,9 @@ function startServer() {
 if (process.env.OIDC_CLIENT_ID) {
   setUpOIDC();
 }
-setUpOpenData();
+if (config.URL.WEATHER_DATA) {
+  setUpOpenWeatherData();
+}
 setUpRaven();
 setUpStaticFolders();
 setUpMiddleware();
