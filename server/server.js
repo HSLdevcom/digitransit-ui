@@ -119,6 +119,14 @@ function setUpOIDC() {
   // Initialize Passport
   app.use(passport.initialize());
   app.use(passport.session());
+
+  app.get('/', function(req, res, next) {
+    if (req.isAuthenticated) {
+      res.clearCookie('token');
+    }
+    next();
+  });
+
   // Initiates an authentication request
   // users will be redirected to hsl.id and once authenticated
   // they will be returned to the callback handler below
@@ -138,6 +146,25 @@ function setUpOIDC() {
       failureRedirect: '/',
     }),
   );
+
+  app.get('/sso-callback', function(req, res, next) {
+    if (req.isAuthenticated()) {
+      next();
+    } else {
+      res.cookie('token', req.query['sso-token'], {
+        secure: process.env.NODE_ENV === 'production',
+        httpOnly: process.env.NODE_ENV === 'production',
+        maxAge: req.query['sso-validity'] * 1000 * 60,
+      });
+      const icon = fs.readFileSync(
+        path.join(__dirname, '../static/img/hsl-social-share.png'),
+      );
+      res.status(200);
+      res.setHeader('Content-type', 'image/png');
+      res.send(icon);
+    }
+  });
+
   app.get('/logout', function(req, res) {
     req.logout();
     req.session.destroy(function() {
