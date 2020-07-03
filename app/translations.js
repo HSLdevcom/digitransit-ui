@@ -839,7 +839,7 @@ const translations = {
     description: 'Find public transport services to locations near and far.',
     destination: 'Destination',
     'destination-outside-service':
-      'Unfortunately no routes were found for your journey. Your destination address is located outside the service area. Please change it.',
+      'No route suggestions were found because the destination is outside the service area.',
     'destination-placeholder': 'Enter destination, route or stop',
     'dialog-return-to-map': 'Return to map',
     'digitransit-platform': 'Digitransit service platform',
@@ -1003,17 +1003,16 @@ const translations = {
       'Your location is not available. We are unable to show the closest stops.',
     'no-route-already-at-destination': 'You are already at your destination.',
     'no-route-end-date-not-in-range':
-      'Current timetable does not include routes departing later.',
-    'no-route-msg':
-      'Unfortunately no routes were found for your journey. Try changing your origin or destination.',
+      'The timetable does not include later departures.',
+    'no-route-msg': 'Unfortunately, no route suggestions were found.',
     'no-route-msg-with-changes':
-      'Unfortunately no routes were found for your journey. Try changing your settings, origin or destination.',
+      'Unfortunately, no route suggestions were found. Please check your search settings or try changing the origin or destination.',
     'no-route-origin-near-destination':
-      'The origin and the destination are close to each other. Please change either location.',
+      'No route suggestions were found because the origin and destination are very close to each other.',
     'no-route-origin-same-as-destination':
-      'No routes were found because the origin is same as the destination.',
+      'No route suggestions were found because the origin and destination are the same.',
     'no-route-start-date-too-early':
-      'Current timetable does not include routes departing earlier.',
+      'The timetable does not include earlier departures.',
     'no-route-start-end': 'Please select origin and destination.',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'No journeys found for the selected date.',
@@ -1032,7 +1031,7 @@ const translations = {
     or: 'or',
     origin: 'Origin',
     'origin-outside-service':
-      'Unfortunately no routes were found for your journey. Your origin address is located outside the service area, please change it.',
+      'No route suggestions were found because the origin is outside the service area.',
     'origin-placeholder': 'From? - address or stop',
     'own-position': 'Your current location',
     'page-not-found': 'The page cannot be found.',
@@ -1211,9 +1210,9 @@ const translations = {
     'try-again': 'Try again',
     unpreferred: 'Avoid routes',
     'use-citybike': 'Start using',
-    'use-national-service-postfix': ' service.',
+    'use-national-service-postfix': '.',
     'use-national-service-prefix':
-      'We recommend trying the route search from the nationwide ',
+      'We recommend you try the national journey planner, ',
     'use-own-position': 'Use current location',
     'using-modes': 'I want to travel by',
     'very-likely': 'Very likely',

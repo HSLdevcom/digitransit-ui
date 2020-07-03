@@ -146,10 +146,7 @@ function ItinerarySummaryListContainer(
         <a className="no-decoration" href={config.nationalServiceLink.href}>
           {config.nationalServiceLink.name}
         </a>
-        <FormattedMessage
-          id="use-national-service-postfix"
-          defaultMessage=" service."
-        />
+        <FormattedMessage id="use-national-service-postfix" defaultMessage="" />
       </div>
     );
   }
