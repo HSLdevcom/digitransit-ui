@@ -6,7 +6,9 @@ const calulateWeekdays = days => {
   Object.keys(days).forEach(weekday => {
     const value = days[weekday];
     const bool = value ? '1' : '0';
-    result[weekday.toLowerCase()] = bool;
+    const upperCasedWeekday =
+      weekday.charAt(0).toUpperCase() + weekday.slice(1);
+    result[upperCasedWeekday] = bool;
   });
   return result;
 };
