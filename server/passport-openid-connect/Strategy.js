@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 /* eslint-disable no-console, strict, no-unused-vars, prefer-destructuring, consistent-return */
 
 'use strict';
@@ -44,9 +45,10 @@ OICStrategy.prototype.init = function() {
 
 OICStrategy.prototype.authenticate = function(req, opts) {
   if (opts.callback) {
-    return this.callback(req, opts);
+    return this.callback(req);
   }
-  const authurl = this.createAuthUrl(req.query['sso-token']);
+  const ssoToken = this.getSsoToken(req.headers.cookie);
+  const authurl = this.createAuthUrl(ssoToken);
   this.redirect(authurl);
 };
 
@@ -56,7 +58,7 @@ OICStrategy.prototype.getUserInfo = function() {
   });
 };
 
-OICStrategy.prototype.callback = function(req, opts) {
+OICStrategy.prototype.callback = function(req) {
   return this.client
     .authorizationCallback(this.config.redirect_uri, req.query, {
       state: req.query.state,
@@ -75,6 +77,24 @@ OICStrategy.prototype.callback = function(req, opts) {
       console.error('Error processing callback', err);
       this.fail(err);
     });
+};
+
+OICStrategy.prototype.getSsoToken = function(cookie) {
+  if (!cookie) {
+    return null;
+  }
+  const cookieObject = cookie.split(';').reduce(function(res, c) {
+    const [key, val] = c
+      .trim()
+      .split('=')
+      .map(decodeURIComponent);
+    try {
+      return Object.assign(res, { [key]: JSON.parse(val) });
+    } catch (e) {
+      return Object.assign(res, { [key]: val });
+    }
+  }, {});
+  return cookieObject.token;
 };
 
 OICStrategy.prototype.createAuthUrl = function(ssoToken) {
