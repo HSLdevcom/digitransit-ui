@@ -706,6 +706,18 @@ $itinerary-tab-switch-height: 48px;
     .intermediate-stops-duration {
       color: $gray;
     }
+
+    .itinerary-alert-info {
+      padding: 10px;
+      border-radius: 10px;
+      border-width: 1px;
+      border-style: solid;
+      margin-top: 8px;
+
+      &.citybike {
+        border-color: $citybike-color;
+      }
+    }
   }
 }
 

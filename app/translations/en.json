@@ -21,6 +21,7 @@
   "airport-check-in": "Check-in at the {agency} desk",
   "airport-collect-luggage": "Collect your luggage",
   "airport-security-check-go-to-gate": "Proceed to your gate through security check",
+  "alert:bikerental:free-floating-drop-off": "Destination is not a designated drop-off area. Rental cannot be completed here. Please check terms & conditions for additional fees.",
   "all-routes": "All routes",
   "all-routes-disabled": "No routes",
   "approx-meters": "{approxDistance} m",

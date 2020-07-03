@@ -26,7 +26,15 @@ function RouteNumber(props, context) {
     new RegExp(/^([^0-9]*)$/).test(props.text) &&
     props.text.length > 3;
 
-  const getIcon = (icon, isCallAgency, hasDisruption, badgeFill, badgeText) => {
+  const getIcon = (
+    icon,
+    isCallAgency,
+    hasDisruption,
+    badgeFill,
+    badgeText,
+    subIcon,
+    subIconClass,
+  ) => {
     if (isCallAgency) {
       return (
         <IconWithIcon
@@ -56,7 +64,8 @@ function RouteNumber(props, context) {
         color={color}
         className={mode}
         img={icon || `icon-icon_${mode}`}
-        subIcon=""
+        subIcon={subIcon}
+        subIconClassName={subIconClass}
       />
     );
   };
@@ -88,6 +97,8 @@ function RouteNumber(props, context) {
               props.hasDisruption,
               props.badgeFill,
               props.badgeText,
+              props.subIcon,
+              props.subIconClass,
             )}
           </div>
         ) : (
@@ -210,6 +221,8 @@ RouteNumber.propTypes = {
   badgeText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   icon: PropTypes.string,
   isRouteView: PropTypes.bool,
+  subIcon: PropTypes.string,
+  subIconClass: PropTypes.string,
 };
 
 RouteNumber.defaultProps = {
@@ -225,6 +238,8 @@ RouteNumber.defaultProps = {
   isCallAgency: false,
   isRouteView: false,
   icon: undefined,
+  subIcon: '',
+  subIconClass: '',
 };
 
 RouteNumber.contextTypes = {

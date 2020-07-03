@@ -21,6 +21,7 @@
   "airport-check-in": "Gepäck bei {agency} einchecken",
   "airport-collect-luggage": "Falls vorhanden, Gepäck einsammeln",
   "airport-security-check-go-to-gate": "Gehen Sie durch die Sicherheitskontrolle zum Abfluggate",
+  "alert:bikerental:free-floating-drop-off": "Ziel ist keine Rückgabestation. Ausleihe kann hier nicht abgeschlossen werden. Anbieterabhängig fallen weiter Gebühren bis zur Rückgabe an einer Station an.",
   "all-routes": "Alle Linien",
   "all-routes-disabled": "Keine Linien",
   "approx-meters": "{approxDistance} Meter",
