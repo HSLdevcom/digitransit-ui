@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { retryFetch } from './fetchUtils';
 
 export function getUser() {
@@ -31,4 +32,22 @@ export function deleteFavourites(data) {
     body: JSON.stringify(data),
   };
   return retryFetch('/api/user/favourites', options, 0, 0);
+}
+
+export function getWeatherData(lat, lon) {
+  const now = moment();
+  // Round time to next 5 minutes
+  const remainder = 5 - now.minute() % 5;
+  const endtime = moment(now)
+    .add(remainder, 'minutes')
+    .toISOString();
+  return retryFetch(`/weather?latlon=${lat},${lon}&endtime=${endtime}`)
+    .then(res => res.json())
+    .then(json => {
+      const data = json.FeatureCollection.member.map(elem => elem.BsWfsElement);
+      return data;
+    })
+    .catch(err => {
+      throw new Error(`Error fetching weather data: ${err}`);
+    });
 }
