@@ -17,7 +17,8 @@ function NearbyRoutesPanel({ origin, currentTime }, context) {
 
   const modes = Object.keys(context.config.transportModes)
     .filter(mode => context.config.transportModes[mode].availableForSelection)
-    .map(mode => mode.toUpperCase());
+    .map(mode => mode.toUpperCase())
+    .filter(mode => mode !== 'CITYBIKE');
 
   return (
     <div className="frontpage-panel nearby-routes fullscreen">

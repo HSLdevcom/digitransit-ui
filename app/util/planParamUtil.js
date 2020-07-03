@@ -417,7 +417,7 @@ export const preparePlanParams = config => (
       },
       nullOrUndefined,
     ),
-    modes: modesOrDefault,
+    modes: modesOrDefault.split(',').map(mode => ({ mode })),
     ticketTypes: getTicketTypes(
       ticketTypes,
       settings.ticketTypes,

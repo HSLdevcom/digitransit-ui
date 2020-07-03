@@ -517,7 +517,7 @@ const containerComponent = Relay.createContainer(SummaryPageWithBreakpoint, {
           toPlace: $toPlace,
           intermediatePlaces: $intermediatePlaces,
           numItineraries: $numItineraries,
-          modes: $modes,
+          transportModes: $modes,
           date: $date,
           time: $time,
           walkReluctance: $walkReluctance,
