@@ -1413,3 +1413,19 @@ $font-print-decrease: 0.7;
     }
   }
 }
+
+.summary-notification {
+  margin: 0 auto;
+  width: calc(100% - 2em);
+  max-width: 400px;
+  border-radius: 5px;
+  padding: 18px 32px 18px 16px;
+  font-weight: normal;
+  font-size: 14px;
+  &.caution {
+    background: #f4f4f5;
+  }
+  &.info {
+    background: #E5F1F9;
+  }
+}
