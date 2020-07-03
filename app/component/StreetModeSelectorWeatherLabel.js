@@ -5,6 +5,9 @@ import Icon from './Icon';
 
 export const StreetModeSelectorWeatherLabel = ({ active, weatherData }) => {
   if (active && weatherData) {
+    if (weatherData.temperature === 'NaN') {
+      return null;
+    }
     const { temperature, iconId } = weatherData;
     const tempLabel = `${Math.round(temperature)} \u2103`; // Temperature with Celsius
     // console.log(`icon-icon_weather_${iconId}`);

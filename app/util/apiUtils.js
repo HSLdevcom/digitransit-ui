@@ -34,14 +34,23 @@ export function deleteFavourites(data) {
   return retryFetch('/api/user/favourites', options, 0, 0);
 }
 
-export function getWeatherData(lat, lon) {
-  const now = moment();
+export function getWeatherData(timems, lat, lon) {
+  let time;
+  if (timems) {
+    time = moment(timems);
+  } else {
+    time = moment();
+  }
   // Round time to next 5 minutes
-  const remainder = 5 - now.minute() % 5;
-  const endtime = moment(now)
+  const remainder = 5 - time.minute() % 5;
+  const endtime = time
     .add(remainder, 'minutes')
+    .seconds(0)
+    .milliseconds(0)
     .toISOString();
-  return retryFetch(`/weather?latlon=${lat},${lon}&endtime=${endtime}`)
+  return retryFetch(
+    `/weather?latlon=${lat},${lon}&starttime=${endtime}&endtime=${endtime}`,
+  )
     .then(res => res.json())
     .then(json => {
       const data = json.FeatureCollection.member.map(elem => elem.BsWfsElement);

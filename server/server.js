@@ -387,9 +387,9 @@ function setUpOpenWeatherData() {
   };
   app.get('/weather', function(req, res, next) {
     request.get(
-      `${config.URL.WEATHER_DATA}&latlon=${req.query.latlon}&endtime=${
-        req.query.endtime
-      }`,
+      `${config.URL.WEATHER_DATA}&latlon=${req.query.latlon}&starttime=${
+        req.query.starttime
+      }&endtime=${req.query.endtime}`,
       function(err, response, body) {
         if (!err) {
           const json = xmlParser.parse(body, options);

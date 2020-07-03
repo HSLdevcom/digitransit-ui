@@ -342,7 +342,9 @@ class SummaryPage extends React.Component {
 
   componentDidMount() {
     const from = otpToLocation(this.props.match.params.from);
-    getWeatherData(from.lat, from.lon).then(res => {
+    const time = this.props.plan.itineraries[0].startTime; // TODO
+
+    getWeatherData(time, from.lat, from.lon).then(res => {
       this.setState({
         weatherData: {
           temperature: res[0].ParameterValue,
@@ -417,6 +419,27 @@ class SummaryPage extends React.Component {
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
+    const from = otpToLocation(this.props.match.params.from);
+
+    let time; // TODO
+    if (
+      nextProps.plan &&
+      nextProps.plan.itineraries &&
+      time !== nextProps.plan.itineraries[0].startTime
+    ) {
+      time = nextProps.plan.itineraries[0].startTime;
+    } else if (this.props.plan.itineraries) {
+      time = this.props.plan.itineraries[0].startTime;
+    }
+    getWeatherData(time, from.lat, from.lon).then(res => {
+      this.setState({
+        weatherData: {
+          temperature: res[0].ParameterValue,
+          windSpeed: res[1].ParameterValue,
+          iconId: res[2].ParameterValue,
+        },
+      });
+    });
     if (!isEqual(nextProps.match.params.from, this.props.match.params.from)) {
       this.context.executeAction(storeOrigin, nextProps.match.params.from);
     }
@@ -777,7 +800,6 @@ class SummaryPage extends React.Component {
           </div>
         );
       }
-
       return (
         <DesktopView
           title={
