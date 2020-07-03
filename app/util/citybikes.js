@@ -17,6 +17,8 @@ export const CityBikeNetworkType = {
   CityBike: 'citybike',
   /** The network uses scooters. */
   Scooter: 'scooter',
+  Taxi: 'taxi',
+  Carsharing: 'car-sharing',
 };
 
 export const defaultNetworkConfig = {

@@ -132,7 +132,7 @@ export default configMerger(walttiConfig, {
           de: 'Taxistand',
           en: 'taxi stand',
         },
-        type: 'citybike',
+        type: 'taxi',
       },
       "car-sharing": {
         icon: 'car-sharing',
@@ -140,7 +140,7 @@ export default configMerger(walttiConfig, {
           de: 'Car-Sharing',
           en: 'car sharing',
         },
-        type: 'citybike',
+        type: 'car-sharing',
       },
     }
   },

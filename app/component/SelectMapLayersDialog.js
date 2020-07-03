@@ -198,8 +198,8 @@ class SelectMapLayersDialog extends React.Component {
             config.cityBike.showCityBikes && (
               <Checkbox
                 checked={citybike}
-                defaultMessage="Citybike station"
-                labelId="map-layer-citybike"
+                defaultMessage="Sharing"
+                labelId="map-layer-sharing"
                 onChange={e => {
                   this.updateSetting({ citybike: e.target.checked });
                   this.sendLayerChangeAnalytic('Citybike', e.target.checked);
