@@ -20,6 +20,7 @@ import SummaryNavigation from './SummaryNavigation';
 import ItineraryLine from './map/ItineraryLine';
 import LocationMarker from './map/LocationMarker';
 import MobileItineraryWrapper from './MobileItineraryWrapper';
+import { getWeatherData } from '../util/apiUtils';
 import Loading from './Loading';
 import { getRoutePath } from '../util/path';
 import { getIntermediatePlaces } from '../util/queryUtils';
@@ -220,6 +221,7 @@ class SummaryPage extends React.Component {
   }
 
   state = {
+    weatherData: null,
     center: null,
     loading: false,
     settingsOpen: false,
@@ -339,6 +341,16 @@ class SummaryPage extends React.Component {
   };
 
   componentDidMount() {
+    const from = otpToLocation(this.props.match.params.from);
+    getWeatherData(from.lat, from.lon).then(res => {
+      this.setState({
+        weatherData: {
+          temperature: res[0].ParameterValue,
+          windSpeed: res[1].ParameterValue,
+          iconId: res[2].ParameterValue,
+        },
+      });
+    });
     const host =
       this.context.headers &&
       (this.context.headers['x-forwarded-host'] || this.context.headers.host);
@@ -636,7 +648,6 @@ class SummaryPage extends React.Component {
     }
 
     const from = otpToLocation(match.params.from);
-
     if (match.routes.some(route => route.printPage) && hasItineraries) {
       return React.cloneElement(this.props.content, {
         itinerary: itineraries[match.params.hash],
@@ -789,6 +800,7 @@ class SummaryPage extends React.Component {
                   showWalkOptionButton
                   onButtonClick={this.setStreetMode}
                   walkItinerary={this.props.walkPlan.itineraries[0]}
+                  weatherData={this.state.weatherData}
                 />
               )}
             </React.Fragment>
@@ -878,6 +890,7 @@ class SummaryPage extends React.Component {
                   showWalkOptionButton
                   onButtonClick={this.setStreetMode}
                   walkItinerary={this.props.walkPlan.itineraries[0]}
+                  weatherData={this.state.weatherData}
                 />
               )}
             </React.Fragment>
