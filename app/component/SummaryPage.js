@@ -352,6 +352,9 @@ class SummaryPage extends React.Component {
   };
 
   updateCenter = (lat, lon) => {
+    if (this.props.breakpoint !== 'large') {
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }
     this.setState({ center: { lat, lon }, bounds: null });
   };
 
@@ -367,6 +370,9 @@ class SummaryPage extends React.Component {
   }
 
   setMapZoomToLeg = leg => {
+    if (this.props.breakpoint !== 'large') {
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }
     this.setState({ bounds: [] });
     const bounds = []
       .concat(

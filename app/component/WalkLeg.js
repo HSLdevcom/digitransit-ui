@@ -134,11 +134,13 @@ function WalkLeg(
                   to={`/${PREFIX_STOPS}/${leg.from.stop.gtfsId}`}
                 >
                   {returnNotice || leg.from.name}
-                  <Icon
-                    img="icon-icon_arrow-collapse--right"
-                    className="itinerary-arrow-icon"
-                    color="#333"
-                  />
+                  {leg.from.stop && (
+                    <Icon
+                      img="icon-icon_arrow-collapse--right"
+                      className="itinerary-arrow-icon"
+                      color="#333"
+                    />
+                  )}
                   <ServiceAlertIcon
                     className="inline-icon"
                     severityLevel={getActiveAlertSeverityLevel(
@@ -150,11 +152,13 @@ function WalkLeg(
               ) : (
                 <>
                   {returnNotice || leg.from.name}
-                  <Icon
-                    img="icon-icon_arrow-collapse--right"
-                    className="itinerary-arrow-icon"
-                    color="#333"
-                  />
+                  {leg.from.stop && (
+                    <Icon
+                      img="icon-icon_arrow-collapse--right"
+                      className="itinerary-arrow-icon"
+                      color="#333"
+                    />
+                  )}
                   <ServiceAlertIcon
                     className="inline-icon"
                     severityLevel={getActiveAlertSeverityLevel(

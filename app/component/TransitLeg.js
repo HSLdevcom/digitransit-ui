@@ -24,6 +24,7 @@ import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { durationToString } from '../util/timeUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { getZoneLabelColor } from '../util/mapIconUtils';
+import { getZoneLabel } from '../util/legUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import { shouldShowFareInfo } from '../util/fareUtils';
 import { AlertSeverityLevelType } from '../constants';
@@ -54,16 +55,30 @@ class TransitLeg extends React.Component {
     }));
   };
 
+  getZoneId(zoneId) {
+    if (this.context.config.zoneIdMapping) {
+      return this.context.config.zoneIdMapping[zoneId];
+    }
+    return zoneId;
+  }
+
   getZoneChange() {
     const { leg } = this.props;
     if (leg.intermediatePlaces.length > 0) {
       const startZone = leg.from.stop.zoneId;
       const endZone = leg.to.stop.zoneId;
-      if (startZone !== endZone && !this.state.showIntermediateStops) {
+      if (
+        startZone !== endZone &&
+        !this.state.showIntermediateStops &&
+        this.context.config.itinerary.showZoneLimits
+      ) {
         return (
           <div className="time-column-zone-icons-container">
-            <ZoneIcon zoneId={startZone} />
-            <ZoneIcon zoneId={endZone} className="zone-delimiter" />
+            <ZoneIcon zoneId={getZoneLabel(startZone, this.context.config)} />
+            <ZoneIcon
+              zoneId={getZoneLabel(endZone, this.context.config)}
+              className="zone-delimiter"
+            />
           </div>
         );
       }
@@ -89,12 +104,10 @@ class TransitLeg extends React.Component {
         const nextZoneId =
           (array[i + 1] && array[i + 1].stop.zoneId) ||
           (isLastPlace && leg.to.stop.zoneId);
-
         const previousZoneIdDiffers =
           previousZoneId && previousZoneId !== currentZoneId;
         const nextZoneIdDiffers = nextZoneId && nextZoneId !== currentZoneId;
         const showCurrentZoneId = previousZoneIdDiffers || nextZoneIdDiffers;
-
         return (
           <IntermediateLeg
             color={leg.route ? `#${leg.route.color}` : 'currentColor'}
@@ -112,12 +125,21 @@ class TransitLeg extends React.Component {
             showZoneLimits={this.context.config.itinerary.showZoneLimits}
             showCurrentZoneDelimiter={previousZoneIdDiffers}
             previousZoneId={
-              (isFirstPlace && previousZoneIdDiffers && previousZoneId) ||
+              (isFirstPlace &&
+                previousZoneIdDiffers &&
+                getZoneLabel(previousZoneId, this.context.config)) ||
               undefined
             }
-            currentZoneId={(showCurrentZoneId && currentZoneId) || undefined}
+            currentZoneId={
+              (showCurrentZoneId &&
+                getZoneLabel(currentZoneId, this.context.config)) ||
+              undefined
+            }
             nextZoneId={
-              (isLastPlace && nextZoneIdDiffers && nextZoneId) || undefined
+              (isLastPlace &&
+                nextZoneIdDiffers &&
+                getZoneLabel(nextZoneId, this.context.config)) ||
+              undefined
             }
             isLastPlace={isLastPlace}
             isCanceled={isCanceled}
@@ -144,7 +166,6 @@ class TransitLeg extends React.Component {
         </span>,
       ];
     const LegRouteName = leg.from.name.concat(' - ').concat(leg.to.name);
-    // const [address, place] = leg.from.name.split(', ');
     /* const modeClassName =
       `${this.props.mode.toLowerCase()}${this.props.index === 0 ? ' from' : ''}`;
     */
