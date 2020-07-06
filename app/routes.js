@@ -8,8 +8,8 @@ import createRender from 'found/lib/createRender';
 import Error404 from './component/404';
 import TopLevel from './component/TopLevel';
 
-import { PREFIX_ITINERARY_SUMMARY } from './util/path';
-import { preparePlanParams } from './util/planParamUtil';
+import { PREFIX_ITINERARY_SUMMARY, PREFIX_NEARYOU } from './util/path';
+import { preparePlanParams, prepareStopsParams } from './util/planParamUtil';
 import {
   errorLoading,
   getDefault,
@@ -34,6 +34,69 @@ export default config => {
       {getStopRoutes()}
       {getStopRoutes(true) /* terminals */}
       {routeRoutes}
+      <Route path={`/${PREFIX_NEARYOU}/:mode/:place`}>
+        {{
+          title: (
+            <Route
+              path="(.*)?"
+              getComponent={() =>
+                import(/* webpackChunkName: "itinerary" */ './component/BackButton').then(
+                  getDefault,
+                )
+              }
+            />
+          ),
+          content: isBrowser ? (
+            <Route
+              path="(.*)?"
+              getComponent={() =>
+                import(/* webpackChunkName: "nearyou" */ './component/StopsNearYouPage').then(
+                  getDefault,
+                )
+              }
+              query={graphql`
+                query routes_StopsNearYou_Query(
+                  $lat: Float!
+                  $lon: Float!
+                  $filterByPlaceTypes: [FilterPlaceType]
+                  $filterByModes: [Mode]
+                  $maxResults: Int!
+                ) {
+                  stopPatterns: nearest(
+                    lat: $lat
+                    lon: $lon
+                    filterByPlaceTypes: $filterByPlaceTypes
+                    filterByModes: $filterByModes
+                    maxResults: $maxResults
+                  ) {
+                    ...StopsNearYouPage_stopPatterns
+                  }
+                }
+              `}
+              prepareVariables={prepareStopsParams(config)}
+              render={({ Component, props, error, match }) => {
+                if (Component) {
+                  return props ? (
+                    <Component {...props} error={error} loading={false} />
+                  ) : (
+                    <Component match={match} loading error={error} />
+                  );
+                }
+                return undefined;
+              }}
+            />
+          ) : (
+            <Route
+              path="(.*)?"
+              getComponent={() =>
+                import(/* webpackChunkName: "itinerary" */ './component/Loading').then(
+                  getDefault,
+                )
+              }
+            />
+          ),
+        }}
+      </Route>
       <Route path={`/${PREFIX_ITINERARY_SUMMARY}/:from/:to`}>
         {{
           title: (

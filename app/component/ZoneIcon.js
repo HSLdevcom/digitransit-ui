@@ -80,12 +80,12 @@ ZoneIcon.defaultProps = {
   className: undefined,
   showTitle: false,
   zoneId: undefined,
-  zoneIdFontSize: '26px',
+  // zoneIdFontSize: '26px',
   zoneLabelColor: '#000',
-  zoneLabelHeight: '30px',
-  zoneLabelWidth: '30px',
-  zoneLabelLineHeight: '30px',
-  zoneLabelMarginLeft: '5px',
+  // zoneLabelHeight: '30px',
+  // zoneLabelWidth: '30px',
+  // zoneLabelLineHeight: '30px',
+  // zoneLabelMarginLeft: '5px',
 };
 
 ZoneIcon.contextTypes = {

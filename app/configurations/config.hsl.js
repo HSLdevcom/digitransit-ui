@@ -49,7 +49,7 @@ export default {
   },
 
   nearbyRoutes: {
-    radius: 2000,
+    radius: 500,
     bucketSize: 100,
   },
 
@@ -390,6 +390,8 @@ export default {
       },
     },
   },
+
+  maxNearbyStopAmount: 50,
 
   showTicketSelector: true,
 
