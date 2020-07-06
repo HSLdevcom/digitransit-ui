@@ -8,3 +8,10 @@
   align-items: center;
   padding: 10px;
 }
+
+.mobile {
+  .street-mode-selector-container {
+    overflow: auto;
+    white-space: nowrap;
+  }
+}

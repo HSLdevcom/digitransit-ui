@@ -35,14 +35,19 @@
 		align-items: center;
 	}
 
-	.icon-container {
+	.street-mode-selector-button-icon {
 		padding-right: 5px;
 		padding-top: 5px;
 	}
-
-	.street-mode-selector-button-icon {
-	  width: 23px;
-	  height: 23px;
+	.street-mode-selector-button-icon.primary-icon {
+		width: 23px;
+	  padding-right: 0px;
+	}
+	.street-mode-selector-button-icon.secondary-icon {
+		margin-bottom: 15px;
+		margin-left: -5px;
+		padding-right: 5px;
+		padding-top: 0px;
 	}
 	.street-mode-button-time {
 	  font-size: 13px;

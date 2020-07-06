@@ -5,9 +5,12 @@ import { StreetModeSelectorButton } from './StreetModeSelectorButton';
 export const StreetModeSelector = ({
   showWalkOptionButton,
   showBikeOptionButton,
-  onButtonClick,
-  walkItinerary,
-  bikeItinerary,
+  showBikeAndPublicOptionButton,
+  toggleStreetMode,
+  setStreetModeAndSelect,
+  walkPlan,
+  bikePlan,
+  bikeAndPublicPlan,
 }) => {
   return (
     <div className="street-mode-selector-container">
@@ -15,15 +18,22 @@ export const StreetModeSelector = ({
         icon="icon-icon_walk"
         name="walk"
         active={showWalkOptionButton}
-        itinerary={walkItinerary}
-        onClick={onButtonClick}
+        plan={walkPlan}
+        onClick={setStreetModeAndSelect}
       />
       <StreetModeSelectorButton
         icon="icon-icon_cyclist"
         name="bike"
         active={showBikeOptionButton}
-        itinerary={bikeItinerary}
-        onClick={onButtonClick}
+        plan={bikePlan}
+        onClick={setStreetModeAndSelect}
+      />
+      <StreetModeSelectorButton
+        icon="icon-icon_cyclist"
+        name="bikeAndPublic"
+        active={showBikeAndPublicOptionButton}
+        plan={bikeAndPublicPlan}
+        onClick={toggleStreetMode}
       />
     </div>
   );
@@ -32,9 +42,18 @@ export const StreetModeSelector = ({
 StreetModeSelector.propTypes = {
   showWalkOptionButton: PropTypes.bool.isRequired,
   showBikeOptionButton: PropTypes.bool.isRequired,
-  onButtonClick: PropTypes.func.isRequired,
-  walkItinerary: PropTypes.object.isRequired,
-  bikeItinerary: PropTypes.object.isRequired,
+  showBikeAndPublicOptionButton: PropTypes.bool.isRequired,
+  toggleStreetMode: PropTypes.func.isRequired,
+  setStreetModeAndSelect: PropTypes.func.isRequired,
+  walkPlan: PropTypes.object,
+  bikePlan: PropTypes.object,
+  bikeAndPublicPlan: PropTypes.object,
+};
+
+StreetModeSelector.defaultProps = {
+  walkPlan: undefined,
+  bikePlan: undefined,
+  bikeAndPublicPlan: undefined,
 };
 
 export default StreetModeSelector;
