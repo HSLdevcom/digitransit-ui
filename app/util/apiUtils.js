@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { retryFetch } from './fetchUtils';
 
 export function getUser() {
@@ -34,13 +33,7 @@ export function deleteFavourites(data) {
   return retryFetch('/api/user/favourites', options, 0, 0);
 }
 
-export function getWeatherData(timems, lat, lon) {
-  let time;
-  if (timems) {
-    time = moment(timems);
-  } else {
-    time = moment();
-  }
+export function getWeatherData(time, lat, lon) {
   // Round time to next 5 minutes
   const remainder = 5 - time.minute() % 5;
   const endtime = time

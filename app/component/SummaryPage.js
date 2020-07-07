@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 /* eslint-disable react/no-array-index-key */
+import moment from 'moment';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import findIndex from 'lodash/findIndex';
@@ -341,18 +342,6 @@ class SummaryPage extends React.Component {
   };
 
   componentDidMount() {
-    const from = otpToLocation(this.props.match.params.from);
-    const time = this.props.plan.itineraries[0].startTime; // TODO
-
-    getWeatherData(time, from.lat, from.lon).then(res => {
-      this.setState({
-        weatherData: {
-          temperature: res[0].ParameterValue,
-          windSpeed: res[1].ParameterValue,
-          iconId: res[2].ParameterValue,
-        },
-      });
-    });
     const host =
       this.context.headers &&
       (this.context.headers['x-forwarded-host'] || this.context.headers.host);
@@ -417,11 +406,23 @@ class SummaryPage extends React.Component {
     this.setState({ center: { lat, lon } });
   };
 
+  // These are icons that contains sun
+  dayNightIconIds = [1, 2, 21, 22, 23, 41, 42, 43, 61, 62, 71, 72, 73];
+
+  checkDayNight = (iconId, hour) => {
+    // Show night icons between 00.00 and 06.59
+    if (hour >= 0 && hour < 7 && this.dayNightIconIds.includes(iconId)) {
+      // Night icon = iconId + 100
+      return iconId + 100;
+    }
+    return iconId;
+  };
+
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
     const from = otpToLocation(this.props.match.params.from);
 
-    let time; // TODO
+    let time;
     if (
       nextProps.plan &&
       nextProps.plan.itineraries &&
@@ -431,12 +432,16 @@ class SummaryPage extends React.Component {
     } else if (this.props.plan.itineraries) {
       time = this.props.plan.itineraries[0].startTime;
     }
-    getWeatherData(time, from.lat, from.lon).then(res => {
+    const timem = moment(time);
+    getWeatherData(timem, from.lat, from.lon).then(res => {
+      // Icon id's and descriptions: https://www.ilmatieteenlaitos.fi/latauspalvelun-pikaohje ->  Sääsymbolien selitykset ennusteissa.
+      const iconId = this.checkDayNight(res[2].ParameterValue, timem.hour());
+
       this.setState({
         weatherData: {
           temperature: res[0].ParameterValue,
           windSpeed: res[1].ParameterValue,
-          iconId: res[2].ParameterValue,
+          iconId,
         },
       });
     });
