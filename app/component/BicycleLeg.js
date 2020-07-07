@@ -66,7 +66,7 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
   let hasAlert = false;
 
   if (leg.rentedBike === true) {
-    hasAlert = leg.alerts && leg.alerts[0].alertUrl;
+    hasAlert = leg.alerts && leg.alerts.length > 0 && leg.alerts[0].alertUrl;
     networkIcon = networkConfig && getCityBikeNetworkIcon(networkConfig);
 
     modeClassName = 'citybike';

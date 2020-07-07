@@ -136,6 +136,12 @@ export const compressLegs = originalLegs => {
       compressedLeg.to = currentLeg.to;
       compressedLeg.endTime += currentLeg.endTime;
       compressedLeg.mode = LegMode.CityBike;
+      if (!compressedLeg.alerts) {
+        compressedLeg.alerts = [];
+      }
+      if (currentLeg.alerts) {
+        compressedLeg.alerts = compressedLeg.alerts.concat(currentLeg.alerts);
+      }
       return;
     }
 
