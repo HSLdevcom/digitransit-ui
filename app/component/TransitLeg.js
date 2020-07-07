@@ -166,9 +166,6 @@ class TransitLeg extends React.Component {
         </span>,
       ];
     const LegRouteName = leg.from.name.concat(' - ').concat(leg.to.name);
-    /* const modeClassName =
-      `${this.props.mode.toLowerCase()}${this.props.index === 0 ? ' from' : ''}`;
-    */
     const modeClassName = mode.toLowerCase();
     const StopInfo = ({ stops, leg: stopLeg, toggleFunction }) => {
       const stopCount = (stops && stops.length) || 0;

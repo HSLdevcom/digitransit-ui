@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 
+import { uuid } from 'uuidv4';
 import ComponentUsageExample from './ComponentUsageExample';
 import ExternalLink from './ExternalLink';
 import { renderZoneTicket } from './ZoneTicket';
@@ -83,7 +84,7 @@ export default function TicketInformation(
       );
     }
     return (
-      <div key={fare.agency.gtfId} className="ticket-container">
+      <div key={uuid()} className="ticket-container">
         <div className="ticket-info-container">
           <div className="ticket-type-title">{header}</div>
           <div
@@ -93,7 +94,7 @@ export default function TicketInformation(
             key={i} // eslint-disable-line react/no-array-index-key
           >
             {fare.isUnknown ? (
-              <div>
+              <div className="unknown-fare-container">
                 <div className="ticket-identifier">{unknownFareRouteName}</div>
                 {fare.agency && (
                   <div className="ticket-description">{fare.agency.name}</div>
@@ -160,24 +161,7 @@ export default function TicketInformation(
 
   return (
     <div className="row itinerary-ticket-information">
-      <div className="itinerary-ticket-type">
-        {faresInfo}
-        {/* {config.ticketLink && (
-        <ExternalLink
-          className="itinerary-ticket-external-link"
-          href={config.ticketLink}
-          onClick={() => {
-            addAnalyticsEvent({
-              category: 'Itinerary',
-              action: 'OpenHowToBuyTicket',
-              name: null,
-            });
-          }}
-        >
-          {intl.formatMessage({ id: 'buy-ticket' })}
-        </ExternalLink>
-        )} */}
-      </div>
+      <div className="itinerary-ticket-type">{faresInfo}</div>
     </div>
   );
 }

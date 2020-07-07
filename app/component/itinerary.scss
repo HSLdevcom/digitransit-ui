@@ -55,42 +55,6 @@ $itinerary-tab-switch-height: 48px;
     @include getCircleSvg($bus-color, $fill);
   }
 }
-
-.itinerary-swipe-views-root {
-  flex-grow: 1;
-  flex-basis: 0;
-  display: flex;
-  flex-direction: column;
-  // min-height: 300px; // TODO: This is required in IE due to ???
-  & > div {
-    display: flex;
-    flex-grow: 1;
-    > div {
-      display: flex;
-      flex-direction: column;
-    }
-  }
-
-  &.itinerary-container-content-enter {
-    flex-grow: 0;
-    will-change: flex-grow;
-  }
-
-  &.itinerary-container-content-enter.itinerary-container-content-enter-active {
-    flex-grow: 20;
-    transition: flex-grow 300ms;
-  }
-
-  &.itinerary-container-content-leave {
-    flex-grow: 20;
-  }
-
-  &.itinerary-container-content-leave.itinerary-container-content-leave-active {
-    flex-grow: 0;
-    will-change: flex-grow;
-    transition: flex-grow 300ms;
-  }
-}
 .itinerary-list-container {
   padding-bottom: 1.75em;
 }
@@ -218,13 +182,13 @@ $itinerary-tab-switch-height: 48px;
       top: -2px;
       .circle {
         padding: 0;
+        margin-left: 5px;
       }
       &.zone-delimiter {
         border-top: 1px solid $light-gray;
         padding: 9px 0 0 0;
         top: -9px;
       }
-
       & + .zone-icon-container {
         margin-top: 0.85em;
       }
@@ -258,7 +222,7 @@ $itinerary-tab-switch-height: 48px;
   }
   .duration, .walk-distance {
     vertical-align: super;
-    font-size: 15px;
+    font-size: 0.9375rem;
   }
 }
 
@@ -389,6 +353,7 @@ $itinerary-tab-switch-height: 48px;
     }
     .ticket-type-agency-link {
       align-self: center;
+      padding-left: 10px;
     }
 
     .ticket-type-zone {
@@ -398,18 +363,21 @@ $itinerary-tab-switch-height: 48px;
       display: flex;
       justify-content: space-between;
       flex: 1;
-
+      .unknown-fare-container {
+        display: block;
+        .ticket-description {
+          padding: 0;
+        }
+      }
       &.multi-component + .multi-component {
         border-top: 1px solid $light-gray;
         padding-top: $padding-medium;
       }
       div {
         display: flex;
-        flex: 0;
         .ticket-description {
           display: flex;
           padding-left: 3px;
-          white-space: nowrap;
         }
         .ticket-identifier {
           @include font-medium;
@@ -444,7 +412,7 @@ $itinerary-tab-switch-height: 48px;
 
 .desktop {
   .itinerary-ticket-information {
-    font-size: 15px;
+    font-size: 0.9375rem;
   }
 }
 .call-agency {
@@ -583,7 +551,7 @@ $itinerary-tab-switch-height: 48px;
     }
   }
   .leg-before-line {
-    height: 104%;
+    height: 100%;
     top: 0.7em;
     position: absolute;
     left: 7px;
@@ -671,6 +639,7 @@ $itinerary-tab-switch-height: 48px;
       margin-bottom: 0.3em;
       color: $black;
       text-decoration: none;
+      font-size: 0.9375rem;
       &.via-arrival-time, &.via-departure-time {
         margin-bottom: 0;
         text-align: center;
@@ -767,7 +736,7 @@ $itinerary-tab-switch-height: 48px;
       .itinerary-leg-row-intermediate {
         cursor: pointer;
         color: #333;
-        font-size: 15px;
+        font-size: 0.9375rem;
         font-weight: 500;
         padding-bottom: 22px;
         display: flex;
@@ -786,6 +755,7 @@ $itinerary-tab-switch-height: 48px;
       margin-left: -24px;
     }
     .intermediate-stop-info-container {
+      font-size: 0.9375rem;
       cursor: pointer;
       .itinerary-search-icon {
         font-size: 18px;
@@ -815,6 +785,7 @@ $itinerary-tab-switch-height: 48px;
       @include font-medium;
       padding: 0.625em 0;
       border-top: 1px solid #ddd;
+      font-size: 0.9375rem;
       &.via {
         height: 78px;
       }
@@ -828,14 +799,14 @@ $itinerary-tab-switch-height: 48px;
         border-top: none;
       }
       .place {
-        font-size: 13px;
+        font-size: 0.813rem;
         font-weight: normal;
       }
       .platform-short {
         @include font-medium;
         padding-left: 7px;
         font-weight: normal;
-        font-size: 13px;
+        font-size: 0.813rem;
       }
       .stop-code-container {
         padding-top: 5px;
@@ -878,6 +849,7 @@ $itinerary-tab-switch-height: 48px;
         min-width: calc(3.75em + 14px);
         height: calc(1.5em + 14px);
         font-size: 16px;
+        white-space: nowrap;
         .vcenter-children {
           position: relative;
           width: 100%;
@@ -893,6 +865,9 @@ $itinerary-tab-switch-height: 48px;
           text-align: center;
           padding: 4px 0 0 0;
           margin: 0 0 0 5px;
+          &.long {
+            left: 1.7em;
+          }
         }
         .icon {
           height: 1.5em;
@@ -927,7 +902,7 @@ $itinerary-tab-switch-height: 48px;
       @extend .itinerary-leg-text-gray;
       margin-top: 1px;
       overflow: hidden;
-      font-size: 13px;
+      font-size: 0.813rem;
       font-weight: normal;
       display: flex;
       align-items: center;
@@ -938,6 +913,7 @@ $itinerary-tab-switch-height: 48px;
       padding: 1.2em 0;
       margin-bottom: 1px;
       height: 60px;
+      font-size: 0.9375rem;
       @extend .itinerary-leg-text-gray;
       .itinerary-leg-action-content {
         height: 100%;
@@ -1021,6 +997,7 @@ $itinerary-tab-switch-height: 48px;
     @include font-medium;
     .itinerary-time-column-time {
       text-align: right;
+      font-size: 0.9375rem;
     }
     .icon {
       font-size: 24px;
@@ -1029,10 +1006,6 @@ $itinerary-tab-switch-height: 48px;
     .icon-badge {
       font-size: 16px;
       top: -1.25em;
-    }
-
-    .vehicle-number {
-      font-size: 15px;
     }
   }
 }
@@ -1063,7 +1036,7 @@ span.itinerary-stop-code {
   padding: 1px 4px;
   margin-right: 2px;
   margin-left: 3px;
-  font-size: 11px;
+  font-size: 0.688rem;
 }
 
 div.itinerary-container-content {
@@ -1099,7 +1072,7 @@ div.itinerary-container-content {
     margin-top: 0.7em;
     margin-bottom: 0.8em;
     .agency-link {
-      font-size: 10px;
+      font-size: 0.625rem;
       a {
         font-weight: $font-weight-bold;
         color: $link-color;
@@ -1185,7 +1158,7 @@ div.itinerary-container-content {
 }
 
 .desktop .itinerary-intermediate-stop-name {
-  font-size: 15px;
+  font-size: 0.9375rem;
 }
 
 .itinerary-tab .itinerary-timeframe {
@@ -1239,7 +1212,7 @@ div.itinerary-container-content {
 
 .itinerary-call-agency-warning {
   width: calc(100% - 23px);
-  background-color: rgba(254, 209, 0, 0.3);
+  //background-color: rgba(254, 209, 0, 0.3);
   position: absolute;
   margin-top: 2em;
   margin-left: 10px;
@@ -1257,6 +1230,7 @@ div.itinerary-container-content {
       padding-top: 2em;
       padding-right: 1em;
       width: 90%;
+      background-color: rgba(254, 209, 0, 0.3);
     }
   }
   .warning-message {
@@ -1307,17 +1281,6 @@ div.itinerary-container-content {
     max-width: none;
   }
 }
-
-.route-number.hasNoShortName {
-  flex-direction: row;
-  display: flex;
-}
-
-.vehicle-number.hasNoShortName {
-  font-size: 0.4em;
-  word-wrap: break-word;
-}
-
 .print-itinerary-button-container {
   display: flex;
   padding: 0 $padding-medium;

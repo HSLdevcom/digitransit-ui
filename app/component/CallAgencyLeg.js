@@ -49,13 +49,6 @@ class CallAgencyLeg extends React.Component {
               <span>{moment(this.props.leg.startTime).format('HH:mm')}</span>
               {originalTime}
             </div>
-            <RouteNumber
-              mode="call"
-              className="leg-call"
-              realtime={false}
-              vertical
-              fadeLong
-            />
           </Link>
         </div>
         <ItineraryCircleLine
@@ -74,11 +67,18 @@ class CallAgencyLeg extends React.Component {
               )}
             </div>
             <Icon
-              img="icon-icon_search-plus"
+              img="icon-icon_show-on-map"
               className="itinerary-search-icon"
             />
           </div>
           <div className="itinerary-transit-leg-route call">
+            <RouteNumber
+              mode="call"
+              className="leg-call"
+              realtime={false}
+              vertical
+              fadeLong
+            />
             <span className="warning-message">
               <FormattedMessage
                 id="warning-call-agency"

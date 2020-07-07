@@ -203,7 +203,6 @@ function WalkLeg(
               values={{ distance, duration }}
               defaultMessage="Walk {distance} ({duration})"
             />
-
             <div
               className="itinerary-map-action"
               onClick={setMapZoomToLeg}
