@@ -6,8 +6,8 @@ export const StreetModeSelector = ({
   showWalkOptionButton,
   showBikeOptionButton,
   onButtonClick,
-  walkItinerary,
-  bikeItinerary,
+  walkPlan,
+  bikePlan,
 }) => {
   return (
     <div className="street-mode-selector-container">
@@ -15,14 +15,14 @@ export const StreetModeSelector = ({
         icon="icon-icon_walk"
         name="walk"
         active={showWalkOptionButton}
-        itinerary={walkItinerary}
+        plan={walkPlan}
         onClick={onButtonClick}
       />
       <StreetModeSelectorButton
         icon="icon-icon_cyclist"
         name="bike"
         active={showBikeOptionButton}
-        itinerary={bikeItinerary}
+        plan={bikePlan}
         onClick={onButtonClick}
       />
     </div>
@@ -33,8 +33,8 @@ StreetModeSelector.propTypes = {
   showWalkOptionButton: PropTypes.bool.isRequired,
   showBikeOptionButton: PropTypes.bool.isRequired,
   onButtonClick: PropTypes.func.isRequired,
-  walkItinerary: PropTypes.object.isRequired,
-  bikeItinerary: PropTypes.object.isRequired,
+  walkPlan: PropTypes.object,
+  bikePlan: PropTypes.object,
 };
 
 export default StreetModeSelector;

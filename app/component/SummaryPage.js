@@ -51,8 +51,6 @@ import { StreetModeSelector } from './StreetModeSelector';
 import { estimateItineraryDistance } from '../util/geo-utils';
 import { getCurrentSettings } from '../util/planParamUtil';
 
-export const ITINERARYFILTERING_DEFAULT = 1.5;
-
 /**
  * Returns the actively selected itinerary's index. Attempts to look for
  * the information in the location's state and pathname, respectively.
@@ -210,10 +208,28 @@ class SummaryPage extends React.Component {
     }
     this.resultsUpdatedAlertRef = React.createRef();
 
+    this.state = {
+      center: null,
+      loading: false,
+      settingsOpen: false,
+      streetMode:
+        this.props.match.location && this.props.match.location.state
+          ? this.props.match.location.state.streetMode
+          : '',
+    };
+
+    if (this.state.streetMode === 'walk') {
+      this.selectedPlan = this.props.walkPlan;
+    } else if (this.state.streetMode === 'bike') {
+      this.selectedPlan = this.props.bikePlan;
+    } else {
+      this.selectedPlan = this.props.plan;
+    }
+
     if (this.showVehicles()) {
       const itineraryTopics = getTopicOptions(
         this.context,
-        this.props.plan,
+        this.selectedPlan,
         this.props.match,
       );
       if (itineraryTopics && itineraryTopics.length > 0) {
@@ -221,16 +237,6 @@ class SummaryPage extends React.Component {
       }
     }
   }
-
-  state = {
-    center: null,
-    loading: false,
-    settingsOpen: false,
-    streetMode:
-      this.props.match.location && this.props.match.location.state
-        ? this.props.match.location.state.streetMode
-        : '',
-  };
 
   setStreetMode = newStreetMode => {
     this.setState(
@@ -371,7 +377,7 @@ class SummaryPage extends React.Component {
     // alert screen readers when results update
     if (
       this.resultsUpdatedAlertRef.current &&
-      this.props.plan.itineraries &&
+      this.selectedPlan.itineraries &&
       JSON.stringify(prevProps.match.location) !==
         JSON.stringify(this.props.match.location)
     ) {
@@ -388,7 +394,7 @@ class SummaryPage extends React.Component {
       } else {
         const itineraryTopics = getTopicOptions(
           this.context,
-          this.props.plan,
+          this.selectedPlan,
           this.props.match,
         );
         if (itineraryTopics && itineraryTopics.length > 0) {
@@ -423,7 +429,7 @@ class SummaryPage extends React.Component {
   }
 
   renderMap() {
-    const { match, plan, breakpoint, walkPlan, bikePlan } = this.props;
+    const { match, breakpoint } = this.props;
     // don't render map on mobile
     if (breakpoint !== 'large') {
       return undefined;
@@ -432,15 +438,9 @@ class SummaryPage extends React.Component {
       config: { defaultEndpoint },
     } = this.context;
 
-    let itineraries;
+    const itineraries =
+      (this.selectedPlan && this.selectedPlan.itineraries) || [];
 
-    if (this.state.streetMode === 'walk') {
-      itineraries = (walkPlan && walkPlan.itineraries) || [];
-    } else if (this.state.streetMode === 'bike') {
-      itineraries = (bikePlan && bikePlan.itineraries) || [];
-    } else {
-      itineraries = (plan && plan.itineraries) || [];
-    }
     const activeIndex = getActiveIndex(match.location, itineraries);
     const from = otpToLocation(match.params.from);
     const to = otpToLocation(match.params.to);
@@ -624,12 +624,20 @@ class SummaryPage extends React.Component {
   };
 
   render() {
-    const { match, error } = this.props;
+    const { match, error, walkPlan, bikePlan } = this.props;
     const itineraryDistance = estimateItineraryDistance(
       match.params.from,
       match.params.to,
       match.location.query.intermediatePlaces,
     );
+
+    if (this.state.streetMode === 'walk') {
+      this.selectedPlan = this.props.walkPlan;
+    } else if (this.state.streetMode === 'bike') {
+      this.selectedPlan = this.props.bikePlan;
+    } else {
+      this.selectedPlan = this.props.plan;
+    }
     const currentSettings = getCurrentSettings(this.context.config, '');
 
     const showWalkOptionButton =
@@ -640,33 +648,13 @@ class SummaryPage extends React.Component {
       itineraryDistance < this.context.config.suggestBikeMaxDistance &&
       currentSettings.usingWheelchair !== 1;
 
-    const hasWalkItinerary =
-      this.props.walkPlan &&
-      Array.isArray(this.props.walkPlan.itineraries) &&
-      this.props.walkPlan.itineraries.length;
-
-    const hasBikeItinerary =
-      this.props.bikePlan &&
-      Array.isArray(this.props.bikePlan.itineraries) &&
-      this.props.bikePlan.itineraries.length;
-
-    const showStreetModeSelector =
-      hasWalkItinerary &&
-      hasBikeItinerary &&
-      (showBikeOptionButton || showWalkOptionButton);
+    const showStreetModeSelector = showBikeOptionButton || showWalkOptionButton;
 
     const hasItineraries =
-      this.props.plan && Array.isArray(this.props.plan.itineraries);
-    let itineraries;
-    if (this.state.streetMode === 'walk') {
-      // eslint-disable-next-line prefer-destructuring
-      itineraries = this.props.walkPlan.itineraries;
-    } else if (this.state.streetMode === 'bike') {
-      // eslint-disable-next-line prefer-destructuring
-      itineraries = this.props.bikePlan.itineraries;
-    } else {
-      itineraries = hasItineraries ? this.props.plan.itineraries : [];
-    }
+      this.selectedPlan && Array.isArray(this.selectedPlan.itineraries);
+
+    let itineraries = hasItineraries ? this.selectedPlan.itineraries : [];
+
     // Remove old itineraries if new query cannot find a route
     if (error && hasItineraries) {
       itineraries = [];
@@ -736,7 +724,7 @@ class SummaryPage extends React.Component {
         this.state.loading === false &&
         this.props.loadingPosition === false &&
         this.props.loading === false &&
-        (error || this.props.plan)
+        (error || this.selectedPlan)
       ) {
         if (match.params.hash) {
           content = (
@@ -745,7 +733,7 @@ class SummaryPage extends React.Component {
               <ItineraryTab
                 key={match.params.hash.toString()}
                 activeIndex={getActiveIndex(match.location, itineraries)}
-                plan={this.props.plan}
+                plan={this.selectedPlan}
                 serviceTimeRange={serviceTimeRange}
                 itinerary={
                   itineraries[getActiveIndex(match.location, itineraries)]
@@ -778,7 +766,7 @@ class SummaryPage extends React.Component {
             {screenReaderUpdateAlert}
             <SummaryPlanContainer
               activeIndex={getActiveIndex(match.location, itineraries)}
-              plan={this.props.plan}
+              plan={this.selectedPlan}
               serviceTimeRange={serviceTimeRange}
               itineraries={itineraries}
               params={match.params}
@@ -790,7 +778,7 @@ class SummaryPage extends React.Component {
                 React.cloneElement(this.props.content, {
                   itinerary: hasItineraries && itineraries[match.params.hash],
                   focus: this.updateCenter,
-                  plan: this.props.plan,
+                  plan: this.selectedPlan,
                 })}
             </SummaryPlanContainer>
           </>
@@ -826,8 +814,8 @@ class SummaryPage extends React.Component {
                   showWalkOptionButton={showWalkOptionButton}
                   showBikeOptionButton={showBikeOptionButton}
                   onButtonClick={this.setStreetMode}
-                  walkItinerary={this.props.walkPlan.itineraries[0]}
-                  bikeItinerary={this.props.bikePlan.itineraries[0]}
+                  walkPlan={walkPlan}
+                  bikePlan={bikePlan}
                 />
               )}
             </React.Fragment>
@@ -849,7 +837,7 @@ class SummaryPage extends React.Component {
     let content;
 
     if (
-      (!error && !this.props.plan) ||
+      (!error && !this.selectedPlan) ||
       this.state.loading !== false ||
       this.props.loading !== false ||
       this.props.loadingPosition === true
@@ -871,7 +859,7 @@ class SummaryPage extends React.Component {
               React.cloneElement(this.props.content, {
                 key: i,
                 itinerary,
-                plan: this.props.plan,
+                plan: this.selectedPlan,
                 serviceTimeRange: this.props.serviceTimeRange,
               }),
             )}
@@ -883,7 +871,7 @@ class SummaryPage extends React.Component {
         <>
           <SummaryPlanContainer
             activeIndex={getActiveIndex(match.location, itineraries)}
-            plan={this.props.plan}
+            plan={this.selectedPlan}
             serviceTimeRange={serviceTimeRange}
             itineraries={itineraries}
             params={match.params}
@@ -917,8 +905,8 @@ class SummaryPage extends React.Component {
                   showWalkOptionButton={showWalkOptionButton}
                   showBikeOptionButton={showBikeOptionButton}
                   onButtonClick={this.setStreetMode}
-                  walkItinerary={this.props.walkPlan.itineraries[0]}
-                  bikeItinerary={this.props.bikePlan.itineraries[0]}
+                  walkPlan={walkPlan}
+                  bikePlan={bikePlan}
                 />
               )}
             </React.Fragment>
