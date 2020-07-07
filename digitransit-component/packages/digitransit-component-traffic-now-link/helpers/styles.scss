@@ -1,4 +1,6 @@
-
+@import '~@hsl-fi/sass/colors';
+@import '~@hsl-fi/sass/mixins/screen';
+@import '~@hsl-fi/sass/mixins/text';
   /* stylelint-disable */ 
   .text {
     display: flex;
@@ -10,7 +12,7 @@
     color: #333333;
     margin-top: 0;
 
-    @media screen and (min-width: 768px) {
+    @include min-width(tablet) {
       font-size: 20px;
     }
 

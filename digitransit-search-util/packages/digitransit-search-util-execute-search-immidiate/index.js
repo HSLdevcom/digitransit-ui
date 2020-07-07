@@ -1,4 +1,3 @@
-import orderBy from 'lodash/orderBy';
 import debounce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
 import take from 'lodash/take';
@@ -9,10 +8,7 @@ import getGeocodingResult from '@digitransit-search-util/digitransit-search-util
 
 function getFavouriteLocations(favourites, input) {
   return Promise.resolve(
-    orderBy(
-      filterMatchingToInput(favourites, input, ['address', 'name']),
-      feature => feature.name,
-    ).map(item => ({
+    filterMatchingToInput(favourites, input, ['address', 'name']).map(item => ({
       type: 'FavouritePlace',
       properties: {
         ...item,
@@ -74,6 +70,53 @@ function getCurrentPositionIfEmpty(input, position) {
   return Promise.resolve([]);
 }
 
+function selectFromOwnLocations(input) {
+  if (typeof input !== 'string' || input.length === 0) {
+    return Promise.resolve([
+      {
+        type: 'SelectFromOwnLocations',
+        address: 'SelectFromOwnLocations',
+        lat: null,
+        lon: null,
+        properties: {
+          labelId: 'select-from-own-locations',
+          layer: 'ownLocations',
+          address: 'selectFromOwnLocations',
+          lat: null,
+          lon: null,
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: [],
+        },
+      },
+    ]);
+  }
+  return Promise.resolve([]);
+}
+
+function getBackSuggestion() {
+  return Promise.resolve([
+    {
+      type: 'back',
+      address: 'back',
+      lat: null,
+      lon: null,
+      properties: {
+        labelId: 'back',
+        layer: 'back',
+        address: 'back',
+        lat: null,
+        lon: null,
+      },
+      geometry: {
+        type: 'Point',
+        coordinates: [],
+      },
+    },
+  ]);
+}
+
 function getFavouriteStops(stopsAndStations, input) {
   return stopsAndStations.then(stops => {
     return filterMatchingToInput(stops, input, [
@@ -112,6 +155,16 @@ function getOldSearches(oldSearches, input, dropLayers) {
     }),
   );
 }
+
+function hasFavourites(context, locations, stops) {
+  const favouriteLocations = locations(context);
+  const favouriteStops = stops(context);
+  return (
+    (favouriteLocations && favouriteLocations.length > 0) ||
+    (favouriteStops && favouriteStops.length > 0)
+  );
+}
+
 const routeLayers = ['route-TRAM', 'route-BUS', 'route-RAIL', 'route-FERRY'];
 const locationLayers = ['favouritePlace', 'venue', 'address', 'street'];
 /**
@@ -170,6 +223,12 @@ export function getSearchResults(
   if (allTargets || targets.includes('MapPosition')) {
     searchComponents.push(selectPositionFomMap(input));
   }
+  if (
+    targets.includes('SelectFromOwnLocations') &&
+    hasFavourites(context, locations, stops)
+  ) {
+    searchComponents.push(selectFromOwnLocations(input));
+  }
   if (allTargets || targets.includes('Locations')) {
     // eslint-disable-next-line prefer-destructuring
     const searchParams = geocodingSearchParams;
@@ -179,6 +238,9 @@ export function getSearchResults(
       const favouriteStops = stops(context);
       const stopsAndStations = getStopAndStationsQuery(favouriteStops);
       searchComponents.push(getFavouriteStops(stopsAndStations, input));
+      if (sources.includes('Back')) {
+        searchComponents.push(getBackSuggestion());
+      }
     }
     if (allSources || sources.includes('Datasource')) {
       const regex = minimalRegexp || undefined;
@@ -199,7 +261,13 @@ export function getSearchResults(
     }
     if (allSources || sources.includes('History')) {
       const locationHistory = prevSearches(context, 'endpoint');
-      const dropLayers = ['currentPosition', 'selectFromMap', 'stop'];
+      const dropLayers = [
+        'currentPosition',
+        'selectFromMap',
+        'ownLocations',
+        'stop',
+        'back',
+      ];
       dropLayers.push(...routeLayers);
       searchComponents.push(getOldSearches(locationHistory, input, dropLayers));
     }
@@ -230,7 +298,13 @@ export function getSearchResults(
     }
     if (allSources || sources.includes('History')) {
       const stopHistory = prevSearches(context);
-      const dropLayers = ['currentPosition', 'selectFromMap', 'favouritePlace'];
+      const dropLayers = [
+        'currentPosition',
+        'selectFromMap',
+        'ownLocations',
+        'favouritePlace',
+        'back',
+      ];
       dropLayers.push(...routeLayers);
       dropLayers.push(...locationLayers);
       searchComponents.push(getOldSearches(stopHistory, input, dropLayers));
@@ -251,6 +325,8 @@ export function getSearchResults(
         'favouritePlace',
         'stop',
         'station',
+        'ownLocations',
+        'back',
       ];
       dropLayers.push(...locationLayers);
       searchComponents.push(getOldSearches(routeHistory, input, dropLayers));

@@ -1,4 +1,8 @@
-/* stylelint-disable */ 
+/* stylelint-disable */
+@import '~@hsl-fi/sass/colors';
+@import '~@hsl-fi/sass/mixins/screen';
+@import '~@hsl-fi/sass/mixins/text';
+
 $primary-color: #007ac9;
 
 $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
@@ -15,12 +19,9 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   font-weight: 500;
   letter-spacing: -0.8px;
   color: #333333;
-  //margin-top: 0;
   margin-bottom: 17px;
-  //line-height: 24px;
 
-  @media screen and (min-width: 768px) {
-    font-size: 24px;
+  @include min-width(tablet) {
     letter-spacing: -0.8px;
     line-height: 27px;
     margin-bottom: 21px;

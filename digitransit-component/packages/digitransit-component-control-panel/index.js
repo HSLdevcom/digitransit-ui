@@ -1,16 +1,10 @@
+/* eslint-disable dot-notation */
 /* eslint no-console: ["error", { allow: ["warn", "error"] }] */
 /* eslint react/forbid-prop-types: 0 */
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import i18next from 'i18next';
-import {
-  getStyleInput,
-  getStyleMain,
-  getStyleMainBottom,
-  getStyleSeparatorDiv,
-  getStyleSeparatorDiv2,
-  getStyleSeparatorLine,
-} from './helpers/styles';
+import styles from './helpers/styles.scss';
 import translations from './helpers/translations';
 
 i18next.init({ lng: 'en', resources: {} });
@@ -20,14 +14,12 @@ i18next.addResourceBundle('fi', 'translation', translations.fi);
 i18next.addResourceBundle('sv', 'translation', translations.sv);
 
 function SeparatorLine({ usePaddingBottom20 }) {
+  const className = usePaddingBottom20
+    ? styles['separator-div2']
+    : styles['separator-div'];
   return (
-    <div
-      id="SeparatorDiv"
-      style={
-        usePaddingBottom20 ? getStyleSeparatorDiv2() : getStyleSeparatorDiv()
-      }
-    >
-      <div id="SeparatorLine" style={getStyleSeparatorLine()} />
+    <div id="SeparatorDiv" className={className}>
+      <div id="SeparatorLine" className={styles['separator-line']} />
     </div>
   );
 }
@@ -47,12 +39,12 @@ function OriginToDestination({ showTitle, language }) {
       {showTitle && <span>{i18next.t('title-origin-to-destination')}</span>}
       {showTitle && <br />}
       <input
-        style={getStyleInput()}
+        className={styles['input']}
         placeholder={i18next.t('placeholder-origin')}
       />
       <br />
       <input
-        style={getStyleInput()}
+        className={styles['input']}
         placeholder={i18next.t('placeholder-destination')}
       />
     </div>
@@ -101,7 +93,7 @@ function NearStopsAndRoutes({ buttons, showTitle, language }) {
         </div>
       )}
       <input
-        style={getStyleInput()}
+        className={styles['input']}
         placeholder={i18next.t('placeholder-route-stop-station')}
       />
       <br />
@@ -184,10 +176,10 @@ class CtrlPanel extends React.Component {
   };
 
   render() {
-    let style = getStyleMain();
-    if (this.props.position === 'bottom') {
-      style = getStyleMainBottom();
-    }
+    const className =
+      this.props.position === 'bottom'
+        ? styles['main-bottom']
+        : styles['main-left'];
     const children = React.Children.map(this.props.children, child => {
       if (child) {
         let lang = this.props.language;
@@ -201,7 +193,7 @@ class CtrlPanel extends React.Component {
     });
     return (
       <Fragment>
-        <div key="main" style={style}>
+        <div key="main" className={className}>
           {children}
         </div>
       </Fragment>

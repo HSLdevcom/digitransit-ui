@@ -412,3 +412,40 @@ export const isMultiPointTypeGeometry = geometry =>
  */
 export const isPointTypeGeometry = geometry =>
   !!(geometry && geometry.type === 'Point');
+
+/**
+ * Extracts the coordinates from match.params from and to
+ *
+ * @param {string} location the location string to extrach coordinates from.
+ * f.ex. "Kamppi, Helsinki::60.169022,24.931691"
+
+*/
+export function extractCoordinates(location) {
+  return {
+    lat: location.split('::')[1].split(',')[0],
+    lon: location.split('::')[1].split(',')[1],
+  };
+}
+
+/**
+ * Caluclates itinerary distance as the crow flies
+ *
+ */
+export function estimateItineraryDistance(from, to, viaPoints) {
+  const start = extractCoordinates(from);
+  const end = extractCoordinates(to);
+  if (!viaPoints) {
+    return distance(start, end);
+  }
+  let dist = 0;
+  const points = [...from, ...viaPoints, ...to];
+  const arrayLength = points.length;
+  for (let i = 0; i < arrayLength - 1; i++) {
+    dist += distance(
+      extractCoordinates(points[i]),
+      extractCoordinates(points[i + 1]),
+    );
+  }
+
+  return dist;
+}

@@ -29,6 +29,7 @@ class ItineraryTab extends React.Component {
     itinerary: PropTypes.object.isRequired,
     focus: PropTypes.func.isRequired,
     setMapZoomToLeg: PropTypes.func.isRequired,
+    resetStreetMode: PropTypes.func,
   };
 
   static contextTypes = {
@@ -36,6 +37,10 @@ class ItineraryTab extends React.Component {
     router: routerShape.isRequired,
     match: matchShape.isRequired,
   };
+
+  static defaultProps = {
+    resetStreetMode: () => null,
+  }
 
   state = {
     lat: undefined,
@@ -56,6 +61,9 @@ class ItineraryTab extends React.Component {
     });
   };
 
+  componentWillUnmount() {
+    this.props.resetStreetMode();
+  }
 
   printItinerary = e => {
     e.stopPropagation();

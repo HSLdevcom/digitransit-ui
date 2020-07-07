@@ -189,12 +189,15 @@ export default (
               query={graphql`
                 query routeRoutes_RouteScheduleContainer_Query(
                   $patternId: String!
+                  $date: String!
                 ) {
                   pattern(id: $patternId) {
                     ...RouteScheduleContainer_pattern
+                      @arguments(serviceDay: $date)
                   }
                 }
               `}
+              prepareVariables={prepareServiceDay}
               render={getComponentOrLoadingRenderer}
             />
           </Route>,

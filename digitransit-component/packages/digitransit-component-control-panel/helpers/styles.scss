@@ -1,0 +1,50 @@
+ .input {
+      width: 200px;
+  }
+
+ .main-left {
+      display: flex;
+      order: 1;
+      flex-direction: column;
+      align-items: stretch;
+      background-color: ffffff;
+      height: 100%;
+      width: calc(100% - 2em);
+      max-width: 400px;
+      z-index: 20;
+      margin: 0 auto;
+  }
+
+ .main-bottom {
+      background-color: #ffffff;
+      width: calc(100% - 2em);
+      margin: 0 auto;
+      padding-bottom: 32px,
+  }
+
+  .separator-div {
+      position: relative;
+      display: block;
+      width: 100%;
+      margin-bottom: 19px;
+      padding-bottom: 29px;
+    }
+
+  .separator-div2 {
+      position: relative;
+      display: block;
+      width: 100%;
+      margin-bottom: 19px;
+      padding-bottom: 20px;
+    }
+
+  .separator-line {
+      background-color: #ccc;
+      content: '';
+      display: block;
+      height: 1px;
+      position: absolute;
+      bottom: 0;
+      right: -5px;
+      left: -5px;
+  }
