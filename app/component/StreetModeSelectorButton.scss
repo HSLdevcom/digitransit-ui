@@ -3,11 +3,16 @@
     align-items: center;
     justify-content: space-between;
 	padding-right: 20px;
+	&.id-1 span.icon-container {
+		height: 40px;
+	}
+	&.id-101 span.icon-container {
+		height: 40px;
+	}
 	span.icon-container {
 		height: 30px;
 	}
 	.street-mode-selector-panel-weather-text {
-		padding-left: 5px;
 		font-size: 15px;
 		font-weight: 500;
 		font-stretch: normal;
