@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import LocalTime from './LocalTime';
 
 const DepartureRow = ({ departure }) => {
   const mode = departure.trip.route.mode.toLowerCase();
@@ -12,6 +13,9 @@ const DepartureRow = ({ departure }) => {
         </div>
       </div>
       <div className="near-route-headsign">{departure.headsign}</div>
+      <div className={cx('near-route-time', { realtime: departure.realtime })}>
+        <LocalTime time={departure.serviceDay + departure.realtimeArrival} />
+      </div>
     </div>
   );
 };

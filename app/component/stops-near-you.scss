@@ -54,5 +54,12 @@
     .near-route-headsign {
         font-weight: normal;
         color: #333;
+        flex: 1;
+    }
+    .near-route-time {
+        color: #333;
+        &.realtime {
+            color: $realtime-color;
+        }
     }
 }

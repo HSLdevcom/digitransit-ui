@@ -17,14 +17,17 @@ class StopsNearYouContainer extends React.Component {
     const stopPatterns = this.props.stopPatterns.edges;
     const stops = stopPatterns.map(({ node }) => {
       const stop = node.place;
-      return (
-        <StopNearYou
-          key={`${stop.gtfsId}`}
-          stop={stop}
-          distance={node.distance}
-          color={this.context.config.colors.primary}
-        />
-      );
+      if (stop.stoptimesWithoutPatterns.length > 0) {
+        return (
+          <StopNearYou
+            key={`${stop.gtfsId}`}
+            stop={stop}
+            distance={node.distance}
+            color={this.context.config.colors.primary}
+          />
+        );
+      }
+      return null;
     });
     return stops;
   };
