@@ -39,6 +39,12 @@ class TrafficNowLink extends React.Component {
     lang: 'fi',
   };
 
+  handleKeyDown = e => {
+    if (e.keyCode === 32 || e.keyCode === 13) {
+      this.props.handleClick(e);
+    }
+  };
+
   render() {
     i18next.changeLanguage(this.props.lang);
     return (
@@ -47,7 +53,7 @@ class TrafficNowLink extends React.Component {
         tabIndex="0"
         role="button"
         onClick={e => this.props.handleClick(e)}
-        onKeyDown={e => this.props.handleClick(e)}
+        onKeyDown={e => this.handleKeyDown(e)}
       >
         <div className={styles.caution}>
           {' '}
