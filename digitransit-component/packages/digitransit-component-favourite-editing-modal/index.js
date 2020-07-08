@@ -32,32 +32,41 @@ Modal.propTypes = {
   children: PropTypes.node,
 };
 
-/**
- * General component description in JSDoc format. Markdown is *supported*.
- *
- * @example
- * <FavouriteEditingModal />
- */
 class FavouriteEditingModal extends React.Component {
   static propTypes = {
+    /** Required. Close modal.
+     * @type {function} */
     handleClose: PropTypes.func.isRequired,
-    updateFavourites: PropTypes.func,
+    /** Required.
+     * @type {function} */
+    updateFavourites: PropTypes.func.isRequired,
+    /** Required.
+     * @type {array<object>}
+     * @property {string} type
+     * @property {string} address
+     * @property {string} gtfsId
+     * @property {string} gid
+     * @property {number} lat
+     * @property {number} lon
+     * @property {string} name
+     * @property {string} selectedIconId
+     * @property {string} favouriteId
+     * @property {string} layer
+     */
     favourites: PropTypes.arrayOf(
       PropTypes.shape({
+        type: PropTypes.string,
         address: PropTypes.string,
         gtfsId: PropTypes.string,
         gid: PropTypes.string,
         lat: PropTypes.number,
-        name: PropTypes.string,
         lon: PropTypes.number,
+        name: PropTypes.string,
         selectedIconId: PropTypes.string,
         favouriteId: PropTypes.string,
+        layer: PropTypes.string,
       }),
     ).isRequired,
-  };
-
-  static defaultProps = {
-    updateFavourites: () => ({}),
   };
 
   constructor(props) {
