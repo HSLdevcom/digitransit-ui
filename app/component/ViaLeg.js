@@ -45,7 +45,7 @@ function ViaLeg(props, context) {
     parseInt(props.leg.distance, 10),
     context.config,
   );
-  const [address, place] = props.leg.from.name.split(/, (.+)/);
+  const [address, place] = props.leg.from.name.split(/, (.+)/); // Splits the name-string to two parts from the first occurance of ', '
   const duration = durationToString(props.leg.duration * 1000);
   const stayDuration = props.leg.startTime - props.arrivalTime;
 

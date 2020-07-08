@@ -29,7 +29,7 @@ function WalkLeg(
   const duration = durationToString(leg.duration * 1000);
   const modeClassName = 'walk';
   const isFirstLeg = i => i === 0;
-  const [address, place] = leg.from.name.split(/, (.+)/);
+  const [address, place] = leg.from.name.split(/, (.+)/); // Splits the name-string to two parts from the first occurance of ', '
 
   const networkType = getCityBikeNetworkConfig(
     getCityBikeNetworkId(

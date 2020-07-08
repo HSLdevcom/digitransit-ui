@@ -55,13 +55,6 @@ class TransitLeg extends React.Component {
     }));
   };
 
-  getZoneId(zoneId) {
-    if (this.context.config.zoneIdMapping) {
-      return this.context.config.zoneIdMapping[zoneId];
-    }
-    return zoneId;
-  }
-
   getZoneChange() {
     const { leg } = this.props;
     if (leg.intermediatePlaces.length > 0) {
