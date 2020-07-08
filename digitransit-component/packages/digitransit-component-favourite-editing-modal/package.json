@@ -26,7 +26,7 @@
     "@hsl-fi/sass":" ^0.1.1"
   },
   "peerDependencies": {
-    "@digitransit-component/digitransit-component-favourite-modal": "^0.0.4",
+    "@digitransit-component/digitransit-component-favourite-modal": "^0.0.5",
     "i18next": "^19.3.3",
     "prop-types": "^15.7.2",
     "react": "^16.13.0"
