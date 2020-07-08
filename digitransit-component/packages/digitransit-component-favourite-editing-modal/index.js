@@ -54,12 +54,10 @@ class FavouriteEditingModal extends React.Component {
         favouriteId: PropTypes.string,
       }),
     ).isRequired,
-    isMobile: PropTypes.bool,
   };
 
   static defaultProps = {
     updateFavourites: () => ({}),
-    isMobile: false,
   };
 
   constructor(props) {
@@ -202,10 +200,12 @@ class FavouriteEditingModal extends React.Component {
   };
 
   render() {
+    const isMobile =
+      window && window.innerWidth ? window.innerWidth < 768 : false;
     const { favourites } = this.state;
     return (
       <Modal>
-        {this.props.isMobile && (
+        {isMobile && (
           <MobileModal
             headerText={i18next.t('edit-places')}
             closeModal={this.props.handleClose}
@@ -213,7 +213,7 @@ class FavouriteEditingModal extends React.Component {
             renderList={this.renderFavouriteList(favourites)}
           />
         )}
-        {!this.props.isMobile && (
+        {!isMobile && (
           <DesktopModal
             headerText={i18next.t('edit-places')}
             closeModal={this.props.handleClose}

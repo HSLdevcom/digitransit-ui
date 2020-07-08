@@ -158,7 +158,6 @@ class FavouritesContainer extends React.Component {
             favourites={this.props.favourites}
             updateFavourites={this.updateFavourites}
             handleClose={() => this.setState({ editModalOpen: false })}
-            isMobile={this.props.isMobile}
           />
         )}
       </React.Fragment>
