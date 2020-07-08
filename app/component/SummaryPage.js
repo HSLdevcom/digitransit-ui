@@ -208,14 +208,26 @@ class SummaryPage extends React.Component {
     }
     this.resultsUpdatedAlertRef = React.createRef();
 
+    // set state correctly if user enters the page from a link
+    let existingStreetMode;
+    if (this.props.match.location && this.props.match.location.state) {
+      existingStreetMode = this.props.match.location.state.streetMode;
+    } else if (
+      this.props.match.params &&
+      this.props.match.params.hash &&
+      (this.props.match.params.hash === 'walk' ||
+        this.props.match.params.hash === 'bike')
+    ) {
+      existingStreetMode = this.props.match.params.hash;
+    } else {
+      existingStreetMode = '';
+    }
+
     this.state = {
       center: null,
       loading: false,
       settingsOpen: false,
-      streetMode:
-        this.props.match.location && this.props.match.location.state
-          ? this.props.match.location.state.streetMode
-          : '',
+      streetMode: existingStreetMode,
     };
 
     if (this.state.streetMode === 'walk') {
@@ -264,7 +276,7 @@ class SummaryPage extends React.Component {
     const indexPath = `${getRoutePath(
       this.context.match.params.from,
       this.context.match.params.to,
-    )}/0`;
+    )}/${newStreetMode}`;
 
     newState.pathname = indexPath;
     this.context.router.push(newState);
@@ -374,6 +386,17 @@ class SummaryPage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
+    // Set correct state when entering the page from browser back button
+    if (
+      this.props.match.params.hash &&
+      (this.props.match.params.hash === 'walk' ||
+        this.props.match.params.hash === 'bike')
+    ) {
+      if (this.state.streetMode !== this.props.match.params.hash) {
+        // eslint-disable-next-line react/no-did-update-set-state
+        this.setState({ streetMode: this.props.match.params.hash });
+      }
+    }
     // alert screen readers when results update
     if (
       this.resultsUpdatedAlertRef.current &&
@@ -660,11 +683,21 @@ class SummaryPage extends React.Component {
       itineraries = [];
     }
 
+    let hash;
+    if (match.params.hash) {
+      if (match.params.hash === 'walk' || match.params.hash === 'bike') {
+        hash = 0;
+      } else {
+        // eslint-disable-next-line prefer-destructuring
+        hash = match.params.hash;
+      }
+    }
+
     const from = otpToLocation(match.params.from);
 
     if (match.routes.some(route => route.printPage) && hasItineraries) {
       return React.cloneElement(this.props.content, {
-        itinerary: itineraries[match.params.hash],
+        itinerary: itineraries[hash],
         focus: this.updateCenter,
         from,
         to: otpToLocation(match.params.to),
@@ -679,7 +712,7 @@ class SummaryPage extends React.Component {
     let map = this.props.map
       ? this.props.map.type(
           {
-            itinerary: itineraries && itineraries[match.params.hash],
+            itinerary: itineraries && itineraries[hash],
             center,
             ...this.props,
           },
@@ -731,7 +764,7 @@ class SummaryPage extends React.Component {
             <>
               {screenReaderUpdateAlert}
               <ItineraryTab
-                key={match.params.hash.toString()}
+                key={hash.toString()}
                 activeIndex={getActiveIndex(match.location, itineraries)}
                 plan={this.selectedPlan}
                 serviceTimeRange={serviceTimeRange}
