@@ -48,8 +48,8 @@ import {
 import VehicleMarkerContainer from './map/VehicleMarkerContainer';
 import ItineraryTab from './ItineraryTab';
 import { StreetModeSelector } from './StreetModeSelector';
-import { estimateItineraryDistance } from '../util/geo-utils';
 import { getCurrentSettings } from '../util/planParamUtil';
+import { getTotalBikingDistance } from '../util/legUtils';
 
 /**
  * Returns the actively selected itinerary's index. Attempts to look for
@@ -648,11 +648,6 @@ class SummaryPage extends React.Component {
 
   render() {
     const { match, error, walkPlan, bikePlan } = this.props;
-    const itineraryDistance = estimateItineraryDistance(
-      match.params.from,
-      match.params.to,
-      match.location.query.intermediatePlaces,
-    );
 
     if (this.state.streetMode === 'walk') {
       this.selectedPlan = this.props.walkPlan;
@@ -661,14 +656,24 @@ class SummaryPage extends React.Component {
     } else {
       this.selectedPlan = this.props.plan;
     }
+
+    let itineraryWalkDistance;
+    let itineraryBikeDistance;
+    if (walkPlan.itineraries && walkPlan.itineraries.length > 0) {
+      itineraryWalkDistance = walkPlan.itineraries[0].walkDistance;
+    }
+    if (bikePlan.itineraries && bikePlan.itineraries.length > 0) {
+      itineraryBikeDistance = getTotalBikingDistance(bikePlan.itineraries[0]);
+    }
+
     const currentSettings = getCurrentSettings(this.context.config, '');
 
     const showWalkOptionButton =
-      itineraryDistance < this.context.config.suggestWalkMaxDistance &&
+      itineraryWalkDistance < this.context.config.suggestWalkMaxDistance &&
       currentSettings.usingWheelchair !== 1;
 
     const showBikeOptionButton =
-      itineraryDistance < this.context.config.suggestBikeMaxDistance &&
+      itineraryBikeDistance < this.context.config.suggestBikeMaxDistance &&
       currentSettings.usingWheelchair !== 1;
 
     const showStreetModeSelector = showBikeOptionButton || showWalkOptionButton;
