@@ -39,6 +39,7 @@ $primary-color: #007ac9;
   padding: 0 21px;
   @include min-width(tablet) {
     max-height: 284px;
+    height: 100%;
     top: 95px;
     padding: 0 43px 0 44px;
   }
