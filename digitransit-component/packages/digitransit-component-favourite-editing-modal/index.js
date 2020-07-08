@@ -195,10 +195,30 @@ class FavouriteEditingModal extends React.Component {
           </p>
         </div>
         <div className={styles['favourite-edit-list-item-right']}>
-          <div className={styles['favourite-edit-list-item-edit']}>
+          <div
+            role="button"
+            tabIndex="0"
+            aria-label={i18next.t('edit-place-name', {
+              favourite,
+            })}
+            className={styles['favourite-edit-list-item-edit']}
+            onClick={() => this.setState({ selectedFavourite: favourite })}
+            onKeyDown={e => {
+              if (e.keyCode === 32 || e.keyCode === 13) {
+                this.setState({ selectedFavourite: favourite });
+              }
+            }}
+          >
             <Icon img="edit" />
           </div>
-          <div className={styles['favourite-edit-list-item-remove']}>
+          <div
+            role="button"
+            tabIndex="0"
+            aria-label={i18next.t('delete-place-name', {
+              favourite,
+            })}
+            className={styles['favourite-edit-list-item-remove']}
+          >
             <Icon img="trash" />
           </div>
         </div>
