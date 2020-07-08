@@ -5,8 +5,10 @@ import React from 'react';
 import cx from 'classnames';
 import i18next from 'i18next';
 import escapeRegExp from 'lodash/escapeRegExp';
+import uniqueId from 'lodash/uniqueId';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import DesktopModal from './helpers/DesktopModal';
+import MobileModal from './helpers/MobileModal';
 import styles from './helpers/styles.scss';
 import translations from './helpers/translations';
 
@@ -52,10 +54,12 @@ class FavouriteEditingModal extends React.Component {
         favouriteId: PropTypes.string,
       }),
     ).isRequired,
+    isMobile: PropTypes.bool,
   };
 
   static defaultProps = {
     updateFavourites: () => ({}),
+    isMobile: false,
   };
 
   constructor(props) {
@@ -140,6 +144,7 @@ class FavouriteEditingModal extends React.Component {
           [styles['drop-target-before']]:
             index === this.state.isDraggingOverIndex,
         })}
+        key={uniqueId(`favourite-edit-list-item-${index}`)}
         onDragOver={e => this.handleOnFavouriteDragOver(e, index)}
         onDrop={e => this.handleOnFavouriteDrop(e, index)}
         ref={el => this.setDraggableFavouriteRef(el, index)}
@@ -186,11 +191,13 @@ class FavouriteEditingModal extends React.Component {
 
   renderFavouriteList = favourites => {
     return (
-      <ul className={styles['favourite-edit-list']}>
-        {favourites.map((favourite, index) =>
-          this.renderFavouriteListItem(favourite, index),
-        )}
-      </ul>
+      <div className={styles['favourite-edit-list-container']}>
+        <ul className={styles['favourite-edit-list']}>
+          {favourites.map((favourite, index) =>
+            this.renderFavouriteListItem(favourite, index),
+          )}
+        </ul>
+      </div>
     );
   };
 
@@ -198,12 +205,22 @@ class FavouriteEditingModal extends React.Component {
     const { favourites } = this.state;
     return (
       <Modal>
-        <DesktopModal
-          headerText="Muokkaa paikkoja"
-          closeModal={this.props.handleClose}
-          closeArialLabel={i18next.t('close-modal')}
-          renderList={this.renderFavouriteList(favourites)}
-        />
+        {this.props.isMobile && (
+          <MobileModal
+            headerText={i18next.t('edit-places')}
+            closeModal={this.props.handleClose}
+            closeArialLabel={i18next.t('close-modal')}
+            renderList={this.renderFavouriteList(favourites)}
+          />
+        )}
+        {!this.props.isMobile && (
+          <DesktopModal
+            headerText={i18next.t('edit-places')}
+            closeModal={this.props.handleClose}
+            closeArialLabel={i18next.t('close-modal')}
+            renderList={this.renderFavouriteList(favourites)}
+          />
+        )}
       </Modal>
     );
   }
