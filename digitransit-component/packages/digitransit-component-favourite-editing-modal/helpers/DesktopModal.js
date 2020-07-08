@@ -26,7 +26,7 @@ const DesktopModal = ({
           <Icon img="close" />
         </div>
       </div>
-      <div className={styles['favourite-modal-desktop-main']}>{renderList}</div>
+      {renderList}
     </div>
   );
 };
