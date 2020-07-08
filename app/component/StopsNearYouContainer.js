@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import StopNearYou from './StopNearYou';
 
 class StopsNearYouContainer extends React.Component {
@@ -24,6 +25,7 @@ class StopsNearYouContainer extends React.Component {
             stop={stop}
             distance={node.distance}
             color={this.context.config.colors.primary}
+            currentTime={this.props.currentTime}
           />
         );
       }
@@ -39,7 +41,13 @@ class StopsNearYouContainer extends React.Component {
   }
 }
 
-const connectedContainer = createFragmentContainer(StopsNearYouContainer, {
+const connectedContainer = createFragmentContainer(
+  connectToStores(StopsNearYouContainer, ['TimeStore'], ({ getStore }) => ({
+    currentTime: getStore('TimeStore')
+      .getCurrentTime()
+      .unix(),
+  })),
+  {
   stopPatterns: graphql`
     fragment StopsNearYouContainer_stopPatterns on placeAtDistanceConnection {
       edges {

@@ -32,34 +32,49 @@
     }
     .near-departures-container {
         padding: 15px;
+        .departure-row {
+            @include font-narrow-book;
+            font-weight: normal;
+            display: flex;
+            .route-arrival {
+                color: #333;
+                @include font-medium;
+                font-size: 0.75rem;
+                padding-right: 8px;
+                span {
+                    vertical-align: sub;
+                }
+                &.realtime {
+                    color: $realtime-color;
+                }
+            }
+            .route-number-container {
+                background-color: currentColor;
+                margin-right: 10px;
+                border-radius: 3px;
+                width: 2.25em;
+                height: 1.25em;
+                text-align: center;
+                .route-number {
+                    color: $white;
+                    line-height: 1.25;
+                    min-width: unset;
+                    display: block;
+                }
+            }
+            .route-headsign {
+                font-weight: normal;
+                color: #333;
+                flex: 1;
+            }
+            .route-time {
+                color: #333;
+                &.realtime {
+                    color: $realtime-color;
+                }
+            }
+        }
     }
 }
 
-.near-departure-row {
-    @include font-narrow-book;
-    font-weight: normal;
-    display: flex;
-    .near-route-number-container {
-        background-color: currentColor;
-        margin-right: 10px;
-        border-radius: 3px;
-        width: 2.25em;
-        height: 1.25em;
-        text-align: center;
-        .near-route-number {
-            color: $white;
-            line-height: 1.25;
-        }
-    }
-    .near-route-headsign {
-        font-weight: normal;
-        color: #333;
-        flex: 1;
-    }
-    .near-route-time {
-        color: #333;
-        &.realtime {
-            color: $realtime-color;
-        }
-    }
-}
+
