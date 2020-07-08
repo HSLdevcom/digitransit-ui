@@ -343,9 +343,9 @@ $itinerary-tab-switch-height: 48px;
     flex-shrink: 1;
     white-space: normal;
     line-height: 1.33;
+    border-bottom: 1px solid #ddd;
     .ticket-container {
       display: flex;
-      border-bottom: 1px solid #ddd;
     }
     .ticket-info-container {
       flex: 1;
@@ -756,7 +756,6 @@ $itinerary-tab-switch-height: 48px;
     }
     .intermediate-stop-info-container {
       font-size: 0.9375rem;
-      cursor: pointer;
       .itinerary-search-icon {
         font-size: 18px;
         margin-right: 14px;
@@ -844,12 +843,22 @@ $itinerary-tab-switch-height: 48px;
       background-color: #f4f4f5;
       border-radius: 5px;
       margin-bottom: 10px;
+      &.long-name {
+        display: block;
+        .headsign {
+          padding: 0 10px 10px 10px;
+          width: calc(100% - 42px);
+        }
+      }
       .route-number {
         padding: 7px;
         min-width: calc(3.75em + 14px);
         height: calc(1.5em + 14px);
         font-size: 16px;
         white-space: nowrap;
+        &.hasNoShortName {
+          width: calc(100% - 42px);
+        }
         .vcenter-children {
           position: relative;
           width: 100%;
@@ -859,14 +868,16 @@ $itinerary-tab-switch-height: 48px;
         }
         .vehicle-number {
           color: $white;
-          width: calc(60px - 1.5em);
           position: absolute;
           left: 1.5em;
+          width: 2.25em;
           text-align: center;
           padding: 4px 0 0 0;
           margin: 0 0 0 5px;
           &.long {
             left: 1.7em;
+            width: 100%;
+            text-align: left;
           }
         }
         .icon {
@@ -877,7 +888,7 @@ $itinerary-tab-switch-height: 48px;
           position: relative;
         }
         .bar-container {
-          width: 3.75em;
+          width: 100%;
           height: 1.5em;
           display: flex;
           position: absolute;

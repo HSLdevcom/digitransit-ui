@@ -181,7 +181,9 @@ class TransitLeg extends React.Component {
         <div
           role="button"
           tabIndex="0"
-          className="intermediate-stops-clickable pointer-cursor"
+          className={cx('intermediate-stops-clickable', {
+            'cursor-pointer': stopCount > 0,
+          })}
           onClick={e => {
             e.stopPropagation();
             if (stopCount > 0) {
@@ -271,6 +273,12 @@ class TransitLeg extends React.Component {
       alertDescription = <FormattedMessage id={id} />;
     }
     const zoneIcons = this.getZoneChange();
+    // Checks if route only has letters without identifying numbers and
+    // length doesn't fit in the tab view
+    const hasNoShortName =
+      leg.route.shortName &&
+      new RegExp(/^([^0-9]*)$/).test(leg.route.shortName) &&
+      leg.route.shortName.length > 3;
 
     return (
       <div key={index} className="row itinerary-row">
@@ -388,7 +396,12 @@ class TransitLeg extends React.Component {
               />
             </div>
           </div>
-          <div className="itinerary-transit-leg-route" aria-hidden="true">
+          <div
+            className={cx('itinerary-transit-leg-route', {
+              'long-name': hasNoShortName,
+            })}
+            aria-hidden="true"
+          >
             <RouteNumber
               mode={mode.toLowerCase()}
               alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
