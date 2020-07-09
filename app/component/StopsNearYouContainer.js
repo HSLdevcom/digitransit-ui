@@ -56,7 +56,10 @@ const connectedContainer = createRefetchContainer(
   {
     stopPatterns: graphql`
       fragment StopsNearYouContainer_stopPatterns on placeAtDistanceConnection
-        @argumentDefinitions(startTime: { type: "Long!", defaultValue: 0 }) {
+        @argumentDefinitions(
+          startTime: { type: "Long!", defaultValue: 0 }
+          omitNonPickups: { type: "Boolean!", defaultValue: false }
+        ) {
         edges {
           node {
             distance
@@ -72,7 +75,10 @@ const connectedContainer = createRefetchContainer(
                 lon
                 zoneId
                 vehicleMode
-                stoptimesWithoutPatterns(startTime: $startTime) {
+                stoptimesWithoutPatterns(
+                  startTime: $startTime
+                  omitNonPickups: $omitNonPickups
+                ) {
                   scheduledArrival
                   realtimeArrival
                   arrivalDelay
@@ -109,6 +115,7 @@ const connectedContainer = createRefetchContainer(
       $filterByModes: [Mode]
       $maxResults: Int!
       $startTime: Long!
+      $omitNonPickups: Boolean!
     ) {
       stopPatterns: nearest(
         lat: $lat
@@ -117,7 +124,8 @@ const connectedContainer = createRefetchContainer(
         filterByModes: $filterByModes
         maxResults: $maxResults
       ) {
-        ...StopsNearYouContainer_stopPatterns @arguments(startTime: $startTime)
+        ...StopsNearYouContainer_stopPatterns
+          @arguments(startTime: $startTime, omitNonPickups: $omitNonPickups)
       }
     }
   `,

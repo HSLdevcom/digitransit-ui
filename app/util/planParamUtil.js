@@ -268,6 +268,7 @@ export const prepareStopsParams = config => ({ place, mode }) => {
     maxResults: config.maxNearbyStopAmount,
     filterByModes: modes,
     filterByPlaceTypes: 'STOP',
+    omitNonPickups: config.omitNonPickups,
   };
 };
 
