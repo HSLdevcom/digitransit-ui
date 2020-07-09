@@ -56,7 +56,7 @@ class ItineraryLine extends React.Component {
 
       let { mode } = leg;
 
-      if (leg.rentedBike) {
+      if (leg.rentedBike && leg.mode !== 'WALK') {
         mode = 'CITYBIKE';
       }
 

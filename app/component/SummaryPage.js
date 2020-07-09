@@ -250,6 +250,17 @@ class SummaryPage extends React.Component {
     }
   }
 
+  state = {
+    center: null,
+    loading: false,
+    settingsOpen: false,
+    bounds: null,
+    streetMode:
+      this.props.match.location && this.props.match.location.state
+        ? this.props.match.location.state.streetMode
+        : '',
+  };
+
   setStreetMode = newStreetMode => {
     this.setState(
       { streetMode: newStreetMode },
@@ -437,7 +448,10 @@ class SummaryPage extends React.Component {
   };
 
   updateCenter = (lat, lon) => {
-    this.setState({ center: { lat, lon } });
+    if (this.props.breakpoint !== 'large') {
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }
+    this.setState({ center: { lat, lon }, bounds: null });
   };
 
   // eslint-disable-next-line camelcase
@@ -450,6 +464,24 @@ class SummaryPage extends React.Component {
       this.setState({ center: null });
     }
   }
+
+  setMapZoomToLeg = leg => {
+    if (this.props.breakpoint !== 'large') {
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }
+    this.setState({ bounds: [] });
+    const bounds = []
+      .concat(
+        [[leg.from.lat, leg.from.lon], [leg.to.lat, leg.to.lon]],
+        polyline.decode(leg.legGeometry.points),
+      )
+      .filter(a => a[0] && a[1]);
+
+    this.setState({
+      bounds,
+      center: null,
+    });
+  };
 
   renderMap() {
     const { match, breakpoint } = this.props;
@@ -518,6 +550,7 @@ class SummaryPage extends React.Component {
 
     // Decode all legs of all itineraries into latlong arrays,
     // and concatenate into one big latlong array
+
     const bounds = []
       .concat(
         [[from.lat, from.lon], [to.lat, to.lon]],
@@ -708,23 +741,27 @@ class SummaryPage extends React.Component {
         to: otpToLocation(match.params.to),
       });
     }
-
-    const center = this.state.center
-      ? this.state.center
-      : { lat: from.lat, lon: from.lon };
-
+    let bounds;
+    let center;
+    if (!this.state.bounds && !this.state.center) {
+      center = { lat: from.lat, lon: from.lon };
+    } else {
+      center = this.state.bounds ? undefined : this.state.center;
+      bounds = this.state.center ? undefined : this.state.bounds;
+    }
     // Call props.map directly in order to render to same map instance
     let map = this.props.map
       ? this.props.map.type(
           {
             itinerary: itineraries && itineraries[hash],
             center,
+            bounds,
+            fitBounds: Boolean(bounds),
             ...this.props,
           },
           this.context,
         )
       : this.renderMap();
-
     let earliestStartTime;
     let latestArrivalTime;
 
@@ -781,6 +818,8 @@ class SummaryPage extends React.Component {
                 setLoading={this.setLoading}
                 setError={this.setError}
                 focus={this.updateCenter}
+                setMapZoomToLeg={this.setMapZoomToLeg}
+                resetStreetMode={this.resetStreetMode}
               />
             </>
           );
@@ -891,6 +930,9 @@ class SummaryPage extends React.Component {
           itineraries={itineraries}
           params={match.params}
           focus={this.updateCenter}
+          plan={this.props.plan}
+          serviceTimeRange={this.props.serviceTimeRange}
+          setMapZoomToLeg={this.setMapZoomToLeg}
         >
           {this.props.content &&
             itineraries.map((itinerary, i) =>

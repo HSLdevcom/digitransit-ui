@@ -9,6 +9,7 @@ import { isKeyboardSelectionEvent } from '../util/browser';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function EndLeg(props) {
+  const [address, place] = props.to.split(/, (.+)/); // Splits the string to two parts from the first occurance of ', '
   const modeClassName = 'end';
   return (
     <div key={props.index} className="row itinerary-row">
@@ -35,13 +36,7 @@ function EndLeg(props) {
           />
         </div>
       </div>
-      <div
-        onClick={props.focusAction}
-        onKeyPress={e => isKeyboardSelectionEvent(e) && props.focusAction(e)}
-        role="button"
-        tabIndex="0"
-        className="small-9 columns itinerary-instruction-column to end"
-      >
+      <div className="small-9 columns itinerary-instruction-column to end">
         <span className="sr-only">
           <FormattedMessage
             id="itinerary-summary.show-on-map"
@@ -49,8 +44,24 @@ function EndLeg(props) {
           />
         </span>
         <div className="itinerary-leg-first-row" aria-hidden="true">
-          <div>{props.to}</div>
-          <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
+          <div className="address-container">
+            <div className="address">{address}</div>
+            <div className="place">{place}</div>
+          </div>
+          <div
+            className="itinerary-map-action"
+            onClick={props.focusAction}
+            onKeyPress={e =>
+              isKeyboardSelectionEvent(e) && props.focusAction(e)
+            }
+            role="button"
+            tabIndex="0"
+          >
+            <Icon
+              img="icon-icon_show-on-map"
+              className="itinerary-search-icon"
+            />
+          </div>
         </div>
       </div>
     </div>

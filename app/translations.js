@@ -859,7 +859,7 @@ const translations = {
     'elevation-gained-total': 'Elevation gained',
     'elevation-lost-total': 'Elevation lost',
     explanations: 'Explanations',
-    'extra-info': 'Further information',
+    'extra-info': 'More info',
     'favourite-target': 'Favorite location',
     ferry: 'Suomenlinna ferry',
     'ferry-with-route-number': 'Ferry {routeNumber} {headSign}',
