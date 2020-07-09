@@ -1,9 +1,17 @@
 .street-mode-selector-container {
   background-color: #f4f4f4;
-  border: solid 1px #dddddd;
+  border-top: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   padding: 10px;
+  height: 60px;
+}
+
+.mobile {
+  .street-mode-selector-container {
+    height: 77px;
+  }
 }

@@ -6,15 +6,20 @@ import { durationToString } from '../util/timeUtils';
 import { getTotalDistance } from '../util/legUtils';
 
 export const StreetModeSelectorButton = (
-  { icon, name, active, itinerary, onClick },
+  { icon, name, active, plan, onClick },
   { config },
 ) => {
-  const duration = durationToString(itinerary.duration * 1000);
-  const distance =
-    name === 'WALK'
-      ? displayDistance(itinerary.walkDistance, config)
-      : displayDistance(getTotalDistance(itinerary), config);
-  if (active) {
+  let duration;
+  let distance;
+
+  if (active && plan && plan.itineraries && plan.itineraries.length >= 1) {
+    const itinerary = plan.itineraries[0];
+    duration = durationToString(itinerary.duration * 1000);
+    distance =
+      name === 'WALK'
+        ? displayDistance(itinerary.walkDistance, config)
+        : displayDistance(getTotalDistance(itinerary), config);
+
     return (
       // eslint-disable-next-line jsx-a11y/click-events-have-key-events
       <div
@@ -23,12 +28,9 @@ export const StreetModeSelectorButton = (
         role="Button"
         tabIndex={0}
       >
-        <Icon
-          img={icon}
-          className="steet-mode-selector-button-icon"
-          height={1.5}
-          width={1.5}
-        />
+        <div className="street-mode-selector-button-icon">
+          <Icon img={icon} height={1.5} width={1.5} />
+        </div>
         <div className="street-mode-button-info">
           <div className="street-mode-button-time">{duration}</div>
           <div className="street-mode-button-length">{distance}</div>
@@ -40,12 +42,9 @@ export const StreetModeSelectorButton = (
     <div className="street-mode-selector-button-container">
       <div className="disabled-overlay" />
       <div className="street-mode-selector-button-content">
-        <Icon
-          img={icon}
-          className="steet-mode-selector-button-icon"
-          height={1.5}
-          width={1.5}
-        />
+        <div className="street-mode-selector-button-icon">
+          <Icon img={icon} height={1.5} width={1.5} />
+        </div>
         <div className="street-mode-button-info">
           <div className="street-mode-button-time">- min</div>
           <div className="street-mode-button-length">- km</div>
@@ -59,8 +58,12 @@ StreetModeSelectorButton.propTypes = {
   icon: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   active: PropTypes.bool.isRequired,
-  itinerary: PropTypes.object.isRequired,
+  plan: PropTypes.object,
   onClick: PropTypes.func.isRequired,
+};
+
+StreetModeSelectorButton.defaulProps = {
+  plan: undefined,
 };
 
 StreetModeSelectorButton.contextTypes = {
