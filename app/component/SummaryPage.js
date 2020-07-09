@@ -249,6 +249,7 @@ class SummaryPage extends React.Component {
       }
     }
   }
+
   state = {
     center: null,
     loading: false,

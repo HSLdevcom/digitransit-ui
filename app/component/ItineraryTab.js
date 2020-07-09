@@ -29,7 +29,6 @@ class ItineraryTab extends React.Component {
     itinerary: PropTypes.object.isRequired,
     focus: PropTypes.func.isRequired,
     setMapZoomToLeg: PropTypes.func.isRequired,
-    // resetStreetMode: PropTypes.func,
   };
 
   static contextTypes = {
@@ -56,6 +55,10 @@ class ItineraryTab extends React.Component {
       lon,
     });
   };
+
+  shouldShowDisclaimer = (config) => {
+    return config.showDisclaimer && this.context.match.params.hash !== 'walk' && this.context.match.params.hash !== 'bike';
+  }
 
   printItinerary = e => {
     e.stopPropagation();
@@ -146,7 +149,7 @@ class ItineraryTab extends React.Component {
                 )}
                 {config.showRouteInformation && <RouteInformation />}
               </div>
-              {config.showDisclaimer && (
+              {this.shouldShowDisclaimer(config) && (
                 <div className="itinerary-disclaimer">
                   <FormattedMessage
                     id="disclaimer"

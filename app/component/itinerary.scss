@@ -483,7 +483,15 @@ $itinerary-tab-switch-height: 48px;
     min-width: 25px;
     max-width: 25px;
     position: relative;
-    &.walk {
+    &.bicycle {
+      .route-number {
+        .icon {
+          color: #333;
+        }
+      }
+    }
+    &.walk,
+    &.bicycle {
       :last-child {
         bottom: initial;
       }
@@ -566,7 +574,8 @@ $itinerary-tab-switch-height: 48px;
         top: 85%;
       }
     }
-    &.walk {
+    &.walk,
+    &.bicycle {
       height: 48%;
       background-position-y: 6px;
       &.bottom {
@@ -577,7 +586,8 @@ $itinerary-tab-switch-height: 48px;
     }
 
     &.walk,
-    &.bicycle_walk {
+    &.bicycle_walk,
+    &.bicycle {
       background-size: 100% auto;
       background-position-y: 5px;
       background-position-x: 0px;

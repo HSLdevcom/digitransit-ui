@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
+import cx from 'classnames';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 
@@ -14,6 +15,7 @@ import {
   CityBikeNetworkType,
 } from '../util/citybikes';
 import { isKeyboardSelectionEvent } from '../util/browser';
+import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 
 function BicycleLeg({ focusAction, index, leg, setMapZoomToLeg }, { config }) {
   let stopsDescription;
@@ -23,7 +25,7 @@ function BicycleLeg({ focusAction, index, leg, setMapZoomToLeg }, { config }) {
   let legDescription = <span>{leg.from ? leg.from.name : ''}</span>;
   const firstLegClassName = index === 0 ? 'start' : '';
   let modeClassName = 'bicycle';
-
+  const [address, place] = leg.from.name.split(/, (.+)/); // Splits the name-string to two parts from the first occurance of ', '
   const networkConfig =
     leg.rentedBike &&
     leg.from.bikeRentalStation &&
@@ -31,6 +33,7 @@ function BicycleLeg({ focusAction, index, leg, setMapZoomToLeg }, { config }) {
       getCityBikeNetworkId(leg.from.bikeRentalStation.networks),
       config,
     );
+  const isFirstLeg = i => i === 0;
   const isScooter =
     networkConfig && networkConfig.type === CityBikeNetworkType.Scooter;
 
@@ -98,7 +101,15 @@ function BicycleLeg({ focusAction, index, leg, setMapZoomToLeg }, { config }) {
           {moment(leg.startTime).format('HH:mm')}
         </div>
       </div>
-      <ItineraryCircleLine index={index} modeClassName={modeClassName} />
+      {mode === 'BICYCLE' ? (
+        <ItineraryCircleLineWithIcon
+          index={index}
+          modeClassName={modeClassName}
+        />
+      ) : (
+        <ItineraryCircleLine index={index} modeClassName={modeClassName} />
+      )}
+
       <div
         className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${mode.toLowerCase()}`}
       >
@@ -108,21 +119,57 @@ function BicycleLeg({ focusAction, index, leg, setMapZoomToLeg }, { config }) {
             values={{ target: leg.from.name || '' }}
           />
         </span>
-        <div className="itinerary-leg-first-row" aria-hidden="true">
-          {legDescription}
+        {isFirstLeg(index) ? (
           <div
-            className="itinerary-map-action"
-            onClick={focusAction}
-            onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
-            role="button"
-            tabIndex="0"
+            className={cx('itinerary-leg-first-row', 'bicycle', 'first')}
+            aria-hidden="true"
           >
-            <Icon
-              img="icon-icon_show-on-map"
-              className="itinerary-search-icon"
-            />
+            <div className="address-container">
+              <div className="address">
+                {address}
+                {leg.from.stop && (
+                  <Icon
+                    img="icon-icon_arrow-collapse--right"
+                    className="itinerary-arrow-icon"
+                    color="#333"
+                  />
+                )}
+              </div>
+              <div className="place">{place}</div>
+            </div>
+            <div
+              className="itinerary-map-action"
+              onClick={focusAction}
+              onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
+              role="button"
+              tabIndex="0"
+            >
+              <Icon
+                img="icon-icon_show-on-map"
+                className="itinerary-search-icon"
+              />
+            </div>
           </div>
-        </div>
+        ) : (
+          <div
+            className={cx('itinerary-leg-first-row', { first: index === 0 })}
+            aria-hidden="true"
+          >
+            {legDescription}
+            <div
+              className="itinerary-map-action"
+              onClick={focusAction}
+              onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
+              role="button"
+              tabIndex="0"
+            >
+              <Icon
+                img="icon-icon_show-on-map"
+                className="itinerary-search-icon"
+              />
+            </div>
+          </div>
+        )}
         <div className="itinerary-leg-action" aria-hidden="true">
           <div className="itinerary-leg-action-content">
             {stopsDescription}
