@@ -7,10 +7,13 @@
   justify-content: center;
   align-items: center;
   padding: 10px;
+  height: 60px;
 }
 
 .mobile {
   .street-mode-selector-container {
+    height: 77px;
+    min-height: 77px;
     overflow: auto;
     white-space: nowrap;
   }
