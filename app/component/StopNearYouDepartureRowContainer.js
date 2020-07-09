@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import DepartureRow from './DepartureRow';
 
-
 const StopNearYouDepartureRowContainer = ({ stopTimes, ...props }) => {
   const departures = stopTimes.map(row => {
     const departureTime = row.serviceDay + row.realtimeArrival;
@@ -13,7 +12,7 @@ const StopNearYouDepartureRowContainer = ({ stopTimes, ...props }) => {
         departureTime={departureTime}
         currentTime={props.currentTime}
       />
-    )
+    );
   });
 
   return <div className="near-departures-container">{departures}</div>;
@@ -28,5 +27,6 @@ StopNearYouDepartureRowContainer.propTypes = {
       distance: PropTypes.number,
     }),
   ),
+  currentTime: PropTypes.number.isRequired,
 };
 export default StopNearYouDepartureRowContainer;

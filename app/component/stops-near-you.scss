@@ -8,6 +8,12 @@
         width: 100%;
         margin-bottom: 10px;
         .stop-near-you-header-container {
+            .stop-header-content {
+                a {
+                    text-decoration: none;
+                    color: #333;
+                }
+            }
             padding: 14px 15px 12px 20px;
             .stop-near-you-info {
                 display: flex;
@@ -76,5 +82,3 @@
         }
     }
 }
-
-

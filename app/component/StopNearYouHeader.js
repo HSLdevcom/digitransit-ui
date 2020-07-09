@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'found';
 import StopCode from './StopCode';
 import ZoneIcon from './ZoneIcon';
-import { Link } from 'found';
 import { PREFIX_STOPS } from '../util/path';
+import { isKeyboardSelectionEvent } from '../util/browser';
 
 const StopNearYouHeader = ({ stop, color }) => {
   return (
@@ -19,7 +20,7 @@ const StopNearYouHeader = ({ stop, color }) => {
             }
           }}
           to={`/${PREFIX_STOPS}/${stop.gtfsId}`}
-        >     
+        >
           <div className="stop-near-you-name">{stop.name}</div>
         </Link>
         <div className="stop-near-you-info">
