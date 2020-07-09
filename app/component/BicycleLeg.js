@@ -15,6 +15,7 @@ import {
   getCityBikeNetworkConfig,
   getCityBikeNetworkId,
   CityBikeNetworkType,
+  getCityBikeUrl,
 } from '../util/citybikes';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import ServiceAlertIcon from './ServiceAlertIcon';
@@ -64,10 +65,14 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
 
   let networkIcon;
   let hasAlert = false;
+  let rentalUri;
 
   if (leg.rentedBike === true) {
     hasAlert = leg.alerts && leg.alerts.length > 0 && leg.alerts[0].alertUrl;
     networkIcon = networkConfig && getCityBikeNetworkIcon(networkConfig);
+    rentalUri =
+      leg.from.bikeRentalStation.rentalUriWeb ||
+      getCityBikeUrl(leg.from.bikeRentalStation.networks, 'de', config);
 
     modeClassName = 'citybike';
     legDescription = (
@@ -145,6 +150,18 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
               />
               <FormattedMessage id={leg.alerts[0].alertUrl} />
             </div>
+          )}
+          {rentalUri && (
+            <a
+              href={rentalUri}
+              rel="noopener noreferrer"
+              className="citybike-website-btn"
+              target="_blank"
+            >
+              <button className="standalone-btn cursor-pointer">
+                <FormattedMessage id="use-citybike" />
+              </button>
+            </a>
           )}
         </div>
       </div>

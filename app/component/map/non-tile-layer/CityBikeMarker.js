@@ -137,6 +137,7 @@ export default Relay.createContainer(CityBikeMarker, {
         stationId
         networks
         bikesAvailable
+        rentalUriWeb
       }
     `,
   },
