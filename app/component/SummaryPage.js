@@ -432,7 +432,7 @@ class SummaryPage extends React.Component {
     if (this.showVehicles()) {
       const itineraryTopics = getTopicOptions(
         this.context,
-        this.props.plan,
+        this.selectedPlan,
         this.props.match,
       );
       if (itineraryTopics && itineraryTopics.length > 0) {
