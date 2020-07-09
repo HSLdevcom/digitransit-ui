@@ -1,4 +1,5 @@
 .street-mode-selector-button-container {
+	cursor: pointer;
 	display: flex;
 	width: 140px;
 	height: 40px;
@@ -14,6 +15,7 @@
 	margin-right: 5px;
 
 	.disabled-overlay {
+		cursor: default;
 		z-index: 1;
 		border-radius: 5px;
 		width: 100%;
