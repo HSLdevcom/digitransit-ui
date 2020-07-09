@@ -433,6 +433,9 @@
     left: -0.3em;
     top: 0.5em;
   }
+  .summary-clickable-area {
+    border-bottom: 1px solid #ddd !important;
+  }
 }
 
 @media print {
