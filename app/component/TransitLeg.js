@@ -24,9 +24,11 @@ import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { durationToString } from '../util/timeUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { getZoneLabelColor } from '../util/mapIconUtils';
+import { getZoneLabel } from '../util/legUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import { shouldShowFareInfo } from '../util/fareUtils';
 import { AlertSeverityLevelType } from '../constants';
+import ZoneIcon from './ZoneIcon';
 
 class TransitLeg extends React.Component {
   constructor(props) {
@@ -53,6 +55,30 @@ class TransitLeg extends React.Component {
     }));
   };
 
+  getZoneChange() {
+    const { leg } = this.props;
+    if (leg.intermediatePlaces.length > 0) {
+      const startZone = leg.from.stop.zoneId;
+      const endZone = leg.to.stop.zoneId;
+      if (
+        startZone !== endZone &&
+        !this.state.showIntermediateStops &&
+        this.context.config.itinerary.showZoneLimits
+      ) {
+        return (
+          <div className="time-column-zone-icons-container">
+            <ZoneIcon zoneId={getZoneLabel(startZone, this.context.config)} />
+            <ZoneIcon
+              zoneId={getZoneLabel(endZone, this.context.config)}
+              className="zone-delimiter"
+            />
+          </div>
+        );
+      }
+    }
+    return null;
+  }
+
   renderIntermediate() {
     const { leg, mode } = this.props;
     if (
@@ -71,16 +97,15 @@ class TransitLeg extends React.Component {
         const nextZoneId =
           (array[i + 1] && array[i + 1].stop.zoneId) ||
           (isLastPlace && leg.to.stop.zoneId);
-
         const previousZoneIdDiffers =
           previousZoneId && previousZoneId !== currentZoneId;
         const nextZoneIdDiffers = nextZoneId && nextZoneId !== currentZoneId;
         const showCurrentZoneId = previousZoneIdDiffers || nextZoneIdDiffers;
-
         return (
           <IntermediateLeg
             color={leg.route ? `#${leg.route.color}` : 'currentColor'}
             key={place.stop.gtfsId}
+            gtfsId={place.stop.gtfsId}
             mode={mode}
             name={place.stop.name}
             arrivalTime={place.arrivalTime}
@@ -93,13 +118,23 @@ class TransitLeg extends React.Component {
             showZoneLimits={this.context.config.itinerary.showZoneLimits}
             showCurrentZoneDelimiter={previousZoneIdDiffers}
             previousZoneId={
-              (isFirstPlace && previousZoneIdDiffers && previousZoneId) ||
+              (isFirstPlace &&
+                previousZoneIdDiffers &&
+                getZoneLabel(previousZoneId, this.context.config)) ||
               undefined
             }
-            currentZoneId={(showCurrentZoneId && currentZoneId) || undefined}
-            nextZoneId={
-              (isLastPlace && nextZoneIdDiffers && nextZoneId) || undefined
+            currentZoneId={
+              (showCurrentZoneId &&
+                getZoneLabel(currentZoneId, this.context.config)) ||
+              undefined
             }
+            nextZoneId={
+              (isLastPlace &&
+                nextZoneIdDiffers &&
+                getZoneLabel(nextZoneId, this.context.config)) ||
+              undefined
+            }
+            isLastPlace={isLastPlace}
             isCanceled={isCanceled}
             zoneLabelColor={getZoneLabelColor(this.context.config)}
           />
@@ -113,7 +148,6 @@ class TransitLeg extends React.Component {
   renderMain = () => {
     const { children, focusAction, index, leg, mode } = this.props;
     const { config, intl } = this.context;
-
     const originalTime = leg.realTime &&
       leg.departureDelay &&
       leg.departureDelay >= config.itinerary.delayThreshold && [
@@ -125,10 +159,6 @@ class TransitLeg extends React.Component {
         </span>,
       ];
     const LegRouteName = leg.from.name.concat(' - ').concat(leg.to.name);
-    const firstLegClassName = index === 0 ? ' start' : '';
-    /* const modeClassName =
-      `${this.props.mode.toLowerCase()}${this.props.index === 0 ? ' from' : ''}`;
-    */
     const modeClassName = mode.toLowerCase();
     const StopInfo = ({ stops, leg: stopLeg, toggleFunction }) => {
       const stopCount = (stops && stops.length) || 0;
@@ -148,31 +178,46 @@ class TransitLeg extends React.Component {
       );
 
       return (
-        <div className="intermediate-stop-info-container">
-          {stopCount === 0 ? (
-            <span className="intermediate-stop-no-stops">{message}</span>
-          ) : (
-            <span
-              role="button"
-              tabIndex="0"
-              className="intermediate-stops-link pointer-cursor"
-              onClick={e => {
-                e.stopPropagation();
-                toggleFunction();
-              }}
-              onKeyPress={e => {
-                if (isKeyboardSelectionEvent(e)) {
-                  e.stopPropagation();
-                  toggleFunction();
-                }
-              }}
-            >
-              {message}
+        <div
+          role="button"
+          tabIndex="0"
+          className={cx('intermediate-stops-clickable', {
+            'cursor-pointer': stopCount > 0,
+          })}
+          onClick={e => {
+            e.stopPropagation();
+            if (stopCount > 0) {
+              toggleFunction();
+            }
+          }}
+          onKeyPress={e => {
+            if (isKeyboardSelectionEvent(e)) {
+              e.stopPropagation();
+              toggleFunction();
+            }
+          }}
+        >
+          <div
+            className={cx('intermediate-stop-info-container', {
+              open: this.state.showIntermediateStops,
+            })}
+          >
+            {stopCount === 0 ? (
+              <span className="intermediate-stop-no-stops">{message}</span>
+            ) : (
+              <span className="intermediate-stops-amount">{message}</span>
+            )}{' '}
+            <span className="intermediate-stops-duration" aria-hidden="true">
+              ({durationToString(stopLeg.duration * 1000)})
             </span>
-          )}{' '}
-          <span className="intermediate-stops-duration" aria-hidden="true">
-            ({durationToString(stopLeg.duration * 1000)})
-          </span>
+            {stopCount !== 0 && (
+              <Icon
+                img="icon-icon_arrow-collapse--right"
+                className="itinerary-search-icon"
+                color={config.colors.primary}
+              />
+            )}
+          </div>
         </div>
       );
     };
@@ -227,6 +272,13 @@ class TransitLeg extends React.Component {
       }
       alertDescription = <FormattedMessage id={id} />;
     }
+    const zoneIcons = this.getZoneChange();
+    // Checks if route only has letters without identifying numbers and
+    // length doesn't fit in the tab view
+    const hasNoShortName =
+      leg.route.shortName &&
+      new RegExp(/^([^0-9]*)$/).test(leg.route.shortName) &&
+      leg.route.shortName.length > 3;
 
     return (
       <div key={index} className="row itinerary-row">
@@ -235,20 +287,10 @@ class TransitLeg extends React.Component {
           <Link
             onClick={e => {
               e.stopPropagation();
-              addAnalyticsEvent({
-                category: 'Itinerary',
-                action: 'OpenRouteFromItinerary',
-                name: mode,
-              });
             }}
             onKeyPress={e => {
               if (isKeyboardSelectionEvent(e)) {
                 e.stopPropagation();
-                addAnalyticsEvent({
-                  category: 'Itinerary',
-                  action: 'OpenRouteFromItinerary',
-                  name: mode,
-                });
               }
             }}
             to={
@@ -266,15 +308,7 @@ class TransitLeg extends React.Component {
                 </span>
                 {originalTime}
               </div>
-              <RouteNumber //  shouldn't this be a route number container instead???
-                alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
-                mode={mode.toLowerCase()}
-                color={leg.route ? `#${leg.route.color}` : 'currentColor'}
-                text={leg.route && leg.route.shortName}
-                realtime={leg.realTime}
-                vertical
-                fadeLong
-              />
+              {zoneIcons}
             </span>
           </Link>
         </div>
@@ -283,16 +317,17 @@ class TransitLeg extends React.Component {
           index={index}
           modeClassName={modeClassName}
           color={leg.route ? `#${leg.route.color}` : 'currentColor'}
+          renderBottomMarker={!this.state.showIntermediateStops}
         />
         <div
           style={{
             color: leg.route ? `#${leg.route.color}` : 'currentColor',
           }}
-          onClick={focusAction}
-          onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
-          role="button"
-          tabIndex="0"
-          className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${modeClassName}`}
+          className={cx(
+            'small-9 columns itinerary-instruction-column',
+            { first: index === 0 },
+            modeClassName,
+          )}
         >
           <span className="sr-only">
             <FormattedMessage
@@ -300,9 +335,36 @@ class TransitLeg extends React.Component {
               values={{ target: leg.from.name || '' }}
             />
           </span>
-          <div className="itinerary-leg-first-row" aria-hidden="true">
-            <div>
-              {leg.from.name}
+          <div
+            className={cx('itinerary-leg-first-row', 'transit', {
+              first: index === 0,
+            })}
+            aria-hidden="true"
+          >
+            <div className="itinerary-leg-row">
+              <Link
+                onClick={e => {
+                  e.stopPropagation();
+                  addAnalyticsEvent({
+                    category: 'Itinerary',
+                    action: 'OpenRouteFromItinerary',
+                    name: mode,
+                  });
+                }}
+                onKeyPress={e => {
+                  if (isKeyboardSelectionEvent(e)) {
+                    e.stopPropagation();
+                  }
+                }}
+                to={`/${PREFIX_STOPS}/${leg.from.stop.gtfsId}`}
+              >
+                {leg.from.name}
+                <Icon
+                  img="icon-icon_arrow-collapse--right"
+                  className="itinerary-arrow-icon"
+                  color="#333"
+                />
+              </Link>
               <ServiceAlertIcon
                 className="inline-icon"
                 severityLevel={getActiveAlertSeverityLevel(
@@ -310,22 +372,46 @@ class TransitLeg extends React.Component {
                   leg.startTime / 1000,
                 )}
               />
-              {this.stopCode(leg.from.stop && leg.from.stop.code)}
-              <PlatformNumber
-                number={leg.from.stop.platformCode}
-                short={false}
-                isRailOrSubway={
-                  modeClassName === 'rail' || modeClassName === 'subway'
-                }
+              <div className="stop-code-container">
+                {this.stopCode(leg.from.stop && leg.from.stop.code)}
+                <PlatformNumber
+                  number={leg.from.stop.platformCode}
+                  short
+                  isRailOrSubway={
+                    modeClassName === 'rail' || modeClassName === 'subway'
+                  }
+                />
+              </div>
+            </div>
+            <div
+              className="itinerary-map-action"
+              onClick={focusAction}
+              onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
+              role="button"
+              tabIndex="0"
+            >
+              <Icon
+                img="icon-icon_show-on-map"
+                className="itinerary-search-icon"
               />
             </div>
-            <Icon
-              img="icon-icon_search-plus"
-              className="itinerary-search-icon"
-            />
           </div>
-          <div className="itinerary-transit-leg-route" aria-hidden="true">
-            {children}
+          <div
+            className={cx('itinerary-transit-leg-route', {
+              'long-name': hasNoShortName,
+            })}
+            aria-hidden="true"
+          >
+            <RouteNumber
+              mode={mode.toLowerCase()}
+              alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
+              color={leg.route ? `#${leg.route.color}` : 'currentColor'}
+              text={leg.route && leg.route.shortName}
+              realtime={false}
+              withBar
+              fadeLong
+            />
+            <div className="headsign">{leg.trip.tripHeadsign}</div>
           </div>
           <LegAgencyInfo leg={leg} />
           <div>

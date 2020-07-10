@@ -25,10 +25,10 @@ describe('<ItinerarySummary />', () => {
     const wrapper = mountWithIntl(<ItinerarySummary {...props} />).find(
       '.itinerary-summary',
     );
-    expect(wrapper.childAt(2).prop('className')).to.equal(
+    expect(wrapper.childAt(1).prop('className')).to.equal(
       'biking-distance--itinerary-summary',
     );
-    expect(wrapper.childAt(3).is(WalkDistance)).to.equal(true);
+    expect(wrapper.childAt(2).is(WalkDistance)).to.equal(true);
   });
 
   it('should show only biking distance for only biking itinerary', () => {

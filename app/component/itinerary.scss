@@ -55,43 +55,9 @@ $itinerary-tab-switch-height: 48px;
     @include getCircleSvg($bus-color, $fill);
   }
 }
-
-.itinerary-swipe-views-root {
-  flex-grow: 1;
-  flex-basis: 0;
-  display: flex;
-  flex-direction: column;
-  // min-height: 300px; // TODO: This is required in IE due to ???
-  & > div {
-    display: flex;
-    flex-grow: 1;
-    > div {
-      display: flex;
-      flex-direction: column;
-    }
-  }
-
-  &.itinerary-container-content-enter {
-    flex-grow: 0;
-    will-change: flex-grow;
-  }
-
-  &.itinerary-container-content-enter.itinerary-container-content-enter-active {
-    flex-grow: 20;
-    transition: flex-grow 300ms;
-  }
-
-  &.itinerary-container-content-leave {
-    flex-grow: 20;
-  }
-
-  &.itinerary-container-content-leave.itinerary-container-content-leave-active {
-    flex-grow: 0;
-    will-change: flex-grow;
-    transition: flex-grow 300ms;
-  }
+.itinerary-list-container {
+  padding-bottom: 1.75em;
 }
-
 .itinerary-tabs__scroll {
   background: $white;
   flex-grow: 1;
@@ -102,13 +68,8 @@ $itinerary-tab-switch-height: 48px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  padding-top: 15px;
   transform: scale(1); // start a new z-index context here
-
-  div {
-    flex-grow: 1;
-    flex-shrink: 0;
-  }
+  padding-top: 6px;
 
   .disclaimer-container {
     background-color: rgba(254, 209, 0, 0.1);
@@ -211,23 +172,23 @@ $itinerary-tab-switch-height: 48px;
   }
 
   .zone-icons-container {
-    left: calc(-100% / 12);
-    padding-top: $padding-xxsmall;
-    position: absolute;
-
+    position: relative;
+    float: right;
+    margin-right: 3px;
+    width: 29px;
+    top: -8px;
     .zone-icon-container {
       position: relative;
-
-      &.zone-delimiter::before {
-        border-top: 1px solid $light-gray;
-        content: '';
-        display: block;
-        left: -0.5em;
-        position: absolute;
-        top: -0.5em;
-        width: 2em;
+      top: -2px;
+      .circle {
+        padding: 0;
+        margin-left: 5px;
       }
-
+      &.zone-delimiter {
+        border-top: 1px solid $light-gray;
+        padding: 9px 0 0 0;
+        top: -9px;
+      }
       & + .zone-icon-container {
         margin-top: 0.85em;
       }
@@ -246,8 +207,8 @@ $itinerary-tab-switch-height: 48px;
   flex-shrink: 0; //for ie mobile
   position: absolute;
   top: 52px;
-  right: 60px;
-  color: $gray;
+  right: 68px;
+  color: #333;
   font-weight: $font-weight-book;
   .icon-container {
     vertical-align: text-bottom;
@@ -260,8 +221,8 @@ $itinerary-tab-switch-height: 48px;
     padding-left: 12px;
   }
   .duration, .walk-distance {
-    font-size: $font-size-small;
     vertical-align: super;
+    font-size: 0.9375rem;
   }
 }
 
@@ -271,6 +232,9 @@ $itinerary-tab-switch-height: 48px;
   height: 17px;
   left: 2px;
   z-index: 10;
+  &.start {
+    top: 12px;
+  }
 }
 
 .itinerary-icon {
@@ -280,11 +244,10 @@ $itinerary-tab-switch-height: 48px;
   fill: currentColor;
 
   @mixin itineraryTableIcons() {
-    margin: 0 auto;
     font-size: $font-size-normal;
-    width: 20px;
-    height: 20px;
-    margin-left: -0.1em;
+    width: 24px;
+    height: 24px;
+    margin-left: -0.2em;
     background-color: $white;
   }
   &.to-it {
@@ -299,15 +262,8 @@ $itinerary-tab-switch-height: 48px;
     @include itineraryTableIcons();
   }
 }
-
-.bp-large {
-  .from {
-    margin-left: -8.2%;
-  }
-}
-
 .itinerary-search-icon {
-  color: $medium-gray;
+  color: $primary-color;
 }
 
 .duration {
@@ -315,43 +271,61 @@ $itinerary-tab-switch-height: 48px;
 }
 
 .duration--itinerary-summary,
-.timeframe--itinerary-summary,
 .biking-distance--itinerary-summary {
   padding-right: 27px;
 }
 
 .itinerary-disclaimer {
-  color: $gray;
+  color: #333;
   margin: 1em 1em 1em 0em;
   font-size: $font-size-small;
   white-space: normal;
 }
 
 .mobile .itinerary-disclaimer {
-  text-align: center;
+  padding: 0 0.6em;
 }
 
 .itinerary-ticket-information {
   display: flex;
   color: $gray;
-  flex-direction: column;
   font-weight: $font-weight-book;
   font-size: $font-size-small;
   margin: 0;
   border: 0px;
   border-top: 1px solid #ddd;
-  padding: $padding-medium;
+  .ticket-type-agency-link {
+    flex: 0;
+    .external-link-container {
+      width: 140px;
+      text-align: center;
+      border-radius: 25px;
+      border: 1px solid #666;
+      min-height: 30px;
+      .external-link {
+        font-weight: 500;
+        color: #666;
+        font-size: $font-size-small;
+        padding-top: 3px;
+      }
+    }
+  }
 
   .itinerary-ticket-external-link {
-    align-self: flex-end;
-    flex-shrink: 0;
-    margin-top: $padding-medium;
-
-    a {
-      color: $link-color;
-      text-decoration: none;
-      @include font-medium;
-    }
+    align-self: center;
+    .external-link-container {
+      width: 140px;
+      text-align: center;
+      border-radius: 25px;
+      border: 1px solid #666;
+      min-height: 30px;
+      a {
+          font-weight: 500;
+          color: #666;
+          font-size: $font-size-small;
+          padding-top: 3px;
+      }
+  }
 
     .external-link-icon-outer {
       color: white;
@@ -368,6 +342,19 @@ $itinerary-tab-switch-height: 48px;
     flex-grow: 1;
     flex-shrink: 1;
     white-space: normal;
+    line-height: 1.33;
+    border-bottom: 1px solid #ddd;
+    .ticket-container {
+      display: flex;
+    }
+    .ticket-info-container {
+      flex: 1;
+      padding: 14px 0;
+    }
+    .ticket-type-agency-link {
+      align-self: center;
+      padding-left: 10px;
+    }
 
     .ticket-type-zone {
       @include font-book;
@@ -375,15 +362,23 @@ $itinerary-tab-switch-height: 48px;
       color: $gray;
       display: flex;
       justify-content: space-between;
-      margin-top: $padding-small;
-
+      flex: 1;
+      .unknown-fare-container {
+        display: block;
+        .ticket-description {
+          padding: 0;
+        }
+      }
       &.multi-component + .multi-component {
         border-top: 1px solid $light-gray;
         padding-top: $padding-medium;
       }
-
       div {
-        flex-shrink: 1;
+        display: flex;
+        .ticket-description {
+          display: flex;
+          padding-left: 3px;
+        }
         .ticket-identifier {
           @include font-medium;
           color: $black;
@@ -397,112 +392,209 @@ $itinerary-tab-switch-height: 48px;
 }
 
 .zone-ticket-multiple-options {
-
+  display: flex;
+  flex: 0;
   span + span {
     margin-left: $padding-xsmall;
+  }
+  .or {
+    padding: 0 3px;
+    flex: 0;
   }
 }
 
 .zone-ticket {
-  /* !important is needed because of print page */
-  background: $primary-color !important;
-  border-radius: 25px;
-  color: #fff;
-  letter-spacing: 9px;
-  padding: 1px 0px 1px 7px;
+  color: #333;
+  letter-spacing: -0.5px;
   text-align: center;
-  font-size: 14px;
+  font-size: $font-size-small;
 }
 
 .desktop {
   .itinerary-ticket-information {
-    font-size: 15px;
+    font-size: 0.9375rem;
   }
 }
 .call-agency {
   background-color: yellow;
 }
+.leg-before-circle {
+  &.top {
+    top: 7px;
+  }
+  position: absolute;
+  z-index: 9;
+  @include setModeCircles(#fff);
+  &.circle-fill {
+    &.bus {
+      @include setModeCircles($bus-color);
+    }
+    &.airplane {
+      @include setModeCircles($airplane-color);
+    }
+    &.tram {
+      @include setModeCircles($tram-color);
+    }
+    &.subway {
+      @include setModeCircles($metro-color);
+    }
+    &.rail {
+      @include setModeCircles($rail-color);
+    }
+    &.ferry {
+      @include setModeCircles($ferry-color);
+    }
+    &.citybike {
+      @include setModeCircles($citybike-color);
+    }
+    &.walk {
+      @include setModeCircles($walk-color);
+    }
+    &.wait {
+      @include setModeCircles($wait-color);
+    }
+    &.bicycle {
+      @include setModeCircles($bicycle-color);
+    }
+    &.bicycle_walk {
+      @include setModeCircles($walk-color);
+    }
+    &.car {
+      @include setModeCircles($car-color);
+    }
+    &.via {
+      @include setModeCircles($walk-color);
+    }
+    &.call {
+      @include setModeCircles($bus-color);
+    }
+  }
+}
 
 .row.itinerary-row {
+  font-size: 15px;
   position: relative;
   line-height: 1.1;
-  color: $medium-gray;
+  color: #aaa;
   width: 100%;
   max-width: 100%;
   display: flex;
-
   .leg-before {
-    min-width: 15px;
+    min-width: 25px;
     max-width: 25px;
     position: relative;
-  }
-
-  .leg-before-circle {
-    position: absolute;
-    z-index: 9;
-    @include setModeCircles(#fff);
-    &.circle-fill {
-      &.bus {
-        @include setModeCircles($bus-color);
+    &.bicycle {
+      .route-number {
+        .icon {
+          color: #333;
+        }
       }
-      &.airplane {
-        @include setModeCircles($airplane-color);
+    }
+    &.walk,
+    &.bicycle {
+      :last-child {
+        bottom: initial;
       }
-      &.tram {
-        @include setModeCircles($tram-color);
-      }
-      &.subway {
-        @include setModeCircles($metro-color);
-      }
-      &.rail {
-        @include setModeCircles($rail-color);
-      }
-      &.ferry {
-        @include setModeCircles($ferry-color);
-      }
-      &.citybike {
-        @include setModeCircles($citybike-color);
-      }
-      &.walk {
-        @include setModeCircles($walk-color);
-      }
-      &.wait {
-        @include setModeCircles($wait-color);
-      }
-      &.bicycle {
-        @include setModeCircles($bicycle-color);
-      }
-      &.bicycle_walk {
-        @include setModeCircles($walk-color);
-      }
-      &.car {
-        @include setModeCircles($car-color);
+      .route-number {
+        top: 64%;
+        right: 1px;
+        .icon-container .icon {
+          font-size: 24px;
+        }
       }
       &.via {
-        @include setModeCircles($walk-color);
+        .route-number {
+          top: 67%;
+        }
+        .itinerary-icon-container {
+          top: 7px;
+        }
+        .leg-before-line {
+          &.walk {
+            height: 55%;
+            background-position-y: 3px;
+          }
+          &.bottom {
+            height: 19%;
+            background-position-y: 5px;
+          }
+        }
       }
-      &.call {
-        @include setModeCircles($bus-color);
+    }
+    &.first {
+      .leg-before-line {
+        top: 42px;
+        height: calc(100% - 30px);
+      }
+      .leg-before-circle {
+        &.top {
+          top: 35px;
+        }
+      }
+    }
+    :last-child {
+      bottom: -2.5em;
+    }
+    &.end {
+      :last-child {
+        top: 4px;
+      }
+    }
+    &.wait{
+      .icon.wait {
+        color: #333;
+      }
+      :last-child {
+        bottom: initial;
+      }
+      .route-number {
+        top: 66%;
+        left: 1px;
+        .icon-container {
+          .icon {
+            font-size: 18px;
+          }
+        }
       }
     }
   }
-
   .leg-before-line {
-    height: 94%;
+    height: 100%;
     top: 0.7em;
     position: absolute;
-    left: 8px;
-    border-left: 6px solid;
+    left: 7px;
+    border-left: 8px solid;
+    &.wait {
+      height: 50%;
+      border: 4px solid;
+      border-radius: 4px;
+
+      &.bottom{
+        height: 18%;
+        top: 85%;
+      }
+    }
+    &.walk,
+    &.bicycle {
+      height: 48%;
+      background-position-y: 6px;
+      &.bottom {
+        background-position-y: 5px;
+        height: 19%;
+        top: 85%;
+      }
+    }
 
     &.walk,
-    &.bicycle_walk {
+    &.bicycle_walk,
+    &.bicycle {
       background-size: 100% auto;
-      background-position-y: -3px;
+      background-position-y: 5px;
       background-position-x: 0px;
       background-repeat: no-repeat repeat;
       border: none;
-      width: 8px;
-      left: 7px;
+      width: 6px;
+      left: 8px;
     }
     &.call {
       border-left: dashed 1px;
@@ -515,15 +607,37 @@ $itinerary-tab-switch-height: 48px;
   }
 
   .itinerary-time-column {
-    @include font-narrow-medium;
     font-size: 1em;
     text-align: center;
     color: $black;
     margin-bottom: 0.5em;
     flex-grow: 0;
+    top: 10px;
 
     a {
       text-decoration: none;
+    }
+    .time-column-zone-icons-container {
+      position: relative;
+      top: 2.5em;
+      .zone-icon-container {
+        position: relative;
+        padding: 4px 0;
+        margin-right: 3px;
+        width: 29px;
+        &.zone-delimiter {
+          border-top: 1px solid $light-gray;
+        }
+        .circle {
+          height: 20px;
+          width: 20px;
+          color: $white;
+          background-color: $primary-color;
+          font-size: 16px;
+          margin-left: 5px;
+          line-height: 20px;
+        }
+      }
     }
 
     &.call {
@@ -531,11 +645,16 @@ $itinerary-tab-switch-height: 48px;
         padding-top: 2em;
       }
     }
-
     .itinerary-time-column-time {
       margin-bottom: 0.3em;
       color: $black;
       text-decoration: none;
+      font-size: 0.9375rem;
+      &.via-arrival-time, &.via-departure-time {
+        margin-bottom: 0;
+        text-align: center;
+        width: 100%;
+      }
       span {
         position: relative;
       }
@@ -559,14 +678,6 @@ $itinerary-tab-switch-height: 48px;
     .original-time {
       text-decoration: line-through;
       color: $gray;
-    }
-    .route-number {
-      padding-top: 0.25em;
-      display: block;
-      &.call {
-        padding-top: 1.5em;
-        padding-left: 0.8em;
-      }
     }
     .vehicle-number.long {
       overflow: hidden;
@@ -623,17 +734,49 @@ $itinerary-tab-switch-height: 48px;
   }
 
   .itinerary-instruction-column {
-    cursor: pointer;
     @include font-book;
-    font-size: 10pt;
     padding-left: 0.5em;
-    margin-bottom: 0.5em;
     min-height: 4.15em;
-
+    padding-right: 0;
     &.intermediate {
-      min-height: 5px;
+      a {
+        text-decoration: none;
+      }
+      min-height: 10px;
+      .itinerary-leg-row-intermediate {
+        cursor: pointer;
+        color: #333;
+        font-size: 0.9375rem;
+        font-weight: 500;
+        padding-bottom: 22px;
+        display: flex;
+        .itinerary-arrow-icon {
+          font-size: 10px;
+          margin-left: 6px;
+        }
+        .itinerary-intermediate-stop-name {
+          flex-grow: 0;
+        }
+      }
     }
 
+    .itinerary-icon {
+      font-size: 13px;
+      margin-left: -24px;
+    }
+    .intermediate-stop-info-container {
+      font-size: 0.9375rem;
+      .itinerary-search-icon {
+        font-size: 18px;
+        margin-right: 14px;
+        transform: rotate(90deg);
+      }
+      &.open {
+        .itinerary-search-icon {
+          transform: rotate(270deg);
+        }
+      }
+    }
     &.via {
       min-height: 5em;
     }
@@ -643,12 +786,46 @@ $itinerary-tab-switch-height: 48px;
     }
 
     .itinerary-leg-first-row {
+      height: 60px;
       display: flex;
       flex-direction: row;
       white-space: normal;
       color: $black;
       @include font-medium;
-
+      padding: 0.625em 0;
+      border-top: 1px solid #ddd;
+      font-size: 0.9375rem;
+      &.via {
+        height: 78px;
+      }
+      .itinerary-leg-row {
+        a {
+          text-decoration: none;
+          color: #333;
+        }
+      }
+      &.first {
+        border-top: none;
+      }
+      .place {
+        font-size: 0.813rem;
+        font-weight: normal;
+      }
+      .platform-short {
+        @include font-medium;
+        padding-left: 7px;
+        font-weight: normal;
+        font-size: 0.813rem;
+      }
+      .stop-code-container {
+        padding-top: 5px;
+        .itinerary-stop-code {
+          margin-left: 0;
+        }
+      }
+      .inline-icon {
+        font-size: 12px !important;
+      }
       .itinerary-leg-first-row__arrow {
         @include font-medium;
         font-size: 0.6em;
@@ -656,20 +833,89 @@ $itinerary-tab-switch-height: 48px;
       span.itinerary-stop-code {
         vertical-align: 2px;
       }
+      .icon-container {
+        .icon {
+          font-size: 24px;
+          &.itinerary-arrow-icon {
+            font-size: 10px;
+            margin-left: 6px;
+          }
+        }
+      }
 
       > :first-child {
         flex-grow: 1;
         max-width: calc(100% - 20px);
       }
     }
-
+    .itinerary-transit-leg-route {
+      display: flex;
+      background-color: #f4f4f5;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      &.long-name {
+        display: block;
+        .headsign {
+          padding: 0 10px 10px 10px;
+          width: calc(100% - 42px);
+        }
+      }
+      .route-number {
+        padding: 7px;
+        min-width: calc(3.75em + 14px);
+        height: calc(1.5em + 14px);
+        font-size: 16px;
+        white-space: nowrap;
+        &.hasNoShortName {
+          width: calc(100% - 42px);
+        }
+        .vcenter-children {
+          position: relative;
+          width: 100%;
+        }
+        .subicon-info, .subicon-caution {
+          font-size: 50% !important;
+        }
+        .vehicle-number {
+          color: $white;
+          position: absolute;
+          left: 1.5em;
+          width: 2.25em;
+          text-align: center;
+          padding: 4px 0 0 0;
+          margin: 0 0 0 5px;
+          &.long {
+            left: 1.7em;
+            width: 100%;
+            text-align: left;
+          }
+        }
+        .icon {
+          height: 1.5em;
+          width: 1.5em;
+          z-index: 1;
+          top: 0;
+          position: relative;
+        }
+        .bar-container {
+          width: 100%;
+          height: 1.5em;
+          display: flex;
+          position: absolute;
+          top: 0;
+          .bar {
+            width: 100%;
+            background-color: currentColor;
+            border: 1px solid currentColor;
+            height: 1.5em;
+            border-radius: $border-radius;
+          }
+        }
+      }
+      }
     .itinerary-leg-text-gray {
       @include font-book;
       color: $gray;
-    }
-
-    .itinerary-transit-leg-route span {
-      white-space: initial;
     }
 
     .itinerary-transit-leg-route,
@@ -677,11 +923,40 @@ $itinerary-tab-switch-height: 48px;
       @extend .itinerary-leg-text-gray;
       margin-top: 1px;
       overflow: hidden;
+      font-size: 0.813rem;
+      font-weight: normal;
+      display: flex;
+      align-items: center;
     }
 
     .itinerary-leg-action {
-      margin-top: 12px;
+      border-top: 1px solid #ddd;
+      padding: 1.2em 0;
+      margin-bottom: 1px;
+      height: 60px;
+      font-size: 0.9375rem;
       @extend .itinerary-leg-text-gray;
+      .itinerary-leg-action-content {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        :first-child {
+          flex-grow: 1;
+        }
+      }
+      .route-number {
+        position: absolute;
+        z-index: 3;
+        bottom: 1.2em;
+        left: -1.6em;
+        .icon {
+          font-size: 24px;
+          .walk {
+            background-color: $white;
+            padding-top: 5px;
+          }
+        }
+      }
     }
 
     .itinerary-leg-intermediate-stops {
@@ -690,18 +965,45 @@ $itinerary-tab-switch-height: 48px;
       @extend .itinerary-leg-text-gray;
     }
 
-    .intermediate-stop-info-container {
-      margin-top: 6px;
+    .intermediate-stops-clickable {
+      height: 60px;
+      border-top: 1px solid #ddd;
+      outline: none;
+      > * {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        .icon-container {
+          float: right;
+        }
+      }
+      .intermediate-stops-amount {
+        color: $primary-color;
+        font-weight: 500;
+        line-height: 1.2;
+        border-bottom: none;
+        padding-right: 4px;
+      }
+      .intermediate-stops-duration {
+        color: $gray;
+        flex: 1;
+      }
     }
+  }
+}
 
-    .intermediate-stops-link {
-      @include font-bold;
-      color: $gray-blue;
-      border-bottom: 2px dotted $gray-blue;
-    }
-
-    .intermediate-stops-duration {
-      color: $gray;
+.itinerary-map-action {
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  padding-bottom: 6px;
+  .icon-container {
+    padding-right: 11px;
+    margin-top: 4px;
+    .icon {
+      font-size: 24px;
     }
   }
 }
@@ -712,15 +1014,12 @@ $itinerary-tab-switch-height: 48px;
 
 .bp-large .row.itinerary-row {
   margin-left: 0;
-
   .itinerary-time-column {
-    @include font-narrow-medium;
-    font-size: 10pt;
-
+    @include font-medium;
     .itinerary-time-column-time {
-      font-size: 21px;
+      text-align: right;
+      font-size: 0.9375rem;
     }
-
     .icon {
       font-size: 24px;
     }
@@ -728,37 +1027,6 @@ $itinerary-tab-switch-height: 48px;
     .icon-badge {
       font-size: 16px;
       top: -1.25em;
-    }
-
-    .vehicle-number {
-      font-size: $font-size-normal;
-    }
-  }
-
-  .itinerary-instruction-column {
-    font-size: $font-size-normal;
-    min-height: 75px;
-
-    &.via {
-      min-height: 100px;
-    }
-
-    &.intermediate {
-      min-height: 10px;
-      margin-bottom: 7px;
-    }
-
-    &.end {
-      min-height: 0;
-    }
-
-    .itinerary-icon {
-      font-size: 13px;
-      margin-left: -24px;
-    }
-
-    .itinerary-search-icon {
-      font-size: 20px;
     }
   }
 }
@@ -789,7 +1057,7 @@ span.itinerary-stop-code {
   padding: 1px 4px;
   margin-right: 2px;
   margin-left: 3px;
-  font-size: 10px;
+  font-size: 0.688rem;
 }
 
 div.itinerary-container-content {
@@ -825,10 +1093,7 @@ div.itinerary-container-content {
     margin-top: 0.7em;
     margin-bottom: 0.8em;
     .agency-link {
-      font-size: 10px;
-      .external-link-container {
-        max-width: calc(100% - 1em);
-      }
+      font-size: 0.625rem;
       a {
         font-weight: $font-weight-bold;
         color: $link-color;
@@ -910,16 +1175,15 @@ div.itinerary-container-content {
 .intermediate-stop-no-stops {
   color: $gray;
   font-weight: $font-weight-book;
-  font-size: 10pt;
+  padding-right: 5px;
 }
 
 .desktop .itinerary-intermediate-stop-name {
-  font-size: 15px;
+  font-size: 0.9375rem;
 }
 
 .itinerary-tab .itinerary-timeframe {
   background-color: $white;
-  padding-top: 15px;
 }
 
 .timeframe-nextday {
@@ -949,13 +1213,6 @@ div.itinerary-container-content {
 .icon.via {
   color: $black;
 }
-
-.row.itinerary-row
-  .itinerary-time-column
-  .itinerary-time-column-time.via-arrival-time {
-  margin-bottom: 0;
-}
-
 .itinerary-time-column.via-time-column {
   margin-top: -12px;
 }
@@ -969,13 +1226,14 @@ div.itinerary-container-content {
 .via-divider > .via-divider-line {
   display: inline-block;
   border-top: 1px solid $gray;
-  width: 2em;
+  width: 90%;
+  margin-right: 5%;
   height: 1px;
 }
 
 .itinerary-call-agency-warning {
   width: calc(100% - 23px);
-  background-color: rgba(254, 209, 0, 0.3);
+  //background-color: rgba(254, 209, 0, 0.3);
   position: absolute;
   margin-top: 2em;
   margin-left: 10px;
@@ -993,6 +1251,7 @@ div.itinerary-container-content {
       padding-top: 2em;
       padding-right: 1em;
       width: 90%;
+      background-color: rgba(254, 209, 0, 0.3);
     }
   }
   .warning-message {
@@ -1037,27 +1296,12 @@ div.itinerary-container-content {
   }
 }
 
-.itinerary-leg-container {
-  margin-left: calc(100% / 6);
-}
-
 .vehicle-number-container-v {
   .vehicle-number {
     mask-image: none;
     max-width: none;
   }
 }
-
-.route-number.hasNoShortName {
-  flex-direction: row;
-  display: flex;
-}
-
-.vehicle-number.hasNoShortName {
-  font-size: 0.4em;
-  word-wrap: break-word;
-}
-
 .print-itinerary-button-container {
   display: flex;
   padding: 0 $padding-medium;
@@ -1238,7 +1482,7 @@ $font-print-decrease: 0.7;
   .leg-before-line {
     height: 95%;
     margin: -4px 0;
-    border-left: 6px solid;
+    border-left: 8px solid;
     flex-grow: 1;
 
     &.walk,
@@ -1361,11 +1605,19 @@ $font-print-decrease: 0.7;
 }
 
 .mobile {
+  .itinerary-tab {
+    border-radius: 15px 15px 0 0;
+    position: relative;
+    top: -15px;
+    z-index: 2;
+    background-color: white;
+    box-shadow: 0 -5px 5px 0 rgba(0, 0, 0, 0.2);
+  }
   .itinerary-tabs__scroll {
-    padding: 0 0.3em;
+    padding: 0;
   }
   .itinerary-main {
-    margin: 0 $padding-small;
+    margin: 0 0.4em 0 0.6em;
   }
   .itinerary-row {
     .leg-before-line {
@@ -1392,24 +1644,36 @@ $font-print-decrease: 0.7;
   .itinerary-summary {
     flex-grow: 0;
     flex-shrink: 0; //for ie mobile
-    color: $gray;
-    position: inherit;
+    color: #333;
+    position: static;
     font-weight: $font-weight-book;
-    font-size: 10pt;
-    padding: 10px;
-    height: 40px;
-    border-top: solid 1px $light-gray;
-    border-bottom: solid 1px $light-gray;
+    padding: 20px 25px 5px;
     background: transparent;
     .duration--itinerary-summary,
-    .timeframe--itinerary-summary,
     .biking-distance--itinerary-summary {
       padding-right: 10px;
     }
-    .timeframe--itinerary-summary {
-      span {
-        vertical-align: super;
-      }
-    }
+  }
+}
+
+.address-container {
+  .address {
+    padding-bottom: 0.5em;
+  }
+}
+
+.summary-notification {
+  margin: 0 auto;
+  width: calc(100% - 2em);
+  max-width: 400px;
+  border-radius: 5px;
+  padding: 18px 32px 18px 16px;
+  font-weight: normal;
+  font-size: 14px;
+  &.caution {
+    background: #f4f4f5;
+  }
+  &.info {
+    background: #E5F1F9;
   }
 }

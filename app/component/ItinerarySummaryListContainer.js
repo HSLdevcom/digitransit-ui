@@ -8,7 +8,6 @@ import startsWith from 'lodash/startsWith';
 import { matchShape } from 'found';
 
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
-import ExternalLink from './ExternalLink';
 import Icon from './Icon';
 import SummaryRow from './SummaryRow';
 import { isBrowser } from '../util/browser';
@@ -21,7 +20,6 @@ import { getModes } from '../util/modeUtils';
 function ItinerarySummaryListContainer(
   {
     activeIndex,
-    children,
     currentTime,
     error,
     from,
@@ -30,7 +28,6 @@ function ItinerarySummaryListContainer(
     itineraries,
     onSelect,
     onSelectImmediately,
-    open,
     searchTime,
     to,
   },
@@ -40,7 +37,6 @@ function ItinerarySummaryListContainer(
   const { config } = context;
 
   if (!error && itineraries && itineraries.length > 0) {
-    const openedIndex = open && Number(open);
     const summaries = itineraries.map((itinerary, i) => (
       <SummaryRow
         refTime={searchTime}
@@ -55,9 +51,7 @@ function ItinerarySummaryListContainer(
         isCancelled={itineraryHasCancelation(itinerary)}
         showCancelled={showCancelled}
         zones={config.stopCard.header.showZone ? getZones(itinerary.legs) : []}
-      >
-        {i === openedIndex && children}
-      </SummaryRow>
+      />
     ));
 
     const canceledItinerariesCount = itineraries.filter(itineraryHasCancelation)
@@ -111,6 +105,8 @@ function ItinerarySummaryListContainer(
         (to.lat === locationState.lat && to.lon === locationState.lon))
     ) {
       msgId = 'no-route-already-at-destination';
+    } else if (to && from && from.lat === to.lat && from.lon === to.lon) {
+      msgId = 'no-route-origin-same-as-destination';
     } else {
       msgId = 'no-route-origin-near-destination';
     }
@@ -139,21 +135,27 @@ function ItinerarySummaryListContainer(
     linkPart = (
       <div>
         <FormattedMessage
-          id="use-national-service"
+          id="use-national-service-prefix"
           defaultMessage="You can also try the national service available at"
         />
-        <ExternalLink
-          className="external-no-route"
-          {...config.nationalServiceLink}
-        />
+        <a className="no-decoration" href={config.nationalServiceLink.href}>
+          {config.nationalServiceLink.name}
+        </a>
+        <FormattedMessage id="use-national-service-postfix" defaultMessage="" />
       </div>
     );
   }
-
+  const background = iconImg.replace('icon-icon_', '');
   return (
     <div className="summary-list-container summary-no-route-found">
-      <div className="flex-horizontal">
-        <Icon className={cx('no-route-icon', iconType)} img={iconImg} />
+      <div
+        className={cx('flex-horizontal', 'summary-notification', background)}
+      >
+        <Icon
+          className={cx('no-route-icon', iconType)}
+          img={iconImg}
+          color={iconImg === 'icon-icon_info' ? '#007ac9' : null}
+        />
         <div>
           <FormattedMessage
             id={msgId}
@@ -178,7 +180,6 @@ const locationShape = PropTypes.shape({
 ItinerarySummaryListContainer.propTypes = {
   activeIndex: PropTypes.number.isRequired,
   currentTime: PropTypes.number.isRequired,
-  children: PropTypes.node,
   error: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.shape({ message: PropTypes.string }),
@@ -189,7 +190,6 @@ ItinerarySummaryListContainer.propTypes = {
   locationState: PropTypes.object,
   onSelect: PropTypes.func.isRequired,
   onSelectImmediately: PropTypes.func.isRequired,
-  open: PropTypes.number,
   searchTime: PropTypes.number.isRequired,
   to: locationShape.isRequired,
 };

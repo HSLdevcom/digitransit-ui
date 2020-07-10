@@ -172,6 +172,7 @@ export default {
   maxWalkDistance: 10000,
   suggestWalkMaxDistance: 5000,
   maxBikingDistance: 100000,
+  suggestBikeMaxDistance: 15000,
   itineraryFiltering: 1.5, // drops 66% worse routes
   useUnpreferredRoutesPenalty: 1200, // adds 10 minute (weight) penalty to routes that are unpreferred
   availableLanguages: ['fi', 'sv', 'en', 'fr', 'nb', 'de', 'da', 'es', 'ro'],

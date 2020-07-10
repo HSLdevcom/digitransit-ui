@@ -15,10 +15,12 @@ export function getStartTime(time) {
 // input: time duration - milliseconds
 export function durationToString(inDuration) {
   const duration = moment.duration(inDuration);
-
   if (duration.asHours() >= 1) {
     return `${duration.hours() +
       duration.days() * 24} h ${duration.minutes()} min`;
+  }
+  if (duration.minutes() < 1) {
+    return `< 1 min`;
   }
 
   return `${duration.minutes()} min`;

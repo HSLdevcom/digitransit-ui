@@ -1,14 +1,17 @@
 import moment from 'moment';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import Link from 'found/lib/Link';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
-import ItineraryCircleLine from './ItineraryCircleLine';
-import RouteNumber from './RouteNumber';
+import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
+import PlatformNumber from './PlatformNumber';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
+import { PREFIX_STOPS } from '../util/path';
 import {
   CityBikeNetworkType,
   getCityBikeNetworkId,
@@ -19,12 +22,14 @@ import { durationToString } from '../util/timeUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
 
 function WalkLeg(
-  { children, focusAction, index, leg, previousLeg },
+  { children, focusAction, setMapZoomToLeg, index, leg, previousLeg },
   { config },
 ) {
   const distance = displayDistance(parseInt(leg.distance, 10), config);
   const duration = durationToString(leg.duration * 1000);
   const modeClassName = 'walk';
+  const isFirstLeg = i => i === 0;
+  const [address, place] = leg.from.name.split(/, (.+)/); // Splits the name-string to two parts from the first occurance of ', '
 
   const networkType = getCityBikeNetworkConfig(
     getCityBikeNetworkId(
@@ -68,14 +73,12 @@ function WalkLeg(
         <div className="itinerary-time-column-time">
           {moment(leg.startTime).format('HH:mm')}
         </div>
-        <RouteNumber mode={leg.mode.toLowerCase()} vertical />
       </div>
-      <ItineraryCircleLine index={index} modeClassName={modeClassName} />
+      <ItineraryCircleLineWithIcon
+        index={index}
+        modeClassName={modeClassName}
+      />
       <div
-        onClick={focusAction}
-        onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
-        role="button"
-        tabIndex="0"
         className={`small-9 columns itinerary-instruction-column ${leg.mode.toLowerCase()}`}
       >
         <span className="sr-only">
@@ -84,26 +87,137 @@ function WalkLeg(
             values={{ target: leg.from.name || '' }}
           />
         </span>
-        <div className="itinerary-leg-first-row" aria-hidden="true">
-          <div>
-            {returnNotice || leg.from.name}
-            <ServiceAlertIcon
-              className="inline-icon"
-              severityLevel={getActiveAlertSeverityLevel(
-                leg.from.stop && leg.from.stop.alerts,
-                leg.startTime / 1000,
-              )}
-            />
-            {children}
+        {isFirstLeg(index) ? (
+          <div
+            className={cx('itinerary-leg-first-row', 'walk', 'first')}
+            aria-hidden="true"
+          >
+            <div className="address-container">
+              <div className="address">
+                {address}
+                {leg.from.stop && (
+                  <Icon
+                    img="icon-icon_arrow-collapse--right"
+                    className="itinerary-arrow-icon"
+                    color="#333"
+                  />
+                )}
+              </div>
+              <div className="place">{place}</div>
+            </div>
+            <div
+              className="itinerary-map-action"
+              onClick={focusAction}
+              onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
+              role="button"
+              tabIndex="0"
+            >
+              <Icon
+                img="icon-icon_show-on-map"
+                className="itinerary-search-icon"
+              />
+            </div>
           </div>
-          <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
-        </div>
+        ) : (
+          <div className="itinerary-leg-first-row" aria-hidden="true">
+            <div className="itinerary-leg-row">
+              {leg.from.stop ? (
+                <Link
+                  onClick={e => {
+                    e.stopPropagation();
+                  }}
+                  onKeyPress={e => {
+                    if (isKeyboardSelectionEvent(e)) {
+                      e.stopPropagation();
+                    }
+                  }}
+                  to={`/${PREFIX_STOPS}/${leg.from.stop.gtfsId}`}
+                >
+                  {returnNotice || leg.from.name}
+                  {leg.from.stop && (
+                    <Icon
+                      img="icon-icon_arrow-collapse--right"
+                      className="itinerary-arrow-icon"
+                      color="#333"
+                    />
+                  )}
+                  <ServiceAlertIcon
+                    className="inline-icon"
+                    severityLevel={getActiveAlertSeverityLevel(
+                      leg.from.stop && leg.from.stop.alerts,
+                      leg.startTime / 1000,
+                    )}
+                  />
+                </Link>
+              ) : (
+                <>
+                  {returnNotice || leg.from.name}
+                  {leg.from.stop && (
+                    <Icon
+                      img="icon-icon_arrow-collapse--right"
+                      className="itinerary-arrow-icon"
+                      color="#333"
+                    />
+                  )}
+                  <ServiceAlertIcon
+                    className="inline-icon"
+                    severityLevel={getActiveAlertSeverityLevel(
+                      leg.from.stop && leg.from.stop.alerts,
+                      leg.startTime / 1000,
+                    )}
+                  />
+                </>
+              )}
+              <div className="stop-code-container">
+                {children}
+                {leg.from.stop && (
+                  <PlatformNumber
+                    number={leg.from.stop.platformCode}
+                    short
+                    isRailOrSubway={
+                      modeClassName === 'rail' || modeClassName === 'subway'
+                    }
+                  />
+                )}
+              </div>
+            </div>
+            <div
+              className="itinerary-map-action"
+              onClick={focusAction}
+              onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
+              role="button"
+              tabIndex="0"
+            >
+              <Icon
+                img="icon-icon_show-on-map"
+                className="itinerary-search-icon"
+              />
+            </div>
+          </div>
+        )}
+
         <div className="itinerary-leg-action" aria-hidden="true">
-          <FormattedMessage
-            id="walk-distance-duration"
-            values={{ distance, duration }}
-            defaultMessage="Walk {distance} ({duration})"
-          />
+          <div className="itinerary-leg-action-content">
+            <FormattedMessage
+              id="walk-distance-duration"
+              values={{ distance, duration }}
+              defaultMessage="Walk {distance} ({duration})"
+            />
+            <div
+              className="itinerary-map-action"
+              onClick={setMapZoomToLeg}
+              onKeyPress={e =>
+                isKeyboardSelectionEvent(e) && setMapZoomToLeg(e)
+              }
+              role="button"
+              tabIndex="0"
+            >
+              <Icon
+                img="icon-icon_show-on-map"
+                className="itinerary-search-icon"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -157,6 +271,7 @@ WalkLeg.propTypes = {
   index: PropTypes.number.isRequired,
   leg: walkLegShape.isRequired,
   previousLeg: walkLegShape,
+  setMapZoomToLeg: PropTypes.func.isRequired,
 };
 
 WalkLeg.defaultProps = {

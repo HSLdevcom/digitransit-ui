@@ -9,13 +9,12 @@ import {
   onlyBiking,
 } from '../util/legUtils';
 
-const ItinerarySummary = ({ itinerary, children }) => (
+const ItinerarySummary = ({ itinerary }) => (
   <div className="itinerary-summary">
     <Duration
       duration={itinerary.duration}
       className="duration--itinerary-summary"
     />
-    {children}
     {containsBiking(itinerary) && (
       <WalkDistance
         className="biking-distance--itinerary-summary"
@@ -34,7 +33,6 @@ ItinerarySummary.description = () =>
 
 ItinerarySummary.propTypes = {
   itinerary: PropTypes.object.isRequired,
-  children: PropTypes.node,
 };
 
 ItinerarySummary.displayName = 'ItinerarySummary';

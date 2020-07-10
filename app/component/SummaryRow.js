@@ -452,7 +452,6 @@ const SummaryRow = (
     {
       passive: props.passive,
       'bp-large': breakpoint === 'large',
-      open: props.open || props.children,
       'cancelled-itinerary': props.isCancelled,
     },
   ]);
@@ -465,10 +464,8 @@ const SummaryRow = (
     </div>
   );
 
-  const showDetails = props.open || props.children;
-
   //  accessible representation for summary
-  const textSummary = showDetails ? null : (
+  const textSummary = (
     <div className="sr-only" key="screenReader">
       <FormattedMessage
         id="itinerary-summary-row.description"
@@ -545,142 +542,83 @@ const SummaryRow = (
         {/* This next clickable region does not have proper accessible role, tabindex and keyboard handler
             because screen reader works weirdly with nested buttons. Same functonality works from the inner button */
         /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
-        {showDetails ? (
-          <>
-            <div className="itinerary-summary-header">
+        <>
+          <div className="itinerary-summary-header">
+            <div
+              className="summary-clickable-area"
+              onClick={e => {
+                if (mobile(breakpoint)) {
+                  e.stopPropagation();
+                  props.onSelectImmediately(props.hash);
+                } else {
+                  props.onSelect(props.hash);
+                }
+              }}
+              onKeyPress={e =>
+                isKeyboardSelectionEvent(e) && props.onSelect(props.hash)
+              }
+              tabIndex="0"
+              role="button"
+            >
+              <span key="ShowOnMapScreenReader" className="sr-only">
+                <FormattedMessage id="itinerary-summary-row.clickable-area-description" />
+              </span>
               <div
-                className="summary-clickable-area"
-                onClick={() => props.onSelect(props.hash)}
+                className="itinerary-duration-container"
+                key="startTime"
                 aria-hidden="true"
               >
-                {/* eslint-enable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
-                <div className="flex-grow itinerary-heading" key="title">
-                  <h4 className="h2">
-                    <FormattedMessage
-                      id="itinerary-page.title"
-                      defaultMessage="Itinerary"
-                    />
-                  </h4>
+                <span
+                  className={cx('itinerary-start-date', {
+                    nobg: sameDay(startTime, refTime),
+                  })}
+                >
+                  <span>{dateOrEmpty(startTime, refTime)}</span>
+                </span>
+                <div className="itinerary-start-time-and-end-time">
+                  {itineraryStartAndEndTime}
+                </div>
+                <div className="itinerary-duration">
+                  <RelativeDuration duration={duration} />
                 </div>
               </div>
-              {props.breakpoint !== 'small' && (
-                <div
-                  tabIndex="0"
-                  role="button"
-                  title={formatMessage({
-                    id: 'itinerary-page.hide-details',
-                  })}
-                  key="arrow"
-                  className="action-arrow-click-area noborder flex-vertical"
-                  onClick={e => {
-                    e.stopPropagation();
-                    props.onSelectImmediately(props.hash);
-                  }}
-                  onKeyPress={e =>
-                    isKeyboardSelectionEvent(e) &&
-                    props.onSelectImmediately(props.hash)
-                  }
-                >
-                  <div className="action-arrow flex-grow">
-                    <Icon img="icon-icon_arrow-collapse--right" />
-                  </div>
-                </div>
-              )}
-            </div>
-            {/* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
-            <span
-              className="itinerary-details-container visible"
-              aria-expanded="true"
-              onClick={() => props.onSelect(props.hash)}
-            >
-              {/* eslint-enable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
-              <h4 className="sr-only">
-                <FormattedMessage
-                  id="itinerary-page.title"
-                  defaultMessage="Itinerary"
-                />
-              </h4>
-              {props.children &&
-                React.cloneElement(React.Children.only(props.children), {
-                  searchTime: props.refTime,
-                })}
-            </span>
-          </>
-        ) : (
-          <>
-            <div className="itinerary-summary-header">
+              <div className="itinerary-legs" key="legs" aria-hidden="true">
+                {legs}
+              </div>
               <div
-                className="summary-clickable-area"
-                onClick={() => props.onSelect(props.hash)}
-                onKeyPress={e =>
-                  isKeyboardSelectionEvent(e) && props.onSelect(props.hash)
-                }
+                className="itinerary-first-leg-start-time-container"
+                key="endtime-distance"
+                aria-hidden="true"
+              >
+                {firstLegStartTime}
+              </div>
+            </div>
+            {mobile(breakpoint) !== true && (
+              <div
                 tabIndex="0"
                 role="button"
+                title={formatMessage({
+                  id: 'itinerary-page.show-details',
+                })}
+                key="arrow"
+                className="action-arrow-click-area flex-vertical noborder"
+                onClick={e => {
+                  e.stopPropagation();
+                  props.onSelectImmediately(props.hash);
+                }}
+                onKeyPress={e =>
+                  isKeyboardSelectionEvent(e) &&
+                  props.onSelectImmediately(props.hash)
+                }
               >
-                <span key="ShowOnMapScreenReader" className="sr-only">
-                  <FormattedMessage id="itinerary-summary-row.clickable-area-description" />
-                </span>
-                <div
-                  className="itinerary-duration-container"
-                  key="startTime"
-                  aria-hidden="true"
-                >
-                  <span
-                    className={cx('itinerary-start-date', {
-                      nobg: sameDay(startTime, refTime),
-                    })}
-                  >
-                    <span>{dateOrEmpty(startTime, refTime)}</span>
-                  </span>
-                  <div className="itinerary-start-time-and-end-time">
-                    {itineraryStartAndEndTime}
-                  </div>
-                  <div className="itinerary-duration">
-                    <RelativeDuration duration={duration} />
-                  </div>
-                </div>
-                <div className="itinerary-legs" key="legs" aria-hidden="true">
-                  {legs}
-                </div>
-                <div
-                  className="itinerary-first-leg-start-time-container"
-                  key="endtime-distance"
-                  aria-hidden="true"
-                >
-                  {firstLegStartTime}
+                <div className="action-arrow flex-grow">
+                  <Icon img="icon-icon_arrow-collapse--right" />
                 </div>
               </div>
-              {mobile(breakpoint) !== true && (
-                <div
-                  tabIndex="0"
-                  role="button"
-                  title={formatMessage({
-                    id: 'itinerary-page.show-details',
-                  })}
-                  key="arrow"
-                  className="action-arrow-click-area flex-vertical noborder"
-                  onClick={e => {
-                    e.stopPropagation();
-                    props.onSelectImmediately(props.hash);
-                  }}
-                  onKeyPress={e =>
-                    isKeyboardSelectionEvent(e) &&
-                    props.onSelectImmediately(props.hash)
-                  }
-                >
-                  <div className="action-arrow flex-grow">
-                    <Icon img="icon-icon_arrow-collapse--right" />
-                  </div>
-                </div>
-              )}
-            </div>
-            <span
-              className="itinerary-details-container"
-              aria-expanded="false"
-            />
-          </>
-        )}
+            )}
+          </div>
+          <span className="itinerary-details-container" aria-expanded="false" />
+        </>
       </div>
     </span>
   );
@@ -694,7 +632,6 @@ SummaryRow.propTypes = {
   onSelectImmediately: PropTypes.func.isRequired,
   hash: PropTypes.number.isRequired,
   children: PropTypes.node,
-  open: PropTypes.bool,
   breakpoint: PropTypes.string.isRequired,
   intermediatePlaces: PropTypes.array,
   isCancelled: PropTypes.bool,
@@ -768,7 +705,6 @@ SummaryRow.description = () => {
           onSelect={nop}
           onSelectImmediately={nop}
           hash={1}
-          open
         />
         {/* "open-large-tomorrow" */}
         <SummaryRow
@@ -778,7 +714,6 @@ SummaryRow.description = () => {
           onSelect={nop}
           onSelectImmediately={nop}
           hash={1}
-          open
         />
         {/* active-large-via */}
         <SummaryRow

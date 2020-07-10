@@ -21,6 +21,8 @@ export default {
     TICKET_SALES_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-ticket-sales-map/`,
     FONT: 'https://cloud.typography.com/6364294/7432412/css/fonts.css',
     CITYBIKE_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-citybike-map/`,
+    WEATHER_DATA:
+      'http://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::forecast::hirlam::surface::point::simple&timestep=5&parameters=temperature,WindSpeedMS,WeatherSymbol3',
   },
 
   contactName: {
