@@ -61,6 +61,7 @@ export default config => {
                   $filterByPlaceTypes: [FilterPlaceType]
                   $filterByModes: [Mode]
                   $maxResults: Int!
+                  $omitNonPickups: Boolean
                 ) {
                   stopPatterns: nearest(
                     lat: $lat
@@ -70,20 +71,12 @@ export default config => {
                     maxResults: $maxResults
                   ) {
                     ...StopsNearYouPage_stopPatterns
+                      @arguments(omitNonPickups: $omitNonPickups)
                   }
                 }
               `}
               prepareVariables={prepareStopsParams(config)}
-              render={({ Component, props, error, match }) => {
-                if (Component) {
-                  return props ? (
-                    <Component {...props} error={error} loading={false} />
-                  ) : (
-                    <Component match={match} loading error={error} />
-                  );
-                }
-                return undefined;
-              }}
+              render={getComponentOrNullRenderer}
             />
           ) : (
             <Route

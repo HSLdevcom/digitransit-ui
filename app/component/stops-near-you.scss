@@ -1,7 +1,7 @@
 .stops-near-you-container {
     display: flex;
     flex-direction: column;
-    padding: 0 3.75em;
+    padding: 10px 3.75em 0;
     .stop-near-you-container {
         border: 1px solid #d9d9d9;
         border-radius: 10px;
@@ -14,18 +14,20 @@
                     color: #333;
                 }
             }
-            padding: 14px 15px 12px 20px;
+            padding: 14px 15px 1px 20px;
             .stop-near-you-info {
                 display: flex;
                 .stop-near-you-desc {
                     font-weight: normal;
                     font-size: 0.8125rem;
+                    padding-right: 5px;
                 }
                 .itinerary-stop-code {
                     height: 16px;
                     padding: 0 4px;
                 }
                 .zone-icon-container {
+                    padding-left:3px;
                     .circle {
                         height: 14px;
                         width: 14px;
@@ -66,6 +68,8 @@
                     line-height: 1.25;
                     min-width: unset;
                     display: block;
+                    white-space: nowrap;
+                    overflow: hidden;
                 }
             }
             .route-headsign {

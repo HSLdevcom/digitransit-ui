@@ -4,16 +4,16 @@ import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import LocalTime from './LocalTime';
 
-const DepartureRow = ({ departure, departureTime, ...props }) => {
+const DepartureRow = ({ departure, departureTime, ...props }, { config }) => {
   const mode = departure.trip.route.mode.toLowerCase();
   const timeDiffInMinutes = Math.floor(
     (departureTime - props.currentTime) / 60,
   );
   let shownTime;
-  if (timeDiffInMinutes < 0) {
-    shownTime = <LocalTime time={departureTime} />;
-  } else if (timeDiffInMinutes === 0) {
+  if (timeDiffInMinutes <= 0) {
     shownTime = <FormattedMessage id="arriving-soon" defaultMessage="Now" />;
+  } else if (timeDiffInMinutes > config.minutesToDepartureLimit) {
+    shownTime = undefined;
   } else {
     shownTime = (
       <FormattedMessage
@@ -44,4 +44,7 @@ DepartureRow.propTypes = {
   currentTime: PropTypes.number.isRequired,
 };
 
+DepartureRow.contextTypes = {
+  config: PropTypes.object.isRequired,
+};
 export default DepartureRow;

@@ -10,6 +10,7 @@ import { addressToItinerarySearch } from '../util/otpStrings';
 import DesktopView from './DesktopView';
 import { startLocationWatch } from '../action/PositionActions';
 import StopsNearYouContainer from './StopsNearYouContainer';
+import Loading from './Loading';
 
 class StopsNearYouPage extends React.Component { // eslint-disable-line
   static contextTypes = {
@@ -23,12 +24,23 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
 
   static propTypes = {
     stopPatterns: PropTypes.any.isRequired,
+    loadingPosition: PropTypes.bool,
   };
 
+  constructor(props, context) {
+    super(props, context);
+    context.executeAction(startLocationWatch);
+  }
+
   render() {
-    const content = (
-      <StopsNearYouContainer stopPatterns={this.props.stopPatterns} />
-    );
+    let content;
+    if (this.props.loadingPosition) {
+      content = <Loading />;
+    } else {
+      content = (
+        <StopsNearYouContainer stopPatterns={this.props.stopPatterns} />
+      );
+    }
 
     return (
       <DesktopView
@@ -51,7 +63,7 @@ const PositioningWrapper = connectToStores(
   StopsNearYouPageWithBreakpoint,
   ['PositionStore'],
   (context, props) => {
-    const { place } = props.match.params;
+    const { place, mode } = props.match.params;
     if (place !== 'POS') {
       return props;
     }
@@ -71,7 +83,7 @@ const PositioningWrapper = connectToStores(
     if (locationState.hasLocation) {
       const locationForUrl = addressToItinerarySearch(locationState);
       const newPlace = locationForUrl;
-      props.router.replace(getNearYouPath(newPlace));
+      props.router.replace(getNearYouPath(newPlace, mode));
       return { ...props, loadingPosition: false };
     }
 
@@ -87,8 +99,12 @@ PositioningWrapper.contextTypes = {
 
 const containerComponent = createFragmentContainer(PositioningWrapper, {
   stopPatterns: graphql`
-    fragment StopsNearYouPage_stopPatterns on placeAtDistanceConnection {
+    fragment StopsNearYouPage_stopPatterns on placeAtDistanceConnection
+      @argumentDefinitions(
+        omitNonPickups: { type: "Boolean!", defaultValue: false }
+      ) {
       ...StopsNearYouContainer_stopPatterns
+        @arguments(omitNonPickups: $omitNonPickups)
     }
   `,
 });

@@ -17,10 +17,12 @@ export const PREFIX_DISRUPTION = 'hairiot';
 export const PREFIX_TIMETABLE = 'aikataulu';
 export const stopUrl = id => id;
 
-export const getNearYouPath = place =>
-  [`/${PREFIX_NEARYOU}`, encodeURIComponent(decodeURIComponent(place))].join(
-    '/',
-  );
+export const getNearYouPath = (place, mode) =>
+  [
+    `/${PREFIX_NEARYOU}`,
+    encodeURIComponent(decodeURIComponent(mode)),
+    encodeURIComponent(decodeURIComponent(place)),
+  ].join('/');
 
 export const getRoutePath = (origin, destination) =>
   [

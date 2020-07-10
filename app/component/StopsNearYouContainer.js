@@ -8,13 +8,16 @@ class StopsNearYouContainer extends React.Component {
   static propTypes = {
     stopPatterns: PropTypes.any,
     currentTime: PropTypes.number.isRequired,
+    relay: PropTypes.shape({
+      refetch: PropTypes.func.isRequired,
+    }).isRequired,
   };
 
   static contextTypes = {
     config: PropTypes.object,
   };
 
-  static getDerivedStateFromProps({ relay, currentTime }) {
+  componentDidUpdate({ relay, currentTime }) {
     relay.refetch(oldVariables => {
       return { ...oldVariables, startTime: currentTime };
     });
