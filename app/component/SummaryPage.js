@@ -222,8 +222,7 @@ class SummaryPage extends React.Component {
       this.props.match.params &&
       this.props.match.params.hash &&
       (this.props.match.params.hash === 'walk' ||
-        this.props.match.params.hash === 'bike' ||
-        this.props.match.params.hash === 'bikeAndPublic')
+        this.props.match.params.hash === 'bike')
     ) {
       existingStreetMode = this.props.match.params.hash;
     } else {
@@ -241,6 +240,8 @@ class SummaryPage extends React.Component {
       this.selectedPlan = this.props.walkPlan;
     } else if (this.state.streetMode === 'bike') {
       this.selectedPlan = this.props.bikePlan;
+    } else if (this.state.streetMode === 'bikeAndPublic') {
+      this.selectedPlan = this.props.bikeAndPublicPlan;
     } else {
       this.selectedPlan = this.props.plan;
     }
@@ -678,10 +679,28 @@ class SummaryPage extends React.Component {
       this.selectedPlan = bikePlan;
     } else if (this.state.streetMode === 'bikeAndPublic') {
       this.selectedPlan = bikeAndPublicPlan;
-      selectedItineraries = [
-        ...bikeAndPublicPlan.itineraries,
-        ...bikeParkPlan.itineraries,
-      ];
+      if (
+        bikeAndPublicPlan.itineraries &&
+        bikeAndPublicPlan.itineraries.length > 0 &&
+        bikeParkPlan.itineraries &&
+        bikeParkPlan.itineraries.length > 0
+      ) {
+        selectedItineraries = [
+          ...bikeAndPublicPlan.itineraries.slice(0, 3),
+          ...bikeParkPlan.itineraries.slice(0, 3),
+        ];
+      } else if (
+        bikeParkPlan.itineraries &&
+        bikeParkPlan.itineraries.length > 0
+      ) {
+        selectedItineraries = bikeParkPlan.itineraries;
+      } else {
+        selectedItineraries = bikeAndPublicPlan.itineraries;
+      }
+      this.selectedPlan = {
+        ...bikeAndPublicPlan,
+        ...{ itineraries: selectedItineraries },
+      };
     } else {
       this.selectedPlan = plan;
     }
