@@ -36,15 +36,23 @@ import {
   exampleDataCanceled,
 } from './data/SummaryRow.ExampleData';
 
-const Leg = ({ routeNumber, legLength }) => (
-  <div className="leg" style={{ '--width': `${legLength}%` }}>
-    {routeNumber}
-  </div>
-);
+const Leg = ({ routeNumber, legLength, renderNumber }) => {
+  return renderNumber ? (
+    <div className="leg" style={{ '--width': `${legLength}%` }}>
+      {routeNumber}
+    </div>
+  ) : (
+    <div className="leg">{routeNumber}</div>
+  );
+};
 
 Leg.propTypes = {
   routeNumber: PropTypes.node.isRequired,
   legLength: PropTypes.number.isRequired,
+  renderNumber: PropTypes.bool,
+};
+Leg.defaultProps = {
+  renderNumber: true,
 };
 
 export const RouteLeg = ({
@@ -92,6 +100,7 @@ export const RouteLeg = ({
       routeNumber={routeNumber}
       large={large}
       legLength={legLength}
+      renderNumber={renderNumber}
     />
   );
 };
