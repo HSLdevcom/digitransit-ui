@@ -253,6 +253,25 @@ export const getSettings = () => {
   };
 };
 
+export const prepareStopsParams = config => ({ place, mode }) => {
+  let newPlace;
+  if (place !== 'POS') {
+    newPlace = otpToLocation(place);
+  } else {
+    newPlace = config.defaultEndpoint;
+  }
+  const modes = [mode];
+
+  return {
+    lat: newPlace.lat,
+    lon: newPlace.lon,
+    maxResults: config.maxNearbyStopAmount,
+    filterByModes: modes,
+    filterByPlaceTypes: 'STOP',
+    omitNonPickups: config.omitNonPickups,
+  };
+};
+
 export const preparePlanParams = config => (
   { from, to },
   {
