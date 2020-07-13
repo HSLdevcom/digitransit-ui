@@ -22,30 +22,22 @@ const isStop = ({ layer }) => layer === 'stop' || layer === 'favouriteStop';
 const isTerminal = ({ layer }) =>
   layer === 'station' || layer === 'favouriteStation';
 
-const Modal = ({ children, isMobile }) => {
+const Modal = ({ children }) => {
   return (
-    <div className={cx(styles.favouriteModal)}>
-      <section
-        className={cx(
-          styles.modalMain,
-          isMobile ? styles['modal-mobile'] : styles['modal-desktop'],
-        )}
-      >
-        {children}
-      </section>
+    <div className={styles.favouriteModal}>
+      <section className={styles.modalMain}>{children}</section>
     </div>
   );
 };
 
 Modal.propTypes = {
   children: PropTypes.node,
-  isMobile: PropTypes.bool,
 };
 
 Modal.defaultProps = {
   children: [],
-  isMobile: false,
 };
+
 const FavouriteIconIdToNameMap = {
   'icon-icon_home': 'home',
   'icon-icon_work': 'work',
@@ -164,7 +156,7 @@ class FavouriteModal extends React.Component {
     location: PropTypes.shape({
       address: PropTypes.string,
       gtfsId: PropTypes.string,
-      id: PropTypes.string,
+      gid: PropTypes.string,
       lat: PropTypes.number,
       lon: PropTypes.number,
       layer: PropTypes.string,
@@ -257,7 +249,7 @@ class FavouriteModal extends React.Component {
         name,
         address: this.props.location.address,
         gtfsId: this.props.location.gtfsId,
-        gid: this.props.location.id,
+        gid: this.props.location.gid,
         lat: this.props.location.lat,
         lon: this.props.location.lon,
         layer: this.props.location.layer,
@@ -293,7 +285,7 @@ class FavouriteModal extends React.Component {
   render = () => {
     const { name, selectedIconId } = this.state;
     return (
-      <Modal isMobile={this.props.isMobile}>
+      <Modal>
         {!this.props.isMobile && (
           <DesktopModal
             headerText={i18next.t('save-place')}
