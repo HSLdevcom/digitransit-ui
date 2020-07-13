@@ -162,7 +162,7 @@ $border-radius-rounded: 30px;
   &.expanded {
     top: -3em;
   }
-  &.routePage {
+  &.routePage, &.itineraryPage {
     bottom: 1.5em;
     top: auto;
   }

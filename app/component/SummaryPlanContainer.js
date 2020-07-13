@@ -21,7 +21,6 @@ import { preparePlanParams } from '../util/planParamUtil';
 class SummaryPlanContainer extends React.Component {
   static propTypes = {
     activeIndex: PropTypes.number,
-    breakpoint: PropTypes.string.isRequired,
     children: PropTypes.node,
     config: PropTypes.object.isRequired,
     currentTime: PropTypes.number.isRequired,
@@ -77,46 +76,26 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onSelectImmediately = index => {
-    if (Number(this.props.params.hash) === index) {
-      if (this.props.breakpoint === 'large') {
-        addAnalyticsEvent({
-          event: 'sendMatomoEvent',
-          category: 'ItinerarySettings',
-          action: 'ItineraryDetailsClick',
-          name: 'ItineraryDetailsCollapse',
-        });
-        this.context.router.replace({
-          ...this.context.match.location,
-          pathname: getRoutePath(this.props.params.from, this.props.params.to),
-        });
-      } else {
-        this.context.router.go(-1);
-      }
-    } else {
-      addAnalyticsEvent({
-        event: 'sendMatomoEvent',
-        category: 'Itinerary',
-        action: 'OpenItineraryDetails',
-        name: index,
-      });
-      const newState = {
-        ...this.context.match.location,
-        state: { summaryPageSelected: index },
-      };
-      const basePath = getRoutePath(
-        this.props.params.from,
-        this.props.params.to,
-      );
-      const indexPath = `${getRoutePath(
-        this.props.params.from,
-        this.props.params.to,
-      )}/${index}`;
+    addAnalyticsEvent({
+      event: 'sendMatomoEvent',
+      category: 'Itinerary',
+      action: 'OpenItineraryDetails',
+      name: index,
+    });
+    const newState = {
+      ...this.context.match.location,
+      state: { summaryPageSelected: index },
+    };
+    const basePath = getRoutePath(this.props.params.from, this.props.params.to);
+    const indexPath = `${getRoutePath(
+      this.props.params.from,
+      this.props.params.to,
+    )}/${index}`;
 
-      newState.pathname = basePath;
-      this.context.router.replace(newState);
-      newState.pathname = indexPath;
-      this.context.router.push(newState);
-    }
+    newState.pathname = basePath;
+    this.context.router.replace(newState);
+    newState.pathname = indexPath;
+    this.context.router.push(newState);
   };
 
   onLater = () => {
@@ -512,7 +491,6 @@ class SummaryPlanContainer extends React.Component {
           itineraries={itineraries}
           onSelect={this.onSelectActive}
           onSelectImmediately={this.onSelectImmediately}
-          open={Number(this.props.params.hash)}
           searchTime={searchTime}
           to={otpToLocation(to)}
         >

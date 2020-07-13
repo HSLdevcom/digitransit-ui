@@ -248,6 +248,13 @@ export const getLegBadgeProps = (leg, config) => {
   };
 };
 
+export const getZoneLabel = (zoneId, config) => {
+  if (config.zoneIdMapping) {
+    return config.zoneIdMapping[zoneId];
+  }
+  return zoneId;
+};
+
 export const getNewMinMaxCharCodes = (
   newCharCode,
   minCharCode,

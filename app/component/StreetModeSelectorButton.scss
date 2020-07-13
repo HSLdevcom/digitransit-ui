@@ -25,6 +25,7 @@
 	  }
 }
 .street-mode-selector-button-container {
+	cursor: pointer;
 	display: flex;
 	width: 140px;
 	height: 40px;
@@ -34,11 +35,13 @@
 	color: #333333;
 	border: solid 1px #d9d9d9;
 	background-color: #ffffff;
-	// justify-content: center;
 	align-items: center;
 	padding: 5px 15px 5px 20px;
+	margin-left: 5px;
+	margin-right: 5px;
 
 	.disabled-overlay {
+		cursor: default;
 		z-index: 1;
 		border-radius: 5px;
 		width: 100%;
@@ -56,8 +59,8 @@
 		left: 0;
 		position: absolute;
 		display: flex;
-    justify-content: center;
-    align-items: center;
+		justify-content: center;
+		align-items: center;
 	}
 
 	.icon-container {
@@ -66,14 +69,13 @@
 	}
 
 	.street-mode-selector-button-icon {
-	  width: 23px;
 	  height: 23px;
 	}
 	.street-mode-button-time {
 	  font-size: 13px;
 		font-weight: 500;
 		height: 1.2em;
-    line-height: 1.2em;
+		line-height: 1.2em;
 	}
 	.street-mode-button-length {
 	  font-size: 11px;

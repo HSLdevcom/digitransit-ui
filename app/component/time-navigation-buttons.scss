@@ -4,7 +4,7 @@
   flex-shrink: 0;
   background-color: $white;
 
-  button {
+  button, button.disabled, button[disabled], .button.disabled, .button[disabled] {
     font-size: 0.9375em;
     width: 100%;
     min-height: 30px;

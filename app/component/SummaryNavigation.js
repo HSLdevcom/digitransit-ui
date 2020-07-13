@@ -25,6 +25,7 @@ class SummaryNavigation extends React.Component {
       end: PropTypes.number.isRequired,
     }).isRequired,
     toggleSettings: PropTypes.func.isRequired,
+    resetStreetMode: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -60,6 +61,7 @@ class SummaryNavigation extends React.Component {
         this.transitionDone = false;
       }
     });
+    this.props.resetStreetMode();
   }
 
   componentWillUnmount() {

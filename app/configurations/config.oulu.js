@@ -171,6 +171,9 @@ export default configMerger(walttiConfig, {
     4: 'C',
     5: 'D',
   },
+  itinerary: {
+    showZoneLimits: true,
+  },
   zoneIdFontSize: {
     1: '10px',
   },

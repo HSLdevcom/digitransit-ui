@@ -3,12 +3,11 @@ import React from 'react';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 
-import RouteNumber from './RouteNumber';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
-import ItineraryCircleLine from './ItineraryCircleLine';
+import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { isKeyboardSelectionEvent } from '../util/browser';
 
 const getDescription = (mode, distance, duration) => {
@@ -46,6 +45,7 @@ function ViaLeg(props, context) {
     parseInt(props.leg.distance, 10),
     context.config,
   );
+  const [address, place] = props.leg.from.name.split(/, (.+)/); // Splits the name-string to two parts from the first occurance of ', '
   const duration = durationToString(props.leg.duration * 1000);
   const stayDuration = props.leg.startTime - props.arrivalTime;
 
@@ -91,29 +91,25 @@ function ViaLeg(props, context) {
         <div className="itinerary-time-column-time via-departure-time">
           {moment(props.leg.startTime).format('HH:mm')}
         </div>
-        <RouteNumber mode={props.leg.mode.toLowerCase()} vertical />
       </div>
-      <ItineraryCircleLine
+      <ItineraryCircleLineWithIcon
         isVia
         index={props.index}
         modeClassName={props.leg.mode.toLowerCase()}
       />
-      <div
-        onClick={props.focusAction}
-        onKeyPress={e => isKeyboardSelectionEvent(e) && props.focusAction(e)}
-        role="button"
-        tabIndex="0"
-        className="small-9 columns itinerary-instruction-column via"
-      >
+      <div className="small-9 columns itinerary-instruction-column via">
         <span className="sr-only">
           <FormattedMessage
             id="itinerary-summary.show-on-map"
             values={{ target: props.leg.from.name || '' }}
           />
         </span>
-        <div className="itinerary-leg-first-row" aria-hidden="true">
+        <div className="itinerary-leg-first-row via" aria-hidden="true">
           <div>
-            {props.leg.from.name}
+            <div className="address-container">
+              <div className="address">{address}</div>
+              <div className="place">{place}</div>
+            </div>
             {stayDuration > 0 && (
               <div className="itinerary-via-leg-duration">
                 <FormattedMessage
@@ -125,10 +121,39 @@ function ViaLeg(props, context) {
             )}
             {props.children}
           </div>
-          <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
+          <div
+            className="itinerary-map-action"
+            onClick={props.focusAction}
+            onKeyPress={e =>
+              isKeyboardSelectionEvent(e) && props.focusAction(e)
+            }
+            role="button"
+            tabIndex="0"
+          >
+            <Icon
+              img="icon-icon_show-on-map"
+              className="itinerary-search-icon"
+            />
+          </div>
         </div>
         <div className="itinerary-leg-action" aria-hidden="true">
-          {getDescription(props.leg.mode, distance, duration)}
+          <div className="itinerary-leg-action-content">
+            {getDescription(props.leg.mode, distance, duration)}
+            <div
+              className="itinerary-map-action"
+              onClick={props.setMapZoomToLeg}
+              onKeyPress={e =>
+                isKeyboardSelectionEvent(e) && props.setMapZoomToLeg(e)
+              }
+              role="button"
+              tabIndex="0"
+            >
+              <Icon
+                img="icon-icon_show-on-map"
+                className="itinerary-search-icon"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -187,6 +212,7 @@ ViaLeg.propTypes = {
   }).isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
+  setMapZoomToLeg: PropTypes.func.isRequired,
   children: PropTypes.node,
 };
 
