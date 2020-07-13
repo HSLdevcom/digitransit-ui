@@ -393,7 +393,6 @@ function setUpOpenWeatherData() {
       function(err, response, body) {
         if (!err) {
           const json = xmlParser.parse(body, options);
-          console.log(json);
           res.status(response.statusCode).send(json);
         } else {
           res.status(404).send(body);

@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { retryFetch } from './fetchUtils';
 
 export function getUser() {
@@ -41,8 +42,9 @@ export function getWeatherData(time, lat, lon) {
     .seconds(0)
     .milliseconds(0)
     .toISOString();
+  const searchTime = `${moment(endtime).format('YYYY-MM-DDThh:mm:00.000')}Z`;
   return retryFetch(
-    `/weather?latlon=${lat},${lon}&starttime=${endtime}&endtime=${endtime}`,
+    `/weather?latlon=${lat},${lon}&starttime=${searchTime}&endtime=${searchTime}`,
   )
     .then(res => res.json())
     .then(json => {

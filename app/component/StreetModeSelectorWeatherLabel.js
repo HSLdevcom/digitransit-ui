@@ -31,7 +31,11 @@ export const StreetModeSelectorWeatherLabel = ({ active, weatherData }) => {
 StreetModeSelectorWeatherLabel.propTypes = {
   active: PropTypes.bool.isRequired,
   // eslint-disable-next-line react/require-default-props
-  weatherData: PropTypes.object,
+  weatherData: PropTypes.shape({
+    temperature: PropTypes.number,
+    windSpeed: PropTypes.number,
+    iconId: PropTypes.number,
+  }),
 };
 
 export default StreetModeSelectorWeatherLabel;
