@@ -4,15 +4,12 @@ import { intlShape } from 'react-intl';
 import loadable from '@loadable/component';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import withSearchContext from './WithSearchContext';
-import getRelayEnvironment from '../util/getRelayEnvironment';
 import { updateFavourites } from '../action/FavouriteActions';
 
-const AutoSuggestWithSearchContext = getRelayEnvironment(
-  withSearchContext(
-    loadable(
-      () => import('@digitransit-component/digitransit-component-autosuggest'),
-      { ssr: true },
-    ),
+const AutoSuggestWithSearchContext = withSearchContext(
+  loadable(
+    () => import('@digitransit-component/digitransit-component-autosuggest'),
+    { ssr: true },
   ),
 );
 
