@@ -5,7 +5,6 @@ import React from 'react';
 import cx from 'classnames';
 import i18next from 'i18next';
 import escapeRegExp from 'lodash/escapeRegExp';
-import uniqueId from 'lodash/uniqueId';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import FavouriteModal from '@digitransit-component/digitransit-component-favourite-modal';
 import DesktopModal from './helpers/DesktopModal';
@@ -161,7 +160,7 @@ class FavouriteEditingModal extends React.Component {
           [styles['drop-target-before']]:
             index === this.state.isDraggingOverIndex,
         })}
-        key={uniqueId(`favourite-edit-list-item-${index}`)}
+        key={favourite.favouriteId}
         onDragOver={e => this.handleOnFavouriteDragOver(e, index)}
         onDrop={e => this.handleOnFavouriteDrop(e, index)}
         ref={el => this.setDraggableFavouriteRef(el, index)}
