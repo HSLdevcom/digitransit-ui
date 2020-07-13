@@ -99,6 +99,9 @@ export default {
     bucketSize: 1000,
   },
 
+  omitNonPickups: true,
+  maxNearbyStopAmount: 50,
+
   defaultSettings: {
     usingWheelchair: 0,
     bikeSpeed: 5.55,

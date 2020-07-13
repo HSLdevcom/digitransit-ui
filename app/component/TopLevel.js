@@ -150,7 +150,6 @@ class TopLevel extends React.Component {
       this.props.origin,
       parseLocation(this.props.match.params.to),
     );
-
     if (this.props.children || !(this.props.map || this.props.header)) {
       content = this.props.children || this.props.content;
     } else {
