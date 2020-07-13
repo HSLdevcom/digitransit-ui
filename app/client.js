@@ -23,6 +23,9 @@ import RelayClientSSR from 'react-relay-network-modern-ssr/lib/client';
 import OfflinePlugin from 'offline-plugin/runtime';
 import Helmet from 'react-helmet';
 import { Environment, RecordSource, Store } from 'relay-runtime';
+import { ReactRelayContext } from 'react-relay';
+
+import { setRelayEnvironment } from '@digitransit-search-util/digitransit-search-util-query-utils';
 
 import { historyMiddlewares, render } from './routes';
 
@@ -150,6 +153,8 @@ async function init() {
 
   environment.relaySSRMiddleware = relaySSRMiddleware;
 
+  setRelayEnvironment(environment);
+
   const resolver = new Resolver(environment);
 
   const routeConfig = makeRouteConfig(app.getComponent());
@@ -211,7 +216,6 @@ async function init() {
     raven: PropTypes.object,
     config: PropTypes.object,
     headers: PropTypes.object,
-    relayEnvironment: PropTypes.object,
   });
 
   const root = document.getElementById('app');
@@ -227,30 +231,29 @@ async function init() {
     <ClientBreakpointProvider serverGuessedBreakpoint={initialBreakpoint}>
       <ContextProvider
         translations={translations}
-        context={{
-          ...context.getComponentContext(),
-          relayEnvironment: environment,
-        }}
+        context={context.getComponentContext()}
       >
-        <ErrorBoundary>
-          <MuiThemeProvider
-            muiTheme={getMuiTheme(MUITheme(config), {
-              userAgent: navigator.userAgent,
-            })}
-          >
-            <React.Fragment>
-              <Helmet
-                {...meta(
-                  context.getStore('PreferencesStore').getLanguage(),
-                  window.location.host,
-                  window.location.href,
-                  config,
-                )}
-              />
-              <Router resolver={resolver} />
-            </React.Fragment>
-          </MuiThemeProvider>
-        </ErrorBoundary>
+        <ReactRelayContext.Provider value={environment}>
+          <ErrorBoundary>
+            <MuiThemeProvider
+              muiTheme={getMuiTheme(MUITheme(config), {
+                userAgent: navigator.userAgent,
+              })}
+            >
+              <React.Fragment>
+                <Helmet
+                  {...meta(
+                    context.getStore('PreferencesStore').getLanguage(),
+                    window.location.host,
+                    window.location.href,
+                    config,
+                  )}
+                />
+                <Router resolver={resolver} />
+              </React.Fragment>
+            </MuiThemeProvider>
+          </ErrorBoundary>
+        </ReactRelayContext.Provider>
       </ContextProvider>
     </ClientBreakpointProvider>
   );

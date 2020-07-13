@@ -5,7 +5,7 @@ import { Tabs, Tab } from 'material-ui/Tabs';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { intlShape } from 'react-intl';
-import { graphql, fetchQuery } from 'react-relay';
+import { graphql, fetchQuery, ReactRelayContext } from 'react-relay';
 import SwipeableViews from 'react-swipeable-views';
 
 import Icon from './Icon';
@@ -21,7 +21,6 @@ import {
 } from '../util/alertUtils';
 import { isIe } from '../util/browser';
 import hashCode from '../util/hashUtil';
-import getRelayEnvironment from '../util/getRelayEnvironment';
 
 /* Small version has constant height,
  * big version has max height of half but can be
@@ -342,7 +341,13 @@ class MessageBar extends Component {
 }
 
 const connectedComponent = connectToStores(
-  getRelayEnvironment(MessageBar),
+  props => (
+    <ReactRelayContext.Consumer>
+      {relayEnvironment => (
+        <MessageBar {...props} relayEnvironment={relayEnvironment} />
+      )}
+    </ReactRelayContext.Consumer>
+  ),
   ['MessageStore', 'PreferencesStore', 'TimeStore'],
   context => ({
     lang: context.getStore('PreferencesStore').getLanguage(),

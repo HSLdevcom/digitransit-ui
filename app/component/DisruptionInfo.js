@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import React from 'react';
-import { graphql, QueryRenderer } from 'react-relay';
+import React, { useContext } from 'react';
+import { graphql, QueryRenderer, ReactRelayContext } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import LazilyLoad, { importLazy } from './LazilyLoad';
@@ -8,9 +8,9 @@ import Loading from './Loading';
 import DisruptionListContainer from './DisruptionListContainer';
 import ComponentUsageExample from './ComponentUsageExample';
 import { isBrowser } from '../util/browser';
-import getRelayEnvironment from '../util/getRelayEnvironment';
 
-function DisruptionInfo({ relayEnvironment }, context) {
+function DisruptionInfo(props, context) {
+  const relayEnvironment = useContext(ReactRelayContext);
   if (!isBrowser) {
     return null;
   }
@@ -88,9 +88,7 @@ DisruptionInfo.contextTypes = {
   }).isRequired,
 };
 
-DisruptionInfo.propTypes = {
-  relayEnvironment: PropTypes.object,
-};
+DisruptionInfo.propTypes = {};
 
 DisruptionInfo.description = () => (
   <div>
@@ -106,5 +104,4 @@ DisruptionInfo.description = () => (
   </div>
 );
 
-const withRelayEnvironment = getRelayEnvironment(DisruptionInfo);
-export { withRelayEnvironment as default, DisruptionInfo as Component };
+export default DisruptionInfo;

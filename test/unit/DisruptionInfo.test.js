@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { shallowWithIntl } from './helpers/mock-intl-enzyme';
-import { Component as DisruptionInfo } from '../../app/component/DisruptionInfo';
+import DisruptionInfo from '../../app/component/DisruptionInfo';
 // import { createWaitForElement } from 'enzyme-wait';
 // import { mockContext, mockChildContextTypes } from './helpers/mock-context';
 // import { createMemoryMockRouter } from './helpers/mock-router';

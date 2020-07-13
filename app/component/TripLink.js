@@ -1,14 +1,15 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useContext } from 'react';
 import { QueryRenderer, graphql } from 'react-relay';
 import Link from 'found/lib/Link';
 import cx from 'classnames';
+import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import IconWithTail from './IconWithTail';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import getRelayEnvironment from '../util/getRelayEnvironment';
 
-function TripLink({ vehicle, relayEnvironment }) {
+function TripLink({ vehicle }) {
+  const relayEnvironment = useContext(ReactRelayContext);
   const icon = (
     <IconWithTail
       className={cx(vehicle.mode, 'tail-icon')}
@@ -71,9 +72,6 @@ TripLink.propTypes = {
     id: PropTypes.string.isRequired,
     tripId: PropTypes.string.isRequired,
   }).isRequired,
-  relayEnvironment: PropTypes.object.isRequired,
 };
 
-const componentWithRelayEnvinronment = getRelayEnvironment(TripLink);
-
-export { componentWithRelayEnvinronment as default, TripLink as Component };
+export default TripLink;

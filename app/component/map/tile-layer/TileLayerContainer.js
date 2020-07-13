@@ -2,6 +2,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
+import { ReactRelayContext } from 'react-relay';
 import GridLayer from 'react-leaflet/es/GridLayer';
 import SphericalMercator from '@mapbox/sphericalmercator';
 import lodashFilter from 'lodash/filter';
@@ -20,7 +21,6 @@ import TileContainer from './TileContainer';
 import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
 import MapLayerStore, { mapLayerShape } from '../../../store/MapLayerStore';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
-import getRelayEnvironment from '../../../util/getRelayEnvironment';
 import { getClientBreakpoint } from '../../../util/withBreakpoint';
 import { PREFIX_STOPS, PREFIX_TERMINALS } from '../../../util/path';
 
@@ -50,13 +50,13 @@ class TileLayerContainer extends GridLayer {
         }),
       }).isRequired,
     }).isRequired,
+    relayEnvironment: PropTypes.object.isRequired,
   };
 
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
     config: PropTypes.object.isRequired,
-    relayEnvironment: PropTypes.object.isRequired,
     match: matchShape.isRequired,
     router: routerShape.isRequired,
   };
@@ -153,7 +153,7 @@ class TileLayerContainer extends GridLayer {
       done,
       this.props,
       this.context.config,
-      this.context.relayEnvironment,
+      this.props.relayEnvironment,
     );
 
     tile.onSelectableTargetClicked = (
@@ -369,10 +369,18 @@ class TileLayerContainer extends GridLayer {
 }
 
 const connectedComponent = withLeaflet(
-  getRelayEnvironment(
-    connectToStores(TileLayerContainer, [MapLayerStore], context => ({
+  connectToStores(
+    props => (
+      <ReactRelayContext.Consumer>
+        {relayEnvironment => (
+          <TileLayerContainer {...props} relayEnvironment={relayEnvironment} />
+        )}
+      </ReactRelayContext.Consumer>
+    ),
+    [MapLayerStore],
+    context => ({
       mapLayers: context.getStore(MapLayerStore).getMapLayers(),
-    })),
+    }),
   ),
 );
 

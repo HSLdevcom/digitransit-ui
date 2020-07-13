@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import React from 'react';
-import { graphql, QueryRenderer } from 'react-relay';
+import React, { useContext } from 'react';
+import { graphql, QueryRenderer, ReactRelayContext } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import isEmpty from 'lodash/isEmpty';
@@ -8,7 +8,6 @@ import TripMarkerPopup from './route/TripMarkerPopup';
 import IconWithTail from '../IconWithTail';
 import IconMarker from './IconMarker';
 import Loading from '../Loading';
-import getRelayEnvironment from '../../util/getRelayEnvironment';
 
 import { isBrowser } from '../../util/browser';
 
@@ -100,6 +99,7 @@ function shouldShowVehicle(message, direction, tripStart, pattern, headsign) {
 }
 
 function VehicleMarkerContainer(containerProps) {
+  const relayEnvironment = useContext(ReactRelayContext);
   return Object.entries(containerProps.vehicles)
     .filter(([, message]) =>
       shouldShowVehicle(
@@ -151,7 +151,7 @@ function VehicleMarkerContainer(containerProps) {
                 route: message.route,
                 id: message.tripId,
               }}
-              environment={containerProps.relayEnvironment}
+              environment={relayEnvironment}
               render={({ props }) =>
                 props ? (
                   <TripMarkerPopup {...props} message={message} />
@@ -192,7 +192,7 @@ function VehicleMarkerContainer(containerProps) {
                   message.tripStartTime.substring(0, 2) * 60 * 60 +
                   message.tripStartTime.substring(2, 4) * 60,
               }}
-              environment={containerProps.relayEnvironment}
+              environment={relayEnvironment}
               // eslint-disable-next-line no-unused-vars
               render={({ props }) =>
                 props ? (
@@ -225,7 +225,6 @@ VehicleMarkerContainer.propTypes = {
       long: PropTypes.number.isRequired,
     }).isRequired,
   ).isRequired,
-  relayEnvironment: PropTypes.object.isRequired,
 };
 
 VehicleMarkerContainer.defaultProps = {
@@ -234,7 +233,7 @@ VehicleMarkerContainer.defaultProps = {
 };
 
 const connectedComponent = connectToStores(
-  getRelayEnvironment(VehicleMarkerContainer),
+  VehicleMarkerContainer,
   ['RealTimeInformationStore'],
   (context, props) => {
     const { vehicles, storedItineraryVehicleInfos } = context.getStore(
@@ -285,13 +284,9 @@ const connectedComponent = connectToStores(
   },
 );
 
-const componentWithRelayEnvironment = getRelayEnvironment(
-  VehicleMarkerContainer,
-);
-
 export {
   connectedComponent as default,
-  componentWithRelayEnvironment as Component,
+  VehicleMarkerContainer as Component,
   shouldShowVehicle,
   getVehicleIcon,
 };

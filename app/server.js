@@ -18,6 +18,7 @@ import {
   cacheMiddleware,
 } from 'react-relay-network-modern';
 import RelayServerSSR from 'react-relay-network-modern-ssr/lib/server';
+import { ReactRelayContext } from 'react-relay';
 import provideContext from 'fluxible-addons-react/provideContext';
 
 // Libraries
@@ -31,6 +32,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import LRU from 'lru-cache';
 
 // Application
+import { setRelayEnvironment } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import appCreator from './app';
 import translations from './translations';
 import MUITheme from './MuiTheme';
@@ -136,7 +138,6 @@ const ContextProvider = provideContext(IntlProvider, {
   config: PropTypes.object,
   url: PropTypes.string,
   headers: PropTypes.object,
-  relayEnvironment: PropTypes.object,
 });
 
 const isRobotRequest = agent =>
@@ -201,6 +202,8 @@ export default async function(req, res, next) {
 
     const environment = getEnvironment(config, agent);
 
+    setRelayEnvironment(environment);
+
     const resolver = new Resolver(environment);
 
     const { redirect, status, element } = await getFarceResult({
@@ -242,29 +245,28 @@ export default async function(req, res, next) {
         <ContextProvider
           locale={locale}
           messages={translations[locale]}
-          context={{
-            ...context.getComponentContext(),
-            relayEnvironment: environment,
-          }}
+          context={context.getComponentContext()}
         >
-          <MuiThemeProvider
-            muiTheme={getMuiTheme(
-              MUITheme(context.getComponentContext().config),
-              { userAgent: agent },
-            )}
-          >
-            <React.Fragment>
-              {element}
-              <Helmet
-                {...meta(
-                  context.getStore('PreferencesStore').getLanguage(),
-                  req.hostname,
-                  `https://${req.hostname}${req.originalUrl}`,
-                  config,
-                )}
-              />
-            </React.Fragment>
-          </MuiThemeProvider>
+          <ReactRelayContext.Provider value={environment}>
+            <MuiThemeProvider
+              muiTheme={getMuiTheme(
+                MUITheme(context.getComponentContext().config),
+                { userAgent: agent },
+              )}
+            >
+              <React.Fragment>
+                {element}
+                <Helmet
+                  {...meta(
+                    context.getStore('PreferencesStore').getLanguage(),
+                    req.hostname,
+                    `https://${req.hostname}${req.originalUrl}`,
+                    config,
+                  )}
+                />
+              </React.Fragment>
+            </MuiThemeProvider>
+          </ReactRelayContext.Provider>
         </ContextProvider>
       </BreakpointProvider>,
     );

@@ -9,7 +9,7 @@ import * as analytics from '../../../../../../app/util/analyticsUtils';
 describe('<StopMarker />', () => {
   it('should call addAnalyticsEvent when rendered', () => {
     const props = {
-      stop: {},
+      stop: { gtfsId: 'HSL:1541157' },
       mode: 'BUS',
     };
     const spy = sinon.spy(analytics, 'addAnalyticsEvent');

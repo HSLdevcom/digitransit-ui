@@ -1,16 +1,17 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useContext } from 'react';
 import { graphql, QueryRenderer } from 'react-relay';
 import { matchShape, routerShape } from 'found';
+import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import DisruptionInfoButton from './DisruptionInfoButton';
 import { isBrowser } from '../util/browser';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import getRelayEnvironment from '../util/getRelayEnvironment';
 
 function DisruptionInfoButtonContainer(
   outerProps,
   { router, match, config: { feedIds } },
 ) {
+  const relayEnvironment = useContext(ReactRelayContext);
   if (isBrowser) {
     const openDisruptionInfo = () => {
       router.push({
@@ -38,7 +39,7 @@ function DisruptionInfoButtonContainer(
           }
         `}
         variables={{ feedIds }}
-        environment={outerProps.relayEnvironment}
+        environment={relayEnvironment}
         render={({ props }) => (
           <DisruptionInfoButton
             viewer={null}
@@ -60,4 +61,4 @@ DisruptionInfoButtonContainer.contextTypes = {
   }).isRequired,
 };
 
-export default getRelayEnvironment(DisruptionInfoButtonContainer);
+export default DisruptionInfoButtonContainer;

@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 
 import { graphql } from 'react-relay';
 import QueryRenderer from 'react-relay/lib/ReactRelayQueryRenderer';
+import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 
 import TerminalMarkerPopup from './TerminalMarkerPopup';
 import Loading from '../../Loading';
-import getRelayEnvironment from '../../../util/getRelayEnvironment';
 
 function TerminalMarkerPopupContainer(props) {
+  const relayEnvironment = useContext(ReactRelayContext);
   return (
     <QueryRenderer
       query={graphql`
@@ -34,7 +35,7 @@ function TerminalMarkerPopupContainer(props) {
         timeRange: 60 * 60,
         numberOfDepartures: 3 * 5,
       }}
-      environment={props.relayEnvironment}
+      environment={relayEnvironment}
       render={({ props: renderProps }) =>
         renderProps ? (
           <TerminalMarkerPopup
@@ -55,7 +56,6 @@ function TerminalMarkerPopupContainer(props) {
 TerminalMarkerPopupContainer.propTypes = {
   currentTime: PropTypes.number.isRequired,
   terminalId: PropTypes.string.isRequired,
-  relayEnvironment: PropTypes.object.isRequired,
 };
 
-export default getRelayEnvironment(TerminalMarkerPopupContainer);
+export default TerminalMarkerPopupContainer;
