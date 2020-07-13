@@ -112,9 +112,9 @@ FavouriteIconTable.propTypes = {
  * <FavouriteModal
  *   show={modalOpen}
  *   handleClose={handleClose}
- *   addFavourite={onAddFavourite}
+ *   saveFavourite={onSaveFavourite}
  *   location={selectedLocation}
- *   prefilledFavourite={prefilledFavourite}
+ *   favourite={favourite}
  *   lang={lang}
  *   autosuggestComponent={
  *     <AutoSuggest
@@ -137,58 +137,70 @@ class FavouriteModal extends React.Component {
     handleClose: PropTypes.func.isRequired,
     /** Required.
      * @type{function} */
-    addFavourite: PropTypes.func.isRequired,
+    saveFavourite: PropTypes.func.isRequired,
+    /** Required. Only used when editing favourite.
+     * @type{function} */
+    cancelSelected: PropTypes.func,
     /** Optional.
      * Autosuggest component for searching new favourites.
      * @type{node}
      */
     autosuggestComponent: PropTypes.node,
     /** Optional.
-     * @type{object}
+     * Object to prefill input field for name and/or selected icon.
+     * @type {object}
+     * @property {string} type
      * @property {string} address
      * @property {string} gtfsId
+     * @property {string} gid
      * @property {number} lat
      * @property {number} lon
-     * @property {string} id
+     * @property {string} name
+     * @property {string} selectedIconId
+     * @property {string} favouriteId
      * @property {string} layer
      * @property {string} defaultName
      */
-    location: PropTypes.shape({
+    favourite: PropTypes.shape({
+      type: PropTypes.string,
       address: PropTypes.string,
       gtfsId: PropTypes.string,
       gid: PropTypes.string,
       lat: PropTypes.number,
       lon: PropTypes.number,
+      name: PropTypes.string,
+      selectedIconId: PropTypes.string,
+      favouriteId: PropTypes.string,
       layer: PropTypes.string,
       defaultName: PropTypes.string,
     }),
     /** Optional.
-     * Object to prefill input field for name and/or selected icon.
-     * @type{object}
-     *  @property {string} name
-     *  @property {string} selectedIconId
-     */
-    prefilledFavourite: PropTypes.shape({
-      name: PropTypes.string,
-      selectedIconId: PropTypes.string,
-    }),
-    /** Optional.
-     * @type{function} */
+     * @type {function} */
     addAnalyticsEvent: PropTypes.func,
     /** Optional. Language, fi, en or sv.
-     * @type{string} */
+     * @type {string} */
     lang: PropTypes.string,
     /** Optional. */
     isMobile: PropTypes.bool,
   };
 
   static defaultProps = {
+    cancelSelected: () => ({}),
     lang: 'fi',
-    prefilledFavourite: {
-      name: undefined,
-      selectedIconId: undefined,
-    },
     isMobile: false,
+    favourite: {
+      name: '',
+      type: undefined,
+      address: undefined,
+      gtfsId: undefined,
+      gid: undefined,
+      lat: undefined,
+      lon: undefined,
+      selectedIconId: undefined,
+      favouriteId: undefined,
+      layer: undefined,
+      defaultName: undefined,
+    },
   };
 
   static favouriteIconIds = [
@@ -203,10 +215,23 @@ class FavouriteModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: props.prefilledFavourite.name || '',
-      selectedIconId: props.prefilledFavourite.selectedIconId || null,
+      favourite: props.favourite,
     };
   }
+
+  static getDerivedStateFromProps = (nextProps, prevState) => {
+    const nextFav = nextProps.favourite;
+    const prevFav = prevState.favourite;
+    if (nextFav.lat !== prevFav.lat || nextFav.lon !== prevFav.lon) {
+      return {
+        favourite: {
+          ...prevFav,
+          ...nextFav,
+        },
+      };
+    }
+    return null;
+  };
 
   componentDidMount = () => {
     i18next.changeLanguage(this.props.lang);
@@ -219,63 +244,63 @@ class FavouriteModal extends React.Component {
   };
 
   componentWillUnmount = () => {
-    this.setState({ name: '', selectedIconId: null });
+    this.setState({ favourite: {} });
   };
 
   specifyName = event => {
-    const input = event.target.value;
-    this.setState({
-      name: input,
-    });
+    const name = event.target.value;
+    this.setState(prevState => ({
+      favourite: { ...prevState.favourite, name },
+    }));
   };
 
   selectIcon = id => {
-    this.setState({
-      selectedIconId: `icon-icon_${id}`,
-    });
+    this.setState(prevState => ({
+      favourite: {
+        ...prevState.favourite,
+        selectedIconId: `icon-icon_${id}`,
+      },
+    }));
   };
 
+  isEdit = () => this.props.favourite.favouriteId !== undefined;
+
   canSave = () =>
-    !isEmpty(this.state.selectedIconId) &&
-    isNumber(this.props.location.lat) &&
-    isNumber(this.props.location.lon);
+    !isEmpty(this.state.favourite.selectedIconId) &&
+    isNumber(this.state.favourite.lat) &&
+    isNumber(this.state.favourite.lon);
 
   save = () => {
     if (this.canSave()) {
-      const name = isEmpty(this.state.name)
-        ? this.props.location.defaultName
-        : this.state.name;
+      const name = isEmpty(this.state.favourite.name)
+        ? this.state.favourite.defaultName
+        : this.state.favourite.name;
       const favourite = {
+        ...this.state.favourite,
         name,
-        address: this.props.location.address,
-        gtfsId: this.props.location.gtfsId,
-        gid: this.props.location.gid,
-        lat: this.props.location.lat,
-        lon: this.props.location.lon,
-        layer: this.props.location.layer,
       };
       if (
-        (isStop(this.props.location) || isTerminal(this.props.location)) &&
-        this.props.location.gtfsId
+        (isStop(this.state.favourite) || isTerminal(this.state.favourite)) &&
+        this.state.favourite.gtfsId
       ) {
-        const type = isTerminal(this.props.location) ? 'station' : 'stop';
-        this.props.addFavourite({
+        const type = isTerminal(this.state.favourite) ? 'station' : 'stop';
+        this.props.saveFavourite({
           ...favourite,
           type,
-          selectedIconId: this.state.selectedIconId,
+          selectedIconId: this.state.favourite.selectedIconId,
         });
       } else {
-        this.props.addFavourite({
+        this.props.saveFavourite({
           ...favourite,
           type: 'place',
-          selectedIconId: this.state.selectedIconId,
+          selectedIconId: this.state.favourite.selectedIconId,
         });
       }
       if (this.props.addAnalyticsEvent) {
         this.props.addAnalyticsEvent({
           category: 'Favourite',
           action: 'SaveFavourite',
-          name: this.state.selectedIconId,
+          name: this.state.favourite.selectedIconId,
         });
       }
       this.props.handleClose();
@@ -283,63 +308,42 @@ class FavouriteModal extends React.Component {
   };
 
   render = () => {
-    const { name, selectedIconId } = this.state;
+    const { favourite } = this.state;
+    const headerText = this.isEdit()
+      ? i18next.t('edit-place')
+      : i18next.t('save-place');
+    const modalProps = {
+      headerText,
+      closeArialLabel: i18next.t('close-favourite-modal'),
+      autosuggestComponent: this.props.autosuggestComponent,
+      closeModal: this.props.handleClose,
+      inputPlaceholder: i18next.t('input-placeholder'),
+      specifyName: this.specifyName,
+      name: favourite.name || '',
+      chooseIconText: i18next.t('choose-icon'),
+      favouriteIconTable: (
+        <FavouriteIconTable
+          selectedIconId={(() => {
+            if (favourite.selectedIconId !== undefined || null) {
+              return favourite.selectedIconId;
+            }
+            return undefined;
+          })()}
+          favouriteIconIds={FavouriteModal.favouriteIconIds}
+          handleClick={this.selectIcon}
+        />
+      ),
+      saveFavourite: this.save,
+      saveText: i18next.t('save'),
+      canSave: this.canSave,
+      isEdit: this.isEdit(),
+      cancelText: i18next.t('cancel'),
+      cancelSelected: this.props.cancelSelected,
+    };
     return (
       <Modal>
-        {!this.props.isMobile && (
-          <DesktopModal
-            headerText={i18next.t('save-place')}
-            closeArialLabel={i18next.t('close-favourite-modal')}
-            autosuggestComponent={this.props.autosuggestComponent}
-            closeModal={this.props.handleClose}
-            inputPlaceholder={i18next.t('input-placeholder')}
-            specifyName={this.specifyName}
-            name={name || ''}
-            chooseIconText={i18next.t('choose-icon')}
-            favouriteIconTable={
-              <FavouriteIconTable
-                selectedIconId={(() => {
-                  if (selectedIconId !== undefined || null) {
-                    return selectedIconId;
-                  }
-                  return undefined;
-                })()}
-                favouriteIconIds={FavouriteModal.favouriteIconIds}
-                handleClick={this.selectIcon}
-              />
-            }
-            saveFavourite={this.save}
-            saveText={i18next.t('save')}
-            canSave={this.canSave}
-          />
-        )}
-        {this.props.isMobile && (
-          <MobileModal
-            headerText={i18next.t('save-place')}
-            closeArialLabel={i18next.t('close-favourite-modal')}
-            autosuggestComponent={this.props.autosuggestComponent}
-            closeModal={this.props.handleClose}
-            inputPlaceholder={i18next.t('input-placeholder')}
-            specifyName={this.specifyName}
-            name={name || ''}
-            chooseIconText={i18next.t('choose-icon')}
-            favouriteIconTable={
-              <FavouriteIconTable
-                selectedIconId={(() => {
-                  if (selectedIconId !== undefined || null) {
-                    return selectedIconId;
-                  }
-                  return undefined;
-                })()}
-                favouriteIconIds={FavouriteModal.favouriteIconIds}
-                handleClick={this.selectIcon}
-              />
-            }
-            saveFavourite={this.save}
-            saveText={i18next.t('save')}
-            canSave={this.canSave}
-          />
-        )}
+        {!this.props.isMobile && <DesktopModal {...modalProps} />}
+        {this.props.isMobile && <MobileModal {...modalProps} />}
       </Modal>
     );
   };
