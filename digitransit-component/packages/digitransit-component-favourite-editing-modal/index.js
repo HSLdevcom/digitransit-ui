@@ -1,4 +1,3 @@
-/* eslint no-console: ["error", { allow: ["warn", "error"] }] */
 /* eslint react/forbid-prop-types: 0 */
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -6,7 +5,6 @@ import cx from 'classnames';
 import i18next from 'i18next';
 import escapeRegExp from 'lodash/escapeRegExp';
 import Icon from '@digitransit-component/digitransit-component-icon';
-import FavouriteModal from '@digitransit-component/digitransit-component-favourite-modal';
 import DesktopModal from './helpers/DesktopModal';
 import MobileModal from './helpers/MobileModal';
 import styles from './helpers/styles.scss';
@@ -40,8 +38,9 @@ class FavouriteEditingModal extends React.Component {
     /** Required.
      * @type {function} */
     updateFavourites: PropTypes.func.isRequired,
-    saveFavourite: PropTypes.func.isRequired,
-    autosuggestComponent: PropTypes.node,
+    /** Required. Function that takes selected favourite object as parameter.
+     * @type {function} */
+    onEditSelected: PropTypes.func.isRequired,
     /** Required.
      * @type {array<object>}
      * @property {string} type
@@ -82,10 +81,18 @@ class FavouriteEditingModal extends React.Component {
     this.state = {
       isDraggingOverIndex: undefined,
       favourites: props.favourites,
-      selectedFavourite: null,
-      showEditPlaceModal: false,
     };
   }
+
+  componentDidMount = () => {
+    i18next.changeLanguage(this.props.lang);
+  };
+
+  componentDidUpdate = prevProps => {
+    if (prevProps.lang !== this.props.lang) {
+      i18next.changeLanguage(this.props.lang);
+    }
+  };
 
   handleOnFavouriteDragOver = (event, index) => {
     event.preventDefault();
@@ -201,10 +208,10 @@ class FavouriteEditingModal extends React.Component {
               favourite,
             })}
             className={styles['favourite-edit-list-item-edit']}
-            onClick={() => this.setState({ selectedFavourite: favourite })}
+            onClick={() => this.props.onEditSelected(favourite)}
             onKeyDown={e => {
               if (e.keyCode === 32 || e.keyCode === 13) {
-                this.setState({ selectedFavourite: favourite });
+                this.props.onEditSelected(favourite);
               }
             }}
           >
@@ -240,39 +247,27 @@ class FavouriteEditingModal extends React.Component {
   render() {
     const isMobile =
       window && window.innerWidth ? window.innerWidth < 768 : false;
-    const { favourites, selectedFavourite, showEditPlaceModal } = this.state;
+    const { favourites } = this.state;
     return (
       <React.Fragment>
-        {!showEditPlaceModal && (
-          <Modal>
-            {isMobile && (
-              <MobileModal
-                headerText={i18next.t('edit-places')}
-                closeModal={this.props.handleClose}
-                closeArialLabel={i18next.t('close-modal')}
-                renderList={this.renderFavouriteList(favourites)}
-              />
-            )}
-            {!isMobile && (
-              <DesktopModal
-                headerText={i18next.t('edit-places')}
-                closeModal={this.props.handleClose}
-                closeArialLabel={i18next.t('close-modal')}
-                renderList={this.renderFavouriteList(favourites)}
-              />
-            )}
-          </Modal>
-        )}
-        {showEditPlaceModal && (
-          <FavouriteModal
-            handleClose={this.props.handleClose}
-            addFavourite={this.props.saveFavourite}
-            prefilledFavourite={selectedFavourite}
-            lang={this.props.lang}
-            isMobile={isMobile}
-            autosuggestComponent={this.props.autosuggestComponent}
-          />
-        )}
+        <Modal>
+          {isMobile && (
+            <MobileModal
+              headerText={i18next.t('edit-places')}
+              closeModal={this.props.handleClose}
+              closeArialLabel={i18next.t('close-modal')}
+              renderList={this.renderFavouriteList(favourites)}
+            />
+          )}
+          {!isMobile && (
+            <DesktopModal
+              headerText={i18next.t('edit-places')}
+              closeModal={this.props.handleClose}
+              closeArialLabel={i18next.t('close-modal')}
+              renderList={this.renderFavouriteList(favourites)}
+            />
+          )}
+        </Modal>
       </React.Fragment>
     );
   }
