@@ -124,7 +124,7 @@ describe('oldParamParser', () => {
     const urlSplit = url.split('/');
     expect(urlSplit[1]).to.equal(PREFIX_ITINERARY_SUMMARY);
     expect(urlSplit[2]).to.equal(
-      encodeURIComponent('Lapinlahdenkatu 1a, Helsinki::60.166408,24.932251'),
+      encodeURIComponent('Lapinlahdenkatu 1a, Helsinki::60.166322,24.932452'),
     );
     expect(urlSplit[3]).to.equal(
       encodeURIComponent('Koivikkotie 10, Helsinki::60.225099,24.930026'),
@@ -145,7 +145,7 @@ describe('oldParamParser', () => {
     const urlSplit = url.split('/');
     expect(urlSplit[1]).to.equal(PREFIX_ITINERARY_SUMMARY);
     expect(urlSplit[2]).to.equal(
-      encodeURIComponent('Lapinlahdenkatu 1a, Helsinki::60.166408,24.932251'),
+      encodeURIComponent('Lapinlahdenkatu 1a, Helsinki::60.166322,24.932452'),
     );
     expect(urlSplit[3]).to.equal(
       encodeURIComponent('Koivikkotie 10, Helsinki::60.225099,24.930026'),
@@ -181,7 +181,7 @@ describe('oldParamParser', () => {
     const url = await oldParamParser(noTimeQuery, largeMaxAgeConf);
     expect(url).to.equal(
       `/${PREFIX_ITINERARY_SUMMARY}/${encodeURIComponent(
-        'Lapinlahdenkatu 1a, Helsinki::60.166408,24.932251',
+        'Lapinlahdenkatu 1a, Helsinki::60.166322,24.932452',
       )}/${encodeURIComponent(
         'Koivikkotie 10, Helsinki::60.225099,24.930026',
       )}/?utm_campaign=hsl.fi&utm_source=etusivu-reittihaku&utm_medium=referral`,
@@ -195,7 +195,7 @@ describe('oldParamParser', () => {
     const urlSplit = url.split('/');
     expect(urlSplit[1]).to.equal(PREFIX_ITINERARY_SUMMARY);
     expect(urlSplit[2]).to.equal(
-      encodeURIComponent('Lapinlahdenkatu 1a, Helsinki::60.166408,24.932251'),
+      encodeURIComponent('Lapinlahdenkatu 1a, Helsinki::60.166322,24.932452'),
     );
     expect(urlSplit[3]).to.equal(
       encodeURIComponent('Koivikkotie 10, Helsinki::60.225099,24.930026'),
