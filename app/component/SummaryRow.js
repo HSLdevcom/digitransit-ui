@@ -251,8 +251,10 @@ const SummaryRow = (
         legLength = (leg.duration * 1000 + waitTime) / duration * 100;
       }
     }
-    if (addition > 0) {
+    if (addition) {
+      console.log(addition, props.hash)
       legLength += addition;
+      addition = 0;
     }
     if (isNextLegLast) {
       const lastLegLength = lastLeg.duration * 1000 / duration * 100;
@@ -264,8 +266,10 @@ const SummaryRow = (
       renderBar = false;
       addition = legLength;
     } else if (legLength < renderBarThreshold && !isLegOnFoot(leg)) {
+
       addition += legLength - renderBarThreshold;
       legLength = renderBarThreshold;
+      console.log(addition, legLength)
     }
     renderNumber = isLegOnFoot(leg)
       ? legLength > renderLegDurationThreshold
@@ -384,6 +388,7 @@ const SummaryRow = (
       );
     }
   });
+
 
   if (!noTransitLegs) {
     const firstDeparture = compressedLegs.find(isTransitLeg);
