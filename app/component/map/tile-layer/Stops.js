@@ -75,14 +75,16 @@ class Stops {
           ) {
             const featureByCode = {};
             const hybridGtfsIdByCode = {};
-
+            const zoom = this.tile.coords.z + (this.tile.props.zoomOffset || 0);
+            const drawPlatforms = this.config.terminalStopsMaxZoom - 1 <= zoom;
+            const drawRailPlatforms = this.config.railPlatformsMinZoom <= zoom;
             for (let i = 0, ref = vt.layers.stops.length - 1; i <= ref; i++) {
               const feature = vt.layers.stops.feature(i);
               if (
                 feature.properties.type &&
                 (feature.properties.parentStation === 'null' ||
-                  this.config.terminalStopsMaxZoom - 1 <=
-                    this.tile.coords.z + (this.tile.props.zoomOffset || 0))
+                  drawPlatforms ||
+                  (feature.properties.type === 'RAIL' && drawRailPlatforms))
               ) {
                 [[feature.geom]] = feature.loadGeometry();
                 const f = pick(feature, ['geom', 'properties']);

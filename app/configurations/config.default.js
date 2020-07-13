@@ -294,6 +294,8 @@ export default {
   // Highest level when terminals are still rendered instead of individual stops
   terminalStopsMaxZoom: 17,
   terminalStopsMinZoom: 12,
+  // lowest zoom level when to draw rail platforms
+  railPlatformsMinZoom: 15,
   terminalNamesZoom: 16,
   stopsIconSize: {
     small: 8,
