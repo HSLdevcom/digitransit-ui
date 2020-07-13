@@ -3388,7 +3388,7 @@ const translations = {
     'more-settings': 'Fler inställningar',
     navigate: 'Navigera',
     nearest: 'Närmaste',
-    'nearest-stops': 'Närmåste hållplatser',
+    'nearest-stops': 'Närmaste hållplatser',
     'network-error': 'Nätverksfel',
     // eslint-disable-next-line sort-keys
     neighbourhood: 'Gransskap',

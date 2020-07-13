@@ -17,6 +17,14 @@
             padding: 14px 15px 1px 20px;
             .stop-near-you-info {
                 display: flex;
+                .platform-short {
+                    @include font-medium;
+                    font-weight: normal;
+                    white-space: nowrap;
+                    font-size: 0.813rem;
+                    margin-right: 5px;
+                    width: unset;
+                }
                 .stop-near-you-desc {
                     font-weight: normal;
                     font-size: 0.8125rem;
@@ -28,6 +36,7 @@
                 }
                 .zone-icon-container {
                     padding-left:3px;
+                    align-self: center;
                     .circle {
                         height: 14px;
                         width: 14px;

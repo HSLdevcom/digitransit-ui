@@ -77,6 +77,7 @@ const connectedContainer = createRefetchContainer(
                 lat
                 lon
                 zoneId
+                platformCode
                 vehicleMode
                 stoptimesWithoutPatterns(
                   startTime: $startTime
