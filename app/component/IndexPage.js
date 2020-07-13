@@ -161,7 +161,7 @@ class IndexPage extends React.Component {
     window.location = this.context.config.trafficNowLink;
   };
 
-  addFavourite = favourite => {
+  saveFavourite = favourite => {
     this.context.executeAction(addFavourite, favourite);
   };
 
@@ -218,7 +218,7 @@ class IndexPage extends React.Component {
             </div>
             <FavouritesContainer
               favourites={favourites}
-              onAddFavourite={this.addFavourite}
+              onSaveFavourite={this.saveFavourite}
               onClickFavourite={this.clickFavourite}
             />
             <CtrlPanel.SeparatorLine usePaddingBottom20 />
