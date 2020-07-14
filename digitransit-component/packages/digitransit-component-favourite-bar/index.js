@@ -298,22 +298,31 @@ class FavouriteBar extends React.Component {
     );
   };
 
-  render() {
-    const { onClickFavourite } = this.props;
-    const { listOpen, favourites, home, work, highlightedIndex } = this.state;
-
-    const expandIcon = this.props.favourites.length === 0 ? 'plus' : 'arrow';
+  getCustomSuggestions = () => {
     const customSuggestions = [
       {
         name: i18next.t('add-place'),
         selectedIconId: 'favourite',
       },
+    ];
+    if (this.props.favourites.length === 0) {
+      return customSuggestions;
+    }
+    return [
+      ...customSuggestions,
       {
         name: i18next.t('edit'),
         selectedIconId: 'edit',
         iconColor: '#007ac9',
       },
     ];
+  };
+
+  render() {
+    const { onClickFavourite } = this.props;
+    const { listOpen, favourites, home, work, highlightedIndex } = this.state;
+
+    const expandIcon = this.props.favourites.length === 0 ? 'plus' : 'arrow';
     /* eslint-disable anchor-is-valid, jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/role-supports-aria-props */
     return (
       <React.Fragment>
@@ -387,7 +396,7 @@ class FavouriteBar extends React.Component {
                 ),
               )}
               {favourites.length > 0 && <div className={styles.divider} />}
-              {customSuggestions.map((item, index) =>
+              {this.getCustomSuggestions().map((item, index) =>
                 this.renderSuggestion(
                   item,
                   favourites.length + index,
