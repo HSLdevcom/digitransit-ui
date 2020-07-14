@@ -387,13 +387,12 @@ function setUpOpenWeatherData() {
   };
   app.get('/weather', function(req, res, next) {
     request.get(
-      `${config.URL.WEATHER_DATA}&latlon=${req.query.latlon}&endtime=${
-        req.query.endtime
-      }`,
+      `${config.URL.WEATHER_DATA}&latlon=${req.query.latlon}&starttime=${
+        req.query.starttime
+      }&endtime=${req.query.endtime}`,
       function(err, response, body) {
         if (!err) {
           const json = xmlParser.parse(body, options);
-          console.log(json);
           res.status(response.statusCode).send(json);
         } else {
           res.status(404).send(body);
@@ -413,9 +412,7 @@ function startServer() {
 if (process.env.OIDC_CLIENT_ID) {
   setUpOIDC();
 }
-if (config.URL.WEATHER_DATA) {
-  setUpOpenWeatherData();
-}
+setUpOpenWeatherData();
 setUpRaven();
 setUpStaticFolders();
 setUpMiddleware();

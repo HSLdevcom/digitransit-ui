@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 /* eslint-disable react/no-array-index-key */
+import moment from 'moment';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import findIndex from 'lodash/findIndex';
@@ -20,6 +21,7 @@ import SummaryNavigation from './SummaryNavigation';
 import ItineraryLine from './map/ItineraryLine';
 import LocationMarker from './map/LocationMarker';
 import MobileItineraryWrapper from './MobileItineraryWrapper';
+import { getWeatherData } from '../util/apiUtils';
 import Loading from './Loading';
 import { getRoutePath } from '../util/path';
 import { getIntermediatePlaces } from '../util/queryUtils';
@@ -251,6 +253,7 @@ class SummaryPage extends React.Component {
   }
 
   state = {
+    weatherData: null,
     center: null,
     loading: false,
     settingsOpen: false,
@@ -454,8 +457,45 @@ class SummaryPage extends React.Component {
     this.setState({ center: { lat, lon }, bounds: null });
   };
 
+  // These are icons that contains sun
+  dayNightIconIds = [1, 2, 21, 22, 23, 41, 42, 43, 61, 62, 71, 72, 73];
+
+  checkDayNight = (iconId, hour) => {
+    // Show night icons between 00.00 and 06.59
+    if (hour >= 0 && hour < 7 && this.dayNightIconIds.includes(iconId)) {
+      // Night icon = iconId + 100
+      return iconId + 100;
+    }
+    return iconId;
+  };
+
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
+    const from = otpToLocation(this.props.match.params.from);
+
+    let time;
+    if (
+      nextProps.plan &&
+      nextProps.plan.itineraries &&
+      time !== nextProps.plan.itineraries[0].startTime
+    ) {
+      time = nextProps.plan.itineraries[0].startTime;
+    } else if (this.props.plan.itineraries) {
+      time = this.props.plan.itineraries[0].startTime;
+    }
+    const timem = moment(time);
+    getWeatherData(timem, from.lat, from.lon).then(res => {
+      // Icon id's and descriptions: https://www.ilmatieteenlaitos.fi/latauspalvelun-pikaohje ->  Sääsymbolien selitykset ennusteissa.
+      const iconId = this.checkDayNight(res[2].ParameterValue, timem.hour());
+
+      this.setState({
+        weatherData: {
+          temperature: res[0].ParameterValue,
+          windSpeed: res[1].ParameterValue,
+          iconId,
+        },
+      });
+    });
     if (!isEqual(nextProps.match.params.from, this.props.match.params.from)) {
       this.context.executeAction(storeOrigin, nextProps.match.params.from);
     }
@@ -732,7 +772,6 @@ class SummaryPage extends React.Component {
     }
 
     const from = otpToLocation(match.params.from);
-
     if (match.routes.some(route => route.printPage) && hasItineraries) {
       return React.cloneElement(this.props.content, {
         itinerary: itineraries[hash],
@@ -867,7 +906,6 @@ class SummaryPage extends React.Component {
           </div>
         );
       }
-
       return (
         <DesktopView
           title={
@@ -891,6 +929,7 @@ class SummaryPage extends React.Component {
                   showWalkOptionButton={showWalkOptionButton}
                   showBikeOptionButton={showBikeOptionButton}
                   onButtonClick={this.setStreetMode}
+                  weatherData={this.state.weatherData}
                   walkPlan={walkPlan}
                   bikePlan={bikePlan}
                 />
@@ -985,6 +1024,7 @@ class SummaryPage extends React.Component {
                   showWalkOptionButton={showWalkOptionButton}
                   showBikeOptionButton={showBikeOptionButton}
                   onButtonClick={this.setStreetMode}
+                  weatherData={this.state.weatherData}
                   walkPlan={walkPlan}
                   bikePlan={bikePlan}
                 />

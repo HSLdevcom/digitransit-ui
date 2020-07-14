@@ -1,3 +1,29 @@
+.street-mode-selector-weather-container {
+	display: flex;
+    align-items: center;
+    justify-content: space-between;
+	padding-right: 20px;
+	&.id-1 span.icon-container {
+		height: 40px;
+	}
+	&.id-101 span.icon-container {
+		height: 25px;
+		width: 31px;
+	}
+	span.icon-container {
+		height: 30px;
+	}
+	.street-mode-selector-panel-weather-text {
+		font-size: 15px;
+		font-weight: 500;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: normal;
+		letter-spacing: -0.5px;
+		text-align: center;
+		color: #333333;
+	  }
+}
 .street-mode-selector-button-container {
 	cursor: pointer;
 	display: flex;
@@ -58,6 +84,24 @@
 }
 
 .mobile {
+	.street-mode-selector-weather-container {
+		display: block;
+		.street-mode-selector-panel-weather-text {
+			padding-left: 46px;
+			font-size: 16px;
+			margin-left: -39px;
+		  }
+	&.id-101 svg {
+		margin-bottom: -18px;
+    	margin-left: 11px;
+	}
+	&.id-102 svg {
+		margin-bottom: -24px;
+	}
+	 svg {
+		margin-bottom: -10px;
+	 }
+	}
 	.street-mode-selector-button-container {
 		width: 130px;
 		height: 48px;
