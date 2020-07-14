@@ -257,7 +257,7 @@ class FavouriteModal extends React.Component {
     }));
   };
 
-  isEdit = () => this.props.favourite.favouriteId !== undefined;
+  isEdit = () => this.state.favourite.favouriteId !== undefined;
 
   canSave = () =>
     !isEmpty(this.state.favourite.selectedIconId) &&
