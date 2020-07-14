@@ -219,6 +219,7 @@ class IndexPage extends React.Component {
               favourites={favourites}
               onSaveFavourite={this.saveFavourite}
               onClickFavourite={this.clickFavourite}
+              lang={lang}
             />
             <CtrlPanel.SeparatorLine usePaddingBottom20 />
             <div className="stops-near-you-text">
@@ -284,9 +285,9 @@ class IndexPage extends React.Component {
               <DatetimepickerContainer realtime />
             </div>
             <FavouritesContainer
-              favourites={this.props.favourites}
+              favourites={favourites}
+              onSaveFavourite={this.saveFavourite}
               onClickFavourite={this.clickFavourite}
-              onAddFavourite={this.addFavourite}
               lang={lang}
               isMobile
             />
