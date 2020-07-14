@@ -39,18 +39,14 @@ Modal.defaultProps = {
 };
 
 const FavouriteIconIdToNameMap = {
+  'icon-icon_place': 'place',
   'icon-icon_home': 'home',
   'icon-icon_work': 'work',
   'icon-icon_sport': 'sport',
   'icon-icon_school': 'school',
   'icon-icon_shopping': 'shopping',
 };
-const FavouriteIconTableButton = ({
-  key,
-  value,
-  selectedIconId,
-  handleClick,
-}) => {
+const FavouriteIconTableButton = ({ value, selectedIconId, handleClick }) => {
   const [isHovered, setHover] = useState(false);
   const iconColor =
     value === FavouriteIconIdToNameMap[selectedIconId] || isHovered
@@ -59,8 +55,7 @@ const FavouriteIconTableButton = ({
   return (
     <button
       type="button"
-      key={key}
-      className={cx(styles['favourite-icon-table-column'], {
+      className={cx(styles['favourite-icon-table-column'], styles[value], {
         [styles['selected-icon']]:
           value === FavouriteIconIdToNameMap[selectedIconId],
       })}
@@ -68,14 +63,13 @@ const FavouriteIconTableButton = ({
       onMouseLeave={() => setHover(false)}
       onClick={() => handleClick(value)}
     >
-      <Icon img={value} height={1.125} width={1.125} color={iconColor} />
+      <Icon img={value} color={iconColor} />
     </button>
   );
 };
 
 FavouriteIconTableButton.propTypes = {
   handleClick: PropTypes.func.isRequired,
-  key: PropTypes.string,
   value: PropTypes.string,
   selectedIconId: PropTypes.string,
 };
@@ -87,7 +81,7 @@ const FavouriteIconTable = ({
 }) => {
   const columns = favouriteIconIds.map(value => (
     <FavouriteIconTableButton
-      key={value}
+      key={`favourite-icon-table-${value}`}
       value={value}
       selectedIconId={selectedIconId}
       handleClick={handleClick}

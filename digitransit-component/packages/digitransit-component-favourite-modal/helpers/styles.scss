@@ -67,6 +67,25 @@ $not-selected-icon-background-color: #fff;
   border-right: solid 1px $favourite-icon-column-border-color;
   border-left: none;
   color: $not-selected-icon-font-color;
+
+  &.place {
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+  &.work {
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  &.home, &.school, &.sport, &.shopping {
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
 }
 
 .favourite-icon-table-column:active {
@@ -88,7 +107,6 @@ $not-selected-icon-background-color: #fff;
   border-left: solid 1px $favourite-icon-column-border-color;
   border-top-left-radius: $favourite-icon-border-radius;
   border-bottom-left-radius: $favourite-icon-border-radius;
-
 }
 
 .favourite-icon-table-column:last-child {
