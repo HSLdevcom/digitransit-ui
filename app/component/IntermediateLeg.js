@@ -1,26 +1,25 @@
 import cx from 'classnames';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
-import StopCode from './StopCode';
-import Icon from './Icon';
+import Link from 'found/lib/Link';
 import ZoneIcon from './ZoneIcon';
+import { PREFIX_STOPS } from '../util/path';
+import { isKeyboardSelectionEvent } from '../util/browser';
+import Icon from './Icon';
 
 function IntermediateLeg({
   color,
   mode,
-  arrivalTime,
-  realTime,
   name,
-  stopCode,
   focusFunction,
+  gtfsId,
   showCurrentZoneDelimiter,
   showZoneLimits,
   previousZoneId,
   currentZoneId,
   nextZoneId,
-  isCanceled,
   zoneLabelColor,
+  isLastPlace,
 }) {
   const modeClassName = mode.toLowerCase();
   const isDualZone = currentZoneId && (previousZoneId || nextZoneId);
@@ -40,80 +39,95 @@ function IntermediateLeg({
       )}
       onClick={e => focusFunction(e)}
     >
-      {showZoneLimits &&
-        currentZoneId && (
-          <div className="zone-icons-container">
-            {previousZoneId && (
+      <div className="small-2 columns itinerary-time-column">
+        {showZoneLimits &&
+          currentZoneId && (
+            <div className="zone-icons-container">
+              {previousZoneId && (
+                <ZoneIcon
+                  zoneId={previousZoneId}
+                  zoneLabelColor={zoneLabelColor}
+                  zoneLabelHeight="20px"
+                  zoneLabelWidth="20px"
+                  zoneLabelLineHeight="20px"
+                  zoneIdFontSize="16px"
+                />
+              )}
               <ZoneIcon
-                zoneId={previousZoneId}
+                zoneId={currentZoneId}
+                className={cx({
+                  'zone-delimiter':
+                    showCurrentZoneDelimiter ||
+                    (previousZoneId && currentZoneId),
+                })}
                 zoneLabelColor={zoneLabelColor}
                 zoneLabelHeight="20px"
                 zoneLabelWidth="20px"
                 zoneLabelLineHeight="20px"
                 zoneIdFontSize="16px"
-                zoneLabelMarginLeft="-5px"
               />
-            )}
-            <ZoneIcon
-              zoneId={currentZoneId}
-              className={cx({
-                'zone-delimiter':
-                  showCurrentZoneDelimiter || (previousZoneId && currentZoneId),
-              })}
-              zoneLabelColor={zoneLabelColor}
-              zoneLabelHeight="20px"
-              zoneLabelWidth="20px"
-              zoneLabelLineHeight="20px"
-              zoneIdFontSize="16px"
-              zoneLabelMarginLeft="-5px"
-            />
-            {nextZoneId && (
-              <ZoneIcon
-                zoneId={nextZoneId}
-                zoneLabelColor={zoneLabelColor}
-                zoneLabelHeight="20px"
-                zoneLabelWidth="20px"
-                zoneLabelLineHeight="20px"
-                zoneIdFontSize="16px"
-                className="zone-delimiter"
-                zoneLabelMarginLeft="-5px"
-              />
-            )}
-          </div>
-        )}
+              {nextZoneId && (
+                <ZoneIcon
+                  zoneId={nextZoneId}
+                  zoneLabelColor={zoneLabelColor}
+                  zoneLabelHeight="20px"
+                  zoneLabelWidth="20px"
+                  zoneLabelLineHeight="20px"
+                  zoneIdFontSize="16px"
+                  className="zone-delimiter"
+                />
+              )}
+            </div>
+          )}
+      </div>
       <div className={`leg-before ${modeClassName}`}>
         <div className={`leg-before-circle circle-fill ${modeClassName}`}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width={28}
             height={28}
-            style={{ fill: color, stroke: color }}
+            style={{ fill: '#fff', stroke: color }}
           >
-            <circle strokeWidth="2" width={28} cx={11} cy={10} r={4} />
+            <circle strokeWidth="3" width={28} cx={11} cy={10} r={4} />
           </svg>
         </div>
         <div style={{ color }} className={`leg-before-line ${modeClassName}`} />
+        {isLastPlace && (
+          <div className={`leg-before-circle circle ${mode.toLowerCase()}`}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width={28}
+              height={28}
+              style={{ fill: '#fff' }}
+            >
+              <circle strokeWidth="4" width={28} cx={11} cy={10} r={6} />
+            </svg>
+          </div>
+        )}
       </div>
       <div
         className={`small-9 columns itinerary-instruction-column intermediate ${modeClassName}`}
       >
-        <div className="itinerary-leg-first-row">
-          <div className="itinerary-intermediate-stop-name">
-            <span className={cx({ realtime: realTime })}>
-              {realTime && (
-                <Icon
-                  img="icon-icon_realtime"
-                  className="realtime-icon realtime"
-                />
-              )}
-              <span className={cx({ canceled: isCanceled })}>
-                {moment(arrivalTime).format('HH:mm')}
-              </span>
-            </span>
-            {` ${name}`} <StopCode code={stopCode} />
+        <Link
+          onClick={e => {
+            e.stopPropagation();
+          }}
+          onKeyPress={e => {
+            if (isKeyboardSelectionEvent(e)) {
+              e.stopPropagation();
+            }
+          }}
+          to={`/${PREFIX_STOPS}/${gtfsId}`}
+        >
+          <div className="itinerary-leg-row-intermediate">
+            <div className="itinerary-intermediate-stop-name">{` ${name}`}</div>
+            <Icon
+              img="icon-icon_arrow-collapse--right"
+              className="itinerary-arrow-icon"
+              color="#333"
+            />
           </div>
-        </div>
-        <div className="itinerary-leg-action" />
+        </Link>
       </div>
     </div>
   );
@@ -121,19 +135,17 @@ function IntermediateLeg({
 
 IntermediateLeg.propTypes = {
   focusFunction: PropTypes.func.isRequired,
-  arrivalTime: PropTypes.number.isRequired,
-  realTime: PropTypes.bool,
   name: PropTypes.string.isRequired,
   mode: PropTypes.string.isRequired,
   color: PropTypes.string,
-  stopCode: PropTypes.string.isRequired,
   showCurrentZoneDelimiter: PropTypes.bool,
   showZoneLimits: PropTypes.bool,
   previousZoneId: PropTypes.string,
   currentZoneId: PropTypes.string,
   nextZoneId: PropTypes.string,
-  isCanceled: PropTypes.bool,
   zoneLabelColor: PropTypes.string,
+  isLastPlace: PropTypes.bool,
+  gtfsId: PropTypes.string,
 };
 
 IntermediateLeg.defaultProps = {
@@ -142,7 +154,6 @@ IntermediateLeg.defaultProps = {
   previousZoneId: undefined,
   currentZoneId: undefined,
   nextZoneId: undefined,
-  isCanceled: false,
 };
 
 export default IntermediateLeg;

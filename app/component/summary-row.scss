@@ -253,6 +253,7 @@
 
     .special-icon, .icon{
       &.wait {
+        color: #666;
         .icon {
           margin-bottom: 0.09em;
           height: 0.5em;
@@ -432,6 +433,9 @@
   .subicon-caution {
     left: -0.3em;
     top: 0.5em;
+  }
+  .summary-clickable-area {
+    border-bottom: 1px solid #ddd !important;
   }
 }
 

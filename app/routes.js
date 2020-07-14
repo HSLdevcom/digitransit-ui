@@ -8,8 +8,8 @@ import createRender from 'found/lib/createRender';
 import Error404 from './component/404';
 import TopLevel from './component/TopLevel';
 
-import { PREFIX_ITINERARY_SUMMARY } from './util/path';
-import { preparePlanParams } from './util/planParamUtil';
+import { PREFIX_ITINERARY_SUMMARY, PREFIX_NEARYOU } from './util/path';
+import { preparePlanParams, prepareStopsParams } from './util/planParamUtil';
 import {
   errorLoading,
   getDefault,
@@ -34,6 +34,62 @@ export default config => {
       {getStopRoutes()}
       {getStopRoutes(true) /* terminals */}
       {routeRoutes}
+      <Route path={`/${PREFIX_NEARYOU}/:mode/:place`}>
+        {{
+          title: (
+            <Route
+              path="(.*)?"
+              getComponent={() =>
+                import(/* webpackChunkName: "itinerary" */ './component/BackButton').then(
+                  getDefault,
+                )
+              }
+            />
+          ),
+          content: isBrowser ? (
+            <Route
+              path="(.*)?"
+              getComponent={() =>
+                import(/* webpackChunkName: "nearyou" */ './component/StopsNearYouPage').then(
+                  getDefault,
+                )
+              }
+              query={graphql`
+                query routes_StopsNearYou_Query(
+                  $lat: Float!
+                  $lon: Float!
+                  $filterByPlaceTypes: [FilterPlaceType]
+                  $filterByModes: [Mode]
+                  $maxResults: Int!
+                  $omitNonPickups: Boolean
+                ) {
+                  stopPatterns: nearest(
+                    lat: $lat
+                    lon: $lon
+                    filterByPlaceTypes: $filterByPlaceTypes
+                    filterByModes: $filterByModes
+                    maxResults: $maxResults
+                  ) {
+                    ...StopsNearYouPage_stopPatterns
+                      @arguments(omitNonPickups: $omitNonPickups)
+                  }
+                }
+              `}
+              prepareVariables={prepareStopsParams(config)}
+              render={getComponentOrNullRenderer}
+            />
+          ) : (
+            <Route
+              path="(.*)?"
+              getComponent={() =>
+                import(/* webpackChunkName: "itinerary" */ './component/Loading').then(
+                  getDefault,
+                )
+              }
+            />
+          ),
+        }}
+      </Route>
       <Route path={`/${PREFIX_ITINERARY_SUMMARY}/:from/:to`}>
         {{
           title: (
@@ -180,6 +236,49 @@ export default config => {
                     ...SummaryPage_walkPlan
                   }
 
+                  bikePlan: plan(
+                    fromPlace: $fromPlace
+                    toPlace: $toPlace
+                    intermediatePlaces: $intermediatePlaces
+                    numItineraries: $numItineraries
+                    modes: "BICYCLE"
+                    date: $date
+                    time: $time
+                    walkReluctance: $walkReluctance
+                    walkBoardCost: $walkBoardCost
+                    minTransferTime: $minTransferTime
+                    walkSpeed: $walkSpeed
+                    maxWalkDistance: $maxWalkDistance
+                    wheelchair: $wheelchair
+                    ticketTypes: $ticketTypes
+                    disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
+                    arriveBy: $arriveBy
+                    transferPenalty: $transferPenalty
+                    ignoreRealtimeUpdates: $ignoreRealtimeUpdates
+                    maxPreTransitTime: $maxPreTransitTime
+                    walkOnStreetReluctance: $walkOnStreetReluctance
+                    waitReluctance: $waitReluctance
+                    bikeSpeed: $bikeSpeed
+                    bikeSwitchTime: $bikeSwitchTime
+                    bikeSwitchCost: $bikeSwitchCost
+                    bikeBoardCost: $bikeBoardCost
+                    optimize: $optimize
+                    triangle: $triangle
+                    carParkCarLegWeight: $carParkCarLegWeight
+                    maxTransfers: $maxTransfers
+                    waitAtBeginningFactor: $waitAtBeginningFactor
+                    heuristicStepsPerMainStep: $heuristicStepsPerMainStep
+                    compactLegsByReversedSearch: $compactLegsByReversedSearch
+                    itineraryFiltering: $itineraryFiltering
+                    modeWeight: $modeWeight
+                    preferred: $preferred
+                    unpreferred: $unpreferred
+                    allowedBikeRentalNetworks: $allowedBikeRentalNetworks
+                    locale: $locale
+                  ) {
+                    ...SummaryPage_bikePlan
+                  }
+
                   serviceTimeRange {
                     ...SummaryPage_serviceTimeRange
                   }
@@ -194,6 +293,7 @@ export default config => {
                     <Component
                       plan={{}}
                       walkPlan={{}}
+                      bikePlan={{}}
                       serviceTimeRange={validateServiceTimeRange()}
                       match={match}
                       loading

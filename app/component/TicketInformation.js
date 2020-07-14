@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 
+import { uuid } from 'uuidv4';
 import ComponentUsageExample from './ComponentUsageExample';
 import ExternalLink from './ExternalLink';
 import { renderZoneTicket } from './ZoneTicket';
@@ -65,10 +66,12 @@ export default function TicketInformation(
   if (unknownFareLeg && unknownFareLeg.mode === 'FERRY') {
     unknownFareRouteName = unknownFares[0].routeName;
   }
-  return (
-    <div className="row itinerary-ticket-information">
-      <div className="itinerary-ticket-type">
-        <div className="ticket-type-title">
+
+  const faresInfo = fares.map((fare, i) => {
+    let header;
+    if (i === 0) {
+      header = (
+        <div>
           <FormattedMessage
             id={
               isMultiComponent
@@ -78,7 +81,12 @@ export default function TicketInformation(
             defaultMessage="Required tickets"
           />:
         </div>
-        {fares.map((fare, i) => (
+      );
+    }
+    return (
+      <div key={uuid()} className="ticket-container">
+        <div className="ticket-info-container">
+          <div className="ticket-type-title">{header}</div>
           <div
             className={cx('ticket-type-zone', {
               'multi-component': isMultiComponent,
@@ -86,7 +94,7 @@ export default function TicketInformation(
             key={i} // eslint-disable-line react/no-array-index-key
           >
             {fare.isUnknown ? (
-              <div>
+              <div className="unknown-fare-container">
                 <div className="ticket-identifier">{unknownFareRouteName}</div>
                 {fare.agency && (
                   <div className="ticket-description">{fare.agency.name}</div>
@@ -101,52 +109,59 @@ export default function TicketInformation(
                 </div>
                 {config.showTicketPrice && (
                   <div className="ticket-description">
-                    {`${intl.formatMessage({ id: 'ticket-single-adult' })}, ${(
-                      fare.cents / 100
-                    ).toFixed(2)} €`}
+                    {`${(fare.cents / 100).toFixed(2)} €`}
                   </div>
                 )}
               </div>
             )}
-            {fare.agency &&
-              fare.agency.fareUrl && (
-                <div className="ticket-type-agency-link">
-                  <ExternalLink
-                    className="itinerary-ticket-external-link"
-                    href={`${fare.agency.fareUrl}${getUtmParameters(
-                      fare.agency,
-                      config,
-                    )}`}
-                    onClick={() => {
-                      addAnalyticsEvent({
-                        category: 'Itinerary',
-                        action: 'OpenHowToBuyTicket',
-                        name: null,
-                      });
-                    }}
-                  >
-                    {intl.formatMessage({ id: 'extra-info' })}
-                  </ExternalLink>
-                </div>
-              )}
           </div>
-        ))}
+        </div>
+        {fare.agency &&
+          fare.agency.fareUrl && (
+            <div
+              className="ticket-type-agency-link"
+              key={i} // eslint-disable-line react/no-array-index-key
+            >
+              <ExternalLink
+                className="itinerary-ticket-external-link"
+                href={`${fare.agency.fareUrl}${getUtmParameters(
+                  fare.agency,
+                  config,
+                )}`}
+                onClick={() => {
+                  addAnalyticsEvent({
+                    category: 'Itinerary',
+                    action: 'OpenHowToBuyTicket',
+                    name: null,
+                  });
+                }}
+              >
+                {intl.formatMessage({ id: 'extra-info' })}
+              </ExternalLink>
+            </div>
+          )}
+        {config.ticketLink && (
+          <ExternalLink
+            className="itinerary-ticket-external-link"
+            href={config.ticketLink}
+            onClick={() => {
+              addAnalyticsEvent({
+                category: 'Itinerary',
+                action: 'OpenHowToBuyTicket',
+                name: null,
+              });
+            }}
+          >
+            {intl.formatMessage({ id: 'buy-ticket' })}
+          </ExternalLink>
+        )}
       </div>
-      {config.ticketLink && (
-        <ExternalLink
-          className="itinerary-ticket-external-link"
-          href={config.ticketLink}
-          onClick={() => {
-            addAnalyticsEvent({
-              category: 'Itinerary',
-              action: 'OpenHowToBuyTicket',
-              name: null,
-            });
-          }}
-        >
-          {intl.formatMessage({ id: 'buy-ticket' })}
-        </ExternalLink>
-      )}
+    );
+  });
+
+  return (
+    <div className="row itinerary-ticket-information">
+      <div className="itinerary-ticket-type">{faresInfo}</div>
     </div>
   );
 }

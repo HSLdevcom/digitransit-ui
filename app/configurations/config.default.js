@@ -48,6 +48,8 @@ export default {
       HSL: `${API_URL}/timetables/v1/hsl/stops/`,
       tampere: 'https://www.tampere.fi/ekstrat/ptdata/pdf/',
     },
+    WEATHER_DATA:
+      'http://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::forecast::hirlam::surface::point::simple&timestep=5&parameters=temperature,WindSpeedMS,WeatherSymbol3',
   },
 
   APP_PATH: `${APP_PATH}`,
@@ -98,6 +100,9 @@ export default {
     radius: 10000,
     bucketSize: 1000,
   },
+
+  omitNonPickups: true,
+  maxNearbyStopAmount: 50,
 
   defaultSettings: {
     usingWheelchair: 0,
@@ -169,6 +174,7 @@ export default {
   maxWalkDistance: 10000,
   suggestWalkMaxDistance: 5000,
   maxBikingDistance: 100000,
+  suggestBikeMaxDistance: 15000,
   itineraryFiltering: 1.5, // drops 66% worse routes
   useUnpreferredRoutesPenalty: 1200, // adds 10 minute (weight) penalty to routes that are unpreferred
   availableLanguages: ['fi', 'sv', 'en', 'fr', 'nb', 'de', 'da', 'es', 'ro'],

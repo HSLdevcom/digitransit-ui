@@ -859,7 +859,7 @@ const translations = {
     'elevation-gained-total': 'Elevation gained',
     'elevation-lost-total': 'Elevation lost',
     explanations: 'Explanations',
-    'extra-info': 'Further information',
+    'extra-info': 'More info',
     'favourite-target': 'Favorite location',
     ferry: 'Suomenlinna ferry',
     'ferry-with-route-number': 'Ferry {routeNumber} {headSign}',
@@ -989,6 +989,7 @@ const translations = {
     'more-settings': 'More settings',
     navigate: 'Navigate',
     nearest: 'Nearest',
+    'nearest-stops': 'Stops near you',
     'network-error': 'Network error',
     // eslint-disable-next-line sort-keys
     neighbourhood: 'Neighbourhood ',
@@ -1791,6 +1792,7 @@ const translations = {
     'more-settings': 'Lisäasetukset',
     navigate: 'Navigoi',
     nearest: 'Lähimmät',
+    'nearest-stops': 'Lähimmät pysäkit',
     'network-error': 'Verkkovirhe',
     // eslint-disable-next-line sort-keys
     neighbourhood: 'Naapurusto',
@@ -3386,6 +3388,7 @@ const translations = {
     'more-settings': 'Fler inställningar',
     navigate: 'Navigera',
     nearest: 'Närmaste',
+    'nearest-stops': 'Närmaste hållplatser',
     'network-error': 'Nätverksfel',
     // eslint-disable-next-line sort-keys
     neighbourhood: 'Gransskap',

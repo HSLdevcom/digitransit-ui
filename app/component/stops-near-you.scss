@@ -1,0 +1,97 @@
+.stops-near-you-container {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 3.75em 0;
+    .stop-near-you-container {
+        border: 1px solid #d9d9d9;
+        border-radius: 10px;
+        width: 100%;
+        margin-bottom: 10px;
+        .stop-near-you-header-container {
+            .stop-header-content {
+                a {
+                    text-decoration: none;
+                    color: #333;
+                }
+            }
+            padding: 14px 15px 1px 20px;
+            .stop-near-you-info {
+                display: flex;
+                .platform-short {
+                    @include font-medium;
+                    font-weight: normal;
+                    white-space: nowrap;
+                    font-size: 0.813rem;
+                    margin-right: 5px;
+                    width: unset;
+                }
+                .stop-near-you-desc {
+                    font-weight: normal;
+                    font-size: 0.8125rem;
+                    padding-right: 5px;
+                }
+                .itinerary-stop-code {
+                    height: 16px;
+                    padding: 0 4px;
+                }
+                .zone-icon-container {
+                    padding-left:3px;
+                    align-self: center;
+                    .circle {
+                        height: 14px;
+                        width: 14px;
+                        font-size: 12px;
+                        line-height: 14px;
+                    }
+                }
+            }
+        }
+    }
+    .near-departures-container {
+        padding: 15px;
+        .departure-row {
+            @include font-narrow-book;
+            font-weight: normal;
+            display: flex;
+            .route-arrival {
+                color: #333;
+                @include font-medium;
+                font-size: 0.75rem;
+                padding-right: 8px;
+                span {
+                    vertical-align: sub;
+                }
+                &.realtime {
+                    color: $realtime-color;
+                }
+            }
+            .route-number-container {
+                background-color: currentColor;
+                margin-right: 10px;
+                border-radius: 3px;
+                width: 2.25em;
+                height: 1.25em;
+                text-align: center;
+                .route-number {
+                    color: $white;
+                    line-height: 1.25;
+                    min-width: unset;
+                    display: block;
+                    white-space: nowrap;
+                    overflow: hidden;
+                }
+            }
+            .route-headsign {
+                font-weight: normal;
+                color: #333;
+                flex: 1;
+            }
+            .route-time {
+                color: #333;
+                &.realtime {
+                    color: $realtime-color;
+                }
+            }
+        }
+    }
+}

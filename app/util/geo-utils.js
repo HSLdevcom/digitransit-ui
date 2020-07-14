@@ -3,6 +3,7 @@ import unzip from 'lodash/unzip';
 import inside from 'point-in-polygon';
 
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
+import { otpToLocation } from './otpStrings';
 import { isImperial } from './browser';
 
 function toRad(deg) {
@@ -414,26 +415,12 @@ export const isPointTypeGeometry = geometry =>
   !!(geometry && geometry.type === 'Point');
 
 /**
- * Extracts the coordinates from match.params from and to
- *
- * @param {string} location the location string to extrach coordinates from.
- * f.ex. "Kamppi, Helsinki::60.169022,24.931691"
-
-*/
-export function extractCoordinates(location) {
-  return {
-    lat: location.split('::')[1].split(',')[0],
-    lon: location.split('::')[1].split(',')[1],
-  };
-}
-
-/**
  * Caluclates itinerary distance as the crow flies
  *
  */
 export function estimateItineraryDistance(from, to, viaPoints) {
-  const start = extractCoordinates(from);
-  const end = extractCoordinates(to);
+  const start = otpToLocation(from);
+  const end = otpToLocation(to);
   if (!viaPoints) {
     return distance(start, end);
   }
@@ -441,10 +428,7 @@ export function estimateItineraryDistance(from, to, viaPoints) {
   const points = [...from, ...viaPoints, ...to];
   const arrayLength = points.length;
   for (let i = 0; i < arrayLength - 1; i++) {
-    dist += distance(
-      extractCoordinates(points[i]),
-      extractCoordinates(points[i + 1]),
-    );
+    dist += distance(otpToLocation(points[i]), otpToLocation(points[i + 1]));
   }
 
   return dist;

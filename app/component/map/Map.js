@@ -95,7 +95,6 @@ export default class Map extends React.Component {
   render() {
     const { zoom, boundsOptions } = this.props;
     const { config } = this.context;
-
     const center =
       (!this.props.fitBounds &&
         this.props.lat &&
@@ -105,14 +104,12 @@ export default class Map extends React.Component {
     if (this.props.padding) {
       boundsOptions.paddingTopLeft = this.props.padding;
     }
-
     let mapUrl =
       (isDebugTiles && `${config.URL.OTP}inspector/tile/traversal/`) ||
       config.URL.MAP;
     if (mapUrl !== null && typeof mapUrl === 'object') {
       mapUrl = mapUrl[this.props.lang] || config.URL.MAP.default;
     }
-
     return (
       <div aria-hidden="true">
         <LeafletMap

@@ -8,13 +8,7 @@ import SplitBars from './SplitBars';
 import Favourite from './Favourite';
 import BackButton from './BackButton'; // DT-3472
 import { getZoneLabelColor } from '../util/mapIconUtils';
-
-function getZoneLabel(zoneId, config) {
-  if (config.zoneIdMapping) {
-    return config.zoneIdMapping[zoneId];
-  }
-  return zoneId;
-}
+import { getZoneLabel } from '../util/legUtils';
 
 const CardHeader = (
   {
