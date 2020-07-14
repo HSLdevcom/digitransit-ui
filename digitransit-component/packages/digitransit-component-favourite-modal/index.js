@@ -22,20 +22,28 @@ const isStop = ({ layer }) => layer === 'stop' || layer === 'favouriteStop';
 const isTerminal = ({ layer }) =>
   layer === 'station' || layer === 'favouriteStation';
 
-const Modal = ({ children }) => {
+const Modal = ({ children, isEdit }) => {
   return (
     <div className={styles.favouriteModal}>
-      <section className={styles.modalMain}>{children}</section>
+      <section
+        className={cx(styles.modalMain, {
+          [styles['edit-modal']]: isEdit,
+        })}
+      >
+        {children}
+      </section>
     </div>
   );
 };
 
 Modal.propTypes = {
   children: PropTypes.node,
+  isEdit: PropTypes.bool,
 };
 
 Modal.defaultProps = {
   children: [],
+  isEdit: false,
 };
 
 const FavouriteIconIdToNameMap = {
@@ -335,7 +343,7 @@ class FavouriteModal extends React.Component {
       cancelSelected: this.props.cancelSelected,
     };
     return (
-      <Modal>
+      <Modal isEdit={this.isEdit()}>
         {!this.props.isMobile && <DesktopModal {...modalProps} />}
         {this.props.isMobile && <MobileModal {...modalProps} />}
       </Modal>
