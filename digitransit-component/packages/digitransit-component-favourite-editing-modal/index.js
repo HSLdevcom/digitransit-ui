@@ -1,4 +1,3 @@
-/* eslint no-console: ["error", { allow: ["warn", "error"] }] */
 /* eslint react/forbid-prop-types: 0 */
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -39,6 +38,9 @@ class FavouriteEditingModal extends React.Component {
     /** Required.
      * @type {function} */
     updateFavourites: PropTypes.func.isRequired,
+    /** Required. Function that takes selected favourite object as parameter.
+     * @type {function} */
+    onEditSelected: PropTypes.func.isRequired,
     /** Required.
      * @type {array<object>}
      * @property {string} type
@@ -66,6 +68,11 @@ class FavouriteEditingModal extends React.Component {
         layer: PropTypes.string,
       }),
     ).isRequired,
+    lang: PropTypes.string,
+  };
+
+  static defaulProps = {
+    lang: 'fi',
   };
 
   constructor(props) {
@@ -76,6 +83,16 @@ class FavouriteEditingModal extends React.Component {
       favourites: props.favourites,
     };
   }
+
+  componentDidMount = () => {
+    i18next.changeLanguage(this.props.lang);
+  };
+
+  componentDidUpdate = prevProps => {
+    if (prevProps.lang !== this.props.lang) {
+      i18next.changeLanguage(this.props.lang);
+    }
+  };
 
   handleOnFavouriteDragOver = (event, index) => {
     event.preventDefault();
@@ -184,10 +201,30 @@ class FavouriteEditingModal extends React.Component {
           </p>
         </div>
         <div className={styles['favourite-edit-list-item-right']}>
-          <div className={styles['favourite-edit-list-item-edit']}>
+          <div
+            role="button"
+            tabIndex="0"
+            aria-label={i18next.t('edit-place-name', {
+              favourite,
+            })}
+            className={styles['favourite-edit-list-item-edit']}
+            onClick={() => this.props.onEditSelected(favourite)}
+            onKeyDown={e => {
+              if (e.keyCode === 32 || e.keyCode === 13) {
+                this.props.onEditSelected(favourite);
+              }
+            }}
+          >
             <Icon img="edit" />
           </div>
-          <div className={styles['favourite-edit-list-item-remove']}>
+          <div
+            role="button"
+            tabIndex="0"
+            aria-label={i18next.t('delete-place-name', {
+              favourite,
+            })}
+            className={styles['favourite-edit-list-item-remove']}
+          >
             <Icon img="trash" />
           </div>
         </div>
@@ -212,24 +249,26 @@ class FavouriteEditingModal extends React.Component {
       window && window.innerWidth ? window.innerWidth < 768 : false;
     const { favourites } = this.state;
     return (
-      <Modal>
-        {isMobile && (
-          <MobileModal
-            headerText={i18next.t('edit-places')}
-            closeModal={this.props.handleClose}
-            closeArialLabel={i18next.t('close-modal')}
-            renderList={this.renderFavouriteList(favourites)}
-          />
-        )}
-        {!isMobile && (
-          <DesktopModal
-            headerText={i18next.t('edit-places')}
-            closeModal={this.props.handleClose}
-            closeArialLabel={i18next.t('close-modal')}
-            renderList={this.renderFavouriteList(favourites)}
-          />
-        )}
-      </Modal>
+      <React.Fragment>
+        <Modal>
+          {isMobile && (
+            <MobileModal
+              headerText={i18next.t('edit-places')}
+              closeModal={this.props.handleClose}
+              closeArialLabel={i18next.t('close-modal')}
+              renderList={this.renderFavouriteList(favourites)}
+            />
+          )}
+          {!isMobile && (
+            <DesktopModal
+              headerText={i18next.t('edit-places')}
+              closeModal={this.props.handleClose}
+              closeArialLabel={i18next.t('close-modal')}
+              renderList={this.renderFavouriteList(favourites)}
+            />
+          )}
+        </Modal>
+      </React.Fragment>
     );
   }
 }

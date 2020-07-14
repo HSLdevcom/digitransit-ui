@@ -160,7 +160,7 @@ class IndexPage extends React.Component {
     window.location = this.context.config.trafficNowLink;
   };
 
-  addFavourite = favourite => {
+  saveFavourite = favourite => {
     this.context.executeAction(addFavourite, favourite);
   };
 
@@ -217,8 +217,9 @@ class IndexPage extends React.Component {
             </div>
             <FavouritesContainer
               favourites={favourites}
-              onAddFavourite={this.addFavourite}
+              onSaveFavourite={this.saveFavourite}
               onClickFavourite={this.clickFavourite}
+              lang={lang}
             />
             <CtrlPanel.SeparatorLine usePaddingBottom20 />
             <div className="stops-near-you-text">
@@ -284,9 +285,9 @@ class IndexPage extends React.Component {
               <DatetimepickerContainer realtime />
             </div>
             <FavouritesContainer
-              favourites={this.props.favourites}
+              favourites={favourites}
+              onSaveFavourite={this.saveFavourite}
               onClickFavourite={this.clickFavourite}
-              onAddFavourite={this.addFavourite}
               lang={lang}
               isMobile
             />
