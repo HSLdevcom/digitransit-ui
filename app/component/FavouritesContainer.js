@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import loadable from '@loadable/component';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import withSearchContext from './WithSearchContext';
 import getRelayEnvironment from '../util/getRelayEnvironment';
@@ -196,4 +197,15 @@ class FavouritesContainer extends React.Component {
   }
 }
 
-export default FavouritesContainer;
+const connectedComponent = connectToStores(
+  FavouritesContainer,
+  ['FavouriteStore'],
+  context => ({
+    favourites: [
+      ...context.getStore('FavouriteStore').getLocations(),
+      ...context.getStore('FavouriteStore').getStopsAndStations(),
+    ],
+  }),
+);
+
+export { connectedComponent as default, FavouritesContainer as Component };
