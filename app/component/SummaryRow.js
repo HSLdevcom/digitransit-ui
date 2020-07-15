@@ -87,6 +87,7 @@ export const RouteLeg = ({
         alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
         route={leg.route}
         className={cx('line', leg.mode.toLowerCase())}
+        mode={leg.mode}
         vertical
         withBar
         isTransitLeg={isTransitLeg}
@@ -216,11 +217,11 @@ const SummaryRow = (
       noTransitLegs = false;
     }
   });
-  let renderBarThreshold = 6;
+  let renderBarThreshold = 7;
   let renderLegDurationThreshold = 10.5;
   let renderRouteNumberThreshold = 14;
   if (breakpoint === 'small') {
-    renderBarThreshold = 8;
+    renderBarThreshold = 9;
     renderLegDurationThreshold = 12;
     renderRouteNumberThreshold = 17;
   }
@@ -228,6 +229,7 @@ const SummaryRow = (
   const vehicleNames = [];
   const stopNames = [];
   let addition = 0;
+  let onlyIconLegs = 0;
 
   compressedLegs.forEach((leg, i) => {
     let renderNumber = true;
@@ -238,21 +240,22 @@ const SummaryRow = (
     let waitLength;
     const isNextLegLast = i + 1 === compressedLegs.length - 1;
     const previousLeg = compressedLegs[i - 1];
+    const isLastLeg = i === compressedLegs.length - 1;
     const lastLeg = compressedLegs[compressedLegs.length - 1];
     const nextLeg = compressedLegs[i + 1];
     const waitThreshold = 180000;
     legLength = leg.duration * 1000 / duration * 100;
+
     if (nextLeg) {
       waitTime = nextLeg.startTime - leg.endTime;
       waitLength = Math.round(waitTime / duration * 100);
-      if (waitTime > waitThreshold || waitLength > renderBarThreshold) {
+      if (waitTime > waitThreshold && waitLength > renderBarThreshold) {
         waiting = true;
       } else {
         legLength = (leg.duration * 1000 + waitTime) / duration * 100;
       }
     }
     if (addition) {
-      console.log(addition, props.hash)
       legLength += addition;
       addition = 0;
     }
@@ -266,16 +269,23 @@ const SummaryRow = (
       renderBar = false;
       addition = legLength;
     } else if (legLength < renderBarThreshold && !isLegOnFoot(leg)) {
-
       addition += legLength - renderBarThreshold;
       legLength = renderBarThreshold;
-      console.log(addition, legLength)
     }
     renderNumber = isLegOnFoot(leg)
       ? legLength > renderLegDurationThreshold
       : legLength > renderRouteNumberThreshold;
 
+    if (!renderNumber && isTransitLeg(leg)) {
+      if (isLastLeg) {
+        renderNumber = true;
+      } else {
+        addition = legLength;
+        onlyIconLegs += 1;
+      }
+    }
     if (leg.intermediatePlace) {
+      onlyIconLegs += 1;
       legs.push(<ViaLeg key={`via_${leg.mode}_${leg.startTime}`} />);
     }
 
@@ -389,6 +399,7 @@ const SummaryRow = (
     }
   });
 
+  const normalLegs = legs.length - onlyIconLegs;
 
   if (!noTransitLegs) {
     const firstDeparture = compressedLegs.find(isTransitLeg);
@@ -596,8 +607,13 @@ const SummaryRow = (
                   <RelativeDuration duration={duration} />
                 </div>
               </div>
-              <div className="itinerary-legs" key="legs" aria-hidden="true">
-                {legs}
+              <div
+                className="legs-container"
+                style={{ '--amount': `${1.5 * onlyIconLegs / normalLegs}em` }}
+                key="legs"
+                aria-hidden="true"
+              >
+                <div className="itinerary-legs">{legs}</div>
               </div>
               <div
                 className="itinerary-first-leg-start-time-container"
