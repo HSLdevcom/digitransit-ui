@@ -1,4 +1,6 @@
-.stops-near-you-container {
+.scrollable-content-wrapper {
+    overflow-y: auto;
+  .stops-near-you-container {
     display: flex;
     flex-direction: column;
     padding: 10px 3.75em 0;
@@ -94,4 +96,5 @@
             }
         }
     }
+}
 }

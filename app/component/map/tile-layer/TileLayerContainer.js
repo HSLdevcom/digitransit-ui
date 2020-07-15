@@ -38,6 +38,7 @@ class TileLayerContainer extends GridLayer {
     tileSize: PropTypes.number.isRequired,
     zoomOffset: PropTypes.number.isRequired,
     disableMapTracking: PropTypes.func,
+    disableLocationPopup: PropTypes.bool,
     mapLayers: mapLayerShape.isRequired,
     leaflet: PropTypes.shape({
       map: PropTypes.shape({
@@ -347,7 +348,7 @@ class TileLayerContainer extends GridLayer {
           // DT-3470
           showPopup = false;
         }
-        popup = (
+        popup = !this.props.disableLocationPopup && (
           <Popup
             key={this.state.coords.toString()}
             {...this.PopupOptions}
