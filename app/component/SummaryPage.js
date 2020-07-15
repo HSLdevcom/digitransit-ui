@@ -477,10 +477,16 @@ class SummaryPage extends React.Component {
     if (
       nextProps.plan &&
       nextProps.plan.itineraries &&
+      nextProps.plan.itineraries[0] &&
+      nextProps.plan.itineraries[0].startTime &&
       time !== nextProps.plan.itineraries[0].startTime
     ) {
       time = nextProps.plan.itineraries[0].startTime;
-    } else if (this.props.plan.itineraries) {
+    } else if (
+      this.props.plan.itineraries &&
+      this.props.plan.itineraries[0] &&
+      this.props.plan.itineraries[0].startTime
+    ) {
       time = this.props.plan.itineraries[0].startTime;
     }
     const timem = moment(time);
