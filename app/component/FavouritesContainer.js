@@ -51,8 +51,9 @@ class FavouritesContainer extends React.Component {
 
   static propTypes = {
     favourites: PropTypes.arrayOf(favouriteShape),
-    onSaveFavourite: PropTypes.func,
-    onClickFavourite: PropTypes.func,
+    onSaveFavourite: PropTypes.func.isRequired,
+    onClickFavourite: PropTypes.func.isRequired,
+    onDeleteFavourite: PropTypes.func.isRequired,
     lang: PropTypes.string,
     isMobile: PropTypes.bool,
   };
@@ -173,6 +174,7 @@ class FavouritesContainer extends React.Component {
               this.setState({ editModalOpen: false, favourite: {} })
             }
             saveFavourite={this.props.onSaveFavourite}
+            deleteFavourite={this.props.onDeleteFavourite}
             onEditSelected={this.editFavourite}
             lang={this.props.lang}
           />
