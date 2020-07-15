@@ -9,12 +9,20 @@ import { addAnalyticsEvent } from './analyticsUtils';
 
 const debug = d('path.js');
 export const PREFIX_ROUTES = 'linjat';
+export const PREFIX_NEARYOU = 'lahellasi';
 export const PREFIX_STOPS = 'pysakit';
 export const PREFIX_TERMINALS = 'terminaalit';
 export const PREFIX_ITINERARY_SUMMARY = 'reitti';
 export const PREFIX_DISRUPTION = 'hairiot';
 export const PREFIX_TIMETABLE = 'aikataulu';
 export const stopUrl = id => id;
+
+export const getNearYouPath = (place, mode) =>
+  [
+    `/${PREFIX_NEARYOU}`,
+    encodeURIComponent(decodeURIComponent(mode)),
+    encodeURIComponent(decodeURIComponent(place)),
+  ].join('/');
 
 export const getRoutePath = (origin, destination) =>
   [

@@ -5,6 +5,7 @@ import loadable from '@loadable/component';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import withSearchContext from './WithSearchContext';
 import getRelayEnvironment from '../util/getRelayEnvironment';
+import { updateFavourites } from '../action/FavouriteActions';
 
 const AutoSuggestWithSearchContext = getRelayEnvironment(
   withSearchContext(
@@ -25,6 +26,12 @@ const FavouriteModal = loadable(
   { ssr: true },
 );
 
+const FavouriteEditModal = loadable(
+  () =>
+    import('@digitransit-component/digitransit-component-favourite-editing-modal'),
+  { ssr: true },
+);
+
 const favouriteShape = PropTypes.shape({
   address: PropTypes.string,
   gtfsId: PropTypes.string,
@@ -39,11 +46,12 @@ const favouriteShape = PropTypes.shape({
 class FavouritesContainer extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
+    executeAction: PropTypes.func.isRequired,
   };
 
   static propTypes = {
     favourites: PropTypes.arrayOf(favouriteShape),
-    onAddFavourite: PropTypes.func,
+    onSaveFavourite: PropTypes.func,
     onClickFavourite: PropTypes.func,
     lang: PropTypes.string,
     isMobile: PropTypes.bool,
@@ -57,9 +65,9 @@ class FavouritesContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalOpen: false,
-      selectedLocation: {},
-      prefilledFavourite: {},
+      addModalOpen: false,
+      editModalOpen: false,
+      favourite: {},
     };
   }
 
@@ -67,7 +75,7 @@ class FavouritesContainer extends React.Component {
     const location =
       item.type === 'CurrentLocation' ? item : suggestionToLocation(item);
     this.setState({
-      selectedLocation: {
+      favourite: {
         ...location,
         defaultName: item.name || item.properties.name,
       },
@@ -76,8 +84,8 @@ class FavouritesContainer extends React.Component {
 
   addHome = () => {
     this.setState({
-      modalOpen: true,
-      prefilledFavourite: {
+      addModalOpen: true,
+      favourite: {
         name: this.context.intl.formatMessage({
           id: 'location-home',
           defaultMessage: 'Home',
@@ -89,8 +97,8 @@ class FavouritesContainer extends React.Component {
 
   addWork = () => {
     this.setState({
-      modalOpen: true,
-      prefilledFavourite: {
+      addModalOpen: true,
+      favourite: {
         name: this.context.intl.formatMessage({
           id: 'location-work',
           defaultMessage: 'Work',
@@ -100,29 +108,47 @@ class FavouritesContainer extends React.Component {
     });
   };
 
+  updateFavourites = favourites => {
+    this.context.executeAction(updateFavourites, favourites);
+  };
+
+  editFavourite = currentFavourite => {
+    this.setState({
+      favourite: currentFavourite,
+      editModalOpen: false,
+      addModalOpen: true,
+    });
+  };
+
   render() {
     return (
       <React.Fragment>
         <FavouriteBar
           favourites={this.props.favourites}
           onClickFavourite={this.props.onClickFavourite}
-          onAddPlace={() => this.setState({ modalOpen: true })}
+          onAddPlace={() => this.setState({ addModalOpen: true })}
+          onEdit={() => this.setState({ editModalOpen: true })}
           onAddHome={this.addHome}
           onAddWork={this.addWork}
           lang={this.props.lang}
         />
-        {this.state.modalOpen && (
+        {this.state.addModalOpen && (
           <FavouriteModal
             handleClose={() =>
               this.setState({
-                modalOpen: false,
-                prefilledFavourite: {},
-                selectedLocation: {},
+                addModalOpen: false,
+                favourite: {},
               })
             }
-            addFavourite={this.props.onAddFavourite}
-            location={this.state.selectedLocation}
-            prefilledFavourite={this.state.prefilledFavourite}
+            saveFavourite={this.props.onSaveFavourite}
+            cancelSelected={() =>
+              this.setState({
+                addModalOpen: false,
+                editModalOpen: true,
+                favourite: {},
+              })
+            }
+            favourite={this.state.favourite}
             lang={this.props.lang}
             isMobile={this.props.isMobile}
             autosuggestComponent={
@@ -131,12 +157,24 @@ class FavouritesContainer extends React.Component {
                 targets={['Locations', 'CurrentPosition', 'Stops']}
                 id="favourite"
                 placeholder="search-address-or-place"
-                value={this.state.selectedLocation.address || ''}
+                value={this.state.favourite.address || ''}
                 onFavouriteSelected={this.setLocationProperties}
                 lang={this.props.lang}
                 isMobile={this.props.isMobile}
               />
             }
+          />
+        )}
+        {this.state.editModalOpen && (
+          <FavouriteEditModal
+            favourites={this.props.favourites}
+            updateFavourites={this.updateFavourites}
+            handleClose={() =>
+              this.setState({ editModalOpen: false, favourite: {} })
+            }
+            saveFavourite={this.props.onSaveFavourite}
+            onEditSelected={this.editFavourite}
+            lang={this.props.lang}
           />
         )}
       </React.Fragment>

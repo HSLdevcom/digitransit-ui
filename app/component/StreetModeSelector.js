@@ -1,6 +1,8 @@
+/* eslint-disable react/prop-types */
 import PropTypes from 'prop-types';
 import React from 'react';
 import { StreetModeSelectorButton } from './StreetModeSelectorButton';
+import { StreetModeSelectorWeatherLabel } from './StreetModeSelectorWeatherLabel';
 
 export const StreetModeSelector = ({
   showWalkOptionButton,
@@ -8,12 +10,17 @@ export const StreetModeSelector = ({
   showBikeAndPublicOptionButton,
   toggleStreetMode,
   setStreetModeAndSelect,
+  weatherData,
   walkPlan,
   bikePlan,
   bikeAndPublicPlan,
 }) => {
   return (
     <div className="street-mode-selector-container">
+      <StreetModeSelectorWeatherLabel
+        active={showBikeOptionButton}
+        weatherData={weatherData}
+      />
       <StreetModeSelectorButton
         icon="icon-icon_walk"
         name="walk"
@@ -48,6 +55,16 @@ StreetModeSelector.propTypes = {
   walkPlan: PropTypes.object,
   bikePlan: PropTypes.object,
   bikeAndPublicPlan: PropTypes.object,
+  // eslint-disable-next-line react/require-default-props
+  weatherData: PropTypes.shape({
+    temperature: PropTypes.number,
+    windSpeed: PropTypes.number,
+    iconId: PropTypes.number,
+  }),
+};
+
+StreetModeSelector.contextTypes = {
+  config: PropTypes.object.isRequired,
 };
 
 StreetModeSelector.defaultProps = {

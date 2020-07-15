@@ -1,17 +1,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import get from 'lodash/get';
-import polyline from 'polyline-encoded';
+import cx from 'classnames';
 import { matchShape, routerShape } from 'found';
-
 import LocationMarker from './map/LocationMarker';
 import ItineraryLine from './map/ItineraryLine';
 import MapContainer from './map/MapContainer';
 import { otpToLocation } from '../util/otpStrings';
+import Icon from './Icon';
 import { isBrowser } from '../util/browser';
 import { dtLocationShape } from '../util/shapes';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import withBreakpoint from '../util/withBreakpoint';
+import BackButton from './BackButton';
 import VehicleMarkerContainer from './map/VehicleMarkerContainer'; // DT-3473
 
 let L;
@@ -24,10 +25,11 @@ if (isBrowser) {
 let timeout;
 
 function ItineraryPageMap(
-  { itinerary, center, breakpoint },
-  { router, match },
+  { itinerary, center, breakpoint, bounds },
+  { router, match, config },
 ) {
   const { from, to } = match.params;
+
   const leafletObjs = [
     <LocationMarker
       key="fromMarker"
@@ -42,7 +44,6 @@ function ItineraryPageMap(
     />,
     <VehicleMarkerContainer key="vehicles" useLargeIcon />,
   ];
-
   if (match.location.query && match.location.query.intermediatePlaces) {
     if (Array.isArray(match.location.query.intermediatePlaces)) {
       match.location.query.intermediatePlaces
@@ -100,10 +101,8 @@ function ItineraryPageMap(
     <div className="map-click-prevent-overlay" onClick={toggleFullscreenMap} />
   );
 
-  let bounds;
-
   if (!center && itinerary && !itinerary.legs[0].transitLeg) {
-    bounds = polyline.decode(itinerary.legs[0].legGeometry.points);
+    // bounds = polyline.decode(itinerary.legs[0].legGeometry.points);
   }
 
   const showScale = fullscreen || breakpoint === 'large';
@@ -112,12 +111,12 @@ function ItineraryPageMap(
   // stop, emulate a click on the map to open up the popup
   const onCenterMap = element => {
     const map = get(element, 'leafletElement', null);
-    if (!map || !center) {
+    if (!map || (!center && !bounds)) {
       return;
     }
     map.closePopup();
     clearTimeout(timeout);
-    if (fullscreen || breakpoint === 'large') {
+    if ((fullscreen && !bounds) || (breakpoint === 'large' && !bounds)) {
       const latlngPoint = new L.LatLng(center.lat, center.lon);
       map.eachLayer(layer => {
         if (
@@ -155,6 +154,21 @@ function ItineraryPageMap(
       hideOrigin
     >
       {breakpoint !== 'large' && overlay}
+      <BackButton
+        icon="icon-icon_arrow-collapse--left"
+        iconClassName="arrow-icon"
+        color={config.colors.primary}
+      />
+      <div
+        className={cx('fullscreen-toggle', 'itineraryPage')}
+        onClick={toggleFullscreenMap}
+      >
+        {fullscreen ? (
+          <Icon img="icon-icon_minimize" className="cursor-pointer" />
+        ) : (
+          <Icon img="icon-icon_maximize" className="cursor-pointer" />
+        )}
+      </div>
     </MapContainer>
   );
 }
@@ -163,11 +177,13 @@ ItineraryPageMap.propTypes = {
   itinerary: PropTypes.object,
   center: dtLocationShape,
   breakpoint: PropTypes.string.isRequired,
+  bounds: PropTypes.array,
 };
 
 ItineraryPageMap.contextTypes = {
   match: matchShape.isRequired,
   router: routerShape.isRequired,
+  config: PropTypes.object,
 };
 
 export default withBreakpoint(ItineraryPageMap);

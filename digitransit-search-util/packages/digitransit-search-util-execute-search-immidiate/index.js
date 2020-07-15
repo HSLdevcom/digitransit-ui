@@ -155,6 +155,16 @@ function getOldSearches(oldSearches, input, dropLayers) {
     }),
   );
 }
+
+function hasFavourites(context, locations, stops) {
+  const favouriteLocations = locations(context);
+  const favouriteStops = stops(context);
+  return (
+    (favouriteLocations && favouriteLocations.length > 0) ||
+    (favouriteStops && favouriteStops.length > 0)
+  );
+}
+
 const routeLayers = ['route-TRAM', 'route-BUS', 'route-RAIL', 'route-FERRY'];
 const locationLayers = ['favouritePlace', 'venue', 'address', 'street'];
 /**
@@ -213,7 +223,10 @@ export function getSearchResults(
   if (allTargets || targets.includes('MapPosition')) {
     searchComponents.push(selectPositionFomMap(input));
   }
-  if (targets.includes('SelectFromOwnLocations')) {
+  if (
+    targets.includes('SelectFromOwnLocations') &&
+    hasFavourites(context, locations, stops)
+  ) {
     searchComponents.push(selectFromOwnLocations(input));
   }
   if (allTargets || targets.includes('Locations')) {

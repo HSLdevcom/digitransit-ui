@@ -18,6 +18,9 @@ const DesktopModal = ({
   saveFavourite,
   saveText,
   canSave,
+  isEdit,
+  cancelText,
+  cancelSelected,
 }) => {
   return (
     <div className={styles['favourite-modal-desktop-container']}>
@@ -54,11 +57,11 @@ const DesktopModal = ({
       <div className={styles['favourite-modal-desktop-icons']}>
         {favouriteIconTable}
       </div>
-      <div className={styles['favourite-modal-desktop-save']}>
+      <div className={styles['favourite-modal-desktop-buttons']}>
         <button
           type="button"
           className={cx(
-            `${styles['favourite-modal-desktop-button']} ${
+            `${styles['favourite-modal-desktop-button']} ${styles.save} ${
               canSave() ? '' : styles.disabled
             }`,
           )}
@@ -66,6 +69,19 @@ const DesktopModal = ({
         >
           {saveText}
         </button>
+        {isEdit && (
+          <button
+            type="button"
+            className={cx(
+              `${styles['favourite-modal-desktop-button']} ${styles.edit} ${
+                canSave() ? '' : styles.disabled
+              }`,
+            )}
+            onClick={cancelSelected}
+          >
+            {cancelText}
+          </button>
+        )}
       </div>
     </div>
   );
@@ -84,6 +100,14 @@ DesktopModal.propTypes = {
   saveFavourite: PropTypes.func.isRequired,
   saveText: PropTypes.string.isRequired,
   canSave: PropTypes.func.isRequired,
+  isEdit: PropTypes.bool,
+  cancelText: PropTypes.string.isRequired,
+  cancelSelected: PropTypes.func,
+};
+
+DesktopModal.defaultProps = {
+  isEdit: false,
+  cancelSelected: () => ({}),
 };
 
 export default DesktopModal;

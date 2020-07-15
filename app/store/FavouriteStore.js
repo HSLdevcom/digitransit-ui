@@ -95,6 +95,12 @@ export default class FavouriteStore extends Store {
     this.emitChange();
   }
 
+  updateFavourites(favourites) {
+    this.favourites = favourites;
+    this.storeFavourites();
+    this.emitChange();
+  }
+
   deleteFavourite(data) {
     const newFavourites = this.favourites.filter(
       favourite => favourite.favouriteId !== data.favouriteId,
@@ -168,6 +174,7 @@ export default class FavouriteStore extends Store {
 
   static handlers = {
     AddFavourite: 'addFavourite',
+    UpdateFavourites: 'updateFavourites',
     DeleteFavourite: 'deleteFavourite',
   };
 }

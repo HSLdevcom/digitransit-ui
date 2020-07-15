@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 /* eslint-disable react/no-array-index-key */
+import moment from 'moment';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import findIndex from 'lodash/findIndex';
@@ -20,6 +21,7 @@ import SummaryNavigation from './SummaryNavigation';
 import ItineraryLine from './map/ItineraryLine';
 import LocationMarker from './map/LocationMarker';
 import MobileItineraryWrapper from './MobileItineraryWrapper';
+import { getWeatherData } from '../util/apiUtils';
 import Loading from './Loading';
 import { getRoutePath } from '../util/path';
 import { getIntermediatePlaces } from '../util/queryUtils';
@@ -254,9 +256,11 @@ class SummaryPage extends React.Component {
     }
 
     this.state = {
+      weatherData: null,
       center: null,
       loading: false,
       settingsOpen: false,
+      bounds: null,
       streetMode: existingStreetMode,
     };
 
@@ -510,11 +514,50 @@ class SummaryPage extends React.Component {
   };
 
   updateCenter = (lat, lon) => {
-    this.setState({ center: { lat, lon } });
+    if (this.props.breakpoint !== 'large') {
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }
+    this.setState({ center: { lat, lon }, bounds: null });
+  };
+
+  // These are icons that contains sun
+  dayNightIconIds = [1, 2, 21, 22, 23, 41, 42, 43, 61, 62, 71, 72, 73];
+
+  checkDayNight = (iconId, hour) => {
+    // Show night icons between 00.00 and 06.59
+    if (hour >= 0 && hour < 7 && this.dayNightIconIds.includes(iconId)) {
+      // Night icon = iconId + 100
+      return iconId + 100;
+    }
+    return iconId;
   };
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
+    const from = otpToLocation(this.props.match.params.from);
+
+    let time;
+    if (
+      nextProps.plan &&
+      nextProps.plan.itineraries &&
+      time !== nextProps.plan.itineraries[0].startTime
+    ) {
+      time = nextProps.plan.itineraries[0].startTime;
+    } else if (this.props.plan.itineraries) {
+      time = this.props.plan.itineraries[0].startTime;
+    }
+    const timem = moment(time);
+    getWeatherData(timem, from.lat, from.lon).then(res => {
+      // Icon id's and descriptions: https://www.ilmatieteenlaitos.fi/latauspalvelun-pikaohje ->  Sääsymbolien selitykset ennusteissa.
+      const iconId = this.checkDayNight(res[2].ParameterValue, timem.hour());
+      this.setState({
+        weatherData: {
+          temperature: res[0].ParameterValue,
+          windSpeed: res[1].ParameterValue,
+          iconId,
+        },
+      });
+    });
     if (!isEqual(nextProps.match.params.from, this.props.match.params.from)) {
       this.context.executeAction(storeOrigin, nextProps.match.params.from);
     }
@@ -523,6 +566,24 @@ class SummaryPage extends React.Component {
       this.setState({ center: null });
     }
   }
+
+  setMapZoomToLeg = leg => {
+    if (this.props.breakpoint !== 'large') {
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }
+    this.setState({ bounds: [] });
+    const bounds = []
+      .concat(
+        [[leg.from.lat, leg.from.lon], [leg.to.lat, leg.to.lon]],
+        polyline.decode(leg.legGeometry.points),
+      )
+      .filter(a => a[0] && a[1]);
+
+    this.setState({
+      bounds,
+      center: null,
+    });
+  };
 
   renderMap() {
     const { match, breakpoint } = this.props;
@@ -591,6 +652,7 @@ class SummaryPage extends React.Component {
 
     // Decode all legs of all itineraries into latlong arrays,
     // and concatenate into one big latlong array
+
     const bounds = []
       .concat(
         [[from.lat, from.lon], [to.lat, to.lon]],
@@ -813,7 +875,6 @@ class SummaryPage extends React.Component {
     );
 
     const from = otpToLocation(match.params.from);
-
     if (match.routes.some(route => route.printPage) && hasItineraries) {
       return React.cloneElement(this.props.content, {
         itinerary: itineraries[hash],
@@ -822,11 +883,14 @@ class SummaryPage extends React.Component {
         to: otpToLocation(match.params.to),
       });
     }
-
-    const center = this.state.center
-      ? this.state.center
-      : { lat: from.lat, lon: from.lon };
-
+    let bounds;
+    let center;
+    if (!this.state.bounds && !this.state.center) {
+      center = { lat: from.lat, lon: from.lon };
+    } else {
+      center = this.state.bounds ? undefined : this.state.center;
+      bounds = this.state.center ? undefined : this.state.bounds;
+    }
     // Call props.map directly in order to render to same map instance
     let map;
     if (
@@ -840,6 +904,8 @@ class SummaryPage extends React.Component {
             {
               itinerary: itineraries && itineraries[hash],
               center,
+              bounds,
+              fitBounds: Boolean(bounds),
               ...this.props,
             },
             this.context,
@@ -903,6 +969,8 @@ class SummaryPage extends React.Component {
                 setLoading={this.setLoading}
                 setError={this.setError}
                 focus={this.updateCenter}
+                setMapZoomToLeg={this.setMapZoomToLeg}
+                resetStreetMode={this.resetStreetMode}
               />
             </>
           );
@@ -950,7 +1018,6 @@ class SummaryPage extends React.Component {
           </div>
         );
       }
-
       return (
         <DesktopView
           title={
@@ -975,6 +1042,7 @@ class SummaryPage extends React.Component {
                   showBikeAndPublicOptionButton={showBikeAndPublicOptionButton}
                   toggleStreetMode={this.toggleStreetMode}
                   setStreetModeAndSelect={this.setStreetModeAndSelect}
+                  weatherData={this.state.weatherData}
                   walkPlan={walkPlan}
                   bikePlan={bikePlan}
                   bikeAndPublicPlan={bikeAndPublicPlan}
@@ -1015,6 +1083,9 @@ class SummaryPage extends React.Component {
           itineraries={itineraries}
           params={match.params}
           focus={this.updateCenter}
+          plan={this.props.plan}
+          serviceTimeRange={this.props.serviceTimeRange}
+          setMapZoomToLeg={this.setMapZoomToLeg}
         >
           {this.props.content &&
             itineraries.map((itinerary, i) =>
@@ -1068,6 +1139,7 @@ class SummaryPage extends React.Component {
                   showBikeAndPublicOptionButton={showBikeAndPublicOptionButton}
                   toggleStreetMode={this.toggleStreetMode}
                   setStreetModeAndSelect={this.setStreetModeAndSelect}
+                  weatherData={this.state.weatherData}
                   walkPlan={walkPlan}
                   bikePlan={bikePlan}
                   bikeAndPublicPlan={bikeAndPublicPlan}

@@ -3,7 +3,6 @@ import React from 'react';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 
-import RouteNumber from './RouteNumber';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import { displayDistance } from '../util/geo-utils';
@@ -39,14 +38,9 @@ function CarLeg(props, context) {
         <div className="itinerary-time-column-time">
           {moment(props.leg.startTime).format('HH:mm')}
         </div>
-        <RouteNumber mode={props.leg.mode.toLowerCase()} vertical />
       </div>
       <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />
       <div
-        onClick={props.focusAction}
-        onKeyPress={e => isKeyboardSelectionEvent(e) && props.focusAction(e)}
-        role="button"
-        tabIndex="0"
         className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${props.leg.mode.toLowerCase()}`}
       >
         <span className="sr-only">
@@ -60,7 +54,20 @@ function CarLeg(props, context) {
             {props.leg.from.name}
             {props.children}
           </div>
-          <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
+          <div
+            className="itinerary-map-action"
+            onClick={props.focusAction}
+            onKeyPress={e =>
+              isKeyboardSelectionEvent(e) && props.focusAction(e)
+            }
+            role="button"
+            tabIndex="0"
+          >
+            <Icon
+              img="icon-icon_show-on-map"
+              className="itinerary-search-icon"
+            />
+          </div>
         </div>
         <div className="itinerary-leg-action" aria-hidden="true">
           <FormattedMessage

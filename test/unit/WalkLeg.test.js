@@ -11,6 +11,7 @@ describe('<WalkLeg />', () => {
   it('should show the leg starting point name', () => {
     const props = {
       focusAction: () => {},
+      setMapZoomToLeg: () => {},
       index: 2,
       leg: {
         distance: 284.787,
@@ -35,14 +36,13 @@ describe('<WalkLeg />', () => {
       },
     });
 
-    expect(wrapper.find('.itinerary-leg-first-row>div').text()).to.contain(
-      'Veturitori',
-    );
+    expect(wrapper.find('.itinerary-leg-row').text()).to.contain('Veturitori');
   });
 
   it('should tell the user to return a rented bike to the starting point station', () => {
     const props = {
       focusAction: () => {},
+      setMapZoomToLeg: () => {},
       index: 2,
       leg: {
         distance: 284.787,
@@ -89,6 +89,7 @@ describe('<WalkLeg />', () => {
   it('should tell the user to return a rented kick scooter to the starting point station', () => {
     const props = {
       focusAction: () => {},
+      setMapZoomToLeg: () => {},
       index: 2,
       leg: {
         distance: 284.787,
@@ -147,6 +148,7 @@ describe('<WalkLeg />', () => {
     const startTime = 1529589709000;
     const props = {
       focusAction: () => {},
+      setMapZoomToLeg: () => {},
       index: 2,
       leg: {
         distance: 284.787,
