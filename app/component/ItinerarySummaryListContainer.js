@@ -282,6 +282,10 @@ const containerComponent = createFragmentContainer(
               bikesAvailable
               networks
             }
+            bikePark {
+              name
+              spacesAvailable
+            }
           }
           to {
             stop {
@@ -292,6 +296,10 @@ const containerComponent = createFragmentContainer(
                 effectiveEndDate
                 effectiveStartDate
               }
+            }
+            bikePark {
+              name
+              spacesAvailable
             }
           }
         }

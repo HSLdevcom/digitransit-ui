@@ -339,7 +339,7 @@ export default config => {
               {{
                 content: [
                   <Route path="" />,
-                  <Route path="/:hash">
+                  <Route path="/:hash/:secondHash?">
                     <Route
                       path="/tulosta"
                       getComponent={() =>

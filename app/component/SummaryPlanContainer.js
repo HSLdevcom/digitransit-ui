@@ -17,6 +17,7 @@ import { getIntermediatePlaces, replaceQueryParams } from '../util/queryUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { preparePlanParams } from '../util/planParamUtil';
+import { getHashNumber } from './SummaryPage';
 
 class SummaryPlanContainer extends React.Component {
   static propTypes = {
@@ -37,6 +38,7 @@ class SummaryPlanContainer extends React.Component {
       from: PropTypes.string.isRequired,
       to: PropTypes.string.isRequired,
       hash: PropTypes.string,
+      secondHash: PropTypes.string,
     }).isRequired,
     plan: PropTypes.shape({ date: PropTypes.number }), // eslint-disable-line
     serviceTimeRange: PropTypes.shape({
@@ -60,14 +62,22 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onSelectActive = index => {
+    let isBikeAndPublic;
+    if (this.props.params.hash === 'bikeAndPublic') {
+      isBikeAndPublic = true;
+    }
     if (this.props.activeIndex === index) {
       this.onSelectImmediately(index);
     } else {
       this.context.router.replace({
         ...this.context.match.location,
         state: { summaryPageSelected: index },
-        pathname: getRoutePath(this.props.params.from, this.props.params.to),
+        pathname: `${getRoutePath(
+          this.props.params.from,
+          this.props.params.to,
+        )}${isBikeAndPublic ? '/bikeAndPublic/' : ''}`,
       });
+
       addAnalyticsEvent({
         category: 'Itinerary',
         action: 'HighlightItinerary',
@@ -77,7 +87,16 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onSelectImmediately = index => {
-    if (Number(this.props.params.hash) === index) {
+    let hash;
+    let isBikeAndPublic;
+    if (this.props.params.hash === 'bikeAndPublic') {
+      isBikeAndPublic = true;
+      hash = this.props.params.secondHash;
+    } else {
+      // eslint-disable-next-line prefer-destructuring
+      hash = this.props.params.hash;
+    }
+    if (Number(hash) === index) {
       if (this.props.breakpoint === 'large') {
         addAnalyticsEvent({
           event: 'sendMatomoEvent',
@@ -87,7 +106,10 @@ class SummaryPlanContainer extends React.Component {
         });
         this.context.router.replace({
           ...this.context.match.location,
-          pathname: getRoutePath(this.props.params.from, this.props.params.to),
+          pathname: `${getRoutePath(
+            this.props.params.from,
+            this.props.params.to,
+          )}${isBikeAndPublic ? '/bikeAndPublic/' : ''}`,
         });
       } else {
         this.context.router.go(-1);
@@ -110,7 +132,7 @@ class SummaryPlanContainer extends React.Component {
       const indexPath = `${getRoutePath(
         this.props.params.from,
         this.props.params.to,
-      )}/${index}`;
+      )}${isBikeAndPublic ? '/bikeAndPublic/' : '/'}${index}`;
 
       newState.pathname = basePath;
       this.context.router.replace(newState);
@@ -512,7 +534,11 @@ class SummaryPlanContainer extends React.Component {
           itineraries={itineraries}
           onSelect={this.onSelectActive}
           onSelectImmediately={this.onSelectImmediately}
-          open={Number(this.props.params.hash)}
+          open={getHashNumber(
+            this.props.params.secondHash
+              ? this.props.params.secondHash
+              : this.props.params.hash,
+          )}
           searchTime={searchTime}
           to={otpToLocation(to)}
         >

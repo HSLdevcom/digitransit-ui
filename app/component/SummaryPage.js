@@ -99,6 +99,29 @@ export const getActiveIndex = (
   return itineraryIndex > 0 ? itineraryIndex : defaultValue;
 };
 
+export const getHashNumber = hash => {
+  if (hash) {
+    if (hash === 'walk' || hash === 'bike') {
+      return 0;
+    }
+    return Number(hash);
+  }
+  return undefined;
+};
+
+export const routeSelected = (hash, secondHash) => {
+  if (hash === 'bikeAndPublic') {
+    if (secondHash) {
+      return true;
+    }
+    return false;
+  }
+  if (hash) {
+    return true;
+  }
+  return false;
+};
+
 /**
  * Report any errors that happen when showing summary
  *
@@ -222,7 +245,8 @@ class SummaryPage extends React.Component {
       this.props.match.params &&
       this.props.match.params.hash &&
       (this.props.match.params.hash === 'walk' ||
-        this.props.match.params.hash === 'bike')
+        this.props.match.params.hash === 'bike' ||
+        this.props.match.params.hash === 'bikeAndPublic')
     ) {
       existingStreetMode = this.props.match.params.hash;
     } else {
@@ -260,9 +284,32 @@ class SummaryPage extends React.Component {
 
   toggleStreetMode = newStreetMode => {
     if (this.state.streetMode === newStreetMode) {
-      this.setState({ streetMode: '' });
+      this.setState({ streetMode: '' }, () => {
+        const newState = {
+          ...this.context.match.location,
+          state: { streetMode: '' },
+        };
+        const indexPath = `${getRoutePath(
+          this.context.match.params.from,
+          this.context.match.params.to,
+        )}`;
+        newState.pathname = indexPath;
+        this.context.router.push(newState);
+      });
     } else {
-      this.setState({ streetMode: newStreetMode });
+      this.setState({ streetMode: newStreetMode }, () => {
+        const newState = {
+          ...this.context.match.location,
+          state: { streetMode: newStreetMode },
+        };
+        const indexPath = `${getRoutePath(
+          this.context.match.params.from,
+          this.context.match.params.to,
+        )}/${newStreetMode}/`;
+
+        newState.pathname = indexPath;
+        this.context.router.push(newState);
+      });
     }
   };
 
@@ -407,16 +454,27 @@ class SummaryPage extends React.Component {
 
   componentDidUpdate(prevProps) {
     // Set correct state when entering the page from browser back button
-    if (
-      this.props.match.params.hash &&
-      (this.props.match.params.hash === 'walk' ||
-        this.props.match.params.hash === 'bike')
-    ) {
-      if (this.state.streetMode !== this.props.match.params.hash) {
-        // eslint-disable-next-line react/no-did-update-set-state
-        this.setState({ streetMode: this.props.match.params.hash });
+    window.onpopstate = () => {
+      if (
+        this.props.match.params.hash &&
+        (this.props.match.params.hash === 'walk' ||
+          this.props.match.params.hash === 'bike' ||
+          this.props.match.params.hash === 'bikeAndPublic')
+      ) {
+        if (this.state.streetMode !== this.props.match.params.hash) {
+          this.setStreetMode(this.props.match.params.hash);
+        }
+      } else if (
+        (!this.props.match.params.hash ||
+          this.props.match.params.hash === '') &&
+        (!this.props.match.params.secondHash ||
+          this.props.match.params.secondHash === '')
+      ) {
+        if (this.state.streetMode !== '' && !this.state.summaryPageSelected) {
+          this.resetStreetMode();
+        }
       }
-    }
+    };
     // alert screen readers when results update
     if (
       this.resultsUpdatedAlertRef.current &&
@@ -674,8 +732,10 @@ class SummaryPage extends React.Component {
 
     let selectedItineraries;
     if (this.state.streetMode === 'walk') {
+      this.stopClient();
       this.selectedPlan = walkPlan;
     } else if (this.state.streetMode === 'bike') {
+      this.stopClient();
       this.selectedPlan = bikePlan;
     } else if (this.state.streetMode === 'bikeAndPublic') {
       this.selectedPlan = bikeAndPublicPlan;
@@ -727,9 +787,10 @@ class SummaryPage extends React.Component {
     const showBikeAndPublicOptionButton = currentSettings.usingWheelchair !== 1;
 
     const showStreetModeSelector =
-      showWalkOptionButton ||
-      showBikeOptionButton ||
-      showBikeAndPublicOptionButton;
+      (showWalkOptionButton ||
+        showBikeOptionButton ||
+        showBikeAndPublicOptionButton) &&
+      this.state.streetMode !== 'bikeAndPublic';
 
     if (!selectedItineraries) {
       selectedItineraries = this.selectedPlan.itineraries;
@@ -745,15 +806,11 @@ class SummaryPage extends React.Component {
       itineraries = [];
     }
 
-    let hash;
-    if (match.params.hash) {
-      if (match.params.hash === 'walk' || match.params.hash === 'bike') {
-        hash = 0;
-      } else {
-        // eslint-disable-next-line prefer-destructuring
-        hash = match.params.hash;
-      }
-    }
+    const hash = getHashNumber(
+      this.props.match.params.secondHash
+        ? this.props.match.params.secondHash
+        : this.props.match.params.hash,
+    );
 
     const from = otpToLocation(match.params.from);
 
@@ -771,16 +828,24 @@ class SummaryPage extends React.Component {
       : { lat: from.lat, lon: from.lon };
 
     // Call props.map directly in order to render to same map instance
-    let map = this.props.map
-      ? this.props.map.type(
-          {
-            itinerary: itineraries && itineraries[hash],
-            center,
-            ...this.props,
-          },
-          this.context,
-        )
-      : this.renderMap();
+    let map;
+    if (
+      this.state.streetMode === 'bikeAndPublic' &&
+      !routeSelected(match.params.hash, match.params.secondHash)
+    ) {
+      map = this.renderMap();
+    } else {
+      map = this.props.map
+        ? this.props.map.type(
+            {
+              itinerary: itineraries && itineraries[hash],
+              center,
+              ...this.props,
+            },
+            this.context,
+          )
+        : this.renderMap();
+    }
 
     let earliestStartTime;
     let latestArrivalTime;
@@ -821,7 +886,7 @@ class SummaryPage extends React.Component {
         this.props.loading === false &&
         (error || this.selectedPlan)
       ) {
-        if (match.params.hash) {
+        if (routeSelected(match.params.hash, match.params.secondHash)) {
           content = (
             <>
               {screenReaderUpdateAlert}
@@ -871,7 +936,7 @@ class SummaryPage extends React.Component {
             >
               {this.props.content &&
                 React.cloneElement(this.props.content, {
-                  itinerary: hasItineraries && itineraries[match.params.hash],
+                  itinerary: hasItineraries && itineraries[hash],
                   focus: this.updateCenter,
                   plan: this.selectedPlan,
                 })}
@@ -902,7 +967,6 @@ class SummaryPage extends React.Component {
                 startTime={earliestStartTime}
                 endTime={latestArrivalTime}
                 toggleSettings={this.toggleCustomizeSearchOffcanvas}
-                resetStreetMode={this.resetStreetMode}
               />
               {showStreetModeSelector && (
                 <StreetModeSelector
@@ -945,7 +1009,7 @@ class SummaryPage extends React.Component {
           <Loading />
         </div>
       );
-    } else if (match.params.hash) {
+    } else if (routeSelected(match.params.hash, match.params.secondHash)) {
       content = (
         <MobileItineraryWrapper
           itineraries={itineraries}
@@ -988,7 +1052,7 @@ class SummaryPage extends React.Component {
     return (
       <MobileView
         header={
-          !match.params.hash ? (
+          !routeSelected(match.params.hash, match.params.secondHash) ? (
             <React.Fragment>
               <SummaryNavigation
                 params={match.params}
@@ -996,7 +1060,6 @@ class SummaryPage extends React.Component {
                 startTime={earliestStartTime}
                 endTime={latestArrivalTime}
                 toggleSettings={this.toggleCustomizeSearchOffcanvas}
-                resetStreetMode={this.resetStreetMode}
               />
               {showStreetModeSelector && (
                 <StreetModeSelector
