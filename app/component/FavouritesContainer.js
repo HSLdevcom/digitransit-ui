@@ -37,14 +37,16 @@ const FavouriteEditModal = loadable(
 );
 
 const favouriteShape = PropTypes.shape({
+  type: PropTypes.string,
   address: PropTypes.string,
   gtfsId: PropTypes.string,
   gid: PropTypes.string,
   lat: PropTypes.number,
-  name: PropTypes.string,
   lon: PropTypes.number,
+  name: PropTypes.string,
   selectedIconId: PropTypes.string,
   favouriteId: PropTypes.string,
+  layer: PropTypes.string,
 });
 
 class FavouritesContainer extends React.Component {
