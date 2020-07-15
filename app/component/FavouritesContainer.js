@@ -5,7 +5,11 @@ import loadable from '@loadable/component';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import withSearchContext from './WithSearchContext';
 import getRelayEnvironment from '../util/getRelayEnvironment';
-import { updateFavourites } from '../action/FavouriteActions';
+import {
+  addFavourite,
+  updateFavourites,
+  deleteFavourite,
+} from '../action/FavouriteActions';
 
 const AutoSuggestWithSearchContext = getRelayEnvironment(
   withSearchContext(
@@ -51,9 +55,7 @@ class FavouritesContainer extends React.Component {
 
   static propTypes = {
     favourites: PropTypes.arrayOf(favouriteShape),
-    onSaveFavourite: PropTypes.func.isRequired,
     onClickFavourite: PropTypes.func.isRequired,
-    onDeleteFavourite: PropTypes.func.isRequired,
     lang: PropTypes.string,
     isMobile: PropTypes.bool,
   };
@@ -109,6 +111,14 @@ class FavouritesContainer extends React.Component {
     });
   };
 
+  saveFavourite = favourite => {
+    this.context.executeAction(addFavourite, favourite);
+  };
+
+  deleteFavourite = favourite => {
+    this.context.executeAction(deleteFavourite, favourite);
+  };
+
   updateFavourites = favourites => {
     this.context.executeAction(updateFavourites, favourites);
   };
@@ -141,7 +151,7 @@ class FavouritesContainer extends React.Component {
                 favourite: {},
               })
             }
-            saveFavourite={this.props.onSaveFavourite}
+            saveFavourite={this.saveFavourite}
             cancelSelected={() =>
               this.setState({
                 addModalOpen: false,
@@ -173,8 +183,8 @@ class FavouritesContainer extends React.Component {
             handleClose={() =>
               this.setState({ editModalOpen: false, favourite: {} })
             }
-            saveFavourite={this.props.onSaveFavourite}
-            deleteFavourite={this.props.onDeleteFavourite}
+            saveFavourite={this.saveFavourite}
+            deleteFavourite={this.deleteFavourite}
             onEditSelected={this.editFavourite}
             lang={this.props.lang}
           />

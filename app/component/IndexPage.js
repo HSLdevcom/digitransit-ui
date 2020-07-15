@@ -18,7 +18,6 @@ import {
   checkPositioningPermission,
 } from '../action/PositionActions';
 import storeOrigin from '../action/originActions';
-import { addFavourite } from '../action/FavouriteActions';
 import storeDestination from '../action/destinationActions';
 import withSearchContext from './WithSearchContext';
 import { isBrowser } from '../util/browser';
@@ -160,10 +159,6 @@ class IndexPage extends React.Component {
     window.location = this.context.config.trafficNowLink;
   };
 
-  saveFavourite = favourite => {
-    this.context.executeAction(addFavourite, favourite);
-  };
-
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     const { intl, config } = this.context;
@@ -217,7 +212,6 @@ class IndexPage extends React.Component {
             </div>
             <FavouritesContainer
               favourites={favourites}
-              onSaveFavourite={this.saveFavourite}
               onClickFavourite={this.clickFavourite}
             />
             <CtrlPanel.SeparatorLine usePaddingBottom20 />
@@ -286,7 +280,6 @@ class IndexPage extends React.Component {
             <FavouritesContainer
               favourites={this.props.favourites}
               onClickFavourite={this.clickFavourite}
-              onAddFavourite={this.addFavourite}
               lang={lang}
               isMobile
             />
