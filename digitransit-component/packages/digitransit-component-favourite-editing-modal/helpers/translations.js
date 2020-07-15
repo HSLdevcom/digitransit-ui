@@ -2,7 +2,7 @@ const translations = {
   en: {
     cancel: 'Cancel',
     delete: 'Delete',
-    'delete-place-header': 'Haluatko poistaa paikan?',
+    'delete-place-header': 'Would you like to delete the place?',
     'delete-place-name': 'Delete place: {{favourite.name}}',
     'edit-places': 'Edit places',
     'edit-place-name': 'Edit place: {{favourite.name}}',
@@ -15,7 +15,7 @@ const translations = {
   fi: {
     cancel: 'Peruuta',
     delete: 'Poista',
-    'delete-place-header': 'Would you like to delete the place?',
+    'delete-place-header': 'Haluatko poistaa paikan?',
     'delete-place-name': 'Poista paikka: {{favourite.name}}',
     'edit-places': 'Muokkaa paikkoja',
     'edit-place-name': 'Muokkaa paikkaa: {{favourite.name}}',

@@ -87,6 +87,7 @@ class FavouriteEditingModal extends React.Component {
 
   constructor(props) {
     super(props);
+    i18next.changeLanguage(props.lang);
     this.draggableFavourites = [];
     this.state = {
       isDraggingOverIndex: undefined,
@@ -95,10 +96,6 @@ class FavouriteEditingModal extends React.Component {
       selectedFavourite: null,
     };
   }
-
-  componentDidMount = () => {
-    i18next.changeLanguage(this.props.lang);
-  };
 
   componentDidUpdate = prevProps => {
     if (prevProps.lang !== this.props.lang) {
