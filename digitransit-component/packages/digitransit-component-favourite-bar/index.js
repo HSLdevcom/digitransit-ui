@@ -121,6 +121,7 @@ class FavouriteBar extends React.Component {
   };
 
   static FavouriteIconIdToNameMap = {
+    'icon-icon_place': 'place',
     'icon-icon_home': 'home',
     'icon-icon_work': 'work',
     'icon-icon_sport': 'sport',
