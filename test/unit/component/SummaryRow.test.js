@@ -38,8 +38,8 @@ describe('<SummaryRow />', () => {
       context: { config: {} },
     });
 
-    expect(wrapper.find('.itinerary-legs').children()).to.have.lengthOf(4);
-    expect(wrapper.find(ModeLeg)).to.have.lengthOf(3); // two walk legs and a wait leg
+    expect(wrapper.find('.itinerary-legs').children()).to.have.lengthOf(3);
+    expect(wrapper.find(ModeLeg)).to.have.lengthOf(2); // two walk legs and a wait leg
     expect(wrapper.find(ViaLeg)).to.have.lengthOf(1);
   });
 
