@@ -567,7 +567,7 @@ $itinerary-tab-switch-height: 48px;
     &.interline-top {
       border: 4px solid currentColor;
       border-radius: 4px;
-      height: 90%;
+      height: 92%;
       top: 2em;
     }
     &.interline-bottom {
@@ -812,6 +812,9 @@ $itinerary-tab-switch-height: 48px;
       padding: 0.625em 0;
       border-top: 1px solid #ddd;
       font-size: 0.9375rem;
+      &.interlining {
+        height: 76px;
+      }
       &.via {
         height: 78px;
       }
@@ -819,6 +822,10 @@ $itinerary-tab-switch-height: 48px;
         a {
           text-decoration: none;
           color: #333;
+        }
+        .interline-info-container {
+          font-size: 0.813rem;
+          padding-top: 5px;
         }
       }
       &.first {

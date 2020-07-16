@@ -351,6 +351,7 @@ class TransitLeg extends React.Component {
           <div
             className={cx('itinerary-leg-first-row', 'transit', {
               first: index === 0,
+              interlining: leg.interlineWithPreviousLeg,
             })}
             aria-hidden="true"
           >
