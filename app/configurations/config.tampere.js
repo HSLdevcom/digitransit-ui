@@ -36,7 +36,7 @@ export default configMerger(walttiConfig, {
 
   favicon: './sass/themes/tampere/favicon.png',
 
-  feedIds: ['tampere', 'TampereVR'],
+  feedIds: ['tampere', 'TampereVR', 'tampereDRT'],
 
   geoJson: {
     layers: [
