@@ -16,6 +16,7 @@ import CanceledItineraryToggler from './CanceledItineraryToggler';
 import { itineraryHasCancelation } from '../util/alertUtils';
 import { matchQuickOption } from '../util/planParamUtil';
 import { getModes } from '../util/modeUtils';
+import { ItinerarySummarySubtitle } from './ItinerarySummarySubtitle';
 
 function ItinerarySummaryListContainer(
   {
@@ -53,6 +54,27 @@ function ItinerarySummaryListContainer(
         zones={config.stopCard.header.showZone ? getZones(itinerary.legs) : []}
       />
     ));
+    if (
+      context.match.params.hash &&
+      context.match.params.hash === 'bikeAndPublic'
+    ) {
+      summaries.splice(
+        0,
+        0,
+        <ItinerarySummarySubtitle
+          translationId="itinerary-summary.bikePark"
+          defaultMessage="Biking \u0026 public transport \u0026 walking"
+        />,
+      );
+      summaries.splice(
+        4,
+        0,
+        <ItinerarySummarySubtitle
+          translationId="itinerary-summary.bikeAndPublic"
+          defaultMessage="Biking \u0026 public transport"
+        />,
+      );
+    }
 
     const canceledItinerariesCount = itineraries.filter(itineraryHasCancelation)
       .length;

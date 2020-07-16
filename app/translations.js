@@ -939,6 +939,8 @@ const translations = {
       'Transfer to {vehicle} on stop {stopName}',
     'itinerary-summary-row.walking-distance':
       'Total walking distance {totalDistance}.',
+    'itinerary-summary.bikeAndPublic-title': 'Bike & Public Transport',
+    'itinerary-summary.bikePark-title': 'Bike & Public transport & walk',
     'itinerary-summary.show-on-map': 'Show on map {target}',
     'itinerary-ticket.title': 'Required ticket',
     'itinerary-tickets.title': 'Required tickets',
@@ -1742,6 +1744,8 @@ const translations = {
     'itinerary-summary-row.transfers': 'Vaihto {vehicle} pysäkillä {stopName}',
     'itinerary-summary-row.walking-distance':
       'Kävelyä yhteensä {totalDistance}.',
+    'itinerary-summary.bikeAndPublic-title': 'Polkupyörä & joukkoliikenne',
+    'itinerary-summary.bikePark-title': 'Polkupyörä & joukkoliikenne & kävely',
     'itinerary-summary.show-on-map': 'Näytä kartalla {target}',
     'itinerary-ticket.title': 'Tarvittava lippu',
     'itinerary-tickets.title': 'Tarvittavat liput',
@@ -3338,6 +3342,8 @@ const translations = {
       'Byte {vehicle} vid hållplats {stopName}',
     'itinerary-summary-row.walking-distance':
       'Promenad sammanlagt {totalDistance}.',
+    'itinerary-summary.bikeAndPublic-title': 'Cykling & kollektivtrafik',
+    'itinerary-summary.bikePark-title': 'Cykling & kollektivtrafik & gående',
     'itinerary-summary.show-on-map': 'Visa på kartan {target}',
     'itinerary-ticket.title': 'Biljett som behövs',
     'itinerary-tickets.title': 'Biljetter som behövs',

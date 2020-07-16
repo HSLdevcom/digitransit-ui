@@ -23,9 +23,8 @@ export const StreetModeSelectorButton = (
         : displayDistance(getTotalDistance(itinerary), config);
 
     if (name === 'bikeAndPublic') {
-      secondaryIcon = 'icon-icon_rail';
       const publicModes = plan.itineraries[0].legs.filter(
-        obj => obj.mode === 'SUBWAY' || obj.mode === 'RAIL',
+        obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE',
       );
       if (publicModes.length > 0) {
         const firstMode = publicModes[0].mode.toLowerCase();

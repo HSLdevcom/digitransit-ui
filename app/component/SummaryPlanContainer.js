@@ -512,13 +512,16 @@ class SummaryPlanContainer extends React.Component {
         >
           {this.props.children}
         </ItinerarySummaryListContainer>
-        <TimeNavigationButtons
-          isEarlierDisabled={disableButtons}
-          isLaterDisabled={disableButtons}
-          onEarlier={this.onEarlier}
-          onLater={this.onLater}
-          onNow={this.onNow}
-        />
+        {this.context.match.params.hash &&
+        this.context.match.params.hash === 'bikeAndPublic' ? null : (
+          <TimeNavigationButtons
+            isEarlierDisabled={disableButtons}
+            isLaterDisabled={disableButtons}
+            onEarlier={this.onEarlier}
+            onLater={this.onLater}
+            onNow={this.onNow}
+          />
+        )}
       </div>
     );
   }
