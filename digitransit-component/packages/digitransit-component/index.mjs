@@ -28,3 +28,6 @@ export {
 export {
   default as FavouriteModal,
 } from '@digitransit-component/digitransit-component-favourite-modal';
+export {
+  default as FavouriteEditingModal,
+} from '@digitransit-component/digitransit-component-favourite-editing-modal';

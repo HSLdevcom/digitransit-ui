@@ -216,6 +216,7 @@ class FavouriteModal extends React.Component {
 
   constructor(props) {
     super(props);
+    i18next.changeLanguage(props.lang);
     this.state = {
       favourite: props.favourite,
     };
@@ -233,10 +234,6 @@ class FavouriteModal extends React.Component {
       };
     }
     return null;
-  };
-
-  componentDidMount = () => {
-    i18next.changeLanguage(this.props.lang);
   };
 
   componentDidUpdate = prevProps => {
@@ -305,7 +302,11 @@ class FavouriteModal extends React.Component {
           name: this.state.favourite.selectedIconId,
         });
       }
-      this.props.handleClose();
+      if (this.isEdit() && this.props.cancelSelected) {
+        this.props.cancelSelected();
+      } else {
+        this.props.handleClose();
+      }
     }
   };
 
