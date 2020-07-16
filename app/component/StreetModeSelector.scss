@@ -4,10 +4,14 @@
   border-bottom: 1px solid #dddddd;
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
   padding: 10px;
-  height: 60px;
+  padding-left: 3.75em;
+  height: 85px;
+  min-height: 85px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap
 }
 
 .mobile {
@@ -16,5 +20,6 @@
     min-height: 77px;
     overflow: auto;
     white-space: nowrap;
+    padding-left: 0.9375em;
   }
 }

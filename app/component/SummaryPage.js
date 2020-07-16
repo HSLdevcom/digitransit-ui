@@ -306,11 +306,17 @@ class SummaryPage extends React.Component {
           ...this.context.match.location,
           state: { streetMode: newStreetMode },
         };
+        const basePath = getRoutePath(
+          this.context.match.params.from,
+          this.context.match.params.to,
+        );
         const indexPath = `${getRoutePath(
           this.context.match.params.from,
           this.context.match.params.to,
         )}/${newStreetMode}/`;
 
+        newState.pathname = basePath;
+        this.context.router.replace(newState);
         newState.pathname = indexPath;
         this.context.router.push(newState);
       });

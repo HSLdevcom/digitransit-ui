@@ -99,7 +99,10 @@ class SummaryPlanContainer extends React.Component {
       ...this.context.match.location,
       state: { summaryPageSelected: index },
     };
-    const basePath = getRoutePath(this.props.params.from, this.props.params.to);
+    const basePath = `${getRoutePath(
+      this.props.params.from,
+      this.props.params.to,
+    )}${isBikeAndPublic ? '/bikeAndPublic/' : '/'}`;
     const indexPath = `${getRoutePath(
       this.props.params.from,
       this.props.params.to,
