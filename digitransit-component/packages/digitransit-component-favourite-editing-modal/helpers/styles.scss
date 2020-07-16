@@ -31,7 +31,8 @@ $primary-color: #007ac9;
     }
     &.delete-modal {
       width: calc(100% - 40px);
-      max-height: 295px;
+      min-height: 295px;
+      height: auto;
       max-width: 387px;
       border-radius: 5px;
     }
@@ -223,6 +224,10 @@ $primary-color: #007ac9;
   letter-spacing: -0.6px;
   text-align: center;
   color: #333333;
+  padding: 0 20px;
+  @include min-width(tablet) {
+    padding: 0 44px 0 43px;
+  }
 }
 
 .favourite-delete-modal-buttons {
