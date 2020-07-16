@@ -280,6 +280,18 @@ class TransitLeg extends React.Component {
       new RegExp(/^([^0-9]*)$/).test(leg.route.shortName) &&
       leg.route.shortName.length > 3;
 
+    const interLining = () => {
+      if (leg.interlineWithPreviousLeg && this.props.isNextLegInterlining) {
+        return 'interline-both';
+      }
+      if (this.props.isNextLegInterlining) {
+        return 'interline-bottom';
+      }
+      if (leg.interlineWithPreviousLeg) {
+        return 'interline-top';
+      }
+      return '';
+    };
     return (
       <div key={index} className="row itinerary-row">
         <span className="sr-only">{textVersionBeforeLink}</span>
@@ -318,6 +330,7 @@ class TransitLeg extends React.Component {
           modeClassName={modeClassName}
           color={leg.route ? `#${leg.route.color}` : 'currentColor'}
           renderBottomMarker={!this.state.showIntermediateStops}
+          isInterlining={interLining()}
         />
         <div
           style={{
@@ -382,6 +395,16 @@ class TransitLeg extends React.Component {
                   }
                 />
               </div>
+              {leg.interlineWithPreviousLeg && (
+                <div className="interline-info-container">
+                  <FormattedMessage
+                    id="itinerary-summary.interline-wait"
+                    values={{
+                      time: durationToString(this.props.interliningWait),
+                    }}
+                  />
+                </div>
+              )}
             </div>
             <div
               className="itinerary-map-action"

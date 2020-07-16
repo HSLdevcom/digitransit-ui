@@ -6,8 +6,21 @@ import moment from 'moment';
 import TransitLeg from './TransitLeg';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const BusLeg = ({ leg, focusAction, index }) => (
-  <TransitLeg mode="BUS" leg={leg} focusAction={focusAction} index={index}>
+const BusLeg = ({
+  leg,
+  focusAction,
+  index,
+  isNextLegInterlining,
+  interliningWait,
+}) => (
+  <TransitLeg
+    mode="BUS"
+    leg={leg}
+    focusAction={focusAction}
+    index={index}
+    interliningWait={interliningWait}
+    isNextLegInterlining={isNextLegInterlining}
+  >
     <FormattedMessage
       id="bus-with-route-number"
       values={{

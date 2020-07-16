@@ -940,6 +940,8 @@ const translations = {
     'itinerary-summary-row.walking-distance':
       'Total walking distance {totalDistance}.',
     'itinerary-summary.show-on-map': 'Show on map {target}',
+    'itinerary-summary.interline-wait':
+      'Wait for transfer in the vehicle ({time})',
     'itinerary-ticket.title': 'Required ticket',
     'itinerary-tickets.title': 'Required tickets',
     'itinerary-time.title': 'Duration',
@@ -1743,6 +1745,7 @@ const translations = {
     'itinerary-summary-row.walking-distance':
       'Kävelyä yhteensä {totalDistance}.',
     'itinerary-summary.show-on-map': 'Näytä kartalla {target}',
+    'itinerary-summary.interline-wait': 'Odota vaihtoa kulkuneuvossa',
     'itinerary-ticket.title': 'Tarvittava lippu',
     'itinerary-tickets.title': 'Tarvittavat liput',
     'itinerary-time.title': 'Matka-aika',
@@ -3339,6 +3342,7 @@ const translations = {
     'itinerary-summary-row.walking-distance':
       'Promenad sammanlagt {totalDistance}.',
     'itinerary-summary.show-on-map': 'Visa på kartan {target}',
+    'itinerary-summary.interline-wait': 'Odota vaihtoa kulkuneuvossa',
     'itinerary-ticket.title': 'Biljett som behövs',
     'itinerary-tickets.title': 'Biljetter som behövs',
     'itinerary-time.title': 'Restid',

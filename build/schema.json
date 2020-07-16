@@ -6925,6 +6925,18 @@
                             "deprecationReason": null
                         },
                         {
+                            "name": "interlineWithPreviousLeg",
+                            "description": "Interlines with previous leg. This is true when the same vehicle is used for the previous leg as for this leg and passenger can stay inside the vehicle.",
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Boolean",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
                             "name": "intermediateStops",
                             "description": "For transit legs, intermediate stops between the Place where the leg originates and the Place where the leg ends. For non-transit legs, null.",
                             "args": [],

@@ -108,6 +108,11 @@ class ItineraryLegs extends React.Component {
       }
       const startTime = (previousLeg && previousLeg.endTime) || leg.startTime;
 
+      const interliningWait = () => {
+        if (leg.interlineWithPreviousLeg) {
+          return leg.startTime - previousLeg.endTime;
+        }
+      };
       if (isCallAgencyPickupType(leg)) {
         legs.push(
           <CallAgencyLeg
@@ -140,7 +145,13 @@ class ItineraryLegs extends React.Component {
         );
       } else if (leg.mode === 'BUS') {
         legs.push(
-          <BusLeg index={j} leg={leg} focusAction={this.focus(leg.from)} />,
+          <BusLeg
+            index={j}
+            leg={leg}
+            interliningWait={interliningWait()}
+            isNextLegInterlining={nextLeg.interlineWithPreviousLeg}
+            focusAction={this.focus(leg.from)}
+          />,
         );
       } else if (leg.mode === 'TRAM') {
         legs.push(
