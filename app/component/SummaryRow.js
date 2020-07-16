@@ -206,17 +206,23 @@ const SummaryRow = (
   const startTime = moment(data.startTime);
   const endTime = moment(data.endTime);
   const duration = endTime.diff(startTime);
+
   const mobile = bp => !(bp === 'large');
   const legs = [];
   let noTransitLegs = true;
   const compressedLegs = compressLegs(data.legs).map(leg => ({
     ...leg,
   }));
-  compressedLegs.forEach(leg => {
+  let intermediateSlack = 0;
+  compressedLegs.forEach((leg, i) => {
     if (isTransitLeg(leg)) {
       noTransitLegs = false;
     }
+    if (leg.intermediatePlace) {
+      intermediateSlack += leg.startTime - compressedLegs[i - 1].endTime;
+    }
   });
+  const durationWithoutSlack = duration - intermediateSlack;
   let renderBarThreshold = 7;
   let renderLegDurationThreshold = 10.5;
   let renderRouteNumberThreshold = 14;
@@ -244,30 +250,42 @@ const SummaryRow = (
     const lastLeg = compressedLegs[compressedLegs.length - 1];
     const nextLeg = compressedLegs[i + 1];
     const waitThreshold = 180000;
-    legLength = leg.duration * 1000 / duration * 100;
+    legLength = leg.duration * 1000 / durationWithoutSlack * 100;
 
     if (nextLeg) {
-      waitTime = nextLeg.startTime - leg.endTime;
-      waitLength = Math.round(waitTime / duration * 100);
-      if (waitTime > waitThreshold && waitLength > renderBarThreshold) {
-        waiting = true;
-      } else {
-        legLength = (leg.duration * 1000 + waitTime) / duration * 100;
+      if (!nextLeg.intermediatePlace) {
+        waitTime = nextLeg.startTime - leg.endTime;
+        waitLength = Math.round(waitTime / durationWithoutSlack * 100);
+        if (waitTime > waitThreshold && waitLength > renderBarThreshold) {
+          waiting = true;
+        } else {
+          legLength =
+            (leg.duration * 1000 + waitTime) / durationWithoutSlack * 100;
+        }
       }
     }
-    if (addition) {
-      legLength += addition;
-      addition = 0;
+    if (
+      !(
+        isLegOnFoot(leg) && leg.duration * 1000 / durationWithoutSlack * 100 < 4
+      )
+    ) {
+      if (addition) {
+        legLength += addition;
+        addition = 0;
+      }
     }
+
     if (isNextLegLast) {
-      const lastLegLength = lastLeg.duration * 1000 / duration * 100;
+      const lastLegLength =
+        lastLeg.duration * 1000 / durationWithoutSlack * 100;
       if (lastLegLength < renderBarThreshold) {
         legLength += lastLegLength;
       }
     }
+
     if (legLength < renderBarThreshold && isLegOnFoot(leg)) {
       renderBar = false;
-      addition = legLength;
+      addition += legLength;
     } else if (legLength < renderBarThreshold && !isLegOnFoot(leg)) {
       addition += legLength - renderBarThreshold;
       legLength = renderBarThreshold;
@@ -280,7 +298,7 @@ const SummaryRow = (
       if (isLastLeg) {
         renderNumber = true;
       } else {
-        addition = legLength;
+        addition += legLength;
         onlyIconLegs += 1;
       }
     }
@@ -384,7 +402,7 @@ const SummaryRow = (
         if (waitLength > renderBarThreshold) {
           addition = 0;
         } else {
-          addition = waitLength;
+          addition += waitLength;
         }
       }
       legs.push(

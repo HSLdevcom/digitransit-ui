@@ -6,7 +6,6 @@ import IconWithBigCaution from './IconWithBigCaution';
 import IconWithIcon from './IconWithIcon';
 import ComponentUsageExample from './ComponentUsageExample';
 import { realtimeDeparture as exampleRealtimeDeparture } from './ExampleData';
-import { isMobile } from '../util/browser';
 
 const LONG_ROUTE_NUMBER_LENGTH = 6;
 
@@ -62,7 +61,6 @@ function RouteNumber(props, context) {
         <div className={cx('bar-container', { long: hasNoShortName })}>
           <div className={cx('bar', mode)}>
             <span
-              style={{ display: longText && isMobile ? 'block' : null }}
               className={cx('route-number', {
                 vertical: props.vertical,
               })}
@@ -122,7 +120,6 @@ function RouteNumber(props, context) {
         </div>
       ) : (
         <span
-          style={{ display: longText && isMobile ? 'block' : null }}
           className={cx('route-number', {
             vertical: props.vertical,
           })}
@@ -148,18 +145,6 @@ function RouteNumber(props, context) {
             ) : (
               <div className={`icon ${mode}`}>
                 {getIcon(props.icon, props.isCallAgency, props.hasDisruption)}
-              </div>
-            )}
-            {props.withBar && (
-              <div className="bar-container">
-                <div
-                  style={{
-                    color: mode === 'call' ? 'white' : color || 'currentColor',
-                  }}
-                  className={cx('bar', mode)}
-                >
-                  <div className="bar-inner" />
-                </div>
               </div>
             )}
           </span>
