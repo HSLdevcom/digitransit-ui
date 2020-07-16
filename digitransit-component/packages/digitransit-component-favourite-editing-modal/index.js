@@ -8,6 +8,7 @@ import differenceWith from 'lodash/differenceWith';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import Icon from '@digitransit-component/digitransit-component-icon';
+import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
 import DesktopModal from './helpers/DesktopModal';
 import MobileModal from './helpers/MobileModal';
 import styles from './helpers/styles.scss';
@@ -292,69 +293,31 @@ class FavouriteEditingModal extends React.Component {
 
   renderDeleteFavouriteModal = favourite => {
     return (
-      <React.Fragment>
-        <div className={styles['favourite-delete-modal-top']}>
-          <div className={styles['favourite-delete-modal-header']}>
-            {i18next.t('delete-place-header')}
-          </div>
-          {!this.isMobile() && (
-            <div
-              className={styles['favourite-delete-modal-close']}
-              role="button"
-              tabIndex="0"
-              onClick={() =>
-                this.setState(
-                  { selectedFavourite: null, showDeletePlaceModal: false },
-                  () => this.props.handleClose(),
-                )
-              }
-              onKeyDown={e => {
-                if (e.keyCode === 32 || e.keyCode === 13) {
-                  this.props.handleClose();
-                }
-              }}
-              aria-label={i18next.t('close-modal')}
-            >
-              <Icon img="close" />
-            </div>
-          )}
-        </div>
-        <div className={styles['favourite-delete-modal-place']}>
-          {favourite.name}: {favourite.address}
-        </div>
-        <div className={styles['favourite-delete-modal-buttons']}>
-          <button
-            type="button"
-            tabIndex="0"
-            className={cx(styles['favourite-delete-modal-button'], styles.save)}
-            onClick={() => {
-              this.props.deleteFavourite(favourite);
-              this.setState({
-                selectedFavourite: null,
-                showDeletePlaceModal: false,
-              });
-            }}
-          >
-            {i18next.t('delete')}
-          </button>
-          <button
-            type="button"
-            tabIndex="0"
-            className={cx(
-              styles['favourite-delete-modal-button'],
-              styles.cancel,
-            )}
-            onClick={() =>
-              this.setState({
-                selectedFavourite: null,
-                showDeletePlaceModal: false,
-              })
-            }
-          >
-            {i18next.t('cancel')}
-          </button>
-        </div>
-      </React.Fragment>
+      <DialogModal
+        headerText={i18next.t('delete-place-header')}
+        handleClose={() =>
+          this.setState(
+            { selectedFavourite: null, showDeletePlaceModal: false },
+            () => this.props.handleClose(),
+          )
+        }
+        dialogContent={`${favourite.name}: ${favourite.address}`}
+        primaryButtonText={i18next.t('delete')}
+        primaryButtonOnClick={() => {
+          this.props.deleteFavourite(favourite);
+          this.setState({
+            selectedFavourite: null,
+            showDeletePlaceModal: false,
+          });
+        }}
+        secondaryButtonText={i18next.t('cancel')}
+        secondaryButtonOnClick={() =>
+          this.setState({
+            selectedFavourite: null,
+            showDeletePlaceModal: false,
+          })
+        }
+      />
     );
   };
 
