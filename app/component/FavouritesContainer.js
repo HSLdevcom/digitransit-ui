@@ -80,12 +80,13 @@ class FavouritesContainer extends React.Component {
   setLocationProperties = item => {
     const location =
       item.type === 'CurrentLocation' ? item : suggestionToLocation(item);
-    this.setState({
+    this.setState(prevState => ({
       favourite: {
         ...location,
+        name: prevState.favourite.name || '',
         defaultName: item.name || item.properties.name,
       },
-    });
+    }));
   };
 
   addHome = () => {
