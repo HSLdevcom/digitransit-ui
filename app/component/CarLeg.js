@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 
@@ -20,6 +21,42 @@ class CarLeg extends React.Component {
     CarpoolOffer: () => importLazy(import('./CarpoolOffer')),
   };
 
+  onRequestChange = newState => {
+    this.internalSetOffcanvas(newState);
+  };
+
+  getLazilyLoad(isOpen) {
+    return (
+      <LazilyLoad modules={this.carpoolOfferModules}>
+        {({ Drawer, CarpoolOffer }) => (
+          <Drawer
+            className="offcanvas"
+            disableSwipeToOpen
+            openSecondary
+            docked={false}
+            open={isOpen}
+            onRequestChange={this.onRequestChange}
+            // Needed for the closing arrow button that's left of the drawer.
+            containerStyle={{
+              background: 'transparent',
+              boxShadow: 'none',
+              overflow: 'visible',
+            }}
+            width={getDrawerWidth(window)}
+          >
+            <CarpoolOffer
+              duration={this.props.leg.duration}
+              from={this.props.leg.from}
+              to={this.props.leg.to}
+              start={this.props.leg.startTime}
+              onToggleClick={this.toggleOfferCarpool}
+            />
+          </Drawer>
+        )}
+      </LazilyLoad>
+    );
+  }
+
   internalSetOffcanvas = newState => {
     if (newState) {
       this.context.router.push({
@@ -32,10 +69,6 @@ class CarLeg extends React.Component {
     } else {
       this.context.router.goBack();
     }
-  };
-
-  onRequestChange = newState => {
-    this.internalSetOffcanvas(newState);
   };
 
   getOffcanvasState = () =>
@@ -123,33 +156,10 @@ class CarLeg extends React.Component {
             )}
           </div>
         </div>
-        <LazilyLoad modules={this.carpoolOfferModules}>
-          {({ Drawer, CarpoolOffer }) => (
-            <Drawer
-              className="offcanvas"
-              disableSwipeToOpen
-              openSecondary
-              docked={false}
-              open={isOpen}
-              onRequestChange={this.onRequestChange}
-              // Needed for the closing arrow button that's left of the drawer.
-              containerStyle={{
-                background: 'transparent',
-                boxShadow: 'none',
-                overflow: 'visible',
-              }}
-              width={getDrawerWidth(window)}
-            >
-              <CarpoolOffer
-                duration={this.props.leg.duration}
-                from={this.props.leg.from}
-                to={this.props.leg.to}
-                start={this.props.leg.startTime}
-                onToggleClick={this.toggleOfferCarpool}
-              />
-            </Drawer>
-          )}
-        </LazilyLoad>
+        {ReactDOM.createPortal(
+          this.getLazilyLoad(isOpen),
+          document.getElementById('app'),
+        )}
       </div>
     );
   };
