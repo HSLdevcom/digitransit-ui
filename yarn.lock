@@ -1386,6 +1386,13 @@
     "@digitransit-component/digitransit-component-icon" "^0.0.1"
     "@digitransit-component/digitransit-component-suggestion-item" "^0.0.7"
 
+"@digitransit-component/digitransit-component-favourite-editing-modal@latest":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-favourite-editing-modal/-/digitransit-component-favourite-editing-modal-0.0.1.tgz#e7b5970f2432a712be02cd9ba71f636c54d5510c"
+  integrity sha512-cpSfsuqoWtTa4CDCSdC5b33GNWqSh3oAhzqt+fMyUUi5Y5YFcARq88HUHmGpaA6XRVVjt3MK4kcMiz7MeHZMaA==
+  dependencies:
+    "@hsl-fi/sass" " ^0.1.1"
+
 "@digitransit-component/digitransit-component-favourite-modal@latest":
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-favourite-modal/-/digitransit-component-favourite-modal-0.0.4.tgz#569d96025d2512b74ea0a0669eceacd7893257d7"

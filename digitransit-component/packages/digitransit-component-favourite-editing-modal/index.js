@@ -4,6 +4,9 @@ import React from 'react';
 import cx from 'classnames';
 import i18next from 'i18next';
 import escapeRegExp from 'lodash/escapeRegExp';
+import differenceWith from 'lodash/differenceWith';
+import isEqual from 'lodash/isEqual';
+import isEmpty from 'lodash/isEmpty';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import DesktopModal from './helpers/DesktopModal';
 import MobileModal from './helpers/MobileModal';
@@ -16,10 +19,12 @@ i18next.addResourceBundle('en', 'translation', translations.en);
 i18next.addResourceBundle('fi', 'translation', translations.fi);
 i18next.addResourceBundle('sv', 'translation', translations.sv);
 
-const Modal = ({ children }) => {
+const Modal = ({ children, className }) => {
   return (
     <div className={styles['favourite-edit-modal']}>
-      <section className={styles['favourite-edit-modal-main']}>
+      <section
+        className={cx(styles['favourite-edit-modal-main'], styles[className])}
+      >
         {children}
       </section>
     </div>
@@ -28,6 +33,11 @@ const Modal = ({ children }) => {
 
 Modal.propTypes = {
   children: PropTypes.node,
+  className: PropTypes.string,
+};
+
+Modal.defaulProps = {
+  className: '',
 };
 
 class FavouriteEditingModal extends React.Component {
@@ -38,6 +48,9 @@ class FavouriteEditingModal extends React.Component {
     /** Required.
      * @type {function} */
     updateFavourites: PropTypes.func.isRequired,
+    /** Required.
+     * @type {function} */
+    deleteFavourite: PropTypes.func.isRequired,
     /** Required. Function that takes selected favourite object as parameter.
      * @type {function} */
     onEditSelected: PropTypes.func.isRequired,
@@ -77,15 +90,31 @@ class FavouriteEditingModal extends React.Component {
 
   constructor(props) {
     super(props);
+    i18next.changeLanguage(props.lang);
     this.draggableFavourites = [];
     this.state = {
       isDraggingOverIndex: undefined,
       favourites: props.favourites,
+      showDeletePlaceModal: false,
+      selectedFavourite: null,
     };
   }
 
-  componentDidMount = () => {
-    i18next.changeLanguage(this.props.lang);
+  static getDerivedStateFromProps = (nextProps, prevState) => {
+    const nextFavourites = nextProps.favourites;
+    const prevFavourites = prevState.favourites;
+    if (
+      !isEmpty(differenceWith(nextFavourites, prevFavourites, isEqual)) ||
+      !isEmpty(differenceWith(prevFavourites, nextFavourites, isEqual))
+    ) {
+      if (isEmpty(nextFavourites)) {
+        nextProps.handleClose();
+      }
+      return {
+        favourites: nextFavourites,
+      };
+    }
+    return null;
   };
 
   componentDidUpdate = prevProps => {
@@ -93,6 +122,9 @@ class FavouriteEditingModal extends React.Component {
       i18next.changeLanguage(this.props.lang);
     }
   };
+
+  isMobile = () =>
+    window && window.innerWidth ? window.innerWidth < 768 : false;
 
   handleOnFavouriteDragOver = (event, index) => {
     event.preventDefault();
@@ -224,6 +256,20 @@ class FavouriteEditingModal extends React.Component {
               favourite,
             })}
             className={styles['favourite-edit-list-item-remove']}
+            onClick={() =>
+              this.setState({
+                selectedFavourite: favourite,
+                showDeletePlaceModal: true,
+              })
+            }
+            onKeyDown={e => {
+              if (e.keyCode === 32 || e.keyCode === 13) {
+                this.setState({
+                  selectedFavourite: favourite,
+                  showDeletePlaceModal: true,
+                });
+              }
+            }}
           >
             <Icon img="trash" />
           </div>
@@ -244,30 +290,101 @@ class FavouriteEditingModal extends React.Component {
     );
   };
 
-  render() {
-    const isMobile =
-      window && window.innerWidth ? window.innerWidth < 768 : false;
-    const { favourites } = this.state;
+  renderDeleteFavouriteModal = favourite => {
     return (
       <React.Fragment>
-        <Modal>
-          {isMobile && (
-            <MobileModal
-              headerText={i18next.t('edit-places')}
-              closeModal={this.props.handleClose}
-              closeArialLabel={i18next.t('close-modal')}
-              renderList={this.renderFavouriteList(favourites)}
-            />
+        <div className={styles['favourite-delete-modal-top']}>
+          <div className={styles['favourite-delete-modal-header']}>
+            {i18next.t('delete-place-header')}
+          </div>
+          {!this.isMobile() && (
+            <div
+              className={styles['favourite-delete-modal-close']}
+              role="button"
+              tabIndex="0"
+              onClick={() =>
+                this.setState(
+                  { selectedFavourite: null, showDeletePlaceModal: false },
+                  () => this.props.handleClose(),
+                )
+              }
+              onKeyDown={e => {
+                if (e.keyCode === 32 || e.keyCode === 13) {
+                  this.props.handleClose();
+                }
+              }}
+              aria-label={i18next.t('close-modal')}
+            >
+              <Icon img="close" />
+            </div>
           )}
-          {!isMobile && (
-            <DesktopModal
-              headerText={i18next.t('edit-places')}
-              closeModal={this.props.handleClose}
-              closeArialLabel={i18next.t('close-modal')}
-              renderList={this.renderFavouriteList(favourites)}
-            />
-          )}
-        </Modal>
+        </div>
+        <div className={styles['favourite-delete-modal-place']}>
+          {favourite.name}: {favourite.address}
+        </div>
+        <div className={styles['favourite-delete-modal-buttons']}>
+          <button
+            type="button"
+            tabIndex="0"
+            className={cx(styles['favourite-delete-modal-button'], styles.save)}
+            onClick={() => {
+              this.props.deleteFavourite(favourite);
+              this.setState({
+                selectedFavourite: null,
+                showDeletePlaceModal: false,
+              });
+            }}
+          >
+            {i18next.t('delete')}
+          </button>
+          <button
+            type="button"
+            tabIndex="0"
+            className={cx(
+              styles['favourite-delete-modal-button'],
+              styles.cancel,
+            )}
+            onClick={() =>
+              this.setState({
+                selectedFavourite: null,
+                showDeletePlaceModal: false,
+              })
+            }
+          >
+            {i18next.t('cancel')}
+          </button>
+        </div>
+      </React.Fragment>
+    );
+  };
+
+  render() {
+    const { favourites, showDeletePlaceModal, selectedFavourite } = this.state;
+    const modalProps = {
+      headerText: i18next.t('edit-places'),
+      closeModal: this.props.handleClose,
+      closeArialLabel: i18next.t('close-modal'),
+      renderList: this.renderFavouriteList(favourites),
+    };
+    return (
+      <React.Fragment>
+        {this.isMobile() && (
+          <Modal>
+            {showDeletePlaceModal && (
+              <Modal className="delete-modal">
+                {this.renderDeleteFavouriteModal(selectedFavourite)}
+              </Modal>
+            )}
+            <MobileModal {...modalProps} />
+          </Modal>
+        )}
+        {!this.isMobile() && (
+          <Modal className={cx({ 'delete-modal': showDeletePlaceModal })}>
+            {showDeletePlaceModal &&
+              this.renderDeleteFavouriteModal(selectedFavourite)}
+            {!showDeletePlaceModal && <DesktopModal {...modalProps} />}
+          </Modal>
+        )}
       </React.Fragment>
     );
   }
