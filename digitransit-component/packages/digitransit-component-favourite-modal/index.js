@@ -302,7 +302,11 @@ class FavouriteModal extends React.Component {
           name: this.state.favourite.selectedIconId,
         });
       }
-      this.props.handleClose();
+      if (this.isEdit() && this.props.cancelSelected) {
+        this.props.cancelSelected();
+      } else {
+        this.props.handleClose();
+      }
     }
   };
 

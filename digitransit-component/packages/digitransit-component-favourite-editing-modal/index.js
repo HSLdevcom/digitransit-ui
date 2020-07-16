@@ -4,6 +4,9 @@ import React from 'react';
 import cx from 'classnames';
 import i18next from 'i18next';
 import escapeRegExp from 'lodash/escapeRegExp';
+import differenceWith from 'lodash/differenceWith';
+import isEqual from 'lodash/isEqual';
+import isEmpty from 'lodash/isEmpty';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import DesktopModal from './helpers/DesktopModal';
 import MobileModal from './helpers/MobileModal';
@@ -96,6 +99,23 @@ class FavouriteEditingModal extends React.Component {
       selectedFavourite: null,
     };
   }
+
+  static getDerivedStateFromProps = (nextProps, prevState) => {
+    const nextFavourites = nextProps.favourites;
+    const prevFavourites = prevState.favourites;
+    if (
+      !isEmpty(differenceWith(nextFavourites, prevFavourites, isEqual)) ||
+      !isEmpty(differenceWith(prevFavourites, nextFavourites, isEqual))
+    ) {
+      if (isEmpty(nextFavourites)) {
+        nextProps.handleClose();
+      }
+      return {
+        favourites: nextFavourites,
+      };
+    }
+    return null;
+  };
 
   componentDidUpdate = prevProps => {
     if (prevProps.lang !== this.props.lang) {
@@ -309,7 +329,10 @@ class FavouriteEditingModal extends React.Component {
             className={cx(styles['favourite-delete-modal-button'], styles.save)}
             onClick={() => {
               this.props.deleteFavourite(favourite);
-              this.props.handleClose();
+              this.setState({
+                selectedFavourite: null,
+                showDeletePlaceModal: false,
+              });
             }}
           >
             {i18next.t('delete')}
