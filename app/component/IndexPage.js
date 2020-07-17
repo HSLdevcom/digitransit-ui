@@ -10,7 +10,6 @@ import isEqual from 'lodash/isEqual';
 import d from 'debug';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
 import loadable from '@loadable/component';
-import getRelayEnvironment from '../util/getRelayEnvironment';
 import {
   initGeolocation,
   checkPositioningPermission,
@@ -38,21 +37,17 @@ const TrafficNowLink = loadable(
   () => import('@digitransit-component/digitransit-component-traffic-now-link'),
   { ssr: true },
 );
-const DTAutoSuggest = getRelayEnvironment(
-  withSearchContext(
-    loadable(
-      () => import('@digitransit-component/digitransit-component-autosuggest'),
-      { ssr: true },
-    ),
+const DTAutoSuggest = withSearchContext(
+  loadable(
+    () => import('@digitransit-component/digitransit-component-autosuggest'),
+    { ssr: true },
   ),
 );
-const DTAutosuggestPanel = getRelayEnvironment(
-  withSearchContext(
-    loadable(
-      () =>
-        import('@digitransit-component/digitransit-component-autosuggest-panel'),
-      { ssr: true },
-    ),
+const DTAutosuggestPanel = withSearchContext(
+  loadable(
+    () =>
+      import('@digitransit-component/digitransit-component-autosuggest-panel'),
+    { ssr: true },
   ),
 );
 
