@@ -48,7 +48,6 @@ function ViaLeg(props, context) {
   const [address, place] = props.leg.from.name.split(/, (.+)/); // Splits the name-string to two parts from the first occurance of ', '
   const duration = durationToString(props.leg.duration * 1000);
   const stayDuration = props.leg.startTime - props.arrivalTime;
-
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div key={props.index} className="row itinerary-row">
