@@ -940,7 +940,7 @@ const translations = {
     'itinerary-summary-row.walking-distance':
       'Total walking distance {totalDistance}.',
     'itinerary-summary.interline-wait':
-      'Wait for transfer in the vehicle ({time})',
+      'Wait for the transfer in the vehicle ({time})',
     'itinerary-summary.show-on-map': 'Show on map {target}',
     'itinerary-ticket.title': 'Required ticket',
     'itinerary-tickets.title': 'Required tickets',

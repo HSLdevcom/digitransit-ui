@@ -133,11 +133,39 @@
                                     "defaultValue": null
                                 },
                                 {
+                                    "name": "feeds",
+                                    "description": "List of feeds from which stops are returned. Defaults to all feeds",
+                                    "type": {
+                                        "kind": "LIST",
+                                        "name": null,
+                                        "ofType": {
+                                            "kind": "NON_NULL",
+                                            "name": null,
+                                            "ofType": {
+                                                "kind": "SCALAR",
+                                                "name": "String",
+                                                "ofType": null
+                                            }
+                                        }
+                                    },
+                                    "defaultValue": null
+                                },
+                                {
                                     "name": "name",
                                     "description": "Query stops by this name",
                                     "type": {
                                         "kind": "SCALAR",
                                         "name": "String",
+                                        "ofType": null
+                                    },
+                                    "defaultValue": null
+                                },
+                                {
+                                    "name": "maxResults",
+                                    "description": "Number of results to return when using `name` argument. Defaults to 10",
+                                    "type": {
+                                        "kind": "SCALAR",
+                                        "name": "Int",
                                         "ofType": null
                                     },
                                     "defaultValue": null
@@ -618,11 +646,39 @@
                                     "defaultValue": null
                                 },
                                 {
+                                    "name": "feeds",
+                                    "description": "List of feeds from which stations are returned. Defaults to all feeds",
+                                    "type": {
+                                        "kind": "LIST",
+                                        "name": null,
+                                        "ofType": {
+                                            "kind": "NON_NULL",
+                                            "name": null,
+                                            "ofType": {
+                                                "kind": "SCALAR",
+                                                "name": "String",
+                                                "ofType": null
+                                            }
+                                        }
+                                    },
+                                    "defaultValue": null
+                                },
+                                {
                                     "name": "name",
                                     "description": "Query stations by name",
                                     "type": {
                                         "kind": "SCALAR",
                                         "name": "String",
+                                        "ofType": null
+                                    },
+                                    "defaultValue": null
+                                },
+                                {
+                                    "name": "maxResults",
+                                    "description": "Number of results to return when using `name` argument. Defaults to 10",
+                                    "type": {
+                                        "kind": "SCALAR",
+                                        "name": "Int",
                                         "ofType": null
                                     },
                                     "defaultValue": null
@@ -4973,6 +5029,18 @@
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
+                        },
+                        {
+                            "name": "stopSequence",
+                            "description": "The sequence number of the stop",
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Int",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
                         }
                     ],
                     "inputFields": null,
@@ -5937,6 +6005,30 @@
                             "deprecationReason": null
                         },
                         {
+                            "name": "isFloatingBike",
+                            "description": "If true, this is a free floating bike.",
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Boolean",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "isCarStation",
+                            "description": "If true, this is a car rental system station.",
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Boolean",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
                             "name": "networks",
                             "description": null,
                             "args": [],
@@ -6464,6 +6556,18 @@
                             "type": {
                                 "kind": "OBJECT",
                                 "name": "Stop",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "stopSequence",
+                            "description": "For transit stops, the sequence number of the stop.",
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Int",
                                 "ofType": null
                             },
                             "isDeprecated": false,
