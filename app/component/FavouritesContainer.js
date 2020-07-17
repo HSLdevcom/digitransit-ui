@@ -5,19 +5,16 @@ import loadable from '@loadable/component';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import withSearchContext from './WithSearchContext';
-import getRelayEnvironment from '../util/getRelayEnvironment';
 import {
   addFavourite,
   updateFavourites,
   deleteFavourite,
 } from '../action/FavouriteActions';
 
-const AutoSuggestWithSearchContext = getRelayEnvironment(
-  withSearchContext(
-    loadable(
-      () => import('@digitransit-component/digitransit-component-autosuggest'),
-      { ssr: true },
-    ),
+const AutoSuggestWithSearchContext = withSearchContext(
+  loadable(
+    () => import('@digitransit-component/digitransit-component-autosuggest'),
+    { ssr: true },
   ),
 );
 

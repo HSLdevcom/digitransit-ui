@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { LeafletProvider } from 'react-leaflet/es/context';
 import sinon from 'sinon';
+import { ReactRelayContext } from 'react-relay';
 
 import {
   shallowWithIntl,
@@ -39,7 +40,9 @@ describe('<TileLayerContainer />', () => {
           },
         }}
       >
-        <TileLayerContainer {...props} />
+        <ReactRelayContext.Provider value={{ environment: {} }}>
+          <TileLayerContainer {...props} />
+        </ReactRelayContext.Provider>
       </LeafletProvider>,
       {
         context: {
@@ -110,22 +113,25 @@ describe('<TileLayerContainer />', () => {
       },
     };
     const spy = sinon.spy(analytics, 'addAnalyticsEvent');
-    const wrapper = shallowWithIntl(<Component {...props} />, {
-      context: {
-        ...mockContext,
-        getStore: () => ({
-          addChangeListener: () => {},
-          getCurrentTime: () => ({ unix: () => 123457890 }),
-          getMapLayers: () => ({
-            stop: {},
-            terminal: {},
-            ticketSales: {},
+    const wrapper = shallowWithIntl(
+      <Component {...props} relayEnvironment={{}} />,
+      {
+        context: {
+          ...mockContext,
+          getStore: () => ({
+            addChangeListener: () => {},
+            getCurrentTime: () => ({ unix: () => 123457890 }),
+            getMapLayers: () => ({
+              stop: {},
+              terminal: {},
+              ticketSales: {},
+            }),
+            on: () => {},
           }),
-          on: () => {},
-        }),
-        config: { cityBike: {} },
+          config: { cityBike: {} },
+        },
       },
-    });
+    );
     wrapper.setState({ selectableTargets: [{ feature: { properties: {} } }] });
     wrapper.prop('onOpen')();
     expect(spy.calledOnce).to.equal(true);
