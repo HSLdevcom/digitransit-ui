@@ -14,6 +14,12 @@ Required.
 
 Type: [function][1]
 
+## deleteFavourite
+
+Required.
+
+Type: [function][1]
+
 ## onEditSelected
 
 Required. Function that takes selected favourite object as parameter.

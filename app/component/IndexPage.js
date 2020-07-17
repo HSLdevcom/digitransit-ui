@@ -7,18 +7,14 @@ import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
 import isEqual from 'lodash/isEqual';
-import differenceWith from 'lodash/differenceWith';
-import isEmpty from 'lodash/isEmpty';
 import d from 'debug';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
 import loadable from '@loadable/component';
-import getRelayEnvironment from '../util/getRelayEnvironment';
 import {
   initGeolocation,
   checkPositioningPermission,
 } from '../action/PositionActions';
 import storeOrigin from '../action/originActions';
-import { addFavourite } from '../action/FavouriteActions';
 import storeDestination from '../action/destinationActions';
 import withSearchContext from './WithSearchContext';
 import { isBrowser } from '../util/browser';
@@ -41,21 +37,17 @@ const TrafficNowLink = loadable(
   () => import('@digitransit-component/digitransit-component-traffic-now-link'),
   { ssr: true },
 );
-const DTAutoSuggest = getRelayEnvironment(
-  withSearchContext(
-    loadable(
-      () => import('@digitransit-component/digitransit-component-autosuggest'),
-      { ssr: true },
-    ),
+const DTAutoSuggest = withSearchContext(
+  loadable(
+    () => import('@digitransit-component/digitransit-component-autosuggest'),
+    { ssr: true },
   ),
 );
-const DTAutosuggestPanel = getRelayEnvironment(
-  withSearchContext(
-    loadable(
-      () =>
-        import('@digitransit-component/digitransit-component-autosuggest-panel'),
-      { ssr: true },
-    ),
+const DTAutosuggestPanel = withSearchContext(
+  loadable(
+    () =>
+      import('@digitransit-component/digitransit-component-autosuggest-panel'),
+    { ssr: true },
   ),
 );
 
@@ -76,18 +68,6 @@ class IndexPage extends React.Component {
     origin: dtLocationShape.isRequired,
     destination: dtLocationShape.isRequired,
     showSpinner: PropTypes.bool.isRequired,
-    favourites: PropTypes.arrayOf(
-      PropTypes.shape({
-        address: PropTypes.string,
-        gtfsId: PropTypes.string,
-        gid: PropTypes.string,
-        lat: PropTypes.number,
-        name: PropTypes.string,
-        lon: PropTypes.number,
-        selectedIconId: PropTypes.string,
-        favouriteId: PropTypes.string,
-      }),
-    ),
     lang: PropTypes.string,
     itineraryParams: PropTypes.object,
   };
@@ -95,7 +75,6 @@ class IndexPage extends React.Component {
   static defaultProps = {
     autoSetOrigin: true,
     lang: 'fi',
-    favourites: [],
   };
 
   constructor(props, context) {
@@ -160,10 +139,6 @@ class IndexPage extends React.Component {
     window.location = this.context.config.trafficNowLink;
   };
 
-  saveFavourite = favourite => {
-    this.context.executeAction(addFavourite, favourite);
-  };
-
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     const { intl, config } = this.context;
@@ -172,7 +147,6 @@ class IndexPage extends React.Component {
       breakpoint,
       destination,
       origin,
-      favourites,
       lang,
       itineraryParams,
     } = this.props;
@@ -216,8 +190,6 @@ class IndexPage extends React.Component {
               <DatetimepickerContainer realtime />
             </div>
             <FavouritesContainer
-              favourites={favourites}
-              onSaveFavourite={this.saveFavourite}
               onClickFavourite={this.clickFavourite}
               lang={lang}
             />
@@ -285,8 +257,6 @@ class IndexPage extends React.Component {
               <DatetimepickerContainer realtime />
             </div>
             <FavouritesContainer
-              favourites={favourites}
-              onSaveFavourite={this.saveFavourite}
               onClickFavourite={this.clickFavourite}
               lang={lang}
               isMobile
@@ -333,9 +303,6 @@ const Index = shouldUpdate(
       isEqual(nextProps.lang, props.lang) &&
       isEqual(nextProps.locationState, props.locationState) &&
       isEqual(nextProps.showSpinner, props.showSpinner) &&
-      isEmpty(
-        differenceWith(nextProps.favourites, props.favourites, isEqual),
-      ) &&
       isEqual(nextProps.itineraryParams, props.itineraryParams)
     );
   },
@@ -465,10 +432,6 @@ const IndexPageWithPosition = connectToStores(
       });
     }
     newProps.lang = context.getStore('PreferencesStore').getLanguage();
-    newProps.favourites = [
-      ...context.getStore('FavouriteStore').getLocations(),
-      ...context.getStore('FavouriteStore').getStopsAndStations(),
-    ];
     newProps.itineraryParams = getTimeAndArriveByFromURL(location);
     return newProps;
   },

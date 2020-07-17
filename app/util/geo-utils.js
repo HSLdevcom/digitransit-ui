@@ -74,7 +74,7 @@ export function displayDistance(meters, config) {
   if (meters < 100) {
     return `${Math.round(meters / 10) * 10} m`; // Tens of meters
   }
-  if (meters < 1000) {
+  if (meters < 975) {
     return `${Math.round(meters / 50) * 50} m`; // fifty meters
   }
   if (meters < 10000) {

@@ -1,14 +1,16 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useContext } from 'react';
 import { QueryRenderer, graphql } from 'react-relay';
 import Link from 'found/lib/Link';
 import cx from 'classnames';
+import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import IconWithTail from './IconWithTail';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import getRelayEnvironment from '../util/getRelayEnvironment';
 
-function FuzzyTripLink({ vehicle, relayEnvironment }) {
+function FuzzyTripLink({ vehicle }) {
+  const { environment } = useContext(ReactRelayContext);
+
   const icon = (
     <IconWithTail
       className={cx(vehicle.mode, 'tail-icon')}
@@ -50,7 +52,7 @@ function FuzzyTripLink({ vehicle, relayEnvironment }) {
           vehicle.tripStartTime.substring(0, 2) * 60 * 60 +
           vehicle.tripStartTime.substring(2, 4) * 60,
       }}
-      environment={relayEnvironment}
+      environment={environment}
       render={({ props }) => {
         if (!props) {
           return <span className="route-now-content">{icon}</span>;
@@ -88,12 +90,6 @@ FuzzyTripLink.propTypes = {
     tripStartTime: PropTypes.string.isRequired,
     operatingDay: PropTypes.string.isRequired,
   }).isRequired,
-  relayEnvironment: PropTypes.object.isRequired,
 };
 
-const componentWithRelayEnvinronment = getRelayEnvironment(FuzzyTripLink);
-
-export {
-  componentWithRelayEnvinronment as default,
-  FuzzyTripLink as Component,
-};
+export default FuzzyTripLink;

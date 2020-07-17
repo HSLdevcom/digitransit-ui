@@ -175,10 +175,12 @@ class FavouriteBar extends React.Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     const { favourites, home, work } = prevState;
     const nextFavourites = nextProps.favourites;
-
     if (
       !isEmpty(
         differenceWith(nextFavourites, [...favourites, home, work], isEqual),
+      ) ||
+      !isEmpty(
+        differenceWith([...favourites, home, work], nextFavourites, isEqual),
       )
     ) {
       const nextHome = find(

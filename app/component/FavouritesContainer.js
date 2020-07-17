@@ -2,17 +2,19 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import loadable from '@loadable/component';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import withSearchContext from './WithSearchContext';
-import getRelayEnvironment from '../util/getRelayEnvironment';
-import { updateFavourites } from '../action/FavouriteActions';
+import {
+  addFavourite,
+  updateFavourites,
+  deleteFavourite,
+} from '../action/FavouriteActions';
 
-const AutoSuggestWithSearchContext = getRelayEnvironment(
-  withSearchContext(
-    loadable(
-      () => import('@digitransit-component/digitransit-component-autosuggest'),
-      { ssr: true },
-    ),
+const AutoSuggestWithSearchContext = withSearchContext(
+  loadable(
+    () => import('@digitransit-component/digitransit-component-autosuggest'),
+    { ssr: true },
   ),
 );
 
@@ -33,14 +35,16 @@ const FavouriteEditModal = loadable(
 );
 
 const favouriteShape = PropTypes.shape({
+  type: PropTypes.string,
   address: PropTypes.string,
   gtfsId: PropTypes.string,
   gid: PropTypes.string,
   lat: PropTypes.number,
-  name: PropTypes.string,
   lon: PropTypes.number,
+  name: PropTypes.string,
   selectedIconId: PropTypes.string,
   favouriteId: PropTypes.string,
+  layer: PropTypes.string,
 });
 
 class FavouritesContainer extends React.Component {
@@ -51,8 +55,7 @@ class FavouritesContainer extends React.Component {
 
   static propTypes = {
     favourites: PropTypes.arrayOf(favouriteShape),
-    onSaveFavourite: PropTypes.func,
-    onClickFavourite: PropTypes.func,
+    onClickFavourite: PropTypes.func.isRequired,
     lang: PropTypes.string,
     isMobile: PropTypes.bool,
   };
@@ -74,12 +77,13 @@ class FavouritesContainer extends React.Component {
   setLocationProperties = item => {
     const location =
       item.type === 'CurrentLocation' ? item : suggestionToLocation(item);
-    this.setState({
+    this.setState(prevState => ({
       favourite: {
         ...location,
+        name: prevState.favourite.name || '',
         defaultName: item.name || item.properties.name,
       },
-    });
+    }));
   };
 
   addHome = () => {
@@ -106,6 +110,14 @@ class FavouritesContainer extends React.Component {
         selectedIconId: 'icon-icon_work',
       },
     });
+  };
+
+  saveFavourite = favourite => {
+    this.context.executeAction(addFavourite, favourite);
+  };
+
+  deleteFavourite = favourite => {
+    this.context.executeAction(deleteFavourite, favourite);
   };
 
   updateFavourites = favourites => {
@@ -140,7 +152,7 @@ class FavouritesContainer extends React.Component {
                 favourite: {},
               })
             }
-            saveFavourite={this.props.onSaveFavourite}
+            saveFavourite={this.saveFavourite}
             cancelSelected={() =>
               this.setState({
                 addModalOpen: false,
@@ -172,7 +184,8 @@ class FavouritesContainer extends React.Component {
             handleClose={() =>
               this.setState({ editModalOpen: false, favourite: {} })
             }
-            saveFavourite={this.props.onSaveFavourite}
+            saveFavourite={this.saveFavourite}
+            deleteFavourite={this.deleteFavourite}
             onEditSelected={this.editFavourite}
             lang={this.props.lang}
           />
@@ -182,4 +195,15 @@ class FavouritesContainer extends React.Component {
   }
 }
 
-export default FavouritesContainer;
+const connectedComponent = connectToStores(
+  FavouritesContainer,
+  ['FavouriteStore'],
+  context => ({
+    favourites: [
+      ...context.getStore('FavouriteStore').getLocations(),
+      ...context.getStore('FavouriteStore').getStopsAndStations(),
+    ],
+  }),
+);
+
+export { connectedComponent as default, FavouritesContainer as Component };

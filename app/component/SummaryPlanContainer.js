@@ -2,7 +2,12 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { graphql, createFragmentContainer, fetchQuery } from 'react-relay';
+import {
+  graphql,
+  createFragmentContainer,
+  fetchQuery,
+  ReactRelayContext,
+} from 'react-relay';
 import { matchShape, routerShape } from 'found';
 import getContext from 'recompose/getContext';
 
@@ -529,8 +534,15 @@ class SummaryPlanContainer extends React.Component {
 
 const withConfig = getContext({
   config: PropTypes.object.isRequired,
-  relayEnvironment: PropTypes.object.isRequired,
-})(withBreakpoint(SummaryPlanContainer));
+})(
+  withBreakpoint(props => (
+    <ReactRelayContext.Consumer>
+      {({ environment }) => (
+        <SummaryPlanContainer {...props} relayEnvironment={environment} />
+      )}
+    </ReactRelayContext.Consumer>
+  )),
+);
 
 const connectedContainer = createFragmentContainer(
   connectToStores(withConfig, [TimeStore, PositionStore], context => ({

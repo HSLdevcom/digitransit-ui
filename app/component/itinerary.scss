@@ -860,56 +860,49 @@ $itinerary-tab-switch-height: 48px;
           width: calc(100% - 42px);
         }
       }
-      .route-number {
+      .bar-container {
         padding: 7px;
         min-width: calc(3.75em + 14px);
         height: calc(1.5em + 14px);
         font-size: 16px;
         white-space: nowrap;
-        &.hasNoShortName {
+        &.long {
           width: calc(100% - 42px);
         }
-        .vcenter-children {
-          position: relative;
+        .bar {
           width: 100%;
+          background-color: currentColor;
+          height: 1.5em;
+          border-radius: $border-radius;
+        }
+        .vcenter-children {
+          width: 100%;
+          display: flex;
         }
         .subicon-info, .subicon-caution {
           font-size: 50% !important;
         }
+        .vehicle-number-container-v{
+          width: calc(100% - 1.5em);
         .vehicle-number {
           color: $white;
-          position: absolute;
           left: 1.5em;
           width: 2.25em;
           text-align: center;
           padding: 4px 0 0 0;
-          margin: 0 0 0 5px;
           &.long {
             left: 1.7em;
             width: 100%;
             text-align: left;
           }
         }
+      }
         .icon {
           height: 1.5em;
           width: 1.5em;
           z-index: 1;
           top: 0;
           position: relative;
-        }
-        .bar-container {
-          width: 100%;
-          height: 1.5em;
-          display: flex;
-          position: absolute;
-          top: 0;
-          .bar {
-            width: 100%;
-            background-color: currentColor;
-            border: 1px solid currentColor;
-            height: 1.5em;
-            border-radius: $border-radius;
-          }
         }
       }
       }

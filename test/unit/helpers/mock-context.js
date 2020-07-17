@@ -39,7 +39,6 @@ export const mockContext = {
   match: mockMatch,
   muiTheme,
   router: mockRouter,
-  relayEnvironment: {},
 };
 
 /**
@@ -52,5 +51,4 @@ export const mockChildContextTypes = {
   muiTheme: PropTypes.object,
   router: routerShape,
   match: matchShape,
-  relayEnvironment: PropTypes.object,
 };
