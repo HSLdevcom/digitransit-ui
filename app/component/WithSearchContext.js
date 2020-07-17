@@ -262,7 +262,6 @@ export default function withSearchContext(WrappedComponent) {
       if (item.type === 'CurrentLocation') {
         // item is already a location.
         this.selectLocation(item, id);
-        this.addItineraryParamsToLocation(item, this.props.itineraryParams);
       }
       if (item.type === 'OldSearch' && item.properties.gid) {
         getJson(this.context.config.URL.PELIAS_PLACE, {
@@ -277,11 +276,9 @@ export default function withSearchContext(WrappedComponent) {
           this.finishSelect(newItem, type);
           this.onSuggestionSelected(item, id);
         });
-        this.addItineraryParamsToLocation(item, this.props.itineraryParams);
       } else {
         this.finishSelect(item, type);
         this.onSuggestionSelected(item, id);
-        this.addItineraryParamsToLocation(item, this.props.itineraryParams);
       }
     };
 
