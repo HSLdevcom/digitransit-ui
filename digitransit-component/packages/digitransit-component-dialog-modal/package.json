@@ -1,7 +1,7 @@
 {
-  "name": "@digitransit-component/digitransit-component-favourite-editing-modal",
-  "version": "0.0.2",
-  "description": "digitransit-component favourite-editing-modal module",
+  "name": "@digitransit-component/digitransit-component-dialog-modal",
+  "version": "0.0.1",
+  "description": "digitransit-component dialog-modal module",
   "main": "index.generated",
   "publishConfig": {
     "access": "public"
@@ -18,7 +18,7 @@
   },
   "keywords": [
     "digitransit-component",
-    "FavouriteEditingModal"
+    "DialogModal"
   ],
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
@@ -26,7 +26,6 @@
     "@hsl-fi/sass":" ^0.1.1"
   },
   "peerDependencies": {
-    "@digitransit-component/digitransit-component-dialog-modal": "^0.0.1",
     "i18next": "^19.3.3",
     "prop-types": "^15.7.2",
     "react": "^16.13.0"
