@@ -333,11 +333,8 @@ class FavouriteEditingModal extends React.Component {
       <React.Fragment>
         {this.isMobile() && (
           <Modal>
-            {showDeletePlaceModal && (
-              <Modal className="delete-modal">
-                {this.renderDeleteFavouriteModal(selectedFavourite)}
-              </Modal>
-            )}
+            {showDeletePlaceModal &&
+              this.renderDeleteFavouriteModal(selectedFavourite)}
             <MobileModal {...modalProps} />
           </Modal>
         )}
