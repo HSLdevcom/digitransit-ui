@@ -6,6 +6,7 @@ import styles from './desktop.scss';
 
 const DesktopModal = ({
   closeModal,
+  closeModalKeyDown,
   headerText,
   renderList,
   closeArialLabel,
@@ -21,6 +22,7 @@ const DesktopModal = ({
           role="button"
           tabIndex="0"
           onClick={closeModal}
+          onKeyDown={e => closeModalKeyDown(e)}
           aria-label={closeArialLabel}
         >
           <Icon img="close" />
@@ -33,6 +35,7 @@ const DesktopModal = ({
 
 DesktopModal.propTypes = {
   closeModal: PropTypes.func.isRequired,
+  closeModalKeyDown: PropTypes.func.isRequired,
   headerText: PropTypes.string.isRequired,
   renderList: PropTypes.func.isRequired,
   closeArialLabel: PropTypes.string.isRequired,
