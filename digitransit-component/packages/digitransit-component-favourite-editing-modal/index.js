@@ -20,6 +20,18 @@ i18next.addResourceBundle('en', 'translation', translations.en);
 i18next.addResourceBundle('fi', 'translation', translations.fi);
 i18next.addResourceBundle('sv', 'translation', translations.sv);
 
+const isKeyboardSelectionEvent = event => {
+  const space = [13, ' ', 'Spacebar'];
+  const enter = [32, 'Enter'];
+  const key = (event && (event.key || event.which || event.keyCode)) || '';
+
+  if (!key || !space.concat(enter).includes(key)) {
+    return false;
+  }
+  event.preventDefault();
+  return true;
+};
+
 const Modal = ({ children, className }) => {
   return (
     <div className={styles['favourite-edit-modal']}>
@@ -243,7 +255,7 @@ class FavouriteEditingModal extends React.Component {
             className={styles['favourite-edit-list-item-edit']}
             onClick={() => this.props.onEditSelected(favourite)}
             onKeyDown={e => {
-              if (e.keyCode === 32 || e.keyCode === 13) {
+              if (isKeyboardSelectionEvent(e)) {
                 this.props.onEditSelected(favourite);
               }
             }}
@@ -264,7 +276,7 @@ class FavouriteEditingModal extends React.Component {
               })
             }
             onKeyDown={e => {
-              if (e.keyCode === 32 || e.keyCode === 13) {
+              if (isKeyboardSelectionEvent(e)) {
                 this.setState({
                   selectedFavourite: favourite,
                   showDeletePlaceModal: true,
@@ -326,6 +338,11 @@ class FavouriteEditingModal extends React.Component {
     const modalProps = {
       headerText: i18next.t('edit-places'),
       closeModal: this.props.handleClose,
+      closeModalKeyDown: e => {
+        if (isKeyboardSelectionEvent(e)) {
+          this.props.handleClose();
+        }
+      },
       closeArialLabel: i18next.t('close-modal'),
       renderList: this.renderFavouriteList(favourites),
     };
