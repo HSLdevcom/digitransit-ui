@@ -18,6 +18,25 @@ import { matchQuickOption } from '../util/planParamUtil';
 import { getModes } from '../util/modeUtils';
 import { ItinerarySummarySubtitle } from './ItinerarySummarySubtitle';
 
+/*
+Only bikePark itineraries legs have bikePark value defined
+*/
+function containsOnlyBikeParkItineraries(itineraries) {
+  const lastItinery = itineraries.splice(-1)[0];
+  const lastItineraryBikeLegs = lastItinery.legs.filter(
+    leg => leg.mode === 'BICYCLE',
+  );
+  if (
+    lastItineraryBikeLegs &&
+    lastItineraryBikeLegs[0] &&
+    lastItineraryBikeLegs[0].to &&
+    lastItineraryBikeLegs[0].to.bikePark
+  ) {
+    return true;
+  }
+  return false;
+}
+
 function ItinerarySummaryListContainer(
   {
     activeIndex,
@@ -66,14 +85,16 @@ function ItinerarySummaryListContainer(
           defaultMessage="Biking \u0026 public transport \u0026 walking"
         />,
       );
-      summaries.splice(
-        4,
-        0,
-        <ItinerarySummarySubtitle
-          translationId="itinerary-summary.bikeAndPublic"
-          defaultMessage="Biking \u0026 public transport"
-        />,
-      );
+      if (!containsOnlyBikeParkItineraries(itineraries)) {
+        summaries.splice(
+          4,
+          0,
+          <ItinerarySummarySubtitle
+            translationId="itinerary-summary.bikeAndPublic"
+            defaultMessage="Biking \u0026 public transport"
+          />,
+        );
+      }
     }
 
     const canceledItinerariesCount = itineraries.filter(itineraryHasCancelation)

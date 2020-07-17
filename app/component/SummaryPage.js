@@ -359,6 +359,19 @@ class SummaryPage extends React.Component {
     this.context.router.push(newState);
   };
 
+  planContainsOnlyBiking = plan => {
+    if (plan && plan.itineraries && plan.itineraries.length < 2) {
+      const legsWithPublic = plan.itineraries[0].legs.filter(
+        obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE',
+      );
+      if (legsWithPublic.length === 0) {
+        return true;
+      }
+      return false;
+    }
+    return false;
+  };
+
   configClient = itineraryTopics => {
     const { config } = this.context;
     const { realTime } = config;
@@ -796,7 +809,6 @@ class SummaryPage extends React.Component {
       bikeParkPlan,
     } = this.props;
 
-    let selectedItineraries;
     if (this.state.streetMode === 'walk') {
       this.stopClient();
       this.selectedPlan = walkPlan;
@@ -804,29 +816,24 @@ class SummaryPage extends React.Component {
       this.stopClient();
       this.selectedPlan = bikePlan;
     } else if (this.state.streetMode === 'bikeAndPublic') {
-      this.selectedPlan = bikeAndPublicPlan;
       if (
         bikeAndPublicPlan.itineraries &&
         bikeAndPublicPlan.itineraries.length > 0 &&
+        !this.planContainsOnlyBiking(bikeAndPublicPlan) &&
         bikeParkPlan.itineraries &&
         bikeParkPlan.itineraries.length > 0
       ) {
-        selectedItineraries = [
+        this.selectedPlan = bikeAndPublicPlan;
+        const selectedItineraries = [
           ...bikeParkPlan.itineraries.slice(0, 3),
           ...bikeAndPublicPlan.itineraries.slice(0, 3),
         ];
-      } else if (
-        bikeParkPlan.itineraries &&
-        bikeParkPlan.itineraries.length > 0
-      ) {
-        this.selectedPlan = bikeParkPlan;
-        selectedItineraries = bikeParkPlan.itineraries;
+        this.selectedPlan = {
+          ...{ itineraries: selectedItineraries },
+        };
       } else {
-        selectedItineraries = bikeAndPublicPlan.itineraries;
+        this.selectedPlan = bikeParkPlan;
       }
-      this.selectedPlan = {
-        ...{ itineraries: selectedItineraries },
-      };
     } else {
       this.selectedPlan = plan;
     }
@@ -858,14 +865,10 @@ class SummaryPage extends React.Component {
         showBikeAndPublicOptionButton) &&
       this.state.streetMode !== 'bikeAndPublic';
 
-    if (!selectedItineraries) {
-      selectedItineraries = this.selectedPlan.itineraries;
-    }
-
     const hasItineraries =
-      this.selectedPlan && Array.isArray(selectedItineraries);
+      this.selectedPlan && Array.isArray(this.selectedPlan.itineraries);
 
-    let itineraries = hasItineraries ? selectedItineraries : [];
+    let itineraries = hasItineraries ? this.selectedPlan.itineraries : [];
 
     // Remove old itineraries if new query cannot find a route
     if (error && hasItineraries) {
@@ -1391,6 +1394,18 @@ const containerComponent = createFragmentContainer(PositioningWrapper, {
             }
             pattern {
               ...RouteLine_pattern
+            }
+          }
+          from {
+            bikePark {
+              name
+              spacesAvailable
+            }
+          }
+          to {
+            bikePark {
+              name
+              spacesAvailable
             }
           }
           distance
