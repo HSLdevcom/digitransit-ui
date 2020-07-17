@@ -79,7 +79,7 @@ const DialogModal = ({
                 styles['digitransit-dialog-modal-button'],
                 styles.primary,
               )}
-              onClick={primaryButtonOnClick}
+              onClick={() => primaryButtonOnClick()}
             >
               {primaryButtonText}
             </button>
@@ -93,7 +93,7 @@ const DialogModal = ({
                   styles['digitransit-dialog-modal-button'],
                   styles.secondary,
                 )}
-                onClick={secondaryButtonOnClick}
+                onClick={() => secondaryButtonOnClick()}
               >
                 {secondaryButtonText}
               </button>
@@ -106,7 +106,7 @@ const DialogModal = ({
 
 DialogModal.propTypes = {
   headerText: PropTypes.string.isRequired,
-  handleClose: PropTypes.func.isRequired,
+  handleClose: PropTypes.func,
   primaryButtonText: PropTypes.string.isRequired,
   primaryButtonOnClick: PropTypes.func.isRequired,
   secondaryButtonText: PropTypes.string,
@@ -117,6 +117,7 @@ DialogModal.propTypes = {
 };
 
 DialogModal.defaultProps = {
+  handleClose: () => ({}),
   className: '',
   lang: 'fi',
   dialogContent: undefined,

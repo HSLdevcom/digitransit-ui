@@ -21,7 +21,6 @@ $primary-color: #007ac9;
     overflow-y: hidden;
     max-width: 387px;
     width: calc(100% - 40px);
-    min-height: 295px;
     height: auto;
     border-radius: 5px;
     @include min-width(tablet) {
@@ -76,7 +75,7 @@ $primary-color: #007ac9;
 .digitransit-dialog-modal-buttons {
   display: flex;
   flex-direction: column;
-  padding: 45px 44px 0 43px;
+  padding: 45px 44px 48px 43px;
   .digitransit-dialog-modal-button {
     position: relative;
     width: 100%;
@@ -93,7 +92,6 @@ $primary-color: #007ac9;
     border-width: 0;
     transition: background-color 300ms ease-out;
     &.primary {
-      margin-bottom: 9px;
       &:active {
         background: $primary-color;
       }
@@ -105,8 +103,8 @@ $primary-color: #007ac9;
       }
     }
     &.secondary {
+      margin-top: 9px;
       background: #fff;
-      margin-bottom: 48px;
       border: solid 1px #888888;
       color: $primary-color;
       &:active {
