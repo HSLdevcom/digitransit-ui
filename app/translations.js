@@ -939,9 +939,9 @@ const translations = {
       'Transfer to {vehicle} on stop {stopName}',
     'itinerary-summary-row.walking-distance':
       'Total walking distance {totalDistance}.',
-    'itinerary-summary.show-on-map': 'Show on map {target}',
     'itinerary-summary.interline-wait':
       'Wait for transfer in the vehicle ({time})',
+    'itinerary-summary.show-on-map': 'Show on map {target}',
     'itinerary-ticket.title': 'Required ticket',
     'itinerary-tickets.title': 'Required tickets',
     'itinerary-time.title': 'Duration',
@@ -1744,8 +1744,8 @@ const translations = {
     'itinerary-summary-row.transfers': 'Vaihto {vehicle} pysäkillä {stopName}',
     'itinerary-summary-row.walking-distance':
       'Kävelyä yhteensä {totalDistance}.',
+    'itinerary-summary.interline-wait': 'Odota vaihtoa kulkuneuvossa ({time})',
     'itinerary-summary.show-on-map': 'Näytä kartalla {target}',
-    'itinerary-summary.interline-wait': 'Odota vaihtoa kulkuneuvossa',
     'itinerary-ticket.title': 'Tarvittava lippu',
     'itinerary-tickets.title': 'Tarvittavat liput',
     'itinerary-time.title': 'Matka-aika',
@@ -3341,8 +3341,8 @@ const translations = {
       'Byte {vehicle} vid hållplats {stopName}',
     'itinerary-summary-row.walking-distance':
       'Promenad sammanlagt {totalDistance}.',
+    'itinerary-summary.interline-wait': 'Odota vaihtoa kulkuneuvossa ({time})',
     'itinerary-summary.show-on-map': 'Visa på kartan {target}',
-    'itinerary-summary.interline-wait': 'Odota vaihtoa kulkuneuvossa',
     'itinerary-ticket.title': 'Biljett som behövs',
     'itinerary-tickets.title': 'Biljetter som behövs',
     'itinerary-time.title': 'Restid',

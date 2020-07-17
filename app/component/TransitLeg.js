@@ -543,6 +543,8 @@ TransitLeg.propTypes = {
   }).isRequired,
   index: PropTypes.number.isRequired,
   mode: PropTypes.string.isRequired,
+  isNextLegInterlining: PropTypes.bool,
+  interliningWait: PropTypes.number,
   focusAction: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
 };

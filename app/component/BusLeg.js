@@ -93,6 +93,8 @@ BusLeg.propTypes = {
   leg: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
+  interliningWait: PropTypes.number,
+  isNextLegInterlining: PropTypes.bool,
 };
 
 export default BusLeg;

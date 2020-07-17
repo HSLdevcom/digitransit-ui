@@ -16,6 +16,7 @@ class ItineraryCircleLine extends React.Component {
     isVia: PropTypes.bool,
     color: PropTypes.string,
     renderBottomMarker: PropTypes.bool,
+    isInterlining: PropTypes.string,
   };
 
   isFirstChild = () => {

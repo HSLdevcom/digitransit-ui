@@ -6,8 +6,21 @@ import moment from 'moment';
 import TransitLeg from './TransitLeg';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const RailLeg = ({ leg, focusAction, index }) => (
-  <TransitLeg mode="RAIL" leg={leg} focusAction={focusAction} index={index}>
+const RailLeg = ({
+  leg,
+  focusAction,
+  index,
+  isNextLegInterlining,
+  interliningWait,
+}) => (
+  <TransitLeg
+    mode="RAIL"
+    leg={leg}
+    focusAction={focusAction}
+    index={index}
+    interliningWait={interliningWait}
+    isNextLegInterlining={isNextLegInterlining}
+  >
     <FormattedMessage
       id="rail-with-route-number"
       values={{
@@ -57,6 +70,8 @@ RailLeg.propTypes = {
   leg: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
+  interliningWait: PropTypes.number,
+  isNextLegInterlining: PropTypes.bool,
 };
 
 export default RailLeg;

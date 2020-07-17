@@ -6,8 +6,21 @@ import moment from 'moment';
 import TransitLeg from './TransitLeg';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const FerryLeg = ({ leg, focusAction, index }) => (
-  <TransitLeg mode="FERRY" leg={leg} focusAction={focusAction} index={index}>
+const FerryLeg = ({
+  leg,
+  focusAction,
+  index,
+  isNextLegInterlining,
+  interliningWait,
+}) => (
+  <TransitLeg
+    mode="FERRY"
+    leg={leg}
+    focusAction={focusAction}
+    index={index}
+    interliningWait={interliningWait}
+    isNextLegInterlining={isNextLegInterlining}
+  >
     <FormattedMessage
       id="ferry-with-route-number"
       values={{
@@ -60,5 +73,7 @@ FerryLeg.propTypes = {
   leg: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
+  interliningWait: PropTypes.number,
+  isNextLegInterlining: PropTypes.bool,
 };
 export default FerryLeg;
