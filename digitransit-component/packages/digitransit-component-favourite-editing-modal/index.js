@@ -1,6 +1,6 @@
 /* eslint react/forbid-prop-types: 0 */
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { Fragment } from 'react';
 import cx from 'classnames';
 import i18next from 'i18next';
 import escapeRegExp from 'lodash/escapeRegExp';
@@ -330,7 +330,7 @@ class FavouriteEditingModal extends React.Component {
       renderList: this.renderFavouriteList(favourites),
     };
     return (
-      <React.Fragment>
+      <Fragment>
         {this.isMobile() && (
           <Modal>
             {showDeletePlaceModal &&
@@ -339,13 +339,17 @@ class FavouriteEditingModal extends React.Component {
           </Modal>
         )}
         {!this.isMobile() && (
-          <Modal className={cx({ 'delete-modal': showDeletePlaceModal })}>
+          <Fragment>
+            {!showDeletePlaceModal && (
+              <Modal className={cx({ 'delete-modal': showDeletePlaceModal })}>
+                <DesktopModal {...modalProps} />
+              </Modal>
+            )}
             {showDeletePlaceModal &&
               this.renderDeleteFavouriteModal(selectedFavourite)}
-            {!showDeletePlaceModal && <DesktopModal {...modalProps} />}
-          </Modal>
+          </Fragment>
         )}
-      </React.Fragment>
+      </Fragment>
     );
   }
 }
