@@ -16,6 +16,7 @@ class ItineraryCircleLine extends React.Component {
     isVia: PropTypes.bool,
     color: PropTypes.string,
     renderBottomMarker: PropTypes.bool,
+    isInterlining: PropTypes.string,
   };
 
   isFirstChild = () => {
@@ -96,7 +97,11 @@ class ItineraryCircleLine extends React.Component {
 
         <div
           style={legBeforeLineStyle}
-          className={`leg-before-line ${this.props.modeClassName}`}
+          className={cx(
+            'leg-before-line',
+            this.props.modeClassName,
+            this.props.isInterlining,
+          )}
         />
         {this.props.renderBottomMarker && <>{bottomMarker}</>}
       </div>
