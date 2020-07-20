@@ -51,6 +51,8 @@ class SummaryPlanContainer extends React.Component {
     setError: PropTypes.func.isRequired,
     setLoading: PropTypes.func.isRequired,
     relayEnvironment: PropTypes.object,
+    toggleSettings: PropTypes.func.isRequired,
+    onlyBikeParkItineraries: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -486,7 +488,14 @@ class SummaryPlanContainer extends React.Component {
   render() {
     const { location } = this.context.match;
     const { from, to } = this.props.params;
-    const { activeIndex, currentTime, locationState, itineraries } = this.props;
+    const {
+      activeIndex,
+      currentTime,
+      locationState,
+      itineraries,
+      toggleSettings,
+      onlyBikeParkItineraries,
+    } = this.props;
     const searchTime =
       this.props.plan.date ||
       (location.query &&
@@ -514,6 +523,8 @@ class SummaryPlanContainer extends React.Component {
           onSelectImmediately={this.onSelectImmediately}
           searchTime={searchTime}
           to={otpToLocation(to)}
+          toggleSettings={toggleSettings}
+          onlyBikeParkItineraries={onlyBikeParkItineraries}
         >
           {this.props.children}
         </ItinerarySummaryListContainer>

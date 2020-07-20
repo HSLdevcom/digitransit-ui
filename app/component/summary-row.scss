@@ -290,6 +290,11 @@
           width: 0.67em;
         }
       }
+      &.bicycle {
+        .icon {
+          color: #333333;
+        }
+      }
       .icon-badge {
         left: 0;
         top: -0.75em;

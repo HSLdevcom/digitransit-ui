@@ -265,7 +265,15 @@
 .summary-list-container {
   border-top: 1px solid #ddd;
   width: 100%;
-  background-color: $white;
+  background-color: #f3f3f3;
+
+  .itinerary-summary-settings-container {
+    height: 95px;
+    background-color: #f3f3f3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .desktop .summary-list-container {

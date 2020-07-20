@@ -552,35 +552,37 @@ class SummaryPage extends React.Component {
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
     const from = otpToLocation(this.props.match.params.from);
-
-    let time;
-    if (
-      nextProps.plan &&
-      nextProps.plan.itineraries &&
-      nextProps.plan.itineraries[0] &&
-      nextProps.plan.itineraries[0].startTime &&
-      time !== nextProps.plan.itineraries[0].startTime
-    ) {
-      time = nextProps.plan.itineraries[0].startTime;
-    } else if (
-      this.props.plan.itineraries &&
-      this.props.plan.itineraries[0] &&
-      this.props.plan.itineraries[0].startTime
-    ) {
-      time = this.props.plan.itineraries[0].startTime;
-    }
-    const timem = moment(time);
-    getWeatherData(timem, from.lat, from.lon).then(res => {
-      // Icon id's and descriptions: https://www.ilmatieteenlaitos.fi/latauspalvelun-pikaohje ->  Sääsymbolien selitykset ennusteissa.
-      const iconId = this.checkDayNight(res[2].ParameterValue, timem.hour());
-      this.setState({
-        weatherData: {
-          temperature: res[0].ParameterValue,
-          windSpeed: res[1].ParameterValue,
-          iconId,
-        },
+    if (!nextProps.match.params.hash) {
+      let time;
+      if (
+        nextProps.plan &&
+        nextProps.plan.itineraries &&
+        nextProps.plan.itineraries[0] &&
+        nextProps.plan.itineraries[0].startTime &&
+        time !== nextProps.plan.itineraries[0].startTime
+      ) {
+        time = nextProps.plan.itineraries[0].startTime;
+      } else if (
+        this.props.plan.itineraries &&
+        this.props.plan.itineraries[0] &&
+        this.props.plan.itineraries[0].startTime
+      ) {
+        time = this.props.plan.itineraries[0].startTime;
+      }
+      const timem = moment(time);
+      getWeatherData(timem, from.lat, from.lon).then(res => {
+        // Icon id's and descriptions: https://www.ilmatieteenlaitos.fi/latauspalvelun-pikaohje ->  Sääsymbolien selitykset ennusteissa.
+        const iconId = this.checkDayNight(res[2].ParameterValue, timem.hour());
+        this.setState({
+          weatherData: {
+            temperature: res[0].ParameterValue,
+            windSpeed: res[1].ParameterValue,
+            iconId,
+          },
+        });
       });
-    });
+    }
+
     if (!isEqual(nextProps.match.params.from, this.props.match.params.from)) {
       this.context.executeAction(storeOrigin, nextProps.match.params.from);
     }
@@ -814,7 +816,7 @@ class SummaryPage extends React.Component {
       bikeAndPublicPlan,
       bikeParkPlan,
     } = this.props;
-
+    this.onlyBikeParkItineraries = false;
     if (this.state.streetMode === 'walk') {
       this.stopClient();
       this.selectedPlan = walkPlan;
@@ -839,6 +841,7 @@ class SummaryPage extends React.Component {
         };
       } else {
         this.selectedPlan = bikeParkPlan;
+        this.onlyBikeParkItineraries = true;
       }
     } else {
       this.selectedPlan = plan;
@@ -1014,6 +1017,8 @@ class SummaryPage extends React.Component {
               error={error || this.state.error}
               setLoading={this.setLoading}
               setError={this.setError}
+              toggleSettings={this.toggleCustomizeSearchOffcanvas}
+              onlyBikeParkItineraries={this.onlyBikeParkItineraries}
             >
               {this.props.content &&
                 React.cloneElement(this.props.content, {
@@ -1127,6 +1132,8 @@ class SummaryPage extends React.Component {
             from={match.params.from}
             to={match.params.to}
             intermediatePlaces={intermediatePlaces}
+            toggleSettings={this.toggleCustomizeSearchOffcanvas}
+            onlyBikeParkItineraries={this.onlyBikeParkItineraries}
           />
           {screenReaderUpdateAlert}
         </>

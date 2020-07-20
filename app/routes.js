@@ -283,7 +283,7 @@ export default config => {
                     fromPlace: $fromPlace
                     toPlace: $toPlace
                     intermediatePlaces: $intermediatePlaces
-                    numItineraries: $numItineraries
+                    numItineraries: 6
                     modes: "BICYCLE, SUBWAY, RAIL"
                     date: $date
                     time: $time
@@ -326,7 +326,7 @@ export default config => {
                     fromPlace: $fromPlace
                     toPlace: $toPlace
                     intermediatePlaces: $intermediatePlaces
-                    numItineraries: $numItineraries
+                    numItineraries: 6
                     modes: "BICYCLE_PARK, WALK, BUS, TRAM, SUBWAY, RAIL"
                     date: $date
                     time: $time

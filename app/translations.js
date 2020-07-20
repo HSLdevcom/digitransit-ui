@@ -1138,6 +1138,7 @@ const translations = {
       'A separate ticket is required for this part of the itinerary.',
     'separate-ticket-required-disclaimer':
       'This itinerary contains one or more legs for which {agencyName} does not sell tickets.',
+    'set-specific-settings': 'Set more specific settings',
     settings: 'Settings',
     'settings-label-change': 'Change settings',
     'settings-loadbutton': 'Load settings',
@@ -1943,6 +1944,7 @@ const translations = {
       'Tälle matkan osuudelle tarvitaan erillinen lippu.',
     'separate-ticket-required-disclaimer':
       'Matka sisältää yhden tai useamman osuuden, jonka lippujen myynnistä {agencyName} ei vastaa.',
+    'set-specific-settings': 'Aseta tarkemmat asetukset',
     settings: 'Asetukset',
     'settings-label-change': 'Muuta reittihaun asetuksia',
     'settings-loadbutton': 'Lataa asetukset',
@@ -3542,6 +3544,7 @@ const translations = {
       'Denna etapp av resan kräver en separat biljett.',
     'separate-ticket-required-disclaimer':
       'Resan består av en eller fleta etapper vilka kräver biljetter som inte säljs av {agencyName}.',
+    'set-specific-settings': 'ställa avancerade inställningar',
     settings: 'Anpassa',
     'settings-label-change': 'Anpassa sökning',
     'settings-loadbutton': 'Ladda inställningarna',

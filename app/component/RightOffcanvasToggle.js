@@ -6,7 +6,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { isKeyboardSelectionEvent } from '../util/browser';
 
 export default function RightOffcanvasToggle(
-  { onToggleClick },
+  { onToggleClick, defaultMessage, translationId },
   { intl: { formatMessage } },
 ) {
   const label = formatMessage({
@@ -29,7 +29,10 @@ export default function RightOffcanvasToggle(
             <Icon img="icon-icon_settings" />
           </div>
           <span className="settings-button-text">
-            <FormattedMessage id="settings" defaultMessage="Settings" />
+            <FormattedMessage
+              id={translationId}
+              defaultMessage={defaultMessage}
+            />
           </span>
         </div>
       </div>
@@ -39,6 +42,13 @@ export default function RightOffcanvasToggle(
 
 RightOffcanvasToggle.propTypes = {
   onToggleClick: PropTypes.func.isRequired,
+  defaultMessage: PropTypes.string,
+  translationId: PropTypes.string,
+};
+
+RightOffcanvasToggle.defaultProps = {
+  defaultMessage: 'Settings',
+  translationId: 'settings',
 };
 
 RightOffcanvasToggle.contextTypes = {

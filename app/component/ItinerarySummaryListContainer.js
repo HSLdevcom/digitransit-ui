@@ -17,25 +17,7 @@ import { itineraryHasCancelation } from '../util/alertUtils';
 import { matchQuickOption } from '../util/planParamUtil';
 import { getModes } from '../util/modeUtils';
 import { ItinerarySummarySubtitle } from './ItinerarySummarySubtitle';
-
-/*
-Only bikePark itineraries legs have bikePark value defined
-*/
-function containsOnlyBikeParkItineraries(itineraries) {
-  const lastItinery = itineraries.splice(-1)[0];
-  const lastItineraryBikeLegs = lastItinery.legs.filter(
-    leg => leg.mode === 'BICYCLE',
-  );
-  if (
-    lastItineraryBikeLegs &&
-    lastItineraryBikeLegs[0] &&
-    lastItineraryBikeLegs[0].to &&
-    lastItineraryBikeLegs[0].to.bikePark
-  ) {
-    return true;
-  }
-  return false;
-}
+import RightOffcanvasToggle from './RightOffcanvasToggle';
 
 function ItinerarySummaryListContainer(
   {
@@ -50,6 +32,8 @@ function ItinerarySummaryListContainer(
     onSelectImmediately,
     searchTime,
     to,
+    toggleSettings,
+    onlyBikeParkItineraries,
   },
   context,
 ) {
@@ -83,15 +67,29 @@ function ItinerarySummaryListContainer(
         <ItinerarySummarySubtitle
           translationId="itinerary-summary.bikePark"
           defaultMessage="Biking \u0026 public transport \u0026 walking"
+          key="itinerary-summary.bikePark"
         />,
       );
-      if (!containsOnlyBikeParkItineraries(itineraries)) {
+      summaries.push(
+        <div
+          className="itinerary-summary-settings-container"
+          key="itinerary-summary-settings-container"
+        >
+          <RightOffcanvasToggle
+            onToggleClick={toggleSettings}
+            defaultMessage="Set more specific settings"
+            translationId="set-specific-settings"
+          />
+        </div>,
+      );
+      if (!onlyBikeParkItineraries) {
         summaries.splice(
           4,
           0,
           <ItinerarySummarySubtitle
             translationId="itinerary-summary.bikeAndPublic"
             defaultMessage="Biking \u0026 public transport"
+            key="itinerary-summary.bikeAndPublic"
           />,
         );
       }
@@ -235,6 +233,8 @@ ItinerarySummaryListContainer.propTypes = {
   onSelectImmediately: PropTypes.func.isRequired,
   searchTime: PropTypes.number.isRequired,
   to: locationShape.isRequired,
+  toggleSettings: PropTypes.func.isRequired,
+  onlyBikeParkItineraries: PropTypes.bool.isRequired,
 };
 
 ItinerarySummaryListContainer.defaultProps = {
