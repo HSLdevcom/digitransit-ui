@@ -109,6 +109,7 @@ class OriginDestinationBar extends React.Component {
           lang={this.props.language}
           disableAutoFocus={this.props.isMobile}
           isMobile={this.props.isMobile}
+          itineraryParams={this.context.match.location.query}
         />{' '}
       </div>
     );

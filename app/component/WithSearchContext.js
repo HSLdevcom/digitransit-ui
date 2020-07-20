@@ -251,6 +251,7 @@ export default function withSearchContext(WrappedComponent) {
 
     onSelect = (item, id) => {
       // type is destination unless timetable or route was clicked
+
       let type = 'endpoint';
       switch (item.type) {
         case 'Route':
@@ -283,13 +284,23 @@ export default function withSearchContext(WrappedComponent) {
 
     addItineraryParamsToLocation = (location, itineraryParams) => {
       const query = (location && location.query) || {};
-      if (itineraryParams && itineraryParams.arriveBy) {
+      const params = {};
+      if (itineraryParams) {
+        if (
+          itineraryParams.intermediatePlaces &&
+          itineraryParams.intermediatePlaces.length > 0
+        ) {
+          params.intermediatePlaces = itineraryParams.intermediatePlaces;
+        }
+        params.arriveBy = itineraryParams.arriveBy;
+        params.time = itineraryParams.time
+          ? itineraryParams.time
+          : moment().unix();
         return {
           ...location,
           query: {
             ...query,
-            time: itineraryParams.time ? itineraryParams.time : moment().unix(),
-            arriveBy: itineraryParams.arriveBy,
+            ...params,
           },
         };
       }
@@ -297,10 +308,7 @@ export default function withSearchContext(WrappedComponent) {
         ...location,
         query: {
           ...query,
-          time:
-            itineraryParams && itineraryParams.time
-              ? itineraryParams.time
-              : moment().unix(),
+          time: moment().unix(),
         },
       };
     };
