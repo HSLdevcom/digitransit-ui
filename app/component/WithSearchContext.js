@@ -284,16 +284,23 @@ export default function withSearchContext(WrappedComponent) {
 
     addItineraryParamsToLocation = (location, itineraryParams) => {
       const query = (location && location.query) || {};
-      if (itineraryParams && itineraryParams.arriveBy) {
+      const params = {};
+      if (itineraryParams) {
+        if (
+          itineraryParams.intermediatePlaces &&
+          itineraryParams.intermediatePlaces.length > 0
+        ) {
+          params.intermediatePlaces = itineraryParams.intermediatePlaces;
+        }
+        params.arriveBy = itineraryParams.arriveBy;
+        params.time = itineraryParams.time
+          ? itineraryParams.time
+          : moment().unix();
         return {
           ...location,
           query: {
             ...query,
-            intermediatePlaces: itineraryParams.intermediatePlaces
-              ? itineraryParams.intermediatePlaces
-              : null,
-            time: itineraryParams.time ? itineraryParams.time : moment().unix(),
-            arriveBy: itineraryParams.arriveBy,
+            ...params,
           },
         };
       }
@@ -301,13 +308,7 @@ export default function withSearchContext(WrappedComponent) {
         ...location,
         query: {
           ...query,
-          intermediatePlaces: itineraryParams.intermediatePlaces
-            ? itineraryParams.intermediatePlaces
-            : null,
-          time:
-            itineraryParams && itineraryParams.time
-              ? itineraryParams.time
-              : moment().unix(),
+          time: moment().unix(),
         },
       };
     };
