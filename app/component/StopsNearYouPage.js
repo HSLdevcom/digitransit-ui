@@ -11,6 +11,7 @@ import DesktopView from './DesktopView';
 import { startLocationWatch } from '../action/PositionActions';
 import StopsNearYouContainer from './StopsNearYouContainer';
 import Loading from './Loading';
+import MobileView from './MobileView';
 
 class StopsNearYouPage extends React.Component { // eslint-disable-line
   static contextTypes = {
@@ -41,16 +42,23 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
         <StopsNearYouContainer stopPatterns={this.props.stopPatterns} />
       );
     }
+    if (this.props.breakpoint === "large") {
+      return (
+        <DesktopView
+          title={
+            <FormattedMessage
+              id="nearest-stops"
+              defaultMessage="Stops near you"
+            />
+          }
+          bckBtnColor={this.context.config.colors.primary}
+          content={content}
+        />
+      );
+    }
 
     return (
-      <DesktopView
-        title={
-          <FormattedMessage
-            id="nearest-stops"
-            defaultMessage="Stops near you"
-          />
-        }
-        bckBtnColor={this.context.config.colors.primary}
+      <MobileView
         content={content}
       />
     );
