@@ -42,6 +42,9 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
         <StopsNearYouContainer stopPatterns={this.props.stopPatterns} />
       );
     }
+    map = (
+      <div className="map full"></div>
+    )
     if (this.props.breakpoint === "large") {
       return (
         <DesktopView
