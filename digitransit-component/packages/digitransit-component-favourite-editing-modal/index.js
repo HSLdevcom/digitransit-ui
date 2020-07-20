@@ -1,11 +1,14 @@
-/* eslint no-console: ["error", { allow: ["warn", "error"] }] */
 /* eslint react/forbid-prop-types: 0 */
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { Fragment } from 'react';
 import cx from 'classnames';
 import i18next from 'i18next';
 import escapeRegExp from 'lodash/escapeRegExp';
+import differenceWith from 'lodash/differenceWith';
+import isEqual from 'lodash/isEqual';
+import isEmpty from 'lodash/isEmpty';
 import Icon from '@digitransit-component/digitransit-component-icon';
+import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
 import DesktopModal from './helpers/DesktopModal';
 import MobileModal from './helpers/MobileModal';
 import styles from './helpers/styles.scss';
@@ -17,10 +20,24 @@ i18next.addResourceBundle('en', 'translation', translations.en);
 i18next.addResourceBundle('fi', 'translation', translations.fi);
 i18next.addResourceBundle('sv', 'translation', translations.sv);
 
-const Modal = ({ children }) => {
+const isKeyboardSelectionEvent = event => {
+  const space = [13, ' ', 'Spacebar'];
+  const enter = [32, 'Enter'];
+  const key = (event && (event.key || event.which || event.keyCode)) || '';
+
+  if (!key || !space.concat(enter).includes(key)) {
+    return false;
+  }
+  event.preventDefault();
+  return true;
+};
+
+const Modal = ({ children, className }) => {
   return (
     <div className={styles['favourite-edit-modal']}>
-      <section className={styles['favourite-edit-modal-main']}>
+      <section
+        className={cx(styles['favourite-edit-modal-main'], styles[className])}
+      >
         {children}
       </section>
     </div>
@@ -29,6 +46,11 @@ const Modal = ({ children }) => {
 
 Modal.propTypes = {
   children: PropTypes.node,
+  className: PropTypes.string,
+};
+
+Modal.defaulProps = {
+  className: '',
 };
 
 class FavouriteEditingModal extends React.Component {
@@ -39,6 +61,12 @@ class FavouriteEditingModal extends React.Component {
     /** Required.
      * @type {function} */
     updateFavourites: PropTypes.func.isRequired,
+    /** Required.
+     * @type {function} */
+    deleteFavourite: PropTypes.func.isRequired,
+    /** Required. Function that takes selected favourite object as parameter.
+     * @type {function} */
+    onEditSelected: PropTypes.func.isRequired,
     /** Required.
      * @type {array<object>}
      * @property {string} type
@@ -66,16 +94,50 @@ class FavouriteEditingModal extends React.Component {
         layer: PropTypes.string,
       }),
     ).isRequired,
+    lang: PropTypes.string,
+  };
+
+  static defaulProps = {
+    lang: 'fi',
   };
 
   constructor(props) {
     super(props);
+    i18next.changeLanguage(props.lang);
     this.draggableFavourites = [];
     this.state = {
       isDraggingOverIndex: undefined,
       favourites: props.favourites,
+      showDeletePlaceModal: false,
+      selectedFavourite: null,
     };
   }
+
+  static getDerivedStateFromProps = (nextProps, prevState) => {
+    const nextFavourites = nextProps.favourites;
+    const prevFavourites = prevState.favourites;
+    if (
+      !isEmpty(differenceWith(nextFavourites, prevFavourites, isEqual)) ||
+      !isEmpty(differenceWith(prevFavourites, nextFavourites, isEqual))
+    ) {
+      if (isEmpty(nextFavourites)) {
+        nextProps.handleClose();
+      }
+      return {
+        favourites: nextFavourites,
+      };
+    }
+    return null;
+  };
+
+  componentDidUpdate = prevProps => {
+    if (prevProps.lang !== this.props.lang) {
+      i18next.changeLanguage(this.props.lang);
+    }
+  };
+
+  isMobile = () =>
+    window && window.innerWidth ? window.innerWidth < 768 : false;
 
   handleOnFavouriteDragOver = (event, index) => {
     event.preventDefault();
@@ -184,10 +246,44 @@ class FavouriteEditingModal extends React.Component {
           </p>
         </div>
         <div className={styles['favourite-edit-list-item-right']}>
-          <div className={styles['favourite-edit-list-item-edit']}>
+          <div
+            role="button"
+            tabIndex="0"
+            aria-label={i18next.t('edit-place-name', {
+              favourite,
+            })}
+            className={styles['favourite-edit-list-item-edit']}
+            onClick={() => this.props.onEditSelected(favourite)}
+            onKeyDown={e => {
+              if (isKeyboardSelectionEvent(e)) {
+                this.props.onEditSelected(favourite);
+              }
+            }}
+          >
             <Icon img="edit" />
           </div>
-          <div className={styles['favourite-edit-list-item-remove']}>
+          <div
+            role="button"
+            tabIndex="0"
+            aria-label={i18next.t('delete-place-name', {
+              favourite,
+            })}
+            className={styles['favourite-edit-list-item-remove']}
+            onClick={() =>
+              this.setState({
+                selectedFavourite: favourite,
+                showDeletePlaceModal: true,
+              })
+            }
+            onKeyDown={e => {
+              if (isKeyboardSelectionEvent(e)) {
+                this.setState({
+                  selectedFavourite: favourite,
+                  showDeletePlaceModal: true,
+                });
+              }
+            }}
+          >
             <Icon img="trash" />
           </div>
         </div>
@@ -207,29 +303,70 @@ class FavouriteEditingModal extends React.Component {
     );
   };
 
-  render() {
-    const isMobile =
-      window && window.innerWidth ? window.innerWidth < 768 : false;
-    const { favourites } = this.state;
+  renderDeleteFavouriteModal = favourite => {
     return (
-      <Modal>
-        {isMobile && (
-          <MobileModal
-            headerText={i18next.t('edit-places')}
-            closeModal={this.props.handleClose}
-            closeArialLabel={i18next.t('close-modal')}
-            renderList={this.renderFavouriteList(favourites)}
-          />
+      <DialogModal
+        headerText={i18next.t('delete-place-header')}
+        handleClose={() =>
+          this.setState(
+            { selectedFavourite: null, showDeletePlaceModal: false },
+            () => this.props.handleClose(),
+          )
+        }
+        dialogContent={`${favourite.name}: ${favourite.address}`}
+        primaryButtonText={i18next.t('delete')}
+        primaryButtonOnClick={() => {
+          this.props.deleteFavourite(favourite);
+          this.setState({
+            selectedFavourite: null,
+            showDeletePlaceModal: false,
+          });
+        }}
+        secondaryButtonText={i18next.t('cancel')}
+        secondaryButtonOnClick={() =>
+          this.setState({
+            selectedFavourite: null,
+            showDeletePlaceModal: false,
+          })
+        }
+      />
+    );
+  };
+
+  render() {
+    const { favourites, showDeletePlaceModal, selectedFavourite } = this.state;
+    const modalProps = {
+      headerText: i18next.t('edit-places'),
+      closeModal: this.props.handleClose,
+      closeModalKeyDown: e => {
+        if (isKeyboardSelectionEvent(e)) {
+          this.props.handleClose();
+        }
+      },
+      closeArialLabel: i18next.t('close-modal'),
+      renderList: this.renderFavouriteList(favourites),
+    };
+    return (
+      <Fragment>
+        {this.isMobile() && (
+          <Modal>
+            {showDeletePlaceModal &&
+              this.renderDeleteFavouriteModal(selectedFavourite)}
+            <MobileModal {...modalProps} />
+          </Modal>
         )}
-        {!isMobile && (
-          <DesktopModal
-            headerText={i18next.t('edit-places')}
-            closeModal={this.props.handleClose}
-            closeArialLabel={i18next.t('close-modal')}
-            renderList={this.renderFavouriteList(favourites)}
-          />
+        {!this.isMobile() && (
+          <Fragment>
+            {!showDeletePlaceModal && (
+              <Modal className={cx({ 'delete-modal': showDeletePlaceModal })}>
+                <DesktopModal {...modalProps} />
+              </Modal>
+            )}
+            {showDeletePlaceModal &&
+              this.renderDeleteFavouriteModal(selectedFavourite)}
+          </Fragment>
         )}
-      </Modal>
+      </Fragment>
     );
   }
 }

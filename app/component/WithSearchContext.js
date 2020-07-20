@@ -27,7 +27,6 @@ export default function withSearchContext(WrappedComponent) {
       origin: PropTypes.object,
       destination: PropTypes.object,
       children: PropTypes.node,
-      relayEnvironment: PropTypes.object.isRequired,
       onFavouriteSelected: PropTypes.func,
       itineraryParams: PropTypes.object,
       locationState: PropTypes.object,
@@ -95,11 +94,7 @@ export default function withSearchContext(WrappedComponent) {
 
     initContext() {
       if (!this.state.isInitialized) {
-        intializeSearchContext(
-          this.context,
-          searchContext,
-          this.props.relayEnvironment,
-        );
+        intializeSearchContext(this.context, searchContext);
         this.setState({ isInitialized: true });
       }
     }

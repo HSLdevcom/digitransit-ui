@@ -9,7 +9,6 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import ComponentUsageExample from './ComponentUsageExample';
 import { PREFIX_ITINERARY_SUMMARY, navigateTo } from '../util/path';
 import withSearchContext from './WithSearchContext';
-import getRelayEnvironment from '../util/getRelayEnvironment';
 
 import {
   getIntermediatePlaces,
@@ -17,13 +16,11 @@ import {
 } from '../util/queryUtils';
 import { dtLocationShape } from '../util/shapes';
 
-const DTAutosuggestPanel = getRelayEnvironment(
-  withSearchContext(
-    loadable(
-      () =>
-        import('@digitransit-component/digitransit-component-autosuggest-panel'),
-      { ssr: true },
-    ),
+const DTAutosuggestPanel = withSearchContext(
+  loadable(
+    () =>
+      import('@digitransit-component/digitransit-component-autosuggest-panel'),
+    { ssr: true },
   ),
 );
 

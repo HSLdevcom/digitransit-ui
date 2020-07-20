@@ -286,6 +286,7 @@ const withRelay = createFragmentContainer(ItineraryTab, {
         startTime
         endTime
         mode
+        interlineWithPreviousLeg
         distance
         duration
         intermediatePlace

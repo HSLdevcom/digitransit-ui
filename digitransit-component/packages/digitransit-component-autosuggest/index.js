@@ -129,7 +129,7 @@ class DTAutosuggest extends React.Component {
 
   constructor(props) {
     super(props);
-
+    i18next.changeLanguage(props.lang);
     this.state = {
       value: props.value,
       suggestions: [],
@@ -141,13 +141,6 @@ class DTAutosuggest extends React.Component {
       targets: props.targets,
     };
   }
-
-  componentDidMount = () => {
-    if (this.props.autoFocus && this.input) {
-      this.input.focus();
-    }
-    i18next.changeLanguage(this.props.lang);
-  };
 
   componentDidUpdate = prevProps => {
     if (prevProps.lang !== this.props.lang) {
@@ -463,6 +456,7 @@ class DTAutosuggest extends React.Component {
     const { context, clearOldSearches } = this.props.searchContext;
     if (context && clearOldSearches) {
       clearOldSearches(context);
+      this.fetchFunction({ value: this.state.value });
     }
   };
 
@@ -518,15 +512,21 @@ class DTAutosuggest extends React.Component {
             getSuggestionValue={this.getSuggestionValue}
             renderSuggestion={this.renderItem}
             closeHandle={() =>
-              this.setState({
-                renderMobileSearch: false,
-                value: this.props.value,
-              })
+              this.setState(
+                {
+                  renderMobileSearch: false,
+                  value: this.props.value,
+                },
+                () => this.onSuggestionsClearRequested(),
+              )
             }
             ariaLabel={SearchBarId.concat(' ').concat(ariaLabelText)}
             label={i18next.t(this.props.id)}
             onSuggestionSelected={this.onSelected}
             onKeyDown={this.keyDown}
+            dialogHeaderText={i18next.t('delete-old-searches-header')}
+            dialogPrimaryButtonText={i18next.t('delete')}
+            dialogSecondaryButtonText={i18next.t('cancel')}
           />
         )}
         {!renderMobileSearch && (

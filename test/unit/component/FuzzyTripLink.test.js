@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { Component as FuzzyTripLink } from '../../../app/component/FuzzyTripLink';
+import { ReactRelayContext } from 'react-relay';
+
+import FuzzyTripLink from '../../../app/component/FuzzyTripLink';
 import IconWithTail from '../../../app/component/IconWithTail';
 import { mountWithIntl } from '../helpers/mock-intl-enzyme';
 
@@ -25,10 +27,14 @@ describe('<FuzzyTripLink />', () => {
         route: 'HSL:2550',
         tripStartTime: '2143',
       },
-      relayEnvironment: {},
     };
+    const environment = {};
 
-    const wrapper = mountWithIntl(<FuzzyTripLink {...props} />);
+    const wrapper = mountWithIntl(
+      <ReactRelayContext.Provider value={{ environment }}>
+        <FuzzyTripLink {...props} />
+      </ReactRelayContext.Provider>,
+    );
     expect(wrapper.find('.route-now-content')).to.have.lengthOf(1);
     expect(wrapper.find(IconWithTail)).to.have.lengthOf(1);
   });
