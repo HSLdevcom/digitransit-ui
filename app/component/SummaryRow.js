@@ -36,8 +36,8 @@ import {
   exampleDataCanceled,
 } from './data/SummaryRow.ExampleData';
 
-const Leg = ({ routeNumber, legLength, renderNumber }) => {
-  return renderNumber ? (
+const Leg = ({ routeNumber, legLength, renderNumber, lastLegRendered }) => {
+  return renderNumber || lastLegRendered ? (
     <div className="leg" style={{ '--width': `${legLength}%` }}>
       {routeNumber}
     </div>
@@ -50,6 +50,7 @@ Leg.propTypes = {
   routeNumber: PropTypes.node.isRequired,
   legLength: PropTypes.number.isRequired,
   renderNumber: PropTypes.bool,
+  lastLegRendered: PropTypes.bool,
 };
 Leg.defaultProps = {
   renderNumber: true,
@@ -62,6 +63,7 @@ export const RouteLeg = ({
   legLength,
   renderNumber,
   isTransitLeg,
+  lastLegRendered,
 }) => {
   const isCallAgency = isCallAgencyPickupType(leg);
   let routeNumber;
@@ -102,6 +104,7 @@ export const RouteLeg = ({
       large={large}
       legLength={legLength}
       renderNumber={renderNumber}
+      lastLegRendered={lastLegRendered}
     />
   );
 };
@@ -113,6 +116,7 @@ RouteLeg.propTypes = {
   legLength: PropTypes.number.isRequired,
   renderNumber: PropTypes.bool,
   isTransitLeg: PropTypes.bool,
+  lastLegRendered: PropTypes.bool,
 };
 
 RouteLeg.defaultProps = {
@@ -236,6 +240,9 @@ const SummaryRow = (
   const stopNames = [];
   let addition = 0;
   let onlyIconLegs = 0;
+  const waitThreshold = 180000;
+  const lastLeg = compressedLegs[compressedLegs.length - 1];
+  const lastLegLength = lastLeg.duration * 1000 / durationWithoutSlack * 100;
 
   compressedLegs.forEach((leg, i) => {
     let renderNumber = true;
@@ -244,18 +251,19 @@ const SummaryRow = (
     let waitTime;
     let legLength;
     let waitLength;
+    let lastLegRendered = false;
     const isNextLegLast = i + 1 === compressedLegs.length - 1;
+    const shouldRenderLastLeg =
+      isNextLegLast && lastLegLength < renderBarThreshold;
     const previousLeg = compressedLegs[i - 1];
     const isLastLeg = i === compressedLegs.length - 1;
-    const lastLeg = compressedLegs[compressedLegs.length - 1];
     const nextLeg = compressedLegs[i + 1];
-    const waitThreshold = 180000;
     legLength = leg.duration * 1000 / durationWithoutSlack * 100;
 
     if (nextLeg) {
       if (!nextLeg.intermediatePlace) {
         waitTime = nextLeg.startTime - leg.endTime;
-        waitLength = Math.round(waitTime / durationWithoutSlack * 100);
+        waitLength = waitTime / durationWithoutSlack * 100;
         if (waitTime > waitThreshold && waitLength > renderBarThreshold) {
           waiting = true;
         } else {
@@ -275,12 +283,8 @@ const SummaryRow = (
       }
     }
 
-    if (isNextLegLast) {
-      const lastLegLength =
-        lastLeg.duration * 1000 / durationWithoutSlack * 100;
-      if (lastLegLength < renderBarThreshold) {
-        legLength += lastLegLength;
-      }
+    if (shouldRenderLastLeg) {
+      legLength += lastLegLength;
     }
 
     if (legLength < renderBarThreshold && isLegOnFoot(leg)) {
@@ -295,8 +299,8 @@ const SummaryRow = (
       : legLength > renderRouteNumberThreshold;
 
     if (!renderNumber && isTransitLeg(leg)) {
-      if (isLastLeg || isNextLegLast) {
-        renderNumber = true;
+      if (isLastLeg || shouldRenderLastLeg) {
+        lastLegRendered = true;
       } else {
         addition += legLength;
         onlyIconLegs += 1;
@@ -377,6 +381,7 @@ const SummaryRow = (
           key={`${leg.mode}_${leg.startTime}`}
           leg={leg}
           renderNumber={renderNumber}
+          lastLegRendered={lastLegRendered}
           intl={intl}
           legLength={legLength}
           large={breakpoint === 'large'}
