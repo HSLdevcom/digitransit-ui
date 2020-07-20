@@ -295,7 +295,7 @@ const SummaryRow = (
       : legLength > renderRouteNumberThreshold;
 
     if (!renderNumber && isTransitLeg(leg)) {
-      if (isLastLeg) {
+      if (isLastLeg || isNextLegLast) {
         renderNumber = true;
       } else {
         addition += legLength;
