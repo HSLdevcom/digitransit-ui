@@ -29,11 +29,11 @@ const translations = {
     'accessible-close': 'TODO',
     'accessible-open': 'TODO',
     'accessible-title': 'TODO',
-    arrival: 'TODO',
-    date: 'TODO',
-    departure: 'TODO',
-    'departure-now': 'TODO',
-    time: 'TODO',
+    arrival: 'Anländer',
+    date: 'Datum',
+    departure: 'Avgångstid',
+    'departure-now': 'Avgår nu',
+    time: 'Tid',
   },
 };
 
