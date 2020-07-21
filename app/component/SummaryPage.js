@@ -766,6 +766,12 @@ class SummaryPage extends React.Component {
     if (error && hasItineraries) {
       itineraries = [];
     }
+    // filter out walk only itineraries from main results
+    if (this.state.streetMode !== 'walk' && this.state.streetMode !== 'bike') {
+      itineraries = itineraries.filter(
+        itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
+      );
+    }
 
     let hash;
     if (match.params.hash) {
