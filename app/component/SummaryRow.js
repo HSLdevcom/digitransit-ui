@@ -36,9 +36,18 @@ import {
   exampleDataCanceled,
 } from './data/SummaryRow.ExampleData';
 
-const Leg = ({ routeNumber, legLength, renderNumber, lastLegRendered }) => {
+const Leg = ({
+  mode,
+  routeNumber,
+  legLength,
+  renderNumber,
+  lastLegRendered,
+}) => {
   return renderNumber || lastLegRendered ? (
-    <div className="leg" style={{ '--width': `${legLength}%` }}>
+    <div
+      className={cx('leg', mode.toLowerCase())}
+      style={{ '--width': `${legLength}%` }}
+    >
       {routeNumber}
     </div>
   ) : (
@@ -51,6 +60,7 @@ Leg.propTypes = {
   legLength: PropTypes.number.isRequired,
   renderNumber: PropTypes.bool,
   lastLegRendered: PropTypes.bool,
+  mode: PropTypes.string,
 };
 Leg.defaultProps = {
   renderNumber: true,
@@ -99,7 +109,7 @@ export const RouteLeg = ({
   }
   return (
     <Leg
-      leg={leg}
+      mode={leg.mode}
       routeNumber={routeNumber}
       large={large}
       legLength={legLength}
@@ -154,7 +164,7 @@ export const ModeLeg = (
   );
   return (
     <Leg
-      leg={leg}
+      mode={mode}
       routeNumber={routeNumber}
       large={large}
       legLength={legLength}
@@ -223,15 +233,15 @@ const SummaryRow = (
       noTransitLegs = false;
     }
     if (leg.intermediatePlace) {
-      intermediateSlack += leg.startTime - compressedLegs[i - 1].endTime;
+      intermediateSlack += leg.startTime - compressedLegs[i - 1].endTime; // calculate time spent at each intermediate place
     }
   });
-  const durationWithoutSlack = duration - intermediateSlack;
-  let renderBarThreshold = 7;
+  const durationWithoutSlack = duration - intermediateSlack; // don't include time spent at intermediate places in calculations for bar lengths
+  let renderBarThreshold = 6;
   let renderLegDurationThreshold = 10.5;
   let renderRouteNumberThreshold = 14;
   if (breakpoint === 'small') {
-    renderBarThreshold = 9;
+    renderBarThreshold = 8.5;
     renderLegDurationThreshold = 12;
     renderRouteNumberThreshold = 17;
   }
@@ -239,7 +249,8 @@ const SummaryRow = (
   const vehicleNames = [];
   const stopNames = [];
   let addition = 0;
-  let onlyIconLegs = 0;
+  let onlyIconLegs = 0; // keep track of legs that are too short to have a bar
+  let onlyIconLegsLength = 0;
   const waitThreshold = 180000;
   const lastLeg = compressedLegs[compressedLegs.length - 1];
   const lastLegLength = lastLeg.duration * 1000 / durationWithoutSlack * 100;
@@ -258,51 +269,45 @@ const SummaryRow = (
     const previousLeg = compressedLegs[i - 1];
     const isLastLeg = i === compressedLegs.length - 1;
     const nextLeg = compressedLegs[i + 1];
-    legLength = leg.duration * 1000 / durationWithoutSlack * 100;
+    legLength = leg.duration * 1000 / durationWithoutSlack * 100; // length of the current leg in %
 
-    if (nextLeg) {
-      if (!nextLeg.intermediatePlace) {
-        waitTime = nextLeg.startTime - leg.endTime;
-        waitLength = waitTime / durationWithoutSlack * 100;
-        if (waitTime > waitThreshold && waitLength > renderBarThreshold) {
-          waiting = true;
-        } else {
-          legLength =
-            (leg.duration * 1000 + waitTime) / durationWithoutSlack * 100;
-        }
+    if (nextLeg && !nextLeg.intermediatePlace) {
+      // don't show waiting in intermediate places
+      waitTime = nextLeg.startTime - leg.endTime;
+      waitLength = waitTime / durationWithoutSlack * 100;
+      if (waitTime > waitThreshold && waitLength > renderBarThreshold) {
+        // if waittime is long enough, render a waiting bar
+        waiting = true;
+      } else {
+        legLength =
+          (leg.duration * 1000 + waitTime) / durationWithoutSlack * 100; // otherwise add the waiting to the current legs length
       }
     }
-    if (
-      !(
-        isLegOnFoot(leg) && leg.duration * 1000 / durationWithoutSlack * 100 < 4
-      )
-    ) {
-      if (addition) {
-        legLength += addition;
-        addition = 0;
-      }
-    }
+
+    legLength += addition;
+    addition = 0;
 
     if (shouldRenderLastLeg) {
-      legLength += lastLegLength;
+      legLength += lastLegLength; // if the last leg is too short add its length to the leg before it
     }
 
     if (legLength < renderBarThreshold && isLegOnFoot(leg)) {
+      // don't render short legs that are on foot at all
       renderBar = false;
-      addition += legLength;
-    } else if (legLength < renderBarThreshold && !isLegOnFoot(leg)) {
-      addition += legLength - renderBarThreshold;
-      legLength = renderBarThreshold;
+      addition += legLength; // carry over the length of the leg to the next
     }
+
     renderNumber = isLegOnFoot(leg)
       ? legLength > renderLegDurationThreshold
       : legLength > renderRouteNumberThreshold;
 
     if (!renderNumber && isTransitLeg(leg)) {
+      // if the leg is a transit leg with no space for the
       if (isLastLeg || shouldRenderLastLeg) {
+        // route number, render only the icon
         lastLegRendered = true;
       } else {
-        addition += legLength;
+        onlyIconLegsLength += legLength;
         onlyIconLegs += 1;
       }
     }
@@ -316,7 +321,7 @@ const SummaryRow = (
       legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
-          renderNumber={renderNumber}
+          renderNumber
           isTransitLeg={false}
           leg={leg}
           walkingTime={walkingTime}
@@ -402,14 +407,6 @@ const SummaryRow = (
     }
 
     if (waiting) {
-      if (addition > 0) {
-        waitLength += addition;
-        if (waitLength > renderBarThreshold) {
-          addition = 0;
-        } else {
-          addition += waitLength;
-        }
-      }
       legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}_wait`}
@@ -421,8 +418,9 @@ const SummaryRow = (
       );
     }
   });
-
   const normalLegs = legs.length - onlyIconLegs;
+  const iconLegsInPixels = 24 * onlyIconLegs / normalLegs; // how many pixels to take from each 'normal' leg to give room for the icons
+  const iconLegsInPercents = onlyIconLegsLength / normalLegs; // the leftover percentage from only showing icons added to each 'normal' leg
 
   if (!noTransitLegs) {
     const firstDeparture = compressedLegs.find(isTransitLeg);
@@ -632,11 +630,16 @@ const SummaryRow = (
               </div>
               <div
                 className="legs-container"
-                style={{ '--amount': `${1.5 * onlyIconLegs / normalLegs}em` }}
+                style={{ '--minus': `${iconLegsInPixels}px` }}
                 key="legs"
                 aria-hidden="true"
               >
-                <div className="itinerary-legs">{legs}</div>
+                <div
+                  className="itinerary-legs"
+                  style={{ '--plus': `${iconLegsInPercents}%` }}
+                >
+                  {legs}
+                </div>
               </div>
               <div
                 className="itinerary-first-leg-start-time-container"

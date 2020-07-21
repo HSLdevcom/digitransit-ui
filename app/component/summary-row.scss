@@ -147,21 +147,19 @@
     white-space: nowrap;
     width: calc(100% + 2px);
     .leg {
-      min-width: 1px;
-      width: calc(var(--width) - (var(--amount)) - 2px);
+      min-width: 24px;
+      width: calc(var(--width) - (var(--minus)) - 2px + var(--plus));
       margin: 0 2px 0 0;
       justify-content: center;
+      &.walk, &.wait {
+        min-width: 1px;
+      }
       &.via {
-        flex: 1 1 0px;
-        overflow: hidden;
-        justify-content: center;
         min-width: 24px;
-        width: 24px;
-        position: relative;
+        max-width: 24px;
         height: 24px;
         border: 1px solid #ddd;
         border-radius: 3px;
-
         .itinerary-icon {
           margin-left: 1px;
           margin-top: 3px;
@@ -169,6 +167,10 @@
         }
         .icon-container {
           margin-left: 2px;
+          .icon {
+            width: 16px;
+            height: 16px;
+          }
         }
       }
       &.large {
@@ -183,8 +185,12 @@
             display: block;
             overflow: hidden;
             .icon {
-              margin: 2px 0 0 2px;
-              float: left;
+              &.walk {
+                float: left;
+                display: flex;
+                justify-content: center;
+                max-width: 100%;
+              }
             }
             .leg-duration-container {
               float: left;
@@ -232,6 +238,11 @@
       align-items: center;
       justify-content: left;
       line-height: 1;
+      max-width: 100%;
+      .vehicle-number-container-v {
+        max-width: 100%;
+        overflow: hidden;
+      }
     }
 
     div.bar-container {
@@ -253,7 +264,11 @@
       }
       &.wait {
         background-color: white;
-        border: 1px solid $light-gray
+        border: 1px solid $light-gray;
+        .route-number{
+          justify-content: center;
+          max-width: 24px;
+        }
       }
       &.walk {
         background-color: $light-gray;
@@ -325,6 +340,9 @@
     min-height: 100px;
     border-left-width: 8px;
     padding: 0 0 0 3.75em;
+    .summary-clickable-area {
+      max-width: calc(100% - 70px);
+    }
 
     .itinerary-duration-and-distance {
       display: flex;
@@ -398,6 +416,7 @@
   .itinerary-summary-visible {
     flex: auto;
     flex-direction: column;
+    max-width: 100%;
   }
 
   .itinerary-summary-header {
