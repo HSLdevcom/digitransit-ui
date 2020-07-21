@@ -575,6 +575,15 @@ const connectedContainer = createFragmentContainer(
         ...ItinerarySummaryListContainer_itineraries
         endTime
         startTime
+        legs {
+          mode
+          to {
+            bikePark {
+              bikeParkId
+              name
+            }
+          }
+        }
       }
     `,
   },

@@ -1409,16 +1409,10 @@ const containerComponent = createFragmentContainer(PositioningWrapper, {
               ...RouteLine_pattern
             }
           }
-          from {
-            bikePark {
-              name
-              spacesAvailable
-            }
-          }
           to {
             bikePark {
+              bikeParkId
               name
-              spacesAvailable
             }
           }
           distance

@@ -306,7 +306,6 @@ const SummaryRow = (
       onlyIconLegs += 1;
       legs.push(<ViaLeg key={`via_${leg.mode}_${leg.startTime}`} />);
     }
-
     if (isLegOnFoot(leg) && renderBar) {
       const walkingTime = Math.floor(leg.duration / 60);
       legs.push(
@@ -359,6 +358,16 @@ const SummaryRow = (
           large={breakpoint === 'large'}
         />,
       );
+      if (leg.to.bikePark) {
+        legs.push(
+          <div className="leg bike_park">
+            <Icon
+              img="icon-bike_parking"
+              className="itinerary-icon bike_park"
+            />
+          </div>,
+        );
+      }
     }
 
     const connectsFromViaPoint = () =>

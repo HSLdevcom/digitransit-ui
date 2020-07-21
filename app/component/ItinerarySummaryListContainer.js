@@ -325,10 +325,6 @@ const containerComponent = createFragmentContainer(
               bikesAvailable
               networks
             }
-            bikePark {
-              name
-              spacesAvailable
-            }
           }
           to {
             stop {
@@ -341,8 +337,8 @@ const containerComponent = createFragmentContainer(
               }
             }
             bikePark {
+              bikeParkId
               name
-              spacesAvailable
             }
           }
         }

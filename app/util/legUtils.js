@@ -134,10 +134,16 @@ export const compressLegs = originalLegs => {
       compressedLeg = cloneDeep(currentLeg);
       return;
     }
+    if (usingOwnBicycle && currentLeg.to.bikePark) {
+      compressedLeg.to.stop = currentLeg.to.stop;
+      compressedLeg.to.bikePark = currentLeg.to.bikePark;
+    }
     if (usingOwnBicycle && continueWithBicycle(compressedLeg, currentLeg)) {
       compressedLeg.duration += currentLeg.duration;
       compressedLeg.distance += currentLeg.distance;
-      compressedLeg.to = currentLeg.to;
+      if (!compressedLeg.to) {
+        compressedLeg.to = currentLeg.to;
+      }
       compressedLeg.endTime = currentLeg.endTime;
       compressedLeg.mode = LegMode.Bicycle;
       return;
