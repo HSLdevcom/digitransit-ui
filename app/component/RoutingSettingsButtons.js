@@ -63,6 +63,9 @@ class RoutingSettingsButtons extends React.Component {
       tramWeight: getValueOrDefault(query.tramWeight),
       ferryWeight: getValueOrDefault(query.ferryWeight),
       airplaneWeight: getValueOrDefault(query.airplaneWeight),
+      useCarParkAvailabilityInformation: getValueOrDefault(
+        query.useCarParkAvailabilityInformation,
+      ),
     };
 
     if (

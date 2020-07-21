@@ -69,6 +69,7 @@ export const defaultRoutingSettings = {
   compactLegsByReversedSearch: null,
   disableRemainingWeightHeuristic: null,
   modeWeight: null,
+  useCarParkAvailabilityInformation: null,
 };
 
 function getTicketTypes(ticketType, settingsTicketType, defaultTicketType) {
@@ -252,6 +253,9 @@ export const getSettings = () => {
     preferredRoutes: custSettings.preferredRoutes,
     unpreferredRoutes: custSettings.unpreferredRoutes,
     allowedBikeRentalNetworks: custSettings.allowedBikeRentalNetworks,
+    useCarParkAvailabilityInformation: getBooleanValueOrDefault(
+      routingSettings.useCarParkAvailabilityInformation,
+    ),
   };
 };
 
@@ -281,6 +285,7 @@ export const preparePlanParams = config => (
         walkSpeed,
         allowedBikeRentalNetworks,
         locale,
+        useCarParkAvailabilityInformation,
       },
     },
   },
@@ -414,6 +419,9 @@ export const preparePlanParams = config => (
           intermediatePlaceLocations,
         ),
         locale: locale || cookie.load('lang') || 'fi',
+        useCarParkAvailabilityInformation: getBooleanValueOrDefault(
+          useCarParkAvailabilityInformation,
+        ),
       },
       nullOrUndefined,
     ),

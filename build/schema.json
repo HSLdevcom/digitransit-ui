@@ -1797,6 +1797,16 @@
                                 "defaultValue": null
                             },
                             {
+                                "name": "useCarParkAvailabilityInformation",
+                                "description": "",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Boolean",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
                                 "name": "omitCanceled",
                                 "description": "When false, return itineraries using canceled trips. Default value: true.",
                                 "type": {
@@ -4154,6 +4164,30 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "alertHeaderTextTranslations",
+                        "description": "Header of the alert in all different available languages",
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "OBJECT",
+                                        "name": "TranslatedString",
+                                        "ofType": null
+                                    }
+                                }
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "alertDescriptionText",
                         "description": "Long description of the alert",
                         "args": [],
@@ -4170,8 +4204,44 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "alertDescriptionTextTranslations",
+                        "description": "Long descriptions of the alert in all different available languages",
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "OBJECT",
+                                        "name": "TranslatedString",
+                                        "ofType": null
+                                    }
+                                }
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "alertUrl",
                         "description": "Url with more information",
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "alertId",
+                        "description": "Machine readable ID of alert",
                         "args": [],
                         "type": {
                             "kind": "SCALAR",

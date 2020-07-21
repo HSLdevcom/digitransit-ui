@@ -37,6 +37,7 @@ const ROUTING_SETTINGS = {
   maxWalkDistance: '2000',
   maxBikingDistance: '100000',
   itineraryFiltering: 'true',
+  useCarParkAvailabilityInformation: 'false',
 };
 
 describe('localStorage', () => {

@@ -270,6 +270,8 @@ export const getQuerySettings = query => {
     value !== undefined && value !== null && value !== ''
       ? Number(value)
       : defaultValue;
+  const getBooleanValueOrDefault = (value, defaultValue = undefined) =>
+    value !== undefined ? value === 'true' : defaultValue;
 
   return {
     ...(hasKey('accessibilityOption') && {
@@ -322,6 +324,11 @@ export const getQuerySettings = query => {
     ...(hasKey('allowedBikeRentalNetworks') && {
       allowedBikeRentalNetworks: getArrayValueOrDefault(
         query.allowedBikeRentalNetworks,
+      ),
+    }),
+    ...(hasKey('useCarParkAvailabilityInformation') && {
+      useCarParkAvailabilityInformation: getBooleanValueOrDefault(
+        query.useCarParkAvailabilityInformation,
       ),
     }),
   };

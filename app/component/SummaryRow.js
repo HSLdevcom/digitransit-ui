@@ -103,6 +103,16 @@ export const ModeLeg = ({ leg, mode, large }, { config }) => {
         )
       : null;
 
+  // Display alerts only for car and citybike legs.
+  const hasAlerts =
+    leg.alerts &&
+    ((mode === 'CAR' &&
+      leg.alerts.filter(a => a.alertId === 'car_park_full')[0]) ||
+      (mode === 'CITYBIKE' &&
+        leg.alerts.filter(
+          a => a.alertId === 'bike_rental_free_floating_drop_off',
+        )[0]));
+
   const routeNumber = (
     <RouteNumber
       mode={mode}
@@ -111,6 +121,8 @@ export const ModeLeg = ({ leg, mode, large }, { config }) => {
       vertical
       withBar
       icon={networkIcon}
+      subIcon={hasAlerts ? 'icon-icon_caution' : ''}
+      subIconClass={hasAlerts ? 'subicon-caution' : ''}
       {...getLegBadgeProps(leg, config)}
     />
   );

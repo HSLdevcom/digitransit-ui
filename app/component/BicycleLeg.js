@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import RouteNumber from './RouteNumber';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -20,8 +20,9 @@ import {
 import { isKeyboardSelectionEvent } from '../util/browser';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import { AlertSeverityLevelType } from '../constants';
+import { getServiceAlertDescription } from '../util/alertUtils';
 
-function BicycleLeg({ focusAction, index, leg }, { config }) {
+function BicycleLeg({ focusAction, index, leg }, { config, intl }) {
   let stopsDescription;
   const distance = displayDistance(parseInt(leg.distance, 10), config);
   const duration = durationToString(leg.duration * 1000);
@@ -64,15 +65,18 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
   }
 
   let networkIcon;
-  let hasAlert = false;
+  let freeFloatAlert = null;
   let rentalUri;
 
   if (leg.rentedBike === true) {
-    hasAlert = leg.alerts && leg.alerts.length > 0 && leg.alerts[0].alertUrl;
+    const alerts = leg.alerts || [];
+    [freeFloatAlert] = alerts.filter(
+      a => a.alertId === 'bike_rental_free_floating_drop_off',
+    );
     networkIcon = networkConfig && getCityBikeNetworkIcon(networkConfig);
     rentalUri =
       leg.from.bikeRentalStation.rentalUriWeb ||
-      getCityBikeUrl(leg.from.bikeRentalStation.networks, 'de', config);
+      getCityBikeUrl(leg.from.bikeRentalStation.networks, intl.locale, config);
 
     modeClassName = 'citybike';
     legDescription = (
@@ -117,8 +121,8 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
           mode={mode}
           vertical
           icon={networkIcon}
-          subIcon={hasAlert ? 'icon-icon_caution' : ''}
-          subIconClass={hasAlert ? 'subicon-caution' : ''}
+          subIcon={freeFloatAlert ? 'icon-icon_caution' : ''}
+          subIconClass={freeFloatAlert ? 'subicon-caution' : ''}
           {...getLegBadgeProps(leg, config)}
         />
       </div>
@@ -142,13 +146,13 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
         </div>
         <div className="itinerary-leg-action" aria-hidden="true">
           {stopsDescription}
-          {hasAlert && (
+          {freeFloatAlert && (
             <div className="itinerary-leg-first-row itinerary-alert-info citybike">
               <ServiceAlertIcon
                 className="inline-icon"
                 severityLevel={AlertSeverityLevelType.Info}
               />
-              <FormattedMessage id={leg.alerts[0].alertUrl} />
+              {getServiceAlertDescription(freeFloatAlert, intl.locale)}
             </div>
           )}
           {rentalUri && (
@@ -166,7 +170,7 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
         </div>
       </div>
       <span className="sr-only">
-        {hasAlert && (
+        {!!freeFloatAlert && (
           <FormattedMessage id="itinerary-details.route-has-info-alert" />
         )}
       </span>
@@ -305,6 +309,9 @@ BicycleLeg.propTypes = {
   focusAction: PropTypes.func.isRequired,
 };
 
-BicycleLeg.contextTypes = { config: PropTypes.object.isRequired };
+BicycleLeg.contextTypes = {
+  config: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
+};
 
 export default BicycleLeg;

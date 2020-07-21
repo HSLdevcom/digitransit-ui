@@ -717,6 +717,11 @@ $itinerary-tab-switch-height: 48px;
       &.citybike {
         border-color: $citybike-color;
       }
+
+      &.carpool {
+        border-color: $carpool-color;
+        margin-left: 10px;
+      }
     }
   }
 }

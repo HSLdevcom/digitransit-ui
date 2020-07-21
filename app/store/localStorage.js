@@ -251,6 +251,9 @@ export function setRoutingSettings(data) {
     airplaneWeight: data.airplaneWeight
       ? data.airplaneWeight
       : oldSettings.airplaneWeight,
+    useCarParkAvailabilityInformation: data.useCarParkAvailabilityInformation
+      ? data.useCarParkAvailabilityInformation
+      : oldSettings.useCarParkAvailabilityInformation,
   };
   setItem('routingSettings', newSettings);
 }
