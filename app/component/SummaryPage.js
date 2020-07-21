@@ -751,9 +751,16 @@ class SummaryPage extends React.Component {
       itineraryWalkDistance < this.context.config.suggestWalkMaxDistance &&
       currentSettings.usingWheelchair !== 1;
 
+    const bikePlanContainsOnlyWalk =
+      !bikePlan.itineraries ||
+      bikePlan.itineraries.every(itinerary =>
+        itinerary.legs.every(leg => leg.mode === 'WALK'),
+      );
+
     const showBikeOptionButton =
       itineraryBikeDistance < this.context.config.suggestBikeMaxDistance &&
-      currentSettings.usingWheelchair !== 1;
+      currentSettings.usingWheelchair !== 1 &&
+      !bikePlanContainsOnlyWalk;
 
     const showStreetModeSelector = showBikeOptionButton || showWalkOptionButton;
 
@@ -765,6 +772,12 @@ class SummaryPage extends React.Component {
     // Remove old itineraries if new query cannot find a route
     if (error && hasItineraries) {
       itineraries = [];
+    }
+    // filter out walk only itineraries from main results
+    if (this.state.streetMode !== 'walk' && this.state.streetMode !== 'bike') {
+      itineraries = itineraries.filter(
+        itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
+      );
     }
 
     let hash;
