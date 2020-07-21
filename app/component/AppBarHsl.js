@@ -2,9 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import i18next from 'i18next';
 import { matchShape, routerShape } from 'found';
-import loadable from '@loadable/component';
+import LazilyLoad, { importLazy } from './LazilyLoad';
 
-const SiteHeader = loadable(() => import('@hsl-fi/site-header'), { ssr: true });
+const modules = {
+  SiteHeader: () => importLazy(import('@hsl-fi/site-header')),
+};
 
 const initLanguage = language => {
   i18next.init({ lang: language, resources: {} });
@@ -110,13 +112,17 @@ const AppBarHsl = ({ lang }, { match }) => {
   };
 
   return (
-    <SiteHeader
-      startPage={startPage}
-      menu={menu}
-      searchPage={searchPage}
-      languages={languages}
-      localizations={localizations}
-    />
+    <LazilyLoad modules={modules}>
+      {({ SiteHeader }) => (
+        <SiteHeader
+          startPage={startPage}
+          menu={menu}
+          searchPage={searchPage}
+          languages={languages}
+          localizations={localizations}
+        />
+      )}
+    </LazilyLoad>
   );
 };
 

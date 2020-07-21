@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import loadable from '@loadable/component';
-
-const ContainerSpinner = loadable(() => import('@hsl-fi/container-spinner'));
+import ContainerSpinner from '@hsl-fi/container-spinner';
 
 const defaultMessage = (
   <span className="sr-only">

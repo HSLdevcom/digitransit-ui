@@ -1,9 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
-import loadable from '@loadable/component';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
+import AutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
+import FavouriteBar from '@digitransit-component/digitransit-component-favourite-bar';
+import FavouriteModal from '@digitransit-component/digitransit-component-favourite-modal';
+import FavouriteEditModal from '@digitransit-component/digitransit-component-favourite-editing-modal';
 import withSearchContext from './WithSearchContext';
 import {
   addFavourite,
@@ -11,28 +14,7 @@ import {
   deleteFavourite,
 } from '../action/FavouriteActions';
 
-const AutoSuggestWithSearchContext = withSearchContext(
-  loadable(
-    () => import('@digitransit-component/digitransit-component-autosuggest'),
-    { ssr: true },
-  ),
-);
-
-const FavouriteBar = loadable(
-  () => import('@digitransit-component/digitransit-component-favourite-bar'),
-  { ssr: true },
-);
-
-const FavouriteModal = loadable(
-  () => import('@digitransit-component/digitransit-component-favourite-modal'),
-  { ssr: true },
-);
-
-const FavouriteEditModal = loadable(
-  () =>
-    import('@digitransit-component/digitransit-component-favourite-editing-modal'),
-  { ssr: true },
-);
+const AutoSuggestWithSearchContext = withSearchContext(AutoSuggest);
 
 const favouriteShape = PropTypes.shape({
   type: PropTypes.string,

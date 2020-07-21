@@ -199,7 +199,6 @@ module.exports = {
             '@babel/plugin-syntax-dynamic-import',
             ['@babel/plugin-proposal-class-properties', { loose: true }],
             '@babel/plugin-proposal-json-strings',
-            '@loadable/babel-plugin',
           ],
         },
       },
@@ -253,6 +252,11 @@ module.exports = {
         react: {
           name: 'react',
           test: /[\\/]node_modules[\\/](react|react-dom|react-relay|relay-runtime)[\\/]/,
+          reuseExistingChunk: false,
+        },
+        digitransitComponents: {
+          name: 'digitransit-components',
+          test: /[\\/]node_modules[\\/](@digitransit-component|@digitransit-search-util|@digitransit-util|@hsl-fi)[\\/]/,
           reuseExistingChunk: false,
         },
       },
