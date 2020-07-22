@@ -180,12 +180,22 @@
         display: flex;
         min-width: 0;
         height: 24px;
+        max-width: fit-content;
         .vcenter-children {
-          &.walk {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          line-height: 1;
+          min-width: calc(100% + 7px);
+          &.wait {
+            min-width: unset;
+          }
+          &.walk, &.citybike {
             display: block;
             overflow: hidden;
+            min-width: unset;
             .icon {
-              &.walk {
+              &.walk, &.citybike {
                 float: left;
                 display: flex;
                 justify-content: center;
@@ -206,18 +216,17 @@
           height: 24px;
         }
           .vehicle-number-container-v {
+            padding-right: 8px;
             .long {
-              position: absolute;
               left: 24px;
               top: 4px;
-              width: calc(100% - 24px);
               text-align: left;
             }
             .vehicle-number {
               @include font-narrow-medium;
               color: $white;
               font-size: 15px;
-              padding: 1px 0 0 5px;
+              padding: 1px 0 0 0;
             }
           }
           .leg-duration-container {

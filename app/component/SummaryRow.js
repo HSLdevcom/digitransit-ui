@@ -238,11 +238,9 @@ const SummaryRow = (
   });
   const durationWithoutSlack = duration - intermediateSlack; // don't include time spent at intermediate places in calculations for bar lengths
   let renderBarThreshold = 6;
-  let renderLegDurationThreshold = 10.5;
   let renderRouteNumberThreshold = 14;
   if (breakpoint === 'small') {
     renderBarThreshold = 8.5;
-    renderLegDurationThreshold = 12;
     renderRouteNumberThreshold = 17;
   }
   let firstLegStartTime = null;
@@ -297,16 +295,16 @@ const SummaryRow = (
       addition += legLength; // carry over the length of the leg to the next
     }
 
-    renderNumber = isLegOnFoot(leg)
-      ? legLength > renderLegDurationThreshold
-      : legLength > renderRouteNumberThreshold;
+    if (isTransitLeg(leg)) {
+      renderNumber = legLength > renderRouteNumberThreshold;
+    }
 
     if (!renderNumber && isTransitLeg(leg)) {
-      // if the leg is a transit leg with no space for the
       if (isLastLeg || shouldRenderLastLeg) {
-        // route number, render only the icon
         lastLegRendered = true;
       } else {
+        // if the leg is a transit leg with no space for the
+        // route number, render only the icon
         onlyIconLegsLength += legLength;
         onlyIconLegs += 1;
       }
@@ -336,7 +334,7 @@ const SummaryRow = (
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
           isTransitLeg={false}
-          renderNumber={renderNumber}
+          renderNumber
           leg={leg}
           walkingTime={bikingTime}
           mode="CITYBIKE"
@@ -419,8 +417,10 @@ const SummaryRow = (
     }
   });
   const normalLegs = legs.length - onlyIconLegs;
-  const iconLegsInPixels = 24 * onlyIconLegs / normalLegs; // how many pixels to take from each 'normal' leg to give room for the icons
-  const iconLegsInPercents = onlyIconLegsLength / normalLegs; // the leftover percentage from only showing icons added to each 'normal' leg
+  // how many pixels to take from each 'normal' leg to give room for the icons
+  const iconLegsInPixels = 24 * onlyIconLegs / normalLegs;
+  // the leftover percentage from only showing icons added to each 'normal' leg
+  const iconLegsInPercents = onlyIconLegsLength / normalLegs;
 
   if (!noTransitLegs) {
     const firstDeparture = compressedLegs.find(isTransitLeg);
