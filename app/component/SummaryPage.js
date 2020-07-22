@@ -490,18 +490,20 @@ class SummaryPage extends React.Component {
       time = this.props.plan.itineraries[0].startTime;
     }
     const timem = moment(time);
-    getWeatherData(timem, from.lat, from.lon).then(res => {
-      // Icon id's and descriptions: https://www.ilmatieteenlaitos.fi/latauspalvelun-pikaohje ->  Sääsymbolien selitykset ennusteissa.
-      const iconId = this.checkDayNight(res[2].ParameterValue, timem.hour());
+    if (this.context.config.showWeatherInformation) {
+      getWeatherData(timem, from.lat, from.lon).then(res => {
+        // Icon id's and descriptions: https://www.ilmatieteenlaitos.fi/latauspalvelun-pikaohje ->  Sääsymbolien selitykset ennusteissa.
+        const iconId = this.checkDayNight(res[2].ParameterValue, timem.hour());
 
-      this.setState({
-        weatherData: {
-          temperature: res[0].ParameterValue,
-          windSpeed: res[1].ParameterValue,
-          iconId,
-        },
+        this.setState({
+          weatherData: {
+            temperature: res[0].ParameterValue,
+            windSpeed: res[1].ParameterValue,
+            iconId,
+          },
+        });
       });
-    });
+    }
     if (!isEqual(nextProps.match.params.from, this.props.match.params.from)) {
       this.context.executeAction(storeOrigin, nextProps.match.params.from);
     }
