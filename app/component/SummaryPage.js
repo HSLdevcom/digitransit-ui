@@ -51,7 +51,6 @@ import VehicleMarkerContainer from './map/VehicleMarkerContainer';
 import ItineraryTab from './ItineraryTab';
 import { StreetModeSelector } from './StreetModeSelector';
 import { getCurrentSettings } from '../util/planParamUtil';
-import { getTotalBikingDistance } from '../util/legUtils';
 
 /**
  * Returns the actively selected itinerary's index. Attempts to look for
@@ -176,10 +175,10 @@ class SummaryPage extends React.Component {
     }).isRequired,
     walkPlan: PropTypes.shape({
       itineraries: PropTypes.array,
-    }).isRequired,
+    }),
     bikePlan: PropTypes.shape({
       itineraries: PropTypes.array,
-    }).isRequired,
+    }),
     serviceTimeRange: PropTypes.shape({
       start: PropTypes.number.isRequired,
       end: PropTypes.number.isRequired,
@@ -199,6 +198,8 @@ class SummaryPage extends React.Component {
     error: undefined,
     loading: false,
     loadingPosition: false,
+    walkPlan: undefined,
+    bikePlan: undefined,
   };
 
   constructor(props, context) {
@@ -736,20 +737,14 @@ class SummaryPage extends React.Component {
       this.selectedPlan = this.props.plan;
     }
 
-    let itineraryWalkDistance;
-    let itineraryBikeDistance;
-    if (walkPlan.itineraries && walkPlan.itineraries.length > 0) {
-      itineraryWalkDistance = walkPlan.itineraries[0].walkDistance;
-    }
-    if (bikePlan.itineraries && bikePlan.itineraries.length > 0) {
-      itineraryBikeDistance = getTotalBikingDistance(bikePlan.itineraries[0]);
-    }
-
     const currentSettings = getCurrentSettings(this.context.config, '');
 
-    const showWalkOptionButton =
-      itineraryWalkDistance < this.context.config.suggestWalkMaxDistance &&
-      currentSettings.usingWheelchair !== 1;
+    const showWalkOptionButton = Boolean(
+      walkPlan &&
+        walkPlan.itineraries &&
+        walkPlan.itineraries.length > 0 &&
+        currentSettings.usingWheelchair !== 1,
+    );
 
     const bikePlanContainsOnlyWalk =
       !bikePlan.itineraries ||
@@ -757,10 +752,13 @@ class SummaryPage extends React.Component {
         itinerary.legs.every(leg => leg.mode === 'WALK'),
       );
 
-    const showBikeOptionButton =
-      itineraryBikeDistance < this.context.config.suggestBikeMaxDistance &&
-      currentSettings.usingWheelchair !== 1 &&
-      !bikePlanContainsOnlyWalk;
+    const showBikeOptionButton = Boolean(
+      bikePlan &&
+        bikePlan.itineraries &&
+        bikePlan.itineraries.length > 0 &&
+        currentSettings.usingWheelchair !== 1 &&
+        !bikePlanContainsOnlyWalk,
+    );
 
     const showStreetModeSelector = showBikeOptionButton || showWalkOptionButton;
 

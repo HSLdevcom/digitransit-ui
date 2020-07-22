@@ -3,7 +3,6 @@ import unzip from 'lodash/unzip';
 import inside from 'point-in-polygon';
 
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
-import { otpToLocation } from './otpStrings';
 import { isImperial } from './browser';
 
 function toRad(deg) {
@@ -419,8 +418,8 @@ export const isPointTypeGeometry = geometry =>
  *
  */
 export function estimateItineraryDistance(from, to, viaPoints) {
-  const start = otpToLocation(from);
-  const end = otpToLocation(to);
+  const start = from;
+  const end = to;
   if (!viaPoints) {
     return distance(start, end);
   }
@@ -428,7 +427,7 @@ export function estimateItineraryDistance(from, to, viaPoints) {
   const points = [...from, ...viaPoints, ...to];
   const arrayLength = points.length;
   for (let i = 0; i < arrayLength - 1; i++) {
-    dist += distance(otpToLocation(points[i]), otpToLocation(points[i + 1]));
+    dist += distance(points[i], points[i + 1]);
   }
 
   return dist;
