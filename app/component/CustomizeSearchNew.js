@@ -57,6 +57,9 @@ class CustomizeSearch extends React.Component {
     return (
       <div className="customize-search">
         <button
+          title="Close window and save settings"
+          aria-label="Close window and save settings"
+          type="button"
           className="close-offcanvas"
           onClick={() => {
             onToggleClick();
