@@ -10,14 +10,7 @@ import DestinationStore from '../../store/DestinationStore';
 import { dtLocationShape } from '../../util/shapes';
 import PreferencesStore from '../../store/PreferencesStore';
 
-function StopsNearYouMap({
-  match,
-  router,
-  breakpoint,
-  origin,
-  destination,
-  language,
-}) {
+function StopsNearYouMap({ breakpoint, origin, destination }) {
   let map;
   if (breakpoint === 'large') {
     map = (
@@ -36,17 +29,13 @@ function StopsNearYouMap({
     map = (
       <MapWithTracking
         breakpoint={breakpoint}
-        showStops={false}
+        showStops
         showScaleBar
-        origin={origin}
         setInitialZoom={17}
+        origin={origin}
         destination={destination}
-        originFromMap={origin}
-        destinationFromMap={destination}
-        match={match}
-        router={router}
-        language={language}
         setInitialMapTracking
+        disableLocationPopup
       />
     );
   }
