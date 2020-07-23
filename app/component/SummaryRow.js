@@ -367,7 +367,10 @@ const SummaryRow = (
       );
       if (leg.to.bikePark) {
         legs.push(
-          <div className="leg bike_park">
+          <div
+            className="leg bike_park"
+            key={`${leg.mode}_${leg.startTime}_bike_park_indicator`}
+          >
             <Icon
               img="icon-bike_parking"
               className="itinerary-icon bike_park"
