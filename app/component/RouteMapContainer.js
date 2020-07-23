@@ -174,10 +174,18 @@ const RouteMapContainerWithVehicles = connectToStores(
         .filter(
           vehicle =>
             vehicle.tripId === undefined || vehicle.tripId === trip.gtfsId,
+        )
+        .filter(
+          vehicle =>
+            vehicle.direction === undefined ||
+            vehicle.direction === Number(trip.directionId),
         );
 
-      const selectedVehicle =
-        matchingVehicles && matchingVehicles.length > 0 && matchingVehicles[0];
+      if (matchingVehicles.length !== 1) {
+        // no matching vehicles or cant distinguish between vehicles
+        return null;
+      }
+      const selectedVehicle = matchingVehicles[0];
 
       return { lat: selectedVehicle.lat, lon: selectedVehicle.long };
     }
@@ -211,6 +219,7 @@ export default createFragmentContainer(RouteMapContainerWithVehicles, {
         scheduledDeparture
       }
       gtfsId
+      directionId
     }
   `,
 });
