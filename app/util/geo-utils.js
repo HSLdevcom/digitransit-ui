@@ -418,13 +418,8 @@ export const isPointTypeGeometry = geometry =>
  *
  */
 export function estimateItineraryDistance(from, to, viaPoints) {
-  const start = from;
-  const end = to;
-  if (!viaPoints) {
-    return distance(start, end);
-  }
   let dist = 0;
-  const points = [...from, ...viaPoints, ...to];
+  const points = [...[from], ...viaPoints, ...[to]];
   const arrayLength = points.length;
   for (let i = 0; i < arrayLength - 1; i++) {
     dist += distance(points[i], points[i + 1]);
