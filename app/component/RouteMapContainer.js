@@ -192,7 +192,15 @@ const RouteMapContainerWithVehicles = connectToStores(
             vehicle.tripStartTime === undefined ||
             vehicle.tripStartTime === tripStart,
         )
-        .filter(vehicle => vehicle.direction === Number(trip.directionId));
+        .filter(
+          vehicle =>
+            vehicle.tripId === undefined || vehicle.tripId === trip.gtfsId,
+        )
+        .filter(
+          vehicle =>
+            vehicle.direction === undefined ||
+            vehicle.direction === Number(trip.directionId),
+        );
 
       if (matchingVehicles.length !== 1) {
         // no matching vehicles or cant distinguish between vehicles
