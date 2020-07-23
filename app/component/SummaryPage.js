@@ -199,10 +199,10 @@ class SummaryPage extends React.Component {
     }).isRequired,
     walkPlan: PropTypes.shape({
       itineraries: PropTypes.array,
-    }).isRequired,
+    }),
     bikePlan: PropTypes.shape({
       itineraries: PropTypes.array,
-    }).isRequired,
+    }),
     bikeAndPublicPlan: PropTypes.shape({
       itineraries: PropTypes.array,
     }).isRequired,
@@ -228,6 +228,8 @@ class SummaryPage extends React.Component {
     error: undefined,
     loading: false,
     loadingPosition: false,
+    walkPlan: undefined,
+    bikePlan: undefined,
   };
 
   constructor(props, context) {
@@ -552,27 +554,32 @@ class SummaryPage extends React.Component {
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
     const from = otpToLocation(this.props.match.params.from);
-    if (!nextProps.match.params.hash) {
-      let time;
-      if (
-        nextProps.plan &&
-        nextProps.plan.itineraries &&
-        nextProps.plan.itineraries[0] &&
-        nextProps.plan.itineraries[0].startTime &&
-        time !== nextProps.plan.itineraries[0].startTime
-      ) {
-        time = nextProps.plan.itineraries[0].startTime;
-      } else if (
-        this.props.plan.itineraries &&
-        this.props.plan.itineraries[0] &&
-        this.props.plan.itineraries[0].startTime
-      ) {
-        time = this.props.plan.itineraries[0].startTime;
-      }
-      const timem = moment(time);
+
+    let time;
+    if (
+      nextProps.plan &&
+      nextProps.plan.itineraries &&
+      nextProps.plan.itineraries[0] &&
+      nextProps.plan.itineraries[0].startTime &&
+      time !== nextProps.plan.itineraries[0].startTime
+    ) {
+      time = nextProps.plan.itineraries[0].startTime;
+    } else if (
+      this.props.plan.itineraries &&
+      this.props.plan.itineraries[0] &&
+      this.props.plan.itineraries[0].startTime
+    ) {
+      time = this.props.plan.itineraries[0].startTime;
+    }
+    const timem = moment(time);
+    if (
+      this.context.config.showWeatherInformation &&
+      !nextProps.match.params.hash
+    ) {
       getWeatherData(timem, from.lat, from.lon).then(res => {
         // Icon id's and descriptions: https://www.ilmatieteenlaitos.fi/latauspalvelun-pikaohje ->  Sääsymbolien selitykset ennusteissa.
         const iconId = this.checkDayNight(res[2].ParameterValue, timem.hour());
+
         this.setState({
           weatherData: {
             temperature: res[0].ParameterValue,
@@ -582,7 +589,6 @@ class SummaryPage extends React.Component {
         });
       });
     }
-
     if (!isEqual(nextProps.match.params.from, this.props.match.params.from)) {
       this.context.executeAction(storeOrigin, nextProps.match.params.from);
     }
@@ -847,24 +853,40 @@ class SummaryPage extends React.Component {
       this.selectedPlan = plan;
     }
 
+    const currentSettings = getCurrentSettings(this.context.config, '');
+
     let itineraryWalkDistance;
     let itineraryBikeDistance;
-    if (walkPlan.itineraries && walkPlan.itineraries.length > 0) {
+    if (walkPlan && walkPlan.itineraries && walkPlan.itineraries.length > 0) {
       itineraryWalkDistance = walkPlan.itineraries[0].walkDistance;
     }
-    if (bikePlan.itineraries && bikePlan.itineraries.length > 0) {
+    if (bikePlan && bikePlan.itineraries && bikePlan.itineraries.length > 0) {
       itineraryBikeDistance = getTotalBikingDistance(bikePlan.itineraries[0]);
     }
 
-    const currentSettings = getCurrentSettings(this.context.config, '');
+    const showWalkOptionButton = Boolean(
+      walkPlan &&
+        walkPlan.itineraries &&
+        walkPlan.itineraries.length > 0 &&
+        currentSettings.usingWheelchair !== 1 &&
+        itineraryWalkDistance < this.context.config.suggestWalkMaxDistance,
+    );
 
-    const showWalkOptionButton =
-      itineraryWalkDistance < this.context.config.suggestWalkMaxDistance &&
-      currentSettings.usingWheelchair !== 1;
+    const bikePlanContainsOnlyWalk =
+      !bikePlan ||
+      !bikePlan.itineraries ||
+      bikePlan.itineraries.every(itinerary =>
+        itinerary.legs.every(leg => leg.mode === 'WALK'),
+      );
 
-    const showBikeOptionButton =
-      itineraryBikeDistance < this.context.config.suggestBikeMaxDistance &&
-      currentSettings.usingWheelchair !== 1;
+    const showBikeOptionButton = Boolean(
+      bikePlan &&
+        bikePlan.itineraries &&
+        bikePlan.itineraries.length > 0 &&
+        currentSettings.usingWheelchair !== 1 &&
+        !bikePlanContainsOnlyWalk &&
+        itineraryBikeDistance < this.context.config.suggestBikeMaxDistance,
+    );
 
     const showBikeAndPublicOptionButton = currentSettings.usingWheelchair !== 1;
 
@@ -882,6 +904,12 @@ class SummaryPage extends React.Component {
     // Remove old itineraries if new query cannot find a route
     if (error && hasItineraries) {
       itineraries = [];
+    }
+    // filter out walk only itineraries from main results
+    if (this.state.streetMode !== 'walk' && this.state.streetMode !== 'bike') {
+      itineraries = itineraries.filter(
+        itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
+      );
     }
 
     const hash = getHashNumber(

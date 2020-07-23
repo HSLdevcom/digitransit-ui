@@ -218,7 +218,7 @@ export default {
     tileSize: 512,
     zoomOffset: -1,
     minZoom: 9,
-    maxZoom: 17,
+    maxZoom: 18,
     controls: {
       zoom: {
         // available controls positions: 'topleft', 'topright', 'bottomleft, 'bottomright'
@@ -294,7 +294,7 @@ export default {
   // Highest level when stops and terminals are still rendered as small markers
   stopsSmallMaxZoom: 14,
   // Highest level when terminals are still rendered instead of individual stops
-  terminalStopsMaxZoom: 17,
+  terminalStopsMaxZoom: 18,
   terminalStopsMinZoom: 12,
   terminalNamesZoom: 16,
   stopsIconSize: {
@@ -791,4 +791,6 @@ export default {
 
   // DT-3611
   showVehiclesOnSummaryPage: false,
+
+  showWeatherInformation: false,
 };

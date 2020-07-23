@@ -88,6 +88,16 @@ export default config => {
               }
             />
           ),
+          map: (
+            <Route
+              // disableMapOnMobile
+              getComponent={() =>
+                import(/* webpackChunkName: "itinerary" */ './component/map/StopsNearYouMap.js').then(
+                  getDefault,
+                )
+              }
+            />
+          ),
         }}
       </Route>
       <Route path={`/${PREFIX_ITINERARY_SUMMARY}/:from/:to`}>
@@ -149,6 +159,8 @@ export default config => {
                   $unpreferred: InputUnpreferred
                   $allowedBikeRentalNetworks: [String]
                   $locale: String
+                  $shortEnoughForWalking: Boolean!
+                  $shortEnoughForBiking: Boolean!
                 ) {
                   plan: plan(
                     fromPlace: $fromPlace
@@ -232,7 +244,7 @@ export default config => {
                     unpreferred: $unpreferred
                     allowedBikeRentalNetworks: $allowedBikeRentalNetworks
                     locale: $locale
-                  ) {
+                  ) @include(if: $shortEnoughForWalking) {
                     ...SummaryPage_walkPlan
                   }
 
@@ -275,7 +287,7 @@ export default config => {
                     unpreferred: $unpreferred
                     allowedBikeRentalNetworks: $allowedBikeRentalNetworks
                     locale: $locale
-                  ) {
+                  ) @include(if: $shortEnoughForBiking) {
                     ...SummaryPage_bikePlan
                   }
 
@@ -528,7 +540,6 @@ export default config => {
           ),
           map: (
             <Route
-              // disableMapOnMobile
               getComponent={() =>
                 import(/* webpackChunkName: "itinerary" */ './component/map/SelectFromMapPageMap.js').then(
                   getDefault,

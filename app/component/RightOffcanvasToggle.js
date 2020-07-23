@@ -22,7 +22,7 @@ export default function RightOffcanvasToggle(
         onKeyPress={e => isKeyboardSelectionEvent(e) && onToggleClick()}
         aria-label={label}
         title={label}
-        className="noborder cursor-pointer"
+        className="noborder cursor-pointer open-advanced-settings-window-button"
       >
         <div>
           <div className="icon-holder">

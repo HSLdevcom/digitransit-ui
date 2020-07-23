@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
-import loadable from '@loadable/component';
 import { withCurrentTime } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import ComponentUsageExample from './ComponentUsageExample';
 import { PREFIX_ITINERARY_SUMMARY, navigateTo } from '../util/path';
 import withSearchContext from './WithSearchContext';
@@ -16,12 +16,8 @@ import {
 } from '../util/queryUtils';
 import { dtLocationShape } from '../util/shapes';
 
-const DTAutosuggestPanel = withSearchContext(
-  loadable(
-    () =>
-      import('@digitransit-component/digitransit-component-autosuggest-panel'),
-    { ssr: true },
-  ),
+const DTAutosuggestPanelWithSearchContext = withSearchContext(
+  DTAutosuggestPanel,
 );
 
 const locationToOtp = location =>
@@ -91,7 +87,7 @@ class OriginDestinationBar extends React.Component {
           'flex-horizontal',
         )}
       >
-        <DTAutosuggestPanel
+        <DTAutosuggestPanelWithSearchContext
           origin={this.props.origin}
           destination={this.props.destination}
           originPlaceHolder="search-origin-index"
@@ -109,6 +105,7 @@ class OriginDestinationBar extends React.Component {
           lang={this.props.language}
           disableAutoFocus={this.props.isMobile}
           isMobile={this.props.isMobile}
+          itineraryParams={this.context.match.location.query}
         />{' '}
       </div>
     );

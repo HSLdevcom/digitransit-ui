@@ -98,6 +98,7 @@ input[type='text'] {
   letter-spacing: -0.6px;
   color: #333333;
   font-weight: $font-weight-medium;
+  background: #fff;
 }
 
 .suggestionHighlighted {
@@ -112,6 +113,7 @@ input[type='text'] {
   z-index: index($zindex, 'autosuggest-suggestion-container');
   width: 100vw;
   max-height: calc(100% - 75px);
+  height: 100%;
   top: 75px;
   left: 0;
   overflow-x: hidden;
@@ -125,6 +127,8 @@ input[type='text'] {
     width: 100vw;
     list-style: none;
     padding-left: 0;
+    margin-bottom: 0;
+    background: #f4f4f5;
     li:hover, li:focus, li:active {
       background: $suggestion-highlight-background-color;
     }
@@ -144,5 +148,4 @@ input[type='text'] {
   font-weight: 500;
   letter-spacing: -0.42px;
   border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
 }
