@@ -53,7 +53,6 @@ class CustomizeSearch extends React.Component {
     ) : (
       <Icon className="close-icon" img="icon-icon_close" />
     );
-
     return (
       <div className="customize-search">
         <button
@@ -62,8 +61,14 @@ class CustomizeSearch extends React.Component {
           type="button"
           className="close-offcanvas"
           onClick={() => {
+            // Move focus back to the button that opened settings window
+            document
+              .querySelector('.open-advanced-settings-window-button')
+              .focus();
             onToggleClick();
           }}
+          // eslint-disable-next-line jsx-a11y/no-autofocus
+          autoFocus
         >
           {backIcon}
         </button>
