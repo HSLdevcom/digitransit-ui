@@ -159,6 +159,8 @@ export default config => {
                   $unpreferred: InputUnpreferred
                   $allowedBikeRentalNetworks: [String]
                   $locale: String
+                  $shortEnoughForWalking: Boolean!
+                  $shortEnoughForBiking: Boolean!
                 ) {
                   plan: plan(
                     fromPlace: $fromPlace
@@ -242,7 +244,7 @@ export default config => {
                     unpreferred: $unpreferred
                     allowedBikeRentalNetworks: $allowedBikeRentalNetworks
                     locale: $locale
-                  ) {
+                  ) @include(if: $shortEnoughForWalking) {
                     ...SummaryPage_walkPlan
                   }
 
@@ -285,7 +287,7 @@ export default config => {
                     unpreferred: $unpreferred
                     allowedBikeRentalNetworks: $allowedBikeRentalNetworks
                     locale: $locale
-                  ) {
+                  ) @include(if: $shortEnoughForBiking) {
                     ...SummaryPage_bikePlan
                   }
 

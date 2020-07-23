@@ -176,10 +176,10 @@ class SummaryPage extends React.Component {
     }).isRequired,
     walkPlan: PropTypes.shape({
       itineraries: PropTypes.array,
-    }).isRequired,
+    }),
     bikePlan: PropTypes.shape({
       itineraries: PropTypes.array,
-    }).isRequired,
+    }),
     serviceTimeRange: PropTypes.shape({
       start: PropTypes.number.isRequired,
       end: PropTypes.number.isRequired,
@@ -199,6 +199,8 @@ class SummaryPage extends React.Component {
     error: undefined,
     loading: false,
     loadingPosition: false,
+    walkPlan: undefined,
+    bikePlan: undefined,
   };
 
   constructor(props, context) {
@@ -738,31 +740,40 @@ class SummaryPage extends React.Component {
       this.selectedPlan = this.props.plan;
     }
 
+    const currentSettings = getCurrentSettings(this.context.config, '');
+
     let itineraryWalkDistance;
     let itineraryBikeDistance;
-    if (walkPlan.itineraries && walkPlan.itineraries.length > 0) {
+    if (walkPlan && walkPlan.itineraries && walkPlan.itineraries.length > 0) {
       itineraryWalkDistance = walkPlan.itineraries[0].walkDistance;
     }
-    if (bikePlan.itineraries && bikePlan.itineraries.length > 0) {
+    if (bikePlan && bikePlan.itineraries && bikePlan.itineraries.length > 0) {
       itineraryBikeDistance = getTotalBikingDistance(bikePlan.itineraries[0]);
     }
 
-    const currentSettings = getCurrentSettings(this.context.config, '');
-
-    const showWalkOptionButton =
-      itineraryWalkDistance < this.context.config.suggestWalkMaxDistance &&
-      currentSettings.usingWheelchair !== 1;
+    const showWalkOptionButton = Boolean(
+      walkPlan &&
+        walkPlan.itineraries &&
+        walkPlan.itineraries.length > 0 &&
+        currentSettings.usingWheelchair !== 1 &&
+        itineraryWalkDistance < this.context.config.suggestWalkMaxDistance,
+    );
 
     const bikePlanContainsOnlyWalk =
+      !bikePlan ||
       !bikePlan.itineraries ||
       bikePlan.itineraries.every(itinerary =>
         itinerary.legs.every(leg => leg.mode === 'WALK'),
       );
 
-    const showBikeOptionButton =
-      itineraryBikeDistance < this.context.config.suggestBikeMaxDistance &&
-      currentSettings.usingWheelchair !== 1 &&
-      !bikePlanContainsOnlyWalk;
+    const showBikeOptionButton = Boolean(
+      bikePlan &&
+        bikePlan.itineraries &&
+        bikePlan.itineraries.length > 0 &&
+        currentSettings.usingWheelchair !== 1 &&
+        !bikePlanContainsOnlyWalk &&
+        itineraryBikeDistance < this.context.config.suggestBikeMaxDistance,
+    );
 
     const showStreetModeSelector = showBikeOptionButton || showWalkOptionButton;
 
