@@ -747,6 +747,7 @@ class SummaryPage extends React.Component {
     );
 
     const bikePlanContainsOnlyWalk =
+      !bikePlan ||
       !bikePlan.itineraries ||
       bikePlan.itineraries.every(itinerary =>
         itinerary.legs.every(leg => leg.mode === 'WALK'),
