@@ -88,6 +88,16 @@ export default config => {
               }
             />
           ),
+          map: (
+            <Route
+              // disableMapOnMobile
+              getComponent={() =>
+                import(/* webpackChunkName: "itinerary" */ './component/map/StopsNearYouMap.js').then(
+                  getDefault,
+                )
+              }
+            />
+          ),
         }}
       </Route>
       <Route path={`/${PREFIX_ITINERARY_SUMMARY}/:from/:to`}>
@@ -440,7 +450,6 @@ export default config => {
           ),
           map: (
             <Route
-              // disableMapOnMobile
               getComponent={() =>
                 import(/* webpackChunkName: "itinerary" */ './component/map/SelectFromMapPageMap.js').then(
                   getDefault,

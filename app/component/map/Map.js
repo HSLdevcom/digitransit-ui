@@ -49,6 +49,7 @@ export default class Map extends React.Component {
     mapRef: PropTypes.func,
     originFromMap: PropTypes.bool,
     destinationFromMap: PropTypes.bool,
+    disableLocationPopup: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -57,6 +58,7 @@ export default class Map extends React.Component {
     showScaleBar: false,
     activeArea: null,
     mapRef: null,
+    disableLocationPopup: false,
   };
 
   static contextTypes = {
@@ -93,7 +95,7 @@ export default class Map extends React.Component {
   };
 
   render() {
-    const { zoom, boundsOptions } = this.props;
+    const { zoom, boundsOptions, disableLocationPopup } = this.props;
     const { config } = this.context;
     const center =
       (!this.props.fitBounds &&
@@ -194,6 +196,7 @@ export default class Map extends React.Component {
                 hilightedStops={this.props.hilightedStops}
                 showStops={this.props.showStops}
                 disableMapTracking={this.props.disableMapTracking}
+                disableLocationPopup={disableLocationPopup}
               />
             )}
           {!this.props.originFromMap &&
