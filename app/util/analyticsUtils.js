@@ -33,8 +33,9 @@ export function getAnalyticsInitCode(GTMid, MATOMO_URL) {
     return `<!-- Matomo Tag Manager -->
       <script type="text/javascript">
       var _mtm = _mtm || [];
+      var _paq = _paq || [];
       _mtm.push({'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start'});
-      _mtm.push({'setCustomUrl': 'https://herrenberg.stadtnavi.de'});
+      _paq.push(['setCustomUrl', "/"]);
       var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
       g.type='text/javascript'; g.async=true; g.defer=true; g.src='${MATOMO_URL}'; s.parentNode.insertBefore(g,s);
       </script>
