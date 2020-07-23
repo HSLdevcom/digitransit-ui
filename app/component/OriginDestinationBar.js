@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
-import { withCurrentTime } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -62,14 +61,13 @@ class OriginDestinationBar extends React.Component {
 
   swapEndpoints = () => {
     const { location } = this;
-    const locationWithTime = withCurrentTime(location);
     const intermediatePlaces = getIntermediatePlaces(location.query);
     if (intermediatePlaces.length > 1) {
       location.query.intermediatePlaces.reverse();
     }
 
     navigateTo({
-      base: locationWithTime,
+      base: location,
       origin: this.props.destination,
       destination: this.props.origin,
       context: PREFIX_ITINERARY_SUMMARY,
