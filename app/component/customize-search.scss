@@ -137,6 +137,10 @@
   .mode-option-block.citybike-network-container {
     margin-bottom: 0.75em;
     .option-toggle-container {
+
+      span {
+        font-weight: 500;
+      }
       width: 100%;
 
       .toggle {
