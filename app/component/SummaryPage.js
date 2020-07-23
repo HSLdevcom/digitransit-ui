@@ -490,18 +490,20 @@ class SummaryPage extends React.Component {
       time = this.props.plan.itineraries[0].startTime;
     }
     const timem = moment(time);
-    getWeatherData(timem, from.lat, from.lon).then(res => {
-      // Icon id's and descriptions: https://www.ilmatieteenlaitos.fi/latauspalvelun-pikaohje ->  Sääsymbolien selitykset ennusteissa.
-      const iconId = this.checkDayNight(res[2].ParameterValue, timem.hour());
+    if (this.context.config.showWeatherInformation) {
+      getWeatherData(timem, from.lat, from.lon).then(res => {
+        // Icon id's and descriptions: https://www.ilmatieteenlaitos.fi/latauspalvelun-pikaohje ->  Sääsymbolien selitykset ennusteissa.
+        const iconId = this.checkDayNight(res[2].ParameterValue, timem.hour());
 
-      this.setState({
-        weatherData: {
-          temperature: res[0].ParameterValue,
-          windSpeed: res[1].ParameterValue,
-          iconId,
-        },
+        this.setState({
+          weatherData: {
+            temperature: res[0].ParameterValue,
+            windSpeed: res[1].ParameterValue,
+            iconId,
+          },
+        });
       });
-    });
+    }
     if (!isEqual(nextProps.match.params.from, this.props.match.params.from)) {
       this.context.executeAction(storeOrigin, nextProps.match.params.from);
     }
@@ -751,9 +753,16 @@ class SummaryPage extends React.Component {
       itineraryWalkDistance < this.context.config.suggestWalkMaxDistance &&
       currentSettings.usingWheelchair !== 1;
 
+    const bikePlanContainsOnlyWalk =
+      !bikePlan.itineraries ||
+      bikePlan.itineraries.every(itinerary =>
+        itinerary.legs.every(leg => leg.mode === 'WALK'),
+      );
+
     const showBikeOptionButton =
       itineraryBikeDistance < this.context.config.suggestBikeMaxDistance &&
-      currentSettings.usingWheelchair !== 1;
+      currentSettings.usingWheelchair !== 1 &&
+      !bikePlanContainsOnlyWalk;
 
     const showStreetModeSelector = showBikeOptionButton || showWalkOptionButton;
 
@@ -765,6 +774,12 @@ class SummaryPage extends React.Component {
     // Remove old itineraries if new query cannot find a route
     if (error && hasItineraries) {
       itineraries = [];
+    }
+    // filter out walk only itineraries from main results
+    if (this.state.streetMode !== 'walk' && this.state.streetMode !== 'bike') {
+      itineraries = itineraries.filter(
+        itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
+      );
     }
 
     let hash;

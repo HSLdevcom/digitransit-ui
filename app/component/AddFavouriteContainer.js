@@ -6,7 +6,7 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import isEmpty from 'lodash/isEmpty';
 import isNumber from 'lodash/isNumber';
-import loadable from '@loadable/component';
+import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import Icon from './Icon';
 import BackButton from './BackButton';
 import FavouriteIconTable from './FavouriteIconTable';
@@ -15,10 +15,6 @@ import { isStop, isTerminal } from '../util/suggestionUtils';
 import DTAutosuggestContainer from './WithSearchContext';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
-const DTAutoSuggest = loadable(
-  () => import('@digitransit-component/digitransit-component-autosuggest'),
-  { ssr: true },
-);
 class AddFavouriteContainer extends React.Component {
   static FavouriteIconIds = [
     'icon-icon_place',

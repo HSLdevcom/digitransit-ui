@@ -9,7 +9,9 @@ import shouldUpdate from 'recompose/shouldUpdate';
 import isEqual from 'lodash/isEqual';
 import d from 'debug';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
-import loadable from '@loadable/component';
+import TrafficNowLink from '@digitransit-component/digitransit-component-traffic-now-link';
+import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
+import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import {
   initGeolocation,
   checkPositioningPermission,
@@ -33,22 +35,9 @@ import DatetimepickerContainer from './DatetimepickerContainer';
 
 const debug = d('IndexPage.js');
 
-const TrafficNowLink = loadable(
-  () => import('@digitransit-component/digitransit-component-traffic-now-link'),
-  { ssr: true },
-);
-const DTAutoSuggest = withSearchContext(
-  loadable(
-    () => import('@digitransit-component/digitransit-component-autosuggest'),
-    { ssr: true },
-  ),
-);
-const DTAutosuggestPanel = withSearchContext(
-  loadable(
-    () =>
-      import('@digitransit-component/digitransit-component-autosuggest-panel'),
-    { ssr: true },
-  ),
+const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
+const DTAutosuggestPanelWithSearchContext = withSearchContext(
+  DTAutosuggestPanel,
 );
 
 class IndexPage extends React.Component {
@@ -168,7 +157,7 @@ class IndexPage extends React.Component {
             origin={origin}
             position="left"
           >
-            <DTAutosuggestPanel
+            <DTAutosuggestPanelWithSearchContext
               searchPanelText={intl.formatMessage({
                 id: 'where',
                 defaultMessage: 'Where to?',
@@ -203,7 +192,7 @@ class IndexPage extends React.Component {
                 })}
               </h2>
             </div>
-            <DTAutoSuggest
+            <DTAutoSuggestWithSearchContext
               icon="search"
               id="stop-route-station"
               refPoint={origin}
@@ -237,7 +226,7 @@ class IndexPage extends React.Component {
           }}
         >
           <CtrlPanel instance="hsl" language={lang} position="bottom">
-            <DTAutosuggestPanel
+            <DTAutosuggestPanelWithSearchContext
               searchPanelText={intl.formatMessage({
                 id: 'where',
                 defaultMessage: 'Where to?',
@@ -271,7 +260,7 @@ class IndexPage extends React.Component {
                 })}
               </h2>
             </div>
-            <DTAutoSuggest
+            <DTAutoSuggestWithSearchContext
               icon="search"
               id="stop-route-station"
               refPoint={origin}

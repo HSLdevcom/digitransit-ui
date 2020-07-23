@@ -412,7 +412,9 @@ function startServer() {
 if (process.env.OIDC_CLIENT_ID) {
   setUpOIDC();
 }
-setUpOpenWeatherData();
+if (config.showWeatherInformation) {
+  setUpOpenWeatherData();
+}
 setUpRaven();
 setUpStaticFolders();
 setUpMiddleware();
