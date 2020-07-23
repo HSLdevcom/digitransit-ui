@@ -20,13 +20,13 @@ const CityBikeNetworkSelector = (
       <div
         className="mode-option-block citybike-network-container"
         key={`cb-${network.networkName}`}
-        style={{ height: '3em' }}
+        style={{ height: '3.5em' }}
       >
         <Icon
           className={`${network.icon}-icon`}
           img={`icon-icon_${network.icon}`}
-          height={0.5}
-          width={0.5}
+          height={1}
+          width={1}
         />
         <Toggle
           toggled={
