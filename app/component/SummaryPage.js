@@ -51,6 +51,7 @@ import VehicleMarkerContainer from './map/VehicleMarkerContainer';
 import ItineraryTab from './ItineraryTab';
 import { StreetModeSelector } from './StreetModeSelector';
 import { getCurrentSettings } from '../util/planParamUtil';
+import { getTotalBikingDistance } from '../util/legUtils';
 
 /**
  * Returns the actively selected itinerary's index. Attempts to look for
@@ -739,11 +740,21 @@ class SummaryPage extends React.Component {
 
     const currentSettings = getCurrentSettings(this.context.config, '');
 
+    let itineraryWalkDistance;
+    let itineraryBikeDistance;
+    if (walkPlan && walkPlan.itineraries && walkPlan.itineraries.length > 0) {
+      itineraryWalkDistance = walkPlan.itineraries[0].walkDistance;
+    }
+    if (bikePlan && bikePlan.itineraries && bikePlan.itineraries.length > 0) {
+      itineraryBikeDistance = getTotalBikingDistance(bikePlan.itineraries[0]);
+    }
+
     const showWalkOptionButton = Boolean(
       walkPlan &&
         walkPlan.itineraries &&
         walkPlan.itineraries.length > 0 &&
-        currentSettings.usingWheelchair !== 1,
+        currentSettings.usingWheelchair !== 1 &&
+        itineraryWalkDistance < this.context.config.suggestWalkMaxDistance,
     );
 
     const bikePlanContainsOnlyWalk =
@@ -758,7 +769,8 @@ class SummaryPage extends React.Component {
         bikePlan.itineraries &&
         bikePlan.itineraries.length > 0 &&
         currentSettings.usingWheelchair !== 1 &&
-        !bikePlanContainsOnlyWalk,
+        !bikePlanContainsOnlyWalk &&
+        itineraryBikeDistance < this.context.config.suggestBikeMaxDistance,
     );
 
     const showStreetModeSelector = showBikeOptionButton || showWalkOptionButton;
