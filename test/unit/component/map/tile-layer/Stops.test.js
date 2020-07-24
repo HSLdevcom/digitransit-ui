@@ -1,10 +1,5 @@
 import fetchMock from 'fetch-mock';
-import sinon from 'sinon';
-
-import { AlertSeverityLevelType } from '../../../../../app/constants';
 import Stops from '../../../../../app/component/map/tile-layer/Stops';
-import * as mapIconUtils from '../../../../../app/util/mapIconUtils';
-import * as mapLayerUtils from '../../../../../app/util/mapLayerUtils';
 
 describe('Stops', () => {
   const config = {
@@ -41,37 +36,6 @@ describe('Stops', () => {
       });
       new Stops({ ...tile, props: { zoomOffset: 1 } }, config, []); // eslint-disable-line no-new
       expect(mock.called()).to.equal(true);
-    });
-
-    it('should attempt to draw an icon with an alert badge', () => {
-      fetchMock.get(`${config.URL.STOP_MAP}3/1/2.pbf`, {
-        status: 404,
-      });
-      const featureLayerStub = sinon
-        .stub(mapLayerUtils, 'isFeatureLayerEnabled')
-        .callsFake(() => true);
-      const iconStub = sinon
-        .stub(mapIconUtils, 'drawRoundIcon')
-        .callsFake(() => ({ iconRadius: 10 }));
-      const badgeStub = sinon.stub(mapIconUtils, 'drawRoundIconAlertBadge');
-
-      const layer = new Stops(tile, config, [{ stop: { BUS: true } }]);
-      layer.drawStop(
-        {
-          properties: {
-            type: 'BUS',
-          },
-        },
-        false,
-        AlertSeverityLevelType.Warning,
-      );
-
-      expect(iconStub.called).to.equal(true);
-      expect(badgeStub.called).to.equal(true);
-
-      featureLayerStub.restore();
-      iconStub.restore();
-      badgeStub.restore();
     });
   });
 });
