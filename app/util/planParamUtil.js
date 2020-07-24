@@ -432,7 +432,15 @@ export const preparePlanParams = config => (
       },
       nullOrUndefined,
     ),
-    modes: modesOrDefault.split(',').map(mode => ({ mode })),
+    modes: modesOrDefault
+      .split(',')
+      .map(mode => mode.split('_'))
+      .map(
+        modeAndQualifier =>
+          modeAndQualifier.length > 1
+            ? { mode: modeAndQualifier[0], qualifier: modeAndQualifier[1] }
+            : { mode: modeAndQualifier[0] },
+      ),
     ticketTypes: getTicketTypes(
       ticketTypes,
       settings.ticketTypes,
