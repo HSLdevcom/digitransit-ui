@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 
 import { graphql } from 'react-relay';
 import QueryRenderer from 'react-relay/lib/ReactRelayQueryRenderer';
+import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 
 import ParkAndRideHubPopup from './ParkAndRideHubPopup';
 import Loading from '../../Loading';
-import getRelayEnvironment from '../../../util/getRelayEnvironment';
 
 function ParkAndRideHubPopupContainer(props) {
+  const { environment } = useContext(ReactRelayContext);
   return (
     <QueryRenderer
       query={graphql`
@@ -19,7 +20,7 @@ function ParkAndRideHubPopupContainer(props) {
         }
       `}
       variables={{ stationIds: props.ids }}
-      environment={props.relayEnvironment}
+      environment={environment}
       render={({ props: renderProps }) =>
         renderProps ? (
           <ParkAndRideHubPopup
@@ -46,7 +47,6 @@ ParkAndRideHubPopupContainer.propTypes = {
     lng: PropTypes.number.isRequired,
   }).isRequired,
   name: PropTypes.string.isRequired,
-  relayEnvironment: PropTypes.object.isRequired,
 };
 
-export default getRelayEnvironment(ParkAndRideHubPopupContainer);
+export default ParkAndRideHubPopupContainer;

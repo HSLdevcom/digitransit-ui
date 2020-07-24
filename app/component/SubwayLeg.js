@@ -2,12 +2,24 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
-
 import TransitLeg from './TransitLeg';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const SubwayLeg = ({ leg, focusAction, index }) => (
-  <TransitLeg mode="SUBWAY" leg={leg} focusAction={focusAction} index={index}>
+const SubwayLeg = ({
+  leg,
+  focusAction,
+  index,
+  isNextLegInterlining,
+  interliningWait,
+}) => (
+  <TransitLeg
+    mode="SUBWAY"
+    leg={leg}
+    focusAction={focusAction}
+    index={index}
+    interliningWait={interliningWait}
+    isNextLegInterlining={isNextLegInterlining}
+  >
     <FormattedMessage
       id="subway-with-route-number"
       values={{
@@ -56,6 +68,8 @@ SubwayLeg.propTypes = {
   leg: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
+  interliningWait: PropTypes.number,
+  isNextLegInterlining: PropTypes.bool,
 };
 
 export default SubwayLeg;

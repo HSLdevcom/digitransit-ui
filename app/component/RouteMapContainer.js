@@ -30,10 +30,8 @@ class RouteMapContainer extends React.PureComponent {
 
   constructor(props) {
     super(props);
-
     this.state = {
-      hasCentered: false,
-      shouldFitBounds: true,
+      centerToMarker: true,
     };
   }
 
@@ -41,33 +39,29 @@ class RouteMapContainer extends React.PureComponent {
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.match.params.tripId !== nextProps.match.params.tripId) {
       this.setState({
-        hasCentered: false,
-        shouldFitBounds: true,
+        centerToMarker: true,
+      });
+    } else if (this.state.centerToMarker) {
+      this.setState({
+        centerToMarker: false,
       });
     }
   }
 
   render() {
     const { pattern, lat, lon, match, router, breakpoint } = this.props;
-    const { hasCentered, shouldFitBounds } = this.state;
+    const { centerToMarker } = this.state;
     const { config } = this.context;
 
     const fullscreen =
       match.location.state && match.location.state.fullscreenMap === true;
 
     const [dispLat, dispLon] =
-      (!hasCentered && match.params.tripId) ||
-      (!fullscreen && breakpoint !== 'large')
+      centerToMarker &&
+      (match.params.tripId || (!fullscreen && breakpoint !== 'large'))
         ? [lat, lon]
         : [undefined, undefined];
 
-    // TODO this code existed to stop centering on every coordinate update
-    // but it can cause an infinite loop so needs refactoring
-    // if (!hasCentered && lat && lon) {
-    //   this.setState({ hasCentered: true, shouldFitBounds: false });
-    // }
-
-    // ,
     if (!pattern) {
       return false;
     }
@@ -116,7 +110,7 @@ class RouteMapContainer extends React.PureComponent {
         lon={dispLon}
         className="full"
         leafletObjs={leafletObjs}
-        fitBounds={!(dispLat && dispLon) && shouldFitBounds}
+        fitBounds={!(dispLat && dispLon) && !match.params.tripId}
         bounds={(filteredPoints || pattern.stops).map(p => [p.lat, p.lon])}
         zoom={dispLat && dispLon ? 15 : undefined}
         showScaleBar={showScale}
@@ -174,10 +168,18 @@ const RouteMapContainerWithVehicles = connectToStores(
         .filter(
           vehicle =>
             vehicle.tripId === undefined || vehicle.tripId === trip.gtfsId,
+        )
+        .filter(
+          vehicle =>
+            vehicle.direction === undefined ||
+            vehicle.direction === Number(trip.directionId),
         );
 
-      const selectedVehicle =
-        matchingVehicles && matchingVehicles.length > 0 && matchingVehicles[0];
+      if (matchingVehicles.length !== 1) {
+        // no matching vehicles or cant distinguish between vehicles
+        return null;
+      }
+      const selectedVehicle = matchingVehicles[0];
 
       return { lat: selectedVehicle.lat, lon: selectedVehicle.long };
     }
@@ -211,6 +213,7 @@ export default createFragmentContainer(RouteMapContainerWithVehicles, {
         scheduledDeparture
       }
       gtfsId
+      directionId
     }
   `,
 });

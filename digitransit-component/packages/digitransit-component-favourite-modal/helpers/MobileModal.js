@@ -5,7 +5,7 @@ import cx from 'classnames';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import styles from './mobile.scss';
 
-const DesktopModal = ({
+const MobileModal = ({
   headerText,
   closeArialLabel,
   autosuggestComponent,
@@ -18,6 +18,8 @@ const DesktopModal = ({
   saveFavourite,
   saveText,
   canSave,
+  isEdit,
+  cancelSelected,
 }) => {
   return (
     <div className={styles['favourite-modal-mobile-container']}>
@@ -25,7 +27,7 @@ const DesktopModal = ({
         <button
           className={styles['favourite-modal-mobile-back']}
           type="button"
-          onClick={closeModal}
+          onClick={isEdit && cancelSelected ? cancelSelected : closeModal}
           aria-label={closeArialLabel}
         >
           <Icon img="arrow" />
@@ -70,7 +72,7 @@ const DesktopModal = ({
   );
 };
 
-DesktopModal.propTypes = {
+MobileModal.propTypes = {
   headerText: PropTypes.string.isRequired,
   closeArialLabel: PropTypes.string.isRequired,
   autosuggestComponent: PropTypes.node.isRequired,
@@ -83,6 +85,12 @@ DesktopModal.propTypes = {
   saveFavourite: PropTypes.func.isRequired,
   saveText: PropTypes.string.isRequired,
   canSave: PropTypes.func.isRequired,
+  isEdit: PropTypes.bool,
+  cancelSelected: PropTypes.func,
 };
 
-export default DesktopModal;
+MobileModal.defaultProps = {
+  isEdit: false,
+};
+
+export default MobileModal;

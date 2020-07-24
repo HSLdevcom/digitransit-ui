@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 /* eslint-disable react/no-array-index-key */
+import moment from 'moment';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import findIndex from 'lodash/findIndex';
@@ -20,6 +21,7 @@ import SummaryNavigation from './SummaryNavigation';
 import ItineraryLine from './map/ItineraryLine';
 import LocationMarker from './map/LocationMarker';
 import MobileItineraryWrapper from './MobileItineraryWrapper';
+import { getWeatherData } from '../util/apiUtils';
 import Loading from './Loading';
 import { getRoutePath } from '../util/path';
 import { getIntermediatePlaces } from '../util/queryUtils';
@@ -174,10 +176,10 @@ class SummaryPage extends React.Component {
     }).isRequired,
     walkPlan: PropTypes.shape({
       itineraries: PropTypes.array,
-    }).isRequired,
+    }),
     bikePlan: PropTypes.shape({
       itineraries: PropTypes.array,
-    }).isRequired,
+    }),
     serviceTimeRange: PropTypes.shape({
       start: PropTypes.number.isRequired,
       end: PropTypes.number.isRequired,
@@ -197,6 +199,8 @@ class SummaryPage extends React.Component {
     error: undefined,
     loading: false,
     loadingPosition: false,
+    walkPlan: undefined,
+    bikePlan: undefined,
   };
 
   constructor(props, context) {
@@ -251,6 +255,7 @@ class SummaryPage extends React.Component {
   }
 
   state = {
+    weatherData: null,
     center: null,
     loading: false,
     settingsOpen: false,
@@ -454,8 +459,53 @@ class SummaryPage extends React.Component {
     this.setState({ center: { lat, lon }, bounds: null });
   };
 
+  // These are icons that contains sun
+  dayNightIconIds = [1, 2, 21, 22, 23, 41, 42, 43, 61, 62, 71, 72, 73];
+
+  checkDayNight = (iconId, hour) => {
+    // Show night icons between 00.00 and 06.59
+    if (hour >= 0 && hour < 7 && this.dayNightIconIds.includes(iconId)) {
+      // Night icon = iconId + 100
+      return iconId + 100;
+    }
+    return iconId;
+  };
+
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
+    const from = otpToLocation(this.props.match.params.from);
+
+    let time;
+    if (
+      nextProps.plan &&
+      nextProps.plan.itineraries &&
+      nextProps.plan.itineraries[0] &&
+      nextProps.plan.itineraries[0].startTime &&
+      time !== nextProps.plan.itineraries[0].startTime
+    ) {
+      time = nextProps.plan.itineraries[0].startTime;
+    } else if (
+      this.props.plan.itineraries &&
+      this.props.plan.itineraries[0] &&
+      this.props.plan.itineraries[0].startTime
+    ) {
+      time = this.props.plan.itineraries[0].startTime;
+    }
+    const timem = moment(time);
+    if (this.context.config.showWeatherInformation) {
+      getWeatherData(timem, from.lat, from.lon).then(res => {
+        // Icon id's and descriptions: https://www.ilmatieteenlaitos.fi/latauspalvelun-pikaohje ->  Sääsymbolien selitykset ennusteissa.
+        const iconId = this.checkDayNight(res[2].ParameterValue, timem.hour());
+
+        this.setState({
+          weatherData: {
+            temperature: res[0].ParameterValue,
+            windSpeed: res[1].ParameterValue,
+            iconId,
+          },
+        });
+      });
+    }
     if (!isEqual(nextProps.match.params.from, this.props.match.params.from)) {
       this.context.executeAction(storeOrigin, nextProps.match.params.from);
     }
@@ -690,24 +740,40 @@ class SummaryPage extends React.Component {
       this.selectedPlan = this.props.plan;
     }
 
+    const currentSettings = getCurrentSettings(this.context.config, '');
+
     let itineraryWalkDistance;
     let itineraryBikeDistance;
-    if (walkPlan.itineraries && walkPlan.itineraries.length > 0) {
+    if (walkPlan && walkPlan.itineraries && walkPlan.itineraries.length > 0) {
       itineraryWalkDistance = walkPlan.itineraries[0].walkDistance;
     }
-    if (bikePlan.itineraries && bikePlan.itineraries.length > 0) {
+    if (bikePlan && bikePlan.itineraries && bikePlan.itineraries.length > 0) {
       itineraryBikeDistance = getTotalBikingDistance(bikePlan.itineraries[0]);
     }
 
-    const currentSettings = getCurrentSettings(this.context.config, '');
+    const showWalkOptionButton = Boolean(
+      walkPlan &&
+        walkPlan.itineraries &&
+        walkPlan.itineraries.length > 0 &&
+        currentSettings.usingWheelchair !== 1 &&
+        itineraryWalkDistance < this.context.config.suggestWalkMaxDistance,
+    );
 
-    const showWalkOptionButton =
-      itineraryWalkDistance < this.context.config.suggestWalkMaxDistance &&
-      currentSettings.usingWheelchair !== 1;
+    const bikePlanContainsOnlyWalk =
+      !bikePlan ||
+      !bikePlan.itineraries ||
+      bikePlan.itineraries.every(itinerary =>
+        itinerary.legs.every(leg => leg.mode === 'WALK'),
+      );
 
-    const showBikeOptionButton =
-      itineraryBikeDistance < this.context.config.suggestBikeMaxDistance &&
-      currentSettings.usingWheelchair !== 1;
+    const showBikeOptionButton = Boolean(
+      bikePlan &&
+        bikePlan.itineraries &&
+        bikePlan.itineraries.length > 0 &&
+        currentSettings.usingWheelchair !== 1 &&
+        !bikePlanContainsOnlyWalk &&
+        itineraryBikeDistance < this.context.config.suggestBikeMaxDistance,
+    );
 
     const showStreetModeSelector = showBikeOptionButton || showWalkOptionButton;
 
@@ -719,6 +785,12 @@ class SummaryPage extends React.Component {
     // Remove old itineraries if new query cannot find a route
     if (error && hasItineraries) {
       itineraries = [];
+    }
+    // filter out walk only itineraries from main results
+    if (this.state.streetMode !== 'walk' && this.state.streetMode !== 'bike') {
+      itineraries = itineraries.filter(
+        itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
+      );
     }
 
     let hash;
@@ -732,7 +804,6 @@ class SummaryPage extends React.Component {
     }
 
     const from = otpToLocation(match.params.from);
-
     if (match.routes.some(route => route.printPage) && hasItineraries) {
       return React.cloneElement(this.props.content, {
         itinerary: itineraries[hash],
@@ -867,7 +938,6 @@ class SummaryPage extends React.Component {
           </div>
         );
       }
-
       return (
         <DesktopView
           title={
@@ -891,6 +961,7 @@ class SummaryPage extends React.Component {
                   showWalkOptionButton={showWalkOptionButton}
                   showBikeOptionButton={showBikeOptionButton}
                   onButtonClick={this.setStreetMode}
+                  weatherData={this.state.weatherData}
                   walkPlan={walkPlan}
                   bikePlan={bikePlan}
                 />
@@ -985,6 +1056,7 @@ class SummaryPage extends React.Component {
                   showWalkOptionButton={showWalkOptionButton}
                   showBikeOptionButton={showBikeOptionButton}
                   onButtonClick={this.setStreetMode}
+                  weatherData={this.state.weatherData}
                   walkPlan={walkPlan}
                   bikePlan={bikePlan}
                 />

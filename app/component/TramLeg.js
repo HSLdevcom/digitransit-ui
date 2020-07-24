@@ -6,8 +6,21 @@ import moment from 'moment';
 import TransitLeg from './TransitLeg';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const TramLeg = ({ leg, focusAction, index }) => (
-  <TransitLeg mode="TRAM" leg={leg} focusAction={focusAction} index={index}>
+const TramLeg = ({
+  leg,
+  focusAction,
+  index,
+  isNextLegInterlining,
+  interliningWait,
+}) => (
+  <TransitLeg
+    mode="TRAM"
+    leg={leg}
+    focusAction={focusAction}
+    index={index}
+    interliningWait={interliningWait}
+    isNextLegInterlining={isNextLegInterlining}
+  >
     <FormattedMessage
       id="tram-with-route-number"
       values={{
@@ -60,6 +73,8 @@ TramLeg.propTypes = {
   leg: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
+  interliningWait: PropTypes.number,
+  isNextLegInterlining: PropTypes.bool,
 };
 
 export default TramLeg;

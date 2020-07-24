@@ -121,30 +121,49 @@ class MapWithTrackingStateHandler extends React.Component {
     language: PropTypes.string,
     match: matchShape,
     router: routerShape,
+    setInitialMapTracking: PropTypes.bool,
+    setInitialZoom: PropTypes.number,
+    disableLocationPopup: PropTypes.bool,
   };
 
   static defaultProps = {
     renderCustomButtons: undefined,
     originFromMap: false,
     destinationFromMap: false,
+    setInitialMapTracking: false,
+    setInitialZoom: undefined,
+    disableLocationPopup: false,
   };
 
   constructor(props) {
     super(props);
+
     const hasOriginorPosition =
       props.origin.ready ||
       props.position.hasLocation ||
       props.destination.ready;
     this.state = {
       geoJson: {},
-      initialZoom: hasOriginorPosition ? FOCUS_ZOOM : DEFAULT_ZOOM,
+
+      // It's not that over-the-top ternary.
+      // eslint-disable-next-line no-nested-ternary
+      initialZoom: props.setInitialZoom
+        ? props.setInitialZoom
+        : hasOriginorPosition
+          ? FOCUS_ZOOM
+          : DEFAULT_ZOOM,
       mapTracking:
-        props.origin.gps &&
-        props.position.hasLocation &&
-        !props.originFromMap &&
-        !props.destinationFromMap,
+        props.setInitialMapTracking ||
+        (props.origin.gps &&
+          props.position.hasLocation &&
+          !props.originFromMap &&
+          !props.destinationFromMap),
       focusOnOrigin: props.origin.ready,
       focusOnDestination: !props.origin.ready && props.destination.ready,
+      focusOnPosition:
+        !props.origin.ready &&
+        !props.destination.ready &&
+        props.position.hasLocation,
       origin: props.origin,
       destination: props.destination,
       shouldShowDefaultLocation: !hasOriginorPosition,
@@ -303,6 +322,7 @@ class MapWithTrackingStateHandler extends React.Component {
       mapTracking: !(this.props.originFromMap || this.props.destinationFromMap),
       focusOnOrigin: false,
       focusOnDestination: false,
+      focusOnPosition: false,
     });
     addAnalyticsEvent({
       category: 'Map',
@@ -316,6 +336,7 @@ class MapWithTrackingStateHandler extends React.Component {
       mapTracking: false,
       focusOnOrigin: false,
       focusOnDestination: false,
+      focusOnPosition: true,
       dragging: true,
     });
   };
@@ -337,6 +358,7 @@ class MapWithTrackingStateHandler extends React.Component {
       mapTracking: !(this.props.originFromMap || this.props.destinationFromMap),
       focusOnOrigin: false,
       focusOnDestination: false,
+      focusOnPosition: true,
       initialZoom:
         prevState.initialZoom === DEFAULT_ZOOM ? FOCUS_ZOOM : undefined,
       shouldShowDefaultLocation: false,
@@ -349,6 +371,7 @@ class MapWithTrackingStateHandler extends React.Component {
       mapTracking: false,
       focusOnOrigin: true,
       focusOnDestination: false,
+      focusOnPosition: false,
       initialZoom:
         prevState.initialZoom === DEFAULT_ZOOM ? FOCUS_ZOOM : undefined,
       shouldShowDefaultLocation: false,
@@ -545,7 +568,10 @@ class MapWithTrackingStateHandler extends React.Component {
       this.state.destination.lon != null
     ) {
       location = this.state.destination;
-    } else if (this.state.shouldShowDefaultLocation) {
+    } else if (
+      this.state.shouldShowDefaultLocation &&
+      !this.state.focusOnPosition
+    ) {
       location = config.defaultMapCenter || config.defaultEndpoint;
     }
     const leafletObjs = [];
@@ -801,6 +827,7 @@ class MapWithTrackingStateHandler extends React.Component {
         className="flex-grow"
         origin={origin}
         destination={destination}
+        disableLocationPopup={this.props.disableLocationPopup}
         leafletEvents={{
           onDragstart: this.disableMapTracking,
           onDragend: this.endDragging,

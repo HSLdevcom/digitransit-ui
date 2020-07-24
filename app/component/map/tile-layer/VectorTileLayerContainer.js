@@ -34,6 +34,7 @@ export default function VectorTileLayerContainer(props, { config }) {
       tileSize={config.map.tileSize || 256}
       zoomOffset={config.map.zoomOffset || 0}
       disableMapTracking={props.disableMapTracking}
+      disableLocationPopup={props.disableLocationPopup}
     />
   );
 }
@@ -42,6 +43,7 @@ VectorTileLayerContainer.propTypes = {
   hilightedStops: PropTypes.arrayOf(PropTypes.string.isRequired),
   disableMapTracking: PropTypes.func,
   showStops: PropTypes.bool,
+  disableLocationPopup: PropTypes.bool,
 };
 
 VectorTileLayerContainer.contextTypes = {

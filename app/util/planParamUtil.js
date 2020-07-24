@@ -20,6 +20,7 @@ import {
   getRoutingSettings,
 } from '../store/localStorage';
 import { OptimizeType, QuickOptionSetType, StreetMode } from '../constants';
+import { estimateItineraryDistance } from './geo-utils';
 
 /**
  * Retrieves the default settings from the configuration.
@@ -438,6 +439,18 @@ export const preparePlanParams = config => (
       defaultSettings.ticketTypes,
     ),
     allowedBikeRentalNetworks: allowedBikeRentalNetworksMapped,
+    shortEnoughForWalking:
+      estimateItineraryDistance(
+        fromLocation,
+        toLocation,
+        intermediatePlaceLocations,
+      ) < config.suggestWalkMaxDistance,
+    shortEnoughForBiking:
+      estimateItineraryDistance(
+        fromLocation,
+        toLocation,
+        intermediatePlaceLocations,
+      ) < config.suggestBikeMaxDistance,
   };
 };
 

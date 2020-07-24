@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 
 import { graphql } from 'relay-runtime';
 import QueryRenderer from 'react-relay/lib/ReactRelayQueryRenderer';
+import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 
 import CityBikePopup from './CityBikePopup';
 import Loading from '../../Loading';
-import getRelayEnvironment from '../../../util/getRelayEnvironment';
 
-function CityBikePopupContainer(props) {
+function CityBikePopupContainer({ stationId }) {
+  const { environment } = useContext(ReactRelayContext);
   return (
     <QueryRenderer
       query={graphql`
@@ -19,8 +20,8 @@ function CityBikePopupContainer(props) {
         }
       `}
       cacheConfig={{ force: true, poll: 30 * 1000 }}
-      variables={{ stationId: props.stationId }}
-      environment={props.relayEnvironment}
+      variables={{ stationId }}
+      environment={environment}
       render={({ props: renderProps }) =>
         renderProps ? (
           <CityBikePopup {...renderProps} />
@@ -36,7 +37,6 @@ function CityBikePopupContainer(props) {
 
 CityBikePopupContainer.propTypes = {
   stationId: PropTypes.string.isRequired,
-  relayEnvironment: PropTypes.object.isRequired,
 };
 
-export default getRelayEnvironment(CityBikePopupContainer);
+export default CityBikePopupContainer;

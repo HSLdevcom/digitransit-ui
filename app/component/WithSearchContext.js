@@ -5,7 +5,6 @@ import { matchShape, routerShape } from 'found';
 import { intlShape } from 'react-intl';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
-import moment from 'moment';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { navigateTo } from '../util/path';
@@ -27,7 +26,6 @@ export default function withSearchContext(WrappedComponent) {
       origin: PropTypes.object,
       destination: PropTypes.object,
       children: PropTypes.node,
-      relayEnvironment: PropTypes.object.isRequired,
       onFavouriteSelected: PropTypes.func,
       itineraryParams: PropTypes.object,
       locationState: PropTypes.object,
@@ -95,11 +93,7 @@ export default function withSearchContext(WrappedComponent) {
 
     initContext() {
       if (!this.state.isInitialized) {
-        intializeSearchContext(
-          this.context,
-          searchContext,
-          this.props.relayEnvironment,
-        );
+        intializeSearchContext(this.context, searchContext);
         this.setState({ isInitialized: true });
       }
     }
@@ -256,6 +250,7 @@ export default function withSearchContext(WrappedComponent) {
 
     onSelect = (item, id) => {
       // type is destination unless timetable or route was clicked
+
       let type = 'endpoint';
       switch (item.type) {
         case 'Route':
@@ -288,26 +283,25 @@ export default function withSearchContext(WrappedComponent) {
 
     addItineraryParamsToLocation = (location, itineraryParams) => {
       const query = (location && location.query) || {};
-      if (itineraryParams && itineraryParams.arriveBy) {
+      const params = {};
+      if (itineraryParams) {
+        if (
+          itineraryParams.intermediatePlaces &&
+          itineraryParams.intermediatePlaces.length > 0
+        ) {
+          params.intermediatePlaces = itineraryParams.intermediatePlaces;
+        }
+        params.arriveBy = itineraryParams.arriveBy;
+        params.time = itineraryParams.time;
         return {
           ...location,
           query: {
             ...query,
-            time: itineraryParams.time ? itineraryParams.time : moment().unix(),
-            arriveBy: itineraryParams.arriveBy,
+            ...params,
           },
         };
       }
-      return {
-        ...location,
-        query: {
-          ...query,
-          time:
-            itineraryParams && itineraryParams.time
-              ? itineraryParams.time
-              : moment().unix(),
-        },
-      };
+      return { ...location, query };
     };
 
     render() {
