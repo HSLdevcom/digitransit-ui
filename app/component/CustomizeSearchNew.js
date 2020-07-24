@@ -62,9 +62,12 @@ class CustomizeSearch extends React.Component {
           className="close-offcanvas"
           onClick={() => {
             // Move focus back to the button that opened settings window
-            document
-              .querySelector('.open-advanced-settings-window-button')
-              .focus();
+            const openSettingsButton = document.querySelector(
+              '.open-advanced-settings-window-button',
+            );
+            if (openSettingsButton) {
+              openSettingsButton.focus();
+            }
             onToggleClick();
           }}
           // eslint-disable-next-line jsx-a11y/no-autofocus
