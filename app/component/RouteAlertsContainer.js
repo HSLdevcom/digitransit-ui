@@ -165,9 +165,9 @@ const containerComponent = createFragmentContainer(RouteAlertsContainer, {
             }
           }
         }
-        trips: tripsForDate(serviceDay: $date) {
+        trips: tripsForDate(serviceDate: $date) {
           tripHeadsign
-          stoptimes: stoptimesForDate(serviceDay: $date) {
+          stoptimes: stoptimesForDate(serviceDate: $date) {
             headsign
             realtimeState
             scheduledArrival

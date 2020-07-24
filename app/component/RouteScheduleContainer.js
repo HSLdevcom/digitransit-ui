@@ -293,9 +293,9 @@ const connectedComponent = createRefetchContainer(
           gtfsId
           shortName
         }
-        tripsForDate(serviceDay: $serviceDay) {
+        tripsForDate(serviceDate: $serviceDay) {
           id
-          stoptimes: stoptimesForDate(serviceDay: $serviceDay) {
+          stoptimes: stoptimesForDate(serviceDate: $serviceDay) {
             realtimeState
             scheduledArrival
             scheduledDeparture

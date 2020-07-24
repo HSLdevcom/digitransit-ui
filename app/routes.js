@@ -125,7 +125,7 @@ export default config => {
                   $toPlace: String!
                   $intermediatePlaces: [InputCoordinates!]
                   $numItineraries: Int!
-                  $modes: String
+                  $modes: [TransportMode!]
                   $date: String!
                   $time: String!
                   $walkReluctance: Float
@@ -134,7 +134,7 @@ export default config => {
                   $walkSpeed: Float
                   $maxWalkDistance: Float
                   $wheelchair: Boolean
-                  $ticketTypes: String
+                  $ticketTypes: [String]
                   $disableRemainingWeightHeuristic: Boolean
                   $arriveBy: Boolean
                   $transferPenalty: Int
@@ -167,7 +167,7 @@ export default config => {
                     toPlace: $toPlace
                     intermediatePlaces: $intermediatePlaces
                     numItineraries: $numItineraries
-                    modes: $modes
+                    transportModes: $modes
                     date: $date
                     time: $time
                     walkReluctance: $walkReluctance
@@ -176,7 +176,7 @@ export default config => {
                     walkSpeed: $walkSpeed
                     maxWalkDistance: $maxWalkDistance
                     wheelchair: $wheelchair
-                    ticketTypes: $ticketTypes
+                    allowedTicketTypes: $ticketTypes
                     disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
                     arriveBy: $arriveBy
                     transferPenalty: $transferPenalty
@@ -210,7 +210,7 @@ export default config => {
                     toPlace: $toPlace
                     intermediatePlaces: $intermediatePlaces
                     numItineraries: $numItineraries
-                    modes: "WALK"
+                    transportModes: [{ mode: WALK }]
                     date: $date
                     time: $time
                     walkReluctance: $walkReluctance
@@ -219,7 +219,7 @@ export default config => {
                     walkSpeed: $walkSpeed
                     maxWalkDistance: $maxWalkDistance
                     wheelchair: $wheelchair
-                    ticketTypes: $ticketTypes
+                    allowedTicketTypes: $ticketTypes
                     disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
                     arriveBy: $arriveBy
                     transferPenalty: $transferPenalty
@@ -253,7 +253,7 @@ export default config => {
                     toPlace: $toPlace
                     intermediatePlaces: $intermediatePlaces
                     numItineraries: $numItineraries
-                    modes: "BICYCLE"
+                    transportModes: [{ mode: BICYCLE }]
                     date: $date
                     time: $time
                     walkReluctance: $walkReluctance
@@ -262,7 +262,7 @@ export default config => {
                     walkSpeed: $walkSpeed
                     maxWalkDistance: $maxWalkDistance
                     wheelchair: $wheelchair
-                    ticketTypes: $ticketTypes
+                    allowedTicketTypes: $ticketTypes
                     disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
                     arriveBy: $arriveBy
                     transferPenalty: $transferPenalty
