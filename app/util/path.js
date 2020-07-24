@@ -1,5 +1,6 @@
 import get from 'lodash/get';
 import d from 'debug';
+import moment from 'moment';
 import {
   otpToLocation,
   locationToOTP,
@@ -171,6 +172,18 @@ export const navigateTo = ({
   }
 
   debug('url, push', url, push);
+
+  if (!url.query) {
+    url.query = {};
+  }
+  // set time to current time if time is not set and both origin and destination are set
+  if (
+    url.query.time === undefined &&
+    origin.set !== false &&
+    destination.set !== false
+  ) {
+    url.query.time = moment().unix();
+  }
 
   if (push) {
     router.push(url);

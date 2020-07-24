@@ -5,7 +5,6 @@ import { matchShape, routerShape } from 'found';
 import { intlShape } from 'react-intl';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
-import moment from 'moment';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { navigateTo } from '../util/path';
@@ -293,9 +292,7 @@ export default function withSearchContext(WrappedComponent) {
           params.intermediatePlaces = itineraryParams.intermediatePlaces;
         }
         params.arriveBy = itineraryParams.arriveBy;
-        params.time = itineraryParams.time
-          ? itineraryParams.time
-          : moment().unix();
+        params.time = itineraryParams.time;
         return {
           ...location,
           query: {
@@ -304,13 +301,7 @@ export default function withSearchContext(WrappedComponent) {
           },
         };
       }
-      return {
-        ...location,
-        query: {
-          ...query,
-          time: moment().unix(),
-        },
-      };
+      return { ...location, query };
     };
 
     render() {
