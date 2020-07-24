@@ -9,8 +9,9 @@ import OriginStore from '../../store/OriginStore';
 import DestinationStore from '../../store/DestinationStore';
 import { dtLocationShape } from '../../util/shapes';
 import PreferencesStore from '../../store/PreferencesStore';
+import BackButton from '../BackButton';
 
-function StopsNearYouMap({ breakpoint, origin, destination }) {
+function StopsNearYouMap({ breakpoint, origin, destination }, { config }) {
   let map;
   if (breakpoint === 'large') {
     map = (
@@ -27,16 +28,23 @@ function StopsNearYouMap({ breakpoint, origin, destination }) {
     );
   } else {
     map = (
-      <MapWithTracking
-        breakpoint={breakpoint}
-        showStops
-        showScaleBar
-        setInitialZoom={17}
-        origin={origin}
-        destination={destination}
-        setInitialMapTracking
-        disableLocationPopup
-      />
+      <>
+        <BackButton
+          icon="icon-icon_arrow-collapse--left"
+          iconClassName="arrow-icon"
+          color={config.colors.primary}
+        />
+        <MapWithTracking
+          breakpoint={breakpoint}
+          showStops
+          showScaleBar
+          setInitialZoom={17}
+          origin={origin}
+          destination={destination}
+          setInitialMapTracking
+          disableLocationPopup
+        />
+      </>
     );
   }
 
@@ -50,6 +58,10 @@ StopsNearYouMap.propTypes = {
   origin: dtLocationShape,
   destination: dtLocationShape,
   language: PropTypes.string.isRequired,
+};
+
+StopsNearYouMap.contextTypes = {
+  config: PropTypes.object,
 };
 
 StopsNearYouMap.defaultProps = {

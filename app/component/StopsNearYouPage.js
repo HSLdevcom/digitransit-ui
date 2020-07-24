@@ -7,11 +7,10 @@ import { matchShape, routerShape } from 'found';
 import withBreakpoint from '../util/withBreakpoint';
 import { getNearYouPath } from '../util/path';
 import { addressToItinerarySearch } from '../util/otpStrings';
-import DesktopView from './DesktopView';
 import { startLocationWatch } from '../action/PositionActions';
 import StopsNearYouContainer from './StopsNearYouContainer';
 import Loading from './Loading';
-import MobileView from './MobileView';
+import BackButton from './BackButton';
 
 class StopsNearYouPage extends React.Component { // eslint-disable-line
   static contextTypes = {
@@ -26,6 +25,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   static propTypes = {
     stopPatterns: PropTypes.any.isRequired,
     loadingPosition: PropTypes.bool,
+    breakpoint: PropTypes.string.isRequired,
   };
 
   constructor(props, context) {
@@ -42,29 +42,25 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
         <StopsNearYouContainer stopPatterns={this.props.stopPatterns} />
       );
     }
-    map = (
-      <div className="map full"></div>
-    )
-    if (this.props.breakpoint === "large") {
+    if (this.props.breakpoint === 'large') {
       return (
-        <DesktopView
-          title={
-            <FormattedMessage
-              id="nearest-stops"
-              defaultMessage="Stops near you"
-            />
-          }
-          bckBtnColor={this.context.config.colors.primary}
-          content={content}
-        />
+        <>
+          <BackButton
+            icon="icon-icon_arrow-collapse--left"
+            iconClassName="arrow-icon"
+            title={
+              <FormattedMessage
+                id="nearest-stops"
+                defaultMessage="Stops near you"
+              />
+            }
+            color={this.context.config.colors.primary}
+          />
+          <div className="stops-near-you-page">{content}</div>
+        </>
       );
     }
-
-    return (
-      <MobileView
-        content={content}
-      />
-    );
+    return content;
   }
 }
 
