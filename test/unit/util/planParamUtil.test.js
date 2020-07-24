@@ -20,8 +20,9 @@ describe('planParamUtil', () => {
     it('should return mode defaults from config if modes are missing from the localStorage', () => {
       const config = {
         modeToOTP: {
-          bus: 'bus',
-          walk: 'walk',
+          bus: 'BUS',
+          walk: 'WALK',
+          citybike: 'BICYCLE_RENT',
         },
         streetModes: {
           walk: {
@@ -32,6 +33,10 @@ describe('planParamUtil', () => {
         },
         transportModes: {
           bus: {
+            availableForSelection: true,
+            defaultValue: true,
+          },
+          citybike: {
             availableForSelection: true,
             defaultValue: true,
           },
@@ -53,7 +58,11 @@ describe('planParamUtil', () => {
       };
       const params = utils.preparePlanParams(config)(...defaultProps);
       const { modes } = params;
-      expect(modes).to.deep.equal([{ mode: 'BUS' }, { mode: 'WALK' }]);
+      expect(modes).to.deep.equal([
+        { mode: 'BICYCLE', qualifier: 'RENT' },
+        { mode: 'BUS' },
+        { mode: 'WALK' },
+      ]);
     });
 
     it('should use the optimize mode from query', () => {
