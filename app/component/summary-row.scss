@@ -164,13 +164,17 @@
         background-color: #FCBC19;
 
         .itinerary-icon {
-          margin-left: -1px;
-          margin-top: 1px;
+          margin-left: -2px;
+          margin-top: 0px;
           fill: #000;
           font-size: 20px;
         }
         .icon-container {
           margin-left: 2px;
+          .icon {
+            width: 100%;
+            height: 100%;
+          }
         }
       }
       &.walk, &.wait {
@@ -212,12 +216,12 @@
           &.wait {
             min-width: unset;
           }
-          &.walk, &.citybike {
+          &.walk, &.citybike, &.bicycle {
             display: block;
             overflow: hidden;
             min-width: unset;
             .icon {
-              &.walk, &.citybike {
+              &.walk, &.citybike, &.bicycle {
                 float: left;
                 display: flex;
                 justify-content: center;
@@ -256,13 +260,16 @@
               font-size: $font-size-xxsmall;
               color: $black;
             }
-            &.citybike, &.bicycle {
+            &.citybike {
               .leg-duration{
                 padding-left: 5px;
               }
             }
             &.bicycle {
-              margin-bottom: 1px;
+              .leg-duration{
+                padding-bottom: 2px;
+                padding-left: 5px;
+              }
             }
           }
       }
@@ -337,7 +344,7 @@
           width: 0.7em;
         }
       }
-      &.car, &.bicycle {
+      &.car {
         .icon {
           height: 0.67em;
           width: 0.67em;
@@ -346,6 +353,9 @@
       &.bicycle {
         margin-bottom: 1px;
         .icon {
+          height: 0.67em;
+          width: 0.67em;
+          margin-bottom: 1px;
           color: #333333;
         }
       }
