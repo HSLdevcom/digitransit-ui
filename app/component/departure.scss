@@ -182,7 +182,7 @@
   vertical-align: top;
   position: relative;
   display: inline-block;
-  min-width: 64px;
+  // min-width: 64px; // would prevent shrinking in SummaryRow
   &.vertical {
     max-width: 100%;
     .vehicle-number {
