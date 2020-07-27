@@ -46,6 +46,7 @@ export function getWeatherData(baseURL, time, lat, lon) {
   const searchTime = moment.utc(endtime).format();
   return retryFetch(
     `${baseURL}&latlon=${lat},${lon}&starttime=${searchTime}&endtime=${searchTime}`,
+    {},
     2,
     200,
   )
