@@ -135,7 +135,14 @@ function getDisableRemainingWeightHeuristic(
         modesArray.length > 1 &&
         intermediatePlaces.length > 0))
   ) {
-    disableRemainingWeightHeuristic = true;
+    // if you search with bike rental HSL has set this to true. why do they do that?
+    // according to @optionsome, it's there to sidestep the maxWalkDistance which also
+    // applies to cycling. disabling the heuristic, however, has negative consequences when searching for a route
+    // in an area with many bike sharing station (like Stuttgart).
+    // for this reason, we are enabling the heuristic.
+    // even though this if condition is pretty much useless, i don't want to deviate from upstream too much, so i'm going
+    // to leave it in with my modifications.
+    disableRemainingWeightHeuristic = false;
   } else if (nullOrUndefined(settings.disableRemainingWeightHeuristic)) {
     disableRemainingWeightHeuristic = false;
   } else {
