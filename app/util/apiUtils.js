@@ -1,4 +1,5 @@
 import moment from 'moment';
+import xmlParser from 'fast-xml-parser';
 import { retryFetch } from './fetchUtils';
 
 export function getUser() {
@@ -34,7 +35,7 @@ export function deleteFavourites(data) {
   return retryFetch('/api/user/favourites', options, 0, 0);
 }
 
-export function getWeatherData(time, lat, lon) {
+export function getWeatherData(baseURL, time, lat, lon) {
   // Round time to next 5 minutes
   const remainder = 5 - time.minute() % 5;
   const endtime = time
@@ -44,9 +45,18 @@ export function getWeatherData(time, lat, lon) {
     .toISOString();
   const searchTime = moment.utc(endtime).format();
   return retryFetch(
-    `/weather?latlon=${lat},${lon}&starttime=${searchTime}&endtime=${searchTime}`,
+    `${baseURL}&latlon=${lat},${lon}&starttime=${searchTime}&endtime=${searchTime}`,
+    2,
+    200,
   )
-    .then(res => res.json())
+    .then(res => res.text())
+    .then(str => {
+      const options = {
+        ignoreAttributes: true,
+        ignoreNameSpace: true,
+      };
+      return xmlParser.parse(str, options);
+    })
     .then(json => {
       const data = json.FeatureCollection.member.map(elem => elem.BsWfsElement);
       return data;
