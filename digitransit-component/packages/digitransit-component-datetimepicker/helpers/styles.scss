@@ -97,12 +97,15 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     }
   }
   .textbutton {
-    margin-left: 14px;
-    margin-top: 2px;
+    margin-left: 9px;
     background: none;
     border: none;
     color: #666666;
     padding: 0;
+    @include min-width(tablet)  {
+      margin-left: 14px;
+    }
+
     &.active {
       color: $primary-color;
     }
