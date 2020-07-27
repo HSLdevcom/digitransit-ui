@@ -204,7 +204,7 @@ const RouteMapContainerWithVehicles = connectToStores(
 
       if (matchingVehicles.length !== 1) {
         // no matching vehicles or cant distinguish between vehicles
-        return null;
+        return { lat: null, lon: null };
       }
       const selectedVehicle = matchingVehicles[0];
 
