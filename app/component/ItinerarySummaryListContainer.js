@@ -33,7 +33,8 @@ function ItinerarySummaryListContainer(
     searchTime,
     to,
     toggleSettings,
-    onlyBikeParkItineraries,
+    bikeAndPublicItinerariesToShow,
+    bikeAndParkItinerariesToShow,
   },
   context,
 ) {
@@ -82,9 +83,9 @@ function ItinerarySummaryListContainer(
           />
         </div>,
       );
-      if (!onlyBikeParkItineraries) {
+      if (bikeAndParkItinerariesToShow > 0) {
         summaries.splice(
-          4,
+          bikeAndPublicItinerariesToShow + 1,
           0,
           <ItinerarySummarySubtitle
             translationId="itinerary-summary.bikeAndPublic"
@@ -234,7 +235,8 @@ ItinerarySummaryListContainer.propTypes = {
   searchTime: PropTypes.number.isRequired,
   to: locationShape.isRequired,
   toggleSettings: PropTypes.func.isRequired,
-  onlyBikeParkItineraries: PropTypes.bool.isRequired,
+  bikeAndPublicItinerariesToShow: PropTypes.number.isRequired,
+  bikeAndParkItinerariesToShow: PropTypes.number.isRequired,
 };
 
 ItinerarySummaryListContainer.defaultProps = {

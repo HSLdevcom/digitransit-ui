@@ -152,7 +152,6 @@
       margin: 0 2px 0 0;
       justify-content: center;
       &.bike_park {
-        flex: 1 1 0px;
         overflow: hidden;
         justify-content: center;
         min-width: 24px;
@@ -161,7 +160,7 @@
         height: 24px;
         border: 1px solid #ddd;
         border-radius: 3px;
-        background-color: #FCBC19;
+        background-color: #f9af1f;
 
         .itinerary-icon {
           margin-left: -2px;

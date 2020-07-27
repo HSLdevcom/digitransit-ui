@@ -823,6 +823,8 @@ class SummaryPage extends React.Component {
       bikeParkPlan,
     } = this.props;
     this.onlyBikeParkItineraries = false;
+    this.bikeAndPublicItinerariesToShow = 0;
+    this.bikeAndParkItinerariesToShow = 0;
     if (this.state.streetMode === 'walk') {
       this.stopClient();
       this.selectedPlan = walkPlan;
@@ -837,10 +839,24 @@ class SummaryPage extends React.Component {
         bikeParkPlan.itineraries &&
         bikeParkPlan.itineraries.length > 0
       ) {
+        this.bikeAndPublicItinerariesToShow = Math.min(
+          bikeParkPlan.itineraries.length,
+          3,
+        );
+        this.bikeAndParkItinerariesToShow = Math.min(
+          bikeParkPlan.itineraries.length,
+          3,
+        );
         this.selectedPlan = bikeAndPublicPlan;
         const selectedItineraries = [
-          ...bikeParkPlan.itineraries.slice(0, 3),
-          ...bikeAndPublicPlan.itineraries.slice(0, 3),
+          ...bikeParkPlan.itineraries.slice(
+            0,
+            this.bikeAndPublicItinerariesToShow,
+          ),
+          ...bikeAndPublicPlan.itineraries.slice(
+            0,
+            this.bikeAndParkItinerariesToShow,
+          ),
         ];
         this.selectedPlan = {
           ...{ itineraries: selectedItineraries },
@@ -1046,7 +1062,10 @@ class SummaryPage extends React.Component {
               setLoading={this.setLoading}
               setError={this.setError}
               toggleSettings={this.toggleCustomizeSearchOffcanvas}
-              onlyBikeParkItineraries={this.onlyBikeParkItineraries}
+              bikeAndPublicItinerariesToShow={
+                this.bikeAndPublicItinerariesToShow
+              }
+              bikeAndParkItinerariesToShow={this.bikeAndParkItinerariesToShow}
             >
               {this.props.content &&
                 React.cloneElement(this.props.content, {
@@ -1161,7 +1180,8 @@ class SummaryPage extends React.Component {
             to={match.params.to}
             intermediatePlaces={intermediatePlaces}
             toggleSettings={this.toggleCustomizeSearchOffcanvas}
-            onlyBikeParkItineraries={this.onlyBikeParkItineraries}
+            bikeAndPublicItinerariesToShow={this.bikeAndPublicItinerariesToShow}
+            bikeAndParkItinerariesToShow={this.bikeAndParkItinerariesToShow}
           />
           {screenReaderUpdateAlert}
         </>

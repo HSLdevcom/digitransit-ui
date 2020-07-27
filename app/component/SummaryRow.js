@@ -327,6 +327,21 @@ const SummaryRow = (
           large={breakpoint === 'large'}
         />,
       );
+      if (leg.to.bikePark) {
+        onlyIconLegsLength += legLength;
+        onlyIconLegs += 1;
+        legs.push(
+          <div
+            className="leg bike_park"
+            key={`${leg.mode}_${leg.startTime}_bike_park_indicator`}
+          >
+            <Icon
+              img="icon-bike_parking"
+              className="itinerary-icon bike_park"
+            />
+          </div>,
+        );
+      }
     } else if (leg.rentedBike) {
       const bikingTime = Math.floor(leg.duration / 60);
       legs.push(
@@ -366,6 +381,8 @@ const SummaryRow = (
         />,
       );
       if (leg.to.bikePark) {
+        onlyIconLegsLength += legLength;
+        onlyIconLegs += 1;
         legs.push(
           <div
             className="leg bike_park"

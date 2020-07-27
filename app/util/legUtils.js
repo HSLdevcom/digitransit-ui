@@ -115,13 +115,9 @@ const bikingEnded = leg1 => {
  * @param {*} originalLegs an array of legs
  */
 export const compressLegs = originalLegs => {
-  const usingOwnBicycle =
-    originalLegs[0] != null &&
-    originalLegs[1] != null &&
-    ((getLegMode(originalLegs[0]) === LegMode.Bicycle &&
-      !originalLegs[0].rentedBike) ||
-      (getLegMode(originalLegs[1]) === LegMode.Bicycle &&
-        !originalLegs[1].rentedBike));
+  const usingOwnBicycle = originalLegs.some(
+    leg => getLegMode(leg) === LegMode.Bicycle,
+  );
   const compressedLegs = [];
   let compressedLeg;
   forEach(originalLegs, currentLeg => {
@@ -134,16 +130,17 @@ export const compressLegs = originalLegs => {
       compressedLeg = cloneDeep(currentLeg);
       return;
     }
-    if (usingOwnBicycle && currentLeg.to.bikePark) {
-      compressedLeg.to.stop = currentLeg.to.stop;
-      compressedLeg.to.bikePark = currentLeg.to.bikePark;
-    }
+
     if (usingOwnBicycle && continueWithBicycle(compressedLeg, currentLeg)) {
+      // eslint-disable-next-line no-nested-ternary
+      const newBikePark = compressedLeg.to.bikePark
+        ? compressedLeg.to.bikePark
+        : currentLeg.to.bikePark
+          ? currentLeg.to.bikePark
+          : null;
       compressedLeg.duration += currentLeg.duration;
       compressedLeg.distance += currentLeg.distance;
-      if (!compressedLeg.to) {
-        compressedLeg.to = currentLeg.to;
-      }
+      compressedLeg.to = { ...currentLeg.to, ...{ bikePark: newBikePark } };
       compressedLeg.endTime = currentLeg.endTime;
       compressedLeg.mode = LegMode.Bicycle;
       return;
