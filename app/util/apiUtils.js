@@ -42,7 +42,7 @@ export function getWeatherData(time, lat, lon) {
     .seconds(0)
     .milliseconds(0)
     .toISOString();
-  const searchTime = `${moment(endtime).format('YYYY-MM-DDThh:mm:00.000')}Z`;
+  const searchTime = moment.utc(endtime).format();
   return retryFetch(
     `/weather?latlon=${lat},${lon}&starttime=${searchTime}&endtime=${searchTime}`,
   )
