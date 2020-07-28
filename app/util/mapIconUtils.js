@@ -300,7 +300,10 @@ export function drawStopIcon(tile, geom, type, platformNumber) {
   if (!styles) {
     return;
   }
-  const { style, width, height } = styles;
+  const { style } = styles;
+  let { width, height } = styles;
+  width *= tile.scaleratio;
+  height *= tile.scaleratio;
 
   const radius = width / 2;
   let x;
@@ -335,8 +338,8 @@ export function drawStopIcon(tile, geom, type, platformNumber) {
         tile.ctx.arc(x, y, radius - 1, 0, FULL_CIRCLE);
         tile.ctx.fill();
         if (drawNumber && platformNumber) {
-          tile.ctx.font =
-            '12px Gotham XNarrow SSm A, Gotham XNarrow SSm B, Gotham Rounded A, Gotham Rounded B, Arial, sans-serif';
+          tile.ctx.font = `${12 *
+            tile.scaleratio}px Gotham XNarrow SSm A, Gotham XNarrow SSm B, Gotham Rounded A, Gotham Rounded B, Arial, sans-serif`;
           tile.ctx.fillStyle = '#fff';
           tile.ctx.textAlign = 'center';
           tile.ctx.textBaseline = 'middle';
@@ -357,7 +360,10 @@ export function drawHybridStopIcon(tile, geom) {
   if (!styles) {
     return;
   }
-  const { style, width, height } = styles;
+  const { style } = styles;
+  let { width, height } = styles;
+  width *= tile.scaleratio;
+  height *= tile.scaleratio;
   // only bus/tram hybrid exist
   if (style === 'small') {
     const radiusInner = 3;
@@ -403,8 +409,10 @@ export function drawHybridStopIcon(tile, geom) {
 export function drawCitybikeIcon(tile, geom, state, bikesAvailable) {
   const zoom = tile.coords.z - 1;
   const styles = getStopIconStyles('citybike', zoom);
-
-  const { style, width, height } = styles;
+  const { style } = styles;
+  let { width, height } = styles;
+  width *= tile.scaleratio;
+  height *= tile.scaleratio;
   if (!styles) {
     return;
   }
@@ -437,7 +445,7 @@ export function drawCitybikeIcon(tile, geom, state, bikesAvailable) {
     });
   }
   if (style === 'large') {
-    const smallCircleRadius = 11;
+    const smallCircleRadius = 11 * tile.scaleratio;
     x = geom.x / tile.ratio - width + smallCircleRadius * 2;
     y = geom.y / tile.ratio - height;
     let iconName = `icon-icon_citybike_station_${color}_large`;
@@ -450,8 +458,8 @@ export function drawCitybikeIcon(tile, geom, state, bikesAvailable) {
       y += smallCircleRadius;
       if (bikesAvailable && state === BIKESTATION_ON) {
         /* eslint-disable no-param-reassign */
-        tile.ctx.font =
-          '10.8px Gotham XNarrow SSm A, Gotham XNarrow SSm B, Gotham Rounded A, Gotham Rounded B, Arial, sans-serif';
+        tile.ctx.font = `${10.8 *
+          tile.scaleratio}px Gotham XNarrow SSm A, Gotham XNarrow SSm B, Gotham Rounded A, Gotham Rounded B, Arial, sans-serif`;
         tile.ctx.fillStyle = '#fff';
         tile.ctx.textAlign = 'center';
         tile.ctx.textBaseline = 'middle';
@@ -468,7 +476,9 @@ export function drawTerminalIcon(tile, geom, type) {
   if (!styles) {
     return;
   }
-  const { width, height } = styles;
+  let { width, height } = styles;
+  width *= tile.scaleratio;
+  height *= tile.scaleratio;
   getImageFromSpriteCache(
     `icon-icon_${type.split(',')[0].toLowerCase()}`,
     width,
