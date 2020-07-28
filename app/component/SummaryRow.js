@@ -228,6 +228,10 @@ const SummaryRow = (
     ...leg,
   }));
   let intermediateSlack = 0;
+  let legsDuration = 0;
+  data.legs.forEach(leg => {
+    legsDuration += leg.duration * 1000;
+  });
   compressedLegs.forEach((leg, i) => {
     if (isTransitLeg(leg)) {
       noTransitLegs = false;
@@ -236,7 +240,7 @@ const SummaryRow = (
       intermediateSlack += leg.startTime - compressedLegs[i - 1].endTime; // calculate time spent at each intermediate place
     }
   });
-  const durationWithoutSlack = duration - intermediateSlack; // don't include time spent at intermediate places in calculations for bar lengths
+  const durationWithoutSlack = legsDuration - intermediateSlack; // don't include time spent at intermediate places in calculations for bar lengths
   let renderBarThreshold = 6;
   let renderRouteNumberThreshold = 14;
   if (breakpoint === 'small') {
