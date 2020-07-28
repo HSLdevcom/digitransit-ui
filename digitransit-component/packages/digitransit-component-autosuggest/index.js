@@ -139,6 +139,8 @@ class DTAutosuggest extends React.Component {
       renderMobileSearch: false,
       sources: props.sources,
       targets: props.targets,
+      typingTimer: null,
+      typing: false,
     };
   }
 
@@ -168,6 +170,17 @@ class DTAutosuggest extends React.Component {
     } else if (method !== 'enter' || this.state.valid) {
       // test above drops unnecessary update
       // when user hits enter but search is unfinished
+      if (this.state.typingTimer) {
+        clearTimeout(this.state.typingTimer);
+      }
+      if (method === 'type') {
+        // after timeout runs, aria alert will announce current selection
+        const timer = setTimeout(() => {
+          this.setState({ typing: false });
+        }, 1000);
+        newState.typingTimer = timer;
+        newState.typing = true;
+      }
       this.setState(newState);
     }
   };
@@ -442,6 +455,9 @@ class DTAutosuggest extends React.Component {
         this.fetchFunction({ value: this.state.value }),
       );
     }
+    if (!this.state.editing) {
+      this.setState({ editing: true });
+    }
   };
 
   suggestionAsAriaContent = () => {
@@ -492,6 +508,16 @@ class DTAutosuggest extends React.Component {
 
     return (
       <React.Fragment>
+        <span className={styles['sr-only']} role="alert">
+          {ariaSuggestionLen}
+        </span>
+        <span
+          className={styles['sr-only']}
+          role={this.state.typing ? undefined : 'alert'}
+          aria-hidden={!this.state.editing || suggestions.length === 0}
+        >
+          {ariaCurrentSuggestion}
+        </span>
         {renderMobileSearch && (
           <MobileSearch
             clearOldSearches={this.clearOldSearches}
@@ -568,22 +594,6 @@ class DTAutosuggest extends React.Component {
                     onKeyDown={this.keyDown}
                     {...p}
                   />
-                  <span
-                    className={styles['sr-only']}
-                    role="alert"
-                    // aria-hidden={!this.state.editing}
-                  >
-                    {ariaSuggestionLen}
-                  </span>
-                  <span
-                    className={styles['sr-only']}
-                    role="alert"
-                    aria-hidden={
-                      !this.state.editing || suggestions.length === 0
-                    }
-                  >
-                    {ariaCurrentSuggestion}
-                  </span>
                   {this.state.value && this.clearButton()}
                 </>
               )}
