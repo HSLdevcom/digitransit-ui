@@ -209,7 +209,6 @@
         .vcenter-children {
           display: flex;
           align-items: center;
-          justify-content: space-between;
           line-height: 1;
           min-width: calc(100% + 7px);
           &.wait {
@@ -241,7 +240,7 @@
           height: 24px;
         }
           .vehicle-number-container-v {
-            padding-right: 8px;
+            padding-left: 8px;
             .long {
               left: 24px;
               top: 4px;

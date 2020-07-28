@@ -296,7 +296,11 @@ export default config => {
                     toPlace: $toPlace
                     intermediatePlaces: $intermediatePlaces
                     numItineraries: 6
-                    modes: "BICYCLE, SUBWAY, RAIL"
+                    transportModes: [
+                      { mode: BICYCLE }
+                      { mode: SUBWAY }
+                      { mode: RAIL }
+                    ]
                     date: $date
                     time: $time
                     walkReluctance: $walkReluctance
@@ -305,7 +309,7 @@ export default config => {
                     walkSpeed: $walkSpeed
                     maxWalkDistance: $maxWalkDistance
                     wheelchair: $wheelchair
-                    ticketTypes: $ticketTypes
+                    allowedTicketTypes: $ticketTypes
                     disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
                     arriveBy: $arriveBy
                     transferPenalty: $transferPenalty
@@ -339,7 +343,14 @@ export default config => {
                     toPlace: $toPlace
                     intermediatePlaces: $intermediatePlaces
                     numItineraries: 6
-                    modes: "BICYCLE_PARK, WALK, BUS, TRAM, SUBWAY, RAIL"
+                    transportModes: [
+                      { mode: BICYCLE, qualifier: PARK }
+                      { mode: WALK }
+                      { mode: BUS }
+                      { mode: TRAM }
+                      { mode: SUBWAY }
+                      { mode: RAIL }
+                    ]
                     date: $date
                     time: $time
                     walkReluctance: $walkReluctance
@@ -348,7 +359,7 @@ export default config => {
                     walkSpeed: $walkSpeed
                     maxWalkDistance: $maxWalkDistance
                     wheelchair: $wheelchair
-                    ticketTypes: $ticketTypes
+                    allowedTicketTypes: $ticketTypes
                     disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
                     arriveBy: $arriveBy
                     transferPenalty: $transferPenalty

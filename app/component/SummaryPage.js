@@ -847,7 +847,6 @@ class SummaryPage extends React.Component {
           bikeParkPlan.itineraries.length,
           3,
         );
-        this.selectedPlan = bikeAndPublicPlan;
         const selectedItineraries = [
           ...bikeParkPlan.itineraries.slice(
             0,
@@ -859,6 +858,7 @@ class SummaryPage extends React.Component {
           ),
         ];
         this.selectedPlan = {
+          ...bikeAndPublicPlan,
           ...{ itineraries: selectedItineraries },
         };
       } else {
