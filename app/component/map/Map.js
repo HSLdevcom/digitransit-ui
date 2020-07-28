@@ -160,16 +160,18 @@ export default class Map extends React.Component {
             minZoom={config.map.minZoom}
             maxZoom={config.map.maxZoom}
           />
-          {config.map.showOSMCopyright && (
-            <AttributionControl
-              position={
-                this.props.originFromMap || this.props.destinationFromMap
-                  ? 'bottomleft'
-                  : 'bottomright'
-              }
-              prefix="<a tabindex=&quot;-1&quot; href=&quot;http://osm.org/copyright&quot;>&copy; OpenStreetMap</a>"
-            />
-          )}
+          <BreakpointConsumer>
+            {breakpoint =>
+              config.map.showOSMCopyright && (
+                <AttributionControl
+                  position={
+                    breakpoint === 'large' ? 'bottomright' : 'bottomleft'
+                  }
+                  prefix="<a tabindex=&quot;-1&quot; href=&quot;http://osm.org/copyright&quot;>&copy; OpenStreetMap</a>"
+                />
+              )
+            }
+          </BreakpointConsumer>
           {this.props.showScaleBar &&
             config.map.showScaleBar && (
               <ScaleControl

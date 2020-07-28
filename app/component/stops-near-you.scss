@@ -1,9 +1,10 @@
-.mobile .desktop {
-        height: 75% !important;
+.map.flex-grow {
+    position: relative;
+    min-height: 20rem;
 }
-.scrollable-content-wrapper {
+
+.stops-near-you-container {
     overflow-y: auto;
-  .stops-near-you-container {
     display: flex;
     flex-direction: column;
     padding: 10px 3.75em 0;
@@ -100,4 +101,39 @@
         }
     }
 }
+.scrollable-content-wrapper {
+    .stops-near-you-page {
+        display: flex;
+        flex-basis: 0px;
+        flex-direction: column;
+        flex-grow: 1;
+        flex-shrink: 0;
+        overflow-y: auto;
+    }
+    .back-button {
+        font-size: 1.25rem;
+        margin: 50px 0 16px 0;
+        line-height: 1;
+        button .icon {
+            height: 1.3em;
+            width: 1.3em;
+        }
+        .arrow-icon {
+            font-size: 0.75em;
+            margin: 2px 1em;
+        }
+    }
+}
+
+.mobile {
+    .stops-near-you-container {
+        height: calc(100% - 20rem);
+        padding: 15px 0.625em 0;
+        background-color: white;
+        border-radius: 15px 15px 0 0;
+        box-shadow: 0 -5px 5px 0 rgba(0, 0, 0, 0.2);
+        position: relative;
+        top: -15px;
+        z-index: 2;
+    }
 }

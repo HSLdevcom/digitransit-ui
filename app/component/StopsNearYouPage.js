@@ -7,10 +7,10 @@ import { matchShape, routerShape } from 'found';
 import withBreakpoint from '../util/withBreakpoint';
 import { getNearYouPath } from '../util/path';
 import { addressToItinerarySearch } from '../util/otpStrings';
-import DesktopView from './DesktopView';
 import { startLocationWatch } from '../action/PositionActions';
 import StopsNearYouContainer from './StopsNearYouContainer';
 import Loading from './Loading';
+import BackButton from './BackButton';
 
 class StopsNearYouPage extends React.Component { // eslint-disable-line
   static contextTypes = {
@@ -25,6 +25,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   static propTypes = {
     stopPatterns: PropTypes.any.isRequired,
     loadingPosition: PropTypes.bool,
+    breakpoint: PropTypes.string.isRequired,
   };
 
   constructor(props, context) {
@@ -41,19 +42,25 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
         <StopsNearYouContainer stopPatterns={this.props.stopPatterns} />
       );
     }
-
-    return (
-      <DesktopView
-        title={
-          <FormattedMessage
-            id="nearest-stops"
-            defaultMessage="Stops near you"
+    if (this.props.breakpoint === 'large') {
+      return (
+        <>
+          <BackButton
+            icon="icon-icon_arrow-collapse--left"
+            iconClassName="arrow-icon"
+            title={
+              <FormattedMessage
+                id="nearest-stops"
+                defaultMessage="Stops near you"
+              />
+            }
+            color={this.context.config.colors.primary}
           />
-        }
-        bckBtnColor={this.context.config.colors.primary}
-        content={content}
-      />
-    );
+          <div className="stops-near-you-page">{content}</div>
+        </>
+      );
+    }
+    return content;
   }
 }
 
