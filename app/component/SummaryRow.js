@@ -228,10 +228,6 @@ const SummaryRow = (
     ...leg,
   }));
   let intermediateSlack = 0;
-  let legsDuration = 0;
-  data.legs.forEach(leg => {
-    legsDuration += leg.duration * 1000;
-  });
   compressedLegs.forEach((leg, i) => {
     if (isTransitLeg(leg)) {
       noTransitLegs = false;
@@ -240,7 +236,7 @@ const SummaryRow = (
       intermediateSlack += leg.startTime - compressedLegs[i - 1].endTime; // calculate time spent at each intermediate place
     }
   });
-  const durationWithoutSlack = legsDuration - intermediateSlack; // don't include time spent at intermediate places in calculations for bar lengths
+  const durationWithoutSlack = duration - intermediateSlack; // don't include time spent at intermediate places in calculations for bar lengths
   let renderBarThreshold = 6;
   let renderRouteNumberThreshold = 14;
   if (breakpoint === 'small') {
@@ -271,7 +267,7 @@ const SummaryRow = (
     const previousLeg = compressedLegs[i - 1];
     const isLastLeg = i === compressedLegs.length - 1;
     const nextLeg = compressedLegs[i + 1];
-    legLength = leg.duration * 1000 / durationWithoutSlack * 100; // length of the current leg in %
+    legLength = (leg.endTime - leg.startTime) / durationWithoutSlack * 100; // length of the current leg in %
 
     if (nextLeg && !nextLeg.intermediatePlace) {
       // don't show waiting in intermediate places
@@ -282,7 +278,7 @@ const SummaryRow = (
         waiting = true;
       } else {
         legLength =
-          (leg.duration * 1000 + waitTime) / durationWithoutSlack * 100; // otherwise add the waiting to the current legs length
+          (leg.endTime - leg.startTime + waitTime) / durationWithoutSlack * 100; // otherwise add the waiting to the current legs length
       }
     }
 
@@ -332,7 +328,6 @@ const SummaryRow = (
         />,
       );
       if (leg.to.bikePark) {
-        onlyIconLegsLength += legLength;
         onlyIconLegs += 1;
         legs.push(
           <div
@@ -385,7 +380,6 @@ const SummaryRow = (
         />,
       );
       if (leg.to.bikePark) {
-        onlyIconLegsLength += legLength;
         onlyIconLegs += 1;
         legs.push(
           <div

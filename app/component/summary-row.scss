@@ -211,6 +211,7 @@
           align-items: center;
           line-height: 1;
           min-width: calc(100% + 7px);
+          justify-content: space-between;
           &.wait {
             min-width: unset;
           }
@@ -240,7 +241,7 @@
           height: 24px;
         }
           .vehicle-number-container-v {
-            padding-left: 8px;
+            padding-right: 8px;
             .long {
               left: 24px;
               top: 4px;
