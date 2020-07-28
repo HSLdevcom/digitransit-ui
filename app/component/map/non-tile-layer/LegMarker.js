@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-
 import { withLeaflet } from 'react-leaflet/es/context';
+import Icon from '../../Icon';
 
 import { isBrowser } from '../../../util/browser';
 
@@ -12,28 +12,11 @@ const L = isBrowser && require('leaflet');
 
 /* eslint-enable global-require */
 
-function fixName(name) {
-  if (!name) {
-    return '';
-  }
-
-  // minimum size can't be set because of flex bugs
-  // so add whitespace to make the name wider
-
-  if (name.length === 1) {
-    return `\u00A0${name}\u00A0`;
-  }
-  if (name.length === 2) {
-    return `\u202F${name}\u202F`;
-  }
-  return name;
-}
-
 class LegMarker extends React.Component {
   static propTypes = {
     leg: PropTypes.object.isRequired,
     mode: PropTypes.string.isRequired,
-    color: PropTypes.string,
+    // color: PropTypes.string,
     leaflet: PropTypes.shape({
       map: PropTypes.shape({
         latLngToLayerPoint: PropTypes.func.isRequired,
@@ -44,7 +27,7 @@ class LegMarker extends React.Component {
   };
 
   static defaultProps = {
-    color: 'currentColor',
+    // color: 'currentColor',
   };
 
   componentDidMount() {
@@ -70,8 +53,12 @@ class LegMarker extends React.Component {
         interactive={false}
         icon={L.divIcon({
           html: `
-            <div style='color: ${this.props.color}'>
-              ${fixName(this.props.leg.name)}
+            <div>
+            ${Icon.asString({
+              img: `icon-icon_${this.props.mode}`,
+              className: 'map-route-icon',
+            })}
+              <span class="map-route-number">${this.props.leg.name}</span>
             </div>`,
           className: `legmarker ${this.props.mode}`,
           iconSize: null,

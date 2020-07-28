@@ -586,22 +586,31 @@ div.origin-popup {
 
 .map .legmarker {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  & > div {
+  min-width: 40px;
+  height: 18px;
+  .map-route-icon {
+    border: none;
+    font-size: 18px;
+  }
+  div {
     @include font-narrow-medium;
-    background-color: $white;
-    border-width: 2px;
-    border-style: solid;
-    border-radius: $border-radius;
-    padding: 0 2px;
-    text-align: center;
-    flex-shrink: 0; /* work around iOS bug with flex sizes */
-    white-space: nowrap;
+    background-color: currentColor;
+    border-radius: 3px;
+    height: 18px;
+    width: 100%;
     margin-left: -50%;
-    margin-right: 50%;
     margin-top: -9px;
+    display: flex;
+    //flex-shrink: 0; /* work around iOS bug with flex sizes */
+    white-space: nowrap;
+    .map-route-number {
+      width: calc(100% - 18px);
+      display: flex;
+      justify-content: center;
+      padding-right: 3px;
+      color: $white;
+    }
   }
 }
 
@@ -619,11 +628,6 @@ div.origin-popup {
     stroke-linecap: round;
     stroke-dasharray: 0.1, 7;
   }
-  &.bicycle,
-  &.citybike {
-    stroke-linecap: round;
-    stroke-dasharray: 10, 5;
-  }
 }
 
 .map .leg {
@@ -631,13 +635,8 @@ div.origin-popup {
   &.walk,
   &.bicycle_walk,
   &.citybike_walk {
-    stroke-linecap: round;
+    stroke: round;
     stroke-dasharray: 0.1, 7;
-  }
-  &.bicycle,
-  &.citybike {
-    stroke-linecap: round;
-    stroke-dasharray: 10, 5;
   }
 }
 
