@@ -183,7 +183,7 @@ class SummaryPlanContainer extends React.Component {
           $toPlace: String!
           $intermediatePlaces: [InputCoordinates!]
           $numItineraries: Int!
-          $modes: String
+          $modes: [TransportMode!]
           $date: String!
           $time: String!
           $walkReluctance: Float
@@ -192,7 +192,7 @@ class SummaryPlanContainer extends React.Component {
           $walkSpeed: Float
           $maxWalkDistance: Float
           $wheelchair: Boolean
-          $ticketTypes: String
+          $ticketTypes: [String]
           $disableRemainingWeightHeuristic: Boolean
           $arriveBy: Boolean
           $transferPenalty: Int
@@ -223,7 +223,7 @@ class SummaryPlanContainer extends React.Component {
             toPlace: $toPlace
             intermediatePlaces: $intermediatePlaces
             numItineraries: $numItineraries
-            modes: $modes
+            transportModes: $modes
             date: $date
             time: $time
             walkReluctance: $walkReluctance
@@ -232,7 +232,7 @@ class SummaryPlanContainer extends React.Component {
             walkSpeed: $walkSpeed
             maxWalkDistance: $maxWalkDistance
             wheelchair: $wheelchair
-            ticketTypes: $ticketTypes
+            allowedTicketTypes: $ticketTypes
             disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
             arriveBy: $arriveBy
             transferPenalty: $transferPenalty
@@ -350,7 +350,7 @@ class SummaryPlanContainer extends React.Component {
           $toPlace: String!
           $intermediatePlaces: [InputCoordinates!]
           $numItineraries: Int!
-          $modes: String
+          $modes: [TransportMode!]
           $date: String!
           $time: String!
           $walkReluctance: Float
@@ -359,7 +359,7 @@ class SummaryPlanContainer extends React.Component {
           $walkSpeed: Float
           $maxWalkDistance: Float
           $wheelchair: Boolean
-          $ticketTypes: String
+          $ticketTypes: [String]
           $disableRemainingWeightHeuristic: Boolean
           $arriveBy: Boolean
           $transferPenalty: Int
@@ -390,7 +390,7 @@ class SummaryPlanContainer extends React.Component {
             toPlace: $toPlace
             intermediatePlaces: $intermediatePlaces
             numItineraries: $numItineraries
-            modes: $modes
+            transportModes: $modes
             date: $date
             time: $time
             walkReluctance: $walkReluctance
@@ -399,7 +399,7 @@ class SummaryPlanContainer extends React.Component {
             walkSpeed: $walkSpeed
             maxWalkDistance: $maxWalkDistance
             wheelchair: $wheelchair
-            ticketTypes: $ticketTypes
+            allowedTicketTypes: $ticketTypes
             disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
             arriveBy: $arriveBy
             transferPenalty: $transferPenalty

@@ -1,33 +1,13 @@
 import { VectorTile } from '@mapbox/vector-tile';
 import Protobuf from 'pbf';
 import pick from 'lodash/pick';
-import { graphql, fetchQuery } from 'react-relay';
 
-import { getActiveAlertSeverityLevel } from '../../../util/alertUtils';
 import {
-  drawRoundIcon,
   drawTerminalIcon,
-  drawRoundIconAlertBadge,
+  drawStopIcon,
+  drawHybridStopIcon,
 } from '../../../util/mapIconUtils';
 import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
-
-/**
- * The period of time, in ms, to have the results cached.
- */
-const CACHE_PERIOD_MS = 1000 * 60 * 5; // 5 minutes
-const cache = {};
-
-const query = graphql`
-  query StopsQuery($id: String!) {
-    stop: stop(id: $id) {
-      alerts {
-        alertSeverityLevel
-        effectiveEndDate
-        effectiveStartDate
-      }
-    }
-  }
-`;
 
 class Stops {
   constructor(
@@ -47,7 +27,7 @@ class Stops {
 
   static getName = () => 'stop';
 
-  drawStop(feature, large, alertSeverityLevel = undefined) {
+  drawStop(feature, isHybrid) {
     if (
       !isFeatureLayerEnabled(
         feature,
@@ -58,77 +38,20 @@ class Stops {
     ) {
       return;
     }
-
-    if (feature.properties.type === 'FERRY') {
-      drawTerminalIcon(
-        this.tile,
-        feature.geom,
-        feature.properties.type,
-        this.tile.coords.z >= this.config.terminalNamesZoom
-          ? feature.properties.name
-          : false,
-      );
+    if (isHybrid) {
+      drawHybridStopIcon(this.tile, feature.geom);
       return;
     }
 
-    let scale;
-
-    if (large) {
-      /* stop marker expansion for overlapping double stops */
-      scale = 1.4;
-    } else if (
-      this.tile.props.hilightedStops &&
-      this.tile.props.hilightedStops.includes(feature.properties.gtfsId)
-    ) {
-      scale = 2;
-    } else {
-      scale = 1;
-    }
-    const { iconRadius } = drawRoundIcon(
+    drawStopIcon(
       this.tile,
       feature.geom,
       feature.properties.type,
-      scale,
       feature.properties.platform !== 'null'
         ? feature.properties.platform
         : false,
     );
-
-    if (alertSeverityLevel) {
-      drawRoundIconAlertBadge(
-        this.tile,
-        feature.geom,
-        iconRadius,
-        alertSeverityLevel,
-      );
-    }
   }
-
-  fetchStatusAndDrawStop = (stopFeature, large) => {
-    const { gtfsId } = stopFeature.properties;
-
-    const currentTime = this.getCurrentTime();
-    const callback = ({ stop: result }) => {
-      cache[gtfsId] = currentTime;
-      this.drawStop(
-        stopFeature,
-        large,
-        getActiveAlertSeverityLevel(result.alerts, currentTime / 1000),
-      );
-    };
-
-    const latestFetchTime = cache[gtfsId];
-    if (latestFetchTime && latestFetchTime - currentTime < CACHE_PERIOD_MS) {
-      fetchQuery(this.relayEnvironment, query, { id: gtfsId }).then(callback);
-    } else {
-      fetchQuery(
-        this.relayEnvironment,
-        query,
-        { id: gtfsId },
-        { force: true },
-      ).then(callback);
-    }
-  };
 
   getPromise() {
     return fetch(
@@ -151,14 +74,17 @@ class Stops {
             this.tile.coords.z >= this.config.stopsMinZoom
           ) {
             const featureByCode = {};
-
+            const hybridGtfsIdByCode = {};
+            const zoom = this.tile.coords.z + (this.tile.props.zoomOffset || 0);
+            const drawPlatforms = this.config.terminalStopsMaxZoom - 1 <= zoom;
+            const drawRailPlatforms = this.config.railPlatformsMinZoom <= zoom;
             for (let i = 0, ref = vt.layers.stops.length - 1; i <= ref; i++) {
               const feature = vt.layers.stops.feature(i);
               if (
                 feature.properties.type &&
                 (feature.properties.parentStation === 'null' ||
-                  this.config.terminalStopsMaxZoom - 1 <=
-                    this.tile.coords.z + (this.tile.props.zoomOffset || 0))
+                  drawPlatforms ||
+                  (feature.properties.type === 'RAIL' && drawRailPlatforms))
               ) {
                 [[feature.geom]] = feature.loadGeometry();
                 const f = pick(feature, ['geom', 'properties']);
@@ -168,45 +94,32 @@ class Stops {
                      Currently we expand the first marker so that double stops are visialized nicely.
                    */
                   const prevFeature = featureByCode[f.properties.code];
-                  if (
-                    !prevFeature ||
-                    prevFeature.properties.type > f.properties.type
-                  ) {
+                  if (!prevFeature) {
                     featureByCode[f.properties.code] = f;
+                  } else if (
+                    this.config.mergeStopsByCode &&
+                    f.properties.code &&
+                    featureByCode[f.properties.code].properties.type !==
+                      f.properties.type &&
+                    f.geom.x === featureByCode[f.properties.code].geom.x &&
+                    f.geom.y === featureByCode[f.properties.code].geom.y
+                  ) {
+                    // save only one gtfsId per hybrid stop
+                    hybridGtfsIdByCode[f.properties.code] = f.properties.gtfsId;
                   }
                 }
                 this.features.push(f);
               }
             }
-            if (this.config.mergeStopsByCode) {
-              /* sort the stops by type so that double stops get consistent visual appearance.
-                For example, draw tram stops before bus stops */
-              this.features.sort((f1, f2) => {
-                if (f1.properties.type > f2.properties.type) {
-                  return -1;
-                }
-                if (f2.properties.type > f1.properties.type) {
-                  return 1;
-                }
-                if (f1.properties.platform) {
-                  /* favor stops with platform code over those without it */
-                  return 1;
-                }
-                return 0;
-              });
-            }
-            this.features.forEach(f => {
+            // sort to draw in correct order
+            this.features.sort((a, b) => a.geom.y - b.geom.y).forEach(f => {
               /* Note: don't expand separate stops sharing the same code,
                  unless type is different and location actually overlaps. */
-              const large =
-                this.config.mergeStopsByCode &&
-                f.properties.code &&
-                featureByCode[f.properties.code] !== f &&
-                featureByCode[f.properties.code].properties.type !==
-                  f.properties.type &&
-                f.geom.x === featureByCode[f.properties.code].geom.x &&
-                f.geom.y === featureByCode[f.properties.code].geom.y;
-              this.fetchStatusAndDrawStop(f, large);
+              const hybridId = hybridGtfsIdByCode[f.properties.code];
+              const draw = !hybridId || hybridId === f.properties.gtfsId;
+              if (draw) {
+                this.drawStop(f, !!hybridId);
+              }
             });
           }
           if (
@@ -236,9 +149,6 @@ class Stops {
                   this.tile,
                   feature.geom,
                   feature.properties.type,
-                  this.tile.coords.z >= this.config.terminalNamesZoom
-                    ? feature.properties.name
-                    : false,
                 );
               }
             }

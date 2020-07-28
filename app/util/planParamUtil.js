@@ -74,7 +74,7 @@ export const defaultRoutingSettings = {
 
 function getTicketTypes(ticketType, settingsTicketType, defaultTicketType) {
   // separator used to be _, map it to : to keep old URLs compatible
-  const remap = str => `${str}`.replace('_', ':');
+  const remap = str => [`${str}`.replace('_', ':')];
   const isRestriction = type => type !== 'none';
 
   if (ticketType) {
@@ -432,7 +432,15 @@ export const preparePlanParams = config => (
       },
       nullOrUndefined,
     ),
-    modes: modesOrDefault,
+    modes: modesOrDefault
+      .split(',')
+      .map(mode => mode.split('_'))
+      .map(
+        modeAndQualifier =>
+          modeAndQualifier.length > 1
+            ? { mode: modeAndQualifier[0], qualifier: modeAndQualifier[1] }
+            : { mode: modeAndQualifier[0] },
+      ),
     ticketTypes: getTicketTypes(
       ticketTypes,
       settings.ticketTypes,

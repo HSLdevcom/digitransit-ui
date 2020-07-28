@@ -4,6 +4,7 @@ import L from 'leaflet';
 
 import { isBrowser } from '../../../util/browser';
 import { isLayerEnabled } from '../../../util/mapLayerUtils';
+import { getStopIconStyles } from '../../../util/mapIconUtils';
 
 class TileContainer {
   constructor(coords, done, props, config, relayEnvironment) {
@@ -115,17 +116,66 @@ class TileContainer {
         ),
       );
 
-      nearest = features.filter(feature => {
+      nearest = features.filter((feature, index) => {
         if (!feature) {
           return false;
         }
-
         const g = feature.feature.geom;
 
-        const dist = Math.sqrt(
-          (localPoint[0] - g.x / this.ratio) ** 2 +
-            (localPoint[1] - g.y / this.ratio) ** 2,
+        // collision check for stops and citybike stations is different for different icons which depend on zoom level
+        const featureX = g.x / this.ratio;
+        let featureY = g.y / this.ratio;
+
+        let isCombo = false;
+        let secondY;
+        if (
+          (feature.layer === 'stop' && !feature.feature.properties.stops) ||
+          feature.layer === 'citybike'
+        ) {
+          const zoom = this.coords.z;
+          // hitbox is same for stop and citybike
+          const iconStyles = getStopIconStyles('stop', zoom);
+          if (iconStyles) {
+            const { style, height, width } = iconStyles;
+            const circleRadius = width / 2;
+            if (style === 'large') {
+              featureY -= height - circleRadius;
+            }
+            // combo stops have a larger hitbos that is not circular
+            // use two points for collision detection, lower and upper center of icon
+            // features array is sorted by y coord so combo stops should be next to each other
+            if (
+              index > 0 &&
+              features[index - 1].feature.properties.code ===
+                feature.feature.properties.code
+            ) {
+              isCombo = true;
+            }
+            if (
+              index < features.length - 1 &&
+              features[index + 1].feature.properties.code ===
+                feature.feature.properties.code
+            ) {
+              isCombo = true;
+            }
+
+            if (isCombo && style === 'large') {
+              secondY = featureY - width;
+            }
+          }
+        }
+
+        let dist = Math.sqrt(
+          (localPoint[0] - featureX) ** 2 + (localPoint[1] - featureY) ** 2,
         );
+        if (isCombo) {
+          dist = Math.min(
+            dist,
+            Math.sqrt(
+              (localPoint[0] - featureX) ** 2 + (localPoint[1] - secondY) ** 2,
+            ),
+          );
+        }
 
         if (dist < 22 * this.scaleratio) {
           return true;
