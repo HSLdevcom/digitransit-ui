@@ -5,7 +5,7 @@
   .datetimepicker-container {
     margin: 20px 9px 9px 0;
     .datetimepicker-top-row {
-      @media (max-width: 375px) {
+      @media (max-width: 500px) {
         margin: 0 0 0 7px;
       }
     }
@@ -201,7 +201,7 @@
     line-height: 0;
 
     .icon {
-      font-size: $font-size-large;
+      font-size: 20px;
     }
 
     .super-icon {
