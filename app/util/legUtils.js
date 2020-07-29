@@ -116,7 +116,7 @@ const bikingEnded = leg1 => {
  */
 export const compressLegs = originalLegs => {
   const usingOwnBicycle = originalLegs.some(
-    leg => getLegMode(leg) === LegMode.Bicycle,
+    leg => getLegMode(leg) === LegMode.Bicycle && leg.rentedBike === false,
   );
   const compressedLegs = [];
   let compressedLeg;

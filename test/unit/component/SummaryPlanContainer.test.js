@@ -151,6 +151,9 @@ const props = {
   },
   setError: () => {},
   setLoading: () => {},
+  toggleSettings: () => {},
+  bikeAndPublicItinerariesToShow: 0,
+  bikeAndParkItinerariesToShow: 0,
 };
 
 describe('<SummaryPlanContainer />', () => {
