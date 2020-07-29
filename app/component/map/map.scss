@@ -626,7 +626,7 @@ div.origin-popup {
   &.bicycle_walk,
   &.citybike_walk {
     stroke-linecap: round;
-    stroke-dasharray: 0.1, 7;
+    stroke-dasharray: 0.1 10;
   }
 }
 
@@ -636,7 +636,7 @@ div.origin-popup {
   &.bicycle_walk,
   &.citybike_walk {
     stroke: round;
-    stroke-dasharray: 0.1, 7;
+    stroke-dasharray: 0.1 10;
   }
 }
 
