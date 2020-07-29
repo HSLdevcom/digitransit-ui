@@ -241,12 +241,12 @@ export default {
 
     line: {
       halo: {
-        weight: 7,
+        weight: 8,
         thinWeight: 4,
       },
 
       leg: {
-        weight: 5,
+        weight: 6,
         thinWeight: 2,
       },
 

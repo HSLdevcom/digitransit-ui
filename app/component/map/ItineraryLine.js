@@ -15,6 +15,8 @@ import { getMiddleOf } from '../../util/geo-utils';
 import { isBrowser } from '../../util/browser';
 import { isCallAgencyPickupType } from '../../util/legUtils';
 import IconMarker from './IconMarker';
+import SpeechBubble from './SpeechBubble';
+import { durationToString } from '../../util/timeUtils';
 
 const getLegText = (leg, config) => {
   if (!leg.route) {
@@ -41,6 +43,7 @@ class ItineraryLine extends React.Component {
     hash: PropTypes.number,
     showTransferLabels: PropTypes.bool,
     showIntermediateStops: PropTypes.bool,
+    streetMode: PropTypes.string,
   };
 
   render() {
@@ -75,6 +78,14 @@ class ItineraryLine extends React.Component {
           passive={this.props.passive}
         />,
       );
+
+      if (
+        this.props.streetMode === 'walk' ||
+        this.props.streetMode === 'bike'
+      ) {
+        const duration = durationToString(leg.endTime - leg.startTime);
+        objs.push(<SpeechBubble position={middle} text={duration} />);
+      }
 
       if (!this.props.passive) {
         if (
@@ -190,6 +201,8 @@ export default createFragmentContainer(ItineraryLine, {
     fragment ItineraryLine_legs on Leg @relay(plural: true) {
       mode
       rentedBike
+      startTime
+      endTime
       legGeometry {
         points
       }
