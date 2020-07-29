@@ -206,6 +206,8 @@
         min-width: 0;
         height: 24px;
         max-width: fit-content;
+        /* stylelint-disable-next-line */
+        max-width: -moz-fit-content;
         .vcenter-children {
           display: flex;
           align-items: center;
