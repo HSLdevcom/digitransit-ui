@@ -484,6 +484,24 @@ class SummaryPage extends React.Component {
         this.props.match.params.hash === 'bike' ||
         this.props.match.params.hash === 'bikeAndPublic')
     ) {
+      // Reset url and thus streetmode if intermediate places change
+      if (
+        !isEqual(
+          getIntermediatePlaces(prevProps.match.location.query),
+          getIntermediatePlaces(this.props.match.location.query),
+        )
+      ) {
+        const newState = {
+          ...this.context.match.location,
+          state: { streetMode: '' },
+        };
+        const indexPath = `${getRoutePath(
+          this.context.match.params.from,
+          this.context.match.params.to,
+        )}`;
+        newState.pathname = indexPath;
+        this.context.router.push(newState);
+      }
       if (this.state.streetMode !== this.props.match.params.hash) {
         this.setStreetMode(this.props.match.params.hash);
       }
@@ -989,16 +1007,8 @@ class SummaryPage extends React.Component {
       latestArrivalTime = Math.max(...itineraries.map(i => i.endTime));
     }
 
-    let intermediatePlaces = [];
-    const { query } = match.location;
+    const intermediatePlaces = getIntermediatePlaces(match.location.query);
 
-    if (query && query.intermediatePlaces) {
-      if (Array.isArray(query.intermediatePlaces)) {
-        intermediatePlaces = query.intermediatePlaces.map(otpToLocation);
-      } else {
-        intermediatePlaces = [otpToLocation(query.intermediatePlaces)];
-      }
-    }
     const screenReaderUpdateAlert = (
       <span className="sr-only" role="alert" ref={this.resultsUpdatedAlertRef}>
         <FormattedMessage
