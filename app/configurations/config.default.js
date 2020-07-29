@@ -795,4 +795,6 @@ export default {
   showVehiclesOnSummaryPage: false,
 
   showWeatherInformation: true,
+  showBikeAndPublicItineraries: false,
+  showBikeAndParkItineraries: false,
 };

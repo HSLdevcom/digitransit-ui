@@ -4,17 +4,20 @@ import React from 'react';
 import { StreetModeSelectorButton } from './StreetModeSelectorButton';
 import { StreetModeSelectorWeatherLabel } from './StreetModeSelectorWeatherLabel';
 
-export const StreetModeSelector = ({
-  showWalkOptionButton,
-  showBikeOptionButton,
-  showBikeAndPublicOptionButton,
-  toggleStreetMode,
-  setStreetModeAndSelect,
-  weatherData,
-  walkPlan,
-  bikePlan,
-  bikeAndPublicPlan,
-}) => {
+export const StreetModeSelector = (
+  {
+    showWalkOptionButton,
+    showBikeOptionButton,
+    showBikeAndPublicOptionButton,
+    toggleStreetMode,
+    setStreetModeAndSelect,
+    weatherData,
+    walkPlan,
+    bikePlan,
+    bikeAndPublicPlan,
+  },
+  { config },
+) => {
   return (
     <div className="street-mode-selector-container">
       <StreetModeSelectorWeatherLabel
@@ -35,13 +38,16 @@ export const StreetModeSelector = ({
         plan={bikePlan}
         onClick={setStreetModeAndSelect}
       />
-      <StreetModeSelectorButton
-        icon="icon-icon_cyclist"
-        name="bikeAndPublic"
-        active={showBikeAndPublicOptionButton}
-        plan={bikeAndPublicPlan}
-        onClick={toggleStreetMode}
-      />
+      {(config.showBikeAndPublicItineraries ||
+        config.showBikeAndParkItineraries) && (
+        <StreetModeSelectorButton
+          icon="icon-icon_cyclist"
+          name="bikeAndPublic"
+          active={showBikeAndPublicOptionButton}
+          plan={bikeAndPublicPlan}
+          onClick={toggleStreetMode}
+        />
+      )}
     </div>
   );
 };
