@@ -576,7 +576,15 @@ class SummaryPage extends React.Component {
       this.context.config.showWeatherInformation &&
       !nextProps.match.params.hash
     ) {
-      getWeatherData(timem, from.lat, from.lon).then(res => {
+      getWeatherData(
+        this.context.config.URL.WEATHER_DATA,
+        timem,
+        from.lat,
+        from.lon,
+      ).then(res => {
+        if (!Array.isArray(res) || res.length !== 3) {
+          return;
+        }
         // Icon id's and descriptions: https://www.ilmatieteenlaitos.fi/latauspalvelun-pikaohje ->  Sääsymbolien selitykset ennusteissa.
         const iconId = this.checkDayNight(res[2].ParameterValue, timem.hour());
 

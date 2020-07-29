@@ -129,7 +129,6 @@ class RoutePage extends React.Component {
           pattern.code,
         ),
       );
-      return;
     }
 
     const { realTime } = config;
