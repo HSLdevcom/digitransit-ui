@@ -10,11 +10,17 @@ This map layer adds information about map car parking lots with information abou
 
 All the information is drawn from a ParkAPI feed. Herrenberg's feed is available at: https://api.stadtnavi.de/parkapi.json
 
+#### OpenTripPlanner
+
+To add realtime parking lot information you need to [configure a ParkAPI updater](https://github.com/mfdz/OpenTripPlanner-data-container/commit/e2572ea5b526bedf0359b681f7e7391017f69db5).
+
+More information about the possible configuration options can be found in the [OTP documentation](https://github.com/mfdz/OpenTripPlanner/blob/master/docs/Configuration.md#configuring-real-time-updaters).
+
 #### Frontend
 
 To visualise the parking lots, an instance of [tilelive-park-api](https://github.com/stadtnavi/tilelive-park-api) needs to be added to `hsl-map-server`.
 
-The main code frontend resides in `DynamicParkingLots.js` and `DynamicParkingLotsPopup.js`.
+The main frontend code resides in `DynamicParkingLots.js` and `DynamicParkingLotsPopup.js`.
 
 If a parking lot close to being full, then a warning is shown. The user may decide to re-run the routing query
 excluding full car-parks.
