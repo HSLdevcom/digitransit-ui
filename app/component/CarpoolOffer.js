@@ -146,19 +146,21 @@ export default class CarpoolOffer extends React.Component {
 
   renderCheckbox(weekday, isRegularly) {
     return (
-      <Checkbox
-        disabled={!isRegularly}
-        checked={isRegularly && this.state.days[weekday]}
-        onChange={e => {
-          this.updateSelectedDays(e.currentTarget.getAttribute('aria-label'));
-          this.setState(prevState => {
-            // eslint-disable-next-line no-param-reassign
-            prevState.days[weekday] = !prevState.days[weekday];
-            return prevState;
-          });
-        }}
-        labelId={weekday}
-      />
+      <div key={weekday}>
+        <Checkbox
+          disabled={!isRegularly}
+          checked={isRegularly && this.state.days[weekday]}
+          onChange={e => {
+            this.updateSelectedDays(e.currentTarget.getAttribute('aria-label'));
+            this.setState(prevState => {
+              // eslint-disable-next-line no-param-reassign
+              prevState.days[weekday] = !prevState.days[weekday];
+              return prevState;
+            });
+          }}
+          labelId={weekday}
+        />
+      </div>
     );
   }
 
@@ -236,7 +238,7 @@ export default class CarpoolOffer extends React.Component {
           </b>
           : {destination}
         </p>
-        <p>
+        <div>
           <FormattedMessage
             id="add-carpool-offer-frequency"
             defaultMessage="How often do you want to add the offer?"
@@ -266,7 +268,7 @@ export default class CarpoolOffer extends React.Component {
               <FormattedMessage id="recurring" defaultMessage="recurring" />
             </label>
           </div>
-        </p>
+        </div>
         <div className="carpool-checkbox">
           {this.allWeekdays.map(day => this.renderCheckbox(day, isRegularly))}
         </div>

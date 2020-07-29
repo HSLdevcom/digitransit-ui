@@ -25,7 +25,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import exampleData from './data/ItineraryTab.exampleData.json';
 import { getFares, shouldShowFareInfo } from '../util/fareUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-/* eslint-disable prettier/prettier */
+
 class ItineraryTab extends React.Component {
   static propTypes = {
     searchTime: PropTypes.number.isRequired,
@@ -105,7 +105,6 @@ class ItineraryTab extends React.Component {
                   'bp-large': breakpoint === 'large',
                 })}
               >
-
                 {shouldShowFareInfo(config) &&
                   fares.some(fare => fare.isUnknown) && (
                     <div className="disclaimer-container unknown-fare-disclaimer__top">

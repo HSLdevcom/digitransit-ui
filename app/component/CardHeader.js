@@ -89,7 +89,7 @@ CardHeader.propTypes = {
   headerIcon: PropTypes.node,
   headingStyle: PropTypes.string,
   name: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  description: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   code: PropTypes.string,
   externalLink: PropTypes.node,
   icon: PropTypes.string,

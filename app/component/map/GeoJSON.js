@@ -213,7 +213,7 @@ class GeoJSON extends React.Component {
             <PointFeatureMarker
               feature={feature}
               icons={this.icons}
-              key={feature.id}
+              key={feature.id || feature.properties.id}
             />
           ))}
       </React.Fragment>

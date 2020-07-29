@@ -10,6 +10,7 @@
         "popupContent": "Stellpl\u00e4tze: 132",
         "popupContent_de": "Stellpl\u00e4tze: 132",
         "popupContent_en": "Capacity: 132",
+        "id": "\u00dcberdachter Fahrradstellplatz_0",
         "icon": {
           "id": "bikeParkCovIcon",
           "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"Ebene_1\" data-name=\"Ebene 1\" viewBox=\"0 0 32.53 32.53\">  <defs>    <style>      .cls-2{fill:#fff}    </style>  </defs>  <path fill=\"#005ab4\" d=\"M320.34 384.05a16.27 16.27 0 11-16.26-16.27 16.27 16.27 0 0116.26 16.27\" transform=\"translate(-287.81 -367.78)\"/>  <path d=\"M298.37 373v.32a.6.6 0 00.83.56l4.65-1.9a.61.61 0 01.46 0l4.64 1.9a.61.61 0 00.84-.56V373a.6.6 0 00-.38-.56l-5.1-2.09a.61.61 0 00-.46 0l-5.11 2.09a.6.6 0 00-.37.56\" class=\"cls-2\" transform=\"translate(-287.81 -367.78)\"/>  <path d=\"M307.13 376.2a2.34 2.34 0 00-2.51-2.37h-2.95v7.6h1.49v-2.86h1.46a2.34 2.34 0 002.51-2.37m-1.49 0a1 1 0 01-1.1 1h-1.38v-2.09h1.38a1 1 0 011.1 1.05M306.71 384.17a1.47 1.47 0 01-1-.44 1.38 1.38 0 01-.46-1 1.43 1.43 0 01.46-1.05 1.41 1.41 0 011-.46 1.38 1.38 0 011 .46 1.49 1.49 0 01.44 1.05 1.5 1.5 0 01-1.48 1.48zm-7.87 4.88a3.57 3.57 0 012.65 1.09 3.66 3.66 0 011.08 2.67 3.67 3.67 0 01-3.73 3.73 3.69 3.69 0 01-2.67-1.07 3.57 3.57 0 01-1.09-2.66 3.63 3.63 0 011.09-2.67 3.67 3.67 0 012.67-1.09zm0 6.36a2.56 2.56 0 002.6-2.6 2.59 2.59 0 00-.75-1.86 2.51 2.51 0 00-1.85-.77 2.63 2.63 0 00-2.63 2.63 2.48 2.48 0 00.77 1.85 2.57 2.57 0 001.86.75zm4.32-7.48l1.65 1.72v4.64h-1.47v-3.73l-2.43-2.1a1.19 1.19 0 01-.42-1.06 1.42 1.42 0 01.42-1l2.11-2.11a1.19 1.19 0 011.06-.42 1.86 1.86 0 011.19.42l1.44 1.44a3.64 3.64 0 002.67 1.12v1.52a5.15 5.15 0 01-3.79-1.59l-.6-.59zm6.15 1.12a3.72 3.72 0 013.76 3.76 3.57 3.57 0 01-1.09 2.66 3.66 3.66 0 01-2.67 1.07 3.66 3.66 0 01-3.72-3.73 3.69 3.69 0 011.07-2.67 3.59 3.59 0 012.65-1.09zm0 6.36a2.56 2.56 0 001.86-.75 2.49 2.49 0 00.78-1.85 2.65 2.65 0 00-2.64-2.63 2.49 2.49 0 00-1.84.77 2.56 2.56 0 00-.76 1.86 2.58 2.58 0 002.6 2.6z\" class=\"cls-2\" transform=\"translate(-287.81 -367.78)\"/></svg>"
@@ -32,6 +33,7 @@
         "popupContent": "",
         "popupContent_de": "",
         "popupContent_en": "",
+        "id": "\u00dcberdachter Fahrradstellplatz_1",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -53,6 +55,7 @@
         "popupContent": "",
         "popupContent_de": "",
         "popupContent_en": "",
+        "id": "\u00dcberdachter Fahrradstellplatz_2",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -74,6 +77,7 @@
         "popupContent": "",
         "popupContent_de": "",
         "popupContent_en": "",
+        "id": "\u00dcberdachter Fahrradstellplatz_3",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -95,6 +99,7 @@
         "popupContent": "Stellpl\u00e4tze: 40, Geb\u00fchrenpflichtig: nein",
         "popupContent_de": "Stellpl\u00e4tze: 40, Geb\u00fchrenpflichtig: nein",
         "popupContent_en": "Capacity: 40, Fee: no",
+        "id": "\u00dcberdachter Fahrradstellplatz_4",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -102,8 +107,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.909007,
-          48.6405634
+          8.9090204,
+          48.6405696
         ]
       }
     },
@@ -116,6 +121,7 @@
         "popupContent": "Stellpl\u00e4tze: 40, Geb\u00fchrenpflichtig: nein",
         "popupContent_de": "Stellpl\u00e4tze: 40, Geb\u00fchrenpflichtig: nein",
         "popupContent_en": "Capacity: 40, Fee: no",
+        "id": "\u00dcberdachter Fahrradstellplatz_5",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -137,6 +143,7 @@
         "popupContent": "Stellpl\u00e4tze: 50, Geb\u00fchrenpflichtig: nein",
         "popupContent_de": "Stellpl\u00e4tze: 50, Geb\u00fchrenpflichtig: nein",
         "popupContent_en": "Capacity: 50, Fee: no",
+        "id": "\u00dcberdachter Fahrradstellplatz_6",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -158,6 +165,7 @@
         "popupContent": "Stellpl\u00e4tze: 196, Geb\u00fchrenpflichtig: nein",
         "popupContent_de": "Stellpl\u00e4tze: 196, Geb\u00fchrenpflichtig: nein",
         "popupContent_en": "Capacity: 196, Fee: no",
+        "id": "\u00dcberdachter Fahrradstellplatz_7",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -179,6 +187,7 @@
         "popupContent": "Stellpl\u00e4tze: 50",
         "popupContent_de": "Stellpl\u00e4tze: 50",
         "popupContent_en": "Capacity: 50",
+        "id": "\u00dcberdachter Fahrradstellplatz_8",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -200,6 +209,7 @@
         "popupContent": "Stellpl\u00e4tze: 14",
         "popupContent_de": "Stellpl\u00e4tze: 14",
         "popupContent_en": "Capacity: 14",
+        "id": "\u00dcberdachter Fahrradstellplatz_9",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -221,6 +231,7 @@
         "popupContent": "Stellpl\u00e4tze: 40",
         "popupContent_de": "Stellpl\u00e4tze: 40",
         "popupContent_en": "Capacity: 40",
+        "id": "\u00dcberdachter Fahrradstellplatz_10",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -242,6 +253,7 @@
         "popupContent": "Stellpl\u00e4tze: 24",
         "popupContent_de": "Stellpl\u00e4tze: 24",
         "popupContent_en": "Capacity: 24",
+        "id": "\u00dcberdachter Fahrradstellplatz_11",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -263,6 +275,7 @@
         "popupContent": "Stellpl\u00e4tze: 100",
         "popupContent_de": "Stellpl\u00e4tze: 100",
         "popupContent_en": "Capacity: 100",
+        "id": "\u00dcberdachter Fahrradstellplatz_12",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -284,6 +297,7 @@
         "popupContent": "Stellpl\u00e4tze: 100",
         "popupContent_de": "Stellpl\u00e4tze: 100",
         "popupContent_en": "Capacity: 100",
+        "id": "\u00dcberdachter Fahrradstellplatz_13",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -305,6 +319,7 @@
         "popupContent": "Stellpl\u00e4tze: 60",
         "popupContent_de": "Stellpl\u00e4tze: 60",
         "popupContent_en": "Capacity: 60",
+        "id": "\u00dcberdachter Fahrradstellplatz_14",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -326,6 +341,7 @@
         "popupContent": "Stellpl\u00e4tze: 30",
         "popupContent_de": "Stellpl\u00e4tze: 30",
         "popupContent_en": "Capacity: 30",
+        "id": "\u00dcberdachter Fahrradstellplatz_15",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -347,6 +363,7 @@
         "popupContent": "",
         "popupContent_de": "",
         "popupContent_en": "",
+        "id": "\u00dcberdachter Fahrradstellplatz_16",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -368,6 +385,7 @@
         "popupContent": "Stellpl\u00e4tze: 30, Geb\u00fchrenpflichtig: nein",
         "popupContent_de": "Stellpl\u00e4tze: 30, Geb\u00fchrenpflichtig: nein",
         "popupContent_en": "Capacity: 30, Fee: no",
+        "id": "\u00dcberdachter Fahrradstellplatz_17",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -389,6 +407,7 @@
         "popupContent": "",
         "popupContent_de": "",
         "popupContent_en": "",
+        "id": "\u00dcberdachter Fahrradstellplatz_18",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -410,6 +429,7 @@
         "popupContent": "",
         "popupContent_de": "",
         "popupContent_en": "",
+        "id": "\u00dcberdachter Fahrradstellplatz_19",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -431,6 +451,7 @@
         "popupContent": "",
         "popupContent_de": "",
         "popupContent_en": "",
+        "id": "\u00dcberdachter Fahrradstellplatz_20",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -452,6 +473,7 @@
         "popupContent": "Stellpl\u00e4tze: 10",
         "popupContent_de": "Stellpl\u00e4tze: 10",
         "popupContent_en": "Capacity: 10",
+        "id": "\u00dcberdachter Fahrradstellplatz_21",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -473,6 +495,7 @@
         "popupContent": "Stellpl\u00e4tze: 32",
         "popupContent_de": "Stellpl\u00e4tze: 32",
         "popupContent_en": "Capacity: 32",
+        "id": "\u00dcberdachter Fahrradstellplatz_22",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -494,6 +517,7 @@
         "popupContent": "",
         "popupContent_de": "",
         "popupContent_en": "",
+        "id": "\u00dcberdachter Fahrradstellplatz_23",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -515,6 +539,7 @@
         "popupContent": "Stellpl\u00e4tze: 36, Geb\u00fchrenpflichtig: nein",
         "popupContent_de": "Stellpl\u00e4tze: 36, Geb\u00fchrenpflichtig: nein",
         "popupContent_en": "Capacity: 36, Fee: no",
+        "id": "\u00dcberdachter Fahrradstellplatz_24",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -536,6 +561,7 @@
         "popupContent": "Stellpl\u00e4tze: 54, Geb\u00fchrenpflichtig: nein",
         "popupContent_de": "Stellpl\u00e4tze: 54, Geb\u00fchrenpflichtig: nein",
         "popupContent_en": "Capacity: 54, Fee: no",
+        "id": "\u00dcberdachter Fahrradstellplatz_25",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -557,6 +583,7 @@
         "popupContent": "Stellpl\u00e4tze: 48",
         "popupContent_de": "Stellpl\u00e4tze: 48",
         "popupContent_en": "Capacity: 48",
+        "id": "\u00dcberdachter Fahrradstellplatz_26",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -578,6 +605,7 @@
         "popupContent": "Stellpl\u00e4tze: 21",
         "popupContent_de": "Stellpl\u00e4tze: 21",
         "popupContent_en": "Capacity: 21",
+        "id": "\u00dcberdachter Fahrradstellplatz_27",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -599,6 +627,7 @@
         "popupContent": "Stellpl\u00e4tze: 8",
         "popupContent_de": "Stellpl\u00e4tze: 8",
         "popupContent_en": "Capacity: 8",
+        "id": "\u00dcberdachter Fahrradstellplatz_28",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -620,6 +649,7 @@
         "popupContent": "Stellpl\u00e4tze: 24",
         "popupContent_de": "Stellpl\u00e4tze: 24",
         "popupContent_en": "Capacity: 24",
+        "id": "\u00dcberdachter Fahrradstellplatz_29",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -641,6 +671,7 @@
         "popupContent": "Stellpl\u00e4tze: 30",
         "popupContent_de": "Stellpl\u00e4tze: 30",
         "popupContent_en": "Capacity: 30",
+        "id": "\u00dcberdachter Fahrradstellplatz_30",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -662,6 +693,7 @@
         "popupContent": "Stellpl\u00e4tze: 24",
         "popupContent_de": "Stellpl\u00e4tze: 24",
         "popupContent_en": "Capacity: 24",
+        "id": "\u00dcberdachter Fahrradstellplatz_31",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -683,6 +715,7 @@
         "popupContent": "Stellpl\u00e4tze: 16",
         "popupContent_de": "Stellpl\u00e4tze: 16",
         "popupContent_en": "Capacity: 16",
+        "id": "\u00dcberdachter Fahrradstellplatz_32",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -704,6 +737,7 @@
         "popupContent": "Stellpl\u00e4tze: 10, Geb\u00fchrenpflichtig: nein",
         "popupContent_de": "Stellpl\u00e4tze: 10, Geb\u00fchrenpflichtig: nein",
         "popupContent_en": "Capacity: 10, Fee: no",
+        "id": "\u00dcberdachter Fahrradstellplatz_33",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -725,6 +759,7 @@
         "popupContent": "Stellpl\u00e4tze: 6",
         "popupContent_de": "Stellpl\u00e4tze: 6",
         "popupContent_en": "Capacity: 6",
+        "id": "\u00dcberdachter Fahrradstellplatz_34",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -746,6 +781,7 @@
         "popupContent": "Stellpl\u00e4tze: 16, Geb\u00fchrenpflichtig: nein",
         "popupContent_de": "Stellpl\u00e4tze: 16, Geb\u00fchrenpflichtig: nein",
         "popupContent_en": "Capacity: 16, Fee: no",
+        "id": "\u00dcberdachter Fahrradstellplatz_35",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -767,6 +803,7 @@
         "popupContent": "Stellpl\u00e4tze: 14, Geb\u00fchrenpflichtig: nein",
         "popupContent_de": "Stellpl\u00e4tze: 14, Geb\u00fchrenpflichtig: nein",
         "popupContent_en": "Capacity: 14, Fee: no",
+        "id": "\u00dcberdachter Fahrradstellplatz_36",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -788,6 +825,7 @@
         "popupContent": "Stellpl\u00e4tze: 130",
         "popupContent_de": "Stellpl\u00e4tze: 130",
         "popupContent_en": "Capacity: 130",
+        "id": "\u00dcberdachter Fahrradstellplatz_37",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -809,6 +847,7 @@
         "popupContent": "Stellpl\u00e4tze: 16",
         "popupContent_de": "Stellpl\u00e4tze: 16",
         "popupContent_en": "Capacity: 16",
+        "id": "\u00dcberdachter Fahrradstellplatz_38",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -830,6 +869,7 @@
         "popupContent": "Stellpl\u00e4tze: 16",
         "popupContent_de": "Stellpl\u00e4tze: 16",
         "popupContent_en": "Capacity: 16",
+        "id": "\u00dcberdachter Fahrradstellplatz_39",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -851,6 +891,7 @@
         "popupContent": "Stellpl\u00e4tze: 8",
         "popupContent_de": "Stellpl\u00e4tze: 8",
         "popupContent_en": "Capacity: 8",
+        "id": "\u00dcberdachter Fahrradstellplatz_40",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -872,6 +913,7 @@
         "popupContent": "Stellpl\u00e4tze: 44",
         "popupContent_de": "Stellpl\u00e4tze: 44",
         "popupContent_en": "Capacity: 44",
+        "id": "\u00dcberdachter Fahrradstellplatz_41",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -893,6 +935,7 @@
         "popupContent": "Stellpl\u00e4tze: 12",
         "popupContent_de": "Stellpl\u00e4tze: 12",
         "popupContent_en": "Capacity: 12",
+        "id": "\u00dcberdachter Fahrradstellplatz_42",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -914,6 +957,7 @@
         "popupContent": "Stellpl\u00e4tze: 6",
         "popupContent_de": "Stellpl\u00e4tze: 6",
         "popupContent_en": "Capacity: 6",
+        "id": "\u00dcberdachter Fahrradstellplatz_43",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -935,6 +979,7 @@
         "popupContent": "Stellpl\u00e4tze: 50",
         "popupContent_de": "Stellpl\u00e4tze: 50",
         "popupContent_en": "Capacity: 50",
+        "id": "\u00dcberdachter Fahrradstellplatz_44",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -956,6 +1001,7 @@
         "popupContent": "Stellpl\u00e4tze: 6",
         "popupContent_de": "Stellpl\u00e4tze: 6",
         "popupContent_en": "Capacity: 6",
+        "id": "\u00dcberdachter Fahrradstellplatz_45",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -977,6 +1023,7 @@
         "popupContent": "",
         "popupContent_de": "",
         "popupContent_en": "",
+        "id": "\u00dcberdachter Fahrradstellplatz_46",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -998,6 +1045,7 @@
         "popupContent": "Stellpl\u00e4tze: 40",
         "popupContent_de": "Stellpl\u00e4tze: 40",
         "popupContent_en": "Capacity: 40",
+        "id": "\u00dcberdachter Fahrradstellplatz_47",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1019,6 +1067,7 @@
         "popupContent": "Stellpl\u00e4tze: 12",
         "popupContent_de": "Stellpl\u00e4tze: 12",
         "popupContent_en": "Capacity: 12",
+        "id": "\u00dcberdachter Fahrradstellplatz_48",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1040,6 +1089,7 @@
         "popupContent": "Stellpl\u00e4tze: 30, Geb\u00fchrenpflichtig: nein",
         "popupContent_de": "Stellpl\u00e4tze: 30, Geb\u00fchrenpflichtig: nein",
         "popupContent_en": "Capacity: 30, Fee: no",
+        "id": "\u00dcberdachter Fahrradstellplatz_49",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1061,6 +1111,7 @@
         "popupContent": "Stellpl\u00e4tze: 30",
         "popupContent_de": "Stellpl\u00e4tze: 30",
         "popupContent_en": "Capacity: 30",
+        "id": "\u00dcberdachter Fahrradstellplatz_50",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1082,6 +1133,7 @@
         "popupContent": "Geb\u00fchrenpflichtig: nein",
         "popupContent_de": "Geb\u00fchrenpflichtig: nein",
         "popupContent_en": "Fee: no",
+        "id": "\u00dcberdachter Fahrradstellplatz_51",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1103,6 +1155,7 @@
         "popupContent": "Stellpl\u00e4tze: 24, Geb\u00fchrenpflichtig: nein",
         "popupContent_de": "Stellpl\u00e4tze: 24, Geb\u00fchrenpflichtig: nein",
         "popupContent_en": "Capacity: 24, Fee: no",
+        "id": "\u00dcberdachter Fahrradstellplatz_52",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1124,6 +1177,7 @@
         "popupContent": "Stellpl\u00e4tze: 20, Geb\u00fchrenpflichtig: nein",
         "popupContent_de": "Stellpl\u00e4tze: 20, Geb\u00fchrenpflichtig: nein",
         "popupContent_en": "Capacity: 20, Fee: no",
+        "id": "\u00dcberdachter Fahrradstellplatz_53",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1145,6 +1199,7 @@
         "popupContent": "Stellpl\u00e4tze: 24, Geb\u00fchrenpflichtig: nein",
         "popupContent_de": "Stellpl\u00e4tze: 24, Geb\u00fchrenpflichtig: nein",
         "popupContent_en": "Capacity: 24, Fee: no",
+        "id": "\u00dcberdachter Fahrradstellplatz_54",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1166,6 +1221,7 @@
         "popupContent": "Stellpl\u00e4tze: 20",
         "popupContent_de": "Stellpl\u00e4tze: 20",
         "popupContent_en": "Capacity: 20",
+        "id": "\u00dcberdachter Fahrradstellplatz_55",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1187,6 +1243,7 @@
         "popupContent": "Stellpl\u00e4tze: 28",
         "popupContent_de": "Stellpl\u00e4tze: 28",
         "popupContent_en": "Capacity: 28",
+        "id": "\u00dcberdachter Fahrradstellplatz_56",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1208,6 +1265,7 @@
         "popupContent": "Stellpl\u00e4tze: 16",
         "popupContent_de": "Stellpl\u00e4tze: 16",
         "popupContent_en": "Capacity: 16",
+        "id": "\u00dcberdachter Fahrradstellplatz_57",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1229,6 +1287,7 @@
         "popupContent": "Stellpl\u00e4tze: 14",
         "popupContent_de": "Stellpl\u00e4tze: 14",
         "popupContent_en": "Capacity: 14",
+        "id": "\u00dcberdachter Fahrradstellplatz_58",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1250,6 +1309,7 @@
         "popupContent": "Stellpl\u00e4tze: 8",
         "popupContent_de": "Stellpl\u00e4tze: 8",
         "popupContent_en": "Capacity: 8",
+        "id": "\u00dcberdachter Fahrradstellplatz_59",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1271,6 +1331,7 @@
         "popupContent": "Stellpl\u00e4tze: 6",
         "popupContent_de": "Stellpl\u00e4tze: 6",
         "popupContent_en": "Capacity: 6",
+        "id": "\u00dcberdachter Fahrradstellplatz_60",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1292,6 +1353,7 @@
         "popupContent": "Stellpl\u00e4tze: 20",
         "popupContent_de": "Stellpl\u00e4tze: 20",
         "popupContent_en": "Capacity: 20",
+        "id": "\u00dcberdachter Fahrradstellplatz_61",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1313,6 +1375,7 @@
         "popupContent": "Stellpl\u00e4tze: 12",
         "popupContent_de": "Stellpl\u00e4tze: 12",
         "popupContent_en": "Capacity: 12",
+        "id": "\u00dcberdachter Fahrradstellplatz_62",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1334,6 +1397,7 @@
         "popupContent": "Stellpl\u00e4tze: 7",
         "popupContent_de": "Stellpl\u00e4tze: 7",
         "popupContent_en": "Capacity: 7",
+        "id": "\u00dcberdachter Fahrradstellplatz_63",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1355,6 +1419,7 @@
         "popupContent": "Stellpl\u00e4tze: 3",
         "popupContent_de": "Stellpl\u00e4tze: 3",
         "popupContent_en": "Capacity: 3",
+        "id": "\u00dcberdachter Fahrradstellplatz_64",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1376,6 +1441,7 @@
         "popupContent": "Stellpl\u00e4tze: 5",
         "popupContent_de": "Stellpl\u00e4tze: 5",
         "popupContent_en": "Capacity: 5",
+        "id": "\u00dcberdachter Fahrradstellplatz_65",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1397,6 +1463,7 @@
         "popupContent": "Stellpl\u00e4tze: 25",
         "popupContent_de": "Stellpl\u00e4tze: 25",
         "popupContent_en": "Capacity: 25",
+        "id": "\u00dcberdachter Fahrradstellplatz_66",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1418,6 +1485,7 @@
         "popupContent": "Stellpl\u00e4tze: 10",
         "popupContent_de": "Stellpl\u00e4tze: 10",
         "popupContent_en": "Capacity: 10",
+        "id": "\u00dcberdachter Fahrradstellplatz_67",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1439,6 +1507,7 @@
         "popupContent": "Stellpl\u00e4tze: 8",
         "popupContent_de": "Stellpl\u00e4tze: 8",
         "popupContent_en": "Capacity: 8",
+        "id": "\u00dcberdachter Fahrradstellplatz_68",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1460,6 +1529,7 @@
         "popupContent": "Stellpl\u00e4tze: 12",
         "popupContent_de": "Stellpl\u00e4tze: 12",
         "popupContent_en": "Capacity: 12",
+        "id": "\u00dcberdachter Fahrradstellplatz_69",
         "icon": {
           "id": "bikeParkCovIcon"
         }
@@ -1475,12 +1545,57 @@
     {
       "type": "Feature",
       "properties": {
+        "name_en": "Covered bike park",
+        "name_de": "\u00dcberdachter Fahrradstellplatz",
+        "name": "\u00dcberdachter Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 34, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 34, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 34, Fee: no",
+        "id": "\u00dcberdachter Fahrradstellplatz_70",
+        "icon": {
+          "id": "bikeParkCovIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.860911,
+          48.5956306
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Covered bike park",
+        "name_de": "\u00dcberdachter Fahrradstellplatz",
+        "name": "\u00dcberdachter Fahrradstellplatz",
+        "popupContent": "Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Fee: no",
+        "id": "\u00dcberdachter Fahrradstellplatz_71",
+        "icon": {
+          "id": "bikeParkCovIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8603506,
+          48.5944647
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
         "name_en": "Open-air bike park",
         "name_de": "Fahrradstellplatz",
         "name": "Fahrradstellplatz",
         "popupContent": "",
         "popupContent_de": "",
         "popupContent_en": "",
+        "id": "Fahrradstellplatz_0",
         "icon": {
           "id": "bikeParkOpIcon",
           "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"Ebene_1\" data-name=\"Ebene 1\" viewBox=\"0 0 32.53 32.53\">  <defs>    <style>      .cls-2{fill:#fff}    </style>  </defs>  <path fill=\"#005ab4\" d=\"M699.51 384.05a16.27 16.27 0 11-16.27-16.27 16.27 16.27 0 0116.27 16.27\" transform=\"translate(-666.98 -367.78)\"/>  <path d=\"M687.7 374.17a3 3 0 00-3.18-3h-3.73v9.64h1.88v-3.63h1.85a3 3 0 003.18-3m-1.88 0a1.27 1.27 0 01-1.39 1.31h-1.76v-2.64h1.76a1.28 1.28 0 011.39 1.33M685.88 384.17a1.47 1.47 0 01-1.06-.44 1.38 1.38 0 01-.45-1 1.54 1.54 0 011.51-1.51 1.42 1.42 0 011 .45 1.5 1.5 0 01.43 1.06 1.49 1.49 0 01-1.47 1.47zm-7.88 4.89a3.55 3.55 0 012.65 1.09 3.62 3.62 0 011.07 2.67 3.66 3.66 0 01-3.72 3.72 3.62 3.62 0 01-2.67-1.07 3.55 3.55 0 01-1.09-2.65 3.72 3.72 0 013.76-3.76zm0 6.36a2.59 2.59 0 002.6-2.6 2.53 2.53 0 00-.76-1.86 2.46 2.46 0 00-1.84-.78 2.66 2.66 0 00-2.64 2.64 2.46 2.46 0 00.78 1.84 2.53 2.53 0 001.86.76zm4.32-7.49l1.65 1.73v4.63h-1.47v-3.72l-2.43-2.11a1.18 1.18 0 01-.42-1 1.45 1.45 0 01.42-1.06l2.11-2.11a1.18 1.18 0 011-.42 1.87 1.87 0 011.2.42l1.44 1.45a3.68 3.68 0 002.67 1.12v1.51a5.2 5.2 0 01-3.8-1.58l-.59-.6zm6.15 1.13a3.72 3.72 0 013.76 3.76 3.55 3.55 0 01-1.09 2.65 3.65 3.65 0 01-2.67 1.07 3.67 3.67 0 01-3.73-3.72 3.63 3.63 0 011.08-2.67 3.55 3.55 0 012.66-1.09zm0 6.36a2.53 2.53 0 001.86-.76 2.45 2.45 0 00.77-1.84 2.62 2.62 0 00-4.48-1.86 2.56 2.56 0 00-.75 1.86 2.58 2.58 0 002.6 2.6z\" class=\"cls-2\" transform=\"translate(-666.98 -367.78)\"/></svg>"
@@ -1503,6 +1618,7 @@
         "popupContent": "Stellpl\u00e4tze: 7",
         "popupContent_de": "Stellpl\u00e4tze: 7",
         "popupContent_en": "Capacity: 7",
+        "id": "Fahrradstellplatz_1",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1524,6 +1640,7 @@
         "popupContent": "Stellpl\u00e4tze: 6",
         "popupContent_de": "Stellpl\u00e4tze: 6",
         "popupContent_en": "Capacity: 6",
+        "id": "Fahrradstellplatz_2",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1545,6 +1662,7 @@
         "popupContent": "Stellpl\u00e4tze: 6",
         "popupContent_de": "Stellpl\u00e4tze: 6",
         "popupContent_en": "Capacity: 6",
+        "id": "Fahrradstellplatz_3",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1566,6 +1684,7 @@
         "popupContent": "",
         "popupContent_de": "",
         "popupContent_en": "",
+        "id": "Fahrradstellplatz_4",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1587,6 +1706,7 @@
         "popupContent": "Stellpl\u00e4tze: 18",
         "popupContent_de": "Stellpl\u00e4tze: 18",
         "popupContent_en": "Capacity: 18",
+        "id": "Fahrradstellplatz_5",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1608,6 +1728,7 @@
         "popupContent": "Stellpl\u00e4tze: 48",
         "popupContent_de": "Stellpl\u00e4tze: 48",
         "popupContent_en": "Capacity: 48",
+        "id": "Fahrradstellplatz_6",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1629,6 +1750,7 @@
         "popupContent": "Stellpl\u00e4tze: 6",
         "popupContent_de": "Stellpl\u00e4tze: 6",
         "popupContent_en": "Capacity: 6",
+        "id": "Fahrradstellplatz_7",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1650,6 +1772,7 @@
         "popupContent": "Stellpl\u00e4tze: 4",
         "popupContent_de": "Stellpl\u00e4tze: 4",
         "popupContent_en": "Capacity: 4",
+        "id": "Fahrradstellplatz_8",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1671,6 +1794,7 @@
         "popupContent": "Stellpl\u00e4tze: 10",
         "popupContent_de": "Stellpl\u00e4tze: 10",
         "popupContent_en": "Capacity: 10",
+        "id": "Fahrradstellplatz_9",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1692,6 +1816,7 @@
         "popupContent": "Stellpl\u00e4tze: 3",
         "popupContent_de": "Stellpl\u00e4tze: 3",
         "popupContent_en": "Capacity: 3",
+        "id": "Fahrradstellplatz_10",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1713,6 +1838,7 @@
         "popupContent": "Stellpl\u00e4tze: 5, Geb\u00fchrenpflichtig: nein",
         "popupContent_de": "Stellpl\u00e4tze: 5, Geb\u00fchrenpflichtig: nein",
         "popupContent_en": "Capacity: 5, Fee: no",
+        "id": "Fahrradstellplatz_11",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1734,6 +1860,7 @@
         "popupContent": "Stellpl\u00e4tze: 9",
         "popupContent_de": "Stellpl\u00e4tze: 9",
         "popupContent_en": "Capacity: 9",
+        "id": "Fahrradstellplatz_12",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1755,6 +1882,7 @@
         "popupContent": "Stellpl\u00e4tze: 58",
         "popupContent_de": "Stellpl\u00e4tze: 58",
         "popupContent_en": "Capacity: 58",
+        "id": "Fahrradstellplatz_13",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1776,6 +1904,7 @@
         "popupContent": "Stellpl\u00e4tze: 18",
         "popupContent_de": "Stellpl\u00e4tze: 18",
         "popupContent_en": "Capacity: 18",
+        "id": "Fahrradstellplatz_14",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1797,6 +1926,7 @@
         "popupContent": "Stellpl\u00e4tze: 8",
         "popupContent_de": "Stellpl\u00e4tze: 8",
         "popupContent_en": "Capacity: 8",
+        "id": "Fahrradstellplatz_15",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1818,6 +1948,7 @@
         "popupContent": "Stellpl\u00e4tze: 6",
         "popupContent_de": "Stellpl\u00e4tze: 6",
         "popupContent_en": "Capacity: 6",
+        "id": "Fahrradstellplatz_16",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1839,6 +1970,7 @@
         "popupContent": "Stellpl\u00e4tze: 8",
         "popupContent_de": "Stellpl\u00e4tze: 8",
         "popupContent_en": "Capacity: 8",
+        "id": "Fahrradstellplatz_17",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1860,6 +1992,7 @@
         "popupContent": "Stellpl\u00e4tze: 4",
         "popupContent_de": "Stellpl\u00e4tze: 4",
         "popupContent_en": "Capacity: 4",
+        "id": "Fahrradstellplatz_18",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1881,6 +2014,7 @@
         "popupContent": "Stellpl\u00e4tze: 8",
         "popupContent_de": "Stellpl\u00e4tze: 8",
         "popupContent_en": "Capacity: 8",
+        "id": "Fahrradstellplatz_19",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1902,6 +2036,7 @@
         "popupContent": "Stellpl\u00e4tze: 2",
         "popupContent_de": "Stellpl\u00e4tze: 2",
         "popupContent_en": "Capacity: 2",
+        "id": "Fahrradstellplatz_20",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1923,6 +2058,7 @@
         "popupContent": "Stellpl\u00e4tze: 12",
         "popupContent_de": "Stellpl\u00e4tze: 12",
         "popupContent_en": "Capacity: 12",
+        "id": "Fahrradstellplatz_21",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1944,6 +2080,7 @@
         "popupContent": "Stellpl\u00e4tze: 34",
         "popupContent_de": "Stellpl\u00e4tze: 34",
         "popupContent_en": "Capacity: 34",
+        "id": "Fahrradstellplatz_22",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1965,6 +2102,7 @@
         "popupContent": "Stellpl\u00e4tze: 2",
         "popupContent_de": "Stellpl\u00e4tze: 2",
         "popupContent_en": "Capacity: 2",
+        "id": "Fahrradstellplatz_23",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -1986,6 +2124,7 @@
         "popupContent": "Stellpl\u00e4tze: 2",
         "popupContent_de": "Stellpl\u00e4tze: 2",
         "popupContent_en": "Capacity: 2",
+        "id": "Fahrradstellplatz_24",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2007,6 +2146,7 @@
         "popupContent": "Stellpl\u00e4tze: 8",
         "popupContent_de": "Stellpl\u00e4tze: 8",
         "popupContent_en": "Capacity: 8",
+        "id": "Fahrradstellplatz_25",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2028,6 +2168,7 @@
         "popupContent": "Stellpl\u00e4tze: 8",
         "popupContent_de": "Stellpl\u00e4tze: 8",
         "popupContent_en": "Capacity: 8",
+        "id": "Fahrradstellplatz_26",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2049,6 +2190,7 @@
         "popupContent": "Stellpl\u00e4tze: 20",
         "popupContent_de": "Stellpl\u00e4tze: 20",
         "popupContent_en": "Capacity: 20",
+        "id": "Fahrradstellplatz_27",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2070,6 +2212,7 @@
         "popupContent": "Stellpl\u00e4tze: 2",
         "popupContent_de": "Stellpl\u00e4tze: 2",
         "popupContent_en": "Capacity: 2",
+        "id": "Fahrradstellplatz_28",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2091,6 +2234,7 @@
         "popupContent": "Stellpl\u00e4tze: 4",
         "popupContent_de": "Stellpl\u00e4tze: 4",
         "popupContent_en": "Capacity: 4",
+        "id": "Fahrradstellplatz_29",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2112,6 +2256,7 @@
         "popupContent": "Stellpl\u00e4tze: 10, Geb\u00fchrenpflichtig: nein",
         "popupContent_de": "Stellpl\u00e4tze: 10, Geb\u00fchrenpflichtig: nein",
         "popupContent_en": "Capacity: 10, Fee: no",
+        "id": "Fahrradstellplatz_30",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2133,6 +2278,7 @@
         "popupContent": "Stellpl\u00e4tze: 10",
         "popupContent_de": "Stellpl\u00e4tze: 10",
         "popupContent_en": "Capacity: 10",
+        "id": "Fahrradstellplatz_31",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2154,6 +2300,7 @@
         "popupContent": "Stellpl\u00e4tze: 6",
         "popupContent_de": "Stellpl\u00e4tze: 6",
         "popupContent_en": "Capacity: 6",
+        "id": "Fahrradstellplatz_32",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2175,6 +2322,7 @@
         "popupContent": "Stellpl\u00e4tze: 100",
         "popupContent_de": "Stellpl\u00e4tze: 100",
         "popupContent_en": "Capacity: 100",
+        "id": "Fahrradstellplatz_33",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2196,6 +2344,7 @@
         "popupContent": "Stellpl\u00e4tze: 6",
         "popupContent_de": "Stellpl\u00e4tze: 6",
         "popupContent_en": "Capacity: 6",
+        "id": "Fahrradstellplatz_34",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2217,6 +2366,7 @@
         "popupContent": "Stellpl\u00e4tze: 42",
         "popupContent_de": "Stellpl\u00e4tze: 42",
         "popupContent_en": "Capacity: 42",
+        "id": "Fahrradstellplatz_35",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2238,6 +2388,7 @@
         "popupContent": "Stellpl\u00e4tze: 10",
         "popupContent_de": "Stellpl\u00e4tze: 10",
         "popupContent_en": "Capacity: 10",
+        "id": "Fahrradstellplatz_36",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2259,6 +2410,7 @@
         "popupContent": "Stellpl\u00e4tze: 28",
         "popupContent_de": "Stellpl\u00e4tze: 28",
         "popupContent_en": "Capacity: 28",
+        "id": "Fahrradstellplatz_37",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2280,6 +2432,7 @@
         "popupContent": "Stellpl\u00e4tze: 16",
         "popupContent_de": "Stellpl\u00e4tze: 16",
         "popupContent_en": "Capacity: 16",
+        "id": "Fahrradstellplatz_38",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2301,6 +2454,7 @@
         "popupContent": "Stellpl\u00e4tze: 24",
         "popupContent_de": "Stellpl\u00e4tze: 24",
         "popupContent_en": "Capacity: 24",
+        "id": "Fahrradstellplatz_39",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2322,6 +2476,7 @@
         "popupContent": "Stellpl\u00e4tze: 8",
         "popupContent_de": "Stellpl\u00e4tze: 8",
         "popupContent_en": "Capacity: 8",
+        "id": "Fahrradstellplatz_40",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2343,6 +2498,7 @@
         "popupContent": "Stellpl\u00e4tze: 4",
         "popupContent_de": "Stellpl\u00e4tze: 4",
         "popupContent_en": "Capacity: 4",
+        "id": "Fahrradstellplatz_41",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2364,6 +2520,7 @@
         "popupContent": "Stellpl\u00e4tze: 12",
         "popupContent_de": "Stellpl\u00e4tze: 12",
         "popupContent_en": "Capacity: 12",
+        "id": "Fahrradstellplatz_42",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2385,6 +2542,7 @@
         "popupContent": "Stellpl\u00e4tze: 6",
         "popupContent_de": "Stellpl\u00e4tze: 6",
         "popupContent_en": "Capacity: 6",
+        "id": "Fahrradstellplatz_43",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2406,6 +2564,7 @@
         "popupContent": "Stellpl\u00e4tze: 4",
         "popupContent_de": "Stellpl\u00e4tze: 4",
         "popupContent_en": "Capacity: 4",
+        "id": "Fahrradstellplatz_44",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2427,6 +2586,7 @@
         "popupContent": "Stellpl\u00e4tze: 34",
         "popupContent_de": "Stellpl\u00e4tze: 34",
         "popupContent_en": "Capacity: 34",
+        "id": "Fahrradstellplatz_45",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2448,6 +2608,7 @@
         "popupContent": "Stellpl\u00e4tze: 10",
         "popupContent_de": "Stellpl\u00e4tze: 10",
         "popupContent_en": "Capacity: 10",
+        "id": "Fahrradstellplatz_46",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2469,6 +2630,7 @@
         "popupContent": "Stellpl\u00e4tze: 10",
         "popupContent_de": "Stellpl\u00e4tze: 10",
         "popupContent_en": "Capacity: 10",
+        "id": "Fahrradstellplatz_47",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2490,6 +2652,7 @@
         "popupContent": "Stellpl\u00e4tze: 10",
         "popupContent_de": "Stellpl\u00e4tze: 10",
         "popupContent_en": "Capacity: 10",
+        "id": "Fahrradstellplatz_48",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2511,6 +2674,7 @@
         "popupContent": "Stellpl\u00e4tze: 50",
         "popupContent_de": "Stellpl\u00e4tze: 50",
         "popupContent_en": "Capacity: 50",
+        "id": "Fahrradstellplatz_49",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2532,6 +2696,7 @@
         "popupContent": "Stellpl\u00e4tze: 8",
         "popupContent_de": "Stellpl\u00e4tze: 8",
         "popupContent_en": "Capacity: 8",
+        "id": "Fahrradstellplatz_50",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2553,6 +2718,7 @@
         "popupContent": "Stellpl\u00e4tze: 20",
         "popupContent_de": "Stellpl\u00e4tze: 20",
         "popupContent_en": "Capacity: 20",
+        "id": "Fahrradstellplatz_51",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2574,6 +2740,7 @@
         "popupContent": "Stellpl\u00e4tze: 14, Geb\u00fchrenpflichtig: nein",
         "popupContent_de": "Stellpl\u00e4tze: 14, Geb\u00fchrenpflichtig: nein",
         "popupContent_en": "Capacity: 14, Fee: no",
+        "id": "Fahrradstellplatz_52",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2595,6 +2762,7 @@
         "popupContent": "Stellpl\u00e4tze: 10, Geb\u00fchrenpflichtig: nein",
         "popupContent_de": "Stellpl\u00e4tze: 10, Geb\u00fchrenpflichtig: nein",
         "popupContent_en": "Capacity: 10, Fee: no",
+        "id": "Fahrradstellplatz_53",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2616,6 +2784,7 @@
         "popupContent": "Stellpl\u00e4tze: 4, Geb\u00fchrenpflichtig: nein",
         "popupContent_de": "Stellpl\u00e4tze: 4, Geb\u00fchrenpflichtig: nein",
         "popupContent_en": "Capacity: 4, Fee: no",
+        "id": "Fahrradstellplatz_54",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2637,6 +2806,7 @@
         "popupContent": "Stellpl\u00e4tze: 5, Geb\u00fchrenpflichtig: nein",
         "popupContent_de": "Stellpl\u00e4tze: 5, Geb\u00fchrenpflichtig: nein",
         "popupContent_en": "Capacity: 5, Fee: no",
+        "id": "Fahrradstellplatz_55",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2658,6 +2828,7 @@
         "popupContent": "Stellpl\u00e4tze: 8",
         "popupContent_de": "Stellpl\u00e4tze: 8",
         "popupContent_en": "Capacity: 8",
+        "id": "Fahrradstellplatz_56",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2679,6 +2850,7 @@
         "popupContent": "Stellpl\u00e4tze: 20",
         "popupContent_de": "Stellpl\u00e4tze: 20",
         "popupContent_en": "Capacity: 20",
+        "id": "Fahrradstellplatz_57",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2700,6 +2872,7 @@
         "popupContent": "",
         "popupContent_de": "",
         "popupContent_en": "",
+        "id": "Fahrradstellplatz_58",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2721,6 +2894,7 @@
         "popupContent": "",
         "popupContent_de": "",
         "popupContent_en": "",
+        "id": "Fahrradstellplatz_59",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2742,6 +2916,7 @@
         "popupContent": "",
         "popupContent_de": "",
         "popupContent_en": "",
+        "id": "Fahrradstellplatz_60",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2763,6 +2938,7 @@
         "popupContent": "Geb\u00fchrenpflichtig: nein",
         "popupContent_de": "Geb\u00fchrenpflichtig: nein",
         "popupContent_en": "Fee: no",
+        "id": "Fahrradstellplatz_61",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2784,6 +2960,7 @@
         "popupContent": "Stellpl\u00e4tze: 6",
         "popupContent_de": "Stellpl\u00e4tze: 6",
         "popupContent_en": "Capacity: 6",
+        "id": "Fahrradstellplatz_62",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2805,6 +2982,7 @@
         "popupContent": "Stellpl\u00e4tze: 5, Geb\u00fchrenpflichtig: nein",
         "popupContent_de": "Stellpl\u00e4tze: 5, Geb\u00fchrenpflichtig: nein",
         "popupContent_en": "Capacity: 5, Fee: no",
+        "id": "Fahrradstellplatz_63",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2826,6 +3004,7 @@
         "popupContent": "Stellpl\u00e4tze: 3, Geb\u00fchrenpflichtig: nein",
         "popupContent_de": "Stellpl\u00e4tze: 3, Geb\u00fchrenpflichtig: nein",
         "popupContent_en": "Capacity: 3, Fee: no",
+        "id": "Fahrradstellplatz_64",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2847,6 +3026,7 @@
         "popupContent": "Stellpl\u00e4tze: 5, Geb\u00fchrenpflichtig: nein",
         "popupContent_de": "Stellpl\u00e4tze: 5, Geb\u00fchrenpflichtig: nein",
         "popupContent_en": "Capacity: 5, Fee: no",
+        "id": "Fahrradstellplatz_65",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2868,6 +3048,7 @@
         "popupContent": "Stellpl\u00e4tze: 8",
         "popupContent_de": "Stellpl\u00e4tze: 8",
         "popupContent_en": "Capacity: 8",
+        "id": "Fahrradstellplatz_66",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2889,6 +3070,7 @@
         "popupContent": "Stellpl\u00e4tze: 6",
         "popupContent_de": "Stellpl\u00e4tze: 6",
         "popupContent_en": "Capacity: 6",
+        "id": "Fahrradstellplatz_67",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2910,6 +3092,7 @@
         "popupContent": "Stellpl\u00e4tze: 8",
         "popupContent_de": "Stellpl\u00e4tze: 8",
         "popupContent_en": "Capacity: 8",
+        "id": "Fahrradstellplatz_68",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2931,6 +3114,7 @@
         "popupContent": "Stellpl\u00e4tze: 2",
         "popupContent_de": "Stellpl\u00e4tze: 2",
         "popupContent_en": "Capacity: 2",
+        "id": "Fahrradstellplatz_69",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2952,6 +3136,7 @@
         "popupContent": "Stellpl\u00e4tze: 6",
         "popupContent_de": "Stellpl\u00e4tze: 6",
         "popupContent_en": "Capacity: 6",
+        "id": "Fahrradstellplatz_70",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2973,6 +3158,7 @@
         "popupContent": "Stellpl\u00e4tze: 16",
         "popupContent_de": "Stellpl\u00e4tze: 16",
         "popupContent_en": "Capacity: 16",
+        "id": "Fahrradstellplatz_71",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -2994,6 +3180,7 @@
         "popupContent": "Stellpl\u00e4tze: 2",
         "popupContent_de": "Stellpl\u00e4tze: 2",
         "popupContent_en": "Capacity: 2",
+        "id": "Fahrradstellplatz_72",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3015,6 +3202,7 @@
         "popupContent": "Stellpl\u00e4tze: 2",
         "popupContent_de": "Stellpl\u00e4tze: 2",
         "popupContent_en": "Capacity: 2",
+        "id": "Fahrradstellplatz_73",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3036,6 +3224,7 @@
         "popupContent": "Stellpl\u00e4tze: 12",
         "popupContent_de": "Stellpl\u00e4tze: 12",
         "popupContent_en": "Capacity: 12",
+        "id": "Fahrradstellplatz_74",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3057,6 +3246,7 @@
         "popupContent": "Stellpl\u00e4tze: 2",
         "popupContent_de": "Stellpl\u00e4tze: 2",
         "popupContent_en": "Capacity: 2",
+        "id": "Fahrradstellplatz_75",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3078,6 +3268,7 @@
         "popupContent": "Stellpl\u00e4tze: 2",
         "popupContent_de": "Stellpl\u00e4tze: 2",
         "popupContent_en": "Capacity: 2",
+        "id": "Fahrradstellplatz_76",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3099,6 +3290,7 @@
         "popupContent": "Stellpl\u00e4tze: 2",
         "popupContent_de": "Stellpl\u00e4tze: 2",
         "popupContent_en": "Capacity: 2",
+        "id": "Fahrradstellplatz_77",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3120,6 +3312,7 @@
         "popupContent": "Stellpl\u00e4tze: 2",
         "popupContent_de": "Stellpl\u00e4tze: 2",
         "popupContent_en": "Capacity: 2",
+        "id": "Fahrradstellplatz_78",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3141,6 +3334,7 @@
         "popupContent": "Stellpl\u00e4tze: 2",
         "popupContent_de": "Stellpl\u00e4tze: 2",
         "popupContent_en": "Capacity: 2",
+        "id": "Fahrradstellplatz_79",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3162,6 +3356,7 @@
         "popupContent": "Stellpl\u00e4tze: 7",
         "popupContent_de": "Stellpl\u00e4tze: 7",
         "popupContent_en": "Capacity: 7",
+        "id": "Fahrradstellplatz_80",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3183,6 +3378,7 @@
         "popupContent": "Stellpl\u00e4tze: 3",
         "popupContent_de": "Stellpl\u00e4tze: 3",
         "popupContent_en": "Capacity: 3",
+        "id": "Fahrradstellplatz_81",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3204,6 +3400,7 @@
         "popupContent": "Stellpl\u00e4tze: 12",
         "popupContent_de": "Stellpl\u00e4tze: 12",
         "popupContent_en": "Capacity: 12",
+        "id": "Fahrradstellplatz_82",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3225,6 +3422,7 @@
         "popupContent": "Stellpl\u00e4tze: 6",
         "popupContent_de": "Stellpl\u00e4tze: 6",
         "popupContent_en": "Capacity: 6",
+        "id": "Fahrradstellplatz_83",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3246,6 +3444,7 @@
         "popupContent": "Stellpl\u00e4tze: 6",
         "popupContent_de": "Stellpl\u00e4tze: 6",
         "popupContent_en": "Capacity: 6",
+        "id": "Fahrradstellplatz_84",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3267,6 +3466,7 @@
         "popupContent": "Stellpl\u00e4tze: 10",
         "popupContent_de": "Stellpl\u00e4tze: 10",
         "popupContent_en": "Capacity: 10",
+        "id": "Fahrradstellplatz_85",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3288,6 +3488,7 @@
         "popupContent": "Stellpl\u00e4tze: 6",
         "popupContent_de": "Stellpl\u00e4tze: 6",
         "popupContent_en": "Capacity: 6",
+        "id": "Fahrradstellplatz_86",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3309,6 +3510,7 @@
         "popupContent": "Stellpl\u00e4tze: 10",
         "popupContent_de": "Stellpl\u00e4tze: 10",
         "popupContent_en": "Capacity: 10",
+        "id": "Fahrradstellplatz_87",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3330,6 +3532,7 @@
         "popupContent": "Stellpl\u00e4tze: 26",
         "popupContent_de": "Stellpl\u00e4tze: 26",
         "popupContent_en": "Capacity: 26",
+        "id": "Fahrradstellplatz_88",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3351,6 +3554,7 @@
         "popupContent": "Stellpl\u00e4tze: 6",
         "popupContent_de": "Stellpl\u00e4tze: 6",
         "popupContent_en": "Capacity: 6",
+        "id": "Fahrradstellplatz_89",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3372,6 +3576,7 @@
         "popupContent": "Stellpl\u00e4tze: 8",
         "popupContent_de": "Stellpl\u00e4tze: 8",
         "popupContent_en": "Capacity: 8",
+        "id": "Fahrradstellplatz_90",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3393,6 +3598,7 @@
         "popupContent": "Stellpl\u00e4tze: 16",
         "popupContent_de": "Stellpl\u00e4tze: 16",
         "popupContent_en": "Capacity: 16",
+        "id": "Fahrradstellplatz_91",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3414,6 +3620,7 @@
         "popupContent": "Stellpl\u00e4tze: 9",
         "popupContent_de": "Stellpl\u00e4tze: 9",
         "popupContent_en": "Capacity: 9",
+        "id": "Fahrradstellplatz_92",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3435,6 +3642,7 @@
         "popupContent": "",
         "popupContent_de": "",
         "popupContent_en": "",
+        "id": "Fahrradstellplatz_93",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3456,6 +3664,7 @@
         "popupContent": "Stellpl\u00e4tze: 16",
         "popupContent_de": "Stellpl\u00e4tze: 16",
         "popupContent_en": "Capacity: 16",
+        "id": "Fahrradstellplatz_94",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3477,6 +3686,7 @@
         "popupContent": "Stellpl\u00e4tze: 10",
         "popupContent_de": "Stellpl\u00e4tze: 10",
         "popupContent_en": "Capacity: 10",
+        "id": "Fahrradstellplatz_95",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3498,6 +3708,7 @@
         "popupContent": "",
         "popupContent_de": "",
         "popupContent_en": "",
+        "id": "Fahrradstellplatz_96",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3519,6 +3730,7 @@
         "popupContent": "Stellpl\u00e4tze: 3",
         "popupContent_de": "Stellpl\u00e4tze: 3",
         "popupContent_en": "Capacity: 3",
+        "id": "Fahrradstellplatz_97",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3540,6 +3752,7 @@
         "popupContent": "Stellpl\u00e4tze: 6",
         "popupContent_de": "Stellpl\u00e4tze: 6",
         "popupContent_en": "Capacity: 6",
+        "id": "Fahrradstellplatz_98",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3561,6 +3774,7 @@
         "popupContent": "Stellpl\u00e4tze: 6",
         "popupContent_de": "Stellpl\u00e4tze: 6",
         "popupContent_en": "Capacity: 6",
+        "id": "Fahrradstellplatz_99",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3582,6 +3796,7 @@
         "popupContent": "Stellpl\u00e4tze: 8",
         "popupContent_de": "Stellpl\u00e4tze: 8",
         "popupContent_en": "Capacity: 8",
+        "id": "Fahrradstellplatz_100",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3603,6 +3818,7 @@
         "popupContent": "Stellpl\u00e4tze: 4",
         "popupContent_de": "Stellpl\u00e4tze: 4",
         "popupContent_en": "Capacity: 4",
+        "id": "Fahrradstellplatz_101",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3624,6 +3840,7 @@
         "popupContent": "Stellpl\u00e4tze: 8",
         "popupContent_de": "Stellpl\u00e4tze: 8",
         "popupContent_en": "Capacity: 8",
+        "id": "Fahrradstellplatz_102",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3645,6 +3862,7 @@
         "popupContent": "Stellpl\u00e4tze: 2",
         "popupContent_de": "Stellpl\u00e4tze: 2",
         "popupContent_en": "Capacity: 2",
+        "id": "Fahrradstellplatz_103",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3666,6 +3884,7 @@
         "popupContent": "Stellpl\u00e4tze: 2",
         "popupContent_de": "Stellpl\u00e4tze: 2",
         "popupContent_en": "Capacity: 2",
+        "id": "Fahrradstellplatz_104",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3687,6 +3906,7 @@
         "popupContent": "Stellpl\u00e4tze: 4",
         "popupContent_de": "Stellpl\u00e4tze: 4",
         "popupContent_en": "Capacity: 4",
+        "id": "Fahrradstellplatz_105",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3708,6 +3928,7 @@
         "popupContent": "Stellpl\u00e4tze: 4",
         "popupContent_de": "Stellpl\u00e4tze: 4",
         "popupContent_en": "Capacity: 4",
+        "id": "Fahrradstellplatz_106",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3729,6 +3950,7 @@
         "popupContent": "Stellpl\u00e4tze: 10",
         "popupContent_de": "Stellpl\u00e4tze: 10",
         "popupContent_en": "Capacity: 10",
+        "id": "Fahrradstellplatz_107",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3750,6 +3972,7 @@
         "popupContent": "Stellpl\u00e4tze: 12",
         "popupContent_de": "Stellpl\u00e4tze: 12",
         "popupContent_en": "Capacity: 12",
+        "id": "Fahrradstellplatz_108",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3771,6 +3994,7 @@
         "popupContent": "Stellpl\u00e4tze: 6",
         "popupContent_de": "Stellpl\u00e4tze: 6",
         "popupContent_en": "Capacity: 6",
+        "id": "Fahrradstellplatz_109",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3792,6 +4016,7 @@
         "popupContent": "Stellpl\u00e4tze: 6",
         "popupContent_de": "Stellpl\u00e4tze: 6",
         "popupContent_en": "Capacity: 6",
+        "id": "Fahrradstellplatz_110",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3813,6 +4038,7 @@
         "popupContent": "Stellpl\u00e4tze: 3",
         "popupContent_de": "Stellpl\u00e4tze: 3",
         "popupContent_en": "Capacity: 3",
+        "id": "Fahrradstellplatz_111",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3834,6 +4060,7 @@
         "popupContent": "Stellpl\u00e4tze: 4",
         "popupContent_de": "Stellpl\u00e4tze: 4",
         "popupContent_en": "Capacity: 4",
+        "id": "Fahrradstellplatz_112",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3855,6 +4082,7 @@
         "popupContent": "Stellpl\u00e4tze: 4",
         "popupContent_de": "Stellpl\u00e4tze: 4",
         "popupContent_en": "Capacity: 4",
+        "id": "Fahrradstellplatz_113",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3876,6 +4104,7 @@
         "popupContent": "Stellpl\u00e4tze: 4",
         "popupContent_de": "Stellpl\u00e4tze: 4",
         "popupContent_en": "Capacity: 4",
+        "id": "Fahrradstellplatz_114",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3897,6 +4126,7 @@
         "popupContent": "Stellpl\u00e4tze: 8",
         "popupContent_de": "Stellpl\u00e4tze: 8",
         "popupContent_en": "Capacity: 8",
+        "id": "Fahrradstellplatz_115",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3918,6 +4148,7 @@
         "popupContent": "Stellpl\u00e4tze: 6",
         "popupContent_de": "Stellpl\u00e4tze: 6",
         "popupContent_en": "Capacity: 6",
+        "id": "Fahrradstellplatz_116",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3939,6 +4170,7 @@
         "popupContent": "Stellpl\u00e4tze: 6",
         "popupContent_de": "Stellpl\u00e4tze: 6",
         "popupContent_en": "Capacity: 6",
+        "id": "Fahrradstellplatz_117",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3960,6 +4192,7 @@
         "popupContent": "Stellpl\u00e4tze: 2",
         "popupContent_de": "Stellpl\u00e4tze: 2",
         "popupContent_en": "Capacity: 2",
+        "id": "Fahrradstellplatz_118",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -3981,6 +4214,7 @@
         "popupContent": "Stellpl\u00e4tze: 7",
         "popupContent_de": "Stellpl\u00e4tze: 7",
         "popupContent_en": "Capacity: 7",
+        "id": "Fahrradstellplatz_119",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4002,6 +4236,7 @@
         "popupContent": "Stellpl\u00e4tze: 7",
         "popupContent_de": "Stellpl\u00e4tze: 7",
         "popupContent_en": "Capacity: 7",
+        "id": "Fahrradstellplatz_120",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4023,6 +4258,7 @@
         "popupContent": "Stellpl\u00e4tze: 4",
         "popupContent_de": "Stellpl\u00e4tze: 4",
         "popupContent_en": "Capacity: 4",
+        "id": "Fahrradstellplatz_121",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4044,6 +4280,7 @@
         "popupContent": "Stellpl\u00e4tze: 3",
         "popupContent_de": "Stellpl\u00e4tze: 3",
         "popupContent_en": "Capacity: 3",
+        "id": "Fahrradstellplatz_122",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4065,6 +4302,7 @@
         "popupContent": "Stellpl\u00e4tze: 2",
         "popupContent_de": "Stellpl\u00e4tze: 2",
         "popupContent_en": "Capacity: 2",
+        "id": "Fahrradstellplatz_123",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4086,6 +4324,7 @@
         "popupContent": "Stellpl\u00e4tze: 5",
         "popupContent_de": "Stellpl\u00e4tze: 5",
         "popupContent_en": "Capacity: 5",
+        "id": "Fahrradstellplatz_124",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4107,6 +4346,7 @@
         "popupContent": "Stellpl\u00e4tze: 6",
         "popupContent_de": "Stellpl\u00e4tze: 6",
         "popupContent_en": "Capacity: 6",
+        "id": "Fahrradstellplatz_125",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4128,6 +4368,7 @@
         "popupContent": "Stellpl\u00e4tze: 7",
         "popupContent_de": "Stellpl\u00e4tze: 7",
         "popupContent_en": "Capacity: 7",
+        "id": "Fahrradstellplatz_126",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4149,6 +4390,7 @@
         "popupContent": "Stellpl\u00e4tze: 8",
         "popupContent_de": "Stellpl\u00e4tze: 8",
         "popupContent_en": "Capacity: 8",
+        "id": "Fahrradstellplatz_127",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4170,6 +4412,7 @@
         "popupContent": "Stellpl\u00e4tze: 5",
         "popupContent_de": "Stellpl\u00e4tze: 5",
         "popupContent_en": "Capacity: 5",
+        "id": "Fahrradstellplatz_128",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4191,6 +4434,7 @@
         "popupContent": "Stellpl\u00e4tze: 8",
         "popupContent_de": "Stellpl\u00e4tze: 8",
         "popupContent_en": "Capacity: 8",
+        "id": "Fahrradstellplatz_129",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4212,6 +4456,7 @@
         "popupContent": "Stellpl\u00e4tze: 5",
         "popupContent_de": "Stellpl\u00e4tze: 5",
         "popupContent_en": "Capacity: 5",
+        "id": "Fahrradstellplatz_130",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4233,6 +4478,7 @@
         "popupContent": "Stellpl\u00e4tze: 6",
         "popupContent_de": "Stellpl\u00e4tze: 6",
         "popupContent_en": "Capacity: 6",
+        "id": "Fahrradstellplatz_131",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4254,6 +4500,7 @@
         "popupContent": "Stellpl\u00e4tze: 6",
         "popupContent_de": "Stellpl\u00e4tze: 6",
         "popupContent_en": "Capacity: 6",
+        "id": "Fahrradstellplatz_132",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4275,6 +4522,7 @@
         "popupContent": "Stellpl\u00e4tze: 25",
         "popupContent_de": "Stellpl\u00e4tze: 25",
         "popupContent_en": "Capacity: 25",
+        "id": "Fahrradstellplatz_133",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4296,6 +4544,7 @@
         "popupContent": "Stellpl\u00e4tze: 12",
         "popupContent_de": "Stellpl\u00e4tze: 12",
         "popupContent_en": "Capacity: 12",
+        "id": "Fahrradstellplatz_134",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4317,6 +4566,7 @@
         "popupContent": "Stellpl\u00e4tze: 20",
         "popupContent_de": "Stellpl\u00e4tze: 20",
         "popupContent_en": "Capacity: 20",
+        "id": "Fahrradstellplatz_135",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4338,6 +4588,7 @@
         "popupContent": "Stellpl\u00e4tze: 10",
         "popupContent_de": "Stellpl\u00e4tze: 10",
         "popupContent_en": "Capacity: 10",
+        "id": "Fahrradstellplatz_136",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4359,6 +4610,7 @@
         "popupContent": "Stellpl\u00e4tze: 6",
         "popupContent_de": "Stellpl\u00e4tze: 6",
         "popupContent_en": "Capacity: 6",
+        "id": "Fahrradstellplatz_137",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4380,6 +4632,7 @@
         "popupContent": "Stellpl\u00e4tze: 6",
         "popupContent_de": "Stellpl\u00e4tze: 6",
         "popupContent_en": "Capacity: 6",
+        "id": "Fahrradstellplatz_138",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4401,6 +4654,7 @@
         "popupContent": "Stellpl\u00e4tze: 1",
         "popupContent_de": "Stellpl\u00e4tze: 1",
         "popupContent_en": "Capacity: 1",
+        "id": "Fahrradstellplatz_139",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4422,6 +4676,7 @@
         "popupContent": "Stellpl\u00e4tze: 6",
         "popupContent_de": "Stellpl\u00e4tze: 6",
         "popupContent_en": "Capacity: 6",
+        "id": "Fahrradstellplatz_140",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4443,6 +4698,7 @@
         "popupContent": "Stellpl\u00e4tze: 8",
         "popupContent_de": "Stellpl\u00e4tze: 8",
         "popupContent_en": "Capacity: 8",
+        "id": "Fahrradstellplatz_141",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4464,6 +4720,7 @@
         "popupContent": "Stellpl\u00e4tze: 4",
         "popupContent_de": "Stellpl\u00e4tze: 4",
         "popupContent_en": "Capacity: 4",
+        "id": "Fahrradstellplatz_142",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4485,6 +4742,7 @@
         "popupContent": "Stellpl\u00e4tze: 4",
         "popupContent_de": "Stellpl\u00e4tze: 4",
         "popupContent_en": "Capacity: 4",
+        "id": "Fahrradstellplatz_143",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4506,6 +4764,7 @@
         "popupContent": "Stellpl\u00e4tze: 2",
         "popupContent_de": "Stellpl\u00e4tze: 2",
         "popupContent_en": "Capacity: 2",
+        "id": "Fahrradstellplatz_144",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4527,6 +4786,7 @@
         "popupContent": "Stellpl\u00e4tze: 2",
         "popupContent_de": "Stellpl\u00e4tze: 2",
         "popupContent_en": "Capacity: 2",
+        "id": "Fahrradstellplatz_145",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4548,6 +4808,7 @@
         "popupContent": "Stellpl\u00e4tze: 2",
         "popupContent_de": "Stellpl\u00e4tze: 2",
         "popupContent_en": "Capacity: 2",
+        "id": "Fahrradstellplatz_146",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4569,6 +4830,7 @@
         "popupContent": "Stellpl\u00e4tze: 8",
         "popupContent_de": "Stellpl\u00e4tze: 8",
         "popupContent_en": "Capacity: 8",
+        "id": "Fahrradstellplatz_147",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4590,6 +4852,7 @@
         "popupContent": "Stellpl\u00e4tze: 3",
         "popupContent_de": "Stellpl\u00e4tze: 3",
         "popupContent_en": "Capacity: 3",
+        "id": "Fahrradstellplatz_148",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4611,6 +4874,7 @@
         "popupContent": "Stellpl\u00e4tze: 14",
         "popupContent_de": "Stellpl\u00e4tze: 14",
         "popupContent_en": "Capacity: 14",
+        "id": "Fahrradstellplatz_149",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4632,6 +4896,7 @@
         "popupContent": "Stellpl\u00e4tze: 26",
         "popupContent_de": "Stellpl\u00e4tze: 26",
         "popupContent_en": "Capacity: 26",
+        "id": "Fahrradstellplatz_150",
         "icon": {
           "id": "bikeParkOpIcon"
         }
@@ -4641,6 +4906,204 @@
         "coordinates": [
           8.8700397,
           48.5983865
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Open-air bike park",
+        "name_de": "Fahrradstellplatz",
+        "name": "Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 4",
+        "popupContent_de": "Stellpl\u00e4tze: 4",
+        "popupContent_en": "Capacity: 4",
+        "id": "Fahrradstellplatz_151",
+        "icon": {
+          "id": "bikeParkOpIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8932301,
+          48.6232788
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Open-air bike park",
+        "name_de": "Fahrradstellplatz",
+        "name": "Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 4",
+        "popupContent_de": "Stellpl\u00e4tze: 4",
+        "popupContent_en": "Capacity: 4",
+        "id": "Fahrradstellplatz_152",
+        "icon": {
+          "id": "bikeParkOpIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8982474,
+          48.6786015
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Open-air bike park",
+        "name_de": "Fahrradstellplatz",
+        "name": "Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 8, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 8, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 8, Fee: no",
+        "id": "Fahrradstellplatz_153",
+        "icon": {
+          "id": "bikeParkOpIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8723286,
+          48.5952286
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Open-air bike park",
+        "name_de": "Fahrradstellplatz",
+        "name": "Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 6, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 6, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 6, Fee: no",
+        "id": "Fahrradstellplatz_154",
+        "icon": {
+          "id": "bikeParkOpIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8942325,
+          48.5795146
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Open-air bike park",
+        "name_de": "Fahrradstellplatz",
+        "name": "Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 12, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 12, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 12, Fee: no",
+        "id": "Fahrradstellplatz_155",
+        "icon": {
+          "id": "bikeParkOpIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8645485,
+          48.5928845
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Open-air bike park",
+        "name_de": "Fahrradstellplatz",
+        "name": "Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 7, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 7, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 7, Fee: no",
+        "id": "Fahrradstellplatz_156",
+        "icon": {
+          "id": "bikeParkOpIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8637072,
+          48.5935166
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Open-air bike park",
+        "name_de": "Fahrradstellplatz",
+        "name": "Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 4, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 4, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 4, Fee: no",
+        "id": "Fahrradstellplatz_157",
+        "icon": {
+          "id": "bikeParkOpIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8638255,
+          48.5935554
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Open-air bike park",
+        "name_de": "Fahrradstellplatz",
+        "name": "Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 6, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 6, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 6, Fee: no",
+        "id": "Fahrradstellplatz_158",
+        "icon": {
+          "id": "bikeParkOpIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8633925,
+          48.5936244
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Open-air bike park",
+        "name_de": "Fahrradstellplatz",
+        "name": "Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 6, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 6, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 6, Fee: no",
+        "id": "Fahrradstellplatz_159",
+        "icon": {
+          "id": "bikeParkOpIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8624536,
+          48.5920796
         ]
       }
     }

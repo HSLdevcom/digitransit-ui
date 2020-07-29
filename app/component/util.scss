@@ -359,6 +359,7 @@ $btn-heigth: 17px;
   table {
     border-collapse: collapse;
     width: 100%;
+    margin-bottom: $padding-medium;
     tr {
       td:last-child {
         text-align: right;

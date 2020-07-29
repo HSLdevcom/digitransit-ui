@@ -10,6 +10,7 @@
         "popupContent": "Wickelm\u00f6glichkeit: nein, Barrierefrei: ja",
         "popupContent_de": "Wickelm\u00f6glichkeit: nein, Barrierefrei: ja",
         "popupContent_en": "Changing table: no, Wheelchair: yes",
+        "id": "Nette Toilette_0",
         "icon": {
           "id": "toiletIcon",
           "svg": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><svg   xmlns:dc=\"http://purl.org/dc/elements/1.1/\"   xmlns:cc=\"http://creativecommons.org/ns#\"   xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"   xmlns:svg=\"http://www.w3.org/2000/svg\"   xmlns=\"http://www.w3.org/2000/svg\"   xmlns:sodipodi=\"http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd\"   xmlns:inkscape=\"http://www.inkscape.org/namespaces/inkscape\"   viewBox=\"0 0 32.529999 32.529999\"   height=\"32.529999\"   width=\"32.529999\"   xml:space=\"preserve\"   id=\"svg2\"   version=\"1.1\"   sodipodi:docname=\"nette_toilette.svg\"   inkscape:version=\"0.92.4 (5da689c313, 2019-01-14)\"><sodipodi:namedview     pagecolor=\"#ffffff\"     bordercolor=\"#666666\"     borderopacity=\"1\"     objecttolerance=\"10\"     gridtolerance=\"10\"     guidetolerance=\"10\"     inkscape:pageopacity=\"0\"     inkscape:pageshadow=\"2\"     inkscape:window-width=\"2560\"     inkscape:window-height=\"1017\"     id=\"namedview55\"     showgrid=\"false\"     inkscape:zoom=\"10.190974\"     inkscape:cx=\"38.540369\"     inkscape:cy=\"8.21068\"     inkscape:window-x=\"1912\"     inkscape:window-y=\"-8\"     inkscape:window-maximized=\"1\"     inkscape:current-layer=\"g12\" /><metadata     id=\"metadata8\"><rdf:RDF><cc:Work         rdf:about=\"\"><dc:format>image/svg+xml</dc:format><dc:type           rdf:resource=\"http://purl.org/dc/dcmitype/StillImage\" /><dc:title /></cc:Work></rdf:RDF></metadata><defs     id=\"defs6\" /><g     transform=\"matrix(1.3333333,0,0,-1.3333333,0,32.53)\"     id=\"g10\"><g       transform=\"scale(0.1)\"       id=\"g12\"><path         id=\"path14\"         style=\"fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.06010462\"         d=\"M 0.31567062,243.75264 H 243.70347 V 0.16463956 H 0.31567062 V 243.75264\"         inkscape:connector-curvature=\"0\" /><path         id=\"path16\"         style=\"fill:#ed1c24;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.06010462\"         d=\"M 7.6001666,235.65318 H 236.15112 V 9.0728526 H 7.6001666 V 235.65318\"         inkscape:connector-curvature=\"0\" /><path         id=\"path44\"         style=\"fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.11358375\"         d=\"m 63.732549,159.32192 c 0,15.13259 9.254358,27.40019 20.670392,27.40019 11.416151,0 20.670409,-12.2676 20.670409,-27.40019 0,-15.13275 -9.254258,-27.40018 -20.670409,-27.40018 -11.416034,0 -20.670392,12.26743 -20.670392,27.40018\"         inkscape:connector-curvature=\"0\" /><path         id=\"path46\"         style=\"fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.11358375\"         d=\"m 136.61794,159.32192 c 0,15.13259 9.2549,27.40019 20.67153,27.40019 11.41547,0 20.66926,-12.2676 20.66926,-27.40019 0,-15.13275 -9.25379,-27.40018 -20.66926,-27.40018 -11.41663,0 -20.67153,12.26743 -20.67153,27.40018\"         inkscape:connector-curvature=\"0\" /><path         id=\"path48\"         style=\"fill:#231f20;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.11687034\"         d=\"m 85.198481,199.59918 c -19.865107,0 -33.531815,-15.20838 -33.531815,-38.08852 0,-22.88121 12.821768,-37.80205 33.392292,-37.80205 19.867442,0 33.534142,15.20604 33.534142,38.08618 0,22.88246 -12.82177,37.80439 -33.394619,37.80439 z M 97.881182,161.3699 c 0,-14.35626 -3.242438,-23.73576 -12.822224,-23.73576 -7.185189,0 -12.67992,4.26417 -12.67992,24.30388 0,14.3538 3.239656,23.73224 12.819443,23.73224 7.187517,0 12.682701,-4.2631 12.682701,-24.30036\"         inkscape:connector-curvature=\"0\" /><path         id=\"path50\"         style=\"fill:#231f20;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.11687034\"         d=\"m 160.74469,199.59918 c -19.86499,0 -33.53228,-15.20838 -33.53228,-38.08852 0,-22.88121 12.8213,-37.80205 33.39149,-37.80205 19.8673,0 33.53458,15.20604 33.53458,38.08618 0,22.88246 -12.82129,37.80439 -33.39379,37.80439 z m 12.68165,-38.22928 c 0,-14.35626 -3.24197,-23.73576 -12.82244,-23.73576 -7.18449,0 -12.67936,4.26417 -12.67936,24.30388 0,14.3538 3.23967,23.73224 12.82015,23.73224 7.18682,0 12.68165,-4.2631 12.68165,-24.30036\"         inkscape:connector-curvature=\"0\" /><path         id=\"path52\"         style=\"fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.11334047\"         d=\"m 44.728314,111.42701 c 0,0 56.217806,-57.306087 95.104146,-46.373504 25.30032,7.111411 54.88833,46.373504 54.88833,46.373504 0,0 -22.2048,-61.048091 -51.13447,-72.818869 -42.6501,-17.351648 -98.858006,72.818869 -98.858006,72.818869\"         inkscape:connector-curvature=\"0\" /></g></g></svg>"
@@ -32,6 +33,7 @@
         "popupContent": "Wickelm\u00f6glichkeit: nein, \u00d6ffnungszeiten: Mo-Fr 07:30-22:30",
         "popupContent_de": "Wickelm\u00f6glichkeit: nein, \u00d6ffnungszeiten: Mo-Fr 07:30-22:30",
         "popupContent_en": "Changing table: no, Opening hours: Mo-Fr 07:30-22:30",
+        "id": "Nette Toilette_1",
         "icon": {
           "id": "toiletIcon"
         }
@@ -53,6 +55,7 @@
         "popupContent": "Wickelm\u00f6glichkeit: ja, \u00d6ffnungszeiten: Mo-Do 08:30-23:00; Fr 8:30-01:00; Sa 09:00-01:00; So 10:00-22:00, Barrierefrei: nein",
         "popupContent_de": "Wickelm\u00f6glichkeit: ja, \u00d6ffnungszeiten: Mo-Do 08:30-23:00; Fr 8:30-01:00; Sa 09:00-01:00; So 10:00-22:00, Barrierefrei: nein",
         "popupContent_en": "Changing table: yes, Opening hours: Mo-Th 08:30-23:00; Fr 8:30-01:00; Sa 09:00-01:00; Su 10:00-22:00, Wheelchair: no",
+        "id": "Nette Toilette_2",
         "icon": {
           "id": "toiletIcon"
         }
@@ -74,6 +77,7 @@
         "popupContent": "Wickelm\u00f6glichkeit: nein, Barrierefrei: begrenzt",
         "popupContent_de": "Wickelm\u00f6glichkeit: nein, Barrierefrei: begrenzt",
         "popupContent_en": "Changing table: no, Wheelchair: limited",
+        "id": "Nette Toilette_3",
         "icon": {
           "id": "toiletIcon"
         }
@@ -95,6 +99,7 @@
         "popupContent": "Wickelm\u00f6glichkeit: nein, \u00d6ffnungszeiten: Mo-Sa 10:00-23:00, So 15:00-20:00, Barrierefrei: ja",
         "popupContent_de": "Wickelm\u00f6glichkeit: nein, \u00d6ffnungszeiten: Mo-Sa 10:00-23:00, So 15:00-20:00, Barrierefrei: ja",
         "popupContent_en": "Changing table: no, Opening hours: Mo-Sa 10:00-23:00, Su 15:00-20:00, Wheelchair: yes",
+        "id": "Nette Toilette_4",
         "icon": {
           "id": "toiletIcon"
         }
@@ -116,6 +121,7 @@
         "popupContent": "Wickelm\u00f6glichkeit: ja, \u00d6ffnungszeiten: Mo-Fr 08:00-22:00; Sa 08:00-22:00;Barrierefrei: ja",
         "popupContent_de": "Wickelm\u00f6glichkeit: ja, \u00d6ffnungszeiten: Mo-Fr 08:00-22:00; Sa 08:00-22:00;Barrierefrei: ja",
         "popupContent_en": "Changing table: yes, Opening hours: Mo-Fr 08:00-22:00; Sa 08:00-22:00;Wheelchair: yes",
+        "id": "Nette Toilette_5",
         "icon": {
           "id": "toiletIcon"
         }
@@ -137,6 +143,7 @@
         "popupContent": "Wickelm\u00f6glichkeit: ja, Telefon: +49 7032 9553280, \u00d6ffnungszeiten: Mo-Fr 17:00-24:00; Sa 17:00-24:00; So 09:30-24:00; PH 09:30-24:00, Barrierefrei: nein",
         "popupContent_de": "Wickelm\u00f6glichkeit: ja, Telefon: +49 7032 9553280, \u00d6ffnungszeiten: Mo-Fr 17:00-24:00; Sa 17:00-24:00; So 09:30-24:00; PH 09:30-24:00, Barrierefrei: nein",
         "popupContent_en": "Changing table: yes, Phone: +49 7032 9553280, Opening hours: Mo-Fr 17:00-24:00; Sa 17:00-24:00; Su 09:30-24:00; PH 09:30-24:00, Wheelchair: no",
+        "id": "Nette Toilette_6",
         "icon": {
           "id": "toiletIcon"
         }
@@ -158,6 +165,7 @@
         "popupContent": "Wickelm\u00f6glichkeit: ja, Barrierefrei: ja",
         "popupContent_de": "Wickelm\u00f6glichkeit: ja, Barrierefrei: ja",
         "popupContent_en": "Changing table: yes, Wheelchair: yes",
+        "id": "Nette Toilette_7",
         "icon": {
           "id": "toiletIcon"
         }
@@ -179,6 +187,7 @@
         "popupContent": "Wickelm\u00f6glichkeit: ja, Barrierefrei: begrenzt",
         "popupContent_de": "Wickelm\u00f6glichkeit: ja, Barrierefrei: begrenzt",
         "popupContent_en": "Changing table: yes, Wheelchair: limited",
+        "id": "Nette Toilette_8",
         "icon": {
           "id": "toiletIcon"
         }
@@ -200,6 +209,7 @@
         "popupContent": "Wickelm\u00f6glichkeit: ja, Telefon: +49 7032 330207, \u00d6ffnungszeiten: Mo-So 09:00-24:00, Barrierefrei: ja",
         "popupContent_de": "Wickelm\u00f6glichkeit: ja, Telefon: +49 7032 330207, \u00d6ffnungszeiten: Mo-So 09:00-24:00, Barrierefrei: ja",
         "popupContent_en": "Changing table: yes, Phone: +49 7032 330207, Opening hours: Mo-Su 09:00-24:00, Wheelchair: yes",
+        "id": "Nette Toilette_9",
         "icon": {
           "id": "toiletIcon"
         }
@@ -221,6 +231,7 @@
         "popupContent": "Wickelm\u00f6glichkeit: ja, \u00d6ffnungszeiten: Mo-Mi 08:30-17:00; Do 08:30-18:30; Fr 08:30-12:00; Sa 09:30-12:00, Barrierefrei: ja",
         "popupContent_de": "Wickelm\u00f6glichkeit: ja, \u00d6ffnungszeiten: Mo-Mi 08:30-17:00; Do 08:30-18:30; Fr 08:30-12:00; Sa 09:30-12:00, Barrierefrei: ja",
         "popupContent_en": "Changing table: yes, Opening hours: Mo-We 08:30-17:00; Th 08:30-18:30; Fr 08:30-12:00; Sa 09:30-12:00, Wheelchair: yes",
+        "id": "Nette Toilette_10",
         "icon": {
           "id": "toiletIcon"
         }

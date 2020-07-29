@@ -12,7 +12,7 @@ class RoadworksPopup extends React.Component {
   };
 
   static propTypes = {
-    feature: PropTypes.object.isRequired,
+    feature: PropTypes.object,
   };
 
   static description = (

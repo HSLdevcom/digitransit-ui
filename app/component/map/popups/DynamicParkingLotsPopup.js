@@ -57,7 +57,7 @@ class DynamicParkingLotsPopup extends React.Component {
       );
     }
 
-    return <div className="padding-vertical-small">{text}</div>;
+    return <span className="inline-block padding-vertical-small">{text}</span>;
   }
 
   getUrl() {
@@ -99,6 +99,7 @@ class DynamicParkingLotsPopup extends React.Component {
           <CardHeader
             name={this.props.feature.properties.name}
             description={this.getCapacity()}
+            descClass="padding-vertical-small"
             unlinked
             className="padding-medium"
             headingStyle="h2"

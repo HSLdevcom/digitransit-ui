@@ -142,7 +142,7 @@ class Covid19OpeningHoursPopup extends React.Component {
               />
             )}
           </p>
-          <p>{this.renderOpeningHours()}</p>
+          <div>{this.renderOpeningHours()}</div>
           <Link
             href={`https://www.bleibtoffen.de/@${lat},${long},18/place/${fid}`}
             target="_blank"
