@@ -12,6 +12,7 @@ import RouteNumberContainer from './RouteNumberContainer';
 import { getActiveLegAlertSeverityLevel } from '../util/alertUtils';
 import { displayDistance } from '../util/geo-utils';
 import {
+  getLegMode,
   containsBiking,
   compressLegs,
   getLegBadgeProps,
@@ -74,6 +75,7 @@ export const RouteLeg = ({
   renderNumber,
   isTransitLeg,
   lastLegRendered,
+  withBicycle,
 }) => {
   const isCallAgency = isCallAgencyPickupType(leg);
   let routeNumber;
@@ -104,6 +106,7 @@ export const RouteLeg = ({
         withBar
         isTransitLeg={isTransitLeg}
         renderNumber={renderNumber}
+        withBicycle={withBicycle}
       />
     );
   }
@@ -127,6 +130,7 @@ RouteLeg.propTypes = {
   renderNumber: PropTypes.bool,
   isTransitLeg: PropTypes.bool,
   lastLegRendered: PropTypes.bool,
+  withBicycle: PropTypes.bool.isRequired,
 };
 
 RouteLeg.defaultProps = {
@@ -216,6 +220,10 @@ const SummaryRow = (
 ) => {
   const isTransitLeg = leg => leg.transitLeg;
   const isLegOnFoot = leg => leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK';
+  const usingOwnBicycleWholeTrip =
+    data.legs.some(
+      leg => getLegMode(leg) === 'BICYCLE' && leg.rentedBike === false,
+    ) && data.legs.every(leg => !leg.to.bikePark);
   const refTime = moment(props.refTime);
   const startTime = moment(data.startTime);
   const endTime = moment(data.endTime);
@@ -399,6 +407,9 @@ const SummaryRow = (
       getViaPointIndex(leg, intermediatePlaces) > -1;
 
     if (leg.route) {
+      const withBicycle =
+        usingOwnBicycleWholeTrip &&
+        (leg.route.mode === 'RAIL' || leg.route.mode === 'SUBWAY');
       if (
         previousLeg &&
         !previousLeg.intermediatePlace &&
@@ -415,6 +426,7 @@ const SummaryRow = (
           intl={intl}
           legLength={legLength}
           large={breakpoint === 'large'}
+          withBicycle={withBicycle}
         />,
       );
       vehicleNames.push(

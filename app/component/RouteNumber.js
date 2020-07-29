@@ -4,6 +4,7 @@ import cx from 'classnames';
 import { intlShape } from 'react-intl';
 import IconWithBigCaution from './IconWithBigCaution';
 import IconWithIcon from './IconWithIcon';
+import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import { realtimeDeparture as exampleRealtimeDeparture } from './ExampleData';
 
@@ -11,7 +12,7 @@ const LONG_ROUTE_NUMBER_LENGTH = 6;
 
 function RouteNumber(props, context) {
   const mode = props.mode.toLowerCase();
-  const { alertSeverityLevel, color } = props;
+  const { alertSeverityLevel, color, withBicycle } = props;
   const longText = props.text && props.text.length >= LONG_ROUTE_NUMBER_LENGTH;
   // Checks if route only has letters without identifying numbers and
   // length doesn't fit in the tab view
@@ -34,24 +35,40 @@ function RouteNumber(props, context) {
 
     if (hasDisruption || !!alertSeverityLevel) {
       return (
-        <IconWithBigCaution
-          alertSeverityLevel={alertSeverityLevel}
-          color={color}
-          className={mode}
-          img={icon || `icon-icon_${mode}`}
-        />
+        <React.Fragment>
+          <IconWithBigCaution
+            alertSeverityLevel={alertSeverityLevel}
+            color={color}
+            className={mode}
+            img={icon || `icon-icon_${mode}`}
+          />
+          {withBicycle && (
+            <Icon
+              img="icon-icon_bicycle"
+              className="itinerary-icon_with-bicycle"
+            />
+          )}
+        </React.Fragment>
       );
     }
 
     return (
-      <IconWithIcon
-        badgeFill={badgeFill}
-        badgeText={badgeText}
-        color={color}
-        className={mode}
-        img={icon || `icon-icon_${mode}`}
-        subIcon=""
-      />
+      <React.Fragment>
+        <IconWithIcon
+          badgeFill={badgeFill}
+          badgeText={badgeText}
+          color={color}
+          className={mode}
+          img={icon || `icon-icon_${mode}`}
+          subIcon=""
+        />
+        {withBicycle && (
+          <Icon
+            img="icon-icon_bicycle"
+            className="itinerary-icon_with-bicycle"
+          />
+        )}
+      </React.Fragment>
     );
   };
 
@@ -247,6 +264,7 @@ RouteNumber.propTypes = {
   renderNumber: PropTypes.bool,
   walkingTime: PropTypes.number,
   isTransitLeg: PropTypes.bool,
+  withBicycle: PropTypes.bool,
 };
 
 RouteNumber.defaultProps = {
@@ -261,6 +279,7 @@ RouteNumber.defaultProps = {
   isCallAgency: false,
   icon: undefined,
   renderNumber: true,
+  withBicycle: false,
 };
 
 RouteNumber.contextTypes = {

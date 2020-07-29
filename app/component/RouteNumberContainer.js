@@ -16,7 +16,7 @@ const getText = (route, config) => {
 };
 
 const RouteNumberContainer = (
-  { alertSeverityLevel, className, route, isCallAgency, ...props },
+  { alertSeverityLevel, className, route, isCallAgency, withBicycle, ...props },
   { config },
 ) =>
   route && (
@@ -27,6 +27,7 @@ const RouteNumberContainer = (
       color={route.color ? `#${route.color}` : null}
       mode={route.mode}
       text={getText(route, config)}
+      withBicycle={withBicycle}
       {...props}
     />
   );
@@ -38,11 +39,13 @@ RouteNumberContainer.propTypes = {
   vertical: PropTypes.bool,
   className: PropTypes.string,
   fadeLong: PropTypes.bool,
+  withBicycle: PropTypes.bool,
 };
 
 RouteNumberContainer.defaultProps = {
   alertSeverityLevel: undefined,
   className: '',
+  withBicycle: false,
 };
 
 RouteNumberContainer.contextTypes = {
