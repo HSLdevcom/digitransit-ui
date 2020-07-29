@@ -20,7 +20,7 @@ import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 function BicycleLeg({ focusAction, index, leg, setMapZoomToLeg }, { config }) {
   let stopsDescription;
   const distance = displayDistance(parseInt(leg.distance, 10), config);
-  const duration = durationToString(leg.duration * 1000);
+  const duration = durationToString(leg.endTime - leg.startTime);
   let { mode } = leg;
   let legDescription = <span>{leg.from ? leg.from.name : ''}</span>;
   const firstLegClassName = index === 0 ? 'start' : '';

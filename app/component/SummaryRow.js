@@ -342,7 +342,7 @@ const SummaryRow = (
         );
       }
     } else if (leg.rentedBike) {
-      const bikingTime = Math.floor(leg.duration / 60);
+      const bikingTime = Math.floor((leg.endTime - leg.startTime) / 1000 / 60);
       legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
@@ -366,7 +366,7 @@ const SummaryRow = (
         />,
       );
     } else if (leg.mode === 'BICYCLE' && renderBar) {
-      const bikingTime = Math.floor(leg.duration / 60);
+      const bikingTime = Math.floor((leg.endTime - leg.startTime) / 1000 / 60);
       legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
