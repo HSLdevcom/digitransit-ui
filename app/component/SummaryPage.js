@@ -205,10 +205,10 @@ class SummaryPage extends React.Component {
     }),
     bikeAndPublicPlan: PropTypes.shape({
       itineraries: PropTypes.array,
-    }).isRequired,
+    }),
     bikeParkPlan: PropTypes.shape({
       itineraries: PropTypes.array,
-    }).isRequired,
+    }),
     serviceTimeRange: PropTypes.shape({
       start: PropTypes.number.isRequired,
       end: PropTypes.number.isRequired,
@@ -230,6 +230,8 @@ class SummaryPage extends React.Component {
     loadingPosition: false,
     walkPlan: undefined,
     bikePlan: undefined,
+    bikeAndPublicPlan: undefined,
+    bikeParkPlan: undefined,
   };
 
   constructor(props, context) {
@@ -859,9 +861,11 @@ class SummaryPage extends React.Component {
       this.selectedPlan = bikePlan;
     } else if (this.state.streetMode === 'bikeAndPublic') {
       if (
+        bikeAndPublicPlan &&
         bikeAndPublicPlan.itineraries &&
         bikeAndPublicPlan.itineraries.length > 0 &&
         !this.planContainsOnlyBiking(bikeAndPublicPlan) &&
+        bikeParkPlan &&
         bikeParkPlan.itineraries &&
         bikeParkPlan.itineraries.length > 0
       ) {
@@ -887,6 +891,13 @@ class SummaryPage extends React.Component {
           ...bikeAndPublicPlan,
           ...{ itineraries: selectedItineraries },
         };
+      } else if (
+        bikeAndPublicPlan &&
+        bikeAndPublicPlan.itineraries &&
+        bikeAndPublicPlan.itineraries.length > 0 &&
+        !this.planContainsOnlyBiking(bikeAndPublicPlan)
+      ) {
+        this.selectedPlan = bikeAndPublicPlan;
       } else {
         this.selectedPlan = bikeParkPlan;
         this.onlyBikeParkItineraries = true;
@@ -1128,7 +1139,7 @@ class SummaryPage extends React.Component {
                   weatherData={this.state.weatherData}
                   walkPlan={walkPlan}
                   bikePlan={bikePlan}
-                  bikeAndPublicPlan={bikeParkPlan}
+                  bikeAndPublicPlan={bikeParkPlan || bikeAndPublicPlan}
                 />
               )}
             </React.Fragment>
@@ -1228,7 +1239,7 @@ class SummaryPage extends React.Component {
                   weatherData={this.state.weatherData}
                   walkPlan={walkPlan}
                   bikePlan={bikePlan}
-                  bikeAndPublicPlan={bikeParkPlan}
+                  bikeAndPublicPlan={bikeParkPlan || bikeAndPublicPlan}
                 />
               )}
             </React.Fragment>
