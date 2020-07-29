@@ -5,7 +5,6 @@
 /* ********* Polyfills (for node) ********* */
 const path = require('path');
 const fs = require('fs');
-const xmlParser = require('fast-xml-parser');
 require('@babel/register')({
   // This will override `node_modules` ignoring - you can alternatively pass
   // an array of strings to be explicitly matched or a regex / glob
@@ -380,28 +379,6 @@ function setUpAvailableTickets() {
   });
 }
 
-function setUpOpenWeatherData() {
-  const options = {
-    ignoreAttributes: true,
-    ignoreNameSpace: true,
-  };
-  app.get('/weather', function(req, res, next) {
-    request.get(
-      `${config.URL.WEATHER_DATA}&latlon=${req.query.latlon}&starttime=${
-        req.query.starttime
-      }&endtime=${req.query.endtime}`,
-      function(err, response, body) {
-        if (!err) {
-          const json = xmlParser.parse(body, options);
-          res.status(response.statusCode).send(json);
-        } else {
-          res.status(404).send(body);
-        }
-      },
-    );
-  });
-}
-
 function startServer() {
   const server = app.listen(port, () =>
     console.log('Digitransit-ui available on port %d', server.address().port),
@@ -411,9 +388,6 @@ function startServer() {
 /* ********* Init ********* */
 if (process.env.OIDC_CLIENT_ID) {
   setUpOIDC();
-}
-if (config.showWeatherInformation) {
-  setUpOpenWeatherData();
 }
 setUpRaven();
 setUpStaticFolders();

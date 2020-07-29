@@ -15,7 +15,7 @@ export const StreetModeSelector = ({
   return (
     <div className="street-mode-selector-container">
       <StreetModeSelectorWeatherLabel
-        active={showWalkOptionButton}
+        active={showWalkOptionButton || showBikeOptionButton}
         weatherData={weatherData}
       />
       <StreetModeSelectorButton
