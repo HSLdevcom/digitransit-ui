@@ -296,14 +296,6 @@ export function getReadMessageIds() {
   return getItemAsJson('readMessages', '[]');
 }
 
-export function getFavouriteCityBikeStations() {
-  return getItemAsJson('favouriteCityBikeStations', '[]');
-}
-
-export function setFavouriteCityBikeStations(data) {
-  setItem('favouriteCityBikeStations', data);
-}
-
 export function getFavouriteRoutesStorage() {
   return getItemAsJson('favouriteRoutes');
 }
