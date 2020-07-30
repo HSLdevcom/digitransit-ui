@@ -129,7 +129,8 @@
       overflow: hidden;
       white-space: normal;
       .first-leg-start-time-green {
-        color: green;
+        color: $realtime-color;
+        font-weight: 500;
       }
   }
     &.small {

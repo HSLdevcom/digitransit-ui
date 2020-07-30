@@ -308,7 +308,7 @@
 .mobile {
   background-color: white;
   .summary-navigation-container {
-    margin: 0 1.25em;
+    margin: 0 9px 0 1.25em;
 
     .back-button {
       .icon-holder {
@@ -316,7 +316,6 @@
         box-shadow: none;
         font-size: 16px;
         top: 1.5em;
-        left: 0.9375em;
         border: 1px solid #ddd;
         .icon-container {
           height: inherit;
@@ -325,7 +324,7 @@
       h2 {
         width: 100%;
         text-align: center;
-        margin: 1.7em 0 calc(1em - 2px) 0;
+        margin: 1.7em 0 25px 0;
       }
     }
   }
