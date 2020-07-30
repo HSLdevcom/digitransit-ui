@@ -14,6 +14,7 @@ export const exampleData = t1 => ({
       rentedBike: false,
       route: null,
       from: { name: 'Messuaukio 1, Helsinki' },
+      to: { name: 'Joku Pysäkki' },
     },
     {
       realTime: false,
@@ -26,6 +27,7 @@ export const exampleData = t1 => ({
       rentedBike: false,
       route: { shortName: '57', mode: 'BUS' },
       from: { name: 'Ilmattarentie' },
+      to: { name: 'Joku Pysäkki' },
     },
     {
       realTime: false,
@@ -38,6 +40,7 @@ export const exampleData = t1 => ({
       rentedBike: false,
       route: null,
       from: { name: 'Veturitie' },
+      to: { name: 'Joku Pysäkki' },
     },
   ],
 });
@@ -58,6 +61,7 @@ export const exampleDataVia = t1 => ({
       rentedBike: false,
       route: null,
       from: { name: 'Messuaukio 1, Helsinki' },
+      to: { name: 'Joku Pysäkki' },
     },
     {
       realTime: false,
@@ -70,6 +74,7 @@ export const exampleDataVia = t1 => ({
       rentedBike: false,
       route: { shortName: '57', mode: 'BUS' },
       from: { name: 'Ilmattarentie' },
+      to: { name: 'Joku Pysäkki' },
     },
     {
       realTime: false,
@@ -83,6 +88,7 @@ export const exampleDataVia = t1 => ({
       rentedBike: false,
       route: null,
       from: { name: 'Ilmattarentie' },
+      to: { name: 'Joku Pysäkki' },
     },
     {
       realTime: false,
@@ -95,6 +101,7 @@ export const exampleDataVia = t1 => ({
       rentedBike: false,
       route: { shortName: '57', mode: 'BUS' },
       from: { name: 'Messuaukio 1, Helsinki' },
+      to: { name: 'Joku Pysäkki' },
     },
     {
       realTime: false,
@@ -107,6 +114,7 @@ export const exampleDataVia = t1 => ({
       rentedBike: false,
       route: null,
       from: { name: 'Messuaukio 1, Helsinki' },
+      to: { name: 'Joku Pysäkki' },
     },
   ],
 });
@@ -127,6 +135,7 @@ export const exampleDataCallAgency = t1 => ({
       rentedBike: false,
       route: null,
       from: { name: 'Messuaukio 1, Helsinki' },
+      to: { name: 'Joku Pysäkki' },
     },
     {
       realTime: false,
@@ -160,6 +169,7 @@ export const exampleDataCallAgency = t1 => ({
       rentedBike: false,
       route: null,
       from: { name: 'Veturitie' },
+      to: { name: 'Joku Pysäkki' },
     },
   ],
 });
@@ -180,6 +190,7 @@ export const exampleDataBiking = t1 => ({
       rentedBike: false,
       route: null,
       from: { name: 'Messuaukio 1, Helsinki' },
+      to: { name: 'Joku Pysäkki' },
     },
     {
       realTime: false,
@@ -192,6 +203,7 @@ export const exampleDataBiking = t1 => ({
       rentedBike: false,
       route: null,
       from: { name: 'Ilmattarentie' },
+      to: { name: 'Joku Pysäkki' },
     },
     {
       realTime: false,
@@ -204,6 +216,7 @@ export const exampleDataBiking = t1 => ({
       rentedBike: false,
       route: null,
       from: { name: 'Veturitie' },
+      to: { name: 'Joku Pysäkki' },
     },
   ],
 });
