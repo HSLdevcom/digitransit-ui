@@ -20,7 +20,7 @@ export default function SpeechBubble({ position, text }) {
       }}
       interactive={false}
       icon={L.divIcon({
-        html: `
+        html: `<div class="shadow"></div>
             <div>${text}</div>`,
         className: `legmarker speech-bubble`,
         iconSize: null,

@@ -46,6 +46,16 @@ class ItineraryLine extends React.Component {
     streetMode: PropTypes.string,
   };
 
+  checkStreetMode(leg) {
+    if (this.props.streetMode === 'walk') {
+      return leg.mode === 'WALK';
+    }
+    if (this.props.streetMode === 'bike') {
+      return leg.mode === 'BICYCLE';
+    }
+    return false;
+  }
+
   render() {
     if (!isBrowser) {
       return false;
@@ -79,10 +89,7 @@ class ItineraryLine extends React.Component {
         />,
       );
 
-      if (
-        this.props.streetMode === 'walk' ||
-        this.props.streetMode === 'bike'
-      ) {
+      if (this.checkStreetMode(leg)) {
         const duration = durationToString(leg.endTime - leg.startTime);
         objs.push(<SpeechBubble position={middle} text={duration} />);
       }
