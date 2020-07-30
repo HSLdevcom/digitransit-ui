@@ -14,6 +14,7 @@
         width: 100%;
         margin-bottom: 10px;
         .stop-near-you-header-container {
+            display: flex;
             .stop-header-content {
                 a {
                     text-decoration: none;
@@ -50,6 +51,10 @@
                         line-height: 14px;
                     }
                 }
+            }
+            .stop-favourite-container {
+                margin-left: auto;
+                align-self: center;
             }
         }
     }
