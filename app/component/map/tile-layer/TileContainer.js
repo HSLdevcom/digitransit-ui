@@ -136,7 +136,10 @@ class TileContainer {
           // hitbox is same for stop and citybike
           const iconStyles = getStopIconStyles('stop', zoom);
           if (iconStyles) {
-            const { style, height, width } = iconStyles;
+            const { style } = iconStyles;
+            let { height, width } = iconStyles;
+            width *= this.scaleratio;
+            height *= this.scaleratio;
             const circleRadius = width / 2;
             if (style === 'large') {
               featureY -= height - circleRadius;

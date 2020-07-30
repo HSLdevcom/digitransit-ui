@@ -794,5 +794,5 @@ export default {
   // DT-3611
   showVehiclesOnSummaryPage: false,
 
-  showWeatherInformation: false,
+  showWeatherInformation: true,
 };

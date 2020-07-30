@@ -5,18 +5,14 @@ div.map {
   max-height: 100%;
   position: relative;
   .leaflet-container .leaflet-control-attribution {
-    //background: rgba(255, 255, 255, 0.4);
-    //color: $dark-gray;
-    //margin: 0px 10px 20px 0px;
     width: 107px;
     height: 22px;
     opacity: 0.7;
     border-radius: 11px;
     background-color: #ffffff;
-    margin: 0px 10px 10px 10px;
+    margin: 10px;
     position: relative;
     top: -5px;
-    left: 10px;
   }
   .leaflet-container .leaflet-popup-close-button {
     color: $primary-color;
@@ -69,6 +65,11 @@ div.map {
   }
 }
 .mobile {
+  .map {
+    div.leaflet-control-scale.leaflet-control {
+      margin-right: 15px;
+    }
+  }
   .map.full {
     z-index: 1;
   }
@@ -119,10 +120,9 @@ div.leaflet-bottom.leaflet-right div.leaflet-control-zoom {
   width: 36px;
   height: 73px;
   border-radius: 5px;
-  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
   background-color: #ffffff;
   margin-right: 30px;
-  margin-bottom: 30px;
+  margin-bottom: 24px;
   .icon {
     font-size: 18px;
   }
@@ -209,16 +209,20 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
   bottom: 32px;
 }
 
+.mobile .map-with-tracking-buttons {
+  right: 15px;
+  bottom: 55px;
+}
+
 .map-with-tracking-buttons {
-  bottom: 18px;
+  bottom: 192px;
   display: flex;
-  left: 1em;
+  right: 30px;
   max-height: 36px;
   max-width: calc(100% - 2em);
   position: absolute;
 
   [role='button'] {
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
     max-height: 36px;
     max-width: 36px;
   }
@@ -241,7 +245,7 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
   padding: 6px;
   border-radius: $border-radius;
   line-height: 0.5;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 5px rgba(0,0,0,0.65);
 }
 
 .icon-mapMarker-toggle-positioning-online {
@@ -709,7 +713,7 @@ div.map-click-prevent-overlay {
 
 div.leaflet-control-scale.leaflet-control {
   //front page
-  margin-right: 10px;
+  margin-right: 30px;
   margin-bottom: 20px;
   cursor: grab;
 }

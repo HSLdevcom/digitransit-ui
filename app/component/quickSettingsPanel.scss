@@ -3,9 +3,9 @@
   background-color: $white;
   margin: 0 3.75em;
   .datetimepicker-container {
-    margin: 20px 0 12px 0;
+    margin: 20px 9px 9px 0;
     .datetimepicker-top-row {
-      @media (max-width: 375px) {
+      @media (max-width: 500px) {
         margin: 0 0 0 7px;
       }
     }
@@ -172,11 +172,14 @@
 }
 
 .right-offcanvas-toggle {
+  .settings-button-text {
+    margin-left: 12px;
+    margin-top: 3px;
+  }
   span {
     color: $link-color;
     letter-spacing: -0.5px;
     font-weight: $font-weight-medium;
-    margin-left: $padding-xsmall;
     text-align: center;
   }
   width: auto;
@@ -185,9 +188,6 @@
   display: flex;
   align-items: center;
   line-height: 1;
-  .settings-button-text {
-    margin-top: 2px;
-  }
   > div {
     padding: 0;
     > div {
@@ -201,7 +201,7 @@
     line-height: 0;
 
     .icon {
-      font-size: $font-size-large;
+      font-size: 20px;
     }
 
     .super-icon {
