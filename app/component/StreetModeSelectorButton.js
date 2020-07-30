@@ -51,7 +51,7 @@ export const StreetModeSelectorButton = (
           >
             <Icon img={icon} height={1.5} width={1.5} />
           </div>
-          {secondaryIcon ? (
+          {name === 'bikeAndPublic' ? (
             <div className="street-mode-selector-button-icon secondary-icon">
               <Icon img={secondaryIcon} height={0.75} width={0.75} />
             </div>
@@ -72,14 +72,14 @@ export const StreetModeSelectorButton = (
       <div className="street-mode-selector-button-content">
         <div
           className={`street-mode-selector-button-icon ${
-            secondaryIcon ? 'primary-icon' : ''
+            name === 'bikeAndPublic' ? 'primary-icon' : ''
           }`}
         >
           <Icon img={icon} height={1.5} width={1.5} />
         </div>
-        {secondaryIcon ? (
+        {name === 'bikeAndPublic' ? (
           <div className="street-mode-selector-button-icon secondary-icon">
-            <Icon img={secondaryIcon} height={0.75} width={0.75} />
+            <Icon img="icon-icon_subway" height={0.75} width={0.75} />
           </div>
         ) : (
           ''
