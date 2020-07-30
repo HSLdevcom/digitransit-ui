@@ -223,7 +223,7 @@ const SummaryRow = (
   const usingOwnBicycleWholeTrip =
     data.legs.some(
       leg => getLegMode(leg) === 'BICYCLE' && leg.rentedBike === false,
-    ) && data.legs.every(leg => !leg.to.bikePark);
+    ) && data.legs.every(leg => !leg.to || !leg.to.bikePark);
   const refTime = moment(props.refTime);
   const startTime = moment(data.startTime);
   const endTime = moment(data.endTime);
