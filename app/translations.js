@@ -3548,7 +3548,7 @@ const translations = {
       'Denna etapp av resan kräver en separat biljett.',
     'separate-ticket-required-disclaimer':
       'Resan består av en eller fleta etapper vilka kräver biljetter som inte säljs av {agencyName}.',
-    'set-specific-settings': 'ställa avancerade inställningar',
+    'set-specific-settings': 'Ställa avancerade inställningar',
     settings: 'Anpassa',
     'settings-label-change': 'Anpassa sökning',
     'settings-loadbutton': 'Ladda inställningarna',

@@ -66,9 +66,9 @@ function ItinerarySummaryListContainer(
         0,
         0,
         <ItinerarySummarySubtitle
-          translationId="itinerary-summary.bikePark"
+          translationId="itinerary-summary.bikePark-title"
           defaultMessage="Biking \u0026 public transport \u0026 walking"
-          key="itinerary-summary.bikePark"
+          key="itinerary-summary.bikePark-title"
         />,
       );
       summaries.push(
@@ -88,9 +88,9 @@ function ItinerarySummaryListContainer(
           bikeAndPublicItinerariesToShow + 1,
           0,
           <ItinerarySummarySubtitle
-            translationId="itinerary-summary.bikeAndPublic"
+            translationId="itinerary-summary.bikeAndPublic-title"
             defaultMessage="Biking \u0026 public transport"
-            key="itinerary-summary.bikeAndPublic"
+            key="itinerary-summary.bikeAndPublic-title"
           />,
         );
       }
