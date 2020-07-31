@@ -1367,22 +1367,8 @@ const containerComponent = createFragmentContainer(PositioningWrapper, {
         legs {
           mode
           ...ItineraryLine_legs
-          transitLeg
           legGeometry {
             points
-          }
-          route {
-            gtfsId
-          }
-          trip {
-            gtfsId
-            directionId
-            stoptimesForDate {
-              scheduledDeparture
-            }
-            pattern {
-              ...RouteLine_pattern
-            }
           }
           distance
         }
@@ -1403,22 +1389,8 @@ const containerComponent = createFragmentContainer(PositioningWrapper, {
         legs {
           mode
           ...ItineraryLine_legs
-          transitLeg
           legGeometry {
             points
-          }
-          route {
-            gtfsId
-          }
-          trip {
-            gtfsId
-            directionId
-            stoptimesForDate {
-              scheduledDeparture
-            }
-            pattern {
-              ...RouteLine_pattern
-            }
           }
           distance
         }

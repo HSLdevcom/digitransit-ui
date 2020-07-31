@@ -148,7 +148,6 @@ export default config => {
                   $bikeBoardCost: Int
                   $optimize: OptimizeType
                   $triangle: InputTriangle
-                  $carParkCarLegWeight: Float
                   $maxTransfers: Int
                   $waitAtBeginningFactor: Float
                   $heuristicStepsPerMainStep: Int
@@ -189,10 +188,8 @@ export default config => {
                     bikeSpeed: $bikeSpeed
                     bikeSwitchTime: $bikeSwitchTime
                     bikeSwitchCost: $bikeSwitchCost
-                    bikeBoardCost: $bikeBoardCost
                     optimize: $optimize
                     triangle: $triangle
-                    carParkCarLegWeight: $carParkCarLegWeight
                     maxTransfers: $maxTransfers
                     waitAtBeginningFactor: $waitAtBeginningFactor
                     heuristicStepsPerMainStep: $heuristicStepsPerMainStep
@@ -211,40 +208,15 @@ export default config => {
                     fromPlace: $fromPlace
                     toPlace: $toPlace
                     intermediatePlaces: $intermediatePlaces
-                    numItineraries: $numItineraries
                     transportModes: [{ mode: WALK }]
                     date: $date
                     time: $time
-                    walkReluctance: $walkReluctance
-                    walkBoardCost: $walkBoardCost
-                    minTransferTime: $minTransferTime
                     walkSpeed: $walkSpeed
-                    maxWalkDistance: $maxWalkDistance
                     wheelchair: $wheelchair
-                    allowedTicketTypes: $ticketTypes
-                    disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
                     arriveBy: $arriveBy
-                    transferPenalty: $transferPenalty
-                    ignoreRealtimeUpdates: $ignoreRealtimeUpdates
-                    maxPreTransitTime: $maxPreTransitTime
                     walkOnStreetReluctance: $walkOnStreetReluctance
-                    waitReluctance: $waitReluctance
-                    bikeSpeed: $bikeSpeed
-                    bikeSwitchTime: $bikeSwitchTime
-                    bikeSwitchCost: $bikeSwitchCost
-                    bikeBoardCost: $bikeBoardCost
-                    optimize: $optimize
-                    triangle: $triangle
-                    carParkCarLegWeight: $carParkCarLegWeight
-                    maxTransfers: $maxTransfers
-                    waitAtBeginningFactor: $waitAtBeginningFactor
                     heuristicStepsPerMainStep: $heuristicStepsPerMainStep
                     compactLegsByReversedSearch: $compactLegsByReversedSearch
-                    itineraryFiltering: $itineraryFiltering
-                    modeWeight: $modeWeight
-                    preferred: $preferred
-                    unpreferred: $unpreferred
-                    allowedBikeRentalNetworks: $allowedBikeRentalNetworks
                     locale: $locale
                   ) @include(if: $shortEnoughForWalking) {
                     ...SummaryPage_walkPlan
@@ -254,40 +226,17 @@ export default config => {
                     fromPlace: $fromPlace
                     toPlace: $toPlace
                     intermediatePlaces: $intermediatePlaces
-                    numItineraries: $numItineraries
                     transportModes: [{ mode: BICYCLE }]
                     date: $date
                     time: $time
-                    walkReluctance: $walkReluctance
-                    walkBoardCost: $walkBoardCost
-                    minTransferTime: $minTransferTime
                     walkSpeed: $walkSpeed
-                    maxWalkDistance: $maxWalkDistance
-                    wheelchair: $wheelchair
-                    allowedTicketTypes: $ticketTypes
-                    disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
                     arriveBy: $arriveBy
-                    transferPenalty: $transferPenalty
-                    ignoreRealtimeUpdates: $ignoreRealtimeUpdates
-                    maxPreTransitTime: $maxPreTransitTime
                     walkOnStreetReluctance: $walkOnStreetReluctance
-                    waitReluctance: $waitReluctance
                     bikeSpeed: $bikeSpeed
-                    bikeSwitchTime: $bikeSwitchTime
-                    bikeSwitchCost: $bikeSwitchCost
-                    bikeBoardCost: $bikeBoardCost
                     optimize: $optimize
                     triangle: $triangle
-                    carParkCarLegWeight: $carParkCarLegWeight
-                    maxTransfers: $maxTransfers
-                    waitAtBeginningFactor: $waitAtBeginningFactor
                     heuristicStepsPerMainStep: $heuristicStepsPerMainStep
                     compactLegsByReversedSearch: $compactLegsByReversedSearch
-                    itineraryFiltering: $itineraryFiltering
-                    modeWeight: $modeWeight
-                    preferred: $preferred
-                    unpreferred: $unpreferred
-                    allowedBikeRentalNetworks: $allowedBikeRentalNetworks
                     locale: $locale
                   ) @include(if: $shortEnoughForBiking) {
                     ...SummaryPage_bikePlan
@@ -310,7 +259,6 @@ export default config => {
                     minTransferTime: $minTransferTime
                     walkSpeed: $walkSpeed
                     maxWalkDistance: $maxWalkDistance
-                    wheelchair: $wheelchair
                     allowedTicketTypes: $ticketTypes
                     disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
                     arriveBy: $arriveBy
@@ -320,12 +268,9 @@ export default config => {
                     walkOnStreetReluctance: $walkOnStreetReluctance
                     waitReluctance: $waitReluctance
                     bikeSpeed: $bikeSpeed
-                    bikeSwitchTime: $bikeSwitchTime
-                    bikeSwitchCost: $bikeSwitchCost
                     bikeBoardCost: $bikeBoardCost
                     optimize: $optimize
                     triangle: $triangle
-                    carParkCarLegWeight: $carParkCarLegWeight
                     maxTransfers: $maxTransfers
                     waitAtBeginningFactor: $waitAtBeginningFactor
                     heuristicStepsPerMainStep: $heuristicStepsPerMainStep
@@ -334,7 +279,6 @@ export default config => {
                     modeWeight: $modeWeight
                     preferred: $preferred
                     unpreferred: $unpreferred
-                    allowedBikeRentalNetworks: $allowedBikeRentalNetworks
                     locale: $locale
                   ) @include(if: $showBikeAndPublicItineraries) {
                     ...SummaryPage_bikeAndPublicPlan
@@ -360,7 +304,6 @@ export default config => {
                     minTransferTime: $minTransferTime
                     walkSpeed: $walkSpeed
                     maxWalkDistance: $maxWalkDistance
-                    wheelchair: $wheelchair
                     allowedTicketTypes: $ticketTypes
                     disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
                     arriveBy: $arriveBy
@@ -375,7 +318,6 @@ export default config => {
                     bikeBoardCost: $bikeBoardCost
                     optimize: $optimize
                     triangle: $triangle
-                    carParkCarLegWeight: $carParkCarLegWeight
                     maxTransfers: $maxTransfers
                     waitAtBeginningFactor: $waitAtBeginningFactor
                     heuristicStepsPerMainStep: $heuristicStepsPerMainStep
@@ -384,7 +326,6 @@ export default config => {
                     modeWeight: $modeWeight
                     preferred: $preferred
                     unpreferred: $unpreferred
-                    allowedBikeRentalNetworks: $allowedBikeRentalNetworks
                     locale: $locale
                   ) @include(if: $showBikeAndParkItineraries) {
                     ...SummaryPage_bikeParkPlan
