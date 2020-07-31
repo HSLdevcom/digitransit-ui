@@ -19,6 +19,12 @@ function RouteNumber(props, context) {
     props.text &&
     new RegExp(/^([^0-9]*)$/).test(props.text) &&
     props.text.length > 3;
+  const getColor = () => {
+    if (props.isTransitLeg) {
+      return color || 'currentColor';
+    }
+    return null;
+  };
 
   const getIcon = (icon, isCallAgency, hasDisruption, badgeFill, badgeText) => {
     if (isCallAgency) {
@@ -54,12 +60,14 @@ function RouteNumber(props, context) {
       />
     );
   };
-
   return (
     <>
       {props.withBar ? (
         <div className={cx('bar-container', { long: hasNoShortName })}>
-          <div className={cx('bar', mode)}>
+          <div
+            className={cx('bar', mode)}
+            style={{ backgroundColor: getColor() }}
+          >
             <span
               className={cx('route-number', {
                 vertical: props.vertical,

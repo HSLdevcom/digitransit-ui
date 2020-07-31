@@ -16,7 +16,7 @@ class LegMarker extends React.Component {
   static propTypes = {
     leg: PropTypes.object.isRequired,
     mode: PropTypes.string.isRequired,
-    // color: PropTypes.string,
+    color: PropTypes.string,
     leaflet: PropTypes.shape({
       map: PropTypes.shape({
         latLngToLayerPoint: PropTypes.func.isRequired,
@@ -27,7 +27,7 @@ class LegMarker extends React.Component {
   };
 
   static defaultProps = {
-    // color: 'currentColor',
+    color: 'currentColor',
   };
 
   componentDidMount() {
@@ -43,6 +43,7 @@ class LegMarker extends React.Component {
   };
 
   getLegMarker() {
+    const color = this.props.color ? this.props.color : 'currentColor';
     return (
       <Marker
         key={`${this.props.leg.name}_text`}
@@ -53,10 +54,11 @@ class LegMarker extends React.Component {
         interactive={false}
         icon={L.divIcon({
           html: `
-            <div>
+            <div style="background-color: ${color}">
             ${Icon.asString({
               img: `icon-icon_${this.props.mode}`,
               className: 'map-route-icon',
+              color,
             })}
               <span class="map-route-number">${this.props.leg.name}</span>
             </div>`,
