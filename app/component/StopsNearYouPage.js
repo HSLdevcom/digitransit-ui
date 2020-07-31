@@ -48,6 +48,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
           <BackButton
             icon="icon-icon_arrow-collapse--left"
             iconClassName="arrow-icon"
+            className="back-button near-you-back-button"
             title={
               <FormattedMessage
                 id="nearest-stops"

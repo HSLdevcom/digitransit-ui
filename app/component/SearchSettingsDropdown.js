@@ -68,6 +68,13 @@ class SearchSettingsDropdown extends React.Component {
   constructor(props) {
     super(props);
     this.state = { showDropdown: false };
+    this.labelRef = React.createRef();
+  }
+
+  componentDidUpdate() {
+    if (this.state.showDropdown) {
+      this.labelRef.current.scrollIntoView();
+    }
   }
 
   toggleDropdown = prevState => {
@@ -171,6 +178,7 @@ class SearchSettingsDropdown extends React.Component {
           onClick={() => this.toggleDropdown(this.state.showDropdown)}
           role="Button"
           tabIndex="0"
+          ref={this.labelRef}
         >
           <p className="settings-dropdown-label-text">{labelText}</p>
           <p className="settings-dropdown-label-value">
