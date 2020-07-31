@@ -939,8 +939,8 @@ const translations = {
       'Transfer to {vehicle} on stop {stopName}',
     'itinerary-summary-row.walking-distance':
       'Total walking distance {totalDistance}.',
-    'itinerary-summary.bikeAndPublic-title': 'Bike & Public Transport',
-    'itinerary-summary.bikePark-title': 'Bike & Public transport & walk',
+    'itinerary-summary.bikeAndPublic-title': 'Bike & public transport',
+    'itinerary-summary.bikePark-title': 'Bike & public transport & walk',
     'itinerary-summary.interline-wait':
       'Wait for the transfer in the vehicle ({time})',
     'itinerary-summary.show-on-map': 'Show on map {target}',
