@@ -67,6 +67,10 @@ export default class FavouriteStore extends Store {
     );
   }
 
+  getStops() {
+    return this.favourites.filter(favourite => favourite.type === 'stop');
+  }
+
   getLocations() {
     return this.favourites.filter(favourite => favourite.type === 'place');
   }

@@ -11,6 +11,7 @@ class StopsNearYouContainer extends React.Component {
     relay: PropTypes.shape({
       refetch: PropTypes.func.isRequired,
     }).isRequired,
+    favouriteIds: PropTypes.object.isRequired,
   };
 
   static contextTypes = {
@@ -23,9 +24,26 @@ class StopsNearYouContainer extends React.Component {
     });
   }
 
+  sortStops = (first, second) => {
+    const firstIsFavourite = this.props.favouriteIds.has(
+      first.node.place.gtfsId,
+    );
+    const secondIsFavourite = this.props.favouriteIds.has(
+      second.node.place.gtfsId,
+    );
+    if (firstIsFavourite === secondIsFavourite) {
+      return 0;
+    }
+    if (firstIsFavourite) {
+      return -1;
+    }
+    return 1;
+  };
+
   createNearbyStops = () => {
     const stopPatterns = this.props.stopPatterns.edges;
-    const stops = stopPatterns.map(({ node }) => {
+    const sortedPatterns = stopPatterns.slice().sort(this.sortStops);
+    const stops = sortedPatterns.map(({ node }) => {
       const stop = node.place;
       if (stop.stoptimesWithoutPatterns.length > 0) {
         return (
@@ -51,11 +69,20 @@ class StopsNearYouContainer extends React.Component {
 }
 
 const connectedContainer = createRefetchContainer(
-  connectToStores(StopsNearYouContainer, ['TimeStore'], ({ getStore }) => ({
-    currentTime: getStore('TimeStore')
-      .getCurrentTime()
-      .unix(),
-  })),
+  connectToStores(
+    StopsNearYouContainer,
+    ['TimeStore', 'FavouriteStore'],
+    ({ getStore }) => ({
+      currentTime: getStore('TimeStore')
+        .getCurrentTime()
+        .unix(),
+      favouriteIds: new Set(
+        getStore('FavouriteStore')
+          .getStops()
+          .map(stop => stop.gtfsId),
+      ),
+    }),
+  ),
   {
     stopPatterns: graphql`
       fragment StopsNearYouContainer_stopPatterns on placeAtDistanceConnection
