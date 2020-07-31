@@ -1174,7 +1174,10 @@ class SummaryPage extends React.Component {
           <Loading />
         </div>
       );
-    } else if (routeSelected(match.params.hash, match.params.secondHash)) {
+    } else if (
+      routeSelected(match.params.hash, match.params.secondHash) &&
+      itineraries.length > 0
+    ) {
       content = (
         <MobileItineraryWrapper
           itineraries={itineraries}
