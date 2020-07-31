@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 
+import { AlertSeverityLevelType } from '../constants';
 class DisruptionBanner extends React.Component {
   static propTypes = {
     alerts: PropTypes.any,
@@ -9,7 +11,7 @@ class DisruptionBanner extends React.Component {
 
   getAlerts() {
     const { alerts } = this.props;
-    const activeAlerts = [];
+    let activeAlerts = [];
     alerts.edges.forEach(alert => {
       const { place } = alert.node;
       if (place.alerts.length > 0) {
@@ -21,6 +23,11 @@ class DisruptionBanner extends React.Component {
         }
       });
     });
+    activeAlerts = activeAlerts.filter(alert => {
+      return alert.alertSeverityLevel === AlertSeverityLevelType.Severe ||
+      alert.alertSeverityLevel === AlertSeverityLevelType.Warning 
+    })
+    console.log(activeAlerts)
   }
 
   render() {
@@ -29,7 +36,13 @@ class DisruptionBanner extends React.Component {
   }
 }
 
-const containerComponent = createFragmentContainer(DisruptionBanner, {
+const containerComponent = createFragmentContainer(
+  connectToStores(DisruptionBanner, ['TimeStore'], ({ getStore }) => ({
+    currentTime: getStore('TimeStore')
+      .getCurrentTime()
+      .unix(),
+  })),
+  {
   alerts: graphql`
     fragment DisruptionBanner_alerts on placeAtDistanceConnection
       @argumentDefinitions(
@@ -46,6 +59,8 @@ const containerComponent = createFragmentContainer(DisruptionBanner, {
                 alertEffect
                 alertCause
                 alertDescriptionText
+                effectiveStartDate
+                effectiveEndDate
               }
               stoptimesWithoutPatterns(omitNonPickups: $omitNonPickups) {
                 trip {
@@ -55,6 +70,8 @@ const containerComponent = createFragmentContainer(DisruptionBanner, {
                       alertEffect
                       alertCause
                       alertDescriptionText
+                      effectiveStartDate
+                      effectiveEndDate
                     }
                   }
                 }
