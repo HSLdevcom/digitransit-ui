@@ -16,6 +16,8 @@ import CanceledItineraryToggler from './CanceledItineraryToggler';
 import { itineraryHasCancelation } from '../util/alertUtils';
 import { matchQuickOption } from '../util/planParamUtil';
 import { getModes } from '../util/modeUtils';
+import { ItinerarySummarySubtitle } from './ItinerarySummarySubtitle';
+import RightOffcanvasToggle from './RightOffcanvasToggle';
 
 function ItinerarySummaryListContainer(
   {
@@ -30,6 +32,9 @@ function ItinerarySummaryListContainer(
     onSelectImmediately,
     searchTime,
     to,
+    toggleSettings,
+    bikeAndPublicItinerariesToShow,
+    bikeAndParkItinerariesToShow,
   },
   context,
 ) {
@@ -53,6 +58,43 @@ function ItinerarySummaryListContainer(
         zones={config.stopCard.header.showZone ? getZones(itinerary.legs) : []}
       />
     ));
+    if (
+      context.match.params.hash &&
+      context.match.params.hash === 'bikeAndPublic'
+    ) {
+      summaries.splice(
+        0,
+        0,
+        <ItinerarySummarySubtitle
+          translationId="itinerary-summary.bikePark-title"
+          defaultMessage="Biking \u0026 public transport \u0026 walking"
+          key="itinerary-summary.bikePark-title"
+        />,
+      );
+      summaries.push(
+        <div
+          className="itinerary-summary-settings-container"
+          key="itinerary-summary-settings-container"
+        >
+          <RightOffcanvasToggle
+            onToggleClick={toggleSettings}
+            defaultMessage="Set more specific settings"
+            translationId="set-specific-settings"
+          />
+        </div>,
+      );
+      if (bikeAndParkItinerariesToShow > 0) {
+        summaries.splice(
+          bikeAndPublicItinerariesToShow + 1,
+          0,
+          <ItinerarySummarySubtitle
+            translationId="itinerary-summary.bikeAndPublic-title"
+            defaultMessage="Biking \u0026 public transport"
+            key="itinerary-summary.bikeAndPublic-title"
+          />,
+        );
+      }
+    }
 
     const canceledItinerariesCount = itineraries.filter(itineraryHasCancelation)
       .length;
@@ -192,6 +234,9 @@ ItinerarySummaryListContainer.propTypes = {
   onSelectImmediately: PropTypes.func.isRequired,
   searchTime: PropTypes.number.isRequired,
   to: locationShape.isRequired,
+  toggleSettings: PropTypes.func.isRequired,
+  bikeAndPublicItinerariesToShow: PropTypes.number.isRequired,
+  bikeAndParkItinerariesToShow: PropTypes.number.isRequired,
 };
 
 ItinerarySummaryListContainer.defaultProps = {
@@ -292,6 +337,10 @@ const containerComponent = createFragmentContainer(
                 effectiveEndDate
                 effectiveStartDate
               }
+            }
+            bikePark {
+              bikeParkId
+              name
             }
           }
         }

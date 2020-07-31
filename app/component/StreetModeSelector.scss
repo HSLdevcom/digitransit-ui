@@ -4,16 +4,22 @@
   border-bottom: 1px solid #dddddd;
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
   padding: 10px;
-  min-height: 60px;
-  max-height: 60px;
+  padding-left: 3.75em;
+  min-height: 85px;
+  max-height: 85px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap
 }
 
 .mobile {
   .street-mode-selector-container {
     height: 77px;
     min-height: 77px;
+    overflow: auto;
+    white-space: nowrap;
+    padding-left: 0.9375em;
   }
 }

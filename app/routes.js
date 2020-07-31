@@ -161,6 +161,8 @@ export default config => {
                   $locale: String
                   $shortEnoughForWalking: Boolean!
                   $shortEnoughForBiking: Boolean!
+                  $showBikeAndPublicItineraries: Boolean!
+                  $showBikeAndParkItineraries: Boolean!
                 ) {
                   plan: plan(
                     fromPlace: $fromPlace
@@ -291,6 +293,103 @@ export default config => {
                     ...SummaryPage_bikePlan
                   }
 
+                  bikeAndPublicPlan: plan(
+                    fromPlace: $fromPlace
+                    toPlace: $toPlace
+                    intermediatePlaces: $intermediatePlaces
+                    numItineraries: 6
+                    transportModes: [
+                      { mode: BICYCLE }
+                      { mode: SUBWAY }
+                      { mode: RAIL }
+                    ]
+                    date: $date
+                    time: $time
+                    walkReluctance: $walkReluctance
+                    walkBoardCost: $walkBoardCost
+                    minTransferTime: $minTransferTime
+                    walkSpeed: $walkSpeed
+                    maxWalkDistance: $maxWalkDistance
+                    wheelchair: $wheelchair
+                    allowedTicketTypes: $ticketTypes
+                    disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
+                    arriveBy: $arriveBy
+                    transferPenalty: $transferPenalty
+                    ignoreRealtimeUpdates: $ignoreRealtimeUpdates
+                    maxPreTransitTime: $maxPreTransitTime
+                    walkOnStreetReluctance: $walkOnStreetReluctance
+                    waitReluctance: $waitReluctance
+                    bikeSpeed: $bikeSpeed
+                    bikeSwitchTime: $bikeSwitchTime
+                    bikeSwitchCost: $bikeSwitchCost
+                    bikeBoardCost: $bikeBoardCost
+                    optimize: $optimize
+                    triangle: $triangle
+                    carParkCarLegWeight: $carParkCarLegWeight
+                    maxTransfers: $maxTransfers
+                    waitAtBeginningFactor: $waitAtBeginningFactor
+                    heuristicStepsPerMainStep: $heuristicStepsPerMainStep
+                    compactLegsByReversedSearch: $compactLegsByReversedSearch
+                    itineraryFiltering: $itineraryFiltering
+                    modeWeight: $modeWeight
+                    preferred: $preferred
+                    unpreferred: $unpreferred
+                    allowedBikeRentalNetworks: $allowedBikeRentalNetworks
+                    locale: $locale
+                  ) @include(if: $showBikeAndPublicItineraries) {
+                    ...SummaryPage_bikeAndPublicPlan
+                  }
+
+                  bikeParkPlan: plan(
+                    fromPlace: $fromPlace
+                    toPlace: $toPlace
+                    intermediatePlaces: $intermediatePlaces
+                    numItineraries: 6
+                    transportModes: [
+                      { mode: BICYCLE, qualifier: PARK }
+                      { mode: WALK }
+                      { mode: BUS }
+                      { mode: TRAM }
+                      { mode: SUBWAY }
+                      { mode: RAIL }
+                    ]
+                    date: $date
+                    time: $time
+                    walkReluctance: $walkReluctance
+                    walkBoardCost: $walkBoardCost
+                    minTransferTime: $minTransferTime
+                    walkSpeed: $walkSpeed
+                    maxWalkDistance: $maxWalkDistance
+                    wheelchair: $wheelchair
+                    allowedTicketTypes: $ticketTypes
+                    disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
+                    arriveBy: $arriveBy
+                    transferPenalty: $transferPenalty
+                    ignoreRealtimeUpdates: $ignoreRealtimeUpdates
+                    maxPreTransitTime: $maxPreTransitTime
+                    walkOnStreetReluctance: $walkOnStreetReluctance
+                    waitReluctance: $waitReluctance
+                    bikeSpeed: $bikeSpeed
+                    bikeSwitchTime: $bikeSwitchTime
+                    bikeSwitchCost: $bikeSwitchCost
+                    bikeBoardCost: $bikeBoardCost
+                    optimize: $optimize
+                    triangle: $triangle
+                    carParkCarLegWeight: $carParkCarLegWeight
+                    maxTransfers: $maxTransfers
+                    waitAtBeginningFactor: $waitAtBeginningFactor
+                    heuristicStepsPerMainStep: $heuristicStepsPerMainStep
+                    compactLegsByReversedSearch: $compactLegsByReversedSearch
+                    itineraryFiltering: $itineraryFiltering
+                    modeWeight: $modeWeight
+                    preferred: $preferred
+                    unpreferred: $unpreferred
+                    allowedBikeRentalNetworks: $allowedBikeRentalNetworks
+                    locale: $locale
+                  ) @include(if: $showBikeAndParkItineraries) {
+                    ...SummaryPage_bikeParkPlan
+                  }
+
                   serviceTimeRange {
                     ...SummaryPage_serviceTimeRange
                   }
@@ -306,6 +405,8 @@ export default config => {
                       plan={{}}
                       walkPlan={{}}
                       bikePlan={{}}
+                      bikeAndPublicPlan={{}}
+                      bikeParkPlan={{}}
                       serviceTimeRange={validateServiceTimeRange()}
                       match={match}
                       loading
@@ -319,7 +420,7 @@ export default config => {
               {{
                 content: [
                   <Route path="" />,
-                  <Route path="/:hash">
+                  <Route path="/:hash/:secondHash?">
                     <Route
                       path="/tulosta"
                       getComponent={() =>

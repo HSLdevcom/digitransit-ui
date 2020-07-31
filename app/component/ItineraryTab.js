@@ -257,6 +257,10 @@ const withRelay = createFragmentContainer(ItineraryTab, {
               effectiveStartDate
             }
           }
+          bikePark {
+            bikeParkId
+            name
+          }
         }
         legGeometry {
           length

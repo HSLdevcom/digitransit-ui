@@ -20,7 +20,7 @@ import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 function BicycleLeg({ focusAction, index, leg, setMapZoomToLeg }, { config }) {
   let stopsDescription;
   const distance = displayDistance(parseInt(leg.distance, 10), config);
-  const duration = durationToString(leg.duration * 1000);
+  const duration = durationToString(leg.endTime - leg.startTime);
   let { mode } = leg;
   let legDescription = <span>{leg.from ? leg.from.name : ''}</span>;
   const firstLegClassName = index === 0 ? 'start' : '';
@@ -197,6 +197,7 @@ function BicycleLeg({ focusAction, index, leg, setMapZoomToLeg }, { config }) {
 const exampleLeg = t1 => ({
   duration: 120,
   startTime: t1 + 20000,
+  endTime: t1 + 20000 + 120 * 1000,
   distance: 586.4621425755712,
   from: { name: 'Ilmattarentie' },
   to: { name: 'Kuusitie' },
@@ -207,6 +208,7 @@ const exampleLeg = t1 => ({
 const exampleLegWalkingBike = t1 => ({
   duration: 120,
   startTime: t1 + 20000,
+  endTime: t1 + 20000 + 120 * 1000,
   distance: 586.4621425755712,
   from: { name: 'Ilmattarentie' },
   to: { name: 'Kuusitie' },
@@ -217,6 +219,7 @@ const exampleLegWalkingBike = t1 => ({
 const exampleLegCitybike = t1 => ({
   duration: 120,
   startTime: t1 + 20000,
+  endTime: t1 + 20000 + 120 * 1000,
   distance: 586.4621425755712,
   from: { name: 'Ilmattarentie' },
   to: { name: 'Kuusitie' },
@@ -227,6 +230,7 @@ const exampleLegCitybike = t1 => ({
 const exampleLegCitybikeWalkingBike = t1 => ({
   duration: 120,
   startTime: t1 + 20000,
+  endTime: t1 + 20000 + 120 * 1000,
   distance: 586.4621425755712,
   from: { name: 'Ilmattarentie' },
   to: { name: 'Kuusitie' },
@@ -237,6 +241,7 @@ const exampleLegCitybikeWalkingBike = t1 => ({
 const exampleLegScooter = t1 => ({
   duration: 120,
   startTime: t1 + 20000,
+  endTime: t1 + 20000 + 120 * 1000,
   distance: 586.4621425755712,
   from: {
     name: 'Ilmattarentie',
@@ -250,6 +255,7 @@ const exampleLegScooter = t1 => ({
 const exampleLegScooterWalkingScooter = t1 => ({
   duration: 120,
   startTime: t1 + 20000,
+  endTime: t1 + 20000 + 120 * 1000,
   distance: 586.4621425755712,
   from: {
     name: 'Ilmattarentie',

@@ -459,6 +459,8 @@ export const preparePlanParams = config => (
         toLocation,
         intermediatePlaceLocations,
       ) < config.suggestBikeMaxDistance,
+    showBikeAndPublicItineraries: config.showBikeAndPublicItineraries,
+    showBikeAndParkItineraries: config.showBikeAndParkItineraries,
   };
 };
 
