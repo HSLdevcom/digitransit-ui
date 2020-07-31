@@ -1041,7 +1041,10 @@ class SummaryPage extends React.Component {
         this.props.loading === false &&
         (error || this.selectedPlan)
       ) {
-        if (routeSelected(match.params.hash, match.params.secondHash)) {
+        if (
+          routeSelected(match.params.hash, match.params.secondHash) &&
+          itineraries.length > 0
+        ) {
           content = (
             <>
               {screenReaderUpdateAlert}

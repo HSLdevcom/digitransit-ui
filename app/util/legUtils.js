@@ -101,7 +101,7 @@ const continueWithBicycle = (leg1, leg2) => {
     leg1.mode === LegMode.Bicycle || leg1.mode === LegMode.Walk;
   const isBicycle2 =
     leg2.mode === LegMode.Bicycle || leg2.mode === LegMode.Walk;
-  return isBicycle1 && isBicycle2;
+  return isBicycle1 && isBicycle2 && !leg1.to.bikePark;
 };
 
 const bikingEnded = leg1 => {
