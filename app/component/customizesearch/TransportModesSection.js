@@ -22,10 +22,10 @@ const TransportModesSection = (
   transportModes = getAvailableTransportModes(config),
   modes = currentSettings.modes,
 ) => (
-  <React.Fragment>
-    <div className="transport-mode-subheader settings-header">
+  <fieldset>
+    <legend className="transport-mode-subheader settings-header">
       <FormattedMessage id="pick-mode" defaultMessage="Transportation modes" />
-    </div>
+    </legend>
     <div className="transport-modes-container">
       {transportModes.map(mode => (
         <div
@@ -88,7 +88,7 @@ const TransportModesSection = (
         Object.keys(config.cityBike.networks).length > 1 &&
         config.transportModes.citybike &&
         config.transportModes.citybike.availableForSelection && (
-          <div
+          <fieldset
             className="mode-option-container"
             style={{
               display: 'inline-block',
@@ -96,7 +96,7 @@ const TransportModesSection = (
               padding: '10px 0px 10px 4.5em',
             }}
           >
-            <div className="settings-header settings-header-citybike">
+            <legend className="settings-header settings-header-citybike">
               <FormattedMessage
                 id="citybike-network-header"
                 defaultMessage={intl.formatMessage({
@@ -104,15 +104,15 @@ const TransportModesSection = (
                   defaultMessage: 'Citybikes and scooters',
                 })}
               />
-            </div>
+            </legend>
             <CityBikeNetworkSelector
               isUsingCitybike={modes.includes('CITYBIKE')}
               currentOptions={getCitybikeNetworks(config)}
             />
-          </div>
+          </fieldset>
         )}
     </div>
-  </React.Fragment>
+  </fieldset>
 );
 
 TransportModesSection.propTypes = {

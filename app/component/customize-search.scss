@@ -100,6 +100,16 @@
   line-height: 35px;
   position: relative;
   box-shadow: inset 5px 0px 5px 0px #f4f4f5;
+  margin: unset;
+
+  fieldset {
+    border: unset;
+    padding: unset;
+    margin: unset;
+    legend {
+      margin: unset;
+    }
+  }
 
   .close-offcanvas {
     position: absolute;
@@ -164,20 +174,21 @@
     padding-bottom: 0.5em;
   }
 
-  h1 {
+  h2 {
     text-transform: none;
     font-size: $font-size-xlarge;
     letter-spacing: -0.6pt;
     font-weight: 500;
     font-family: $font-family;
     padding: 1.5em 0.5em 0.5em 0.5em;
+    margin: 0;
   }
 
   .option-checkbox-container > span {
     margin-top: -0.4em;
   }
 
-  .mode-option-container:last-of-type {
+  .mode-option-container:last-child {
     border: none;
   }
 }
@@ -199,11 +210,13 @@
   font-size: $font-size-normal;
   color: $gray;
   font-weight: normal;
-  padding-left: 1em;
+  padding: 0 0 0 1em;
 }
 
 .settings-header-citybike {
   padding-left: 0;
+  position: relative;
+  top: 10px;
 }
 
 .mode-option-container {

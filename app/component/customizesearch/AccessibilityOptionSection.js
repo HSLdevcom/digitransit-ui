@@ -6,10 +6,10 @@ import { saveRoutingSettings } from '../../action/SearchSettingsActions';
 import Icon from '../Icon';
 
 const AccessibilityOptionSection = ({ currentSettings }, { executeAction }) => (
-  <React.Fragment>
-    <div className="accessibility-header settings-header">
+  <fieldset>
+    <legend className="accessibility-header settings-header">
       <FormattedMessage id="accessibility" defaultMessage="Accessibility" />
-    </div>
+    </legend>
     <div className="mode-option-container toggle-container accessibility-container">
       {/* eslint jsx-a11y/label-has-associated-control: ["error", { assert: "either" } ] */}
       <label htmlFor="settings-toggle-accessibility" className="toggle-label">
@@ -35,7 +35,7 @@ const AccessibilityOptionSection = ({ currentSettings }, { executeAction }) => (
         }}
       />
     </div>
-  </React.Fragment>
+  </fieldset>
 );
 
 AccessibilityOptionSection.propTypes = {
