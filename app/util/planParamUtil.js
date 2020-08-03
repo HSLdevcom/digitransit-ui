@@ -73,7 +73,7 @@ export const defaultRoutingSettings = {
 
 function getTicketTypes(ticketType, settingsTicketType, defaultTicketType) {
   // separator used to be _, map it to : to keep old URLs compatible
-  const remap = str => `${str}`.replace('_', ':');
+  const remap = str => [`${str}`.replace('_', ':')];
   const isRestriction = type => type !== 'none';
 
   if (ticketType) {

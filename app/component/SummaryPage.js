@@ -526,7 +526,7 @@ const containerComponent = Relay.createContainer(SummaryPageWithBreakpoint, {
           walkSpeed: $walkSpeed,
           maxWalkDistance: $maxWalkDistance,
           wheelchair: $wheelchair,
-          ticketTypes: $ticketTypes,
+          allowedTicketTypes: $ticketTypes,
           disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic,
           arriveBy: $arriveBy,
           transferPenalty: $transferPenalty,
