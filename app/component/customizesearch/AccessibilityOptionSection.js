@@ -11,17 +11,21 @@ const AccessibilityOptionSection = ({ currentSettings }, { executeAction }) => (
       <FormattedMessage id="accessibility" defaultMessage="Accessibility" />
     </div>
     <div className="mode-option-container toggle-container accessibility-container">
-      <Icon
-        className="wheelchair-icon"
-        img="icon-icon_wheelchair"
-        height={2}
-        width={2}
-      />
-      <FormattedMessage
-        id="accessibility-limited"
-        defaultMessage="Wheelchair"
-      />
+      {/* eslint jsx-a11y/label-has-associated-control: ["error", { assert: "either" } ] */}
+      <label htmlFor="settings-toggle-accessibility" className="toggle-label">
+        <Icon
+          className="wheelchair-icon"
+          img="icon-icon_wheelchair"
+          height={2}
+          width={2}
+        />
+        <FormattedMessage
+          id="accessibility-limited"
+          defaultMessage="Wheelchair"
+        />
+      </label>
       <Toggle
+        id="settings-toggle-accessibility"
         toggled={!!currentSettings.usingWheelchair}
         title="accessibility"
         onToggle={e => {

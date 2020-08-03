@@ -7,15 +7,15 @@ import Message from './Message';
 
 import { isKeyboardSelectionEvent } from '../util/browser';
 
-const Toggle = ({ toggled, title, label, onToggle }) => {
-  const id = uniqueId('input-');
+const Toggle = ({ toggled, title, label, onToggle, id }) => {
+  const useId = id || uniqueId('input-');
   return (
     <div className="option-toggle-container" title={title}>
       {label && <Message defaultMessage={label} />}
-      <label className="toggle" htmlFor={id}>
+      <label className="toggle" htmlFor={useId}>
         <input
           type="checkbox"
-          id={id}
+          id={useId}
           checked={toggled}
           onKeyPress={e =>
             isKeyboardSelectionEvent(e) &&
@@ -34,12 +34,14 @@ Toggle.propTypes = {
   label: PropTypes.string,
   onToggle: PropTypes.func.isRequired,
   title: PropTypes.string,
+  id: PropTypes.string,
 };
 
 Toggle.defaultProps = {
   toggled: true,
   label: '',
   title: undefined,
+  id: null,
 };
 
 Toggle.contextTypes = {

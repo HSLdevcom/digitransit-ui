@@ -8,7 +8,6 @@ import { saveRoutingSettings } from '../../action/SearchSettingsActions';
 import Toggle from '../Toggle';
 import Icon from '../Icon';
 import IconWithBigCaution from '../IconWithBigCaution';
-import { isKeyboardSelectionEvent } from '../../util/browser';
 import {
   getAvailableTransportModes,
   toggleTransportMode,
@@ -33,26 +32,15 @@ const TransportModesSection = (
           className="mode-option-container"
           key={`mode-option-${mode.toLowerCase()}`}
         >
-          <div
-            role="button"
-            tabIndex={0}
-            aria-label={`${mode.toLowerCase()}`}
-            className={cx([`mode-option-block`], mode.toLowerCase(), {
-              disabled: !modes.includes(mode),
-            })}
-            onKeyPress={e =>
-              isKeyboardSelectionEvent(e) &&
-              !isBikeRestricted(match.location, config, mode) &&
-              executeAction(saveRoutingSettings, {
-                modes: toggleTransportMode(mode, config),
-              })
-            }
-            onClick={() =>
-              !isBikeRestricted(match.location, config, mode) &&
-              executeAction(saveRoutingSettings, {
-                modes: toggleTransportMode(mode, config),
-              })
-            }
+          <label
+            htmlFor={`settings-toggle-${mode}`}
+            className={cx(
+              [`mode-option-block`, 'toggle-label'],
+              mode.toLowerCase(),
+              {
+                disabled: !modes.includes(mode),
+              },
+            )}
           >
             <div className="mode-icon">
               {isBikeRestricted(match.location, config, mode) ? (
@@ -82,8 +70,9 @@ const TransportModesSection = (
                 </span>
               )}
             </div>
-          </div>
+          </label>
           <Toggle
+            id={`settings-toggle-${mode}`}
             toggled={modes.filter(o2 => o2 === mode).length > 0}
             onToggle={() =>
               !isBikeRestricted(match.location, config, mode) &&
@@ -91,7 +80,6 @@ const TransportModesSection = (
                 modes: toggleTransportMode(mode, config),
               })
             }
-            title={mode}
           />
         </div>
       ))}
