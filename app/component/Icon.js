@@ -128,12 +128,14 @@ Icon.asString = ({
   badgeFill = undefined,
   badgeText = undefined,
   backgroundShape = undefined,
+  color,
 }) => `
   <span class="icon-container">
     <svg
       ${id ? ` id=${id}` : ''}
       viewBox="0 0 40 40"
       class="${cx('icon', className)}"
+      style="fill: ${color || null}",
     >
       ${
         backgroundShape === 'circle'

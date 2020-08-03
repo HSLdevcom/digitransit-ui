@@ -590,22 +590,70 @@ div.origin-popup {
 
 .map .legmarker {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  & > div {
+  min-width: 40px;
+  height: 18px;
+  &.speech-bubble {
+    background-color: transparent;
+    div {
+      box-shadow: -3px 5px 8px 0 rgba(0, 0, 0, 0.3);
+      @include font-medium;
+      font-size: 15px;
+      border-radius: 8px;
+      height: 30px;
+      padding: 0 7px;
+      background-color: $white;
+      margin: 0;
+      line-height: 2;
+      position: relative;
+      left: 15%;
+      top: -35px;
+    }
+    :before {
+      content: "";
+      width: 0px;
+      height: 0px;
+      position: absolute;
+      border-left: 0px solid transparent;
+      border-right: 15px solid #ffffff;
+      border-top: 0px solid #ffffff;
+      border-bottom: 15px solid transparent;
+      left: -12px;
+      bottom: -11px;
+      transform: skewX(-60deg);
+    }
+    .shadow {
+      top: -15px;
+      box-shadow: -10px 6px 8px 0 rgba(0, 0, 0, 0.5);
+      width: 5px;
+      height: 5px;
+      background-color: transparent;
+      position: absolute;
+      bottom: -11px;
+    }
+  }
+  .map-route-icon {
+    border: none;
+    font-size: 18px;
+  }
+  div {
     @include font-narrow-medium;
-    background-color: $white;
-    border-width: 2px;
-    border-style: solid;
-    border-radius: $border-radius;
-    padding: 0 2px;
-    text-align: center;
-    flex-shrink: 0; /* work around iOS bug with flex sizes */
-    white-space: nowrap;
+    //background-color: currentColor;
+    border-radius: 3px;
+    height: 18px;
+    width: 100%;
     margin-left: -50%;
-    margin-right: 50%;
     margin-top: -9px;
+    display: flex;
+    //flex-shrink: 0; /* work around iOS bug with flex sizes */
+    white-space: nowrap;
+    .map-route-number {
+      width: calc(100% - 18px);
+      display: flex;
+      justify-content: center;
+      padding-right: 3px;
+      color: $white;
+    }
   }
 }
 
@@ -621,12 +669,7 @@ div.origin-popup {
   &.bicycle_walk,
   &.citybike_walk {
     stroke-linecap: round;
-    stroke-dasharray: 0.1, 7;
-  }
-  &.bicycle,
-  &.citybike {
-    stroke-linecap: round;
-    stroke-dasharray: 10, 5;
+    stroke-dasharray: 0.1 11;
   }
 }
 
@@ -635,13 +678,8 @@ div.origin-popup {
   &.walk,
   &.bicycle_walk,
   &.citybike_walk {
-    stroke-linecap: round;
-    stroke-dasharray: 0.1, 7;
-  }
-  &.bicycle,
-  &.citybike {
-    stroke-linecap: round;
-    stroke-dasharray: 10, 5;
+    stroke: round;
+    stroke-dasharray: 0.1 11;
   }
 }
 

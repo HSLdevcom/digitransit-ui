@@ -691,13 +691,23 @@ class SummaryPage extends React.Component {
 
     if (from.lat && from.lon) {
       leafletObjs.push(
-        <LocationMarker key="fromMarker" position={from} type="from" />,
+        <LocationMarker
+          key="fromMarker"
+          position={from}
+          type="from"
+          streetMode={this.state.streetMode}
+        />,
       );
     }
 
     if (to.lat && to.lon) {
       leafletObjs.push(
-        <LocationMarker isLarge key="toMarker" position={to} type="to" />,
+        <LocationMarker
+          key="toMarker"
+          position={to}
+          type="to"
+          streetMode={this.state.streetMode}
+        />,
       );
     }
 
@@ -1002,6 +1012,7 @@ class SummaryPage extends React.Component {
               itinerary: itineraries && itineraries[hash],
               center,
               bounds,
+              streetMode: this.state.streetMode,
               fitBounds: Boolean(bounds),
               ...this.props,
             },
