@@ -9,6 +9,8 @@ describe('<ParkAndRideAvailability />', () => {
   it('should render ParkAndRideAvailability with valid props', () => {
     const props = {
       spacesAvailable: 1,
+      fewAvailableCount: 2,
+      fewerAvailableCount: 1,
       maxCapacity: 3,
       realtime: true,
     };
