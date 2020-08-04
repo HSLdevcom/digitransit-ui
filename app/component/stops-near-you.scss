@@ -13,11 +13,36 @@
         border-radius: 10px;
         width: 100%;
         margin-bottom: 10px;
+        .citybike-content-container {
+            padding: 15px 14px 22px;
+            display: flex;
+            height: 45px;
+            box-sizing: content-box;
+            .availability-container {
+                padding-left: 15px;
+                flex: 1;
+                .sub-header-h4 {
+                    font-size: 0.813rem;
+                }
+            }
+            .icon-container {
+                display: flex;
+                align-self: center;
+                .icon {
+                    width: 36px;
+                    height: 36px;
+                }
+            }
+        }
         .stop-near-you-header-container {
             .stop-header-content {
                 a {
                     text-decoration: none;
                     color: #333;
+                }
+                .bike-station-code {
+                    font-size: 0.813rem;
+                    font-weight: normal;
                 }
             }
             padding: 14px 15px 1px 20px;
