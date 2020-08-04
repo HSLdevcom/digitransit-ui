@@ -655,7 +655,11 @@ class SummaryPage extends React.Component {
     } = this.context;
 
     const itineraries =
-      (this.selectedPlan && this.selectedPlan.itineraries) || [];
+      (this.selectedPlan &&
+        this.selectedPlan.itineraries.filter(
+          itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
+        )) ||
+      [];
 
     const activeIndex = getActiveIndex(match.location, itineraries);
     const from = otpToLocation(match.params.from);
