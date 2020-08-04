@@ -54,7 +54,7 @@ class CustomizeSearch extends React.Component {
       <Icon className="close-icon" img="icon-icon_close" />
     );
     return (
-      <div className="customize-search">
+      <form className="customize-search">
         <button
           title="Close window and save settings"
           aria-label="Close window and save settings"
@@ -76,12 +76,12 @@ class CustomizeSearch extends React.Component {
           {backIcon}
         </button>
         <div className="settings-option-container">
-          <h1>
+          <h2>
             {intl.formatMessage({
               id: 'settings',
               defaultMessage: 'Settings',
             })}
-          </h1>
+          </h2>
         </div>
         <div className="scrollable-content-wrapper momentum-scroll">
           <div className="settings-option-container">
@@ -114,7 +114,7 @@ class CustomizeSearch extends React.Component {
             />
           )}
         </div>
-      </div>
+      </form>
     );
   }
 }
