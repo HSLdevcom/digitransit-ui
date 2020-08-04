@@ -339,7 +339,7 @@ class SummaryPlanContainer extends React.Component {
       $date: String!,
       $time: String!,
       $arriveBy: Boolean!,
-      $modes: String!,
+      $modes: [TransportMode!],
       $transferPenalty: Int!,
       $ignoreRealtimeUpdates: Boolean!,
       $maxPreTransitTime: Int!,
@@ -378,7 +378,7 @@ class SummaryPlanContainer extends React.Component {
           arriveBy:$arriveBy,
           preferred:$preferred,
           unpreferred: $unpreferred,
-          modes:$modes
+          transportModes:$modes
           transferPenalty:$transferPenalty,
           ignoreRealtimeUpdates:$ignoreRealtimeUpdates,
           maxPreTransitTime:$maxPreTransitTime,

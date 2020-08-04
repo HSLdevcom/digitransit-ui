@@ -24,7 +24,7 @@ const stoptimesData = [
     realtime: true,
     serviceDay: 1524085200,
     pickupType: 'SCHEDULED',
-    stopHeadsign: 'Jätkäsaari via Kallio',
+    headsign: 'Jätkäsaari via Kallio',
     stop: {
       code: '0612',
       platformCode: '18',
@@ -61,7 +61,7 @@ const stoptimesData = [
     realtime: true,
     serviceDay: 1524085200,
     pickupType: 'NONE',
-    stopHeadsign: null,
+    headsign: null,
     stop: {
       code: '0612',
       platformCode: '18',
@@ -106,7 +106,7 @@ const stoptimesData = [
     realtime: false,
     serviceDay: 1524085200,
     pickupType: 'SCHEDULED',
-    stopHeadsign: 'Jätkäsaari via Kallio',
+    headsign: 'Jätkäsaari via Kallio',
     stop: {
       code: '0612',
       platformCode: '18',
@@ -143,7 +143,7 @@ const stoptimesData = [
     realtime: true,
     serviceDay: 1524085200,
     pickupType: 'NONE',
-    stopHeadsign: null,
+    headsign: null,
     stop: {
       code: '0612',
       platformCode: '18',
@@ -188,7 +188,7 @@ const stoptimesData = [
     realtime: false,
     serviceDay: 1524085200,
     pickupType: 'SCHEDULED',
-    stopHeadsign: 'Jätkäsaari via Kallio',
+    headsign: 'Jätkäsaari via Kallio',
     stop: {
       code: '0612',
       platformCode: '18',
