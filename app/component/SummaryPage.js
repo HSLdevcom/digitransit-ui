@@ -656,6 +656,7 @@ class SummaryPage extends React.Component {
 
     const itineraries =
       (this.selectedPlan &&
+        this.selectedPlan.itineraries &&
         this.selectedPlan.itineraries.filter(
           itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
         )) ||
