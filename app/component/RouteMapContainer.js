@@ -33,15 +33,24 @@ class RouteMapContainer extends React.PureComponent {
     this.state = {
       centerToMarker: true,
     };
+    this.componentHasBeenUpdated = false;
+  }
+
+  componentDidUpdate() {
+    this.componentHasBeenUpdated = true;
   }
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (this.props.match.params.tripId !== nextProps.match.params.tripId) {
+    if (
+      this.props.match.params.tripId !== nextProps.match.params.tripId &&
+      !this.state.centerToMarker &&
+      this.componentHasBeenUpdated
+    ) {
       this.setState({
         centerToMarker: true,
       });
-    } else if (this.state.centerToMarker) {
+    } else if (this.state.centerToMarker && this.componentHasBeenUpdated) {
       this.setState({
         centerToMarker: false,
       });
