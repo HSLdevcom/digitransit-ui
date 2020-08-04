@@ -41,7 +41,10 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
       content = <Loading />;
     } else {
       content = (
-        <StopsNearYouContainer stopPatterns={this.props.stopPatterns} />
+        <div className="stops-near-you-page">
+          <DisruptionBanner alerts={this.props.alerts} />
+          <StopsNearYouContainer stopPatterns={this.props.stopPatterns} />
+        </div>
       );
     }
     if (this.props.breakpoint === 'large') {
@@ -59,8 +62,8 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
             }
             color={this.context.config.colors.primary}
           />
-          <DisruptionBanner alerts={this.props.alerts} />
-          <div className="stops-near-you-page">{content}</div>
+
+          {content}
         </>
       );
     }
