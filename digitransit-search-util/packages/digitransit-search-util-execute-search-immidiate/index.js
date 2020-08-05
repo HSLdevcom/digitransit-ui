@@ -297,7 +297,12 @@ export function getSearchResults(
       );
     }
     if (allSources || sources.includes('History')) {
-      const stopHistory = prevSearches(context);
+      const stopHistory = prevSearches(context).filter(item => {
+        if (item.properties.gid) {
+          return item.properties.gid.includes('GTFS:');
+        }
+        return true;
+      });
       const dropLayers = [
         'currentPosition',
         'selectFromMap',

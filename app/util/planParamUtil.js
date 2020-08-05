@@ -388,7 +388,6 @@ export const preparePlanParams = config => (
                 ),
               }
             : null,
-        carParkCarLegWeight: settings.carParkCarLegWeight,
         maxTransfers: settings.maxTransfers,
         waitAtBeginningFactor: settings.waitAtBeginningFactor,
         heuristicStepsPerMainStep: settings.heuristicStepsPerMainStep,

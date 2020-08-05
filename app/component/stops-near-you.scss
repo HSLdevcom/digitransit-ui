@@ -3,7 +3,7 @@
     min-height: 20rem;
 }
 
-.stops-near-you-container {
+.stops-near-you-page {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -150,8 +150,19 @@
     }
 }
 
+.disruption-banner-container {
+    @include font-medium;
+    font-weight: 100;
+    background-color: #dc0451;
+    color: white;
+    font-size: 0.9375rem;
+    padding: 8px 14px 12px 14px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
 .mobile {
-    .stops-near-you-container {
+    .stops-near-you-page {
         height: calc(100% - 20rem);
         padding: 15px 0.625em 0;
         background-color: white;
@@ -160,5 +171,11 @@
         position: relative;
         top: -15px;
         z-index: 2;
+        .stops-near-you-container {
+            padding: 0;
+        }
+        .disruption-banner-container {
+            margin: 0 5px 15px;
+        }
     }
 }

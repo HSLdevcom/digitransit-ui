@@ -11,6 +11,7 @@ import { startLocationWatch } from '../action/PositionActions';
 import StopsNearYouContainer from './StopsNearYouContainer';
 import Loading from './Loading';
 import BackButton from './BackButton';
+import DisruptionBanner from './DisruptionBanner';
 
 class StopsNearYouPage extends React.Component { // eslint-disable-line
   static contextTypes = {
@@ -24,6 +25,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
 
   static propTypes = {
     stopPatterns: PropTypes.any.isRequired,
+    alerts: PropTypes.any.isRequired,
     loadingPosition: PropTypes.bool,
     breakpoint: PropTypes.string.isRequired,
   };
@@ -39,7 +41,10 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
       content = <Loading />;
     } else {
       content = (
-        <StopsNearYouContainer stopPatterns={this.props.stopPatterns} />
+        <div className="stops-near-you-page">
+          <DisruptionBanner alerts={this.props.alerts} />
+          <StopsNearYouContainer stopPatterns={this.props.stopPatterns} />
+        </div>
       );
     }
     if (this.props.breakpoint === 'large') {
@@ -57,7 +62,8 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
             }
             color={this.context.config.colors.primary}
           />
-          <div className="stops-near-you-page">{content}</div>
+
+          {content}
         </>
       );
     }
@@ -113,6 +119,14 @@ const containerComponent = createFragmentContainer(PositioningWrapper, {
       ) {
       ...StopsNearYouContainer_stopPatterns
         @arguments(omitNonPickups: $omitNonPickups)
+    }
+  `,
+  alerts: graphql`
+    fragment StopsNearYouPage_alerts on placeAtDistanceConnection
+      @argumentDefinitions(
+        omitNonPickups: { type: "Boolean!", defaultValue: false }
+      ) {
+      ...DisruptionBanner_alerts @arguments(omitNonPickups: $omitNonPickups)
     }
   `,
 });

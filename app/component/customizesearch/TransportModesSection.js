@@ -8,7 +8,6 @@ import { saveRoutingSettings } from '../../action/SearchSettingsActions';
 import Toggle from '../Toggle';
 import Icon from '../Icon';
 import IconWithBigCaution from '../IconWithBigCaution';
-import { isKeyboardSelectionEvent } from '../../util/browser';
 import {
   getAvailableTransportModes,
   toggleTransportMode,
@@ -23,36 +22,25 @@ const TransportModesSection = (
   transportModes = getAvailableTransportModes(config),
   modes = currentSettings.modes,
 ) => (
-  <React.Fragment>
-    <div className="transport-mode-subheader settings-header">
+  <fieldset>
+    <legend className="transport-mode-subheader settings-header">
       <FormattedMessage id="pick-mode" defaultMessage="Transportation modes" />
-    </div>
+    </legend>
     <div className="transport-modes-container">
       {transportModes.map(mode => (
         <div
           className="mode-option-container"
           key={`mode-option-${mode.toLowerCase()}`}
         >
-          <div
-            role="button"
-            tabIndex={0}
-            aria-label={`${mode.toLowerCase()}`}
-            className={cx([`mode-option-block`], mode.toLowerCase(), {
-              disabled: !modes.includes(mode),
-            })}
-            onKeyPress={e =>
-              isKeyboardSelectionEvent(e) &&
-              !isBikeRestricted(match.location, config, mode) &&
-              executeAction(saveRoutingSettings, {
-                modes: toggleTransportMode(mode, config),
-              })
-            }
-            onClick={() =>
-              !isBikeRestricted(match.location, config, mode) &&
-              executeAction(saveRoutingSettings, {
-                modes: toggleTransportMode(mode, config),
-              })
-            }
+          <label
+            htmlFor={`settings-toggle-${mode}`}
+            className={cx(
+              [`mode-option-block`, 'toggle-label'],
+              mode.toLowerCase(),
+              {
+                disabled: !modes.includes(mode),
+              },
+            )}
           >
             <div className="mode-icon">
               {isBikeRestricted(match.location, config, mode) ? (
@@ -82,8 +70,9 @@ const TransportModesSection = (
                 </span>
               )}
             </div>
-          </div>
+          </label>
           <Toggle
+            id={`settings-toggle-${mode}`}
             toggled={modes.filter(o2 => o2 === mode).length > 0}
             onToggle={() =>
               !isBikeRestricted(match.location, config, mode) &&
@@ -91,7 +80,6 @@ const TransportModesSection = (
                 modes: toggleTransportMode(mode, config),
               })
             }
-            title={mode}
           />
         </div>
       ))}
@@ -100,7 +88,7 @@ const TransportModesSection = (
         Object.keys(config.cityBike.networks).length > 1 &&
         config.transportModes.citybike &&
         config.transportModes.citybike.availableForSelection && (
-          <div
+          <fieldset
             className="mode-option-container"
             style={{
               display: 'inline-block',
@@ -108,7 +96,7 @@ const TransportModesSection = (
               padding: '10px 0px 10px 4.5em',
             }}
           >
-            <div className="settings-header settings-header-citybike">
+            <legend className="settings-header settings-header-citybike">
               <FormattedMessage
                 id="citybike-network-header"
                 defaultMessage={intl.formatMessage({
@@ -116,15 +104,15 @@ const TransportModesSection = (
                   defaultMessage: 'Citybikes and scooters',
                 })}
               />
-            </div>
+            </legend>
             <CityBikeNetworkSelector
               isUsingCitybike={modes.includes('CITYBIKE')}
               currentOptions={getCitybikeNetworks(config)}
             />
-          </div>
+          </fieldset>
         )}
     </div>
-  </React.Fragment>
+  </fieldset>
 );
 
 TransportModesSection.propTypes = {

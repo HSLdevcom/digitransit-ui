@@ -655,7 +655,12 @@ class SummaryPage extends React.Component {
     } = this.context;
 
     const itineraries =
-      (this.selectedPlan && this.selectedPlan.itineraries) || [];
+      (this.selectedPlan &&
+        this.selectedPlan.itineraries &&
+        this.selectedPlan.itineraries.filter(
+          itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
+        )) ||
+      [];
 
     const activeIndex = getActiveIndex(match.location, itineraries);
     const from = otpToLocation(match.params.from);
@@ -691,13 +696,23 @@ class SummaryPage extends React.Component {
 
     if (from.lat && from.lon) {
       leafletObjs.push(
-        <LocationMarker key="fromMarker" position={from} type="from" />,
+        <LocationMarker
+          key="fromMarker"
+          position={from}
+          type="from"
+          streetMode={this.state.streetMode}
+        />,
       );
     }
 
     if (to.lat && to.lon) {
       leafletObjs.push(
-        <LocationMarker isLarge key="toMarker" position={to} type="to" />,
+        <LocationMarker
+          key="toMarker"
+          position={to}
+          type="to"
+          streetMode={this.state.streetMode}
+        />,
       );
     }
 
@@ -1002,6 +1017,7 @@ class SummaryPage extends React.Component {
               itinerary: itineraries && itineraries[hash],
               center,
               bounds,
+              streetMode: this.state.streetMode,
               fitBounds: Boolean(bounds),
               ...this.props,
             },
@@ -1367,22 +1383,8 @@ const containerComponent = createFragmentContainer(PositioningWrapper, {
         legs {
           mode
           ...ItineraryLine_legs
-          transitLeg
           legGeometry {
             points
-          }
-          route {
-            gtfsId
-          }
-          trip {
-            gtfsId
-            directionId
-            stoptimesForDate {
-              scheduledDeparture
-            }
-            pattern {
-              ...RouteLine_pattern
-            }
           }
           distance
         }
@@ -1403,22 +1405,8 @@ const containerComponent = createFragmentContainer(PositioningWrapper, {
         legs {
           mode
           ...ItineraryLine_legs
-          transitLeg
           legGeometry {
             points
-          }
-          route {
-            gtfsId
-          }
-          trip {
-            gtfsId
-            directionId
-            stoptimesForDate {
-              scheduledDeparture
-            }
-            pattern {
-              ...RouteLine_pattern
-            }
           }
           distance
         }
