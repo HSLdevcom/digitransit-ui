@@ -73,6 +73,16 @@ export default config => {
                     ...StopsNearYouPage_stopPatterns
                       @arguments(omitNonPickups: $omitNonPickups)
                   }
+                  alerts: nearest(
+                    lat: $lat
+                    lon: $lon
+                    filterByPlaceTypes: $filterByPlaceTypes
+                    filterByModes: $filterByModes
+                    maxResults: $maxResults
+                  ) {
+                    ...StopsNearYouPage_alerts
+                      @arguments(omitNonPickups: $omitNonPickups)
+                  }
                 }
               `}
               prepareVariables={prepareStopsParams(config)}
