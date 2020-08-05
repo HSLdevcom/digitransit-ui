@@ -813,6 +813,7 @@ const translations = {
     'citybike-off-season':
       'City bike stations will be opened again next spring',
     'citybike-register-required': 'To use city bikes, you need to register',
+    'citybike-station': 'Bike station {stationId}',
     citybike_off: 'Closed',
     'clear-button-label': 'Clear',
     close: 'Close',
@@ -1624,6 +1625,7 @@ const translations = {
     'citybike-off-season': 'Kaupunkipyörät palaavat käyttöön ensi keväänä',
     'citybike-register-required':
       'Kaupunkipyörien käyttö vaatii rekisteröitymisen',
+    'citybike-station': 'Pyöräasema {stationId}',
     citybike_off: 'Suljettu',
     'clear-button-label': 'Tyhjennä',
     close: 'Sulje',
@@ -3220,6 +3222,7 @@ const translations = {
     'citybike-off-season': 'Stadscyklarna tas i bruk igen nästa vår',
     'citybike-register-required':
       'Det krävs registrering för att kunna använda stadscyklar',
+    'citybike-station': 'Stadscykelstation {stationId}',
     citybike_off: 'Stängd',
     'clear-button-label': 'Töm',
     close: 'Stäng',

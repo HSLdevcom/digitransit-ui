@@ -394,6 +394,7 @@ export default {
   },
 
   maxNearbyStopAmount: 50,
+  maxNearbyStopDistance: 1000,
 
   showTicketSelector: true,
 

@@ -27,6 +27,9 @@ $citybike-not-available-color: $light-gray;
   }
 
   .row {
+    .available-fewer {
+      background: $slider-severe-color;
+    }
     .available-few {
       background: $slider-warning-color;
     }

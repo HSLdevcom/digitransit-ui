@@ -103,6 +103,7 @@ export default {
 
   omitNonPickups: true,
   maxNearbyStopAmount: 50,
+  maxNearbyStopDistance: 2000,
 
   defaultSettings: {
     usingWheelchair: 0,

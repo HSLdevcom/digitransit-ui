@@ -261,14 +261,19 @@ export const prepareStopsParams = config => ({ place, mode }) => {
   } else {
     newPlace = config.defaultEndpoint;
   }
+  let placeTypes = 'STOP';
   const modes = [mode];
+  if (mode === 'BICYCLE') {
+    placeTypes = 'BICYCLE_RENT';
+  }
 
   return {
     lat: newPlace.lat,
     lon: newPlace.lon,
     maxResults: config.maxNearbyStopAmount,
+    maxDistance: config.maxNearbyStopDistance,
     filterByModes: modes,
-    filterByPlaceTypes: 'STOP',
+    filterByPlaceTypes: placeTypes,
     omitNonPickups: config.omitNonPickups,
   };
 };
