@@ -39,6 +39,7 @@ const CityBikeStopNearYou = ({ stop }, { config }) => {
             fewAvailableCount={fewAvailableCount}
             fewerAvailableCount={fewerAvailableCount}
             useSpacesAvailable
+            type="citybike"
           />
         </div>
       </div>
