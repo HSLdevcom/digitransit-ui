@@ -33,6 +33,7 @@ const WalkingOptionsSection = (
       labelText={intl.formatMessage({ id: 'walking-speed' })}
       highlightDefaulValue
       formatOptions
+      name="walkspeed"
     />
   </React.Fragment>
 );
