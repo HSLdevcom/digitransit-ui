@@ -1234,6 +1234,12 @@ const translations = {
     wait: 'Wait',
     'wait-amount-of-time': 'Wait {duration}',
     walk: 'walking',
+    'walk-bike-itinerary-1':
+      'Löysimme valitsemallesi reitille vain kävelyyn liittyviä reittiehdotuksia.',
+    'walk-bike-itinerary-2':
+      'Löysimme valitsemallesi reitille vain pyöräilyyn liittyviä reittiehdotuksia.',
+    'walk-bike-itinerary-3':
+      'Löysimme valitsemallesi reitille vain kävelyyn ja pyöräilyyn liittyviä reittiehdotuksia.',
     'walk-distance-duration': 'Walk {distance} ({duration})',
     walking: 'Amount of walking',
     'walking-speed': 'Walking speed',
@@ -2042,6 +2048,12 @@ const translations = {
     wait: 'Odota',
     'wait-amount-of-time': 'Odota {duration}',
     walk: 'kävelyn',
+    'walk-bike-itinerary-1':
+      'Löysimme valitsemallesi reitille vain kävelyyn liittyviä reittiehdotuksia.',
+    'walk-bike-itinerary-2':
+      'Löysimme valitsemallesi reitille vain pyöräilyyn liittyviä reittiehdotuksia.',
+    'walk-bike-itinerary-3':
+      'Löysimme valitsemallesi reitille vain kävelyyn ja pyöräilyyn liittyviä reittiehdotuksia.',
     'walk-distance-duration': 'Kävele {distance} ({duration})',
     walking: 'Kävelyn määrä',
     'walking-speed': 'Kävelynopeus',
@@ -3646,6 +3658,12 @@ const translations = {
     wait: 'Vänta',
     'wait-amount-of-time': 'Vänta {duration}',
     walk: 'gång',
+    'walk-bike-itinerary-1':
+      'Löysimme valitsemallesi reitille vain kävelyyn liittyviä reittiehdotuksia.',
+    'walk-bike-itinerary-2':
+      'Löysimme valitsemallesi reitille vain pyöräilyyn liittyviä reittiehdotuksia.',
+    'walk-bike-itinerary-3':
+      'Löysimme valitsemallesi reitille vain kävelyyn ja pyöräilyyn liittyviä reittiehdotuksia.',
     'walk-distance-duration': 'Gå {distance} ({duration})',
     walking: 'Gång',
     'walking-speed': 'Promenadhastighet',
