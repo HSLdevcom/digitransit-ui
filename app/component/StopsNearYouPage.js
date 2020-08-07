@@ -37,12 +37,16 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
 
   render() {
     let content;
+    const { mode } = this.context.match.params;
+    const renderDisruptionBanner = mode !== 'BICYCLE';
     if (this.props.loadingPosition) {
       content = <Loading />;
     } else {
       content = (
         <div className="stops-near-you-page">
-          <DisruptionBanner alerts={this.props.alerts} />
+          {renderDisruptionBanner && (
+            <DisruptionBanner alerts={this.props.alerts} />
+          )}
           <StopsNearYouContainer stopPatterns={this.props.stopPatterns} />
         </div>
       );

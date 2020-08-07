@@ -27,7 +27,7 @@ const query = graphql`
 `;
 
 class CityBikes {
-  constructor(tile, config, mapLayers, relayEnvironment) {
+  constructor(tile, config, mapLayers, stopsNearYouMode, relayEnvironment) {
     this.tile = tile;
     this.config = config;
     this.relayEnvironment = relayEnvironment;
@@ -37,7 +37,6 @@ class CityBikes {
       20 * this.scaleratio * getMapIconScale(this.tile.coords.z);
     this.availabilityImageSize =
       14 * this.scaleratio * getMapIconScale(this.tile.coords.z);
-
     this.promise = this.fetchWithAction(this.fetchAndDrawStatus);
   }
 
