@@ -11,6 +11,7 @@ const CityBikeAvailability = mapProps(
     bikesAvailable,
     totalSpaces,
     fewAvailableCount,
+    fewerAvailableCount,
     type,
     useSpacesAvailable,
   }) => {
@@ -21,6 +22,7 @@ const CityBikeAvailability = mapProps(
       available,
       total,
       fewAvailableCount,
+      fewerAvailableCount,
       text: (
         <p className="sub-header-h4 availability-header">
           <FormattedMessage
@@ -60,8 +62,11 @@ CityBikeAvailability.propTypes = {
   bikesAvailable: PropTypes.number.isRequired,
   totalSpaces: PropTypes.number.isRequired,
   fewAvailableCount: PropTypes.number.isRequired,
-  type: PropTypes.string.isRequired,
+  type: PropTypes.string,
   useSpacesAvailable: PropTypes.bool.isRequired,
+};
+CityBikeAvailability.defaultProps = {
+  type: 'citybike',
 };
 
 export default CityBikeAvailability;

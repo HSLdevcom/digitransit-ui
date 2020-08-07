@@ -7,6 +7,7 @@ function Availability({
   total,
   available,
   fewAvailableCount,
+  fewerAvailableCount,
   text,
   showStatusBar,
 }) {
@@ -16,6 +17,8 @@ function Availability({
 
   if (availablepct === 0) {
     availableClass = 'available-none';
+  } else if (available <= fewerAvailableCount) {
+    availableClass = 'available-fewer';
   } else if (available <= fewAvailableCount) {
     availableClass = 'available-few';
   } else {
@@ -83,6 +86,7 @@ Availability.propTypes = {
   available: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
   fewAvailableCount: PropTypes.number.isRequired,
+  fewerAvailableCount: PropTypes.number.isRequired,
   text: PropTypes.node.isRequired,
   showStatusBar: PropTypes.bool.isRequired,
 };

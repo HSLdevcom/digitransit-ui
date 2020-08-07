@@ -25,7 +25,7 @@ if (isBrowser) {
 let timeout;
 
 function ItineraryPageMap(
-  { itinerary, center, breakpoint, bounds },
+  { itinerary, center, breakpoint, bounds, streetMode },
   { router, match, config },
 ) {
   const { from, to } = match.params;
@@ -35,12 +35,13 @@ function ItineraryPageMap(
       key="fromMarker"
       position={otpToLocation(from)}
       type="from"
+      streetMode={streetMode}
     />,
     <LocationMarker
-      isLarge
       key="toMarker"
       position={otpToLocation(to)}
       type="to"
+      streetMode={streetMode}
     />,
     <VehicleMarkerContainer key="vehicles" useLargeIcon />,
   ];
@@ -73,6 +74,7 @@ function ItineraryPageMap(
         legs={itinerary.legs}
         showTransferLabels
         showIntermediateStops
+        streetMode={streetMode}
       />,
     );
   }
@@ -178,6 +180,7 @@ ItineraryPageMap.propTypes = {
   center: dtLocationShape,
   breakpoint: PropTypes.string.isRequired,
   bounds: PropTypes.array,
+  streetMode: PropTypes.string,
 };
 
 ItineraryPageMap.contextTypes = {

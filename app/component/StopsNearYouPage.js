@@ -11,6 +11,7 @@ import { startLocationWatch } from '../action/PositionActions';
 import StopsNearYouContainer from './StopsNearYouContainer';
 import Loading from './Loading';
 import BackButton from './BackButton';
+import DisruptionBanner from './DisruptionBanner';
 
 class StopsNearYouPage extends React.Component { // eslint-disable-line
   static contextTypes = {
@@ -24,6 +25,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
 
   static propTypes = {
     stopPatterns: PropTypes.any.isRequired,
+    alerts: PropTypes.any.isRequired,
     loadingPosition: PropTypes.bool,
     breakpoint: PropTypes.string.isRequired,
   };
@@ -35,11 +37,18 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
 
   render() {
     let content;
+    const { mode } = this.context.match.params;
+    const renderDisruptionBanner = mode !== 'BICYCLE';
     if (this.props.loadingPosition) {
       content = <Loading />;
     } else {
       content = (
-        <StopsNearYouContainer stopPatterns={this.props.stopPatterns} />
+        <div className="stops-near-you-page">
+          {renderDisruptionBanner && (
+            <DisruptionBanner alerts={this.props.alerts} />
+          )}
+          <StopsNearYouContainer stopPatterns={this.props.stopPatterns} />
+        </div>
       );
     }
     if (this.props.breakpoint === 'large') {
@@ -48,6 +57,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
           <BackButton
             icon="icon-icon_arrow-collapse--left"
             iconClassName="arrow-icon"
+            className="back-button near-you-back-button"
             title={
               <FormattedMessage
                 id="nearest-stops"
@@ -56,7 +66,8 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
             }
             color={this.context.config.colors.primary}
           />
-          <div className="stops-near-you-page">{content}</div>
+
+          {content}
         </>
       );
     }
@@ -112,6 +123,14 @@ const containerComponent = createFragmentContainer(PositioningWrapper, {
       ) {
       ...StopsNearYouContainer_stopPatterns
         @arguments(omitNonPickups: $omitNonPickups)
+    }
+  `,
+  alerts: graphql`
+    fragment StopsNearYouPage_alerts on placeAtDistanceConnection
+      @argumentDefinitions(
+        omitNonPickups: { type: "Boolean!", defaultValue: false }
+      ) {
+      ...DisruptionBanner_alerts @arguments(omitNonPickups: $omitNonPickups)
     }
   `,
 });

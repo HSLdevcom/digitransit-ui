@@ -261,14 +261,19 @@ export const prepareStopsParams = config => ({ place, mode }) => {
   } else {
     newPlace = config.defaultEndpoint;
   }
+  let placeTypes = 'STOP';
   const modes = [mode];
+  if (mode === 'BICYCLE') {
+    placeTypes = 'BICYCLE_RENT';
+  }
 
   return {
     lat: newPlace.lat,
     lon: newPlace.lon,
     maxResults: config.maxNearbyStopAmount,
+    maxDistance: config.maxNearbyStopDistance,
     filterByModes: modes,
-    filterByPlaceTypes: 'STOP',
+    filterByPlaceTypes: placeTypes,
     omitNonPickups: config.omitNonPickups,
   };
 };
@@ -383,7 +388,6 @@ export const preparePlanParams = config => (
                 ),
               }
             : null,
-        carParkCarLegWeight: settings.carParkCarLegWeight,
         maxTransfers: settings.maxTransfers,
         waitAtBeginningFactor: settings.waitAtBeginningFactor,
         heuristicStepsPerMainStep: settings.heuristicStepsPerMainStep,
@@ -459,6 +463,8 @@ export const preparePlanParams = config => (
         toLocation,
         intermediatePlaceLocations,
       ) < config.suggestBikeMaxDistance,
+    showBikeAndPublicItineraries: config.showBikeAndPublicItineraries,
+    showBikeAndParkItineraries: config.showBikeAndParkItineraries,
   };
 };
 

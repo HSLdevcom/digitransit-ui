@@ -41,6 +41,7 @@ class SummaryPlanContainer extends React.Component {
       from: PropTypes.string.isRequired,
       to: PropTypes.string.isRequired,
       hash: PropTypes.string,
+      secondHash: PropTypes.string,
     }).isRequired,
     plan: PropTypes.shape({ date: PropTypes.number }), // eslint-disable-line
     serviceTimeRange: PropTypes.shape({
@@ -50,6 +51,9 @@ class SummaryPlanContainer extends React.Component {
     setError: PropTypes.func.isRequired,
     setLoading: PropTypes.func.isRequired,
     relayEnvironment: PropTypes.object,
+    toggleSettings: PropTypes.func.isRequired,
+    bikeAndPublicItinerariesToShow: PropTypes.number.isRequired,
+    bikeAndParkItinerariesToShow: PropTypes.number.isRequired,
   };
 
   static defaultProps = {
@@ -64,14 +68,22 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onSelectActive = index => {
+    let isBikeAndPublic;
+    if (this.props.params.hash === 'bikeAndPublic') {
+      isBikeAndPublic = true;
+    }
     if (this.props.activeIndex === index) {
       this.onSelectImmediately(index);
     } else {
       this.context.router.replace({
         ...this.context.match.location,
         state: { summaryPageSelected: index },
-        pathname: getRoutePath(this.props.params.from, this.props.params.to),
+        pathname: `${getRoutePath(
+          this.props.params.from,
+          this.props.params.to,
+        )}${isBikeAndPublic ? '/bikeAndPublic/' : ''}`,
       });
+
       addAnalyticsEvent({
         category: 'Itinerary',
         action: 'HighlightItinerary',
@@ -81,6 +93,10 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onSelectImmediately = index => {
+    let isBikeAndPublic;
+    if (this.props.params.hash === 'bikeAndPublic') {
+      isBikeAndPublic = true;
+    }
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'Itinerary',
@@ -91,11 +107,14 @@ class SummaryPlanContainer extends React.Component {
       ...this.context.match.location,
       state: { summaryPageSelected: index },
     };
-    const basePath = getRoutePath(this.props.params.from, this.props.params.to);
+    const basePath = `${getRoutePath(
+      this.props.params.from,
+      this.props.params.to,
+    )}${isBikeAndPublic ? '/bikeAndPublic/' : '/'}`;
     const indexPath = `${getRoutePath(
       this.props.params.from,
       this.props.params.to,
-    )}/${index}`;
+    )}${isBikeAndPublic ? '/bikeAndPublic/' : '/'}${index}`;
 
     newState.pathname = basePath;
     this.context.router.replace(newState);
@@ -470,7 +489,15 @@ class SummaryPlanContainer extends React.Component {
   render() {
     const { location } = this.context.match;
     const { from, to } = this.props.params;
-    const { activeIndex, currentTime, locationState, itineraries } = this.props;
+    const {
+      activeIndex,
+      currentTime,
+      locationState,
+      itineraries,
+      toggleSettings,
+      bikeAndPublicItinerariesToShow,
+      bikeAndParkItinerariesToShow,
+    } = this.props;
     const searchTime =
       this.props.plan.date ||
       (location.query &&
@@ -498,16 +525,22 @@ class SummaryPlanContainer extends React.Component {
           onSelectImmediately={this.onSelectImmediately}
           searchTime={searchTime}
           to={otpToLocation(to)}
+          toggleSettings={toggleSettings}
+          bikeAndPublicItinerariesToShow={bikeAndPublicItinerariesToShow}
+          bikeAndParkItinerariesToShow={bikeAndParkItinerariesToShow}
         >
           {this.props.children}
         </ItinerarySummaryListContainer>
-        <TimeNavigationButtons
-          isEarlierDisabled={disableButtons}
-          isLaterDisabled={disableButtons}
-          onEarlier={this.onEarlier}
-          onLater={this.onLater}
-          onNow={this.onNow}
-        />
+        {this.context.match.params.hash &&
+        this.context.match.params.hash === 'bikeAndPublic' ? null : (
+          <TimeNavigationButtons
+            isEarlierDisabled={disableButtons}
+            isLaterDisabled={disableButtons}
+            onEarlier={this.onEarlier}
+            onLater={this.onLater}
+            onNow={this.onNow}
+          />
+        )}
       </div>
     );
   }
@@ -545,6 +578,15 @@ const connectedContainer = createFragmentContainer(
         ...ItinerarySummaryListContainer_itineraries
         endTime
         startTime
+        legs {
+          mode
+          to {
+            bikePark {
+              bikeParkId
+              name
+            }
+          }
+        }
       }
     `,
   },

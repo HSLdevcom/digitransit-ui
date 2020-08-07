@@ -1,0 +1,19 @@
+.itinerary-summary-subtitle-container {
+  background-color: #f4f4f5;
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.5px;
+  color: #666666;
+  height: 47px;
+  padding: 22px 0 22px 3.75em;
+  border-bottom: 1px solid #dddddd;
+}
+
+.mobile {
+    .itinerary-summary-subtitle-container {
+        padding: 22px 0 22px 25px;
+    }
+}

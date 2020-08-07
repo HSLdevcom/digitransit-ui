@@ -3,7 +3,7 @@
     min-height: 20rem;
 }
 
-.stops-near-you-container {
+.stops-near-you-page {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -13,11 +13,36 @@
         border-radius: 10px;
         width: 100%;
         margin-bottom: 10px;
+        .citybike-content-container {
+            padding: 15px 14px 22px;
+            display: flex;
+            height: 45px;
+            box-sizing: content-box;
+            .availability-container {
+                padding-left: 15px;
+                flex: 1;
+                .sub-header-h4 {
+                    font-size: 0.813rem;
+                }
+            }
+            .icon-container {
+                display: flex;
+                align-self: center;
+                .icon {
+                    width: 36px;
+                    height: 36px;
+                }
+            }
+        }
         .stop-near-you-header-container {
             .stop-header-content {
                 a {
                     text-decoration: none;
                     color: #333;
+                }
+                .bike-station-code {
+                    font-size: 0.813rem;
+                    font-weight: normal;
                 }
             }
             padding: 14px 15px 1px 20px;
@@ -110,7 +135,7 @@
         flex-shrink: 0;
         overflow-y: auto;
     }
-    .back-button {
+    .back-button.near-you-back-button {
         font-size: 1.25rem;
         margin: 50px 0 16px 0;
         line-height: 1;
@@ -125,8 +150,19 @@
     }
 }
 
+.disruption-banner-container {
+    @include font-medium;
+    font-weight: 100;
+    background-color: #dc0451;
+    color: white;
+    font-size: 0.9375rem;
+    padding: 8px 14px 12px 14px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
 .mobile {
-    .stops-near-you-container {
+    .stops-near-you-page {
         height: calc(100% - 20rem);
         padding: 15px 0.625em 0;
         background-color: white;
@@ -135,5 +171,11 @@
         position: relative;
         top: -15px;
         z-index: 2;
+        .stops-near-you-container {
+            padding: 0;
+        }
+        .disruption-banner-container {
+            margin: 0 5px 15px;
+        }
     }
 }

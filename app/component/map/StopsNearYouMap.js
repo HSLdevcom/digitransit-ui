@@ -11,13 +11,18 @@ import { dtLocationShape } from '../../util/shapes';
 import PreferencesStore from '../../store/PreferencesStore';
 import BackButton from '../BackButton';
 
-function StopsNearYouMap({ breakpoint, origin, destination }, { config }) {
+function StopsNearYouMap(
+  { breakpoint, origin, destination, ...props },
+  { config },
+) {
   let map;
+  const { mode } = props.match.params;
   if (breakpoint === 'large') {
     map = (
       <MapWithTracking
         breakpoint={breakpoint}
         showStops
+        stopsNearYouMode={mode}
         showScaleBar
         setInitialZoom={17}
         origin={origin}
@@ -37,6 +42,7 @@ function StopsNearYouMap({ breakpoint, origin, destination }, { config }) {
         <MapWithTracking
           breakpoint={breakpoint}
           showStops
+          stopsNearYouMode={mode}
           showScaleBar
           setInitialZoom={17}
           origin={origin}

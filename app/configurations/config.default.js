@@ -103,6 +103,7 @@ export default {
 
   omitNonPickups: true,
   maxNearbyStopAmount: 50,
+  maxNearbyStopDistance: 2000,
 
   defaultSettings: {
     usingWheelchair: 0,
@@ -242,11 +243,11 @@ export default {
     line: {
       halo: {
         weight: 7,
-        thinWeight: 4,
+        thinWeight: 2,
       },
 
       leg: {
-        weight: 5,
+        weight: 6,
         thinWeight: 2,
       },
 
@@ -794,5 +795,7 @@ export default {
   // DT-3611
   showVehiclesOnSummaryPage: false,
 
-  showWeatherInformation: false,
+  showWeatherInformation: true,
+  showBikeAndPublicItineraries: false,
+  showBikeAndParkItineraries: false,
 };

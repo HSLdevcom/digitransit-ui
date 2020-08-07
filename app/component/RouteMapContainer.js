@@ -28,39 +28,29 @@ class RouteMapContainer extends React.PureComponent {
     config: PropTypes.object.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      centerToMarker: true,
-    };
-  }
-
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (this.props.match.params.tripId !== nextProps.match.params.tripId) {
-      this.setState({
-        centerToMarker: true,
-      });
-    } else if (this.state.centerToMarker) {
-      this.setState({
-        centerToMarker: false,
-      });
-    }
-  }
+  tripId = this.props.match.params.tripId;
+  dispLat = this.props.lat;
+  dispLon = this.props.lon;
 
   render() {
     const { pattern, lat, lon, match, router, breakpoint } = this.props;
-    const { centerToMarker } = this.state;
     const { config } = this.context;
+    let centerToMarker = false;
+
+    if (this.props.match.params.tripId !== this.tripId) {
+      this.tripId = this.props.match.params.tripId;
+      centerToMarker = true;
+    }
 
     const fullscreen =
       match.location.state && match.location.state.fullscreenMap === true;
 
-    const [dispLat, dispLon] =
-      centerToMarker &&
-      (match.params.tripId || (!fullscreen && breakpoint !== 'large'))
+    [this.dispLat, this.dispLon] =
+      (centerToMarker || (!this.dispLat || !this.dispLon)) &&
+      (match.params.tripId || (!fullscreen && breakpoint !== 'large')) &&
+      (lat && lon)
         ? [lat, lon]
-        : [undefined, undefined];
+        : [this.dispLat, this.dispLon];
 
     if (!pattern) {
       return false;
@@ -106,13 +96,15 @@ class RouteMapContainer extends React.PureComponent {
     /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
     return (
       <MapContainer
-        lat={dispLat}
-        lon={dispLon}
+        lat={this.dispLat}
+        lon={this.dispLon}
         className="full"
         leafletObjs={leafletObjs}
-        fitBounds={!(dispLat && dispLon) && !match.params.tripId}
+        fitBounds={!match.params.tripId}
         bounds={(filteredPoints || pattern.stops).map(p => [p.lat, p.lon])}
-        zoom={dispLat && dispLon ? 15 : undefined}
+        zoom={
+          this.dispLat && this.dispLon && match.params.tripId ? 15 : undefined
+        }
         showScaleBar={showScale}
       >
         {breakpoint !== 'large' &&

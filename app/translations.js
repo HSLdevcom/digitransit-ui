@@ -813,6 +813,7 @@ const translations = {
     'citybike-off-season':
       'City bike stations will be opened again next spring',
     'citybike-register-required': 'To use city bikes, you need to register',
+    'citybike-station': 'Bike station {stationId}',
     citybike_off: 'Closed',
     'clear-button-label': 'Clear',
     close: 'Close',
@@ -939,6 +940,8 @@ const translations = {
       'Transfer to {vehicle} on stop {stopName}',
     'itinerary-summary-row.walking-distance':
       'Total walking distance {totalDistance}.',
+    'itinerary-summary.bikeAndPublic-title': 'Bike & public transport',
+    'itinerary-summary.bikePark-title': 'Bike & public transport & walk',
     'itinerary-summary.interline-wait':
       'Wait for the transfer in the vehicle ({time})',
     'itinerary-summary.show-on-map': 'Show on map {target}',
@@ -1138,6 +1141,7 @@ const translations = {
       'A separate ticket is required for this part of the itinerary.',
     'separate-ticket-required-disclaimer':
       'This itinerary contains one or more legs for which {agencyName} does not sell tickets.',
+    'set-specific-settings': 'Set more specific settings',
     settings: 'Settings',
     'settings-label-change': 'Change settings',
     'settings-loadbutton': 'Load settings',
@@ -1621,6 +1625,7 @@ const translations = {
     'citybike-off-season': 'Kaupunkipyörät palaavat käyttöön ensi keväänä',
     'citybike-register-required':
       'Kaupunkipyörien käyttö vaatii rekisteröitymisen',
+    'citybike-station': 'Pyöräasema {stationId}',
     citybike_off: 'Suljettu',
     'clear-button-label': 'Tyhjennä',
     close: 'Sulje',
@@ -1744,6 +1749,8 @@ const translations = {
     'itinerary-summary-row.transfers': 'Vaihto {vehicle} pysäkillä {stopName}',
     'itinerary-summary-row.walking-distance':
       'Kävelyä yhteensä {totalDistance}.',
+    'itinerary-summary.bikeAndPublic-title': 'Polkupyörä & joukkoliikenne',
+    'itinerary-summary.bikePark-title': 'Polkupyörä & joukkoliikenne & kävely',
     'itinerary-summary.interline-wait': 'Odota vaihtoa kulkuneuvossa ({time})',
     'itinerary-summary.show-on-map': 'Näytä kartalla {target}',
     'itinerary-ticket.title': 'Tarvittava lippu',
@@ -1942,6 +1949,7 @@ const translations = {
       'Tälle matkan osuudelle tarvitaan erillinen lippu.',
     'separate-ticket-required-disclaimer':
       'Matka sisältää yhden tai useamman osuuden, jonka lippujen myynnistä {agencyName} ei vastaa.',
+    'set-specific-settings': 'Aseta tarkemmat asetukset',
     settings: 'Asetukset',
     'settings-label-change': 'Muuta reittihaun asetuksia',
     'settings-loadbutton': 'Lataa asetukset',
@@ -3214,6 +3222,7 @@ const translations = {
     'citybike-off-season': 'Stadscyklarna tas i bruk igen nästa vår',
     'citybike-register-required':
       'Det krävs registrering för att kunna använda stadscyklar',
+    'citybike-station': 'Stadscykelstation {stationId}',
     citybike_off: 'Stängd',
     'clear-button-label': 'Töm',
     close: 'Stäng',
@@ -3341,6 +3350,8 @@ const translations = {
       'Byte {vehicle} vid hållplats {stopName}',
     'itinerary-summary-row.walking-distance':
       'Promenad sammanlagt {totalDistance}.',
+    'itinerary-summary.bikeAndPublic-title': 'Cykling & kollektivtrafik',
+    'itinerary-summary.bikePark-title': 'Cykling & kollektivtrafik & gående',
     'itinerary-summary.interline-wait': 'Odota vaihtoa kulkuneuvossa ({time})',
     'itinerary-summary.show-on-map': 'Visa på kartan {target}',
     'itinerary-ticket.title': 'Biljett som behövs',
@@ -3540,6 +3551,7 @@ const translations = {
       'Denna etapp av resan kräver en separat biljett.',
     'separate-ticket-required-disclaimer':
       'Resan består av en eller fleta etapper vilka kräver biljetter som inte säljs av {agencyName}.',
+    'set-specific-settings': 'Ställa avancerade inställningar',
     settings: 'Anpassa',
     'settings-label-change': 'Anpassa sökning',
     'settings-loadbutton': 'Ladda inställningarna',

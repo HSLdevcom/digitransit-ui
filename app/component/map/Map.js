@@ -41,6 +41,7 @@ export default class Map extends React.Component {
     leafletOptions: PropTypes.object,
     padding: PropTypes.array,
     showStops: PropTypes.bool,
+    stopsNearYouMode: PropTypes.string,
     zoom: PropTypes.number,
     showScaleBar: PropTypes.bool,
     loaded: PropTypes.func,
@@ -196,6 +197,7 @@ export default class Map extends React.Component {
             !this.props.destinationFromMap && (
               <VectorTileLayerContainer
                 hilightedStops={this.props.hilightedStops}
+                stopsNearYouMode={this.props.stopsNearYouMode}
                 showStops={this.props.showStops}
                 disableMapTracking={this.props.disableMapTracking}
                 disableLocationPopup={disableLocationPopup}

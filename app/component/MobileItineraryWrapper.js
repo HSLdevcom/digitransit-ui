@@ -14,6 +14,7 @@ export default class MobileItineraryWrapper extends React.Component {
       from: PropTypes.string.isRequired,
       to: PropTypes.string.isRequired,
       hash: PropTypes.string.isRequired,
+      secondHash: PropTypes.string,
     }).isRequired,
     plan: PropTypes.object,
     serviceTimeRange: PropTypes.object.isRequired,
@@ -47,7 +48,9 @@ export default class MobileItineraryWrapper extends React.Component {
   focusMap = (lat, lon) => this.props.focus(lat, lon);
 
   render() {
-    const index = parseInt(this.props.params.hash, 10) || 0;
+    const index = this.props.params.secondHash
+      ? parseInt(this.props.params.secondHash, 10)
+      : parseInt(this.props.params.hash, 10) || 0;
 
     if (!this.props.children) {
       return (

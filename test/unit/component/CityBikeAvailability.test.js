@@ -11,6 +11,7 @@ describe('<CityBikeAvailability />', () => {
       bikesAvailable: 1,
       totalSpaces: 3,
       fewAvailableCount: 3,
+      fewerAvailableCount: 2,
       type: 'citybike',
       useSpacesAvailable: true,
     };

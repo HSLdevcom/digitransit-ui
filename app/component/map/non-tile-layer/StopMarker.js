@@ -65,7 +65,7 @@ class StopMarker extends React.Component {
     const calcZoom =
       this.props.stop.transfer || this.props.selected
         ? Math.max(zoom, 15)
-        : zoom;
+        : zoom || 15;
 
     const radius = getCaseRadius(calcZoom) * scale;
     const stopRadius = getStopRadius(calcZoom) * scale;
@@ -77,7 +77,6 @@ class StopMarker extends React.Component {
     // see app/util/mapIconUtils.js for the canvas version
     let iconSvg = `
       <svg viewBox="0 0 ${radius * 2} ${radius * 2}">
-        <circle class="stop-halo" cx="${radius}" cy="${radius}" r="${radius}"/>
         <circle class="stop" cx="${radius}" cy="${radius}" r="${inner}" stroke-width="${stroke}"/>
         ${
           inner > 7 && this.props.stop.platformCode

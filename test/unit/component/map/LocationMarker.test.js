@@ -14,7 +14,7 @@ describe('<LocationMarker />', () => {
       },
     };
     const wrapper = shallowWithIntl(<LocationMarker {...props} />);
-    const { icon } = wrapper.props();
+    const { icon } = wrapper.props().children[1].props;
     expect(icon.iconSize).to.deep.equal([30, 30]);
     expect(icon.iconAnchor).to.deep.equal([15, 30]);
   });
@@ -29,8 +29,9 @@ describe('<LocationMarker />', () => {
       type: 'from',
     };
     const wrapper = shallowWithIntl(<LocationMarker {...props} />);
-    expect(wrapper.props().className).to.equal('from');
-    expect(wrapper.props().icon.className).to.equal('from');
+    const { icon } = wrapper.props().children[1].props;
+    expect(wrapper.props().children[1].props.className).to.equal('from');
+    expect(icon.className).to.equal('from');
   });
 
   it('should include the given className', () => {
@@ -43,8 +44,9 @@ describe('<LocationMarker />', () => {
       },
     };
     const wrapper = shallowWithIntl(<LocationMarker {...props} />);
-    expect(wrapper.props().className).to.contain('foobar');
-    expect(wrapper.props().icon.className).to.contain('foobar');
+    const [, icon] = wrapper.props().children;
+    expect(icon.props.className).to.contain('foobar');
+    expect(icon.props.icon.className).to.contain('foobar');
   });
 
   it('should construct the img id based on type', () => {
@@ -57,7 +59,7 @@ describe('<LocationMarker />', () => {
       type: 'to',
     };
     const wrapper = shallowWithIntl(<LocationMarker {...props} />);
-    expect(wrapper.props().icon.element.props.img).to.equal(
+    expect(wrapper.props().children[1].props.icon.element.props.img).to.equal(
       'icon-icon_mapMarker-to-map',
     );
   });

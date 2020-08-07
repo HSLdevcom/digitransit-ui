@@ -3,6 +3,7 @@ import React from 'react';
 import { createRefetchContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import StopNearYou from './StopNearYou';
+import CityBikeStopNearYou from './CityBikeStopNearYou';
 
 class StopsNearYouContainer extends React.Component {
   static propTypes = {
@@ -27,16 +28,32 @@ class StopsNearYouContainer extends React.Component {
     const stopPatterns = this.props.stopPatterns.edges;
     const stops = stopPatterns.map(({ node }) => {
       const stop = node.place;
-      if (stop.stoptimesWithoutPatterns.length > 0) {
-        return (
-          <StopNearYou
-            key={`${stop.gtfsId}`}
-            stop={stop}
-            distance={node.distance}
-            color={this.context.config.colors.primary}
-            currentTime={this.props.currentTime}
-          />
-        );
+      /* eslint-disable-next-line no-underscore-dangle */
+      switch (stop.__typename) {
+        case 'Stop':
+          if (stop.stoptimesWithoutPatterns.length > 0) {
+            return (
+              <StopNearYou
+                key={`${stop.gtfsId}`}
+                stop={stop}
+                distance={node.distance}
+                color={this.context.config.colors.primary}
+                currentTime={this.props.currentTime}
+              />
+            );
+          }
+          break;
+        case 'BikeRentalStation':
+          return (
+            <CityBikeStopNearYou
+              key={stop.name}
+              stop={stop}
+              color={this.context.config.colors.primary}
+              currentTime={this.props.currentTime}
+            />
+          );
+        default:
+          return null;
       }
       return null;
     });
@@ -68,6 +85,13 @@ const connectedContainer = createRefetchContainer(
             distance
             place {
               __typename
+              ... on BikeRentalStation {
+                stationId
+                name
+                bikesAvailable
+                spacesAvailable
+                networks
+              }
               ... on Stop {
                 id
                 name

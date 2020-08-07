@@ -74,6 +74,9 @@ export default class Line extends React.Component {
       ? lineConfig.leg.thinWeight
       : lineConfig.leg.weight;
 
+    if (this.props.mode === 'walk') {
+      legWeight *= 0.8;
+    }
     if (this.props.passive) {
       haloWeight *= 0.5;
       legWeight *= 0.5;
