@@ -2,7 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connectToStores } from 'fluxible-addons-react';
 import { matchShape, routerShape } from 'found';
-import MapWithTracking from './MapWithTracking';
+import { createFragmentContainer, graphql } from 'react-relay';
+
+import uniqBy from 'lodash/uniqBy';
+import polyline from 'polyline-encoded';
 import withBreakpoint from '../../util/withBreakpoint';
 
 import OriginStore from '../../store/OriginStore';
@@ -11,12 +14,43 @@ import { dtLocationShape } from '../../util/shapes';
 import PreferencesStore from '../../store/PreferencesStore';
 import BackButton from '../BackButton';
 
+import Line from './Line';
+import MapWithTracking from './MapWithTracking';
+
 function StopsNearYouMap(
-  { breakpoint, origin, destination, ...props },
+  { breakpoint, origin, destination, routes, ...props },
   { config },
 ) {
-  let map;
   const { mode } = props.match.params;
+
+  const routeLines = [];
+  const renderRouteLines = mode !== 'BICYCLE';
+  let leafletObjs = [];
+  if (renderRouteLines) {
+    routes.edges.forEach(item => {
+      const { place } = item.node;
+      place.routes.forEach(route => {
+        route.patterns.forEach(pattern => {
+          routeLines.push(pattern);
+        });
+      });
+    });
+    const getPattern = pattern =>
+      pattern.patternGeometry ? pattern.patternGeometry.points : '';
+    leafletObjs = uniqBy(routeLines, getPattern).map(pattern => {
+      if (pattern.patternGeometry) {
+        return (
+          <Line
+            opaque
+            geometry={polyline.decode(pattern.patternGeometry.points)}
+            mode={mode.toLowerCase()}
+          />
+        );
+      }
+      return null;
+    });
+  }
+  let map;
   if (breakpoint === 'large') {
     map = (
       <MapWithTracking
@@ -29,6 +63,7 @@ function StopsNearYouMap(
         destination={destination}
         setInitialMapTracking
         disableLocationPopup
+        leafletObjs={leafletObjs}
       />
     );
   } else {
@@ -92,7 +127,38 @@ const StopsNearYouMapWithStores = connectToStores(
   },
 );
 
+const containerComponent = createFragmentContainer(StopsNearYouMapWithStores, {
+  routes: graphql`
+    fragment StopsNearYouMap_routes on placeAtDistanceConnection
+      @argumentDefinitions(
+        startTime: { type: "Long!", defaultValue: 0 }
+        omitNonPickups: { type: "Boolean!", defaultValue: false }
+      ) {
+      edges {
+        node {
+          place {
+            __typename
+            ... on Stop {
+              routes {
+                shortName
+                patterns {
+                  route {
+                    mode
+                  }
+                  patternGeometry {
+                    points
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `,
+});
+
 export {
-  StopsNearYouMapWithStores as default,
+  containerComponent as default,
   StopsNearYouMapWithBreakpoint as Component,
 };
