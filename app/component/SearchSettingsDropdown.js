@@ -51,6 +51,7 @@ class SearchSettingsDropdown extends React.Component {
     displayPattern: PropTypes.string,
     onOptionSelected: PropTypes.func.isRequired,
     formatOptions: PropTypes.bool,
+    name: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -73,7 +74,7 @@ class SearchSettingsDropdown extends React.Component {
 
   componentDidUpdate() {
     if (this.state.showDropdown) {
-      this.labelRef.current.scrollIntoView();
+      this.labelRef.current.scrollIntoView({ block: 'nearest' });
     }
   }
 
@@ -83,31 +84,48 @@ class SearchSettingsDropdown extends React.Component {
     });
   };
 
-  handleDropdownClick = (value, prevState) => {
-    this.props.onOptionSelected(value);
+  handleDropdownClick = prevState => {
     this.toggleDropdown(prevState);
+  };
+
+  handleChangeOnly = value => {
+    this.props.onOptionSelected(value);
   };
 
   getOptionTags = (dropdownOptions, prevState) => {
     return dropdownOptions.map(option => (
-      <li
-        className={
-          option.value === this.props.currentSelection.value ? 'selected' : ''
-        }
-        key={option.displayName + option.value}
-        value={option.value}
-        onClick={() => this.handleDropdownClick(option.value, prevState)}
-      >
-        {option.displayNameObject
-          ? option.displayNameObject
-          : option.displayName}
-        {option.value === this.props.currentSelection.value && (
-          <Icon
-            className="selected-checkmark"
-            img="icon-icon_check"
-            viewBox="0 0 15 11"
+      <li key={option.displayName + option.value}>
+        <label
+          className={`settings-dropdown-choice ${
+            option.value === this.props.currentSelection.value ? 'selected' : ''
+          }`}
+          htmlFor={`dropdown-${this.props.name}-${option.value}`}
+        >
+          {option.displayNameObject
+            ? option.displayNameObject
+            : option.displayName}
+          {option.value === this.props.currentSelection.value && (
+            <Icon
+              className="selected-checkmark"
+              img="icon-icon_check"
+              viewBox="0 0 15 11"
+            />
+          )}
+          <input
+            id={`dropdown-${this.props.name}-${option.value}`}
+            type="radio"
+            name={this.props.name}
+            checked={option.value === this.props.currentSelection.value}
+            value={option.value}
+            onChange={e => {
+              this.handleChangeOnly(option.value);
+              // try to detect if event is from an actual click or keyboard navigation
+              if (e.nativeEvent.clientX || e.nativeEvent.clientY) {
+                this.handleDropdownClick(prevState);
+              }
+            }}
           />
-        )}
+        </label>
       </li>
     ));
   };
@@ -172,15 +190,16 @@ class SearchSettingsDropdown extends React.Component {
       : options;
 
     return (
-      <div className="settings-dropdown-wrapper">
-        <span
+      <fieldset className="settings-dropdown-wrapper" ref={this.labelRef}>
+        <legend className="sr-only">{labelText}</legend>
+        <button
+          type="button"
           className="settings-dropdown-label"
           onClick={() => this.toggleDropdown(this.state.showDropdown)}
-          role="Button"
-          tabIndex="0"
-          ref={this.labelRef}
         >
-          <p className="settings-dropdown-label-text">{labelText}</p>
+          <p className="settings-dropdown-label-text" aria-hidden="true">
+            {labelText}
+          </p>
           <p className="settings-dropdown-label-value">
             {displayValueFormatter
               ? displayValueFormatter(currentSelection.title)
@@ -188,6 +207,13 @@ class SearchSettingsDropdown extends React.Component {
                   id: currentSelection.title,
                 })}`}
           </p>
+          <span className="sr-only">
+            {intl.formatMessage({
+              id: showDropdown
+                ? 'settings-dropdown-close-label'
+                : 'settings-dropdown-open-label',
+            })}
+          </span>
           <Icon
             className={
               this.state.showDropdown
@@ -196,13 +222,13 @@ class SearchSettingsDropdown extends React.Component {
             }
             img="icon-icon_arrow-dropdown"
           />
-        </span>
+        </button>
         {showDropdown && (
-          <ul className="settings-dropdown">
+          <ul role="radiogroup" className="settings-dropdown">
             {this.getOptionTags(selectOptions, this.state.showDropdown)}
           </ul>
         )}
-      </div>
+      </fieldset>
     );
   }
 }
