@@ -30,9 +30,6 @@ class Stops {
   static getName = () => 'stop';
 
   drawStop(feature, isHybrid) {
-    if (!this.stopsNearYouCheck(feature) && !isHybrid) {
-      return;
-    }
     if (
       !isFeatureLayerEnabled(
         feature,
@@ -124,7 +121,9 @@ class Stops {
                     hybridGtfsIdByCode[f.properties.code] = f.properties.gtfsId;
                   }
                 }
-                this.features.push(f);
+                if (this.stopsNearYouCheck(f)) {
+                  this.features.push(f);
+                }
               }
             }
             // sort to draw in correct order
