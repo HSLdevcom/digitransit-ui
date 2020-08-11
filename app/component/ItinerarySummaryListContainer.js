@@ -35,6 +35,8 @@ function ItinerarySummaryListContainer(
     toggleSettings,
     bikeAndPublicItinerariesToShow,
     bikeAndParkItinerariesToShow,
+    walking,
+    biking,
   },
   context,
 ) {
@@ -152,6 +154,16 @@ function ItinerarySummaryListContainer(
     } else {
       msgId = 'no-route-origin-near-destination';
     }
+  } else if (walking || biking) {
+    iconType = 'info';
+    iconImg = 'icon-icon_info';
+    if (walking && !biking) {
+      msgId = 'walk-bike-itinerary-1';
+    } else if (!walking && biking) {
+      msgId = 'walk-bike-itinerary-2';
+    } else {
+      msgId = 'walk-bike-itinerary-3';
+    }
   } else {
     const quickOption = matchQuickOption(context);
     const currentModes = getModes(context.config);
@@ -237,12 +249,16 @@ ItinerarySummaryListContainer.propTypes = {
   toggleSettings: PropTypes.func.isRequired,
   bikeAndPublicItinerariesToShow: PropTypes.number.isRequired,
   bikeAndParkItinerariesToShow: PropTypes.number.isRequired,
+  walking: PropTypes.bool,
+  biking: PropTypes.bool,
 };
 
 ItinerarySummaryListContainer.defaultProps = {
   error: undefined,
   intermediatePlaces: [],
   itineraries: [],
+  walking: false,
+  biking: false,
 };
 
 ItinerarySummaryListContainer.contextTypes = {

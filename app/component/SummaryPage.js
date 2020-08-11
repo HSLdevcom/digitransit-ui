@@ -1114,6 +1114,8 @@ class SummaryPage extends React.Component {
                 this.bikeAndPublicItinerariesToShow
               }
               bikeAndParkItinerariesToShow={this.bikeAndParkItinerariesToShow}
+              walking={showWalkOptionButton}
+              biking={showBikeOptionButton}
             >
               {this.props.content &&
                 React.cloneElement(this.props.content, {

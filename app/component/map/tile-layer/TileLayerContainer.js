@@ -39,6 +39,7 @@ class TileLayerContainer extends GridLayer {
     zoomOffset: PropTypes.number.isRequired,
     disableMapTracking: PropTypes.func,
     disableLocationPopup: PropTypes.bool,
+    stopsNearYouMode: PropTypes.string,
     mapLayers: mapLayerShape.isRequired,
     leaflet: PropTypes.shape({
       map: PropTypes.shape({
@@ -155,6 +156,7 @@ class TileLayerContainer extends GridLayer {
       done,
       this.props,
       this.context.config,
+      this.props.stopsNearYouMode,
       this.props.relayEnvironment,
       this.props.hilightedStops,
     );

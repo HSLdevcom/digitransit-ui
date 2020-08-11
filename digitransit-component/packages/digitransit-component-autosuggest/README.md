@@ -41,6 +41,10 @@ const onSelect = () => {
    // Funtionality when user selects a suggesions. No default implementation is given.
    return null;
 };
+const onClear = () => {
+   // Called  when user clicks the clear search string button. No default implementation.
+   return null;
+};
 const placeholder = "stop-near-you";
 const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, MapPosition and CurrentPosition. Leave empty to search all targets.
 const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches) and Datasource. Leave empty to use all sources.
@@ -52,6 +56,7 @@ return (
    placeholder={placeholder} // String that is showns initally in search field
    value="" // e.g. user typed string that is shown in search field
    onSelect={onSelect}
+   onClear={onClear}
    autoFocus={false} // defines that should this field be automatically focused when page is loaded.
    lang={lang}
    handelViaPoints={() => return null } // Optional Via point handling logic. This is currently managed with DTAutosuggestpanel by default, but if DTAutosuggest is used seperatelly own implementation must be provided.

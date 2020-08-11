@@ -1143,6 +1143,8 @@ const translations = {
       'This itinerary contains one or more legs for which {agencyName} does not sell tickets.',
     'set-specific-settings': 'Set more specific settings',
     settings: 'Settings',
+    'settings-dropdown-close-label': 'Close options',
+    'settings-dropdown-open-label': 'Open options',
     'settings-label-change': 'Change settings',
     'settings-loadbutton': 'Load settings',
     'settings-loaded': 'Settings loaded!',
@@ -1234,6 +1236,12 @@ const translations = {
     wait: 'Wait',
     'wait-amount-of-time': 'Wait {duration}',
     walk: 'walking',
+    'walk-bike-itinerary-1':
+      'Löysimme valitsemallesi reitille vain kävelyyn liittyviä reittiehdotuksia.',
+    'walk-bike-itinerary-2':
+      'Löysimme valitsemallesi reitille vain pyöräilyyn liittyviä reittiehdotuksia.',
+    'walk-bike-itinerary-3':
+      'Löysimme valitsemallesi reitille vain kävelyyn ja pyöräilyyn liittyviä reittiehdotuksia.',
     'walk-distance-duration': 'Walk {distance} ({duration})',
     walking: 'Amount of walking',
     'walking-speed': 'Walking speed',
@@ -1951,6 +1959,8 @@ const translations = {
       'Matka sisältää yhden tai useamman osuuden, jonka lippujen myynnistä {agencyName} ei vastaa.',
     'set-specific-settings': 'Aseta tarkemmat asetukset',
     settings: 'Asetukset',
+    'settings-dropdown-close-label': 'Sulje vaihtoehdot',
+    'settings-dropdown-open-label': 'Avaa vaihtoehdot',
     'settings-label-change': 'Muuta reittihaun asetuksia',
     'settings-loadbutton': 'Lataa asetukset',
     'settings-loaded': 'Asetukset ladattu!',
@@ -2042,6 +2052,12 @@ const translations = {
     wait: 'Odota',
     'wait-amount-of-time': 'Odota {duration}',
     walk: 'kävelyn',
+    'walk-bike-itinerary-1':
+      'Löysimme valitsemallesi reitille vain kävelyyn liittyviä reittiehdotuksia.',
+    'walk-bike-itinerary-2':
+      'Löysimme valitsemallesi reitille vain pyöräilyyn liittyviä reittiehdotuksia.',
+    'walk-bike-itinerary-3':
+      'Löysimme valitsemallesi reitille vain kävelyyn ja pyöräilyyn liittyviä reittiehdotuksia.',
     'walk-distance-duration': 'Kävele {distance} ({duration})',
     walking: 'Kävelyn määrä',
     'walking-speed': 'Kävelynopeus',
@@ -3553,6 +3569,8 @@ const translations = {
       'Resan består av en eller fleta etapper vilka kräver biljetter som inte säljs av {agencyName}.',
     'set-specific-settings': 'Ställa avancerade inställningar',
     settings: 'Anpassa',
+    'settings-dropdown-close-label': 'Stäng alternativen',
+    'settings-dropdown-open-label': 'Öppna alternativen',
     'settings-label-change': 'Anpassa sökning',
     'settings-loadbutton': 'Ladda inställningarna',
     'settings-loaded': 'Inställningarna laddades!',
@@ -3646,6 +3664,12 @@ const translations = {
     wait: 'Vänta',
     'wait-amount-of-time': 'Vänta {duration}',
     walk: 'gång',
+    'walk-bike-itinerary-1':
+      'Löysimme valitsemallesi reitille vain kävelyyn liittyviä reittiehdotuksia.',
+    'walk-bike-itinerary-2':
+      'Löysimme valitsemallesi reitille vain pyöräilyyn liittyviä reittiehdotuksia.',
+    'walk-bike-itinerary-3':
+      'Löysimme valitsemallesi reitille vain kävelyyn ja pyöräilyyn liittyviä reittiehdotuksia.',
     'walk-distance-duration': 'Gå {distance} ({duration})',
     walking: 'Gång',
     'walking-speed': 'Promenadhastighet',

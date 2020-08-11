@@ -14,12 +14,14 @@ class Stops {
     tile,
     config,
     mapLayers,
+    stopsNearYouMode,
     relayEnvironment,
     getCurrentTime = () => new Date().getTime(),
   ) {
     this.tile = tile;
     this.config = config;
     this.mapLayers = mapLayers;
+    this.stopsNearYouMode = stopsNearYouMode;
     this.promise = this.getPromise();
     this.getCurrentTime = getCurrentTime;
     this.relayEnvironment = relayEnvironment;
@@ -58,6 +60,13 @@ class Stops {
     );
   }
 
+  stopsNearYouCheck(feature) {
+    if (!this.stopsNearYouMode) {
+      return true;
+    }
+    return feature.properties.type === this.stopsNearYouMode;
+  }
+
   getPromise() {
     return fetch(
       `${this.config.URL.STOP_MAP}${this.tile.coords.z +
@@ -93,7 +102,11 @@ class Stops {
               ) {
                 [[feature.geom]] = feature.loadGeometry();
                 const f = pick(feature, ['geom', 'properties']);
-                if (f.properties.code && this.config.mergeStopsByCode) {
+                if (
+                  f.properties.code &&
+                  this.config.mergeStopsByCode &&
+                  !this.stopsNearYouMode
+                ) {
                   /* a stop may be represented multiple times in data, once for each transport mode
                      Latest stop erares underlying ones unless the stop marker size is adjusted accordingly.
                      Currently we expand the first marker so that double stops are visialized nicely.
@@ -121,7 +134,9 @@ class Stops {
                     }
                   }
                 }
-                this.features.push(f);
+                if (this.stopsNearYouCheck(f)) {
+                  this.features.push(f);
+                }
               }
             }
             // sort to draw in correct order
@@ -154,7 +169,8 @@ class Stops {
                   'terminal',
                   this.mapLayers,
                   this.config,
-                )
+                ) &&
+                this.stopsNearYouCheck(feature)
               ) {
                 [[feature.geom]] = feature.loadGeometry();
                 this.features.unshift(pick(feature, ['geom', 'properties']));

@@ -7,7 +7,15 @@ import { isLayerEnabled } from '../../../util/mapLayerUtils';
 import { getStopIconStyles } from '../../../util/mapIconUtils';
 
 class TileContainer {
-  constructor(coords, done, props, config, relayEnvironment, hilightedStops) {
+  constructor(
+    coords,
+    done,
+    props,
+    config,
+    stopsNearYouMode,
+    relayEnvironment,
+    hilightedStops,
+  ) {
     const markersMinZoom = Math.min(
       config.cityBike.cityBikeMinZoom,
       config.stopsMinZoom,
@@ -15,6 +23,7 @@ class TileContainer {
     );
 
     this.coords = coords;
+    this.stopsNearYouMode = stopsNearYouMode;
     this.props = props;
     this.extent = 4096;
     this.scaleratio = (isBrowser && window.devicePixelRatio) || 1;
@@ -35,6 +44,7 @@ class TileContainer {
       .filter(Layer => {
         const layerName = Layer.getName();
         const isEnabled = isLayerEnabled(layerName, this.props.mapLayers);
+
         if (
           layerName === 'stop' &&
           (this.coords.z >= config.stopsMinZoom ||
@@ -46,7 +56,12 @@ class TileContainer {
           layerName === 'citybike' &&
           this.coords.z >= config.cityBike.cityBikeMinZoom
         ) {
-          return isEnabled;
+          if (!this.stopsNearYouMode) {
+            return isEnabled;
+          }
+          if (this.stopsNearYouMode === 'BICYCLE') {
+            return true;
+          }
         }
         if (
           layerName === 'parkAndRide' &&
@@ -64,7 +79,13 @@ class TileContainer {
       })
       .map(
         Layer =>
-          new Layer(this, config, this.props.mapLayers, relayEnvironment),
+          new Layer(
+            this,
+            config,
+            this.props.mapLayers,
+            stopsNearYouMode,
+            relayEnvironment,
+          ),
       );
 
     this.el.layers = this.layers.map(layer => omit(layer, 'tile'));
