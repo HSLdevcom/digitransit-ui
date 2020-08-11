@@ -32,7 +32,6 @@ class Stops {
   drawStop(feature, isHybrid) {
     const isHilighted =
       this.tile.hilightedStops &&
-      Array.isArray(this.tile.hilightedStops) &&
       this.tile.hilightedStops.includes(feature.properties.gtfsId);
     if (
       !isFeatureLayerEnabled(
