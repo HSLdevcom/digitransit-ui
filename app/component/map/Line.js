@@ -15,6 +15,7 @@ if (isBrowser) {
 export default class Line extends React.Component {
   static propTypes = {
     thin: PropTypes.bool,
+    opaque: PropTypes.bool,
     passive: PropTypes.bool,
     color: PropTypes.string,
     mode: PropTypes.string.isRequired,
@@ -43,7 +44,9 @@ export default class Line extends React.Component {
 
   componentDidUpdate() {
     if (!(this.props.passive && this.props.thin) && this.line) {
-      this.line.leafletElement.bringToFront();
+      if (!this.props.opaque) {
+        this.line.leafletElement.bringToFront();
+      }
     }
   }
 
@@ -51,8 +54,11 @@ export default class Line extends React.Component {
   // updating className does not work currently :(
 
   render() {
-    const className = cx([this.props.mode, { thin: this.props.thin }]);
-
+    const className = cx([
+      this.props.mode,
+      { thin: this.props.thin },
+      { opaque: this.props.opaque },
+    ]);
     let filteredPoints;
     if (this.props.geometry) {
       filteredPoints = this.props.geometry.filter(
@@ -83,6 +89,10 @@ export default class Line extends React.Component {
       if (lineConfig.passiveColor) {
         color = lineConfig.passiveColor;
       }
+    }
+    if (this.props.opaque) {
+      haloWeight *= 0.65;
+      legWeight *= 0.5;
     }
 
     return (

@@ -664,7 +664,10 @@ div.origin-popup {
 .map .leg-halo {
   stroke: #fff;
   stroke-opacity: 1;
-  color: #ccc;
+  &.opaque {
+    stroke: currentColor;
+    stroke-opacity: 0.5;
+  }
   &.walk,
   &.bicycle_walk,
   &.citybike_walk {
@@ -675,6 +678,10 @@ div.origin-popup {
 
 .map .leg {
   stroke-opacity: 1;
+  &.opaque {
+    stroke: #fff;
+    stroke-opacity: 0.4;
+  }
   &.walk,
   &.bicycle_walk,
   &.citybike_walk {

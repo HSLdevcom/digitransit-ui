@@ -108,6 +108,30 @@ export default config => {
                   getDefault,
                 )
               }
+              query={graphql`
+                query routes_StopsNearYouMap_Query(
+                  $lat: Float!
+                  $lon: Float!
+                  $filterByPlaceTypes: [FilterPlaceType]
+                  $filterByModes: [Mode]
+                  $maxResults: Int!
+                  $maxDistance: Int!
+                  $omitNonPickups: Boolean
+                ) {
+                  routes: nearest(
+                    lat: $lat
+                    lon: $lon
+                    filterByPlaceTypes: $filterByPlaceTypes
+                    filterByModes: $filterByModes
+                    maxResults: $maxResults
+                    maxDistance: $maxDistance
+                  ) {
+                    ...StopsNearYouMap_routes
+                      @arguments(omitNonPickups: $omitNonPickups)
+                  }
+                }
+              `}
+              prepareVariables={prepareStopsParams(config)}
             />
           ),
         }}

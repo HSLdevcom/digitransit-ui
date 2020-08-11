@@ -80,7 +80,6 @@ class TileLayerContainer extends GridLayer {
 
   constructor(props, context) {
     super(props, context);
-
     // Required as it is not passed upwards through the whole inherittance chain
     this.context = context;
     this.state = {
