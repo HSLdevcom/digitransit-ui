@@ -52,6 +52,7 @@ class TileLayerContainer extends GridLayer {
       }).isRequired,
     }).isRequired,
     relayEnvironment: PropTypes.object.isRequired,
+    hilightedStops: PropTypes.arrayOf(PropTypes.string.isRequired),
   };
 
   static contextTypes = {
@@ -155,6 +156,7 @@ class TileLayerContainer extends GridLayer {
       this.props,
       this.context.config,
       this.props.relayEnvironment,
+      this.props.hilightedStops,
     );
 
     tile.onSelectableTargetClicked = (
