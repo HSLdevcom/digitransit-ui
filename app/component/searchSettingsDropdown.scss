@@ -8,18 +8,23 @@
     padding: 0px 1em 0 1em;
     width: 100%;
 
-    li {
-        font-size: 15px;
-        font-weight: 500;
-        cursor: pointer;
-        color: $primary-color;
-        margin-bottom: 5px;
-        border-radius: 5px;
-        background-color: #f4f4f5;
-        padding: 0.25em 0.25em 0.25em 1em;
-    }
-
-    li.selected {
+    .settings-dropdown-choice {
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      color: $primary-color;
+      margin-bottom: 5px;
+      border-radius: 5px;
+      background-color: #f4f4f5;
+      padding: 0.25em 0.25em 0.25em 1em;
+      line-height: 30px;
+      &:focus-within {
+        @include default-focus-outline;
+      }
+      input {
+        opacity: 0;
+      }
+      &.selected {
         border: 1px solid #888888;
         background-color: #ffffff;
         .selected-checkmark {
@@ -31,22 +36,29 @@
           float: right;
           margin: 0px;
         }
+      }
     }
   }
 
   .settings-dropdown-label {
-      height: 2em;
+      height: 48px;
       cursor: pointer;
       display: flex;
       padding: 0px 0px 0px 1em;
-      margin: 0px 0px 1em 0px;
-      outline: none !important;
+      margin: 0;
+      background: unset;
+      border: none;
+      width: 100%;
+      font-size: unset;
+      letter-spacing: inherit;
+      line-height: 16px;
 
       .settings-dropdown-label-text {
         font-size: $font-size-normal;
         color: $gray;
         float: left;
         width: 60%;
+        text-align: start;
       }
       .settings-dropdown-label-value {
         font-size: $font-size-small;
@@ -54,8 +66,8 @@
         color: $primary-color;
         width: 100%;
         padding-right: 1em;
-        direction: rtl;
         font-weight: 500;
+        text-align: end;
       }
   }
 
