@@ -56,7 +56,13 @@ function getVehicleIcon(
   }
   if (MODES_WITH_ICONS.indexOf(mode) !== -1) {
     return {
-      element: <IconWithTail img={`icon-icon_${mode}-live`} rotate={heading} />,
+      element: (
+        <IconWithTail
+          img={`icon-icon_${mode}-live`}
+          rotate={heading}
+          vehicleNumber={vehicleNumber}
+        />
+      ),
       className: `vehicle-icon ${mode} ${useSmallIcon ? 'small-map-icon' : ''}`,
       iconSize: [20, 20],
       iconAnchor: [15, 15],
@@ -220,6 +226,7 @@ VehicleMarkerContainer.propTypes = {
       direction: PropTypes.number,
       tripStartTime: PropTypes.string,
       mode: PropTypes.string.isRequired,
+      shortName: PropTypes.string.isRequired,
       heading: PropTypes.number,
       lat: PropTypes.number.isRequired,
       long: PropTypes.number.isRequired,

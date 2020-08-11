@@ -6,13 +6,13 @@ import ComponentUsageExample from './ComponentUsageExample';
 const getFontSize = length => {
   switch (length) {
     case 1:
-      return '15px';
+      return '20px';
     case 2:
-      return '14px';
+      return '16px';
     case 3:
-      return '12px';
+      return '14px';
     case 4:
-      return '10px';
+      return '12px';
     case 5:
       return '9px';
     default:
@@ -100,6 +100,25 @@ const IconWithTail = ({
         className={cx('icon', 'tail-icon', className)}
         ref={el => scrollIntoView && el && el.scrollIntoView()}
       >
+        <circle strokeWidth="4" width={40} cx={40} cy={40} r={16} />
+        <circle width={40} cx={40} cy={40} r={12} color="#fff" />
+        <text
+          textAnchor="middle"
+          fontSize={getFontSize(vehicleNumber.length)}
+          fontStyle="condensed"
+          fontWeight="bold"
+        >
+          <tspan x="40" y="45">
+            {vehicleNumber}
+          </tspan>
+        </text>
+      </svg>
+      /* <svg
+        id={id}
+        viewBox="0 0 80 80"
+        className={cx('icon', 'tail-icon', className)}
+        ref={el => scrollIntoView && el && el.scrollIntoView()}
+      >
         {rotate !== undefined && (
           <use
             filter={desaturate ? 'url(#desaturate)' : undefined}
@@ -113,7 +132,7 @@ const IconWithTail = ({
           transform="translate(26 26) scale(0.35)"
         />
         {children}
-      </svg>
+      </svg> */
     )}
   </span>
 );

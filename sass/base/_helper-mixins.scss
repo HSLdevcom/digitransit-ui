@@ -20,7 +20,7 @@
 }
 
 @mixin font-map-container {
-  font-family: $font-family;
+  font-family: $font-family-narrow;
   font-weight: $font-weight-map-container;
   letter-spacing: $letter-spacing;
 }
