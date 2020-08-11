@@ -9,7 +9,6 @@ import TicketSales from './TicketSales';
 
 export default function VectorTileLayerContainer(props, { config }) {
   const layers = [];
-
   if (props.showStops) {
     layers.push(Stops);
     if (config.cityBike && config.cityBike.showCityBikes) {
@@ -27,6 +26,7 @@ export default function VectorTileLayerContainer(props, { config }) {
   return (
     <TileLayerContainer
       key="tileLayer"
+      pane="markerPane"
       layers={layers}
       stopsNearYouMode={props.stopsNearYouMode}
       hilightedStops={props.hilightedStops}

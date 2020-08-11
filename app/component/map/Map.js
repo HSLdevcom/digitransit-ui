@@ -96,7 +96,12 @@ export default class Map extends React.Component {
   };
 
   render() {
-    const { zoom, boundsOptions, disableLocationPopup } = this.props;
+    const {
+      zoom,
+      boundsOptions,
+      disableLocationPopup,
+      leafletObjs,
+    } = this.props;
     const { config } = this.context;
     const center =
       (!this.props.fitBounds &&
@@ -112,6 +117,17 @@ export default class Map extends React.Component {
       config.URL.MAP;
     if (mapUrl !== null && typeof mapUrl === 'object') {
       mapUrl = mapUrl[this.props.lang] || config.URL.MAP.default;
+    }
+    if (!this.props.originFromMap && !this.props.destinationFromMap) {
+      leafletObjs.push(
+        <VectorTileLayerContainer
+          hilightedStops={this.props.hilightedStops}
+          stopsNearYouMode={this.props.stopsNearYouMode}
+          showStops={this.props.showStops}
+          disableMapTracking={this.props.disableMapTracking}
+          disableLocationPopup={disableLocationPopup}
+        />,
+      );
     }
     return (
       <div aria-hidden="true">
@@ -192,17 +208,8 @@ export default class Map extends React.Component {
               )
             }
           </BreakpointConsumer>
-          {this.props.leafletObjs}
-          {!this.props.originFromMap &&
-            !this.props.destinationFromMap && (
-              <VectorTileLayerContainer
-                hilightedStops={this.props.hilightedStops}
-                stopsNearYouMode={this.props.stopsNearYouMode}
-                showStops={this.props.showStops}
-                disableMapTracking={this.props.disableMapTracking}
-                disableLocationPopup={disableLocationPopup}
-              />
-            )}
+          {leafletObjs}
+
           {!this.props.originFromMap &&
             !this.props.destinationFromMap && <PositionMarker key="position" />}
         </LeafletMap>
