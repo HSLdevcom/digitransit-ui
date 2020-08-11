@@ -115,7 +115,7 @@ const PointFeatureMarker = ({ feature, icons, language }) => {
 
   const { icon } = properties;
   const header = getPropertyValueOrDefault(properties, 'name', language);
-  let popupContent = getPropertyValueOrDefault(
+  const popupContent = getPropertyValueOrDefault(
     properties,
     'popupContent',
     language,
@@ -127,13 +127,13 @@ const PointFeatureMarker = ({ feature, icons, language }) => {
     language,
     header,
   );
-
-  if (properties.name === 'Fahrradreparaturstation') {
+  // outdated
+  /*   if (properties.name === 'Fahrradreparaturstation') {
     popupContent =
       language === 'de'
         ? 'Derzeit nicht in Betrieb – voraussichtlich Anfang / Mitte Juni mit verbessertem Angebot wieder verfügbar – ggf. mit leicht geändertem Standort.'
         : 'Currently out of order. The service will resume in June, possibly at a slightly different location.';
-  }
+  } */
 
   const city = getPropertyValueOrDefault(properties, 'city', language);
   let description = null;

@@ -5106,6 +5106,50 @@
           48.5920796
         ]
       }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Open-air bike park",
+        "name_de": "Fahrradstellplatz",
+        "name": "Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 12",
+        "popupContent_de": "Stellpl\u00e4tze: 12",
+        "popupContent_en": "Capacity: 12",
+        "id": "Fahrradstellplatz_160",
+        "icon": {
+          "id": "bikeParkOpIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8983491,
+          48.6381358
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Open-air bike park",
+        "name_de": "Fahrradstellplatz",
+        "name": "Fahrradstellplatz",
+        "popupContent": "Stellpl\u00e4tze: 12",
+        "popupContent_de": "Stellpl\u00e4tze: 12",
+        "popupContent_en": "Capacity: 12",
+        "id": "Fahrradstellplatz_161",
+        "icon": {
+          "id": "bikeParkOpIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8704877,
+          48.5986109
+        ]
+      }
     }
   ]
 }

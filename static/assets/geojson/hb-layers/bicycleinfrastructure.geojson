@@ -19,28 +19,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.9074026,
-          48.5803932
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name_en": "Bicycle repair station",
-        "name_de": "Fahrradreparaturstation",
-        "name": "Fahrradreparaturstation",
-        "popupContent": "\u00d6ffnungszeiten: 24/7",
-        "popupContent_de": "\u00d6ffnungszeiten: 24/7",
-        "popupContent_en": "Opening hours: 24/7",
-        "id": "Fahrradreparaturstation_1",
-        "icon": {
-          "id": "bikeRepIcon"
-        }
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           8.8813194,
           48.5708326
         ]
@@ -55,7 +33,7 @@
         "popupContent": "\u00d6ffnungszeiten: 24/7",
         "popupContent_de": "\u00d6ffnungszeiten: 24/7",
         "popupContent_en": "Opening hours: 24/7",
-        "id": "Fahrradreparaturstation_2",
+        "id": "Fahrradreparaturstation_1",
         "icon": {
           "id": "bikeRepIcon"
         }
@@ -77,7 +55,7 @@
         "popupContent": "\u00d6ffnungszeiten: 24/7",
         "popupContent_de": "\u00d6ffnungszeiten: 24/7",
         "popupContent_en": "Opening hours: 24/7",
-        "id": "Fahrradreparaturstation_3",
+        "id": "Fahrradreparaturstation_2",
         "icon": {
           "id": "bikeRepIcon"
         }
@@ -85,8 +63,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.8757052,
-          48.590047
+          8.8777706,
+          48.5875056
         ]
       }
     },
@@ -99,7 +77,7 @@
         "popupContent": "\u00d6ffnungszeiten: 24/7",
         "popupContent_de": "\u00d6ffnungszeiten: 24/7",
         "popupContent_en": "Opening hours: 24/7",
-        "id": "Fahrradreparaturstation_4",
+        "id": "Fahrradreparaturstation_3",
         "icon": {
           "id": "bikeRepIcon"
         }
@@ -121,7 +99,7 @@
         "popupContent": "\u00d6ffnungszeiten: 24/7",
         "popupContent_de": "\u00d6ffnungszeiten: 24/7",
         "popupContent_en": "Opening hours: 24/7",
-        "id": "Fahrradreparaturstation_5",
+        "id": "Fahrradreparaturstation_4",
         "icon": {
           "id": "bikeRepIcon"
         }
@@ -129,8 +107,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.8364064,
-          48.6251609
+          8.8350367,
+          48.6242214
         ]
       }
     },
@@ -143,7 +121,7 @@
         "popupContent": "\u00d6ffnungszeiten: 24/7",
         "popupContent_de": "\u00d6ffnungszeiten: 24/7",
         "popupContent_en": "Opening hours: 24/7",
-        "id": "Fahrradreparaturstation_6",
+        "id": "Fahrradreparaturstation_5",
         "icon": {
           "id": "bikeRepIcon"
         }
@@ -165,29 +143,7 @@
         "popupContent": "\u00d6ffnungszeiten: 24/7",
         "popupContent_de": "\u00d6ffnungszeiten: 24/7",
         "popupContent_en": "Opening hours: 24/7",
-        "id": "Fahrradreparaturstation_7",
-        "icon": {
-          "id": "bikeRepIcon"
-        }
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          8.8703535,
-          48.5965526
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name_en": "Bicycle repair station",
-        "name_de": "Fahrradreparaturstation",
-        "name": "Fahrradreparaturstation",
-        "popupContent": "\u00d6ffnungszeiten: 24/7",
-        "popupContent_de": "\u00d6ffnungszeiten: 24/7",
-        "popupContent_en": "Opening hours: 24/7",
-        "id": "Fahrradreparaturstation_8",
+        "id": "Fahrradreparaturstation_6",
         "icon": {
           "id": "bikeRepIcon"
         }
@@ -197,28 +153,6 @@
         "coordinates": [
           8.8592143,
           48.6073791
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name_en": "Bicycle repair station",
-        "name_de": "Fahrradreparaturstation",
-        "name": "Fahrradreparaturstation",
-        "popupContent": "Geb\u00fchrenpflichtig: nein, \u00d6ffnungszeiten: 24/7",
-        "popupContent_de": "Geb\u00fchrenpflichtig: nein, \u00d6ffnungszeiten: 24/7",
-        "popupContent_en": "Fee: no, Opening hours: 24/7",
-        "id": "Fahrradreparaturstation_9",
-        "icon": {
-          "id": "bikeRepIcon"
-        }
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          8.8394887,
-          48.5830121
         ]
       }
     },
