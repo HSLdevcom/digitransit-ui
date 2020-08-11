@@ -285,12 +285,22 @@ const getMemoizedStopIcon = memoize(
   (type, radius) => `${type}_${radius}`,
 );
 
+function getSelectedIconCircleOffset(zoom, ratio) {
+  if (zoom > 15) {
+    return 94 / ratio;
+  }
+  if (zoom === 15) {
+    return 78 / ratio;
+  }
+  return 63 / ratio;
+}
+
 /**
  * Draw stop icon based on type.
  * Determine size from zoom level.
  * Supported icons are BUS, TRAM, FERRY
  */
-export function drawStopIcon(tile, geom, type, platformNumber) {
+export function drawStopIcon(tile, geom, type, platformNumber, isHilighted) {
   if (type === 'SUBWAY') {
     return;
   }
@@ -337,24 +347,40 @@ export function drawStopIcon(tile, geom, type, platformNumber) {
         }
         tile.ctx.arc(x, y, radius - 1, 0, FULL_CIRCLE);
         tile.ctx.fill();
-        if (drawNumber && platformNumber) {
-          tile.ctx.font = `${12 *
-            tile.scaleratio}px Gotham XNarrow SSm A, Gotham XNarrow SSm B, Gotham Rounded A, Gotham Rounded B, Arial, sans-serif`;
-          tile.ctx.fillStyle = '#fff';
-          tile.ctx.textAlign = 'center';
-          tile.ctx.textBaseline = 'middle';
-          tile.ctx.fillText(platformNumber, x, y);
-        }
+        tile.ctx.font = `${12 *
+          tile.scaleratio}px Gotham XNarrow SSm A, Gotham XNarrow SSm B, Gotham Rounded A, Gotham Rounded B, Arial, sans-serif`;
+        tile.ctx.fillStyle = '#fff';
+        tile.ctx.textAlign = 'center';
+        tile.ctx.textBaseline = 'middle';
+        tile.ctx.fillText(platformNumber, x, y);
         /* eslint-enable no-param-reassign */
       }
     });
+
+    if (isHilighted) {
+      const selectedCircleOffset = getSelectedIconCircleOffset(
+        zoom,
+        tile.ratio,
+      );
+      tile.ctx.beginPath();
+      // eslint-disable-next-line no-param-reassign
+      tile.ctx.lineWidth = 2;
+      tile.ctx.arc(
+        x + selectedCircleOffset,
+        y + selectedCircleOffset,
+        radius + 2,
+        0,
+        FULL_CIRCLE,
+      );
+      tile.ctx.stroke();
+    }
   }
 }
 /**
  * Draw icon for hybrid stops, meaning BUS and TRAM stop in the same place.
  * Determine icon size based on zoom level
  */
-export function drawHybridStopIcon(tile, geom) {
+export function drawHybridStopIcon(tile, geom, isHilighted) {
   const zoom = tile.coords.z - 1;
   const styles = getStopIconStyles('hybrid', zoom);
   if (!styles) {
@@ -399,6 +425,79 @@ export function drawHybridStopIcon(tile, geom) {
         tile.ctx.drawImage(image, x, y);
       },
     );
+    if (isHilighted) {
+      tile.ctx.beginPath();
+      // eslint-disable-next-line no-param-reassign
+      tile.ctx.lineWidth = 2;
+      if (zoom === 14) {
+        tile.ctx.arc(
+          x + 64.5 / tile.ratio,
+          y + 177 / tile.ratio,
+          10.5 * tile.scaleratio,
+          0,
+          Math.PI,
+        );
+        tile.ctx.arc(
+          x + 64.5 / tile.ratio,
+          y + 60 / tile.ratio,
+          10.5 * tile.scaleratio,
+          Math.PI,
+          0,
+        );
+        tile.ctx.arc(
+          x + 64.5 / tile.ratio,
+          y + 177 / tile.ratio,
+          10.5 * tile.scaleratio,
+          0,
+          Math.PI,
+        );
+      } else if (zoom === 15) {
+        tile.ctx.arc(
+          x + 81 / tile.ratio,
+          y + 213 / tile.ratio,
+          12 * tile.scaleratio,
+          0,
+          Math.PI,
+        );
+        tile.ctx.arc(
+          x + 81 / tile.ratio,
+          y + 75 / tile.ratio,
+          12 * tile.scaleratio,
+          Math.PI,
+          0,
+        );
+        tile.ctx.arc(
+          x + 81 / tile.ratio,
+          y + 213 / tile.ratio,
+          12 * tile.scaleratio,
+          0,
+          Math.PI,
+        );
+      } else {
+        tile.ctx.arc(
+          x + 97.2 / tile.ratio,
+          y + 273 / tile.ratio,
+          13.5 * tile.scaleratio,
+          0,
+          Math.PI,
+        );
+        tile.ctx.arc(
+          x + 97.2 / tile.ratio,
+          y + 88.5 / tile.ratio,
+          13.5 * tile.scaleratio,
+          Math.PI,
+          0,
+        );
+        tile.ctx.arc(
+          x + 97.2 / tile.ratio,
+          y + 273 / tile.ratio,
+          13.5 * tile.scaleratio,
+          0,
+          Math.PI,
+        );
+      }
+      tile.ctx.stroke();
+    }
   }
 }
 

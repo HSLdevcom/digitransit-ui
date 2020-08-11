@@ -30,6 +30,9 @@ class Stops {
   static getName = () => 'stop';
 
   drawStop(feature, isHybrid) {
+    const isHilighted =
+      this.tile.hilightedStops &&
+      this.tile.hilightedStops.includes(feature.properties.gtfsId);
     if (
       !isFeatureLayerEnabled(
         feature,
@@ -41,7 +44,7 @@ class Stops {
       return;
     }
     if (isHybrid) {
-      drawHybridStopIcon(this.tile, feature.geom);
+      drawHybridStopIcon(this.tile, feature.geom, isHilighted);
       return;
     }
 
@@ -52,6 +55,7 @@ class Stops {
       feature.properties.platform !== 'null'
         ? feature.properties.platform
         : false,
+      isHilighted,
     );
   }
 
@@ -112,13 +116,21 @@ class Stops {
                   } else if (
                     this.config.mergeStopsByCode &&
                     f.properties.code &&
-                    featureByCode[f.properties.code].properties.type !==
-                      f.properties.type &&
-                    f.geom.x === featureByCode[f.properties.code].geom.x &&
-                    f.geom.y === featureByCode[f.properties.code].geom.y
+                    prevFeature.properties.type !== f.properties.type &&
+                    f.geom.x === prevFeature.geom.x &&
+                    f.geom.y === prevFeature.geom.y
                   ) {
                     // save only one gtfsId per hybrid stop
                     hybridGtfsIdByCode[f.properties.code] = f.properties.gtfsId;
+                    // Also change hilighted stopId in hybrid stop cases
+                    if (
+                      this.tile.hilightedStops &&
+                      this.tile.hilightedStops.includes(
+                        prevFeature.properties.gtfsId,
+                      )
+                    ) {
+                      this.tile.hilightedStops = [f.properties.gtfsId];
+                    }
                   }
                 }
                 if (this.stopsNearYouCheck(f)) {
