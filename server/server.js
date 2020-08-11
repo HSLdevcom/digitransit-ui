@@ -236,7 +236,8 @@ function setUpStaticFolders() {
       setHeaders(res, reqPath) {
         if (
           reqPath.toLowerCase().includes('sw.js') ||
-          reqPath.toLowerCase().includes('appcache')
+          reqPath.toLowerCase().includes('appcache') ||
+          reqPath.toLowerCase().includes('.geojson')
         ) {
           res.setHeader('Cache-Control', 'public, max-age=0');
         }
