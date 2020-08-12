@@ -47,8 +47,7 @@ OICStrategy.prototype.authenticate = function(req, opts) {
   if (opts.callback) {
     return this.callback(req);
   }
-  const ssoToken = this.getSsoToken(req.headers.cookie);
-  const authurl = this.createAuthUrl(ssoToken);
+  const authurl = this.createAuthUrl(req.session.ssoToken);
   this.redirect(authurl);
 };
 
@@ -77,24 +76,6 @@ OICStrategy.prototype.callback = function(req) {
       console.error('Error processing callback', err);
       this.fail(err);
     });
-};
-
-OICStrategy.prototype.getSsoToken = function(cookie) {
-  if (!cookie) {
-    return null;
-  }
-  const cookieObject = cookie.split(';').reduce(function(res, c) {
-    const [key, val] = c
-      .trim()
-      .split('=')
-      .map(decodeURIComponent);
-    try {
-      return Object.assign(res, { [key]: JSON.parse(val) });
-    } catch (e) {
-      return Object.assign(res, { [key]: val });
-    }
-  }, {});
-  return cookieObject.token;
 };
 
 OICStrategy.prototype.createAuthUrl = function(ssoToken) {
