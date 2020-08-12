@@ -6,6 +6,8 @@ import LazilyLoad, { importLazy } from './LazilyLoad';
 
 const modules = {
   SiteHeader: () => importLazy(import('@hsl-fi/site-header')),
+  SharedLocalStorageObserver: () =>
+    importLazy(import('@hsl-fi/shared-local-storage')),
 };
 
 const initLanguage = language => {
@@ -55,7 +57,7 @@ const initLanguage = language => {
   }
 };
 
-const AppBarHsl = ({ lang }, { match }) => {
+const AppBarHsl = ({ lang }, { match, config }) => {
   const { location } = match;
 
   initLanguage(lang);
@@ -113,14 +115,20 @@ const AppBarHsl = ({ lang }, { match }) => {
 
   return (
     <LazilyLoad modules={modules}>
-      {({ SiteHeader }) => (
-        <SiteHeader
-          startPage={startPage}
-          menu={menu}
-          searchPage={searchPage}
-          languages={languages}
-          localizations={localizations}
-        />
+      {({ SiteHeader, SharedLocalStorageObserver }) => (
+        <>
+          <SharedLocalStorageObserver
+            keys={['saved-searches', 'favouriteStore']}
+            url={config.localStorageEmitter}
+          />
+          <SiteHeader
+            startPage={startPage}
+            menu={menu}
+            searchPage={searchPage}
+            languages={languages}
+            localizations={localizations}
+          />
+        </>
       )}
     </LazilyLoad>
   );

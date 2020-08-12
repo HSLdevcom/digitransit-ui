@@ -7,6 +7,7 @@ import createRender from 'found/lib/createRender';
 
 import Error404 from './component/404';
 import TopLevel from './component/TopLevel';
+import LocalStorageEmitter from './component/LocalStorageEmitter';
 
 import { PREFIX_ITINERARY_SUMMARY, PREFIX_NEARYOU } from './util/path';
 import { preparePlanParams, prepareStopsParams } from './util/planParamUtil';
@@ -513,6 +514,11 @@ export default config => {
           }
         />
       )}
+      <Route
+        path="/local-storage-emitter"
+        Component={LocalStorageEmitter}
+        topBarOptions={{ hidden: true }}
+      />
       <Route path="/js/*" Component={Error404} />
       <Route path="/css/*" Component={Error404} />
       <Route path="/assets/*" Component={Error404} />
