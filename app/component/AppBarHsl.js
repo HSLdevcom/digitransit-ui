@@ -57,7 +57,7 @@ const initLanguage = language => {
   }
 };
 
-const AppBarHsl = ({ lang }, { match }) => {
+const AppBarHsl = ({ lang }, { match, config }) => {
   const { location } = match;
 
   initLanguage(lang);
@@ -119,7 +119,7 @@ const AppBarHsl = ({ lang }, { match }) => {
         <>
           <SharedLocalStorageObserver
             keys={['saved-searches', 'favouriteStore']}
-            url="https://uusi.hsl.fi/local-storage-emitter"
+            url={config.localStorageEmitter}
           />
           <SiteHeader
             startPage={startPage}
