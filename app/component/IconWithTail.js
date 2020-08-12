@@ -8,15 +8,31 @@ const getFontSize = length => {
     case 1:
       return '20px';
     case 2:
-      return '16px';
+      return '20px';
     case 3:
-      return '14px';
+      return '16px';
     case 4:
       return '12px';
     case 5:
       return '9px';
     default:
-      return '11px';
+      return '12px';
+  }
+};
+const getTextOffSet = length => {
+  switch (length) {
+    case 1:
+      return 12;
+    case 2:
+      return 12;
+    case 3:
+      return 11;
+    case 4:
+      return 11;
+    case 5:
+      return 10;
+    default:
+      return 12;
   }
 };
 
@@ -26,10 +42,11 @@ const IconWithTail = ({
   img,
   rotate,
   children,
+  mode = 'bus',
   desaturate = false,
   scrollIntoView = false,
   allVehicles = false,
-  vehicleNumber,
+  vehicleNumber = '',
   useLargeIcon = false,
 }) => (
   <span>
@@ -97,42 +114,25 @@ const IconWithTail = ({
       <svg
         id={id}
         viewBox="0 0 80 80"
-        className={cx('icon', 'tail-icon', className)}
+        className={cx('icon', 'tail-icon', className, mode)}
         ref={el => scrollIntoView && el && el.scrollIntoView()}
       >
-        <circle strokeWidth="4" width={40} cx={40} cy={40} r={16} />
-        <circle width={40} cx={40} cy={40} r={12} color="#fff" />
+        <g transform={`rotate(${rotate + 180} 40 40)`}>
+          <use
+            xlinkHref="#icon-icon_vehicle-live-marker"
+            transform="translate(24 24) scale(1.3)"
+          />
+        </g>
         <text
           textAnchor="middle"
           fontSize={getFontSize(vehicleNumber.length)}
           fontStyle="condensed"
-          fontWeight="bold"
         >
-          <tspan x="40" y="45">
+          <tspan x="40" y={35 + getTextOffSet(vehicleNumber.length)}>
             {vehicleNumber}
           </tspan>
         </text>
       </svg>
-      /* <svg
-        id={id}
-        viewBox="0 0 80 80"
-        className={cx('icon', 'tail-icon', className)}
-        ref={el => scrollIntoView && el && el.scrollIntoView()}
-      >
-        {rotate !== undefined && (
-          <use
-            filter={desaturate ? 'url(#desaturate)' : undefined}
-            xlinkHref="#icon-icon_vehicle-live-shadow"
-            transform={`rotate(${rotate} 40 40)`}
-          />
-        )}
-        <use
-          filter={desaturate ? 'url(#desaturate)' : undefined}
-          xlinkHref={`#${img}`}
-          transform="translate(26 26) scale(0.35)"
-        />
-        {children}
-      </svg> */
     )}
   </span>
 );
@@ -160,8 +160,9 @@ IconWithTail.description = () => (
 IconWithTail.propTypes = {
   id: PropTypes.string,
   className: PropTypes.string,
-  img: PropTypes.string.isRequired,
+  img: PropTypes.string,
   rotate: PropTypes.number,
+  mode: PropTypes.string,
   children: PropTypes.element,
   desaturate: PropTypes.bool,
   scrollIntoView: PropTypes.bool,

@@ -213,8 +213,8 @@ $margin-left-right: 1.25em;
     }
     span {
       color: $gray;
-      svg.realtime-icon {
-        display: none;
+      svg {
+        color: #666;
       }
     }
   }

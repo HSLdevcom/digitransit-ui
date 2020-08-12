@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connectToStores } from 'fluxible-addons-react';
 import { matchShape, routerShape } from 'found';
@@ -17,7 +17,10 @@ import VehicleMarkerContainer from './VehicleMarkerContainer';
 
 import Line from './Line';
 import MapWithTracking from './MapWithTracking';
-import { startRealTimeClient } from '../../action/realTimeClientAction';
+import {
+  startRealTimeClient,
+  stopRealTimeClient,
+} from '../../action/realTimeClientAction';
 
 const startClient = (context, routes) => {
   const { realTime } = context.config;
@@ -29,7 +32,7 @@ const startClient = (context, routes) => {
     }
   });
   const source = agency && realTime[agency];
-  if (source && source.active) {
+  if (source && source.active && routes.length > 0) {
     const config = {
       ...source,
       agency,
@@ -38,11 +41,33 @@ const startClient = (context, routes) => {
     context.executeAction(startRealTimeClient, config);
   }
 };
+/* eslint-disable no-param-reassign */
+const stopClient = context => {
+  const { client } = context.getStore('RealTimeInformationStore');
+  if (client) {
+    context.executeAction(stopRealTimeClient, client);
+    context.getStore(
+      'RealTimeInformationStore',
+    ).storedItineraryTopics = undefined;
+    context.getStore(
+      'RealTimeInformationStore',
+    ).storedItineraryVehicleInfos = undefined;
+    context.getStore('RealTimeInformationStore').vehicles = undefined;
+  }
+};
 
 function StopsNearYouMap(
   { breakpoint, origin, destination, routes, ...props },
   { ...context },
 ) {
+  let realtime;
+  useEffect(() => {
+    startClient(context, realtime);
+    return function cleanup() {
+      stopClient(context);
+    };
+  }, []);
+
   const { mode } = props.match.params;
 
   const routeLines = [];
@@ -80,8 +105,8 @@ function StopsNearYouMap(
     });
   }
   const getRoute = route => route.route;
+  realtime = uniqBy(realtimeTopics, getRoute);
 
-  startClient(context, uniqBy(realtimeTopics, getRoute));
   leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
   let map;
   if (breakpoint === 'large') {
@@ -138,6 +163,7 @@ StopsNearYouMap.propTypes = {
 StopsNearYouMap.contextTypes = {
   config: PropTypes.object,
   executeAction: PropTypes.func,
+  getStore: PropTypes.func,
 };
 
 StopsNearYouMap.defaultProps = {

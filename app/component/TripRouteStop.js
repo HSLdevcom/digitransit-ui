@@ -39,6 +39,7 @@ const TripRouteStop = props => {
         mode={vehicle.mode}
         pattern={props.pattern}
         route={props.route}
+        vehicleNumber={vehicle.shortName}
         selected={
           props.selectedVehicle && props.selectedVehicle.id === vehicle.id
         }
