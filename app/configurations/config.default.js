@@ -6,6 +6,7 @@ const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const GEOCODING_BASE_URL = `${API_URL}/geocoding/v1`;
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
+const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || '';
 const APP_PATH = process.env.APP_CONTEXT || '';
 const { SENTRY_DSN } = process.env;
 const PORT = process.env.PORT || 8080;
@@ -27,8 +28,8 @@ export default {
     MAP_URL,
     OTP: process.env.OTP_URL || `${API_URL}/routing/v1/routers/finland/`,
     MAP: {
-      default: `${MAP_URL}/map/v1/hsl-map/`,
-      sv: `${MAP_URL}/map/v1/hsl-map-sv/`,
+      default: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-map/`,
+      sv: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-map-sv/`,
     },
     STOP_MAP: `${MAP_URL}/map/v1/finland-stop-map/`,
     CITYBIKE_MAP: `${MAP_URL}/map/v1/finland-citybike-map/`,
@@ -47,6 +48,8 @@ export default {
       HSL: `${API_URL}/timetables/v1/hsl/stops/`,
       tampere: 'https://www.tampere.fi/ekstrat/ptdata/pdf/',
     },
+    WEATHER_DATA:
+      'http://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::forecast::hirlam::surface::point::simple&timestep=5&parameters=temperature,WindSpeedMS,WeatherSymbol3',
   },
 
   APP_PATH: `${APP_PATH}`,
@@ -97,6 +100,10 @@ export default {
     radius: 10000,
     bucketSize: 1000,
   },
+
+  omitNonPickups: true,
+  maxNearbyStopAmount: 50,
+  maxNearbyStopDistance: 2000,
 
   defaultSettings: {
     usingWheelchair: 0,
@@ -166,7 +173,9 @@ export default {
   },
 
   maxWalkDistance: 10000,
+  suggestWalkMaxDistance: 5000,
   maxBikingDistance: 100000,
+  suggestBikeMaxDistance: 15000,
   itineraryFiltering: 1.5, // drops 66% worse routes
   useUnpreferredRoutesPenalty: 1200, // adds 10 minute (weight) penalty to routes that are unpreferred
   availableLanguages: ['fi', 'sv', 'en', 'fr', 'nb', 'de', 'da', 'es', 'ro'],
@@ -210,7 +219,7 @@ export default {
     tileSize: 512,
     zoomOffset: -1,
     minZoom: 9,
-    maxZoom: 17,
+    maxZoom: 18,
     controls: {
       zoom: {
         // available controls positions: 'topleft', 'topright', 'bottomleft, 'bottomright'
@@ -234,11 +243,11 @@ export default {
     line: {
       halo: {
         weight: 7,
-        thinWeight: 4,
+        thinWeight: 2,
       },
 
       leg: {
-        weight: 5,
+        weight: 6,
         thinWeight: 2,
       },
 
@@ -286,8 +295,10 @@ export default {
   // Highest level when stops and terminals are still rendered as small markers
   stopsSmallMaxZoom: 14,
   // Highest level when terminals are still rendered instead of individual stops
-  terminalStopsMaxZoom: 17,
+  terminalStopsMaxZoom: 18,
   terminalStopsMinZoom: 12,
+  // lowest zoom level when to draw rail platforms
+  railPlatformsMinZoom: 15,
   terminalNamesZoom: 16,
   stopsIconSize: {
     small: 8,
@@ -783,4 +794,8 @@ export default {
 
   // DT-3611
   showVehiclesOnSummaryPage: false,
+
+  showWeatherInformation: true,
+  showBikeAndPublicItineraries: false,
+  showBikeAndParkItineraries: false,
 };

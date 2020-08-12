@@ -41,6 +41,7 @@ export default class Map extends React.Component {
     leafletOptions: PropTypes.object,
     padding: PropTypes.array,
     showStops: PropTypes.bool,
+    stopsNearYouMode: PropTypes.string,
     zoom: PropTypes.number,
     showScaleBar: PropTypes.bool,
     loaded: PropTypes.func,
@@ -49,6 +50,7 @@ export default class Map extends React.Component {
     mapRef: PropTypes.func,
     originFromMap: PropTypes.bool,
     destinationFromMap: PropTypes.bool,
+    disableLocationPopup: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -57,6 +59,7 @@ export default class Map extends React.Component {
     showScaleBar: false,
     activeArea: null,
     mapRef: null,
+    disableLocationPopup: false,
   };
 
   static contextTypes = {
@@ -93,9 +96,8 @@ export default class Map extends React.Component {
   };
 
   render() {
-    const { zoom, boundsOptions } = this.props;
+    const { zoom, boundsOptions, disableLocationPopup } = this.props;
     const { config } = this.context;
-
     const center =
       (!this.props.fitBounds &&
         this.props.lat &&
@@ -105,14 +107,12 @@ export default class Map extends React.Component {
     if (this.props.padding) {
       boundsOptions.paddingTopLeft = this.props.padding;
     }
-
     let mapUrl =
       (isDebugTiles && `${config.URL.OTP}inspector/tile/traversal/`) ||
       config.URL.MAP;
     if (mapUrl !== null && typeof mapUrl === 'object') {
       mapUrl = mapUrl[this.props.lang] || config.URL.MAP.default;
     }
-
     return (
       <div aria-hidden="true">
         <LeafletMap
@@ -161,16 +161,18 @@ export default class Map extends React.Component {
             minZoom={config.map.minZoom}
             maxZoom={config.map.maxZoom}
           />
-          {config.map.showOSMCopyright && (
-            <AttributionControl
-              position={
-                this.props.originFromMap || this.props.destinationFromMap
-                  ? 'bottomleft'
-                  : 'bottomright'
-              }
-              prefix="<a tabindex=&quot;-1&quot; href=&quot;http://osm.org/copyright&quot;>&copy; OpenStreetMap</a>"
-            />
-          )}
+          <BreakpointConsumer>
+            {breakpoint =>
+              config.map.showOSMCopyright && (
+                <AttributionControl
+                  position={
+                    breakpoint === 'large' ? 'bottomright' : 'bottomleft'
+                  }
+                  prefix="<a tabindex=&quot;-1&quot; href=&quot;http://osm.org/copyright&quot;>&copy; OpenStreetMap</a>"
+                />
+              )
+            }
+          </BreakpointConsumer>
           {this.props.showScaleBar &&
             config.map.showScaleBar && (
               <ScaleControl
@@ -195,8 +197,10 @@ export default class Map extends React.Component {
             !this.props.destinationFromMap && (
               <VectorTileLayerContainer
                 hilightedStops={this.props.hilightedStops}
+                stopsNearYouMode={this.props.stopsNearYouMode}
                 showStops={this.props.showStops}
                 disableMapTracking={this.props.disableMapTracking}
+                disableLocationPopup={disableLocationPopup}
               />
             )}
           {!this.props.originFromMap &&

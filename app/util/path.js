@@ -1,5 +1,6 @@
 import get from 'lodash/get';
 import d from 'debug';
+import moment from 'moment';
 import {
   otpToLocation,
   locationToOTP,
@@ -9,12 +10,20 @@ import { addAnalyticsEvent } from './analyticsUtils';
 
 const debug = d('path.js');
 export const PREFIX_ROUTES = 'linjat';
+export const PREFIX_NEARYOU = 'lahellasi';
 export const PREFIX_STOPS = 'pysakit';
 export const PREFIX_TERMINALS = 'terminaalit';
 export const PREFIX_ITINERARY_SUMMARY = 'reitti';
 export const PREFIX_DISRUPTION = 'hairiot';
 export const PREFIX_TIMETABLE = 'aikataulu';
 export const stopUrl = id => id;
+
+export const getNearYouPath = (place, mode) =>
+  [
+    `/${PREFIX_NEARYOU}`,
+    encodeURIComponent(decodeURIComponent(mode)),
+    encodeURIComponent(decodeURIComponent(place)),
+  ].join('/');
 
 export const getRoutePath = (origin, destination) =>
   [
@@ -163,6 +172,18 @@ export const navigateTo = ({
   }
 
   debug('url, push', url, push);
+
+  if (!url.query) {
+    url.query = {};
+  }
+  // set time to current time if time is not set and both origin and destination are set
+  if (
+    url.query.time === undefined &&
+    origin.set !== false &&
+    destination.set !== false
+  ) {
+    url.query.time = moment().unix();
+  }
 
   if (push) {
     router.push(url);

@@ -54,7 +54,6 @@ function SelectFromMapPageMap({
       />
     );
   }
-
   return map;
 }
 

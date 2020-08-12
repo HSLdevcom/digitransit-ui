@@ -20,7 +20,7 @@ describe('<AppBarHsl />', () => {
     expect(wrapper.isEmptyRender()).to.equal(false);
   });
 
-  it("language should be 'fi'", () => {
+  it.skip("language should be 'fi'", () => {
     const props = {
       lang: 'fi',
     };

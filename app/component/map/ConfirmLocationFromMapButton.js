@@ -63,25 +63,24 @@ const ConfirmLocationFromMapButton = props => {
         {props.name}
       </button>
     );
-  } else {
-    return (
-      <button
-        type="button"
-        style={{
-          zIndex: 3000,
-          borderRadius: btnRadius,
-          backgroundColor: '#bbbbbb',
-          height: btnHeight,
-          width: btnWidth,
-          left: posLeft,
-          top: posTop,
-        }}
-        key={props.idx}
-      >
-        {props.name}
-      </button>
-    );
   }
+  return (
+    <button
+      type="button"
+      style={{
+        zIndex: 3000,
+        borderRadius: btnRadius,
+        backgroundColor: '#bbbbbb',
+        height: btnHeight,
+        width: btnWidth,
+        left: posLeft,
+        top: posTop,
+      }}
+      key={props.idx}
+    >
+      {props.name}
+    </button>
+  );
 };
 
 ConfirmLocationFromMapButton.propTypes = {

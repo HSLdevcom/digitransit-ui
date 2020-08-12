@@ -12,6 +12,7 @@ import RouteNumberContainer from './RouteNumberContainer';
 import { getActiveLegAlertSeverityLevel } from '../util/alertUtils';
 import { displayDistance } from '../util/geo-utils';
 import {
+  getLegMode,
   containsBiking,
   compressLegs,
   getLegBadgeProps,
@@ -36,15 +37,34 @@ import {
   exampleDataCanceled,
 } from './data/SummaryRow.ExampleData';
 
-const Leg = ({ routeNumber, legLength }) => (
-  <div className="leg" style={{ '--width': `${legLength}%` }}>
-    {routeNumber}
-  </div>
-);
+const Leg = ({
+  mode,
+  routeNumber,
+  legLength,
+  renderNumber,
+  lastLegRendered,
+}) => {
+  return renderNumber || lastLegRendered ? (
+    <div
+      className={cx('leg', mode.toLowerCase())}
+      style={{ '--width': `${legLength}%` }}
+    >
+      {routeNumber}
+    </div>
+  ) : (
+    <div className="leg">{routeNumber}</div>
+  );
+};
 
 Leg.propTypes = {
   routeNumber: PropTypes.node.isRequired,
   legLength: PropTypes.number.isRequired,
+  renderNumber: PropTypes.bool,
+  lastLegRendered: PropTypes.bool,
+  mode: PropTypes.string,
+};
+Leg.defaultProps = {
+  renderNumber: true,
 };
 
 export const RouteLeg = ({
@@ -54,6 +74,8 @@ export const RouteLeg = ({
   legLength,
   renderNumber,
   isTransitLeg,
+  lastLegRendered,
+  withBicycle,
 }) => {
   const isCallAgency = isCallAgencyPickupType(leg);
   let routeNumber;
@@ -79,19 +101,23 @@ export const RouteLeg = ({
         alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
         route={leg.route}
         className={cx('line', leg.mode.toLowerCase())}
+        mode={leg.mode}
         vertical
         withBar
         isTransitLeg={isTransitLeg}
         renderNumber={renderNumber}
+        withBicycle={withBicycle}
       />
     );
   }
   return (
     <Leg
-      leg={leg}
+      mode={leg.mode}
       routeNumber={routeNumber}
       large={large}
       legLength={legLength}
+      renderNumber={renderNumber}
+      lastLegRendered={lastLegRendered}
     />
   );
 };
@@ -103,6 +129,8 @@ RouteLeg.propTypes = {
   legLength: PropTypes.number.isRequired,
   renderNumber: PropTypes.bool,
   isTransitLeg: PropTypes.bool,
+  lastLegRendered: PropTypes.bool,
+  withBicycle: PropTypes.bool.isRequired,
 };
 
 RouteLeg.defaultProps = {
@@ -140,7 +168,7 @@ export const ModeLeg = (
   );
   return (
     <Leg
-      leg={leg}
+      mode={mode}
       routeNumber={routeNumber}
       large={large}
       legLength={legLength}
@@ -192,33 +220,46 @@ const SummaryRow = (
 ) => {
   const isTransitLeg = leg => leg.transitLeg;
   const isLegOnFoot = leg => leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK';
+  const usingOwnBicycleWholeTrip =
+    data.legs.some(
+      leg => getLegMode(leg) === 'BICYCLE' && leg.rentedBike === false,
+    ) && data.legs.every(leg => !leg.to || !leg.to.bikePark);
   const refTime = moment(props.refTime);
   const startTime = moment(data.startTime);
   const endTime = moment(data.endTime);
   const duration = endTime.diff(startTime);
+
   const mobile = bp => !(bp === 'large');
   const legs = [];
   let noTransitLegs = true;
   const compressedLegs = compressLegs(data.legs).map(leg => ({
     ...leg,
   }));
-  compressedLegs.forEach(leg => {
+  let intermediateSlack = 0;
+  compressedLegs.forEach((leg, i) => {
     if (isTransitLeg(leg)) {
       noTransitLegs = false;
     }
+    if (leg.intermediatePlace) {
+      intermediateSlack += leg.startTime - compressedLegs[i - 1].endTime; // calculate time spent at each intermediate place
+    }
   });
+  const durationWithoutSlack = duration - intermediateSlack; // don't include time spent at intermediate places in calculations for bar lengths
   let renderBarThreshold = 6;
-  let renderLegDurationThreshold = 10.5;
   let renderRouteNumberThreshold = 14;
   if (breakpoint === 'small') {
-    renderBarThreshold = 8;
-    renderLegDurationThreshold = 12;
+    renderBarThreshold = 8.5;
     renderRouteNumberThreshold = 17;
   }
   let firstLegStartTime = null;
   const vehicleNames = [];
   const stopNames = [];
   let addition = 0;
+  let onlyIconLegs = 0; // keep track of legs that are too short to have a bar
+  let onlyIconLegsLength = 0;
+  const waitThreshold = 180000;
+  const lastLeg = compressedLegs[compressedLegs.length - 1];
+  const lastLegLength = lastLeg.duration * 1000 / durationWithoutSlack * 100;
 
   compressedLegs.forEach((leg, i) => {
     let renderNumber = true;
@@ -227,51 +268,65 @@ const SummaryRow = (
     let waitTime;
     let legLength;
     let waitLength;
+    let lastLegRendered = false;
     const isNextLegLast = i + 1 === compressedLegs.length - 1;
+    const shouldRenderLastLeg =
+      isNextLegLast && lastLegLength < renderBarThreshold;
     const previousLeg = compressedLegs[i - 1];
-    const lastLeg = compressedLegs[compressedLegs.length - 1];
+    const isLastLeg = i === compressedLegs.length - 1;
     const nextLeg = compressedLegs[i + 1];
-    const waitThreshold = 180000;
-    legLength = leg.duration * 1000 / duration * 100;
-    if (nextLeg) {
+    legLength = (leg.endTime - leg.startTime) / durationWithoutSlack * 100; // length of the current leg in %
+
+    if (nextLeg && !nextLeg.intermediatePlace) {
+      // don't show waiting in intermediate places
       waitTime = nextLeg.startTime - leg.endTime;
-      waitLength = Math.round(waitTime / duration * 100);
-      if (waitTime > waitThreshold || waitLength > renderBarThreshold) {
+      waitLength = waitTime / durationWithoutSlack * 100;
+      if (waitTime > waitThreshold && waitLength > renderBarThreshold) {
+        // if waittime is long enough, render a waiting bar
         waiting = true;
       } else {
-        legLength = (leg.duration * 1000 + waitTime) / duration * 100;
+        legLength =
+          (leg.endTime - leg.startTime + waitTime) / durationWithoutSlack * 100; // otherwise add the waiting to the current legs length
       }
     }
-    if (addition > 0) {
-      legLength += addition;
-    }
-    if (isNextLegLast) {
-      const lastLegLength = lastLeg.duration * 1000 / duration * 100;
-      if (lastLegLength < renderBarThreshold) {
-        legLength += lastLegLength;
-      }
-    }
-    if (legLength < renderBarThreshold && isLegOnFoot(leg)) {
-      renderBar = false;
-      addition = legLength;
-    } else if (legLength < renderBarThreshold && !isLegOnFoot(leg)) {
-      addition += legLength - renderBarThreshold;
-      legLength = renderBarThreshold;
-    }
-    renderNumber = isLegOnFoot(leg)
-      ? legLength > renderLegDurationThreshold
-      : legLength > renderRouteNumberThreshold;
 
+    legLength += addition;
+    addition = 0;
+
+    if (shouldRenderLastLeg) {
+      legLength += lastLegLength; // if the last leg is too short add its length to the leg before it
+    }
+
+    if (legLength < renderBarThreshold && isLegOnFoot(leg)) {
+      // don't render short legs that are on foot at all
+      renderBar = false;
+      addition += legLength; // carry over the length of the leg to the next
+    }
+
+    if (isTransitLeg(leg)) {
+      renderNumber = legLength > renderRouteNumberThreshold;
+    }
+
+    if (!renderNumber && isTransitLeg(leg)) {
+      if (isLastLeg || shouldRenderLastLeg) {
+        lastLegRendered = true;
+      } else {
+        // if the leg is a transit leg with no space for the
+        // route number, render only the icon
+        onlyIconLegsLength += legLength;
+        onlyIconLegs += 1;
+      }
+    }
     if (leg.intermediatePlace) {
+      onlyIconLegs += 1;
       legs.push(<ViaLeg key={`via_${leg.mode}_${leg.startTime}`} />);
     }
-
     if (isLegOnFoot(leg) && renderBar) {
       const walkingTime = Math.floor(leg.duration / 60);
       legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
-          renderNumber={renderNumber}
+          renderNumber
           isTransitLeg={false}
           leg={leg}
           walkingTime={walkingTime}
@@ -280,13 +335,27 @@ const SummaryRow = (
           large={breakpoint === 'large'}
         />,
       );
+      if (leg.to.bikePark) {
+        onlyIconLegs += 1;
+        legs.push(
+          <div
+            className="leg bike_park"
+            key={`${leg.mode}_${leg.startTime}_bike_park_indicator`}
+          >
+            <Icon
+              img="icon-bike_parking"
+              className="itinerary-icon bike_park"
+            />
+          </div>,
+        );
+      }
     } else if (leg.rentedBike) {
-      const bikingTime = Math.floor(leg.duration / 60);
+      const bikingTime = Math.floor((leg.endTime - leg.startTime) / 1000 / 60);
       legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
           isTransitLeg={false}
-          renderNumber={renderNumber}
+          renderNumber
           leg={leg}
           walkingTime={bikingTime}
           mode="CITYBIKE"
@@ -305,7 +374,7 @@ const SummaryRow = (
         />,
       );
     } else if (leg.mode === 'BICYCLE' && renderBar) {
-      const bikingTime = Math.floor(leg.duration / 60);
+      const bikingTime = Math.floor((leg.endTime - leg.startTime) / 1000 / 60);
       legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
@@ -318,12 +387,29 @@ const SummaryRow = (
           large={breakpoint === 'large'}
         />,
       );
+      if (leg.to.bikePark) {
+        onlyIconLegs += 1;
+        legs.push(
+          <div
+            className="leg bike_park"
+            key={`${leg.mode}_${leg.startTime}_bike_park_indicator`}
+          >
+            <Icon
+              img="icon-bike_parking"
+              className="itinerary-icon bike_park"
+            />
+          </div>,
+        );
+      }
     }
 
     const connectsFromViaPoint = () =>
       getViaPointIndex(leg, intermediatePlaces) > -1;
 
     if (leg.route) {
+      const withBicycle =
+        usingOwnBicycleWholeTrip &&
+        (leg.route.mode === 'RAIL' || leg.route.mode === 'SUBWAY');
       if (
         previousLeg &&
         !previousLeg.intermediatePlace &&
@@ -336,9 +422,11 @@ const SummaryRow = (
           key={`${leg.mode}_${leg.startTime}`}
           leg={leg}
           renderNumber={renderNumber}
+          lastLegRendered={lastLegRendered}
           intl={intl}
           legLength={legLength}
           large={breakpoint === 'large'}
+          withBicycle={withBicycle}
         />,
       );
       vehicleNames.push(
@@ -356,14 +444,6 @@ const SummaryRow = (
     }
 
     if (waiting) {
-      if (addition > 0) {
-        waitLength += addition;
-        if (waitLength > renderBarThreshold) {
-          addition = 0;
-        } else {
-          addition = waitLength;
-        }
-      }
       legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}_wait`}
@@ -375,6 +455,11 @@ const SummaryRow = (
       );
     }
   });
+  const normalLegs = legs.length - onlyIconLegs;
+  // how many pixels to take from each 'normal' leg to give room for the icons
+  const iconLegsInPixels = 24 * onlyIconLegs / normalLegs;
+  // the leftover percentage from only showing icons added to each 'normal' leg
+  const iconLegsInPercents = onlyIconLegsLength / normalLegs;
 
   if (!noTransitLegs) {
     const firstDeparture = compressedLegs.find(isTransitLeg);
@@ -452,7 +537,6 @@ const SummaryRow = (
     {
       passive: props.passive,
       'bp-large': breakpoint === 'large',
-      open: props.open || props.children,
       'cancelled-itinerary': props.isCancelled,
     },
   ]);
@@ -465,10 +549,8 @@ const SummaryRow = (
     </div>
   );
 
-  const showDetails = props.open || props.children;
-
   //  accessible representation for summary
-  const textSummary = showDetails ? null : (
+  const textSummary = (
     <div className="sr-only" key="screenReader">
       <FormattedMessage
         id="itinerary-summary-row.description"
@@ -545,142 +627,93 @@ const SummaryRow = (
         {/* This next clickable region does not have proper accessible role, tabindex and keyboard handler
             because screen reader works weirdly with nested buttons. Same functonality works from the inner button */
         /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
-        {showDetails ? (
-          <>
-            <div className="itinerary-summary-header">
+        <>
+          <div className="itinerary-summary-header">
+            <div
+              className="summary-clickable-area"
+              onClick={e => {
+                if (mobile(breakpoint)) {
+                  e.stopPropagation();
+                  props.onSelectImmediately(props.hash);
+                } else {
+                  props.onSelect(props.hash);
+                }
+              }}
+              onKeyPress={e =>
+                isKeyboardSelectionEvent(e) && props.onSelect(props.hash)
+              }
+              tabIndex="0"
+              role="button"
+            >
+              <span key="ShowOnMapScreenReader" className="sr-only">
+                <FormattedMessage id="itinerary-summary-row.clickable-area-description" />
+              </span>
               <div
-                className="summary-clickable-area"
-                onClick={() => props.onSelect(props.hash)}
+                className="itinerary-duration-container"
+                key="startTime"
                 aria-hidden="true"
               >
-                {/* eslint-enable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
-                <div className="flex-grow itinerary-heading" key="title">
-                  <h4 className="h2">
-                    <FormattedMessage
-                      id="itinerary-page.title"
-                      defaultMessage="Itinerary"
-                    />
-                  </h4>
+                <span
+                  className={cx('itinerary-start-date', {
+                    nobg: sameDay(startTime, refTime),
+                  })}
+                >
+                  <span>{dateOrEmpty(startTime, refTime)}</span>
+                </span>
+                <div className="itinerary-start-time-and-end-time">
+                  {itineraryStartAndEndTime}
+                </div>
+                <div className="itinerary-duration">
+                  <RelativeDuration duration={duration} />
                 </div>
               </div>
-              {props.breakpoint !== 'small' && (
-                <div
-                  tabIndex="0"
-                  role="button"
-                  title={formatMessage({
-                    id: 'itinerary-page.hide-details',
-                  })}
-                  key="arrow"
-                  className="action-arrow-click-area noborder flex-vertical"
-                  onClick={e => {
-                    e.stopPropagation();
-                    props.onSelectImmediately(props.hash);
-                  }}
-                  onKeyPress={e =>
-                    isKeyboardSelectionEvent(e) &&
-                    props.onSelectImmediately(props.hash)
-                  }
-                >
-                  <div className="action-arrow flex-grow">
-                    <Icon img="icon-icon_arrow-collapse--right" />
-                  </div>
-                </div>
-              )}
-            </div>
-            {/* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
-            <span
-              className="itinerary-details-container visible"
-              aria-expanded="true"
-              onClick={() => props.onSelect(props.hash)}
-            >
-              {/* eslint-enable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
-              <h4 className="sr-only">
-                <FormattedMessage
-                  id="itinerary-page.title"
-                  defaultMessage="Itinerary"
-                />
-              </h4>
-              {props.children &&
-                React.cloneElement(React.Children.only(props.children), {
-                  searchTime: props.refTime,
-                })}
-            </span>
-          </>
-        ) : (
-          <>
-            <div className="itinerary-summary-header">
               <div
-                className="summary-clickable-area"
-                onClick={() => props.onSelect(props.hash)}
-                onKeyPress={e =>
-                  isKeyboardSelectionEvent(e) && props.onSelect(props.hash)
-                }
-                tabIndex="0"
-                role="button"
+                className="legs-container"
+                style={{ '--minus': `${iconLegsInPixels}px` }}
+                key="legs"
+                aria-hidden="true"
               >
-                <span key="ShowOnMapScreenReader" className="sr-only">
-                  <FormattedMessage id="itinerary-summary-row.clickable-area-description" />
-                </span>
                 <div
-                  className="itinerary-duration-container"
-                  key="startTime"
-                  aria-hidden="true"
+                  className="itinerary-legs"
+                  style={{ '--plus': `${iconLegsInPercents}%` }}
                 >
-                  <span
-                    className={cx('itinerary-start-date', {
-                      nobg: sameDay(startTime, refTime),
-                    })}
-                  >
-                    <span>{dateOrEmpty(startTime, refTime)}</span>
-                  </span>
-                  <div className="itinerary-start-time-and-end-time">
-                    {itineraryStartAndEndTime}
-                  </div>
-                  <div className="itinerary-duration">
-                    <RelativeDuration duration={duration} />
-                  </div>
-                </div>
-                <div className="itinerary-legs" key="legs" aria-hidden="true">
                   {legs}
                 </div>
-                <div
-                  className="itinerary-first-leg-start-time-container"
-                  key="endtime-distance"
-                  aria-hidden="true"
-                >
-                  {firstLegStartTime}
+              </div>
+              <div
+                className="itinerary-first-leg-start-time-container"
+                key="endtime-distance"
+                aria-hidden="true"
+              >
+                {firstLegStartTime}
+              </div>
+            </div>
+            {mobile(breakpoint) !== true && (
+              <div
+                tabIndex="0"
+                role="button"
+                title={formatMessage({
+                  id: 'itinerary-page.show-details',
+                })}
+                key="arrow"
+                className="action-arrow-click-area flex-vertical noborder"
+                onClick={e => {
+                  e.stopPropagation();
+                  props.onSelectImmediately(props.hash);
+                }}
+                onKeyPress={e =>
+                  isKeyboardSelectionEvent(e) &&
+                  props.onSelectImmediately(props.hash)
+                }
+              >
+                <div className="action-arrow flex-grow">
+                  <Icon img="icon-icon_arrow-collapse--right" />
                 </div>
               </div>
-              {mobile(breakpoint) !== true && (
-                <div
-                  tabIndex="0"
-                  role="button"
-                  title={formatMessage({
-                    id: 'itinerary-page.show-details',
-                  })}
-                  key="arrow"
-                  className="action-arrow-click-area flex-vertical noborder"
-                  onClick={e => {
-                    e.stopPropagation();
-                    props.onSelectImmediately(props.hash);
-                  }}
-                  onKeyPress={e =>
-                    isKeyboardSelectionEvent(e) &&
-                    props.onSelectImmediately(props.hash)
-                  }
-                >
-                  <div className="action-arrow flex-grow">
-                    <Icon img="icon-icon_arrow-collapse--right" />
-                  </div>
-                </div>
-              )}
-            </div>
-            <span
-              className="itinerary-details-container"
-              aria-expanded="false"
-            />
-          </>
-        )}
+            )}
+          </div>
+          <span className="itinerary-details-container" aria-expanded="false" />
+        </>
       </div>
     </span>
   );
@@ -694,7 +727,6 @@ SummaryRow.propTypes = {
   onSelectImmediately: PropTypes.func.isRequired,
   hash: PropTypes.number.isRequired,
   children: PropTypes.node,
-  open: PropTypes.bool,
   breakpoint: PropTypes.string.isRequired,
   intermediatePlaces: PropTypes.array,
   isCancelled: PropTypes.bool,
@@ -768,7 +800,6 @@ SummaryRow.description = () => {
           onSelect={nop}
           onSelectImmediately={nop}
           hash={1}
-          open
         />
         {/* "open-large-tomorrow" */}
         <SummaryRow
@@ -778,7 +809,6 @@ SummaryRow.description = () => {
           onSelect={nop}
           onSelectImmediately={nop}
           hash={1}
-          open
         />
         {/* active-large-via */}
         <SummaryRow

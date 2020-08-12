@@ -129,7 +129,6 @@ class RoutePage extends React.Component {
           pattern.code,
         ),
       );
-      return;
     }
 
     const { realTime } = config;
@@ -474,8 +473,8 @@ const containerComponent = createFragmentContainer(withBreakpoint(RoutePage), {
             }
           }
         }
-        trips: tripsForDate(serviceDay: $date) {
-          stoptimes: stoptimesForDate(serviceDay: $date) {
+        trips: tripsForDate(serviceDate: $date) {
+          stoptimes: stoptimesForDate(serviceDate: $date) {
             realtimeState
             scheduledArrival
             scheduledDeparture

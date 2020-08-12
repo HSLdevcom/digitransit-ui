@@ -2,7 +2,12 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { graphql, createFragmentContainer, fetchQuery } from 'react-relay';
+import {
+  graphql,
+  createFragmentContainer,
+  fetchQuery,
+  ReactRelayContext,
+} from 'react-relay';
 import { matchShape, routerShape } from 'found';
 import getContext from 'recompose/getContext';
 
@@ -21,7 +26,6 @@ import { preparePlanParams } from '../util/planParamUtil';
 class SummaryPlanContainer extends React.Component {
   static propTypes = {
     activeIndex: PropTypes.number,
-    breakpoint: PropTypes.string.isRequired,
     children: PropTypes.node,
     config: PropTypes.object.isRequired,
     currentTime: PropTypes.number.isRequired,
@@ -37,6 +41,7 @@ class SummaryPlanContainer extends React.Component {
       from: PropTypes.string.isRequired,
       to: PropTypes.string.isRequired,
       hash: PropTypes.string,
+      secondHash: PropTypes.string,
     }).isRequired,
     plan: PropTypes.shape({ date: PropTypes.number }), // eslint-disable-line
     serviceTimeRange: PropTypes.shape({
@@ -46,12 +51,19 @@ class SummaryPlanContainer extends React.Component {
     setError: PropTypes.func.isRequired,
     setLoading: PropTypes.func.isRequired,
     relayEnvironment: PropTypes.object,
+    toggleSettings: PropTypes.func.isRequired,
+    bikeAndPublicItinerariesToShow: PropTypes.number.isRequired,
+    bikeAndParkItinerariesToShow: PropTypes.number.isRequired,
+    walking: PropTypes.bool,
+    biking: PropTypes.bool,
   };
 
   static defaultProps = {
     activeIndex: 0,
     error: undefined,
     itineraries: [],
+    walking: false,
+    biking: false,
   };
 
   static contextTypes = {
@@ -60,14 +72,22 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onSelectActive = index => {
+    let isBikeAndPublic;
+    if (this.props.params.hash === 'bikeAndPublic') {
+      isBikeAndPublic = true;
+    }
     if (this.props.activeIndex === index) {
       this.onSelectImmediately(index);
     } else {
       this.context.router.replace({
         ...this.context.match.location,
         state: { summaryPageSelected: index },
-        pathname: getRoutePath(this.props.params.from, this.props.params.to),
+        pathname: `${getRoutePath(
+          this.props.params.from,
+          this.props.params.to,
+        )}${isBikeAndPublic ? '/bikeAndPublic/' : ''}`,
       });
+
       addAnalyticsEvent({
         category: 'Itinerary',
         action: 'HighlightItinerary',
@@ -77,46 +97,33 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onSelectImmediately = index => {
-    if (Number(this.props.params.hash) === index) {
-      if (this.props.breakpoint === 'large') {
-        addAnalyticsEvent({
-          event: 'sendMatomoEvent',
-          category: 'ItinerarySettings',
-          action: 'ItineraryDetailsClick',
-          name: 'ItineraryDetailsCollapse',
-        });
-        this.context.router.replace({
-          ...this.context.match.location,
-          pathname: getRoutePath(this.props.params.from, this.props.params.to),
-        });
-      } else {
-        this.context.router.go(-1);
-      }
-    } else {
-      addAnalyticsEvent({
-        event: 'sendMatomoEvent',
-        category: 'Itinerary',
-        action: 'OpenItineraryDetails',
-        name: index,
-      });
-      const newState = {
-        ...this.context.match.location,
-        state: { summaryPageSelected: index },
-      };
-      const basePath = getRoutePath(
-        this.props.params.from,
-        this.props.params.to,
-      );
-      const indexPath = `${getRoutePath(
-        this.props.params.from,
-        this.props.params.to,
-      )}/${index}`;
-
-      newState.pathname = basePath;
-      this.context.router.replace(newState);
-      newState.pathname = indexPath;
-      this.context.router.push(newState);
+    let isBikeAndPublic;
+    if (this.props.params.hash === 'bikeAndPublic') {
+      isBikeAndPublic = true;
     }
+    addAnalyticsEvent({
+      event: 'sendMatomoEvent',
+      category: 'Itinerary',
+      action: 'OpenItineraryDetails',
+      name: index,
+    });
+    const newState = {
+      ...this.context.match.location,
+      state: { summaryPageSelected: index },
+    };
+    const basePath = `${getRoutePath(
+      this.props.params.from,
+      this.props.params.to,
+    )}${isBikeAndPublic ? '/bikeAndPublic/' : '/'}`;
+    const indexPath = `${getRoutePath(
+      this.props.params.from,
+      this.props.params.to,
+    )}${isBikeAndPublic ? '/bikeAndPublic/' : '/'}${index}`;
+
+    newState.pathname = basePath;
+    this.context.router.replace(newState);
+    newState.pathname = indexPath;
+    this.context.router.push(newState);
   };
 
   onLater = () => {
@@ -180,7 +187,7 @@ class SummaryPlanContainer extends React.Component {
           $toPlace: String!
           $intermediatePlaces: [InputCoordinates!]
           $numItineraries: Int!
-          $modes: String
+          $modes: [TransportMode!]
           $date: String!
           $time: String!
           $walkReluctance: Float
@@ -189,7 +196,7 @@ class SummaryPlanContainer extends React.Component {
           $walkSpeed: Float
           $maxWalkDistance: Float
           $wheelchair: Boolean
-          $ticketTypes: String
+          $ticketTypes: [String]
           $disableRemainingWeightHeuristic: Boolean
           $arriveBy: Boolean
           $transferPenalty: Int
@@ -220,7 +227,7 @@ class SummaryPlanContainer extends React.Component {
             toPlace: $toPlace
             intermediatePlaces: $intermediatePlaces
             numItineraries: $numItineraries
-            modes: $modes
+            transportModes: $modes
             date: $date
             time: $time
             walkReluctance: $walkReluctance
@@ -229,7 +236,7 @@ class SummaryPlanContainer extends React.Component {
             walkSpeed: $walkSpeed
             maxWalkDistance: $maxWalkDistance
             wheelchair: $wheelchair
-            ticketTypes: $ticketTypes
+            allowedTicketTypes: $ticketTypes
             disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
             arriveBy: $arriveBy
             transferPenalty: $transferPenalty
@@ -347,7 +354,7 @@ class SummaryPlanContainer extends React.Component {
           $toPlace: String!
           $intermediatePlaces: [InputCoordinates!]
           $numItineraries: Int!
-          $modes: String
+          $modes: [TransportMode!]
           $date: String!
           $time: String!
           $walkReluctance: Float
@@ -356,7 +363,7 @@ class SummaryPlanContainer extends React.Component {
           $walkSpeed: Float
           $maxWalkDistance: Float
           $wheelchair: Boolean
-          $ticketTypes: String
+          $ticketTypes: [String]
           $disableRemainingWeightHeuristic: Boolean
           $arriveBy: Boolean
           $transferPenalty: Int
@@ -387,7 +394,7 @@ class SummaryPlanContainer extends React.Component {
             toPlace: $toPlace
             intermediatePlaces: $intermediatePlaces
             numItineraries: $numItineraries
-            modes: $modes
+            transportModes: $modes
             date: $date
             time: $time
             walkReluctance: $walkReluctance
@@ -396,7 +403,7 @@ class SummaryPlanContainer extends React.Component {
             walkSpeed: $walkSpeed
             maxWalkDistance: $maxWalkDistance
             wheelchair: $wheelchair
-            ticketTypes: $ticketTypes
+            allowedTicketTypes: $ticketTypes
             disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
             arriveBy: $arriveBy
             transferPenalty: $transferPenalty
@@ -486,7 +493,17 @@ class SummaryPlanContainer extends React.Component {
   render() {
     const { location } = this.context.match;
     const { from, to } = this.props.params;
-    const { activeIndex, currentTime, locationState, itineraries } = this.props;
+    const {
+      activeIndex,
+      currentTime,
+      locationState,
+      itineraries,
+      toggleSettings,
+      bikeAndPublicItinerariesToShow,
+      bikeAndParkItinerariesToShow,
+      walking,
+      biking,
+    } = this.props;
     const searchTime =
       this.props.plan.date ||
       (location.query &&
@@ -512,19 +529,26 @@ class SummaryPlanContainer extends React.Component {
           itineraries={itineraries}
           onSelect={this.onSelectActive}
           onSelectImmediately={this.onSelectImmediately}
-          open={Number(this.props.params.hash)}
           searchTime={searchTime}
           to={otpToLocation(to)}
+          toggleSettings={toggleSettings}
+          bikeAndPublicItinerariesToShow={bikeAndPublicItinerariesToShow}
+          bikeAndParkItinerariesToShow={bikeAndParkItinerariesToShow}
+          walking={walking}
+          biking={biking}
         >
           {this.props.children}
         </ItinerarySummaryListContainer>
-        <TimeNavigationButtons
-          isEarlierDisabled={disableButtons}
-          isLaterDisabled={disableButtons}
-          onEarlier={this.onEarlier}
-          onLater={this.onLater}
-          onNow={this.onNow}
-        />
+        {this.context.match.params.hash &&
+        this.context.match.params.hash === 'bikeAndPublic' ? null : (
+          <TimeNavigationButtons
+            isEarlierDisabled={disableButtons}
+            isLaterDisabled={disableButtons}
+            onEarlier={this.onEarlier}
+            onLater={this.onLater}
+            onNow={this.onNow}
+          />
+        )}
       </div>
     );
   }
@@ -532,8 +556,15 @@ class SummaryPlanContainer extends React.Component {
 
 const withConfig = getContext({
   config: PropTypes.object.isRequired,
-  relayEnvironment: PropTypes.object.isRequired,
-})(withBreakpoint(SummaryPlanContainer));
+})(
+  withBreakpoint(props => (
+    <ReactRelayContext.Consumer>
+      {({ environment }) => (
+        <SummaryPlanContainer {...props} relayEnvironment={environment} />
+      )}
+    </ReactRelayContext.Consumer>
+  )),
+);
 
 const connectedContainer = createFragmentContainer(
   connectToStores(withConfig, [TimeStore, PositionStore], context => ({
@@ -555,6 +586,15 @@ const connectedContainer = createFragmentContainer(
         ...ItinerarySummaryListContainer_itineraries
         endTime
         startTime
+        legs {
+          mode
+          to {
+            bikePark {
+              bikeParkId
+              name
+            }
+          }
+        }
       }
     `,
   },

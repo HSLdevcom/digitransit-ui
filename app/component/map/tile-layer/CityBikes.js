@@ -4,22 +4,14 @@ import { graphql, fetchQuery } from 'react-relay';
 import pick from 'lodash/pick';
 
 import { isBrowser } from '../../../util/browser';
-import {
-  drawAvailabilityValue,
-  drawIcon,
-  drawRoundIcon,
-  drawCitybikeNotInUseIcon,
-  getMapIconScale,
-} from '../../../util/mapIconUtils';
+import { getMapIconScale, drawCitybikeIcon } from '../../../util/mapIconUtils';
 
-import {
-  BIKESTATION_ON,
-  BIKESTATION_OFF,
-  BIKESTATION_CLOSED,
-  getCityBikeNetworkConfig,
-  getCityBikeNetworkIcon,
-  getCityBikeNetworkId,
-} from '../../../util/citybikes';
+// TODO
+// import {
+//   getCityBikeNetworkConfig,
+//   getCityBikeNetworkIcon,
+//   getCityBikeNetworkId,
+// } from '../../../util/citybikes';
 
 const timeOfLastFetch = {};
 
@@ -35,7 +27,7 @@ const query = graphql`
 `;
 
 class CityBikes {
-  constructor(tile, config, mapLayers, relayEnvironment) {
+  constructor(tile, config, mapLayers, stopsNearYouMode, relayEnvironment) {
     this.tile = tile;
     this.config = config;
     this.relayEnvironment = relayEnvironment;
@@ -45,7 +37,6 @@ class CityBikes {
       20 * this.scaleratio * getMapIconScale(this.tile.coords.z);
     this.availabilityImageSize =
       14 * this.scaleratio * getMapIconScale(this.tile.coords.z);
-
     this.promise = this.fetchWithAction(this.fetchAndDrawStatus);
   }
 
@@ -91,60 +82,14 @@ class CityBikes {
       timeOfLastFetch[id] = new Date().getTime();
 
       if (result) {
-        if (this.tile.coords.z <= this.config.cityBike.cityBikeSmallIconZoom) {
-          let mode;
-          if (result.state !== BIKESTATION_ON) {
-            mode = 'citybike-off';
-          } else {
-            mode = 'citybike';
-          }
-          return drawRoundIcon(this.tile, geom, mode);
-        }
-
-        const iconName = getCityBikeNetworkIcon(
-          getCityBikeNetworkConfig(
-            getCityBikeNetworkId(result.networks),
-            this.config,
-          ),
-        );
-
-        if (
-          result.state === BIKESTATION_CLOSED ||
-          result.state === BIKESTATION_OFF
-        ) {
-          return drawIcon(
-            iconName,
-            this.tile,
-            geom,
-            this.citybikeImageSize,
-          ).then(() =>
-            drawCitybikeNotInUseIcon(
-              this.tile,
-              geom,
-              this.citybikeImageSize,
-              this.availabilityImageSize,
-              this.scaleratio,
-            ),
-          );
-        }
-
-        if (result.state === BIKESTATION_ON) {
-          return drawIcon(
-            iconName,
-            this.tile,
-            geom,
-            this.citybikeImageSize,
-          ).then(() => {
-            drawAvailabilityValue(
-              this.tile,
-              geom,
-              result.bikesAvailable,
-              this.citybikeImageSize,
-              this.availabilityImageSize,
-              this.scaleratio,
-            );
-          });
-        }
+        drawCitybikeIcon(this.tile, geom, result.state, result.bikesAvailable);
+        // TODO draw the correct icon
+        // const iconName = getCityBikeNetworkIcon(
+        //   getCityBikeNetworkConfig(
+        //     getCityBikeNetworkId(result.networks),
+        //     this.config,
+        //   ),
+        // );
       }
       return this;
     };

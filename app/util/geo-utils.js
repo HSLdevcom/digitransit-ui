@@ -73,7 +73,7 @@ export function displayDistance(meters, config) {
   if (meters < 100) {
     return `${Math.round(meters / 10) * 10} m`; // Tens of meters
   }
-  if (meters < 1000) {
+  if (meters < 975) {
     return `${Math.round(meters / 50) * 50} m`; // fifty meters
   }
   if (meters < 10000) {
@@ -412,3 +412,18 @@ export const isMultiPointTypeGeometry = geometry =>
  */
 export const isPointTypeGeometry = geometry =>
   !!(geometry && geometry.type === 'Point');
+
+/**
+ * Caluclates itinerary distance as the crow flies
+ *
+ */
+export function estimateItineraryDistance(from, to, viaPoints) {
+  let dist = 0;
+  const points = [...[from], ...viaPoints, ...[to]];
+  const arrayLength = points.length;
+  for (let i = 0; i < arrayLength - 1; i++) {
+    dist += distance(points[i], points[i + 1]);
+  }
+
+  return dist;
+}

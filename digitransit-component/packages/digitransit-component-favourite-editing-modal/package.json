@@ -1,0 +1,34 @@
+{
+  "name": "@digitransit-component/digitransit-component-favourite-editing-modal",
+  "version": "0.0.2",
+  "description": "digitransit-component favourite-editing-modal module",
+  "main": "index.generated",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build:index": "webpack --config webpack.config.babel.js && yarn run docs",
+    "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-proposal-class-properties --out-file test.generated",
+    "test": "mocha -r esm test.generated",
+    "docs": "node -r esm ../../scripts/generate-readmes"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/HSLdevcom/digitransit-ui.git"
+  },
+  "keywords": [
+    "digitransit-component",
+    "FavouriteEditingModal"
+  ],
+  "author": "Digitransit Authors",
+  "license": "(AGPL-3.0 OR EUPL-1.2)",
+  "dependencies": {
+    "@hsl-fi/sass":" ^0.1.1"
+  },
+  "peerDependencies": {
+    "@digitransit-component/digitransit-component-dialog-modal": "^0.0.1",
+    "i18next": "^19.3.3",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.0"
+  }
+}

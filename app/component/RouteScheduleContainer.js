@@ -56,21 +56,12 @@ class RouteScheduleContainer extends Component {
     config: PropTypes.object.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    this.initState(props, true);
-  }
-
-  componentDidMount() {
-    this.props.relay.refetch(
-      {
-        serviceDay: this.props.serviceDay,
-        code: this.props.match.params.patternId,
-      },
-      null,
-      () => this.setState({ hasLoaded: true }),
-    );
-  }
+  state = {
+    from: 0,
+    to: this.props.pattern.stops.length - 1,
+    serviceDay: this.props.serviceDay,
+    hasLoaded: true,
+  };
 
   onFromSelectChange = event => {
     const from = Number(event.target.value);
@@ -191,32 +182,12 @@ class RouteScheduleContainer extends Component {
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
-    // If route has changed, reset state.
     if (nextProps.pattern.code !== this.props.pattern.code) {
-      this.initState(nextProps, false);
-      nextProps.relay.refetch(
-        {
-          serviceDay: nextProps.serviceDay,
-          code: this.props.pattern.code,
-        },
-        null,
-        () => this.setState({ hasLoaded: true }),
-      );
-    }
-  }
-
-  initState(props, isInitialState) {
-    const state = {
-      from: 0,
-      to: props.pattern.stops.length - 1,
-      serviceDay: props.serviceDay,
-      hasLoaded: false,
-    };
-
-    if (isInitialState) {
-      this.state = state;
-    } else {
-      this.setState(state);
+      this.setState({
+        from: 0,
+        to: nextProps.pattern.stops.length - 1,
+        serviceDay: nextProps.serviceDay,
+      });
     }
   }
 
@@ -312,6 +283,7 @@ const connectedComponent = createRefetchContainer(
         @argumentDefinitions(
           serviceDay: { type: "String!", defaultValue: "19700101" }
         ) {
+        code
         stops {
           id
           name
@@ -321,9 +293,9 @@ const connectedComponent = createRefetchContainer(
           gtfsId
           shortName
         }
-        tripsForDate(serviceDay: $serviceDay) {
+        tripsForDate(serviceDate: $serviceDay) {
           id
-          stoptimes: stoptimesForDate(serviceDay: $serviceDay) {
+          stoptimes: stoptimesForDate(serviceDate: $serviceDay) {
             realtimeState
             scheduledArrival
             scheduledDeparture

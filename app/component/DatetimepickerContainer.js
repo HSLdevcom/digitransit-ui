@@ -2,15 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape, routerShape } from 'found';
 import debounce from 'lodash/debounce';
-import loadable from '@loadable/component';
 import { connectToStores } from 'fluxible-addons-react';
+import Datetimepicker from '@digitransit-component/digitransit-component-datetimepicker';
 import { replaceQueryParams } from '../util/queryUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-
-const Datetimepicker = loadable(
-  () => import('@digitransit-component/digitransit-component-datetimepicker'),
-  { ssr: true },
-);
 
 function DatetimepickerContainer({ realtime, embedWhenClosed, lang }, context) {
   const { router, match } = context;

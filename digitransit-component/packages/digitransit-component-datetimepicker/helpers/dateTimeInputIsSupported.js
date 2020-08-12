@@ -4,6 +4,9 @@
  * @return {boolean}
  */
 function dateTimeInputIsSupported() {
+  if (typeof window === 'undefined' || window === null) {
+    return false;
+  }
   const elem = document.createElement('input');
   elem.type = 'date';
   if (elem.type !== 'date') {

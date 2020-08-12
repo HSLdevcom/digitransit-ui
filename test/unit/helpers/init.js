@@ -50,9 +50,10 @@ initAnalyticsClientSide();
 // set up unit test globals
 global.expect = expect;
 
-// prevent mocha from interpreting imported .png images
+// prevent mocha from interpreting imported .png or svg images
 const noop = () => null;
 require.extensions['.png'] = noop;
+require.extensions['.svg'] = noop;
 
 const MockLink = ({ children }) => children;
 const MockQueryRenderer = ({ render }) => render();

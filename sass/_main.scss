@@ -31,6 +31,7 @@ $body-font-weight: $font-weight-medium;
 @import '../app/component/no-route-popup';
 @import '../app/component/summary-row';
 @import '../app/component/summary';
+@import '../app/component/stops-near-you.scss';
 @import '../app/component/time-navigation-buttons';
 @import '../app/component/origin-destination-bar';
 @import '../app/component/disruption';
@@ -53,6 +54,9 @@ $body-font-weight: $font-weight-medium;
 @import '../app/component/itinerary-profile';
 @import '~zurb-foundation-5/scss/foundation/components/forms';
 @import '../app/component/modal.scss';
+@import '../app/component/StreetModeSelector';
+@import '../app/component/StreetModeSelectorButton';
+@import '../app/component/ItinerarySummarySubtitle';
 
 /* Modal */
 @import '~foundation-apps/scss/helpers/breakpoints';

@@ -2,31 +2,30 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
-import RouteNumber from './RouteNumber';
+import cx from 'classnames';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
-import { getLegBadgeProps } from '../util/legUtils';
 import {
-  getCityBikeNetworkIcon,
   getCityBikeNetworkConfig,
   getCityBikeNetworkId,
   CityBikeNetworkType,
 } from '../util/citybikes';
 import { isKeyboardSelectionEvent } from '../util/browser';
+import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 
-function BicycleLeg({ focusAction, index, leg }, { config }) {
+function BicycleLeg({ focusAction, index, leg, setMapZoomToLeg }, { config }) {
   let stopsDescription;
   const distance = displayDistance(parseInt(leg.distance, 10), config);
-  const duration = durationToString(leg.duration * 1000);
+  const duration = durationToString(leg.endTime - leg.startTime);
   let { mode } = leg;
   let legDescription = <span>{leg.from ? leg.from.name : ''}</span>;
   const firstLegClassName = index === 0 ? 'start' : '';
   let modeClassName = 'bicycle';
-
+  const [address, place] = leg.from.name.split(/, (.+)/); // Splits the name-string to two parts from the first occurance of ', '
   const networkConfig =
     leg.rentedBike &&
     leg.from.bikeRentalStation &&
@@ -34,6 +33,7 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
       getCityBikeNetworkId(leg.from.bikeRentalStation.networks),
       config,
     );
+  const isFirstLeg = i => i === 0;
   const isScooter =
     networkConfig && networkConfig.type === CityBikeNetworkType.Scooter;
 
@@ -60,11 +60,7 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
     );
   }
 
-  let networkIcon;
-
   if (leg.rentedBike === true) {
-    networkIcon = networkConfig && getCityBikeNetworkIcon(networkConfig);
-
     modeClassName = 'citybike';
     legDescription = (
       <FormattedMessage
@@ -104,19 +100,17 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
         <div className="itinerary-time-column-time">
           {moment(leg.startTime).format('HH:mm')}
         </div>
-        <RouteNumber
-          mode={mode}
-          vertical
-          icon={networkIcon}
-          {...getLegBadgeProps(leg, config)}
-        />
       </div>
-      <ItineraryCircleLine index={index} modeClassName={modeClassName} />
+      {mode === 'BICYCLE' ? (
+        <ItineraryCircleLineWithIcon
+          index={index}
+          modeClassName={modeClassName}
+        />
+      ) : (
+        <ItineraryCircleLine index={index} modeClassName={modeClassName} />
+      )}
+
       <div
-        onClick={focusAction}
-        onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
-        role="button"
-        tabIndex="0"
         className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${mode.toLowerCase()}`}
       >
         <span className="sr-only">
@@ -125,12 +119,75 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
             values={{ target: leg.from.name || '' }}
           />
         </span>
-        <div className="itinerary-leg-first-row" aria-hidden="true">
-          {legDescription}
-          <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
-        </div>
+        {isFirstLeg(index) ? (
+          <div
+            className={cx('itinerary-leg-first-row', 'bicycle', 'first')}
+            aria-hidden="true"
+          >
+            <div className="address-container">
+              <div className="address">
+                {address}
+                {leg.from.stop && (
+                  <Icon
+                    img="icon-icon_arrow-collapse--right"
+                    className="itinerary-arrow-icon"
+                    color="#333"
+                  />
+                )}
+              </div>
+              <div className="place">{place}</div>
+            </div>
+            <div
+              className="itinerary-map-action"
+              onClick={focusAction}
+              onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
+              role="button"
+              tabIndex="0"
+            >
+              <Icon
+                img="icon-icon_show-on-map"
+                className="itinerary-search-icon"
+              />
+            </div>
+          </div>
+        ) : (
+          <div
+            className={cx('itinerary-leg-first-row', { first: index === 0 })}
+            aria-hidden="true"
+          >
+            {legDescription}
+            <div
+              className="itinerary-map-action"
+              onClick={focusAction}
+              onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
+              role="button"
+              tabIndex="0"
+            >
+              <Icon
+                img="icon-icon_show-on-map"
+                className="itinerary-search-icon"
+              />
+            </div>
+          </div>
+        )}
         <div className="itinerary-leg-action" aria-hidden="true">
-          {stopsDescription}
+          <div className="itinerary-leg-action-content">
+            {stopsDescription}
+            <div
+              className="itinerary-map-action"
+              onClick={setMapZoomToLeg}
+              onKeyPress={e =>
+                isKeyboardSelectionEvent(e) && setMapZoomToLeg(e)
+              }
+              role="button"
+              tabIndex="0"
+            >
+              <Icon
+                img="icon-icon_show-on-map"
+                className="itinerary-search-icon"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -140,6 +197,7 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
 const exampleLeg = t1 => ({
   duration: 120,
   startTime: t1 + 20000,
+  endTime: t1 + 20000 + 120 * 1000,
   distance: 586.4621425755712,
   from: { name: 'Ilmattarentie' },
   to: { name: 'Kuusitie' },
@@ -150,6 +208,7 @@ const exampleLeg = t1 => ({
 const exampleLegWalkingBike = t1 => ({
   duration: 120,
   startTime: t1 + 20000,
+  endTime: t1 + 20000 + 120 * 1000,
   distance: 586.4621425755712,
   from: { name: 'Ilmattarentie' },
   to: { name: 'Kuusitie' },
@@ -160,6 +219,7 @@ const exampleLegWalkingBike = t1 => ({
 const exampleLegCitybike = t1 => ({
   duration: 120,
   startTime: t1 + 20000,
+  endTime: t1 + 20000 + 120 * 1000,
   distance: 586.4621425755712,
   from: { name: 'Ilmattarentie' },
   to: { name: 'Kuusitie' },
@@ -170,6 +230,7 @@ const exampleLegCitybike = t1 => ({
 const exampleLegCitybikeWalkingBike = t1 => ({
   duration: 120,
   startTime: t1 + 20000,
+  endTime: t1 + 20000 + 120 * 1000,
   distance: 586.4621425755712,
   from: { name: 'Ilmattarentie' },
   to: { name: 'Kuusitie' },
@@ -180,6 +241,7 @@ const exampleLegCitybikeWalkingBike = t1 => ({
 const exampleLegScooter = t1 => ({
   duration: 120,
   startTime: t1 + 20000,
+  endTime: t1 + 20000 + 120 * 1000,
   distance: 586.4621425755712,
   from: {
     name: 'Ilmattarentie',
@@ -193,6 +255,7 @@ const exampleLegScooter = t1 => ({
 const exampleLegScooterWalkingScooter = t1 => ({
   duration: 120,
   startTime: t1 + 20000,
+  endTime: t1 + 20000 + 120 * 1000,
   distance: 586.4621425755712,
   from: {
     name: 'Ilmattarentie',
@@ -274,6 +337,7 @@ BicycleLeg.propTypes = {
   }).isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
+  setMapZoomToLeg: PropTypes.func.isRequired,
 };
 
 BicycleLeg.contextTypes = { config: PropTypes.object.isRequired };

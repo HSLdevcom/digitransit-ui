@@ -39,6 +39,7 @@ class ItineraryLegs extends React.Component {
     fares: PropTypes.array,
     toggleCanceledLegsBanner: PropTypes.func.isRequired,
     waitThreshold: PropTypes.number.isRequired,
+    setMapZoomToLeg: PropTypes.func,
   };
 
   static defaultProps = {
@@ -71,6 +72,15 @@ class ItineraryLegs extends React.Component {
     });
   };
 
+  isLegOnFoot = leg => {
+    return leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK';
+  };
+
+  setMapZoomToLeg = leg => e => {
+    e.stopPropagation();
+    this.props.setMapZoomToLeg(leg);
+  };
+
   stopCode = stop => stop && stop.code && <StopCode code={stop.code} />;
 
   render() {
@@ -98,6 +108,12 @@ class ItineraryLegs extends React.Component {
       }
       const startTime = (previousLeg && previousLeg.endTime) || leg.startTime;
 
+      const interliningWait = () => {
+        if (leg.interlineWithPreviousLeg) {
+          return leg.startTime - previousLeg.endTime;
+        }
+        return undefined;
+      };
       if (isCallAgencyPickupType(leg)) {
         legs.push(
           <CallAgencyLeg
@@ -113,27 +129,70 @@ class ItineraryLegs extends React.Component {
             leg={leg}
             arrivalTime={startTime}
             focusAction={this.focus(leg.from)}
+            setMapZoomToLeg={this.setMapZoomToLeg(leg)}
           />,
+        );
+      } else if (this.isLegOnFoot(leg)) {
+        legs.push(
+          <WalkLeg
+            index={j}
+            leg={leg}
+            previousLeg={previousLeg}
+            focusAction={this.focus(leg.from)}
+            setMapZoomToLeg={this.setMapZoomToLeg(leg)}
+          >
+            {this.stopCode(leg.from.stop)}
+          </WalkLeg>,
         );
       } else if (leg.mode === 'BUS') {
         legs.push(
-          <BusLeg index={j} leg={leg} focusAction={this.focus(leg.from)} />,
+          <BusLeg
+            index={j}
+            leg={leg}
+            interliningWait={interliningWait()}
+            isNextLegInterlining={nextLeg.interlineWithPreviousLeg}
+            focusAction={this.focus(leg.from)}
+          />,
         );
       } else if (leg.mode === 'TRAM') {
         legs.push(
-          <TramLeg index={j} leg={leg} focusAction={this.focus(leg.from)} />,
+          <TramLeg
+            index={j}
+            leg={leg}
+            interliningWait={interliningWait()}
+            isNextLegInterlining={nextLeg.interlineWithPreviousLeg}
+            focusAction={this.focus(leg.from)}
+          />,
         );
       } else if (leg.mode === 'FERRY') {
         legs.push(
-          <FerryLeg index={j} leg={leg} focusAction={this.focus(leg.from)} />,
+          <FerryLeg
+            index={j}
+            leg={leg}
+            interliningWait={interliningWait()}
+            isNextLegInterlining={nextLeg.interlineWithPreviousLeg}
+            focusAction={this.focus(leg.from)}
+          />,
         );
       } else if (leg.mode === 'RAIL') {
         legs.push(
-          <RailLeg index={j} leg={leg} focusAction={this.focus(leg.from)} />,
+          <RailLeg
+            index={j}
+            leg={leg}
+            interliningWait={interliningWait()}
+            isNextLegInterlining={nextLeg.interlineWithPreviousLeg}
+            focusAction={this.focus(leg.from)}
+          />,
         );
       } else if (leg.mode === 'SUBWAY') {
         legs.push(
-          <SubwayLeg index={j} leg={leg} focusAction={this.focus(leg.from)} />,
+          <SubwayLeg
+            index={j}
+            leg={leg}
+            interliningWait={interliningWait()}
+            isNextLegInterlining={nextLeg.interlineWithPreviousLeg}
+            focusAction={this.focus(leg.from)}
+          />,
         );
       } else if (leg.mode === 'AIRPLANE') {
         legs.push(
@@ -164,24 +223,18 @@ class ItineraryLegs extends React.Component {
         leg.mode === 'BICYCLE_WALK'
       ) {
         legs.push(
-          <BicycleLeg index={j} leg={leg} focusAction={this.focus(leg.from)} />,
+          <BicycleLeg
+            index={j}
+            leg={leg}
+            focusAction={this.focus(leg.from)}
+            setMapZoomToLeg={this.setMapZoomToLeg(leg)}
+          />,
         );
       } else if (leg.mode === 'CAR') {
         legs.push(
           <CarLeg index={j} leg={leg} focusAction={this.focus(leg.from)}>
             {this.stopCode(leg.from.stop)}
           </CarLeg>,
-        );
-      } else {
-        legs.push(
-          <WalkLeg
-            index={j}
-            leg={leg}
-            previousLeg={previousLeg}
-            focusAction={this.focus(leg.from)}
-          >
-            {this.stopCode(leg.from.stop)}
-          </WalkLeg>,
         );
       }
 
@@ -220,7 +273,7 @@ class ItineraryLegs extends React.Component {
     );
 
     return (
-      <span role="list">
+      <span className="itinerary-list-container" role="list">
         {legs.map((item, idx) => {
           const listKey = `leg_${idx}`;
           return (

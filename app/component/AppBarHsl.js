@@ -2,10 +2,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import i18next from 'i18next';
 import { matchShape, routerShape } from 'found';
-import loadable from '@loadable/component';
-import SharedLocalStorageObserver from '@hsl-fi/shared-local-storage';
+import LazilyLoad, { importLazy } from './LazilyLoad';
 
-const SiteHeader = loadable(() => import('@hsl-fi/site-header'), { ssr: true });
+const modules = {
+  SiteHeader: () => importLazy(import('@hsl-fi/site-header')),
+  SharedLocalStorageObserver: () =>
+    importLazy(import('@hsl-fi/shared-local-storage')),
+};
 
 const initLanguage = language => {
   i18next.init({ lang: language, resources: {} });
@@ -111,20 +114,23 @@ const AppBarHsl = ({ lang }, { match }) => {
   };
 
   return (
-    <>
-      {/* This component should always be mounted */}
-      <SharedLocalStorageObserver
-        keys={['saved-searches', 'favouriteStore']}
-        url="https://uusi.hsl.fi/local-storage-emitter"
-      />
-      <SiteHeader
-        startPage={startPage}
-        menu={menu}
-        searchPage={searchPage}
-        languages={languages}
-        localizations={localizations}
-      />
-    </>
+    <LazilyLoad modules={modules}>
+      {({ SiteHeader, SharedLocalStorageObserver }) => (
+        <>
+          <SharedLocalStorageObserver
+            keys={['saved-searches', 'favouriteStore']}
+            url="https://uusi.hsl.fi/local-storage-emitter"
+          />
+          <SiteHeader
+            startPage={startPage}
+            menu={menu}
+            searchPage={searchPage}
+            languages={languages}
+            localizations={localizations}
+          />
+        </>
+      )}
+    </LazilyLoad>
   );
 };
 

@@ -20,6 +20,7 @@ import {
   getRoutingSettings,
 } from '../store/localStorage';
 import { OptimizeType, QuickOptionSetType, StreetMode } from '../constants';
+import { estimateItineraryDistance } from './geo-utils';
 
 /**
  * Retrieves the default settings from the configuration.
@@ -73,7 +74,7 @@ export const defaultRoutingSettings = {
 
 function getTicketTypes(ticketType, settingsTicketType, defaultTicketType) {
   // separator used to be _, map it to : to keep old URLs compatible
-  const remap = str => `${str}`.replace('_', ':');
+  const remap = str => [`${str}`.replace('_', ':')];
   const isRestriction = type => type !== 'none';
 
   if (ticketType) {
@@ -253,6 +254,30 @@ export const getSettings = () => {
   };
 };
 
+export const prepareStopsParams = config => ({ place, mode }) => {
+  let newPlace;
+  if (place !== 'POS') {
+    newPlace = otpToLocation(place);
+  } else {
+    newPlace = config.defaultEndpoint;
+  }
+  let placeTypes = 'STOP';
+  const modes = [mode];
+  if (mode === 'BICYCLE') {
+    placeTypes = 'BICYCLE_RENT';
+  }
+
+  return {
+    lat: newPlace.lat,
+    lon: newPlace.lon,
+    maxResults: config.maxNearbyStopAmount,
+    maxDistance: config.maxNearbyStopDistance,
+    filterByModes: modes,
+    filterByPlaceTypes: placeTypes,
+    omitNonPickups: config.omitNonPickups,
+  };
+};
+
 export const preparePlanParams = config => (
   { from, to },
   {
@@ -363,7 +388,6 @@ export const preparePlanParams = config => (
                 ),
               }
             : null,
-        carParkCarLegWeight: settings.carParkCarLegWeight,
         maxTransfers: settings.maxTransfers,
         waitAtBeginningFactor: settings.waitAtBeginningFactor,
         heuristicStepsPerMainStep: settings.heuristicStepsPerMainStep,
@@ -412,13 +436,35 @@ export const preparePlanParams = config => (
       },
       nullOrUndefined,
     ),
-    modes: modesOrDefault,
+    modes: modesOrDefault
+      .split(',')
+      .map(mode => mode.split('_'))
+      .map(
+        modeAndQualifier =>
+          modeAndQualifier.length > 1
+            ? { mode: modeAndQualifier[0], qualifier: modeAndQualifier[1] }
+            : { mode: modeAndQualifier[0] },
+      ),
     ticketTypes: getTicketTypes(
       ticketTypes,
       settings.ticketTypes,
       defaultSettings.ticketTypes,
     ),
     allowedBikeRentalNetworks: allowedBikeRentalNetworksMapped,
+    shortEnoughForWalking:
+      estimateItineraryDistance(
+        fromLocation,
+        toLocation,
+        intermediatePlaceLocations,
+      ) < config.suggestWalkMaxDistance,
+    shortEnoughForBiking:
+      estimateItineraryDistance(
+        fromLocation,
+        toLocation,
+        intermediatePlaceLocations,
+      ) < config.suggestBikeMaxDistance,
+    showBikeAndPublicItineraries: config.showBikeAndPublicItineraries,
+    showBikeAndParkItineraries: config.showBikeAndParkItineraries,
   };
 };
 

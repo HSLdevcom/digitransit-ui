@@ -19,6 +19,7 @@ export default class TicketSales {
   static getName = () => 'ticketSales';
 
   static getIcon = type => {
+    // TODO: correct these
     switch (type) {
       case 'Palvelupiste':
         return 'icon-icon_service-point';
@@ -71,6 +72,7 @@ export default class TicketSales {
               }
               [[feature.geom]] = feature.loadGeometry();
               // Do not show VR ticket machines and ticket offices
+              // TODO: const icon = TicketSales.getIcon(feature.properties.Tyyppi);
               const icon = TicketSales.getIcon(feature.properties.TYYPPI);
               if (icon) {
                 this.features.push(pick(feature, ['geom', 'properties']));

@@ -33,11 +33,14 @@ const getUrlToBack = location => {
   const pathArray = pathname.substring(1).split('/');
   if (pathArray[0] === 'SelectFromMap' && pathArray[1] === '-') {
     return `/${search}`;
-  } else if (pathArray[0] === '-' && pathArray[1] === 'SelectFromMap') {
+  }
+  if (pathArray[0] === '-' && pathArray[1] === 'SelectFromMap') {
     return `/${search}`;
-  } else if (pathArray[0] === 'SelectFromMap' && pathArray[1] !== '-') {
+  }
+  if (pathArray[0] === 'SelectFromMap' && pathArray[1] !== '-') {
     return `/-/${pathArray[1]}${search}`;
-  } else if (pathArray[0] !== '-' && pathArray[1] === 'SelectFromMap') {
+  }
+  if (pathArray[0] !== '-' && pathArray[1] === 'SelectFromMap') {
     return `/${pathArray[0]}/-${search}`;
   }
   return undefined;

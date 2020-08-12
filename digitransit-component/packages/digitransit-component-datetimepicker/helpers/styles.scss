@@ -1,3 +1,7 @@
+@import '~@hsl-fi/sass/colors';
+@import '~@hsl-fi/sass/mixins/screen';
+@import '~@hsl-fi/sass/mixins/text';
+
 $primary-color: #007ac9;
 $font-weight-medium: 500;
 @mixin default-focus-outline {
@@ -24,10 +28,8 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
 
 .dt-datetimepicker {
   border: none;
-  max-width: 400px;
   padding: 0;
   margin: 0;
-
   font-size: 15px;
   font-weight: $font-weight-medium;
 
@@ -46,7 +48,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     display: flex;
     height: 28px;
 
-    @media (max-width: 320px) {
+    @include max-width(mobile-small) {
       margin-left: 14px;
     }
 
@@ -93,12 +95,16 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     }
   }
   .textbutton {
-    margin-left: 14px;
-    margin-top: 2px;
+    margin-left: 9px;
+    margin-top: 1px;
     background: none;
     border: none;
     color: #666666;
     padding: 0;
+    @include min-width(tablet)  {
+      margin-left: 14px;
+    }
+
     &.active {
       color: $primary-color;
     }
@@ -109,14 +115,14 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
 
   .combobox-left {
     margin-right: 3px;
-    @media screen and (min-width: 768px) {
+    @include min-width(tablet)  {
       margin-right: 4px;
     }
   }
 
   .combobox-right {
     margin-left: 3px;
-    @media screen and (min-width: 768px) {
+    @include min-width(tablet)  {
       margin-right: 4px;
     }
   }

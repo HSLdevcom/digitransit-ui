@@ -266,6 +266,14 @@
   border-top: 1px solid #ddd;
   width: 100%;
   background-color: $white;
+
+  .itinerary-summary-settings-container {
+    height: 95px;
+    background-color: #f3f3f3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .desktop .summary-list-container {
@@ -300,7 +308,7 @@
 .mobile {
   background-color: white;
   .summary-navigation-container {
-    margin: 0 1.25em;
+    margin: 0 9px 0 1.25em;
 
     .back-button {
       .icon-holder {
@@ -308,16 +316,15 @@
         box-shadow: none;
         font-size: 16px;
         top: 1.5em;
-        left: 0.9375em;
         border: 1px solid #ddd;
         .icon-container {
           height: inherit;
         }
       }
-      h2{
+      h2 {
         width: 100%;
         text-align: center;
-        margin: 1.7em 0 calc(1em - 2px) 0;
+        margin: 1.7em 0 25px 0;
       }
     }
   }

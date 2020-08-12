@@ -90,7 +90,7 @@ const getGTFSId = ({ id, gtfsId }) => {
 export default function suggestionToLocation(item) {
   const name = getLabel(item.properties);
   return {
-    id: item.properties.gid,
+    gid: item.properties.gid,
     address: name,
     type: item.type,
     gtfsId: getGTFSId(item.properties),

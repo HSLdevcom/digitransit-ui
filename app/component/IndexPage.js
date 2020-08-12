@@ -7,18 +7,16 @@ import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
 import isEqual from 'lodash/isEqual';
-import differenceWith from 'lodash/differenceWith';
-import isEmpty from 'lodash/isEmpty';
 import d from 'debug';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
-import loadable from '@loadable/component';
-import getRelayEnvironment from '../util/getRelayEnvironment';
+import TrafficNowLink from '@digitransit-component/digitransit-component-traffic-now-link';
+import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
+import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import {
   initGeolocation,
   checkPositioningPermission,
 } from '../action/PositionActions';
 import storeOrigin from '../action/originActions';
-import { addFavourite } from '../action/FavouriteActions';
 import storeDestination from '../action/destinationActions';
 import withSearchContext from './WithSearchContext';
 import { isBrowser } from '../util/browser';
@@ -37,26 +35,9 @@ import DatetimepickerContainer from './DatetimepickerContainer';
 
 const debug = d('IndexPage.js');
 
-const TrafficNowLink = loadable(
-  () => import('@digitransit-component/digitransit-component-traffic-now-link'),
-  { ssr: true },
-);
-const DTAutoSuggest = getRelayEnvironment(
-  withSearchContext(
-    loadable(
-      () => import('@digitransit-component/digitransit-component-autosuggest'),
-      { ssr: true },
-    ),
-  ),
-);
-const DTAutosuggestPanel = getRelayEnvironment(
-  withSearchContext(
-    loadable(
-      () =>
-        import('@digitransit-component/digitransit-component-autosuggest-panel'),
-      { ssr: true },
-    ),
-  ),
+const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
+const DTAutosuggestPanelWithSearchContext = withSearchContext(
+  DTAutosuggestPanel,
 );
 
 class IndexPage extends React.Component {
@@ -76,18 +57,6 @@ class IndexPage extends React.Component {
     origin: dtLocationShape.isRequired,
     destination: dtLocationShape.isRequired,
     showSpinner: PropTypes.bool.isRequired,
-    favourites: PropTypes.arrayOf(
-      PropTypes.shape({
-        address: PropTypes.string,
-        gtfsId: PropTypes.string,
-        gid: PropTypes.string,
-        lat: PropTypes.number,
-        name: PropTypes.string,
-        lon: PropTypes.number,
-        selectedIconId: PropTypes.string,
-        favouriteId: PropTypes.string,
-      }),
-    ),
     lang: PropTypes.string,
     itineraryParams: PropTypes.object,
   };
@@ -95,7 +64,6 @@ class IndexPage extends React.Component {
   static defaultProps = {
     autoSetOrigin: true,
     lang: 'fi',
-    favourites: [],
   };
 
   constructor(props, context) {
@@ -157,12 +125,7 @@ class IndexPage extends React.Component {
 
   // DT-3551: handle logic for Traffic now link
   trafficNowHandler = e => {
-    e.preventDefault();
     window.location = this.context.config.trafficNowLink;
-  };
-
-  addFavourite = favourite => {
-    this.context.executeAction(addFavourite, favourite);
   };
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
@@ -173,7 +136,6 @@ class IndexPage extends React.Component {
       breakpoint,
       destination,
       origin,
-      favourites,
       lang,
       itineraryParams,
     } = this.props;
@@ -195,7 +157,7 @@ class IndexPage extends React.Component {
             origin={origin}
             position="left"
           >
-            <DTAutosuggestPanel
+            <DTAutosuggestPanelWithSearchContext
               searchPanelText={intl.formatMessage({
                 id: 'where',
                 defaultMessage: 'Where to?',
@@ -205,17 +167,20 @@ class IndexPage extends React.Component {
               originPlaceHolder="search-origin-index"
               destinationPlaceHolder="search-destination-index"
               lang={lang}
-              sources={['Favourite', 'History', 'Datasource']}
-              targets={['Locations', 'CurrentPosition']}
+              sources={['History', 'Datasource']}
+              targets={[
+                'Locations',
+                'CurrentPosition',
+                'SelectFromOwnLocations',
+              ]}
               itineraryParams={itineraryParams}
             />
             <div className="datetimepicker-container">
               <DatetimepickerContainer realtime />
             </div>
             <FavouritesContainer
-              favourites={favourites}
-              onAddFavourite={this.addFavourite}
               onClickFavourite={this.clickFavourite}
+              lang={lang}
             />
             <CtrlPanel.SeparatorLine usePaddingBottom20 />
             <div className="stops-near-you-text">
@@ -227,7 +192,7 @@ class IndexPage extends React.Component {
                 })}
               </h2>
             </div>
-            <DTAutoSuggest
+            <DTAutoSuggestWithSearchContext
               icon="search"
               id="stop-route-station"
               refPoint={origin}
@@ -261,7 +226,7 @@ class IndexPage extends React.Component {
           }}
         >
           <CtrlPanel instance="hsl" language={lang} position="bottom">
-            <DTAutosuggestPanel
+            <DTAutosuggestPanelWithSearchContext
               searchPanelText={intl.formatMessage({
                 id: 'where',
                 defaultMessage: 'Where to?',
@@ -281,9 +246,7 @@ class IndexPage extends React.Component {
               <DatetimepickerContainer realtime />
             </div>
             <FavouritesContainer
-              favourites={this.props.favourites}
               onClickFavourite={this.clickFavourite}
-              onAddFavourite={this.addFavourite}
               lang={lang}
               isMobile
             />
@@ -297,7 +260,7 @@ class IndexPage extends React.Component {
                 })}
               </h2>
             </div>
-            <DTAutoSuggest
+            <DTAutoSuggestWithSearchContext
               icon="search"
               id="stop-route-station"
               refPoint={origin}
@@ -329,9 +292,6 @@ const Index = shouldUpdate(
       isEqual(nextProps.lang, props.lang) &&
       isEqual(nextProps.locationState, props.locationState) &&
       isEqual(nextProps.showSpinner, props.showSpinner) &&
-      isEmpty(
-        differenceWith(nextProps.favourites, props.favourites, isEqual),
-      ) &&
       isEqual(nextProps.itineraryParams, props.itineraryParams)
     );
   },
@@ -461,10 +421,6 @@ const IndexPageWithPosition = connectToStores(
       });
     }
     newProps.lang = context.getStore('PreferencesStore').getLanguage();
-    newProps.favourites = [
-      ...context.getStore('FavouriteStore').getLocations(),
-      ...context.getStore('FavouriteStore').getStopsAndStations(),
-    ];
     newProps.itineraryParams = getTimeAndArriveByFromURL(location);
     return newProps;
   },

@@ -1,9 +1,10 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import cx from 'classnames';
 import Icon from '@digitransit-component/digitransit-component-icon';
+import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
 import Autosuggest from 'react-autosuggest';
 import styles from './MobileSearch.scss';
 
@@ -20,13 +21,18 @@ const MobileSearch = ({
   onSuggestionSelected,
   clearOldSearches,
   onKeyDown,
+  dialogHeaderText,
+  dialogPrimaryButtonText,
+  dialogSecondaryButtonText,
 }) => {
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;
 
+  const [isDialogOpen, setDialogOpen] = useState(false);
+
   const onSelect = (e, ref) => {
     if (ref.suggestion.type === 'clear-search-history') {
-      clearOldSearches();
+      setDialogOpen(true);
     } else {
       onSuggestionSelected(e, ref);
     }
@@ -47,48 +53,67 @@ const MobileSearch = ({
     }
     return renderSuggestion(item);
   };
+
+  const renderDialogModal = () => {
+    return (
+      <DialogModal
+        headerText={dialogHeaderText}
+        primaryButtonText={dialogPrimaryButtonText}
+        secondaryButtonText={dialogSecondaryButtonText}
+        primaryButtonOnClick={() => {
+          clearOldSearches();
+          setDialogOpen(false);
+        }}
+        secondaryButtonOnClick={() => setDialogOpen(false)}
+      />
+    );
+  };
+
   return (
-    <div className={styles['fullscreen-root']}>
-      <label className={styles['combobox-container']} htmlFor={inputId}>
-        <div className={styles['combobox-icon']} onClick={closeHandle}>
-          <Icon img="arrow" />
-        </div>
-        <span className={styles['right-column']}>
-          <span className={styles['combobox-label']} id={labelId}>
-            {label}
+    <React.Fragment>
+      <div className={styles['fullscreen-root']}>
+        <label className={styles['combobox-container']} htmlFor={inputId}>
+          <div className={styles['combobox-icon']} onClick={closeHandle}>
+            <Icon img="arrow" />
+          </div>
+          <span className={styles['right-column']}>
+            <span className={styles['combobox-label']} id={labelId}>
+              {label}
+            </span>
+            <Autosuggest
+              alwaysRenderSuggestions
+              id={id}
+              suggestions={suggestions}
+              onSuggestionsFetchRequested={fetchFunction}
+              getSuggestionValue={getValue}
+              renderSuggestion={renderItem}
+              focusInputOnSuggestionClick={false}
+              shouldRenderSuggestions={() => true}
+              inputProps={{
+                ...inputProps,
+                className: cx(
+                  `${styles.input} ${styles[id] || ''} ${
+                    inputProps.value ? styles.hasValue : ''
+                  }`,
+                ),
+                autoFocus: true,
+              }}
+              renderInputComponent={p => (
+                <input
+                  aria-label={ariaLabel}
+                  id={id}
+                  onKeyDown={onKeyDown}
+                  {...p}
+                />
+              )}
+              theme={styles}
+              onSuggestionSelected={onSelect}
+            />
           </span>
-          <Autosuggest
-            alwaysRenderSuggestions
-            id={id}
-            suggestions={suggestions}
-            onSuggestionsFetchRequested={fetchFunction}
-            getSuggestionValue={getValue}
-            renderSuggestion={renderItem}
-            focusInputOnSuggestionClick={false}
-            shouldRenderSuggestions={() => true}
-            inputProps={{
-              ...inputProps,
-              className: cx(
-                `${styles.input} ${styles[id] || ''} ${
-                  inputProps.value ? styles.hasValue : ''
-                }`,
-              ),
-              autoFocus: true,
-            }}
-            renderInputComponent={p => (
-              <input
-                aria-label={ariaLabel}
-                id={id}
-                onKeyDown={onKeyDown}
-                {...p}
-              />
-            )}
-            theme={styles}
-            onSuggestionSelected={onSelect}
-          />
-        </span>
-      </label>
-    </div>
+        </label>
+      </div>
+      {isDialogOpen && renderDialogModal()}
+    </React.Fragment>
   );
 };
 
@@ -111,6 +136,9 @@ MobileSearch.propTypes = {
   clearOldSearches: PropTypes.func.isRequired,
   onKeyDown: PropTypes.func.isRequired,
   ariaLabel: PropTypes.string,
+  dialogHeaderText: PropTypes.string,
+  dialogPrimaryButtonText: PropTypes.string,
+  dialogSecondaryButtonText: PropTypes.string,
 };
 
 export default MobileSearch;

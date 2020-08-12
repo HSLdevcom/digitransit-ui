@@ -3,7 +3,6 @@ import {
   getRoutesQuery,
   getStopAndStationsQuery,
   getFavouriteRoutesQuery,
-  setRelayEnvironment,
 } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import {
   getPositions,
@@ -17,12 +16,7 @@ import {
 import { startLocationWatch } from '../action/PositionActions';
 import { saveSearch } from '../action/SearchActions';
 
-export default function intializeSearchContext(
-  context,
-  searchContext,
-  relayEnvironment,
-) {
-  setRelayEnvironment(relayEnvironment);
+export default function intializeSearchContext(context, searchContext) {
   // DT-3424: Set SearchContext for Autosuggest and searchUtils.
   searchContext.context = context;
   const { config } = context;

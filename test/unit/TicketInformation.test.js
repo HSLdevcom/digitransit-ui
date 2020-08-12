@@ -411,7 +411,7 @@ describe('<TicketInformation />', () => {
     expect(ticketWrapper.find('.ticket-description').text()).to.equal(
       'Merisataman lauttaliikenne',
     );
-    expect(ticketWrapper.find(ExternalLink).prop('href')).to.equal('foobaz');
+    expect(wrapper.find(ExternalLink).prop('href')).to.equal('foobaz');
   });
 
   describe('getUtmParameters', () => {

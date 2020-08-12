@@ -1,11 +1,10 @@
-/* eslint-disable no-param-reassign, no-console, strict, global-require, no-unused-vars */
+/* eslint-disable no-param-reassign, no-console, strict, global-require, no-unused-vars, func-names */
 
 'use strict';
 
 /* ********* Polyfills (for node) ********* */
 const path = require('path');
 const fs = require('fs');
-
 require('@babel/register')({
   // This will override `node_modules` ignoring - you can alternatively pass
   // an array of strings to be explicitly matched or a regex / glob

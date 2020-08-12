@@ -56,7 +56,7 @@ const asDepartures = stoptimes =>
           stop: stoptime.stop,
           realtime: stoptime.realtime,
           pattern,
-          headsign: stoptime.stopHeadsign,
+          headsign: stoptime.headsign,
           trip: stoptime.trip,
           pickupType: stoptime.pickupType,
         };
@@ -294,7 +294,7 @@ const containerComponent = createFragmentContainer(DepartureListContainer, {
       realtime
       serviceDay
       pickupType
-      stopHeadsign
+      headsign
       stop {
         id
         code

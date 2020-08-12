@@ -3,13 +3,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
-import loadable from '@loadable/component';
-import { withCurrentTime } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import ComponentUsageExample from './ComponentUsageExample';
 import { PREFIX_ITINERARY_SUMMARY, navigateTo } from '../util/path';
 import withSearchContext from './WithSearchContext';
-import getRelayEnvironment from '../util/getRelayEnvironment';
 
 import {
   getIntermediatePlaces,
@@ -17,14 +15,8 @@ import {
 } from '../util/queryUtils';
 import { dtLocationShape } from '../util/shapes';
 
-const DTAutosuggestPanel = getRelayEnvironment(
-  withSearchContext(
-    loadable(
-      () =>
-        import('@digitransit-component/digitransit-component-autosuggest-panel'),
-      { ssr: true },
-    ),
-  ),
+const DTAutosuggestPanelWithSearchContext = withSearchContext(
+  DTAutosuggestPanel,
 );
 
 const locationToOtp = location =>
@@ -69,14 +61,13 @@ class OriginDestinationBar extends React.Component {
 
   swapEndpoints = () => {
     const { location } = this;
-    const locationWithTime = withCurrentTime(location);
     const intermediatePlaces = getIntermediatePlaces(location.query);
     if (intermediatePlaces.length > 1) {
       location.query.intermediatePlaces.reverse();
     }
 
     navigateTo({
-      base: locationWithTime,
+      base: location,
       origin: this.props.destination,
       destination: this.props.origin,
       context: PREFIX_ITINERARY_SUMMARY,
@@ -94,7 +85,7 @@ class OriginDestinationBar extends React.Component {
           'flex-horizontal',
         )}
       >
-        <DTAutosuggestPanel
+        <DTAutosuggestPanelWithSearchContext
           origin={this.props.origin}
           destination={this.props.destination}
           originPlaceHolder="search-origin-index"
@@ -112,6 +103,7 @@ class OriginDestinationBar extends React.Component {
           lang={this.props.language}
           disableAutoFocus={this.props.isMobile}
           isMobile={this.props.isMobile}
+          itineraryParams={this.context.match.location.query}
         />{' '}
       </div>
     );

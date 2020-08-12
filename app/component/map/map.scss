@@ -5,18 +5,14 @@ div.map {
   max-height: 100%;
   position: relative;
   .leaflet-container .leaflet-control-attribution {
-    //background: rgba(255, 255, 255, 0.4);
-    //color: $dark-gray;
-    //margin: 0px 10px 20px 0px;
     width: 107px;
     height: 22px;
     opacity: 0.7;
     border-radius: 11px;
     background-color: #ffffff;
-    margin: 0px 10px 10px 10px;
+    margin: 10px;
     position: relative;
     top: -5px;
-    left: 10px;
   }
   .leaflet-container .leaflet-popup-close-button {
     color: $primary-color;
@@ -69,6 +65,11 @@ div.map {
   }
 }
 .mobile {
+  .map {
+    div.leaflet-control-scale.leaflet-control {
+      margin-right: 15px;
+    }
+  }
   .map.full {
     z-index: 1;
   }
@@ -76,14 +77,21 @@ div.map {
   .back-button {
     .icon-holder, .icon-holder:focus, .icon-holder:hover {
       padding: 0.55em 0.2em 0px 0px !important;
+      font-size: 16px;
       z-index: 805;
       background: white;
       height: 2.5em;
       width: 2.5em;
       border-radius: 50%;
       box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.2);
-      left: 25px;
-      top: 29px;
+      left: 20px;
+      top: 25px;
+      button {
+        outline: none;
+      }
+      .icon-container {
+        height: inherit;
+      }
     }
   }
 
@@ -112,10 +120,9 @@ div.leaflet-bottom.leaflet-right div.leaflet-control-zoom {
   width: 36px;
   height: 73px;
   border-radius: 5px;
-  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
   background-color: #ffffff;
   margin-right: 30px;
-  margin-bottom: 30px;
+  margin-bottom: 24px;
   .icon {
     font-size: 18px;
   }
@@ -202,16 +209,20 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
   bottom: 32px;
 }
 
+.mobile .map-with-tracking-buttons {
+  right: 15px;
+  bottom: 55px;
+}
+
 .map-with-tracking-buttons {
-  bottom: 18px;
+  bottom: 192px;
   display: flex;
-  left: 1em;
+  right: 30px;
   max-height: 36px;
   max-width: calc(100% - 2em);
   position: absolute;
 
   [role='button'] {
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
     max-height: 36px;
     max-width: 36px;
   }
@@ -234,7 +245,7 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
   padding: 6px;
   border-radius: $border-radius;
   line-height: 0.5;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 5px rgba(0,0,0,0.65);
 }
 
 .icon-mapMarker-toggle-positioning-online {
@@ -579,22 +590,70 @@ div.origin-popup {
 
 .map .legmarker {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  & > div {
+  min-width: 40px;
+  height: 18px;
+  &.speech-bubble {
+    background-color: transparent;
+    div {
+      box-shadow: -3px 5px 8px 0 rgba(0, 0, 0, 0.3);
+      @include font-medium;
+      font-size: 15px;
+      border-radius: 8px;
+      height: 30px;
+      padding: 0 7px;
+      background-color: $white;
+      margin: 0;
+      line-height: 2;
+      position: relative;
+      left: 15%;
+      top: -35px;
+    }
+    :before {
+      content: "";
+      width: 0px;
+      height: 0px;
+      position: absolute;
+      border-left: 0px solid transparent;
+      border-right: 15px solid #ffffff;
+      border-top: 0px solid #ffffff;
+      border-bottom: 15px solid transparent;
+      left: -12px;
+      bottom: -11px;
+      transform: skewX(-60deg);
+    }
+    .shadow {
+      top: -15px;
+      box-shadow: -10px 6px 8px 0 rgba(0, 0, 0, 0.5);
+      width: 5px;
+      height: 5px;
+      background-color: transparent;
+      position: absolute;
+      bottom: -11px;
+    }
+  }
+  .map-route-icon {
+    border: none;
+    font-size: 18px;
+  }
+  div {
     @include font-narrow-medium;
-    background-color: $white;
-    border-width: 2px;
-    border-style: solid;
-    border-radius: $border-radius;
-    padding: 0 2px;
-    text-align: center;
-    flex-shrink: 0; /* work around iOS bug with flex sizes */
-    white-space: nowrap;
+    //background-color: currentColor;
+    border-radius: 3px;
+    height: 18px;
+    width: 100%;
     margin-left: -50%;
-    margin-right: 50%;
     margin-top: -9px;
+    display: flex;
+    //flex-shrink: 0; /* work around iOS bug with flex sizes */
+    white-space: nowrap;
+    .map-route-number {
+      width: calc(100% - 18px);
+      display: flex;
+      justify-content: center;
+      padding-right: 3px;
+      color: $white;
+    }
   }
 }
 
@@ -610,12 +669,7 @@ div.origin-popup {
   &.bicycle_walk,
   &.citybike_walk {
     stroke-linecap: round;
-    stroke-dasharray: 0.1, 7;
-  }
-  &.bicycle,
-  &.citybike {
-    stroke-linecap: round;
-    stroke-dasharray: 10, 5;
+    stroke-dasharray: 0.1 11;
   }
 }
 
@@ -624,13 +678,8 @@ div.origin-popup {
   &.walk,
   &.bicycle_walk,
   &.citybike_walk {
-    stroke-linecap: round;
-    stroke-dasharray: 0.1, 7;
-  }
-  &.bicycle,
-  &.citybike {
-    stroke-linecap: round;
-    stroke-dasharray: 10, 5;
+    stroke: round;
+    stroke-dasharray: 0.1 11;
   }
 }
 
@@ -664,7 +713,7 @@ div.map-click-prevent-overlay {
 
 div.leaflet-control-scale.leaflet-control {
   //front page
-  margin-right: 10px;
+  margin-right: 30px;
   margin-bottom: 20px;
   cursor: grab;
 }
