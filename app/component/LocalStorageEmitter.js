@@ -2,10 +2,9 @@ import React from 'react';
 import { useSharedLocalStorageEmitter } from '@hsl-fi/shared-local-storage';
 
 const KEYS = ['saved-searches'];
-const TARGET_ORIGIN = 'https://uusi.hsl.fi';
 
-const LocalStorageEmitter = () => {
-  useSharedLocalStorageEmitter(KEYS, TARGET_ORIGIN);
+const LocalStorageEmitter = (props, { config }) => {
+  useSharedLocalStorageEmitter(KEYS, config.localStorageTarget);
 
   return <div aria-hidden="true">LocalStorageEmitter</div>;
 };
