@@ -798,4 +798,7 @@ export default {
   showWeatherInformation: true,
   showBikeAndPublicItineraries: false,
   showBikeAndParkItineraries: false,
+
+  showNearYouButtons: false,
+  nearYouModes: [],
 };

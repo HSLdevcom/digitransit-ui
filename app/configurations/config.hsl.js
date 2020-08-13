@@ -563,4 +563,7 @@ export default {
   showVehiclesOnSummaryPage: true,
   showBikeAndPublicItineraries: true,
   showBikeAndParkItineraries: true,
+
+  showNearYouButtons: true,
+  nearYouModes: ['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike'],
 };
