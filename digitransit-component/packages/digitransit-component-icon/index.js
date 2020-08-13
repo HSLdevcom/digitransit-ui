@@ -35,6 +35,11 @@ import Calendar from './assets/calendar.svg';
 import SelectFromMap from './assets/select-from-map.svg';
 import CautionWhite from './assets/caution_white_exclamation.svg';
 import Trash from './assets/trash.svg';
+import ModeBus from './assets/mode_bus.svg';
+import ModeRail from './assets/mode_rail.svg';
+import ModeTram from './assets/mode_tram.svg';
+import ModeFerry from './assets/mode_ferry.svg';
+import ModeCitybike from './assets/mode_citybike.svg';
 
 const IconMap = style => {
   return {
@@ -73,6 +78,12 @@ const IconMap = style => {
     'select-from-map': <SelectFromMap style={style} />,
     'caution-white': <CautionWhite style={style} />,
     trash: <Trash style={style} />,
+    'mode-bus': <ModeBus style={style} />,
+    'mode-rail': <ModeRail style={style} />,
+    'mode-tram': <ModeTram style={style} />,
+    'mode-subway': <Subway style={style} />,
+    'mode-ferry': <ModeFerry style={style} />,
+    'mode-citybike': <ModeCitybike style={style} />,
   };
 };
 
