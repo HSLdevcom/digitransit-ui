@@ -518,6 +518,13 @@ export default {
   useTicketIcons: true,
   trafficNowLink:
     'https://uusi.hsl.fi/matkustaminen/liikennetiedotteet-ja-hairiot',
+
+  localStorageEmitter:
+    process.env.LOCALSTORAGEEMITTER ||
+    'https://dev.hslfi.hsldev.com/local-storage-emitter',
+  localStorageTarget:
+    process.env.LOCALSTORAGETARGET || 'https://dev.hslfi.hsldev.com',
+
   cityBike: {
     showCityBikes: true,
     networks: {

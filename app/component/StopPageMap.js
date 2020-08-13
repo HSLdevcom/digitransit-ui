@@ -86,6 +86,7 @@ const StopPageMap = ({ stop, breakpoint }, { config, match, router }) => {
         icon="icon-icon_arrow-collapse--left"
         color={config.colors.primary}
         iconClassName="arrow-icon"
+        key="stop-page-back-button"
       />,
     );
   }

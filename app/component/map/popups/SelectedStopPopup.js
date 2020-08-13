@@ -8,8 +8,8 @@ const Popup = isBrowser ? require('react-leaflet/es/Popup').default : null; // e
 export default function SelectedStopPopup({ lat, lon, children }, { config }) {
   return (
     <Popup
-      position={{ lat, lng: lon }}
-      offset={[50, 25]}
+      position={{ lat: lat + 0.0001, lng: lon }}
+      offset={[50, 15]}
       maxWidth={config.map.genericMarker.popup.maxWidth}
       autoPan={false}
       className="origin-popup"
