@@ -107,7 +107,6 @@ class FavouriteEditingModal extends React.Component {
     i18next.changeLanguage(props.lang);
     this.draggableFavourites = [];
     this.state = {
-      isDraggingOverIndex: undefined,
       favourites: props.favourites,
       showDeletePlaceModal: false,
       selectedFavourite: null,
@@ -140,7 +139,7 @@ class FavouriteEditingModal extends React.Component {
   isMobile = () =>
     window && window.innerWidth ? window.innerWidth < 768 : false;
 
-  renderFavouriteListItem = (favourite, index) => {
+  renderFavouriteListItem = favourite => {
     const iconId = favourite.selectedIconId.replace('icon-icon_', '');
     const address = favourite.address.replace(
       new RegExp(`${escapeRegExp(favourite.name)}(,)?( )?`),
@@ -148,10 +147,7 @@ class FavouriteEditingModal extends React.Component {
     );
     return (
       <li
-        className={cx(styles['favourite-edit-list-item'], {
-          [styles['drop-target-before']]:
-            index === this.state.isDraggingOverIndex,
-        })}
+        className={cx(styles['favourite-edit-list-item'])}
         key={favourite.favouriteId}
       >
         <div className={styles['favourite-edit-list-item-left']}>
@@ -238,9 +234,7 @@ class FavouriteEditingModal extends React.Component {
           animation={200}
           handle={`.${styles['favourite-edit-list-item-left']}`}
         >
-          {favourites.map((favourite, i) =>
-            this.renderFavouriteListItem(favourite, i),
-          )}
+          {favourites.map(favourite => this.renderFavouriteListItem(favourite))}
         </ReactSortable>
       </div>
     );
