@@ -41,18 +41,10 @@ const startClient = (context, routes) => {
     context.executeAction(startRealTimeClient, config);
   }
 };
-/* eslint-disable no-param-reassign */
 const stopClient = context => {
   const { client } = context.getStore('RealTimeInformationStore');
   if (client) {
     context.executeAction(stopRealTimeClient, client);
-    context.getStore(
-      'RealTimeInformationStore',
-    ).storedItineraryTopics = undefined;
-    context.getStore(
-      'RealTimeInformationStore',
-    ).storedItineraryVehicleInfos = undefined;
-    context.getStore('RealTimeInformationStore').vehicles = undefined;
   }
 };
 
@@ -60,9 +52,9 @@ function StopsNearYouMap(
   { breakpoint, origin, destination, routes, ...props },
   { ...context },
 ) {
-  let realtime;
+  let uniqueRealtimeTopics;
   useEffect(() => {
-    startClient(context, realtime);
+    startClient(context, uniqueRealtimeTopics);
     return function cleanup() {
       stopClient(context);
     };
@@ -104,10 +96,13 @@ function StopsNearYouMap(
       return null;
     });
   }
-  const getRoute = route => route.route;
-  realtime = uniqBy(realtimeTopics, getRoute);
 
-  leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
+  uniqueRealtimeTopics = uniqBy(realtimeTopics, route => route.route);
+
+  if (uniqueRealtimeTopics.length > 0) {
+    leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
+  }
+
   let map;
   if (breakpoint === 'large') {
     map = (

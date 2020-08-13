@@ -33,18 +33,21 @@ const TripRouteStop = props => {
 
   const vehicles =
     props.vehicles &&
-    props.vehicles.map(vehicle => (
-      <PatternLink
-        key={vehicle.id}
-        mode={vehicle.mode}
-        pattern={props.pattern}
-        route={props.route}
-        vehicleNumber={vehicle.shortName}
-        selected={
-          props.selectedVehicle && props.selectedVehicle.id === vehicle.id
-        }
-      />
-    ));
+    props.vehicles.map(
+      vehicle =>
+        vehicle.route === props.route && (
+          <PatternLink
+            key={vehicle.id}
+            mode={vehicle.mode}
+            pattern={props.pattern}
+            route={props.route}
+            vehicleNumber={vehicle.shortName}
+            selected={
+              props.selectedVehicle && props.selectedVehicle.id === vehicle.id
+            }
+          />
+        ),
+    );
 
   return (
     <div

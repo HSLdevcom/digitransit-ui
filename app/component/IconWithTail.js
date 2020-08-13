@@ -6,9 +6,9 @@ import ComponentUsageExample from './ComponentUsageExample';
 const getFontSize = length => {
   switch (length) {
     case 1:
-      return '20px';
+      return '19px';
     case 2:
-      return '20px';
+      return '19px';
     case 3:
       return '16px';
     case 4:
@@ -117,7 +117,7 @@ const IconWithTail = ({
         className={cx('icon', 'tail-icon', className, mode)}
         ref={el => scrollIntoView && el && el.scrollIntoView()}
       >
-        <g transform={`rotate(${rotate + 180} 40 40)`}>
+        <g transform={`rotate(${(rotate || 0) + 180} 40 40)`}>
           <use
             xlinkHref="#icon-icon_vehicle-live-marker"
             transform="translate(24 24) scale(1.3)"
