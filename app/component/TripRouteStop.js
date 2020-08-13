@@ -30,7 +30,6 @@ const TripRouteStop = props => {
     stopPassed,
     stoptime,
   } = props;
-
   const vehicles =
     props.vehicles &&
     props.vehicles.map(
@@ -164,7 +163,7 @@ TripRouteStop.description = () => (
         stop={exampleRealtimeDeparture.stop}
         mode={exampleRealtimeDeparture.pattern.route.mode}
         pattern={exampleDeparture.pattern.code}
-        route={exampleDeparture.pattern.route.gtfsId}
+        route={exampleRealtimeDeparture.pattern.route.gtfsId}
         vehicles={[exampleVehicle]}
         stopPassed={false}
         realtime={exampleRealtimeDeparture.realtime}
