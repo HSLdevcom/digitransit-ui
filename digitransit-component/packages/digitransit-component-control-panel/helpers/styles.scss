@@ -1,4 +1,8 @@
- .input {
+@import '~@hsl-fi/sass/colors';
+@import '~@hsl-fi/sass/mixins/screen';
+@import '~@hsl-fi/sass/mixins/text';
+
+  .input {
       width: 200px;
   }
 
@@ -48,3 +52,57 @@
       right: -5px;
       left: -5px;
   }
+
+.near-you-container {
+  .near-you-title {
+    font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
+    font-size: 18px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: -0.6px;
+    color: #333333;
+    margin: 0 0 16px 0;
+    @include min-width(tablet)  {
+      margin: 0 0 20px 0;
+    }
+  }
+
+  .near-you-buttons-container {
+    display: flex;
+    justify-content: space-between;
+
+    .sr-only:not(:focus):not(:active) {
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      height: 1px;
+      overflow: hidden;
+      position: absolute;
+      white-space: nowrap;
+      width: 1px;
+    }
+    .transport-mode-icon-container {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      border: solid 1px #d9d9d9;
+      background-color: white;
+      display: flex;
+      @include min-width(tablet)  {
+        width: 58px;
+        height: 58px;
+      }
+
+      svg {
+        width: 32px;
+        height: 32px;
+        margin: auto;
+        @include min-width(tablet)  {
+          width: 40px;
+          height: 40px;
+        }
+      }
+    }
+  }
+}
