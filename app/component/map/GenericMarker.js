@@ -58,10 +58,12 @@ class GenericMarker extends React.Component {
         off: PropTypes.func.isRequired,
       }).isRequired,
     }).isRequired,
+    onClick: PropTypes.func,
   };
 
   static defaultProps = {
     shouldRender: () => true,
+    onClick: () => {},
   };
 
   state = { zoom: this.props.leaflet.map.getZoom() };
@@ -80,6 +82,7 @@ class GenericMarker extends React.Component {
     <Marker
       position={{ lat: this.props.position.lat, lng: this.props.position.lon }}
       icon={this.props.getIcon(this.state.zoom)}
+      onClick={this.props.onClick}
     >
       <Popup
         offset={this.context.config.map.genericMarker.popup.offset}
