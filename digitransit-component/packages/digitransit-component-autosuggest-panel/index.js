@@ -2,6 +2,7 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { ReactSortable } from 'react-sortablejs';
 import i18next from 'i18next';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import withBreakpoint from '@digitransit-component/digitransit-component-with-breakpoint';
@@ -24,7 +25,7 @@ const isViaPointEmpty = viaPoint => {
   }
   const keys = Object.keys(viaPoint);
   return (
-    keys.length === 0 || (keys.length === 1 && keys[0] === 'locationSlack')
+    keys.length === 1 || (keys.length === 2 && keys.includes('locationSlack'))
   );
 };
 
@@ -338,70 +339,6 @@ class DTAutosuggestPanel extends React.Component {
     this.setState({ viaPoints }, () => this.props.swapOrder());
   };
 
-  handleOnViaPointDragOver = (event, index) => {
-    event.preventDefault();
-    this.setState({ isDraggingOverIndex: index });
-  };
-
-  handleOnViaPointDragEnd = () => {
-    this.setState({
-      isDraggingOverIndex: undefined,
-    });
-  };
-
-  handleOnViaPointDrop = (event, targetIndex) => {
-    event.preventDefault();
-    const draggedIndex = Number.parseInt(
-      event.dataTransfer.getData('text'),
-      10,
-    );
-    if (
-      Number.isNaN(draggedIndex) ||
-      draggedIndex === targetIndex ||
-      targetIndex - draggedIndex === 1
-    ) {
-      return;
-    }
-    if (this.props.addAnalyticsEvent) {
-      this.props.addAnalyticsEvent({
-        action: 'SwitchJourneyViaPointOrder',
-        category: 'ItinerarySettings',
-        name: null,
-      });
-    }
-    const { viaPoints } = this.state;
-    const draggedViaPoint = viaPoints.splice(draggedIndex, 1)[0];
-    viaPoints.splice(
-      targetIndex > draggedIndex ? targetIndex - 1 : targetIndex,
-      0,
-      draggedViaPoint,
-    );
-    this.setState({ viaPoints, isDraggingOverIndex: undefined }, () =>
-      this.updateViaPoints(viaPoints),
-    );
-  };
-
-  handleStartViaPointDragging = (event, isDraggingIndex) => {
-    // IE and Edge < 18 do not support setDragImage
-    if (
-      event.dataTransfer.setDragImage &&
-      this.draggableViaPoints[isDraggingIndex]
-    ) {
-      event.dataTransfer.setDragImage(
-        this.draggableViaPoints[isDraggingIndex],
-        0,
-        0,
-      );
-    }
-
-    // IE throws an error if trying to set the dropEffect
-    event.dataTransfer.dropEffect = 'move'; // eslint-disable-line no-param-reassign
-    event.dataTransfer.effectAllowed = 'move'; // eslint-disable-line no-param-reassign
-
-    // IE and Edge only support the type 'text'
-    event.dataTransfer.setData('text', `${isDraggingIndex}`);
-  };
-
   getSlackDisplay = slackInSeconds => {
     return `${slackInSeconds / 60} ${i18next.t('minute-short')}`;
   };
@@ -415,7 +352,7 @@ class DTAutosuggestPanel extends React.Component {
       searchContext,
       disableAutoFocus,
     } = this.props;
-    const { activeSlackInputs, isDraggingOverIndex, viaPoints } = this.state;
+    const { activeSlackInputs, viaPoints } = this.state;
     const slackTime = this.getSlackTimeOptions();
     const defaultSlackTimeValue = 0;
     const getViaPointSlackTimeOrDefault = (
@@ -481,24 +418,29 @@ class DTAutosuggestPanel extends React.Component {
             <div className={styles.rectangle} />
           </div>
         )}
-        <div className={styles['viapoints-container']}>
+        <ReactSortable
+          className={styles['viapoints-container']}
+          list={viaPoints}
+          handle={`.${styles['viapoint-before']}`}
+          animation={200}
+          setList={items =>
+            this.setState({ viaPoints: items }, () => {
+              const newViaPoints = items.filter(vp => !isViaPointEmpty(vp));
+              if (newViaPoints.length > 0) {
+                this.props.updateViaPoints(newViaPoints);
+              }
+            })
+          }
+        >
           {viaPoints.map((o, i) => (
             <div
-              className={cx(styles['viapoint-container'], {
-                [styles['drop-target-before']]: i === isDraggingOverIndex,
-              })}
+              className={cx(styles['viapoint-container'])}
               key={`viapoint-${i}`} // eslint-disable-line
-              onDragOver={e => this.handleOnViaPointDragOver(e, i)}
-              onDrop={e => this.handleOnViaPointDrop(e, i)}
-              ref={el => this.setDraggableViaPointRef(el, i)}
             >
               <div className={styles['light-gray-background']}>
                 <div className={styles.row}>
                   <div
                     className={styles['viapoint-before']}
-                    draggable
-                    onDragEnd={this.handleOnViaPointDragEnd}
-                    onDragStart={e => this.handleStartViaPointDragging(e, i)}
                     style={{ cursor: 'move' }}
                   >
                     <Icon
@@ -615,7 +557,7 @@ class DTAutosuggestPanel extends React.Component {
               </ItinerarySearchControl>
             </div>
           ))}
-        </div>
+        </ReactSortable>
         <div className={styles['destination-input-container']}>
           <DTAutoSuggest
             icon="mapMarker"

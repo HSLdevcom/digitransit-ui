@@ -37,6 +37,7 @@
     "react": "^16.13.0",
     "react-autosuggest": "10.0.0",
     "react-autowhatever": "10.2.1",
+    "react-sortablejs": "2.0.11",
     "recompose": "0.30.0"
   }
 }
