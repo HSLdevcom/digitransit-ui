@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 
-import StopMarkerPopupContainer from '../popups/StopMarkerPopupContainer';
+import { routerShape } from 'found';
 import GenericMarker from '../GenericMarker';
 import Icon from '../../Icon';
 import {
@@ -12,6 +12,7 @@ import {
 } from '../../../util/mapIconUtils';
 import { isBrowser } from '../../../util/browser';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
+import { PREFIX_STOPS } from '../../../util/path';
 
 let L;
 
@@ -36,6 +37,14 @@ class StopMarker extends React.Component {
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
     config: PropTypes.object.isRequired,
+    router: routerShape.isRequired,
+  };
+
+  redirectToStopPage = () => {
+    const prefix = PREFIX_STOPS;
+    this.context.router.push(
+      `/${prefix}/${encodeURIComponent(this.props.stop.gtfsId)}`,
+    );
   };
 
   getModeIcon = zoom => {
@@ -105,11 +114,6 @@ class StopMarker extends React.Component {
       return '';
     }
 
-    const currentTime = this.context
-      .getStore('TimeStore')
-      .getCurrentTime()
-      .unix();
-
     const pathPrefixMatch = window.location.pathname.match(/^\/([a-z]{2,})\//);
     const context = pathPrefixMatch ? pathPrefixMatch[1] : 'index';
     addAnalyticsEvent({
@@ -119,7 +123,6 @@ class StopMarker extends React.Component {
       type: this.props.mode.toUpperCase(),
       context,
     });
-
     return (
       <GenericMarker
         position={{
@@ -135,13 +138,8 @@ class StopMarker extends React.Component {
         id={this.props.stop.gtfsId}
         renderName={this.props.renderName}
         name={this.props.stop.name}
-      >
-        <StopMarkerPopupContainer
-          stopId={this.props.stop.gtfsId}
-          currentTime={currentTime}
-          context={this.context}
-        />
-      </GenericMarker>
+        onClick={this.redirectToStopPage}
+      />
     );
   }
 }
