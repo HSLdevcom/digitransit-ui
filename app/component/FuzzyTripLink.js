@@ -14,11 +14,11 @@ function FuzzyTripLink({ vehicle }) {
   const icon = (
     <IconWithTail
       className={cx(vehicle.mode, 'tail-icon')}
-      img={`icon-icon_${vehicle.mode}-live`}
+      mode={vehicle.mode}
       rotate={180}
+      vehicleNumber={vehicle.shortName}
     />
   );
-
   return (
     <QueryRenderer
       query={graphql`
@@ -35,6 +35,7 @@ function FuzzyTripLink({ vehicle }) {
             date: $date
           ) {
             gtfsId
+            tripShortName
             pattern {
               code
             }

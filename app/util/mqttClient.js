@@ -61,14 +61,12 @@ export function parseMessage(topic, message, agency) {
     nextStop,
     ...rest // eslint-disable-line no-unused-vars
   ] = topic.split('/');
-
   const vehid = `${agency}_${id}`;
   if (message instanceof Uint8Array) {
     parsedMessage = JSON.parse(message).VP;
   } else {
     parsedMessage = message.VP;
   }
-
   if (
     parsedMessage &&
     parsedMessage.lat &&
@@ -89,6 +87,7 @@ export function parseMessage(topic, message, agency) {
       timestamp: parsedMessage.tsi,
       lat: ceil(parsedMessage.lat, 5),
       long: ceil(parsedMessage.long, 5),
+      shortName: parsedMessage.desi,
       heading: parsedMessage.hdg,
       headsign: undefined, // in HSL data headsign from realtime data does not always match gtfs data
     };

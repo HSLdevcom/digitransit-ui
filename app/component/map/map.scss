@@ -155,6 +155,9 @@ div.leaflet-container {
   background: none;
   z-index: index($zindex, map-container);
   @include font-map-container;
+  .leaflet-marker-icon {
+    @include font-narrow-medium;
+  }
 
 }
 

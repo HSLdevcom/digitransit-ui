@@ -71,7 +71,6 @@ const Component = onlyUpdateCoordChanges(MapContainer);
 const startClient = context => {
   const { realTime } = context.config;
   let agency;
-
   /* handle multiple feedid case */
   context.config.feedIds.forEach(ag => {
     if (!agency && realTime[ag]) {

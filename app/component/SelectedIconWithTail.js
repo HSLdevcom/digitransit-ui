@@ -3,12 +3,14 @@ import React from 'react';
 import IconWithTail from './IconWithTail';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const SelectedIconWithTail = ({ img, fullscreenMap }) => (
+const SelectedIconWithTail = ({ img, fullscreenMap, mode, vehicleNumber }) => (
   <IconWithTail
     img={img}
     className="selected-tail-icon"
     rotate={180}
     scrollIntoView={fullscreenMap}
+    mode={mode}
+    vehicleNumber={vehicleNumber}
   >
     <svg>
       <circle
@@ -55,6 +57,8 @@ SelectedIconWithTail.description = () => (
 SelectedIconWithTail.propTypes = {
   img: PropTypes.string.isRequired,
   fullscreenMap: PropTypes.bool,
+  mode: PropTypes.string,
+  vehicleNumber: PropTypes.string,
 };
 
 export default SelectedIconWithTail;

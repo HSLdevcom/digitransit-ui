@@ -76,6 +76,7 @@ export const vehicle = {
   direction: 1,
   tripStartTime: '1323',
   operatingDay: '2016-06-01',
+  shortName: 14,
   mode: 'bus',
   delay: 44,
   next_stop: '1401152',
