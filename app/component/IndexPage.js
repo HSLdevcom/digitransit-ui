@@ -24,7 +24,9 @@ import {
   parseLocation,
   isItinerarySearchObjects,
   navigateTo,
+  PREFIX_NEARYOU,
 } from '../util/path';
+
 import OverlayWithSpinner from './visual/OverlayWithSpinner';
 import { dtLocationShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
@@ -183,15 +185,26 @@ class IndexPage extends React.Component {
               lang={lang}
             />
             <CtrlPanel.SeparatorLine usePaddingBottom20 />
-            <div className="stops-near-you-text">
-              <h2>
-                {' '}
-                {intl.formatMessage({
-                  id: 'stop-near-you-title',
-                  defaultMessage: 'Stops and lines near you',
-                })}
-              </h2>
-            </div>
+            {config.showNearYouButtons ? (
+              <div className="near-you-buttons-container">
+                <CtrlPanel.NearStopsAndRoutes
+                  modes={config.nearYouModes}
+                  urlPrefix={`/${PREFIX_NEARYOU}`}
+                  language={lang}
+                  showTitle
+                />
+              </div>
+            ) : (
+              <div className="stops-near-you-text">
+                <h2>
+                  {' '}
+                  {intl.formatMessage({
+                    id: 'stop-near-you-title',
+                    defaultMessage: 'Stops and lines near you',
+                  })}
+                </h2>
+              </div>
+            )}
             <DTAutoSuggestWithSearchContext
               icon="search"
               id="stop-route-station"
@@ -251,15 +264,26 @@ class IndexPage extends React.Component {
               isMobile
             />
             <CtrlPanel.SeparatorLine />
-            <div className="stops-near-you-text">
-              <h2>
-                {' '}
-                {intl.formatMessage({
-                  id: 'stop-near-you-title',
-                  defaultMessage: 'Stops and lines near you',
-                })}
-              </h2>
-            </div>
+            {config.showNearYouButtons ? (
+              <div className="near-you-buttons-container">
+                <CtrlPanel.NearStopsAndRoutes
+                  modes={config.nearYouModes}
+                  urlPrefix={`/${PREFIX_NEARYOU}`}
+                  language={lang}
+                  showTitle
+                />
+              </div>
+            ) : (
+              <div className="stops-near-you-text">
+                <h2>
+                  {' '}
+                  {intl.formatMessage({
+                    id: 'stop-near-you-title',
+                    defaultMessage: 'Stops and lines near you',
+                  })}
+                </h2>
+              </div>
+            )}
             <DTAutoSuggestWithSearchContext
               icon="search"
               id="stop-route-station"

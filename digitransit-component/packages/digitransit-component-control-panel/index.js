@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import i18next from 'i18next';
+import Icon from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
 import translations from './helpers/translations';
 
@@ -61,88 +62,60 @@ OriginToDestination.defaultProps = {
   language: 'fi',
 };
 
-function NearStopsAndRoutes({ buttons, showTitle, language }) {
-  i18next.changeLanguage(language);
+/**
+ * Show button links to near you page for different travel modes
+ *
+ * @param {Object} props
+ * @param {string[]} props.modes - Names of transport modes to show buttons for. Should be in lower case. Also defines button order
+ * @param {string} props.language - Language used for accessible labels
+ * @param {string} props.urlPrefix - URL prefix for links. Must end with /lahellasi
+ * @param {boolean} props.showTitle - Show title, default is false
+ *
+ * @example
+ * <CtrlPanel.NearStopsAndRoutes
+ *      modes={['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike']}
+ *      language="fi"
+ *      urlPrefix="http://example.com/lahellasi"
+ *      showTitle
+ *    />
+ *
+ */
+function NearStopsAndRoutes({ modes, urlPrefix, language, showTitle }) {
+  const buttons = modes.map(mode => {
+    return (
+      <a href={`${urlPrefix}/${mode.toUpperCase()}/POS`} key={mode}>
+        <span className={styles['sr-only']}>
+          {i18next.t(`pick-mode-${mode}`, { lng: language })}
+        </span>
+        <span className={styles['transport-mode-icon-container']}>
+          <Icon img={`mode-${mode}`} />
+        </span>
+      </a>
+    );
+  });
   return (
-    <div id="NearStopsAndRoutes">
-      {showTitle && <span>{i18next.t('title-route-stop-station')}</span>}
-      {showTitle && <br />}
-      {buttons.length > 0 && (
-        <div role="group" arial-label={i18next.t('pick-mode')}>
-          {/* buttons.map(button => <button key={button}>{i18next.t(`pick-mode-${button}`)}</button>) */}
-          {buttons.map(button => {
-            let h = 1.5;
-            let w = 1.5;
-            let c;
-            if (button === 'subway') {
-              h = 1.6;
-              w = 1.6;
-              c = '#ff6319';
-            }
-            return (
-              <Icon
-                key={button}
-                img={`icon-icon_${button}`}
-                height={h}
-                width={w}
-                margin={0.5}
-                color={c}
-              />
-            );
-          })}
-        </div>
+    <div className={styles['near-you-container']}>
+      {showTitle && (
+        <h2 className={styles['near-you-title']}>
+          {i18next.t('title-route-stop-station', { lng: language })}
+        </h2>
       )}
-      <input
-        className={styles['input']}
-        placeholder={i18next.t('placeholder-route-stop-station')}
-      />
-      <br />
+      <div className={styles['near-you-buttons-container']}>{buttons}</div>
     </div>
   );
 }
 
 NearStopsAndRoutes.propTypes = {
-  buttons: PropTypes.array,
-  showTitle: PropTypes.bool,
+  modes: PropTypes.arrayOf(PropTypes.string).isRequired,
+  urlPrefix: PropTypes.string,
   language: PropTypes.string,
+  showTitle: PropTypes.bool,
 };
 
 NearStopsAndRoutes.defaultProps = {
-  buttons: [],
   showTitle: false,
+  urlPrefix: '/lahellasi',
   language: 'fi',
-};
-
-function Icon({ color, img, height, width, margin }) {
-  return (
-    <span aria-hidden className="icon-container">
-      <svg
-        style={{
-          fill: color || null,
-          height: height ? `${height}em` : null,
-          width: width ? `${width}em` : null,
-          marginRight: margin ? `${margin}em` : null,
-        }}
-      >
-        <use xlinkHref={`#${img}`} />
-      </svg>
-    </span>
-  );
-}
-
-Icon.propTypes = {
-  color: PropTypes.string,
-  height: PropTypes.number,
-  img: PropTypes.string.isRequired,
-  margin: PropTypes.number,
-  width: PropTypes.number,
-};
-
-Icon.defaultProps = {
-  color: undefined,
-  height: undefined,
-  margin: undefined,
-  width: undefined,
 };
 
 /**
@@ -153,8 +126,10 @@ Icon.defaultProps = {
  *    <CtrlPanel.OriginToDestination showTitle />
  *    <CtrlPanel.SeparatorLine />
  *    <CtrlPanel.NearStopsAndRoutes
+ *      modes={['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike']}
+ *      language="fi"
+ *      urlPrefix="http://example.com/lahellasi"
  *      showTitle
- *      buttons={['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike']}
  *    />
  *  </CtrlPanel>
  */
