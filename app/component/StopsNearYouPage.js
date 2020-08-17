@@ -102,7 +102,7 @@ const PositioningWrapper = connectToStores(
       const locationForUrl = addressToItinerarySearch(locationState);
       const newPlace = locationForUrl;
       props.router.replace(getNearYouPath(newPlace, mode));
-      return { ...props, loadingPosition: false };
+      return { ...props, locationState, loadingPosition: false };
     }
 
     context.executeAction(startLocationWatch);
