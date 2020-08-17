@@ -505,7 +505,7 @@ export function drawHybridStopIcon(tile, geom, isHilighted) {
  * Draw an icon for citybike stations, including indicator to show bike availability. Draw closed icon for closed stations
  * Determine icon size based on zoom level
  */
-export function drawCitybikeIcon(tile, geom, state, bikesAvailable) {
+export function drawCitybikeIcon(tile, geom, state, bikesAvailable, iconName) {
   const zoom = tile.coords.z - 1;
   const styles = getStopIconStyles('citybike', zoom);
   const { style } = styles;
@@ -535,11 +535,11 @@ export function drawCitybikeIcon(tile, geom, state, bikesAvailable) {
   if (style === 'medium') {
     x = geom.x / tile.ratio - width / 2;
     y = geom.y / tile.ratio - height;
-    let iconName = `icon-icon_citybike_station_${color}_small`;
+    let icon = `${iconName}_station_${color}_small`;
     if (state === BIKESTATION_CLOSED || state === BIKESTATION_OFF) {
-      iconName = 'icon-icon_citybike_station_closed_small';
+      icon = `${iconName}_station_closed_small`;
     }
-    getImageFromSpriteCache(iconName, width, height).then(image => {
+    getImageFromSpriteCache(icon, width, height).then(image => {
       tile.ctx.drawImage(image, x, y);
     });
   }
@@ -547,11 +547,11 @@ export function drawCitybikeIcon(tile, geom, state, bikesAvailable) {
     const smallCircleRadius = 11 * tile.scaleratio;
     x = geom.x / tile.ratio - width + smallCircleRadius * 2;
     y = geom.y / tile.ratio - height;
-    let iconName = `icon-icon_citybike_station_${color}_large`;
+    let icon = `${iconName}_station_${color}_large`;
     if (state === BIKESTATION_CLOSED || state === BIKESTATION_OFF) {
-      iconName = 'icon-icon_citybike_station_closed_large';
+      icon = `${iconName}_station_closed_large`;
     }
-    getImageFromSpriteCache(iconName, width, height).then(image => {
+    getImageFromSpriteCache(icon, width, height).then(image => {
       tile.ctx.drawImage(image, x, y);
       x = x + width - smallCircleRadius;
       y += smallCircleRadius;
