@@ -57,7 +57,7 @@ function StopsNearYouMap(
     origin,
     currentTime,
     destination,
-    routes,
+    stops,
     locationState,
     ...props
   },
@@ -75,10 +75,9 @@ function StopsNearYouMap(
 
   useEffect(
     () => {
-      const fetchPlan = async () => {
+      const fetchPlan = async stop => {
         setPlan({ plan: plan.plan, isFetching: true });
         if (locationState.hasLocation && locationState.address) {
-          const stop = routes.edges[0].node.place;
           const toPlace = {
             address: stop.name ? stop.name : 'stop',
             lon: stop.lon,
@@ -118,9 +117,12 @@ function StopsNearYouMap(
           });
         }
       };
-      fetchPlan();
+      if (stops.edges.length > 0) {
+        const stop = stops.edges[0].node.place;
+        fetchPlan(stop);
+      }
     },
-    [locationState.status],
+    [locationState.status && locationState.address],
   );
 
   const { mode } = props.match.params;
@@ -130,7 +132,7 @@ function StopsNearYouMap(
   const renderRouteLines = mode !== 'BICYCLE';
   let leafletObjs = [];
   if (renderRouteLines) {
-    routes.edges.forEach(item => {
+    stops.edges.forEach(item => {
       const { place } = item.node;
       place.patterns.forEach(pattern => {
         const feedId = pattern.route.gtfsId.split(':')[0];
@@ -178,6 +180,12 @@ function StopsNearYouMap(
       )),
     );
   }
+  const hilightedStops = () => {
+    if (stops.edges.length > 0) {
+      return [stops.edges[0].node.place.gtfsId];
+    }
+    return [];
+  };
 
   let map;
   if (breakpoint === 'large') {
@@ -191,6 +199,7 @@ function StopsNearYouMap(
         origin={origin}
         destination={destination}
         setInitialMapTracking
+        hilightedStops={hilightedStops()}
         disableLocationPopup
         leafletObjs={leafletObjs}
       />
@@ -212,6 +221,7 @@ function StopsNearYouMap(
           origin={origin}
           destination={destination}
           setInitialMapTracking
+          hilightedStops={hilightedStops()}
           disableLocationPopup
           leafletObjs={leafletObjs}
         />
@@ -266,8 +276,8 @@ const StopsNearYouMapWithStores = connectToStores(
 );
 
 const containerComponent = createFragmentContainer(StopsNearYouMapWithStores, {
-  routes: graphql`
-    fragment StopsNearYouMap_routes on placeAtDistanceConnection
+  stops: graphql`
+    fragment StopsNearYouMap_stops on placeAtDistanceConnection
       @argumentDefinitions(
         startTime: { type: "Long!", defaultValue: 0 }
         omitNonPickups: { type: "Boolean!", defaultValue: false }
@@ -277,6 +287,7 @@ const containerComponent = createFragmentContainer(StopsNearYouMapWithStores, {
           place {
             __typename
             ... on Stop {
+              gtfsId
               lat
               lon
               name

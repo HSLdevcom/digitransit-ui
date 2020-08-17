@@ -106,7 +106,7 @@ const PositioningWrapper = connectToStores(
     }
 
     context.executeAction(startLocationWatch);
-    return { ...props, loadingPosition: true };
+    return { ...props, loadingPosition: true, locationState };
   },
 );
 
