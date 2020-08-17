@@ -6,6 +6,7 @@ import i18next from 'i18next';
 import isEmpty from 'lodash/isEmpty';
 import isNumber from 'lodash/isNumber';
 import Icon from '@digitransit-component/digitransit-component-icon';
+import Modal from '@hsl-fi/modal';
 import styles from './helpers/styles.scss';
 import translations from './helpers/translations';
 import DesktopModal from './helpers/DesktopModal';
@@ -22,29 +23,29 @@ const isStop = ({ layer }) => layer === 'stop' || layer === 'favouriteStop';
 const isTerminal = ({ layer }) =>
   layer === 'station' || layer === 'favouriteStation';
 
-const Modal = ({ children, isEdit }) => {
-  return (
-    <div className={styles.favouriteModal}>
-      <section
-        className={cx(styles.modalMain, {
-          [styles['edit-modal']]: isEdit,
-        })}
-      >
-        {children}
-      </section>
-    </div>
-  );
-};
+// const Modal = ({ children, isEdit }) => {
+//   return (
+//     <div className={styles.favouriteModal}>
+//       <section
+//         className={cx(styles.modalMain, {
+//           [styles['edit-modal']]: isEdit,
+//         })}
+//       >
+//         {children}
+//       </section>
+//     </div>
+//   );
+// };
 
-Modal.propTypes = {
-  children: PropTypes.node,
-  isEdit: PropTypes.bool,
-};
+// Modal.propTypes = {
+//   children: PropTypes.node,
+//   isEdit: PropTypes.bool,
+// };
 
-Modal.defaultProps = {
-  children: [],
-  isEdit: false,
-};
+// Modal.defaultProps = {
+//   children: [],
+//   isEdit: false,
+// };
 
 const FavouriteIconIdToNameMap = {
   'icon-icon_place': 'place',
@@ -134,6 +135,7 @@ FavouriteIconTable.propTypes = {
  */
 class FavouriteModal extends React.Component {
   static propTypes = {
+    isModalOpen: PropTypes.bool.isRequired,
     /** Required.
      * @type{function} */
     handleClose: PropTypes.func.isRequired,
@@ -344,7 +346,13 @@ class FavouriteModal extends React.Component {
       cancelSelected: this.props.cancelSelected,
     };
     return (
-      <Modal isEdit={this.isEdit()}>
+      <Modal
+        appElement="#app"
+        contentLabel="Content label"
+        closeButtonLabel="Close"
+        isOpen={this.props.isModalOpen}
+        onCrossClick={this.props.handleClose}
+      >
         {!this.props.isMobile && <DesktopModal {...modalProps} />}
         {this.props.isMobile && <MobileModal {...modalProps} />}
       </Modal>

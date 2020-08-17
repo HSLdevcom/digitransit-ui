@@ -126,39 +126,40 @@ class FavouritesContainer extends React.Component {
           onAddWork={this.addWork}
           lang={this.props.lang}
         />
-        {this.state.addModalOpen && (
-          <FavouriteModal
-            handleClose={() =>
-              this.setState({
-                addModalOpen: false,
-                favourite: {},
-              })
-            }
-            saveFavourite={this.saveFavourite}
-            cancelSelected={() =>
-              this.setState({
-                addModalOpen: false,
-                editModalOpen: true,
-                favourite: {},
-              })
-            }
-            favourite={this.state.favourite}
-            lang={this.props.lang}
-            isMobile={this.props.isMobile}
-            autosuggestComponent={
-              <AutoSuggestWithSearchContext
-                sources={['History', 'Datasource']}
-                targets={['Locations', 'CurrentPosition', 'Stops']}
-                id="favourite"
-                placeholder="search-address-or-place"
-                value={this.state.favourite.address || ''}
-                onFavouriteSelected={this.setLocationProperties}
-                lang={this.props.lang}
-                isMobile={this.props.isMobile}
-              />
-            }
-          />
-        )}
+        {/* {this.state.addModalOpen && ( */}
+        <FavouriteModal
+          isModalOpen={this.state.addModalOpen}
+          handleClose={() =>
+            this.setState({
+              addModalOpen: false,
+              favourite: {},
+            })
+          }
+          saveFavourite={this.saveFavourite}
+          cancelSelected={() =>
+            this.setState({
+              addModalOpen: false,
+              editModalOpen: true,
+              favourite: {},
+            })
+          }
+          favourite={this.state.favourite}
+          lang={this.props.lang}
+          isMobile={this.props.isMobile}
+          autosuggestComponent={
+            <AutoSuggestWithSearchContext
+              sources={['History', 'Datasource']}
+              targets={['Locations', 'CurrentPosition', 'Stops']}
+              id="favourite"
+              placeholder="search-address-or-place"
+              value={this.state.favourite.address || ''}
+              onFavouriteSelected={this.setLocationProperties}
+              lang={this.props.lang}
+              isMobile={this.props.isMobile}
+            />
+          }
+        />
+        {/* // )} */}
         {this.state.editModalOpen && (
           <FavouriteEditModal
             favourites={this.props.favourites}
