@@ -231,6 +231,10 @@ class DTAutosuggest extends React.Component {
           suggestionToLocation(ref.suggestion),
           ref.suggestionIndex,
         );
+        this.setState({
+          renderMobileSearch: false,
+          suggestions: [],
+        });
       }
       this.setState(
         {
