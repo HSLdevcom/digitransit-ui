@@ -573,6 +573,8 @@ class MapWithTrackingStateHandler extends React.Component {
       !this.state.focusOnPosition
     ) {
       location = config.defaultMapCenter || config.defaultEndpoint;
+    } else if (this.state.focusOnPosition) {
+      location = position;
     }
     const leafletObjs = [];
     if (this.props.leafletObjs) {
