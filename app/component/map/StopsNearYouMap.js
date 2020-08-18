@@ -24,6 +24,7 @@ import {
 } from '../../action/realTimeClientAction';
 import { addressToItinerarySearch } from '../../util/otpStrings';
 import ItineraryLine from './ItineraryLine';
+import Loading from '../Loading';
 
 const startClient = (context, routes) => {
   const { realTime } = context.config;
@@ -75,8 +76,8 @@ function StopsNearYouMap(
 
   useEffect(
     () => {
+      let isMounted = true;
       const fetchPlan = async stop => {
-        setPlan({ plan: plan.plan, isFetching: true });
         if (locationState.hasLocation && locationState.address) {
           const toPlace = {
             address: stop.name ? stop.name : 'stop',
@@ -113,23 +114,32 @@ function StopsNearYouMap(
             }
           `;
           fetchQuery(environment, query, variables).then(({ plan: result }) => {
-            setPlan({ plan: result, isFetching: false });
+            if (isMounted) {
+              setPlan({ plan: result, isFetching: false });
+            }
           });
         }
       };
-      if (stops.edges.length > 0) {
+      if (stops.edges.length > 0 && locationState.hasLocation) {
         const stop = stops.edges[0].node.place;
+        setPlan({ plan: plan.plan, isFetching: true });
         fetchPlan(stop);
       }
+      return () => {
+        isMounted = false;
+      };
     },
-    [locationState.status && locationState.address],
+    [locationState.status],
   );
+  if (locationState.loadingPosition || props.loading) {
+    return <Loading />;
+  }
 
   const { mode } = props.match.params;
 
   const routeLines = [];
   const realtimeTopics = [];
-  const renderRouteLines = mode !== 'BICYCLE';
+  const renderRouteLines = mode !== 'CITYBIKE';
   let leafletObjs = [];
   if (renderRouteLines) {
     stops.edges.forEach(item => {
@@ -181,10 +191,10 @@ function StopsNearYouMap(
     );
   }
   const hilightedStops = () => {
-    if (stops.edges.length > 0) {
+    if (stops.edges.length > 0 && mode !== 'CITYBIKE') {
       return [stops.edges[0].node.place.gtfsId];
     }
-    return [];
+    return [''];
   };
 
   let map;
@@ -234,7 +244,7 @@ function StopsNearYouMap(
 
 StopsNearYouMap.propTypes = {
   match: matchShape.isRequired,
-  router: routerShape.isRequired,
+
   breakpoint: PropTypes.string.isRequired,
   origin: dtLocationShape,
   destination: dtLocationShape,
@@ -242,6 +252,7 @@ StopsNearYouMap.propTypes = {
 };
 
 StopsNearYouMap.contextTypes = {
+  router: routerShape.isRequired,
   config: PropTypes.object,
   executeAction: PropTypes.func,
   getStore: PropTypes.func,
@@ -286,6 +297,11 @@ const containerComponent = createFragmentContainer(StopsNearYouMapWithStores, {
         node {
           place {
             __typename
+            ... on BikeRentalStation {
+              name
+              lat
+              lon
+            }
             ... on Stop {
               gtfsId
               lat

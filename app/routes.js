@@ -89,13 +89,13 @@ export default config => {
                 }
               `}
               prepareVariables={prepareStopsParams(config)}
-              render={getComponentOrNullRenderer}
+              render={getComponentOrLoadingRenderer}
             />
           ) : (
             <Route
               path="(.*)?"
               getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/Loading').then(
+                import(/* webpackChunkName: "nearyou" */ './component/Loading').then(
                   getDefault,
                 )
               }
@@ -105,7 +105,7 @@ export default config => {
             <Route
               // disableMapOnMobile
               getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/map/StopsNearYouMap.js').then(
+                import(/* webpackChunkName: "nearyou" */ './component/map/StopsNearYouMap.js').then(
                   getDefault,
                 )
               }
@@ -133,6 +133,7 @@ export default config => {
                 }
               `}
               prepareVariables={prepareStopsParams(config)}
+              render={getComponentOrNullRenderer}
             />
           ),
         }}

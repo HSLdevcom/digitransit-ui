@@ -262,9 +262,10 @@ export const prepareStopsParams = config => ({ place, mode }) => {
     newPlace = config.defaultEndpoint;
   }
   let placeTypes = 'STOP';
-  const modes = [mode];
-  if (mode === 'BICYCLE') {
+  let modes = [mode];
+  if (mode === 'CITYBIKE') {
     placeTypes = 'BICYCLE_RENT';
+    modes = ['BICYCLE'];
   }
 
   return {
