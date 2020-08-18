@@ -175,33 +175,34 @@ class FavouriteBar extends React.Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     const { favourites, home, work } = prevState;
     const nextFavourites = nextProps.favourites;
+    const nextHome = find(
+      nextFavourites,
+      favourite =>
+        favourite.name === 'Home' ||
+        favourite.name === 'Koti' ||
+        favourite.name === 'Hem',
+    );
+    const nextWork = find(
+      nextFavourites,
+      favourite =>
+        favourite.name === 'Work' ||
+        favourite.name === 'Työ' ||
+        favourite.name === 'Arbetsplats',
+    );
+    const filteredFavourites = nextFavourites.filter(
+      favourite =>
+        favourite.favouriteId !== (nextHome && nextHome.favouriteId) &&
+        favourite.favouriteId !== (nextWork && nextWork.favouriteId),
+    );
     if (
       !isEmpty(
         differenceWith(nextFavourites, [...favourites, home, work], isEqual),
       ) ||
       !isEmpty(
         differenceWith([...favourites, home, work], nextFavourites, isEqual),
-      )
+      ) ||
+      !isEqual(filteredFavourites, favourites)
     ) {
-      const nextHome = find(
-        nextFavourites,
-        favourite =>
-          favourite.name === 'Home' ||
-          favourite.name === 'Koti' ||
-          favourite.name === 'Hem',
-      );
-      const nextWork = find(
-        nextFavourites,
-        favourite =>
-          favourite.name === 'Work' ||
-          favourite.name === 'Työ' ||
-          favourite.name === 'Arbetsplats',
-      );
-      const filteredFavourites = nextFavourites.filter(
-        favourite =>
-          favourite.favouriteId !== (nextHome && nextHome.favouriteId) &&
-          favourite.favouriteId !== (nextWork && nextWork.favouriteId),
-      );
       return {
         favourites: filteredFavourites,
         home: nextHome,
