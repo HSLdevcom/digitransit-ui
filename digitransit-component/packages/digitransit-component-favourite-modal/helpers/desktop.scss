@@ -9,7 +9,6 @@ $primary-color: #007ac9;
     width: 100%;
     .favourite-modal-desktop-header {
       width: 100%;
-      padding: 46px 0 0 43px;
       font-size: 18px;
       font-weight: 500;
       line-height: 1.33;
@@ -31,10 +30,10 @@ $primary-color: #007ac9;
   .favourite-modal-desktop-main {
     text-align: left;
     .favourite-modal-desktop-location-search {
-      padding: 25px 44px 0 43px;
+      padding-top: 25px;
     }
     .favourite-modal-desktop-name {
-      padding: 9px 44px 0 43px;
+      padding-top: 9px;
 
       .favourite-modal-desktop-input {
         display: flex;
@@ -59,20 +58,20 @@ $primary-color: #007ac9;
     }
   }
   .favourite-modal-desktop-text {
-    padding: 27px 0 0 44px;
+    padding-top: 27px;
     font-size: 16px;
     font-weight: 500;
     letter-spacing: -0.53px;
     color: #333333;
   }
   .favourite-modal-desktop-icons {
-    padding: 11px 44px 0 43px;
+    padding-top: 11px;
   }
 
   .favourite-modal-desktop-buttons {
     display: flex;
     flex-direction: column;
-    padding: 31px 44px 0 43px;
+    padding-top: 31px;
     .favourite-modal-desktop-button {
       position: relative;
       width: 100%;

@@ -349,7 +349,8 @@ class FavouriteModal extends React.Component {
       <Modal
         appElement="#app"
         contentLabel="Content label"
-        closeButtonLabel="Close"
+        closeButtonLabel={i18next.t('close-favourite-modal')}
+        variant="small"
         isOpen={this.props.isModalOpen}
         onCrossClick={this.props.handleClose}
       >
