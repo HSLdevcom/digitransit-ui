@@ -1,6 +1,7 @@
 /* eslint react/forbid-prop-types: 0 */
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
+import { ReactSortable } from 'react-sortablejs';
 import cx from 'classnames';
 import i18next from 'i18next';
 import escapeRegExp from 'lodash/escapeRegExp';
@@ -106,7 +107,6 @@ class FavouriteEditingModal extends React.Component {
     i18next.changeLanguage(props.lang);
     this.draggableFavourites = [];
     this.state = {
-      isDraggingOverIndex: undefined,
       favourites: props.favourites,
       showDeletePlaceModal: false,
       selectedFavourite: null,
@@ -139,68 +139,7 @@ class FavouriteEditingModal extends React.Component {
   isMobile = () =>
     window && window.innerWidth ? window.innerWidth < 768 : false;
 
-  handleOnFavouriteDragOver = (event, index) => {
-    event.preventDefault();
-    this.setState({ isDraggingOverIndex: index });
-  };
-
-  handleOnFavouriteDragEnd = () => {
-    this.setState({
-      isDraggingOverIndex: undefined,
-    });
-  };
-
-  handleOnFavouriteDrop = (event, targetIndex) => {
-    event.preventDefault();
-    const draggedIndex = Number.parseInt(
-      event.dataTransfer.getData('text'),
-      10,
-    );
-    if (
-      Number.isNaN(draggedIndex) ||
-      draggedIndex === targetIndex ||
-      targetIndex - draggedIndex === 1
-    ) {
-      return;
-    }
-    const { favourites } = this.state;
-    const draggedFavourite = favourites.splice(draggedIndex, 1)[0];
-    favourites.splice(
-      targetIndex > draggedIndex ? targetIndex - 1 : targetIndex,
-      0,
-      draggedFavourite,
-    );
-    this.setState({ favourites, isDraggingOverIndex: undefined }, () =>
-      this.props.updateFavourites(favourites),
-    );
-  };
-
-  setDraggableFavouriteRef = (element, index) => {
-    this.draggableFavourites[index] = element;
-  };
-
-  handleStartFavouriteDragging = (event, isDraggingIndex) => {
-    // IE and Edge < 18 do not support setDragImage
-    if (
-      event.dataTransfer.setDragImage &&
-      this.draggableFavourites[isDraggingIndex]
-    ) {
-      event.dataTransfer.setDragImage(
-        this.draggableFavourites[isDraggingIndex],
-        0,
-        0,
-      );
-    }
-
-    // IE throws an error if trying to set the dropEffect
-    event.dataTransfer.dropEffect = 'move'; // eslint-disable-line no-param-reassign
-    event.dataTransfer.effectAllowed = 'move'; // eslint-disable-line no-param-reassign
-
-    // IE and Edge only support the type 'text'
-    event.dataTransfer.setData('text', `${isDraggingIndex}`);
-  };
-
-  renderFavouriteListItem = (favourite, index) => {
+  renderFavouriteListItem = favourite => {
     const iconId = favourite.selectedIconId.replace('icon-icon_', '');
     const address = favourite.address.replace(
       new RegExp(`${escapeRegExp(favourite.name)}(,)?( )?`),
@@ -208,22 +147,11 @@ class FavouriteEditingModal extends React.Component {
     );
     return (
       <li
-        className={cx(styles['favourite-edit-list-item'], {
-          [styles['drop-target-before']]:
-            index === this.state.isDraggingOverIndex,
-        })}
+        className={cx(styles['favourite-edit-list-item'])}
         key={favourite.favouriteId}
-        onDragOver={e => this.handleOnFavouriteDragOver(e, index)}
-        onDrop={e => this.handleOnFavouriteDrop(e, index)}
-        ref={el => this.setDraggableFavouriteRef(el, index)}
       >
         <div className={styles['favourite-edit-list-item-left']}>
-          <div
-            className={styles['favourite-edit-list-item-drag']}
-            draggable
-            onDragEnd={this.handleOnFavouriteDragEnd}
-            onDragStart={e => this.handleStartFavouriteDragging(e, index)}
-          >
+          <div className={styles['favourite-edit-list-item-drag']}>
             <div className={styles['favourite-edit-list-item-ellipsis']}>
               <Icon img="ellipsis" />
             </div>
@@ -294,11 +222,22 @@ class FavouriteEditingModal extends React.Component {
   renderFavouriteList = favourites => {
     return (
       <div className={styles['favourite-edit-list-container']}>
-        <ul className={styles['favourite-edit-list']}>
-          {favourites.map((favourite, index) =>
-            this.renderFavouriteListItem(favourite, index),
-          )}
-        </ul>
+        <ReactSortable
+          className={styles['favourite-edit-list']}
+          tag="ul"
+          list={favourites}
+          setList={items =>
+            this.setState({ favourites: items }, () => {
+              if (!isEqual(items, favourites)) {
+                this.props.updateFavourites(items);
+              }
+            })
+          }
+          animation={200}
+          handle={`.${styles['favourite-edit-list-item-left']}`}
+        >
+          {favourites.map(favourite => this.renderFavouriteListItem(favourite))}
+        </ReactSortable>
       </div>
     );
   };
