@@ -171,7 +171,6 @@ testVariation(
 
 testVariation('StopPageHeader');
 testVariation('Timetable');
-testVariation('DepartureListHeader');
 testVariation('PageFooter');
 
 testVariation('SummaryRow', 'large', 1);

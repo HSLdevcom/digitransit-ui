@@ -4,7 +4,6 @@ import { createRefetchContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
 
-import DepartureListHeader from './DepartureListHeader';
 import DepartureListContainer from './DepartureListContainer';
 import Error404 from './404';
 import Icon from './Icon';
@@ -46,20 +45,17 @@ class TerminalPageContent extends React.Component {
     }
     return (
       <div className="stop-page-departure-wrapper stop-scroll-container momentum-scroll">
-        <DepartureListHeader />
-        <div className="stop-scroll-container momentum-scroll">
-          <DepartureListContainer
-            stoptimes={stoptimes}
-            key="departures"
-            className="stop-page momentum-scroll"
-            routeLinks
-            infiniteScroll
-            isTerminal
-            currentTime={this.props.currentTime}
-            showPlatformCodes
-            isTerminalPage
-          />
-        </div>
+        <DepartureListContainer
+          stoptimes={stoptimes}
+          key="departures"
+          className="stop-page momentum-scroll"
+          routeLinks
+          infiniteScroll
+          isTerminal
+          currentTime={this.props.currentTime}
+          showPlatformCodes
+          isTerminalPage
+        />
       </div>
     );
   }
