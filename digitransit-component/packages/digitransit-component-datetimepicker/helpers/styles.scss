@@ -283,11 +283,6 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       border: 1px rgba(0,0,0,0.1) solid;
       top: 35px;
       width: calc(100% + 43px); // 43px == width of icon next to input
-      -ms-overflow-style: none;  /* Internet Explorer 10+ */
-      scrollbar-width: none;  /* Firefox */
-      &::-webkit-scrollbar {
-        display: none;  /* Safari and Chrome */
-      }
       ul {
         padding: 0;
         margin: 0;
