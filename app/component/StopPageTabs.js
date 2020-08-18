@@ -5,11 +5,7 @@ import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'found/lib/Link';
 import { matchShape } from 'found';
-import { AlertSeverityLevelType } from '../constants';
 import {
-  getCancelationsForStop,
-  getServiceAlertsForStop,
-  getServiceAlertsForStopRoutes,
   isAlertActive,
   getActiveAlertSeverityLevel,
   getCancelationsForRoute,
@@ -46,7 +42,7 @@ const getActiveTab = pathname => {
   return Tab.RightNow;
 };
 
-function StopPageTabs({ breakpoint, stop }, { intl, match }) {
+function StopPageTabs({ breakpoint, stop }, { match }) {
   if (
     !stop ||
     (match.location.state &&
@@ -64,20 +60,7 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
   )}`;
 
   const currentTime = moment().unix();
-  const hasActiveAlert = isAlertActive(
-    getCancelationsForStop(stop),
-    [...getServiceAlertsForStop(stop), ...getServiceAlertsForStopRoutes(stop)],
-    currentTime,
-  );
-  const hasActiveServiceAlerts =
-    getActiveAlertSeverityLevel(
-      getServiceAlertsForStop(stop, intl),
-      currentTime,
-    ) ||
-    getActiveAlertSeverityLevel(
-      getServiceAlertsForStopRoutes(stop, intl),
-      currentTime,
-    );
+
   const stopRoutesWithAlerts = [];
 
   const modesByRoute = []; // DT-3387
@@ -104,26 +87,6 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
       );
     });
   }
-
-  const disruptionClassName =
-    ((hasActiveAlert ||
-      stopRoutesWithAlerts.some(
-        alert =>
-          alert.alertSeverityLevel === AlertSeverityLevelType.Severe ||
-          alert.alertSeverityLevel === AlertSeverityLevelType.Warning,
-      )) &&
-      'active-disruption-alert') ||
-    ((hasActiveServiceAlerts ||
-      stopRoutesWithAlerts.some(
-        alert =>
-          alert.alertSeverityLevel === AlertSeverityLevelType.Severe ||
-          alert.alertSeverityLevel === AlertSeverityLevelType.Warning,
-      )) &&
-      'active-service-alert');
-
-  const uniqModesByRoutes = Array.from(new Set(modesByRoute)); // DT-3387
-  const modeByRoutesOrStop =
-    uniqModesByRoutes.length === 1 ? uniqModesByRoutes[0] : stop.vehicleMode; // DT-3387
 
   return (
     <div>
@@ -166,62 +129,7 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
             </div>
           </div>
         </Link>
-        <Link
-          to={`${urlBase}/${Tab.RoutesAndPlatforms}`}
-          className={cx('stop-tab-singletab', {
-            active: activeTab === Tab.RoutesAndPlatforms,
-          })}
-          onClick={() => {
-            addAnalyticsEvent({
-              category: 'Stop',
-              action: 'OpenRoutesAndPlatformsTab',
-              name: null,
-            });
-          }}
-        >
-          <div className="stop-tab-singletab-container">
-            <div>
-              <FormattedMessage
-                id={
-                  modeByRoutesOrStop === 'RAIL' ||
-                  modeByRoutesOrStop === 'SUBWAY'
-                    ? 'routes-tracks'
-                    : 'routes-platforms'
-                }
-                defaultMessage={
-                  modeByRoutesOrStop === 'RAIL' ||
-                  modeByRoutesOrStop === 'SUBWAY'
-                    ? 'routes-tracks'
-                    : 'routes-platforms'
-                }
-              />
-            </div>
-          </div>
-        </Link>
-        <Link
-          to={`${urlBase}/${Tab.Disruptions}`}
-          className={cx('stop-tab-singletab', {
-            active: activeTab === Tab.Disruptions,
-            'alert-active': hasActiveAlert || stopRoutesWithAlerts.length > 0,
-            'service-alert-active':
-              hasActiveServiceAlerts || stopRoutesWithAlerts.length > 0,
-          })}
-          onClick={() => {
-            addAnalyticsEvent({
-              category: 'Stop',
-              action: 'OpenDisruptionsTab',
-              name: null,
-            });
-          }}
-        >
-          <div className="stop-tab-singletab-container">
-            <div className={`${disruptionClassName || `no-alerts`}`}>
-              <FormattedMessage id="disruptions" />
-            </div>
-          </div>
-        </Link>
       </div>
-      <div className="stop-tabs-fillerline" />
     </div>
   );
 }

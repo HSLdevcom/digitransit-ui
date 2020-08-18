@@ -55,7 +55,6 @@ class TerminalPageContent extends React.Component {
             routeLinks
             infiniteScroll
             isTerminal
-            rowClasses="padding-vertical-normal border-bottom"
             currentTime={this.props.currentTime}
             showPlatformCodes
             isTerminalPage

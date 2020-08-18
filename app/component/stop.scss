@@ -142,6 +142,7 @@
   padding-left: 0.5em;
   padding-right: 0.5em;
   text-decoration: none;
+  font-weight: normal;
 
   + .stop-tab-singletab {
     border-left: 1px solid $light-gray;
@@ -206,7 +207,7 @@
   margin: 0 auto;
   letter-spacing: -0.4px;
   span {
-    font-size: $font-size-xxxsmall;
+    font-size: $font-size-small;
   }
 }
 
@@ -221,27 +222,60 @@
 }
 
 .stop-page.departure-list {
-  .departure {
-    .time {
-      width: 3.7em;
-      padding-right: $padding-medium;
-      margin-right: $padding-medium;
-    }
-    .route-number {
-      width: 3.7em;
-    }
-    .route-destination {
-      padding-left: $padding-medium;
-    }
+  padding: 5px 0px 15px 5px;
+  .departure-row {
+      height: 50px;
+      @include font-narrow-book;
+      font-weight: normal;
+      display: flex;
+      border-bottom: 1px solid #dddddd;
+      padding-top: 15px;
+      .route-arrival {
+          color: #4ea700;
+          @include font-medium;
+          font-size: 0.75rem;
+          padding-right: 8px;
+          span {
+              vertical-align: sub;
+          }
+          &.realtime {
+              color: $realtime-color;
+          }
+      }
+      .route-number-container {
+        margin-top: 2px;
+        background-color: currentColor;
+        border-radius: 3px;
+        width: 2.25em;
+        height: 1.25em;
+        text-align: center;
+        .route-number {
+          color: $white;
+          line-height: 1.35;
+          min-width: unset;
+          display: block;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+      }
+      .route-headsign {
+          font-weight: normal;
+          color: #333;
+          flex: 1;
+          padding-left: $padding-medium;
+      }
+      .route-time {
+          color: #4ea700;
+          &.realtime {
+            color: $realtime-color;
+          }
+      }
   }
 }
 
 .desktop .stop-page.departure-list {
-  .departure {
-    .time {
-      margin-right: $padding-large;
-    }
-    .route-destination {
+  .departure-row {
+    .route-headsign {
       padding-left: $padding-medium;
     }
   }

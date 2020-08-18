@@ -6,11 +6,8 @@ import React, { Component } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import Link from 'found/lib/Link';
 
-import Departure from './Departure';
-import {
-  getActiveAlertSeverityLevel,
-  patternIdPredicate,
-} from '../util/alertUtils';
+import DepartureRow from './DepartureRow';
+import { patternIdPredicate } from '../util/alertUtils';
 import { isBrowser } from '../util/browser';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import {
@@ -64,21 +61,14 @@ const asDepartures = stoptimes =>
 
 class DepartureListContainer extends Component {
   static propTypes = {
-    rowClasses: PropTypes.string.isRequired,
     stoptimes: PropTypes.array.isRequired,
     currentTime: PropTypes.number.isRequired,
     limit: PropTypes.number,
     infiniteScroll: PropTypes.bool,
-    showStops: PropTypes.bool,
     routeLinks: PropTypes.bool,
     className: PropTypes.string,
     isTerminal: PropTypes.bool,
-    showPlatformCodes: PropTypes.bool,
     isStopPage: PropTypes.bool,
-  };
-
-  static defaultProps = {
-    showPlatformCodes: false,
   };
 
   constructor(props) {
@@ -217,28 +207,18 @@ class DepartureListContainer extends Component {
           .startOf('day')
           .unix();
       }
-
       const id = `${departure.pattern.code}:${departure.stoptime}`;
+      const row = {
+        headsign: departure.headsign,
+        trip: { ...departure.trip, ...{ route: departure.trip.pattern.route } },
+      };
 
-      const alertSeverityLevel = getActiveAlertSeverityLevel(
-        departure.alerts,
-        currentTime,
-      );
       const departureObj = (
-        <Departure
-          alertSeverityLevel={alertSeverityLevel}
+        <DepartureRow
           key={id}
-          departure={departure}
-          showStop={this.props.showStops}
-          currentTime={currentTime}
-          className={cx(
-            { disruption: !!alertSeverityLevel },
-            this.props.rowClasses,
-          )}
-          canceled={departure.canceled}
-          isArrival={departure.isArrival}
-          isLastStop={departure.isLastStop}
-          showPlatformCode={this.props.showPlatformCodes}
+          departure={row}
+          departureTime={departure.stoptime}
+          currentTime={this.props.currentTime}
         />
       );
 

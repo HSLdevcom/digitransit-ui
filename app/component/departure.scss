@@ -6,7 +6,7 @@
   @return 'data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2719%27%20height%3D%2719%27%3E%3Cline%20x1%3D%272%27%20y1%3D%2710%27%20x2%3D%2710%27%20y2%3D%2710%27%20stroke%3D%27#{rgba($color, $alpha)}%27%20stroke-width%3D%273.5%27%20stroke-linecap%3D%27round%27%2F%3E%3Ccircle%20stroke-width%3D%272.5%27%20stroke%3D%27#{rgba($color, $alpha)}%27%20fill%3D%27white%27%20cx%3D%2711%27%20cy%3D%2710%27%20r%3D%274%27%2F%3E%3C%2Fsvg%3E';
 }
 
-.departure {
+.departure-row {
   // parent class for time, vehicle-number, destination
   background: $white;
   display: flex;
@@ -20,25 +20,13 @@
     width: 2.5em;
   }
 
-  & .route-number {
+  & .route-number-container {
     width: 3em;
   }
 
-  .icon {
-    font-size: 1em;
-    vertical-align: -1px;
-  }
-
-  .route-destination {
+  .route-headsign {
     flex: 1;
     padding-left: 0.5em;
-
-    & .destination {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      width: 100%;
-    }
   }
 
   .departure-canceled {
@@ -63,17 +51,16 @@
   }
 }
 
-.time,
-.vehicle-number,
+.route-time,
+.route-number,
 .destination,
-.platform-number,
 .bicycle-rental-station,
 .city-bike-station-name,
 .city-bike-station-availability {
   display: inline-block;
 }
 
-.time {
+.route-time {
   @include font-narrow-medium;
   width: 3.25em;
   padding-right: 0.25em;
@@ -99,11 +86,11 @@
   vertical-align: middle;
 }
 
-.desktop .route-destination {
+.desktop .route-headsign {
   width: calc(100% - 12.5em);
 }
 
-.route-destination {
+.route-headsign {
   overflow: hidden;
   position: relative;
   display: inline-block;
@@ -244,7 +231,7 @@
     margin-right: 0.5em;
     font-size: $font-size-small;
   }
-  .route-destination {
+  .route-headsign {
     width: 100%;
     padding-left: 0.5em;
     vertical-align: bottom;
@@ -321,54 +308,6 @@
     width: 3.5em;
     margin-right: 0.5em;
     text-align: right;
-  }
-}
-
-.departure-list-header {
-  color: $gray;
-  background-color: $white;
-  @include font-narrow-book;
-  font-size: $font-size-small;
-  white-space: nowrap;
-  padding-left: 0.5em;
-  line-height: $line-height-normal;
-  border-bottom: 1px solid $light-gray;
-
-  & > span {
-    display: inline-block;
-    vertical-align: top;
-  }
-  .route-number-header {
-    width: 4em;
-  }
-  .route-destination-header {
-    padding-left: 1em;
-  }
-  .time-header {
-    font-weight: inherit;
-    text-align: right;
-    width: 3.5em;
-    padding-right: $padding-medium;
-    margin-right: $padding-medium;
-  }
-}
-
-.mobile {
-  .departure-list-header {
-    margin-top: 0em;
-  }
-}
-
-.desktop .departure-list-header {
-  .route-number-header {
-    width: 50px;
-  }
-  .route-destination-header {
-    padding-left: 2em;
-  }
-  .time-header {
-    width: 50px;
-    margin-right: 20px;
   }
 }
 
