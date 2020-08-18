@@ -32,7 +32,7 @@ function PositionMarker({ coordinates }) {
   return (
     <Marker
       keyboard={false}
-      zIndexOffset={-1}
+      zIndexOffset={20000}
       position={[coordinates.lat, coordinates.lon]}
       icon={currentLocationIcon}
     />

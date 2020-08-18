@@ -7,6 +7,7 @@ import createRender from 'found/lib/createRender';
 
 import Error404 from './component/404';
 import TopLevel from './component/TopLevel';
+import LocalStorageEmitter from './component/LocalStorageEmitter';
 
 import { PREFIX_ITINERARY_SUMMARY, PREFIX_NEARYOU } from './util/path';
 import { preparePlanParams, prepareStopsParams } from './util/planParamUtil';
@@ -106,6 +107,30 @@ export default config => {
                   getDefault,
                 )
               }
+              query={graphql`
+                query routes_StopsNearYouMap_Query(
+                  $lat: Float!
+                  $lon: Float!
+                  $filterByPlaceTypes: [FilterPlaceType]
+                  $filterByModes: [Mode]
+                  $maxResults: Int!
+                  $maxDistance: Int!
+                  $omitNonPickups: Boolean
+                ) {
+                  routes: nearest(
+                    lat: $lat
+                    lon: $lon
+                    filterByPlaceTypes: $filterByPlaceTypes
+                    filterByModes: $filterByModes
+                    maxResults: $maxResults
+                    maxDistance: $maxDistance
+                  ) {
+                    ...StopsNearYouMap_routes
+                      @arguments(omitNonPickups: $omitNonPickups)
+                  }
+                }
+              `}
+              prepareVariables={prepareStopsParams(config)}
             />
           ),
         }}
@@ -487,6 +512,11 @@ export default config => {
           }
         />
       )}
+      <Route
+        path="/local-storage-emitter"
+        Component={LocalStorageEmitter}
+        topBarOptions={{ hidden: true }}
+      />
       <Route path="/js/*" Component={Error404} />
       <Route path="/css/*" Component={Error404} />
       <Route path="/assets/*" Component={Error404} />

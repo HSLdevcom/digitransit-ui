@@ -16,14 +16,7 @@ describe('<IconWithTail />', () => {
         .find('use')
         .at(0)
         .prop('xlinkHref'),
-    ).to.equal('#icon-icon_vehicle-live-shadow');
-
-    expect(
-      wrapper
-        .find('use')
-        .at(1)
-        .prop('xlinkHref'),
-    ).to.equal('#icon-icon_bus-live');
+    ).to.equal('#icon-icon_vehicle-live-marker');
   });
 
   describe('allVehicles is true', () => {

@@ -53,7 +53,6 @@ const Component = onlyUpdateCoordChanges(MapContainer);
 const startClient = context => {
   const { realTime } = context.config;
   let agency;
-
   /* handle multiple feedid case */
   context.config.feedIds.forEach(ag => {
     if (!agency && realTime[ag]) {
@@ -95,6 +94,7 @@ class MapWithTrackingStateHandler extends React.Component {
       }),
     }).isRequired,
     children: PropTypes.array,
+    leafletObjs: PropTypes.array,
     renderCustomButtons: PropTypes.func,
     mapLayers: mapLayerShape.isRequired,
     messages: PropTypes.array,
@@ -386,7 +386,9 @@ class MapWithTrackingStateHandler extends React.Component {
       location = config.defaultMapCenter || config.defaultEndpoint;
     }
     const leafletObjs = [];
-
+    if (this.props.leafletObjs) {
+      leafletObjs.push(...this.props.leafletObjs);
+    }
     if (this.props.mapLayers.showAllBusses) {
       const currentZoom =
         this.mapElement && this.mapElement.leafletElement

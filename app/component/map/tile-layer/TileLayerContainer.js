@@ -53,6 +53,7 @@ class TileLayerContainer extends GridLayer {
       }).isRequired,
     }).isRequired,
     relayEnvironment: PropTypes.object.isRequired,
+    hilightedStops: PropTypes.arrayOf(PropTypes.string.isRequired),
   };
 
   static contextTypes = {
@@ -80,7 +81,6 @@ class TileLayerContainer extends GridLayer {
 
   constructor(props, context) {
     super(props, context);
-
     // Required as it is not passed upwards through the whole inherittance chain
     this.context = context;
     this.state = {
@@ -157,6 +157,7 @@ class TileLayerContainer extends GridLayer {
       this.context.config,
       this.props.stopsNearYouMode,
       this.props.relayEnvironment,
+      this.props.hilightedStops,
     );
 
     tile.onSelectableTargetClicked = (

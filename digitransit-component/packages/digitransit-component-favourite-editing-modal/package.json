@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-favourite-editing-modal",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "digitransit-component favourite-editing-modal module",
   "main": "index.generated",
   "publishConfig": {
@@ -29,6 +29,7 @@
     "@digitransit-component/digitransit-component-dialog-modal": "^0.0.1",
     "i18next": "^19.3.3",
     "prop-types": "^15.7.2",
-    "react": "^16.13.0"
+    "react": "^16.13.0",
+    "react-sortablejs": "2.0.11"
   }
 }

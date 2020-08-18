@@ -7,7 +7,15 @@ import { isLayerEnabled } from '../../../util/mapLayerUtils';
 import { getStopIconStyles } from '../../../util/mapIconUtils';
 
 class TileContainer {
-  constructor(coords, done, props, config, stopsNearYouMode, relayEnvironment) {
+  constructor(
+    coords,
+    done,
+    props,
+    config,
+    stopsNearYouMode,
+    relayEnvironment,
+    hilightedStops,
+  ) {
     const markersMinZoom = Math.min(
       config.cityBike.cityBikeMinZoom,
       config.stopsMinZoom,
@@ -23,6 +31,7 @@ class TileContainer {
     this.ratio = this.extent / this.tileSize;
     this.el = this.createElement();
     this.clickCount = 0;
+    this.hilightedStops = hilightedStops;
 
     if (this.coords.z < markersMinZoom || !this.el.getContext) {
       setTimeout(() => done(null, this.el), 0);

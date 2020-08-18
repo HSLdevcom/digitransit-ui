@@ -188,9 +188,8 @@ export default async function(req, res, next) {
     global.navigator = { userAgent: agent };
 
     // TODO: Move this to PreferencesStore
-    // 1. use locale from cookie (user selected) 2. browser preferred 3. default
-    let locale =
-      req.cookies.lang || req.acceptsLanguages(config.availableLanguages);
+    // 1. use locale from cookie (user selected) or default
+    let locale = req.cookies.lang || config.defaultLanguage;
 
     if (config.availableLanguages.indexOf(locale) === -1) {
       locale = config.defaultLanguage;
