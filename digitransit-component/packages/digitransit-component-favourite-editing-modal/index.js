@@ -227,9 +227,11 @@ class FavouriteEditingModal extends React.Component {
           tag="ul"
           list={favourites}
           setList={items =>
-            this.setState({ favourites: items }, () =>
-              this.props.updateFavourites(items),
-            )
+            this.setState({ favourites: items }, () => {
+              if (!isEqual(items, favourites)) {
+                this.props.updateFavourites(items);
+              }
+            })
           }
           animation={200}
           handle={`.${styles['favourite-edit-list-item-left']}`}
