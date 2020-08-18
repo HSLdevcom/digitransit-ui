@@ -29,7 +29,9 @@ class RouteMapContainer extends React.PureComponent {
   };
 
   tripId = this.props.match.params.tripId;
+
   dispLat = this.props.lat;
+
   dispLon = this.props.lon;
 
   render() {

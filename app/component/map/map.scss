@@ -155,7 +155,10 @@ div.leaflet-container {
   background: none;
   z-index: index($zindex, map-container);
   @include font-map-container;
+}
 
+.select-from-map {
+  height: calc(100vh - 36px);
 }
 
 div.current-location-marker > span > svg.icon {
@@ -797,4 +800,27 @@ div.leaflet-control-scale-line {
   .leaflet-popup-content-wrapper {
     border-radius: $border-radius;
   }
+}
+
+.select-from-map-confirm-button-enabled, .select-from-map-confirm-button-enabled:hover {
+  z-index: 3000;
+  height: 50px;
+  width: calc(100% - 40px);
+  margin: 20px;
+  margin-bottom: 57px;
+  border-radius: 25px;
+  top: calc(100vh - 3em - 120px);
+  background-color: $primary-color;
+}
+
+.select-from-map-confirm-button-disabled {
+  z-index: 3000;
+  height: 50px;
+  width: calc(100% - 40px);
+  margin: 20px;
+  margin-bottom: 57px;
+  border-radius: 25px;
+  top: calc(100vh - 3em - 120px);
+  background-color: #bbbbbb;
+  pointer-events: none;
 }
