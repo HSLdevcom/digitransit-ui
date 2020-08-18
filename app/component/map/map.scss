@@ -159,6 +159,7 @@ div.leaflet-container {
   .leaflet-marker-icon {
     @include font-narrow-medium;
   }
+}
 
 .select-from-map {
   height: calc(100vh - 36px);
