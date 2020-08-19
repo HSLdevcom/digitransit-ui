@@ -62,8 +62,19 @@ const AppBarHsl = ({ lang }, { match, config }) => {
 
   initLanguage(lang);
 
+  let startPageSuffix;
+  switch (lang) {
+    case 'en':
+    case 'sv':
+      startPageSuffix = `${lang}/`;
+      break;
+    case 'fi':
+    default:
+      startPageSuffix = '';
+      break;
+  }
   const navigation = {
-    startPage: 'https://uusi.hsl.fi/',
+    startPage: `https://uusi.hsl.fi/${startPageSuffix}`,
     menu: [
       {
         name: i18next.t('traveling_name'),
