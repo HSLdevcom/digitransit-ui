@@ -6,7 +6,7 @@
   @return 'data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2719%27%20height%3D%2719%27%3E%3Cline%20x1%3D%272%27%20y1%3D%2710%27%20x2%3D%2710%27%20y2%3D%2710%27%20stroke%3D%27#{rgba($color, $alpha)}%27%20stroke-width%3D%273.5%27%20stroke-linecap%3D%27round%27%2F%3E%3Ccircle%20stroke-width%3D%272.5%27%20stroke%3D%27#{rgba($color, $alpha)}%27%20fill%3D%27white%27%20cx%3D%2711%27%20cy%3D%2710%27%20r%3D%274%27%2F%3E%3C%2Fsvg%3E';
 }
 
-.departure-row {
+.departure {
   // parent class for time, vehicle-number, destination
   background: $white;
   display: flex;
@@ -20,11 +20,11 @@
     width: 2.5em;
   }
 
-  & .route-number-container {
+  & .route-number {
     width: 3em;
   }
 
-  .route-headsign {
+  .route-destination {
     flex: 1;
     padding-left: 0.5em;
   }
@@ -51,8 +51,8 @@
   }
 }
 
-.route-time,
-.route-number,
+.time,
+.vehicle-number,
 .destination,
 .bicycle-rental-station,
 .city-bike-station-name,
@@ -60,7 +60,7 @@
   display: inline-block;
 }
 
-.route-time {
+.time {
   @include font-narrow-medium;
   width: 3.25em;
   padding-right: 0.25em;
@@ -86,11 +86,11 @@
   vertical-align: middle;
 }
 
-.desktop .route-headsign {
+.desktop .route-destination {
   width: calc(100% - 12.5em);
 }
 
-.route-headsign {
+.route-destination {
   overflow: hidden;
   position: relative;
   display: inline-block;
