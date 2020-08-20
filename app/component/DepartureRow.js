@@ -24,7 +24,7 @@ const DepartureRow = ({ departure, departureTime, ...props }, { config }) => {
     );
   }
   return (
-    <div className={cx('departure-row', mode)}>
+    <div role="listitem" className={cx('departure-row', mode)}>
       <div className="route-number-container">
         <div className="route-number">{departure.trip.route.shortName}</div>
       </div>
