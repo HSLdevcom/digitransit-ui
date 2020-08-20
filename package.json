@@ -52,6 +52,7 @@
     "digitransit-component-docs": "node -r esm ./digitransit-component/scripts/generate-readmes",
     "digitransit-component-new-module": "node -r esm ./digitransit-component/scripts/create-new-module $1",
     "digitransit-component-tests": "lerna run test --scope '@digitransit-component/*'",
+    "digitransit-watch-components": "lerna run watch --parallel --sort",
     "digitransit-build-components": "lerna run build:index --scope '@digitransit-component/*'",
     "build-search-utils": "lerna run build:index --scope '@digitransit-search-util/digitransit-search-util-query-utils'"
   },
