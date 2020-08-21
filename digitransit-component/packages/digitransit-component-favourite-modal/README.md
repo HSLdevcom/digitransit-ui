@@ -16,9 +16,9 @@
 <FavouriteModal
   show={modalOpen}
   handleClose={handleClose}
-  addFavourite={onAddFavourite}
+  saveFavourite={onSaveFavourite}
   location={selectedLocation}
-  prefilledFavourite={prefilledFavourite}
+  favourite={favourite}
   lang={lang}
   autosuggestComponent={
     <AutoSuggest
@@ -41,9 +41,15 @@ Required.
 
 Type: [function][1]
 
-## addFavourite
+## saveFavourite
 
 Required.
+
+Type: [function][1]
+
+## cancelSelected
+
+Required. Only used when editing favourite.
 
 Type: [function][1]
 
@@ -54,23 +60,7 @@ Autosuggest component for searching new favourites.
 
 Type: [node][2]
 
-## location
-
-Optional.
-
-Type: [object][3]
-
-### Properties
-
--   `address` **[string][4]** 
--   `gtfsId` **[string][4]** 
--   `lat` **[number][5]** 
--   `lon` **[number][5]** 
--   `id` **[string][4]** 
--   `layer` **[string][4]** 
--   `defaultName` **[string][4]** 
-
-## prefilledFavourite
+## favourite
 
 Optional.
 Object to prefill input field for name and/or selected icon.
@@ -79,8 +69,17 @@ Type: [object][3]
 
 ### Properties
 
+-   `type` **[string][4]** 
+-   `address` **[string][4]** 
+-   `gtfsId` **[string][4]** 
+-   `gid` **[string][4]** 
+-   `lat` **[number][5]** 
+-   `lon` **[number][5]** 
 -   `name` **[string][4]** 
 -   `selectedIconId` **[string][4]** 
+-   `favouriteId` **[string][4]** 
+-   `layer` **[string][4]** 
+-   `defaultName` **[string][4]** 
 
 ## addAnalyticsEvent
 
@@ -93,6 +92,10 @@ Type: [function][1]
 Optional. Language, fi, en or sv.
 
 Type: [string][4]
+
+## isMobile
+
+Optional.
 
 [1]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
 

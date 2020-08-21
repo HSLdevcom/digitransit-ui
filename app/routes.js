@@ -474,30 +474,6 @@ export default config => {
         }
       />
       <Route
-        path="/suosikki/uusi"
-        getComponent={() =>
-          import(/* webpackChunkName: "add-favourite" */ './component/AddFavouritePage')
-            .then(getDefault)
-            .catch(errorLoading)
-        }
-      />
-      <Route
-        path="/suosikki/muokkaa/sijainti/:id"
-        getComponent={() =>
-          import(/* webpackChunkName: "add-favourite" */ './component/AddFavouritePage')
-            .then(getDefault)
-            .catch(errorLoading)
-        }
-      />
-      <Route
-        path="/suosikki/muokkaa/pysakki/:id"
-        getComponent={() =>
-          import(/* webpackChunkName: "add-favourite" */ './component/AddFavouritePage')
-            .then(getDefault)
-            .catch(errorLoading)
-        }
-      />
-      <Route
         path="/tietoja-palvelusta"
         getComponent={() =>
           import(/* webpackChunkName: "about" */ './component/AboutPage').then(
