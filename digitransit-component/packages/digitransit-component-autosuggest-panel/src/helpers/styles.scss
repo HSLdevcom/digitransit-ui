@@ -51,10 +51,6 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     flex: 1 0 100%;
     margin-top: 6px;
     min-height: 50px;
-    &.drop-target-before {
-      border-top: 1px solid $primary-color;
-      width: 100%;
-    }
     .light-gray-background {
       display: flex;
       padding: 3px 0;

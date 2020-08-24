@@ -22,7 +22,12 @@ const StopNearYouHeader = ({ stop, color }) => {
           }}
           to={`/${PREFIX_STOPS}/${stop.gtfsId}`}
         >
-          <div className="stop-near-you-name">{stop.name}</div>
+          <h3 className="stop-near-you-name">
+            {stop.name}
+            <span className="sr-only">
+              <PlatformNumber number={stop.platformCode} short={false} />
+            </span>
+          </h3>
         </Link>
         <div className="stop-near-you-info">
           <span className="stop-near-you-desc">{stop.desc}</span>

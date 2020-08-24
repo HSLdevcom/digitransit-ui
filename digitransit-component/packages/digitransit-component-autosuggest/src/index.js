@@ -231,6 +231,10 @@ class DTAutosuggest extends React.Component {
           suggestionToLocation(ref.suggestion),
           ref.suggestionIndex,
         );
+        this.setState({
+          renderMobileSearch: false,
+          suggestions: [],
+        });
       }
       this.setState(
         {
@@ -514,7 +518,6 @@ class DTAutosuggest extends React.Component {
     const ariaCurrentSuggestion = i18next.t('search-current-suggestion', {
       selection: this.suggestionAsAriaContent(),
     });
-
     return (
       <React.Fragment>
         <span className={styles['sr-only']} role="alert">

@@ -89,13 +89,13 @@ export default config => {
                 }
               `}
               prepareVariables={prepareStopsParams(config)}
-              render={getComponentOrNullRenderer}
+              render={getComponentOrLoadingRenderer}
             />
           ) : (
             <Route
               path="(.*)?"
               getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/Loading').then(
+                import(/* webpackChunkName: "nearyou" */ './component/Loading').then(
                   getDefault,
                 )
               }
@@ -105,7 +105,7 @@ export default config => {
             <Route
               // disableMapOnMobile
               getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/map/StopsNearYouMap.js').then(
+                import(/* webpackChunkName: "nearyou" */ './component/map/StopsNearYouMap.js').then(
                   getDefault,
                 )
               }
@@ -119,7 +119,7 @@ export default config => {
                   $maxDistance: Int!
                   $omitNonPickups: Boolean
                 ) {
-                  routes: nearest(
+                  stops: nearest(
                     lat: $lat
                     lon: $lon
                     filterByPlaceTypes: $filterByPlaceTypes
@@ -127,12 +127,13 @@ export default config => {
                     maxResults: $maxResults
                     maxDistance: $maxDistance
                   ) {
-                    ...StopsNearYouMap_routes
+                    ...StopsNearYouMap_stops
                       @arguments(omitNonPickups: $omitNonPickups)
                   }
                 }
               `}
               prepareVariables={prepareStopsParams(config)}
+              render={getComponentOrNullRenderer}
             />
           ),
         }}
@@ -468,30 +469,6 @@ export default config => {
         topBarOptions={{ hidden: true }}
         getComponent={() =>
           import(/* webpackChunkName: "styleguide" */ './component/StyleGuidePage')
-            .then(getDefault)
-            .catch(errorLoading)
-        }
-      />
-      <Route
-        path="/suosikki/uusi"
-        getComponent={() =>
-          import(/* webpackChunkName: "add-favourite" */ './component/AddFavouritePage')
-            .then(getDefault)
-            .catch(errorLoading)
-        }
-      />
-      <Route
-        path="/suosikki/muokkaa/sijainti/:id"
-        getComponent={() =>
-          import(/* webpackChunkName: "add-favourite" */ './component/AddFavouritePage')
-            .then(getDefault)
-            .catch(errorLoading)
-        }
-      />
-      <Route
-        path="/suosikki/muokkaa/pysakki/:id"
-        getComponent={() =>
-          import(/* webpackChunkName: "add-favourite" */ './component/AddFavouritePage')
             .then(getDefault)
             .catch(errorLoading)
         }

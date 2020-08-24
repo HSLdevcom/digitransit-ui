@@ -91,7 +91,13 @@ class ItineraryLine extends React.Component {
 
       if (this.checkStreetMode(leg)) {
         const duration = durationToString(leg.endTime - leg.startTime);
-        objs.push(<SpeechBubble position={middle} text={duration} />);
+        objs.push(
+          <SpeechBubble
+            key={`speech_${this.props.hash}_${i}_${mode}`}
+            position={middle}
+            text={duration}
+          />,
+        );
       }
 
       if (!this.props.passive) {

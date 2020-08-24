@@ -38,14 +38,14 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   render() {
     let content;
     const { mode } = this.context.match.params;
-    const renderDisruptionBanner = mode !== 'BICYCLE';
+    const renderDisruptionBanner = mode !== 'CITYBIKE';
     if (this.props.loadingPosition) {
       content = <Loading />;
     } else {
       content = (
         <div className="stops-near-you-page">
           {renderDisruptionBanner && (
-            <DisruptionBanner alerts={this.props.alerts} />
+            <DisruptionBanner alerts={this.props.alerts} mode={mode} />
           )}
           <StopsNearYouContainer stopPatterns={this.props.stopPatterns} />
         </div>
@@ -102,11 +102,11 @@ const PositioningWrapper = connectToStores(
       const locationForUrl = addressToItinerarySearch(locationState);
       const newPlace = locationForUrl;
       props.router.replace(getNearYouPath(newPlace, mode));
-      return { ...props, loadingPosition: false };
+      return { ...props, locationState, loadingPosition: false };
     }
 
     context.executeAction(startLocationWatch);
-    return { ...props, loadingPosition: true };
+    return { ...props, loadingPosition: true, locationState };
   },
 );
 

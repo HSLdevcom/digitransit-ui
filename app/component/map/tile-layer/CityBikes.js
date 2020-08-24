@@ -6,12 +6,11 @@ import pick from 'lodash/pick';
 import { isBrowser } from '../../../util/browser';
 import { getMapIconScale, drawCitybikeIcon } from '../../../util/mapIconUtils';
 
-// TODO
-// import {
-//   getCityBikeNetworkConfig,
-//   getCityBikeNetworkIcon,
-//   getCityBikeNetworkId,
-// } from '../../../util/citybikes';
+import {
+  getCityBikeNetworkConfig,
+  getCityBikeNetworkIcon,
+  getCityBikeNetworkId,
+} from '../../../util/citybikes';
 
 const timeOfLastFetch = {};
 
@@ -80,16 +79,20 @@ class CityBikes {
 
     const callback = ({ station: result }) => {
       timeOfLastFetch[id] = new Date().getTime();
-
       if (result) {
-        drawCitybikeIcon(this.tile, geom, result.state, result.bikesAvailable);
-        // TODO draw the correct icon
-        // const iconName = getCityBikeNetworkIcon(
-        //   getCityBikeNetworkConfig(
-        //     getCityBikeNetworkId(result.networks),
-        //     this.config,
-        //   ),
-        // );
+        const iconName = getCityBikeNetworkIcon(
+          getCityBikeNetworkConfig(
+            getCityBikeNetworkId(result.networks),
+            this.config,
+          ),
+        );
+        drawCitybikeIcon(
+          this.tile,
+          geom,
+          result.state,
+          result.bikesAvailable,
+          iconName,
+        );
       }
       return this;
     };

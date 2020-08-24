@@ -21,7 +21,7 @@ const installation = readFileSync(join(__dirname, 'installation.md'), 'utf8');
 
 packages.forEach(packagePath => {
     const directory = parse(packagePath).dir;
-    const indexPath = join(directory, 'index.js');
+    const indexPath = join(directory, './src/index.js');
     const pckg = _sync(packagePath);
     const name = pckg.name;
 

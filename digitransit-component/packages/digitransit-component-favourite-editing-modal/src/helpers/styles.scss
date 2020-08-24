@@ -64,12 +64,6 @@ $primary-color: #007ac9;
       border-radius: 5px;
       border: solid 1px #d9d9d9;
       list-style: none;
-      &.drop-target-before {
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-        border-top: 1px solid $primary-color;
-        width: 100%;
-      }
 
       .favourite-edit-list-item-left {
         display: flex;
