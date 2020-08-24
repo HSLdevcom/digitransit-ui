@@ -13,6 +13,7 @@ import {
   updateFavourites,
   deleteFavourite,
 } from '../action/FavouriteActions';
+import FavouriteStore from '../store/FavouriteStore';
 
 const AutoSuggestWithSearchContext = withSearchContext(AutoSuggest);
 
@@ -40,11 +41,13 @@ class FavouritesContainer extends React.Component {
     onClickFavourite: PropTypes.func.isRequired,
     lang: PropTypes.string,
     isMobile: PropTypes.bool,
+    favouriteStatus: PropTypes.string,
   };
 
   static defaultProps = {
     favourites: [],
     isMobile: false,
+    favouriteStatus: FavouriteStore.STATUS_FETCHING,
   };
 
   constructor(props) {
@@ -125,6 +128,9 @@ class FavouritesContainer extends React.Component {
           onAddHome={this.addHome}
           onAddWork={this.addWork}
           lang={this.props.lang}
+          loading={
+            this.props.favouriteStatus === FavouriteStore.STATUS_FETCHING
+          }
         />
         {this.state.addModalOpen && (
           <FavouriteModal
@@ -185,6 +191,7 @@ const connectedComponent = connectToStores(
       .getStore('FavouriteStore')
       .getFavourites()
       .filter(item => item.type !== 'route'),
+    favouriteStatus: context.getStore('FavouriteStore').getStatus(),
   }),
 );
 

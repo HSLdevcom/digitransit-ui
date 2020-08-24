@@ -13,20 +13,56 @@ import {
   removeItem,
 } from './localStorage';
 import { isStop } from '../util/suggestionUtils';
+import {
+  getFavourites,
+  updateFavourites,
+  deleteFavourites,
+} from '../util/apiUtils';
 
 export default class FavouriteStore extends Store {
   static storeName = 'FavouriteStore';
 
-  favourites = getFavouriteStorage();
+  static STATUS_FETCHING = 'fetching';
+
+  static STATUS_HAS_DATA = 'has-data';
+
+  favourites = [];
 
   config = {};
+
+  status = null;
 
   constructor(dispatcher) {
     super(dispatcher);
     this.config = dispatcher.getContext().config;
+    this.fetching();
+    getFavourites()
+      .then(res => {
+        this.favourites = res;
+        this.fetchComplete();
+      })
+      .catch(() => {
+        this.favourites = getFavouriteStorage();
+        this.fetchComplete();
+      });
+
     this.migrateRoutes();
     this.migrateStops();
     this.migrateLocations();
+  }
+
+  fetchComplete() {
+    this.status = FavouriteStore.STATUS_HAS_DATA;
+    this.emitChange();
+  }
+
+  fetching() {
+    this.status = FavouriteStore.STATUS_FETCH_OR_UPDATE;
+    this.emitChange();
+  }
+
+  getStatus() {
+    return this.status;
   }
 
   isFavourite(id) {
@@ -90,24 +126,51 @@ export default class FavouriteStore extends Store {
         favouriteId: uuid(),
       });
     }
-    this.favourites = newFavourites;
-    this.storeFavourites();
-    this.emitChange();
+    updateFavourites(newFavourites)
+      .then(() => {
+        this.favourites = newFavourites;
+        this.emitChange();
+      })
+      .catch(() => {
+        this.favourites = newFavourites;
+        this.storeFavourites();
+        this.emitChange();
+      });
   }
 
   updateFavourites(favourites) {
-    this.favourites = favourites;
-    this.storeFavourites();
-    this.emitChange();
+    const newFavourites = favourites.map(favourite => {
+      return {
+        ...favourite,
+        lastUpdated: moment().unix(),
+      };
+    });
+    updateFavourites(newFavourites)
+      .then(() => {
+        this.favourites = newFavourites;
+        this.fetchComplete();
+      })
+      .catch(() => {
+        this.favourites = newFavourites;
+        this.storeFavourites();
+        this.fetchComplete();
+      });
   }
 
   deleteFavourite(data) {
     const newFavourites = this.favourites.filter(
       favourite => favourite.favouriteId !== data.favouriteId,
     );
-    this.favourites = newFavourites;
-    this.storeFavourites();
-    this.emitChange();
+    deleteFavourites([data.favouriteId])
+      .then(() => {
+        this.favourites = newFavourites;
+        this.emitChange();
+      })
+      .catch(() => {
+        this.favourites = newFavourites;
+        this.storeFavourites();
+        this.emitChange();
+      });
   }
 
   migrateRoutes() {
@@ -176,5 +239,6 @@ export default class FavouriteStore extends Store {
     AddFavourite: 'addFavourite',
     UpdateFavourites: 'updateFavourites',
     DeleteFavourite: 'deleteFavourite',
+    SetUserStatus: 'setUserStatus',
   };
 }
