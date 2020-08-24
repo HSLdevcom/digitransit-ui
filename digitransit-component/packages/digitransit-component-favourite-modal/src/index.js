@@ -328,7 +328,11 @@ class FavouriteModal extends React.Component {
     return (
       <Modal
         appElement={this.props.appElement}
-        contentLabel={i18next.t('favourite-modal-on-open')}
+        contentLabel={
+          this.isEdit()
+            ? i18next.t('favourite-modal-on-edit', favourite)
+            : i18next.t('favourite-modal-on-add-new')
+        }
         closeButtonLabel={i18next.t('close-favourite-modal')}
         variant={!this.props.isMobile ? 'small' : 'large'}
         isOpen={this.props.isModalOpen}
