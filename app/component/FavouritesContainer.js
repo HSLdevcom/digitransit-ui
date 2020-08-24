@@ -128,6 +128,7 @@ class FavouritesContainer extends React.Component {
         />
         {/* {this.state.addModalOpen && ( */}
         <FavouriteModal
+          appElement="#app"
           isModalOpen={this.state.addModalOpen}
           handleClose={() =>
             this.setState({
@@ -162,6 +163,7 @@ class FavouritesContainer extends React.Component {
         {/* // )} */}
         {this.state.editModalOpen && (
           <FavouriteEditModal
+            appElement="#app"
             favourites={this.props.favourites}
             updateFavourites={this.updateFavourites}
             handleClose={() =>

@@ -23,30 +23,6 @@ const isStop = ({ layer }) => layer === 'stop' || layer === 'favouriteStop';
 const isTerminal = ({ layer }) =>
   layer === 'station' || layer === 'favouriteStation';
 
-// const Modal = ({ children, isEdit }) => {
-//   return (
-//     <div className={styles.favouriteModal}>
-//       <section
-//         className={cx(styles.modalMain, {
-//           [styles['edit-modal']]: isEdit,
-//         })}
-//       >
-//         {children}
-//       </section>
-//     </div>
-//   );
-// };
-
-// Modal.propTypes = {
-//   children: PropTypes.node,
-//   isEdit: PropTypes.bool,
-// };
-
-// Modal.defaultProps = {
-//   children: [],
-//   isEdit: false,
-// };
-
 const FavouriteIconIdToNameMap = {
   'icon-icon_place': 'place',
   'icon-icon_home': 'home',
@@ -57,8 +33,9 @@ const FavouriteIconIdToNameMap = {
 };
 const FavouriteIconTableButton = ({ value, selectedIconId, handleClick }) => {
   const [isHovered, setHover] = useState(false);
+  const [isFocused, setFocus] = useState(false);
   const iconColor =
-    value === FavouriteIconIdToNameMap[selectedIconId] || isHovered
+    value === FavouriteIconIdToNameMap[selectedIconId] || isHovered || isFocused
       ? '#ffffff'
       : '#007ac9';
   return (
@@ -70,6 +47,8 @@ const FavouriteIconTableButton = ({ value, selectedIconId, handleClick }) => {
       })}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
+      onFocus={() => setFocus(true)}
+      onBlur={() => setFocus(false)}
       onClick={() => handleClick(value)}
     >
       <Icon img={value} color={iconColor} />
@@ -186,6 +165,7 @@ class FavouriteModal extends React.Component {
     lang: PropTypes.string,
     /** Optional. */
     isMobile: PropTypes.bool,
+    appElement: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -347,10 +327,10 @@ class FavouriteModal extends React.Component {
     };
     return (
       <Modal
-        appElement="#app"
-        contentLabel="Content label"
+        appElement={this.props.appElement}
+        contentLabel={i18next.t('favourite-modal-on-open')}
         closeButtonLabel={i18next.t('close-favourite-modal')}
-        variant="small"
+        variant={!this.props.isMobile ? 'small' : 'large'}
         isOpen={this.props.isModalOpen}
         onCrossClick={this.props.handleClose}
       >
