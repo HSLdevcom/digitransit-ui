@@ -246,7 +246,7 @@ class SelectFromMapPageMap extends React.Component {
     const defaultLocation = config.defaultMapCenter || config.defaultEndpoint;
 
     const leafletObjs = [];
-    if (!locationOfMapCenter && type === 'from') {
+    if (!locationOfMapCenter && type === 'origin') {
       leafletObjs.push(
         <LocationMarker
           key="fromMarker"
@@ -256,7 +256,7 @@ class SelectFromMapPageMap extends React.Component {
       );
     }
 
-    if (!locationOfMapCenter && type === 'to') {
+    if (!locationOfMapCenter && type === 'destination') {
       leafletObjs.push(
         <LocationMarker key="toMarker" position={defaultLocation} type="to" />,
       );

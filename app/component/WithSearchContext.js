@@ -343,16 +343,13 @@ export default function withSearchContext(WrappedComponent) {
 
     renderSelectFromMapModal = id => {
       let titleId = 'select-from-map-no-title';
-      let type;
 
       if (id === 'origin') {
         titleId = 'select-from-map-origin';
-        type = 'from';
       }
 
       if (id === 'destination') {
         titleId = 'select-from-map-destination';
-        type = 'to';
       }
 
       return (
@@ -362,7 +359,7 @@ export default function withSearchContext(WrappedComponent) {
             onBackBtnClick={this.closeSelectFromMapModal}
           />
           <SelectFromMapPageMap
-            type={type}
+            type={id}
             onConfirm={this.confirmMapSelection}
           />
         </DTModal>
