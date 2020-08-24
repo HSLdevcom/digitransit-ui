@@ -331,14 +331,7 @@ export default function withSearchContext(WrappedComponent) {
       this.setState({
         showModal: false,
       });
-
-      if (type === 'from') {
-        this.selectLocation(mapLocation, 'origin');
-      }
-
-      if (type === 'to') {
-        this.selectLocation(mapLocation, 'destination');
-      }
+      this.selectLocation(mapLocation, type);
     };
 
     renderSelectFromMapModal = id => {
