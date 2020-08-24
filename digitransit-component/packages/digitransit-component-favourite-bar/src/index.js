@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { Fragment } from 'react';
 import find from 'lodash/find';
 import cx from 'classnames';
 import i18next from 'i18next';
@@ -7,6 +7,7 @@ import differenceWith from 'lodash/differenceWith';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import escapeRegExp from 'lodash/escapeRegExp';
+import ContainerSpinner from '@hsl-fi/container-spinner';
 import SuggestionItem from '@digitransit-component/digitransit-component-suggestion-item';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import translations from './helpers/translations';
@@ -109,6 +110,7 @@ class FavouriteBar extends React.Component {
     onAddWork: PropTypes.func,
     /** Optional. Language, fi, en or sv. */
     lang: PropTypes.string,
+    loading: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -118,6 +120,7 @@ class FavouriteBar extends React.Component {
     onAddHome: () => ({}),
     onAddWork: () => ({}),
     lang: 'fi',
+    loading: false,
   };
 
   static FavouriteIconIdToNameMap = {
@@ -323,94 +326,104 @@ class FavouriteBar extends React.Component {
   };
 
   render() {
-    const { onClickFavourite } = this.props;
+    const { onClickFavourite, loading } = this.props;
     const { listOpen, favourites, home, work, highlightedIndex } = this.state;
 
     const expandIcon = this.props.favourites.length === 0 ? 'plus' : 'arrow';
     /* eslint-disable anchor-is-valid, jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/role-supports-aria-props */
     return (
-      <React.Fragment>
-        <div className={styles['favourite-container']}>
-          <FavouriteLocation
-            text={(home && home.name) || i18next.t('add-home')}
-            label={(home && home.address) || ''}
-            clickItem={() =>
-              home ? onClickFavourite(home) : this.props.onAddHome()
-            }
-            iconId={
-              home && home.selectedIconId
-                ? FavouriteBar.FavouriteIconIdToNameMap[home.selectedIconId]
-                : 'home'
-            }
+      <Fragment>
+        {loading && (
+          <ContainerSpinner
+            className={styles['favourite-loading-container']}
+            visible
           />
-          <FavouriteLocation
-            text={(work && work.name) || i18next.t('add-work')}
-            label={(work && work.address) || ''}
-            clickItem={() =>
-              work ? onClickFavourite(work) : this.props.onAddWork()
-            }
-            iconId={
-              work && work.selectedIconId
-                ? FavouriteBar.FavouriteIconIdToNameMap[work.selectedIconId]
-                : 'work'
-            }
-          />
-          <div
-            className={styles.expandButton}
-            ref={this.expandListRef}
-            id="favourite-expand-button"
-            onClick={() => this.toggleList()}
-            onKeyDown={e => this.handleKeyDown(e)}
-            tabIndex="0"
-            role="button"
-            aria-label={i18next.t('open-favourites')}
-            aria-controls="favourite-suggestion-list"
-            aria-activedescendant={`favourite-suggestion-list--item-${highlightedIndex}`}
-          >
-            <Icon
-              width={1}
-              height={1}
-              img={expandIcon}
-              color="#007ac9"
-              rotate={listOpen ? -90 : 90}
-            />
-          </div>
-        </div>
-        <div className={styles['favourite-suggestion-container']}>
-          {listOpen && (
-            <ul
-              className={styles['favourite-suggestion-list']}
-              id="favourite-suggestion-list"
-              ref={this.suggestionListRef}
-              role="listbox"
-            >
-              {favourites.map((item, index) =>
-                this.renderSuggestion(
-                  {
-                    ...item,
-                    address: item.address
-                      ? item.address.replace(
-                          new RegExp(`${escapeRegExp(item.name)}(,)?( )?`),
-                          '',
-                        )
-                      : '',
-                    iconColor: '#007ac9',
-                  },
-                  index,
-                ),
+        )}
+        {!loading && (
+          <Fragment>
+            <div className={styles['favourite-container']}>
+              <FavouriteLocation
+                text={(home && home.name) || i18next.t('add-home')}
+                label={(home && home.address) || ''}
+                clickItem={() =>
+                  home ? onClickFavourite(home) : this.props.onAddHome()
+                }
+                iconId={
+                  home && home.selectedIconId
+                    ? FavouriteBar.FavouriteIconIdToNameMap[home.selectedIconId]
+                    : 'home'
+                }
+              />
+              <FavouriteLocation
+                text={(work && work.name) || i18next.t('add-work')}
+                label={(work && work.address) || ''}
+                clickItem={() =>
+                  work ? onClickFavourite(work) : this.props.onAddWork()
+                }
+                iconId={
+                  work && work.selectedIconId
+                    ? FavouriteBar.FavouriteIconIdToNameMap[work.selectedIconId]
+                    : 'work'
+                }
+              />
+              <div
+                className={styles.expandButton}
+                ref={this.expandListRef}
+                id="favourite-expand-button"
+                onClick={() => this.toggleList()}
+                onKeyDown={e => this.handleKeyDown(e)}
+                tabIndex="0"
+                role="button"
+                aria-label={i18next.t('open-favourites')}
+                aria-controls="favourite-suggestion-list"
+                aria-activedescendant={`favourite-suggestion-list--item-${highlightedIndex}`}
+              >
+                <Icon
+                  width={1}
+                  height={1}
+                  img={expandIcon}
+                  color="#007ac9"
+                  rotate={listOpen ? -90 : 90}
+                />
+              </div>
+            </div>
+            <div className={styles['favourite-suggestion-container']}>
+              {listOpen && (
+                <ul
+                  className={styles['favourite-suggestion-list']}
+                  id="favourite-suggestion-list"
+                  ref={this.suggestionListRef}
+                  role="listbox"
+                >
+                  {favourites.map((item, index) =>
+                    this.renderSuggestion(
+                      {
+                        ...item,
+                        address: item.address
+                          ? item.address.replace(
+                              new RegExp(`${escapeRegExp(item.name)}(,)?( )?`),
+                              '',
+                            )
+                          : '',
+                        iconColor: '#007ac9',
+                      },
+                      index,
+                    ),
+                  )}
+                  {favourites.length > 0 && <div className={styles.divider} />}
+                  {this.getCustomSuggestions().map((item, index) =>
+                    this.renderSuggestion(
+                      item,
+                      favourites.length + index,
+                      'favouriteCustom',
+                    ),
+                  )}
+                </ul>
               )}
-              {favourites.length > 0 && <div className={styles.divider} />}
-              {this.getCustomSuggestions().map((item, index) =>
-                this.renderSuggestion(
-                  item,
-                  favourites.length + index,
-                  'favouriteCustom',
-                ),
-              )}
-            </ul>
-          )}
-        </div>
-      </React.Fragment>
+            </div>
+          </Fragment>
+        )}
+      </Fragment>
     );
   }
 }
