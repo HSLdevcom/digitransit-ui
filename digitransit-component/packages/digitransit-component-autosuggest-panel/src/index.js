@@ -5,7 +5,6 @@ import React from 'react';
 import { ReactSortable } from 'react-sortablejs';
 import i18next from 'i18next';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
-import withBreakpoint from '@digitransit-component/digitransit-component-with-breakpoint';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import Select from './helpers/Select';
 import translations from './helpers/translations';
@@ -597,9 +596,4 @@ class DTAutosuggestPanel extends React.Component {
   };
 }
 
-const DTAutosuggestPanelWithBreakpoint = withBreakpoint(DTAutosuggestPanel);
-
-export {
-  DTAutosuggestPanel as component,
-  DTAutosuggestPanelWithBreakpoint as default,
-};
+export default DTAutosuggestPanel;

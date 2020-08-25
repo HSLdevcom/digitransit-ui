@@ -1,10 +1,15 @@
+const path = require('path');
+
+const mode = process.env.ENV;
+const isProduction = mode === 'production';
+
 module.exports = {
-  mode: 'production',
-  entry: './index.js',
+  mode,
+  devtool: isProduction ? 'source-map' : 'eval',
   output: {
     globalObject: "typeof self !== 'undefined' ? self : this",
-    filename: 'index.generated',
-    path: __dirname,
+    filename: 'index.js',
+    path: path.join(__dirname, 'lib'),
     libraryTarget: 'umd',
   },
   module: {

@@ -4,7 +4,7 @@ import Adapter from 'enzyme-adapter-react-16';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { shallow, configure } from 'enzyme';
-import TrafficNowLink from '.';
+import TrafficNowLink from './src';
 
 configure({ adapter: new Adapter() });
 
