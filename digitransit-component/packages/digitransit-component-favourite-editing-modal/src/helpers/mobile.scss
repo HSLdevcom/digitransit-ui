@@ -7,52 +7,12 @@ $primary-color: #007ac9;
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: 87px;
     border-bottom: 1px solid #ddd;
-    .favourite-edit-modal-mobile-back {
-      z-index: 1;
-      display: flex;
-      align-self: center;
-      align-items: center;
-      justify-content: center;
-      text-align: left;
-      margin: 0 0 0 20px;
-      padding: 0;
-      right: 0px;
-      width: 40px;
-      height: 40px;
-      outline: none;
-      border: 1px solid #ddd;
-      border-radius: 20px;
-      background: none;
-      cursor: pointer;
-      font-family: inherit;
-      background-color: transparent;
-      transition: none;
-      svg {
-        fill: $primary-color;
-        width: 14px;
-        height: 21px;
-        transform: rotate(-180deg);
-      }
-      &:focus {
-        background-color: transparent;
-        color: inherit;
-      }
-      &:active {
-        background-color: transparent;
-        color: inherit;
-      }
-      &:hover {
-        background-color: transparent;
-        color: inherit;
-      }
-    }
+    margin-bottom: 31px;
     .favourite-edit-modal-mobile-header {
       display: flex;
       justify-content: center;
       align-items: center;
-      position: absolute;
       width: 100%;
       height: inherit;
       font-size: 18px;
@@ -60,6 +20,7 @@ $primary-color: #007ac9;
       letter-spacing: -0.6px;
       text-align: center;
       color: #333333;
+      margin-bottom: 34px;
     }
   }
 }

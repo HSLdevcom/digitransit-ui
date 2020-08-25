@@ -10,6 +10,7 @@ import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
+import Modal from '@hsl-fi/modal';
 import DesktopModal from './helpers/DesktopModal';
 import MobileModal from './helpers/MobileModal';
 import styles from './helpers/styles.scss';
@@ -31,27 +32,6 @@ const isKeyboardSelectionEvent = event => {
   }
   event.preventDefault();
   return true;
-};
-
-const Modal = ({ children, className }) => {
-  return (
-    <div className={styles['favourite-edit-modal']}>
-      <section
-        className={cx(styles['favourite-edit-modal-main'], styles[className])}
-      >
-        {children}
-      </section>
-    </div>
-  );
-};
-
-Modal.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-};
-
-Modal.defaulProps = {
-  className: '',
 };
 
 class FavouriteEditingModal extends React.Component {
@@ -96,6 +76,8 @@ class FavouriteEditingModal extends React.Component {
       }),
     ).isRequired,
     lang: PropTypes.string,
+    appElement: PropTypes.string.isRequired,
+    isModalOpen: PropTypes.bool.isRequired,
   };
 
   static defaulProps = {
@@ -245,6 +227,7 @@ class FavouriteEditingModal extends React.Component {
   renderDeleteFavouriteModal = favourite => {
     return (
       <DialogModal
+        appElement={this.props.appElement}
         headerText={i18next.t('delete-place-header')}
         handleClose={() =>
           this.setState(
@@ -252,6 +235,7 @@ class FavouriteEditingModal extends React.Component {
             () => this.props.handleClose(),
           )
         }
+        isModalOpen={this.state.showDeletePlaceModal}
         dialogContent={`${favourite.name}: ${favourite.address}`}
         primaryButtonText={i18next.t('delete')}
         primaryButtonOnClick={() => {
@@ -288,7 +272,14 @@ class FavouriteEditingModal extends React.Component {
     return (
       <Fragment>
         {this.isMobile() && (
-          <Modal>
+          <Modal
+            appElement={this.props.appElement}
+            contentLabel={i18next.t('edit-modal-on-open')}
+            closeButtonLabel={i18next.t('close-modal')}
+            variant="large"
+            isOpen={this.props.isModalOpen}
+            onCrossClick={this.props.handleClose}
+          >
             {showDeletePlaceModal &&
               this.renderDeleteFavouriteModal(selectedFavourite)}
             <MobileModal {...modalProps} />
@@ -297,7 +288,14 @@ class FavouriteEditingModal extends React.Component {
         {!this.isMobile() && (
           <Fragment>
             {!showDeletePlaceModal && (
-              <Modal className={cx({ 'delete-modal': showDeletePlaceModal })}>
+              <Modal
+                appElement={this.props.appElement}
+                contentLabel={i18next.t('edit-modal-on-open')}
+                closeButtonLabel={i18next.t('close-modal')}
+                variant="small"
+                isOpen={this.props.isModalOpen}
+                onCrossClick={this.props.handleClose}
+              >
                 <DesktopModal {...modalProps} />
               </Modal>
             )}
