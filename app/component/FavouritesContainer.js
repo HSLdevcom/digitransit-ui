@@ -160,10 +160,10 @@ class FavouritesContainer extends React.Component {
             />
           }
         />
-        {/* // )} */}
         {this.state.editModalOpen && (
           <FavouriteEditModal
             appElement="#app"
+            isModalOpen={this.state.editModalOpen}
             favourites={this.props.favourites}
             updateFavourites={this.updateFavourites}
             handleClose={() =>
