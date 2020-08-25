@@ -1019,8 +1019,8 @@ class SummaryPage extends React.Component {
       bikeParkPlan,
     } = this.props;
     const planHasNoItineraries =
-      this.props.plan ||
-      this.props.plan.itineraries ||
+      this.props.plan &&
+      this.props.plan.itineraries &&
       this.props.plan.itineraries.filter(
         itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
       ).length === 0;
