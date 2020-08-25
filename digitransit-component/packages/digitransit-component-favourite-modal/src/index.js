@@ -207,6 +207,11 @@ class FavouriteModal extends React.Component {
   static getDerivedStateFromProps = (nextProps, prevState) => {
     const nextFav = nextProps.favourite;
     const prevFav = prevState.favourite;
+    if (Object.keys(nextFav).length <= 2) {
+      return {
+        favourite: nextFav,
+      };
+    }
     if (nextFav.lat !== prevFav.lat || nextFav.lon !== prevFav.lon) {
       return {
         favourite: {
@@ -287,7 +292,7 @@ class FavouriteModal extends React.Component {
       if (this.isEdit() && this.props.cancelSelected) {
         this.props.cancelSelected();
       } else {
-        this.props.handleClose();
+        this.setState({ favourite: {} }, () => this.props.handleClose());
       }
     }
   };
@@ -299,9 +304,7 @@ class FavouriteModal extends React.Component {
       : i18next.t('save-place');
     const modalProps = {
       headerText,
-      closeArialLabel: i18next.t('close-favourite-modal'),
       autosuggestComponent: this.props.autosuggestComponent,
-      closeModal: this.props.handleClose,
       inputPlaceholder: i18next.t('input-placeholder'),
       specifyName: this.specifyName,
       name: favourite.name || '',
@@ -336,7 +339,9 @@ class FavouriteModal extends React.Component {
         closeButtonLabel={i18next.t('close-favourite-modal')}
         variant={!this.props.isMobile ? 'small' : 'large'}
         isOpen={this.props.isModalOpen}
-        onCrossClick={this.props.handleClose}
+        onCrossClick={() =>
+          this.setState({ favourite: {} }, () => this.props.handleClose())
+        }
       >
         {!this.props.isMobile && <DesktopModal {...modalProps} />}
         {this.props.isMobile && <MobileModal {...modalProps} />}
