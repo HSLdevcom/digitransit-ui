@@ -4,46 +4,12 @@
 
 $primary-color: #007ac9;
 
-.favourite-edit-modal {
-  display: flex;
-  position: fixed;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 1000;
-  .favourite-edit-modal-main {
-    position:fixed;
-    background: #ffffff;
-    width: 100%;
-    height: 100%;
-    overflow-y: hidden;
-    @include min-width(tablet) {
-      width: 387px;
-      height: 430px;
-      border-radius: 5px;
-      top:50%;
-      left:50%;
-      transform: translate(-50%,-50%);
-    }
-  }
-}
-
 .favourite-edit-list-container {
   display: flex;
-  position: absolute;
   width: 100%;
   height: calc(100% - 165px);
-  top: 118px;
-  padding: 0 21px;
   @include min-width(tablet) {
-    max-height: 284px;
-    height: 100%;
-    top: 95px;
-    padding: 0 43px 0 44px;
+    height: 284px;
   }
   .favourite-edit-list {
     display: flex;
@@ -150,7 +116,6 @@ $primary-color: #007ac9;
       .favourite-edit-list-item-right {
         display: flex;
         min-width: 86px;
-        // height: 100%;
         align-items: center;
         justify-content: space-evenly;
         .favourite-edit-list-item-edit {

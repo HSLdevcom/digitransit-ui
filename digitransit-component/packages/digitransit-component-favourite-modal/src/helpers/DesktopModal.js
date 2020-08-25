@@ -2,14 +2,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import Icon from '@digitransit-component/digitransit-component-icon';
 import styles from './desktop.scss';
 
 const DesktopModal = ({
   headerText,
-  closeArialLabel,
   autosuggestComponent,
-  closeModal,
   inputPlaceholder,
   specifyName,
   name,
@@ -27,15 +24,6 @@ const DesktopModal = ({
       <div className={styles['favourite-modal-desktop-top']}>
         <div className={styles['favourite-modal-desktop-header']}>
           {headerText}
-        </div>
-        <div
-          className={styles['favourite-modal-desktop-close']}
-          role="button"
-          tabIndex="0"
-          onClick={closeModal}
-          aria-label={closeArialLabel}
-        >
-          <Icon img="close" />
         </div>
       </div>
       <div className={styles['favourite-modal-desktop-main']}>
@@ -89,9 +77,7 @@ const DesktopModal = ({
 
 DesktopModal.propTypes = {
   headerText: PropTypes.string.isRequired,
-  closeArialLabel: PropTypes.string.isRequired,
   autosuggestComponent: PropTypes.node.isRequired,
-  closeModal: PropTypes.func.isRequired,
   inputPlaceholder: PropTypes.string.isRequired,
   specifyName: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,

@@ -6,6 +6,7 @@ import i18next from 'i18next';
 import isEmpty from 'lodash/isEmpty';
 import isNumber from 'lodash/isNumber';
 import Icon from '@digitransit-component/digitransit-component-icon';
+import Modal from '@hsl-fi/modal';
 import styles from './helpers/styles.scss';
 import translations from './helpers/translations';
 import DesktopModal from './helpers/DesktopModal';
@@ -22,30 +23,6 @@ const isStop = ({ layer }) => layer === 'stop' || layer === 'favouriteStop';
 const isTerminal = ({ layer }) =>
   layer === 'station' || layer === 'favouriteStation';
 
-const Modal = ({ children, isEdit }) => {
-  return (
-    <div className={styles.favouriteModal}>
-      <section
-        className={cx(styles.modalMain, {
-          [styles['edit-modal']]: isEdit,
-        })}
-      >
-        {children}
-      </section>
-    </div>
-  );
-};
-
-Modal.propTypes = {
-  children: PropTypes.node,
-  isEdit: PropTypes.bool,
-};
-
-Modal.defaultProps = {
-  children: [],
-  isEdit: false,
-};
-
 const FavouriteIconIdToNameMap = {
   'icon-icon_place': 'place',
   'icon-icon_home': 'home',
@@ -56,8 +33,9 @@ const FavouriteIconIdToNameMap = {
 };
 const FavouriteIconTableButton = ({ value, selectedIconId, handleClick }) => {
   const [isHovered, setHover] = useState(false);
+  const [isFocused, setFocus] = useState(false);
   const iconColor =
-    value === FavouriteIconIdToNameMap[selectedIconId] || isHovered
+    value === FavouriteIconIdToNameMap[selectedIconId] || isHovered || isFocused
       ? '#ffffff'
       : '#007ac9';
   return (
@@ -69,6 +47,8 @@ const FavouriteIconTableButton = ({ value, selectedIconId, handleClick }) => {
       })}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
+      onFocus={() => setFocus(true)}
+      onBlur={() => setFocus(false)}
       onClick={() => handleClick(value)}
     >
       <Icon img={value} color={iconColor} />
@@ -134,6 +114,7 @@ FavouriteIconTable.propTypes = {
  */
 class FavouriteModal extends React.Component {
   static propTypes = {
+    isModalOpen: PropTypes.bool.isRequired,
     /** Required.
      * @type{function} */
     handleClose: PropTypes.func.isRequired,
@@ -184,6 +165,7 @@ class FavouriteModal extends React.Component {
     lang: PropTypes.string,
     /** Optional. */
     isMobile: PropTypes.bool,
+    appElement: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -225,6 +207,11 @@ class FavouriteModal extends React.Component {
   static getDerivedStateFromProps = (nextProps, prevState) => {
     const nextFav = nextProps.favourite;
     const prevFav = prevState.favourite;
+    if (Object.keys(nextFav).length <= 2) {
+      return {
+        favourite: nextFav,
+      };
+    }
     if (nextFav.lat !== prevFav.lat || nextFav.lon !== prevFav.lon) {
       return {
         favourite: {
@@ -305,7 +292,7 @@ class FavouriteModal extends React.Component {
       if (this.isEdit() && this.props.cancelSelected) {
         this.props.cancelSelected();
       } else {
-        this.props.handleClose();
+        this.setState({ favourite: {} }, () => this.props.handleClose());
       }
     }
   };
@@ -317,9 +304,7 @@ class FavouriteModal extends React.Component {
       : i18next.t('save-place');
     const modalProps = {
       headerText,
-      closeArialLabel: i18next.t('close-favourite-modal'),
       autosuggestComponent: this.props.autosuggestComponent,
-      closeModal: this.props.handleClose,
       inputPlaceholder: i18next.t('input-placeholder'),
       specifyName: this.specifyName,
       name: favourite.name || '',
@@ -344,7 +329,20 @@ class FavouriteModal extends React.Component {
       cancelSelected: this.props.cancelSelected,
     };
     return (
-      <Modal isEdit={this.isEdit()}>
+      <Modal
+        appElement={this.props.appElement}
+        contentLabel={
+          this.isEdit()
+            ? i18next.t('favourite-modal-on-edit', favourite)
+            : i18next.t('favourite-modal-on-add-new')
+        }
+        closeButtonLabel={i18next.t('close-favourite-modal')}
+        variant={!this.props.isMobile ? 'small' : 'large'}
+        isOpen={this.props.isModalOpen}
+        onCrossClick={() =>
+          this.setState({ favourite: {} }, () => this.props.handleClose())
+        }
+      >
         {!this.props.isMobile && <DesktopModal {...modalProps} />}
         {this.props.isMobile && <MobileModal {...modalProps} />}
       </Modal>
