@@ -162,7 +162,6 @@ export default function withSearchContext(WrappedComponent) {
         default:
       }
       const link = path.concat(id);
-
       this.context.router.push(link);
     };
 

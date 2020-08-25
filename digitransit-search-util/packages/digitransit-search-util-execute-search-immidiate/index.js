@@ -165,7 +165,7 @@ function hasFavourites(context, locations, stops) {
   );
 }
 
-const routeLayers = ['route-TRAM', 'route-BUS', 'route-RAIL', 'route-FERRY'];
+const routeLayers = ['route-TRAM', 'route-BUS', 'route-RAIL', 'route-FERRY', 'route-SUBWAY'];
 const locationLayers = ['favouritePlace', 'venue', 'address', 'street'];
 /**
  * Executes the search
@@ -174,7 +174,9 @@ const locationLayers = ['favouritePlace', 'venue', 'address', 'street'];
 export function getSearchResults(
   targets,
   sources,
+  layer,
   searchContext,
+  filter,
   { input },
   callback,
 ) {
@@ -213,7 +215,7 @@ export function getSearchResults(
           'focus.point.lon': position.lon.toFixed(2),
         }
       : {};
-
+  const nearYouMode = layer ? layer : undefined;
   if (
     targets.includes('CurrentPosition') &&
     position.status !== 'geolocation-not-supported'
@@ -283,17 +285,21 @@ export function getSearchResults(
       const regex = minimalRegexp || undefined;
       const geocodingLayers = ['stop', 'station', 'street'];
       const feedis = feedIDs.map(v => `gtfs${v}`).join(',');
+      const x = getGeocodingResult(
+        input,
+        undefined,
+        language,
+        focusPoint,
+        feedis,
+        URL_PELIAS,
+        regex,
+        geocodingLayers,
+      ).then((results) => {
+        return filter(results)
+      })
+      console.log(x)
       searchComponents.push(
-        getGeocodingResult(
-          input,
-          undefined,
-          language,
-          focusPoint,
-          feedis,
-          URL_PELIAS,
-          regex,
-          geocodingLayers,
-        ),
+        x
       );
     }
     if (allSources || sources.includes('History')) {
@@ -321,7 +327,7 @@ export function getSearchResults(
       const favouriteRoutes = getFavouriteRoutes(context);
       searchComponents.push(getFavouriteRoutesQuery(favouriteRoutes, input));
     }
-    searchComponents.push(getRoutesQuery(input, feedIDs));
+    searchComponents.push(getRoutesQuery(input, feedIDs, nearYouMode));
     if (allSources || sources.includes('History')) {
       const routeHistory = prevSearches(context);
       const dropLayers = [
@@ -333,6 +339,9 @@ export function getSearchResults(
         'ownLocations',
         'back',
       ];
+      if (nearYouMode) {
+        dropLayers.push(...routeLayers.filter(i => !(i === nearYouMode)))
+      }
       dropLayers.push(...locationLayers);
       searchComponents.push(getOldSearches(routeHistory, input, dropLayers));
     }
@@ -362,10 +371,12 @@ const debouncedSearch = debounce(getSearchResults, 300, {
 export const executeSearch = (
   targets,
   sources,
+  layer,
   searchContext,
+  filter,
   data,
   callback,
 ) => {
   callback(null); // This means 'we are searching'
-  debouncedSearch(targets, sources, searchContext, data, callback);
+  debouncedSearch(targets, sources, layer, searchContext, filter, data, callback);
 };

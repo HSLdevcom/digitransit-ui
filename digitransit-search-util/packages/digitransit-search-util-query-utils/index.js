@@ -16,9 +16,10 @@ const searchRoutesQuery = graphql`
   query digitransitSearchUtilQueryUtilsSearchRoutesQuery(
     $feeds: [String!]!
     $name: String
+    $modes: [Mode]
   ) {
     viewer {
-      routes(feeds: $feeds, name: $name) {
+      routes(feeds: $feeds, name: $name, transportModes: $modes) {
         gtfsId
         agency {
           name
@@ -75,6 +76,19 @@ const favouriteRoutesQuery = graphql`
     }
   }
 `;
+
+const stopsQuery = graphql`
+  query digitransitSearchUtilQueryUtilsStopsQuery($ids: [String!]!) {
+    stops(ids: $ids) {
+      gtfsId
+      lat
+      lon
+      name
+      code
+      vehicleMode
+    }
+  }
+`
 
 /** Verifies that the data for favourites is coherent and current and fixes errors */
 const verify = (stopStationMap, favourites) => {
@@ -157,7 +171,10 @@ export const getStopAndStationsQuery = favourites => {
       });
     });
 };
-
+export const filterStopsByMode = stops => {
+  return fetchQuery(relayEnvironment, stopsQuery, { ids: stops })
+    .then(data => data.stops)
+}
 /**
  * Returns Favourite Route objects depending on input
  * @param {String} input Search text, if empty no objects are returned
@@ -192,7 +209,7 @@ export function getFavouriteRoutesQuery(favourites, input) {
  * @param {String} input Search text, if empty no objects are returned
  * @param {*} feedIds
  */
-export function getRoutesQuery(input, feedIds) {
+export function getRoutesQuery(input, feedIds, nearYouMode) {
   if (!relayEnvironment) {
     return Promise.resolve([]);
   }
@@ -203,10 +220,14 @@ export function getRoutesQuery(input, feedIds) {
   if (number && number[0].length > 3) {
     return Promise.resolve([]);
   }
-
+  let modes;
+  if (nearYouMode) {
+    [, modes] = nearYouMode.split('-');
+  }
   return fetchQuery(relayEnvironment, searchRoutesQuery, {
     feeds: Array.isArray(feedIds) && feedIds.length > 0 ? feedIds : null,
     name: input,
+    modes: nearYouMode ? modes : null,
   })
     .then(data =>
       data.viewer.routes

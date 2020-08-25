@@ -110,6 +110,8 @@ class DTAutosuggest extends React.Component {
     searchContext: PropTypes.any.isRequired,
     ariaLabel: PropTypes.string,
     onSelect: PropTypes.func,
+    layer: PropTypes.string,
+    filter: PropTypes.func,
     onClear: PropTypes.func,
     isPreferredRouteSearch: PropTypes.bool,
     storeRef: PropTypes.func,
@@ -126,6 +128,7 @@ class DTAutosuggest extends React.Component {
     className: '',
     icon: undefined,
     value: '',
+    layer: '',
     isPreferredRouteSearch: false,
     lang: 'fi',
     sources: [],
@@ -338,7 +341,9 @@ class DTAutosuggest extends React.Component {
       executeSearch(
         this.state.targets,
         this.state.sources,
+        this.props.layer,
         this.props.searchContext,
+        this.props.filter,
         {
           input: value,
         },

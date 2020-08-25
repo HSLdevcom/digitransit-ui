@@ -19,6 +19,7 @@ export const getStopCode = ({ id, code }) => {
 };
 
 export const getGTFSId = ({ id, gtfsId }) => {
+  console.log(id)
   if (gtfsId) {
     return gtfsId;
   }

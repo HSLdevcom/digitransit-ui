@@ -9,8 +9,6 @@ import polyline from 'polyline-encoded';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import withBreakpoint from '../../util/withBreakpoint';
 import TimeStore from '../../store/TimeStore';
-import OriginStore from '../../store/OriginStore';
-import DestinationStore from '../../store/DestinationStore';
 import PositionStore from '../../store/PositionStore';
 import { dtLocationShape } from '../../util/shapes';
 import PreferencesStore from '../../store/PreferencesStore';
@@ -52,6 +50,24 @@ const stopClient = context => {
   }
 };
 
+const getMapitems = stops => {
+  let realtimeTopics = [];
+  let routeLines = [];
+  stops.edges.forEach(item => {
+    const { place } = item.node;
+    place.patterns.forEach(pattern => {
+      const feedId = pattern.route.gtfsId.split(':')[0];
+      realtimeTopics.push({
+        feedId,
+        route: pattern.route.gtfsId.split(':')[1],
+        shortName: pattern.route.shortName,
+      });
+      routeLines.push(pattern);
+    });
+  });
+  return [realtimeTopics, routeLines];
+}
+
 function StopsNearYouMap(
   {
     breakpoint,
@@ -59,33 +75,44 @@ function StopsNearYouMap(
     currentTime,
     destination,
     stops,
-    locationState,
     ...props
   },
   { ...context },
 ) {
   let uniqueRealtimeTopics;
   const { environment } = useContext(ReactRelayContext);
-  const [plan, setPlan] = useState({ plan: {}, isFetching: false });
+  const [plan, setPlan] = useState({ plan: undefined, isFetching: false });
+  const [realtimeTopics, setRealtimeTopics] = useState([]);
+  const [routeLines, setRouteLines] = useState([]);
+
+  const { mode } = props.match.params;
   useEffect(() => {
-    startClient(context, uniqueRealtimeTopics);
+    if (mode !== 'CITYBIKE') {
+      const [realtimeTopicss, routeLiness] = getMapitems(stops);
+      setRealtimeTopics(realtimeTopicss);
+      setRouteLines(routeLiness);
+    }
+  }, []);
+
+  useEffect(() => {
+    startClient(context, realtimeTopics);
     return function cleanup() {
       stopClient(context);
     };
-  }, []);
+  }, [realtimeTopics])
 
   useEffect(
     () => {
       let isMounted = true;
       const fetchPlan = async stop => {
-        if (locationState.hasLocation && locationState.address) {
+        if (props.locationState.hasLocation && props.locationState.address) {
           const toPlace = {
             address: stop.name ? stop.name : 'stop',
             lon: stop.lon,
             lat: stop.lat,
           };
           const variables = {
-            fromPlace: addressToItinerarySearch(locationState),
+            fromPlace: addressToItinerarySearch(props.locationState),
             toPlace: addressToItinerarySearch(toPlace),
             date: moment(currentTime * 1000).format('YYYY-MM-DD'),
             time: moment(currentTime * 1000).format('HH:mm:ss'),
@@ -120,7 +147,7 @@ function StopsNearYouMap(
           });
         }
       };
-      if (stops.edges.length > 0 && locationState.hasLocation) {
+      if (stops.edges.length > 0 && props.locationState.hasLocation && !plan.plan) {
         const stop = stops.edges[0].node.place;
         setPlan({ plan: plan.plan, isFetching: true });
         fetchPlan(stop);
@@ -129,31 +156,15 @@ function StopsNearYouMap(
         isMounted = false;
       };
     },
-    [locationState.status],
+    [props.locationState.status],
   );
-  if (locationState.loadingPosition || props.loading) {
+  if (props.locationState.loadingPosition || props.loading) {
     return <Loading />;
   }
 
-  const { mode } = props.match.params;
-
-  const routeLines = [];
-  const realtimeTopics = [];
   const renderRouteLines = mode !== 'CITYBIKE';
   let leafletObjs = [];
   if (renderRouteLines) {
-    stops.edges.forEach(item => {
-      const { place } = item.node;
-      place.patterns.forEach(pattern => {
-        const feedId = pattern.route.gtfsId.split(':')[0];
-        realtimeTopics.push({
-          feedId,
-          route: pattern.route.gtfsId.split(':')[1],
-          shortName: pattern.route.shortName,
-        });
-        routeLines.push(pattern);
-      });
-    });
     const getPattern = pattern =>
       pattern.patternGeometry ? pattern.patternGeometry.points : '';
     leafletObjs = uniqBy(routeLines, getPattern).map(pattern => {
@@ -170,13 +181,12 @@ function StopsNearYouMap(
       return null;
     });
   }
-
   uniqueRealtimeTopics = uniqBy(realtimeTopics, route => route.route);
 
   if (uniqueRealtimeTopics.length > 0) {
     leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
   }
-  if (plan.plan.itineraries) {
+  if (plan.plan && plan.plan.itineraries) {
     leafletObjs.push(
       ...plan.plan.itineraries.map((itinerary, i) => (
         <ItineraryLine
@@ -244,7 +254,6 @@ function StopsNearYouMap(
 
 StopsNearYouMap.propTypes = {
   match: matchShape.isRequired,
-
   breakpoint: PropTypes.string.isRequired,
   origin: dtLocationShape,
   destination: dtLocationShape,
@@ -267,18 +276,14 @@ const StopsNearYouMapWithBreakpoint = withBreakpoint(StopsNearYouMap);
 
 const StopsNearYouMapWithStores = connectToStores(
   StopsNearYouMapWithBreakpoint,
-  [OriginStore, TimeStore, DestinationStore, PreferencesStore, PositionStore],
+  [TimeStore, PreferencesStore, PositionStore],
   ({ getStore }) => {
     const currentTime = getStore(TimeStore)
       .getCurrentTime()
       .unix();
-    const origin = getStore(OriginStore).getOrigin();
-    const destination = getStore(DestinationStore).getDestination();
     const language = getStore(PreferencesStore).getLanguage();
     const locationState = getStore(PositionStore).getLocationState();
     return {
-      origin,
-      destination,
       language,
       locationState,
       currentTime,
