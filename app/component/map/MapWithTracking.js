@@ -282,7 +282,7 @@ class MapWithTrackingStateHandler extends React.Component {
       mapTracking: true,
       focusOnOrigin: false,
       focusOnDestination: false,
-      focusOnPosition: false,
+      focusOnPosition: true,
     });
     addAnalyticsEvent({
       category: 'Map',
@@ -296,7 +296,7 @@ class MapWithTrackingStateHandler extends React.Component {
       mapTracking: false,
       focusOnOrigin: false,
       focusOnDestination: false,
-      focusOnPosition: true,
+      focusOnPosition: false,
     });
   };
 
@@ -343,6 +343,7 @@ class MapWithTrackingStateHandler extends React.Component {
       mapTracking: false,
       focusOnOrigin: false,
       focusOnDestination: true,
+      focusOnPosition: false,
       initialZoom:
         prevState.initialZoom === DEFAULT_ZOOM ? FOCUS_ZOOM : undefined,
       shouldShowDefaultLocation: false,
