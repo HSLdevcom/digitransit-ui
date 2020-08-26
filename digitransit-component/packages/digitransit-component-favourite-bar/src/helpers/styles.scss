@@ -34,6 +34,7 @@ $primary-color: #007ac9;
   .favourite-content {
     @extend .button-shared;
     width: auto;
+    min-width: 0;
     flex: 1;
     flex-grow: 1;
     height: 100%;

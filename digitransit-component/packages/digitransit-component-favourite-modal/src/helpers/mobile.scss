@@ -88,6 +88,7 @@ $primary-color: #007ac9;
       border-width: 0;
       transition: background-color 300ms ease-out;
       border-radius: 25px;
+      cursor: pointer;
       &:active, &:focus {
         background: darken($primary-color, 5%);
       }
