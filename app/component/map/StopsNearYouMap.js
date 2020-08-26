@@ -7,6 +7,7 @@ import moment from 'moment';
 import uniqBy from 'lodash/uniqBy';
 import polyline from 'polyline-encoded';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
+import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import withBreakpoint from '../../util/withBreakpoint';
 import TimeStore from '../../store/TimeStore';
 import OriginStore from '../../store/OriginStore';
@@ -51,7 +52,27 @@ const stopClient = context => {
     context.executeAction(stopRealTimeClient, client);
   }
 };
+const DEFAULT_MIN_ZOOM = 17;
 
+const handleInitialZoom = (location, stops) => {
+  const nearestStop = stops.edges[0].node.place;
+
+  if (location && nearestStop) {
+    if (location.lat === 0 && location.lon === 0) {
+      return -1;
+    }
+    const nearestStopLatLon = {
+      lat: nearestStop.lat,
+      lon: nearestStop.lon,
+    };
+    const locLatLon = { lat: location.lat, lon: location.lon };
+    const dist = distance(locLatLon, nearestStopLatLon);
+    if (dist > 250) {
+      return 15;
+    }
+  }
+  return DEFAULT_MIN_ZOOM;
+};
 function StopsNearYouMap(
   {
     breakpoint,
@@ -64,6 +85,10 @@ function StopsNearYouMap(
   },
   { ...context },
 ) {
+  const initialZoom = handleInitialZoom(locationState, stops);
+  if (initialZoom === -1) {
+    return <Loading />;
+  }
   let uniqueRealtimeTopics;
   const { environment } = useContext(ReactRelayContext);
   const [plan, setPlan] = useState({ plan: {}, isFetching: false });
@@ -205,7 +230,7 @@ function StopsNearYouMap(
         showStops
         stopsNearYouMode={mode}
         showScaleBar
-        setInitialZoom={17}
+        setInitialZoom={initialZoom}
         origin={origin}
         destination={destination}
         setInitialMapTracking
@@ -227,7 +252,7 @@ function StopsNearYouMap(
           showStops
           stopsNearYouMode={mode}
           showScaleBar
-          setInitialZoom={17}
+          setInitialZoom={initialZoom}
           origin={origin}
           destination={destination}
           setInitialMapTracking
