@@ -36,7 +36,10 @@ $primary-color: #007ac9;
         font-size: 15px;
         line-height: 1.2;
         letter-spacing: -0.5px;
-        color: #666666;
+        color: #333;
+        &::placeholder {
+          color: #666;
+        }
         &:focus {
           background: #fff;
           outline: none;
