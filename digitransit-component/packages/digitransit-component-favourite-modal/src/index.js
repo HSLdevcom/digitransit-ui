@@ -173,7 +173,6 @@ class FavouriteModal extends React.Component {
     lang: 'fi',
     isMobile: false,
     favourite: {
-      name: '',
       type: undefined,
       address: undefined,
       gtfsId: undefined,
@@ -207,16 +206,13 @@ class FavouriteModal extends React.Component {
   static getDerivedStateFromProps = (nextProps, prevState) => {
     const nextFav = nextProps.favourite;
     const prevFav = prevState.favourite;
-    if (Object.keys(nextFav).length <= 2) {
-      return {
-        favourite: nextFav,
-      };
-    }
     if (nextFav.lat !== prevFav.lat || nextFav.lon !== prevFav.lon) {
+      const name = prevFav.name || nextFav.name || '';
       return {
         favourite: {
           ...prevFav,
           ...nextFav,
+          name,
         },
       };
     }
