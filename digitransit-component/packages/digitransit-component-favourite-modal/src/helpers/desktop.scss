@@ -9,33 +9,21 @@ $primary-color: #007ac9;
     width: 100%;
     .favourite-modal-desktop-header {
       width: 100%;
-      padding: 46px 0 0 43px;
       font-size: 18px;
       font-weight: 500;
       line-height: 1.33;
       letter-spacing: -0.6px;
       color: #333333;
-    }
-    .favourite-modal-desktop-close {
-      cursor: pointer;
-      height: 16px;
-      margin: 20px 20px 0 0;
-      text-align: right;
-      svg {
-        fill: $primary-color;
-        width: 16px;
-        height: 16px;
-      }
+      margin-bottom: 25px;
     }
   }
   .favourite-modal-desktop-main {
     text-align: left;
+    margin-bottom: 27px;
     .favourite-modal-desktop-location-search {
-      padding: 25px 44px 0 43px;
+      margin-bottom: 9px;
     }
     .favourite-modal-desktop-name {
-      padding: 9px 44px 0 43px;
-
       .favourite-modal-desktop-input {
         display: flex;
         width: 100%;
@@ -48,7 +36,10 @@ $primary-color: #007ac9;
         font-size: 15px;
         line-height: 1.2;
         letter-spacing: -0.5px;
-        color: #666666;
+        color: #333;
+        &::placeholder {
+          color: #666;
+        }
         &:focus {
           background: #fff;
           outline: none;
@@ -59,39 +50,43 @@ $primary-color: #007ac9;
     }
   }
   .favourite-modal-desktop-text {
-    padding: 27px 0 0 44px;
     font-size: 16px;
     font-weight: 500;
     letter-spacing: -0.53px;
     color: #333333;
+    margin-bottom: 11px;
   }
   .favourite-modal-desktop-icons {
-    padding: 11px 44px 0 43px;
+    margin-bottom: 30px;
   }
 
   .favourite-modal-desktop-buttons {
     display: flex;
     flex-direction: column;
-    padding: 31px 44px 0 43px;
     .favourite-modal-desktop-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       position: relative;
       width: 100%;
       height: 50px;
       font-size: 18px;
+      font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
       font-weight: 500;
-      line-height: 0;
       letter-spacing: -0.5px;
-      border-radius: 25px;
+      background: #007ac9;
+      color: #fff;
+      line-height: 0;
       text-align: center;
       padding: 0;
       margin: 0;
-      color: #fff;
       border-width: 0;
       transition: background-color 300ms ease-out;
+      border-radius: 25px;
+      cursor: pointer;
       &.save {
-        margin-bottom: 9px;
-        &:active {
-          background: $primary-color;
+        &:active, &:focus {
+          background: darken($primary-color, 5%);
         }
         &.disabled {
           background: #bbb;
@@ -101,8 +96,8 @@ $primary-color: #007ac9;
         }
       }
       &.edit {
+        margin-top: 9px;
         background: #fff;
-        margin-bottom: 48px;
         border: solid 1px #888888;
         color: $primary-color;
         &:active {

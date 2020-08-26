@@ -4,46 +4,12 @@
 
 $primary-color: #007ac9;
 
-.favourite-edit-modal {
-  display: flex;
-  position: fixed;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 1000;
-  .favourite-edit-modal-main {
-    position:fixed;
-    background: #ffffff;
-    width: 100%;
-    height: 100%;
-    overflow-y: hidden;
-    @include min-width(tablet) {
-      width: 387px;
-      height: 430px;
-      border-radius: 5px;
-      top:50%;
-      left:50%;
-      transform: translate(-50%,-50%);
-    }
-  }
-}
-
 .favourite-edit-list-container {
   display: flex;
-  position: absolute;
   width: 100%;
   height: calc(100% - 165px);
-  top: 118px;
-  padding: 0 21px;
   @include min-width(tablet) {
-    max-height: 284px;
-    height: 100%;
-    top: 95px;
-    padding: 0 43px 0 44px;
+    height: 284px;
   }
   .favourite-edit-list {
     display: flex;
@@ -53,14 +19,14 @@ $primary-color: #007ac9;
     padding: 0;
     overflow-y: scroll;
     .favourite-edit-list-item:not(:first-child) {
-      margin-top: 11px;
+      margin-top: 9px;
     }
     .favourite-edit-list-item {
       display: flex;
       flex-direction: row;
       align-items: center;
       width: 100%;
-      min-height: 48px;
+      min-height: 50px;
       border-radius: 5px;
       border: solid 1px #d9d9d9;
       list-style: none;
@@ -93,27 +59,30 @@ $primary-color: #007ac9;
           height: 100%;
           min-width: 24px;
           svg {
-            fill: #007ac9;
+            position: relative;
+            left: -3px;
+            top: -1px;
+            fill: $primary-color;
             width: 22px;
             height: 22px;
           }
           &.place {
             svg {
-              fill: #007ac9;
+              fill: $primary-color;
               width: 24px;
               height: 24px;
             }
           }
           &.home, &.school, &.sport, &.shopping {
             svg {
-              fill: #007ac9;
+              fill: $primary-color;
               width: 18px;
               height: 18px;
             }
           }
           &.work {
             svg {
-              fill: #007ac9;
+              fill: $primary-color;
               width: 20px;
               height: 20px;
             }
@@ -129,34 +98,39 @@ $primary-color: #007ac9;
           font-weight: 500;
           color: #333333;
           font-size: 15px;
-          line-height: 1.33;
+          line-height: 1;
           letter-spacing: -0.6px;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
         }
         .favourite-edit-list-item-address {
-          margin: 0;
+          margin: 3px 0 0;
           color: #666666;
           font-size: 12px;
           font-weight: 400;
-          line-height: 1.67;
+          line-height: 1;
           letter-spacing: -0.48px;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+          &:empty {
+            margin-top: 0;
+          }
         }
       }
       .favourite-edit-list-item-right {
         display: flex;
         min-width: 86px;
-        // height: 100%;
         align-items: center;
         justify-content: space-evenly;
         .favourite-edit-list-item-edit {
-          cursor: pointer;
+          display: flex;
+          justify-content: center;
+          align-items: center;
           width: 22px;
-          height: 22px;
+          height: 48px;
+          cursor: pointer;
           svg {
             fill: #888;
             width: 22px;
@@ -164,9 +138,12 @@ $primary-color: #007ac9;
           }
         }
         .favourite-edit-list-item-remove {
+          display: flex;
+          justify-content: center;
+          align-items: center;
           cursor: pointer;
           width: 18px;
-          height: 20px;
+          height: 48px;
           svg {
             fill: #888;
             width: 18px;

@@ -11,34 +11,6 @@ $not-selected-icon-font-color: #007ac9;
 $selected-icon-background-color: #333;
 $not-selected-icon-background-color: #fff;
 
-.favouriteModal {
-  display: block;
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 1000;
-  .modalMain {
-    position:fixed;
-    background: #ffffff;
-    width: 100%;
-    height: 100%;
-    @include min-width(tablet) {
-      width: 387px;
-      max-height: 430px;
-      border-radius: 5px;
-      top:50%;
-      left:50%;
-      transform: translate(-50%,-50%);
-      &.edit-modal {
-        max-height: 488px;
-      }
-    }
-  }
-}
-
 .generic-table > .row {
   display: flex;
 }
@@ -54,12 +26,15 @@ $not-selected-icon-background-color: #fff;
 }
 
 .favourite-icon-table-column {
+  cursor: pointer;
   flex: 1;
+  align-items: center;
   padding: 0;
   background: $not-selected-icon-background-color;
   float: left;
-  height: 48px;
-  margin-bottom: 0;
+  height: 50px;
+  margin: 0;
+  line-height: 1;
   text-align: center;
   font-size: 17px;
   border-top: solid 1px $favourite-icon-column-border-color;

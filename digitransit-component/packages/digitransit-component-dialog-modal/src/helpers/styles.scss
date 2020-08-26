@@ -4,52 +4,11 @@
 
 $primary-color: #007ac9;
 
-.digitransit-dialog-modal {
-  display: flex;
-  position: fixed;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 1000;
-  .digitransit-dialog-modal-main {
-    position:fixed;
-    background: #ffffff;
-    overflow-y: hidden;
-    max-width: 387px;
-    width: calc(100% - 40px);
-    height: auto;
-    border-radius: 5px;
-    @include min-width(tablet) {
-      width: 387px;
-      top:50%;
-      left:50%;
-      transform: translate(-50%,-50%);
-    }
-  }
-}
-
 .digitransit-dialog-modal-top {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  .digitransit-dialog-modal-close {
-    position: absolute;
-    cursor: pointer;
-    height: 16px;
-    margin: 20px 20px 0 0;
-    right: 0;
-    svg {
-      fill: $primary-color;
-      width: 16px;
-      height: 16px;
-    }
-  }
   .digitransit-dialog-modal-header {
-    padding-top: 45px;
     font-size: 18px;
     font-weight: 500;
     line-height: 1.33;
@@ -66,34 +25,35 @@ $primary-color: #007ac9;
   letter-spacing: -0.6px;
   text-align: center;
   color: #333333;
-  padding: 0 20px;
-  @include min-width(tablet) {
-    padding: 0 44px 0 43px;
-  }
+  margin-bottom: 45px;
 }
 
 .digitransit-dialog-modal-buttons {
   display: flex;
   flex-direction: column;
-  padding: 45px 44px 48px 43px;
   .digitransit-dialog-modal-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
     width: 100%;
     height: 50px;
     font-size: 18px;
+    font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
     font-weight: 500;
-    line-height: 0;
     letter-spacing: -0.5px;
-    border-radius: 25px;
+    background: $primary-color;
+    color: #fff;
+    line-height: 0;
     text-align: center;
     padding: 0;
     margin: 0;
-    color: #fff;
     border-width: 0;
     transition: background-color 300ms ease-out;
+    border-radius: 25px;
     &.primary {
-      &:active {
-        background: $primary-color;
+      &:active, &:focus {
+        background: darken($primary-color, 5%);
       }
       &.disabled {
         background: #bbb;
