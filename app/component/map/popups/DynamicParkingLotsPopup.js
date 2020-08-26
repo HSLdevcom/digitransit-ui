@@ -39,7 +39,10 @@ class DynamicParkingLotsPopup extends React.Component {
   getCapacity() {
     const { intl } = this.context;
     let text;
-    if (this.props.feature.properties && this.props.feature.properties.free) {
+    if (
+      this.props.feature.properties &&
+      typeof this.props.feature.properties.free === 'number'
+    ) {
       text = intl.formatMessage(
         {
           id: 'parking-spaces-available',
