@@ -39,7 +39,7 @@ const FavouriteLocation = ({ className, clickItem, iconId, text, label }) => {
       tabIndex="0"
       aria-label={text}
     >
-      <span className={styles.icon}>
+      <span className={cx(styles.icon, styles[iconId])}>
         <Icon img={iconId} />
       </span>
       <div className={styles['favourite-location']}>
