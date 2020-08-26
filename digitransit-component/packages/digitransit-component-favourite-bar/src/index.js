@@ -271,6 +271,7 @@ class FavouriteBar extends React.Component {
     const { onClickFavourite } = this.props;
     const { listOpen, favourites, highlightedIndex } = this.state;
     const expandIcon = this.props.favourites.length === 0 ? 'plus' : 'arrow';
+    const listFavourites = favourites.slice(2, favourites.length);
     /* eslint-disable anchor-is-valid, jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/role-supports-aria-props */
     return (
       <React.Fragment>
@@ -334,7 +335,7 @@ class FavouriteBar extends React.Component {
               ref={this.suggestionListRef}
               role="listbox"
             >
-              {favourites.slice(2, favourites.length).map((item, index) =>
+              {listFavourites.map((item, index) =>
                 this.renderSuggestion(
                   {
                     ...item,
@@ -349,7 +350,7 @@ class FavouriteBar extends React.Component {
                   index,
                 ),
               )}
-              {favourites.length > 0 && <div className={styles.divider} />}
+              {listFavourites.length > 0 && <div className={styles.divider} />}
               {this.getCustomSuggestions().map((item, index) =>
                 this.renderSuggestion(
                   item,
