@@ -40,7 +40,7 @@ const FavouriteLocation = ({ className, clickItem, iconId, text, label }) => {
       aria-label={text}
     >
       <span className={styles.icon}>
-        <Icon width={1.125} height={1.125} img={iconId} color="#007ac9" />
+        <Icon img={iconId} />
       </span>
       <div className={styles['favourite-location']}>
         <div className={styles.name}>{text}</div>
@@ -356,7 +356,7 @@ class FavouriteBar extends React.Component {
             }
           />
           <div
-            className={styles.expandButton}
+            className={cx(styles.expandButton, styles[expandIcon])}
             ref={this.expandListRef}
             id="favourite-expand-button"
             onClick={() => this.toggleList()}
@@ -367,13 +367,7 @@ class FavouriteBar extends React.Component {
             aria-controls="favourite-suggestion-list"
             aria-activedescendant={`favourite-suggestion-list--item-${highlightedIndex}`}
           >
-            <Icon
-              width={1}
-              height={1}
-              img={expandIcon}
-              color="#007ac9"
-              rotate={listOpen ? -90 : 90}
-            />
+            <Icon img={expandIcon} rotate={listOpen ? -90 : 90} />
           </div>
         </div>
         <div className={styles['favourite-suggestion-container']}>
