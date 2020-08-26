@@ -5,6 +5,7 @@ import {
   sortedUniq,
   without,
   xor,
+  isEqual,
 } from 'lodash';
 
 import inside from 'point-in-polygon';
@@ -212,6 +213,16 @@ export const getModes = config => {
     return modes;
   }
   return getDefaultModes(config);
+};
+
+/**
+ * Checks if user has changed the transport or street modes
+ *
+ * @param {*} config The configuration for the software installation
+ * @returns {Boolean} True if current modes differ from the default ones
+ */
+export const userHasChangedModes = config => {
+  return !isEqual(getDefaultModes(config), getModes(config));
 };
 
 /**

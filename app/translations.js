@@ -1020,6 +1020,8 @@ const translations = {
       'No route suggestions were found because the origin and destination are very close to each other.',
     'no-route-origin-same-as-destination':
       'No route suggestions were found because the origin and destination are the same.',
+    'no-route-showing-alternative-options':
+      'No route suggestions were found with the current settings. However, we found the following route options:',
     'no-route-start-date-too-early':
       'The timetable does not include earlier departures.',
     'no-route-start-end': 'Please select origin and destination.',
@@ -1839,6 +1841,8 @@ const translations = {
       'Reittiehdotuksia ei löytynyt, koska lähtöpaikka ja määränpää ovat niin lähellä toisiaan.',
     'no-route-origin-same-as-destination':
       'Reittiehdotuksia ei löytynyt, koska lähtöpaikka on sama kuin määränpää.',
+    'no-route-showing-alternative-options':
+      'Asettamillasi asetuksilla ei löytynyt yhtään reittiehdotusta. Löysimme kuitenkin seuraavia reittivaihtoehtoja:',
     'no-route-start-date-too-early': 'Aikataulu ei sisällä aiempia reittejä.',
     'no-route-start-end': 'Valitse lähtöpaikka ja määränpää.',
     'no-transfers-margin': '1 min',
@@ -3449,6 +3453,8 @@ const translations = {
       'Din avfärdsplats och destination är väldigt nära varandra, vill du ändra avfärdsplats eller destination?',
     'no-route-origin-same-as-destination':
       'No routes were found because the origin is same as the destination.',
+    'no-route-showing-alternative-options':
+      'Inga ruttförslag hittades med de aktuella inställningarna. Vi hittade dock följande ruttalternativ:',
     'no-route-start-date-too-early':
       'Tidtabellen har inga resor som avgår tidigare.',
     'no-route-start-end': 'Välj avfärdsplats och destination.',
