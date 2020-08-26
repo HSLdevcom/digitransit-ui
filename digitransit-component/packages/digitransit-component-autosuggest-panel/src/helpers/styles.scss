@@ -46,6 +46,9 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   display: flex;
   flex-direction: column;
 
+  div.viapoint-container:last-child {
+    margin-bottom: 6px;
+  }
   .viapoint-container {
     display: flex;
     flex: 1 0 100%;
