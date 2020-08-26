@@ -173,6 +173,7 @@ class IndexPage extends React.Component {
               targets={[
                 'Locations',
                 'CurrentPosition',
+                'FutureRoutes',
                 'SelectFromOwnLocations',
               ]}
               itineraryParams={itineraryParams}

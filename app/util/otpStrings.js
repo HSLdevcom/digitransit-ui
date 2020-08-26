@@ -59,3 +59,12 @@ export const locationToOTP = location => {
 };
 
 export const locationToCoords = location => [location.lat, location.lon];
+
+export const encodeAddressAndCoordinatesArray = (address, coordinates) => {
+  if (address && coordinates && Array.isArray(coordinates)) {
+    return encodeURIComponent(
+      `${address}::${coordinates[1]},${coordinates[0]}`,
+    );
+  }
+  return undefined;
+};

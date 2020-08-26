@@ -10,6 +10,7 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { navigateTo } from '../util/path';
 import searchContext from '../util/searchContext';
 import intializeSearchContext from '../util/DTSearchContextInitializer';
+import { encodeAddressAndCoordinatesArray } from '../util/otpStrings';
 
 export default function withSearchContext(WrappedComponent) {
   class ComponentWithSearchContext extends React.Component {
@@ -113,6 +114,11 @@ export default function withSearchContext(WrappedComponent) {
 
     onSuggestionSelected = (item, id) => {
       if (!id) {
+        return;
+      }
+      // future route
+      if (item.type === 'FutureRoute') {
+        this.selectFutureRoute(item);
         return;
       }
       // route
@@ -246,6 +252,25 @@ export default function withSearchContext(WrappedComponent) {
         router: this.context.router,
         resetIndex: true,
       });
+    };
+
+    selectFutureRoute = item => {
+      let path = '/reitti/';
+      // set origin
+      path += encodeAddressAndCoordinatesArray(
+        item.properties.origin.label,
+        item.properties.origin.coordinates,
+      );
+      // set destination
+      path = `${path}/${encodeAddressAndCoordinatesArray(
+        item.properties.destination.label,
+        item.properties.destination.coordinates,
+      )}`;
+      // set arriveBy and time
+      path = `${path}?${item.properties.arriveBy ? 'arriveBy=true&' : ''}time=${
+        item.properties.timestamp
+      }`;
+      this.context.router.push(path);
     };
 
     onSelect = (item, id) => {

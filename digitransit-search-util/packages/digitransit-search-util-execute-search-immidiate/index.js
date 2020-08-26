@@ -165,6 +165,83 @@ function hasFavourites(context, locations, stops) {
   );
 }
 
+function selectFutureRoutes() {
+  return Promise.resolve([
+    {
+      type: 'FutureRoute',
+      properties: {
+        layer: 'futureRoute',
+        origin: {
+          country: 'Suomi',
+          housenumber: '2d',
+          label: 'Karvaamokuja 2d, Helsinki',
+          locality: 'Helsinki',
+          name: 'Karvaamokuja 2d',
+          coordinates: [24.880925, 60.21433],
+        },
+        destination: {
+          country: 'Suomi',
+          housenumber: '6 A',
+          label: 'Opastinsilta 6 A, Helsinki',
+          locality: 'Helsinki',
+          name: 'Opastinsilta 6 A',
+          coordinates: [24.940443, 60.199206],
+        },
+        arriveBy: false,
+        timestamp: 1598422920,
+      },
+    },
+    {
+      type: 'FutureRoute',
+      properties: {
+        layer: 'futureRoute',
+        origin: {
+          country: 'Suomi',
+          housenumber: '6 A',
+          label: 'Opastinsilta 6 A, Helsinki',
+          locality: 'Helsinki',
+          name: 'Opastinsilta 6 A',
+          coordinates: [24.940443, 60.199206],
+        },
+        destination: {
+          country: 'Suomi',
+          housenumber: '2d',
+          label: 'Karvaamokuja 2d, Helsinki',
+          locality: 'Helsinki',
+          name: 'Karvaamokuja 2d',
+          coordinates: [24.880925, 60.21433],
+        },
+        arriveBy: true,
+        timestamp: 1598866440,
+      },
+    },
+    {
+      type: 'FutureRoute',
+      properties: {
+        layer: 'futureRoute',
+        origin: {
+          country: 'Suomi',
+          housenumber: '2d',
+          label: 'Karvaamokuja 2d, Helsinki',
+          locality: 'Helsinki',
+          name: 'Karvaamokuja 2d',
+          coordinates: [24.880925, 60.21433],
+        },
+        destination: {
+          country: 'Suomi',
+          housenumber: '6 A',
+          label: 'Opastinsilta 6 A, Helsinki',
+          locality: 'Helsinki',
+          name: 'Opastinsilta 6 A',
+          coordinates: [24.940443, 60.199206],
+        },
+        arriveBy: false,
+        timestamp: 1598889360,
+      },
+    },
+  ]);
+}
+
 const routeLayers = ['route-TRAM', 'route-BUS', 'route-RAIL', 'route-FERRY'];
 const locationLayers = ['favouritePlace', 'venue', 'address', 'street'];
 /**
@@ -223,6 +300,9 @@ export function getSearchResults(
   if (allTargets || targets.includes('MapPosition')) {
     searchComponents.push(selectPositionFomMap(input));
   }
+  if (targets.includes('FutureRoutes')) {
+    searchComponents.push(selectFutureRoutes());
+  }
   if (
     targets.includes('SelectFromOwnLocations') &&
     hasFavourites(context, locations, stops)
@@ -264,6 +344,7 @@ export function getSearchResults(
       const dropLayers = [
         'currentPosition',
         'selectFromMap',
+        'futureRoute',
         'ownLocations',
         'stop',
         'back',
@@ -306,6 +387,7 @@ export function getSearchResults(
       const dropLayers = [
         'currentPosition',
         'selectFromMap',
+        'futureRoute',
         'ownLocations',
         'favouritePlace',
         'back',
@@ -327,6 +409,7 @@ export function getSearchResults(
       const dropLayers = [
         'currentPosition',
         'selectFromMap',
+        'futureRoute',
         'favouritePlace',
         'stop',
         'station',

@@ -63,6 +63,29 @@ li:last-child > div.suggestion-item-container.mobile {
       }
     }
 
+    .suggestion-name-normal {
+      margin: 0;
+      font-weight: normal;
+      color: #333333;
+      font-size: 15px !important;
+      letter-spacing: -0.5px;
+      line-height: 1.5;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      @include min-width(tablet) {
+        font-size: 13px !important;
+        letter-spacing: -0.43px;
+        line-height: 1;
+      }
+
+      &.favouriteCustom {
+        color: #007ac9;
+        font-size: 15px;
+      }
+    }
+
     .suggestion-label {
       margin: 0;
       color: #666666;

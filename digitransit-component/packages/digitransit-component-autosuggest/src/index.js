@@ -10,9 +10,12 @@ import suggestionToLocation from '@digitransit-search-util/digitransit-search-ut
 import { getNameLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
 import Icon from '@digitransit-component/digitransit-component-icon';
+import moment from 'moment-timezone';
 import translations from './helpers/translations';
 import styles from './helpers/styles.scss';
 import MobileSearch from './helpers/MobileSearch';
+
+moment.tz.setDefault('Europe/Helsinki');
 
 i18next.init({ lng: 'fi', resources: {} });
 
@@ -44,6 +47,23 @@ function suggestionToAriaContent(item) {
   return [iconstr, name, label];
 }
 
+function translateFutureRouteSuggestionTime(item) {
+  moment.locale(i18next.language);
+
+  const time = moment.unix(item.properties.timestamp);
+  let str = item.properties.arriveBy
+    ? i18next.t('arrival')
+    : i18next.t('departure');
+  if (time.isSame(moment(), 'day')) {
+    str = `${str} ${i18next.t('today')}`;
+  } else if (time.isSame(moment().add(1, 'day'), 'day')) {
+    str = `${str} ${i18next.t('tomorrow')}`;
+  } else {
+    str = `${str} ${time.format('dd D.M.')}`;
+  }
+  str = `${str} ${moment(time).format('HH:mm')}`;
+  return str;
+}
 /**
  * @example
  * const searchContext = {
@@ -347,21 +367,29 @@ class DTAutosuggest extends React.Component {
             return;
           }
           // XXX translates current location
-          const suggestions = (searchResult.results || []).map(suggestion => {
-            if (
-              suggestion.type === 'CurrentLocation' ||
-              suggestion.type === 'SelectFromMap' ||
-              suggestion.type === 'SelectFromOwnLocations' ||
-              suggestion.type === 'back'
-            ) {
-              const translated = { ...suggestion };
-              translated.properties.labelId = i18next.t(
-                suggestion.properties.labelId,
+          const suggestions = (searchResult.results || [])
+            .filter(suggestion => {
+              return (
+                suggestion.type !== 'FutureRoute' ||
+                (suggestion.type === 'FutureRoute' &&
+                  suggestion.properties.timestamp > moment().unix())
               );
-              return translated;
-            }
-            return suggestion;
-          });
+            })
+            .map(suggestion => {
+              if (
+                suggestion.type === 'CurrentLocation' ||
+                suggestion.type === 'SelectFromMap' ||
+                suggestion.type === 'SelectFromOwnLocations' ||
+                suggestion.type === 'back'
+              ) {
+                const translated = { ...suggestion };
+                translated.properties.labelId = i18next.t(
+                  suggestion.properties.labelId,
+                );
+                return translated;
+              }
+              return suggestion;
+            });
           if (
             value === this.state.value ||
             value === this.state.pendingSelection ||
@@ -435,10 +463,14 @@ class DTAutosuggest extends React.Component {
   };
 
   renderItem = item => {
+    const newItem = {
+      ...item,
+      translatedText: translateFutureRouteSuggestionTime(item),
+    };
     const ariaContent = suggestionToAriaContent(item);
     return (
       <SuggestionItem
-        item={item}
+        item={item.type === 'FutureRoute' ? newItem : item}
         ariaContent={ariaContent}
         loading={!this.state.valid}
         isMobile={this.props.isMobile}

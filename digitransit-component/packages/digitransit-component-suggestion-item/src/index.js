@@ -52,6 +52,7 @@ function getIconProperties(item) {
     ['selectFromMap', 'select-from-map'],
     ['ownLocations', 'star'],
     ['back', 'arrow'],
+    ['futureRoute', 'future-route'],
   ]);
 
   const defaultIcon = 'place';
@@ -99,10 +100,43 @@ const SuggestionItem = pure(
           {icon}
         </span>
         <div className={styles['suggestion-result']}>
-          <p className={cx(styles['suggestion-name'], styles[className])}>
-            {name}
-          </p>
-          <p className={styles['suggestion-label']}>{label}</p>
+          {iconId !== 'future-route' && (
+            <span>
+              <p className={cx(styles['suggestion-name'], styles[className])}>
+                {name}
+              </p>
+              <p className={styles['suggestion-label']}>{label}</p>
+            </span>
+          )}
+          {iconId === 'future-route' && (
+            <div>
+              <p className={cx(styles['suggestion-name'], styles[className])}>
+                {item.properties.origin.name}
+                <span
+                  className={cx(
+                    styles['suggestion-name-normal'],
+                    styles[className],
+                  )}
+                >
+                  , {item.properties.origin.locality}
+                </span>
+              </p>
+              <p className={cx(styles['suggestion-name'], styles[className])}>
+                {item.properties.destination.name}
+                <span
+                  className={cx(
+                    styles['suggestion-name-normal'],
+                    styles[className],
+                  )}
+                >
+                  , {item.properties.destination.locality}
+                </span>
+              </p>
+              <p className={styles['suggestion-label']}>
+                {item.translatedText}
+              </p>
+            </div>
+          )}
         </div>
         {iconId !== 'arrow' && (
           <span
