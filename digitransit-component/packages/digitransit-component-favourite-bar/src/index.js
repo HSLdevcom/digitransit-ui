@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import find from 'lodash/find';
 import cx from 'classnames';
 import i18next from 'i18next';
 import differenceWith from 'lodash/differenceWith';
@@ -59,9 +58,7 @@ FavouriteLocation.propTypes = {
 };
 
 /**
- * FavouriteBar renders favourites. It searches favourites for home and work by name.
- * Home is found in finnish (Koti), in English (Home) or in Swedish (Hem).
- * Work is found in finnish (Työ), in English (Work) or in Swedish (Arbetsplats).
+ * FavouriteBar renders favourites. FavouriteBar displays the first two favourites, the rest are shown in a list.
  * @example
  * <FavouriteBar
  *   favourites={favourites}
@@ -134,9 +131,7 @@ class FavouriteBar extends React.Component {
     this.state = {
       listOpen: false,
       highlightedIndex: 0,
-      favourites: [],
-      home: null,
-      work: null,
+      favourites: props.favourites,
     };
     this.expandListRef = React.createRef();
     this.suggestionListRef = React.createRef();
@@ -145,68 +140,18 @@ class FavouriteBar extends React.Component {
   componentDidMount() {
     i18next.changeLanguage(this.props.lang);
     document.addEventListener('mousedown', this.handleClickOutside);
-    const { favourites } = this.props;
-    const home = find(
-      favourites,
-      favourite =>
-        favourite.name === 'Home' ||
-        favourite.name === 'Koti' ||
-        favourite.name === 'Hem',
-    );
-    const work = find(
-      favourites,
-      favourite =>
-        favourite.name === 'Work' ||
-        favourite.name === 'Työ' ||
-        favourite.name === 'Arbetsplats',
-    );
-    const filteredFavourites = favourites.filter(
-      favourite =>
-        favourite.favouriteId !== (home && home.favouriteId) &&
-        favourite.favouriteId !== (work && work.favouriteId),
-    );
-    this.setState({
-      favourites: filteredFavourites,
-      home,
-      work,
-    });
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    const { favourites, home, work } = prevState;
+    const { favourites } = prevState;
     const nextFavourites = nextProps.favourites;
-    const nextHome = find(
-      nextFavourites,
-      favourite =>
-        favourite.name === 'Home' ||
-        favourite.name === 'Koti' ||
-        favourite.name === 'Hem',
-    );
-    const nextWork = find(
-      nextFavourites,
-      favourite =>
-        favourite.name === 'Work' ||
-        favourite.name === 'Työ' ||
-        favourite.name === 'Arbetsplats',
-    );
-    const filteredFavourites = nextFavourites.filter(
-      favourite =>
-        favourite.favouriteId !== (nextHome && nextHome.favouriteId) &&
-        favourite.favouriteId !== (nextWork && nextWork.favouriteId),
-    );
     if (
-      !isEmpty(
-        differenceWith(nextFavourites, [...favourites, home, work], isEqual),
-      ) ||
-      !isEmpty(
-        differenceWith([...favourites, home, work], nextFavourites, isEqual),
-      ) ||
-      !isEqual(filteredFavourites, favourites)
+      !isEmpty(differenceWith(nextFavourites, favourites, isEqual)) ||
+      !isEmpty(differenceWith(favourites, nextFavourites, isEqual)) ||
+      !isEqual(nextFavourites, favourites)
     ) {
       return {
-        favourites: filteredFavourites,
-        home: nextHome,
-        work: nextWork,
+        favourites: nextFavourites,
       };
     }
     return null;
@@ -324,34 +269,45 @@ class FavouriteBar extends React.Component {
 
   render() {
     const { onClickFavourite } = this.props;
-    const { listOpen, favourites, home, work, highlightedIndex } = this.state;
-
+    const { listOpen, favourites, highlightedIndex } = this.state;
     const expandIcon = this.props.favourites.length === 0 ? 'plus' : 'arrow';
     /* eslint-disable anchor-is-valid, jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/role-supports-aria-props */
     return (
       <React.Fragment>
         <div className={styles['favourite-container']}>
           <FavouriteLocation
-            text={(home && home.name) || i18next.t('add-home')}
-            label={(home && home.address) || ''}
+            text={
+              (favourites[0] && favourites[0].name) || i18next.t('add-home')
+            }
+            label={(favourites[0] && favourites[0].address) || ''}
             clickItem={() =>
-              home ? onClickFavourite(home) : this.props.onAddHome()
+              favourites[0]
+                ? onClickFavourite(favourites[0])
+                : this.props.onAddHome()
             }
             iconId={
-              home && home.selectedIconId
-                ? FavouriteBar.FavouriteIconIdToNameMap[home.selectedIconId]
+              favourites[0] && favourites[0].selectedIconId
+                ? FavouriteBar.FavouriteIconIdToNameMap[
+                    favourites[0].selectedIconId
+                  ]
                 : 'home'
             }
           />
           <FavouriteLocation
-            text={(work && work.name) || i18next.t('add-work')}
-            label={(work && work.address) || ''}
+            text={
+              (favourites[1] && favourites[1].name) || i18next.t('add-work')
+            }
+            label={(favourites[1] && favourites[1].address) || ''}
             clickItem={() =>
-              work ? onClickFavourite(work) : this.props.onAddWork()
+              favourites[1]
+                ? onClickFavourite(favourites[1])
+                : this.props.onAddWork()
             }
             iconId={
-              work && work.selectedIconId
-                ? FavouriteBar.FavouriteIconIdToNameMap[work.selectedIconId]
+              favourites[1] && favourites[1].selectedIconId
+                ? FavouriteBar.FavouriteIconIdToNameMap[
+                    favourites[1].selectedIconId
+                  ]
                 : 'work'
             }
           />
@@ -378,7 +334,7 @@ class FavouriteBar extends React.Component {
               ref={this.suggestionListRef}
               role="listbox"
             >
-              {favourites.map((item, index) =>
+              {favourites.slice(2, favourites.length).map((item, index) =>
                 this.renderSuggestion(
                   {
                     ...item,
