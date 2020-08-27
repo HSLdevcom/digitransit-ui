@@ -78,10 +78,10 @@ const StopPageMap = (
   { stop, breakpoint, origin, currentTime, destination, locationState },
   { config, match, router, executeAction },
 ) => {
-  executeAction(startLocationWatch);
   if (!stop) {
     return false;
   }
+  executeAction(startLocationWatch);
   const { environment } = useContext(ReactRelayContext);
   const [plan, setPlan] = useState({ plan: {}, isFetching: false });
 
