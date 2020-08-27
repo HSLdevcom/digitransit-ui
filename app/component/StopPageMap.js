@@ -75,13 +75,15 @@ const fullscreenMapToggle = (fullscreenMap, location, router) => (
 /* eslint-enable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 
 const StopPageMap = (
-  { stop, breakpoint, origin, currentTime, destination, locationState },
+  { stop, breakpoint, currentTime, locationState },
   { config, match, router, executeAction },
 ) => {
   if (!stop) {
     return false;
   }
-  executeAction(startLocationWatch);
+  useEffect(() => {
+    executeAction(startLocationWatch);
+  }, []);
   const { environment } = useContext(ReactRelayContext);
   const [plan, setPlan] = useState({ plan: {}, isFetching: false });
 
@@ -224,8 +226,8 @@ const StopPageMap = (
         leafletObjs={leafletObjs}
         showScaleBar={showScale}
         setInitialZoom={17}
-        origin={origin}
-        destination={destination}
+        origin={locationState}
+        destination={stop}
         setInitialMapTracking
         bounds={bounds}
         fitBounds
@@ -265,16 +267,12 @@ StopPageMap.propTypes = {
     platformCode: PropTypes.string,
   }),
   breakpoint: PropTypes.string.isRequired,
-  origin: dtLocationShape,
-  destination: dtLocationShape,
   locationState: dtLocationShape,
   currentTime: PropTypes.number.isRequired,
 };
 
 StopPageMap.defaultProps = {
   stop: undefined,
-  origin: {},
-  destination: {},
 };
 
 const componentWithBreakpoint = withBreakpoint(StopPageMap);
@@ -286,12 +284,8 @@ const StopsNearYouMapWithStores = connectToStores(
     const currentTime = getStore(TimeStore)
       .getCurrentTime()
       .unix();
-    const origin = getStore(OriginStore).getOrigin();
-    const destination = getStore(DestinationStore).getDestination();
     const locationState = getStore(PositionStore).getLocationState();
     return {
-      origin,
-      destination,
       locationState,
       currentTime,
     };
