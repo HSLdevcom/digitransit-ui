@@ -155,16 +155,22 @@ export default class FavouriteStore extends Store {
         lastUpdated: moment().unix(),
       };
     });
-    updateFavourites(newFavourites)
-      .then(() => {
-        this.favourites = newFavourites;
-        this.fetchComplete();
-      })
-      .catch(() => {
-        this.favourites = newFavourites;
-        this.storeFavourites();
-        this.fetchComplete();
-      });
+    if (this.config.showLogin) {
+      updateFavourites(newFavourites)
+        .then(() => {
+          this.favourites = newFavourites;
+          this.emitChange();
+        })
+        .catch(() => {
+          this.favourites = newFavourites;
+          this.storeFavourites();
+          this.emitChange();
+        });
+    } else {
+      this.favourites = newFavourites;
+      this.storeFavourites();
+      this.emitChange();
+    }
   }
 
   deleteFavourite(data) {
