@@ -52,26 +52,37 @@ const stopClient = context => {
     context.executeAction(stopRealTimeClient, client);
   }
 };
-const DEFAULT_MIN_ZOOM = 17;
+const DEFAULT_INITIAL_ZOOM = 17;
 
 const handleInitialZoom = (location, stops) => {
-  const nearestStop = stops.edges[0].node.place;
-
-  if (location && nearestStop) {
-    if (location.lat === 0 && location.lon === 0) {
-      return -1;
+  if (location.lat === 0 && location.lon === 0) {
+    // Still waiting for a location
+    return -1;
+  }
+  if (location && stops && stops.edges) {
+    const { edges } = stops;
+    if (!edges || edges.length === 0) {
+      // No stops anywhere near
+      return DEFAULT_INITIAL_ZOOM;
     }
+    const nearestStop = edges[0].node.place;
+
+    if (!nearestStop) {
+      // Node does'nt have a place property.
+      return DEFAULT_INITIAL_ZOOM;
+    }
+
     const nearestStopLatLon = {
       lat: nearestStop.lat,
       lon: nearestStop.lon,
     };
     const locLatLon = { lat: location.lat, lon: location.lon };
     const dist = distance(locLatLon, nearestStopLatLon);
-    if (dist > 250) {
+    if (dist > 300) {
       return 15;
     }
   }
-  return DEFAULT_MIN_ZOOM;
+  return DEFAULT_INITIAL_ZOOM;
 };
 function StopsNearYouMap(
   {
