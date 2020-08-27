@@ -12,7 +12,6 @@ import TimeStore from '../store/TimeStore';
 import OriginStore from '../store/OriginStore';
 import DestinationStore from '../store/DestinationStore';
 import PositionStore from '../store/PositionStore';
-import PreferencesStore from '../store/PreferencesStore';
 import MapContainer from './map/MapContainer';
 import MapWithTracking from './map/MapWithTracking';
 import SelectedStopPopup from './map/popups/SelectedStopPopup';
@@ -282,7 +281,7 @@ const componentWithBreakpoint = withBreakpoint(StopPageMap);
 
 const StopsNearYouMapWithStores = connectToStores(
   componentWithBreakpoint,
-  [OriginStore, TimeStore, DestinationStore, PreferencesStore, PositionStore],
+  [OriginStore, TimeStore, DestinationStore, PositionStore],
   ({ getStore }) => {
     const currentTime = getStore(TimeStore)
       .getCurrentTime()
