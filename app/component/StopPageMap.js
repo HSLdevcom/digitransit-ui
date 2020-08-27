@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useContext, useState } from 'react';
-import cx from 'classnames';
 import { matchShape, routerShape } from 'found';
 import moment from 'moment';
 import { connectToStores } from 'fluxible-addons-react';
@@ -17,66 +16,17 @@ import MapWithTracking from './map/MapWithTracking';
 import SelectedStopPopup from './map/popups/SelectedStopPopup';
 import SelectedStopPopupContent from './SelectedStopPopupContent';
 import { dtLocationShape } from '../util/shapes';
-import Icon from './Icon';
 import withBreakpoint from '../util/withBreakpoint';
 import VehicleMarkerContainer from './map/VehicleMarkerContainer';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
 import BackButton from './BackButton';
 import { startLocationWatch } from '../action/PositionActions';
 import { addressToItinerarySearch } from '../util/otpStrings';
 import ItineraryLine from './map/ItineraryLine';
 import Loading from './Loading';
 
-const toggleFullscreenMap = (fullscreenMap, location, router) => {
-  addAnalyticsEvent({
-    action: fullscreenMap ? 'MinimizeMapOnMobile' : 'MaximizeMapOnMobile',
-    category: 'Map',
-    name: 'StopPage',
-  });
-  if (fullscreenMap) {
-    router.go(-1);
-    return;
-  }
-  router.push({
-    ...location,
-    state: { ...location.state, fullscreenMap: true },
-  });
-};
-
-/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-const fullscreenMapOverlay = (fullscreenMap, location, router) =>
-  !fullscreenMap && (
-    <div
-      className="map-click-prevent-overlay"
-      key="overlay"
-      onClick={() => {
-        toggleFullscreenMap(fullscreenMap, location, router);
-      }}
-    />
-  );
-
-const fullscreenMapToggle = (fullscreenMap, location, router) => (
-  <div
-    className={cx('fullscreen-toggle', 'stopPage', {
-      expanded: fullscreenMap,
-    })}
-    key="fullscreen-toggle"
-    onClick={() => {
-      toggleFullscreenMap(fullscreenMap, location, router);
-    }}
-  >
-    {fullscreenMap ? (
-      <Icon img="icon-icon_minimize" className="cursor-pointer" />
-    ) : (
-      <Icon img="icon-icon_maximize" className="cursor-pointer" />
-    )}
-  </div>
-);
-/* eslint-enable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-
 const StopPageMap = (
   { stop, breakpoint, currentTime, locationState },
-  { config, match, router, executeAction },
+  { config, match, executeAction },
 ) => {
   if (!stop) {
     return false;
@@ -155,8 +105,6 @@ const StopPageMap = (
     return <Loading />;
   }
 
-  const fullscreenMap =
-    match.location.state && match.location.state.fullscreenMap === true;
   const leafletObjs = [];
   const children = [];
   if (config.showVehiclesOnStopPage) {
@@ -172,8 +120,6 @@ const StopPageMap = (
       </SelectedStopPopup>,
     );
   } else {
-    children.push(fullscreenMapOverlay(fullscreenMap, match.location, router));
-    children.push(fullscreenMapToggle(fullscreenMap, match.location, router));
     children.push(
       <BackButton
         icon="icon-icon_arrow-collapse--left"
@@ -199,8 +145,6 @@ const StopPageMap = (
     );
   }
 
-  const showScale = fullscreenMap || breakpoint === 'large';
-
   const id = match.params.stopId || match.params.terminalId;
 
   let bounds = [];
@@ -217,14 +161,14 @@ const StopPageMap = (
   if (locationState.hasLocation && plan.plan.itineraries) {
     return (
       <MapWithTracking
-        className="full"
+        className="flex-grow"
         lat={stop.lat}
         lon={stop.lon}
         zoom={!match.params.stopId || stop.platformCode ? 18 : 16}
         showStops
         hilightedStops={[id]}
         leafletObjs={leafletObjs}
-        showScaleBar={showScale}
+        showScaleBar
         setInitialZoom={17}
         origin={locationState}
         destination={stop}
@@ -238,14 +182,14 @@ const StopPageMap = (
   }
   return (
     <MapContainer
-      className="full"
+      className="flex-grow"
       lat={stop.lat}
       lon={stop.lon}
       zoom={!match.params.stopId || stop.platformCode ? 18 : 16}
       showStops
       hilightedStops={[id]}
       leafletObjs={leafletObjs}
-      showScaleBar={showScale}
+      showScaleBar
     >
       {children}
     </MapContainer>
