@@ -4,18 +4,9 @@
   height: 100%;
   top: 0;
   left: 0;
-  background: rgba(0, 0, 0, 0.4);
   z-index: 1000;
-  .modal-main {
-    position:fixed;
-    width: 387px;
-    height: 430px;
-    border-radius: 5px;
-    background-color: #ffffff;
-    top:50%;
-    left:50%;
-    transform: translate(-50%,-50%);
-  }
+  display: block;
+  background-color: #ffffff;
 }
 
 .display-block {

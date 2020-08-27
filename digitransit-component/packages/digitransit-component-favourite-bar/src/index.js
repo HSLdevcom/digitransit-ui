@@ -1,13 +1,11 @@
 import PropTypes from 'prop-types';
-import React, { Fragment } from 'react';
-import find from 'lodash/find';
+import React from 'react';
 import cx from 'classnames';
 import i18next from 'i18next';
 import differenceWith from 'lodash/differenceWith';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import escapeRegExp from 'lodash/escapeRegExp';
-import ContainerSpinner from '@hsl-fi/container-spinner';
 import SuggestionItem from '@digitransit-component/digitransit-component-suggestion-item';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import translations from './helpers/translations';
@@ -40,8 +38,8 @@ const FavouriteLocation = ({ className, clickItem, iconId, text, label }) => {
       tabIndex="0"
       aria-label={text}
     >
-      <span className={styles.icon}>
-        <Icon width={1.125} height={1.125} img={iconId} color="#007ac9" />
+      <span className={cx(styles.icon, styles[iconId])}>
+        <Icon img={iconId} />
       </span>
       <div className={styles['favourite-location']}>
         <div className={styles.name}>{text}</div>
@@ -60,9 +58,7 @@ FavouriteLocation.propTypes = {
 };
 
 /**
- * FavouriteBar renders favourites. It searches favourites for home and work by name.
- * Home is found in finnish (Koti), in English (Home) or in Swedish (Hem).
- * Work is found in finnish (Työ), in English (Work) or in Swedish (Arbetsplats).
+ * FavouriteBar renders favourites. FavouriteBar displays the first two favourites, the rest are shown in a list.
  * @example
  * <FavouriteBar
  *   favourites={favourites}
@@ -110,7 +106,6 @@ class FavouriteBar extends React.Component {
     onAddWork: PropTypes.func,
     /** Optional. Language, fi, en or sv. */
     lang: PropTypes.string,
-    loading: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -120,7 +115,6 @@ class FavouriteBar extends React.Component {
     onAddHome: () => ({}),
     onAddWork: () => ({}),
     lang: 'fi',
-    loading: false,
   };
 
   static FavouriteIconIdToNameMap = {
@@ -137,9 +131,7 @@ class FavouriteBar extends React.Component {
     this.state = {
       listOpen: false,
       highlightedIndex: 0,
-      favourites: [],
-      home: null,
-      work: null,
+      favourites: props.favourites,
     };
     this.expandListRef = React.createRef();
     this.suggestionListRef = React.createRef();
@@ -148,68 +140,18 @@ class FavouriteBar extends React.Component {
   componentDidMount() {
     i18next.changeLanguage(this.props.lang);
     document.addEventListener('mousedown', this.handleClickOutside);
-    const { favourites } = this.props;
-    const home = find(
-      favourites,
-      favourite =>
-        favourite.name === 'Home' ||
-        favourite.name === 'Koti' ||
-        favourite.name === 'Hem',
-    );
-    const work = find(
-      favourites,
-      favourite =>
-        favourite.name === 'Work' ||
-        favourite.name === 'Työ' ||
-        favourite.name === 'Arbetsplats',
-    );
-    const filteredFavourites = favourites.filter(
-      favourite =>
-        favourite.favouriteId !== (home && home.favouriteId) &&
-        favourite.favouriteId !== (work && work.favouriteId),
-    );
-    this.setState({
-      favourites: filteredFavourites,
-      home,
-      work,
-    });
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    const { favourites, home, work } = prevState;
+    const { favourites } = prevState;
     const nextFavourites = nextProps.favourites;
-    const nextHome = find(
-      nextFavourites,
-      favourite =>
-        favourite.name === 'Home' ||
-        favourite.name === 'Koti' ||
-        favourite.name === 'Hem',
-    );
-    const nextWork = find(
-      nextFavourites,
-      favourite =>
-        favourite.name === 'Work' ||
-        favourite.name === 'Työ' ||
-        favourite.name === 'Arbetsplats',
-    );
-    const filteredFavourites = nextFavourites.filter(
-      favourite =>
-        favourite.favouriteId !== (nextHome && nextHome.favouriteId) &&
-        favourite.favouriteId !== (nextWork && nextWork.favouriteId),
-    );
     if (
-      !isEmpty(
-        differenceWith(nextFavourites, [...favourites, home, work], isEqual),
-      ) ||
-      !isEmpty(
-        differenceWith([...favourites, home, work], nextFavourites, isEqual),
-      ) ||
-      !isEqual(filteredFavourites, favourites)
+      !isEmpty(differenceWith(nextFavourites, favourites, isEqual)) ||
+      !isEmpty(differenceWith(favourites, nextFavourites, isEqual)) ||
+      !isEqual(nextFavourites, favourites)
     ) {
       return {
-        favourites: filteredFavourites,
-        home: nextHome,
-        work: nextWork,
+        favourites: nextFavourites,
       };
     }
     return null;
@@ -326,104 +268,100 @@ class FavouriteBar extends React.Component {
   };
 
   render() {
-    const { onClickFavourite, loading } = this.props;
-    const { listOpen, favourites, home, work, highlightedIndex } = this.state;
-
+    const { onClickFavourite } = this.props;
+    const { listOpen, favourites, highlightedIndex } = this.state;
     const expandIcon = this.props.favourites.length === 0 ? 'plus' : 'arrow';
+    const listFavourites = favourites.slice(2, favourites.length);
     /* eslint-disable anchor-is-valid, jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/role-supports-aria-props */
     return (
-      <Fragment>
-        {loading && (
-          <ContainerSpinner
-            className={styles['favourite-loading-container']}
-            visible
+      <React.Fragment>
+        <div className={styles['favourite-container']}>
+          <FavouriteLocation
+            text={
+              (favourites[0] && favourites[0].name) || i18next.t('add-home')
+            }
+            label={(favourites[0] && favourites[0].address) || ''}
+            clickItem={() =>
+              favourites[0]
+                ? onClickFavourite(favourites[0])
+                : this.props.onAddHome()
+            }
+            iconId={
+              favourites[0] && favourites[0].selectedIconId
+                ? FavouriteBar.FavouriteIconIdToNameMap[
+                    favourites[0].selectedIconId
+                  ]
+                : 'home'
+            }
           />
-        )}
-        {!loading && (
-          <Fragment>
-            <div className={styles['favourite-container']}>
-              <FavouriteLocation
-                text={(home && home.name) || i18next.t('add-home')}
-                label={(home && home.address) || ''}
-                clickItem={() =>
-                  home ? onClickFavourite(home) : this.props.onAddHome()
-                }
-                iconId={
-                  home && home.selectedIconId
-                    ? FavouriteBar.FavouriteIconIdToNameMap[home.selectedIconId]
-                    : 'home'
-                }
-              />
-              <FavouriteLocation
-                text={(work && work.name) || i18next.t('add-work')}
-                label={(work && work.address) || ''}
-                clickItem={() =>
-                  work ? onClickFavourite(work) : this.props.onAddWork()
-                }
-                iconId={
-                  work && work.selectedIconId
-                    ? FavouriteBar.FavouriteIconIdToNameMap[work.selectedIconId]
-                    : 'work'
-                }
-              />
-              <div
-                className={styles.expandButton}
-                ref={this.expandListRef}
-                id="favourite-expand-button"
-                onClick={() => this.toggleList()}
-                onKeyDown={e => this.handleKeyDown(e)}
-                tabIndex="0"
-                role="button"
-                aria-label={i18next.t('open-favourites')}
-                aria-controls="favourite-suggestion-list"
-                aria-activedescendant={`favourite-suggestion-list--item-${highlightedIndex}`}
-              >
-                <Icon
-                  width={1}
-                  height={1}
-                  img={expandIcon}
-                  color="#007ac9"
-                  rotate={listOpen ? -90 : 90}
-                />
-              </div>
-            </div>
-            <div className={styles['favourite-suggestion-container']}>
-              {listOpen && (
-                <ul
-                  className={styles['favourite-suggestion-list']}
-                  id="favourite-suggestion-list"
-                  ref={this.suggestionListRef}
-                  role="listbox"
-                >
-                  {favourites.map((item, index) =>
-                    this.renderSuggestion(
-                      {
-                        ...item,
-                        address: item.address
-                          ? item.address.replace(
-                              new RegExp(`${escapeRegExp(item.name)}(,)?( )?`),
-                              '',
-                            )
-                          : '',
-                        iconColor: '#007ac9',
-                      },
-                      index,
-                    ),
-                  )}
-                  {favourites.length > 0 && <div className={styles.divider} />}
-                  {this.getCustomSuggestions().map((item, index) =>
-                    this.renderSuggestion(
-                      item,
-                      favourites.length + index,
-                      'favouriteCustom',
-                    ),
-                  )}
-                </ul>
+          <FavouriteLocation
+            text={
+              (favourites[1] && favourites[1].name) || i18next.t('add-work')
+            }
+            label={(favourites[1] && favourites[1].address) || ''}
+            clickItem={() =>
+              favourites[1]
+                ? onClickFavourite(favourites[1])
+                : this.props.onAddWork()
+            }
+            iconId={
+              favourites[1] && favourites[1].selectedIconId
+                ? FavouriteBar.FavouriteIconIdToNameMap[
+                    favourites[1].selectedIconId
+                  ]
+                : 'work'
+            }
+          />
+          <div
+            className={cx(styles.expandButton, styles[expandIcon])}
+            ref={this.expandListRef}
+            id="favourite-expand-button"
+            onClick={() => this.toggleList()}
+            onKeyDown={e => this.handleKeyDown(e)}
+            tabIndex="0"
+            role="button"
+            aria-label={i18next.t('open-favourites')}
+            aria-controls="favourite-suggestion-list"
+            aria-activedescendant={`favourite-suggestion-list--item-${highlightedIndex}`}
+          >
+            <Icon img={expandIcon} rotate={listOpen ? -90 : 90} />
+          </div>
+        </div>
+        <div className={styles['favourite-suggestion-container']}>
+          {listOpen && (
+            <ul
+              className={styles['favourite-suggestion-list']}
+              id="favourite-suggestion-list"
+              ref={this.suggestionListRef}
+              role="listbox"
+            >
+              {listFavourites.map((item, index) =>
+                this.renderSuggestion(
+                  {
+                    ...item,
+                    address: item.address
+                      ? item.address.replace(
+                          new RegExp(`${escapeRegExp(item.name)}(,)?( )?`),
+                          '',
+                        )
+                      : '',
+                    iconColor: '#007ac9',
+                  },
+                  index,
+                ),
               )}
-            </div>
-          </Fragment>
-        )}
-      </Fragment>
+              {listFavourites.length > 0 && <div className={styles.divider} />}
+              {this.getCustomSuggestions().map((item, index) =>
+                this.renderSuggestion(
+                  item,
+                  favourites.length + index,
+                  'favouriteCustom',
+                ),
+              )}
+            </ul>
+          )}
+        </div>
+      </React.Fragment>
     );
   }
 }
