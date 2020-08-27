@@ -255,6 +255,5 @@ export default class FavouriteStore extends Store {
     AddFavourite: 'addFavourite',
     UpdateFavourites: 'updateFavourites',
     DeleteFavourite: 'deleteFavourite',
-    SetUserStatus: 'setUserStatus',
   };
 }
