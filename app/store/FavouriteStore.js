@@ -36,16 +36,20 @@ export default class FavouriteStore extends Store {
     super(dispatcher);
     this.config = dispatcher.getContext().config;
     this.fetching();
-    getFavourites()
-      .then(res => {
-        this.favourites = res;
-        this.fetchComplete();
-      })
-      .catch(() => {
-        this.favourites = getFavouriteStorage();
-        this.fetchComplete();
-      });
-
+    if (this.config.showLogin) {
+      getFavourites()
+        .then(res => {
+          this.favourites = res;
+          this.fetchComplete();
+        })
+        .catch(() => {
+          this.favourites = getFavouriteStorage();
+          this.fetchComplete();
+        });
+    } else {
+      this.favourites = getFavouriteStorage();
+      this.fetchComplete();
+    }
     this.migrateRoutes();
     this.migrateStops();
     this.migrateLocations();
@@ -126,16 +130,22 @@ export default class FavouriteStore extends Store {
         favouriteId: uuid(),
       });
     }
-    updateFavourites(newFavourites)
-      .then(() => {
-        this.favourites = newFavourites;
-        this.emitChange();
-      })
-      .catch(() => {
-        this.favourites = newFavourites;
-        this.storeFavourites();
-        this.emitChange();
-      });
+    if (this.config.showLogin) {
+      updateFavourites(newFavourites)
+        .then(() => {
+          this.favourites = newFavourites;
+          this.emitChange();
+        })
+        .catch(() => {
+          this.favourites = newFavourites;
+          this.storeFavourites();
+          this.emitChange();
+        });
+    } else {
+      this.favourites = newFavourites;
+      this.storeFavourites();
+      this.emitChange();
+    }
   }
 
   updateFavourites(favourites) {
@@ -161,16 +171,22 @@ export default class FavouriteStore extends Store {
     const newFavourites = this.favourites.filter(
       favourite => favourite.favouriteId !== data.favouriteId,
     );
-    deleteFavourites([data.favouriteId])
-      .then(() => {
-        this.favourites = newFavourites;
-        this.emitChange();
-      })
-      .catch(() => {
-        this.favourites = newFavourites;
-        this.storeFavourites();
-        this.emitChange();
-      });
+    if (this.config.showLogin) {
+      deleteFavourites([data.favouriteId])
+        .then(() => {
+          this.favourites = newFavourites;
+          this.emitChange();
+        })
+        .catch(() => {
+          this.favourites = newFavourites;
+          this.storeFavourites();
+          this.emitChange();
+        });
+    } else {
+      this.favourites = newFavourites;
+      this.storeFavourites();
+      this.emitChange();
+    }
   }
 
   migrateRoutes() {
