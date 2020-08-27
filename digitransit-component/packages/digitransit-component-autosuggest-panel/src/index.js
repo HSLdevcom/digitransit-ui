@@ -409,7 +409,7 @@ class DTAutosuggestPanel extends React.Component {
             }
             aria-label={i18next.t('swap-order-button-label')}
           >
-            <Icon img="opposite" width={1.1875} height={1.0625} />
+            <Icon img="opposite" />
           </ItinerarySearchControl>
         </div>
         {viaPoints.length === 0 && (
@@ -442,12 +442,7 @@ class DTAutosuggestPanel extends React.Component {
                     className={styles['viapoint-before']}
                     style={{ cursor: 'move' }}
                   >
-                    <Icon
-                      img="ellipsis"
-                      color="#cccccc"
-                      rotate={90}
-                      height={1.25}
-                    />
+                    <Icon img="ellipsis" rotate={90} />
                   </div>
                   <div
                     className={cx(
@@ -494,7 +489,7 @@ class DTAutosuggestPanel extends React.Component {
                       { index: i + 1 },
                     )}
                   >
-                    <Icon img="time" width={1.125} height={1.1875} />
+                    <Icon img="time" />
                   </ItinerarySearchControl>
                 </div>
                 {!isViaPointSlackTimeInputActive(i) &&
@@ -547,12 +542,7 @@ class DTAutosuggestPanel extends React.Component {
                   index: i + 1,
                 })}
               >
-                <Icon
-                  img="close"
-                  color="#007ac9"
-                  width={0.875}
-                  height={0.875}
-                />
+                <Icon img="close" />
               </ItinerarySearchControl>
             </div>
           ))}
