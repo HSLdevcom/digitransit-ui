@@ -131,7 +131,9 @@ class FavouriteBar extends React.Component {
     this.state = {
       listOpen: false,
       highlightedIndex: 0,
-      favourites: props.favourites,
+      firstFavourite: props.favourites[0] || null,
+      secondFavourite: props.favourites[1] || null,
+      favourites: props.favourites.slice(2, props.favourites.length),
     };
     this.expandListRef = React.createRef();
     this.suggestionListRef = React.createRef();
@@ -151,7 +153,9 @@ class FavouriteBar extends React.Component {
       !isEqual(nextFavourites, favourites)
     ) {
       return {
-        favourites: nextFavourites,
+        firstFavourite: nextFavourites[0] || null,
+        secondFavourite: nextFavourites[1] || null,
+        favourites: nextFavourites.slice(2, nextFavourites.length),
       };
     }
     return null;
@@ -269,45 +273,50 @@ class FavouriteBar extends React.Component {
 
   render() {
     const { onClickFavourite } = this.props;
-    const { listOpen, favourites, highlightedIndex } = this.state;
+    const {
+      listOpen,
+      favourites,
+      highlightedIndex,
+      firstFavourite,
+      secondFavourite,
+    } = this.state;
     const expandIcon = this.props.favourites.length === 0 ? 'plus' : 'arrow';
-    const listFavourites = favourites.slice(2, favourites.length);
     /* eslint-disable anchor-is-valid, jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/role-supports-aria-props */
     return (
       <React.Fragment>
         <div className={styles['favourite-container']}>
           <FavouriteLocation
             text={
-              (favourites[0] && favourites[0].name) || i18next.t('add-home')
+              (firstFavourite && firstFavourite.name) || i18next.t('add-home')
             }
-            label={(favourites[0] && favourites[0].address) || ''}
+            label={(firstFavourite && firstFavourite.address) || ''}
             clickItem={() =>
-              favourites[0]
-                ? onClickFavourite(favourites[0])
+              firstFavourite
+                ? onClickFavourite(firstFavourite)
                 : this.props.onAddHome()
             }
             iconId={
-              favourites[0] && favourites[0].selectedIconId
+              firstFavourite && firstFavourite.selectedIconId
                 ? FavouriteBar.FavouriteIconIdToNameMap[
-                    favourites[0].selectedIconId
+                    firstFavourite.selectedIconId
                   ]
                 : 'home'
             }
           />
           <FavouriteLocation
             text={
-              (favourites[1] && favourites[1].name) || i18next.t('add-work')
+              (secondFavourite && secondFavourite.name) || i18next.t('add-work')
             }
-            label={(favourites[1] && favourites[1].address) || ''}
+            label={(secondFavourite && secondFavourite.address) || ''}
             clickItem={() =>
-              favourites[1]
-                ? onClickFavourite(favourites[1])
+              secondFavourite
+                ? onClickFavourite(secondFavourite)
                 : this.props.onAddWork()
             }
             iconId={
-              favourites[1] && favourites[1].selectedIconId
+              secondFavourite && secondFavourite.selectedIconId
                 ? FavouriteBar.FavouriteIconIdToNameMap[
-                    favourites[1].selectedIconId
+                    secondFavourite.selectedIconId
                   ]
                 : 'work'
             }
@@ -335,7 +344,7 @@ class FavouriteBar extends React.Component {
               ref={this.suggestionListRef}
               role="listbox"
             >
-              {listFavourites.map((item, index) =>
+              {favourites.map((item, index) =>
                 this.renderSuggestion(
                   {
                     ...item,
@@ -350,7 +359,7 @@ class FavouriteBar extends React.Component {
                   index,
                 ),
               )}
-              {listFavourites.length > 0 && <div className={styles.divider} />}
+              {favourites.length > 0 && <div className={styles.divider} />}
               {this.getCustomSuggestions().map((item, index) =>
                 this.renderSuggestion(
                   item,
