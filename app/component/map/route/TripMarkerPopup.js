@@ -8,7 +8,7 @@ import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../util/path';
 
 import RouteHeader from '../../RouteHeader';
 
-import { addFavourite } from '../../../action/FavouriteActions';
+import { saveFavourite } from '../../../action/FavouriteActions';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 
 function TripMarkerPopup(props) {
@@ -82,7 +82,7 @@ const TripMarkerPopupWithFavourite = connectToStores(
       .isFavourite(props.route.gtfsId),
     addAsFavouriteRoute: e => {
       e.stopPropagation();
-      context.executeAction(addFavourite, {
+      context.executeAction(saveFavourite, {
         type: 'route',
         gtfsId: props.route.gtfsId,
       });

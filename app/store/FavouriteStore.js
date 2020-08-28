@@ -1,6 +1,7 @@
 import Store from 'fluxible/addons/BaseStore';
 import includes from 'lodash/includes';
 import find from 'lodash/find';
+import findIndex from 'lodash/findIndex';
 import moment from 'moment';
 import { uuid } from 'uuidv4';
 import getGeocodingResults from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
@@ -111,18 +112,20 @@ export default class FavouriteStore extends Store {
     return this.favourites.filter(favourite => favourite.type === 'place');
   }
 
-  addFavourite(data) {
+  saveFavourite(data) {
     if (typeof data !== 'object') {
       throw new Error(`New favourite is not a object:${JSON.stringify(data)}`);
     }
-    let newFavourites = this.favourites;
-    if (data.favouriteId && this.getByFavouriteId(data.favouriteId)) {
-      newFavourites = newFavourites.map(currentFavourite => {
-        if (currentFavourite.favouriteId === data.favouriteId) {
-          return { ...data, lastUpdated: moment().unix() };
-        }
-        return currentFavourite;
-      });
+    const newFavourites = this.favourites;
+    const editIndex = findIndex(
+      this.favourites,
+      item => data.favouriteId === item.favouriteId,
+    );
+    if (editIndex >= 0) {
+      newFavourites[editIndex] = {
+        ...data,
+        lastUpdated: moment().unix(),
+      };
     } else {
       newFavourites.push({
         ...data,
@@ -131,6 +134,7 @@ export default class FavouriteStore extends Store {
       });
     }
     if (this.config.showLogin) {
+      // Update favourites to backend service
       updateFavourites(newFavourites)
         .then(() => {
           this.favourites = newFavourites;
@@ -148,14 +152,14 @@ export default class FavouriteStore extends Store {
     }
   }
 
-  updateFavourites(favourites) {
-    const newFavourites = favourites.map(favourite => {
-      return {
-        ...favourite,
-        lastUpdated: moment().unix(),
-      };
-    });
+  updateFavourites(newFavourites) {
+    if (!Array.isArray(newFavourites)) {
+      throw new Error(
+        `New favourites is not an array:${JSON.stringify(newFavourites)}`,
+      );
+    }
     if (this.config.showLogin) {
+      // Update favourites to backend service
       updateFavourites(newFavourites)
         .then(() => {
           this.favourites = newFavourites;
@@ -174,10 +178,14 @@ export default class FavouriteStore extends Store {
   }
 
   deleteFavourite(data) {
+    if (typeof data !== 'object') {
+      throw new Error(`Favourite is not an object:${JSON.stringify(data)}`);
+    }
     const newFavourites = this.favourites.filter(
       favourite => favourite.favouriteId !== data.favouriteId,
     );
     if (this.config.showLogin) {
+      // Delete favourite from backend service
       deleteFavourites([data.favouriteId])
         .then(() => {
           this.favourites = newFavourites;
@@ -198,7 +206,7 @@ export default class FavouriteStore extends Store {
   migrateRoutes() {
     const routes = getFavouriteRoutesStorage();
     routes.forEach(route => {
-      this.addFavourite({ type: 'route', gtfsId: route });
+      this.saveFavourite({ type: 'route', gtfsId: route });
     });
     removeItem('favouriteRoutes');
   }
@@ -216,7 +224,7 @@ export default class FavouriteStore extends Store {
         layer: stop.layer,
         selectedIconId: stop.selectedIconId,
       };
-      this.addFavourite(newStop);
+      this.saveFavourite(newStop);
     });
     removeItem('favouriteStops');
   }
@@ -250,7 +258,7 @@ export default class FavouriteStore extends Store {
             layer: data.properties.layer,
             selectedIconId: location.selectedIconId,
           };
-          this.addFavourite(newLocation);
+          this.saveFavourite(newLocation);
         }
       });
     });
@@ -258,7 +266,7 @@ export default class FavouriteStore extends Store {
   }
 
   static handlers = {
-    AddFavourite: 'addFavourite',
+    SaveFavourite: 'saveFavourite',
     UpdateFavourites: 'updateFavourites',
     DeleteFavourite: 'deleteFavourite',
   };

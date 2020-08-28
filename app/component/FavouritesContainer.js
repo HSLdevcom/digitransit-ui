@@ -9,7 +9,7 @@ import FavouriteModal from '@digitransit-component/digitransit-component-favouri
 import FavouriteEditModal from '@digitransit-component/digitransit-component-favourite-editing-modal';
 import withSearchContext from './WithSearchContext';
 import {
-  addFavourite,
+  saveFavourite,
   updateFavourites,
   deleteFavourite,
 } from '../action/FavouriteActions';
@@ -98,7 +98,7 @@ class FavouritesContainer extends React.Component {
   };
 
   saveFavourite = favourite => {
-    this.context.executeAction(addFavourite, favourite);
+    this.context.executeAction(saveFavourite, favourite);
   };
 
   deleteFavourite = favourite => {
