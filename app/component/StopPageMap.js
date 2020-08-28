@@ -11,7 +11,6 @@ import TimeStore from '../store/TimeStore';
 import OriginStore from '../store/OriginStore';
 import DestinationStore from '../store/DestinationStore';
 import PositionStore from '../store/PositionStore';
-import MapContainer from './map/MapContainer';
 import MapWithTracking from './map/MapWithTracking';
 import SelectedStopPopup from './map/popups/SelectedStopPopup';
 import SelectedStopPopupContent from './SelectedStopPopupContent';
@@ -42,11 +41,7 @@ const StopPageMap = (
       let isMounted = true;
       const fetchPlan = async targetStop => {
         if (locationState.hasLocation && locationState.address) {
-          const dist = distance(locationState, {
-            lat: stop.lat,
-            lon: stop.lon,
-          });
-          if (dist < config.suggestWalkMaxDistance) {
+          if (distance(locationState, stop) < config.suggestWalkMaxDistance) {
             const toPlace = {
               address: targetStop.name ? targetStop.name : 'stop',
               lon: targetStop.lon,
@@ -153,35 +148,14 @@ const StopPageMap = (
     locationState.lat &&
     locationState.lon &&
     stop.lat &&
-    stop.lon
+    stop.lon &&
+    distance(locationState, stop) < 1500
   ) {
     bounds = [[locationState.lat, locationState.lon], [stop.lat, stop.lon]];
   }
 
-  if (locationState.hasLocation && plan.plan.itineraries) {
-    return (
-      <MapWithTracking
-        className="flex-grow"
-        lat={stop.lat}
-        lon={stop.lon}
-        zoom={!match.params.stopId || stop.platformCode ? 18 : 16}
-        showStops
-        hilightedStops={[id]}
-        leafletObjs={leafletObjs}
-        showScaleBar
-        setInitialZoom={17}
-        origin={locationState}
-        destination={stop}
-        setInitialMapTracking
-        bounds={bounds}
-        fitBounds
-      >
-        {children}
-      </MapWithTracking>
-    );
-  }
   return (
-    <MapContainer
+    <MapWithTracking
       className="flex-grow"
       lat={stop.lat}
       lon={stop.lon}
@@ -190,9 +164,15 @@ const StopPageMap = (
       hilightedStops={[id]}
       leafletObjs={leafletObjs}
       showScaleBar
+      setInitialZoom={17}
+      origin={locationState}
+      destination={stop}
+      setInitialMapTracking
+      bounds={bounds}
+      fitBounds={bounds.length > 0}
     >
       {children}
-    </MapContainer>
+    </MapWithTracking>
   );
 };
 

@@ -285,7 +285,7 @@ export default function getStopRoutes(isTerminal = false) {
                   <Route
                     path="(.*)?"
                     getComponent={() =>
-                      import(/* webpackChunkName: "nearyou" */ './component/Loading').then(
+                      import(/* webpackChunkName: "stop" */ './component/Loading').then(
                         getDefault,
                       )
                     }
