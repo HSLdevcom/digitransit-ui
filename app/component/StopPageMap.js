@@ -33,6 +33,7 @@ const StopPageMap = (
   useEffect(() => {
     executeAction(startLocationWatch);
   }, []);
+  const maxShowRouteDistance = 900;
   const { environment } = useContext(ReactRelayContext);
   const [plan, setPlan] = useState({ plan: {}, isFetching: false });
 
@@ -41,7 +42,7 @@ const StopPageMap = (
       let isMounted = true;
       const fetchPlan = async targetStop => {
         if (locationState.hasLocation && locationState.address) {
-          if (distance(locationState, stop) < config.suggestWalkMaxDistance) {
+          if (distance(locationState, stop) < maxShowRouteDistance) {
             const toPlace = {
               address: targetStop.name ? targetStop.name : 'stop',
               lon: targetStop.lon,
@@ -149,9 +150,15 @@ const StopPageMap = (
     locationState.lon &&
     stop.lat &&
     stop.lon &&
-    distance(locationState, stop) < 1500
+    distance(locationState, stop) < maxShowRouteDistance
   ) {
-    bounds = [[locationState.lat, locationState.lon], [stop.lat, stop.lon]];
+    bounds = [
+      [locationState.lat, locationState.lon],
+      [
+        stop.lat + (stop.lat - locationState.lat),
+        stop.lon + (stop.lon - locationState.lon),
+      ],
+    ];
   }
 
   return (
