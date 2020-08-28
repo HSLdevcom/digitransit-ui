@@ -111,7 +111,7 @@ export default class FavouriteStore extends Store {
     return this.favourites.filter(favourite => favourite.type === 'place');
   }
 
-  addFavourite(data) {
+  saveFavourite(data) {
     if (typeof data !== 'object') {
       throw new Error(`New favourite is not a object:${JSON.stringify(data)}`);
     }
@@ -131,6 +131,7 @@ export default class FavouriteStore extends Store {
       });
     }
     if (this.config.showLogin) {
+      // Update favourites to backend service
       updateFavourites(newFavourites)
         .then(() => {
           this.favourites = newFavourites;
@@ -156,6 +157,7 @@ export default class FavouriteStore extends Store {
       };
     });
     if (this.config.showLogin) {
+      // Update favourites to backend service
       updateFavourites(newFavourites)
         .then(() => {
           this.favourites = newFavourites;
@@ -198,7 +200,7 @@ export default class FavouriteStore extends Store {
   migrateRoutes() {
     const routes = getFavouriteRoutesStorage();
     routes.forEach(route => {
-      this.addFavourite({ type: 'route', gtfsId: route });
+      this.saveFavourite({ type: 'route', gtfsId: route });
     });
     removeItem('favouriteRoutes');
   }
@@ -216,7 +218,7 @@ export default class FavouriteStore extends Store {
         layer: stop.layer,
         selectedIconId: stop.selectedIconId,
       };
-      this.addFavourite(newStop);
+      this.saveFavourite(newStop);
     });
     removeItem('favouriteStops');
   }
@@ -250,7 +252,7 @@ export default class FavouriteStore extends Store {
             layer: data.properties.layer,
             selectedIconId: location.selectedIconId,
           };
-          this.addFavourite(newLocation);
+          this.saveFavourite(newLocation);
         }
       });
     });
@@ -258,7 +260,7 @@ export default class FavouriteStore extends Store {
   }
 
   static handlers = {
-    AddFavourite: 'addFavourite',
+    SaveFavourite: 'saveFavourite',
     UpdateFavourites: 'updateFavourites',
     DeleteFavourite: 'deleteFavourite',
   };
