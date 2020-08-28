@@ -7,7 +7,6 @@ import moment from 'moment';
 import uniqBy from 'lodash/uniqBy';
 import polyline from 'polyline-encoded';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
-import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import withBreakpoint from '../../util/withBreakpoint';
 import TimeStore from '../../store/TimeStore';
 import OriginStore from '../../store/OriginStore';
@@ -52,37 +51,29 @@ const stopClient = context => {
     context.executeAction(stopRealTimeClient, client);
   }
 };
-const DEFAULT_INITIAL_ZOOM = 17;
 
-const handleInitialZoom = (location, stops) => {
+const handleBounds = (location, stops) => {
   if (location.lat === 0 && location.lon === 0) {
     // Still waiting for a location
-    return -1;
+    return null;
   }
   if (location && stops && stops.edges) {
     const { edges } = stops;
     if (!edges || edges.length === 0) {
       // No stops anywhere near
-      return DEFAULT_INITIAL_ZOOM;
+      return [[location.lat, location.lon], [location.lat, location.lon]];
     }
     const nearestStop = edges[0].node.place;
-
-    if (!nearestStop) {
-      // Node does'nt have a place property.
-      return DEFAULT_INITIAL_ZOOM;
-    }
-
-    const nearestStopLatLon = {
-      lat: nearestStop.lat,
-      lon: nearestStop.lon,
-    };
-    const locLatLon = { lat: location.lat, lon: location.lon };
-    const dist = distance(locLatLon, nearestStopLatLon);
-    if (dist > 400) {
-      return 16;
-    }
+    const bounds = [
+      [nearestStop.lat, nearestStop.lon],
+      [
+        location.lat + location.lat - nearestStop.lat,
+        location.lon + location.lon - nearestStop.lon,
+      ],
+    ];
+    return bounds;
   }
-  return DEFAULT_INITIAL_ZOOM;
+  return [];
 };
 function StopsNearYouMap(
   {
@@ -96,10 +87,11 @@ function StopsNearYouMap(
   },
   { ...context },
 ) {
-  const initialZoom = handleInitialZoom(locationState, stops);
-  if (initialZoom === -1) {
+  const bounds = handleBounds(locationState, stops);
+  if (!bounds) {
     return <Loading />;
   }
+
   let uniqueRealtimeTopics;
   const { environment } = useContext(ReactRelayContext);
   const [plan, setPlan] = useState({ plan: {}, isFetching: false });
@@ -241,7 +233,8 @@ function StopsNearYouMap(
         showStops
         stopsNearYouMode={mode}
         showScaleBar
-        setInitialZoom={initialZoom}
+        fitBounds
+        bounds={bounds}
         origin={origin}
         destination={destination}
         setInitialMapTracking
@@ -263,7 +256,6 @@ function StopsNearYouMap(
           showStops
           stopsNearYouMode={mode}
           showScaleBar
-          setInitialZoom={initialZoom}
           origin={origin}
           destination={destination}
           setInitialMapTracking
