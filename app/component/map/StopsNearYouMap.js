@@ -255,6 +255,8 @@ function StopsNearYouMap(
           breakpoint={breakpoint}
           showStops
           stopsNearYouMode={mode}
+          fitBounds
+          bounds={bounds}
           showScaleBar
           origin={origin}
           destination={destination}
