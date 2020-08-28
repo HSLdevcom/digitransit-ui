@@ -92,7 +92,7 @@ function StopsNearYouMap(
     return <Loading />;
   }
   let useFitBounds = true;
-  if (bounds === []) {
+  if (bounds.length === 0) {
     useFitBounds = false;
   }
   let uniqueRealtimeTopics;
