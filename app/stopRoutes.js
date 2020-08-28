@@ -271,26 +271,17 @@ export default function getStopRoutes(isTerminal = false) {
               path="(.*)?"
               getComponent={() => {
                 // eslint-disable-next-line no-nested-ternary
-                return isBrowser ? (
-                  isTerminal ? (
-                    import(/* webpackChunkName: "stop" */ './component/TerminalPageMapContainer').then(
-                      getDefault,
-                    )
-                  ) : (
-                    import(/* webpackChunkName: "stop" */ './component/StopPageMapContainer').then(
-                      getDefault,
-                    )
-                  )
-                ) : (
-                  <Route
-                    path="(.*)?"
-                    getComponent={() =>
-                      import(/* webpackChunkName: "stop" */ './component/Loading').then(
+                return isBrowser
+                  ? isTerminal
+                    ? import(/* webpackChunkName: "stop" */ './component/TerminalPageMapContainer').then(
                         getDefault,
                       )
-                    }
-                  />
-                );
+                    : import(/* webpackChunkName: "stop" */ './component/StopPageMapContainer').then(
+                        getDefault,
+                      )
+                  : import(/* webpackChunkName: "stop" */ './component/Loading').then(
+                      getDefault,
+                    );
               }}
               query={queryMap.pageMap}
               render={getComponentOrNullRenderer}
