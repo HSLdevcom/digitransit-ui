@@ -89,6 +89,7 @@ $primary-color: #007ac9;
 
       .name {
         font-size: 15px;
+        margin-right: 6px;
         font-weight: 500;
         font-stretch: normal;
         font-style: normal;
@@ -96,6 +97,9 @@ $primary-color: #007ac9;
         letter-spacing: -0.6px;
         color: #333333;
         margin-top: 3px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         &:empty {
           margin-top: 0;
         }
@@ -103,7 +107,7 @@ $primary-color: #007ac9;
 
       .address {
         font-size: 12px;
-        margin-right: 1rem;
+        margin-right: 6px;
         font-weight: normal;
         font-stretch: normal;
         font-style: normal;
