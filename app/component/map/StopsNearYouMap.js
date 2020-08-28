@@ -52,6 +52,29 @@ const stopClient = context => {
   }
 };
 
+const handleBounds = (location, stops) => {
+  if (location.lat === 0 && location.lon === 0) {
+    // Still waiting for a location
+    return null;
+  }
+  if (location && stops && stops.edges) {
+    const { edges } = stops;
+    if (!edges || edges.length === 0) {
+      // No stops anywhere near
+      return [[location.lat, location.lon], [location.lat, location.lon]];
+    }
+    const nearestStop = edges[0].node.place;
+    const bounds = [
+      [nearestStop.lat, nearestStop.lon],
+      [
+        location.lat + location.lat - nearestStop.lat,
+        location.lon + location.lon - nearestStop.lon,
+      ],
+    ];
+    return bounds;
+  }
+  return [];
+};
 function StopsNearYouMap(
   {
     breakpoint,
@@ -64,6 +87,14 @@ function StopsNearYouMap(
   },
   { ...context },
 ) {
+  const bounds = handleBounds(locationState, stops);
+  if (!bounds) {
+    return <Loading />;
+  }
+  let useFitBounds = true;
+  if (bounds.length === 0) {
+    useFitBounds = false;
+  }
   let uniqueRealtimeTopics;
   const { environment } = useContext(ReactRelayContext);
   const [plan, setPlan] = useState({ plan: {}, isFetching: false });
@@ -205,7 +236,8 @@ function StopsNearYouMap(
         showStops
         stopsNearYouMode={mode}
         showScaleBar
-        setInitialZoom={17}
+        fitBounds={useFitBounds}
+        bounds={bounds}
         origin={origin}
         destination={destination}
         setInitialMapTracking
@@ -226,8 +258,9 @@ function StopsNearYouMap(
           breakpoint={breakpoint}
           showStops
           stopsNearYouMode={mode}
+          fitBounds={useFitBounds}
+          bounds={bounds}
           showScaleBar
-          setInitialZoom={17}
           origin={origin}
           destination={destination}
           setInitialMapTracking
