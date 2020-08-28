@@ -33,7 +33,7 @@ const StopPageMap = (
   useEffect(() => {
     executeAction(startLocationWatch);
   }, []);
-  const maxShowRouteDistance = 900;
+  const maxShowRouteDistance = breakpoint === 'large' ? 900 : 470;
   const { environment } = useContext(ReactRelayContext);
   const [plan, setPlan] = useState({ plan: {}, isFetching: false });
 
