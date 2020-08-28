@@ -78,8 +78,8 @@ const handleInitialZoom = (location, stops) => {
     };
     const locLatLon = { lat: location.lat, lon: location.lon };
     const dist = distance(locLatLon, nearestStopLatLon);
-    if (dist > 300) {
-      return 15;
+    if (dist > 400) {
+      return 16;
     }
   }
   return DEFAULT_INITIAL_ZOOM;
