@@ -91,7 +91,7 @@ function StopsNearYouMap(
   if (!bounds) {
     return <Loading />;
   }
-  let useFitBounds = true;
+  let { useFitBounds } = locationState;
   if (bounds.length === 0) {
     useFitBounds = false;
   }
