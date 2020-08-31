@@ -83,6 +83,7 @@ function StopsNearYouMap(
     destination,
     stops,
     locationState,
+    useFitBounds,
     ...props
   },
   { ...context },
@@ -90,10 +91,6 @@ function StopsNearYouMap(
   const bounds = handleBounds(locationState, stops);
   if (!bounds) {
     return <Loading />;
-  }
-  let { useFitBounds } = locationState;
-  if (bounds.length === 0) {
-    useFitBounds = false;
   }
   let uniqueRealtimeTopics;
   const { environment } = useContext(ReactRelayContext);
@@ -309,12 +306,16 @@ const StopsNearYouMapWithStores = connectToStores(
     const destination = getStore(DestinationStore).getDestination();
     const language = getStore(PreferencesStore).getLanguage();
     const locationState = getStore(PositionStore).getLocationState();
+    const useFitBounds =
+      locationState.status === 'no-location' ||
+      locationState.status === 'searching-location';
     return {
       origin,
       destination,
       language,
       locationState,
       currentTime,
+      useFitBounds,
     };
   },
 );

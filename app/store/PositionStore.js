@@ -1,5 +1,3 @@
-/* eslint-disable prefer-const */
-/* eslint-disable no-unused-vars */
 import Store from 'fluxible/addons/BaseStore';
 import d from 'debug';
 import { api, init } from '../action/MockGeolocationApi';
@@ -48,7 +46,6 @@ export default class PositionStore extends Store {
       );
       let lat;
       let lon;
-      let useFitBounds = true;
       if (permission.length > 1) {
         const latlon = parseLatLon(permission);
         if (latlon) {
@@ -80,7 +77,6 @@ export default class PositionStore extends Store {
     this.name = undefined;
     this.layer = undefined;
     this.status = PositionStore.STATUS_NO_LOCATION;
-    this.useFitBounds = true;
     this.emitChange();
   }
 
@@ -135,7 +131,6 @@ export default class PositionStore extends Store {
     }
     this.heading = location.heading ? location.heading : this.heading;
     this.status = PositionStore.STATUS_FOUND_LOCATION;
-    this.useFitBounds = false;
 
     this.emitChange();
   }
@@ -157,7 +152,6 @@ export default class PositionStore extends Store {
     this.layer = location.layer;
     this.reverseGeocodingStatus = PositionStore.REVERSE_GEOCODING_STATUS_READY;
     this.status = PositionStore.STATUS_FOUND_ADDRESS;
-    this.useFitBounds = false;
     this.emitChange();
   }
 
@@ -170,8 +164,6 @@ export default class PositionStore extends Store {
       name: this.name,
       layer: this.layer,
       status: this.status,
-      useFitBounds: this.useFitBounds,
-
       hasLocation:
         (this.status === PositionStore.STATUS_FOUND_ADDRESS ||
           this.status === PositionStore.STATUS_FOUND_LOCATION) &&
