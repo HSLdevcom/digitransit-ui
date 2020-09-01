@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 import { intlShape } from 'react-intl';
 import compose from 'recompose/compose';
 import getContext from 'recompose/getContext';
