@@ -16,14 +16,14 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     executeAction: PropTypes.func.isRequired,
     headers: PropTypes.object.isRequired,
     getStore: PropTypes.func,
+    router: routerShape.isRequired,
+    match: matchShape.isRequired,
   };
 
   static propTypes = {
     stopPatterns: PropTypes.any.isRequired,
     alerts: PropTypes.any.isRequired,
     breakpoint: PropTypes.string.isRequired,
-    router: routerShape.isRequired,
-    match: matchShape.isRequired,
     loadingPosition: PropTypes.bool,
   };
 
@@ -42,8 +42,8 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
           <StopsNearYouSearch mode={mode} breakpoint={this.props.breakpoint} />
           <StopsNearYouContainer
             stopPatterns={this.props.stopPatterns}
-            match={this.props.match}
-            router={this.props.router}
+            match={this.context.match}
+            router={this.context.router}
           />
         </div>
       );
