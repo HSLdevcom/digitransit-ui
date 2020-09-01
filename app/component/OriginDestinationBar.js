@@ -98,8 +98,16 @@ class OriginDestinationBar extends React.Component {
           )}
           updateViaPoints={this.updateViaPoints}
           swapOrder={this.swapEndpoints}
-          sources={['History', 'Datasource']}
-          targets={['Locations', 'CurrentPosition', 'SelectFromOwnLocations']}
+          sources={[
+            'History',
+            'Datasource',
+            this.props.isMobile ? 'Favourite' : '',
+          ]}
+          targets={[
+            'Locations',
+            'CurrentPosition',
+            !this.props.isMobile ? 'SelectFromOwnLocations' : '',
+          ]}
           lang={this.props.language}
           disableAutoFocus={this.props.isMobile}
           isMobile={this.props.isMobile}
