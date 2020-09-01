@@ -75,6 +75,7 @@ class MapWithTrackingStateHandler extends React.Component {
     getGeoJsonData: PropTypes.func.isRequired,
     origin: dtLocationShape.isRequired,
     destination: dtLocationShape.isRequired,
+    fitBounds: PropTypes.bool,
     position: PropTypes.shape({
       hasLocation: PropTypes.bool.isRequired,
       isLocationingInProgress: PropTypes.bool.isRequired,
@@ -108,6 +109,7 @@ class MapWithTrackingStateHandler extends React.Component {
     setInitialMapTracking: false,
     setInitialZoom: undefined,
     disableLocationPopup: false,
+    fitBounds: false,
   };
 
   constructor(props) {
@@ -119,6 +121,7 @@ class MapWithTrackingStateHandler extends React.Component {
       props.destination.ready;
     this.state = {
       geoJson: {},
+      useFitBounds: props.fitBounds,
 
       // It's not that over-the-top ternary.
       // eslint-disable-next-line no-nested-ternary
@@ -145,6 +148,11 @@ class MapWithTrackingStateHandler extends React.Component {
   async componentDidMount() {
     if (!isBrowser) {
       return;
+    }
+    if (this.state.useFitBounds) {
+      this.setState({
+        useFitBounds: false,
+      });
     }
     const { config, getGeoJsonData, getGeoJsonConfig } = this.props;
     if (
@@ -359,10 +367,10 @@ class MapWithTrackingStateHandler extends React.Component {
       children,
       renderCustomButtons,
       mapLayers,
+      fitBounds,
       ...rest
     } = this.props;
     const { geoJson } = this.state;
-
     let location;
     if (
       this.state.focusOnOrigin &&
@@ -458,6 +466,7 @@ class MapWithTrackingStateHandler extends React.Component {
         lon={location ? location.lon : null}
         zoom={this.state.initialZoom}
         mapTracking={this.state.mapTracking}
+        fitBounds={this.state.useFitBounds}
         className="flex-grow"
         origin={origin}
         destination={destination}

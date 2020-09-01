@@ -83,7 +83,6 @@ function StopsNearYouMap(
     destination,
     stops,
     locationState,
-    useFitBounds,
     ...props
   },
   { ...context },
@@ -233,7 +232,7 @@ function StopsNearYouMap(
         showStops
         stopsNearYouMode={mode}
         showScaleBar
-        fitBounds={useFitBounds}
+        fitBounds={bounds.length > 0}
         bounds={bounds}
         origin={origin}
         destination={destination}
@@ -255,7 +254,7 @@ function StopsNearYouMap(
           breakpoint={breakpoint}
           showStops
           stopsNearYouMode={mode}
-          fitBounds={useFitBounds}
+          fitBounds={bounds.length > 0}
           bounds={bounds}
           showScaleBar
           origin={origin}
@@ -306,16 +305,12 @@ const StopsNearYouMapWithStores = connectToStores(
     const destination = getStore(DestinationStore).getDestination();
     const language = getStore(PreferencesStore).getLanguage();
     const locationState = getStore(PositionStore).getLocationState();
-    const useFitBounds =
-      locationState.status === 'no-location' ||
-      locationState.status === 'searching-location';
     return {
       origin,
       destination,
       language,
       locationState,
       currentTime,
-      useFitBounds,
     };
   },
 );
