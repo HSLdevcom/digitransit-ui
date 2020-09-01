@@ -5,6 +5,7 @@ import { sortSearchResults } from '@digitransit-search-util/digitransit-search-u
 import uniqByLabel from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import filterMatchingToInput from '@digitransit-search-util/digitransit-search-util-filter-matching-to-input';
 import getGeocodingResult from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
+// import { filterStopsByMode } from '@digitransit-search-util/digitransit-search-util-query-utils';
 
 function getFavouriteLocations(favourites, input) {
   return Promise.resolve(
@@ -142,7 +143,6 @@ function getOldSearches(oldSearches, input, dropLayers) {
       item => !dropLayers.includes(item.properties.layer),
     );
   }
-
   return Promise.resolve(
     take(matchingOldSearches, 10).map(item => {
       const newItem = {
@@ -165,7 +165,13 @@ function hasFavourites(context, locations, stops) {
   );
 }
 
-const routeLayers = ['route-TRAM', 'route-BUS', 'route-RAIL', 'route-FERRY', 'route-SUBWAY'];
+const routeLayers = [
+  'route-TRAM',
+  'route-BUS',
+  'route-RAIL',
+  'route-FERRY',
+  'route-SUBWAY',
+];
 const locationLayers = ['favouritePlace', 'venue', 'address', 'street'];
 /**
  * Executes the search
@@ -215,7 +221,7 @@ export function getSearchResults(
           'focus.point.lon': position.lon.toFixed(2),
         }
       : {};
-  const nearYouMode = layer ? layer : undefined;
+  const nearYouMode = layer || undefined;
   if (
     targets.includes('CurrentPosition') &&
     position.status !== 'geolocation-not-supported'
@@ -285,21 +291,22 @@ export function getSearchResults(
       const regex = minimalRegexp || undefined;
       const geocodingLayers = ['stop', 'station', 'street'];
       const feedis = feedIDs.map(v => `gtfs${v}`).join(',');
-      const x = getGeocodingResult(
-        input,
-        undefined,
-        language,
-        focusPoint,
-        feedis,
-        URL_PELIAS,
-        regex,
-        geocodingLayers,
-      ).then((results) => {
-        return filter(results)
-      })
-      console.log(x)
       searchComponents.push(
-        x
+        getGeocodingResult(
+          input,
+          undefined,
+          language,
+          focusPoint,
+          feedis,
+          URL_PELIAS,
+          regex,
+          geocodingLayers,
+        ).then(results => {
+          if (filter) {
+            return filter(results);
+          }
+          return results;
+        }),
       );
     }
     if (allSources || sources.includes('History')) {
@@ -318,7 +325,15 @@ export function getSearchResults(
       ];
       dropLayers.push(...routeLayers);
       dropLayers.push(...locationLayers);
-      searchComponents.push(getOldSearches(stopHistory, input, dropLayers));
+      if (nearYouMode) {
+        searchComponents.push(
+          getOldSearches(stopHistory, input, dropLayers).then(result =>
+            filter(result),
+          ),
+        );
+      } else {
+        searchComponents.push(getOldSearches(stopHistory, input, dropLayers));
+      }
     }
   }
 
@@ -340,7 +355,7 @@ export function getSearchResults(
         'back',
       ];
       if (nearYouMode) {
-        dropLayers.push(...routeLayers.filter(i => !(i === nearYouMode)))
+        dropLayers.push(...routeLayers.filter(i => !(i === nearYouMode)));
       }
       dropLayers.push(...locationLayers);
       searchComponents.push(getOldSearches(routeHistory, input, dropLayers));
@@ -378,5 +393,13 @@ export const executeSearch = (
   callback,
 ) => {
   callback(null); // This means 'we are searching'
-  debouncedSearch(targets, sources, layer, searchContext, filter, data, callback);
+  debouncedSearch(
+    targets,
+    sources,
+    layer,
+    searchContext,
+    filter,
+    data,
+    callback,
+  );
 };

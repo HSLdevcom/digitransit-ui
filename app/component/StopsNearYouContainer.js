@@ -2,12 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createRefetchContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { matchShape, routerShape } from 'found';
 import StopNearYou from './StopNearYou';
 import withBreakpoint from '../util/withBreakpoint';
 import { getNearYouPath } from '../util/path';
 import { addressToItinerarySearch } from '../util/otpStrings';
 import { startLocationWatch } from '../action/PositionActions';
-import { matchShape, routerShape } from 'found';
 import CityBikeStopNearYou from './CityBikeStopNearYou';
 
 class StopsNearYouContainer extends React.Component {
@@ -17,7 +17,6 @@ class StopsNearYouContainer extends React.Component {
     relay: PropTypes.shape({
       refetch: PropTypes.func.isRequired,
     }).isRequired,
-    match: matchShape.isRequired,
   };
 
   static contextTypes = {
@@ -28,16 +27,10 @@ class StopsNearYouContainer extends React.Component {
     router: routerShape.isRequired,
     match: matchShape.isRequired,
   };
-  constructor(props, context) {
-    super(props, context);
-    console.log("render page")
-    //context.executeAction(startLocationWatch);
-  }
 
   componentDidUpdate({ relay, currentTime }) {
     const currUnix = this.props.currentTime;
     if (currUnix !== currentTime) {
-      console.log("refetching")
       relay.refetch(oldVariables => {
         return { ...oldVariables, startTime: currentTime };
       });
@@ -86,7 +79,9 @@ class StopsNearYouContainer extends React.Component {
     );
   }
 }
-const StopsNearYouContainerWithBreakpoint = withBreakpoint(StopsNearYouContainer);
+const StopsNearYouContainerWithBreakpoint = withBreakpoint(
+  StopsNearYouContainer,
+);
 
 const PositioningWrapper = connectToStores(
   StopsNearYouContainerWithBreakpoint,
@@ -95,36 +90,40 @@ const PositioningWrapper = connectToStores(
     const { place, mode } = props.match.params;
     const locationState = context.getStore('PositionStore').getLocationState();
 
-    if (place !== 'POS' && (locationState.hasLocation || locationState.isLocationingInProgress || locationState.isReverseGeocodingInProgress)) {
-      return {...props};
+    if (
+      place !== 'POS' &&
+      (locationState.hasLocation ||
+        locationState.isLocationingInProgress ||
+        locationState.isReverseGeocodingInProgress)
+    ) {
+      return { ...props };
     }
     if (locationState.locationingFailed) {
       // props.router.replace(getNearYouPath(context.config.defaultEndPoint))
-      return {...props};
+      return { ...props };
     }
 
     if (
       locationState.isLocationingInProgress ||
       locationState.isReverseGeocodingInProgress
     ) {
-      return {...props};
+      return { ...props };
     }
 
     if (locationState.hasLocation) {
       const locationForUrl = addressToItinerarySearch(locationState);
       const newPlace = locationForUrl;
       props.router.replace(getNearYouPath(newPlace, mode));
-      return {...props};
+      return { ...props };
     }
     context.executeAction(startLocationWatch);
-    return {...props};
+    return { ...props };
   },
 );
 PositioningWrapper.contextTypes = {
   ...PositioningWrapper.contextTypes,
   executeAction: PropTypes.func.isRequired,
 };
-
 
 const connectedContainer = createRefetchContainer(
   connectToStores(PositioningWrapper, ['TimeStore'], ({ getStore }) => ({
@@ -217,7 +216,5 @@ const connectedContainer = createRefetchContainer(
     }
   `,
 );
-
-
 
 export { connectedContainer as default, StopsNearYouContainer as Component };

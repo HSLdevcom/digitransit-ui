@@ -51,8 +51,8 @@ const stopClient = context => {
 };
 
 const getMapitems = stops => {
-  let realtimeTopics = [];
-  let routeLines = [];
+  const realtimeTopics = [];
+  const routeLines = [];
   stops.edges.forEach(item => {
     const { place } = item.node;
     place.patterns.forEach(pattern => {
@@ -66,26 +66,19 @@ const getMapitems = stops => {
     });
   });
   return [realtimeTopics, routeLines];
-}
+};
 
 function StopsNearYouMap(
-  {
-    breakpoint,
-    origin,
-    currentTime,
-    destination,
-    stops,
-    ...props
-  },
+  { breakpoint, origin, currentTime, destination, stops, ...props },
   { ...context },
 ) {
-  let uniqueRealtimeTopics;
   const { environment } = useContext(ReactRelayContext);
   const [plan, setPlan] = useState({ plan: undefined, isFetching: false });
   const [realtimeTopics, setRealtimeTopics] = useState([]);
   const [routeLines, setRouteLines] = useState([]);
 
   const { mode } = props.match.params;
+  const uniqueRealtimeTopics = uniqBy(realtimeTopics, route => route.route);
   useEffect(() => {
     if (mode !== 'CITYBIKE') {
       const [realtimeTopicss, routeLiness] = getMapitems(stops);
@@ -94,12 +87,15 @@ function StopsNearYouMap(
     }
   }, []);
 
-  useEffect(() => {
-    startClient(context, realtimeTopics);
-    return function cleanup() {
-      stopClient(context);
-    };
-  }, [realtimeTopics])
+  useEffect(
+    () => {
+      startClient(context, realtimeTopics);
+      return function cleanup() {
+        stopClient(context);
+      };
+    },
+    [realtimeTopics],
+  );
 
   useEffect(
     () => {
@@ -147,7 +143,11 @@ function StopsNearYouMap(
           });
         }
       };
-      if (stops.edges.length > 0 && props.locationState.hasLocation && !plan.plan) {
+      if (
+        stops.edges.length > 0 &&
+        props.locationState.hasLocation &&
+        !plan.plan
+      ) {
         const stop = stops.edges[0].node.place;
         setPlan({ plan: plan.plan, isFetching: true });
         fetchPlan(stop);
@@ -181,7 +181,6 @@ function StopsNearYouMap(
       return null;
     });
   }
-  uniqueRealtimeTopics = uniqBy(realtimeTopics, route => route.route);
 
   if (uniqueRealtimeTopics.length > 0) {
     leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);

@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import take from 'lodash/take';
 import flatten from 'lodash/flatten';
+import compact from 'lodash/compact';
 import moment from 'moment';
 import { fetchQuery, graphql } from 'react-relay';
 import routeNameCompare from '@digitransit-search-util/digitransit-search-util-route-name-compare';
@@ -88,7 +89,20 @@ const stopsQuery = graphql`
       vehicleMode
     }
   }
-`
+`;
+
+const stationsQuery = graphql`
+  query digitransitSearchUtilQueryUtilsStationsQuery($ids: [String!]!) {
+    stations(ids: $ids) {
+      gtfsId
+      lat
+      lon
+      name
+      code
+      vehicleMode
+    }
+  }
+`;
 
 /** Verifies that the data for favourites is coherent and current and fixes errors */
 const verify = (stopStationMap, favourites) => {
@@ -171,10 +185,48 @@ export const getStopAndStationsQuery = favourites => {
       });
     });
 };
-export const filterStopsByMode = stops => {
-  return fetchQuery(relayEnvironment, stopsQuery, { ids: stops })
-    .then(data => data.stops)
-}
+export const filterStopsByMode = (stopsToFilter, mode) => {
+  if (!relayEnvironment) {
+    return Promise.resolve([]);
+  }
+  const ids = stopsToFilter.map(s => s.gtfsId);
+  const queries = [];
+  queries.push(
+    fetchQuery(relayEnvironment, stopsQuery, {
+      ids,
+    }),
+  );
+  queries.push(
+    fetchQuery(relayEnvironment, stationsQuery, {
+      ids,
+    }),
+  );
+
+  return Promise.all(queries)
+    .then(qres =>
+      qres.map(stopOrStation => {
+        return stopOrStation.stops
+          ? stopOrStation.stops
+          : stopOrStation.stations;
+      }),
+    )
+    .then(flatten)
+    .then(result => result.filter(res => res !== null))
+    .then(data =>
+      data.map(stop => {
+        const oldStop = stopsToFilter.find(s => s.gtfsId === stop.gtfsId);
+        const newStop = {
+          ...oldStop,
+          mode: stop.vehicleMode,
+        };
+        if (newStop.mode === mode) {
+          return newStop;
+        }
+        return undefined;
+      }),
+    )
+    .then(compact);
+};
 /**
  * Returns Favourite Route objects depending on input
  * @param {String} input Search text, if empty no objects are returned
