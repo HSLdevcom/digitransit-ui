@@ -16,6 +16,10 @@ input[type='text'] {
   margin: 0;
 }
 
+.thin {
+  height: 34px;
+}
+
 .container {
   display: flex;
   width: 100%;
@@ -23,6 +27,9 @@ input[type='text'] {
     &.favourite {
       padding-left: 1.25em;
       padding-right: 44px;
+    }
+    &.thin {
+      height: 34px;
     }
     font-size: 16px;
     font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;

@@ -180,9 +180,9 @@ const locationLayers = ['favouritePlace', 'venue', 'address', 'street'];
 export function getSearchResults(
   targets,
   sources,
-  layer,
+  transportMode,
   searchContext,
-  filter,
+  filterSearchResultsByMode,
   { input },
   callback,
 ) {
@@ -221,7 +221,7 @@ export function getSearchResults(
           'focus.point.lon': position.lon.toFixed(2),
         }
       : {};
-  const nearYouMode = layer || undefined;
+  const nearYouMode = transportMode || undefined;
   if (
     targets.includes('CurrentPosition') &&
     position.status !== 'geolocation-not-supported'
@@ -302,8 +302,8 @@ export function getSearchResults(
           regex,
           geocodingLayers,
         ).then(results => {
-          if (filter) {
-            return filter(results);
+          if (filterSearchResultsByMode) {
+            return filterSearchResultsByMode(results);
           }
           return results;
         }),
@@ -328,7 +328,7 @@ export function getSearchResults(
       if (nearYouMode) {
         searchComponents.push(
           getOldSearches(stopHistory, input, dropLayers).then(result =>
-            filter(result),
+            filterSearchResultsByMode(result),
           ),
         );
       } else {
@@ -386,9 +386,9 @@ const debouncedSearch = debounce(getSearchResults, 300, {
 export const executeSearch = (
   targets,
   sources,
-  layer,
+  transportMode,
   searchContext,
-  filter,
+  filterSearchResultsByMode,
   data,
   callback,
 ) => {
@@ -396,9 +396,9 @@ export const executeSearch = (
   debouncedSearch(
     targets,
     sources,
-    layer,
+    transportMode,
     searchContext,
-    filter,
+    filterSearchResultsByMode,
     data,
     callback,
   );

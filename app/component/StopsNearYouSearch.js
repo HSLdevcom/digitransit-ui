@@ -1,24 +1,24 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
-import { filterStopsByMode } from '@digitransit-search-util/digitransit-search-util-query-utils';
+import { filterStopsAndStationsByMode } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import withSearchContext from './WithSearchContext';
 import { getGTFSId } from '../util/suggestionUtils';
 
 function StopsNearYouSearch({ ...props }) {
-  const filterSearchResultsFromOtp = results => {
+  const filterSearchResultsByMode = results => {
     const gtfsIds = results.map(x => {
       return {
         gtfsId: getGTFSId({ id: x.properties.id }),
         ...x,
       };
     });
-    const arr = filterStopsByMode(gtfsIds, props.mode);
+    const arr = filterStopsAndStationsByMode(gtfsIds, props.mode);
     return arr;
   };
   const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
   const isMobile = props.breakpoint !== 'large';
-  const layer = `route-${props.mode}`;
+  const transportMode = `route-${props.mode}`;
   return (
     <div className="stops-near-you-search-container">
       <div className="search-container-first">
@@ -28,9 +28,9 @@ function StopsNearYouSearch({ ...props }) {
           refPoint={origin}
           className="destination"
           placeholder={`stop-near-you-${props.mode.toLowerCase()}`}
-          layer={layer}
+          transportMode={transportMode}
           value=""
-          filter={filterSearchResultsFromOtp}
+          filterSearchResultsByMode={filterSearchResultsByMode}
           sources={['Favourite', 'History', 'Datasource']}
           targets={['Stops', 'Routes']}
           isMobile={isMobile}

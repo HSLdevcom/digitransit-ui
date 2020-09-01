@@ -185,7 +185,7 @@ export const getStopAndStationsQuery = favourites => {
       });
     });
 };
-export const filterStopsByMode = (stopsToFilter, mode) => {
+export const filterStopsAndStationsByMode = (stopsToFilter, mode) => {
   if (!relayEnvironment) {
     return Promise.resolve([]);
   }

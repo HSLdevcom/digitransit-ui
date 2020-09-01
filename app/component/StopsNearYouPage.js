@@ -31,6 +31,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     let content;
     const { mode } = this.context.match.params;
     const renderDisruptionBanner = mode !== 'CITYBIKE';
+    const renderSearch = mode !== 'FERRY';
     if (this.props.loadingPosition) {
       content = <Loading />;
     } else {
@@ -39,7 +40,12 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
           {renderDisruptionBanner && (
             <DisruptionBanner alerts={this.props.alerts} mode={mode} />
           )}
-          <StopsNearYouSearch mode={mode} breakpoint={this.props.breakpoint} />
+          {renderSearch && (
+            <StopsNearYouSearch
+              mode={mode}
+              breakpoint={this.props.breakpoint}
+            />
+          )}
           <StopsNearYouContainer
             stopPatterns={this.props.stopPatterns}
             match={this.context.match}
