@@ -147,6 +147,7 @@ class DTAutosuggest extends React.Component {
       targets: props.targets,
       typingTimer: null,
       typing: false,
+      pendingSelection: null,
     };
   }
 
@@ -206,6 +207,7 @@ class DTAutosuggest extends React.Component {
             sources: ['Favourite', 'Back'],
             targets: ['Locations'],
             pendingSelection: ref.suggestion.type,
+            value: '',
           },
           () => {
             this.fetchFunction({ value: '' });
@@ -593,7 +595,7 @@ class DTAutosuggest extends React.Component {
               getSuggestionValue={this.getSuggestionValue}
               renderSuggestion={this.renderItem}
               inputProps={inputProps}
-              focusInputOnSuggestionClick={false}
+              focusInputOnSuggestionClick
               shouldRenderSuggestions={() => this.state.editing}
               highlightFirstSuggestion
               theme={styles}
