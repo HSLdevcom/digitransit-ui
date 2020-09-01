@@ -5,12 +5,13 @@ import trim from 'lodash/trim';
 import cloneDeep from 'lodash/cloneDeep';
 import { config } from 'react-transition-group';
 
-import { otpToLocation } from './otpStrings';
+import { otpToLocation, parseLatLon } from './otpStrings';
 import { OptimizeType } from '../constants';
 import {
   getCustomizedSettings,
   setCustomizedSettings,
   resetCustomizedSettings,
+  saveFutureRoutesStorage,
 } from '../store/localStorage';
 import { addAnalyticsEvent } from './analyticsUtils';
 import { getCurrentSettings, getDefaultSettings } from './planParamUtil';
@@ -118,6 +119,33 @@ export const replaceQueryParams = (router, match, newParams) => {
     ...location.query,
     ...newParams,
   });
+
+  if (
+    query &&
+    query.time &&
+    location &&
+    location.pathname.indexOf('/reitti/') === 0
+  ) {
+    const pathArray = decodeURIComponent(location.pathname)
+      .substring(1)
+      .split('/');
+    pathArray.shift();
+    const originArray = pathArray[0].split('::');
+    const destinationArray = pathArray[1].split('::');
+    const newRoute = {
+      origin: {
+        address: originArray[0],
+        coordinates: parseLatLon(originArray[1]),
+      },
+      destination: {
+        address: destinationArray[0],
+        coordinates: parseLatLon(destinationArray[1]),
+      },
+      arriveBy: query.arriveBy ? query.arriveBy : false,
+      time: query.time,
+    };
+    saveFutureRoutesStorage(newRoute);
+  }
 
   router.replace({
     ...location,

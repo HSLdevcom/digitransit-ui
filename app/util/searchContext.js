@@ -8,6 +8,7 @@ const searchContext = {
   positionStore: null,
   startLocationWatch: null,
   saveSearch: null,
+  saveFutureRoute: null,
   isPeliasLocationAware: false,
   minimalRegexp: null,
   lineRegexp: null,
@@ -40,6 +41,7 @@ const searchContext = {
   getFavouriteStops: () => [],
   getFavouriterRoutes: () => [],
   getLanguage: () => 'en',
+  getFutureRoutes: () => [],
 };
 
 export default searchContext;

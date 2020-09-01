@@ -32,28 +32,11 @@ export default function isDuplicate(item1, item2) {
     const o2 = props2.origin;
     const d2 = props2.destination;
 
-    const name1 = `${o1.name}//${d1.name}//${props1.arriveBy}//${
-      props1.timestamp
-    }`;
-    const name2 = `${o2.name}//${d2.name}//${props2.arriveBy}//${
-      props2.timestamp
-    }`;
-    const label1 = `${o1.label}//${d1.label}//${props1.arriveBy}//${
-      props1.timestamp
-    }`;
-    const label2 = `${o2.label}//${d2.label}//${props2.arriveBy}//${
-      props2.timestamp
-    }`;
+    const name1 = `${o1.name}//${o1.locality}//${d1.name}//${d1.locality}`;
+    const name2 = `${o2.name}//${o2.locality}//${d2.name}//${d2.locality}`;
 
-    if (
-      Math.abs(o1.coordinates[0] - o2.coordinates[0]) < 1e-6 &&
-      Math.abs(o1.coordinates[1] - o2.coordinates[1]) < 1e-6 &&
-      Math.abs(d1.coordinates[0] - d2.coordinates[0]) < 1e-6 &&
-      Math.abs(d1.coordinates[1] - d2.coordinates[1]) < 1e-6
-    ) {
-      if (truEq(name1, name2) || truEq(label1, label2)) {
-        return true;
-      }
+    if (truEq(name1, name2)) {
+      return true;
     }
     return false;
   } else if (item1.type === 'FutureRoute' || item2.type === 'FutureRoute') {

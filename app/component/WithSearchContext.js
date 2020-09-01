@@ -244,6 +244,34 @@ export default function withSearchContext(WrappedComponent) {
         return;
       }
 
+      if (
+        origin.ready &&
+        destination.ready &&
+        locationWithItineraryParams.query &&
+        JSON.stringify(locationWithItineraryParams.query) !== '{}'
+      ) {
+        const newRoute = {
+          origin: {
+            address: origin.address,
+            coordinates: {
+              lat: origin.lat,
+              lon: origin.lon,
+            },
+          },
+          destination: {
+            address: destination.address,
+            coordinates: {
+              lat: origin.lat,
+              lon: origin.lon,
+            },
+          },
+          arriveBy: locationWithItineraryParams.query.arriveBy
+            ? locationWithItineraryParams.query.arriveBy
+            : false,
+          time: locationWithItineraryParams.query.time,
+        };
+        this.context.executeAction(searchContext.saveFutureRoute, newRoute);
+      }
       navigateTo({
         base: locationWithItineraryParams,
         origin,
@@ -258,17 +286,25 @@ export default function withSearchContext(WrappedComponent) {
       let path = '/reitti/';
       // set origin
       path += encodeAddressAndCoordinatesArray(
-        item.properties.origin.label,
-        item.properties.origin.coordinates,
+        `${item.properties.origin.name}, ${item.properties.origin.locality}`,
+        [
+          item.properties.origin.coordinates.lat,
+          item.properties.origin.coordinates.lon,
+        ],
       );
       // set destination
       path = `${path}/${encodeAddressAndCoordinatesArray(
-        item.properties.destination.label,
-        item.properties.destination.coordinates,
+        `${item.properties.destination.name}, ${
+          item.properties.destination.locality
+        }`,
+        [
+          item.properties.destination.coordinates.lat,
+          item.properties.destination.coordinates.lon,
+        ],
       )}`;
       // set arriveBy and time
       path = `${path}?${item.properties.arriveBy ? 'arriveBy=true&' : ''}time=${
-        item.properties.timestamp
+        item.properties.time
       }`;
       this.context.router.push(path);
     };

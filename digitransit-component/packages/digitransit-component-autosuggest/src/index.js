@@ -36,21 +36,33 @@ Loading.propTypes = {
 };
 
 function suggestionToAriaContent(item) {
-  let iconstr;
-  if (item.properties.mode) {
-    iconstr = `icon-icon_${item.mode}`;
+  if (item.type !== 'FutureRoute') {
+    let iconstr;
+    if (item.properties.mode) {
+      iconstr = `icon-icon_${item.mode}`;
+    } else {
+      const layer = item.properties.layer.replace('route-', '').toLowerCase();
+      iconstr = i18next.t(layer);
+    }
+    const [name, label] = getNameLabel(item.properties, true);
+    return [iconstr, name, label];
   } else {
-    const layer = item.properties.layer.replace('route-', '').toLowerCase();
-    iconstr = i18next.t(layer);
+    return [
+      i18next.t('future-route'),
+      `${i18next.t('origin')} ${item.properties.origin.name}, ${
+        item.properties.origin.locality
+      }, ${i18next.t('destination')} ${item.properties.destination.name}, ${
+        item.properties.destination.locality
+      }`,
+      item.translatedText,
+    ];
   }
-  const [name, label] = getNameLabel(item.properties, true);
-  return [iconstr, name, label];
 }
 
 function translateFutureRouteSuggestionTime(item) {
   moment.locale(i18next.language);
 
-  const time = moment.unix(item.properties.timestamp);
+  const time = moment.unix(item.properties.time);
   let str = item.properties.arriveBy
     ? i18next.t('arrival')
     : i18next.t('departure');
@@ -372,7 +384,7 @@ class DTAutosuggest extends React.Component {
               return (
                 suggestion.type !== 'FutureRoute' ||
                 (suggestion.type === 'FutureRoute' &&
-                  suggestion.properties.timestamp > moment().unix())
+                  suggestion.properties.time > moment().unix())
               );
             })
             .map(suggestion => {
@@ -467,7 +479,9 @@ class DTAutosuggest extends React.Component {
       ...item,
       translatedText: translateFutureRouteSuggestionTime(item),
     };
-    const ariaContent = suggestionToAriaContent(item);
+    const ariaContent = suggestionToAriaContent(
+      item.type === 'FutureRoute' ? newItem : item,
+    );
     return (
       <SuggestionItem
         item={item.type === 'FutureRoute' ? newItem : item}

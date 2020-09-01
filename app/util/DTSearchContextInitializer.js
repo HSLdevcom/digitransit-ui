@@ -12,9 +12,11 @@ import {
   getFavouriteStops,
   getLanguage,
   clearOldSearches,
+  getFutureRoutes,
 } from './storeUtils';
 import { startLocationWatch } from '../action/PositionActions';
 import { saveSearch } from '../action/SearchActions';
+import { saveFutureRoute } from '../action/FutureRoutesActions';
 
 export default function intializeSearchContext(context, searchContext) {
   // DT-3424: Set SearchContext for Autosuggest and searchUtils.
@@ -45,4 +47,6 @@ export default function intializeSearchContext(context, searchContext) {
   searchContext.startLocationWatch = startLocationWatch;
   searchContext.saveSearch = saveSearch;
   searchContext.clearOldSearches = clearOldSearches;
+  searchContext.getFutureRoutes = getFutureRoutes;
+  searchContext.saveFutureRoute = saveFutureRoute;
 }

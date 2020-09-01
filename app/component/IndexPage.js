@@ -251,7 +251,12 @@ class IndexPage extends React.Component {
               destinationPlaceHolder="search-destination-index"
               lang={lang}
               sources={['Favourite', 'History', 'Datasource']}
-              targets={['Locations', 'CurrentPosition', 'MapPosition']}
+              targets={[
+                'Locations',
+                'CurrentPosition',
+                'MapPosition',
+                'FutureRoutes',
+              ]}
               disableAutoFocus
               isMobile
               itineraryParams={itineraryParams}
