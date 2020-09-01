@@ -213,7 +213,6 @@
     "babel-loader": "8.1.0",
     "babel-plugin-inline-react-svg": "1.1.1",
     "babel-plugin-istanbul": "6.0.0",
-    "babel-plugin-styled-components": "1.11.1",
     "babel-plugin-transform-react-remove-prop-types": "0.4.24",
     "base64-arraybuffer": "0.1.5",
     "chai": "4.2.0",
