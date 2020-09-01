@@ -18,6 +18,7 @@ $primary-color: #007ac9;
     margin: 0;
     padding: 0;
     overflow-y: scroll;
+    box-sizing: border-box;
     .favourite-edit-list-item:not(:first-child) {
       margin-top: 9px;
     }
@@ -25,11 +26,14 @@ $primary-color: #007ac9;
       display: flex;
       flex-direction: row;
       align-items: center;
+      margin: 0;
+      padding: 0;
       width: 100%;
       min-height: 50px;
       border-radius: 5px;
       border: solid 1px #d9d9d9;
       list-style: none;
+      box-sizing: border-box;
 
       .favourite-edit-list-item-left {
         display: flex;
