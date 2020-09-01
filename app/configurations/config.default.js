@@ -109,7 +109,7 @@ export default {
     usingWheelchair: 0,
     bikeSpeed: 5.55,
     minTransferTime: 120,
-    optimize: 'QUICK',
+    optimize: 'GREENWAYS',
     preferredRoutes: [],
     ticketTypes: 'none',
     transferPenalty: 0,
