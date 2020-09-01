@@ -5,7 +5,6 @@ import { sortSearchResults } from '@digitransit-search-util/digitransit-search-u
 import uniqByLabel from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import filterMatchingToInput from '@digitransit-search-util/digitransit-search-util-filter-matching-to-input';
 import getGeocodingResult from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
-// import { filterStopsByMode } from '@digitransit-search-util/digitransit-search-util-query-utils';
 
 function getFavouriteLocations(favourites, input) {
   return Promise.resolve(
