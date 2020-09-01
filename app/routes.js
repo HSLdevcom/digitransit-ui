@@ -20,8 +20,6 @@ import {
 
 import getStopRoutes from './stopRoutes';
 import routeRoutes from './routeRoutes';
-
-import SelectFromMapHeader from './component/SelectFromMapHeader';
 import { validateServiceTimeRange } from './util/timeUtils';
 import { isBrowser } from './util/browser';
 
@@ -474,30 +472,6 @@ export default config => {
         }
       />
       <Route
-        path="/suosikki/uusi"
-        getComponent={() =>
-          import(/* webpackChunkName: "add-favourite" */ './component/AddFavouritePage')
-            .then(getDefault)
-            .catch(errorLoading)
-        }
-      />
-      <Route
-        path="/suosikki/muokkaa/sijainti/:id"
-        getComponent={() =>
-          import(/* webpackChunkName: "add-favourite" */ './component/AddFavouritePage')
-            .then(getDefault)
-            .catch(errorLoading)
-        }
-      />
-      <Route
-        path="/suosikki/muokkaa/pysakki/:id"
-        getComponent={() =>
-          import(/* webpackChunkName: "add-favourite" */ './component/AddFavouritePage')
-            .then(getDefault)
-            .catch(errorLoading)
-        }
-      />
-      <Route
         path="/tietoja-palvelusta"
         getComponent={() =>
           import(/* webpackChunkName: "about" */ './component/AboutPage').then(
@@ -523,53 +497,6 @@ export default config => {
       <Route path="/js/*" Component={Error404} />
       <Route path="/css/*" Component={Error404} />
       <Route path="/assets/*" Component={Error404} />
-      <Route path="/:from?/SelectFromMap" topBarOptions={{ hidden: true }}>
-        {{
-          selectFromMapHeader: (
-            <Route
-              getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/SelectFromMapHeader.js').then(
-                  getDefault,
-                )
-              }
-              render={() => <SelectFromMapHeader isDestination />}
-            />
-          ),
-          map: (
-            <Route
-              getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/map/SelectFromMapPageMap.js').then(
-                  getDefault,
-                )
-              }
-            />
-          ),
-        }}
-      </Route>
-      <Route path="/SelectFromMap/:to?" topBarOptions={{ hidden: true }}>
-        {{
-          selectFromMapHeader: (
-            <Route
-              getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/SelectFromMapHeader.js').then(
-                  getDefault,
-                )
-              }
-              render={() => <SelectFromMapHeader isDestination={false} />}
-            />
-          ),
-          map: (
-            <Route
-              // disableMapOnMobile
-              getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/map/SelectFromMapPageMap.js').then(
-                  getDefault,
-                )
-              }
-            />
-          ),
-        }}
-      </Route>
       <Route path="/:from?/:to?" topBarOptions={{ disableBackButton: true }}>
         {{
           title: (

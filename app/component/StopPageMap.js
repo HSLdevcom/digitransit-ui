@@ -1,69 +1,106 @@
 import PropTypes from 'prop-types';
-import React from 'react';
-import cx from 'classnames';
+import React, { useEffect, useContext, useState } from 'react';
 import { matchShape, routerShape } from 'found';
-import MapContainer from './map/MapContainer';
+import moment from 'moment';
+import { connectToStores } from 'fluxible-addons-react';
+
+import distance from '@digitransit-search-util/digitransit-search-util-distance';
+import { graphql, fetchQuery } from 'react-relay';
+import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
+import TimeStore from '../store/TimeStore';
+import OriginStore from '../store/OriginStore';
+import DestinationStore from '../store/DestinationStore';
+import PositionStore from '../store/PositionStore';
+import MapWithTracking from './map/MapWithTracking';
 import SelectedStopPopup from './map/popups/SelectedStopPopup';
 import SelectedStopPopupContent from './SelectedStopPopupContent';
-import Icon from './Icon';
+import { dtLocationShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
 import VehicleMarkerContainer from './map/VehicleMarkerContainer';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
 import BackButton from './BackButton';
+import { startLocationWatch } from '../action/PositionActions';
+import { addressToItinerarySearch } from '../util/otpStrings';
+import ItineraryLine from './map/ItineraryLine';
+import Loading from './Loading';
 
-const toggleFullscreenMap = (fullscreenMap, location, router) => {
-  addAnalyticsEvent({
-    action: fullscreenMap ? 'MinimizeMapOnMobile' : 'MaximizeMapOnMobile',
-    category: 'Map',
-    name: 'StopPage',
-  });
-  if (fullscreenMap) {
-    router.go(-1);
-    return;
-  }
-  router.push({
-    ...location,
-    state: { ...location.state, fullscreenMap: true },
-  });
-};
-
-/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-const fullscreenMapOverlay = (fullscreenMap, location, router) =>
-  !fullscreenMap && (
-    <div
-      className="map-click-prevent-overlay"
-      key="overlay"
-      onClick={() => {
-        toggleFullscreenMap(fullscreenMap, location, router);
-      }}
-    />
-  );
-
-const fullscreenMapToggle = (fullscreenMap, location, router) => (
-  <div
-    className={cx('fullscreen-toggle', 'stopPage', {
-      expanded: fullscreenMap,
-    })}
-    key="fullscreen-toggle"
-    onClick={() => {
-      toggleFullscreenMap(fullscreenMap, location, router);
-    }}
-  >
-    {fullscreenMap ? (
-      <Icon img="icon-icon_minimize" className="cursor-pointer" />
-    ) : (
-      <Icon img="icon-icon_maximize" className="cursor-pointer" />
-    )}
-  </div>
-);
-/* eslint-enable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-
-const StopPageMap = ({ stop, breakpoint }, { config, match, router }) => {
+const StopPageMap = (
+  { stop, breakpoint, currentTime, locationState },
+  { config, match, executeAction },
+) => {
   if (!stop) {
     return false;
   }
-  const fullscreenMap =
-    match.location.state && match.location.state.fullscreenMap === true;
+  useEffect(() => {
+    executeAction(startLocationWatch);
+  }, []);
+  const maxShowRouteDistance = breakpoint === 'large' ? 900 : 470;
+  const { environment } = useContext(ReactRelayContext);
+  const [plan, setPlan] = useState({ plan: {}, isFetching: false });
+
+  useEffect(
+    () => {
+      let isMounted = true;
+      const fetchPlan = async targetStop => {
+        if (locationState.hasLocation && locationState.address) {
+          if (distance(locationState, stop) < maxShowRouteDistance) {
+            const toPlace = {
+              address: targetStop.name ? targetStop.name : 'stop',
+              lon: targetStop.lon,
+              lat: targetStop.lat,
+            };
+            const variables = {
+              fromPlace: addressToItinerarySearch(locationState),
+              toPlace: addressToItinerarySearch(toPlace),
+              date: moment(currentTime * 1000).format('YYYY-MM-DD'),
+              time: moment(currentTime * 1000).format('HH:mm:ss'),
+            };
+            const query = graphql`
+              query StopPageMapQuery(
+                $fromPlace: String!
+                $toPlace: String!
+                $date: String!
+                $time: String!
+              ) {
+                plan: plan(
+                  fromPlace: $fromPlace
+                  toPlace: $toPlace
+                  date: $date
+                  time: $time
+                  transportModes: [{ mode: WALK }]
+                ) {
+                  itineraries {
+                    legs {
+                      mode
+                      ...ItineraryLine_legs
+                    }
+                  }
+                }
+              }
+            `;
+            fetchQuery(environment, query, variables).then(
+              ({ plan: result }) => {
+                if (isMounted) {
+                  setPlan({ plan: result, isFetching: false });
+                }
+              },
+            );
+          }
+        }
+      };
+      if (stop && locationState.hasLocation) {
+        setPlan({ plan: plan.plan, isFetching: true });
+        fetchPlan(stop);
+      }
+      return () => {
+        isMounted = false;
+      };
+    },
+    [locationState.status],
+  );
+  if (locationState.loadingPosition) {
+    return <Loading />;
+  }
+
   const leafletObjs = [];
   const children = [];
   if (config.showVehiclesOnStopPage) {
@@ -79,8 +116,6 @@ const StopPageMap = ({ stop, breakpoint }, { config, match, router }) => {
       </SelectedStopPopup>,
     );
   } else {
-    children.push(fullscreenMapOverlay(fullscreenMap, match.location, router));
-    children.push(fullscreenMapToggle(fullscreenMap, match.location, router));
     children.push(
       <BackButton
         icon="icon-icon_arrow-collapse--left"
@@ -91,23 +126,60 @@ const StopPageMap = ({ stop, breakpoint }, { config, match, router }) => {
     );
   }
 
-  const showScale = fullscreenMap || breakpoint === 'large';
+  if (plan.plan.itineraries) {
+    leafletObjs.push(
+      ...plan.plan.itineraries.map((itinerary, i) => (
+        <ItineraryLine
+          key="itinerary"
+          hash={i}
+          legs={itinerary.legs}
+          passive={false}
+          showIntermediateStops={false}
+          streetMode="walk"
+        />
+      )),
+    );
+  }
 
   const id = match.params.stopId || match.params.terminalId;
 
+  let bounds = [];
+  if (
+    locationState &&
+    locationState.lat &&
+    locationState.lon &&
+    stop.lat &&
+    stop.lon &&
+    distance(locationState, stop) < maxShowRouteDistance
+  ) {
+    bounds = [
+      [locationState.lat, locationState.lon],
+      [
+        stop.lat + (stop.lat - locationState.lat),
+        stop.lon + (stop.lon - locationState.lon),
+      ],
+    ];
+  }
+
   return (
-    <MapContainer
-      className="full"
+    <MapWithTracking
+      className="flex-grow"
       lat={stop.lat}
       lon={stop.lon}
       zoom={!match.params.stopId || stop.platformCode ? 18 : 16}
       showStops
       hilightedStops={[id]}
       leafletObjs={leafletObjs}
-      showScaleBar={showScale}
+      showScaleBar
+      setInitialZoom={17}
+      origin={locationState}
+      destination={stop}
+      setInitialMapTracking
+      bounds={bounds}
+      fitBounds={bounds.length > 0}
     >
       {children}
-    </MapContainer>
+    </MapWithTracking>
   );
 };
 
@@ -115,6 +187,8 @@ StopPageMap.contextTypes = {
   config: PropTypes.object.isRequired,
   match: matchShape.isRequired,
   router: routerShape.isRequired,
+  executeAction: PropTypes.func.isRequired,
+  getStore: PropTypes.func.isRequired,
 };
 
 StopPageMap.propTypes = {
@@ -124,6 +198,8 @@ StopPageMap.propTypes = {
     platformCode: PropTypes.string,
   }),
   breakpoint: PropTypes.string.isRequired,
+  locationState: dtLocationShape,
+  currentTime: PropTypes.number.isRequired,
 };
 
 StopPageMap.defaultProps = {
@@ -132,4 +208,22 @@ StopPageMap.defaultProps = {
 
 const componentWithBreakpoint = withBreakpoint(StopPageMap);
 
-export { componentWithBreakpoint as default, StopPageMap as Component };
+const StopsNearYouMapWithStores = connectToStores(
+  componentWithBreakpoint,
+  [OriginStore, TimeStore, DestinationStore, PositionStore],
+  ({ getStore }) => {
+    const currentTime = getStore(TimeStore)
+      .getCurrentTime()
+      .unix();
+    const locationState = getStore(PositionStore).getLocationState();
+    return {
+      locationState,
+      currentTime,
+    };
+  },
+);
+
+export {
+  StopsNearYouMapWithStores as default,
+  componentWithBreakpoint as Component,
+};

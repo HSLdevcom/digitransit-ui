@@ -75,7 +75,9 @@ class StopsNearYouContainer extends React.Component {
 
   render() {
     return (
-      <div className="stops-near-you-container">{this.createNearbyStops()}</div>
+      <div role="list" className="stops-near-you-container">
+        {this.createNearbyStops()}
+      </div>
     );
   }
 }

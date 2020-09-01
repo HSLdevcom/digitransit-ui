@@ -1,9 +1,6 @@
 import Fluxible from 'fluxible';
 
 import routes from './routes';
-import FavouriteLocationStore from './store/FavouriteLocationStore';
-import FavouriteRoutesStore from './store/FavouriteRoutesStore';
-import FavouriteStopsStore from './store/FavouriteStopsStore';
 import MessageStore from './store/MessageStore';
 import OldSearchesStore from './store/OldSearchesStore';
 import PositionStore from './store/PositionStore';
@@ -26,9 +23,6 @@ export default config => {
     component: routes(config),
   });
 
-  app.registerStore(FavouriteLocationStore);
-  app.registerStore(FavouriteRoutesStore);
-  app.registerStore(FavouriteStopsStore);
   app.registerStore(MessageStore);
   app.registerStore(OldSearchesStore);
   app.registerStore(PositionStore);

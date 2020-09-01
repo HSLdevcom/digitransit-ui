@@ -164,7 +164,7 @@ function setUpOIDC() {
     request(
       {
         auth: {
-          bearer: req.user.token.access_token,
+          bearer: req.user.token.id_token,
         },
         method: req.method,
         url: `${FavouriteHost}/${req.user.data.sub}`,

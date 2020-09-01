@@ -287,7 +287,7 @@ export function getRoutesQuery(input, feedIds, nearYouMode) {
         .filter(route => !!route)
         .sort((x, y) => routeNameCompare(x.properties, y.properties)),
     )
-    .then(suggestions => take(suggestions, 10));
+    .then(suggestions => take(suggestions, 100));
 }
 
 export const withCurrentTime = location => {

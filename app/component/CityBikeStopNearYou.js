@@ -20,7 +20,7 @@ const CityBikeStopNearYou = ({ stop }, { config }) => {
       <div className="stop-near-you-container">
         <div className="stop-near-you-header-container">
           <div className="stop-header-content">
-            <div className="stop-near-you-name">{stop.name}</div>
+            <h3 className="stop-near-you-name">{stop.name}</h3>
             <div className="bike-station-code">
               <FormattedMessage
                 id="citybike-station"

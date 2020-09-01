@@ -15,7 +15,11 @@ const StopNearYouDepartureRowContainer = ({ stopTimes, ...props }) => {
     );
   });
 
-  return <div className="near-departures-container">{departures}</div>;
+  return (
+    <div role="list" className="near-departures-container">
+      {departures}
+    </div>
+  );
 };
 
 DepartureRow.propTypes = {

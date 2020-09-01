@@ -755,6 +755,9 @@ const translations = {
       'There {len, plural, =1 {is 1 suggestion} other {are {len} suggestions}} available',
     'search-current-suggestion': 'Current selection: {selection}',
     'select-date': 'Select date',
+    'select-from-map-destination': 'Select destination',
+    'select-from-map-no-title': 'No title',
+    'select-from-map-origin': 'Select origin',
     'set-time-earlier-button-label': 'Set travel time to earlier',
     'set-time-later-button-label': 'Set travel time to later',
     'set-time-now-button-label': 'Set travel time to current',
@@ -1017,6 +1020,8 @@ const translations = {
       'No route suggestions were found because the origin and destination are very close to each other.',
     'no-route-origin-same-as-destination':
       'No route suggestions were found because the origin and destination are the same.',
+    'no-route-showing-alternative-options':
+      'No route suggestions were found with the current settings. However, we found the following route options:',
     'no-route-start-date-too-early':
       'The timetable does not include earlier departures.',
     'no-route-start-end': 'Please select origin and destination.',
@@ -1575,6 +1580,9 @@ const translations = {
     'add-via-duration-button-label-open':
       'Sulje välipisteen {index} pysähdyksen kesto valitsin',
     'select-date': 'Valitse päivä',
+    'select-from-map-destination': 'Valitse määränpää',
+    'select-from-map-no-title': 'Ei otsikkoa',
+    'select-from-map-origin': 'Valitse lähtöpaikka',
     'set-time-earlier-button-label': 'Aikaista matkustusajankohtaa',
     'set-time-later-button-label': 'Myöhäistä matkustusajankohtaa',
     'set-time-now-button-label': 'Aseta matkustusajankohdaksi nyt',
@@ -1833,6 +1841,8 @@ const translations = {
       'Reittiehdotuksia ei löytynyt, koska lähtöpaikka ja määränpää ovat niin lähellä toisiaan.',
     'no-route-origin-same-as-destination':
       'Reittiehdotuksia ei löytynyt, koska lähtöpaikka on sama kuin määränpää.',
+    'no-route-showing-alternative-options':
+      'Asettamillasi asetuksilla ei löytynyt yhtään reittiehdotusta. Löysimme kuitenkin seuraavia reittivaihtoehtoja:',
     'no-route-start-date-too-early': 'Aikataulu ei sisällä aiempia reittejä.',
     'no-route-start-end': 'Valitse lähtöpaikka ja määränpää.',
     'no-transfers-margin': '1 min',
@@ -3443,6 +3453,8 @@ const translations = {
       'Din avfärdsplats och destination är väldigt nära varandra, vill du ändra avfärdsplats eller destination?',
     'no-route-origin-same-as-destination':
       'No routes were found because the origin is same as the destination.',
+    'no-route-showing-alternative-options':
+      'Inga ruttförslag hittades med de aktuella inställningarna. Vi hittade dock följande ruttalternativ:',
     'no-route-start-date-too-early':
       'Tidtabellen har inga resor som avgår tidigare.',
     'no-route-start-end': 'Välj avfärdsplats och destination.',
@@ -3560,6 +3572,9 @@ const translations = {
     'search-search-results-but-no-destination':
       'Se resultaten under fliken Linje eller hållplats',
     'searching-position': 'Söker position...',
+    'select-from-map-destination': 'Välj destination',
+    'select-from-map-no-title': 'Ingen rubrik',
+    'select-from-map-origin': 'Välj avfärdsplats',
     'select-map-layers-header': 'Vad vill du visa på kartan?',
     'select-position': 'Välj din position bland tidigare sökningar',
     send: 'Skicka',

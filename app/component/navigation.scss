@@ -202,7 +202,32 @@ $content-background-color: $background-color;
 .back-button-select-from-map { // DT-3614
   .icon {
     font-size: $font-size-large;
+    margin-top: 0.75em; // DT-3609
+    margin-left: 1.25em; // DT-3609
   }
+}
+
+.back-button-select-from-map-div { // DT-3609
+  min-height: 3em;
+  box-shadow: 0 2 10 0 rgba(0, 0, 0, 0.2);
+  background-color: #ffffff;
+}
+
+.back-button-select-from-map-title { // DT-3609
+  font-size: 18px;
+  font-weight: 500px;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.6;
+  text-align: center;
+  vertical-align: text-top;
+  color: #333333;
+  position: relative;
+  top: 0.75em;
+  white-space: nowrap;
+  margin-left: calc(50% - 2.5em); // DT-3614
+  transform: translateX(-50%); // DT-3614
 }
 
 .main-menu {

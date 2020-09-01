@@ -9,6 +9,8 @@ import polyline from 'polyline-encoded';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import withBreakpoint from '../../util/withBreakpoint';
 import TimeStore from '../../store/TimeStore';
+import OriginStore from '../../store/OriginStore';
+import DestinationStore from '../../store/DestinationStore';
 import PositionStore from '../../store/PositionStore';
 import { dtLocationShape } from '../../util/shapes';
 import PreferencesStore from '../../store/PreferencesStore';
@@ -50,65 +52,67 @@ const stopClient = context => {
   }
 };
 
-const getMapitems = stops => {
-  const realtimeTopics = [];
-  const routeLines = [];
-  stops.edges.forEach(item => {
-    const { place } = item.node;
-    place.patterns.forEach(pattern => {
-      const feedId = pattern.route.gtfsId.split(':')[0];
-      realtimeTopics.push({
-        feedId,
-        route: pattern.route.gtfsId.split(':')[1],
-        shortName: pattern.route.shortName,
-      });
-      routeLines.push(pattern);
-    });
-  });
-  return [realtimeTopics, routeLines];
+const handleBounds = (location, stops) => {
+  if (location.lat === 0 && location.lon === 0) {
+    // Still waiting for a location
+    return null;
+  }
+  if (location && stops && stops.edges) {
+    const { edges } = stops;
+    if (!edges || edges.length === 0) {
+      // No stops anywhere near
+      return [[location.lat, location.lon], [location.lat, location.lon]];
+    }
+    const nearestStop = edges[0].node.place;
+    const bounds = [
+      [nearestStop.lat, nearestStop.lon],
+      [
+        location.lat + location.lat - nearestStop.lat,
+        location.lon + location.lon - nearestStop.lon,
+      ],
+    ];
+    return bounds;
+  }
+  return [];
 };
-
 function StopsNearYouMap(
-  { breakpoint, origin, currentTime, destination, stops, ...props },
+  {
+    breakpoint,
+    origin,
+    currentTime,
+    destination,
+    stops,
+    locationState,
+    ...props
+  },
   { ...context },
 ) {
+  const bounds = handleBounds(locationState, stops);
+  if (!bounds) {
+    return <Loading />;
+  }
+  let uniqueRealtimeTopics;
   const { environment } = useContext(ReactRelayContext);
-  const [plan, setPlan] = useState({ plan: undefined, isFetching: false });
-  const [realtimeTopics, setRealtimeTopics] = useState([]);
-  const [routeLines, setRouteLines] = useState([]);
-
-  const { mode } = props.match.params;
-  const uniqueRealtimeTopics = uniqBy(realtimeTopics, route => route.route);
+  const [plan, setPlan] = useState({ plan: {}, isFetching: false });
   useEffect(() => {
-    if (mode !== 'CITYBIKE') {
-      const [realtimeTopicss, routeLiness] = getMapitems(stops);
-      setRealtimeTopics(realtimeTopicss);
-      setRouteLines(routeLiness);
-    }
+    startClient(context, uniqueRealtimeTopics);
+    return function cleanup() {
+      stopClient(context);
+    };
   }, []);
-
-  useEffect(
-    () => {
-      startClient(context, realtimeTopics);
-      return function cleanup() {
-        stopClient(context);
-      };
-    },
-    [realtimeTopics],
-  );
 
   useEffect(
     () => {
       let isMounted = true;
       const fetchPlan = async stop => {
-        if (props.locationState.hasLocation && props.locationState.address) {
+        if (locationState.hasLocation && locationState.address) {
           const toPlace = {
             address: stop.name ? stop.name : 'stop',
             lon: stop.lon,
             lat: stop.lat,
           };
           const variables = {
-            fromPlace: addressToItinerarySearch(props.locationState),
+            fromPlace: addressToItinerarySearch(locationState),
             toPlace: addressToItinerarySearch(toPlace),
             date: moment(currentTime * 1000).format('YYYY-MM-DD'),
             time: moment(currentTime * 1000).format('HH:mm:ss'),
@@ -143,11 +147,7 @@ function StopsNearYouMap(
           });
         }
       };
-      if (
-        stops.edges.length > 0 &&
-        props.locationState.hasLocation &&
-        !plan.plan
-      ) {
+      if (stops.edges.length > 0 && locationState.hasLocation) {
         const stop = stops.edges[0].node.place;
         setPlan({ plan: plan.plan, isFetching: true });
         fetchPlan(stop);
@@ -156,15 +156,31 @@ function StopsNearYouMap(
         isMounted = false;
       };
     },
-    [props.locationState.status],
+    [locationState.status],
   );
-  if (props.locationState.loadingPosition || props.loading) {
+  if (locationState.loadingPosition || props.loading) {
     return <Loading />;
   }
 
+  const { mode } = props.match.params;
+
+  const routeLines = [];
+  const realtimeTopics = [];
   const renderRouteLines = mode !== 'CITYBIKE';
   let leafletObjs = [];
   if (renderRouteLines) {
+    stops.edges.forEach(item => {
+      const { place } = item.node;
+      place.patterns.forEach(pattern => {
+        const feedId = pattern.route.gtfsId.split(':')[0];
+        realtimeTopics.push({
+          feedId,
+          route: pattern.route.gtfsId.split(':')[1],
+          shortName: pattern.route.shortName,
+        });
+        routeLines.push(pattern);
+      });
+    });
     const getPattern = pattern =>
       pattern.patternGeometry ? pattern.patternGeometry.points : '';
     leafletObjs = uniqBy(routeLines, getPattern).map(pattern => {
@@ -182,10 +198,12 @@ function StopsNearYouMap(
     });
   }
 
+  uniqueRealtimeTopics = uniqBy(realtimeTopics, route => route.route);
+
   if (uniqueRealtimeTopics.length > 0) {
     leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
   }
-  if (plan.plan && plan.plan.itineraries) {
+  if (plan.plan.itineraries) {
     leafletObjs.push(
       ...plan.plan.itineraries.map((itinerary, i) => (
         <ItineraryLine
@@ -214,7 +232,8 @@ function StopsNearYouMap(
         showStops
         stopsNearYouMode={mode}
         showScaleBar
-        setInitialZoom={17}
+        fitBounds={bounds.length > 0}
+        bounds={bounds}
         origin={origin}
         destination={destination}
         setInitialMapTracking
@@ -235,8 +254,9 @@ function StopsNearYouMap(
           breakpoint={breakpoint}
           showStops
           stopsNearYouMode={mode}
+          fitBounds={bounds.length > 0}
+          bounds={bounds}
           showScaleBar
-          setInitialZoom={17}
           origin={origin}
           destination={destination}
           setInitialMapTracking
@@ -253,6 +273,7 @@ function StopsNearYouMap(
 
 StopsNearYouMap.propTypes = {
   match: matchShape.isRequired,
+
   breakpoint: PropTypes.string.isRequired,
   origin: dtLocationShape,
   destination: dtLocationShape,
@@ -275,14 +296,18 @@ const StopsNearYouMapWithBreakpoint = withBreakpoint(StopsNearYouMap);
 
 const StopsNearYouMapWithStores = connectToStores(
   StopsNearYouMapWithBreakpoint,
-  [TimeStore, PreferencesStore, PositionStore],
+  [OriginStore, TimeStore, DestinationStore, PreferencesStore, PositionStore],
   ({ getStore }) => {
     const currentTime = getStore(TimeStore)
       .getCurrentTime()
       .unix();
+    const origin = getStore(OriginStore).getOrigin();
+    const destination = getStore(DestinationStore).getDestination();
     const language = getStore(PreferencesStore).getLanguage();
     const locationState = getStore(PositionStore).getLocationState();
     return {
+      origin,
+      destination,
       language,
       locationState,
       currentTime,
