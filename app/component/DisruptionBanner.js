@@ -5,7 +5,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import { uniqBy } from 'lodash-es';
 
 import { AlertSeverityLevelType } from '../constants';
-import { isAlertValid } from '../util/alertUtils';
+import { isAlertValid, getServiceAlertDescription } from '../util/alertUtils';
 
 class DisruptionBanner extends React.Component {
   static propTypes = {
@@ -13,6 +13,7 @@ class DisruptionBanner extends React.Component {
       edges: PropTypes.array.isRequired,
     }).isRequired,
     currentTime: PropTypes.number.isRequired,
+    language: PropTypes.string,
   };
 
   getAlerts() {
@@ -39,12 +40,16 @@ class DisruptionBanner extends React.Component {
         },
       };
       return (
-        (alert.alertSeverityLevel === AlertSeverityLevelType.Severe ||
+        (alert.alertSeverityLevel === AlertSeverityLevelType.Info ||
           alert.alertSeverityLevel === AlertSeverityLevelType.Warning) &&
         isAlertValid(alertToCheck, this.props.currentTime)
       );
     });
     return activeAlerts;
+  }
+
+  createAlertText(alert) {
+    return getServiceAlertDescription(alert, this.props.language);
   }
 
   render() {
@@ -54,7 +59,7 @@ class DisruptionBanner extends React.Component {
         <div className="disruption-banner-container">
           <div className="disruption-icon-container" />
           <div className="disruption-info-container">
-            {activeAlerts[0].alertHeaderText}
+            {this.createAlertText(activeAlerts[0])}
           </div>
         </div>
       );
@@ -64,11 +69,16 @@ class DisruptionBanner extends React.Component {
 }
 
 const containerComponent = createFragmentContainer(
-  connectToStores(DisruptionBanner, ['TimeStore'], ({ getStore }) => ({
-    currentTime: getStore('TimeStore')
-      .getCurrentTime()
-      .unix(),
-  })),
+  connectToStores(
+    DisruptionBanner,
+    ['TimeStore', 'PreferencesStore'],
+    ({ getStore }) => ({
+      currentTime: getStore('TimeStore')
+        .getCurrentTime()
+        .unix(),
+      language: getStore('PreferencesStore').getLanguage(),
+    }),
+  ),
   {
     alerts: graphql`
       fragment DisruptionBanner_alerts on placeAtDistanceConnection
@@ -87,7 +97,10 @@ const containerComponent = createFragmentContainer(
                   alertHeaderText
                   alertEffect
                   alertCause
-                  alertDescriptionText
+                  alertDescriptionTextTranslations {
+                    text
+                    language
+                  }
                   effectiveStartDate
                   effectiveEndDate
                 }
@@ -100,7 +113,10 @@ const containerComponent = createFragmentContainer(
                         alertHeaderText
                         alertEffect
                         alertCause
-                        alertDescriptionText
+                        alertDescriptionTextTranslations {
+                          text
+                          language
+                        }
                         effectiveStartDate
                         effectiveEndDate
                         route {
