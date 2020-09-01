@@ -5550,10 +5550,10 @@ connect-history-api-fallback@^1.6.0:
   resolved "https://registry.yarnpkg.com/connect-history-api-fallback/-/connect-history-api-fallback-1.6.0.tgz#8b32089359308d111115d81cad3fceab888f97bc"
   integrity sha512-e54B99q/OUoH64zYYRf3HBP5z24G38h5D3qXu23JGRoigpX5Ss4r9ZnDk3g0Z8uQC2x2lPaJ+UlWBc1ZWBWdLg==
 
-connect-redis@4.0.3:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/connect-redis/-/connect-redis-4.0.3.tgz#c7795cf09ed13dbcbfeb84ea8861069e8db85a46"
-  integrity sha512-Php0P0ShNfilW6f2d/2v7Q0VAiFeBYsg0bIgu8ST3x26CcQ1JtzV6vxPLUwK0uiq10hQSMR+HzSNhWbcvx6nLg==
+connect-redis@5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/connect-redis/-/connect-redis-5.0.0.tgz#68fe890117e761ee98e13a14b835338bd6bf044c"
+  integrity sha512-R4nTW5uXeG5s6zr/q4abmtcdloglZrL/A3cpa0JU0RLFJU4mTR553HUY8OZ0ngeySkGDclwQ5xmCcjjKkxdOSg==
 
 console-browserify@^1.1.0:
   version "1.2.0"
