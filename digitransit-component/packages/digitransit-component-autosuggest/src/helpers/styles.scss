@@ -24,6 +24,9 @@ input[type='text'] {
       padding-left: 1.25em;
       padding-right: 44px;
     }
+    &.thin {
+      height: 34px;
+    }
     font-size: 16px;
     font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
     display: flex;
