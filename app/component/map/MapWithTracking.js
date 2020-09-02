@@ -75,6 +75,7 @@ class MapWithTrackingStateHandler extends React.Component {
     getGeoJsonData: PropTypes.func.isRequired,
     origin: dtLocationShape.isRequired,
     destination: dtLocationShape.isRequired,
+    focusPoint: dtLocationShape,
     fitBounds: PropTypes.bool,
     position: PropTypes.shape({
       hasLocation: PropTypes.bool.isRequired,
@@ -105,6 +106,7 @@ class MapWithTrackingStateHandler extends React.Component {
   };
 
   static defaultProps = {
+    focusPoint: undefined,
     renderCustomButtons: undefined,
     setInitialMapTracking: false,
     setInitialZoom: undefined,
@@ -122,7 +124,6 @@ class MapWithTrackingStateHandler extends React.Component {
     this.state = {
       geoJson: {},
       useFitBounds: props.fitBounds,
-
       // It's not that over-the-top ternary.
       // eslint-disable-next-line no-nested-ternary
       initialZoom: props.setInitialZoom
@@ -130,18 +131,11 @@ class MapWithTrackingStateHandler extends React.Component {
         : hasOriginorPosition
           ? FOCUS_ZOOM
           : DEFAULT_ZOOM,
-      mapTracking:
-        props.setInitialMapTracking ||
-        (props.origin.gps && props.position.hasLocation),
+      mapTracking: props.setInitialMapTracking,
       focusOnOrigin: props.origin.ready,
       focusOnDestination: !props.origin.ready && props.destination.ready,
-      focusOnPosition:
-        !props.origin.ready &&
-        !props.destination.ready &&
-        props.position.hasLocation,
       origin: props.origin,
       destination: props.destination,
-      shouldShowDefaultLocation: !hasOriginorPosition,
     };
   }
 
@@ -290,7 +284,6 @@ class MapWithTrackingStateHandler extends React.Component {
       mapTracking: true,
       focusOnOrigin: false,
       focusOnDestination: false,
-      focusOnPosition: true,
     });
     addAnalyticsEvent({
       category: 'Map',
@@ -304,7 +297,6 @@ class MapWithTrackingStateHandler extends React.Component {
       mapTracking: false,
       focusOnOrigin: false,
       focusOnDestination: false,
-      focusOnPosition: false,
     });
   };
 
@@ -325,10 +317,8 @@ class MapWithTrackingStateHandler extends React.Component {
       mapTracking: true,
       focusOnOrigin: false,
       focusOnDestination: false,
-      focusOnPosition: true,
       initialZoom:
         prevState.initialZoom === DEFAULT_ZOOM ? FOCUS_ZOOM : undefined,
-      shouldShowDefaultLocation: false,
     }));
   }
 
@@ -338,10 +328,8 @@ class MapWithTrackingStateHandler extends React.Component {
       mapTracking: false,
       focusOnOrigin: true,
       focusOnDestination: false,
-      focusOnPosition: false,
       initialZoom:
         prevState.initialZoom === DEFAULT_ZOOM ? FOCUS_ZOOM : undefined,
-      shouldShowDefaultLocation: false,
     }));
   }
 
@@ -351,10 +339,8 @@ class MapWithTrackingStateHandler extends React.Component {
       mapTracking: false,
       focusOnOrigin: false,
       focusOnDestination: true,
-      focusOnPosition: false,
       initialZoom:
         prevState.initialZoom === DEFAULT_ZOOM ? FOCUS_ZOOM : undefined,
-      shouldShowDefaultLocation: false,
     }));
   }
 
@@ -368,34 +354,12 @@ class MapWithTrackingStateHandler extends React.Component {
       renderCustomButtons,
       mapLayers,
       fitBounds,
+      focusPoint,
       ...rest
     } = this.props;
     const { geoJson } = this.state;
     let location;
-    if (
-      this.state.focusOnOrigin &&
-      !this.state.origin.gps &&
-      this.state.origin.lat != null &&
-      this.state.origin.lon != null
-    ) {
-      location = this.state.origin;
-    } else if (this.state.mapTracking && position.hasLocation) {
-      location = position;
-    } else if (
-      this.state.focusOnDestination &&
-      !this.state.destination.gps &&
-      this.state.destination.lat != null &&
-      this.state.destination.lon != null
-    ) {
-      location = this.state.destination;
-    } else if (
-      this.state.shouldShowDefaultLocation &&
-      !this.state.focusOnPosition
-    ) {
-      location = config.defaultMapCenter || config.defaultEndpoint;
-    } else if (this.state.focusOnPosition) {
-      location = position;
-    }
+
     const leafletObjs = [];
     if (this.props.leafletObjs) {
       leafletObjs.push(...this.props.leafletObjs);
@@ -460,6 +424,11 @@ class MapWithTrackingStateHandler extends React.Component {
       btnClassName = cx(btnClassName, 'roomForZoomControl');
     }
 
+    if (this.state.mapTracking && position.hasLocation) {
+      location = position;
+    } else if (focusPoint) {
+      location = focusPoint;
+    }
     return (
       <Component
         lat={location ? location.lat : null}
