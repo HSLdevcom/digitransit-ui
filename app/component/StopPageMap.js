@@ -173,7 +173,6 @@ const StopPageMap = (
       setInitialZoom={17}
       origin={locationState}
       destination={stop}
-      setInitialMapTracking
       bounds={bounds}
       fitBounds={bounds.length > 0}
     >
