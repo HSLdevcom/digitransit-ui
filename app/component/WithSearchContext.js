@@ -261,8 +261,8 @@ export default function withSearchContext(WrappedComponent) {
           destination: {
             address: destination.address,
             coordinates: {
-              lat: origin.lat,
-              lon: origin.lon,
+              lat: destination.lat,
+              lon: destination.lon,
             },
           },
           arriveBy: locationWithItineraryParams.query.arriveBy
