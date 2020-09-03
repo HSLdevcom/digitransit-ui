@@ -42,7 +42,7 @@ class DisruptionBanner extends React.Component {
         },
       };
       return (
-        (alert.alertSeverityLevel === AlertSeverityLevelType.Info ||
+        (alert.alertSeverityLevel === AlertSeverityLevelType.Severe ||
           alert.alertSeverityLevel === AlertSeverityLevelType.Warning) &&
         isAlertValid(alertToCheck, this.props.currentTime)
       );
