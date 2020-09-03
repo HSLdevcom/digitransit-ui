@@ -185,6 +185,11 @@ export const getStopAndStationsQuery = favourites => {
       });
     });
 };
+/**
+ * Returns Stop and station objects filtered by given mode .
+ * @param {*} stopsToFilter
+ * @param {String} mode
+ */
 export const filterStopsAndStationsByMode = (stopsToFilter, mode) => {
   if (!relayEnvironment) {
     return Promise.resolve([]);
@@ -260,6 +265,7 @@ export function getFavouriteRoutesQuery(favourites, input) {
  * Returns Route objects depending on input
  * @param {String} input Search text, if empty no objects are returned
  * @param {*} feedIds
+ * @param {String} transportMode Filter routes with a transport mode, e.g. route-BUS
  */
 export function getRoutesQuery(input, feedIds, transportMode) {
   if (!relayEnvironment) {
