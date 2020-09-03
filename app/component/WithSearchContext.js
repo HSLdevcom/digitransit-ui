@@ -290,7 +290,7 @@ export default function withSearchContext(WrappedComponent) {
         };
         this.context.executeAction(searchContext.saveFutureRoute, newRoute);
       }
-      
+
       if (location.type !== 'SelectFromMap') {
         navigateTo({
           base: locationWithItineraryParams,
