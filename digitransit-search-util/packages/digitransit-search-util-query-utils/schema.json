@@ -1597,7 +1597,7 @@
                                 },
                                 {
                                     "name": "optimize",
-                                    "description": "Optimization type for bicycling legs, e.g. prefer flat terrain. Default value: `QUICK`",
+                                    "description": "Optimization type for bicycling legs, e.g. prefer flat terrain. Default value: `GREENWAYS`",
                                     "type": {
                                         "kind": "ENUM",
                                         "name": "OptimizeType",
@@ -7372,7 +7372,7 @@
                         },
                         {
                             "name": "GREENWAYS",
-                            "description": "GREENWAYS",
+                            "description": "Prefer cycleways",
                             "isDeprecated": false,
                             "deprecationReason": null
                         },

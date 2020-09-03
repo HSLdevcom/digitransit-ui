@@ -2,7 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createRefetchContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { matchShape, routerShape } from 'found';
 import StopNearYou from './StopNearYou';
+import withBreakpoint from '../util/withBreakpoint';
+import { getNearYouPath } from '../util/path';
+import { addressToItinerarySearch } from '../util/otpStrings';
+import { startLocationWatch } from '../action/PositionActions';
 import CityBikeStopNearYou from './CityBikeStopNearYou';
 
 class StopsNearYouContainer extends React.Component {
@@ -16,12 +21,20 @@ class StopsNearYouContainer extends React.Component {
 
   static contextTypes = {
     config: PropTypes.object,
+    executeAction: PropTypes.func.isRequired,
+    headers: PropTypes.object.isRequired,
+    getStore: PropTypes.func,
+    router: routerShape.isRequired,
+    match: matchShape.isRequired,
   };
 
   componentDidUpdate({ relay, currentTime }) {
-    relay.refetch(oldVariables => {
-      return { ...oldVariables, startTime: currentTime };
-    });
+    const currUnix = this.props.currentTime;
+    if (currUnix !== currentTime) {
+      relay.refetch(oldVariables => {
+        return { ...oldVariables, startTime: currentTime };
+      });
+    }
   }
 
   createNearbyStops = () => {
@@ -68,9 +81,54 @@ class StopsNearYouContainer extends React.Component {
     );
   }
 }
+const StopsNearYouContainerWithBreakpoint = withBreakpoint(
+  StopsNearYouContainer,
+);
+
+const PositioningWrapper = connectToStores(
+  StopsNearYouContainerWithBreakpoint,
+  ['PositionStore'],
+  (context, props) => {
+    const { place, mode } = props.match.params;
+    const locationState = context.getStore('PositionStore').getLocationState();
+
+    if (
+      place !== 'POS' &&
+      (locationState.hasLocation ||
+        locationState.isLocationingInProgress ||
+        locationState.isReverseGeocodingInProgress)
+    ) {
+      return { ...props };
+    }
+    if (locationState.locationingFailed) {
+      // props.router.replace(getNearYouPath(context.config.defaultEndPoint))
+      return { ...props };
+    }
+
+    if (
+      locationState.isLocationingInProgress ||
+      locationState.isReverseGeocodingInProgress
+    ) {
+      return { ...props };
+    }
+
+    if (locationState.hasLocation) {
+      const locationForUrl = addressToItinerarySearch(locationState);
+      const newPlace = locationForUrl;
+      props.router.replace(getNearYouPath(newPlace, mode));
+      return { ...props };
+    }
+    context.executeAction(startLocationWatch);
+    return { ...props };
+  },
+);
+PositioningWrapper.contextTypes = {
+  ...PositioningWrapper.contextTypes,
+  executeAction: PropTypes.func.isRequired,
+};
 
 const connectedContainer = createRefetchContainer(
-  connectToStores(StopsNearYouContainer, ['TimeStore'], ({ getStore }) => ({
+  connectToStores(PositioningWrapper, ['TimeStore'], ({ getStore }) => ({
     currentTime: getStore('TimeStore')
       .getCurrentTime()
       .unix(),
