@@ -6,6 +6,7 @@ import { uniqBy } from 'lodash-es';
 
 import { AlertSeverityLevelType } from '../constants';
 import { isAlertValid, getServiceAlertDescription } from '../util/alertUtils';
+import Icon from './Icon';
 
 class DisruptionBanner extends React.Component {
   static propTypes = {
@@ -14,6 +15,7 @@ class DisruptionBanner extends React.Component {
     }).isRequired,
     currentTime: PropTypes.number.isRequired,
     language: PropTypes.string,
+    trafficNowLink: PropTypes.string,
   };
 
   getAlerts() {
@@ -55,14 +57,25 @@ class DisruptionBanner extends React.Component {
   render() {
     const activeAlerts = this.getAlerts();
     if (activeAlerts.length > 0) {
-      return (
-        <div className="disruption-banner-container">
-          <div className="disruption-icon-container" />
-          <div className="disruption-info-container">
-            {this.createAlertText(activeAlerts[0])}
-          </div>
-        </div>
-      );
+      return activeAlerts.map(alert => {
+        return (
+          <a
+            key={alert.id}
+            className="disruption-banner-container"
+            href={this.props.trafficNowLink}
+            onClick={e => {
+              e.stopPropagation();
+            }}
+          >
+            <div className="disruption-icon-container">
+              <Icon img="icon-icon_disruption-banner-alert" />
+            </div>
+            <div className="disruption-info-container">
+              {this.createAlertText(alert)}
+            </div>
+          </a>
+        );
+      });
     }
     return null;
   }
