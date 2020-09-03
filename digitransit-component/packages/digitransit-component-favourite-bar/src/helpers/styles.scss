@@ -138,6 +138,12 @@ $primary-color: #007ac9;
         fill: $primary-color;
         width: 19px;
         height: 19px;
+        transform: rotate(90deg);
+      }
+      &.rotate {
+        svg {
+          transform: rotate(-90deg);
+        }
       }
     }
   }
