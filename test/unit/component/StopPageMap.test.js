@@ -16,6 +16,6 @@ describe('<StopPageMap />', () => {
       stop: null,
     };
     const wrapper = shallowWithIntl(<StopPageMap {...props} />);
-    expect(wrapper.isEmptyRender()).to.equal(true);
+    expect(wrapper.find('.map').length).to.equal(0);
   });
 });

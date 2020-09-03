@@ -129,7 +129,6 @@ export default class PositionStore extends Store {
       this.lat = location.lat;
       this.lon = location.lon;
     }
-
     this.heading = location.heading ? location.heading : this.heading;
     this.status = PositionStore.STATUS_FOUND_LOCATION;
 

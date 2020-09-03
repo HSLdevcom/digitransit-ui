@@ -54,18 +54,7 @@ function IndexPageMap(
       />
     );
   } else {
-    const originFromMap =
-      match && match.location
-        ? match.location.pathname.indexOf('SelectFromMap') === 1
-        : false;
-    const destinationFromMap =
-      match && match.location
-        ? match.location.pathname.indexOf('SelectFromMap') > 1
-        : false;
-
-    const [mapExpanded, toggleFullscreen] = useState(
-      originFromMap || destinationFromMap,
-    );
+    const [mapExpanded, toggleFullscreen] = useState(false);
 
     map = (
       <>
@@ -86,8 +75,6 @@ function IndexPageMap(
                 {config.map.showLayerSelector && renderMapLayerSelector()}
               </>
             )}
-            originFromMap={originFromMap}
-            destinationFromMap={destinationFromMap}
           />
         </div>
         {/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}

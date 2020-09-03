@@ -11,13 +11,15 @@ General component description in JSDoc format. Markdown is _supported_.
 -   `$0` **[Object][1]** 
     -   `$0.headerText`  
     -   `$0.dialogContent`  
-    -   `$0.className`  
     -   `$0.handleClose`  
     -   `$0.primaryButtonText`  
     -   `$0.primaryButtonOnClick`  
     -   `$0.secondaryButtonText`  
     -   `$0.secondaryButtonOnClick`  
     -   `$0.lang`  
+    -   `$0.appElement`  
+    -   `$0.isModalOpen`  
+    -   `$0.modalAriaLabel`  
 
 ### Examples
 

@@ -33,7 +33,7 @@ class AdminForm extends React.Component {
       bikeSwitchTime: 0,
       bikeSwitchCost: 0,
       bikeBoardCost: 600,
-      optimize: 'QUICK',
+      optimize: 'GREENWAYS',
       safetyFactor: 0.334,
       slopeFactor: 0.333,
       timeFactor: 0.333,

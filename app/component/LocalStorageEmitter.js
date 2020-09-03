@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useSharedLocalStorageEmitter } from '@hsl-fi/shared-local-storage';
 
-const KEYS = ['saved-searches'];
+const KEYS = ['saved-searches', 'favouriteStore'];
 
 const LocalStorageEmitter = (props, { config }) => {
   useSharedLocalStorageEmitter(KEYS, config.localStorageTarget);

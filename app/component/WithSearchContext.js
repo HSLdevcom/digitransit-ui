@@ -11,6 +11,9 @@ import { navigateTo } from '../util/path';
 import searchContext from '../util/searchContext';
 import intializeSearchContext from '../util/DTSearchContextInitializer';
 import { encodeAddressAndCoordinatesArray } from '../util/otpStrings';
+import SelectFromMapHeader from './SelectFromMapHeader';
+import SelectFromMapPageMap from './map/SelectFromMapPageMap';
+import DTModal from './DTModal';
 
 export default function withSearchContext(WrappedComponent) {
   class ComponentWithSearchContext extends React.Component {
@@ -147,7 +150,7 @@ export default function withSearchContext(WrappedComponent) {
           this.context.executeAction(searchContext.startLocationWatch),
         );
       } else {
-        this.selectLocation(location, id, this.props.itineraryParams);
+        this.selectLocation(location, id);
       }
     };
 
@@ -168,7 +171,6 @@ export default function withSearchContext(WrappedComponent) {
         default:
       }
       const link = path.concat(id);
-
       this.context.router.push(link);
     };
 
@@ -191,7 +193,23 @@ export default function withSearchContext(WrappedComponent) {
       }
     };
 
+    openSelectFromMapModal = id => {
+      this.setState({
+        showModal: true,
+        type: id,
+      });
+    };
+
+    closeSelectFromMapModal = () => {
+      this.setState({
+        showModal: false,
+      });
+    };
+
     selectLocation = (location, id) => {
+      if (!location) {
+        return;
+      }
       const locationWithItineraryParams = this.addItineraryParamsToLocation(
         location,
         this.props.itineraryParams,
@@ -272,14 +290,19 @@ export default function withSearchContext(WrappedComponent) {
         };
         this.context.executeAction(searchContext.saveFutureRoute, newRoute);
       }
-      navigateTo({
-        base: locationWithItineraryParams,
-        origin,
-        destination,
-        context: '', // PREFIX_ITINERARY_SUMMARY,
-        router: this.context.router,
-        resetIndex: true,
-      });
+      
+      if (location.type !== 'SelectFromMap') {
+        navigateTo({
+          base: locationWithItineraryParams,
+          origin,
+          destination,
+          context: '', // PREFIX_ITINERARY_SUMMARY,
+          router: this.context.router,
+          resetIndex: true,
+        });
+      } else {
+        this.openSelectFromMapModal(id);
+      }
     };
 
     selectFutureRoute = item => {
@@ -365,7 +388,44 @@ export default function withSearchContext(WrappedComponent) {
       return { ...location, query };
     };
 
+    confirmMapSelection = (type, mapLocation) => {
+      this.setState({
+        showModal: false,
+      });
+      this.selectLocation(mapLocation, type);
+    };
+
+    renderSelectFromMapModal = id => {
+      let titleId = 'select-from-map-no-title';
+
+      if (id === 'origin') {
+        titleId = 'select-from-map-origin';
+      }
+
+      if (id === 'destination') {
+        titleId = 'select-from-map-destination';
+      }
+
+      return (
+        <DTModal show>
+          <SelectFromMapHeader
+            titleId={titleId}
+            onBackBtnClick={this.closeSelectFromMapModal}
+          />
+          <SelectFromMapPageMap
+            type={id}
+            onConfirm={this.confirmMapSelection}
+          />
+        </DTModal>
+      );
+    };
+
     render() {
+      const { showModal, type } = this.state;
+
+      if (showModal) {
+        return this.renderSelectFromMapModal(type);
+      }
       return (
         <WrappedComponent
           searchContext={searchContext}

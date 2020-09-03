@@ -37,6 +37,7 @@ function ItinerarySummaryListContainer(
     bikeAndParkItinerariesToShow,
     walking,
     biking,
+    showAlternativePlan,
   },
   context,
 ) {
@@ -102,6 +103,23 @@ function ItinerarySummaryListContainer(
       .length;
     return (
       <div className="summary-list-container" role="list">
+        {showAlternativePlan && (
+          <div
+            className={cx(
+              'flex-horizontal',
+              'summary-notification',
+              'show-alternatives',
+            )}
+          >
+            <Icon className="icon-icon_settings" img="icon-icon_settings" />
+            <div>
+              <FormattedMessage
+                id="no-route-showing-alternative-options"
+                defaultMessage="No routes with current settings found. Here are some alternative options:"
+              />
+            </div>
+          </div>
+        )}
         {isBrowser && summaries}
         {isBrowser &&
           canceledItinerariesCount > 0 && (
@@ -251,6 +269,7 @@ ItinerarySummaryListContainer.propTypes = {
   bikeAndParkItinerariesToShow: PropTypes.number.isRequired,
   walking: PropTypes.bool,
   biking: PropTypes.bool,
+  showAlternativePlan: PropTypes.bool,
 };
 
 ItinerarySummaryListContainer.defaultProps = {
@@ -259,6 +278,7 @@ ItinerarySummaryListContainer.defaultProps = {
   itineraries: [],
   walking: false,
   biking: false,
+  showAlternativePlan: false,
 };
 
 ItinerarySummaryListContainer.contextTypes = {
