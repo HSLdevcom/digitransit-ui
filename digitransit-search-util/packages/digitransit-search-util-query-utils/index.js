@@ -261,7 +261,7 @@ export function getFavouriteRoutesQuery(favourites, input) {
  * @param {String} input Search text, if empty no objects are returned
  * @param {*} feedIds
  */
-export function getRoutesQuery(input, feedIds, nearYouMode) {
+export function getRoutesQuery(input, feedIds, transportMode) {
   if (!relayEnvironment) {
     return Promise.resolve([]);
   }
@@ -273,13 +273,13 @@ export function getRoutesQuery(input, feedIds, nearYouMode) {
     return Promise.resolve([]);
   }
   let modes;
-  if (nearYouMode) {
-    [, modes] = nearYouMode.split('-');
+  if (transportMode) {
+    [, modes] = transportMode.split('-');
   }
   return fetchQuery(relayEnvironment, searchRoutesQuery, {
     feeds: Array.isArray(feedIds) && feedIds.length > 0 ? feedIds : null,
     name: input,
-    modes: nearYouMode ? modes : null,
+    modes: transportMode ? modes : null,
   })
     .then(data =>
       data.viewer.routes

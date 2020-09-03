@@ -44,7 +44,7 @@ Returns Route objects depending on input
 
 -   `input` **[String][1]** Search text, if empty no objects are returned
 -   `feedIds` **any** 
--   `nearYouMode`  
+-   `transportMode`  
 
 [1]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
 
