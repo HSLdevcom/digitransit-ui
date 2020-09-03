@@ -13,6 +13,7 @@ import {
   getLanguage,
   clearOldSearches,
   getFutureRoutes,
+  clearFutureRoutes,
 } from './storeUtils';
 import { startLocationWatch } from '../action/PositionActions';
 import { saveSearch } from '../action/SearchActions';
@@ -49,4 +50,5 @@ export default function intializeSearchContext(context, searchContext) {
   searchContext.clearOldSearches = clearOldSearches;
   searchContext.getFutureRoutes = getFutureRoutes;
   searchContext.saveFutureRoute = saveFutureRoute;
+  searchContext.clearFutureRoutes = clearFutureRoutes;
 }

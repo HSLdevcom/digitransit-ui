@@ -89,17 +89,28 @@ const SuggestionItem = pure(
         </p>
       </div>
     );
+    const isFutureRoute = iconId === 'future-route';
     const ri = (
       <div
         aria-hidden="true"
-        className={cx(styles['search-result'], {
-          loading,
-        })}
+        className={cx(
+          styles['search-result'],
+          {
+            loading,
+          },
+          {
+            [styles.futureroute]: isFutureRoute,
+          },
+        )}
       >
         <span aria-label={iconstr} className={styles['suggestion-icon']}>
           {icon}
         </span>
-        <div className={styles['suggestion-result']}>
+        <div
+          className={cx(styles['suggestion-result'], {
+            [styles.futureroute]: isFutureRoute,
+          })}
+        >
           {iconId !== 'future-route' && (
             <span>
               <p className={cx(styles['suggestion-name'], styles[className])}>
@@ -110,29 +121,49 @@ const SuggestionItem = pure(
           )}
           {iconId === 'future-route' && (
             <div>
-              <p className={cx(styles['suggestion-name'], styles[className])}>
+              <p
+                className={cx(
+                  styles['suggestion-name'],
+                  styles.futureroute,
+                  styles[className],
+                )}
+              >
                 {item.properties.origin.name}
                 <span
                   className={cx(
-                    styles['suggestion-name-normal'],
+                    styles['suggestion-name'],
+                    styles.futureroute,
+                    styles.normal,
                     styles[className],
                   )}
                 >
                   , {item.properties.origin.locality}
                 </span>
               </p>
-              <p className={cx(styles['suggestion-name'], styles[className])}>
+              <p
+                className={cx(
+                  styles['suggestion-name'],
+                  styles.futureroute,
+                  styles[className],
+                )}
+              >
                 {item.properties.destination.name}
                 <span
                   className={cx(
-                    styles['suggestion-name-normal'],
+                    styles['suggestion-name'],
+                    styles.futureroute,
+                    styles.normal,
                     styles[className],
                   )}
                 >
                   , {item.properties.destination.locality}
                 </span>
               </p>
-              <p className={styles['suggestion-label']}>
+              <p
+                className={cx(styles['suggestion-label'], {
+                  [styles.futureroute]: isFutureRoute,
+                })}
+              >
                 {item.translatedText}
               </p>
             </div>
@@ -157,6 +188,9 @@ const SuggestionItem = pure(
             [styles.mobile]: isMobile,
           },
           styles[item.type],
+          {
+            [styles.futureroute]: isFutureRoute,
+          },
         )}
       >
         {acri}

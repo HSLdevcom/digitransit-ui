@@ -434,8 +434,7 @@ export function prepareFutureRouteSave(data) {
 }
 
 export function saveFutureRoutesStorage(data) {
-  // const currentFutureStorage = getFutureRoutesStorage();
-  if (Array.isArray(data)) {
+  if (Array.isArray(data.items)) {
     setItem('futureRoutes', data);
   } else if (data.time > getCurrentSecs()) {
     const newRoute = prepareFutureRouteSave(data);

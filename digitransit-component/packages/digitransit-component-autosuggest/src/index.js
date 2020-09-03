@@ -528,9 +528,16 @@ class DTAutosuggest extends React.Component {
   };
 
   clearOldSearches = () => {
-    const { context, clearOldSearches } = this.props.searchContext;
+    const {
+      context,
+      clearOldSearches,
+      clearFutureRoutes,
+    } = this.props.searchContext;
     if (context && clearOldSearches) {
       clearOldSearches(context);
+      if (clearFutureRoutes) {
+        clearFutureRoutes(context);
+      }
       this.fetchFunction({ value: this.state.value });
     }
   };

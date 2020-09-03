@@ -15,12 +15,21 @@ class FutureRoutesStore extends Store {
         items: [],
       };
       saveFutureRoutesStorage(storage);
+      this.emitChange();
     }
     return storage;
   }
 
   saveFutureRoute(newRoute) {
     saveFutureRoutesStorage(newRoute);
+    this.emitChange();
+  }
+
+  clearFutureRoutes() {
+    const storage = {
+      items: [],
+    };
+    saveFutureRoutesStorage(storage);
     this.emitChange();
   }
 
