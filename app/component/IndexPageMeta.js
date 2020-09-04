@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Helmet } from 'react-helmet';
+import Helmet from 'react-helmet';
 import compose from 'recompose/compose';
 import getContext from 'recompose/getContext';
 import mapProps from 'recompose/mapProps';

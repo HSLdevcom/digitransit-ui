@@ -21,7 +21,7 @@ import {
 } from 'react-relay-network-modern';
 import RelayClientSSR from 'react-relay-network-modern-ssr/lib/client';
 import OfflinePlugin from 'offline-plugin/runtime';
-import { Helmet } from 'react-helmet';
+import Helmet from 'react-helmet';
 import { Environment, RecordSource, Store } from 'relay-runtime';
 import { ReactRelayContext } from 'react-relay';
 
