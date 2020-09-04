@@ -183,6 +183,7 @@ class DTAutosuggest extends React.Component {
       typingTimer: null,
       typing: false,
       pendingSelection: null,
+      suggestionIndex: 0,
     };
   }
 
@@ -204,11 +205,13 @@ class DTAutosuggest extends React.Component {
 
   onChange = (event, { newValue, method }) => {
     const newState = {
-      value: newValue,
+      value: newValue || '',
     };
     if (!this.state.editing) {
       newState.editing = true;
-      this.setState(newState, () => this.fetchFunction({ value: newValue }));
+      this.setState(newState, () =>
+        this.fetchFunction({ value: newValue || '' }),
+      );
     } else if (method !== 'enter' || this.state.valid) {
       // test above drops unnecessary update
       // when user hits enter but search is unfinished
@@ -250,12 +253,16 @@ class DTAutosuggest extends React.Component {
         );
         return;
       }
-      if (ref.suggestion.type === 'back') {
+      if (
+        ref.suggestion.type === 'back' ||
+        ref.suggestion.type === 'FutureRoute'
+      ) {
         this.setState(
           {
             sources: this.props.sources,
             targets: this.props.targets,
             pendingSelection: ref.suggestion.type,
+            suggestionIndex: ref.suggestionIndex,
           },
           () => {
             this.fetchFunction({ value: '' });
@@ -341,7 +348,7 @@ class DTAutosuggest extends React.Component {
       );
       // accept after all ongoing searches have finished
     } else if (this.state.pendingSelection && this.state.valid) {
-      // finish the selection by picking first = best match
+      // finish the selection by picking first = best match or with 'FutureRoute' by suggestionIndex
       this.setState(
         {
           pendingSelection: null,
@@ -350,7 +357,10 @@ class DTAutosuggest extends React.Component {
         () => {
           if (this.state.suggestions.length) {
             this.input.blur();
-            this.props.onSelect(this.state.suggestions[0], this.props.id);
+            this.props.onSelect(
+              this.state.suggestions[this.state.suggestionIndex],
+              this.props.id,
+            );
           }
         },
       );
@@ -379,7 +389,7 @@ class DTAutosuggest extends React.Component {
         this.props.searchContext,
         this.props.filterSearchResultsByMode,
         {
-          input: value,
+          input: value || '',
         },
         searchResult => {
           if (searchResult == null) {
@@ -413,7 +423,8 @@ class DTAutosuggest extends React.Component {
             value === this.state.value ||
             value === this.state.pendingSelection ||
             this.state.pendingSelection === 'SelectFromOwnLocations' ||
-            this.state.pendingSelection === 'back'
+            this.state.pendingSelection === 'back' ||
+            this.state.pendingSelection === 'FutureRoute'
           ) {
             this.setState(
               {
