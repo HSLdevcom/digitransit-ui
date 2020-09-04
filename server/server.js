@@ -212,7 +212,7 @@ function setUpStaticFolders() {
     config.APP_PATH,
     expressStaticGzip(staticFolder, {
       enableBrotli: true,
-      indexFromEmptyFile: false,
+      index: false,
       maxAge: 14 * oneDay,
       setHeaders(res, reqPath) {
         if (
