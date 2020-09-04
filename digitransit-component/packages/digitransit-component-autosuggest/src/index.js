@@ -78,6 +78,7 @@ function suggestionToAriaContent(item) {
  *    // Called  when user clicks the clear search string button. No default implementation.
  *    return null;
  * };
+ * const transportMode = undefined;
  * const placeholder = "stop-near-you";
  * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, MapPosition and CurrentPosition. Leave empty to search all targets.
  * const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches) and Datasource. Leave empty to use all sources.
@@ -92,6 +93,9 @@ function suggestionToAriaContent(item) {
  *    onClear={onClear}
  *    autoFocus={false} // defines that should this field be automatically focused when page is loaded.
  *    lang={lang}
+ *    transportMode={transportMode} // transportmode with which we filter the routes, e.g. route-BUS
+ *    geocodingSize={10} // defines how many stops and stations to fetch from geocoding. Useful if you want to filter the results and still get a reasonable amount of suggestions.
+ *    filterResults={results => return results} // Optional filtering function for routes and stops
  *    handelViaPoints={() => return null } // Optional Via point handling logic. This is currently managed with DTAutosuggestpanel by default, but if DTAutosuggest is used seperatelly own implementation must be provided.
  *    focusChange={() => return null} // When suggestion is selected, handle changing focus. This is currently managed with DTAutosuggestpanel by default, but if DTAutosuggest is used seperatelly own implementation must be provided.
  *    storeRef={() => return null} // Functionality to store refs. Currenlty managed with DTAutosuggestpanel by default, but if DTAutosuggest is used seperatelly own implementation must be provided.
@@ -111,7 +115,8 @@ class DTAutosuggest extends React.Component {
     ariaLabel: PropTypes.string,
     onSelect: PropTypes.func,
     transportMode: PropTypes.string,
-    filterSearchResultsByMode: PropTypes.func,
+    filterResults: PropTypes.func,
+    geocodingSize: PropTypes.number,
     onClear: PropTypes.func,
     isPreferredRouteSearch: PropTypes.bool,
     storeRef: PropTypes.func,
@@ -345,7 +350,8 @@ class DTAutosuggest extends React.Component {
         this.state.sources,
         this.props.transportMode,
         this.props.searchContext,
-        this.props.filterSearchResultsByMode,
+        this.props.filterResults,
+        this.props.geocodingSize,
         {
           input: value,
         },
