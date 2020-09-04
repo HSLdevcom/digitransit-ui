@@ -21,6 +21,7 @@ export default class BackButton extends React.Component {
     titleCustomStyle: PropTypes.object,
     urlToBack: PropTypes.string,
     className: PropTypes.string, // DT-3614
+    onBackBtnClick: PropTypes.func,
   };
 
   static defaultProps = {
@@ -45,16 +46,24 @@ export default class BackButton extends React.Component {
     }
   };
 
+  onClick = () => {
+    this.props.onBackBtnClick();
+  };
+
   render() {
     const customStyle = this.props.customStyle
-      ? this.props.customStyle
-      : { paddingTop: '7px' };
+      ? `style=${this.props.customStyle}`
+      : '';
     return (
       <div className={this.props.className} style={{ display: 'flex' }}>
         <button
           className="icon-holder noborder cursor-pointer"
-          style={customStyle}
-          onClick={() => this.goBack(this.props.urlToBack)}
+          {...customStyle}
+          onClick={
+            this.props.onBackBtnClick
+              ? this.onClick
+              : () => this.goBack(this.props.urlToBack)
+          }
           aria-label={this.context.intl.formatMessage({
             id: 'back-button-title',
             defaultMessage: 'Go back to previous page',

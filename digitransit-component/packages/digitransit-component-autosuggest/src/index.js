@@ -142,6 +142,8 @@ class DTAutosuggest extends React.Component {
     searchContext: PropTypes.any.isRequired,
     ariaLabel: PropTypes.string,
     onSelect: PropTypes.func,
+    transportMode: PropTypes.string,
+    filterSearchResultsByMode: PropTypes.func,
     onClear: PropTypes.func,
     isPreferredRouteSearch: PropTypes.bool,
     storeRef: PropTypes.func,
@@ -158,6 +160,7 @@ class DTAutosuggest extends React.Component {
     className: '',
     icon: undefined,
     value: '',
+    transportMode: undefined,
     isPreferredRouteSearch: false,
     lang: 'fi',
     sources: [],
@@ -179,6 +182,7 @@ class DTAutosuggest extends React.Component {
       targets: props.targets,
       typingTimer: null,
       typing: false,
+      pendingSelection: null,
     };
   }
 
@@ -238,6 +242,7 @@ class DTAutosuggest extends React.Component {
             sources: ['Favourite', 'Back'],
             targets: ['Locations'],
             pendingSelection: ref.suggestion.type,
+            value: '',
           },
           () => {
             this.fetchFunction({ value: '' });
@@ -370,7 +375,9 @@ class DTAutosuggest extends React.Component {
       executeSearch(
         this.state.targets,
         this.state.sources,
+        this.props.transportMode,
         this.props.searchContext,
+        this.props.filterSearchResultsByMode,
         {
           input: value,
         },
@@ -554,7 +561,9 @@ class DTAutosuggest extends React.Component {
       onBlur: this.onBlur,
       onFocus: () => this.setState({ renderMobileSearch: this.props.isMobile }),
       className: cx(
-        `${styles.input} ${styles[this.props.id] || ''} ${
+        `${styles.input} ${
+          this.props.isMobile && this.props.transportMode ? styles.thin : ''
+        } ${styles[this.props.id] || ''} ${
           this.state.value ? styles.hasValue : ''
         }`,
       ),
@@ -646,7 +655,7 @@ class DTAutosuggest extends React.Component {
               getSuggestionValue={this.getSuggestionValue}
               renderSuggestion={this.renderItem}
               inputProps={inputProps}
-              focusInputOnSuggestionClick={false}
+              focusInputOnSuggestionClick
               shouldRenderSuggestions={() => this.state.editing}
               highlightFirstSuggestion
               theme={styles}

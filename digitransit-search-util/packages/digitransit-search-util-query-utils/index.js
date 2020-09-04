@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import take from 'lodash/take';
 import flatten from 'lodash/flatten';
+import compact from 'lodash/compact';
 import moment from 'moment';
 import { fetchQuery, graphql } from 'react-relay';
 import routeNameCompare from '@digitransit-search-util/digitransit-search-util-route-name-compare';
@@ -16,9 +17,10 @@ const searchRoutesQuery = graphql`
   query digitransitSearchUtilQueryUtilsSearchRoutesQuery(
     $feeds: [String!]!
     $name: String
+    $modes: [Mode]
   ) {
     viewer {
-      routes(feeds: $feeds, name: $name) {
+      routes(feeds: $feeds, name: $name, transportModes: $modes) {
         gtfsId
         agency {
           name
@@ -72,6 +74,32 @@ const favouriteRoutesQuery = graphql`
       patterns {
         code
       }
+    }
+  }
+`;
+
+const stopsQuery = graphql`
+  query digitransitSearchUtilQueryUtilsStopsQuery($ids: [String!]!) {
+    stops(ids: $ids) {
+      gtfsId
+      lat
+      lon
+      name
+      code
+      vehicleMode
+    }
+  }
+`;
+
+const stationsQuery = graphql`
+  query digitransitSearchUtilQueryUtilsStationsQuery($ids: [String!]!) {
+    stations(ids: $ids) {
+      gtfsId
+      lat
+      lon
+      name
+      code
+      vehicleMode
     }
   }
 `;
@@ -157,7 +185,48 @@ export const getStopAndStationsQuery = favourites => {
       });
     });
 };
+export const filterStopsAndStationsByMode = (stopsToFilter, mode) => {
+  if (!relayEnvironment) {
+    return Promise.resolve([]);
+  }
+  const ids = stopsToFilter.map(s => s.gtfsId);
+  const queries = [];
+  queries.push(
+    fetchQuery(relayEnvironment, stopsQuery, {
+      ids,
+    }),
+  );
+  queries.push(
+    fetchQuery(relayEnvironment, stationsQuery, {
+      ids,
+    }),
+  );
 
+  return Promise.all(queries)
+    .then(qres =>
+      qres.map(stopOrStation => {
+        return stopOrStation.stops
+          ? stopOrStation.stops
+          : stopOrStation.stations;
+      }),
+    )
+    .then(flatten)
+    .then(result => result.filter(res => res !== null))
+    .then(data =>
+      data.map(stop => {
+        const oldStop = stopsToFilter.find(s => s.gtfsId === stop.gtfsId);
+        const newStop = {
+          ...oldStop,
+          mode: stop.vehicleMode,
+        };
+        if (newStop.mode === mode) {
+          return newStop;
+        }
+        return undefined;
+      }),
+    )
+    .then(compact);
+};
 /**
  * Returns Favourite Route objects depending on input
  * @param {String} input Search text, if empty no objects are returned
@@ -192,7 +261,7 @@ export function getFavouriteRoutesQuery(favourites, input) {
  * @param {String} input Search text, if empty no objects are returned
  * @param {*} feedIds
  */
-export function getRoutesQuery(input, feedIds) {
+export function getRoutesQuery(input, feedIds, nearYouMode) {
   if (!relayEnvironment) {
     return Promise.resolve([]);
   }
@@ -203,10 +272,14 @@ export function getRoutesQuery(input, feedIds) {
   if (number && number[0].length > 3) {
     return Promise.resolve([]);
   }
-
+  let modes;
+  if (nearYouMode) {
+    [, modes] = nearYouMode.split('-');
+  }
   return fetchQuery(relayEnvironment, searchRoutesQuery, {
     feeds: Array.isArray(feedIds) && feedIds.length > 0 ? feedIds : null,
     name: input,
+    modes: nearYouMode ? modes : null,
   })
     .then(data =>
       data.viewer.routes
@@ -214,7 +287,7 @@ export function getRoutesQuery(input, feedIds) {
         .filter(route => !!route)
         .sort((x, y) => routeNameCompare(x.properties, y.properties)),
     )
-    .then(suggestions => take(suggestions, 10));
+    .then(suggestions => take(suggestions, 100));
 }
 
 export const withCurrentTime = location => {

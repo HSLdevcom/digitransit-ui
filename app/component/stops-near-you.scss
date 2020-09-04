@@ -1,6 +1,7 @@
 .map.flex-grow {
     position: relative;
     min-height: 20rem;
+    z-index: 0;
 }
 
 .stops-near-you-page {
@@ -130,6 +131,9 @@
     }
 }
 .scrollable-content-wrapper {
+    .stops-near-you-search-container {
+        margin-bottom: 22px;
+    }
     .stops-near-you-page {
         display: flex;
         flex-basis: 0px;
@@ -165,6 +169,9 @@
 }
 
 .mobile {
+    .stops-near-you-search-container {
+        padding: 0 5px 15px;
+    }
     .stops-near-you-page {
         height: calc(100% - 20rem);
         padding: 15px 0.625em 0;
@@ -173,7 +180,6 @@
         box-shadow: 0 -5px 5px 0 rgba(0, 0, 0, 0.2);
         position: relative;
         top: -15px;
-        z-index: 2;
         .stops-near-you-container {
             padding: 0;
         }

@@ -2,14 +2,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import Icon from '@digitransit-component/digitransit-component-icon';
 import styles from './mobile.scss';
 
 const MobileModal = ({
   headerText,
-  closeArialLabel,
   autosuggestComponent,
-  closeModal,
   inputPlaceholder,
   specifyName,
   name,
@@ -18,20 +15,10 @@ const MobileModal = ({
   saveFavourite,
   saveText,
   canSave,
-  isEdit,
-  cancelSelected,
 }) => {
   return (
     <div className={styles['favourite-modal-mobile-container']}>
       <div className={styles['favourite-modal-mobile-top']}>
-        <button
-          className={styles['favourite-modal-mobile-back']}
-          type="button"
-          onClick={isEdit && cancelSelected ? cancelSelected : closeModal}
-          aria-label={closeArialLabel}
-        >
-          <Icon img="arrow" />
-        </button>
         <div className={styles['favourite-modal-mobile-header']}>
           {headerText}
         </div>
@@ -40,14 +27,12 @@ const MobileModal = ({
         <div className={styles['favourite-modal-mobile-location-search']}>
           {autosuggestComponent}
         </div>
-        <div className={styles['favourite-modal-mobile-name']}>
-          <input
-            className={styles['favourite-modal-mobile-input']}
-            value={name || ''}
-            placeholder={inputPlaceholder}
-            onChange={specifyName}
-          />
-        </div>
+        <input
+          className={styles['favourite-modal-mobile-input']}
+          value={name || ''}
+          placeholder={inputPlaceholder}
+          onChange={specifyName}
+        />
       </div>
       <div className={styles['favourite-modal-mobile-text']}>
         {chooseIconText}
@@ -74,9 +59,7 @@ const MobileModal = ({
 
 MobileModal.propTypes = {
   headerText: PropTypes.string.isRequired,
-  closeArialLabel: PropTypes.string.isRequired,
   autosuggestComponent: PropTypes.node.isRequired,
-  closeModal: PropTypes.func.isRequired,
   inputPlaceholder: PropTypes.string.isRequired,
   specifyName: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
@@ -85,12 +68,6 @@ MobileModal.propTypes = {
   saveFavourite: PropTypes.func.isRequired,
   saveText: PropTypes.string.isRequired,
   canSave: PropTypes.func.isRequired,
-  isEdit: PropTypes.bool,
-  cancelSelected: PropTypes.func,
-};
-
-MobileModal.defaultProps = {
-  isEdit: false,
 };
 
 export default MobileModal;

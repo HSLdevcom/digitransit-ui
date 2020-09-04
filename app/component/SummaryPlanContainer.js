@@ -56,6 +56,7 @@ class SummaryPlanContainer extends React.Component {
     bikeAndParkItinerariesToShow: PropTypes.number.isRequired,
     walking: PropTypes.bool,
     biking: PropTypes.bool,
+    showAlternativePlan: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -64,6 +65,7 @@ class SummaryPlanContainer extends React.Component {
     itineraries: [],
     walking: false,
     biking: false,
+    showAlternativePlan: false,
   };
 
   static contextTypes = {
@@ -503,6 +505,7 @@ class SummaryPlanContainer extends React.Component {
       bikeAndParkItinerariesToShow,
       walking,
       biking,
+      showAlternativePlan,
     } = this.props;
     const searchTime =
       this.props.plan.date ||
@@ -536,6 +539,7 @@ class SummaryPlanContainer extends React.Component {
           bikeAndParkItinerariesToShow={bikeAndParkItinerariesToShow}
           walking={walking}
           biking={biking}
+          showAlternativePlan={showAlternativePlan}
         >
           {this.props.children}
         </ItinerarySummaryListContainer>

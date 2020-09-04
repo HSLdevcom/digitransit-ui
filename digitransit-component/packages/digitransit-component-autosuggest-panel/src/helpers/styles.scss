@@ -49,8 +49,17 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   .viapoint-container {
     display: flex;
     flex: 1 0 100%;
-    margin-top: 6px;
+
     min-height: 50px;
+    &:first-child {
+      margin-top: 6px;
+    }
+    &:not(:first-child) {
+      margin-top: 3px;
+    }
+    &:last-child {
+      margin-bottom: 6px;
+    }
     .light-gray-background {
       display: flex;
       padding: 3px 0;
@@ -64,6 +73,11 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
         min-width: 27px;
         justify-content: center;
         align-items: center;
+        svg {
+          fill: #ccc;
+          height: 20px;
+
+        }
       }
 
       .viapoint-input-container {
@@ -144,25 +158,53 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     border-left: 1px solid rgba(151, 151, 151, 0.2);
   }
   .opposite {
-    height: 17px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
     min-width: 40px;
     svg {
-      font-size: 16px;
+      fill: $primary-color;
+      width: 19px;
+      height: 17px;
     }
   }
   .add-via-point {
-    height: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
     min-width: 40px;
     svg {
-      font-size: 16px;
+      fill: $primary-color;
+      width: 20px;
+      height: 22px;
     }
   }
   .add-via-point-slack {
-    height: 19px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
     min-width: 47px;
+    svg {
+      fill: $primary-color;
+      width: 18px;
+      height: 19px;
+    }
   }
   .remove-via-point {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    max-height: 42px;
     min-width: 40px;
+    svg {
+      fill: $primary-color;
+      width: 14px;
+      height: 14px;
+    }
   }
 }
 
