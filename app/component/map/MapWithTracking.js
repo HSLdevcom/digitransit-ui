@@ -180,7 +180,10 @@ class MapWithTrackingStateHandler extends React.Component {
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(newProps) {
-    if (newProps.focusPoint && newProps.focusPoint.gps) {
+    if (
+      (newProps.focusPoint && newProps.focusPoint.gps) ||
+      newProps.initialMapWithTracking
+    ) {
       this.setState({
         mapTracking: true,
       });
