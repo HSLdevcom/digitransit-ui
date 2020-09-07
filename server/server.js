@@ -85,7 +85,14 @@ function setUpOIDC() {
   app.use(logger('dev'));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(require('helmet')());
+  // enable helmet and disable some hard to maintain policies
+  app.use(
+    require('helmet')({
+      contentSecurityPolicy: false,
+      referrerPolicy: false,
+      expectCt: false,
+    }),
+  );
   // Passport requires session to persist the authentication
   app.use(
     session({

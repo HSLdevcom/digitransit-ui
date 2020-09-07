@@ -35,6 +35,16 @@ function IndexPageMap(
   { match, router, breakpoint, origin, destination },
   { config },
 ) {
+  let focusPoint;
+  const useDefaultLocation =
+    (!origin || !origin.set) && (!destination || !destination.set);
+  if (useDefaultLocation) {
+    focusPoint = config.defaultMapCenter || config.defaultEndpoint;
+  } else if (origin.set && origin.ready) {
+    focusPoint = origin;
+  } else if (destination.set && destination.ready) {
+    focusPoint = destination;
+  }
   let map;
   if (breakpoint === 'large') {
     map = (
@@ -44,6 +54,7 @@ function IndexPageMap(
         showScaleBar
         origin={origin}
         destination={destination}
+        focusPoint={focusPoint}
         renderCustomButtons={() => (
           <>
             {config.map.showStreetModeSelector &&

@@ -322,7 +322,9 @@ class FavouriteBar extends React.Component {
             }
           />
           <div
-            className={cx(styles.expandButton, styles[expandIcon])}
+            className={cx(styles.expandButton, styles[expandIcon], {
+              [styles.rotate]: listOpen,
+            })}
             ref={this.expandListRef}
             id="favourite-expand-button"
             onClick={() => this.toggleList()}
@@ -333,7 +335,7 @@ class FavouriteBar extends React.Component {
             aria-controls="favourite-suggestion-list"
             aria-activedescendant={`favourite-suggestion-list--item-${highlightedIndex}`}
           >
-            <Icon img={expandIcon} rotate={listOpen ? -90 : 90} />
+            <Icon img={expandIcon} />
           </div>
         </div>
         <div className={styles['favourite-suggestion-container']}>
