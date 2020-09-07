@@ -313,10 +313,14 @@ class MapWithTrackingStateHandler extends React.Component {
     if (this.context.config.map.showZoomControl) {
       btnClassName = cx(btnClassName, 'roomForZoomControl');
     }
+    const sameFocusPoints = isEqual(this.state.focusPoint, focusPoint);
     if (this.state.mapTracking && position.hasLocation) {
       location = position;
     } else if (focusPoint && this.state.useFocusPoint) {
       location = this.state.focusPoint;
+    } else if (!sameFocusPoints) {
+      // Happens i.e. when user navigates back to indexPage from different view.
+      location = focusPoint;
     } else {
       // Map has to be loaded first, so we need correct coordinates at start. But after that (leafletElement exists)
       // we don't need correct coordinates. In fact trying to inject coordinates will mess up zooming and tracking.
