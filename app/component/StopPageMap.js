@@ -164,8 +164,7 @@ const StopPageMap = (
   return (
     <MapWithTracking
       className="flex-grow"
-      lat={stop.lat}
-      lon={stop.lon}
+      focusPoint={stop}
       zoom={!match.params.stopId || stop.platformCode ? 18 : 16}
       showStops
       hilightedStops={[id]}
@@ -174,7 +173,6 @@ const StopPageMap = (
       setInitialZoom={17}
       origin={locationState}
       destination={stop}
-      setInitialMapTracking
       bounds={bounds}
       fitBounds={bounds.length > 0}
     >
