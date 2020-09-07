@@ -13885,10 +13885,10 @@ polyfill-library@3.96.0:
     wicg-inert "^3.0.0"
     yaku "1.0.1"
 
-polyline-encoded@0.0.8:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/polyline-encoded/-/polyline-encoded-0.0.8.tgz#4cfb8e54a0c6b89e071dae5471e58b7442cb6f72"
-  integrity sha1-TPuOVKDGuJ4HHa5UceWLdELLb3I=
+polyline-encoded@0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/polyline-encoded/-/polyline-encoded-0.0.9.tgz#bb5212825f3331587b200f0c5368c203eb2f1905"
+  integrity sha512-xv6ONShzZdcISK6IT8x3IqsqxPq7HRqcPJ80V4et4hMolIRct5s/5dtUkfO7hGZEeKtWZ1fK7/fKur8gbd4fvg==
 
 portfinder@^1.0.25:
   version "1.0.28"
