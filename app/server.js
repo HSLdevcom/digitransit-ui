@@ -8,7 +8,7 @@ import { Environment, RecordSource, Store } from 'relay-runtime';
 import { getFarceResult } from 'found/lib/server';
 import makeRouteConfig from 'found/lib/makeRouteConfig';
 import { Resolver } from 'found-relay';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 import {
   RelayNetworkLayer,
   urlMiddleware,
