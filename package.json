@@ -152,7 +152,6 @@
     "i18next": "19.4.3",
     "intl": "1.2.5",
     "leaflet": "1.6.0",
-    "leaflet-active-area": "1.1.1",
     "lodash": "4.17.19",
     "lodash-es": "4.17.15",
     "lru-cache": "6.0.0",
