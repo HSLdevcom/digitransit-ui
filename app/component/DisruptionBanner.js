@@ -32,7 +32,7 @@ class DisruptionBanner extends React.Component {
         }
       });
     });
-    const getId = alert => `${alert.id}`;
+    const getId = alert => `${alert.alertDescriptionText}`;
     activeAlerts = uniqBy(activeAlerts, getId).filter(alert => {
       const alertToCheck = {
         ...alert,
@@ -42,7 +42,7 @@ class DisruptionBanner extends React.Component {
         },
       };
       return (
-        (alert.alertSeverityLevel === AlertSeverityLevelType.Severe ||
+        (alert.alertSeverityLevel === AlertSeverityLevelType.Info ||
           alert.alertSeverityLevel === AlertSeverityLevelType.Warning) &&
         isAlertValid(alertToCheck, this.props.currentTime)
       );
@@ -110,6 +110,7 @@ const containerComponent = createFragmentContainer(
                   alertHeaderText
                   alertEffect
                   alertCause
+                  alertDescriptionText
                   alertDescriptionTextTranslations {
                     text
                     language
@@ -126,6 +127,7 @@ const containerComponent = createFragmentContainer(
                         alertHeaderText
                         alertEffect
                         alertCause
+                        alertDescriptionText
                         alertDescriptionTextTranslations {
                           text
                           language

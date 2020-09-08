@@ -27,6 +27,15 @@ Returns Stop and station objects .
 
 -   `favourites` **any** 
 
+## filterStopsAndStationsByMode
+
+Returns Stop and station objects filtered by given mode .
+
+### Parameters
+
+-   `stopsToFilter` **any** 
+-   `mode` **[String][1]** 
+
 ## getFavouriteRoutesQuery
 
 Returns Favourite Route objects depending on input
@@ -44,7 +53,7 @@ Returns Route objects depending on input
 
 -   `input` **[String][1]** Search text, if empty no objects are returned
 -   `feedIds` **any** 
--   `nearYouMode`  
+-   `transportMode` **[String][1]** Filter routes with a transport mode, e.g. route-BUS
 
 [1]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
 
