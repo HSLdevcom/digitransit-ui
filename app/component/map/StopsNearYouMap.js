@@ -91,10 +91,6 @@ function StopsNearYouMap(
   if (!bounds) {
     return <Loading />;
   }
-  let useFitBounds = true;
-  if (bounds.length === 0) {
-    useFitBounds = false;
-  }
   let uniqueRealtimeTopics;
   const { environment } = useContext(ReactRelayContext);
   const [plan, setPlan] = useState({ plan: {}, isFetching: false });
@@ -236,7 +232,7 @@ function StopsNearYouMap(
         showStops
         stopsNearYouMode={mode}
         showScaleBar
-        fitBounds={useFitBounds}
+        fitBounds={bounds.length > 0}
         bounds={bounds}
         origin={origin}
         destination={destination}
@@ -258,7 +254,7 @@ function StopsNearYouMap(
           breakpoint={breakpoint}
           showStops
           stopsNearYouMode={mode}
-          fitBounds={useFitBounds}
+          fitBounds={bounds.length > 0}
           bounds={bounds}
           showScaleBar
           origin={origin}

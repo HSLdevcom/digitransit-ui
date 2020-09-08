@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-favourite-bar",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "digitransit-component favourite-bar module",
   "main": "lib/index.js",
   "publishConfig": {
@@ -25,8 +25,8 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "dependencies": {
-    "@digitransit-component/digitransit-component-icon": "^0.0.9",
-    "@digitransit-component/digitransit-component-suggestion-item": "^0.0.10",
+    "@digitransit-component/digitransit-component-icon": "~0.0.9",
+    "@digitransit-component/digitransit-component-suggestion-item": "~0.0.10",
     "@hsl-fi/sass":" ^0.1.1"
   },
   "peerDependencies": {
