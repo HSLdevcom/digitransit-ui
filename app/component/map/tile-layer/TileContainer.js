@@ -59,7 +59,7 @@ class TileContainer {
           if (!this.stopsNearYouMode) {
             return isEnabled;
           }
-          if (this.stopsNearYouMode === 'BICYCLE') {
+          if (this.stopsNearYouMode === 'CITYBIKE') {
             return true;
           }
         }

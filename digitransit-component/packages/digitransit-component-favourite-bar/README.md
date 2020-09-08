@@ -6,9 +6,7 @@
 
 **Extends React.Component**
 
-FavouriteBar renders favourites. It searches favourites for home and work by name.
-Home is found in finnish (Koti), in English (Home) or in Swedish (Hem).
-Work is found in finnish (Työ), in English (Work) or in Swedish (Arbetsplats).
+FavouriteBar renders favourites. FavouriteBar displays the first two favourites, the rest are shown in a list.
 
 ### Parameters
 

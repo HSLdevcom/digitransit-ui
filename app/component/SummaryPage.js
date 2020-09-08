@@ -2,7 +2,12 @@ import PropTypes from 'prop-types';
 /* eslint-disable react/no-array-index-key */
 import moment from 'moment';
 import React from 'react';
-import { createFragmentContainer, graphql } from 'react-relay';
+import {
+  createFragmentContainer,
+  fetchQuery,
+  graphql,
+  ReactRelayContext,
+} from 'react-relay';
 import findIndex from 'lodash/findIndex';
 import get from 'lodash/get';
 import sortBy from 'lodash/sortBy';
@@ -50,8 +55,9 @@ import {
 import VehicleMarkerContainer from './map/VehicleMarkerContainer';
 import ItineraryTab from './ItineraryTab';
 import { StreetModeSelector } from './StreetModeSelector';
-import { getCurrentSettings } from '../util/planParamUtil';
+import { getCurrentSettings, preparePlanParams } from '../util/planParamUtil';
 import { getTotalBikingDistance } from '../util/legUtils';
+import { userHasChangedModes } from '../util/modeUtils';
 
 /**
  * Returns the actively selected itinerary's index. Attempts to look for
@@ -221,6 +227,7 @@ class SummaryPage extends React.Component {
     error: PropTypes.object,
     loading: PropTypes.bool,
     loadingPosition: PropTypes.bool,
+    relayEnvironment: PropTypes.object,
   };
 
   static defaultProps = {
@@ -236,7 +243,8 @@ class SummaryPage extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-
+    this.isFetching = false;
+    this.params = this.context.match.params;
     context.executeAction(storeOrigin, otpToLocation(props.match.params.from));
     if (props.error) {
       reportError(props.error);
@@ -266,6 +274,7 @@ class SummaryPage extends React.Component {
       settingsOpen: false,
       bounds: null,
       streetMode: existingStreetMode,
+      alternativePlan: undefined,
     };
 
     if (this.state.streetMode === 'walk') {
@@ -451,6 +460,150 @@ class SummaryPage extends React.Component {
         'RealTimeInformationStore',
       ).storedItineraryVehicleInfos = undefined;
     }
+  };
+
+  paramsHaveChanged = () => {
+    return this.params !== this.context.match.params;
+  };
+
+  makeQueryWithAllModes = () => {
+    this.setLoading(true);
+
+    const query = graphql`
+      query SummaryPage_Query(
+        $fromPlace: String!
+        $toPlace: String!
+        $intermediatePlaces: [InputCoordinates!]
+        $numItineraries: Int!
+        $modes: [TransportMode!]
+        $date: String!
+        $time: String!
+        $walkReluctance: Float
+        $walkBoardCost: Int
+        $minTransferTime: Int
+        $walkSpeed: Float
+        $maxWalkDistance: Float
+        $wheelchair: Boolean
+        $ticketTypes: [String]
+        $disableRemainingWeightHeuristic: Boolean
+        $arriveBy: Boolean
+        $transferPenalty: Int
+        $ignoreRealtimeUpdates: Boolean
+        $maxPreTransitTime: Int
+        $walkOnStreetReluctance: Float
+        $waitReluctance: Float
+        $bikeSpeed: Float
+        $bikeSwitchTime: Int
+        $bikeSwitchCost: Int
+        $optimize: OptimizeType
+        $triangle: InputTriangle
+        $maxTransfers: Int
+        $waitAtBeginningFactor: Float
+        $heuristicStepsPerMainStep: Int
+        $compactLegsByReversedSearch: Boolean
+        $itineraryFiltering: Float
+        $modeWeight: InputModeWeight
+        $preferred: InputPreferred
+        $unpreferred: InputUnpreferred
+        $allowedBikeRentalNetworks: [String]
+        $locale: String
+      ) {
+        plan: plan(
+          fromPlace: $fromPlace
+          toPlace: $toPlace
+          intermediatePlaces: $intermediatePlaces
+          numItineraries: $numItineraries
+          transportModes: $modes
+          date: $date
+          time: $time
+          walkReluctance: $walkReluctance
+          walkBoardCost: $walkBoardCost
+          minTransferTime: $minTransferTime
+          walkSpeed: $walkSpeed
+          maxWalkDistance: $maxWalkDistance
+          wheelchair: $wheelchair
+          allowedTicketTypes: $ticketTypes
+          disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
+          arriveBy: $arriveBy
+          transferPenalty: $transferPenalty
+          ignoreRealtimeUpdates: $ignoreRealtimeUpdates
+          maxPreTransitTime: $maxPreTransitTime
+          walkOnStreetReluctance: $walkOnStreetReluctance
+          waitReluctance: $waitReluctance
+          bikeSpeed: $bikeSpeed
+          bikeSwitchTime: $bikeSwitchTime
+          bikeSwitchCost: $bikeSwitchCost
+          optimize: $optimize
+          triangle: $triangle
+          maxTransfers: $maxTransfers
+          waitAtBeginningFactor: $waitAtBeginningFactor
+          heuristicStepsPerMainStep: $heuristicStepsPerMainStep
+          compactLegsByReversedSearch: $compactLegsByReversedSearch
+          itineraryFiltering: $itineraryFiltering
+          modeWeight: $modeWeight
+          preferred: $preferred
+          unpreferred: $unpreferred
+          allowedBikeRentalNetworks: $allowedBikeRentalNetworks
+          locale: $locale
+        ) {
+          ...SummaryPlanContainer_plan
+          ...ItineraryTab_plan
+          itineraries {
+            startTime
+            endTime
+            ...ItineraryTab_itinerary
+            ...PrintableItinerary_itinerary
+            ...SummaryPlanContainer_itineraries
+            legs {
+              mode
+              ...ItineraryLine_legs
+              transitLeg
+              legGeometry {
+                points
+              }
+              route {
+                gtfsId
+              }
+              trip {
+                gtfsId
+                directionId
+                stoptimesForDate {
+                  scheduledDeparture
+                }
+                pattern {
+                  ...RouteLine_pattern
+                }
+              }
+            }
+          }
+        }
+      }
+    `;
+
+    const planParams = preparePlanParams(this.context.config)(
+      this.context.match.params,
+      this.context.match,
+    );
+    const variables = {
+      ...planParams,
+      modes: [
+        { mode: 'WALK' },
+        { mode: 'BUS' },
+        { mode: 'TRAM' },
+        { mode: 'SUBWAY' },
+        { mode: 'RAIL' },
+        { mode: 'FERRY' },
+      ],
+    };
+    fetchQuery(this.props.relayEnvironment, query, variables).then(
+      ({ plan: results }) => {
+        this.setState({ alternativePlan: results }, () => {
+          this.setLoading(false);
+          this.isFetching = false;
+          this.params = this.context.match.params;
+        });
+      },
+    );
   };
 
   componentDidMount() {
@@ -865,6 +1018,26 @@ class SummaryPage extends React.Component {
       bikeAndPublicPlan,
       bikeParkPlan,
     } = this.props;
+    const planHasNoItineraries =
+      this.props.plan &&
+      this.props.plan.itineraries &&
+      this.props.plan.itineraries.filter(
+        itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
+      ).length === 0;
+    if (
+      planHasNoItineraries &&
+      userHasChangedModes(this.context.config) &&
+      !this.isFetching &&
+      (!this.state.alternativePlan || this.paramsHaveChanged())
+    ) {
+      this.isFetching = true;
+      this.makeQueryWithAllModes();
+    }
+    const hasAlternativeItineraries =
+      this.state.alternativePlan &&
+      this.state.alternativePlan.itineraries &&
+      this.state.alternativePlan.itineraries.length > 0;
+
     this.onlyBikeParkItineraries = false;
     this.bikeAndPublicItinerariesToShow = 0;
     this.bikeAndParkItinerariesToShow = 0;
@@ -917,6 +1090,12 @@ class SummaryPage extends React.Component {
         this.selectedPlan = bikeParkPlan;
         this.onlyBikeParkItineraries = true;
       }
+    } else if (
+      planHasNoItineraries &&
+      hasAlternativeItineraries &&
+      !this.paramsHaveChanged()
+    ) {
+      this.selectedPlan = this.state.alternativePlan;
     } else {
       this.selectedPlan = plan;
     }
@@ -1116,6 +1295,9 @@ class SummaryPage extends React.Component {
               bikeAndParkItinerariesToShow={this.bikeAndParkItinerariesToShow}
               walking={showWalkOptionButton}
               biking={showBikeOptionButton}
+              showAlternativePlan={
+                planHasNoItineraries && hasAlternativeItineraries
+              }
             >
               {this.props.content &&
                 React.cloneElement(this.props.content, {
@@ -1235,6 +1417,9 @@ class SummaryPage extends React.Component {
             toggleSettings={this.toggleCustomizeSearchOffcanvas}
             bikeAndPublicItinerariesToShow={this.bikeAndPublicItinerariesToShow}
             bikeAndParkItinerariesToShow={this.bikeAndParkItinerariesToShow}
+            showAlternativePlan={
+              planHasNoItineraries && hasAlternativeItineraries
+            }
           />
           {screenReaderUpdateAlert}
         </>
@@ -1285,7 +1470,13 @@ class SummaryPage extends React.Component {
   }
 }
 
-const SummaryPageWithBreakpoint = withBreakpoint(SummaryPage);
+const SummaryPageWithBreakpoint = withBreakpoint(props => (
+  <ReactRelayContext.Consumer>
+    {({ environment }) => (
+      <SummaryPage {...props} relayEnvironment={environment} />
+    )}
+  </ReactRelayContext.Consumer>
+));
 
 SummaryPageWithBreakpoint.description = (
   <ComponentUsageExample isFullscreen>

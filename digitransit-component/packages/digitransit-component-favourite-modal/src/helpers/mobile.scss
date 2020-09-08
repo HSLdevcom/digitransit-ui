@@ -1,0 +1,104 @@
+$primary-color: #007ac9;
+
+.favourite-modal-mobile-container {
+  display: flex;
+  flex-direction: column;
+  .favourite-modal-mobile-top {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 30px;
+    .favourite-modal-mobile-header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: inherit;
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: -0.6px;
+      text-align: center;
+      color: #333333;
+      margin-bottom: 37px;
+    }
+  }
+  .favourite-modal-mobile-main {
+    text-align: left;
+    margin-bottom: 28px;
+    .favourite-modal-mobile-location-search {
+      margin-bottom: 9px;
+    }
+    .favourite-modal-mobile-input {
+      display: flex;
+      width: 100%;
+      height: 44px;
+      border-radius: 5px;
+      border: solid 1px #888888;
+      background-color: #ffffff;
+      padding-left: 20px;
+      font-size: 16px;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+      color: #333333;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      &:focus {
+        background: #fff;
+        outline: none;
+        border: solid 1px $primary-color;
+        box-shadow: none;
+      }
+      &::placeholder {
+        color: #666666;
+        font-size: 15px;
+      }
+    }
+  }
+  .favourite-modal-mobile-text {
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: -0.53px;
+    color: #333333;
+    margin-bottom: 18px;
+  }
+
+  .favourite-modal-mobile-save {
+    position: fixed;
+    width: calc(100% - 40px);
+    bottom: 0;
+    margin-bottom: 30px;
+    .favourite-modal-mobile-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      width: 100%;
+      height: 50px;
+      font-size: 18px;
+      font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
+      font-weight: 500;
+      letter-spacing: -0.5px;
+      background: #007ac9;
+      line-height: 0;
+      text-align: center;
+      padding: 0;
+      margin: 0;
+      color: #fff;
+      border-width: 0;
+      transition: background-color 300ms ease-out;
+      border-radius: 25px;
+      cursor: pointer;
+      &:active, &:focus {
+        background: darken($primary-color, 5%);
+      }
+      &.disabled {
+        background: #bbb;
+        &:active {
+          background: #bbb;
+        }
+      }
+    }
+  }
+}

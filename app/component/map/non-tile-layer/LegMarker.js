@@ -24,10 +24,12 @@ class LegMarker extends React.Component {
         off: PropTypes.func.isRequired,
       }).isRequired,
     }).isRequired,
+    zIndexOffset: PropTypes.number,
   };
 
   static defaultProps = {
     color: 'currentColor',
+    zIndexOffset: undefined,
   };
 
   componentDidMount() {
@@ -65,6 +67,7 @@ class LegMarker extends React.Component {
           className: `legmarker ${this.props.mode}`,
           iconSize: null,
         })}
+        zIndexOffset={this.props.zIndexOffset}
       />
     );
   }

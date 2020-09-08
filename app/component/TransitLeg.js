@@ -296,33 +296,16 @@ class TransitLeg extends React.Component {
       <div key={index} className="row itinerary-row">
         <span className="sr-only">{textVersionBeforeLink}</span>
         <div className="small-2 columns itinerary-time-column">
-          <Link
-            onClick={e => {
-              e.stopPropagation();
-            }}
-            onKeyPress={e => {
-              if (isKeyboardSelectionEvent(e)) {
-                e.stopPropagation();
-              }
-            }}
-            to={
-              `/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_STOPS}/${
-                leg.trip.pattern.code
-              }/${leg.trip.gtfsId}`
-              // TODO: Create a helper function for generationg links
-            }
-          >
-            <span className="sr-only">{children}</span>
-            <span aria-hidden="true">
-              <div className="itinerary-time-column-time">
-                <span className={cx({ canceled: legHasCancelation(leg) })}>
-                  {moment(leg.startTime).format('HH:mm')}
-                </span>
-                {originalTime}
-              </div>
-              {zoneIcons}
-            </span>
-          </Link>
+          <span className="sr-only">{children}</span>
+          <span aria-hidden="true">
+            <div className="itinerary-time-column-time">
+              <span className={cx({ canceled: legHasCancelation(leg) })}>
+                {moment(leg.startTime).format('HH:mm')}
+              </span>
+              {originalTime}
+            </div>
+            {zoneIcons}
+          </span>
         </div>
         <span className="sr-only">{textVersionAfterLink}</span>
         <ItineraryCircleLine
@@ -426,15 +409,32 @@ class TransitLeg extends React.Component {
             })}
             aria-hidden="true"
           >
-            <RouteNumber
-              mode={mode.toLowerCase()}
-              alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
-              color={leg.route ? `#${leg.route.color}` : 'currentColor'}
-              text={leg.route && leg.route.shortName}
-              realtime={false}
-              withBar
-              fadeLong
-            />
+            <Link
+              onClick={e => {
+                e.stopPropagation();
+              }}
+              onKeyPress={e => {
+                if (isKeyboardSelectionEvent(e)) {
+                  e.stopPropagation();
+                }
+              }}
+              to={
+                `/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_STOPS}/${
+                  leg.trip.pattern.code
+                }/${leg.trip.gtfsId}`
+                // TODO: Create a helper function for generationg links
+              }
+            >
+              <RouteNumber
+                mode={mode.toLowerCase()}
+                alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
+                color={leg.route ? `#${leg.route.color}` : 'currentColor'}
+                text={leg.route && leg.route.shortName}
+                realtime={false}
+                withBar
+                fadeLong
+              />
+            </Link>
             <div className="headsign">{leg.trip.tripHeadsign}</div>
           </div>
           <LegAgencyInfo leg={leg} />

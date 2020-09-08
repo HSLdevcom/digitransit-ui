@@ -1,0 +1,75 @@
+@import '~@hsl-fi/sass/colors';
+@import '~@hsl-fi/sass/mixins/screen';
+@import '~@hsl-fi/sass/mixins/text';
+
+$primary-color: #007ac9;
+
+.digitransit-dialog-modal-top {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  .digitransit-dialog-modal-header {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.33;
+    letter-spacing: -0.6px;
+    text-align: center;
+    color: #333333;
+  }
+}
+
+.digitransit-dialog-modal-place {
+  font-size: 18px;
+  font-weight: normal;
+  line-height: 1.33;
+  letter-spacing: -0.6px;
+  text-align: center;
+  color: #333333;
+  margin-bottom: 45px;
+}
+
+.digitransit-dialog-modal-buttons {
+  display: flex;
+  flex-direction: column;
+  .digitransit-dialog-modal-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 50px;
+    font-size: 18px;
+    font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
+    font-weight: 500;
+    letter-spacing: -0.5px;
+    background: $primary-color;
+    color: #fff;
+    line-height: 0;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    border-width: 0;
+    transition: background-color 300ms ease-out;
+    border-radius: 25px;
+    &.primary {
+      &:active, &:focus {
+        background: darken($primary-color, 5%);
+      }
+      &.disabled {
+        background: #bbb;
+        &:active {
+          background: #bbb;
+        }
+      }
+    }
+    &.secondary {
+      margin-top: 9px;
+      background: #fff;
+      border: solid 1px #888888;
+      color: $primary-color;
+      &:active {
+        background: #fff;
+      }
+    }
+  }
+}

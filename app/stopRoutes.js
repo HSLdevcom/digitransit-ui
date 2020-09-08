@@ -16,6 +16,7 @@ import {
   getComponentOrLoadingRenderer,
 } from './util/routerUtils';
 import { prepareDatesForStops, prepareServiceDay } from './util/dateParamUtils';
+import { isBrowser } from './util/browser';
 
 const queries = {
   stop: {
@@ -240,11 +241,16 @@ export default function getStopRoutes(isTerminal = false) {
             <Route
               path="(.*)?"
               getComponent={() => {
-                return isTerminal
-                  ? import(/* webpackChunkName: "stop" */ './component/TerminalPageMapContainer').then(
-                      getDefault,
-                    )
-                  : import(/* webpackChunkName: "stop" */ './component/StopPageMapContainer').then(
+                // eslint-disable-next-line no-nested-ternary
+                return isBrowser
+                  ? isTerminal
+                    ? import(/* webpackChunkName: "stop" */ './component/TerminalPageMapContainer').then(
+                        getDefault,
+                      )
+                    : import(/* webpackChunkName: "stop" */ './component/StopPageMapContainer').then(
+                        getDefault,
+                      )
+                  : import(/* webpackChunkName: "stop" */ './component/Loading').then(
                       getDefault,
                     );
               }}
