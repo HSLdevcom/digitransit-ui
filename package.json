@@ -194,7 +194,7 @@
     "relay-test-utils": "9.0.0",
     "request": "^2.88.0",
     "serialize-javascript": "4.0.0",
-    "uuidv4": "6.2.3",
+    "uuid": "8.3.0",
     "zurb-foundation-5": "5.4.7"
   },
   "devDependencies": {

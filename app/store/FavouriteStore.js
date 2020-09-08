@@ -3,7 +3,7 @@ import includes from 'lodash/includes';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import moment from 'moment';
-import { uuid } from 'uuidv4';
+import { v4 as uuid } from 'uuid';
 import getGeocodingResults from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
 import {
   getFavouriteStorage,
