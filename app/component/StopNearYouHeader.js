@@ -9,7 +9,6 @@ import { PREFIX_STOPS } from '../util/path';
 import { isKeyboardSelectionEvent } from '../util/browser';
 
 const StopNearYouHeader = ({ stop, color, desc, isStation }) => {
-  const code = isStation ? <FormattedMessage id="station" /> : stop.code;
   return (
     <div className="stop-near-you-header-container">
       <div className="stop-header-content">
@@ -33,7 +32,13 @@ const StopNearYouHeader = ({ stop, color, desc, isStation }) => {
         </Link>
         <div className="stop-near-you-info">
           <span className="stop-near-you-desc">{desc}</span>
-          <StopCode code={code} />
+          {isStation ? (
+            <span className="itinerary-stop-code">
+              <FormattedMessage id="station" />
+            </span>
+          ) : (
+            <StopCode code={stop.code} />
+          )}
           <PlatformNumber number={stop.platformCode} short />
           <ZoneIcon zoneId={stop.zoneId} zoneLabelColor={color} />
         </div>
