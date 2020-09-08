@@ -82,10 +82,8 @@ function IndexPageMap(
         showStops
         showScaleBar
         showLocationMessages
-        // origin={origin}
         initialZoom={initialZoom}
         initialMapTracking={mapTracking}
-        // destination={destination}
         focusPoint={focusPoint}
         leafletObjs={leafletObjs}
         renderCustomButtons={() => (
@@ -111,8 +109,7 @@ function IndexPageMap(
             breakpoint={breakpoint}
             showStops
             initialMapTracking={mapTracking}
-            // origin={origin}
-            // destination={destination}
+            focusPoint={focusPoint}
             leafletObjs={leafletObjs}
             renderCustomButtons={() => (
               <>

@@ -24,7 +24,7 @@ import triggerMessage from '../../util/messageUtils';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 
 const DEFAULT_ZOOM = 12;
-
+const FOCUS_ZOOM = 16;
 const onlyUpdateCoordChanges = onlyUpdateForKeys([
   'lat',
   'lon',
@@ -111,11 +111,12 @@ class MapWithTrackingStateHandler extends React.Component {
   constructor(props) {
     super(props);
     this.focusPoint = props.focusPoint;
+    const defaultZoom = this.focusPoint ? DEFAULT_ZOOM : FOCUS_ZOOM;
     this.state = {
       geoJson: {},
       useFitBounds: props.fitBounds,
       useFocusPoint: !!props.focusPoint,
-      initialZoom: props.setInitialZoom ? props.setInitialZoom : DEFAULT_ZOOM,
+      initialZoom: props.setInitialZoom ? props.setInitialZoom : defaultZoom,
       mapTracking: props.setInitialMapTracking,
     };
   }
