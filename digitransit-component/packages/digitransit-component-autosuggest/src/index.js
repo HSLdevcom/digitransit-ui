@@ -407,29 +407,37 @@ class DTAutosuggest extends React.Component {
   };
 
   inputClicked = inputValue => {
+    let value = inputValue;
     if (!this.state.editing) {
       const newState = {
         editing: true,
         // reset at start, just in case we missed something
         pendingSelection: null,
       };
+      const currentPosition =
+        value === 'Tämänhetkinen sijainti' ||
+        value === 'Nuvarande position' ||
+        value === 'Current position' ||
+        value === 'Current location' ||
+        value === 'Valittu sijainti';
+      if (currentPosition) {
+        value = '';
+      }
       // DT-3263: added stateKeyDown
       const stateKeyDown = {
         editing: true,
         pendingSelection: null,
-        value: inputValue,
+        value,
       };
 
       if (!this.state.suggestions.length) {
         // DT-3263: added if-else statement
-        if (typeof inputValue === 'object' || !inputValue) {
+        if (typeof value === 'object' || !value) {
           this.setState(newState, () =>
             this.fetchFunction({ value: this.state.value }),
           );
         } else {
-          this.setState(stateKeyDown, () =>
-            this.fetchFunction({ value: inputValue }),
-          );
+          this.setState(stateKeyDown, () => this.fetchFunction({ value }));
         }
       } else {
         this.fetchFunction({ value: this.state.value });
