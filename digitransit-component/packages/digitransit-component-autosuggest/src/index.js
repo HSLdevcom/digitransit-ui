@@ -443,7 +443,9 @@ class DTAutosuggest extends React.Component {
             this.fetchFunction({ value: this.state.value }),
           );
         } else {
-          this.setState(stateKeyDown, () => this.fetchFunction({ inputValue }));
+          this.setState(stateKeyDown, () =>
+            this.fetchFunction({ value: inputValue }),
+          );
         }
       } else {
         this.fetchFunction({ value: this.state.value });
