@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 
-import { uuid } from 'uuidv4';
+import { v4 as uuid } from 'uuid';
 import ComponentUsageExample from './ComponentUsageExample';
 import ExternalLink from './ExternalLink';
 import { renderZoneTicket } from './ZoneTicket';
