@@ -343,8 +343,22 @@ class DTAutosuggest extends React.Component {
     );
   };
 
-  fetchFunction = ({ value }) =>
-    this.setState({ valid: false }, () => {
+  fetchFunction = ({ value }) => {
+    // DT-3460 empty input if value is in array below (HSL.fi translations also.)
+    const positions = [
+      'Valittu sijainti',
+      'Current position',
+      'Selected location',
+      'Vald position',
+      'Använd min position',
+      'Käytä nykyistä sijaintia',
+      'Use current location',
+    ];
+    if (positions.includes(value)) {
+      this.clearInput();
+    }
+
+    return this.setState({ valid: false }, () => {
       executeSearch(
         this.state.targets,
         this.state.sources,
@@ -392,6 +406,7 @@ class DTAutosuggest extends React.Component {
         },
       );
     });
+  };
 
   clearInput = () => {
     const newState = {
