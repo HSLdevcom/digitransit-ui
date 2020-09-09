@@ -344,7 +344,7 @@ class DTAutosuggest extends React.Component {
   };
 
   fetchFunction = ({ value }) => {
-    // DT-3460 empty input if value is in array below (HSL.fi translations also.)
+    // DT-3460 empty input field if value is in array below (HSL.fi translations also.)
     const positions = [
       'Valittu sijainti',
       'Current position',

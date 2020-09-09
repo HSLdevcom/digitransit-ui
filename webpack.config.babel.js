@@ -9,7 +9,7 @@ const OfflinePlugin = require('offline-plugin');
 
 const CompressionPlugin = require('compression-webpack-plugin');
 const iltorb = require('iltorb');
-const zopfli = require('node-zopfli-es');
+// const zopfli = require('node-zopfli');
 
 const WebpackAssetsManifest = require('webpack-assets-manifest');
 const StatsPlugin = require('stats-webpack-plugin');
@@ -130,7 +130,7 @@ const productionPlugins = [
     filename: '[path].gz[query]',
     test: /\.(js|css|html|svg|ico)$/,
     minRatio: 0.95,
-    algorithm: zopfli.gzip,
+    // algorithm: zopfli.gzip,
   }),
   new CompressionPlugin({
     filename: '[path].br[query]',

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { uuid } from 'uuidv4';
+import { v4 as uuid } from 'uuid';
 import Icon from './Icon';
 
 const heading = (e, key, color) => {

@@ -24,7 +24,7 @@ import provideContext from 'fluxible-addons-react/provideContext';
 // Libraries
 import serialize from 'serialize-javascript';
 import { IntlProvider } from 'react-intl';
-import PolyfillLibrary from 'polyfill-library';
+import polyfillLibrary from 'polyfill-library';
 import fs from 'fs';
 import path from 'path';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -50,8 +50,7 @@ import { historyMiddlewares, render } from './routes';
 const appRoot = `${process.cwd()}/`;
 
 // cached assets
-const polyfillls = LRU(200);
-const polyfillLibrary = new PolyfillLibrary();
+const polyfillls = new LRU(200);
 
 let assets;
 let mainAssets;
