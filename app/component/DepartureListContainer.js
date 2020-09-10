@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import Link from 'found/lib/Link';
+import { intlShape } from 'react-intl';
 
 import DepartureRow from './DepartureRow';
 import { patternIdPredicate } from '../util/alertUtils';
@@ -170,6 +171,27 @@ class DepartureListContainer extends Component {
     return null;
   };
 
+  getHeadsign = departure => {
+    if (departure.isArrival) {
+      if (departure.isLastStop) {
+        return this.context.intl.formatMessage({
+          id: 'route-destination-endpoint',
+          defaultMessage: 'Arrives / Terminus',
+        });
+      }
+      return this.context.intl.formatMessage({
+        id: 'route-destination-arrives',
+        defaultMessage: 'Drop-off only',
+      });
+    }
+    return (
+      departure.headsign ||
+      departure.pattern.headsign ||
+      (departure.trip && departure.trip.tripHeadsign) ||
+      departure.pattern.route.longName
+    );
+  };
+
   render() {
     const departureObjs = [];
     const { currentTime, limit, isTerminal, stoptimes } = this.props;
@@ -209,7 +231,7 @@ class DepartureListContainer extends Component {
       }
       const id = `${departure.pattern.code}:${departure.stoptime}`;
       const row = {
-        headsign: departure.headsign,
+        headsign: this.getHeadsign(departure),
         trip: { ...departure.trip, ...{ route: departure.trip.pattern.route } },
         stop: departure.stop,
       };
@@ -263,6 +285,7 @@ DepartureListContainer.contextTypes = {
   executeAction: PropTypes.func.isRequired,
   getStore: PropTypes.func.isRequired,
   config: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
 };
 
 const containerComponent = createFragmentContainer(DepartureListContainer, {
