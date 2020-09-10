@@ -95,7 +95,11 @@ function ItinerarySummaryListContainer(
           bikeAndParkItinerariesToShow + 1,
           0,
           <ItinerarySummarySubtitle
-            translationId={`itinerary-summary.bikeAndPublic-${firstMode}-title`}
+            translationId={
+              firstMode === 'rail' || firstMode === 'subway'
+                ? `itinerary-summary.bikeAndPublic-${firstMode}-title`
+                : 'itinerary-summary.bikeAndPublic-fallback-title'
+            }
             defaultMessage="Biking \u0026 public transport"
             key="itinerary-summary.bikeAndPublic-title"
           />,
