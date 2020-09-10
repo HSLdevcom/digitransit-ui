@@ -92,7 +92,6 @@ const containerComponent = createFragmentContainer(
           omitNonPickups: { type: "Boolean!", defaultValue: false }
         ) {
         ...StopsNearYouContainer_stopPatterns
-          @arguments(omitNonPickups: $omitNonPickups)
       }
     `,
     alerts: graphql`

@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createRefetchContainer, graphql } from 'react-relay';
+import { intlShape, FormattedMessage } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { matchShape, routerShape } from 'found';
 import { indexOf } from 'lodash-es';
@@ -22,6 +23,7 @@ class StopsNearYouContainer extends React.Component {
 
   static contextTypes = {
     config: PropTypes.object,
+    intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
     headers: PropTypes.object.isRequired,
     getStore: PropTypes.func,
@@ -29,14 +31,36 @@ class StopsNearYouContainer extends React.Component {
     match: matchShape.isRequired,
   };
 
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      stopCount: 5,
+    };
+  }
+
   componentDidUpdate({ relay, currentTime }) {
     const currUnix = this.props.currentTime;
     if (currUnix !== currentTime) {
       relay.refetch(oldVariables => {
-        return { ...oldVariables, startTime: currentTime };
+        return {
+          ...oldVariables,
+          startTime: currentTime,
+          first: this.state.stopCount,
+        };
       });
     }
   }
+
+  showMore = () => {
+    this.state.stopCount += 5;
+    this.props.relay.refetch(oldVariables => {
+      return {
+        ...oldVariables,
+        startTime: this.props.currentTime,
+        first: this.state.stopCount,
+      };
+    });
+  };
 
   createNearbyStops = () => {
     const stopPatterns = this.props.stopPatterns.edges;
@@ -92,9 +116,21 @@ class StopsNearYouContainer extends React.Component {
 
   render() {
     return (
-      <div role="list" className="stops-near-you-container">
-        {this.createNearbyStops()}
-      </div>
+      <>
+        <div role="list" className="stops-near-you-container">
+          {this.createNearbyStops()}
+        </div>
+        <button
+          aria-label={this.context.intl.formatMessage({
+            id: 'set-time-earlier-button-label',
+            defaultMessage: 'Set travel time to earlier',
+          })}
+          className="standalone-btn show-more-button"
+          onClick={this.showMore}
+        >
+          <FormattedMessage id="show-more" defaultMessage="Show more" />
+        </button>
+      </>
     );
   }
 }
@@ -250,21 +286,21 @@ const connectedContainer = createRefetchContainer(
     `,
   },
   graphql`
-    query StopsNearYouContainer_Query(
+    query StopsNearYouContainerRefetchQuery(
       $lat: Float!
       $lon: Float!
       $filterByPlaceTypes: [FilterPlaceType]
       $filterByModes: [Mode]
-      $maxResults: Int!
+      $first: Int!
       $startTime: Long!
       $omitNonPickups: Boolean!
     ) {
-      stopPatterns: nearest(
+      nearest(
         lat: $lat
         lon: $lon
         filterByPlaceTypes: $filterByPlaceTypes
         filterByModes: $filterByModes
-        maxResults: $maxResults
+        first: $first
       ) {
         ...StopsNearYouContainer_stopPatterns
           @arguments(startTime: $startTime, omitNonPickups: $omitNonPickups)

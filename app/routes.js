@@ -63,17 +63,16 @@ export default config => {
                   $lon: Float!
                   $filterByPlaceTypes: [FilterPlaceType]
                   $filterByModes: [Mode]
-                  $maxResults: Int!
-                  $maxDistance: Int!
+                  $first: Int!
                   $omitNonPickups: Boolean
+                  $maxResults: Int
                 ) {
                   stopPatterns: nearest(
                     lat: $lat
                     lon: $lon
                     filterByPlaceTypes: $filterByPlaceTypes
                     filterByModes: $filterByModes
-                    maxResults: $maxResults
-                    maxDistance: $maxDistance
+                    first: $first
                   ) {
                     ...StopsNearYouPage_stopPatterns
                       @arguments(omitNonPickups: $omitNonPickups)

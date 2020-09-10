@@ -271,8 +271,9 @@ export const prepareStopsParams = config => ({ place, mode }) => {
   return {
     lat: newPlace.lat,
     lon: newPlace.lon,
-    maxResults: config.maxNearbyStopAmount,
-    maxDistance: config.maxNearbyStopDistance,
+    first: 5,
+    maxDistance: 100000,
+    maxResults: 10,
     filterByModes: modes,
     filterByPlaceTypes: placeTypes,
     omitNonPickups: config.omitNonPickups,
