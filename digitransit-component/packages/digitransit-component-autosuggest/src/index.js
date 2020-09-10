@@ -408,20 +408,6 @@ class DTAutosuggest extends React.Component {
   };
 
   inputClicked = inputValue => {
-    // DT-3460 empty input field if value is in array below (HSL.fi translations also.)
-    const positions = [
-      'Valittu sijainti',
-      'Current position',
-      'Selected location',
-      'Vald position',
-      'Använd min position',
-      'Käytä nykyistä sijaintia',
-      'Use current location',
-    ];
-    if (positions.includes(this.state.value)) {
-      this.clearInput();
-    }
-
     if (!this.state.editing) {
       const newState = {
         editing: true,
@@ -529,6 +515,19 @@ class DTAutosuggest extends React.Component {
       onChange: this.onChange,
       onBlur: this.onBlur,
       onFocus: () => {
+        // DT-3460 empty input field if value is in array below (HSL.fi translations also.)
+        const positions = [
+          'Valittu sijainti',
+          'Current position',
+          'Selected location',
+          'Vald position',
+          'Använd min position',
+          'Käytä nykyistä sijaintia',
+          'Use current location',
+        ];
+        if (positions.includes(this.state.value)) {
+          this.clearInput();
+        }
         this.inputClicked();
         return this.setState({ renderMobileSearch: this.props.isMobile });
       },
