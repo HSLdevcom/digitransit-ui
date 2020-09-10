@@ -943,8 +943,11 @@ const translations = {
       'Transfer to {vehicle} on stop {stopName}',
     'itinerary-summary-row.walking-distance':
       'Total walking distance {totalDistance}.',
-    'itinerary-summary.bikeAndPublic-title': 'Bike & public transport',
-    'itinerary-summary.bikePark-title': 'Bike & public transport & walk',
+    'itinerary-summary.bikeAndPublic-fallback-title':
+      'Take your bike to the vehicle',
+    'itinerary-summary.bikeAndPublic-rail-title': 'Take your bike to train',
+    'itinerary-summary.bikeAndPublic-subway-title': 'Take your bike to metro',
+    'itinerary-summary.bikePark-title': 'Park and Ride',
     'itinerary-summary.interline-wait':
       'Wait for the transfer in the vehicle ({time})',
     'itinerary-summary.show-on-map': 'Show on map {target}',
@@ -1765,8 +1768,12 @@ const translations = {
     'itinerary-summary-row.transfers': 'Vaihto {vehicle} pysäkillä {stopName}',
     'itinerary-summary-row.walking-distance':
       'Kävelyä yhteensä {totalDistance}.',
-    'itinerary-summary.bikeAndPublic-title': 'Polkupyörä & joukkoliikenne',
-    'itinerary-summary.bikePark-title': 'Polkupyörä & joukkoliikenne & kävely',
+    'itinerary-summary.bikeAndPublic-fallback-title':
+      'Ota pyöräsi mukaan kulkuneuvoon',
+    'itinerary-summary.bikeAndPublic-rail-title': 'Ota pyöräsi mukaan junaan',
+    'itinerary-summary.bikeAndPublic-subway-title':
+      'Ota pyöräsi mukaan metroon',
+    'itinerary-summary.bikePark-title': 'Jätä pyöräsi liityntäpysäköintiin',
     'itinerary-summary.interline-wait': 'Odota vaihtoa kulkuneuvossa ({time})',
     'itinerary-summary.show-on-map': 'Näytä kartalla {target}',
     'itinerary-ticket.title': 'Tarvittava lippu',
@@ -3376,8 +3383,13 @@ const translations = {
       'Byte {vehicle} vid hållplats {stopName}',
     'itinerary-summary-row.walking-distance':
       'Promenad sammanlagt {totalDistance}.',
-    'itinerary-summary.bikeAndPublic-title': 'Cykling & kollektivtrafik',
-    'itinerary-summary.bikePark-title': 'Cykling & kollektivtrafik & gående',
+    'itinerary-summary.bikeAndPublic-fallback-title':
+      'Ta din cykel med dig till vehikel',
+    'itinerary-summary.bikeAndPublic-rail-title':
+      'Ta din cykel med dig till tåget',
+    'itinerary-summary.bikeAndPublic-subway-title':
+      'Ta din cykel med dig till metro',
+    'itinerary-summary.bikePark-title': 'Lämna din cykel på parkeringen',
     'itinerary-summary.interline-wait': 'Odota vaihtoa kulkuneuvossa ({time})',
     'itinerary-summary.show-on-map': 'Visa på kartan {target}',
     'itinerary-ticket.title': 'Biljett som behövs',
