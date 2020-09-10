@@ -12,7 +12,7 @@ export const mockRouter = {
   go: () => {},
   createHref: () => {},
   createLocation: () => {},
-  addTransitionHook: () => {},
+  addNavigationListener: () => {},
   matcher: mockMatcher,
   replaceRouteConfig: () => {},
   isActive: () => {},

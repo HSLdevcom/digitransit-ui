@@ -2,7 +2,7 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import Link from 'found/lib/Link';
+import Link from 'found/Link';
 import { matchShape } from 'found';
 import orderBy from 'lodash/orderBy';
 import uniqBy from 'lodash/uniqBy';
