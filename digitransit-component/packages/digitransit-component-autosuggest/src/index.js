@@ -344,20 +344,6 @@ class DTAutosuggest extends React.Component {
   };
 
   fetchFunction = ({ value }) => {
-    // DT-3460 empty input field if value is in array below (HSL.fi translations also.)
-    const positions = [
-      'Valittu sijainti',
-      'Current position',
-      'Selected location',
-      'Vald position',
-      'Använd min position',
-      'Käytä nykyistä sijaintia',
-      'Use current location',
-    ];
-    if (positions.includes(value)) {
-      this.clearInput();
-    }
-
     return this.setState({ valid: false }, () => {
       executeSearch(
         this.state.targets,
@@ -422,6 +408,20 @@ class DTAutosuggest extends React.Component {
   };
 
   inputClicked = inputValue => {
+    // DT-3460 empty input field if value is in array below (HSL.fi translations also.)
+    const positions = [
+      'Valittu sijainti',
+      'Current position',
+      'Selected location',
+      'Vald position',
+      'Använd min position',
+      'Käytä nykyistä sijaintia',
+      'Use current location',
+    ];
+    if (positions.includes(this.state.value)) {
+      this.clearInput();
+    }
+
     if (!this.state.editing) {
       const newState = {
         editing: true,
@@ -528,7 +528,10 @@ class DTAutosuggest extends React.Component {
       value,
       onChange: this.onChange,
       onBlur: this.onBlur,
-      onFocus: () => this.setState({ renderMobileSearch: this.props.isMobile }),
+      onFocus: () => {
+        this.inputClicked();
+        return this.setState({ renderMobileSearch: this.props.isMobile });
+      },
       className: cx(
         `${styles.input} ${
           this.props.isMobile && this.props.transportMode ? styles.thin : ''
