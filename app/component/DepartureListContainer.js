@@ -211,6 +211,7 @@ class DepartureListContainer extends Component {
       const row = {
         headsign: departure.headsign,
         trip: { ...departure.trip, ...{ route: departure.trip.pattern.route } },
+        stop: departure.stop,
       };
 
       const departureObj = (
@@ -219,6 +220,7 @@ class DepartureListContainer extends Component {
           departure={row}
           departureTime={departure.stoptime}
           currentTime={this.props.currentTime}
+          showPlatformCode={isTerminal}
         />
       );
 

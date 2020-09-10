@@ -12,6 +12,7 @@ class TerminalPageContent extends React.Component {
   static propTypes = {
     station: PropTypes.shape({
       stoptimes: PropTypes.array,
+      stops: PropTypes.array,
     }).isRequired,
     relay: PropTypes.shape({
       refetch: PropTypes.func.isRequired,
@@ -35,6 +36,8 @@ class TerminalPageContent extends React.Component {
     }
 
     const { stoptimes } = this.props.station;
+    // eslint-disable-next-line prefer-destructuring
+    const mode = this.props.station.stops[0].patterns[0].route.mode;
     if (!stoptimes || stoptimes.length === 0) {
       return (
         <div className="stop-no-departures-container">
@@ -43,12 +46,30 @@ class TerminalPageContent extends React.Component {
         </div>
       );
     }
+
     return (
       <div className="stop-page-departure-wrapper stop-scroll-container momentum-scroll">
+        <div className="departure-list-header row padding-vertical-normal">
+          <span className="route-number-header">
+            <FormattedMessage id="route" defaultMessage="Route" />
+          </span>
+          <span className="route-destination-header">
+            <FormattedMessage id="destination" defaultMessage="Destination" />
+          </span>
+          <span className="time-header">
+            <FormattedMessage id="leaving-at" defaultMessage="Leaves" />
+          </span>
+          <span className="track-header">
+            <FormattedMessage
+              id={mode === 'BUS' ? 'platform' : 'track'}
+              defaultMessage={mode === 'BUS' ? 'Platform' : 'Track'}
+            />
+          </span>
+        </div>
         <DepartureListContainer
           stoptimes={stoptimes}
           key="departures"
-          className="stop-page momentum-scroll"
+          className="stop-page"
           routeLinks
           infiniteScroll
           isTerminal
@@ -76,6 +97,13 @@ const connectedComponent = createRefetchContainer(
           numberOfDepartures: { type: "Int!", defaultValue: 100 }
         ) {
         url
+        stops {
+          patterns {
+            route {
+              mode
+            }
+          }
+        }
         stoptimes: stoptimesWithoutPatterns(
           startTime: $startTime
           timeRange: $timeRange

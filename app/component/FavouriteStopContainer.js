@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import Favourite from './Favourite';
-import { addFavourite, deleteFavourite } from '../action/FavouriteActions';
+import { saveFavourite, deleteFavourite } from '../action/FavouriteActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const FavouriteStopContainer = connectToStores(
   Favourite,
-  ['FavouriteStopsStore'],
+  ['FavouriteStore'],
   (context, { stop, isTerminal }) => ({
     favourite: context.getStore('FavouriteStore').isFavourite(stop.gtfsId),
     addFavourite: () => {
-      context.executeAction(addFavourite, {
+      context.executeAction(saveFavourite, {
         ...stop,
         type: isTerminal ? 'station' : 'stop',
         layer: isTerminal ? '' : 'stop',

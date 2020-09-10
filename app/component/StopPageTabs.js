@@ -5,7 +5,11 @@ import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'found/lib/Link';
 import { matchShape } from 'found';
+import { AlertSeverityLevelType } from '../constants';
 import {
+  getCancelationsForStop,
+  getServiceAlertsForStop,
+  getServiceAlertsForStopRoutes,
   isAlertActive,
   getActiveAlertSeverityLevel,
   getCancelationsForRoute,
@@ -42,7 +46,7 @@ const getActiveTab = pathname => {
   return Tab.RightNow;
 };
 
-function StopPageTabs({ breakpoint, stop }, { match }) {
+function StopPageTabs({ breakpoint, stop }, { intl, match }) {
   if (
     !stop ||
     (match.location.state &&
@@ -60,6 +64,21 @@ function StopPageTabs({ breakpoint, stop }, { match }) {
   )}`;
 
   const currentTime = moment().unix();
+
+  const hasActiveAlert = isAlertActive(
+    getCancelationsForStop(stop),
+    [...getServiceAlertsForStop(stop), ...getServiceAlertsForStopRoutes(stop)],
+    currentTime,
+  );
+  const hasActiveServiceAlerts =
+    getActiveAlertSeverityLevel(
+      getServiceAlertsForStop(stop, intl),
+      currentTime,
+    ) ||
+    getActiveAlertSeverityLevel(
+      getServiceAlertsForStopRoutes(stop, intl),
+      currentTime,
+    );
 
   const stopRoutesWithAlerts = [];
 
@@ -87,6 +106,22 @@ function StopPageTabs({ breakpoint, stop }, { match }) {
       );
     });
   }
+
+  const disruptionClassName =
+    ((hasActiveAlert ||
+      stopRoutesWithAlerts.some(
+        alert =>
+          alert.alertSeverityLevel === AlertSeverityLevelType.Severe ||
+          alert.alertSeverityLevel === AlertSeverityLevelType.Warning,
+      )) &&
+      'active-disruption-alert') ||
+    ((hasActiveServiceAlerts ||
+      stopRoutesWithAlerts.some(
+        alert =>
+          alert.alertSeverityLevel === AlertSeverityLevelType.Severe ||
+          alert.alertSeverityLevel === AlertSeverityLevelType.Warning,
+      )) &&
+      'active-service-alert');
 
   return (
     <div>
@@ -126,6 +161,28 @@ function StopPageTabs({ breakpoint, stop }, { match }) {
           <div className="stop-tab-singletab-container">
             <div>
               <FormattedMessage id="timetable" defaultMessage="timetable" />
+            </div>
+          </div>
+        </Link>
+        <Link
+          to={`${urlBase}/${Tab.Disruptions}`}
+          className={cx('stop-tab-singletab', {
+            active: activeTab === Tab.Disruptions,
+            'alert-active': hasActiveAlert || stopRoutesWithAlerts.length > 0,
+            'service-alert-active':
+              hasActiveServiceAlerts || stopRoutesWithAlerts.length > 0,
+          })}
+          onClick={() => {
+            addAnalyticsEvent({
+              category: 'Stop',
+              action: 'OpenDisruptionsTab',
+              name: null,
+            });
+          }}
+        >
+          <div className="stop-tab-singletab-container">
+            <div className={`${disruptionClassName || `no-alerts`}`}>
+              <FormattedMessage id="disruptions" />
             </div>
           </div>
         </Link>

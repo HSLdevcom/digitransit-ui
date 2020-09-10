@@ -221,8 +221,46 @@
   width: 24px;
 }
 
+.departure-list-header {
+  color: $gray;
+  background-color: $white;
+  @include font-narrow-book;
+  font-size: $font-size-xxsmall;
+  white-space: nowrap;
+  padding-left: 0.5em;
+  line-height: $line-height-normal;
+  display: flex;
+  flex-direction: row;
+
+  & > span {
+    display: inline-block;
+    vertical-align: top;
+  }
+  .route-number-header {
+    width: 4em;
+  }
+  .route-destination-header {
+    flex: 1 0 11em;
+  }
+  .time-header {
+    font-weight: inherit;
+    text-align: right;
+    width: 3.5em;
+    margin-right: 2em;
+  }
+}
+
+.desktop .departure-list-header {
+  .route-number-header {
+    width: 45px;
+  }
+  .time-header {
+    width: 50px;
+  }
+}
+
 .stop-page.departure-list {
-  padding: 5px 0px 15px 5px;
+  padding: 0px 0px 15px 5px;
   .departure-row {
       height: 50px;
       @include font-narrow-book;
@@ -235,6 +273,7 @@
           @include font-medium;
           font-size: 0.75rem;
           padding-right: 8px;
+          padding-left: 8px;
           span {
               vertical-align: sub;
           }
@@ -263,13 +302,34 @@
           color: #333;
           flex: 1;
           padding-left: $padding-medium;
+          overflow: hidden;
+          white-space: nowrap;
       }
       .route-time {
+          font-size: $font-size-small;
+          font-weight: $font-weight-medium;
           color: #4ea700;
           &.realtime {
             color: $realtime-color;
           }
       }
+      .platform-code {
+        background: #f4f4f5;
+        color: #333333;
+        width: 28px;
+        height: 24px;
+        border-radius: 4px;
+        font-size: $font-size-small;
+        font-weight: $font-weight-medium;
+        text-align: center;
+        margin-left: 1em;
+        margin-right: 0.3em;
+        line-height: 1.6;
+        &.empty {
+          background: none;
+        }
+      }
+
   }
 }
 
@@ -694,5 +754,11 @@ hr.action-bar {
 
   .showroutes-header {
     width: 41%;
+  }
+  .departure-list-header {
+    margin-top: 0em;
+  }
+  .route-number-header {
+    width: 3.5em;
   }
 }

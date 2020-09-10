@@ -45,17 +45,15 @@ class StopPageContent extends React.Component {
     }
     return (
       <div className="stop-page-departure-wrapper stop-scroll-container momentum-scroll">
-        <div className="stop-scroll-container momentum-scroll">
-          <DepartureListContainer
-            stoptimes={stoptimes}
-            key="departures"
-            className="stop-page momentum-scroll"
-            routeLinks
-            infiniteScroll
-            currentTime={this.props.currentTime}
-            isStopPage
-          />
-        </div>
+        <DepartureListContainer
+          stoptimes={stoptimes}
+          key="departures"
+          className="stop-page momentum-scroll"
+          routeLinks
+          infiniteScroll
+          currentTime={this.props.currentTime}
+          isStopPage
+        />
       </div>
     );
   }
