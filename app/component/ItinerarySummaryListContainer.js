@@ -86,12 +86,16 @@ function ItinerarySummaryListContainer(
           />
         </div>,
       );
-      if (bikeAndParkItinerariesToShow > 0) {
+      if (bikeAndPublicItinerariesToShow > 0) {
+        const publicModes = itineraries[
+          bikeAndParkItinerariesToShow
+        ].legs.filter(obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE');
+        const firstMode = publicModes[0].mode.toLowerCase();
         summaries.splice(
-          bikeAndPublicItinerariesToShow + 1,
+          bikeAndParkItinerariesToShow + 1,
           0,
           <ItinerarySummarySubtitle
-            translationId="itinerary-summary.bikeAndPublic-title"
+            translationId={`itinerary-summary.bikeAndPublic-${firstMode}-title`}
             defaultMessage="Biking \u0026 public transport"
             key="itinerary-summary.bikeAndPublic-title"
           />,
