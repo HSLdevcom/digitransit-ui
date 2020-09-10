@@ -9,7 +9,11 @@ import Error404 from './component/404';
 import TopLevel from './component/TopLevel';
 import LocalStorageEmitter from './component/LocalStorageEmitter';
 
-import { PREFIX_ITINERARY_SUMMARY, PREFIX_NEARYOU } from './util/path';
+import {
+  PREFIX_ITINERARY_SUMMARY,
+  PREFIX_NEARYOU,
+  LOCAL_STORAGE_EMITTER_PATH,
+} from './util/path';
 import { preparePlanParams, prepareStopsParams } from './util/planParamUtil';
 import {
   errorLoading,
@@ -490,7 +494,7 @@ export default config => {
         />
       )}
       <Route
-        path="/local-storage-emitter"
+        path={LOCAL_STORAGE_EMITTER_PATH}
         Component={LocalStorageEmitter}
         topBarOptions={{ hidden: true }}
       />

@@ -5,7 +5,8 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import { uniqBy } from 'lodash-es';
 
 import { AlertSeverityLevelType } from '../constants';
-import { isAlertValid } from '../util/alertUtils';
+import { isAlertValid, getServiceAlertDescription } from '../util/alertUtils';
+import Icon from './Icon';
 
 class DisruptionBanner extends React.Component {
   static propTypes = {
@@ -13,6 +14,8 @@ class DisruptionBanner extends React.Component {
       edges: PropTypes.array.isRequired,
     }).isRequired,
     currentTime: PropTypes.number.isRequired,
+    language: PropTypes.string,
+    trafficNowLink: PropTypes.string,
   };
 
   getAlerts() {
@@ -29,7 +32,7 @@ class DisruptionBanner extends React.Component {
         }
       });
     });
-    const getId = alert => `${alert.id}`;
+    const getId = alert => `${alert.alertDescriptionText}`;
     activeAlerts = uniqBy(activeAlerts, getId).filter(alert => {
       const alertToCheck = {
         ...alert,
@@ -47,28 +50,48 @@ class DisruptionBanner extends React.Component {
     return activeAlerts;
   }
 
+  createAlertText(alert) {
+    return getServiceAlertDescription(alert, this.props.language);
+  }
+
   render() {
     const activeAlerts = this.getAlerts();
     if (activeAlerts.length > 0) {
-      return (
-        <div className="disruption-banner-container">
-          <div className="disruption-icon-container" />
-          <div className="disruption-info-container">
-            {activeAlerts[0].alertHeaderText}
-          </div>
-        </div>
-      );
+      return activeAlerts.map(alert => {
+        return (
+          <a
+            key={alert.id}
+            className="disruption-banner-container"
+            href={this.props.trafficNowLink}
+            onClick={e => {
+              e.stopPropagation();
+            }}
+          >
+            <div className="disruption-icon-container">
+              <Icon img="icon-icon_disruption-banner-alert" />
+            </div>
+            <div className="disruption-info-container">
+              {this.createAlertText(alert)}
+            </div>
+          </a>
+        );
+      });
     }
     return null;
   }
 }
 
 const containerComponent = createFragmentContainer(
-  connectToStores(DisruptionBanner, ['TimeStore'], ({ getStore }) => ({
-    currentTime: getStore('TimeStore')
-      .getCurrentTime()
-      .unix(),
-  })),
+  connectToStores(
+    DisruptionBanner,
+    ['TimeStore', 'PreferencesStore'],
+    ({ getStore }) => ({
+      currentTime: getStore('TimeStore')
+        .getCurrentTime()
+        .unix(),
+      language: getStore('PreferencesStore').getLanguage(),
+    }),
+  ),
   {
     alerts: graphql`
       fragment DisruptionBanner_alerts on placeAtDistanceConnection
@@ -88,6 +111,10 @@ const containerComponent = createFragmentContainer(
                   alertEffect
                   alertCause
                   alertDescriptionText
+                  alertDescriptionTextTranslations {
+                    text
+                    language
+                  }
                   effectiveStartDate
                   effectiveEndDate
                 }
@@ -101,6 +128,10 @@ const containerComponent = createFragmentContainer(
                         alertEffect
                         alertCause
                         alertDescriptionText
+                        alertDescriptionTextTranslations {
+                          text
+                          language
+                        }
                         effectiveStartDate
                         effectiveEndDate
                         route {

@@ -38,7 +38,11 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
       content = (
         <div className="stops-near-you-page">
           {renderDisruptionBanner && (
-            <DisruptionBanner alerts={this.props.alerts} mode={mode} />
+            <DisruptionBanner
+              trafficNowLink={this.context.config.trafficNowLink}
+              alerts={this.props.alerts}
+              mode={mode}
+            />
           )}
           {renderSearch && (
             <StopsNearYouSearch

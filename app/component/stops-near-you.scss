@@ -68,6 +68,7 @@
                 .itinerary-stop-code {
                     height: 16px;
                     padding: 0 4px;
+                    align-self: center;
                 }
                 .zone-icon-container {
                     padding-left:3px;
@@ -159,13 +160,35 @@
 
 .disruption-banner-container {
     @include font-medium;
+    height: 60px;
+    text-decoration: none;
     font-weight: 100;
     background-color: #dc0451;
     color: white;
     font-size: 0.9375rem;
-    padding: 8px 14px 12px 14px;
+    padding: 12px 14px 12px 17px;
     border-radius: 10px;
     margin-bottom: 15px;
+    display: flex;
+    .disruption-icon-container {
+        width: 40px;
+        align-self: center;
+        .icon-container {
+            font-size: 24px;
+            display: flex;
+            padding-left: 3px;
+        }
+    }
+    .disruption-info-container {
+        line-height: 1.2;
+        height: 2.4em;
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+    }
 }
 
 .mobile {
