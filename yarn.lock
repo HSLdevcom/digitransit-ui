@@ -1638,7 +1638,7 @@
   resolved "https://registry.yarnpkg.com/@hsl-fi/icons/-/icons-0.2.1.tgz#3e55b879d859e1d1d29474e39a6d237ac83fbbb4"
   integrity sha512-VXYAf+8lea97sas2vGDyc1UL3Z7zFcc4yUbj3dMVmQ9HW1shbKch1Clx5VWlCkkwwRMbAV/3ZYU94P57DG7gfA==
 
-"@hsl-fi/modal@^0.1.7":
+"@hsl-fi/modal@0.1.7", "@hsl-fi/modal@^0.1.7":
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/@hsl-fi/modal/-/modal-0.1.7.tgz#9e5255e42aae092e0756d867bb1af866ef1fafa5"
   integrity sha512-7tM/yHX4DERXnppcvFwDUeywY1DTtHTYj/1Q+Cs1r9nweG6fa+uVpU6ubdeAQjoAbr3YuXmxSNJNpYev8qRPiA==
@@ -12168,7 +12168,7 @@ moment-timezone@0.5.31:
   dependencies:
     moment ">= 2.9.0"
 
-"moment@>= 2.9.0", moment@^2.27.0:
+moment@2.27.0, "moment@>= 2.9.0":
   version "2.27.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.27.0.tgz#8bff4e3e26a236220dfe3e36de756b6ebaa0105d"
   integrity sha512-al0MUK7cpIcglMv3YF13qSgdAIqxHTO7brRtaz3DlSULbqfazqkc5kEjNrLDOM7fsjshoFIihnU8snrP7zUvhQ==
@@ -12178,7 +12178,7 @@ moo@^0.5.0:
   resolved "https://registry.yarnpkg.com/moo/-/moo-0.5.1.tgz#7aae7f384b9b09f620b6abf6f74ebbcd1b65dbc4"
   integrity sha512-I1mnb5xn4fO80BH9BLcF0yLypy2UKl+Cb01Fu0hJRkJjlCRtxZMWkTdAtDd5ZqCOxtCkhmRwyI57vWT+1iZ67w==
 
-morgan@^1.9.1:
+morgan@1.10.0:
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/morgan/-/morgan-1.10.0.tgz#091778abc1fc47cd3509824653dae1faab6b17d7"
   integrity sha512-AbegBVI4sh6El+1gNwvD5YIck7nSA36weD7xvIxG4in80j/UoK8AEGaWnnz8v1GxonMCltmlNs5ZKbGvl9b1XQ==
@@ -13037,7 +13037,7 @@ opener@^1.5.1:
   resolved "https://registry.yarnpkg.com/opener/-/opener-1.5.1.tgz#6d2f0e77f1a0af0032aca716c2c1fbb8e7e8abed"
   integrity sha512-goYSy5c2UXE4Ra1xixabeVh1guIX/ZV/YokJksb6q2lubWu6UbvPQ20p542/sFIll1nl8JnCyK9oBaOcCWXwvA==
 
-openid-client@^1.2.0:
+openid-client@1.20.0:
   version "1.20.0"
   resolved "https://registry.yarnpkg.com/openid-client/-/openid-client-1.20.0.tgz#d2a43c428fdd56903a91b033a792c375c946c8e1"
   integrity sha512-gkO9txUUDhpV5vfxhpaw0MY9CcofJaTCqkibWzjeNTy2Uy+HFHuyKbQgQ4Msl2q4gkAWU9rPcNSZbG2nX61sCg==
@@ -15691,7 +15691,7 @@ request@2.88.0:
     tunnel-agent "^0.6.0"
     uuid "^3.3.2"
 
-request@^2.65.0, request@^2.81.0, request@^2.87.0, request@^2.88.0:
+request@2.88.2, request@^2.65.0, request@^2.81.0, request@^2.87.0, request@^2.88.0:
   version "2.88.2"
   resolved "https://registry.yarnpkg.com/request/-/request-2.88.2.tgz#d73c918731cb5a87da047e207234146f664d12b3"
   integrity sha512-MsvtOrfG9ZcrOwAW+Qi+F6HbD0CWXEh9ou77uOb7FM2WPhwT7smM833PzanhJLsgXjN89Ir6V2PczXNnMpwKhw==
