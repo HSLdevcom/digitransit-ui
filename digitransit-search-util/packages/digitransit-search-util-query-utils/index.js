@@ -185,6 +185,11 @@ export const getStopAndStationsQuery = favourites => {
       });
     });
 };
+/**
+ * Returns Stop and station objects filtered by given mode .
+ * @param {*} stopsToFilter
+ * @param {String} mode
+ */
 export const filterStopsAndStationsByMode = (stopsToFilter, mode) => {
   if (!relayEnvironment) {
     return Promise.resolve([]);
@@ -260,8 +265,9 @@ export function getFavouriteRoutesQuery(favourites, input) {
  * Returns Route objects depending on input
  * @param {String} input Search text, if empty no objects are returned
  * @param {*} feedIds
+ * @param {String} transportMode Filter routes with a transport mode, e.g. route-BUS
  */
-export function getRoutesQuery(input, feedIds, nearYouMode) {
+export function getRoutesQuery(input, feedIds, transportMode) {
   if (!relayEnvironment) {
     return Promise.resolve([]);
   }
@@ -273,13 +279,13 @@ export function getRoutesQuery(input, feedIds, nearYouMode) {
     return Promise.resolve([]);
   }
   let modes;
-  if (nearYouMode) {
-    [, modes] = nearYouMode.split('-');
+  if (transportMode) {
+    [, modes] = transportMode.split('-');
   }
   return fetchQuery(relayEnvironment, searchRoutesQuery, {
     feeds: Array.isArray(feedIds) && feedIds.length > 0 ? feedIds : null,
     name: input,
-    modes: nearYouMode ? modes : null,
+    modes: transportMode ? modes : null,
   })
     .then(data =>
       data.viewer.routes
