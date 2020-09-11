@@ -138,15 +138,17 @@ const productionPlugins = [
     minRatio: 0.95,
     algorithm: iltorb.compress,
   }),
-  new CopyWebpackPlugin([
-    {
-      from: path.join(__dirname, 'static/assets/geojson'),
-      transform: function minify(content) {
-        return JSON.stringify(JSON.parse(content.toString()));
+  new CopyWebpackPlugin({
+    patterns: [
+      {
+        from: path.join(__dirname, 'static/assets/geojson'),
+        transform: function minify(content) {
+          return JSON.stringify(JSON.parse(content.toString()));
+        },
+        to: path.join(__dirname, '_static/assets/geojson'),
       },
-      to: path.join(__dirname, '_static/assets/geojson'),
-    },
-  ]),
+    ],
+  }),
   new StatsPlugin('../stats.json', { chunkModules: true }),
   new WebpackAssetsManifest({ output: '../manifest.json' }),
 ];
