@@ -94,7 +94,7 @@ export default ${pascalCaseName}Store;
 // Create package.json
 writeFileSync(join(folderPath, 'package.json'), `{
   "name": "@digitransit-store/digitransit-store-${decamelizeName}",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "digitransit-store ${decamelizeName} module",
   "main": "lib/index.js",
   "publishConfig": {
