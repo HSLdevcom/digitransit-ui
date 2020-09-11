@@ -11,10 +11,10 @@ import {
   getCustomizedSettings,
   setCustomizedSettings,
   resetCustomizedSettings,
-  saveFutureRoutesStorage,
 } from '../store/localStorage';
 import { addAnalyticsEvent } from './analyticsUtils';
 import { getCurrentSettings, getDefaultSettings } from './planParamUtil';
+import { saveFutureRoute } from '../action/FutureRoutesActions';
 
 export const setSettingsData = (router, match) => {
   // eslint-disable-next-line no-use-before-define
@@ -104,7 +104,7 @@ export const fixArrayParams = query => {
  * @param {*} match The match object from found
  * @param {*} newParams The location query params to apply
  */
-export const replaceQueryParams = (router, match, newParams) => {
+export const replaceQueryParams = (router, match, newParams, executeAction) => {
   let { location } = match;
   location = resetSelectedItineraryIndex(location);
 
@@ -124,7 +124,8 @@ export const replaceQueryParams = (router, match, newParams) => {
     query &&
     query.time &&
     location &&
-    location.pathname.indexOf('/reitti/') === 0
+    location.pathname.indexOf('/reitti/') === 0 &&
+    executeAction
   ) {
     const pathArray = decodeURIComponent(location.pathname)
       .substring(1)
@@ -144,7 +145,7 @@ export const replaceQueryParams = (router, match, newParams) => {
       arriveBy: query.arriveBy ? query.arriveBy : false,
       time: query.time,
     };
-    saveFutureRoutesStorage(newRoute);
+    executeAction(saveFutureRoute, newRoute);
   }
 
   router.replace({

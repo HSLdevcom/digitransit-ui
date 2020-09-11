@@ -8,7 +8,8 @@
   "workspaces": [
     "digitransit-util/packages/*",
     "digitransit-search-util/packages/*",
-    "digitransit-component/packages/*"
+    "digitransit-component/packages/*",
+    "digitransit-store/packages/*"
   ],
   "scripts": {
     "setup": "yarn install && yarn run digitransit-build-components && yarn run build-search-utils",
@@ -54,7 +55,10 @@
     "digitransit-component-tests": "lerna run test --scope '@digitransit-component/*'",
     "digitransit-watch-components": "lerna run watch --parallel --stream",
     "digitransit-build-components": "lerna run build:index --scope '@digitransit-component/*'",
-    "build-search-utils": "lerna run build:index --scope '@digitransit-search-util/digitransit-search-util-query-utils'"
+    "build-search-utils": "lerna run build:index --scope '@digitransit-search-util/digitransit-search-util-query-utils'",
+    "digitransit-store-docs": "node -r esm ./digitransit-store/scripts/generate-readmes",
+    "digitransit-store-new-module": "node -r esm ./digitransit-store/scripts/create-new-module $1",
+    "digitransit-store-tests": "lerna run test --scope '@digitransit-store/*'"
   },
   "main": "server.js",
   "repository": {

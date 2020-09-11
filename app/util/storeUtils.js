@@ -33,9 +33,9 @@ export const getLanguage = context => {
 };
 
 export const getFutureRoutes = context => {
-  return context.getStore('FutureRoutesStore').getFutureRoutes();
+  return context.getStore('FutureRouteStore').getFutureRoutes();
 };
 
 export const clearFutureRoutes = context => {
-  return context.getStore('FutureRoutesStore').clearFutureRoutes();
+  return context.getStore('FutureRouteStore').clearFutureRoutes();
 };

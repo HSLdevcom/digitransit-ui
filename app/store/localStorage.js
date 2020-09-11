@@ -1,7 +1,5 @@
-import sortBy from 'lodash/sortBy';
 import { isBrowser, isWindowsPhone, isIOSApp } from '../util/browser';
 import { OptimizeType } from '../constants';
-import { getCurrentSecs } from '../util/timeUtils';
 
 function handleSecurityError(error, logMessage) {
   if (error.name === 'SecurityError') {
@@ -386,80 +384,3 @@ export const setDialogState = (dialogId, seen = true) => {
  */
 export const getDialogState = dialogId =>
   getItemAsJson('dialogState', '{}')[`${dialogId}`] === true;
-
-export function getFutureRoutesStorage() {
-  return getItemAsJson('futureRoutes', '{"items": []}');
-}
-
-export function prepareFutureRouteSave(data) {
-  const originAddress = data.origin.address.split(', ');
-  const originName = originAddress[0];
-  originAddress.shift();
-  const originLocality =
-    originAddress.length === 1 ? originAddress[0] : originAddress.join(', ');
-
-  const destinationAddress = data.destination.address.split(', ');
-  const destinationName = destinationAddress[0];
-  destinationAddress.shift();
-  const destinationLocality =
-    destinationAddress.length === 1
-      ? destinationAddress[0]
-      : destinationAddress.join(', ');
-
-  const newRoute = {
-    type: 'FutureRoute',
-    properties: {
-      layer: 'futureRoute',
-      origin: {
-        name: originName,
-        locality: originLocality,
-        coordinates: {
-          lat: data.origin.coordinates.lat,
-          lon: data.origin.coordinates.lon,
-        },
-      },
-      destination: {
-        name: destinationName,
-        locality: destinationLocality,
-        coordinates: {
-          lat: data.destination.coordinates.lat,
-          lon: data.destination.coordinates.lon,
-        },
-      },
-      arriveBy: data.arriveBy,
-      time: data.time,
-    },
-  };
-  return newRoute;
-}
-
-export function saveFutureRoutesStorage(data) {
-  if (Array.isArray(data.items)) {
-    setItem('futureRoutes', data);
-  } else if (data.time > getCurrentSecs()) {
-    const newRoute = prepareFutureRouteSave(data);
-    const newRouteOriginAndDestination = `${newRoute.properties.origin.name}, ${
-      newRoute.properties.origin.locality
-    } - ${newRoute.properties.destination.name}, ${
-      newRoute.properties.destination.locality
-    }`;
-    const { items } = getFutureRoutesStorage();
-    const futureRoutes = items.filter(
-      route =>
-        route.properties.time >= getCurrentSecs() &&
-        `${route.properties.origin.name}, ${
-          route.properties.origin.locality
-        } - ${route.properties.destination.name}, ${
-          route.properties.destination.locality
-        }` !== newRouteOriginAndDestination,
-    );
-    const sortedItems = sortBy(
-      [...futureRoutes, newRoute],
-      ['properties.time', 'properties.origin.name'],
-    );
-    const storage = {
-      items: sortedItems,
-    };
-    setItem('futureRoutes', storage);
-  }
-}

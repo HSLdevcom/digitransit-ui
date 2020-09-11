@@ -1,5 +1,6 @@
 import Fluxible from 'fluxible';
 
+import FutureRouteStore from '@digitransit-store/digitransit-store-future-route';
 import routes from './routes';
 import MessageStore from './store/MessageStore';
 import OldSearchesStore from './store/OldSearchesStore';
@@ -17,7 +18,6 @@ import ViaPointsStore from './store/ViaPointsStore';
 import UserStore from './store/UserStore';
 import FavouriteStore from './store/FavouriteStore';
 import RoutingSettingsStore from './store/RoutingSettingsStore';
-import FutureRoutesStore from './store/FutureRoutesStore';
 
 export default config => {
   const app = new Fluxible({
@@ -40,7 +40,7 @@ export default config => {
   app.registerStore(UserStore);
   app.registerStore(FavouriteStore);
   app.registerStore(RoutingSettingsStore);
-  app.registerStore(FutureRoutesStore);
+  app.registerStore(FutureRouteStore);
 
   app.plug({
     name: 'extra-context-plugin',

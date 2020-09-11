@@ -57,6 +57,7 @@ const MobileSearch = ({
   const renderDialogModal = () => {
     return (
       <DialogModal
+        appElement="#app"
         headerText={dialogHeaderText}
         primaryButtonText={dialogPrimaryButtonText}
         secondaryButtonText={dialogSecondaryButtonText}
@@ -65,6 +66,7 @@ const MobileSearch = ({
           setDialogOpen(false);
         }}
         secondaryButtonOnClick={() => setDialogOpen(false)}
+        isModalOpen={isDialogOpen}
       />
     );
   };

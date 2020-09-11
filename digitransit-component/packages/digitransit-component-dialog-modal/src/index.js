@@ -92,7 +92,7 @@ const DialogModal = ({
 
 DialogModal.propTypes = {
   appElement: PropTypes.string.isRequired,
-  isModalOpen: PropTypes.string.isRequired,
+  isModalOpen: PropTypes.bool.isRequired,
   headerText: PropTypes.string.isRequired,
   handleClose: PropTypes.func,
   primaryButtonText: PropTypes.string.isRequired,
