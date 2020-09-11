@@ -266,7 +266,9 @@ export default function withSearchContext(WrappedComponent) {
         origin.ready &&
         destination.ready &&
         locationWithItineraryParams.query &&
-        JSON.stringify(locationWithItineraryParams.query) !== '{}'
+        JSON.stringify(locationWithItineraryParams.query) !== '{}' &&
+        `${origin.address}/${origin.lat}/${origin.lat}` !==
+          `${destination.address}/${destination.lat}/${destination.lat}`
       ) {
         const newRoute = {
           origin: {
