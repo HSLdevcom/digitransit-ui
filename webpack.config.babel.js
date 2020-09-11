@@ -8,8 +8,6 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const OfflinePlugin = require('offline-plugin');
 
 const CompressionPlugin = require('compression-webpack-plugin');
-const iltorb = require('iltorb');
-const zopfli = require('node-zopfli');
 
 const WebpackAssetsManifest = require('webpack-assets-manifest');
 const StatsPlugin = require('stats-webpack-plugin');
@@ -130,13 +128,13 @@ const productionPlugins = [
     filename: '[path].gz[query]',
     test: /\.(js|css|html|svg|ico)$/,
     minRatio: 0.95,
-    algorithm: zopfli.gzip,
+    algorithm: 'gzip',
   }),
   new CompressionPlugin({
     filename: '[path].br[query]',
     test: /\.(js|css|html|svg|ico)$/,
     minRatio: 0.95,
-    algorithm: iltorb.compress,
+    algorithm: 'brotliCompress',
   }),
   new CopyWebpackPlugin({
     patterns: [
