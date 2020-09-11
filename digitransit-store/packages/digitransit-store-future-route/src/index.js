@@ -7,6 +7,33 @@ import {
 } from '@digitransit-store/digitransit-store-common-functions';
 import sortBy from 'lodash/sortBy';
 
+/**
+ * @example
+ * const store = new FutureRouteStore();
+ *
+ * //get all
+ * const futureRoutes = store.getFutureRoutes();
+ *
+ * //save from Pasila, Helsinki to Myyrmäki, Vantaa in 5 minutes future
+ * const newRoute = {
+ *   origin: {
+ *     address: 'Pasila, Helsinki',
+ *     coordinates: { lat: 60.198828, lon: 24.933514 },
+ *   },
+ *   destination: {
+ *     address: 'Myyrmäki, Vantaa',
+ *     coordinates: { lat: 60.261238, lon: 24.854782 },
+ *   },
+ *   arriveBy: false,
+ *   time: new Date().getTime() / 1000 + 600,
+ * };
+ *
+ * store.saveFutureRoute(newRoute);
+ *
+ * //clear / empty all stored future routes
+ * store.clearFutureRoutes();
+ *
+ */
 class FutureRoute extends Store {
   static storeName = 'FutureRouteStore';
   emptyData = {

@@ -12,7 +12,7 @@
     "digitransit-store/packages/*"
   ],
   "scripts": {
-    "setup": "yarn install && yarn run digitransit-build-components && yarn run build-search-utils",
+    "setup": "yarn install && yarn digitransit-build-components && yarn build-search-utils && yarn digitransit-store-build",
     "static": "mkdir -p _static/js; mkdir -p _static/css; cp -r static/* _static",
     "win-static": "xcopy static\\* _static /e /s /y /i& if not exist _static\\js mkdir _static\\js& if not exist _static\\css mkdir _static\\css",
     "prebuild": "yarn run static && yarn run relay",
@@ -58,7 +58,8 @@
     "build-search-utils": "lerna run build:index --scope '@digitransit-search-util/digitransit-search-util-query-utils'",
     "digitransit-store-docs": "node -r esm ./digitransit-store/scripts/generate-readmes",
     "digitransit-store-new-module": "node -r esm ./digitransit-store/scripts/create-new-module $1",
-    "digitransit-store-tests": "lerna run test --scope '@digitransit-store/*'"
+    "digitransit-store-tests": "lerna run build:test --scope '@digitransit-store/*' && lerna run test --scope '@digitransit-store/*'",
+    "digitransit-store-build": "lerna run build:index --scope '@digitransit-store/*'"
   },
   "main": "server.js",
   "repository": {
