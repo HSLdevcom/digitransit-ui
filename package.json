@@ -216,7 +216,7 @@
     "compression-webpack-plugin": "5.0.2",
     "copy-webpack-plugin": "6.1.0",
     "css-loader": "3.6.0",
-    "documentation": "12.1.4",
+    "documentation": "13.0.2",
     "enzyme": "3.10.0",
     "enzyme-adapter-react-16": "1.15.2",
     "enzyme-wait": "1.0.9",
