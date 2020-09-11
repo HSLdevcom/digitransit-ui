@@ -8,6 +8,7 @@ import Icon from '../../../app/component/Icon';
 import StopCardHeader from '../../../app/component/StopCardHeader';
 import ServiceAlertIcon from '../../../app/component/ServiceAlertIcon';
 import ExternalLink from '../../../app/component/ExternalLink';
+import { mockContext, mockChildContextTypes } from '../helpers/mock-context';
 
 describe('<StopCardHeader />', () => {
   it('should not render the zone icon if zoneId is missing', () => {
@@ -22,6 +23,7 @@ describe('<StopCardHeader />', () => {
     };
     const wrapper = shallowWithIntl(<StopCardHeader {...props} />, {
       context: {
+        ...mockContext,
         config: {
           stopCard: {
             header: {
@@ -32,6 +34,9 @@ describe('<StopCardHeader />', () => {
             primary: '#000000',
           },
         },
+      },
+      childContextTypes: {
+        ...mockChildContextTypes,
       },
     });
     expect(wrapper.find(ZoneIcon)).to.have.lengthOf(0);
@@ -50,6 +55,7 @@ describe('<StopCardHeader />', () => {
     };
     const wrapper = shallowWithIntl(<StopCardHeader {...props} />, {
       context: {
+        ...mockContext,
         config: {
           stopCard: {
             header: {
@@ -61,6 +67,9 @@ describe('<StopCardHeader />', () => {
             primary: '#000000',
           },
         },
+      },
+      childContextTypes: {
+        ...mockChildContextTypes,
       },
     });
 
@@ -79,6 +88,7 @@ describe('<StopCardHeader />', () => {
     };
     const wrapper = shallowWithIntl(<StopCardHeader {...props} />, {
       context: {
+        ...mockContext,
         config: {
           stopCard: {
             header: {
@@ -89,6 +99,9 @@ describe('<StopCardHeader />', () => {
             primary: '#000000',
           },
         },
+      },
+      childContextTypes: {
+        ...mockChildContextTypes,
       },
     });
     expect(wrapper.find(ZoneIcon)).to.have.lengthOf(0);
@@ -110,11 +123,20 @@ describe('<StopCardHeader />', () => {
     };
     const wrapper = mountWithIntl(<StopCardHeader {...props} />, {
       context: {
+        ...mockContext,
         config: { stopCard: { header: {} }, colors: { primary: '#000000' } },
+      },
+      childContextTypes: {
+        ...mockChildContextTypes,
       },
     });
     expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(false);
-    expect(wrapper.find(Icon).prop('img')).to.equal('icon-icon_info');
+    expect(
+      wrapper
+        .find(Icon)
+        .first()
+        .prop('img'),
+    ).to.equal('icon-icon_info');
   });
 
   it('should use the caution icon when the stop has alerts and the alert level is not info', () => {
@@ -133,11 +155,20 @@ describe('<StopCardHeader />', () => {
     };
     const wrapper = mountWithIntl(<StopCardHeader {...props} />, {
       context: {
+        ...mockContext,
         config: { stopCard: { header: {} }, colors: { primary: '#000000' } },
+      },
+      childContextTypes: {
+        ...mockChildContextTypes,
       },
     });
     expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(false);
-    expect(wrapper.find(Icon).prop('img')).to.equal('icon-icon_caution');
+    expect(
+      wrapper
+        .find(Icon)
+        .first()
+        .prop('img'),
+    ).to.equal('icon-icon_caution');
   });
 
   it('should not use a header icon when the stop has alerts but no severity level', () => {
@@ -156,7 +187,11 @@ describe('<StopCardHeader />', () => {
     };
     const wrapper = shallowWithIntl(<StopCardHeader {...props} />, {
       context: {
+        ...mockContext,
         config: { stopCard: { header: {} }, colors: { primary: '#000000' } },
+      },
+      childContextTypes: {
+        ...mockChildContextTypes,
       },
     });
     expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(true);
@@ -180,7 +215,11 @@ describe('<StopCardHeader />', () => {
     };
     const wrapper = mountWithIntl(<StopCardHeader {...props} />, {
       context: {
+        ...mockContext,
         config: { stopCard: { header: {} }, colors: { primary: '#000000' } },
+      },
+      childContextTypes: {
+        ...mockChildContextTypes,
       },
     });
     expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(true);

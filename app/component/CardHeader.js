@@ -26,6 +26,7 @@ const CardHeader = (
     showBackButton, // DT-3472
     backButtonColor, // DT-3472
     headerConfig,
+    favouriteContainer,
   },
   { config },
 ) => (
@@ -79,6 +80,7 @@ const CardHeader = (
           </div>
         </div>
         {icons && icons.length ? <SplitBars>{icons}</SplitBars> : null}
+        {favouriteContainer}
       </div>
     </div>
     {children}
@@ -130,11 +132,13 @@ CardHeader.propTypes = {
   showBackButton: PropTypes.bool, // DT-3472
   backButtonColor: PropTypes.string, // DT-3472
   headerConfig: PropTypes.object,
+  favouriteContainer: PropTypes.element,
 };
 
 CardHeader.defaultProps = {
   headerIcon: undefined,
   stop: {},
+  favouriteContainer: undefined,
 };
 
 CardHeader.contextTypes = {
