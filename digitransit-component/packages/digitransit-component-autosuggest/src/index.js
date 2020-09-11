@@ -528,7 +528,6 @@ class DTAutosuggest extends React.Component {
         if (positions.includes(this.state.value)) {
           this.clearInput();
         }
-        this.inputClicked();
         return this.setState({ renderMobileSearch: this.props.isMobile });
       },
       className: cx(
