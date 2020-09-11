@@ -95,7 +95,7 @@ DatetimepickerContainer.contextTypes = {
   router: routerShape.isRequired,
   match: matchShape.isRequired,
   config: PropTypes.object.isRequired,
-  executeAction: PropTypes.func.isRequired,
+  executeAction: PropTypes.func,
 };
 
 const withLang = connectToStores(
