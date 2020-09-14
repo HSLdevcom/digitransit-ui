@@ -145,7 +145,7 @@
     "morgan": "^1.9.1",
     "mqtt": "3.0.0",
     "name-all-modules-plugin": "1.0.1",
-    "node-fetch": "2.3.0",
+    "node-fetch": "2.6.1",
     "node-zopfli-es": "1.0.5",
     "offline-plugin": "5.0.7",
     "openid-client": "^1.2.0",
