@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { connectToStores } from 'fluxible-addons-react';
 import { matchShape, routerShape } from 'found';
+import isEqual from 'lodash/isEqual';
 import MapWithTracking from './MapWithTracking';
 import withBreakpoint from '../../util/withBreakpoint';
 import SelectMapLayersDialog from '../SelectMapLayersDialog';
@@ -36,6 +37,8 @@ const locationMarkerModules = {
   LocationMarker: () =>
     importLazy(import(/* webpackChunkName: "map" */ './LocationMarker')),
 };
+let previousFocusPoint;
+let previousMapTracking;
 function IndexPageMap(
   { match, router, breakpoint, origin, destination },
   { config },
@@ -47,14 +50,30 @@ function IndexPageMap(
   if (useDefaultLocation) {
     focusPoint = config.defaultMapCenter || config.defaultEndpoint;
     initialZoom = 12; // Show default area
-  } else if (origin.set && origin.ready) {
+  } else if (origin.set && (origin.ready || (!origin.ready && origin.gps))) {
     focusPoint = origin;
   } else if (destination.set && destination.ready) {
     focusPoint = destination;
   }
-  const leafletObjs = [];
+  const mwtProps = {};
+
   const mapTracking =
     (origin && origin.gps) || (destination && destination.gps);
+  if (previousFocusPoint && previousFocusPoint.gps && !mapTracking) {
+    previousMapTracking = false;
+    mwtProps.mapTracking = false;
+  } else if (previousMapTracking !== mapTracking) {
+    previousMapTracking = mapTracking;
+    mwtProps.mapTracking = mapTracking;
+  }
+  const focusPointChanged =
+    !previousFocusPoint || !isEqual(previousFocusPoint, focusPoint);
+  if (focusPointChanged && focusPoint && focusPoint.lat && focusPoint.lon) {
+    previousFocusPoint = focusPoint;
+    mwtProps.focusPoint = focusPoint;
+  }
+  const leafletObjs = [];
+
   if (origin && origin.ready === true) {
     leafletObjs.push(
       <LazilyLoad modules={locationMarkerModules} key="from">
@@ -81,6 +100,7 @@ function IndexPageMap(
         breakpoint={breakpoint}
         showStops
         showScaleBar
+        {...mwtProps}
         showLocationMessages
         initialZoom={initialZoom}
         initialMapTracking={mapTracking}

@@ -116,6 +116,7 @@ class MapWithTrackingStateHandler extends React.Component {
       geoJson: {},
       useFitBounds: props.fitBounds,
       useFocusPoint: !!props.focusPoint,
+      focusPoint: props.focusPoint,
       initialZoom: props.setInitialZoom ? props.setInitialZoom : defaultZoom,
       mapTracking: props.setInitialMapTracking,
     };
@@ -181,14 +182,17 @@ class MapWithTrackingStateHandler extends React.Component {
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(newProps) {
-    if (
-      (newProps.focusPoint && newProps.focusPoint.gps) ||
-      newProps.initialMapWithTracking
-    ) {
+    if (newProps.mapTracking || newProps.initialMapWithTracking) {
       this.setState({
         mapTracking: true,
       });
+    } else if (newProps.mapTracking === false) {
+      // Set this if and only if parent component spesifies that mapTracking is no longer wanted
+      this.setState({
+        mapTracking: false,
+      });
     }
+    // console.log('WillReceive ', newProps.focusPoint, this.state.focusPoint)
     if (!isEqual(newProps.focusPoint, this.state.focusPoint)) {
       this.usePosition(newProps.focusPoint, newProps.initialZoom);
       if (newProps.focusPoint) {
@@ -317,15 +321,17 @@ class MapWithTrackingStateHandler extends React.Component {
     if (this.context.config.map.showZoomControl) {
       btnClassName = cx(btnClassName, 'roomForZoomControl');
     }
-    const sameFocusPoints = isEqual(this.state.focusPoint, focusPoint);
     if (this.state.mapTracking && position.hasLocation) {
+      // console.log('position')
       location = position;
-    } else if (focusPoint && this.state.useFocusPoint) {
+    } else if (
+      this.state.focusPoint &&
+      !isEqual(this.state.focusPoint, focusPoint)
+    ) {
+      // console.log('FocusPoint')
       location = this.state.focusPoint;
-    } else if (!sameFocusPoints) {
-      // Happens i.e. when user navigates back to indexPage from different view.
-      location = focusPoint;
     } else {
+      // console.log('empty')
       // Map has to be loaded first, so we need correct coordinates at start. But after that (leafletElement exists)
       // we don't need correct coordinates. In fact trying to inject coordinates will mess up zooming and tracking.
       // This will also prevent situation when mapTracking is set to false, focus goes back to focusPoint.
@@ -336,6 +342,7 @@ class MapWithTrackingStateHandler extends React.Component {
         location = this.state.focusPoint;
       }
     }
+    // console.log('location ', location)
     return (
       <Component
         lat={location ? location.lat : undefined}
