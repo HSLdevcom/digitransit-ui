@@ -17,6 +17,9 @@ class DisruptionBanner extends React.Component {
 
   getAlerts() {
     const { alerts } = this.props;
+    if (!alerts.edges) {
+      return [];
+    }
     let activeAlerts = [];
     alerts.edges.forEach(alert => {
       const { place } = alert.node;
