@@ -1364,6 +1364,11 @@
     "@digitransit-search-util/digitransit-search-util-is-duplicate" "^0.0.1"
     lodash "4.17.14"
 
+"@digitransit-search-util/digitransit-search-util-suggestion-to-location@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-suggestion-to-location/-/digitransit-search-util-suggestion-to-location-0.0.3.tgz#79744cd7120c1500442028d1d734b7bdf97f9e52"
+  integrity sha512-T83HJsA+3JzpctbwrG8XvIaRIaFrUAUUblE6d26E6Pjxt2O/2XNPDXziXr5kmw5Tjh0VqA7ejpIosKU+Ozj0Kw==
+
 "@digitransit-search-util/digitransit-search-util-uniq-by-label@^0.0.1":
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-uniq-by-label/-/digitransit-search-util-uniq-by-label-0.0.1.tgz#e9961677e48f9c994ffcc6f8a5a6530887ed980d"
