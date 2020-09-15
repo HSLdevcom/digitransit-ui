@@ -17,6 +17,7 @@ export const PREFIX_ITINERARY_SUMMARY = 'reitti';
 export const PREFIX_DISRUPTION = 'hairiot';
 export const PREFIX_TIMETABLE = 'aikataulu';
 export const stopUrl = id => id;
+export const LOCAL_STORAGE_EMITTER_PATH = '/local-storage-emitter';
 
 export const getNearYouPath = (place, mode) =>
   [

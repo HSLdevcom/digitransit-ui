@@ -3,6 +3,7 @@ import React from 'react';
 import { createRefetchContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { matchShape, routerShape } from 'found';
+import { indexOf } from 'lodash-es';
 import StopNearYou from './StopNearYou';
 import withBreakpoint from '../util/withBreakpoint';
 import CityBikeStopNearYou from './CityBikeStopNearYou';
@@ -36,21 +37,37 @@ class StopsNearYouContainer extends React.Component {
 
   createNearbyStops = () => {
     const stopPatterns = this.props.stopPatterns.edges;
+    const terminalNames = [];
     const stops = stopPatterns.map(({ node }) => {
       const stop = node.place;
       /* eslint-disable-next-line no-underscore-dangle */
       switch (stop.__typename) {
         case 'Stop':
           if (stop.stoptimesWithoutPatterns.length > 0) {
-            return (
-              <StopNearYou
-                key={`${stop.gtfsId}`}
-                stop={stop}
-                distance={node.distance}
-                color={this.context.config.colors.primary}
-                currentTime={this.props.currentTime}
-              />
-            );
+            if (stop.parentStation) {
+              if (indexOf(terminalNames, stop.parentStation.name) === -1) {
+                terminalNames.push(stop.parentStation.name);
+                return (
+                  <StopNearYou
+                    key={`${stop.gtfsId}`}
+                    stop={stop}
+                    distance={node.distance}
+                    color={this.context.config.colors.primary}
+                    currentTime={this.props.currentTime}
+                  />
+                );
+              }
+            } else {
+              return (
+                <StopNearYou
+                  key={`${stop.gtfsId}`}
+                  stop={stop}
+                  distance={node.distance}
+                  color={this.context.config.colors.primary}
+                  currentTime={this.props.currentTime}
+                />
+              );
+            }
           }
           break;
         case 'BikeRentalStation':
@@ -143,6 +160,43 @@ const connectedContainer = createRefetchContainer(
                       mode
                       patterns {
                         headsign
+                      }
+                    }
+                  }
+                }
+                parentStation {
+                  id
+                  name
+                  gtfsId
+                  code
+                  desc
+                  lat
+                  lon
+                  zoneId
+                  platformCode
+                  vehicleMode
+                  stoptimesWithoutPatterns(
+                    startTime: $startTime
+                    omitNonPickups: $omitNonPickups
+                  ) {
+                    scheduledArrival
+                    realtimeArrival
+                    arrivalDelay
+                    scheduledDeparture
+                    realtimeDeparture
+                    departureDelay
+                    realtime
+                    realtimeState
+                    serviceDay
+                    headsign
+                    trip {
+                      route {
+                        shortName
+                        gtfsId
+                        mode
+                        patterns {
+                          headsign
+                        }
                       }
                     }
                   }

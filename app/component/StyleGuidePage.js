@@ -10,7 +10,6 @@ import SelectedIconWithTail from './SelectedIconWithTail';
 import IconWithBigCaution from './IconWithBigCaution';
 import IconWithIcon from './IconWithIcon';
 import ComponentDocumentation from './ComponentDocumentation';
-import Departure from './Departure';
 import RouteNumber from './RouteNumber';
 import RouteDestination from './RouteDestination';
 import DepartureTime from './DepartureTime';
@@ -49,7 +48,6 @@ import StopCardHeader from './StopCardHeader';
 import SplitBars from './SplitBars';
 import InfoIcon from './InfoIcon';
 import Favourite from './Favourite';
-import DepartureListHeader from './DepartureListHeader';
 import SelectedStopPopupContent from './SelectedStopPopupContent';
 import { Component as LangSelect } from './LangSelect';
 import ExternalLink from './ExternalLink';
@@ -93,7 +91,6 @@ const components = {
   IconWithBigCaution,
   IconWithIcon,
   ComponentDocumentation,
-  Departure,
   RouteNumber,
   RouteDestination,
   DepartureTime,
@@ -133,7 +130,6 @@ const components = {
   SplitBars,
   InfoIcon,
   Favourite,
-  DepartureListHeader,
   SelectedStopPopupContent,
   SummaryRow,
   ExternalLink,

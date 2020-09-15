@@ -6,15 +6,22 @@ import withSearchContext from './WithSearchContext';
 import { getGTFSId } from '../util/suggestionUtils';
 
 function StopsNearYouSearch({ ...props }) {
-  const filterSearchResultsByMode = results => {
-    const gtfsIds = results.map(x => {
-      return {
-        gtfsId: getGTFSId({ id: x.properties.id }),
-        ...x,
-      };
-    });
-    const arr = filterStopsAndStationsByMode(gtfsIds, props.mode);
-    return arr;
+  const filterSearchResultsByMode = (results, type) => {
+    switch (type) {
+      case 'Routes':
+        return results;
+      case 'Stops': {
+        const gtfsIds = results.map(x => {
+          return {
+            gtfsId: getGTFSId({ id: x.properties.id }),
+            ...x,
+          };
+        });
+        return filterStopsAndStationsByMode(gtfsIds, props.mode);
+      }
+      default:
+        return results;
+    }
   };
   const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
   const isMobile = props.breakpoint !== 'large';
@@ -29,8 +36,9 @@ function StopsNearYouSearch({ ...props }) {
           className="destination"
           placeholder={`stop-near-you-${props.mode.toLowerCase()}`}
           transportMode={transportMode}
+          geocodingSize={40}
           value=""
-          filterSearchResultsByMode={filterSearchResultsByMode}
+          filterResults={filterSearchResultsByMode}
           sources={['Favourite', 'History', 'Datasource']}
           targets={['Stops', 'Routes']}
           isMobile={isMobile}

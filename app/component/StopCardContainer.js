@@ -13,12 +13,10 @@ const StopCardContainer = connectToStores(
     isTerminal: props.isTerminal,
     children: (
       <DepartureListContainer
-        rowClasses="no-padding no-margin"
         stoptimes={props.stop.stoptimes}
         limit={props.limit}
         isTerminal={props.isTerminal}
         isPopUp={props.isPopUp}
-        showPlatformCodes
         currentTime={props.currentTime}
       />
     ),
