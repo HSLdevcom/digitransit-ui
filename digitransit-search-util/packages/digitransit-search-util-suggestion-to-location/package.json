@@ -20,7 +20,7 @@
   ],
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
-  "peerDependencies": {
+  "dependencies": {
     "@digitransit-search-util/digitransit-search-util-get-label": "^0.0.2"
   }
 }
