@@ -5,9 +5,6 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import { matchShape, routerShape } from 'found';
 import StopNearYou from './StopNearYou';
 import withBreakpoint from '../util/withBreakpoint';
-import { getNearYouPath } from '../util/path';
-import { addressToItinerarySearch } from '../util/otpStrings';
-import { startLocationWatch } from '../action/PositionActions';
 import CityBikeStopNearYou from './CityBikeStopNearYou';
 
 class StopsNearYouContainer extends React.Component {
@@ -85,54 +82,16 @@ const StopsNearYouContainerWithBreakpoint = withBreakpoint(
   StopsNearYouContainer,
 );
 
-const PositioningWrapper = connectToStores(
-  StopsNearYouContainerWithBreakpoint,
-  ['PositionStore'],
-  (context, props) => {
-    const { place, mode } = props.match.params;
-    const locationState = context.getStore('PositionStore').getLocationState();
-
-    if (
-      place !== 'POS' &&
-      (locationState.hasLocation ||
-        locationState.isLocationingInProgress ||
-        locationState.isReverseGeocodingInProgress)
-    ) {
-      return { ...props };
-    }
-    if (locationState.locationingFailed) {
-      // props.router.replace(getNearYouPath(context.config.defaultEndPoint))
-      return { ...props };
-    }
-
-    if (
-      locationState.isLocationingInProgress ||
-      locationState.isReverseGeocodingInProgress
-    ) {
-      return { ...props };
-    }
-
-    if (locationState.hasLocation) {
-      const locationForUrl = addressToItinerarySearch(locationState);
-      const newPlace = locationForUrl;
-      props.router.replace(getNearYouPath(newPlace, mode));
-      return { ...props };
-    }
-    context.executeAction(startLocationWatch);
-    return { ...props };
-  },
-);
-PositioningWrapper.contextTypes = {
-  ...PositioningWrapper.contextTypes,
-  executeAction: PropTypes.func.isRequired,
-};
-
 const connectedContainer = createRefetchContainer(
-  connectToStores(PositioningWrapper, ['TimeStore'], ({ getStore }) => ({
-    currentTime: getStore('TimeStore')
-      .getCurrentTime()
-      .unix(),
-  })),
+  connectToStores(
+    StopsNearYouContainerWithBreakpoint,
+    ['TimeStore'],
+    ({ getStore }) => ({
+      currentTime: getStore('TimeStore')
+        .getCurrentTime()
+        .unix(),
+    }),
+  ),
   {
     stopPatterns: graphql`
       fragment StopsNearYouContainer_stopPatterns on placeAtDistanceConnection
