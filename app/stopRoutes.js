@@ -6,7 +6,6 @@ import Error404 from './component/404';
 import {
   PREFIX_STOPS,
   PREFIX_TERMINALS,
-  PREFIX_ROUTES,
   PREFIX_DISRUPTION,
   PREFIX_TIMETABLE,
 } from './util/path';
@@ -66,13 +65,6 @@ const queries = {
         }
       }
     `,
-    pageRoutes: graphql`
-      query stopRoutes_StopPageRoutes_Query($stopId: String!) {
-        stop(id: $stopId) {
-          ...StopRoutesAndPlatformsContainer_stop
-        }
-      }
-    `,
     pageAlerts: graphql`
       query stopRoutes_StopAlertsContainer_Query(
         $stopId: String!
@@ -129,13 +121,6 @@ const queries = {
       ) {
         station(id: $terminalId) {
           ...TerminalTimetablePage_station @arguments(date: $date)
-        }
-      }
-    `,
-    pageRoutes: graphql`
-      query stopRoutes_TerminalPageRoutes_Query($terminalId: String!) {
-        station(id: $terminalId) {
-          ...TerminalRoutesAndPlatformsContainer_station
         }
       }
     `,
@@ -233,20 +218,6 @@ export default function getStopRoutes(isTerminal = false) {
                 }}
                 query={queryMap.pageTimetable}
                 prepareVariables={prepareServiceDay}
-                render={getComponentOrLoadingRenderer}
-              />
-              <Route
-                path={PREFIX_ROUTES}
-                getComponent={() => {
-                  return isTerminal
-                    ? import(/* webpackChunkName: "stop" */ './component/TerminalRoutesAndPlatformsContainer')
-                        .then(getDefault)
-                        .catch(errorLoading)
-                    : import(/* webpackChunkName: "stop" */ './component/StopRoutesAndPlatformsContainer')
-                        .then(getDefault)
-                        .catch(errorLoading);
-                }}
-                query={queryMap.pageRoutes}
                 render={getComponentOrLoadingRenderer}
               />
               <Route
