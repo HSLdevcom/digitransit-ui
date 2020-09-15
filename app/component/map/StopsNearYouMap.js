@@ -25,6 +25,7 @@ import {
 import { addressToItinerarySearch } from '../../util/otpStrings';
 import ItineraryLine from './ItineraryLine';
 import Loading from '../Loading';
+import { plan } from '../ExampleData';
 
 const startClient = (context, routes) => {
   const { realTime } = context.config;
@@ -93,7 +94,7 @@ function StopsNearYouMap(
   }
   let uniqueRealtimeTopics;
   const { environment } = useContext(ReactRelayContext);
-  const [plan, setPlan] = useState({ plan: {}, isFetching: false });
+  const [ plans, setPlans ] = useState({ itineraries: [], isFetching: false });
   useEffect(() => {
     startClient(context, uniqueRealtimeTopics);
     return function cleanup() {
@@ -104,7 +105,7 @@ function StopsNearYouMap(
   useEffect(
     () => {
       let isMounted = true;
-      const fetchPlan = async stop => {
+      const fetchPlan = stop => {
         if (locationState.hasLocation && locationState.address) {
           const toPlace = {
             address: stop.name ? stop.name : 'stop',
@@ -142,15 +143,16 @@ function StopsNearYouMap(
           `;
           fetchQuery(environment, query, variables).then(({ plan: result }) => {
             if (isMounted) {
-              setPlan({ plan: result, isFetching: false });
+              setPlans({ itineraries:  plans => [...result.itineraries, ...plans.itineraries], isFetching: false });
             }
           });
         }
       };
       if (stops.edges.length > 0 && locationState.hasLocation) {
         const stop = stops.edges[0].node.place;
-        setPlan({ plan: plan.plan, isFetching: true });
+        setPlans({ plans: plans.itineraries, isFetching: true });
         fetchPlan(stop);
+        //fetchPlan(stops.edges[1].node.place)
       }
       return () => {
         isMounted = false;
@@ -203,9 +205,13 @@ function StopsNearYouMap(
   if (uniqueRealtimeTopics.length > 0) {
     leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
   }
-  if (plan.plan.itineraries) {
+  console.log(plans.itineraries)
+  if (plans.itineraries && plans.itineraries.length > 0) {
+    console.log(plans)
     leafletObjs.push(
-      ...plan.plan.itineraries.map((itinerary, i) => (
+      plans.itineraries.map((itinerary,i) =>  {
+        console.log(itinerary)
+        return(
         <ItineraryLine
           key="itinerary"
           hash={i}
@@ -214,7 +220,7 @@ function StopsNearYouMap(
           showIntermediateStops={false}
           streetMode="walk"
         />
-      )),
+      )}),
     );
   }
   const hilightedStops = () => {

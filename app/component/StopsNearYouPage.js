@@ -87,11 +87,30 @@ const containerComponent = createFragmentContainer(
   StopsNearYouPageWithBreakpoint,
   {
     stopPatterns: graphql`
-      fragment StopsNearYouPage_stopPatterns on placeAtDistanceConnection
+      fragment StopsNearYouPage_stopPatterns on QueryType
         @argumentDefinitions(
+          startTime: { type: "Long!", defaultValue: 0 }
           omitNonPickups: { type: "Boolean!", defaultValue: false }
+          lat: { type: "Float!", defaultValue: 0 }
+          lon: { type: "Float!", defaultValue: 0 }
+          filterByPlaceTypes: { type: "[FilterPlaceType]", defaultValue: null }
+          filterByModes: { type: "[Mode]", defaultValue: null }
+          first: { type: "Int!", defaultValue: 5 }
+          maxResults: { type: "Int" }
+          maxDistance: { type: "Int" }
         ) {
         ...StopsNearYouContainer_stopPatterns
+          @arguments(omitNonPickups: $omitNonPickups
+                      startTime: $startTime
+                      omitNonPickups: $omitNonPickups
+                      lat: $lat
+                      lon: $lon
+                      filterByPlaceTypes: $filterByPlaceTypes
+                      filterByModes: $filterByModes
+                      first: $first
+                      maxResults: $maxResults
+                      maxDistance: $maxDistance
+            )
       }
     `,
     alerts: graphql`

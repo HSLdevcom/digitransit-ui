@@ -46,6 +46,7 @@ class StopsNearYouContainer extends React.Component {
           ...oldVariables,
           startTime: currentTime,
           first: this.state.stopCount,
+          maxResults: this.state.stopCount,
         };
       });
     }
@@ -58,12 +59,13 @@ class StopsNearYouContainer extends React.Component {
         ...oldVariables,
         startTime: this.props.currentTime,
         first: this.state.stopCount,
+        maxResults: this.state.stopCount,
       };
     });
   };
 
   createNearbyStops = () => {
-    const stopPatterns = this.props.stopPatterns.edges;
+    const stopPatterns = this.props.stopPatterns.nearest.edges;
     const terminalNames = [];
     const stops = stopPatterns.map(({ node }) => {
       const stop = node.place;
@@ -118,7 +120,7 @@ class StopsNearYouContainer extends React.Component {
     return (
       <>
         <div role="list" className="stops-near-you-container">
-          {this.createNearbyStops()}
+    {this.createNearbyStops()}
         </div>
         <button
           aria-label={this.context.intl.formatMessage({
@@ -188,11 +190,27 @@ const connectedContainer = createRefetchContainer(
   })),
   {
     stopPatterns: graphql`
-      fragment StopsNearYouContainer_stopPatterns on placeAtDistanceConnection
+      fragment StopsNearYouContainer_stopPatterns on QueryType
         @argumentDefinitions(
           startTime: { type: "Long!", defaultValue: 0 }
           omitNonPickups: { type: "Boolean!", defaultValue: false }
+          lat: { type: "Float!"}
+          lon: { type: "Float!", defaultValue: 0 }
+          filterByPlaceTypes: { type: "[FilterPlaceType]", defaultValue: null }
+          filterByModes: { type: "[Mode]", defaultValue: null }
+          first: { type: "Int!", defaultValue: 5 }
+          maxResults: { type: "Int"}
+          maxDistance: { type: "Int"}
         ) {
+      nearest(
+        lat: $lat
+        lon: $lon
+        filterByPlaceTypes: $filterByPlaceTypes
+        filterByModes: $filterByModes
+        first: $first
+        maxResults: $maxResults
+        maxDistance: $maxDistance
+      ) {
         edges {
           node {
             distance
@@ -283,6 +301,7 @@ const connectedContainer = createRefetchContainer(
           }
         }
       }
+    }
     `,
   },
   graphql`
@@ -292,18 +311,23 @@ const connectedContainer = createRefetchContainer(
       $filterByPlaceTypes: [FilterPlaceType]
       $filterByModes: [Mode]
       $first: Int!
+      $maxResults: Int!
+      $maxDistance: Int
       $startTime: Long!
       $omitNonPickups: Boolean!
     ) {
-      nearest(
-        lat: $lat
-        lon: $lon
-        filterByPlaceTypes: $filterByPlaceTypes
-        filterByModes: $filterByModes
-        first: $first
-      ) {
+      stopPatterns: viewer {
         ...StopsNearYouContainer_stopPatterns
-          @arguments(startTime: $startTime, omitNonPickups: $omitNonPickups)
+          @arguments(startTime: $startTime
+                      omitNonPickups: $omitNonPickups
+                      lat: $lat
+                      lon: $lon
+                      filterByPlaceTypes: $filterByPlaceTypes
+                      filterByModes: $filterByModes
+                      first: $first
+                      maxResults: $maxResults
+                      maxDistance: $maxDistance
+                      )
       }
     }
   `,
