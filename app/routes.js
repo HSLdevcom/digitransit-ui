@@ -10,7 +10,7 @@ import TopLevel from './component/TopLevel';
 import LocalStorageEmitter from './component/LocalStorageEmitter';
 
 import { PREFIX_ITINERARY_SUMMARY, PREFIX_NEARYOU } from './util/path';
-import { preparePlanParams, prepareStopsParams } from './util/planParamUtil';
+import { preparePlanParams } from './util/planParamUtil';
 import {
   errorLoading,
   getDefault,
@@ -53,42 +53,53 @@ export default config => {
                   getDefault,
                 )
               }
-              query={graphql`
-                query routes_StopsNearYou_Query(
-                  $lat: Float!
-                  $lon: Float!
-                  $filterByPlaceTypes: [FilterPlaceType]
-                  $filterByModes: [Mode]
-                  $maxResults: Int!
-                  $maxDistance: Int!
-                  $omitNonPickups: Boolean
-                ) {
-                  stopPatterns: nearest(
-                    lat: $lat
-                    lon: $lon
-                    filterByPlaceTypes: $filterByPlaceTypes
-                    filterByModes: $filterByModes
-                    maxResults: $maxResults
-                    maxDistance: $maxDistance
-                  ) {
-                    ...StopsNearYouPage_stopPatterns
-                      @arguments(omitNonPickups: $omitNonPickups)
-                  }
-                  alerts: nearest(
-                    lat: $lat
-                    lon: $lon
-                    filterByPlaceTypes: $filterByPlaceTypes
-                    filterByModes: $filterByModes
-                    maxResults: $maxResults
-                  ) {
-                    ...StopsNearYouPage_alerts
-                      @arguments(omitNonPickups: $omitNonPickups)
-                  }
+              render={({ Component, props, error, match }) => {
+                if (Component) {
+                  return props ? (
+                    <Component
+                      {...props}
+                      match={match}
+                      error={error}
+                      loadingPosition={false}
+                    />
+                  ) : (
+                    <Component
+                      stopPatterns={{}}
+                      stops={{}}
+                      alerts={{}}
+                      match={match}
+                      loadingPosition
+                      error={error}
+                    />
+                  );
                 }
-              `}
-              prepareVariables={prepareStopsParams(config)}
-              render={getComponentOrLoadingRenderer}
-            />
+                return undefined;
+              }}
+            >
+              {{
+                content: (
+                  <Route
+                    getComponent={() =>
+                      import(/* webpackChunkName: "nearyou" */ './component/StopsNearYouContainer.js').then(
+                        getDefault,
+                      )
+                    }
+                    render={getComponentOrLoadingRenderer}
+                  />
+                ),
+                map: (
+                  <Route
+                    // disableMapOnMobile
+                    getComponent={() =>
+                      import(/* webpackChunkName: "nearyou" */ './component/map/StopsNearYouMap.js').then(
+                        getDefault,
+                      )
+                    }
+                    render={getComponentOrNullRenderer}
+                  />
+                ),
+              }}
+            </Route>
           ) : (
             <Route
               path="(.*)?"
@@ -97,41 +108,6 @@ export default config => {
                   getDefault,
                 )
               }
-            />
-          ),
-          map: (
-            <Route
-              // disableMapOnMobile
-              getComponent={() =>
-                import(/* webpackChunkName: "nearyou" */ './component/map/StopsNearYouMap.js').then(
-                  getDefault,
-                )
-              }
-              query={graphql`
-                query routes_StopsNearYouMap_Query(
-                  $lat: Float!
-                  $lon: Float!
-                  $filterByPlaceTypes: [FilterPlaceType]
-                  $filterByModes: [Mode]
-                  $maxResults: Int!
-                  $maxDistance: Int!
-                  $omitNonPickups: Boolean
-                ) {
-                  stops: nearest(
-                    lat: $lat
-                    lon: $lon
-                    filterByPlaceTypes: $filterByPlaceTypes
-                    filterByModes: $filterByModes
-                    maxResults: $maxResults
-                    maxDistance: $maxDistance
-                  ) {
-                    ...StopsNearYouMap_stops
-                      @arguments(omitNonPickups: $omitNonPickups)
-                  }
-                }
-              `}
-              prepareVariables={prepareStopsParams(config)}
-              render={getComponentOrNullRenderer}
             />
           ),
         }}
