@@ -1450,6 +1450,14 @@
   resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-with-breakpoint/-/digitransit-component-with-breakpoint-0.0.3.tgz#fa31eed369a5c43cbb14dc7d5d8d49323a5c8674"
   integrity sha512-PwJmjRGwVuLNoBRGoFr3F0bLb+p5oOWamFm5PNEajGD8PCfX+yCbeEfr0kWpbZ7whR/VAqyNIMmXmoDX8hwRcQ==
 
+"@digitransit-search-util/digitransit-search-util-get-json@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-get-json/-/digitransit-search-util-get-json-0.0.1.tgz#9b3685a56a726a30313517f69407b0040795ed1e"
+  integrity sha512-f7VVai3I88G2/R/aQGICxUsQB4zQnuNHLryLY6htWRVfGKQVsJAwecmwSleAEzyi+tuHgPUk+yat8iw4DJr4Jg==
+  dependencies:
+    "@digitransit-search-util/digitransit-search-util-serialize" "^0.0.1"
+    node-fetch "2.3.0"
+
 "@evocateur/libnpmaccess@^3.1.2":
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/@evocateur/libnpmaccess/-/libnpmaccess-3.1.2.tgz#ecf7f6ce6b004e9f942b098d92200be4a4b1c845"
@@ -5421,6 +5429,11 @@ core-js-pure@^3.0.0:
   resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.6.5.tgz#c79e75f5e38dbc85a662d91eea52b8256d53b813"
   integrity sha512-lacdXOimsiD0QyNf9BC/mxivNJ/ybBGJXQFKzRekp1WTHoVUWsUHEn+2T8GJAzzIhyOuXA+gOxCVN3l+5PLPUA==
 
+core-js@3, core-js@^3.0.0:
+  version "3.6.5"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.6.5.tgz#7395dc273af37fb2e50e9bd3d9fe841285231d1a"
+  integrity sha512-vZVEEwZoIsI+vPEuoF9Iqf5H7/M3eeQqWlQnYa8FSKKePuYTf5MWnxb5SDAzCa60b3JBRS5g9b+Dq7b1y/RCrA==
+
 core-js@^0.8.3:
   version "0.8.4"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-0.8.4.tgz#c22665f1e0d1b9c3c5e1b08dabd1f108695e4fcf"
@@ -5435,11 +5448,6 @@ core-js@^2.4.0, core-js@^2.4.1, core-js@^2.5.0:
   version "2.6.11"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.11.tgz#38831469f9922bded8ee21c9dc46985e0399308c"
   integrity sha512-5wjnpaT/3dV+XB4borEsnAYQchn00XSgTAWKDkEqv+K8KevjbzmofK6hfJ9TZIlpj2N0xQpazy7PiRQiWHqzWg==
-
-core-js@^3.0.0:
-  version "3.6.5"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.6.5.tgz#7395dc273af37fb2e50e9bd3d9fe841285231d1a"
-  integrity sha512-vZVEEwZoIsI+vPEuoF9Iqf5H7/M3eeQqWlQnYa8FSKKePuYTf5MWnxb5SDAzCa60b3JBRS5g9b+Dq7b1y/RCrA==
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
@@ -12456,6 +12464,11 @@ node-fetch@2.1.2:
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.1.2.tgz#ab884e8e7e57e38a944753cec706f788d1768bb5"
   integrity sha1-q4hOjn5X44qUR1POxwb3iNF2i7U=
 
+node-fetch@2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.3.0.tgz#1a1d940bbfb916a1d3e0219f037e89e71f8c5fa5"
+  integrity sha512-MOd8pV3fxENbryESLgVIeaGKrdl+uaYhCSSVkjeOb/31/njTpcis5aWfdqgNlHIrKOLRbMnfPINPOML2CIFeXA==
+
 node-fetch@2.6.0, node-fetch@^2.2.0, node-fetch@^2.3.0, node-fetch@^2.5.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.0.tgz#e633456386d4aa55863f676a7ab0daa8fdecb0fd"
@@ -14919,11 +14932,12 @@ react-relay-network-modern-ssr@1.4.0:
   resolved "https://registry.yarnpkg.com/react-relay-network-modern-ssr/-/react-relay-network-modern-ssr-1.4.0.tgz#a5e4b60e69e14769c7266a1a0f5002430c815fe1"
   integrity sha512-sCIiwjzDPV9eBPOb7VcT/dmZkwrqcNpAK5eHkwjvC3Xw+RShtgB/uCSVgCUzMZpOR8iUSkzaceC/HMZdnKxF3w==
 
-react-relay-network-modern@4.7.7:
-  version "4.7.7"
-  resolved "https://registry.yarnpkg.com/react-relay-network-modern/-/react-relay-network-modern-4.7.7.tgz#e0e9c42a6af0066a934c88328b8510091a8e5803"
-  integrity sha512-QzuZZwUhzVhNzgn7ACh8l0ckSxbFXzh32YFVa2nqTK/6n9eGx1a5e2ezvbGv1hRywYcXJ+7bRAdBTjzz/ymMHQ==
+react-relay-network-modern@5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/react-relay-network-modern/-/react-relay-network-modern-5.0.0.tgz#a8344b89a4073d37306a92372f7e1521f07b94c5"
+  integrity sha512-og7VA7+Lbz+s1QVqd3MrrlTg/I5Zh/pgZFzYa4QmIgxNvLRCXucXDWGx1Ahbapz0pCaSEmuWVEQrKJZjXkJbfA==
   dependencies:
+    core-js "3"
     extract-files "^5.0.1"
 
 react-relay@10.0.1:
