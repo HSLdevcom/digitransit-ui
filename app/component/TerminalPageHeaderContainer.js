@@ -11,6 +11,7 @@ export default createFragmentContainer(
       favourite: getStore('FavouriteStore').isFavourite(
         match.params.terminalId,
       ),
+      isTerminal: true,
     }),
   ),
   {

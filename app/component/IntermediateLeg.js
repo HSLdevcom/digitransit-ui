@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Link from 'found/lib/Link';
+import Link from 'found/Link';
 import ZoneIcon from './ZoneIcon';
 import { PREFIX_STOPS } from '../util/path';
 import { isKeyboardSelectionEvent } from '../util/browser';
