@@ -1,9 +1,9 @@
 /* eslint-disable react/jsx-key */
 import React from 'react';
 import { graphql } from 'react-relay';
-import Route from 'found/lib/Route';
-import queryMiddleware from 'farce/lib/queryMiddleware';
-import createRender from 'found/lib/createRender';
+import Route from 'found/Route';
+import queryMiddleware from 'farce/queryMiddleware';
+import createRender from 'found/createRender';
 
 import Error404 from './component/404';
 import TopLevel from './component/TopLevel';

@@ -1,5 +1,5 @@
 import React from 'react';
-import Route from 'found/lib/Route';
+import Route from 'found/Route';
 import { graphql } from 'react-relay';
 
 import Error404 from './component/404';

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
-import Link from 'found/lib/Link';
+import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
 import PlatformNumber from './PlatformNumber';
 import ComponentUsageExample from './ComponentUsageExample';

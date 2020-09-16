@@ -3,7 +3,7 @@ import React from 'react';
 import { matchShape } from 'found';
 
 import { FormattedMessage } from 'react-intl';
-import Link from 'found/lib/Link';
+import Link from 'found/Link';
 import Icon from './Icon';
 
 const NetworkError = ({ retry }, { match }) => (
