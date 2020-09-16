@@ -174,7 +174,7 @@ const StopPageMap = (
       origin={locationState}
       destination={stop}
       bounds={bounds}
-      fitBounds={bounds.length}
+      fitBounds={bounds.length > 0}
     >
       {children}
     </MapWithTracking>

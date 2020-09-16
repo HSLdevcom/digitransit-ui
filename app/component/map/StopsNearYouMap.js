@@ -232,7 +232,7 @@ function StopsNearYouMap(
         showStops
         stopsNearYouMode={mode}
         showScaleBar
-        fitBounds
+        fitBounds={bounds.length > 0}
         defaultMapCenter={locationState}
         bounds={bounds}
         origin={origin}
@@ -255,7 +255,7 @@ function StopsNearYouMap(
           breakpoint={breakpoint}
           showStops
           stopsNearYouMode={mode}
-          fitBounds
+          fitBounds={bounds.length > 0}
           defaultMapCenter={locationState}
           bounds={bounds}
           showScaleBar
