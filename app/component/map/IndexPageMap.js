@@ -55,6 +55,7 @@ function IndexPageMap(
   } else if (destination.set && destination.ready) {
     focusPoint = destination;
   }
+
   const mwtProps = {};
 
   const mapTracking =
@@ -98,13 +99,13 @@ function IndexPageMap(
     map = (
       <MapWithTracking
         breakpoint={breakpoint}
+        // TODO: Fix an issue where map doesn't center to right place when user is coming to indexPage with origin or destination set with url
+        defaultMapCenter={config.defaultMapCenter}
         showStops
         showScaleBar
         {...mwtProps}
         showLocationMessages
         initialZoom={initialZoom}
-        initialMapTracking={mapTracking}
-        focusPoint={focusPoint}
         leafletObjs={leafletObjs}
         renderCustomButtons={() => (
           <>
@@ -128,8 +129,8 @@ function IndexPageMap(
           <MapWithTracking
             breakpoint={breakpoint}
             showStops
-            initialMapTracking={mapTracking}
-            focusPoint={focusPoint}
+            {...mwtProps}
+            defaultMapCenter={config.defaultMapCenter}
             leafletObjs={leafletObjs}
             renderCustomButtons={() => (
               <>
