@@ -4,7 +4,6 @@ import cx from 'classnames'; // DT-3470
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 import getContext from 'recompose/getContext';
-import isEqual from 'lodash/isEqual';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
 import ComponentUsageExample from '../ComponentUsageExample';
 import MapContainer from './MapContainer';
@@ -112,12 +111,10 @@ class MapWithTrackingStateHandler extends React.Component {
 
   constructor(props) {
     super(props);
-    this.focusPoint = props.focusPoint;
     const defaultZoom = this.focusPoint ? DEFAULT_ZOOM : FOCUS_ZOOM;
     this.state = {
       geoJson: {},
       defaultMapCenter: props.defaultMapCenter,
-      focusPoint: props.focusPoint,
       initialZoom: props.setInitialZoom ? props.setInitialZoom : defaultZoom,
       mapTracking: props.setInitialMapTracking,
     };
@@ -181,8 +178,8 @@ class MapWithTrackingStateHandler extends React.Component {
         mapTracking: false,
       });
     }
-    if (!isEqual(newProps.focusPoint, this.state.focusPoint)) {
-      this.usePosition(newProps.focusPoint, newProps.initialZoom);
+    if (newProps.initialZoom !== this.state.initialZoom) {
+      this.updateZoom(newProps.initialZoom);
       if (newProps.focusPoint) {
         triggerMessage(
           newProps.focusPoint.lat,
@@ -246,9 +243,8 @@ class MapWithTrackingStateHandler extends React.Component {
     });
   };
 
-  usePosition(focusPoint, zoom) {
+  updateZoom(zoom) {
     this.setState({
-      focusPoint,
       initialZoom: zoom,
     });
   }

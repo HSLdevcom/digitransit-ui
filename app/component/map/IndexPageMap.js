@@ -12,6 +12,7 @@ import OriginStore from '../../store/OriginStore';
 import DestinationStore from '../../store/DestinationStore';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { dtLocationShape } from '../../util/shapes';
+import { parseLocation } from '../../util/path';
 import * as ModeUtils from '../../util/modeUtils';
 import Icon from '../Icon';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
@@ -43,6 +44,8 @@ function IndexPageMap(
   { match, router, breakpoint, origin, destination },
   { config },
 ) {
+  const originFromURI = parseLocation(match.params.from);
+  const destinationFromURI = parseLocation(match.params.to);
   let focusPoint;
   let initialZoom = 16; // Focus to the selected point
   const useDefaultLocation =
@@ -72,6 +75,13 @@ function IndexPageMap(
   if (focusPointChanged && focusPoint && focusPoint.lat && focusPoint.lon) {
     previousFocusPoint = focusPoint;
     mwtProps.focusPoint = focusPoint;
+  }
+  if (originFromURI.set || destinationFromURI.set) {
+    // Origin or destination from URI
+    mwtProps.focusPoint = originFromURI.set
+      ? originFromURI
+      : destinationFromURI;
+    initialZoom = 16;
   }
   const leafletObjs = [];
 
