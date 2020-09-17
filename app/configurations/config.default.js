@@ -146,34 +146,6 @@ export default {
   walkBoardCost: 600,
   walkBoardCostHigh: 1200,
 
-  quickOptions: {
-    public_transport: {
-      availableOptionSets: [
-        'least-transfers',
-        'least-walking',
-        'public-transport-with-bicycle',
-        'saved-settings',
-      ],
-    },
-    walk: {
-      availableOptionSets: ['prefer-walking-routes', 'saved-settings'],
-    },
-    bicycle: {
-      availableOptionSets: [
-        'least-elevation-changes',
-        'prefer-greenways',
-        'saved-settings',
-      ],
-    },
-    car_park: {
-      availableOptionSets: [
-        'least-transfers',
-        'least-walking',
-        'saved-settings',
-      ],
-    },
-  },
-
   maxWalkDistance: 10000,
   suggestWalkMaxDistance: 5000,
   maxBikingDistance: 100000,

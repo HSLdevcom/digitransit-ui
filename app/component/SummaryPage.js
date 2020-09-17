@@ -29,7 +29,6 @@ import MobileItineraryWrapper from './MobileItineraryWrapper';
 import { getWeatherData } from '../util/apiUtils';
 import Loading from './Loading';
 import { getRoutePath } from '../util/path';
-import { getIntermediatePlaces } from '../util/queryUtils';
 import {
   validateServiceTimeRange,
   getStartTime,
@@ -43,7 +42,11 @@ import { itineraryHasCancelation } from '../util/alertUtils';
 import triggerMessage from '../util/messageUtils';
 import MessageStore from '../store/MessageStore';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { otpToLocation, addressToItinerarySearch } from '../util/otpStrings';
+import {
+  otpToLocation,
+  addressToItinerarySearch,
+  getIntermediatePlaces,
+} from '../util/otpStrings';
 import { startLocationWatch } from '../action/PositionActions';
 import { SettingsDrawer } from './SettingsDrawer';
 
