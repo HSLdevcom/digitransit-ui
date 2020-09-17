@@ -1,0 +1,22 @@
+@import '../../base/waltti';
+
+/* main theme colors */
+$primary-color: #fecc00;
+$secondary-color: darken($primary-color, 20%);
+$hilight-color: $primary-color;
+$action-color: $primary-color;
+$viewpoint-marker-color: $primary-color;
+$current-location-color: $primary-color;
+$standalone-btn-color: $primary-color;
+$link-color: $primary-color;
+$desktop-title-color: $primary-color;
+
+/* Vehicle palette */
+$bus-color: red;
+$metro-color: blue;
+$rail-color: green;
+$citybike-color: #009fe4;
+
+.car {
+  color: #005ab4;
+}

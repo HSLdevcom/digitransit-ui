@@ -103,13 +103,15 @@ class MapWithTrackingStateHandler extends React.Component {
 
   constructor(props) {
     super(props);
+    const { config } = props;
+    const defaultZoom = config.defaultEndpoint.zoomLevel || DEFAULT_ZOOM;
     const hasOriginorPosition =
       props.origin.ready ||
       props.position.hasLocation ||
       props.destination.ready;
     this.state = {
       geoJson: {},
-      initialZoom: hasOriginorPosition ? FOCUS_ZOOM : DEFAULT_ZOOM,
+      initialZoom: hasOriginorPosition ? FOCUS_ZOOM : defaultZoom,
       mapTracking: props.origin.gps && props.position.hasLocation,
       focusOnOrigin: props.origin.ready,
       focusOnDestination: !props.origin.ready && props.destination.ready,

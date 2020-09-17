@@ -1,0 +1,113 @@
+@import 'theme';
+@import '../../main';
+
+.external-link-container {
+  position: relative;
+  display: inline-block;
+  line-height: 22px;
+  font-size: 18px;
+  margin: 0px;
+  padding: 0px 6px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  background-color: red;
+
+  a.external-link {
+    display: inline-block;
+    vertical-align: text-top;
+    color: $white;
+    font-size: $font-size-xxsmall;
+    text-decoration: none;
+  }
+}
+
+.carpool-offer-btn {
+  margin: 10px;
+}
+
+.fg_icon {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 20%;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.carpool-offer {
+  white-space: initial;
+  h2 {
+    margin-left: 0px;
+    color: black;
+  }
+  p {
+    color: black;
+  }
+}
+
+.sidePanelText {
+  font-family: $font-family;
+  margin: 30px;
+  color: black;
+}
+
+.sidePanel-btn:hover {
+  background-color: #666;
+}
+
+.sidePanel-btn {
+  background-color: #9fc727;
+  padding-top: 0.4em;
+  padding-right: 0.7em;
+  padding-bottom: 0.4em;
+  padding-left: 0.7em;
+  border-radius: 20px !important;
+  color: white;
+  border-style: solid;
+  border-width: 0px;
+  width: 120px;
+}
+
+input[type='radio'] {
+  margin-right: 10px;
+  width: 20px;
+  height: 1.15em;
+}
+
+.radio-label,
+.phone-label {
+  font-family: $font-family;
+  font-size: inherit;
+  color: inherit;
+}
+
+.phone-label {
+  margin-bottom: 20px;
+}
+
+#phone {
+  width: 30%;
+  margin-left: 10px;
+}
+
+.carpool-checkbox {
+  margin-top: 10px;
+}
+
+.carpool-checkbox span {
+  position: relative;
+  top: -8px;
+}
+
+.gdpr-checkbox span {
+  margin-left: 30px;
+  position: relative;
+  top: -8px;
+}
+
+#phone, .phone-label {
+  display:inline-block;
+}
+.delivery-takeaway {
+  font-size: $font-size-normal;
+}
