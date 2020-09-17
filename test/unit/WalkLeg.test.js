@@ -69,6 +69,10 @@ describe('<WalkLeg />', () => {
         mode: 'BICYCLE',
         rentedBike: true,
         startTime: 1529588805000,
+        to: {
+          name: 'Mannerheimin tie 1',
+          stop: null,
+        },
       },
     };
 
@@ -157,6 +161,7 @@ describe('<WalkLeg />', () => {
                 effectiveStartDate: startTime / 1000 - 1,
               },
             ],
+            gtfsId: 'HSL:10000',
           },
         },
         to: {
