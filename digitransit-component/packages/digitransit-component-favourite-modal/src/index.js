@@ -172,18 +172,7 @@ class FavouriteModal extends React.Component {
     cancelSelected: () => ({}),
     lang: 'fi',
     isMobile: false,
-    favourite: {
-      type: undefined,
-      address: undefined,
-      gtfsId: undefined,
-      gid: undefined,
-      lat: undefined,
-      lon: undefined,
-      selectedIconId: undefined,
-      favouriteId: undefined,
-      layer: undefined,
-      defaultName: undefined,
-    },
+    favourite: null,
   };
 
   static favouriteIconIds = [
@@ -199,20 +188,35 @@ class FavouriteModal extends React.Component {
     super(props);
     i18next.changeLanguage(props.lang);
     this.state = {
-      favourite: props.favourite,
+      favourite: null,
     };
   }
 
   static getDerivedStateFromProps = (nextProps, prevState) => {
-    const nextFav = nextProps.favourite;
     const prevFav = prevState.favourite;
-    if (nextFav.lat !== prevFav.lat || nextFav.lon !== prevFav.lon) {
-      const name = prevFav.name || nextFav.name || '';
+    const nextFav = nextProps.favourite;
+    if (isEmpty(prevFav) && !isEmpty(nextFav)) {
+      return {
+        favourite: {
+          ...nextFav,
+        },
+      };
+    }
+    if (
+      !isEmpty(prevFav) &&
+      !isEmpty(nextFav) &&
+      (nextFav.address !== prevFav.address ||
+        nextFav.lat !== prevFav.lat ||
+        nextFav.lon !== prevFav.lon)
+    ) {
       return {
         favourite: {
           ...prevFav,
-          ...nextFav,
-          name,
+          address: nextFav.address,
+          lat: nextFav.lat,
+          lon: nextFav.lon,
+          name: prevFav.name || nextFav.name || '',
+          defaultName: nextFav.defaultName,
         },
       };
     }
@@ -226,7 +230,7 @@ class FavouriteModal extends React.Component {
   };
 
   componentWillUnmount = () => {
-    this.setState({ favourite: {} });
+    this.setState({ favourite: null });
   };
 
   specifyName = event => {
@@ -245,9 +249,11 @@ class FavouriteModal extends React.Component {
     }));
   };
 
-  isEdit = () => this.state.favourite.favouriteId !== undefined;
+  isEdit = () =>
+    this.state.favourite && this.state.favourite.favouriteId !== undefined;
 
   canSave = () =>
+    this.state.favourite &&
     !isEmpty(this.state.favourite.selectedIconId) &&
     isNumber(this.state.favourite.lat) &&
     isNumber(this.state.favourite.lon);
@@ -265,18 +271,10 @@ class FavouriteModal extends React.Component {
         (isStop(this.state.favourite) || isTerminal(this.state.favourite)) &&
         this.state.favourite.gtfsId
       ) {
-        const type = isTerminal(this.state.favourite) ? 'station' : 'stop';
-        this.props.saveFavourite({
-          ...favourite,
-          type,
-          selectedIconId: this.state.favourite.selectedIconId,
-        });
+        const type = isTerminal(favourite) ? 'station' : 'stop';
+        this.props.saveFavourite({ ...favourite, type });
       } else {
-        this.props.saveFavourite({
-          ...favourite,
-          type: 'place',
-          selectedIconId: this.state.favourite.selectedIconId,
-        });
+        this.props.saveFavourite({ ...favourite, type: 'place' });
       }
       if (this.props.addAnalyticsEvent) {
         this.props.addAnalyticsEvent({
@@ -288,8 +286,9 @@ class FavouriteModal extends React.Component {
       if (this.isEdit() && this.props.cancelSelected) {
         this.props.cancelSelected();
       } else {
-        this.setState({ favourite: {} }, () => this.props.handleClose());
+        this.props.handleClose();
       }
+      this.setState({ favourite: null });
     }
   };
 
@@ -303,12 +302,12 @@ class FavouriteModal extends React.Component {
       autosuggestComponent: this.props.autosuggestComponent,
       inputPlaceholder: i18next.t('input-placeholder'),
       specifyName: this.specifyName,
-      name: favourite.name || '',
+      name: (favourite && favourite.name) || '',
       chooseIconText: i18next.t('choose-icon'),
       favouriteIconTable: (
         <FavouriteIconTable
           selectedIconId={(() => {
-            if (favourite.selectedIconId !== undefined || null) {
+            if ((favourite && favourite.selectedIconId !== undefined) || null) {
               return favourite.selectedIconId;
             }
             return undefined;
@@ -322,7 +321,10 @@ class FavouriteModal extends React.Component {
       canSave: this.canSave,
       isEdit: this.isEdit(),
       cancelText: i18next.t('cancel'),
-      cancelSelected: this.props.cancelSelected,
+      cancelSelected: () => {
+        this.props.cancelSelected();
+        this.setState({ favourite: null });
+      },
     };
     return (
       <Modal
@@ -335,9 +337,10 @@ class FavouriteModal extends React.Component {
         closeButtonLabel={i18next.t('close-favourite-modal')}
         variant={!this.props.isMobile ? 'small' : 'large'}
         isOpen={this.props.isModalOpen}
-        onCrossClick={() =>
-          this.setState({ favourite: {} }, () => this.props.handleClose())
-        }
+        onCrossClick={() => {
+          this.props.handleClose();
+          this.setState({ favourite: null });
+        }}
       >
         {!this.props.isMobile && <DesktopModal {...modalProps} />}
         {this.props.isMobile && <MobileModal {...modalProps} />}
