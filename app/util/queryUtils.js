@@ -252,6 +252,9 @@ export const getQuerySettings = query => {
         query.allowedBikeRentalNetworks,
       ),
     }),
+    ...(hasKey('includeBikeSuggestions') && {
+      includeBikeSuggestions: query.includeBikeSuggestions,
+    }),
   };
 };
 

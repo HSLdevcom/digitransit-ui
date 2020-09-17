@@ -135,6 +135,10 @@ export function setCustomizedSettings(data) {
       data.allowedBikeRentalNetworks,
       oldSettings.allowedBikeRentalNetworks,
     ),
+    includeBikeSuggestions: getValueOrDefault(
+      data.includeBikeSuggestions,
+      oldSettings.includeBikeSuggestions,
+    ),
   };
   if (optimize === OptimizeType.Triangle) {
     newSettings.safetyFactor = getNumberValueOrDefault(
