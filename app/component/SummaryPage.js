@@ -1131,11 +1131,14 @@ class SummaryPage extends React.Component {
         bikePlan.itineraries &&
         bikePlan.itineraries.length > 0 &&
         currentSettings.usingWheelchair !== 1 &&
+        currentSettings.includeBikeSuggestions &&
         !bikePlanContainsOnlyWalk &&
         itineraryBikeDistance < this.context.config.suggestBikeMaxDistance,
     );
 
-    const showBikeAndPublicOptionButton = currentSettings.usingWheelchair !== 1;
+    const showBikeAndPublicOptionButton =
+      currentSettings.usingWheelchair !== 1 &&
+      currentSettings.includeBikeSuggestions;
 
     const showStreetModeSelector =
       (showWalkOptionButton ||
