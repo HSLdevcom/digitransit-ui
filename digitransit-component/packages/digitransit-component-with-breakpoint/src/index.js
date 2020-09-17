@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 /* eslint-disable react/no-multi-comp */
 import React, { createContext } from 'react';
 import PropTypes from 'prop-types';

@@ -146,8 +146,17 @@ WaitLeg.propTypes = {
   children: PropTypes.node,
   waitTime: PropTypes.number.isRequired,
   leg: PropTypes.shape({
+    from: PropTypes.shape({
+      stop: PropTypes.shape({
+        gtfsId: PropTypes.string.isRequired,
+        platformCode: PropTypes.string,
+      }),
+    }),
     to: PropTypes.shape({
       name: PropTypes.string.isRequired,
+      stop: PropTypes.shape({
+        gtfsId: PropTypes.string.isRequired,
+      }),
     }).isRequired,
   }).isRequired,
 };

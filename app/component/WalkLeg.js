@@ -253,12 +253,21 @@ const walkLegShape = PropTypes.shape({
   from: PropTypes.shape({
     name: PropTypes.string.isRequired,
     stop: PropTypes.shape({
+      alerts: PropTypes.array,
       code: PropTypes.string,
+      gtfsId: PropTypes.string.isRequired,
+      platformCode: PropTypes.string,
+    }),
+    bikeRentalStation: PropTypes.shape({
+      networks: PropTypes.array,
     }),
   }).isRequired,
   mode: PropTypes.string.isRequired,
   rentedBike: PropTypes.bool,
   startTime: PropTypes.number.isRequired,
+  to: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  }).isRequired,
 });
 
 WalkLeg.propTypes = {

@@ -502,6 +502,7 @@ TransitLeg.propTypes = {
         platformCode: PropTypes.string,
         zoneId: PropTypes.string,
         alerts: PropTypes.array,
+        gtfsId: PropTypes.string,
       }).isRequired,
       name: PropTypes.string.isRequired,
     }).isRequired,
@@ -522,6 +523,7 @@ TransitLeg.propTypes = {
       pattern: PropTypes.shape({
         code: PropTypes.string.isRequired,
       }).isRequired,
+      tripHeadsign: PropTypes.string.isRequired,
     }).isRequired,
     startTime: PropTypes.number.isRequired,
     departureDelay: PropTypes.number,
@@ -536,6 +538,7 @@ TransitLeg.propTypes = {
         }).isRequired,
       }),
     ).isRequired,
+    interlineWithPreviousLeg: PropTypes.bool.isRequired,
   }).isRequired,
   index: PropTypes.number.isRequired,
   mode: PropTypes.string.isRequired,

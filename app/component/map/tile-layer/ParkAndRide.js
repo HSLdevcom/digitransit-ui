@@ -31,7 +31,7 @@ export default class ParkAndRide {
     return fetch(
       `${this.config.URL.PARK_AND_RIDE_MAP}${
         this.tile.coords.z + (this.tile.props.zoomOffset || 0)
-      }` + `/${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
+      }/${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
     ).then(res => {
       if (res.status !== 200) {
         return undefined;

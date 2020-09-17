@@ -47,6 +47,7 @@ module.exports = {
       'error',
       {
         env: 'relay',
+        // eslint-disable-next-line global-require
         schemaJson: require('./build/schema.json').data,
         tagName: 'graphql',
       },

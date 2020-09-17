@@ -628,6 +628,7 @@ class SummaryPage extends React.Component {
     }
     //  alert screen reader when search results appear
     if (this.resultsUpdatedAlertRef.current) {
+      // eslint-disable-next-line no-self-assign
       this.resultsUpdatedAlertRef.current.innerHTML = this.resultsUpdatedAlertRef.current.innerHTML;
     }
   }
@@ -679,6 +680,7 @@ class SummaryPage extends React.Component {
         JSON.stringify(this.props.match.location)
     ) {
       // refresh content to trigger the alert
+      // eslint-disable-next-line no-self-assign
       this.resultsUpdatedAlertRef.current.innerHTML = this.resultsUpdatedAlertRef.current.innerHTML;
     }
     if (this.props.error) {

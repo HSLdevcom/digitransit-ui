@@ -315,6 +315,7 @@ BicycleLeg.description = () => {
 
 BicycleLeg.propTypes = {
   leg: PropTypes.shape({
+    endTime: PropTypes.number.isRequired,
     duration: PropTypes.number.isRequired,
     startTime: PropTypes.number.isRequired,
     distance: PropTypes.number.isRequired,
@@ -324,6 +325,7 @@ BicycleLeg.propTypes = {
         bikesAvailable: PropTypes.number.isRequired,
         networks: PropTypes.array.isRequired,
       }),
+      stop: PropTypes.object,
     }).isRequired,
     to: PropTypes.shape({
       name: PropTypes.string.isRequired,
