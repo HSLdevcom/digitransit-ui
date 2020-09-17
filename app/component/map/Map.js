@@ -178,22 +178,22 @@ export default class Map extends React.Component {
                   position={
                     breakpoint === 'large' ? 'bottomright' : 'bottomleft'
                   }
-                  prefix="<a tabindex=&quot;-1&quot; href=&quot;http://osm.org/copyright&quot;>&copy; OpenStreetMap</a>"
+                  prefix='<a tabindex="-1" href="http://osm.org/copyright">&copy; OpenStreetMap</a>'
                 />
               )
             }
           </BreakpointConsumer>
-          {this.props.showScaleBar &&
-            config.map.showScaleBar && (
-              <ScaleControl
-                imperial={false}
-                position={config.map.controls.scale.position}
-              />
-            )}
+          {this.props.showScaleBar && config.map.showScaleBar && (
+            <ScaleControl
+              imperial={false}
+              position={config.map.controls.scale.position}
+            />
+          )}
           <BreakpointConsumer>
             {breakpoint =>
               breakpoint === 'large' &&
-              (!this.props.disableZoom && config.map.showZoomControl) && (
+              !this.props.disableZoom &&
+              config.map.showZoomControl && (
                 <ZoomControl
                   position={config.map.controls.zoom.position}
                   zoomInText={zoomInText}
@@ -204,8 +204,9 @@ export default class Map extends React.Component {
           </BreakpointConsumer>
           {leafletObjs}
 
-          {!this.props.originFromMap &&
-            !this.props.destinationFromMap && <PositionMarker key="position" />}
+          {!this.props.originFromMap && !this.props.destinationFromMap && (
+            <PositionMarker key="position" />
+          )}
         </LeafletMap>
       </div>
     );

@@ -104,18 +104,16 @@ const connectedContainer = createRefetchContainer(
     StopsNearYouContainerWithBreakpoint,
     ['TimeStore'],
     ({ getStore }) => ({
-      currentTime: getStore('TimeStore')
-        .getCurrentTime()
-        .unix(),
+      currentTime: getStore('TimeStore').getCurrentTime().unix(),
     }),
   ),
   {
     stopPatterns: graphql`
       fragment StopsNearYouContainer_stopPatterns on placeAtDistanceConnection
-        @argumentDefinitions(
-          startTime: { type: "Long!", defaultValue: 0 }
-          omitNonPickups: { type: "Boolean!", defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        startTime: { type: "Long!", defaultValue: 0 }
+        omitNonPickups: { type: "Boolean!", defaultValue: false }
+      ) {
         edges {
           node {
             distance
@@ -226,7 +224,7 @@ const connectedContainer = createRefetchContainer(
         maxResults: $maxResults
       ) {
         ...StopsNearYouContainer_stopPatterns
-          @arguments(startTime: $startTime, omitNonPickups: $omitNonPickups)
+        @arguments(startTime: $startTime, omitNonPickups: $omitNonPickups)
       }
     }
   `,

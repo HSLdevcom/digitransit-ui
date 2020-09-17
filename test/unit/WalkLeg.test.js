@@ -69,6 +69,10 @@ describe('<WalkLeg />', () => {
         mode: 'BICYCLE',
         rentedBike: true,
         startTime: 1529588805000,
+        to: {
+          name: 'Mannerheimin tie 1',
+          stop: null,
+        },
       },
     };
 
@@ -78,12 +82,9 @@ describe('<WalkLeg />', () => {
       },
     });
 
-    expect(
-      wrapper
-        .find(FormattedMessage)
-        .at(0)
-        .prop('id'),
-    ).to.equal('return-cycle-to');
+    expect(wrapper.find(FormattedMessage).at(0).prop('id')).to.equal(
+      'return-cycle-to',
+    );
   });
 
   it('should tell the user to return a rented kick scooter to the starting point station', () => {
@@ -136,12 +137,9 @@ describe('<WalkLeg />', () => {
       },
     });
 
-    expect(
-      wrapper
-        .find(FormattedMessage)
-        .at(0)
-        .prop('id'),
-    ).to.equal('return-scooter-to');
+    expect(wrapper.find(FormattedMessage).at(0).prop('id')).to.equal(
+      'return-scooter-to',
+    );
   });
 
   it('should show a service alert icon if there is one at the "from" stop', () => {
@@ -163,6 +161,7 @@ describe('<WalkLeg />', () => {
                 effectiveStartDate: startTime / 1000 - 1,
               },
             ],
+            gtfsId: 'HSL:10000',
           },
         },
         to: {

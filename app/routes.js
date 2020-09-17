@@ -43,9 +43,9 @@ export default config => {
             <Route
               path="(.*)?"
               getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/BackButton').then(
-                  getDefault,
-                )
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/BackButton'
+                ).then(getDefault)
               }
             />
           ),
@@ -53,9 +53,9 @@ export default config => {
             <Route
               path="(.*)?"
               getComponent={() =>
-                import(/* webpackChunkName: "nearyou" */ './component/StopsNearYouPage').then(
-                  getDefault,
-                )
+                import(
+                  /* webpackChunkName: "nearyou" */ './component/StopsNearYouPage'
+                ).then(getDefault)
               }
               render={({ Component, props, error, match }) => {
                 if (Component) {
@@ -77,9 +77,9 @@ export default config => {
                 content: (
                   <Route
                     getComponent={() =>
-                      import(/* webpackChunkName: "nearyou" */ './component/StopsNearYouContainer.js').then(
-                        getDefault,
-                      )
+                      import(
+                        /* webpackChunkName: "nearyou" */ './component/StopsNearYouContainer.js'
+                      ).then(getDefault)
                     }
                     render={getComponentOrLoadingRenderer}
                   />
@@ -88,9 +88,9 @@ export default config => {
                   <Route
                     // disableMapOnMobile
                     getComponent={() =>
-                      import(/* webpackChunkName: "nearyou" */ './component/map/StopsNearYouMap.js').then(
-                        getDefault,
-                      )
+                      import(
+                        /* webpackChunkName: "nearyou" */ './component/map/StopsNearYouMap.js'
+                      ).then(getDefault)
                     }
                     render={getComponentOrNullRenderer}
                   />
@@ -101,9 +101,9 @@ export default config => {
             <Route
               path="(.*)?"
               getComponent={() =>
-                import(/* webpackChunkName: "nearyou" */ './component/Loading').then(
-                  getDefault,
-                )
+                import(
+                  /* webpackChunkName: "nearyou" */ './component/Loading'
+                ).then(getDefault)
               }
             />
           ),
@@ -115,18 +115,18 @@ export default config => {
             <Route
               path="(.*)?"
               getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/SummaryTitle').then(
-                  getDefault,
-                )
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/SummaryTitle'
+                ).then(getDefault)
               }
             />
           ),
           content: isBrowser ? (
             <Route
               getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/SummaryPage').then(
-                  getDefault,
-                )
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/SummaryPage'
+                ).then(getDefault)
               }
               query={graphql`
                 query routes_SummaryPage_Query(
@@ -374,18 +374,18 @@ export default config => {
                     <Route
                       path="/tulosta"
                       getComponent={() =>
-                        import(/* webpackChunkName: "itinerary" */ './component/PrintableItinerary').then(
-                          getDefault,
-                        )
+                        import(
+                          /* webpackChunkName: "itinerary" */ './component/PrintableItinerary'
+                        ).then(getDefault)
                       }
                       printPage
                       render={getComponentOrLoadingRenderer}
                     />
                     <Route
                       getComponent={() =>
-                        import(/* webpackChunkName: "itinerary" */ './component/ItineraryTab').then(
-                          getDefault,
-                        )
+                        import(
+                          /* webpackChunkName: "itinerary" */ './component/ItineraryTab'
+                        ).then(getDefault)
                       }
                       render={getComponentOrLoadingRenderer}
                     />
@@ -396,9 +396,9 @@ export default config => {
                   <Route
                     path="/:hash/(.*)?"
                     getComponent={() =>
-                      import(/* webpackChunkName: "itinerary" */ './component/ItineraryPageMap').then(
-                        getDefault,
-                      )
+                      import(
+                        /* webpackChunkName: "itinerary" */ './component/ItineraryPageMap'
+                      ).then(getDefault)
                     }
                     render={getComponentOrNullRenderer}
                   />,
@@ -409,9 +409,9 @@ export default config => {
             <Route
               path="(.*)?"
               getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/Loading').then(
-                  getDefault,
-                )
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/Loading'
+                ).then(getDefault)
               }
             />
           ),
@@ -419,9 +419,9 @@ export default config => {
             <Route
               path="(.*)?"
               getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/SummaryPageMeta').then(
-                  getDefault,
-                )
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/SummaryPageMeta'
+                ).then(getDefault)
               }
             />
           ),
@@ -430,7 +430,9 @@ export default config => {
       <Route
         path="/styleguide"
         getComponent={() =>
-          import(/* webpackChunkName: "styleguide" */ './component/StyleGuidePage')
+          import(
+            /* webpackChunkName: "styleguide" */ './component/StyleGuidePage'
+          )
             .then(getDefault)
             .catch(errorLoading)
         }
@@ -439,7 +441,9 @@ export default config => {
         path="/styleguide/component/:componentName"
         topBarOptions={{ hidden: true }}
         getComponent={() =>
-          import(/* webpackChunkName: "styleguide" */ './component/StyleGuidePage')
+          import(
+            /* webpackChunkName: "styleguide" */ './component/StyleGuidePage'
+          )
             .then(getDefault)
             .catch(errorLoading)
         }
@@ -475,27 +479,27 @@ export default config => {
           title: (
             <Route
               getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/Title').then(
-                  getDefault,
-                )
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/Title'
+                ).then(getDefault)
               }
             />
           ),
           content: (
             <Route
               getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/IndexPage').then(
-                  getDefault,
-                )
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/IndexPage'
+                ).then(getDefault)
               }
             />
           ),
           meta: (
             <Route
               getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/IndexPageMeta').then(
-                  getDefault,
-                )
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/IndexPageMeta'
+                ).then(getDefault)
               }
             />
           ),
@@ -504,9 +508,9 @@ export default config => {
               // TODO: Must be decided how we will handle selecting from map!
               disableMapOnMobile
               getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/map/IndexPageMap.js').then(
-                  getDefault,
-                )
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/map/IndexPageMap.js'
+                ).then(getDefault)
               }
             />
           ),
@@ -517,9 +521,9 @@ export default config => {
           title: (
             <Route
               getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/Title').then(
-                  getDefault,
-                )
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/Title'
+                ).then(getDefault)
               }
             >
               <Route path=":hash" />
@@ -528,9 +532,9 @@ export default config => {
           content: (
             <Route
               getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/IndexPage').then(
-                  getDefault,
-                )
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/IndexPage'
+                ).then(getDefault)
               }
             />
           ),

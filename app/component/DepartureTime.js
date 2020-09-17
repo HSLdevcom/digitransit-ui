@@ -67,10 +67,9 @@ function DepartureTime(props, context) {
         {realtime}
         {shownTime}
       </span>
-      {props.canceled &&
-        props.showCancelationIcon && (
-          <Icon className="caution" img="icon-icon_caution" />
-        )}
+      {props.canceled && props.showCancelationIcon && (
+        <Icon className="caution" img="icon-icon_caution" />
+      )}
     </React.Fragment>
   );
 }

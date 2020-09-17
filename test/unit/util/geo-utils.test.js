@@ -11,7 +11,14 @@ const defaultPoint = { lat: 60.1699, lon: 24.9384 };
 const polygonFeature = {
   geometry: {
     type: 'Polygon',
-    coordinates: [[[24, 60], [24, 61], [25, 61], [25, 60]]],
+    coordinates: [
+      [
+        [24, 60],
+        [24, 61],
+        [25, 61],
+        [25, 60],
+      ],
+    ],
   },
   properties: {
     name: 'polygonFeature',
@@ -21,9 +28,30 @@ const multipolygonFeature = {
   geometry: {
     type: 'MultiPolygon',
     coordinates: [
-      [[[10, 20], [20, 20], [10, 10], [20, 10]]],
-      [[[24, 60], [24, 61], [25, 61], [25, 60]]],
-      [[[30, 40], [40, 40], [30, 30], [40, 30]]],
+      [
+        [
+          [10, 20],
+          [20, 20],
+          [10, 10],
+          [20, 10],
+        ],
+      ],
+      [
+        [
+          [24, 60],
+          [24, 61],
+          [25, 61],
+          [25, 60],
+        ],
+      ],
+      [
+        [
+          [30, 40],
+          [40, 40],
+          [30, 30],
+          [40, 30],
+        ],
+      ],
     ],
   },
   properties: {

@@ -29,6 +29,10 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     content: PropTypes.node,
     map: PropTypes.node,
     relayEnvironment: PropTypes.object,
+    position: PropTypes.shape({
+      lat: PropTypes.number,
+      lon: PropTypes.number,
+    }),
   };
 
   state = {
@@ -102,7 +106,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
               maxDistance: $maxDistance
             ) {
               ...StopsNearYouContainer_stopPatterns
-                @arguments(omitNonPickups: $omitNonPickups)
+              @arguments(omitNonPickups: $omitNonPickups)
             }
             alerts: nearest(
               lat: $lat
@@ -112,7 +116,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
               maxResults: $maxResults
             ) {
               ...DisruptionBanner_alerts
-                @arguments(omitNonPickups: $omitNonPickups)
+              @arguments(omitNonPickups: $omitNonPickups)
             }
           }
         `}
@@ -168,7 +172,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
               maxDistance: $maxDistance
             ) {
               ...StopsNearYouMap_stops
-                @arguments(omitNonPickups: $omitNonPickups)
+              @arguments(omitNonPickups: $omitNonPickups)
             }
           }
         `}
