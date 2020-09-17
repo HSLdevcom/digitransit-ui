@@ -25,15 +25,32 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
 
   static propTypes = {
     breakpoint: PropTypes.string.isRequired,
-    position: PropTypes.object,
     loadingPosition: PropTypes.bool,
     content: PropTypes.node,
     map: PropTypes.node,
     relayEnvironment: PropTypes.object,
   };
 
+  state = {
+    startPosition: null,
+  };
+
+  static getDerivedStateFromProps = (nextProps, prevState) => {
+    if (
+      !prevState.startPosition &&
+      nextProps.position &&
+      nextProps.position.lat &&
+      nextProps.position.lon
+    ) {
+      return {
+        startPosition: nextProps.position,
+      };
+    }
+    return null;
+  };
+
   getQueryVariables = () => {
-    const { position } = this.props;
+    const { startPosition } = this.state;
     const { mode } = this.context.match.params;
     let placeTypes = 'STOP';
     let modes = [mode];
@@ -42,12 +59,12 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
       modes = ['BICYCLE'];
     }
     const lat =
-      position && position.lat
-        ? position.lat
+      startPosition && startPosition.lat
+        ? startPosition.lat
         : this.context.config.defaultEndpoint.lat;
     const lon =
-      position && position.lon
-        ? position.lon
+      startPosition && startPosition.lon
+        ? startPosition.lon
         : this.context.config.defaultEndpoint.lon;
     return {
       lat,
@@ -162,8 +179,8 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
             return (
               this.props.map &&
               React.cloneElement(this.props.map, {
+                position: this.state.startPosition,
                 stops: props.stops,
-                position: this.props.position,
                 match: this.context.match,
                 router: this.context.router,
               })
@@ -225,7 +242,7 @@ const PositioningWrapper = connectToStores(
     }
     const locationState = context.getStore('PositionStore').getLocationState();
     if (locationState.locationingFailed) {
-      // Error message is displayed by locationing message bar
+      // Use default endpoint when positioning fails
       return {
         ...props,
         position: context.config.defaultEndpoint,

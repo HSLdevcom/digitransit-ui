@@ -67,14 +67,7 @@ export default config => {
                       loadingPosition={false}
                     />
                   ) : (
-                    <Component
-                      stopPatterns={{}}
-                      stops={{}}
-                      alerts={{}}
-                      match={match}
-                      loadingPosition
-                      error={error}
-                    />
+                    <Component match={match} loadingPosition error={error} />
                   );
                 }
                 return undefined;

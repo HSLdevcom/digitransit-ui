@@ -76,10 +76,18 @@ const handleBounds = (location, stops) => {
   return [];
 };
 function StopsNearYouMap(
-  { breakpoint, origin, currentTime, destination, stops, position, ...props },
+  {
+    breakpoint,
+    origin,
+    currentTime,
+    destination,
+    stops,
+    locationState,
+    ...props
+  },
   { ...context },
 ) {
-  const bounds = handleBounds(position, stops);
+  const bounds = handleBounds(locationState, stops);
   if (!bounds) {
     return <Loading />;
   }
@@ -88,14 +96,14 @@ function StopsNearYouMap(
   const [plan, setPlan] = useState({ plan: {}, isFetching: false });
 
   const fetchPlan = async stop => {
-    if (position && position.lat) {
+    if (locationState && locationState.lat) {
       const toPlace = {
         address: stop.name ? stop.name : 'stop',
         lon: stop.lon,
         lat: stop.lat,
       };
       const variables = {
-        fromPlace: addressToItinerarySearch(position),
+        fromPlace: addressToItinerarySearch(locationState),
         toPlace: addressToItinerarySearch(toPlace),
         date: moment(currentTime * 1000).format('YYYY-MM-DD'),
         time: moment(currentTime * 1000).format('HH:mm:ss'),
@@ -136,16 +144,13 @@ function StopsNearYouMap(
     };
   }, []);
 
-  useEffect(
-    () => {
-      if (stops.edges && stops.edges.length > 0) {
-        const stop = stops.edges[0].node.place;
-        setPlan({ plan: plan.plan, isFetching: true });
-        fetchPlan(stop);
-      }
-    },
-    [position.lat],
-  );
+  useEffect(() => {
+    if (stops.edges && stops.edges.length > 0) {
+      const stop = stops.edges[0].node.place;
+      setPlan({ plan: plan.plan, isFetching: true });
+      fetchPlan(stop);
+    }
+  }, []);
 
   const { mode } = props.match.params;
   const routeLines = [];
@@ -217,7 +222,7 @@ function StopsNearYouMap(
         stopsNearYouMode={mode}
         showScaleBar
         fitBounds={bounds.length > 0}
-        defaultMapCenter={position}
+        defaultMapCenter={locationState}
         bounds={bounds}
         origin={origin}
         destination={destination}
@@ -240,7 +245,7 @@ function StopsNearYouMap(
           showStops
           stopsNearYouMode={mode}
           fitBounds={bounds.length > 0}
-          defaultMapCenter={position}
+          defaultMapCenter={locationState}
           bounds={bounds}
           showScaleBar
           origin={origin}
@@ -262,7 +267,7 @@ StopsNearYouMap.propTypes = {
   origin: dtLocationShape,
   destination: dtLocationShape,
   language: PropTypes.string.isRequired,
-  position: PropTypes.object,
+  locationState: PropTypes.object,
 };
 
 StopsNearYouMap.contextTypes = {
@@ -282,19 +287,25 @@ const StopsNearYouMapWithBreakpoint = withBreakpoint(StopsNearYouMap);
 const StopsNearYouMapWithStores = connectToStores(
   StopsNearYouMapWithBreakpoint,
   [OriginStore, TimeStore, DestinationStore, PreferencesStore, PositionStore],
-  ({ getStore }) => {
+  ({ getStore }, props) => {
     const currentTime = getStore(TimeStore)
       .getCurrentTime()
       .unix();
     const origin = getStore(OriginStore).getOrigin();
     const destination = getStore(DestinationStore).getDestination();
     const language = getStore(PreferencesStore).getLanguage();
-
+    let locationState;
+    if (props.match.params.place !== 'POS') {
+      locationState = props.position;
+    } else {
+      locationState = getStore(PositionStore).getLocationState();
+    }
     return {
       origin,
       destination,
       language,
       currentTime,
+      locationState,
     };
   },
 );
