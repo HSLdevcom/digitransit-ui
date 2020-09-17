@@ -1135,7 +1135,23 @@ class SummaryPage extends React.Component {
         itineraryBikeDistance < this.context.config.suggestBikeMaxDistance,
     );
 
-    const showBikeAndPublicOptionButton = currentSettings.usingWheelchair !== 1;
+    const bikeAndPublicPlanHasItineraries =
+      bikeAndPublicPlan &&
+      bikeAndPublicPlan.itineraries &&
+      bikeAndPublicPlan.length > 0 &&
+      bikeAndPublicPlan.itineraries[0].legs.filter(
+        obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE',
+      ).length > 0;
+    const bikeParkPlanHasItineraries =
+      bikeParkPlan &&
+      bikeParkPlan.itineraries &&
+      bikeParkPlan.itineraries.length > 0 &&
+      bikeParkPlan.itineraries[0].legs.filter(
+        obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE',
+      ).length > 0;
+    const showBikeAndPublicOptionButton =
+      (bikeAndPublicPlanHasItineraries || bikeParkPlanHasItineraries) &&
+      currentSettings.usingWheelchair !== 1;
 
     const showStreetModeSelector =
       (showWalkOptionButton ||
