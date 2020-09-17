@@ -242,31 +242,6 @@ export const getSettings = () => {
   };
 };
 
-export const prepareStopsParams = config => ({ place, mode }) => {
-  let newPlace;
-  if (place !== 'POS') {
-    newPlace = otpToLocation(place);
-  } else {
-    newPlace = config.defaultEndpoint;
-  }
-  let placeTypes = 'STOP';
-  let modes = [mode];
-  if (mode === 'CITYBIKE') {
-    placeTypes = 'BICYCLE_RENT';
-    modes = ['BICYCLE'];
-  }
-
-  return {
-    lat: newPlace.lat,
-    lon: newPlace.lon,
-    maxResults: config.maxNearbyStopAmount,
-    maxDistance: config.maxNearbyStopDistance,
-    filterByModes: modes,
-    filterByPlaceTypes: placeTypes,
-    omitNonPickups: config.omitNonPickups,
-  };
-};
-
 export const preparePlanParams = config => (
   { from, to },
   {
