@@ -4,7 +4,6 @@ import cx from 'classnames'; // DT-3470
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 import getContext from 'recompose/getContext';
-import isEqual from 'lodash/isEqual';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
 import ComponentUsageExample from '../ComponentUsageExample';
 import MapContainer from './MapContainer';
@@ -44,6 +43,7 @@ const Component = onlyUpdateCoordChanges(MapContainer);
 /* stop yet another eslint madness */
 /* eslint-disable react/sort-comp */
 
+let mapLoaded = false;
 const startClient = context => {
   const { realTime } = context.config;
   let agency;
@@ -96,6 +96,7 @@ class MapWithTrackingStateHandler extends React.Component {
     setInitialZoom: PropTypes.number,
     disableLocationPopup: PropTypes.bool,
     showLocationMessages: PropTypes.bool,
+    defaultMapCenter: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -110,12 +111,10 @@ class MapWithTrackingStateHandler extends React.Component {
 
   constructor(props) {
     super(props);
-    this.focusPoint = props.focusPoint;
     const defaultZoom = this.focusPoint ? DEFAULT_ZOOM : FOCUS_ZOOM;
     this.state = {
       geoJson: {},
-      useFitBounds: props.fitBounds,
-      useFocusPoint: !!props.focusPoint,
+      defaultMapCenter: props.defaultMapCenter,
       initialZoom: props.setInitialZoom ? props.setInitialZoom : defaultZoom,
       mapTracking: props.setInitialMapTracking,
     };
@@ -124,18 +123,6 @@ class MapWithTrackingStateHandler extends React.Component {
   async componentDidMount() {
     if (!isBrowser) {
       return;
-    }
-
-    if (this.state.useFitBounds) {
-      this.setState({
-        useFitBounds: false,
-      });
-    }
-
-    if (this.state.useFocusPoint) {
-      this.setState({
-        useFocusPoint: false,
-      });
     }
     const {
       config,
@@ -181,16 +168,18 @@ class MapWithTrackingStateHandler extends React.Component {
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(newProps) {
-    if (
-      (newProps.focusPoint && newProps.focusPoint.gps) ||
-      newProps.initialMapWithTracking
-    ) {
+    if (newProps.mapTracking || newProps.initialMapWithTracking) {
       this.setState({
         mapTracking: true,
       });
+    } else if (newProps.mapTracking === false) {
+      // Set this if and only if parent component spesifies that mapTracking is no longer wanted
+      this.setState({
+        mapTracking: false,
+      });
     }
-    if (!isEqual(newProps.focusPoint, this.state.focusPoint)) {
-      this.usePosition(newProps.focusPoint, newProps.initialZoom);
+    if (newProps.initialZoom !== this.state.initialZoom) {
+      this.updateZoom(newProps.initialZoom);
       if (newProps.focusPoint) {
         triggerMessage(
           newProps.focusPoint.lat,
@@ -254,9 +243,8 @@ class MapWithTrackingStateHandler extends React.Component {
     });
   };
 
-  usePosition(focusPoint, zoom) {
+  updateZoom(zoom) {
     this.setState({
-      focusPoint,
       initialZoom: zoom,
     });
   }
@@ -272,6 +260,11 @@ class MapWithTrackingStateHandler extends React.Component {
       focusPoint,
       ...rest
     } = this.props;
+    let useFitBounds = fitBounds;
+    // Fitbounds should only be set when map is first loaded. If fitbounds is set to true after map is loaded, tracking functionality will break.
+    if (mapLoaded) {
+      useFitBounds = false;
+    }
     const { geoJson } = this.state;
     let location = {};
     const leafletObjs = [];
@@ -317,24 +310,20 @@ class MapWithTrackingStateHandler extends React.Component {
     if (this.context.config.map.showZoomControl) {
       btnClassName = cx(btnClassName, 'roomForZoomControl');
     }
-    const sameFocusPoints = isEqual(this.state.focusPoint, focusPoint);
+
+    const useMapCoords = this.mapElement;
+    mapLoaded = useMapCoords;
     if (this.state.mapTracking && position.hasLocation) {
       location = position;
-    } else if (focusPoint && this.state.useFocusPoint) {
-      location = this.state.focusPoint;
-    } else if (!sameFocusPoints) {
-      // Happens i.e. when user navigates back to indexPage from different view.
+    } else if (focusPoint) {
       location = focusPoint;
-    } else {
+    } else if (useMapCoords) {
       // Map has to be loaded first, so we need correct coordinates at start. But after that (leafletElement exists)
       // we don't need correct coordinates. In fact trying to inject coordinates will mess up zooming and tracking.
       // This will also prevent situation when mapTracking is set to false, focus goes back to focusPoint.
-      const useMapCoords = this.mapElement;
-      if (useMapCoords && position.hasLocation) {
-        location = {};
-      } else {
-        location = this.state.focusPoint;
-      }
+      location = {};
+    } else {
+      location = this.state.defaultMapCenter;
     }
     return (
       <Component
@@ -342,7 +331,7 @@ class MapWithTrackingStateHandler extends React.Component {
         lon={location ? location.lon : undefined}
         zoom={this.state.initialZoom}
         mapTracking={this.state.mapTracking}
-        fitBounds={this.state.useFitBounds}
+        fitBounds={useFitBounds}
         className="flex-grow"
         disableLocationPopup={this.props.disableLocationPopup}
         leafletEvents={{

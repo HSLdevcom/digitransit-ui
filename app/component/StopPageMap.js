@@ -164,7 +164,7 @@ const StopPageMap = (
   return (
     <MapWithTracking
       className="flex-grow"
-      focusPoint={stop}
+      defaultMapCenter={stop}
       zoom={!match.params.stopId || stop.platformCode ? 18 : 16}
       showStops
       hilightedStops={[id]}
