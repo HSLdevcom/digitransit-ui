@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
 import { QueryRenderer, graphql } from 'react-relay';
-import Link from 'found/lib/Link';
+import Link from 'found/Link';
 import cx from 'classnames';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import IconWithTail from './IconWithTail';

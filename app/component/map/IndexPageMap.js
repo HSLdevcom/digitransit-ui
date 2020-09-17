@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { connectToStores } from 'fluxible-addons-react';
 import { matchShape, routerShape } from 'found';
+import isEqual from 'lodash/isEqual';
 import MapWithTracking from './MapWithTracking';
 import withBreakpoint from '../../util/withBreakpoint';
 import SelectMapLayersDialog from '../SelectMapLayersDialog';
@@ -11,6 +12,7 @@ import OriginStore from '../../store/OriginStore';
 import DestinationStore from '../../store/DestinationStore';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { dtLocationShape } from '../../util/shapes';
+import { parseLocation } from '../../util/path';
 import * as ModeUtils from '../../util/modeUtils';
 import Icon from '../Icon';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
@@ -36,10 +38,14 @@ const locationMarkerModules = {
   LocationMarker: () =>
     importLazy(import(/* webpackChunkName: "map" */ './LocationMarker')),
 };
+let previousFocusPoint;
+let previousMapTracking;
 function IndexPageMap(
   { match, router, breakpoint, origin, destination },
   { config },
 ) {
+  const originFromURI = parseLocation(match.params.from);
+  const destinationFromURI = parseLocation(match.params.to);
   let focusPoint;
   let initialZoom = 16; // Focus to the selected point
   const useDefaultLocation =
@@ -47,14 +53,38 @@ function IndexPageMap(
   if (useDefaultLocation) {
     focusPoint = config.defaultMapCenter || config.defaultEndpoint;
     initialZoom = 12; // Show default area
-  } else if (origin.set && origin.ready) {
+  } else if (origin.set && (origin.ready || (!origin.ready && origin.gps))) {
     focusPoint = origin;
   } else if (destination.set && destination.ready) {
     focusPoint = destination;
   }
-  const leafletObjs = [];
+
+  const mwtProps = {};
+
   const mapTracking =
     (origin && origin.gps) || (destination && destination.gps);
+  if (previousFocusPoint && previousFocusPoint.gps && !mapTracking) {
+    previousMapTracking = false;
+    mwtProps.mapTracking = false;
+  } else if (previousMapTracking !== mapTracking) {
+    previousMapTracking = mapTracking;
+    mwtProps.mapTracking = mapTracking;
+  }
+  const focusPointChanged =
+    !previousFocusPoint || !isEqual(previousFocusPoint, focusPoint);
+  if (focusPointChanged && focusPoint && focusPoint.lat && focusPoint.lon) {
+    previousFocusPoint = focusPoint;
+    mwtProps.focusPoint = focusPoint;
+  }
+  if (originFromURI.set || destinationFromURI.set) {
+    // Origin or destination from URI
+    mwtProps.focusPoint = originFromURI.set
+      ? originFromURI
+      : destinationFromURI;
+    initialZoom = 16;
+  }
+  const leafletObjs = [];
+
   if (origin && origin.ready === true) {
     leafletObjs.push(
       <LazilyLoad modules={locationMarkerModules} key="from">
@@ -79,12 +109,13 @@ function IndexPageMap(
     map = (
       <MapWithTracking
         breakpoint={breakpoint}
+        // TODO: Fix an issue where map doesn't center to right place when user is coming to indexPage with origin or destination set with url
+        defaultMapCenter={config.defaultMapCenter}
         showStops
         showScaleBar
+        {...mwtProps}
         showLocationMessages
         initialZoom={initialZoom}
-        initialMapTracking={mapTracking}
-        focusPoint={focusPoint}
         leafletObjs={leafletObjs}
         renderCustomButtons={() => (
           <>
@@ -108,8 +139,8 @@ function IndexPageMap(
           <MapWithTracking
             breakpoint={breakpoint}
             showStops
-            initialMapTracking={mapTracking}
-            focusPoint={focusPoint}
+            {...mwtProps}
+            defaultMapCenter={config.defaultMapCenter}
             leafletObjs={leafletObjs}
             renderCustomButtons={() => (
               <>
