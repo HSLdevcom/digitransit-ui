@@ -129,14 +129,13 @@ function ItinerarySummaryListContainer(
           </div>
         )}
         {isBrowser && summaries}
-        {isBrowser &&
-          canceledItinerariesCount > 0 && (
-            <CanceledItineraryToggler
-              showItineraries={showCancelled}
-              toggleShowCanceled={() => setShowCancelled(!showCancelled)}
-              canceledItinerariesAmount={canceledItinerariesCount}
-            />
-          )}
+        {isBrowser && canceledItinerariesCount > 0 && (
+          <CanceledItineraryToggler
+            showItineraries={showCancelled}
+            toggleShowCanceled={() => setShowCancelled(!showCancelled)}
+            canceledItinerariesAmount={canceledItinerariesCount}
+          />
+        )}
       </div>
     );
   }
@@ -299,7 +298,7 @@ const containerComponent = createFragmentContainer(
   {
     itineraries: graphql`
       fragment ItinerarySummaryListContainer_itineraries on Itinerary
-        @relay(plural: true) {
+      @relay(plural: true) {
         walkDistance
         startTime
         endTime

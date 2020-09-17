@@ -61,7 +61,10 @@ const handleBounds = (location, stops) => {
     const { edges } = stops;
     if (!edges || edges.length === 0) {
       // No stops anywhere near
-      return [[location.lat, location.lon], [location.lat, location.lon]];
+      return [
+        [location.lat, location.lon],
+        [location.lat, location.lon],
+      ];
     }
     const nearestStop = edges[0].node.place;
     const bounds = [
@@ -101,63 +104,60 @@ function StopsNearYouMap(
     };
   }, []);
 
-  useEffect(
-    () => {
-      let isMounted = true;
-      const fetchPlan = async stop => {
-        if (locationState.hasLocation && locationState.address) {
-          const toPlace = {
-            address: stop.name ? stop.name : 'stop',
-            lon: stop.lon,
-            lat: stop.lat,
-          };
-          const variables = {
-            fromPlace: addressToItinerarySearch(locationState),
-            toPlace: addressToItinerarySearch(toPlace),
-            date: moment(currentTime * 1000).format('YYYY-MM-DD'),
-            time: moment(currentTime * 1000).format('HH:mm:ss'),
-          };
-          const query = graphql`
-            query StopsNearYouMapQuery(
-              $fromPlace: String!
-              $toPlace: String!
-              $date: String!
-              $time: String!
+  useEffect(() => {
+    let isMounted = true;
+    const fetchPlan = async stop => {
+      if (locationState.hasLocation && locationState.address) {
+        const toPlace = {
+          address: stop.name ? stop.name : 'stop',
+          lon: stop.lon,
+          lat: stop.lat,
+        };
+        const variables = {
+          fromPlace: addressToItinerarySearch(locationState),
+          toPlace: addressToItinerarySearch(toPlace),
+          date: moment(currentTime * 1000).format('YYYY-MM-DD'),
+          time: moment(currentTime * 1000).format('HH:mm:ss'),
+        };
+        const query = graphql`
+          query StopsNearYouMapQuery(
+            $fromPlace: String!
+            $toPlace: String!
+            $date: String!
+            $time: String!
+          ) {
+            plan: plan(
+              fromPlace: $fromPlace
+              toPlace: $toPlace
+              date: $date
+              time: $time
+              transportModes: [{ mode: WALK }]
             ) {
-              plan: plan(
-                fromPlace: $fromPlace
-                toPlace: $toPlace
-                date: $date
-                time: $time
-                transportModes: [{ mode: WALK }]
-              ) {
-                itineraries {
-                  legs {
-                    mode
-                    ...ItineraryLine_legs
-                  }
+              itineraries {
+                legs {
+                  mode
+                  ...ItineraryLine_legs
                 }
               }
             }
-          `;
-          fetchQuery(environment, query, variables).then(({ plan: result }) => {
-            if (isMounted) {
-              setPlan({ plan: result, isFetching: false });
-            }
-          });
-        }
-      };
-      if (stops.edges.length > 0 && locationState.hasLocation) {
-        const stop = stops.edges[0].node.place;
-        setPlan({ plan: plan.plan, isFetching: true });
-        fetchPlan(stop);
+          }
+        `;
+        fetchQuery(environment, query, variables).then(({ plan: result }) => {
+          if (isMounted) {
+            setPlan({ plan: result, isFetching: false });
+          }
+        });
       }
-      return () => {
-        isMounted = false;
-      };
-    },
-    [locationState.status],
-  );
+    };
+    if (stops.edges.length > 0 && locationState.hasLocation) {
+      const stop = stops.edges[0].node.place;
+      setPlan({ plan: plan.plan, isFetching: true });
+      fetchPlan(stop);
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, [locationState.status]);
   if (locationState.loadingPosition || props.loading) {
     return <Loading />;
   }
@@ -300,9 +300,7 @@ const StopsNearYouMapWithStores = connectToStores(
   StopsNearYouMapWithBreakpoint,
   [OriginStore, TimeStore, DestinationStore, PreferencesStore, PositionStore],
   ({ getStore }) => {
-    const currentTime = getStore(TimeStore)
-      .getCurrentTime()
-      .unix();
+    const currentTime = getStore(TimeStore).getCurrentTime().unix();
     const origin = getStore(OriginStore).getOrigin();
     const destination = getStore(DestinationStore).getDestination();
     const language = getStore(PreferencesStore).getLanguage();
@@ -320,10 +318,10 @@ const StopsNearYouMapWithStores = connectToStores(
 const containerComponent = createFragmentContainer(StopsNearYouMapWithStores, {
   stops: graphql`
     fragment StopsNearYouMap_stops on placeAtDistanceConnection
-      @argumentDefinitions(
-        startTime: { type: "Long!", defaultValue: 0 }
-        omitNonPickups: { type: "Boolean!", defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      startTime: { type: "Long!", defaultValue: 0 }
+      omitNonPickups: { type: "Boolean!", defaultValue: false }
+    ) {
       edges {
         node {
           place {

@@ -440,11 +440,10 @@ export const preparePlanParams = config => (
     modes: modesOrDefault
       .split(',')
       .map(mode => mode.split('_'))
-      .map(
-        modeAndQualifier =>
-          modeAndQualifier.length > 1
-            ? { mode: modeAndQualifier[0], qualifier: modeAndQualifier[1] }
-            : { mode: modeAndQualifier[0] },
+      .map(modeAndQualifier =>
+        modeAndQualifier.length > 1
+          ? { mode: modeAndQualifier[0], qualifier: modeAndQualifier[1] }
+          : { mode: modeAndQualifier[0] },
       ),
     ticketTypes: getTicketTypes(
       ticketTypes,

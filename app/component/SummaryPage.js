@@ -786,7 +786,10 @@ class SummaryPage extends React.Component {
     this.setState({ bounds: [] });
     const bounds = []
       .concat(
-        [[leg.from.lat, leg.from.lon], [leg.to.lat, leg.to.lon]],
+        [
+          [leg.from.lat, leg.from.lon],
+          [leg.to.lat, leg.to.lon],
+        ],
         polyline.decode(leg.legGeometry.points),
       )
       .filter(a => a[0] && a[1]);
@@ -882,7 +885,10 @@ class SummaryPage extends React.Component {
 
     const bounds = []
       .concat(
-        [[from.lat, from.lon], [to.lat, to.lon]],
+        [
+          [from.lat, from.lon],
+          [to.lat, to.lon],
+        ],
         ...itineraries.map(itinerary =>
           [].concat(
             ...itinerary.legs.map(leg =>
@@ -989,7 +995,7 @@ class SummaryPage extends React.Component {
             settingsOnClose: getCurrentSettings(this.context.config, ''),
           },
           // eslint-disable-next-line func-names
-          function() {
+          function () {
             if (
               !isEqual(this.state.settingsOnOpen, this.state.settingsOnClose)
             ) {

@@ -88,18 +88,18 @@ const containerComponent = createFragmentContainer(
   {
     stopPatterns: graphql`
       fragment StopsNearYouPage_stopPatterns on placeAtDistanceConnection
-        @argumentDefinitions(
-          omitNonPickups: { type: "Boolean!", defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        omitNonPickups: { type: "Boolean!", defaultValue: false }
+      ) {
         ...StopsNearYouContainer_stopPatterns
-          @arguments(omitNonPickups: $omitNonPickups)
+        @arguments(omitNonPickups: $omitNonPickups)
       }
     `,
     alerts: graphql`
       fragment StopsNearYouPage_alerts on placeAtDistanceConnection
-        @argumentDefinitions(
-          omitNonPickups: { type: "Boolean!", defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        omitNonPickups: { type: "Boolean!", defaultValue: false }
+      ) {
         ...DisruptionBanner_alerts @arguments(omitNonPickups: $omitNonPickups)
       }
     `,

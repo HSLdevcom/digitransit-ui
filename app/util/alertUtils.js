@@ -418,10 +418,12 @@ export const getServiceAlertsForStopRoutes = (stop, locale = 'en') => {
     return [];
   }
   return uniqBy(
-    stop.stoptimes.map(stoptime => stoptime.trip).map(trip => ({
-      ...trip.route,
-      patternId: (trip.pattern && trip.pattern.code) || undefined,
-    })),
+    stop.stoptimes
+      .map(stoptime => stoptime.trip)
+      .map(trip => ({
+        ...trip.route,
+        patternId: (trip.pattern && trip.pattern.code) || undefined,
+      })),
     route => route.shortName,
   )
     .map(route => getServiceAlertsForRoute(route, route.patternId, locale))
@@ -472,9 +474,8 @@ export const getActiveAlertSeverityLevel = (alerts, referenceUnixTime) => {
   return getMaximumAlertSeverityLevel(
     alerts
       .filter(alert => !!alert)
-      .map(
-        alert =>
-          alert.validityPeriod ? { ...alert } : getServiceAlertMetadata(alert),
+      .map(alert =>
+        alert.validityPeriod ? { ...alert } : getServiceAlertMetadata(alert),
       )
       .filter(alert => isAlertValid(alert, referenceUnixTime)),
   );
@@ -631,10 +632,10 @@ export const createUniqueAlertList = (
   const getStopGtfsId = alert => getStop(alert).gtfsId;
 
   const getGroupKey = alert =>
-    `${alert.severityLevel}${(hasRoute(alert) && `route_${getMode(alert)}`) ||
-      (hasStop(alert) && `stop_${getVehicleMode(alert)}`)}${alert.header}${
-      alert.description
-    }`;
+    `${alert.severityLevel}${
+      (hasRoute(alert) && `route_${getMode(alert)}`) ||
+      (hasStop(alert) && `stop_${getVehicleMode(alert)}`)
+    }${alert.header}${alert.description}`;
   const getUniqueId = alert =>
     `${getShortName(alert) || getCode(alert)}${getGroupKey(alert)}`;
 
@@ -673,26 +674,14 @@ export const createUniqueAlertList = (
       route:
         (hasRoute(alert) && {
           mode: getMode(alert),
-          routeGtfsId: alerts
-            .sort(alertCompare)
-            .map(getRouteGtfsId)
-            .join(','),
-          shortName: alerts
-            .sort(alertCompare)
-            .map(getShortName)
-            .join(', '),
+          routeGtfsId: alerts.sort(alertCompare).map(getRouteGtfsId).join(','),
+          shortName: alerts.sort(alertCompare).map(getShortName).join(', '),
         }) ||
         undefined,
       stop:
         (hasStop(alert) && {
-          stopGtfsId: alerts
-            .sort(alertCompare)
-            .map(getStopGtfsId)
-            .join(','),
-          code: alerts
-            .sort(alertCompare)
-            .map(getCode)
-            .join(', '),
+          stopGtfsId: alerts.sort(alertCompare).map(getStopGtfsId).join(','),
+          code: alerts.sort(alertCompare).map(getCode).join(', '),
           vehicleMode: getVehicleMode(alert),
         }) ||
         undefined,

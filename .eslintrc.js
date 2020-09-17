@@ -1,23 +1,23 @@
 module.exports = {
-  'parser': 'babel-eslint',
-  'extends': [
+  parser: 'babel-eslint',
+  extends: [
     'plugin:compat/recommended',
     'plugin:jsx-a11y/recommended',
     'airbnb',
     'prettier',
     'prettier/react',
   ],
-  'rules': {
-    'curly': ['error', 'all'],
+  rules: {
+    curly: ['error', 'all'],
     'lines-between-class-members': 'warn',
     'no-else-return': 'warn',
-    'no-plusplus': ['error', { "allowForLoopAfterthoughts": true }],
+    'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
     'no-console': 'error',
     'import/no-extraneous-dependencies': 'off',
     // react
     'react/button-has-type': 'warn',
     'react/destructuring-assignment': 'off',
-    'react/jsx-filename-extension': ['error', { "extensions": [".js"] }],
+    'react/jsx-filename-extension': ['error', { extensions: ['.js'] }],
     'react/jsx-fragments': 'off',
     'react/jsx-key': 'error',
     'react/jsx-props-no-spreading': 'off',
@@ -26,45 +26,48 @@ module.exports = {
     'react/sort-comp': 'off',
     'react/state-in-constructor': 'off',
     'react/static-property-placement': 'off',
-    
+
     // jsx-a11y
-    'jsx-a11y/anchor-is-valid': [ 'error', {
-        'components': [ 'Link' ],
-        'specialLink': [ 'to' ],
-        'aspects': [ 'noHref', 'invalidHref', 'preferButton' ]
-      }],
+    'jsx-a11y/anchor-is-valid': [
+      'error',
+      {
+        components: ['Link'],
+        specialLink: ['to'],
+        aspects: ['noHref', 'invalidHref', 'preferButton'],
+      },
+    ],
     'jsx-a11y/label-has-associated-control': 'error',
     'jsx-a11y/label-has-for': 'off', // deprecated in 6.1.0, does not support select tags
-    
+
     // compat
     'compat/compat': 'error',
-    
+
     // graphql
-    'graphql/template-strings': ['error', {
-      'env': 'relay',
-      'schemaJson': require('./build/schema.json').data,
-      'tagName': 'graphql'
-    }],
+    'graphql/template-strings': [
+      'error',
+      {
+        env: 'relay',
+        schemaJson: require('./build/schema.json').data,
+        tagName: 'graphql',
+      },
+    ],
 
     // prettier
-    'prettier/prettier': ['error', {
-      "arrowParens": "avoid",
-      "endOfLine": "auto",
-      'singleQuote': true,
-      'trailingComma': 'all',
-    }]
+    'prettier/prettier': [
+      'error',
+      {
+        arrowParens: 'avoid',
+        endOfLine: 'auto',
+        singleQuote: true,
+        trailingComma: 'all',
+      },
+    ],
   },
-  'env': {
-    'browser': true,
+  env: {
+    browser: true,
   },
-  'plugins': [
-    'react',
-    'graphql',
-    'compat',
-    'prettier',
-    'jsx-a11y'
-  ],
-  'settings': {
-    'polyfills': ['fetch', 'promises']
-  }
+  plugins: ['react', 'graphql', 'compat', 'prettier', 'jsx-a11y'],
+  settings: {
+    polyfills: ['fetch', 'promises'],
+  },
 };

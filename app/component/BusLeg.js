@@ -67,11 +67,7 @@ const exampleLegRealtime = t1 => ({
 });
 
 BusLeg.description = () => {
-  const today = moment()
-    .hour(12)
-    .minute(34)
-    .second(0)
-    .valueOf();
+  const today = moment().hour(12).minute(34).second(0).valueOf();
   return (
     <div>
       <p>Displays an itinerary bus leg.</p>

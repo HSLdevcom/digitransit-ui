@@ -86,19 +86,17 @@ const containerComponent = createFragmentContainer(
     DisruptionBanner,
     ['TimeStore', 'PreferencesStore'],
     ({ getStore }) => ({
-      currentTime: getStore('TimeStore')
-        .getCurrentTime()
-        .unix(),
+      currentTime: getStore('TimeStore').getCurrentTime().unix(),
       language: getStore('PreferencesStore').getLanguage(),
     }),
   ),
   {
     alerts: graphql`
       fragment DisruptionBanner_alerts on placeAtDistanceConnection
-        @argumentDefinitions(
-          startTime: { type: "Long!", defaultValue: 0 }
-          omitNonPickups: { type: "Boolean!", defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        startTime: { type: "Long!", defaultValue: 0 }
+        omitNonPickups: { type: "Boolean!", defaultValue: false }
+      ) {
         edges {
           node {
             place {

@@ -352,10 +352,7 @@ const connectedComponent = connectToStores(
   context => ({
     lang: context.getStore('PreferencesStore').getLanguage(),
     messages: context.getStore('MessageStore').getMessages(),
-    currentTime: context
-      .getStore('TimeStore')
-      .getCurrentTime()
-      .unix(),
+    currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
   }),
 );
 

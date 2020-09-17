@@ -68,9 +68,9 @@ class Stops {
 
   getPromise() {
     return fetch(
-      `${this.config.URL.STOP_MAP}${this.tile.coords.z +
-        (this.tile.props.zoomOffset || 0)}` +
-        `/${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
+      `${this.config.URL.STOP_MAP}${
+        this.tile.coords.z + (this.tile.props.zoomOffset || 0)
+      }` + `/${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
     ).then(res => {
       if (res.status !== 200) {
         return undefined;
@@ -139,15 +139,17 @@ class Stops {
               }
             }
             // sort to draw in correct order
-            this.features.sort((a, b) => a.geom.y - b.geom.y).forEach(f => {
-              /* Note: don't expand separate stops sharing the same code,
+            this.features
+              .sort((a, b) => a.geom.y - b.geom.y)
+              .forEach(f => {
+                /* Note: don't expand separate stops sharing the same code,
                  unless type is different and location actually overlaps. */
-              const hybridId = hybridGtfsIdByCode[f.properties.code];
-              const draw = !hybridId || hybridId === f.properties.gtfsId;
-              if (draw) {
-                this.drawStop(f, !!hybridId);
-              }
-            });
+                const hybridId = hybridGtfsIdByCode[f.properties.code];
+                const draw = !hybridId || hybridId === f.properties.gtfsId;
+                if (draw) {
+                  this.drawStop(f, !!hybridId);
+                }
+              });
           }
           if (
             vt.layers.stations != null &&

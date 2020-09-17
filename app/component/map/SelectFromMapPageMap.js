@@ -16,7 +16,9 @@ let map;
 const locationMarkerWithPermanentTooltipModules = {
   LocationMarkerWithPermanentTooltip: () =>
     importLazy(
-      import(/* webpackChunkName: "map" */ './LocationMarkerWithPermanentTooltip'),
+      import(
+        /* webpackChunkName: "map" */ './LocationMarkerWithPermanentTooltip'
+      ),
     ),
 };
 
