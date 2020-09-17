@@ -16,6 +16,10 @@ const defaultProps = {
     lat: 60,
     lon: 25,
   },
+  defaultMapCenter: {
+    lat: 60,
+    lon: 25,
+  },
   config: {
     defaultEndpoint: {},
     realTime: {},

@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import Link from 'found/lib/Link';
+import Link from 'found/Link';
 import * as relay from 'react-relay';
 import { JSDOM } from 'jsdom';
 import { after, afterEach, before } from 'mocha';

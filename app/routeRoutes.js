@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-key */
 
 import React from 'react';
-import Route from 'found/lib/Route';
-import Redirect from 'found/lib/Redirect';
+import Route from 'found/Route';
+import Redirect from 'found/Redirect';
 import { graphql } from 'react-relay';
 
 import Error404 from './component/404';
