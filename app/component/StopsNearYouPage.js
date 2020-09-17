@@ -25,7 +25,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
 
   static propTypes = {
     breakpoint: PropTypes.string.isRequired,
-    startPosition: PropTypes.object,
+    position: PropTypes.object,
     loadingPosition: PropTypes.bool,
     content: PropTypes.node,
     map: PropTypes.node,
@@ -33,7 +33,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   };
 
   getQueryVariables = () => {
-    const { startPosition } = this.props;
+    const { position } = this.props;
     const { mode } = this.context.match.params;
     let placeTypes = 'STOP';
     let modes = [mode];
@@ -42,12 +42,12 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
       modes = ['BICYCLE'];
     }
     const lat =
-      startPosition && startPosition.lat
-        ? startPosition.lat
+      position && position.lat
+        ? position.lat
         : this.context.config.defaultEndpoint.lat;
     const lon =
-      startPosition && startPosition.lon
-        ? startPosition.lon
+      position && position.lon
+        ? position.lon
         : this.context.config.defaultEndpoint.lon;
     return {
       lat,
@@ -163,7 +163,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
               this.props.map &&
               React.cloneElement(this.props.map, {
                 stops: props.stops,
-                location: this.props.startPosition,
+                position: this.props.position,
                 match: this.context.match,
                 router: this.context.router,
               })
@@ -220,15 +220,15 @@ const PositioningWrapper = connectToStores(
   (context, props) => {
     const { place } = props.match.params;
     if (place !== 'POS') {
-      const startPosition = otpToLocation(place);
-      return { ...props, startPosition };
+      const position = otpToLocation(place);
+      return { ...props, position };
     }
     const locationState = context.getStore('PositionStore').getLocationState();
     if (locationState.locationingFailed) {
       // Error message is displayed by locationing message bar
       return {
         ...props,
-        startPosition: context.config.defaultEndpoint,
+        position: context.config.defaultEndpoint,
         loadingPosition: false,
       };
     }
@@ -242,7 +242,7 @@ const PositioningWrapper = connectToStores(
     }
 
     if (locationState.hasLocation) {
-      return { ...props, startPosition: locationState, loadingPosition: false };
+      return { ...props, position: locationState, loadingPosition: false };
     }
     context.executeAction(startLocationWatch);
     return { ...props, loadingPosition: true };

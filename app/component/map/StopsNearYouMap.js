@@ -76,10 +76,10 @@ const handleBounds = (location, stops) => {
   return [];
 };
 function StopsNearYouMap(
-  { breakpoint, origin, currentTime, destination, stops, location, ...props },
+  { breakpoint, origin, currentTime, destination, stops, position, ...props },
   { ...context },
 ) {
-  const bounds = handleBounds(location, stops);
+  const bounds = handleBounds(position, stops);
   if (!bounds) {
     return <Loading />;
   }
@@ -88,14 +88,14 @@ function StopsNearYouMap(
   const [plan, setPlan] = useState({ plan: {}, isFetching: false });
 
   const fetchPlan = async stop => {
-    if (location && location.lat) {
+    if (position && position.lat) {
       const toPlace = {
         address: stop.name ? stop.name : 'stop',
         lon: stop.lon,
         lat: stop.lat,
       };
       const variables = {
-        fromPlace: addressToItinerarySearch(location),
+        fromPlace: addressToItinerarySearch(position),
         toPlace: addressToItinerarySearch(toPlace),
         date: moment(currentTime * 1000).format('YYYY-MM-DD'),
         time: moment(currentTime * 1000).format('HH:mm:ss'),
@@ -144,11 +144,8 @@ function StopsNearYouMap(
         fetchPlan(stop);
       }
     },
-    [location.lat],
+    [position.lat],
   );
-  // if (locationState.loadingPosition || props.loading) {
-  //   return null;
-  // }
 
   const { mode } = props.match.params;
   const routeLines = [];
@@ -220,7 +217,7 @@ function StopsNearYouMap(
         stopsNearYouMode={mode}
         showScaleBar
         fitBounds={bounds.length > 0}
-        defaultMapCenter={locationState}
+        defaultMapCenter={position}
         bounds={bounds}
         origin={origin}
         destination={destination}
@@ -243,7 +240,7 @@ function StopsNearYouMap(
           showStops
           stopsNearYouMode={mode}
           fitBounds={bounds.length > 0}
-          defaultMapCenter={locationState}
+          defaultMapCenter={position}
           bounds={bounds}
           showScaleBar
           origin={origin}
@@ -265,7 +262,7 @@ StopsNearYouMap.propTypes = {
   origin: dtLocationShape,
   destination: dtLocationShape,
   language: PropTypes.string.isRequired,
-  location: PropTypes.object,
+  position: PropTypes.object,
 };
 
 StopsNearYouMap.contextTypes = {
