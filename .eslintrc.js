@@ -18,10 +18,14 @@ module.exports = {
     'react/button-has-type': 'warn',
     'react/destructuring-assignment': 'off',
     'react/jsx-filename-extension': ['error', { "extensions": [".js"] }],
+    'react/jsx-fragments': 'off',
     'react/jsx-key': 'error',
+    'react/jsx-props-no-spreading': 'off',
     'react/forbid-prop-types': ['warn', { forbid: ['any', 'array', 'object'] }],
     'react/require-default-props': 'warn',
     'react/sort-comp': 'off',
+    'react/state-in-constructor': 'off',
+    'react/static-property-placement': 'off',
     
     // jsx-a11y
     'jsx-a11y/anchor-is-valid': [ 'error', {
@@ -44,6 +48,8 @@ module.exports = {
 
     // prettier
     'prettier/prettier': ['error', {
+      "arrowParens": "avoid",
+      "endOfLine": "auto",
       'singleQuote': true,
       'trailingComma': 'all',
     }]
