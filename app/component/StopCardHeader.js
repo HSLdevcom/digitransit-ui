@@ -8,6 +8,7 @@ import Icon from './Icon';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 import ExternalLink from './ExternalLink';
+import FavouriteStopContainer from './FavouriteStopContainer';
 
 class StopCardHeader extends React.Component {
   get headerConfig() {
@@ -56,6 +57,7 @@ class StopCardHeader extends React.Component {
       stop,
       isPopUp,
       breakpoint, // DT-3472
+      isTerminal,
     } = this.props;
     if (!stop) {
       return false;
@@ -82,6 +84,9 @@ class StopCardHeader extends React.Component {
         backButtonColor={this.context.config.colors.primary}
         stop={stop}
         headerConfig={this.headerConfig}
+        favouriteContainer={
+          <FavouriteStopContainer stop={stop} isTerminal={isTerminal} />
+        }
       />
     );
   }
@@ -110,10 +115,12 @@ StopCardHeader.propTypes = {
   icons: PropTypes.arrayOf(PropTypes.node),
   isPopUp: PropTypes.bool,
   breakpoint: PropTypes.string, // DT-3472
+  isTerminal: PropTypes.bool,
 };
 
 StopCardHeader.defaultProps = {
   stop: undefined,
+  isTerminal: false,
 };
 
 StopCardHeader.contextTypes = {

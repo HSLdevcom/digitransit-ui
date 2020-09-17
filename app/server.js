@@ -24,7 +24,7 @@ import provideContext from 'fluxible-addons-react/provideContext';
 // Libraries
 import serialize from 'serialize-javascript';
 import { IntlProvider } from 'react-intl';
-import PolyfillLibrary from 'polyfill-library';
+import polyfillLibrary from 'polyfill-library';
 import fs from 'fs';
 import path from 'path';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -45,13 +45,13 @@ import { getConfiguration } from './config';
 import { getAnalyticsInitCode } from './util/analyticsUtils';
 
 import { historyMiddlewares, render } from './routes';
+import { LOCAL_STORAGE_EMITTER_PATH } from './util/path';
 
 // Look up paths for various asset files
 const appRoot = `${process.cwd()}/`;
 
 // cached assets
-const polyfillls = LRU(200);
-const polyfillLibrary = new PolyfillLibrary();
+const polyfillls = new LRU(200);
 
 let assets;
 let mainAssets;
@@ -288,86 +288,94 @@ export default async function(req, res, next) {
     res.write(`<html lang="${locale}">\n`);
     res.write('<head>\n');
 
-    // Write preload hints before doing anything else
-    if (process.env.NODE_ENV !== 'development') {
-      res.write(getAnalyticsInitCode(config.GTMid));
+    // local storage emitter is used from a hidden iframe and these are not necessary for it
+    if (req.url !== LOCAL_STORAGE_EMITTER_PATH) {
+      // Write preload hints before doing anything else
+      if (process.env.NODE_ENV !== 'development') {
+        res.write(getAnalyticsInitCode(config.GTMid));
 
-      const preloads = [
-        { as: 'style', href: config.URL.FONT },
-        {
-          as: 'style',
-          href: `${ASSET_URL}/${assets[`${config.CONFIG}_theme.css`]}`,
-          crossorigin: true,
-        },
-        ...mainAssets.map(asset => ({
-          as: asset.endsWith('.css') ? 'style' : 'script',
-          href: `${ASSET_URL}/${asset}`,
-          crossorigin: true,
-        })),
-      ];
+        const preloads = [
+          { as: 'style', href: config.URL.FONT },
+          {
+            as: 'style',
+            href: `${ASSET_URL}/${assets[`${config.CONFIG}_theme.css`]}`,
+            crossorigin: true,
+          },
+          ...mainAssets.map(asset => ({
+            as: asset.endsWith('.css') ? 'style' : 'script',
+            href: `${ASSET_URL}/${asset}`,
+            crossorigin: true,
+          })),
+        ];
 
-      preloads.forEach(({ as, href, crossorigin }) =>
-        res.write(
-          `<link rel="preload" as="${as}" ${
-            crossorigin ? 'crossorigin' : ''
-          } href="${href}">\n`,
-        ),
-      );
-
-      const preconnects = [
-        config.URL.API_URL,
-        config.URL.MAP_URL,
-        config.staticMessagesUrl,
-      ];
-
-      preconnects.forEach(href =>
-        res.write(`<link rel="preconnect" crossorigin href="${href}">\n`),
-      );
-
-      res.write(
-        `<link rel="stylesheet" type="text/css" crossorigin href="${ASSET_URL}/${
-          assets[`${config.CONFIG}_theme.css`]
-        }"/>\n`,
-      );
-      mainAssets
-        .filter(asset => asset.endsWith('.css'))
-        .forEach(asset =>
+        preloads.forEach(({ as, href, crossorigin }) =>
           res.write(
-            `<link rel="stylesheet" type="text/css" crossorigin href="${ASSET_URL}/${asset}"/>\n`,
+            `<link rel="preload" as="${as}" ${
+              crossorigin ? 'crossorigin' : ''
+            } href="${href}">\n`,
           ),
         );
-    }
 
-    res.write(
-      `<link rel="stylesheet" type="text/css" href="${config.URL.FONT}"/>\n`,
-    );
+        const preconnects = [
+          config.URL.API_URL,
+          config.URL.MAP_URL,
+          config.staticMessagesUrl,
+        ];
 
-    res.write(`<script>\n${polyfills}\n</script>\n`);
+        preconnects.forEach(href =>
+          res.write(`<link rel="preconnect" crossorigin href="${href}">\n`),
+        );
 
-    const head = Helmet.rewind();
+        res.write(
+          `<link rel="stylesheet" type="text/css" crossorigin href="${ASSET_URL}/${
+            assets[`${config.CONFIG}_theme.css`]
+          }"/>\n`,
+        );
+        mainAssets
+          .filter(asset => asset.endsWith('.css'))
+          .forEach(asset =>
+            res.write(
+              `<link rel="stylesheet" type="text/css" crossorigin href="${ASSET_URL}/${asset}"/>\n`,
+            ),
+          );
+      }
 
-    if (head) {
-      res.write(head.title.toString());
-      res.write(head.meta.toString());
-      res.write(head.link.toString());
+      res.write(
+        `<link rel="stylesheet" type="text/css" href="${config.URL.FONT}"/>\n`,
+      );
+
+      res.write(`<script>\n${polyfills}\n</script>\n`);
+
+      const head = Helmet.rewind();
+
+      if (head) {
+        res.write(head.title.toString());
+        res.write(head.meta.toString());
+        res.write(head.link.toString());
+      }
     }
 
     res.write('</head>\n');
     res.write('<body>\n');
 
-    if (process.env.NODE_ENV !== 'development') {
-      res.write('<script>\n');
-      res.write(`fetch('${ASSET_URL}/${assets[spriteName]}')
-        .then(function(response) {return response.text();}).then(function(blob) {
-          var div = document.createElement('div');
-          div.innerHTML = blob;
-          document.body.insertBefore(div, document.body.childNodes[0]);
-        });`);
-      res.write('</script>\n');
-    } else {
-      res.write('<div>\n');
-      res.write(fs.readFileSync(`${appRoot}_static/${spriteName}`).toString());
-      res.write('</div>\n');
+    // local storage emitter is used from a hidden iframe and these are not necessary for it
+    if (req.url !== LOCAL_STORAGE_EMITTER_PATH) {
+      if (process.env.NODE_ENV !== 'development') {
+        res.write('<script>\n');
+        res.write(`fetch('${ASSET_URL}/${assets[spriteName]}')
+          .then(function(response) {return response.text();}).then(function(blob) {
+            var div = document.createElement('div');
+            div.innerHTML = blob;
+            document.body.insertBefore(div, document.body.childNodes[0]);
+          });`);
+        res.write('</script>\n');
+      } else {
+        res.write('<div>\n');
+        res.write(
+          fs.readFileSync(`${appRoot}_static/${spriteName}`).toString(),
+        );
+        res.write('</div>\n');
+      }
     }
 
     res.write(contentWithBreakpoint || '<div id="app" />');
@@ -378,13 +386,16 @@ export default async function(req, res, next) {
       )};\n</script>\n`,
     );
 
-    res.write('<script>\n');
-    res.write(
-      `window.__RELAY_PAYLOADS__ = ${serialize(JSON.stringify(relayData), {
-        isJSON: true,
-      })}`,
-    );
-    res.write('\n</script>\n');
+    // local storage emitter is used from a hidden iframe and it does not use relay
+    if (req.url !== LOCAL_STORAGE_EMITTER_PATH) {
+      res.write('<script>\n');
+      res.write(
+        `window.__RELAY_PAYLOADS__ = ${serialize(JSON.stringify(relayData), {
+          isJSON: true,
+        })}`,
+      );
+      res.write('\n</script>\n');
+    }
 
     if (process.env.NODE_ENV === 'development') {
       res.write('<script async src="/proxy/js/main.js"></script>\n');

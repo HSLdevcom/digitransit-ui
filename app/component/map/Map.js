@@ -9,7 +9,6 @@ import AttributionControl from 'react-leaflet/es/AttributionControl';
 import ScaleControl from 'react-leaflet/es/ScaleControl';
 import ZoomControl from 'react-leaflet/es/ZoomControl';
 import L from 'leaflet';
-import 'leaflet-active-area';
 // Webpack handles this by bundling it with the other css files
 import 'leaflet/dist/leaflet.css';
 
@@ -46,7 +45,6 @@ export default class Map extends React.Component {
     showScaleBar: PropTypes.bool,
     loaded: PropTypes.func,
     disableZoom: PropTypes.bool,
-    activeArea: PropTypes.string,
     mapRef: PropTypes.func,
     originFromMap: PropTypes.bool,
     destinationFromMap: PropTypes.bool,
@@ -57,7 +55,6 @@ export default class Map extends React.Component {
     animate: true,
     loaded: () => {},
     showScaleBar: false,
-    activeArea: null,
     mapRef: null,
     disableLocationPopup: false,
   };
@@ -137,9 +134,6 @@ export default class Map extends React.Component {
             this.map = el;
             if (this.props.mapRef) {
               this.props.mapRef(el);
-            }
-            if (el && this.props.activeArea) {
-              el.leafletElement.setActiveArea(this.props.activeArea);
             }
           }}
           center={center}

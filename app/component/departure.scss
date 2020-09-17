@@ -24,21 +24,9 @@
     width: 3em;
   }
 
-  .icon {
-    font-size: 1em;
-    vertical-align: -1px;
-  }
-
   .route-destination {
     flex: 1;
     padding-left: 0.5em;
-
-    & .destination {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      width: 100%;
-    }
   }
 
   .departure-canceled {
@@ -66,7 +54,6 @@
 .time,
 .vehicle-number,
 .destination,
-.platform-number,
 .bicycle-rental-station,
 .city-bike-station-name,
 .city-bike-station-availability {
@@ -177,6 +164,21 @@
   text-align: right;
 }
 
+.platform-code {
+  background: #f4f4f5;
+  color: #333333;
+  width: 28px;
+  height: 24px;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 500;
+  text-align: center;
+  margin-left: 1em;
+  &.empty {
+    background: none;
+  }
+}
+
 // route-number component
 .route-number {
   vertical-align: top;
@@ -244,7 +246,7 @@
     margin-right: 0.5em;
     font-size: $font-size-small;
   }
-  .route-destination {
+  .route-headsign {
     width: 100%;
     padding-left: 0.5em;
     vertical-align: bottom;
@@ -321,54 +323,6 @@
     width: 3.5em;
     margin-right: 0.5em;
     text-align: right;
-  }
-}
-
-.departure-list-header {
-  color: $gray;
-  background-color: $white;
-  @include font-narrow-book;
-  font-size: $font-size-small;
-  white-space: nowrap;
-  padding-left: 0.5em;
-  line-height: $line-height-normal;
-  border-bottom: 1px solid $light-gray;
-
-  & > span {
-    display: inline-block;
-    vertical-align: top;
-  }
-  .route-number-header {
-    width: 4em;
-  }
-  .route-destination-header {
-    padding-left: 1em;
-  }
-  .time-header {
-    font-weight: inherit;
-    text-align: right;
-    width: 3.5em;
-    padding-right: $padding-medium;
-    margin-right: $padding-medium;
-  }
-}
-
-.mobile {
-  .departure-list-header {
-    margin-top: 0em;
-  }
-}
-
-.desktop .departure-list-header {
-  .route-number-header {
-    width: 50px;
-  }
-  .route-destination-header {
-    padding-left: 2em;
-  }
-  .time-header {
-    width: 50px;
-    margin-right: 20px;
   }
 }
 

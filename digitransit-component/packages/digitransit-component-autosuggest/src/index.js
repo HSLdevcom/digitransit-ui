@@ -385,8 +385,8 @@ class DTAutosuggest extends React.Component {
     );
   };
 
-  fetchFunction = ({ value }) =>
-    this.setState({ valid: false }, () => {
+  fetchFunction = ({ value }) => {
+    return this.setState({ valid: false }, () => {
       executeSearch(
         this.state.targets,
         this.state.sources,
@@ -443,6 +443,7 @@ class DTAutosuggest extends React.Component {
         },
       );
     });
+  };
 
   clearInput = () => {
     const newState = {
@@ -464,6 +465,7 @@ class DTAutosuggest extends React.Component {
         // reset at start, just in case we missed something
         pendingSelection: null,
       };
+
       // DT-3263: added stateKeyDown
       const stateKeyDown = {
         editing: true,
@@ -576,7 +578,22 @@ class DTAutosuggest extends React.Component {
       value,
       onChange: this.onChange,
       onBlur: this.onBlur,
-      onFocus: () => this.setState({ renderMobileSearch: this.props.isMobile }),
+      onFocus: () => {
+        // DT-3460 empty input field if value is in array below (HSL.fi translations also.)
+        const positions = [
+          'Valittu sijainti',
+          'Current position',
+          'Selected location',
+          'Vald position',
+          'Använd min position',
+          'Käytä nykyistä sijaintia',
+          'Use current location',
+        ];
+        if (positions.includes(this.state.value)) {
+          this.clearInput();
+        }
+        return this.setState({ renderMobileSearch: this.props.isMobile });
+      },
       className: cx(
         `${styles.input} ${
           this.props.isMobile && this.props.transportMode ? styles.thin : ''
