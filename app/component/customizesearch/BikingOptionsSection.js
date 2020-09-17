@@ -35,7 +35,7 @@ class BikingOptionsSection extends React.Component {
           options={options}
           formatOptions
           labelText={intl.formatMessage({ id: 'biking-speed' })}
-          translateTitles={false}
+          translateLabels={false}
         />
       </React.Fragment>
     );

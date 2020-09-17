@@ -191,13 +191,17 @@ class SearchSettingsDropdown extends React.Component {
                   displayName: `${this.props.displayPattern}_${o}`,
                   displayNameObject: applyDefaultValueIdentifier(
                     o,
+                    // eslint-disable-next-line no-nested-ternary
                     this.props.displayPattern
-                      ? this.context.intl.formatMessage(
-                          { id: this.props.displayPattern },
-                          {
-                            number: getFormattedValue(o),
-                          },
-                        )
+                      ? translateLabels
+                        ? this.context.intl.formatMessage(
+                            { id: this.props.displayPattern },
+                            {
+                              number: getFormattedValue(o),
+                            },
+                          )
+                        : ({ id: this.props.displayPattern },
+                          { number: getFormattedValue(o) })
                       : getFormattedValue(o),
                   ),
                   value: o,
