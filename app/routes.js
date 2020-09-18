@@ -167,8 +167,8 @@ export default config => {
                   $unpreferred: InputUnpreferred
                   $allowedBikeRentalNetworks: [String]
                   $locale: String
-                  $shortEnoughForWalking: Boolean!
-                  $shortEnoughForBiking: Boolean!
+                  $shouldMakeWalkQuery: Boolean!
+                  $shouldMakeBikeQuery: Boolean!
                   $showBikeAndPublicItineraries: Boolean!
                   $showBikeAndParkItineraries: Boolean!
                 ) {
@@ -227,7 +227,7 @@ export default config => {
                     heuristicStepsPerMainStep: $heuristicStepsPerMainStep
                     compactLegsByReversedSearch: $compactLegsByReversedSearch
                     locale: $locale
-                  ) @include(if: $shortEnoughForWalking) {
+                  ) @include(if: $shouldMakeWalkQuery) {
                     ...SummaryPage_walkPlan
                   }
 
@@ -247,7 +247,7 @@ export default config => {
                     heuristicStepsPerMainStep: $heuristicStepsPerMainStep
                     compactLegsByReversedSearch: $compactLegsByReversedSearch
                     locale: $locale
-                  ) @include(if: $shortEnoughForBiking) {
+                  ) @include(if: $shouldMakeBikeQuery) {
                     ...SummaryPage_bikePlan
                   }
 

@@ -239,6 +239,7 @@ export const getSettings = () => {
     preferredRoutes: custSettings.preferredRoutes,
     unpreferredRoutes: custSettings.unpreferredRoutes,
     allowedBikeRentalNetworks: custSettings.allowedBikeRentalNetworks,
+    includeBikeSuggestions: custSettings.includeBikeSuggestions,
   };
 };
 
@@ -415,19 +416,30 @@ export const preparePlanParams = config => (
       defaultSettings.ticketTypes,
     ),
     allowedBikeRentalNetworks: allowedBikeRentalNetworksMapped,
-    shortEnoughForWalking:
+    shouldMakeWalkQuery:
       estimateItineraryDistance(
         fromLocation,
         toLocation,
         intermediatePlaceLocations,
       ) < config.suggestWalkMaxDistance,
-    shortEnoughForBiking:
+    shouldMakeBikeQuery:
       estimateItineraryDistance(
         fromLocation,
         toLocation,
         intermediatePlaceLocations,
-      ) < config.suggestBikeMaxDistance,
-    showBikeAndPublicItineraries: config.showBikeAndPublicItineraries,
-    showBikeAndParkItineraries: config.showBikeAndParkItineraries,
+      ) < config.suggestBikeMaxDistance &&
+      (settings.includeBikeSuggestions
+        ? settings.includeBikeSuggestions
+        : defaultSettings.includeBikeSuggestions),
+    showBikeAndPublicItineraries:
+      config.showBikeAndPublicItineraries &&
+      (settings.includeBikeSuggestions
+        ? settings.includeBikeSuggestions
+        : defaultSettings.includeBikeSuggestions),
+    showBikeAndParkItineraries:
+      config.showBikeAndParkItineraries &&
+      (settings.includeBikeSuggestions
+        ? settings.includeBikeSuggestions
+        : defaultSettings.includeBikeSuggestions),
   };
 };

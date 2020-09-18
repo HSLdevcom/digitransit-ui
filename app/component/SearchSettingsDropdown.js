@@ -32,6 +32,17 @@ export const getFiveStepOptions = options => [
   },
 ];
 
+export const getFiveStepOptionsNumerical = options => {
+  const numericalOptions = [];
+  options.forEach(item => {
+    numericalOptions.push({
+      title: `${Math.round(item * 3.6)} km/h`,
+      value: item,
+    });
+  });
+  return numericalOptions;
+};
+
 /**
  * Represents the types of acceptable values.
  */
@@ -52,6 +63,7 @@ class SearchSettingsDropdown extends React.Component {
     onOptionSelected: PropTypes.func.isRequired,
     formatOptions: PropTypes.bool,
     name: PropTypes.string.isRequired,
+    translateLabels: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -60,6 +72,7 @@ class SearchSettingsDropdown extends React.Component {
     displayPattern: undefined,
     defaultValue: undefined,
     formatOptions: false,
+    translateLabels: true,
   };
 
   static contextTypes = {
@@ -139,6 +152,7 @@ class SearchSettingsDropdown extends React.Component {
       highlightDefaultValue,
       defaultValue,
       formatOptions,
+      translateLabels,
     } = this.props;
     const { intl } = this.context;
     const { showDropdown } = this.state || {};
@@ -162,12 +176,14 @@ class SearchSettingsDropdown extends React.Component {
                   displayName: `${o.title}_${o.value}`,
                   displayNameObject: applyDefaultValueIdentifier(
                     o.value,
-                    this.context.intl.formatMessage(
-                      { id: o.title },
-                      {
-                        title: o.title,
-                      },
-                    ),
+                    translateLabels
+                      ? this.context.intl.formatMessage(
+                          { id: o.title },
+                          {
+                            title: o.title,
+                          },
+                        )
+                      : o.title,
                   ),
                   value: o.value,
                 }
@@ -175,13 +191,17 @@ class SearchSettingsDropdown extends React.Component {
                   displayName: `${this.props.displayPattern}_${o}`,
                   displayNameObject: applyDefaultValueIdentifier(
                     o,
+                    // eslint-disable-next-line no-nested-ternary
                     this.props.displayPattern
-                      ? this.context.intl.formatMessage(
-                          { id: this.props.displayPattern },
-                          {
-                            number: getFormattedValue(o),
-                          },
-                        )
+                      ? translateLabels
+                        ? this.context.intl.formatMessage(
+                            { id: this.props.displayPattern },
+                            {
+                              number: getFormattedValue(o),
+                            },
+                          )
+                        : ({ id: this.props.displayPattern },
+                          { number: getFormattedValue(o) })
                       : getFormattedValue(o),
                   ),
                   value: o,
@@ -201,11 +221,14 @@ class SearchSettingsDropdown extends React.Component {
             {labelText}
           </p>
           <p className="settings-dropdown-label-value">
+            {/* eslint-disable-next-line no-nested-ternary */}
             {displayValueFormatter
               ? displayValueFormatter(currentSelection.title)
-              : `${intl.formatMessage({
-                  id: currentSelection.title,
-                })}`}
+              : translateLabels
+                ? `${intl.formatMessage({
+                    id: currentSelection.title,
+                  })}`
+                : currentSelection.title}
           </p>
           <span className="sr-only">
             {intl.formatMessage({
