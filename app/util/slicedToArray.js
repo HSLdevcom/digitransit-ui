@@ -47,7 +47,7 @@ function sliceIterator(arr, i) {
   return _arr;
 }
 
-export default function (arr, i) {
+export default function(arr, i) {
   if (Array.isArray(arr)) {
     return arr;
   }

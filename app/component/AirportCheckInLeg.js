@@ -47,7 +47,11 @@ const exampleLeg = () => ({
 });
 
 AirportCheckInLeg.description = () => {
-  const startTime = moment().hour(12).minute(34).second(0).valueOf();
+  const startTime = moment()
+    .hour(12)
+    .minute(34)
+    .second(0)
+    .valueOf();
   return (
     <div>
       <p>Displays an itinerary airport check-in leg.</p>

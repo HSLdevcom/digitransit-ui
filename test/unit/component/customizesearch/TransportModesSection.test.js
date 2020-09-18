@@ -43,10 +43,24 @@ describe('<TransportModesSection />', () => {
       childContextTypes: { ...mockChildContextTypes },
     });
 
-    expect(wrapper.find(Toggle).at(0).prop('toggled')).to.equal(true);
-    expect(wrapper.find(Toggle).at(1).prop('toggled')).to.equal(false);
+    expect(
+      wrapper
+        .find(Toggle)
+        .at(0)
+        .prop('toggled'),
+    ).to.equal(true);
+    expect(
+      wrapper
+        .find(Toggle)
+        .at(1)
+        .prop('toggled'),
+    ).to.equal(false);
 
-    wrapper.find(Toggle).at(1).props().onToggle();
+    wrapper
+      .find(Toggle)
+      .at(1)
+      .props()
+      .onToggle();
     expect(getModes(props.config)).to.deep.equal(['BUS', 'RAIL']);
   });
 });

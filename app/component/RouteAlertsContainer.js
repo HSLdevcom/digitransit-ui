@@ -105,7 +105,7 @@ RouteAlertsContainer.contextTypes = {
 const containerComponent = createFragmentContainer(RouteAlertsContainer, {
   route: graphql`
     fragment RouteAlertsContainer_route on Route
-    @argumentDefinitions(date: { type: "String" }) {
+      @argumentDefinitions(date: { type: "String" }) {
       color
       mode
       shortName

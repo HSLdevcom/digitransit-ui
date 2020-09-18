@@ -61,16 +61,18 @@ class StopPageContent extends React.Component {
 
 const connectedComponent = createRefetchContainer(
   connectToStores(StopPageContent, ['TimeStore'], ({ getStore }) => ({
-    currentTime: getStore('TimeStore').getCurrentTime().unix(),
+    currentTime: getStore('TimeStore')
+      .getCurrentTime()
+      .unix(),
   })),
   {
     stop: graphql`
       fragment StopPageContentContainer_stop on Stop
-      @argumentDefinitions(
-        startTime: { type: "Long!", defaultValue: 0 }
-        timeRange: { type: "Int!", defaultValue: 43200 }
-        numberOfDepartures: { type: "Int!", defaultValue: 100 }
-      ) {
+        @argumentDefinitions(
+          startTime: { type: "Long!", defaultValue: 0 }
+          timeRange: { type: "Int!", defaultValue: 43200 }
+          numberOfDepartures: { type: "Int!", defaultValue: 100 }
+        ) {
         url
         stoptimes: stoptimesWithoutPatterns(
           startTime: $startTime
@@ -92,11 +94,11 @@ const connectedComponent = createRefetchContainer(
     ) {
       stop(id: $stopId) {
         ...StopPageContentContainer_stop
-        @arguments(
-          startTime: $startTime
-          timeRange: $timeRange
-          numberOfDepartures: $numberOfDepartures
-        )
+          @arguments(
+            startTime: $startTime
+            timeRange: $timeRange
+            numberOfDepartures: $numberOfDepartures
+          )
       }
     }
   `,

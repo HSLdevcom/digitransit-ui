@@ -60,7 +60,10 @@ describe('<DateSelect />', () => {
 
   it('should have selectedDate selected', () => {
     const wrapper = mountWithIntl(<DateSelect {...defaultProps} />);
-    const selectValue = wrapper.find('select').at(0).props().value;
+    const selectValue = wrapper
+      .find('select')
+      .at(0)
+      .props().value;
 
     expect(selectValue).to.equal('20190102');
   });

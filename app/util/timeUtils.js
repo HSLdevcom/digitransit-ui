@@ -16,9 +16,8 @@ export function getStartTime(time) {
 export function durationToString(inDuration) {
   const duration = moment.duration(inDuration);
   if (duration.asHours() >= 1) {
-    return `${
-      duration.hours() + duration.days() * 24
-    } h ${duration.minutes()} min`;
+    return `${duration.hours() +
+      duration.days() * 24} h ${duration.minutes()} min`;
   }
   if (duration.minutes() < 1) {
     return `< 1 min`;
@@ -52,8 +51,12 @@ export const validateServiceTimeRange = (
 ) => {
   const NOW = now ? moment.unix(now) : moment();
   const RANGE_FUTURE = !itineraryFutureDays ? 30 : itineraryFutureDays;
-  const START = NOW.clone().subtract(RANGE_PAST, 'd').unix();
-  const END = NOW.clone().add(RANGE_FUTURE, 'd').unix();
+  const START = NOW.clone()
+    .subtract(RANGE_PAST, 'd')
+    .unix();
+  const END = NOW.clone()
+    .add(RANGE_FUTURE, 'd')
+    .unix();
   const NOWUX = NOW.unix();
 
   if (!serviceTimeRange) {
@@ -67,10 +70,16 @@ export const validateServiceTimeRange = (
   // always include today!
   let start = Math.min(Math.max(serviceTimeRange.start, START), NOWUX);
   // make sure whole day is included, for comparing timestamps
-  start = moment.unix(start).startOf('day').unix();
+  start = moment
+    .unix(start)
+    .startOf('day')
+    .unix();
 
   let end = Math.max(Math.min(serviceTimeRange.end, END), NOWUX);
-  end = moment.unix(end).endOf('day').unix();
+  end = moment
+    .unix(end)
+    .endOf('day')
+    .unix();
 
   return { start, end };
 };

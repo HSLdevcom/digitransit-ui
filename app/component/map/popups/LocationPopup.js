@@ -71,8 +71,8 @@ class LocationPopup extends React.Component {
                 match.zones
                   ? match.zones[0]
                   : data.zones
-                  ? data.zones[0]
-                  : undefined,
+                    ? data.zones[0]
+                    : undefined,
               ),
             },
           }));

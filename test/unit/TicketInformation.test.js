@@ -74,7 +74,10 @@ describe('<TicketInformation />', () => {
     });
 
     expect(
-      wrapper.find('.ticket-type-title').find(FormattedMessage).prop('id'),
+      wrapper
+        .find('.ticket-type-title')
+        .find(FormattedMessage)
+        .prop('id'),
     ).to.equal('itinerary-tickets.title');
   });
 
@@ -99,7 +102,10 @@ describe('<TicketInformation />', () => {
     });
 
     expect(
-      wrapper.find('.ticket-type-title').find(FormattedMessage).prop('id'),
+      wrapper
+        .find('.ticket-type-title')
+        .find(FormattedMessage)
+        .prop('id'),
     ).to.equal('itinerary-ticket.title');
   });
 
@@ -291,8 +297,18 @@ describe('<TicketInformation />', () => {
     });
 
     expect(wrapper.find(ZoneTicket)).to.have.lengthOf(2);
-    expect(wrapper.find(ZoneTicket).at(0).props().ticketType).to.equal('AB');
-    expect(wrapper.find(ZoneTicket).at(1).props().ticketType).to.equal('BC');
+    expect(
+      wrapper
+        .find(ZoneTicket)
+        .at(0)
+        .props().ticketType,
+    ).to.equal('AB');
+    expect(
+      wrapper
+        .find(ZoneTicket)
+        .at(1)
+        .props().ticketType,
+    ).to.equal('BC');
   });
 
   it('should show a fare url link for the agency', () => {

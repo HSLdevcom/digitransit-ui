@@ -35,10 +35,7 @@ describe('<PointFeatureMarker />', () => {
     const props = {
       feature: {
         geometry: {
-          coordinates: [
-            [1, 2],
-            [2, 3],
-          ],
+          coordinates: [[1, 2], [2, 3]],
           type: 'MultiPoint',
         },
         properties: {},
@@ -148,7 +145,7 @@ describe('<PointFeatureMarker />', () => {
     it('should return a scaled custom icon', () => {
       const icon = getCustomIcon(CUSTOM_ICON_MIN_ZOOM, 'foobar');
       expect(icon.options.iconAnchor[0]).to.equal(
-        (icon.options.iconSize[0] * 1) / 2,
+        icon.options.iconSize[0] * 1 / 2,
       );
       expect(icon.options.iconAnchor[0]).to.equal(icon.options.iconAnchor[1]);
       expect(icon.options.iconSize[0]).to.be.at.least(CUSTOM_ICON_SIZE);

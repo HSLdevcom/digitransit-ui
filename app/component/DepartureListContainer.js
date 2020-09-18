@@ -196,8 +196,15 @@ class DepartureListContainer extends Component {
     const departureObjs = [];
     const { currentTime, limit, isTerminal, stoptimes } = this.props;
 
-    let currentDate = moment.unix(currentTime).startOf('day').unix();
-    let tomorrow = moment.unix(currentTime).add(1, 'day').startOf('day').unix();
+    let currentDate = moment
+      .unix(currentTime)
+      .startOf('day')
+      .unix();
+    let tomorrow = moment
+      .unix(currentTime)
+      .add(1, 'day')
+      .startOf('day')
+      .unix();
 
     const departures = asDepartures(stoptimes)
       .filter(departure => !(isTerminal && departure.isArrival))
@@ -216,7 +223,11 @@ class DepartureListContainer extends Component {
         );
 
         currentDate = tomorrow;
-        tomorrow = moment.unix(currentDate).add(1, 'day').startOf('day').unix();
+        tomorrow = moment
+          .unix(currentDate)
+          .add(1, 'day')
+          .startOf('day')
+          .unix();
       }
       const id = `${departure.pattern.code}:${departure.stoptime}`;
       const row = {
@@ -239,7 +250,9 @@ class DepartureListContainer extends Component {
       if (this.props.routeLinks) {
         departureObjs.push(
           <Link
-            to={`/${PREFIX_ROUTES}/${departure.pattern.route.gtfsId}/${PREFIX_STOPS}/${departure.pattern.code}?sort=no`}
+            to={`/${PREFIX_ROUTES}/${
+              departure.pattern.route.gtfsId
+            }/${PREFIX_STOPS}/${departure.pattern.code}?sort=no`}
             key={id}
             onClick={() => {
               addAnalyticsEvent({

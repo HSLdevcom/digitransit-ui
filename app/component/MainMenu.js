@@ -45,11 +45,12 @@ function MainMenu(props, { config, intl }) {
           </Link>
         )}
       </div>
-      {config.mainMenu.showDisruptions && props.showDisruptionInfo && (
-        <div className="offcanvas-section">
-          <DisruptionInfoButtonContainer />
-        </div>
-      )}
+      {config.mainMenu.showDisruptions &&
+        props.showDisruptionInfo && (
+          <div className="offcanvas-section">
+            <DisruptionInfoButtonContainer />
+          </div>
+        )}
       <MainMenuLinks
         content={(
           [config.appBarLink].concat(config.footer && config.footer.content) ||

@@ -171,7 +171,7 @@ export function checkPositioningPermission() {
           if (permissionStatus.state === 'prompt') {
             // track when user allows geolocation
             /* eslint-disable no-param-reassign */
-            permissionStatus.onchange = function () {
+            permissionStatus.onchange = function() {
               if (this.state === 'granted') {
                 addAnalyticsEvent({
                   category: 'Map',

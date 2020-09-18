@@ -131,7 +131,12 @@ describe('<StopCardHeader />', () => {
       },
     });
     expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(false);
-    expect(wrapper.find(Icon).first().prop('img')).to.equal('icon-icon_info');
+    expect(
+      wrapper
+        .find(Icon)
+        .first()
+        .prop('img'),
+    ).to.equal('icon-icon_info');
   });
 
   it('should use the caution icon when the stop has alerts and the alert level is not info', () => {
@@ -158,9 +163,12 @@ describe('<StopCardHeader />', () => {
       },
     });
     expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(false);
-    expect(wrapper.find(Icon).first().prop('img')).to.equal(
-      'icon-icon_caution',
-    );
+    expect(
+      wrapper
+        .find(Icon)
+        .first()
+        .prop('img'),
+    ).to.equal('icon-icon_caution');
   });
 
   it('should not use a header icon when the stop has alerts but no severity level', () => {

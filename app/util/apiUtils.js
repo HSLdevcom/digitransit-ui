@@ -37,7 +37,7 @@ export function deleteFavourites(data) {
 
 export function getWeatherData(baseURL, time, lat, lon) {
   // Round time to next 5 minutes
-  const remainder = 5 - (time.minute() % 5);
+  const remainder = 5 - time.minute() % 5;
   const endtime = time
     .add(remainder, 'minutes')
     .seconds(0)

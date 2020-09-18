@@ -160,7 +160,7 @@ export const getStopAndStationsQuery = favourites => {
     .then(result => result.filter(res => res !== null))
     .then(stopsAndStations => {
       // eslint-disable-next-line func-names
-      const stopStationMap = stopsAndStations.reduce(function (
+      const stopStationMap = stopsAndStations.reduce(function(
         map,
         stopOrStation,
       ) {

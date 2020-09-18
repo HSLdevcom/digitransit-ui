@@ -40,43 +40,45 @@ function IntermediateLeg({
       onClick={e => focusFunction(e)}
     >
       <div className="small-2 columns itinerary-time-column">
-        {showZoneLimits && currentZoneId && (
-          <div className="zone-icons-container">
-            {previousZoneId && (
+        {showZoneLimits &&
+          currentZoneId && (
+            <div className="zone-icons-container">
+              {previousZoneId && (
+                <ZoneIcon
+                  zoneId={previousZoneId}
+                  zoneLabelColor={zoneLabelColor}
+                  zoneLabelHeight="20px"
+                  zoneLabelWidth="20px"
+                  zoneLabelLineHeight="20px"
+                  zoneIdFontSize="16px"
+                />
+              )}
               <ZoneIcon
-                zoneId={previousZoneId}
+                zoneId={currentZoneId}
+                className={cx({
+                  'zone-delimiter':
+                    showCurrentZoneDelimiter ||
+                    (previousZoneId && currentZoneId),
+                })}
                 zoneLabelColor={zoneLabelColor}
                 zoneLabelHeight="20px"
                 zoneLabelWidth="20px"
                 zoneLabelLineHeight="20px"
                 zoneIdFontSize="16px"
               />
-            )}
-            <ZoneIcon
-              zoneId={currentZoneId}
-              className={cx({
-                'zone-delimiter':
-                  showCurrentZoneDelimiter || (previousZoneId && currentZoneId),
-              })}
-              zoneLabelColor={zoneLabelColor}
-              zoneLabelHeight="20px"
-              zoneLabelWidth="20px"
-              zoneLabelLineHeight="20px"
-              zoneIdFontSize="16px"
-            />
-            {nextZoneId && (
-              <ZoneIcon
-                zoneId={nextZoneId}
-                zoneLabelColor={zoneLabelColor}
-                zoneLabelHeight="20px"
-                zoneLabelWidth="20px"
-                zoneLabelLineHeight="20px"
-                zoneIdFontSize="16px"
-                className="zone-delimiter"
-              />
-            )}
-          </div>
-        )}
+              {nextZoneId && (
+                <ZoneIcon
+                  zoneId={nextZoneId}
+                  zoneLabelColor={zoneLabelColor}
+                  zoneLabelHeight="20px"
+                  zoneLabelWidth="20px"
+                  zoneLabelLineHeight="20px"
+                  zoneIdFontSize="16px"
+                  className="zone-delimiter"
+                />
+              )}
+            </div>
+          )}
       </div>
       <div className={`leg-before ${modeClassName}`}>
         <div className={`leg-before-circle circle-fill ${modeClassName}`}>

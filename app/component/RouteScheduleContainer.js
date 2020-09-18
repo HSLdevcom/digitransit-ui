@@ -280,9 +280,9 @@ const connectedComponent = createRefetchContainer(
   {
     pattern: graphql`
       fragment RouteScheduleContainer_pattern on Pattern
-      @argumentDefinitions(
-        serviceDay: { type: "String!", defaultValue: "19700101" }
-      ) {
+        @argumentDefinitions(
+          serviceDay: { type: "String!", defaultValue: "19700101" }
+        ) {
         code
         stops {
           id

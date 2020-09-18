@@ -146,13 +146,11 @@ class IndexPage extends React.Component {
 
     return breakpoint === 'large' ? (
       <div
-        className={`front-page flex-vertical ${
-          origin &&
+        className={`front-page flex-vertical ${origin &&
           origin.gps === true &&
           origin.ready === false &&
           origin.gpsError === false &&
-          `blurred`
-        } fullscreen bp-${breakpoint}`}
+          `blurred`} fullscreen bp-${breakpoint}`}
       >
         <div style={{ display: isBrowser ? 'block' : 'none' }}>
           <CtrlPanel
@@ -227,13 +225,11 @@ class IndexPage extends React.Component {
       </div>
     ) : (
       <div
-        className={`front-page flex-vertical ${
-          origin &&
+        className={`front-page flex-vertical ${origin &&
           origin.gps === true &&
           origin.ready === false &&
           origin.gpsError === false &&
-          `blurred`
-        } bp-${breakpoint}`}
+          `blurred`} bp-${breakpoint}`}
       >
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
         <div

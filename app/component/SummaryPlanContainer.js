@@ -572,7 +572,10 @@ const withConfig = getContext({
 
 const connectedContainer = createFragmentContainer(
   connectToStores(withConfig, [TimeStore, PositionStore], context => ({
-    currentTime: context.getStore(TimeStore).getCurrentTime().valueOf(),
+    currentTime: context
+      .getStore(TimeStore)
+      .getCurrentTime()
+      .valueOf(),
     locationState: context.getStore(PositionStore).getLocationState(),
   })),
   {
@@ -583,7 +586,7 @@ const connectedContainer = createFragmentContainer(
     `,
     itineraries: graphql`
       fragment SummaryPlanContainer_itineraries on Itinerary
-      @relay(plural: true) {
+        @relay(plural: true) {
         ...ItinerarySummaryListContainer_itineraries
         endTime
         startTime

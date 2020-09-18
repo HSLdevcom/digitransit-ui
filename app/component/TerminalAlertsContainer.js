@@ -42,11 +42,11 @@ TerminalAlertsContainer.propTypes = {
 const containerComponent = createFragmentContainer(TerminalAlertsContainer, {
   station: graphql`
     fragment TerminalAlertsContainer_station on Stop
-    @argumentDefinitions(
-      startTime: { type: "Long" }
-      timeRange: { type: "Int", defaultValue: 900 }
-      date: { type: "String" }
-    ) {
+      @argumentDefinitions(
+        startTime: { type: "Long" }
+        timeRange: { type: "Int", defaultValue: 900 }
+        date: { type: "String" }
+      ) {
       routes {
         gtfsId
         shortName

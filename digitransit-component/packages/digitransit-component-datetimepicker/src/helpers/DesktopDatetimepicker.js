@@ -58,11 +58,14 @@ function DesktopDatetimepicker({
   const scrollIndex = Math.floor((value - startTime) / itemDiff);
   const elementHeight = 50;
   // scroll to selected time when dropdown is opened
-  useLayoutEffect(() => {
-    if (open && scrollRef.current) {
-      scrollRef.current.scrollTop = elementHeight * scrollIndex;
-    }
-  }, [value, open]);
+  useLayoutEffect(
+    () => {
+      if (open && scrollRef.current) {
+        scrollRef.current.scrollTop = elementHeight * scrollIndex;
+      }
+    },
+    [value, open],
+  );
 
   const timeSuggestions = Array(itemCount)
     .fill()

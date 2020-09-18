@@ -29,15 +29,24 @@ describe('<ItineraryProfile />', () => {
     });
 
     expect(wrapper.find('.itinerary-profile-item')).to.have.lengthOf(3);
-    expect(wrapper.find('.itinerary-profile-item-value').at(0).text()).to.equal(
-      '10 m',
-    );
-    expect(wrapper.find('.itinerary-profile-item-value').at(1).text()).to.equal(
-      '20 m',
-    );
-    expect(wrapper.find('.itinerary-profile-item-value').at(2).text()).to.equal(
-      '300 m',
-    );
+    expect(
+      wrapper
+        .find('.itinerary-profile-item-value')
+        .at(0)
+        .text(),
+    ).to.equal('10 m');
+    expect(
+      wrapper
+        .find('.itinerary-profile-item-value')
+        .at(1)
+        .text(),
+    ).to.equal('20 m');
+    expect(
+      wrapper
+        .find('.itinerary-profile-item-value')
+        .at(2)
+        .text(),
+    ).to.equal('300 m');
   });
 
   it('should only render total distance information for non-biking itineraries', () => {
@@ -58,9 +67,12 @@ describe('<ItineraryProfile />', () => {
     });
 
     expect(wrapper.find('.itinerary-profile-item')).to.have.lengthOf(1);
-    expect(wrapper.find('.itinerary-profile-item-value').at(0).text()).to.equal(
-      '1.2 km',
-    );
+    expect(
+      wrapper
+        .find('.itinerary-profile-item-value')
+        .at(0)
+        .text(),
+    ).to.equal('1.2 km');
   });
 
   it('should display elevation information if it is in number format', () => {
@@ -81,8 +93,11 @@ describe('<ItineraryProfile />', () => {
     });
 
     expect(wrapper.find('.itinerary-profile-item')).to.have.lengthOf(1);
-    expect(wrapper.find('.itinerary-profile-item-value').at(0).text()).to.equal(
-      '200 m',
-    );
+    expect(
+      wrapper
+        .find('.itinerary-profile-item-value')
+        .at(0)
+        .text(),
+    ).to.equal('200 m');
   });
 });

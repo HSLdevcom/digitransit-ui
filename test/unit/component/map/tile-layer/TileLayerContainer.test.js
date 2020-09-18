@@ -90,9 +90,12 @@ describe('<TileLayerContainer />', () => {
       ],
     });
 
-    expect(wrapper.find('.popup').at(0).prop('onClose')).to.not.equal(
-      undefined,
-    );
+    expect(
+      wrapper
+        .find('.popup')
+        .at(0)
+        .prop('onClose'),
+    ).to.not.equal(undefined);
   });
   it('should call addAnalyticsEvent on open', () => {
     const props = {

@@ -79,7 +79,7 @@ export const getRoundIcon = zoom => {
 export const getCustomIcon = (zoom, iconUrl) => {
   const iconSize = CUSTOM_ICON_SIZE * getMapIconScale(zoom);
   return L.icon({
-    iconAnchor: [(1 / 2) * iconSize, (1 / 2) * iconSize],
+    iconAnchor: [1 / 2 * iconSize, 1 / 2 * iconSize],
     iconSize: [iconSize, iconSize],
     iconUrl,
   });

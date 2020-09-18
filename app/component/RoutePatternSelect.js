@@ -239,7 +239,7 @@ const withStore = createRefetchContainer(
   {
     route: graphql`
       fragment RoutePatternSelect_route on Route
-      @argumentDefinitions(date: { type: "String" }) {
+        @argumentDefinitions(date: { type: "String" }) {
         patterns {
           code
           headsign

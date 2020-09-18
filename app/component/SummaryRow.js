@@ -259,8 +259,7 @@ const SummaryRow = (
   let onlyIconLegsLength = 0;
   const waitThreshold = 180000;
   const lastLeg = compressedLegs[compressedLegs.length - 1];
-  const lastLegLength =
-    ((lastLeg.duration * 1000) / durationWithoutSlack) * 100;
+  const lastLegLength = lastLeg.duration * 1000 / durationWithoutSlack * 100;
 
   compressedLegs.forEach((leg, i) => {
     let renderNumber = true;
@@ -276,19 +275,18 @@ const SummaryRow = (
     const previousLeg = compressedLegs[i - 1];
     const isLastLeg = i === compressedLegs.length - 1;
     const nextLeg = compressedLegs[i + 1];
-    legLength = ((leg.endTime - leg.startTime) / durationWithoutSlack) * 100; // length of the current leg in %
+    legLength = (leg.endTime - leg.startTime) / durationWithoutSlack * 100; // length of the current leg in %
 
     if (nextLeg && !nextLeg.intermediatePlace) {
       // don't show waiting in intermediate places
       waitTime = nextLeg.startTime - leg.endTime;
-      waitLength = (waitTime / durationWithoutSlack) * 100;
+      waitLength = waitTime / durationWithoutSlack * 100;
       if (waitTime > waitThreshold && waitLength > renderBarThreshold) {
         // if waittime is long enough, render a waiting bar
         waiting = true;
       } else {
         legLength =
-          ((leg.endTime - leg.startTime + waitTime) / durationWithoutSlack) *
-          100; // otherwise add the waiting to the current legs length
+          (leg.endTime - leg.startTime + waitTime) / durationWithoutSlack * 100; // otherwise add the waiting to the current legs length
       }
     }
 
@@ -459,7 +457,7 @@ const SummaryRow = (
   });
   const normalLegs = legs.length - onlyIconLegs;
   // how many pixels to take from each 'normal' leg to give room for the icons
-  const iconLegsInPixels = (24 * onlyIconLegs) / normalLegs;
+  const iconLegsInPixels = 24 * onlyIconLegs / normalLegs;
   // the leftover percentage from only showing icons added to each 'normal' leg
   const iconLegsInPercents = onlyIconLegsLength / normalLegs;
 

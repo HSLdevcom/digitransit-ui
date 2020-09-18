@@ -66,13 +66,13 @@ class PatternStopsContainer extends React.PureComponent {
 export default createFragmentContainer(withBreakpoint(PatternStopsContainer), {
   pattern: graphql`
     fragment PatternStopsContainer_pattern on Pattern
-    @argumentDefinitions(
-      currentTime: { type: "Long!", defaultValue: 0 }
-      patternId: { type: "String!", defaultValue: "0" }
-    ) {
+      @argumentDefinitions(
+        currentTime: { type: "Long!", defaultValue: 0 }
+        patternId: { type: "String!", defaultValue: "0" }
+      ) {
       code
       ...RouteStopListContainer_pattern
-      @arguments(currentTime: $currentTime, patternId: $patternId)
+        @arguments(currentTime: $currentTime, patternId: $patternId)
     }
   `,
 });

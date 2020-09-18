@@ -69,7 +69,9 @@ export default class MobileItineraryWrapper extends React.Component {
     const fullscreenMap =
       this.context.match.location.state &&
       this.context.match.location.state.fullscreenMap === true;
-    const itinerary = fullscreenMap ? undefined : (
+    const itinerary = fullscreenMap ? (
+      undefined
+    ) : (
       <div>
         <ItineraryTab
           key={index.toString()}

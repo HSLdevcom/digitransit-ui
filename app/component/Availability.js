@@ -11,7 +11,7 @@ function Availability({
   text,
   showStatusBar,
 }) {
-  let availablepct = (available / total) * 100;
+  let availablepct = available / total * 100;
 
   let availableClass;
 

@@ -81,12 +81,7 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  areaPolygon: [
-    [24.37, 64.71],
-    [24.37, 65.38],
-    [26.61, 65.38],
-    [26.61, 64.71],
-  ],
+  areaPolygon: [[24.37, 64.71], [24.37, 65.38], [26.61, 65.38], [26.61, 64.71]],
 
   defaultEndpoint: {
     address: 'Keskusta',

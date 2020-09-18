@@ -57,10 +57,10 @@ StopPageTabContainer.contextTypes = {
 const containerComponent = createFragmentContainer(StopPageTabContainer, {
   stop: graphql`
     fragment StopPageTabContainer_stop on Stop
-    @argumentDefinitions(
-      startTime: { type: "Long" }
-      timeRange: { type: "Int", defaultValue: 900 }
-    ) {
+      @argumentDefinitions(
+        startTime: { type: "Long" }
+        timeRange: { type: "Int", defaultValue: 900 }
+      ) {
       id
       gtfsId
       code

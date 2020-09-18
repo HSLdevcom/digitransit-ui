@@ -38,7 +38,9 @@ class CallAgencyLeg extends React.Component {
           <Link
             onClick={e => e.stopPropagation()}
             to={
-              `/${PREFIX_ROUTES}/${this.props.leg.route.gtfsId}/${PREFIX_STOPS}/${this.props.leg.trip.pattern.code}
+              `/${PREFIX_ROUTES}/${
+                this.props.leg.route.gtfsId
+              }/${PREFIX_STOPS}/${this.props.leg.trip.pattern.code}
               /${this.props.leg.trip.gtfsId}`
               // TODO: Create a helper function for generationg links
             }
@@ -150,7 +152,11 @@ const exampleData = t1 => ({
 });
 
 CallAgencyLeg.description = () => {
-  const today = moment().hour(12).minute(34).second(0).valueOf();
+  const today = moment()
+    .hour(12)
+    .minute(34)
+    .second(0)
+    .valueOf();
   return (
     <div>
       <p>Displays an itinerary bus leg.</p>

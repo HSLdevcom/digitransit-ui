@@ -88,10 +88,9 @@ class Timetable extends React.Component {
       );
 
     const routesWithDupes = [];
-    Object.entries(
-      groupBy(routesToCheck, 'shortName'),
-    ).forEach(([key, value]) =>
-      value.length > 1 ? routesWithDupes.push(key) : undefined,
+    Object.entries(groupBy(routesToCheck, 'shortName')).forEach(
+      ([key, value]) =>
+        value.length > 1 ? routesWithDupes.push(key) : undefined,
     );
 
     return routesWithDupes;
@@ -112,17 +111,15 @@ class Timetable extends React.Component {
   mapStopTimes = stoptimesObject =>
     stoptimesObject
       .map(stoptime =>
-        stoptime.stoptimes
-          .filter(st => st.pickupType !== 'NONE')
-          .map(st => ({
-            id: stoptime.pattern.code,
-            name: stoptime.pattern.route.shortName || stoptime.pattern.headsign,
-            scheduledDeparture: st.scheduledDeparture,
-            serviceDay: st.serviceDay,
-            headsign: stoptime.pattern.headsign,
-            longName: stoptime.pattern.route.longName,
-            isCanceled: st.realtimeState === RealtimeStateType.Canceled,
-          })),
+        stoptime.stoptimes.filter(st => st.pickupType !== 'NONE').map(st => ({
+          id: stoptime.pattern.code,
+          name: stoptime.pattern.route.shortName || stoptime.pattern.headsign,
+          scheduledDeparture: st.scheduledDeparture,
+          serviceDay: st.serviceDay,
+          headsign: stoptime.pattern.headsign,
+          longName: stoptime.pattern.route.longName,
+          isCanceled: st.realtimeState === RealtimeStateType.Canceled,
+        })),
       )
       .reduce((acc, val) => acc.concat(val), []);
 

@@ -314,7 +314,7 @@ const testsForSunday = [
 
 describe('Testing @digitransit-util/digitransit-util-day-range-allowed-diff', () => {
   describe('When current day number is 1 (Monday)', () => {
-    testsForMonday.forEach(function (test) {
+    testsForMonday.forEach(function(test) {
       it(`should return "${
         test.allowedDiff
       }" when day number\`s string is "${Array.from(new Set(test.dayNoArray.sort())).join('')}"`, () => {
@@ -324,7 +324,7 @@ describe('Testing @digitransit-util/digitransit-util-day-range-allowed-diff', ()
     });
   });
   describe('When current day number is 2 (Tuesday)', () => {
-    testsforTuesday.forEach(function (test) {
+    testsforTuesday.forEach(function(test) {
       it(`should return "${
         test.allowedDiff
       }" when day number\`s string is "${Array.from(new Set(test.dayNoArray.sort())).join('')}"`, () => {
@@ -334,7 +334,7 @@ describe('Testing @digitransit-util/digitransit-util-day-range-allowed-diff', ()
     });
   });
   describe('When current day number is 3 (Wednesday)', () => {
-    testsForWednesday.forEach(function (test) {
+    testsForWednesday.forEach(function(test) {
       it(`should return "${
         test.allowedDiff
       }" when day number\`s string is "${Array.from(new Set(test.dayNoArray.sort())).join('')}"`, () => {
@@ -344,7 +344,7 @@ describe('Testing @digitransit-util/digitransit-util-day-range-allowed-diff', ()
     });
   });
   describe('When current day number is 4 (Thursday)', () => {
-    testsForThursday.forEach(function (test) {
+    testsForThursday.forEach(function(test) {
       it(`should return "${
         test.allowedDiff
       }" when day number\`s string is "${Array.from(new Set(test.dayNoArray.sort())).join('')}"`, () => {
@@ -354,7 +354,7 @@ describe('Testing @digitransit-util/digitransit-util-day-range-allowed-diff', ()
     });
   });
   describe('When current day number is 5 (Friday)', () => {
-    testsForFriday.forEach(function (test) {
+    testsForFriday.forEach(function(test) {
       it(`should return "${
         test.allowedDiff
       }" when day number\`s string is "${Array.from(new Set(test.dayNoArray.sort())).join('')}"`, () => {
@@ -364,7 +364,7 @@ describe('Testing @digitransit-util/digitransit-util-day-range-allowed-diff', ()
     });
   });
   describe('When current day number is 6 (Saturday)', () => {
-    testForSaturday.forEach(function (test) {
+    testForSaturday.forEach(function(test) {
       it(`should return "${
         test.allowedDiff
       }" when day number\`s string is "${Array.from(new Set(test.dayNoArray.sort())).join('')}"`, () => {
@@ -374,7 +374,7 @@ describe('Testing @digitransit-util/digitransit-util-day-range-allowed-diff', ()
     });
   });
   describe('When current day number is 7 (Sunday)', () => {
-    testsForSunday.forEach(function (test) {
+    testsForSunday.forEach(function(test) {
       it(`should return "${
         test.allowedDiff
       }" when day number\`s string is "${Array.from(new Set(test.dayNoArray.sort())).join('')}"`, () => {

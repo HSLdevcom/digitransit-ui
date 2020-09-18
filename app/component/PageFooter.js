@@ -6,25 +6,26 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const PageFooter = ({ content }) => (
   <div id="page-footer">
-    {content.map((link, i) =>
-      Object.keys(link).length === 0 ? (
-        // eslint-disable-next-line react/no-array-index-key
-        <span className="footer-separator" key={i} />
-      ) : (
-        <FooterItem
-          key={link.label || link.name}
-          onClick={() => {
-            if (link.label || link.name) {
-              addAnalyticsEvent({
-                category: 'Navigation',
-                action: 'OpenFooterLink',
-                name: link.label || link.name,
-              });
-            }
-          }}
-          {...link}
-        />
-      ),
+    {content.map(
+      (link, i) =>
+        Object.keys(link).length === 0 ? (
+          // eslint-disable-next-line react/no-array-index-key
+          <span className="footer-separator" key={i} />
+        ) : (
+          <FooterItem
+            key={link.label || link.name}
+            onClick={() => {
+              if (link.label || link.name) {
+                addAnalyticsEvent({
+                  category: 'Navigation',
+                  action: 'OpenFooterLink',
+                  name: link.label || link.name,
+                });
+              }
+            }}
+            {...link}
+          />
+        ),
     )}
   </div>
 );

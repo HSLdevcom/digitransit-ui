@@ -211,13 +211,16 @@ const containerComponent = createFragmentContainer(
     withBreakpoint(DisruptionListContainer),
     ['TimeStore'],
     context => ({
-      currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
+      currentTime: context
+        .getStore('TimeStore')
+        .getCurrentTime()
+        .unix(),
     }),
   ),
   {
     viewer: graphql`
       fragment DisruptionListContainer_viewer on QueryType
-      @argumentDefinitions(feedIds: { type: "[String!]", defaultValue: [] }) {
+        @argumentDefinitions(feedIds: { type: "[String!]", defaultValue: [] }) {
         alerts(feeds: $feedIds) {
           id
           alertDescriptionText

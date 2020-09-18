@@ -100,10 +100,10 @@ class TileContainer {
       this.extent * 2 ** (this.coords.z + (this.props.zoomOffset || 0));
     const x0 = this.extent * this.coords.x;
     const y0 = this.extent * this.coords.y;
-    const y1 = 180 - ((point.y + y0) * 360) / size;
+    const y1 = 180 - (point.y + y0) * 360 / size;
     return {
-      lon: ((point.x + x0) * 360) / size - 180,
-      lat: (360 / Math.PI) * Math.atan(Math.exp(y1 * (Math.PI / 180))) - 90,
+      lon: (point.x + x0) * 360 / size - 180,
+      lat: 360 / Math.PI * Math.atan(Math.exp(y1 * (Math.PI / 180))) - 90,
     };
   };
 

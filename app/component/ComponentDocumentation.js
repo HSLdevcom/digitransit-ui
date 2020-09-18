@@ -51,17 +51,13 @@ export default class ComponentDocumentation extends React.Component {
         <ul>
           {Object.keys(this.props.component.propTypes || {})
             .filter(key => !this.props.component.propTypes[key].isRequired)
-            .map(key => (
-              <li key={key}>{key}</li>
-            ))}
+            .map(key => <li key={key}>{key}</li>)}
         </ul>
         <p>Optional props:</p>
         <ul>
           {Object.keys(this.props.component.propTypes || {})
             .filter(key => this.props.component.propTypes[key].isRequired)
-            .map(key => (
-              <li key={key}>{key}</li>
-            ))}
+            .map(key => <li key={key}>{key}</li>)}
         </ul>
         <p>Default props:</p>
         <ul>

@@ -65,16 +65,18 @@ const CardHeader = (
               <p className="card-sub-header-address">{description}</p>
             ) : null}
             {code != null ? <p className="card-code">{code}</p> : null}
-            {headerConfig && headerConfig.showZone && stop.zoneId && (
-              <ZoneIcon
-                zoneId={getZoneLabel(stop.zoneId, config)}
-                zoneIdFontSize="11px"
-                zoneLabelColor={getZoneLabelColor(config)}
-                zoneLabelHeight="15px"
-                zoneLabelWidth="15px"
-                zoneLabelLineHeight="15px"
-              />
-            )}
+            {headerConfig &&
+              headerConfig.showZone &&
+              stop.zoneId && (
+                <ZoneIcon
+                  zoneId={getZoneLabel(stop.zoneId, config)}
+                  zoneIdFontSize="11px"
+                  zoneLabelColor={getZoneLabelColor(config)}
+                  zoneLabelHeight="15px"
+                  zoneLabelWidth="15px"
+                  zoneLabelLineHeight="15px"
+                />
+              )}
           </div>
         </div>
         {icons && icons.length ? <SplitBars>{icons}</SplitBars> : null}

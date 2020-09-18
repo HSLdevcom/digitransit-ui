@@ -6,25 +6,26 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const MainMenuLinks = ({ content }) => (
   <div id="page-m-footer">
-    {content.map(link =>
-      Object.keys(link).length === 0 ? (
-        <span key="separator" />
-      ) : (
-        <div key={link.label || link.name} className="offcanvas-section">
-          <FooterItem
-            onClick={() => {
-              if (link.label || link.name) {
-                addAnalyticsEvent({
-                  category: 'Navigation',
-                  action: 'OpenMainMenuLink',
-                  name: link.label || link.name,
-                });
-              }
-            }}
-            {...link}
-          />
-        </div>
-      ),
+    {content.map(
+      link =>
+        Object.keys(link).length === 0 ? (
+          <span key="separator" />
+        ) : (
+          <div key={link.label || link.name} className="offcanvas-section">
+            <FooterItem
+              onClick={() => {
+                if (link.label || link.name) {
+                  addAnalyticsEvent({
+                    category: 'Navigation',
+                    action: 'OpenMainMenuLink',
+                    name: link.label || link.name,
+                  });
+                }
+              }}
+              {...link}
+            />
+          </div>
+        ),
     )}
   </div>
 );

@@ -65,14 +65,30 @@ describe('<AlertList />', () => {
       ],
     };
     const wrapper = shallowWithIntl(<AlertList {...props} />);
-    expect(wrapper.find(RouteAlertsRow).at(0).prop('header')).to.equal('first');
-    expect(wrapper.find(RouteAlertsRow).at(1).prop('header')).to.equal(
-      'second',
-    );
-    expect(wrapper.find(RouteAlertsRow).at(2).prop('header')).to.equal('third');
-    expect(wrapper.find(RouteAlertsRow).at(3).prop('header')).to.equal(
-      'fourth',
-    );
+    expect(
+      wrapper
+        .find(RouteAlertsRow)
+        .at(0)
+        .prop('header'),
+    ).to.equal('first');
+    expect(
+      wrapper
+        .find(RouteAlertsRow)
+        .at(1)
+        .prop('header'),
+    ).to.equal('second');
+    expect(
+      wrapper
+        .find(RouteAlertsRow)
+        .at(2)
+        .prop('header'),
+    ).to.equal('third');
+    expect(
+      wrapper
+        .find(RouteAlertsRow)
+        .at(3)
+        .prop('header'),
+    ).to.equal('fourth');
   });
 
   it('should indicate that a cancelation has expired', () => {
@@ -280,10 +296,16 @@ describe('<AlertList />', () => {
     const wrapper = shallowWithIntl(<AlertList {...props} />);
     expect(wrapper.find(RouteAlertsRow)).to.have.lengthOf(2);
     expect(
-      wrapper.find(RouteAlertsRow).at(0).props().entityIdentifier,
+      wrapper
+        .find(RouteAlertsRow)
+        .at(0)
+        .props().entityIdentifier,
     ).to.equal('7');
     expect(
-      wrapper.find(RouteAlertsRow).at(1).props().entityIdentifier,
+      wrapper
+        .find(RouteAlertsRow)
+        .at(1)
+        .props().entityIdentifier,
     ).to.equal('10, 11');
   });
 
@@ -345,10 +367,16 @@ describe('<AlertList />', () => {
     const wrapper = shallowWithIntl(<AlertList {...props} />);
     expect(wrapper.find(RouteAlertsRow)).to.have.lengthOf(3);
     expect(
-      wrapper.find(RouteAlertsRow).at(0).props().entityIdentifier,
+      wrapper
+        .find(RouteAlertsRow)
+        .at(0)
+        .props().entityIdentifier,
     ).to.equal('1010');
     expect(
-      wrapper.find(RouteAlertsRow).at(1).props().entityIdentifier,
+      wrapper
+        .find(RouteAlertsRow)
+        .at(1)
+        .props().entityIdentifier,
     ).to.equal('2020, 2222');
   });
 

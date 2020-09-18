@@ -24,7 +24,6 @@ import {
 } from '../../action/realTimeClientAction';
 import { addressToItinerarySearch } from '../../util/otpStrings';
 import ItineraryLine from './ItineraryLine';
-import Loading from '../Loading';
 
 const startClient = (context, routes) => {
   const { realTime } = context.config;
@@ -61,10 +60,7 @@ const handleBounds = (location, stops) => {
     const { edges } = stops;
     if (!edges || edges.length === 0) {
       // No stops anywhere near
-      return [
-        [location.lat, location.lon],
-        [location.lat, location.lon],
-      ];
+      return [[location.lat, location.lon], [location.lat, location.lon]];
     }
     const nearestStop = edges[0].node.place;
     const bounds = [
@@ -90,9 +86,10 @@ function StopsNearYouMap(
   },
   { ...context },
 ) {
+  let useFitBounds = true;
   const bounds = handleBounds(locationState, stops);
   if (!bounds) {
-    return <Loading />;
+    useFitBounds = false;
   }
   let uniqueRealtimeTopics;
   const { environment } = useContext(ReactRelayContext);
@@ -224,8 +221,9 @@ function StopsNearYouMap(
         showStops
         stopsNearYouMode={mode}
         showScaleBar
-        fitBounds={bounds.length > 0}
-        defaultMapCenter={locationState}
+        fitBounds={useFitBounds}
+        defaultMapCenter={context.config.defaultEndpoint}
+        initialZoom={16}
         bounds={bounds}
         origin={origin}
         destination={destination}
@@ -247,7 +245,7 @@ function StopsNearYouMap(
           breakpoint={breakpoint}
           showStops
           stopsNearYouMode={mode}
-          fitBounds={bounds.length > 0}
+          fitBounds={useFitBounds}
           defaultMapCenter={locationState}
           bounds={bounds}
           showScaleBar
@@ -291,7 +289,9 @@ const StopsNearYouMapWithStores = connectToStores(
   StopsNearYouMapWithBreakpoint,
   [OriginStore, TimeStore, DestinationStore, PreferencesStore, PositionStore],
   ({ getStore }, props) => {
-    const currentTime = getStore(TimeStore).getCurrentTime().unix();
+    const currentTime = getStore(TimeStore)
+      .getCurrentTime()
+      .unix();
     const origin = getStore(OriginStore).getOrigin();
     const destination = getStore(DestinationStore).getDestination();
     const language = getStore(PreferencesStore).getLanguage();
@@ -314,10 +314,10 @@ const StopsNearYouMapWithStores = connectToStores(
 const containerComponent = createFragmentContainer(StopsNearYouMapWithStores, {
   stops: graphql`
     fragment StopsNearYouMap_stops on placeAtDistanceConnection
-    @argumentDefinitions(
-      startTime: { type: "Long!", defaultValue: 0 }
-      omitNonPickups: { type: "Boolean!", defaultValue: false }
-    ) {
+      @argumentDefinitions(
+        startTime: { type: "Long!", defaultValue: 0 }
+        omitNonPickups: { type: "Boolean!", defaultValue: false }
+      ) {
       edges {
         node {
           place {

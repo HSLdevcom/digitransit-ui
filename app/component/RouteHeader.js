@@ -22,7 +22,9 @@ export default function RouteHeader(props) {
   const routeLine =
     props.trip && props.pattern ? (
       <Link
-        to={`/${PREFIX_ROUTES}/${props.route.gtfsId}/${PREFIX_STOPS}/${props.pattern.code}?sort=no`}
+        to={`/${PREFIX_ROUTES}/${props.route.gtfsId}/${PREFIX_STOPS}/${
+          props.pattern.code
+        }?sort=no`}
       >
         {routeLineText}
       </Link>

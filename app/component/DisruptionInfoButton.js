@@ -43,7 +43,7 @@ DisruptionInfoButton.contextTypes = {
 export default createFragmentContainer(DisruptionInfoButton, {
   viewer: graphql`
     fragment DisruptionInfoButton_viewer on QueryType
-    @argumentDefinitions(feedIds: { type: "[String!]", defaultValue: [] }) {
+      @argumentDefinitions(feedIds: { type: "[String!]", defaultValue: [] }) {
       alerts(feeds: $feedIds) {
         id
       }

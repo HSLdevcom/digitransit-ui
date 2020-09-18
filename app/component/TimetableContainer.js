@@ -5,7 +5,7 @@ import Timetable from './Timetable';
 export default createFragmentContainer(Timetable, {
   stop: graphql`
     fragment TimetableContainer_stop on Stop
-    @argumentDefinitions(date: { type: "String" }) {
+      @argumentDefinitions(date: { type: "String" }) {
       gtfsId
       name
       url

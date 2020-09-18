@@ -42,11 +42,11 @@ StopAlertsContainer.propTypes = {
 const containerComponent = createFragmentContainer(StopAlertsContainer, {
   stop: graphql`
     fragment StopAlertsContainer_stop on Stop
-    @argumentDefinitions(
-      startTime: { type: "Long" }
-      timeRange: { type: "Int", defaultValue: 900 }
-      date: { type: "String" }
-    ) {
+      @argumentDefinitions(
+        startTime: { type: "Long" }
+        timeRange: { type: "Int", defaultValue: 900 }
+        date: { type: "String" }
+      ) {
       routes {
         gtfsId
         shortName

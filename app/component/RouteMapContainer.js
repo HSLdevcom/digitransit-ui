@@ -110,13 +110,14 @@ class RouteMapContainer extends React.PureComponent {
         }
         showScaleBar={showScale}
       >
-        {breakpoint !== 'large' && !fullscreen && (
-          <div
-            className="map-click-prevent-overlay"
-            onClick={toggleFullscreenMap}
-            key="overlay"
-          />
-        )}
+        {breakpoint !== 'large' &&
+          !fullscreen && (
+            <div
+              className="map-click-prevent-overlay"
+              onClick={toggleFullscreenMap}
+              key="overlay"
+            />
+          )}
         {breakpoint !== 'large' && (
           <React.Fragment>
             <BackButton
