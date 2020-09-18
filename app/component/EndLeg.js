@@ -69,11 +69,7 @@ function EndLeg(props) {
 }
 
 EndLeg.description = () => {
-  const endTime = moment()
-    .hour(12)
-    .minute(34)
-    .second(0)
-    .valueOf();
+  const endTime = moment().hour(12).minute(34).second(0).valueOf();
   return (
     <div>
       <p>Displays an itinerary end leg.</p>

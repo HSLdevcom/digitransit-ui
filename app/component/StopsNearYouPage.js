@@ -1,12 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { createFragmentContainer, graphql } from 'react-relay';
+import { graphql, ReactRelayContext, QueryRenderer } from 'react-relay';
 import { matchShape, routerShape } from 'found';
-import withBreakpoint from '../util/withBreakpoint';
-import StopsNearYouContainer from './StopsNearYouContainer';
+import connectToStores from 'fluxible-addons-react/connectToStores';
+import DesktopView from './DesktopView';
+import MobileView from './MobileView';
+import withBreakpoint, { DesktopOrMobile } from '../util/withBreakpoint';
+import { otpToLocation } from '../util/otpStrings';
 import Loading from './Loading';
-import BackButton from './BackButton';
+import { startLocationWatch } from '../action/PositionActions';
 import DisruptionBanner from './DisruptionBanner';
 import StopsNearYouSearch from './StopsNearYouSearch';
 
@@ -21,92 +24,259 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   };
 
   static propTypes = {
-    stopPatterns: PropTypes.any.isRequired,
-    alerts: PropTypes.any.isRequired,
     breakpoint: PropTypes.string.isRequired,
     loadingPosition: PropTypes.bool,
+    content: PropTypes.node,
+    map: PropTypes.node,
+    relayEnvironment: PropTypes.object,
+    position: PropTypes.shape({
+      lat: PropTypes.number,
+      lon: PropTypes.number,
+    }),
   };
 
-  render() {
-    let content;
+  state = {
+    startPosition: null,
+  };
+
+  static getDerivedStateFromProps = (nextProps, prevState) => {
+    if (
+      !prevState.startPosition &&
+      nextProps.position &&
+      nextProps.position.lat &&
+      nextProps.position.lon
+    ) {
+      return {
+        startPosition: nextProps.position,
+      };
+    }
+    return null;
+  };
+
+  getQueryVariables = () => {
+    const { startPosition } = this.state;
+    const { mode } = this.context.match.params;
+    let placeTypes = 'STOP';
+    let modes = [mode];
+    if (mode === 'CITYBIKE') {
+      placeTypes = 'BICYCLE_RENT';
+      modes = ['BICYCLE'];
+    }
+    const lat =
+      startPosition && startPosition.lat
+        ? startPosition.lat
+        : this.context.config.defaultEndpoint.lat;
+    const lon =
+      startPosition && startPosition.lon
+        ? startPosition.lon
+        : this.context.config.defaultEndpoint.lon;
+    return {
+      lat,
+      lon,
+      maxResults: this.context.config.maxNearbyStopAmount,
+      maxDistance: this.context.config.maxNearbyStopDistance,
+      filterByModes: modes,
+      filterByPlaceTypes: placeTypes,
+      omitNonPickups: this.context.config.omitNonPickups,
+    };
+  };
+
+  renderContent = () => {
     const { mode } = this.context.match.params;
     const renderDisruptionBanner = mode !== 'CITYBIKE';
     const renderSearch = mode !== 'FERRY';
+    return (
+      <QueryRenderer
+        query={graphql`
+          query StopsNearYouPageContentQuery(
+            $lat: Float!
+            $lon: Float!
+            $filterByPlaceTypes: [FilterPlaceType]
+            $filterByModes: [Mode]
+            $maxResults: Int!
+            $maxDistance: Int!
+            $omitNonPickups: Boolean
+          ) {
+            stopPatterns: nearest(
+              lat: $lat
+              lon: $lon
+              filterByPlaceTypes: $filterByPlaceTypes
+              filterByModes: $filterByModes
+              maxResults: $maxResults
+              maxDistance: $maxDistance
+            ) {
+              ...StopsNearYouContainer_stopPatterns
+              @arguments(omitNonPickups: $omitNonPickups)
+            }
+            alerts: nearest(
+              lat: $lat
+              lon: $lon
+              filterByPlaceTypes: $filterByPlaceTypes
+              filterByModes: $filterByModes
+              maxResults: $maxResults
+            ) {
+              ...DisruptionBanner_alerts
+              @arguments(omitNonPickups: $omitNonPickups)
+            }
+          }
+        `}
+        variables={this.getQueryVariables()}
+        environment={this.props.relayEnvironment}
+        render={({ props }) => {
+          if (props) {
+            return (
+              <div className="stops-near-you-page">
+                {renderDisruptionBanner && (
+                  <DisruptionBanner alerts={props.alerts || []} mode={mode} />
+                )}
+                {renderSearch && (
+                  <StopsNearYouSearch
+                    mode={mode}
+                    breakpoint={this.props.breakpoint}
+                  />
+                )}
+                {this.props.content &&
+                  React.cloneElement(this.props.content, {
+                    stopPatterns: props.stopPatterns,
+                    match: this.context.match,
+                    router: this.context.router,
+                  })}
+              </div>
+            );
+          }
+          return undefined;
+        }}
+      />
+    );
+  };
+
+  renderMap = () => {
+    return (
+      <QueryRenderer
+        query={graphql`
+          query StopsNearYouPageStopsQuery(
+            $lat: Float!
+            $lon: Float!
+            $filterByPlaceTypes: [FilterPlaceType]
+            $filterByModes: [Mode]
+            $maxResults: Int!
+            $maxDistance: Int!
+            $omitNonPickups: Boolean
+          ) {
+            stops: nearest(
+              lat: $lat
+              lon: $lon
+              filterByPlaceTypes: $filterByPlaceTypes
+              filterByModes: $filterByModes
+              maxResults: $maxResults
+              maxDistance: $maxDistance
+            ) {
+              ...StopsNearYouMap_stops
+              @arguments(omitNonPickups: $omitNonPickups)
+            }
+          }
+        `}
+        variables={this.getQueryVariables()}
+        environment={this.props.relayEnvironment}
+        render={({ props }) => {
+          if (props) {
+            return (
+              this.props.map &&
+              React.cloneElement(this.props.map, {
+                position: this.state.startPosition,
+                stops: props.stops,
+                match: this.context.match,
+                router: this.context.router,
+              })
+            );
+          }
+          return undefined;
+        }}
+      />
+    );
+  };
+
+  render() {
     if (this.props.loadingPosition) {
-      content = <Loading />;
-    } else {
-      content = (
-        <div className="stops-near-you-page">
-          {renderDisruptionBanner && (
-            <DisruptionBanner
-              trafficNowLink={this.context.config.trafficNowLink}
-              alerts={this.props.alerts}
-              mode={mode}
-            />
-          )}
-          {renderSearch && (
-            <StopsNearYouSearch
-              mode={mode}
-              breakpoint={this.props.breakpoint}
-            />
-          )}
-          <StopsNearYouContainer
-            stopPatterns={this.props.stopPatterns}
-            match={this.context.match}
-            router={this.context.router}
-          />
-        </div>
-      );
+      return <Loading />;
     }
-    if (this.props.breakpoint === 'large') {
-      return (
-        <>
-          <BackButton
-            icon="icon-icon_arrow-collapse--left"
-            iconClassName="arrow-icon"
-            className="back-button near-you-back-button"
+    return (
+      <DesktopOrMobile
+        desktop={() => (
+          <DesktopView
             title={
               <FormattedMessage
                 id="nearest-stops"
                 defaultMessage="Stops near you"
               />
             }
-            color={this.context.config.colors.primary}
+            content={this.renderContent()}
+            map={this.renderMap()}
+            bckBtnColor={this.context.config.colors.primary}
           />
-          {content}
-        </>
-      );
-    }
-    return content;
+        )}
+        mobile={() => (
+          <MobileView
+            content={this.renderContent()}
+            map={this.renderMap()}
+            bckBtnColor={this.context.config.colors.primary}
+          />
+        )}
+      />
+    );
   }
 }
 
-const StopsNearYouPageWithBreakpoint = withBreakpoint(StopsNearYouPage);
+const StopsNearYouPageWithBreakpoint = withBreakpoint(props => (
+  <ReactRelayContext.Consumer>
+    {({ environment }) => (
+      <StopsNearYouPage {...props} relayEnvironment={environment} />
+    )}
+  </ReactRelayContext.Consumer>
+));
 
-const containerComponent = createFragmentContainer(
+const PositioningWrapper = connectToStores(
   StopsNearYouPageWithBreakpoint,
-  {
-    stopPatterns: graphql`
-      fragment StopsNearYouPage_stopPatterns on placeAtDistanceConnection
-        @argumentDefinitions(
-          omitNonPickups: { type: "Boolean!", defaultValue: false }
-        ) {
-        ...StopsNearYouContainer_stopPatterns
-          @arguments(omitNonPickups: $omitNonPickups)
-      }
-    `,
-    alerts: graphql`
-      fragment StopsNearYouPage_alerts on placeAtDistanceConnection
-        @argumentDefinitions(
-          omitNonPickups: { type: "Boolean!", defaultValue: false }
-        ) {
-        ...DisruptionBanner_alerts @arguments(omitNonPickups: $omitNonPickups)
-      }
-    `,
+  ['PositionStore'],
+  (context, props) => {
+    const { place } = props.match.params;
+    if (place !== 'POS') {
+      const position = otpToLocation(place);
+      return { ...props, position };
+    }
+    const locationState = context.getStore('PositionStore').getLocationState();
+    if (locationState.locationingFailed) {
+      // Use default endpoint when positioning fails
+      return {
+        ...props,
+        position: context.config.defaultEndpoint,
+        loadingPosition: false,
+      };
+    }
+
+    if (
+      !locationState.hasLocation &&
+      (locationState.isLocationingInProgress ||
+        locationState.isReverseGeocodingInProgress)
+    ) {
+      return { ...props, loadingPosition: true };
+    }
+
+    if (locationState.hasLocation) {
+      return { ...props, position: locationState, loadingPosition: false };
+    }
+    context.executeAction(startLocationWatch);
+    return { ...props, loadingPosition: true };
   },
 );
 
+PositioningWrapper.contextTypes = {
+  ...PositioningWrapper.contextTypes,
+  executeAction: PropTypes.func.isRequired,
+  config: PropTypes.object.isRequired,
+};
+
 export {
-  containerComponent as default,
+  PositioningWrapper as default,
   StopsNearYouPageWithBreakpoint as Component,
 };

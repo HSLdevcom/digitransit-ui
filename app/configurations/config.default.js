@@ -36,10 +36,12 @@ export default {
     FONT:
       'https://fonts.googleapis.com/css?family=Lato:300,400,900%7CPT+Sans+Narrow:400,700',
     PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
-    PELIAS_REVERSE_GEOCODER: `${process.env.GEOCODING_BASE_URL ||
-      GEOCODING_BASE_URL}/reverse`,
-    PELIAS_PLACE: `${process.env.GEOCODING_BASE_URL ||
-      GEOCODING_BASE_URL}/place`,
+    PELIAS_REVERSE_GEOCODER: `${
+      process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL
+    }/reverse`,
+    PELIAS_PLACE: `${
+      process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL
+    }/place`,
     ROUTE_TIMETABLES: {
       HSL: `${API_URL}/timetables/v1/hsl/routes/`,
       tampere: 'http://joukkoliikenne.tampere.fi/media/aikataulut/',
@@ -144,34 +146,6 @@ export default {
 
   walkBoardCost: 600,
   walkBoardCostHigh: 1200,
-
-  quickOptions: {
-    public_transport: {
-      availableOptionSets: [
-        'least-transfers',
-        'least-walking',
-        'public-transport-with-bicycle',
-        'saved-settings',
-      ],
-    },
-    walk: {
-      availableOptionSets: ['prefer-walking-routes', 'saved-settings'],
-    },
-    bicycle: {
-      availableOptionSets: [
-        'least-elevation-changes',
-        'prefer-greenways',
-        'saved-settings',
-      ],
-    },
-    car_park: {
-      availableOptionSets: [
-        'least-transfers',
-        'least-walking',
-        'saved-settings',
-      ],
-    },
-  },
 
   maxWalkDistance: 10000,
   suggestWalkMaxDistance: 5000,

@@ -174,13 +174,6 @@ export function setCustomizedSettings(data) {
   setItem('customizedSettings', newSettings);
 }
 
-export function resetCustomizedSettings() {
-  const localStorage = getLocalStorage(isBrowser);
-  if (localStorage) {
-    localStorage.removeItem('customizedSettings');
-  }
-}
-
 // Get advanced routing parameters (not for normal use)
 export function getRoutingSettings() {
   return getItemAsJson('routingSettings');

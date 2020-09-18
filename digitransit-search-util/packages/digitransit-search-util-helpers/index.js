@@ -79,7 +79,7 @@ export const match = (normalizedTerm, resultProperties) => {
       // because of filtermatchingtoinput, we know that match occurred somewhere
       // don't run filtermatching again but estimate roughly:
       // the longer the matching string, the better confidence, max being 0.5
-      return 0.5 * normalizedTerm.length / (normalizedTerm.length + 1);
+      return (0.5 * normalizedTerm.length) / (normalizedTerm.length + 1);
     })
     .reduce(
       (previous, current) => (current > previous ? current : previous),

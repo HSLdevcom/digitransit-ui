@@ -55,9 +55,7 @@ class PrintableItineraryHeader extends React.Component {
     const duration = moment(itinerary.endTime).diff(
       moment(itinerary.startTime),
     );
-    const weekDay = moment(itinerary.startTime)
-      .locale(language)
-      .format('dddd');
+    const weekDay = moment(itinerary.startTime).locale(language).format('dddd');
     const weekDayUpperCase = weekDay.charAt(0).toUpperCase() + weekDay.slice(1);
 
     return (
@@ -74,7 +72,9 @@ class PrintableItineraryHeader extends React.Component {
               <span>{itinerary.legs[0].from.name}</span>
               {itinerary.legs
                 .filter(leg => leg.intermediatePlace)
-                .map((leg, i) => <span key={i}>{` — ${leg.from.name}`}</span>)}
+                .map((leg, i) => (
+                  <span key={i}>{` — ${leg.from.name}`}</span>
+                ))}
               {` — `}
               <span>{itinerary.legs[itinerary.legs.length - 1].to.name}</span>
               {` | `}

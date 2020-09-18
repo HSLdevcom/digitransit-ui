@@ -4,7 +4,6 @@ import sinon from 'sinon';
 
 import {
   getLocalStorage,
-  resetCustomizedSettings,
   resetRoutingSettings,
   getRoutingSettings,
   setRoutingSettings,
@@ -40,12 +39,6 @@ const ROUTING_SETTINGS = {
 };
 
 describe('localStorage', () => {
-  describe('resetCustomizedSettings', () => {
-    it('calling this function should not fail', () => {
-      resetCustomizedSettings();
-    });
-  });
-
   describe('getRoutingSettings', () => {
     it('result should be empty', () => {
       // eslint-disable-next-line

@@ -195,17 +195,13 @@ describe('OldSearchesStore', () => {
             item: {
               foo: 'baz',
             },
-            lastUpdated: timestamp()
-              .add(1, 'seconds')
-              .unix(),
+            lastUpdated: timestamp().add(1, 'seconds').unix(),
           },
           {
             item: {
               foo: 'yes_filter',
             },
-            lastUpdated: timestamp()
-              .subtract(60, 'days')
-              .unix(),
+            lastUpdated: timestamp().subtract(60, 'days').unix(),
           },
           {
             item: {

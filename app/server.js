@@ -180,7 +180,7 @@ function getEnvironment(config, agent) {
   return environment;
 }
 
-export default async function(req, res, next) {
+export default async function (req, res, next) {
   try {
     const config = getConfiguration(req);
     const application = appCreator(config);

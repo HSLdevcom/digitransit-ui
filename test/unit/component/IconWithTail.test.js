@@ -11,12 +11,9 @@ describe('<IconWithTail />', () => {
     };
     const wrapper = shallowWithIntl(<IconWithTail {...props} />);
 
-    expect(
-      wrapper
-        .find('use')
-        .at(0)
-        .prop('xlinkHref'),
-    ).to.equal('#icon-icon_vehicle-live-marker');
+    expect(wrapper.find('use').at(0).prop('xlinkHref')).to.equal(
+      '#icon-icon_vehicle-live-marker',
+    );
   });
 
   describe('allVehicles is true', () => {
@@ -30,19 +27,13 @@ describe('<IconWithTail />', () => {
       };
       const wrapper = shallowWithIntl(<IconWithTail {...props} />);
 
-      expect(
-        wrapper
-          .find('use')
-          .at(0)
-          .prop('xlinkHref'),
-      ).to.equal('#icon-icon_all-vehicles-shadow');
+      expect(wrapper.find('use').at(0).prop('xlinkHref')).to.equal(
+        '#icon-icon_all-vehicles-shadow',
+      );
 
-      expect(
-        wrapper
-          .find('use')
-          .at(1)
-          .prop('xlinkHref'),
-      ).to.equal('#icon-icon_all-vehicles-large');
+      expect(wrapper.find('use').at(1).prop('xlinkHref')).to.equal(
+        '#icon-icon_all-vehicles-large',
+      );
 
       expect(wrapper.find('tspan').text()).to.equal('32');
     });

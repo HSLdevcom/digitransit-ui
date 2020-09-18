@@ -171,9 +171,9 @@ export const enrichPatterns = (patterns, onlyInFuture, serviceTimeRange) => {
   if (onlyInFuture === true) {
     // DT-3182
     const wantedTime = moment().unix();
-    futureTrips.forEach(function(o) {
+    futureTrips.forEach(function (o) {
       if (o.tripsForDate !== undefined) {
-        o.tripsForDate.forEach(function(t) {
+        o.tripsForDate.forEach(function (t) {
           if (t.stoptimes !== undefined) {
             t.stoptimes = t.stoptimes.filter(
               s => s.serviceDay + s.scheduledDeparture >= wantedTime,
@@ -184,7 +184,7 @@ export const enrichPatterns = (patterns, onlyInFuture, serviceTimeRange) => {
     });
   }
 
-  futureTrips.forEach(function(x) {
+  futureTrips.forEach(function (x) {
     if (x.tripsForDate !== undefined) {
       x.tripsForDate = x.tripsForDate.filter(s => s.stoptimes.length > 0);
     } else {
@@ -192,8 +192,8 @@ export const enrichPatterns = (patterns, onlyInFuture, serviceTimeRange) => {
     }
     const uniqueDates = [];
     if (x.activeDates !== undefined) {
-      x.activeDates.forEach(function(a) {
-        a.day.forEach(function(b) {
+      x.activeDates.forEach(function (a) {
+        a.day.forEach(function (b) {
           uniqueDates.push(b);
         });
       });
@@ -366,8 +366,8 @@ export const getOptionText = (formatMessage, pattern, isTogglable) => {
         ? DATE_FORMAT2
         : (pattern.rangeFollowingDays[0][0] / 100) >> 0 ===
           (pattern.rangeFollowingDays[0][1] / 100) >> 0
-          ? DATE_FORMAT3
-          : DATE_FORMAT2,
+        ? DATE_FORMAT3
+        : DATE_FORMAT2,
     );
 
     if (
@@ -393,8 +393,8 @@ export const getOptionText = (formatMessage, pattern, isTogglable) => {
     retValue += ' (';
     retValue += moment(pattern.rangeFollowingDays[0][0], DATE_FORMAT).format(
       pattern.rangeFollowingDays[0][0] !== pattern.rangeFollowingDays[0][1] &&
-      (pattern.rangeFollowingDays[0][0] / 100) >> 0 ===
-        (pattern.rangeFollowingDays[0][1] / 100) >> 0
+        (pattern.rangeFollowingDays[0][0] / 100) >> 0 ===
+          (pattern.rangeFollowingDays[0][1] / 100) >> 0
         ? DATE_FORMAT3
         : DATE_FORMAT2,
     );
@@ -406,8 +406,8 @@ export const getOptionText = (formatMessage, pattern, isTogglable) => {
       retValue += ', ';
       retValue += moment(pattern.rangeFollowingDays[1][0], DATE_FORMAT).format(
         pattern.rangeFollowingDays[1][0] !== pattern.rangeFollowingDays[1][1] &&
-        (pattern.rangeFollowingDays[1][0] / 100) >> 0 ===
-          (pattern.rangeFollowingDays[1][1] / 100) >> 0
+          (pattern.rangeFollowingDays[1][0] / 100) >> 0 ===
+            (pattern.rangeFollowingDays[1][1] / 100) >> 0
           ? DATE_FORMAT3
           : DATE_FORMAT2,
       );
@@ -423,11 +423,11 @@ export const getOptionText = (formatMessage, pattern, isTogglable) => {
       retValue += ', ';
       retValue += moment(pattern.rangeFollowingDays[2][0], DATE_FORMAT).format(
         pattern.rangeFollowingDays[2][0] !== pattern.rangeFollowingDays[2][1] &&
-        (pattern.rangeFollowingDays[2][0] / 100) >> 0 ===
-          (pattern.rangeFollowingDays[2][1] / 100) >> 0 &&
-        moment(pattern.lastRangeDay).isAfter(
-          moment(pattern.rangeFollowingDays[2][1], DATE_FORMAT),
-        )
+          (pattern.rangeFollowingDays[2][0] / 100) >> 0 ===
+            (pattern.rangeFollowingDays[2][1] / 100) >> 0 &&
+          moment(pattern.lastRangeDay).isAfter(
+            moment(pattern.rangeFollowingDays[2][1], DATE_FORMAT),
+          )
           ? DATE_FORMAT3
           : DATE_FORMAT2,
       );

@@ -38,9 +38,7 @@ class CallAgencyLeg extends React.Component {
           <Link
             onClick={e => e.stopPropagation()}
             to={
-              `/${PREFIX_ROUTES}/${
-                this.props.leg.route.gtfsId
-              }/${PREFIX_STOPS}/${this.props.leg.trip.pattern.code}
+              `/${PREFIX_ROUTES}/${this.props.leg.route.gtfsId}/${PREFIX_STOPS}/${this.props.leg.trip.pattern.code}
               /${this.props.leg.trip.gtfsId}`
               // TODO: Create a helper function for generationg links
             }
@@ -89,9 +87,7 @@ class CallAgencyLeg extends React.Component {
                     </span>
                   ),
                 }}
-                defaultMessage={
-                  'Only on demand: {routeName}, which needs to be booked in advance.'
-                }
+                defaultMessage="Only on demand: {routeName}, which needs to be booked in advance."
               />
               {this.props.leg.route.desc ? (
                 <div className="itinerary-warning-route-description">
@@ -154,11 +150,7 @@ const exampleData = t1 => ({
 });
 
 CallAgencyLeg.description = () => {
-  const today = moment()
-    .hour(12)
-    .minute(34)
-    .second(0)
-    .valueOf();
+  const today = moment().hour(12).minute(34).second(0).valueOf();
   return (
     <div>
       <p>Displays an itinerary bus leg.</p>
@@ -168,7 +160,8 @@ CallAgencyLeg.description = () => {
           index={1}
           focusAction={() => {}}
         />
-      </ComponentUsageExample>exampleData
+      </ComponentUsageExample>
+      exampleData
     </div>
   );
 };

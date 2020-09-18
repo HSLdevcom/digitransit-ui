@@ -169,43 +169,42 @@ class SearchSettingsDropdown extends React.Component {
       return displayValueFormatter ? displayValueFormatter(value) : value;
     }
     const selectOptions = formatOptions
-      ? options.map(
-          o =>
-            o.title && o.value
-              ? {
-                  displayName: `${o.title}_${o.value}`,
-                  displayNameObject: applyDefaultValueIdentifier(
-                    o.value,
-                    translateLabels
+      ? options.map(o =>
+          o.title && o.value
+            ? {
+                displayName: `${o.title}_${o.value}`,
+                displayNameObject: applyDefaultValueIdentifier(
+                  o.value,
+                  translateLabels
+                    ? this.context.intl.formatMessage(
+                        { id: o.title },
+                        {
+                          title: o.title,
+                        },
+                      )
+                    : o.title,
+                ),
+                value: o.value,
+              }
+            : {
+                displayName: `${this.props.displayPattern}_${o}`,
+                displayNameObject: applyDefaultValueIdentifier(
+                  o,
+                  // eslint-disable-next-line no-nested-ternary
+                  this.props.displayPattern
+                    ? translateLabels
                       ? this.context.intl.formatMessage(
-                          { id: o.title },
+                          { id: this.props.displayPattern },
                           {
-                            title: o.title,
+                            number: getFormattedValue(o),
                           },
                         )
-                      : o.title,
-                  ),
-                  value: o.value,
-                }
-              : {
-                  displayName: `${this.props.displayPattern}_${o}`,
-                  displayNameObject: applyDefaultValueIdentifier(
-                    o,
-                    // eslint-disable-next-line no-nested-ternary
-                    this.props.displayPattern
-                      ? translateLabels
-                        ? this.context.intl.formatMessage(
-                            { id: this.props.displayPattern },
-                            {
-                              number: getFormattedValue(o),
-                            },
-                          )
-                        : ({ id: this.props.displayPattern },
-                          { number: getFormattedValue(o) })
-                      : getFormattedValue(o),
-                  ),
-                  value: o,
-                },
+                      : ({ id: this.props.displayPattern },
+                        { number: getFormattedValue(o) })
+                    : getFormattedValue(o),
+                ),
+                value: o,
+              },
         )
       : options;
 
@@ -225,10 +224,10 @@ class SearchSettingsDropdown extends React.Component {
             {displayValueFormatter
               ? displayValueFormatter(currentSelection.title)
               : translateLabels
-                ? `${intl.formatMessage({
-                    id: currentSelection.title,
-                  })}`
-                : currentSelection.title}
+              ? `${intl.formatMessage({
+                  id: currentSelection.title,
+                })}`
+              : currentSelection.title}
           </p>
           <span className="sr-only">
             {intl.formatMessage({

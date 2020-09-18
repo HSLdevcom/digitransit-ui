@@ -90,6 +90,7 @@ FuzzyTripLink.propTypes = {
     direction: PropTypes.number.isRequired,
     tripStartTime: PropTypes.string.isRequired,
     operatingDay: PropTypes.string.isRequired,
+    shortName: PropTypes.string.isRequired,
   }).isRequired,
 };
 

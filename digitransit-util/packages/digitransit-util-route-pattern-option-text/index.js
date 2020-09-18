@@ -95,8 +95,8 @@ export default function routePatternOptionText(language, pattern, isTogglable) {
         ? DATE_FORMAT2
         : (pattern.rangeFollowingDays[0][0] / 100) >> 0 ===
           (pattern.rangeFollowingDays[0][1] / 100) >> 0
-          ? DATE_FORMAT3
-          : DATE_FORMAT2,
+        ? DATE_FORMAT3
+        : DATE_FORMAT2,
     );
 
     if (
@@ -123,8 +123,8 @@ export default function routePatternOptionText(language, pattern, isTogglable) {
     retValue += ' (';
     retValue += moment(pattern.rangeFollowingDays[0][0], DATE_FORMAT).format(
       pattern.rangeFollowingDays[0][0] !== pattern.rangeFollowingDays[0][1] &&
-      (pattern.rangeFollowingDays[0][0] / 100) >> 0 ===
-        (pattern.rangeFollowingDays[0][1] / 100) >> 0
+        (pattern.rangeFollowingDays[0][0] / 100) >> 0 ===
+          (pattern.rangeFollowingDays[0][1] / 100) >> 0
         ? DATE_FORMAT3
         : DATE_FORMAT2,
     );
@@ -136,8 +136,8 @@ export default function routePatternOptionText(language, pattern, isTogglable) {
       retValue += ', ';
       retValue += moment(pattern.rangeFollowingDays[1][0], DATE_FORMAT).format(
         pattern.rangeFollowingDays[1][0] !== pattern.rangeFollowingDays[1][1] &&
-        (pattern.rangeFollowingDays[1][0] / 100) >> 0 ===
-          (pattern.rangeFollowingDays[1][1] / 100) >> 0
+          (pattern.rangeFollowingDays[1][0] / 100) >> 0 ===
+            (pattern.rangeFollowingDays[1][1] / 100) >> 0
           ? DATE_FORMAT3
           : DATE_FORMAT2,
       );
@@ -153,11 +153,11 @@ export default function routePatternOptionText(language, pattern, isTogglable) {
       retValue += ', ';
       retValue += moment(pattern.rangeFollowingDays[2][0], DATE_FORMAT).format(
         pattern.rangeFollowingDays[2][0] !== pattern.rangeFollowingDays[2][1] &&
-        (pattern.rangeFollowingDays[2][0] / 100) >> 0 ===
-          (pattern.rangeFollowingDays[2][1] / 100) >> 0 &&
-        moment(pattern.lastRangeDate).isAfter(
-          moment(pattern.rangeFollowingDays[2][1], DATE_FORMAT),
-        )
+          (pattern.rangeFollowingDays[2][0] / 100) >> 0 ===
+            (pattern.rangeFollowingDays[2][1] / 100) >> 0 &&
+          moment(pattern.lastRangeDate).isAfter(
+            moment(pattern.rangeFollowingDays[2][1], DATE_FORMAT),
+          )
           ? DATE_FORMAT3
           : DATE_FORMAT2,
       );

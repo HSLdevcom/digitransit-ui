@@ -49,11 +49,7 @@ const exampleLeg = t1 => ({
 });
 
 SubwayLeg.description = () => {
-  const today = moment()
-    .hour(12)
-    .minute(34)
-    .second(0)
-    .valueOf();
+  const today = moment().hour(12).minute(34).second(0).valueOf();
   return (
     <div>
       <p>Displays an itinerary subway leg.</p>
