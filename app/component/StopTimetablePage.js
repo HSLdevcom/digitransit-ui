@@ -51,7 +51,7 @@ export default createRefetchContainer(
   {
     stop: graphql`
       fragment StopTimetablePage_stop on Stop
-        @argumentDefinitions(date: { type: "String" }) {
+      @argumentDefinitions(date: { type: "String" }) {
         url
         ...TimetableContainer_stop @arguments(date: $date)
       }

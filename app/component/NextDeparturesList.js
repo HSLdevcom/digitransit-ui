@@ -17,8 +17,8 @@ function NextDeparturesList(props, context) {
     // TODO: use util or util Component
     const roundedDistance =
       distance < 1000
-        ? (distance - distance % 10) / 1000
-        : (distance - distance % 100) / 1000;
+        ? (distance - (distance % 10)) / 1000
+        : (distance - (distance % 100)) / 1000;
 
     const departure = { ...originalDeparture, roundedDistance };
 
@@ -46,9 +46,7 @@ function NextDeparturesList(props, context) {
 
       const departureTimes = stoptime.stoptimes.map(departureTime => {
         const canceled = departureTime.realtimeState === 'CANCELED';
-        const key = `${stoptime.pattern.route.gtfsId}:${
-          stoptime.pattern.headsign
-        }:
+        const key = `${stoptime.pattern.route.gtfsId}:${stoptime.pattern.headsign}:
         ${departureTime.realtimeDeparture}`;
 
         return (
@@ -71,9 +69,7 @@ function NextDeparturesList(props, context) {
       };
 
       // DT-3331: added query string sort=no to Link's to
-      const departureLinkUrl = `/${PREFIX_ROUTES}/${
-        stoptime.pattern.route.gtfsId
-      }/${PREFIX_STOPS}/${stoptime.pattern.code}?sort=no`;
+      const departureLinkUrl = `/${PREFIX_ROUTES}/${stoptime.pattern.route.gtfsId}/${PREFIX_STOPS}/${stoptime.pattern.code}?sort=no`;
 
       // In case there's only one departure for the route,
       // add a dummy cell to keep the table layout from breaking

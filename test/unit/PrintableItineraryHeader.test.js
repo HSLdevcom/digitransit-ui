@@ -237,17 +237,7 @@ describe('<PrintableItineraryHeader />', () => {
     });
 
     expect(wrapper.find(ZoneTicket)).to.have.lengthOf(2);
-    expect(
-      wrapper
-        .find(ZoneTicket)
-        .at(0)
-        .props().ticketType,
-    ).to.equal('AB');
-    expect(
-      wrapper
-        .find(ZoneTicket)
-        .at(1)
-        .props().ticketType,
-    ).to.equal('BC');
+    expect(wrapper.find(ZoneTicket).at(0).props().ticketType).to.equal('AB');
+    expect(wrapper.find(ZoneTicket).at(1).props().ticketType).to.equal('BC');
   });
 });

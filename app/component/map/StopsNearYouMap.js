@@ -60,7 +60,10 @@ const handleBounds = (location, stops) => {
     const { edges } = stops;
     if (!edges || edges.length === 0) {
       // No stops anywhere near
-      return [[location.lat, location.lon], [location.lat, location.lon]];
+      return [
+        [location.lat, location.lon],
+        [location.lat, location.lon],
+      ];
     }
     const nearestStop = edges[0].node.place;
     const bounds = [
@@ -289,9 +292,7 @@ const StopsNearYouMapWithStores = connectToStores(
   StopsNearYouMapWithBreakpoint,
   [OriginStore, TimeStore, DestinationStore, PreferencesStore, PositionStore],
   ({ getStore }, props) => {
-    const currentTime = getStore(TimeStore)
-      .getCurrentTime()
-      .unix();
+    const currentTime = getStore(TimeStore).getCurrentTime().unix();
     const origin = getStore(OriginStore).getOrigin();
     const destination = getStore(DestinationStore).getDestination();
     const language = getStore(PreferencesStore).getLanguage();
@@ -314,10 +315,10 @@ const StopsNearYouMapWithStores = connectToStores(
 const containerComponent = createFragmentContainer(StopsNearYouMapWithStores, {
   stops: graphql`
     fragment StopsNearYouMap_stops on placeAtDistanceConnection
-      @argumentDefinitions(
-        startTime: { type: "Long!", defaultValue: 0 }
-        omitNonPickups: { type: "Boolean!", defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      startTime: { type: "Long!", defaultValue: 0 }
+      omitNonPickups: { type: "Boolean!", defaultValue: false }
+    ) {
       edges {
         node {
           place {

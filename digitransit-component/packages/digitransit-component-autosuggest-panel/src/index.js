@@ -246,8 +246,8 @@ class DTAutosuggestPanel extends React.Component {
       activeViaPointSlacks.splice(foundAtIndex, 1);
     }
     return viaPointRemoved
-      ? activeViaPointSlacks.map(
-          value => (value > updatedViaPointIndex ? value - 1 : value),
+      ? activeViaPointSlacks.map(value =>
+          value > updatedViaPointIndex ? value - 1 : value,
         )
       : activeViaPointSlacks;
   };
@@ -518,9 +518,7 @@ class DTAutosuggestPanel extends React.Component {
                       viaPointIndex={i}
                       icon={
                         <span
-                          className={`${styles['combobox-icon']} ${
-                            styles['time-input-icon']
-                          }`}
+                          className={`${styles['combobox-icon']} ${styles['time-input-icon']}`}
                         >
                           <Icon img="time" />
                         </span>

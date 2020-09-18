@@ -96,9 +96,7 @@ function ItineraryPageMap(
       name: 'SummaryPage',
     });
   };
-  const overlay = fullscreen ? (
-    undefined
-  ) : (
+  const overlay = fullscreen ? undefined : (
     /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
     <div className="map-click-prevent-overlay" onClick={toggleFullscreenMap} />
   );

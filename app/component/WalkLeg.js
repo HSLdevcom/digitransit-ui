@@ -233,11 +233,7 @@ const exampleLeg = t1 => ({
 });
 
 WalkLeg.description = () => {
-  const today = moment()
-    .hour(12)
-    .minute(34)
-    .second(0)
-    .valueOf();
+  const today = moment().hour(12).minute(34).second(0).valueOf();
   return (
     <div>
       <p>Displays an itinerary walk leg.</p>

@@ -41,11 +41,10 @@ export class ClientProvider extends React.Component {
   componentDidMount() {
     this.updateBreakpoint = throttle(
       () =>
-        this.setState(
-          ({ breakpoint }) =>
-            getClientBreakpoint() !== breakpoint
-              ? { breakpoint: getClientBreakpoint() }
-              : null,
+        this.setState(({ breakpoint }) =>
+          getClientBreakpoint() !== breakpoint
+            ? { breakpoint: getClientBreakpoint() }
+            : null,
         ),
       100,
     );

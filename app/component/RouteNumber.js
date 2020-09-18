@@ -117,28 +117,26 @@ function RouteNumber(props, context) {
                     )}
                   </div>
                 )}
-                {props.text &&
-                  props.renderNumber === true && (
-                    <div
-                      className={cx('vehicle-number-container-v', {
-                        long: hasNoShortName,
+                {props.text && props.renderNumber === true && (
+                  <div
+                    className={cx('vehicle-number-container-v', {
+                      long: hasNoShortName,
+                    })}
+                  >
+                    <span
+                      className={cx('vehicle-number', mode, {
+                        long: longText,
                       })}
                     >
-                      <span
-                        className={cx('vehicle-number', mode, {
-                          long: longText,
-                        })}
-                      >
-                        {props.text}
-                      </span>
-                    </div>
-                  )}
-                {props.renderNumber === true &&
-                  props.isTransitLeg === false && (
-                    <div className={`leg-duration-container ${mode} `}>
-                      <span className="leg-duration">{props.walkingTime}</span>
-                    </div>
-                  )}
+                      {props.text}
+                    </span>
+                  </div>
+                )}
+                {props.renderNumber === true && props.isTransitLeg === false && (
+                  <div className={`leg-duration-container ${mode} `}>
+                    <span className="leg-duration">{props.walkingTime}</span>
+                  </div>
+                )}
               </span>
             </span>
           </div>
@@ -173,26 +171,22 @@ function RouteNumber(props, context) {
               </div>
             )}
           </span>
-          {props.text &&
-            props.renderNumber === true && (
-              <div
-                className={cx('vehicle-number-container-v', {
-                  long: hasNoShortName,
-                })}
-              >
-                <span
-                  className={cx('vehicle-number', mode, { long: longText })}
-                >
-                  {props.text}
-                </span>
-              </div>
-            )}
-          {props.renderNumber === true &&
-            props.isTransitLeg === false && (
-              <div className={`leg-duration-container ${mode} `}>
-                <span className="leg-duration">{props.walkingTime}</span>
-              </div>
-            )}
+          {props.text && props.renderNumber === true && (
+            <div
+              className={cx('vehicle-number-container-v', {
+                long: hasNoShortName,
+              })}
+            >
+              <span className={cx('vehicle-number', mode, { long: longText })}>
+                {props.text}
+              </span>
+            </div>
+          )}
+          {props.renderNumber === true && props.isTransitLeg === false && (
+            <div className={`leg-duration-container ${mode} `}>
+              <span className="leg-duration">{props.walkingTime}</span>
+            </div>
+          )}
         </span>
       )}
     </>
