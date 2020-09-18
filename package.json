@@ -54,12 +54,12 @@
     "digitransit-component-new-module": "node -r esm ./digitransit-component/scripts/create-new-module $1",
     "digitransit-component-tests": "lerna run test --scope '@digitransit-component/*'",
     "digitransit-watch-components": "lerna run watch --parallel --stream",
-    "digitransit-build-components": "lerna run build:index --scope '@digitransit-component/*'",
-    "build-search-utils": "lerna run build:index --scope '@digitransit-search-util/digitransit-search-util-query-utils'",
+    "digitransit-build-components": "lerna run clean --scope '@digitransit-component/*' && lerna run build:index --scope '@digitransit-component/digitransit-component-icon' && lerna run build:index --scope '@digitransit-component/digitransit-component-suggestion-item' && lerna run build:index --scope '@digitransit-component/*'",
+    "build-search-utils": "cd digitransit-search-util && find . -type dir -name node_modules | xargs rm -rf && cd .. && lerna run build:index --scope '@digitransit-search-util/digitransit-search-util-query-utils'",
     "digitransit-store-docs": "node -r esm ./digitransit-store/scripts/generate-readmes",
     "digitransit-store-new-module": "node -r esm ./digitransit-store/scripts/create-new-module $1",
     "digitransit-store-tests": "lerna run build:test --scope '@digitransit-store/*' && lerna run test --scope '@digitransit-store/*'",
-    "digitransit-store-build": "lerna run build:index --scope '@digitransit-store/*'"
+    "digitransit-store-build": "lerna run clean --scope '@digitransit-store/*' && lerna run build:index --scope '@digitransit-store/digitransit-store-common-functions' && lerna run build:index --scope '@digitransit-store/*'"
   },
   "main": "server.js",
   "repository": {

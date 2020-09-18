@@ -52,8 +52,8 @@ export default function isDuplicate(item1, item2) {
     return true;
   }
 
-  const p1 = item1.geometry.coordinates;
-  const p2 = item2.geometry.coordinates;
+  const p1 = item1 && item1.geometry ? item1.geometry.coordinates : undefined;
+  const p2 = item2 && item2.geometry ? item2.geometry.coordinates : undefined;
 
   if (p1 && p2) {
     // both have geometry

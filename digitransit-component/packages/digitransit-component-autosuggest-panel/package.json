@@ -1,16 +1,16 @@
 {
   "name": "@digitransit-component/digitransit-component-autosuggest-panel",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "digitransit-component autosuggest-panel module",
   "main": "lib/index.js",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build:index": "yarn clean && ENV=production webpack --config webpack.config.babel.js && yarn run docs",
+    "build:index": "ENV=production webpack --config webpack.config.babel.js && yarn run docs",
     "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-proposal-class-properties,@babel/plugin-proposal-numeric-separator --out-file test.generated",
     "watch": "ENV=development webpack --watch --config webpack.config.babel.js",
-    "clean": "rm -r ./lib ./node_modules",
+    "clean": "rm -rf ./lib ./node_modules",
     "test": "mocha -r esm test.generated",
     "docs": "node -r esm ../../scripts/generate-readmes"
   },
@@ -25,7 +25,7 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "dependencies": {
-    "@digitransit-component/digitransit-component-autosuggest": "^1.2.4",
+    "@digitransit-component/digitransit-component-autosuggest": "^1.2.5",
     "@digitransit-component/digitransit-component-icon": "^0.0.10",
     "@hsl-fi/sass":" ^0.1.1"
   },
