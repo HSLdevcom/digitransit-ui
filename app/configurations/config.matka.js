@@ -91,7 +91,8 @@ export default {
       {
         name: 'accessibility-statement',
         nameEn: 'Accessibility statement',
-        // href: 'todo',
+        href:
+          'https://www.traficom.fi/fi/asioi-kanssamme/reittiopas/matkafi-reittioppaan-saavutettavuusseloste',
       },
     ],
   },
