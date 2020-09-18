@@ -7,7 +7,7 @@ import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { navigateTo } from '../util/path';
+import { navigateTo, PREFIX_ITINERARY_SUMMARY } from '../util/path';
 import searchContext from '../util/searchContext';
 import intializeSearchContext from '../util/DTSearchContextInitializer';
 import { encodeAddressAndCoordinatesArray } from '../util/otpStrings';
@@ -307,17 +307,17 @@ export default function withSearchContext(WrappedComponent) {
     };
 
     selectFutureRoute = item => {
-      let path = '/reitti/';
+      let path = `/${PREFIX_ITINERARY_SUMMARY}`;
       // set origin
-      path += encodeAddressAndCoordinatesArray(
+      path += `/${encodeAddressAndCoordinatesArray(
         `${item.properties.origin.name}, ${item.properties.origin.locality}`,
         [
           item.properties.origin.coordinates.lat,
           item.properties.origin.coordinates.lon,
         ],
-      );
+      )}`;
       // set destination
-      path = `${path}/${encodeAddressAndCoordinatesArray(
+      path += `/${encodeAddressAndCoordinatesArray(
         `${item.properties.destination.name}, ${
           item.properties.destination.locality
         }`,
@@ -327,7 +327,7 @@ export default function withSearchContext(WrappedComponent) {
         ],
       )}`;
       // set arriveBy and time
-      path = `${path}?${item.properties.arriveBy ? 'arriveBy=true&' : ''}time=${
+      path += `?${item.properties.arriveBy ? 'arriveBy=true&' : ''}time=${
         item.properties.time
       }`;
       this.context.router.push(path);

@@ -1333,7 +1333,7 @@
     "@hsl-fi/sass" "^0.1.1"
     "@hsl-fi/site-header" "^0.2.1"
 
-"@digitransit-component/digitransit-component-icon@latest":
+"@digitransit-component/digitransit-component-icon@^0.0.9", "@digitransit-component/digitransit-component-icon@latest":
   version "0.0.9"
   resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-icon/-/digitransit-component-icon-0.0.9.tgz#1e61bb7c91ef0432d6fc8f484c71e1ff8051e024"
   integrity sha512-zvSXJS1XJttRDZHdDSq6BkIPMGjRLYGkCdU/8/VlZ140D4zBCiqVz4HsNkAmBDKXjQ+bBgtg7fRk2GKpEjshpA==
@@ -1355,6 +1355,18 @@
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-with-breakpoint/-/digitransit-component-with-breakpoint-0.0.3.tgz#fa31eed369a5c43cbb14dc7d5d8d49323a5c8674"
   integrity sha512-PwJmjRGwVuLNoBRGoFr3F0bLb+p5oOWamFm5PNEajGD8PCfX+yCbeEfr0kWpbZ7whR/VAqyNIMmXmoDX8hwRcQ==
+
+"@digitransit-search-util/digitransit-search-util-is-duplicate@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-is-duplicate/-/digitransit-search-util-is-duplicate-0.0.1.tgz#09c14b51e901791d3e6da54ceee6cbb4d267b33d"
+  integrity sha512-EgKm6JvsY3kpCTcC4bdzeuAvzc7XdP7OyzXYrU1xCwfWtt3uSouyfCKuGptHSuWaV5FulWoGrKHtstO7bHzKuA==
+  dependencies:
+    "@digitransit-search-util/digitransit-search-util-tru-eq" "^0.0.1"
+
+"@digitransit-search-util/digitransit-search-util-uniq-by-label@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-uniq-by-label/-/digitransit-search-util-uniq-by-label-0.0.2.tgz#e84692ccf3718757ae972fb061008ec9fba6d1d8"
+  integrity sha512-kVavapS7CTEOkDaHMITw+6ppIq2+//tVjPGaXAl4MX3D63/6MDZasr6DZ7Qk+laQ4LTcglXCabv6hS7927zYdg==
 
 "@evocateur/libnpmaccess@^3.1.2":
   version "3.1.2"

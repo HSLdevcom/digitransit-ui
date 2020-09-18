@@ -15,6 +15,7 @@ import {
 import { addAnalyticsEvent } from './analyticsUtils';
 import { getCurrentSettings, getDefaultSettings } from './planParamUtil';
 import { saveFutureRoute } from '../action/FutureRoutesActions';
+import { PREFIX_ITINERARY_SUMMARY } from './path';
 
 export const setSettingsData = (router, match) => {
   // eslint-disable-next-line no-use-before-define
@@ -124,7 +125,7 @@ export const replaceQueryParams = (router, match, newParams, executeAction) => {
     query &&
     query.time &&
     location &&
-    location.pathname.indexOf('/reitti/') === 0 &&
+    location.pathname.indexOf(PREFIX_ITINERARY_SUMMARY) === 1 &&
     executeAction
   ) {
     const pathArray = decodeURIComponent(location.pathname)

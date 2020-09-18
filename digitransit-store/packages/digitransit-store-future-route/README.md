@@ -4,7 +4,7 @@
 
 ## FutureRoute
 
-**Extends Store**
+**Extends React.Component**
 
 ### Examples
 
@@ -13,6 +13,59 @@ const store = new FutureRouteStore();
 
 //get all
 const futureRoutes = store.getFutureRoutes();
+//{
+//  items: [
+//    {
+//      type: 'FutureRoute',
+//      properties: {
+//        layer: 'futureRoute',
+//        origin: {
+//          name: 'Pasila',
+//          locality: 'Helsinki',
+//          coordinates: {
+//            lat: 60.198828,
+//            lon: 24.933514,
+//          },
+//        },
+//        destination: {
+//          name: 'Ilmala',
+//          locality: 'Helsinki',
+//          coordinates: {
+//            lat: 60.208466,
+//            lon: 24.919756,
+//          },
+//        },
+//        arriveBy: 'true',
+//        time: 1600866900,
+//        url: '/reitti/Pasila%2C%20Helsinki%3A%3A60.198828%2C24.933514/Ilmala%2C%20Helsinki%3A%3A60.208466%2C24.919756?arriveBy=true&time=1600866900',
+//      },
+//    },
+//    {
+//      type: 'FutureRoute',
+//      properties: {
+//        layer: 'futureRoute',
+//        origin: {
+//          name: 'Ilmala',
+//          locality: 'Helsinki',
+//          coordinates: {
+//            lat: 60.208466,
+//            lon: 24.919756,
+//          },
+//        },
+//        destination: {
+//          name: 'Pasila',
+//          locality: 'Helsinki',
+//          coordinates: {
+//            lat: 60.198828,
+//            lon: 24.933514,
+//          },
+//        },
+//        time: 1600877700,
+//        url: '/reitti/Ilmala%2C%20Helsinki%3A%3A60.208466%2C24.919756/Pasila%2C%20Helsinki%3A%3A60.198828%2C24.933514?arriveBy=true&time=1600877700',
+//      },
+//    },
+//  ],
+//}
 
 //save from Pasila, Helsinki to Myyrmäki, Vantaa in 5 minutes future
 const newRoute = {

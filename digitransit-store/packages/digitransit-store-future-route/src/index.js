@@ -1,6 +1,6 @@
-/* eslint class-methods-use-this: ["error", { "exceptMethods": ["saveStorage"] }] */
+/* eslint class-methods-use-this: ["error", { "exceptMethods": ["saveStorage", "createUrl"] }] */
 /* eslint-disable no-useless-constructor */
-import Store from 'fluxible/addons/BaseStore';
+import React from 'react';
 import {
   getItemAsJson,
   setItem,
@@ -13,6 +13,59 @@ import sortBy from 'lodash/sortBy';
  *
  * //get all
  * const futureRoutes = store.getFutureRoutes();
+ * //{
+ * //  items: [
+ * //    {
+ * //      type: 'FutureRoute',
+ * //      properties: {
+ * //        layer: 'futureRoute',
+ * //        origin: {
+ * //          name: 'Pasila',
+ * //          locality: 'Helsinki',
+ * //          coordinates: {
+ * //            lat: 60.198828,
+ * //            lon: 24.933514,
+ * //          },
+ * //        },
+ * //        destination: {
+ * //          name: 'Ilmala',
+ * //          locality: 'Helsinki',
+ * //          coordinates: {
+ * //            lat: 60.208466,
+ * //            lon: 24.919756,
+ * //          },
+ * //        },
+ * //        arriveBy: 'true',
+ * //        time: 1600866900,
+ * //        url: '/reitti/Pasila%2C%20Helsinki%3A%3A60.198828%2C24.933514/Ilmala%2C%20Helsinki%3A%3A60.208466%2C24.919756?arriveBy=true&time=1600866900',
+ * //      },
+ * //    },
+ * //    {
+ * //      type: 'FutureRoute',
+ * //      properties: {
+ * //        layer: 'futureRoute',
+ * //        origin: {
+ * //          name: 'Ilmala',
+ * //          locality: 'Helsinki',
+ * //          coordinates: {
+ * //            lat: 60.208466,
+ * //            lon: 24.919756,
+ * //          },
+ * //        },
+ * //        destination: {
+ * //          name: 'Pasila',
+ * //          locality: 'Helsinki',
+ * //          coordinates: {
+ * //            lat: 60.198828,
+ * //            lon: 24.933514,
+ * //          },
+ * //        },
+ * //        time: 1600877700,
+ * //        url: '/reitti/Ilmala%2C%20Helsinki%3A%3A60.208466%2C24.919756/Pasila%2C%20Helsinki%3A%3A60.198828%2C24.933514?arriveBy=true&time=1600877700',
+ * //      },
+ * //    },
+ * //  ],
+ * //}
  *
  * //save from Pasila, Helsinki to Myyrmäki, Vantaa in 5 minutes future
  * const newRoute = {
@@ -34,8 +87,9 @@ import sortBy from 'lodash/sortBy';
  * store.clearFutureRoutes();
  *
  */
-class FutureRoute extends Store {
+class FutureRoute extends React.Component {
   static storeName = 'FutureRouteStore';
+
   emptyData = {
     items: [],
   };
@@ -56,9 +110,31 @@ class FutureRoute extends Store {
     const storage = this.getStorage();
     if (!storage) {
       this.saveStorage(this.emptyData);
-      this.emitChange();
     }
     return storage;
+  }
+
+  createUrl(route) {
+    let url = '/reitti/';
+    // set origin
+    url += `${encodeURIComponent(
+      `${route.origin.address}::${route.origin.coordinates.lat},${
+        route.origin.coordinates.lon
+      }`,
+    )}/`;
+    // set destination
+    url += encodeURIComponent(
+      `${route.destination.address}::${route.destination.coordinates.lat},${
+        route.destination.coordinates.lon
+      }`,
+    );
+    // set arrive by and time
+    if (route.arriveBy) {
+      url += `?arriveBy=true&time=${route.time}`;
+    } else {
+      url += `?time=${route.time}`;
+    }
+    return url;
   }
 
   saveFutureRoute(route) {
@@ -101,6 +177,7 @@ class FutureRoute extends Store {
           },
           arriveBy: route.arriveBy,
           time: route.time,
+          url: this.createUrl(route),
         },
       };
 
@@ -120,19 +197,21 @@ class FutureRoute extends Store {
       );
       const sortedItems = sortBy(
         [...futureRoutes, newRoute],
-        ['properties.time', 'properties.origin.name'],
+        [
+          'properties.time',
+          'properties.origin.name',
+          'properties.destination.name',
+        ],
       );
       const storage = {
         items: sortedItems,
       };
       this.saveStorage(storage);
-      this.emitChange();
     }
   }
 
   clearFutureRoutes() {
     this.saveStorage(this.emptyData);
-    this.emitChange();
   }
 
   static handlers = {
