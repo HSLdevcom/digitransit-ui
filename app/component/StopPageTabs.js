@@ -3,7 +3,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
-import Link from 'found/lib/Link';
+import Link from 'found/Link';
 import { matchShape } from 'found';
 import { AlertSeverityLevelType } from '../constants';
 import {

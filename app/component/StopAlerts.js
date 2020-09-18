@@ -51,10 +51,10 @@ const StopAlerts = ({ stop }, { intl }) => {
         serviceAlertsForRoutes.push(
           ...getServiceAlertsForRoute(route, route.gtfsId, intl.locale),
         ) &&
-        (routeHasCancelation(route) &&
-          disruptionsForRoutes.push(
-            ...getCancelationsForRoute(route, route.gtfsId, intl.locale),
-          )),
+        routeHasCancelation(route) &&
+        disruptionsForRoutes.push(
+          ...getCancelationsForRoute(route, route.gtfsId, intl.locale),
+        ),
     );
   }
 

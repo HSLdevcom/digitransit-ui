@@ -336,8 +336,8 @@ export function getSearchResults(
       dropLayers.push(...locationLayers);
       if (transportMode) {
         searchComponents.push(
-          getOldSearches(stopHistory, input, dropLayers).then(
-            result => (filterResults ? filterResults(result, 'Stops') : result),
+          getOldSearches(stopHistory, input, dropLayers).then(result =>
+            filterResults ? filterResults(result, 'Stops') : result,
           ),
         );
       } else {
@@ -352,8 +352,8 @@ export function getSearchResults(
       searchComponents.push(getFavouriteRoutesQuery(favouriteRoutes, input));
     }
     searchComponents.push(
-      getRoutesQuery(input, feedIDs, transportMode).then(
-        result => (filterResults ? filterResults(result, 'Routes') : result),
+      getRoutesQuery(input, feedIDs, transportMode).then(result =>
+        filterResults ? filterResults(result, 'Routes') : result,
       ),
     );
     if (allSources || sources.includes('History')) {
@@ -373,9 +373,8 @@ export function getSearchResults(
       }
       dropLayers.push(...locationLayers);
       searchComponents.push(
-        getOldSearches(routeHistory, input, dropLayers).then(
-          results =>
-            filterResults ? filterResults(results, 'Routes') : results,
+        getOldSearches(routeHistory, input, dropLayers).then(results =>
+          filterResults ? filterResults(results, 'Routes') : results,
         ),
       );
     }

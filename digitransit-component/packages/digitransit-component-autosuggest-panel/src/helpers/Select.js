@@ -19,14 +19,11 @@ const Select = ({
   const scrollRef = useRef(null);
   const scrollIndex = Math.floor(value / 600);
   const elementHeight = 50;
-  useLayoutEffect(
-    () => {
-      if (open && scrollRef.current) {
-        scrollRef.current.scrollTop = elementHeight * scrollIndex;
-      }
-    },
-    [value, open],
-  );
+  useLayoutEffect(() => {
+    if (open && scrollRef.current) {
+      scrollRef.current.scrollTop = elementHeight * scrollIndex;
+    }
+  }, [value, open]);
 
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;

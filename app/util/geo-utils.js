@@ -77,7 +77,7 @@ export function displayDistance(meters, config) {
     return `${Math.round(meters / 50) * 50} m`; // fifty meters
   }
   if (meters < 10000) {
-    return `${Math.round(meters / 100) * 100 / 1000} km`; // hudreds of meters
+    return `${(Math.round(meters / 100) * 100) / 1000} km`; // hudreds of meters
   }
   if (meters < 100000) {
     return `${Math.round(meters / 1000)} km`; // kilometers
@@ -121,7 +121,10 @@ export function boundWithMinimumAreaSimple(points) {
   const minlon = Math.min(...lons);
   const maxlat = Math.max(...lats);
   const maxlon = Math.max(...lons);
-  return [[minlat, minlon], [maxlat, maxlon]];
+  return [
+    [minlat, minlon],
+    [maxlat, maxlon],
+  ];
 }
 
 // Checks if lat and lon are inside of [[minlat, minlon], [maxlat, maxlon]] bounding box
@@ -239,26 +242,26 @@ function calculateEllipsoidParams(ellipsoid) {
   const n = f / (2.0 - f);
 
   extEllipsoid.n = n;
-  extEllipsoid.A1 = a / (1.0 + n) * (1.0 + n ** 2 / 4.0 + n ** 4 / 64.0);
+  extEllipsoid.A1 = (a / (1.0 + n)) * (1.0 + n ** 2 / 4.0 + n ** 4 / 64.0);
   extEllipsoid.e = Math.sqrt(2.0 * f - f ** 2);
   extEllipsoid.h1 =
-    1.0 / 2.0 * n -
-    2.0 / 3.0 * n ** 2 +
-    37.0 / 96.0 * n ** 3 -
-    1.0 / 360.0 * n ** 4;
+    (1.0 / 2.0) * n -
+    (2.0 / 3.0) * n ** 2 +
+    (37.0 / 96.0) * n ** 3 -
+    (1.0 / 360.0) * n ** 4;
   extEllipsoid.h2 =
-    1.0 / 48.0 * n ** 2 + 1.0 / 15.0 * n ** 3 - 437.0 / 1440.0 * n ** 4;
-  extEllipsoid.h3 = 17.0 / 480.0 * n ** 3 - 37.0 / 840.0 * n ** 4;
-  extEllipsoid.h4 = 4397.0 / 161280.0 * n ** 4;
+    (1.0 / 48.0) * n ** 2 + (1.0 / 15.0) * n ** 3 - (437.0 / 1440.0) * n ** 4;
+  extEllipsoid.h3 = (17.0 / 480.0) * n ** 3 - (37.0 / 840.0) * n ** 4;
+  extEllipsoid.h4 = (4397.0 / 161280.0) * n ** 4;
   extEllipsoid.h1p =
-    1.0 / 2.0 * n -
-    2.0 / 3.0 * n ** 2 +
-    5.0 / 16.0 * n ** 3 +
-    41.0 / 180.0 * n ** 4;
+    (1.0 / 2.0) * n -
+    (2.0 / 3.0) * n ** 2 +
+    (5.0 / 16.0) * n ** 3 +
+    (41.0 / 180.0) * n ** 4;
   extEllipsoid.h2p =
-    13.0 / 48.0 * n ** 2 - 3.0 / 5.0 * n ** 3 + 557.0 / 1440.0 * n ** 4;
-  extEllipsoid.h3p = 61.0 / 240.0 * n ** 3 - 103.0 / 140.0 * n ** 4;
-  extEllipsoid.h4p = 49561.0 / 161280.0 * n ** 4;
+    (13.0 / 48.0) * n ** 2 - (3.0 / 5.0) * n ** 3 + (557.0 / 1440.0) * n ** 4;
+  extEllipsoid.h3p = (61.0 / 240.0) * n ** 3 - (103.0 / 140.0) * n ** 4;
+  extEllipsoid.h4p = (49561.0 / 161280.0) * n ** 4;
 
   return extEllipsoid;
 }
@@ -347,7 +350,7 @@ export function kkj2ToWgs84(coords) {
       Math.abs(la0) < Math.pi / 4.0
         ? X2Y2 / Math.cos(wgsLat) - Nwgs
         : Z2 / Math.sin(wgsLat) - Nwgs * (1.0 - e2);
-    const nla = Math.atan(Z2 / (X2Y2 * (1.0 - Nwgs * e2 / (Nwgs + h))));
+    const nla = Math.atan(Z2 / (X2Y2 * (1.0 - (Nwgs * e2) / (Nwgs + h))));
     dla = Math.abs(nla - wgsLat);
     wgsLat = nla;
   }

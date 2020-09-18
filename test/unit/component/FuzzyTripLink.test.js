@@ -26,6 +26,7 @@ describe('<FuzzyTripLink />', () => {
         operatingDay: '2020-05-09',
         route: 'HSL:2550',
         tripStartTime: '2143',
+        shortName: '550',
       },
     };
     const environment = {};

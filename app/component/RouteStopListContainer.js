@@ -127,10 +127,10 @@ const containerComponent = createRefetchContainer(
   {
     pattern: graphql`
       fragment RouteStopListContainer_pattern on Pattern
-        @argumentDefinitions(
-          currentTime: { type: "Long!", defaultValue: 0 }
-          patternId: { type: "String!", defaultValue: "0" }
-        ) {
+      @argumentDefinitions(
+        currentTime: { type: "Long!", defaultValue: 0 }
+        patternId: { type: "String!", defaultValue: "0" }
+      ) {
         directionId
         route {
           mode
@@ -167,7 +167,7 @@ const containerComponent = createRefetchContainer(
     ) {
       pattern(id: $patternId) {
         ...RouteStopListContainer_pattern
-          @arguments(currentTime: $currentTime, patternId: $patternId)
+        @arguments(currentTime: $currentTime, patternId: $patternId)
       }
     }
   `,

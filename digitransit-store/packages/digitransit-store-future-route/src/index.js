@@ -118,15 +118,11 @@ class FutureRoute extends React.Component {
     let url = '/reitti/';
     // set origin
     url += `${encodeURIComponent(
-      `${route.origin.address}::${route.origin.coordinates.lat},${
-        route.origin.coordinates.lon
-      }`,
+      `${route.origin.address}::${route.origin.coordinates.lat},${route.origin.coordinates.lon}`,
     )}/`;
     // set destination
     url += encodeURIComponent(
-      `${route.destination.address}::${route.destination.coordinates.lat},${
-        route.destination.coordinates.lon
-      }`,
+      `${route.destination.address}::${route.destination.coordinates.lat},${route.destination.coordinates.lon}`,
     );
     // set arrive by and time
     if (route.arriveBy) {
@@ -181,18 +177,12 @@ class FutureRoute extends React.Component {
         },
       };
 
-      const newRouteOriginAndDestination = `${
-        newRoute.properties.origin.name
-      }, ${newRoute.properties.origin.locality} - ${
-        newRoute.properties.destination.name
-      }, ${newRoute.properties.destination.locality}`;
+      const newRouteOriginAndDestination = `${newRoute.properties.origin.name}, ${newRoute.properties.origin.locality} - ${newRoute.properties.destination.name}, ${newRoute.properties.destination.locality}`;
       const { items } = this.getFutureRoutes();
       const futureRoutes = items.filter(
         r =>
           r.properties.time >= new Date().getTime() / 1000 &&
-          `${r.properties.origin.name}, ${r.properties.origin.locality} - ${
-            r.properties.destination.name
-          }, ${r.properties.destination.locality}` !==
+          `${r.properties.origin.name}, ${r.properties.origin.locality} - ${r.properties.destination.name}, ${r.properties.destination.locality}` !==
             newRouteOriginAndDestination,
       );
       const sortedItems = sortBy(

@@ -318,9 +318,7 @@ export default function withSearchContext(WrappedComponent) {
       )}`;
       // set destination
       path += `/${encodeAddressAndCoordinatesArray(
-        `${item.properties.destination.name}, ${
-          item.properties.destination.locality
-        }`,
+        `${item.properties.destination.name}, ${item.properties.destination.locality}`,
         [
           item.properties.destination.coordinates.lat,
           item.properties.destination.coordinates.lon,

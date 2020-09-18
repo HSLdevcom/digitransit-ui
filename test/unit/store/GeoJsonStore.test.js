@@ -231,7 +231,12 @@ describe('GeoJsonStore', () => {
         features: [
           {
             geometry: {
-              coordinates: [[1, 1], [2, 2], [3, 3], [4, 4]],
+              coordinates: [
+                [1, 1],
+                [2, 2],
+                [3, 3],
+                [4, 4],
+              ],
               type: 'LineString',
             },
             styles: [

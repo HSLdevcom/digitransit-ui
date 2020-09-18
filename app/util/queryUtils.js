@@ -1,39 +1,12 @@
-import { isEmpty, isEqual } from 'lodash';
 import isString from 'lodash/isString';
 import omit from 'lodash/omit';
-import trim from 'lodash/trim';
 import cloneDeep from 'lodash/cloneDeep';
-import { config } from 'react-transition-group';
 
-import { otpToLocation, parseLatLon } from './otpStrings';
+import { parseLatLon } from './otpStrings';
 import { OptimizeType } from '../constants';
-import {
-  getCustomizedSettings,
-  setCustomizedSettings,
-  resetCustomizedSettings,
-} from '../store/localStorage';
 import { addAnalyticsEvent } from './analyticsUtils';
-import { getCurrentSettings, getDefaultSettings } from './planParamUtil';
-import { saveFutureRoute } from '../action/FutureRoutesActions';
 import { PREFIX_ITINERARY_SUMMARY } from './path';
-
-export const setSettingsData = (router, match) => {
-  // eslint-disable-next-line no-use-before-define
-  const customizedSettings = getCustomizedSettings();
-  const currentSettings = getCurrentSettings(config, match.location.query);
-  const defaultSettings = getDefaultSettings(config);
-
-  if (
-    isEmpty(customizedSettings) ||
-    isEqual(currentSettings, defaultSettings)
-  ) {
-    resetCustomizedSettings();
-    // eslint-disable-next-line no-use-before-define
-    clearQueryParams(router, match, Object.keys(defaultSettings));
-  } else {
-    setCustomizedSettings(customizedSettings);
-  }
-};
+import { saveFutureRoute } from '../action/FutureRoutesActions';
 
 /**
  * Removes selected itinerary index from url (pathname) and
@@ -57,28 +30,6 @@ export const resetSelectedItineraryIndex = loc => {
   }
 
   return location;
-};
-
-/**
- * Clears the given parameters from the browser's url.
- *
- * @param {*} router The router
- * @param {*} match The match object from found
- * @param {string[]} paramsToClear The parameters to clear from the url
- */
-export const clearQueryParams = (router, match, paramsToClear = []) => {
-  if (paramsToClear.length === 0) {
-    return;
-  }
-  let { location } = match;
-
-  location = resetSelectedItineraryIndex(location);
-
-  const query = omit(location.query, paramsToClear);
-  router.replace({
-    ...location,
-    query,
-  });
 };
 
 /**
@@ -156,37 +107,6 @@ export const replaceQueryParams = (router, match, newParams, executeAction) => {
 };
 
 /**
- * Extracts the location information from the intermediatePlaces
- * query parameter, if available. The locations will be returned in
- * non-OTP mode (i.e. mapped to lat?, lon? and address).
- *
- * @typedef Query
- * @prop {String|String[]} intermediatePlaces
- *
- * @param {Query} query The query to extract the information from.
- * @returns an array of locations if available, or an empty array otherwise
- */
-export const getIntermediatePlaces = query => {
-  if (!query) {
-    return [];
-  }
-  const { intermediatePlaces } = query;
-  if (!intermediatePlaces) {
-    return [];
-  }
-  if (Array.isArray(intermediatePlaces)) {
-    return intermediatePlaces.map(otpToLocation);
-  }
-  if (isString(intermediatePlaces)) {
-    if (isEmpty(trim(intermediatePlaces))) {
-      return [];
-    }
-    return [otpToLocation(intermediatePlaces)];
-  }
-  return [];
-};
-
-/**
  * Updates the intermediatePlaces query parameter with the given values.
  *
  * @param {*} router The router
@@ -203,86 +123,6 @@ export const setIntermediatePlaces = (router, match, newIntermediatePlaces) => {
       intermediatePlaces: newIntermediatePlaces,
     });
   }
-};
-
-const getArrayValueOrDefault = (value, defaultValue = []) => {
-  if (!value) {
-    return defaultValue;
-  }
-  const decoded = decodeURI(value);
-  return decoded ? decoded.split(',') : defaultValue;
-};
-
-/**
- * Retrieves all the user-customizable settings from the url.
- *
- * @param {*} query The query part of the current url
- */
-export const getQuerySettings = query => {
-  if (!query) {
-    return {};
-  }
-
-  const hasKey = key => Object.hasOwnProperty.call(query, key);
-  const getNumberValueOrDefault = (value, defaultValue = undefined) =>
-    value !== undefined && value !== null && value !== ''
-      ? Number(value)
-      : defaultValue;
-
-  return {
-    ...(hasKey('usingWheelchair') && {
-      usingWheelchair: getNumberValueOrDefault(query.usingWheelchair),
-    }),
-    ...(hasKey('bikeSpeed') && {
-      bikeSpeed: getNumberValueOrDefault(query.bikeSpeed),
-    }),
-    ...(hasKey('minTransferTime') && {
-      minTransferTime: getNumberValueOrDefault(query.minTransferTime),
-    }),
-    ...(hasKey('modes') && {
-      modes: getArrayValueOrDefault(query.modes),
-    }),
-    ...(hasKey('optimize') && {
-      optimize: query.optimize,
-    }),
-    ...(query.optimize === OptimizeType.Triangle && {
-      ...(hasKey('safetyFactor') && {
-        safetyFactor: getNumberValueOrDefault(query.safetyFactor),
-      }),
-      ...(hasKey('slopeFactor') && {
-        slopeFactor: getNumberValueOrDefault(query.slopeFactor),
-      }),
-      ...(hasKey('timeFactor') && {
-        timeFactor: getNumberValueOrDefault(query.timeFactor),
-      }),
-    }),
-    ...(hasKey('preferredRoutes') && {
-      preferredRoutes: getArrayValueOrDefault(query.preferredRoutes),
-    }),
-    ...(hasKey('ticketTypes') && {
-      ticketTypes: query.ticketTypes,
-    }),
-    ...(hasKey('transferPenalty') && {
-      transferPenalty: getNumberValueOrDefault(query.transferPenalty),
-    }),
-    ...(hasKey('unpreferredRoutes') && {
-      unpreferredRoutes: getArrayValueOrDefault(query.unpreferredRoutes),
-    }),
-    ...(hasKey('walkBoardCost') && {
-      walkBoardCost: getNumberValueOrDefault(query.walkBoardCost),
-    }),
-    ...(hasKey('walkReluctance') && {
-      walkReluctance: getNumberValueOrDefault(query.walkReluctance),
-    }),
-    ...(hasKey('walkSpeed') && {
-      walkSpeed: getNumberValueOrDefault(query.walkSpeed),
-    }),
-    ...(hasKey('allowedBikeRentalNetworks') && {
-      allowedBikeRentalNetworks: getArrayValueOrDefault(
-        query.allowedBikeRentalNetworks,
-      ),
-    }),
-  };
 };
 
 /**

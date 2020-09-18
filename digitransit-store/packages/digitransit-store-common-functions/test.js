@@ -35,9 +35,7 @@ describe('Testing @digitransit-store/digitransit-store-common-functions', () => 
     it('should add two items', () => {
       setItem('digitransit-store-test', newItem);
       const item = getItemAsJson('digitransit-store-test');
-      expect(item)
-        .to.have.property('items')
-        .with.lengthOf(2);
+      expect(item).to.have.property('items').with.lengthOf(2);
     });
   });
 

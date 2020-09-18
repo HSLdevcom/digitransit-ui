@@ -59,27 +59,24 @@ function DatetimepickerStateContainer({
   );
 
   // update state if props change
-  useEffect(
-    () => {
-      const bothNull = timestamp === null && initialTimestamp === undefined;
-      const oneNull = timestamp === null || initialTimestamp === undefined;
-      const sameTime = Math.round(timestamp / 1000) === initialTimestamp;
-      const timestampChanged = !bothNull && (oneNull || !sameTime);
-      if (timestampChanged) {
-        if (initialTimestamp === undefined) {
-          changeTimestampState(null);
-        } else {
-          changeTimestampState(initialTimestamp * 1000);
-        }
+  useEffect(() => {
+    const bothNull = timestamp === null && initialTimestamp === undefined;
+    const oneNull = timestamp === null || initialTimestamp === undefined;
+    const sameTime = Math.round(timestamp / 1000) === initialTimestamp;
+    const timestampChanged = !bothNull && (oneNull || !sameTime);
+    if (timestampChanged) {
+      if (initialTimestamp === undefined) {
+        changeTimestampState(null);
+      } else {
+        changeTimestampState(initialTimestamp * 1000);
       }
-      if (!initialArriveBy === (departureOrArrival === 'arrival')) {
-        changeDepartureOrArrival(
-          initialArriveBy === true ? 'arrival' : 'departure',
-        );
-      }
-    },
-    [initialTimestamp, initialArriveBy],
-  );
+    }
+    if (!initialArriveBy === (departureOrArrival === 'arrival')) {
+      changeDepartureOrArrival(
+        initialArriveBy === true ? 'arrival' : 'departure',
+      );
+    }
+  }, [initialTimestamp, initialArriveBy]);
 
   const timeChanged = debounce(newTime => {
     if (newTime === null) {

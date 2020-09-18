@@ -11,10 +11,8 @@ import {
   parseLocation,
   navigateTo,
 } from '../../util/path';
-import {
-  getIntermediatePlaces,
-  setIntermediatePlaces,
-} from '../../util/queryUtils';
+import { setIntermediatePlaces } from '../../util/queryUtils';
+import { getIntermediatePlaces } from '../../util/otpStrings';
 import { dtLocationShape } from '../../util/shapes';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 

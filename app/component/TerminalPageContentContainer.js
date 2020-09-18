@@ -84,18 +84,16 @@ class TerminalPageContent extends React.Component {
 
 const connectedComponent = createRefetchContainer(
   connectToStores(TerminalPageContent, ['TimeStore'], ({ getStore }) => ({
-    currentTime: getStore('TimeStore')
-      .getCurrentTime()
-      .unix(),
+    currentTime: getStore('TimeStore').getCurrentTime().unix(),
   })),
   {
     station: graphql`
       fragment TerminalPageContentContainer_station on Stop
-        @argumentDefinitions(
-          startTime: { type: "Long!", defaultValue: 0 }
-          timeRange: { type: "Int!", defaultValue: 43200 }
-          numberOfDepartures: { type: "Int!", defaultValue: 100 }
-        ) {
+      @argumentDefinitions(
+        startTime: { type: "Long!", defaultValue: 0 }
+        timeRange: { type: "Int!", defaultValue: 43200 }
+        numberOfDepartures: { type: "Int!", defaultValue: 100 }
+      ) {
         url
         stops {
           patterns {
@@ -124,11 +122,11 @@ const connectedComponent = createRefetchContainer(
     ) {
       station(id: $terminalId) {
         ...TerminalPageContentContainer_station
-          @arguments(
-            startTime: $startTime
-            timeRange: $timeRange
-            numberOfDepartures: $numberOfDepartures
-          )
+        @arguments(
+          startTime: $startTime
+          timeRange: $timeRange
+          numberOfDepartures: $numberOfDepartures
+        )
       }
     }
   `,

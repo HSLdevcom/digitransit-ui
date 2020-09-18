@@ -13,9 +13,7 @@ describe('Testing @digitransit-store/digitransit-store-future-route module', () 
   describe('getFutureRoutes()', () => {
     it("Property 'items' should be found", () => {
       const futureRoutes = store.getFutureRoutes();
-      expect(futureRoutes)
-        .to.have.property('items')
-        .with.lengthOf(0);
+      expect(futureRoutes).to.have.property('items').with.lengthOf(0);
     });
   });
 
@@ -75,17 +73,13 @@ describe('Testing @digitransit-store/digitransit-store-future-route module', () 
     it("Save should not to add route in past to 'items'", () => {
       store.saveFutureRoute(routeInPast);
       const futureRoutes = store.getFutureRoutes();
-      expect(futureRoutes)
-        .to.have.property('items')
-        .with.lengthOf(0);
+      expect(futureRoutes).to.have.property('items').with.lengthOf(0);
     });
 
     it("Save should add 1st route to 'items'", () => {
       store.saveFutureRoute(routeInFuture1);
       const futureRoutes = store.getFutureRoutes();
-      expect(futureRoutes)
-        .to.have.property('items')
-        .with.lengthOf(1);
+      expect(futureRoutes).to.have.property('items').with.lengthOf(1);
     });
 
     it("Save should not add 2nd route to 'items' (pair of origin and location already exists), only override timestamp", () => {
@@ -93,17 +87,13 @@ describe('Testing @digitransit-store/digitransit-store-future-route module', () 
       store.saveFutureRoute(routeInFuture2);
       const afterSave = store.getFutureRoutes();
       expect(beforeSave).not.to.be.equal(afterSave);
-      expect(afterSave)
-        .to.have.property('items')
-        .with.lengthOf(1);
+      expect(afterSave).to.have.property('items').with.lengthOf(1);
     });
 
     it("Save should add 2nd route to 'items' (pair of origin and location not exists)", () => {
       store.saveFutureRoute(routeInFuture3);
       const futureRoutes = store.getFutureRoutes();
-      expect(futureRoutes)
-        .to.have.property('items')
-        .with.lengthOf(2);
+      expect(futureRoutes).to.have.property('items').with.lengthOf(2);
     });
   });
 
@@ -111,9 +101,7 @@ describe('Testing @digitransit-store/digitransit-store-future-route module', () 
     it("Clear should empty 'items'", () => {
       store.clearFutureRoutes();
       const futureRoutes = store.getFutureRoutes();
-      expect(futureRoutes)
-        .to.have.property('items')
-        .with.lengthOf(0);
+      expect(futureRoutes).to.have.property('items').with.lengthOf(0);
     });
   });
 });

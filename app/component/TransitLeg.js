@@ -3,7 +3,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
-import Link from 'found/lib/Link';
+import Link from 'found/Link';
 
 import ExternalLink from './ExternalLink';
 import LegAgencyInfo from './LegAgencyInfo';
@@ -419,9 +419,7 @@ class TransitLeg extends React.Component {
                 }
               }}
               to={
-                `/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_STOPS}/${
-                  leg.trip.pattern.code
-                }/${leg.trip.gtfsId}`
+                `/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_STOPS}/${leg.trip.pattern.code}/${leg.trip.gtfsId}`
                 // TODO: Create a helper function for generationg links
               }
             >
@@ -445,34 +443,32 @@ class TransitLeg extends React.Component {
               stops={leg.intermediatePlaces}
             />
           </div>
-          {leg.fare &&
-            leg.fare.isUnknown &&
-            shouldShowFareInfo(config) && (
-              <div className="disclaimer-container unknown-fare-disclaimer__leg">
-                <div className="description-container">
-                  <span className="accent">
-                    {`${intl.formatMessage({ id: 'pay-attention' })} `}
-                  </span>
-                  {intl.formatMessage({ id: 'separate-ticket-required' })}
-                </div>
-                <div className="ticket-info">
-                  <div className="accent">{LegRouteName}</div>
-                  {leg.fare.agency && (
-                    <React.Fragment>
-                      <div>{leg.fare.agency.name}</div>
-                      {leg.fare.agency.fareUrl && (
-                        <ExternalLink
-                          className="agency-link"
-                          href={leg.fare.agency.fareUrl}
-                        >
-                          {intl.formatMessage({ id: 'extra-info' })}
-                        </ExternalLink>
-                      )}
-                    </React.Fragment>
-                  )}
-                </div>
+          {leg.fare && leg.fare.isUnknown && shouldShowFareInfo(config) && (
+            <div className="disclaimer-container unknown-fare-disclaimer__leg">
+              <div className="description-container">
+                <span className="accent">
+                  {`${intl.formatMessage({ id: 'pay-attention' })} `}
+                </span>
+                {intl.formatMessage({ id: 'separate-ticket-required' })}
               </div>
-            )}
+              <div className="ticket-info">
+                <div className="accent">{LegRouteName}</div>
+                {leg.fare.agency && (
+                  <React.Fragment>
+                    <div>{leg.fare.agency.name}</div>
+                    {leg.fare.agency.fareUrl && (
+                      <ExternalLink
+                        className="agency-link"
+                        href={leg.fare.agency.fareUrl}
+                      >
+                        {intl.formatMessage({ id: 'extra-info' })}
+                      </ExternalLink>
+                    )}
+                  </React.Fragment>
+                )}
+              </div>
+            </div>
+          )}
         </div>
         <span className="sr-only">{alertDescription}</span>
       </div>
@@ -506,6 +502,7 @@ TransitLeg.propTypes = {
         platformCode: PropTypes.string,
         zoneId: PropTypes.string,
         alerts: PropTypes.array,
+        gtfsId: PropTypes.string,
       }).isRequired,
       name: PropTypes.string.isRequired,
     }).isRequired,
@@ -526,6 +523,7 @@ TransitLeg.propTypes = {
       pattern: PropTypes.shape({
         code: PropTypes.string.isRequired,
       }).isRequired,
+      tripHeadsign: PropTypes.string.isRequired,
     }).isRequired,
     startTime: PropTypes.number.isRequired,
     departureDelay: PropTypes.number,
@@ -540,6 +538,7 @@ TransitLeg.propTypes = {
         }).isRequired,
       }),
     ).isRequired,
+    interlineWithPreviousLeg: PropTypes.bool.isRequired,
   }).isRequired,
   index: PropTypes.number.isRequired,
   mode: PropTypes.string.isRequired,
