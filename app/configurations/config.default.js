@@ -119,6 +119,7 @@ export default {
     walkBoardCost: 600,
     walkReluctance: 2,
     walkSpeed: 1.38,
+    includeBikeSuggestions: true,
   },
 
   /**
@@ -771,6 +772,8 @@ export default {
   showWeatherInformation: true,
   showBikeAndPublicItineraries: false,
   showBikeAndParkItineraries: false,
+
+  includeBikeSuggestions: true,
 
   showNearYouButtons: false,
   nearYouModes: [],
