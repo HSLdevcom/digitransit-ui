@@ -141,28 +141,43 @@ export function getTerminalIconStyles(zoom) {
 export const getCaseRadius = memoize(
   glfun({
     base: 1.15,
-    stops: [[11.9, 0], [12, 1.5], [22, 26]],
+    stops: [
+      [11.9, 0],
+      [12, 1.5],
+      [22, 26],
+    ],
   }),
 );
 
 export const getStopRadius = memoize(
   glfun({
     base: 1.15,
-    stops: [[11.9, 0], [12, 1], [22, 24]],
+    stops: [
+      [11.9, 0],
+      [12, 1],
+      [22, 24],
+    ],
   }),
 );
 
 export const getHubRadius = memoize(
   glfun({
     base: 1.15,
-    stops: [[14, 0], [14.1, 2], [22, 20]],
+    stops: [
+      [14, 0],
+      [14.1, 2],
+      [22, 20],
+    ],
   }),
 );
 
 export const getMapIconScale = memoize(
   glfun({
     base: 1,
-    stops: [[13, 0.8], [20, 1.6]],
+    stops: [
+      [13, 0.8],
+      [20, 1.6],
+    ],
   }),
 );
 
@@ -347,8 +362,9 @@ export function drawStopIcon(tile, geom, type, platformNumber, isHilighted) {
         }
         tile.ctx.arc(x, y, radius - 1, 0, FULL_CIRCLE);
         tile.ctx.fill();
-        tile.ctx.font = `${12 *
-          tile.scaleratio}px Gotham XNarrow SSm A, Gotham XNarrow SSm B, Gotham Rounded A, Gotham Rounded B, Arial, sans-serif`;
+        tile.ctx.font = `${
+          12 * tile.scaleratio
+        }px Gotham XNarrow SSm A, Gotham XNarrow SSm B, Gotham Rounded A, Gotham Rounded B, Arial, sans-serif`;
         tile.ctx.fillStyle = '#fff';
         tile.ctx.textAlign = 'center';
         tile.ctx.textBaseline = 'middle';
@@ -557,8 +573,9 @@ export function drawCitybikeIcon(tile, geom, state, bikesAvailable, iconName) {
       y += smallCircleRadius;
       if (bikesAvailable && state === BIKESTATION_ON) {
         /* eslint-disable no-param-reassign */
-        tile.ctx.font = `${10.8 *
-          tile.scaleratio}px Gotham XNarrow SSm A, Gotham XNarrow SSm B, Gotham Rounded A, Gotham Rounded B, Arial, sans-serif`;
+        tile.ctx.font = `${
+          10.8 * tile.scaleratio
+        }px Gotham XNarrow SSm A, Gotham XNarrow SSm B, Gotham Rounded A, Gotham Rounded B, Arial, sans-serif`;
         tile.ctx.fillStyle = '#fff';
         tile.ctx.textAlign = 'center';
         tile.ctx.textBaseline = 'middle';

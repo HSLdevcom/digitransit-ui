@@ -3,77 +3,11 @@ import { describe, it } from 'mocha';
 
 import { mockMatch } from '../helpers/mock-router';
 
-import defaultConfig from '../../../app/configurations/config.default';
-import { getDefaultModes } from '../../../app/util/modeUtils';
 import * as utils from '../../../app/util/queryUtils';
 import { OptimizeType } from '../../../app/constants';
 import { PREFIX_ITINERARY_SUMMARY } from '../../../app/util/path';
 
 describe('queryUtils', () => {
-  describe('getIntermediatePlaces', () => {
-    it('should return an empty array for missing query', () => {
-      const query = null;
-      const result = utils.getIntermediatePlaces(query);
-      expect(Array.isArray(result)).to.equal(true);
-      expect(result.length).to.equal(0);
-    });
-
-    it('should return an empty array for missing intermediatePlaces', () => {
-      const query = {};
-      const result = utils.getIntermediatePlaces(query);
-      expect(Array.isArray(result)).to.equal(true);
-      expect(result.length).to.equal(0);
-    });
-
-    it('should return an empty array for whitespace intermediatePlaces', () => {
-      const query = {
-        intermediatePlaces: ' ',
-      };
-      const result = utils.getIntermediatePlaces(query);
-      expect(Array.isArray(result)).to.equal(true);
-      expect(result.length).to.equal(0);
-    });
-
-    it('should return a location parsed from a string-mode intermediatePlaces', () => {
-      const query = {
-        intermediatePlaces: 'Kera, Espoo::60.217992,24.75494',
-      };
-      const result = utils.getIntermediatePlaces(query);
-      expect(Array.isArray(result)).to.equal(true);
-      expect(result.length).to.equal(1);
-      expect(result[0].address).to.equal('Kera, Espoo');
-      expect(result[0].lat).to.equal(60.217992);
-      expect(result[0].lon).to.equal(24.75494);
-    });
-
-    it('should return locations parsed from an array-mode intermediatePlaces', () => {
-      const query = {
-        intermediatePlaces: [
-          'Kera, Espoo::60.217992,24.75494',
-          'Leppävaara, Espoo::60.219235,24.81329',
-        ],
-      };
-      const result = utils.getIntermediatePlaces(query);
-      expect(Array.isArray(result)).to.equal(true);
-      expect(result.length).to.equal(2);
-      expect(result[0].address).to.equal('Kera, Espoo');
-      expect(result[0].lat).to.equal(60.217992);
-      expect(result[0].lon).to.equal(24.75494);
-      expect(result[1].address).to.equal('Leppävaara, Espoo');
-      expect(result[1].lat).to.equal(60.219235);
-      expect(result[1].lon).to.equal(24.81329);
-    });
-
-    it('should return an empty array if intermediatePlaces is neither a string nor an array', () => {
-      const query = {
-        intermediatePlaces: {},
-      };
-      const result = utils.getIntermediatePlaces(query);
-      expect(Array.isArray(result)).to.equal(true);
-      expect(result.length).to.equal(0);
-    });
-  });
-
   describe('setIntermediatePlaces', () => {
     it('should not modify the query if the parameter is neither a string nor an array', () => {
       let callParams;
@@ -142,103 +76,6 @@ describe('queryUtils', () => {
       expect(callParams.query.intermediatePlaces).to.deep.equal(
         intermediatePlaces,
       );
-    });
-  });
-
-  describe('getQuerySettings', () => {
-    it('should return an empty set if there is no query', () => {
-      const query = undefined;
-      const result = utils.getQuerySettings(query);
-      expect(result).to.deep.equal({});
-    });
-
-    it('should return all elements from the default settings', () => {
-      const defaultSettings = { ...defaultConfig.defaultSettings };
-      const defaultModes = getDefaultModes(defaultConfig);
-      const query = { ...defaultSettings, modes: defaultModes };
-      const result = utils.getQuerySettings(query);
-      expect(result).to.deep.equal(query);
-    });
-
-    it('should return numeric values when appropriate', () => {
-      const query = {
-        bikeSpeed: '5',
-      };
-      const result = utils.getQuerySettings(query);
-      expect(result.bikeSpeed).to.equal(5);
-    });
-
-    it('should completely omit missing values', () => {
-      const query = {
-        optimize: 'QUICK',
-        minTransferTime: '120',
-      };
-      const result = utils.getQuerySettings(query);
-      expect(Object.keys(result)).to.have.lengthOf(2);
-    });
-
-    it('should return comma-separated lists as arrays', () => {
-      const query = {
-        modes: 'BUS,WALK',
-        preferredRoutes: 'a,b,c',
-        unpreferredRoutes: 'd,e,f',
-      };
-      const result = utils.getQuerySettings(query);
-      expect(result.modes).to.deep.equal(['BUS', 'WALK']);
-      expect(result.preferredRoutes).to.deep.equal(['a', 'b', 'c']);
-      expect(result.unpreferredRoutes).to.deep.equal(['d', 'e', 'f']);
-    });
-
-    it('should return TRIANGLE optimization related fields', () => {
-      const query = {
-        optimize: 'TRIANGLE',
-        safetyFactor: '0.2',
-        slopeFactor: '0.3',
-        timeFactor: '0.5',
-      };
-      const result = utils.getQuerySettings(query);
-      expect(result.optimize).to.equal('TRIANGLE');
-      expect(result.safetyFactor).to.equal(0.2);
-      expect(result.slopeFactor).to.equal(0.3);
-      expect(result.timeFactor).to.equal(0.5);
-    });
-
-    it('should ignore TRIANGLE optimization related fields if optimize is not TRIANGLE', () => {
-      const query = {
-        optimize: 'QUICK',
-        safetyFactor: '0.2',
-        slopeFactor: '0.3',
-        timeFactor: '0.5',
-      };
-      const result = utils.getQuerySettings(query);
-      const keys = Object.keys(result);
-      expect(keys).to.not.include('safetyFactor');
-      expect(keys).to.not.include('slopeFactor');
-      expect(keys).to.not.include('timeFactor');
-    });
-  });
-
-  describe('clearQueryParams', () => {
-    it('should remove only given parameters', () => {
-      let callParams;
-      const router = {
-        replace: params => {
-          callParams = params;
-        },
-      };
-      const match = {
-        ...mockMatch,
-        location: {
-          query: {
-            foo: 'bar',
-            bar: 'baz',
-          },
-        },
-      };
-      utils.clearQueryParams(router, match, 'foo');
-      expect(callParams.query).to.deep.equal({
-        bar: 'baz',
-      });
     });
   });
 

@@ -49,10 +49,7 @@ export default function filterMatchingToInput(list, Input, fields) {
             parts = parts.concat(value.toLowerCase());
           } else {
             parts = parts.concat(
-              value
-                .toLowerCase()
-                .replace(/,/g, ' ')
-                .split(' '),
+              value.toLowerCase().replace(/,/g, ' ').split(' '),
             );
           }
         }

@@ -40,7 +40,7 @@ export const shallowWithIntl = (
   locale = 'en',
 ) =>
   shallow(nodeWithIntlProp(node, locale), {
-    context: Object.assign({}, context, { intl: providers[locale] }),
+    context: { ...context, intl: providers[locale] },
     ...additionalOptions,
   });
 
@@ -50,11 +50,10 @@ export const mountWithIntl = (
   locale = 'en',
 ) =>
   mount(nodeWithIntlProp(node, locale), {
-    context: Object.assign({}, context, { intl: providers[locale] }),
-    childContextTypes: Object.assign(
-      {},
-      { intl: intlShape },
-      childContextTypes,
-    ),
+    context: { ...context, intl: providers[locale] },
+    childContextTypes: {
+      intl: intlShape,
+      ...childContextTypes,
+    },
     ...additionalOptions,
   });

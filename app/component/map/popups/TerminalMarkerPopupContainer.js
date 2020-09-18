@@ -21,11 +21,11 @@ function TerminalMarkerPopupContainer(props) {
         ) {
           station: station(id: $terminalId) {
             ...TerminalMarkerPopup_station
-              @arguments(
-                startTime: $startTime
-                timeRange: $timeRange
-                numberOfDepartures: $numberOfDepartures
-              )
+            @arguments(
+              startTime: $startTime
+              timeRange: $timeRange
+              numberOfDepartures: $numberOfDepartures
+            )
           }
         }
       `}

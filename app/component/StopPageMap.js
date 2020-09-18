@@ -37,66 +37,61 @@ const StopPageMap = (
   const { environment } = useContext(ReactRelayContext);
   const [plan, setPlan] = useState({ plan: {}, isFetching: false });
 
-  useEffect(
-    () => {
-      let isMounted = true;
-      const fetchPlan = async targetStop => {
-        if (locationState.hasLocation && locationState.address) {
-          if (distance(locationState, stop) < maxShowRouteDistance) {
-            const toPlace = {
-              address: targetStop.name ? targetStop.name : 'stop',
-              lon: targetStop.lon,
-              lat: targetStop.lat,
-            };
-            const variables = {
-              fromPlace: addressToItinerarySearch(locationState),
-              toPlace: addressToItinerarySearch(toPlace),
-              date: moment(currentTime * 1000).format('YYYY-MM-DD'),
-              time: moment(currentTime * 1000).format('HH:mm:ss'),
-            };
-            const query = graphql`
-              query StopPageMapQuery(
-                $fromPlace: String!
-                $toPlace: String!
-                $date: String!
-                $time: String!
+  useEffect(() => {
+    let isMounted = true;
+    const fetchPlan = async targetStop => {
+      if (locationState.hasLocation && locationState.address) {
+        if (distance(locationState, stop) < maxShowRouteDistance) {
+          const toPlace = {
+            address: targetStop.name ? targetStop.name : 'stop',
+            lon: targetStop.lon,
+            lat: targetStop.lat,
+          };
+          const variables = {
+            fromPlace: addressToItinerarySearch(locationState),
+            toPlace: addressToItinerarySearch(toPlace),
+            date: moment(currentTime * 1000).format('YYYY-MM-DD'),
+            time: moment(currentTime * 1000).format('HH:mm:ss'),
+          };
+          const query = graphql`
+            query StopPageMapQuery(
+              $fromPlace: String!
+              $toPlace: String!
+              $date: String!
+              $time: String!
+            ) {
+              plan: plan(
+                fromPlace: $fromPlace
+                toPlace: $toPlace
+                date: $date
+                time: $time
+                transportModes: [{ mode: WALK }]
               ) {
-                plan: plan(
-                  fromPlace: $fromPlace
-                  toPlace: $toPlace
-                  date: $date
-                  time: $time
-                  transportModes: [{ mode: WALK }]
-                ) {
-                  itineraries {
-                    legs {
-                      mode
-                      ...ItineraryLine_legs
-                    }
+                itineraries {
+                  legs {
+                    mode
+                    ...ItineraryLine_legs
                   }
                 }
               }
-            `;
-            fetchQuery(environment, query, variables).then(
-              ({ plan: result }) => {
-                if (isMounted) {
-                  setPlan({ plan: result, isFetching: false });
-                }
-              },
-            );
-          }
+            }
+          `;
+          fetchQuery(environment, query, variables).then(({ plan: result }) => {
+            if (isMounted) {
+              setPlan({ plan: result, isFetching: false });
+            }
+          });
         }
-      };
-      if (stop && locationState.hasLocation) {
-        setPlan({ plan: plan.plan, isFetching: true });
-        fetchPlan(stop);
       }
-      return () => {
-        isMounted = false;
-      };
-    },
-    [locationState.status],
-  );
+    };
+    if (stop && locationState.hasLocation) {
+      setPlan({ plan: plan.plan, isFetching: true });
+      fetchPlan(stop);
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, [locationState.status]);
   if (locationState.loadingPosition) {
     return <Loading />;
   }
@@ -210,9 +205,7 @@ const StopsNearYouMapWithStores = connectToStores(
   componentWithBreakpoint,
   [OriginStore, TimeStore, DestinationStore, PositionStore],
   ({ getStore }) => {
-    const currentTime = getStore(TimeStore)
-      .getCurrentTime()
-      .unix();
+    const currentTime = getStore(TimeStore).getCurrentTime().unix();
     const locationState = getStore(PositionStore).getLocationState();
     return {
       locationState,

@@ -134,14 +134,14 @@ function setUpOIDC() {
       failureRedirect: '/',
     }),
   );
-  app.get('/logout', function(req, res) {
+  app.get('/logout', function (req, res) {
     req.logout();
-    req.session.destroy(function() {
+    req.session.destroy(function () {
       res.clearCookie('connect.sid');
       res.redirect('/');
     });
   });
-  app.use('/api', function(req, res, next) {
+  app.use('/api', function (req, res, next) {
     if (req.isAuthenticated()) {
       next();
     } else {
@@ -149,7 +149,7 @@ function setUpOIDC() {
     }
   });
   /* GET the profile of the current authenticated user */
-  app.get('/api/user', function(req, res, next) {
+  app.get('/api/user', function (req, res, next) {
     request.get(
       `${OIDCHost}/openid/userinfo`,
       {
@@ -157,7 +157,7 @@ function setUpOIDC() {
           bearer: req.user.token.access_token,
         },
       },
-      function(err, response, body) {
+      function (err, response, body) {
         if (!err) {
           res.status(response.statusCode).send(body);
         } else {
@@ -167,7 +167,7 @@ function setUpOIDC() {
     );
   });
 
-  app.use('/api/user/favourites', function(req, res, next) {
+  app.use('/api/user/favourites', function (req, res, next) {
     request(
       {
         auth: {
@@ -177,7 +177,7 @@ function setUpOIDC() {
         url: `${FavouriteHost}/${req.user.data.sub}`,
         body: JSON.stringify(req.body),
       },
-      function(err, response, body) {
+      function (err, response, body) {
         if (!err) {
           res.status(response.statusCode).send(body);
         } else {
@@ -401,8 +401,9 @@ setUpStaticFolders();
 setUpMiddleware();
 setUpRoutes();
 setUpErrorHandling();
-Promise.all([setUpAvailableRouteTimetables(), setUpAvailableTickets()]).then(
-  () => startServer(),
-);
+Promise.all([
+  setUpAvailableRouteTimetables(),
+  setUpAvailableTickets(),
+]).then(() => startServer());
 
 module.exports.app = app;

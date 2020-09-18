@@ -57,10 +57,10 @@ TerminalPageTabContainer.contextTypes = {
 const containerComponent = createFragmentContainer(TerminalPageTabContainer, {
   station: graphql`
     fragment TerminalPageTabContainer_station on Stop
-      @argumentDefinitions(
-        startTime: { type: "Long" }
-        timeRange: { type: "Int", defaultValue: 900 }
-      ) {
+    @argumentDefinitions(
+      startTime: { type: "Long" }
+      timeRange: { type: "Int", defaultValue: 900 }
+    ) {
       id
       gtfsId
       code

@@ -155,37 +155,36 @@ class SearchSettingsDropdown extends React.Component {
       return displayValueFormatter ? displayValueFormatter(value) : value;
     }
     const selectOptions = formatOptions
-      ? options.map(
-          o =>
-            o.title && o.value
-              ? {
-                  displayName: `${o.title}_${o.value}`,
-                  displayNameObject: applyDefaultValueIdentifier(
-                    o.value,
-                    this.context.intl.formatMessage(
-                      { id: o.title },
-                      {
-                        title: o.title,
-                      },
-                    ),
+      ? options.map(o =>
+          o.title && o.value
+            ? {
+                displayName: `${o.title}_${o.value}`,
+                displayNameObject: applyDefaultValueIdentifier(
+                  o.value,
+                  this.context.intl.formatMessage(
+                    { id: o.title },
+                    {
+                      title: o.title,
+                    },
                   ),
-                  value: o.value,
-                }
-              : {
-                  displayName: `${this.props.displayPattern}_${o}`,
-                  displayNameObject: applyDefaultValueIdentifier(
-                    o,
-                    this.props.displayPattern
-                      ? this.context.intl.formatMessage(
-                          { id: this.props.displayPattern },
-                          {
-                            number: getFormattedValue(o),
-                          },
-                        )
-                      : getFormattedValue(o),
-                  ),
-                  value: o,
-                },
+                ),
+                value: o.value,
+              }
+            : {
+                displayName: `${this.props.displayPattern}_${o}`,
+                displayNameObject: applyDefaultValueIdentifier(
+                  o,
+                  this.props.displayPattern
+                    ? this.context.intl.formatMessage(
+                        { id: this.props.displayPattern },
+                        {
+                          number: getFormattedValue(o),
+                        },
+                      )
+                    : getFormattedValue(o),
+                ),
+                value: o,
+              },
         )
       : options;
 

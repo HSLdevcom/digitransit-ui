@@ -48,9 +48,10 @@ class RouteMapContainer extends React.PureComponent {
       match.location.state && match.location.state.fullscreenMap === true;
 
     [this.dispLat, this.dispLon] =
-      (centerToMarker || (!this.dispLat || !this.dispLon)) &&
+      (centerToMarker || !this.dispLat || !this.dispLon) &&
       (match.params.tripId || (!fullscreen && breakpoint !== 'large')) &&
-      (lat && lon)
+      lat &&
+      lon
         ? [lat, lon]
         : [this.dispLat, this.dispLon];
 
@@ -109,14 +110,13 @@ class RouteMapContainer extends React.PureComponent {
         }
         showScaleBar={showScale}
       >
-        {breakpoint !== 'large' &&
-          !fullscreen && (
-            <div
-              className="map-click-prevent-overlay"
-              onClick={toggleFullscreenMap}
-              key="overlay"
-            />
-          )}
+        {breakpoint !== 'large' && !fullscreen && (
+          <div
+            className="map-click-prevent-overlay"
+            onClick={toggleFullscreenMap}
+            key="overlay"
+          />
+        )}
         {breakpoint !== 'large' && (
           <React.Fragment>
             <BackButton

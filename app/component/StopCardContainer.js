@@ -31,11 +31,11 @@ StopCardContainer.contextTypes = {
 export default createFragmentContainer(StopCardContainer, {
   stop: graphql`
     fragment StopCardContainer_stop on Stop
-      @argumentDefinitions(
-        startTime: { type: "Long" }
-        timeRange: { type: "Int" }
-        numberOfDepartures: { type: "Int", defaultValue: 5 }
-      ) {
+    @argumentDefinitions(
+      startTime: { type: "Long" }
+      timeRange: { type: "Int" }
+      numberOfDepartures: { type: "Int", defaultValue: 5 }
+    ) {
       gtfsId
       stoptimes: stoptimesWithoutPatterns(
         startTime: $startTime
