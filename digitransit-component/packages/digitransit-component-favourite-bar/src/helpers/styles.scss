@@ -40,6 +40,14 @@ $primary-color: #007ac9;
     height: 100%;
     position: relative;
     margin-right: 8px;
+    overflow: hidden;
+
+    // Shimmer container
+    > div {
+      display: flex;
+      align-items: center;
+    }
+
     .icon {
       display: flex;
       width: 50px;
@@ -126,6 +134,15 @@ $primary-color: #007ac9;
     height: 100%;
     width: 42px;
     flex-shrink: 0;
+    overflow: hidden;
+
+    // Shimmer container
+    > div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     &.plus {
       svg {
         fill: $primary-color;

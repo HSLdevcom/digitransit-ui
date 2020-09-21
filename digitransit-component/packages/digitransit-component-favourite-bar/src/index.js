@@ -6,6 +6,7 @@ import differenceWith from 'lodash/differenceWith';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import escapeRegExp from 'lodash/escapeRegExp';
+import Shimmer from '@hsl-fi/shimmer';
 import SuggestionItem from '@digitransit-component/digitransit-component-suggestion-item';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import translations from './helpers/translations';
@@ -28,7 +29,14 @@ const isKeyboardSelectionEvent = event => {
   return true;
 };
 
-const FavouriteLocation = ({ className, clickItem, iconId, text, label }) => {
+const FavouriteLocation = ({
+  className,
+  clickItem,
+  iconId,
+  text,
+  label,
+  isLoading,
+}) => {
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-tabindex */
   return (
     <div
@@ -38,13 +46,15 @@ const FavouriteLocation = ({ className, clickItem, iconId, text, label }) => {
       tabIndex="0"
       aria-label={text}
     >
-      <span className={cx(styles.icon, styles[iconId])}>
-        <Icon img={iconId} />
-      </span>
-      <div className={styles['favourite-location']}>
-        <div className={styles.name}>{text}</div>
-        <div className={styles.address}>{label}</div>
-      </div>
+      <Shimmer active={isLoading}>
+        <span className={cx(styles.icon, styles[iconId])}>
+          <Icon img={iconId} />
+        </span>
+        <div className={styles['favourite-location']}>
+          <div className={styles.name}>{text}</div>
+          <div className={styles.address}>{label}</div>
+        </div>
+      </Shimmer>
     </div>
   );
 };
@@ -55,6 +65,7 @@ FavouriteLocation.propTypes = {
   iconId: PropTypes.string,
   text: PropTypes.string,
   label: PropTypes.string,
+  isLoading: PropTypes.bool,
 };
 
 /**
@@ -67,6 +78,7 @@ FavouriteLocation.propTypes = {
  *   onAddHome={this.addHome}
  *   onAddWork={this.addWork}
  *   lang={this.props.lang}
+ *   isLoading={this.props.isLoading}
  * />
  */
 class FavouriteBar extends React.Component {
@@ -106,6 +118,8 @@ class FavouriteBar extends React.Component {
     onAddWork: PropTypes.func,
     /** Optional. Language, fi, en or sv. */
     lang: PropTypes.string,
+    /** Optional. Whether to show loading animation, true or false. */
+    isLoading: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -115,6 +129,7 @@ class FavouriteBar extends React.Component {
     onAddHome: () => ({}),
     onAddWork: () => ({}),
     lang: 'fi',
+    isLoading: false,
   };
 
   static FavouriteIconIdToNameMap = {
@@ -272,7 +287,7 @@ class FavouriteBar extends React.Component {
   };
 
   render() {
-    const { onClickFavourite } = this.props;
+    const { onClickFavourite, isLoading } = this.props;
     const {
       listOpen,
       favourites,
@@ -302,6 +317,7 @@ class FavouriteBar extends React.Component {
                   ]
                 : 'home'
             }
+            isLoading={isLoading}
           />
           <FavouriteLocation
             text={
@@ -320,6 +336,7 @@ class FavouriteBar extends React.Component {
                   ]
                 : 'work'
             }
+            isLoading={isLoading}
           />
           <div
             className={cx(styles.expandButton, styles[expandIcon], {
@@ -335,7 +352,9 @@ class FavouriteBar extends React.Component {
             aria-controls="favourite-suggestion-list"
             aria-activedescendant={`favourite-suggestion-list--item-${highlightedIndex}`}
           >
-            <Icon img={expandIcon} />
+            <Shimmer active={isLoading}>
+              <Icon img={expandIcon} />
+            </Shimmer>
           </div>
         </div>
         <div className={styles['favourite-suggestion-container']}>
