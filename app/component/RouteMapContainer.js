@@ -103,10 +103,12 @@ class RouteMapContainer extends React.PureComponent {
         lon={this.dispLon}
         className="full"
         leafletObjs={leafletObjs}
-        fitBounds={!match.params.tripId}
+        fitBounds={!(this.dispLat && this.dispLon && match.params.tripId)}
         bounds={(filteredPoints || pattern.stops).map(p => [p.lat, p.lon])}
         zoom={
-          this.dispLat && this.dispLon && match.params.tripId ? 15 : undefined
+          this.dispLat && this.dispLon && match.params.tripId
+            ? 15
+            : config.map.minZoom
         }
         showScaleBar={showScale}
       >
