@@ -44,8 +44,10 @@ $primary-color: #007ac9;
 
     // Shimmer container
     > div {
+      border-radius: 5px;
       display: flex;
       align-items: center;
+      overflow: hidden;
     }
 
     .icon {
@@ -138,9 +140,11 @@ $primary-color: #007ac9;
 
     // Shimmer container
     > div {
+      border-radius: 5px;
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
     }
 
     &.plus {
