@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-dialog-modal",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "digitransit-component dialog-modal module",
   "main": "lib/index.js",
   "publishConfig": {
