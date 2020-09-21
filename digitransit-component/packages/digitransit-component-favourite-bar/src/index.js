@@ -46,7 +46,7 @@ const FavouriteLocation = ({
       tabIndex="0"
       aria-label={text}
     >
-      <Shimmer active={isLoading}>
+      <Shimmer active={isLoading} className={styles.shimmer}>
         <span className={cx(styles.icon, styles[iconId])}>
           <Icon img={iconId} />
         </span>
