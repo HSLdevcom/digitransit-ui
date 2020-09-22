@@ -108,6 +108,7 @@ ItinerarySearchControl.propTypes = {
  * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, MapPosition and CurrentPosition. Leave empty to search all targets.
  * const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches), and Datasource. Leave empty to use all sources.
  * <DTAutosuggestPanel
+ *    appElement={appElement} // Required. Root element's id. Needed for react-modal component.
  *    origin={origin} // Selected origin point
  *    destination={destination} // Selected destination point
  *    originPlaceHolder={'Give origin'} // Optional Give string shown initially inside origin search field
@@ -128,6 +129,7 @@ ItinerarySearchControl.propTypes = {
  */
 class DTAutosuggestPanel extends React.Component {
   static propTypes = {
+    appElement: PropTypes.string.isRequired,
     origin: PropTypes.object.isRequired,
     destination: PropTypes.object.isRequired,
     showMultiPointControls: PropTypes.bool,
@@ -381,6 +383,7 @@ class DTAutosuggestPanel extends React.Component {
         ) : null}
         <div className={styles['origin-input-container']}>
           <DTAutoSuggest
+            appElement={this.props.appElement}
             icon="mapMarker"
             id="origin"
             autoFocus={
@@ -452,6 +455,7 @@ class DTAutosuggestPanel extends React.Component {
                     )}
                   >
                     <DTAutoSuggest
+                      appElement={this.props.appElement}
                       icon="mapMarker-via"
                       id="via-point"
                       ariaLabel={i18next.t('via-point-index', { index: i + 1 })}
@@ -547,6 +551,7 @@ class DTAutosuggestPanel extends React.Component {
         </ReactSortable>
         <div className={styles['destination-input-container']}>
           <DTAutoSuggest
+            appElement={this.props.appElement}
             icon="mapMarker"
             id="destination"
             autoFocus={

@@ -28,6 +28,7 @@
     "@digitransit-component/digitransit-component-dialog-modal": "^0.1.0",
     "@digitransit-component/digitransit-component-icon": "^0.0.9",
     "@hsl-fi/sass":" ^0.1.1",
+    "@hsl-fi/modal": "^0.1.8",
     "@hsl-fi/container-spinner":"0.2.0"
   },
   "peerDependencies": {

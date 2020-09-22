@@ -165,7 +165,8 @@ class FavouriteBar extends React.Component {
     if (
       !isEmpty(differenceWith(nextFavourites, favourites, isEqual)) ||
       !isEmpty(differenceWith(favourites, nextFavourites, isEqual)) ||
-      !isEqual(nextFavourites, favourites)
+      !isEqual(nextFavourites, favourites) ||
+      isEmpty(nextFavourites)
     ) {
       return {
         firstFavourite: nextFavourites[0] || null,

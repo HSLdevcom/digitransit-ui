@@ -34,16 +34,12 @@ const DialogModal = ({
   modalAriaLabel,
 }) => {
   i18next.changeLanguage(lang);
-
-  const isMobile = () =>
-    window && window.innerWidth ? window.innerWidth < 768 : false;
-
   return (
     <Modal
       appElement={appElement}
       contentLabel={modalAriaLabel}
       closeButtonLabel={i18next.t('close-favourite-modal')}
-      variant={isMobile() ? 'large' : 'small'}
+      variant="confirmation"
       isOpen={isModalOpen}
       onCrossClick={handleClose}
     >
@@ -51,12 +47,12 @@ const DialogModal = ({
         <div className={styles['digitransit-dialog-modal-header']}>
           {headerText}
         </div>
+        {dialogContent && (
+          <div className={styles['digitransit-dialog-modal-place']}>
+            {dialogContent}
+          </div>
+        )}
       </div>
-      {dialogContent && (
-        <div className={styles['digitransit-dialog-modal-place']}>
-          {dialogContent}
-        </div>
-      )}
       <div className={styles['digitransit-dialog-modal-buttons']}>
         {
           <button
@@ -91,7 +87,7 @@ const DialogModal = ({
 
 DialogModal.propTypes = {
   appElement: PropTypes.string.isRequired,
-  isModalOpen: PropTypes.string.isRequired,
+  isModalOpen: PropTypes.bool.isRequired,
   headerText: PropTypes.string.isRequired,
   handleClose: PropTypes.func,
   primaryButtonText: PropTypes.string.isRequired,

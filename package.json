@@ -123,7 +123,6 @@
     "@babel/preset-react": "7.10.4",
     "@babel/register": "7.11.5",
     "@hsl-fi/container-spinner": "0.2.0",
-    "@hsl-fi/modal": "0.1.7",
     "@hsl-fi/shared-local-storage": "0.2.0",
     "@hsl-fi/site-header": "0.4.0",
     "@mapbox/sphericalmercator": "1.1.0",
