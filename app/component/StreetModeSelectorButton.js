@@ -31,7 +31,7 @@ export const StreetModeSelectorButton = (
     <div
       className="street-mode-selector-button-container"
       onClick={() => onClick(name)}
-      role="Button"
+      role="button"
       tabIndex={0}
     >
       <div
