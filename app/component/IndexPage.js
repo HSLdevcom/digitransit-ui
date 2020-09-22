@@ -159,7 +159,6 @@ class IndexPage extends React.Component {
             position="left"
           >
             <DTAutosuggestPanelWithSearchContext
-              appElement="#app"
               searchPanelText={intl.formatMessage({
                 id: 'where',
                 defaultMessage: 'Where to?',
@@ -205,7 +204,6 @@ class IndexPage extends React.Component {
               </div>
             )}
             <DTAutoSuggestWithSearchContext
-              appElement="#app"
               icon="search"
               id="stop-route-station"
               refPoint={origin}
@@ -242,7 +240,6 @@ class IndexPage extends React.Component {
         >
           <CtrlPanel instance="hsl" language={lang} position="bottom">
             <DTAutosuggestPanelWithSearchContext
-              appElement="#app"
               searchPanelText={intl.formatMessage({
                 id: 'where',
                 defaultMessage: 'Where to?',
@@ -287,7 +284,6 @@ class IndexPage extends React.Component {
               </div>
             )}
             <DTAutoSuggestWithSearchContext
-              appElement="#app"
               icon="search"
               id="stop-route-station"
               refPoint={origin}

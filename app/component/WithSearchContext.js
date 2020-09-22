@@ -342,6 +342,7 @@ export default function withSearchContext(WrappedComponent) {
       }
       return (
         <WrappedComponent
+          appElement="#app"
           searchContext={searchContext}
           addAnalyticsEvent={addAnalyticsEvent}
           onSelect={this.onSelect}

@@ -154,6 +154,7 @@ class FavouritesContainer extends React.Component {
           isMobile={this.props.isMobile}
           autosuggestComponent={
             <AutoSuggestWithSearchContext
+              appElement="#app"
               sources={['History', 'Datasource']}
               targets={['Locations', 'CurrentPosition', 'Stops']}
               id="favourite"
