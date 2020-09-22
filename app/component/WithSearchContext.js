@@ -259,7 +259,7 @@ export default function withSearchContext(WrappedComponent) {
         navigateTo({
           origin,
           destination,
-          context: rootPath,
+          rootPath,
           router: this.context.router,
           base: this.context.match.location,
           resetIndex: true,

@@ -104,7 +104,7 @@ class IndexPage extends React.Component {
       navigateTo({
         origin: nextProps.origin,
         destination: nextProps.destination,
-        context: '/',
+        rootPath: '/',
         router: this.props.router,
         base: this.context.match.location,
       });
@@ -122,7 +122,7 @@ class IndexPage extends React.Component {
     navigateTo({
       origin: this.props.origin,
       destination: location,
-      context: '/',
+      rootPath: '/',
       router: this.props.router,
       base: this.context.match.location,
     });
@@ -425,9 +425,9 @@ const IndexPageWithPosition = connectToStores(
           navigateTo({
             origin: newProps.origin,
             destination: newProps.destination,
-            context: '/',
+            rootPath: '/',
             router: props.router,
-            base: this.context.match.location,
+            base: location,
           });
         }
       });
