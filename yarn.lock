@@ -1721,6 +1721,11 @@
   resolved "https://registry.yarnpkg.com/@hsl-fi/shared-local-storage/-/shared-local-storage-0.2.0.tgz#0417a237ab52707cd675082d2f9f1838b693cb96"
   integrity sha512-8AoBHE1sDwhkEdejOpFJpLNBgYR2O9hFi/7AlM3pjZurOfUnDoEBl7pZc3eNjzsmDM9HuK8GFoOHZ77a/o2rAA==
 
+"@hsl-fi/shimmer@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@hsl-fi/shimmer/-/shimmer-0.1.0.tgz#111eca690401db43bc5ac0b1d142d00e97bcfaea"
+  integrity sha512-8aGzCxClDzZf1ZVm7etEi3UEJIy0uMakMFC+p6eS6XalBuGhXptk8Luwavw1NiNo633yW1sJA2C3QRGwoHr6pg==
+
 "@hsl-fi/site-header@0.4.0":
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/@hsl-fi/site-header/-/site-header-0.4.0.tgz#9e5c84002015346c4591368b0a1c921598dad084"

@@ -20,6 +20,16 @@ $primary-color: #007ac9;
   cursor: pointer;
 }
 
+.shimmer-shared {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+
+  .shimmer {
+    border-radius: 5px;
+  }
+}
+
 .favourite-container {
   display: flex;
   position: relative;
@@ -40,6 +50,12 @@ $primary-color: #007ac9;
     height: 100%;
     position: relative;
     margin-right: 8px;
+    overflow: hidden;
+
+    & > div {
+      @extend .shimmer-shared;
+    }
+
     .icon {
       display: flex;
       width: 50px;
@@ -126,6 +142,13 @@ $primary-color: #007ac9;
     height: 100%;
     width: 42px;
     flex-shrink: 0;
+    overflow: hidden;
+
+    & > div {
+      @extend .shimmer-shared;
+      justify-content: center;
+    }
+
     &.plus {
       svg {
         fill: $primary-color;
