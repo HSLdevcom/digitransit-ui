@@ -167,21 +167,20 @@ class FavouritesContainer extends React.Component {
             />
           }
         />
-        {this.state.editModalOpen && (
-          <FavouriteEditModal
-            appElement="#app"
-            isModalOpen={this.state.editModalOpen}
-            favourites={this.props.favourites}
-            updateFavourites={this.updateFavourites}
-            handleClose={() =>
-              this.setState({ editModalOpen: false, favourite: null })
-            }
-            saveFavourite={this.saveFavourite}
-            deleteFavourite={this.deleteFavourite}
-            onEditSelected={this.editFavourite}
-            lang={this.props.lang}
-          />
-        )}
+        <FavouriteEditModal
+          appElement="#app"
+          isModalOpen={this.state.editModalOpen}
+          favourites={this.props.favourites}
+          updateFavourites={this.updateFavourites}
+          handleClose={() =>
+            this.setState({ editModalOpen: false, favourite: null })
+          }
+          saveFavourite={this.saveFavourite}
+          deleteFavourite={this.deleteFavourite}
+          onEditSelected={this.editFavourite}
+          lang={this.props.lang}
+          isMobile={this.props.isMobile}
+        />
       </React.Fragment>
     );
   }
