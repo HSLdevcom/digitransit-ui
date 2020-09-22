@@ -95,7 +95,9 @@ async function init() {
 
     config.availableLanguages.forEach(language => {
       modules.push(
-        import(/* webpackChunkName: "intl",  webpackMode: "lazy-once" */ `intl/locale-data/jsonp/${language}`),
+        import(
+          /* webpackChunkName: "intl",  webpackMode: "lazy-once" */ `intl/locale-data/jsonp/${language}`
+        ),
       );
     });
     await Promise.all(modules);

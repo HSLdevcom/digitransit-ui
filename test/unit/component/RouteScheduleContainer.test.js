@@ -56,10 +56,7 @@ describe('<RouteScheduleContainer />', () => {
     );
     expect(wrapper.find(RouteScheduleTripRow)).to.have.lengthOf(1);
     expect(
-      wrapper
-        .find(RouteScheduleTripRow)
-        .at(0)
-        .props().isCanceled,
+      wrapper.find(RouteScheduleTripRow).at(0).props().isCanceled,
     ).to.equal(true);
   });
 });

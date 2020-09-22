@@ -219,8 +219,9 @@ class RoutePage extends React.Component {
   };
 
   changeTab = tab => {
-    const path = `/${PREFIX_ROUTES}/${this.props.route.gtfsId}/${tab}/${this
-      .props.match.params.patternId || ''}`;
+    const path = `/${PREFIX_ROUTES}/${this.props.route.gtfsId}/${tab}/${
+      this.props.match.params.patternId || ''
+    }`;
     this.props.router.replace(path);
     let action;
     switch (tab) {
@@ -390,8 +391,9 @@ class RoutePage extends React.Component {
               }}
             >
               <div
-                className={`tab-route-disruption ${disruptionClassName ||
-                  `no-alerts`}`}
+                className={`tab-route-disruption ${
+                  disruptionClassName || `no-alerts`
+                }`}
               >
                 <FormattedMessage
                   id="disruptions"
@@ -421,7 +423,7 @@ class RoutePage extends React.Component {
 const containerComponent = createFragmentContainer(withBreakpoint(RoutePage), {
   route: graphql`
     fragment RoutePage_route on Route
-      @argumentDefinitions(date: { type: "String" }) {
+    @argumentDefinitions(date: { type: "String" }) {
       gtfsId
       color
       shortName

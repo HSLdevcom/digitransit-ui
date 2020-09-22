@@ -7,18 +7,10 @@ import enrichPatterns from '.';
 describe('Testing @digitransit-util/digitransit-util-enrich-patterns module', () => {
   const nextFridaysAndSaturdays = [];
   nextFridaysAndSaturdays.push(
-    JSON.parse(
-      `{ "day": ["${moment(moment())
-        .day(5)
-        .format('YYYYMMDD')}"] }`,
-    ),
+    JSON.parse(`{ "day": ["${moment(moment()).day(5).format('YYYYMMDD')}"] }`),
   );
   nextFridaysAndSaturdays.push(
-    JSON.parse(
-      `{ "day": ["${moment(moment())
-        .day(6)
-        .format('YYYYMMDD')}"] }`,
-    ),
+    JSON.parse(`{ "day": ["${moment(moment()).day(6).format('YYYYMMDD')}"] }`),
   );
   nextFridaysAndSaturdays.push(
     JSON.parse(

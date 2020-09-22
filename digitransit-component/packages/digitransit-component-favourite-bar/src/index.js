@@ -282,7 +282,7 @@ class FavouriteBar extends React.Component {
       secondFavourite,
     } = this.state;
     const expandIcon = this.props.favourites.length === 0 ? 'plus' : 'arrow';
-    /* eslint-disable anchor-is-valid, jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/role-supports-aria-props */
+    /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/role-supports-aria-props */
     return (
       <React.Fragment>
         <div className={styles['favourite-container']}>

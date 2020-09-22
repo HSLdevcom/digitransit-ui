@@ -68,20 +68,19 @@ const DialogModal = ({
             {primaryButtonText}
           </button>
         }
-        {secondaryButtonText &&
-          secondaryButtonOnClick && (
-            <button
-              type="button"
-              tabIndex="0"
-              className={cx(
-                styles['digitransit-dialog-modal-button'],
-                styles.secondary,
-              )}
-              onClick={() => secondaryButtonOnClick()}
-            >
-              {secondaryButtonText}
-            </button>
-          )}
+        {secondaryButtonText && secondaryButtonOnClick && (
+          <button
+            type="button"
+            tabIndex="0"
+            className={cx(
+              styles['digitransit-dialog-modal-button'],
+              styles.secondary,
+            )}
+            onClick={() => secondaryButtonOnClick()}
+          >
+            {secondaryButtonText}
+          </button>
+        )}
       </div>
     </Modal>
   );

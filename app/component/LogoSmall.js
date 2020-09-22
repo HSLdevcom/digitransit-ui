@@ -20,8 +20,9 @@ const LogoSmall = (
       style={{ backgroundImage: isBrowser && logo ? `url(${logo})` : 'none' }}
     >
       {showTitles && title && <span className="logo-title">{title}</span>}
-      {showTitles &&
-        subTitle && <span className="logo-sub-title">{subTitle}</span>}
+      {showTitles && subTitle && (
+        <span className="logo-sub-title">{subTitle}</span>
+      )}
     </div>
   );
 };

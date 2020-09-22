@@ -9,10 +9,8 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { PREFIX_ITINERARY_SUMMARY, navigateTo } from '../util/path';
 import withSearchContext from './WithSearchContext';
 
-import {
-  getIntermediatePlaces,
-  setIntermediatePlaces,
-} from '../util/queryUtils';
+import { setIntermediatePlaces } from '../util/queryUtils';
+import { getIntermediatePlaces } from '../util/otpStrings';
 import { dtLocationShape } from '../util/shapes';
 
 const DTAutosuggestPanelWithSearchContext = withSearchContext(

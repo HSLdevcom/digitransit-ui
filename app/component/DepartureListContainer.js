@@ -29,8 +29,8 @@ const asDepartures = stoptimes =>
           isLastStop = stoptime.stop.id === lastStop.id;
         }
         /* OTP returns either scheduled time or realtime prediction in
-           * 'realtimeDeparture' and 'realtimeArrival' fields.
-           * EXCEPT when state is CANCELLED, then it returns -1 for realtime  */
+         * 'realtimeDeparture' and 'realtimeArrival' fields.
+         * EXCEPT when state is CANCELLED, then it returns -1 for realtime  */
         const canceled = stoptime.realtimeState === 'CANCELED';
         const arrivalTime =
           stoptime.serviceDay +
@@ -196,15 +196,8 @@ class DepartureListContainer extends Component {
     const departureObjs = [];
     const { currentTime, limit, isTerminal, stoptimes } = this.props;
 
-    let currentDate = moment
-      .unix(currentTime)
-      .startOf('day')
-      .unix();
-    let tomorrow = moment
-      .unix(currentTime)
-      .add(1, 'day')
-      .startOf('day')
-      .unix();
+    let currentDate = moment.unix(currentTime).startOf('day').unix();
+    let tomorrow = moment.unix(currentTime).add(1, 'day').startOf('day').unix();
 
     const departures = asDepartures(stoptimes)
       .filter(departure => !(isTerminal && departure.isArrival))
@@ -223,11 +216,7 @@ class DepartureListContainer extends Component {
         );
 
         currentDate = tomorrow;
-        tomorrow = moment
-          .unix(currentDate)
-          .add(1, 'day')
-          .startOf('day')
-          .unix();
+        tomorrow = moment.unix(currentDate).add(1, 'day').startOf('day').unix();
       }
       const id = `${departure.pattern.code}:${departure.stoptime}`;
       const row = {
@@ -250,9 +239,7 @@ class DepartureListContainer extends Component {
       if (this.props.routeLinks) {
         departureObjs.push(
           <Link
-            to={`/${PREFIX_ROUTES}/${
-              departure.pattern.route.gtfsId
-            }/${PREFIX_STOPS}/${departure.pattern.code}?sort=no`}
+            to={`/${PREFIX_ROUTES}/${departure.pattern.route.gtfsId}/${PREFIX_STOPS}/${departure.pattern.code}?sort=no`}
             key={id}
             onClick={() => {
               addAnalyticsEvent({
