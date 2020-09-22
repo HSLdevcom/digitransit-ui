@@ -4,46 +4,47 @@ import React from 'react';
 import { StreetModeSelectorButton } from './StreetModeSelectorButton';
 import { StreetModeSelectorWeatherLabel } from './StreetModeSelectorWeatherLabel';
 
-export const StreetModeSelector = (
-  {
-    showWalkOptionButton,
-    showBikeOptionButton,
-    showBikeAndPublicOptionButton,
-    toggleStreetMode,
-    setStreetModeAndSelect,
-    weatherData,
-    walkPlan,
-    bikePlan,
-    bikeAndPublicPlan,
-  },
-  { config },
-) => {
+export const StreetModeSelector = ({
+  showWalkOptionButton,
+  showBikeOptionButton,
+  showBikeAndPublicOptionButton,
+  toggleStreetMode,
+  setStreetModeAndSelect,
+  weatherData,
+  walkPlan,
+  bikePlan,
+  bikeAndPublicPlan,
+}) => {
   return (
     <div className="street-mode-selector-container">
       <StreetModeSelectorWeatherLabel
-        active={showWalkOptionButton || showBikeOptionButton}
+        active={
+          showWalkOptionButton ||
+          showBikeOptionButton ||
+          showBikeAndPublicOptionButton
+        }
         weatherData={weatherData}
       />
-      <StreetModeSelectorButton
-        icon="icon-icon_walk"
-        name="walk"
-        active={showWalkOptionButton}
-        plan={walkPlan}
-        onClick={setStreetModeAndSelect}
-      />
-      <StreetModeSelectorButton
-        icon="icon-icon_cyclist"
-        name="bike"
-        active={showBikeOptionButton}
-        plan={bikePlan}
-        onClick={setStreetModeAndSelect}
-      />
-      {(config.showBikeAndPublicItineraries ||
-        config.showBikeAndParkItineraries) && (
+      {showWalkOptionButton && (
+        <StreetModeSelectorButton
+          icon="icon-icon_walk"
+          name="walk"
+          plan={walkPlan}
+          onClick={setStreetModeAndSelect}
+        />
+      )}
+      {showBikeOptionButton && (
+        <StreetModeSelectorButton
+          icon="icon-icon_cyclist"
+          name="bike"
+          plan={bikePlan}
+          onClick={setStreetModeAndSelect}
+        />
+      )}
+      {showBikeAndPublicOptionButton && (
         <StreetModeSelectorButton
           icon="icon-icon_cyclist"
           name="bikeAndPublic"
-          active={showBikeAndPublicOptionButton}
           plan={bikeAndPublicPlan}
           onClick={toggleStreetMode}
         />
@@ -67,10 +68,6 @@ StreetModeSelector.propTypes = {
     windSpeed: PropTypes.number,
     iconId: PropTypes.number,
   }),
-};
-
-StreetModeSelector.contextTypes = {
-  config: PropTypes.object.isRequired,
 };
 
 StreetModeSelector.defaultProps = {

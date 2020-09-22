@@ -24,7 +24,6 @@ import {
 } from '../../action/realTimeClientAction';
 import { addressToItinerarySearch } from '../../util/otpStrings';
 import ItineraryLine from './ItineraryLine';
-import Loading from '../Loading';
 
 const startClient = (context, routes) => {
   const { realTime } = context.config;
@@ -90,9 +89,10 @@ function StopsNearYouMap(
   },
   { ...context },
 ) {
+  let useFitBounds = true;
   const bounds = handleBounds(locationState, stops);
   if (!bounds) {
-    return <Loading />;
+    useFitBounds = false;
   }
   let uniqueRealtimeTopics;
   const { environment } = useContext(ReactRelayContext);
@@ -224,8 +224,9 @@ function StopsNearYouMap(
         showStops
         stopsNearYouMode={mode}
         showScaleBar
-        fitBounds={bounds.length > 0}
-        defaultMapCenter={locationState}
+        fitBounds={useFitBounds}
+        defaultMapCenter={context.config.defaultEndpoint}
+        initialZoom={16}
         bounds={bounds}
         origin={origin}
         destination={destination}
@@ -247,8 +248,9 @@ function StopsNearYouMap(
           breakpoint={breakpoint}
           showStops
           stopsNearYouMode={mode}
-          fitBounds={bounds.length > 0}
-          defaultMapCenter={locationState}
+          fitBounds={useFitBounds}
+          defaultMapCenter={context.config.defaultEndpoint}
+          initialZoom={16}
           bounds={bounds}
           showScaleBar
           origin={origin}

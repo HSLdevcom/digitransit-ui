@@ -27,7 +27,8 @@
   "dependencies": {
     "@digitransit-component/digitransit-component-dialog-modal": "0.1.5",
     "@digitransit-component/digitransit-component-icon": "0.0.12",
-    "@hsl-fi/sass": " ^0.1.1"
+    "@hsl-fi/sass": "^0.1.1",
+    "@hsl-fi/container-spinner":"0.2.0"
   },
   "peerDependencies": {
     "i18next": "^19.3.3",

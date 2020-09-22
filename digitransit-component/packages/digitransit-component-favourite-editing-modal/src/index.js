@@ -8,6 +8,7 @@ import escapeRegExp from 'lodash/escapeRegExp';
 import differenceWith from 'lodash/differenceWith';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
+import ContainerSpinner from '@hsl-fi/container-spinner';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
 import Modal from '@hsl-fi/modal';
@@ -78,6 +79,7 @@ class FavouriteEditingModal extends React.Component {
     lang: PropTypes.string,
     appElement: PropTypes.string.isRequired,
     isModalOpen: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
   };
 
   static defaulProps = {
@@ -201,25 +203,29 @@ class FavouriteEditingModal extends React.Component {
     );
   };
 
-  renderFavouriteList = favourites => {
+  renderFavouriteList = (favourites, isLoading) => {
     return (
       <div className={styles['favourite-edit-list-container']}>
-        <ReactSortable
-          className={styles['favourite-edit-list']}
-          tag="ul"
-          list={favourites}
-          setList={items =>
-            this.setState({ favourites: items }, () => {
-              if (!isEqual(items, favourites)) {
-                this.props.updateFavourites(items);
-              }
-            })
-          }
-          animation={200}
-          handle={`.${styles['favourite-edit-list-item-left']}`}
-        >
-          {favourites.map(favourite => this.renderFavouriteListItem(favourite))}
-        </ReactSortable>
+        <ContainerSpinner visible={isLoading}>
+          <ReactSortable
+            className={styles['favourite-edit-list']}
+            tag="ul"
+            list={favourites}
+            setList={items =>
+              this.setState({ favourites: items }, () => {
+                if (!isEqual(items, favourites)) {
+                  this.props.updateFavourites(items);
+                }
+              })
+            }
+            animation={200}
+            handle={`.${styles['favourite-edit-list-item-left']}`}
+          >
+            {favourites.map(favourite => {
+              return this.renderFavouriteListItem(favourite);
+            })}
+          </ReactSortable>
+        </ContainerSpinner>
       </div>
     );
   };
@@ -257,6 +263,7 @@ class FavouriteEditingModal extends React.Component {
   };
 
   render() {
+    const { isLoading } = this.props;
     const { favourites, showDeletePlaceModal, selectedFavourite } = this.state;
     const modalProps = {
       headerText: i18next.t('edit-places'),
@@ -267,7 +274,7 @@ class FavouriteEditingModal extends React.Component {
         }
       },
       closeArialLabel: i18next.t('close-modal'),
-      renderList: this.renderFavouriteList(favourites),
+      renderList: this.renderFavouriteList(favourites, isLoading),
     };
     return (
       <Fragment>

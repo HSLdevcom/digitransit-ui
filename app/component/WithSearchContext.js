@@ -31,7 +31,6 @@ export default function withSearchContext(WrappedComponent) {
       destination: PropTypes.object,
       children: PropTypes.node,
       onFavouriteSelected: PropTypes.func,
-      itineraryParams: PropTypes.object,
       locationState: PropTypes.object,
     };
 
@@ -210,10 +209,6 @@ export default function withSearchContext(WrappedComponent) {
       if (!location) {
         return;
       }
-      const locationWithItineraryParams = this.addItineraryParamsToLocation(
-        location,
-        this.props.itineraryParams,
-      );
       addAnalyticsEvent({
         action: 'EditJourneyEndPoint',
         category: 'ItinerarySettings',
@@ -265,8 +260,6 @@ export default function withSearchContext(WrappedComponent) {
       if (
         origin.ready &&
         destination.ready &&
-        locationWithItineraryParams.query &&
-        JSON.stringify(locationWithItineraryParams.query) !== '{}' &&
         `${origin.address}/${origin.lat}/${origin.lat}` !==
           `${destination.address}/${destination.lat}/${destination.lat}`
       ) {
@@ -285,20 +278,24 @@ export default function withSearchContext(WrappedComponent) {
               lon: destination.lon,
             },
           },
-          arriveBy: locationWithItineraryParams.query.arriveBy
-            ? locationWithItineraryParams.query.arriveBy
+          arriveBy: this.context.match.location.query.arriveBy
+            ? this.context.match.location.query.arriveBy
             : false,
-          time: locationWithItineraryParams.query.time,
+          time: this.context.match.location.query.time,
         };
         this.context.executeAction(searchContext.saveFutureRoute, newRoute);
       }
       if (location.type !== 'SelectFromMap') {
+        const pathname = this.context.match.location.pathname || '';
+        const pathArr = pathname.split('/');
+        const rootPath = pathArr.length > 1 ? pathArr[1] : '';
+
         navigateTo({
-          base: locationWithItineraryParams,
           origin,
           destination,
-          context: '', // PREFIX_ITINERARY_SUMMARY,
+          rootPath,
           router: this.context.router,
+          base: this.context.match.location,
           resetIndex: true,
         });
       } else {
@@ -362,29 +359,6 @@ export default function withSearchContext(WrappedComponent) {
         this.finishSelect(item, type);
         this.onSuggestionSelected(item, id);
       }
-    };
-
-    addItineraryParamsToLocation = (location, itineraryParams) => {
-      const query = (location && location.query) || {};
-      const params = {};
-      if (itineraryParams) {
-        if (
-          itineraryParams.intermediatePlaces &&
-          itineraryParams.intermediatePlaces.length > 0
-        ) {
-          params.intermediatePlaces = itineraryParams.intermediatePlaces;
-        }
-        params.arriveBy = itineraryParams.arriveBy;
-        params.time = itineraryParams.time;
-        return {
-          ...location,
-          query: {
-            ...query,
-            ...params,
-          },
-        };
-      }
-      return { ...location, query };
     };
 
     confirmMapSelection = (type, mapLocation) => {
