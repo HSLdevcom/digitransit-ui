@@ -57,12 +57,12 @@ class MarkerPopupBottom extends React.Component {
     return origin;
   };
 
-  getDestination = (pathName, context) => {
+  getDestination = (pathName, rootPath) => {
     let destination;
 
-    if ([PREFIX_ROUTES, PREFIX_STOPS].indexOf(context) !== -1) {
+    if ([PREFIX_ROUTES, PREFIX_STOPS].indexOf(rootPath) !== -1) {
       destination = { set: false };
-    } else if (context === PREFIX_ITINERARY_SUMMARY) {
+    } else if (rootPath === PREFIX_ITINERARY_SUMMARY) {
       // itinerary summary
       const [, , , destinationString] = pathName.split('/');
       destination = parseLocation(destinationString);
@@ -82,15 +82,15 @@ class MarkerPopupBottom extends React.Component {
     });
 
     const { pathname } = this.context.match.location;
-    const [, context] = pathname.split('/');
+    const [, rootPath] = pathname.split('/');
 
-    const destination = this.getDestination(pathname, context);
+    const destination = this.getDestination(pathname, rootPath);
 
     this.props.leaflet.map.closePopup();
     navigateTo({
       origin: { ...this.props.location, ready: true },
       destination,
-      context,
+      rootPath,
       router: this.context.router,
       base: this.context.match.location,
       resetIndex: true,

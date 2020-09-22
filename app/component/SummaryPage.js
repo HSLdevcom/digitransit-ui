@@ -1540,7 +1540,11 @@ const PositioningWrapper = connectToStores(
       const locationForUrl = addressToItinerarySearch(locationState);
       const newFrom = from === 'POS' ? locationForUrl : from;
       const newTo = to === 'POS' ? locationForUrl : to;
-      props.router.replace(getRoutePath(newFrom, newTo));
+      const newLocation = {
+        ...props.match.location,
+        pathname: getRoutePath(newFrom, newTo),
+      };
+      props.router.replace(newLocation);
       return { ...props, loadingPosition: false };
     }
 
