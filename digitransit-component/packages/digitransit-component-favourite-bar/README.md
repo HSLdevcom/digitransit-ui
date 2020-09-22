@@ -22,6 +22,7 @@ FavouriteBar renders favourites. FavouriteBar displays the first two favourites,
   onAddHome={this.addHome}
   onAddWork={this.addWork}
   lang={this.props.lang}
+  isLoading={this.props.isLoading}
 />
 ```
 
@@ -65,6 +66,10 @@ Optional. Function for "Add work" button.
 ## lang
 
 Optional. Language, fi, en or sv.
+
+## isLoading
+
+Optional. Whether to show loading animation, true or false.
 
 [1]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
 
