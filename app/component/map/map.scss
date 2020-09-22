@@ -102,7 +102,7 @@ div.map {
     .icon-holder, .icon-holder:focus, .icon-holder:hover {
       padding: 0.55em 0.2em 0px 0px !important;
       font-size: 16px;
-      z-index: 805;
+      z-index: index($zindex, map-buttons);
       background: white;
       height: 2.5em;
       width: 2.5em;
