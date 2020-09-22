@@ -31,7 +31,7 @@ const AppBarContainer = ({
           return (
             <div>
               {' '}
-              <AppBarHsl lang={lang} />
+              <AppBarHsl user={user} lang={lang} />
               <MessageBar mobile />{' '}
             </div>
           );
@@ -51,7 +51,7 @@ const AppBarContainer = ({
           return (
             <div>
               {' '}
-              <AppBarHsl lang={lang} />
+              <AppBarHsl user={user} lang={lang} />
               <MessageBar />{' '}
             </div>
           );

@@ -8,6 +8,7 @@ import escapeRegExp from 'lodash/escapeRegExp';
 import differenceWith from 'lodash/differenceWith';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
+import ContainerSpinner from '@hsl-fi/container-spinner';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
 import Modal from '@hsl-fi/modal';
@@ -78,10 +79,13 @@ class FavouriteEditingModal extends React.Component {
     lang: PropTypes.string,
     appElement: PropTypes.string.isRequired,
     isModalOpen: PropTypes.bool.isRequired,
+    isMobile: PropTypes.bool,
+    isLoading: PropTypes.bool.isRequired,
   };
 
   static defaulProps = {
     lang: 'fi',
+    isMobile: false,
   };
 
   constructor(props) {
@@ -117,9 +121,6 @@ class FavouriteEditingModal extends React.Component {
       i18next.changeLanguage(this.props.lang);
     }
   };
-
-  isMobile = () =>
-    window && window.innerWidth ? window.innerWidth < 768 : false;
 
   renderFavouriteListItem = favourite => {
     const iconId = favourite.selectedIconId.replace('icon-icon_', '');
@@ -201,25 +202,29 @@ class FavouriteEditingModal extends React.Component {
     );
   };
 
-  renderFavouriteList = favourites => {
+  renderFavouriteList = (favourites, isLoading) => {
     return (
       <div className={styles['favourite-edit-list-container']}>
-        <ReactSortable
-          className={styles['favourite-edit-list']}
-          tag="ul"
-          list={favourites}
-          setList={items =>
-            this.setState({ favourites: items }, () => {
-              if (!isEqual(items, favourites)) {
-                this.props.updateFavourites(items);
-              }
-            })
-          }
-          animation={200}
-          handle={`.${styles['favourite-edit-list-item-left']}`}
-        >
-          {favourites.map(favourite => this.renderFavouriteListItem(favourite))}
-        </ReactSortable>
+        <ContainerSpinner visible={isLoading}>
+          <ReactSortable
+            className={styles['favourite-edit-list']}
+            tag="ul"
+            list={favourites}
+            setList={items =>
+              this.setState({ favourites: items }, () => {
+                if (!isEqual(items, favourites)) {
+                  this.props.updateFavourites(items);
+                }
+              })
+            }
+            animation={200}
+            handle={`.${styles['favourite-edit-list-item-left']}`}
+          >
+            {favourites.map(favourite => {
+              return this.renderFavouriteListItem(favourite);
+            })}
+          </ReactSortable>
+        </ContainerSpinner>
       </div>
     );
   };
@@ -257,6 +262,7 @@ class FavouriteEditingModal extends React.Component {
   };
 
   render() {
+    const { isLoading } = this.props;
     const { favourites, showDeletePlaceModal, selectedFavourite } = this.state;
     const modalProps = {
       headerText: i18next.t('edit-places'),
@@ -267,11 +273,11 @@ class FavouriteEditingModal extends React.Component {
         }
       },
       closeArialLabel: i18next.t('close-modal'),
-      renderList: this.renderFavouriteList(favourites),
+      renderList: this.renderFavouriteList(favourites, isLoading),
     };
     return (
-      <Fragment>
-        {this.isMobile() && (
+      <div>
+        {this.props.isMobile && (
           <Modal
             appElement={this.props.appElement}
             contentLabel={i18next.t('edit-modal-on-open')}
@@ -285,25 +291,23 @@ class FavouriteEditingModal extends React.Component {
             <MobileModal {...modalProps} />
           </Modal>
         )}
-        {!this.isMobile() && (
+        {!this.props.isMobile && (
           <Fragment>
-            {!showDeletePlaceModal && (
-              <Modal
-                appElement={this.props.appElement}
-                contentLabel={i18next.t('edit-modal-on-open')}
-                closeButtonLabel={i18next.t('close-modal')}
-                variant="small"
-                isOpen={this.props.isModalOpen}
-                onCrossClick={this.props.handleClose}
-              >
-                <DesktopModal {...modalProps} />
-              </Modal>
-            )}
+            <Modal
+              appElement={this.props.appElement}
+              contentLabel={i18next.t('edit-modal-on-open')}
+              closeButtonLabel={i18next.t('close-modal')}
+              variant="small"
+              isOpen={this.props.isModalOpen && !showDeletePlaceModal}
+              onCrossClick={this.props.handleClose}
+            >
+              <DesktopModal {...modalProps} />
+            </Modal>
             {showDeletePlaceModal &&
               this.renderDeleteFavouriteModal(selectedFavourite)}
           </Fragment>
         )}
-      </Fragment>
+      </div>
     );
   }
 }

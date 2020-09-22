@@ -41,18 +41,6 @@
 	margin-left: 5px;
 	margin-right: 5px;
 
-	.disabled-overlay {
-		cursor: default;
-		z-index: 1;
-		border-radius: 5px;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		left: 0;
-		position: absolute;
-		background-color: rgba(255, 255, 255, 0.7);
-	}
-
 	.street-mode-selector-button-content {
 		width: 100%;
 		height: 100%;

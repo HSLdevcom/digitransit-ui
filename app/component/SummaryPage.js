@@ -1147,7 +1147,22 @@ class SummaryPage extends React.Component {
         itineraryBikeDistance < this.context.config.suggestBikeMaxDistance,
     );
 
+    const bikeAndPublicPlanHasItineraries =
+      bikeAndPublicPlan &&
+      bikeAndPublicPlan.itineraries &&
+      bikeAndPublicPlan.itineraries.length > 0 &&
+      bikeAndPublicPlan.itineraries[0].legs.filter(
+        obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE',
+      ).length > 0;
+    const bikeParkPlanHasItineraries =
+      bikeParkPlan &&
+      bikeParkPlan.itineraries &&
+      bikeParkPlan.itineraries.length > 0 &&
+      bikeParkPlan.itineraries[0].legs.filter(
+        obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE',
+      ).length > 0;
     const showBikeAndPublicOptionButton =
+      (bikeAndPublicPlanHasItineraries || bikeParkPlanHasItineraries) &&
       currentSettings.usingWheelchair !== 1 &&
       currentSettings.includeBikeSuggestions;
 
@@ -1525,7 +1540,11 @@ const PositioningWrapper = connectToStores(
       const locationForUrl = addressToItinerarySearch(locationState);
       const newFrom = from === 'POS' ? locationForUrl : from;
       const newTo = to === 'POS' ? locationForUrl : to;
-      props.router.replace(getRoutePath(newFrom, newTo));
+      const newLocation = {
+        ...props.match.location,
+        pathname: getRoutePath(newFrom, newTo),
+      };
+      props.router.replace(newLocation);
       return { ...props, loadingPosition: false };
     }
 

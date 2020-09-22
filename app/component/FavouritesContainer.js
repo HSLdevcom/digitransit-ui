@@ -55,7 +55,7 @@ class FavouritesContainer extends React.Component {
     this.state = {
       addModalOpen: false,
       editModalOpen: false,
-      favourite: {},
+      favourite: null,
     };
   }
 
@@ -65,7 +65,7 @@ class FavouritesContainer extends React.Component {
     this.setState(prevState => ({
       favourite: {
         ...location,
-        name: prevState.favourite.name || '',
+        name: (prevState.favourite && prevState.favourite.name) || '',
         defaultName: item.name || item.properties.name,
       },
     }));
@@ -132,56 +132,55 @@ class FavouritesContainer extends React.Component {
             this.props.favouriteStatus === FavouriteStore.STATUS_FETCHING
           }
         />
-        {this.state.addModalOpen && (
-          <FavouriteModal
-            appElement="#app"
-            isModalOpen={this.state.addModalOpen}
-            handleClose={() =>
-              this.setState({
-                addModalOpen: false,
-                favourite: {},
-              })
-            }
-            saveFavourite={this.saveFavourite}
-            cancelSelected={() =>
-              this.setState({
-                addModalOpen: false,
-                editModalOpen: true,
-                favourite: {},
-              })
-            }
-            favourite={this.state.favourite}
-            lang={this.props.lang}
-            isMobile={this.props.isMobile}
-            autosuggestComponent={
-              <AutoSuggestWithSearchContext
-                sources={['History', 'Datasource']}
-                targets={['Locations', 'CurrentPosition', 'Stops']}
-                id="favourite"
-                placeholder="search-address-or-place"
-                value={this.state.favourite.address || ''}
-                onFavouriteSelected={this.setLocationProperties}
-                lang={this.props.lang}
-                isMobile={this.props.isMobile}
-              />
-            }
-          />
-        )}
-        {this.state.editModalOpen && (
-          <FavouriteEditModal
-            appElement="#app"
-            isModalOpen={this.state.editModalOpen}
-            favourites={this.props.favourites}
-            updateFavourites={this.updateFavourites}
-            handleClose={() =>
-              this.setState({ editModalOpen: false, favourite: {} })
-            }
-            saveFavourite={this.saveFavourite}
-            deleteFavourite={this.deleteFavourite}
-            onEditSelected={this.editFavourite}
-            lang={this.props.lang}
-          />
-        )}
+        <FavouriteModal
+          appElement="#app"
+          isModalOpen={this.state.addModalOpen}
+          handleClose={() =>
+            this.setState({
+              addModalOpen: false,
+              favourite: null,
+            })
+          }
+          saveFavourite={this.saveFavourite}
+          cancelSelected={() =>
+            this.setState({
+              addModalOpen: false,
+              editModalOpen: true,
+              favourite: null,
+            })
+          }
+          favourite={this.state.favourite}
+          lang={this.props.lang}
+          isMobile={this.props.isMobile}
+          autosuggestComponent={
+            <AutoSuggestWithSearchContext
+              sources={['History', 'Datasource']}
+              targets={['Locations', 'CurrentPosition', 'Stops']}
+              id="favourite"
+              placeholder="search-address-or-place"
+              value={
+                (this.state.favourite && this.state.favourite.address) || ''
+              }
+              onFavouriteSelected={this.setLocationProperties}
+              lang={this.props.lang}
+              isMobile={this.props.isMobile}
+            />
+          }
+        />
+        <FavouriteEditModal
+          appElement="#app"
+          isModalOpen={this.state.editModalOpen}
+          favourites={this.props.favourites}
+          updateFavourites={this.updateFavourites}
+          handleClose={() =>
+            this.setState({ editModalOpen: false, favourite: null })
+          }
+          saveFavourite={this.saveFavourite}
+          deleteFavourite={this.deleteFavourite}
+          onEditSelected={this.editFavourite}
+          lang={this.props.lang}
+          isMobile={this.props.isMobile}
+        />
       </React.Fragment>
     );
   }
