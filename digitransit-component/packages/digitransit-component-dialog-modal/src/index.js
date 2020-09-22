@@ -34,7 +34,6 @@ const DialogModal = ({
   modalAriaLabel,
 }) => {
   i18next.changeLanguage(lang);
-
   return (
     <Modal
       appElement={appElement}
@@ -48,12 +47,12 @@ const DialogModal = ({
         <div className={styles['digitransit-dialog-modal-header']}>
           {headerText}
         </div>
+        {dialogContent && (
+          <div className={styles['digitransit-dialog-modal-place']}>
+            {dialogContent}
+          </div>
+        )}
       </div>
-      {dialogContent && (
-        <div className={styles['digitransit-dialog-modal-place']}>
-          {dialogContent}
-        </div>
-      )}
       <div className={styles['digitransit-dialog-modal-buttons']}>
         {
           <button
@@ -88,7 +87,7 @@ const DialogModal = ({
 
 DialogModal.propTypes = {
   appElement: PropTypes.string.isRequired,
-  isModalOpen: PropTypes.string.isRequired,
+  isModalOpen: PropTypes.bool.isRequired,
   headerText: PropTypes.string.isRequired,
   handleClose: PropTypes.func,
   primaryButtonText: PropTypes.string.isRequired,
