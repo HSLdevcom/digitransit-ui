@@ -8,8 +8,6 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const OfflinePlugin = require('offline-plugin');
 
 const CompressionPlugin = require('compression-webpack-plugin');
-const iltorb = require('iltorb');
-const zopfli = require('node-zopfli');
 
 const WebpackAssetsManifest = require('webpack-assets-manifest');
 const StatsPlugin = require('stats-webpack-plugin');
@@ -130,23 +128,25 @@ const productionPlugins = [
     filename: '[path].gz[query]',
     test: /\.(js|css|html|svg|ico)$/,
     minRatio: 0.95,
-    algorithm: zopfli.gzip,
+    algorithm: 'gzip',
   }),
   new CompressionPlugin({
     filename: '[path].br[query]',
     test: /\.(js|css|html|svg|ico)$/,
     minRatio: 0.95,
-    algorithm: iltorb.compress,
+    algorithm: 'brotliCompress',
   }),
-  new CopyWebpackPlugin([
-    {
-      from: path.join(__dirname, 'static/assets/geojson'),
-      transform: function minify(content) {
-        return JSON.stringify(JSON.parse(content.toString()));
+  new CopyWebpackPlugin({
+    patterns: [
+      {
+        from: path.join(__dirname, 'static/assets/geojson'),
+        transform: function minify(content) {
+          return JSON.stringify(JSON.parse(content.toString()));
+        },
+        to: path.join(__dirname, '_static/assets/geojson'),
       },
-      to: path.join(__dirname, '_static/assets/geojson'),
-    },
-  ]),
+    ],
+  }),
   new StatsPlugin('../stats.json', { chunkModules: true }),
   new WebpackAssetsManifest({ output: '../manifest.json' }),
 ];

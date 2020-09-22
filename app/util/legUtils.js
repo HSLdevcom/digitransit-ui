@@ -136,8 +136,8 @@ export const compressLegs = originalLegs => {
       const newBikePark = compressedLeg.to.bikePark
         ? compressedLeg.to.bikePark
         : currentLeg.to.bikePark
-          ? currentLeg.to.bikePark
-          : null;
+        ? currentLeg.to.bikePark
+        : null;
       compressedLeg.duration += currentLeg.duration;
       compressedLeg.distance += currentLeg.distance;
       compressedLeg.to = { ...currentLeg.to, ...{ bikePark: newBikePark } };

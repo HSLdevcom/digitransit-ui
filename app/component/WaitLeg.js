@@ -62,16 +62,15 @@ function WaitLeg({ children, leg, startTime, waitTime, focusAction, index }) {
             </Link>
             <div className="stop-code-container">
               {children}
-              {leg.from &&
-                leg.from.stop && (
-                  <PlatformNumber
-                    number={leg.from.stop.platformCode}
-                    short
-                    isRailOrSubway={
-                      modeClassName === 'rail' || modeClassName === 'subway'
-                    }
-                  />
-                )}
+              {leg.from && leg.from.stop && (
+                <PlatformNumber
+                  number={leg.from.stop.platformCode}
+                  short
+                  isRailOrSubway={
+                    modeClassName === 'rail' || modeClassName === 'subway'
+                  }
+                />
+              )}
             </div>
           </div>
           <div
@@ -121,11 +120,7 @@ const exampleLeg = () => ({
 });
 
 WaitLeg.description = () => {
-  const today = moment()
-    .hour(12)
-    .minute(34)
-    .second(0)
-    .valueOf();
+  const today = moment().hour(12).minute(34).second(0).valueOf();
   const leg = exampleLeg();
   const duration = moment.duration(17, 'minutes').asMilliseconds();
   return (
@@ -151,8 +146,17 @@ WaitLeg.propTypes = {
   children: PropTypes.node,
   waitTime: PropTypes.number.isRequired,
   leg: PropTypes.shape({
+    from: PropTypes.shape({
+      stop: PropTypes.shape({
+        gtfsId: PropTypes.string.isRequired,
+        platformCode: PropTypes.string,
+      }),
+    }),
     to: PropTypes.shape({
       name: PropTypes.string.isRequired,
+      stop: PropTypes.shape({
+        gtfsId: PropTypes.string.isRequired,
+      }),
     }).isRequired,
   }).isRequired,
 };

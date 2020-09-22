@@ -40,11 +40,7 @@ const exampleLeg = t1 => ({
 });
 
 AirportCollectLuggageLeg.description = () => {
-  const today = moment()
-    .hour(12)
-    .minute(34)
-    .second(0)
-    .valueOf();
+  const today = moment().hour(12).minute(34).second(0).valueOf();
   return (
     <div>
       <p>Displays an itinerary airport collect luggage leg.</p>

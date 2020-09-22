@@ -24,7 +24,6 @@ import {
 } from '../../action/realTimeClientAction';
 import { addressToItinerarySearch } from '../../util/otpStrings';
 import ItineraryLine from './ItineraryLine';
-import Loading from '../Loading';
 
 const startClient = (context, routes) => {
   const { realTime } = context.config;
@@ -53,15 +52,18 @@ const stopClient = context => {
 };
 
 const handleBounds = (location, stops) => {
-  if (location.lat === 0 && location.lon === 0) {
+  if (!location || (location.lat === 0 && location.lon === 0)) {
     // Still waiting for a location
     return null;
   }
-  if (location && stops && stops.edges) {
+  if (location.lat && stops && stops.edges) {
     const { edges } = stops;
     if (!edges || edges.length === 0) {
       // No stops anywhere near
-      return [[location.lat, location.lon], [location.lat, location.lon]];
+      return [
+        [location.lat, location.lon],
+        [location.lat, location.lon],
+      ];
     }
     const nearestStop = edges[0].node.place;
     const bounds = [
@@ -87,13 +89,57 @@ function StopsNearYouMap(
   },
   { ...context },
 ) {
+  let useFitBounds = true;
   const bounds = handleBounds(locationState, stops);
   if (!bounds) {
-    return <Loading />;
+    useFitBounds = false;
   }
   let uniqueRealtimeTopics;
   const { environment } = useContext(ReactRelayContext);
   const [plan, setPlan] = useState({ plan: {}, isFetching: false });
+
+  const fetchPlan = async stop => {
+    if (locationState && locationState.lat) {
+      const toPlace = {
+        address: stop.name ? stop.name : 'stop',
+        lon: stop.lon,
+        lat: stop.lat,
+      };
+      const variables = {
+        fromPlace: addressToItinerarySearch(locationState),
+        toPlace: addressToItinerarySearch(toPlace),
+        date: moment(currentTime * 1000).format('YYYY-MM-DD'),
+        time: moment(currentTime * 1000).format('HH:mm:ss'),
+      };
+      const query = graphql`
+        query StopsNearYouMapQuery(
+          $fromPlace: String!
+          $toPlace: String!
+          $date: String!
+          $time: String!
+        ) {
+          plan: plan(
+            fromPlace: $fromPlace
+            toPlace: $toPlace
+            date: $date
+            time: $time
+            transportModes: [{ mode: WALK }]
+          ) {
+            itineraries {
+              legs {
+                mode
+                ...ItineraryLine_legs
+              }
+            }
+          }
+        }
+      `;
+      fetchQuery(environment, query, variables).then(({ plan: result }) => {
+        setPlan({ plan: result, isFetching: false });
+      });
+    }
+  };
+
   useEffect(() => {
     startClient(context, uniqueRealtimeTopics);
     return function cleanup() {
@@ -101,74 +147,20 @@ function StopsNearYouMap(
     };
   }, []);
 
-  useEffect(
-    () => {
-      let isMounted = true;
-      const fetchPlan = async stop => {
-        if (locationState.hasLocation && locationState.address) {
-          const toPlace = {
-            address: stop.name ? stop.name : 'stop',
-            lon: stop.lon,
-            lat: stop.lat,
-          };
-          const variables = {
-            fromPlace: addressToItinerarySearch(locationState),
-            toPlace: addressToItinerarySearch(toPlace),
-            date: moment(currentTime * 1000).format('YYYY-MM-DD'),
-            time: moment(currentTime * 1000).format('HH:mm:ss'),
-          };
-          const query = graphql`
-            query StopsNearYouMapQuery(
-              $fromPlace: String!
-              $toPlace: String!
-              $date: String!
-              $time: String!
-            ) {
-              plan: plan(
-                fromPlace: $fromPlace
-                toPlace: $toPlace
-                date: $date
-                time: $time
-                transportModes: [{ mode: WALK }]
-              ) {
-                itineraries {
-                  legs {
-                    mode
-                    ...ItineraryLine_legs
-                  }
-                }
-              }
-            }
-          `;
-          fetchQuery(environment, query, variables).then(({ plan: result }) => {
-            if (isMounted) {
-              setPlan({ plan: result, isFetching: false });
-            }
-          });
-        }
-      };
-      if (stops.edges.length > 0 && locationState.hasLocation) {
-        const stop = stops.edges[0].node.place;
-        setPlan({ plan: plan.plan, isFetching: true });
-        fetchPlan(stop);
-      }
-      return () => {
-        isMounted = false;
-      };
-    },
-    [locationState.status],
-  );
-  if (locationState.loadingPosition || props.loading) {
-    return <Loading />;
-  }
+  useEffect(() => {
+    if (stops.edges && stops.edges.length > 0) {
+      const stop = stops.edges[0].node.place;
+      setPlan({ plan: plan.plan, isFetching: true });
+      fetchPlan(stop);
+    }
+  }, []);
 
   const { mode } = props.match.params;
-
   const routeLines = [];
   const realtimeTopics = [];
   const renderRouteLines = mode !== 'CITYBIKE';
   let leafletObjs = [];
-  if (renderRouteLines) {
+  if (renderRouteLines && stops.edges) {
     stops.edges.forEach(item => {
       const { place } = item.node;
       place.patterns.forEach(pattern => {
@@ -218,7 +210,7 @@ function StopsNearYouMap(
     );
   }
   const hilightedStops = () => {
-    if (stops.edges.length > 0 && mode !== 'CITYBIKE') {
+    if (stops.edges && stops.edges.length > 0 && mode !== 'CITYBIKE') {
       return [stops.edges[0].node.place.gtfsId];
     }
     return [''];
@@ -232,8 +224,9 @@ function StopsNearYouMap(
         showStops
         stopsNearYouMode={mode}
         showScaleBar
-        fitBounds={bounds.length > 0}
-        defaultMapCenter={locationState}
+        fitBounds={useFitBounds}
+        defaultMapCenter={context.config.defaultEndpoint}
+        initialZoom={16}
         bounds={bounds}
         origin={origin}
         destination={destination}
@@ -255,8 +248,9 @@ function StopsNearYouMap(
           breakpoint={breakpoint}
           showStops
           stopsNearYouMode={mode}
-          fitBounds={bounds.length > 0}
-          defaultMapCenter={locationState}
+          fitBounds={useFitBounds}
+          defaultMapCenter={context.config.defaultEndpoint}
+          initialZoom={16}
           bounds={bounds}
           showScaleBar
           origin={origin}
@@ -269,17 +263,16 @@ function StopsNearYouMap(
       </>
     );
   }
-
   return map;
 }
 
 StopsNearYouMap.propTypes = {
   match: matchShape.isRequired,
-
   breakpoint: PropTypes.string.isRequired,
   origin: dtLocationShape,
   destination: dtLocationShape,
   language: PropTypes.string.isRequired,
+  locationState: PropTypes.object,
 };
 
 StopsNearYouMap.contextTypes = {
@@ -299,20 +292,23 @@ const StopsNearYouMapWithBreakpoint = withBreakpoint(StopsNearYouMap);
 const StopsNearYouMapWithStores = connectToStores(
   StopsNearYouMapWithBreakpoint,
   [OriginStore, TimeStore, DestinationStore, PreferencesStore, PositionStore],
-  ({ getStore }) => {
-    const currentTime = getStore(TimeStore)
-      .getCurrentTime()
-      .unix();
+  ({ getStore }, props) => {
+    const currentTime = getStore(TimeStore).getCurrentTime().unix();
     const origin = getStore(OriginStore).getOrigin();
     const destination = getStore(DestinationStore).getDestination();
     const language = getStore(PreferencesStore).getLanguage();
-    const locationState = getStore(PositionStore).getLocationState();
+    let locationState;
+    if (props.match.params.place !== 'POS') {
+      locationState = props.position;
+    } else {
+      locationState = getStore(PositionStore).getLocationState();
+    }
     return {
       origin,
       destination,
       language,
-      locationState,
       currentTime,
+      locationState,
     };
   },
 );
@@ -320,10 +316,10 @@ const StopsNearYouMapWithStores = connectToStores(
 const containerComponent = createFragmentContainer(StopsNearYouMapWithStores, {
   stops: graphql`
     fragment StopsNearYouMap_stops on placeAtDistanceConnection
-      @argumentDefinitions(
-        startTime: { type: "Long!", defaultValue: 0 }
-        omitNonPickups: { type: "Boolean!", defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      startTime: { type: "Long!", defaultValue: 0 }
+      omitNonPickups: { type: "Boolean!", defaultValue: false }
+    ) {
       edges {
         node {
           place {

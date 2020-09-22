@@ -27,7 +27,7 @@ const AppBarContainer = ({
     <DesktopOrMobile
       mobile={() => {
         if (style === 'hsl') {
-          return <AppBarHsl lang={lang} />;
+          return <AppBarHsl user={user} lang={lang} />;
         }
         return (
           <AppBarSmall
@@ -41,7 +41,7 @@ const AppBarContainer = ({
       }}
       desktop={() => {
         if (style === 'hsl') {
-          return <AppBarHsl lang={lang} />;
+          return <AppBarHsl user={user} lang={lang} />;
         }
         return (
           <AppBarLarge
