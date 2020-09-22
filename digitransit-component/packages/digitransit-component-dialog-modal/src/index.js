@@ -35,15 +35,12 @@ const DialogModal = ({
 }) => {
   i18next.changeLanguage(lang);
 
-  const isMobile = () =>
-    window && window.innerWidth ? window.innerWidth < 768 : false;
-
   return (
     <Modal
       appElement={appElement}
       contentLabel={modalAriaLabel}
       closeButtonLabel={i18next.t('close-favourite-modal')}
-      variant={isMobile() ? 'large' : 'small'}
+      variant="confirmation"
       isOpen={isModalOpen}
       onCrossClick={handleClose}
     >
