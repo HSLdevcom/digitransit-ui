@@ -23,7 +23,7 @@ import {
 export default class FavouriteStore extends Store {
   static storeName = 'FavouriteStore';
 
-  static STATUS_FETCHING = 'fetching';
+  static STATUS_FETCHING_OR_UPDATING = 'fetching';
 
   static STATUS_HAS_DATA = 'has-data';
 
@@ -36,7 +36,7 @@ export default class FavouriteStore extends Store {
   constructor(dispatcher) {
     super(dispatcher);
     this.config = dispatcher.getContext().config;
-    this.fetching();
+    this.fetchingOrUpdating();
     if (this.config.showLogin) {
       getFavourites()
         .then(res => {
@@ -61,8 +61,8 @@ export default class FavouriteStore extends Store {
     this.emitChange();
   }
 
-  fetching() {
-    this.status = FavouriteStore.STATUS_FETCH_OR_UPDATE;
+  fetchingOrUpdating() {
+    this.status = FavouriteStore.STATUS_FETCHING_OR_UPDATING;
     this.emitChange();
   }
 
@@ -116,6 +116,7 @@ export default class FavouriteStore extends Store {
     if (typeof data !== 'object') {
       throw new Error(`New favourite is not a object:${JSON.stringify(data)}`);
     }
+    this.fetchingOrUpdating();
     const newFavourites = this.favourites;
     const editIndex = findIndex(
       this.favourites,
@@ -138,17 +139,17 @@ export default class FavouriteStore extends Store {
       updateFavourites(newFavourites)
         .then(() => {
           this.favourites = newFavourites;
-          this.emitChange();
+          this.fetchComplete();
         })
         .catch(() => {
           this.favourites = newFavourites;
           this.storeFavourites();
-          this.emitChange();
+          this.fetchComplete();
         });
     } else {
       this.favourites = newFavourites;
       this.storeFavourites();
-      this.emitChange();
+      this.fetchComplete();
     }
   }
 
@@ -158,22 +159,23 @@ export default class FavouriteStore extends Store {
         `New favourites is not an array:${JSON.stringify(newFavourites)}`,
       );
     }
+    this.fetchingOrUpdating();
     if (this.config.showLogin) {
       // Update favourites to backend service
       updateFavourites(newFavourites)
         .then(() => {
           this.favourites = newFavourites;
-          this.emitChange();
+          this.fetchComplete();
         })
         .catch(() => {
           this.favourites = newFavourites;
           this.storeFavourites();
-          this.emitChange();
+          this.fetchComplete();
         });
     } else {
       this.favourites = newFavourites;
       this.storeFavourites();
-      this.emitChange();
+      this.fetchComplete();
     }
   }
 
@@ -181,6 +183,7 @@ export default class FavouriteStore extends Store {
     if (typeof data !== 'object') {
       throw new Error(`Favourite is not an object:${JSON.stringify(data)}`);
     }
+    this.fetchingOrUpdating();
     const newFavourites = this.favourites.filter(
       favourite => favourite.favouriteId !== data.favouriteId,
     );
@@ -189,17 +192,16 @@ export default class FavouriteStore extends Store {
       deleteFavourites([data.favouriteId])
         .then(() => {
           this.favourites = newFavourites;
-          this.emitChange();
+          this.fetchComplete();
         })
         .catch(() => {
           this.favourites = newFavourites;
-          this.storeFavourites();
-          this.emitChange();
+          this.fetchComplete();
         });
     } else {
       this.favourites = newFavourites;
       this.storeFavourites();
-      this.emitChange();
+      this.fetchComplete();
     }
   }
 

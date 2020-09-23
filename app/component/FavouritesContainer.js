@@ -118,6 +118,8 @@ class FavouritesContainer extends React.Component {
   };
 
   render() {
+    const isLoading =
+      this.props.favouriteStatus === FavouriteStore.STATUS_FETCHING_OR_UPDATING;
     return (
       <React.Fragment>
         <FavouriteBar
@@ -128,9 +130,7 @@ class FavouritesContainer extends React.Component {
           onAddHome={this.addHome}
           onAddWork={this.addWork}
           lang={this.props.lang}
-          loading={
-            this.props.favouriteStatus === FavouriteStore.STATUS_FETCHING
-          }
+          isLoading={isLoading}
         />
         <FavouriteModal
           appElement="#app"
@@ -154,6 +154,7 @@ class FavouritesContainer extends React.Component {
           isMobile={this.props.isMobile}
           autosuggestComponent={
             <AutoSuggestWithSearchContext
+              appElement="#app"
               sources={['History', 'Datasource']}
               targets={['Locations', 'CurrentPosition', 'Stops']}
               id="favourite"
@@ -180,6 +181,7 @@ class FavouritesContainer extends React.Component {
           onEditSelected={this.editFavourite}
           lang={this.props.lang}
           isMobile={this.props.isMobile}
+          isLoading={isLoading}
         />
       </React.Fragment>
     );

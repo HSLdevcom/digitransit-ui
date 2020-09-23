@@ -6,7 +6,7 @@ $primary-color: #007ac9;
 
 .digitransit-dialog-modal-top {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   margin-bottom: 45px;
   .digitransit-dialog-modal-header {
@@ -17,15 +17,14 @@ $primary-color: #007ac9;
     text-align: center;
     color: #333333;
   }
-}
-
-.digitransit-dialog-modal-place {
-  font-size: 18px;
-  font-weight: normal;
-  line-height: 1.33;
-  letter-spacing: -0.6px;
-  text-align: center;
-  color: #333333;
+  .digitransit-dialog-modal-content {
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 1.33;
+    letter-spacing: -0.6px;
+    text-align: center;
+    color: #333333;
+  }
 }
 
 .digitransit-dialog-modal-buttons {
