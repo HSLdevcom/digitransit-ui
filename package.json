@@ -8,10 +8,11 @@
   "workspaces": [
     "digitransit-util/packages/*",
     "digitransit-search-util/packages/*",
-    "digitransit-component/packages/*"
+    "digitransit-component/packages/*",
+    "digitransit-store/packages/*"
   ],
   "scripts": {
-    "setup": "yarn install && yarn run digitransit-build-components && yarn run build-search-utils",
+    "setup": "yarn install && yarn digitransit-build-components && yarn build-search-utils && yarn digitransit-store-build",
     "static": "mkdir -p _static/js; mkdir -p _static/css; cp -r static/* _static",
     "win-static": "xcopy static\\* _static /e /s /y /i& if not exist _static\\js mkdir _static\\js& if not exist _static\\css mkdir _static\\css",
     "prebuild": "yarn run static && yarn run relay",
@@ -28,7 +29,7 @@
     "test-report": "codecov",
     "test-smoke": "./test/flow/script/run-ui-tests.sh smoke",
     "test-saucelabs": "./test/flow/script/run-ui-tests.sh saucelabs",
-    "test-unit": "yarn lerna run build:test --scope '@digitransit-component/*' && mocha --require mock-local-storage --file test/unit/helpers/babel-register.js --file test/unit/helpers/init.js \"test/unit/**/*.test.js\"",
+    "test-unit": "yarn lerna run build:test --scope '@digitransit-component/*' && yarn lerna run build:test --scope '@digitransit-store/*' && mocha --require mock-local-storage --file test/unit/helpers/babel-register.js --file test/unit/helpers/init.js \"test/unit/**/*.test.js\"",
     "test-single": "mocha --require mock-local-storage --file test/unit/helpers/babel-register.js --file test/unit/helpers/init.js \"test/unit/**/*.test.js\" -g $1",
     "test-visual": "gemini --reporter flat test test/visual/",
     "test-visual-update": "gemini update test/visual/",
@@ -53,8 +54,12 @@
     "digitransit-component-new-module": "node -r esm ./digitransit-component/scripts/create-new-module $1",
     "digitransit-component-tests": "lerna run test --scope '@digitransit-component/*'",
     "digitransit-watch-components": "lerna run watch --parallel --stream",
-    "digitransit-build-components": "lerna run build:index --scope '@digitransit-component/*'",
-    "build-search-utils": "lerna run build:index --scope '@digitransit-search-util/digitransit-search-util-query-utils'"
+    "digitransit-build-components": "lerna run clean --scope '@digitransit-component/*' && lerna run build:index --scope '@digitransit-component/digitransit-component-icon' && lerna run build:index --scope '@digitransit-component/digitransit-component-suggestion-item' && lerna run build:index --scope '@digitransit-component/*'",
+    "build-search-utils": "cd digitransit-search-util && find . -type dir -name node_modules | xargs rm -rf && cd .. && lerna run build:index --scope '@digitransit-search-util/digitransit-search-util-query-utils'",
+    "digitransit-store-docs": "node -r esm ./digitransit-store/scripts/generate-readmes",
+    "digitransit-store-new-module": "node -r esm ./digitransit-store/scripts/create-new-module $1",
+    "digitransit-store-tests": "lerna run build:test --scope '@digitransit-store/*' && lerna run test --scope '@digitransit-store/*'",
+    "digitransit-store-build": "lerna run clean --scope '@digitransit-store/*' && lerna run build:index --scope '@digitransit-store/digitransit-store-common-functions' && lerna run build:index --scope '@digitransit-store/*'"
   },
   "main": "server.js",
   "repository": {

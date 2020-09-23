@@ -2,7 +2,8 @@
   "packages": [
     "digitransit-util/packages/*",
     "digitransit-search-util/packages/*",
-    "digitransit-component/packages/*"
+    "digitransit-component/packages/*",
+    "digitransit-store/packages/*"
   ],
   "version": "independent",
   "npmClient": "yarn",

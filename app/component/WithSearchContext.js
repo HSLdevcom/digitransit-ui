@@ -6,6 +6,7 @@ import { intlShape } from 'react-intl';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { createUrl } from '@digitransit-store/digitransit-store-future-route';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { navigateTo } from '../util/path';
 import searchContext from '../util/searchContext';
@@ -115,6 +116,11 @@ export default function withSearchContext(WrappedComponent) {
 
     onSuggestionSelected = (item, id) => {
       if (!id) {
+        return;
+      }
+      // future route
+      if (item.type === 'FutureRoute') {
+        this.selectFutureRoute(item);
         return;
       }
       // route
@@ -251,6 +257,34 @@ export default function withSearchContext(WrappedComponent) {
         return;
       }
 
+      if (
+        origin.ready &&
+        destination.ready &&
+        `${origin.address}/${origin.lat}/${origin.lat}` !==
+          `${destination.address}/${destination.lat}/${destination.lat}`
+      ) {
+        const newRoute = {
+          origin: {
+            address: origin.address,
+            coordinates: {
+              lat: origin.lat,
+              lon: origin.lon,
+            },
+          },
+          destination: {
+            address: destination.address,
+            coordinates: {
+              lat: destination.lat,
+              lon: destination.lon,
+            },
+          },
+          arriveBy: this.context.match.location.query.arriveBy
+            ? this.context.match.location.query.arriveBy
+            : false,
+          time: this.context.match.location.query.time,
+        };
+        this.context.executeAction(searchContext.saveFutureRoute, newRoute);
+      }
       if (location.type !== 'SelectFromMap') {
         const pathname = this.context.match.location.pathname || '';
         const pathArr = pathname.split('/');
@@ -267,6 +301,11 @@ export default function withSearchContext(WrappedComponent) {
       } else {
         this.openSelectFromMapModal(id);
       }
+    };
+
+    selectFutureRoute = item => {
+      const path = createUrl(item);
+      this.context.router.push(path);
     };
 
     onSelect = (item, id) => {

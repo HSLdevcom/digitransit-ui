@@ -14,6 +14,7 @@ module.exports = {
     'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
     'no-console': 'error',
     'import/no-extraneous-dependencies': 'off',
+    'import/no-named-default': 'off',
     // react
     'react/button-has-type': 'warn',
     'react/destructuring-assignment': 'off',

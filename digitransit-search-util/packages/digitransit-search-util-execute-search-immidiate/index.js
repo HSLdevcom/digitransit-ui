@@ -204,6 +204,7 @@ export function getSearchResults(
     feedIDs,
     geocodingSearchParams,
     geocodingSources,
+    getFutureRoutes,
   } = searchContext;
   // if no targets are provided, search them all.
   const allTargets = !targets || targets.length === 0;
@@ -229,6 +230,10 @@ export function getSearchResults(
   }
   if (allTargets || targets.includes('MapPosition')) {
     searchComponents.push(selectPositionFomMap(input));
+  }
+  if (targets.includes('FutureRoutes')) {
+    const items = getFutureRoutes(context);
+    searchComponents.push(take(items, 3));
   }
   if (
     targets.includes('SelectFromOwnLocations') &&
@@ -271,6 +276,7 @@ export function getSearchResults(
       const dropLayers = [
         'currentPosition',
         'selectFromMap',
+        'futureRoute',
         'ownLocations',
         'stop',
         'back',
@@ -321,6 +327,7 @@ export function getSearchResults(
       const dropLayers = [
         'currentPosition',
         'selectFromMap',
+        'futureRoute',
         'ownLocations',
         'favouritePlace',
         'back',
@@ -354,6 +361,7 @@ export function getSearchResults(
       const dropLayers = [
         'currentPosition',
         'selectFromMap',
+        'futureRoute',
         'favouritePlace',
         'stop',
         'station',

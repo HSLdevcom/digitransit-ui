@@ -40,6 +40,7 @@ import ModeRail from './assets/mode_rail.svg';
 import ModeTram from './assets/mode_tram.svg';
 import ModeFerry from './assets/mode_ferry.svg';
 import ModeCitybike from './assets/mode_citybike.svg';
+import FutureRoute from './assets/icon-route.svg';
 
 const IconMap = style => {
   return {
@@ -84,6 +85,7 @@ const IconMap = style => {
     'mode-subway': <Subway style={style} />,
     'mode-ferry': <ModeFerry style={style} />,
     'mode-citybike': <ModeCitybike style={style} />,
+    'future-route': <FutureRoute style={style} />,
   };
 };
 
