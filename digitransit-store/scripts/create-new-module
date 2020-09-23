@@ -67,7 +67,7 @@ class ${pascalCaseName} extends Store {
   }
 
   save${pascalCaseName}(${camelcaseName}) {
-    const { items } = this.get${pascalCaseName}s();
+    const items = this.get${pascalCaseName}s();
     const newItems = [...items, ${camelcaseName}];
     const storage = {
       items: newItems,

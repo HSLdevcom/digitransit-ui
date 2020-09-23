@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 import { mountWithIntl } from '../helpers/mock-intl-enzyme';
 import configureMoment from '../../../app/util/configure-moment';

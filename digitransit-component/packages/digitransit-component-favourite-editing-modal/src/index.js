@@ -79,11 +79,13 @@ class FavouriteEditingModal extends React.Component {
     lang: PropTypes.string,
     appElement: PropTypes.string.isRequired,
     isModalOpen: PropTypes.bool.isRequired,
+    isMobile: PropTypes.bool,
     isLoading: PropTypes.bool.isRequired,
   };
 
   static defaulProps = {
     lang: 'fi',
+    isMobile: false,
   };
 
   constructor(props) {
@@ -119,9 +121,6 @@ class FavouriteEditingModal extends React.Component {
       i18next.changeLanguage(this.props.lang);
     }
   };
-
-  isMobile = () =>
-    window && window.innerWidth ? window.innerWidth < 768 : false;
 
   renderFavouriteListItem = favourite => {
     const iconId = favourite.selectedIconId.replace('icon-icon_', '');
@@ -277,8 +276,8 @@ class FavouriteEditingModal extends React.Component {
       renderList: this.renderFavouriteList(favourites, isLoading),
     };
     return (
-      <Fragment>
-        {this.isMobile() && (
+      <div>
+        {this.props.isMobile && (
           <Modal
             appElement={this.props.appElement}
             contentLabel={i18next.t('edit-modal-on-open')}
@@ -292,25 +291,23 @@ class FavouriteEditingModal extends React.Component {
             <MobileModal {...modalProps} />
           </Modal>
         )}
-        {!this.isMobile() && (
+        {!this.props.isMobile && (
           <Fragment>
-            {!showDeletePlaceModal && (
-              <Modal
-                appElement={this.props.appElement}
-                contentLabel={i18next.t('edit-modal-on-open')}
-                closeButtonLabel={i18next.t('close-modal')}
-                variant="small"
-                isOpen={this.props.isModalOpen}
-                onCrossClick={this.props.handleClose}
-              >
-                <DesktopModal {...modalProps} />
-              </Modal>
-            )}
+            <Modal
+              appElement={this.props.appElement}
+              contentLabel={i18next.t('edit-modal-on-open')}
+              closeButtonLabel={i18next.t('close-modal')}
+              variant="small"
+              isOpen={this.props.isModalOpen && !showDeletePlaceModal}
+              onCrossClick={this.props.handleClose}
+            >
+              <DesktopModal {...modalProps} />
+            </Modal>
             {showDeletePlaceModal &&
               this.renderDeleteFavouriteModal(selectedFavourite)}
           </Fragment>
         )}
-      </Fragment>
+      </div>
     );
   }
 }

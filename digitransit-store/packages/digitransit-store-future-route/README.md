@@ -12,7 +12,7 @@
 
 ```javascript
 const oldRouteCollection = {
-  items: [
+  [
     {
       type: 'FutureRoute',
       properties: {

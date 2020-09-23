@@ -14,7 +14,6 @@ import {
 describe('LangSelect', () => {
   after(() => {
     moment.locale('en');
-    moment.tz.setDefault();
   });
 
   describe('<LangSelect />', () => {

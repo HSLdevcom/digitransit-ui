@@ -6,11 +6,11 @@ import { intlShape } from 'react-intl';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { createUrl } from '@digitransit-store/digitransit-store-future-route';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { navigateTo, PREFIX_ITINERARY_SUMMARY } from '../util/path';
+import { navigateTo } from '../util/path';
 import searchContext from '../util/searchContext';
 import intializeSearchContext from '../util/DTSearchContextInitializer';
-import { encodeAddressAndCoordinatesArray } from '../util/otpStrings';
 import SelectFromMapHeader from './SelectFromMapHeader';
 import SelectFromMapPageMap from './map/SelectFromMapPageMap';
 import DTModal from './DTModal';
@@ -304,27 +304,7 @@ export default function withSearchContext(WrappedComponent) {
     };
 
     selectFutureRoute = item => {
-      let path = `/${PREFIX_ITINERARY_SUMMARY}`;
-      // set origin
-      path += `/${encodeAddressAndCoordinatesArray(
-        `${item.properties.origin.name}, ${item.properties.origin.locality}`,
-        [
-          item.properties.origin.coordinates.lat,
-          item.properties.origin.coordinates.lon,
-        ],
-      )}`;
-      // set destination
-      path += `/${encodeAddressAndCoordinatesArray(
-        `${item.properties.destination.name}, ${item.properties.destination.locality}`,
-        [
-          item.properties.destination.coordinates.lat,
-          item.properties.destination.coordinates.lon,
-        ],
-      )}`;
-      // set arriveBy and time
-      path += `?${item.properties.arriveBy ? 'arriveBy=true&' : ''}time=${
-        item.properties.time
-      }`;
+      const path = createUrl(item);
       this.context.router.push(path);
     };
 

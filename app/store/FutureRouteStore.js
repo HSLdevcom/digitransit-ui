@@ -7,9 +7,7 @@ import { getFutureRoutesStorage, setFutureRoutesStorage } from './localStorage';
 class FutureRouteStore extends Store {
   static storeName = 'FutureRouteStore';
 
-  emptyData = {
-    items: [],
-  };
+  emptyData = JSON.parse('[]');
 
   constructor() {
     super();

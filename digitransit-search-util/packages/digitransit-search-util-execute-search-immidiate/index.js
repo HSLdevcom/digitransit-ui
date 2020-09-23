@@ -232,7 +232,7 @@ export function getSearchResults(
     searchComponents.push(selectPositionFomMap(input));
   }
   if (targets.includes('FutureRoutes')) {
-    const { items } = getFutureRoutes(context);
+    const items = getFutureRoutes(context);
     searchComponents.push(take(items, 3));
   }
   if (

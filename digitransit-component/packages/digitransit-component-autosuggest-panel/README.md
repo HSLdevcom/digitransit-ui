@@ -59,6 +59,7 @@ onSelect() {
 const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, MapPosition and CurrentPosition. Leave empty to search all targets.
 const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches), and Datasource. Leave empty to use all sources.
 <DTAutosuggestPanel
+   appElement={appElement} // Required. Root element's id. Needed for react-modal component.
    origin={origin} // Selected origin point
    destination={destination} // Selected destination point
    originPlaceHolder={'Give origin'} // Optional Give string shown initially inside origin search field

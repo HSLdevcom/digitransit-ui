@@ -3,7 +3,7 @@ import sortBy from 'lodash/sortBy';
 /**
  * @example
  * const oldRouteCollection = {
- *   items: [
+ *   [
  *     {
  *       type: 'FutureRoute',
  *       properties: {
@@ -76,7 +76,28 @@ import sortBy from 'lodash/sortBy';
  * //'/reitti/Pasila%2C%20Helsinki%3A%3A60.198828%2C24.933514/Myyrmäki%2C%20Vantaa%3A%3A60.261238%2C24.854782?time=1600888888'
  */
 
-export function createUrl(route) {
+function extractRoute(routeIn) {
+  let extractedRoute = routeIn;
+  if (routeIn.properties) {
+    const route = routeIn.properties;
+    extractedRoute = {
+      origin: {
+        address: `${route.origin.name}, ${route.origin.locality}`,
+        coordinates: route.origin.coordinates,
+      },
+      destination: {
+        address: `${route.destination.name}, ${route.destination.locality}`,
+        coordinates: route.destination.coordinates,
+      },
+      arriveBy: route.arriveBy ? route.arriveBy : false,
+      time: route.time,
+    };
+  }
+  return extractedRoute;
+}
+
+export function createUrl(routeIn) {
+  const route = extractRoute(routeIn);
   if (
     route &&
     route.origin &&
@@ -151,9 +172,8 @@ export function addFutureRoute(newRoute, routeCollection) {
     };
 
     const newRouteOriginAndDestination = `${routeToAdd.properties.origin.name}, ${routeToAdd.properties.origin.locality} - ${routeToAdd.properties.destination.name}, ${routeToAdd.properties.destination.locality}`;
-    const { items } = routeCollection;
-    const futureRoutes = items
-      ? items.filter(
+    const futureRoutes = routeCollection
+      ? routeCollection.filter(
           r =>
             r.properties.time >= new Date().getTime() / 1000 &&
             `${r.properties.origin.name}, ${r.properties.origin.locality} - ${r.properties.destination.name}, ${r.properties.destination.locality}` !==
@@ -168,10 +188,7 @@ export function addFutureRoute(newRoute, routeCollection) {
         'properties.destination.name',
       ],
     );
-    const storage = {
-      items: sortedItems,
-    };
-    return storage;
+    return sortedItems;
   }
-  return routeCollection || JSON.stringify({ items: [] });
+  return routeCollection || JSON.parse('[]');
 }

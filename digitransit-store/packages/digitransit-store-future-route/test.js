@@ -37,10 +37,6 @@ describe('Testing @digitransit-store/digitransit-store-future-route module', () 
   });
 
   describe('addFutureRoute(newRoute, routeCollection)', () => {
-    const empty = {
-      items: [],
-    };
-
     const routeInPast = {
       origin: {
         address: 'Pasila, Helsinki',
@@ -93,28 +89,25 @@ describe('Testing @digitransit-store/digitransit-store-future-route module', () 
       time: (new Date().getTime() / 1000 + 7200).toFixed(0),
     };
 
-    it("Save should not to add route in past to 'items' as 1st item", () => {
+    it('Save should not to add past route as 1st item', () => {
       const futureRoutes = addFutureRoute(
         routeInPast,
-        getItemAsJson(
-          'digitransit-store-future-route-test',
-          JSON.stringify(empty),
-        ),
+        getItemAsJson('digitransit-store-future-route-test'),
       );
       setItem('digitransit-store-future-route-test', futureRoutes);
-      expect(futureRoutes).to.have.property('items').with.lengthOf(0);
+      expect(futureRoutes).lengthOf(0);
     });
 
-    it("Save should add 1st route to 'items'", () => {
+    it('Save should add 1st route item', () => {
       const futureRoutes = addFutureRoute(
         routeInFuture1,
         getItemAsJson('digitransit-store-future-route-test'),
       );
       setItem('digitransit-store-future-route-test', futureRoutes);
-      expect(futureRoutes).to.have.property('items').with.lengthOf(1);
+      expect(futureRoutes).lengthOf(1);
     });
 
-    it("Save should not add 2nd route to 'items' (pair of origin and location already exists), only override timestamp", () => {
+    it('Save should not add 2nd route item (pair of origin and location already exists), only override timestamp', () => {
       const beforeSave = getItemAsJson('digitransit-store-future-route-test');
       const futureRoutes = addFutureRoute(
         routeInFuture2,
@@ -123,28 +116,25 @@ describe('Testing @digitransit-store/digitransit-store-future-route module', () 
       setItem('digitransit-store-future-route-test', futureRoutes);
       const afterSave = getItemAsJson('digitransit-store-future-route-test');
       expect(beforeSave).not.to.be.equal(afterSave);
-      expect(afterSave).to.have.property('items').with.lengthOf(1);
+      expect(afterSave).lengthOf(1);
     });
 
-    it("Save should add 2nd route to 'items' (pair of origin and location not exists)", () => {
+    it('Save should add 2nd route item (pair of origin and location not exists)', () => {
       const futureRoutes = addFutureRoute(
         routeInFuture3,
         getItemAsJson('digitransit-store-future-route-test'),
       );
       setItem('digitransit-store-future-route-test', futureRoutes);
-      expect(futureRoutes).to.have.property('items').with.lengthOf(2);
+      expect(futureRoutes).lengthOf(2);
     });
 
-    it("Save should not to add route in past to 'items' as 3rd item", () => {
+    it('Save should not to add route in past as 3rd item', () => {
       const futureRoutes = addFutureRoute(
         routeInPast,
-        getItemAsJson(
-          'digitransit-store-future-route-test',
-          JSON.stringify(empty),
-        ),
+        getItemAsJson('digitransit-store-future-route-test'),
       );
       setItem('digitransit-store-future-route-test', futureRoutes);
-      expect(futureRoutes).to.have.property('items').with.lengthOf(2);
+      expect(futureRoutes).lengthOf(2);
     });
   });
 

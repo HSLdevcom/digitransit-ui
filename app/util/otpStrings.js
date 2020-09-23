@@ -67,15 +67,6 @@ export const locationToOTP = location => {
 
 export const locationToCoords = location => [location.lat, location.lon];
 
-export const encodeAddressAndCoordinatesArray = (address, coordinates) => {
-  if (address && coordinates && Array.isArray(coordinates)) {
-    return encodeURIComponent(
-      `${address}::${coordinates[0]},${coordinates[1]}`,
-    );
-  }
-  return undefined;
-};
-
 /**
  * Extracts the location information from the intermediatePlaces
  * query parameter, if available. The locations will be returned in

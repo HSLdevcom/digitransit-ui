@@ -116,6 +116,7 @@ function translateFutureRouteSuggestionTime(item) {
  * const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches) and Datasource. Leave empty to use all sources.
  * return (
  *  <DTAutosuggest
+ *    appElement={appElement} // Required. Root element's id. Needed for react-modal component.
  *    searchContext={searchContext}
  *    icon="origin" // Optional String for icon that is shown left of searchfield. used with Icon library
  *    id="origin" // used for style props and info for component.
@@ -137,6 +138,7 @@ function translateFutureRouteSuggestionTime(item) {
  */
 class DTAutosuggest extends React.Component {
   static propTypes = {
+    appElement: PropTypes.string.isRequired,
     autoFocus: PropTypes.bool,
     className: PropTypes.string,
     icon: PropTypes.string,
@@ -628,6 +630,7 @@ class DTAutosuggest extends React.Component {
         </span>
         {renderMobileSearch && (
           <MobileSearch
+            appElement={this.props.appElement}
             clearOldSearches={this.clearOldSearches}
             id={this.props.id}
             suggestions={[
