@@ -24,6 +24,7 @@ import {
 } from '../../action/realTimeClientAction';
 import { addressToItinerarySearch } from '../../util/otpStrings';
 import ItineraryLine from './ItineraryLine';
+import Loading from '../Loading';
 
 const startClient = (context, routes) => {
   const { realTime } = context.config;
@@ -143,17 +144,13 @@ function StopsNearYouMap(
         }
       `;
       if (node.distance < 2000) {
-        fetchQuery(environment, query, variables).then(
-          ({ plan: result }) => {
-            if (isMounted) {
-              if (first) {
-                setFirstPlan({ itinerary: result, isFetching: false });
-              } else {
-                setSecondPlan({ itinerary: result, isFetching: false });
-              }
-            }
-          },
-        );
+        fetchQuery(environment, query, variables).then(({ plan: result }) => {
+          if (first) {
+            setFirstPlan({ itinerary: result, isFetching: false });
+          } else {
+            setSecondPlan({ itinerary: result, isFetching: false });
+          }
+        });
       }
     }
   };
@@ -165,7 +162,7 @@ function StopsNearYouMap(
     };
   }, []);
 
-  /*useEffect(
+  /* useEffect(
     () => {
       let isMounted = true;
       const fetchPlan = (node, first) => {
@@ -232,7 +229,7 @@ function StopsNearYouMap(
       };
     },
     [locationState.status],
-  );*/
+  ); */
 
   if (locationState.loadingPosition || props.loading) {
     return <Loading />;
@@ -389,7 +386,6 @@ StopsNearYouMap.propTypes = {
   origin: dtLocationShape,
   destination: dtLocationShape,
   language: PropTypes.string.isRequired,
-  locationState: PropTypes.object,
 };
 
 StopsNearYouMap.contextTypes = {

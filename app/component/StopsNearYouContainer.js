@@ -148,17 +148,17 @@ const connectedContainer = createRefetchContainer(
   {
     stopPatterns: graphql`
       fragment StopsNearYouContainer_stopPatterns on QueryType
-        @argumentDefinitions(
-          startTime: { type: "Long!", defaultValue: 0 }
-          omitNonPickups: { type: "Boolean!", defaultValue: false }
-          lat: { type: "Float!" }
-          lon: { type: "Float!", defaultValue: 0 }
-          filterByPlaceTypes: { type: "[FilterPlaceType]", defaultValue: null }
-          filterByModes: { type: "[Mode]", defaultValue: null }
-          first: { type: "Int!", defaultValue: 5 }
-          maxResults: { type: "Int" }
-          maxDistance: { type: "Int" }
-        ) {
+      @argumentDefinitions(
+        startTime: { type: "Long!", defaultValue: 0 }
+        omitNonPickups: { type: "Boolean!", defaultValue: false }
+        lat: { type: "Float!" }
+        lon: { type: "Float!", defaultValue: 0 }
+        filterByPlaceTypes: { type: "[FilterPlaceType]", defaultValue: null }
+        filterByModes: { type: "[Mode]", defaultValue: null }
+        first: { type: "Int!", defaultValue: 5 }
+        maxResults: { type: "Int" }
+        maxDistance: { type: "Int" }
+      ) {
         nearest(
           lat: $lat
           lon: $lon
@@ -275,17 +275,17 @@ const connectedContainer = createRefetchContainer(
     ) {
       viewer {
         ...StopsNearYouContainer_stopPatterns
-          @arguments(
-            startTime: $startTime
-            omitNonPickups: $omitNonPickups
-            lat: $lat
-            lon: $lon
-            filterByPlaceTypes: $filterByPlaceTypes
-            filterByModes: $filterByModes
-            first: $first
-            maxResults: $maxResults
-            maxDistance: $maxDistance
-          )
+        @arguments(
+          startTime: $startTime
+          omitNonPickups: $omitNonPickups
+          lat: $lat
+          lon: $lon
+          filterByPlaceTypes: $filterByPlaceTypes
+          filterByModes: $filterByModes
+          first: $first
+          maxResults: $maxResults
+          maxDistance: $maxDistance
+        )
       }
     }
   `,

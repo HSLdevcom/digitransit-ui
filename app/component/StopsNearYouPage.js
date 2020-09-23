@@ -99,16 +99,16 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
           ) {
             stopPatterns: viewer {
               ...StopsNearYouContainer_stopPatterns
-                @arguments(
-                  omitNonPickups: $omitNonPickups
-                  lat: $lat
-                  lon: $lon
-                  filterByPlaceTypes: $filterByPlaceTypes
-                  filterByModes: $filterByModes
-                  first: $first
-                  maxResults: $maxResults
-                  maxDistance: $maxDistance
-                )
+              @arguments(
+                omitNonPickups: $omitNonPickups
+                lat: $lat
+                lon: $lon
+                filterByPlaceTypes: $filterByPlaceTypes
+                filterByModes: $filterByModes
+                first: $first
+                maxResults: $maxResults
+                maxDistance: $maxDistance
+              )
             }
             alerts: nearest(
               lat: $lat
