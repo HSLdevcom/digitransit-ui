@@ -48,7 +48,7 @@ const DialogModal = ({
           {headerText}
         </div>
         {dialogContent && (
-          <div className={styles['digitransit-dialog-modal-place']}>
+          <div className={styles['digitransit-dialog-modal-content']}>
             {dialogContent}
           </div>
         )}

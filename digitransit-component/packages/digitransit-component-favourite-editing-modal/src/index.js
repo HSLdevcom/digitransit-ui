@@ -8,6 +8,7 @@ import escapeRegExp from 'lodash/escapeRegExp';
 import differenceWith from 'lodash/differenceWith';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
+import omit from 'lodash/omit';
 import ContainerSpinner from '@hsl-fi/container-spinner';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
@@ -212,8 +213,14 @@ class FavouriteEditingModal extends React.Component {
             list={favourites}
             setList={items =>
               this.setState({ favourites: items }, () => {
-                if (!isEqual(items, favourites)) {
-                  this.props.updateFavourites(items);
+                const omittedItems = items.map(item =>
+                  omit(item, ['chosen', 'selected']),
+                );
+                const omittedFavourites = favourites.map(item =>
+                  omit(item, ['chosen', 'selected']),
+                );
+                if (!isEqual(omittedItems, omittedFavourites)) {
+                  this.props.updateFavourites(omittedItems);
                 }
               })
             }
@@ -241,7 +248,9 @@ class FavouriteEditingModal extends React.Component {
           )
         }
         isModalOpen={this.state.showDeletePlaceModal}
-        dialogContent={`${favourite.name}: ${favourite.address}`}
+        dialogContent={
+          favourite ? `${favourite.name}: ${favourite.address}` : ''
+        }
         primaryButtonText={i18next.t('delete')}
         primaryButtonOnClick={() => {
           this.props.deleteFavourite(favourite);
@@ -286,8 +295,7 @@ class FavouriteEditingModal extends React.Component {
             isOpen={this.props.isModalOpen}
             onCrossClick={this.props.handleClose}
           >
-            {showDeletePlaceModal &&
-              this.renderDeleteFavouriteModal(selectedFavourite)}
+            {this.renderDeleteFavouriteModal(selectedFavourite)}
             <MobileModal {...modalProps} />
           </Modal>
         )}
@@ -303,8 +311,7 @@ class FavouriteEditingModal extends React.Component {
             >
               <DesktopModal {...modalProps} />
             </Modal>
-            {showDeletePlaceModal &&
-              this.renderDeleteFavouriteModal(selectedFavourite)}
+            {this.renderDeleteFavouriteModal(selectedFavourite)}
           </Fragment>
         )}
       </div>
