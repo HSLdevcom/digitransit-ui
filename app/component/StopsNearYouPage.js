@@ -74,6 +74,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
       lat,
       lon,
       maxResults: this.context.config.maxNearbyStopAmount,
+      first: this.context.config.maxNearbyStopAmount,
       maxDistance: this.context.config.maxNearbyStopDistance,
       filterByModes: modes,
       filterByPlaceTypes: placeTypes,
@@ -93,6 +94,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
             $lon: Float!
             $filterByPlaceTypes: [FilterPlaceType]
             $filterByModes: [Mode]
+            $first: Int!
             $maxResults: Int!
             $maxDistance: Int!
             $omitNonPickups: Boolean
@@ -100,7 +102,6 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
             stopPatterns: viewer {
               ...StopsNearYouContainer_stopPatterns
               @arguments(
-                omitNonPickups: $omitNonPickups
                 lat: $lat
                 lon: $lon
                 filterByPlaceTypes: $filterByPlaceTypes
@@ -108,6 +109,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                 first: $first
                 maxResults: $maxResults
                 maxDistance: $maxDistance
+                omitNonPickups: $omitNonPickups
               )
             }
             alerts: nearest(
