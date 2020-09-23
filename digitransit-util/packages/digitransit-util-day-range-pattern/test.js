@@ -49,7 +49,7 @@ const tests = [
 ];
 
 describe('Testing @digitransit-util/digitransit-util-day-range-pattern', () => {
-  tests.forEach(function(test) {
+  tests.forEach(function (test) {
     it(`should return pattern "${
       test.dayPattern
     }" converted from day number\`s string "${Array.from(new Set(test.dayNoArray.sort())).join('')}"`, () => {

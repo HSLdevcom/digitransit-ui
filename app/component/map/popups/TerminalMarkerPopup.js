@@ -54,28 +54,26 @@ TerminalMarkerPopup.propTypes = {
 
 const TerminalMarkerPopupContainer = createRefetchContainer(
   connectToStores(TerminalMarkerPopup, ['TimeStore'], ({ getStore }) => ({
-    currentTime: getStore('TimeStore')
-      .getCurrentTime()
-      .unix(),
+    currentTime: getStore('TimeStore').getCurrentTime().unix(),
   })),
   {
     station: graphql`
       fragment TerminalMarkerPopup_station on Stop
-        @argumentDefinitions(
-          startTime: { type: "Long!", defaultValue: 0 }
-          timeRange: { type: "Long!", defaultValue: 3600 }
-          numberOfDepartures: { type: "Int!", defaultValue: 15 }
-        ) {
+      @argumentDefinitions(
+        startTime: { type: "Long!", defaultValue: 0 }
+        timeRange: { type: "Long!", defaultValue: 3600 }
+        numberOfDepartures: { type: "Int!", defaultValue: 15 }
+      ) {
         gtfsId
         lat
         lon
         name
         ...StopCardContainer_stop
-          @arguments(
-            startTime: $startTime
-            timeRange: $timeRange
-            numberOfDepartures: $numberOfDepartures
-          )
+        @arguments(
+          startTime: $startTime
+          timeRange: $timeRange
+          numberOfDepartures: $numberOfDepartures
+        )
       }
     `,
   },
@@ -88,11 +86,11 @@ const TerminalMarkerPopupContainer = createRefetchContainer(
     ) {
       station(id: $terminalId) {
         ...TerminalMarkerPopup_station
-          @arguments(
-            startTime: $startTime
-            timeRange: $timeRange
-            numberOfDepartures: $numberOfDepartures
-          )
+        @arguments(
+          startTime: $startTime
+          timeRange: $timeRange
+          numberOfDepartures: $numberOfDepartures
+        )
       }
     }
   `,

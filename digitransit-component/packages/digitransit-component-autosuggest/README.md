@@ -51,6 +51,7 @@ const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are search
 const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches) and Datasource. Leave empty to use all sources.
 return (
  <DTAutosuggest
+   appElement={appElement} // Required. Root element's id. Needed for react-modal component.
    searchContext={searchContext}
    icon="origin" // Optional String for icon that is shown left of searchfield. used with Icon library
    id="origin" // used for style props and info for component.

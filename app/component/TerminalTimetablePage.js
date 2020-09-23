@@ -51,7 +51,7 @@ export default createRefetchContainer(
   {
     station: graphql`
       fragment TerminalTimetablePage_station on Stop
-        @argumentDefinitions(date: { type: "String" }) {
+      @argumentDefinitions(date: { type: "String" }) {
         url
         ...TimetableContainer_stop @arguments(date: $date)
       }

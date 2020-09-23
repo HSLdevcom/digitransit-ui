@@ -20,6 +20,9 @@ class DisruptionBanner extends React.Component {
 
   getAlerts() {
     const { alerts } = this.props;
+    if (!alerts.edges) {
+      return [];
+    }
     let activeAlerts = [];
     alerts.edges.forEach(alert => {
       const { place } = alert.node;
@@ -86,19 +89,17 @@ const containerComponent = createFragmentContainer(
     DisruptionBanner,
     ['TimeStore', 'PreferencesStore'],
     ({ getStore }) => ({
-      currentTime: getStore('TimeStore')
-        .getCurrentTime()
-        .unix(),
+      currentTime: getStore('TimeStore').getCurrentTime().unix(),
       language: getStore('PreferencesStore').getLanguage(),
     }),
   ),
   {
     alerts: graphql`
       fragment DisruptionBanner_alerts on placeAtDistanceConnection
-        @argumentDefinitions(
-          startTime: { type: "Long!", defaultValue: 0 }
-          omitNonPickups: { type: "Boolean!", defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        startTime: { type: "Long!", defaultValue: 0 }
+        omitNonPickups: { type: "Boolean!", defaultValue: false }
+      ) {
         edges {
           node {
             place {

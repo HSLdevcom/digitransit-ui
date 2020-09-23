@@ -9,12 +9,9 @@ import ComponentUsageExample from './ComponentUsageExample';
 const Favourite = ({ addFavourite, deleteFavourite, favourite, className }) => {
   const [disable, handleDisable] = useState(false);
 
-  useEffect(
-    () => {
-      handleDisable(false);
-    },
-    [favourite],
-  );
+  useEffect(() => {
+    handleDisable(false);
+  }, [favourite]);
 
   const onClick = () => {
     if (!disable) {

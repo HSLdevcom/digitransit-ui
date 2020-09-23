@@ -5,10 +5,7 @@ import StopCardHeader from './StopCardHeader';
 
 export default createFragmentContainer(
   connectToStores(StopCardHeader, ['TimeStore'], context => ({
-    currentTime: context
-      .getStore('TimeStore')
-      .getCurrentTime()
-      .unix(),
+    currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
   })),
   {
     stop: graphql`

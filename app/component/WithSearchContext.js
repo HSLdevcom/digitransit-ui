@@ -30,7 +30,6 @@ export default function withSearchContext(WrappedComponent) {
       destination: PropTypes.object,
       children: PropTypes.node,
       onFavouriteSelected: PropTypes.func,
-      itineraryParams: PropTypes.object,
       locationState: PropTypes.object,
     };
 
@@ -204,10 +203,6 @@ export default function withSearchContext(WrappedComponent) {
       if (!location) {
         return;
       }
-      const locationWithItineraryParams = this.addItineraryParamsToLocation(
-        location,
-        this.props.itineraryParams,
-      );
       addAnalyticsEvent({
         action: 'EditJourneyEndPoint',
         category: 'ItinerarySettings',
@@ -257,12 +252,16 @@ export default function withSearchContext(WrappedComponent) {
       }
 
       if (location.type !== 'SelectFromMap') {
+        const pathname = this.context.match.location.pathname || '';
+        const pathArr = pathname.split('/');
+        const rootPath = pathArr.length > 1 ? pathArr[1] : '';
+
         navigateTo({
-          base: locationWithItineraryParams,
           origin,
           destination,
-          context: '', // PREFIX_ITINERARY_SUMMARY,
+          rootPath,
           router: this.context.router,
+          base: this.context.match.location,
           resetIndex: true,
         });
       } else {
@@ -301,29 +300,6 @@ export default function withSearchContext(WrappedComponent) {
         this.finishSelect(item, type);
         this.onSuggestionSelected(item, id);
       }
-    };
-
-    addItineraryParamsToLocation = (location, itineraryParams) => {
-      const query = (location && location.query) || {};
-      const params = {};
-      if (itineraryParams) {
-        if (
-          itineraryParams.intermediatePlaces &&
-          itineraryParams.intermediatePlaces.length > 0
-        ) {
-          params.intermediatePlaces = itineraryParams.intermediatePlaces;
-        }
-        params.arriveBy = itineraryParams.arriveBy;
-        params.time = itineraryParams.time;
-        return {
-          ...location,
-          query: {
-            ...query,
-            ...params,
-          },
-        };
-      }
-      return { ...location, query };
     };
 
     confirmMapSelection = (type, mapLocation) => {
@@ -366,6 +342,7 @@ export default function withSearchContext(WrappedComponent) {
       }
       return (
         <WrappedComponent
+          appElement="#app"
           searchContext={searchContext}
           addAnalyticsEvent={addAnalyticsEvent}
           onSelect={this.onSelect}

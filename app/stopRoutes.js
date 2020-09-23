@@ -1,12 +1,11 @@
 import React from 'react';
-import Route from 'found/lib/Route';
+import Route from 'found/Route';
 import { graphql } from 'react-relay';
 
 import Error404 from './component/404';
 import {
   PREFIX_STOPS,
   PREFIX_TERMINALS,
-  PREFIX_ROUTES,
   PREFIX_DISRUPTION,
   PREFIX_TIMETABLE,
 } from './util/path';
@@ -66,13 +65,6 @@ const queries = {
         }
       }
     `,
-    pageRoutes: graphql`
-      query stopRoutes_StopPageRoutes_Query($stopId: String!) {
-        stop(id: $stopId) {
-          ...StopRoutesAndPlatformsContainer_stop
-        }
-      }
-    `,
     pageAlerts: graphql`
       query stopRoutes_StopAlertsContainer_Query(
         $stopId: String!
@@ -81,7 +73,7 @@ const queries = {
       ) {
         stop(id: $stopId) {
           ...StopAlertsContainer_stop
-            @arguments(date: $date, startTime: $startTime)
+          @arguments(date: $date, startTime: $startTime)
         }
       }
     `,
@@ -132,13 +124,6 @@ const queries = {
         }
       }
     `,
-    pageRoutes: graphql`
-      query stopRoutes_TerminalPageRoutes_Query($terminalId: String!) {
-        station(id: $terminalId) {
-          ...TerminalRoutesAndPlatformsContainer_station
-        }
-      }
-    `,
     pageAlerts: graphql`
       query stopRoutes_TerminalAlertsContainer_Query(
         $terminalId: String!
@@ -147,7 +132,7 @@ const queries = {
       ) {
         station(id: $terminalId) {
           ...TerminalAlertsContainer_station
-            @arguments(date: $date, startTime: $startTime)
+          @arguments(date: $date, startTime: $startTime)
         }
       }
     `,
@@ -167,12 +152,12 @@ export default function getStopRoutes(isTerminal = false) {
               path="(.*)?"
               getComponent={() => {
                 return isTerminal
-                  ? import(/* webpackChunkName: "stop" */ './component/TerminalTitle').then(
-                      getDefault,
-                    )
-                  : import(/* webpackChunkName: "stop" */ './component/StopTitle').then(
-                      getDefault,
-                    );
+                  ? import(
+                      /* webpackChunkName: "stop" */ './component/TerminalTitle'
+                    ).then(getDefault)
+                  : import(
+                      /* webpackChunkName: "stop" */ './component/StopTitle'
+                    ).then(getDefault);
               }}
               render={getComponentOrNullRenderer}
             />
@@ -182,12 +167,12 @@ export default function getStopRoutes(isTerminal = false) {
               path="(.*)?"
               getComponent={() => {
                 return isTerminal
-                  ? import(/* webpackChunkName: "stop" */ './component/TerminalPageHeaderContainer').then(
-                      getDefault,
-                    )
-                  : import(/* webpackChunkName: "stop" */ './component/StopPageHeaderContainer').then(
-                      getDefault,
-                    );
+                  ? import(
+                      /* webpackChunkName: "stop" */ './component/TerminalPageHeaderContainer'
+                    ).then(getDefault)
+                  : import(
+                      /* webpackChunkName: "stop" */ './component/StopPageHeaderContainer'
+                    ).then(getDefault);
               }}
               query={queryMap.pageHeader}
               render={getComponentOrNullRenderer}
@@ -197,12 +182,12 @@ export default function getStopRoutes(isTerminal = false) {
             <Route
               getComponent={() => {
                 return isTerminal
-                  ? import(/* webpackChunkName: "stop" */ './component/TerminalPageTabContainer').then(
-                      getDefault,
-                    )
-                  : import(/* webpackChunkName: "stop" */ './component/StopPageTabContainer').then(
-                      getDefault,
-                    );
+                  ? import(
+                      /* webpackChunkName: "stop" */ './component/TerminalPageTabContainer'
+                    ).then(getDefault)
+                  : import(
+                      /* webpackChunkName: "stop" */ './component/StopPageTabContainer'
+                    ).then(getDefault);
               }}
               query={queryMap.pageTab}
               render={getComponentOrNullRenderer}
@@ -210,10 +195,14 @@ export default function getStopRoutes(isTerminal = false) {
               <Route
                 getComponent={() => {
                   return isTerminal
-                    ? import(/* webpackChunkName: "stop" */ './component/TerminalPageContentContainer')
+                    ? import(
+                        /* webpackChunkName: "stop" */ './component/TerminalPageContentContainer'
+                      )
                         .then(getDefault)
                         .catch(errorLoading)
-                    : import(/* webpackChunkName: "stop" */ './component/StopPageContentContainer')
+                    : import(
+                        /* webpackChunkName: "stop" */ './component/StopPageContentContainer'
+                      )
                         .then(getDefault)
                         .catch(errorLoading);
                 }}
@@ -224,10 +213,14 @@ export default function getStopRoutes(isTerminal = false) {
                 path={PREFIX_TIMETABLE}
                 getComponent={() => {
                   return isTerminal
-                    ? import(/* webpackChunkName: "stop" */ './component/TerminalTimetablePage')
+                    ? import(
+                        /* webpackChunkName: "stop" */ './component/TerminalTimetablePage'
+                      )
                         .then(getDefault)
                         .catch(errorLoading)
-                    : import(/* webpackChunkName: "stop" */ './component/StopTimetablePage')
+                    : import(
+                        /* webpackChunkName: "stop" */ './component/StopTimetablePage'
+                      )
                         .then(getDefault)
                         .catch(errorLoading);
                 }}
@@ -236,27 +229,17 @@ export default function getStopRoutes(isTerminal = false) {
                 render={getComponentOrLoadingRenderer}
               />
               <Route
-                path={PREFIX_ROUTES}
-                getComponent={() => {
-                  return isTerminal
-                    ? import(/* webpackChunkName: "stop" */ './component/TerminalRoutesAndPlatformsContainer')
-                        .then(getDefault)
-                        .catch(errorLoading)
-                    : import(/* webpackChunkName: "stop" */ './component/StopRoutesAndPlatformsContainer')
-                        .then(getDefault)
-                        .catch(errorLoading);
-                }}
-                query={queryMap.pageRoutes}
-                render={getComponentOrLoadingRenderer}
-              />
-              <Route
                 path={PREFIX_DISRUPTION}
                 getComponent={() => {
                   return isTerminal
-                    ? import(/* webpackChunkName: "stop" */ './component/TerminalAlertsContainer')
+                    ? import(
+                        /* webpackChunkName: "stop" */ './component/TerminalAlertsContainer'
+                      )
                         .then(getDefault)
                         .catch(errorLoading)
-                    : import(/* webpackChunkName: "stop" */ './component/StopAlertsContainer')
+                    : import(
+                        /* webpackChunkName: "stop" */ './component/StopAlertsContainer'
+                      )
                         .then(getDefault)
                         .catch(errorLoading);
                 }}
@@ -273,15 +256,15 @@ export default function getStopRoutes(isTerminal = false) {
                 // eslint-disable-next-line no-nested-ternary
                 return isBrowser
                   ? isTerminal
-                    ? import(/* webpackChunkName: "stop" */ './component/TerminalPageMapContainer').then(
-                        getDefault,
-                      )
-                    : import(/* webpackChunkName: "stop" */ './component/StopPageMapContainer').then(
-                        getDefault,
-                      )
-                  : import(/* webpackChunkName: "stop" */ './component/Loading').then(
-                      getDefault,
-                    );
+                    ? import(
+                        /* webpackChunkName: "stop" */ './component/TerminalPageMapContainer'
+                      ).then(getDefault)
+                    : import(
+                        /* webpackChunkName: "stop" */ './component/StopPageMapContainer'
+                      ).then(getDefault)
+                  : import(
+                      /* webpackChunkName: "stop" */ './component/Loading'
+                    ).then(getDefault);
               }}
               query={queryMap.pageMap}
               render={getComponentOrNullRenderer}
@@ -292,12 +275,12 @@ export default function getStopRoutes(isTerminal = false) {
               path="(.*)?"
               getComponent={() => {
                 return isTerminal
-                  ? import(/* webpackChunkName: "stop" */ './component/TerminalPageMeta').then(
-                      getDefault,
-                    )
-                  : import(/* webpackChunkName: "stop" */ './component/StopPageMeta').then(
-                      getDefault,
-                    );
+                  ? import(
+                      /* webpackChunkName: "stop" */ './component/TerminalPageMeta'
+                    ).then(getDefault)
+                  : import(
+                      /* webpackChunkName: "stop" */ './component/StopPageMeta'
+                    ).then(getDefault);
               }}
               query={queryMap.pageMeta}
               render={getComponentOrNullRenderer}

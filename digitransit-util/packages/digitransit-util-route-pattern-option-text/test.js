@@ -24,7 +24,7 @@ const last = '20200401';
 const fd1 = [];
 const fd2 = [];
 const fd3 = [];
-ad.forEach(function(d) {
+ad.forEach(function (d) {
   fd1.push(moment(d.day[0], 'YYYYMMDD').format('D.'));
   fd2.push(moment(d.day[0], 'YYYYMMDD').format('D.M.'));
   fd3.push(moment(d.day[0], 'YYYYMMDD').format('YYYYMMDD'));
@@ -95,7 +95,10 @@ const tests = [
     ],
     tripsForDate: [],
     activeDates: [fd3[2], fd3[3], fd3[6], fd3[7]],
-    rangeFollowingDays: [[fd3[2], fd3[3]], [fd3[6], fd3[7]]],
+    rangeFollowingDays: [
+      [fd3[2], fd3[3]],
+      [fd3[6], fd3[7]],
+    ],
     dayString: '-',
     allowedDiff: 1,
     fromDate: fd3[2],
@@ -217,9 +220,9 @@ const defPattern = {
 };
 
 describe('Testing @digitransit-util/digitransit-util-route-pattern-option-text module', () => {
-  languages.forEach(function(language, index) {
+  languages.forEach(function (language, index) {
     describe(`Checking language '${language}'`, () => {
-      tests.forEach(function(test) {
+      tests.forEach(function (test) {
         const pattern = cloneDeep(defPattern);
         pattern.activeDates = test.activeDates;
         pattern.rangeFollowingDays = test.rangeFollowingDays;

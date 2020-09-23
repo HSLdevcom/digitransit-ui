@@ -18,8 +18,8 @@ const ParkAndRideAvailability = mapProps(
           id="park-and-ride-availability"
           defaultMessage="Spaces available"
         />
-        {'\u00a0'}
-        ({!realtime || Number.isNaN(spacesAvailable) ? '?' : spacesAvailable}/
+        {'\u00a0'}(
+        {!realtime || Number.isNaN(spacesAvailable) ? '?' : spacesAvailable}/
         {Number.isNaN(maxCapacity) ? 0 : maxCapacity})
       </p>
     ),

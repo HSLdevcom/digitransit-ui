@@ -37,9 +37,9 @@ export default function enrichPatterns(
   if (onlyInFuture === true) {
     // DT-3182
     const wantedTime = moment().unix();
-    futureTrips.forEach(function(o) {
+    futureTrips.forEach(function (o) {
       if (o.tripsForDate !== undefined) {
-        o.tripsForDate.forEach(function(t) {
+        o.tripsForDate.forEach(function (t) {
           if (t.stoptimes !== undefined) {
             t.stoptimes = t.stoptimes.filter(
               s => s.serviceDay + s.scheduledDeparture >= wantedTime,
@@ -50,7 +50,7 @@ export default function enrichPatterns(
     });
   }
 
-  futureTrips.forEach(function(x) {
+  futureTrips.forEach(function (x) {
     if (x.tripsForDate !== undefined) {
       x.tripsForDate = x.tripsForDate.filter(s => s.stoptimes.length > 0);
     } else {
@@ -58,8 +58,8 @@ export default function enrichPatterns(
     }
     const uniqueDates = [];
     if (x.activeDates !== undefined) {
-      x.activeDates.forEach(function(a) {
-        a.day.forEach(function(b) {
+      x.activeDates.forEach(function (a) {
+        a.day.forEach(function (b) {
           uniqueDates.push(b);
         });
       });

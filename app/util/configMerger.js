@@ -7,22 +7,25 @@ function aboutMerger(objValue, srcValue) {
     const objByHdr = {};
     const srcByHdr = {};
 
-    objValue.filter(val => val.header).forEach(val => {
-      objByHdr[val.header] = val;
-    });
-    srcValue.filter(val => val.header).forEach(val => {
-      srcByHdr[val.header] = val;
-    });
+    objValue
+      .filter(val => val.header)
+      .forEach(val => {
+        objByHdr[val.header] = val;
+      });
+    srcValue
+      .filter(val => val.header)
+      .forEach(val => {
+        srcByHdr[val.header] = val;
+      });
 
     return objValue
-      .map(
-        val =>
-          srcByHdr[val.header]
-            ? {
-                ...val,
-                ...srcByHdr[val.header],
-              }
-            : val,
+      .map(val =>
+        srcByHdr[val.header]
+          ? {
+              ...val,
+              ...srcByHdr[val.header],
+            }
+          : val,
       )
       .concat(
         // insert unmatching items from src

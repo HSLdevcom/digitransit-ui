@@ -447,8 +447,8 @@ class AdminForm extends React.Component {
           itinerary is twice as worse than another one in some respect (say 100%
           more walking), it will be filtered. Value 0.5 filters 200% worse
           itineraries and value 2 defines 50% filtering level. Value 5 filters
-          20% worse routes. (default {defaultRoutingSettings.itineraryFiltering},
-          parameter name: itineraryFiltering).
+          20% worse routes. (default {defaultRoutingSettings.itineraryFiltering}
+          , parameter name: itineraryFiltering).
           <input
             type="number"
             step="any"

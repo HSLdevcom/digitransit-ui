@@ -6,9 +6,9 @@ import { isImperial } from '../util/browser';
 
 const round = distance => {
   if (distance < 1000) {
-    return distance - distance % 10;
+    return distance - (distance % 10);
   }
-  return distance - distance % 100;
+  return distance - (distance % 100);
 };
 
 const Distance = (props, context) => {

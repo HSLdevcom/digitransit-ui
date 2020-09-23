@@ -3,7 +3,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
-import Link from 'found/lib/Link';
+import Link from 'found/Link';
 import { matchShape } from 'found';
 import { AlertSeverityLevelType } from '../constants';
 import {
@@ -64,6 +64,7 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
   )}`;
 
   const currentTime = moment().unix();
+
   const hasActiveAlert = isAlertActive(
     getCancelationsForStop(stop),
     [...getServiceAlertsForStop(stop), ...getServiceAlertsForStopRoutes(stop)],
@@ -78,6 +79,7 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
       getServiceAlertsForStopRoutes(stop, intl),
       currentTime,
     );
+
   const stopRoutesWithAlerts = [];
 
   const modesByRoute = []; // DT-3387
@@ -121,10 +123,6 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
       )) &&
       'active-service-alert');
 
-  const uniqModesByRoutes = Array.from(new Set(modesByRoute)); // DT-3387
-  const modeByRoutesOrStop =
-    uniqModesByRoutes.length === 1 ? uniqModesByRoutes[0] : stop.vehicleMode; // DT-3387
-
   return (
     <div>
       <div className="stop-tab-container">
@@ -167,38 +165,6 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
           </div>
         </Link>
         <Link
-          to={`${urlBase}/${Tab.RoutesAndPlatforms}`}
-          className={cx('stop-tab-singletab', {
-            active: activeTab === Tab.RoutesAndPlatforms,
-          })}
-          onClick={() => {
-            addAnalyticsEvent({
-              category: 'Stop',
-              action: 'OpenRoutesAndPlatformsTab',
-              name: null,
-            });
-          }}
-        >
-          <div className="stop-tab-singletab-container">
-            <div>
-              <FormattedMessage
-                id={
-                  modeByRoutesOrStop === 'RAIL' ||
-                  modeByRoutesOrStop === 'SUBWAY'
-                    ? 'routes-tracks'
-                    : 'routes-platforms'
-                }
-                defaultMessage={
-                  modeByRoutesOrStop === 'RAIL' ||
-                  modeByRoutesOrStop === 'SUBWAY'
-                    ? 'routes-tracks'
-                    : 'routes-platforms'
-                }
-              />
-            </div>
-          </div>
-        </Link>
-        <Link
           to={`${urlBase}/${Tab.Disruptions}`}
           className={cx('stop-tab-singletab', {
             active: activeTab === Tab.Disruptions,
@@ -221,7 +187,6 @@ function StopPageTabs({ breakpoint, stop }, { intl, match }) {
           </div>
         </Link>
       </div>
-      <div className="stop-tabs-fillerline" />
     </div>
   );
 }

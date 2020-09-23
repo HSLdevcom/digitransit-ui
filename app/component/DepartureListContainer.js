@@ -4,13 +4,11 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import Link from 'found/lib/Link';
+import Link from 'found/Link';
+import { intlShape } from 'react-intl';
 
-import Departure from './Departure';
-import {
-  getActiveAlertSeverityLevel,
-  patternIdPredicate,
-} from '../util/alertUtils';
+import DepartureRow from './DepartureRow';
+import { patternIdPredicate } from '../util/alertUtils';
 import { isBrowser } from '../util/browser';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import {
@@ -31,8 +29,8 @@ const asDepartures = stoptimes =>
           isLastStop = stoptime.stop.id === lastStop.id;
         }
         /* OTP returns either scheduled time or realtime prediction in
-           * 'realtimeDeparture' and 'realtimeArrival' fields.
-           * EXCEPT when state is CANCELLED, then it returns -1 for realtime  */
+         * 'realtimeDeparture' and 'realtimeArrival' fields.
+         * EXCEPT when state is CANCELLED, then it returns -1 for realtime  */
         const canceled = stoptime.realtimeState === 'CANCELED';
         const arrivalTime =
           stoptime.serviceDay +
@@ -64,21 +62,14 @@ const asDepartures = stoptimes =>
 
 class DepartureListContainer extends Component {
   static propTypes = {
-    rowClasses: PropTypes.string.isRequired,
     stoptimes: PropTypes.array.isRequired,
     currentTime: PropTypes.number.isRequired,
     limit: PropTypes.number,
     infiniteScroll: PropTypes.bool,
-    showStops: PropTypes.bool,
     routeLinks: PropTypes.bool,
     className: PropTypes.string,
     isTerminal: PropTypes.bool,
-    showPlatformCodes: PropTypes.bool,
     isStopPage: PropTypes.bool,
-  };
-
-  static defaultProps = {
-    showPlatformCodes: false,
   };
 
   constructor(props) {
@@ -180,19 +171,33 @@ class DepartureListContainer extends Component {
     return null;
   };
 
+  getHeadsign = departure => {
+    if (departure.isArrival) {
+      if (departure.isLastStop) {
+        return this.context.intl.formatMessage({
+          id: 'route-destination-endpoint',
+          defaultMessage: 'Arrives / Terminus',
+        });
+      }
+      return this.context.intl.formatMessage({
+        id: 'route-destination-arrives',
+        defaultMessage: 'Drop-off only',
+      });
+    }
+    return (
+      departure.headsign ||
+      departure.pattern.headsign ||
+      (departure.trip && departure.trip.tripHeadsign) ||
+      departure.pattern.route.longName
+    );
+  };
+
   render() {
     const departureObjs = [];
     const { currentTime, limit, isTerminal, stoptimes } = this.props;
 
-    let currentDate = moment
-      .unix(currentTime)
-      .startOf('day')
-      .unix();
-    let tomorrow = moment
-      .unix(currentTime)
-      .add(1, 'day')
-      .startOf('day')
-      .unix();
+    let currentDate = moment.unix(currentTime).startOf('day').unix();
+    let tomorrow = moment.unix(currentTime).add(1, 'day').startOf('day').unix();
 
     const departures = asDepartures(stoptimes)
       .filter(departure => !(isTerminal && departure.isArrival))
@@ -211,34 +216,22 @@ class DepartureListContainer extends Component {
         );
 
         currentDate = tomorrow;
-        tomorrow = moment
-          .unix(currentDate)
-          .add(1, 'day')
-          .startOf('day')
-          .unix();
+        tomorrow = moment.unix(currentDate).add(1, 'day').startOf('day').unix();
       }
-
       const id = `${departure.pattern.code}:${departure.stoptime}`;
+      const row = {
+        headsign: this.getHeadsign(departure),
+        trip: { ...departure.trip, ...{ route: departure.trip.pattern.route } },
+        stop: departure.stop,
+      };
 
-      const alertSeverityLevel = getActiveAlertSeverityLevel(
-        departure.alerts,
-        currentTime,
-      );
       const departureObj = (
-        <Departure
-          alertSeverityLevel={alertSeverityLevel}
+        <DepartureRow
           key={id}
-          departure={departure}
-          showStop={this.props.showStops}
-          currentTime={currentTime}
-          className={cx(
-            { disruption: !!alertSeverityLevel },
-            this.props.rowClasses,
-          )}
-          canceled={departure.canceled}
-          isArrival={departure.isArrival}
-          isLastStop={departure.isLastStop}
-          showPlatformCode={this.props.showPlatformCodes}
+          departure={row}
+          departureTime={departure.stoptime}
+          currentTime={this.props.currentTime}
+          showPlatformCode={isTerminal}
         />
       );
 
@@ -246,9 +239,7 @@ class DepartureListContainer extends Component {
       if (this.props.routeLinks) {
         departureObjs.push(
           <Link
-            to={`/${PREFIX_ROUTES}/${
-              departure.pattern.route.gtfsId
-            }/${PREFIX_STOPS}/${departure.pattern.code}?sort=no`}
+            to={`/${PREFIX_ROUTES}/${departure.pattern.route.gtfsId}/${PREFIX_STOPS}/${departure.pattern.code}?sort=no`}
             key={id}
             onClick={() => {
               addAnalyticsEvent({
@@ -281,6 +272,7 @@ DepartureListContainer.contextTypes = {
   executeAction: PropTypes.func.isRequired,
   getStore: PropTypes.func.isRequired,
   config: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
 };
 
 const containerComponent = createFragmentContainer(DepartureListContainer, {

@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 
 // Routing and state handling
 import { Environment, RecordSource, Store } from 'relay-runtime';
-import { getFarceResult } from 'found/lib/server';
-import makeRouteConfig from 'found/lib/makeRouteConfig';
+import { getFarceResult } from 'found/server';
+import makeRouteConfig from 'found/makeRouteConfig';
 import { Resolver } from 'found-relay';
 import { Helmet } from 'react-helmet';
 import {
@@ -180,7 +180,7 @@ function getEnvironment(config, agent) {
   return environment;
 }
 
-export default async function(req, res, next) {
+export default async function (req, res, next) {
   try {
     const config = getConfiguration(req);
     const application = appCreator(config);

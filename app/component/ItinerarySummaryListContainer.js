@@ -6,6 +6,7 @@ import inside from 'point-in-polygon';
 import cx from 'classnames';
 import startsWith from 'lodash/startsWith';
 import { matchShape } from 'found';
+import isEqual from 'lodash/isEqual';
 
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import Icon from './Icon';
@@ -14,8 +15,7 @@ import { isBrowser } from '../util/browser';
 import { getZones } from '../util/legUtils';
 import CanceledItineraryToggler from './CanceledItineraryToggler';
 import { itineraryHasCancelation } from '../util/alertUtils';
-import { matchQuickOption } from '../util/planParamUtil';
-import { getModes } from '../util/modeUtils';
+import { getCurrentSettings, getDefaultSettings } from '../util/planParamUtil';
 import { ItinerarySummarySubtitle } from './ItinerarySummarySubtitle';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
 
@@ -86,12 +86,20 @@ function ItinerarySummaryListContainer(
           />
         </div>,
       );
-      if (bikeAndParkItinerariesToShow > 0) {
+      if (bikeAndPublicItinerariesToShow > 0) {
+        const publicModes = itineraries[
+          bikeAndParkItinerariesToShow
+        ].legs.filter(obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE');
+        const firstMode = publicModes[0].mode.toLowerCase();
         summaries.splice(
-          bikeAndPublicItinerariesToShow + 1,
+          bikeAndParkItinerariesToShow + 1,
           0,
           <ItinerarySummarySubtitle
-            translationId="itinerary-summary.bikeAndPublic-title"
+            translationId={
+              firstMode === 'rail' || firstMode === 'subway'
+                ? `itinerary-summary.bikeAndPublic-${firstMode}-title`
+                : 'itinerary-summary.bikeAndPublic-fallback-title'
+            }
             defaultMessage="Biking \u0026 public transport"
             key="itinerary-summary.bikeAndPublic-title"
           />,
@@ -121,14 +129,13 @@ function ItinerarySummaryListContainer(
           </div>
         )}
         {isBrowser && summaries}
-        {isBrowser &&
-          canceledItinerariesCount > 0 && (
-            <CanceledItineraryToggler
-              showItineraries={showCancelled}
-              toggleShowCanceled={() => setShowCancelled(!showCancelled)}
-              canceledItinerariesAmount={canceledItinerariesCount}
-            />
-          )}
+        {isBrowser && canceledItinerariesCount > 0 && (
+          <CanceledItineraryToggler
+            showItineraries={showCancelled}
+            toggleShowCanceled={() => setShowCancelled(!showCancelled)}
+            canceledItinerariesAmount={canceledItinerariesCount}
+          />
+        )}
       </div>
     );
   }
@@ -183,18 +190,10 @@ function ItinerarySummaryListContainer(
       msgId = 'walk-bike-itinerary-3';
     }
   } else {
-    const quickOption = matchQuickOption(context);
-    const currentModes = getModes(context.config);
-    const modesDefault =
-      Object.entries(context.config.transportModes).every(
-        ([mode, modeConfig]) =>
-          currentModes.includes(mode.toUpperCase()) === modeConfig.defaultValue,
-      ) && currentModes.includes('PUBLIC_TRANSPORT');
-
-    const hasChanges =
-      quickOption === 'saved-settings' ||
-      quickOption === 'custom-settings' ||
-      !modesDefault;
+    const hasChanges = !isEqual(
+      getCurrentSettings(config),
+      getDefaultSettings(config),
+    );
     if (hasChanges) {
       msgId = 'no-route-msg-with-changes';
     } else {
@@ -291,7 +290,7 @@ const containerComponent = createFragmentContainer(
   {
     itineraries: graphql`
       fragment ItinerarySummaryListContainer_itineraries on Itinerary
-        @relay(plural: true) {
+      @relay(plural: true) {
         walkDistance
         startTime
         endTime

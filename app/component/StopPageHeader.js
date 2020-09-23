@@ -19,6 +19,7 @@ const StopPageHeader = compose(
     headingStyle: 'h3',
     icons: [],
     breakpoint: props.breakpoint, // DT-3472
+    isTerminal: props.isTerminal,
   })),
 )(StopCardHeaderContainer);
 

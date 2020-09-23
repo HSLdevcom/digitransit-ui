@@ -17,30 +17,18 @@ describe('<UserInfo />', () => {
   it('should open userinfo menu on click', () => {
     const wrapper = mountWithIntl(<UserInfo {...defaultProps} />);
     expect(wrapper.find('.userinfo-list-item')).to.have.lengthOf(0);
-    wrapper
-      .find('.noborder')
-      .at(0)
-      .simulate('click');
+    wrapper.find('.noborder').at(0).simulate('click');
     expect(wrapper.find('.userinfo-list-item')).to.have.lengthOf(2);
   });
 
   it('should render correct text', () => {
     const wrapper = mountWithIntl(<UserInfo {...defaultProps} />);
-    wrapper
-      .find('.noborder')
-      .at(0)
-      .simulate('click');
-    expect(
-      wrapper
-        .find(FormattedMessage)
-        .at(0)
-        .props().id,
-    ).to.equal('userinfo-item-1');
-    expect(
-      wrapper
-        .find(FormattedMessage)
-        .at(1)
-        .props().id,
-    ).to.equal('userinfo-item-2');
+    wrapper.find('.noborder').at(0).simulate('click');
+    expect(wrapper.find(FormattedMessage).at(0).props().id).to.equal(
+      'userinfo-item-1',
+    );
+    expect(wrapper.find(FormattedMessage).at(1).props().id).to.equal(
+      'userinfo-item-2',
+    );
   });
 });
