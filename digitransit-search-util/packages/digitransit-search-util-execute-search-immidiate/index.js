@@ -127,6 +127,32 @@ function getFavouriteStops(stopsAndStations, input) {
   });
 }
 
+function getBikeStations(bikeStations, input) {
+  return bikeStations.then(bikeRentalStations => {
+    return take(filterMatchingToInput(bikeRentalStations.bikeRentalStations, input, ['name']), 10).map(stop => {
+      const newItem = {
+        type: 'Stop',
+        address: stop.name,
+        lat: stop.lat,
+        lon: stop.lon,
+        properties: {
+          labelId: stop.stationId,
+          layer: 'bikeRentalStation',
+          address: stop.name,
+          name: stop.name,
+          lat: stop.lat,
+          lon: stop.lon,
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: [stop.lat, stop.lon],
+        },
+      }
+      return newItem;
+    })
+  })
+}
+
 function getOldSearches(oldSearches, input, dropLayers) {
   let matchingOldSearches = filterMatchingToInput(oldSearches, input, [
     'properties.name',
@@ -193,6 +219,7 @@ export function getSearchResults(
     getFavouriteStops: stops,
     getLanguage,
     getStopAndStationsQuery,
+    getAllBikeRentalStations,
     getFavouriteRoutesQuery,
     getFavouriteRoutes,
     getRoutesQuery,
@@ -310,6 +337,12 @@ export function getSearchResults(
           return results;
         }),
       );
+      if (!transportMode || transportMode === 'CITYBIKE' && input.length > 0) {
+        const bikeStations = getAllBikeRentalStations();
+        searchComponents.push(
+          getBikeStations(bikeStations, input)
+        )
+      }
     }
     if (allSources || sources.includes('History')) {
       const stopHistory = prevSearches(context).filter(item => {

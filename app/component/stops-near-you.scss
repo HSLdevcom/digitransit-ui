@@ -4,6 +4,28 @@
     z-index: 0;
 }
 
+.citybike-content-container {
+    padding: 15px 14px 22px;
+    display: flex;
+    height: 45px;
+    box-sizing: content-box;
+    .availability-container {
+        padding-left: 15px;
+        flex: 1;
+        .sub-header-h4 {
+            font-size: 0.813rem;
+        }
+    }
+    .icon-container {
+        display: flex;
+        align-self: center;
+        .icon {
+            width: 36px;
+            height: 36px;
+        }
+    }
+}
+
 .stops-near-you-page {
     overflow-y: auto;
     display: flex;
@@ -14,27 +36,7 @@
         border-radius: 10px;
         width: 100%;
         margin-bottom: 10px;
-        .citybike-content-container {
-            padding: 15px 14px 22px;
-            display: flex;
-            height: 45px;
-            box-sizing: content-box;
-            .availability-container {
-                padding-left: 15px;
-                flex: 1;
-                .sub-header-h4 {
-                    font-size: 0.813rem;
-                }
-            }
-            .icon-container {
-                display: flex;
-                align-self: center;
-                .icon {
-                    width: 36px;
-                    height: 36px;
-                }
-            }
-        }
+        
         .stop-near-you-header-container {
             .stop-near-you-name {
                 line-height: 24px;

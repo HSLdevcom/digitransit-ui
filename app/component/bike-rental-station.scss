@@ -1,0 +1,93 @@
+
+.citybike-use-disclaimer {
+  padding: 14px 21px 21px 18px;
+  background-color: red;
+}
+.mobile {
+  .bike-station-page-container {
+    height: calc(100% - 20rem);
+    padding: 23px 1.563em 0;
+    background-color: white;
+    border-radius: 15px 15px 0 0;
+    box-shadow: 0 -5px 5px 0 rgba(0, 0, 0, 0.2);
+    position: relative;
+    top: -15px;
+    margin: 0;
+    .bike-station-header {
+      padding: 0;
+      border: none;
+      .header {
+        h3 {
+          font-size: 1.25rem;
+        }
+        .bike-station-sub-header {
+          font-size: 0.88rem;
+        }
+      }
+    }
+    .citybike-content-container {
+      padding: 26px 0 0 0;
+    }
+  }
+}
+.bike-station-page-container {
+  margin: 0 3.75em;
+  .citybike-use-disclaimer {
+    height: 120px;
+    border-radius: 8px;
+    border: solid 1px #dddddd;
+    background-color: #f4f4f5;
+    padding: 14px 21px 21px 18px;
+    width: 100%;
+    margin-top: 27px;
+    .disclaimer-header {
+      font-size: 1.125rem;
+    }
+    .disclaimer-content {
+      font-weight: normal;
+      font-size: 0.9375rem;
+    }
+    .external-link {
+      font-size: 0.9375rem;
+      text-decoration: none;
+      .icon-container {
+        padding-left: 7px;
+        vertical-align: text-top;
+      }
+    }
+  }
+  .bike-station-header {
+    .favourite-icon {
+      padding: 8px 8px 0 0;
+    }
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 17px;
+    padding-top: 50px;
+    display: flex;
+    .header {
+      flex: 1;
+      h3 {
+        color: #333;
+        font-size: 1.5rem;
+      }
+    }
+  }
+  .bike-station-sub-header {
+    font-size: 0.813rem;
+    color: #666;
+    font-weight: normal;
+  }
+  .citybike-content-container {
+    height: 48px;
+    padding: 15px 10px 0 0;
+    .availability-container .sub-header-h4 {
+      font-size: 0.9375rem;
+    }
+    .icon-container {
+      .icon {
+        width: 48px;
+        height: 48px;
+      }
+    }
+  }
+}

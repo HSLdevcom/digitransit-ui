@@ -24,7 +24,6 @@ export default function filterMatchingToInput(list, Input, fields) {
   if (typeof Input === 'string' && Input.length > 0) {
     const input = Input.toLowerCase().trim();
     const multiWord = input.includes(' ') || input.includes(',');
-
     return list.filter(item => {
       let parts = [];
       fields.forEach(pName => {
