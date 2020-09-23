@@ -1,0 +1,469 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Fahrrad-Reparaturstation",
+        "name_en": "Fahrrad-Reparaturstation",
+        "name_de": "Fahrrad-Reparaturstation",
+        "popupContent": "\u00d6ffnungszeiten: 24/7",
+        "popupContent_de": "\u00d6ffnungszeiten: 24/7",
+        "popupContent_en": "Opening hours: 24/7",
+        "icon": {
+          "id": "bikeRepIcon",
+          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"Ebene_1\" data-name=\"Ebene 1\" viewBox=\"0 0 32.53 32.54\">  <defs>    <style>      .cls-2{fill:#fff}    </style>  </defs>  <path fill=\"#000001\" d=\"M313.29 384.05A16.27 16.27 0 11297 367.78a16.27 16.27 0 0116.26 16.27\" transform=\"translate(-280.76 -367.78)\"/>  <path d=\"M299.66 384.6a1.43 1.43 0 01-1.05-.44 1.35 1.35 0 01-.46-1 1.56 1.56 0 011.51-1.51 1.42 1.42 0 011 .45 1.51 1.51 0 01.44 1.06 1.5 1.5 0 01-1.48 1.47zm-7.87 4.89a3.55 3.55 0 012.65 1.09 3.62 3.62 0 011.07 2.67 3.66 3.66 0 01-3.72 3.72 3.65 3.65 0 01-2.67-1.07 3.55 3.55 0 01-1.09-2.65 3.72 3.72 0 013.76-3.76zm0 6.36a2.59 2.59 0 002.6-2.6 2.53 2.53 0 00-.76-1.86 2.45 2.45 0 00-1.84-.78 2.66 2.66 0 00-2.64 2.64 2.46 2.46 0 00.78 1.84 2.53 2.53 0 001.86.76zm4.32-7.49l1.65 1.73v4.63h-1.47V391l-2.43-2.11a1.18 1.18 0 01-.42-1.05 1.45 1.45 0 01.42-1.06l2.11-2.11a1.19 1.19 0 011.06-.42 1.86 1.86 0 011.19.42l1.44 1.45a3.68 3.68 0 002.67 1.12v1.51a5.18 5.18 0 01-3.79-1.58l-.6-.6zm6.15 1.13a3.72 3.72 0 013.76 3.76 3.55 3.55 0 01-1.09 2.65 3.62 3.62 0 01-2.67 1.07 3.66 3.66 0 01-3.72-3.72 3.62 3.62 0 011.07-2.67 3.55 3.55 0 012.65-1.09zm0 6.36a2.53 2.53 0 001.86-.76 2.46 2.46 0 00.78-1.84 2.66 2.66 0 00-2.64-2.64 2.46 2.46 0 00-1.84.78 2.53 2.53 0 00-.76 1.86 2.59 2.59 0 002.6 2.6zM304 374.92a.38.38 0 01.38.14.65.65 0 01.15.48v1.86a.51.51 0 01-.57.58h-7.4a3.46 3.46 0 01-1.34 1.58 3.67 3.67 0 01-2.07.61 3.79 3.79 0 01-2.22-.69 3.33 3.33 0 01-1.33-1.79h3.55v-2.44h-3.55a3.8 3.8 0 013.54-2.48 3.76 3.76 0 012.08.61 3.46 3.46 0 011.34 1.58z\" class=\"cls-2\" transform=\"translate(-280.76 -367.78)\"/></svg>"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.2534093,
+          48.9422313
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Fahrrad-Reparaturstation",
+        "name_en": "Fahrrad-Reparaturstation",
+        "name_de": "Fahrrad-Reparaturstation",
+        "popupContent": "\u00d6ffnungszeiten: 24/7",
+        "popupContent_de": "\u00d6ffnungszeiten: 24/7",
+        "popupContent_en": "Opening hours: 24/7",
+        "icon": {
+          "id": "bikeRepIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.2494959,
+          48.8515211
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Alfred Scheuffele Fahrradmontage",
+        "name_en": "Alfred Scheuffele Fahrradmontage",
+        "name_de": "Alfred Scheuffele Fahrradmontage",
+        "popupContent": "Telefon: +49 7142 32210",
+        "popupContent_de": "Telefon: +49 7142 32210",
+        "popupContent_en": "Phone: +49 7142 32210",
+        "icon": {
+          "id": "bikeShopIcon",
+          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" data-name=\"Ebene 1\" viewBox=\"0 0 32.53 32.53\">  <path fill=\"#000001\" d=\"M32.53 16.27A16.27 16.27 0 1116.24 0 16.26 16.26 0 0132.5 16.27\"/>  <text fill=\"#fff\" font-family=\"Interstate-Bold\" font-size=\"7.1\" font-weight=\"700\" transform=\"translate(6.63 11.52)\">    SHOP  </text>  <path fill=\"#fff\" d=\"M18.9 16.66a1.47 1.47 0 01-1.05-.44 1.38 1.38 0 01-.46-1 1.57 1.57 0 011.51-1.51 1.39 1.39 0 011 .46 1.47 1.47 0 01.44 1 1.43 1.43 0 01-.44 1 1.45 1.45 0 01-1 .49zm-7.87 4.88a3.59 3.59 0 012.65 1.09 3.65 3.65 0 011.07 2.67 3.66 3.66 0 01-3.72 3.73 3.69 3.69 0 01-2.67-1.07 3.57 3.57 0 01-1.09-2.66 3.63 3.63 0 011.09-2.67 3.67 3.67 0 012.67-1.09zm0 6.36a2.58 2.58 0 002.6-2.6 2.56 2.56 0 00-.76-1.86 2.44 2.44 0 00-1.84-.77 2.5 2.5 0 00-1.86.77 2.54 2.54 0 00-.78 1.86 2.49 2.49 0 00.78 1.85 2.56 2.56 0 001.86.75zm4.32-7.48L17 22.14v4.64h-1.47v-3.73l-2.43-2.1a1.19 1.19 0 01-.42-1.06 1.42 1.42 0 01.42-1.05l2.11-2.11a1.19 1.19 0 011.06-.42 1.86 1.86 0 011.19.42l1.44 1.44a3.64 3.64 0 002.67 1.12v1.51a5.14 5.14 0 01-3.79-1.58l-.6-.59zm6.15 1.12a3.72 3.72 0 013.76 3.76 3.57 3.57 0 01-1.09 2.66 3.66 3.66 0 01-2.67 1.07 3.66 3.66 0 01-3.72-3.73 3.65 3.65 0 011.07-2.67 3.59 3.59 0 012.65-1.09zm0 6.36a2.56 2.56 0 001.86-.75 2.49 2.49 0 00.78-1.85 2.54 2.54 0 00-.78-1.86 2.5 2.5 0 00-1.86-.77 2.45 2.45 0 00-1.84.77 2.56 2.56 0 00-.76 1.86 2.58 2.58 0 002.6 2.6z\"/></svg>"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.1013535,
+          48.9429289
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Radstation Ludwigsburg",
+        "name_en": "Radstation Ludwigsburg",
+        "name_de": "Radstation Ludwigsburg",
+        "popupContent": "Stellpl\u00e4tze: 320, Telefon: +49 7141 2983227, Geb\u00fchrenpflichtig: ja, \u00d6ffnungszeiten: Mo-So,PH 06:00-21:00, Barrierefrei: ja",
+        "popupContent_de": "Stellpl\u00e4tze: 320, Telefon: +49 7141 2983227, Geb\u00fchrenpflichtig: ja, \u00d6ffnungszeiten: Mo-So,PH 06:00-21:00, Barrierefrei: ja",
+        "popupContent_en": "Capacity: 320, Phone: +49 7141 2983227, Fee: yes, Opening hours: Mo-Su,PH 06:00-21:00, Wheelchair: yes",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.1840886,
+          48.8920901
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bike Point Asperg",
+        "name_en": "Bike Point Asperg",
+        "name_de": "Bike Point Asperg",
+        "popupContent": "Telefon: +49 7141 660141, \u00d6ffnungszeiten: Mo,Di,Do,Fr 09:00-18:30; Mi 09:00-13:00; Sa 09:00-14:00, Barrierefrei: ja",
+        "popupContent_de": "Telefon: +49 7141 660141, \u00d6ffnungszeiten: Mo,Di,Do,Fr 09:00-18:30; Mi 09:00-13:00; Sa 09:00-14:00, Barrierefrei: ja",
+        "popupContent_en": "Phone: +49 7141 660141, Opening hours: Mo,Tu,Th,Fr 09:00-18:30; We 09:00-13:00; Sa 09:00-14:00, Wheelchair: yes",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.147807,
+          48.8991435
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "R\u00e4derwerk Marbach",
+        "name_en": "R\u00e4derwerk Marbach",
+        "name_de": "R\u00e4derwerk Marbach",
+        "popupContent": "",
+        "popupContent_de": "",
+        "popupContent_en": "",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.2576281,
+          48.9371114
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Rad und Reisen",
+        "name_en": "Rad und Reisen",
+        "name_de": "Rad und Reisen",
+        "popupContent": "Telefon: +49 711 532127, \u00d6ffnungszeiten: Di-Fr 10:00-18:30; Sa 09:00-14:00;Barrierefrei: nein",
+        "popupContent_de": "Telefon: +49 711 532127, \u00d6ffnungszeiten: Di-Fr 10:00-18:30; Sa 09:00-14:00;Barrierefrei: nein",
+        "popupContent_en": "Phone: +49 711 532127, Opening hours: Tu-Fr 10:00-18:30; Sa 09:00-14:00;Wheelchair: no",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.2296954,
+          48.8420868
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Fahrrad Oase",
+        "name_en": "Fahrrad Oase",
+        "name_de": "Fahrrad Oase",
+        "popupContent": "\u00d6ffnungszeiten: Nov-Feb: Mo-Fr 09:30-18:00, Sa 09:00-14:00; Mar-Oct: Mo-Fr 09:00-19:00, Sa 09:00-16:00",
+        "popupContent_de": "\u00d6ffnungszeiten: Nov-Feb: Mo-Fr 09:30-18:00, Sa 09:00-14:00; Mar-Oct: Mo-Fr 09:00-19:00, Sa 09:00-16:00",
+        "popupContent_en": "Opening hours: Nov-Feb: Mo-Fr 09:30-18:00, Sa 09:00-14:00; Mar-Oct: Mo-Fr 09:00-19:00, Sa 09:00-16:00",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.188294,
+          48.8610873
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Radwelt",
+        "name_en": "Radwelt",
+        "name_de": "Radwelt",
+        "popupContent": "\u00d6ffnungszeiten: Mo,Di,Do,Fr 09:30-18:00; Sa 09:00-14:00, Barrierefrei: ja",
+        "popupContent_de": "\u00d6ffnungszeiten: Mo,Di,Do,Fr 09:30-18:00; Sa 09:00-14:00, Barrierefrei: ja",
+        "popupContent_en": "Opening hours: Mo,Tu,Th,Fr 09:30-18:00; Sa 09:00-14:00, Wheelchair: yes",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.1283689,
+          48.8886197
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Rad und Technik",
+        "name_en": "Rad und Technik",
+        "name_de": "Rad und Technik",
+        "popupContent": "\u00d6ffnungszeiten: Di-Fr 14:30-18:00; Sa 10:00-14:00;",
+        "popupContent_de": "\u00d6ffnungszeiten: Di-Fr 14:30-18:00; Sa 10:00-14:00;",
+        "popupContent_en": "Opening hours: Tu-Fr 14:30-18:00; Sa 10:00-14:00;",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.1863286,
+          48.9397343
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Neckar-Bike",
+        "name_en": "Neckar-Bike",
+        "name_de": "Neckar-Bike",
+        "popupContent": "\u00d6ffnungszeiten: Mo, Mi, Fr 16:00-19:00; Sa 10:00-13:00, Telefon: +49 7141 780058",
+        "popupContent_de": "\u00d6ffnungszeiten: Mo, Mi, Fr 16:00-19:00; Sa 10:00-13:00, Telefon: +49 7141 780058",
+        "popupContent_en": "Opening hours: Mo, We, Fr 16:00-19:00; Sa 10:00-13:00, Phone: +49 7141 780058",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.1953536,
+          48.9299049
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Fahrradhaus Winter",
+        "name_en": "Fahrradhaus Winter",
+        "name_de": "Fahrradhaus Winter",
+        "popupContent": "Telefon: +49 7141 862344, \u00d6ffnungszeiten: Di-Fr 08:30-12:30,14:30-18:30; Sa 08:30-14:00, Barrierefrei: ja",
+        "popupContent_de": "Telefon: +49 7141 862344, \u00d6ffnungszeiten: Di-Fr 08:30-12:30,14:30-18:30; Sa 08:30-14:00, Barrierefrei: ja",
+        "popupContent_en": "Phone: +49 7141 862344, Opening hours: Tu-Fr 08:30-12:30,14:30-18:30; Sa 08:30-14:00, Wheelchair: yes",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.2066929,
+          48.892039
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Bicycle shop",
+        "name_de": "Fahrradgesch\u00e4ft",
+        "name": "Fahrradgesch\u00e4ft",
+        "popupContent": "",
+        "popupContent_de": "",
+        "popupContent_en": "",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.1862134,
+          48.8560845
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Zweirad Bommer",
+        "name_en": "Zweirad Bommer",
+        "name_de": "Zweirad Bommer",
+        "popupContent": "Barrierefrei: begrenzt",
+        "popupContent_de": "Barrierefrei: begrenzt",
+        "popupContent_en": "Wheelchair: limited",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.1705448,
+          48.9100572
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Fahrrad Wallner",
+        "name_en": "Fahrrad Wallner",
+        "name_de": "Fahrrad Wallner",
+        "popupContent": "\u00d6ffnungszeiten: Di,Do,Fr 09:00-12:30,13:30-18:30; Mi 09:00-12:30; Sa 09:00-13:00; Mo off, Telefon: +49 7142 920 292, Barrierefrei: begrenzt",
+        "popupContent_de": "\u00d6ffnungszeiten: Di,Do,Fr 09:00-12:30,13:30-18:30; Mi 09:00-12:30; Sa 09:00-13:00; Mo off, Telefon: +49 7142 920 292, Barrierefrei: begrenzt",
+        "popupContent_en": "Opening hours: Tu,Th,Fr 09:00-12:30,13:30-18:30; We 09:00-12:30; Sa 09:00-13:00; Mo off, Phone: +49 7142 920 292, Wheelchair: limited",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.1286996,
+          48.941797
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Rat & Tat",
+        "name_en": "Rat & Tat",
+        "name_de": "Rat & Tat",
+        "popupContent": "\u00d6ffnungszeiten: Di-Do 11:00-15:00",
+        "popupContent_de": "\u00d6ffnungszeiten: Di-Do 11:00-15:00",
+        "popupContent_en": "Opening hours: Tu-Th 11:00-15:00",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.1353303,
+          48.9064525
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bikes's n Boards",
+        "name_en": "Bikes's n Boards",
+        "name_de": "Bikes's n Boards",
+        "popupContent": "\u00d6ffnungszeiten: Mo-Fr 11:00-19:00; Sa 10:00-16:00, Telefon: +49 7154 8022224",
+        "popupContent_de": "\u00d6ffnungszeiten: Mo-Fr 11:00-19:00; Sa 10:00-16:00, Telefon: +49 7154 8022224",
+        "popupContent_en": "Opening hours: Mo-Fr 11:00-19:00; Sa 10:00-16:00, Phone: +49 7154 8022224",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.1781712,
+          48.8605584
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bikemax",
+        "name_en": "Bikemax",
+        "name_de": "Bikemax",
+        "popupContent": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; Sa 10:00-18:00, Telefon: +49 7141 9474810, Barrierefrei: begrenzt",
+        "popupContent_de": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; Sa 10:00-18:00, Telefon: +49 7141 9474810, Barrierefrei: begrenzt",
+        "popupContent_en": "Opening hours: Mo-Fr 10:00-19:00; Sa 10:00-18:00, Phone: +49 7141 9474810, Wheelchair: limited",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.1484597,
+          48.9202697
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "FXX Cycles",
+        "name_en": "FXX Cycles",
+        "name_de": "FXX Cycles",
+        "popupContent": "Telefon: +49 7141 5054428",
+        "popupContent_de": "Telefon: +49 7141 5054428",
+        "popupContent_en": "Phone: +49 7141 5054428",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.2064102,
+          48.9341973
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Rad+Tat",
+        "name_en": "Rad+Tat",
+        "name_de": "Rad+Tat",
+        "popupContent": "\u00d6ffnungszeiten: Mi, Fr 16:00-18:00; Di,Do 14:00-17:00; Sa 10:00-13:00, Telefon: +49 711 808935",
+        "popupContent_de": "\u00d6ffnungszeiten: Mi, Fr 16:00-18:00; Di,Do 14:00-17:00; Sa 10:00-13:00, Telefon: +49 711 808935",
+        "popupContent_en": "Opening hours: We, Fr 16:00-18:00; Tu,Th 14:00-17:00; Sa 10:00-13:00, Phone: +49 711 808935",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.1559977,
+          48.8480786
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Gerlach Bike",
+        "name_en": "Gerlach Bike",
+        "name_de": "Gerlach Bike",
+        "popupContent": "\u00d6ffnungszeiten: Di-Fr 10:00-13:00,15:00-18:00, Barrierefrei: nein",
+        "popupContent_de": "\u00d6ffnungszeiten: Di-Fr 10:00-13:00,15:00-18:00, Barrierefrei: nein",
+        "popupContent_en": "Opening hours: Tu-Fr 10:00-13:00,15:00-18:00, Wheelchair: no",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.1390671,
+          48.9418331
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Fahrrad Imle Cube Store",
+        "name_en": "Fahrrad Imle Cube Store",
+        "name_de": "Fahrrad Imle Cube Store",
+        "popupContent": "\u00d6ffnungszeiten: Mo-Fr 09:30-13:00,14:00-18:30; Sa 09:00-16:00, Telefon: +49 7141 4871333",
+        "popupContent_de": "\u00d6ffnungszeiten: Mo-Fr 09:30-13:00,14:00-18:30; Sa 09:00-16:00, Telefon: +49 7141 4871333",
+        "popupContent_en": "Opening hours: Mo-Fr 09:30-13:00,14:00-18:30; Sa 09:00-16:00, Phone: +49 7141 4871333",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.1677941,
+          48.9037186
+        ]
+      }
+    }
+  ]
+}

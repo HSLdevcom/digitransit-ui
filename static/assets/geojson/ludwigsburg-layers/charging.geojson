@@ -1,0 +1,406 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Bicycle charging station",
+        "name_de": "Fahrradladestation",
+        "name": "Fahrradladestation",
+        "popupContent": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig: ja",
+        "popupContent_de": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig: ja",
+        "popupContent_en": "Capacity: 2, Fee: yes",
+        "icon": {
+          "id": "bikeChargeIcon",
+          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"Ebene_1\" data-name=\"Ebene 1\" viewBox=\"0 0 32.53 32.53\">  <defs>    <style>      .cls-2{fill:#fff}    </style>  </defs>  <path fill=\"#00b096\" d=\"M313.29 384.05A16.27 16.27 0 11297 367.78a16.26 16.26 0 0116.26 16.27\" transform=\"translate(-280.76 -367.78)\"/>  <path d=\"M299.66 384.43a1.47 1.47 0 01-1.05-.44 1.38 1.38 0 01-.46-1 1.57 1.57 0 011.51-1.51 1.39 1.39 0 011 .46 1.47 1.47 0 01.44 1.05 1.43 1.43 0 01-.44 1 1.45 1.45 0 01-1 .44zm-7.87 4.88a3.59 3.59 0 012.65 1.09 3.65 3.65 0 011.07 2.67 3.66 3.66 0 01-3.72 3.73 3.69 3.69 0 01-2.67-1.07 3.57 3.57 0 01-1.09-2.66 3.63 3.63 0 011.09-2.67 3.67 3.67 0 012.67-1.09zm0 6.36a2.58 2.58 0 002.6-2.6 2.56 2.56 0 00-.76-1.86 2.44 2.44 0 00-1.84-.77 2.5 2.5 0 00-1.86.77 2.54 2.54 0 00-.78 1.86 2.49 2.49 0 00.78 1.85 2.56 2.56 0 001.86.75zm4.32-7.48l1.65 1.72v4.64h-1.47v-3.73l-2.43-2.1a1.19 1.19 0 01-.42-1.06 1.42 1.42 0 01.42-1.05l2.14-2.11a1.19 1.19 0 011.06-.42 1.86 1.86 0 011.19.42l1.44 1.44a3.64 3.64 0 002.67 1.12v1.51a5.14 5.14 0 01-3.79-1.58l-.6-.59zm6.15 1.12a3.72 3.72 0 013.76 3.76 3.57 3.57 0 01-1.09 2.66 3.66 3.66 0 01-2.67 1.07 3.66 3.66 0 01-3.72-3.73 3.65 3.65 0 011.07-2.67 3.59 3.59 0 012.65-1.09zm0 6.36a2.56 2.56 0 001.86-.75 2.49 2.49 0 00.78-1.85 2.54 2.54 0 00-.78-1.86 2.5 2.5 0 00-1.86-.77 2.45 2.45 0 00-1.84.77 2.56 2.56 0 00-.76 1.86 2.58 2.58 0 002.6 2.6zM304.53 378.55a.86.86 0 01-.33.68 1.16 1.16 0 01-.79.28h-12.72a1.07 1.07 0 01-.77-.28.87.87 0 01-.31-.68v-5.17a.87.87 0 01.31-.68 1.07 1.07 0 01.77-.28h12.72a1.16 1.16 0 01.79.28.86.86 0 01.33.68v1.16h1.64v2.85h-1.64zm-13.29-3.28l6.22 2.82v-1.43h4.59l-6.22-2.82v1.43z\" class=\"cls-2\" transform=\"translate(-280.76 -367.78)\"/></svg>"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.2194864,
+          48.8431384
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Aldi S\u00fcd Filiale",
+        "name_en": "Aldi S\u00fcd Filiale",
+        "name_de": "Aldi S\u00fcd Filiale",
+        "popupContent": "Geb\u00fchrenpflichtig: nein, \u00d6ffnungszeiten: Mo-Sa 08:00-21:00",
+        "popupContent_de": "Geb\u00fchrenpflichtig: nein, \u00d6ffnungszeiten: Mo-Sa 08:00-21:00",
+        "popupContent_en": "Fee: no, Opening hours: Mo-Sa 08:00-21:00",
+        "icon": {
+          "id": "bikeChargeIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.18106,
+          48.8908608
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Bicycle charging station",
+        "name_de": "Fahrradladestation",
+        "name": "Fahrradladestation",
+        "popupContent": "Stellpl\u00e4tze: 4, Geb\u00fchrenpflichtig: nein, \u00d6ffnungszeiten: Mo-Fr 06:00-18:00; Sa 06:30-17:00",
+        "popupContent_de": "Stellpl\u00e4tze: 4, Geb\u00fchrenpflichtig: nein, \u00d6ffnungszeiten: Mo-Fr 06:00-18:00; Sa 06:30-17:00",
+        "popupContent_en": "Capacity: 4, Fee: no, Opening hours: Mo-Fr 06:00-18:00; Sa 06:30-17:00",
+        "icon": {
+          "id": "bikeChargeIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.1324353,
+          48.9392585
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Bicycle charging station",
+        "name_de": "Fahrradladestation",
+        "name": "Fahrradladestation",
+        "popupContent": "Stellpl\u00e4tze: 3, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 3, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 3, Fee: no",
+        "icon": {
+          "id": "bikeChargeIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.2723334,
+          48.8877372
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Car charging station",
+        "name_de": "Elektroauto-Ladestation",
+        "name": "Elektroauto-Ladestation",
+        "popupContent": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig: ja",
+        "popupContent_de": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig: ja",
+        "popupContent_en": "Capacity: 2, Fee: yes",
+        "icon": {
+          "id": "carChargeIcon",
+          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"Ebene_1\" data-name=\"Ebene 1\" viewBox=\"0 0 32.53 32.53\">  <defs>    <style>      .cls-1{fill:#00b096}.cls-2{fill:#fff}    </style>  </defs>  <path d=\"M313.29 384.05A16.27 16.27 0 11297 367.78a16.26 16.26 0 0116.26 16.27\" class=\"cls-1\" transform=\"translate(-280.76 -367.78)\"/>  <path d=\"M304.53 378.55a.86.86 0 01-.33.68 1.16 1.16 0 01-.79.28h-12.72a1.07 1.07 0 01-.77-.28.87.87 0 01-.31-.68v-5.17a.87.87 0 01.31-.68 1.07 1.07 0 01.77-.28h12.72a1.16 1.16 0 01.79.28.86.86 0 01.33.68v1.16h1.64v2.85h-1.64zm-13.29-3.28l6.22 2.82v-1.43h4.59l-6.22-2.82v1.43zM293.43 382.05h-.6a2 2 0 00-1.75 1.17l-.88 2.16-.83-.23h-.24a.73.73 0 00-.74.77v.46a1 1 0 001 .95h.06l-.13.31a7 7 0 00-.45 2.27v4.3a1 1 0 00.95.95h1.15a1 1 0 00.95-.95v-1.06h10.28v1.06a1 1 0 00.95.95h1.15a1 1 0 00.95-.95v-4.3a7 7 0 00-.45-2.27l-.13-.31h.08a1 1 0 001-.95v-.46a.73.73 0 00-.74-.77h-.24l-.84.23-.88-2.16a2 2 0 00-1.75-1.17h-.59m-9.75 4.72l1.34-3.28a1.23 1.23 0 011.05-.7h7.52a1.21 1.21 0 011 .7l1.35 3.28a.47.47 0 01-.47.7h-11.41a.47.47 0 01-.47-.7z\" class=\"cls-2\" transform=\"translate(-280.76 -367.78)\"/>  <circle cx=\"10.7\" cy=\"22.47\" r=\"1.22\" class=\"cls-1\"/>  <circle cx=\"21.93\" cy=\"22.47\" r=\"1.22\" class=\"cls-1\"/></svg>"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.2194864,
+          48.8431384
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Aldi S\u00fcd Filiale",
+        "name_en": "Aldi S\u00fcd Filiale",
+        "name_de": "Aldi S\u00fcd Filiale",
+        "popupContent": "Geb\u00fchrenpflichtig: nein, \u00d6ffnungszeiten: Mo-Sa 08:00-21:00",
+        "popupContent_de": "Geb\u00fchrenpflichtig: nein, \u00d6ffnungszeiten: Mo-Sa 08:00-21:00",
+        "popupContent_en": "Fee: no, Opening hours: Mo-Sa 08:00-21:00",
+        "icon": {
+          "id": "carChargeIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.18106,
+          48.8908608
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Car charging station",
+        "name_de": "Elektroauto-Ladestation",
+        "name": "Elektroauto-Ladestation",
+        "popupContent": "Stellpl\u00e4tze: 2, \u00d6ffnungszeiten: 24/7",
+        "popupContent_de": "Stellpl\u00e4tze: 2, \u00d6ffnungszeiten: 24/7",
+        "popupContent_en": "Capacity: 2, Opening hours: 24/7",
+        "icon": {
+          "id": "carChargeIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.139942,
+          48.9412856
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Car charging station",
+        "name_de": "Elektroauto-Ladestation",
+        "name": "Elektroauto-Ladestation",
+        "popupContent": "Stellpl\u00e4tze: 2",
+        "popupContent_de": "Stellpl\u00e4tze: 2",
+        "popupContent_en": "Capacity: 2",
+        "icon": {
+          "id": "carChargeIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.1795308,
+          48.8627974
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Car charging station",
+        "name_de": "Elektroauto-Ladestation",
+        "name": "Elektroauto-Ladestation",
+        "popupContent": "Stellpl\u00e4tze: 2",
+        "popupContent_de": "Stellpl\u00e4tze: 2",
+        "popupContent_en": "Capacity: 2",
+        "icon": {
+          "id": "carChargeIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.2037137,
+          48.9257787
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Car charging station",
+        "name_de": "Elektroauto-Ladestation",
+        "name": "Elektroauto-Ladestation",
+        "popupContent": "Stellpl\u00e4tze: 3, Geb\u00fchrenpflichtig: ja, \u00d6ffnungszeiten: 24/7",
+        "popupContent_de": "Stellpl\u00e4tze: 3, Geb\u00fchrenpflichtig: ja, \u00d6ffnungszeiten: 24/7",
+        "popupContent_en": "Capacity: 3, Fee: yes, Opening hours: 24/7",
+        "icon": {
+          "id": "carChargeIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.16696,
+          48.9215758
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Car charging station",
+        "name_de": "Elektroauto-Ladestation",
+        "name": "Elektroauto-Ladestation",
+        "popupContent": "Stellpl\u00e4tze: 1, Geb\u00fchrenpflichtig: nein",
+        "popupContent_de": "Stellpl\u00e4tze: 1, Geb\u00fchrenpflichtig: nein",
+        "popupContent_en": "Capacity: 1, Fee: no",
+        "icon": {
+          "id": "carChargeIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.2722994,
+          48.8877796
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Car charging station",
+        "name_de": "Elektroauto-Ladestation",
+        "name": "Elektroauto-Ladestation",
+        "popupContent": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig: ja",
+        "popupContent_de": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig: ja",
+        "popupContent_en": "Capacity: 2, Fee: yes",
+        "icon": {
+          "id": "carChargeIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.2078452,
+          48.8932653
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Car charging station",
+        "name_de": "Elektroauto-Ladestation",
+        "name": "Elektroauto-Ladestation",
+        "popupContent": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig: ja",
+        "popupContent_de": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig: ja",
+        "popupContent_en": "Capacity: 2, Fee: yes",
+        "icon": {
+          "id": "carChargeIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.2013931,
+          48.8921605
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Car charging station",
+        "name_de": "Elektroauto-Ladestation",
+        "name": "Elektroauto-Ladestation",
+        "popupContent": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig: ja",
+        "popupContent_de": "Stellpl\u00e4tze: 2, Geb\u00fchrenpflichtig: ja",
+        "popupContent_en": "Capacity: 2, Fee: yes",
+        "icon": {
+          "id": "carChargeIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.2042336,
+          48.8911932
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Car charging station",
+        "name_de": "Elektroauto-Ladestation",
+        "name": "Elektroauto-Ladestation",
+        "popupContent": "Stellpl\u00e4tze: 2",
+        "popupContent_de": "Stellpl\u00e4tze: 2",
+        "popupContent_en": "Capacity: 2",
+        "icon": {
+          "id": "carChargeIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.2285116,
+          48.8423205
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Car charging station",
+        "name_de": "Elektroauto-Ladestation",
+        "name": "Elektroauto-Ladestation",
+        "popupContent": "Stellpl\u00e4tze: 1, \u00d6ffnungszeiten: 24/7",
+        "popupContent_de": "Stellpl\u00e4tze: 1, \u00d6ffnungszeiten: 24/7",
+        "popupContent_en": "Capacity: 1, Opening hours: 24/7",
+        "icon": {
+          "id": "carChargeIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.1669859,
+          48.9220125
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Car charging station",
+        "name_de": "Elektroauto-Ladestation",
+        "name": "Elektroauto-Ladestation",
+        "popupContent": "Stellpl\u00e4tze: 2",
+        "popupContent_de": "Stellpl\u00e4tze: 2",
+        "popupContent_en": "Capacity: 2",
+        "icon": {
+          "id": "carChargeIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.1935072,
+          48.9344001
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Car charging station",
+        "name_de": "Elektroauto-Ladestation",
+        "name": "Elektroauto-Ladestation",
+        "popupContent": "Stellpl\u00e4tze: 2",
+        "popupContent_de": "Stellpl\u00e4tze: 2",
+        "popupContent_en": "Capacity: 2",
+        "icon": {
+          "id": "carChargeIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.2561894,
+          48.9404648
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Car charging station",
+        "name_de": "Elektroauto-Ladestation",
+        "name": "Elektroauto-Ladestation",
+        "popupContent": "Stellpl\u00e4tze: 2",
+        "popupContent_de": "Stellpl\u00e4tze: 2",
+        "popupContent_en": "Capacity: 2",
+        "icon": {
+          "id": "carChargeIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.1915171,
+          48.8559748
+        ]
+      }
+    }
+  ]
+}
