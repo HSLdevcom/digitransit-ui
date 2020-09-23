@@ -5,10 +5,13 @@ import { FormattedMessage } from 'react-intl';
 import StopCode from './StopCode';
 import ZoneIcon from './ZoneIcon';
 import PlatformNumber from './PlatformNumber';
-import { PREFIX_STOPS } from '../util/path';
+import { PREFIX_STOPS, PREFIX_TERMINALS } from '../util/path';
 import { isKeyboardSelectionEvent } from '../util/browser';
 
 const StopNearYouHeader = ({ stop, color, desc, isStation }) => {
+  const linkAddress = isStation
+    ? `/${PREFIX_TERMINALS}/${stop.gtfsId}`
+    : `/${PREFIX_STOPS}/${stop.gtfsId}`;
   return (
     <div className="stop-near-you-header-container">
       <div className="stop-header-content">
@@ -21,7 +24,7 @@ const StopNearYouHeader = ({ stop, color, desc, isStation }) => {
               e.stopPropagation();
             }
           }}
-          to={`/${PREFIX_STOPS}/${stop.gtfsId}`}
+          to={linkAddress}
         >
           <h3 className="stop-near-you-name">
             {stop.name}
