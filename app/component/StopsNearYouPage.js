@@ -100,17 +100,17 @@ const containerComponent = createFragmentContainer(
           maxDistance: { type: "Int" }
         ) {
         ...StopsNearYouContainer_stopPatterns
-          @arguments(omitNonPickups: $omitNonPickups
-                      startTime: $startTime
-                      omitNonPickups: $omitNonPickups
-                      lat: $lat
-                      lon: $lon
-                      filterByPlaceTypes: $filterByPlaceTypes
-                      filterByModes: $filterByModes
-                      first: $first
-                      maxResults: $maxResults
-                      maxDistance: $maxDistance
-            )
+          @arguments(
+            omitNonPickups: $omitNonPickups
+            startTime: $startTime
+            lat: $lat
+            lon: $lon
+            filterByPlaceTypes: $filterByPlaceTypes
+            filterByModes: $filterByModes
+            first: $first
+            maxResults: $maxResults
+            maxDistance: $maxDistance
+          )
       }
     `,
     alerts: graphql`

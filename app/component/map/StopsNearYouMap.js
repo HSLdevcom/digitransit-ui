@@ -25,7 +25,6 @@ import {
 import { addressToItinerarySearch } from '../../util/otpStrings';
 import ItineraryLine from './ItineraryLine';
 import Loading from '../Loading';
-import { plan } from '../ExampleData';
 
 const startClient = (context, routes) => {
   const { realTime } = context.config;
@@ -94,7 +93,14 @@ function StopsNearYouMap(
   }
   let uniqueRealtimeTopics;
   const { environment } = useContext(ReactRelayContext);
-  const [ plans, setPlans ] = useState({ itineraries: [], isFetching: false });
+  const [secondPlan, setSecondPlan] = useState({
+    itinerary: [],
+    isFetching: false,
+  });
+  const [firstPlan, setFirstPlan] = useState({
+    itinerary: [],
+    isFetching: false,
+  });
   useEffect(() => {
     startClient(context, uniqueRealtimeTopics);
     return function cleanup() {
@@ -105,7 +111,8 @@ function StopsNearYouMap(
   useEffect(
     () => {
       let isMounted = true;
-      const fetchPlan = stop => {
+      const fetchPlan = (node, first) => {
+        const stop = node.place;
         if (locationState.hasLocation && locationState.address) {
           const toPlace = {
             address: stop.name ? stop.name : 'stop',
@@ -141,18 +148,27 @@ function StopsNearYouMap(
               }
             }
           `;
-          fetchQuery(environment, query, variables).then(({ plan: result }) => {
-            if (isMounted) {
-              setPlans({ itineraries:  plans => [...result.itineraries, ...plans.itineraries], isFetching: false });
-            }
-          });
+          if (node.distance < 2000) {
+            fetchQuery(environment, query, variables).then(
+              ({ plan: result }) => {
+                if (isMounted) {
+                  if (first) {
+                    setFirstPlan({ itinerary: result, isFetching: false });
+                  } else {
+                    setSecondPlan({ itinerary: result, isFetching: false });
+                  }
+                }
+              },
+            );
+          }
         }
       };
       if (stops.edges.length > 0 && locationState.hasLocation) {
-        const stop = stops.edges[0].node.place;
-        setPlans({ plans: plans.itineraries, isFetching: true });
-        fetchPlan(stop);
-        //fetchPlan(stops.edges[1].node.place)
+        const stop = stops.edges[0].node;
+        setFirstPlan({ itinerary: firstPlan.itinerary, isFetching: true });
+        setSecondPlan({ itinerary: secondPlan.itinerary, isFetching: true });
+        fetchPlan(stop, true);
+        fetchPlan(stops.edges[1].node, false);
       }
       return () => {
         isMounted = false;
@@ -205,22 +221,42 @@ function StopsNearYouMap(
   if (uniqueRealtimeTopics.length > 0) {
     leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
   }
-  console.log(plans.itineraries)
-  if (plans.itineraries && plans.itineraries.length > 0) {
-    console.log(plans)
+  if (
+    firstPlan.itinerary.itineraries &&
+    firstPlan.itinerary.itineraries.length > 0
+  ) {
     leafletObjs.push(
-      plans.itineraries.map((itinerary,i) =>  {
-        console.log(itinerary)
-        return(
-        <ItineraryLine
-          key="itinerary"
-          hash={i}
-          legs={itinerary.legs}
-          passive={false}
-          showIntermediateStops={false}
-          streetMode="walk"
-        />
-      )}),
+      firstPlan.itinerary.itineraries.map((itinerary, i) => {
+        return (
+          <ItineraryLine
+            key="itinerary"
+            hash={i}
+            legs={itinerary.legs}
+            passive={false}
+            showIntermediateStops={false}
+            streetMode="walk"
+          />
+        );
+      }),
+    );
+  }
+  if (
+    secondPlan.itinerary.itineraries &&
+    secondPlan.itinerary.itineraries.length > 0
+  ) {
+    leafletObjs.push(
+      secondPlan.itinerary.itineraries.map((itinerary, i) => {
+        return (
+          <ItineraryLine
+            key="itinerary"
+            hash={i}
+            legs={itinerary.legs}
+            passive={false}
+            showIntermediateStops={false}
+            streetMode="walk"
+          />
+        );
+      }),
     );
   }
   const hilightedStops = () => {
@@ -279,7 +315,7 @@ function StopsNearYouMap(
 
 StopsNearYouMap.propTypes = {
   match: matchShape.isRequired,
-
+  locationState: dtLocationShape,
   breakpoint: PropTypes.string.isRequired,
   origin: dtLocationShape,
   destination: dtLocationShape,
@@ -330,6 +366,7 @@ const containerComponent = createFragmentContainer(StopsNearYouMapWithStores, {
       ) {
       edges {
         node {
+          distance
           place {
             __typename
             ... on BikeRentalStation {

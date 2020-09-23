@@ -120,14 +120,14 @@ class StopsNearYouContainer extends React.Component {
     return (
       <>
         <div role="list" className="stops-near-you-container">
-    {this.createNearbyStops()}
+          {this.createNearbyStops()}
         </div>
         <button
           aria-label={this.context.intl.formatMessage({
-            id: 'set-time-earlier-button-label',
-            defaultMessage: 'Set travel time to earlier',
+            id: 'show-more-stops-near-you',
+            defaultMessage: 'Load more nearby stops',
           })}
-          className="standalone-btn show-more-button"
+          className="show-more-button"
           onClick={this.showMore}
         >
           <FormattedMessage id="show-more" defaultMessage="Show more" />
@@ -194,72 +194,36 @@ const connectedContainer = createRefetchContainer(
         @argumentDefinitions(
           startTime: { type: "Long!", defaultValue: 0 }
           omitNonPickups: { type: "Boolean!", defaultValue: false }
-          lat: { type: "Float!"}
+          lat: { type: "Float!" }
           lon: { type: "Float!", defaultValue: 0 }
           filterByPlaceTypes: { type: "[FilterPlaceType]", defaultValue: null }
           filterByModes: { type: "[Mode]", defaultValue: null }
           first: { type: "Int!", defaultValue: 5 }
-          maxResults: { type: "Int"}
-          maxDistance: { type: "Int"}
+          maxResults: { type: "Int" }
+          maxDistance: { type: "Int" }
         ) {
-      nearest(
-        lat: $lat
-        lon: $lon
-        filterByPlaceTypes: $filterByPlaceTypes
-        filterByModes: $filterByModes
-        first: $first
-        maxResults: $maxResults
-        maxDistance: $maxDistance
-      ) {
-        edges {
-          node {
-            distance
-            place {
-              __typename
-              ... on BikeRentalStation {
-                stationId
-                name
-                bikesAvailable
-                spacesAvailable
-                networks
-              }
-              ... on Stop {
-                id
-                name
-                gtfsId
-                code
-                desc
-                lat
-                lon
-                zoneId
-                platformCode
-                vehicleMode
-                stoptimesWithoutPatterns(
-                  startTime: $startTime
-                  omitNonPickups: $omitNonPickups
-                ) {
-                  scheduledArrival
-                  realtimeArrival
-                  arrivalDelay
-                  scheduledDeparture
-                  realtimeDeparture
-                  departureDelay
-                  realtime
-                  realtimeState
-                  serviceDay
-                  headsign
-                  trip {
-                    route {
-                      shortName
-                      gtfsId
-                      mode
-                      patterns {
-                        headsign
-                      }
-                    }
-                  }
+        nearest(
+          lat: $lat
+          lon: $lon
+          filterByPlaceTypes: $filterByPlaceTypes
+          filterByModes: $filterByModes
+          first: $first
+          maxResults: $maxResults
+          maxDistance: $maxDistance
+        ) {
+          edges {
+            node {
+              distance
+              place {
+                __typename
+                ... on BikeRentalStation {
+                  stationId
+                  name
+                  bikesAvailable
+                  spacesAvailable
+                  networks
                 }
-                parentStation {
+                ... on Stop {
                   id
                   name
                   gtfsId
@@ -295,13 +259,49 @@ const connectedContainer = createRefetchContainer(
                       }
                     }
                   }
+                  parentStation {
+                    id
+                    name
+                    gtfsId
+                    code
+                    desc
+                    lat
+                    lon
+                    zoneId
+                    platformCode
+                    vehicleMode
+                    stoptimesWithoutPatterns(
+                      startTime: $startTime
+                      omitNonPickups: $omitNonPickups
+                    ) {
+                      scheduledArrival
+                      realtimeArrival
+                      arrivalDelay
+                      scheduledDeparture
+                      realtimeDeparture
+                      departureDelay
+                      realtime
+                      realtimeState
+                      serviceDay
+                      headsign
+                      trip {
+                        route {
+                          shortName
+                          gtfsId
+                          mode
+                          patterns {
+                            headsign
+                          }
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
           }
         }
       }
-    }
     `,
   },
   graphql`
@@ -312,22 +312,23 @@ const connectedContainer = createRefetchContainer(
       $filterByModes: [Mode]
       $first: Int!
       $maxResults: Int!
-      $maxDistance: Int
+      $maxDistance: Int!
       $startTime: Long!
       $omitNonPickups: Boolean!
     ) {
-      stopPatterns: viewer {
+      viewer {
         ...StopsNearYouContainer_stopPatterns
-          @arguments(startTime: $startTime
-                      omitNonPickups: $omitNonPickups
-                      lat: $lat
-                      lon: $lon
-                      filterByPlaceTypes: $filterByPlaceTypes
-                      filterByModes: $filterByModes
-                      first: $first
-                      maxResults: $maxResults
-                      maxDistance: $maxDistance
-                      )
+          @arguments(
+            startTime: $startTime
+            omitNonPickups: $omitNonPickups
+            lat: $lat
+            lon: $lon
+            filterByPlaceTypes: $filterByPlaceTypes
+            filterByModes: $filterByModes
+            first: $first
+            maxResults: $maxResults
+            maxDistance: $maxDistance
+          )
       }
     }
   `,

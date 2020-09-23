@@ -70,7 +70,8 @@ export default config => {
                 ) {
                   stopPatterns: viewer {
                     ...StopsNearYouPage_stopPatterns
-                      @arguments(omitNonPickups: $omitNonPickups
+                      @arguments(
+                        omitNonPickups: $omitNonPickups
                         lat: $lat
                         lon: $lon
                         filterByPlaceTypes: $filterByPlaceTypes
@@ -78,7 +79,7 @@ export default config => {
                         first: $first
                         maxResults: $maxResults
                         maxDistance: $maxDistance
-                        )
+                      )
                   }
                   alerts: nearest(
                     lat: $lat
