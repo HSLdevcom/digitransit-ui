@@ -301,6 +301,7 @@ function StopsNearYouMap(
         bounds={bounds}
         origin={origin}
         destination={destination}
+        fitBoundsWithSetCenter
         setInitialMapTracking
         hilightedStops={hilightedStops()}
         disableLocationPopup
@@ -326,6 +327,7 @@ function StopsNearYouMap(
           showScaleBar
           origin={origin}
           destination={destination}
+          fitBoundsWithSetCenter
           setInitialMapTracking
           hilightedStops={hilightedStops()}
           disableLocationPopup
