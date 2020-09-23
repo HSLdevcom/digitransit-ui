@@ -5,6 +5,8 @@ import { matchShape, routerShape } from 'found';
 import { createFragmentContainer, graphql, fetchQuery } from 'react-relay';
 import moment from 'moment';
 import uniqBy from 'lodash/uniqBy';
+import compact from 'lodash/compact';
+import indexOf from 'lodash/indexOf';
 import polyline from 'polyline-encoded';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import withBreakpoint from '../../util/withBreakpoint';
@@ -25,6 +27,25 @@ import {
 import { addressToItinerarySearch } from '../../util/otpStrings';
 import ItineraryLine from './ItineraryLine';
 import Loading from '../Loading';
+
+const handleStopsAndStations = stops => {
+  const terminalNames = [];
+  const stopsAndStations = stops.edges.map(({ node }) => {
+    const stop = { ...node.place, distance: node.distance };
+    if (
+      stop.parentStation &&
+      indexOf(terminalNames, stop.parentStation.name) === -1
+    ) {
+      terminalNames.push(stop.parentStation.name);
+      return { ...stop.parentStation, distance: node.distance };
+    }
+    if (!stop.parentStation) {
+      return stop;
+    }
+    return null;
+  });
+  return compact(stopsAndStations);
+};
 
 const startClient = (context, routes) => {
   const { realTime } = context.config;
@@ -92,6 +113,7 @@ function StopsNearYouMap(
 ) {
   let useFitBounds = true;
   const bounds = handleBounds(locationState, stops);
+
   if (!bounds) {
     useFitBounds = false;
   }
@@ -105,9 +127,9 @@ function StopsNearYouMap(
     itinerary: [],
     isFetching: false,
   });
+  const stopsAndStations = handleStopsAndStations(stops);
 
-  const fetchPlan = (node, first) => {
-    const stop = node.place;
+  const fetchPlan = (stop, first) => {
     if (locationState && locationState.lat) {
       const toPlace = {
         address: stop.name ? stop.name : 'stop',
@@ -143,7 +165,7 @@ function StopsNearYouMap(
           }
         }
       `;
-      if (node.distance < 2000) {
+      if (stop.distance < 2000) {
         fetchQuery(environment, query, variables).then(({ plan: result }) => {
           if (first) {
             setFirstPlan({ itinerary: result, isFetching: false });
@@ -167,11 +189,16 @@ function StopsNearYouMap(
   }
   useEffect(() => {
     if (stops.edges && stops.edges.length > 0) {
-      const stop = stops.edges[0].node;
-      setFirstPlan({ itinerary: firstPlan.itinerary, isFetching: true });
-      setSecondPlan({ itinerary: secondPlan.itinerary, isFetching: true });
-      fetchPlan(stop, true);
-      fetchPlan(stops.edges[1].node, false);
+      const firstStop = stopsAndStations[0];
+      const secondStop = stopsAndStations[1];
+      if (firstStop) {
+        setFirstPlan({ itinerary: firstPlan.itinerary, isFetching: true });
+        fetchPlan(firstStop, true);
+      }
+      if (secondStop) {
+        setSecondPlan({ itinerary: secondPlan.itinerary, isFetching: true });
+        fetchPlan(stopsAndStations[1], false);
+      }
     }
   }, []);
 
@@ -379,6 +406,12 @@ const containerComponent = createFragmentContainer(StopsNearYouMapWithStores, {
               lat
               lon
               name
+              parentStation {
+                lat
+                lon
+                name
+                gtfsId
+              }
               patterns {
                 route {
                   gtfsId
