@@ -393,8 +393,8 @@ export default {
     },
   },
 
-  maxNearbyStopAmount: 50,
-  maxNearbyStopDistance: 1000,
+  maxNearbyStopAmount: 5,
+  maxNearbyStopDistance: 100000,
 
   showTicketSelector: true,
 
