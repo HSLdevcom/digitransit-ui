@@ -90,6 +90,12 @@ export default {
         href: 'https://www.traficom.fi/fi/joukkoliikenteen-informaatiopalvelut',
         icon: 'icon-icon_info',
       },
+      {
+        name: 'accessibility-statement',
+        nameEn: 'Accessibility statement',
+        href:
+          'https://www.traficom.fi/fi/asioi-kanssamme/reittiopas/matkafi-reittioppaan-saavutettavuusseloste',
+      },
     ],
   },
 

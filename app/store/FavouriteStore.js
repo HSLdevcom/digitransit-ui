@@ -57,13 +57,21 @@ export default class FavouriteStore extends Store {
 
   getRoutes() {
     return this.favourites
-      .filter(favourite => favourite.type === 'route')
+      .filter(
+        favourite =>
+          favourite.type === 'route' &&
+          favourite.gtfsId &&
+          favourite.gtfsId.includes(':'),
+      )
       .map(favourite => favourite.gtfsId);
   }
 
   getStopsAndStations() {
     return this.favourites.filter(
-      favourite => favourite.type === 'stop' || favourite.type === 'station',
+      favourite =>
+        favourite.gtfsId &&
+        favourite.gtfsId.includes(':') &&
+        (favourite.type === 'stop' || favourite.type === 'station'),
     );
   }
 

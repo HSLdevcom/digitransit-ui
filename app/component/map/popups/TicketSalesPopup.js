@@ -28,15 +28,15 @@ function TicketSalesPopup(props) {
     <div className="card">
       <Card className="card-padding">
         <CardHeader
-          name={props.Name_fi}
-          description={props.Address_fi}
+          name={props.Nimi}
+          description={props.Osoite}
           icon={getIcon(props.Tyyppi)}
           unlinked
         />
       </Card>
       <MarkerPopupBottom
         location={{
-          address: props.Name_fi,
+          address: props.Nimi,
           lat: props.LAT,
           lon: props.LON,
         }}
@@ -56,8 +56,8 @@ TicketSalesPopup.description = (
 
 TicketSalesPopup.propTypes = {
   Tyyppi: PropTypes.string.isRequired,
-  Name_fi: PropTypes.string.isRequired,
-  Address_fi: PropTypes.string.isRequired,
+  Nimi: PropTypes.string.isRequired,
+  Osoite: PropTypes.string.isRequired,
   LAT: PropTypes.number.isRequired,
   LON: PropTypes.number.isRequired,
 };

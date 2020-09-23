@@ -36,7 +36,7 @@ export default configMerger(walttiConfig, {
 
   favicon: './sass/themes/tampere/favicon.png',
 
-  feedIds: ['tampere', 'TampereVR'],
+  feedIds: ['tampere', 'TampereVR', 'tampereDRT'],
 
   geoJson: {
     layers: [
@@ -152,6 +152,12 @@ export default configMerger(walttiConfig, {
         nameEn: 'About this service',
         route: '/tietoja-palvelusta',
         icon: 'icon-icon_info',
+      },
+      {
+        name: 'accessibility-statement',
+        nameEn: 'Accessibility statement',
+        href:
+          'https://kauppa.waltti.fi/media/authority/154/files/Saavutettavuusseloste_Waltti-reittiopas_JyQfJhC.htm',
       },
     ],
   },

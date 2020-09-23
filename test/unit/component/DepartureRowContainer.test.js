@@ -43,7 +43,7 @@ describe('<DepartureRow />', () => {
               alerts: [],
               code: 'E2006',
               platformCode: '7',
-              stopHeadsign: 'Westendinas.',
+              headsign: 'Westendinas.',
             },
             trip: {
               gtfsId: 'HSL:2550_20190322_Ma_1_1011',
@@ -110,7 +110,7 @@ describe('<DepartureRow />', () => {
               ],
               code: 'E2006',
               platformCode: '7',
-              stopHeadsign: 'Westendinas.',
+              headsign: 'Westendinas.',
             },
             trip: {
               gtfsId: 'HSL:2550_20190322_Ma_1_1011',
@@ -182,7 +182,7 @@ describe('<DepartureRow />', () => {
               alerts: [],
               code: 'E2006',
               platformCode: '7',
-              stopHeadsign: 'Westendinas.',
+              headsign: 'Westendinas.',
             },
             trip: {
               gtfsId: 'HSL:2550_20190322_Ma_1_1011',

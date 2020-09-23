@@ -441,8 +441,8 @@ const containerComponent = Relay.createContainer(withBreakpoint(RoutePage), {
           stops {
             ${StopAlertsWithContentQuery}
           }
-          trips: tripsForDate(serviceDay: $serviceDay) {
-            stoptimes: stoptimesForDate(serviceDay: $serviceDay) {
+          trips: tripsForDate(serviceDate: $serviceDay) {
+            stoptimes: stoptimesForDate(serviceDate: $serviceDay) {
               realtimeState
               scheduledArrival
               scheduledDeparture

@@ -682,16 +682,6 @@
                                 "defaultValue": null
                             },
                             {
-                                "name": "modes",
-                                "description": "Deprecated, use argument `transportModes` instead.",
-                                "type": {
-                                    "kind": "SCALAR",
-                                    "name": "String",
-                                    "ofType": null
-                                },
-                                "defaultValue": null
-                            },
-                            {
                                 "name": "transportModes",
                                 "description": "Only include routes, which use one of these modes",
                                 "type": {
@@ -1847,16 +1837,6 @@
                                 "defaultValue": null
                             },
                             {
-                                "name": "ticketTypes",
-                                "description": "**Deprecated:** Use `allowedTicketTypes` instead.  \nA comma-separated list of allowed ticket types.",
-                                "type": {
-                                    "kind": "SCALAR",
-                                    "name": "String",
-                                    "ofType": null
-                                },
-                                "defaultValue": null
-                            },
-                            {
                                 "name": "allowedTicketTypes",
                                 "description": "List of ticket types that are allowed to be used in itineraries.  \nSee `ticketTypes` query for list of possible ticket types.",
                                 "type": {
@@ -2726,16 +2706,6 @@
                         "description": "Trips which run on this pattern on the specified date",
                         "args": [
                             {
-                                "name": "serviceDay",
-                                "description": "Deprecated, please switch to serviceDate instead",
-                                "type": {
-                                    "kind": "SCALAR",
-                                    "name": "String",
-                                    "ofType": null
-                                },
-                                "defaultValue": null
-                            },
-                            {
                                 "name": "serviceDate",
                                 "description": "Return trips of the pattern active on this date. Format: YYYYMMDD",
                                 "type": {
@@ -3145,16 +3115,6 @@
                         "name": "stoptimesForDate",
                         "description": null,
                         "args": [
-                            {
-                                "name": "serviceDay",
-                                "description": "Deprecated, please switch to serviceDate instead",
-                                "type": {
-                                    "kind": "SCALAR",
-                                    "name": "String",
-                                    "ofType": null
-                                },
-                                "defaultValue": null
-                            },
                             {
                                 "name": "serviceDate",
                                 "description": "Date for which stoptimes are returned. Format: YYYYMMDD",
@@ -5023,18 +4983,6 @@
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
-                    },
-                    {
-                        "name": "stopHeadsign",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
-                        },
-                        "isDeprecated": true,
-                        "deprecationReason": "Use headsign instead, will be removed in the future"
                     },
                     {
                         "name": "headsign",
