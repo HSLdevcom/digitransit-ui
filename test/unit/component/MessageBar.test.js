@@ -165,6 +165,7 @@ describe('<MessageBar />', () => {
       'background',
       '#000000',
     );
+    expect(wrapper.find(Icon)).to.have.lengthOf(2);
     expect(wrapper.find(SwipeableViews).props().slideStyle).to.have.property(
       'background',
       '#000000',
