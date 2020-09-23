@@ -1,5 +1,4 @@
 import React from 'react';
-import { Tabs, Tab } from 'material-ui';
 import SwipeableViews from 'react-swipeable-views';
 
 import {
@@ -10,6 +9,7 @@ import { mockContext } from '../helpers/mock-context';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import { setReadMessageIds } from '../../../app/store/localStorage';
 import { AlertSeverityLevelType } from '../../../app/constants';
+import Icon from '../../../app/component/Icon';
 
 const defaultProps = {
   getServiceAlertsAsync: async () => [],
@@ -27,7 +27,7 @@ describe('<MessageBar />', () => {
     expect(wrapper.isEmptyRender()).to.equal(true);
   });
 
-  it('should render the service alert tab', async () => {
+  it('should render the service alert', async () => {
     const props = {
       ...defaultProps,
       getServiceAlertsAsync: async () => [
@@ -42,10 +42,11 @@ describe('<MessageBar />', () => {
       context: mockContext,
     });
     await wrapper.instance().componentDidMount();
-    expect(wrapper.find(Tab)).to.have.lengthOf(1);
+
+    expect(wrapper.find(Icon)).to.have.lengthOf(2);
   });
 
-  it('should not show a closed service alert tab again', async () => {
+  it('should not show a closed service alert  again', async () => {
     const alertId = 926603079;
     const alerts = [
       {
@@ -72,10 +73,9 @@ describe('<MessageBar />', () => {
     const wrapper = shallowWithIntl(<MessageBar {...props} />, {
       context: mockContext,
     });
-
     await wrapper.instance().componentDidMount();
     expect(wrapper.instance().validMessages()[0].id).to.not.equal(alertId);
-    expect(wrapper.find(Tab)).to.have.lengthOf(1);
+    expect(wrapper.find(Icon)).to.have.lengthOf(2);
   });
 
   it('should not render service alerts that are expired', async () => {
@@ -97,7 +97,7 @@ describe('<MessageBar />', () => {
     });
 
     await wrapper.instance().componentDidMount();
-    expect(wrapper.find(Tab)).to.have.lengthOf(0);
+    expect(wrapper.find(Icon)).to.have.lengthOf(0);
   });
 
   it('should render one message when there are two messages but one of them has shouldTrigger: false ', async () => {
@@ -135,7 +135,7 @@ describe('<MessageBar />', () => {
     });
 
     await wrapper.instance().componentDidMount();
-    expect(wrapper.find(Tab)).to.have.lengthOf(1);
+    expect(wrapper.find(Icon)).to.have.lengthOf(2);
   });
 
   it('should have correct background color', async () => {
@@ -167,10 +167,6 @@ describe('<MessageBar />', () => {
     );
     expect(wrapper.find(SwipeableViews).props().slideStyle).to.have.property(
       'background',
-      '#000000',
-    );
-    expect(wrapper.find(Tabs).props().tabItemContainerStyle).to.have.property(
-      'backgroundColor',
       '#000000',
     );
   });
