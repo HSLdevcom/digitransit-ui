@@ -16,6 +16,8 @@
 	.street-mode-selector-panel-weather-text {
 		font-size: 15px;
 		font-weight: 500;
+		padding-top: 51px;
+		margin-left: -39px;
 		font-stretch: normal;
 		font-style: normal;
 		line-height: normal;
@@ -38,8 +40,7 @@
 	background-color: #ffffff;
 	align-items: center;
 	padding: 5px 15px 5px 20px;
-	margin-left: 5px;
-	margin-right: 5px;
+	margin-right: 10px;
 
 	.street-mode-selector-button-content {
 		width: 100%;
@@ -88,7 +89,8 @@
 		.street-mode-selector-panel-weather-text {
 			padding-left: 46px;
 			font-size: 16px;
-			margin-left: -39px;
+			margin-left: -41px;
+			padding-top: 0;
 		  }
 	&.id-101 svg {
 		margin-bottom: -18px;
