@@ -115,6 +115,7 @@ function setUpOIDC() {
   // Initialize Passport
   app.use(passport.initialize());
   app.use(passport.session());
+
   // Initiates an authentication request
   // users will be redirected to hsl.id and once authenticated
   // they will be returned to the callback handler below
@@ -142,6 +143,7 @@ function setUpOIDC() {
     });
   });
   app.use('/api', function (req, res, next) {
+    res.set('Cache-Control', 'no-store');
     if (req.isAuthenticated()) {
       next();
     } else {
@@ -158,7 +160,7 @@ function setUpOIDC() {
         },
       },
       function (err, response, body) {
-        if (!err) {
+        if (!err && response.statusCode === 200) {
           res.status(response.statusCode).send(body);
         } else {
           res.status(401).send('Unauthorized');
