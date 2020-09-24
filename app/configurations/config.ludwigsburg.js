@@ -393,7 +393,7 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  // adding assets/geoJson/hb-layers layers
+  // adding assets/geoJson/ludwigsburg-layers layers
   geoJson: {
     layers: [
       {
@@ -402,7 +402,7 @@ export default configMerger(walttiConfig, {
           en: 'Bicycle parkings',
           de: 'Fahrrad-Abstellanlagen',
         },
-        url: '/assets/geojson/hb-layers/bicycle-parking.geojson',
+        url: '/assets/geojson/ludwigsburg-layers/bicycle-parking.geojson',
       },
       // bicycleinfrastructure includes shops, repair stations,
       {
@@ -411,7 +411,7 @@ export default configMerger(walttiConfig, {
           en: 'Bicycle infrastructure',
           de: "Rund um's Fahrrad",
         },
-        url: '/assets/geojson/hb-layers/bicycleinfrastructure.geojson',
+        url: '/assets/geojson/ludwigsburg-layers/bicycleinfrastructure.geojson',
       },
       // Charging stations
       {
@@ -420,18 +420,19 @@ export default configMerger(walttiConfig, {
           en: 'Charging stations',
           de: 'Ladestationen',
         },
-        url: '/assets/geojson/hb-layers/charging.geojson',
+        url: '/assets/geojson/ludwigsburg-layers/charging.geojson',
       },
-      // LoRaWan map layer
+      /* LoRaWan map layer
       {
         name: {
           fi: '',
           en: 'LoRaWAN Gateways',
           de: 'LoRaWAN Gateways',
         },
-        url: '/assets/geojson/hb-layers/lorawan-gateways.geojson',
+        url: '/assets/geojson/ludwigsburg-layers/lorawan-gateways.geojson',
         isOffByDefault: true,
       },
+      */
       // Nette Toilette layer
       {
         name: {
@@ -439,7 +440,7 @@ export default configMerger(walttiConfig, {
           en: 'Public Toilets',
           de: 'Nette Toilette',
         },
-        url: '/assets/geojson/hb-layers/toilet.geojson',
+        url: '/assets/geojson/ludwigsburg-layers/toilet.geojson',
         isOffByDefault: true,
       },
     ],
