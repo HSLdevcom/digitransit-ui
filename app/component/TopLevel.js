@@ -157,7 +157,7 @@ class TopLevel extends React.Component {
         <DesktopOrMobile
           mobile={() => (
             <MobileView
-              map={this.disableMapOnMobile || this.props.map}
+              map={this.disableMapOnMobile ? null : this.props.map}
               content={this.props.content}
               header={this.props.header}
               selectFromMapHeader={this.props.selectFromMapHeader}

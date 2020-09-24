@@ -1,22 +1,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import cx from 'classnames';
 import { createFragmentContainer, graphql } from 'react-relay';
-import { matchShape, routerShape } from 'found';
+import { matchShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
-import Icon from './Icon';
 import MapContainer from './map/MapContainer';
 import RouteLine from './map/route/RouteLine';
 import VehicleMarkerContainer from './map/VehicleMarkerContainer';
 import { getStartTime } from '../util/timeUtils';
 import withBreakpoint from '../util/withBreakpoint';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
 import BackButton from './BackButton';
 
 class RouteMapContainer extends React.PureComponent {
   static propTypes = {
-    router: routerShape.isRequired,
     match: matchShape.isRequired,
     pattern: PropTypes.object.isRequired,
     lat: PropTypes.number,
@@ -35,7 +31,7 @@ class RouteMapContainer extends React.PureComponent {
   dispLon = this.props.lon;
 
   render() {
-    const { pattern, lat, lon, match, router, breakpoint } = this.props;
+    const { pattern, lat, lon, match, breakpoint } = this.props;
     const { config } = this.context;
     let centerToMarker = false;
 
@@ -44,12 +40,9 @@ class RouteMapContainer extends React.PureComponent {
       centerToMarker = true;
     }
 
-    const fullscreen =
-      match.location.state && match.location.state.fullscreenMap === true;
-
     [this.dispLat, this.dispLon] =
       (centerToMarker || !this.dispLat || !this.dispLon) &&
-      (match.params.tripId || (!fullscreen && breakpoint !== 'large')) &&
+      (match.params.tripId || breakpoint !== 'large') &&
       lat &&
       lon
         ? [lat, lon]
@@ -60,22 +53,6 @@ class RouteMapContainer extends React.PureComponent {
     }
 
     let tripStart;
-
-    const toggleFullscreenMap = () => {
-      addAnalyticsEvent({
-        action: fullscreen ? 'MinimizeMapOnMobile' : 'MaximizeMapOnMobile',
-        category: 'Map',
-        name: 'RoutePage',
-      });
-      if (fullscreen) {
-        router.go(-1);
-        return;
-      }
-      router.push({
-        ...match.location,
-        state: { ...match.location.state, fullscreenMap: true },
-      });
-    };
 
     const leafletObjs = [
       <RouteLine key="line" pattern={pattern} />,
@@ -88,7 +65,7 @@ class RouteMapContainer extends React.PureComponent {
       />,
     ];
 
-    const showScale = fullscreen || breakpoint === 'large';
+    const showScale = breakpoint === 'large';
 
     let filteredPoints;
     if (pattern.geometry) {
@@ -112,13 +89,6 @@ class RouteMapContainer extends React.PureComponent {
         }
         showScaleBar={showScale}
       >
-        {breakpoint !== 'large' && !fullscreen && (
-          <div
-            className="map-click-prevent-overlay"
-            onClick={toggleFullscreenMap}
-            key="overlay"
-          />
-        )}
         {breakpoint !== 'large' && (
           <React.Fragment>
             <BackButton
@@ -126,18 +96,6 @@ class RouteMapContainer extends React.PureComponent {
               iconClassName="arrow-icon"
               color={config.colors.primary}
             />
-            <div
-              className={cx('fullscreen-toggle', 'routePage', {
-                expanded: fullscreen,
-              })}
-              onClick={toggleFullscreenMap}
-            >
-              {fullscreen ? (
-                <Icon img="icon-icon_minimize" className="cursor-pointer" />
-              ) : (
-                <Icon img="icon-icon_maximize" className="cursor-pointer" />
-              )}
-            </div>
           </React.Fragment>
         )}
       </MapContainer>
