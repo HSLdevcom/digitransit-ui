@@ -80,7 +80,6 @@ export const getNameLabel = memoize(
         ];
 
       case 'stop':
-        console.log(plain, getStopCode(suggestion));
         return plain
           ? [suggestion.name || suggestion.label, getLocality(suggestion)]
           : [

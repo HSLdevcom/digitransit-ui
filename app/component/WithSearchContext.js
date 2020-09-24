@@ -166,6 +166,7 @@ export default function withSearchContext(WrappedComponent) {
         case 'station':
         case 'favouriteStation':
           path = '/terminaalit/';
+          id = id.replace('GTFS:', '').replace(':', '%3A');
           break;
         case 'bikeRentalStation':
           path = '/pyoraasemat/';

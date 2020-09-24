@@ -33,4 +33,11 @@ const CityBikeStopContent = ({ bikeRentalStation }, { config }) => {
 CityBikeStopContent.contextTypes = {
   config: PropTypes.object.isRequired,
 };
+CityBikeStopContent.propTypes = {
+  bikeRentalStation: PropTypes.shape({
+    bikesAvailable: PropTypes.number.isRequired,
+    spacesAvailable: PropTypes.number.isRequired,
+    networks: PropTypes.arrayOf(PropTypes.string),
+  }),
+};
 export default CityBikeStopContent;

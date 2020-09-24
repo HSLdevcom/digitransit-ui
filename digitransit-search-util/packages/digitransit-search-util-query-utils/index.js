@@ -210,7 +210,7 @@ export const getAllBikeRentalStations = () => {
  * @param {String} mode
  */
 export const filterStopsAndStationsByMode = (stopsToFilter, mode) => {
-  const ids = stopsToFilter.map(s => s.gtfsId);
+  const ids = compact(stopsToFilter.map(s => s.gtfsId));
   const queries = [];
   queries.push(
     fetchQuery(relayEnvironment, stopsQuery, {

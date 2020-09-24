@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import Favourite from './Favourite';
+// import Favourite from './Favourite';
 import StopCode from './StopCode';
 import BackButton from './BackButton';
 
@@ -26,13 +26,21 @@ const BikeRentalStationHeader = (
         </div>
       </div>
 
-      <Favourite />
+      {/* <Favourite /> */}
     </div>
   );
 };
 
 BikeRentalStationHeader.contextTypes = {
   config: PropTypes.object.isRequired,
+};
+
+BikeRentalStationHeader.propTypes = {
+  breakpoint: PropTypes.string.isRequired,
+  bikeRentalStation: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    stationId: PropTypes.string.isRequired,
+  }),
 };
 
 export default BikeRentalStationHeader;

@@ -166,7 +166,6 @@ function getOldSearches(oldSearches, input, dropLayers) {
     'properties.shortName',
     'properties.longName',
   ]);
-
   if (dropLayers) {
     // don't want these
     matchingOldSearches = matchingOldSearches.filter(
@@ -349,8 +348,8 @@ export function getSearchResults(
         }),
       );
       if (
-        !transportMode ||
-        (transportMode === 'CITYBIKE' && input.length > 0)
+        (!transportMode || transportMode === 'route-CITYBIKE') &&
+        input.length > 0
       ) {
         const bikeStations = getAllBikeRentalStations();
         searchComponents.push(getBikeStations(bikeStations, input));
@@ -374,6 +373,9 @@ export function getSearchResults(
       dropLayers.push(...routeLayers);
       dropLayers.push(...locationLayers);
       if (transportMode) {
+        if (transportMode !== 'route-CITYBIKE') {
+          dropLayers.push('bikeRentalStation');
+        }
         searchComponents.push(
           getOldSearches(stopHistory, input, dropLayers).then(result =>
             filterResults ? filterResults(result, 'Stops') : result,
@@ -408,6 +410,9 @@ export function getSearchResults(
         'back',
       ];
       if (transportMode) {
+        if (transportMode !== 'route-CITYBIKE') {
+          dropLayers.push('bikeRentalStation');
+        }
         dropLayers.push(...routeLayers.filter(i => !(i === transportMode)));
       }
       dropLayers.push(...locationLayers);
