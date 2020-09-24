@@ -61,9 +61,9 @@ class TopLevel extends React.Component {
   }
 
   componentDidMount() {
-    import(/* webpackChunkName: "main" */ `../configurations/images/${
-      this.context.config.logo
-    }`).then(logo => {
+    import(
+      /* webpackChunkName: "main" */ `../configurations/images/${this.context.config.logo}`
+    ).then(logo => {
       this.setState({ logo: logo.default });
     });
     if (this.context.config.showLogin && !this.props.user.name) {
@@ -157,7 +157,7 @@ class TopLevel extends React.Component {
         <DesktopOrMobile
           mobile={() => (
             <MobileView
-              map={this.disableMapOnMobile || this.props.map}
+              map={this.disableMapOnMobile ? null : this.props.map}
               content={this.props.content}
               header={this.props.header}
               selectFromMapHeader={this.props.selectFromMapHeader}

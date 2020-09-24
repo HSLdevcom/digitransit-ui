@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import MapBottomsheetContext from './MapBottomsheetContext';
 
 import LazilyLoad, { importLazy } from '../LazilyLoad';
 
@@ -12,7 +13,18 @@ function MapContainer({ className, children, ...props }) {
   return (
     <div className={`map ${className}`}>
       <LazilyLoad modules={mapModules}>
-        {({ Map }) => <Map {...props} />}
+        {({ Map }) => {
+          return (
+            <MapBottomsheetContext.Consumer>
+              {context => {
+                const padding = context ? context.paddingBottomRight : null;
+                const { boundsOptions } = props;
+                boundsOptions.paddingBottomRight = padding;
+                return <Map boundsOptions={boundsOptions} {...props} />;
+              }}
+            </MapBottomsheetContext.Consumer>
+          );
+        }}
       </LazilyLoad>
       {children}
     </div>
@@ -22,11 +34,15 @@ function MapContainer({ className, children, ...props }) {
 MapContainer.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
+  boundsOptions: PropTypes.shape({
+    paddingBottomRight: PropTypes.arrayOf(PropTypes.number),
+  }),
 };
 
 MapContainer.defaultProps = {
   className: '',
   children: undefined,
+  boundsOptions: {},
 };
 
 export default connectToStores(MapContainer, ['PreferencesStore'], context => ({

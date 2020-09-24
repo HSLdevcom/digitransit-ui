@@ -9,6 +9,7 @@ import Autosuggest from 'react-autosuggest';
 import styles from './MobileSearch.scss';
 
 const MobileSearch = ({
+  appElement,
   id,
   closeHandle,
   suggestions,
@@ -57,6 +58,9 @@ const MobileSearch = ({
   const renderDialogModal = () => {
     return (
       <DialogModal
+        appElement={appElement}
+        isModalOpen={isDialogOpen}
+        handleClose={() => setDialogOpen(false)}
         headerText={dialogHeaderText}
         primaryButtonText={dialogPrimaryButtonText}
         secondaryButtonText={dialogSecondaryButtonText}
@@ -70,54 +74,54 @@ const MobileSearch = ({
   };
 
   return (
-    <React.Fragment>
-      <div className={styles['fullscreen-root']}>
-        <label className={styles['combobox-container']} htmlFor={inputId}>
-          <div className={styles['combobox-icon']} onClick={closeHandle}>
-            <Icon img="arrow" />
-          </div>
-          <span className={styles['right-column']}>
-            <span className={styles['combobox-label']} id={labelId}>
-              {label}
-            </span>
-            <Autosuggest
-              alwaysRenderSuggestions
-              id={id}
-              suggestions={suggestions}
-              onSuggestionsFetchRequested={fetchFunction}
-              getSuggestionValue={getValue}
-              renderSuggestion={renderItem}
-              focusInputOnSuggestionClick={false}
-              shouldRenderSuggestions={() => true}
-              inputProps={{
-                ...inputProps,
-                className: cx(
-                  `${styles.input} ${styles[id] || ''} ${
-                    inputProps.value ? styles.hasValue : ''
-                  }`,
-                ),
-                autoFocus: true,
-              }}
-              renderInputComponent={p => (
-                <input
-                  aria-label={ariaLabel}
-                  id={id}
-                  onKeyDown={onKeyDown}
-                  {...p}
-                />
-              )}
-              theme={styles}
-              onSuggestionSelected={onSelect}
-            />
+    <div className={styles['fullscreen-root']}>
+      <label className={styles['combobox-container']} htmlFor={inputId}>
+        <div className={styles['combobox-icon']} onClick={closeHandle}>
+          <Icon img="arrow" />
+        </div>
+        <span className={styles['right-column']}>
+          <span className={styles['combobox-label']} id={labelId}>
+            {label}
           </span>
-        </label>
-      </div>
-      {isDialogOpen && renderDialogModal()}
-    </React.Fragment>
+          <Autosuggest
+            alwaysRenderSuggestions
+            id={id}
+            suggestions={suggestions}
+            onSuggestionsFetchRequested={fetchFunction}
+            getSuggestionValue={getValue}
+            renderSuggestion={renderItem}
+            focusInputOnSuggestionClick={false}
+            shouldRenderSuggestions={() => true}
+            highlightFirstSuggestion
+            inputProps={{
+              ...inputProps,
+              className: cx(
+                `${styles.input} ${styles[id] || ''} ${
+                  inputProps.value ? styles.hasValue : ''
+                }`,
+              ),
+              autoFocus: true,
+            }}
+            renderInputComponent={p => (
+              <input
+                aria-label={ariaLabel}
+                id={id}
+                onKeyDown={onKeyDown}
+                {...p}
+              />
+            )}
+            theme={styles}
+            onSuggestionSelected={onSelect}
+          />
+        </span>
+      </label>
+      {renderDialogModal()}
+    </div>
   );
 };
 
 MobileSearch.propTypes = {
+  appElement: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   closeHandle: PropTypes.func.isRequired,
   suggestions: PropTypes.array.isRequired,

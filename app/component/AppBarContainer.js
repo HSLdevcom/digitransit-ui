@@ -8,6 +8,7 @@ import AppBarSmall from './AppBarSmall';
 import AppBarLarge from './AppBarLarge';
 import { DesktopOrMobile } from '../util/withBreakpoint';
 import AppBarHsl from './AppBarHsl'; // DT-3376
+import MessageBar from './MessageBar';
 
 // DT-3375: added style
 const AppBarContainer = ({
@@ -27,7 +28,13 @@ const AppBarContainer = ({
     <DesktopOrMobile
       mobile={() => {
         if (style === 'hsl') {
-          return <AppBarHsl lang={lang} />;
+          return (
+            <div>
+              {' '}
+              <AppBarHsl user={user} lang={lang} />
+              <MessageBar mobile />{' '}
+            </div>
+          );
         }
         return (
           <AppBarSmall
@@ -41,7 +48,13 @@ const AppBarContainer = ({
       }}
       desktop={() => {
         if (style === 'hsl') {
-          return <AppBarHsl lang={lang} />;
+          return (
+            <div>
+              {' '}
+              <AppBarHsl user={user} lang={lang} />
+              <MessageBar />{' '}
+            </div>
+          );
         }
         return (
           <AppBarLarge

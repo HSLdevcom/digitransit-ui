@@ -54,7 +54,9 @@ describe('<TransitLeg />', () => {
           pattern: {
             code: 'HSL:7280:0:01',
           },
+          tripHeadsign: 'foo - bar',
         },
+        interlineWithPreviousLeg: false,
       },
       mode: 'BUS',
     };
@@ -119,7 +121,9 @@ describe('<TransitLeg />', () => {
           pattern: {
             code: 'HSL:7280:0:01',
           },
+          tripHeadsign: 'foo - bar',
         },
+        interlineWithPreviousLeg: false,
       },
       mode: 'BUS',
     };
@@ -182,7 +186,9 @@ describe('<TransitLeg />', () => {
           pattern: {
             code: 'HSL:7280:0:01',
           },
+          tripHeadsign: 'foo - bar',
         },
+        interlineWithPreviousLeg: false,
       },
       mode: 'BUS',
     };
@@ -240,7 +246,9 @@ describe('<TransitLeg />', () => {
           pattern: {
             code: 'HSL:7280:0:01',
           },
+          tripHeadsign: 'foo - bar',
         },
+        interlineWithPreviousLeg: false,
       },
       mode: 'BUS',
     };
@@ -294,7 +302,9 @@ describe('<TransitLeg />', () => {
           pattern: {
             code: 'HSL:7280:0:01',
           },
+          tripHeadsign: 'foo - bar',
         },
+        interlineWithPreviousLeg: false,
       },
       mode: 'BUS',
     };
@@ -354,7 +364,9 @@ describe('<TransitLeg />', () => {
               stop: { gtfsId: 'stop1' },
             },
           ],
+          tripHeadsign: 'foo - bar',
         },
+        interlineWithPreviousLeg: false,
       },
       mode: 'RAIL',
     };
@@ -399,7 +411,9 @@ describe('<TransitLeg />', () => {
           pattern: {
             code: 'A',
           },
+          tripHeadsign: 'foo - bar',
         },
+        interlineWithPreviousLeg: false,
       },
       mode: 'BUS',
     };
@@ -445,7 +459,9 @@ describe('<TransitLeg />', () => {
           pattern: {
             code: 'A',
           },
+          tripHeadsign: 'foo - bar',
         },
+        interlineWithPreviousLeg: false,
       },
       mode: 'BUS',
     };
@@ -487,7 +503,9 @@ describe('<TransitLeg />', () => {
           pattern: {
             code: 'A',
           },
+          tripHeadsign: 'foo - bar',
         },
+        interlineWithPreviousLeg: false,
       },
       mode: 'BUS',
     };
@@ -529,7 +547,9 @@ describe('<TransitLeg />', () => {
           pattern: {
             code: 'A',
           },
+          tripHeadsign: 'foo - bar',
         },
+        interlineWithPreviousLeg: false,
       },
       mode: 'BUS',
     };
@@ -577,7 +597,9 @@ describe('<TransitLeg />', () => {
           pattern: {
             code: 'A',
           },
+          tripHeadsign: 'foo - bar',
         },
+        interlineWithPreviousLeg: false,
       },
       mode: 'BUS',
     };
@@ -619,7 +641,9 @@ describe('<TransitLeg />', () => {
           pattern: {
             code: 'A',
           },
+          tripHeadsign: 'foo - bar',
         },
+        interlineWithPreviousLeg: false,
       },
       mode: 'BUS',
     };
@@ -668,7 +692,9 @@ describe('<TransitLeg />', () => {
           pattern: {
             code: 'A',
           },
+          tripHeadsign: 'foo - bar',
         },
+        interlineWithPreviousLeg: false,
       },
       mode: 'BUS',
     };
@@ -719,7 +745,9 @@ describe('<TransitLeg />', () => {
           pattern: {
             code: 'A',
           },
+          tripHeadsign: 'foo - bar',
         },
+        interlineWithPreviousLeg: false,
       },
       mode: 'BUS',
     };

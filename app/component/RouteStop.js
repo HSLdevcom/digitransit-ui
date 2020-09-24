@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Link from 'found/lib/Link';
+import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 

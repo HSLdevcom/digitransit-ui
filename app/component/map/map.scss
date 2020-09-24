@@ -69,16 +69,40 @@ div.map {
     div.leaflet-control-scale.leaflet-control {
       margin-right: 15px;
     }
+    z-index: index($zindex, map-container);
   }
-  .map.full {
-    z-index: 1;
+
+  .drawer-container {
+    overflow-y: scroll;
+    height: calc(100vh - 64px); // 100% - topbar
+    position: absolute;
+    width: 100%;
+    .drawer-padding {
+      height: calc(90vh - 64px);
+      width: 0;
+    }
+    .drawer-content {
+      position: relative;
+      z-index: index($zindex, mobile-drawer);
+      .drag-line {
+        width: 30px;
+        height: 4px;
+        border-radius: 2px;
+        background-color: #cccccc;
+        display: block;
+        z-index: index($zindex, mobile-drawer-drag-line);
+        margin: auto;
+        position: relative;
+        top: -5px;
+      }
+    }
   }
 
   .back-button {
     .icon-holder, .icon-holder:focus, .icon-holder:hover {
       padding: 0.55em 0.2em 0px 0px !important;
       font-size: 16px;
-      z-index: 805;
+      z-index: index($zindex, map-buttons);
       background: white;
       height: 2.5em;
       width: 2.5em;

@@ -39,7 +39,7 @@ class SummaryNavigation extends React.Component {
   };
 
   componentDidMount() {
-    this.unlisten = this.context.router.addTransitionHook(location => {
+    this.unlisten = this.context.router.addNavigationListener(location => {
       if (
         this.context.match.location.state &&
         this.context.match.location.state.customizeSearchOffcanvas &&

@@ -1,7 +1,6 @@
 .map.flex-grow {
     position: relative;
     min-height: 20rem;
-    z-index: 0;
 }
 
 .citybike-content-container {
@@ -27,6 +26,16 @@
 }
 
 .stops-near-you-page {
+    .show-more-button {
+        margin: 0 6.25em 20px;
+        font-weight: 500;
+        background-color: $white;
+        color: $primary-color;
+        border: 1px solid #ddd;
+        min-height: 28px;
+        border-radius: 16px;
+        font-size: 0.9375rem;
+    }
     overflow-y: auto;
     display: flex;
     flex-direction: column;

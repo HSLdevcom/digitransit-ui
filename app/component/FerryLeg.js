@@ -54,11 +54,7 @@ const exampleLeg = t1 => ({
 });
 
 FerryLeg.description = () => {
-  const today = moment()
-    .hour(12)
-    .minute(34)
-    .second(0)
-    .valueOf();
+  const today = moment().hour(12).minute(34).second(0).valueOf();
   return (
     <div>
       <p>Displays an itinerary ferry leg.</p>

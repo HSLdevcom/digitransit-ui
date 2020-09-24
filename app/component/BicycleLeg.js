@@ -267,11 +267,7 @@ const exampleLegScooterWalkingScooter = t1 => ({
 });
 
 BicycleLeg.description = () => {
-  const today = moment()
-    .hour(12)
-    .minute(34)
-    .second(0)
-    .valueOf();
+  const today = moment().hour(12).minute(34).second(0).valueOf();
   return (
     <div>
       <p>Displays an itinerary bicycle leg.</p>
@@ -319,6 +315,7 @@ BicycleLeg.description = () => {
 
 BicycleLeg.propTypes = {
   leg: PropTypes.shape({
+    endTime: PropTypes.number.isRequired,
     duration: PropTypes.number.isRequired,
     startTime: PropTypes.number.isRequired,
     distance: PropTypes.number.isRequired,
@@ -328,6 +325,7 @@ BicycleLeg.propTypes = {
         bikesAvailable: PropTypes.number.isRequired,
         networks: PropTypes.array.isRequired,
       }),
+      stop: PropTypes.object,
     }).isRequired,
     to: PropTypes.shape({
       name: PropTypes.string.isRequired,

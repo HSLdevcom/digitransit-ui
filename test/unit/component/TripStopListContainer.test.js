@@ -52,18 +52,10 @@ describe('<TripStopListContainer />', () => {
       },
     });
     expect(wrapper.find(TripRouteStop)).to.have.lengthOf(2);
-    expect(
-      wrapper
-        .find(TripRouteStop)
-        .at(0)
-        .prop('stopPassed'),
-    ).to.equal(true);
-    expect(
-      wrapper
-        .find(TripRouteStop)
-        .at(1)
-        .prop('stopPassed'),
-    ).to.equal(false);
+    expect(wrapper.find(TripRouteStop).at(0).prop('stopPassed')).to.equal(true);
+    expect(wrapper.find(TripRouteStop).at(1).prop('stopPassed')).to.equal(
+      false,
+    );
   });
 
   it('should find the selected vehicle', () => {

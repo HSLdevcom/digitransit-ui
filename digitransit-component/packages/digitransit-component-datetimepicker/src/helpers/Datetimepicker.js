@@ -72,53 +72,44 @@ function Datetimepicker({
 
   const translationSettings = { lng: lang };
 
-  useEffect(
-    () => {
-      moment.locale(lang);
-    },
-    [lang],
-  );
+  useEffect(() => {
+    moment.locale(lang);
+  }, [lang]);
 
   const nowSelected = timestamp === null;
-  useEffect(
-    () => {
-      if (nowSelected) {
-        changeDisplayTimestamp(moment().valueOf());
-      } else {
-        // clear timer
-        if (timerId) {
-          clearInterval(timerId);
-          setTimer(null);
-        }
-        changeDisplayTimestamp(timestamp);
-      }
-    },
-    [timestamp],
-  );
-
-  // set timer to update displayTimestamp when minute changes if nowSelected
-  useEffect(
-    () => {
-      if (!nowSelected) {
-        return undefined;
-      }
+  useEffect(() => {
+    if (nowSelected) {
+      changeDisplayTimestamp(moment().valueOf());
+    } else {
+      // clear timer
       if (timerId) {
         clearInterval(timerId);
+        setTimer(null);
       }
-      const newId = setInterval(() => {
-        const now = moment().valueOf();
-        const sameMinute = moment(displayTimestamp).isSame(now, 'minute');
-        if (!sameMinute) {
-          clearInterval(newId);
-          setTimer(null);
-          changeDisplayTimestamp(now);
-        }
-      }, 5000);
-      setTimer(newId);
-      return () => clearInterval(newId);
-    },
-    [displayTimestamp],
-  );
+      changeDisplayTimestamp(timestamp);
+    }
+  }, [timestamp]);
+
+  // set timer to update displayTimestamp when minute changes if nowSelected
+  useEffect(() => {
+    if (!nowSelected) {
+      return undefined;
+    }
+    if (timerId) {
+      clearInterval(timerId);
+    }
+    const newId = setInterval(() => {
+      const now = moment().valueOf();
+      const sameMinute = moment(displayTimestamp).isSame(now, 'minute');
+      if (!sameMinute) {
+        clearInterval(newId);
+        setTimer(null);
+        changeDisplayTimestamp(now);
+      }
+    }, 5000);
+    setTimer(newId);
+    return () => clearInterval(newId);
+  }, [displayTimestamp]);
 
   // param date is timestamp
   const getDateDisplay = date => {
@@ -162,9 +153,7 @@ function Datetimepicker({
   const selectedMoment = moment(displayTimestamp);
   const timeSelectItemCount = 24 * 4;
   const timeSelectItemDiff = 1000 * 60 * 15; // 15 minutes in ms
-  const timeSelectStartTime = moment(displayTimestamp)
-    .startOf('day')
-    .valueOf();
+  const timeSelectStartTime = moment(displayTimestamp).startOf('day').valueOf();
   const dateSelectItemCount = 30;
   const dateSelectItemDiff = 1000 * 60 * 60 * 24; // 24 hrs in ms
   const dateSelectStartTime = moment()
@@ -193,9 +182,7 @@ function Datetimepicker({
               <button
                 id={`${htmlId}-open`}
                 type="button"
-                className={`${styles.textbutton} ${styles.active} ${
-                  styles['open-button']
-                }`}
+                className={`${styles.textbutton} ${styles.active} ${styles['open-button']}`}
                 aria-controls={`${htmlId}-root`}
                 aria-expanded="false"
                 onClick={() => changeOpen(true)}
@@ -325,16 +312,12 @@ function Datetimepicker({
             </span>
           </div>
           <div
-            className={`${
-              styles['picker-container']
-            } datetimepicker-bottom-row-open`}
+            className={`${styles['picker-container']} datetimepicker-bottom-row-open`}
           >
             {useMobileInputs ? (
               <>
                 <span
-                  className={`${styles['combobox-left']} ${
-                    styles['combobox-mobile-container']
-                  }`}
+                  className={`${styles['combobox-left']} ${styles['combobox-mobile-container']}`}
                 >
                   <MobileDatepicker
                     value={displayTimestamp}
@@ -346,9 +329,7 @@ function Datetimepicker({
                     label={i18next.t('date', translationSettings)}
                     icon={
                       <span
-                        className={`${styles['combobox-icon']} ${
-                          styles['date-input-icon']
-                        }`}
+                        className={`${styles['combobox-icon']} ${styles['date-input-icon']}`}
                       >
                         <Icon img="calendar" />
                       </span>
@@ -356,9 +337,7 @@ function Datetimepicker({
                   />
                 </span>
                 <span
-                  className={`${styles['combobox-right']} ${
-                    styles['combobox-mobile-container']
-                  }`}
+                  className={`${styles['combobox-right']} ${styles['combobox-mobile-container']}`}
                 >
                   <MobileTimepicker
                     value={displayTimestamp}
@@ -368,9 +347,7 @@ function Datetimepicker({
                     label={i18next.t('time', translationSettings)}
                     icon={
                       <span
-                        className={`${styles['combobox-icon']} ${
-                          styles['time-input-icon']
-                        }`}
+                        className={`${styles['combobox-icon']} ${styles['time-input-icon']}`}
                       >
                         <Icon img="time" />
                       </span>
@@ -393,9 +370,7 @@ function Datetimepicker({
                     validate={() => null}
                     icon={
                       <span
-                        className={`${styles['combobox-icon']} ${
-                          styles['date-input-icon']
-                        }`}
+                        className={`${styles['combobox-icon']} ${styles['date-input-icon']}`}
                       >
                         <Icon img="calendar" />
                       </span>
@@ -418,9 +393,7 @@ function Datetimepicker({
                     validate={validateTime}
                     icon={
                       <span
-                        className={`${styles['combobox-icon']} ${
-                          styles['time-input-icon']
-                        }`}
+                        className={`${styles['combobox-icon']} ${styles['time-input-icon']}`}
                       >
                         <Icon img="time" />
                       </span>

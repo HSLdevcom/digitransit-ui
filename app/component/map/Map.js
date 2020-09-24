@@ -57,6 +57,7 @@ export default class Map extends React.Component {
     showScaleBar: false,
     mapRef: null,
     disableLocationPopup: false,
+    boundsOptions: {},
   };
 
   static contextTypes = {
@@ -109,6 +110,9 @@ export default class Map extends React.Component {
     if (this.props.padding) {
       boundsOptions.paddingTopLeft = this.props.padding;
     }
+    if (center && zoom) {
+      boundsOptions.maxZoom = zoom;
+    }
     let mapUrl =
       (isDebugTiles && `${config.URL.OTP}inspector/tile/traversal/`) ||
       config.URL.MAP;
@@ -136,15 +140,14 @@ export default class Map extends React.Component {
               this.props.mapRef(el);
             }
           }}
-          center={center}
-          zoom={zoom}
           minZoom={config.map.minZoom}
           maxZoom={config.map.maxZoom}
           zoomControl={false}
           attributionControl={false}
           bounds={
-            (this.props.fitBounds && boundWithMinimumArea(this.props.bounds)) ||
-            undefined
+            this.props.fitBounds
+              ? boundWithMinimumArea(this.props.bounds)
+              : boundWithMinimumArea([center])
           }
           animate={this.props.animate}
           {...this.props.leafletOptions}
@@ -178,22 +181,22 @@ export default class Map extends React.Component {
                   position={
                     breakpoint === 'large' ? 'bottomright' : 'bottomleft'
                   }
-                  prefix="<a tabindex=&quot;-1&quot; href=&quot;http://osm.org/copyright&quot;>&copy; OpenStreetMap</a>"
+                  prefix='<a tabindex="-1" href="http://osm.org/copyright">&copy; OpenStreetMap</a>'
                 />
               )
             }
           </BreakpointConsumer>
-          {this.props.showScaleBar &&
-            config.map.showScaleBar && (
-              <ScaleControl
-                imperial={false}
-                position={config.map.controls.scale.position}
-              />
-            )}
+          {this.props.showScaleBar && config.map.showScaleBar && (
+            <ScaleControl
+              imperial={false}
+              position={config.map.controls.scale.position}
+            />
+          )}
           <BreakpointConsumer>
             {breakpoint =>
               breakpoint === 'large' &&
-              (!this.props.disableZoom && config.map.showZoomControl) && (
+              !this.props.disableZoom &&
+              config.map.showZoomControl && (
                 <ZoomControl
                   position={config.map.controls.zoom.position}
                   zoomInText={zoomInText}
@@ -204,8 +207,9 @@ export default class Map extends React.Component {
           </BreakpointConsumer>
           {leafletObjs}
 
-          {!this.props.originFromMap &&
-            !this.props.destinationFromMap && <PositionMarker key="position" />}
+          {!this.props.originFromMap && !this.props.destinationFromMap && (
+            <PositionMarker key="position" />
+          )}
         </LeafletMap>
       </div>
     );

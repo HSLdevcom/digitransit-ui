@@ -1,6 +1,8 @@
+/* eslint-disable camelcase */
 import PropTypes from 'prop-types';
 import React from 'react';
 import i18next from 'i18next';
+import { isEmpty } from 'lodash';
 import { matchShape, routerShape } from 'found';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 
@@ -57,7 +59,7 @@ const initLanguage = language => {
   }
 };
 
-const AppBarHsl = ({ lang }, { match, config }) => {
+const AppBarHsl = ({ lang, user }, { match, config }) => {
   const { location } = match;
 
   initLanguage(lang);
@@ -123,7 +125,31 @@ const AppBarHsl = ({ lang }, { match, config }) => {
     changeLanguageButtonLabel: i18next.t('change_language'),
     changeToLanguageLinkLabelFunction: () => false,
   };
+  const { given_name, family_name } = user;
 
+  const initials =
+    given_name && family_name
+      ? given_name.charAt(0) + family_name.charAt(0)
+      : undefined; // Authenticated user's initials, will be shown next to Person-icon.
+
+  const userMenu = {
+    isLoading: false, // When fetching for login-information, `isLoading`-property can be set to true. Spinner will be shown.
+    isAuthenticated: !isEmpty(user), // If user is authenticated, set `isAuthenticated`-property to true.
+    loginUrl: '/login', // Url that user will be redirect to when Person-icon is pressed and user is not logged in.
+    initials,
+    menuItems: [
+      {
+        name: 'Omat tiedot',
+        url: 'https://www.hsl.fi/omat-tiedot',
+        selected: false,
+      },
+      {
+        name: 'Kirjaudu ulos',
+        url: '/logout',
+        selected: false,
+      },
+    ], // Menu items that will be shown when Person-icon is pressed and user is authenticated,
+  };
   return (
     <LazilyLoad modules={modules}>
       {({ SiteHeader, SharedLocalStorageObserver }) => (
@@ -135,6 +161,7 @@ const AppBarHsl = ({ lang }, { match, config }) => {
           <SiteHeader
             startPage={startPage}
             menu={menu}
+            userMenu={userMenu}
             searchPage={searchPage}
             languages={languages}
             localizations={localizations}
@@ -153,10 +180,15 @@ AppBarHsl.contextTypes = {
 
 AppBarHsl.propTypes = {
   lang: PropTypes.string,
+  user: PropTypes.shape({
+    given_name: PropTypes.string,
+    family_name: PropTypes.string,
+  }),
 };
 
 AppBarHsl.defaultProps = {
   lang: 'fi',
+  user: {},
 };
 
 export { AppBarHsl as default, AppBarHsl as Component };

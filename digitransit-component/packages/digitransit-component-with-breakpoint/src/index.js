@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 /* eslint-disable react/no-multi-comp */
 import React, { createContext } from 'react';
 import PropTypes from 'prop-types';
@@ -40,11 +41,10 @@ export class ClientProvider extends React.Component {
   componentDidMount() {
     this.updateBreakpoint = throttle(
       () =>
-        this.setState(
-          ({ breakpoint }) =>
-            getClientBreakpoint() !== breakpoint
-              ? { breakpoint: getClientBreakpoint() }
-              : null,
+        this.setState(({ breakpoint }) =>
+          getClientBreakpoint() !== breakpoint
+            ? { breakpoint: getClientBreakpoint() }
+            : null,
         ),
       100,
     );

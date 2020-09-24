@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Link from 'found/lib/Link';
+import Link from 'found/Link';
 import StopCardHeaderContainer from './StopCardHeaderContainer';
 import Card from './Card';
 import { PREFIX_STOPS, PREFIX_TERMINALS } from '../util/path';

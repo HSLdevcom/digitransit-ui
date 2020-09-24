@@ -29,7 +29,6 @@ import MobileItineraryWrapper from './MobileItineraryWrapper';
 import { getWeatherData } from '../util/apiUtils';
 import Loading from './Loading';
 import { getRoutePath } from '../util/path';
-import { getIntermediatePlaces } from '../util/queryUtils';
 import {
   validateServiceTimeRange,
   getStartTime,
@@ -43,7 +42,11 @@ import { itineraryHasCancelation } from '../util/alertUtils';
 import triggerMessage from '../util/messageUtils';
 import MessageStore from '../store/MessageStore';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { otpToLocation, addressToItinerarySearch } from '../util/otpStrings';
+import {
+  otpToLocation,
+  addressToItinerarySearch,
+  getIntermediatePlaces,
+} from '../util/otpStrings';
 import { startLocationWatch } from '../action/PositionActions';
 import { SettingsDrawer } from './SettingsDrawer';
 
@@ -628,6 +631,7 @@ class SummaryPage extends React.Component {
     }
     //  alert screen reader when search results appear
     if (this.resultsUpdatedAlertRef.current) {
+      // eslint-disable-next-line no-self-assign
       this.resultsUpdatedAlertRef.current.innerHTML = this.resultsUpdatedAlertRef.current.innerHTML;
     }
   }
@@ -679,6 +683,7 @@ class SummaryPage extends React.Component {
         JSON.stringify(this.props.match.location)
     ) {
       // refresh content to trigger the alert
+      // eslint-disable-next-line no-self-assign
       this.resultsUpdatedAlertRef.current.innerHTML = this.resultsUpdatedAlertRef.current.innerHTML;
     }
     if (this.props.error) {
@@ -786,7 +791,10 @@ class SummaryPage extends React.Component {
     this.setState({ bounds: [] });
     const bounds = []
       .concat(
-        [[leg.from.lat, leg.from.lon], [leg.to.lat, leg.to.lon]],
+        [
+          [leg.from.lat, leg.from.lon],
+          [leg.to.lat, leg.to.lon],
+        ],
         polyline.decode(leg.legGeometry.points),
       )
       .filter(a => a[0] && a[1]);
@@ -882,7 +890,10 @@ class SummaryPage extends React.Component {
 
     const bounds = []
       .concat(
-        [[from.lat, from.lon], [to.lat, to.lon]],
+        [
+          [from.lat, from.lon],
+          [to.lat, to.lon],
+        ],
         ...itineraries.map(itinerary =>
           [].concat(
             ...itinerary.legs.map(leg =>
@@ -989,7 +1000,7 @@ class SummaryPage extends React.Component {
             settingsOnClose: getCurrentSettings(this.context.config, ''),
           },
           // eslint-disable-next-line func-names
-          function() {
+          function () {
             if (
               !isEqual(this.state.settingsOnOpen, this.state.settingsOnClose)
             ) {
@@ -1131,11 +1142,29 @@ class SummaryPage extends React.Component {
         bikePlan.itineraries &&
         bikePlan.itineraries.length > 0 &&
         currentSettings.usingWheelchair !== 1 &&
+        currentSettings.includeBikeSuggestions &&
         !bikePlanContainsOnlyWalk &&
         itineraryBikeDistance < this.context.config.suggestBikeMaxDistance,
     );
 
-    const showBikeAndPublicOptionButton = currentSettings.usingWheelchair !== 1;
+    const bikeAndPublicPlanHasItineraries =
+      bikeAndPublicPlan &&
+      bikeAndPublicPlan.itineraries &&
+      bikeAndPublicPlan.itineraries.length > 0 &&
+      bikeAndPublicPlan.itineraries[0].legs.filter(
+        obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE',
+      ).length > 0;
+    const bikeParkPlanHasItineraries =
+      bikeParkPlan &&
+      bikeParkPlan.itineraries &&
+      bikeParkPlan.itineraries.length > 0 &&
+      bikeParkPlan.itineraries[0].legs.filter(
+        obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE',
+      ).length > 0;
+    const showBikeAndPublicOptionButton =
+      (bikeAndPublicPlanHasItineraries || bikeParkPlanHasItineraries) &&
+      currentSettings.usingWheelchair !== 1 &&
+      currentSettings.includeBikeSuggestions;
 
     const showStreetModeSelector =
       (showWalkOptionButton ||
@@ -1511,7 +1540,11 @@ const PositioningWrapper = connectToStores(
       const locationForUrl = addressToItinerarySearch(locationState);
       const newFrom = from === 'POS' ? locationForUrl : from;
       const newTo = to === 'POS' ? locationForUrl : to;
-      props.router.replace(getRoutePath(newFrom, newTo));
+      const newLocation = {
+        ...props.match.location,
+        pathname: getRoutePath(newFrom, newTo),
+      };
+      props.router.replace(newLocation);
       return { ...props, loadingPosition: false };
     }
 

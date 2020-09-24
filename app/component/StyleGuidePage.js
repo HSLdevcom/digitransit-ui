@@ -176,46 +176,56 @@ function getColors() {
         <svg className="color-palette" width="50" height="50">
           <rect width="50" height="50" style={{ fill: '#007ac9' }} />
         </svg>
-        <span className="code color-code">$primary-color</span>#007ac9<br />
+        <span className="code color-code">$primary-color</span>#007ac9
+        <br />
         <svg className="color-palette" width="50" height="50">
           <rect width="50" height="50" style={{ fill: '#ffffff' }} />
         </svg>
-        <span className="code color-code">$primary-font-color</span>#ffffff<br />
+        <span className="code color-code">$primary-font-color</span>#ffffff
+        <br />
         <svg className="color-palette" width="50" height="50">
           <rect width="50" height="50" style={{ fill: '#0062a1' }} />
         </svg>
-        <span className="code color-code">$secondary-color</span>#0062a1<br />
+        <span className="code color-code">$secondary-color</span>#0062a1
+        <br />
         <svg className="color-palette" width="50" height="50">
           <rect width="50" height="50" style={{ fill: '#ffffff' }} />
         </svg>
-        <span className="code color-code">$secondary-font-color</span>#ffffff<br />
+        <span className="code color-code">$secondary-font-color</span>#ffffff
+        <br />
         <svg className="color-palette" width="50" height="50">
           <rect width="50" height="50" style={{ fill: '#ffffff' }} />
         </svg>
-        <span className="code color-code">$title-color</span>#ffffff<br />
+        <span className="code color-code">$title-color</span>#ffffff
+        <br />
       </div>
 
       <div className="medium-6 column">
         <svg className="color-palette" width="50" height="50">
           <rect width="50" height="50" style={{ fill: '#f092cd' }} />
         </svg>
-        <span className="code color-code">$favourite-color</span>#f092cd<br />
+        <span className="code color-code">$favourite-color</span>#f092cd
+        <br />
         <svg className="color-palette" width="50" height="50">
           <rect width="50" height="50" style={{ fill: '#f092cd' }} />
         </svg>
-        <span className="code color-code">$hilight-color</span>#f092cd<br />
+        <span className="code color-code">$hilight-color</span>#f092cd
+        <br />
         <svg className="color-palette" width="50" height="50">
           <rect width="50" height="50" style={{ fill: '#007ac9' }} />
         </svg>
-        <span className="code color-code">$action-color</span>#007ac9<br />
+        <span className="code color-code">$action-color</span>#007ac9
+        <br />
         <svg className="color-palette" width="50" height="50">
           <rect width="50" height="50" style={{ fill: '#fed100' }} />
         </svg>
-        <span className="code color-code">$disruption-color</span>#fed100<br />
+        <span className="code color-code">$disruption-color</span>#fed100
+        <br />
         <svg className="color-palette" width="50" height="50">
           <rect width="50" height="50" style={{ fill: '#4DA2D9' }} />
         </svg>
-        <span className="code color-code">$disruption-passive-color</span>#4DA2D9
+        <span className="code color-code">$disruption-passive-color</span>
+        #4DA2D9
       </div>
 
       <p>TODO: dynamically get these colors, now only for HSL</p>

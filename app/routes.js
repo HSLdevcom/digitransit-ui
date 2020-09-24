@@ -1,9 +1,9 @@
 /* eslint-disable react/jsx-key */
 import React from 'react';
 import { graphql } from 'react-relay';
-import Route from 'found/lib/Route';
-import queryMiddleware from 'farce/lib/queryMiddleware';
-import createRender from 'found/lib/createRender';
+import Route from 'found/Route';
+import queryMiddleware from 'farce/queryMiddleware';
+import createRender from 'found/createRender';
 
 import Error404 from './component/404';
 import TopLevel from './component/TopLevel';
@@ -15,7 +15,7 @@ import {
   PREFIX_BIKESTATIONS,
   LOCAL_STORAGE_EMITTER_PATH,
 } from './util/path';
-import { preparePlanParams, prepareStopsParams } from './util/planParamUtil';
+import { preparePlanParams } from './util/planParamUtil';
 import {
   errorLoading,
   getDefault,
@@ -83,9 +83,9 @@ export default config => {
             <Route
               path="(.*)?"
               getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/BackButton').then(
-                  getDefault,
-                )
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/BackButton'
+                ).then(getDefault)
               }
             />
           ),
@@ -93,89 +93,58 @@ export default config => {
             <Route
               path="(.*)?"
               getComponent={() =>
-                import(/* webpackChunkName: "nearyou" */ './component/StopsNearYouPage').then(
-                  getDefault,
-                )
+                import(
+                  /* webpackChunkName: "nearyou" */ './component/StopsNearYouPage'
+                ).then(getDefault)
               }
-              query={graphql`
-                query routes_StopsNearYou_Query(
-                  $lat: Float!
-                  $lon: Float!
-                  $filterByPlaceTypes: [FilterPlaceType]
-                  $filterByModes: [Mode]
-                  $maxResults: Int!
-                  $maxDistance: Int!
-                  $omitNonPickups: Boolean
-                ) {
-                  stopPatterns: nearest(
-                    lat: $lat
-                    lon: $lon
-                    filterByPlaceTypes: $filterByPlaceTypes
-                    filterByModes: $filterByModes
-                    maxResults: $maxResults
-                    maxDistance: $maxDistance
-                  ) {
-                    ...StopsNearYouPage_stopPatterns
-                      @arguments(omitNonPickups: $omitNonPickups)
-                  }
-                  alerts: nearest(
-                    lat: $lat
-                    lon: $lon
-                    filterByPlaceTypes: $filterByPlaceTypes
-                    filterByModes: $filterByModes
-                    maxResults: $maxResults
-                  ) {
-                    ...StopsNearYouPage_alerts
-                      @arguments(omitNonPickups: $omitNonPickups)
-                  }
+              render={({ Component, props, error, match }) => {
+                if (Component) {
+                  return props ? (
+                    <Component
+                      {...props}
+                      match={match}
+                      error={error}
+                      loadingPosition={false}
+                    />
+                  ) : (
+                    <Component match={match} loadingPosition error={error} />
+                  );
                 }
-              `}
-              prepareVariables={prepareStopsParams(config)}
-              render={getComponentOrLoadingRenderer}
-            />
+                return undefined;
+              }}
+            >
+              {{
+                content: (
+                  <Route
+                    getComponent={() =>
+                      import(
+                        /* webpackChunkName: "nearyou" */ './component/StopsNearYouContainer.js'
+                      ).then(getDefault)
+                    }
+                    render={getComponentOrLoadingRenderer}
+                  />
+                ),
+                map: (
+                  <Route
+                    // disableMapOnMobile
+                    getComponent={() =>
+                      import(
+                        /* webpackChunkName: "nearyou" */ './component/map/StopsNearYouMap.js'
+                      ).then(getDefault)
+                    }
+                    render={getComponentOrNullRenderer}
+                  />
+                ),
+              }}
+            </Route>
           ) : (
             <Route
               path="(.*)?"
               getComponent={() =>
-                import(/* webpackChunkName: "nearyou" */ './component/Loading').then(
-                  getDefault,
-                )
+                import(
+                  /* webpackChunkName: "nearyou" */ './component/Loading'
+                ).then(getDefault)
               }
-            />
-          ),
-          map: (
-            <Route
-              // disableMapOnMobile
-              getComponent={() =>
-                import(/* webpackChunkName: "nearyou" */ './component/map/StopsNearYouMap.js').then(
-                  getDefault,
-                )
-              }
-              query={graphql`
-                query routes_StopsNearYouMap_Query(
-                  $lat: Float!
-                  $lon: Float!
-                  $filterByPlaceTypes: [FilterPlaceType]
-                  $filterByModes: [Mode]
-                  $maxResults: Int!
-                  $maxDistance: Int!
-                  $omitNonPickups: Boolean
-                ) {
-                  stops: nearest(
-                    lat: $lat
-                    lon: $lon
-                    filterByPlaceTypes: $filterByPlaceTypes
-                    filterByModes: $filterByModes
-                    maxResults: $maxResults
-                    maxDistance: $maxDistance
-                  ) {
-                    ...StopsNearYouMap_stops
-                      @arguments(omitNonPickups: $omitNonPickups)
-                  }
-                }
-              `}
-              prepareVariables={prepareStopsParams(config)}
-              render={getComponentOrNullRenderer}
             />
           ),
         }}
@@ -186,18 +155,18 @@ export default config => {
             <Route
               path="(.*)?"
               getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/SummaryTitle').then(
-                  getDefault,
-                )
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/SummaryTitle'
+                ).then(getDefault)
               }
             />
           ),
           content: isBrowser ? (
             <Route
               getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/SummaryPage').then(
-                  getDefault,
-                )
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/SummaryPage'
+                ).then(getDefault)
               }
               query={graphql`
                 query routes_SummaryPage_Query(
@@ -238,8 +207,8 @@ export default config => {
                   $unpreferred: InputUnpreferred
                   $allowedBikeRentalNetworks: [String]
                   $locale: String
-                  $shortEnoughForWalking: Boolean!
-                  $shortEnoughForBiking: Boolean!
+                  $shouldMakeWalkQuery: Boolean!
+                  $shouldMakeBikeQuery: Boolean!
                   $showBikeAndPublicItineraries: Boolean!
                   $showBikeAndParkItineraries: Boolean!
                 ) {
@@ -298,7 +267,7 @@ export default config => {
                     heuristicStepsPerMainStep: $heuristicStepsPerMainStep
                     compactLegsByReversedSearch: $compactLegsByReversedSearch
                     locale: $locale
-                  ) @include(if: $shortEnoughForWalking) {
+                  ) @include(if: $shouldMakeWalkQuery) {
                     ...SummaryPage_walkPlan
                   }
 
@@ -318,7 +287,7 @@ export default config => {
                     heuristicStepsPerMainStep: $heuristicStepsPerMainStep
                     compactLegsByReversedSearch: $compactLegsByReversedSearch
                     locale: $locale
-                  ) @include(if: $shortEnoughForBiking) {
+                  ) @include(if: $shouldMakeBikeQuery) {
                     ...SummaryPage_bikePlan
                   }
 
@@ -445,18 +414,18 @@ export default config => {
                     <Route
                       path="/tulosta"
                       getComponent={() =>
-                        import(/* webpackChunkName: "itinerary" */ './component/PrintableItinerary').then(
-                          getDefault,
-                        )
+                        import(
+                          /* webpackChunkName: "itinerary" */ './component/PrintableItinerary'
+                        ).then(getDefault)
                       }
                       printPage
                       render={getComponentOrLoadingRenderer}
                     />
                     <Route
                       getComponent={() =>
-                        import(/* webpackChunkName: "itinerary" */ './component/ItineraryTab').then(
-                          getDefault,
-                        )
+                        import(
+                          /* webpackChunkName: "itinerary" */ './component/ItineraryTab'
+                        ).then(getDefault)
                       }
                       render={getComponentOrLoadingRenderer}
                     />
@@ -467,9 +436,9 @@ export default config => {
                   <Route
                     path="/:hash/(.*)?"
                     getComponent={() =>
-                      import(/* webpackChunkName: "itinerary" */ './component/ItineraryPageMap').then(
-                        getDefault,
-                      )
+                      import(
+                        /* webpackChunkName: "itinerary" */ './component/ItineraryPageMap'
+                      ).then(getDefault)
                     }
                     render={getComponentOrNullRenderer}
                   />,
@@ -480,9 +449,9 @@ export default config => {
             <Route
               path="(.*)?"
               getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/Loading').then(
-                  getDefault,
-                )
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/Loading'
+                ).then(getDefault)
               }
             />
           ),
@@ -490,9 +459,9 @@ export default config => {
             <Route
               path="(.*)?"
               getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/SummaryPageMeta').then(
-                  getDefault,
-                )
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/SummaryPageMeta'
+                ).then(getDefault)
               }
             />
           ),
@@ -501,7 +470,9 @@ export default config => {
       <Route
         path="/styleguide"
         getComponent={() =>
-          import(/* webpackChunkName: "styleguide" */ './component/StyleGuidePage')
+          import(
+            /* webpackChunkName: "styleguide" */ './component/StyleGuidePage'
+          )
             .then(getDefault)
             .catch(errorLoading)
         }
@@ -510,7 +481,9 @@ export default config => {
         path="/styleguide/component/:componentName"
         topBarOptions={{ hidden: true }}
         getComponent={() =>
-          import(/* webpackChunkName: "styleguide" */ './component/StyleGuidePage')
+          import(
+            /* webpackChunkName: "styleguide" */ './component/StyleGuidePage'
+          )
             .then(getDefault)
             .catch(errorLoading)
         }
@@ -546,27 +519,27 @@ export default config => {
           title: (
             <Route
               getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/Title').then(
-                  getDefault,
-                )
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/Title'
+                ).then(getDefault)
               }
             />
           ),
           content: (
             <Route
               getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/IndexPage').then(
-                  getDefault,
-                )
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/IndexPage'
+                ).then(getDefault)
               }
             />
           ),
           meta: (
             <Route
               getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/IndexPageMeta').then(
-                  getDefault,
-                )
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/IndexPageMeta'
+                ).then(getDefault)
               }
             />
           ),
@@ -575,9 +548,9 @@ export default config => {
               // TODO: Must be decided how we will handle selecting from map!
               disableMapOnMobile
               getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/map/IndexPageMap.js').then(
-                  getDefault,
-                )
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/map/IndexPageMap.js'
+                ).then(getDefault)
               }
             />
           ),
@@ -588,9 +561,9 @@ export default config => {
           title: (
             <Route
               getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/Title').then(
-                  getDefault,
-                )
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/Title'
+                ).then(getDefault)
               }
             >
               <Route path=":hash" />
@@ -599,9 +572,9 @@ export default config => {
           content: (
             <Route
               getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/IndexPage').then(
-                  getDefault,
-                )
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/IndexPage'
+                ).then(getDefault)
               }
             />
           ),

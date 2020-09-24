@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Link from 'found/lib/Link';
+import Link from 'found/Link';
 import cx from 'classnames';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import RouteNumber from './RouteNumber';
@@ -22,9 +22,7 @@ export default function RouteHeader(props) {
   const routeLine =
     props.trip && props.pattern ? (
       <Link
-        to={`/${PREFIX_ROUTES}/${props.route.gtfsId}/${PREFIX_STOPS}/${
-          props.pattern.code
-        }?sort=no`}
+        to={`/${PREFIX_ROUTES}/${props.route.gtfsId}/${PREFIX_STOPS}/${props.pattern.code}?sort=no`}
       >
         {routeLineText}
       </Link>

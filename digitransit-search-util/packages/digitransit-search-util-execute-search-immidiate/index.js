@@ -231,6 +231,7 @@ export function getSearchResults(
     feedIDs,
     geocodingSearchParams,
     geocodingSources,
+    getFutureRoutes,
   } = searchContext;
   // if no targets are provided, search them all.
   const allTargets = !targets || targets.length === 0;
@@ -256,6 +257,10 @@ export function getSearchResults(
   }
   if (allTargets || targets.includes('MapPosition')) {
     searchComponents.push(selectPositionFomMap(input));
+  }
+  if (targets.includes('FutureRoutes')) {
+    const items = getFutureRoutes(context);
+    searchComponents.push(take(items, 3));
   }
   if (
     targets.includes('SelectFromOwnLocations') &&
@@ -298,6 +303,7 @@ export function getSearchResults(
       const dropLayers = [
         'currentPosition',
         'selectFromMap',
+        'futureRoute',
         'ownLocations',
         'stop',
         'back',
@@ -354,6 +360,7 @@ export function getSearchResults(
       const dropLayers = [
         'currentPosition',
         'selectFromMap',
+        'futureRoute',
         'ownLocations',
         'favouritePlace',
         'back',
@@ -362,8 +369,8 @@ export function getSearchResults(
       dropLayers.push(...locationLayers);
       if (transportMode) {
         searchComponents.push(
-          getOldSearches(stopHistory, input, dropLayers).then(
-            result => (filterResults ? filterResults(result, 'Stops') : result),
+          getOldSearches(stopHistory, input, dropLayers).then(result =>
+            filterResults ? filterResults(result, 'Stops') : result,
           ),
         );
       } else {
@@ -378,8 +385,8 @@ export function getSearchResults(
       searchComponents.push(getFavouriteRoutesQuery(favouriteRoutes, input));
     }
     searchComponents.push(
-      getRoutesQuery(input, feedIDs, transportMode).then(
-        result => (filterResults ? filterResults(result, 'Routes') : result),
+      getRoutesQuery(input, feedIDs, transportMode).then(result =>
+        filterResults ? filterResults(result, 'Routes') : result,
       ),
     );
     if (allSources || sources.includes('History')) {
@@ -387,6 +394,7 @@ export function getSearchResults(
       const dropLayers = [
         'currentPosition',
         'selectFromMap',
+        'futureRoute',
         'favouritePlace',
         'stop',
         'station',
@@ -398,9 +406,8 @@ export function getSearchResults(
       }
       dropLayers.push(...locationLayers);
       searchComponents.push(
-        getOldSearches(routeHistory, input, dropLayers).then(
-          results =>
-            filterResults ? filterResults(results, 'Routes') : results,
+        getOldSearches(routeHistory, input, dropLayers).then(results =>
+          filterResults ? filterResults(results, 'Routes') : results,
         ),
       );
     }
