@@ -7,8 +7,6 @@ const APP_DESCRIPTION = 'Gemeinsam Mobilität neu denken - die intermodale Verbi
 const API_URL = process.env.API_URL || 'https://api.stadtnavi.de';
 const MAP_URL = process.env.MAP_URL || 'https://tiles.stadtnavi.eu/streets/{z}/{x}/{y}{r}.png';
 const SEMI_TRANSPARENT_MAP_URL = process.env.SEMI_TRANSPARENT_MAP_URL || 'https://tiles.stadtnavi.eu/satellite-overlay/{z}/{x}/{y}{r}.png';
-const GEOCODING_BASE_URL = process.env.GEOCODING_BASE_URL || `https://pelias.locationiq.org/v1`;
-const LOCATIONIQ_API_KEY = process.env.LOCATIONIQ_API_KEY;
 const YEAR = 1900 + new Date().getYear();
 const STATIC_MESSAGE_URL =
   process.env.STATIC_MESSAGE_URL ||
@@ -45,6 +43,11 @@ export default configMerger(walttiConfig, {
 
   /* disable the "next" column of the Route panel as it can be confusing sometimes: https://github.com/mfdz/digitransit-ui/issues/167 */
   displayNextDeparture: false,
+
+  mainMenu: {
+    showDisruptions: false,
+  },
+
   maxWalkDistance: 15000,
 
   defaultSettings: {
