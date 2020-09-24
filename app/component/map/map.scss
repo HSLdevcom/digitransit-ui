@@ -82,6 +82,8 @@ div.map {
       width: 0;
     }
     .drawer-content {
+      min-height: 50vh;
+      background: white;
       position: relative;
       z-index: index($zindex, mobile-drawer);
       .drag-line {
