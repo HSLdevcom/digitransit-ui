@@ -10,6 +10,9 @@ export const StreetModeSelectorButton = (
   { config },
 ) => {
   const itinerary = plan.itineraries[0];
+  if (!itinerary) {
+    return null;
+  }
   const duration = durationToString(itinerary.duration * 1000);
   const distance =
     name === 'WALK'
