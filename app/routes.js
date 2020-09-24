@@ -43,9 +43,9 @@ export default config => {
           content: (
             <Route
               getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/BikeRentalStationContent').then(
-                  getDefault,
-                )
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/BikeRentalStationContent'
+                ).then(getDefault)
               }
               query={graphql`
                 query routes_BikeRentalStation_Query($id: String!) {
@@ -61,9 +61,9 @@ export default config => {
             <Route
               path="(.*)?"
               getComponent={() =>
-                import(/* webpackChunkName: "itinerary" */ './component/BikeRentalStationPageMapContainer').then(
-                  getDefault,
-                )
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/BikeRentalStationPageMapContainer'
+                ).then(getDefault)
               }
               query={graphql`
                 query routes_BikeRentalStationMap_Query($id: String!) {

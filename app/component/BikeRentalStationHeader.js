@@ -1,11 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Favourite from './Favourite';
 import { FormattedMessage } from 'react-intl';
+import Favourite from './Favourite';
 import StopCode from './StopCode';
 import BackButton from './BackButton';
 
-const BikeRentalStationHeader = ({ bikeRentalStation, breakpoint }, {config}) => {
+const BikeRentalStationHeader = (
+  { bikeRentalStation, breakpoint },
+  { config },
+) => {
   return (
     <div className="bike-station-header">
       {breakpoint === 'large' && (
@@ -22,11 +25,11 @@ const BikeRentalStationHeader = ({ bikeRentalStation, breakpoint }, {config}) =>
           <StopCode code={bikeRentalStation.stationId} />
         </div>
       </div>
-      
-      <Favourite/>
+
+      <Favourite />
     </div>
   );
-}
+};
 
 BikeRentalStationHeader.contextTypes = {
   config: PropTypes.object.isRequired,

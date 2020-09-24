@@ -26,14 +26,20 @@ BikeRentalStationPageMapContainer.defaultProps = {
   bikeRentalStation: undefined,
 };
 
-const containerComponent = createFragmentContainer(BikeRentalStationPageMapContainer, {
-  bikeRentalStation: graphql`
-    fragment BikeRentalStationPageMapContainer_bikeRentalStation on BikeRentalStation {
-      lat
-      lon
-      name
-    }
-  `,
-});
+const containerComponent = createFragmentContainer(
+  BikeRentalStationPageMapContainer,
+  {
+    bikeRentalStation: graphql`
+      fragment BikeRentalStationPageMapContainer_bikeRentalStation on BikeRentalStation {
+        lat
+        lon
+        name
+      }
+    `,
+  },
+);
 
-export { containerComponent as default, BikeRentalStationPageMapContainer as Component };
+export {
+  containerComponent as default,
+  BikeRentalStationPageMapContainer as Component,
+};

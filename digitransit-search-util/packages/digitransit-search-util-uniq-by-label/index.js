@@ -16,7 +16,6 @@ const getStopCode = ({ id, code }) => {
     typeof id.indexOf === 'undefined' ||
     id.indexOf('#') === -1
   ) {
-    
     return undefined;
   }
   // id from pelias
@@ -81,7 +80,7 @@ export const getNameLabel = memoize(
         ];
 
       case 'stop':
-        console.log(plain, getStopCode(suggestion))
+        console.log(plain, getStopCode(suggestion));
         return plain
           ? [suggestion.name || suggestion.label, getLocality(suggestion)]
           : [

@@ -1622,7 +1622,8 @@ const translations = {
     'char-left': 'merkkiä',
     'choose-stop': 'Valitse pysäkki',
     citybike: 'Kaupunkipyörä',
-    'citybike-buy-season': 'Osta käyttöoikeutta päiväksi, viikoksi tai koko kaudeksi',
+    'citybike-buy-season':
+      'Osta käyttöoikeutta päiväksi, viikoksi tai koko kaudeksi',
     'citybike-distance-duration': 'Pyöräile {distance} ({duration})',
     'citybike-network-headers': 'Kaupunkipyörät',
     'citybike-off-season': 'Kaupunkipyörät palaavat käyttöön ensi keväänä',

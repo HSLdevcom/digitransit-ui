@@ -124,9 +124,8 @@ export function createUrl(routeIn) {
       url += `?time=${route.time}`;
     }
     return url;
-  } else {
-    return '';
   }
+  return '';
 }
 
 export function addFutureRoute(newRoute, routeCollection) {

@@ -36,9 +36,7 @@ const CityBikeStopNearYou = ({ stop }) => {
             </div>
           </div>
         </div>
-        <CityBikeStopContent
-          bikeRentalStation={stop}
-        />
+        <CityBikeStopContent bikeRentalStation={stop} />
       </div>
     </span>
   );

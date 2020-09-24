@@ -39,7 +39,8 @@ export default function isDuplicate(item1, item2) {
       return true;
     }
     return false;
-  } else if (item1.type === 'FutureRoute' || item2.type === 'FutureRoute') {
+  }
+  if (item1.type === 'FutureRoute' || item2.type === 'FutureRoute') {
     return false;
   }
   if (truEq(props1.gtfsId, props2.gtfsId)) {

@@ -203,14 +203,13 @@ export const getAllBikeRentalStations = () => {
     return Promise.resolve([]);
   }
   return fetchQuery(relayEnvironment, searchBikeRentalStationsQuery);
-}
+};
 /**
  * Returns Stop and station objects filtered by given mode .
  * @param {*} stopsToFilter
  * @param {String} mode
  */
 export const filterStopsAndStationsByMode = (stopsToFilter, mode) => {
-  
   const ids = stopsToFilter.map(s => s.gtfsId);
   const queries = [];
   queries.push(

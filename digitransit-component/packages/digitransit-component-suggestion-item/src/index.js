@@ -111,17 +111,17 @@ const SuggestionItem = pure(
             [styles.futureroute]: isFutureRoute,
           })}
         >
-          
           {iconId !== 'future-route' && (
             <span>
               <p className={cx(styles['suggestion-name'], styles[className])}>
-            {name}
-          </p>
-          <p className={styles['suggestion-label']}>{label}
-            {stopCode && (<span className={styles['stop-code']}>
-              {stopCode}
-            </span>)}
-          </p>
+                {name}
+              </p>
+              <p className={styles['suggestion-label']}>
+                {label}
+                {stopCode && (
+                  <span className={styles['stop-code']}>{stopCode}</span>
+                )}
+              </p>
             </span>
           )}
           {iconId === 'future-route' && (

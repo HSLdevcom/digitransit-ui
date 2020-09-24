@@ -46,22 +46,24 @@ function suggestionToAriaContent(item) {
     }
     const [name, label] = getNameLabel(item.properties, true);
     return [iconstr, name, label];
-  } else {
-    return [
-      i18next.t('future-route'),
-      `${i18next.t('origin')} ${item.properties.origin.name}, ${
-        item.properties.origin.locality
-      }, ${i18next.t('destination')} ${item.properties.destination.name}, ${
-        item.properties.destination.locality
-      }`,
-      item.translatedText,
-    ];
   }
+  return [
+    i18next.t('future-route'),
+    `${i18next.t('origin')} ${item.properties.origin.name}, ${
+      item.properties.origin.locality
+    }, ${i18next.t('destination')} ${item.properties.destination.name}, ${
+      item.properties.destination.locality
+    }`,
+    item.translatedText,
+  ];
+
   let [name, label] = getNameLabel(item.properties, true);
   if (item.properties.id && item.properties.layer === 'stop') {
-    stopCode = item.properties.id.substring(item.properties.id.indexOf('#') + 1)
+    stopCode = item.properties.id.substring(
+      item.properties.id.indexOf('#') + 1,
+    );
   }
-  
+
   if (label === 'bike-rental-station') {
     label = i18next.t(label);
     stopCode = item.properties.labelId;

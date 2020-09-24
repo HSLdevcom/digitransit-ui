@@ -2,11 +2,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import CityBikeAvailability from './CityBikeAvailability';
 import Icon from './Icon';
-import { getCityBikeNetworkIcon, getCityBikeNetworkConfig } from '../util/citybikes';
+import {
+  getCityBikeNetworkIcon,
+  getCityBikeNetworkConfig,
+} from '../util/citybikes';
 
 const CityBikeStopContent = ({ bikeRentalStation }, { config }) => {
-
-  const totalSpaces = bikeRentalStation.bikesAvailable + bikeRentalStation.spacesAvailable;
+  const totalSpaces =
+    bikeRentalStation.bikesAvailable + bikeRentalStation.spacesAvailable;
   const fewAvailableCount = Math.floor(totalSpaces / 3);
   const fewerAvailableCount = Math.floor(totalSpaces / 6);
   const citybikeicon = getCityBikeNetworkIcon(
