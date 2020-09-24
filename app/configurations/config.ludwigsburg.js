@@ -160,7 +160,7 @@ export default configMerger(walttiConfig, {
   },
 
   //textLogo: true,
-  logo: 'hb/stadtnavi-logo.svg',
+  logo: 'ludwigsburg/stadtnavi-logo.svg',
 
   GTMid: '',
 
