@@ -92,7 +92,7 @@ export default configMerger(walttiConfig, {
   },
 
   dynamicParkingLots: {
-    showDynamicParkingLots: true,
+    showDynamicParkingLots: false,
     dynamicParkingLotsSmallIconZoom: 14,
     dynamicParkingLotsMinZoom: 14
   },
@@ -104,7 +104,7 @@ export default configMerger(walttiConfig, {
   },
 
   covid19: {
-    show: true,
+    show: false,
     smallIconZoom: 17,
     minZoom: 15
   },
@@ -160,7 +160,7 @@ export default configMerger(walttiConfig, {
   },
 
   //textLogo: true,
-  logo: 'ludwigsburg/stadtnavi-logo.svg',
+  logo: 'ludwigsburg/stadtnavi-ludwigsburg-logo.svg',
 
   GTMid: '',
 
