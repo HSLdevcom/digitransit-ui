@@ -516,8 +516,7 @@ export default {
   },
 
   useTicketIcons: true,
-  trafficNowLink:
-    'https://uusi.hsl.fi/matkustaminen/liikennetiedotteet-ja-hairiot',
+  trafficNowLink: 'https://uusi.hsl.fi/matkustaminen/liikenne',
 
   localStorageEmitter:
     process.env.LOCALSTORAGEEMITTER ||
