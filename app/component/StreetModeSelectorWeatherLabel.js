@@ -17,10 +17,8 @@ export const StreetModeSelectorWeatherLabel = ({ active, weatherData }) => {
         className={cx('street-mode-selector-weather-container', `id-${iconId}`)}
       >
         <Icon img={`icon-icon_weather_${iconId}`} height={2.75} width={2.75} />
-        <div>
-          <div className="street-mode-selector-panel-weather-text">
-            {tempLabel}
-          </div>
+        <div className="street-mode-selector-panel-weather-text">
+          {tempLabel}
         </div>
       </div>
     );
