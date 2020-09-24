@@ -14,7 +14,7 @@ function SelectTicketSalesRow(props) {
         </div>
         <div className="padding-vertical-normal select-row-text">
           <span className="header-primary no-margin link-color">
-            {props.Name_fi} ›
+            {props.Nimi} ›
           </span>
         </div>
         <div className="clear" />
@@ -38,7 +38,7 @@ SelectTicketSalesRow.description = () => (
 SelectTicketSalesRow.propTypes = {
   selectRow: PropTypes.func.isRequired,
   Tyyppi: PropTypes.string.isRequired,
-  Name_fi: PropTypes.string.isRequired,
+  Nimi: PropTypes.string.isRequired,
 };
 
 export default SelectTicketSalesRow;

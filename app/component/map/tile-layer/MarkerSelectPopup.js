@@ -55,7 +55,7 @@ function MarkerSelectPopup(props) {
       return (
         <SelectTicketSalesRow
           {...option.feature.properties}
-          key={option.feature.properties.NID_fi}
+          key={option.feature.properties.FID}
           selectRow={() => props.selectRow(option)}
         />
       );
@@ -94,7 +94,7 @@ function MarkerSelectPopup(props) {
           location={{
             address:
               props.options[0].feature.properties.name ||
-              props.options[0].feature.properties.Name_fi,
+              props.options[0].feature.properties.Nimi,
             lat: props.location.lat,
             lon: props.location.lng,
           }}

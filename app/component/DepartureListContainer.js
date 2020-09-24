@@ -32,8 +32,8 @@ const asDepartures = stoptimes =>
           isLastStop = stoptime.stop.id === lastStop.id;
         }
         /* OTP returns either scheduled time or realtime prediction in
-           * 'realtimeDeparture' and 'realtimeArrival' fields.
-           * EXCEPT when state is CANCELLED, then it returns -1 for realtime  */
+         * 'realtimeDeparture' and 'realtimeArrival' fields.
+         * EXCEPT when state is CANCELLED, then it returns -1 for realtime  */
         const canceled = stoptime.realtimeState === 'CANCELED';
         const arrivalTime =
           stoptime.serviceDay +
@@ -57,7 +57,7 @@ const asDepartures = stoptimes =>
           stop: stoptime.stop,
           realtime: stoptime.realtime,
           pattern,
-          headsign: stoptime.stopHeadsign,
+          headsign: stoptime.headsign,
           trip: stoptime.trip,
           pickupType: stoptime.pickupType,
           departureDelay: stoptime.departureDelay,
@@ -320,7 +320,7 @@ const containerComponent = Relay.createContainer(DepartureListContainer, {
           realtime
           serviceDay
           pickupType
-          stopHeadsign
+          headsign
           stop {
             id
             code

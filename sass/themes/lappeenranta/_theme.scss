@@ -9,8 +9,10 @@ $bus-color: $primary-color;
 $viewpoint-marker-color: $primary-color;
 $current-location-color: $primary-color;
 
-$standalone-btn-color: $secondary-color;
-$link-color: $secondary-color;
+$standalone-btn-color: $primary-color;
+$standalone-btn-hover-color: $secondary-color;
+$standalone-btn-active-color: $secondary-color;
+$link-color: $primary-color;
 
 /*Component palette*/
 $desktop-title-color: $primary-color;

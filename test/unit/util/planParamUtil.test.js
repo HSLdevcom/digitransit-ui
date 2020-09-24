@@ -20,8 +20,9 @@ describe('planParamUtil', () => {
     it('should return mode defaults from config if modes are missing from both the current URI and localStorage', () => {
       const config = {
         modeToOTP: {
-          bus: 'bus',
-          walk: 'walk',
+          bus: 'BUS',
+          walk: 'WALK',
+          citybike: 'BICYCLE_RENT',
         },
         streetModes: {
           walk: {
@@ -32,6 +33,10 @@ describe('planParamUtil', () => {
         },
         transportModes: {
           bus: {
+            availableForSelection: true,
+            defaultValue: true,
+          },
+          citybike: {
             availableForSelection: true,
             defaultValue: true,
           },
@@ -53,7 +58,11 @@ describe('planParamUtil', () => {
       };
       const params = utils.preparePlanParams(config)(...defaultProps);
       const { modes } = params;
-      expect(modes).to.equal('BUS,WALK');
+      expect(modes).to.deep.equal([
+        { mode: 'BICYCLE', qualifier: 'RENT' },
+        { mode: 'BUS' },
+        { mode: 'WALK' },
+      ]);
     });
 
     it('should use the optimize mode from query', () => {
@@ -199,7 +208,7 @@ describe('planParamUtil', () => {
         },
       );
       const { ticketTypes } = params;
-      expect(ticketTypes).to.equal('HSL:esp');
+      expect(ticketTypes).to.deep.equal(['HSL:esp']);
     });
 
     it('should replace the old ticketTypes separator "_" with ":" in localStorage', () => {
@@ -214,7 +223,7 @@ describe('planParamUtil', () => {
         },
       );
       const { ticketTypes } = params;
-      expect(ticketTypes).to.equal('HSL:esp');
+      expect(ticketTypes).to.deep.equal(['HSL:esp']);
     });
 
     it('should return null if no ticketTypes are found from query or localStorage', () => {
@@ -243,7 +252,7 @@ describe('planParamUtil', () => {
         },
       );
       const { ticketTypes } = params;
-      expect(ticketTypes).to.equal('HSL:esp');
+      expect(ticketTypes).to.deep.equal(['HSL:esp']);
     });
 
     it('should return null if ticketTypes is "none" in query', () => {
@@ -395,7 +404,7 @@ describe('planParamUtil', () => {
         },
       );
       const { ticketTypes } = params;
-      expect(ticketTypes).to.equal('HSL:esp');
+      expect(ticketTypes).to.deep.equal(['HSL:esp']);
     });
 
     it('should remap the configured default restriction if the user has given no ticketTypes', () => {
@@ -411,7 +420,7 @@ describe('planParamUtil', () => {
         },
       );
       const { ticketTypes } = params;
-      expect(ticketTypes).to.equal('HSL:esp');
+      expect(ticketTypes).to.deep.equal(['HSL:esp']);
     });
 
     it('should contain all the default settings', () => {

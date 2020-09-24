@@ -347,7 +347,7 @@ class TileLayerContainer extends GridLayer {
       ({ id } = target.feature);
       contents = this.getParkAndRideContent(id, target);
     } else if (target.layer === 'ticketSales') {
-      id = target.feature.properties.NID_fi;
+      id = target.feature.properties.FID;
       contents = <TicketSalesPopup {...target.feature.properties} />;
     } else if (target.layer === 'dynamicParkingLots') {
       contents = this.getDynamicParkingLotsContent(target);
