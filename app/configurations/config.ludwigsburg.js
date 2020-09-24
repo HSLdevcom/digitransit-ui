@@ -152,7 +152,7 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
-  favicon: './app/configurations/images/hb/favicon.png',
+  favicon: './app/configurations/images/ludwigsburg/favicon.svg',
 
   meta: {
     description: APP_DESCRIPTION,

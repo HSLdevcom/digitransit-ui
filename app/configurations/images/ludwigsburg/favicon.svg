@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   height="61.740288"
+   width="61.630001"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   sodipodi:docname="stadtnavi-ludwigsburg-logo.svg"
+   xml:space="preserve"
+   viewBox="0 0 61.629998 61.740289"
+   y="0px"
+   x="0px"
+   id="Ebene_1"
+   version="1.1"><metadata
+   id="metadata1045"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+   id="defs1043" /><sodipodi:namedview
+   fit-margin-bottom="10"
+   fit-margin-right="10"
+   fit-margin-left="10"
+   fit-margin-top="10"
+   inkscape:current-layer="layer3"
+   inkscape:window-maximized="1"
+   inkscape:window-y="0"
+   inkscape:window-x="0"
+   inkscape:cy="158.10128"
+   inkscape:cx="185.88117"
+   inkscape:zoom="2.2845801"
+   inkscape:pagecheckerboard="true"
+   showgrid="false"
+   id="namedview1041"
+   inkscape:window-height="1376"
+   inkscape:window-width="2560"
+   inkscape:pageshadow="2"
+   inkscape:pageopacity="0"
+   guidetolerance="10"
+   gridtolerance="10"
+   objecttolerance="10"
+   borderopacity="1"
+   bordercolor="#666666"
+   pagecolor="#ffffff"
+   inkscape:document-rotation="0" />
+<style
+   id="style1004"
+   type="text/css">
+	.st0{fill:#C8DD9A;}
+	.st1{fill:#FFFFFF;}
+	.st2{fill:none;stroke:#FFFFFF;stroke-width:0.6709;}
+</style>
+<g
+   transform="translate(7.1,-1.34)"
+   style="display:inline"
+   inkscape:label="background"
+   id="layer3"
+   inkscape:groupmode="layer"><rect
+     y="-0.88620228"
+     x="-8.2934637"
+     height="66.531303"
+     width="68.13855"
+     id="rect870"
+     style="fill:#fecc00" /></g><g
+   transform="translate(7.1,-1.34)"
+   style="display:inline"
+   inkscape:label="foreground"
+   id="layer1"
+   inkscape:groupmode="layer"><g
+     transform="translate(0.02,-2.29)"
+     id="g1038">
+	<path
+   style="fill:#ffe800;fill-opacity:1"
+   id="path1006"
+   d="m 16.86,37.4 c 0.81,-5.17 5.02,-9.22 10.28,-9.75 l 0.32,-4.62 c -7.84,0.41 -14.19,6.39 -15.2,14.05 z"
+   class="st0" />
+	
+	<path
+   id="path1010"
+   d="M 44.51,53.12 V 39.18 39.17 c 0,-7.79 -5.53,-14.31 -12.88,-15.86 l -0.34,4.61 c 4.98,1.33 8.66,5.86 8.66,11.25 v 0 11.65 H 28.29 c -5.6,0 -10.29,-3.97 -11.4,-9.25 l -4.66,-0.31 c 1.04,7.95 7.84,14.11 16.06,14.11 h 13.94 c 1.26,0.02 2.28,-1 2.28,-2.25"
+   class="st1" />
+	<path
+   style="fill:#ffe800;fill-opacity:1"
+   id="path1012"
+   d="M 7.46,36.75 C 8.66,26.49 17.28,18.48 27.79,18.22 l 0.32,-4.59 C 15.01,13.73 4.26,23.68 2.88,36.44 Z"
+   class="st0" />
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</g></g>
+</svg>
