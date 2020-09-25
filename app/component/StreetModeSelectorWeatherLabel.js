@@ -10,7 +10,7 @@ export const StreetModeSelectorWeatherLabel = ({ active, weatherData }) => {
       return null;
     }
     const { temperature, iconId } = weatherData;
-    const tempLabel = `${Math.round(temperature)} \u2103`; // Temperature with Celsius
+    const tempLabel = `${Math.round(temperature)} \u00B0C`; // Temperature with Celsius
     return (
       // eslint-disable-next-line jsx-a11y/click-events-have-key-events
       <div
