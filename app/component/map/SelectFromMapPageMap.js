@@ -326,12 +326,13 @@ class SelectFromMapPageMap extends React.Component {
           onZoomend: () => this.endZoom(positionSelectingFromMap),
         }}
         leafletObjs={leafletObjs}
-        lat={defaultLocation.lat} // {center ? center.lat : from.lat}
-        lon={defaultLocation.lon} // {center ? center.lon : from.lon}
+        lat={positionSelectingFromMap.lat} // {center ? center.lat : from.lat}
+        lon={positionSelectingFromMap.lon} // {center ? center.lon : from.lon}
         zoom={12}
         bounds={bounds}
         fitBounds={Boolean(bounds)}
         boundsOptions={{ maxZoom: 16 }}
+        disableLocationPopup
         showScaleBar={showScale}
         mapRef={this.setMapElementRef}
       />
