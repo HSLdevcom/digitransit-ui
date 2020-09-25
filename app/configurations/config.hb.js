@@ -104,7 +104,7 @@ export default configMerger(walttiConfig, {
   },
 
   covid19: {
-    show: true,
+    show: false,
     smallIconZoom: 17,
     minZoom: 15
   },
