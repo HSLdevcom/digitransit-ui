@@ -42,6 +42,7 @@ export default {
   feedIds: ['HSL', 'HSLlautta'],
 
   showHSLTracking: false,
+  allowLogin: false,
 
   defaultMapCenter: {
     lat: 60.1710688,
