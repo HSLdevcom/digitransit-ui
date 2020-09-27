@@ -65,33 +65,6 @@ const config = {
       icon: 'car_park-withoutBox',
     },
   },
-  quickOptions: {
-    public_transport: {
-      availableOptionSets: [
-        'least-transfers',
-        'least-walking',
-        'public-transport-with-bicycle',
-        'saved-settings',
-      ],
-    },
-    walk: {
-      availableOptionSets: ['prefer-walking-routes', 'saved-settings'],
-    },
-    bicycle: {
-      availableOptionSets: [
-        'least-elevation-changes',
-        'prefer-greenways',
-        'saved-settings',
-      ],
-    },
-    car_park: {
-      availableOptionSets: [
-        'least-transfers',
-        'least-walking',
-        'saved-settings',
-      ],
-    },
-  },
   transportModes: {
     bus: {
       availableForSelection: true,
@@ -151,6 +124,9 @@ const props = {
   },
   setError: () => {},
   setLoading: () => {},
+  toggleSettings: () => {},
+  bikeAndPublicItinerariesToShow: 0,
+  bikeAndParkItinerariesToShow: 0,
 };
 
 describe('<SummaryPlanContainer />', () => {

@@ -6,9 +6,7 @@
 
 **Extends React.Component**
 
-FavouriteBar renders favourites. It searches favourites for home and work by name.
-Home is found in finnish (Koti), in English (Home) or in Swedish (Hem).
-Work is found in finnish (Työ), in English (Work) or in Swedish (Arbetsplats).
+FavouriteBar renders favourites. FavouriteBar displays the first two favourites, the rest are shown in a list.
 
 ### Parameters
 
@@ -24,6 +22,7 @@ Work is found in finnish (Työ), in English (Work) or in Swedish (Arbetsplats).
   onAddHome={this.addHome}
   onAddWork={this.addWork}
   lang={this.props.lang}
+  isLoading={this.props.isLoading}
 />
 ```
 
@@ -67,6 +66,10 @@ Optional. Function for "Add work" button.
 ## lang
 
 Optional. Language, fi, en or sv.
+
+## isLoading
+
+Optional. Whether to show loading animation, true or false.
 
 [1]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
 

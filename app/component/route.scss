@@ -81,7 +81,6 @@ $margin-left-right: 1.25em;
     background-color: transparent;
     position: relative;
     top: -15px;
-    z-index: 2;
     &.aikataulu, &.hairiot {
       top: 0;
       .route-container {
@@ -213,8 +212,8 @@ $margin-left-right: 1.25em;
     }
     span {
       color: $gray;
-      svg.realtime-icon {
-        display: none;
+      svg {
+        color: #666;
       }
     }
   }
@@ -710,6 +709,9 @@ $margin-left-right: 1.25em;
   .back-button {
     position: absolute;
     left: 1.5em;
+    button {
+      left: 0;
+    }
   }
 }
 
@@ -811,6 +813,7 @@ $margin-left-right: 1.25em;
   .route-option-togglable {
     margin-top: 0.4em;
     overflow: hidden;
+    white-space: nowrap;
     line-height: 1.2;
     padding-top: 0.4em;
   }

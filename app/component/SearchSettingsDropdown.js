@@ -32,6 +32,17 @@ export const getFiveStepOptions = options => [
   },
 ];
 
+export const getFiveStepOptionsNumerical = options => {
+  const numericalOptions = [];
+  options.forEach(item => {
+    numericalOptions.push({
+      title: `${Math.round(item * 3.6)} km/h`,
+      value: item,
+    });
+  });
+  return numericalOptions;
+};
+
 /**
  * Represents the types of acceptable values.
  */
@@ -51,6 +62,8 @@ class SearchSettingsDropdown extends React.Component {
     displayPattern: PropTypes.string,
     onOptionSelected: PropTypes.func.isRequired,
     formatOptions: PropTypes.bool,
+    name: PropTypes.string.isRequired,
+    translateLabels: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -59,6 +72,7 @@ class SearchSettingsDropdown extends React.Component {
     displayPattern: undefined,
     defaultValue: undefined,
     formatOptions: false,
+    translateLabels: true,
   };
 
   static contextTypes = {
@@ -68,6 +82,13 @@ class SearchSettingsDropdown extends React.Component {
   constructor(props) {
     super(props);
     this.state = { showDropdown: false };
+    this.labelRef = React.createRef();
+  }
+
+  componentDidUpdate() {
+    if (this.state.showDropdown) {
+      this.labelRef.current.scrollIntoView({ block: 'nearest' });
+    }
   }
 
   toggleDropdown = prevState => {
@@ -76,31 +97,48 @@ class SearchSettingsDropdown extends React.Component {
     });
   };
 
-  handleDropdownClick = (value, prevState) => {
-    this.props.onOptionSelected(value);
+  handleDropdownClick = prevState => {
     this.toggleDropdown(prevState);
+  };
+
+  handleChangeOnly = value => {
+    this.props.onOptionSelected(value);
   };
 
   getOptionTags = (dropdownOptions, prevState) => {
     return dropdownOptions.map(option => (
-      <li
-        className={
-          option.value === this.props.currentSelection.value ? 'selected' : ''
-        }
-        key={option.displayName + option.value}
-        value={option.value}
-        onClick={() => this.handleDropdownClick(option.value, prevState)}
-      >
-        {option.displayNameObject
-          ? option.displayNameObject
-          : option.displayName}
-        {option.value === this.props.currentSelection.value && (
-          <Icon
-            className="selected-checkmark"
-            img="icon-icon_check"
-            viewBox="0 0 15 11"
+      <li key={option.displayName + option.value}>
+        <label
+          className={`settings-dropdown-choice ${
+            option.value === this.props.currentSelection.value ? 'selected' : ''
+          }`}
+          htmlFor={`dropdown-${this.props.name}-${option.value}`}
+        >
+          {option.displayNameObject
+            ? option.displayNameObject
+            : option.displayName}
+          {option.value === this.props.currentSelection.value && (
+            <Icon
+              className="selected-checkmark"
+              img="icon-icon_check"
+              viewBox="0 0 15 11"
+            />
+          )}
+          <input
+            id={`dropdown-${this.props.name}-${option.value}`}
+            type="radio"
+            name={this.props.name}
+            checked={option.value === this.props.currentSelection.value}
+            value={option.value}
+            onChange={e => {
+              this.handleChangeOnly(option.value);
+              // try to detect if event is from an actual click or keyboard navigation
+              if (e.nativeEvent.clientX || e.nativeEvent.clientY) {
+                this.handleDropdownClick(prevState);
+              }
+            }}
           />
-        )}
+        </label>
       </li>
     ));
   };
@@ -114,6 +152,7 @@ class SearchSettingsDropdown extends React.Component {
       highlightDefaultValue,
       defaultValue,
       formatOptions,
+      translateLabels,
     } = this.props;
     const { intl } = this.context;
     const { showDropdown } = this.state || {};
@@ -130,56 +169,73 @@ class SearchSettingsDropdown extends React.Component {
       return displayValueFormatter ? displayValueFormatter(value) : value;
     }
     const selectOptions = formatOptions
-      ? options.map(
-          o =>
-            o.title && o.value
-              ? {
-                  displayName: `${o.title}_${o.value}`,
-                  displayNameObject: applyDefaultValueIdentifier(
-                    o.value,
-                    this.context.intl.formatMessage(
-                      { id: o.title },
-                      {
-                        title: o.title,
-                      },
-                    ),
-                  ),
-                  value: o.value,
-                }
-              : {
-                  displayName: `${this.props.displayPattern}_${o}`,
-                  displayNameObject: applyDefaultValueIdentifier(
-                    o,
-                    this.props.displayPattern
+      ? options.map(o =>
+          o.title && o.value
+            ? {
+                displayName: `${o.title}_${o.value}`,
+                displayNameObject: applyDefaultValueIdentifier(
+                  o.value,
+                  translateLabels
+                    ? this.context.intl.formatMessage(
+                        { id: o.title },
+                        {
+                          title: o.title,
+                        },
+                      )
+                    : o.title,
+                ),
+                value: o.value,
+              }
+            : {
+                displayName: `${this.props.displayPattern}_${o}`,
+                displayNameObject: applyDefaultValueIdentifier(
+                  o,
+                  // eslint-disable-next-line no-nested-ternary
+                  this.props.displayPattern
+                    ? translateLabels
                       ? this.context.intl.formatMessage(
                           { id: this.props.displayPattern },
                           {
                             number: getFormattedValue(o),
                           },
                         )
-                      : getFormattedValue(o),
-                  ),
-                  value: o,
-                },
+                      : ({ id: this.props.displayPattern },
+                        { number: getFormattedValue(o) })
+                    : getFormattedValue(o),
+                ),
+                value: o,
+              },
         )
       : options;
 
     return (
-      <div className="settings-dropdown-wrapper">
-        <span
+      <fieldset className="settings-dropdown-wrapper" ref={this.labelRef}>
+        <legend className="sr-only">{labelText}</legend>
+        <button
+          type="button"
           className="settings-dropdown-label"
           onClick={() => this.toggleDropdown(this.state.showDropdown)}
-          role="Button"
-          tabIndex="0"
         >
-          <p className="settings-dropdown-label-text">{labelText}</p>
+          <p className="settings-dropdown-label-text" aria-hidden="true">
+            {labelText}
+          </p>
           <p className="settings-dropdown-label-value">
+            {/* eslint-disable-next-line no-nested-ternary */}
             {displayValueFormatter
               ? displayValueFormatter(currentSelection.title)
-              : `${intl.formatMessage({
+              : translateLabels
+              ? `${intl.formatMessage({
                   id: currentSelection.title,
-                })}`}
+                })}`
+              : currentSelection.title}
           </p>
+          <span className="sr-only">
+            {intl.formatMessage({
+              id: showDropdown
+                ? 'settings-dropdown-close-label'
+                : 'settings-dropdown-open-label',
+            })}
+          </span>
           <Icon
             className={
               this.state.showDropdown
@@ -188,13 +244,13 @@ class SearchSettingsDropdown extends React.Component {
             }
             img="icon-icon_arrow-dropdown"
           />
-        </span>
+        </button>
         {showDropdown && (
-          <ul className="settings-dropdown">
+          <ul role="radiogroup" className="settings-dropdown">
             {this.getOptionTags(selectOptions, this.state.showDropdown)}
           </ul>
         )}
-      </div>
+      </fieldset>
     );
   }
 }

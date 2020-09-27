@@ -1,10 +1,12 @@
 .departure-list .date-row {
   @include font-bold;
-  font-size: 10pt;
+  font-size: 15pt;
   text-transform: capitalize;
   color: $gray;
   background-color: $white;
   padding-left: 1em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
 
   .missing-routes {
     @include font-book;
@@ -21,7 +23,7 @@
 .stop-page {
   overflow-y: auto;
   &.card-header {
-    display: flex;
+    //display: flex;
     padding: 3em 3.75em 0em 3.75em;
     position: relative;
     flex: 0 0 auto;

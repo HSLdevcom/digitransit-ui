@@ -8,13 +8,18 @@ import { replaceQueryParams } from '../util/queryUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 function DatetimepickerContainer({ realtime, embedWhenClosed, lang }, context) {
-  const { router, match } = context;
+  const { router, match, executeAction } = context;
 
   const setParams = debounce((time, arriveBy) => {
-    replaceQueryParams(router, match, {
-      time,
-      arriveBy,
-    });
+    replaceQueryParams(
+      router,
+      match,
+      {
+        time,
+        arriveBy,
+      },
+      executeAction,
+    );
   }, 10);
 
   const onTimeChange = (time, arriveBy) => {
@@ -90,6 +95,7 @@ DatetimepickerContainer.contextTypes = {
   router: routerShape.isRequired,
   match: matchShape.isRequired,
   config: PropTypes.object.isRequired,
+  executeAction: PropTypes.func,
 };
 
 const withLang = connectToStores(

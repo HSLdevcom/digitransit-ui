@@ -13,12 +13,10 @@ const StopCardContainer = connectToStores(
     isTerminal: props.isTerminal,
     children: (
       <DepartureListContainer
-        rowClasses="no-padding no-margin"
         stoptimes={props.stop.stoptimes}
         limit={props.limit}
         isTerminal={props.isTerminal}
         isPopUp={props.isPopUp}
-        showPlatformCodes
         currentTime={props.currentTime}
       />
     ),
@@ -33,11 +31,11 @@ StopCardContainer.contextTypes = {
 export default createFragmentContainer(StopCardContainer, {
   stop: graphql`
     fragment StopCardContainer_stop on Stop
-      @argumentDefinitions(
-        startTime: { type: "Long" }
-        timeRange: { type: "Int" }
-        numberOfDepartures: { type: "Int", defaultValue: 5 }
-      ) {
+    @argumentDefinitions(
+      startTime: { type: "Long" }
+      timeRange: { type: "Int" }
+      numberOfDepartures: { type: "Int", defaultValue: 5 }
+    ) {
       gtfsId
       stoptimes: stoptimesWithoutPatterns(
         startTime: $startTime

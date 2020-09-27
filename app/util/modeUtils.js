@@ -5,6 +5,7 @@ import {
   sortedUniq,
   without,
   xor,
+  isEqual,
 } from 'lodash';
 
 import inside from 'point-in-polygon';
@@ -215,6 +216,16 @@ export const getModes = config => {
 };
 
 /**
+ * Checks if user has changed the transport or street modes
+ *
+ * @param {*} config The configuration for the software installation
+ * @returns {Boolean} True if current modes differ from the default ones
+ */
+export const userHasChangedModes = config => {
+  return !isEqual(getDefaultModes(config), getModes(config));
+};
+
+/**
  * Retrieves the current street mode from either the localStorage
  * or the default configuration. This will return undefined if no
  * applicable street mode can be found.
@@ -270,15 +281,6 @@ export const toggleStreetMode = (streetMode, config) => {
   setStreetMode(streetMode, config);
   return streetMode;
 };
-
-/**
- * Checks if the mode has been configured not to allow bikes on board.
- *
- * @param {*} config The configuration for the software installation
- * @param {string} mode The mode to check
- */
-export const hasBikeRestriction = (config, mode) =>
-  config.modesWithNoBike && config.modesWithNoBike.includes(mode);
 
 /**
  * Checks if the user is trying to bring a bicycle

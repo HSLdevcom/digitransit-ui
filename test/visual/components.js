@@ -44,13 +44,6 @@ const skip = browsers => suite => {
 // tests//
 // testVariation('IndexPage', 'normal', 1, [], actions => actions.wait(5000));
 
-testVariation(
-  'Departure',
-  'normal',
-  1,
-  '.component-example:nth-of-type(1) .component .realtime-icon',
-);
-
 testVariation('WalkLeg', 'walk-start');
 testVariation('WalkLeg', 'walk-middle', 2);
 testVariation('WaitLeg');
@@ -72,10 +65,6 @@ testVariation('FerryLeg');
 testVariation('CarLeg');
 testVariation('ViaLeg');
 testVariation('CallAgencyLeg').then(skip('edge17'));
-
-testVariation('Departure', 'added-padding', 2);
-testVariation('Departure', 'with-stop', 3);
-testVariation('Departure', 'isArrival', 4);
 
 testVariation('RouteNumber', 'normal');
 testVariation('RouteNumber', 'with-disruption', 2);
@@ -171,7 +160,6 @@ testVariation(
 
 testVariation('StopPageHeader');
 testVariation('Timetable');
-testVariation('DepartureListHeader');
 testVariation('PageFooter');
 
 testVariation('SummaryRow', 'large', 1);
@@ -188,8 +176,6 @@ testVariation('CallAgencyWarning');
 testVariation('DateWarning', 'tomorrow-show-warning', 2);
 
 testVariation('Error404');
-
-testVariation('StopMarkerPopup', 'empty', 1);
 
 testVariation('SelectStreetModeDialog').then(skip('ie11'));
 testVariation('SelectMapLayersDialog').then(skip('ie11'));

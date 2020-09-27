@@ -1,4 +1,5 @@
 import React from 'react';
+import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
 import DepartureRow from './DepartureRow';
 
@@ -7,7 +8,7 @@ const StopNearYouDepartureRowContainer = ({ stopTimes, ...props }) => {
     const departureTime = row.serviceDay + row.realtimeArrival;
     return (
       <DepartureRow
-        key={`${row.trip.route.gtfsId}_${row.realtimeArrival}`}
+        key={uuid()}
         departure={row}
         departureTime={departureTime}
         currentTime={props.currentTime}
@@ -15,7 +16,11 @@ const StopNearYouDepartureRowContainer = ({ stopTimes, ...props }) => {
     );
   });
 
-  return <div className="near-departures-container">{departures}</div>;
+  return (
+    <div role="list" className="near-departures-container">
+      {departures}
+    </div>
+  );
 };
 
 DepartureRow.propTypes = {

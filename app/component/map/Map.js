@@ -9,7 +9,6 @@ import AttributionControl from 'react-leaflet/es/AttributionControl';
 import ScaleControl from 'react-leaflet/es/ScaleControl';
 import ZoomControl from 'react-leaflet/es/ZoomControl';
 import L from 'leaflet';
-import 'leaflet-active-area';
 // Webpack handles this by bundling it with the other css files
 import 'leaflet/dist/leaflet.css';
 
@@ -41,11 +40,11 @@ export default class Map extends React.Component {
     leafletOptions: PropTypes.object,
     padding: PropTypes.array,
     showStops: PropTypes.bool,
+    stopsNearYouMode: PropTypes.string,
     zoom: PropTypes.number,
     showScaleBar: PropTypes.bool,
     loaded: PropTypes.func,
     disableZoom: PropTypes.bool,
-    activeArea: PropTypes.string,
     mapRef: PropTypes.func,
     originFromMap: PropTypes.bool,
     destinationFromMap: PropTypes.bool,
@@ -56,9 +55,9 @@ export default class Map extends React.Component {
     animate: true,
     loaded: () => {},
     showScaleBar: false,
-    activeArea: null,
     mapRef: null,
     disableLocationPopup: false,
+    boundsOptions: {},
   };
 
   static contextTypes = {
@@ -95,7 +94,12 @@ export default class Map extends React.Component {
   };
 
   render() {
-    const { zoom, boundsOptions, disableLocationPopup } = this.props;
+    const {
+      zoom,
+      boundsOptions,
+      disableLocationPopup,
+      leafletObjs,
+    } = this.props;
     const { config } = this.context;
     const center =
       (!this.props.fitBounds &&
@@ -106,11 +110,25 @@ export default class Map extends React.Component {
     if (this.props.padding) {
       boundsOptions.paddingTopLeft = this.props.padding;
     }
+    if (center && zoom) {
+      boundsOptions.maxZoom = zoom;
+    }
     let mapUrl =
       (isDebugTiles && `${config.URL.OTP}inspector/tile/traversal/`) ||
       config.URL.MAP;
     if (mapUrl !== null && typeof mapUrl === 'object') {
       mapUrl = mapUrl[this.props.lang] || config.URL.MAP.default;
+    }
+    if (!this.props.originFromMap && !this.props.destinationFromMap) {
+      leafletObjs.push(
+        <VectorTileLayerContainer
+          hilightedStops={this.props.hilightedStops}
+          stopsNearYouMode={this.props.stopsNearYouMode}
+          showStops={this.props.showStops}
+          disableMapTracking={this.props.disableMapTracking}
+          disableLocationPopup={disableLocationPopup}
+        />,
+      );
     }
     return (
       <div aria-hidden="true">
@@ -121,19 +139,15 @@ export default class Map extends React.Component {
             if (this.props.mapRef) {
               this.props.mapRef(el);
             }
-            if (el && this.props.activeArea) {
-              el.leafletElement.setActiveArea(this.props.activeArea);
-            }
           }}
-          center={center}
-          zoom={zoom}
           minZoom={config.map.minZoom}
           maxZoom={config.map.maxZoom}
           zoomControl={false}
           attributionControl={false}
           bounds={
-            (this.props.fitBounds && boundWithMinimumArea(this.props.bounds)) ||
-            undefined
+            this.props.fitBounds
+              ? boundWithMinimumArea(this.props.bounds)
+              : boundWithMinimumArea([center])
           }
           animate={this.props.animate}
           {...this.props.leafletOptions}
@@ -167,22 +181,22 @@ export default class Map extends React.Component {
                   position={
                     breakpoint === 'large' ? 'bottomright' : 'bottomleft'
                   }
-                  prefix="<a tabindex=&quot;-1&quot; href=&quot;http://osm.org/copyright&quot;>&copy; OpenStreetMap</a>"
+                  prefix='<a tabindex="-1" href="http://osm.org/copyright">&copy; OpenStreetMap</a>'
                 />
               )
             }
           </BreakpointConsumer>
-          {this.props.showScaleBar &&
-            config.map.showScaleBar && (
-              <ScaleControl
-                imperial={false}
-                position={config.map.controls.scale.position}
-              />
-            )}
+          {this.props.showScaleBar && config.map.showScaleBar && (
+            <ScaleControl
+              imperial={false}
+              position={config.map.controls.scale.position}
+            />
+          )}
           <BreakpointConsumer>
             {breakpoint =>
               breakpoint === 'large' &&
-              (!this.props.disableZoom && config.map.showZoomControl) && (
+              !this.props.disableZoom &&
+              config.map.showZoomControl && (
                 <ZoomControl
                   position={config.map.controls.zoom.position}
                   zoomInText={zoomInText}
@@ -191,18 +205,11 @@ export default class Map extends React.Component {
               )
             }
           </BreakpointConsumer>
-          {this.props.leafletObjs}
-          {!this.props.originFromMap &&
-            !this.props.destinationFromMap && (
-              <VectorTileLayerContainer
-                hilightedStops={this.props.hilightedStops}
-                showStops={this.props.showStops}
-                disableMapTracking={this.props.disableMapTracking}
-                disableLocationPopup={disableLocationPopup}
-              />
-            )}
-          {!this.props.originFromMap &&
-            !this.props.destinationFromMap && <PositionMarker key="position" />}
+          {leafletObjs}
+
+          {!this.props.originFromMap && !this.props.destinationFromMap && (
+            <PositionMarker key="position" />
+          )}
         </LeafletMap>
       </div>
     );

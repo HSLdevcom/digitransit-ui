@@ -41,19 +41,29 @@ const onSelect = () => {
    // Funtionality when user selects a suggesions. No default implementation is given.
    return null;
 };
+const onClear = () => {
+   // Called  when user clicks the clear search string button. No default implementation.
+   return null;
+};
+const transportMode = undefined;
 const placeholder = "stop-near-you";
 const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, MapPosition and CurrentPosition. Leave empty to search all targets.
 const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches) and Datasource. Leave empty to use all sources.
 return (
  <DTAutosuggest
+   appElement={appElement} // Required. Root element's id. Needed for react-modal component.
    searchContext={searchContext}
    icon="origin" // Optional String for icon that is shown left of searchfield. used with Icon library
    id="origin" // used for style props and info for component.
    placeholder={placeholder} // String that is showns initally in search field
    value="" // e.g. user typed string that is shown in search field
    onSelect={onSelect}
+   onClear={onClear}
    autoFocus={false} // defines that should this field be automatically focused when page is loaded.
    lang={lang}
+   transportMode={transportMode} // transportmode with which we filter the routes, e.g. route-BUS
+   geocodingSize={10} // defines how many stops and stations to fetch from geocoding. Useful if you want to filter the results and still get a reasonable amount of suggestions.
+   filterResults={results => return results} // Optional filtering function for routes and stops
    handelViaPoints={() => return null } // Optional Via point handling logic. This is currently managed with DTAutosuggestpanel by default, but if DTAutosuggest is used seperatelly own implementation must be provided.
    focusChange={() => return null} // When suggestion is selected, handle changing focus. This is currently managed with DTAutosuggestpanel by default, but if DTAutosuggest is used seperatelly own implementation must be provided.
    storeRef={() => return null} // Functionality to store refs. Currenlty managed with DTAutosuggestpanel by default, but if DTAutosuggest is used seperatelly own implementation must be provided.

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
 import { QueryRenderer, graphql } from 'react-relay';
-import Link from 'found/lib/Link';
+import Link from 'found/Link';
 import cx from 'classnames';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import IconWithTail from './IconWithTail';
@@ -14,11 +14,11 @@ function FuzzyTripLink({ vehicle }) {
   const icon = (
     <IconWithTail
       className={cx(vehicle.mode, 'tail-icon')}
-      img={`icon-icon_${vehicle.mode}-live`}
+      mode={vehicle.mode}
       rotate={180}
+      vehicleNumber={vehicle.shortName}
     />
   );
-
   return (
     <QueryRenderer
       query={graphql`
@@ -35,6 +35,7 @@ function FuzzyTripLink({ vehicle }) {
             date: $date
           ) {
             gtfsId
+            tripShortName
             pattern {
               code
             }
@@ -89,6 +90,7 @@ FuzzyTripLink.propTypes = {
     direction: PropTypes.number.isRequired,
     tripStartTime: PropTypes.string.isRequired,
     operatingDay: PropTypes.string.isRequired,
+    shortName: PropTypes.string.isRequired,
   }).isRequired,
 };
 

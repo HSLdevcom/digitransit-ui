@@ -25,7 +25,6 @@ class SummaryNavigation extends React.Component {
       end: PropTypes.number.isRequired,
     }).isRequired,
     toggleSettings: PropTypes.func.isRequired,
-    resetStreetMode: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -40,7 +39,7 @@ class SummaryNavigation extends React.Component {
   };
 
   componentDidMount() {
-    this.unlisten = this.context.router.addTransitionHook(location => {
+    this.unlisten = this.context.router.addNavigationListener(location => {
       if (
         this.context.match.location.state &&
         this.context.match.location.state.customizeSearchOffcanvas &&
@@ -61,7 +60,6 @@ class SummaryNavigation extends React.Component {
         this.transitionDone = false;
       }
     });
-    this.props.resetStreetMode();
   }
 
   componentWillUnmount() {

@@ -17,6 +17,7 @@ describe('<BicycleLeg />', () => {
         mode: 'BICYCLE',
         rentedBike: true,
         startTime: 0,
+        endTime: 0,
         from: {
           name: 'Hertanmäenkatu',
           bikeRentalStation: {
@@ -38,12 +39,9 @@ describe('<BicycleLeg />', () => {
         },
       },
     });
-    expect(
-      wrapper
-        .find(FormattedMessage)
-        .at(0)
-        .prop('id'),
-    ).to.equal('rent-cycle-at');
+    expect(wrapper.find(FormattedMessage).at(0).prop('id')).to.equal(
+      'rent-cycle-at',
+    );
   });
 
   it('should guide the user to rent a scooter', () => {
@@ -57,6 +55,7 @@ describe('<BicycleLeg />', () => {
         mode: 'BICYCLE',
         rentedBike: true,
         startTime: 0,
+        endTime: 0,
         from: {
           name: 'Hertanmäenkatu',
           bikeRentalStation: {
@@ -78,12 +77,9 @@ describe('<BicycleLeg />', () => {
         },
       },
     });
-    expect(
-      wrapper
-        .find(FormattedMessage)
-        .at(0)
-        .prop('id'),
-    ).to.equal('rent-scooter-at');
+    expect(wrapper.find(FormattedMessage).at(0).prop('id')).to.equal(
+      'rent-scooter-at',
+    );
   });
 
   it('should guide the user to ride a bike', () => {
@@ -97,6 +93,7 @@ describe('<BicycleLeg />', () => {
         mode: 'BICYCLE',
         rentedBike: true,
         startTime: 0,
+        endTime: 0,
         from: {
           name: 'Hertanmäenkatu',
           bikeRentalStation: {
@@ -137,6 +134,7 @@ describe('<BicycleLeg />', () => {
         mode: 'BICYCLE',
         rentedBike: true,
         startTime: 0,
+        endTime: 0,
         from: {
           name: 'Hertanmäenkatu',
           bikeRentalStation: {
@@ -177,6 +175,7 @@ describe('<BicycleLeg />', () => {
         mode: 'WALK',
         rentedBike: true,
         startTime: 0,
+        endTime: 0,
         from: {
           name: 'Hertanmäenkatu',
           bikeRentalStation: {
@@ -198,12 +197,9 @@ describe('<BicycleLeg />', () => {
         },
       },
     });
-    expect(
-      wrapper
-        .find(FormattedMessage)
-        .at(1)
-        .prop('id'),
-    ).to.equal('cyclewalk-distance-duration');
+    expect(wrapper.find(FormattedMessage).at(1).prop('id')).to.equal(
+      'cyclewalk-distance-duration',
+    );
   });
 
   it('should guide the user to walk a scooter', () => {
@@ -217,6 +213,7 @@ describe('<BicycleLeg />', () => {
         mode: 'WALK',
         rentedBike: true,
         startTime: 0,
+        endTime: 0,
         from: {
           name: 'Hertanmäenkatu',
           bikeRentalStation: {
@@ -238,11 +235,8 @@ describe('<BicycleLeg />', () => {
         },
       },
     });
-    expect(
-      wrapper
-        .find(FormattedMessage)
-        .at(1)
-        .prop('id'),
-    ).to.equal('scooterwalk-distance-duration');
+    expect(wrapper.find(FormattedMessage).at(1).prop('id')).to.equal(
+      'scooterwalk-distance-duration',
+    );
   });
 });

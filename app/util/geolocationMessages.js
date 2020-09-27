@@ -30,7 +30,9 @@ Object.keys(events).forEach(e => {
   const message = {
     ...events[e],
     id: `geolocation_${e}`,
-    icon: 'geonotifier',
+    icon: 'caution_white_exclamation',
+    iconColor: '#dc0451',
+    backgroundColor: '#fdf0f5',
     content: {},
   };
 

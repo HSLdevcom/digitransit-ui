@@ -36,10 +36,12 @@ export default {
     FONT:
       'https://fonts.googleapis.com/css?family=Lato:300,400,900%7CPT+Sans+Narrow:400,700',
     PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
-    PELIAS_REVERSE_GEOCODER: `${process.env.GEOCODING_BASE_URL ||
-      GEOCODING_BASE_URL}/reverse`,
-    PELIAS_PLACE: `${process.env.GEOCODING_BASE_URL ||
-      GEOCODING_BASE_URL}/place`,
+    PELIAS_REVERSE_GEOCODER: `${
+      process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL
+    }/reverse`,
+    PELIAS_PLACE: `${
+      process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL
+    }/place`,
     ROUTE_TIMETABLES: {
       HSL: `${API_URL}/timetables/v1/hsl/routes/`,
       tampere: 'http://joukkoliikenne.tampere.fi/media/aikataulut/',
@@ -49,7 +51,7 @@ export default {
       tampere: 'https://www.tampere.fi/ekstrat/ptdata/pdf/',
     },
     WEATHER_DATA:
-      'http://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::forecast::hirlam::surface::point::simple&timestep=5&parameters=temperature,WindSpeedMS,WeatherSymbol3',
+      'https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::forecast::hirlam::surface::point::simple&timestep=5&parameters=temperature,WindSpeedMS,WeatherSymbol3',
   },
 
   APP_PATH: `${APP_PATH}`,
@@ -103,12 +105,13 @@ export default {
 
   omitNonPickups: true,
   maxNearbyStopAmount: 50,
+  maxNearbyStopDistance: 2000,
 
   defaultSettings: {
     usingWheelchair: 0,
     bikeSpeed: 5.55,
     minTransferTime: 120,
-    optimize: 'QUICK',
+    optimize: 'GREENWAYS',
     preferredRoutes: [],
     ticketTypes: 'none',
     transferPenalty: 0,
@@ -116,6 +119,7 @@ export default {
     walkBoardCost: 600,
     walkReluctance: 2,
     walkSpeed: 1.38,
+    includeBikeSuggestions: true,
   },
 
   /**
@@ -143,34 +147,6 @@ export default {
   walkBoardCost: 600,
   walkBoardCostHigh: 1200,
 
-  quickOptions: {
-    public_transport: {
-      availableOptionSets: [
-        'least-transfers',
-        'least-walking',
-        'public-transport-with-bicycle',
-        'saved-settings',
-      ],
-    },
-    walk: {
-      availableOptionSets: ['prefer-walking-routes', 'saved-settings'],
-    },
-    bicycle: {
-      availableOptionSets: [
-        'least-elevation-changes',
-        'prefer-greenways',
-        'saved-settings',
-      ],
-    },
-    car_park: {
-      availableOptionSets: [
-        'least-transfers',
-        'least-walking',
-        'saved-settings',
-      ],
-    },
-  },
-
   maxWalkDistance: 10000,
   suggestWalkMaxDistance: 5000,
   maxBikingDistance: 100000,
@@ -179,10 +155,9 @@ export default {
   useUnpreferredRoutesPenalty: 1200, // adds 10 minute (weight) penalty to routes that are unpreferred
   availableLanguages: ['fi', 'sv', 'en', 'fr', 'nb', 'de', 'da', 'es', 'ro'],
   defaultLanguage: 'en',
-  // This timezone data will expire on 31.12.2020
+  // This timezone data will expire in 2037
   timezoneData:
-    'Europe/Helsinki|EET EEST|-20 -30|01010101010101010101010|1BWp0 1qM0 WM0 1qM0 ' +
-    'WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00|35e5',
+    'Europe/Helsinki|EET EEST|-20 -30|0101010101010101010101010101010101010|22k10 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00|12e5',
 
   mainMenu: {
     // Whether to show the left menu toggle button at all
@@ -242,11 +217,11 @@ export default {
     line: {
       halo: {
         weight: 7,
-        thinWeight: 4,
+        thinWeight: 2,
       },
 
       leg: {
-        weight: 5,
+        weight: 6,
         thinWeight: 2,
       },
 
@@ -795,4 +770,11 @@ export default {
   showVehiclesOnSummaryPage: false,
 
   showWeatherInformation: true,
+  showBikeAndPublicItineraries: false,
+  showBikeAndParkItineraries: false,
+
+  includeBikeSuggestions: true,
+
+  showNearYouButtons: false,
+  nearYouModes: [],
 };

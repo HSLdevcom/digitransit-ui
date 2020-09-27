@@ -3,7 +3,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
-import Link from 'found/lib/Link';
+import Link from 'found/Link';
 
 import ExternalLink from './ExternalLink';
 import LegAgencyInfo from './LegAgencyInfo';
@@ -296,33 +296,16 @@ class TransitLeg extends React.Component {
       <div key={index} className="row itinerary-row">
         <span className="sr-only">{textVersionBeforeLink}</span>
         <div className="small-2 columns itinerary-time-column">
-          <Link
-            onClick={e => {
-              e.stopPropagation();
-            }}
-            onKeyPress={e => {
-              if (isKeyboardSelectionEvent(e)) {
-                e.stopPropagation();
-              }
-            }}
-            to={
-              `/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_STOPS}/${
-                leg.trip.pattern.code
-              }/${leg.trip.gtfsId}`
-              // TODO: Create a helper function for generationg links
-            }
-          >
-            <span className="sr-only">{children}</span>
-            <span aria-hidden="true">
-              <div className="itinerary-time-column-time">
-                <span className={cx({ canceled: legHasCancelation(leg) })}>
-                  {moment(leg.startTime).format('HH:mm')}
-                </span>
-                {originalTime}
-              </div>
-              {zoneIcons}
-            </span>
-          </Link>
+          <span className="sr-only">{children}</span>
+          <span aria-hidden="true">
+            <div className="itinerary-time-column-time">
+              <span className={cx({ canceled: legHasCancelation(leg) })}>
+                {moment(leg.startTime).format('HH:mm')}
+              </span>
+              {originalTime}
+            </div>
+            {zoneIcons}
+          </span>
         </div>
         <span className="sr-only">{textVersionAfterLink}</span>
         <ItineraryCircleLine
@@ -426,15 +409,30 @@ class TransitLeg extends React.Component {
             })}
             aria-hidden="true"
           >
-            <RouteNumber
-              mode={mode.toLowerCase()}
-              alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
-              color={leg.route ? `#${leg.route.color}` : 'currentColor'}
-              text={leg.route && leg.route.shortName}
-              realtime={false}
-              withBar
-              fadeLong
-            />
+            <Link
+              onClick={e => {
+                e.stopPropagation();
+              }}
+              onKeyPress={e => {
+                if (isKeyboardSelectionEvent(e)) {
+                  e.stopPropagation();
+                }
+              }}
+              to={
+                `/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_STOPS}/${leg.trip.pattern.code}/${leg.trip.gtfsId}`
+                // TODO: Create a helper function for generationg links
+              }
+            >
+              <RouteNumber
+                mode={mode.toLowerCase()}
+                alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
+                color={leg.route ? `#${leg.route.color}` : 'currentColor'}
+                text={leg.route && leg.route.shortName}
+                realtime={false}
+                withBar
+                fadeLong
+              />
+            </Link>
             <div className="headsign">{leg.trip.tripHeadsign}</div>
           </div>
           <LegAgencyInfo leg={leg} />
@@ -445,34 +443,32 @@ class TransitLeg extends React.Component {
               stops={leg.intermediatePlaces}
             />
           </div>
-          {leg.fare &&
-            leg.fare.isUnknown &&
-            shouldShowFareInfo(config) && (
-              <div className="disclaimer-container unknown-fare-disclaimer__leg">
-                <div className="description-container">
-                  <span className="accent">
-                    {`${intl.formatMessage({ id: 'pay-attention' })} `}
-                  </span>
-                  {intl.formatMessage({ id: 'separate-ticket-required' })}
-                </div>
-                <div className="ticket-info">
-                  <div className="accent">{LegRouteName}</div>
-                  {leg.fare.agency && (
-                    <React.Fragment>
-                      <div>{leg.fare.agency.name}</div>
-                      {leg.fare.agency.fareUrl && (
-                        <ExternalLink
-                          className="agency-link"
-                          href={leg.fare.agency.fareUrl}
-                        >
-                          {intl.formatMessage({ id: 'extra-info' })}
-                        </ExternalLink>
-                      )}
-                    </React.Fragment>
-                  )}
-                </div>
+          {leg.fare && leg.fare.isUnknown && shouldShowFareInfo(config) && (
+            <div className="disclaimer-container unknown-fare-disclaimer__leg">
+              <div className="description-container">
+                <span className="accent">
+                  {`${intl.formatMessage({ id: 'pay-attention' })} `}
+                </span>
+                {intl.formatMessage({ id: 'separate-ticket-required' })}
               </div>
-            )}
+              <div className="ticket-info">
+                <div className="accent">{LegRouteName}</div>
+                {leg.fare.agency && (
+                  <React.Fragment>
+                    <div>{leg.fare.agency.name}</div>
+                    {leg.fare.agency.fareUrl && (
+                      <ExternalLink
+                        className="agency-link"
+                        href={leg.fare.agency.fareUrl}
+                      >
+                        {intl.formatMessage({ id: 'extra-info' })}
+                      </ExternalLink>
+                    )}
+                  </React.Fragment>
+                )}
+              </div>
+            </div>
+          )}
         </div>
         <span className="sr-only">{alertDescription}</span>
       </div>
@@ -506,6 +502,7 @@ TransitLeg.propTypes = {
         platformCode: PropTypes.string,
         zoneId: PropTypes.string,
         alerts: PropTypes.array,
+        gtfsId: PropTypes.string,
       }).isRequired,
       name: PropTypes.string.isRequired,
     }).isRequired,
@@ -526,6 +523,7 @@ TransitLeg.propTypes = {
       pattern: PropTypes.shape({
         code: PropTypes.string.isRequired,
       }).isRequired,
+      tripHeadsign: PropTypes.string.isRequired,
     }).isRequired,
     startTime: PropTypes.number.isRequired,
     departureDelay: PropTypes.number,
@@ -540,6 +538,7 @@ TransitLeg.propTypes = {
         }).isRequired,
       }),
     ).isRequired,
+    interlineWithPreviousLeg: PropTypes.bool.isRequired,
   }).isRequired,
   index: PropTypes.number.isRequired,
   mode: PropTypes.string.isRequired,

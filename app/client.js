@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import BrowserProtocol from 'farce/lib/BrowserProtocol';
-import createFarceRouter from 'found/lib/createFarceRouter';
-import createFarceStore from 'found/lib/utils/createFarceStore';
-import makeRouteConfig from 'found/lib/makeRouteConfig';
-import getStoreRenderArgs from 'found/lib/getStoreRenderArgs';
+import BrowserProtocol from 'farce/BrowserProtocol';
+import createFarceRouter from 'found/createFarceRouter';
+import createFarceStore from 'found/createFarceStore';
+import makeRouteConfig from 'found/makeRouteConfig';
+import getStoreRenderArgs from 'found/getStoreRenderArgs';
 import { Resolver } from 'found-relay';
 import provideContext from 'fluxible-addons-react/provideContext';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -21,7 +21,7 @@ import {
 } from 'react-relay-network-modern';
 import RelayClientSSR from 'react-relay-network-modern-ssr/lib/client';
 import OfflinePlugin from 'offline-plugin/runtime';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 import { Environment, RecordSource, Store } from 'relay-runtime';
 import { ReactRelayContext } from 'react-relay';
 
@@ -95,7 +95,9 @@ async function init() {
 
     config.availableLanguages.forEach(language => {
       modules.push(
-        import(/* webpackChunkName: "intl",  webpackMode: "lazy-once" */ `intl/locale-data/jsonp/${language}`),
+        import(
+          /* webpackChunkName: "intl",  webpackMode: "lazy-once" */ `intl/locale-data/jsonp/${language}`
+        ),
       );
     });
     await Promise.all(modules);

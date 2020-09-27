@@ -27,10 +27,11 @@ const pascalCaseName = camelcase(name, {pascalCase: true});
 const folderPath = join(__dirname, '..', 'packages', `digitransit-component-${decamelizeName}`);
 if (!existsSync(folderPath)) {
     mkdirSync(folderPath);
+    mkdirSync(join(folderPath, 'src'));
 }
 
 // Create index.js
-writeFileSync(join(folderPath, 'index.js'), `/* eslint no-console: ["error", { allow: ["warn", "error"] }] */
+writeFileSync(join(folderPath, 'src', 'index.js'), `/* eslint no-console: ["error", { allow: ["warn", "error"] }] */
 /* eslint react/forbid-prop-types: 0 */
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
@@ -61,13 +62,15 @@ writeFileSync(join(folderPath, 'package.json'), `{
   "name": "@digitransit-component/digitransit-component-${decamelizeName}",
   "version": "0.0.0",
   "description": "digitransit-component ${decamelizeName} module",
-  "main": "index.generated",
+  "main": "lib/index.js",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build:index": "webpack --config webpack.config.babel.js && yarn run docs",
-    "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-proposal-class-properties --out-file test.generated",
+    "build:index": "ENV=production webpack --config webpack.config.babel.js && yarn run docs",
+    "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-proposal-class-properties,@babel/plugin-proposal-numeric-separator --out-file test.generated",
+    "watch": "ENV=development webpack --watch --config webpack.config.babel.js",
+    "clean": "rm -rf ./lib ./node_modules",
     "test": "mocha -r esm test.generated",
     "docs": "node -r esm ../../scripts/generate-readmes"
   },
@@ -154,67 +157,70 @@ $ npm install @digitransit-component/digitransit-component
 \`\`\`
 `);
 
-writeFileSync(join(folderPath, 'webpack.config.babel.js'), `module.exports = {
-  mode: 'production',
-  entry: './index.js',
+writeFileSync(join(folderPath, 'webpack.config.babel.js'), `const path = require('path');
+
+const mode = process.env.ENV;
+const isProduction = mode === 'production';
+
+module.exports = {
+  mode,
+  devtool: isProduction ? 'source-map' : 'eval',
   output: {
     globalObject: "typeof self !== 'undefined' ? self : this",
-    filename: 'index.generated',
-    path: __dirname,
+    filename: 'index.js',
+    path: path.join(__dirname, 'lib'),
     libraryTarget: 'umd',
   },
-  module: {
-    rules: [
-      {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-        options: {
-          configFile: false,
-          presets: [
-            [
-              '@babel/preset-env',
-              {
-                // loose is needed by older Androids < 4.3 and IE10
-                loose: true,
-                modules: false,
-              },
-            ],
-            ['@babel/preset-react', { useBuiltIns: true }],
-          ],
-          plugins: [
-            [
-              '@babel/plugin-transform-runtime',
-              {
-                helpers: true,
-                regenerator: true,
-                useESModules: true,
-              },
-            ],
-            ['@babel/plugin-proposal-class-properties', { loose: true }],
-            ['@babel/plugin-proposal-numeric-separator', { loose: true }],
-            ['inline-react-svg'],
-          ],
-        },
-      },
-      {
-        test: /\.s(a|c)ss$/,
-        use: [
-          'iso-morphic-style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 2,
-              modules: true,
+  rules: [
+    {
+      test: /.(js|jsx)$/,
+      exclude: /node_modules/,
+      loader: 'babel-loader',
+      options: {
+        configFile: false,
+        presets: [
+          [
+            '@babel/preset-env',
+            {
+              // loose is needed by older Androids < 4.3 and IE10
+              loose: true,
+              modules: false,
             },
-          },
-          {
-            loader: 'sass-loader',
-          },
+          ],
+          ['@babel/preset-react', { useBuiltIns: true }],
+        ],
+        plugins: [
+          [
+            '@babel/plugin-transform-runtime',
+            {
+              helpers: true,
+              regenerator: true,
+              useESModules: true,
+            },
+          ],
+          ['@babel/plugin-proposal-class-properties', { loose: true }],
+          ['@babel/plugin-proposal-numeric-separator', { loose: true }],
+          ['inline-react-svg'],
         ],
       },
-    ],
-  },
+    },
+    {
+      test: /.s(a|c)ss$/,
+      use: [
+        'iso-morphic-style-loader',
+        {
+          loader: 'css-loader',
+          options: {
+            importLoaders: 2,
+            modules: true,
+          },
+        },
+        {
+          loader: 'sass-loader',
+        },
+      ],
+    },
+  ],
   resolve: {
     extensions: ['.js', '.scss'],
   },

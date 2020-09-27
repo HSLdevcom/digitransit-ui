@@ -3,7 +3,18 @@
     min-height: 20rem;
 }
 
-.stops-near-you-container {
+.stops-near-you-page {
+    position: relative;
+    .show-more-button {
+        margin: 0 6.25em 20px;
+        font-weight: 500;
+        background-color: $white;
+        color: $primary-color;
+        border: 1px solid #ddd;
+        min-height: 28px;
+        border-radius: 16px;
+        font-size: 0.9375rem;
+    }
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -13,12 +24,40 @@
         border-radius: 10px;
         width: 100%;
         margin-bottom: 10px;
+        .citybike-content-container {
+            padding: 15px 14px 22px;
+            display: flex;
+            height: 45px;
+            box-sizing: content-box;
+            .availability-container {
+                padding-left: 15px;
+                flex: 1;
+                .sub-header-h4 {
+                    font-size: 0.813rem;
+                }
+            }
+            .icon-container {
+                display: flex;
+                align-self: center;
+                .icon {
+                    width: 36px;
+                    height: 36px;
+                }
+            }
+        }
         .stop-near-you-header-container {
             display: flex;
+            .stop-near-you-name {
+                line-height: 24px;
+            }
             .stop-header-content {
                 a {
                     text-decoration: none;
                     color: #333;
+                }
+                .bike-station-code {
+                    font-size: 0.813rem;
+                    font-weight: normal;
                 }
             }
             padding: 14px 15px 1px 20px;
@@ -40,6 +79,7 @@
                 .itinerary-stop-code {
                     height: 16px;
                     padding: 0 4px;
+                    align-self: center;
                 }
                 .zone-icon-container {
                     padding-left:3px;
@@ -107,15 +147,10 @@
     }
 }
 .scrollable-content-wrapper {
-    .stops-near-you-page {
-        display: flex;
-        flex-basis: 0px;
-        flex-direction: column;
-        flex-grow: 1;
-        flex-shrink: 0;
-        overflow-y: auto;
+    .stops-near-you-search-container {
+        margin-bottom: 22px;
     }
-    .back-button {
+    .back-button.near-you-back-button {
         font-size: 1.25rem;
         margin: 50px 0 16px 0;
         line-height: 1;
@@ -130,8 +165,44 @@
     }
 }
 
+.disruption-banner-container {
+    @include font-medium;
+    height: 60px;
+    text-decoration: none;
+    font-weight: 100;
+    background-color: #dc0451;
+    color: white;
+    font-size: 0.9375rem;
+    padding: 12px 14px 12px 17px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    display: flex;
+    .disruption-icon-container {
+        width: 40px;
+        align-self: center;
+        .icon-container {
+            font-size: 24px;
+            display: flex;
+            padding-left: 3px;
+        }
+    }
+    .disruption-info-container {
+        line-height: 1.2;
+        height: 2.4em;
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+    }
+}
+
 .mobile {
-    .stops-near-you-container {
+    .stops-near-you-search-container {
+        padding: 0 5px 15px;
+    }
+    .stops-near-you-page {
         height: calc(100% - 20rem);
         padding: 15px 0.625em 0;
         background-color: white;
@@ -139,6 +210,11 @@
         box-shadow: 0 -5px 5px 0 rgba(0, 0, 0, 0.2);
         position: relative;
         top: -15px;
-        z-index: 2;
+        .stops-near-you-container {
+            padding: 0;
+        }
+        .disruption-banner-container {
+            margin: 0 5px 15px;
+        }
     }
 }

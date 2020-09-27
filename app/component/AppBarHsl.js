@@ -1,11 +1,15 @@
+/* eslint-disable camelcase */
 import PropTypes from 'prop-types';
 import React from 'react';
 import i18next from 'i18next';
+import { isEmpty } from 'lodash';
 import { matchShape, routerShape } from 'found';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 
 const modules = {
   SiteHeader: () => importLazy(import('@hsl-fi/site-header')),
+  SharedLocalStorageObserver: () =>
+    importLazy(import('@hsl-fi/shared-local-storage')),
 };
 
 const initLanguage = language => {
@@ -55,13 +59,24 @@ const initLanguage = language => {
   }
 };
 
-const AppBarHsl = ({ lang }, { match }) => {
+const AppBarHsl = ({ lang, user }, { match, config }) => {
   const { location } = match;
 
   initLanguage(lang);
 
+  let startPageSuffix;
+  switch (lang) {
+    case 'en':
+    case 'sv':
+      startPageSuffix = `${lang}/`;
+      break;
+    case 'fi':
+    default:
+      startPageSuffix = '';
+      break;
+  }
   const navigation = {
-    startPage: 'https://uusi.hsl.fi/',
+    startPage: `https://uusi.hsl.fi/${startPageSuffix}`,
     menu: [
       {
         name: i18next.t('traveling_name'),
@@ -110,17 +125,52 @@ const AppBarHsl = ({ lang }, { match }) => {
     changeLanguageButtonLabel: i18next.t('change_language'),
     changeToLanguageLinkLabelFunction: () => false,
   };
+  const { given_name, family_name } = user;
 
+  const initials =
+    given_name && family_name
+      ? given_name.charAt(0) + family_name.charAt(0)
+      : undefined; // Authenticated user's initials, will be shown next to Person-icon.
+
+  const userMenu = config.allowLogin
+    ? {
+        userMenu: {
+          isLoading: false, // When fetching for login-information, `isLoading`-property can be set to true. Spinner will be shown.
+          isAuthenticated: !isEmpty(user), // If user is authenticated, set `isAuthenticated`-property to true.
+          loginUrl: '/login', // Url that user will be redirect to when Person-icon is pressed and user is not logged in.
+          initials,
+          menuItems: [
+            {
+              name: 'Omat tiedot',
+              url: 'https://www.hsl.fi/omat-tiedot',
+              selected: false,
+            },
+            {
+              name: 'Kirjaudu ulos',
+              url: '/logout',
+              selected: false,
+            },
+          ], // Menu items that will be shown when Person-icon is pressed and user is authenticated,
+        },
+      }
+    : {};
   return (
     <LazilyLoad modules={modules}>
-      {({ SiteHeader }) => (
-        <SiteHeader
-          startPage={startPage}
-          menu={menu}
-          searchPage={searchPage}
-          languages={languages}
-          localizations={localizations}
-        />
+      {({ SiteHeader, SharedLocalStorageObserver }) => (
+        <>
+          <SharedLocalStorageObserver
+            keys={['saved-searches', 'favouriteStore']}
+            url={config.localStorageEmitter}
+          />
+          <SiteHeader
+            startPage={startPage}
+            menu={menu}
+            {...userMenu}
+            searchPage={searchPage}
+            languages={languages}
+            localizations={localizations}
+          />
+        </>
       )}
     </LazilyLoad>
   );
@@ -134,10 +184,15 @@ AppBarHsl.contextTypes = {
 
 AppBarHsl.propTypes = {
   lang: PropTypes.string,
+  user: PropTypes.shape({
+    given_name: PropTypes.string,
+    family_name: PropTypes.string,
+  }),
 };
 
 AppBarHsl.defaultProps = {
   lang: 'fi',
+  user: {},
 };
 
 export { AppBarHsl as default, AppBarHsl as Component };

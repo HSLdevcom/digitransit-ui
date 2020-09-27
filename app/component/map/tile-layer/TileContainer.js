@@ -7,7 +7,15 @@ import { isLayerEnabled } from '../../../util/mapLayerUtils';
 import { getStopIconStyles } from '../../../util/mapIconUtils';
 
 class TileContainer {
-  constructor(coords, done, props, config, relayEnvironment) {
+  constructor(
+    coords,
+    done,
+    props,
+    config,
+    stopsNearYouMode,
+    relayEnvironment,
+    hilightedStops,
+  ) {
     const markersMinZoom = Math.min(
       config.cityBike.cityBikeMinZoom,
       config.stopsMinZoom,
@@ -15,6 +23,7 @@ class TileContainer {
     );
 
     this.coords = coords;
+    this.stopsNearYouMode = stopsNearYouMode;
     this.props = props;
     this.extent = 4096;
     this.scaleratio = (isBrowser && window.devicePixelRatio) || 1;
@@ -22,6 +31,7 @@ class TileContainer {
     this.ratio = this.extent / this.tileSize;
     this.el = this.createElement();
     this.clickCount = 0;
+    this.hilightedStops = hilightedStops;
 
     if (this.coords.z < markersMinZoom || !this.el.getContext) {
       setTimeout(() => done(null, this.el), 0);
@@ -34,6 +44,7 @@ class TileContainer {
       .filter(Layer => {
         const layerName = Layer.getName();
         const isEnabled = isLayerEnabled(layerName, this.props.mapLayers);
+
         if (
           layerName === 'stop' &&
           (this.coords.z >= config.stopsMinZoom ||
@@ -45,7 +56,12 @@ class TileContainer {
           layerName === 'citybike' &&
           this.coords.z >= config.cityBike.cityBikeMinZoom
         ) {
-          return isEnabled;
+          if (!this.stopsNearYouMode) {
+            return isEnabled;
+          }
+          if (this.stopsNearYouMode === 'CITYBIKE') {
+            return true;
+          }
         }
         if (
           layerName === 'parkAndRide' &&
@@ -63,7 +79,13 @@ class TileContainer {
       })
       .map(
         Layer =>
-          new Layer(this, config, this.props.mapLayers, relayEnvironment),
+          new Layer(
+            this,
+            config,
+            this.props.mapLayers,
+            stopsNearYouMode,
+            relayEnvironment,
+          ),
       );
 
     this.el.layers = this.layers.map(layer => omit(layer, 'tile'));
@@ -78,10 +100,10 @@ class TileContainer {
       this.extent * 2 ** (this.coords.z + (this.props.zoomOffset || 0));
     const x0 = this.extent * this.coords.x;
     const y0 = this.extent * this.coords.y;
-    const y1 = 180 - (point.y + y0) * 360 / size;
+    const y1 = 180 - ((point.y + y0) * 360) / size;
     return {
-      lon: (point.x + x0) * 360 / size - 180,
-      lat: 360 / Math.PI * Math.atan(Math.exp(y1 * (Math.PI / 180))) - 90,
+      lon: ((point.x + x0) * 360) / size - 180,
+      lat: (360 / Math.PI) * Math.atan(Math.exp(y1 * (Math.PI / 180))) - 90,
     };
   };
 

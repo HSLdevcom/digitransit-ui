@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-key */
 
 import React from 'react';
-import Route from 'found/lib/Route';
-import Redirect from 'found/lib/Redirect';
+import Route from 'found/Route';
+import Redirect from 'found/Redirect';
 import { graphql } from 'react-relay';
 
 import Error404 from './component/404';
@@ -29,9 +29,9 @@ export default (
           <Route
             path="(.*)?"
             getComponent={() =>
-              import(/* webpackChunkName: "route" */ './component/RouteTitle').then(
-                getDefault,
-              )
+              import(
+                /* webpackChunkName: "route" */ './component/RouteTitle'
+              ).then(getDefault)
             }
             query={graphql`
               query routeRoutes_RouteTitle_Query($routeId: String!) {
@@ -47,9 +47,9 @@ export default (
           <Route
             path="(.*)?"
             getComponent={() =>
-              import(/* webpackChunkName: "route" */ './component/RoutePageMeta').then(
-                getDefault,
-              )
+              import(
+                /* webpackChunkName: "route" */ './component/RoutePageMeta'
+              ).then(getDefault)
             }
             query={graphql`
               query routeRoutes_RoutePageMeta_Query($routeId: String!) {
@@ -65,9 +65,9 @@ export default (
           <Route
             path="(.*)?"
             getComponent={() =>
-              import(/* webpackChunkName: "route" */ './component/RoutePage').then(
-                getDefault,
-              )
+              import(
+                /* webpackChunkName: "route" */ './component/RoutePage'
+              ).then(getDefault)
             }
             query={graphql`
               query routeRoutes_RoutePage_Query(
@@ -87,9 +87,9 @@ export default (
           <Route
             path={`${PREFIX_STOPS}/:patternId/:tripId`}
             getComponent={() =>
-              import(/* webpackChunkName: "route" */ './component/RouteMapContainer').then(
-                getDefault,
-              )
+              import(
+                /* webpackChunkName: "route" */ './component/RouteMapContainer'
+              ).then(getDefault)
             }
             query={graphql`
               query routeRoutes_RouteMapContainer_withTrip_Query(
@@ -109,9 +109,9 @@ export default (
           <Route
             path=":type/:patternId/(.*)?"
             getComponent={() =>
-              import(/* webpackChunkName: "route" */ './component/RouteMapContainer').then(
-                getDefault,
-              )
+              import(
+                /* webpackChunkName: "route" */ './component/RouteMapContainer'
+              ).then(getDefault)
             }
             query={graphql`
               query routeRoutes_RouteMapContainer_Query($patternId: String!) {
@@ -134,9 +134,9 @@ export default (
             <Route
               path=":patternId"
               getComponent={() =>
-                import(/* webpackChunkName: "route" */ './component/PatternStopsContainer').then(
-                  getDefault,
-                )
+                import(
+                  /* webpackChunkName: "route" */ './component/PatternStopsContainer'
+                ).then(getDefault)
               }
               query={graphql`
                 query routeRoutes_PatternStopsContainer_Query(
@@ -144,7 +144,7 @@ export default (
                 ) {
                   pattern(id: $patternId) {
                     ...PatternStopsContainer_pattern
-                      @arguments(patternId: $patternId)
+                    @arguments(patternId: $patternId)
                   }
                 }
               `}
@@ -154,9 +154,9 @@ export default (
             <Route
               path=":patternId/:tripId"
               getComponent={() =>
-                import(/* webpackChunkName: "route" */ './component/TripStopsContainer').then(
-                  getDefault,
-                )
+                import(
+                  /* webpackChunkName: "route" */ './component/TripStopsContainer'
+                ).then(getDefault)
               }
               query={graphql`
                 query routeRoutes_TripStopsContainer_Query(
@@ -182,9 +182,9 @@ export default (
               path=":patternId"
               disableMapOnMobile
               getComponent={() =>
-                import(/* webpackChunkName: "route" */ './component/RouteScheduleContainer').then(
-                  getDefault,
-                )
+                import(
+                  /* webpackChunkName: "route" */ './component/RouteScheduleContainer'
+                ).then(getDefault)
               }
               query={graphql`
                 query routeRoutes_RouteScheduleContainer_Query(
@@ -193,7 +193,7 @@ export default (
                 ) {
                   pattern(id: $patternId) {
                     ...RouteScheduleContainer_pattern
-                      @arguments(serviceDay: $date)
+                    @arguments(serviceDay: $date)
                   }
                 }
               `}
@@ -209,9 +209,9 @@ export default (
               path=":patternId"
               disableMapOnMobile
               getComponent={() =>
-                import(/* webpackChunkName: "route" */ './component/RouteAlertsContainer').then(
-                  getDefault,
-                )
+                import(
+                  /* webpackChunkName: "route" */ './component/RouteAlertsContainer'
+                ).then(getDefault)
               }
               query={graphql`
                 query routeRoutes_RouteAlertsContainer_Query(

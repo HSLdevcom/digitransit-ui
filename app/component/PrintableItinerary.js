@@ -342,7 +342,7 @@ class PrintableItinerary extends React.Component {
     const compressedLegs = compressLegs(originalLegs);
     const legs = compressedLegs.map((o, i) => {
       if (o.mode !== 'AIRPLANE') {
-        const cloneObj = Object.assign({}, o);
+        const cloneObj = { ...o };
         let specialMode;
         if (isCallAgencyPickupType(o)) {
           specialMode = 'call';
@@ -379,12 +379,12 @@ class PrintableItinerary extends React.Component {
           </div>
         );
       }
-      const checkin = Object.assign({}, o);
+      const checkin = { ...o };
       checkin.mode = 'WAIT';
       checkin.startTime = originalLegs[i - 1].endTime;
       checkin.from.name = originalLegs[i - 1].from.name;
       checkin.isCheckin = true;
-      const luggage = Object.assign({}, o);
+      const luggage = { ...o };
       luggage.mode = 'WAIT';
       luggage.startTime = o.endTime;
       luggage.isLuggage = true;

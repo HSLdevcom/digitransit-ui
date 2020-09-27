@@ -19,6 +19,7 @@ export default class TicketSales {
   static getName = () => 'ticketSales';
 
   static getIcon = type => {
+    // TODO: correct these
     switch (type) {
       case 'Palvelupiste':
         return 'icon-icon_service-point';
@@ -35,9 +36,9 @@ export default class TicketSales {
 
   getPromise() {
     return fetch(
-      `${this.config.URL.TICKET_SALES_MAP}${this.tile.coords.z +
-        (this.tile.props.zoomOffset || 0)}` +
-        `/${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
+      `${this.config.URL.TICKET_SALES_MAP}${
+        this.tile.coords.z + (this.tile.props.zoomOffset || 0)
+      }/${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
     ).then(res => {
       if (res.status !== 200) {
         return undefined;
@@ -71,6 +72,7 @@ export default class TicketSales {
               }
               [[feature.geom]] = feature.loadGeometry();
               // Do not show VR ticket machines and ticket offices
+              // TODO: const icon = TicketSales.getIcon(feature.properties.Tyyppi);
               const icon = TicketSales.getIcon(feature.properties.TYYPPI);
               if (icon) {
                 this.features.push(pick(feature, ['geom', 'properties']));

@@ -141,28 +141,43 @@ export function getTerminalIconStyles(zoom) {
 export const getCaseRadius = memoize(
   glfun({
     base: 1.15,
-    stops: [[11.9, 0], [12, 1.5], [22, 26]],
+    stops: [
+      [11.9, 0],
+      [12, 1.5],
+      [22, 26],
+    ],
   }),
 );
 
 export const getStopRadius = memoize(
   glfun({
     base: 1.15,
-    stops: [[11.9, 0], [12, 1], [22, 24]],
+    stops: [
+      [11.9, 0],
+      [12, 1],
+      [22, 24],
+    ],
   }),
 );
 
 export const getHubRadius = memoize(
   glfun({
     base: 1.15,
-    stops: [[14, 0], [14.1, 2], [22, 20]],
+    stops: [
+      [14, 0],
+      [14.1, 2],
+      [22, 20],
+    ],
   }),
 );
 
 export const getMapIconScale = memoize(
   glfun({
     base: 1,
-    stops: [[13, 0.8], [20, 1.6]],
+    stops: [
+      [13, 0.8],
+      [20, 1.6],
+    ],
   }),
 );
 
@@ -285,12 +300,22 @@ const getMemoizedStopIcon = memoize(
   (type, radius) => `${type}_${radius}`,
 );
 
+function getSelectedIconCircleOffset(zoom, ratio) {
+  if (zoom > 15) {
+    return 94 / ratio;
+  }
+  if (zoom === 15) {
+    return 78 / ratio;
+  }
+  return 63 / ratio;
+}
+
 /**
  * Draw stop icon based on type.
  * Determine size from zoom level.
  * Supported icons are BUS, TRAM, FERRY
  */
-export function drawStopIcon(tile, geom, type, platformNumber) {
+export function drawStopIcon(tile, geom, type, platformNumber, isHilighted) {
   if (type === 'SUBWAY') {
     return;
   }
@@ -337,24 +362,41 @@ export function drawStopIcon(tile, geom, type, platformNumber) {
         }
         tile.ctx.arc(x, y, radius - 1, 0, FULL_CIRCLE);
         tile.ctx.fill();
-        if (drawNumber && platformNumber) {
-          tile.ctx.font = `${12 *
-            tile.scaleratio}px Gotham XNarrow SSm A, Gotham XNarrow SSm B, Gotham Rounded A, Gotham Rounded B, Arial, sans-serif`;
-          tile.ctx.fillStyle = '#fff';
-          tile.ctx.textAlign = 'center';
-          tile.ctx.textBaseline = 'middle';
-          tile.ctx.fillText(platformNumber, x, y);
-        }
+        tile.ctx.font = `${
+          12 * tile.scaleratio
+        }px Gotham XNarrow SSm A, Gotham XNarrow SSm B, Gotham Rounded A, Gotham Rounded B, Arial, sans-serif`;
+        tile.ctx.fillStyle = '#fff';
+        tile.ctx.textAlign = 'center';
+        tile.ctx.textBaseline = 'middle';
+        tile.ctx.fillText(platformNumber, x, y);
         /* eslint-enable no-param-reassign */
       }
     });
+
+    if (isHilighted) {
+      const selectedCircleOffset = getSelectedIconCircleOffset(
+        zoom,
+        tile.ratio,
+      );
+      tile.ctx.beginPath();
+      // eslint-disable-next-line no-param-reassign
+      tile.ctx.lineWidth = 2;
+      tile.ctx.arc(
+        x + selectedCircleOffset,
+        y + selectedCircleOffset,
+        radius + 2,
+        0,
+        FULL_CIRCLE,
+      );
+      tile.ctx.stroke();
+    }
   }
 }
 /**
  * Draw icon for hybrid stops, meaning BUS and TRAM stop in the same place.
  * Determine icon size based on zoom level
  */
-export function drawHybridStopIcon(tile, geom) {
+export function drawHybridStopIcon(tile, geom, isHilighted) {
   const zoom = tile.coords.z - 1;
   const styles = getStopIconStyles('hybrid', zoom);
   if (!styles) {
@@ -399,6 +441,79 @@ export function drawHybridStopIcon(tile, geom) {
         tile.ctx.drawImage(image, x, y);
       },
     );
+    if (isHilighted) {
+      tile.ctx.beginPath();
+      // eslint-disable-next-line no-param-reassign
+      tile.ctx.lineWidth = 2;
+      if (zoom === 14) {
+        tile.ctx.arc(
+          x + 64.5 / tile.ratio,
+          y + 177 / tile.ratio,
+          10.5 * tile.scaleratio,
+          0,
+          Math.PI,
+        );
+        tile.ctx.arc(
+          x + 64.5 / tile.ratio,
+          y + 60 / tile.ratio,
+          10.5 * tile.scaleratio,
+          Math.PI,
+          0,
+        );
+        tile.ctx.arc(
+          x + 64.5 / tile.ratio,
+          y + 177 / tile.ratio,
+          10.5 * tile.scaleratio,
+          0,
+          Math.PI,
+        );
+      } else if (zoom === 15) {
+        tile.ctx.arc(
+          x + 81 / tile.ratio,
+          y + 213 / tile.ratio,
+          12 * tile.scaleratio,
+          0,
+          Math.PI,
+        );
+        tile.ctx.arc(
+          x + 81 / tile.ratio,
+          y + 75 / tile.ratio,
+          12 * tile.scaleratio,
+          Math.PI,
+          0,
+        );
+        tile.ctx.arc(
+          x + 81 / tile.ratio,
+          y + 213 / tile.ratio,
+          12 * tile.scaleratio,
+          0,
+          Math.PI,
+        );
+      } else {
+        tile.ctx.arc(
+          x + 97.2 / tile.ratio,
+          y + 273 / tile.ratio,
+          13.5 * tile.scaleratio,
+          0,
+          Math.PI,
+        );
+        tile.ctx.arc(
+          x + 97.2 / tile.ratio,
+          y + 88.5 / tile.ratio,
+          13.5 * tile.scaleratio,
+          Math.PI,
+          0,
+        );
+        tile.ctx.arc(
+          x + 97.2 / tile.ratio,
+          y + 273 / tile.ratio,
+          13.5 * tile.scaleratio,
+          0,
+          Math.PI,
+        );
+      }
+      tile.ctx.stroke();
+    }
   }
 }
 
@@ -406,7 +521,7 @@ export function drawHybridStopIcon(tile, geom) {
  * Draw an icon for citybike stations, including indicator to show bike availability. Draw closed icon for closed stations
  * Determine icon size based on zoom level
  */
-export function drawCitybikeIcon(tile, geom, state, bikesAvailable) {
+export function drawCitybikeIcon(tile, geom, state, bikesAvailable, iconName) {
   const zoom = tile.coords.z - 1;
   const styles = getStopIconStyles('citybike', zoom);
   const { style } = styles;
@@ -436,11 +551,11 @@ export function drawCitybikeIcon(tile, geom, state, bikesAvailable) {
   if (style === 'medium') {
     x = geom.x / tile.ratio - width / 2;
     y = geom.y / tile.ratio - height;
-    let iconName = `icon-icon_citybike_station_${color}_small`;
+    let icon = `${iconName}_station_${color}_small`;
     if (state === BIKESTATION_CLOSED || state === BIKESTATION_OFF) {
-      iconName = 'icon-icon_citybike_station_closed_small';
+      icon = `${iconName}_station_closed_small`;
     }
-    getImageFromSpriteCache(iconName, width, height).then(image => {
+    getImageFromSpriteCache(icon, width, height).then(image => {
       tile.ctx.drawImage(image, x, y);
     });
   }
@@ -448,18 +563,19 @@ export function drawCitybikeIcon(tile, geom, state, bikesAvailable) {
     const smallCircleRadius = 11 * tile.scaleratio;
     x = geom.x / tile.ratio - width + smallCircleRadius * 2;
     y = geom.y / tile.ratio - height;
-    let iconName = `icon-icon_citybike_station_${color}_large`;
+    let icon = `${iconName}_station_${color}_large`;
     if (state === BIKESTATION_CLOSED || state === BIKESTATION_OFF) {
-      iconName = 'icon-icon_citybike_station_closed_large';
+      icon = `${iconName}_station_closed_large`;
     }
-    getImageFromSpriteCache(iconName, width, height).then(image => {
+    getImageFromSpriteCache(icon, width, height).then(image => {
       tile.ctx.drawImage(image, x, y);
       x = x + width - smallCircleRadius;
       y += smallCircleRadius;
       if (bikesAvailable && state === BIKESTATION_ON) {
         /* eslint-disable no-param-reassign */
-        tile.ctx.font = `${10.8 *
-          tile.scaleratio}px Gotham XNarrow SSm A, Gotham XNarrow SSm B, Gotham Rounded A, Gotham Rounded B, Arial, sans-serif`;
+        tile.ctx.font = `${
+          10.8 * tile.scaleratio
+        }px Gotham XNarrow SSm A, Gotham XNarrow SSm B, Gotham Rounded A, Gotham Rounded B, Arial, sans-serif`;
         tile.ctx.fillStyle = '#fff';
         tile.ctx.textAlign = 'center';
         tile.ctx.textBaseline = 'middle';

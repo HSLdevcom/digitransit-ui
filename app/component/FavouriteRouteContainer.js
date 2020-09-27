@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import Favourite from './Favourite';
-import { addFavourite, deleteFavourite } from '../action/FavouriteActions';
+import { saveFavourite, deleteFavourite } from '../action/FavouriteActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const FavouriteRouteContainer = connectToStores(
@@ -10,7 +10,7 @@ const FavouriteRouteContainer = connectToStores(
   (context, { gtfsId }) => ({
     favourite: context.getStore('FavouriteStore').isFavourite(gtfsId),
     addFavourite: () => {
-      context.executeAction(addFavourite, { type: 'route', gtfsId });
+      context.executeAction(saveFavourite, { type: 'route', gtfsId });
       addAnalyticsEvent({
         category: 'Route',
         action: 'MarkRouteAsFavourite',

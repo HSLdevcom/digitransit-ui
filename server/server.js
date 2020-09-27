@@ -85,7 +85,14 @@ function setUpOIDC() {
   app.use(logger('dev'));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(require('helmet')());
+  // enable helmet and disable some hard to maintain policies
+  app.use(
+    require('helmet')({
+      contentSecurityPolicy: false,
+      referrerPolicy: false,
+      expectCt: false,
+    }),
+  );
   // Passport requires session to persist the authentication
   app.use(
     session({
@@ -108,6 +115,7 @@ function setUpOIDC() {
   // Initialize Passport
   app.use(passport.initialize());
   app.use(passport.session());
+
   // Initiates an authentication request
   // users will be redirected to hsl.id and once authenticated
   // they will be returned to the callback handler below
@@ -127,14 +135,15 @@ function setUpOIDC() {
       failureRedirect: '/',
     }),
   );
-  app.get('/logout', function(req, res) {
+  app.get('/logout', function (req, res) {
     req.logout();
-    req.session.destroy(function() {
+    req.session.destroy(function () {
       res.clearCookie('connect.sid');
       res.redirect('/');
     });
   });
-  app.use('/api', function(req, res, next) {
+  app.use('/api', function (req, res, next) {
+    res.set('Cache-Control', 'no-store');
     if (req.isAuthenticated()) {
       next();
     } else {
@@ -142,7 +151,7 @@ function setUpOIDC() {
     }
   });
   /* GET the profile of the current authenticated user */
-  app.get('/api/user', function(req, res, next) {
+  app.get('/api/user', function (req, res, next) {
     request.get(
       `${OIDCHost}/openid/userinfo`,
       {
@@ -150,8 +159,8 @@ function setUpOIDC() {
           bearer: req.user.token.access_token,
         },
       },
-      function(err, response, body) {
-        if (!err) {
+      function (err, response, body) {
+        if (!err && response.statusCode === 200) {
           res.status(response.statusCode).send(body);
         } else {
           res.status(401).send('Unauthorized');
@@ -160,17 +169,17 @@ function setUpOIDC() {
     );
   });
 
-  app.use('/api/user/favourites', function(req, res, next) {
+  app.use('/api/user/favourites', function (req, res, next) {
     request(
       {
         auth: {
-          bearer: req.user.token.access_token,
+          bearer: req.user.token.id_token,
         },
         method: req.method,
         url: `${FavouriteHost}/${req.user.data.sub}`,
         body: JSON.stringify(req.body),
       },
-      function(err, response, body) {
+      function (err, response, body) {
         if (!err) {
           res.status(response.statusCode).send(body);
         } else {
@@ -212,7 +221,7 @@ function setUpStaticFolders() {
     config.APP_PATH,
     expressStaticGzip(staticFolder, {
       enableBrotli: true,
-      indexFromEmptyFile: false,
+      index: false,
       maxAge: 14 * oneDay,
       setHeaders(res, reqPath) {
         if (
@@ -394,8 +403,9 @@ setUpStaticFolders();
 setUpMiddleware();
 setUpRoutes();
 setUpErrorHandling();
-Promise.all([setUpAvailableRouteTimetables(), setUpAvailableTickets()]).then(
-  () => startServer(),
-);
+Promise.all([
+  setUpAvailableRouteTimetables(),
+  setUpAvailableTickets(),
+]).then(() => startServer());
 
 module.exports.app = app;

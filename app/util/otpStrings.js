@@ -1,3 +1,7 @@
+import isEmpty from 'lodash/isEmpty';
+import isString from 'lodash/isString';
+import trim from 'lodash/trim';
+
 // Convert between location objects (address, lat, lon)
 // and string format OpenTripPlanner uses in many places
 
@@ -37,6 +41,9 @@ export const otpToLocation = otpString => {
 };
 
 export const addressToItinerarySearch = location => {
+  if (location.gps && !location.lat) {
+    return 'POS';
+  }
   if (location.set === false) {
     return '-';
   }
@@ -59,3 +66,34 @@ export const locationToOTP = location => {
 };
 
 export const locationToCoords = location => [location.lat, location.lon];
+
+/**
+ * Extracts the location information from the intermediatePlaces
+ * query parameter, if available. The locations will be returned in
+ * non-OTP mode (i.e. mapped to lat?, lon? and address).
+ *
+ * @typedef Query
+ * @prop {String|String[]} intermediatePlaces
+ *
+ * @param {Query} query The query to extract the information from.
+ * @returns an array of locations if available, or an empty array otherwise
+ */
+export const getIntermediatePlaces = query => {
+  if (!query) {
+    return [];
+  }
+  const { intermediatePlaces } = query;
+  if (!intermediatePlaces) {
+    return [];
+  }
+  if (Array.isArray(intermediatePlaces)) {
+    return intermediatePlaces.map(otpToLocation);
+  }
+  if (isString(intermediatePlaces)) {
+    if (isEmpty(trim(intermediatePlaces))) {
+      return [];
+    }
+    return [otpToLocation(intermediatePlaces)];
+  }
+  return [];
+};

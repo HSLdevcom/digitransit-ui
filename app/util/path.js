@@ -17,6 +17,7 @@ export const PREFIX_ITINERARY_SUMMARY = 'reitti';
 export const PREFIX_DISRUPTION = 'hairiot';
 export const PREFIX_TIMETABLE = 'aikataulu';
 export const stopUrl = id => id;
+export const LOCAL_STORAGE_EMITTER_PATH = '/local-storage-emitter';
 
 export const getNearYouPath = (place, mode) =>
   [
@@ -67,13 +68,15 @@ export const isItinerarySearchObjects = (origin, destination) => {
 /**
  * use objects instead of strings If both are set it's itinerary search...
  */
-export const getPathWithEndpointObjects = (origin, destination) => {
-  const r = isItinerarySearchObjects(origin, destination)
-    ? getRoutePath(
-        addressToItinerarySearch(origin),
-        addressToItinerarySearch(destination),
-      )
-    : getEndpointPath(locationToOTP(origin), locationToOTP(destination));
+export const getPathWithEndpointObjects = (origin, destination, rootPath) => {
+  const r =
+    rootPath === PREFIX_ITINERARY_SUMMARY ||
+    isItinerarySearchObjects(origin, destination)
+      ? getRoutePath(
+          addressToItinerarySearch(origin),
+          addressToItinerarySearch(destination),
+        )
+      : getEndpointPath(locationToOTP(origin), locationToOTP(destination));
 
   return r;
 };
@@ -129,13 +132,13 @@ export const getHomeUrl = origin => {
 export const navigateTo = ({
   origin,
   destination,
-  context,
+  rootPath,
   router,
   base,
   resetIndex = false,
 }) => {
   let push;
-  switch (context) {
+  switch (rootPath) {
     case PREFIX_STOPS:
     case PREFIX_ROUTES:
       push = true;
@@ -162,12 +165,12 @@ export const navigateTo = ({
         ...base.state,
         summaryPageSelected: 0,
       },
-      pathname: getPathWithEndpointObjects(origin, destination),
+      pathname: getPathWithEndpointObjects(origin, destination, rootPath),
     };
   } else {
     url = {
       ...base,
-      pathname: getPathWithEndpointObjects(origin, destination),
+      pathname: getPathWithEndpointObjects(origin, destination, rootPath),
     };
   }
 

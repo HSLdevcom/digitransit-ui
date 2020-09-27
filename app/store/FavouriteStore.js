@@ -1,8 +1,9 @@
 import Store from 'fluxible/addons/BaseStore';
 import includes from 'lodash/includes';
 import find from 'lodash/find';
+import findIndex from 'lodash/findIndex';
 import moment from 'moment';
-import { uuid } from 'uuidv4';
+import { v4 as uuid } from 'uuid';
 import getGeocodingResults from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
 import {
   getFavouriteStorage,
@@ -13,20 +14,60 @@ import {
   removeItem,
 } from './localStorage';
 import { isStop } from '../util/suggestionUtils';
+import {
+  getFavourites,
+  updateFavourites,
+  deleteFavourites,
+} from '../util/apiUtils';
 
 export default class FavouriteStore extends Store {
   static storeName = 'FavouriteStore';
 
-  favourites = getFavouriteStorage();
+  static STATUS_FETCHING_OR_UPDATING = 'fetching';
+
+  static STATUS_HAS_DATA = 'has-data';
+
+  favourites = [];
 
   config = {};
+
+  status = null;
 
   constructor(dispatcher) {
     super(dispatcher);
     this.config = dispatcher.getContext().config;
+    this.fetchingOrUpdating();
+    if (this.config.showLogin) {
+      getFavourites()
+        .then(res => {
+          this.favourites = res;
+          this.fetchComplete();
+        })
+        .catch(() => {
+          this.favourites = getFavouriteStorage();
+          this.fetchComplete();
+        });
+    } else {
+      this.favourites = getFavouriteStorage();
+      this.fetchComplete();
+    }
     this.migrateRoutes();
     this.migrateStops();
     this.migrateLocations();
+  }
+
+  fetchComplete() {
+    this.status = FavouriteStore.STATUS_HAS_DATA;
+    this.emitChange();
+  }
+
+  fetchingOrUpdating() {
+    this.status = FavouriteStore.STATUS_FETCHING_OR_UPDATING;
+    this.emitChange();
+  }
+
+  getStatus() {
+    return this.status;
   }
 
   isFavourite(id) {
@@ -75,18 +116,21 @@ export default class FavouriteStore extends Store {
     return this.favourites.filter(favourite => favourite.type === 'place');
   }
 
-  addFavourite(data) {
+  saveFavourite(data) {
     if (typeof data !== 'object') {
       throw new Error(`New favourite is not a object:${JSON.stringify(data)}`);
     }
-    let newFavourites = this.favourites;
-    if (data.favouriteId && this.getByFavouriteId(data.favouriteId)) {
-      newFavourites = newFavourites.map(currentFavourite => {
-        if (currentFavourite.favouriteId === data.favouriteId) {
-          return { ...data, lastUpdated: moment().unix() };
-        }
-        return currentFavourite;
-      });
+    this.fetchingOrUpdating();
+    const newFavourites = this.favourites;
+    const editIndex = findIndex(
+      this.favourites,
+      item => data.favouriteId === item.favouriteId,
+    );
+    if (editIndex >= 0) {
+      newFavourites[editIndex] = {
+        ...data,
+        lastUpdated: moment().unix(),
+      };
     } else {
       newFavourites.push({
         ...data,
@@ -94,30 +138,81 @@ export default class FavouriteStore extends Store {
         favouriteId: uuid(),
       });
     }
-    this.favourites = newFavourites;
-    this.storeFavourites();
-    this.emitChange();
+    if (this.config.showLogin) {
+      // Update favourites to backend service
+      updateFavourites(newFavourites)
+        .then(() => {
+          this.favourites = newFavourites;
+          this.fetchComplete();
+        })
+        .catch(() => {
+          this.favourites = newFavourites;
+          this.storeFavourites();
+          this.fetchComplete();
+        });
+    } else {
+      this.favourites = newFavourites;
+      this.storeFavourites();
+      this.fetchComplete();
+    }
   }
 
-  updateFavourites(favourites) {
-    this.favourites = favourites;
-    this.storeFavourites();
-    this.emitChange();
+  updateFavourites(newFavourites) {
+    if (!Array.isArray(newFavourites)) {
+      throw new Error(
+        `New favourites is not an array:${JSON.stringify(newFavourites)}`,
+      );
+    }
+    this.fetchingOrUpdating();
+    if (this.config.showLogin) {
+      // Update favourites to backend service
+      updateFavourites(newFavourites)
+        .then(() => {
+          this.favourites = newFavourites;
+          this.fetchComplete();
+        })
+        .catch(() => {
+          this.favourites = newFavourites;
+          this.storeFavourites();
+          this.fetchComplete();
+        });
+    } else {
+      this.favourites = newFavourites;
+      this.storeFavourites();
+      this.fetchComplete();
+    }
   }
 
   deleteFavourite(data) {
+    if (typeof data !== 'object') {
+      throw new Error(`Favourite is not an object:${JSON.stringify(data)}`);
+    }
+    this.fetchingOrUpdating();
     const newFavourites = this.favourites.filter(
       favourite => favourite.favouriteId !== data.favouriteId,
     );
-    this.favourites = newFavourites;
-    this.storeFavourites();
-    this.emitChange();
+    if (this.config.showLogin) {
+      // Delete favourite from backend service
+      deleteFavourites([data.favouriteId])
+        .then(() => {
+          this.favourites = newFavourites;
+          this.fetchComplete();
+        })
+        .catch(() => {
+          this.favourites = newFavourites;
+          this.fetchComplete();
+        });
+    } else {
+      this.favourites = newFavourites;
+      this.storeFavourites();
+      this.fetchComplete();
+    }
   }
 
   migrateRoutes() {
     const routes = getFavouriteRoutesStorage();
     routes.forEach(route => {
-      this.addFavourite({ type: 'route', gtfsId: route });
+      this.saveFavourite({ type: 'route', gtfsId: route });
     });
     removeItem('favouriteRoutes');
   }
@@ -135,7 +230,7 @@ export default class FavouriteStore extends Store {
         layer: stop.layer,
         selectedIconId: stop.selectedIconId,
       };
-      this.addFavourite(newStop);
+      this.saveFavourite(newStop);
     });
     removeItem('favouriteStops');
   }
@@ -169,7 +264,7 @@ export default class FavouriteStore extends Store {
             layer: data.properties.layer,
             selectedIconId: location.selectedIconId,
           };
-          this.addFavourite(newLocation);
+          this.saveFavourite(newLocation);
         }
       });
     });
@@ -177,7 +272,7 @@ export default class FavouriteStore extends Store {
   }
 
   static handlers = {
-    AddFavourite: 'addFavourite',
+    SaveFavourite: 'saveFavourite',
     UpdateFavourites: 'updateFavourites',
     DeleteFavourite: 'deleteFavourite',
   };

@@ -1,8 +1,9 @@
 .street-mode-selector-weather-container {
-	display: flex;
+    display: flex;
     align-items: center;
     justify-content: space-between;
 	padding-right: 20px;
+   	padding-bottom: 17px;
 	&.id-1 span.icon-container {
 		height: 40px;
 	}
@@ -16,6 +17,8 @@
 	.street-mode-selector-panel-weather-text {
 		font-size: 15px;
 		font-weight: 500;
+		padding-top: 51px;
+		margin-left: -39px;
 		font-stretch: normal;
 		font-style: normal;
 		line-height: normal;
@@ -27,8 +30,9 @@
 .street-mode-selector-button-container {
 	cursor: pointer;
 	display: flex;
-	width: 140px;
-	height: 40px;
+	width: 120px;
+	min-width: 120px;
+	height: 50px;
 	border-radius: 5px;
 	position: relative;
 	box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1);
@@ -37,20 +41,7 @@
 	background-color: #ffffff;
 	align-items: center;
 	padding: 5px 15px 5px 20px;
-	margin-left: 5px;
-	margin-right: 5px;
-
-	.disabled-overlay {
-		cursor: default;
-		z-index: 1;
-		border-radius: 5px;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		left: 0;
-		position: absolute;
-		background-color: rgba(255, 255, 255, 0.7);
-	}
+	margin-right: 10px;
 
 	.street-mode-selector-button-content {
 		width: 100%;
@@ -63,47 +54,29 @@
 		align-items: center;
 	}
 
-	.icon-container {
-		padding-right: 5px;
-		padding-top: 5px;
-	}
-
 	.street-mode-selector-button-icon {
-	  height: 23px;
+		padding-right: 10px;
+		padding-top: 8px;
+		margin-left: -10px;
+	}
+	.street-mode-selector-button-icon.primary-icon {
+		width: 23px;
+	  	padding-right: 0px;
+	}
+	.street-mode-selector-button-icon.secondary-icon {
+		margin-bottom: 15px;
+		margin-left: -5px;
+		padding-right: 7px;
+		padding-top: 0px;
 	}
 	.street-mode-button-time {
-	  font-size: 13px;
+	 	font-size: 15px;
 		font-weight: 500;
 		height: 1.2em;
-		line-height: 1.2em;
+		line-height: 1.5em;
 	}
 	.street-mode-button-length {
-	  font-size: 11px;
+	  font-size: 13px;
   	  font-weight: normal;
-	}
-}
-
-.mobile {
-	.street-mode-selector-weather-container {
-		display: block;
-		.street-mode-selector-panel-weather-text {
-			padding-left: 46px;
-			font-size: 16px;
-			margin-left: -39px;
-		  }
-	&.id-101 svg {
-		margin-bottom: -18px;
-    	margin-left: 11px;
-	}
-	&.id-102 svg {
-		margin-bottom: -24px;
-	}
-	 svg {
-		margin-bottom: -10px;
-	 }
-	}
-	.street-mode-selector-button-container {
-		width: 130px;
-		height: 48px;
 	}
 }

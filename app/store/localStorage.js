@@ -135,6 +135,10 @@ export function setCustomizedSettings(data) {
       data.allowedBikeRentalNetworks,
       oldSettings.allowedBikeRentalNetworks,
     ),
+    includeBikeSuggestions: getValueOrDefault(
+      data.includeBikeSuggestions,
+      oldSettings.includeBikeSuggestions,
+    ),
   };
   if (optimize === OptimizeType.Triangle) {
     newSettings.safetyFactor = getNumberValueOrDefault(
@@ -168,13 +172,6 @@ export function setCustomizedSettings(data) {
   }
 
   setItem('customizedSettings', newSettings);
-}
-
-export function resetCustomizedSettings() {
-  const localStorage = getLocalStorage(isBrowser);
-  if (localStorage) {
-    localStorage.removeItem('customizedSettings');
-  }
 }
 
 // Get advanced routing parameters (not for normal use)
@@ -364,3 +361,11 @@ export const setDialogState = (dialogId, seen = true) => {
  */
 export const getDialogState = dialogId =>
   getItemAsJson('dialogState', '{}')[`${dialogId}`] === true;
+
+export function getFutureRoutesStorage() {
+  return getItemAsJson('futureRoutes', '[]');
+}
+
+export function setFutureRoutesStorage(data) {
+  setItem('futureRoutes', data);
+}

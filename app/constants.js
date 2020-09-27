@@ -57,19 +57,6 @@ export const OptimizeType = {
 };
 
 /**
- * QuickOptionSetType depicts different types of quick routing settings sets.
- */
-export const QuickOptionSetType = {
-  DefaultRoute: 'default-route',
-  LeastElevationChanges: 'least-elevation-changes',
-  LeastTransfers: 'least-transfers',
-  LeastWalking: 'least-walking',
-  PreferGreenways: 'prefer-greenways',
-  PreferWalkingRoutes: 'prefer-walking-routes',
-  SavedSettings: 'saved-settings',
-};
-
-/**
  * RealtimeStateType depicts different types of a trip's information state.
  */
 export const RealtimeStateType = {

@@ -56,6 +56,7 @@ $body-font-weight: $font-weight-medium;
 @import '../app/component/modal.scss';
 @import '../app/component/StreetModeSelector';
 @import '../app/component/StreetModeSelectorButton';
+@import '../app/component/ItinerarySummarySubtitle';
 
 /* Modal */
 @import '~foundation-apps/scss/helpers/breakpoints';
@@ -63,4 +64,3 @@ $body-font-weight: $font-weight-medium;
 
 // And these application specific styles use Foundation variables,
 // so they have to be loaded afterwards
-@import '../app/component/add-favourite-container';

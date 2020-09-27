@@ -140,9 +140,7 @@ export default function oldParamParser(query, config) {
       if (from && from.length > 1 && to && to.length > 1) {
         // can redirect to itinerary summary page
         if (time) {
-          return `/${PREFIX_ITINERARY_SUMMARY}/${encoded.from}/${
-            encoded.to
-          }/?${time}${utm}`;
+          return `/${PREFIX_ITINERARY_SUMMARY}/${encoded.from}/${encoded.to}/?${time}${utm}`;
         }
         if (utm) {
           return `/${PREFIX_ITINERARY_SUMMARY}/${encoded.from}/${

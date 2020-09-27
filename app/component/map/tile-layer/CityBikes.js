@@ -6,12 +6,11 @@ import pick from 'lodash/pick';
 import { isBrowser } from '../../../util/browser';
 import { getMapIconScale, drawCitybikeIcon } from '../../../util/mapIconUtils';
 
-// TODO
-// import {
-//   getCityBikeNetworkConfig,
-//   getCityBikeNetworkIcon,
-//   getCityBikeNetworkId,
-// } from '../../../util/citybikes';
+import {
+  getCityBikeNetworkConfig,
+  getCityBikeNetworkIcon,
+  getCityBikeNetworkId,
+} from '../../../util/citybikes';
 
 const timeOfLastFetch = {};
 
@@ -27,7 +26,7 @@ const query = graphql`
 `;
 
 class CityBikes {
-  constructor(tile, config, mapLayers, relayEnvironment) {
+  constructor(tile, config, mapLayers, stopsNearYouMode, relayEnvironment) {
     this.tile = tile;
     this.config = config;
     this.relayEnvironment = relayEnvironment;
@@ -37,7 +36,6 @@ class CityBikes {
       20 * this.scaleratio * getMapIconScale(this.tile.coords.z);
     this.availabilityImageSize =
       14 * this.scaleratio * getMapIconScale(this.tile.coords.z);
-
     this.promise = this.fetchWithAction(this.fetchAndDrawStatus);
   }
 
@@ -81,16 +79,20 @@ class CityBikes {
 
     const callback = ({ station: result }) => {
       timeOfLastFetch[id] = new Date().getTime();
-
       if (result) {
-        drawCitybikeIcon(this.tile, geom, result.state, result.bikesAvailable);
-        // TODO draw the correct icon
-        // const iconName = getCityBikeNetworkIcon(
-        //   getCityBikeNetworkConfig(
-        //     getCityBikeNetworkId(result.networks),
-        //     this.config,
-        //   ),
-        // );
+        const iconName = getCityBikeNetworkIcon(
+          getCityBikeNetworkConfig(
+            getCityBikeNetworkId(result.networks),
+            this.config,
+          ),
+        );
+        drawCitybikeIcon(
+          this.tile,
+          geom,
+          result.state,
+          result.bikesAvailable,
+          iconName,
+        );
       }
       return this;
     };

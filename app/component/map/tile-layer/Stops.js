@@ -14,12 +14,14 @@ class Stops {
     tile,
     config,
     mapLayers,
+    stopsNearYouMode,
     relayEnvironment,
     getCurrentTime = () => new Date().getTime(),
   ) {
     this.tile = tile;
     this.config = config;
     this.mapLayers = mapLayers;
+    this.stopsNearYouMode = stopsNearYouMode;
     this.promise = this.getPromise();
     this.getCurrentTime = getCurrentTime;
     this.relayEnvironment = relayEnvironment;
@@ -28,6 +30,9 @@ class Stops {
   static getName = () => 'stop';
 
   drawStop(feature, isHybrid) {
+    const isHilighted =
+      this.tile.hilightedStops &&
+      this.tile.hilightedStops.includes(feature.properties.gtfsId);
     if (
       !isFeatureLayerEnabled(
         feature,
@@ -39,7 +44,7 @@ class Stops {
       return;
     }
     if (isHybrid) {
-      drawHybridStopIcon(this.tile, feature.geom);
+      drawHybridStopIcon(this.tile, feature.geom, isHilighted);
       return;
     }
 
@@ -50,14 +55,22 @@ class Stops {
       feature.properties.platform !== 'null'
         ? feature.properties.platform
         : false,
+      isHilighted,
     );
+  }
+
+  stopsNearYouCheck(feature) {
+    if (!this.stopsNearYouMode) {
+      return true;
+    }
+    return feature.properties.type === this.stopsNearYouMode;
   }
 
   getPromise() {
     return fetch(
-      `${this.config.URL.STOP_MAP}${this.tile.coords.z +
-        (this.tile.props.zoomOffset || 0)}` +
-        `/${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
+      `${this.config.URL.STOP_MAP}${
+        this.tile.coords.z + (this.tile.props.zoomOffset || 0)
+      }/${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
     ).then(res => {
       if (res.status !== 200) {
         return undefined;
@@ -88,7 +101,11 @@ class Stops {
               ) {
                 [[feature.geom]] = feature.loadGeometry();
                 const f = pick(feature, ['geom', 'properties']);
-                if (f.properties.code && this.config.mergeStopsByCode) {
+                if (
+                  f.properties.code &&
+                  this.config.mergeStopsByCode &&
+                  !this.stopsNearYouMode
+                ) {
                   /* a stop may be represented multiple times in data, once for each transport mode
                      Latest stop erares underlying ones unless the stop marker size is adjusted accordingly.
                      Currently we expand the first marker so that double stops are visialized nicely.
@@ -99,28 +116,40 @@ class Stops {
                   } else if (
                     this.config.mergeStopsByCode &&
                     f.properties.code &&
-                    featureByCode[f.properties.code].properties.type !==
-                      f.properties.type &&
-                    f.geom.x === featureByCode[f.properties.code].geom.x &&
-                    f.geom.y === featureByCode[f.properties.code].geom.y
+                    prevFeature.properties.type !== f.properties.type &&
+                    f.geom.x === prevFeature.geom.x &&
+                    f.geom.y === prevFeature.geom.y
                   ) {
                     // save only one gtfsId per hybrid stop
                     hybridGtfsIdByCode[f.properties.code] = f.properties.gtfsId;
+                    // Also change hilighted stopId in hybrid stop cases
+                    if (
+                      this.tile.hilightedStops &&
+                      this.tile.hilightedStops.includes(
+                        prevFeature.properties.gtfsId,
+                      )
+                    ) {
+                      this.tile.hilightedStops = [f.properties.gtfsId];
+                    }
                   }
                 }
-                this.features.push(f);
+                if (this.stopsNearYouCheck(f)) {
+                  this.features.push(f);
+                }
               }
             }
             // sort to draw in correct order
-            this.features.sort((a, b) => a.geom.y - b.geom.y).forEach(f => {
-              /* Note: don't expand separate stops sharing the same code,
+            this.features
+              .sort((a, b) => a.geom.y - b.geom.y)
+              .forEach(f => {
+                /* Note: don't expand separate stops sharing the same code,
                  unless type is different and location actually overlaps. */
-              const hybridId = hybridGtfsIdByCode[f.properties.code];
-              const draw = !hybridId || hybridId === f.properties.gtfsId;
-              if (draw) {
-                this.drawStop(f, !!hybridId);
-              }
-            });
+                const hybridId = hybridGtfsIdByCode[f.properties.code];
+                const draw = !hybridId || hybridId === f.properties.gtfsId;
+                if (draw) {
+                  this.drawStop(f, !!hybridId);
+                }
+              });
           }
           if (
             vt.layers.stations != null &&
@@ -141,7 +170,8 @@ class Stops {
                   'terminal',
                   this.mapLayers,
                   this.config,
-                )
+                ) &&
+                this.stopsNearYouCheck(feature)
               ) {
                 [[feature.geom]] = feature.loadGeometry();
                 this.features.unshift(pick(feature, ['geom', 'properties']));

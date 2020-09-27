@@ -266,6 +266,29 @@
   border-top: 1px solid #ddd;
   width: 100%;
   background-color: $white;
+
+  .itinerary-summary-settings-container {
+    height: 95px;
+    background-color: #f3f3f3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .show-alternatives {
+    background: $background-color-lighter;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    padding: 18px 32px 18px 16px;
+    .icon-container {
+      padding-top: 5px;
+      padding-right: 10px;
+      .icon-icon_settings {
+        width: 1.25em;
+        height: 1.25em;
+      }
+    }
+  }
 }
 
 .desktop .summary-list-container {
@@ -300,7 +323,7 @@
 .mobile {
   background-color: white;
   .summary-navigation-container {
-    margin: 0 1.25em;
+    margin: 0 9px 0 1.25em;
 
     .back-button {
       .icon-holder {
@@ -308,7 +331,6 @@
         box-shadow: none;
         font-size: 16px;
         top: 1.5em;
-        left: 0.9375em;
         border: 1px solid #ddd;
         .icon-container {
           height: inherit;
@@ -317,7 +339,7 @@
       h2 {
         width: 100%;
         text-align: center;
-        margin: 1.7em 0 calc(1em - 2px) 0;
+        margin: 1.7em 0 25px 0;
       }
     }
   }

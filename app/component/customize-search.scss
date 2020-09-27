@@ -3,6 +3,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  overflow-y: hidden;
 }
 
 .offcanvas-mobile {
@@ -11,7 +12,7 @@
   background: #f4f4f5;
   .settings-option-container {
     padding: 0.5em 1em 0 1em;
-    h1 {
+    h2 {
       text-align: center;
       padding: 1em 0.5em 1em 0.5em;
       font-size: $font-size-large;
@@ -100,6 +101,16 @@
   line-height: 35px;
   position: relative;
   box-shadow: inset 5px 0px 5px 0px #f4f4f5;
+  margin: unset;
+
+  fieldset {
+    border: unset;
+    padding: unset;
+    margin: unset;
+    legend {
+      margin: unset;
+    }
+  }
 
   .close-offcanvas {
     position: absolute;
@@ -136,14 +147,15 @@
   }
   .mode-option-block.citybike-network-container {
     margin-bottom: 0.75em;
-    .option-toggle-container {
-
-      span {
-        font-weight: 500;
-        vertical-align: sub;
+    label.toggle-label {
+      display: flex;
+      flex-grow: 1;
+      line-height: 35px;
+      .network-name {
+        margin-top: 4px;
       }
-      width: 100%;
-
+    }
+    .option-toggle-container {
       .toggle {
         top: 0px;
       }
@@ -163,20 +175,21 @@
     padding-bottom: 0.5em;
   }
 
-  h1 {
+  h2 {
     text-transform: none;
     font-size: $font-size-xlarge;
     letter-spacing: -0.6pt;
     font-weight: 500;
     font-family: $font-family;
     padding: 1.5em 0.5em 0.5em 0.5em;
+    margin: 0;
   }
 
   .option-checkbox-container > span {
     margin-top: -0.4em;
   }
 
-  .mode-option-container:last-of-type {
+  .mode-option-container:last-child {
     border: none;
   }
 }
@@ -198,11 +211,13 @@
   font-size: $font-size-normal;
   color: $gray;
   font-weight: normal;
-  padding-left: 1em;
+  padding: 0 0 0 1em;
 }
 
 .settings-header-citybike {
   padding-left: 0;
+  position: relative;
+  top: 10px;
 }
 
 .mode-option-container {
@@ -216,6 +231,11 @@
 
   .option-checkbox {
     margin-top: 1em;
+  }
+
+  label.toggle-label {
+    font-size: 0.92rem;
+    font-weight: 500;
   }
 
   .mode-option-block {
@@ -391,10 +411,63 @@
   height: 3.5em;
   .settings-header {
     padding-left: 0px;
+    line-height: inherit;
   }
 }
 
 .accessibility-container {
   padding: 0 0 0 1em;
   height: 3.5em;
+
+  label.toggle-label {
+    flex-grow: 1;
+    display:flex;
+    line-height: 35px;
+    color: #333;
+  }
+}
+
+.street-mode-selector-panel.customized-settings {
+  flex-direction: column;
+
+  .street-mode-selector-panel-header {
+    margin-bottom: 0.5em;
+    padding-left: 0;
+
+    span {
+      color: rgb(51, 51, 51);
+      text-transform: uppercase;
+      letter-spacing: -0.6pt;
+      font-size: $font-size-normal;
+      font-weight: $font-weight-bold;
+      font-family: $font-family;
+    }
+  }
+
+  .street-mode-selector-panel-buttons button {
+    flex-grow: 1;
+    margin-bottom: 0;
+  }
+
+  .toggle-button-title {
+    margin-bottom: 1.5em;
+  }
+}
+
+.street-modes-container {
+  > div {
+    border-bottom: 1px solid #e3e3e3;
+  }
+
+  :last-child {
+    border: none;
+  }
+  .transport-mode-subheader {
+    border: none;
+  }
+  .settings-dropdown-wrapper {
+    margin-left: 3.2em;
+    padding-bottom: 1em;
+    padding-top: 0.2em;
+  }
 }

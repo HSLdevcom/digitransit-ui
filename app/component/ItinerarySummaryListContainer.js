@@ -6,6 +6,7 @@ import inside from 'point-in-polygon';
 import cx from 'classnames';
 import startsWith from 'lodash/startsWith';
 import { matchShape } from 'found';
+import isEqual from 'lodash/isEqual';
 
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import Icon from './Icon';
@@ -14,8 +15,9 @@ import { isBrowser } from '../util/browser';
 import { getZones } from '../util/legUtils';
 import CanceledItineraryToggler from './CanceledItineraryToggler';
 import { itineraryHasCancelation } from '../util/alertUtils';
-import { matchQuickOption } from '../util/planParamUtil';
-import { getModes } from '../util/modeUtils';
+import { getCurrentSettings, getDefaultSettings } from '../util/planParamUtil';
+import { ItinerarySummarySubtitle } from './ItinerarySummarySubtitle';
+import RightOffcanvasToggle from './RightOffcanvasToggle';
 
 function ItinerarySummaryListContainer(
   {
@@ -30,6 +32,12 @@ function ItinerarySummaryListContainer(
     onSelectImmediately,
     searchTime,
     to,
+    toggleSettings,
+    bikeAndPublicItinerariesToShow,
+    bikeAndParkItinerariesToShow,
+    walking,
+    biking,
+    showAlternativePlan,
   },
   context,
 ) {
@@ -53,20 +61,81 @@ function ItinerarySummaryListContainer(
         zones={config.stopCard.header.showZone ? getZones(itinerary.legs) : []}
       />
     ));
+    if (
+      context.match.params.hash &&
+      context.match.params.hash === 'bikeAndPublic'
+    ) {
+      summaries.splice(
+        0,
+        0,
+        <ItinerarySummarySubtitle
+          translationId="itinerary-summary.bikePark-title"
+          defaultMessage="Biking \u0026 public transport \u0026 walking"
+          key="itinerary-summary.bikePark-title"
+        />,
+      );
+      summaries.push(
+        <div
+          className="itinerary-summary-settings-container"
+          key="itinerary-summary-settings-container"
+        >
+          <RightOffcanvasToggle
+            onToggleClick={toggleSettings}
+            defaultMessage="Set more specific settings"
+            translationId="set-specific-settings"
+          />
+        </div>,
+      );
+      if (bikeAndPublicItinerariesToShow > 0) {
+        const publicModes = itineraries[
+          bikeAndParkItinerariesToShow
+        ].legs.filter(obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE');
+        const firstMode = publicModes[0].mode.toLowerCase();
+        summaries.splice(
+          bikeAndParkItinerariesToShow + 1,
+          0,
+          <ItinerarySummarySubtitle
+            translationId={
+              firstMode === 'rail' || firstMode === 'subway'
+                ? `itinerary-summary.bikeAndPublic-${firstMode}-title`
+                : 'itinerary-summary.bikeAndPublic-fallback-title'
+            }
+            defaultMessage="Biking \u0026 public transport"
+            key="itinerary-summary.bikeAndPublic-title"
+          />,
+        );
+      }
+    }
 
     const canceledItinerariesCount = itineraries.filter(itineraryHasCancelation)
       .length;
     return (
       <div className="summary-list-container" role="list">
+        {showAlternativePlan && (
+          <div
+            className={cx(
+              'flex-horizontal',
+              'summary-notification',
+              'show-alternatives',
+            )}
+          >
+            <Icon className="icon-icon_settings" img="icon-icon_settings" />
+            <div>
+              <FormattedMessage
+                id="no-route-showing-alternative-options"
+                defaultMessage="No routes with current settings found. Here are some alternative options:"
+              />
+            </div>
+          </div>
+        )}
         {isBrowser && summaries}
-        {isBrowser &&
-          canceledItinerariesCount > 0 && (
-            <CanceledItineraryToggler
-              showItineraries={showCancelled}
-              toggleShowCanceled={() => setShowCancelled(!showCancelled)}
-              canceledItinerariesAmount={canceledItinerariesCount}
-            />
-          )}
+        {isBrowser && canceledItinerariesCount > 0 && (
+          <CanceledItineraryToggler
+            showItineraries={showCancelled}
+            toggleShowCanceled={() => setShowCancelled(!showCancelled)}
+            canceledItinerariesAmount={canceledItinerariesCount}
+          />
+        )}
       </div>
     );
   }
@@ -110,19 +179,21 @@ function ItinerarySummaryListContainer(
     } else {
       msgId = 'no-route-origin-near-destination';
     }
+  } else if (walking || biking) {
+    iconType = 'info';
+    iconImg = 'icon-icon_info';
+    if (walking && !biking) {
+      msgId = 'walk-bike-itinerary-1';
+    } else if (!walking && biking) {
+      msgId = 'walk-bike-itinerary-2';
+    } else {
+      msgId = 'walk-bike-itinerary-3';
+    }
   } else {
-    const quickOption = matchQuickOption(context);
-    const currentModes = getModes(context.config);
-    const modesDefault =
-      Object.entries(context.config.transportModes).every(
-        ([mode, modeConfig]) =>
-          currentModes.includes(mode.toUpperCase()) === modeConfig.defaultValue,
-      ) && currentModes.includes('PUBLIC_TRANSPORT');
-
-    const hasChanges =
-      quickOption === 'saved-settings' ||
-      quickOption === 'custom-settings' ||
-      !modesDefault;
+    const hasChanges = !isEqual(
+      getCurrentSettings(config),
+      getDefaultSettings(config),
+    );
     if (hasChanges) {
       msgId = 'no-route-msg-with-changes';
     } else {
@@ -192,12 +263,21 @@ ItinerarySummaryListContainer.propTypes = {
   onSelectImmediately: PropTypes.func.isRequired,
   searchTime: PropTypes.number.isRequired,
   to: locationShape.isRequired,
+  toggleSettings: PropTypes.func.isRequired,
+  bikeAndPublicItinerariesToShow: PropTypes.number.isRequired,
+  bikeAndParkItinerariesToShow: PropTypes.number.isRequired,
+  walking: PropTypes.bool,
+  biking: PropTypes.bool,
+  showAlternativePlan: PropTypes.bool,
 };
 
 ItinerarySummaryListContainer.defaultProps = {
   error: undefined,
   intermediatePlaces: [],
   itineraries: [],
+  walking: false,
+  biking: false,
+  showAlternativePlan: false,
 };
 
 ItinerarySummaryListContainer.contextTypes = {
@@ -210,7 +290,7 @@ const containerComponent = createFragmentContainer(
   {
     itineraries: graphql`
       fragment ItinerarySummaryListContainer_itineraries on Itinerary
-        @relay(plural: true) {
+      @relay(plural: true) {
         walkDistance
         startTime
         endTime
@@ -292,6 +372,10 @@ const containerComponent = createFragmentContainer(
                 effectiveEndDate
                 effectiveStartDate
               }
+            }
+            bikePark {
+              bikeParkId
+              name
             }
           }
         }

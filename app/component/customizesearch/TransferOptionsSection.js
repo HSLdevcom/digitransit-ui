@@ -11,13 +11,15 @@ const TransferOptionsSection = (
 ) => (
   <React.Fragment>
     <div className="mode-option-container toggle-container avoid-transfers-container">
-      <div className="settings-header">
+      {/* eslint jsx-a11y/label-has-associated-control: ["error", { assert: "either" } ] */}
+      <label htmlFor="settings-toggle-transfers" className="settings-header">
         <FormattedMessage
           id="avoid-transfers"
           defaultMessage="Avoid transfers"
         />
-      </div>
+      </label>
       <Toggle
+        id="settings-toggle-transfers"
         toggled={
           currentSettings.walkBoardCost !== defaultSettings.walkBoardCost
         }

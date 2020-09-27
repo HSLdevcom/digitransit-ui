@@ -73,6 +73,7 @@ class FareZoneSelector extends React.Component {
           displayValueFormatter={value =>
             value.split(':')[1] ? value.split(':')[1] : value
           }
+          name="farezone"
         />
       </div>
     );

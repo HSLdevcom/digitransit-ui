@@ -9,6 +9,7 @@ describe('<Availability />', () => {
       available: 1,
       total: 3,
       fewAvailableCount: 3,
+      fewerAvailableCount: 2,
       text: <p className="test-text">foo</p>,
       showStatusBar: true,
     };
@@ -20,7 +21,8 @@ describe('<Availability />', () => {
     const props = {
       available: 2,
       total: 3,
-      fewAvailableCount: 3,
+      fewAvailableCount: 2,
+      fewerAvailableCount: 1,
       text: <p className="test-text">foo</p>,
       showStatusBar: true,
     };
@@ -34,6 +36,7 @@ describe('<Availability />', () => {
       available: 2,
       total: 3,
       fewAvailableCount: 3,
+      fewerAvailableCount: 3,
       text: <p className="test-text">foo</p>,
       showStatusBar: false,
     };

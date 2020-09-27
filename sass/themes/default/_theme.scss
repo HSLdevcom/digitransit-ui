@@ -50,8 +50,9 @@ $viewpoint-marker-color: $livi-blue;
 $link-color: $action-color;
 $from-color: #64be14;
 $to-color: #ec5188;
-$slider-warning-color: #fc7c08;
-$slider-ok-color: #55b511;
+$slider-severe-color: #ff6319;
+$slider-warning-color: #fbb800;
+$slider-ok-color: #64be14;
 $selected-lang-background: rgba(0, 0, 0, 0.15);
 $caution-icon-color: $white;
 $caution-icon-font-color: none;
@@ -65,9 +66,9 @@ $rail-color: $livi-rail-purple;
 $ferry-color: $livi-ferry-blue;
 $citybike-color: #f2b62d;
 $citybike-off-color: #919191;
-$walk-color: #6ba3af;
+$walk-color: #666;
 $wait-color: #979797;
-$bicycle-color: #64be14;
+$bicycle-color: #666;
 $car-color: #333;
 
 /* Fonts */

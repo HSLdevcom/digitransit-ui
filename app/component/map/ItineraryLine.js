@@ -15,6 +15,8 @@ import { getMiddleOf } from '../../util/geo-utils';
 import { isBrowser } from '../../util/browser';
 import { isCallAgencyPickupType } from '../../util/legUtils';
 import IconMarker from './IconMarker';
+import SpeechBubble from './SpeechBubble';
+import { durationToString } from '../../util/timeUtils';
 
 const getLegText = (leg, config) => {
   if (!leg.route) {
@@ -41,7 +43,18 @@ class ItineraryLine extends React.Component {
     hash: PropTypes.number,
     showTransferLabels: PropTypes.bool,
     showIntermediateStops: PropTypes.bool,
+    streetMode: PropTypes.string,
   };
+
+  checkStreetMode(leg) {
+    if (this.props.streetMode === 'walk') {
+      return leg.mode === 'WALK';
+    }
+    if (this.props.streetMode === 'bike') {
+      return leg.mode === 'BICYCLE';
+    }
+    return false;
+  }
 
   render() {
     if (!isBrowser) {
@@ -75,6 +88,17 @@ class ItineraryLine extends React.Component {
           passive={this.props.passive}
         />,
       );
+
+      if (this.checkStreetMode(leg)) {
+        const duration = durationToString(leg.endTime - leg.startTime);
+        objs.push(
+          <SpeechBubble
+            key={`speech_${this.props.hash}_${i}_${mode}`}
+            position={middle}
+            text={duration}
+          />,
+        );
+      }
 
       if (!this.props.passive) {
         if (
@@ -143,6 +167,7 @@ class ItineraryLine extends React.Component {
                   code: leg.from.stop.code,
                 }}
                 mode={mode.toLowerCase()}
+                zIndexOffset={300} // Make sure the LegMarker always stays above the StopMarkers
               />,
             );
 
@@ -190,6 +215,8 @@ export default createFragmentContainer(ItineraryLine, {
     fragment ItineraryLine_legs on Leg @relay(plural: true) {
       mode
       rentedBike
+      startTime
+      endTime
       legGeometry {
         points
       }

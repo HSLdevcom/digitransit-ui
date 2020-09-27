@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-
 import { withLeaflet } from 'react-leaflet/es/context';
+import Icon from '../../Icon';
 
 import { isBrowser } from '../../../util/browser';
 
@@ -11,23 +11,6 @@ const Marker = isBrowser && require('react-leaflet/es/Marker').default;
 const L = isBrowser && require('leaflet');
 
 /* eslint-enable global-require */
-
-function fixName(name) {
-  if (!name) {
-    return '';
-  }
-
-  // minimum size can't be set because of flex bugs
-  // so add whitespace to make the name wider
-
-  if (name.length === 1) {
-    return `\u00A0${name}\u00A0`;
-  }
-  if (name.length === 2) {
-    return `\u202F${name}\u202F`;
-  }
-  return name;
-}
 
 class LegMarker extends React.Component {
   static propTypes = {
@@ -41,10 +24,12 @@ class LegMarker extends React.Component {
         off: PropTypes.func.isRequired,
       }).isRequired,
     }).isRequired,
+    zIndexOffset: PropTypes.number,
   };
 
   static defaultProps = {
     color: 'currentColor',
+    zIndexOffset: undefined,
   };
 
   componentDidMount() {
@@ -60,6 +45,7 @@ class LegMarker extends React.Component {
   };
 
   getLegMarker() {
+    const color = this.props.color ? this.props.color : 'currentColor';
     return (
       <Marker
         key={`${this.props.leg.name}_text`}
@@ -70,12 +56,18 @@ class LegMarker extends React.Component {
         interactive={false}
         icon={L.divIcon({
           html: `
-            <div style='color: ${this.props.color}'>
-              ${fixName(this.props.leg.name)}
+            <div style="background-color: ${color}">
+            ${Icon.asString({
+              img: `icon-icon_${this.props.mode}`,
+              className: 'map-route-icon',
+              color,
+            })}
+              <span class="map-route-number">${this.props.leg.name}</span>
             </div>`,
           className: `legmarker ${this.props.mode}`,
           iconSize: null,
         })}
+        zIndexOffset={this.props.zIndexOffset}
       />
     );
   }

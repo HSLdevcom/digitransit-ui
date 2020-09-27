@@ -5,6 +5,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import Icon from './Icon';
 import FareZoneSelector from './FareZoneSelector';
+import StreetModeSelectorPanel from './customizesearch/StreetModeSelectorPanel';
 import TransportModesSection from './customizesearch/TransportModesSection';
 import WalkingOptionsSection from './customizesearch/WalkingOptionsSection';
 import AccessibilityOptionSection from './customizesearch/AccessibilityOptionSection';
@@ -54,7 +55,7 @@ class CustomizeSearch extends React.Component {
       <Icon className="close-icon" img="icon-icon_close" />
     );
     return (
-      <div className="customize-search">
+      <form className="customize-search">
         <button
           title="Close window and save settings"
           aria-label="Close window and save settings"
@@ -76,12 +77,12 @@ class CustomizeSearch extends React.Component {
           {backIcon}
         </button>
         <div className="settings-option-container">
-          <h1>
+          <h2>
             {intl.formatMessage({
               id: 'settings',
               defaultMessage: 'Settings',
             })}
-          </h1>
+          </h2>
         </div>
         <div className="scrollable-content-wrapper momentum-scroll">
           <div className="settings-option-container">
@@ -105,6 +106,12 @@ class CustomizeSearch extends React.Component {
             />
           </div>
           <div className="settings-option-container">
+            <StreetModeSelectorPanel
+              currentSettings={currentSettings}
+              defaultSettings={this.defaultSettings}
+            />
+          </div>
+          <div className="settings-option-container">
             <AccessibilityOptionSection currentSettings={currentSettings} />
           </div>
           {config.showTicketSelector && (
@@ -114,7 +121,7 @@ class CustomizeSearch extends React.Component {
             />
           )}
         </div>
-      </div>
+      </form>
     );
   }
 }

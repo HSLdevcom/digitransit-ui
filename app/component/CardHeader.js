@@ -26,6 +26,7 @@ const CardHeader = (
     showBackButton, // DT-3472
     backButtonColor, // DT-3472
     headerConfig,
+    favouriteContainer,
   },
   { config },
 ) => (
@@ -64,21 +65,20 @@ const CardHeader = (
               <p className="card-sub-header-address">{description}</p>
             ) : null}
             {code != null ? <p className="card-code">{code}</p> : null}
-            {headerConfig &&
-              headerConfig.showZone &&
-              stop.zoneId && (
-                <ZoneIcon
-                  zoneId={getZoneLabel(stop.zoneId, config)}
-                  zoneIdFontSize="11px"
-                  zoneLabelColor={getZoneLabelColor(config)}
-                  zoneLabelHeight="15px"
-                  zoneLabelWidth="15px"
-                  zoneLabelLineHeight="15px"
-                />
-              )}
+            {headerConfig && headerConfig.showZone && stop.zoneId && (
+              <ZoneIcon
+                zoneId={getZoneLabel(stop.zoneId, config)}
+                zoneIdFontSize="11px"
+                zoneLabelColor={getZoneLabelColor(config)}
+                zoneLabelHeight="15px"
+                zoneLabelWidth="15px"
+                zoneLabelLineHeight="15px"
+              />
+            )}
           </div>
         </div>
         {icons && icons.length ? <SplitBars>{icons}</SplitBars> : null}
+        {favouriteContainer}
       </div>
     </div>
     {children}
@@ -130,11 +130,13 @@ CardHeader.propTypes = {
   showBackButton: PropTypes.bool, // DT-3472
   backButtonColor: PropTypes.string, // DT-3472
   headerConfig: PropTypes.object,
+  favouriteContainer: PropTypes.element,
 };
 
 CardHeader.defaultProps = {
   headerIcon: undefined,
   stop: {},
+  favouriteContainer: undefined,
 };
 
 CardHeader.contextTypes = {

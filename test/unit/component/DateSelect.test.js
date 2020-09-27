@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 import { mountWithIntl } from '../helpers/mock-intl-enzyme';
 import configureMoment from '../../../app/util/configure-moment';
@@ -60,10 +60,7 @@ describe('<DateSelect />', () => {
 
   it('should have selectedDate selected', () => {
     const wrapper = mountWithIntl(<DateSelect {...defaultProps} />);
-    const selectValue = wrapper
-      .find('select')
-      .at(0)
-      .props().value;
+    const selectValue = wrapper.find('select').at(0).props().value;
 
     expect(selectValue).to.equal('20190102');
   });

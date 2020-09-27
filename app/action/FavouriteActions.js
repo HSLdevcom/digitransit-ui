@@ -1,5 +1,5 @@
-export function addFavourite(actionContext, data) {
-  actionContext.dispatch('AddFavourite', data);
+export function saveFavourite(actionContext, data) {
+  actionContext.dispatch('SaveFavourite', data);
 }
 
 export function updateFavourites(actionContext, data) {

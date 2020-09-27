@@ -9,10 +9,8 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { PREFIX_ITINERARY_SUMMARY, navigateTo } from '../util/path';
 import withSearchContext from './WithSearchContext';
 
-import {
-  getIntermediatePlaces,
-  setIntermediatePlaces,
-} from '../util/queryUtils';
+import { setIntermediatePlaces } from '../util/queryUtils';
+import { getIntermediatePlaces } from '../util/otpStrings';
 import { dtLocationShape } from '../util/shapes';
 
 const DTAutosuggestPanelWithSearchContext = withSearchContext(
@@ -70,7 +68,7 @@ class OriginDestinationBar extends React.Component {
       base: location,
       origin: this.props.destination,
       destination: this.props.origin,
-      context: PREFIX_ITINERARY_SUMMARY,
+      rootPath: PREFIX_ITINERARY_SUMMARY,
       router: this.context.router,
       resetIndex: true,
     });
@@ -98,8 +96,16 @@ class OriginDestinationBar extends React.Component {
           )}
           updateViaPoints={this.updateViaPoints}
           swapOrder={this.swapEndpoints}
-          sources={['Favourite', 'History', 'Datasource']}
-          targets={['Locations', 'CurrentPosition']}
+          sources={[
+            'History',
+            'Datasource',
+            this.props.isMobile ? 'Favourite' : '',
+          ]}
+          targets={[
+            'Locations',
+            'CurrentPosition',
+            !this.props.isMobile ? 'SelectFromOwnLocations' : '',
+          ]}
           lang={this.props.language}
           disableAutoFocus={this.props.isMobile}
           isMobile={this.props.isMobile}

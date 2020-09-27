@@ -77,7 +77,7 @@
   }
 
   input:focus + .slider {
-    box-shadow: 0 0 1px $primary-color;
+    box-shadow: 0 0 0 2px black;
   }
 
   input:checked + .slider:before {

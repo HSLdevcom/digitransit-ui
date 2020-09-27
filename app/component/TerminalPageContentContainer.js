@@ -4,7 +4,6 @@ import { createRefetchContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
 
-import DepartureListHeader from './DepartureListHeader';
 import DepartureListContainer from './DepartureListContainer';
 import Error404 from './404';
 import Icon from './Icon';
@@ -13,6 +12,7 @@ class TerminalPageContent extends React.Component {
   static propTypes = {
     station: PropTypes.shape({
       stoptimes: PropTypes.array,
+      stops: PropTypes.array,
     }).isRequired,
     relay: PropTypes.shape({
       refetch: PropTypes.func.isRequired,
@@ -36,6 +36,8 @@ class TerminalPageContent extends React.Component {
     }
 
     const { stoptimes } = this.props.station;
+    // eslint-disable-next-line prefer-destructuring
+    const mode = this.props.station.stops[0].patterns[0].route.mode;
     if (!stoptimes || stoptimes.length === 0) {
       return (
         <div className="stop-no-departures-container">
@@ -44,23 +46,37 @@ class TerminalPageContent extends React.Component {
         </div>
       );
     }
+
     return (
       <div className="stop-page-departure-wrapper stop-scroll-container momentum-scroll">
-        <DepartureListHeader />
-        <div className="stop-scroll-container momentum-scroll">
-          <DepartureListContainer
-            stoptimes={stoptimes}
-            key="departures"
-            className="stop-page momentum-scroll"
-            routeLinks
-            infiniteScroll
-            isTerminal
-            rowClasses="padding-vertical-normal border-bottom"
-            currentTime={this.props.currentTime}
-            showPlatformCodes
-            isTerminalPage
-          />
+        <div className="departure-list-header row padding-vertical-normal">
+          <span className="route-number-header">
+            <FormattedMessage id="route" defaultMessage="Route" />
+          </span>
+          <span className="route-destination-header">
+            <FormattedMessage id="destination" defaultMessage="Destination" />
+          </span>
+          <span className="time-header">
+            <FormattedMessage id="leaving-at" defaultMessage="Leaves" />
+          </span>
+          <span className="track-header">
+            <FormattedMessage
+              id={mode === 'BUS' ? 'platform' : 'track'}
+              defaultMessage={mode === 'BUS' ? 'Platform' : 'Track'}
+            />
+          </span>
         </div>
+        <DepartureListContainer
+          stoptimes={stoptimes}
+          key="departures"
+          className="stop-page"
+          routeLinks
+          infiniteScroll
+          isTerminal
+          currentTime={this.props.currentTime}
+          showPlatformCodes
+          isTerminalPage
+        />
       </div>
     );
   }
@@ -68,19 +84,24 @@ class TerminalPageContent extends React.Component {
 
 const connectedComponent = createRefetchContainer(
   connectToStores(TerminalPageContent, ['TimeStore'], ({ getStore }) => ({
-    currentTime: getStore('TimeStore')
-      .getCurrentTime()
-      .unix(),
+    currentTime: getStore('TimeStore').getCurrentTime().unix(),
   })),
   {
     station: graphql`
       fragment TerminalPageContentContainer_station on Stop
-        @argumentDefinitions(
-          startTime: { type: "Long!", defaultValue: 0 }
-          timeRange: { type: "Int!", defaultValue: 43200 }
-          numberOfDepartures: { type: "Int!", defaultValue: 100 }
-        ) {
+      @argumentDefinitions(
+        startTime: { type: "Long!", defaultValue: 0 }
+        timeRange: { type: "Int!", defaultValue: 43200 }
+        numberOfDepartures: { type: "Int!", defaultValue: 100 }
+      ) {
         url
+        stops {
+          patterns {
+            route {
+              mode
+            }
+          }
+        }
         stoptimes: stoptimesWithoutPatterns(
           startTime: $startTime
           timeRange: $timeRange
@@ -101,11 +122,11 @@ const connectedComponent = createRefetchContainer(
     ) {
       station(id: $terminalId) {
         ...TerminalPageContentContainer_station
-          @arguments(
-            startTime: $startTime
-            timeRange: $timeRange
-            numberOfDepartures: $numberOfDepartures
-          )
+        @arguments(
+          startTime: $startTime
+          timeRange: $timeRange
+          numberOfDepartures: $numberOfDepartures
+        )
       }
     }
   `,

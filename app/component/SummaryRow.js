@@ -12,6 +12,7 @@ import RouteNumberContainer from './RouteNumberContainer';
 import { getActiveLegAlertSeverityLevel } from '../util/alertUtils';
 import { displayDistance } from '../util/geo-utils';
 import {
+  getLegMode,
   containsBiking,
   compressLegs,
   getLegBadgeProps,
@@ -74,6 +75,7 @@ export const RouteLeg = ({
   renderNumber,
   isTransitLeg,
   lastLegRendered,
+  withBicycle,
 }) => {
   const isCallAgency = isCallAgencyPickupType(leg);
   let routeNumber;
@@ -104,6 +106,7 @@ export const RouteLeg = ({
         withBar
         isTransitLeg={isTransitLeg}
         renderNumber={renderNumber}
+        withBicycle={withBicycle}
       />
     );
   }
@@ -127,6 +130,7 @@ RouteLeg.propTypes = {
   renderNumber: PropTypes.bool,
   isTransitLeg: PropTypes.bool,
   lastLegRendered: PropTypes.bool,
+  withBicycle: PropTypes.bool.isRequired,
 };
 
 RouteLeg.defaultProps = {
@@ -216,6 +220,10 @@ const SummaryRow = (
 ) => {
   const isTransitLeg = leg => leg.transitLeg;
   const isLegOnFoot = leg => leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK';
+  const usingOwnBicycleWholeTrip =
+    data.legs.some(
+      leg => getLegMode(leg) === 'BICYCLE' && leg.rentedBike === false,
+    ) && data.legs.every(leg => !leg.to || !leg.to.bikePark);
   const refTime = moment(props.refTime);
   const startTime = moment(data.startTime);
   const endTime = moment(data.endTime);
@@ -251,7 +259,8 @@ const SummaryRow = (
   let onlyIconLegsLength = 0;
   const waitThreshold = 180000;
   const lastLeg = compressedLegs[compressedLegs.length - 1];
-  const lastLegLength = lastLeg.duration * 1000 / durationWithoutSlack * 100;
+  const lastLegLength =
+    ((lastLeg.duration * 1000) / durationWithoutSlack) * 100;
 
   compressedLegs.forEach((leg, i) => {
     let renderNumber = true;
@@ -267,18 +276,19 @@ const SummaryRow = (
     const previousLeg = compressedLegs[i - 1];
     const isLastLeg = i === compressedLegs.length - 1;
     const nextLeg = compressedLegs[i + 1];
-    legLength = leg.duration * 1000 / durationWithoutSlack * 100; // length of the current leg in %
+    legLength = ((leg.endTime - leg.startTime) / durationWithoutSlack) * 100; // length of the current leg in %
 
     if (nextLeg && !nextLeg.intermediatePlace) {
       // don't show waiting in intermediate places
       waitTime = nextLeg.startTime - leg.endTime;
-      waitLength = waitTime / durationWithoutSlack * 100;
+      waitLength = (waitTime / durationWithoutSlack) * 100;
       if (waitTime > waitThreshold && waitLength > renderBarThreshold) {
         // if waittime is long enough, render a waiting bar
         waiting = true;
       } else {
         legLength =
-          (leg.duration * 1000 + waitTime) / durationWithoutSlack * 100; // otherwise add the waiting to the current legs length
+          ((leg.endTime - leg.startTime + waitTime) / durationWithoutSlack) *
+          100; // otherwise add the waiting to the current legs length
       }
     }
 
@@ -313,7 +323,6 @@ const SummaryRow = (
       onlyIconLegs += 1;
       legs.push(<ViaLeg key={`via_${leg.mode}_${leg.startTime}`} />);
     }
-
     if (isLegOnFoot(leg) && renderBar) {
       const walkingTime = Math.floor(leg.duration / 60);
       legs.push(
@@ -328,8 +337,22 @@ const SummaryRow = (
           large={breakpoint === 'large'}
         />,
       );
+      if (leg.to.bikePark) {
+        onlyIconLegs += 1;
+        legs.push(
+          <div
+            className="leg bike_park"
+            key={`${leg.mode}_${leg.startTime}_bike_park_indicator`}
+          >
+            <Icon
+              img="icon-bike_parking"
+              className="itinerary-icon bike_park"
+            />
+          </div>,
+        );
+      }
     } else if (leg.rentedBike) {
-      const bikingTime = Math.floor(leg.duration / 60);
+      const bikingTime = Math.floor((leg.endTime - leg.startTime) / 1000 / 60);
       legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
@@ -353,7 +376,7 @@ const SummaryRow = (
         />,
       );
     } else if (leg.mode === 'BICYCLE' && renderBar) {
-      const bikingTime = Math.floor(leg.duration / 60);
+      const bikingTime = Math.floor((leg.endTime - leg.startTime) / 1000 / 60);
       legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
@@ -366,12 +389,29 @@ const SummaryRow = (
           large={breakpoint === 'large'}
         />,
       );
+      if (leg.to.bikePark) {
+        onlyIconLegs += 1;
+        legs.push(
+          <div
+            className="leg bike_park"
+            key={`${leg.mode}_${leg.startTime}_bike_park_indicator`}
+          >
+            <Icon
+              img="icon-bike_parking"
+              className="itinerary-icon bike_park"
+            />
+          </div>,
+        );
+      }
     }
 
     const connectsFromViaPoint = () =>
       getViaPointIndex(leg, intermediatePlaces) > -1;
 
     if (leg.route) {
+      const withBicycle =
+        usingOwnBicycleWholeTrip &&
+        (leg.route.mode === 'RAIL' || leg.route.mode === 'SUBWAY');
       if (
         previousLeg &&
         !previousLeg.intermediatePlace &&
@@ -388,6 +428,7 @@ const SummaryRow = (
           intl={intl}
           legLength={legLength}
           large={breakpoint === 'large'}
+          withBicycle={withBicycle}
         />,
       );
       vehicleNames.push(
@@ -418,7 +459,7 @@ const SummaryRow = (
   });
   const normalLegs = legs.length - onlyIconLegs;
   // how many pixels to take from each 'normal' leg to give room for the icons
-  const iconLegsInPixels = 24 * onlyIconLegs / normalLegs;
+  const iconLegsInPixels = (24 * onlyIconLegs) / normalLegs;
   // the leftover percentage from only showing icons added to each 'normal' leg
   const iconLegsInPercents = onlyIconLegsLength / normalLegs;
 

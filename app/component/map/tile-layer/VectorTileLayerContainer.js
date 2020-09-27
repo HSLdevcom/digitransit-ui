@@ -9,10 +9,8 @@ import TicketSales from './TicketSales';
 
 export default function VectorTileLayerContainer(props, { config }) {
   const layers = [];
-
   if (props.showStops) {
     layers.push(Stops);
-
     if (config.cityBike && config.cityBike.showCityBikes) {
       layers.push(CityBikes);
     }
@@ -20,7 +18,6 @@ export default function VectorTileLayerContainer(props, { config }) {
     if (config.parkAndRide && config.parkAndRide.showParkAndRide) {
       layers.push(ParkAndRide);
     }
-
     if (config.ticketSales && config.ticketSales.showTicketSales) {
       layers.push(TicketSales);
     }
@@ -29,7 +26,9 @@ export default function VectorTileLayerContainer(props, { config }) {
   return (
     <TileLayerContainer
       key="tileLayer"
+      pane="markerPane"
       layers={layers}
+      stopsNearYouMode={props.stopsNearYouMode}
       hilightedStops={props.hilightedStops}
       tileSize={config.map.tileSize || 256}
       zoomOffset={config.map.zoomOffset || 0}
@@ -43,6 +42,7 @@ VectorTileLayerContainer.propTypes = {
   hilightedStops: PropTypes.arrayOf(PropTypes.string.isRequired),
   disableMapTracking: PropTypes.func,
   showStops: PropTypes.bool,
+  stopsNearYouMode: PropTypes.string,
   disableLocationPopup: PropTypes.bool,
 };
 
