@@ -72,7 +72,7 @@ export default configMerger(walttiConfig, {
 
   footer: {
     content: [
-      { label: `© Waltti ${walttiConfig.YEAR}` },
+      { label: `© TVV lippu- ja maksujärjestelmä Oy ${walttiConfig.YEAR}` },
       {},
       {
         name: 'about-this-service',
@@ -88,7 +88,19 @@ export default configMerger(walttiConfig, {
       {
         header: 'Tietoja palvelusta',
         paragraphs: [
-          'Tämän palvelun tarjoaa Waltti-opas reittisuunnittelua varten Waltti-opas alueella. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit-palvelualustaan.',
+          'Waltti-reittiopas on TVV lippu- ja maksujärjestelmä Oy:n tarjoama kansallisen tason reittiopaspalvelu. Palvelu paikantaa sinulle sijainnin ja kertoo lähimmät linjat, pysäkit, reitit ja aikataulutiedot. Se suodattaa tarpeettoman tiedon ja kertoo, miten sujuvimmin pääset perille. Reittiopas-palvelu toimii kaikilla päätelaitteilla, mutta on tehty palvelemaan erityisen hyvin mobiilikäyttäjiä. Palvelu perustuu Digitransit-palvelualustaan.',
+        ],
+      },
+      {
+        header: 'Digitransit-palvelualusta',
+        paragraphs: [
+          'Digitransit-palvelualusta on HSL:n, TVV lippu- ja maksujärjestelmä Oy:n ja Traficomin kehittämä avoimen lähdekoodin reititystuote.',
+        ],
+      },
+      {
+        header: 'Tietolähteet',
+        paragraphs: [
+          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Väestörekisterikeskuksen rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut ladataan Traficomin valtakunnallisesta joukkoliikenteen tietokannasta.',
         ],
       },
     ],
@@ -97,7 +109,19 @@ export default configMerger(walttiConfig, {
       {
         header: 'Om tjänsten',
         paragraphs: [
-          'Den här tjänsten erbjuds av Waltti-opas för reseplanering inom Waltti-opas region. Reseplaneraren täcker med vissa begränsningar kollektivtrafik, promenad, cykling samt privatbilism. Tjänsten baserar sig på Digitransit-plattformen.',
+          'Waltti-rutguide är en nationell reseplanera som erbjuds av TVV lippu- ja maksujärjestelmä Oy. Tjänsten lokaliserar din plats och visar de närmsta linjerna och hållplatserna samt rutter och tidtabeller. Tjänsten filtrerar onödig information och anger hur du lättast kommer dit du ska. Ruttguidetjänsten fungerar på alla dataterminaler men är särskilt ägnad att betjäna dem som använder mobilenheter. Tjänsten är baserad på Digitransit, som är riksomfattande serviceplattform för reseplanerare.',
+        ],
+      },
+      {
+        header: 'Digitransit-plattformen',
+        paragraphs: [
+          'Digitransit-plattformen är en öppen programvara utvecklad av HRT, TVV lippu- ja maksujärjestelmä Oy och Traficom.',
+        ],
+      },
+      {
+        header: 'Datakällor',
+        paragraphs: [
+          'Kartor, gator, byggnader, hållplatser och dylik information erbjuds av © OpenStreetMap contributors. Addressinformation hämtas från BRC:s byggnadsinformationsregister. Kollektivtrafikens rutter och tidtabeller hämtas från Traficoms landsomfattande kollektivtrafiksdatabas.',
         ],
       },
     ],
@@ -106,7 +130,19 @@ export default configMerger(walttiConfig, {
       {
         header: 'About this service',
         paragraphs: [
-          'This service is provided by Waltti-opas for route planning in Waltti-opas region. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.',
+          'Waltti Journey planner is a national journey planner offered by TVV lippu- ja maksujärjestelmä Oy. The service finds your location and tells you the closest lines, stops, routes and timetables. It filters out unnecessary information and tells you the smoothest way to get to your destination. The Journey planner service works on all devices but is designed to best serve mobile users. Service is built on Digitransit platform.',
+        ],
+      },
+      {
+        header: 'Digitransit platform',
+        paragraphs: [
+          'The Digitransit service platform is an open source routing platform developed by HSL, TVV lippu- ja maksujärjestelmä Oy and Traficom.',
+        ],
+      },
+      {
+        header: 'Data sources',
+        paragraphs: [
+          'Maps, streets, buildings, stop locations etc. are provided by © OpenStreetMap contributors. Address data is retrieved from the Building and Dwelling Register of the Finnish Population Register Center. Public transport routes and timetables are downloaded from Traficom\'s national public transit database.',
         ],
       },
     ],
