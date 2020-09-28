@@ -2,8 +2,8 @@
 import configMerger from '../util/configMerger';
 
 const CONFIG = 'waltti-opas';
-const APP_TITLE = 'Uusi Reittiopas';
-const APP_DESCRIPTION = 'Uusi Reittiopas - waltti-opas';
+const APP_TITLE = 'Waltti-opas';
+const APP_DESCRIPTION = 'Uusi Reittiopas - Waltti-opas';
 
 const walttiConfig = require('./config.waltti').default;
 
