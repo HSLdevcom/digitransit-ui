@@ -124,7 +124,9 @@ class FavouriteEditingModal extends React.Component {
   };
 
   renderFavouriteListItem = favourite => {
-    const iconId = favourite.selectedIconId.replace('icon-icon_', '');
+    const iconId = favourite.selectedIconId
+      ? favourite.selectedIconId.replace('icon-icon_', '')
+      : 'place';
     const address = favourite.address.replace(
       new RegExp(`${escapeRegExp(favourite.name)}(,)?( )?`),
       '',
