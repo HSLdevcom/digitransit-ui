@@ -42,11 +42,11 @@ export const StreetModeSelectorButton = (
           secondaryIcon ? 'primary-icon' : ''
         }`}
       >
-        <Icon img={icon} height={1.75} width={1.75} />
+        <Icon img={icon} />
       </div>
       {name === 'bikeAndPublic' ? (
         <div className="street-mode-selector-button-icon secondary-icon">
-          <Icon img={secondaryIcon} height={0.75} width={0.75} />
+          <Icon img={secondaryIcon} />
         </div>
       ) : (
         ''

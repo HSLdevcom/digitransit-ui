@@ -2,24 +2,24 @@
   background-color: #f4f4f4;
   border-top: 1px solid #dddddd;
   border-bottom: 1px solid #dddddd;
+  min-height: 76px;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 10px;
-  padding-left: 3.75em;
-  min-height: 85px;
-  max-height: 85px;
+  flex-direction: column;
+  padding-left: 3.7em;
   overflow-x: hidden;
   overflow-y: hidden;
-  white-space: nowrap
+
+  .street-mode-button-row {
+      display: flex;
+      flex-direction: row;
+      margin-top: auto;
+      margin-bottom: auto;
+  }
 }
 
 .mobile {
   .street-mode-selector-container {
-    height: 77px;
-    min-height: 77px;
     overflow: auto;
-    white-space: nowrap;
-    padding-left: 0.9375em;
+    padding-left: 1.2em;
   }
 }

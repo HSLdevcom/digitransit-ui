@@ -17,38 +17,40 @@ export const StreetModeSelector = ({
 }) => {
   return (
     <div className="street-mode-selector-container">
-      <StreetModeSelectorWeatherLabel
-        active={
-          showWalkOptionButton ||
-          showBikeOptionButton ||
-          showBikeAndPublicOptionButton
-        }
-        weatherData={weatherData}
-      />
-      {showWalkOptionButton && (
-        <StreetModeSelectorButton
-          icon="icon-icon_walk"
-          name="walk"
-          plan={walkPlan}
-          onClick={setStreetModeAndSelect}
+      <div className="street-mode-button-row">
+        <StreetModeSelectorWeatherLabel
+          active={
+            showWalkOptionButton ||
+            showBikeOptionButton ||
+            showBikeAndPublicOptionButton
+          }
+          weatherData={weatherData}
         />
-      )}
-      {showBikeOptionButton && (
-        <StreetModeSelectorButton
-          icon="icon-icon_cyclist"
-          name="bike"
-          plan={bikePlan}
-          onClick={setStreetModeAndSelect}
-        />
-      )}
-      {showBikeAndPublicOptionButton && (
-        <StreetModeSelectorButton
-          icon="icon-icon_cyclist"
-          name="bikeAndPublic"
-          plan={bikeAndPublicPlan}
-          onClick={toggleStreetMode}
-        />
-      )}
+        {showWalkOptionButton && (
+          <StreetModeSelectorButton
+            icon="icon-icon_walk"
+            name="walk"
+            plan={walkPlan}
+            onClick={setStreetModeAndSelect}
+          />
+        )}
+        {showBikeOptionButton && (
+          <StreetModeSelectorButton
+            icon="icon-icon_cyclist"
+            name="bike"
+            plan={bikePlan}
+            onClick={setStreetModeAndSelect}
+          />
+        )}
+        {showBikeAndPublicOptionButton && (
+          <StreetModeSelectorButton
+            icon="icon-icon_cyclist"
+            name="bikeAndPublic"
+            plan={bikeAndPublicPlan}
+            onClick={toggleStreetMode}
+          />
+        )}
+      </div>
     </div>
   );
 };
