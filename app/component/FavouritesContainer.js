@@ -195,7 +195,7 @@ const connectedComponent = connectToStores(
     favourites: context
       .getStore('FavouriteStore')
       .getFavourites()
-      .filter(item => item.type !== 'route'),
+      .filter(item => item.type === 'place'),
     favouriteStatus: context.getStore('FavouriteStore').getStatus(),
   }),
 );
