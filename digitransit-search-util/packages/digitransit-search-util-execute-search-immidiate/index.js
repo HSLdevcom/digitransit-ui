@@ -155,13 +155,9 @@ function getOldSearches(oldSearches, input, dropLayers) {
   );
 }
 
-function hasFavourites(context, locations, stops) {
+function hasFavourites(context, locations) {
   const favouriteLocations = locations(context);
-  const favouriteStops = stops(context);
-  return (
-    (favouriteLocations && favouriteLocations.length > 0) ||
-    (favouriteStops && favouriteStops.length > 0)
-  );
+  return favouriteLocations && favouriteLocations.length > 0;
 }
 
 const routeLayers = [
@@ -237,7 +233,7 @@ export function getSearchResults(
   }
   if (
     targets.includes('SelectFromOwnLocations') &&
-    hasFavourites(context, locations, stops)
+    hasFavourites(context, locations)
   ) {
     searchComponents.push(selectFromOwnLocations(input));
   }
@@ -247,9 +243,6 @@ export function getSearchResults(
     if (allSources || sources.includes('Favourite')) {
       const favouriteLocations = locations(context);
       searchComponents.push(getFavouriteLocations(favouriteLocations, input));
-      const favouriteStops = stops(context);
-      const stopsAndStations = getStopAndStationsQuery(favouriteStops);
-      searchComponents.push(getFavouriteStops(stopsAndStations, input));
       if (sources.includes('Back')) {
         searchComponents.push(getBackSuggestion());
       }
