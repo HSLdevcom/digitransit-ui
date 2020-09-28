@@ -12,8 +12,14 @@ const maxLat = 61.103;
 const minLon = 26.041;
 const maxLon = 27.661;
 
+const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
+
 export default configMerger(walttiConfig, {
   CONFIG,
+
+  URL: {
+    OTP: process.env.OTP_URL || `${API_URL}/routing/v1/routers/next-waltti/`,
+  },
 
   appBarLink: { name: 'Waltti', href: 'https://waltti.fi/' },
 
