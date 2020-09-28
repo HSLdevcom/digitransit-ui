@@ -156,7 +156,7 @@ class FavouritesContainer extends React.Component {
             <AutoSuggestWithSearchContext
               appElement="#app"
               sources={['History', 'Datasource']}
-              targets={['Locations', 'CurrentPosition', 'Stops']}
+              targets={['Locations', 'CurrentPosition']}
               id="favourite"
               placeholder="search-address-or-place"
               value={
