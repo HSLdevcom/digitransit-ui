@@ -195,6 +195,13 @@ class FavouriteModal extends React.Component {
   static getDerivedStateFromProps = (nextProps, prevState) => {
     const prevFav = prevState.favourite;
     const nextFav = nextProps.favourite;
+
+    if (isEmpty(nextFav)) {
+      return {
+        favourite: null,
+      };
+    }
+
     if (isEmpty(prevFav) && !isEmpty(nextFav)) {
       return {
         favourite: {
@@ -258,6 +265,22 @@ class FavouriteModal extends React.Component {
     isNumber(this.state.favourite.lat) &&
     isNumber(this.state.favourite.lon);
 
+  closeModal = () => {
+    this.props.handleClose();
+    // hsl-fi/modal close animation lasts 250ms
+    setTimeout(() => {
+      this.setState({ favourite: null });
+    }, 250);
+  };
+
+  cancelSelected = () => {
+    this.props.cancelSelected();
+    // hsl-fi/modal close animation lasts 250ms
+    setTimeout(() => {
+      this.setState({ favourite: null });
+    }, 250);
+  };
+
   save = () => {
     if (this.canSave()) {
       const name = isEmpty(this.state.favourite.name)
@@ -284,11 +307,10 @@ class FavouriteModal extends React.Component {
         });
       }
       if (this.isEdit() && this.props.cancelSelected) {
-        this.props.cancelSelected();
+        this.cancelSelected();
       } else {
-        this.props.handleClose();
+        this.closeModal();
       }
-      this.setState({ favourite: null });
     }
   };
 
@@ -321,10 +343,7 @@ class FavouriteModal extends React.Component {
       canSave: this.canSave,
       isEdit: this.isEdit(),
       cancelText: i18next.t('cancel'),
-      cancelSelected: () => {
-        this.props.cancelSelected();
-        this.setState({ favourite: null });
-      },
+      cancelSelected: () => this.cancelSelected(),
     };
     return (
       <Modal
@@ -337,10 +356,7 @@ class FavouriteModal extends React.Component {
         closeButtonLabel={i18next.t('close-favourite-modal')}
         variant={!this.props.isMobile ? 'small' : 'large'}
         isOpen={this.props.isModalOpen}
-        onCrossClick={() => {
-          this.props.handleClose();
-          this.setState({ favourite: null });
-        }}
+        onCrossClick={() => this.closeModal()}
       >
         {!this.props.isMobile && <DesktopModal {...modalProps} />}
         {this.props.isMobile && <MobileModal {...modalProps} />}
