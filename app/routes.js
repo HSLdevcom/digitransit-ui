@@ -8,6 +8,7 @@ import createRender from 'found/createRender';
 import Error404 from './component/404';
 import TopLevel from './component/TopLevel';
 import LocalStorageEmitter from './component/LocalStorageEmitter';
+import SummaryGeolocator from './component/SummaryGeolocator';
 
 import {
   PREFIX_ITINERARY_SUMMARY,
@@ -109,6 +110,11 @@ export default config => {
           ),
         }}
       </Route>
+      <Route
+        path={`/${PREFIX_ITINERARY_SUMMARY}/POS/:to`}
+        Component={SummaryGeolocator}
+        topBarOptions={{ hidden: true }}
+      />
       <Route path={`/${PREFIX_ITINERARY_SUMMARY}/:from/:to`}>
         {{
           title: (
