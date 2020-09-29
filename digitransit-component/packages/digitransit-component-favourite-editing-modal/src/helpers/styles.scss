@@ -12,6 +12,7 @@ $primary-color: #007ac9;
   @include min-width(tablet) {
     min-height: 284px;
   }
+
   .favourite-edit-list {
     display: flex;
     flex-direction: column;
@@ -19,6 +20,12 @@ $primary-color: #007ac9;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    overflow-y: scroll;
+    max-height: calc(100% - 78px);
+
+    @include min-width(tablet) {
+      max-height: 284px;
+    }
     .favourite-edit-list-item:not(:first-child) {
       margin-top: 9px;
     }
@@ -26,6 +33,7 @@ $primary-color: #007ac9;
       display: flex;
       flex-direction: row;
       align-items: center;
+      background: white;
       margin: 0;
       padding: 0;
       width: 100%;
