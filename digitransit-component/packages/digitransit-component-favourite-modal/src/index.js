@@ -195,6 +195,13 @@ class FavouriteModal extends React.Component {
   static getDerivedStateFromProps = (nextProps, prevState) => {
     const prevFav = prevState.favourite;
     const nextFav = nextProps.favourite;
+
+    if (isEmpty(nextFav)) {
+      return {
+        favourite: null,
+      };
+    }
+
     if (isEmpty(prevFav) && !isEmpty(nextFav)) {
       return {
         favourite: {
