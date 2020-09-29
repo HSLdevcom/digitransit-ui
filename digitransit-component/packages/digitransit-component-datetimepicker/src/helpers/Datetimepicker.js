@@ -198,9 +198,11 @@ function Datetimepicker({
                           : 'arrival',
                         translationSettings,
                       )}
-                      {` ${getDateDisplay(
-                        displayTimestamp,
-                      ).toLowerCase()} ${getTimeDisplay(displayTimestamp)}`}
+                      {` ${
+                        moment().isSame(moment(displayTimestamp), 'day')
+                          ? ''
+                          : getDateDisplay(displayTimestamp).toLowerCase()
+                      } ${getTimeDisplay(displayTimestamp)}`}
                     </>
                   )}
                 </span>
