@@ -8,7 +8,7 @@ $primary-color: #007ac9;
   display: flex;
   position: relative;
   width: 100%;
-  min-height: calc(100% - 165px);
+  min-height: calc(100vh - 168px);
   @include min-width(tablet) {
     min-height: 284px;
   }
