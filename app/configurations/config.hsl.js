@@ -4,7 +4,7 @@ const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
 const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || '';
-const STATIC_MESSAGE_URL = '';
+const STATIC_MESSAGE_URL = undefined;
 // process.env.STATIC_MESSAGE_URL || 'https://dev-yleisviesti.digitransit.fi';
 const APP_DESCRIPTION = 'Helsingin seudun liikenteen Reittiopas.';
 const YEAR = 1900 + new Date().getYear();
@@ -42,6 +42,7 @@ export default {
   feedIds: ['HSL', 'HSLlautta'],
 
   showHSLTracking: false,
+  allowLogin: true,
 
   defaultMapCenter: {
     lat: 60.1710688,

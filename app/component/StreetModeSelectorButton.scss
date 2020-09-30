@@ -1,5 +1,5 @@
 .street-mode-selector-weather-container {
-	display: flex;
+    display: flex;
     align-items: center;
     justify-content: space-between;
 	padding-right: 20px;
@@ -78,34 +78,5 @@
 	.street-mode-button-length {
 	  font-size: 13px;
   	  font-weight: normal;
-	}
-}
-
-.mobile {
-	.street-mode-selector-weather-container {
-		display: block;
-		width: 125px;
-		height: 48px;
-		padding: 4px 15px 5px 20px;
-		.street-mode-selector-panel-weather-text {
-			padding-left: 46px;
-			font-size: 16px;
-			margin-left: -41px;
-			padding-top: 0;
-		  }
-	&.id-101 svg {
-		margin-bottom: -18px;
-    	margin-left: 11px;
-	}
-	&.id-102 svg {
-		margin-bottom: -24px;
-	}
-	 svg {
-		margin-bottom: -1.5rem;
-	 }
-	}
-	.street-mode-selector-button-container {
-		width: 130px;
-		height: 48px;
 	}
 }

@@ -1,0 +1,40 @@
+@import '~@hsl-fi/sass/colors';
+@import '~@hsl-fi/sass/mixins/screen';
+@import '~@hsl-fi/sass/mixins/text';
+
+$primary-color: #007ac9;
+
+.favourite-edit-modal-content-container {
+  display: flex;
+  flex-direction: column;
+  .favourite-edit-modal-content-top {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 31px;
+    @include min-width(tablet) {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+    .favourite-edit-modal-content-header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: inherit;
+      font-size: 18px;
+      font-weight: 500;
+      line-height: normal;
+      letter-spacing: -0.6px;
+      color: #333333;
+      margin-bottom: 34px;
+      @include min-width(tablet) {
+        justify-content: start;
+        align-items: center;
+        margin-bottom: 26px;
+        line-height: 1.33;
+      }
+    }
+  }
+}

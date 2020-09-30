@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import get from 'lodash/get';
 import { matchShape, routerShape } from 'found';
 import LocationMarker from './map/LocationMarker';
 import ItineraryLine from './map/ItineraryLine';
@@ -18,8 +17,6 @@ if (isBrowser) {
   // eslint-disable-next-line
   L = require('leaflet');
 }
-
-let timeout;
 
 function ItineraryPageMap(
   { itinerary, center, breakpoint, bounds, streetMode },
@@ -82,38 +79,6 @@ function ItineraryPageMap(
 
   const showScale = breakpoint === 'large';
 
-  // onCenterMap() used to check if the layer has a marker for an itinerary
-  // stop, emulate a click on the map to open up the popup
-  const onCenterMap = element => {
-    const map = get(element, 'leafletElement', null);
-    if (!map || (!center && !bounds)) {
-      return;
-    }
-    map.closePopup();
-    clearTimeout(timeout);
-    if (!bounds || (breakpoint === 'large' && !bounds)) {
-      const latlngPoint = new L.LatLng(center.lat, center.lon);
-      map.eachLayer(layer => {
-        if (
-          layer instanceof L.Marker &&
-          layer.getLatLng().equals(latlngPoint)
-        ) {
-          timeout = setTimeout(
-            () =>
-              layer.fireEvent('click', {
-                latlng: latlngPoint,
-                layerPoint: map.latLngToLayerPoint(latlngPoint),
-                containerPoint: map.latLngToContainerPoint(latlngPoint),
-              }),
-            250,
-          );
-          // Timout duration comes from
-          // https://github.com/Leaflet/Leaflet/blob/v1.1.0/src/dom/PosAnimation.js#L35
-        }
-      });
-    }
-  };
-
   return (
     <MapContainer
       className="full itinerary"
@@ -125,7 +90,6 @@ function ItineraryPageMap(
       fitBounds={Boolean(bounds)}
       boundsOptions={{ maxZoom: 16 }}
       showScaleBar={showScale}
-      mapRef={onCenterMap}
       hideOrigin
     >
       <BackButton
