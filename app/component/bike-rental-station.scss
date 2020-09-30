@@ -1,12 +1,8 @@
 
-.citybike-use-disclaimer {
-  padding: 14px 21px 21px 18px;
-  background-color: red;
-}
 .mobile {
   .bike-station-page-container {
     height: calc(100% - 20rem);
-    padding: 23px 1.563em 0;
+    padding: 23px 1.563em 2em;
     background-color: white;
     border-radius: 15px 15px 0 0;
     box-shadow: 0 -5px 5px 0 rgba(0, 0, 0, 0.2);
@@ -37,7 +33,7 @@
     border-radius: 8px;
     border: solid 1px #dddddd;
     background-color: #f4f4f5;
-    padding: 14px 21px 21px 18px;
+    padding: 12px 21px 21px 18px;
     width: 100%;
     margin-top: 27px;
     .disclaimer-header {
@@ -61,8 +57,8 @@
       padding: 8px 8px 0 0;
     }
     border-bottom: 1px solid #ddd;
-    padding-bottom: 17px;
-    padding-top: 50px;
+    padding-bottom: 15px;
+    padding-top: 3em;
     display: flex;
     .header {
       flex: 1;
@@ -76,10 +72,11 @@
     font-size: 0.813rem;
     color: #666;
     font-weight: normal;
+    padding-top: 2px;
   }
   .citybike-content-container {
     height: 48px;
-    padding: 15px 10px 0 0;
+    padding: 14px 10px 0 0;
     .availability-container .sub-header-h4 {
       font-size: 0.9375rem;
     }

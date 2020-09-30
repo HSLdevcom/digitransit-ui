@@ -309,6 +309,7 @@ export function getSearchResults(
         'selectFromMap',
         'futureRoute',
         'ownLocations',
+        'bikeRentalStation',
         'stop',
         'back',
       ];
@@ -349,7 +350,8 @@ export function getSearchResults(
       );
       if (
         (!transportMode || transportMode === 'route-CITYBIKE') &&
-        input.length > 0
+        regex &&
+        regex.test(input)
       ) {
         const bikeStations = getAllBikeRentalStations();
         searchComponents.push(getBikeStations(bikeStations, input));

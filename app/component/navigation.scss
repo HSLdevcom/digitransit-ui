@@ -183,10 +183,12 @@ $content-background-color: $background-color;
 }
 
 .back-button {
+  position: absolute;
+  left: 1.5em;
   button {
     padding-top: 0 !important;
     position: absolute;
-    left: 0.5em;
+    //left: 0.5em;
     .icon {
       height: 1.3em;
       width: 1.3em;
@@ -395,6 +397,12 @@ section.content {
     color: #333333; // DT-3358: was $primary-font-color
     margin: 50px 0 16px 0;
     line-height: 1;
+    .back-button {
+      position: static;
+      button {
+        left: 0.5em;
+      }
+    }
   }
 
   h1 {
