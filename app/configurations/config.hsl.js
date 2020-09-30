@@ -4,8 +4,8 @@ const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
 const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || '';
-const STATIC_MESSAGE_URL =
-  process.env.STATIC_MESSAGE_URL || 'https://dev-yleisviesti.digitransit.fi';
+const STATIC_MESSAGE_URL = undefined;
+// process.env.STATIC_MESSAGE_URL || 'https://dev-yleisviesti.digitransit.fi';
 const APP_DESCRIPTION = 'Helsingin seudun liikenteen Reittiopas.';
 const YEAR = 1900 + new Date().getYear();
 
@@ -42,6 +42,7 @@ export default {
   feedIds: ['HSL', 'HSLlautta'],
 
   showHSLTracking: false,
+  allowLogin: true,
 
   defaultMapCenter: {
     lat: 60.1710688,
@@ -399,64 +400,64 @@ export default {
   showTicketSelector: true,
 
   staticMessages: [
-    {
-      id: '2',
-      priority: -1,
-      shouldTrigger: true,
-      content: {
-        fi: [
-          {
-            type: 'text',
-            content:
-              'Käytämme evästeitä palveluidemme kehitykseen. Käyttämällä sivustoa hyväksyt evästeiden käytön. Lue lisää: ',
-          },
-          {
-            type: 'a',
-            content: 'Käyttöehdot',
-            href: 'https://www.hsl.fi/kayttoehdot',
-          },
-          {
-            type: 'a',
-            content: 'Tietosuojaseloste',
-            href: 'https://www.hsl.fi/tietosuojaseloste',
-          },
-        ],
-        en: [
-          {
-            type: 'text',
-            content:
-              'We use cookies to improve our services. By using this site, you agree to its use of cookies. Read more: ',
-          },
-          {
-            type: 'a',
-            content: 'Terms of use',
-            href: 'https://www.hsl.fi/en/terms-of-use',
-          },
-          {
-            type: 'a',
-            content: 'Privacy Statement',
-            href: 'https://www.hsl.fi/en/description-of-the-file',
-          },
-        ],
-        sv: [
-          {
-            type: 'text',
-            content:
-              'Vi använder cookies för att utveckla våra tjänster. Genom att använda webbplatsen godkänner du att vi använder cookies. Läs mer: ',
-          },
-          {
-            type: 'a',
-            content: 'Användarvillkor',
-            href: 'https://www.hsl.fi/sv/anvandarvillkor',
-          },
-          {
-            type: 'a',
-            content: 'Dataskyddsbeskrivning',
-            href: 'https://www.hsl.fi/sv/dataskyddsbeskrivning',
-          },
-        ],
-      },
-    },
+    // {
+    //   id: '2',
+    //   priority: -1,
+    //   shouldTrigger: true,
+    //   content: {
+    //     fi: [
+    //       {
+    //         type: 'text',
+    //         content:
+    //           'Käytämme evästeitä palveluidemme kehitykseen. Käyttämällä sivustoa hyväksyt evästeiden käytön. Lue lisää: ',
+    //       },
+    //       {
+    //         type: 'a',
+    //         content: 'Käyttöehdot',
+    //         href: 'https://www.hsl.fi/kayttoehdot',
+    //       },
+    //       {
+    //         type: 'a',
+    //         content: 'Tietosuojaseloste',
+    //         href: 'https://www.hsl.fi/tietosuojaseloste',
+    //       },
+    //     ],
+    //     en: [
+    //       {
+    //         type: 'text',
+    //         content:
+    //           'We use cookies to improve our services. By using this site, you agree to its use of cookies. Read more: ',
+    //       },
+    //       {
+    //         type: 'a',
+    //         content: 'Terms of use',
+    //         href: 'https://www.hsl.fi/en/terms-of-use',
+    //       },
+    //       {
+    //         type: 'a',
+    //         content: 'Privacy Statement',
+    //         href: 'https://www.hsl.fi/en/description-of-the-file',
+    //       },
+    //     ],
+    //     sv: [
+    //       {
+    //         type: 'text',
+    //         content:
+    //           'Vi använder cookies för att utveckla våra tjänster. Genom att använda webbplatsen godkänner du att vi använder cookies. Läs mer: ',
+    //       },
+    //       {
+    //         type: 'a',
+    //         content: 'Användarvillkor',
+    //         href: 'https://www.hsl.fi/sv/anvandarvillkor',
+    //       },
+    //       {
+    //         type: 'a',
+    //         content: 'Dataskyddsbeskrivning',
+    //         href: 'https://www.hsl.fi/sv/dataskyddsbeskrivning',
+    //       },
+    //     ],
+    //   },
+    // },
   ],
   staticMessagesUrl: STATIC_MESSAGE_URL,
   geoJson: {
@@ -516,8 +517,7 @@ export default {
   },
 
   useTicketIcons: true,
-  trafficNowLink:
-    'https://uusi.hsl.fi/matkustaminen/liikennetiedotteet-ja-hairiot',
+  trafficNowLink: 'https://uusi.hsl.fi/matkustaminen/liikenne',
 
   localStorageEmitter:
     process.env.LOCALSTORAGEEMITTER ||

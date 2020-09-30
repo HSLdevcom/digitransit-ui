@@ -97,6 +97,7 @@ class MapWithTrackingStateHandler extends React.Component {
     disableLocationPopup: PropTypes.bool,
     showLocationMessages: PropTypes.bool,
     defaultMapCenter: PropTypes.object.isRequired,
+    fitBoundsWithSetCenter: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -107,6 +108,7 @@ class MapWithTrackingStateHandler extends React.Component {
     disableLocationPopup: false,
     fitBounds: false,
     showLocationMessages: false,
+    fitBoundsWithSetCenter: false,
   };
 
   constructor(props) {
@@ -324,6 +326,10 @@ class MapWithTrackingStateHandler extends React.Component {
       location = {};
     } else {
       location = this.state.defaultMapCenter;
+    }
+    if (this.props.fitBoundsWithSetCenter && this.state.mapTracking) {
+      useFitBounds = true;
+      location = {};
     }
     return (
       <Component

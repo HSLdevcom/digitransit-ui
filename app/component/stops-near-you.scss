@@ -1,10 +1,10 @@
 .map.flex-grow {
     position: relative;
     min-height: 20rem;
-    z-index: 0;
 }
 
 .stops-near-you-page {
+    position: relative;
     .show-more-button {
         margin: 0 6.25em 20px;
         font-weight: 500;
@@ -144,14 +144,6 @@
 .scrollable-content-wrapper {
     .stops-near-you-search-container {
         margin-bottom: 22px;
-    }
-    .stops-near-you-page {
-        display: flex;
-        flex-basis: 0px;
-        flex-direction: column;
-        flex-grow: 1;
-        flex-shrink: 0;
-        overflow-y: auto;
     }
     .back-button.near-you-back-button {
         font-size: 1.25rem;

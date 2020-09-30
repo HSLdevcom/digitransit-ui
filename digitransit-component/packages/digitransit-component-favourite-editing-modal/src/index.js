@@ -13,8 +13,7 @@ import ContainerSpinner from '@hsl-fi/container-spinner';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
 import Modal from '@hsl-fi/modal';
-import DesktopModal from './helpers/DesktopModal';
-import MobileModal from './helpers/MobileModal';
+import ModalContent from './helpers/ModalContent';
 import styles from './helpers/styles.scss';
 import translations from './helpers/translations';
 
@@ -211,19 +210,7 @@ class FavouriteEditingModal extends React.Component {
             className={styles['favourite-edit-list']}
             tag="ul"
             list={favourites}
-            setList={items =>
-              this.setState({ favourites: items }, () => {
-                const omittedItems = items.map(item =>
-                  omit(item, ['chosen', 'selected']),
-                );
-                const omittedFavourites = favourites.map(item =>
-                  omit(item, ['chosen', 'selected']),
-                );
-                if (!isEqual(omittedItems, omittedFavourites)) {
-                  this.props.updateFavourites(omittedItems);
-                }
-              })
-            }
+            setList={items => this.setState({ favourites: items })}
             animation={200}
             handle={`.${styles['favourite-edit-list-item-left']}`}
           >
@@ -270,19 +257,22 @@ class FavouriteEditingModal extends React.Component {
     );
   };
 
+  closeModal = () => {
+    this.props.handleClose();
+    const omittedFavourites = this.state.favourites.map(item =>
+      omit(item, ['chosen', 'selected']),
+    );
+    if (!isEqual(omittedFavourites, this.props.favourites)) {
+      this.props.updateFavourites(omittedFavourites);
+    }
+  };
+
   render() {
     const { isLoading } = this.props;
     const { favourites, showDeletePlaceModal, selectedFavourite } = this.state;
     const modalProps = {
       headerText: i18next.t('edit-places'),
-      closeModal: this.props.handleClose,
-      closeModalKeyDown: e => {
-        if (isKeyboardSelectionEvent(e)) {
-          this.props.handleClose();
-        }
-      },
-      closeArialLabel: i18next.t('close-modal'),
-      renderList: this.renderFavouriteList(favourites, isLoading),
+      renderList: () => this.renderFavouriteList(favourites, isLoading),
     };
     return (
       <div>
@@ -293,10 +283,10 @@ class FavouriteEditingModal extends React.Component {
             closeButtonLabel={i18next.t('close-modal')}
             variant="large"
             isOpen={this.props.isModalOpen}
-            onCrossClick={this.props.handleClose}
+            onCrossClick={this.closeModal}
           >
             {this.renderDeleteFavouriteModal(selectedFavourite)}
-            <MobileModal {...modalProps} />
+            <ModalContent {...modalProps} />
           </Modal>
         )}
         {!this.props.isMobile && (
@@ -307,9 +297,9 @@ class FavouriteEditingModal extends React.Component {
               closeButtonLabel={i18next.t('close-modal')}
               variant="small"
               isOpen={this.props.isModalOpen && !showDeletePlaceModal}
-              onCrossClick={this.props.handleClose}
+              onCrossClick={this.closeModal}
             >
-              <DesktopModal {...modalProps} />
+              <ModalContent {...modalProps} />
             </Modal>
             {this.renderDeleteFavouriteModal(selectedFavourite)}
           </Fragment>

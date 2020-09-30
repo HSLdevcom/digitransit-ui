@@ -46,17 +46,16 @@ function suggestionToAriaContent(item) {
     }
     const [name, label] = getNameLabel(item.properties, true);
     return [iconstr, name, label];
-  } else {
-    return [
-      i18next.t('future-route'),
-      `${i18next.t('origin')} ${item.properties.origin.name}, ${
-        item.properties.origin.locality
-      }, ${i18next.t('destination')} ${item.properties.destination.name}, ${
-        item.properties.destination.locality
-      }`,
-      item.translatedText,
-    ];
   }
+  return [
+    i18next.t('future-route'),
+    `${i18next.t('origin')} ${item.properties.origin.name}, ${
+      item.properties.origin.locality
+    }, ${i18next.t('destination')} ${item.properties.destination.name}, ${
+      item.properties.destination.locality
+    }`,
+    item.translatedText,
+  ];
 }
 
 function translateFutureRouteSuggestionTime(item) {

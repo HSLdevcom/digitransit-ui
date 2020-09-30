@@ -224,6 +224,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                 defaultMessage="Stops near you"
               />
             }
+            scrollable
             content={this.renderContent()}
             map={this.renderMap()}
             bckBtnColor={this.context.config.colors.primary}

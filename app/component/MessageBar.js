@@ -244,7 +244,8 @@ class MessageBar extends Component {
     const msg = messages[index];
     const type = msg.type || 'info';
     const icon = msg.icon || 'info';
-    const { iconColor } = { msg };
+    // eslint-disable-next-line prefer-destructuring
+    const iconColor = msg.iconColor;
     const iconName = `icon-icon_${icon}`;
     const isDisruption = msg.type === 'disruption';
     const backgroundColor = msg.backgroundColor || '#fff';
