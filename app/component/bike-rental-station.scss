@@ -2,13 +2,16 @@
 .mobile {
   .bike-station-page-container {
     height: calc(100% - 20rem);
-    padding: 23px 1.563em 2em;
+    padding: 18px 1.563em 2em;
     background-color: white;
     border-radius: 15px 15px 0 0;
     box-shadow: 0 -5px 5px 0 rgba(0, 0, 0, 0.2);
     position: relative;
     top: -15px;
     margin: 0;
+    .citybike-use-disclaimer {
+      margin-top: 19px;
+    }
     .bike-station-header {
       padding: 0;
       border: none;
@@ -18,11 +21,18 @@
         }
         .bike-station-sub-header {
           font-size: 0.88rem;
+          padding: 0;
         }
       }
     }
     .citybike-content-container {
-      padding: 26px 0 0 0;
+      padding: 17px 0 0 0;
+      .icon-container {
+        .icon {
+          width: 36px;
+          height: 36px;
+        }
+      }
     }
   }
 }
