@@ -37,14 +37,8 @@ import {
   exampleDataCanceled,
 } from './data/SummaryRow.ExampleData';
 
-const Leg = ({
-  mode,
-  routeNumber,
-  legLength,
-  renderNumber,
-  lastLegRendered,
-}) => {
-  return renderNumber || lastLegRendered ? (
+const Leg = ({ mode, routeNumber, legLength, renderNumber }) => {
+  return renderNumber ? (
     <div
       className={cx('leg', mode.toLowerCase())}
       style={{ '--width': `${legLength}%` }}
@@ -60,7 +54,6 @@ Leg.propTypes = {
   routeNumber: PropTypes.node.isRequired,
   legLength: PropTypes.number.isRequired,
   renderNumber: PropTypes.bool,
-  lastLegRendered: PropTypes.bool,
   mode: PropTypes.string,
 };
 Leg.defaultProps = {
@@ -74,7 +67,6 @@ export const RouteLeg = ({
   legLength,
   renderNumber,
   isTransitLeg,
-  lastLegRendered,
   withBicycle,
 }) => {
   const isCallAgency = isCallAgencyPickupType(leg);
@@ -117,7 +109,6 @@ export const RouteLeg = ({
       large={large}
       legLength={legLength}
       renderNumber={renderNumber}
-      lastLegRendered={lastLegRendered}
     />
   );
 };
@@ -129,7 +120,6 @@ RouteLeg.propTypes = {
   legLength: PropTypes.number.isRequired,
   renderNumber: PropTypes.bool,
   isTransitLeg: PropTypes.bool,
-  lastLegRendered: PropTypes.bool,
   withBicycle: PropTypes.bool.isRequired,
 };
 
@@ -184,6 +174,10 @@ ModeLeg.propTypes = {
   walkingTime: PropTypes.number,
   renderNumber: PropTypes.bool,
   isTransitLeg: PropTypes.bool,
+};
+
+ModeLeg.defaultProps = {
+  renderNumber: true,
 };
 
 ModeLeg.contextTypes = {
@@ -269,7 +263,6 @@ const SummaryRow = (
     let waitTime;
     let legLength;
     let waitLength;
-    let lastLegRendered = false;
     const isNextLegLast = i + 1 === compressedLegs.length - 1;
     const shouldRenderLastLeg =
       isNextLegLast && lastLegLength < renderBarThreshold;
@@ -311,7 +304,7 @@ const SummaryRow = (
 
     if (!renderNumber && isTransitLeg(leg)) {
       if (isLastLeg || shouldRenderLastLeg) {
-        lastLegRendered = true;
+        renderNumber = true;
       } else {
         // if the leg is a transit leg with no space for the
         // route number, render only the icon
@@ -424,7 +417,6 @@ const SummaryRow = (
           key={`${leg.mode}_${leg.startTime}`}
           leg={leg}
           renderNumber={renderNumber}
-          lastLegRendered={lastLegRendered}
           intl={intl}
           legLength={legLength}
           large={breakpoint === 'large'}
@@ -446,11 +438,14 @@ const SummaryRow = (
     }
 
     if (waiting) {
+      const waitingTimeinMin = Math.floor(waitTime / 1000 / 60);
       legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}_wait`}
           leg={leg}
           legLength={waitLength}
+          walkingTime={waitingTimeinMin}
+          isTransitLeg={false}
           mode="WAIT"
           large={breakpoint === 'large'}
         />,

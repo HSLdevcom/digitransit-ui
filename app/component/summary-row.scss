@@ -210,20 +210,33 @@
         /* stylelint-disable-next-line */
         max-width: -moz-fit-content;
         .vcenter-children {
-          display: flex;
+          display: block;
           align-items: center;
           line-height: 1;
-          min-width: calc(100% + 7px);
+          overflow: hidden;
+          min-width: unset;
           justify-content: space-between;
+          .special-icon {
+            float: left;
+          }
+          .vehicle-number-container-v {
+            float: left;
+            display: flex;
+            height: 100%;
+            margin-left: 7px;
+            .vehicle-number {
+              align-self: center;
+            }
+          }
           &.wait {
             min-width: unset;
           }
-          &.walk, &.citybike, &.bicycle {
+          &.walk, &.citybike, &.bicycle, &.wait {
             display: block;
             overflow: hidden;
             min-width: unset;
             .icon {
-              &.walk, &.citybike, &.bicycle {
+              &.walk, &.citybike, &.bicycle, &.wait {
                 float: left;
                 display: flex;
                 justify-content: center;
@@ -234,6 +247,9 @@
               float: left;
               display: flex;
               height: 110%;
+              &.wait {
+                height: 100%;
+              }
               .leg-duration {
                 align-self: center;
               }
@@ -250,7 +266,7 @@
           height: 24px;
         }
           .vehicle-number-container-v {
-            padding-right: 8px;
+            padding-right: 2px;
             .long {
               left: 24px;
               top: 4px;
@@ -314,10 +330,6 @@
       &.wait {
         background-color: white;
         border: 1px solid $light-gray;
-        .route-number{
-          justify-content: center;
-          max-width: 24px;
-        }
       }
       &.walk {
         background-color: $light-gray;
@@ -326,9 +338,7 @@
         color: #f4f4f5; // Override default bike color
         border: solid 1px rgba(0, 0, 0, 0.3);
       }
-
     }
-
     .line {
       text-align: center;
 
@@ -341,9 +351,8 @@
       &.wait {
         color: #666;
         .icon {
-          margin-bottom: 0.09em;
-          height: 0.5em;
-          width: 0.5em;
+          height: 0.75em;
+          width: 0.75em;
         }
       }
       &.walk {
