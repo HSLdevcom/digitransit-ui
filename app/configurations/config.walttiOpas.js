@@ -1,7 +1,7 @@
 /* eslint-disable */
 import configMerger from '../util/configMerger';
 
-const CONFIG = 'waltti-opas';
+const CONFIG = 'walttiOpas';
 const APP_TITLE = 'Waltti-opas';
 const APP_DESCRIPTION = 'Uusi Reittiopas - Waltti-opas';
 
@@ -35,7 +35,7 @@ export default configMerger(walttiConfig, {
   title: APP_TITLE,
 
   // Navbar logo
-  logo: 'waltti-opas/waltti-logo.png',
+  logo: 'walttiOpas/waltti-logo.png',
 
   textLogo: false, // title text instead of logo img
 
