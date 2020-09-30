@@ -168,6 +168,13 @@ input[type='text'] {
       height: 16px;
     }
   }
+  &.origin-stop-near-you {
+    svg {
+      fill: #888888;
+      width: 16px;
+      height: 16px;
+    }
+  }
 }
 
 button.clear-input {

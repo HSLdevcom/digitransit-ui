@@ -138,9 +138,13 @@ class IndexPage extends React.Component {
     const { intl, config } = this.context;
     const { trafficNowLink } = config;
     const { breakpoint, destination, origin, lang } = this.props;
+    const queryString = this.context.match.location.search;
 
+    const originToStopNearYou = {
+      ...origin,
+      queryString,
+    };
     // const { mapExpanded } = this.state; // TODO verify
-
     return breakpoint === 'large' ? (
       <div
         className={`front-page flex-vertical ${
@@ -192,6 +196,21 @@ class IndexPage extends React.Component {
                   urlPrefix={`/${PREFIX_NEARYOU}`}
                   language={lang}
                   showTitle
+                  autosuggestComponent={
+                    <DTAutoSuggestWithSearchContext
+                      appElement="#app"
+                      icon="search"
+                      sources={['History', 'Datasource']}
+                      targets={['Locations', 'Stops']}
+                      id="origin-stop-near-you"
+                      placeholder="origin"
+                      value=""
+                      lang={lang}
+                    />
+                  }
+                  router={this.context.router}
+                  checkPositioningPermission={checkPositioningPermission}
+                  origin={originToStopNearYou}
                 />
               </div>
             ) : (
@@ -279,6 +298,22 @@ class IndexPage extends React.Component {
                   urlPrefix={`/${PREFIX_NEARYOU}`}
                   language={lang}
                   showTitle
+                  autosuggestComponent={
+                    <DTAutoSuggestWithSearchContext
+                      appElement="#app"
+                      icon="search"
+                      sources={['History', 'Datasource']}
+                      targets={['Locations', 'Stops']}
+                      id="origin-stop-near-you"
+                      placeholder="origin"
+                      value=""
+                      lang={lang}
+                      isMobile
+                    />
+                  }
+                  router={this.context.router}
+                  checkPositioningPermission={checkPositioningPermission}
+                  origin={originToStopNearYou}
                 />
               </div>
             ) : (
@@ -413,7 +448,6 @@ const IndexPageWithPosition = connectToStores(
           locationState.status === 'no-location'
         ) {
           debug('Auto Initialising geolocation');
-
           context.executeAction(initGeolocation);
         } else if (status.state === 'prompt') {
           debug('Still prompting');

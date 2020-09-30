@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { routerShape, matchShape } from 'found';
 import { intlShape } from 'react-intl';
 import Icon from './Icon';
+import { PREFIX_NEARYOU } from '../util/path';
 
 export default class BackButton extends React.Component {
   static contextTypes = {
@@ -42,7 +43,14 @@ export default class BackButton extends React.Component {
     } else if (this.context.match.location.index > 0) {
       this.context.router.go(-1);
     } else {
-      this.context.router.push('/');
+      const { location } = this.context.match;
+      if (location.pathname.indexOf(PREFIX_NEARYOU) === 1) {
+        const origin = location.pathname.substring(1).split('/').pop();
+        const search = location.search ? location.search : '';
+        this.context.router.push(`/${origin}/-${search}`);
+      } else {
+        this.context.router.push('/');
+      }
     }
   };
 

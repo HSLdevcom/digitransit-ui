@@ -1,5 +1,8 @@
 const translations = {
   en: {
+    'near-stop-modal-grant-permission': 'or grant permission fro geolocation',
+    'near-stop-modal-header': 'Geolocation denied',
+    'near-stop-modal-info': 'Using ',
     'pick-mode': 'Select a transport mode',
     'pick-mode-airplane': 'Flight',
     'pick-mode-bus': 'Bus',
@@ -13,8 +16,13 @@ const translations = {
     'placeholder-route-stop-station': 'Enter route, stop or station',
     'title-route-stop-station': 'Stops and lines near you',
     'title-origin-to-destination': 'Where to?',
+    'use-own-position': 'Use current location',
   },
   fi: {
+    'near-stop-modal-grant-permission': 'tai salli paikannus',
+    'near-stop-modal-header': 'Et ole sallinut paikannusta',
+    'near-stop-modal-info':
+      'Lähipysäkkien käyttö edellyttää sijainnin valitsemista.',
     'pick-mode': 'Valitse joukkoliikennevälineistä',
     'pick-mode-airplane': 'Lentokone',
     'pick-mode-bus': 'Bussi',
@@ -28,8 +36,13 @@ const translations = {
     'placeholder-route-stop-station': 'Syötä linja, pysäkki tai asema',
     'title-route-stop-station': 'Lähipysäkit ja linjat',
     'title-origin-to-destination': 'Minne mennään?',
+    'use-own-position': 'Käytä nykyistä sijaintia',
   },
   sv: {
+    'near-stop-modal-grant-permission': 'tai salli paikannus',
+    'near-stop-modal-header': 'Et ole sallinut paikannusta',
+    'near-stop-modal-info':
+      'Lähipysäkkien käyttö edellyttää sijainnin valitsemista.',
     'pick-mode': 'Välj ett transportläge',
     'pick-mode-airplane': 'Flyg',
     'pick-mode-bus': 'Buss',
@@ -43,6 +56,7 @@ const translations = {
     'placeholder-route-stop-station': 'Skriv linje, hållplats eller station',
     'title-route-stop-station': 'Hållplatser och linjer närä dig',
     'title-origin-to-destination': 'Var till?',
+    'use-own-position': 'Använd min position',
   },
 };
 

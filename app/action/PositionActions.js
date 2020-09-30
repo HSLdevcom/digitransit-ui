@@ -157,7 +157,7 @@ function watchPosition(actionContext) {
  */
 export function checkPositioningPermission() {
   const p = new Promise(resolve => {
-    if (window.mock !== undefined) {
+    if (typeof window !== 'undefined' && window.mock !== undefined) {
       debug('mock permission');
       resolve({ state: window.mock.permission });
       return;
@@ -241,7 +241,7 @@ export function initGeolocation(actionContext) {
   let start = false;
   debug('Initializing');
 
-  if (window.mock !== undefined) {
+  if (typeof window !== 'undefined' && window.mock !== undefined) {
     debug('Geolocation mock is enabled', window.mock);
     start = true;
   }

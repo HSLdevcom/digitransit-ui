@@ -137,7 +137,7 @@ class DTAutosuggestPanel extends React.Component {
     destinationPlaceHolder: PropTypes.string,
     initialViaPoints: PropTypes.arrayOf(PropTypes.object),
     updateViaPoints: PropTypes.func,
-    breakpoint: PropTypes.string.isRequired,
+    breakpoint: PropTypes.string,
     swapOrder: PropTypes.func,
     searchPanelText: PropTypes.string,
     searchContext: PropTypes.any.isRequired,

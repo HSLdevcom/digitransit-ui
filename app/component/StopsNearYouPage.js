@@ -200,6 +200,16 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     );
   };
 
+  createBckBtnUrl = () => {
+    const { location } = this.context.match ? this.context.match : undefined;
+    if (location && location.pathname) {
+      const origin = location.pathname.substring(1).split('/').pop();
+      const search = location.search ? location.search : '';
+      return `/${origin}/-${search}`;
+    }
+    return undefined;
+  };
+
   render() {
     if (this.props.loadingPosition) {
       return <Loading />;
@@ -217,6 +227,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
             content={this.renderContent()}
             map={this.renderMap()}
             bckBtnColor={this.context.config.colors.primary}
+            bckBtnUrl={this.createBckBtnUrl()}
           />
         )}
         mobile={() => (
@@ -224,6 +235,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
             content={this.renderContent()}
             map={this.renderMap()}
             bckBtnColor={this.context.config.colors.primary}
+            bckBtnUrl={this.createBckBtnUrl()}
           />
         )}
       />
