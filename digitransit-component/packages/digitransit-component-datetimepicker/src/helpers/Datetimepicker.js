@@ -10,7 +10,7 @@ import MobileDatepicker from './MobileDatepicker';
 import MobileTimepicker from './MobileTimepicker';
 import translations from './translations';
 import styles from './styles.scss';
-import isMobile from './isMobile';
+import { isMobile, isAndroid } from './mobileDetection';
 import dateTimeInputIsSupported from './dateTimeInputIsSupported';
 
 moment.tz.setDefault('Europe/Helsinki');
@@ -69,6 +69,7 @@ function Datetimepicker({
   const [htmlId] = useState(uniqueId('datetimepicker-'));
 
   const [useMobileInputs] = useState(isMobile() && dateTimeInputIsSupported());
+  const useDateTimeCombined = isAndroid();
 
   const translationSettings = { lng: lang };
 
@@ -198,9 +199,11 @@ function Datetimepicker({
                           : 'arrival',
                         translationSettings,
                       )}
-                      {` ${getDateDisplay(
-                        displayTimestamp,
-                      ).toLowerCase()} ${getTimeDisplay(displayTimestamp)}`}
+                      {` ${
+                        moment().isSame(moment(displayTimestamp), 'day')
+                          ? ''
+                          : getDateDisplay(displayTimestamp).toLowerCase()
+                      } ${getTimeDisplay(displayTimestamp)}`}
                     </>
                   )}
                 </span>
@@ -334,6 +337,7 @@ function Datetimepicker({
                         <Icon img="calendar" />
                       </span>
                     }
+                    dateTimeCombined={useDateTimeCombined}
                   />
                 </span>
                 <span
@@ -352,6 +356,7 @@ function Datetimepicker({
                         <Icon img="time" />
                       </span>
                     }
+                    dateTimeCombined={useDateTimeCombined}
                   />
                 </span>
               </>
