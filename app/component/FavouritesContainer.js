@@ -1,13 +1,17 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { intlShape } from 'react-intl';
+import { intlShape, FormattedMessage } from 'react-intl';
+import { isEmpty } from 'lodash';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { routerShape } from 'found';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import AutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import FavouriteBar from '@digitransit-component/digitransit-component-favourite-bar';
 import FavouriteModal from '@digitransit-component/digitransit-component-favourite-modal';
 import FavouriteEditModal from '@digitransit-component/digitransit-component-favourite-editing-modal';
+import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
 import withSearchContext from './WithSearchContext';
+
 import {
   saveFavourite,
   updateFavourites,
@@ -34,6 +38,7 @@ class FavouritesContainer extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
+    router: routerShape.isRequired,
   };
 
   static propTypes = {
@@ -42,6 +47,7 @@ class FavouritesContainer extends React.Component {
     lang: PropTypes.string,
     isMobile: PropTypes.bool,
     favouriteStatus: PropTypes.string,
+    user: PropTypes.object,
   };
 
   static defaultProps = {
@@ -53,6 +59,7 @@ class FavouritesContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      loginModalOpen: false,
       addModalOpen: false,
       editModalOpen: false,
       favourite: null,
@@ -117,6 +124,35 @@ class FavouritesContainer extends React.Component {
     });
   };
 
+  renderLoginModal = () => {
+    const login = <FormattedMessage id="login" defaultMessage="Log in" />;
+    const cancel = <FormattedMessage id="cancel" defaultMessage="cancel" />;
+    return (
+      <DialogModal
+        appElement="#app"
+        headerText="Hi!"
+        handleClose={() => this.setState({ loginModalOpen: false })}
+        variant="login"
+        lang={this.props.lang}
+        isModalOpen={this.state.loginModalOpen}
+        primaryButtonText={login}
+        primaryButtonOnClick={e => {
+          e.preventDefault();
+          window.location.replace('/login');
+          this.setState({
+            loginModalOpen: false,
+          });
+        }}
+        secondaryButtonText={cancel}
+        secondaryButtonOnClick={() =>
+          this.setState({
+            loginModalOpen: false,
+          })
+        }
+      />
+    );
+  };
+
   render() {
     const isLoading =
       this.props.favouriteStatus === FavouriteStore.STATUS_FETCHING_OR_UPDATING;
@@ -125,10 +161,22 @@ class FavouritesContainer extends React.Component {
         <FavouriteBar
           favourites={this.props.favourites}
           onClickFavourite={this.props.onClickFavourite}
-          onAddPlace={() => this.setState({ addModalOpen: true })}
+          onAddPlace={() =>
+            isEmpty(this.props.user)
+              ? this.setState({ loginModalOpen: true })
+              : this.setState({ addModalOpen: true })
+          }
           onEdit={() => this.setState({ editModalOpen: true })}
-          onAddHome={this.addHome}
-          onAddWork={this.addWork}
+          onAddHome={() =>
+            isEmpty(this.props.user)
+              ? this.setState({ loginModalOpen: true })
+              : this.addHome()
+          }
+          onAddWork={() =>
+            isEmpty(this.props.user)
+              ? this.setState({ loginModalOpen: true })
+              : this.addWork()
+          }
           lang={this.props.lang}
           isLoading={isLoading}
         />
@@ -183,6 +231,7 @@ class FavouritesContainer extends React.Component {
           isMobile={this.props.isMobile}
           isLoading={isLoading}
         />
+        {this.renderLoginModal()}
       </React.Fragment>
     );
   }
@@ -190,13 +239,14 @@ class FavouritesContainer extends React.Component {
 
 const connectedComponent = connectToStores(
   FavouritesContainer,
-  ['FavouriteStore'],
+  ['FavouriteStore', 'UserStore'],
   context => ({
     favourites: context
       .getStore('FavouriteStore')
       .getFavourites()
       .filter(item => item.type !== 'route'),
     favouriteStatus: context.getStore('FavouriteStore').getStatus(),
+    user: context.getStore('UserStore').getUser(),
   }),
 );
 

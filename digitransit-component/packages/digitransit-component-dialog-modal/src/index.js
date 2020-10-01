@@ -32,7 +32,15 @@ const DialogModal = ({
   appElement,
   isModalOpen,
   modalAriaLabel,
+  variant,
 }) => {
+  let content = dialogContent;
+  let header = headerText;
+  // Use login content
+  if (variant === 'login') {
+    content = i18next.t('login-content');
+    header = i18next.t('login-header');
+  }
   i18next.changeLanguage(lang);
   return (
     <Modal
@@ -45,11 +53,11 @@ const DialogModal = ({
     >
       <div className={styles['digitransit-dialog-modal-top']}>
         <div className={styles['digitransit-dialog-modal-header']}>
-          {headerText}
+          {header}
         </div>
-        {dialogContent && (
+        {content && (
           <div className={styles['digitransit-dialog-modal-content']}>
-            {dialogContent}
+            {content}
           </div>
         )}
       </div>
@@ -62,7 +70,7 @@ const DialogModal = ({
               styles['digitransit-dialog-modal-button'],
               styles.primary,
             )}
-            onClick={() => primaryButtonOnClick()}
+            onClick={primaryButtonOnClick}
           >
             {primaryButtonText}
           </button>
@@ -97,6 +105,7 @@ DialogModal.propTypes = {
   dialogContent: PropTypes.string,
   lang: PropTypes.string,
   modalAriaLabel: PropTypes.string,
+  variant: PropTypes.string,
 };
 
 DialogModal.defaultProps = {
@@ -104,6 +113,7 @@ DialogModal.defaultProps = {
   dialogContent: undefined,
   secondaryButtonText: undefined,
   secondaryButtonOnClick: undefined,
+  variant: undefined,
 };
 
 export default DialogModal;
