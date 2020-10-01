@@ -126,7 +126,10 @@ function DesktopDatetimepicker({
             inputProps={{
               value: displayValue,
               onChange: onInputChange,
-              onFocus: () => {
+              onFocus: e => {
+                if (!disableTyping) {
+                  e.target.select();
+                }
                 changeOpen(true);
               },
               onBlur: () => {
