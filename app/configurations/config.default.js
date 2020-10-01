@@ -748,7 +748,7 @@ export default {
     oulu: 'oulu',
     hameenlinna: 'hameenlinna',
     matka: 'matka',
-    'waltti-opas': 'waltti',
+    walttiOpas: 'waltti',
     salo: 'salo',
     rovaniemi: 'rovaniemi',
     kouvola: 'kouvola',
