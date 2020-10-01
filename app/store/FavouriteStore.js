@@ -98,8 +98,11 @@ export default class FavouriteStore extends Store {
     return this.favourites;
   }
 
-  getByGtfsId(gtfsId) {
-    return find(this.favourites, favourite => gtfsId === favourite.gtfsId);
+  getByGtfsId(gtfsId, type) {
+    return find(
+      this.favourites,
+      favourite => gtfsId === favourite.gtfsId && type === favourite.type,
+    );
   }
 
   getByFavouriteId(favouriteId) {

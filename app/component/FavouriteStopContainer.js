@@ -29,7 +29,7 @@ const FavouriteStopContainer = connectToStores(
     deleteFavourite: () => {
       const stopToDelete = context
         .getStore('FavouriteStore')
-        .getByGtfsId(stop.gtfsId);
+        .getByGtfsId(stop.gtfsId, isTerminal ? 'station' : 'stop');
       context.executeAction(deleteFavourite, stopToDelete);
       addAnalyticsEvent({
         category: 'Stop',
