@@ -13,9 +13,7 @@ moment.tz.setDefault('Europe/Helsinki');
  * @param {Number} props.value    Currently selected time. Unix timestamp in milliseconds
  * @param {function} props.onChange     This is called with new timestamp when input is changed
  * @param {function} props.getDisplay   Function to get a string representation from a timestamp
- * @param {Number} props.itemCount      Number of time values that is shown in dropdown
- * @param {Number} itemDiff             Difference in milliseconds between time values in dropdown
- * @param {Number} startTime            Timestamp for the first selectable dropdown value
+ * @param {array}    props.timeChoices  Array of timestamps to choose from
  * @param {function} validate           Function to validate input when user types something and hits enter. Parameter is input as stringstring, return number timestamp if input is valid or null if invalid.
  * @param {string} id                   Id prefix for labels and aria attributes. Should be unique in page
  * @param {string} label                Text to show as input label
@@ -27,9 +25,7 @@ moment.tz.setDefault('Europe/Helsinki');
  *   value={1590133823000}
  *   onChange={timestamp => update(timestamp)}
  *   getDisplay={timestamp => formatTime(timestamp)}
- *   itemCount={24 * 4}
- *   itemDiff={1000 * 60 * 15} // 15 minute intervals
- *   startTime{startOfToday}
+ *   timeChoices={[1590133823000]}
  *   validate=(input => validateTimeString(input))
  *   id="timeinput"
  *   icon="<Icon />"
@@ -39,9 +35,7 @@ function DesktopDatetimepicker({
   value,
   onChange,
   getDisplay,
-  itemCount,
-  itemDiff,
-  startTime,
+  timeChoices,
   validate,
   id,
   label,
@@ -55,7 +49,9 @@ function DesktopDatetimepicker({
   // keep track of dropdown state for scroll position management
   const [open, changeOpen] = useState(false);
   const scrollRef = useRef(null);
-  const scrollIndex = Math.floor((value - startTime) / itemDiff);
+
+  const diffs = timeChoices.map(t => value - t);
+  const scrollIndex = diffs.findIndex(t => t <= 0); // closest index after selected time
   const elementHeight = 50;
   // scroll to selected time when dropdown is opened
   useLayoutEffect(() => {
@@ -63,10 +59,6 @@ function DesktopDatetimepicker({
       scrollRef.current.scrollTop = elementHeight * scrollIndex;
     }
   }, [value, open]);
-
-  const timeSuggestions = Array(itemCount)
-    .fill()
-    .map((_, i) => startTime + i * itemDiff);
 
   // newValue is string
   const handleTimestamp = newValue => {
@@ -126,7 +118,7 @@ function DesktopDatetimepicker({
           </span>
           <Autosuggest
             id={id}
-            suggestions={timeSuggestions}
+            suggestions={timeChoices}
             getSuggestionValue={s => s.toString()}
             renderSuggestion={s => getDisplay(s)}
             onSuggestionsFetchRequested={() => null}
@@ -186,9 +178,7 @@ DesktopDatetimepicker.propTypes = {
   value: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
   getDisplay: PropTypes.func.isRequired,
-  itemCount: PropTypes.number.isRequired,
-  itemDiff: PropTypes.number.isRequired,
-  startTime: PropTypes.number.isRequired,
+  timeChoices: PropTypes.arrayOf(PropTypes.number).isRequired,
   validate: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   label: PropTypes.node.isRequired,
