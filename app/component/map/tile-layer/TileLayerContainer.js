@@ -53,7 +53,7 @@ class TileLayerContainer extends GridLayer {
       }).isRequired,
     }).isRequired,
     relayEnvironment: PropTypes.object.isRequired,
-    hilightedStops: PropTypes.arrayOf(PropTypes.string.isRequired),
+    hilightedStops: PropTypes.arrayOf(PropTypes.string),
   };
 
   static contextTypes = {

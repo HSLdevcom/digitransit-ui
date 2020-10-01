@@ -160,14 +160,21 @@ export default function withSearchContext(WrappedComponent) {
     selectStopStation = item => {
       // DT-3577 Favourite's doesn't have id property, use gtfsId instead
       let id = item.properties.id ? item.properties.id : item.properties.gtfsId;
-      id = id.replace('GTFS:', '').replace(':', '%3A');
+
       let path = '/pysakit/';
       switch (item.properties.layer) {
         case 'station':
         case 'favouriteStation':
           path = '/terminaalit/';
+          id = id.replace('GTFS:', '').replace(':', '%3A');
+          break;
+        case 'bikeRentalStation':
+          path = '/pyoraasemat/';
+          id = item.properties.labelId;
           break;
         default:
+          path = '/pysakit/';
+          id = id.replace('GTFS:', '').replace(':', '%3A');
       }
       const link = path.concat(id);
       this.context.router.push(link);
@@ -310,7 +317,6 @@ export default function withSearchContext(WrappedComponent) {
 
     onSelect = (item, id) => {
       // type is destination unless timetable or route was clicked
-
       let type = 'endpoint';
       switch (item.type) {
         case 'Route':
