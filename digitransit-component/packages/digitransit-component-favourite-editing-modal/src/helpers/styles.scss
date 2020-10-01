@@ -10,7 +10,7 @@ $primary-color: #007ac9;
   width: 100%;
   min-height: calc(100vh - 168px);
   @include min-width(tablet) {
-    min-height: 284px;
+    min-height: 286px;
   }
 
   .favourite-edit-list {
@@ -20,11 +20,10 @@ $primary-color: #007ac9;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    overflow-y: scroll;
     max-height: calc(100% - 78px);
-
     @include min-width(tablet) {
-      max-height: 284px;
+      overflow-y: scroll;
+      max-height: 286px;
     }
     .favourite-edit-list-item:not(:first-child) {
       margin-top: 9px;
