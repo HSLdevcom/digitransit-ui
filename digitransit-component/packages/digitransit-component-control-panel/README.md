@@ -13,8 +13,11 @@ Show button links to near you page for different travel modes
     -   `props.urlPrefix` **[string][3]** URL prefix for links. Must end with /lahellasi
     -   `props.language` **[string][3]** Language used for accessible labels
     -   `props.showTitle` **[boolean][4]** Show title, default is false
-    -   `props.locationState`  
     -   `props.autosuggestComponent`  
+    -   `props.router`  
+    -   `props.checkPositioningPermission`  
+    -   `props.origin`  
+    -   `props.getStore`  
 
 ### Examples
 

@@ -212,6 +212,7 @@ class IndexPage extends React.Component {
                   router={this.context.router}
                   checkPositioningPermission={checkPositioningPermission}
                   origin={originToStopNearYou}
+                  getStore={this.context.getStore}
                 />
               </div>
             ) : (
@@ -316,6 +317,7 @@ class IndexPage extends React.Component {
                   router={this.context.router}
                   checkPositioningPermission={checkPositioningPermission}
                   origin={originToStopNearYou}
+                  getStore={this.context.getStore}
                 />
               </div>
             ) : (

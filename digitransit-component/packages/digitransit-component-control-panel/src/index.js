@@ -92,6 +92,7 @@ function NearStopsAndRoutes({
   router,
   checkPositioningPermission,
   origin,
+  getStore,
 }) {
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [url, setUrl] = useState(undefined);
@@ -100,9 +101,13 @@ function NearStopsAndRoutes({
   const [geolocationStatus, setGeolocationStatus] = useState(undefined);
 
   const checkGeolocationPermission = () => {
+    const locationState = getStore('PositionStore').getLocationState();
     checkPositioningPermission().then(status => {
       setGeolocationStatus(status.state);
-      if (status.state === 'granted') {
+      if (
+        status.state === 'granted' ||
+        locationState.status === 'found-address'
+      ) {
         setGeolocationPermission(true);
       }
     });
@@ -245,6 +250,7 @@ NearStopsAndRoutes.propTypes = {
   router: routerShape.isRequired,
   checkPositioningPermission: PropTypes.func.isRequired,
   origin: PropTypes.object,
+  getStore: PropTypes.func.isRequired,
 };
 
 NearStopsAndRoutes.defaultProps = {
