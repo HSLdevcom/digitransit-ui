@@ -2,6 +2,8 @@ import Store from 'fluxible/addons/BaseStore';
 import includes from 'lodash/includes';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
+import isEqual from 'lodash/isEqual';
+import sortBy from 'lodash/sortBy';
 import moment from 'moment';
 import { v4 as uuid } from 'uuid';
 import getGeocodingResults from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
@@ -77,6 +79,17 @@ export default class FavouriteStore extends Store {
     return includes(ids, id);
   }
 
+  isFavouriteBikeRentalStation(id, networks) {
+    const ids = this.favourites
+      .filter(
+        favourite =>
+          favourite.type === 'bikeStation' &&
+          isEqual(sortBy(favourite.networks), sortBy(networks)),
+      )
+      .map(favourite => favourite.stationId);
+    return includes(ids, id);
+  }
+
   storeFavourites() {
     setFavouriteStorage(this.favourites);
   }
@@ -93,6 +106,15 @@ export default class FavouriteStore extends Store {
     return find(
       this.favourites,
       favourite => favouriteId === favourite.favouriteId,
+    );
+  }
+
+  getByStationIdAndNetworks(stationId, networks) {
+    return find(
+      this.favourites,
+      favourite =>
+        stationId === favourite.stationId &&
+        isEqual(sortBy(favourite.networks), sortBy(networks)),
     );
   }
 
