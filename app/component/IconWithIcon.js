@@ -8,8 +8,8 @@ import ComponentUsageExample from './ComponentUsageExample';
 const subIconTemplate = {
   fontSize: '65%',
   position: 'absolute',
-  bottom: '-1px',
-  left: '-6px',
+  bottom: '-4px',
+  left: '-2px',
 };
 
 const IconWithIcon = (
@@ -26,7 +26,7 @@ const IconWithIcon = (
   },
   { intl },
 ) => (
-  <span style={{ position: 'relative' }} id={id} className={className}>
+  <span id={id} className={className}>
     <span>
       <Icon
         badgeFill={badgeFill}
@@ -50,7 +50,7 @@ const IconWithIcon = (
 IconWithIcon.description = () => (
   <div>
     <ComponentUsageExample description="Bus with caution">
-      <div style={{ paddingLeft: '5px' }}>
+      <div style={{ paddingLeft: '5px', position: 'relative' }}>
         <IconWithIcon
           className="bus"
           img="icon-icon_bus"
@@ -59,8 +59,18 @@ IconWithIcon.description = () => (
         />
       </div>
     </ComponentUsageExample>
+    <ComponentUsageExample description="Bus with info level alert">
+      <div style={{ paddingLeft: '5px', position: 'relative' }}>
+        <IconWithIcon
+          className="bus"
+          img="icon-icon_bus"
+          subIcon="icon-icon_info"
+          subIconClassName="subicon-info"
+        />
+      </div>
+    </ComponentUsageExample>
     <ComponentUsageExample description="Bus with call agency caution">
-      <div style={{ paddingLeft: '5px' }}>
+      <div style={{ paddingLeft: '5px', position: 'relative' }}>
         <IconWithIcon
           className="bus"
           img="icon-icon_bus"
@@ -69,7 +79,9 @@ IconWithIcon.description = () => (
       </div>
     </ComponentUsageExample>
     <ComponentUsageExample description="Bus with call agency caution, with 5em base font size">
-      <div style={{ fontSize: '5em', paddingLeft: '5px' }}>
+      <div
+        style={{ fontSize: '5em', paddingLeft: '5px', position: 'relative' }}
+      >
         <IconWithIcon
           className="bus"
           img="icon-icon_bus"

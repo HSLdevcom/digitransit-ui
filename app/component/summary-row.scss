@@ -152,6 +152,12 @@
       width: calc(var(--width) - (var(--minus)) - 2px + var(--plus));
       margin: 0 2px 0 0;
       justify-content: center;
+      &.fit-route-number {
+        min-width: fit-content;
+        .vcenter-children {
+          min-width: max-content !important; // forces the leg to fit the route number in it
+        }
+      }
       &.bike_park {
         overflow: hidden;
         justify-content: center;
@@ -210,6 +216,11 @@
         /* stylelint-disable-next-line */
         max-width: -moz-fit-content;
         .vcenter-children {
+          .empty {
+            float: left;
+            height: 100%;
+            min-width: 1px;
+          }
           display: block;
           align-items: center;
           line-height: 1;
@@ -229,13 +240,16 @@
             }
           }
           &.wait {
-            min-width: unset;
+            .icon {
+              margin-left: 1px;
+            }
           }
           &.walk, &.citybike, &.bicycle, &.wait {
             display: block;
             overflow: hidden;
             min-width: unset;
             .icon {
+              width: 18px;
               &.walk, &.citybike, &.bicycle, &.wait {
                 float: left;
                 display: flex;
@@ -247,6 +261,7 @@
               float: left;
               display: flex;
               height: 110%;
+              padding-left: 5px;
               &.wait {
                 height: 100%;
               }
@@ -266,7 +281,7 @@
           height: 24px;
         }
           .vehicle-number-container-v {
-            padding-right: 2px;
+            padding-right: 1px;
             .long {
               left: 24px;
               top: 4px;
