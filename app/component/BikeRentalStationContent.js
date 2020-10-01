@@ -1,14 +1,23 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
 import CityBikeStopContent from './CityBikeStopContent';
 import BikeRentalStationHeader from './BikeRentalStationHeader';
 import Icon from './Icon';
 import withBreakpoint from '../util/withBreakpoint';
+import { getCityBikeNetworkConfig } from '../util/citybikes';
 
-const BikeRentalStationContent = ({ bikeRentalStation, breakpoint }) => {
+const BikeRentalStationContent = (
+  { bikeRentalStation, breakpoint, language },
+  { config },
+) => {
+  const networkConfig = getCityBikeNetworkConfig(
+    bikeRentalStation.networks[0],
+    config,
+  );
+  const url = networkConfig.url[language];
   return (
     <div className="bike-station-page-container">
       <BikeRentalStationHeader
@@ -28,7 +37,7 @@ const BikeRentalStationContent = ({ bikeRentalStation, breakpoint }) => {
             e.stopPropagation();
           }}
           className="external-link"
-          href="href"
+          href={url}
         >
           <FormattedMessage id="citybike-purchase-link" />
           <Icon img="icon-icon_external-link-box" />
@@ -40,27 +49,36 @@ const BikeRentalStationContent = ({ bikeRentalStation, breakpoint }) => {
 BikeRentalStationContent.propTypes = {
   bikeRentalStation: PropTypes.any,
   breakpoint: PropTypes.string.isRequired,
+  language: PropTypes.string.isRequired,
+};
+BikeRentalStationContent.contextTypes = {
+  config: PropTypes.object.isRequired,
 };
 const BikeRentalStationContentWithBreakpoint = withBreakpoint(
   BikeRentalStationContent,
 );
 
-const containerComponent = createFragmentContainer(
+const connectedComponent = connectToStores(
   BikeRentalStationContentWithBreakpoint,
-  {
-    bikeRentalStation: graphql`
-      fragment BikeRentalStationContent_bikeRentalStation on BikeRentalStation {
-        lat
-        lon
-        name
-        spacesAvailable
-        bikesAvailable
-        networks
-        stationId
-      }
-    `,
-  },
+  ['PreferencesStore'],
+  context => ({
+    language: context.getStore('PreferencesStore').getLanguage(),
+  }),
 );
+
+const containerComponent = createFragmentContainer(connectedComponent, {
+  bikeRentalStation: graphql`
+    fragment BikeRentalStationContent_bikeRentalStation on BikeRentalStation {
+      lat
+      lon
+      name
+      spacesAvailable
+      bikesAvailable
+      networks
+      stationId
+    }
+  `,
+});
 
 export {
   containerComponent as default,
