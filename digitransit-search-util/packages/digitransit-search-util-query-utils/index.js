@@ -13,6 +13,18 @@ import filterMatchingToInput from '@digitransit-search-util/digitransit-search-u
 
 let relayEnvironment = null;
 
+const searchBikeRentalStationsQuery = graphql`
+  query digitransitSearchUtilQueryUtilsSearchBikeRentalStationsQuery {
+    bikeRentalStations {
+      name
+      networks
+      stationId
+      lon
+      lat
+    }
+  }
+`;
+
 const searchRoutesQuery = graphql`
   query digitransitSearchUtilQueryUtilsSearchRoutesQuery(
     $feeds: [String!]!
@@ -185,16 +197,20 @@ export const getStopAndStationsQuery = favourites => {
       });
     });
 };
+
+export const getAllBikeRentalStations = () => {
+  if (!relayEnvironment) {
+    return Promise.resolve([]);
+  }
+  return fetchQuery(relayEnvironment, searchBikeRentalStationsQuery);
+};
 /**
  * Returns Stop and station objects filtered by given mode .
  * @param {*} stopsToFilter
  * @param {String} mode
  */
 export const filterStopsAndStationsByMode = (stopsToFilter, mode) => {
-  if (!relayEnvironment) {
-    return Promise.resolve([]);
-  }
-  const ids = stopsToFilter.map(s => s.gtfsId);
+  const ids = compact(stopsToFilter.map(s => s.gtfsId));
   const queries = [];
   queries.push(
     fetchQuery(relayEnvironment, stopsQuery, {

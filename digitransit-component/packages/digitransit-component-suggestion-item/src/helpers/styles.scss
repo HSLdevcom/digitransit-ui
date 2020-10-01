@@ -101,6 +101,14 @@ li:last-child > div.suggestion-item-container.mobile {
         letter-spacing: -0.37px;
         line-height: 1.64;
       }
+      .stop-code {
+        border-radius: 3px;
+        font-size: 9px;
+        padding: 1px 2px 1px;
+        font-weight: 500;
+        border: 1px solid #ddd;
+        margin-left: 4px;
+      }
 
       &.futureroute {
         height: 18px;
