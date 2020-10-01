@@ -13,8 +13,7 @@ import ContainerSpinner from '@hsl-fi/container-spinner';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
 import Modal from '@hsl-fi/modal';
-import DesktopModal from './helpers/DesktopModal';
-import MobileModal from './helpers/MobileModal';
+import ModalContent from './helpers/ModalContent';
 import styles from './helpers/styles.scss';
 import translations from './helpers/translations';
 
@@ -275,7 +274,7 @@ class FavouriteEditingModal extends React.Component {
     const { favourites, showDeletePlaceModal, selectedFavourite } = this.state;
     const modalProps = {
       headerText: i18next.t('edit-places'),
-      renderList: this.renderFavouriteList(favourites, isLoading),
+      renderList: () => this.renderFavouriteList(favourites, isLoading),
     };
     return (
       <div>
@@ -289,7 +288,7 @@ class FavouriteEditingModal extends React.Component {
             onCrossClick={this.closeModal}
           >
             {this.renderDeleteFavouriteModal(selectedFavourite)}
-            <MobileModal {...modalProps} />
+            <ModalContent {...modalProps} />
           </Modal>
         )}
         {!this.props.isMobile && (
@@ -302,7 +301,7 @@ class FavouriteEditingModal extends React.Component {
               isOpen={this.props.isModalOpen && !showDeletePlaceModal}
               onCrossClick={this.closeModal}
             >
-              <DesktopModal {...modalProps} />
+              <ModalContent {...modalProps} />
             </Modal>
             {this.renderDeleteFavouriteModal(selectedFavourite)}
           </Fragment>

@@ -387,7 +387,6 @@ const IndexPageWithPosition = connectToStores(
   ['PositionStore', 'ViaPointsStore', 'FavouriteStore'],
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
-
     const { from, to } = props.match.params;
     const { location } = props.match;
     const { query } = location;

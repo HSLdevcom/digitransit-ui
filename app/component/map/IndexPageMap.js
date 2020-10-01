@@ -52,7 +52,7 @@ function IndexPageMap(
   if (useDefaultLocation) {
     focusPoint = config.defaultMapCenter || config.defaultEndpoint;
     initialZoom = 12; // Show default area
-  } else if (origin.set && (origin.ready || (!origin.ready && origin.gps))) {
+  } else if (origin.set && origin.ready && origin.lat && origin.lon) {
     focusPoint = origin;
   } else if (destination.set && destination.ready) {
     focusPoint = destination;
@@ -74,6 +74,10 @@ function IndexPageMap(
   if (focusPointChanged && focusPoint && focusPoint.lat && focusPoint.lon) {
     previousFocusPoint = focusPoint;
     mwtProps.focusPoint = focusPoint;
+    initialZoom = 16;
+    if (!focusPoint.gps) {
+      mwtProps.mapTracking = false;
+    }
   }
   if (originFromURI.set || destinationFromURI.set) {
     // Origin or destination from URI

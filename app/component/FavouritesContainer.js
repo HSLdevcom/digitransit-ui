@@ -135,20 +135,26 @@ class FavouritesContainer extends React.Component {
         <FavouriteModal
           appElement="#app"
           isModalOpen={this.state.addModalOpen}
-          handleClose={() =>
+          handleClose={() => {
             this.setState({
               addModalOpen: false,
-              favourite: null,
-            })
-          }
+            });
+            // Modal close animation lasts 250ms
+            setTimeout(() => {
+              this.setState({ favourite: null });
+            }, 250);
+          }}
           saveFavourite={this.saveFavourite}
-          cancelSelected={() =>
+          cancelSelected={() => {
             this.setState({
               addModalOpen: false,
               editModalOpen: true,
-              favourite: null,
-            })
-          }
+            });
+            // Modal close animation lasts 250ms
+            setTimeout(() => {
+              this.setState({ favourite: null });
+            }, 250);
+          }}
           favourite={this.state.favourite}
           lang={this.props.lang}
           isMobile={this.props.isMobile}

@@ -883,11 +883,29 @@
     </g>
 </symbol>
 
-<symbol id="icon-icon_current-location" width="38px" height="38px" viewBox="0 0 38 38">
+<svg id="icon-icon_current-location"  viewBox="0 0 48 49" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <circle id="path-1" cx="24" cy="24" r="12"></circle>
+    </defs>
+    <g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="hsl-pysakki" transform="translate(-943.000000, -453.000000)" fill-rule="nonzero">
+            <g id="Map" transform="translate(520.000000, 70.000000)">
+                <g id="Group" transform="translate(423.000000, 383.305087)">
+                    <circle id="Oval-3" fill-opacity="0.15" fill="#007AC9" cx="24" cy="24" r="24"></circle>
+                    <g id="Oval">
+                        <circle stroke="#FFFFFF" stroke-width="3" stroke-linejoin="square" fill="#007AC9" fill-rule="evenodd" cx="24" cy="24" r="10.5"></circle>
+                        <circle stroke-opacity="0.1" stroke="#000000" stroke-width="1" cx="24" cy="24" r="12.5"></circle>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
+<symbol id="icon-icon_current-location-old" width="38px" height="38px" viewBox="0 0 38 38">
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <circle stroke="currentColor" stroke-width="2.197" cx="18.6884032" cy="19.2455103" r="17.5265812"></circle>
-        <circle stroke="currentColor" stroke-width="2" cx="18.6884032" cy="19.2455103" r="13.3151577"></circle>
-        <circle stroke="currentColor" stroke-width="6" fill="currentColor" cx="18.6884032" cy="19.2455103" r="7.32737159"></circle>
+        <circle stroke="#F653B9" stroke-width="2.197" cx="18.6884032" cy="19.2455103" r="17.5265812"></circle>
+        <circle stroke="#F653B9" stroke-width="2" cx="18.6884032" cy="19.2455103" r="13.3151577"></circle>
+        <circle stroke="#F653B9" stroke-width="6" fill="#F653B9" cx="18.6884032" cy="19.2455103" r="7.32737159"></circle>
         <path fill="white" d="M23.5788538,26.0741036 C23.0354072,26.0741036 22.5692711,25.7273437 22.4930976,25.2259631 L21.8643443,23.5794398 L21.5539658,23.5794398 L21.5539658,26.1215873 L15.7704665,26.1215873 L15.7704665,23.5794398 L15.460088,23.5794398 L14.9235009,25.1873079 C14.8075353,25.6886885 14.3413991,26.0354484 13.8366077,26.0354484 C13.1760587,26.0354484 12.6724042,25.4954126 12.6724042,24.9565137 C12.6724042,24.8018929 12.6724042,24.648409 12.7497146,24.4949252 L14.0628164,20.6518772 C14.4505053,19.5729425 15.032607,19.1875275 16.0035346,19.1875275 L21.2435873,19.1875275 C22.213378,19.1875275 22.8341349,19.5729425 23.1843055,20.6518772 L24.6657469,24.5324435 C24.7044021,24.6870642 24.7044021,24.8405481 24.7044021,24.9951689 C24.7044021,25.5340678 24.2382659,26.0741036 23.5788538,26.0741036 Z M18.6809753,18.2245583 L18.643457,18.2245583 C17.0517725,18.2245583 15.7318113,16.9148294 15.7318113,15.2969958 C15.7318113,13.6791622 17.0517725,12.3694332 18.6809753,12.3694332 C20.2726598,12.3694332 21.592621,13.6791622 21.592621,15.2969958 C21.592621,16.9148294 20.2726598,18.2245583 18.6809753,18.2245583 Z" id="path-1"></path>
     </g>
 </symbol>
@@ -1641,6 +1659,23 @@
 	</g>
 	</g>
 	</g>
+</symbol>
+<symbol id="icon-icon_external-link-box" viewBox="0 0 16 16">
+    <defs>
+        <path id="t1bhsox6ra" d="M0 0L15.97 0 15.97 15.97 0 15.97 0 0z"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g>
+                <g transform="translate(-165 -596) translate(25 510) translate(140 86)">
+                    <mask id="noo87dxywb" fill="#fff">
+                        <use xlink:href="#t1bhsox6ra"/>
+                    </mask>
+                    <path fill="#007AC9" d="M1.996 4.492v8.983c0 .275.224.499.5.499h8.982c.276 0 .5-.224.5-.5v-4.49c0-.552.446-1 .998-1 .55 0 .998.448.998 1v4.99c0 1.102-.894 1.996-1.997 1.996h-9.98C.893 15.97 0 15.078 0 13.974V3.992C0 2.89.894 1.996 1.996 1.996h4.99c.552 0 .999.447.999.998 0 .552-.447.998-.998.998H2.495c-.275 0-.499.224-.499.5m13.225 2.495c-.201 0-.381-.082-.517-.21-.004-.004-.01-.004-.014-.008l-1.86-1.862-4.711 4.71c-.487.486-1.278.486-1.765 0-.487-.486-.487-1.277 0-1.764l4.71-4.709L9.2 1.28c-.004-.004-.004-.01-.008-.014-.128-.136-.21-.316-.21-.517 0-.414.335-.749.749-.749h5.24c.55 0 .998.447.998.998v5.24c0 .413-.336.749-.749.749" mask="url(#noo87dxywb)"/>
+                </g>
+            </g>
+        </g>
+    </g>
 </symbol>
 <symbol id="icon-icon_disruption-banner-alert" viewBox="0 0 23 20">
     <g id="Kulkumuotosivut" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">

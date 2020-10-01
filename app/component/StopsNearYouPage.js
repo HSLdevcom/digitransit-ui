@@ -201,6 +201,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   };
 
   render() {
+    const { mode } = this.context.match.params;
     if (this.props.loadingPosition) {
       return <Loading />;
     }
@@ -210,7 +211,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
           <DesktopView
             title={
               <FormattedMessage
-                id="nearest-stops"
+                id={`nearest-stops-${mode.toLowerCase()}`}
                 defaultMessage="Stops near you"
               />
             }

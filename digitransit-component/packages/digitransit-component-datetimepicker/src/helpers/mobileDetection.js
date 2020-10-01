@@ -11,4 +11,12 @@ function isMobile() {
   return mobile;
 }
 
-export default isMobile;
+/**
+ * Detect if user is on an android device. Not 100% reliable.
+ */
+function isAndroid() {
+  const userAgent = navigator.userAgent.toLowerCase();
+  return userAgent.indexOf('android') > -1;
+}
+
+export { isMobile, isAndroid };
