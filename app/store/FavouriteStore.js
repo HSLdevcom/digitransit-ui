@@ -141,6 +141,12 @@ export default class FavouriteStore extends Store {
     return this.favourites.filter(favourite => favourite.type === 'place');
   }
 
+  getBikeRentalStations() {
+    return this.favourites.filter(
+      favourite => favourite.type === 'bikeStation',
+    );
+  }
+
   saveFavourite(data) {
     if (typeof data !== 'object') {
       throw new Error(`New favourite is not a object:${JSON.stringify(data)}`);

@@ -5,6 +5,8 @@ import { intlShape, FormattedMessage } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { matchShape, routerShape } from 'found';
 import { indexOf } from 'lodash-es';
+import isEqual from 'lodash/isEqual';
+import sortBy from 'lodash/sortBy';
 import StopNearYou from './StopNearYou';
 import withBreakpoint from '../util/withBreakpoint';
 import CityBikeStopNearYou from './CityBikeStopNearYou';
@@ -17,6 +19,7 @@ class StopsNearYouContainer extends React.Component {
       refetch: PropTypes.func.isRequired,
     }).isRequired,
     favouriteIds: PropTypes.object.isRequired,
+    favouriteRentalStations: PropTypes.array.isRequired,
   };
 
   static contextTypes = {
@@ -50,6 +53,28 @@ class StopsNearYouContainer extends React.Component {
     }
   }
 
+  isFavouriteRentalStation = station => {
+    return (
+      this.props.favouriteRentalStations.filter(
+        rentalStation =>
+          rentalStation.stationId === station.stationId &&
+          isEqual(sortBy(rentalStation.networks), sortBy(station.networks)),
+      ).length > 0
+    );
+  };
+
+  sortRentalStations = (first, second) => {
+    const firstIsFavourite = this.isFavouriteRentalStation(first.node.place);
+    const secondIsFavourite = this.isFavouriteRentalStation(second.node.place);
+    if (firstIsFavourite === secondIsFavourite) {
+      return 0;
+    }
+    if (firstIsFavourite) {
+      return -1;
+    }
+    return 1;
+  };
+
   sortStops = (first, second) => {
     const firstIsFavourite = this.props.favouriteIds.has(
       first.node.place.gtfsId,
@@ -81,7 +106,10 @@ class StopsNearYouContainer extends React.Component {
   createNearbyStops = () => {
     const stopPatterns = this.props.stopPatterns.nearest.edges;
     const terminalNames = [];
-    const sortedPatterns = stopPatterns.slice().sort(this.sortStops);
+    const isCityBikeView = this.context.match.params.mode === 'CITYBIKE';
+    const sortedPatterns = isCityBikeView
+      ? stopPatterns.slice().sort(this.sortRentalStations)
+      : stopPatterns.slice().sort(this.sortStops);
     const stops = sortedPatterns.map(({ node }) => {
       const stop = node.place;
       /* eslint-disable-next-line no-underscore-dangle */
@@ -166,6 +194,9 @@ const connectedContainer = createRefetchContainer(
           .getStops()
           .map(stop => stop.gtfsId),
       ),
+      favouriteRentalStations: getStore(
+        'FavouriteStore',
+      ).getBikeRentalStations(),
     }),
   ),
   {
