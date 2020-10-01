@@ -176,6 +176,7 @@ $primary-color: #007ac9;
   .modal-desktop-text {
     position: relative;
     top: 8px;
+    font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
     font-size: 15px;
     font-weight: normal;
     font-stretch: normal;
@@ -198,11 +199,14 @@ $primary-color: #007ac9;
       top: -6px;
       font-size: 15px;
       font-weight: 500;
+      margin-bottom: 32px;
     }
-  }
 
-  .modal-desktop-icons {
-    margin-bottom: 30px;
+    &.info {
+      position: relative;
+      top: -32px;
+      margin-bottom: -32px;
+    }
   }
 
   .modal-desktop-buttons {
@@ -247,6 +251,7 @@ $primary-color: #007ac9;
             stroke: #fff;
           }
         }
+        margin-bottom: -16px;
       }
     }
   }

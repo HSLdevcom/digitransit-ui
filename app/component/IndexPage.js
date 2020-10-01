@@ -180,6 +180,7 @@ class IndexPage extends React.Component {
                 'FutureRoutes',
                 'SelectFromOwnLocations',
               ]}
+              breakpoint="large"
             />
             <div className="datetimepicker-container">
               <DatetimepickerContainer realtime />
@@ -281,6 +282,7 @@ class IndexPage extends React.Component {
               ]}
               disableAutoFocus
               isMobile
+              breakpoint="small"
             />
             <div className="datetimepicker-container">
               <DatetimepickerContainer realtime />

@@ -97,9 +97,11 @@ function NearStopsAndRoutes({
   const [url, setUrl] = useState(undefined);
   const [selectedMode, setMode] = useState('');
   const [isGeolocationGranted, setGeolocationPermission] = useState(false);
+  const [geolocationStatus, setGeolocationStatus] = useState(undefined);
 
   const checkGeolocationPermission = () => {
     checkPositioningPermission().then(status => {
+      setGeolocationStatus(status.state);
       if (status.state === 'granted') {
         setGeolocationPermission(true);
       }
@@ -157,11 +159,11 @@ function NearStopsAndRoutes({
         <div className={styles['modal-desktop-container']}>
           <div className={styles['modal-desktop-top']}>
             <div className={styles['modal-desktop-header']}>
-              {i18next.t('near-stop-modal-header')}
+              {i18next.t('stop-near-you-modal-header')}
             </div>
           </div>
           <div className={styles['modal-desktop-text']}>
-            {i18next.t('near-stop-modal-info')}
+            {i18next.t('stop-near-you-modal-info')}
           </div>
           <div
             className={cx(`${styles['modal-desktop-text']} ${styles.title}`)}
@@ -176,18 +178,29 @@ function NearStopsAndRoutes({
           <div
             className={cx(`${styles['modal-desktop-text']} ${styles.title2}`)}
           >
-            {i18next.t('near-stop-modal-grant-permission')}
+            {i18next.t('stop-near-you-modal-grant-permission')}
           </div>
-          <div className={styles['modal-desktop-buttons']}>
-            <button
-              type="submit"
-              className={cx(`${styles['modal-desktop-button']} ${styles.save}`)}
-              onClick={() => router.replace(url)}
+          {geolocationStatus === 'prompt' && (
+            <div className={styles['modal-desktop-buttons']}>
+              <button
+                type="submit"
+                className={cx(
+                  `${styles['modal-desktop-button']} ${styles.save}`,
+                )}
+                onClick={() => router.replace(url)}
+              >
+                {icon}
+                {i18next.t('use-own-position')}
+              </button>
+            </div>
+          )}
+          {geolocationStatus === 'denied' && (
+            <div
+              className={cx(`${styles['modal-desktop-text']} ${styles.info}`)}
             >
-              {icon}
-              {i18next.t('use-own-position')}
-            </button>
-          </div>
+              {i18next.t('stop-near-you-modal-grant-permission-info')}
+            </div>
+          )}
         </div>
       </Modal>
     );
@@ -198,9 +211,7 @@ function NearStopsAndRoutes({
       <a
         href={url}
         key={mode}
-        onClick={e =>
-          showDialog(e, urlPrefix, mode.toUpperCase(), !isGeolocationGranted)
-        }
+        onClick={e => showDialog(e, mode.toUpperCase(), !isGeolocationGranted)}
       >
         <span className={styles['sr-only']}>
           {i18next.t(`pick-mode-${mode}`, { lng: language })}
