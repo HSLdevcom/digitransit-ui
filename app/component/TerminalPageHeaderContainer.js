@@ -10,6 +10,7 @@ export default createFragmentContainer(
     ({ getStore }, { match }) => ({
       favourite: getStore('FavouriteStore').isFavourite(
         match.params.terminalId,
+        'station',
       ),
       isTerminal: true,
     }),

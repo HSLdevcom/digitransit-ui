@@ -70,10 +70,10 @@ export default class FavouriteStore extends Store {
     return this.status;
   }
 
-  isFavourite(id) {
-    const ids = this.favourites.map(
-      favourite => favourite.gtfsId || favourite.gid,
-    );
+  isFavourite(id, type) {
+    const ids = this.favourites
+      .filter(favourite => favourite.type === type)
+      .map(favourite => favourite.gtfsId || favourite.gid);
     return includes(ids, id);
   }
 
