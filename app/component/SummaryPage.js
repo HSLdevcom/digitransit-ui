@@ -771,6 +771,7 @@ class SummaryPage extends React.Component {
             temperature: res[0].ParameterValue,
             windSpeed: res[1].ParameterValue,
             iconId,
+            weatherId: `${timem}_${from.lat}_{from.lon}`,
           },
         });
       });
