@@ -3,6 +3,7 @@ import {
   getRoutesQuery,
   getStopAndStationsQuery,
   getFavouriteRoutesQuery,
+  getAllBikeRentalStations,
 } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import {
   getPositions,
@@ -43,6 +44,7 @@ export default function intializeSearchContext(context, searchContext) {
   searchContext.getFavouriteRoutes = getFavouriteRoutes;
   searchContext.getPositions = getPositions;
   searchContext.getRoutesQuery = getRoutesQuery;
+  searchContext.getAllBikeRentalStations = getAllBikeRentalStations;
   searchContext.getStopAndStationsQuery = getStopAndStationsQuery;
   searchContext.getFavouriteRoutesQuery = getFavouriteRoutesQuery;
   searchContext.startLocationWatch = startLocationWatch;

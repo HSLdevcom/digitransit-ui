@@ -38,13 +38,27 @@ Loading.propTypes = {
 function suggestionToAriaContent(item) {
   if (item.type !== 'FutureRoute') {
     let iconstr;
+    let stopCode;
+    /* eslint-disable-next-line prefer-const */
+    let [name, label] = getNameLabel(item.properties, true);
+    if (item.properties.id && item.properties.layer === 'stop') {
+      stopCode = item.properties.id.substring(
+        item.properties.id.indexOf('#') + 1,
+      );
+    }
+
+    if (label === 'bike-rental-station') {
+      label = i18next.t(label);
+      stopCode = item.properties.labelId;
+      return [iconstr, name, label, stopCode];
+    }
+
     if (item.properties.mode) {
       iconstr = `icon-icon_${item.mode}`;
     } else {
       const layer = item.properties.layer.replace('route-', '').toLowerCase();
       iconstr = i18next.t(layer);
     }
-    const [name, label] = getNameLabel(item.properties, true);
     return [iconstr, name, label];
   }
   return [
