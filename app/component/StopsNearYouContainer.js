@@ -76,11 +76,15 @@ class StopsNearYouContainer extends React.Component {
   };
 
   sortStops = (first, second) => {
-    const firstIsFavourite = this.props.favouriteIds.has(
-      first.node.place.gtfsId,
-    );
+    const firstStopOrStationId = first.node.place.parentStation
+      ? first.node.place.parentStation.gtfsId
+      : first.node.place.gtfsId;
+    const secondStopOrStationId = second.node.place.parentStation
+      ? second.node.place.parentStation.gtfsId
+      : second.node.place.gtfsId;
+    const firstIsFavourite = this.props.favouriteIds.has(firstStopOrStationId);
     const secondIsFavourite = this.props.favouriteIds.has(
-      second.node.place.gtfsId,
+      secondStopOrStationId,
     );
     if (firstIsFavourite === secondIsFavourite) {
       return 0;
@@ -191,7 +195,7 @@ const connectedContainer = createRefetchContainer(
       currentTime: getStore('TimeStore').getCurrentTime().unix(),
       favouriteIds: new Set(
         getStore('FavouriteStore')
-          .getStops()
+          .getStopsAndStations()
           .map(stop => stop.gtfsId),
       ),
       favouriteRentalStations: getStore(
