@@ -5,6 +5,7 @@ import { StreetModeSelectorButton } from './StreetModeSelectorButton';
 import { StreetModeSelectorWeatherLabel } from './StreetModeSelectorWeatherLabel';
 
 export const StreetModeSelector = ({
+  weatherLoaded,
   showWalkOptionButton,
   showBikeOptionButton,
   showBikeAndPublicOptionButton,
@@ -17,43 +18,48 @@ export const StreetModeSelector = ({
 }) => {
   return (
     <div className="street-mode-selector-container">
-      <StreetModeSelectorWeatherLabel
-        active={
-          showWalkOptionButton ||
-          showBikeOptionButton ||
-          showBikeAndPublicOptionButton
-        }
-        weatherData={weatherData}
-      />
-      {showWalkOptionButton && (
-        <StreetModeSelectorButton
-          icon="icon-icon_walk"
-          name="walk"
-          plan={walkPlan}
-          onClick={setStreetModeAndSelect}
-        />
-      )}
-      {showBikeOptionButton && (
-        <StreetModeSelectorButton
-          icon="icon-icon_cyclist"
-          name="bike"
-          plan={bikePlan}
-          onClick={setStreetModeAndSelect}
-        />
-      )}
-      {showBikeAndPublicOptionButton && (
-        <StreetModeSelectorButton
-          icon="icon-icon_cyclist"
-          name="bikeAndPublic"
-          plan={bikeAndPublicPlan}
-          onClick={toggleStreetMode}
-        />
+      {weatherLoaded && (
+        <div className="street-mode-button-row">
+          <StreetModeSelectorWeatherLabel
+            active={
+              showWalkOptionButton ||
+              showBikeOptionButton ||
+              showBikeAndPublicOptionButton
+            }
+            weatherData={weatherData}
+          />
+          {showWalkOptionButton && (
+            <StreetModeSelectorButton
+              icon="icon-icon_walk"
+              name="walk"
+              plan={walkPlan}
+              onClick={setStreetModeAndSelect}
+            />
+          )}
+          {showBikeOptionButton && (
+            <StreetModeSelectorButton
+              icon="icon-icon_cyclist"
+              name="bike"
+              plan={bikePlan}
+              onClick={setStreetModeAndSelect}
+            />
+          )}
+          {showBikeAndPublicOptionButton && (
+            <StreetModeSelectorButton
+              icon="icon-icon_cyclist"
+              name="bikeAndPublic"
+              plan={bikeAndPublicPlan}
+              onClick={toggleStreetMode}
+            />
+          )}
+        </div>
       )}
     </div>
   );
 };
 
 StreetModeSelector.propTypes = {
+  weatherLoaded: PropTypes.bool.isRequired,
   showWalkOptionButton: PropTypes.bool.isRequired,
   showBikeOptionButton: PropTypes.bool.isRequired,
   showBikeAndPublicOptionButton: PropTypes.bool.isRequired,

@@ -271,7 +271,7 @@ class SummaryPage extends React.Component {
     }
 
     this.state = {
-      weatherData: null,
+      weatherData: {},
       center: null,
       loading: false,
       settingsOpen: false,
@@ -733,47 +733,48 @@ class SummaryPage extends React.Component {
   UNSAFE_componentWillReceiveProps(nextProps) {
     const from = otpToLocation(this.props.match.params.from);
 
-    let time;
-    if (
-      nextProps.plan &&
-      nextProps.plan.itineraries &&
-      nextProps.plan.itineraries[0] &&
-      nextProps.plan.itineraries[0].startTime &&
-      time !== nextProps.plan.itineraries[0].startTime
-    ) {
-      time = nextProps.plan.itineraries[0].startTime;
-    } else if (
-      this.props.plan.itineraries &&
-      this.props.plan.itineraries[0] &&
-      this.props.plan.itineraries[0].startTime
-    ) {
-      time = this.props.plan.itineraries[0].startTime;
-    }
-    const timem = moment(time);
-    if (
-      this.context.config.showWeatherInformation &&
-      !nextProps.match.params.hash
-    ) {
-      getWeatherData(
-        this.context.config.URL.WEATHER_DATA,
-        timem,
-        from.lat,
-        from.lon,
-      ).then(res => {
-        if (!Array.isArray(res) || res.length !== 3) {
-          return;
-        }
-        // Icon id's and descriptions: https://www.ilmatieteenlaitos.fi/latauspalvelun-pikaohje ->  Sääsymbolien selitykset ennusteissa.
-        const iconId = this.checkDayNight(res[2].ParameterValue, timem.hour());
+    const { walkPlan, bikePlan, bikeAndPublicPlan, bikeParkPlan } = nextProps;
 
-        this.setState({
-          weatherData: {
-            temperature: res[0].ParameterValue,
-            windSpeed: res[1].ParameterValue,
-            iconId,
-          },
+    const itin =
+      (walkPlan && walkPlan.itineraries && walkPlan.itineraries[0]) ||
+      (bikePlan && bikePlan.itineraries && bikePlan.itineraries[0]) ||
+      (bikeAndPublicPlan &&
+        bikeAndPublicPlan.itineraries &&
+        bikeAndPublicPlan.itineraries[0]) ||
+      (bikeParkPlan && bikeParkPlan.itineraries && bikeParkPlan.itineraries[0]);
+
+    if (itin && this.context.config.showWeatherInformation) {
+      const time = itin.startTime;
+      const weatherHash = `${time}_${from.lat}_{from.lon}`;
+      if (
+        weatherHash !== this.state.weatherData.hash &&
+        weatherHash !== this.pendingWeatherHash
+      ) {
+        this.pendingWeatherHash = weatherHash;
+        const timem = moment(time);
+        getWeatherData(
+          this.context.config.URL.WEATHER_DATA,
+          timem,
+          from.lat,
+          from.lon,
+        ).then(res => {
+          if (weatherHash === this.pendingWeatherHash) {
+            // no cascading fetches
+            this.pendingWeatherHash = undefined;
+            let weatherData = {};
+            if (Array.isArray(res) && res.length === 3) {
+              weatherData = {
+                temperature: res[0].ParameterValue,
+                windSpeed: res[1].ParameterValue,
+                weatherHash,
+                // Icon id's and descriptions: https://www.ilmatieteenlaitos.fi/latauspalvelun-pikaohje ->  Sääsymbolien selitykset ennusteissa.
+                iconId: this.checkDayNight(res[2].ParameterValue, timem.hour()),
+              };
+            }
+            this.setState({ weatherData });
+          }
         });
-      });
+      }
     }
     if (!isEqual(nextProps.match.params.from, this.props.match.params.from)) {
       this.context.executeAction(storeOrigin, nextProps.match.params.from);
@@ -1363,6 +1364,7 @@ class SummaryPage extends React.Component {
               />
               {showStreetModeSelector && (
                 <StreetModeSelector
+                  weatherLoaded={!this.pendingWeatherHash}
                   showWalkOptionButton={showWalkOptionButton}
                   showBikeOptionButton={showBikeOptionButton}
                   showBikeAndPublicOptionButton={showBikeAndPublicOptionButton}
@@ -1469,6 +1471,7 @@ class SummaryPage extends React.Component {
               />
               {showStreetModeSelector && (
                 <StreetModeSelector
+                  weatherLoaded={!this.pendingWeatherHash}
                   showWalkOptionButton={showWalkOptionButton}
                   showBikeOptionButton={showBikeOptionButton}
                   showBikeAndPublicOptionButton={showBikeAndPublicOptionButton}
