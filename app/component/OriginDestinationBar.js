@@ -84,6 +84,7 @@ class OriginDestinationBar extends React.Component {
         )}
       >
         <DTAutosuggestPanelWithSearchContext
+          appElement="#app"
           origin={this.props.origin}
           destination={this.props.destination}
           originPlaceHolder="search-origin-index"
@@ -105,6 +106,7 @@ class OriginDestinationBar extends React.Component {
             'Locations',
             'CurrentPosition',
             !this.props.isMobile ? 'SelectFromOwnLocations' : '',
+            this.props.isMobile ? 'MapPosition' : '',
           ]}
           lang={this.props.language}
           disableAutoFocus={this.props.isMobile}
