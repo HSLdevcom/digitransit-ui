@@ -39,6 +39,7 @@ class FavouritesContainer extends React.Component {
     intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
+    config: PropTypes.object.isRequired,
   };
 
   static propTypes = {
@@ -156,24 +157,25 @@ class FavouritesContainer extends React.Component {
   render() {
     const isLoading =
       this.props.favouriteStatus === FavouriteStore.STATUS_FETCHING_OR_UPDATING;
+    const { allowLogin } = this.context.config;
     return (
       <React.Fragment>
         <FavouriteBar
           favourites={this.props.favourites}
           onClickFavourite={this.props.onClickFavourite}
           onAddPlace={() =>
-            isEmpty(this.props.user)
+            allowLogin && isEmpty(this.props.user)
               ? this.setState({ loginModalOpen: true })
               : this.setState({ addModalOpen: true })
           }
           onEdit={() => this.setState({ editModalOpen: true })}
           onAddHome={() =>
-            isEmpty(this.props.user)
+            allowLogin && isEmpty(this.props.user)
               ? this.setState({ loginModalOpen: true })
               : this.addHome()
           }
           onAddWork={() =>
-            isEmpty(this.props.user)
+            allowLogin && isEmpty(this.props.user)
               ? this.setState({ loginModalOpen: true })
               : this.addWork()
           }
