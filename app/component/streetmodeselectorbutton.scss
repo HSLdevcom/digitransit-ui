@@ -21,8 +21,8 @@
 }
 
 .street-mode-selector-button-container {
-    cursor: pointer;
     display: flex;
+    cursor: pointer;
     width: 120px;
     min-width: 121px;
     height: 52px;
@@ -33,47 +33,49 @@
     border: solid 1px #d9d9d9;
     background-color: #ffffff;
     align-items: center;
-    padding: 5px 15px 5px 20px;
     margin-right: 8px;
 
-    .street-mode-selector-button-icon {
-        padding-right: 10px;
-        padding-top: 8px;
-        margin-left: -10px;
+    .street-mode-selector-button-content {
+	margin: auto;
 
-        .icon-container {
-            .icon {
-                width: 30px;
-                height: 30px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	.street-mode-selector-button-icon {
+            padding-right: 8px;
+            padding-top: 8px;
+            .icon-container {
+		.icon {
+                    width: 30px;
+                    height: 30px;
+		}
             }
-            padding-right: 0px;
-        }
-    }
-
-    .street-mode-selector-button-icon.secondary-icon {
-        margin-bottom: 20px;
-        margin-left: -20px;
-        padding-right: 7px;
-        padding-top: 0px;
-        .icon-container {
-            .icon {
-                width: 12px;
-                height: 12px;
-            }
-        }
-    }
-
-    .street-mode-button-info {
-	margin-top: 4px;
-	.street-mode-button-time {
-            font-size: 15px;
-            font-weight: 500;
-            height: 15px;
-            line-height: 15px;
 	}
-	.street-mode-button-length {
-            font-size: 13px;
-            font-weight: normal;
+
+	.street-mode-selector-button-icon.secondary-icon {
+            margin-bottom: 20px;
+            margin-left: -18px;
+            padding-top: 0px;
+            .icon-container {
+		.icon {
+                    width: 12px;
+                    height: 12px;
+		}
+            }
+	}
+
+	.street-mode-button-info {
+	    margin-top: 4px;
+	    .street-mode-button-time {
+		font-size: 15px;
+		font-weight: 500;
+		height: 15px;
+		line-height: 15px;
+	    }
+	    .street-mode-button-length {
+		font-size: 13px;
+		font-weight: normal;
+	    }
 	}
     }
 }
