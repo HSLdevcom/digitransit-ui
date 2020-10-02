@@ -3,8 +3,8 @@ import React from 'react';
 import compact from 'lodash/compact';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import { filterStopsAndStationsByMode } from '@digitransit-search-util/digitransit-search-util-query-utils';
+import { getGTFSId } from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import withSearchContext from './WithSearchContext';
-import { getGTFSId } from '../util/suggestionUtils';
 
 function StopsNearYouSearch({ ...props }) {
   const filterSearchResultsByMode = (results, type) => {

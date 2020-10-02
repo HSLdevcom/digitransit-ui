@@ -7,6 +7,7 @@ import sortBy from 'lodash/sortBy';
 import moment from 'moment';
 import { v4 as uuid } from 'uuid';
 import getGeocodingResults from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
+import { isStop } from '@digitransit-search-util/digitransit-search-util-helpers';
 import {
   getFavouriteStorage,
   setFavouriteStorage,
@@ -15,7 +16,6 @@ import {
   getFavouriteLocationsStorage,
   removeItem,
 } from './localStorage';
-import { isStop } from '../util/suggestionUtils';
 import {
   getFavourites,
   updateFavourites,
