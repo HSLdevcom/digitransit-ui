@@ -37,23 +37,25 @@ export const StreetModeSelectorButton = (
       role="button"
       tabIndex={0}
     >
-      <div
-        className={`street-mode-selector-button-icon ${
-          secondaryIcon ? 'primary-icon' : ''
-        }`}
-      >
-        <Icon img={icon} height={1.75} width={1.75} />
-      </div>
-      {name === 'bikeAndPublic' ? (
-        <div className="street-mode-selector-button-icon secondary-icon">
-          <Icon img={secondaryIcon} height={0.75} width={0.75} />
+      <div className="street-mode-selector-button-content">
+        <div
+          className={`street-mode-selector-button-icon ${
+            secondaryIcon ? 'primary-icon' : ''
+          }`}
+        >
+          <Icon img={icon} />
         </div>
-      ) : (
-        ''
-      )}
-      <div className="street-mode-button-info">
-        <div className="street-mode-button-time">{duration}</div>
-        <div className="street-mode-button-length">{distance}</div>
+        {name === 'bikeAndPublic' ? (
+          <div className="street-mode-selector-button-icon secondary-icon">
+            <Icon img={secondaryIcon} />
+          </div>
+        ) : (
+          ''
+        )}
+        <div className="street-mode-button-info">
+          <div className="street-mode-button-time">{duration}</div>
+          <div className="street-mode-button-length">{distance}</div>
+        </div>
       </div>
     </div>
   );

@@ -1,0 +1,81 @@
+.street-mode-selector-weather-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-right: 24px;
+    .icon-container {
+        height: 36px;
+        .icon {
+            width: 38px;
+            height: 38px;
+        }
+    }
+    .street-mode-selector-panel-weather-text {
+        font-size: 15px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        color: #333333;
+    }
+}
+
+.street-mode-selector-button-container {
+    display: flex;
+    cursor: pointer;
+    width: 120px;
+    min-width: 121px;
+    height: 52px;
+    border-radius: 5px;
+    position: relative;
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1);
+    color: #333333;
+    border: solid 1px #d9d9d9;
+    background-color: #ffffff;
+    align-items: center;
+    margin-right: 8px;
+
+    .street-mode-selector-button-content {
+	margin: auto;
+
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	.street-mode-selector-button-icon {
+            padding-right: 8px;
+            padding-top: 8px;
+            .icon-container {
+		.icon {
+                    width: 30px;
+                    height: 30px;
+		}
+            }
+	}
+
+	.street-mode-selector-button-icon.secondary-icon {
+            margin-bottom: 20px;
+            margin-left: -18px;
+            padding-top: 0px;
+            .icon-container {
+		.icon {
+                    width: 12px;
+                    height: 12px;
+		}
+            }
+	}
+
+	.street-mode-button-info {
+	    margin-top: 4px;
+	    .street-mode-button-time {
+		font-size: 15px;
+		font-weight: 500;
+		height: 15px;
+		line-height: 15px;
+	    }
+	    .street-mode-button-length {
+		font-size: 13px;
+		font-weight: normal;
+	    }
+	}
+    }
+}
