@@ -40,7 +40,7 @@ Loading.propTypes = {
 
 const getStopName = (name, stopCode) => {
   if (stopCode !== undefined && stopCode !== null) {
-    return name.substring(0, name.lastIndexOf(stopCode));
+    return name.substring(0, name.lastIndexOf(stopCode) - 1);
   }
   return name;
 };
