@@ -10,7 +10,7 @@ configure({ adapter: new Adapter() });
 
 describe('Testing @digitransit-component/digitransit-component-suggestion-item module', () => {
   const item = {};
-  const ariaContent = ['iconstr', 'label', 'name'];
+  const ariaContent = ['suggestionType', 'label', 'name'];
   const wrapper = shallow(
     <SuggestionItem item={item} ariaContent={ariaContent} />,
   );

@@ -47,28 +47,28 @@ const getStopName = (name, stopCode) => {
 
 function suggestionToAriaContent(item) {
   if (item.type !== 'FutureRoute') {
-    let iconstr;
+    let suggestionType;
     let stopCode;
     /* eslint-disable-next-line prefer-const */
     let [name, label] = getNameLabel(item.properties, true);
     if (label === 'bike-rental-station') {
-      label = i18next.t(label);
+      suggestionType = i18next.t(label);
       stopCode = item.properties.labelId;
-      return [iconstr, name, label, stopCode];
+      return [suggestionType, name, undefined, stopCode];
     }
 
     if (item.properties.mode) {
-      iconstr = `icon-icon_${item.mode}`;
+      suggestionType = i18next.t(item.properties.mode.toLowerCase());
     } else {
       const layer = item.properties.layer.replace('route-', '').toLowerCase();
-      iconstr = i18next.t(layer);
+      suggestionType = i18next.t(layer);
     }
 
     if (item.properties.id && item.properties.layer === 'stop') {
       stopCode = getStopCode(item.properties);
-      return [iconstr, getStopName(name, stopCode), label, stopCode];
+      return [suggestionType, getStopName(name, stopCode), label, stopCode];
     }
-    return [iconstr, name, label];
+    return [suggestionType, name, label];
   }
   return [
     i18next.t('future-route'),

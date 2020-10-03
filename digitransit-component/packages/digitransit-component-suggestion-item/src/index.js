@@ -76,7 +76,7 @@ const SuggestionItem = pure(
         <Icon color={iconColor} img={iconId} />
       </span>
     );
-    const [iconstr, name, label, stopCode] = ariaContent || [
+    const [suggestionType, name, label, stopCode] = ariaContent || [
       iconId,
       item.name,
       item.address,
@@ -85,7 +85,7 @@ const SuggestionItem = pure(
       <div className={styles['sr-only']}>
         <p>
           {' '}
-          {iconstr} - {name} - {stopCode} - {label}
+          {suggestionType} - {name} - {stopCode} - {label}
         </p>
       </div>
     );
@@ -103,7 +103,7 @@ const SuggestionItem = pure(
           },
         )}
       >
-        <span aria-label={iconstr} className={styles['suggestion-icon']}>
+        <span aria-label={suggestionType} className={styles['suggestion-icon']}>
           {icon}
         </span>
         <div
@@ -122,7 +122,7 @@ const SuggestionItem = pure(
                     item.type === 'FavouriteStop') && (
                     <span className={styles['stop-code']}>{stopCode}</span>
                   )}
-                {label}
+                {label || suggestionType}
                 {stopCode && item.type === 'BikeRentalStation' && (
                   <span className={styles['bike-rental-id']}>{stopCode}</span>
                 )}
