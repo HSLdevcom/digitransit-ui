@@ -85,7 +85,7 @@ const SuggestionItem = pure(
       <div className={styles['sr-only']}>
         <p>
           {' '}
-          {iconstr} - {name} - {label}
+          {iconstr} - {name} - {stopCode} - {label}
         </p>
       </div>
     );
@@ -117,9 +117,14 @@ const SuggestionItem = pure(
                 {name}
               </p>
               <p className={styles['suggestion-label']}>
+                {stopCode &&
+                  (item.type === 'Feature' ||
+                    item.type === 'FavouriteStop') && (
+                    <span className={styles['stop-code']}>{stopCode}</span>
+                  )}
                 {label}
-                {stopCode && (
-                  <span className={styles['stop-code']}>{stopCode}</span>
+                {stopCode && item.type === 'Stop' && (
+                  <span className={styles['bike-rental-id']}>{stopCode}</span>
                 )}
               </p>
             </span>

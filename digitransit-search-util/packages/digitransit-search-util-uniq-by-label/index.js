@@ -7,7 +7,7 @@ import cloneDeep from 'lodash/cloneDeep';
 const getLocality = suggestion =>
   suggestion.localadmin || suggestion.locality || '';
 
-const getStopCode = ({ id, code }) => {
+export const getStopCode = ({ id, code }) => {
   if (code) {
     return code;
   }

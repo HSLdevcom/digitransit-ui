@@ -7,7 +7,10 @@ import Autosuggest from 'react-autosuggest';
 import { executeSearch } from '@digitransit-search-util/digitransit-search-util-execute-search-immidiate';
 import SuggestionItem from '@digitransit-component/digitransit-component-suggestion-item';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
-import { getNameLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
+import {
+  getNameLabel,
+  getStopCode,
+} from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import moment from 'moment-timezone';
@@ -35,18 +38,19 @@ Loading.propTypes = {
   children: PropTypes.node,
 };
 
+const getStopName = (name, stopCode) => {
+  if (stopCode !== undefined && stopCode !== null) {
+    return name.substring(0, name.lastIndexOf(stopCode));
+  }
+  return name;
+};
+
 function suggestionToAriaContent(item) {
   if (item.type !== 'FutureRoute') {
     let iconstr;
     let stopCode;
     /* eslint-disable-next-line prefer-const */
     let [name, label] = getNameLabel(item.properties, true);
-    if (item.properties.id && item.properties.layer === 'stop') {
-      stopCode = item.properties.id.substring(
-        item.properties.id.indexOf('#') + 1,
-      );
-    }
-
     if (label === 'bike-rental-station') {
       label = i18next.t(label);
       stopCode = item.properties.labelId;
@@ -58,6 +62,11 @@ function suggestionToAriaContent(item) {
     } else {
       const layer = item.properties.layer.replace('route-', '').toLowerCase();
       iconstr = i18next.t(layer);
+    }
+
+    if (item.properties.id && item.properties.layer === 'stop') {
+      stopCode = getStopCode(item.properties);
+      return [iconstr, getStopName(name, stopCode), label, stopCode];
     }
     return [iconstr, name, label];
   }
