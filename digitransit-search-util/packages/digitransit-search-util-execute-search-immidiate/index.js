@@ -136,7 +136,7 @@ function getBikeStations(bikeStations, input) {
       10,
     ).map(stop => {
       const newItem = {
-        type: 'Stop',
+        type: 'BikeRentalStation',
         address: stop.name,
         lat: stop.lat,
         lon: stop.lon,
