@@ -45,7 +45,7 @@ const getStopName = (name, stopCode) => {
   return name;
 };
 
-function suggestionToAriaContent(item) {
+function getSuggestionContent(item) {
   if (item.type !== 'FutureRoute') {
     let suggestionType;
     let stopCode;
@@ -529,13 +529,13 @@ class DTAutosuggest extends React.Component {
       ...item,
       translatedText: translateFutureRouteSuggestionTime(item),
     };
-    const ariaContent = suggestionToAriaContent(
+    const content = getSuggestionContent(
       item.type === 'FutureRoute' ? newItem : item,
     );
     return (
       <SuggestionItem
         item={item.type === 'FutureRoute' ? newItem : item}
-        ariaContent={ariaContent}
+        content={content}
         loading={!this.state.valid}
         isMobile={this.props.isMobile}
       />
@@ -572,7 +572,7 @@ class DTAutosuggest extends React.Component {
   suggestionAsAriaContent = () => {
     let label = [];
     if (this.state.suggestions[0]) {
-      label = suggestionToAriaContent(this.state.suggestions[0]);
+      label = getSuggestionContent(this.state.suggestions[0]);
     }
     return label ? label.join(' - ') : '';
   };

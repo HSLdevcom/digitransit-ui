@@ -64,19 +64,19 @@ function getIconProperties(item) {
  * @example
  * <SuggestionItem
  *    item={suggestionObject}
- *    ariaContent={'Station - Pasila - Helsinki'}
+ *    content={['Pysäkki', 'Kuusitie', 'Helsinki', 'H1923']}
  *    loading={false}
  * />
  */
 const SuggestionItem = pure(
-  ({ item, ariaContent, loading, className, isMobile }) => {
+  ({ item, content, loading, className, isMobile }) => {
     const [iconId, iconColor] = getIconProperties(item);
     const icon = (
       <span className={styles[iconId]}>
         <Icon color={iconColor} img={iconId} />
       </span>
     );
-    const [suggestionType, name, label, stopCode] = ariaContent || [
+    const [suggestionType, name, label, stopCode] = content || [
       iconId,
       item.name,
       item.address,
@@ -212,7 +212,7 @@ const SuggestionItem = pure(
 
 SuggestionItem.propTypes = {
   item: PropTypes.object,
-  ariaContent: PropTypes.arrayOf(PropTypes.string),
+  content: PropTypes.arrayOf(PropTypes.string),
   className: PropTypes.string,
   isMobile: PropTypes.bool,
 };
