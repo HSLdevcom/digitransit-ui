@@ -119,6 +119,12 @@ class IndexPage extends React.Component {
       ready: true,
     };
 
+    addAnalyticsEvent({
+      category: 'Favourite',
+      action: 'ClickFavourite',
+      name: null,
+    });
+
     navigateTo({
       origin: this.props.origin,
       destination: location,
