@@ -145,21 +145,33 @@ export function setRelayEnvironment(environment) {
  * @param {*} favourites
  */
 export const getStopAndStationsQuery = favourites => {
-  if (!relayEnvironment) {
+  if (!relayEnvironment || !Array.isArray(favourites)) {
     return Promise.resolve([]);
   }
   const queries = [];
-  const ids = favourites.map(item => item.gtfsId);
-  queries.push(
-    fetchQuery(relayEnvironment, favouriteStopsQuery, {
-      ids,
-    }),
-  );
-  queries.push(
-    fetchQuery(relayEnvironment, favouriteStationsQuery, {
-      ids,
-    }),
-  );
+  const stopIds = favourites
+    .filter(item => item.type === 'stop')
+    .map(item => item.gtfsId);
+  if (stopIds.length > 0) {
+    queries.push(
+      fetchQuery(relayEnvironment, favouriteStopsQuery, {
+        ids: stopIds,
+      }),
+    );
+  }
+  const stationIds = favourites
+    .filter(item => item.type === 'station')
+    .map(item => item.gtfsId);
+  if (stationIds.length > 0) {
+    queries.push(
+      fetchQuery(relayEnvironment, favouriteStationsQuery, {
+        ids: stationIds,
+      }),
+    );
+  }
+  if (queries.length === 0) {
+    return Promise.resolve([]);
+  }
   return Promise.all(queries)
     .then(qres =>
       qres.map(stopOrStation => {
@@ -254,7 +266,11 @@ export const filterStopsAndStationsByMode = (stopsToFilter, mode) => {
  * @param {*} favourites
  */
 export function getFavouriteRoutesQuery(favourites, input) {
-  if (!relayEnvironment) {
+  if (
+    !relayEnvironment ||
+    !Array.isArray(favourites) ||
+    favourites.length === 0
+  ) {
     return Promise.resolve([]);
   }
   return fetchQuery(relayEnvironment, favouriteRoutesQuery, { ids: favourites })
