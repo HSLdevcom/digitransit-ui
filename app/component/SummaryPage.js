@@ -1206,8 +1206,14 @@ class SummaryPage extends React.Component {
     }
     let bounds;
     let center;
+
     if (!this.state.bounds && !this.state.center) {
-      center = { lat: from.lat, lon: from.lon };
+      const origin = otpToLocation(match.params.from);
+      const destination = otpToLocation(match.params.to);
+      bounds = [
+        [origin.lat, origin.lon],
+        [destination.lat, destination.lon],
+      ];
     } else {
       center = this.state.bounds ? undefined : this.state.center;
       bounds = this.state.center ? undefined : this.state.bounds;
