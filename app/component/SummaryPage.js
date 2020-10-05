@@ -747,7 +747,7 @@ class SummaryPage extends React.Component {
       const time = itin.startTime;
       const weatherHash = `${time}_${from.lat}_{from.lon}`;
       if (
-        weatherHash !== this.state.weatherData.hash &&
+        weatherHash !== this.state.weatherData.weatherHash &&
         weatherHash !== this.pendingWeatherHash
       ) {
         this.pendingWeatherHash = weatherHash;
