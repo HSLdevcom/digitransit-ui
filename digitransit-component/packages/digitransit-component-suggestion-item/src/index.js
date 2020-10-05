@@ -117,14 +117,9 @@ const SuggestionItem = pure(
                 {name}
               </p>
               <p className={styles['suggestion-label']}>
-                {stopCode &&
-                  (item.type === 'Feature' ||
-                    item.type === 'FavouriteStop') && (
-                    <span className={styles['stop-code']}>{stopCode}</span>
-                  )}
                 {label || suggestionType}
-                {stopCode && item.type === 'BikeRentalStation' && (
-                  <span className={styles['bike-rental-id']}>{stopCode}</span>
+                {stopCode && (
+                  <span className={styles['stop-code']}>{stopCode}</span>
                 )}
               </p>
             </span>
