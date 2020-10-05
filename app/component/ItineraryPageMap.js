@@ -6,6 +6,7 @@ import ItineraryLine from './map/ItineraryLine';
 import MapContainer from './map/MapContainer';
 import { otpToLocation } from '../util/otpStrings';
 import { isBrowser } from '../util/browser';
+import { dtLocationShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
 import BackButton from './BackButton';
 import VehicleMarkerContainer from './map/VehicleMarkerContainer'; // DT-3473
@@ -18,7 +19,7 @@ if (isBrowser) {
 }
 
 function ItineraryPageMap(
-  { itinerary, breakpoint, streetMode },
+  { itinerary, center, breakpoint, bounds, streetMode },
   { match, config },
 ) {
   const { from, to } = match.params;
@@ -72,22 +73,24 @@ function ItineraryPageMap(
     );
   }
 
-  const showScale = breakpoint === 'large';
+  if (!center && itinerary && !itinerary.legs[0].transitLeg) {
+    // bounds = polyline.decode(itinerary.legs[0].legGeometry.points);
+  }
 
-  const origin = otpToLocation(from);
-  const destination = otpToLocation(to);
-  const bounds = [
-    [origin.lat, origin.lon],
-    [destination.lat, destination.lon],
-  ];
+  const showScale = breakpoint === 'large';
 
   return (
     <MapContainer
       className="full itinerary"
       leafletObjs={leafletObjs}
+      lat={center ? center.lat : from.lat}
+      lon={center ? center.lon : from.lon}
+      zoom={bounds ? undefined : 16}
       bounds={bounds}
-      fitBounds
+      fitBounds={Boolean(bounds)}
+      boundsOptions={{ maxZoom: 16 }}
       showScaleBar={showScale}
+      hideOrigin
     >
       <BackButton
         icon="icon-icon_arrow-collapse--left"
@@ -100,7 +103,9 @@ function ItineraryPageMap(
 
 ItineraryPageMap.propTypes = {
   itinerary: PropTypes.object,
+  center: dtLocationShape,
   breakpoint: PropTypes.string.isRequired,
+  bounds: PropTypes.array,
   streetMode: PropTypes.string,
 };
 
