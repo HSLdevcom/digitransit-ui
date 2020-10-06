@@ -321,7 +321,42 @@ section.content {
     @media print {
       display: block;
     }
-
+    .desktop-title {
+      background: #ffffff; // DT-3358: was $desktop-title-color
+      a {
+        color: $desktop-title-arrow-icon-color; // DT-3358: was $primary-font-color
+      }
+      .title-container {
+        @include font-medium;
+        color: #333333; // DT-3358: was $primary-font-color
+        margin: 50px 0 16px 0;
+        line-height: 1;
+        .back-button {
+          position: static;
+          button {
+            left: 0.5em;
+          }
+        }
+      }
+      h1 {
+        @include font-medium;
+        color: #333333; // DT-3358: was $primary-font-color
+        // line-height: 1;
+        display: inline;
+      }
+      .home-icon {
+        font-size: 0.8em;
+      }
+      .arrow-icon {
+        font-size: 0.75em; // DT-3358: was 0.6
+        margin: 2px 1em;
+        color: $desktop-title-arrow-icon-color;
+      }
+    }
+    .back-button {
+      position: absolute;
+      left: 1.5em;
+    }
     .main-content {
       width: 520px;
       height: 100%;
@@ -384,44 +419,6 @@ section.content {
 .content:nth-child(5) {
   height: calc(100% - #{$topbar-height} - 100px - 18px);
   // 100px and 18px are the height of the message bar, but is specified in js
-}
-
-.desktop-title {
-  background: #ffffff; // DT-3358: was $desktop-title-color
-
-  a {
-    color: $desktop-title-arrow-icon-color; // DT-3358: was $primary-font-color
-  }
-
-  .title-container {
-    @include font-medium;
-    color: #333333; // DT-3358: was $primary-font-color
-    margin: 50px 0 16px 0;
-    line-height: 1;
-    .back-button {
-      position: static;
-      button {
-        left: 0.5em;
-      }
-    }
-  }
-
-  h1 {
-    @include font-medium;
-    color: #333333; // DT-3358: was $primary-font-color
-    // line-height: 1;
-    display: inline;
-  }
-
-  .home-icon {
-    font-size: 0.8em;
-  }
-
-  .arrow-icon {
-    font-size: 0.75em; // DT-3358: was 0.6
-    margin: 2px 1em;
-    color: $desktop-title-arrow-icon-color;
-  }
 }
 
 .message-bar {
