@@ -42,7 +42,7 @@ const WalkingOptionsSection = (
         htmlFor="settings-toggle-avoid-walking"
         className="settings-header toggle-label"
       >
-        {intl.formatMessage({ id: 'avoid-walking-setting' })}
+        {intl.formatMessage({ id: 'avoid-walking' })}
       </label>
       <Toggle
         id="settings-toggle-avoid-walking"
