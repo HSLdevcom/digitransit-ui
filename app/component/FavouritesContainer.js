@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { intlShape, FormattedMessage } from 'react-intl';
+import { intlShape } from 'react-intl';
 import { isEmpty } from 'lodash';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { routerShape } from 'found';
@@ -126,14 +126,24 @@ class FavouritesContainer extends React.Component {
   };
 
   renderLoginModal = () => {
-    const login = <FormattedMessage id="login" defaultMessage="Log in" />;
-    const cancel = <FormattedMessage id="cancel" defaultMessage="cancel" />;
-    const headerText = (
-      <FormattedMessage id="login-header" defautlMessage="Log in first" />
-    );
-    const dialogContent = (
-      <FormattedMessage id="login-content" defautlMessage="Log in first" />
-    );
+    const login = this.context.intl.formatMessage({
+      id: 'login',
+      defaultMessage: 'Log in',
+    });
+    const cancel = this.context.intl.formatMessage({
+      id: 'cancel',
+      defaultMessage: 'cancel',
+    });
+    const headerText = this.context.intl.formatMessage({
+      id: 'login-header',
+      defautlMessage: 'Log in first',
+    });
+
+    const dialogContent = this.context.intl.formatMessage({
+      id: 'login-content',
+      defautlMessage: 'Log in first',
+    });
+
     return (
       <DialogModal
         appElement="#app"
