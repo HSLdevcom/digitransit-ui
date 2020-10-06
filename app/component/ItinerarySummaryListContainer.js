@@ -117,7 +117,10 @@ function ItinerarySummaryListContainer(
       summaries.splice(
         separatorPosition,
         0,
-        <div className="summary-list-separator" />,
+        <div
+          className="summary-list-separator"
+          key={`summary-list-separator-${separatorPosition}`}
+        />,
       );
     }
 
