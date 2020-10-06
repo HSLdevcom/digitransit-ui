@@ -6,6 +6,10 @@ import { AlertSeverityLevelType } from '../constants';
 
 const IconWithBigCaution = ({ alertSeverityLevel, className, color, img }) => {
   const iconType =
+    alertSeverityLevel === AlertSeverityLevelType.Info
+      ? 'info'
+      : 'caution-no-excl';
+  const subIconClassName =
     alertSeverityLevel === AlertSeverityLevelType.Info ? 'info' : 'caution';
   return (
     <IconWithIcon
@@ -13,7 +17,7 @@ const IconWithBigCaution = ({ alertSeverityLevel, className, color, img }) => {
       color={color}
       img={img}
       subIcon={`icon-icon_${iconType}`}
-      subIconClassName={`subicon-${iconType}`}
+      subIconClassName={`subicon-${subIconClassName}`}
       subIconShape={(iconType === 'info' && 'circle') || undefined}
     />
   );
@@ -23,7 +27,7 @@ IconWithBigCaution.displayName = 'IconWithBigCaution';
 
 IconWithBigCaution.description = () => (
   <ComponentUsageExample description="Bus with caution">
-    <div style={{ paddingLeft: '5px' }}>
+    <div style={{ paddingLeft: '5px', position: 'relative' }}>
       <IconWithBigCaution className="bus" img="icon-icon_bus" />
     </div>
   </ComponentUsageExample>

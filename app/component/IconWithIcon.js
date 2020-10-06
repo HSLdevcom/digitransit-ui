@@ -55,7 +55,7 @@ IconWithIcon.description = () => (
           className="bus"
           img="icon-icon_bus"
           subIcon="icon-icon_caution"
-          subIconClassName="subicon-caution"
+          subIconClassName="subicon-caution-no-excl"
         />
       </div>
     </ComponentUsageExample>

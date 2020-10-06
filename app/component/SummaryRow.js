@@ -270,6 +270,8 @@ const SummaryRow = (
     const nextLeg = compressedLegs[i + 1];
     let legLength =
       ((leg.endTime - leg.startTime) / durationWithoutSlack) * 100; // length of the current leg in %
+    const longName =
+      leg.route && leg.route.shortName && leg.route.shortName.length > 3;
 
     if (nextLeg && !nextLeg.intermediatePlace) {
       // don't show waiting in intermediate places
@@ -405,7 +407,7 @@ const SummaryRow = (
         <RouteLeg
           key={`${leg.mode}_${leg.startTime}`}
           leg={leg}
-          fitRouteNumber={fitAllRouteNumbers}
+          fitRouteNumber={fitAllRouteNumbers && !longName}
           intl={intl}
           legLength={legLength}
           large={breakpoint === 'large'}
