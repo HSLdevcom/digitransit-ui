@@ -81,7 +81,7 @@ class SummaryPlanContainer extends React.Component {
   };
 
   state = {
-    loadingPosition: undefined,
+    loadingItineraries: undefined,
   };
 
   onSelectActive = index => {
@@ -146,7 +146,7 @@ class SummaryPlanContainer extends React.Component {
       action: 'ShowLaterItineraries',
       name: null,
     });
-    this.setState({ loadingPosition: reversed ? 'top' : 'bottom' });
+    this.setState({ loadingItineraries: reversed ? 'top' : 'bottom' });
 
     const end = moment.unix(this.props.serviceTimeRange.end);
     const latestDepartureTime = this.props.itineraries.reduce(
@@ -437,7 +437,7 @@ class SummaryPlanContainer extends React.Component {
             ...this.props.itineraries,
           ]);
           this.setState({
-            loadingPosition: undefined,
+            loadingItineraries: undefined,
           });
         } else {
           this.props.updateItineraries([
@@ -445,7 +445,7 @@ class SummaryPlanContainer extends React.Component {
             ...result.itineraries,
           ]);
           this.setState({
-            loadingPosition: undefined,
+            loadingItineraries: undefined,
           });
         }
         /*
@@ -480,7 +480,7 @@ class SummaryPlanContainer extends React.Component {
       action: 'ShowEarlierItineraries',
       name: null,
     });
-    this.setState({ loadingPosition: reversed ? 'bottom' : 'top' });
+    this.setState({ loadingItineraries: reversed ? 'bottom' : 'top' });
 
     const start = moment.unix(this.props.serviceTimeRange.start);
     const earliestArrivalTime = this.props.itineraries.reduce(
@@ -774,7 +774,7 @@ class SummaryPlanContainer extends React.Component {
               : result.itineraries.length,
           );
           this.setState({
-            loadingPosition: undefined,
+            loadingItineraries: undefined,
           });
           this.props.updateItineraries([
             ...this.props.itineraries,
@@ -793,7 +793,7 @@ class SummaryPlanContainer extends React.Component {
               : reversedItineraries.length,
           );
           this.setState({
-            loadingPosition: undefined,
+            loadingItineraries: undefined,
           });
         }
       },
@@ -925,7 +925,7 @@ class SummaryPlanContainer extends React.Component {
           biking={biking}
           showAlternativePlan={showAlternativePlan}
           separatorPosition={separatorPosition}
-          loadingPosition={this.state.loadingPosition}
+          loadingItineraries={this.state.loadingItineraries}
         >
           {this.props.children}
         </ItinerarySummaryListContainer>
