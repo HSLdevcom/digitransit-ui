@@ -5,6 +5,8 @@ import { matchShape, routerShape } from 'found';
 import { createFragmentContainer, graphql, fetchQuery } from 'react-relay';
 import moment from 'moment';
 import uniqBy from 'lodash/uniqBy';
+import compact from 'lodash/compact';
+import indexOf from 'lodash/indexOf';
 import polyline from 'polyline-encoded';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import withBreakpoint from '../../util/withBreakpoint';
@@ -24,6 +26,26 @@ import {
 } from '../../action/realTimeClientAction';
 import { addressToItinerarySearch } from '../../util/otpStrings';
 import ItineraryLine from './ItineraryLine';
+import Loading from '../Loading';
+
+const handleStopsAndStations = stops => {
+  const terminalNames = [];
+  const stopsAndStations = stops.edges.map(({ node }) => {
+    const stop = { ...node.place, distance: node.distance };
+    if (
+      stop.parentStation &&
+      indexOf(terminalNames, stop.parentStation.name) === -1
+    ) {
+      terminalNames.push(stop.parentStation.name);
+      return { ...stop.parentStation, distance: node.distance };
+    }
+    if (!stop.parentStation) {
+      return stop;
+    }
+    return null;
+  });
+  return compact(stopsAndStations);
+};
 
 const startClient = (context, routes) => {
   const { realTime } = context.config;
@@ -91,14 +113,23 @@ function StopsNearYouMap(
 ) {
   let useFitBounds = true;
   const bounds = handleBounds(locationState, stops);
+
   if (!bounds) {
     useFitBounds = false;
   }
   let uniqueRealtimeTopics;
   const { environment } = useContext(ReactRelayContext);
-  const [plan, setPlan] = useState({ plan: {}, isFetching: false });
+  const [secondPlan, setSecondPlan] = useState({
+    itinerary: [],
+    isFetching: false,
+  });
+  const [firstPlan, setFirstPlan] = useState({
+    itinerary: [],
+    isFetching: false,
+  });
+  const stopsAndStations = handleStopsAndStations(stops);
 
-  const fetchPlan = async stop => {
+  const fetchPlan = (stop, first) => {
     if (locationState && locationState.lat) {
       const toPlace = {
         address: stop.name ? stop.name : 'stop',
@@ -134,9 +165,15 @@ function StopsNearYouMap(
           }
         }
       `;
-      fetchQuery(environment, query, variables).then(({ plan: result }) => {
-        setPlan({ plan: result, isFetching: false });
-      });
+      if (stop.distance < 2000) {
+        fetchQuery(environment, query, variables).then(({ plan: result }) => {
+          if (first) {
+            setFirstPlan({ itinerary: result, isFetching: false });
+          } else {
+            setSecondPlan({ itinerary: result, isFetching: false });
+          }
+        });
+      }
     }
   };
 
@@ -147,11 +184,21 @@ function StopsNearYouMap(
     };
   }, []);
 
+  if (locationState.loadingPosition || props.loading) {
+    return <Loading />;
+  }
   useEffect(() => {
     if (stops.edges && stops.edges.length > 0) {
-      const stop = stops.edges[0].node.place;
-      setPlan({ plan: plan.plan, isFetching: true });
-      fetchPlan(stop);
+      const firstStop = stopsAndStations[0];
+      const secondStop = stopsAndStations[1];
+      if (firstStop) {
+        setFirstPlan({ itinerary: firstPlan.itinerary, isFetching: true });
+        fetchPlan(firstStop, true);
+      }
+      if (secondStop) {
+        setSecondPlan({ itinerary: secondPlan.itinerary, isFetching: true });
+        fetchPlan(stopsAndStations[1], false);
+      }
     }
   }, []);
 
@@ -195,18 +242,42 @@ function StopsNearYouMap(
   if (uniqueRealtimeTopics.length > 0) {
     leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
   }
-  if (plan.plan.itineraries) {
+  if (
+    firstPlan.itinerary.itineraries &&
+    firstPlan.itinerary.itineraries.length > 0
+  ) {
     leafletObjs.push(
-      ...plan.plan.itineraries.map((itinerary, i) => (
-        <ItineraryLine
-          key="itinerary"
-          hash={i}
-          legs={itinerary.legs}
-          passive={false}
-          showIntermediateStops={false}
-          streetMode="walk"
-        />
-      )),
+      firstPlan.itinerary.itineraries.map((itinerary, i) => {
+        return (
+          <ItineraryLine
+            key="itinerary"
+            hash={i}
+            legs={itinerary.legs}
+            passive={false}
+            showIntermediateStops={false}
+            streetMode="walk"
+          />
+        );
+      }),
+    );
+  }
+  if (
+    secondPlan.itinerary.itineraries &&
+    secondPlan.itinerary.itineraries.length > 0
+  ) {
+    leafletObjs.push(
+      secondPlan.itinerary.itineraries.map((itinerary, i) => {
+        return (
+          <ItineraryLine
+            key="itinerary"
+            hash={i}
+            legs={itinerary.legs}
+            passive={false}
+            showIntermediateStops={false}
+            streetMode="walk"
+          />
+        );
+      }),
     );
   }
   const hilightedStops = () => {
@@ -230,6 +301,7 @@ function StopsNearYouMap(
         bounds={bounds}
         origin={origin}
         destination={destination}
+        fitBoundsWithSetCenter
         setInitialMapTracking
         hilightedStops={hilightedStops()}
         disableLocationPopup
@@ -255,6 +327,7 @@ function StopsNearYouMap(
           showScaleBar
           origin={origin}
           destination={destination}
+          fitBoundsWithSetCenter
           setInitialMapTracking
           hilightedStops={hilightedStops()}
           disableLocationPopup
@@ -268,11 +341,11 @@ function StopsNearYouMap(
 
 StopsNearYouMap.propTypes = {
   match: matchShape.isRequired,
+  locationState: dtLocationShape,
   breakpoint: PropTypes.string.isRequired,
   origin: dtLocationShape,
   destination: dtLocationShape,
   language: PropTypes.string.isRequired,
-  locationState: PropTypes.object,
 };
 
 StopsNearYouMap.contextTypes = {
@@ -322,6 +395,7 @@ const containerComponent = createFragmentContainer(StopsNearYouMapWithStores, {
     ) {
       edges {
         node {
+          distance
           place {
             __typename
             ... on BikeRentalStation {
@@ -334,6 +408,12 @@ const containerComponent = createFragmentContainer(StopsNearYouMapWithStores, {
               lat
               lon
               name
+              parentStation {
+                lat
+                lon
+                name
+                gtfsId
+              }
               patterns {
                 route {
                   gtfsId

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import styles from './styles.scss';
 
 moment.tz.setDefault('Europe/Helsinki');
@@ -8,7 +8,15 @@ moment.tz.setDefault('Europe/Helsinki');
 /**
  * Component to display a time input on mobile
  */
-function MobileTimepicker({ value, getDisplay, onChange, id, label, icon }) {
+function MobileTimepicker({
+  value,
+  getDisplay,
+  onChange,
+  id,
+  label,
+  icon,
+  dateTimeCombined,
+}) {
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;
   return (
@@ -24,13 +32,21 @@ function MobileTimepicker({ value, getDisplay, onChange, id, label, icon }) {
           {/* Hide input element and show formatted time instead for consistency between browsers */}
           <input
             id={inputId}
-            type="time"
+            type={dateTimeCombined ? 'datetime-local' : 'time'}
             className={styles['mobile-input-hidden']}
-            value={moment(value).format('HH:mm')}
+            value={
+              dateTimeCombined
+                ? moment(value).format('YYYY-MM-DDTHH:mm')
+                : moment(value).format('HH:mm')
+            }
             onChange={event => {
               const newValue = event.target.value;
               if (!newValue) {
                 // don't allow setting input to empty
+                return;
+              }
+              if (dateTimeCombined) {
+                onChange(moment(newValue).valueOf());
                 return;
               }
               const oldDate = moment(value);
@@ -52,10 +68,12 @@ MobileTimepicker.propTypes = {
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   icon: PropTypes.node,
+  dateTimeCombined: PropTypes.bool,
 };
 
 MobileTimepicker.defaultProps = {
   icon: null,
+  dateTimeCombined: false,
 };
 
 export default MobileTimepicker;

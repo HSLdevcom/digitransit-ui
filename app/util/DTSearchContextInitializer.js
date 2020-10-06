@@ -3,6 +3,7 @@ import {
   getRoutesQuery,
   getStopAndStationsQuery,
   getFavouriteRoutesQuery,
+  getAllBikeRentalStations,
 } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import {
   getPositions,
@@ -12,9 +13,12 @@ import {
   getFavouriteStops,
   getLanguage,
   clearOldSearches,
+  getFutureRoutes,
+  clearFutureRoutes,
 } from './storeUtils';
 import { startLocationWatch } from '../action/PositionActions';
 import { saveSearch } from '../action/SearchActions';
+import { saveFutureRoute } from '../action/FutureRoutesActions';
 
 export default function intializeSearchContext(context, searchContext) {
   // DT-3424: Set SearchContext for Autosuggest and searchUtils.
@@ -40,9 +44,13 @@ export default function intializeSearchContext(context, searchContext) {
   searchContext.getFavouriteRoutes = getFavouriteRoutes;
   searchContext.getPositions = getPositions;
   searchContext.getRoutesQuery = getRoutesQuery;
+  searchContext.getAllBikeRentalStations = getAllBikeRentalStations;
   searchContext.getStopAndStationsQuery = getStopAndStationsQuery;
   searchContext.getFavouriteRoutesQuery = getFavouriteRoutesQuery;
   searchContext.startLocationWatch = startLocationWatch;
   searchContext.saveSearch = saveSearch;
   searchContext.clearOldSearches = clearOldSearches;
+  searchContext.getFutureRoutes = getFutureRoutes;
+  searchContext.saveFutureRoute = saveFutureRoute;
+  searchContext.clearFutureRoutes = clearFutureRoutes;
 }

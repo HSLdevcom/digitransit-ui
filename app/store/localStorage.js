@@ -381,3 +381,11 @@ export const setDialogState = (dialogId, seen = true) => {
  */
 export const getDialogState = dialogId =>
   getItemAsJson('dialogState', '{}')[`${dialogId}`] === true;
+
+export function getFutureRoutesStorage() {
+  return getItemAsJson('futureRoutes', '[]');
+}
+
+export function setFutureRoutesStorage(data) {
+  setItem('futureRoutes', data);
+}

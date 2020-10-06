@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { connectToStores } from 'fluxible-addons-react';
@@ -14,7 +14,6 @@ import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { dtLocationShape } from '../../util/shapes';
 import { parseLocation } from '../../util/path';
 import * as ModeUtils from '../../util/modeUtils';
-import Icon from '../Icon';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 
 const renderMapLayerSelector = () => <SelectMapLayersDialog />;
@@ -53,7 +52,7 @@ function IndexPageMap(
   if (useDefaultLocation) {
     focusPoint = config.defaultMapCenter || config.defaultEndpoint;
     initialZoom = 12; // Show default area
-  } else if (origin.set && (origin.ready || (!origin.ready && origin.gps))) {
+  } else if (origin.set && origin.ready && origin.lat && origin.lon) {
     focusPoint = origin;
   } else if (destination.set && destination.ready) {
     focusPoint = destination;
@@ -75,6 +74,10 @@ function IndexPageMap(
   if (focusPointChanged && focusPoint && focusPoint.lat && focusPoint.lon) {
     previousFocusPoint = focusPoint;
     mwtProps.focusPoint = focusPoint;
+    initialZoom = 16;
+    if (!focusPoint.gps) {
+      mwtProps.mapTracking = false;
+    }
   }
   if (originFromURI.set || destinationFromURI.set) {
     // Origin or destination from URI
@@ -127,15 +130,9 @@ function IndexPageMap(
       />
     );
   } else {
-    const [mapExpanded, toggleFullscreen] = useState(false);
-
     map = (
       <>
-        <div
-          className={cx('flex-grow', 'map-container', {
-            expanded: mapExpanded,
-          })}
-        >
+        <div className={cx('flex-grow', 'map-container')}>
           <MapWithTracking
             breakpoint={breakpoint}
             showStops
@@ -151,22 +148,6 @@ function IndexPageMap(
             )}
           />
         </div>
-        {/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
-        <div style={{ position: 'relative' }}>
-          <div
-            className={cx('fullscreen-toggle', {
-              expanded: mapExpanded,
-            })}
-            onClick={() => toggleFullscreen(!mapExpanded)}
-          >
-            {mapExpanded ? (
-              <Icon img="icon-icon_minimize" className="cursor-pointer" />
-            ) : (
-              <Icon img="icon-icon_maximize" className="cursor-pointer" />
-            )}
-          </div>
-        </div>
-        {/* eslint-enable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       </>
     );
   }

@@ -186,7 +186,7 @@ $content-background-color: $background-color;
   button {
     padding-top: 0 !important;
     position: absolute;
-    left: 0.5em;
+    //left: 0.5em;
     .icon {
       height: 1.3em;
       width: 1.3em;
@@ -266,6 +266,10 @@ $content-background-color: $background-color;
     }
   }
   .close-button {
+    &.mobile-bar-close {
+      width: 15px;
+      margin: 2px -10px 0px 0px;
+     }
     padding: 5px 20px;
     float: right;
     background: none;
@@ -304,6 +308,9 @@ section.content {
     flex-direction: column;
     height: 100%;
     position: relative;
+    .back-button {
+      left: 0;
+    }
   }
 
   .desktop {
@@ -391,6 +398,12 @@ section.content {
     color: #333333; // DT-3358: was $primary-font-color
     margin: 50px 0 16px 0;
     line-height: 1;
+    .back-button {
+      position: static;
+      button {
+        left: 0.5em;
+      }
+    }
   }
 
   h1 {
@@ -417,14 +430,21 @@ section.content {
   }
   position: relative;
   z-index: 802;
-  width: 100%;
+   width: 100%;
+  height: 70px;
   display: block;
   @include font-book;
-  font-size: $font-size-small;
+  font-size: 15px;
+  line-height: 19px;
+  letter-spacing: -0.42px;
   color: $black;
   text-align: left;
   cursor: pointer;
-
+  &.mobile-bar {
+    height: 110px;
+    -webkit-line-clamp: 2; /* number of lines to show */
+    -webkit-box-orient: vertical;
+  }
   .banner-container {
     display: flex;
     max-height: 100%;
@@ -456,10 +476,11 @@ section.content {
   }
 
   h2 {
-    @include font-medium;
-    font-size: $font-size-large;
-    margin-top: 0;
-    margin-bottom: 0.5em;
+    font-size: 15px;
+    letter-spacing: -0.42px;
+    margin-top: 12px;
+    line-height: 9px;
+    margin-bottom: 6px
   }
 
   .message-bar-error {
@@ -482,8 +503,7 @@ section.content {
 
 #close-message-bar {
   span {
-    padding-right: 10px;
-    padding-top: 10px;
+    margin: -3px -5px 0px 0px;
   }
 }
 .message-bar-fade {
@@ -491,7 +511,7 @@ section.content {
 }
 // Need more specific selector to override
 .message-bar .icon {
-  margin: 10px;
+  margin: 17px;
 }
 
 .message-bar .icon.message-icon {
@@ -505,8 +525,8 @@ section.content {
 .message-bar .icon.close {
   float: right;
   fill: $gray;
-  height: 15px;
-  width: 15px;
+  height: 12px;
+  width: 12px;
 }
 
 .external-top-bar {

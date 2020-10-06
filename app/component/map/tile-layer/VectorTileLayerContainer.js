@@ -39,7 +39,7 @@ export default function VectorTileLayerContainer(props, { config }) {
 }
 
 VectorTileLayerContainer.propTypes = {
-  hilightedStops: PropTypes.arrayOf(PropTypes.string.isRequired),
+  hilightedStops: PropTypes.arrayOf(PropTypes.string),
   disableMapTracking: PropTypes.func,
   showStops: PropTypes.bool,
   stopsNearYouMode: PropTypes.string,

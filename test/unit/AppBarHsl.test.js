@@ -15,6 +15,9 @@ describe('<AppBarHsl />', () => {
             pathname: '/',
           },
         },
+        config: {
+          allowLogin: false,
+        },
       },
     });
     expect(wrapper.isEmptyRender()).to.equal(false);

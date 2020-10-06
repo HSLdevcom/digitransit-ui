@@ -5,6 +5,7 @@ import Arrow from './assets/arrow.svg';
 import Bus from './assets/bus.svg';
 import Busstop from './assets/bus_stop.svg';
 import City from './assets/city.svg';
+import Citybike from './assets/citybike.svg';
 import Edit from './assets/edit.svg';
 import Ferry from './assets/ferry.svg';
 import Home from './assets/home.svg';
@@ -40,6 +41,7 @@ import ModeRail from './assets/mode_rail.svg';
 import ModeTram from './assets/mode_tram.svg';
 import ModeFerry from './assets/mode_ferry.svg';
 import ModeCitybike from './assets/mode_citybike.svg';
+import FutureRoute from './assets/icon-route.svg';
 
 const IconMap = style => {
   return {
@@ -48,6 +50,7 @@ const IconMap = style => {
     bus: <Bus style={style} />,
     busstop: <Busstop style={style} />,
     city: <City style={style} />,
+    citybike: <Citybike style={style} />,
     edit: <Edit style={style} />,
     ferry: <Ferry style={style} />,
     home: <Home style={style} />,
@@ -84,6 +87,7 @@ const IconMap = style => {
     'mode-subway': <Subway style={style} />,
     'mode-ferry': <ModeFerry style={style} />,
     'mode-citybike': <ModeCitybike style={style} />,
+    'future-route': <FutureRoute style={style} />,
   };
 };
 

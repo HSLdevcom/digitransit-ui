@@ -74,6 +74,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
       lat,
       lon,
       maxResults: this.context.config.maxNearbyStopAmount,
+      first: this.context.config.maxNearbyStopAmount,
       maxDistance: this.context.config.maxNearbyStopDistance,
       filterByModes: modes,
       filterByPlaceTypes: placeTypes,
@@ -93,20 +94,23 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
             $lon: Float!
             $filterByPlaceTypes: [FilterPlaceType]
             $filterByModes: [Mode]
+            $first: Int!
             $maxResults: Int!
             $maxDistance: Int!
             $omitNonPickups: Boolean
           ) {
-            stopPatterns: nearest(
-              lat: $lat
-              lon: $lon
-              filterByPlaceTypes: $filterByPlaceTypes
-              filterByModes: $filterByModes
-              maxResults: $maxResults
-              maxDistance: $maxDistance
-            ) {
+            stopPatterns: viewer {
               ...StopsNearYouContainer_stopPatterns
-              @arguments(omitNonPickups: $omitNonPickups)
+              @arguments(
+                lat: $lat
+                lon: $lon
+                filterByPlaceTypes: $filterByPlaceTypes
+                filterByModes: $filterByModes
+                first: $first
+                maxResults: $maxResults
+                maxDistance: $maxDistance
+                omitNonPickups: $omitNonPickups
+              )
             }
             alerts: nearest(
               lat: $lat
@@ -197,6 +201,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   };
 
   render() {
+    const { mode } = this.context.match.params;
     if (this.props.loadingPosition) {
       return <Loading />;
     }
@@ -206,10 +211,11 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
           <DesktopView
             title={
               <FormattedMessage
-                id="nearest-stops"
+                id={`nearest-stops-${mode.toLowerCase()}`}
                 defaultMessage="Stops near you"
               />
             }
+            scrollable
             content={this.renderContent()}
             map={this.renderMap()}
             bckBtnColor={this.context.config.colors.primary}

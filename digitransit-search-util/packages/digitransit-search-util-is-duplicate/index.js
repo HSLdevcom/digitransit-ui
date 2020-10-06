@@ -26,6 +26,23 @@ export default function isDuplicate(item1, item2) {
   const props1 = item1.properties;
   const props2 = item2.properties;
 
+  if (item1.type === 'FutureRoute' && item2.type === 'FutureRoute') {
+    const o1 = props1.origin;
+    const d1 = props1.destination;
+    const o2 = props2.origin;
+    const d2 = props2.destination;
+
+    const name1 = `${o1.name}//${o1.locality}//${d1.name}//${d1.locality}`;
+    const name2 = `${o2.name}//${o2.locality}//${d2.name}//${d2.locality}`;
+
+    if (truEq(name1, name2)) {
+      return true;
+    }
+    return false;
+  }
+  if (item1.type === 'FutureRoute' || item2.type === 'FutureRoute') {
+    return false;
+  }
   if (truEq(props1.gtfsId, props2.gtfsId)) {
     return true;
   }
@@ -36,8 +53,8 @@ export default function isDuplicate(item1, item2) {
     return true;
   }
 
-  const p1 = item1.geometry.coordinates;
-  const p2 = item2.geometry.coordinates;
+  const p1 = item1 && item1.geometry ? item1.geometry.coordinates : undefined;
+  const p2 = item2 && item2.geometry ? item2.geometry.coordinates : undefined;
 
   if (p1 && p2) {
     // both have geometry

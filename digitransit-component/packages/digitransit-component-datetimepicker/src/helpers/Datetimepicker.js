@@ -10,7 +10,7 @@ import MobileDatepicker from './MobileDatepicker';
 import MobileTimepicker from './MobileTimepicker';
 import translations from './translations';
 import styles from './styles.scss';
-import isMobile from './isMobile';
+import { isMobile, isAndroid } from './mobileDetection';
 import dateTimeInputIsSupported from './dateTimeInputIsSupported';
 
 moment.tz.setDefault('Europe/Helsinki');
@@ -69,6 +69,7 @@ function Datetimepicker({
   const [htmlId] = useState(uniqueId('datetimepicker-'));
 
   const [useMobileInputs] = useState(isMobile() && dateTimeInputIsSupported());
+  const useDateTimeCombined = isAndroid();
 
   const translationSettings = { lng: lang };
 
@@ -154,6 +155,24 @@ function Datetimepicker({
   const timeSelectItemCount = 24 * 4;
   const timeSelectItemDiff = 1000 * 60 * 15; // 15 minutes in ms
   const timeSelectStartTime = moment(displayTimestamp).startOf('day').valueOf();
+  let timeChoices = Array(timeSelectItemCount)
+    .fill()
+    .map((_, i) => timeSelectStartTime + i * timeSelectItemDiff);
+  if (timestamp === null) {
+    // if time is set to now
+    // add times in 5 min intervals for next 30 mins
+    const fiveMinutes = 1000 * 60 * 5;
+    const nextFiveMin = Math.ceil(displayTimestamp / fiveMinutes) * fiveMinutes;
+    const timesToAdd = Array(7)
+      .fill()
+      .map((_, i) => nextFiveMin + i * fiveMinutes);
+    const closestIndexAfter = timeChoices
+      .map(t => displayTimestamp - t)
+      .findIndex(t => t <= 0);
+    timeChoices.splice(closestIndexAfter, 0, ...timesToAdd);
+    timeChoices = Array.from(new Set(timeChoices)); // remove duplicates
+  }
+
   const dateSelectItemCount = 30;
   const dateSelectItemDiff = 1000 * 60 * 60 * 24; // 24 hrs in ms
   const dateSelectStartTime = moment()
@@ -161,6 +180,9 @@ function Datetimepicker({
     .hour(selectedMoment.hour())
     .minute(selectedMoment.minute())
     .valueOf();
+  const dateChoices = Array(dateSelectItemCount)
+    .fill()
+    .map((_, i) => dateSelectStartTime + i * dateSelectItemDiff);
 
   return (
     <fieldset className={styles['dt-datetimepicker']} id={`${htmlId}-root`}>
@@ -198,9 +220,11 @@ function Datetimepicker({
                           : 'arrival',
                         translationSettings,
                       )}
-                      {` ${getDateDisplay(
-                        displayTimestamp,
-                      ).toLowerCase()} ${getTimeDisplay(displayTimestamp)}`}
+                      {` ${
+                        moment().isSame(moment(displayTimestamp), 'day')
+                          ? ''
+                          : getDateDisplay(displayTimestamp).toLowerCase()
+                      } ${getTimeDisplay(displayTimestamp)}`}
                     </>
                   )}
                 </span>
@@ -334,6 +358,7 @@ function Datetimepicker({
                         <Icon img="calendar" />
                       </span>
                     }
+                    dateTimeCombined={useDateTimeCombined}
                   />
                 </span>
                 <span
@@ -352,6 +377,7 @@ function Datetimepicker({
                         <Icon img="time" />
                       </span>
                     }
+                    dateTimeCombined={useDateTimeCombined}
                   />
                 </span>
               </>
@@ -364,9 +390,7 @@ function Datetimepicker({
                       onDateChange(newValue);
                     }}
                     getDisplay={getDateDisplay}
-                    itemCount={dateSelectItemCount}
-                    itemDiff={dateSelectItemDiff}
-                    startTime={dateSelectStartTime}
+                    timeChoices={dateChoices}
                     validate={() => null}
                     icon={
                       <span
@@ -387,9 +411,7 @@ function Datetimepicker({
                       onTimeChange(newValue);
                     }}
                     getDisplay={getTimeDisplay}
-                    itemCount={timeSelectItemCount}
-                    itemDiff={timeSelectItemDiff}
-                    startTime={timeSelectStartTime}
+                    timeChoices={timeChoices}
                     validate={validateTime}
                     icon={
                       <span

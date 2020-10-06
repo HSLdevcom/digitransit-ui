@@ -1,10 +1,42 @@
 .map.flex-grow {
     position: relative;
     min-height: 20rem;
-    z-index: 0;
+}
+
+.citybike-content-container {
+    padding: 15px 14px 22px;
+    display: flex;
+    height: 45px;
+    box-sizing: content-box;
+    .availability-container {
+        padding-left: 15px;
+        flex: 1;
+        .sub-header-h4 {
+            font-size: 0.813rem;
+        }
+    }
+    .icon-container {
+        display: flex;
+        align-self: center;
+        .icon {
+            width: 36px;
+            height: 36px;
+        }
+    }
 }
 
 .stops-near-you-page {
+    position: relative;
+    .show-more-button {
+        margin: 0 6.25em 20px;
+        font-weight: 500;
+        background-color: $white;
+        color: $primary-color;
+        border: 1px solid #ddd;
+        min-height: 28px;
+        border-radius: 16px;
+        font-size: 0.9375rem;
+    }
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -14,27 +46,6 @@
         border-radius: 10px;
         width: 100%;
         margin-bottom: 10px;
-        .citybike-content-container {
-            padding: 15px 14px 22px;
-            display: flex;
-            height: 45px;
-            box-sizing: content-box;
-            .availability-container {
-                padding-left: 15px;
-                flex: 1;
-                .sub-header-h4 {
-                    font-size: 0.813rem;
-                }
-            }
-            .icon-container {
-                display: flex;
-                align-self: center;
-                .icon {
-                    width: 36px;
-                    height: 36px;
-                }
-            }
-        }
         .stop-near-you-header-container {
             .stop-near-you-name {
                 line-height: 24px;
@@ -135,14 +146,6 @@
     .stops-near-you-search-container {
         margin-bottom: 22px;
     }
-    .stops-near-you-page {
-        display: flex;
-        flex-basis: 0px;
-        flex-direction: column;
-        flex-grow: 1;
-        flex-shrink: 0;
-        overflow-y: auto;
-    }
     .back-button.near-you-back-button {
         font-size: 1.25rem;
         margin: 50px 0 16px 0;
@@ -197,7 +200,7 @@
     }
     .stops-near-you-page {
         height: calc(100% - 20rem);
-        padding: 15px 0.625em 0;
+        padding: 20px 0.625em 0;
         background-color: white;
         border-radius: 15px 15px 0 0;
         box-shadow: 0 -5px 5px 0 rgba(0, 0, 0, 0.2);

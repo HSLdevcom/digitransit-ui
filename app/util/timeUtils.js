@@ -83,3 +83,7 @@ export function getStartTimeWithColon(time) {
   const mins = `0${(time / 60) % 60}`.slice(-2);
   return `${hours}:${mins}`;
 }
+
+export function getCurrentSecs() {
+  return moment().unix();
+}

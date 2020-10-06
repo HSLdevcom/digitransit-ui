@@ -1,26 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import CityBikeAvailability from './CityBikeAvailability';
-import Icon from './Icon';
-import {
-  getCityBikeNetworkIcon,
-  getCityBikeNetworkConfig,
-} from '../util/citybikes';
+import { Link } from 'found';
+import CityBikeStopContent from './CityBikeStopContent';
 
-const CityBikeStopNearYou = ({ stop }, { config }) => {
-  const totalSpaces = stop.bikesAvailable + stop.spacesAvailable;
-  const fewAvailableCount = Math.floor(totalSpaces / 3);
-  const fewerAvailableCount = Math.floor(totalSpaces / 6);
-  const citybikeicon = getCityBikeNetworkIcon(
-    getCityBikeNetworkConfig(stop.networks[0], config),
-  );
+import { PREFIX_BIKESTATIONS } from '../util/path';
+import { isKeyboardSelectionEvent } from '../util/browser';
+
+const CityBikeStopNearYou = ({ stop }) => {
   return (
     <span role="listitem">
       <div className="stop-near-you-container">
         <div className="stop-near-you-header-container">
           <div className="stop-header-content">
-            <h3 className="stop-near-you-name">{stop.name}</h3>
+            <Link
+              onClick={e => {
+                e.stopPropagation();
+              }}
+              onKeyPress={e => {
+                if (isKeyboardSelectionEvent(e)) {
+                  e.stopPropagation();
+                }
+              }}
+              to={`/${PREFIX_BIKESTATIONS}/${stop.stationId}`}
+            >
+              <h3 className="stop-near-you-name">{stop.name}</h3>
+            </Link>
             <div className="bike-station-code">
               <FormattedMessage
                 id="citybike-station"
@@ -31,22 +36,10 @@ const CityBikeStopNearYou = ({ stop }, { config }) => {
             </div>
           </div>
         </div>
-        <div className="citybike-content-container">
-          <Icon img={citybikeicon} />
-          <CityBikeAvailability
-            bikesAvailable={stop.bikesAvailable}
-            totalSpaces={totalSpaces}
-            fewAvailableCount={fewAvailableCount}
-            fewerAvailableCount={fewerAvailableCount}
-            useSpacesAvailable
-          />
-        </div>
+        <CityBikeStopContent bikeRentalStation={stop} />
       </div>
     </span>
   );
-};
-CityBikeStopNearYou.contextTypes = {
-  config: PropTypes.object.isRequired,
 };
 CityBikeStopNearYou.propTypes = {
   stop: PropTypes.object.isRequired,

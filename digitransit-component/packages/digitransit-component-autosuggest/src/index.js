@@ -10,9 +10,12 @@ import suggestionToLocation from '@digitransit-search-util/digitransit-search-ut
 import { getNameLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
 import Icon from '@digitransit-component/digitransit-component-icon';
+import moment from 'moment-timezone';
 import translations from './helpers/translations';
 import styles from './helpers/styles.scss';
 import MobileSearch from './helpers/MobileSearch';
+
+moment.tz.setDefault('Europe/Helsinki');
 
 i18next.init({ lng: 'fi', resources: {} });
 
@@ -33,17 +36,59 @@ Loading.propTypes = {
 };
 
 function suggestionToAriaContent(item) {
-  let iconstr;
-  if (item.properties.mode) {
-    iconstr = `icon-icon_${item.mode}`;
-  } else {
-    const layer = item.properties.layer.replace('route-', '').toLowerCase();
-    iconstr = i18next.t(layer);
+  if (item.type !== 'FutureRoute') {
+    let iconstr;
+    let stopCode;
+    /* eslint-disable-next-line prefer-const */
+    let [name, label] = getNameLabel(item.properties, true);
+    if (item.properties.id && item.properties.layer === 'stop') {
+      stopCode = item.properties.id.substring(
+        item.properties.id.indexOf('#') + 1,
+      );
+    }
+
+    if (label === 'bike-rental-station') {
+      label = i18next.t(label);
+      stopCode = item.properties.labelId;
+      return [iconstr, name, label, stopCode];
+    }
+
+    if (item.properties.mode) {
+      iconstr = `icon-icon_${item.mode}`;
+    } else {
+      const layer = item.properties.layer.replace('route-', '').toLowerCase();
+      iconstr = i18next.t(layer);
+    }
+    return [iconstr, name, label];
   }
-  const [name, label] = getNameLabel(item.properties, true);
-  return [iconstr, name, label];
+  return [
+    i18next.t('future-route'),
+    `${i18next.t('origin')} ${item.properties.origin.name}, ${
+      item.properties.origin.locality
+    }, ${i18next.t('destination')} ${item.properties.destination.name}, ${
+      item.properties.destination.locality
+    }`,
+    item.translatedText,
+  ];
 }
 
+function translateFutureRouteSuggestionTime(item) {
+  moment.locale(i18next.language);
+
+  const time = moment.unix(item.properties.time);
+  let str = item.properties.arriveBy
+    ? i18next.t('arrival')
+    : i18next.t('departure');
+  if (time.isSame(moment(), 'day')) {
+    str = `${str} ${i18next.t('today')}`;
+  } else if (time.isSame(moment().add(1, 'day'), 'day')) {
+    str = `${str} ${i18next.t('tomorrow')}`;
+  } else {
+    str = `${str} ${time.format('dd D.M.')}`;
+  }
+  str = `${str} ${moment(time).format('HH:mm')}`;
+  return str;
+}
 /**
  * @example
  * const searchContext = {
@@ -84,6 +129,7 @@ function suggestionToAriaContent(item) {
  * const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches) and Datasource. Leave empty to use all sources.
  * return (
  *  <DTAutosuggest
+ *    appElement={appElement} // Required. Root element's id. Needed for react-modal component.
  *    searchContext={searchContext}
  *    icon="origin" // Optional String for icon that is shown left of searchfield. used with Icon library
  *    id="origin" // used for style props and info for component.
@@ -105,6 +151,7 @@ function suggestionToAriaContent(item) {
  */
 class DTAutosuggest extends React.Component {
   static propTypes = {
+    appElement: PropTypes.string.isRequired,
     autoFocus: PropTypes.bool,
     className: PropTypes.string,
     icon: PropTypes.string,
@@ -156,6 +203,7 @@ class DTAutosuggest extends React.Component {
       typingTimer: null,
       typing: false,
       pendingSelection: null,
+      suggestionIndex: 0,
     };
   }
 
@@ -177,11 +225,13 @@ class DTAutosuggest extends React.Component {
 
   onChange = (event, { newValue, method }) => {
     const newState = {
-      value: newValue,
+      value: newValue || '',
     };
     if (!this.state.editing) {
       newState.editing = true;
-      this.setState(newState, () => this.fetchFunction({ value: newValue }));
+      this.setState(newState, () =>
+        this.fetchFunction({ value: newValue || '' }),
+      );
     } else if (method !== 'enter' || this.state.valid) {
       // test above drops unnecessary update
       // when user hits enter but search is unfinished
@@ -223,12 +273,16 @@ class DTAutosuggest extends React.Component {
         );
         return;
       }
-      if (ref.suggestion.type === 'back') {
+      if (
+        ref.suggestion.type === 'back' ||
+        ref.suggestion.type === 'FutureRoute'
+      ) {
         this.setState(
           {
             sources: this.props.sources,
             targets: this.props.targets,
             pendingSelection: ref.suggestion.type,
+            suggestionIndex: ref.suggestionIndex,
           },
           () => {
             this.fetchFunction({ value: '' });
@@ -314,7 +368,7 @@ class DTAutosuggest extends React.Component {
       );
       // accept after all ongoing searches have finished
     } else if (this.state.pendingSelection && this.state.valid) {
-      // finish the selection by picking first = best match
+      // finish the selection by picking first = best match or with 'FutureRoute' by suggestionIndex
       this.setState(
         {
           pendingSelection: null,
@@ -323,7 +377,10 @@ class DTAutosuggest extends React.Component {
         () => {
           if (this.state.suggestions.length) {
             this.input.blur();
-            this.props.onSelect(this.state.suggestions[0], this.props.id);
+            this.props.onSelect(
+              this.state.suggestions[this.state.suggestionIndex],
+              this.props.id,
+            );
           }
         },
       );
@@ -353,33 +410,42 @@ class DTAutosuggest extends React.Component {
         this.props.filterResults,
         this.props.geocodingSize,
         {
-          input: value,
+          input: value || '',
         },
         searchResult => {
           if (searchResult == null) {
             return;
           }
           // XXX translates current location
-          const suggestions = (searchResult.results || []).map(suggestion => {
-            if (
-              suggestion.type === 'CurrentLocation' ||
-              suggestion.type === 'SelectFromMap' ||
-              suggestion.type === 'SelectFromOwnLocations' ||
-              suggestion.type === 'back'
-            ) {
-              const translated = { ...suggestion };
-              translated.properties.labelId = i18next.t(
-                suggestion.properties.labelId,
+          const suggestions = (searchResult.results || [])
+            .filter(suggestion => {
+              return (
+                suggestion.type !== 'FutureRoute' ||
+                (suggestion.type === 'FutureRoute' &&
+                  suggestion.properties.time > moment().unix())
               );
-              return translated;
-            }
-            return suggestion;
-          });
+            })
+            .map(suggestion => {
+              if (
+                suggestion.type === 'CurrentLocation' ||
+                suggestion.type === 'SelectFromMap' ||
+                suggestion.type === 'SelectFromOwnLocations' ||
+                suggestion.type === 'back'
+              ) {
+                const translated = { ...suggestion };
+                translated.properties.labelId = i18next.t(
+                  suggestion.properties.labelId,
+                );
+                return translated;
+              }
+              return suggestion;
+            });
           if (
             value === this.state.value ||
             value === this.state.pendingSelection ||
             this.state.pendingSelection === 'SelectFromOwnLocations' ||
-            this.state.pendingSelection === 'back'
+            this.state.pendingSelection === 'back' ||
+            this.state.pendingSelection === 'FutureRoute'
           ) {
             this.setState(
               {
@@ -450,10 +516,16 @@ class DTAutosuggest extends React.Component {
   };
 
   renderItem = item => {
-    const ariaContent = suggestionToAriaContent(item);
+    const newItem = {
+      ...item,
+      translatedText: translateFutureRouteSuggestionTime(item),
+    };
+    const ariaContent = suggestionToAriaContent(
+      item.type === 'FutureRoute' ? newItem : item,
+    );
     return (
       <SuggestionItem
-        item={item}
+        item={item.type === 'FutureRoute' ? newItem : item}
         ariaContent={ariaContent}
         loading={!this.state.valid}
         isMobile={this.props.isMobile}
@@ -497,9 +569,16 @@ class DTAutosuggest extends React.Component {
   };
 
   clearOldSearches = () => {
-    const { context, clearOldSearches } = this.props.searchContext;
+    const {
+      context,
+      clearOldSearches,
+      clearFutureRoutes,
+    } = this.props.searchContext;
     if (context && clearOldSearches) {
       clearOldSearches(context);
+      if (clearFutureRoutes) {
+        clearFutureRoutes(context);
+      }
       this.fetchFunction({ value: this.state.value });
     }
   };
@@ -564,6 +643,7 @@ class DTAutosuggest extends React.Component {
         </span>
         {renderMobileSearch && (
           <MobileSearch
+            appElement={this.props.appElement}
             clearOldSearches={this.clearOldSearches}
             id={this.props.id}
             suggestions={[

@@ -68,7 +68,7 @@ class OriginDestinationBar extends React.Component {
       base: location,
       origin: this.props.destination,
       destination: this.props.origin,
-      context: PREFIX_ITINERARY_SUMMARY,
+      rootPath: PREFIX_ITINERARY_SUMMARY,
       router: this.context.router,
       resetIndex: true,
     });

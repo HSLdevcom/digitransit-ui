@@ -1,7 +1,6 @@
 import cx from 'classnames';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import uniqBy from 'lodash/uniqBy';
-import { Tabs, Tab } from 'material-ui/Tabs';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { intlShape } from 'react-intl';
@@ -118,10 +117,12 @@ class MessageBar extends Component {
     lang: PropTypes.string.isRequired,
     messages: PropTypes.array.isRequired,
     relayEnvironment: PropTypes.object,
+    mobile: PropTypes.bool,
   };
 
   static defaultProps = {
     getServiceAlertsAsync: fetchServiceAlerts,
+    mobile: false,
   };
 
   state = {
@@ -180,32 +181,6 @@ class MessageBar extends Component {
     );
   };
 
-  getTabs = (selectedIndex, isDisruption) => {
-    const messages = this.validMessages();
-    return messages.map((el, i) => {
-      const isSelected = i === selectedIndex;
-      return (
-        <Tab
-          key={el.id}
-          selected={isSelected}
-          icon={
-            messages.length > 1
-              ? this.getTabMarker(i, isSelected, isDisruption)
-              : null
-          }
-          value={i}
-          style={{
-            margin: '2px 0 0 0',
-            maxWidth: '30px',
-          }}
-          buttonStyle={{
-            height: '18px',
-          }}
-        />
-      );
-    });
-  };
-
   maximize = () => {
     this.setState({ maximized: true });
   };
@@ -260,7 +235,6 @@ class MessageBar extends Component {
     if (!ready) {
       return null;
     }
-
     const messages = this.validMessages();
     if (messages.length === 0) {
       return null;
@@ -270,6 +244,8 @@ class MessageBar extends Component {
     const msg = messages[index];
     const type = msg.type || 'info';
     const icon = msg.icon || 'info';
+    // eslint-disable-next-line prefer-destructuring
+    const iconColor = msg.iconColor;
     const iconName = `icon-icon_${icon}`;
     const isDisruption = msg.type === 'disruption';
     const backgroundColor = msg.backgroundColor || '#fff';
@@ -279,7 +255,11 @@ class MessageBar extends Component {
       <section
         id="messageBar"
         role="banner"
-        className="message-bar flex-horizontal"
+        className={cx(
+          'message-bar',
+          { 'mobile-bar ': this.props.mobile },
+          'flex-horizontal',
+        )}
         style={{ background: backgroundColor }}
       >
         <div
@@ -287,7 +267,12 @@ class MessageBar extends Component {
             'banner-disruption': isDisruption,
           })}
         >
-          <Icon img={iconName} dataURI={dataURI} className="message-icon" />
+          <Icon
+            img={iconName}
+            color={iconColor}
+            dataURI={dataURI}
+            className="message-icon"
+          />
           <div className={`message-bar-content message-bar-${type}`}>
             <SwipeableViews
               index={index}
@@ -307,18 +292,6 @@ class MessageBar extends Component {
             >
               {this.getTabContent(textColor)}
             </SwipeableViews>
-            <Tabs
-              onChange={this.handleChange}
-              value={index}
-              tabItemContainerStyle={{
-                backgroundColor: isDisruption ? 'inherit' : backgroundColor,
-                height: '18px',
-                justifyContent: 'center',
-              }}
-              inkBarStyle={{ display: 'none' }}
-            >
-              {this.getTabs(slideIndex, isDisruption)}
-            </Tabs>
           </div>
           <div>
             <button
@@ -328,10 +301,10 @@ class MessageBar extends Component {
                 defaultMessage: 'Close banner',
               })}
               onClick={this.handleClose}
-              className="noborder close-button cursor-pointer"
+              className="noborder close-button  cursor-pointer"
               type="button"
             >
-              <Icon img="icon-icon_close" className="close" />
+              <Icon img="icon-icon_close" className="close" color="#333333" />
             </button>
           </div>
         </div>

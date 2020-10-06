@@ -5,6 +5,10 @@
 
 .suggestion-item-container {
   display: flex;
+  min-height: 25;
+  &.futureroute {
+    min-height: 79px;
+  }
 }
 
 .mobile {
@@ -26,12 +30,15 @@ li:last-child > div.suggestion-item-container.mobile {
   border-top: none;
 }
 
-
 .search-result {
   display: flex;
   flex-direction: row;
   align-items: center;
   min-height: 49px;
+
+  &.futureroute {
+    min-height: 79px;
+  }
 
   .suggestion-result {
     display: flex;
@@ -40,6 +47,7 @@ li:last-child > div.suggestion-item-container.mobile {
     position: absolute;
     padding-left: 49px;
     padding-right: 27px;
+
     .suggestion-name {
       margin: 0;
       font-weight: 500;
@@ -61,6 +69,18 @@ li:last-child > div.suggestion-item-container.mobile {
         color: #007ac9;
         font-size: 15px;
       }
+
+      &.futureroute {
+        line-height: 1.33;
+        position: relative;
+        left: 2px;
+
+        &.normal {
+          font-weight: normal;
+          position: relative;
+          left: 0.5px;
+        }
+      }
     }
 
     .suggestion-label {
@@ -73,11 +93,28 @@ li:last-child > div.suggestion-item-container.mobile {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      position: relative;
+      top: -1px;
 
       @include min-width(tablet) {
         font-size: 11px !important;
         letter-spacing: -0.37px;
         line-height: 1.64;
+      }
+      .stop-code {
+        border-radius: 3px;
+        font-size: 9px;
+        padding: 1px 2px 1px;
+        font-weight: 500;
+        border: 1px solid #ddd;
+        margin-left: 4px;
+      }
+
+      &.futureroute {
+        height: 18px;
+        position: relative;
+        left: 2px;
+        top: 4px;
       }
     }
   }
@@ -87,7 +124,7 @@ li:last-child > div.suggestion-item-container.mobile {
     width: 27px;
     align-items: center;
     position: absolute;
-    right: 0;
+    right: 0px;
     svg {
       width: 17px;
       height: 17px;
@@ -97,6 +134,7 @@ li:last-child > div.suggestion-item-container.mobile {
         width: 12px;
         height: 21px;
       }
+      right: -9px;
     }
   }
 }
@@ -139,6 +177,20 @@ li:last-child > div.suggestion-item-container.mobile {
       width: 17px;
       height: 17px;
       transform: rotate(180deg);
+    }
+  }
+  .future-route {
+    svg {
+      width: 32px;
+      height: 32px;
+      position: relative;
+      top: -11px;
+    }
+  }
+  .station {
+    svg {
+      width: 25px;
+      height: 24px;
     }
   }
 }

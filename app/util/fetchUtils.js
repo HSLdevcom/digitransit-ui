@@ -14,13 +14,16 @@ export const retryFetch = (URL, options = {}, retryCount, retryDelay) =>
         .then(res => {
           if (res.ok) {
             resolve(res);
+            // Don't retry if user is not logged in
+          } else if (res.status === 401) {
+            throw res.status;
           } else {
             // eslint-disable-next-line no-throw-literal
             throw `${URL}: ${res.statusText}`;
           }
         })
         .catch(async err => {
-          if (retriesLeft > 0) {
+          if (retriesLeft > 0 && err !== 401) {
             await delay(retryDelay);
             retry(retriesLeft - 1);
           } else {

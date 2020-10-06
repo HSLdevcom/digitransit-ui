@@ -17,6 +17,7 @@ function MobileDatepicker({
   id,
   label,
   icon,
+  dateTimeCombined,
 }) {
   const startFormatted = moment(startTime).format('YYYY-MM-DD');
   const endFormatted = moment(startTime)
@@ -38,15 +39,23 @@ function MobileDatepicker({
           {/* Hide input element and show formatted date instead for consistency between browsers */}
           <input
             id={inputId}
-            type="date"
+            type={dateTimeCombined ? 'datetime-local' : 'date'}
             className={styles['mobile-input-hidden']}
-            value={moment(value).format('YYYY-MM-DD')}
+            value={
+              dateTimeCombined
+                ? moment(value).format('YYYY-MM-DDTHH:mm')
+                : moment(value).format('YYYY-MM-DD')
+            }
             min={startFormatted}
             max={endFormatted}
             onChange={event => {
               const newValue = event.target.value;
               if (!newValue) {
                 // don't allow setting input to empty
+                return;
+              }
+              if (dateTimeCombined) {
+                onChange(moment(newValue).valueOf());
                 return;
               }
               const oldDate = moment(value);
@@ -73,10 +82,12 @@ MobileDatepicker.propTypes = {
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   icon: PropTypes.node,
+  dateTimeCombined: PropTypes.bool,
 };
 
 MobileDatepicker.defaultProps = {
   icon: null,
+  dateTimeCombined: false,
 };
 
 export default MobileDatepicker;

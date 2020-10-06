@@ -6,19 +6,25 @@ $primary-color: #007ac9;
 
 .favourite-edit-list-container {
   display: flex;
+  position: relative;
   width: 100%;
-  height: calc(100% - 165px);
+  min-height: calc(100vh - 168px);
   @include min-width(tablet) {
-    height: 284px;
+    min-height: 286px;
   }
+
   .favourite-edit-list {
     display: flex;
     flex-direction: column;
     width: 100%;
     margin: 0;
     padding: 0;
-    overflow-y: scroll;
     box-sizing: border-box;
+    max-height: calc(100% - 78px);
+    @include min-width(tablet) {
+      overflow-y: scroll;
+      max-height: 286px;
+    }
     .favourite-edit-list-item:not(:first-child) {
       margin-top: 9px;
     }
@@ -26,6 +32,7 @@ $primary-color: #007ac9;
       display: flex;
       flex-direction: row;
       align-items: center;
+      background: white;
       margin: 0;
       padding: 0;
       width: 100%;
@@ -156,5 +163,9 @@ $primary-color: #007ac9;
         }
       }
     }
+  }
+  // Container spinner
+  & > div {
+    width: 100%;
   }
 }

@@ -2,8 +2,11 @@ import isString from 'lodash/isString';
 import omit from 'lodash/omit';
 import cloneDeep from 'lodash/cloneDeep';
 
+import { parseLatLon } from './otpStrings';
 import { OptimizeType } from '../constants';
 import { addAnalyticsEvent } from './analyticsUtils';
+import { PREFIX_ITINERARY_SUMMARY } from './path';
+import { saveFutureRoute } from '../action/FutureRoutesActions';
 
 /**
  * Removes selected itinerary index from url (pathname) and
@@ -53,7 +56,7 @@ export const fixArrayParams = query => {
  * @param {*} match The match object from found
  * @param {*} newParams The location query params to apply
  */
-export const replaceQueryParams = (router, match, newParams) => {
+export const replaceQueryParams = (router, match, newParams, executeAction) => {
   let { location } = match;
   location = resetSelectedItineraryIndex(location);
 
@@ -68,6 +71,34 @@ export const replaceQueryParams = (router, match, newParams) => {
     ...location.query,
     ...newParams,
   });
+
+  if (
+    query &&
+    query.time &&
+    location &&
+    location.pathname.indexOf(PREFIX_ITINERARY_SUMMARY) === 1 &&
+    executeAction
+  ) {
+    const pathArray = decodeURIComponent(location.pathname)
+      .substring(1)
+      .split('/');
+    pathArray.shift();
+    const originArray = pathArray[0].split('::');
+    const destinationArray = pathArray[1].split('::');
+    const newRoute = {
+      origin: {
+        address: originArray[0],
+        coordinates: parseLatLon(originArray[1]),
+      },
+      destination: {
+        address: destinationArray[0],
+        coordinates: parseLatLon(destinationArray[1]),
+      },
+      arriveBy: query.arriveBy ? query.arriveBy : false,
+      time: query.time,
+    };
+    executeAction(saveFutureRoute, newRoute);
+  }
 
   router.replace({
     ...location,

@@ -26,6 +26,7 @@ import {
   navigateTo,
   PREFIX_NEARYOU,
 } from '../util/path';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 import OverlayWithSpinner from './visual/OverlayWithSpinner';
 import { dtLocationShape } from '../util/shapes';
@@ -60,7 +61,8 @@ class IndexPage extends React.Component {
     destination: dtLocationShape.isRequired,
     showSpinner: PropTypes.bool.isRequired,
     lang: PropTypes.string,
-    itineraryParams: PropTypes.object,
+    // eslint-disable-next-line react/no-unused-prop-types
+    query: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -102,9 +104,9 @@ class IndexPage extends React.Component {
       navigateTo({
         origin: nextProps.origin,
         destination: nextProps.destination,
-        context: '/',
+        rootPath: '/',
         router: this.props.router,
-        base: {},
+        base: this.context.match.location,
       });
     }
   };
@@ -120,8 +122,9 @@ class IndexPage extends React.Component {
     navigateTo({
       origin: this.props.origin,
       destination: location,
-      context: '/',
+      rootPath: '/',
       router: this.props.router,
+      base: this.context.match.location,
     });
   };
 
@@ -134,13 +137,7 @@ class IndexPage extends React.Component {
   render() {
     const { intl, config } = this.context;
     const { trafficNowLink } = config;
-    const {
-      breakpoint,
-      destination,
-      origin,
-      lang,
-      itineraryParams,
-    } = this.props;
+    const { breakpoint, destination, origin, lang } = this.props;
 
     // const { mapExpanded } = this.state; // TODO verify
 
@@ -162,6 +159,7 @@ class IndexPage extends React.Component {
             position="left"
           >
             <DTAutosuggestPanelWithSearchContext
+              appElement="#app"
               searchPanelText={intl.formatMessage({
                 id: 'where',
                 defaultMessage: 'Where to?',
@@ -175,9 +173,9 @@ class IndexPage extends React.Component {
               targets={[
                 'Locations',
                 'CurrentPosition',
+                'FutureRoutes',
                 'SelectFromOwnLocations',
               ]}
-              itineraryParams={itineraryParams}
             />
             <div className="datetimepicker-container">
               <DatetimepickerContainer realtime />
@@ -208,6 +206,7 @@ class IndexPage extends React.Component {
               </div>
             )}
             <DTAutoSuggestWithSearchContext
+              appElement="#app"
               icon="search"
               id="stop-route-station"
               refPoint={origin}
@@ -244,6 +243,7 @@ class IndexPage extends React.Component {
         >
           <CtrlPanel instance="hsl" language={lang} position="bottom">
             <DTAutosuggestPanelWithSearchContext
+              appElement="#app"
               searchPanelText={intl.formatMessage({
                 id: 'where',
                 defaultMessage: 'Where to?',
@@ -254,10 +254,14 @@ class IndexPage extends React.Component {
               destinationPlaceHolder="search-destination-index"
               lang={lang}
               sources={['Favourite', 'History', 'Datasource']}
-              targets={['Locations', 'CurrentPosition', 'MapPosition']}
+              targets={[
+                'Locations',
+                'CurrentPosition',
+                'MapPosition',
+                'FutureRoutes',
+              ]}
               disableAutoFocus
               isMobile
-              itineraryParams={itineraryParams}
             />
             <div className="datetimepicker-container">
               <DatetimepickerContainer realtime />
@@ -289,6 +293,7 @@ class IndexPage extends React.Component {
               </div>
             )}
             <DTAutoSuggestWithSearchContext
+              appElement="#app"
               icon="search"
               id="stop-route-station"
               refPoint={origin}
@@ -320,7 +325,7 @@ const Index = shouldUpdate(
       isEqual(nextProps.lang, props.lang) &&
       isEqual(nextProps.locationState, props.locationState) &&
       isEqual(nextProps.showSpinner, props.showSpinner) &&
-      isEqual(nextProps.itineraryParams, props.itineraryParams)
+      isEqual(nextProps.query, props.query)
     );
   },
 )(IndexPage);
@@ -377,33 +382,21 @@ const processLocation = (locationString, locationState, intl) => {
   return location;
 };
 
-const getTimeAndArriveByFromURL = location => {
-  const query = (location && location.query) || {};
-  const object = {};
-  if (query && query.time) {
-    object.time = query.time;
-  }
-  if (query && query.arriveBy) {
-    object.arriveBy = query.arriveBy;
-  }
-  return object;
-};
-
 const IndexPageWithPosition = connectToStores(
   IndexPageWithBreakpoint,
   ['PositionStore', 'ViaPointsStore', 'FavouriteStore'],
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
-
     const { from, to } = props.match.params;
     const { location } = props.match;
+    const { query } = location;
 
     const newProps = {};
 
     newProps.locationState = locationState;
     newProps.origin = processLocation(from, locationState, context.intl);
     newProps.destination = processLocation(to, locationState, context.intl);
-
+    newProps.query = query; // defines itinerary search time & arriveBy
     newProps.showSpinner = locationState.isLocationingInProgress === true;
 
     if (
@@ -441,15 +434,14 @@ const IndexPageWithPosition = connectToStores(
           navigateTo({
             origin: newProps.origin,
             destination: newProps.destination,
-            context: '/',
+            rootPath: '/',
             router: props.router,
-            base: {},
+            base: location,
           });
         }
       });
     }
     newProps.lang = context.getStore('PreferencesStore').getLanguage();
-    newProps.itineraryParams = getTimeAndArriveByFromURL(location);
     return newProps;
   },
 );

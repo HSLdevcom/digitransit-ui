@@ -127,6 +127,37 @@ function getFavouriteStops(stopsAndStations, input) {
   });
 }
 
+function getBikeStations(bikeStations, input) {
+  return bikeStations.then(bikeRentalStations => {
+    return take(
+      filterMatchingToInput(bikeRentalStations.bikeRentalStations, input, [
+        'name',
+      ]),
+      10,
+    ).map(stop => {
+      const newItem = {
+        type: 'Stop',
+        address: stop.name,
+        lat: stop.lat,
+        lon: stop.lon,
+        properties: {
+          labelId: stop.stationId,
+          layer: 'bikeRentalStation',
+          address: stop.name,
+          name: stop.name,
+          lat: stop.lat,
+          lon: stop.lon,
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: [stop.lat, stop.lon],
+        },
+      };
+      return newItem;
+    });
+  });
+}
+
 function getOldSearches(oldSearches, input, dropLayers) {
   let matchingOldSearches = filterMatchingToInput(oldSearches, input, [
     'properties.name',
@@ -135,7 +166,6 @@ function getOldSearches(oldSearches, input, dropLayers) {
     'properties.shortName',
     'properties.longName',
   ]);
-
   if (dropLayers) {
     // don't want these
     matchingOldSearches = matchingOldSearches.filter(
@@ -193,6 +223,7 @@ export function getSearchResults(
     getFavouriteStops: stops,
     getLanguage,
     getStopAndStationsQuery,
+    getAllBikeRentalStations,
     getFavouriteRoutesQuery,
     getFavouriteRoutes,
     getRoutesQuery,
@@ -204,6 +235,7 @@ export function getSearchResults(
     feedIDs,
     geocodingSearchParams,
     geocodingSources,
+    getFutureRoutes,
   } = searchContext;
   // if no targets are provided, search them all.
   const allTargets = !targets || targets.length === 0;
@@ -229,6 +261,10 @@ export function getSearchResults(
   }
   if (allTargets || targets.includes('MapPosition')) {
     searchComponents.push(selectPositionFomMap(input));
+  }
+  if (targets.includes('FutureRoutes')) {
+    const items = getFutureRoutes(context);
+    searchComponents.push(take(items, 3));
   }
   if (
     targets.includes('SelectFromOwnLocations') &&
@@ -271,7 +307,9 @@ export function getSearchResults(
       const dropLayers = [
         'currentPosition',
         'selectFromMap',
+        'futureRoute',
         'ownLocations',
+        'bikeRentalStation',
         'stop',
         'back',
       ];
@@ -310,6 +348,14 @@ export function getSearchResults(
           return results;
         }),
       );
+      if (
+        (!transportMode || transportMode === 'route-CITYBIKE') &&
+        regex &&
+        regex.test(input)
+      ) {
+        const bikeStations = getAllBikeRentalStations();
+        searchComponents.push(getBikeStations(bikeStations, input));
+      }
     }
     if (allSources || sources.includes('History')) {
       const stopHistory = prevSearches(context).filter(item => {
@@ -321,6 +367,7 @@ export function getSearchResults(
       const dropLayers = [
         'currentPosition',
         'selectFromMap',
+        'futureRoute',
         'ownLocations',
         'favouritePlace',
         'back',
@@ -328,6 +375,9 @@ export function getSearchResults(
       dropLayers.push(...routeLayers);
       dropLayers.push(...locationLayers);
       if (transportMode) {
+        if (transportMode !== 'route-CITYBIKE') {
+          dropLayers.push('bikeRentalStation');
+        }
         searchComponents.push(
           getOldSearches(stopHistory, input, dropLayers).then(result =>
             filterResults ? filterResults(result, 'Stops') : result,
@@ -354,6 +404,7 @@ export function getSearchResults(
       const dropLayers = [
         'currentPosition',
         'selectFromMap',
+        'futureRoute',
         'favouritePlace',
         'stop',
         'station',
@@ -361,6 +412,9 @@ export function getSearchResults(
         'back',
       ];
       if (transportMode) {
+        if (transportMode !== 'route-CITYBIKE') {
+          dropLayers.push('bikeRentalStation');
+        }
         dropLayers.push(...routeLayers.filter(i => !(i === transportMode)));
       }
       dropLayers.push(...locationLayers);

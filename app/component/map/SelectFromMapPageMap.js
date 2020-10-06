@@ -221,6 +221,14 @@ class SelectFromMapPageMap extends React.Component {
   };
 
   markLocation = (markerType, position) => {
+    let type;
+    if (markerType === 'origin') {
+      type = 'from';
+    } else if (markerType === 'destination') {
+      type = 'to';
+    } else {
+      type = markerType;
+    }
     if (position) {
       let newPosition;
       if (decodeURIComponent(position).indexOf('::') !== -1) {
@@ -229,11 +237,7 @@ class SelectFromMapPageMap extends React.Component {
         newPosition = position;
       }
       return (
-        <LocationMarker
-          key="location"
-          position={newPosition}
-          type={markerType}
-        />
+        <LocationMarker key="location" position={newPosition} type={type} />
       );
     }
     return null;
@@ -326,12 +330,13 @@ class SelectFromMapPageMap extends React.Component {
           onZoomend: () => this.endZoom(positionSelectingFromMap),
         }}
         leafletObjs={leafletObjs}
-        lat={defaultLocation.lat} // {center ? center.lat : from.lat}
-        lon={defaultLocation.lon} // {center ? center.lon : from.lon}
+        lat={positionSelectingFromMap.lat} // {center ? center.lat : from.lat}
+        lon={positionSelectingFromMap.lon} // {center ? center.lon : from.lon}
         zoom={12}
         bounds={bounds}
         fitBounds={Boolean(bounds)}
         boundsOptions={{ maxZoom: 16 }}
+        disableLocationPopup
         showScaleBar={showScale}
         mapRef={this.setMapElementRef}
       />
