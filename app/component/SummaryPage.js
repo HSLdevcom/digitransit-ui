@@ -340,6 +340,11 @@ class SummaryPage extends React.Component {
   };
 
   setStreetModeAndSelect = newStreetMode => {
+    addAnalyticsEvent({
+      category: 'Itinerary',
+      action: 'OpenItineraryDetailsWithMode',
+      name: newStreetMode,
+    });
     this.setState(
       { streetMode: newStreetMode },
       this.selectFirstItinerary(newStreetMode),
@@ -355,12 +360,6 @@ class SummaryPage extends React.Component {
   };
 
   selectFirstItinerary = newStreetMode => {
-    addAnalyticsEvent({
-      event: 'sendMatomoEvent',
-      category: 'Itinerary',
-      action: 'OpenItineraryDetails',
-      name: 0,
-    });
     const newState = {
       ...this.context.match.location,
       state: { summaryPageSelected: 0, streetMode: newStreetMode },
