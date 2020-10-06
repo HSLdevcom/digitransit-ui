@@ -1,3 +1,5 @@
+// TODO: REMOVE
+/* eslint-disable prettier/prettier */
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -8,7 +10,9 @@ import DTAutosuggestPanel from '@digitransit-component/digitransit-component-aut
 import ComponentUsageExample from './ComponentUsageExample';
 import { PREFIX_ITINERARY_SUMMARY, navigateTo } from '../util/path';
 import withSearchContext from './WithSearchContext';
-
+import SelectFromMapHeader from './SelectFromMapHeader';
+import SelectFromMapPageMap from './map/SelectFromMapPageMap';
+import DTModal from './DTModal';
 import { setIntermediatePlaces } from '../util/queryUtils';
 import { getIntermediatePlaces } from '../util/otpStrings';
 import { dtLocationShape } from '../util/shapes';
@@ -46,16 +50,94 @@ class OriginDestinationBar extends React.Component {
     isMobile: false,
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      showModal: false,
+      viaPoints: [],
+    };
+  }
+
   get location() {
     return this.props.location || this.context.match.location;
   }
 
-  updateViaPoints = newViaPoints =>
-    setIntermediatePlaces(
-      this.context.router,
-      this.context.match,
-      newViaPoints.map(locationToOtp),
+  updateViaPoints = newViaPoints => {
+    // console.log('Kaikki: ', newViaPoints);
+    // console.log('Urlista: ', fromUrl)
+    let fromMapFound = false;
+    const newPoints = newViaPoints.filter(point => {
+      if (point.address === 'Valitse sijainti kartalta') {
+        fromMapFound = true;
+        return false;
+      }
+      return true;
+    });
+    // console.log('Uudet: ', newPoints);
+    this.setState(
+      {
+        showModal: fromMapFound,
+        viaPoints: newPoints,
+      },
+      () => {
+        if (!fromMapFound) {
+          return setIntermediatePlaces(
+            this.context.router,
+            this.context.match,
+            newPoints.map(locationToOtp),
+          );
+        }
+        return null;
+      },
     );
+  };
+
+  openSelectFromMapModal = () => {
+    this.setState({
+      showModal: true,
+    });
+  };
+
+  closeSelectFromMapModal = () => {
+    this.setState({
+      showModal: false,
+    });
+  };
+
+  renderSelectFromMapModal = () => {
+    const titleId = 'select-from-map-no-title';
+    return (
+      <DTModal show={this.state.showModal}>
+        <SelectFromMapHeader
+          titleId={titleId}
+          onBackBtnClick={this.closeSelectFromMapModal}
+        />
+        <SelectFromMapPageMap
+          type="viaPoint"
+          onConfirm={this.confirmMapSelection}
+        />
+      </DTModal>
+    );
+  };
+
+  confirmMapSelection = (type, mapLocation) => {
+    // console.log('CONFIRM! ', this.state.viaPoints, mapLocation);
+    this.setState(prevState  => (
+      {
+        showModal: false,
+        viaPoints: [...prevState.viaPoints, mapLocation],
+      }),
+      () => {
+        const points = this.state.viaPoints.map(locationToOtp);
+        // console.log('PISTEET: ', points);
+        return setIntermediatePlaces(
+          this.context.router,
+          this.context.match,
+          points,
+        );
+      },
+    );
+  };
 
   swapEndpoints = () => {
     const { location } = this;
@@ -113,6 +195,7 @@ class OriginDestinationBar extends React.Component {
           isMobile={this.props.isMobile}
           itineraryParams={this.context.match.location.query}
         />{' '}
+        {this.renderSelectFromMapModal()}
       </div>
     );
   }
