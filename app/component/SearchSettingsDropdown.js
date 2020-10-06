@@ -209,7 +209,10 @@ class SearchSettingsDropdown extends React.Component {
       : options;
 
     return (
-      <fieldset className="settings-dropdown-wrapper" ref={this.labelRef}>
+      <fieldset
+        className="settings-dropdown-wrapper walk-option-inner"
+        ref={this.labelRef}
+      >
         <legend className="sr-only">{labelText}</legend>
         <button
           type="button"

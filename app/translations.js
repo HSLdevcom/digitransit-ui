@@ -1600,7 +1600,7 @@ const translations = {
     'arriving-soon': 'Nyt',
     'at-time': 'klo',
     'avoid-transfers': 'Vältä vaihtoja',
-    'avoid-walking': 'Vähän kävelyä',
+    'avoid-walking': 'Vältä kävelyä',
     'back-button-title': 'Siirry takaisin edelliselle sivulle',
     'back-to-front-page': 'Siirry etusivulle ›',
     bicycle: 'Polkupyörä',
