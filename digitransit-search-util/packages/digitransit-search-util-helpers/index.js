@@ -27,6 +27,7 @@ const LayerType = {
   Stop: 'stop',
   Street: 'street',
   Venue: 'venue',
+  BikeRentalStation: 'bikeRentalStation',
 };
 const PREFIX_ROUTES = 'linjat';
 export const isStop = ({ layer }) =>
@@ -119,6 +120,8 @@ export const getLayerRank = (layer, source) => {
       return 0.4;
     case LayerType.Stop:
       return 0.35;
+    case LayerType.BikeRentalStation:
+      return 0.1;
   }
 };
 
@@ -133,6 +136,7 @@ export const getLayerRank = (layer, source) => {
  *    - rank favourites better than ordinary old searches
  *    - rank full match better than partial match
  *    - rank match at middle word lower than match at the beginning
+ *    - rank bike rental stations lower
  * @param {*[]} results The search results that were received
  * @param {String} term The search term that was used
  */
@@ -170,10 +174,12 @@ export const sortSearchResults = (lineRegexp, results, term = '') => {
         // Normal confidence range from geocoder is about 0.3 .. 1
         if (!confidence) {
           // not from geocoder, estimate confidence ourselves
-          return (
+          const estimatedConfidence =
             getLayerRank(layer, source) +
-            match(normalizedTerm, result.properties)
-          );
+            match(normalizedTerm, result.properties);
+          return layer === LayerType.BikeRentalStation
+            ? estimatedConfidence - 0.8
+            : estimatedConfidence;
         }
 
         // geocoded items with confidence, just adjust a little
