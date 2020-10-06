@@ -142,6 +142,27 @@
       margin: 0 1em 0 0;
     }
   }
+  .walk-options-container {
+    border-bottom: 10px solid #f4f4f5;
+    font-weight: 500;
+
+    .walk-option-inner {
+      padding: 0 1em 0 1em;
+    }
+
+    .settings-dropdown-wrapper {
+      border-bottom: 1px solid #e3e3e3;
+    }
+
+    .toggle-container {
+      display: flex;
+      height: 51px;
+    }
+    label.toggle-label {
+      padding-top: 17px;
+      line-height: 16px;
+    }
+  }
   .mode-option-block.citybike-network-container:nth-child(2) {
     border-bottom: 1px solid #e3e3e3;
   }

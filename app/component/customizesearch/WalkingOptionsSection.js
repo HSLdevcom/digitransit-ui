@@ -7,13 +7,14 @@ import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import SearchSettingsDropdown, {
   getFiveStepOptions,
 } from '../SearchSettingsDropdown';
+import Toggle from '../Toggle';
 
 const WalkingOptionsSection = (
-  { currentSettings, defaultSettings, walkSpeedOptions },
+  { currentSettings, defaultSettings, walkSpeedOptions, walkReluctanceOptions },
   { intl, executeAction },
   options = getFiveStepOptions(walkSpeedOptions),
 ) => (
-  <React.Fragment>
+  <div className="walk-options-container">
     <SearchSettingsDropdown
       currentSelection={options.find(
         option => option.value === currentSettings.walkSpeed,
@@ -35,15 +36,39 @@ const WalkingOptionsSection = (
       formatOptions
       name="walkspeed"
     />
-  </React.Fragment>
+    <div className="toggle-container walk-option-inner">
+      {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+      <label
+        htmlFor="settings-toggle-avoid-walking"
+        className="settings-header toggle-label"
+      >
+        {intl.formatMessage({ id: 'avoid-walking-setting' })}
+      </label>
+      <Toggle
+        id="settings-toggle-avoid-walking"
+        toggled={currentSettings.walkReluctance === walkReluctanceOptions.least}
+        onToggle={() => {
+          executeAction(saveRoutingSettings, {
+            walkReluctance:
+              currentSettings.walkReluctance === walkReluctanceOptions.least
+                ? defaultSettings.walkReluctance
+                : walkReluctanceOptions.least,
+          });
+        }}
+      />
+    </div>
+  </div>
 );
 
 WalkingOptionsSection.propTypes = {
   defaultSettings: PropTypes.shape({
     walkSpeed: PropTypes.number.isRequired,
+    walkReluctance: PropTypes.number.isRequired,
   }).isRequired,
   walkSpeedOptions: PropTypes.array.isRequired,
   currentSettings: PropTypes.object.isRequired,
+  walkReluctanceOptions: PropTypes.shape({ least: PropTypes.number.isRequired })
+    .isRequired,
 };
 
 WalkingOptionsSection.contextTypes = {

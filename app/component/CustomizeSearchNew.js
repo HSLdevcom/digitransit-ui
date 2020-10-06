@@ -85,13 +85,12 @@ class CustomizeSearch extends React.Component {
           </h2>
         </div>
         <div className="scrollable-content-wrapper momentum-scroll">
-          <div className="settings-option-container">
-            <WalkingOptionsSection
-              walkSpeedOptions={config.defaultOptions.walkSpeed}
-              currentSettings={currentSettings}
-              defaultSettings={this.defaultSettings}
-            />
-          </div>
+          <WalkingOptionsSection
+            walkSpeedOptions={config.defaultOptions.walkSpeed}
+            walkReluctanceOptions={config.defaultOptions.walkReluctance}
+            currentSettings={currentSettings}
+            defaultSettings={this.defaultSettings}
+          />
           <div className="settings-option-container">
             <TransportModesSection
               config={config}
