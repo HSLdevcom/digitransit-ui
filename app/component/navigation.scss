@@ -184,9 +184,10 @@ $content-background-color: $background-color;
 
 .back-button {
   button {
-    padding-top: 0 !important;
+    font-size: 15px;
     position: absolute;
-    //left: 0.5em;
+    left: -2px;
+    top: 4px;
     .icon {
       height: 1.3em;
       width: 1.3em;
@@ -335,6 +336,7 @@ section.content {
           position: static;
           button {
             left: 0.5em;
+            top: auto;
           }
         }
       }
@@ -348,7 +350,6 @@ section.content {
         font-size: 0.8em;
       }
       .arrow-icon {
-        font-size: 0.75em; // DT-3358: was 0.6
         margin: 2px 1em;
         color: $desktop-title-arrow-icon-color;
       }
