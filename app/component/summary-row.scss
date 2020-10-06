@@ -36,7 +36,6 @@
   background-color: $white;
   display: flex;
   user-select: none;
-  $distance-gray: #7b7b7b;
   font-size: $font-size-normal;
   white-space: nowrap;
   position: relative;
@@ -121,7 +120,7 @@
     padding-top: 8px;
     width: 100%;
     max-width: 100%;
-    color: $distance-gray;
+    color: #333333;
 
     .itinerary-first-leg-start-time {
       font-size: 13px;
