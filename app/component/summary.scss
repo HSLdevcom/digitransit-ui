@@ -349,3 +349,39 @@
   background-color: #fff;
   flex: 0 0 auto;
 }
+
+.time-navigation-btn {
+  height: 40px;
+  width: 100%;
+  color: $primary-color;
+  text-align: left;
+  padding-left: 60px;
+  font-weight: 400;
+
+  .icon-container {
+    margin-right: 1em;
+  }
+  .arrow-up {
+    transform: rotate(180deg);
+  }
+
+  &.earlier {
+    border-bottom: 1px solid #ddd;
+    font-size: $font-size-small;
+  }
+  &.later{
+    border-top: 1px solid #ddd;
+    font-size: $font-size-normal;
+    height: 50px;
+  }
+}
+
+.mobile .time-navigation-btn {
+  padding-left: 1em;
+}
+
+.summary-list-separator {
+  height: 4px;
+  background-color: $gray;
+  width: 100%;
+}
