@@ -48,11 +48,17 @@ const WalkingOptionsSection = (
         id="settings-toggle-avoid-walking"
         toggled={currentSettings.walkReluctance === walkReluctanceOptions.least}
         onToggle={() => {
+          const avoid =
+            currentSettings.walkReluctance !== walkReluctanceOptions.least;
           executeAction(saveRoutingSettings, {
-            walkReluctance:
-              currentSettings.walkReluctance === walkReluctanceOptions.least
-                ? defaultSettings.walkReluctance
-                : walkReluctanceOptions.least,
+            walkReluctance: avoid
+              ? walkReluctanceOptions.least
+              : defaultSettings.walkReluctance,
+          });
+          addAnalyticsEvent({
+            category: 'ItinerarySettings',
+            action: 'ChangeAmountOfWalking',
+            name: avoid ? 'avoid' : 'default',
           });
         }}
       />
