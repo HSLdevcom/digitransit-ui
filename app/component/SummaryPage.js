@@ -1186,7 +1186,10 @@ class SummaryPage extends React.Component {
     const hasItineraries =
       this.selectedPlan && Array.isArray(this.selectedPlan.itineraries);
 
-    if (hasItineraries && this.state.originalPlan !== this.selectedPlan) {
+    if (
+      hasItineraries &&
+      !isEqual(this.selectedPlan, this.state.originalPlan)
+    ) {
       if (
         this.state.streetMode !== 'walk' &&
         this.state.streetMode !== 'bike'
@@ -1195,14 +1198,14 @@ class SummaryPage extends React.Component {
           itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
         );
         this.setState({
-          itineraries: noWalkItineraries,
           originalPlan: this.selectedPlan,
+          itineraries: noWalkItineraries,
           separatorPosition: undefined,
         });
       } else {
         this.setState({
-          itineraries: this.selectedPlan.itineraries,
           originalPlan: this.selectedPlan,
+          itineraries: this.selectedPlan.itineraries,
           separatorPosition: undefined,
         });
       }
