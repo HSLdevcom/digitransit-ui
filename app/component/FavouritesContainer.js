@@ -128,12 +128,18 @@ class FavouritesContainer extends React.Component {
   renderLoginModal = () => {
     const login = <FormattedMessage id="login" defaultMessage="Log in" />;
     const cancel = <FormattedMessage id="cancel" defaultMessage="cancel" />;
+    const headerText = (
+      <FormattedMessage id="login-header" defautlMessage="Log in first" />
+    );
+    const dialogContent = (
+      <FormattedMessage id="login-content" defautlMessage="Log in first" />
+    );
     return (
       <DialogModal
         appElement="#app"
-        headerText="Hi!"
+        headerText={headerText}
+        dialogContent={dialogContent}
         handleClose={() => this.setState({ loginModalOpen: false })}
-        variant="login"
         lang={this.props.lang}
         isModalOpen={this.state.loginModalOpen}
         primaryButtonText={login}
@@ -168,7 +174,11 @@ class FavouritesContainer extends React.Component {
               ? this.setState({ loginModalOpen: true })
               : this.setState({ addModalOpen: true })
           }
-          onEdit={() => this.setState({ editModalOpen: true })}
+          onEdit={() =>
+            allowLogin && isEmpty(this.props.user)
+              ? this.setState({ loginModalOpen: true })
+              : this.setState({ editModalOpen: true })
+          }
           onAddHome={() =>
             allowLogin && isEmpty(this.props.user)
               ? this.setState({ loginModalOpen: true })
