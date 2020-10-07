@@ -185,17 +185,28 @@ class FavouritesContainer extends React.Component {
         isModalOpen={this.state.loginModalOpen}
         primaryButtonText={login}
         href="/login"
-        primaryButtonOnClick={() =>
+        primaryButtonOnClick={() => {
+          addAnalyticsEvent({
+            category: 'Favourite',
+            action: 'login',
+            name: null,
+          });
+
           this.setState({
             loginModalOpen: false,
-          })
-        }
+          });
+        }}
         secondaryButtonText={cancel}
-        secondaryButtonOnClick={() =>
+        secondaryButtonOnClick={() => {
+          addAnalyticsEvent({
+            category: 'Favourite',
+            action: 'login cancelled',
+            name: null,
+          });
           this.setState({
             loginModalOpen: false,
-          })
-        }
+          });
+        }}
       />
     );
   };
