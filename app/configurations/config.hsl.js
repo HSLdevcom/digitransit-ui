@@ -507,6 +507,7 @@ export default {
 
   cityBike: {
     showCityBikes: true,
+    useSpacesAvailable: false,
     networks: {
       smoove: {
         icon: 'citybike',
