@@ -82,10 +82,10 @@
     border: 1px solid $light-gray;
     border-radius: $border-radius;
     font-size: $font-size-xxsmall;
-    color: $gray-blue;
+    color: #666666;
   }
   .description {
-    color: $gray-blue;
+    color: #666666;
   }
 }
 
@@ -269,7 +269,7 @@
       border-bottom: 1px solid #dddddd;
       padding-top: 15px;
       .route-arrival {
-          color: #4ea700;
+          color: $realtime-color;
           @include font-medium;
           font-size: 0.75rem;
           padding-right: 8px;
@@ -308,7 +308,7 @@
       .route-time {
           font-size: $font-size-small;
           font-weight: $font-weight-medium;
-          color: #4ea700;
+          color: $realtime-color;
           &.realtime {
             color: $realtime-color;
           }
