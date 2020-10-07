@@ -969,6 +969,9 @@ const translations = {
     'location-sport': 'Sports',
     'location-work': 'Work',
     login: 'Log in',
+    'login-content':
+      'To save and utilize places, routes and stops, you must log in using your HSL account!',
+    'login-header': 'Log in First',
     logout: 'Log out',
     'long-transfers-margin': '12 min',
     'main-menu-label-close': 'Close the main menu',
@@ -1797,6 +1800,9 @@ const translations = {
     'location-sport': 'Urheilu',
     'location-work': 'Työ',
     login: 'Kirjaudu',
+    'login-content':
+      'Paikkojen, linjojen ja pysäkkien tallentaminen ja hyödyntäminen edellyttää kirjautumista HSL-tunnuksella!',
+    'login-header': 'Kirjaudu Ensin',
     logout: 'Kirjaudu ulos',
     'long-transfers-margin': '12 min',
     'main-menu-label-close': 'Sulje päävalikko',
@@ -3399,6 +3405,9 @@ const translations = {
     'location-sport': 'Sport',
     'location-work': 'Arbetsplats',
     login: 'Logga in',
+    'login-content':
+      'För att kunna spara och lägga till som favorit platser, linjer och hållplatser ska du vara inloggad med HRT-konto',
+    'login-header': 'Logga in först',
     logout: 'Logga ut',
     'long-transfers-margin': '12 min',
     'main-menu-label-close': 'Stäng huvudmenyn',
