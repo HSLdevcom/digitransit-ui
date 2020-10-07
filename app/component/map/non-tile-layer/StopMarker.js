@@ -116,13 +116,18 @@ class StopMarker extends React.Component {
 
     const pathPrefixMatch = window.location.pathname.match(/^\/([a-z]{2,})\//);
     const context = pathPrefixMatch ? pathPrefixMatch[1] : 'index';
-    addAnalyticsEvent({
-      action: 'SelectMapPoint',
-      category: 'Map',
-      name: 'stop',
-      type: this.props.mode.toUpperCase(),
-      context,
-    });
+    if (
+      window.location.pathname.indexOf('bike') === -1 &&
+      window.location.pathname.indexOf('walk') === -1
+    ) {
+      addAnalyticsEvent({
+        action: 'SelectMapPoint',
+        category: 'Map',
+        name: 'stop',
+        type: this.props.mode.toUpperCase(),
+        context,
+      });
+    }
     return (
       <GenericMarker
         position={{

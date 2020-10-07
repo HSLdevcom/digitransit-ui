@@ -18,6 +18,7 @@ import {
   deleteFavourite,
 } from '../action/FavouriteActions';
 import FavouriteStore from '../store/FavouriteStore';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const AutoSuggestWithSearchContext = withSearchContext(AutoSuggest);
 
@@ -80,6 +81,11 @@ class FavouritesContainer extends React.Component {
   };
 
   addHome = () => {
+    addAnalyticsEvent({
+      category: 'Favourite',
+      action: 'AddHome',
+      name: null,
+    });
     this.setState({
       addModalOpen: true,
       favourite: {
@@ -93,6 +99,11 @@ class FavouritesContainer extends React.Component {
   };
 
   addWork = () => {
+    addAnalyticsEvent({
+      category: 'Favourite',
+      action: 'AddWork',
+      name: null,
+    });
     this.setState({
       addModalOpen: true,
       favourite: {
@@ -106,18 +117,38 @@ class FavouritesContainer extends React.Component {
   };
 
   saveFavourite = favourite => {
+    addAnalyticsEvent({
+      category: 'Favourite',
+      action: 'SaveFavourite',
+      name: null,
+    });
     this.context.executeAction(saveFavourite, favourite);
   };
 
   deleteFavourite = favourite => {
+    addAnalyticsEvent({
+      category: 'Favourite',
+      action: 'DeleteFavourite',
+      name: null,
+    });
     this.context.executeAction(deleteFavourite, favourite);
   };
 
   updateFavourites = favourites => {
+    addAnalyticsEvent({
+      category: 'Favourite',
+      action: 'UpdateFavourite',
+      name: null,
+    });
     this.context.executeAction(updateFavourites, favourites);
   };
 
   editFavourite = currentFavourite => {
+    addAnalyticsEvent({
+      category: 'Favourite',
+      action: 'EditFavourite',
+      name: null,
+    });
     this.setState({
       favourite: currentFavourite,
       editModalOpen: false,
@@ -153,13 +184,12 @@ class FavouritesContainer extends React.Component {
         lang={this.props.lang}
         isModalOpen={this.state.loginModalOpen}
         primaryButtonText={login}
-        primaryButtonOnClick={e => {
-          e.preventDefault();
-          window.location.replace('/login');
+        href="/login"
+        primaryButtonOnClick={() =>
           this.setState({
             loginModalOpen: false,
-          });
-        }}
+          })
+        }
         secondaryButtonText={cancel}
         secondaryButtonOnClick={() =>
           this.setState({
@@ -168,6 +198,73 @@ class FavouritesContainer extends React.Component {
         }
       />
     );
+  };
+
+  addPlace = () => {
+    addAnalyticsEvent({
+      category: 'Favourite',
+      action: 'AddPlace',
+      name: null,
+    });
+
+    this.setState({
+      addModalOpen: true,
+    });
+  };
+
+  editPlace = () => {
+    addAnalyticsEvent({
+      category: 'Favourite',
+      action: 'EditPlace',
+      name: null,
+    });
+
+    this.setState({
+      editModalOpen: true,
+    });
+  };
+
+  closeModal = isAddModal => {
+    if (isAddModal) {
+      addAnalyticsEvent({
+        category: 'Favourite',
+        action: 'CloseAddModal',
+        name: null,
+      });
+      this.setState({
+        addModalOpen: false,
+      });
+    } else {
+      addAnalyticsEvent({
+        category: 'Favourite',
+        action: 'CloseEditModal',
+        name: null,
+      });
+      this.setState({
+        editModalOpen: false,
+        favourite: null,
+      });
+    }
+    // Modal close animation lasts 250ms
+    setTimeout(() => {
+      this.setState({ favourite: null });
+    }, 250);
+  };
+
+  cancelSelected = () => {
+    addAnalyticsEvent({
+      category: 'Favourite',
+      action: 'CancelUpdate',
+      name: null,
+    });
+    this.setState({
+      addModalOpen: false,
+      editModalOpen: true,
+    });
+    // Modal close animation lasts 250ms
+    setTimeout(() => {
+      this.setState({ favourite: null });
+    }, 250);
   };
 
   render() {
@@ -205,20 +302,9 @@ class FavouritesContainer extends React.Component {
         <FavouriteModal
           appElement="#app"
           isModalOpen={this.state.addModalOpen}
-          handleClose={() =>
-            this.setState({
-              addModalOpen: false,
-              favourite: null,
-            })
-          }
+          handleClose={() => this.closeModal(true)}
           saveFavourite={this.saveFavourite}
-          cancelSelected={() =>
-            this.setState({
-              addModalOpen: false,
-              editModalOpen: true,
-              favourite: null,
-            })
-          }
+          cancelSelected={this.cancelSelected}
           favourite={this.state.favourite}
           lang={this.props.lang}
           isMobile={this.props.isMobile}
@@ -243,9 +329,7 @@ class FavouritesContainer extends React.Component {
           isModalOpen={this.state.editModalOpen}
           favourites={this.props.favourites}
           updateFavourites={this.updateFavourites}
-          handleClose={() =>
-            this.setState({ editModalOpen: false, favourite: null })
-          }
+          handleClose={() => this.closeModal(false)}
           saveFavourite={this.saveFavourite}
           deleteFavourite={this.deleteFavourite}
           onEditSelected={this.editFavourite}

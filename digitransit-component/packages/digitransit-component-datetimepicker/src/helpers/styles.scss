@@ -310,6 +310,10 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       margin: -6px 0 0 -1px;
       position: relative;
     }
+
+    &[aria-expanded=true] input:not([readonly]) {
+      cursor: text;
+    }
   }
 
   .picker-container {

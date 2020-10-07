@@ -218,6 +218,21 @@ export default async function (req, res, next) {
       return;
     }
 
+    if (
+      element &&
+      element.props &&
+      element.props.renderArgs &&
+      Array.isArray(element.props.renderArgs.elements) &&
+      element.props.renderArgs.elements.filter(
+        component =>
+          component &&
+          component.type &&
+          component.type.displayName === 'Error404',
+      ).length > 0
+    ) {
+      res.status(404);
+    }
+
     const context = application.createContext({
       url: req.url,
       headers: req.headers,

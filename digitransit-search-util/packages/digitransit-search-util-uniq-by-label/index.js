@@ -39,6 +39,8 @@ export const getNameLabel = memoize(
             '',
           ),
         ];
+      case 'bikeRentalStation':
+        return [suggestion.name, 'bike-rental-station'];
       case 'favouriteRoute':
       case 'route-BUS':
       case 'route-TRAM':

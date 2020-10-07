@@ -1,0 +1,25 @@
+.street-mode-selector-container {
+  background-color: #f4f4f4;
+  border-top: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
+  min-height: 76px;
+  display: flex;
+  flex-direction: column;
+  padding-left: 3.7em;
+  overflow-x: hidden;
+  overflow-y: hidden;
+
+  .street-mode-button-row {
+      display: flex;
+      flex-direction: row;
+      margin-top: auto;
+      margin-bottom: auto;
+  }
+}
+
+.mobile {
+  .street-mode-selector-container {
+    overflow-x: auto;
+    padding-left: 1.2em;
+  }
+}

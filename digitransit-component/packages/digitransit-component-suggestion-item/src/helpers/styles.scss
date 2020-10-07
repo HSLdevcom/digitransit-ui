@@ -66,7 +66,7 @@ li:last-child > div.suggestion-item-container.mobile {
       }
 
       &.favouriteCustom {
-        color: #007ac9;
+        color: #0074BE;
         font-size: 15px;
       }
 
@@ -100,6 +100,14 @@ li:last-child > div.suggestion-item-container.mobile {
         font-size: 11px !important;
         letter-spacing: -0.37px;
         line-height: 1.64;
+      }
+      .stop-code {
+        border-radius: 3px;
+        font-size: 9px;
+        padding: 1px 2px 1px;
+        font-weight: 500;
+        border: 1px solid #ddd;
+        margin-left: 4px;
       }
 
       &.futureroute {

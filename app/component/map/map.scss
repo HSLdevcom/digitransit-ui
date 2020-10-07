@@ -85,7 +85,7 @@ div.map {
       min-height: 50vh;
       background: white;
       position: relative;
-      z-index: index($zindex, mobile-drawer);
+      z-index: 1000;
       .drag-line {
         width: 30px;
         height: 4px;
@@ -281,13 +281,7 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
   box-shadow: 0 1px 5px rgba(0,0,0,0.65);
 }
 
-.icon-mapMarker-toggle-positioning-online {
-  color: $hilight-color;
-  font-size: 24px;
-}
-
-.icon-mapMarker-toggle-positioning-offline {
-  color: $gray-blue;
+.icon-mapMarker-toggle-positioning {
   font-size: 24px;
 }
 
