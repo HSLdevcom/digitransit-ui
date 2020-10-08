@@ -2,6 +2,7 @@ import isEmpty from 'lodash/isEmpty';
 import isString from 'lodash/isString';
 import without from 'lodash/without';
 import { getCustomizedSettings } from '../store/localStorage';
+import { addAnalyticsEvent } from './analyticsUtils';
 
 export const BIKESTATION_ON = 'Station on';
 export const BIKESTATION_OFF = 'Station off';
@@ -92,6 +93,14 @@ export const getCitybikeNetworks = config => {
   return getDefaultNetworks(config);
 };
 
+const addAnalytics = (action, name) => {
+  addAnalyticsEvent({
+    category: 'ItinerarySettings',
+    action,
+    name,
+  });
+};
+
 /** *
  * Updates the list of allowed citybike networks either by removing or adding
  *
@@ -120,11 +129,19 @@ export const updateCitybikeNetworks = (
 
   if (chosenNetworks.length === 0 || !isUsingCitybike) {
     if (chosenNetworks.length === 0) {
+      addAnalytics('SettingsResetCityBikeNetwork', null);
       return getDefaultNetworks(config);
     }
+    addAnalytics('SettingsNotUsingCityBikeNetwork', null);
     return chosenNetworks;
   }
 
+  if (Array.isArray(currentSettings) && Array.isArray(chosenNetworks)) {
+    const action = `Settings${
+      currentSettings.length > chosenNetworks.length ? 'Disable' : 'Enable'
+    }CityBikeNetwork`;
+    addAnalytics(action, newValue);
+  }
   return chosenNetworks;
 };
 

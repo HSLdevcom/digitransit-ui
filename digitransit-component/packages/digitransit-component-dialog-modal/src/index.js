@@ -29,6 +29,7 @@ const DialogModal = ({
   secondaryButtonText,
   secondaryButtonOnClick,
   lang,
+  href,
   appElement,
   isModalOpen,
   modalAriaLabel,
@@ -55,17 +56,22 @@ const DialogModal = ({
       </div>
       <div className={styles['digitransit-dialog-modal-buttons']}>
         {
-          <button
+          <a
             type="button"
+            role="button"
             tabIndex="0"
             className={cx(
               styles['digitransit-dialog-modal-button'],
               styles.primary,
             )}
-            onClick={() => primaryButtonOnClick()}
+            href={href}
+            onClick={e => {
+              e.stopPropagation();
+              primaryButtonOnClick(e);
+            }}
           >
             {primaryButtonText}
-          </button>
+          </a>
         }
         {secondaryButtonText && secondaryButtonOnClick && (
           <button
@@ -97,6 +103,7 @@ DialogModal.propTypes = {
   dialogContent: PropTypes.string,
   lang: PropTypes.string,
   modalAriaLabel: PropTypes.string,
+  href: PropTypes.string,
 };
 
 DialogModal.defaultProps = {
@@ -104,6 +111,7 @@ DialogModal.defaultProps = {
   dialogContent: undefined,
   secondaryButtonText: undefined,
   secondaryButtonOnClick: undefined,
+  href: undefined,
 };
 
 export default DialogModal;
