@@ -5,10 +5,14 @@ import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
+import { isEmpty } from 'lodash';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 import ComponentUsageExample from './ComponentUsageExample';
 import { PREFIX_ITINERARY_SUMMARY, navigateTo } from '../util/path';
 import withSearchContext from './WithSearchContext';
-
+import SelectFromMapHeader from './SelectFromMapHeader';
+import SelectFromMapPageMap from './map/SelectFromMapPageMap';
+import DTModal from './DTModal';
 import { setIntermediatePlaces } from '../util/queryUtils';
 import { getIntermediatePlaces } from '../util/otpStrings';
 import { dtLocationShape } from '../util/shapes';
@@ -46,16 +50,93 @@ class OriginDestinationBar extends React.Component {
     isMobile: false,
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      showModal: false,
+      viaPoints: [],
+    };
+  }
+
   get location() {
     return this.props.location || this.context.match.location;
   }
 
-  updateViaPoints = newViaPoints =>
-    setIntermediatePlaces(
-      this.context.router,
-      this.context.match,
-      newViaPoints.map(locationToOtp),
+  updateViaPoints = newViaPoints => {
+    this.setState({ viaPoints: newViaPoints }, () => {
+      return setIntermediatePlaces(
+        this.context.router,
+        this.context.match,
+        newViaPoints.map(locationToOtp),
+      );
+    });
+  };
+
+  openSelectFromMapModal = () => {
+    this.setState({
+      showModal: true,
+    });
+  };
+
+  closeSelectFromMapModal = () => {
+    this.setState({
+      showModal: false,
+    });
+  };
+
+  renderSelectFromMapModal = () => {
+    const titleId = this.context.intl.formatMessage({
+      id: 'select-from-map-viaPoint',
+      defaultMessage: 'Select viaPoint',
+    });
+    return (
+      <DTModal show={this.state.showModal}>
+        <SelectFromMapHeader
+          titleId={titleId}
+          onBackBtnClick={this.closeSelectFromMapModal}
+        />
+        <SelectFromMapPageMap
+          type="viaPoint"
+          onConfirm={this.confirmMapSelection}
+        />
+      </DTModal>
     );
+  };
+
+  confirmMapSelection = (type, mapLocation) => {
+    const { viaPoints } = this.state;
+    const points = viaPoints.filter(vp => !isEmpty(vp));
+    points.push(mapLocation);
+    this.setState(
+      {
+        showModal: false,
+        viaPoints: points,
+      },
+      () => {
+        this.updateViaPoints(this.state.viaPoints);
+      },
+    );
+  };
+
+  handleViaPointLocationSelected = (viaPointLocation, i) => {
+    if (addAnalyticsEvent) {
+      addAnalyticsEvent({
+        action: 'EditJourneyViaPoint',
+        category: 'ItinerarySettings',
+        name: viaPointLocation.type,
+      });
+    }
+    if (viaPointLocation.type !== 'SelectFromMap') {
+      const { viaPoints } = this.state;
+      const points = viaPoints.filter(vp => !isEmpty(vp));
+      points[i] = {
+        ...viaPointLocation,
+      };
+      this.setState({ viaPoints: points }, () => this.updateViaPoints(points));
+    } else {
+      this.setState({ showModal: true });
+    }
+  };
 
   swapEndpoints = () => {
     const { location } = this;
@@ -84,16 +165,23 @@ class OriginDestinationBar extends React.Component {
         )}
       >
         <DTAutosuggestPanelWithSearchContext
+          appElement="#app"
           origin={this.props.origin}
           destination={this.props.destination}
           originPlaceHolder="search-origin-index"
           destinationPlaceHolder="search-destination-index"
           showMultiPointControls
-          initialViaPoints={getIntermediatePlaces(
-            this.props.location
-              ? this.props.location.query
-              : this.context.match.location.query,
-          )}
+          viaPoints={
+            this.state.viaPoints.length > 0
+              ? this.state.viaPoints
+              : getIntermediatePlaces(
+                  this.props.location
+                    ? this.props.location.query
+                    : this.context.match.location.query,
+                )
+          }
+          handleViaPointLocationSelected={this.handleViaPointLocationSelected}
+          addAnalyticsEvent={addAnalyticsEvent}
           updateViaPoints={this.updateViaPoints}
           swapOrder={this.swapEndpoints}
           sources={[
@@ -105,12 +193,14 @@ class OriginDestinationBar extends React.Component {
             'Locations',
             'CurrentPosition',
             !this.props.isMobile ? 'SelectFromOwnLocations' : '',
+            this.props.isMobile ? 'MapPosition' : '',
           ]}
           lang={this.props.language}
           disableAutoFocus={this.props.isMobile}
           isMobile={this.props.isMobile}
           itineraryParams={this.context.match.location.query}
         />{' '}
+        {this.renderSelectFromMapModal()}
       </div>
     );
   }
