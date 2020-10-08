@@ -311,7 +311,7 @@ export default configMerger(walttiConfig, {
     redirectReittiopasParams: true,
 
     themeMap: {
-        hbnext: 'reittiopas'
+        hbnext: 'hbnext'
     },
 
     transportModes: {
