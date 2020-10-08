@@ -21,7 +21,7 @@ const FavouriteStopContainer = connectToStores(
       addAnalyticsEvent({
         category: 'Stop',
         action: 'MarkStopAsFavourite',
-        name: context
+        name: !context
           .getStore('FavouriteStore')
           .isFavourite(stop.gtfsId, isTerminal ? 'station' : 'stop'),
       });
