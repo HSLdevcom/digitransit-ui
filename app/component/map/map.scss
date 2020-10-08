@@ -242,12 +242,27 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
   bottom: 32px;
 }
 
+.mobile .overlay-mover {
+  z-index: 401;
+  position: absolute;
+  width: 100%;
+  bottom: 70px;
+}
+
+.mobile .map .leaflet-bottom {
+  bottom: 68px;
+  .leaflet-control-attribution {
+    background-color: rgba(0,0,0,0);
+  }
+}
+
 .mobile .map-with-tracking-buttons {
   right: 15px;
-  bottom: 55px;
+  bottom: 45px;
 }
 
 .map-with-tracking-buttons {
+  z-index: 401;
   bottom: 192px;
   display: flex;
   right: 30px;
