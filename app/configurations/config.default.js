@@ -746,6 +746,7 @@ export default {
     jyvaskyla: 'jyvaskyla',
     lahti: 'lahti',
     kuopio: 'kuopio',
+    hbnext: 'hbnext',
   },
 
   minutesToDepartureLimit: 9,
