@@ -85,7 +85,10 @@ class OriginDestinationBar extends React.Component {
   };
 
   renderSelectFromMapModal = () => {
-    const titleId = 'select-from-map-no-title';
+    const titleId = this.context.intl.formatMessage({
+      id: 'select-from-map-viaPoint',
+      defaultMessage: 'Select viaPoint',
+    });
     return (
       <DTModal show={this.state.showModal}>
         <SelectFromMapHeader
