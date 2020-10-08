@@ -1002,8 +1002,8 @@ const translations = {
     'nearest-stops-bus': 'Bus stops near you',
     'nearest-stops-citybike': 'Bike stations near you',
     'nearest-stops-ferry': 'Ferries near you',
+    'nearest-stops-rail': 'Train stations near you',
     'nearest-stops-subway': 'Subway stations near you',
-    'nearest-stops-train': 'Train stations near you',
     'nearest-stops-tram': 'Tram stops near you',
     'network-error': 'Network error',
     // eslint-disable-next-line sort-keys
@@ -1834,8 +1834,8 @@ const translations = {
     'nearest-stops-bus': 'Lähimmät bussipysäkit',
     'nearest-stops-citybike': 'Lähimmät pyöräasemat',
     'nearest-stops-ferry': 'Lähimmät lauttalaiturit',
+    'nearest-stops-rail': 'Lähimmät juna-asemat',
     'nearest-stops-subway': 'Lähimmät metroasemat',
-    'nearest-stops-train': 'Lähimmät juna-asemat',
     'nearest-stops-tram': 'Lähimmät raitiovaunupysäkit',
     'network-error': 'Verkkovirhe',
     // eslint-disable-next-line sort-keys
@@ -3439,8 +3439,8 @@ const translations = {
     'nearest-stops-bus': 'Närmaste busshållplatser',
     'nearest-stops-citybike': 'Närmaste stadscykelstationer',
     'nearest-stops-ferry': 'Närmaste färjebryggor',
+    'nearest-stops-rail': 'Närmaste tågstationer',
     'nearest-stops-subway': 'Närmaste metrostationer',
-    'nearest-stops-train': 'Närmaste tågstationer',
     'nearest-stops-tram': 'Närmaste spårvagnhållplatser',
     'network-error': 'Nätverksfel',
     // eslint-disable-next-line sort-keys
