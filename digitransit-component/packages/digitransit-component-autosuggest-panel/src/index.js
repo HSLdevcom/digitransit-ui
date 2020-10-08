@@ -135,8 +135,9 @@ class DTAutosuggestPanel extends React.Component {
     showMultiPointControls: PropTypes.bool,
     originPlaceHolder: PropTypes.string,
     destinationPlaceHolder: PropTypes.string,
-    initialViaPoints: PropTypes.arrayOf(PropTypes.object),
+    viaPoints: PropTypes.arrayOf(PropTypes.object),
     updateViaPoints: PropTypes.func,
+    handleViaPointLocationSelected: PropTypes.func,
     breakpoint: PropTypes.string.isRequired,
     swapOrder: PropTypes.func,
     searchPanelText: PropTypes.string,
@@ -151,7 +152,7 @@ class DTAutosuggestPanel extends React.Component {
   };
 
   static defaultProps = {
-    initialViaPoints: [],
+    viaPoints: [],
     showMultiPointControls: false,
     originPlaceHolder: 'give-origin',
     destinationPlaceHolder: 'give-destination',
@@ -162,6 +163,7 @@ class DTAutosuggestPanel extends React.Component {
     targets: [],
     disableAutoFocus: false,
     isMobile: false,
+    handleViaPointLocationSelected: undefined,
   };
 
   constructor(props) {
@@ -169,7 +171,6 @@ class DTAutosuggestPanel extends React.Component {
     this.draggableViaPoints = [];
     this.state = {
       activeSlackInputs: [],
-      viaPoints: this.props.initialViaPoints.map(vp => ({ ...vp })),
       refs: [],
     };
   }
@@ -271,24 +272,13 @@ class DTAutosuggestPanel extends React.Component {
         name: slackTimeInSeconds / 60,
       });
     }
-    const { viaPoints } = this.state;
+    const { viaPoints } = this.props;
     viaPoints[i].locationSlack = Number.parseInt(slackTimeInSeconds, 10);
-    this.setState({ viaPoints }, () => this.updateViaPoints(viaPoints));
+    this.updateViaPoints(viaPoints);
   };
 
   handleViaPointLocationSelected = (viaPointLocation, i) => {
-    if (this.props.addAnalyticsEvent) {
-      this.props.addAnalyticsEvent({
-        action: 'EditJourneyViaPoint',
-        category: 'ItinerarySettings',
-        name: viaPointLocation.type,
-      });
-    }
-    const { viaPoints } = this.state;
-    viaPoints[i] = {
-      ...viaPointLocation,
-    };
-    this.setState({ viaPoints }, () => this.updateViaPoints(viaPoints));
+    this.props.handleViaPointLocationSelected(viaPointLocation, i);
   };
 
   handleRemoveViaPointClick = viaPointIndex => {
@@ -299,7 +289,8 @@ class DTAutosuggestPanel extends React.Component {
         name: null,
       });
     }
-    const { activeSlackInputs, viaPoints } = this.state;
+    const { activeSlackInputs } = this.state;
+    const { viaPoints } = this.props;
     viaPoints.splice(viaPointIndex, 1);
     this.setState(
       {
@@ -308,7 +299,6 @@ class DTAutosuggestPanel extends React.Component {
           viaPointIndex,
           true,
         ),
-        viaPoints,
       },
       () => this.updateViaPoints(viaPoints),
     );
@@ -322,9 +312,11 @@ class DTAutosuggestPanel extends React.Component {
         name: 'Qu}ickSettingsButton',
       });
     }
-    const { viaPoints } = this.state;
+    const { viaPoints } = this.props;
     viaPoints.push(getEmptyViaPointPlaceHolder());
-    this.setState({ viaPoints });
+    // We need to update the state so that placeHolder will show up in panel.
+    // eslint-disable-next-line react/no-access-state-in-setstate
+    this.setState(this.state);
   };
 
   handleSwapOrderClick = () => {
@@ -335,9 +327,9 @@ class DTAutosuggestPanel extends React.Component {
         name: null,
       });
     }
-    const { viaPoints } = this.state;
+    const { viaPoints } = this.props;
     viaPoints.reverse();
-    this.setState({ viaPoints }, () => this.props.swapOrder());
+    this.props.swapOrder();
   };
 
   getSlackDisplay = slackInSeconds => {
@@ -352,8 +344,9 @@ class DTAutosuggestPanel extends React.Component {
       searchPanelText,
       searchContext,
       disableAutoFocus,
+      viaPoints,
     } = this.props;
-    const { activeSlackInputs, viaPoints } = this.state;
+    const { activeSlackInputs } = this.state;
     const slackTime = this.getSlackTimeOptions();
     const defaultSlackTimeValue = 0;
     const getViaPointSlackTimeOrDefault = (
@@ -425,14 +418,12 @@ class DTAutosuggestPanel extends React.Component {
           list={viaPoints}
           handle={`.${styles['viapoint-before']}`}
           animation={200}
-          setList={items =>
-            this.setState({ viaPoints: items }, () => {
-              const newViaPoints = items.filter(vp => !isViaPointEmpty(vp));
-              if (newViaPoints.length > 0) {
-                this.props.updateViaPoints(newViaPoints);
-              }
-            })
-          }
+          setList={items => {
+            const newViaPoints = items.filter(vp => !isViaPointEmpty(vp));
+            if (newViaPoints.length > 0) {
+              this.props.updateViaPoints(newViaPoints);
+            }
+          }}
         >
           {viaPoints.map((o, i) => (
             <div
