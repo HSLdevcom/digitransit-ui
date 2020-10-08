@@ -4,7 +4,7 @@ import configMerger from '../util/configMerger';
 const CONFIG = 'hb';
 const APP_TITLE = 'stadtnavi Herrenberg';
 const APP_DESCRIPTION = 'Gemeinsam Mobilität neu denken - die intermodale Verbindungssuche mit offenen, lokalen Daten';
-const API_URL = 'https://api.stadtnavi.de';
+const API_URL = 'https://api.stadtnavi.eu';
 const MAP_URL = 'https://tiles.stadtnavi.eu/streets/';
 const SEMI_TRANSPARENT_MAP_URL = 'https://tiles.stadtnavi.eu/satellite/{z}/{x}/{y}{r}.png';
 const GEOCODING_BASE_URL = 'https://api.stadtnavi.de/geocoding/v1'
@@ -304,7 +304,7 @@ export default configMerger(walttiConfig, {
     redirectReittiopasParams: true,
 
     themeMap: {
-        hb: 'hb',
+        hbnext: 'reittiopas'
     },
 
     transportModes: {
