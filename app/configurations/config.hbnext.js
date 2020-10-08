@@ -1,7 +1,7 @@
 /* eslint-disable */
 import configMerger from '../util/configMerger';
 
-const CONFIG = 'hb';
+const CONFIG = 'hbnext';
 const APP_TITLE = 'stadtnavi Herrenberg';
 const APP_DESCRIPTION = 'Gemeinsam Mobilität neu denken - die intermodale Verbindungssuche mit offenen, lokalen Daten';
 const API_URL = 'https://api.stadtnavi.eu';
