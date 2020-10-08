@@ -173,6 +173,13 @@ export default configMerger(walttiConfig, {
         useRetinaTiles: true,
         tileSize: 256,
         zoomOffset: 0,
+
+        showZoomControl: true, // DT-3470, DT-3397
+        showStreetModeSelector: false, // DT-3470
+        showLayerSelector: true, // DT-3470
+        showStopMarkerPopupOnMobile: false, // DT-3470
+        showScaleBar: true, // DT-3470, DT-3397
+
         attribution: {
             'default': '© <a tabindex=-1 href=http://osm.org/copyright>OpenStreetMap Mitwirkende</a>, <a tabindex=-1 href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>Datensätze der NVBW GmbH</a> und <a tabindex=-1 href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>',
             'satellite': '© <a tabindex=-1 href=http://osm.org/copyright>OpenStreetMap Mitwirkende</a>, © <a tabindex=-1 href="https://www.lgl-bw.de/">LGL BW</a>, <a tabindex=-1 href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>Datensätze der NVBW GmbH</a> und <a tabindex=-1 href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>',
@@ -201,11 +208,11 @@ export default configMerger(walttiConfig, {
 
     nationalServiceLink: { name: 'Fahrplanauskunft efa-bw', href: 'https://www.efa-bw.de' },
 
-    defaultEndpoint: {
-        address: 'ZOB Herrenberg',
+    defaultMapCenter: {
         lat: 48.5942066,
         lon: 8.8644041,
     },
+
 
     defaultOrigins: [
         {
