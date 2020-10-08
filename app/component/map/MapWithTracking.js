@@ -1,9 +1,12 @@
+/* eslint-disable no-nested-ternary */
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames'; // DT-3470
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 import getContext from 'recompose/getContext';
+import isEqual from 'lodash/isEqual';
+import { startLocationWatch } from '../../action/PositionActions';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
 import ComponentUsageExample from '../ComponentUsageExample';
 import MapContainer from './MapContainer';
@@ -44,6 +47,7 @@ const Component = onlyUpdateCoordChanges(MapContainer);
 /* eslint-disable react/sort-comp */
 
 let mapLoaded = false;
+let previousFocusPoint = null;
 const startClient = context => {
   const { realTime } = context.config;
   let agency;
@@ -72,6 +76,7 @@ class MapWithTrackingStateHandler extends React.Component {
     position: PropTypes.shape({
       hasLocation: PropTypes.bool.isRequired,
       isLocationingInProgress: PropTypes.bool.isRequired,
+      status: PropTypes.string,
       lat: PropTypes.number.isRequired,
       lon: PropTypes.number.isRequired,
     }).isRequired,
@@ -115,6 +120,7 @@ class MapWithTrackingStateHandler extends React.Component {
     super(props);
     const defaultZoom = this.focusPoint ? DEFAULT_ZOOM : FOCUS_ZOOM;
     this.state = {
+      locationingOn: false,
       geoJson: {},
       defaultMapCenter: props.defaultMapCenter,
       initialZoom: props.setInitialZoom ? props.setInitialZoom : defaultZoom,
@@ -170,6 +176,14 @@ class MapWithTrackingStateHandler extends React.Component {
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(newProps) {
+    if (
+      newProps.position.hasLocation ||
+      newProps.position.isLocationingInProgress
+    ) {
+      this.setState({
+        locationingOn: true,
+      });
+    }
     if (newProps.mapTracking || newProps.initialMapWithTracking) {
       this.setState({
         mapTracking: true,
@@ -204,6 +218,7 @@ class MapWithTrackingStateHandler extends React.Component {
   }
 
   componentWillUnmount() {
+    previousFocusPoint = null;
     this.isCancelled = true;
     const { client } = this.context.getStore('RealTimeInformationStore');
     if (client) {
@@ -218,8 +233,13 @@ class MapWithTrackingStateHandler extends React.Component {
   };
 
   enableMapTracking = () => {
+    if (!this.state.locationingOn) {
+      this.context.executeAction(startLocationWatch);
+    }
     this.setState({
       mapTracking: true,
+      locationingOn: true,
+      initialZoom: 16,
     });
     addAnalyticsEvent({
       category: 'Map',
@@ -312,25 +332,67 @@ class MapWithTrackingStateHandler extends React.Component {
     if (this.context.config.map.showZoomControl) {
       btnClassName = cx(btnClassName, 'roomForZoomControl');
     }
-
+    let positionSet = true;
     const useMapCoords = this.mapElement;
     mapLoaded = useMapCoords;
     if (this.state.mapTracking && position.hasLocation) {
       location = position;
+      positionSet = false;
     } else if (focusPoint) {
-      location = focusPoint;
-    } else if (useMapCoords) {
+      const validPoint =
+        focusPoint.ready &&
+        !focusPoint.gps &&
+        mapLoaded &&
+        !isEqual(focusPoint, previousFocusPoint);
+      if (validPoint) {
+        location = focusPoint;
+        previousFocusPoint = focusPoint;
+        positionSet = false;
+      } else if (mapLoaded) {
+        location = {};
+        positionSet = false;
+      } else {
+        // FocusPoint is valid, but map is not loaded. Set location to focusPoint so that the map renders.
+        location = focusPoint.ready
+          ? focusPoint
+          : position.hasLocation
+          ? position
+          : {};
+        positionSet = true;
+      }
+    } else {
+      location =
+        position.hasLocation && !mapLoaded
+          ? position
+          : mapLoaded
+          ? {}
+          : this.state.defaultMapCenter;
+      positionSet = false;
+    }
+    if (positionSet && useMapCoords) {
       // Map has to be loaded first, so we need correct coordinates at start. But after that (leafletElement exists)
       // we don't need correct coordinates. In fact trying to inject coordinates will mess up zooming and tracking.
       // This will also prevent situation when mapTracking is set to false, focus goes back to focusPoint.
       location = {};
-    } else {
-      location = this.state.defaultMapCenter;
     }
+
     if (this.props.fitBoundsWithSetCenter && this.state.mapTracking) {
       useFitBounds = true;
       location = {};
     }
+
+    const positionAllowed =
+      this.state.locationingOn &&
+      ['found-location', 'found-address'].includes(position.status);
+    // const img =  this.state.mapTracking ? 'icon-tracking-on-v2' : 'icon-tracking-off-v2'
+    // eslint-disable-next-line no-nested-ternary
+    const img = positionAllowed
+      ? this.state.mapTracking
+        ? 'icon-tracking-on-v2'
+        : 'icon-tracking-offline-v2'
+      : 'icon-tracking-off-v2';
+    const iconColor = this.state.mapTracking ? undefined : '#78909c';
+
     return (
       <Component
         lat={location ? location.lat : undefined}
@@ -353,19 +415,18 @@ class MapWithTrackingStateHandler extends React.Component {
         {children}
         <div className={btnClassName}>
           {renderCustomButtons && renderCustomButtons()}
-          {position.hasLocation && (
-            <ToggleMapTracking
-              key="toggleMapTracking"
-              handleClick={
-                this.state.mapTracking
-                  ? this.disableMapTracking
-                  : this.enableMapTracking
-              }
-              className={`icon-mapMarker-toggle-positioning-${
-                this.state.mapTracking ? 'online' : 'offline'
-              }`}
-            />
-          )}
+
+          <ToggleMapTracking
+            key="toggleMapTracking"
+            img={img}
+            iconColor={iconColor}
+            handleClick={
+              this.state.mapTracking
+                ? this.disableMapTracking
+                : this.enableMapTracking
+            }
+            className="icon-mapMarker-toggle-positioning"
+          />
         </div>
       </Component>
     );

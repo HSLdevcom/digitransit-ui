@@ -25,7 +25,7 @@ describe('<IconWithBigCaution />', () => {
     };
     const wrapper = shallowWithIntl(<IconWithBigCaution {...props} />);
     expect(wrapper.find(IconWithIcon).prop('subIcon')).to.equal(
-      'icon-icon_caution',
+      'icon-icon_caution-no-excl',
     );
   });
 

@@ -25,6 +25,7 @@ function getIconProperties(item) {
     iconColor = '#007ac9';
   }
   const layerIcon = new Map([
+    ['bikeRentalStation', 'citybike'],
     ['currentPosition', 'locate'],
     ['favouritePlace', 'star'],
     ['favouriteRoute', 'star'],
@@ -54,7 +55,6 @@ function getIconProperties(item) {
     ['back', 'arrow'],
     ['futureRoute', 'future-route'],
   ]);
-
   const defaultIcon = 'place';
   return [layerIcon.get(iconId) || defaultIcon, iconColor];
 }
@@ -76,7 +76,7 @@ const SuggestionItem = pure(
         <Icon color={iconColor} img={iconId} />
       </span>
     );
-    const [iconstr, name, label] = ariaContent || [
+    const [iconstr, name, label, stopCode] = ariaContent || [
       iconId,
       item.name,
       item.address,
@@ -116,7 +116,12 @@ const SuggestionItem = pure(
               <p className={cx(styles['suggestion-name'], styles[className])}>
                 {name}
               </p>
-              <p className={styles['suggestion-label']}>{label}</p>
+              <p className={styles['suggestion-label']}>
+                {label}
+                {stopCode && (
+                  <span className={styles['stop-code']}>{stopCode}</span>
+                )}
+              </p>
             </span>
           )}
           {iconId === 'future-route' && (
