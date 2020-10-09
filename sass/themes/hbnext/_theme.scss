@@ -1,50 +1,32 @@
-/* HSL theme */
+@import '../../base/waltti';
 
-/* Base theme */
-@import '../default/theme';
-
-/* Operator palette */
-$hsl-blue: #007ac9;
-$hsl-dark-blue: #0062a1;
-$hsl-pink: #f092cd;
-$hsl-alert: #dc0451;
-$hsl-tram-green: #00985f;
-$hsl-metro-orange: #ff6319;
-$hsl-rail-red: #8c4799;
-$hsl-ferry-blue: #00b9e4;
-
-/* Application palette */
-$primary-color: $hsl-blue;
-$secondary-color: $hsl-dark-blue;
-$favourite-color: $hsl-pink;
-$hilight-color: $hsl-pink;
-$action-color: $hsl-blue;
-$current-location-color: #F653B9;
-
-/* Component palette */
+/* main theme colors */
+$primary-color: #9fc727;
+$secondary-color: darken($primary-color, 20%);
+$hilight-color: $primary-color;
+$action-color: $primary-color;
+$viewpoint-marker-color: $primary-color;
+$current-location-color: $primary-color;
 $standalone-btn-color: $primary-color;
-$standalone-btn-hover-color: $secondary-color;
-$standalone-btn-active-color: $secondary-color;
-$viewpoint-marker-color: $hsl-blue;
 $link-color: $primary-color;
-$desktop-title-color: #007ac9;
-$desktop-title-arrow-icon-color: $secondary-color;
+$desktop-title-color: $primary-color;
 
 /* Vehicle palette */
-$airplane-color: #0046ad;
-$bus-color: $hsl-blue;
-$tram-color: $hsl-tram-green;
-$metro-color: $hsl-metro-orange;
-$rail-color: $hsl-rail-red;
-$ferry-color: $hsl-ferry-blue;
-$wait-color: #aaaaaa;
+$bus-color: red;
+$metro-color: blue;
+$rail-color: green;
+$citybike-color: #009fe4;
 
-/* Fonts */
-$font-family: "Gotham Rounded A","Gotham Rounded B", Arial, Georgia, Serif;
-$font-weight-medium: 500;
-$letter-spacing: -0.025em;
-$font-size-medium-large: 1rem;
+.car {
+  color: #005ab4;
+}
 
-$font-family-narrow:  'Gotham XNarrow SSm A', 'Gotham XNarrow SSm B', 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, serif;
-/* Spinner */
-$spinner-image: url('hsl-spinner.png');
+.top-bar button .navi-logo {
+  width: 350px;
+  height: 62px;
+}
+
+.top-bar section .logo {
+  min-height: 43px;
+  min-width: 200px;
+}
