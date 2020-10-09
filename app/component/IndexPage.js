@@ -63,6 +63,7 @@ class IndexPage extends React.Component {
     lang: PropTypes.string,
     // eslint-disable-next-line react/no-unused-prop-types
     query: PropTypes.object.isRequired,
+    favouriteModalAction: PropTypes.string,
   };
 
   static defaultProps = {
@@ -144,7 +145,6 @@ class IndexPage extends React.Component {
     const { intl, config } = this.context;
     const { trafficNowLink } = config;
     const { breakpoint, destination, origin, lang } = this.props;
-
     // const { mapExpanded } = this.state; // TODO verify
 
     return breakpoint === 'large' ? (
@@ -187,6 +187,7 @@ class IndexPage extends React.Component {
               <DatetimepickerContainer realtime />
             </div>
             <FavouritesContainer
+              favouriteModalAction={this.props.favouriteModalAction}
               onClickFavourite={this.clickFavourite}
               lang={lang}
             />
@@ -396,8 +397,12 @@ const IndexPageWithPosition = connectToStores(
     const { from, to } = props.match.params;
     const { location } = props.match;
     const { query } = location;
+    const { favouriteModalAction } = query;
 
     const newProps = {};
+    if (favouriteModalAction) {
+      newProps.favouriteModalAction = favouriteModalAction;
+    }
 
     newProps.locationState = locationState;
     newProps.origin = processLocation(from, locationState, context.intl);

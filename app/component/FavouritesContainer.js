@@ -50,6 +50,7 @@ class FavouritesContainer extends React.Component {
     isMobile: PropTypes.bool,
     favouriteStatus: PropTypes.string,
     user: PropTypes.object,
+    favouriteModalAction: PropTypes.string,
   };
 
   static defaultProps = {
@@ -66,6 +67,28 @@ class FavouritesContainer extends React.Component {
       editModalOpen: false,
       favourite: null,
     };
+  }
+
+  componentDidMount() {
+    if (!isEmpty(this.props.user)) {
+      if (this.props.favouriteModalAction) {
+        switch (this.props.favouriteModalAction) {
+          case 'AddHome':
+            this.addHome();
+            break;
+          case 'AddWork':
+            this.addWork();
+            break;
+          case 'AddPlace':
+            break;
+          case 'Edit':
+            this.setState({ editModalOpen: true });
+            break;
+          default:
+            break;
+        }
+      }
+    }
   }
 
   setLocationProperties = item => {
