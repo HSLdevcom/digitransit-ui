@@ -119,6 +119,12 @@ class IndexPage extends React.Component {
       ready: true,
     };
 
+    addAnalyticsEvent({
+      category: 'Favourite',
+      action: 'ClickFavourite',
+      name: null,
+    });
+
     navigateTo({
       origin: this.props.origin,
       destination: location,
@@ -395,7 +401,6 @@ const IndexPageWithPosition = connectToStores(
   ['PositionStore', 'ViaPointsStore', 'FavouriteStore'],
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
-
     const { from, to } = props.match.params;
     const { location } = props.match;
     const { query } = location;

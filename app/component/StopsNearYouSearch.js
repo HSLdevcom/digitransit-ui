@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { pure } from 'recompose';
+import compact from 'lodash/compact';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import { filterStopsAndStationsByMode } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import withSearchContext from './WithSearchContext';
@@ -12,12 +14,16 @@ function StopsNearYouSearch({ ...props }) {
         return results;
       case 'Stops': {
         const gtfsIds = results.map(x => {
-          return {
-            gtfsId: getGTFSId({ id: x.properties.id }),
-            ...x,
-          };
+          const gtfsId = getGTFSId({ id: x.properties.id });
+          if (gtfsId) {
+            return {
+              gtfsId,
+              ...x,
+            };
+          }
+          return null;
         });
-        return filterStopsAndStationsByMode(gtfsIds, props.mode);
+        return filterStopsAndStationsByMode(compact(gtfsIds), props.mode);
       }
       default:
         return results;
@@ -53,4 +59,4 @@ StopsNearYouSearch.propTypes = {
   breakpoint: PropTypes.string.isRequired,
 };
 
-export default StopsNearYouSearch;
+export default pure(StopsNearYouSearch);

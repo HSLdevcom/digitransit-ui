@@ -18,21 +18,18 @@ import { dtLocationShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
 import VehicleMarkerContainer from './map/VehicleMarkerContainer';
 import BackButton from './BackButton';
-import { startLocationWatch } from '../action/PositionActions';
 import { addressToItinerarySearch } from '../util/otpStrings';
 import ItineraryLine from './map/ItineraryLine';
 import Loading from './Loading';
 
 const StopPageMap = (
   { stop, breakpoint, currentTime, locationState },
-  { config, match, executeAction },
+  { config, match },
 ) => {
   if (!stop) {
     return false;
   }
-  useEffect(() => {
-    executeAction(startLocationWatch);
-  }, []);
+
   const maxShowRouteDistance = breakpoint === 'large' ? 900 : 470;
   const { environment } = useContext(ReactRelayContext);
   const [plan, setPlan] = useState({ plan: {}, isFetching: false });
@@ -155,17 +152,21 @@ const StopPageMap = (
       ],
     ];
   }
-
+  const focusPoint = {
+    ...stop,
+    ready: true,
+  };
   return (
     <MapWithTracking
       className="flex-grow"
       defaultMapCenter={stop}
-      zoom={!match.params.stopId || stop.platformCode ? 18 : 16}
+      // zoom={!match.params.stopId || stop.platformCode ? 18 : 16}
       showStops
       hilightedStops={[id]}
       leafletObjs={leafletObjs}
       showScaleBar
-      setInitialZoom={17}
+      focusPoint={focusPoint}
+      initialZoom={12}
       origin={locationState}
       destination={stop}
       bounds={bounds}
@@ -180,7 +181,6 @@ StopPageMap.contextTypes = {
   config: PropTypes.object.isRequired,
   match: matchShape.isRequired,
   router: routerShape.isRequired,
-  executeAction: PropTypes.func.isRequired,
   getStore: PropTypes.func.isRequired,
 };
 

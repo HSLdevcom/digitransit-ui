@@ -18,6 +18,7 @@ import { itineraryHasCancelation } from '../util/alertUtils';
 import { getCurrentSettings, getDefaultSettings } from '../util/planParamUtil';
 import { ItinerarySummarySubtitle } from './ItinerarySummarySubtitle';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
+import Loading from './Loading';
 
 function ItinerarySummaryListContainer(
   {
@@ -38,6 +39,8 @@ function ItinerarySummaryListContainer(
     walking,
     biking,
     showAlternativePlan,
+    separatorPosition,
+    loadingItineraries,
   },
   context,
 ) {
@@ -58,7 +61,11 @@ function ItinerarySummaryListContainer(
         intermediatePlaces={intermediatePlaces}
         isCancelled={itineraryHasCancelation(itinerary)}
         showCancelled={showCancelled}
-        zones={config.stopCard.header.showZone ? getZones(itinerary.legs) : []}
+        zones={
+          config.stopCard.header.showZone && itinerary.legs
+            ? getZones(itinerary.legs)
+            : []
+        }
       />
     ));
     if (
@@ -106,6 +113,16 @@ function ItinerarySummaryListContainer(
         );
       }
     }
+    if (separatorPosition) {
+      summaries.splice(
+        separatorPosition,
+        0,
+        <div
+          className="summary-list-separator"
+          key={`summary-list-separator-${separatorPosition}`}
+        />,
+      );
+    }
 
     const canceledItinerariesCount = itineraries.filter(itineraryHasCancelation)
       .length;
@@ -128,7 +145,17 @@ function ItinerarySummaryListContainer(
             </div>
           </div>
         )}
+        {loadingItineraries === 'top' && (
+          <div style={{ position: 'relative', height: 100 }}>
+            <Loading />
+          </div>
+        )}
         {isBrowser && summaries}
+        {loadingItineraries === 'bottom' && (
+          <div style={{ position: 'relative', height: 100 }}>
+            <Loading />
+          </div>
+        )}
         {isBrowser && canceledItinerariesCount > 0 && (
           <CanceledItineraryToggler
             showItineraries={showCancelled}
@@ -269,6 +296,8 @@ ItinerarySummaryListContainer.propTypes = {
   walking: PropTypes.bool,
   biking: PropTypes.bool,
   showAlternativePlan: PropTypes.bool,
+  separatorPosition: PropTypes.number,
+  loadingItineraries: PropTypes.string,
 };
 
 ItinerarySummaryListContainer.defaultProps = {
@@ -278,6 +307,8 @@ ItinerarySummaryListContainer.defaultProps = {
   walking: false,
   biking: false,
   showAlternativePlan: false,
+  separatorPosition: undefined,
+  loadingItineraries: undefined,
 };
 
 ItinerarySummaryListContainer.contextTypes = {

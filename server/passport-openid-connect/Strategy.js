@@ -4,6 +4,7 @@
 
 const openid = require('openid-client');
 const passport = require('passport');
+const moment = require('moment');
 const util = require('util');
 const User = require('./User').User;
 
@@ -46,7 +47,11 @@ OICStrategy.prototype.authenticate = function (req, opts) {
   if (opts.callback) {
     return this.callback(req, opts);
   }
-  const authurl = this.createAuthUrl(req.query['sso-token']);
+  const { ssoValidTo, ssoToken } = req.session;
+  const authurl =
+    ssoValidTo && ssoValidTo > moment().unix()
+      ? this.createAuthUrl(ssoToken)
+      : this.createAuthUrl();
   this.redirect(authurl);
 };
 

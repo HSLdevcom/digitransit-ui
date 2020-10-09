@@ -12,6 +12,7 @@ import LocalStorageEmitter from './component/LocalStorageEmitter';
 import {
   PREFIX_ITINERARY_SUMMARY,
   PREFIX_NEARYOU,
+  PREFIX_BIKESTATIONS,
   LOCAL_STORAGE_EMITTER_PATH,
 } from './util/path';
 import { preparePlanParams } from './util/planParamUtil';
@@ -37,6 +38,45 @@ export default config => {
       {getStopRoutes()}
       {getStopRoutes(true) /* terminals */}
       {routeRoutes}
+      <Route path={`/${PREFIX_BIKESTATIONS}/:id`}>
+        {{
+          content: (
+            <Route
+              getComponent={() =>
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/BikeRentalStationContent'
+                ).then(getDefault)
+              }
+              query={graphql`
+                query routes_BikeRentalStation_Query($id: String!) {
+                  bikeRentalStation(id: $id) {
+                    ...BikeRentalStationContent_bikeRentalStation
+                  }
+                }
+              `}
+              render={getComponentOrNullRenderer}
+            />
+          ),
+          map: (
+            <Route
+              path="(.*)?"
+              getComponent={() =>
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/BikeRentalStationPageMapContainer'
+                ).then(getDefault)
+              }
+              query={graphql`
+                query routes_BikeRentalStationMap_Query($id: String!) {
+                  bikeRentalStation(id: $id) {
+                    ...BikeRentalStationPageMapContainer_bikeRentalStation
+                  }
+                }
+              `}
+              render={getComponentOrNullRenderer}
+            />
+          ),
+        }}
+      </Route>
       <Route path={`/${PREFIX_NEARYOU}/:mode/:place/:origin?`}>
         {{
           title: (

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
@@ -52,6 +53,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     }),
     lang: PropTypes.string.isRequired,
     isModalNeeded: PropTypes.bool,
+    queryString: PropTypes.string,
   };
 
   constructor(props) {
@@ -257,13 +259,20 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   };
 
   createBckBtnUrl = () => {
-    const { location } = this.context.match ? this.context.match : undefined;
-    if (location && location.pathname) {
-      const origin = location.pathname.substring(1).split('/').pop();
-      const search = location.search ? location.search : '';
-      return `/${origin}/-${search}`;
+    const { position } = this.props;
+    const { place } = this.context.match.params;
+    const { search } = this.context.match.location || '';
+    if (place === 'POS' && !position) {
+      const location = this.context.config.defaultEndpoint;
+      return `/${encodeURIComponent(
+        `${location.address}::${location.lat},${location.lon}`,
+      )}/-${search}`;
+    } else if (place === 'POS' && position && position.hasLocation) {
+      return `/${encodeURIComponent(
+        `${position.address}::${position.lat},${position.lon}`,
+      )}/-${search}`;
     }
-    return undefined;
+    return `/${place}/-${search}`;
   };
 
   handleClose = () => {
@@ -367,6 +376,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     let savedChoice;
     const { loadingPosition, position, isModalNeeded } = this.props;
     const { params } = this.context.match;
+    const queryString = this.props.queryString || '';
 
     if (isModalNeeded !== undefined && !isModalNeeded && position) {
       showModal = false;
@@ -383,7 +393,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
           proceed = true;
         } else if (params.origin) {
           this.context.router.replace(
-            `/${PREFIX_NEARYOU}/${params.mode}/${params.origin}`,
+            `/${PREFIX_NEARYOU}/${params.mode}/${params.origin}${queryString}`,
           );
         }
 
@@ -437,7 +447,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
             <DesktopView
               title={
                 <FormattedMessage
-                  id="nearest-stops"
+                  id={`nearest-stops-${params.mode.toLowerCase()}`}
                   defaultMessage="Stops near you"
                 />
               }
@@ -477,11 +487,18 @@ const PositioningWrapper = connectToStores(
   ['PositionStore', 'PreferencesStore'],
   (context, props) => {
     const lang = context.getStore('PreferencesStore').getLanguage();
-    const { params } = props.match;
+    const { params, location } = props.match;
     const { place } = params;
     if (place !== 'POS') {
       const position = otpToLocation(place);
-      return { ...props, position, isModalNeeded: false, lang, params };
+      return {
+        ...props,
+        position,
+        isModalNeeded: false,
+        lang,
+        params,
+        queryString: location.search,
+      };
     }
     const locationState = context.getStore('PositionStore').getLocationState();
     if (locationState.locationingFailed) {
@@ -492,6 +509,7 @@ const PositioningWrapper = connectToStores(
         loadingPosition: false,
         lang,
         params,
+        queryString: location.search,
       };
     }
 
@@ -500,7 +518,13 @@ const PositioningWrapper = connectToStores(
       (locationState.isLocationingInProgress ||
         locationState.isReverseGeocodingInProgress)
     ) {
-      return { ...props, loadingPosition: true, lang, params };
+      return {
+        ...props,
+        loadingPosition: true,
+        lang,
+        params,
+        queryString: location.search,
+      };
     }
 
     if (locationState.hasLocation) {
@@ -509,6 +533,7 @@ const PositioningWrapper = connectToStores(
         position: locationState,
         loadingPosition: false,
         lang,
+        queryString: location.search,
       };
     }
     return {
@@ -517,6 +542,7 @@ const PositioningWrapper = connectToStores(
       loadingPosition: true,
       lang,
       params,
+      queryString: location.search,
     };
   },
 );

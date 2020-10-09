@@ -63,7 +63,7 @@ class ItineraryLine extends React.Component {
 
     const objs = [];
     this.props.legs.forEach((leg, i) => {
-      if (leg.mode === 'WAIT') {
+      if (!leg || leg.mode === 'WAIT') {
         return;
       }
 

@@ -81,12 +81,13 @@ OriginToDestination.defaultProps = {
  *
  */
 function NearStopsAndRoutes({ modes, urlPrefix, language, showTitle, origin }) {
+  const queryString = origin.queryString || '';
   const buttons = modes.map(mode => {
     let url = `${urlPrefix}/${mode.toUpperCase()}/POS`;
     if (origin.set) {
       url += `/${encodeURIComponent(origin.address)}::${origin.lat},${
         origin.lon
-      }`;
+      }${queryString}`;
     }
     return (
       <a href={url} key={mode}>
