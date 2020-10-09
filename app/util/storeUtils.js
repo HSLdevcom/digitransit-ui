@@ -13,7 +13,7 @@ export const getFavouriteLocations = context => {
 };
 
 export const getFavouriteRoutes = context => {
-  return context.getStore('FavouriteStore').getRoutes();
+  return context.getStore('FavouriteStore').getRouteGtfsIds();
 };
 
 export const getFavouriteStops = context => {

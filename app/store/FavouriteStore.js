@@ -121,7 +121,7 @@ export default class FavouriteStore extends Store {
     );
   }
 
-  getRoutes() {
+  getRouteGtfsIds() {
     return this.favourites
       .filter(favourite => favourite.type === 'route')
       .map(favourite => favourite.gtfsId);
