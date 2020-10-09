@@ -21,6 +21,7 @@ export default {
     TICKET_SALES_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-ticket-sales-map/`,
     FONT: 'https://cloud.typography.com/6364294/7432412/css/fonts.css',
     CITYBIKE_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-citybike-map/`,
+    REDIRECT_BACK: 'https://uusi.hsl.fi/',
   },
 
   contactName: {
