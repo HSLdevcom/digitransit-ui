@@ -284,3 +284,8 @@ export function initGeolocation(actionContext) {
     });
   }
 }
+
+export function showGeolocationDeniedMessage(actionContext) {
+  actionContext.dispatch('GeolocationDenied');
+  updateGeolocationMessage(actionContext, 'denied');
+}

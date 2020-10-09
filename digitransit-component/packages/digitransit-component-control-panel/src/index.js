@@ -2,12 +2,9 @@
 /* eslint no-console: ["error", { allow: ["warn", "error"] }] */
 /* eslint react/forbid-prop-types: 0 */
 import PropTypes from 'prop-types';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import i18next from 'i18next';
 import Icon from '@digitransit-component/digitransit-component-icon';
-import cx from 'classnames';
-import Modal from '@hsl-fi/modal';
-import { routerShape } from 'found';
 import styles from './helpers/styles.scss';
 import translations from './helpers/translations';
 
@@ -83,141 +80,16 @@ OriginToDestination.defaultProps = {
  *    />
  *
  */
-function NearStopsAndRoutes({
-  modes,
-  urlPrefix,
-  language,
-  showTitle,
-  autosuggestComponent,
-  router,
-  checkPositioningPermission,
-  origin,
-  getStore,
-}) {
-  const [isDialogOpen, setDialogOpen] = useState(false);
-  const [url, setUrl] = useState(undefined);
-  const [selectedMode, setMode] = useState('');
-  const [isGeolocationGranted, setGeolocationPermission] = useState(false);
-  const [geolocationStatus, setGeolocationStatus] = useState(undefined);
-
-  const checkGeolocationPermission = () => {
-    const locationState = getStore('PositionStore').getLocationState();
-    checkPositioningPermission().then(status => {
-      setGeolocationStatus(status.state);
-      if (
-        status.state === 'granted' ||
-        locationState.status === 'found-address'
-      ) {
-        setGeolocationPermission(true);
-      }
-    });
-  };
-
-  checkGeolocationPermission();
-
-  const createUrl = (mode, useCurrentLocation) => {
-    let newUrl = `${urlPrefix}/${mode.toUpperCase()}/`;
-    if (useCurrentLocation) {
-      newUrl += 'POS';
-    } else {
-      newUrl += `${encodeURIComponent(origin.address)}::${origin.lat},${
+function NearStopsAndRoutes({ modes, urlPrefix, language, showTitle, origin }) {
+  const buttons = modes.map(mode => {
+    let url = `${urlPrefix}/${mode.toUpperCase()}/POS`;
+    if (origin.set) {
+      url += `/${encodeURIComponent(origin.address)}::${origin.lat},${
         origin.lon
       }`;
     }
-    if (origin.queryString) {
-      newUrl += origin.queryString;
-    }
-    return newUrl;
-  };
-
-  const showDialog = (e, mode, showModal) => {
-    e.preventDefault();
-    if (showModal && !origin.set) {
-      setDialogOpen(true);
-      setUrl(createUrl(mode, true));
-      setMode(mode);
-    } else if (showModal && origin.set) {
-      router.replace(createUrl(mode, false));
-    } else {
-      router.replace(createUrl(mode, true));
-    }
-  };
-
-  const icon = <Icon img="locate" height={1.375} width={1.375} />;
-
-  const renderDialogModal = () => {
-    const autosuggestComponentWithMode = React.cloneElement(
-      autosuggestComponent,
-      { mode: selectedMode },
-    );
     return (
-      <Modal
-        appElement="#app"
-        contentLabel="content label"
-        closeButtonLabel="sulje"
-        variant="small"
-        isOpen={isDialogOpen}
-        onCrossClick={() => {
-          setDialogOpen(false);
-        }}
-      >
-        <div className={styles['modal-desktop-container']}>
-          <div className={styles['modal-desktop-top']}>
-            <div className={styles['modal-desktop-header']}>
-              {i18next.t('stop-near-you-modal-header')}
-            </div>
-          </div>
-          <div className={styles['modal-desktop-text']}>
-            {i18next.t('stop-near-you-modal-info')}
-          </div>
-          <div
-            className={cx(`${styles['modal-desktop-text']} ${styles.title}`)}
-          >
-            {i18next.t('placeholder-origin')}
-          </div>
-          <div className={styles['modal-desktop-main']}>
-            <div className={styles['modal-desktop-location-search']}>
-              {autosuggestComponentWithMode}
-            </div>
-          </div>
-          <div
-            className={cx(`${styles['modal-desktop-text']} ${styles.title2}`)}
-          >
-            {i18next.t('stop-near-you-modal-grant-permission')}
-          </div>
-          {geolocationStatus === 'prompt' && (
-            <div className={styles['modal-desktop-buttons']}>
-              <button
-                type="submit"
-                className={cx(
-                  `${styles['modal-desktop-button']} ${styles.save}`,
-                )}
-                onClick={() => router.replace(url)}
-              >
-                {icon}
-                {i18next.t('use-own-position')}
-              </button>
-            </div>
-          )}
-          {geolocationStatus === 'denied' && (
-            <div
-              className={cx(`${styles['modal-desktop-text']} ${styles.info}`)}
-            >
-              {i18next.t('stop-near-you-modal-grant-permission-info')}
-            </div>
-          )}
-        </div>
-      </Modal>
-    );
-  };
-
-  const buttons = modes.map(mode => {
-    return (
-      <a
-        href={url}
-        key={mode}
-        onClick={e => showDialog(e, mode.toUpperCase(), !isGeolocationGranted)}
-      >
+      <a href={url} key={mode}>
         <span className={styles['sr-only']}>
           {i18next.t(`pick-mode-${mode}`, { lng: language })}
         </span>
@@ -236,7 +108,6 @@ function NearStopsAndRoutes({
         </h2>
       )}
       <div className={styles['near-you-buttons-container']}>{buttons}</div>
-      {renderDialogModal()}
     </div>
   );
 }
@@ -246,11 +117,7 @@ NearStopsAndRoutes.propTypes = {
   urlPrefix: PropTypes.string.isRequired,
   language: PropTypes.string,
   showTitle: PropTypes.bool,
-  autosuggestComponent: PropTypes.node.isRequired,
-  router: routerShape.isRequired,
-  checkPositioningPermission: PropTypes.func.isRequired,
   origin: PropTypes.object,
-  getStore: PropTypes.func.isRequired,
 };
 
 NearStopsAndRoutes.defaultProps = {

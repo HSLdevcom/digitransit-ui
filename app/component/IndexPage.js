@@ -197,22 +197,7 @@ class IndexPage extends React.Component {
                   urlPrefix={`/${PREFIX_NEARYOU}`}
                   language={lang}
                   showTitle
-                  autosuggestComponent={
-                    <DTAutoSuggestWithSearchContext
-                      appElement="#app"
-                      icon="search"
-                      sources={['History', 'Datasource']}
-                      targets={['Locations', 'Stops']}
-                      id="origin-stop-near-you"
-                      placeholder="origin"
-                      value=""
-                      lang={lang}
-                    />
-                  }
-                  router={this.context.router}
-                  checkPositioningPermission={checkPositioningPermission}
                   origin={originToStopNearYou}
-                  getStore={this.context.getStore}
                 />
               </div>
             ) : (
@@ -301,23 +286,7 @@ class IndexPage extends React.Component {
                   urlPrefix={`/${PREFIX_NEARYOU}`}
                   language={lang}
                   showTitle
-                  autosuggestComponent={
-                    <DTAutoSuggestWithSearchContext
-                      appElement="#app"
-                      icon="search"
-                      sources={['History', 'Datasource']}
-                      targets={['Locations', 'Stops']}
-                      id="origin-stop-near-you"
-                      placeholder="origin"
-                      value=""
-                      lang={lang}
-                      isMobile
-                    />
-                  }
-                  router={this.context.router}
-                  checkPositioningPermission={checkPositioningPermission}
                   origin={originToStopNearYou}
-                  getStore={this.context.getStore}
                 />
               </div>
             ) : (

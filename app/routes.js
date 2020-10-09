@@ -37,7 +37,7 @@ export default config => {
       {getStopRoutes()}
       {getStopRoutes(true) /* terminals */}
       {routeRoutes}
-      <Route path={`/${PREFIX_NEARYOU}/:mode/:place`}>
+      <Route path={`/${PREFIX_NEARYOU}/:mode/:place/:origin?`}>
         {{
           title: (
             <Route
