@@ -95,6 +95,7 @@ class RouteMapContainer extends React.PureComponent {
               icon="icon-icon_arrow-collapse--left"
               iconClassName="arrow-icon"
               color={config.colors.primary}
+              urlToBack={config.URL.REDIRECT_BACK}
             />
           </React.Fragment>
         )}

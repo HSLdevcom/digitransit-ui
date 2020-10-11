@@ -70,6 +70,7 @@ OriginToDestination.defaultProps = {
  * @param {string} props.language - Language used for accessible labels
  * @param {string} props.urlPrefix - URL prefix for links. Must end with /lahellasi
  * @param {boolean} props.showTitle - Show title, default is false
+ * @param {element} props.LinkComponent - React component for creating a link, default is undefined and normal anchor tags are used
  *
  * @example
  * <CtrlPanel.NearStopsAndRoutes
@@ -80,8 +81,26 @@ OriginToDestination.defaultProps = {
  *    />
  *
  */
-function NearStopsAndRoutes({ modes, urlPrefix, language, showTitle }) {
+function NearStopsAndRoutes({
+  modes,
+  urlPrefix,
+  language,
+  showTitle,
+  LinkComponent,
+}) {
   const buttons = modes.map(mode => {
+    if (LinkComponent) {
+      return (
+        <LinkComponent to={`${urlPrefix}/${mode.toUpperCase()}/POS`} key={mode}>
+          <span className={styles['sr-only']}>
+            {i18next.t(`pick-mode-${mode}`, { lng: language })}
+          </span>
+          <span className={styles['transport-mode-icon-container']}>
+            <Icon img={`mode-${mode}`} />
+          </span>
+        </LinkComponent>
+      );
+    }
     return (
       <a href={`${urlPrefix}/${mode.toUpperCase()}/POS`} key={mode}>
         <span className={styles['sr-only']}>
@@ -110,12 +129,14 @@ NearStopsAndRoutes.propTypes = {
   urlPrefix: PropTypes.string,
   language: PropTypes.string,
   showTitle: PropTypes.bool,
+  LinkComponent: PropTypes.element,
 };
 
 NearStopsAndRoutes.defaultProps = {
   showTitle: false,
   urlPrefix: '/lahellasi',
   language: 'fi',
+  LinkComponent: undefined,
 };
 
 /**
