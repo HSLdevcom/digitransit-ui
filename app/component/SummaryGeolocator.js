@@ -37,10 +37,10 @@ const SummaryGeolocatorWithPosition = connectToStores(
     };
 
     if (isBrowser) {
-      if (
-        locationState.isLocationingInProgress !== true &&
-        locationState.hasLocation === false
-      ) {
+      if (locationState.locationingFailed) {
+        redirect();
+      }
+      if (locationState.hasLocation === false) {
         checkPositioningPermission().then(status => {
           if (
             // check logic for starting geolocation
@@ -48,16 +48,18 @@ const SummaryGeolocatorWithPosition = connectToStores(
             locationState.status === 'no-location'
           ) {
             // Auto Initialising geolocation
-            context.executeAction(initGeolocation);
+            if (!locationState.isLocationingInProgress) {
+              context.executeAction(initGeolocation);
+            }
           }
           if (status.state === 'denied') {
+            context.executeAction(initGeolocation);
             redirect();
           }
         });
       } else if (
-        locationState.locationingFailed ||
-        (locationState.hasLocation &&
-          !locationState.isReverseGeocodingInProgress)
+        locationState.hasLocation &&
+        !locationState.isReverseGeocodingInProgress
       ) {
         redirect();
       }
