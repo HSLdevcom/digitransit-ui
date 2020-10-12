@@ -455,7 +455,11 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
               content={this.renderContent()}
               map={this.renderMap()}
               bckBtnColor={this.context.config.colors.primary}
-              bckBtnUrl={this.createBckBtnUrl()}
+              bckBtnUrl={
+                this.context.config.URL.REDIRECT_BACK
+                  ? undefined
+                  : this.createBckBtnUrl()
+              }
             />
           )}
           mobile={() => (
@@ -463,7 +467,11 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
               content={this.renderContent()}
               map={this.renderMap()}
               bckBtnColor={this.context.config.colors.primary}
-              bckBtnUrl={this.createBckBtnUrl()}
+              bckBtnUrl={
+                this.context.config.URL.REDIRECT_BACK
+                  ? undefined
+                  : this.createBckBtnUrl()
+              }
             />
           )}
         />

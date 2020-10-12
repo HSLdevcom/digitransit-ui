@@ -3,7 +3,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
-import { matchShape, routerShape } from 'found';
+import { matchShape, routerShape, Link } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
 import isEqual from 'lodash/isEqual';
@@ -203,6 +203,7 @@ class IndexPage extends React.Component {
                   urlPrefix={`/${PREFIX_NEARYOU}`}
                   language={lang}
                   showTitle
+                  LinkComponent={Link}
                   origin={originToStopNearYou}
                 />
               </div>
@@ -292,6 +293,7 @@ class IndexPage extends React.Component {
                   urlPrefix={`/${PREFIX_NEARYOU}`}
                   language={lang}
                   showTitle
+                  LinkComponent={Link}
                   origin={originToStopNearYou}
                 />
               </div>

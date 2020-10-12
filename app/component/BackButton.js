@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { routerShape, matchShape } from 'found';
 import { intlShape } from 'react-intl';
 import Icon from './Icon';
-import { PREFIX_NEARYOU } from '../util/path';
 
 export default class BackButton extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
     router: routerShape,
     match: matchShape,
+    config: PropTypes.object,
   };
 
   static propTypes = {
@@ -38,19 +38,20 @@ export default class BackButton extends React.Component {
   };
 
   goBack = urlToGo => {
-    if (urlToGo) {
-      this.context.router.push(urlToGo);
-    } else if (this.context.match.location.index > 0) {
+    if (
+      this.context.config.URL.REDIRECT_BACK &&
+      urlToGo === this.context.config.URL.REDIRECT_BACK
+    ) {
+      window.location.href = urlToGo;
+    } else if (
+      this.context.match.location.index > 0 ||
+      (this.context.match.params && this.context.match.params.hash)
+    ) {
       this.context.router.go(-1);
+    } else if (urlToGo) {
+      window.location.href = urlToGo;
     } else {
-      const { location } = this.context.match;
-      if (location.pathname.indexOf(PREFIX_NEARYOU) === 1) {
-        const origin = location.pathname.substring(1).split('/').pop();
-        const search = location.search ? location.search : '';
-        this.context.router.push(`/${origin}/-${search}`);
-      } else {
-        this.context.router.push('/');
-      }
+      this.context.router.push('/');
     }
   };
 
