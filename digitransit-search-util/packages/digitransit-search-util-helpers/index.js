@@ -201,3 +201,16 @@ export const sortSearchResults = (lineRegexp, results, term = '') => {
 
   return uniqWith(orderedResults, isDuplicate);
 };
+
+/**
+ * Parses stop's name without stop code from a stop name from geocoding results
+ *
+ * @param {string} label stop's name from geocoding results.
+ * @param {string} stopCode stop code.
+ */
+export const getStopName = (name, stopCode) => {
+  if (stopCode !== undefined && stopCode !== null) {
+    return name.substring(0, name.lastIndexOf(stopCode) - 1);
+  }
+  return name;
+};

@@ -11,6 +11,7 @@ import {
   getNameLabel,
   getStopCode,
 } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
+import { getStopName } from '@digitransit-search-util/digitransit-search-util-helpers';
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import moment from 'moment-timezone';
@@ -36,13 +37,6 @@ const Loading = props => (
 
 Loading.propTypes = {
   children: PropTypes.node,
-};
-
-const getStopName = (name, stopCode) => {
-  if (stopCode !== undefined && stopCode !== null) {
-    return name.substring(0, name.lastIndexOf(stopCode) - 1);
-  }
-  return name;
 };
 
 function getSuggestionContent(item) {
