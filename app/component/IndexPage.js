@@ -214,7 +214,7 @@ class IndexPage extends React.Component {
               placeholder="stop-near-you"
               value=""
               sources={['Favourite', 'History', 'Datasource']}
-              targets={['Stops', 'Routes']}
+              targets={['Stops', 'Routes', 'BikeRentalStations']}
             />
             <CtrlPanel.SeparatorLine />
             {trafficNowLink !== '' && (
@@ -301,7 +301,7 @@ class IndexPage extends React.Component {
               placeholder="stop-near-you"
               value=""
               sources={['Favourite', 'History', 'Datasource']}
-              targets={['Stops', 'Routes']}
+              targets={['Stops', 'Routes', 'BikeRentalStations']}
               isMobile
             />
             <CtrlPanel.SeparatorLine />

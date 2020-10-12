@@ -115,6 +115,7 @@ export const getLayerRank = (layer, source) => {
       }
       return 0.43;
     }
+    case LayerType.FavouriteBikeRentalStation:
     default:
       // venue, address, street, route-xxx
       return 0.4;

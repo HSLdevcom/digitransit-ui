@@ -169,6 +169,7 @@ export default function withSearchContext(WrappedComponent) {
           id = id.replace('GTFS:', '').replace(':', '%3A');
           break;
         case 'bikeRentalStation':
+        case 'favouriteBikeRentalStation':
           path = '/pyoraasemat/';
           id = item.properties.labelId;
           break;

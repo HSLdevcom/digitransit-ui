@@ -43,6 +43,14 @@ export default function isDuplicate(item1, item2) {
   if (item1.type === 'FutureRoute' || item2.type === 'FutureRoute') {
     return false;
   }
+  if (
+    (item1.type === 'BikeRentalStation' ||
+      item1.type === 'FavouriteBikeRentalStation') &&
+    (item2.type === 'BikeRentalStation' ||
+      item2.type === 'FavouriteBikeRentalStation')
+  ) {
+    return props1.labelId === props2.labelId;
+  }
   if (truEq(props1.gtfsId, props2.gtfsId)) {
     return true;
   }

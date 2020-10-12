@@ -20,6 +20,10 @@ export const getFavouriteStops = context => {
   return context.getStore('FavouriteStore').getStopsAndStations();
 };
 
+export const getFavouriteBikeRentalStations = context => {
+  return context.getStore('FavouriteStore').getBikeRentalStations();
+};
+
 export const getOldSearches = (context, type) => {
   return context.getStore('OldSearchesStore').getOldSearches(type);
 };

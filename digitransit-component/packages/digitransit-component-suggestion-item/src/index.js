@@ -31,6 +31,7 @@ function getIconProperties(item) {
     ['favouriteRoute', 'star'],
     ['favouriteStop', 'star'],
     ['favouriteStation', 'star'],
+    ['favouriteBikeRentalStation', 'star'],
     ['favourite', 'star'],
     ['address', 'place'],
     ['stop', 'busstop'],

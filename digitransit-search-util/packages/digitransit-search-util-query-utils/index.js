@@ -17,7 +17,6 @@ const searchBikeRentalStationsQuery = graphql`
   query digitransitSearchUtilQueryUtilsSearchBikeRentalStationsQuery {
     bikeRentalStations {
       name
-      networks
       stationId
       lon
       lat
@@ -86,6 +85,17 @@ const favouriteRoutesQuery = graphql`
       patterns {
         code
       }
+    }
+  }
+`;
+
+const favouriteBikeRentalQuery = graphql`
+  query digitransitSearchUtilQueryUtilsFavouriteBikeRentalStationsQuery(
+    $ids: [String!]!
+  ) {
+    bikeRentalStations(ids: $ids) {
+      name
+      stationId
     }
   }
 `;
@@ -292,6 +302,40 @@ export function getFavouriteRoutesQuery(favourites, input) {
     .then(routes =>
       routes.sort((x, y) => routeNameCompare(x.properties, y.properties)),
     );
+}
+/**
+ * Returns Favourite BikeRentalStation objects depending on input
+ * @param {String} input Search text, if empty no objects are returned
+ * @param {*} favourites
+ */
+export function getFavouriteBikeRentalStationsQuery(favourites, input) {
+  if (
+    !relayEnvironment ||
+    !Array.isArray(favourites) ||
+    favourites.length === 0
+  ) {
+    return Promise.resolve([]);
+  }
+  const favouriteIds = favourites.map(station => station.stationId);
+  return fetchQuery(relayEnvironment, favouriteBikeRentalQuery, {
+    ids: favouriteIds,
+  })
+    .then(data => data.bikeRentalStations)
+    .then(stations => stations.filter(station => !!station))
+    .then(stations =>
+      stations.map(favourite => ({
+        properties: {
+          name: favourite.name,
+          labelId: favourite.stationId,
+          layer: 'favouriteBikeRentalStation',
+        },
+        type: 'FavouriteBikeRentalStation',
+      })),
+    )
+    .then(stations =>
+      filterMatchingToInput(stations, input, ['properties.name']),
+    )
+    .then(stations => stations.sort());
 }
 /**
  * Returns Route objects depending on input

@@ -25,6 +25,12 @@ const searchContext = {
   getFavouriteRoutesQuery() {
     return Promise.resolve([]);
   },
+  getFavouriteBikeRentalStations() {
+    return Promise.resolve([]);
+  },
+  getFavouriteBikeRentalStationsQuery() {
+    return Promise.resolve([]);
+  },
   getPositions: () => {
     return {
       lat: 0,

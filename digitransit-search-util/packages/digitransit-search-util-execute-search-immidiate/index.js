@@ -143,7 +143,6 @@ function getBikeStations(bikeStations, input) {
         properties: {
           labelId: stop.stationId,
           layer: 'bikeRentalStation',
-          address: stop.name,
           name: stop.name,
           lat: stop.lat,
           lon: stop.lon,
@@ -220,6 +219,8 @@ export function getSearchResults(
     getLanguage,
     getStopAndStationsQuery,
     getAllBikeRentalStations,
+    getFavouriteBikeRentalStationsQuery,
+    getFavouriteBikeRentalStations,
     getFavouriteRoutesQuery,
     getFavouriteRoutes,
     getRoutesQuery,
@@ -341,14 +342,6 @@ export function getSearchResults(
           return results;
         }),
       );
-      if (
-        (!transportMode || transportMode === 'route-CITYBIKE') &&
-        regex &&
-        regex.test(input)
-      ) {
-        const bikeStations = getAllBikeRentalStations();
-        searchComponents.push(getBikeStations(bikeStations, input));
-      }
     }
     if (allSources || sources.includes('History')) {
       const stopHistory = prevSearches(context).filter(item => {
@@ -416,6 +409,26 @@ export function getSearchResults(
           filterResults ? filterResults(results, 'Routes') : results,
         ),
       );
+    }
+  }
+
+  if (allTargets || targets.includes('BikeRentalStations')) {
+    if (allSources || sources.includes('Favourite')) {
+      const favouriteRoutes = getFavouriteBikeRentalStations(context);
+      searchComponents.push(
+        getFavouriteBikeRentalStationsQuery(favouriteRoutes, input),
+      );
+    }
+    if (allSources || sources.includes('Datasource')) {
+      const regex = minimalRegexp || undefined;
+      if (
+        (!transportMode || transportMode === 'route-CITYBIKE') &&
+        regex &&
+        regex.test(input)
+      ) {
+        const bikeStations = getAllBikeRentalStations();
+        searchComponents.push(getBikeStations(bikeStations, input));
+      }
     }
   }
 
