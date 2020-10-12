@@ -4,7 +4,7 @@ import take from 'lodash/take';
 import { sortSearchResults } from '@digitransit-search-util/digitransit-search-util-helpers';
 import uniqByLabel from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import filterMatchingToInput from '@digitransit-search-util/digitransit-search-util-filter-matching-to-input';
-import getGeocodingResult from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
+import getGeocodingResults from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
 
 function getFavouriteLocations(favourites, input) {
   return Promise.resolve(
@@ -284,7 +284,7 @@ export function getSearchResults(
       const geocodingLayers = ['station', 'venue', 'address', 'street'];
       const geosources = geocodingSources.join(',');
       searchComponents.push(
-        getGeocodingResult(
+        getGeocodingResults(
           input,
           searchParams,
           language,
@@ -326,7 +326,7 @@ export function getSearchResults(
       };
       const feedis = feedIDs.map(v => `gtfs${v}`).join(',');
       searchComponents.push(
-        getGeocodingResult(
+        getGeocodingResults(
           input,
           searchParams,
           language,
