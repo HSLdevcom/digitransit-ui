@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
-import { getStopName } from '@digitransit-search-util/digitransit-search-util-helpers';
 import Favourite from './Favourite';
 import { saveFavourite, deleteFavourite } from '../action/FavouriteActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -27,14 +26,14 @@ const FavouriteStopContainer = connectToStores(
       }).then(res => {
         if (Array.isArray(res.features) && res.features.length > 0) {
           const stopOrStation = res.features[0];
-          const { label, name } = stopOrStation.properties;
+          const { label } = stopOrStation.properties;
           context.executeAction(saveFavourite, {
             address: label,
             code: stop.code,
+            gid,
             gtfsId: stop.gtfsId,
             lat: stop.lat,
             lon: stop.lon,
-            name: getStopName(name, stop.code),
             type: favouriteType,
           });
           addAnalyticsEvent({

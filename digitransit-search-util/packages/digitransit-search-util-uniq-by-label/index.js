@@ -4,8 +4,21 @@ import memoize from 'lodash/memoize';
 import escapeRegExp from 'lodash/escapeRegExp';
 import cloneDeep from 'lodash/cloneDeep';
 
+/**
+ * Returns locality (city name) for suggestions
+ *
+ * @name getLocality
+ * @param {Object} suggestion suggestion's properties from geocoding or a favourite stop/station.
+ * Expects last part of an address (after ',') to contain the city name of the suggestion location.
+ * @returns {String}  City name or empty string
+ */
 const getLocality = suggestion =>
-  suggestion.localadmin || suggestion.locality || '';
+  suggestion.localadmin ||
+  suggestion.locality ||
+  (suggestion.address &&
+    suggestion.address.lastIndexOf(',') < suggestion.address.length - 2 &&
+    suggestion.address.substring(suggestion.address.lastIndexOf(',') + 2)) ||
+  '';
 
 export const getStopCode = ({ id, code }) => {
   if (code) {
@@ -69,17 +82,7 @@ export const getNameLabel = memoize(
             '',
           ),
         ];
-      case 'favouriteStation':
       case 'favouriteStop':
-        return [
-          suggestion.name,
-          suggestion.id,
-          suggestion.address.replace(
-            new RegExp(`${escapeRegExp(suggestion.name)}(,)?( )?`),
-            '',
-          ),
-        ];
-
       case 'stop':
         return plain
           ? [suggestion.name || suggestion.label, getLocality(suggestion)]
@@ -89,6 +92,7 @@ export const getNameLabel = memoize(
               getStopCode(suggestion),
               getLocality(suggestion),
             ];
+      case 'favouriteStation':
       case 'station':
       default:
         return [suggestion.name || suggestion.label, getLocality(suggestion)];

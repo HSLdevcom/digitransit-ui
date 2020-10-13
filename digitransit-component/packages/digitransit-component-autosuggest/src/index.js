@@ -42,12 +42,11 @@ Loading.propTypes = {
 function getSuggestionContent(item) {
   if (item.type !== 'FutureRoute') {
     let suggestionType;
-    let stopCode;
     /* eslint-disable-next-line prefer-const */
     let [name, label] = getNameLabel(item.properties, true);
     if (label === 'bike-rental-station') {
       suggestionType = i18next.t(label);
-      stopCode = item.properties.labelId;
+      const stopCode = item.properties.labelId;
       return [suggestionType, name, undefined, stopCode];
     }
 
@@ -59,8 +58,16 @@ function getSuggestionContent(item) {
     }
 
     if (item.properties.id && item.properties.layer === 'stop') {
-      stopCode = getStopCode(item.properties);
+      const stopCode = getStopCode(item.properties);
       return [suggestionType, getStopName(name, stopCode), label, stopCode];
+    }
+    if (
+      item.properties.layer === 'favouriteStop' ||
+      item.properties.layer === 'favouriteStation'
+    ) {
+      const { address, code } = item.properties;
+      const stoName = address ? getStopName(address.split(',')[0], code) : name;
+      return [suggestionType, stoName, label, code];
     }
     return [suggestionType, name, label];
   }
