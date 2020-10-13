@@ -98,6 +98,7 @@ function RouteNumber(props, context) {
                 })}
                 role="img"
               >
+                {!props.isTransitLeg && <div className="empty" />}
                 {props.isTransitLeg === true ? (
                   <div className={`special-icon ${mode}`}>
                     {getIcon(
@@ -134,7 +135,7 @@ function RouteNumber(props, context) {
                 )}
                 {props.renderNumber === true && props.isTransitLeg === false && (
                   <div className={`leg-duration-container ${mode} `}>
-                    <span className="leg-duration">{props.walkingTime}</span>
+                    <span className="leg-duration">{props.duration}</span>
                   </div>
                 )}
               </span>
@@ -184,7 +185,7 @@ function RouteNumber(props, context) {
           )}
           {props.renderNumber === true && props.isTransitLeg === false && (
             <div className={`leg-duration-container ${mode} `}>
-              <span className="leg-duration">{props.walkingTime}</span>
+              <span className="leg-duration">{props.duration}</span>
             </div>
           )}
         </span>
@@ -264,7 +265,7 @@ RouteNumber.propTypes = {
   badgeText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   icon: PropTypes.string,
   renderNumber: PropTypes.bool,
-  walkingTime: PropTypes.number,
+  duration: PropTypes.number,
   isTransitLeg: PropTypes.bool,
   withBicycle: PropTypes.bool,
 };
@@ -280,6 +281,7 @@ RouteNumber.defaultProps = {
   withBar: false,
   isCallAgency: false,
   icon: undefined,
+  isTransitLeg: false,
   renderNumber: true,
   withBicycle: false,
 };

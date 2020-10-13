@@ -29,3 +29,4 @@ digitransit-search-util/packages/**/__generated__
 digitransit-store/packages/**/*.generated
 digitransit-store/packages/**/lib
 yarn-error.log
+dump.rdb

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { pure } from 'recompose';
 import compact from 'lodash/compact';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import { filterStopsAndStationsByMode } from '@digitransit-search-util/digitransit-search-util-query-utils';
@@ -60,4 +61,4 @@ StopsNearYouSearch.propTypes = {
   breakpoint: PropTypes.string.isRequired,
 };
 
-export default StopsNearYouSearch;
+export default pure(StopsNearYouSearch);

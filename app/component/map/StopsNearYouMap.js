@@ -315,6 +315,7 @@ function StopsNearYouMap(
           icon="icon-icon_arrow-collapse--left"
           iconClassName="arrow-icon"
           color={context.config.colors.primary}
+          urlToBack={context.config.URL.REDIRECT_BACK}
         />
         <MapWithTracking
           breakpoint={breakpoint}

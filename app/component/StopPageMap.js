@@ -114,6 +114,7 @@ const StopPageMap = (
         color={config.colors.primary}
         iconClassName="arrow-icon"
         key="stop-page-back-button"
+        urlToBack={config.URL.REDIRECT_BACK}
       />,
     );
   }
