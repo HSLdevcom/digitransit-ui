@@ -17,6 +17,7 @@ General component description in JSDoc format. Markdown is _supported_.
     -   `$0.secondaryButtonText`  
     -   `$0.secondaryButtonOnClick`  
     -   `$0.lang`  
+    -   `$0.href`  
     -   `$0.appElement`  
     -   `$0.isModalOpen`  
     -   `$0.modalAriaLabel`  
