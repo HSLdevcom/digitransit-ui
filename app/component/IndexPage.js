@@ -8,10 +8,13 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
 import isEqual from 'lodash/isEqual';
 import d from 'debug';
+import { graphql, fetchQuery } from 'react-relay';
+import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
 import TrafficNowLink from '@digitransit-component/digitransit-component-traffic-now-link';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
+import { getAlertsQuery } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import {
   initGeolocation,
   checkPositioningPermission,
@@ -61,6 +64,7 @@ class IndexPage extends React.Component {
     destination: dtLocationShape.isRequired,
     showSpinner: PropTypes.bool.isRequired,
     lang: PropTypes.string,
+    currentTime: PropTypes.number.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     query: PropTypes.object.isRequired,
   };
@@ -147,6 +151,12 @@ class IndexPage extends React.Component {
 
     // const { mapExpanded } = this.state; // TODO verify
 
+    const alertsContext = {
+      context: this.context,
+      currentTime: this.props.currentTime,
+      getAlertsQuery,
+    };
+
     return breakpoint === 'large' ? (
       <div
         className={`front-page flex-vertical ${
@@ -198,6 +208,7 @@ class IndexPage extends React.Component {
                   urlPrefix={`/${PREFIX_NEARYOU}`}
                   language={lang}
                   showTitle
+                  alertsContext={alertsContext}
                 />
               </div>
             ) : (
@@ -285,6 +296,7 @@ class IndexPage extends React.Component {
                   urlPrefix={`/${PREFIX_NEARYOU}`}
                   language={lang}
                   showTitle
+                  alertsContext={alertsContext}
                 />
               </div>
             ) : (
@@ -336,7 +348,11 @@ const Index = shouldUpdate(
   },
 )(IndexPage);
 
-const IndexPageWithBreakpoint = withBreakpoint(Index);
+const IndexPageWithBreakpoint = withBreakpoint(props => (
+  <ReactRelayContext.Consumer>
+    {({ environment }) => <Index {...props} relayEnvironment={environment} />}
+  </ReactRelayContext.Consumer>
+));
 
 IndexPageWithBreakpoint.description = (
   <ComponentUsageExample isFullscreen>
@@ -390,9 +406,10 @@ const processLocation = (locationString, locationState, intl) => {
 
 const IndexPageWithPosition = connectToStores(
   IndexPageWithBreakpoint,
-  ['PositionStore', 'ViaPointsStore', 'FavouriteStore'],
+  ['PositionStore', 'ViaPointsStore', 'FavouriteStore', 'TimeStore'],
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
+    const currentTime = context.getStore('TimeStore').getCurrentTime().unix();
     const { from, to } = props.match.params;
     const { location } = props.match;
     const { query } = location;
@@ -400,6 +417,7 @@ const IndexPageWithPosition = connectToStores(
     const newProps = {};
 
     newProps.locationState = locationState;
+    newProps.currentTime = currentTime;
     newProps.origin = processLocation(from, locationState, context.intl);
     newProps.destination = processLocation(to, locationState, context.intl);
     newProps.query = query; // defines itinerary search time & arriveBy

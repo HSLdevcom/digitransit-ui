@@ -83,6 +83,7 @@
       width: 1px;
     }
     .transport-mode-icon-container {
+      position: relative;
       width: 48px;
       height: 48px;
       border-radius: 10px;
@@ -92,6 +93,15 @@
       @include min-width(tablet)  {
         width: 58px;
         height: 58px;
+      }
+      .transport-mode-alert-icon {
+        position: absolute;
+        bottom: -4px;
+        right: 3px;
+        svg {
+          height: 18px;
+          width: 18px;
+        }
       }
 
       svg {

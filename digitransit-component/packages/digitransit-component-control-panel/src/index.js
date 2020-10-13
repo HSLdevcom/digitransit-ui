@@ -2,7 +2,7 @@
 /* eslint no-console: ["error", { allow: ["warn", "error"] }] */
 /* eslint react/forbid-prop-types: 0 */
 import PropTypes from 'prop-types';
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import i18next from 'i18next';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
@@ -80,8 +80,24 @@ OriginToDestination.defaultProps = {
  *    />
  *
  */
-function NearStopsAndRoutes({ modes, urlPrefix, language, showTitle }) {
+function NearStopsAndRoutes({
+  modes,
+  urlPrefix,
+  language,
+  showTitle,
+  alertsContext,
+}) {
+  const [modesWithAlerts, setModesWithAlerts] = useState([]);
+  useEffect(() => {
+    if (alertsContext) {
+      alertsContext.getAlertsQuery(alertsContext.currentTime).then(res => {
+        setModesWithAlerts(res);
+      });
+    }
+  }, []);
+
   const buttons = modes.map(mode => {
+    const withAlert = modesWithAlerts.includes(mode.toUpperCase());
     return (
       <a href={`${urlPrefix}/${mode.toUpperCase()}/POS`} key={mode}>
         <span className={styles['sr-only']}>
@@ -89,6 +105,11 @@ function NearStopsAndRoutes({ modes, urlPrefix, language, showTitle }) {
         </span>
         <span className={styles['transport-mode-icon-container']}>
           <Icon img={`mode-${mode}`} />
+          {withAlert && (
+            <span className={styles['transport-mode-alert-icon']}>
+              <Icon img="caution" color="#dc0451" />
+            </span>
+          )}
         </span>
       </a>
     );
@@ -110,6 +131,10 @@ NearStopsAndRoutes.propTypes = {
   urlPrefix: PropTypes.string,
   language: PropTypes.string,
   showTitle: PropTypes.bool,
+  alertsContext: PropTypes.shape({
+    getAlertsQuery: PropTypes.func,
+    currentTime: PropTypes.number,
+  }),
 };
 
 NearStopsAndRoutes.defaultProps = {
