@@ -107,7 +107,7 @@ export default function setUpOIDC(app, port) {
             if (loginErr) {
               next(loginErr);
             } else {
-              res.redirect(req.session.redirectTo || '');
+              res.redirect(req.session.redirectTo || '/');
             }
           });
         }
