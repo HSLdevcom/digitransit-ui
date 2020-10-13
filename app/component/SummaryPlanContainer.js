@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -11,9 +12,9 @@ import {
 import { matchShape, routerShape } from 'found';
 import getContext from 'recompose/getContext';
 
-import { FormattedMessage } from 'react-intl';
+import { intlShape, FormattedMessage } from 'react-intl';
+import Icon from './Icon';
 import ItinerarySummaryListContainer from './ItinerarySummaryListContainer';
-import TimeNavigationButtons from './TimeNavigationButtons';
 import TimeStore from '../store/TimeStore';
 import PositionStore from '../store/PositionStore';
 import { otpToLocation, getIntermediatePlaces } from '../util/otpStrings';
@@ -57,6 +58,10 @@ class SummaryPlanContainer extends React.Component {
     walking: PropTypes.bool,
     biking: PropTypes.bool,
     showAlternativePlan: PropTypes.bool,
+    updateItineraries: PropTypes.func.isRequired,
+    breakpoint: PropTypes.string.isRequired,
+    separatorPosition: PropTypes.number,
+    updateSeparatorPosition: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -71,6 +76,12 @@ class SummaryPlanContainer extends React.Component {
   static contextTypes = {
     router: routerShape.isRequired,
     match: matchShape.isRequired,
+    intl: intlShape.isRequired,
+    executeAction: PropTypes.func.isRequired,
+  };
+
+  state = {
+    loadingItineraries: undefined,
   };
 
   onSelectActive = index => {
@@ -128,13 +139,14 @@ class SummaryPlanContainer extends React.Component {
     this.context.router.push(newState);
   };
 
-  onLater = () => {
+  onLater = reversed => {
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'Itinerary',
       action: 'ShowLaterItineraries',
       name: null,
     });
+    this.setState({ loadingItineraries: reversed ? 'top' : 'bottom' });
 
     const end = moment.unix(this.props.serviceTimeRange.end);
     const latestDepartureTime = this.props.itineraries.reduce(
@@ -161,118 +173,282 @@ class SummaryPlanContainer extends React.Component {
       return;
     }
 
-    if (this.context.match.location.query.arriveBy !== 'true') {
-      // user does not have arrive By
-      replaceQueryParams(this.context.router, this.context.match, {
-        time: latestDepartureTime.unix(),
-      });
-    } else {
-      this.props.setLoading(true);
-      const params = preparePlanParams(this.props.config)(
-        this.context.match.params,
-        this.context.match,
-      );
+    const params = preparePlanParams(this.props.config)(
+      this.context.match.params,
+      this.context.match,
+    );
 
-      const tunedParams = {
-        wheelchair: null,
-        ...params,
-        numItineraries:
-          this.props.itineraries.length > 0 ? this.props.itineraries.length : 3,
-        arriveBy: false,
-        date: latestDepartureTime.format('YYYY-MM-DD'),
-        time: latestDepartureTime.format('HH:mm'),
-      };
+    const tunedParams = {
+      wheelchair: null,
+      ...params,
+      numItineraries: this.props.breakpoint === 'large' ? 5 : 3,
+      arriveBy: false,
+      date: latestDepartureTime.format('YYYY-MM-DD'),
+      time: latestDepartureTime.format('HH:mm'),
+    };
 
-      const query = graphql`
-        query SummaryPlanContainer_later_Query(
-          $fromPlace: String!
-          $toPlace: String!
-          $intermediatePlaces: [InputCoordinates!]
-          $numItineraries: Int!
-          $modes: [TransportMode!]
-          $date: String!
-          $time: String!
-          $walkReluctance: Float
-          $walkBoardCost: Int
-          $minTransferTime: Int
-          $walkSpeed: Float
-          $maxWalkDistance: Float
-          $wheelchair: Boolean
-          $ticketTypes: [String]
-          $disableRemainingWeightHeuristic: Boolean
-          $arriveBy: Boolean
-          $transferPenalty: Int
-          $ignoreRealtimeUpdates: Boolean
-          $maxPreTransitTime: Int
-          $walkOnStreetReluctance: Float
-          $waitReluctance: Float
-          $bikeSpeed: Float
-          $bikeSwitchTime: Int
-          $bikeSwitchCost: Int
-          $bikeBoardCost: Int
-          $optimize: OptimizeType
-          $triangle: InputTriangle
-          $carParkCarLegWeight: Float
-          $maxTransfers: Int
-          $waitAtBeginningFactor: Float
-          $heuristicStepsPerMainStep: Int
-          $compactLegsByReversedSearch: Boolean
-          $itineraryFiltering: Float
-          $modeWeight: InputModeWeight
-          $preferred: InputPreferred
-          $unpreferred: InputUnpreferred
-          $allowedBikeRentalNetworks: [String]
-          $locale: String
+    const query = graphql`
+      query SummaryPlanContainer_later_Query(
+        $fromPlace: String!
+        $toPlace: String!
+        $intermediatePlaces: [InputCoordinates!]
+        $numItineraries: Int!
+        $modes: [TransportMode!]
+        $date: String!
+        $time: String!
+        $walkReluctance: Float
+        $walkBoardCost: Int
+        $minTransferTime: Int
+        $walkSpeed: Float
+        $maxWalkDistance: Float
+        $wheelchair: Boolean
+        $ticketTypes: [String]
+        $disableRemainingWeightHeuristic: Boolean
+        $arriveBy: Boolean
+        $transferPenalty: Int
+        $ignoreRealtimeUpdates: Boolean
+        $maxPreTransitTime: Int
+        $walkOnStreetReluctance: Float
+        $waitReluctance: Float
+        $bikeSpeed: Float
+        $bikeSwitchTime: Int
+        $bikeSwitchCost: Int
+        $bikeBoardCost: Int
+        $optimize: OptimizeType
+        $triangle: InputTriangle
+        $carParkCarLegWeight: Float
+        $maxTransfers: Int
+        $waitAtBeginningFactor: Float
+        $heuristicStepsPerMainStep: Int
+        $compactLegsByReversedSearch: Boolean
+        $itineraryFiltering: Float
+        $modeWeight: InputModeWeight
+        $preferred: InputPreferred
+        $unpreferred: InputUnpreferred
+        $allowedBikeRentalNetworks: [String]
+        $locale: String
+      ) {
+        plan(
+          fromPlace: $fromPlace
+          toPlace: $toPlace
+          intermediatePlaces: $intermediatePlaces
+          numItineraries: $numItineraries
+          transportModes: $modes
+          date: $date
+          time: $time
+          walkReluctance: $walkReluctance
+          walkBoardCost: $walkBoardCost
+          minTransferTime: $minTransferTime
+          walkSpeed: $walkSpeed
+          maxWalkDistance: $maxWalkDistance
+          wheelchair: $wheelchair
+          allowedTicketTypes: $ticketTypes
+          disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
+          arriveBy: $arriveBy
+          transferPenalty: $transferPenalty
+          ignoreRealtimeUpdates: $ignoreRealtimeUpdates
+          maxPreTransitTime: $maxPreTransitTime
+          walkOnStreetReluctance: $walkOnStreetReluctance
+          waitReluctance: $waitReluctance
+          bikeSpeed: $bikeSpeed
+          bikeSwitchTime: $bikeSwitchTime
+          bikeSwitchCost: $bikeSwitchCost
+          bikeBoardCost: $bikeBoardCost
+          optimize: $optimize
+          triangle: $triangle
+          carParkCarLegWeight: $carParkCarLegWeight
+          maxTransfers: $maxTransfers
+          waitAtBeginningFactor: $waitAtBeginningFactor
+          heuristicStepsPerMainStep: $heuristicStepsPerMainStep
+          compactLegsByReversedSearch: $compactLegsByReversedSearch
+          itineraryFiltering: $itineraryFiltering
+          modeWeight: $modeWeight
+          preferred: $preferred
+          unpreferred: $unpreferred
+          allowedBikeRentalNetworks: $allowedBikeRentalNetworks
+          locale: $locale
         ) {
-          plan(
-            fromPlace: $fromPlace
-            toPlace: $toPlace
-            intermediatePlaces: $intermediatePlaces
-            numItineraries: $numItineraries
-            transportModes: $modes
-            date: $date
-            time: $time
-            walkReluctance: $walkReluctance
-            walkBoardCost: $walkBoardCost
-            minTransferTime: $minTransferTime
-            walkSpeed: $walkSpeed
-            maxWalkDistance: $maxWalkDistance
-            wheelchair: $wheelchair
-            allowedTicketTypes: $ticketTypes
-            disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
-            arriveBy: $arriveBy
-            transferPenalty: $transferPenalty
-            ignoreRealtimeUpdates: $ignoreRealtimeUpdates
-            maxPreTransitTime: $maxPreTransitTime
-            walkOnStreetReluctance: $walkOnStreetReluctance
-            waitReluctance: $waitReluctance
-            bikeSpeed: $bikeSpeed
-            bikeSwitchTime: $bikeSwitchTime
-            bikeSwitchCost: $bikeSwitchCost
-            bikeBoardCost: $bikeBoardCost
-            optimize: $optimize
-            triangle: $triangle
-            carParkCarLegWeight: $carParkCarLegWeight
-            maxTransfers: $maxTransfers
-            waitAtBeginningFactor: $waitAtBeginningFactor
-            heuristicStepsPerMainStep: $heuristicStepsPerMainStep
-            compactLegsByReversedSearch: $compactLegsByReversedSearch
-            itineraryFiltering: $itineraryFiltering
-            modeWeight: $modeWeight
-            preferred: $preferred
-            unpreferred: $unpreferred
-            allowedBikeRentalNetworks: $allowedBikeRentalNetworks
-            locale: $locale
-          ) {
-            itineraries {
+          ...ItineraryTab_plan
+          itineraries {
+            ...ItinerarySummaryListContainer_itineraries
+            walkDistance
+            duration
+            startTime
+            endTime
+            elevationGained
+            elevationLost
+            fares {
+              cents
+              components {
+                cents
+                fareId
+                routes {
+                  agency {
+                    gtfsId
+                    fareUrl
+                    name
+                  }
+                  gtfsId
+                }
+              }
+              type
+            }
+            legs {
+              mode
+              ...ItineraryLine_legs
+              ...LegAgencyInfo_leg
+              from {
+                lat
+                lon
+                name
+                vertexType
+                bikeRentalStation {
+                  networks
+                  bikesAvailable
+                  lat
+                  lon
+                  stationId
+                }
+                stop {
+                  gtfsId
+                  code
+                  platformCode
+                  zoneId
+                  alerts {
+                    alertSeverityLevel
+                    effectiveEndDate
+                    effectiveStartDate
+                  }
+                }
+              }
+              to {
+                lat
+                lon
+                name
+                vertexType
+                bikeRentalStation {
+                  lat
+                  lon
+                  stationId
+                  networks
+                  bikesAvailable
+                }
+                stop {
+                  gtfsId
+                  code
+                  platformCode
+                  zoneId
+                  alerts {
+                    alertSeverityLevel
+                    effectiveEndDate
+                    effectiveStartDate
+                  }
+                }
+                bikePark {
+                  bikeParkId
+                  name
+                }
+              }
+              legGeometry {
+                length
+                points
+              }
+              intermediatePlaces {
+                arrivalTime
+                stop {
+                  gtfsId
+                  lat
+                  lon
+                  name
+                  code
+                  platformCode
+                  zoneId
+                  alerts {
+                    alertSeverityLevel
+                    effectiveEndDate
+                    effectiveStartDate
+                  }
+                }
+              }
+              realTime
+              realtimeState
+              transitLeg
+              rentedBike
+              startTime
               endTime
+              mode
+              interlineWithPreviousLeg
+              distance
+              duration
+              intermediatePlace
+              route {
+                shortName
+                color
+                gtfsId
+                longName
+                desc
+                agency {
+                  gtfsId
+                  fareUrl
+                  name
+                  phone
+                }
+                alerts {
+                  alertSeverityLevel
+                  effectiveEndDate
+                  effectiveStartDate
+                  trip {
+                    pattern {
+                      code
+                    }
+                  }
+                }
+              }
+              trip {
+                gtfsId
+                tripHeadsign
+                stoptimesForDate {
+                  scheduledDeparture
+                }
+                pattern {
+                  ...RouteLine_pattern
+                  code
+                }
+                stoptimes {
+                  pickupType
+                  realtimeState
+                  stop {
+                    gtfsId
+                  }
+                }
+              }
             }
           }
         }
-      `;
+      }
+    `;
 
-      fetchQuery(this.props.relayEnvironment, query, tunedParams).then(
-        ({ plan: result }) => {
+    fetchQuery(this.props.relayEnvironment, query, tunedParams).then(
+      ({ plan: result }) => {
+        if (reversed) {
+          const reversedItineraries = result.itineraries.slice().reverse(); // Need to copy because result is readonly
+          this.props.updateItineraries([
+            ...reversedItineraries,
+            ...this.props.itineraries,
+          ]);
+          this.setState({
+            loadingItineraries: undefined,
+          });
+        } else {
+          this.props.updateItineraries([
+            ...this.props.itineraries,
+            ...result.itineraries,
+          ]);
+          this.setState({
+            loadingItineraries: undefined,
+          });
+        }
+        /*
           const max = result.itineraries.reduce(
             (previous, { endTime }) =>
               endTime > previous ? endTime : previous,
@@ -287,23 +463,24 @@ class SummaryPlanContainer extends React.Component {
           } else {
             newTime = moment(max).add(1, 'minutes');
           }
-
-          this.props.setLoading(false);
-          replaceQueryParams(this.context.router, this.context.match, {
+          */
+        // this.props.setLoading(false);
+        /* replaceQueryParams(this.context.router, this.context.match, {
             time: newTime.unix(),
-          });
-        },
-      );
-    }
+          }); */
+      },
+    );
+    // }
   };
 
-  onEarlier = () => {
+  onEarlier = reversed => {
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'Itinerary',
       action: 'ShowEarlierItineraries',
       name: null,
     });
+    this.setState({ loadingItineraries: reversed ? 'bottom' : 'top' });
 
     const start = moment.unix(this.props.serviceTimeRange.start);
     const earliestArrivalTime = this.props.itineraries.reduce(
@@ -327,155 +504,300 @@ class SummaryPlanContainer extends React.Component {
       return;
     }
 
-    if (this.context.match.location.query.arriveBy === 'true') {
-      // user has arriveBy already
-      replaceQueryParams(this.context.router, this.context.match, {
-        time: earliestArrivalTime.unix(),
-      });
-    } else {
-      this.props.setLoading(true);
+    const params = preparePlanParams(this.props.config)(
+      this.context.match.params,
+      this.context.match,
+    );
 
-      const params = preparePlanParams(this.props.config)(
-        this.context.match.params,
-        this.context.match,
-      );
+    const tunedParams = {
+      wheelchair: null,
+      ...params,
+      numItineraries: this.props.breakpoint === 'large' ? 5 : 3,
+      arriveBy: true,
+      date: earliestArrivalTime.format('YYYY-MM-DD'),
+      time: earliestArrivalTime.format('HH:mm'),
+    };
 
-      const tunedParams = {
-        wheelchair: null,
-        ...params,
-        numItineraries:
-          this.props.itineraries.length > 0 ? this.props.itineraries.length : 3,
-        arriveBy: true,
-        date: earliestArrivalTime.format('YYYY-MM-DD'),
-        time: earliestArrivalTime.format('HH:mm'),
-      };
-
-      const query = graphql`
-        query SummaryPlanContainer_earlier_Query(
-          $fromPlace: String!
-          $toPlace: String!
-          $intermediatePlaces: [InputCoordinates!]
-          $numItineraries: Int!
-          $modes: [TransportMode!]
-          $date: String!
-          $time: String!
-          $walkReluctance: Float
-          $walkBoardCost: Int
-          $minTransferTime: Int
-          $walkSpeed: Float
-          $maxWalkDistance: Float
-          $wheelchair: Boolean
-          $ticketTypes: [String]
-          $disableRemainingWeightHeuristic: Boolean
-          $arriveBy: Boolean
-          $transferPenalty: Int
-          $ignoreRealtimeUpdates: Boolean
-          $maxPreTransitTime: Int
-          $walkOnStreetReluctance: Float
-          $waitReluctance: Float
-          $bikeSpeed: Float
-          $bikeSwitchTime: Int
-          $bikeSwitchCost: Int
-          $bikeBoardCost: Int
-          $optimize: OptimizeType
-          $triangle: InputTriangle
-          $carParkCarLegWeight: Float
-          $maxTransfers: Int
-          $waitAtBeginningFactor: Float
-          $heuristicStepsPerMainStep: Int
-          $compactLegsByReversedSearch: Boolean
-          $itineraryFiltering: Float
-          $modeWeight: InputModeWeight
-          $preferred: InputPreferred
-          $unpreferred: InputUnpreferred
-          $allowedBikeRentalNetworks: [String]
-          $locale: String
+    const query = graphql`
+      query SummaryPlanContainer_earlier_Query(
+        $fromPlace: String!
+        $toPlace: String!
+        $intermediatePlaces: [InputCoordinates!]
+        $numItineraries: Int!
+        $modes: [TransportMode!]
+        $date: String!
+        $time: String!
+        $walkReluctance: Float
+        $walkBoardCost: Int
+        $minTransferTime: Int
+        $walkSpeed: Float
+        $maxWalkDistance: Float
+        $wheelchair: Boolean
+        $ticketTypes: [String]
+        $disableRemainingWeightHeuristic: Boolean
+        $arriveBy: Boolean
+        $transferPenalty: Int
+        $ignoreRealtimeUpdates: Boolean
+        $maxPreTransitTime: Int
+        $walkOnStreetReluctance: Float
+        $waitReluctance: Float
+        $bikeSpeed: Float
+        $bikeSwitchTime: Int
+        $bikeSwitchCost: Int
+        $bikeBoardCost: Int
+        $optimize: OptimizeType
+        $triangle: InputTriangle
+        $carParkCarLegWeight: Float
+        $maxTransfers: Int
+        $waitAtBeginningFactor: Float
+        $heuristicStepsPerMainStep: Int
+        $compactLegsByReversedSearch: Boolean
+        $itineraryFiltering: Float
+        $modeWeight: InputModeWeight
+        $preferred: InputPreferred
+        $unpreferred: InputUnpreferred
+        $allowedBikeRentalNetworks: [String]
+        $locale: String
+      ) {
+        plan(
+          fromPlace: $fromPlace
+          toPlace: $toPlace
+          intermediatePlaces: $intermediatePlaces
+          numItineraries: $numItineraries
+          transportModes: $modes
+          date: $date
+          time: $time
+          walkReluctance: $walkReluctance
+          walkBoardCost: $walkBoardCost
+          minTransferTime: $minTransferTime
+          walkSpeed: $walkSpeed
+          maxWalkDistance: $maxWalkDistance
+          wheelchair: $wheelchair
+          allowedTicketTypes: $ticketTypes
+          disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
+          arriveBy: $arriveBy
+          transferPenalty: $transferPenalty
+          ignoreRealtimeUpdates: $ignoreRealtimeUpdates
+          maxPreTransitTime: $maxPreTransitTime
+          walkOnStreetReluctance: $walkOnStreetReluctance
+          waitReluctance: $waitReluctance
+          bikeSpeed: $bikeSpeed
+          bikeSwitchTime: $bikeSwitchTime
+          bikeSwitchCost: $bikeSwitchCost
+          bikeBoardCost: $bikeBoardCost
+          optimize: $optimize
+          triangle: $triangle
+          carParkCarLegWeight: $carParkCarLegWeight
+          maxTransfers: $maxTransfers
+          waitAtBeginningFactor: $waitAtBeginningFactor
+          heuristicStepsPerMainStep: $heuristicStepsPerMainStep
+          compactLegsByReversedSearch: $compactLegsByReversedSearch
+          itineraryFiltering: $itineraryFiltering
+          modeWeight: $modeWeight
+          preferred: $preferred
+          unpreferred: $unpreferred
+          allowedBikeRentalNetworks: $allowedBikeRentalNetworks
+          locale: $locale
         ) {
-          plan(
-            fromPlace: $fromPlace
-            toPlace: $toPlace
-            intermediatePlaces: $intermediatePlaces
-            numItineraries: $numItineraries
-            transportModes: $modes
-            date: $date
-            time: $time
-            walkReluctance: $walkReluctance
-            walkBoardCost: $walkBoardCost
-            minTransferTime: $minTransferTime
-            walkSpeed: $walkSpeed
-            maxWalkDistance: $maxWalkDistance
-            wheelchair: $wheelchair
-            allowedTicketTypes: $ticketTypes
-            disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
-            arriveBy: $arriveBy
-            transferPenalty: $transferPenalty
-            ignoreRealtimeUpdates: $ignoreRealtimeUpdates
-            maxPreTransitTime: $maxPreTransitTime
-            walkOnStreetReluctance: $walkOnStreetReluctance
-            waitReluctance: $waitReluctance
-            bikeSpeed: $bikeSpeed
-            bikeSwitchTime: $bikeSwitchTime
-            bikeSwitchCost: $bikeSwitchCost
-            bikeBoardCost: $bikeBoardCost
-            optimize: $optimize
-            triangle: $triangle
-            carParkCarLegWeight: $carParkCarLegWeight
-            maxTransfers: $maxTransfers
-            waitAtBeginningFactor: $waitAtBeginningFactor
-            heuristicStepsPerMainStep: $heuristicStepsPerMainStep
-            compactLegsByReversedSearch: $compactLegsByReversedSearch
-            itineraryFiltering: $itineraryFiltering
-            modeWeight: $modeWeight
-            preferred: $preferred
-            unpreferred: $unpreferred
-            allowedBikeRentalNetworks: $allowedBikeRentalNetworks
-            locale: $locale
-          ) {
-            itineraries {
+          ...ItineraryTab_plan
+          itineraries {
+            ...ItinerarySummaryListContainer_itineraries
+            walkDistance
+            duration
+            startTime
+            endTime
+            elevationGained
+            elevationLost
+            fares {
+              cents
+              components {
+                cents
+                fareId
+                routes {
+                  agency {
+                    gtfsId
+                    fareUrl
+                    name
+                  }
+                  gtfsId
+                }
+              }
+              type
+            }
+            legs {
+              mode
+              ...ItineraryLine_legs
+              ...LegAgencyInfo_leg
+              from {
+                lat
+                lon
+                name
+                vertexType
+                bikeRentalStation {
+                  networks
+                  bikesAvailable
+                  lat
+                  lon
+                  stationId
+                }
+                stop {
+                  gtfsId
+                  code
+                  platformCode
+                  zoneId
+                  alerts {
+                    alertSeverityLevel
+                    effectiveEndDate
+                    effectiveStartDate
+                  }
+                }
+              }
+              to {
+                lat
+                lon
+                name
+                vertexType
+                bikeRentalStation {
+                  lat
+                  lon
+                  stationId
+                  networks
+                  bikesAvailable
+                }
+                stop {
+                  gtfsId
+                  code
+                  platformCode
+                  zoneId
+                  alerts {
+                    alertSeverityLevel
+                    effectiveEndDate
+                    effectiveStartDate
+                  }
+                }
+                bikePark {
+                  bikeParkId
+                  name
+                }
+              }
+              legGeometry {
+                length
+                points
+              }
+              intermediatePlaces {
+                arrivalTime
+                stop {
+                  gtfsId
+                  lat
+                  lon
+                  name
+                  code
+                  platformCode
+                  zoneId
+                  alerts {
+                    alertSeverityLevel
+                    effectiveEndDate
+                    effectiveStartDate
+                  }
+                }
+              }
+              realTime
+              realtimeState
+              transitLeg
+              rentedBike
               startTime
+              endTime
+              mode
+              interlineWithPreviousLeg
+              distance
+              duration
+              intermediatePlace
+              route {
+                shortName
+                color
+                gtfsId
+                longName
+                desc
+                agency {
+                  gtfsId
+                  fareUrl
+                  name
+                  phone
+                }
+                alerts {
+                  alertSeverityLevel
+                  effectiveEndDate
+                  effectiveStartDate
+                  trip {
+                    pattern {
+                      code
+                    }
+                  }
+                }
+              }
+              trip {
+                gtfsId
+                tripHeadsign
+                stoptimesForDate {
+                  scheduledDeparture
+                }
+                pattern {
+                  ...RouteLine_pattern
+                  code
+                }
+                stoptimes {
+                  pickupType
+                  realtimeState
+                  stop {
+                    gtfsId
+                  }
+                }
+              }
             }
           }
         }
-      `;
+      }
+    `;
 
-      fetchQuery(this.props.relayEnvironment, query, tunedParams).then(
-        ({ plan: result }) => {
-          if (result.itineraries.length === 0) {
-            // Could not find routes arriving at original departure time
-            // --> cannot calculate earlier start time
-            this.props.setError('no-route-start-date-too-early');
-            this.props.setLoading(false);
-          } else {
-            const earliestStartTime = result.itineraries.reduce(
-              (previous, { startTime }) =>
-                startTime < previous ? startTime : previous,
-              Number.MAX_VALUE,
-            );
+    fetchQuery(this.props.relayEnvironment, query, tunedParams).then(
+      ({ plan: result }) => {
+        if (result.itineraries.length === 0) {
+          // Could not find routes arriving at original departure time
+          // --> cannot calculate earlier start time
+          this.props.setError('no-route-start-date-too-early');
+        }
 
-            // OTP can't always find earlier routes. This leads to a situation where
-            // new search is done without reducing time, and nothing seems to happen
-            let newTime;
-            if (this.props.plan.date <= earliestStartTime) {
-              newTime = moment(this.props.plan.date).subtract(5, 'minutes');
-            } else {
-              newTime = moment(earliestStartTime).subtract(1, 'minutes');
-            }
-
-            if (earliestStartTime <= start) {
-              // Start time out of range
-              this.props.setError('no-route-start-date-too-early');
-              this.props.setLoading(false);
-              return;
-            }
-
-            this.props.setLoading(false);
-            replaceQueryParams(this.context.router, this.context.match, {
-              time: newTime.unix(),
-            });
-          }
-        },
-      );
-    }
+        if (reversed) {
+          this.props.updateSeparatorPosition(
+            this.props.separatorPosition
+              ? this.props.separatorPosition + result.itineraries.length
+              : result.itineraries.length,
+          );
+          this.setState({
+            loadingItineraries: undefined,
+          });
+          this.props.updateItineraries([
+            ...this.props.itineraries,
+            ...result.itineraries,
+          ]);
+        } else {
+          // Reverse the results so that route suggestions are in ascending order
+          const reversedItineraries = result.itineraries.slice().reverse(); // Need to copy because result is readonly
+          this.props.updateItineraries([
+            ...reversedItineraries,
+            ...this.props.itineraries,
+          ]);
+          this.props.updateSeparatorPosition(
+            this.props.separatorPosition
+              ? this.props.separatorPosition + reversedItineraries.length
+              : reversedItineraries.length,
+          );
+          this.setState({
+            loadingItineraries: undefined,
+          });
+        }
+      },
+    );
   };
 
   onNow = () => {
@@ -492,6 +814,58 @@ class SummaryPlanContainer extends React.Component {
     });
   };
 
+  laterButton(reversed = false) {
+    return (
+      <>
+        <button
+          type="button"
+          aria-label={this.context.intl.formatMessage({
+            id: 'set-time-later-button-label',
+            defaultMessage: 'Set travel time to later',
+          })}
+          className="time-navigation-btn later"
+          onClick={() => this.onLater(reversed)}
+        >
+          <Icon
+            img="icon-icon_arrow-collapse"
+            className={`cursor-pointer back ${reversed ? 'arrow-up' : ''}`}
+          />
+          <FormattedMessage
+            id="later"
+            defaultMessage="Later"
+            className="time-navigation-text"
+          />
+        </button>
+      </>
+    );
+  }
+
+  earlierButton(reversed = false) {
+    return (
+      <>
+        <button
+          type="button"
+          aria-label={this.context.intl.formatMessage({
+            id: 'set-time-earlier-button-label',
+            defaultMessage: 'Set travel time to earlier',
+          })}
+          className="time-navigation-btn earlier"
+          onClick={() => this.onEarlier(reversed)}
+        >
+          <Icon
+            img="icon-icon_arrow-collapse"
+            className={`cursor-pointer ${reversed ? '' : 'arrow-up'}`}
+          />
+          <FormattedMessage
+            id="earlier"
+            defaultMessage="Earlier"
+            className="time-navigation-text"
+          />
+        </button>
+      </>
+    );
+  }
+
   render() {
     const { location } = this.context.match;
     const { from, to } = this.props.params;
@@ -506,6 +880,7 @@ class SummaryPlanContainer extends React.Component {
       walking,
       biking,
       showAlternativePlan,
+      separatorPosition,
     } = this.props;
     const searchTime =
       this.props.plan.date ||
@@ -514,6 +889,8 @@ class SummaryPlanContainer extends React.Component {
         moment(location.query.time).unix()) ||
       currentTime;
     const disableButtons = !itineraries || itineraries.length === 0;
+    const arriveBy = this.context.match.location.query.arriveBy === 'true';
+
     return (
       <div className="summary">
         <h2 className="sr-only">
@@ -522,6 +899,13 @@ class SummaryPlanContainer extends React.Component {
             defaultMessage="Route suggestions"
           />
         </h2>
+        {(this.context.match.params.hash &&
+          this.context.match.params.hash === 'bikeAndPublic') ||
+        disableButtons
+          ? null
+          : arriveBy
+          ? this.laterButton(true)
+          : this.earlierButton()}
         <ItinerarySummaryListContainer
           activeIndex={activeIndex}
           currentTime={currentTime}
@@ -540,19 +924,18 @@ class SummaryPlanContainer extends React.Component {
           walking={walking}
           biking={biking}
           showAlternativePlan={showAlternativePlan}
+          separatorPosition={separatorPosition}
+          loadingItineraries={this.state.loadingItineraries}
         >
           {this.props.children}
         </ItinerarySummaryListContainer>
-        {this.context.match.params.hash &&
-        this.context.match.params.hash === 'bikeAndPublic' ? null : (
-          <TimeNavigationButtons
-            isEarlierDisabled={disableButtons}
-            isLaterDisabled={disableButtons}
-            onEarlier={this.onEarlier}
-            onLater={this.onLater}
-            onNow={this.onNow}
-          />
-        )}
+        {(this.context.match.params.hash &&
+          this.context.match.params.hash === 'bikeAndPublic') ||
+        disableButtons
+          ? null
+          : arriveBy
+          ? this.earlierButton(true)
+          : this.laterButton()}
       </div>
     );
   }
@@ -593,6 +976,24 @@ const connectedContainer = createFragmentContainer(
             bikePark {
               bikeParkId
               name
+            }
+          }
+          ...ItineraryLine_legs
+          transitLeg
+          legGeometry {
+            points
+          }
+          route {
+            gtfsId
+          }
+          trip {
+            gtfsId
+            directionId
+            stoptimesForDate {
+              scheduledDeparture
+            }
+            pattern {
+              ...RouteLine_pattern
             }
           }
         }

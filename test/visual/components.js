@@ -116,16 +116,6 @@ testVariation('IconWithBigCaution');
 testVariation('IconWithIcon', 'customStyle', 1);
 testVariation('IconWithIcon', 'normal', 2);
 
-testVariation('TimeNavigationButtons', 'normal');
-testVariation('TimeNavigationButtons', 'hovered', 1, [], actions => {
-  actions
-    .mouseMove(
-      // eslint-disable-next-line comma-dangle
-      '.component-example:nth-of-type(1) .component button:first-of-type',
-    )
-    .wait(400); // Wait for animation to happen
-});
-
 testVariation('RightOffcanvasToggle', 'default');
 
 testVariation('MarkerSelectPopup');
