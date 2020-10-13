@@ -20,16 +20,14 @@ export default function MobileView({
   });
   useLayoutEffect(() => {
     if (map) {
-      const paddingHeight = window.innerHeight * 0.9 - topBarHeight; // height of .drawer-padding, defined in map.scss
+      const paddingHeight = (window.innerHeight - topBarHeight) * 0.9; // height of .drawer-padding, defined as 90% of map height
       const newSheetPosition = paddingHeight / 2;
-      if (Math.abs(newSheetPosition - bottomsheetState.context.position) < 1) {
-        return;
-      }
-      const mapHeight = window.innerHeight - topBarHeight;
-      const mapBottomPadding = mapHeight - mapHeight / 2;
       scrollRef.current.scrollTop = newSheetPosition;
       changeBottomsheetState({
-        context: { mapBottomPadding, buttonBottomPadding: newSheetPosition },
+        context: {
+          mapBottomPadding: newSheetPosition,
+          buttonBottomPadding: newSheetPosition,
+        },
       });
     }
   }, [header, map]);

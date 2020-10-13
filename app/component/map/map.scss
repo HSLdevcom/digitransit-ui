@@ -1,5 +1,6 @@
 $small-map-height: 10rem;
 $stop-thin-opacity: 0.2;
+$top-bar-height: 64px;
 
 div.map {
   max-height: 100%;
@@ -74,11 +75,11 @@ div.map {
 
   .drawer-container {
     overflow-y: scroll;
-    height: calc(100vh - 64px); // 100% - topbar
+    height: 100%;
     position: absolute;
     width: 100%;
     .drawer-padding {
-      height: calc(90vh - 64px);
+      height: 90%;
       width: 0;
     }
     .drawer-content {
@@ -98,6 +99,23 @@ div.map {
         top: -5px;
       }
     }
+  }
+
+  .overlay-mover {
+    z-index: 401;
+    position: absolute;
+    width: 100%;
+    bottom: 10%;
+  }
+  .map .leaflet-bottom {
+    bottom: 10%;
+    .leaflet-control-attribution {
+      background-color: rgba(0,0,0,0);
+    }
+  }
+  .map-with-tracking-buttons {
+    right: 15px;
+    bottom: 45px;
   }
 
   .back-button {
@@ -240,25 +258,6 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
 
 .bp-large .map-with-tracking-buttons {
   bottom: 32px;
-}
-
-.mobile .overlay-mover {
-  z-index: 401;
-  position: absolute;
-  width: 100%;
-  bottom: 70px;
-}
-
-.mobile .map .leaflet-bottom {
-  bottom: 68px;
-  .leaflet-control-attribution {
-    background-color: rgba(0,0,0,0);
-  }
-}
-
-.mobile .map-with-tracking-buttons {
-  right: 15px;
-  bottom: 45px;
 }
 
 .map-with-tracking-buttons {
