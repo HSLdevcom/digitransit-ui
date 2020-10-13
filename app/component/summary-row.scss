@@ -153,6 +153,8 @@
       justify-content: center;
       &.fit-route-number {
         min-width: fit-content;
+        /* stylelint-disable-next-line */
+        min-width: -moz-fit-content;
         .vcenter-children {
           min-width: max-content !important; // forces the leg to fit the route number in it
         }
