@@ -6,7 +6,7 @@ import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 
 const subIconTemplate = {
-  fontSize: '30px',
+  fontSize: '65%',
   position: 'absolute',
   bottom: '-4px',
   left: '-2px',
