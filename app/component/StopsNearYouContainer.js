@@ -5,10 +5,9 @@ import { intlShape, FormattedMessage } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { matchShape, routerShape } from 'found';
 import { indexOf } from 'lodash-es';
-import isEqual from 'lodash/isEqual';
-import sortBy from 'lodash/sortBy';
 import StopNearYou from './StopNearYou';
 import withBreakpoint from '../util/withBreakpoint';
+import { sortNearbyRentalStations, sortNearbyStops } from '../util/sortUtils';
 import CityBikeStopNearYou from './CityBikeStopNearYou';
 
 class StopsNearYouContainer extends React.Component {
@@ -19,7 +18,6 @@ class StopsNearYouContainer extends React.Component {
       refetch: PropTypes.func.isRequired,
     }).isRequired,
     favouriteIds: PropTypes.object.isRequired,
-    favouriteRentalStations: PropTypes.array.isRequired,
   };
 
   static contextTypes = {
@@ -53,48 +51,6 @@ class StopsNearYouContainer extends React.Component {
     }
   }
 
-  isFavouriteRentalStation = station => {
-    return (
-      this.props.favouriteRentalStations.filter(
-        rentalStation =>
-          rentalStation.stationId === station.stationId &&
-          isEqual(sortBy(rentalStation.networks), sortBy(station.networks)),
-      ).length > 0
-    );
-  };
-
-  sortRentalStations = (first, second) => {
-    const firstIsFavourite = this.isFavouriteRentalStation(first.node.place);
-    const secondIsFavourite = this.isFavouriteRentalStation(second.node.place);
-    if (firstIsFavourite === secondIsFavourite) {
-      return 0;
-    }
-    if (firstIsFavourite) {
-      return -1;
-    }
-    return 1;
-  };
-
-  sortStops = (first, second) => {
-    const firstStopOrStationId = first.node.place.parentStation
-      ? first.node.place.parentStation.gtfsId
-      : first.node.place.gtfsId;
-    const secondStopOrStationId = second.node.place.parentStation
-      ? second.node.place.parentStation.gtfsId
-      : second.node.place.gtfsId;
-    const firstIsFavourite = this.props.favouriteIds.has(firstStopOrStationId);
-    const secondIsFavourite = this.props.favouriteIds.has(
-      secondStopOrStationId,
-    );
-    if (firstIsFavourite === secondIsFavourite) {
-      return 0;
-    }
-    if (firstIsFavourite) {
-      return -1;
-    }
-    return 1;
-  };
-
   showMore = () => {
     this.state.stopCount += 5;
     this.props.relay.refetch(oldVariables => {
@@ -112,8 +68,10 @@ class StopsNearYouContainer extends React.Component {
     const terminalNames = [];
     const isCityBikeView = this.context.match.params.mode === 'CITYBIKE';
     const sortedPatterns = isCityBikeView
-      ? stopPatterns.slice().sort(this.sortRentalStations)
-      : stopPatterns.slice().sort(this.sortStops);
+      ? stopPatterns
+          .slice()
+          .sort(sortNearbyRentalStations(this.props.favouriteIds))
+      : stopPatterns.slice().sort(sortNearbyStops(this.props.favouriteIds));
     const stops = sortedPatterns.map(({ node }) => {
       const stop = node.place;
       /* eslint-disable-next-line no-underscore-dangle */
@@ -191,16 +149,20 @@ const connectedContainer = createRefetchContainer(
   connectToStores(
     StopsNearYouContainerWithBreakpoint,
     ['TimeStore', 'FavouriteStore'],
-    ({ getStore }) => ({
+    ({ getStore }, { match }) => ({
       currentTime: getStore('TimeStore').getCurrentTime().unix(),
-      favouriteIds: new Set(
-        getStore('FavouriteStore')
-          .getStopsAndStations()
-          .map(stop => stop.gtfsId),
-      ),
-      favouriteRentalStations: getStore(
-        'FavouriteStore',
-      ).getBikeRentalStations(),
+      favouriteIds:
+        match.params.mode === 'CITYBIKE'
+          ? new Set(
+              getStore('FavouriteStore')
+                .getBikeRentalStations()
+                .map(station => station.stationId),
+            )
+          : new Set(
+              getStore('FavouriteStore')
+                .getStopsAndStations()
+                .map(stop => stop.gtfsId),
+            ),
     }),
   ),
   {
