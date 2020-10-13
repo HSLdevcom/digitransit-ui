@@ -1362,7 +1362,6 @@ class SummaryPage extends React.Component {
               error={error || this.state.error}
               setLoading={this.setLoading}
               setError={this.setError}
-              toggleSettings={this.toggleCustomizeSearchOffcanvas}
               bikeAndPublicItinerariesToShow={
                 this.bikeAndPublicItinerariesToShow
               }
@@ -1493,7 +1492,6 @@ class SummaryPage extends React.Component {
             from={match.params.from}
             to={match.params.to}
             intermediatePlaces={intermediatePlaces}
-            toggleSettings={this.toggleCustomizeSearchOffcanvas}
             bikeAndPublicItinerariesToShow={this.bikeAndPublicItinerariesToShow}
             bikeAndParkItinerariesToShow={this.bikeAndParkItinerariesToShow}
             showAlternativePlan={
