@@ -41,22 +41,9 @@ const SummaryGeolocatorWithPosition = connectToStores(
         redirect();
       }
       if (locationState.hasLocation === false) {
-        checkPositioningPermission().then(status => {
-          if (
-            // check logic for starting geolocation
-            status.state !== 'denied' &&
-            locationState.status === 'no-location'
-          ) {
-            // Auto Initialising geolocation
-            if (!locationState.isLocationingInProgress) {
-              context.executeAction(initGeolocation);
-            }
-          }
-          if (status.state === 'denied') {
-            context.executeAction(initGeolocation);
-            redirect();
-          }
-        });
+        if (!locationState.isLocationingInProgress) {
+          context.executeAction(initGeolocation);
+        }
       } else if (
         locationState.hasLocation &&
         !locationState.isReverseGeocodingInProgress
