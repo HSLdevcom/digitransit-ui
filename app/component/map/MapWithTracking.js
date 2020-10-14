@@ -411,23 +411,24 @@ class MapWithTrackingStateHandler extends React.Component {
         {...rest}
         leafletObjs={leafletObjs}
         mapRef={this.setMapElementRef}
+        bottomButtons={
+          <div className={btnClassName}>
+            {renderCustomButtons && renderCustomButtons()}
+            <ToggleMapTracking
+              key="toggleMapTracking"
+              img={img}
+              iconColor={iconColor}
+              handleClick={
+                this.state.mapTracking
+                  ? this.disableMapTracking
+                  : this.enableMapTracking
+              }
+              className="icon-mapMarker-toggle-positioning"
+            />
+          </div>
+        }
       >
         {children}
-        <div className={btnClassName}>
-          {renderCustomButtons && renderCustomButtons()}
-
-          <ToggleMapTracking
-            key="toggleMapTracking"
-            img={img}
-            iconColor={iconColor}
-            handleClick={
-              this.state.mapTracking
-                ? this.disableMapTracking
-                : this.enableMapTracking
-            }
-            className="icon-mapMarker-toggle-positioning"
-          />
-        </div>
       </Component>
     );
   }
