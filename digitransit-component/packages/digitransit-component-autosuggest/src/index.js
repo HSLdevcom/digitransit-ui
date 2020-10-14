@@ -583,6 +583,11 @@ class DTAutosuggest extends React.Component {
     }
   };
 
+  isOriginDestinationOrViapoint = () =>
+    this.props.id === 'origin' ||
+    this.props.id === 'destination' ||
+    this.props.id === 'via-point';
+
   render() {
     if (this.state.pendingCurrentLocation) {
       return <Loading />;
@@ -655,6 +660,9 @@ class DTAutosuggest extends React.Component {
             ]}
             inputProps={{
               ...inputProps,
+              placeholder: this.isOriginDestinationOrViapoint()
+                ? i18next.t('address-place-or-business')
+                : inputProps.placeholder,
               onBlur: () => null,
             }}
             fetchFunction={this.fetchFunction}

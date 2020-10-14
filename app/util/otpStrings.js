@@ -44,12 +44,12 @@ export const addressToItinerarySearch = location => {
   if (location.gps && !location.lat) {
     return 'POS';
   }
-  if (location.set === false) {
+  if (location.set === false || !location.lat) {
     return '-';
   }
-  return `${encodeURIComponent(location.address)}::${location.lat},${
-    location.lon
-  }`;
+  const address = location.address || '';
+
+  return `${encodeURIComponent(address)}::${location.lat},${location.lon}`;
 };
 
 export const locationToOTP = location => {

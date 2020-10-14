@@ -124,7 +124,16 @@ function watchPosition(actionContext) {
           clearTimeout(timeout);
           timeout = null;
         }
-        geolocatonCallback(actionContext, { pos: position, disableDebounce });
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        if (
+          lat !== undefined &&
+          !Number.isNaN(lat) &&
+          lon !== undefined &&
+          !Number.isNaN(lon)
+        ) {
+          geolocatonCallback(actionContext, { pos: position, disableDebounce });
+        }
       },
       error => {
         if (timeout !== null) {
