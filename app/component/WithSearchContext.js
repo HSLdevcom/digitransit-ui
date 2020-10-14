@@ -8,12 +8,13 @@ import suggestionToLocation from '@digitransit-search-util/digitransit-search-ut
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { createUrl } from '@digitransit-store/digitransit-store-future-route';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { navigateTo } from '../util/path';
+import { navigateTo, PREFIX_NEARYOU } from '../util/path';
 import searchContext from '../util/searchContext';
 import intializeSearchContext from '../util/DTSearchContextInitializer';
 import SelectFromMapHeader from './SelectFromMapHeader';
 import SelectFromMapPageMap from './map/SelectFromMapPageMap';
 import DTModal from './DTModal';
+import { addressToItinerarySearch } from '../util/otpStrings';
 
 export default function withSearchContext(WrappedComponent) {
   class ComponentWithSearchContext extends React.Component {
@@ -32,6 +33,7 @@ export default function withSearchContext(WrappedComponent) {
       children: PropTypes.node,
       onFavouriteSelected: PropTypes.func,
       locationState: PropTypes.object,
+      mode: PropTypes.string,
     };
 
     constructor(props) {
@@ -126,6 +128,10 @@ export default function withSearchContext(WrappedComponent) {
       // route
       if (item.properties && item.properties.link) {
         this.selectRoute(item.properties.link);
+        return;
+      }
+      if (id === 'origin-stop-near-you') {
+        this.selectStopNearYou(item);
         return;
       }
       if (id === 'stop-route-station') {
@@ -312,6 +318,17 @@ export default function withSearchContext(WrappedComponent) {
 
     selectFutureRoute = item => {
       const path = createUrl(item);
+      this.context.router.push(path);
+    };
+
+    selectStopNearYou = item => {
+      const location = suggestionToLocation(item);
+      let path = `/${PREFIX_NEARYOU}/${
+        this.props.mode
+      }/${addressToItinerarySearch(location)}`;
+      if (this.context.match.location.search) {
+        path += this.context.match.location.search;
+      }
       this.context.router.push(path);
     };
 

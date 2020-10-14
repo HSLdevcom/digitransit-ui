@@ -1,4 +1,5 @@
 /* eslint-disable no-nested-ternary */
+/* eslint-disable react/prop-types */
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames'; // DT-3470
@@ -98,7 +99,7 @@ class MapWithTrackingStateHandler extends React.Component {
     mapLayers: mapLayerShape.isRequired,
     messages: PropTypes.array,
     setInitialMapTracking: PropTypes.bool,
-    setInitialZoom: PropTypes.number,
+    initialZoom: PropTypes.number,
     disableLocationPopup: PropTypes.bool,
     showLocationMessages: PropTypes.bool,
     defaultMapCenter: PropTypes.object.isRequired,
@@ -109,7 +110,7 @@ class MapWithTrackingStateHandler extends React.Component {
     focusPoint: undefined,
     renderCustomButtons: undefined,
     setInitialMapTracking: false,
-    setInitialZoom: undefined,
+    initialZoom: undefined,
     disableLocationPopup: false,
     fitBounds: false,
     showLocationMessages: false,
@@ -123,7 +124,7 @@ class MapWithTrackingStateHandler extends React.Component {
       locationingOn: false,
       geoJson: {},
       defaultMapCenter: props.defaultMapCenter,
-      initialZoom: props.setInitialZoom ? props.setInitialZoom : defaultZoom,
+      initialZoom: props.initialZoom ? props.initialZoom : defaultZoom,
       mapTracking: props.setInitialMapTracking,
     };
   }
@@ -376,7 +377,11 @@ class MapWithTrackingStateHandler extends React.Component {
       location = {};
     }
 
-    if (this.props.fitBoundsWithSetCenter && this.state.mapTracking) {
+    if (
+      this.props.fitBoundsWithSetCenter &&
+      this.state.mapTracking &&
+      this.props.bounds.length
+    ) {
       useFitBounds = true;
       location = {};
     }
@@ -384,7 +389,6 @@ class MapWithTrackingStateHandler extends React.Component {
     const positionAllowed =
       this.state.locationingOn &&
       ['found-location', 'found-address'].includes(position.status);
-    // const img =  this.state.mapTracking ? 'icon-tracking-on-v2' : 'icon-tracking-off-v2'
     // eslint-disable-next-line no-nested-ternary
     const img = positionAllowed
       ? this.state.mapTracking

@@ -14,6 +14,7 @@ Show button links to near you page for different travel modes
     -   `props.language` **[string][3]** Language used for accessible labels
     -   `props.showTitle` **[boolean][4]** Show title, default is false
     -   `props.LinkComponent` **[element][5]** React component for creating a link, default is undefined and normal anchor tags are used
+    -   `props.origin`  
 
 ### Examples
 

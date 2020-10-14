@@ -87,11 +87,19 @@ function NearStopsAndRoutes({
   language,
   showTitle,
   LinkComponent,
+  origin,
 }) {
+  const queryString = origin.queryString || '';
   const buttons = modes.map(mode => {
+    let url = `${urlPrefix}/${mode.toUpperCase()}/POS`;
+    if (origin.set) {
+      url += `/${encodeURIComponent(origin.address)}::${origin.lat},${
+        origin.lon
+      }${queryString}`;
+    }
     if (LinkComponent) {
       return (
-        <LinkComponent to={`${urlPrefix}/${mode.toUpperCase()}/POS`} key={mode}>
+        <LinkComponent to={url} key={mode}>
           <span className={styles['sr-only']}>
             {i18next.t(`pick-mode-${mode}`, { lng: language })}
           </span>
@@ -102,7 +110,7 @@ function NearStopsAndRoutes({
       );
     }
     return (
-      <a href={`${urlPrefix}/${mode.toUpperCase()}/POS`} key={mode}>
+      <a href={url} key={mode}>
         <span className={styles['sr-only']}>
           {i18next.t(`pick-mode-${mode}`, { lng: language })}
         </span>
@@ -112,6 +120,7 @@ function NearStopsAndRoutes({
       </a>
     );
   });
+
   return (
     <div className={styles['near-you-container']}>
       {showTitle && (
@@ -126,17 +135,18 @@ function NearStopsAndRoutes({
 
 NearStopsAndRoutes.propTypes = {
   modes: PropTypes.arrayOf(PropTypes.string).isRequired,
-  urlPrefix: PropTypes.string,
+  urlPrefix: PropTypes.string.isRequired,
   language: PropTypes.string,
   showTitle: PropTypes.bool,
-  LinkComponent: PropTypes.element,
+  LinkComponent: PropTypes.object,
+  origin: PropTypes.object,
 };
 
 NearStopsAndRoutes.defaultProps = {
   showTitle: false,
-  urlPrefix: '/lahellasi',
   language: 'fi',
   LinkComponent: undefined,
+  origin: undefined,
 };
 
 /**

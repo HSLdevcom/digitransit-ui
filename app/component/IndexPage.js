@@ -144,9 +144,13 @@ class IndexPage extends React.Component {
     const { intl, config } = this.context;
     const { trafficNowLink } = config;
     const { breakpoint, destination, origin, lang } = this.props;
+    const queryString = this.context.match.location.search;
 
+    const originToStopNearYou = {
+      ...origin,
+      queryString,
+    };
     // const { mapExpanded } = this.state; // TODO verify
-
     return breakpoint === 'large' ? (
       <div
         className={`front-page flex-vertical ${
@@ -182,6 +186,7 @@ class IndexPage extends React.Component {
                 'FutureRoutes',
                 'SelectFromOwnLocations',
               ]}
+              breakpoint="large"
             />
             <div className="datetimepicker-container">
               <DatetimepickerContainer realtime />
@@ -199,6 +204,7 @@ class IndexPage extends React.Component {
                   language={lang}
                   showTitle
                   LinkComponent={Link}
+                  origin={originToStopNearYou}
                 />
               </div>
             ) : (
@@ -269,6 +275,7 @@ class IndexPage extends React.Component {
               ]}
               disableAutoFocus
               isMobile
+              breakpoint="small"
             />
             <div className="datetimepicker-container">
               <DatetimepickerContainer realtime />
@@ -287,6 +294,7 @@ class IndexPage extends React.Component {
                   language={lang}
                   showTitle
                   LinkComponent={Link}
+                  origin={originToStopNearYou}
                 />
               </div>
             ) : (
@@ -420,7 +428,6 @@ const IndexPageWithPosition = connectToStores(
           locationState.status === 'no-location'
         ) {
           debug('Auto Initialising geolocation');
-
           context.executeAction(initGeolocation);
         } else if (status.state === 'prompt') {
           debug('Still prompting');

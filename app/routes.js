@@ -78,7 +78,7 @@ export default config => {
           ),
         }}
       </Route>
-      <Route path={`/${PREFIX_NEARYOU}/:mode/:place`}>
+      <Route path={`/${PREFIX_NEARYOU}/:mode/:place/:origin?`}>
         {{
           title: (
             <Route

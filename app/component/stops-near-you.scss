@@ -214,3 +214,146 @@
         }
     }
 }
+
+.modal-desktop-container {
+  font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
+  display: flex;
+  flex-direction: column;
+  .modal-desktop-top {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    .modal-desktop-header {
+      position: relative;
+      width: 100%;
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 1.33;
+      letter-spacing: -0.6px;
+      color: #333333;
+      margin-bottom: 9px;
+      padding-left: 10px;
+      top: 6px;
+    }
+  }
+  .modal-desktop-main {
+    position: relative;
+    top: 16px;
+    text-align: left;
+    margin-bottom: 27px;
+    .modal-desktop-location-search {
+      position: relative;
+      top: -13px;
+      margin-bottom: 9px;
+    }
+    .modal-desktop-name {
+      .modal-desktop-input {
+        display: flex;
+        position: relative;
+        top: 3px;
+        width: 100%;
+        height: 44px;
+        font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
+        border-radius: 5px;
+        border: solid 1px #888888;
+        background-color: #ffffff;
+        padding-left: 20px;
+        font-size: 15px;
+        line-height: 1.2;
+        letter-spacing: -0.5px;
+        color: #333;
+        box-sizing: border-box;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        &::placeholder {
+          color: #666;
+        }
+        &:focus {
+          background: #fff;
+          outline: none;
+          border: solid 1px $primary-color;
+          box-shadow: none;
+        }
+        margin-bottom: 10px;
+      }
+    }
+  }
+  .modal-desktop-text {
+    position: relative;
+    top: 8px;
+    font-size: 15px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.33;
+    letter-spacing: -0.5px;
+    color: #333333;
+    margin-bottom: 32px;
+    padding-left: 10px;
+
+    &.title {
+      position: relative;
+      font-weight: 500;
+      margin-bottom: 15px;
+      top: 4px;
+    }
+
+    &.title2 {
+      position: relative;
+      top: -6px;
+      font-size: 15px;
+      font-weight: 500;
+    }
+  }
+
+  .modal-desktop-icons {
+    margin-bottom: 30px;
+  }
+
+  .modal-desktop-buttons {
+    display: flex;
+    flex-direction: column;
+    .modal-desktop-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      top: -27px;
+      width: 100%;
+      height: 40px;
+      font-size: 15px;
+      font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
+      font-weight: 500;
+      letter-spacing: -0.5px;
+      background: $primary-color;
+      color: #fff;
+      line-height: 0;
+      text-align: center;
+      padding: 0;
+      margin: 0;
+      border-width: 0;
+      transition: background-color 300ms ease-out;
+      border-radius: 25px;
+      cursor: pointer;
+      &.save {
+        &:active, &:focus {
+          background: darken($primary-color, 5%);
+        }
+        &.disabled {
+          background: #bbb;
+          &:active {
+            background: #bbb;
+          }
+        }
+        svg {
+          position: absolute;
+          left: 13px;
+          g {
+            stroke: #fff;
+          }
+        }
+      }
+    }
+  }
+}

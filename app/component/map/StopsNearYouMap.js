@@ -76,7 +76,7 @@ const stopClient = context => {
 const handleBounds = (location, stops) => {
   if (!location || (location.lat === 0 && location.lon === 0)) {
     // Still waiting for a location
-    return null;
+    return [];
   }
   if (location.lat && stops && stops.edges) {
     const { edges } = stops;
@@ -114,7 +114,7 @@ function StopsNearYouMap(
   let useFitBounds = true;
   const bounds = handleBounds(locationState, stops);
 
-  if (!bounds) {
+  if (!bounds.length) {
     useFitBounds = false;
   }
   let uniqueRealtimeTopics;
