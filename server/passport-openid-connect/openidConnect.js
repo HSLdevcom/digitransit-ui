@@ -9,7 +9,6 @@ const LoginStrategy = require('./Strategy').Strategy;
 
 export default function setUpOIDC(app, port) {
   /* ********* Setup OpenID Connect ********* */
-  const devhost = '';
   const callbackPath = '/oid_callback'; // connect callback path
   // Use Passport with OpenId Connect strategy to authenticate users
   const OIDCHost = process.env.OIDCHOST || 'https://hslid-dev.t5.fi';
@@ -39,6 +38,23 @@ export default function setUpOIDC(app, port) {
   passport.serializeUser(LoginStrategy.serializeUser);
   passport.deserializeUser(LoginStrategy.deserializeUser);
 
+  const redirectToLogin = function (req, res, next) {
+    const { ssoValidTo, ssoToken } = req.session;
+    if (
+      req.path !== '/login' &&
+      req.path !== callbackPath &&
+      !req.isAuthenticated() &&
+      ssoToken &&
+      ssoValidTo &&
+      ssoValidTo > moment().unix()
+    ) {
+      req.session.redirectTo = req.path;
+      res.redirect('/login');
+    } else {
+      next();
+    }
+  };
+
   // Passport requires session to persist the authentication
   app.use(
     session({
@@ -62,26 +78,42 @@ export default function setUpOIDC(app, port) {
   // Initialize Passport
   app.use(passport.initialize());
   app.use(passport.session());
+  app.use(redirectToLogin);
 
   // Initiates an authentication request
   // users will be redirected to hsl.id and once authenticated
   // they will be returned to the callback handler below
-  app.get(
-    '/login',
+  app.get('/login', function (req, res) {
     passport.authenticate('passport-openid-connect', {
-      successReturnToOrRedirect: '/',
       scope: 'profile',
-    }),
-  );
+    })(req, res);
+  });
   // Callback handler that will redirect back to application after successfull authentication
-  app.get(
-    callbackPath,
-    passport.authenticate('passport-openid-connect', {
-      callback: true,
-      successReturnToOrRedirect: `${devhost}/`,
-      failureRedirect: '/',
-    }),
-  );
+  app.get(callbackPath, function (req, res, next) {
+    passport.authenticate(
+      'passport-openid-connect',
+      {
+        callback: true,
+      },
+      function (err, user) {
+        if (err) {
+          res.clearCookie('connect.sid');
+          next(err);
+        } else if (!user) {
+          res.clearCookie('connect.sid');
+          res.redirect(req.session.redirectTo || '/');
+        } else {
+          req.logIn(user, function (loginErr) {
+            if (loginErr) {
+              next(loginErr);
+            } else {
+              res.redirect(req.session.redirectTo || '/');
+            }
+          });
+        }
+      },
+    )(req, res, next);
+  });
   app.get('/logout', function (req, res) {
     req.logout();
     req.session.destroy(function () {
