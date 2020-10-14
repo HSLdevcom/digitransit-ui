@@ -63,6 +63,7 @@ class FavouritesContainer extends React.Component {
     super(props);
     this.state = {
       loginModalOpen: false,
+      modalAction: null,
       addModalOpen: false,
       editModalOpen: false,
       favourite: null,
@@ -70,7 +71,7 @@ class FavouritesContainer extends React.Component {
   }
 
   componentDidMount() {
-    if (!isEmpty(this.props.user)) {
+    if (this.context.config.allowLogin && !isEmpty(this.props.user)) {
       if (this.props.favouriteModalAction) {
         switch (this.props.favouriteModalAction) {
           case 'AddHome':
@@ -197,7 +198,9 @@ class FavouritesContainer extends React.Component {
       id: 'login-content',
       defautlMessage: 'Log in first',
     });
-
+    const loginUrl = this.state.modalAction
+      ? `/login?favouriteModalAction=${this.state.modalAction}`
+      : '/login';
     return (
       <DialogModal
         appElement="#app"
@@ -207,7 +210,7 @@ class FavouritesContainer extends React.Component {
         lang={this.props.lang}
         isModalOpen={this.state.loginModalOpen}
         primaryButtonText={login}
-        href="/login"
+        href={loginUrl}
         primaryButtonOnClick={() => {
           addAnalyticsEvent({
             category: 'Favourite',
@@ -312,22 +315,22 @@ class FavouritesContainer extends React.Component {
           onClickFavourite={this.props.onClickFavourite}
           onAddPlace={() =>
             allowLogin && isEmpty(this.props.user)
-              ? this.setState({ loginModalOpen: true })
+              ? this.setState({ loginModalOpen: true, modalAction: 'AddPlace' })
               : this.setState({ addModalOpen: true })
           }
           onEdit={() =>
             allowLogin && isEmpty(this.props.user)
-              ? this.setState({ loginModalOpen: true })
+              ? this.setState({ loginModalOpen: true, modalAction: 'Edit' })
               : this.setState({ editModalOpen: true })
           }
           onAddHome={() =>
             allowLogin && isEmpty(this.props.user)
-              ? this.setState({ loginModalOpen: true })
+              ? this.setState({ loginModalOpen: true, modalAction: 'AddHome' })
               : this.addHome()
           }
           onAddWork={() =>
             allowLogin && isEmpty(this.props.user)
-              ? this.setState({ loginModalOpen: true })
+              ? this.setState({ loginModalOpen: true, modalAction: 'AddWork' })
               : this.addWork()
           }
           lang={this.props.lang}

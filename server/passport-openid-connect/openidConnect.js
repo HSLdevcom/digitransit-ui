@@ -66,22 +66,20 @@ export default function setUpOIDC(app, port) {
   // Initiates an authentication request
   // users will be redirected to hsl.id and once authenticated
   // they will be returned to the callback handler below
-  app.get(
-    '/login',
+  app.get('/login', function (req, res) {
     passport.authenticate('passport-openid-connect', {
-      successReturnToOrRedirect: '/',
+      successReturnToOrRedirect: `/?${req.query}/`,
       scope: 'profile',
-    }),
-  );
+    })(req, res);
+  });
   // Callback handler that will redirect back to application after successfull authentication
-  app.get(
-    callbackPath,
+  app.get(callbackPath, function (req, res, next) {
     passport.authenticate('passport-openid-connect', {
       callback: true,
-      successReturnToOrRedirect: `${devhost}/`,
+      successReturnToOrRedirect: `${devhost}?${req.query}/`,
       failureRedirect: '/',
-    }),
-  );
+    })(req, res, next);
+  });
   app.get('/logout', function (req, res) {
     req.logout();
     req.session.destroy(function () {
