@@ -86,7 +86,20 @@ class FilterTimeTableModal extends React.Component {
               onChange={() => this.handleCheckbox(o.code)}
             />
             {/* eslint-disable jsx-a11y/label-has-associated-control */}
-            <label htmlFor={`input-${o.code}`} />
+            <label
+              htmlFor={`input-${o.code}`}
+              className={
+                intersection(this.state.showRoutes, [o.code]).length > 0 &&
+                'checked'
+              }
+            >
+              {intersection(this.state.showRoutes, [o.code]).length > 0 && (
+                <Icon
+                  img="icon-icon_checkbox_checked"
+                  className="checkbox-icon"
+                />
+              )}
+            </label>
             {/* eslint-enable jsx-a11y/label-has-associated-control */}
           </div>
           <div className="route-mode">
@@ -167,7 +180,17 @@ class FilterTimeTableModal extends React.Component {
                     }}
                   />
                   {/* eslint-disable jsx-a11y/label-has-associated-control */}
-                  <label htmlFor="input-all-routes" />
+                  <label
+                    htmlFor="input-all-routes"
+                    className={this.state.allRoutes && 'checked'}
+                  >
+                    {this.state.allRoutes ? (
+                      <Icon
+                        img="icon-icon_checkbox_checked"
+                        className="checkbox-icon"
+                      />
+                    ) : null}
+                  </label>
                   {/* eslint-enable jsx-a11y/label-has-associated-control */}
                 </div>
                 <div className="all-routes-header-title">
