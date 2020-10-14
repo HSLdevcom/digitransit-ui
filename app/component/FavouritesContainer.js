@@ -325,6 +325,7 @@ class FavouritesContainer extends React.Component {
               sources={['History', 'Datasource']}
               targets={['Locations', 'CurrentPosition', 'Stops']}
               id="favourite"
+              icon="search"
               placeholder="search-address-or-place"
               value={
                 (this.state.favourite && this.state.favourite.address) || ''
