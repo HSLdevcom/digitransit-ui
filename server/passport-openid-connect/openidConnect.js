@@ -40,12 +40,20 @@ export default function setUpOIDC(app, port) {
 
   const redirectToLogin = function (req, res, next) {
     const { ssoValidTo, ssoToken } = req.session;
+    const paths = [
+      '/fi/',
+      '/en/',
+      '/sv/',
+      '/reitti/',
+      '/pysakit/',
+      '/linjat/',
+      '/terminaalit/',
+      '/pyoraasemat/',
+      '/lahellasi/',
+    ];
+    // Only allow sso login when user navigates to certain paths
     if (
-      req.path !== '/login' &&
-      req.path !== '/local-storage-emitter' &&
-      req.path !== '/sso/auth' &&
-      req.path !== callbackPath &&
-      !req.path.includes('/api') &&
+      (req.path === '/' || paths.some(path => req.path.includes(path))) &&
       !req.isAuthenticated() &&
       ssoToken &&
       ssoValidTo &&
