@@ -97,7 +97,7 @@ export default function setUpOIDC(app, port) {
       },
       function (err, user) {
         if (err) {
-          console.log(err);
+          console.log('OID callback error', err);
           res.clearCookie('connect.sid');
           next(err);
         } else if (!user) {
@@ -106,6 +106,7 @@ export default function setUpOIDC(app, port) {
         } else {
           req.logIn(user, function (loginErr) {
             if (loginErr) {
+              console.log('Login error', loginErr);
               next(loginErr);
             } else {
               res.redirect(req.session.redirectTo || '/');
