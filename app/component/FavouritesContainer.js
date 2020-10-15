@@ -81,6 +81,7 @@ class FavouritesContainer extends React.Component {
             this.addWork();
             break;
           case 'AddPlace':
+            this.addPlace();
             break;
           case 'Edit':
             this.setState({ editModalOpen: true });
