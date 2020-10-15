@@ -1,4 +1,4 @@
-/* eslint-disable func-names */
+/* eslint-disable func-names, no-console */
 const passport = require('passport');
 const session = require('express-session');
 const redis = require('redis');
@@ -97,10 +97,11 @@ export default function setUpOIDC(app, port) {
       },
       function (err, user) {
         if (err) {
+          console.log(err);
           res.clearCookie('connect.sid');
           next(err);
         } else if (!user) {
-          res.clearCookie('connect.sid');
+          console.log('User is undefined');
           res.redirect(req.session.redirectTo || '/');
         } else {
           req.logIn(user, function (loginErr) {
