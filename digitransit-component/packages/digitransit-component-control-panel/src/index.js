@@ -123,12 +123,14 @@ function NearStopsAndRoutes({
             {i18next.t(`pick-mode-${mode}`, { lng: language })}
           </span>
           <span className={styles['transport-mode-icon-container']}>
-            <Icon img={`mode-${mode}`} />
-            {withAlert && (
-              <span className={styles['transport-mode-alert-icon']}>
-                <Icon img="caution" color="#dc0451" />
-              </span>
-            )}
+            <span className={styles['transport-mode-icon-with-icon']}>
+              <Icon img={`mode-${mode}`} />
+              {withAlert && (
+                <span className={styles['transport-mode-alert-icon']}>
+                  <Icon img="caution" color="#dc0451" />
+                </span>
+              )}
+            </span>
           </span>
         </LinkComponent>
       );
