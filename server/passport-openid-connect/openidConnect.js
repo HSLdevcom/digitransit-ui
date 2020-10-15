@@ -42,6 +42,7 @@ export default function setUpOIDC(app, port) {
     const { ssoValidTo, ssoToken } = req.session;
     if (
       req.path !== '/login' &&
+      req.path !== '/local-storage-emitter' &&
       req.path !== callbackPath &&
       !req.isAuthenticated() &&
       ssoToken &&
