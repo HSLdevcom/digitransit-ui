@@ -22,8 +22,9 @@ const OICStrategy = function (config) {
 
 util.inherits(OICStrategy, passport.Strategy);
 
-openid.Issuer.defaultHttpOptions.timeout = 5000;
-
+openid.custom.setHttpOptionsDefaults({
+  timeout: 5000,
+});
 OICStrategy.prototype.init = function () {
   if (!this.config.issuerHost) {
     throw new Error(
@@ -64,15 +65,18 @@ OICStrategy.prototype.getUserInfo = function () {
 };
 
 OICStrategy.prototype.callback = function (req, opts) {
+  console.log(req.path, req.query);
   return this.client
-    .authorizationCallback(this.config.redirect_uri, req.query, {
+    .callback(this.config.redirect_uri, req.query, {
       state: req.query.state,
     })
     .then(tokenSet => {
+      console.log('tokenset');
       this.tokenSet = tokenSet;
       return this.getUserInfo();
     })
     .then(() => {
+      console.log('set user');
       const user = new User(this.userinfo);
       user.token = this.tokenSet;
       user.idtoken = this.tokenSet.claims;
