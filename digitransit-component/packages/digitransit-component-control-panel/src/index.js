@@ -73,6 +73,7 @@ OriginToDestination.defaultProps = {
  * @param {Object} props.alertsContext
  * @param {function} props.alertsContext.getModesWithAlerts - Function which should return an array of transport modes that have active alerts (e.g. [BUS, SUBWAY])
  * @param {Number} props.alertsContext.currentTime - Time stamp with which the returned alerts are validated with
+ * @param {element} props.LinkComponent - React component for creating a link, default is undefined and normal anchor tags are used
  *
  * @example
  * const alertsContext = {
@@ -94,6 +95,8 @@ function NearStopsAndRoutes({
   language,
   showTitle,
   alertsContext,
+  LinkComponent,
+  origin,
 }) {
   const [modesWithAlerts, setModesWithAlerts] = useState([]);
   useEffect(() => {
@@ -104,10 +107,34 @@ function NearStopsAndRoutes({
     }
   }, []);
 
+  const queryString = origin.queryString || '';
   const buttons = modes.map(mode => {
     const withAlert = modesWithAlerts.includes(mode.toUpperCase());
+    let url = `${urlPrefix}/${mode.toUpperCase()}/POS`;
+    if (origin.set) {
+      url += `/${encodeURIComponent(origin.address)}::${origin.lat},${
+        origin.lon
+      }${queryString}`;
+    }
+    if (LinkComponent) {
+      return (
+        <LinkComponent to={url} key={mode}>
+          <span className={styles['sr-only']}>
+            {i18next.t(`pick-mode-${mode}`, { lng: language })}
+          </span>
+          <span className={styles['transport-mode-icon-container']}>
+            <Icon img={`mode-${mode}`} />
+            {withAlert && (
+              <span className={styles['transport-mode-alert-icon']}>
+                <Icon img="caution" color="#dc0451" />
+              </span>
+            )}
+          </span>
+        </LinkComponent>
+      );
+    }
     return (
-      <a href={`${urlPrefix}/${mode.toUpperCase()}/POS`} key={mode}>
+      <a href={url} key={mode}>
         <span className={styles['sr-only']}>
           {i18next.t(`pick-mode-${mode}`, { lng: language })}
         </span>
@@ -122,6 +149,7 @@ function NearStopsAndRoutes({
       </a>
     );
   });
+
   return (
     <div className={styles['near-you-container']}>
       {showTitle && (
@@ -136,19 +164,22 @@ function NearStopsAndRoutes({
 
 NearStopsAndRoutes.propTypes = {
   modes: PropTypes.arrayOf(PropTypes.string).isRequired,
-  urlPrefix: PropTypes.string,
+  urlPrefix: PropTypes.string.isRequired,
   language: PropTypes.string,
   showTitle: PropTypes.bool,
   alertsContext: PropTypes.shape({
     getModesWithAlerts: PropTypes.func,
     currentTime: PropTypes.number,
   }),
+  LinkComponent: PropTypes.object,
+  origin: PropTypes.object,
 };
 
 NearStopsAndRoutes.defaultProps = {
   showTitle: false,
-  urlPrefix: '/lahellasi',
   language: 'fi',
+  LinkComponent: undefined,
+  origin: undefined,
 };
 
 /**

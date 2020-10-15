@@ -17,7 +17,6 @@ import CanceledItineraryToggler from './CanceledItineraryToggler';
 import { itineraryHasCancelation } from '../util/alertUtils';
 import { getCurrentSettings, getDefaultSettings } from '../util/planParamUtil';
 import { ItinerarySummarySubtitle } from './ItinerarySummarySubtitle';
-import RightOffcanvasToggle from './RightOffcanvasToggle';
 import Loading from './Loading';
 
 function ItinerarySummaryListContainer(
@@ -33,7 +32,6 @@ function ItinerarySummaryListContainer(
     onSelectImmediately,
     searchTime,
     to,
-    toggleSettings,
     bikeAndPublicItinerariesToShow,
     bikeAndParkItinerariesToShow,
     walking,
@@ -80,18 +78,6 @@ function ItinerarySummaryListContainer(
           defaultMessage="Biking \u0026 public transport \u0026 walking"
           key="itinerary-summary.bikePark-title"
         />,
-      );
-      summaries.push(
-        <div
-          className="itinerary-summary-settings-container"
-          key="itinerary-summary-settings-container"
-        >
-          <RightOffcanvasToggle
-            onToggleClick={toggleSettings}
-            defaultMessage="Set more specific settings"
-            translationId="set-specific-settings"
-          />
-        </div>,
       );
       if (bikeAndPublicItinerariesToShow > 0) {
         const publicModes = itineraries[
@@ -290,7 +276,6 @@ ItinerarySummaryListContainer.propTypes = {
   onSelectImmediately: PropTypes.func.isRequired,
   searchTime: PropTypes.number.isRequired,
   to: locationShape.isRequired,
-  toggleSettings: PropTypes.func.isRequired,
   bikeAndPublicItinerariesToShow: PropTypes.number.isRequired,
   bikeAndParkItinerariesToShow: PropTypes.number.isRequired,
   walking: PropTypes.bool,

@@ -9,6 +9,7 @@ export default class BackButton extends React.Component {
     intl: intlShape.isRequired,
     router: routerShape,
     match: matchShape,
+    config: PropTypes.object,
   };
 
   static propTypes = {
@@ -37,10 +38,18 @@ export default class BackButton extends React.Component {
   };
 
   goBack = urlToGo => {
-    if (urlToGo) {
-      this.context.router.push(urlToGo);
-    } else if (this.context.match.location.index > 0) {
+    if (
+      this.context.config.URL.REDIRECT_BACK &&
+      urlToGo === this.context.config.URL.REDIRECT_BACK
+    ) {
+      window.location.href = urlToGo;
+    } else if (
+      this.context.match.location.index > 0 ||
+      (this.context.match.params && this.context.match.params.hash)
+    ) {
       this.context.router.go(-1);
+    } else if (urlToGo) {
+      window.location.href = urlToGo;
     } else {
       this.context.router.push('/');
     }

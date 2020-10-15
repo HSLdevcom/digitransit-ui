@@ -271,7 +271,7 @@ const SummaryRow = (
     let legLength =
       ((leg.endTime - leg.startTime) / durationWithoutSlack) * 100; // length of the current leg in %
     const longName =
-      leg.route && leg.route.shortName && leg.route.shortName.length > 3;
+      leg.route && leg.route.shortName && leg.route.shortName.length > 5;
 
     if (nextLeg && !nextLeg.intermediatePlace) {
       // don't show waiting in intermediate places

@@ -389,3 +389,15 @@ export function getFutureRoutesStorage() {
 export function setFutureRoutesStorage(data) {
   setItem('futureRoutes', data);
 }
+
+export function getSavedGeolocationPermission() {
+  return getItemAsJson('geolocationPermission', '{}');
+}
+
+export function setSavedGeolocationPermission(key, value) {
+  const geolocationPermissions = getSavedGeolocationPermission();
+  setItem('geolocationPermission', {
+    ...geolocationPermissions,
+    [key]: value,
+  });
+}
