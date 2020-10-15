@@ -70,13 +70,21 @@ OriginToDestination.defaultProps = {
  * @param {string} props.language - Language used for accessible labels
  * @param {string} props.urlPrefix - URL prefix for links. Must end with /lahellasi
  * @param {boolean} props.showTitle - Show title, default is false
+ * @param {Object} props.alertsContext
+ * @param {function} props.alertsContext.getModesWithAlerts - Function which should return an array of transport modes that have active alerts (e.g. [BUS, SUBWAY])
+ * @param {Number} props.alertsContext.currentTime - Time stamp with which the returned alerts are validated with
  *
  * @example
+ * const alertsContext = {
+ *    getModesWithAlerts: () => ({}),
+ *    currentTime: 123456789,
+ * }
  * <CtrlPanel.NearStopsAndRoutes
  *      modes={['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike']}
  *      language="fi"
  *      urlPrefix="http://example.com/lahellasi"
  *      showTitle
+ *      alertsContext={alertsContext}
  *    />
  *
  */
@@ -90,7 +98,7 @@ function NearStopsAndRoutes({
   const [modesWithAlerts, setModesWithAlerts] = useState([]);
   useEffect(() => {
     if (alertsContext) {
-      alertsContext.getAlertsQuery(alertsContext.currentTime).then(res => {
+      alertsContext.getModesWithAlerts(alertsContext.currentTime).then(res => {
         setModesWithAlerts(res);
       });
     }
@@ -132,7 +140,7 @@ NearStopsAndRoutes.propTypes = {
   language: PropTypes.string,
   showTitle: PropTypes.bool,
   alertsContext: PropTypes.shape({
-    getAlertsQuery: PropTypes.func,
+    getModesWithAlerts: PropTypes.func,
     currentTime: PropTypes.number,
   }),
 };

@@ -14,7 +14,7 @@ import CtrlPanel from '@digitransit-component/digitransit-component-control-pane
 import TrafficNowLink from '@digitransit-component/digitransit-component-traffic-now-link';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
-import { getAlertsQuery } from '@digitransit-search-util/digitransit-search-util-query-utils';
+import { getModesWithAlerts } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import {
   initGeolocation,
   checkPositioningPermission,
@@ -152,9 +152,8 @@ class IndexPage extends React.Component {
     // const { mapExpanded } = this.state; // TODO verify
 
     const alertsContext = {
-      context: this.context,
       currentTime: this.props.currentTime,
-      getAlertsQuery,
+      getModesWithAlerts,
     };
 
     return breakpoint === 'large' ? (

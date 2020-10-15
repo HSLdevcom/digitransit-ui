@@ -112,15 +112,8 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                 omitNonPickups: $omitNonPickups
               )
             }
-            alerts: nearest(
-              lat: $lat
-              lon: $lon
-              filterByPlaceTypes: $filterByPlaceTypes
-              filterByModes: $filterByModes
-              maxResults: $maxResults
-            ) {
+            alerts: alerts(severityLevel: [SEVERE]) {
               ...DisruptionBanner_alerts
-              @arguments(omitNonPickups: $omitNonPickups)
             }
           }
         `}

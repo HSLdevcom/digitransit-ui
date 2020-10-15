@@ -16,9 +16,14 @@ let relayEnvironment = null;
 
 const alertsQuery = graphql`
   query digitransitSearchUtilQueryUtilsAlertsQuery {
-    alerts(severityLevel: [SEVERE, WARNING]) {
+    alerts(severityLevel: [SEVERE]) {
       stop {
         vehicleMode
+        patterns {
+          route {
+            mode
+          }
+        }
       }
       route {
         mode
@@ -159,7 +164,7 @@ export function setRelayEnvironment(environment) {
   relayEnvironment = environment;
 }
 
-export const getAlertsQuery = currentTime => {
+export const getModesWithAlerts = currentTime => {
   if (!relayEnvironment) {
     return Promise.resolve([]);
   }
