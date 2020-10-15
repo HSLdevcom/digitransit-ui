@@ -48,7 +48,7 @@ export default function setUpOIDC(app, port) {
       ssoValidTo &&
       ssoValidTo > moment().unix()
     ) {
-      req.session.redirectTo = req.path;
+      req.session.returnTo = req.path;
       res.redirect('/login');
     } else {
       next();
@@ -86,35 +86,18 @@ export default function setUpOIDC(app, port) {
   app.get('/login', function (req, res) {
     passport.authenticate('passport-openid-connect', {
       scope: 'profile',
+      successReturnToOrRedirect: '/',
     })(req, res);
   });
   // Callback handler that will redirect back to application after successfull authentication
   app.get(callbackPath, function (req, res, next) {
-    passport.authenticate(
-      'passport-openid-connect',
-      {
-        callback: true,
-      },
-      function (err, user) {
-        if (err) {
-          console.log('OID callback error', err);
-          res.clearCookie('connect.sid');
-          next(err);
-        } else if (!user) {
-          console.log('User is undefined');
-          res.redirect(req.session.redirectTo || '/');
-        } else {
-          req.logIn(user, function (loginErr) {
-            if (loginErr) {
-              console.log('Login error', loginErr);
-              next(loginErr);
-            } else {
-              res.redirect(req.session.redirectTo || '/');
-            }
-          });
-        }
-      },
-    )(req, res, next);
+    req.session.ssoToken = null;
+    req.session.ssoValidTo = null;
+    passport.authenticate('passport-openid-connect', {
+      callback: true,
+      successReturnToOrRedirect: '/',
+      failureRedirect: '/login',
+    })(req, res, next);
   });
   app.get('/logout', function (req, res) {
     req.logout();
