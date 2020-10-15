@@ -113,7 +113,7 @@ function IndexPageMap(
       <MapWithTracking
         breakpoint={breakpoint}
         // TODO: Fix an issue where map doesn't center to right place when user is coming to indexPage with origin or destination set with url
-        defaultMapCenter={config.defaultMapCenter}
+        defaultMapCenter={config.defaultMapCenter || config.defaultEndpoint}
         showStops
         showScaleBar
         {...mwtProps}
@@ -137,7 +137,7 @@ function IndexPageMap(
             breakpoint={breakpoint}
             showStops
             {...mwtProps}
-            defaultMapCenter={config.defaultMapCenter}
+            defaultMapCenter={config.defaultMapCenter || config.defaultEndpoint}
             leafletObjs={leafletObjs}
             renderCustomButtons={() => (
               <>

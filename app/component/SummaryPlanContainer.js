@@ -52,7 +52,6 @@ class SummaryPlanContainer extends React.Component {
     setError: PropTypes.func.isRequired,
     setLoading: PropTypes.func.isRequired,
     relayEnvironment: PropTypes.object,
-    toggleSettings: PropTypes.func.isRequired,
     bikeAndPublicItinerariesToShow: PropTypes.number.isRequired,
     bikeAndParkItinerariesToShow: PropTypes.number.isRequired,
     walking: PropTypes.bool,
@@ -874,7 +873,6 @@ class SummaryPlanContainer extends React.Component {
       currentTime,
       locationState,
       itineraries,
-      toggleSettings,
       bikeAndPublicItinerariesToShow,
       bikeAndParkItinerariesToShow,
       walking,
@@ -918,7 +916,6 @@ class SummaryPlanContainer extends React.Component {
           onSelectImmediately={this.onSelectImmediately}
           searchTime={searchTime}
           to={otpToLocation(to)}
-          toggleSettings={toggleSettings}
           bikeAndPublicItinerariesToShow={bikeAndPublicItinerariesToShow}
           bikeAndParkItinerariesToShow={bikeAndParkItinerariesToShow}
           walking={walking}

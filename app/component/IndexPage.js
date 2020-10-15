@@ -3,7 +3,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
-import { matchShape, routerShape } from 'found';
+import { matchShape, routerShape, Link } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
 import isEqual from 'lodash/isEqual';
@@ -145,8 +145,13 @@ class IndexPage extends React.Component {
     const { intl, config } = this.context;
     const { trafficNowLink } = config;
     const { breakpoint, destination, origin, lang } = this.props;
-    // const { mapExpanded } = this.state; // TODO verify
+    const queryString = this.context.match.location.search;
 
+    const originToStopNearYou = {
+      ...origin,
+      queryString,
+    };
+    // const { mapExpanded } = this.state; // TODO verify
     return breakpoint === 'large' ? (
       <div
         className={`front-page flex-vertical ${
@@ -182,6 +187,7 @@ class IndexPage extends React.Component {
                 'FutureRoutes',
                 'SelectFromOwnLocations',
               ]}
+              breakpoint="large"
             />
             <div className="datetimepicker-container">
               <DatetimepickerContainer realtime />
@@ -199,6 +205,8 @@ class IndexPage extends React.Component {
                   urlPrefix={`/${PREFIX_NEARYOU}`}
                   language={lang}
                   showTitle
+                  LinkComponent={Link}
+                  origin={originToStopNearYou}
                 />
               </div>
             ) : (
@@ -269,6 +277,7 @@ class IndexPage extends React.Component {
               ]}
               disableAutoFocus
               isMobile
+              breakpoint="small"
             />
             <div className="datetimepicker-container">
               <DatetimepickerContainer realtime />
@@ -286,6 +295,8 @@ class IndexPage extends React.Component {
                   urlPrefix={`/${PREFIX_NEARYOU}`}
                   language={lang}
                   showTitle
+                  LinkComponent={Link}
+                  origin={originToStopNearYou}
                 />
               </div>
             ) : (
@@ -423,7 +434,6 @@ const IndexPageWithPosition = connectToStores(
           locationState.status === 'no-location'
         ) {
           debug('Auto Initialising geolocation');
-
           context.executeAction(initGeolocation);
         } else if (status.state === 'prompt') {
           debug('Still prompting');

@@ -77,7 +77,7 @@ export default config => {
           ),
         }}
       </Route>
-      <Route path={`/${PREFIX_NEARYOU}/:mode/:place`}>
+      <Route path={`/${PREFIX_NEARYOU}/:mode/:place/:origin?`}>
         {{
           title: (
             <Route
@@ -149,6 +149,22 @@ export default config => {
           ),
         }}
       </Route>
+      <Route
+        path={`/${PREFIX_ITINERARY_SUMMARY}/POS/:to`}
+        getComponent={() =>
+          import(
+            /* webpackChunkName: "itinerary" */ './component/SummaryGeolocator'
+          ).then(getDefault)
+        }
+      />
+      <Route
+        path={`/${PREFIX_ITINERARY_SUMMARY}/:from/POS`}
+        getComponent={() =>
+          import(
+            /* webpackChunkName: "itinerary" */ './component/SummaryGeolocator'
+          ).then(getDefault)
+        }
+      />
       <Route path={`/${PREFIX_ITINERARY_SUMMARY}/:from/:to`}>
         {{
           title: (

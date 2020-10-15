@@ -1173,6 +1173,12 @@ const translations = {
     station: 'Station',
     stop: 'Stop',
     'stop-near-you': 'Search stops and routes near you',
+    'stop-near-you-modal-grant-permission': 'or allow geolocation',
+    'stop-near-you-modal-grant-permission-info':
+      'You can enable geolocation from your browser or phone settings so that the service can take advantage of your current location.',
+    'stop-near-you-modal-header': 'You have not allowed geolocation',
+    'stop-near-you-modal-info':
+      'Use of stops near you requires location information.',
     'stop-near-you-title': 'Search for stops and routes',
     'stop-number': 'Stop number',
     'stop-page.description': 'Stop {name} - {code}',
@@ -2005,6 +2011,12 @@ const translations = {
     station: 'Asema',
     stop: 'Pysäkki',
     'stop-near-you': 'Linja, pysäkki tai asema',
+    'stop-near-you-modal-grant-permission': 'tai salli paikannus',
+    'stop-near-you-modal-grant-permission-info':
+      'Voit sallia paikannuksen selaimen tai puhelimen asetuksista, jolloin palvelu pystyy hyödyntämään nykyistä sijaintiasi.',
+    'stop-near-you-modal-header': 'Et ole sallinut paikannusta',
+    'stop-near-you-modal-info':
+      'Lähipysäkkien käyttö edellyttää tietoa sijainnista.',
     'stop-near-you-title': 'Linja- ja pysäkkihaku',
     'stop-number': 'Pysäkkinumero',
     'stop-page.description': 'Pysäkki - {name} {code}, {desc}',
@@ -3079,8 +3091,6 @@ const translations = {
     'splash-you-can-also': 'sau',
     station: 'Station',
     stop: 'Stație',
-    'stop-near-you': 'Search stops and routes near you',
-    'stop-near-you-title': 'Stops and lines near you',
     'stop-number': 'Numărul stației',
     'stop-page.description': 'Stația {name} - {code}',
     'stop-page.title': 'Stația {name} - {code}',
@@ -3616,6 +3626,12 @@ const translations = {
     station: 'Station',
     stop: 'Hållplats',
     'stop-near-you': 'Sök hållplatser eller linjer nära dig',
+    'stop-near-you-modal-grant-permission': 'eller tillåta geolokalisering',
+    'stop-near-you-modal-grant-permission-info':
+      'Du kan aktivera geolokalisering från din webbläsare eller telefoninställningar så att tjänsten kan dra nytta av din nuvarande plats.',
+    'stop-near-you-modal-header': 'Du har inte tillåtit geolokalisering',
+    'stop-near-you-modal-info':
+      'Användning av hållplatser närä dig kräver platsinformation.',
     'stop-near-you-title': 'Sök hållplatser och linjer',
     'stop-number': 'Hållplatsnummer',
     'stop-page.description': 'Hållplats {name} - {code}',

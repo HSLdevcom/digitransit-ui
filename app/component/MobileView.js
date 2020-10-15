@@ -14,26 +14,32 @@ export default function MobileView({
   }
   const scrollRef = useRef(null);
   const topBarHeight = 64;
+  // pass these to map according to bottom sheet placement
   const [bottomsheetState, changeBottomsheetState] = useState({
-    position: 0,
-    context: { paddingBottomRight: [0, 0] },
+    context: { mapBottomPadding: 0, buttonBottomPadding: 0 },
   });
   useLayoutEffect(() => {
     if (map) {
-      const paddingHeight = window.innerHeight * 0.9 - topBarHeight; // height of .drawer-padding, defined in map.scss
+      const paddingHeight = (window.innerHeight - topBarHeight) * 0.9; // height of .drawer-padding, defined as 90% of map height
       const newSheetPosition = paddingHeight / 2;
-      if (Math.abs(newSheetPosition - bottomsheetState.position) < 1) {
-        return;
-      }
-      const mapHeight = window.innerHeight - topBarHeight;
-      const paddingBottomRight = [0, mapHeight - mapHeight / 2];
       scrollRef.current.scrollTop = newSheetPosition;
       changeBottomsheetState({
-        position: newSheetPosition,
-        context: { paddingBottomRight },
+        context: {
+          mapBottomPadding: newSheetPosition,
+          buttonBottomPadding: newSheetPosition,
+        },
       });
     }
   }, [header, map]);
+
+  const onScroll = e => {
+    if (map) {
+      const scroll = e.target.scrollTop;
+      changeBottomsheetState({
+        context: { ...bottomsheetState.context, buttonBottomPadding: scroll },
+      });
+    }
+  };
 
   return (
     <div className="mobile">
@@ -43,7 +49,7 @@ export default function MobileView({
           <MapBottomsheetContext.Provider value={bottomsheetState.context}>
             {map}
           </MapBottomsheetContext.Provider>
-          <div className="drawer-container" ref={scrollRef}>
+          <div className="drawer-container" onScroll={onScroll} ref={scrollRef}>
             <div className="drawer-padding" />
             <div className="drawer-content">
               <div className="drag-line" />

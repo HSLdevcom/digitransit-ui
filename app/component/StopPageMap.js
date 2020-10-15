@@ -114,6 +114,7 @@ const StopPageMap = (
         color={config.colors.primary}
         iconClassName="arrow-icon"
         key="stop-page-back-button"
+        urlToBack={config.URL.REDIRECT_BACK}
       />,
     );
   }
@@ -166,7 +167,7 @@ const StopPageMap = (
       leafletObjs={leafletObjs}
       showScaleBar
       focusPoint={focusPoint}
-      setInitialZoom={12}
+      initialZoom={12}
       origin={locationState}
       destination={stop}
       bounds={bounds}
