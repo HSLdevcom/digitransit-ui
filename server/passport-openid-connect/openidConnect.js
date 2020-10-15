@@ -43,7 +43,9 @@ export default function setUpOIDC(app, port) {
     if (
       req.path !== '/login' &&
       req.path !== '/local-storage-emitter' &&
+      req.path !== '/sso/auth' &&
       req.path !== callbackPath &&
+      !req.path.includes('/api') &&
       !req.isAuthenticated() &&
       ssoToken &&
       ssoValidTo &&
@@ -79,7 +81,8 @@ export default function setUpOIDC(app, port) {
   // Initialize Passport
   app.use(passport.initialize());
   app.use(passport.session());
-  app.use(redirectToLogin);
+
+  app.use('/', redirectToLogin);
 
   // Initiates an authentication request
   // users will be redirected to hsl.id and once authenticated
