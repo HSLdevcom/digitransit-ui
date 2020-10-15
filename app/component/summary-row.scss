@@ -153,6 +153,8 @@
       justify-content: center;
       &.fit-route-number {
         min-width: fit-content;
+        /* stylelint-disable-next-line */
+        min-width: -moz-fit-content;
         .vcenter-children {
           min-width: max-content !important; // forces the leg to fit the route number in it
         }
@@ -554,7 +556,6 @@
 .mobile {
   .subicon-caution {
     left: -0.3em;
-    top: 0.5em;
   }
   .summary-clickable-area {
     border-bottom: 1px solid #ddd !important;
