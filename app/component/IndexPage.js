@@ -358,11 +358,7 @@ const Index = shouldUpdate(
   },
 )(IndexPage);
 
-const IndexPageWithBreakpoint = withBreakpoint(props => (
-  <ReactRelayContext.Consumer>
-    {({ environment }) => <Index {...props} relayEnvironment={environment} />}
-  </ReactRelayContext.Consumer>
-));
+const IndexPageWithBreakpoint = withBreakpoint(Index);
 
 IndexPageWithBreakpoint.description = (
   <ComponentUsageExample isFullscreen>
