@@ -51,9 +51,14 @@ function getSuggestionContent(item) {
     }
 
     if (item.properties.mode) {
-      suggestionType = i18next.t(item.properties.mode.toLowerCase());
+      suggestionType = i18next.t(
+        item.properties.mode.toLowerCase().replace('favourite', ''),
+      );
     } else {
-      const layer = item.properties.layer.replace('route-', '').toLowerCase();
+      const layer = item.properties.layer
+        .replace('route-', '')
+        .toLowerCase()
+        .replace('favourite', '');
       suggestionType = i18next.t(layer);
     }
 
@@ -539,6 +544,7 @@ class DTAutosuggest extends React.Component {
         content={content}
         loading={!this.state.valid}
         isMobile={this.props.isMobile}
+        ariaFavouriteString={i18next.t('favourite')}
       />
     );
   };

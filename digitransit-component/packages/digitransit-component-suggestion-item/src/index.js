@@ -6,6 +6,17 @@ import pure from 'recompose/pure';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
 
+function isFavourite(item) {
+  return item && item.properties && item.properties.layer.includes('favourite');
+}
+
+function getAriaDescription(ariaContentArray) {
+  const description = ariaContentArray
+    .filter(part => part !== undefined && part !== null && part !== '')
+    .join(' - ');
+  return description;
+}
+
 function getIconProperties(item) {
   let iconId;
   let iconColor = '#888888';
@@ -17,11 +28,7 @@ function getIconProperties(item) {
   if (item && item.iconColor) {
     // eslint-disable-next-line prefer-destructuring
     iconColor = item.iconColor;
-  } else if (
-    item &&
-    item.properties &&
-    item.properties.layer.includes('favourite')
-  ) {
+  } else if (isFavourite(item)) {
     iconColor = '#007ac9';
   }
   const layerIcon = new Map([
@@ -70,7 +77,7 @@ function getIconProperties(item) {
  * />
  */
 const SuggestionItem = pure(
-  ({ item, content, loading, className, isMobile }) => {
+  ({ item, content, loading, className, isMobile, ariaFavouriteString }) => {
     const [iconId, iconColor] = getIconProperties(item);
     const icon = (
       <span className={styles[iconId]}>
@@ -82,12 +89,13 @@ const SuggestionItem = pure(
       item.name,
       item.address,
     ];
+    const ariaParts = isFavourite(item)
+      ? [ariaFavouriteString, suggestionType, name, stopCode, label]
+      : [suggestionType, name, stopCode, label];
+    const ariaDescription = getAriaDescription(ariaParts);
     const acri = (
       <div className={styles['sr-only']}>
-        <p>
-          {' '}
-          {suggestionType} - {name} - {stopCode} - {label}
-        </p>
+        <p>{ariaDescription}</p>
       </div>
     );
     const isFutureRoute = iconId === 'future-route';
