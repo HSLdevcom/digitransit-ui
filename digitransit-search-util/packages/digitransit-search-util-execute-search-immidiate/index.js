@@ -282,7 +282,8 @@ export function getSearchResults(
     if (allSources || sources.includes('Datasource')) {
       const regex = minimalRegexp || undefined;
       const geocodingLayers = ['station', 'venue', 'address', 'street'];
-      const geosources = geocodingSources.join(',');
+      const feedis = feedIDs.map(v => `gtfs${v}`);
+      const geosources = geocodingSources.concat(feedis).join(',');
       searchComponents.push(
         getGeocodingResults(
           input,
