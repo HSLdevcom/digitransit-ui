@@ -91,7 +91,10 @@ const SuggestionItem = pure(
       </div>
     );
     const isFutureRoute = iconId === 'future-route';
-    const isAddFavourite = item.selectedIconId === 'favourite';
+    const isBikeRentalStation =
+      item.properties &&
+      (item.properties.layer === 'bikeRentalStation' ||
+        item.properties.layer === 'favouriteBikeRentalStation');
     const ri = (
       <div
         aria-hidden="true"
@@ -118,14 +121,12 @@ const SuggestionItem = pure(
               <p className={cx(styles['suggestion-name'], styles[className])}>
                 {name}
               </p>
-              {!isAddFavourite && (
-                <p className={styles['suggestion-label']}>
-                  {label || suggestionType}
-                  {stopCode && (
-                    <span className={styles['stop-code']}>{stopCode}</span>
-                  )}
-                </p>
-              )}
+              <p className={styles['suggestion-label']}>
+                {isBikeRentalStation ? suggestionType : label}
+                {stopCode && (
+                  <span className={styles['stop-code']}>{stopCode}</span>
+                )}
+              </p>
             </span>
           )}
           {iconId === 'future-route' && (
