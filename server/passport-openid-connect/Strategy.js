@@ -48,10 +48,12 @@ OICStrategy.prototype.authenticate = function (req, opts) {
     return this.callback(req, opts);
   }
   const { ssoValidTo, ssoToken } = req.session;
+  console.log(ssoToken);
   const authurl =
     ssoValidTo && ssoValidTo > moment().unix()
       ? this.createAuthUrl(ssoToken)
       : this.createAuthUrl();
+  console.log(authurl);
   this.redirect(authurl);
 };
 
