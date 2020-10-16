@@ -171,7 +171,10 @@ class IndexPage extends React.Component {
           `blurred`
         } fullscreen bp-${breakpoint}`}
       >
-        <div style={{ display: isBrowser ? 'block' : 'none' }}>
+        <div
+          style={{ display: isBrowser ? 'block' : 'none' }}
+          className="scrollable-content-wrapper momentum-scroll"
+        >
           <CtrlPanel
             instance="hsl"
             language={lang}
