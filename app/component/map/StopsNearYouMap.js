@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connectToStores } from 'fluxible-addons-react';
-import { matchShape, routerShape } from 'found';
+import { matchShape } from 'found';
 import { createFragmentContainer, graphql, fetchQuery } from 'react-relay';
 import moment from 'moment';
 import uniqBy from 'lodash/uniqBy';
@@ -416,7 +416,6 @@ StopsNearYouMap.propTypes = {
 };
 
 StopsNearYouMap.contextTypes = {
-  router: routerShape.isRequired,
   config: PropTypes.object,
   executeAction: PropTypes.func,
   getStore: PropTypes.func,
