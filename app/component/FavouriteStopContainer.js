@@ -22,7 +22,7 @@ const FavouriteStopContainer = connectToStores(
       }
       getJson(context.config.URL.PELIAS_PLACE, {
         ids: gid,
-        lang: context.getStore('PreferencesStore').getLanguage(),
+        // lang: context.getStore('PreferencesStore').getLanguage(), TODO enable this when OTP supports translations
       }).then(res => {
         if (Array.isArray(res.features) && res.features.length > 0) {
           const stopOrStation = res.features[0];
