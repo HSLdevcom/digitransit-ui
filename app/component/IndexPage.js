@@ -145,6 +145,11 @@ class IndexPage extends React.Component {
     const { trafficNowLink } = config;
     const { breakpoint, destination, origin, lang } = this.props;
 
+    const stopAndRouteSearchTargets =
+      this.context.config.cityBike && this.context.config.cityBike.showCityBikes
+        ? ['Stops', 'Routes', 'BikeRentalStations']
+        : ['Stops', 'Routes'];
+
     // const { mapExpanded } = this.state; // TODO verify
 
     return breakpoint === 'large' ? (
@@ -221,7 +226,7 @@ class IndexPage extends React.Component {
               placeholder="stop-near-you"
               value=""
               sources={['Favourite', 'History', 'Datasource']}
-              targets={['Stops', 'Routes', 'BikeRentalStations']}
+              targets={stopAndRouteSearchTargets}
             />
             <CtrlPanel.SeparatorLine />
             {trafficNowLink !== '' && (
@@ -309,7 +314,7 @@ class IndexPage extends React.Component {
               placeholder="stop-near-you"
               value=""
               sources={['Favourite', 'History', 'Datasource']}
-              targets={['Stops', 'Routes', 'BikeRentalStations']}
+              targets={stopAndRouteSearchTargets}
               isMobile
             />
             <CtrlPanel.SeparatorLine />
