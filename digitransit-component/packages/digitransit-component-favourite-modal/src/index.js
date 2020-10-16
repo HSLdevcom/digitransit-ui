@@ -96,7 +96,7 @@ FavouriteIconTable.propTypes = {
  *   autosuggestComponent={
  *     <AutoSuggest
  *       sources={['History', 'Datasource']}
- *       targets={['Locations', 'CurrentPosition', 'Stops']}
+ *       targets={['Locations', 'CurrentPosition']}
  *       id="favourite"
  *       autoFocus={false}
  *       placeholder="search-address-or-place"
