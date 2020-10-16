@@ -15,7 +15,14 @@ export const StreetModeSelector = ({
   walkPlan,
   bikePlan,
   bikeAndPublicPlan,
+  bikeParkPlan,
 }) => {
+  const bikeToVehicle = {
+    itineraries: [
+      ...bikeParkPlan.itineraries,
+      ...bikeAndPublicPlan.itineraries,
+    ],
+  };
   return (
     <div className="street-mode-selector-container">
       {weatherLoaded && (
@@ -47,8 +54,8 @@ export const StreetModeSelector = ({
           {showBikeAndPublicOptionButton && (
             <StreetModeSelectorButton
               icon="icon-icon_cyclist"
-              name="bikeAndPublic"
-              plan={bikeAndPublicPlan}
+              name="bikeToVehicle"
+              plan={bikeToVehicle}
               onClick={toggleStreetMode}
             />
           )}
@@ -68,6 +75,7 @@ StreetModeSelector.propTypes = {
   walkPlan: PropTypes.object,
   bikePlan: PropTypes.object,
   bikeAndPublicPlan: PropTypes.object,
+  bikeParkPlan: PropTypes.object,
   // eslint-disable-next-line react/require-default-props
   weatherData: PropTypes.shape({
     temperature: PropTypes.number,
@@ -80,6 +88,7 @@ StreetModeSelector.defaultProps = {
   walkPlan: undefined,
   bikePlan: undefined,
   bikeAndPublicPlan: undefined,
+  bikeParkPlan: undefined,
 };
 
 export default StreetModeSelector;

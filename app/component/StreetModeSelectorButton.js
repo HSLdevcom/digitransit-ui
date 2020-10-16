@@ -3,24 +3,46 @@ import React from 'react';
 import Icon from './Icon';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
-import { getTotalDistance } from '../util/legUtils';
+import {
+  getTotalDistance,
+  getTotalBikingDistance,
+  compressLegs,
+} from '../util/legUtils';
 
 export const StreetModeSelectorButton = (
   { icon, name, plan, onClick },
   { config },
 ) => {
-  const itinerary = plan.itineraries[0];
+  let itinerary = plan.itineraries[0];
   if (!itinerary) {
     return null;
   }
+
+  if (name === 'bikeToVehicle') {
+    const compressedLegs = compressLegs(itinerary.legs);
+    itinerary = {
+      ...itinerary,
+      legs: compressedLegs,
+    };
+  }
+
   const duration = durationToString(itinerary.duration * 1000);
-  const distance =
-    name === 'WALK'
-      ? displayDistance(itinerary.walkDistance, config)
-      : displayDistance(getTotalDistance(itinerary), config);
+  let distance = 0;
+  switch (name) {
+    case 'WALK':
+      distance = displayDistance(itinerary.walkDistance, config);
+      break;
+    case 'bikeToVehicle':
+      distance = displayDistance(getTotalBikingDistance(itinerary), config);
+      break;
+    default:
+      distance = displayDistance(getTotalDistance(itinerary), config);
+      break;
+  }
+
   let secondaryIcon;
 
-  if (name === 'bikeAndPublic') {
+  if (name === 'bikeToVehicle') {
     const publicModes = plan.itineraries[0].legs.filter(
       obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE',
     );
@@ -45,7 +67,7 @@ export const StreetModeSelectorButton = (
         >
           <Icon img={icon} />
         </div>
-        {name === 'bikeAndPublic' ? (
+        {name === 'bikeToVehicle' ? (
           <div className="street-mode-selector-button-icon secondary-icon">
             <Icon img={secondaryIcon} />
           </div>

@@ -7,26 +7,36 @@ import {
   getTotalBikingDistance,
   containsBiking,
   onlyBiking,
+  compressLegs,
 } from '../util/legUtils';
 
-const ItinerarySummary = ({ itinerary }) => (
-  <div className="itinerary-summary">
-    <Duration
-      duration={itinerary.duration}
-      className="duration--itinerary-summary"
-    />
-    {containsBiking(itinerary) && (
-      <WalkDistance
-        className="biking-distance--itinerary-summary"
-        icon="icon_biking"
-        walkDistance={getTotalBikingDistance(itinerary)}
+const ItinerarySummary = ({ itinerary }) => {
+  const compressedLegs = compressLegs(itinerary.legs);
+  const compressedItinerary = {
+    ...itinerary,
+    legs: compressedLegs,
+  };
+  return (
+    <div className="itinerary-summary">
+      <Duration
+        duration={compressedItinerary.duration}
+        className="duration--itinerary-summary"
       />
-    )}
-    {!onlyBiking(itinerary) && (
-      <WalkDistance walkDistance={getTotalWalkingDistance(itinerary)} />
-    )}
-  </div>
-);
+      {containsBiking(compressedItinerary) && (
+        <WalkDistance
+          className="biking-distance--itinerary-summary"
+          icon="icon_biking"
+          walkDistance={getTotalBikingDistance(compressedItinerary)}
+        />
+      )}
+      {!onlyBiking(compressedItinerary) && (
+        <WalkDistance
+          walkDistance={getTotalWalkingDistance(compressedItinerary)}
+        />
+      )}
+    </div>
+  );
+};
 
 ItinerarySummary.description = () =>
   "Displays itinerary summary row; itinerary's duration and walk distance";

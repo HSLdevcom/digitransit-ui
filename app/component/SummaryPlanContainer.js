@@ -84,9 +84,9 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onSelectActive = index => {
-    let isBikeAndPublic;
-    if (this.props.params.hash === 'bikeAndPublic') {
-      isBikeAndPublic = true;
+    let isBikeToVehicle;
+    if (this.props.params.hash === 'bikeToVehicle') {
+      isBikeToVehicle = true;
     }
     if (this.props.activeIndex === index) {
       this.onSelectImmediately(index);
@@ -97,7 +97,7 @@ class SummaryPlanContainer extends React.Component {
         pathname: `${getRoutePath(
           this.props.params.from,
           this.props.params.to,
-        )}${isBikeAndPublic ? '/bikeAndPublic/' : ''}`,
+        )}${isBikeToVehicle ? '/bikeToVehicle/' : ''}`,
       });
 
       addAnalyticsEvent({
@@ -110,7 +110,7 @@ class SummaryPlanContainer extends React.Component {
 
   onSelectImmediately = index => {
     let isBikeAndPublic;
-    if (this.props.params.hash === 'bikeAndPublic') {
+    if (this.props.params.hash === 'bikeToVehicle') {
       isBikeAndPublic = true;
     }
     addAnalyticsEvent({
@@ -126,11 +126,11 @@ class SummaryPlanContainer extends React.Component {
     const basePath = `${getRoutePath(
       this.props.params.from,
       this.props.params.to,
-    )}${isBikeAndPublic ? '/bikeAndPublic/' : '/'}`;
+    )}${isBikeAndPublic ? '/bikeToVehicle/' : '/'}`;
     const indexPath = `${getRoutePath(
       this.props.params.from,
       this.props.params.to,
-    )}${isBikeAndPublic ? '/bikeAndPublic/' : '/'}${index}`;
+    )}${isBikeAndPublic ? '/bikeToVehicle/' : '/'}${index}`;
 
     newState.pathname = basePath;
     this.context.router.replace(newState);
@@ -898,7 +898,7 @@ class SummaryPlanContainer extends React.Component {
           />
         </h2>
         {(this.context.match.params.hash &&
-          this.context.match.params.hash === 'bikeAndPublic') ||
+          this.context.match.params.hash === 'bikeToVehicle') ||
         disableButtons
           ? null
           : arriveBy
@@ -927,7 +927,7 @@ class SummaryPlanContainer extends React.Component {
           {this.props.children}
         </ItinerarySummaryListContainer>
         {(this.context.match.params.hash &&
-          this.context.match.params.hash === 'bikeAndPublic') ||
+          this.context.match.params.hash === 'bikeToVehicle') ||
         disableButtons
           ? null
           : arriveBy
