@@ -40,9 +40,20 @@ export default function setUpOIDC(app, port) {
 
   const redirectToLogin = function (req, res, next) {
     const { ssoValidTo, ssoToken } = req.session;
+    const paths = [
+      '/fi/',
+      '/en/',
+      '/sv/',
+      '/reitti/',
+      '/pysakit/',
+      '/linjat/',
+      '/terminaalit/',
+      '/pyoraasemat/',
+      '/lahellasi/',
+    ];
+    // Only allow sso login when user navigates to certain paths
     if (
-      req.path !== '/login' &&
-      req.path !== callbackPath &&
+      (req.path === '/' || paths.some(path => req.path.includes(path))) &&
       !req.isAuthenticated() &&
       ssoToken &&
       ssoValidTo &&
@@ -78,7 +89,8 @@ export default function setUpOIDC(app, port) {
   // Initialize Passport
   app.use(passport.initialize());
   app.use(passport.session());
-  app.use(redirectToLogin);
+
+  app.use('/', redirectToLogin);
 
   // Initiates an authentication request
   // users will be redirected to hsl.id and once authenticated

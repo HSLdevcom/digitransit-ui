@@ -1153,7 +1153,7 @@ class SummaryPage extends React.Component {
       walkPlan &&
         walkPlan.itineraries &&
         walkPlan.itineraries.length > 0 &&
-        currentSettings.usingWheelchair !== 1 &&
+        !currentSettings.usingWheelchair &&
         itineraryWalkDistance < this.context.config.suggestWalkMaxDistance,
     );
 
@@ -1168,7 +1168,7 @@ class SummaryPage extends React.Component {
       bikePlan &&
         bikePlan.itineraries &&
         bikePlan.itineraries.length > 0 &&
-        currentSettings.usingWheelchair !== 1 &&
+        !currentSettings.usingWheelchair &&
         currentSettings.includeBikeSuggestions &&
         !bikePlanContainsOnlyWalk &&
         itineraryBikeDistance < this.context.config.suggestBikeMaxDistance,
@@ -1184,7 +1184,7 @@ class SummaryPage extends React.Component {
       bikeParkPlan.itineraries.length > 0;
     const showBikeAndPublicOptionButton =
       (bikeAndPublicPlanHasItineraries || bikeParkPlanHasItineraries) &&
-      currentSettings.usingWheelchair !== 1 &&
+      !currentSettings.usingWheelchair &&
       currentSettings.includeBikeSuggestions;
 
     const showStreetModeSelector =

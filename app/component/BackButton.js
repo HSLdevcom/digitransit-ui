@@ -39,11 +39,6 @@ export default class BackButton extends React.Component {
 
   goBack = urlToGo => {
     if (
-      this.context.config.URL.REDIRECT_BACK &&
-      urlToGo === this.context.config.URL.REDIRECT_BACK
-    ) {
-      window.location.href = urlToGo;
-    } else if (
       this.context.match.location.index > 0 ||
       (this.context.match.params && this.context.match.params.hash)
     ) {
