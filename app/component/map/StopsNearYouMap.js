@@ -14,6 +14,7 @@ import TimeStore from '../../store/TimeStore';
 import OriginStore from '../../store/OriginStore';
 import DestinationStore from '../../store/DestinationStore';
 import PositionStore from '../../store/PositionStore';
+import { parseLocation } from '../../util/path';
 import { dtLocationShape } from '../../util/shapes';
 import PreferencesStore from '../../store/PreferencesStore';
 import BackButton from '../BackButton';
@@ -27,7 +28,12 @@ import {
 import { addressToItinerarySearch } from '../../util/otpStrings';
 import ItineraryLine from './ItineraryLine';
 import Loading from '../Loading';
+import LazilyLoad, { importLazy } from '../LazilyLoad';
 
+const locationMarkerModules = {
+  LocationMarker: () =>
+    importLazy(import(/* webpackChunkName: "map" */ './LocationMarker')),
+};
 const handleStopsAndStations = stops => {
   const terminalNames = [];
   const stopsAndStations = stops.edges.map(({ node }) => {
@@ -99,6 +105,17 @@ const handleBounds = (location, stops) => {
   }
   return [];
 };
+
+const getLocationMarker = location => {
+  return (
+    <LazilyLoad modules={locationMarkerModules} key="from">
+      {({ LocationMarker }) => (
+        <LocationMarker position={location} type="from" />
+      )}
+    </LazilyLoad>
+  );
+};
+
 function StopsNearYouMap(
   {
     breakpoint,
@@ -187,6 +204,7 @@ function StopsNearYouMap(
   if (locationState.loadingPosition || props.loading) {
     return <Loading />;
   }
+
   useEffect(() => {
     if (stops.edges && stops.edges.length > 0) {
       const firstStop = stopsAndStations[0];
@@ -203,6 +221,7 @@ function StopsNearYouMap(
   }, []);
 
   const { mode } = props.match.params;
+  const placeForMarker = parseLocation(props.match.params.place);
   const routeLines = [];
   const realtimeTopics = [];
   const renderRouteLines = mode !== 'CITYBIKE';
@@ -286,7 +305,18 @@ function StopsNearYouMap(
     }
     return [''];
   };
-
+  // Marker for the search point.
+  if (locationState.hasLocation) {
+    leafletObjs.push(getLocationMarker(locationState));
+  } else if (
+    placeForMarker &&
+    placeForMarker !== 'POS' &&
+    placeForMarker.ready
+  ) {
+    leafletObjs.push(getLocationMarker(placeForMarker));
+  } else {
+    leafletObjs.push(getLocationMarker(context.config.defaultEndpoint));
+  }
   let map;
   if (breakpoint === 'large') {
     map = (
