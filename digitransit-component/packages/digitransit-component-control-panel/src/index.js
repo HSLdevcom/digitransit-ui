@@ -2,7 +2,7 @@
 /* eslint no-console: ["error", { allow: ["warn", "error"] }] */
 /* eslint react/forbid-prop-types: 0 */
 import PropTypes from 'prop-types';
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import i18next from 'i18next';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
@@ -70,14 +70,22 @@ OriginToDestination.defaultProps = {
  * @param {string} props.language - Language used for accessible labels
  * @param {string} props.urlPrefix - URL prefix for links. Must end with /lahellasi
  * @param {boolean} props.showTitle - Show title, default is false
+ * @param {Object} props.alertsContext
+ * @param {function} props.alertsContext.getModesWithAlerts - Function which should return an array of transport modes that have active alerts (e.g. [BUS, SUBWAY])
+ * @param {Number} props.alertsContext.currentTime - Time stamp with which the returned alerts are validated with
  * @param {element} props.LinkComponent - React component for creating a link, default is undefined and normal anchor tags are used
  *
  * @example
+ * const alertsContext = {
+ *    getModesWithAlerts: () => ({}),
+ *    currentTime: 123456789,
+ * }
  * <CtrlPanel.NearStopsAndRoutes
  *      modes={['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike']}
  *      language="fi"
  *      urlPrefix="http://example.com/lahellasi"
  *      showTitle
+ *      alertsContext={alertsContext}
  *    />
  *
  */
@@ -86,11 +94,22 @@ function NearStopsAndRoutes({
   urlPrefix,
   language,
   showTitle,
+  alertsContext,
   LinkComponent,
   origin,
 }) {
+  const [modesWithAlerts, setModesWithAlerts] = useState([]);
+  useEffect(() => {
+    if (alertsContext) {
+      alertsContext.getModesWithAlerts(alertsContext.currentTime).then(res => {
+        setModesWithAlerts(res);
+      });
+    }
+  }, []);
+
   const queryString = origin.queryString || '';
   const buttons = modes.map(mode => {
+    const withAlert = modesWithAlerts.includes(mode.toUpperCase());
     let url = `${urlPrefix}/${mode.toUpperCase()}/POS`;
     if (origin.set) {
       url += `/${encodeURIComponent(origin.address)}::${origin.lat},${
@@ -104,7 +123,14 @@ function NearStopsAndRoutes({
             {i18next.t(`pick-mode-${mode}`, { lng: language })}
           </span>
           <span className={styles['transport-mode-icon-container']}>
-            <Icon img={`mode-${mode}`} />
+            <span className={styles['transport-mode-icon-with-icon']}>
+              <Icon img={`mode-${mode}`} />
+              {withAlert && (
+                <span className={styles['transport-mode-alert-icon']}>
+                  <Icon img="caution" color="#dc0451" />
+                </span>
+              )}
+            </span>
           </span>
         </LinkComponent>
       );
@@ -116,6 +142,11 @@ function NearStopsAndRoutes({
         </span>
         <span className={styles['transport-mode-icon-container']}>
           <Icon img={`mode-${mode}`} />
+          {withAlert && (
+            <span className={styles['transport-mode-alert-icon']}>
+              <Icon img="caution" color="#dc0451" />
+            </span>
+          )}
         </span>
       </a>
     );
@@ -138,6 +169,10 @@ NearStopsAndRoutes.propTypes = {
   urlPrefix: PropTypes.string.isRequired,
   language: PropTypes.string,
   showTitle: PropTypes.bool,
+  alertsContext: PropTypes.shape({
+    getModesWithAlerts: PropTypes.func,
+    currentTime: PropTypes.number,
+  }),
   LinkComponent: PropTypes.object,
   origin: PropTypes.object,
 };
