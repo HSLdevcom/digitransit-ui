@@ -16,12 +16,13 @@ function MapContainer({ className, children, ...props }) {
         {({ Map }) => {
           return (
             <MapBottomsheetContext.Consumer>
-              {context => {
-                const padding = context ? context.paddingBottomRight : null;
-                const { boundsOptions } = props;
-                boundsOptions.paddingBottomRight = padding;
-                return <Map boundsOptions={boundsOptions} {...props} />;
-              }}
+              {context => (
+                <Map
+                  {...props}
+                  mapBottomPadding={context.mapBottomPadding || null}
+                  buttonBottomPadding={context.buttonBottomPadding || null}
+                />
+              )}
             </MapBottomsheetContext.Consumer>
           );
         }}

@@ -16,6 +16,7 @@ import OriginStore from '../../store/OriginStore';
 import DestinationStore from '../../store/DestinationStore';
 import PositionStore from '../../store/PositionStore';
 import FavouriteStore from '../../store/FavouriteStore';
+import { parseLocation } from '../../util/path';
 import { dtLocationShape } from '../../util/shapes';
 import PreferencesStore from '../../store/PreferencesStore';
 import BackButton from '../BackButton';
@@ -33,7 +34,12 @@ import {
 } from '../../util/sortUtils';
 import ItineraryLine from './ItineraryLine';
 import Loading from '../Loading';
+import LazilyLoad, { importLazy } from '../LazilyLoad';
 
+const locationMarkerModules = {
+  LocationMarker: () =>
+    importLazy(import(/* webpackChunkName: "map" */ './LocationMarker')),
+};
 const handleStopsAndStations = edges => {
   const terminalNames = [];
   const stopsAndStations = edges.map(({ node }) => {
@@ -82,7 +88,7 @@ const stopClient = context => {
 const handleBounds = (location, edges) => {
   if (!location || (location.lat === 0 && location.lon === 0)) {
     // Still waiting for a location
-    return null;
+    return [];
   }
   if (location.lat && Array.isArray(edges)) {
     if (edges.length === 0) {
@@ -103,6 +109,16 @@ const handleBounds = (location, edges) => {
     return bounds;
   }
   return [];
+};
+
+const getLocationMarker = location => {
+  return (
+    <LazilyLoad modules={locationMarkerModules} key="from">
+      {({ LocationMarker }) => (
+        <LocationMarker position={location} type="from" />
+      )}
+    </LazilyLoad>
+  );
 };
 
 function StopsNearYouMap(
@@ -127,7 +143,7 @@ function StopsNearYouMap(
   let useFitBounds = true;
   const bounds = handleBounds(locationState, sortedStopEdges);
 
-  if (!bounds) {
+  if (!bounds.length) {
     useFitBounds = false;
   }
   let uniqueRealtimeTopics;
@@ -209,6 +225,7 @@ function StopsNearYouMap(
   if (locationState.loadingPosition || loading) {
     return <Loading />;
   }
+
   useEffect(() => {
     if (Array.isArray(stopsAndStations)) {
       if (stopsAndStations.length > 0) {
@@ -236,6 +253,7 @@ function StopsNearYouMap(
     }
   }, [favouriteIds, stops]);
 
+  const placeForMarker = parseLocation(match.params.place);
   const routeLines = [];
   const realtimeTopics = [];
   const renderRouteLines = mode !== 'CITYBIKE';
@@ -323,7 +341,18 @@ function StopsNearYouMap(
     }
     return [''];
   };
-
+  // Marker for the search point.
+  if (locationState.hasLocation) {
+    leafletObjs.push(getLocationMarker(locationState));
+  } else if (
+    placeForMarker &&
+    placeForMarker !== 'POS' &&
+    placeForMarker.ready
+  ) {
+    leafletObjs.push(getLocationMarker(placeForMarker));
+  } else {
+    leafletObjs.push(getLocationMarker(context.config.defaultEndpoint));
+  }
   let map;
   if (breakpoint === 'large') {
     map = (

@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import take from 'lodash/take';
 import flatten from 'lodash/flatten';
+import uniq from 'lodash/uniq';
 import compact from 'lodash/compact';
 import moment from 'moment';
 import { fetchQuery, graphql } from 'react-relay';
@@ -12,6 +13,28 @@ import {
 import filterMatchingToInput from '@digitransit-search-util/digitransit-search-util-filter-matching-to-input';
 
 let relayEnvironment = null;
+
+const alertsQuery = graphql`
+  query digitransitSearchUtilQueryUtilsAlertsQuery {
+    alerts(severityLevel: [SEVERE]) {
+      stop {
+        vehicleMode
+        patterns {
+          route {
+            mode
+          }
+        }
+      }
+      route {
+        mode
+        shortName
+      }
+      alertHeaderText
+      effectiveStartDate
+      effectiveEndDate
+    }
+  }
+`;
 
 const searchBikeRentalStationsQuery = graphql`
   query digitransitSearchUtilQueryUtilsSearchBikeRentalStationsQuery {
@@ -150,6 +173,29 @@ const verify = (stopStationMap, favourites) => {
 export function setRelayEnvironment(environment) {
   relayEnvironment = environment;
 }
+
+export const getModesWithAlerts = currentTime => {
+  if (!relayEnvironment) {
+    return Promise.resolve([]);
+  }
+  return fetchQuery(relayEnvironment, alertsQuery)
+    .then(res => {
+      const modes = res.alerts.map(i => {
+        if (
+          i.route &&
+          i.route.mode &&
+          i.effectiveStartDate <= currentTime &&
+          i.effectiveEndDate >= currentTime
+        ) {
+          return i.route.mode;
+        }
+        return undefined;
+      });
+      return modes;
+    })
+    .then(compact)
+    .then(uniq);
+};
 /**
  * Returns Stop and station objects .
  * @param {*} favourites

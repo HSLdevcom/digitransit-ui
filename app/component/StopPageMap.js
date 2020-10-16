@@ -167,7 +167,7 @@ const StopPageMap = (
       leafletObjs={leafletObjs}
       showScaleBar
       focusPoint={focusPoint}
-      setInitialZoom={12}
+      initialZoom={12}
       origin={locationState}
       destination={stop}
       bounds={bounds}

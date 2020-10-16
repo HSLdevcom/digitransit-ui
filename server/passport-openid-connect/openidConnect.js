@@ -1,4 +1,4 @@
-/* eslint-disable func-names */
+/* eslint-disable func-names, no-console */
 const passport = require('passport');
 const session = require('express-session');
 const redis = require('redis');
@@ -9,7 +9,6 @@ const LoginStrategy = require('./Strategy').Strategy;
 
 export default function setUpOIDC(app, port) {
   /* ********* Setup OpenID Connect ********* */
-  const devhost = '';
   const callbackPath = '/oid_callback'; // connect callback path
   // Use Passport with OpenId Connect strategy to authenticate users
   const OIDCHost = process.env.OIDCHOST || 'https://hslid-dev.t5.fi';
@@ -39,6 +38,34 @@ export default function setUpOIDC(app, port) {
   passport.serializeUser(LoginStrategy.serializeUser);
   passport.deserializeUser(LoginStrategy.deserializeUser);
 
+  const redirectToLogin = function (req, res, next) {
+    const { ssoValidTo, ssoToken } = req.session;
+    const paths = [
+      '/fi/',
+      '/en/',
+      '/sv/',
+      '/reitti/',
+      '/pysakit/',
+      '/linjat/',
+      '/terminaalit/',
+      '/pyoraasemat/',
+      '/lahellasi/',
+    ];
+    // Only allow sso login when user navigates to certain paths
+    if (
+      (req.path === '/' || paths.some(path => req.path.includes(path))) &&
+      !req.isAuthenticated() &&
+      ssoToken &&
+      ssoValidTo &&
+      ssoValidTo > moment().unix()
+    ) {
+      req.session.returnTo = req.path;
+      res.redirect('/login');
+    } else {
+      next();
+    }
+  };
+
   // Passport requires session to persist the authentication
   app.use(
     session({
@@ -63,25 +90,27 @@ export default function setUpOIDC(app, port) {
   app.use(passport.initialize());
   app.use(passport.session());
 
+  app.use('/', redirectToLogin);
+
   // Initiates an authentication request
   // users will be redirected to hsl.id and once authenticated
   // they will be returned to the callback handler below
-  app.get(
-    '/login',
+  app.get('/login', function (req, res) {
     passport.authenticate('passport-openid-connect', {
-      successReturnToOrRedirect: '/',
       scope: 'profile',
-    }),
-  );
+      successReturnToOrRedirect: '/',
+    })(req, res);
+  });
   // Callback handler that will redirect back to application after successfull authentication
-  app.get(
-    callbackPath,
+  app.get(callbackPath, function (req, res, next) {
+    req.session.ssoToken = null;
+    req.session.ssoValidTo = null;
     passport.authenticate('passport-openid-connect', {
       callback: true,
-      successReturnToOrRedirect: `${devhost}/`,
-      failureRedirect: '/',
-    }),
-  );
+      successReturnToOrRedirect: '/',
+      failureRedirect: '/login',
+    })(req, res, next);
+  });
   app.get('/logout', function (req, res) {
     req.logout();
     req.session.destroy(function () {

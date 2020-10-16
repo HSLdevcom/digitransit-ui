@@ -14,6 +14,7 @@ export default function DesktopView(
     scrollable,
     bckBtnColor,
     bckBtnVisible,
+    bckBtnUrl,
   },
   { config },
 ) {
@@ -28,7 +29,7 @@ export default function DesktopView(
                 icon="icon-icon_arrow-collapse--left"
                 color={bckBtnColor}
                 iconClassName="arrow-icon"
-                urlToBack={config.URL.REDIRECT_BACK}
+                urlToBack={bckBtnUrl || config.URL.REDIRECT_BACK}
               />
             </div>
           </div>
@@ -59,11 +60,13 @@ DesktopView.propTypes = {
   scrollable: PropTypes.bool,
   bckBtnColor: PropTypes.string,
   bckBtnVisible: PropTypes.bool, // DT-3471
+  bckBtnUrl: PropTypes.string,
 };
 
 DesktopView.defaultProps = {
   scrollable: false,
   bckBtnVisible: true, // DT-3471
+  bckBtnUrl: undefined,
 };
 
 DesktopView.contextTypes = {
