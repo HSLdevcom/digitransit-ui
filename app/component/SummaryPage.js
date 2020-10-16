@@ -1111,10 +1111,11 @@ class SummaryPage extends React.Component {
           bikeParkPlan.itineraries.length,
           3,
         );
+
         this.selectedPlan = {
           itineraries: [
-            ...bikeParkPlan.itineraries,
-            ...bikeAndPublicPlan.itineraries,
+            ...bikeParkPlan.itineraries.slice(0, 3),
+            ...bikeAndPublicPlan.itineraries.slice(0, 3),
           ],
         };
       } else if (
@@ -1311,15 +1312,15 @@ class SummaryPage extends React.Component {
         this.state.loading === false &&
         this.props.loadingPosition === false &&
         this.props.loading === false &&
-        (error || this.selectedPlan.itineraries)
+        (error || this.state.itineraries)
       ) {
         const activeIndex = getActiveIndex(
           match.location,
-          this.selectedPlan.itineraries,
+          this.state.itineraries,
         );
         if (
           routeSelected(match.params.hash, match.params.secondHash) &&
-          this.selectedPlan.itineraries.length > 0
+          this.state.itineraries.length > 0
         ) {
           content = (
             <>
@@ -1329,7 +1330,7 @@ class SummaryPage extends React.Component {
                 activeIndex={activeIndex}
                 plan={this.selectedPlan}
                 serviceTimeRange={serviceTimeRange}
-                itinerary={this.selectedPlan.itineraries[activeIndex]}
+                itinerary={this.state.itineraries[activeIndex]}
                 params={match.params}
                 error={error || this.state.error}
                 setLoading={this.setLoading}
@@ -1362,7 +1363,7 @@ class SummaryPage extends React.Component {
               activeIndex={activeIndex}
               plan={this.selectedPlan}
               serviceTimeRange={serviceTimeRange}
-              itineraries={this.selectedPlan.itineraries}
+              itineraries={this.state.itineraries}
               params={match.params}
               error={error || this.state.error}
               setLoading={this.setLoading}
@@ -1383,8 +1384,7 @@ class SummaryPage extends React.Component {
             >
               {this.props.content &&
                 React.cloneElement(this.props.content, {
-                  itinerary:
-                    hasItineraries && this.selectedPlan.itineraries[hash],
+                  itinerary: hasItineraries && this.state.itineraries[hash],
                   focus: this.updateCenter,
                   plan: this.selectedPlan,
                 })}
