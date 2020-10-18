@@ -46,7 +46,8 @@ export const getNameLabel = memoize(
         return [suggestion.labelId];
       case 'favouritePlace':
         return [
-          suggestion.name,
+          suggestion.name ||
+            (suggestion.address && suggestion.address.split(',')[0]),
           suggestion.address.replace(
             new RegExp(`${escapeRegExp(suggestion.name)}(,)?( )?`),
             '',
