@@ -7,7 +7,7 @@ import Icon from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
 
 function isFavourite(item) {
-  return item && item.properties && item.properties.layer.includes('favourite');
+  return item && item.type && item.type.includes('Favourite');
 }
 
 function getAriaDescription(ariaContentArray) {
@@ -20,7 +20,13 @@ function getAriaDescription(ariaContentArray) {
 function getIconProperties(item) {
   let iconId;
   let iconColor = '#888888';
-  if (item && item.selectedIconId) {
+  // because of legacy favourites there might be selectedIconId for some stops or stations
+  // but we do not want to show those icons
+  if (item.type === 'FavouriteStop') {
+    iconId = 'favouriteStop';
+  } else if (item.type === 'FavouriteStation') {
+    iconId = 'favouriteStation';
+  } else if (item && item.selectedIconId) {
     iconId = item.selectedIconId;
   } else if (item && item.properties) {
     iconId = item.properties.selectedIconId || item.properties.layer;
