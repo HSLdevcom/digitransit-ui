@@ -201,12 +201,18 @@ export const getModesWithAlerts = currentTime => {
  * @param {*} favourites
  */
 export const getStopAndStationsQuery = favourites => {
+  // TODO perhaps validate stops/stations through geocoding api instead of routing?
   if (!relayEnvironment || !Array.isArray(favourites)) {
     return Promise.resolve([]);
   }
   const queries = [];
   const stopIds = favourites
-    .filter(item => item.type === 'stop')
+    .filter(
+      item =>
+        item.type === 'stop' &&
+        item.address !== undefined &&
+        item.address !== null,
+    )
     .map(item => item.gtfsId);
   if (stopIds.length > 0) {
     queries.push(
@@ -216,7 +222,12 @@ export const getStopAndStationsQuery = favourites => {
     );
   }
   const stationIds = favourites
-    .filter(item => item.type === 'station')
+    .filter(
+      item =>
+        item.type === 'station' &&
+        item.address !== undefined &&
+        item.address !== null,
+    )
     .map(item => item.gtfsId);
   if (stationIds.length > 0) {
     queries.push(
