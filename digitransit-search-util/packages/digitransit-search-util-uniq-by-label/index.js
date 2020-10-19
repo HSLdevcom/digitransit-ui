@@ -86,7 +86,12 @@ export const getNameLabel = memoize(
       case 'favouriteStop':
       case 'stop':
         return plain
-          ? [suggestion.name || suggestion.label, getLocality(suggestion)]
+          ? [
+              suggestion.name ||
+                suggestion.label ||
+                (suggestion.address && suggestion.address.split(',')[0]),
+              getLocality(suggestion),
+            ]
           : [
               suggestion.name,
               suggestion.id,
@@ -96,7 +101,12 @@ export const getNameLabel = memoize(
       case 'favouriteStation':
       case 'station':
       default:
-        return [suggestion.name || suggestion.label, getLocality(suggestion)];
+        return [
+          suggestion.name ||
+            suggestion.label ||
+            (suggestion.address && suggestion.address.split(',')[0]),
+          getLocality(suggestion),
+        ];
     }
   },
   (item, plain) => {
