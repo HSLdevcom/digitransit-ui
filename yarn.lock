@@ -1352,7 +1352,7 @@
     "@hsl-fi/sass" "^0.1.1"
     "@hsl-fi/site-header" "^0.2.1"
 
-"@digitransit-component/digitransit-component-icon@latest":
+"@digitransit-component/digitransit-component-icon@0.0.12", "@digitransit-component/digitransit-component-icon@latest":
   version "0.0.12"
   resolved "https://registry.yarnpkg.com/@digitransit-component/digitransit-component-icon/-/digitransit-component-icon-0.0.12.tgz#e5b6e9a877df285dfbdec8ddda6f49b4072bb618"
   integrity sha512-LBSrHnT29W7IcbyPs+HRT7v54opJTacQGKkY75RaYDIGrVy+0+y+qXVYta2J5/dPutBQhOGVMjMmm+nE0dLUjg==

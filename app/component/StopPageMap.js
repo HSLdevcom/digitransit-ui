@@ -161,7 +161,7 @@ const StopPageMap = (
     <MapWithTracking
       className="flex-grow"
       defaultMapCenter={stop}
-      initalZoom={!match.params.stopId || stop.platformCode ? 18 : 16}
+      initialZoom={!match.params.stopId || stop.platformCode ? 18 : 16}
       showStops
       hilightedStops={[id]}
       leafletObjs={leafletObjs}
