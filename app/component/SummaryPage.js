@@ -121,7 +121,7 @@ export const getHashNumber = hash => {
 };
 
 export const routeSelected = (hash, secondHash) => {
-  if (hash === 'bikeToVehicle') {
+  if (hash === 'bikeAndVehicle') {
     if (secondHash) {
       return true;
     }
@@ -263,7 +263,7 @@ class SummaryPage extends React.Component {
       this.props.match.params.hash &&
       (this.props.match.params.hash === 'walk' ||
         this.props.match.params.hash === 'bike' ||
-        this.props.match.params.hash === 'bikeToVehicle')
+        this.props.match.params.hash === 'bikeAndVehicle')
     ) {
       existingStreetMode = this.props.match.params.hash;
     } else {
@@ -287,7 +287,7 @@ class SummaryPage extends React.Component {
       this.selectedPlan = this.props.walkPlan;
     } else if (this.state.streetMode === 'bike') {
       this.selectedPlan = this.props.bikePlan;
-    } else if (this.state.streetMode === 'bikeToVehicle') {
+    } else if (this.state.streetMode === 'bikeAndVehicle') {
       this.selectedPlan = {
         itineraries: [
           ...this.props.bikeParkPlan?.itineraries,
@@ -656,7 +656,7 @@ class SummaryPage extends React.Component {
       this.props.match.params.hash &&
       (this.props.match.params.hash === 'walk' ||
         this.props.match.params.hash === 'bike' ||
-        this.props.match.params.hash === 'bikeToVehicle')
+        this.props.match.params.hash === 'bikeAndVehicle')
     ) {
       // Reset url and thus streetmode if intermediate places change
       if (
@@ -744,7 +744,7 @@ class SummaryPage extends React.Component {
     return iconId;
   };
 
-  filteredBikeToVehicle = plan => {
+  filteredbikeAndPublic = plan => {
     const filteredItineraries = [];
     if (plan && plan.itineraries) {
       plan.itineraries.map(itinerary => {
@@ -768,11 +768,10 @@ class SummaryPage extends React.Component {
   UNSAFE_componentWillReceiveProps(nextProps) {
     const from = otpToLocation(this.props.match.params.from);
 
-    const { walkPlan, bikePlan } = nextProps;
-    const bikeAndPublicPlan = this.filteredBikeToVehicle(
+    const { walkPlan, bikePlan, bikeParkPlan } = nextProps;
+    const bikeAndPublicPlan = this.filteredbikeAndPublic(
       nextProps.bikeAndPublicPlan,
     );
-    const bikeParkPlan = this.filteredBikeToVehicle(nextProps.bikeParkPlan);
     const itin =
       (walkPlan && walkPlan.itineraries && walkPlan.itineraries[0]) ||
       (bikePlan && bikePlan.itineraries && bikePlan.itineraries[0]) ||
@@ -1058,11 +1057,10 @@ class SummaryPage extends React.Component {
   };
 
   render() {
-    const { match, error, plan, walkPlan, bikePlan } = this.props;
-    const bikeAndPublicPlan = this.filteredBikeToVehicle(
+    const { match, error, plan, walkPlan, bikePlan, bikeParkPlan } = this.props;
+    const bikeAndPublicPlan = this.filteredbikeAndPublic(
       this.props.bikeAndPublicPlan,
     );
-    const bikeParkPlan = this.filteredBikeToVehicle(this.props.bikeParkPlan);
 
     const planHasNoItineraries =
       this.props.plan &&
@@ -1093,7 +1091,7 @@ class SummaryPage extends React.Component {
     } else if (this.state.streetMode === 'bike') {
       this.stopClient();
       this.selectedPlan = bikePlan;
-    } else if (this.state.streetMode === 'bikeToVehicle') {
+    } else if (this.state.streetMode === 'bikeAndVehicle') {
       if (
         bikeAndPublicPlan &&
         bikeAndPublicPlan.itineraries &&
@@ -1192,7 +1190,7 @@ class SummaryPage extends React.Component {
       (showWalkOptionButton ||
         showBikeOptionButton ||
         showBikeAndPublicOptionButton) &&
-      this.state.streetMode !== 'bikeToVehicle';
+      this.state.streetMode !== 'bikeAndVehicle';
 
     const hasItineraries =
       this.selectedPlan && Array.isArray(this.selectedPlan.itineraries);
@@ -1259,7 +1257,7 @@ class SummaryPage extends React.Component {
     // Call props.map directly in order to render to same map instance
     let map;
     if (
-      this.state.streetMode === 'bikeToVehicle' &&
+      this.state.streetMode === 'bikeAndVehicle' &&
       !routeSelected(match.params.hash, match.params.secondHash)
     ) {
       map = this.renderMap();
@@ -1759,11 +1757,6 @@ const containerComponent = createFragmentContainer(PositioningWrapper, {
           intermediatePlaces {
             stop {
               zoneId
-              alerts {
-                alertSeverityLevel
-                effectiveEndDate
-                effectiveStartDate
-              }
             }
           }
           ...ItineraryLine_legs

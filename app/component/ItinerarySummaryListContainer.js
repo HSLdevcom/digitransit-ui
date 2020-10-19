@@ -71,7 +71,7 @@ function ItinerarySummaryListContainer(
     ));
     if (
       context.match.params.hash &&
-      context.match.params.hash === 'bikeToVehicle'
+      context.match.params.hash === 'bikeAndVehicle'
     ) {
       summaries.splice(
         0,

@@ -17,7 +17,7 @@ export const StreetModeSelector = ({
   bikeAndPublicPlan,
   bikeParkPlan,
 }) => {
-  const bikeToVehicle = {
+  const bikeAndVehicle = {
     itineraries: [
       ...bikeParkPlan.itineraries,
       ...bikeAndPublicPlan.itineraries,
@@ -54,8 +54,8 @@ export const StreetModeSelector = ({
           {showBikeAndPublicOptionButton && (
             <StreetModeSelectorButton
               icon="icon-icon_cyclist"
-              name="bikeToVehicle"
-              plan={bikeToVehicle}
+              name="bikeAndVehicle"
+              plan={bikeAndVehicle}
               onClick={toggleStreetMode}
             />
           )}

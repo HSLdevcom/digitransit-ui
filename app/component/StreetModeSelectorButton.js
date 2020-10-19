@@ -18,7 +18,7 @@ export const StreetModeSelectorButton = (
     return null;
   }
 
-  if (name === 'bikeToVehicle') {
+  if (name === 'bikeAndVehicle') {
     const compressedLegs = compressLegs(itinerary.legs);
     itinerary = {
       ...itinerary,
@@ -32,7 +32,7 @@ export const StreetModeSelectorButton = (
     case 'WALK':
       distance = displayDistance(itinerary.walkDistance, config);
       break;
-    case 'bikeToVehicle':
+    case 'bikeAndVehicle':
       distance = displayDistance(getTotalBikingDistance(itinerary), config);
       break;
     default:
@@ -42,7 +42,7 @@ export const StreetModeSelectorButton = (
 
   let secondaryIcon;
 
-  if (name === 'bikeToVehicle') {
+  if (name === 'bikeAndVehicle') {
     const publicModes = plan.itineraries[0].legs.filter(
       obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE',
     );
@@ -67,7 +67,7 @@ export const StreetModeSelectorButton = (
         >
           <Icon img={icon} />
         </div>
-        {name === 'bikeToVehicle' ? (
+        {name === 'bikeAndVehicle' ? (
           <div className="street-mode-selector-button-icon secondary-icon">
             <Icon img={secondaryIcon} />
           </div>
