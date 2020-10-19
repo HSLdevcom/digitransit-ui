@@ -584,8 +584,12 @@ class DTAutosuggest extends React.Component {
 
   suggestionAsAriaContent = () => {
     let label = [];
-    if (this.state.suggestions[0]) {
-      label = getSuggestionContent(this.state.suggestions[0]);
+    const firstSuggestion = this.state.suggestions[0];
+    if (firstSuggestion) {
+      if (firstSuggestion.type && firstSuggestion.type.includes('Favourite')) {
+        label.push(i18next.t('favourite'));
+      }
+      label = label.concat(getSuggestionContent(this.state.suggestions[0]));
     }
     return label ? label.join(' - ') : '';
   };
