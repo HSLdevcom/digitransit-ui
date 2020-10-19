@@ -8,7 +8,10 @@ export default createFragmentContainer(
     StopPageHeader,
     ['FavouriteStore'],
     ({ getStore }, { match }) => ({
-      favourite: getStore('FavouriteStore').isFavourite(match.params.stopId),
+      favourite: getStore('FavouriteStore').isFavourite(
+        match.params.stopId,
+        'stop',
+      ),
     }),
   ),
   {

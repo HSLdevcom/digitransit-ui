@@ -18,11 +18,6 @@ i18next.addResourceBundle('en', 'translation', translations.en);
 i18next.addResourceBundle('fi', 'translation', translations.fi);
 i18next.addResourceBundle('sv', 'translation', translations.sv);
 
-const isStop = ({ layer }) => layer === 'stop' || layer === 'favouriteStop';
-
-const isTerminal = ({ layer }) =>
-  layer === 'station' || layer === 'favouriteStation';
-
 const FavouriteIconIdToNameMap = {
   'icon-icon_place': 'place',
   'icon-icon_home': 'home',
@@ -101,7 +96,7 @@ FavouriteIconTable.propTypes = {
  *   autosuggestComponent={
  *     <AutoSuggest
  *       sources={['History', 'Datasource']}
- *       targets={['Locations', 'CurrentPosition', 'Stops']}
+ *       targets={['Locations', 'CurrentPosition']}
  *       id="favourite"
  *       autoFocus={false}
  *       placeholder="search-address-or-place"
@@ -290,15 +285,7 @@ class FavouriteModal extends React.Component {
         ...this.state.favourite,
         name,
       };
-      if (
-        (isStop(this.state.favourite) || isTerminal(this.state.favourite)) &&
-        this.state.favourite.gtfsId
-      ) {
-        const type = isTerminal(favourite) ? 'station' : 'stop';
-        this.props.saveFavourite({ ...favourite, type });
-      } else {
-        this.props.saveFavourite({ ...favourite, type: 'place' });
-      }
+      this.props.saveFavourite({ ...favourite, type: 'place' });
       if (this.props.addAnalyticsEvent) {
         this.props.addAnalyticsEvent({
           category: 'Favourite',

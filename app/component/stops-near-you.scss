@@ -47,6 +47,7 @@
         width: 100%;
         margin-bottom: 10px;
         .stop-near-you-header-container {
+            display: flex;
             .stop-near-you-name {
                 line-height: 24px;
             }
@@ -91,6 +92,14 @@
                         line-height: 14px;
                     }
                 }
+            }
+            .stop-favourite-container {
+                padding-top: 8px;
+                margin-left: auto;
+            }
+            .bike-rental-favourite-container {
+                padding-top: 8px;
+                margin-left: auto;
             }
         }
     }

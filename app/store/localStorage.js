@@ -271,10 +271,6 @@ export function getFavouriteLocationsStorage() {
   return getItemAsJson('favouriteLocations');
 }
 
-export function setFavouriteLocationsStorage(data) {
-  setItem('favouriteLocations', data);
-}
-
 export function getFavouriteStopsStorage() {
   return getItemAsJson('favouriteStops');
 }
@@ -297,24 +293,8 @@ export function getReadMessageIds() {
   return getItemAsJson('readMessages', '[]');
 }
 
-export function setFavouriteStopsStorage(data) {
-  setItem('favouriteStops', data);
-}
-
-export function getFavouriteCityBikeStations() {
-  return getItemAsJson('favouriteCityBikeStations', '[]');
-}
-
-export function setFavouriteCityBikeStations(data) {
-  setItem('favouriteCityBikeStations', data);
-}
-
 export function getFavouriteRoutesStorage() {
   return getItemAsJson('favouriteRoutes');
-}
-
-export function setFavouriteRoutesStorage(data) {
-  setItem('favouriteRoutes', data);
 }
 
 export function getModeStorage() {

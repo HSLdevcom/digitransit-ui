@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
@@ -35,8 +34,6 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     executeAction: PropTypes.func.isRequired,
     headers: PropTypes.object.isRequired,
     getStore: PropTypes.func,
-    router: routerShape.isRequired,
-    match: matchShape.isRequired,
     intl: intlShape.isRequired,
   };
 
@@ -50,10 +47,14 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
       lat: PropTypes.number,
       lon: PropTypes.number,
       status: PropTypes.string,
+      hasLocation: PropTypes.bool,
+      address: PropTypes.string,
     }),
     lang: PropTypes.string.isRequired,
     isModalNeeded: PropTypes.bool,
     queryString: PropTypes.string,
+    router: routerShape.isRequired,
+    match: matchShape.isRequired,
   };
 
   constructor(props) {
@@ -113,7 +114,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
 
   getQueryVariables = () => {
     const { startPosition } = this.state;
-    const { mode } = this.context.match.params;
+    const { mode } = this.props.match.params;
     let placeTypes = 'STOP';
     let modes = [mode];
     if (mode === 'CITYBIKE') {
@@ -141,7 +142,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   };
 
   renderContent = () => {
-    const { mode } = this.context.match.params;
+    const { mode } = this.props.match.params;
     const renderDisruptionBanner = mode !== 'CITYBIKE';
     const renderSearch = mode !== 'FERRY';
     return (
@@ -193,8 +194,6 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                 {this.props.content &&
                   React.cloneElement(this.props.content, {
                     stopPatterns: props.stopPatterns,
-                    match: this.context.match,
-                    router: this.context.router,
                   })}
               </div>
             );
@@ -240,8 +239,6 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
               React.cloneElement(this.props.map, {
                 position: this.state.startPosition,
                 stops: props.stops,
-                match: this.context.match,
-                router: this.context.router,
               })
             );
           }
@@ -253,8 +250,8 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
 
   createBckBtnUrl = () => {
     const { position } = this.props;
-    const { place } = this.context.match.params;
-    const { search } = this.context.match.location || '';
+    const { place } = this.props.match.params;
+    const { search } = this.props.match.location || '';
     if (place === 'POS' && !position) {
       const location = this.context.config.defaultEndpoint;
       return `/${encodeURIComponent(
@@ -305,7 +302,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
         placeholder="origin"
         value=""
         lang={this.props.lang}
-        mode={this.context.match.params.mode}
+        mode={this.props.match.params.mode}
       />
     );
   };
@@ -369,7 +366,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     let proceed = false;
     let savedChoice;
     const { loadingPosition, position, isModalNeeded } = this.props;
-    const { params } = this.context.match;
+    const { params } = this.props.match;
     const queryString = this.props.queryString || '';
 
     if (isModalNeeded !== undefined && !isModalNeeded && position) {
@@ -386,7 +383,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
           showModal = false;
           proceed = true;
         } else if (params.origin) {
-          this.context.router.replace(
+          this.props.router.replace(
             `/${PREFIX_NEARYOU}/${params.mode}/${params.origin}${queryString}`,
           );
         }

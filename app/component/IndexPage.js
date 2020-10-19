@@ -150,6 +150,11 @@ class IndexPage extends React.Component {
     const { breakpoint, destination, origin, lang } = this.props;
     const queryString = this.context.match.location.search;
 
+    const stopAndRouteSearchTargets =
+      this.context.config.cityBike && this.context.config.cityBike.showCityBikes
+        ? ['Stops', 'Routes', 'BikeRentalStations']
+        : ['Stops', 'Routes'];
+
     const originToStopNearYou = {
       ...origin,
       queryString,
@@ -241,7 +246,7 @@ class IndexPage extends React.Component {
               placeholder="stop-near-you"
               value=""
               sources={['Favourite', 'History', 'Datasource']}
-              targets={['Stops', 'Routes']}
+              targets={stopAndRouteSearchTargets}
             />
             <CtrlPanel.SeparatorLine />
             {trafficNowLink !== '' && (
@@ -332,7 +337,7 @@ class IndexPage extends React.Component {
               placeholder="stop-near-you"
               value=""
               sources={['Favourite', 'History', 'Datasource']}
-              targets={['Stops', 'Routes']}
+              targets={stopAndRouteSearchTargets}
               isMobile
             />
             <CtrlPanel.SeparatorLine />
