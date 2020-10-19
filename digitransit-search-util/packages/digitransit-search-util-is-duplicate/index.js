@@ -44,10 +44,10 @@ export default function isDuplicate(item1, item2) {
     return false;
   }
   if (
-    (item1.type === 'BikeRentalStation' ||
-      item1.type === 'FavouriteBikeRentalStation') &&
-    (item2.type === 'BikeRentalStation' ||
-      item2.type === 'FavouriteBikeRentalStation')
+    (props1.layer === 'bikeRentalStation' ||
+      props1.layer === 'favouriteBikeRentalStation') &&
+    (props2.layer === 'bikeRentalStation' ||
+      props2.layer === 'favouriteBikeRentalStation')
   ) {
     return props1.labelId === props2.labelId;
   }
