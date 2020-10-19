@@ -59,6 +59,10 @@ export default function setUpOIDC(app, port) {
       ssoValidTo &&
       ssoValidTo > moment().unix()
     ) {
+      console.log(
+        'redirecting to login with sso token ',
+        JSON.stringify(ssoToken),
+      );
       req.session.returnTo = req.path;
       res.redirect('/login');
     } else {
