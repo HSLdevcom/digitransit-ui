@@ -432,6 +432,22 @@ class MapWithTrackingStateHandler extends React.Component {
           </div>
         }
       >
+        {this.props.breakpoint === 'large' && (
+          <div className={btnClassName}>
+            {renderCustomButtons && renderCustomButtons()}
+            <ToggleMapTracking
+              key="toggleMapTracking"
+              img={img}
+              iconColor={iconColor}
+              handleClick={
+                this.state.mapTracking
+                  ? this.disableMapTracking
+                  : this.enableMapTracking
+              }
+              className="icon-mapMarker-toggle-positioning"
+            />
+          </div>
+        )}
         {children}
       </Component>
     );
