@@ -4,10 +4,10 @@ import { pure } from 'recompose';
 import compact from 'lodash/compact';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import { filterStopsAndStationsByMode } from '@digitransit-search-util/digitransit-search-util-query-utils';
+import { getGTFSId } from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import withSearchContext from './WithSearchContext';
-import { getGTFSId } from '../util/suggestionUtils';
 
-function StopsNearYouSearch({ ...props }) {
+function StopsNearYouSearch({ mode, breakpoint }) {
   const filterSearchResultsByMode = (results, type) => {
     switch (type) {
       case 'Routes':
@@ -23,15 +23,15 @@ function StopsNearYouSearch({ ...props }) {
           }
           return null;
         });
-        return filterStopsAndStationsByMode(compact(gtfsIds), props.mode);
+        return filterStopsAndStationsByMode(compact(gtfsIds), mode);
       }
       default:
         return results;
     }
   };
   const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
-  const isMobile = props.breakpoint !== 'large';
-  const transportMode = `route-${props.mode}`;
+  const isMobile = breakpoint !== 'large';
+  const transportMode = `route-${mode}`;
   return (
     <div className="stops-near-you-search-container">
       <div className="search-container-first">
@@ -40,13 +40,15 @@ function StopsNearYouSearch({ ...props }) {
           id="stop-route-station"
           refPoint={origin}
           className="destination"
-          placeholder={`stop-near-you-${props.mode.toLowerCase()}`}
+          placeholder={`stop-near-you-${mode.toLowerCase()}`}
           transportMode={transportMode}
           geocodingSize={40}
           value=""
           filterResults={filterSearchResultsByMode}
           sources={['Favourite', 'History', 'Datasource']}
-          targets={['Stops', 'Routes']}
+          targets={
+            mode === 'CITYBIKE' ? ['BikeRentalStations'] : ['Stops', 'Routes']
+          }
           isMobile={isMobile}
         />
       </div>

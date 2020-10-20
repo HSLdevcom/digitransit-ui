@@ -1284,7 +1284,22 @@
                         {
                             "name": "bikeRentalStations",
                             "description": "Get all bike rental stations",
-                            "args": [],
+                            "args": [
+                                {
+                                    "name": "ids",
+                                    "description": "Return bike rental stations with these ids.  \n **Note:** if an id is invalid (or the bike rental station service is unavailable) the returned list will contain `null` values.",
+                                    "type": {
+                                        "kind": "LIST",
+                                        "name": null,
+                                        "ofType": {
+                                            "kind": "SCALAR",
+                                            "name": "String",
+                                            "ofType": null
+                                        }
+                                    },
+                                    "defaultValue": null
+                                }
+                            ],
                             "type": {
                                 "kind": "LIST",
                                 "name": null,

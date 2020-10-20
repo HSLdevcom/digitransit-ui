@@ -1,12 +1,13 @@
 import React, { useEffect, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connectToStores } from 'fluxible-addons-react';
-import { matchShape, routerShape } from 'found';
+import { matchShape } from 'found';
 import { createFragmentContainer, graphql, fetchQuery } from 'react-relay';
 import moment from 'moment';
 import uniqBy from 'lodash/uniqBy';
 import compact from 'lodash/compact';
 import indexOf from 'lodash/indexOf';
+import isEqual from 'lodash/isEqual';
 import polyline from 'polyline-encoded';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import withBreakpoint from '../../util/withBreakpoint';
@@ -14,6 +15,8 @@ import TimeStore from '../../store/TimeStore';
 import OriginStore from '../../store/OriginStore';
 import DestinationStore from '../../store/DestinationStore';
 import PositionStore from '../../store/PositionStore';
+import FavouriteStore from '../../store/FavouriteStore';
+import { parseLocation } from '../../util/path';
 import { dtLocationShape } from '../../util/shapes';
 import PreferencesStore from '../../store/PreferencesStore';
 import BackButton from '../BackButton';
@@ -25,12 +28,21 @@ import {
   stopRealTimeClient,
 } from '../../action/realTimeClientAction';
 import { addressToItinerarySearch } from '../../util/otpStrings';
+import {
+  sortNearbyRentalStations,
+  sortNearbyStops,
+} from '../../util/sortUtils';
 import ItineraryLine from './ItineraryLine';
 import Loading from '../Loading';
+import LazilyLoad, { importLazy } from '../LazilyLoad';
 
-const handleStopsAndStations = stops => {
+const locationMarkerModules = {
+  LocationMarker: () =>
+    importLazy(import(/* webpackChunkName: "map" */ './LocationMarker')),
+};
+const handleStopsAndStations = edges => {
   const terminalNames = [];
-  const stopsAndStations = stops.edges.map(({ node }) => {
+  const stopsAndStations = edges.map(({ node }) => {
     const stop = { ...node.place, distance: node.distance };
     if (
       stop.parentStation &&
@@ -73,14 +85,13 @@ const stopClient = context => {
   }
 };
 
-const handleBounds = (location, stops) => {
+const handleBounds = (location, edges) => {
   if (!location || (location.lat === 0 && location.lon === 0)) {
     // Still waiting for a location
     return [];
   }
-  if (location.lat && stops && stops.edges) {
-    const { edges } = stops;
-    if (!edges || edges.length === 0) {
+  if (location.lat && Array.isArray(edges)) {
+    if (edges.length === 0) {
       // No stops anywhere near
       return [
         [location.lat, location.lon],
@@ -99,6 +110,17 @@ const handleBounds = (location, stops) => {
   }
   return [];
 };
+
+const getLocationMarker = location => {
+  return (
+    <LazilyLoad modules={locationMarkerModules} key="from">
+      {({ LocationMarker }) => (
+        <LocationMarker position={location} type="from" />
+      )}
+    </LazilyLoad>
+  );
+};
+
 function StopsNearYouMap(
   {
     breakpoint,
@@ -107,12 +129,19 @@ function StopsNearYouMap(
     destination,
     stops,
     locationState,
-    ...props
+    match,
+    loading,
+    favouriteIds,
   },
   { ...context },
 ) {
+  const { mode } = match.params;
+  const sortedStopEdges =
+    mode === 'CITYBIKE'
+      ? stops.edges.slice().sort(sortNearbyRentalStations(favouriteIds))
+      : stops.edges.slice().sort(sortNearbyStops(favouriteIds));
   let useFitBounds = true;
-  const bounds = handleBounds(locationState, stops);
+  const bounds = handleBounds(locationState, sortedStopEdges);
 
   if (!bounds.length) {
     useFitBounds = false;
@@ -122,12 +151,14 @@ function StopsNearYouMap(
   const [secondPlan, setSecondPlan] = useState({
     itinerary: [],
     isFetching: false,
+    stop: null,
   });
   const [firstPlan, setFirstPlan] = useState({
     itinerary: [],
     isFetching: false,
+    stop: null,
   });
-  const stopsAndStations = handleStopsAndStations(stops);
+  const stopsAndStations = handleStopsAndStations(sortedStopEdges);
 
   const fetchPlan = (stop, first) => {
     if (locationState && locationState.lat) {
@@ -165,14 +196,21 @@ function StopsNearYouMap(
           }
         }
       `;
-      if (stop.distance < 2000) {
+      if (
+        stop.distance < 2000 ||
+        favouriteIds.has(stop.gtfsId || stop.stationId)
+      ) {
         fetchQuery(environment, query, variables).then(({ plan: result }) => {
           if (first) {
-            setFirstPlan({ itinerary: result, isFetching: false });
+            setFirstPlan({ itinerary: result, isFetching: false, stop });
           } else {
-            setSecondPlan({ itinerary: result, isFetching: false });
+            setSecondPlan({ itinerary: result, isFetching: false, stop });
           }
         });
+      } else if (first) {
+        setFirstPlan({ itinerary: [], isFetching: false, stop });
+      } else {
+        setSecondPlan({ itinerary: [], isFetching: false, stop });
       }
     }
   };
@@ -184,31 +222,44 @@ function StopsNearYouMap(
     };
   }, []);
 
-  if (locationState.loadingPosition || props.loading) {
+  if (locationState.loadingPosition || loading) {
     return <Loading />;
   }
+
   useEffect(() => {
-    if (stops.edges && stops.edges.length > 0) {
-      const firstStop = stopsAndStations[0];
-      const secondStop = stopsAndStations[1];
-      if (firstStop) {
-        setFirstPlan({ itinerary: firstPlan.itinerary, isFetching: true });
-        fetchPlan(firstStop, true);
+    if (Array.isArray(stopsAndStations)) {
+      if (stopsAndStations.length > 0) {
+        const firstStop = stopsAndStations[0];
+        if (!isEqual(firstStop, firstPlan.stop)) {
+          setFirstPlan({
+            itinerary: firstPlan.itinerary,
+            isFetching: true,
+            stop: firstStop,
+          });
+          fetchPlan(firstStop, true);
+        }
       }
-      if (secondStop) {
-        setSecondPlan({ itinerary: secondPlan.itinerary, isFetching: true });
-        fetchPlan(stopsAndStations[1], false);
+      if (stopsAndStations.length > 1) {
+        const secondStop = stopsAndStations[1];
+        if (!isEqual(secondStop, secondPlan.stop)) {
+          setSecondPlan({
+            itinerary: secondPlan.itinerary,
+            isFetching: true,
+            stop: secondStop,
+          });
+          fetchPlan(stopsAndStations[1], false);
+        }
       }
     }
-  }, []);
+  }, [favouriteIds, stops]);
 
-  const { mode } = props.match.params;
+  const placeForMarker = parseLocation(match.params.place);
   const routeLines = [];
   const realtimeTopics = [];
   const renderRouteLines = mode !== 'CITYBIKE';
   let leafletObjs = [];
-  if (renderRouteLines && stops.edges) {
-    stops.edges.forEach(item => {
+  if (renderRouteLines && Array.isArray(sortedStopEdges)) {
+    sortedStopEdges.forEach(item => {
       const { place } = item.node;
       place.patterns.forEach(pattern => {
         const feedId = pattern.route.gtfsId.split(':')[0];
@@ -281,12 +332,27 @@ function StopsNearYouMap(
     );
   }
   const hilightedStops = () => {
-    if (stops.edges && stops.edges.length > 0 && mode !== 'CITYBIKE') {
-      return [stops.edges[0].node.place.gtfsId];
+    if (
+      Array.isArray(sortedStopEdges) &&
+      sortedStopEdges.length > 0 &&
+      mode !== 'CITYBIKE'
+    ) {
+      return [sortedStopEdges[0].node.place.gtfsId];
     }
     return [''];
   };
-
+  // Marker for the search point.
+  if (locationState.hasLocation) {
+    leafletObjs.push(getLocationMarker(locationState));
+  } else if (
+    placeForMarker &&
+    placeForMarker !== 'POS' &&
+    placeForMarker.ready
+  ) {
+    leafletObjs.push(getLocationMarker(placeForMarker));
+  } else {
+    leafletObjs.push(getLocationMarker(context.config.defaultEndpoint));
+  }
   let map;
   if (breakpoint === 'large') {
     map = (
@@ -350,7 +416,6 @@ StopsNearYouMap.propTypes = {
 };
 
 StopsNearYouMap.contextTypes = {
-  router: routerShape.isRequired,
   config: PropTypes.object,
   executeAction: PropTypes.func,
   getStore: PropTypes.func,
@@ -365,24 +430,44 @@ const StopsNearYouMapWithBreakpoint = withBreakpoint(StopsNearYouMap);
 
 const StopsNearYouMapWithStores = connectToStores(
   StopsNearYouMapWithBreakpoint,
-  [OriginStore, TimeStore, DestinationStore, PreferencesStore, PositionStore],
-  ({ getStore }, props) => {
+  [
+    OriginStore,
+    TimeStore,
+    DestinationStore,
+    PreferencesStore,
+    PositionStore,
+    FavouriteStore,
+  ],
+  ({ getStore }, { match, position }) => {
     const currentTime = getStore(TimeStore).getCurrentTime().unix();
     const origin = getStore(OriginStore).getOrigin();
     const destination = getStore(DestinationStore).getDestination();
     const language = getStore(PreferencesStore).getLanguage();
     let locationState;
-    if (props.match.params.place !== 'POS') {
-      locationState = props.position;
+    if (match.params.place !== 'POS') {
+      locationState = position;
     } else {
       locationState = getStore(PositionStore).getLocationState();
     }
+    const favouriteIds =
+      match.params.mode === 'CITYBIKE'
+        ? new Set(
+            getStore('FavouriteStore')
+              .getBikeRentalStations()
+              .map(station => station.stationId),
+          )
+        : new Set(
+            getStore('FavouriteStore')
+              .getStopsAndStations()
+              .map(stop => stop.gtfsId),
+          );
     return {
       origin,
       destination,
       language,
       currentTime,
       locationState,
+      favouriteIds,
     };
   },
 );
@@ -403,6 +488,7 @@ const containerComponent = createFragmentContainer(StopsNearYouMapWithStores, {
               name
               lat
               lon
+              stationId
             }
             ... on Stop {
               gtfsId

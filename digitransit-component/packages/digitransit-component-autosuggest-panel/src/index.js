@@ -78,13 +78,20 @@ ItinerarySearchControl.propTypes = {
  *   getFavouriteLocations: () => ({}),    // Function that returns array of favourite locations.
  *   getFavouriteStops: () => ({}),        // Function that returns array of favourite stops.
  *   getLanguage: () => ({}),              // Function that returns current language.
- *   getStoredFavouriteRoutes: () => ({}), // Function that returns array of favourite routes.
+ *   getFavouriteRoutes: () => ({}),       // Function that returns array of favourite routes.
  *   getPositions: () => ({}),             // Function that returns user's geolocation.
- *   getRoutes: () => ({}),                // Function that fetches routes from graphql API.
- *   getStopAndStationsQuery: () => ({}),       // Function that fetches favourite stops and stations from graphql API.
- *   getFavouriteRoutes: () => ({}),       // Function that fetches favourite routes from graphql API.
+ *   getRoutesQuery: () => ({}),           // Function that returns query for fetching routes.
+ *   getAllBikeRentalStations: () => ({}), // Function that returns all bike rental stations from graphql API.
+ *   getStopAndStationsQuery: () => ({}),  // Function that fetches favourite stops and stations from graphql API.
+ *   getFavouriteRoutesQuery: () => ({}),  // Function that returns query for fetching favourite routes.
+ *   getFavouriteBikeRentalStations: () => ({}),  // Function that returns favourite bike rental station.
+ *   getFavouriteBikeRentalStationsQuery: () => ({}), // Function that returns query for fetching favourite bike rental stations.
  *   startLocationWatch: () => ({}),       // Function that locates users geolocation.
  *   saveSearch: () => ({}),               // Function that saves search to old searches store.
+ *   clearOldSearches: () => ({}),         // Function that clears old searches store.
+ *   getFutureRoutes: () => ({}),          // Function that return future routes
+ *   saveFutureRoute: () => ({}),          // Function that saves a future route
+ *   clearFutureRoutes: () => ({}),        // Function that clears future routes
  * };
  *
  * const origin = {
@@ -105,7 +112,7 @@ ItinerarySearchControl.propTypes = {
  * onSelect() {
  *  return null;  // Define what to do when a suggestion is being selected. None by default.
  *  }
- * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, MapPosition and CurrentPosition. Leave empty to search all targets.
+ * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, BikeRentalStations, FutureRoutes, SelectFromOwnLocations, MapPosition and CurrentPosition. Leave empty to search all targets.
  * const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches), and Datasource. Leave empty to use all sources.
  * <DTAutosuggestPanel
  *    appElement={appElement} // Required. Root element's id. Needed for react-modal component.

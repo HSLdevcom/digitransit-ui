@@ -121,7 +121,7 @@ export const getHashNumber = hash => {
 };
 
 export const routeSelected = (hash, secondHash) => {
-  if (hash === 'bikeAndPublic') {
+  if (hash === 'bikeAndVehicle') {
     if (secondHash) {
       return true;
     }
@@ -248,7 +248,7 @@ class SummaryPage extends React.Component {
       this.props.match.params.hash &&
       (this.props.match.params.hash === 'walk' ||
         this.props.match.params.hash === 'bike' ||
-        this.props.match.params.hash === 'bikeAndPublic')
+        this.props.match.params.hash === 'bikeAndVehicle')
     ) {
       existingStreetMode = this.props.match.params.hash;
     } else {
@@ -276,8 +276,13 @@ class SummaryPage extends React.Component {
       this.selectedPlan = this.state.walkPlan;
     } else if (this.state.streetMode === 'bike') {
       this.selectedPlan = this.state.bikePlan;
-    } else if (this.state.streetMode === 'bikeAndPublic') {
-      this.selectedPlan = this.state.bikeAndPublicPlan;
+    } else if (this.state.streetMode === 'bikeAndVehicle') {
+      this.selectedPlan = {
+        itineraries: [
+          ...this.state.bikeParkPlan?.itineraries,
+          ...this.state.bikeAndPublicPlan?.itineraries,
+        ],
+      };
     } else {
       this.selectedPlan = this.props.plan;
     }
@@ -930,7 +935,7 @@ class SummaryPage extends React.Component {
       this.props.match.params.hash &&
       (this.props.match.params.hash === 'walk' ||
         this.props.match.params.hash === 'bike' ||
-        this.props.match.params.hash === 'bikeAndPublic')
+        this.props.match.params.hash === 'bikeAndVehicle')
     ) {
       // Reset url and thus streetmode if intermediate places change
       if (
@@ -1024,11 +1029,32 @@ class SummaryPage extends React.Component {
     return iconId;
   };
 
+  filteredbikeAndPublic = plan => {
+    const filteredItineraries = [];
+    if (plan && plan.itineraries) {
+      plan.itineraries.map(itinerary => {
+        let added = false;
+        itinerary.legs.map(leg => {
+          if (!added && leg.mode === 'BICYCLE' && leg.distance > 500) {
+            filteredItineraries.push(itinerary);
+            added = true;
+          }
+          return null;
+        });
+        return null;
+      });
+    }
+    return filteredItineraries.length
+      ? { itineraries: filteredItineraries }
+      : {};
+  };
+
   makeWeatherQuery() {
     const from = otpToLocation(this.props.match.params.from);
-
-    const { walkPlan, bikePlan, bikeAndPublicPlan, bikeParkPlan } = this.state;
-
+    const { walkPlan, bikePlan, bikeParkPlan } = this.state;
+    const bikeAndPublicPlan = this.filteredbikeAndPublic(
+      this.state.bikeAndPublicPlan,
+    );
     const itin =
       (walkPlan && walkPlan.itineraries && walkPlan.itineraries[0]) ||
       (bikePlan && bikePlan.itineraries && bikePlan.itineraries[0]) ||
@@ -1319,7 +1345,11 @@ class SummaryPage extends React.Component {
 
   render() {
     const { match, error, plan } = this.props;
-    const { walkPlan, bikePlan, bikeAndPublicPlan, bikeParkPlan } = this.state;
+    const { walkPlan, bikePlan, bikeParkPlan } = this.state;
+    const bikeAndPublicPlan = this.filteredbikeAndPublic(
+      this.state.bikeAndPublicPlan,
+    );
+
     const planHasNoItineraries =
       this.props.plan &&
       this.props.plan.itineraries &&
@@ -1355,7 +1385,7 @@ class SummaryPage extends React.Component {
         return <Loading />;
       }
       this.selectedPlan = bikePlan;
-    } else if (this.state.streetMode === 'bikeAndPublic') {
+    } else if (this.state.streetMode === 'bikeAndVehicle') {
       if (!bikeAndPublicPlan || !bikeParkPlan) {
         return <Loading />;
       }
@@ -1369,26 +1399,19 @@ class SummaryPage extends React.Component {
         bikeParkPlan.itineraries.length > 0
       ) {
         this.bikeAndPublicItinerariesToShow = Math.min(
-          bikeParkPlan.itineraries.length,
+          bikeAndPublicPlan.itineraries.length,
           3,
         );
         this.bikeAndParkItinerariesToShow = Math.min(
           bikeParkPlan.itineraries.length,
           3,
         );
-        const selectedItineraries = [
-          ...bikeParkPlan.itineraries.slice(
-            0,
-            this.bikeAndPublicItinerariesToShow,
-          ),
-          ...bikeAndPublicPlan.itineraries.slice(
-            0,
-            this.bikeAndParkItinerariesToShow,
-          ),
-        ];
+
         this.selectedPlan = {
-          ...bikeAndPublicPlan,
-          ...{ itineraries: selectedItineraries },
+          itineraries: [
+            ...bikeParkPlan.itineraries.slice(0, 3),
+            ...bikeAndPublicPlan.itineraries.slice(0, 3),
+          ],
         };
       } else if (
         bikeAndPublicPlan &&
@@ -1426,7 +1449,7 @@ class SummaryPage extends React.Component {
       walkPlan &&
         walkPlan.itineraries &&
         walkPlan.itineraries.length > 0 &&
-        currentSettings.usingWheelchair !== 1 &&
+        !currentSettings.usingWheelchair &&
         itineraryWalkDistance < this.context.config.suggestWalkMaxDistance,
     );
 
@@ -1441,7 +1464,7 @@ class SummaryPage extends React.Component {
       bikePlan &&
         bikePlan.itineraries &&
         bikePlan.itineraries.length > 0 &&
-        currentSettings.usingWheelchair !== 1 &&
+        !currentSettings.usingWheelchair &&
         currentSettings.includeBikeSuggestions &&
         !bikePlanContainsOnlyWalk &&
         itineraryBikeDistance < this.context.config.suggestBikeMaxDistance,
@@ -1450,27 +1473,21 @@ class SummaryPage extends React.Component {
     const bikeAndPublicPlanHasItineraries =
       bikeAndPublicPlan &&
       bikeAndPublicPlan.itineraries &&
-      bikeAndPublicPlan.itineraries.length > 0 &&
-      bikeAndPublicPlan.itineraries[0].legs.filter(
-        obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE',
-      ).length > 0;
+      bikeAndPublicPlan.itineraries.length > 0;
     const bikeParkPlanHasItineraries =
       bikeParkPlan &&
       bikeParkPlan.itineraries &&
-      bikeParkPlan.itineraries.length > 0 &&
-      bikeParkPlan.itineraries[0].legs.filter(
-        obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE',
-      ).length > 0;
+      bikeParkPlan.itineraries.length > 0;
     const showBikeAndPublicOptionButton =
       (bikeAndPublicPlanHasItineraries || bikeParkPlanHasItineraries) &&
-      currentSettings.usingWheelchair !== 1 &&
+      !currentSettings.usingWheelchair &&
       currentSettings.includeBikeSuggestions;
 
     const showStreetModeSelector =
       (showWalkOptionButton ||
         showBikeOptionButton ||
         showBikeAndPublicOptionButton) &&
-      this.state.streetMode !== 'bikeAndPublic';
+      this.state.streetMode !== 'bikeAndVehicle';
 
     const hasItineraries =
       this.selectedPlan && Array.isArray(this.selectedPlan.itineraries);
@@ -1539,7 +1556,7 @@ class SummaryPage extends React.Component {
     // Call props.map directly in order to render to same map instance
     let map;
     if (
-      this.state.streetMode === 'bikeAndPublic' &&
+      this.state.streetMode === 'bikeAndVehicle' &&
       !routeSelected(match.params.hash, match.params.secondHash)
     ) {
       map = this.renderMap();
@@ -1594,6 +1611,10 @@ class SummaryPage extends React.Component {
         this.props.loading === false &&
         (error || this.state.itineraries)
       ) {
+        const activeIndex = getActiveIndex(
+          match.location,
+          this.state.itineraries,
+        );
         if (
           routeSelected(match.params.hash, match.params.secondHash) &&
           this.state.itineraries.length > 0
@@ -1603,17 +1624,10 @@ class SummaryPage extends React.Component {
               {screenReaderUpdateAlert}
               <ItineraryTab
                 key={hash.toString()}
-                activeIndex={getActiveIndex(
-                  match.location,
-                  this.state.itineraries,
-                )}
+                activeIndex={activeIndex}
                 plan={this.selectedPlan}
                 serviceTimeRange={serviceTimeRange}
-                itinerary={
-                  this.state.itineraries[
-                    getActiveIndex(match.location, this.state.itineraries)
-                  ]
-                }
+                itinerary={this.state.itineraries[activeIndex]}
                 params={match.params}
                 error={error || this.state.error}
                 setLoading={this.setLoading}
@@ -1643,10 +1657,7 @@ class SummaryPage extends React.Component {
           <>
             {screenReaderUpdateAlert}
             <SummaryPlanContainer
-              activeIndex={getActiveIndex(
-                match.location,
-                this.state.itineraries,
-              )}
+              activeIndex={activeIndex}
               plan={this.selectedPlan}
               serviceTimeRange={serviceTimeRange}
               itineraries={this.state.itineraries}
@@ -1712,7 +1723,8 @@ class SummaryPage extends React.Component {
                   weatherData={this.state.weatherData}
                   walkPlan={walkPlan}
                   bikePlan={bikePlan}
-                  bikeAndPublicPlan={bikeParkPlan || bikeAndPublicPlan}
+                  bikeAndPublicPlan={bikeAndPublicPlan}
+                  bikeParkPlan={bikeParkPlan}
                 />
               )}
             </React.Fragment>
@@ -1822,7 +1834,8 @@ class SummaryPage extends React.Component {
                   weatherData={this.state.weatherData}
                   walkPlan={walkPlan}
                   bikePlan={bikePlan}
-                  bikeAndPublicPlan={bikeParkPlan || bikeAndPublicPlan}
+                  bikeAndPublicPlan={bikeAndPublicPlan}
+                  bikeParkPlan={bikeParkPlan}
                 />
               )}
             </React.Fragment>
@@ -2032,7 +2045,19 @@ const containerComponent = createFragmentContainer(PositioningWrapper, {
         ...PrintableItinerary_itinerary
         ...SummaryPlanContainer_itineraries
         legs {
+          transitLeg
+          startTime
+          endTime
           mode
+          distance
+          duration
+          rentedBike
+          intermediatePlace
+          intermediatePlaces {
+            stop {
+              zoneId
+            }
+          }
           ...ItineraryLine_legs
           transitLeg
           legGeometry {
@@ -2057,7 +2082,6 @@ const containerComponent = createFragmentContainer(PositioningWrapper, {
               name
             }
           }
-          distance
         }
       }
     }

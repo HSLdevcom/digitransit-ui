@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'found';
 import CityBikeStopContent from './CityBikeStopContent';
+import FavouriteBikeRentalStationContainer from './FavouriteBikeRentalStationContainer';
 
 import { PREFIX_BIKESTATIONS } from '../util/path';
 import { isKeyboardSelectionEvent } from '../util/browser';
@@ -35,6 +36,10 @@ const CityBikeStopNearYou = ({ stop }) => {
               />
             </div>
           </div>
+          <FavouriteBikeRentalStationContainer
+            bikeRentalStation={stop}
+            className="bike-rental-favourite-container"
+          />
         </div>
         <CityBikeStopContent bikeRentalStation={stop} />
       </div>

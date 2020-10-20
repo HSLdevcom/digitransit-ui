@@ -3,10 +3,11 @@ import React from 'react';
 import { createRefetchContainer, graphql } from 'react-relay';
 import { intlShape, FormattedMessage } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { matchShape, routerShape } from 'found';
+import { matchShape } from 'found';
 import { indexOf } from 'lodash-es';
 import StopNearYou from './StopNearYou';
 import withBreakpoint from '../util/withBreakpoint';
+import { sortNearbyRentalStations, sortNearbyStops } from '../util/sortUtils';
 import CityBikeStopNearYou from './CityBikeStopNearYou';
 
 class StopsNearYouContainer extends React.Component {
@@ -16,6 +17,8 @@ class StopsNearYouContainer extends React.Component {
     relay: PropTypes.shape({
       refetch: PropTypes.func.isRequired,
     }).isRequired,
+    favouriteIds: PropTypes.object.isRequired,
+    match: matchShape.isRequired,
   };
 
   static contextTypes = {
@@ -24,8 +27,6 @@ class StopsNearYouContainer extends React.Component {
     executeAction: PropTypes.func.isRequired,
     headers: PropTypes.object.isRequired,
     getStore: PropTypes.func,
-    router: routerShape.isRequired,
-    match: matchShape.isRequired,
   };
 
   constructor(props, context) {
@@ -64,7 +65,13 @@ class StopsNearYouContainer extends React.Component {
   createNearbyStops = () => {
     const stopPatterns = this.props.stopPatterns.nearest.edges;
     const terminalNames = [];
-    const stops = stopPatterns.map(({ node }) => {
+    const isCityBikeView = this.props.match.params.mode === 'CITYBIKE';
+    const sortedPatterns = isCityBikeView
+      ? stopPatterns
+          .slice()
+          .sort(sortNearbyRentalStations(this.props.favouriteIds))
+      : stopPatterns.slice().sort(sortNearbyStops(this.props.favouriteIds));
+    const stops = sortedPatterns.map(({ node }) => {
       const stop = node.place;
       /* eslint-disable-next-line no-underscore-dangle */
       switch (stop.__typename) {
@@ -140,9 +147,21 @@ const StopsNearYouContainerWithBreakpoint = withBreakpoint(
 const connectedContainer = createRefetchContainer(
   connectToStores(
     StopsNearYouContainerWithBreakpoint,
-    ['TimeStore'],
-    ({ getStore }) => ({
+    ['TimeStore', 'FavouriteStore'],
+    ({ getStore }, { match }) => ({
       currentTime: getStore('TimeStore').getCurrentTime().unix(),
+      favouriteIds:
+        match.params.mode === 'CITYBIKE'
+          ? new Set(
+              getStore('FavouriteStore')
+                .getBikeRentalStations()
+                .map(station => station.stationId),
+            )
+          : new Set(
+              getStore('FavouriteStore')
+                .getStopsAndStations()
+                .map(stop => stop.gtfsId),
+            ),
     }),
   ),
   {

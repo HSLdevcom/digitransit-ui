@@ -10,10 +10,8 @@ configure({ adapter: new Adapter() });
 
 describe('Testing @digitransit-component/digitransit-component-suggestion-item module', () => {
   const item = {};
-  const ariaContent = ['iconstr', 'label', 'name'];
-  const wrapper = shallow(
-    <SuggestionItem item={item} ariaContent={ariaContent} />,
-  );
+  const content = ['suggestionType', 'label', 'name'];
+  const wrapper = shallow(<SuggestionItem item={item} content={content} />);
 
   it('should render', () => {
     expect(wrapper.isEmptyRender()).to.equal(false);

@@ -46,7 +46,10 @@ function ItinerarySummaryListContainer(
   const { config } = context;
 
   if (!error && itineraries && itineraries.length > 0) {
-    const summaries = itineraries.map((itinerary, i) => (
+    const walkFreeItineraries = itineraries.filter(
+      itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
+    ); // exclude itineraries that have only walking legs from the summary
+    const summaries = walkFreeItineraries.map((itinerary, i) => (
       <SummaryRow
         refTime={searchTime}
         key={i} // eslint-disable-line react/no-array-index-key
@@ -68,7 +71,7 @@ function ItinerarySummaryListContainer(
     ));
     if (
       context.match.params.hash &&
-      context.match.params.hash === 'bikeAndPublic'
+      context.match.params.hash === 'bikeAndVehicle'
     ) {
       summaries.splice(
         0,

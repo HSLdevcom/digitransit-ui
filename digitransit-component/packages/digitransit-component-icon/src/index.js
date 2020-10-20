@@ -49,6 +49,7 @@ const IconMap = style => {
     arrow: <Arrow style={style} />,
     bus: <Bus style={style} />,
     busstop: <Busstop style={style} />,
+    caution: <CautionWhite style={style} />,
     city: <City style={style} />,
     citybike: <Citybike style={style} />,
     edit: <Edit style={style} />,

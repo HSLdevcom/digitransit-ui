@@ -8,10 +8,13 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
 import isEqual from 'lodash/isEqual';
 import d from 'debug';
+import { graphql, fetchQuery } from 'react-relay';
+import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
 import TrafficNowLink from '@digitransit-component/digitransit-component-traffic-now-link';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
+import { getModesWithAlerts } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import {
   initGeolocation,
   checkPositioningPermission,
@@ -61,6 +64,7 @@ class IndexPage extends React.Component {
     destination: dtLocationShape.isRequired,
     showSpinner: PropTypes.bool.isRequired,
     lang: PropTypes.string,
+    currentTime: PropTypes.number.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     query: PropTypes.object.isRequired,
   };
@@ -146,11 +150,22 @@ class IndexPage extends React.Component {
     const { breakpoint, destination, origin, lang } = this.props;
     const queryString = this.context.match.location.search;
 
+    const stopAndRouteSearchTargets =
+      this.context.config.cityBike && this.context.config.cityBike.showCityBikes
+        ? ['Stops', 'Routes', 'BikeRentalStations']
+        : ['Stops', 'Routes'];
+
     const originToStopNearYou = {
       ...origin,
       queryString,
     };
     // const { mapExpanded } = this.state; // TODO verify
+
+    const alertsContext = {
+      currentTime: this.props.currentTime,
+      getModesWithAlerts,
+    };
+
     return breakpoint === 'large' ? (
       <div
         className={`front-page flex-vertical ${
@@ -161,7 +176,10 @@ class IndexPage extends React.Component {
           `blurred`
         } fullscreen bp-${breakpoint}`}
       >
-        <div style={{ display: isBrowser ? 'block' : 'none' }}>
+        <div
+          style={{ display: isBrowser ? 'block' : 'none' }}
+          className="scrollable-content-wrapper momentum-scroll"
+        >
           <CtrlPanel
             instance="hsl"
             language={lang}
@@ -203,6 +221,7 @@ class IndexPage extends React.Component {
                   urlPrefix={`/${PREFIX_NEARYOU}`}
                   language={lang}
                   showTitle
+                  alertsContext={alertsContext}
                   LinkComponent={Link}
                   origin={originToStopNearYou}
                 />
@@ -227,7 +246,7 @@ class IndexPage extends React.Component {
               placeholder="stop-near-you"
               value=""
               sources={['Favourite', 'History', 'Datasource']}
-              targets={['Stops', 'Routes']}
+              targets={stopAndRouteSearchTargets}
             />
             <CtrlPanel.SeparatorLine />
             {trafficNowLink !== '' && (
@@ -293,6 +312,7 @@ class IndexPage extends React.Component {
                   urlPrefix={`/${PREFIX_NEARYOU}`}
                   language={lang}
                   showTitle
+                  alertsContext={alertsContext}
                   LinkComponent={Link}
                   origin={originToStopNearYou}
                 />
@@ -317,7 +337,7 @@ class IndexPage extends React.Component {
               placeholder="stop-near-you"
               value=""
               sources={['Favourite', 'History', 'Datasource']}
-              targets={['Stops', 'Routes']}
+              targets={stopAndRouteSearchTargets}
               isMobile
             />
             <CtrlPanel.SeparatorLine />
@@ -400,9 +420,10 @@ const processLocation = (locationString, locationState, intl) => {
 
 const IndexPageWithPosition = connectToStores(
   IndexPageWithBreakpoint,
-  ['PositionStore', 'ViaPointsStore', 'FavouriteStore'],
+  ['PositionStore', 'ViaPointsStore', 'FavouriteStore', 'TimeStore'],
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
+    const currentTime = context.getStore('TimeStore').getCurrentTime().unix();
     const { from, to } = props.match.params;
     const { location } = props.match;
     const { query } = location;
@@ -410,6 +431,7 @@ const IndexPageWithPosition = connectToStores(
     const newProps = {};
 
     newProps.locationState = locationState;
+    newProps.currentTime = currentTime;
     newProps.origin = processLocation(from, locationState, context.intl);
     newProps.destination = processLocation(to, locationState, context.intl);
     newProps.query = query; // defines itinerary search time & arriveBy

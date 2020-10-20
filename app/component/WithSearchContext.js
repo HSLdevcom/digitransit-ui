@@ -107,8 +107,11 @@ export default function withSearchContext(WrappedComponent) {
       this.setState(prevState => ({ refs: [...prevState.refs, ref] }));
     };
 
-    finishSelect = (item, type) => {
-      if (item.type.indexOf('Favourite') === -1) {
+    finishSelect = (item, type, id) => {
+      if (
+        item.type.indexOf('Favourite') === -1 &&
+        id.indexOf('favourite') === -1
+      ) {
         this.context.executeAction(searchContext.saveSearch, {
           item,
           type,
@@ -175,6 +178,7 @@ export default function withSearchContext(WrappedComponent) {
           id = id.replace('GTFS:', '').replace(':', '%3A');
           break;
         case 'bikeRentalStation':
+        case 'favouriteBikeRentalStation':
           path = '/pyoraasemat/';
           id = item.properties.labelId;
           break;
@@ -355,11 +359,11 @@ export default function withSearchContext(WrappedComponent) {
             const geom = res.features[0].geometry;
             newItem.geometry.coordinates = geom.coordinates;
           }
-          this.finishSelect(newItem, type);
+          this.finishSelect(newItem, type, id);
           this.onSuggestionSelected(item, id);
         });
       } else {
-        this.finishSelect(item, type);
+        this.finishSelect(item, type, id);
         this.onSuggestionSelected(item, id);
       }
     };
