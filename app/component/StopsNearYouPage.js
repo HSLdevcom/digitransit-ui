@@ -109,6 +109,11 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
         startPosition: nextProps.position,
       };
     }
+    if (!prevState.startPosition || !prevState.startPosition.address && nextProps.position && nextProps.position.address) {
+      return {
+        startPosition: nextProps.position,
+      }
+    }
     return null;
   };
 
@@ -141,10 +146,27 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     };
   };
 
+  positionChanged = () => {
+    const { startPosition } = this.state;
+    if (startPosition && startPosition.address && this.props.position.address) {
+      if (startPosition.address !== this.props.position.address) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  updateLocation = () => {
+    this.setState({
+      startPosition: this.props.position,
+    })
+  }
+
   renderContent = () => {
     const { mode } = this.props.match.params;
     const renderDisruptionBanner = mode !== 'CITYBIKE';
     const renderSearch = mode !== 'FERRY';
+    const renderRefetchButton = this.positionChanged();
     return (
       <QueryRenderer
         query={graphql`
@@ -190,6 +212,23 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                     mode={mode}
                     breakpoint={this.props.breakpoint}
                   />
+                )}
+                {renderRefetchButton && (
+                  <div>
+                    <FormattedMessage 
+                      id={'nearest-stops-updated-location'}
+                    />
+                    <button
+                      aria-label={this.context.intl.formatMessage({
+                        id: 'show-more-stops-near-you',
+                        defaultMessage: 'Load more nearby stops',
+                      })}
+                      className="show-more-button"
+                      onClick={this.updateLocation}
+                    >
+                      <FormattedMessage id="nearest-stops-update-location" defaultMessage="Show more" />
+                    </button>
+                  </div>
                 )}
                 {this.props.content &&
                   React.cloneElement(this.props.content, {

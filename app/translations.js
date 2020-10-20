@@ -1843,6 +1843,8 @@ const translations = {
     'nearest-stops-rail': 'Lähimmät juna-asemat',
     'nearest-stops-subway': 'Lähimmät metroasemat',
     'nearest-stops-tram': 'Lähimmät raitiovaunupysäkit',
+    'nearest-stops-update-location': 'Päivitä { thing }',
+    'nearest-stops-updated-location': 'Kartan sijainti on muuttunut',
     'network-error': 'Verkkovirhe',
     // eslint-disable-next-line sort-keys
     neighbourhood: 'Naapurusto',
