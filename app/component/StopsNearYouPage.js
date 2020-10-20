@@ -7,6 +7,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import Modal from '@hsl-fi/modal';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import DTIcon from '@digitransit-component/digitransit-component-icon';
+import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import Icon from './Icon';
 import DesktopView from './DesktopView';
 import MobileView from './MobileView';
@@ -157,12 +158,14 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
 
   positionChanged = () => {
     const { updatedLocation } = this.state;
+
     if (
       updatedLocation &&
-      updatedLocation.address &&
-      this.props.position.address
+      updatedLocation.lat &&
+      this.props.position &&
+      this.props.position.lat
     ) {
-      if (updatedLocation.address !== this.props.position.address) {
+      if (distance(updatedLocation, this.props.position) > 100) {
         return true;
       }
     }
@@ -255,9 +258,12 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                 {this.props.content &&
                   React.cloneElement(this.props.content, {
                     stopPatterns: props.stopPatterns,
+                    // eslint-disable-next-line no-nested-ternary
                     position: this.state.updatedLocation
                       ? this.state.updatedLocation
-                      : this.state.startPosition,
+                      : this.state.startPosition
+                      ? this.state.startPosition
+                      : this.context.config.defaultEndpoint,
                   })}
               </div>
             );
@@ -304,9 +310,12 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
             return (
               this.props.map &&
               React.cloneElement(this.props.map, {
+                // eslint-disable-next-line no-nested-ternary
                 position: this.state.updatedLocation
                   ? this.state.updatedLocation
-                  : this.state.startPosition,
+                  : this.state.startPosition
+                  ? this.state.startPosition
+                  : this.context.config.defaultEndpoint,
                 stops: props.stops,
               })
             );
