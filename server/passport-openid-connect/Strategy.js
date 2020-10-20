@@ -2,8 +2,7 @@
 
 'use strict';
 
-const openid = require('openid-client');
-const passport = require('passport');
+const { Issuer, Strategy, custom } = require('openid-client');
 const moment = require('moment');
 const util = require('util');
 const User = require('./User').User;
@@ -20,9 +19,9 @@ const OICStrategy = function (config) {
   });
 };
 
-util.inherits(OICStrategy, passport.Strategy);
+util.inherits(OICStrategy, Strategy);
 
-openid.custom.setHttpOptionsDefaults({
+custom.setHttpOptionsDefaults({
   timeout: 5000,
 });
 
@@ -33,15 +32,12 @@ OICStrategy.prototype.init = function () {
     );
   }
   console.log('OIDC: init');
-  return Promise.resolve()
-    .then(() => {
-      console.log('OIDC: discover');
-      return openid.Issuer.discover(this.config.issuerHost);
-    })
+  console.log('OIDC: discover');
+  return Issuer.discover(this.config.issuerHost)
     .then(issuer => {
       console.log('OIDC: create client');
       this.client = new issuer.Client(this.config);
-      this.client.CLOCK_TOLERANCE = 30;
+      this.client[custom.clock_tolerance] = 30;
     })
     .catch(err => {
       console.error('ERROR', err);
@@ -76,8 +72,10 @@ OICStrategy.prototype.callback = function (req, opts) {
       state: req.query.state,
     })
     .then(tokenSet => {
-      console.log(`tokenset=${JSON.stringify(tokenSet)}`);
+      req.session.ssoToken = null;
+      req.session.ssoValidTo = null;
       this.tokenSet = tokenSet;
+      console.log('get userinfo');
       return this.getUserInfo();
     })
     .then(() => {
@@ -89,6 +87,8 @@ OICStrategy.prototype.callback = function (req, opts) {
     })
     .catch(err => {
       console.error('Error processing callback', err);
+      req.session.ssoToken = null;
+      req.session.ssoValidTo = null;
       this.fail(err);
     });
 };
