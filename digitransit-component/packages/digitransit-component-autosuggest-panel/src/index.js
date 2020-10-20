@@ -6,6 +6,7 @@ import { ReactSortable } from 'react-sortablejs';
 import i18next from 'i18next';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import Icon from '@digitransit-component/digitransit-component-icon';
+import { isEmpty } from 'lodash';
 import Select from './helpers/Select';
 import translations from './helpers/translations';
 import styles from './helpers/styles.scss';
@@ -19,7 +20,7 @@ i18next.addResourceBundle('sv', 'translation', translations.sv);
 export const getEmptyViaPointPlaceHolder = () => ({});
 
 const isViaPointEmpty = viaPoint => {
-  if (viaPoint === undefined) {
+  if (viaPoint === undefined || isEmpty(viaPoint)) {
     return true;
   }
   const keys = Object.keys(viaPoint);
