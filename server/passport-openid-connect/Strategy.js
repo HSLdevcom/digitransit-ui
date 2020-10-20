@@ -76,6 +76,8 @@ OICStrategy.prototype.callback = function (req, opts) {
       state: req.query.state,
     })
     .then(tokenSet => {
+      req.session.ssoToken = null;
+      req.session.ssoValidTo = null;
       console.log(`tokenset=${JSON.stringify(tokenSet)}`);
       this.tokenSet = tokenSet;
       return this.getUserInfo();
@@ -89,6 +91,8 @@ OICStrategy.prototype.callback = function (req, opts) {
     })
     .catch(err => {
       console.error('Error processing callback', err);
+      req.session.ssoToken = null;
+      req.session.ssoValidTo = null;
       this.fail(err);
     });
 };
