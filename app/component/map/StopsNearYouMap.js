@@ -1,15 +1,14 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connectToStores } from 'fluxible-addons-react';
 import { matchShape } from 'found';
-import { createFragmentContainer, graphql, fetchQuery } from 'react-relay';
+import { createRefetchContainer, graphql, fetchQuery } from 'react-relay';
 import moment from 'moment';
 import uniqBy from 'lodash/uniqBy';
 import compact from 'lodash/compact';
 import indexOf from 'lodash/indexOf';
 import isEqual from 'lodash/isEqual';
 import polyline from 'polyline-encoded';
-import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import withBreakpoint from '../../util/withBreakpoint';
 import TimeStore from '../../store/TimeStore';
 import OriginStore from '../../store/OriginStore';
@@ -132,14 +131,16 @@ function StopsNearYouMap(
     match,
     loading,
     favouriteIds,
+    relay,
+    position,
   },
   { ...context },
 ) {
   const { mode } = match.params;
   const sortedStopEdges =
     mode === 'CITYBIKE'
-      ? stops.edges.slice().sort(sortNearbyRentalStations(favouriteIds))
-      : stops.edges.slice().sort(sortNearbyStops(favouriteIds));
+      ? stops.nearest.edges.slice().sort(sortNearbyRentalStations(favouriteIds))
+      : stops.nearest.edges.slice().sort(sortNearbyStops(favouriteIds));
   let useFitBounds = true;
   const bounds = handleBounds(locationState, sortedStopEdges);
 
@@ -147,7 +148,7 @@ function StopsNearYouMap(
     useFitBounds = false;
   }
   let uniqueRealtimeTopics;
-  const { environment } = useContext(ReactRelayContext);
+  const { environment } = relay;
   const [secondPlan, setSecondPlan] = useState({
     itinerary: [],
     isFetching: false,
@@ -214,6 +215,16 @@ function StopsNearYouMap(
       }
     }
   };
+
+  useEffect(() => {
+    relay.refetch(oldVariables => {
+      return {
+        ...oldVariables,
+        lat: position.lat,
+        lon: position.lon,
+      };
+    });
+  }, [position]);
 
   useEffect(() => {
     startClient(context, uniqueRealtimeTopics);
@@ -342,8 +353,8 @@ function StopsNearYouMap(
     return [''];
   };
   // Marker for the search point.
-  if (locationState.hasLocation) {
-    leafletObjs.push(getLocationMarker(locationState));
+  if (position) {
+    leafletObjs.push(getLocationMarker(position));
   } else if (
     placeForMarker &&
     placeForMarker !== 'POS' &&
@@ -413,6 +424,9 @@ StopsNearYouMap.propTypes = {
   origin: dtLocationShape,
   destination: dtLocationShape,
   language: PropTypes.string.isRequired,
+  relay: PropTypes.shape({
+    refetch: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 StopsNearYouMap.contextTypes = {
@@ -472,53 +486,101 @@ const StopsNearYouMapWithStores = connectToStores(
   },
 );
 
-const containerComponent = createFragmentContainer(StopsNearYouMapWithStores, {
-  stops: graphql`
-    fragment StopsNearYouMap_stops on placeAtDistanceConnection
-    @argumentDefinitions(
-      startTime: { type: "Long!", defaultValue: 0 }
-      omitNonPickups: { type: "Boolean!", defaultValue: false }
-    ) {
-      edges {
-        node {
-          distance
-          place {
-            __typename
-            ... on BikeRentalStation {
-              name
-              lat
-              lon
-              stationId
-            }
-            ... on Stop {
-              gtfsId
-              lat
-              lon
-              name
-              parentStation {
-                lat
-                lon
-                name
-                gtfsId
-              }
-              patterns {
-                route {
-                  gtfsId
-                  shortName
+const containerComponent = createRefetchContainer(
+  StopsNearYouMapWithStores,
+  {
+    stops: graphql`
+      fragment StopsNearYouMap_stops on QueryType
+      @argumentDefinitions(
+        startTime: { type: "Long!", defaultValue: 0 }
+        omitNonPickups: { type: "Boolean!", defaultValue: false }
+        lat: { type: "Float!" }
+        lon: { type: "Float!", defaultValue: 0 }
+        filterByPlaceTypes: { type: "[FilterPlaceType]", defaultValue: null }
+        filterByModes: { type: "[Mode]", defaultValue: null }
+        first: { type: "Int!", defaultValue: 5 }
+        maxResults: { type: "Int" }
+        maxDistance: { type: "Int" }
+      ) {
+        nearest(
+          lat: $lat
+          lon: $lon
+          filterByPlaceTypes: $filterByPlaceTypes
+          filterByModes: $filterByModes
+          first: $first
+          maxResults: $maxResults
+          maxDistance: $maxDistance
+        ) {
+          edges {
+            node {
+              distance
+              place {
+                __typename
+                ... on BikeRentalStation {
+                  name
+                  lat
+                  lon
+                  stationId
                 }
-                code
-                directionId
-                patternGeometry {
-                  points
+                ... on Stop {
+                  gtfsId
+                  lat
+                  lon
+                  name
+                  parentStation {
+                    lat
+                    lon
+                    name
+                    gtfsId
+                  }
+                  patterns {
+                    route {
+                      gtfsId
+                      shortName
+                    }
+                    code
+                    directionId
+                    patternGeometry {
+                      points
+                    }
+                  }
                 }
               }
             }
           }
         }
       }
+    `,
+  },
+  graphql`
+    query StopsNearYouMapRefetchQuery(
+      $lat: Float!
+      $lon: Float!
+      $filterByPlaceTypes: [FilterPlaceType]
+      $filterByModes: [Mode]
+      $first: Int!
+      $maxResults: Int!
+      $maxDistance: Int!
+      $startTime: Long!
+      $omitNonPickups: Boolean!
+    ) {
+      viewer {
+        ...StopsNearYouMap_stops
+        @arguments(
+          startTime: $startTime
+          omitNonPickups: $omitNonPickups
+          lat: $lat
+          lon: $lon
+          filterByPlaceTypes: $filterByPlaceTypes
+          filterByModes: $filterByModes
+          first: $first
+          maxResults: $maxResults
+          maxDistance: $maxDistance
+        )
+      }
     }
   `,
-});
+);
 
 export {
   containerComponent as default,

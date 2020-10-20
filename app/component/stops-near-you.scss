@@ -41,6 +41,33 @@
     display: flex;
     flex-direction: column;
     padding: 10px 3.75em 0;
+    .nearest-stops-update-container {
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+        font-weight: normal;
+        font-size: 0.9375rem;
+        text-align: center;
+        color: #666666;
+        .update-stops-button {
+            border: 1px solid #ddd;
+            min-height: 30px;
+            padding: 0 16px;
+            border-radius: 15px;
+            color: $primary-color;
+            font-weight: 500;
+            margin: 7px 0 20px;
+            background-color: $white;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            .icon-container {
+                display: flex;
+                font-size: 20px;
+                padding-right: 13px;
+            }
+        }
+    }
     .stop-near-you-container {
         border: 1px solid #d9d9d9;
         border-radius: 10px;

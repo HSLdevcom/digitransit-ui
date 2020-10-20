@@ -36,6 +36,7 @@ const onlyUpdateCoordChanges = onlyUpdateForKeys([
   'showStops',
   'showScaleBar',
   'children',
+  'leafletObjs',
 ]);
 
 const jsonModules = {
