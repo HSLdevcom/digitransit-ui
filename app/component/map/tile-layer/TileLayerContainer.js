@@ -249,7 +249,10 @@ class TileLayerContainer extends GridLayer {
       name = 'multiple';
     }
     const pathPrefixMatch = window.location.pathname.match(/^\/([a-z]{2,})\//);
-    const context = pathPrefixMatch ? pathPrefixMatch[1] : 'index';
+    const context =
+      pathPrefixMatch && pathPrefixMatch[1] !== this.context.config.indexPath
+        ? pathPrefixMatch[1]
+        : 'index';
     addAnalyticsEvent({
       action: 'SelectMapPoint',
       category: 'Map',

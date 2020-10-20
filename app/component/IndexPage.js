@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable import/no-extraneous-dependencies */
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -8,8 +7,6 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
 import isEqual from 'lodash/isEqual';
 import d from 'debug';
-import { graphql, fetchQuery } from 'react-relay';
-import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
 import TrafficNowLink from '@digitransit-component/digitransit-component-traffic-now-link';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
@@ -88,7 +85,6 @@ class IndexPage extends React.Component {
   componentDidMount() {
     scrollTop();
   }
-
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps = nextProps => {
     this.handleLocationProps(nextProps);
@@ -108,7 +104,7 @@ class IndexPage extends React.Component {
       navigateTo({
         origin: nextProps.origin,
         destination: nextProps.destination,
-        rootPath: '/',
+        rootPath: `/${this.context.config.indexPath}`,
         router: this.props.router,
         base: this.context.match.location,
       });
@@ -132,14 +128,14 @@ class IndexPage extends React.Component {
     navigateTo({
       origin: this.props.origin,
       destination: location,
-      rootPath: '/',
+      rootPath: `/${this.context.config.indexPath}`,
       router: this.props.router,
       base: this.context.match.location,
     });
   };
 
   // DT-3551: handle logic for Traffic now link
-  trafficNowHandler = e => {
+  trafficNowHandler = () => {
     window.location = this.context.config.trafficNowLink;
   };
 
@@ -471,7 +467,7 @@ const IndexPageWithPosition = connectToStores(
           navigateTo({
             origin: newProps.origin,
             destination: newProps.destination,
-            rootPath: '/',
+            rootPath: `/${this.context.config.indexPath}`,
             router: props.router,
             base: location,
           });

@@ -40,12 +40,20 @@ export const getItineraryPath = (from, to, idx) =>
 export const isEmpty = s =>
   s === undefined || s === null || s.trim() === '' || s.trim() === '-';
 
-export const getEndpointPath = (origin, destination) => {
+export const getEndpointPath = (origin, destination, indexPath) => {
   if (isEmpty(origin) && isEmpty(destination)) {
-    return '/';
+    return indexPath === '' ? '/' : `/${indexPath}/`;
+  }
+  if (indexPath === '') {
+    return [
+      indexPath,
+      encodeURIComponent(isEmpty(origin) ? '-' : origin),
+      encodeURIComponent(isEmpty(destination) ? '-' : destination),
+    ].join('/');
   }
   return [
     '',
+    indexPath,
     encodeURIComponent(isEmpty(origin) ? '-' : origin),
     encodeURIComponent(isEmpty(destination) ? '-' : destination),
   ].join('/');
@@ -77,7 +85,11 @@ export const getPathWithEndpointObjects = (origin, destination, rootPath) => {
           addressToItinerarySearch(origin),
           addressToItinerarySearch(destination),
         )
-      : getEndpointPath(locationToOTP(origin), locationToOTP(destination));
+      : getEndpointPath(
+          locationToOTP(origin),
+          locationToOTP(destination),
+          rootPath,
+        );
 
   return r;
 };
@@ -109,12 +121,16 @@ export const parseLocation = location => {
   return parsed;
 };
 
-export const getHomeUrl = origin => {
+export const getHomeUrl = (origin, indexPath) => {
   // TODO consider looking at destination too
-  const homeUrl = getPathWithEndpointObjects(origin, {
-    set: false,
-    ready: false,
-  });
+  const homeUrl = getPathWithEndpointObjects(
+    origin,
+    {
+      set: false,
+      ready: false,
+    },
+    indexPath,
+  );
 
   return homeUrl;
 };

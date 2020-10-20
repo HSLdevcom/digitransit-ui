@@ -55,6 +55,7 @@ export default {
   },
 
   APP_PATH: `${APP_PATH}`,
+  indexPath: '',
   title: 'Reittihaku',
 
   textLogo: false,
