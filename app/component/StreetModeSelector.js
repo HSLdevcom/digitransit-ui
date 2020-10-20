@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { StreetModeSelectorButton } from './StreetModeSelectorButton';
 import { StreetModeSelectorWeatherLabel } from './StreetModeSelectorWeatherLabel';
+import Loading from './Loading';
 
 export const StreetModeSelector = ({
   weatherLoaded,
@@ -16,50 +17,64 @@ export const StreetModeSelector = ({
   bikePlan,
   bikeAndPublicPlan,
   bikeParkPlan,
+  loading,
 }) => {
-  const bikeAndVehicle = {
-    itineraries: [
-      ...bikeParkPlan.itineraries,
-      ...bikeAndPublicPlan.itineraries,
-    ],
-  };
+  const bikeAndVehicle = !loading
+    ? {
+        itineraries: [
+          ...bikeParkPlan.itineraries,
+          ...bikeAndPublicPlan.itineraries,
+        ],
+      }
+    : {};
   return (
-    <div className="street-mode-selector-container">
-      {weatherLoaded && (
-        <div className="street-mode-button-row">
-          <StreetModeSelectorWeatherLabel
-            active={
-              showWalkOptionButton ||
-              showBikeOptionButton ||
-              showBikeAndPublicOptionButton
-            }
-            weatherData={weatherData}
-          />
-          {showWalkOptionButton && (
-            <StreetModeSelectorButton
-              icon="icon-icon_walk"
-              name="walk"
-              plan={walkPlan}
-              onClick={setStreetModeAndSelect}
-            />
-          )}
-          {showBikeOptionButton && (
-            <StreetModeSelectorButton
-              icon="icon-icon_cyclist"
-              name="bike"
-              plan={bikePlan}
-              onClick={setStreetModeAndSelect}
-            />
-          )}
-          {showBikeAndPublicOptionButton && (
-            <StreetModeSelectorButton
-              icon="icon-icon_cyclist"
-              name="bikeAndVehicle"
-              plan={bikeAndVehicle}
-              onClick={toggleStreetMode}
-            />
-          )}
+    <div className={`street-mode-selector-container ${loading && 'loading'}`}>
+      {loading ? (
+        <div
+          style={{
+            position: 'relative',
+            height: 100,
+          }}
+        >
+          <Loading />
         </div>
+      ) : (
+        weatherLoaded && (
+          <div className="street-mode-button-row">
+            <StreetModeSelectorWeatherLabel
+              active={
+                showWalkOptionButton ||
+                showBikeOptionButton ||
+                showBikeAndPublicOptionButton
+              }
+              weatherData={weatherData}
+            />
+            {showWalkOptionButton && (
+              <StreetModeSelectorButton
+                icon="icon-icon_walk"
+                name="walk"
+                plan={walkPlan}
+                onClick={setStreetModeAndSelect}
+              />
+            )}
+            {showBikeOptionButton && (
+              <StreetModeSelectorButton
+                icon="icon-icon_cyclist"
+                name="bike"
+                plan={bikePlan}
+                onClick={setStreetModeAndSelect}
+              />
+            )}
+            {showBikeAndPublicOptionButton && (
+              <StreetModeSelectorButton
+                icon="icon-icon_cyclist"
+                name="bikeAndVehicle"
+                plan={bikeAndVehicle}
+                onClick={toggleStreetMode}
+              />
+            )}
+          </div>
+        )
       )}
     </div>
   );
@@ -82,6 +97,7 @@ StreetModeSelector.propTypes = {
     windSpeed: PropTypes.number,
     iconId: PropTypes.number,
   }),
+  loading: PropTypes.bool,
 };
 
 StreetModeSelector.defaultProps = {
@@ -89,6 +105,7 @@ StreetModeSelector.defaultProps = {
   bikePlan: undefined,
   bikeAndPublicPlan: undefined,
   bikeParkPlan: undefined,
+  loading: undefined,
 };
 
 export default StreetModeSelector;

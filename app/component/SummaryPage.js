@@ -232,6 +232,7 @@ class SummaryPage extends React.Component {
     super(props, context);
     this.isFetching = false;
     this.secondQuerySent = false;
+    this.isFetchingWalkAndBike = true;
     this.params = this.context.match.params;
     context.executeAction(storeOrigin, otpToLocation(props.match.params.from));
     if (props.error) {
@@ -749,6 +750,7 @@ class SummaryPage extends React.Component {
     );
 
     fetchQuery(this.props.relayEnvironment, query, planParams).then(result => {
+      this.isFetchingWalkAndBike = false;
       this.setState(
         {
           walkPlan: result.walkPlan,
@@ -1498,6 +1500,7 @@ class SummaryPage extends React.Component {
     ) {
       if (this.state.streetMode === '') {
         this.secondQuerySent = false;
+        this.isFetchingWalkAndBike = true;
         const noWalkItineraries = this.selectedPlan.itineraries.filter(
           itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
         );
@@ -1712,7 +1715,7 @@ class SummaryPage extends React.Component {
                 endTime={latestArrivalTime}
                 toggleSettings={this.toggleCustomizeSearchOffcanvas}
               />
-              {showStreetModeSelector && (
+              {!this.isFetchingWalkAndBike && !showStreetModeSelector ? null : (
                 <StreetModeSelector
                   weatherLoaded={!this.pendingWeatherHash}
                   showWalkOptionButton={showWalkOptionButton}
@@ -1725,6 +1728,7 @@ class SummaryPage extends React.Component {
                   bikePlan={bikePlan}
                   bikeAndPublicPlan={bikeAndPublicPlan}
                   bikeParkPlan={bikeParkPlan}
+                  loading={this.isFetchingWalkAndBike}
                 />
               )}
             </React.Fragment>
@@ -1823,7 +1827,7 @@ class SummaryPage extends React.Component {
                 endTime={latestArrivalTime}
                 toggleSettings={this.toggleCustomizeSearchOffcanvas}
               />
-              {showStreetModeSelector && (
+              {!this.isFetchingWalkAndBike && !showStreetModeSelector ? null : (
                 <StreetModeSelector
                   weatherLoaded={!this.pendingWeatherHash}
                   showWalkOptionButton={showWalkOptionButton}
@@ -1836,6 +1840,7 @@ class SummaryPage extends React.Component {
                   bikePlan={bikePlan}
                   bikeAndPublicPlan={bikeAndPublicPlan}
                   bikeParkPlan={bikeParkPlan}
+                  loading={this.isFetchingWalkAndBike}
                 />
               )}
             </React.Fragment>

@@ -9,6 +9,9 @@
   overflow-x: hidden;
   overflow-y: hidden;
 
+  &.loading {
+    background-color: white;
+  }
   .street-mode-button-row {
       display: flex;
       flex-direction: row;
