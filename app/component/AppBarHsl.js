@@ -159,7 +159,7 @@ const AppBarHsl = ({ lang, user }, { match, config }) => {
       {({ SiteHeader, SharedLocalStorageObserver }) => (
         <>
           <SharedLocalStorageObserver
-            keys={['saved-searches', 'favouriteStore']}
+            keys={['saved-searches', 'favouriteStore', 'futureRoutes']}
             url={config.localStorageEmitter}
           />
           <SiteHeader
