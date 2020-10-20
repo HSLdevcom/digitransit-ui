@@ -331,11 +331,6 @@ const containerComponent = createFragmentContainer(
           intermediatePlaces {
             stop {
               zoneId
-              alerts {
-                alertSeverityLevel
-                effectiveEndDate
-                effectiveStartDate
-              }
             }
           }
           route {
@@ -344,16 +339,6 @@ const containerComponent = createFragmentContainer(
             color
             agency {
               name
-            }
-            alerts {
-              alertSeverityLevel
-              effectiveEndDate
-              effectiveStartDate
-              trip {
-                pattern {
-                  code
-                }
-              }
             }
           }
           trip {
@@ -375,11 +360,6 @@ const containerComponent = createFragmentContainer(
             stop {
               gtfsId
               zoneId
-              alerts {
-                alertSeverityLevel
-                effectiveEndDate
-                effectiveStartDate
-              }
             }
             bikeRentalStation {
               bikesAvailable
@@ -390,11 +370,6 @@ const containerComponent = createFragmentContainer(
             stop {
               gtfsId
               zoneId
-              alerts {
-                alertSeverityLevel
-                effectiveEndDate
-                effectiveStartDate
-              }
             }
             bikePark {
               bikeParkId

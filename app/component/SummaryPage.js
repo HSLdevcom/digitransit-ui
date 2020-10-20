@@ -1704,6 +1704,7 @@ const containerComponent = createFragmentContainer(PositioningWrapper, {
             directionId
             stoptimesForDate {
               scheduledDeparture
+              pickupType
             }
             pattern {
               ...RouteLine_pattern

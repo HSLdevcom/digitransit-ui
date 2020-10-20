@@ -318,11 +318,6 @@ class SummaryPlanContainer extends React.Component {
                   code
                   platformCode
                   zoneId
-                  alerts {
-                    alertSeverityLevel
-                    effectiveEndDate
-                    effectiveStartDate
-                  }
                 }
               }
               to {
@@ -342,11 +337,6 @@ class SummaryPlanContainer extends React.Component {
                   code
                   platformCode
                   zoneId
-                  alerts {
-                    alertSeverityLevel
-                    effectiveEndDate
-                    effectiveStartDate
-                  }
                 }
                 bikePark {
                   bikeParkId
@@ -367,11 +357,6 @@ class SummaryPlanContainer extends React.Component {
                   code
                   platformCode
                   zoneId
-                  alerts {
-                    alertSeverityLevel
-                    effectiveEndDate
-                    effectiveStartDate
-                  }
                 }
               }
               realTime
@@ -396,16 +381,6 @@ class SummaryPlanContainer extends React.Component {
                   fareUrl
                   name
                   phone
-                }
-                alerts {
-                  alertSeverityLevel
-                  effectiveEndDate
-                  effectiveStartDate
-                  trip {
-                    pattern {
-                      code
-                    }
-                  }
                 }
               }
               trip {
@@ -649,11 +624,6 @@ class SummaryPlanContainer extends React.Component {
                   code
                   platformCode
                   zoneId
-                  alerts {
-                    alertSeverityLevel
-                    effectiveEndDate
-                    effectiveStartDate
-                  }
                 }
               }
               to {
@@ -673,11 +643,6 @@ class SummaryPlanContainer extends React.Component {
                   code
                   platformCode
                   zoneId
-                  alerts {
-                    alertSeverityLevel
-                    effectiveEndDate
-                    effectiveStartDate
-                  }
                 }
                 bikePark {
                   bikeParkId
@@ -698,11 +663,6 @@ class SummaryPlanContainer extends React.Component {
                   code
                   platformCode
                   zoneId
-                  alerts {
-                    alertSeverityLevel
-                    effectiveEndDate
-                    effectiveStartDate
-                  }
                 }
               }
               realTime
@@ -727,16 +687,6 @@ class SummaryPlanContainer extends React.Component {
                   fareUrl
                   name
                   phone
-                }
-                alerts {
-                  alertSeverityLevel
-                  effectiveEndDate
-                  effectiveStartDate
-                  trip {
-                    pattern {
-                      code
-                    }
-                  }
                 }
               }
               trip {
