@@ -50,7 +50,7 @@ export default function setUpOIDC(app, port) {
     ];
     // Only allow sso login when user navigates to certain paths
     if (
-      req.query.sso !== false &&
+      req.query.sso !== 'false' &&
       (req.path === '/' || paths.some(path => req.path.includes(path))) &&
       !req.isAuthenticated() &&
       ssoToken &&
