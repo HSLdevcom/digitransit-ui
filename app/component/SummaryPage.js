@@ -206,18 +206,6 @@ class SummaryPage extends React.Component {
     plan: PropTypes.shape({
       itineraries: PropTypes.array,
     }).isRequired,
-    walkPlan: PropTypes.shape({
-      itineraries: PropTypes.array,
-    }),
-    bikePlan: PropTypes.shape({
-      itineraries: PropTypes.array,
-    }),
-    bikeAndPublicPlan: PropTypes.shape({
-      itineraries: PropTypes.array,
-    }),
-    bikeParkPlan: PropTypes.shape({
-      itineraries: PropTypes.array,
-    }),
     serviceTimeRange: PropTypes.shape({
       start: PropTypes.number.isRequired,
       end: PropTypes.number.isRequired,
@@ -238,15 +226,12 @@ class SummaryPage extends React.Component {
     error: undefined,
     loading: false,
     loadingPosition: false,
-    walkPlan: undefined,
-    bikePlan: undefined,
-    bikeAndPublicPlan: undefined,
-    bikeParkPlan: undefined,
   };
 
   constructor(props, context) {
     super(props, context);
     this.isFetching = false;
+    this.secondQuerySent = false;
     this.params = this.context.match.params;
     context.executeAction(storeOrigin, otpToLocation(props.match.params.from));
     if (props.error) {
@@ -281,14 +266,18 @@ class SummaryPage extends React.Component {
       itineraries: this.props.plan ? this.props.plan.itineraries : [],
       originalPlan: this.props.plan,
       separatorPosition: undefined,
+      walkPlan: undefined,
+      bikePlan: undefined,
+      bikeAndPublicPlan: undefined,
+      bikeParkPlan: undefined,
     };
 
     if (this.state.streetMode === 'walk') {
-      this.selectedPlan = this.props.walkPlan;
+      this.selectedPlan = this.state.walkPlan;
     } else if (this.state.streetMode === 'bike') {
-      this.selectedPlan = this.props.bikePlan;
+      this.selectedPlan = this.state.bikePlan;
     } else if (this.state.streetMode === 'bikeAndPublic') {
-      this.selectedPlan = this.props.bikeAndPublicPlan;
+      this.selectedPlan = this.state.bikeAndPublicPlan;
     } else {
       this.selectedPlan = this.props.plan;
     }
@@ -477,6 +466,296 @@ class SummaryPage extends React.Component {
 
   paramsHaveChanged = () => {
     return this.params !== this.context.match.params;
+  };
+
+  makeWalkAndBikeQueries = () => {
+    const query = graphql`
+      query SummaryPage_WalkBike_Query(
+        $fromPlace: String!
+        $toPlace: String!
+        $intermediatePlaces: [InputCoordinates!]
+        $date: String!
+        $time: String!
+        $walkReluctance: Float
+        $walkBoardCost: Int
+        $minTransferTime: Int
+        $walkSpeed: Float
+        $maxWalkDistance: Float
+        $wheelchair: Boolean
+        $ticketTypes: [String]
+        $disableRemainingWeightHeuristic: Boolean
+        $arriveBy: Boolean
+        $transferPenalty: Int
+        $ignoreRealtimeUpdates: Boolean
+        $maxPreTransitTime: Int
+        $walkOnStreetReluctance: Float
+        $waitReluctance: Float
+        $bikeSpeed: Float
+        $bikeSwitchTime: Int
+        $bikeSwitchCost: Int
+        $bikeBoardCost: Int
+        $optimize: OptimizeType
+        $triangle: InputTriangle
+        $maxTransfers: Int
+        $waitAtBeginningFactor: Float
+        $heuristicStepsPerMainStep: Int
+        $compactLegsByReversedSearch: Boolean
+        $itineraryFiltering: Float
+        $modeWeight: InputModeWeight
+        $preferred: InputPreferred
+        $unpreferred: InputUnpreferred
+        $locale: String
+        $shouldMakeWalkQuery: Boolean!
+        $shouldMakeBikeQuery: Boolean!
+        $showBikeAndPublicItineraries: Boolean!
+        $showBikeAndParkItineraries: Boolean!
+      ) {
+        walkPlan: plan(
+          fromPlace: $fromPlace
+          toPlace: $toPlace
+          intermediatePlaces: $intermediatePlaces
+          transportModes: [{ mode: WALK }]
+          date: $date
+          time: $time
+          walkSpeed: $walkSpeed
+          wheelchair: $wheelchair
+          arriveBy: $arriveBy
+          walkOnStreetReluctance: $walkOnStreetReluctance
+          heuristicStepsPerMainStep: $heuristicStepsPerMainStep
+          compactLegsByReversedSearch: $compactLegsByReversedSearch
+          locale: $locale
+        ) @include(if: $shouldMakeWalkQuery) {
+          ...SummaryPlanContainer_plan
+          ...ItineraryTab_plan
+          itineraries {
+            walkDistance
+            duration
+            startTime
+            endTime
+            ...ItineraryTab_itinerary
+            ...PrintableItinerary_itinerary
+            ...SummaryPlanContainer_itineraries
+            legs {
+              mode
+              ...ItineraryLine_legs
+              legGeometry {
+                points
+              }
+              distance
+            }
+          }
+        }
+
+        bikePlan: plan(
+          fromPlace: $fromPlace
+          toPlace: $toPlace
+          intermediatePlaces: $intermediatePlaces
+          transportModes: [{ mode: BICYCLE }]
+          date: $date
+          time: $time
+          walkSpeed: $walkSpeed
+          arriveBy: $arriveBy
+          walkOnStreetReluctance: $walkOnStreetReluctance
+          bikeSpeed: $bikeSpeed
+          optimize: $optimize
+          triangle: $triangle
+          heuristicStepsPerMainStep: $heuristicStepsPerMainStep
+          compactLegsByReversedSearch: $compactLegsByReversedSearch
+          locale: $locale
+        ) @include(if: $shouldMakeBikeQuery) {
+          ...SummaryPlanContainer_plan
+          ...ItineraryTab_plan
+          itineraries {
+            duration
+            startTime
+            endTime
+            ...ItineraryTab_itinerary
+            ...PrintableItinerary_itinerary
+            ...SummaryPlanContainer_itineraries
+            legs {
+              mode
+              ...ItineraryLine_legs
+              legGeometry {
+                points
+              }
+              distance
+            }
+          }
+        }
+
+        bikeAndPublicPlan: plan(
+          fromPlace: $fromPlace
+          toPlace: $toPlace
+          intermediatePlaces: $intermediatePlaces
+          numItineraries: 6
+          transportModes: [{ mode: BICYCLE }, { mode: SUBWAY }, { mode: RAIL }]
+          date: $date
+          time: $time
+          walkReluctance: $walkReluctance
+          walkBoardCost: $walkBoardCost
+          minTransferTime: $minTransferTime
+          walkSpeed: $walkSpeed
+          maxWalkDistance: $maxWalkDistance
+          allowedTicketTypes: $ticketTypes
+          disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
+          arriveBy: $arriveBy
+          transferPenalty: $transferPenalty
+          ignoreRealtimeUpdates: $ignoreRealtimeUpdates
+          maxPreTransitTime: $maxPreTransitTime
+          walkOnStreetReluctance: $walkOnStreetReluctance
+          waitReluctance: $waitReluctance
+          bikeSpeed: $bikeSpeed
+          bikeBoardCost: $bikeBoardCost
+          optimize: $optimize
+          triangle: $triangle
+          maxTransfers: $maxTransfers
+          waitAtBeginningFactor: $waitAtBeginningFactor
+          heuristicStepsPerMainStep: $heuristicStepsPerMainStep
+          compactLegsByReversedSearch: $compactLegsByReversedSearch
+          itineraryFiltering: $itineraryFiltering
+          modeWeight: $modeWeight
+          preferred: $preferred
+          unpreferred: $unpreferred
+          locale: $locale
+        ) @include(if: $showBikeAndPublicItineraries) {
+          ...SummaryPlanContainer_plan
+          ...ItineraryTab_plan
+          itineraries {
+            duration
+            startTime
+            endTime
+            ...ItineraryTab_itinerary
+            ...PrintableItinerary_itinerary
+            ...SummaryPlanContainer_itineraries
+            legs {
+              mode
+              ...ItineraryLine_legs
+              transitLeg
+              legGeometry {
+                points
+              }
+              route {
+                gtfsId
+              }
+              trip {
+                gtfsId
+                directionId
+                stoptimesForDate {
+                  scheduledDeparture
+                }
+                pattern {
+                  ...RouteLine_pattern
+                }
+              }
+              distance
+            }
+          }
+        }
+
+        bikeParkPlan: plan(
+          fromPlace: $fromPlace
+          toPlace: $toPlace
+          intermediatePlaces: $intermediatePlaces
+          numItineraries: 6
+          transportModes: [
+            { mode: BICYCLE, qualifier: PARK }
+            { mode: WALK }
+            { mode: BUS }
+            { mode: TRAM }
+            { mode: SUBWAY }
+            { mode: RAIL }
+          ]
+          date: $date
+          time: $time
+          walkReluctance: $walkReluctance
+          walkBoardCost: $walkBoardCost
+          minTransferTime: $minTransferTime
+          walkSpeed: $walkSpeed
+          maxWalkDistance: $maxWalkDistance
+          allowedTicketTypes: $ticketTypes
+          disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
+          arriveBy: $arriveBy
+          transferPenalty: $transferPenalty
+          ignoreRealtimeUpdates: $ignoreRealtimeUpdates
+          maxPreTransitTime: $maxPreTransitTime
+          walkOnStreetReluctance: $walkOnStreetReluctance
+          waitReluctance: $waitReluctance
+          bikeSpeed: $bikeSpeed
+          bikeSwitchTime: $bikeSwitchTime
+          bikeSwitchCost: $bikeSwitchCost
+          bikeBoardCost: $bikeBoardCost
+          optimize: $optimize
+          triangle: $triangle
+          maxTransfers: $maxTransfers
+          waitAtBeginningFactor: $waitAtBeginningFactor
+          heuristicStepsPerMainStep: $heuristicStepsPerMainStep
+          compactLegsByReversedSearch: $compactLegsByReversedSearch
+          itineraryFiltering: $itineraryFiltering
+          modeWeight: $modeWeight
+          preferred: $preferred
+          unpreferred: $unpreferred
+          locale: $locale
+        ) @include(if: $showBikeAndParkItineraries) {
+          ...SummaryPlanContainer_plan
+          ...ItineraryTab_plan
+          itineraries {
+            duration
+            startTime
+            endTime
+            ...ItineraryTab_itinerary
+            ...PrintableItinerary_itinerary
+            ...SummaryPlanContainer_itineraries
+            legs {
+              mode
+              ...ItineraryLine_legs
+              transitLeg
+              legGeometry {
+                points
+              }
+              route {
+                gtfsId
+              }
+              trip {
+                gtfsId
+                directionId
+                stoptimesForDate {
+                  scheduledDeparture
+                }
+                pattern {
+                  ...RouteLine_pattern
+                }
+              }
+              to {
+                bikePark {
+                  bikeParkId
+                  name
+                }
+              }
+              distance
+            }
+          }
+        }
+      }
+    `;
+
+    const planParams = preparePlanParams(this.context.config)(
+      this.context.match.params,
+      this.context.match,
+    );
+
+    fetchQuery(this.props.relayEnvironment, query, planParams).then(result => {
+      this.setState(
+        {
+          walkPlan: result.walkPlan,
+          bikePlan: result.bikePlan,
+          bikeAndPublicPlan: result.bikeAndPublicPlan,
+          bikeParkPlan: result.bikeParkPlan,
+        },
+        () => {
+          this.makeWeatherQuery();
+        },
+      );
+    });
   };
 
   makeQueryWithAllModes = () => {
@@ -686,6 +965,12 @@ class SummaryPage extends React.Component {
       }
     }
 
+    // Public transit routes fetched, now fetch walk and bike itineraries
+    if (this.props.plan && !this.secondQuerySent) {
+      this.secondQuerySent = true;
+      this.makeWalkAndBikeQueries();
+    }
+
     if (
       this.resultsUpdatedAlertRef.current &&
       this.selectedPlan.itineraries &&
@@ -739,11 +1024,10 @@ class SummaryPage extends React.Component {
     return iconId;
   };
 
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  makeWeatherQuery() {
     const from = otpToLocation(this.props.match.params.from);
 
-    const { walkPlan, bikePlan, bikeAndPublicPlan, bikeParkPlan } = nextProps;
+    const { walkPlan, bikePlan, bikeAndPublicPlan, bikeParkPlan } = this.state;
 
     const itin =
       (walkPlan && walkPlan.itineraries && walkPlan.itineraries[0]) ||
@@ -786,6 +1070,10 @@ class SummaryPage extends React.Component {
         });
       }
     }
+  }
+
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (!isEqual(nextProps.match.params.from, this.props.match.params.from)) {
       this.context.executeAction(storeOrigin, nextProps.match.params.from);
     }
@@ -1030,15 +1318,8 @@ class SummaryPage extends React.Component {
   };
 
   render() {
-    const {
-      match,
-      error,
-      plan,
-      walkPlan,
-      bikePlan,
-      bikeAndPublicPlan,
-      bikeParkPlan,
-    } = this.props;
+    const { match, error, plan } = this.props;
+    const { walkPlan, bikePlan, bikeAndPublicPlan, bikeParkPlan } = this.state;
     const planHasNoItineraries =
       this.props.plan &&
       this.props.plan.itineraries &&
@@ -1064,11 +1345,20 @@ class SummaryPage extends React.Component {
     this.bikeAndParkItinerariesToShow = 0;
     if (this.state.streetMode === 'walk') {
       this.stopClient();
+      if (!walkPlan) {
+        return <Loading />;
+      }
       this.selectedPlan = walkPlan;
     } else if (this.state.streetMode === 'bike') {
       this.stopClient();
+      if (!bikePlan) {
+        return <Loading />;
+      }
       this.selectedPlan = bikePlan;
     } else if (this.state.streetMode === 'bikeAndPublic') {
+      if (!bikeAndPublicPlan || !bikeParkPlan) {
+        return <Loading />;
+      }
       if (
         bikeAndPublicPlan &&
         bikeAndPublicPlan.itineraries &&
@@ -1189,10 +1479,8 @@ class SummaryPage extends React.Component {
       hasItineraries &&
       !isEqual(this.selectedPlan, this.state.originalPlan)
     ) {
-      if (
-        this.state.streetMode !== 'walk' &&
-        this.state.streetMode !== 'bike'
-      ) {
+      if (this.state.streetMode === '') {
+        this.secondQuerySent = false;
         const noWalkItineraries = this.selectedPlan.itineraries.filter(
           itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
         );
@@ -1200,6 +1488,10 @@ class SummaryPage extends React.Component {
           originalPlan: this.selectedPlan,
           itineraries: noWalkItineraries,
           separatorPosition: undefined,
+          walkPlan: undefined,
+          bikePlan: undefined,
+          bikeAndPublicPlan: undefined,
+          bikeParkPlan: undefined,
         });
       } else {
         this.setState({
