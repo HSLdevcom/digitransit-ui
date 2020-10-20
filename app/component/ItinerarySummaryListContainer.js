@@ -82,7 +82,11 @@ function ItinerarySummaryListContainer(
           key="itinerary-summary.bikePark-title"
         />,
       );
-      if (bikeAndPublicItinerariesToShow > 0) {
+
+      if (
+        itineraries.length > bikeAndParkItinerariesToShow &&
+        bikeAndPublicItinerariesToShow > 0
+      ) {
         const publicModes = itineraries[
           bikeAndParkItinerariesToShow
         ].legs.filter(obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE');

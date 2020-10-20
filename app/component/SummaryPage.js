@@ -1,5 +1,7 @@
-import PropTypes from 'prop-types';
 /* eslint-disable react/no-array-index-key */
+/* eslint-disable no-console */
+/* eslint-disable react/no-access-state-in-setstate */
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import React from 'react';
 import {
@@ -246,6 +248,7 @@ class SummaryPage extends React.Component {
 
   constructor(props, context) {
     super(props, context);
+    console.log('DT-3934 CONSTRUCTOR');
     this.isFetching = false;
     this.params = this.context.match.params;
     context.executeAction(storeOrigin, otpToLocation(props.match.params.from));
@@ -308,6 +311,10 @@ class SummaryPage extends React.Component {
         this.startClient(itineraryTopics);
       }
     }
+    console.log(
+      'DT-3934 CONSTRUCTOR itineraries:',
+      this.state.itineraries?.length,
+    );
   }
 
   updateItineraries = newItineraries => {
@@ -319,6 +326,7 @@ class SummaryPage extends React.Component {
   };
 
   toggleStreetMode = newStreetMode => {
+    console.log('DT-3934 toggleStreetMode');
     if (this.state.streetMode === newStreetMode) {
       this.setState({ streetMode: '' }, () => {
         const newState = {
@@ -356,6 +364,7 @@ class SummaryPage extends React.Component {
   };
 
   setStreetModeAndSelect = newStreetMode => {
+    console.log('DT-3934 setStreetModeAndSelect');
     addAnalyticsEvent({
       category: 'Itinerary',
       action: 'OpenItineraryDetailsWithMode',
@@ -855,11 +864,10 @@ class SummaryPage extends React.Component {
 
     const itineraries =
       (this.state.itineraries &&
-        this.state.itineraries.filter(
-          itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
+        this.state.itineraries.filter(itinerary =>
+          itinerary.legs.every(leg => leg.mode === 'WALK'),
         )) ||
       [];
-
     const activeIndex = getActiveIndex(match.location, itineraries);
     const from = otpToLocation(match.params.from);
     const to = otpToLocation(match.params.to);
@@ -1057,17 +1065,27 @@ class SummaryPage extends React.Component {
   };
 
   render() {
+    console.log(
+      'DT-3934 render - itineraries length:',
+      this.state?.itineraries?.length,
+    );
+
     const { match, error, plan, walkPlan, bikePlan, bikeParkPlan } = this.props;
     const bikeAndPublicPlan = this.filteredbikeAndPublic(
       this.props.bikeAndPublicPlan,
     );
 
+    console.log(
+      'DT-3934 itineraries on props #1:',
+      this.props?.plan?.itineraries,
+    );
     const planHasNoItineraries =
       this.props.plan &&
       this.props.plan.itineraries &&
       this.props.plan.itineraries.filter(
         itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
       ).length === 0;
+    console.log('DT-3934 itineraries on props #2:', planHasNoItineraries);
     if (
       planHasNoItineraries &&
       userHasChangedModes(this.context.config) &&
@@ -1195,35 +1213,63 @@ class SummaryPage extends React.Component {
     const hasItineraries =
       this.selectedPlan && Array.isArray(this.selectedPlan.itineraries);
 
+    console.log(
+      'DT-3934 XXX:',
+      this.state?.itineraries?.length,
+      this.selectedPlan?.itineraries?.length,
+      this.state?.originalPlan?.length,
+    );
     if (
       hasItineraries &&
       !isEqual(this.selectedPlan, this.state.originalPlan)
     ) {
+      console.log('DT-3934 inside if #1', this.state.streetMode);
       if (
         this.state.streetMode !== 'walk' &&
         this.state.streetMode !== 'bike'
       ) {
-        const noWalkItineraries = this.selectedPlan.itineraries.filter(
-          itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
-        );
+        console.log('DT-3934 inside if #2');
+        const noWalkItineraries = this.selectedPlan
+          .itineraries; /* .filter(
+          itinerary => {
+            console.log('DT-3934 onlyWalking #1:', itinerary.legs);
+            const retVal = !itinerary.legs.every(leg => leg.mode === 'WALK');
+            console.log('DT-3934 onlyWalking #2: ', retVal);
+            return retVal;
+          }
+        ); */
+        console.log('DT-3934 inside if #3', noWalkItineraries.length);
         this.setState({
           originalPlan: this.selectedPlan,
           itineraries: noWalkItineraries,
           separatorPosition: undefined,
         });
       } else {
+        console.log(
+          'DT-3934 inside if #4:',
+          this.selectedPlan?.itineraries?.length,
+          this.state?.itineraries?.length,
+        );
         this.setState({
           originalPlan: this.selectedPlan,
-          itineraries: this.selectedPlan.itineraries,
+          itineraries: this.state.itineraries,
           separatorPosition: undefined,
         });
       }
     }
 
+    console.log('DT-3934 error && hasItineraries:', error, hasItineraries);
+
     // Remove old itineraries if new query cannot find a route
     if (error && hasItineraries) {
       this.setState({ itineraries: [] });
     }
+
+    console.log(
+      'DT-3934 length of itineraries #2:',
+      this.selectedPlan?.itineraries?.length,
+      this.state?.itineraries?.length,
+    );
 
     const hash = getHashNumber(
       this.props.match.params.secondHash
@@ -1320,25 +1366,26 @@ class SummaryPage extends React.Component {
           routeSelected(match.params.hash, match.params.secondHash) &&
           this.state.itineraries.length > 0
         ) {
+          console.log(
+            'DT-3934 content #1',
+            this.selectedPlan,
+            this.state.itineraries,
+          );
+          const currentTime = {
+            date: moment().valueOf(),
+          };
           content = (
             <>
               {screenReaderUpdateAlert}
               <ItineraryTab
-                key={hash.toString()}
-                activeIndex={activeIndex}
-                plan={this.selectedPlan}
-                serviceTimeRange={serviceTimeRange}
-                itinerary={this.state.itineraries[activeIndex]}
-                params={match.params}
-                error={error || this.state.error}
-                setLoading={this.setLoading}
-                setError={this.setError}
+                plan={currentTime}
+                itinerary={this.state.itineraries[hash]}
                 focus={this.updateCenter}
                 setMapZoomToLeg={this.setMapZoomToLeg}
-                resetStreetMode={this.resetStreetMode}
               />
             </>
           );
+          console.log('DT-3934 content #1', content);
           return (
             <DesktopView
               title={
@@ -1354,11 +1401,17 @@ class SummaryPage extends React.Component {
             />
           );
         }
+        console.log(
+          'DT-3934 content #2',
+          this.selectedPlan.length,
+          this.state.itineraries.length,
+        );
+        console.log('DT-3934 content #2', this.props.content);
         content = (
           <>
             {screenReaderUpdateAlert}
             <SummaryPlanContainer
-              activeIndex={activeIndex}
+              activeIndex={hash || activeIndex}
               plan={this.selectedPlan}
               serviceTimeRange={serviceTimeRange}
               itineraries={this.state.itineraries}
@@ -1483,6 +1536,13 @@ class SummaryPage extends React.Component {
       );
     } else {
       map = undefined;
+      console.log(
+        'DT-3934 content #3',
+        this.selectedPlan,
+        this.state.itineraries,
+        hash,
+        getActiveIndex(match.location, this.state.itineraries),
+      );
       content = (
         <>
           <SummaryPlanContainer

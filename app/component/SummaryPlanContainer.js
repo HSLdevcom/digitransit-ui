@@ -1,4 +1,5 @@
 /* eslint-disable no-nested-ternary */
+/* eslint-disable no-console */
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -109,6 +110,10 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onSelectImmediately = index => {
+    console.log(
+      'DT-3934 onSelectImmediately itineraries',
+      this.state?.itineraries?.length,
+    );
     let isBikeAndPublic;
     if (this.props.params.hash === 'bikeAndVehicle') {
       isBikeAndPublic = true;
