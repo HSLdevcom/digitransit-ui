@@ -34,9 +34,6 @@ export default function setUpOIDC(app, port) {
       `http://localhost:${port}${callbackPath}`,
     scope: 'openid profile',
   });
-  passport.use(oic);
-  passport.serializeUser(LoginStrategy.serializeUser);
-  passport.deserializeUser(LoginStrategy.deserializeUser);
 
   const redirectToLogin = function (req, res, next) {
     const { ssoValidTo, ssoToken } = req.session;
@@ -53,6 +50,7 @@ export default function setUpOIDC(app, port) {
     ];
     // Only allow sso login when user navigates to certain paths
     if (
+      req.query.sso !== false &&
       (req.path === '/' || paths.some(path => req.path.includes(path))) &&
       !req.isAuthenticated() &&
       ssoToken &&
@@ -93,6 +91,9 @@ export default function setUpOIDC(app, port) {
   // Initialize Passport
   app.use(passport.initialize());
   app.use(passport.session());
+  passport.use(oic);
+  passport.serializeUser(LoginStrategy.serializeUser);
+  passport.deserializeUser(LoginStrategy.deserializeUser);
 
   app.use(redirectToLogin);
 
