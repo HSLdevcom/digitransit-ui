@@ -151,6 +151,14 @@ export default class Map extends React.Component {
     }
     return (
       <div aria-hidden="true">
+        <span
+          className="overlay-mover"
+          style={{
+            transform: `translate(0, -${this.props.buttonBottomPadding}px)`,
+          }}
+        >
+          {this.props.bottomButtons}
+        </span>
         <LeafletMap
           keyboard={false}
           ref={el => {
@@ -224,14 +232,6 @@ export default class Map extends React.Component {
               )
             }
           </BreakpointConsumer>
-          <span
-            className="overlay-mover"
-            style={{
-              transform: `translate(0, -${this.props.buttonBottomPadding}px)`,
-            }}
-          >
-            {this.props.bottomButtons}
-          </span>
           {leafletObjs}
 
           {!this.props.originFromMap && !this.props.destinationFromMap && (

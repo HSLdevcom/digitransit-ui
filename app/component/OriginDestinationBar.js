@@ -128,10 +128,11 @@ class OriginDestinationBar extends React.Component {
     }
     if (viaPointLocation.type !== 'SelectFromMap') {
       const { viaPoints } = this.state;
-      const points = viaPoints.filter(vp => !isEmpty(vp));
+      let points = viaPoints;
       points[i] = {
         ...viaPointLocation,
       };
+      points = points.filter(vp => !isEmpty(vp));
       this.setState({ viaPoints: points }, () => this.updateViaPoints(points));
     } else {
       this.setState({ showModal: true });
