@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -81,6 +82,7 @@ class ItineraryTab extends React.Component {
     const { itinerary, plan } = this.props;
     const { config } = this.context;
 
+    console.log('DT-3934 plan date:', plan.date);
     if(!itinerary || !itinerary.legs[0]) {
       return null;
     }
