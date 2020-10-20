@@ -30,7 +30,7 @@ export default function MobileView({
         },
       });
     }
-  }, [header, map]);
+  }, [header]);
 
   const onScroll = e => {
     if (map) {
