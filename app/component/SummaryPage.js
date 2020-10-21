@@ -1,6 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-console */
 /* eslint-disable react/no-access-state-in-setstate */
+/* eslint-disable no-nested-ternary */
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import React from 'react';
@@ -284,6 +285,7 @@ class SummaryPage extends React.Component {
       itineraries: this.props.plan ? this.props.plan.itineraries : [],
       originalPlan: this.props.plan,
       separatorPosition: undefined,
+      earlierCurrentAndPastItineraries: undefined,
     };
 
     if (this.state.streetMode === 'walk') {
@@ -318,7 +320,14 @@ class SummaryPage extends React.Component {
   }
 
   updateItineraries = newItineraries => {
-    this.setState({ itineraries: newItineraries });
+    /* console.log('DT-3934 - summaryItineraries before:', getSummaryItineraries().length, newItineraries.length);
+    const reducedItineraries = newItineraries.map(ni => ni.starttime);
+    setSummaryItineraries(reducedItineraries);
+    console.log('DT-3934 - summaryItineraries after:', getSummaryItineraries().length); */
+    this.setState({
+      itineraries: newItineraries,
+      earlierCurrentAndPastItineraries: newItineraries,
+    });
   };
 
   updateSeparatorPosition = pos => {
@@ -1066,8 +1075,9 @@ class SummaryPage extends React.Component {
 
   render() {
     console.log(
-      'DT-3934 render - itineraries length:',
+      'DT-3934 render #1 - itineraries length:',
       this.state?.itineraries?.length,
+      this.state?.originalPlan?.itineraries?.length,
     );
 
     const { match, error, plan, walkPlan, bikePlan, bikeParkPlan } = this.props;
@@ -1160,7 +1170,18 @@ class SummaryPage extends React.Component {
       console.log('DT-3934: alternativePlan');
     } else {
       this.selectedPlan = plan;
-      console.log('DT-3934: default plan');
+      /* if (this.selectedPlan && this.selectedPlan.itineraries && this.state.itineraries && !isEqual(this.selectedPlan.itineraries, this.state.itineraries)) {
+        console.log('DT-3934 if on setting default plan');
+        console.log('DT-3934 if on setting default plan #1', this.selectedPlan.itineraries);
+        console.log('DT-3934 if on setting default plan #2', this.state.itineraries);
+        this.selectedPlan = {
+          ...this.selectedPlan,
+          itineraries: this.state.itineraries
+        }
+      }
+      console.log('DT-3934 after setting default plan #1', this.selectedPlan.itineraries);
+      console.log('DT-3934 after setting default plan #2', this.state.itineraries);
+      console.log('DT-3934 after setting default plan #3', this.state.earlierCurrentAndPastItineraries); */
     }
 
     const currentSettings = getCurrentSettings(this.context.config, '');
@@ -1223,9 +1244,9 @@ class SummaryPage extends React.Component {
 
     console.log(
       'DT-3934 XXX:',
-      this.state?.itineraries?.length,
       this.selectedPlan?.itineraries?.length,
-      this.state?.originalPlan?.length,
+      this.state?.itineraries?.length,
+      this.state?.earlierCurrentAndPastItineraries?.itineraries?.length,
     );
     if (
       hasItineraries &&
@@ -1271,6 +1292,7 @@ class SummaryPage extends React.Component {
       'DT-3934 length of itineraries #2:',
       this.selectedPlan?.itineraries?.length,
       this.state?.itineraries?.length,
+      this.state?.earlierCurrentAndPastItineraries?.itineraries?.length,
     );
 
     const hash = getHashNumber(
@@ -1354,6 +1376,7 @@ class SummaryPage extends React.Component {
     );
     if (this.props.breakpoint === 'large') {
       let content;
+      console.log('DT-3934 content #0:', this.props.content);
       if (
         this.state.loading === false &&
         this.props.loadingPosition === false &&
@@ -1370,30 +1393,34 @@ class SummaryPage extends React.Component {
             'DT-3934 content #1',
             this.selectedPlan?.itineraries,
             this.state.itineraries,
+            this.state.earlierCurrentAndPastItineraries,
           );
           const currentTime = {
             date: moment().valueOf(),
           };
+
+          const selectedItineraries = this.state
+            .earlierCurrentAndPastItineraries
+            ? this.state.earlierCurrentAndPastItineraries
+            : this.state.itineraries
+            ? this.state.itineraries
+            : [];
+          const selectedItinerary = selectedItineraries
+            ? selectedItineraries[activeIndex]
+            : undefined;
+
+          console.log('DT-3934 selectedItinerary:', selectedItinerary);
           content = (
             <>
               {screenReaderUpdateAlert}
               <ItineraryTab
-                key={hash.toString()}
-                activeIndex={activeIndex}
                 plan={currentTime}
-                serviceTimeRange={serviceTimeRange}
-                itinerary={this.state.itineraries[activeIndex]}
-                params={match.params}
-                error={error || this.state.error}
-                setLoading={this.setLoading}
-                setError={this.setError}
+                itinerary={selectedItinerary}
                 focus={this.updateCenter}
                 setMapZoomToLeg={this.setMapZoomToLeg}
-                resetStreetMode={this.resetStreetMode}
               />
             </>
           );
-          console.log('DT-3934 content #1', content);
           return (
             <DesktopView
               title={
@@ -1413,12 +1440,19 @@ class SummaryPage extends React.Component {
           'DT-3934 content #2 itineraries length:',
           this.selectedPlan?.length,
           this.state.itineraries.length,
+          this.state.earlierCurrentAndPastItineraries?.length,
+          this.state.earlierCurrentAndPastItineraries,
         );
-        console.log(
-          'DT-3934 content #2 hash and activeIndex',
-          hash,
-          activeIndex,
-        );
+        const selectedItineraries = this.state.earlierCurrentAndPastItineraries
+          ? this.state.earlierCurrentAndPastItineraries
+          : this.state.itineraries
+          ? this.state.itineraries
+          : [];
+        const selectedItinerary = selectedItineraries
+          ? selectedItineraries[activeIndex]
+          : undefined;
+
+        console.log('DT-3934 selectedItineraries:', selectedItineraries);
         content = (
           <>
             {screenReaderUpdateAlert}
@@ -1426,7 +1460,7 @@ class SummaryPage extends React.Component {
               activeIndex={activeIndex}
               plan={this.selectedPlan}
               serviceTimeRange={serviceTimeRange}
-              itineraries={this.state.itineraries}
+              itineraries={selectedItineraries}
               params={match.params}
               error={error || this.state.error}
               setLoading={this.setLoading}
@@ -1447,7 +1481,7 @@ class SummaryPage extends React.Component {
             >
               {this.props.content &&
                 React.cloneElement(this.props.content, {
-                  itinerary: hasItineraries && this.state.itineraries[hash],
+                  itinerary: selectedItineraries?.length && selectedItinerary,
                   focus: this.updateCenter,
                   plan: this.selectedPlan,
                 })}
@@ -1552,6 +1586,7 @@ class SummaryPage extends React.Component {
         'DT-3934 content #3',
         this.selectedPlan,
         this.state.itineraries,
+        this.state.earlierCurrentAndPastItineraries,
         hash,
         getActiveIndex(match.location, this.state.itineraries),
       );
@@ -1720,6 +1755,29 @@ const containerComponent = createFragmentContainer(PositioningWrapper, {
             }
             pattern {
               ...RouteLine_pattern
+            }
+          }
+          from {
+            name
+            lat
+            lon
+            stop {
+              gtfsId
+              zoneId
+            }
+            bikeRentalStation {
+              bikesAvailable
+              networks
+            }
+          }
+          to {
+            stop {
+              gtfsId
+              zoneId
+            }
+            bikePark {
+              bikeParkId
+              name
             }
           }
         }
