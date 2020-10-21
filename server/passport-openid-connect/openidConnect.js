@@ -113,7 +113,7 @@ export default function setUpOIDC(app, port, indexPath) {
     callbackPath,
     passport.authenticate('passport-openid-connect', {
       callback: true,
-      successReturnToOrRedirect: '/',
+      successReturnToOrRedirect: `/${indexPath}`,
       failureRedirect: '/login',
     }),
   );
@@ -121,7 +121,7 @@ export default function setUpOIDC(app, port, indexPath) {
     req.logout();
     req.session.destroy(function () {
       res.clearCookie('connect.sid');
-      res.redirect('/');
+      res.redirect(`/${indexPath}`);
     });
   });
   app.get('/sso/auth', function (req, res, next) {
