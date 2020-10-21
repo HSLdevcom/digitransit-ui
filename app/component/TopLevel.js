@@ -5,7 +5,6 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import { matchShape, routerShape } from 'found';
 import {
   getHomeUrl,
-  parseLocation,
   PREFIX_STOPS,
   PREFIX_ROUTES,
   PREFIX_TERMINALS,
@@ -148,7 +147,7 @@ class TopLevel extends React.Component {
 
     const homeUrl = getHomeUrl(
       this.props.origin,
-      parseLocation(this.props.match.params.to),
+      this.context.config.indexPath,
     );
     if (this.props.children || !(this.props.map || this.props.header)) {
       content = this.props.children || this.props.content;

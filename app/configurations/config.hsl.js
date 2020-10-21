@@ -24,6 +24,8 @@ export default {
     REDIRECT_BACK: process.env.REDIRECT_BACK || 'https://dev.hslfi.hsldev.com',
   },
 
+  indexPath: 'etusivu',
+
   contactName: {
     sv: 'HSR',
     fi: 'HSL',

@@ -45,6 +45,7 @@ const config = require('../app/config').getConfiguration();
 /* ********* Global ********* */
 const port = config.PORT || 8080;
 const app = express();
+const { indexPath } = config;
 
 /* Setup functions */
 function setUpOpenId() {
@@ -59,7 +60,7 @@ function setUpOpenId() {
       expectCt: false,
     }),
   );
-  setUpOIDC(app, port);
+  setUpOIDC(app, port, indexPath);
 }
 
 function setUpStaticFolders() {

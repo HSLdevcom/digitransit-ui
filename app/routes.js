@@ -2,6 +2,7 @@
 import React from 'react';
 import { graphql } from 'react-relay';
 import Route from 'found/Route';
+import Redirect from 'found/Redirect';
 import queryMiddleware from 'farce/queryMiddleware';
 import createRender from 'found/createRender';
 
@@ -530,7 +531,12 @@ export default config => {
       <Route path="/js/*" Component={Error404} />
       <Route path="/css/*" Component={Error404} />
       <Route path="/assets/*" Component={Error404} />
-      <Route path="/:from?/:to?" topBarOptions={{ disableBackButton: true }}>
+      <Route
+        path={`${
+          config.indexPath === '' ? '' : `/${config.indexPath}`
+        }/:from?/:to?`}
+        topBarOptions={{ disableBackButton: true }}
+      >
         {{
           title: (
             <Route
@@ -596,6 +602,11 @@ export default config => {
           ),
         }}
       </Route>
+      {config.indexPath !== '' && (
+        <Route path="/">
+          <Redirect to={`/${config.indexPath}`} />
+        </Route>
+      )}
       {/* For all the rest render 404 */}
       <Route path="*" Component={Error404} />
     </Route>

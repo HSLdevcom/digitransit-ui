@@ -115,7 +115,10 @@ class StopMarker extends React.Component {
     }
 
     const pathPrefixMatch = window.location.pathname.match(/^\/([a-z]{2,})\//);
-    const context = pathPrefixMatch ? pathPrefixMatch[1] : 'index';
+    const context =
+      pathPrefixMatch && pathPrefixMatch[1] !== this.context.config.indexPath
+        ? pathPrefixMatch[1]
+        : 'index';
     if (
       window.location.pathname.indexOf('bike') === -1 &&
       window.location.pathname.indexOf('walk') === -1

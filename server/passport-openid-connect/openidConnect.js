@@ -7,7 +7,7 @@ const moment = require('moment');
 const RedisStore = require('connect-redis')(session);
 const LoginStrategy = require('./Strategy').Strategy;
 
-export default function setUpOIDC(app, port) {
+export default function setUpOIDC(app, port, indexPath) {
   /* ********* Setup OpenID Connect ********* */
   const callbackPath = '/oid_callback'; // connect callback path
   // Use Passport with OpenId Connect strategy to authenticate users
@@ -50,8 +50,9 @@ export default function setUpOIDC(app, port) {
     ];
     // Only allow sso login when user navigates to certain paths
     if (
-      req.query.sso !== 'false' &&
-      (req.path === '/' || paths.some(path => req.path.includes(path))) &&
+      req.query.sso !== false &&
+      (req.path === `/${indexPath}` ||
+        paths.some(path => req.path.includes(path))) &&
       !req.isAuthenticated() &&
       ssoToken &&
       ssoValidTo &&
