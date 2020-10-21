@@ -6,7 +6,9 @@ import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import Modal from '@hsl-fi/modal';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
-import Icon from '@digitransit-component/digitransit-component-icon';
+import DTIcon from '@digitransit-component/digitransit-component-icon';
+import distance from '@digitransit-search-util/digitransit-search-util-distance';
+import Icon from './Icon';
 import DesktopView from './DesktopView';
 import MobileView from './MobileView';
 import withBreakpoint, { DesktopOrMobile } from '../util/withBreakpoint';
@@ -62,6 +64,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
 
     this.state = {
       startPosition: null,
+      updatedLocation: null,
       geolocationPermission: {
         loading: true,
         state: undefined,
@@ -107,6 +110,18 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     ) {
       return {
         startPosition: nextProps.position,
+        updatedLocation: nextProps.position,
+      };
+    }
+    if (
+      !prevState.startPosition ||
+      (!prevState.startPosition.address &&
+        nextProps.position &&
+        nextProps.position.address)
+    ) {
+      return {
+        startPosition: nextProps.position,
+        updatedLocation: nextProps.position,
       };
     }
     return null;
@@ -141,10 +156,33 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     };
   };
 
+  positionChanged = () => {
+    const { updatedLocation } = this.state;
+
+    if (
+      updatedLocation &&
+      updatedLocation.lat &&
+      this.props.position &&
+      this.props.position.lat
+    ) {
+      if (distance(updatedLocation, this.props.position) > 100) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  updateLocation = () => {
+    this.setState({
+      updatedLocation: this.props.position,
+    });
+  };
+
   renderContent = () => {
     const { mode } = this.props.match.params;
     const renderDisruptionBanner = mode !== 'CITYBIKE';
     const renderSearch = mode !== 'FERRY';
+    const renderRefetchButton = this.positionChanged();
     return (
       <QueryRenderer
         query={graphql`
@@ -191,9 +229,41 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                     breakpoint={this.props.breakpoint}
                   />
                 )}
+                {renderRefetchButton && (
+                  <div className="nearest-stops-update-container">
+                    <FormattedMessage id="nearest-stops-updated-location" />
+                    <button
+                      aria-label={this.context.intl.formatMessage({
+                        id: 'show-more-stops-near-you',
+                        defaultMessage: 'Load more nearby stops',
+                      })}
+                      className="update-stops-button"
+                      onClick={this.updateLocation}
+                    >
+                      <Icon img="icon-icon_update" />
+                      <FormattedMessage
+                        id="nearest-stops-update-location"
+                        defaultMessage="Update stops"
+                        values={{
+                          mode: (
+                            <FormattedMessage
+                              id={`nearest-stops-${mode.toLowerCase()}`}
+                            />
+                          ),
+                        }}
+                      />
+                    </button>
+                  </div>
+                )}
                 {this.props.content &&
                   React.cloneElement(this.props.content, {
                     stopPatterns: props.stopPatterns,
+                    // eslint-disable-next-line no-nested-ternary
+                    position: this.state.updatedLocation
+                      ? this.state.updatedLocation
+                      : this.state.startPosition
+                      ? this.state.startPosition
+                      : this.context.config.defaultEndpoint,
                   })}
               </div>
             );
@@ -213,20 +283,23 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
             $lon: Float!
             $filterByPlaceTypes: [FilterPlaceType]
             $filterByModes: [Mode]
+            $first: Int!
             $maxResults: Int!
             $maxDistance: Int!
             $omitNonPickups: Boolean
           ) {
-            stops: nearest(
-              lat: $lat
-              lon: $lon
-              filterByPlaceTypes: $filterByPlaceTypes
-              filterByModes: $filterByModes
-              maxResults: $maxResults
-              maxDistance: $maxDistance
-            ) {
+            stops: viewer {
               ...StopsNearYouMap_stops
-              @arguments(omitNonPickups: $omitNonPickups)
+              @arguments(
+                lat: $lat
+                lon: $lon
+                filterByPlaceTypes: $filterByPlaceTypes
+                filterByModes: $filterByModes
+                first: $first
+                maxResults: $maxResults
+                maxDistance: $maxDistance
+                omitNonPickups: $omitNonPickups
+              )
             }
           }
         `}
@@ -237,7 +310,12 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
             return (
               this.props.map &&
               React.cloneElement(this.props.map, {
-                position: this.state.startPosition,
+                // eslint-disable-next-line no-nested-ternary
+                position: this.state.updatedLocation
+                  ? this.state.updatedLocation
+                  : this.state.startPosition
+                  ? this.state.startPosition
+                  : this.context.config.defaultEndpoint,
                 stops: props.stops,
               })
             );
@@ -346,7 +424,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                 className="modal-desktop-button save"
                 onClick={() => this.handleGrantGeolocation()}
               >
-                <Icon img="locate" height={1.375} width={1.375} />
+                <DTIcon img="locate" height={1.375} width={1.375} />
                 <FormattedMessage id="use-own-position" />
               </button>
             </div>
@@ -368,6 +446,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     const { loadingPosition, position, isModalNeeded } = this.props;
     const { params } = this.props.match;
     const queryString = this.props.queryString || '';
+    const { mode } = this.props.match.params;
 
     if (isModalNeeded !== undefined && !isModalNeeded && position) {
       showModal = false;
@@ -438,8 +517,15 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
             <DesktopView
               title={
                 <FormattedMessage
-                  id={`nearest-stops-${params.mode.toLowerCase()}`}
+                  id="nearest"
                   defaultMessage="Stops near you"
+                  values={{
+                    mode: (
+                      <FormattedMessage
+                        id={`nearest-stops-${mode.toLowerCase()}`}
+                      />
+                    ),
+                  }}
                 />
               }
               scrollable

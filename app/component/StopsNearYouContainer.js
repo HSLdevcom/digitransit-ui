@@ -19,6 +19,11 @@ class StopsNearYouContainer extends React.Component {
     }).isRequired,
     favouriteIds: PropTypes.object.isRequired,
     match: matchShape.isRequired,
+    position: PropTypes.shape({
+      address: PropTypes.string,
+      lat: PropTypes.number,
+      lon: PropTypes.number,
+    }).isRequired,
   };
 
   static contextTypes = {
@@ -33,28 +38,65 @@ class StopsNearYouContainer extends React.Component {
     super(props, context);
     this.state = {
       stopCount: 5,
+      currentPosition: props.position,
     };
   }
 
-  componentDidUpdate({ relay, currentTime }) {
+  static getDerivedStateFromProps = (nextProps, prevState) => {
+    if (
+      !prevState.currentPosition ||
+      (!prevState.currentPosition.address &&
+        nextProps.position &&
+        nextProps.position.address)
+    ) {
+      return {
+        currentPosition: nextProps.position,
+      };
+    }
+    return null;
+  };
+
+  componentDidUpdate({ relay, currentTime, position }) {
     const currUnix = this.props.currentTime;
     if (currUnix !== currentTime) {
       relay.refetch(oldVariables => {
         return {
           ...oldVariables,
+          lat: this.props.position.lat,
+          lon: this.props.position.lon,
           startTime: currentTime,
           first: this.state.stopCount,
           maxResults: this.state.stopCount,
         };
       });
     }
+    if (position && this.state.currentPosition) {
+      if (position.address !== this.props.position.address) {
+        this.updatePosition();
+      }
+    }
   }
+
+  updatePosition = () => {
+    this.props.relay.refetch(oldVariables => {
+      return {
+        ...oldVariables,
+        lat: this.props.position.lat,
+        lon: this.props.position.lon,
+        startTime: this.props.currentTime,
+        first: this.state.stopCount,
+        maxResults: this.state.stopCount,
+      };
+    });
+  };
 
   showMore = () => {
     this.state.stopCount += 5;
     this.props.relay.refetch(oldVariables => {
       return {
         ...oldVariables,
+        lat: this.props.position.lat,
+        lon: this.props.position.lon,
         startTime: this.props.currentTime,
         first: this.state.stopCount,
         maxResults: this.state.stopCount,
