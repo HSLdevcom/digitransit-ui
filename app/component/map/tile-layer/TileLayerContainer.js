@@ -37,7 +37,6 @@ class TileLayerContainer extends GridLayer {
   static propTypes = {
     tileSize: PropTypes.number.isRequired,
     zoomOffset: PropTypes.number.isRequired,
-    disableMapTracking: PropTypes.func,
     disableLocationPopup: PropTypes.bool,
     stopsNearYouMode: PropTypes.string,
     mapLayers: mapLayerShape.isRequired,
@@ -166,7 +165,6 @@ class TileLayerContainer extends GridLayer {
       forceOpen = false,
     ) => {
       const {
-        disableMapTracking,
         leaflet: { map },
         mapLayers,
       } = this.props;
@@ -194,10 +192,6 @@ class TileLayerContainer extends GridLayer {
       ) {
         map.closePopup();
         return;
-      }
-
-      if (selectableTargets && disableMapTracking) {
-        disableMapTracking(); // disable now that popup opens
       }
 
       this.setState({
