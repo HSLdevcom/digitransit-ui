@@ -8,6 +8,7 @@ const RedisStore = require('connect-redis')(session);
 const LoginStrategy = require('./Strategy').Strategy;
 
 export default function setUpOIDC(app, port, indexPath) {
+  const hostname = process.env.HOSTNAME || `https://localhost:${port}`;
   /* ********* Setup OpenID Connect ********* */
   const callbackPath = '/oid_callback'; // connect callback path
   // Use Passport with OpenId Connect strategy to authenticate users
@@ -32,6 +33,7 @@ export default function setUpOIDC(app, port, indexPath) {
     redirect_uri:
       process.env.OIDC_CLIENT_CALLBACK ||
       `http://localhost:${port}${callbackPath}`,
+    post_logout_redirect_uris: [`${hostname}/logout/callback`],
     scope: 'openid profile',
   });
 
@@ -118,6 +120,9 @@ export default function setUpOIDC(app, port, indexPath) {
     }),
   );
   app.get('/logout', function (req, res) {
+    res.redirect(oic.client.endSessionUrl());
+  });
+  app.get('/logout/callback', function (req, res) {
     req.logout();
     req.session.destroy(function () {
       res.clearCookie('connect.sid');
