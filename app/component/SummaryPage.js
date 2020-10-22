@@ -234,6 +234,7 @@ class SummaryPage extends React.Component {
     this.secondQuerySent = false;
     this.isFetchingWalkAndBike = true;
     this.params = this.context.match.params;
+    this.originalPlan = this.props.plan;
     context.executeAction(storeOrigin, otpToLocation(props.match.params.from));
     if (props.error) {
       reportError(props.error);
@@ -265,7 +266,7 @@ class SummaryPage extends React.Component {
       streetMode: existingStreetMode,
       alternativePlan: undefined,
       itineraries: this.props.plan ? this.props.plan.itineraries : [],
-      originalPlan: this.props.plan,
+      previouslySelectedPlan: this.props.plan,
       separatorPosition: undefined,
       walkPlan: undefined,
       bikePlan: undefined,
@@ -972,8 +973,34 @@ class SummaryPage extends React.Component {
       }
     }
 
+    // Reset walk and bike suggestions when new search is made
+    if (
+      !isEqual(this.props.plan, this.originalPlan) &&
+      this.secondQuerySent &&
+      !this.isFetchingWalkAndBike &&
+      (this.state.walkPlan ||
+        this.state.bikePlan ||
+        this.state.bikeAndPublicPlan ||
+        this.state.bikeParkPlan)
+    ) {
+      this.secondQuerySent = false;
+      this.isFetchingWalkAndBike = true;
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        walkPlan: undefined,
+        bikePlan: undefined,
+        bikeAndPublicPlan: undefined,
+        bikeParkPlan: undefined,
+      });
+    }
+
     // Public transit routes fetched, now fetch walk and bike itineraries
-    if (this.props.plan && !this.secondQuerySent) {
+    if (
+      this.props.plan &&
+      this.props.plan.itineraries &&
+      !this.secondQuerySent
+    ) {
+      this.originalPlan = this.props.plan;
       this.secondQuerySent = true;
       this.makeWalkAndBikeQueries();
     }
@@ -1496,26 +1523,20 @@ class SummaryPage extends React.Component {
 
     if (
       hasItineraries &&
-      !isEqual(this.selectedPlan, this.state.originalPlan)
+      !isEqual(this.selectedPlan, this.state.previouslySelectedPlan)
     ) {
       if (this.state.streetMode === '') {
-        this.secondQuerySent = false;
-        this.isFetchingWalkAndBike = true;
         const noWalkItineraries = this.selectedPlan.itineraries.filter(
           itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
         );
         this.setState({
-          originalPlan: this.selectedPlan,
+          previouslySelectedPlan: this.selectedPlan,
           itineraries: noWalkItineraries,
           separatorPosition: undefined,
-          walkPlan: undefined,
-          bikePlan: undefined,
-          bikeAndPublicPlan: undefined,
-          bikeParkPlan: undefined,
         });
       } else {
         this.setState({
-          originalPlan: this.selectedPlan,
+          previouslySelectedPlan: this.selectedPlan,
           itineraries: this.selectedPlan.itineraries,
           separatorPosition: undefined,
         });
@@ -1692,11 +1713,7 @@ class SummaryPage extends React.Component {
           </>
         );
       } else {
-        content = (
-          <div style={{ position: 'relative', height: 200 }}>
-            <Loading />
-          </div>
-        );
+        content = null;
       }
       return (
         <DesktopView
@@ -1755,11 +1772,7 @@ class SummaryPage extends React.Component {
       this.props.loading !== false ||
       this.props.loadingPosition === true
     ) {
-      content = (
-        <div style={{ position: 'relative', height: 200 }}>
-          <Loading />
-        </div>
-      );
+      content = null;
     } else if (
       routeSelected(match.params.hash, match.params.secondHash) &&
       this.state.itineraries.length > 0
