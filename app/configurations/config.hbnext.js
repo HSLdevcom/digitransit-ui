@@ -453,5 +453,8 @@ export default configMerger(walttiConfig, {
         ],
     },
     staticMessagesUrl: STATIC_MESSAGE_URL,
-
+    
+    showVehiclesOnSummaryPage: true,
+    showBikeAndPublicItineraries: true,
+    showBikeAndParkItineraries: true,
 });
