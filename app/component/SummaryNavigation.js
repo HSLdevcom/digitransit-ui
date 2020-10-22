@@ -81,7 +81,7 @@ class SummaryNavigation extends React.Component {
             icon="icon-icon_arrow-collapse--left"
             iconClassName="arrow-icon"
             color={this.context.config.colors.primary}
-            urlToBack={this.context.config.URL.REDIRECT_BACK}
+            urlToBack={this.context.config.URL.ROOTLINK}
           />
         )}
         <OriginDestinationBar

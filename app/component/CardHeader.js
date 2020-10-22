@@ -42,7 +42,7 @@ const CardHeader = (
             position: 'absolute',
             left: '1.5em',
           }}
-          urlToBack={config.URL.REDIRECT_BACK}
+          urlToBack={config.URL.ROOTLINK}
         />
       )}
       <div className="card-header-content">

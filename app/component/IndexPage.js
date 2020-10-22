@@ -85,6 +85,7 @@ class IndexPage extends React.Component {
   componentDidMount() {
     scrollTop();
   }
+
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps = nextProps => {
     this.handleLocationProps(nextProps);

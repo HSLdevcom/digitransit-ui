@@ -339,7 +339,7 @@ class RoutePage extends React.Component {
               color={config.colors.primary}
               iconClassName="arrow-icon"
               customStyle={{ paddingTop: '25px' }}
-              urlToBack={config.URL.REDIRECT_BACK}
+              urlToBack={config.URL.ROOTLINK}
             />
           )}
           <div className="route-header">
