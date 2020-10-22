@@ -1,11 +1,15 @@
 /* eslint-disable camelcase */
+/* eslint-disable no-unused-vars */
 import PropTypes from 'prop-types';
 import React from 'react';
-import i18next from 'i18next';
 import { isEmpty } from 'lodash';
 import { matchShape, routerShape } from 'found';
+import moment from 'moment';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import { clearOldSearches, clearFutureRoutes } from '../util/storeUtils';
+import { replaceQueryParams } from '../util/queryUtils';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { setLanguage } from '../action/userPreferencesActions';
 
 const modules = {
   SiteHeader: () => importLazy(import('@hsl-fi/site-header')),
@@ -19,125 +23,49 @@ const clearStorages = context => {
   context.getStore('FavouriteStore').clearFavourites();
 };
 
-const initLanguage = language => {
-  i18next.init({ lang: language, resources: {} });
-  i18next.changeLanguage(language);
-  if (language === 'fi') {
-    i18next.addResourceBundle('fi', 'translation', {
-      traveling_name: 'Matkustaminen',
-      traveling_url: 'https://uusi.hsl.fi/matkustaminen',
-      tickets_and_fares_name: 'Liput ja hinnat',
-      tickets_and_fares_url: 'https://uusi.hsl.fi/liput-ja-hinnat',
-      information_name: 'Asiakaspalvelu',
-      information_url: 'https://uusi.hsl.fi/asiakaspalvelu',
-      hsl_name: 'HSL',
-      hsl_url: 'https://uusi.hsl.fi/hsl',
-      search_url: 'https://uusi.hsl.fi/haku',
-      change_language: 'Vaihda kieli',
-    });
+const selectLanguage = (executeAction, lang, router, match) => () => {
+  addAnalyticsEvent({
+    category: 'Navigation',
+    action: 'ChangeLanguage',
+    name: lang,
+  });
+  executeAction(setLanguage, lang);
+  if (lang !== 'en') {
+    // eslint-disable-next-line global-require, import/no-dynamic-require
+    require(`moment/locale/${lang}`);
   }
-  if (language === 'sv') {
-    i18next.addResourceBundle('sv', 'translation', {
-      traveling_name: 'Resor',
-      traveling_url: 'https://uusi.hsl.fi/sv/tidtabeller-och-rutter',
-      tickets_and_fares_name: 'Biljetter och priser',
-      tickets_and_fares_url: 'https://uusi.hsl.fi/sv/biljetter-och-priser',
-      information_name: 'Information',
-      information_url: '/https://uusi.hsl.fi/sv/hjalp-och-info',
-      hsl_name: 'HRT',
-      hsl_url: 'https://uusi.hsl.fi/sv',
-      search_url: '/https://uusi.hsl.fi/sv/search/solr',
-      change_language: 'Välj språk',
-    });
-  }
-  if (language === 'en') {
-    i18next.addResourceBundle('en', 'translation', {
-      traveling_name: 'Traveling',
-      traveling_url: 'https://uusi.hsl.fi/en/timetables-and-routes',
-      tickets_and_fares_name: 'Tickets and fares',
-      tickets_and_fares_url: 'https://uusi.hsl.fi/en/tickets-and-fares',
-      information_name: 'Information',
-      information_url: 'https://uusi.hsl.fi/en/help-and-info',
-      hsl_name: 'HSL',
-      hsl_url: 'https://uusi.hsl.fi/en',
-      search_url: 'https://uusi.hsl.fi/en/search/solr',
-      change_language: 'Change language',
-    });
-  }
+  moment.locale(lang);
+  replaceQueryParams(router, match, { locale: lang });
 };
 
 const AppBarHsl = ({ lang, user }, context) => {
-  const { match, config } = context;
+  const { executeAction, config, router, match } = context;
   const { location } = match;
-  initLanguage(lang);
 
-  let startPageSuffix;
-  switch (lang) {
-    case 'en':
-    case 'sv':
-      startPageSuffix = `${lang}/`;
-      break;
-    case 'fi':
-    default:
-      startPageSuffix = '';
-      break;
-  }
-  const navigation = {
-    startPage: `https://uusi.hsl.fi/${startPageSuffix}`,
-    menu: [
-      {
-        name: i18next.t('traveling_name'),
-        url: i18next.t('traveling_url'),
-        selected: false,
-      },
-      {
-        name: i18next.t('tickets_and_fares_name'),
-        url: i18next.t('tickets_and_fares_url'),
-        selected: false,
-      },
-      {
-        name: i18next.t('information_name'),
-        url: i18next.t('information_url'),
-        selected: false,
-      },
-      {
-        name: i18next.t('hsl_name'),
-        url: i18next.t('hsl_url'),
-        selected: false,
-      },
-    ],
-    searchPage: i18next.t('search_url'),
-    languages: [
-      {
-        name: 'fi',
-        url: `/fi${location.pathname}${location.search}`,
-        selected: lang === 'fi',
-      } /* ,
-      {
-        name: 'sv',
-        url: `/sv${location.pathname}${location.search}`,
-        selected: lang === 'sv',
-      },
-      {
-        name: 'en',
-        url: `/en${location.pathname}${location.search}`,
-        selected: lang === 'en',
-      }, */,
-    ],
-    breadcrumb: [],
-  };
-  const { startPage, menu, searchPage, languages } = navigation;
-  const localizations = {
-    mainNavigationLabel: 'main',
-    changeLanguageButtonLabel: i18next.t('change_language'),
-    changeToLanguageLinkLabelFunction: () => false,
-  };
+  const languages = [
+    {
+      name: 'fi',
+      // onClick: selectLanguage(executeAction, 'fi', router, match),
+      url: `/fi${location.pathname}${location.search}`,
+    },
+    {
+      name: 'sv',
+      // onClick: selectLanguage(executeAction, 'sv', router, match),
+      url: `/sv${location.pathname}${location.search}`,
+    },
+    {
+      name: 'en',
+      // onClick: selectLanguage(executeAction, 'en', router, match),
+      url: `/en${location.pathname}${location.search}`,
+    },
+  ];
+
   const { given_name, family_name } = user;
 
   const initials =
     given_name && family_name
       ? given_name.charAt(0) + family_name.charAt(0)
-      : undefined; // Authenticated user's initials, will be shown next to Person-icon.
+      : '  '; // Authenticated user's initials, will be shown next to Person-icon.
 
   const userMenu = config.allowLogin
     ? {
@@ -149,7 +77,7 @@ const AppBarHsl = ({ lang, user }, context) => {
           menuItems: [
             {
               name: 'Omat tiedot',
-              url: 'https://www.hsl.fi/omat-tiedot',
+              url: `${config.linkSite}/omat-tiedot`,
               selected: false,
             },
             {
@@ -158,7 +86,7 @@ const AppBarHsl = ({ lang, user }, context) => {
               selected: false,
               onClick: () => clearStorages(context),
             },
-          ], // Menu items that will be shown when Person-icon is pressed and user is authenticated,
+          ],
         },
       }
     : {};
@@ -171,12 +99,10 @@ const AppBarHsl = ({ lang, user }, context) => {
             url={config.localStorageEmitter}
           />
           <SiteHeader
-            startPage={startPage}
-            menu={menu}
+            hslFiUrl={config.URL.ROOTLINK}
             {...userMenu}
-            searchPage={searchPage}
-            languages={languages}
-            localizations={localizations}
+            lang={lang}
+            languageMenu={languages}
           />
         </>
       )}
@@ -189,6 +115,7 @@ AppBarHsl.contextTypes = {
   match: matchShape.isRequired,
   config: PropTypes.object.isRequired,
   getStore: PropTypes.func.isRequired,
+  executeAction: PropTypes.func.isRequired,
 };
 
 AppBarHsl.propTypes = {
