@@ -3,12 +3,12 @@ import React from 'react';
 import get from 'lodash/get';
 import { matchShape } from 'found';
 import { intlShape } from 'react-intl';
+import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
 import LocationMarker from './LocationMarker';
 import MapContainer from './MapContainer';
 import { otpToLocation } from '../../util/otpStrings';
 import withBreakpoint from '../../util/withBreakpoint';
 import { getJson } from '../../util/xhrPromise';
-import { getLabel } from '../../util/suggestionUtils';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
 
 let map;

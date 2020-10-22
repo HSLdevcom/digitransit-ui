@@ -8,7 +8,6 @@ $primary-color: #007ac9;
   display: flex;
   position: relative;
   width: 100%;
-  min-height: calc(100vh - 168px);
   @include min-width(tablet) {
     min-height: 286px;
   }
@@ -20,11 +19,6 @@ $primary-color: #007ac9;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    max-height: calc(100% - 78px);
-    @include min-width(tablet) {
-      overflow-y: scroll;
-      max-height: 286px;
-    }
     .favourite-edit-list-item:not(:first-child) {
       margin-top: 9px;
     }
@@ -57,7 +51,7 @@ $primary-color: #007ac9;
           .favourite-edit-list-item-ellipsis {
             height: 20px;
             svg {
-              fill: #ccc;
+              fill: #888;
               height: 20px;
               transform: rotate(90deg);
             }

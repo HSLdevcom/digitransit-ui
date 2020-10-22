@@ -7,7 +7,11 @@ import Autosuggest from 'react-autosuggest';
 import { executeSearch } from '@digitransit-search-util/digitransit-search-util-execute-search-immidiate';
 import SuggestionItem from '@digitransit-component/digitransit-component-suggestion-item';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
-import { getNameLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
+import {
+  getNameLabel,
+  getStopCode,
+} from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
+import { getStopName } from '@digitransit-search-util/digitransit-search-util-helpers';
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import moment from 'moment-timezone';
@@ -35,31 +39,42 @@ Loading.propTypes = {
   children: PropTypes.node,
 };
 
-function suggestionToAriaContent(item) {
+function getSuggestionContent(item) {
   if (item.type !== 'FutureRoute') {
-    let iconstr;
-    let stopCode;
+    let suggestionType;
     /* eslint-disable-next-line prefer-const */
     let [name, label] = getNameLabel(item.properties, true);
-    if (item.properties.id && item.properties.layer === 'stop') {
-      stopCode = item.properties.id.substring(
-        item.properties.id.indexOf('#') + 1,
-      );
-    }
-
     if (label === 'bike-rental-station') {
-      label = i18next.t(label);
-      stopCode = item.properties.labelId;
-      return [iconstr, name, label, stopCode];
+      suggestionType = i18next.t(label);
+      const stopCode = item.properties.labelId;
+      return [suggestionType, name, undefined, stopCode];
     }
 
     if (item.properties.mode) {
-      iconstr = `icon-icon_${item.mode}`;
+      suggestionType = i18next.t(
+        item.properties.mode.toLowerCase().replace('favourite', ''),
+      );
     } else {
-      const layer = item.properties.layer.replace('route-', '').toLowerCase();
-      iconstr = i18next.t(layer);
+      const layer = item.properties.layer
+        .replace('route-', '')
+        .toLowerCase()
+        .replace('favourite', '');
+      suggestionType = i18next.t(layer);
     }
-    return [iconstr, name, label];
+
+    if (item.properties.id && item.properties.layer === 'stop') {
+      const stopCode = getStopCode(item.properties);
+      return [suggestionType, getStopName(name, stopCode), label, stopCode];
+    }
+    if (
+      item.properties.layer === 'favouriteStop' ||
+      item.properties.layer === 'favouriteStation'
+    ) {
+      const { address, code } = item.properties;
+      const stoName = address ? getStopName(address.split(',')[0], code) : name;
+      return [suggestionType, stoName, label, code];
+    }
+    return [suggestionType, name, label];
   }
   return [
     i18next.t('future-route'),
@@ -105,14 +120,20 @@ function translateFutureRouteSuggestionTime(item) {
  *   getFavouriteLocations: () => ({}),    // Function that returns array of favourite locations.
  *   getFavouriteStops: () => ({}),        // Function that returns array of favourite stops.
  *   getLanguage: () => ({}),              // Function that returns current language.
- *   getStoredFavouriteRoutes: () => ({}), // Function that returns array of favourite routes.
+ *   getFavouriteRoutes: () => ({}),       // Function that returns array of favourite routes.
  *   getPositions: () => ({}),             // Function that returns user's geolocation.
- *   getRoutes: () => ({}),                // Function that fetches routes from graphql API.
- *   getStopAndStationsQuery: () => ({}),       // Function that fetches favourite stops and stations from graphql API.
- *   getFavouriteRoutes: () => ({}),       // Function that fetches favourite routes from graphql API.
+ *   getRoutesQuery: () => ({}),           // Function that returns query for fetching routes.
+ *   getAllBikeRentalStations: () => ({}), // Function that returns all bike rental stations from graphql API.
+ *   getStopAndStationsQuery: () => ({}),  // Function that fetches favourite stops and stations from graphql API.
+ *   getFavouriteRoutesQuery: () => ({}),  // Function that returns query for fetching favourite routes.
+ *   getFavouriteBikeRentalStations: () => ({}),  // Function that returns favourite bike rental station.
+ *   getFavouriteBikeRentalStationsQuery: () => ({}), // Function that returns query for fetching favourite bike rental stations.
  *   startLocationWatch: () => ({}),       // Function that locates users geolocation.
  *   saveSearch: () => ({}),               // Function that saves search to old searches store.
- *   clearOldSearches: () => ({}),            // Function that clears old searches store.
+ *   clearOldSearches: () => ({}),         // Function that clears old searches store.
+ *   getFutureRoutes: () => ({}),          // Function that return future routes
+ *   saveFutureRoute: () => ({}),          // Function that saves a future route
+ *   clearFutureRoutes: () => ({}),        // Function that clears future routes
  * };
  * const lang = 'fi'; // en, fi or sv
  * const onSelect = () => {
@@ -125,7 +146,7 @@ function translateFutureRouteSuggestionTime(item) {
  * };
  * const transportMode = undefined;
  * const placeholder = "stop-near-you";
- * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, MapPosition and CurrentPosition. Leave empty to search all targets.
+ * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, BikeRentalStations, FutureRoutes, SelectFromOwnLocations, MapPosition and CurrentPosition. Leave empty to search all targets.
  * const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches) and Datasource. Leave empty to use all sources.
  * return (
  *  <DTAutosuggest
@@ -520,15 +541,16 @@ class DTAutosuggest extends React.Component {
       ...item,
       translatedText: translateFutureRouteSuggestionTime(item),
     };
-    const ariaContent = suggestionToAriaContent(
+    const content = getSuggestionContent(
       item.type === 'FutureRoute' ? newItem : item,
     );
     return (
       <SuggestionItem
         item={item.type === 'FutureRoute' ? newItem : item}
-        ariaContent={ariaContent}
+        content={content}
         loading={!this.state.valid}
         isMobile={this.props.isMobile}
+        ariaFavouriteString={i18next.t('favourite')}
       />
     );
   };
@@ -562,8 +584,12 @@ class DTAutosuggest extends React.Component {
 
   suggestionAsAriaContent = () => {
     let label = [];
-    if (this.state.suggestions[0]) {
-      label = suggestionToAriaContent(this.state.suggestions[0]);
+    const firstSuggestion = this.state.suggestions[0];
+    if (firstSuggestion) {
+      if (firstSuggestion.type && firstSuggestion.type.includes('Favourite')) {
+        label.push(i18next.t('favourite'));
+      }
+      label = label.concat(getSuggestionContent(this.state.suggestions[0]));
     }
     return label ? label.join(' - ') : '';
   };
@@ -582,6 +608,11 @@ class DTAutosuggest extends React.Component {
       this.fetchFunction({ value: this.state.value });
     }
   };
+
+  isOriginDestinationOrViapoint = () =>
+    this.props.id === 'origin' ||
+    this.props.id === 'destination' ||
+    this.props.id === 'via-point';
 
   render() {
     if (this.state.pendingCurrentLocation) {
@@ -655,6 +686,9 @@ class DTAutosuggest extends React.Component {
             ]}
             inputProps={{
               ...inputProps,
+              placeholder: this.isOriginDestinationOrViapoint()
+                ? i18next.t('address-place-or-business')
+                : inputProps.placeholder,
               onBlur: () => null,
             }}
             fetchFunction={this.fetchFunction}

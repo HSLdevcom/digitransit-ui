@@ -295,7 +295,7 @@ export const getServiceAlertUrl = (alert, locale = 'en') =>
  *
  * @param {*} alert the Service Alert to map.
  */
-const getServiceAlertMetadata = (alert = {}) => ({
+export const getServiceAlertMetadata = (alert = {}) => ({
   severityLevel: alert.alertSeverityLevel,
   validityPeriod: {
     startTime: alert.effectiveStartDate,

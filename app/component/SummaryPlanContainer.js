@@ -52,7 +52,6 @@ class SummaryPlanContainer extends React.Component {
     setError: PropTypes.func.isRequired,
     setLoading: PropTypes.func.isRequired,
     relayEnvironment: PropTypes.object,
-    toggleSettings: PropTypes.func.isRequired,
     bikeAndPublicItinerariesToShow: PropTypes.number.isRequired,
     bikeAndParkItinerariesToShow: PropTypes.number.isRequired,
     walking: PropTypes.bool,
@@ -85,9 +84,9 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onSelectActive = index => {
-    let isBikeAndPublic;
-    if (this.props.params.hash === 'bikeAndPublic') {
-      isBikeAndPublic = true;
+    let isbikeAndVehicle;
+    if (this.props.params.hash === 'bikeAndVehicle') {
+      isbikeAndVehicle = true;
     }
     if (this.props.activeIndex === index) {
       this.onSelectImmediately(index);
@@ -98,7 +97,7 @@ class SummaryPlanContainer extends React.Component {
         pathname: `${getRoutePath(
           this.props.params.from,
           this.props.params.to,
-        )}${isBikeAndPublic ? '/bikeAndPublic/' : ''}`,
+        )}${isbikeAndVehicle ? '/bikeAndVehicle/' : ''}`,
       });
 
       addAnalyticsEvent({
@@ -111,7 +110,7 @@ class SummaryPlanContainer extends React.Component {
 
   onSelectImmediately = index => {
     let isBikeAndPublic;
-    if (this.props.params.hash === 'bikeAndPublic') {
+    if (this.props.params.hash === 'bikeAndVehicle') {
       isBikeAndPublic = true;
     }
     addAnalyticsEvent({
@@ -127,11 +126,11 @@ class SummaryPlanContainer extends React.Component {
     const basePath = `${getRoutePath(
       this.props.params.from,
       this.props.params.to,
-    )}${isBikeAndPublic ? '/bikeAndPublic/' : '/'}`;
+    )}${isBikeAndPublic ? '/bikeAndVehicle/' : '/'}`;
     const indexPath = `${getRoutePath(
       this.props.params.from,
       this.props.params.to,
-    )}${isBikeAndPublic ? '/bikeAndPublic/' : '/'}${index}`;
+    )}${isBikeAndPublic ? '/bikeAndVehicle/' : '/'}${index}`;
 
     newState.pathname = basePath;
     this.context.router.replace(newState);
@@ -874,7 +873,6 @@ class SummaryPlanContainer extends React.Component {
       currentTime,
       locationState,
       itineraries,
-      toggleSettings,
       bikeAndPublicItinerariesToShow,
       bikeAndParkItinerariesToShow,
       walking,
@@ -886,7 +884,7 @@ class SummaryPlanContainer extends React.Component {
       this.props.plan.date ||
       (location.query &&
         location.query.time &&
-        moment(location.query.time).unix()) ||
+        moment.unix(location.query.time).valueOf()) ||
       currentTime;
     const disableButtons = !itineraries || itineraries.length === 0;
     const arriveBy = this.context.match.location.query.arriveBy === 'true';
@@ -900,7 +898,7 @@ class SummaryPlanContainer extends React.Component {
           />
         </h2>
         {(this.context.match.params.hash &&
-          this.context.match.params.hash === 'bikeAndPublic') ||
+          this.context.match.params.hash === 'bikeAndVehicle') ||
         disableButtons
           ? null
           : arriveBy
@@ -918,7 +916,6 @@ class SummaryPlanContainer extends React.Component {
           onSelectImmediately={this.onSelectImmediately}
           searchTime={searchTime}
           to={otpToLocation(to)}
-          toggleSettings={toggleSettings}
           bikeAndPublicItinerariesToShow={bikeAndPublicItinerariesToShow}
           bikeAndParkItinerariesToShow={bikeAndParkItinerariesToShow}
           walking={walking}
@@ -930,7 +927,7 @@ class SummaryPlanContainer extends React.Component {
           {this.props.children}
         </ItinerarySummaryListContainer>
         {(this.context.match.params.hash &&
-          this.context.match.params.hash === 'bikeAndPublic') ||
+          this.context.match.params.hash === 'bikeAndVehicle') ||
         disableButtons
           ? null
           : arriveBy

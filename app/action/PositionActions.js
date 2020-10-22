@@ -124,7 +124,16 @@ function watchPosition(actionContext) {
           clearTimeout(timeout);
           timeout = null;
         }
-        geolocatonCallback(actionContext, { pos: position, disableDebounce });
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        if (
+          lat !== undefined &&
+          !Number.isNaN(lat) &&
+          lon !== undefined &&
+          !Number.isNaN(lon)
+        ) {
+          geolocatonCallback(actionContext, { pos: position, disableDebounce });
+        }
       },
       error => {
         if (timeout !== null) {
@@ -157,7 +166,7 @@ function watchPosition(actionContext) {
  */
 export function checkPositioningPermission() {
   const p = new Promise(resolve => {
-    if (window.mock !== undefined) {
+    if (typeof window !== 'undefined' && window.mock !== undefined) {
       debug('mock permission');
       resolve({ state: window.mock.permission });
       return;
@@ -241,7 +250,7 @@ export function initGeolocation(actionContext) {
   let start = false;
   debug('Initializing');
 
-  if (window.mock !== undefined) {
+  if (typeof window !== 'undefined' && window.mock !== undefined) {
     debug('Geolocation mock is enabled', window.mock);
     start = true;
   }
@@ -283,4 +292,9 @@ export function initGeolocation(actionContext) {
       }
     });
   }
+}
+
+export function showGeolocationDeniedMessage(actionContext) {
+  actionContext.dispatch('GeolocationDenied');
+  updateGeolocationMessage(actionContext, 'denied');
 }

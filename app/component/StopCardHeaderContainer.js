@@ -20,6 +20,8 @@ export default createFragmentContainer(
           effectiveEndDate
           effectiveStartDate
         }
+        lat
+        lon
       }
     `,
   },

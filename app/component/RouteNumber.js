@@ -50,7 +50,7 @@ function RouteNumber(props, context) {
           />
           {withBicycle && (
             <Icon
-              img="icon-icon_bicycle"
+              img="icon-icon_bicycle_walk"
               className="itinerary-icon_with-bicycle"
             />
           )}
@@ -70,7 +70,7 @@ function RouteNumber(props, context) {
         />
         {withBicycle && (
           <Icon
-            img="icon-icon_bicycle"
+            img="icon-icon_bicycle_walk"
             className="itinerary-icon_with-bicycle"
           />
         )}

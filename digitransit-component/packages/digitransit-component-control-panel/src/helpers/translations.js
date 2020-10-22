@@ -13,6 +13,7 @@ const translations = {
     'placeholder-route-stop-station': 'Enter route, stop or station',
     'title-route-stop-station': 'Stops and lines near you',
     'title-origin-to-destination': 'Where to?',
+    'use-own-position': 'Use current location',
   },
   fi: {
     'pick-mode': 'Valitse joukkoliikennevälineistä',
@@ -28,6 +29,7 @@ const translations = {
     'placeholder-route-stop-station': 'Syötä linja, pysäkki tai asema',
     'title-route-stop-station': 'Lähipysäkit ja linjat',
     'title-origin-to-destination': 'Minne mennään?',
+    'use-own-position': 'Käytä nykyistä sijaintia',
   },
   sv: {
     'pick-mode': 'Välj ett transportläge',
@@ -43,6 +45,7 @@ const translations = {
     'placeholder-route-stop-station': 'Skriv linje, hållplats eller station',
     'title-route-stop-station': 'Hållplatser och linjer närä dig',
     'title-origin-to-destination': 'Var till?',
+    'use-own-position': 'Använd min position',
   },
 };
 

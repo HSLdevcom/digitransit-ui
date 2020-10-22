@@ -323,8 +323,9 @@ class FavouritesContainer extends React.Component {
             <AutoSuggestWithSearchContext
               appElement="#app"
               sources={['History', 'Datasource']}
-              targets={['Locations', 'CurrentPosition', 'Stops']}
+              targets={['Locations', 'CurrentPosition']}
               id="favourite"
+              icon="search"
               placeholder="search-address-or-place"
               value={
                 (this.state.favourite && this.state.favourite.address) || ''
@@ -361,7 +362,7 @@ const connectedComponent = connectToStores(
     favourites: context
       .getStore('FavouriteStore')
       .getFavourites()
-      .filter(item => item.type !== 'route'),
+      .filter(item => item.type === 'place'),
     favouriteStatus: context.getStore('FavouriteStore').getStatus(),
     user: context.getStore('UserStore').getUser(),
   }),

@@ -4,16 +4,20 @@ import React from 'react';
 import ErrorBoundary from './ErrorBoundary';
 import BackButton from './BackButton'; // DT-3358
 
-export default function DesktopView({
-  title,
-  header,
-  map,
-  content,
-  settingsDrawer,
-  scrollable,
-  bckBtnColor,
-  bckBtnVisible,
-}) {
+export default function DesktopView(
+  {
+    title,
+    header,
+    map,
+    content,
+    settingsDrawer,
+    scrollable,
+    bckBtnColor,
+    bckBtnVisible,
+    bckBtnUrl,
+  },
+  { config },
+) {
   return (
     <div className="desktop">
       <div className="main-content">
@@ -25,6 +29,7 @@ export default function DesktopView({
                 icon="icon-icon_arrow-collapse--left"
                 color={bckBtnColor}
                 iconClassName="arrow-icon"
+                urlToBack={bckBtnUrl || config.URL.REDIRECT_BACK}
               />
             </div>
           </div>
@@ -55,9 +60,15 @@ DesktopView.propTypes = {
   scrollable: PropTypes.bool,
   bckBtnColor: PropTypes.string,
   bckBtnVisible: PropTypes.bool, // DT-3471
+  bckBtnUrl: PropTypes.string,
 };
 
 DesktopView.defaultProps = {
   scrollable: false,
   bckBtnVisible: true, // DT-3471
+  bckBtnUrl: undefined,
+};
+
+DesktopView.contextTypes = {
+  config: PropTypes.object.isRequired,
 };

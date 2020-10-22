@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 // import Favourite from './Favourite';
 import StopCode from './StopCode';
 import BackButton from './BackButton';
+import FavouriteBikeRentalStationContainer from './FavouriteBikeRentalStationContainer';
 
 const BikeRentalStationHeader = (
   { bikeRentalStation, breakpoint },
@@ -25,8 +26,9 @@ const BikeRentalStationHeader = (
           <StopCode code={bikeRentalStation.stationId} />
         </div>
       </div>
-
-      {/* <Favourite /> */}
+      <FavouriteBikeRentalStationContainer
+        bikeRentalStation={bikeRentalStation}
+      />
     </div>
   );
 };

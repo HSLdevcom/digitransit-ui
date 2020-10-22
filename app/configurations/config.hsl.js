@@ -21,7 +21,10 @@ export default {
     TICKET_SALES_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-ticket-sales-map/`,
     FONT: 'https://cloud.typography.com/6364294/7432412/css/fonts.css',
     CITYBIKE_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-citybike-map/`,
+    REDIRECT_BACK: process.env.REDIRECT_BACK || 'https://dev.hslfi.hsldev.com',
   },
+
+  indexPath: 'etusivu',
 
   contactName: {
     sv: 'HSR',
@@ -34,7 +37,7 @@ export default {
   availableLanguages: ['fi', 'sv', 'en'],
   defaultLanguage: 'fi',
 
-  favicon: './app/configurations/images/hsl/icon_favicon-reittiopas.svg',
+  favicon: './app/configurations/images/hsl/favicon.png',
 
   // Navbar logo
   logo: 'hsl/reittiopas-logo.svg',
@@ -183,14 +186,6 @@ export default {
     [24.8971, 60.562],
     [25.0388, 60.5806],
     [25.1508, 60.5167],
-    [25.1312, 60.4938],
-    [25.0385, 60.512],
-    [25.057, 60.4897],
-    [25.0612, 60.4485],
-    [25.1221, 60.4474],
-    [25.1188, 60.4583],
-    [25.149, 60.4621],
-    [25.1693, 60.5062],
     [25.2242, 60.5016],
     [25.3661, 60.4118],
     [25.3652, 60.3756],

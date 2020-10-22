@@ -1,5 +1,6 @@
 $small-map-height: 10rem;
 $stop-thin-opacity: 0.2;
+$top-bar-height: 64px;
 
 div.map {
   max-height: 100%;
@@ -74,18 +75,18 @@ div.map {
 
   .drawer-container {
     overflow-y: scroll;
-    height: calc(100vh - 64px); // 100% - topbar
+    height: 100%;
     position: absolute;
     width: 100%;
     .drawer-padding {
-      height: calc(90vh - 64px);
+      height: 90%;
       width: 0;
     }
     .drawer-content {
       min-height: 50vh;
       background: white;
       position: relative;
-      z-index: 1000;
+      z-index: index($zindex, mobile-drawer);
       .drag-line {
         width: 30px;
         height: 4px;
@@ -98,6 +99,25 @@ div.map {
         top: -5px;
       }
     }
+  }
+
+  .overlay-mover {
+    z-index: 401;
+    position: absolute;
+    width: 100%;
+    bottom: 10%;
+    transition: transform 0.1s;
+  }
+  .map .leaflet-bottom {
+    bottom: 10%;
+    transition: transform 0.1s;
+    .leaflet-control-attribution {
+      background-color: rgba(0,0,0,0);
+    }
+  }
+  .map-with-tracking-buttons {
+    right: 15px;
+    bottom: 45px;
   }
 
   .back-button {
@@ -242,12 +262,8 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
   bottom: 32px;
 }
 
-.mobile .map-with-tracking-buttons {
-  right: 15px;
-  bottom: 55px;
-}
-
 .map-with-tracking-buttons {
+  z-index: 401;
   bottom: 192px;
   display: flex;
   right: 30px;

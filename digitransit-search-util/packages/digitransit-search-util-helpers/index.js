@@ -27,10 +27,14 @@ const LayerType = {
   Stop: 'stop',
   Street: 'street',
   Venue: 'venue',
+  BikeRentalStation: 'bikeRentalStation',
 };
 const PREFIX_ROUTES = 'linjat';
-export const isStop = ({ layer }) =>
-  layer === 'stop' || layer === 'favouriteStop';
+export const isStop = ({ layer, type }) =>
+  layer === 'stop' ||
+  layer === 'favouriteStop' ||
+  type === 'stop' ||
+  type === 'favouriteStop';
 
 export const mapRoute = item => {
   if (item === null || item === undefined) {
@@ -114,11 +118,14 @@ export const getLayerRank = (layer, source) => {
       }
       return 0.43;
     }
+    case LayerType.FavouriteBikeRentalStation:
     default:
       // venue, address, street, route-xxx
       return 0.4;
     case LayerType.Stop:
       return 0.35;
+    case LayerType.BikeRentalStation:
+      return 0.1;
   }
 };
 
@@ -133,6 +140,7 @@ export const getLayerRank = (layer, source) => {
  *    - rank favourites better than ordinary old searches
  *    - rank full match better than partial match
  *    - rank match at middle word lower than match at the beginning
+ *    - rank bike rental stations lower
  * @param {*[]} results The search results that were received
  * @param {String} term The search term that was used
  */
@@ -170,10 +178,12 @@ export const sortSearchResults = (lineRegexp, results, term = '') => {
         // Normal confidence range from geocoder is about 0.3 .. 1
         if (!confidence) {
           // not from geocoder, estimate confidence ourselves
-          return (
+          const estimatedConfidence =
             getLayerRank(layer, source) +
-            match(normalizedTerm, result.properties)
-          );
+            match(normalizedTerm, result.properties);
+          return layer === LayerType.BikeRentalStation
+            ? estimatedConfidence - 0.8
+            : estimatedConfidence;
         }
 
         // geocoded items with confidence, just adjust a little
@@ -193,4 +203,17 @@ export const sortSearchResults = (lineRegexp, results, term = '') => {
   );
 
   return uniqWith(orderedResults, isDuplicate);
+};
+
+/**
+ * Parses stop's name without stop code from a stop name from geocoding results
+ *
+ * @param {string} label stop's name from geocoding results.
+ * @param {string} stopCode stop code.
+ */
+export const getStopName = (name, stopCode) => {
+  if (stopCode !== undefined && stopCode !== null) {
+    return name.substring(0, name.lastIndexOf(stopCode) - 1);
+  }
+  return name;
 };

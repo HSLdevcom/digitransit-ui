@@ -133,11 +133,39 @@
                                     "defaultValue": null
                                 },
                                 {
+                                    "name": "feeds",
+                                    "description": "List of feeds from which stops are returned. Defaults to all feeds",
+                                    "type": {
+                                        "kind": "LIST",
+                                        "name": null,
+                                        "ofType": {
+                                            "kind": "NON_NULL",
+                                            "name": null,
+                                            "ofType": {
+                                                "kind": "SCALAR",
+                                                "name": "String",
+                                                "ofType": null
+                                            }
+                                        }
+                                    },
+                                    "defaultValue": null
+                                },
+                                {
                                     "name": "name",
                                     "description": "Query stops by this name",
                                     "type": {
                                         "kind": "SCALAR",
                                         "name": "String",
+                                        "ofType": null
+                                    },
+                                    "defaultValue": null
+                                },
+                                {
+                                    "name": "maxResults",
+                                    "description": "Number of results to return when using `name` argument. Defaults to 10",
+                                    "type": {
+                                        "kind": "SCALAR",
+                                        "name": "Int",
                                         "ofType": null
                                     },
                                     "defaultValue": null
@@ -618,11 +646,39 @@
                                     "defaultValue": null
                                 },
                                 {
+                                    "name": "feeds",
+                                    "description": "List of feeds from which stations are returned. Defaults to all feeds",
+                                    "type": {
+                                        "kind": "LIST",
+                                        "name": null,
+                                        "ofType": {
+                                            "kind": "NON_NULL",
+                                            "name": null,
+                                            "ofType": {
+                                                "kind": "SCALAR",
+                                                "name": "String",
+                                                "ofType": null
+                                            }
+                                        }
+                                    },
+                                    "defaultValue": null
+                                },
+                                {
                                     "name": "name",
                                     "description": "Query stations by name",
                                     "type": {
                                         "kind": "SCALAR",
                                         "name": "String",
+                                        "ofType": null
+                                    },
+                                    "defaultValue": null
+                                },
+                                {
+                                    "name": "maxResults",
+                                    "description": "Number of results to return when using `name` argument. Defaults to 10",
+                                    "type": {
+                                        "kind": "SCALAR",
+                                        "name": "Int",
                                         "ofType": null
                                     },
                                     "defaultValue": null
@@ -1228,7 +1284,22 @@
                         {
                             "name": "bikeRentalStations",
                             "description": "Get all bike rental stations",
-                            "args": [],
+                            "args": [
+                                {
+                                    "name": "ids",
+                                    "description": "Return bike rental stations with these ids.  \n **Note:** if an id is invalid (or the bike rental station service is unavailable) the returned list will contain `null` values.",
+                                    "type": {
+                                        "kind": "LIST",
+                                        "name": null,
+                                        "ofType": {
+                                            "kind": "SCALAR",
+                                            "name": "String",
+                                            "ofType": null
+                                        }
+                                    },
+                                    "defaultValue": null
+                                }
+                            ],
                             "type": {
                                 "kind": "LIST",
                                 "name": null,
@@ -1557,7 +1628,7 @@
                                 },
                                 {
                                     "name": "walkSpeed",
-                                    "description": "Max walk speed along streets, in meters per second. Default value: 1.33",
+                                    "description": "Max walk speed along streets, in meters per second. Default value: 1.22",
                                     "type": {
                                         "kind": "SCALAR",
                                         "name": "Float",
@@ -1597,7 +1668,7 @@
                                 },
                                 {
                                     "name": "optimize",
-                                    "description": "Optimization type for bicycling legs, e.g. prefer flat terrain. Default value: `GREENWAYS`",
+                                    "description": "Optimization type for bicycling legs, e.g. prefer flat terrain. Default value: `QUICK`",
                                     "type": {
                                         "kind": "ENUM",
                                         "name": "OptimizeType",
@@ -4973,6 +5044,18 @@
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
+                        },
+                        {
+                            "name": "stopSequence",
+                            "description": "The sequence number of the stop",
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Int",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
                         }
                     ],
                     "inputFields": null,
@@ -5937,6 +6020,30 @@
                             "deprecationReason": null
                         },
                         {
+                            "name": "isFloatingBike",
+                            "description": "If true, this is a free floating bike.",
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Boolean",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "isCarStation",
+                            "description": "If true, this is a car rental system station.",
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Boolean",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
                             "name": "networks",
                             "description": null,
                             "args": [],
@@ -6470,6 +6577,18 @@
                             "deprecationReason": null
                         },
                         {
+                            "name": "stopSequence",
+                            "description": "For transit stops, the sequence number of the stop.",
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Int",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
                             "name": "bikeRentalStation",
                             "description": "The bike rental station related to the place",
                             "args": [],
@@ -6925,6 +7044,18 @@
                             "deprecationReason": null
                         },
                         {
+                            "name": "interlineWithPreviousLeg",
+                            "description": "Interlines with previous leg. This is true when the same vehicle is used for the previous leg as for this leg and passenger can stay inside the vehicle.",
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Boolean",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
                             "name": "intermediateStops",
                             "description": "For transit legs, intermediate stops between the Place where the leg originates and the Place where the leg ends. For non-transit legs, null.",
                             "args": [],
@@ -7372,7 +7503,7 @@
                         },
                         {
                             "name": "GREENWAYS",
-                            "description": "Prefer cycleways",
+                            "description": "GREENWAYS",
                             "isDeprecated": false,
                             "deprecationReason": null
                         },

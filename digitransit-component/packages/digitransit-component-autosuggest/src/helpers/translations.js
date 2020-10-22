@@ -68,6 +68,7 @@ const translations = {
     venue: 'Venue',
     'via-point': 'Via point',
     where: 'Where to?',
+    place: 'Location',
   },
   fi: {
     address: 'Osoite',
@@ -138,6 +139,7 @@ const translations = {
     venue: 'Paikka',
     'via-point': 'Välipiste',
     where: 'Minne mennään?',
+    place: 'Paikka',
   },
   sv: {
     address: 'Adress',
@@ -207,6 +209,7 @@ const translations = {
     venue: 'Mötesplats',
     'via-point': 'Via punkt',
     where: 'Var till?',
+    place: 'Plats',
   },
 };
 

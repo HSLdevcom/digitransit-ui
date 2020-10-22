@@ -1,14 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
+
 import Link from 'found/Link';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../util/path';
 
 import RouteHeader from '../../RouteHeader';
 
-import { saveFavourite } from '../../../action/FavouriteActions';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 
 function TripMarkerPopup(props) {
@@ -26,8 +25,6 @@ function TripMarkerPopup(props) {
         route={props.route}
         pattern={props.trip && props.trip.pattern}
         trip={props.message.tripStartTime}
-        favourite={props.favourite}
-        addFavouriteRoute={props.addAsFavouriteRoute}
       />
       <div className="bottom location">
         <Link
@@ -65,55 +62,33 @@ TripMarkerPopup.propTypes = {
       code: PropTypes.string.isRequired,
     }),
   }).isRequired,
-  favourite: PropTypes.bool.isRequired,
-  addAsFavouriteRoute: PropTypes.func.isRequired,
   message: PropTypes.shape({
     mode: PropTypes.string.isRequired,
     tripStartTime: PropTypes.string,
   }).isRequired,
 };
 
-const TripMarkerPopupWithFavourite = connectToStores(
-  TripMarkerPopup,
-  ['FavouriteStore'],
-  (context, props) => ({
-    favourite: context
-      .getStore('FavouriteStore')
-      .isFavourite(props.route.gtfsId),
-    addAsFavouriteRoute: e => {
-      e.stopPropagation();
-      context.executeAction(saveFavourite, {
-        type: 'route',
-        gtfsId: props.route.gtfsId,
-      });
-    },
-  }),
-);
-
-const containerComponent = createFragmentContainer(
-  TripMarkerPopupWithFavourite,
-  {
-    trip: graphql`
-      fragment TripMarkerPopup_trip on Trip {
-        gtfsId
-        pattern {
-          code
-          headsign
-          stops {
-            name
-          }
+const containerComponent = createFragmentContainer(TripMarkerPopup, {
+  trip: graphql`
+    fragment TripMarkerPopup_trip on Trip {
+      gtfsId
+      pattern {
+        code
+        headsign
+        stops {
+          name
         }
       }
-    `,
-    route: graphql`
-      fragment TripMarkerPopup_route on Route {
-        gtfsId
-        mode
-        shortName
-        longName
-      }
-    `,
-  },
-);
+    }
+  `,
+  route: graphql`
+    fragment TripMarkerPopup_route on Route {
+      gtfsId
+      mode
+      shortName
+      longName
+    }
+  `,
+});
 
 export { containerComponent as default, TripMarkerPopup as Component };
