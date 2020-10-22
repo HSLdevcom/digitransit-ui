@@ -197,6 +197,10 @@ function getImageFromSpriteSync(icon, width, height, fill) {
     return null;
   }
   const symbol = document.getElementById(icon);
+  if (!symbol) {
+    // eslint-disable-next-line no-console
+    throw new Error(`Could not find icon '${icon}'`);
+  }
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svg.setAttribute('width', width);
   svg.setAttribute('height', height);
