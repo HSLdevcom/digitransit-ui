@@ -119,7 +119,7 @@ export default {
     unpreferredRoutes: [],
     walkBoardCost: 600,
     walkReluctance: 2,
-    walkSpeed: 1.38,
+    walkSpeed: 1.22,
     includeBikeSuggestions: true,
   },
 
