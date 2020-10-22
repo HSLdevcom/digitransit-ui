@@ -76,11 +76,9 @@ $margin-left-right: 1.25em;
 .mobile {
   background-color: $white;
   .route-page-container{
-    border-radius: 15px 15px 0 0;
     padding-top: 0;
     background-color: transparent;
     position: relative;
-    top: -15px;
     &.aikataulu, &.hairiot {
       top: 0;
       .route-container {
@@ -99,7 +97,6 @@ $margin-left-right: 1.25em;
   padding: 1.5em $margin-left-right 0;
   display: flex;
   position: relative;
-  top: -15px;
   flex-direction: column;
   max-height: 100%;
   flex-grow: 1;
@@ -699,9 +696,7 @@ $margin-left-right: 1.25em;
 }
 .route-container {
   background-color: white;
-  padding: 20px 20px 0 20px;
-  border-radius: 15px 15px 0 0;
-  box-shadow: 0 -5px 5px 0 rgba(0, 0, 0, 0.2);
+  padding: 5px 20px 0 20px;
   &.bp-large {
     padding: 0 $margin-left-right-large 1.5em;
     box-shadow: none;

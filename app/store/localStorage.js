@@ -259,6 +259,10 @@ export function resetRoutingSettings() {
   }
 }
 
+export function clearFavouriteStorage() {
+  return setItem('favouriteStore', []);
+}
+
 export function getFavouriteStorage() {
   return getItemAsJson('favouriteStore');
 }
