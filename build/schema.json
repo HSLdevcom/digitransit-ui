@@ -1628,7 +1628,7 @@
                                 },
                                 {
                                     "name": "walkSpeed",
-                                    "description": "Max walk speed along streets, in meters per second. Default value: 1.33",
+                                    "description": "Max walk speed along streets, in meters per second. Default value: 1.22",
                                     "type": {
                                         "kind": "SCALAR",
                                         "name": "Float",
