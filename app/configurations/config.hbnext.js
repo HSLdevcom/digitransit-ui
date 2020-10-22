@@ -152,7 +152,7 @@ export default configMerger(walttiConfig, {
 
     title: APP_TITLE,
 
-    favicon: './app/configurations/images/hb/favicon.png',
+    favicon: './app/configurations/images/hbnext/favicon.png',
 
     meta: {
         description: APP_DESCRIPTION,
@@ -162,7 +162,7 @@ export default configMerger(walttiConfig, {
         carpool: 'CARPOOL',
     },
 
-    logo: 'hb/stadtnavi-herrenberg-logo.svg',
+    logo: 'hbnext/stadtnavi-herrenberg-logo.svg',
 
     GTMid: '',
 
@@ -453,7 +453,7 @@ export default configMerger(walttiConfig, {
         ],
     },
     staticMessagesUrl: STATIC_MESSAGE_URL,
-    
+
     showVehiclesOnSummaryPage: true,
     showBikeAndPublicItineraries: true,
     showBikeAndParkItineraries: true,
