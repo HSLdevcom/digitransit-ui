@@ -1623,12 +1623,9 @@ $font-print-decrease: 0.7;
 
 .mobile {
   .itinerary-tab {
-    border-radius: 15px 15px 0 0;
     position: relative;
-    top: -15px;
     z-index: 2;
     background-color: white;
-    box-shadow: 0 -5px 5px 0 rgba(0, 0, 0, 0.2);
   }
   .itinerary-tabs__scroll {
     padding: 0;
@@ -1664,7 +1661,7 @@ $font-print-decrease: 0.7;
     color: #333;
     position: static;
     font-weight: $font-weight-book;
-    padding: 20px 25px 5px;
+    padding: 5px 25px 5px;
     background: transparent;
     .duration--itinerary-summary,
     .biking-distance--itinerary-summary {
