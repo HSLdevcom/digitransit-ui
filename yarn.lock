@@ -1753,10 +1753,10 @@
   resolved "https://registry.yarnpkg.com/@hsl-fi/sass/-/sass-0.1.1.tgz#b120d36f7a089343c3cba256d9f9a3972b78ba64"
   integrity sha512-tzf2A5NBJF/p7HFIzi//uTKYVrMGgNgRlK0eG65UW6Q2LJ+TPRUep7WUx+MeACZ7HQJw2Q4lfPj149zUfJSzlw==
 
-"@hsl-fi/shared-local-storage@0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@hsl-fi/shared-local-storage/-/shared-local-storage-0.2.0.tgz#0417a237ab52707cd675082d2f9f1838b693cb96"
-  integrity sha512-8AoBHE1sDwhkEdejOpFJpLNBgYR2O9hFi/7AlM3pjZurOfUnDoEBl7pZc3eNjzsmDM9HuK8GFoOHZ77a/o2rAA==
+"@hsl-fi/shared-local-storage@0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@hsl-fi/shared-local-storage/-/shared-local-storage-0.3.0.tgz#1f6080ebecd660916a96dbac4a1949b982d7ec7e"
+  integrity sha512-oUbxRC7nJ6B+mrc2jwJVQPkN3t9RR3sfIKPmoaxwdRxGtN4z859h7W+EhD3J44g+AsGm0xdPmK5tmBZth3EQ+w==
 
 "@hsl-fi/shimmer@0.1.0":
   version "0.1.0"

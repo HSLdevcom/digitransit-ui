@@ -264,6 +264,7 @@ export function getFavouriteStorage() {
 }
 
 export function setFavouriteStorage(data) {
+  setItem('favouriteStore-updated-at', Math.round(Date.now() / 1000));
   return setItem('favouriteStore', data);
 }
 
@@ -310,6 +311,7 @@ export function getOldSearchesStorage() {
 }
 
 export function setOldSearchesStorage(data) {
+  setItem('saved-searches-updated-at', Math.round(Date.now() / 1000));
   setItem('saved-searches', data);
 }
 

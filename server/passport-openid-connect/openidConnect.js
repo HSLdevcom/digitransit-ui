@@ -8,7 +8,7 @@ const RedisStore = require('connect-redis')(session);
 const LoginStrategy = require('./Strategy').Strategy;
 
 export default function setUpOIDC(app, port, indexPath) {
-  const hostname = process.env.HOSTNAME || `https://localhost:${port}`;
+  const hostname = process.env.HOSTNAME || `http://localhost:${port}`;
   /* ********* Setup OpenID Connect ********* */
   const callbackPath = '/oid_callback'; // connect callback path
   // Use Passport with OpenId Connect strategy to authenticate users
@@ -51,8 +51,9 @@ export default function setUpOIDC(app, port, indexPath) {
       '/lahellasi/',
     ];
     // Only allow sso login when user navigates to certain paths
+    // Query parameter is string type
     if (
-      req.query.sso !== false &&
+      req.query.sso !== 'false' &&
       (req.path === `/${indexPath}` ||
         paths.some(path => req.path.includes(path))) &&
       !req.isAuthenticated() &&
@@ -120,7 +121,10 @@ export default function setUpOIDC(app, port, indexPath) {
     }),
   );
   app.get('/logout', function (req, res) {
-    res.redirect(oic.client.endSessionUrl());
+    const logoutUrl = `${oic.client.endSessionUrl()}&id_token_hint=${
+      req.user.token.id_token
+    }`;
+    res.redirect(logoutUrl);
   });
   app.get('/logout/callback', function (req, res) {
     req.logout();
