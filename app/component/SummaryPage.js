@@ -1385,31 +1385,22 @@ class SummaryPage extends React.Component {
       ) {
         const activeIndex =
           hash || getActiveIndex(match.location, this.state.itineraries);
+        const selectedItineraries = this.state.earlierCurrentAndPastItineraries
+          ? this.state.earlierCurrentAndPastItineraries
+          : this.state.itineraries
+          ? this.state.itineraries
+          : [];
+        const selectedItinerary = selectedItineraries
+          ? selectedItineraries[activeIndex]
+          : undefined;
         if (
           routeSelected(match.params.hash, match.params.secondHash) &&
           this.state.itineraries.length > 0
         ) {
-          console.log(
-            'DT-3934 content #1',
-            this.selectedPlan?.itineraries,
-            this.state.itineraries,
-            this.state.earlierCurrentAndPastItineraries,
-          );
           const currentTime = {
             date: moment().valueOf(),
           };
 
-          const selectedItineraries = this.state
-            .earlierCurrentAndPastItineraries
-            ? this.state.earlierCurrentAndPastItineraries
-            : this.state.itineraries
-            ? this.state.itineraries
-            : [];
-          const selectedItinerary = selectedItineraries
-            ? selectedItineraries[activeIndex]
-            : undefined;
-
-          console.log('DT-3934 selectedItinerary:', selectedItinerary);
           content = (
             <>
               {screenReaderUpdateAlert}
@@ -1436,23 +1427,6 @@ class SummaryPage extends React.Component {
             />
           );
         }
-        console.log(
-          'DT-3934 content #2 itineraries length:',
-          this.selectedPlan?.length,
-          this.state.itineraries.length,
-          this.state.earlierCurrentAndPastItineraries?.length,
-          this.state.earlierCurrentAndPastItineraries,
-        );
-        const selectedItineraries = this.state.earlierCurrentAndPastItineraries
-          ? this.state.earlierCurrentAndPastItineraries
-          : this.state.itineraries
-          ? this.state.itineraries
-          : [];
-        const selectedItinerary = selectedItineraries
-          ? selectedItineraries[activeIndex]
-          : undefined;
-
-        console.log('DT-3934 selectedItineraries:', selectedItineraries);
         content = (
           <>
             {screenReaderUpdateAlert}
