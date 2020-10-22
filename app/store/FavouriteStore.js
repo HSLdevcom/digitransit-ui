@@ -9,6 +9,7 @@ import { v4 as uuid } from 'uuid';
 import getGeocodingResults from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
 import { isStop } from '@digitransit-search-util/digitransit-search-util-helpers';
 import {
+  clearFavouriteStorage,
   getFavouriteStorage,
   setFavouriteStorage,
   getFavouriteRoutesStorage,
@@ -88,6 +89,13 @@ export default class FavouriteStore extends Store {
       )
       .map(favourite => favourite.stationId);
     return includes(ids, id);
+  }
+
+  clearFavourites() {
+    clearFavouriteStorage();
+    this.favourites = [];
+    this.storeFavourites();
+    this.emitChange();
   }
 
   storeFavourites() {

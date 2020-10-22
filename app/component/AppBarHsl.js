@@ -5,11 +5,18 @@ import i18next from 'i18next';
 import { isEmpty } from 'lodash';
 import { matchShape, routerShape } from 'found';
 import LazilyLoad, { importLazy } from './LazilyLoad';
+import { clearOldSearches, clearFutureRoutes } from '../util/storeUtils';
 
 const modules = {
   SiteHeader: () => importLazy(import('@hsl-fi/site-header')),
   SharedLocalStorageObserver: () =>
     importLazy(import('@hsl-fi/shared-local-storage')),
+};
+
+const clearStorages = context => {
+  clearOldSearches(context);
+  clearFutureRoutes(context);
+  context.getStore('FavouriteStore').clearFavourites();
 };
 
 const initLanguage = language => {
@@ -59,9 +66,9 @@ const initLanguage = language => {
   }
 };
 
-const AppBarHsl = ({ lang, user }, { match, config }) => {
+const AppBarHsl = ({ lang, user }, context) => {
+  const { match, config } = context;
   const { location } = match;
-
   initLanguage(lang);
 
   let startPageSuffix;
@@ -149,6 +156,7 @@ const AppBarHsl = ({ lang, user }, { match, config }) => {
               name: 'Kirjaudu ulos',
               url: '/logout',
               selected: false,
+              onClick: () => clearStorages(context),
             },
           ], // Menu items that will be shown when Person-icon is pressed and user is authenticated,
         },
@@ -180,6 +188,7 @@ AppBarHsl.contextTypes = {
   router: routerShape.isRequired,
   match: matchShape.isRequired,
   config: PropTypes.object.isRequired,
+  getStore: PropTypes.func.isRequired,
 };
 
 AppBarHsl.propTypes = {
