@@ -972,7 +972,7 @@ const translations = {
     login: 'Log in',
     'login-content':
       'To save and utilize places, routes and stops, you must log in using your HSL account!',
-    'login-header': 'Log in First',
+    'login-header': 'Log in first',
     logout: 'Log out',
     'long-transfers-margin': '12 min',
     'main-menu-label-close': 'Close the main menu',
@@ -1812,7 +1812,7 @@ const translations = {
     login: 'Kirjaudu',
     'login-content':
       'Paikkojen, linjojen ja pysäkkien tallentaminen ja hyödyntäminen edellyttää kirjautumista HSL-tunnuksella!',
-    'login-header': 'Kirjaudu Ensin',
+    'login-header': 'Kirjaudu ensin',
     logout: 'Kirjaudu ulos',
     'long-transfers-margin': '12 min',
     'main-menu-label-close': 'Sulje päävalikko',
