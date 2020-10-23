@@ -77,7 +77,7 @@ const AppBarHsl = ({ lang, user }, context) => {
           menuItems: [
             {
               name: 'Omat tiedot',
-              url: `${config.linkSite}/omat-tiedot`,
+              url: `${config.URL.ROOTLINK}/omat-tiedot`,
               selected: false,
             },
             {
