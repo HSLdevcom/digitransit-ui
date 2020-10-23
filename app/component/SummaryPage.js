@@ -1411,25 +1411,23 @@ class SummaryPage extends React.Component {
           getCurrentSettings(this.context.config, ''),
         )
       ) {
+        this.isFetchingWalkAndBike = true;
         this.setState(
           {
             loading: true,
           },
           // eslint-disable-next-line func-names
           function () {
-            if (
-              !isEqual(this.state.settingsOnOpen, this.state.settingsOnClose)
-            ) {
-              const planParams = preparePlanParams(this.context.config)(
-                this.context.match.params,
-                this.context.match,
-              );
-              this.props.relay.refetch(planParams, null, () => {
-                this.setState({
-                  loading: false,
-                });
+            const planParams = preparePlanParams(this.context.config)(
+              this.context.match.params,
+              this.context.match,
+            );
+            this.makeWalkAndBikeQueries();
+            this.props.relay.refetch(planParams, null, () => {
+              this.setState({
+                loading: false,
               });
-            }
+            });
           },
         );
       }
