@@ -2,13 +2,13 @@ const translations = {
   en: {
     today: 'Today',
     tomorrow: 'Tomorrow',
-    'accessible-close': 'Close timepicker',
-    'accessible-open': 'Open timepicker',
+    'accessible-close': 'Close the picker',
+    'accessible-open': 'Open the picker',
     'accessible-title': 'Date and timepicker',
     arrival: 'Arrival',
     date: 'Date',
     departure: 'Departure',
-    'departure-now': 'Departing now',
+    'departure-now': 'Leaving now',
     time: 'Time',
   },
   fi: {
