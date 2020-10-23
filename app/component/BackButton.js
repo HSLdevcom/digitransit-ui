@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { routerShape, matchShape } from 'found';
 import { intlShape } from 'react-intl';
 import Icon from './Icon';
+import { PREFIX_NEARYOU } from '../util/path';
 
 export default class BackButton extends React.Component {
   static contextTypes = {
@@ -38,13 +39,15 @@ export default class BackButton extends React.Component {
   };
 
   goBack = urlToGo => {
-    if (
+    if (window.location.pathname.indexOf(PREFIX_NEARYOU) === 1) {
+      this.context.router.go(-2);
+    } else if (
       this.context.match.location.index > 0 ||
       (this.context.match.params && this.context.match.params.hash)
     ) {
       this.context.router.go(-1);
     } else if (urlToGo) {
-      window.location.href = urlToGo;
+      window.location.href = `${urlToGo}/${this.context.intl.locale}`;
     } else {
       this.context.router.push('/');
     }
