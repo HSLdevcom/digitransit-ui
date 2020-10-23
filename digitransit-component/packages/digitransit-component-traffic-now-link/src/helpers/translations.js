@@ -1,6 +1,6 @@
 const translations = {
   en: {
-    traffic: 'Services now',
+    traffic: 'Traffic now',
   },
   sv: {
     traffic: 'Trafik nu',
