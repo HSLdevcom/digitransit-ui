@@ -47,7 +47,12 @@ export default class BackButton extends React.Component {
     ) {
       this.context.router.go(-1);
     } else if (urlToGo) {
-      window.location.href = `${urlToGo}/${this.context.intl.locale}`;
+      const locale = this.context.intl.locale !== 'fi';
+      if (locale) {
+        window.location.href = `${urlToGo}/${this.context.intl.locale}`;
+      } else {
+        window.location.href = urlToGo;
+      }
     } else {
       this.context.router.push('/');
     }
