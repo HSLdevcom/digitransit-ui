@@ -46,10 +46,7 @@ function ItinerarySummaryListContainer(
   const { config } = context;
 
   if (!error && itineraries && itineraries.length > 0) {
-    const walkFreeItineraries = itineraries.filter(
-      itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
-    ); // exclude itineraries that have only walking legs from the summary
-    const summaries = walkFreeItineraries.map((itinerary, i) => (
+    const summaries = itineraries.map((itinerary, i) => (
       <SummaryRow
         refTime={searchTime}
         key={i} // eslint-disable-line react/no-array-index-key
@@ -82,7 +79,11 @@ function ItinerarySummaryListContainer(
           key="itinerary-summary.bikePark-title"
         />,
       );
-      if (bikeAndPublicItinerariesToShow > 0) {
+
+      if (
+        itineraries.length > bikeAndParkItinerariesToShow &&
+        bikeAndPublicItinerariesToShow > 0
+      ) {
         const publicModes = itineraries[
           bikeAndParkItinerariesToShow
         ].legs.filter(obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE');
@@ -327,11 +328,6 @@ const containerComponent = createFragmentContainer(
           intermediatePlaces {
             stop {
               zoneId
-              alerts {
-                alertSeverityLevel
-                effectiveEndDate
-                effectiveStartDate
-              }
             }
           }
           route {
@@ -340,16 +336,6 @@ const containerComponent = createFragmentContainer(
             color
             agency {
               name
-            }
-            alerts {
-              alertSeverityLevel
-              effectiveEndDate
-              effectiveStartDate
-              trip {
-                pattern {
-                  code
-                }
-              }
             }
           }
           trip {
@@ -371,11 +357,6 @@ const containerComponent = createFragmentContainer(
             stop {
               gtfsId
               zoneId
-              alerts {
-                alertSeverityLevel
-                effectiveEndDate
-                effectiveStartDate
-              }
             }
             bikeRentalStation {
               bikesAvailable
@@ -386,11 +367,6 @@ const containerComponent = createFragmentContainer(
             stop {
               gtfsId
               zoneId
-              alerts {
-                alertSeverityLevel
-                effectiveEndDate
-                effectiveStartDate
-              }
             }
             bikePark {
               bikeParkId

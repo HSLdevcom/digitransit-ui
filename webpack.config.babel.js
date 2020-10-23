@@ -39,6 +39,7 @@ const productionPlugins = [
     excludes: [
       '**/.*',
       '**/*.map',
+      '**/*.txt',
       '../stats.json',
       '../manifest.json',
       '**/*.gz',

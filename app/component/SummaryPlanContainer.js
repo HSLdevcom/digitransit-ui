@@ -1,4 +1,5 @@
 /* eslint-disable no-nested-ternary */
+/* eslint-disable no-console */
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -31,7 +32,19 @@ class SummaryPlanContainer extends React.Component {
     config: PropTypes.object.isRequired,
     currentTime: PropTypes.number.isRequired,
     error: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    earlierItineraries: PropTypes.arrayOf(
+      PropTypes.shape({
+        endTime: PropTypes.number,
+        startTime: PropTypes.number,
+      }),
+    ),
     itineraries: PropTypes.arrayOf(
+      PropTypes.shape({
+        endTime: PropTypes.number,
+        startTime: PropTypes.number,
+      }),
+    ),
+    laterItineraries: PropTypes.arrayOf(
       PropTypes.shape({
         endTime: PropTypes.number,
         startTime: PropTypes.number,
@@ -57,7 +70,8 @@ class SummaryPlanContainer extends React.Component {
     walking: PropTypes.bool,
     biking: PropTypes.bool,
     showAlternativePlan: PropTypes.bool,
-    updateItineraries: PropTypes.func.isRequired,
+    addLaterItineraries: PropTypes.func.isRequired,
+    addEarlierItineraries: PropTypes.func.isRequired,
     breakpoint: PropTypes.string.isRequired,
     separatorPosition: PropTypes.number,
     updateSeparatorPosition: PropTypes.func.isRequired,
@@ -66,7 +80,9 @@ class SummaryPlanContainer extends React.Component {
   static defaultProps = {
     activeIndex: 0,
     error: undefined,
+    earlierItineraries: [],
     itineraries: [],
+    laterItineraries: [],
     walking: false,
     biking: false,
     showAlternativePlan: false,
@@ -146,9 +162,14 @@ class SummaryPlanContainer extends React.Component {
       name: null,
     });
     this.setState({ loadingItineraries: reversed ? 'top' : 'bottom' });
+    const combinedItineraries = [
+      ...(this.props.earlierItineraries || []),
+      ...(this.props.itineraries || []),
+      ...(this.props.laterItineraries || []),
+    ];
 
     const end = moment.unix(this.props.serviceTimeRange.end);
-    const latestDepartureTime = this.props.itineraries.reduce(
+    const latestDepartureTime = combinedItineraries.reduce(
       (previous, current) => {
         const startTime = moment(current.startTime);
 
@@ -313,11 +334,6 @@ class SummaryPlanContainer extends React.Component {
                   code
                   platformCode
                   zoneId
-                  alerts {
-                    alertSeverityLevel
-                    effectiveEndDate
-                    effectiveStartDate
-                  }
                 }
               }
               to {
@@ -337,11 +353,6 @@ class SummaryPlanContainer extends React.Component {
                   code
                   platformCode
                   zoneId
-                  alerts {
-                    alertSeverityLevel
-                    effectiveEndDate
-                    effectiveStartDate
-                  }
                 }
                 bikePark {
                   bikeParkId
@@ -362,11 +373,6 @@ class SummaryPlanContainer extends React.Component {
                   code
                   platformCode
                   zoneId
-                  alerts {
-                    alertSeverityLevel
-                    effectiveEndDate
-                    effectiveStartDate
-                  }
                 }
               }
               realTime
@@ -391,16 +397,6 @@ class SummaryPlanContainer extends React.Component {
                   fareUrl
                   name
                   phone
-                }
-                alerts {
-                  alertSeverityLevel
-                  effectiveEndDate
-                  effectiveStartDate
-                  trip {
-                    pattern {
-                      code
-                    }
-                  }
                 }
               }
               trip {
@@ -431,18 +427,12 @@ class SummaryPlanContainer extends React.Component {
       ({ plan: result }) => {
         if (reversed) {
           const reversedItineraries = result.itineraries.slice().reverse(); // Need to copy because result is readonly
-          this.props.updateItineraries([
-            ...reversedItineraries,
-            ...this.props.itineraries,
-          ]);
+          this.props.addEarlierItineraries(reversedItineraries);
           this.setState({
             loadingItineraries: undefined,
           });
         } else {
-          this.props.updateItineraries([
-            ...this.props.itineraries,
-            ...result.itineraries,
-          ]);
+          this.props.addLaterItineraries(result.itineraries);
           this.setState({
             loadingItineraries: undefined,
           });
@@ -480,9 +470,14 @@ class SummaryPlanContainer extends React.Component {
       name: null,
     });
     this.setState({ loadingItineraries: reversed ? 'bottom' : 'top' });
+    const combinedItineraries = [
+      ...(this.props.earlierItineraries || []),
+      ...(this.props.itineraries || []),
+      ...(this.props.laterItineraries || []),
+    ];
 
     const start = moment.unix(this.props.serviceTimeRange.start);
-    const earliestArrivalTime = this.props.itineraries.reduce(
+    const earliestArrivalTime = combinedItineraries.reduce(
       (previous, current) => {
         const endTime = moment(current.endTime);
         if (previous == null) {
@@ -644,11 +639,6 @@ class SummaryPlanContainer extends React.Component {
                   code
                   platformCode
                   zoneId
-                  alerts {
-                    alertSeverityLevel
-                    effectiveEndDate
-                    effectiveStartDate
-                  }
                 }
               }
               to {
@@ -668,11 +658,6 @@ class SummaryPlanContainer extends React.Component {
                   code
                   platformCode
                   zoneId
-                  alerts {
-                    alertSeverityLevel
-                    effectiveEndDate
-                    effectiveStartDate
-                  }
                 }
                 bikePark {
                   bikeParkId
@@ -693,11 +678,6 @@ class SummaryPlanContainer extends React.Component {
                   code
                   platformCode
                   zoneId
-                  alerts {
-                    alertSeverityLevel
-                    effectiveEndDate
-                    effectiveStartDate
-                  }
                 }
               }
               realTime
@@ -722,16 +702,6 @@ class SummaryPlanContainer extends React.Component {
                   fareUrl
                   name
                   phone
-                }
-                alerts {
-                  alertSeverityLevel
-                  effectiveEndDate
-                  effectiveStartDate
-                  trip {
-                    pattern {
-                      code
-                    }
-                  }
                 }
               }
               trip {
@@ -775,17 +745,11 @@ class SummaryPlanContainer extends React.Component {
           this.setState({
             loadingItineraries: undefined,
           });
-          this.props.updateItineraries([
-            ...this.props.itineraries,
-            ...result.itineraries,
-          ]);
+          this.props.addLaterItineraries(result.itineraries);
         } else {
           // Reverse the results so that route suggestions are in ascending order
           const reversedItineraries = result.itineraries.slice().reverse(); // Need to copy because result is readonly
-          this.props.updateItineraries([
-            ...reversedItineraries,
-            ...this.props.itineraries,
-          ]);
+          this.props.addEarlierItineraries(reversedItineraries);
           this.props.updateSeparatorPosition(
             this.props.separatorPosition
               ? this.props.separatorPosition + reversedItineraries.length
@@ -872,7 +836,9 @@ class SummaryPlanContainer extends React.Component {
       activeIndex,
       currentTime,
       locationState,
+      earlierItineraries,
       itineraries,
+      laterItineraries,
       bikeAndPublicItinerariesToShow,
       bikeAndParkItinerariesToShow,
       walking,
@@ -880,13 +846,19 @@ class SummaryPlanContainer extends React.Component {
       showAlternativePlan,
       separatorPosition,
     } = this.props;
+    const combinedItineraries = [
+      ...(earlierItineraries || []),
+      ...(itineraries || []),
+      ...(laterItineraries || []),
+    ];
     const searchTime =
       this.props.plan.date ||
       (location.query &&
         location.query.time &&
         moment.unix(location.query.time).valueOf()) ||
       currentTime;
-    const disableButtons = !itineraries || itineraries.length === 0;
+    const disableButtons =
+      !combinedItineraries || combinedItineraries.length === 0;
     const arriveBy = this.context.match.location.query.arriveBy === 'true';
 
     return (
@@ -911,7 +883,7 @@ class SummaryPlanContainer extends React.Component {
           error={this.props.error}
           from={otpToLocation(from)}
           intermediatePlaces={getIntermediatePlaces(location.query)}
-          itineraries={itineraries}
+          itineraries={combinedItineraries}
           onSelect={this.onSelectActive}
           onSelectImmediately={this.onSelectImmediately}
           searchTime={searchTime}
@@ -961,8 +933,78 @@ const connectedContainer = createFragmentContainer(
         date
       }
     `,
+    earlierItineraries: graphql`
+      fragment SummaryPlanContainer_earlierItineraries on Itinerary
+      @relay(plural: true) {
+        ...ItinerarySummaryListContainer_itineraries
+        endTime
+        startTime
+        legs {
+          mode
+          to {
+            bikePark {
+              bikeParkId
+              name
+            }
+          }
+          ...ItineraryLine_legs
+          transitLeg
+          legGeometry {
+            points
+          }
+          route {
+            gtfsId
+          }
+          trip {
+            gtfsId
+            directionId
+            stoptimesForDate {
+              scheduledDeparture
+            }
+            pattern {
+              ...RouteLine_pattern
+            }
+          }
+        }
+      }
+    `,
     itineraries: graphql`
       fragment SummaryPlanContainer_itineraries on Itinerary
+      @relay(plural: true) {
+        ...ItinerarySummaryListContainer_itineraries
+        endTime
+        startTime
+        legs {
+          mode
+          to {
+            bikePark {
+              bikeParkId
+              name
+            }
+          }
+          ...ItineraryLine_legs
+          transitLeg
+          legGeometry {
+            points
+          }
+          route {
+            gtfsId
+          }
+          trip {
+            gtfsId
+            directionId
+            stoptimesForDate {
+              scheduledDeparture
+            }
+            pattern {
+              ...RouteLine_pattern
+            }
+          }
+        }
+      }
+    `,
+    laterItineraries: graphql`
+      fragment SummaryPlanContainer_laterItineraries on Itinerary
       @relay(plural: true) {
         ...ItinerarySummaryListContainer_itineraries
         endTime
