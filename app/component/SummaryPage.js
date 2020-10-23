@@ -1,5 +1,4 @@
 /* eslint-disable react/no-array-index-key */
-/* eslint-disable react/no-access-state-in-setstate */
 /* eslint-disable no-nested-ternary */
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -307,13 +306,15 @@ class SummaryPage extends React.Component {
   }
 
   addEarlierItineraries = newItineraries => {
-    const combined = [...newItineraries, ...this.state.earlierItineraries];
-    this.setState({ earlierItineraries: combined });
+    this.setState(prevState => ({
+      earlierItineraries: [...newItineraries, ...prevState.earlierItineraries],
+    }));
   };
 
   addLaterItineraries = newItineraries => {
-    const combined = [...this.state.laterItineraries, ...newItineraries];
-    this.setState({ laterItineraries: combined });
+    this.setState(prevState => ({
+      laterItineraries: [...prevState.laterItineraries, ...newItineraries],
+    }));
   };
 
   updateSeparatorPosition = pos => {
