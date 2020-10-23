@@ -18,7 +18,7 @@ const translations = {
     'clear-search-history': 'Clear search history',
     currentposition: 'Current position',
     delete: 'Delete',
-    'delete-old-searches-header': 'Would you like to clear search history?',
+    'delete-old-searches-header': 'Do you want to clear the search history?',
     departure: 'Departure',
     destination: 'Destination',
     'give-origin': 'Enter your origin.',
