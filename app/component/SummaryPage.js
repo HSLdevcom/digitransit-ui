@@ -1140,23 +1140,31 @@ class SummaryPage extends React.Component {
           timem,
           from.lat,
           from.lon,
-        ).then(res => {
-          if (weatherHash === this.pendingWeatherHash) {
-            // no cascading fetches
-            this.pendingWeatherHash = undefined;
-            let weatherData = {};
-            if (Array.isArray(res) && res.length === 3) {
-              weatherData = {
-                temperature: res[0].ParameterValue,
-                windSpeed: res[1].ParameterValue,
-                weatherHash,
-                // Icon id's and descriptions: https://www.ilmatieteenlaitos.fi/latauspalvelun-pikaohje ->  Sääsymbolien selitykset ennusteissa.
-                iconId: this.checkDayNight(res[2].ParameterValue, timem.hour()),
-              };
+        )
+          .then(res => {
+            if (weatherHash === this.pendingWeatherHash) {
+              // no cascading fetches
+              this.pendingWeatherHash = undefined;
+              let weatherData = {};
+              if (Array.isArray(res) && res.length === 3) {
+                weatherData = {
+                  temperature: res[0].ParameterValue,
+                  windSpeed: res[1].ParameterValue,
+                  weatherHash,
+                  // Icon id's and descriptions: https://www.ilmatieteenlaitos.fi/latauspalvelun-pikaohje ->  Sääsymbolien selitykset ennusteissa.
+                  iconId: this.checkDayNight(
+                    res[2].ParameterValue,
+                    timem.hour(),
+                  ),
+                };
+              }
+              this.setState({ weatherData });
             }
-            this.setState({ weatherData });
-          }
-        });
+          })
+          .catch(err => {
+            this.pendingWeatherHash = undefined;
+            this.setState({ weatherData: { err } });
+          });
       }
     }
   }
