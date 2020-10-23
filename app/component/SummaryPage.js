@@ -1417,6 +1417,7 @@ class SummaryPage extends React.Component {
 
   showVehicles = () => {
     return (
+      this.context.config.showNewMqtt &&
       this.context.config.showVehiclesOnSummaryPage &&
       (this.props.breakpoint === 'large' || this.props.match.params.hash)
     );
