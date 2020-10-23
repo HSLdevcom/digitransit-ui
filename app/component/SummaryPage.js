@@ -1005,6 +1005,7 @@ class SummaryPage extends React.Component {
         bikeParkPlan: undefined,
         earlierItineraries: [],
         laterItineraries: [],
+        weatherData: {},
       });
     }
 
@@ -1801,11 +1802,8 @@ class SummaryPage extends React.Component {
                 endTime={latestArrivalTime}
                 toggleSettings={this.toggleCustomizeSearchOffcanvas}
               />
-              {!this.isFetchingWalkAndBike &&
-              !isEmpty(this.state.weatherData) &&
-              !showStreetModeSelector ? null : (
+              {!this.isFetchingWalkAndBike && !showStreetModeSelector ? null : (
                 <StreetModeSelector
-                  weatherLoaded={!this.pendingWeatherHash}
                   showWalkOptionButton={showWalkOptionButton}
                   showBikeOptionButton={showBikeOptionButton}
                   showBikeAndPublicOptionButton={showBikeAndPublicOptionButton}
@@ -1816,7 +1814,11 @@ class SummaryPage extends React.Component {
                   bikePlan={bikePlan}
                   bikeAndPublicPlan={bikeAndPublicPlan}
                   bikeParkPlan={bikeParkPlan}
-                  loading={this.isFetchingWalkAndBike}
+                  loading={
+                    this.isFetchingWalkAndBike ||
+                    (!this.state.weatherData.temperature &&
+                      !this.state.weatherData.err)
+                  }
                 />
               )}
             </React.Fragment>
@@ -1918,11 +1920,8 @@ class SummaryPage extends React.Component {
                 endTime={latestArrivalTime}
                 toggleSettings={this.toggleCustomizeSearchOffcanvas}
               />
-              {!this.isFetchingWalkAndBike &&
-              !isEmpty(this.state.weatherData) &&
-              !showStreetModeSelector ? null : (
+              {!this.isFetchingWalkAndBike && !showStreetModeSelector ? null : (
                 <StreetModeSelector
-                  weatherLoaded={!this.pendingWeatherHash}
                   showWalkOptionButton={showWalkOptionButton}
                   showBikeOptionButton={showBikeOptionButton}
                   showBikeAndPublicOptionButton={showBikeAndPublicOptionButton}
@@ -1933,7 +1932,11 @@ class SummaryPage extends React.Component {
                   bikePlan={bikePlan}
                   bikeAndPublicPlan={bikeAndPublicPlan}
                   bikeParkPlan={bikeParkPlan}
-                  loading={this.isFetchingWalkAndBike}
+                  loading={
+                    this.isFetchingWalkAndBike ||
+                    (!this.state.weatherData.temperature &&
+                      !this.state.weatherData.err)
+                  }
                 />
               )}
             </React.Fragment>
