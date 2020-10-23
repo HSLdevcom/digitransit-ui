@@ -3,7 +3,6 @@ import cloneDeep from 'lodash/cloneDeep';
 import forEach from 'lodash/forEach';
 
 function filterLegStops(leg, filter) {
-  console.log('DT-3934 filterLegStops:', leg, filter);
   if (leg.from.stop && leg.to.stop && leg.trip) {
     const stops = [leg.from.stop.gtfsId, leg.to.stop.gtfsId];
     return leg.trip.stoptimes
@@ -24,7 +23,6 @@ function filterLegStops(leg, filter) {
  *   pickupType
  */
 export function isCallAgencyPickupType(leg) {
-  console.log('DT-3934 - isCallAgencyPickupType:', leg, leg?.trip?.stoptime);
   return (
     filterLegStops(leg, stoptime => stoptime.pickupType === 'CALL_AGENCY')
       .length > 0

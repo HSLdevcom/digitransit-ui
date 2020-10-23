@@ -93,7 +93,6 @@ class ItineraryLegs extends React.Component {
           fares.find(fare => fare.routeGtfsId === leg.route.gtfsId)) ||
         undefined,
     }));
-    console.log('DT-3934 compressedLegs:', compressedLegs);
     const numberOfLegs = compressedLegs.length;
     if (numberOfLegs === 0) {
       return null;
@@ -119,7 +118,6 @@ class ItineraryLegs extends React.Component {
       const isNextLegInterlining = nextLeg
         ? nextLeg.interlineWithPreviousLeg
         : false;
-      console.log('DT-3934 compressedLegs leg #1:', leg, leg.mode, leg.from);
       if (leg.mode !== 'WALK' && isCallAgencyPickupType(leg)) {
         legs.push(
           <CallAgencyLeg

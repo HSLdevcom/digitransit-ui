@@ -46,10 +46,7 @@ function ItinerarySummaryListContainer(
   const { config } = context;
 
   if (!error && itineraries && itineraries.length > 0) {
-    const walkFreeItineraries = itineraries.filter(
-      itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
-    ); // exclude itineraries that have only walking legs from the summary
-    const summaries = walkFreeItineraries.map((itinerary, i) => (
+    const summaries = itineraries.map((itinerary, i) => (
       <SummaryRow
         refTime={searchTime}
         key={i} // eslint-disable-line react/no-array-index-key

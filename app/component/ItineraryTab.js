@@ -82,7 +82,6 @@ class ItineraryTab extends React.Component {
     const { itinerary, plan } = this.props;
     const { config } = this.context;
 
-    console.log('DT-3934 plan date:', plan.date, itinerary);
     if(!itinerary || !itinerary.legs[0]) {
       return null;
     }
