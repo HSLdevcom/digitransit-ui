@@ -54,9 +54,9 @@ export default class FavouriteStore extends Store {
       this.favourites = getFavouriteStorage();
       this.fetchComplete();
     }
-    this.migrateRoutes();
-    this.migrateStops();
-    this.migrateLocations();
+    // this.migrateRoutes();
+    // this.migrateStops();
+    // this.migrateLocations();
   }
 
   fetchComplete() {
