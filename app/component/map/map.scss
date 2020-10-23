@@ -74,6 +74,7 @@ div.map {
   }
 
   .drawer-container {
+    z-index: 1000;
     overflow-y: scroll;
     height: 100%;
     position: absolute;
