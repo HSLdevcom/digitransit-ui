@@ -1793,7 +1793,9 @@ class SummaryPage extends React.Component {
                 endTime={latestArrivalTime}
                 toggleSettings={this.toggleCustomizeSearchOffcanvas}
               />
-              {!this.isFetchingWalkAndBike && !showStreetModeSelector ? null : (
+              {!this.isFetchingWalkAndBike &&
+              !isEmpty(this.state.weatherData) &&
+              !showStreetModeSelector ? null : (
                 <StreetModeSelector
                   weatherLoaded={!this.pendingWeatherHash}
                   showWalkOptionButton={showWalkOptionButton}
@@ -1908,7 +1910,9 @@ class SummaryPage extends React.Component {
                 endTime={latestArrivalTime}
                 toggleSettings={this.toggleCustomizeSearchOffcanvas}
               />
-              {!this.isFetchingWalkAndBike && !showStreetModeSelector ? null : (
+              {!this.isFetchingWalkAndBike &&
+              !isEmpty(this.state.weatherData) &&
+              !showStreetModeSelector ? null : (
                 <StreetModeSelector
                   weatherLoaded={!this.pendingWeatherHash}
                   showWalkOptionButton={showWalkOptionButton}
