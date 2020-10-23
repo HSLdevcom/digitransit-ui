@@ -1184,16 +1184,6 @@ class SummaryPage extends React.Component {
       this.context.executeAction(storeOrigin, nextProps.match.params.from);
     }
 
-    if (
-      !isEqual(
-        nextProps.viewer && nextProps.viewer.plan,
-        this.props.viewer && this.props.viewer.plan,
-      )
-    ) {
-      this.originalPlan = this.props.viewer && this.props.viewer.plan;
-      this.selectedPlan = this.props.viewer && this.props.viewer.plan;
-    }
-
     if (nextProps.breakpoint === 'large' && this.state.center) {
       this.setState({ center: null });
     }
@@ -1434,8 +1424,6 @@ class SummaryPage extends React.Component {
                 this.context.match.params,
                 this.context.match,
               );
-              this.isFetching = true;
-              this.originalPlan = [];
               this.props.relay.refetch(planParams, null, () => {
                 this.setState({
                   loading: false,
