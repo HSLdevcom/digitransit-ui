@@ -502,9 +502,9 @@ export default {
         },
         type: 'citybike',
         url: {
-          fi: rootLink + '/kaupunkipyorat',
-          sv: rootLink + '/sv/stadscyklar',
-          en: rootLink + '/en/citybikes',
+          fi: 'https://kaupunkipyorat.hsl.fi/fi',
+          sv: 'https://kaupunkipyorat.hsl.fi/sv',
+          en: 'https://kaupunkipyorat.hsl.fi/en',
         },
       },
       vantaa: {
@@ -516,9 +516,9 @@ export default {
         },
         type: 'citybike',
         url: {
-          fi: rootLink + '/kaupunkipyorat',
-          sv: rootLink + '/sv/stadscyklar',
-          en: rootLink + '/en/citybikes',
+          fi: 'https://kaupunkipyorat.hsl.fi/fi',
+          sv: 'https://kaupunkipyorat.hsl.fi/sv',
+          en: 'https://kaupunkipyorat.hsl.fi/en',
         },
       },
     },
