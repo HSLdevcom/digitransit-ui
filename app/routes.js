@@ -24,6 +24,8 @@ import {
   getComponentOrNullRenderer,
 } from './util/routerUtils';
 
+import { planQuery } from './util/queryUtils';
+
 import getStopRoutes from './stopRoutes';
 import routeRoutes from './routeRoutes';
 import { validateServiceTimeRange } from './util/timeUtils';
@@ -185,92 +187,7 @@ export default config => {
                   /* webpackChunkName: "itinerary" */ './component/SummaryPage'
                 ).then(getDefault)
               }
-              query={graphql`
-                query routes_SummaryPage_Query(
-                  $fromPlace: String!
-                  $toPlace: String!
-                  $intermediatePlaces: [InputCoordinates!]
-                  $numItineraries: Int!
-                  $modes: [TransportMode!]
-                  $date: String!
-                  $time: String!
-                  $walkReluctance: Float
-                  $walkBoardCost: Int
-                  $minTransferTime: Int
-                  $walkSpeed: Float
-                  $maxWalkDistance: Float
-                  $wheelchair: Boolean
-                  $ticketTypes: [String]
-                  $disableRemainingWeightHeuristic: Boolean
-                  $arriveBy: Boolean
-                  $transferPenalty: Int
-                  $ignoreRealtimeUpdates: Boolean
-                  $maxPreTransitTime: Int
-                  $walkOnStreetReluctance: Float
-                  $waitReluctance: Float
-                  $bikeSpeed: Float
-                  $bikeSwitchTime: Int
-                  $bikeSwitchCost: Int
-                  $optimize: OptimizeType
-                  $triangle: InputTriangle
-                  $maxTransfers: Int
-                  $waitAtBeginningFactor: Float
-                  $heuristicStepsPerMainStep: Int
-                  $compactLegsByReversedSearch: Boolean
-                  $itineraryFiltering: Float
-                  $modeWeight: InputModeWeight
-                  $preferred: InputPreferred
-                  $unpreferred: InputUnpreferred
-                  $allowedBikeRentalNetworks: [String]
-                  $locale: String
-                ) {
-                  viewer {
-                    ...SummaryPage_viewer
-                    @arguments(
-                      fromPlace: $fromPlace
-                      toPlace: $toPlace
-                      intermediatePlaces: $intermediatePlaces
-                      numItineraries: $numItineraries
-                      modes: $modes
-                      date: $date
-                      time: $time
-                      walkReluctance: $walkReluctance
-                      walkBoardCost: $walkBoardCost
-                      minTransferTime: $minTransferTime
-                      walkSpeed: $walkSpeed
-                      maxWalkDistance: $maxWalkDistance
-                      wheelchair: $wheelchair
-                      ticketTypes: $ticketTypes
-                      disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
-                      arriveBy: $arriveBy
-                      transferPenalty: $transferPenalty
-                      ignoreRealtimeUpdates: $ignoreRealtimeUpdates
-                      maxPreTransitTime: $maxPreTransitTime
-                      walkOnStreetReluctance: $walkOnStreetReluctance
-                      waitReluctance: $waitReluctance
-                      bikeSpeed: $bikeSpeed
-                      bikeSwitchTime: $bikeSwitchTime
-                      bikeSwitchCost: $bikeSwitchCost
-                      optimize: $optimize
-                      triangle: $triangle
-                      maxTransfers: $maxTransfers
-                      waitAtBeginningFactor: $waitAtBeginningFactor
-                      heuristicStepsPerMainStep: $heuristicStepsPerMainStep
-                      compactLegsByReversedSearch: $compactLegsByReversedSearch
-                      itineraryFiltering: $itineraryFiltering
-                      modeWeight: $modeWeight
-                      preferred: $preferred
-                      unpreferred: $unpreferred
-                      allowedBikeRentalNetworks: $allowedBikeRentalNetworks
-                      locale: $locale
-                    )
-                  }
-
-                  serviceTimeRange {
-                    ...SummaryPage_serviceTimeRange
-                  }
-                }
-              `}
+              query={planQuery}
               prepareVariables={preparePlanParams(config)}
               render={({ Component, props, error, match }) => {
                 if (Component) {
