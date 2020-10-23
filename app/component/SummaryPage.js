@@ -1570,7 +1570,11 @@ class SummaryPage extends React.Component {
       ...(this.state.laterItineraries || []),
     ];
 
-    if (combinedItineraries && combinedItineraries.length > 0) {
+    if (
+      combinedItineraries &&
+      combinedItineraries.length > 0 &&
+      this.state.streetMode !== 'walk'
+    ) {
       combinedItineraries = combinedItineraries.filter(
         itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
       ); // exclude itineraries that have only walking legs from the summary
@@ -1814,7 +1818,7 @@ class SummaryPage extends React.Component {
           itineraries={combinedItineraries}
           params={match.params}
           focus={this.updateCenter}
-          plan={this.props.plan}
+          plan={this.selectedPlan}
           serviceTimeRange={this.props.serviceTimeRange}
           setMapZoomToLeg={this.setMapZoomToLeg}
         >
@@ -1834,11 +1838,13 @@ class SummaryPage extends React.Component {
       content = (
         <>
           <SummaryPlanContainer
-            activeIndex={getActiveIndex(match.location, combinedItineraries)}
+            activeIndex={
+              hash || getActiveIndex(match.location, combinedItineraries)
+            }
             plan={this.selectedPlan}
             serviceTimeRange={serviceTimeRange}
             earlierItineraries={this.state.earlierItineraries}
-            itineraries={this.selectedPlan.itineraries}
+            itineraries={combinedItineraries}
             laterItineraries={this.state.laterItineraries}
             params={match.params}
             error={error || this.state.error}
@@ -1849,6 +1855,8 @@ class SummaryPage extends React.Component {
             intermediatePlaces={intermediatePlaces}
             bikeAndPublicItinerariesToShow={this.bikeAndPublicItinerariesToShow}
             bikeAndParkItinerariesToShow={this.bikeAndParkItinerariesToShow}
+            walking={showWalkOptionButton}
+            biking={showBikeOptionButton}
             showAlternativePlan={
               planHasNoItineraries && hasAlternativeItineraries
             }
