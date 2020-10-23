@@ -1072,10 +1072,25 @@ class SummaryPage extends React.Component {
     return iconId;
   };
 
+  filterOnlyBikeAndWalk = itineraries => {
+    if (itineraries) {
+      return itineraries.filter(
+        itinerary =>
+          !itinerary.legs.every(
+            leg => leg.mode === 'WALK' || leg.mode === 'BICYCLE',
+          ),
+      );
+    }
+    return itineraries;
+  };
+
   filteredbikeAndPublic = plan => {
     const filteredItineraries = [];
     if (plan && plan.itineraries) {
-      plan.itineraries.map(itinerary => {
+      const itinerariesWithVehicle = this.filterOnlyBikeAndWalk(
+        plan.itineraries,
+      );
+      itinerariesWithVehicle.map(itinerary => {
         let added = false;
         itinerary.legs.map(leg => {
           if (!added && leg.mode === 'BICYCLE' && leg.distance > 500) {
@@ -1094,7 +1109,12 @@ class SummaryPage extends React.Component {
 
   makeWeatherQuery() {
     const from = otpToLocation(this.props.match.params.from);
-    const { walkPlan, bikePlan, bikeParkPlan } = this.state;
+    const { walkPlan, bikePlan } = this.state;
+    const bikeParkPlan = {
+      itineraries: this.filterOnlyBikeAndWalk(
+        this.state.bikeParkPlan?.itineraries,
+      ),
+    };
     const bikeAndPublicPlan = this.filteredbikeAndPublic(
       this.state.bikeAndPublicPlan,
     );
@@ -1395,7 +1415,12 @@ class SummaryPage extends React.Component {
 
   render() {
     const { match, error, plan } = this.props;
-    const { walkPlan, bikePlan, bikeParkPlan } = this.state;
+    const { walkPlan, bikePlan } = this.state;
+    const bikeParkPlan = {
+      itineraries: this.filterOnlyBikeAndWalk(
+        this.state.bikeParkPlan?.itineraries,
+      ),
+    };
     const bikeAndPublicPlan = this.filteredbikeAndPublic(
       this.state.bikeAndPublicPlan,
     );
