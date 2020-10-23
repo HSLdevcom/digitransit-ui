@@ -15,6 +15,7 @@ const SelectFromMapHeaderComponent = (props, { config, intl }) => {
             props.titleId !== undefined
               ? intl.formatMessage({
                   id: props.titleId,
+                  defaultMessage: 'Select viaPoint',
                 })
               : ''
           }

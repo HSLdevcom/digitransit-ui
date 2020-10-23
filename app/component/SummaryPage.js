@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import React from 'react';
 import {
-  createFragmentContainer,
+  createRefetchContainer,
   fetchQuery,
   graphql,
   ReactRelayContext,
@@ -35,6 +35,7 @@ import {
   getStartTime,
   getStartTimeWithColon,
 } from '../util/timeUtils';
+import { planQuery } from '../util/queryUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
 import exampleData from './data/SummaryPage.ExampleData';
@@ -207,8 +208,10 @@ class SummaryPage extends React.Component {
 
   static propTypes = {
     match: matchShape.isRequired,
-    plan: PropTypes.shape({
-      itineraries: PropTypes.array,
+    viewer: PropTypes.shape({
+      plan: PropTypes.shape({
+        itineraries: PropTypes.array,
+      }),
     }).isRequired,
     serviceTimeRange: PropTypes.shape({
       start: PropTypes.number.isRequired,
@@ -223,6 +226,9 @@ class SummaryPage extends React.Component {
     loading: PropTypes.bool,
     loadingPosition: PropTypes.bool,
     relayEnvironment: PropTypes.object,
+    relay: PropTypes.shape({
+      refetch: PropTypes.func.isRequired,
+    }).isRequired,
   };
 
   static defaultProps = {
@@ -238,7 +244,7 @@ class SummaryPage extends React.Component {
     this.secondQuerySent = false;
     this.isFetchingWalkAndBike = true;
     this.params = this.context.match.params;
-    this.originalPlan = this.props.plan;
+    this.originalPlan = this.props.viewer && this.props.viewer.plan;
     context.executeAction(storeOrigin, otpToLocation(props.match.params.from));
     if (props.error) {
       reportError(props.error);
@@ -271,7 +277,7 @@ class SummaryPage extends React.Component {
       alternativePlan: undefined,
       earlierItineraries: [],
       laterItineraries: [],
-      previouslySelectedPlan: this.props.plan,
+      previouslySelectedPlan: this.props.viewer && this.props.viewer.plan,
       separatorPosition: undefined,
       walkPlan: undefined,
       bikePlan: undefined,
@@ -290,7 +296,7 @@ class SummaryPage extends React.Component {
         ],
       };
     } else {
-      this.selectedPlan = this.props.plan;
+      this.selectedPlan = this.props.viewer && this.props.viewer.plan;
     }
 
     if (this.showVehicles()) {
@@ -987,7 +993,10 @@ class SummaryPage extends React.Component {
 
     // Reset walk and bike suggestions when new search is made
     if (
-      !isEqual(this.props.plan, this.originalPlan) &&
+      !isEqual(
+        this.props.viewer && this.props.viewer.plan,
+        this.originalPlan,
+      ) &&
       this.secondQuerySent &&
       !this.isFetchingWalkAndBike &&
       (this.state.walkPlan ||
@@ -1011,11 +1020,12 @@ class SummaryPage extends React.Component {
 
     // Public transit routes fetched, now fetch walk and bike itineraries
     if (
-      this.props.plan &&
-      this.props.plan.itineraries &&
+      this.props.viewer &&
+      this.props.viewer.plan &&
+      this.props.viewer.plan.itineraries &&
       !this.secondQuerySent
     ) {
-      this.originalPlan = this.props.plan;
+      this.originalPlan = this.props.viewer.plan;
       this.secondQuerySent = true;
       this.makeWalkAndBikeQueries();
     }
@@ -1397,18 +1407,29 @@ class SummaryPage extends React.Component {
       this.setState({ settingsOpen: newState });
       if (this.props.breakpoint !== 'large') {
         this.context.router.go(-1);
-      } else {
+      } else if (
+        !isEqual(
+          this.state.settingsOnOpen,
+          getCurrentSettings(this.context.config, ''),
+        )
+      ) {
+        this.isFetchingWalkAndBike = true;
         this.setState(
           {
-            settingsOnClose: getCurrentSettings(this.context.config, ''),
+            loading: true,
           },
           // eslint-disable-next-line func-names
           function () {
-            if (
-              !isEqual(this.state.settingsOnOpen, this.state.settingsOnClose)
-            ) {
-              window.location.reload();
-            }
+            const planParams = preparePlanParams(this.context.config)(
+              this.context.match.params,
+              this.context.match,
+            );
+            this.makeWalkAndBikeQueries();
+            this.props.relay.refetch(planParams, null, () => {
+              this.setState({
+                loading: false,
+              });
+            });
           },
         );
       }
@@ -1424,8 +1445,11 @@ class SummaryPage extends React.Component {
   };
 
   render() {
-    const { match, error, plan } = this.props;
+    const { match, error } = this.props;
     const { walkPlan, bikePlan } = this.state;
+
+    const plan = this.props.viewer && this.props.viewer.plan;
+
     const bikeParkPlan = {
       itineraries: this.filterOnlyBikeAndWalk(
         this.state.bikeParkPlan?.itineraries,
@@ -2019,206 +2043,153 @@ PositioningWrapper.contextTypes = {
   executeAction: PropTypes.func.isRequired,
 };
 
-const containerComponent = createFragmentContainer(PositioningWrapper, {
-  plan: graphql`
-    fragment SummaryPage_plan on Plan {
-      ...SummaryPlanContainer_plan
-      ...ItineraryTab_plan
-      itineraries {
-        startTime
-        endTime
-        ...ItineraryTab_itinerary
-        ...PrintableItinerary_itinerary
-        ...SummaryPlanContainer_itineraries
-        legs {
-          mode
-          ...ItineraryLine_legs
-          transitLeg
-          legGeometry {
-            points
-          }
-          route {
-            gtfsId
-          }
-          trip {
-            gtfsId
-            directionId
-            stoptimesForDate {
-              scheduledDeparture
-              pickupType
-            }
-            pattern {
-              ...RouteLine_pattern
-            }
-          }
-          from {
-            name
-            lat
-            lon
-            stop {
-              gtfsId
-              zoneId
-            }
-            bikeRentalStation {
-              bikesAvailable
-              networks
-            }
-          }
-          to {
-            stop {
-              gtfsId
-              zoneId
-            }
-            bikePark {
-              bikeParkId
-              name
-            }
-          }
-        }
-      }
-    }
-  `,
-  walkPlan: graphql`
-    fragment SummaryPage_walkPlan on Plan {
-      ...SummaryPlanContainer_plan
-      ...ItineraryTab_plan
-      itineraries {
-        walkDistance
-        duration
-        startTime
-        endTime
-        ...ItineraryTab_itinerary
-        ...PrintableItinerary_itinerary
-        ...SummaryPlanContainer_itineraries
-        legs {
-          mode
-          ...ItineraryLine_legs
-          legGeometry {
-            points
-          }
-          distance
-        }
-      }
-    }
-  `,
-  bikePlan: graphql`
-    fragment SummaryPage_bikePlan on Plan {
-      ...SummaryPlanContainer_plan
-      ...ItineraryTab_plan
-      itineraries {
-        duration
-        startTime
-        endTime
-        ...ItineraryTab_itinerary
-        ...PrintableItinerary_itinerary
-        ...SummaryPlanContainer_itineraries
-        legs {
-          mode
-          ...ItineraryLine_legs
-          legGeometry {
-            points
-          }
-          distance
-        }
-      }
-    }
-  `,
-  bikeAndPublicPlan: graphql`
-    fragment SummaryPage_bikeAndPublicPlan on Plan {
-      ...SummaryPlanContainer_plan
-      ...ItineraryTab_plan
-      itineraries {
-        duration
-        startTime
-        endTime
-        ...ItineraryTab_itinerary
-        ...PrintableItinerary_itinerary
-        ...SummaryPlanContainer_itineraries
-        legs {
-          mode
-          ...ItineraryLine_legs
-          transitLeg
-          legGeometry {
-            points
-          }
-          route {
-            gtfsId
-          }
-          trip {
-            gtfsId
-            directionId
-            stoptimesForDate {
-              scheduledDeparture
-            }
-            pattern {
-              ...RouteLine_pattern
-            }
-          }
-          distance
-        }
-      }
-    }
-  `,
-  bikeParkPlan: graphql`
-    fragment SummaryPage_bikeParkPlan on Plan {
-      ...SummaryPlanContainer_plan
-      ...ItineraryTab_plan
-      itineraries {
-        duration
-        startTime
-        endTime
-        ...ItineraryTab_itinerary
-        ...PrintableItinerary_itinerary
-        ...SummaryPlanContainer_itineraries
-        legs {
-          transitLeg
-          startTime
-          endTime
-          mode
-          distance
-          duration
-          rentedBike
-          intermediatePlace
-          intermediatePlaces {
-            stop {
-              zoneId
-            }
-          }
-          ...ItineraryLine_legs
-          transitLeg
-          legGeometry {
-            points
-          }
-          route {
-            gtfsId
-          }
-          trip {
-            gtfsId
-            directionId
-            stoptimesForDate {
-              scheduledDeparture
-            }
-            pattern {
-              ...RouteLine_pattern
-            }
-          }
-          to {
-            bikePark {
-              bikeParkId
-              name
+const containerComponent = createRefetchContainer(
+  PositioningWrapper,
+  {
+    viewer: graphql`
+      fragment SummaryPage_viewer on QueryType
+      @argumentDefinitions(
+        fromPlace: { type: "String!" }
+        toPlace: { type: "String!" }
+        intermediatePlaces: { type: "[InputCoordinates!]" }
+        numItineraries: { type: "Int!" }
+        modes: { type: "[TransportMode!]" }
+        date: { type: "String!" }
+        time: { type: "String!" }
+        walkReluctance: { type: "Float" }
+        walkBoardCost: { type: "Int" }
+        minTransferTime: { type: "Int" }
+        walkSpeed: { type: "Float" }
+        maxWalkDistance: { type: "Float" }
+        wheelchair: { type: "Boolean" }
+        ticketTypes: { type: "[String]" }
+        disableRemainingWeightHeuristic: { type: "Boolean" }
+        arriveBy: { type: "Boolean" }
+        transferPenalty: { type: "Int" }
+        ignoreRealtimeUpdates: { type: "Boolean" }
+        maxPreTransitTime: { type: "Int" }
+        walkOnStreetReluctance: { type: "Float" }
+        waitReluctance: { type: "Float" }
+        bikeSpeed: { type: "Float" }
+        bikeSwitchTime: { type: "Int" }
+        bikeSwitchCost: { type: "Int" }
+        optimize: { type: "OptimizeType" }
+        triangle: { type: "InputTriangle" }
+        maxTransfers: { type: "Int" }
+        waitAtBeginningFactor: { type: "Float" }
+        heuristicStepsPerMainStep: { type: "Int" }
+        compactLegsByReversedSearch: { type: "Boolean" }
+        itineraryFiltering: { type: "Float" }
+        modeWeight: { type: "InputModeWeight" }
+        preferred: { type: "InputPreferred" }
+        unpreferred: { type: "InputUnpreferred" }
+        allowedBikeRentalNetworks: { type: "[String]" }
+        locale: { type: "String" }
+      ) {
+        plan(
+          fromPlace: $fromPlace
+          toPlace: $toPlace
+          intermediatePlaces: $intermediatePlaces
+          numItineraries: $numItineraries
+          transportModes: $modes
+          date: $date
+          time: $time
+          walkReluctance: $walkReluctance
+          walkBoardCost: $walkBoardCost
+          minTransferTime: $minTransferTime
+          walkSpeed: $walkSpeed
+          maxWalkDistance: $maxWalkDistance
+          wheelchair: $wheelchair
+          allowedTicketTypes: $ticketTypes
+          disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
+          arriveBy: $arriveBy
+          transferPenalty: $transferPenalty
+          ignoreRealtimeUpdates: $ignoreRealtimeUpdates
+          maxPreTransitTime: $maxPreTransitTime
+          walkOnStreetReluctance: $walkOnStreetReluctance
+          waitReluctance: $waitReluctance
+          bikeSpeed: $bikeSpeed
+          bikeSwitchTime: $bikeSwitchTime
+          bikeSwitchCost: $bikeSwitchCost
+          optimize: $optimize
+          triangle: $triangle
+          maxTransfers: $maxTransfers
+          waitAtBeginningFactor: $waitAtBeginningFactor
+          heuristicStepsPerMainStep: $heuristicStepsPerMainStep
+          compactLegsByReversedSearch: $compactLegsByReversedSearch
+          itineraryFiltering: $itineraryFiltering
+          modeWeight: $modeWeight
+          preferred: $preferred
+          unpreferred: $unpreferred
+          allowedBikeRentalNetworks: $allowedBikeRentalNetworks
+          locale: $locale
+        ) {
+          ...SummaryPlanContainer_plan
+          ...ItineraryTab_plan
+          itineraries {
+            startTime
+            endTime
+            ...ItineraryTab_itinerary
+            ...PrintableItinerary_itinerary
+            ...SummaryPlanContainer_itineraries
+            legs {
+              mode
+              ...ItineraryLine_legs
+              transitLeg
+              legGeometry {
+                points
+              }
+              route {
+                gtfsId
+              }
+              trip {
+                gtfsId
+                directionId
+                stoptimesForDate {
+                  scheduledDeparture
+                  pickupType
+                }
+                pattern {
+                  ...RouteLine_pattern
+                }
+              }
+              from {
+                name
+                lat
+                lon
+                stop {
+                  gtfsId
+                  zoneId
+                }
+                bikeRentalStation {
+                  bikesAvailable
+                  networks
+                }
+              }
+              to {
+                stop {
+                  gtfsId
+                  zoneId
+                }
+                bikePark {
+                  bikeParkId
+                  name
+                }
+              }
             }
           }
         }
       }
-    }
-  `,
-  serviceTimeRange: graphql`
-    fragment SummaryPage_serviceTimeRange on serviceTimeRange {
-      start
-      end
-    }
-  `,
-});
+    `,
+    serviceTimeRange: graphql`
+      fragment SummaryPage_serviceTimeRange on serviceTimeRange {
+        start
+        end
+      }
+    `,
+  },
+  planQuery,
+);
 
 export {
   containerComponent as default,
