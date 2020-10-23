@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import cloneDeep from 'lodash/cloneDeep';
 import forEach from 'lodash/forEach';
 
