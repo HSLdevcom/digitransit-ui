@@ -33,11 +33,7 @@ OICStrategy.prototype.init = function () {
     );
   }
   console.log('OIDC: discover');
-  let host = this.config.issuerHost;
-  if (new Date().getTime() % 2 === 0) {
-    host += 'foo';
-  }
-  return Issuer.discover(host)
+  return Issuer.discover(this.config.issuerHost)
     .then(issuer => {
       console.log('OIDC: create client');
       this.client = new issuer.Client(this.config);
