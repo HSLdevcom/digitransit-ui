@@ -65,31 +65,32 @@ const AppBarHsl = ({ lang, user }, context) => {
   const initials =
     given_name && family_name
       ? given_name.charAt(0) + family_name.charAt(0)
-      : '  '; // Authenticated user's initials, will be shown next to Person-icon.
+      : ''; // Authenticated user's initials, will be shown next to Person-icon.
 
-  const userMenu = config.allowLogin
-    ? {
-        userMenu: {
-          isLoading: false, // When fetching for login-information, `isLoading`-property can be set to true. Spinner will be shown.
-          isAuthenticated: !isEmpty(user), // If user is authenticated, set `isAuthenticated`-property to true.
-          loginUrl: '/login', // Url that user will be redirect to when Person-icon is pressed and user is not logged in.
-          initials,
-          menuItems: [
-            {
-              name: 'Omat tiedot',
-              url: `${config.URL.ROOTLINK}/omat-tiedot`,
-              selected: false,
-            },
-            {
-              name: 'Kirjaudu ulos',
-              url: '/logout',
-              selected: false,
-              onClick: () => clearStorages(context),
-            },
-          ],
-        },
-      }
-    : {};
+  const userMenu =
+    config.allowLogin && (initials.length > 0 || user.notLogged)
+      ? {
+          userMenu: {
+            isLoading: false, // When fetching for login-information, `isLoading`-property can be set to true. Spinner will be shown.
+            isAuthenticated: !!user.sub, // If user is authenticated, set `isAuthenticated`-property to true.
+            loginUrl: '/login', // Url that user will be redirect to when Person-icon is pressed and user is not logged in.
+            initials,
+            menuItems: [
+              {
+                name: 'Omat tiedot',
+                url: `${config.URL.ROOTLINK}/omat-tiedot`,
+                selected: false,
+              },
+              {
+                name: 'Kirjaudu ulos',
+                url: '/logout',
+                selected: false,
+                onClick: () => clearStorages(context),
+              },
+            ],
+          },
+        }
+      : {};
   return (
     <LazilyLoad modules={modules}>
       {({ SiteHeader, SharedLocalStorageObserver }) => (
@@ -123,6 +124,8 @@ AppBarHsl.propTypes = {
   user: PropTypes.shape({
     given_name: PropTypes.string,
     family_name: PropTypes.string,
+    sub: PropTypes.string,
+    notLogged: PropTypes.bool,
   }),
 };
 
