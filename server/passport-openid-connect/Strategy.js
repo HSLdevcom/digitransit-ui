@@ -5,6 +5,7 @@
 const { Issuer, Strategy, custom } = require('openid-client');
 const moment = require('moment');
 const util = require('util');
+const process = require('process');
 const User = require('./User').User;
 
 const OICStrategy = function (config) {
@@ -22,7 +23,7 @@ const OICStrategy = function (config) {
 util.inherits(OICStrategy, Strategy);
 
 custom.setHttpOptionsDefaults({
-  timeout: 5000,
+  timeout: 10000,
 });
 
 OICStrategy.prototype.init = function () {
@@ -31,16 +32,21 @@ OICStrategy.prototype.init = function () {
       'Could not find requried config options issuerHost in openid-passport strategy initalization',
     );
   }
-  console.log('OIDC: init');
   console.log('OIDC: discover');
-  return Issuer.discover(this.config.issuerHost)
+  let host = this.config.issuerHost;
+  if (new Date().getTime() % 2 === 0) {
+    host += 'foo';
+  }
+  return Issuer.discover(host)
     .then(issuer => {
       console.log('OIDC: create client');
       this.client = new issuer.Client(this.config);
       this.client[custom.clock_tolerance] = 30;
     })
     .catch(err => {
-      console.error('ERROR', err);
+      console.log('OpenID Connect discovery failed');
+      console.error('OIDC error: ', err);
+      process.abort();
     });
 };
 
