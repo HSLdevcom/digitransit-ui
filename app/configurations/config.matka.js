@@ -113,9 +113,9 @@ export default {
         },
         type: 'citybike',
         url: {
-          fi: 'https://www.hsl.fi/kaupunkipyorat',
-          sv: 'https://www.hsl.fi/sv/stadscyklar',
-          en: 'https://www.hsl.fi/en/citybikes',
+          fi: 'https://kaupunkipyorat.hsl.fi',
+          sv: 'https://kaupunkipyorat.hsl.fi/sv',
+          en: 'https://kaupunkipyorat.hsl.fi/en',
         },
       },
       vantaa: {
@@ -127,9 +127,9 @@ export default {
         },
         type: 'citybike',
         url: {
-          fi: 'https://www.hsl.fi/kaupunkipyorat',
-          sv: 'https://www.hsl.fi/sv/stadscyklar',
-          en: 'https://www.hsl.fi/en/citybikes',
+          fi: 'https://kaupunkipyorat.hsl.fi',
+          sv: 'https://kaupunkipyorat.hsl.fi/sv',
+          en: 'https://kaupunkipyorat.hsl.fi/en',
         },
       },
       turku: {
