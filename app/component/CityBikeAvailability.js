@@ -27,11 +27,11 @@ const CityBikeAvailability = mapProps(
             id={
               type === 'scooter' ? 'scooter-availability' : 'bike-availability'
             }
-            defaultMessage="Bikes available at the station right now"
+            defaultMessage="Bikes available at the station right now:"
           />
           {'\u00a0'}
-          ({available}
-          {useSpacesAvailable && <React.Fragment>/{total}</React.Fragment>})
+          {available}
+          {useSpacesAvailable && <React.Fragment>/{total}</React.Fragment>}
         </p>
       ),
       showStatusBar: useSpacesAvailable,
