@@ -75,6 +75,7 @@ class SummaryPlanContainer extends React.Component {
     breakpoint: PropTypes.string.isRequired,
     separatorPosition: PropTypes.number,
     updateSeparatorPosition: PropTypes.func.isRequired,
+    loading: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -96,7 +97,7 @@ class SummaryPlanContainer extends React.Component {
   };
 
   state = {
-    loadingItineraries: undefined,
+    loadingMoreItineraries: undefined,
   };
 
   onSelectActive = index => {
@@ -161,7 +162,7 @@ class SummaryPlanContainer extends React.Component {
       action: 'ShowLaterItineraries',
       name: null,
     });
-    this.setState({ loadingItineraries: reversed ? 'top' : 'bottom' });
+    this.setState({ loadingMoreItineraries: reversed ? 'top' : 'bottom' });
     const combinedItineraries = [
       ...(this.props.earlierItineraries || []),
       ...(this.props.itineraries || []),
@@ -429,12 +430,12 @@ class SummaryPlanContainer extends React.Component {
           const reversedItineraries = result.itineraries.slice().reverse(); // Need to copy because result is readonly
           this.props.addEarlierItineraries(reversedItineraries);
           this.setState({
-            loadingItineraries: undefined,
+            loadingMoreItineraries: undefined,
           });
         } else {
           this.props.addLaterItineraries(result.itineraries);
           this.setState({
-            loadingItineraries: undefined,
+            loadingMoreItineraries: undefined,
           });
         }
         /*
@@ -469,7 +470,7 @@ class SummaryPlanContainer extends React.Component {
       action: 'ShowEarlierItineraries',
       name: null,
     });
-    this.setState({ loadingItineraries: reversed ? 'bottom' : 'top' });
+    this.setState({ loadingMoreItineraries: reversed ? 'bottom' : 'top' });
     const combinedItineraries = [
       ...(this.props.earlierItineraries || []),
       ...(this.props.itineraries || []),
@@ -743,7 +744,7 @@ class SummaryPlanContainer extends React.Component {
               : result.itineraries.length,
           );
           this.setState({
-            loadingItineraries: undefined,
+            loadingMoreItineraries: undefined,
           });
           this.props.addLaterItineraries(result.itineraries);
         } else {
@@ -756,7 +757,7 @@ class SummaryPlanContainer extends React.Component {
               : reversedItineraries.length,
           );
           this.setState({
-            loadingItineraries: undefined,
+            loadingMoreItineraries: undefined,
           });
         }
       },
@@ -845,6 +846,7 @@ class SummaryPlanContainer extends React.Component {
       biking,
       showAlternativePlan,
       separatorPosition,
+      loading,
     } = this.props;
     const combinedItineraries = [
       ...(earlierItineraries || []),
@@ -894,7 +896,8 @@ class SummaryPlanContainer extends React.Component {
           biking={biking}
           showAlternativePlan={showAlternativePlan}
           separatorPosition={separatorPosition}
-          loadingItineraries={this.state.loadingItineraries}
+          loadingMoreItineraries={this.state.loadingMoreItineraries}
+          loading={loading}
         >
           {this.props.children}
         </ItinerarySummaryListContainer>
