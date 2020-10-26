@@ -226,23 +226,9 @@ class SummaryPlanContainer extends React.Component {
         $disableRemainingWeightHeuristic: Boolean
         $arriveBy: Boolean
         $transferPenalty: Int
-        $ignoreRealtimeUpdates: Boolean
-        $maxPreTransitTime: Int
-        $walkOnStreetReluctance: Float
-        $waitReluctance: Float
         $bikeSpeed: Float
-        $bikeSwitchTime: Int
-        $bikeSwitchCost: Int
-        $bikeBoardCost: Int
         $optimize: OptimizeType
-        $triangle: InputTriangle
-        $carParkCarLegWeight: Float
-        $maxTransfers: Int
-        $waitAtBeginningFactor: Float
-        $heuristicStepsPerMainStep: Int
-        $compactLegsByReversedSearch: Boolean
         $itineraryFiltering: Float
-        $modeWeight: InputModeWeight
         $preferred: InputPreferred
         $unpreferred: InputUnpreferred
         $allowedBikeRentalNetworks: [String]
@@ -266,23 +252,9 @@ class SummaryPlanContainer extends React.Component {
           disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
           arriveBy: $arriveBy
           transferPenalty: $transferPenalty
-          ignoreRealtimeUpdates: $ignoreRealtimeUpdates
-          maxPreTransitTime: $maxPreTransitTime
-          walkOnStreetReluctance: $walkOnStreetReluctance
-          waitReluctance: $waitReluctance
           bikeSpeed: $bikeSpeed
-          bikeSwitchTime: $bikeSwitchTime
-          bikeSwitchCost: $bikeSwitchCost
-          bikeBoardCost: $bikeBoardCost
           optimize: $optimize
-          triangle: $triangle
-          carParkCarLegWeight: $carParkCarLegWeight
-          maxTransfers: $maxTransfers
-          waitAtBeginningFactor: $waitAtBeginningFactor
-          heuristicStepsPerMainStep: $heuristicStepsPerMainStep
-          compactLegsByReversedSearch: $compactLegsByReversedSearch
           itineraryFiltering: $itineraryFiltering
-          modeWeight: $modeWeight
           preferred: $preferred
           unpreferred: $unpreferred
           allowedBikeRentalNetworks: $allowedBikeRentalNetworks
@@ -531,23 +503,9 @@ class SummaryPlanContainer extends React.Component {
         $disableRemainingWeightHeuristic: Boolean
         $arriveBy: Boolean
         $transferPenalty: Int
-        $ignoreRealtimeUpdates: Boolean
-        $maxPreTransitTime: Int
-        $walkOnStreetReluctance: Float
-        $waitReluctance: Float
         $bikeSpeed: Float
-        $bikeSwitchTime: Int
-        $bikeSwitchCost: Int
-        $bikeBoardCost: Int
         $optimize: OptimizeType
-        $triangle: InputTriangle
-        $carParkCarLegWeight: Float
-        $maxTransfers: Int
-        $waitAtBeginningFactor: Float
-        $heuristicStepsPerMainStep: Int
-        $compactLegsByReversedSearch: Boolean
         $itineraryFiltering: Float
-        $modeWeight: InputModeWeight
         $preferred: InputPreferred
         $unpreferred: InputUnpreferred
         $allowedBikeRentalNetworks: [String]
@@ -571,23 +529,9 @@ class SummaryPlanContainer extends React.Component {
           disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
           arriveBy: $arriveBy
           transferPenalty: $transferPenalty
-          ignoreRealtimeUpdates: $ignoreRealtimeUpdates
-          maxPreTransitTime: $maxPreTransitTime
-          walkOnStreetReluctance: $walkOnStreetReluctance
-          waitReluctance: $waitReluctance
           bikeSpeed: $bikeSpeed
-          bikeSwitchTime: $bikeSwitchTime
-          bikeSwitchCost: $bikeSwitchCost
-          bikeBoardCost: $bikeBoardCost
           optimize: $optimize
-          triangle: $triangle
-          carParkCarLegWeight: $carParkCarLegWeight
-          maxTransfers: $maxTransfers
-          waitAtBeginningFactor: $waitAtBeginningFactor
-          heuristicStepsPerMainStep: $heuristicStepsPerMainStep
-          compactLegsByReversedSearch: $compactLegsByReversedSearch
           itineraryFiltering: $itineraryFiltering
-          modeWeight: $modeWeight
           preferred: $preferred
           unpreferred: $unpreferred
           allowedBikeRentalNetworks: $allowedBikeRentalNetworks

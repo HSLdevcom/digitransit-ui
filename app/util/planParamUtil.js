@@ -38,28 +38,6 @@ export const getCurrentSettings = config => ({
   ...getCustomizedSettings(),
 });
 
-// These values need to be null so if no values for the variables are defined somewhere else,
-// these variables will be left out from queries
-export const defaultRoutingSettings = {
-  ignoreRealtimeUpdates: null,
-  maxPreTransitTime: null,
-  walkOnStreetReluctance: null,
-  waitReluctance: null,
-  bikeSpeed: null,
-  bikeSwitchTime: null,
-  bikeSwitchCost: null,
-  bikeBoardCost: null,
-  optimize: null,
-  triangle: null,
-  carParkCarLegWeight: null,
-  maxTransfers: null,
-  waitAtBeginningFactor: null,
-  heuristicStepsPerMainStep: null,
-  compactLegsByReversedSearch: null,
-  disableRemainingWeightHeuristic: null,
-  modeWeight: null,
-};
-
 function getTicketTypes(ticketType, settingsTicketType, defaultTicketType) {
   // separator used to be _, map it to : to keep old URLs compatible
   const remap = str => [`${str}`.replace('_', ':')];
@@ -181,61 +159,17 @@ export const getSettings = () => {
     maxBikingDistance: getNumberValueOrDefault(
       routingSettings.maxBikingDistance,
     ),
-    ignoreRealtimeUpdates: getBooleanValueOrDefault(
-      routingSettings.ignoreRealtimeUpdates,
-    ),
-    maxPreTransitTime: getNumberValueOrDefault(
-      routingSettings.maxPreTransitTime,
-    ),
-    walkOnStreetReluctance: getNumberValueOrDefault(
-      routingSettings.walkOnStreetReluctance,
-    ),
-    waitReluctance: getNumberValueOrDefault(routingSettings.waitReluctance),
     bikeSpeed: getNumberValueOrDefault(
       custSettings.bikeSpeed,
       routingSettings.bikeSpeed,
     ),
-    bikeSwitchTime: getNumberValueOrDefault(routingSettings.bikeSwitchTime),
-    bikeSwitchCost: getNumberValueOrDefault(routingSettings.bikeSwitchCost),
-    bikeBoardCost: getNumberValueOrDefault(routingSettings.bikeBoardCost),
     optimize: custSettings.optimize || routingSettings.optimize || undefined,
-    safetyFactor: getNumberValueOrDefault(
-      custSettings.safetyFactor,
-      routingSettings.safetyFactor,
-    ),
-    slopeFactor: getNumberValueOrDefault(
-      custSettings.slopeFactor,
-      routingSettings.slopeFactor,
-    ),
-    timeFactor: getNumberValueOrDefault(
-      custSettings.timeFactor,
-      routingSettings.timeFactor,
-    ),
-    carParkCarLegWeight: getNumberValueOrDefault(
-      routingSettings.carParkCarLegWeight,
-    ),
-    maxTransfers: getNumberValueOrDefault(routingSettings.maxTransfers),
-    waitAtBeginningFactor: getNumberValueOrDefault(
-      routingSettings.waitAtBeginningFactor,
-    ),
-    heuristicStepsPerMainStep: getNumberValueOrDefault(
-      routingSettings.heuristicStepsPerMainStep,
-    ),
-    compactLegsByReversedSearch: getBooleanValueOrDefault(
-      routingSettings.compactLegsByReversedSearch,
-    ),
     disableRemainingWeightHeuristic: getBooleanValueOrDefault(
       routingSettings.disableRemainingWeightHeuristic,
     ),
     itineraryFiltering: getNumberValueOrDefault(
       routingSettings.itineraryFiltering,
     ),
-    busWeight: getNumberValueOrDefault(routingSettings.busWeight),
-    railWeight: getNumberValueOrDefault(routingSettings.railWeight),
-    subwayWeight: getNumberValueOrDefault(routingSettings.subwayWeight),
-    tramWeight: getNumberValueOrDefault(routingSettings.tramWeight),
-    ferryWeight: getNumberValueOrDefault(routingSettings.ferryWeight),
-    airplaneWeight: getNumberValueOrDefault(routingSettings.airplaneWeight),
     preferredRoutes: custSettings.preferredRoutes,
     unpreferredRoutes: custSettings.unpreferredRoutes,
     allowedBikeRentalNetworks: custSettings.allowedBikeRentalNetworks,
@@ -255,9 +189,6 @@ export const preparePlanParams = config => (
         minTransferTime,
         optimize,
         preferredRoutes,
-        safetyFactor,
-        slopeFactor,
-        timeFactor,
         ticketTypes,
         time,
         transferPenalty,
@@ -327,59 +258,12 @@ export const preparePlanParams = config => (
           transferPenalty,
           settings.transferPenalty,
         ),
-        ignoreRealtimeUpdates: settings.ignoreRealtimeUpdates,
-        maxPreTransitTime: settings.maxPreTransitTime,
-        walkOnStreetReluctance: settings.walkOnStreetReluctance,
-        waitReluctance: settings.waitReluctance,
         bikeSpeed: getNumberValueOrDefault(bikeSpeed, settings.bikeSpeed),
-        bikeSwitchTime: settings.bikeSwitchTime,
-        bikeSwitchCost: settings.bikeSwitchCost,
-        bikeBoardCost: settings.bikeBoardCost,
         optimize: optimize || settings.optimize,
-        triangle:
-          (optimize || settings.optimize) === 'TRIANGLE'
-            ? {
-                safetyFactor: getNumberValueOrDefault(
-                  safetyFactor,
-                  settings.safetyFactor,
-                ),
-                slopeFactor: getNumberValueOrDefault(
-                  slopeFactor,
-                  settings.slopeFactor,
-                ),
-                timeFactor: getNumberValueOrDefault(
-                  timeFactor,
-                  settings.timeFactor,
-                ),
-              }
-            : null,
-        maxTransfers: settings.maxTransfers,
-        waitAtBeginningFactor: settings.waitAtBeginningFactor,
-        heuristicStepsPerMainStep: settings.heuristicStepsPerMainStep,
-        compactLegsByReversedSearch: settings.compactLegsByReversedSearch,
         itineraryFiltering: getNumberValueOrDefault(
           settings.itineraryFiltering,
           config.itineraryFiltering,
         ),
-        modeWeight:
-          settings.busWeight !== undefined ||
-          settings.railWeight !== undefined ||
-          settings.subwayWeight !== undefined ||
-          settings.tramWeight !== undefined ||
-          settings.ferryWeight !== undefined ||
-          settings.airplaneWeight !== undefined
-            ? omitBy(
-                {
-                  BUS: settings.busWeight,
-                  RAIL: settings.railWeight,
-                  SUBWAY: settings.subwayWeight,
-                  TRAM: settings.tramWeight,
-                  FERRY: settings.ferryWeight,
-                  AIRPLANE: settings.airplaneWeight,
-                },
-                nullOrUndefined,
-              )
-            : null,
         preferred: getPreferredorUnpreferredRoutes(
           preferredRoutes,
           true,

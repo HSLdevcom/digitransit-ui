@@ -1,5 +1,4 @@
 import { isBrowser, isWindowsPhone, isIOSApp } from '../util/browser';
-import { OptimizeType } from '../constants';
 
 function handleSecurityError(error, logMessage) {
   if (error.name === 'SecurityError') {
@@ -140,24 +139,6 @@ export function setCustomizedSettings(data) {
       oldSettings.includeBikeSuggestions,
     ),
   };
-  if (optimize === OptimizeType.Triangle) {
-    newSettings.safetyFactor = getNumberValueOrDefault(
-      data.safetyFactor,
-      oldSettings.safetyFactor,
-    );
-    newSettings.slopeFactor = getNumberValueOrDefault(
-      data.slopeFactor,
-      oldSettings.slopeFactor,
-    );
-    newSettings.timeFactor = getNumberValueOrDefault(
-      data.timeFactor,
-      oldSettings.timeFactor,
-    );
-  } else {
-    delete newSettings.safetyFactor;
-    delete newSettings.slopeFactor;
-    delete newSettings.timeFactor;
-  }
   if (
     newSettings.preferredRoutes !== undefined &&
     newSettings.preferredRoutes.length === 0
@@ -177,86 +158,6 @@ export function setCustomizedSettings(data) {
 // Get advanced routing parameters (not for normal use)
 export function getRoutingSettings() {
   return getItemAsJson('routingSettings');
-}
-
-export function setRoutingSettings(data) {
-  // Get old settings and test if set values have changed
-  const oldSettings = getRoutingSettings();
-  const newSettings = {
-    maxWalkDistance: data.maxWalkDistance
-      ? data.maxWalkDistance
-      : oldSettings.maxWalkDistance,
-    maxBikingDistance: data.maxBikingDistance
-      ? data.maxBikingDistance
-      : oldSettings.maxBikingDistance,
-    ignoreRealtimeUpdates: data.ignoreRealtimeUpdates
-      ? data.ignoreRealtimeUpdates
-      : oldSettings.ignoreRealtimeUpdates,
-    maxPreTransitTime: data.maxPreTransitTime
-      ? data.maxPreTransitTime
-      : oldSettings.maxPreTransitTime,
-    walkOnStreetReluctance: data.walkOnStreetReluctance
-      ? data.walkOnStreetReluctance
-      : oldSettings.walkOnStreetReluctance,
-    waitReluctance: data.waitReluctance
-      ? data.waitReluctance
-      : oldSettings.waitReluctance,
-    bikeSpeed: data.bikeSpeed ? data.bikeSpeed : oldSettings.bikeSpeed,
-    bikeSwitchTime: data.bikeSwitchTime
-      ? data.bikeSwitchTime
-      : oldSettings.bikeSwitchTime,
-    bikeSwitchCost: data.bikeSwitchCost
-      ? data.bikeSwitchCost
-      : oldSettings.bikeSwitchCost,
-    bikeBoardCost: data.bikeBoardCost
-      ? data.bikeBoardCost
-      : oldSettings.bikeBoardCost,
-    optimize: data.optimize ? data.optimize : oldSettings.optimize,
-    safetyFactor: data.safetyFactor
-      ? data.safetyFactor
-      : oldSettings.safetyFactor,
-    slopeFactor: data.slopeFactor ? data.slopeFactor : oldSettings.slopeFactor,
-    timeFactor: data.timeFactor ? data.timeFactor : oldSettings.timeFactor,
-    carParkCarLegWeight: data.carParkCarLegWeight
-      ? data.carParkCarLegWeight
-      : oldSettings.carParkCarLegWeight,
-    maxTransfers: data.maxTransfers
-      ? data.maxTransfers
-      : oldSettings.maxTransfers,
-    waitAtBeginningFactor: data.waitAtBeginningFactor
-      ? data.waitAtBeginningFactor
-      : oldSettings.waitAtBeginningFactor,
-    heuristicStepsPerMainStep: data.heuristicStepsPerMainStep
-      ? data.heuristicStepsPerMainStep
-      : oldSettings.heuristicStepsPerMainStep,
-    compactLegsByReversedSearch: data.compactLegsByReversedSearch
-      ? data.compactLegsByReversedSearch
-      : oldSettings.compactLegsByReversedSearch,
-    disableRemainingWeightHeuristic: data.disableRemainingWeightHeuristic
-      ? data.disableRemainingWeightHeuristic
-      : oldSettings.disableRemainingWeightHeuristic,
-    itineraryFiltering: data.itineraryFiltering
-      ? data.itineraryFiltering
-      : oldSettings.itineraryFiltering,
-    busWeight: data.busWeight ? data.busWeight : oldSettings.busWeight,
-    railWeight: data.railWeight ? data.railWeight : oldSettings.railWeight,
-    subwayWeight: data.subwayWeight
-      ? data.subwayWeight
-      : oldSettings.subwayWeight,
-    tramWeight: data.tramWeight ? data.tramWeight : oldSettings.tramWeight,
-    ferryWeight: data.ferryWeight ? data.ferryWeight : oldSettings.ferryWeight,
-    airplaneWeight: data.airplaneWeight
-      ? data.airplaneWeight
-      : oldSettings.airplaneWeight,
-  };
-  setItem('routingSettings', newSettings);
-}
-
-export function resetRoutingSettings() {
-  const localStorage = getLocalStorage(isBrowser);
-  if (localStorage) {
-    localStorage.removeItem('routingSettings');
-  }
 }
 
 export function clearFavouriteStorage() {
