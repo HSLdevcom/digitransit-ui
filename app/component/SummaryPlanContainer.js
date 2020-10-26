@@ -229,7 +229,6 @@ class SummaryPlanContainer extends React.Component {
         $bikeSpeed: Float
         $optimize: OptimizeType
         $itineraryFiltering: Float
-        $preferred: InputPreferred
         $unpreferred: InputUnpreferred
         $allowedBikeRentalNetworks: [String]
         $locale: String
@@ -255,7 +254,6 @@ class SummaryPlanContainer extends React.Component {
           bikeSpeed: $bikeSpeed
           optimize: $optimize
           itineraryFiltering: $itineraryFiltering
-          preferred: $preferred
           unpreferred: $unpreferred
           allowedBikeRentalNetworks: $allowedBikeRentalNetworks
           locale: $locale
@@ -506,7 +504,6 @@ class SummaryPlanContainer extends React.Component {
         $bikeSpeed: Float
         $optimize: OptimizeType
         $itineraryFiltering: Float
-        $preferred: InputPreferred
         $unpreferred: InputUnpreferred
         $allowedBikeRentalNetworks: [String]
         $locale: String
@@ -532,7 +529,6 @@ class SummaryPlanContainer extends React.Component {
           bikeSpeed: $bikeSpeed
           optimize: $optimize
           itineraryFiltering: $itineraryFiltering
-          preferred: $preferred
           unpreferred: $unpreferred
           allowedBikeRentalNetworks: $allowedBikeRentalNetworks
           locale: $locale

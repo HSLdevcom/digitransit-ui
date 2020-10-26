@@ -4,7 +4,6 @@ import { after, before, describe, it } from 'mocha';
 import React from 'react';
 
 import CustomizeSearch from '../../../app/component/CustomizeSearchNew';
-// import PreferredRoutes from '../../../app/component/PreferredRoutes';
 import CityBikeNetworkSelector from '../../../app/component/CityBikeNetworkSelector';
 
 import { mockContext, mockChildContextTypes } from '../helpers/mock-context';
@@ -33,56 +32,6 @@ describe('<CustomizeSearch />', () => {
 
   after(() => {
     fetchMock.restore();
-  });
-
-  it.skip('should read preferred routes from the url', () => {
-    const wrapper = mountWithIntl(
-      <CustomizeSearch onToggleClick={() => {}} />,
-      {
-        context: {
-          ...mockContext,
-          config: { ...defaultConfig },
-          location: {
-            ...mockContext.location,
-            // query: { preferredRoutes: 'HSL__2550' },
-          },
-          router: createMemoryMockRouter(),
-        },
-        childContextTypes: {
-          ...mockChildContextTypes,
-        },
-      },
-    );
-    // const component = wrapper.find(PreferredRoutes);
-  //   const routesContainer = component.find(
-  //     '.preferred-routes-container .preferred-routes-list',
-  //   );
-  //   expect(routesContainer.find('.route-name')).to.have.lengthOf(1);
-  });
-
-  it.skip('should read unpreferred routes from the url', () => {
-    const wrapper = mountWithIntl(
-      <CustomizeSearch onToggleClick={() => {}} />,
-      {
-        context: {
-          ...mockContext,
-          config: { ...defaultConfig },
-          location: {
-            ...mockContext.location,
-            // query: { unpreferredRoutes: 'HSL__2550' },
-          },
-          router: createMemoryMockRouter(),
-        },
-        childContextTypes: {
-          ...mockChildContextTypes,
-        },
-      },
-    );
-  //   const component = wrapper.find(PreferredRoutes);
-  //   const routesContainer = component.find(
-  //     '.avoid-routes-container .preferred-routes-list',
-  //   );
-  //   expect(routesContainer.find('.route-name')).to.have.lengthOf(1);
   });
 
   it.skip('should show citybike network selector when many networks are available', () => {

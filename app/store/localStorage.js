@@ -108,18 +108,10 @@ export function setCustomizedSettings(data) {
     ),
     modes: getValueOrDefault(data.modes, oldSettings.modes),
     optimize,
-    preferredRoutes: getValueOrDefault(
-      data.preferredRoutes,
-      oldSettings.preferredRoutes,
-    ),
     ticketTypes: getValueOrDefault(data.ticketTypes, oldSettings.ticketTypes),
     transferPenalty: getNumberValueOrDefault(
       data.transferPenalty,
       oldSettings.transferPenalty,
-    ),
-    unpreferredRoutes: getValueOrDefault(
-      data.unpreferredRoutes,
-      oldSettings.unpreferredRoutes,
     ),
     walkBoardCost: getNumberValueOrDefault(
       data.walkBoardCost,
@@ -139,18 +131,6 @@ export function setCustomizedSettings(data) {
       oldSettings.includeBikeSuggestions,
     ),
   };
-  if (
-    newSettings.preferredRoutes !== undefined &&
-    newSettings.preferredRoutes.length === 0
-  ) {
-    delete newSettings.preferredRoutes;
-  }
-  if (
-    newSettings.unpreferredRoutes !== undefined &&
-    newSettings.unpreferredRoutes.length === 0
-  ) {
-    delete newSettings.unpreferredRoutes;
-  }
 
   setItem('customizedSettings', newSettings);
 }

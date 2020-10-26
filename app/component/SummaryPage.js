@@ -514,7 +514,6 @@ class SummaryPage extends React.Component {
         $bikeSpeed: Float
         $optimize: OptimizeType
         $itineraryFiltering: Float
-        $preferred: InputPreferred
         $unpreferred: InputUnpreferred
         $locale: String
         $shouldMakeWalkQuery: Boolean!
@@ -606,7 +605,6 @@ class SummaryPage extends React.Component {
           bikeSpeed: $bikeSpeed
           optimize: $optimize
           itineraryFiltering: $itineraryFiltering
-          preferred: $preferred
           unpreferred: $unpreferred
           locale: $locale
         ) @include(if: $showBikeAndPublicItineraries) {
@@ -670,7 +668,6 @@ class SummaryPage extends React.Component {
           bikeSpeed: $bikeSpeed
           optimize: $optimize
           itineraryFiltering: $itineraryFiltering
-          preferred: $preferred
           unpreferred: $unpreferred
           locale: $locale
         ) @include(if: $showBikeAndParkItineraries) {
@@ -761,7 +758,6 @@ class SummaryPage extends React.Component {
         $bikeSpeed: Float
         $optimize: OptimizeType
         $itineraryFiltering: Float
-        $preferred: InputPreferred
         $unpreferred: InputUnpreferred
         $allowedBikeRentalNetworks: [String]
         $locale: String
@@ -787,7 +783,6 @@ class SummaryPage extends React.Component {
           bikeSpeed: $bikeSpeed
           optimize: $optimize
           itineraryFiltering: $itineraryFiltering
-          preferred: $preferred
           unpreferred: $unpreferred
           allowedBikeRentalNetworks: $allowedBikeRentalNetworks
           locale: $locale
@@ -1996,7 +1991,6 @@ const containerComponent = createRefetchContainer(
         bikeSpeed: { type: "Float" }
         optimize: { type: "OptimizeType" }
         itineraryFiltering: { type: "Float" }
-        preferred: { type: "InputPreferred" }
         unpreferred: { type: "InputUnpreferred" }
         allowedBikeRentalNetworks: { type: "[String]" }
         locale: { type: "String" }
@@ -2022,7 +2016,6 @@ const containerComponent = createRefetchContainer(
           bikeSpeed: $bikeSpeed
           optimize: $optimize
           itineraryFiltering: $itineraryFiltering
-          preferred: $preferred
           unpreferred: $unpreferred
           allowedBikeRentalNetworks: $allowedBikeRentalNetworks
           locale: $locale

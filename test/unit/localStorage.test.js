@@ -30,41 +30,7 @@ describe('localStorage', () => {
     it('should save all default settings', () => {
       const defaultSettings = { ...defaultConfig.defaultSettings };
       setCustomizedSettings(defaultSettings);
-      // empty unpreferredRoutes and preferredRoutes should not be stored
-      const {
-        unpreferredRoutes,
-        preferredRoutes,
-        ...resultSettings
-      } = defaultSettings;
-      expect(getCustomizedSettings()).to.deep.equal(resultSettings);
-    });
-
-    it('should remove unpreferredRoutes and preferredRoutes if there are none', () => {
-      const initialSettings = {
-        preferredRoutes: ['HSL__1050'],
-        unpreferredRoutes: ['HSL__4555'],
-      };
-      setCustomizedSettings(initialSettings);
-
-      let settings = getCustomizedSettings();
-      expect(settings.preferredRoutes).to.deep.equal(
-        initialSettings.preferredRoutes,
-      );
-      expect(settings.unpreferredRoutes).to.deep.equal(
-        initialSettings.unpreferredRoutes,
-      );
-
-      const updatedSettings = {
-        preferredRoutes: [],
-        unpreferredRoutes: [],
-      };
-      setCustomizedSettings(updatedSettings);
-
-      settings = getCustomizedSettings();
-      // eslint-disable-next-line no-unused-expressions
-      expect(settings.preferredRoutes).to.be.undefined;
-      // eslint-disable-next-line no-unused-expressions
-      expect(settings.unpreferredRoutes).to.be.undefined;
+      expect(getCustomizedSettings()).to.deep.equal(defaultSettings);
     });
   });
 

@@ -141,7 +141,6 @@ export const planQuery = graphql`
     $bikeSpeed: Float
     $optimize: OptimizeType
     $itineraryFiltering: Float
-    $preferred: InputPreferred
     $unpreferred: InputUnpreferred
     $allowedBikeRentalNetworks: [String]
     $locale: String
@@ -169,7 +168,6 @@ export const planQuery = graphql`
         bikeSpeed: $bikeSpeed
         optimize: $optimize
         itineraryFiltering: $itineraryFiltering
-        preferred: $preferred
         unpreferred: $unpreferred
         allowedBikeRentalNetworks: $allowedBikeRentalNetworks
         locale: $locale

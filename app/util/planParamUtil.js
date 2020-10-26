@@ -110,33 +110,6 @@ function getDisableRemainingWeightHeuristic(
   return disableRemainingWeightHeuristic;
 }
 
-function getPreferredorUnpreferredRoutes(
-  queryRoutes,
-  isPreferred,
-  settings,
-  unpreferredPenalty,
-) {
-  const preferenceObject = {};
-  if (!isPreferred) {
-    // adds penalty weight to unpreferred routes, there might be default unpreferred routes even if user has not defined any
-    preferenceObject.useUnpreferredRoutesPenalty = unpreferredPenalty;
-  }
-  // queryRoutes is undefined if query params dont contain routes and empty string if user has removed all routes
-  if (queryRoutes === '') {
-    return preferenceObject;
-  }
-  if (queryRoutes !== undefined && queryRoutes !== '') {
-    // queryRoutes contains routes found in query params
-    return { ...preferenceObject, routes: queryRoutes };
-  }
-  if (isPreferred) {
-    // default or localstorage preferredRoutes
-    return { ...preferenceObject, routes: settings.preferredRoutes };
-  }
-  // default or localstorage unpreferredRoutes
-  return { ...preferenceObject, routes: settings.unpreferredRoutes };
-}
-
 const getNumberValueOrDefault = (value, defaultValue = undefined) =>
   value !== undefined ? Number(value) : defaultValue;
 const getBooleanValueOrDefault = (value, defaultValue = undefined) =>
@@ -170,8 +143,6 @@ export const getSettings = () => {
     itineraryFiltering: getNumberValueOrDefault(
       routingSettings.itineraryFiltering,
     ),
-    preferredRoutes: custSettings.preferredRoutes,
-    unpreferredRoutes: custSettings.unpreferredRoutes,
     allowedBikeRentalNetworks: custSettings.allowedBikeRentalNetworks,
     includeBikeSuggestions: custSettings.includeBikeSuggestions,
   };
@@ -188,11 +159,9 @@ export const preparePlanParams = config => (
         intermediatePlaces,
         minTransferTime,
         optimize,
-        preferredRoutes,
         ticketTypes,
         time,
         transferPenalty,
-        unpreferredRoutes,
         walkBoardCost,
         walkReluctance,
         walkSpeed,
@@ -264,18 +233,9 @@ export const preparePlanParams = config => (
           settings.itineraryFiltering,
           config.itineraryFiltering,
         ),
-        preferred: getPreferredorUnpreferredRoutes(
-          preferredRoutes,
-          true,
-          settings,
-          config.useUnpreferredRoutesPenalty,
-        ),
-        unpreferred: getPreferredorUnpreferredRoutes(
-          unpreferredRoutes,
-          false,
-          settings,
-          config.useUnpreferredRoutesPenalty,
-        ),
+        unpreferred: {
+          useUnpreferredRoutesPenalty: config.useUnpreferredRoutesPenalty,
+        },
         disableRemainingWeightHeuristic: getDisableRemainingWeightHeuristic(
           modesOrDefault,
           settings,
