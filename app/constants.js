@@ -41,22 +41,6 @@ export const Mode = {
 };
 
 /**
- * OptimizeType depicts different types of OTP routing optimization.
- */
-export const OptimizeType = {
-  /** Avoid changes in altitude. Needs elevation data in OTP to work. */
-  Flat: 'FLAT',
-  /** Weights cycleways even more. Used only for biking. */
-  Greenways: 'GREENWAYS',
-  /** The quickest route. */
-  Quick: 'QUICK',
-  /** The safest route. */
-  Safe: 'SAFE',
-  /** Uses the flat/quick/safe triangle for routing. Used only for biking. */
-  Triangle: 'TRIANGLE',
-};
-
-/**
  * RealtimeStateType depicts different types of a trip's information state.
  */
 export const RealtimeStateType = {
