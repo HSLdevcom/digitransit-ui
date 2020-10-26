@@ -153,6 +153,8 @@ export default function setUpOIDC(app, port, indexPath) {
   });
   /* GET the profile of the current authenticated user */
   app.get('/api/user', function (req, res) {
+    console.log(`GET User from ${OIDCHost}/openid/userinfo`);
+    console.log(`User=${JSON.stringify(req.user)}`);
     request.get(
       `${OIDCHost}/openid/userinfo`,
       {
@@ -164,6 +166,9 @@ export default function setUpOIDC(app, port, indexPath) {
         if (!err && response.statusCode === 200) {
           res.status(response.statusCode).send(body);
         } else {
+          console.log(`err=${JSON.stringify(err)}`);
+          console.log(`response=${JSON.stringify(response)}`);
+          console.log(`body=${JSON.stringify(body)}`);
           res.status(401).send('Unauthorized');
         }
       },

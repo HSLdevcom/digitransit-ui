@@ -62,8 +62,10 @@ OICStrategy.prototype.authenticate = function (req, opts) {
 };
 
 OICStrategy.prototype.getUserInfo = function () {
+  console.log('passport getUserInfo');
   return this.client.userinfo(this.tokenSet.access_token).then(userinfo => {
     this.userinfo = userinfo;
+    console.log(`got userInfo: ${JSON.stringify(userinfo)}`);
   });
 };
 
@@ -77,14 +79,14 @@ OICStrategy.prototype.callback = function (req, opts) {
       req.session.ssoToken = null;
       req.session.ssoValidTo = null;
       this.tokenSet = tokenSet;
-      console.log('get userinfo');
+      console.log(`got tokenSet:${JSON.stringify(tokenSet)}`);
       return this.getUserInfo();
     })
     .then(() => {
-      console.log('set user');
       const user = new User(this.userinfo);
       user.token = this.tokenSet;
       user.idtoken = this.tokenSet.claims;
+      console.log(`set user:${JSON.stringify(user)}`);
       this.success(user);
     })
     .catch(err => {
