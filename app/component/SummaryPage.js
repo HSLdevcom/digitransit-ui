@@ -124,7 +124,7 @@ export const getHashNumber = hash => {
 
 export const routeSelected = (hash, secondHash, itineraries) => {
   if (hash === 'bikeAndVehicle') {
-    if (secondHash) {
+    if (secondHash && secondHash < itineraries.length) {
       return true;
     }
     return false;
