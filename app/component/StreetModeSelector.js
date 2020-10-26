@@ -32,7 +32,7 @@ export const StreetModeSelector = ({
         <div
           style={{
             position: 'relative',
-            height: '100%',
+            height: '76px',
             width: '100%',
           }}
         >
