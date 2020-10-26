@@ -305,7 +305,8 @@ export default function withSearchContext(WrappedComponent) {
       if (location.type !== 'SelectFromMap') {
         const pathname = this.context.match.location.pathname || '';
         const pathArr = pathname.split('/');
-        const rootPath = pathArr.length > 1 ? pathArr[1] : '';
+        const rootPath =
+          pathArr.length > 1 && pathArr[1] !== '-' ? pathArr[1] : '';
 
         navigateTo({
           origin,
