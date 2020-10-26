@@ -67,7 +67,7 @@ const Favourite = ({
   };
 
   const onClick = () => {
-    if (!isLoggedIn) {
+    if (isLoggedIn) {
       if (!disable) {
         handleDisable(true);
         if (favourite) {
