@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
-import { isEmpty } from 'lodash';
 import { intlShape } from 'react-intl';
 import Favourite from './Favourite';
 import { saveFavourite, deleteFavourite } from '../action/FavouriteActions';
@@ -62,8 +61,7 @@ const FavouriteStopContainer = connectToStores(
       });
     },
     isLoggedIn:
-      context.config.allowLogin &&
-      isEmpty(context.getStore('UserStore').getUser()),
+      context.config.allowLogin && context.getStore('UserStore').getUser().sub,
     getModalTranslations: () => {
       const translation = {
         language: context.getStore('PreferencesStore').getLanguage(),
