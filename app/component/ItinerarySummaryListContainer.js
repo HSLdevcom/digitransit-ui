@@ -38,7 +38,7 @@ function ItinerarySummaryListContainer(
     biking,
     showAlternativePlan,
     separatorPosition,
-    loadingItineraries,
+    loadingMoreItineraries,
     loading,
   },
   context,
@@ -136,13 +136,13 @@ function ItinerarySummaryListContainer(
             </div>
           </div>
         )}
-        {loadingItineraries === 'top' && (
+        {loadingMoreItineraries === 'top' && (
           <div style={{ position: 'relative', height: 100 }}>
             <Loading />
           </div>
         )}
         {isBrowser && summaries}
-        {loadingItineraries === 'bottom' && (
+        {loadingMoreItineraries === 'bottom' && (
           <div style={{ position: 'relative', height: 100 }}>
             <Loading />
           </div>
@@ -291,7 +291,7 @@ ItinerarySummaryListContainer.propTypes = {
   biking: PropTypes.bool,
   showAlternativePlan: PropTypes.bool,
   separatorPosition: PropTypes.number,
-  loadingItineraries: PropTypes.string,
+  loadingMoreItineraries: PropTypes.string,
   loading: PropTypes.bool.isRequired,
 };
 
@@ -303,7 +303,7 @@ ItinerarySummaryListContainer.defaultProps = {
   biking: false,
   showAlternativePlan: false,
   separatorPosition: undefined,
-  loadingItineraries: undefined,
+  loadingMoreItineraries: undefined,
 };
 
 ItinerarySummaryListContainer.contextTypes = {
