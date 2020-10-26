@@ -39,6 +39,7 @@ function ItinerarySummaryListContainer(
     showAlternativePlan,
     separatorPosition,
     loadingItineraries,
+    loading,
   },
   context,
 ) {
@@ -167,6 +168,10 @@ function ItinerarySummaryListContainer(
     );
   }
 
+  if (loading) {
+    return null;
+  }
+
   let msgId;
   let outside;
   let iconType = 'caution';
@@ -287,6 +292,7 @@ ItinerarySummaryListContainer.propTypes = {
   showAlternativePlan: PropTypes.bool,
   separatorPosition: PropTypes.number,
   loadingItineraries: PropTypes.string,
+  loading: PropTypes.bool.isRequired,
 };
 
 ItinerarySummaryListContainer.defaultProps = {

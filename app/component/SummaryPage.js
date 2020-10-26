@@ -1797,6 +1797,7 @@ class SummaryPage extends React.Component {
               breakpoint={this.props.breakpoint}
               separatorPosition={this.state.separatorPosition}
               updateSeparatorPosition={this.updateSeparatorPosition}
+              loading={this.isFetchingWalkAndBike}
             >
               {this.props.content &&
                 React.cloneElement(this.props.content, {
@@ -1927,6 +1928,7 @@ class SummaryPage extends React.Component {
             breakpoint={this.props.breakpoint}
             separatorPosition={this.state.separatorPosition}
             updateSeparatorPosition={this.updateSeparatorPosition}
+            loading={this.isFetchingWalkAndBike}
           />
           {screenReaderUpdateAlert}
         </>
