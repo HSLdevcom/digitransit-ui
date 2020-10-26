@@ -55,7 +55,8 @@ const FavouriteBikeRentalStationContainer = connectToStores(
       });
     },
     isLoggedIn:
-      context.config.allowLogin && context.getStore('UserStore').getUser().sub,
+      context.config.allowLogin &&
+      context.getStore('UserStore').getUser().sub !== undefined,
     getModalTranslations: () => {
       const translation = {
         language: context.getStore('PreferencesStore').getLanguage(),
