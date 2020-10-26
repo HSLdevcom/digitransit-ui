@@ -122,14 +122,18 @@ export const getHashNumber = hash => {
   return undefined;
 };
 
-export const routeSelected = (hash, secondHash) => {
+export const routeSelected = (hash, secondHash, itineraries) => {
   if (hash === 'bikeAndVehicle') {
-    if (secondHash) {
+    if (secondHash && secondHash < itineraries.length) {
       return true;
     }
     return false;
   }
-  if (hash) {
+  if (
+    (hash && hash < itineraries.length) ||
+    hash === 'walk' ||
+    hash === 'bike'
+  ) {
     return true;
   }
   return false;
@@ -390,11 +394,17 @@ class SummaryPage extends React.Component {
       state: { summaryPageSelected: 0, streetMode: newStreetMode },
     };
 
+    const basePath = `${getRoutePath(
+      this.context.match.params.from,
+      this.context.match.params.to,
+    )}/`;
     const indexPath = `${getRoutePath(
       this.context.match.params.from,
       this.context.match.params.to,
     )}/${newStreetMode}`;
 
+    newState.pathname = basePath;
+    this.context.router.replace(newState);
     newState.pathname = indexPath;
     this.context.router.push(newState);
   };
@@ -1677,7 +1687,11 @@ class SummaryPage extends React.Component {
     let map;
     if (
       this.state.streetMode === 'bikeAndVehicle' &&
-      !routeSelected(match.params.hash, match.params.secondHash)
+      !routeSelected(
+        match.params.hash,
+        match.params.secondHash,
+        combinedItineraries,
+      )
     ) {
       map = this.renderMap();
     } else {
@@ -1736,7 +1750,11 @@ class SummaryPage extends React.Component {
           ? selectedItineraries[activeIndex]
           : undefined;
         if (
-          routeSelected(match.params.hash, match.params.secondHash) &&
+          routeSelected(
+            match.params.hash,
+            match.params.secondHash,
+            combinedItineraries,
+          ) &&
           combinedItineraries.length > 0
         ) {
           const currentTime = {
@@ -1872,7 +1890,11 @@ class SummaryPage extends React.Component {
     ) {
       content = null;
     } else if (
-      routeSelected(match.params.hash, match.params.secondHash) &&
+      routeSelected(
+        match.params.hash,
+        match.params.secondHash,
+        combinedItineraries,
+      ) &&
       combinedItineraries.length > 0
     ) {
       content = (
@@ -1936,7 +1958,11 @@ class SummaryPage extends React.Component {
     return (
       <MobileView
         header={
-          !routeSelected(match.params.hash, match.params.secondHash) ? (
+          !routeSelected(
+            match.params.hash,
+            match.params.secondHash,
+            combinedItineraries,
+          ) ? (
             <React.Fragment>
               <SummaryNavigation
                 params={match.params}
