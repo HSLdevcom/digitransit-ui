@@ -122,14 +122,18 @@ export const getHashNumber = hash => {
   return undefined;
 };
 
-export const routeSelected = (hash, secondHash) => {
+export const routeSelected = (hash, secondHash, itineraries) => {
   if (hash === 'bikeAndVehicle') {
     if (secondHash) {
       return true;
     }
     return false;
   }
-  if (hash) {
+  if (
+    (hash && hash < itineraries.length) ||
+    hash === 'walk' ||
+    hash === 'bike'
+  ) {
     return true;
   }
   return false;
@@ -1677,7 +1681,11 @@ class SummaryPage extends React.Component {
     let map;
     if (
       this.state.streetMode === 'bikeAndVehicle' &&
-      !routeSelected(match.params.hash, match.params.secondHash)
+      !routeSelected(
+        match.params.hash,
+        match.params.secondHash,
+        combinedItineraries,
+      )
     ) {
       map = this.renderMap();
     } else {
@@ -1736,7 +1744,11 @@ class SummaryPage extends React.Component {
           ? selectedItineraries[activeIndex]
           : undefined;
         if (
-          routeSelected(match.params.hash, match.params.secondHash) &&
+          routeSelected(
+            match.params.hash,
+            match.params.secondHash,
+            combinedItineraries,
+          ) &&
           combinedItineraries.length > 0
         ) {
           const currentTime = {
@@ -1872,7 +1884,11 @@ class SummaryPage extends React.Component {
     ) {
       content = null;
     } else if (
-      routeSelected(match.params.hash, match.params.secondHash) &&
+      routeSelected(
+        match.params.hash,
+        match.params.secondHash,
+        combinedItineraries,
+      ) &&
       combinedItineraries.length > 0
     ) {
       content = (
@@ -1936,7 +1952,11 @@ class SummaryPage extends React.Component {
     return (
       <MobileView
         header={
-          !routeSelected(match.params.hash, match.params.secondHash) ? (
+          !routeSelected(
+            match.params.hash,
+            match.params.secondHash,
+            combinedItineraries,
+          ) ? (
             <React.Fragment>
               <SummaryNavigation
                 params={match.params}
