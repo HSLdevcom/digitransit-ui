@@ -8,7 +8,11 @@ import suggestionToLocation from '@digitransit-search-util/digitransit-search-ut
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { createUrl } from '@digitransit-store/digitransit-store-future-route';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { navigateTo, PREFIX_NEARYOU } from '../util/path';
+import {
+  navigateTo,
+  PREFIX_NEARYOU,
+  PREFIX_ITINERARY_SUMMARY,
+} from '../util/path';
 import searchContext from '../util/searchContext';
 import intializeSearchContext from '../util/DTSearchContextInitializer';
 import SelectFromMapHeader from './SelectFromMapHeader';
@@ -306,7 +310,9 @@ export default function withSearchContext(WrappedComponent) {
         const pathname = this.context.match.location.pathname || '';
         const pathArr = pathname.split('/');
         const rootPath =
-          pathArr.length > 1 && pathArr[1] !== '-' ? pathArr[1] : '';
+          pathArr.length > 1 && pathArr[1] === PREFIX_ITINERARY_SUMMARY
+            ? pathArr[1]
+            : this.context.config.indexPath;
 
         navigateTo({
           origin,
