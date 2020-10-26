@@ -558,7 +558,6 @@ class SummaryPage extends React.Component {
             startTime
             endTime
             ...ItineraryTab_itinerary
-            ...PrintableItinerary_itinerary
             ...SummaryPlanContainer_itineraries
             legs {
               mode
@@ -595,7 +594,6 @@ class SummaryPage extends React.Component {
             startTime
             endTime
             ...ItineraryTab_itinerary
-            ...PrintableItinerary_itinerary
             ...SummaryPlanContainer_itineraries
             legs {
               mode
@@ -650,7 +648,6 @@ class SummaryPage extends React.Component {
             startTime
             endTime
             ...ItineraryTab_itinerary
-            ...PrintableItinerary_itinerary
             ...SummaryPlanContainer_itineraries
             legs {
               mode
@@ -728,7 +725,6 @@ class SummaryPage extends React.Component {
             startTime
             endTime
             ...ItineraryTab_itinerary
-            ...PrintableItinerary_itinerary
             ...SummaryPlanContainer_itineraries
             legs {
               mode
@@ -870,7 +866,6 @@ class SummaryPage extends React.Component {
             startTime
             endTime
             ...ItineraryTab_itinerary
-            ...PrintableItinerary_itinerary
             ...SummaryPlanContainer_itineraries
             legs {
               mode
@@ -2130,7 +2125,6 @@ const containerComponent = createRefetchContainer(
             startTime
             endTime
             ...ItineraryTab_itinerary
-            ...PrintableItinerary_itinerary
             ...SummaryPlanContainer_itineraries
             legs {
               mode

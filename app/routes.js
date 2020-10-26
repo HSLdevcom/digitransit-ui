@@ -211,16 +211,6 @@ export default config => {
                   <Route path="" />,
                   <Route path="/:hash/:secondHash?">
                     <Route
-                      path="/tulosta"
-                      getComponent={() =>
-                        import(
-                          /* webpackChunkName: "itinerary" */ './component/PrintableItinerary'
-                        ).then(getDefault)
-                      }
-                      printPage
-                      render={getComponentOrLoadingRenderer}
-                    />
-                    <Route
                       getComponent={() =>
                         import(
                           /* webpackChunkName: "itinerary" */ './component/ItineraryTab'
