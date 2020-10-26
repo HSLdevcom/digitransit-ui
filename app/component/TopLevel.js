@@ -5,7 +5,6 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import { matchShape, routerShape } from 'found';
 import {
   getHomeUrl,
-  parseLocation,
   PREFIX_STOPS,
   PREFIX_ROUTES,
   PREFIX_TERMINALS,
@@ -60,12 +59,8 @@ class TopLevel extends React.Component {
     };
   }
 
-  componentDidMount() {
-    import(
-      /* webpackChunkName: "main" */ `../configurations/images/${this.context.config.logo}`
-    ).then(logo => {
-      this.setState({ logo: logo.default });
-    });
+  constructor(props, context) {
+    super(props, context);
     if (this.context.config.showLogin && !this.props.user.name) {
       getUser()
         .then(user => {
@@ -74,9 +69,17 @@ class TopLevel extends React.Component {
           });
         })
         .catch(() => {
-          this.context.executeAction(setUser, {});
+          this.context.executeAction(setUser, { notLogged: true });
         });
     }
+  }
+
+  componentDidMount() {
+    import(
+      /* webpackChunkName: "main" */ `../configurations/images/${this.context.config.logo}`
+    ).then(logo => {
+      this.setState({ logo: logo.default });
+    });
   }
 
   componentDidUpdate(prevProps) {
@@ -148,7 +151,7 @@ class TopLevel extends React.Component {
 
     const homeUrl = getHomeUrl(
       this.props.origin,
-      parseLocation(this.props.match.params.to),
+      this.context.config.indexPath,
     );
     if (this.props.children || !(this.props.map || this.props.header)) {
       content = this.props.children || this.props.content;

@@ -60,13 +60,9 @@
   }
   .stop-page {
     &.card-header {
-      padding: 1em 1em 0em 1em;
-      border-top-left-radius: 15px;
-      border-top-right-radius: 15px;
+      padding: 0 1em 0em 1em;
       z-index: 2;
       position: relative;
-      top: -15px;
-      box-shadow: 0 -10px 10px 0 rgba(0, 0, 0, 0.2);
     }
   }
   .card-header-wrapper {

@@ -5,7 +5,7 @@ import React from 'react';
 import Icon from './Icon';
 
 export const StreetModeSelectorWeatherLabel = ({ active, weatherData }) => {
-  if (active && weatherData) {
+  if (active && weatherData && weatherData.temperature) {
     if (weatherData.temperature === 'NaN') {
       return null;
     }

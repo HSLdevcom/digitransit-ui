@@ -9,6 +9,7 @@ export default class BackButton extends React.Component {
     intl: intlShape.isRequired,
     router: routerShape,
     match: matchShape,
+    config: PropTypes.object,
   };
 
   static propTypes = {

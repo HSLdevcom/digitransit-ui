@@ -4,7 +4,7 @@
 @import '~@hsl-fi/sass/mixins/text';
 
 $primary-color: #007ac9;
-$from-color: #64be14;
+$from-color: #4ea700;
 $to-color: #ec5188;
 $search-result-text-highlight-background-color: #F4F4F5;
 $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
@@ -21,8 +21,7 @@ input[type='text'] {
   width: 100%;
   .input {
     &.favourite {
-      padding-left: 1.25em;
-      padding-right: 44px;
+      padding-left: 47px;
     }
     &.thin {
       height: 34px;
@@ -49,6 +48,8 @@ input[type='text'] {
       outline: none;
       border: solid 1px $primary-color;
       box-shadow: none;
+      border: 1px solid #007AC9;
+      box-shadow: 0px 0px 2px 1px #0074BF;
     }
     @include min-width(tablet) {
       font-size: 15px;
@@ -161,7 +162,14 @@ input[type='text'] {
       height: 24px;
     }
   }
-  &.stop-route-station {
+  &.stop-route-station, &.favourite {
+    svg {
+      fill: #888888;
+      width: 16px;
+      height: 16px;
+    }
+  }
+  &.origin-stop-near-you {
     svg {
       fill: #888888;
       width: 16px;

@@ -55,6 +55,7 @@ export default {
   },
 
   APP_PATH: `${APP_PATH}`,
+  indexPath: '',
   title: 'Reittihaku',
 
   textLogo: false,
@@ -76,6 +77,8 @@ export default {
 
   realTime: realtime,
   realTimePatch: REALTIME_PATCH,
+
+  showNewMqtt: !process.env.DISABLE_NEW_MQTT_FEATURES,
 
   // Google Tag Manager id
   GTMid: process.env.GTM_ID || null,
@@ -118,7 +121,7 @@ export default {
     unpreferredRoutes: [],
     walkBoardCost: 600,
     walkReluctance: 2,
-    walkSpeed: 1.38,
+    walkSpeed: 1.22,
     includeBikeSuggestions: true,
   },
 
@@ -140,7 +143,7 @@ export default {
       more: 1,
       most: 0.2,
     },
-    walkSpeed: [1.05, 1.22, 1.38, 1.52, 1.77],
+    walkSpeed: [0.67, 1.05, 1.22, 1.39, 1.77],
     bikeSpeed: [2.77, 4.15, 5.55, 6.94, 8.33],
   },
 

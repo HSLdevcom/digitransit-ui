@@ -38,15 +38,20 @@ class MarkerPopupBottom extends React.Component {
     match: matchShape.isRequired,
     getStore: PropTypes.func.isRequired,
     executeAction: PropTypes.func,
+    config: PropTypes.object.isRequired,
   };
 
-  getOrigin = (pathName, context) => {
+  getOrigin = (pathName, rootPath) => {
     let origin;
 
-    if ([PREFIX_ROUTES, PREFIX_STOPS].indexOf(context) !== -1) {
+    if ([PREFIX_ROUTES, PREFIX_STOPS].indexOf(rootPath) !== -1) {
       origin = { set: false };
-    } else if (context === PREFIX_ITINERARY_SUMMARY) {
-      // itinerary summary
+    } else if (
+      rootPath === PREFIX_ITINERARY_SUMMARY ||
+      (rootPath === this.context.config.indexPath &&
+        this.context.config.indexPath !== '')
+    ) {
+      // itinerary summary or index with custom indexPath
       const [, , originString] = pathName.split('/');
       origin = parseLocation(originString);
     } else {
@@ -62,8 +67,12 @@ class MarkerPopupBottom extends React.Component {
 
     if ([PREFIX_ROUTES, PREFIX_STOPS].indexOf(rootPath) !== -1) {
       destination = { set: false };
-    } else if (rootPath === PREFIX_ITINERARY_SUMMARY) {
-      // itinerary summary
+    } else if (
+      rootPath === PREFIX_ITINERARY_SUMMARY ||
+      (rootPath === this.context.config.indexPath &&
+        this.context.config.indexPath !== '')
+    ) {
+      // itinerary summary or index with custom indexPath
       const [, , , destinationString] = pathName.split('/');
       destination = parseLocation(destinationString);
     } else {
@@ -82,9 +91,14 @@ class MarkerPopupBottom extends React.Component {
     });
 
     const { pathname } = this.context.match.location;
-    const [, rootPath] = pathname.split('/');
+    let [, rootPath] = pathname.split('/');
 
     const destination = this.getDestination(pathname, rootPath);
+
+    if (rootPath !== PREFIX_ITINERARY_SUMMARY) {
+      // navigate to index page outside of itinerary page
+      rootPath = this.context.config.indexPath;
+    }
 
     this.props.leaflet.map.closePopup();
     navigateTo({
@@ -105,15 +119,20 @@ class MarkerPopupBottom extends React.Component {
     });
 
     const { pathname } = this.context.match.location;
-    const [, context] = pathname.split('/');
+    let [, rootPath] = pathname.split('/');
 
-    const origin = this.getOrigin(pathname, context);
+    const origin = this.getOrigin(pathname, rootPath);
+
+    if (rootPath !== PREFIX_ITINERARY_SUMMARY) {
+      // navigate to index page outside of itinerary page
+      rootPath = this.context.config.indexPath;
+    }
 
     this.props.leaflet.map.closePopup();
     navigateTo({
       origin,
       destination: { ...this.props.location, ready: true },
-      context,
+      rootPath,
       router: this.context.router,
       base: this.context.match.location,
       resetIndex: true,

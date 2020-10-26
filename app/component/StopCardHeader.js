@@ -108,6 +108,8 @@ StopCardHeader.propTypes = {
         effectiveStartDate: PropTypes.number,
       }),
     ),
+    lat: PropTypes.number,
+    lon: PropTypes.number,
   }),
   distance: PropTypes.number,
   className: PropTypes.string,

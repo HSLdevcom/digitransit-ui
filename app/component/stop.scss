@@ -555,19 +555,6 @@ hr.action-bar {
       visibility: hidden;
       width: 2em;
       height: 2em;
-      &:checked + label {
-        &:before {
-          content: '✔';
-          font-size: 1.8em;
-          line-height: 1;
-          color: #64be14;
-          font-weight: 700;
-          font-family: $font-family;
-          transform: rotateY(15deg);
-          margin-left: 0.2em;
-          margin-top: 0.2em;
-        }
-      }
     }
     & label {
       width: 2.3em;
@@ -579,6 +566,13 @@ hr.action-bar {
       position: absolute;
       top: -0.3em;
       left: 0;
+      & .checkbox-icon{
+        width: 2.3em;
+        height: 2.3em;
+      }
+      &.checked {
+        border: none;
+      }
     }
   }
 
@@ -726,9 +720,6 @@ hr.action-bar {
   .stop-tab-container {
     border-bottom: none;
     margin: 0em 1em 1em 1em;
-  }
-  .stop-page-content-wrapper {
-    top: -15px;
   }
   .stop-tabs-fillerline {
     height: 5px;

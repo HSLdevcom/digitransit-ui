@@ -17,7 +17,6 @@ import CanceledItineraryToggler from './CanceledItineraryToggler';
 import { itineraryHasCancelation } from '../util/alertUtils';
 import { getCurrentSettings, getDefaultSettings } from '../util/planParamUtil';
 import { ItinerarySummarySubtitle } from './ItinerarySummarySubtitle';
-import RightOffcanvasToggle from './RightOffcanvasToggle';
 import Loading from './Loading';
 
 function ItinerarySummaryListContainer(
@@ -33,7 +32,6 @@ function ItinerarySummaryListContainer(
     onSelectImmediately,
     searchTime,
     to,
-    toggleSettings,
     bikeAndPublicItinerariesToShow,
     bikeAndParkItinerariesToShow,
     walking,
@@ -70,7 +68,7 @@ function ItinerarySummaryListContainer(
     ));
     if (
       context.match.params.hash &&
-      context.match.params.hash === 'bikeAndPublic'
+      context.match.params.hash === 'bikeAndVehicle'
     ) {
       summaries.splice(
         0,
@@ -81,19 +79,11 @@ function ItinerarySummaryListContainer(
           key="itinerary-summary.bikePark-title"
         />,
       );
-      summaries.push(
-        <div
-          className="itinerary-summary-settings-container"
-          key="itinerary-summary-settings-container"
-        >
-          <RightOffcanvasToggle
-            onToggleClick={toggleSettings}
-            defaultMessage="Set more specific settings"
-            translationId="set-specific-settings"
-          />
-        </div>,
-      );
-      if (bikeAndPublicItinerariesToShow > 0) {
+
+      if (
+        itineraries.length > bikeAndParkItinerariesToShow &&
+        bikeAndPublicItinerariesToShow > 0
+      ) {
         const publicModes = itineraries[
           bikeAndParkItinerariesToShow
         ].legs.filter(obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE');
@@ -290,7 +280,6 @@ ItinerarySummaryListContainer.propTypes = {
   onSelectImmediately: PropTypes.func.isRequired,
   searchTime: PropTypes.number.isRequired,
   to: locationShape.isRequired,
-  toggleSettings: PropTypes.func.isRequired,
   bikeAndPublicItinerariesToShow: PropTypes.number.isRequired,
   bikeAndParkItinerariesToShow: PropTypes.number.isRequired,
   walking: PropTypes.bool,
@@ -339,11 +328,6 @@ const containerComponent = createFragmentContainer(
           intermediatePlaces {
             stop {
               zoneId
-              alerts {
-                alertSeverityLevel
-                effectiveEndDate
-                effectiveStartDate
-              }
             }
           }
           route {
@@ -352,16 +336,6 @@ const containerComponent = createFragmentContainer(
             color
             agency {
               name
-            }
-            alerts {
-              alertSeverityLevel
-              effectiveEndDate
-              effectiveStartDate
-              trip {
-                pattern {
-                  code
-                }
-              }
             }
           }
           trip {
@@ -383,11 +357,6 @@ const containerComponent = createFragmentContainer(
             stop {
               gtfsId
               zoneId
-              alerts {
-                alertSeverityLevel
-                effectiveEndDate
-                effectiveStartDate
-              }
             }
             bikeRentalStation {
               bikesAvailable
@@ -398,11 +367,6 @@ const containerComponent = createFragmentContainer(
             stop {
               gtfsId
               zoneId
-              alerts {
-                alertSeverityLevel
-                effectiveEndDate
-                effectiveStartDate
-              }
             }
             bikePark {
               bikeParkId

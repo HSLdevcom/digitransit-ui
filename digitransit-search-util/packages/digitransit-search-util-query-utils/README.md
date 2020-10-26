@@ -45,6 +45,15 @@ Returns Favourite Route objects depending on input
 -   `favourites` **any** 
 -   `input` **[String][1]** Search text, if empty no objects are returned
 
+## getFavouriteBikeRentalStationsQuery
+
+Returns Favourite BikeRentalStation objects depending on input
+
+### Parameters
+
+-   `favourites` **any** 
+-   `input` **[String][1]** Search text, if empty no objects are returned
+
 ## getRoutesQuery
 
 Returns Route objects depending on input

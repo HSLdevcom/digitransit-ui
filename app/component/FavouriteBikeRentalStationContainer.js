@@ -6,28 +6,53 @@ import Favourite from './Favourite';
 import { saveFavourite, deleteFavourite } from '../action/FavouriteActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
-const FavouriteRouteContainer = connectToStores(
+const FavouriteBikeRentalStationContainer = connectToStores(
   Favourite,
   ['FavouriteStore', 'UserStore', 'PreferencesStore'],
-  (context, { gtfsId }) => ({
-    favourite: context.getStore('FavouriteStore').isFavourite(gtfsId, 'route'),
+  (context, { bikeRentalStation }) => ({
+    favourite: context
+      .getStore('FavouriteStore')
+      .isFavouriteBikeRentalStation(
+        bikeRentalStation.stationId,
+        bikeRentalStation.networks,
+      ),
     addFavourite: () => {
-      context.executeAction(saveFavourite, { type: 'route', gtfsId });
+      context.executeAction(saveFavourite, {
+        lat: bikeRentalStation.lat,
+        lon: bikeRentalStation.lon,
+        networks: bikeRentalStation.networks,
+        name: bikeRentalStation.name,
+        stationId: bikeRentalStation.stationId,
+        type: 'bikeStation',
+      });
       addAnalyticsEvent({
-        category: 'Route',
-        action: 'MarkRouteAsFavourite',
-        name: !context.getStore('FavouriteStore').isFavourite(gtfsId, 'route'),
+        category: 'BikeRentalStation',
+        action: 'MarkBikeRentalStationAsFavourite',
+        name: !context
+          .getStore('FavouriteStore')
+          .isFavouriteBikeRentalStation(
+            bikeRentalStation.stationId,
+            bikeRentalStation.networks,
+          ),
       });
     },
     deleteFavourite: () => {
-      const route = context
+      const bikeRentalStationToDelete = context
         .getStore('FavouriteStore')
-        .getByGtfsId(gtfsId, 'route');
-      context.executeAction(deleteFavourite, route);
+        .getByStationIdAndNetworks(
+          bikeRentalStation.stationId,
+          bikeRentalStation.networks,
+        );
+      context.executeAction(deleteFavourite, bikeRentalStationToDelete);
       addAnalyticsEvent({
-        category: 'Route',
-        action: 'MarkRouteAsFavourite',
-        name: !context.getStore('FavouriteStore').isFavourite(gtfsId, 'route'),
+        category: 'BikeRentalStation',
+        action: 'MarkBikeRentalStationAsFavourite',
+        name: !context
+          .getStore('FavouriteStore')
+          .isFavouriteBikeRentalStation(
+            bikeRentalStation.stationId,
+            bikeRentalStation.networks,
+          ),
       });
     },
     isLoggedIn:
@@ -60,11 +85,11 @@ const FavouriteRouteContainer = connectToStores(
   }),
 );
 
-FavouriteRouteContainer.contextTypes = {
+FavouriteBikeRentalStationContainer.contextTypes = {
   getStore: PropTypes.func.isRequired,
   executeAction: PropTypes.func.isRequired,
   config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
 };
 
-export default FavouriteRouteContainer;
+export default FavouriteBikeRentalStationContainer;

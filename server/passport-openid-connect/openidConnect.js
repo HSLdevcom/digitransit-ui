@@ -1,4 +1,4 @@
-/* eslint-disable func-names */
+/* eslint-disable func-names, no-console */
 const passport = require('passport');
 const session = require('express-session');
 const redis = require('redis');
@@ -7,9 +7,9 @@ const moment = require('moment');
 const RedisStore = require('connect-redis')(session);
 const LoginStrategy = require('./Strategy').Strategy;
 
-export default function setUpOIDC(app, port) {
+export default function setUpOIDC(app, port, indexPath) {
+  const hostname = process.env.HOSTNAME || `http://localhost:${port}`;
   /* ********* Setup OpenID Connect ********* */
-  const devhost = '';
   const callbackPath = '/oid_callback'; // connect callback path
   // Use Passport with OpenId Connect strategy to authenticate users
   const OIDCHost = process.env.OIDCHOST || 'https://hslid-dev.t5.fi';
@@ -33,11 +33,44 @@ export default function setUpOIDC(app, port) {
     redirect_uri:
       process.env.OIDC_CLIENT_CALLBACK ||
       `http://localhost:${port}${callbackPath}`,
+    post_logout_redirect_uris: [`${hostname}/logout/callback`],
     scope: 'openid profile',
   });
-  passport.use(oic);
-  passport.serializeUser(LoginStrategy.serializeUser);
-  passport.deserializeUser(LoginStrategy.deserializeUser);
+
+  const redirectToLogin = function (req, res, next) {
+    const { ssoValidTo, ssoToken } = req.session;
+    const paths = [
+      '/fi/',
+      '/en/',
+      '/sv/',
+      '/reitti/',
+      '/pysakit/',
+      '/linjat/',
+      '/terminaalit/',
+      '/pyoraasemat/',
+      '/lahellasi/',
+    ];
+    // Only allow sso login when user navigates to certain paths
+    // Query parameter is string type
+    if (
+      req.query.sso !== 'false' &&
+      (req.path === `/${indexPath}` ||
+        paths.some(path => req.path.includes(path))) &&
+      !req.isAuthenticated() &&
+      ssoToken &&
+      ssoValidTo &&
+      ssoValidTo > moment().unix()
+    ) {
+      console.log(
+        'redirecting to login with sso token ',
+        JSON.stringify(ssoToken),
+      );
+      req.session.returnTo = req.path;
+      res.redirect('/login');
+    } else {
+      next();
+    }
+  };
 
   // Passport requires session to persist the authentication
   app.use(
@@ -50,7 +83,7 @@ export default function setUpOIDC(app, port) {
         ttl: 1000 * 60 * 60 * 24 * 365 * 10,
       }),
       resave: false,
-      saveUninitialized: false,
+      saveUninitialized: true,
       cookie: {
         secure: process.env.NODE_ENV === 'production',
         httpOnly: process.env.NODE_ENV === 'production',
@@ -62,6 +95,11 @@ export default function setUpOIDC(app, port) {
   // Initialize Passport
   app.use(passport.initialize());
   app.use(passport.session());
+  passport.use('passport-openid-connect', oic);
+  passport.serializeUser(LoginStrategy.serializeUser);
+  passport.deserializeUser(LoginStrategy.deserializeUser);
+
+  app.use(redirectToLogin);
 
   // Initiates an authentication request
   // users will be redirected to hsl.id and once authenticated
@@ -69,8 +107,8 @@ export default function setUpOIDC(app, port) {
   app.get(
     '/login',
     passport.authenticate('passport-openid-connect', {
-      successReturnToOrRedirect: '/',
       scope: 'profile',
+      successReturnToOrRedirect: '/',
     }),
   );
   // Callback handler that will redirect back to application after successfull authentication
@@ -78,15 +116,21 @@ export default function setUpOIDC(app, port) {
     callbackPath,
     passport.authenticate('passport-openid-connect', {
       callback: true,
-      successReturnToOrRedirect: `${devhost}/`,
-      failureRedirect: '/',
+      successReturnToOrRedirect: `/${indexPath}`,
+      failureRedirect: '/login',
     }),
   );
   app.get('/logout', function (req, res) {
+    const logoutUrl = `${oic.client.endSessionUrl()}&id_token_hint=${
+      req.user.token.id_token
+    }`;
+    res.redirect(logoutUrl);
+  });
+  app.get('/logout/callback', function (req, res) {
     req.logout();
     req.session.destroy(function () {
       res.clearCookie('connect.sid');
-      res.redirect('/');
+      res.redirect(`/${indexPath}`);
     });
   });
   app.get('/sso/auth', function (req, res, next) {

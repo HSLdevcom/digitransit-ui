@@ -2,12 +2,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import {
-  initGeolocation,
-  checkPositioningPermission,
-} from '../action/PositionActions';
+import { startLocationWatch } from '../action/PositionActions';
 import Loading from './Loading';
 import { isBrowser } from '../util/browser';
 import { getRoutePath } from '../util/path';
@@ -22,8 +18,6 @@ const SummaryGeolocatorWithPosition = connectToStores(
     const locationState = context.getStore('PositionStore').getLocationState();
 
     const { from, to } = props.match.params;
-    const { location } = props.match;
-    const { query } = location;
 
     const redirect = () => {
       const locationForUrl = addressToItinerarySearch(locationState);
@@ -41,22 +35,12 @@ const SummaryGeolocatorWithPosition = connectToStores(
         redirect();
       }
       if (locationState.hasLocation === false) {
-        checkPositioningPermission().then(status => {
-          if (
-            // check logic for starting geolocation
-            status.state !== 'denied' &&
-            locationState.status === 'no-location'
-          ) {
-            // Auto Initialising geolocation
-            if (!locationState.isLocationingInProgress) {
-              context.executeAction(initGeolocation);
-            }
-          }
-          if (status.state === 'denied') {
-            context.executeAction(initGeolocation);
-            redirect();
-          }
-        });
+        if (
+          !locationState.isLocationingInProgress &&
+          locationState.status === 'no-location'
+        ) {
+          context.executeAction(startLocationWatch);
+        }
       } else if (
         locationState.hasLocation &&
         !locationState.isReverseGeocodingInProgress

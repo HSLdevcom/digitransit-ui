@@ -2,10 +2,14 @@ import Store from 'fluxible/addons/BaseStore';
 import includes from 'lodash/includes';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
+import isEqual from 'lodash/isEqual';
+import sortBy from 'lodash/sortBy';
 import moment from 'moment';
 import { v4 as uuid } from 'uuid';
 import getGeocodingResults from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
+import { isStop } from '@digitransit-search-util/digitransit-search-util-helpers';
 import {
+  clearFavouriteStorage,
   getFavouriteStorage,
   setFavouriteStorage,
   getFavouriteRoutesStorage,
@@ -13,7 +17,6 @@ import {
   getFavouriteLocationsStorage,
   removeItem,
 } from './localStorage';
-import { isStop } from '../util/suggestionUtils';
 import {
   getFavourites,
   updateFavourites,
@@ -51,9 +54,9 @@ export default class FavouriteStore extends Store {
       this.favourites = getFavouriteStorage();
       this.fetchComplete();
     }
-    this.migrateRoutes();
-    this.migrateStops();
-    this.migrateLocations();
+    // this.migrateRoutes();
+    // this.migrateStops();
+    // this.migrateLocations();
   }
 
   fetchComplete() {
@@ -70,11 +73,29 @@ export default class FavouriteStore extends Store {
     return this.status;
   }
 
-  isFavourite(id) {
-    const ids = this.favourites.map(
-      favourite => favourite.gtfsId || favourite.gid,
-    );
+  isFavourite(id, type) {
+    const ids = this.favourites
+      .filter(favourite => favourite.type === type)
+      .map(favourite => favourite.gtfsId || favourite.gid);
     return includes(ids, id);
+  }
+
+  isFavouriteBikeRentalStation(id, networks) {
+    const ids = this.favourites
+      .filter(
+        favourite =>
+          favourite.type === 'bikeStation' &&
+          isEqual(sortBy(favourite.networks), sortBy(networks)),
+      )
+      .map(favourite => favourite.stationId);
+    return includes(ids, id);
+  }
+
+  clearFavourites() {
+    clearFavouriteStorage();
+    this.favourites = [];
+    this.storeFavourites();
+    this.emitChange();
   }
 
   storeFavourites() {
@@ -85,8 +106,11 @@ export default class FavouriteStore extends Store {
     return this.favourites;
   }
 
-  getByGtfsId(gtfsId) {
-    return find(this.favourites, favourite => gtfsId === favourite.gtfsId);
+  getByGtfsId(gtfsId, type) {
+    return find(
+      this.favourites,
+      favourite => gtfsId === favourite.gtfsId && type === favourite.type,
+    );
   }
 
   getByFavouriteId(favouriteId) {
@@ -96,7 +120,16 @@ export default class FavouriteStore extends Store {
     );
   }
 
-  getRoutes() {
+  getByStationIdAndNetworks(stationId, networks) {
+    return find(
+      this.favourites,
+      favourite =>
+        stationId === favourite.stationId &&
+        isEqual(sortBy(favourite.networks), sortBy(networks)),
+    );
+  }
+
+  getRouteGtfsIds() {
     return this.favourites
       .filter(favourite => favourite.type === 'route')
       .map(favourite => favourite.gtfsId);
@@ -108,8 +141,18 @@ export default class FavouriteStore extends Store {
     );
   }
 
+  getStops() {
+    return this.favourites.filter(favourite => favourite.type === 'stop');
+  }
+
   getLocations() {
     return this.favourites.filter(favourite => favourite.type === 'place');
+  }
+
+  getBikeRentalStations() {
+    return this.favourites.filter(
+      favourite => favourite.type === 'bikeStation',
+    );
   }
 
   saveFavourite(data) {

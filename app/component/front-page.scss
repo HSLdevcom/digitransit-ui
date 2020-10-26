@@ -503,7 +503,17 @@ svg.icon.footer-icon {
   top: 2px;
   margin-right: 6px;
 }
-
+.front-page.bp-large {
+  .scrollable-content-wrapper {
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-basis: 0px;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 0;
+    }
+}
 .front-page.bp-large .toggle-positioning-container {
   bottom: 40px;
 }

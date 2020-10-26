@@ -15,7 +15,7 @@ const getStopCode = ({ id, code }) => {
   return id.substring(id.indexOf('#') + 1);
 };
 
-const getGTFSId = ({ id, gtfsId }) => {
+export const getGTFSId = ({ id, gtfsId }) => {
   if (gtfsId) {
     return gtfsId;
   }

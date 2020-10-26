@@ -259,20 +259,21 @@ export function resetRoutingSettings() {
   }
 }
 
+export function clearFavouriteStorage() {
+  return setItem('favouriteStore', []);
+}
+
 export function getFavouriteStorage() {
   return getItemAsJson('favouriteStore');
 }
 
 export function setFavouriteStorage(data) {
+  setItem('favouriteStore-updated-at', Math.round(Date.now() / 1000));
   return setItem('favouriteStore', data);
 }
 
 export function getFavouriteLocationsStorage() {
   return getItemAsJson('favouriteLocations');
-}
-
-export function setFavouriteLocationsStorage(data) {
-  setItem('favouriteLocations', data);
 }
 
 export function getFavouriteStopsStorage() {
@@ -297,24 +298,8 @@ export function getReadMessageIds() {
   return getItemAsJson('readMessages', '[]');
 }
 
-export function setFavouriteStopsStorage(data) {
-  setItem('favouriteStops', data);
-}
-
-export function getFavouriteCityBikeStations() {
-  return getItemAsJson('favouriteCityBikeStations', '[]');
-}
-
-export function setFavouriteCityBikeStations(data) {
-  setItem('favouriteCityBikeStations', data);
-}
-
 export function getFavouriteRoutesStorage() {
   return getItemAsJson('favouriteRoutes');
-}
-
-export function setFavouriteRoutesStorage(data) {
-  setItem('favouriteRoutes', data);
 }
 
 export function getModeStorage() {
@@ -330,6 +315,7 @@ export function getOldSearchesStorage() {
 }
 
 export function setOldSearchesStorage(data) {
+  setItem('saved-searches-updated-at', Math.round(Date.now() / 1000));
   setItem('saved-searches', data);
 }
 
@@ -388,4 +374,16 @@ export function getFutureRoutesStorage() {
 
 export function setFutureRoutesStorage(data) {
   setItem('futureRoutes', data);
+}
+
+export function getSavedGeolocationPermission() {
+  return getItemAsJson('geolocationPermission', '{}');
+}
+
+export function setSavedGeolocationPermission(key, value) {
+  const geolocationPermissions = getSavedGeolocationPermission();
+  setItem('geolocationPermission', {
+    ...geolocationPermissions,
+    [key]: value,
+  });
 }

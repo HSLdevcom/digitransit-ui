@@ -49,6 +49,9 @@ export default class Map extends React.Component {
     originFromMap: PropTypes.bool,
     destinationFromMap: PropTypes.bool,
     disableLocationPopup: PropTypes.bool,
+    mapBottomPadding: PropTypes.number,
+    buttonBottomPadding: PropTypes.number,
+    bottomButtons: PropTypes.node,
   };
 
   static defaultProps = {
@@ -58,6 +61,9 @@ export default class Map extends React.Component {
     mapRef: null,
     disableLocationPopup: false,
     boundsOptions: {},
+    mapBottomPadding: 0,
+    buttonBottomPadding: 0,
+    bottomButtons: null,
   };
 
   static contextTypes = {
@@ -69,6 +75,16 @@ export default class Map extends React.Component {
     this.erd = elementResizeDetectorMaker({ strategy: 'scroll' });
     /* eslint-disable no-underscore-dangle */
     this.erd.listenTo(this.map.leafletElement._container, this.resizeMap);
+  }
+
+  componentDidUpdate() {
+    // move leaflet attribution control elements according to given padding
+    // leaflet api doesn't allow controlling element position so have to use this hack
+    const bottomControls = document.getElementsByClassName('leaflet-bottom');
+    Array.prototype.forEach.call(bottomControls, elem => {
+      // eslint-disable-next-line no-param-reassign
+      elem.style.transform = `translate(0, -${this.props.buttonBottomPadding}px)`;
+    });
   }
 
   componentWillUnmount() {
@@ -113,6 +129,9 @@ export default class Map extends React.Component {
     if (center && zoom) {
       boundsOptions.maxZoom = zoom;
     }
+    if (this.props.mapBottomPadding) {
+      boundsOptions.paddingBottomRight = [0, this.props.mapBottomPadding];
+    }
     let mapUrl =
       (isDebugTiles && `${config.URL.OTP}inspector/tile/traversal/`) ||
       config.URL.MAP;
@@ -132,6 +151,14 @@ export default class Map extends React.Component {
     }
     return (
       <div aria-hidden="true">
+        <span
+          className="overlay-mover"
+          style={{
+            transform: `translate(0, -${this.props.buttonBottomPadding}px)`,
+          }}
+        >
+          {this.props.bottomButtons}
+        </span>
         <LeafletMap
           keyboard={false}
           ref={el => {
