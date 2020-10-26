@@ -15,7 +15,6 @@ import MarkerSelectPopup from './MarkerSelectPopup';
 import CityBikePopup from '../popups/CityBikePopupContainer';
 import ParkAndRideHubPopup from '../popups/ParkAndRideHubPopupContainer';
 import ParkAndRideFacilityPopup from '../popups/ParkAndRideFacilityPopupContainer';
-import TicketSalesPopup from '../popups/TicketSalesPopup';
 import LocationPopup from '../popups/LocationPopup';
 import TileContainer from './TileContainer';
 import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
@@ -227,9 +226,6 @@ class TileLayerContainer extends GridLayer {
       const { properties } = target.feature;
       name = target.layer;
       switch (name) {
-        case 'ticketSales':
-          type = properties.TYYPPI;
-          break;
         case 'stop':
           ({ type } = properties);
           if (properties.stops) {
@@ -298,13 +294,6 @@ class TileLayerContainer extends GridLayer {
               }
               coords={this.state.coords}
               context={this.context}
-            />
-          );
-        } else if (this.state.selectableTargets[0].layer === 'ticketSales') {
-          id = this.state.selectableTargets[0].feature.properties.FID;
-          contents = (
-            <TicketSalesPopup
-              {...this.state.selectableTargets[0].feature.properties}
             />
           );
         }

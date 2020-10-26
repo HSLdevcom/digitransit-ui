@@ -35,7 +35,6 @@ const defaultProps = {
     geoJson: {},
     stop: {},
     terminal: {},
-    ticketSales: {},
     showAllBusses: false,
   },
 };

@@ -760,11 +760,6 @@ export default {
   showVehiclesOnStopPage: false,
   // DT-3551: Link to traffic information page.
   trafficNowLink: '',
-  mapLayers: {
-    featureMapping: {
-      ticketSales: {},
-    },
-  },
 
   timetables: {},
   showLogin: !!process.env.OIDC_CLIENT_ID,
