@@ -211,16 +211,6 @@ export default config => {
                   <Route path="" />,
                   <Route path="/:hash/:secondHash?">
                     <Route
-                      path="/tulosta"
-                      getComponent={() =>
-                        import(
-                          /* webpackChunkName: "itinerary" */ './component/PrintableItinerary'
-                        ).then(getDefault)
-                      }
-                      printPage
-                      render={getComponentOrLoadingRenderer}
-                    />
-                    <Route
                       getComponent={() =>
                         import(
                           /* webpackChunkName: "itinerary" */ './component/ItineraryTab'
@@ -295,16 +285,6 @@ export default config => {
           )
         }
       />
-      {!config.URL.API_URL.includes('/api.') && (
-        <Route
-          path="/admin"
-          getComponent={() =>
-            import(/* webpackChunkName: "admin" */ './component/AdminPage')
-              .then(getDefault)
-              .catch(errorLoading)
-          }
-        />
-      )}
       <Route
         path={LOCAL_STORAGE_EMITTER_PATH}
         Component={LocalStorageEmitter}

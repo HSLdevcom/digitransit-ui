@@ -115,10 +115,8 @@ export default {
     bikeSpeed: 5.55,
     minTransferTime: 120,
     optimize: 'GREENWAYS',
-    preferredRoutes: [],
     ticketTypes: 'none',
     transferPenalty: 0,
-    unpreferredRoutes: [],
     walkBoardCost: 600,
     walkReluctance: 2,
     walkSpeed: 1.22,
@@ -760,11 +758,6 @@ export default {
   showVehiclesOnStopPage: false,
   // DT-3551: Link to traffic information page.
   trafficNowLink: '',
-  mapLayers: {
-    featureMapping: {
-      ticketSales: {},
-    },
-  },
 
   timetables: {},
   showLogin: !!process.env.OIDC_CLIENT_ID,

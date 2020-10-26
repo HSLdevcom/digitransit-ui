@@ -521,23 +521,9 @@ class SummaryPage extends React.Component {
         $disableRemainingWeightHeuristic: Boolean
         $arriveBy: Boolean
         $transferPenalty: Int
-        $ignoreRealtimeUpdates: Boolean
-        $maxPreTransitTime: Int
-        $walkOnStreetReluctance: Float
-        $waitReluctance: Float
         $bikeSpeed: Float
-        $bikeSwitchTime: Int
-        $bikeSwitchCost: Int
-        $bikeBoardCost: Int
         $optimize: OptimizeType
-        $triangle: InputTriangle
-        $maxTransfers: Int
-        $waitAtBeginningFactor: Float
-        $heuristicStepsPerMainStep: Int
-        $compactLegsByReversedSearch: Boolean
         $itineraryFiltering: Float
-        $modeWeight: InputModeWeight
-        $preferred: InputPreferred
         $unpreferred: InputUnpreferred
         $locale: String
         $shouldMakeWalkQuery: Boolean!
@@ -555,9 +541,6 @@ class SummaryPage extends React.Component {
           walkSpeed: $walkSpeed
           wheelchair: $wheelchair
           arriveBy: $arriveBy
-          walkOnStreetReluctance: $walkOnStreetReluctance
-          heuristicStepsPerMainStep: $heuristicStepsPerMainStep
-          compactLegsByReversedSearch: $compactLegsByReversedSearch
           locale: $locale
         ) @include(if: $shouldMakeWalkQuery) {
           ...SummaryPlanContainer_plan
@@ -568,7 +551,6 @@ class SummaryPage extends React.Component {
             startTime
             endTime
             ...ItineraryTab_itinerary
-            ...PrintableItinerary_itinerary
             ...SummaryPlanContainer_itineraries
             legs {
               mode
@@ -590,12 +572,8 @@ class SummaryPage extends React.Component {
           time: $time
           walkSpeed: $walkSpeed
           arriveBy: $arriveBy
-          walkOnStreetReluctance: $walkOnStreetReluctance
           bikeSpeed: $bikeSpeed
           optimize: $optimize
-          triangle: $triangle
-          heuristicStepsPerMainStep: $heuristicStepsPerMainStep
-          compactLegsByReversedSearch: $compactLegsByReversedSearch
           locale: $locale
         ) @include(if: $shouldMakeBikeQuery) {
           ...SummaryPlanContainer_plan
@@ -605,7 +583,6 @@ class SummaryPage extends React.Component {
             startTime
             endTime
             ...ItineraryTab_itinerary
-            ...PrintableItinerary_itinerary
             ...SummaryPlanContainer_itineraries
             legs {
               mode
@@ -635,21 +612,9 @@ class SummaryPage extends React.Component {
           disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
           arriveBy: $arriveBy
           transferPenalty: $transferPenalty
-          ignoreRealtimeUpdates: $ignoreRealtimeUpdates
-          maxPreTransitTime: $maxPreTransitTime
-          walkOnStreetReluctance: $walkOnStreetReluctance
-          waitReluctance: $waitReluctance
           bikeSpeed: $bikeSpeed
-          bikeBoardCost: $bikeBoardCost
           optimize: $optimize
-          triangle: $triangle
-          maxTransfers: $maxTransfers
-          waitAtBeginningFactor: $waitAtBeginningFactor
-          heuristicStepsPerMainStep: $heuristicStepsPerMainStep
-          compactLegsByReversedSearch: $compactLegsByReversedSearch
           itineraryFiltering: $itineraryFiltering
-          modeWeight: $modeWeight
-          preferred: $preferred
           unpreferred: $unpreferred
           locale: $locale
         ) @include(if: $showBikeAndPublicItineraries) {
@@ -660,7 +625,6 @@ class SummaryPage extends React.Component {
             startTime
             endTime
             ...ItineraryTab_itinerary
-            ...PrintableItinerary_itinerary
             ...SummaryPlanContainer_itineraries
             legs {
               mode
@@ -711,23 +675,9 @@ class SummaryPage extends React.Component {
           disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
           arriveBy: $arriveBy
           transferPenalty: $transferPenalty
-          ignoreRealtimeUpdates: $ignoreRealtimeUpdates
-          maxPreTransitTime: $maxPreTransitTime
-          walkOnStreetReluctance: $walkOnStreetReluctance
-          waitReluctance: $waitReluctance
           bikeSpeed: $bikeSpeed
-          bikeSwitchTime: $bikeSwitchTime
-          bikeSwitchCost: $bikeSwitchCost
-          bikeBoardCost: $bikeBoardCost
           optimize: $optimize
-          triangle: $triangle
-          maxTransfers: $maxTransfers
-          waitAtBeginningFactor: $waitAtBeginningFactor
-          heuristicStepsPerMainStep: $heuristicStepsPerMainStep
-          compactLegsByReversedSearch: $compactLegsByReversedSearch
           itineraryFiltering: $itineraryFiltering
-          modeWeight: $modeWeight
-          preferred: $preferred
           unpreferred: $unpreferred
           locale: $locale
         ) @include(if: $showBikeAndParkItineraries) {
@@ -738,7 +688,6 @@ class SummaryPage extends React.Component {
             startTime
             endTime
             ...ItineraryTab_itinerary
-            ...PrintableItinerary_itinerary
             ...SummaryPlanContainer_itineraries
             legs {
               mode
@@ -816,22 +765,9 @@ class SummaryPage extends React.Component {
         $disableRemainingWeightHeuristic: Boolean
         $arriveBy: Boolean
         $transferPenalty: Int
-        $ignoreRealtimeUpdates: Boolean
-        $maxPreTransitTime: Int
-        $walkOnStreetReluctance: Float
-        $waitReluctance: Float
         $bikeSpeed: Float
-        $bikeSwitchTime: Int
-        $bikeSwitchCost: Int
         $optimize: OptimizeType
-        $triangle: InputTriangle
-        $maxTransfers: Int
-        $waitAtBeginningFactor: Float
-        $heuristicStepsPerMainStep: Int
-        $compactLegsByReversedSearch: Boolean
         $itineraryFiltering: Float
-        $modeWeight: InputModeWeight
-        $preferred: InputPreferred
         $unpreferred: InputUnpreferred
         $allowedBikeRentalNetworks: [String]
         $locale: String
@@ -854,22 +790,9 @@ class SummaryPage extends React.Component {
           disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
           arriveBy: $arriveBy
           transferPenalty: $transferPenalty
-          ignoreRealtimeUpdates: $ignoreRealtimeUpdates
-          maxPreTransitTime: $maxPreTransitTime
-          walkOnStreetReluctance: $walkOnStreetReluctance
-          waitReluctance: $waitReluctance
           bikeSpeed: $bikeSpeed
-          bikeSwitchTime: $bikeSwitchTime
-          bikeSwitchCost: $bikeSwitchCost
           optimize: $optimize
-          triangle: $triangle
-          maxTransfers: $maxTransfers
-          waitAtBeginningFactor: $waitAtBeginningFactor
-          heuristicStepsPerMainStep: $heuristicStepsPerMainStep
-          compactLegsByReversedSearch: $compactLegsByReversedSearch
           itineraryFiltering: $itineraryFiltering
-          modeWeight: $modeWeight
-          preferred: $preferred
           unpreferred: $unpreferred
           allowedBikeRentalNetworks: $allowedBikeRentalNetworks
           locale: $locale
@@ -880,7 +803,6 @@ class SummaryPage extends React.Component {
             startTime
             endTime
             ...ItineraryTab_itinerary
-            ...PrintableItinerary_itinerary
             ...SummaryPlanContainer_itineraries
             legs {
               mode
@@ -2094,22 +2016,9 @@ const containerComponent = createRefetchContainer(
         disableRemainingWeightHeuristic: { type: "Boolean" }
         arriveBy: { type: "Boolean" }
         transferPenalty: { type: "Int" }
-        ignoreRealtimeUpdates: { type: "Boolean" }
-        maxPreTransitTime: { type: "Int" }
-        walkOnStreetReluctance: { type: "Float" }
-        waitReluctance: { type: "Float" }
         bikeSpeed: { type: "Float" }
-        bikeSwitchTime: { type: "Int" }
-        bikeSwitchCost: { type: "Int" }
         optimize: { type: "OptimizeType" }
-        triangle: { type: "InputTriangle" }
-        maxTransfers: { type: "Int" }
-        waitAtBeginningFactor: { type: "Float" }
-        heuristicStepsPerMainStep: { type: "Int" }
-        compactLegsByReversedSearch: { type: "Boolean" }
         itineraryFiltering: { type: "Float" }
-        modeWeight: { type: "InputModeWeight" }
-        preferred: { type: "InputPreferred" }
         unpreferred: { type: "InputUnpreferred" }
         allowedBikeRentalNetworks: { type: "[String]" }
         locale: { type: "String" }
@@ -2132,22 +2041,9 @@ const containerComponent = createRefetchContainer(
           disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
           arriveBy: $arriveBy
           transferPenalty: $transferPenalty
-          ignoreRealtimeUpdates: $ignoreRealtimeUpdates
-          maxPreTransitTime: $maxPreTransitTime
-          walkOnStreetReluctance: $walkOnStreetReluctance
-          waitReluctance: $waitReluctance
           bikeSpeed: $bikeSpeed
-          bikeSwitchTime: $bikeSwitchTime
-          bikeSwitchCost: $bikeSwitchCost
           optimize: $optimize
-          triangle: $triangle
-          maxTransfers: $maxTransfers
-          waitAtBeginningFactor: $waitAtBeginningFactor
-          heuristicStepsPerMainStep: $heuristicStepsPerMainStep
-          compactLegsByReversedSearch: $compactLegsByReversedSearch
           itineraryFiltering: $itineraryFiltering
-          modeWeight: $modeWeight
-          preferred: $preferred
           unpreferred: $unpreferred
           allowedBikeRentalNetworks: $allowedBikeRentalNetworks
           locale: $locale
@@ -2158,7 +2054,6 @@ const containerComponent = createRefetchContainer(
             startTime
             endTime
             ...ItineraryTab_itinerary
-            ...PrintableItinerary_itinerary
             ...SummaryPlanContainer_itineraries
             legs {
               mode
