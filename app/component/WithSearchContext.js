@@ -340,7 +340,7 @@ export default function withSearchContext(WrappedComponent) {
       if (this.context.match.location.search) {
         path += this.context.match.location.search;
       }
-      this.context.router.push(path);
+      this.context.router.replace(path);
     };
 
     onSelect = (item, id) => {
