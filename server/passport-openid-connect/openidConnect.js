@@ -134,9 +134,12 @@ export default function setUpOIDC(app, port, indexPath) {
     });
   });
   app.get('/sso/auth', function (req, res, next) {
+    console.log(`GET sso/auth, token=${req.query['sso-token']}`);
     if (req.isAuthenticated()) {
+      console.log('GET sso/auth -> already authenticated');
       next();
     } else {
+      console.log('GET sso/auth -> updating token');
       req.session.ssoToken = req.query['sso-token'];
       req.session.ssoValidTo =
         Number(req.query['sso-validity']) * 60 * 1000 + moment().unix();
@@ -153,8 +156,6 @@ export default function setUpOIDC(app, port, indexPath) {
   });
   /* GET the profile of the current authenticated user */
   app.get('/api/user', function (req, res) {
-    console.log(`GET User from ${OIDCHost}/openid/userinfo`);
-    console.log(`User=${JSON.stringify(req.user)}`);
     request.get(
       `${OIDCHost}/openid/userinfo`,
       {
@@ -166,9 +167,6 @@ export default function setUpOIDC(app, port, indexPath) {
         if (!err && response.statusCode === 200) {
           res.status(response.statusCode).send(body);
         } else {
-          console.log(`err=${JSON.stringify(err)}`);
-          console.log(`response=${JSON.stringify(response)}`);
-          console.log(`body=${JSON.stringify(body)}`);
           res.status(401).send('Unauthorized');
         }
       },
