@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape, routerShape } from 'found';
+import isEqual from 'lodash/isEqual';
 import LocationMarker from './map/LocationMarker';
 import ItineraryLine from './map/ItineraryLine';
 import MapContainer from './map/MapContainer';
@@ -12,18 +13,30 @@ import BackButton from './BackButton';
 import VehicleMarkerContainer from './map/VehicleMarkerContainer'; // DT-3473
 
 let L;
-
+let prevCenter;
+let useCenter = true;
+let msg = false;
 if (isBrowser) {
   // eslint-disable-next-line
   L = require('leaflet');
 }
-
+// When user goes straigth to itinerary view with url, map cannot keep up and renders a while after everything else
+// This helper function ensures that lat lon values are sent to the map, thus preventing set center and zoom first error.
+function received() {
+  msg = true;
+}
 function ItineraryPageMap(
-  { itinerary, center, breakpoint, bounds, streetMode },
+  { itinerary, center, breakpoint, forceCenter, fitBounds, bounds, streetMode },
   { match, config },
 ) {
   const { from, to } = match.params;
-
+  if (prevCenter) {
+    useCenter = false;
+  }
+  if (center && (!isEqual(center, prevCenter) || forceCenter)) {
+    prevCenter = center;
+    useCenter = true;
+  }
   const leafletObjs = [
     <LocationMarker
       key="fromMarker"
@@ -78,16 +91,22 @@ function ItineraryPageMap(
   }
 
   const showScale = breakpoint === 'large';
-
+  const validCenter =
+    center && (center.lat !== undefined || center[0] !== undefined);
+  // eslint-disable-next-line no-nested-ternary
+  const lat = validCenter ? (center.lat ? center.lat : center[0]) : undefined;
+  // eslint-disable-next-line no-nested-ternary
+  const lon = validCenter ? (center.lon ? center.lon : center[1]) : undefined;
   return (
     <MapContainer
       className="full itinerary"
       leafletObjs={leafletObjs}
-      lat={center ? center.lat : from.lat}
-      lon={center ? center.lon : from.lon}
-      zoom={bounds ? undefined : 16}
+      lat={useCenter || !msg ? lat : undefined}
+      lon={useCenter || !msg ? lon : undefined}
+      zoom={bounds ? 12 : 16}
       bounds={bounds}
-      fitBounds={Boolean(bounds)}
+      received={received}
+      fitBounds={fitBounds}
       boundsOptions={{ maxZoom: 16 }}
       showScaleBar={showScale}
       hideOrigin
@@ -107,6 +126,8 @@ ItineraryPageMap.propTypes = {
   breakpoint: PropTypes.string.isRequired,
   bounds: PropTypes.array,
   streetMode: PropTypes.string,
+  forceCenter: PropTypes.bool,
+  fitBounds: PropTypes.bool,
 };
 
 ItineraryPageMap.contextTypes = {

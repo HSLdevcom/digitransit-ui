@@ -249,6 +249,8 @@ class SummaryPage extends React.Component {
     this.isFetchingWalkAndBike = true;
     this.params = this.context.match.params;
     this.originalPlan = this.props.viewer && this.props.viewer.plan;
+    this.justMounted = true;
+    this.useFitBounds = true;
     context.executeAction(storeOrigin, otpToLocation(props.match.params.from));
     if (props.error) {
       reportError(props.error);
@@ -876,6 +878,8 @@ class SummaryPage extends React.Component {
     if (this.showVehicles()) {
       this.stopClient();
     }
+    this.justMounted = true;
+    this.useFitBounds = true;
     //  alert screen reader when search results appear
     if (this.resultsUpdatedAlertRef.current) {
       // eslint-disable-next-line no-self-assign
@@ -1137,6 +1141,7 @@ class SummaryPage extends React.Component {
     if (this.props.breakpoint !== 'large') {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     }
+    this.justMounted = true;
     this.setState({ bounds: [] });
     const bounds = []
       .concat(
@@ -1150,14 +1155,18 @@ class SummaryPage extends React.Component {
 
     this.setState({
       bounds,
-      center: null,
+      center: bounds,
     });
   };
 
   renderMap() {
     const { match, breakpoint } = this.props;
+    this.justMounted = true;
+    this.useFitBounds = false;
     // don't render map on mobile
     if (breakpoint !== 'large') {
+      this.justMounted = true;
+      this.useFitBounds = true;
       return undefined;
     }
     const {
@@ -1603,7 +1612,6 @@ class SummaryPage extends React.Component {
     }
     let bounds;
     let center;
-
     if (!this.state.bounds && !this.state.center) {
       const origin = otpToLocation(match.params.from);
       const destination = otpToLocation(match.params.to);
@@ -1622,7 +1630,7 @@ class SummaryPage extends React.Component {
           .concat(legGeometry)
           .filter(a => a[0] && a[1]);
       }
-      center = undefined;
+      center = [origin.lat, origin.lon];
     } else {
       center = this.state.bounds ? undefined : this.state.center;
       bounds = this.state.center ? undefined : this.state.bounds;
@@ -1646,13 +1654,18 @@ class SummaryPage extends React.Component {
               itinerary: combinedItineraries && combinedItineraries[hash],
               center,
               bounds,
+              forceCenter: this.justMounted,
               streetMode: this.state.streetMode,
-              fitBounds: Boolean(bounds),
+              fitBounds: this.useFitBounds,
               ...this.props,
             },
             this.context,
           )
         : this.renderMap();
+      if (this.props.map) {
+        this.justMounted = false;
+        this.useFitBounds = false;
+      }
     }
 
     let earliestStartTime;

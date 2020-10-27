@@ -52,6 +52,7 @@ export default class Map extends React.Component {
     mapBottomPadding: PropTypes.number,
     buttonBottomPadding: PropTypes.number,
     bottomButtons: PropTypes.node,
+    received: PropTypes.func,
   };
 
   static defaultProps = {
@@ -115,14 +116,17 @@ export default class Map extends React.Component {
       boundsOptions,
       disableLocationPopup,
       leafletObjs,
+      received,
     } = this.props;
     const { config } = this.context;
+    if (received) {
+      received();
+    }
     const center =
       (!this.props.fitBounds &&
         this.props.lat &&
         this.props.lon && [this.props.lat, this.props.lon]) ||
       null;
-
     if (this.props.padding) {
       boundsOptions.paddingTopLeft = this.props.padding;
     }
