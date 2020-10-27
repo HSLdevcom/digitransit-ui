@@ -13,12 +13,12 @@ import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 function getStopsFromGeocoding(stops, URL_PELIAS_PLACE) {
   let gids = '';
   const stopsWithGids = stops.map(stop => {
-    const type = stop.properties.type === 'stop' ? 'stop' : 'station';
-    let gid = `gtfs${stop.properties.gtfsId
-      .split(':')[0]
-      .toLowerCase()}:${type}:GTFS:${stop.properties.gtfsId}`;
-    if (stop.properties.code) {
-      gid += `#${stop.properties.code}`;
+    const type = stop.type === 'stop' ? 'stop' : 'station';
+    let gid = `gtfs${stop.gtfsId.split(':')[0].toLowerCase()}:${type}:GTFS:${
+      stop.gtfsId
+    }`;
+    if (stop.code) {
+      gid += `#${stop.code}`;
     }
     gids += `${gid},`;
     return { ...stop, gid };
@@ -36,7 +36,7 @@ function getStopsFromGeocoding(stops, URL_PELIAS_PLACE) {
       const favourite = {
         type: 'FavouriteStop',
         properties: {
-          ...stopStationMap[stop.properties.gid].properties,
+          ...stopStationMap[stop.properties.gid],
           address: stop.properties.label,
           layer: isStop(stop.properties) ? 'favouriteStop' : 'favouriteStation',
         },
@@ -357,9 +357,19 @@ export function getSearchResults(
   if (allTargets || targets.includes('Stops')) {
     if (allSources || sources.includes('Favourite')) {
       const favouriteStops = stops(context);
-      const stopsAndStations = getStopAndStationsQuery(
-        favouriteStops,
-      ).then(favourites => getStopsFromGeocoding(favourites, URL_PELIAS_PLACE));
+      let stopsAndStations;
+      if (favouriteStops.every(stop => stop.type === 'station')) {
+        stopsAndStations = getStopsFromGeocoding(
+          favouriteStops,
+          URL_PELIAS_PLACE,
+        );
+      } else {
+        stopsAndStations = getStopAndStationsQuery(
+          favouriteStops,
+        ).then(favourites =>
+          getStopsFromGeocoding(favourites, URL_PELIAS_PLACE),
+        );
+      }
       searchComponents.push(getFavouriteStops(stopsAndStations, input));
     }
     if (allSources || sources.includes('Datasource')) {

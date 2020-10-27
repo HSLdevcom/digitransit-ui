@@ -255,8 +255,8 @@ export const getStopAndStationsQuery = favourites => {
       return verify(stopStationMap, favourites).map(stop => {
         const favourite = {
           type: 'FavouriteStop',
+          ...stop,
           properties: {
-            ...stop,
             label: stop.name,
             layer: isStop(stop) ? 'favouriteStop' : 'favouriteStation',
           },
