@@ -168,14 +168,6 @@ export function getFavouriteRoutesStorage() {
   return getItemAsJson('favouriteRoutes');
 }
 
-export function getModeStorage() {
-  return getItemAsJson('mode', '{}');
-}
-
-export function setModeStorage(data) {
-  setItem('mode', data);
-}
-
 export function getOldSearchesStorage() {
   return getItemAsJson('saved-searches', '{"items": []}');
 }
