@@ -38,7 +38,8 @@ function ItinerarySummaryListContainer(
     biking,
     showAlternativePlan,
     separatorPosition,
-    loadingItineraries,
+    loadingMoreItineraries,
+    loading,
   },
   context,
 ) {
@@ -46,10 +47,7 @@ function ItinerarySummaryListContainer(
   const { config } = context;
 
   if (!error && itineraries && itineraries.length > 0) {
-    const walkFreeItineraries = itineraries.filter(
-      itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
-    ); // exclude itineraries that have only walking legs from the summary
-    const summaries = walkFreeItineraries.map((itinerary, i) => (
+    const summaries = itineraries.map((itinerary, i) => (
       <SummaryRow
         refTime={searchTime}
         key={i} // eslint-disable-line react/no-array-index-key
@@ -82,7 +80,11 @@ function ItinerarySummaryListContainer(
           key="itinerary-summary.bikePark-title"
         />,
       );
-      if (bikeAndPublicItinerariesToShow > 0) {
+
+      if (
+        itineraries.length > bikeAndParkItinerariesToShow &&
+        bikeAndPublicItinerariesToShow > 0
+      ) {
         const publicModes = itineraries[
           bikeAndParkItinerariesToShow
         ].legs.filter(obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE');
@@ -134,13 +136,13 @@ function ItinerarySummaryListContainer(
             </div>
           </div>
         )}
-        {loadingItineraries === 'top' && (
+        {loadingMoreItineraries === 'top' && (
           <div style={{ position: 'relative', height: 100 }}>
             <Loading />
           </div>
         )}
         {isBrowser && summaries}
-        {loadingItineraries === 'bottom' && (
+        {loadingMoreItineraries === 'bottom' && (
           <div style={{ position: 'relative', height: 100 }}>
             <Loading />
           </div>
@@ -164,6 +166,10 @@ function ItinerarySummaryListContainer(
         />
       </div>
     );
+  }
+
+  if (loading) {
+    return null;
   }
 
   let msgId;
@@ -285,7 +291,8 @@ ItinerarySummaryListContainer.propTypes = {
   biking: PropTypes.bool,
   showAlternativePlan: PropTypes.bool,
   separatorPosition: PropTypes.number,
-  loadingItineraries: PropTypes.string,
+  loadingMoreItineraries: PropTypes.string,
+  loading: PropTypes.bool.isRequired,
 };
 
 ItinerarySummaryListContainer.defaultProps = {
@@ -296,7 +303,7 @@ ItinerarySummaryListContainer.defaultProps = {
   biking: false,
   showAlternativePlan: false,
   separatorPosition: undefined,
-  loadingItineraries: undefined,
+  loadingMoreItineraries: undefined,
 };
 
 ItinerarySummaryListContainer.contextTypes = {
@@ -327,11 +334,6 @@ const containerComponent = createFragmentContainer(
           intermediatePlaces {
             stop {
               zoneId
-              alerts {
-                alertSeverityLevel
-                effectiveEndDate
-                effectiveStartDate
-              }
             }
           }
           route {
@@ -340,16 +342,6 @@ const containerComponent = createFragmentContainer(
             color
             agency {
               name
-            }
-            alerts {
-              alertSeverityLevel
-              effectiveEndDate
-              effectiveStartDate
-              trip {
-                pattern {
-                  code
-                }
-              }
             }
           }
           trip {
@@ -371,11 +363,6 @@ const containerComponent = createFragmentContainer(
             stop {
               gtfsId
               zoneId
-              alerts {
-                alertSeverityLevel
-                effectiveEndDate
-                effectiveStartDate
-              }
             }
             bikeRentalStation {
               bikesAvailable
@@ -386,11 +373,6 @@ const containerComponent = createFragmentContainer(
             stop {
               gtfsId
               zoneId
-              alerts {
-                alertSeverityLevel
-                effectiveEndDate
-                effectiveStartDate
-              }
             }
             bikePark {
               bikeParkId

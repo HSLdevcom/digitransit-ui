@@ -84,100 +84,6 @@ describe('planParamUtil', () => {
       expect(optimize).to.equal('GREENWAYS');
     });
 
-    it('should use the preferred routes from query', () => {
-      const params = utils.preparePlanParams(defaultConfig)(
-        {
-          from,
-          to,
-        },
-        {
-          location: {
-            query: {
-              preferredRoutes: 'HSL__1052',
-            },
-          },
-        },
-      );
-      const { preferred } = params;
-      expect(preferred).to.deep.equal({ routes: 'HSL__1052' });
-    });
-
-    it('should use the unpreferred routes from query', () => {
-      const params = utils.preparePlanParams(defaultConfig)(
-        {
-          from,
-          to,
-        },
-        {
-          location: {
-            query: {
-              unpreferredRoutes: 'HSL__7480',
-            },
-          },
-        },
-      );
-      const { unpreferred } = params;
-      expect(unpreferred).to.deep.equal({
-        routes: 'HSL__7480',
-        useUnpreferredRoutesPenalty: 1200,
-      });
-    });
-
-    it('should use the preferred routes from localStorage', () => {
-      setCustomizedSettings({ preferredRoutes: 'HSL__1052' });
-      const params = utils.preparePlanParams(defaultConfig)(...defaultProps);
-      const { preferred } = params;
-      expect(preferred).to.deep.equal({ routes: 'HSL__1052' });
-    });
-
-    it('should use the unpreferred routes from localStorage', () => {
-      setCustomizedSettings({ unpreferredRoutes: 'HSL__7480' });
-      const params = utils.preparePlanParams(defaultConfig)(...defaultProps);
-      const { unpreferred } = params;
-      expect(unpreferred).to.deep.equal({
-        routes: 'HSL__7480',
-        useUnpreferredRoutesPenalty: 1200,
-      });
-    });
-
-    it('should ignore the preferred routes from localstorage when query contains empty string', () => {
-      setCustomizedSettings({ preferredRoutes: 'HSL__1052' });
-      const params = utils.preparePlanParams(defaultConfig)(
-        {
-          from,
-          to,
-        },
-        {
-          location: {
-            query: {
-              preferredRoutes: '',
-            },
-          },
-        },
-      );
-      const { preferred } = params;
-      expect(preferred).to.deep.equal({});
-    });
-
-    it('should ignore the unpreferred routes from localstorage when query contains empty string', () => {
-      setCustomizedSettings({ unpreferredRoutes: 'HSL__7480' });
-      const params = utils.preparePlanParams(defaultConfig)(
-        {
-          from,
-          to,
-        },
-        {
-          location: {
-            query: {
-              unpreferredRoutes: '',
-            },
-          },
-        },
-      );
-      const { unpreferred } = params;
-      expect(unpreferred).to.deep.equal({ useUnpreferredRoutesPenalty: 1200 });
-    });
-
     it('should use bikeSpeed from query', () => {
       const params = utils.preparePlanParams(defaultConfig)(
         {
@@ -435,32 +341,6 @@ describe('planParamUtil', () => {
       expect(missing).to.deep.equal([]);
     });
 
-    it('should read OptimizeType TRIANGLE and its fields from the query', () => {
-      const params = utils.preparePlanParams(defaultConfig)(
-        {
-          from,
-          to,
-        },
-        {
-          location: {
-            query: {
-              optimize: 'TRIANGLE',
-              safetyFactor: 0.2,
-              slopeFactor: 0.3,
-              timeFactor: 0.5,
-            },
-          },
-        },
-      );
-      const { optimize, triangle } = params;
-      expect(optimize).to.equal('TRIANGLE');
-      expect(triangle).to.deep.equal({
-        safetyFactor: 0.2,
-        slopeFactor: 0.3,
-        timeFactor: 0.5,
-      });
-    });
-
     it('should read optimize from the localStorage', () => {
       setCustomizedSettings({ optimize: 'FLAT' });
       const params = utils.preparePlanParams(defaultConfig)(
@@ -476,33 +356,6 @@ describe('planParamUtil', () => {
       );
       const { optimize } = params;
       expect(optimize).to.equal('FLAT');
-    });
-
-    it('should read OptimizeType TRIANGLE and its fields from the localStorage', () => {
-      setCustomizedSettings({
-        optimize: 'TRIANGLE',
-        safetyFactor: 0.2,
-        slopeFactor: 0.3,
-        timeFactor: 0.5,
-      });
-      const params = utils.preparePlanParams(defaultConfig)(
-        {
-          from,
-          to,
-        },
-        {
-          location: {
-            query: {},
-          },
-        },
-      );
-      const { optimize, triangle } = params;
-      expect(optimize).to.equal('TRIANGLE');
-      expect(triangle).to.deep.equal({
-        safetyFactor: 0.2,
-        slopeFactor: 0.3,
-        timeFactor: 0.5,
-      });
     });
 
     it('should have disableRemainingWeightHeuristic as false when CITYBIKE is not selected nor BICYCLE + TRANSIT + viapoints at the same time', () => {

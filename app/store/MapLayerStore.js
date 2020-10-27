@@ -17,11 +17,6 @@ class MapLayerStore extends Store {
       rail: true,
       subway: true,
     },
-    ticketSales: {
-      salesPoint: true,
-      servicePoint: true,
-      ticketMachine: true,
-    },
     showAllBusses: false,
     geoJson: {},
   };
@@ -77,11 +72,6 @@ export const mapLayerShape = PropTypes.shape({
     bus: PropTypes.bool,
     rail: PropTypes.bool,
     subway: PropTypes.bool,
-  }).isRequired,
-  ticketSales: PropTypes.shape({
-    salesPoint: PropTypes.bool,
-    servicePoint: PropTypes.bool,
-    ticketMachine: PropTypes.bool,
   }).isRequired,
   showAllBusses: PropTypes.bool,
   geoJson: PropTypes.object,

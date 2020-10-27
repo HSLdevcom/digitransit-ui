@@ -7,9 +7,10 @@ const MAP_PATH_PREFIX = process.env.MAP_PATH_PREFIX || '';
 const STATIC_MESSAGE_URL = undefined;
 // process.env.STATIC_MESSAGE_URL || 'https://dev-yleisviesti.digitransit.fi';
 const APP_DESCRIPTION = 'Helsingin seudun liikenteen Reittiopas.';
-const YEAR = 1900 + new Date().getYear();
 
 const HSLTimetables = require('./timetableConfigUtils').default.HSL;
+
+const rootLink = process.env.ROOTLINK || 'https://dev.hslfi.hsldev.com';
 
 export default {
   CONFIG,
@@ -18,10 +19,9 @@ export default {
     OTP: process.env.OTP_URL || `${API_URL}/routing/v1/routers/hsl/`,
     STOP_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-stop-map/`,
     PARK_AND_RIDE_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-parkandride-map/`,
-    TICKET_SALES_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-ticket-sales-map/`,
     FONT: 'https://cloud.typography.com/6364294/7432412/css/fonts.css',
     CITYBIKE_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-citybike-map/`,
-    REDIRECT_BACK: process.env.REDIRECT_BACK || 'https://dev.hslfi.hsldev.com',
+    ROOTLINK: rootLink,
   },
 
   indexPath: 'etusivu',
@@ -36,6 +36,7 @@ export default {
 
   availableLanguages: ['fi', 'sv', 'en'],
   defaultLanguage: 'fi',
+  passLanguageToRootLink: true,
 
   favicon: './app/configurations/images/hsl/favicon.png',
 
@@ -67,11 +68,6 @@ export default {
     parkAndRideMinZoom: 14,
   },
 
-  ticketSales: {
-    showTicketSales: true,
-    ticketSalesMinZoom: 16,
-  },
-
   showDisclaimer: true,
 
   stopsMinZoom: 14,
@@ -83,8 +79,7 @@ export default {
 
   sprites: 'assets/svg-sprite.hsl.svg',
 
-  appBarLink: { name: 'HSL.fi', href: 'https://www.hsl.fi/' },
-  appBarStyle: 'hsl', // DT-3375
+  appBarStyle: 'hsl',
 
   nationalServiceLink: { name: 'matka.fi', href: 'https://opas.matka.fi/' },
 
@@ -266,34 +261,7 @@ export default {
       ],
     ],
   },
-  footer: {
-    content: [
-      { label: `© HSL ${YEAR}` },
-      {},
-      {
-        name: 'footer-faq',
-        nameEn: 'FAQ',
-        href: 'https://www.hsl.fi/ohjeita-ja-tietoja/reittiopas',
-      },
-      {
-        name: 'footer-feedback',
-        nameEn: 'Submit feedback',
-        href: 'https://www.hsl.fi/palaute',
-        icon: 'icon-icon_speech-bubble',
-      },
-      {
-        name: 'about-this-service',
-        nameEn: 'About the service',
-        route: '/tietoja-palvelusta',
-        icon: 'icon-icon_info',
-      },
-      {
-        name: 'footer-link-to-privacy-policy',
-        nameEn: 'Privacy policy',
-        href: 'https://www.hsl.fi/tietoa-sivustosta',
-      },
-    ],
-  },
+  footer: {},
 
   defaultEndpoint: {
     address: 'Rautatieasema, Helsinki',
@@ -470,17 +438,6 @@ export default {
       url: '/assets/geojson/hsl_zone_areas_20190508.geojson',
     },
   },
-  mapLayers: {
-    featureMapping: {
-      ticketSales: {
-        Palvelupiste: 'servicePoint',
-        'HSL Automaatti MNL': 'ticketMachine',
-        'HSL Automaatti KL': 'ticketMachine',
-        Myyntipiste: 'salesPoint',
-        'R-kioski': 'salesPoint',
-      },
-    },
-  },
 
   // mapping fareId from OTP fare identifiers to human readable form
   // in the new HSL zone model, just strip off the prefix 'HSL:'
@@ -512,13 +469,10 @@ export default {
   },
 
   useTicketIcons: true,
-  trafficNowLink: 'https://uusi.hsl.fi/matkustaminen/liikenne',
+  trafficNowLink: rootLink + '/matkustaminen/liikenne',
 
-  localStorageEmitter:
-    process.env.LOCALSTORAGEEMITTER ||
-    'https://dev.hslfi.hsldev.com/local-storage-emitter',
-  localStorageTarget:
-    process.env.LOCALSTORAGETARGET || 'https://dev.hslfi.hsldev.com',
+  localStorageEmitter: rootLink + '/local-storage-emitter',
+  localStorageTarget: rootLink,
 
   cityBike: {
     showCityBikes: true,
@@ -532,9 +486,9 @@ export default {
         },
         type: 'citybike',
         url: {
-          fi: 'https://www.hsl.fi/kaupunkipyorat',
-          sv: 'https://www.hsl.fi/sv/stadscyklar',
-          en: 'https://www.hsl.fi/en/citybikes',
+          fi: 'https://kaupunkipyorat.hsl.fi/fi',
+          sv: 'https://kaupunkipyorat.hsl.fi/sv',
+          en: 'https://kaupunkipyorat.hsl.fi/en',
         },
       },
       vantaa: {
@@ -546,9 +500,9 @@ export default {
         },
         type: 'citybike',
         url: {
-          fi: 'https://www.hsl.fi/kaupunkipyorat',
-          sv: 'https://www.hsl.fi/sv/stadscyklar',
-          en: 'https://www.hsl.fi/en/citybikes',
+          fi: 'https://kaupunkipyorat.hsl.fi/fi',
+          sv: 'https://kaupunkipyorat.hsl.fi/sv',
+          en: 'https://kaupunkipyorat.hsl.fi/en',
         },
       },
     },

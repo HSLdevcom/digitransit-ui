@@ -59,12 +59,8 @@ class TopLevel extends React.Component {
     };
   }
 
-  componentDidMount() {
-    import(
-      /* webpackChunkName: "main" */ `../configurations/images/${this.context.config.logo}`
-    ).then(logo => {
-      this.setState({ logo: logo.default });
-    });
+  constructor(props, context) {
+    super(props, context);
     if (this.context.config.showLogin && !this.props.user.name) {
       getUser()
         .then(user => {
@@ -73,9 +69,17 @@ class TopLevel extends React.Component {
           });
         })
         .catch(() => {
-          this.context.executeAction(setUser, {});
+          this.context.executeAction(setUser, { notLogged: true });
         });
     }
+  }
+
+  componentDidMount() {
+    import(
+      /* webpackChunkName: "main" */ `../configurations/images/${this.context.config.logo}`
+    ).then(logo => {
+      this.setState({ logo: logo.default });
+    });
   }
 
   componentDidUpdate(prevProps) {

@@ -217,6 +217,7 @@ class FavouriteModal extends React.Component {
           address: nextFav.address,
           lat: nextFav.lat,
           lon: nextFav.lon,
+          gid: nextFav.gid || null,
           name: prevFav.name || nextFav.name || '',
           defaultName: nextFav.defaultName,
         },
@@ -281,10 +282,9 @@ class FavouriteModal extends React.Component {
       const name = isEmpty(this.state.favourite.name)
         ? this.state.favourite.defaultName
         : this.state.favourite.name;
-      const favourite = {
-        ...this.state.favourite,
-        name,
-      };
+
+      const favourite = { ...this.state.favourite, name };
+      delete favourite.defaultName;
       this.props.saveFavourite({ ...favourite, type: 'place' });
       if (this.props.addAnalyticsEvent) {
         this.props.addAnalyticsEvent({

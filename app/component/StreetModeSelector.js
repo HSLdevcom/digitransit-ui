@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { StreetModeSelectorButton } from './StreetModeSelectorButton';
 import { StreetModeSelectorWeatherLabel } from './StreetModeSelectorWeatherLabel';
+import Loading from './Loading';
 
 export const StreetModeSelector = ({
-  weatherLoaded,
   showWalkOptionButton,
   showBikeOptionButton,
   showBikeAndPublicOptionButton,
@@ -16,16 +16,29 @@ export const StreetModeSelector = ({
   bikePlan,
   bikeAndPublicPlan,
   bikeParkPlan,
+  loading,
 }) => {
-  const bikeAndVehicle = {
-    itineraries: [
-      ...bikeParkPlan.itineraries,
-      ...bikeAndPublicPlan.itineraries,
-    ],
-  };
+  const bikeAndVehicle = !loading
+    ? {
+        itineraries: [
+          ...bikeParkPlan.itineraries,
+          ...bikeAndPublicPlan.itineraries,
+        ],
+      }
+    : {};
   return (
-    <div className="street-mode-selector-container">
-      {weatherLoaded && (
+    <div className={`street-mode-selector-container ${loading && 'loading'}`}>
+      {loading ? (
+        <div
+          style={{
+            position: 'relative',
+            height: '76px',
+            width: '100%',
+          }}
+        >
+          <Loading />
+        </div>
+      ) : (
         <div className="street-mode-button-row">
           <StreetModeSelectorWeatherLabel
             active={
@@ -66,7 +79,6 @@ export const StreetModeSelector = ({
 };
 
 StreetModeSelector.propTypes = {
-  weatherLoaded: PropTypes.bool.isRequired,
   showWalkOptionButton: PropTypes.bool.isRequired,
   showBikeOptionButton: PropTypes.bool.isRequired,
   showBikeAndPublicOptionButton: PropTypes.bool.isRequired,
@@ -82,6 +94,7 @@ StreetModeSelector.propTypes = {
     windSpeed: PropTypes.number,
     iconId: PropTypes.number,
   }),
+  loading: PropTypes.bool,
 };
 
 StreetModeSelector.defaultProps = {
@@ -89,6 +102,7 @@ StreetModeSelector.defaultProps = {
   bikePlan: undefined,
   bikeAndPublicPlan: undefined,
   bikeParkPlan: undefined,
+  loading: undefined,
 };
 
 export default StreetModeSelector;

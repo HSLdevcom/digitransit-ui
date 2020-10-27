@@ -61,6 +61,9 @@ const handleStopsAndStations = edges => {
 const startClient = (context, routes) => {
   const { realTime } = context.config;
   let agency;
+  if (!context.config.showNewMqtt) {
+    return;
+  }
   /* handle multiple feedid case */
   context.config.feedIds.forEach(ag => {
     if (!agency && realTime[ag]) {
@@ -392,7 +395,7 @@ function StopsNearYouMap(
           icon="icon-icon_arrow-collapse--left"
           iconClassName="arrow-icon"
           color={context.config.colors.primary}
-          urlToBack={context.config.URL.REDIRECT_BACK}
+          urlToBack={context.config.URL.ROOTLINK}
         />
         <MapWithTracking
           breakpoint={breakpoint}

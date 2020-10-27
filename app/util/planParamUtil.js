@@ -38,28 +38,6 @@ export const getCurrentSettings = config => ({
   ...getCustomizedSettings(),
 });
 
-// These values need to be null so if no values for the variables are defined somewhere else,
-// these variables will be left out from queries
-export const defaultRoutingSettings = {
-  ignoreRealtimeUpdates: null,
-  maxPreTransitTime: null,
-  walkOnStreetReluctance: null,
-  waitReluctance: null,
-  bikeSpeed: null,
-  bikeSwitchTime: null,
-  bikeSwitchCost: null,
-  bikeBoardCost: null,
-  optimize: null,
-  triangle: null,
-  carParkCarLegWeight: null,
-  maxTransfers: null,
-  waitAtBeginningFactor: null,
-  heuristicStepsPerMainStep: null,
-  compactLegsByReversedSearch: null,
-  disableRemainingWeightHeuristic: null,
-  modeWeight: null,
-};
-
 function getTicketTypes(ticketType, settingsTicketType, defaultTicketType) {
   // separator used to be _, map it to : to keep old URLs compatible
   const remap = str => [`${str}`.replace('_', ':')];
@@ -132,33 +110,6 @@ function getDisableRemainingWeightHeuristic(
   return disableRemainingWeightHeuristic;
 }
 
-function getPreferredorUnpreferredRoutes(
-  queryRoutes,
-  isPreferred,
-  settings,
-  unpreferredPenalty,
-) {
-  const preferenceObject = {};
-  if (!isPreferred) {
-    // adds penalty weight to unpreferred routes, there might be default unpreferred routes even if user has not defined any
-    preferenceObject.useUnpreferredRoutesPenalty = unpreferredPenalty;
-  }
-  // queryRoutes is undefined if query params dont contain routes and empty string if user has removed all routes
-  if (queryRoutes === '') {
-    return preferenceObject;
-  }
-  if (queryRoutes !== undefined && queryRoutes !== '') {
-    // queryRoutes contains routes found in query params
-    return { ...preferenceObject, routes: queryRoutes };
-  }
-  if (isPreferred) {
-    // default or localstorage preferredRoutes
-    return { ...preferenceObject, routes: settings.preferredRoutes };
-  }
-  // default or localstorage unpreferredRoutes
-  return { ...preferenceObject, routes: settings.unpreferredRoutes };
-}
-
 const getNumberValueOrDefault = (value, defaultValue = undefined) =>
   value !== undefined ? Number(value) : defaultValue;
 const getBooleanValueOrDefault = (value, defaultValue = undefined) =>
@@ -181,63 +132,17 @@ export const getSettings = () => {
     maxBikingDistance: getNumberValueOrDefault(
       routingSettings.maxBikingDistance,
     ),
-    ignoreRealtimeUpdates: getBooleanValueOrDefault(
-      routingSettings.ignoreRealtimeUpdates,
-    ),
-    maxPreTransitTime: getNumberValueOrDefault(
-      routingSettings.maxPreTransitTime,
-    ),
-    walkOnStreetReluctance: getNumberValueOrDefault(
-      routingSettings.walkOnStreetReluctance,
-    ),
-    waitReluctance: getNumberValueOrDefault(routingSettings.waitReluctance),
     bikeSpeed: getNumberValueOrDefault(
       custSettings.bikeSpeed,
       routingSettings.bikeSpeed,
     ),
-    bikeSwitchTime: getNumberValueOrDefault(routingSettings.bikeSwitchTime),
-    bikeSwitchCost: getNumberValueOrDefault(routingSettings.bikeSwitchCost),
-    bikeBoardCost: getNumberValueOrDefault(routingSettings.bikeBoardCost),
     optimize: custSettings.optimize || routingSettings.optimize || undefined,
-    safetyFactor: getNumberValueOrDefault(
-      custSettings.safetyFactor,
-      routingSettings.safetyFactor,
-    ),
-    slopeFactor: getNumberValueOrDefault(
-      custSettings.slopeFactor,
-      routingSettings.slopeFactor,
-    ),
-    timeFactor: getNumberValueOrDefault(
-      custSettings.timeFactor,
-      routingSettings.timeFactor,
-    ),
-    carParkCarLegWeight: getNumberValueOrDefault(
-      routingSettings.carParkCarLegWeight,
-    ),
-    maxTransfers: getNumberValueOrDefault(routingSettings.maxTransfers),
-    waitAtBeginningFactor: getNumberValueOrDefault(
-      routingSettings.waitAtBeginningFactor,
-    ),
-    heuristicStepsPerMainStep: getNumberValueOrDefault(
-      routingSettings.heuristicStepsPerMainStep,
-    ),
-    compactLegsByReversedSearch: getBooleanValueOrDefault(
-      routingSettings.compactLegsByReversedSearch,
-    ),
     disableRemainingWeightHeuristic: getBooleanValueOrDefault(
       routingSettings.disableRemainingWeightHeuristic,
     ),
     itineraryFiltering: getNumberValueOrDefault(
       routingSettings.itineraryFiltering,
     ),
-    busWeight: getNumberValueOrDefault(routingSettings.busWeight),
-    railWeight: getNumberValueOrDefault(routingSettings.railWeight),
-    subwayWeight: getNumberValueOrDefault(routingSettings.subwayWeight),
-    tramWeight: getNumberValueOrDefault(routingSettings.tramWeight),
-    ferryWeight: getNumberValueOrDefault(routingSettings.ferryWeight),
-    airplaneWeight: getNumberValueOrDefault(routingSettings.airplaneWeight),
-    preferredRoutes: custSettings.preferredRoutes,
-    unpreferredRoutes: custSettings.unpreferredRoutes,
     allowedBikeRentalNetworks: custSettings.allowedBikeRentalNetworks,
     includeBikeSuggestions: custSettings.includeBikeSuggestions,
   };
@@ -254,14 +159,9 @@ export const preparePlanParams = config => (
         intermediatePlaces,
         minTransferTime,
         optimize,
-        preferredRoutes,
-        safetyFactor,
-        slopeFactor,
-        timeFactor,
         ticketTypes,
         time,
         transferPenalty,
-        unpreferredRoutes,
         walkBoardCost,
         walkReluctance,
         walkSpeed,
@@ -298,11 +198,7 @@ export const preparePlanParams = config => (
         from: fromLocation,
         to: toLocation,
         intermediatePlaces: intermediatePlaceLocations,
-        numItineraries:
-          typeof matchMedia !== 'undefined' &&
-          matchMedia('(min-width: 900px)').matches
-            ? 5
-            : 3,
+        numItineraries: 5,
         date: (time ? moment(time * 1000) : moment()).format('YYYY-MM-DD'),
         time: (time ? moment(time * 1000) : moment()).format('HH:mm:ss'),
         walkReluctance: getNumberValueOrDefault(
@@ -327,71 +223,15 @@ export const preparePlanParams = config => (
           transferPenalty,
           settings.transferPenalty,
         ),
-        ignoreRealtimeUpdates: settings.ignoreRealtimeUpdates,
-        maxPreTransitTime: settings.maxPreTransitTime,
-        walkOnStreetReluctance: settings.walkOnStreetReluctance,
-        waitReluctance: settings.waitReluctance,
         bikeSpeed: getNumberValueOrDefault(bikeSpeed, settings.bikeSpeed),
-        bikeSwitchTime: settings.bikeSwitchTime,
-        bikeSwitchCost: settings.bikeSwitchCost,
-        bikeBoardCost: settings.bikeBoardCost,
         optimize: optimize || settings.optimize,
-        triangle:
-          (optimize || settings.optimize) === 'TRIANGLE'
-            ? {
-                safetyFactor: getNumberValueOrDefault(
-                  safetyFactor,
-                  settings.safetyFactor,
-                ),
-                slopeFactor: getNumberValueOrDefault(
-                  slopeFactor,
-                  settings.slopeFactor,
-                ),
-                timeFactor: getNumberValueOrDefault(
-                  timeFactor,
-                  settings.timeFactor,
-                ),
-              }
-            : null,
-        maxTransfers: settings.maxTransfers,
-        waitAtBeginningFactor: settings.waitAtBeginningFactor,
-        heuristicStepsPerMainStep: settings.heuristicStepsPerMainStep,
-        compactLegsByReversedSearch: settings.compactLegsByReversedSearch,
         itineraryFiltering: getNumberValueOrDefault(
           settings.itineraryFiltering,
           config.itineraryFiltering,
         ),
-        modeWeight:
-          settings.busWeight !== undefined ||
-          settings.railWeight !== undefined ||
-          settings.subwayWeight !== undefined ||
-          settings.tramWeight !== undefined ||
-          settings.ferryWeight !== undefined ||
-          settings.airplaneWeight !== undefined
-            ? omitBy(
-                {
-                  BUS: settings.busWeight,
-                  RAIL: settings.railWeight,
-                  SUBWAY: settings.subwayWeight,
-                  TRAM: settings.tramWeight,
-                  FERRY: settings.ferryWeight,
-                  AIRPLANE: settings.airplaneWeight,
-                },
-                nullOrUndefined,
-              )
-            : null,
-        preferred: getPreferredorUnpreferredRoutes(
-          preferredRoutes,
-          true,
-          settings,
-          config.useUnpreferredRoutesPenalty,
-        ),
-        unpreferred: getPreferredorUnpreferredRoutes(
-          unpreferredRoutes,
-          false,
-          settings,
-          config.useUnpreferredRoutesPenalty,
-        ),
+        unpreferred: {
+          useUnpreferredRoutesPenalty: config.useUnpreferredRoutesPenalty,
+        },
         disableRemainingWeightHeuristic: getDisableRemainingWeightHeuristic(
           modesOrDefault,
           settings,

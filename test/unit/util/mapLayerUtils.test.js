@@ -60,12 +60,6 @@ describe('mapLayerUtils', () => {
       const result = utils.isLayerEnabled(undefined, mapLayers);
       expect(result).to.equal(false);
     });
-
-    it('should return false if mapLayers is falsey', () => {
-      const mapLayers = undefined;
-      const result = utils.isLayerEnabled('ticketSales', mapLayers);
-      expect(result).to.equal(false);
-    });
   });
 
   describe('isFeatureLayerEnabled', () => {
@@ -160,37 +154,6 @@ describe('mapLayerUtils', () => {
       };
 
       const result = utils.isFeatureLayerEnabled(feature, layerName, mapLayers);
-      expect(result).to.equal(true);
-    });
-
-    it('should use the config to match ticketSales features', () => {
-      const feature = {
-        properties: {
-          TYYPPI: 'foobar',
-        },
-      };
-      const layerName = 'ticketSales';
-      const mapLayers = {
-        ticketSales: {
-          servicePoint: true,
-        },
-      };
-      const config = {
-        mapLayers: {
-          featureMapping: {
-            ticketSales: {
-              foobar: 'servicePoint',
-            },
-          },
-        },
-      };
-
-      const result = utils.isFeatureLayerEnabled(
-        feature,
-        layerName,
-        mapLayers,
-        config,
-      );
       expect(result).to.equal(true);
     });
 

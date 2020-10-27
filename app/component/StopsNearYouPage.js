@@ -533,7 +533,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
               map={this.renderMap()}
               bckBtnColor={this.context.config.colors.primary}
               bckBtnUrl={
-                this.context.config.URL.REDIRECT_BACK
+                this.context.config.URL.ROOTLINK
                   ? undefined
                   : this.createBckBtnUrl()
               }
@@ -545,7 +545,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
               map={this.renderMap()}
               bckBtnColor={this.context.config.colors.primary}
               bckBtnUrl={
-                this.context.config.URL.REDIRECT_BACK
+                this.context.config.URL.ROOTLINK
                   ? undefined
                   : this.createBckBtnUrl()
               }
