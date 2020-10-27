@@ -1,11 +1,51 @@
 import debounce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
 import take from 'lodash/take';
-import { sortSearchResults } from '@digitransit-search-util/digitransit-search-util-helpers';
+import {
+  sortSearchResults,
+  isStop,
+} from '@digitransit-search-util/digitransit-search-util-helpers';
 import uniqByLabel from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import filterMatchingToInput from '@digitransit-search-util/digitransit-search-util-filter-matching-to-input';
 import getGeocodingResults from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
+import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 
+function getStopsFromGeocoding(stops, URL_PELIAS_PLACE) {
+  let gids = '';
+  const stopsWithGids = stops.map(stop => {
+    const type = stop.type === 'stop' ? 'stop' : 'station';
+    let gid = `gtfs${stop.gtfsId.split(':')[0].toLowerCase()}:${type}:GTFS:${
+      stop.gtfsId
+    }`;
+    if (stop.code) {
+      gid += `#${stop.code}`;
+    }
+    gids += `${gid},`;
+    return { ...stop, gid };
+  });
+  const stopStationMap = stopsWithGids.reduce(function (map, stopOrStation) {
+    // eslint-disable-next-line no-param-reassign
+    map[stopOrStation.gid] = stopOrStation;
+    return map;
+  }, {});
+  return getJson(URL_PELIAS_PLACE, {
+    ids: gids.slice(0, -1),
+    // lang: context.getStore('PreferencesStore').getLanguage(), TODO enable this when OTP supports translations
+  }).then(res => {
+    return res.features.map(stop => {
+      const favourite = {
+        type: 'FavouriteStop',
+        properties: {
+          ...stopStationMap[stop.properties.gid],
+          address: stop.properties.label,
+          layer: isStop(stop.properties) ? 'favouriteStop' : 'favouriteStation',
+        },
+        ...stop.geometry,
+      };
+      return favourite;
+    });
+  });
+}
 function getFavouriteLocations(favourites, input) {
   return Promise.resolve(
     filterMatchingToInput(favourites, input, ['address', 'name']).map(item => ({
@@ -229,6 +269,7 @@ export function getSearchResults(
     minimalRegexp,
     lineRegexp,
     URL_PELIAS,
+    URL_PELIAS_PLACE,
     feedIDs,
     geocodingSearchParams,
     geocodingSources,
@@ -316,7 +357,19 @@ export function getSearchResults(
   if (allTargets || targets.includes('Stops')) {
     if (allSources || sources.includes('Favourite')) {
       const favouriteStops = stops(context);
-      const stopsAndStations = getStopAndStationsQuery(favouriteStops);
+      let stopsAndStations;
+      if (favouriteStops.every(stop => stop.type === 'station')) {
+        stopsAndStations = getStopsFromGeocoding(
+          favouriteStops,
+          URL_PELIAS_PLACE,
+        );
+      } else {
+        stopsAndStations = getStopAndStationsQuery(
+          favouriteStops,
+        ).then(favourites =>
+          getStopsFromGeocoding(favourites, URL_PELIAS_PLACE),
+        );
+      }
       searchComponents.push(getFavouriteStops(stopsAndStations, input));
     }
     if (allSources || sources.includes('Datasource')) {

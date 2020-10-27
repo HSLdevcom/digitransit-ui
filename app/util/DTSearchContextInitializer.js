@@ -34,6 +34,7 @@ export default function intializeSearchContext(context, searchContext) {
     ? config.search.lineRegexp
     : undefined;
   searchContext.URL_PELIAS = config.URL.PELIAS;
+  searchContext.URL_PELIAS_PLACE = config.URL.PELIAS_PLACE;
   // FeedId's like  [HSL, HSLLautta]
   searchContext.feedIDs = config.feedIds;
   // searchSources e.g. [oa,osm,nlsfi.]
