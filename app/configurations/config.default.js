@@ -111,7 +111,7 @@ export default {
   maxNearbyStopDistance: 2000,
 
   defaultSettings: {
-    usingWheelchair: 0,
+    accessibilityOption: 0,
     bikeSpeed: 5.55,
     minTransferTime: 120,
     optimize: 'GREENWAYS',
@@ -436,8 +436,6 @@ export default {
       icon: 'car_park-withoutBox',
     },
   },
-
-  usingWheelchair: 0,
 
   moment: {
     relativeTimeThreshold: {

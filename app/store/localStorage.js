@@ -96,9 +96,9 @@ export function setCustomizedSettings(data) {
   const oldSettings = getCustomizedSettings();
 
   const newSettings = {
-    usingWheelchair: getNumberValueOrDefault(
-      data.usingWheelchair,
-      oldSettings.usingWheelchair,
+    accessibilityOption: getNumberValueOrDefault(
+      data.accessibilityOption,
+      oldSettings.accessibilityOption,
     ),
     bikeSpeed: getNumberValueOrDefault(data.bikeSpeed, oldSettings.bikeSpeed),
     modes: getValueOrDefault(data.modes, oldSettings.modes),
