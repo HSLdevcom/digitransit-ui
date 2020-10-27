@@ -885,6 +885,16 @@ class SummaryPage extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (
+      !this.props.match.params.hash &&
+      !isEqual(this.props.match.params.hash, prevProps.match.params.hash)
+    ) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        center: undefined,
+        bounds: undefined,
+      });
+    }
+    if (
       this.props.match.params.hash &&
       (this.props.match.params.hash === 'walk' ||
         this.props.match.params.hash === 'bike' ||
@@ -1601,10 +1611,23 @@ class SummaryPage extends React.Component {
         [origin.lat, origin.lon],
         [destination.lat, destination.lon],
       ];
+      if (hash && combinedItineraries[hash]) {
+        const legGeometry = [].concat(
+          ...combinedItineraries[hash].legs.map(leg =>
+            polyline.decode(leg.legGeometry.points),
+          ),
+        );
+        bounds = []
+          .concat(bounds)
+          .concat(legGeometry)
+          .filter(a => a[0] && a[1]);
+      }
+      center = undefined;
     } else {
       center = this.state.bounds ? undefined : this.state.center;
       bounds = this.state.center ? undefined : this.state.bounds;
     }
+
     // Call props.map directly in order to render to same map instance
     let map;
     if (
