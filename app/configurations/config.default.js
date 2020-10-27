@@ -113,10 +113,7 @@ export default {
   defaultSettings: {
     accessibilityOption: 0,
     bikeSpeed: 5.55,
-    minTransferTime: 120,
-    optimize: 'GREENWAYS',
     ticketTypes: 'none',
-    transferPenalty: 0,
     walkBoardCost: 600,
     walkReluctance: 2,
     walkSpeed: 1.22,
@@ -154,6 +151,9 @@ export default {
   suggestBikeMaxDistance: 15000,
   itineraryFiltering: 1.5, // drops 66% worse routes
   useUnpreferredRoutesPenalty: 1200, // adds 10 minute (weight) penalty to routes that are unpreferred
+  minTransferTime: 120,
+  optimize: 'GREENWAYS',
+  transferPenalty: 0,
   availableLanguages: ['fi', 'sv', 'en', 'fr', 'nb', 'de', 'da', 'es', 'ro'],
   defaultLanguage: 'en',
   // This timezone data will expire in 2037

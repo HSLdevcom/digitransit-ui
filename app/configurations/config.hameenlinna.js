@@ -56,9 +56,7 @@ export default configMerger(walttiConfig, {
     lon: 24.4662911533486,
   },
 
-  defaultSettings: {
-    minTransferTime: 60,
-  },
+  minTransferTime: 60,
 
   defaultOrigins: [
     {
