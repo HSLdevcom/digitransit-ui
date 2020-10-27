@@ -323,9 +323,9 @@ const SummaryRow = (
     }
     if (isLegOnFoot(leg) && renderBar) {
       const walkingTime = Math.floor(leg.duration / 60);
-      let modeToUse = 'walk';
+      let walkMode = 'walk';
       if (usingOwnBicycle && i < bikeParkedIndex) {
-        modeToUse = 'bicycle_walk';
+        walkMode = 'bicycle_walk';
       }
       legs.push(
         <ModeLeg
@@ -334,7 +334,7 @@ const SummaryRow = (
           isTransitLeg={false}
           leg={leg}
           duration={walkingTime}
-          mode={modeToUse}
+          mode={walkMode}
           legLength={legLength}
           large={breakpoint === 'large'}
         />,
