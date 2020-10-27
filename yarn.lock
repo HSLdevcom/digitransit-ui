@@ -1381,6 +1381,17 @@
     "@digitransit-search-util/digitransit-search-util-uniq-by-label" "0.0.4"
     lodash "4.17.14"
 
+"@digitransit-search-util/digitransit-search-util-execute-search-immidiate@0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-execute-search-immidiate/-/digitransit-search-util-execute-search-immidiate-0.1.5.tgz#eb0e9cc5112c5e79bfcdcdfe0731862c16ab21b1"
+  integrity sha512-sEaCD8T0JPpv1uOVr5L93DkLeMjTakMNAXwgGhB1QLnmaEzPxY7OdHl/QlONhhDagGXwDlUyo+8SrrM1WhgXVA==
+  dependencies:
+    "@digitransit-search-util/digitransit-search-util-filter-matching-to-input" "0.0.1"
+    "@digitransit-search-util/digitransit-search-util-get-geocoding-results" "0.0.3"
+    "@digitransit-search-util/digitransit-search-util-helpers" "0.0.10"
+    "@digitransit-search-util/digitransit-search-util-uniq-by-label" "0.0.5"
+    lodash "4.17.14"
+
 "@digitransit-search-util/digitransit-search-util-get-label@0.0.3":
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-get-label/-/digitransit-search-util-get-label-0.0.3.tgz#e769e9b401b78e1183b3cd0ff1faa8b0266f6693"
@@ -1763,10 +1774,10 @@
   resolved "https://registry.yarnpkg.com/@hsl-fi/shimmer/-/shimmer-0.1.0.tgz#111eca690401db43bc5ac0b1d142d00e97bcfaea"
   integrity sha512-8aGzCxClDzZf1ZVm7etEi3UEJIy0uMakMFC+p6eS6XalBuGhXptk8Luwavw1NiNo633yW1sJA2C3QRGwoHr6pg==
 
-"@hsl-fi/site-header@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@hsl-fi/site-header/-/site-header-1.0.0.tgz#34aebb7b6a46d42bcaac07377e02022af3e5efad"
-  integrity sha512-LOyiuoXVUncIOh2xFEl7qfOj0kgNWb50xwigfoEr7y1SEEyJgBKAoEhDQULz0n4RfT6IlEa6zM9MH2F0toMbHg==
+"@hsl-fi/site-header@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@hsl-fi/site-header/-/site-header-1.0.1.tgz#77fbaa3762cc93294158a3fb4367f1e2558f421a"
+  integrity sha512-g0if3LaoeUdV5OdgRx1PRgIbgv3V7v5T9okgzgUb9yVzTQbxSn7IlctArVwuJchvSmGSBufRemqpndOnFLnA4A==
   dependencies:
     "@hsl-fi/animated-spinner" "^0.1.0"
     "@hsl-fi/hooks" "^0.2.0"
