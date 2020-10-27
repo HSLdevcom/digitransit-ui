@@ -36,6 +36,7 @@ export default {
 
   availableLanguages: ['fi', 'sv', 'en'],
   defaultLanguage: 'fi',
+  passLanguageToRootLink: true,
 
   favicon: './app/configurations/images/hsl/favicon.png',
 
