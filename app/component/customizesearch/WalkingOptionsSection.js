@@ -13,12 +13,16 @@ const WalkingOptionsSection = (
   { currentSettings, defaultSettings, walkSpeedOptions, walkReluctanceOptions },
   { intl, executeAction },
   options = getFiveStepOptions(walkSpeedOptions),
+  currentSelection = options.find(
+    option => option.value === currentSettings.walkSpeed,
+  ) || {
+    value: currentSettings.walkSpeed,
+    title: `${Math.round(currentSettings.walkSpeed * 3.6)} km/h`,
+  },
 ) => (
   <div className="walk-options-container">
     <SearchSettingsDropdown
-      currentSelection={options.find(
-        option => option.value === currentSettings.walkSpeed,
-      )}
+      currentSelection={currentSelection}
       defaultValue={defaultSettings.walkSpeed}
       onOptionSelected={value => {
         executeAction(saveRoutingSettings, {

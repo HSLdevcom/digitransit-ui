@@ -16,11 +16,17 @@ class BikingOptionsSection extends React.Component {
     const { defaultSettings, bikeSpeed } = this.props;
     const { intl } = this.context;
     const options = getFiveStepOptionsNumerical(this.props.bikeSpeedOptions);
+    const currentSelection = options.find(
+      option => option.value === bikeSpeed,
+    ) || {
+      value: bikeSpeed,
+      title: `${Math.round(bikeSpeed * 3.6)} km/h`,
+    };
     return (
       <React.Fragment>
         <SearchSettingsDropdown
           name="bike-speed-selector"
-          currentSelection={options.find(option => option.value === bikeSpeed)}
+          currentSelection={currentSelection}
           defaultValue={defaultSettings.bikeSpeed}
           onOptionSelected={value => {
             this.context.executeAction(saveRoutingSettings, {
