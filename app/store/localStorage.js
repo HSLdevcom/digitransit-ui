@@ -94,25 +94,15 @@ export function setCustomizedSettings(data) {
 
   // Get old settings and test if set values have changed
   const oldSettings = getCustomizedSettings();
-  const optimize = getValueOrDefault(data.optimize, oldSettings.optimize);
 
   const newSettings = {
-    usingWheelchair: getNumberValueOrDefault(
-      data.usingWheelchair,
-      oldSettings.usingWheelchair,
+    accessibilityOption: getNumberValueOrDefault(
+      data.accessibilityOption,
+      oldSettings.accessibilityOption,
     ),
     bikeSpeed: getNumberValueOrDefault(data.bikeSpeed, oldSettings.bikeSpeed),
-    minTransferTime: getNumberValueOrDefault(
-      data.minTransferTime,
-      oldSettings.minTransferTime,
-    ),
     modes: getValueOrDefault(data.modes, oldSettings.modes),
-    optimize,
     ticketTypes: getValueOrDefault(data.ticketTypes, oldSettings.ticketTypes),
-    transferPenalty: getNumberValueOrDefault(
-      data.transferPenalty,
-      oldSettings.transferPenalty,
-    ),
     walkBoardCost: getNumberValueOrDefault(
       data.walkBoardCost,
       oldSettings.walkBoardCost,
@@ -133,11 +123,6 @@ export function setCustomizedSettings(data) {
   };
 
   setItem('customizedSettings', newSettings);
-}
-
-// Get advanced routing parameters (not for normal use)
-export function getRoutingSettings() {
-  return getItemAsJson('routingSettings');
 }
 
 export function clearFavouriteStorage() {
@@ -181,14 +166,6 @@ export function getReadMessageIds() {
 
 export function getFavouriteRoutesStorage() {
   return getItemAsJson('favouriteRoutes');
-}
-
-export function getModeStorage() {
-  return getItemAsJson('mode', '{}');
-}
-
-export function setModeStorage(data) {
-  setItem('mode', data);
 }
 
 export function getOldSearchesStorage() {

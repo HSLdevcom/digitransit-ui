@@ -11,12 +11,12 @@ const AccessibilityOptionSection = ({ currentSettings }, { executeAction }) => {
     addAnalyticsEvent({
       category: 'ItinerarySettings',
       action: `Settings${
-        currentSettings.usingWheelchair ? 'Disable' : 'Enable'
+        currentSettings.accessibilityOption ? 'Disable' : 'Enable'
       }WheelChair`,
       name: null,
     });
     executeAction(saveRoutingSettings, {
-      usingWheelchair: !currentSettings.usingWheelchair,
+      accessibilityOption: !currentSettings.accessibilityOption,
     });
   };
 
@@ -41,7 +41,7 @@ const AccessibilityOptionSection = ({ currentSettings }, { executeAction }) => {
         </label>
         <Toggle
           id="settings-toggle-accessibility"
-          toggled={currentSettings.usingWheelchair}
+          toggled={currentSettings.accessibilityOption}
           title="accessibility"
           onToggle={() => onToggle()}
         />

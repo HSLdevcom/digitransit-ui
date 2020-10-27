@@ -92,10 +92,7 @@ class CustomizeSearch extends React.Component {
             defaultSettings={this.defaultSettings}
           />
           <div className="settings-option-container">
-            <TransportModesSection
-              config={config}
-              currentSettings={currentSettings}
-            />
+            <TransportModesSection config={config} />
           </div>
           <div className="settings-option-container">
             <TransferOptionsSection

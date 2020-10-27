@@ -4,7 +4,6 @@ import sinon from 'sinon';
 
 import {
   getLocalStorage,
-  getRoutingSettings,
   getCustomizedSettings,
   setCustomizedSettings,
   getReadMessageIds,
@@ -13,13 +12,6 @@ import {
 import defaultConfig from '../../app/configurations/config.default';
 
 describe('localStorage', () => {
-  describe('getRoutingSettings', () => {
-    it('result should be empty', () => {
-      // eslint-disable-next-line
-      expect(getRoutingSettings()).to.be.empty;
-    });
-  });
-
   describe('getCustomizedSettings', () => {
     it('should return an empty object by default', () => {
       expect(getCustomizedSettings()).to.deep.equal({});

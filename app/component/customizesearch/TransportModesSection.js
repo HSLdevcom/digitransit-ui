@@ -10,6 +10,7 @@ import Icon from '../Icon';
 import IconWithBigCaution from '../IconWithBigCaution';
 import {
   getAvailableTransportModes,
+  getModes,
   toggleTransportMode,
   isBikeRestricted,
 } from '../../util/modeUtils';
@@ -17,10 +18,10 @@ import CityBikeNetworkSelector from '../CityBikeNetworkSelector';
 import { getCitybikeNetworks } from '../../util/citybikes';
 
 const TransportModesSection = (
-  { config, currentSettings },
+  { config },
   { match, intl, executeAction },
   transportModes = getAvailableTransportModes(config),
-  modes = currentSettings.modes,
+  modes = getModes(config),
 ) => (
   <fieldset>
     <legend className="transport-mode-subheader settings-header">
@@ -117,7 +118,6 @@ const TransportModesSection = (
 
 TransportModesSection.propTypes = {
   config: PropTypes.object.isRequired,
-  currentSettings: PropTypes.object.isRequired,
 };
 
 TransportModesSection.contextTypes = {
