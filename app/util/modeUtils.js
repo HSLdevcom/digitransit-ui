@@ -204,7 +204,7 @@ export const getDefaultModes = config => [
 /**
  * Retrieves all modes (as in both transport and street modes)
  * from either the localStorage or the default configuration.
- * If modes include CAR or BICYCLE modes use default instead
+ * If modes include CAR, BICYCLE or WALK modes use default instead
  * (legacy settings allowed them).
  *
  * @param {*} config The configuration for the software installation
@@ -216,7 +216,8 @@ export const getModes = config => {
     !isEmpty(modes) &&
     modes.indexOf('CAR_PARK') === -1 &&
     modes.indexOf('CAR') === -1 &&
-    modes.indexOf('BICYCLE') === -1
+    modes.indexOf('BICYCLE') === -1 &&
+    modes.indexOf('WALK') === -1
   ) {
     return modes;
   }
