@@ -84,37 +84,11 @@ describe('planParamUtil', () => {
       expect(optimize).to.equal('GREENWAYS');
     });
 
-    it('should use bikeSpeed from query', () => {
-      const params = utils.preparePlanParams(defaultConfig)(
-        {
-          from,
-          to,
-        },
-        { location: { query: { bikeSpeed: 20 } } },
-      );
-      const { bikeSpeed } = params;
-      expect(bikeSpeed).to.equal(20);
-    });
-
     it('should use bikeSpeed from localStorage', () => {
       setCustomizedSettings({ bikeSpeed: 20 });
       const params = utils.preparePlanParams(defaultConfig)(...defaultProps);
       const { bikeSpeed } = params;
       expect(bikeSpeed).to.equal(20);
-    });
-
-    it('should replace the old ticketTypes separator "_" with ":" in query', () => {
-      const params = utils.preparePlanParams(defaultConfig)(
-        {
-          from,
-          to,
-        },
-        {
-          location: { query: { ticketTypes: 'HSL_esp' } },
-        },
-      );
-      const { ticketTypes } = params;
-      expect(ticketTypes).to.deep.equal(['HSL:esp']);
     });
 
     it('should replace the old ticketTypes separator "_" with ":" in localStorage', () => {
@@ -205,21 +179,6 @@ describe('planParamUtil', () => {
       expect(ticketTypes).to.equal(null);
     });
 
-    it('should use no restrictions if ticketTypes is "none" in query and localStorage has a restriction', () => {
-      setCustomizedSettings({ ticketTypes: 'HSL:esp' });
-      const params = utils.preparePlanParams(defaultConfig)(
-        {
-          from,
-          to,
-        },
-        {
-          location: { query: { ticketTypes: 'none' } },
-        },
-      );
-      const { ticketTypes } = params;
-      expect(ticketTypes).to.equal(null);
-    });
-
     it('should return null if ticketTypes is undefined in query', () => {
       const params = utils.preparePlanParams(defaultConfig)(
         {
@@ -258,22 +217,6 @@ describe('planParamUtil', () => {
         },
         {
           location: { query: { ticketTypes: undefined } },
-        },
-      );
-      const { ticketTypes } = params;
-      expect(ticketTypes).to.equal(null);
-    });
-
-    it('should return null if query has no ticketType limits but the default config contains a restriction', () => {
-      const limitationSettings = { ...defaultConfig };
-      limitationSettings.defaultSettings.ticketTypes = 'HSL:esp';
-      const params = utils.preparePlanParams(limitationSettings)(
-        {
-          from,
-          to,
-        },
-        {
-          location: { query: { ticketTypes: 'none' } },
         },
       );
       const { ticketTypes } = params;
@@ -341,23 +284,6 @@ describe('planParamUtil', () => {
       expect(missing).to.deep.equal([]);
     });
 
-    it('should read optimize from the localStorage', () => {
-      setCustomizedSettings({ optimize: 'FLAT' });
-      const params = utils.preparePlanParams(defaultConfig)(
-        {
-          from,
-          to,
-        },
-        {
-          location: {
-            query: {},
-          },
-        },
-      );
-      const { optimize } = params;
-      expect(optimize).to.equal('FLAT');
-    });
-
     it('should have disableRemainingWeightHeuristic as false when CITYBIKE is not selected nor BICYCLE + TRANSIT + viapoints at the same time', () => {
       setCustomizedSettings({
         modes: ['BICYCLE', 'FERRY', 'SUBWAY', 'RAIL'],
@@ -396,27 +322,6 @@ describe('planParamUtil', () => {
       expect(disableRemainingWeightHeuristic).to.equal(
         defaultConfig.transportModes.citybike.availableForSelection,
       );
-    });
-
-    it('should have disableRemainingWeightHeuristic as true when BICYCLE + TRANSIT + viapoints at the same time', () => {
-      setCustomizedSettings({
-        modes: ['BICYCLE', 'FERRY', 'SUBWAY', 'RAIL'],
-      });
-      const params = utils.preparePlanParams(defaultConfig)(
-        {
-          from,
-          to,
-        },
-        {
-          location: {
-            query: {
-              intermediatePlaces: 'Vantaa,+Vantaa::60.298134,25.006641',
-            },
-          },
-        },
-      );
-      const { disableRemainingWeightHeuristic } = params;
-      expect(disableRemainingWeightHeuristic).to.equal(true);
     });
   });
 
