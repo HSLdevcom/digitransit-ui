@@ -26,9 +26,9 @@ const translations = {
   sv: {
     today: 'I dag',
     tomorrow: 'I morgon',
-    'accessible-close': 'TODO',
-    'accessible-open': 'TODO',
-    'accessible-title': 'TODO',
+    'accessible-close': 'Stäng väljaren',
+    'accessible-open': 'Öppna väljaren',
+    'accessible-title': 'Tid- och datumväljaren',
     arrival: 'Anländer',
     date: 'Datum',
     departure: 'Avgångstid',
