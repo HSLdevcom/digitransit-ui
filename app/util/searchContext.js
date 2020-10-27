@@ -14,6 +14,7 @@ const searchContext = {
   lineRegexp: null,
   feedIDs: [],
   URL_PELIAS: '',
+  URL_PELIAS_PLACE: '',
   geocodingSearchParams: null,
   geocodingSources: '',
   getRoutesQuery() {

@@ -157,7 +157,9 @@ const verify = (stopStationMap, favourites) => {
       if (fromQuery) {
         favourite.lat = fromQuery.lat;
         favourite.lon = fromQuery.lon;
-
+        if (fromQuery.code) {
+          favourite.code = fromQuery.code;
+        }
         return favourite;
       }
       return null;
@@ -207,12 +209,7 @@ export const getStopAndStationsQuery = favourites => {
   }
   const queries = [];
   const stopIds = favourites
-    .filter(
-      item =>
-        item.type === 'stop' &&
-        item.address !== undefined &&
-        item.address !== null,
-    )
+    .filter(item => item.type === 'stop')
     .map(item => item.gtfsId);
   if (stopIds.length > 0) {
     queries.push(
@@ -222,12 +219,7 @@ export const getStopAndStationsQuery = favourites => {
     );
   }
   const stationIds = favourites
-    .filter(
-      item =>
-        item.type === 'station' &&
-        item.address !== undefined &&
-        item.address !== null,
-    )
+    .filter(item => item.type === 'station')
     .map(item => item.gtfsId);
   if (stationIds.length > 0) {
     queries.push(
