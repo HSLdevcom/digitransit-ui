@@ -106,9 +106,9 @@ class ItineraryTab extends React.Component {
                     color={config.colors.primary}
                     iconClassName="arrow-icon"
                   />
+                  <ItinerarySummary itinerary={itinerary} key="summary" />
                 </div>
-                    <div className="itinerary-timeframe" key="timeframe">
-                    <ItinerarySummary itinerary={itinerary} key="summary" />
+                <div className="itinerary-timeframe" key="timeframe"> 
                     <DateWarning date={itinerary.startTime} refTime={plan.date} />
                 </div>
               </div>
