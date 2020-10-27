@@ -209,8 +209,6 @@ $itinerary-tab-switch-height: 48px;
 .duration--itinerary-summary,
 .distance--itinerary-summary {
   display: flex;
-  min-width: fit-content;
-  min-width: -moz-fit-content; /* stylelint-disable-line declaration-block-no-duplicate-properties */
 }
 .itinerary-summary {
   display: flex;
