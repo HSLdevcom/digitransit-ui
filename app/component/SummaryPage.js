@@ -1757,7 +1757,6 @@ class SummaryPage extends React.Component {
               }
               addLaterItineraries={this.addLaterItineraries}
               addEarlierItineraries={this.addEarlierItineraries}
-              breakpoint={this.props.breakpoint}
               separatorPosition={this.state.separatorPosition}
               updateSeparatorPosition={this.updateSeparatorPosition}
               loading={this.isFetchingWalkAndBike}
@@ -1892,7 +1891,6 @@ class SummaryPage extends React.Component {
             }
             addLaterItineraries={this.addLaterItineraries}
             addEarlierItineraries={this.addEarlierItineraries}
-            breakpoint={this.props.breakpoint}
             separatorPosition={this.state.separatorPosition}
             updateSeparatorPosition={this.updateSeparatorPosition}
             loading={this.isFetchingWalkAndBike}

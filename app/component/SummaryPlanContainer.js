@@ -72,7 +72,6 @@ class SummaryPlanContainer extends React.Component {
     showAlternativePlan: PropTypes.bool,
     addLaterItineraries: PropTypes.func.isRequired,
     addEarlierItineraries: PropTypes.func.isRequired,
-    breakpoint: PropTypes.string.isRequired,
     separatorPosition: PropTypes.number,
     updateSeparatorPosition: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
@@ -202,7 +201,7 @@ class SummaryPlanContainer extends React.Component {
     const tunedParams = {
       wheelchair: null,
       ...params,
-      numItineraries: this.props.breakpoint === 'large' ? 5 : 3,
+      numItineraries: 5,
       arriveBy: false,
       date: latestDepartureTime.format('YYYY-MM-DD'),
       time: latestDepartureTime.format('HH:mm'),
@@ -477,7 +476,7 @@ class SummaryPlanContainer extends React.Component {
     const tunedParams = {
       wheelchair: null,
       ...params,
-      numItineraries: this.props.breakpoint === 'large' ? 5 : 3,
+      numItineraries: 5,
       arriveBy: true,
       date: earliestArrivalTime.format('YYYY-MM-DD'),
       time: earliestArrivalTime.format('HH:mm'),
