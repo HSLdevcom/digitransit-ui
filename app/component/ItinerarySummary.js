@@ -24,13 +24,14 @@ const ItinerarySummary = ({ itinerary }) => {
       />
       {containsBiking(compressedItinerary) && (
         <WalkDistance
-          className="biking-distance--itinerary-summary"
+          className="distance--itinerary-summary"
           icon="icon_biking"
           walkDistance={getTotalBikingDistance(compressedItinerary)}
         />
       )}
       {!onlyBiking(compressedItinerary) && (
         <WalkDistance
+          className="distance--itinerary-summary"
           walkDistance={getTotalWalkingDistance(compressedItinerary)}
         />
       )}
