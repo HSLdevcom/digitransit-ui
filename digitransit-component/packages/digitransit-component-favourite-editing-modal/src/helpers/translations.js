@@ -30,8 +30,8 @@ const translations = {
   sv: {
     cancel: 'Avbryt',
     delete: 'Ta bort',
-    'delete-place-header': 'Would you like to delete the place?',
-    'delete-place-name': 'Delete place: {{favourite.name}}',
+    'delete-place-header': 'Vill du ta bort platsen?',
+    'delete-place-name': 'Ta bort platsen: {{favourite.name}}',
     'edit-places': 'Rediger platser',
     'edit-place-name': 'Edit place: {{favourite.name}}',
     'edit-modal-on-open': 'Favourite editing modal.',

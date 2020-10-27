@@ -3,7 +3,7 @@ const translations = {
     traffic: 'Services now',
   },
   sv: {
-    traffic: 'Trafik nu',
+    traffic: 'Trafiken nu',
   },
   fi: {
     traffic: 'Liikenne nyt',

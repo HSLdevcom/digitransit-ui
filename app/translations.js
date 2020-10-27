@@ -3200,11 +3200,11 @@ const translations = {
     'choose-stop': 'Välj hållplats',
     citybike: 'Stadscykel',
     'citybike-buy-season':
-      'Köpa ett abonnemang för en dag, för en vecka eller för hela säsongen',
+      'Köp ett abonnemang för en dag, en vecka eller för en hel säsong',
     'citybike-distance-duration': 'Cykla {distance} ({duration})',
     'citybike-network-headers': 'Stadscyklarna',
     'citybike-off-season': 'Stadscyklarna tas i bruk igen nästa vår',
-    'citybike-purchase-link': 'Köp',
+    'citybike-purchase-link': 'Gå till köp',
     'citybike-register-required':
       'Det krävs registrering för att kunna använda stadscyklar',
     'citybike-start-using': 'Ta stadscyklar i bruk',
@@ -3332,19 +3332,18 @@ const translations = {
       'Avgår kl {firstDepartureTime} {firstDepartureStopType} {firstDepartureStop}',
     'itinerary-summary-row.first-leg-start-time-citybike':
       'Avgång kl {firstDepartureTime} från {firstDepartureStop} stadscykelstation',
-    'itinerary-summary-row.no-transit-legs': 'Lämna när det passar dig',
+    'itinerary-summary-row.no-transit-legs': 'Avgå när det passar för dig',
     'itinerary-summary-row.transfers':
       'Byte {vehicle} vid hållplats {stopName}',
     'itinerary-summary-row.walking-distance':
       'Promenad sammanlagt {totalDistance}.',
     'itinerary-summary.bikeAndPublic-fallback-title':
-      'Ta din cykel med dig till vehikel',
-    'itinerary-summary.bikeAndPublic-rail-title':
-      'Ta din cykel med dig till tåget',
-    'itinerary-summary.bikeAndPublic-subway-title':
-      'Ta din cykel med dig till metro',
-    'itinerary-summary.bikePark-title': 'Lämna din cykel på parkeringen',
-    'itinerary-summary.interline-wait': 'Odota vaihtoa kulkuneuvossa ({time})',
+      'Ta cykeln med dig i fordonet',
+    'itinerary-summary.bikeAndPublic-rail-title': 'Ta cykeln med på tåget',
+    'itinerary-summary.bikeAndPublic-subway-title': 'Ta cykeln med på metron',
+    'itinerary-summary.bikePark-title':
+      'Lämna din cykel till anslutningsparkeringen',
+    'itinerary-summary.interline-wait': 'Vänta byte i fordonet ({time})',
     'itinerary-summary.show-on-map': 'Visa på kartan {target}',
     'itinerary-ticket.title': 'Biljett som behövs',
     'itinerary-tickets.title': 'Biljetter som behövs',
@@ -3371,7 +3370,7 @@ const translations = {
     'location-work': 'Arbetsplats',
     login: 'Logga in',
     'login-content':
-      'För att kunna spara och lägga till som favorit platser, linjer och hållplatser ska du vara inloggad med HRT-konto',
+      'För att kunna spara och utnyttja platser, linjer och hållplatser ska du logga in med ditt HRT-konto!',
     'login-header': 'Logga in först',
     logout: 'Logga ut',
     'long-transfers-margin': '12 min',
@@ -3396,15 +3395,15 @@ const translations = {
     'more-settings': 'Fler inställningar',
     navigate: 'Navigera',
     nearest: 'Närmaste { mode }',
-    'nearest-stops': 'hållplatser',
-    'nearest-stops-bus': 'busshållplatser',
-    'nearest-stops-citybike': 'stadscykelstationer',
-    'nearest-stops-ferry': 'färjebryggor',
-    'nearest-stops-rail': 'tågstationer',
-    'nearest-stops-subway': 'metrostationer',
-    'nearest-stops-tram': 'spårvagnhållplatser',
-    'nearest-stops-update-location': 'Päivitä {mode}',
-    'nearest-stops-updated-location': 'Kartan sijainti on muuttunut',
+    'nearest-stops': 'Närliggande hållplatser',
+    'nearest-stops-bus': 'Närliggande busshållplatser',
+    'nearest-stops-citybike': 'Närliggande cykelstationer',
+    'nearest-stops-ferry': 'Närliggande färjekajer',
+    'nearest-stops-rail': 'Närliggande tågstationer',
+    'nearest-stops-subway': 'Närliggande metrostationer',
+    'nearest-stops-tram': 'Närliggande spårvagnshållplatser',
+    'nearest-stops-update-location': 'Uppdatera {mode}',
+    'nearest-stops-updated-location': 'Kartans läge har ändrats',
     'network-error': 'Nätverksfel',
     // eslint-disable-next-line sort-keys
     neighbourhood: 'Gransskap',
@@ -3420,18 +3419,17 @@ const translations = {
     'no-route-already-at-destination': 'Du är redan vid din destination.',
     'no-route-end-date-not-in-range':
       'Tidtabellen har inga resor som avgår senare.',
-    'no-route-msg':
-      'Vi hittade inga ruttförslag som passar dina önskemål. Försök pånytt med annan avfärdsplats eller annan destination.',
+    'no-route-msg': 'Kunde tyvärr inte hitta ruttförslag',
     'no-route-msg-with-changes':
-      'Vi hittade inga ruttförslag som passar dina önskemål. Försök pånytt med andra inställningar, annan avfärdsplats eller annan destination.',
+      'Kunde tyvärr inte hitta ruttförslag Var god och kontrollera dina val eller försök ändra avgångsplats eller destination.',
     'no-route-origin-near-destination':
-      'Din avfärdsplats och destination är väldigt nära varandra, vill du ändra avfärdsplats eller destination?',
+      'Kunde inte hitta ruttförslag eftersom avgångsplatsen och destinationen ligger för nära varandra.',
     'no-route-origin-same-as-destination':
-      'No routes were found because the origin is same as the destination.',
+      'Kunde inte hitta ruttförslag eftersom avgångsplatsen är densamma som destinationen.',
     'no-route-showing-alternative-options':
-      'Inga ruttförslag hittades med de aktuella inställningarna. Vi hittade dock följande ruttalternativ:',
+      'Kunde inte hitta några ruttförslag med dina val. Vi hittade dock följande ruttalternativ:',
     'no-route-start-date-too-early':
-      'Tidtabellen har inga resor som avgår tidigare.',
+      'I tidtabellen ingår inte tidigare rutter.',
     'no-route-start-end': 'Välj avfärdsplats och destination.',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'Inga resor på den valda dagen.',
@@ -3451,7 +3449,7 @@ const translations = {
     origin: 'Avfärdsplats',
     'origin-label-change': 'Byt avfärdsplats',
     'origin-outside-service':
-      'Vi kunde tyvärr inte hitta några reseförslag för denna sträcka. Ändra avfärdsplats, som ligger utanför serviceområde.',
+      'Kunde inte hitta ruttförslag eftersom avgångsplatsen ligger utanför vårt serviceområde.',
     'origin-placeholder': 'Från - adress eller hållplats',
     'own-position': 'Min position',
     'page-not-found': 'Sidan kunde inte hittas.',
@@ -3475,7 +3473,7 @@ const translations = {
     'pick-mode-subway-enabled': 'Metro valt',
     'pick-mode-tram-disabled': 'Spårvagn inte vald',
     'pick-mode-tram-enabled': 'Spårvagn valt',
-    'pick-street-mode': 'Egna transportmedel',
+    'pick-street-mode': 'Egna färdmedel',
     'place-route-or-keyword': 'Destination, linje eller hållplats',
     platform: 'Plattform',
     'platform-num': 'Plattform {platformCode}',
@@ -3541,7 +3539,7 @@ const translations = {
     'select-from-map-destination': 'Välj destination',
     'select-from-map-no-title': 'Ingen rubrik',
     'select-from-map-origin': 'Välj avfärdsplats',
-    'select-from-map-viaPoint': 'Välj mellanstopp',
+    'select-from-map-viaPoint': 'Välj mellanpunkt',
     'select-map-layers-header': 'Vad vill du visa på kartan?',
     'select-position': 'Välj din position bland tidigare sökningar',
     send: 'Skicka',
@@ -3558,7 +3556,7 @@ const translations = {
     show: 'Visa',
     'show-departures': 'Visa avgångarna',
     'show-more': 'Visa flera',
-    'show-more-stops-near-you': 'Visa flera stoppar nära dig',
+    'show-more-stops-near-you': 'Visa flera hållplatser nära dig',
     'show-routes': 'Välja linjer',
     'skip-positioning': 'Hoppa över',
     'skip-to-content': 'Till innehållet',
@@ -3573,12 +3571,12 @@ const translations = {
     station: 'Station',
     stop: 'Hållplats',
     'stop-near-you': 'Sök hållplatser eller linjer nära dig',
-    'stop-near-you-modal-grant-permission': 'eller tillåta geolokalisering',
+    'stop-near-you-modal-grant-permission': 'eller aktivera positionering',
     'stop-near-you-modal-grant-permission-info':
-      'Du kan aktivera geolokalisering från din webbläsare eller telefoninställningar så att tjänsten kan dra nytta av din nuvarande plats.',
-    'stop-near-you-modal-header': 'Du har inte tillåtit geolokalisering',
+      'Du kan aktivera positionering i inställningar så att tjänsten kan använda din position.',
+    'stop-near-you-modal-header': 'Du har inte aktiverat positionering',
     'stop-near-you-modal-info':
-      'Användning av hållplatser närä dig kräver platsinformation.',
+      'Användning av funktion ”hållplatserna nära dig” förutsätter information om din position.',
     'stop-near-you-title': 'Sök hållplatser och linjer',
     'stop-number': 'Hållplatsnummer',
     'stop-page.description': 'Hållplats {name} - {code}',
@@ -3633,7 +3631,7 @@ const translations = {
     'use-national-service': 'Du kan också använda national tjänsten:',
     'use-national-service-postfix': '-tjänsten.',
     'use-national-service-prefix':
-      'Vi rekommenderar att du testar ruttens sökning från den rikstäckande ',
+      'Vi rekommenderar att du använder ruttsökning',
     'use-own-position': 'Använd min position',
     'using-modes': 'Jag vill åka',
     'very-likely': 'Väldigt sannolikt',
@@ -3649,11 +3647,11 @@ const translations = {
     'wait-amount-of-time': 'Vänta {duration}',
     walk: 'gång',
     'walk-bike-itinerary-1':
-      'Löysimme valitsemallesi reitille vain kävelyyn liittyviä reittiehdotuksia.',
+      'Vi har endast hittat ruttförslag i vilka ingår promenad.',
     'walk-bike-itinerary-2':
-      'Löysimme valitsemallesi reitille vain pyöräilyyn liittyviä reittiehdotuksia.',
+      'Vi har endast hittat ruttförslag i vilka ingår cykling.',
     'walk-bike-itinerary-3':
-      'Löysimme valitsemallesi reitille vain kävelyyn ja pyöräilyyn liittyviä reittiehdotuksia.',
+      'Vi har endast hittat ruttförslag i vilka ingår promenad och cykling.',
     'walk-distance-duration': 'Gå {distance} ({duration})',
     walking: 'Gång',
     'walking-speed': 'Promenadhastighet',
@@ -3662,7 +3660,7 @@ const translations = {
     'warning-call-agency-no-route':
       'Trafikeras enligt behov som bör beställas på förhand.',
     'weather-at-destination': 'Vädret på destinationen',
-    where: 'Var till?',
+    where: 'Vart vill du åka?',
     yesterday: 'I går',
     zone: 'Zon',
     zones: 'Biljettzoner',
