@@ -312,6 +312,9 @@ const connectedContainer = createRefetchContainer(
                           }
                         }
                       }
+                      stop {
+                        platformCode
+                      }
                     }
                   }
                 }

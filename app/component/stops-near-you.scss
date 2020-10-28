@@ -133,6 +133,12 @@
     .near-departures-container {
         padding: 15px;
         .departure-row {
+            .platform-code {
+                height: 20px;
+                width: 26px;
+                font-size: 0.813rem;
+                align-self: center;
+            }
             @include font-narrow-book;
             font-weight: normal;
             display: flex;
