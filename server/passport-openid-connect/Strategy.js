@@ -52,12 +52,11 @@ OICStrategy.prototype.authenticate = function (req, opts) {
     return this.callback(req, opts);
   }
   const { ssoValidTo, ssoToken } = req.session;
-  console.log(`ssoToken: ${ssoToken}`);
   const authurl =
     ssoValidTo && ssoValidTo > moment().unix()
       ? this.createAuthUrl(ssoToken)
       : this.createAuthUrl();
-  console.log(`authUrl: ${authurl}`);
+  console.log(`ssoToken: ${ssoToken} authUrl: ${authurl}`);
   this.redirect(authurl);
 };
 
@@ -79,14 +78,17 @@ OICStrategy.prototype.callback = function (req, opts) {
       req.session.ssoToken = null;
       req.session.ssoValidTo = null;
       this.tokenSet = tokenSet;
-      console.log(`got tokenSet:${JSON.stringify(tokenSet)}`);
+      console.log(`got tokenSet: ${JSON.stringify(tokenSet)}`);
       return this.getUserInfo();
     })
     .then(() => {
       const user = new User(this.userinfo);
       user.token = this.tokenSet;
       user.idtoken = this.tokenSet.claims;
-      console.log(`set user:${JSON.stringify(user)}`);
+      console.log(`set user: ${JSON.stringify(user)}`);
+      if (this.config.sessionCallback) {
+        this.config.sessionCallback(user.data.sub, req.session.id);
+      }
       this.success(user);
     })
     .catch(err => {
