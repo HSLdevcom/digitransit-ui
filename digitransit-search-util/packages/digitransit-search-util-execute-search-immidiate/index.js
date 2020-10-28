@@ -313,7 +313,7 @@ export function getSearchResults(
   if (allTargets || targets.includes('Locations')) {
     // eslint-disable-next-line prefer-destructuring
     const searchParams = geocodingSearchParams;
-    if (allSources || sources.includes('Favourite')) {
+    if (sources.includes('Favourite')) {
       const favouriteLocations = locations(context);
       searchComponents.push(getFavouriteLocations(favouriteLocations, input));
       if (sources.includes('Back')) {
@@ -355,7 +355,7 @@ export function getSearchResults(
   }
 
   if (allTargets || targets.includes('Stops')) {
-    if (allSources || sources.includes('Favourite')) {
+    if (sources.includes('Favourite')) {
       const favouriteStops = stops(context);
       let stopsAndStations;
       if (favouriteStops.every(stop => stop.type === 'station')) {
@@ -430,7 +430,7 @@ export function getSearchResults(
   }
 
   if (allTargets || targets.includes('Routes')) {
-    if (allSources || sources.includes('Favourite')) {
+    if (sources.includes('Favourite')) {
       const favouriteRoutes = getFavouriteRoutes(context);
       searchComponents.push(getFavouriteRoutesQuery(favouriteRoutes, input));
     }
@@ -467,7 +467,7 @@ export function getSearchResults(
   }
 
   if (allTargets || targets.includes('BikeRentalStations')) {
-    if (allSources || sources.includes('Favourite')) {
+    if (sources.includes('Favourite')) {
       const favouriteRoutes = getFavouriteBikeRentalStations(context);
       searchComponents.push(
         getFavouriteBikeRentalStationsQuery(favouriteRoutes, input),

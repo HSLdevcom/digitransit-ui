@@ -12,6 +12,7 @@ const Favourite = ({
   deleteFavourite,
   favourite,
   className,
+  allowLogin,
   isLoggedIn,
   getModalTranslations,
 }) => {
@@ -67,7 +68,7 @@ const Favourite = ({
   };
 
   const onClick = () => {
-    if (isLoggedIn) {
+    if (!allowLogin || isLoggedIn) {
       if (!disable) {
         handleDisable(true);
         if (favourite) {
@@ -89,7 +90,9 @@ const Favourite = ({
       <Icon
         className={cx('favourite', { selected: favourite })}
         img={
-          favourite ? 'icon-icon_star-with-circle' : 'icon-icon_star-unselected'
+          favourite && (!allowLogin || isLoggedIn)
+            ? 'icon-icon_star-with-circle'
+            : 'icon-icon_star-unselected'
         }
       />
       {renderLoginModal()}
@@ -102,6 +105,7 @@ Favourite.propTypes = {
   deleteFavourite: PropTypes.func.isRequired,
   favourite: PropTypes.bool,
   className: PropTypes.string,
+  allowLogin: PropTypes.bool.isRequired,
   isLoggedIn: PropTypes.bool,
   getModalTranslations: PropTypes.object,
 };

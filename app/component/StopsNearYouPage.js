@@ -32,7 +32,7 @@ const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 
 class StopsNearYouPage extends React.Component { // eslint-disable-line
   static contextTypes = {
-    config: PropTypes.object,
+    config: PropTypes.object.isRequired,
     executeAction: PropTypes.func.isRequired,
     headers: PropTypes.object.isRequired,
     getStore: PropTypes.func,
@@ -57,6 +57,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     queryString: PropTypes.string,
     router: routerShape.isRequired,
     match: matchShape.isRequired,
+    showFavourites: PropTypes.bool,
   };
 
   constructor(props) {
@@ -227,6 +228,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                   <StopsNearYouSearch
                     mode={mode}
                     breakpoint={this.props.breakpoint}
+                    showFavourites={this.props.showFavourites}
                   />
                 )}
                 {renderRefetchButton && (
@@ -568,9 +570,13 @@ const StopsNearYouPageWithBreakpoint = withBreakpoint(props => (
 
 const PositioningWrapper = connectToStores(
   StopsNearYouPageWithBreakpoint,
-  ['PositionStore', 'PreferencesStore'],
+  ['PositionStore', 'PreferencesStore', 'UserStore'],
   (context, props) => {
     const lang = context.getStore('PreferencesStore').getLanguage();
+    const showFavourites =
+      !context.config.allowLogin ||
+      (context.config.allowLogin &&
+        context.getStore('UserStore').getUser().sub !== undefined);
     const { params, location } = props.match;
     const { place } = params;
     if (place !== 'POS') {
@@ -582,6 +588,7 @@ const PositioningWrapper = connectToStores(
         lang,
         params,
         queryString: location.search,
+        showFavourites,
       };
     }
     const locationState = context.getStore('PositionStore').getLocationState();
@@ -594,6 +601,7 @@ const PositioningWrapper = connectToStores(
         lang,
         params,
         queryString: location.search,
+        showFavourites,
       };
     }
 
@@ -608,6 +616,7 @@ const PositioningWrapper = connectToStores(
         lang,
         params,
         queryString: location.search,
+        showFavourites,
       };
     }
 
@@ -618,6 +627,7 @@ const PositioningWrapper = connectToStores(
         loadingPosition: false,
         lang,
         queryString: location.search,
+        showFavourites,
       };
     }
     return {
@@ -627,13 +637,13 @@ const PositioningWrapper = connectToStores(
       lang,
       params,
       queryString: location.search,
+      showFavourites,
     };
   },
 );
 
 PositioningWrapper.contextTypes = {
-  ...PositioningWrapper.contextTypes,
-  executeAction: PropTypes.func.isRequired,
+  getStore: PropTypes.func.isRequired,
   config: PropTypes.object.isRequired,
 };
 

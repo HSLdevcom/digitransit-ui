@@ -54,6 +54,7 @@ const FavouriteBikeRentalStationContainer = connectToStores(
           ),
       });
     },
+    allowLogin: context.config.allowLogin || false,
     isLoggedIn:
       context.config.allowLogin &&
       context.getStore('UserStore').getUser().sub !== undefined,
