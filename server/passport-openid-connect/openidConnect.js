@@ -140,9 +140,7 @@ export default function setUpOIDC(app, port, indexPath) {
     req.logout();
     RedisClient.smembers(sessions, function (err, sessionIds) {
       if (!err && sessionIds && sessionIds.length > 0) {
-        console.log(
-          `Deleting ${sessionIds.length} sessions for user ${req.user.data.name}`,
-        );
+        console.log(`Deleting ${sessionIds.length} sessions`);
         RedisClient.del(...sessionIds);
         RedisClient.del(sessions);
       } else {
