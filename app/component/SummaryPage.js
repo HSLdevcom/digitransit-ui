@@ -1685,7 +1685,6 @@ class SummaryPage extends React.Component {
       if (
         this.state.loading === false &&
         this.props.loadingPosition === false &&
-        this.props.loading === false &&
         (error || combinedItineraries)
       ) {
         const activeIndex =
@@ -1759,7 +1758,7 @@ class SummaryPage extends React.Component {
               addEarlierItineraries={this.addEarlierItineraries}
               separatorPosition={this.state.separatorPosition}
               updateSeparatorPosition={this.updateSeparatorPosition}
-              loading={this.isFetchingWalkAndBike}
+              loading={this.isFetchingWalkAndBike && !error}
             >
               {this.props.content &&
                 React.cloneElement(this.props.content, {
@@ -1790,7 +1789,9 @@ class SummaryPage extends React.Component {
                 endTime={latestArrivalTime}
                 toggleSettings={this.toggleCustomizeSearchOffcanvas}
               />
-              {!this.isFetchingWalkAndBike && !showStreetModeSelector ? null : (
+              {error ||
+              (!this.isFetchingWalkAndBike &&
+                !showStreetModeSelector) ? null : (
                 <StreetModeSelector
                   showWalkOptionButton={showWalkOptionButton}
                   showBikeOptionButton={showBikeOptionButton}
@@ -1803,6 +1804,7 @@ class SummaryPage extends React.Component {
                   bikeAndPublicPlan={bikeAndPublicPlan}
                   bikeParkPlan={bikeParkPlan}
                   loading={
+                    this.props.loading ||
                     this.isFetchingWalkAndBike ||
                     (!this.state.weatherData.temperature &&
                       !this.state.weatherData.err)
@@ -1893,7 +1895,7 @@ class SummaryPage extends React.Component {
             addEarlierItineraries={this.addEarlierItineraries}
             separatorPosition={this.state.separatorPosition}
             updateSeparatorPosition={this.updateSeparatorPosition}
-            loading={this.isFetchingWalkAndBike}
+            loading={this.isFetchingWalkAndBike && !error}
           />
           {screenReaderUpdateAlert}
         </>
@@ -1916,7 +1918,9 @@ class SummaryPage extends React.Component {
                 endTime={latestArrivalTime}
                 toggleSettings={this.toggleCustomizeSearchOffcanvas}
               />
-              {!this.isFetchingWalkAndBike && !showStreetModeSelector ? null : (
+              {error ||
+              (!this.isFetchingWalkAndBike &&
+                !showStreetModeSelector) ? null : (
                 <StreetModeSelector
                   showWalkOptionButton={showWalkOptionButton}
                   showBikeOptionButton={showBikeOptionButton}
@@ -1929,6 +1933,7 @@ class SummaryPage extends React.Component {
                   bikeAndPublicPlan={bikeAndPublicPlan}
                   bikeParkPlan={bikeParkPlan}
                   loading={
+                    this.props.loading ||
                     this.isFetchingWalkAndBike ||
                     (!this.state.weatherData.temperature &&
                       !this.state.weatherData.err)
