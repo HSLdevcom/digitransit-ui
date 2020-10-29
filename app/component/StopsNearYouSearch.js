@@ -7,7 +7,7 @@ import { filterStopsAndStationsByMode } from '@digitransit-search-util/digitrans
 import { getGTFSId } from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import withSearchContext from './WithSearchContext';
 
-function StopsNearYouSearch({ mode, breakpoint }) {
+function StopsNearYouSearch({ mode, breakpoint, showFavourites }) {
   const filterSearchResultsByMode = (results, type) => {
     switch (type) {
       case 'Routes':
@@ -32,6 +32,9 @@ function StopsNearYouSearch({ mode, breakpoint }) {
   const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
   const isMobile = breakpoint !== 'large';
   const transportMode = `route-${mode}`;
+  const searchSources = showFavourites
+    ? ['Favourite', 'History', 'Datasource']
+    : ['History', 'Datasource'];
   return (
     <div className="stops-near-you-search-container">
       <div className="search-container-first">
@@ -45,7 +48,7 @@ function StopsNearYouSearch({ mode, breakpoint }) {
           geocodingSize={40}
           value=""
           filterResults={filterSearchResultsByMode}
-          sources={['Favourite', 'History', 'Datasource']}
+          sources={searchSources}
           targets={
             mode === 'CITYBIKE' ? ['BikeRentalStations'] : ['Stops', 'Routes']
           }
@@ -59,6 +62,7 @@ function StopsNearYouSearch({ mode, breakpoint }) {
 StopsNearYouSearch.propTypes = {
   mode: PropTypes.string.isRequired,
   breakpoint: PropTypes.string.isRequired,
+  showFavourites: PropTypes.bool.isRequired,
 };
 
 export default pure(StopsNearYouSearch);

@@ -60,6 +60,7 @@ const FavouriteStopContainer = connectToStores(
           .isFavourite(stop.gtfsId, isTerminal ? 'station' : 'stop'),
       });
     },
+    allowLogin: context.config.allowLogin || false,
     isLoggedIn:
       context.config.allowLogin &&
       context.getStore('UserStore').getUser().sub !== undefined,

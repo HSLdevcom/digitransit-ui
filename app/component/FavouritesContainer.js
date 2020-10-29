@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
-import { isEmpty } from 'lodash';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { routerShape } from 'found';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
@@ -49,13 +48,16 @@ class FavouritesContainer extends React.Component {
     lang: PropTypes.string,
     isMobile: PropTypes.bool,
     favouriteStatus: PropTypes.string,
-    user: PropTypes.object,
+    allowLogin: PropTypes.bool,
+    isLoggedIn: PropTypes.bool,
   };
 
   static defaultProps = {
     favourites: [],
     isMobile: false,
     favouriteStatus: FavouriteStore.STATUS_FETCHING,
+    allowLogin: false,
+    isLoggedIn: false,
   };
 
   constructor(props) {
@@ -281,31 +283,31 @@ class FavouritesContainer extends React.Component {
   render() {
     const isLoading =
       this.props.favouriteStatus === FavouriteStore.STATUS_FETCHING_OR_UPDATING;
-    const { allowLogin } = this.context.config;
+    const { allowLogin, isLoggedIn } = this.props;
     return (
       <React.Fragment>
         <FavouriteBar
           favourites={this.props.favourites}
           onClickFavourite={this.props.onClickFavourite}
           onAddPlace={() =>
-            allowLogin && isEmpty(this.props.user)
-              ? this.setState({ loginModalOpen: true })
-              : this.setState({ addModalOpen: true })
+            !allowLogin || isLoggedIn
+              ? this.setState({ addModalOpen: true })
+              : this.setState({ loginModalOpen: true })
           }
           onEdit={() =>
-            allowLogin && isEmpty(this.props.user)
-              ? this.setState({ loginModalOpen: true })
-              : this.setState({ editModalOpen: true })
+            !allowLogin || isLoggedIn
+              ? this.setState({ editModalOpen: true })
+              : this.setState({ loginModalOpen: true })
           }
           onAddHome={() =>
-            allowLogin && isEmpty(this.props.user)
-              ? this.setState({ loginModalOpen: true })
-              : this.addHome()
+            !allowLogin || isLoggedIn
+              ? this.addHome()
+              : this.setState({ loginModalOpen: true })
           }
           onAddWork={() =>
-            allowLogin && isEmpty(this.props.user)
-              ? this.setState({ loginModalOpen: true })
-              : this.addWork()
+            !allowLogin || isLoggedIn
+              ? this.addWork()
+              : this.setState({ loginModalOpen: true })
           }
           lang={this.props.lang}
           isLoading={isLoading}
@@ -364,8 +366,16 @@ const connectedComponent = connectToStores(
       .getFavourites()
       .filter(item => item.type === 'place'),
     favouriteStatus: context.getStore('FavouriteStore').getStatus(),
-    user: context.getStore('UserStore').getUser(),
+    allowLogin: context.config.allowLogin || false,
+    isLoggedIn:
+      context.config.allowLogin &&
+      context.getStore('UserStore').getUser().sub !== undefined,
   }),
 );
+
+connectedComponent.contextTypes = {
+  getStore: PropTypes.func.isRequired,
+  config: PropTypes.object.isRequired,
+};
 
 export { connectedComponent as default, FavouritesContainer as Component };

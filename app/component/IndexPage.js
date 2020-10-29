@@ -64,6 +64,7 @@ class IndexPage extends React.Component {
     currentTime: PropTypes.number.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     query: PropTypes.object.isRequired,
+    showFavourites: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -144,9 +145,18 @@ class IndexPage extends React.Component {
   render() {
     const { intl, config } = this.context;
     const { trafficNowLink } = config;
-    const { breakpoint, destination, origin, lang } = this.props;
+    const {
+      breakpoint,
+      destination,
+      origin,
+      lang,
+      showFavourites,
+    } = this.props;
     const queryString = this.context.match.location.search;
 
+    const searchSources = showFavourites
+      ? ['Favourite', 'History', 'Datasource']
+      : ['History', 'Datasource'];
     const stopAndRouteSearchTargets =
       this.context.config.cityBike && this.context.config.cityBike.showCityBikes
         ? ['Stops', 'Routes', 'BikeRentalStations']
@@ -194,7 +204,7 @@ class IndexPage extends React.Component {
               originPlaceHolder="search-origin-index"
               destinationPlaceHolder="search-destination-index"
               lang={lang}
-              sources={['History', 'Datasource']}
+              sources={searchSources}
               targets={[
                 'Locations',
                 'CurrentPosition',
@@ -242,7 +252,7 @@ class IndexPage extends React.Component {
               className="destination"
               placeholder="stop-near-you"
               value=""
-              sources={['Favourite', 'History', 'Datasource']}
+              sources={searchSources}
               targets={stopAndRouteSearchTargets}
             />
             <CtrlPanel.SeparatorLine />
@@ -282,7 +292,7 @@ class IndexPage extends React.Component {
               originPlaceHolder="search-origin-index"
               destinationPlaceHolder="search-destination-index"
               lang={lang}
-              sources={['Favourite', 'History', 'Datasource']}
+              sources={searchSources}
               targets={[
                 'Locations',
                 'CurrentPosition',
@@ -333,7 +343,7 @@ class IndexPage extends React.Component {
               className="destination"
               placeholder="stop-near-you"
               value=""
-              sources={['Favourite', 'History', 'Datasource']}
+              sources={searchSources}
               targets={stopAndRouteSearchTargets}
               isMobile
             />
@@ -417,7 +427,13 @@ const processLocation = (locationString, locationState, intl) => {
 
 const IndexPageWithPosition = connectToStores(
   IndexPageWithBreakpoint,
-  ['PositionStore', 'ViaPointsStore', 'FavouriteStore', 'TimeStore'],
+  [
+    'PositionStore',
+    'ViaPointsStore',
+    'FavouriteStore',
+    'TimeStore',
+    'UserStore',
+  ],
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
     const currentTime = context.getStore('TimeStore').getCurrentTime().unix();
@@ -426,6 +442,11 @@ const IndexPageWithPosition = connectToStores(
     const { query } = location;
 
     const newProps = {};
+    newProps.lang = context.getStore('PreferencesStore').getLanguage();
+    newProps.showFavourites =
+      !context.config.allowLogin ||
+      (context.config.allowLogin &&
+        context.getStore('UserStore').getUser().sub !== undefined);
 
     newProps.locationState = locationState;
     newProps.currentTime = currentTime;
@@ -468,14 +489,13 @@ const IndexPageWithPosition = connectToStores(
           navigateTo({
             origin: newProps.origin,
             destination: newProps.destination,
-            rootPath: `${this.context.config.indexPath}`,
+            rootPath: `${context.config.indexPath}`,
             router: props.router,
             base: location,
           });
         }
       });
     }
-    newProps.lang = context.getStore('PreferencesStore').getLanguage();
     return newProps;
   },
 );
@@ -483,6 +503,7 @@ const IndexPageWithPosition = connectToStores(
 IndexPageWithPosition.contextTypes = {
   ...IndexPageWithPosition.contextTypes,
   executeAction: PropTypes.func.isRequired,
+  config: PropTypes.object.isRequired,
 };
 export {
   IndexPageWithPosition as default,
