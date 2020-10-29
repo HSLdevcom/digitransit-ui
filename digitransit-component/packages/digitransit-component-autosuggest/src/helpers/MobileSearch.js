@@ -12,6 +12,8 @@ const MobileSearch = ({
   appElement,
   id,
   closeHandle,
+  clearInput,
+  value,
   suggestions,
   inputProps,
   fetchFunction,
@@ -25,6 +27,7 @@ const MobileSearch = ({
   dialogHeaderText,
   dialogPrimaryButtonText,
   dialogSecondaryButtonText,
+  clearInputButtonText,
 }) => {
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;
@@ -72,6 +75,18 @@ const MobileSearch = ({
       />
     );
   };
+  const clearButton = () => {
+    return (
+      <button
+        type="button"
+        className={styles['clear-input']}
+        onClick={clearInput}
+        aria-label={clearInputButtonText}
+      >
+        <Icon img="close" />
+      </button>
+    );
+  };
 
   return (
     <div className={styles['fullscreen-root']}>
@@ -103,12 +118,15 @@ const MobileSearch = ({
               autoFocus: true,
             }}
             renderInputComponent={p => (
-              <input
-                aria-label={ariaLabel}
-                id={id}
-                onKeyDown={onKeyDown}
-                {...p}
-              />
+              <>
+                <input
+                  aria-label={ariaLabel}
+                  id={id}
+                  onKeyDown={onKeyDown}
+                  {...p}
+                />
+                {value && clearButton()}
+              </>
             )}
             theme={styles}
             onSuggestionSelected={onSelect}
@@ -124,6 +142,9 @@ MobileSearch.propTypes = {
   appElement: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   closeHandle: PropTypes.func.isRequired,
+  clearInput: PropTypes.func.isRequired,
+  value: PropTypes.string,
+  clearInputButtonText: PropTypes.string.isRequired,
   suggestions: PropTypes.array.isRequired,
   inputProps: PropTypes.shape({
     onChange: PropTypes.func.isRequired,
