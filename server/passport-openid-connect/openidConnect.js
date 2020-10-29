@@ -148,8 +148,8 @@ export default function setUpOIDC(app, port, indexPath) {
           console.log(`Deleting ${sessionIds.length} sessions`);
           RedisClient.del(...sessionIds);
           RedisClient.del(sessions);
-          res.redirect(`/${indexPath}`);
         }
+        res.redirect(`/${indexPath}`);
       });
     });
   });
