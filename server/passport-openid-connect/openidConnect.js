@@ -7,6 +7,8 @@ const moment = require('moment');
 const RedisStore = require('connect-redis')(session);
 const LoginStrategy = require('./Strategy').Strategy;
 
+const clearAllUserSessions = false; // set true if logout should erase all user's sessions
+
 export default function setUpOIDC(app, port, indexPath) {
   const hostname = process.env.HOSTNAME || `http://localhost:${port}`;
   /* ********* Setup OpenID Connect ********* */
@@ -38,7 +40,9 @@ export default function setUpOIDC(app, port, indexPath) {
     sessionCallback(userId, sessionId) {
       // keep track of per-user sessions
       console.log(`adding session for used ${userId} id ${sessionId}`);
-      RedisClient.sadd(`sessions-${userId}`, sessionId);
+      if (clearAllUserSessions) {
+        RedisClient.sadd(`sessions-${userId}`, sessionId);
+      }
     },
   });
 
