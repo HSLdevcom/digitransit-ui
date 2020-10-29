@@ -178,6 +178,9 @@ div.leaflet-bottom.leaflet-right div.leaflet-control-zoom {
   margin-right: 30px;
   margin-bottom: 24px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  &.leaflet-bar {
+    border: none;
+  }
   .icon {
     font-size: 18px;
   }

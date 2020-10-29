@@ -84,131 +84,11 @@ describe('planParamUtil', () => {
       expect(optimize).to.equal('GREENWAYS');
     });
 
-    it('should use the preferred routes from query', () => {
-      const params = utils.preparePlanParams(defaultConfig)(
-        {
-          from,
-          to,
-        },
-        {
-          location: {
-            query: {
-              preferredRoutes: 'HSL__1052',
-            },
-          },
-        },
-      );
-      const { preferred } = params;
-      expect(preferred).to.deep.equal({ routes: 'HSL__1052' });
-    });
-
-    it('should use the unpreferred routes from query', () => {
-      const params = utils.preparePlanParams(defaultConfig)(
-        {
-          from,
-          to,
-        },
-        {
-          location: {
-            query: {
-              unpreferredRoutes: 'HSL__7480',
-            },
-          },
-        },
-      );
-      const { unpreferred } = params;
-      expect(unpreferred).to.deep.equal({
-        routes: 'HSL__7480',
-        useUnpreferredRoutesPenalty: 1200,
-      });
-    });
-
-    it('should use the preferred routes from localStorage', () => {
-      setCustomizedSettings({ preferredRoutes: 'HSL__1052' });
-      const params = utils.preparePlanParams(defaultConfig)(...defaultProps);
-      const { preferred } = params;
-      expect(preferred).to.deep.equal({ routes: 'HSL__1052' });
-    });
-
-    it('should use the unpreferred routes from localStorage', () => {
-      setCustomizedSettings({ unpreferredRoutes: 'HSL__7480' });
-      const params = utils.preparePlanParams(defaultConfig)(...defaultProps);
-      const { unpreferred } = params;
-      expect(unpreferred).to.deep.equal({
-        routes: 'HSL__7480',
-        useUnpreferredRoutesPenalty: 1200,
-      });
-    });
-
-    it('should ignore the preferred routes from localstorage when query contains empty string', () => {
-      setCustomizedSettings({ preferredRoutes: 'HSL__1052' });
-      const params = utils.preparePlanParams(defaultConfig)(
-        {
-          from,
-          to,
-        },
-        {
-          location: {
-            query: {
-              preferredRoutes: '',
-            },
-          },
-        },
-      );
-      const { preferred } = params;
-      expect(preferred).to.deep.equal({});
-    });
-
-    it('should ignore the unpreferred routes from localstorage when query contains empty string', () => {
-      setCustomizedSettings({ unpreferredRoutes: 'HSL__7480' });
-      const params = utils.preparePlanParams(defaultConfig)(
-        {
-          from,
-          to,
-        },
-        {
-          location: {
-            query: {
-              unpreferredRoutes: '',
-            },
-          },
-        },
-      );
-      const { unpreferred } = params;
-      expect(unpreferred).to.deep.equal({ useUnpreferredRoutesPenalty: 1200 });
-    });
-
-    it('should use bikeSpeed from query', () => {
-      const params = utils.preparePlanParams(defaultConfig)(
-        {
-          from,
-          to,
-        },
-        { location: { query: { bikeSpeed: 20 } } },
-      );
-      const { bikeSpeed } = params;
-      expect(bikeSpeed).to.equal(20);
-    });
-
     it('should use bikeSpeed from localStorage', () => {
       setCustomizedSettings({ bikeSpeed: 20 });
       const params = utils.preparePlanParams(defaultConfig)(...defaultProps);
       const { bikeSpeed } = params;
       expect(bikeSpeed).to.equal(20);
-    });
-
-    it('should replace the old ticketTypes separator "_" with ":" in query', () => {
-      const params = utils.preparePlanParams(defaultConfig)(
-        {
-          from,
-          to,
-        },
-        {
-          location: { query: { ticketTypes: 'HSL_esp' } },
-        },
-      );
-      const { ticketTypes } = params;
-      expect(ticketTypes).to.deep.equal(['HSL:esp']);
     });
 
     it('should replace the old ticketTypes separator "_" with ":" in localStorage', () => {
@@ -299,21 +179,6 @@ describe('planParamUtil', () => {
       expect(ticketTypes).to.equal(null);
     });
 
-    it('should use no restrictions if ticketTypes is "none" in query and localStorage has a restriction', () => {
-      setCustomizedSettings({ ticketTypes: 'HSL:esp' });
-      const params = utils.preparePlanParams(defaultConfig)(
-        {
-          from,
-          to,
-        },
-        {
-          location: { query: { ticketTypes: 'none' } },
-        },
-      );
-      const { ticketTypes } = params;
-      expect(ticketTypes).to.equal(null);
-    });
-
     it('should return null if ticketTypes is undefined in query', () => {
       const params = utils.preparePlanParams(defaultConfig)(
         {
@@ -352,22 +217,6 @@ describe('planParamUtil', () => {
         },
         {
           location: { query: { ticketTypes: undefined } },
-        },
-      );
-      const { ticketTypes } = params;
-      expect(ticketTypes).to.equal(null);
-    });
-
-    it('should return null if query has no ticketType limits but the default config contains a restriction', () => {
-      const limitationSettings = { ...defaultConfig };
-      limitationSettings.defaultSettings.ticketTypes = 'HSL:esp';
-      const params = utils.preparePlanParams(limitationSettings)(
-        {
-          from,
-          to,
-        },
-        {
-          location: { query: { ticketTypes: 'none' } },
         },
       );
       const { ticketTypes } = params;
@@ -435,76 +284,6 @@ describe('planParamUtil', () => {
       expect(missing).to.deep.equal([]);
     });
 
-    it('should read OptimizeType TRIANGLE and its fields from the query', () => {
-      const params = utils.preparePlanParams(defaultConfig)(
-        {
-          from,
-          to,
-        },
-        {
-          location: {
-            query: {
-              optimize: 'TRIANGLE',
-              safetyFactor: 0.2,
-              slopeFactor: 0.3,
-              timeFactor: 0.5,
-            },
-          },
-        },
-      );
-      const { optimize, triangle } = params;
-      expect(optimize).to.equal('TRIANGLE');
-      expect(triangle).to.deep.equal({
-        safetyFactor: 0.2,
-        slopeFactor: 0.3,
-        timeFactor: 0.5,
-      });
-    });
-
-    it('should read optimize from the localStorage', () => {
-      setCustomizedSettings({ optimize: 'FLAT' });
-      const params = utils.preparePlanParams(defaultConfig)(
-        {
-          from,
-          to,
-        },
-        {
-          location: {
-            query: {},
-          },
-        },
-      );
-      const { optimize } = params;
-      expect(optimize).to.equal('FLAT');
-    });
-
-    it('should read OptimizeType TRIANGLE and its fields from the localStorage', () => {
-      setCustomizedSettings({
-        optimize: 'TRIANGLE',
-        safetyFactor: 0.2,
-        slopeFactor: 0.3,
-        timeFactor: 0.5,
-      });
-      const params = utils.preparePlanParams(defaultConfig)(
-        {
-          from,
-          to,
-        },
-        {
-          location: {
-            query: {},
-          },
-        },
-      );
-      const { optimize, triangle } = params;
-      expect(optimize).to.equal('TRIANGLE');
-      expect(triangle).to.deep.equal({
-        safetyFactor: 0.2,
-        slopeFactor: 0.3,
-        timeFactor: 0.5,
-      });
-    });
-
     it('should have disableRemainingWeightHeuristic as false when CITYBIKE is not selected nor BICYCLE + TRANSIT + viapoints at the same time', () => {
       setCustomizedSettings({
         modes: ['BICYCLE', 'FERRY', 'SUBWAY', 'RAIL'],
@@ -543,27 +322,6 @@ describe('planParamUtil', () => {
       expect(disableRemainingWeightHeuristic).to.equal(
         defaultConfig.transportModes.citybike.availableForSelection,
       );
-    });
-
-    it('should have disableRemainingWeightHeuristic as true when BICYCLE + TRANSIT + viapoints at the same time', () => {
-      setCustomizedSettings({
-        modes: ['BICYCLE', 'FERRY', 'SUBWAY', 'RAIL'],
-      });
-      const params = utils.preparePlanParams(defaultConfig)(
-        {
-          from,
-          to,
-        },
-        {
-          location: {
-            query: {
-              intermediatePlaces: 'Vantaa,+Vantaa::60.298134,25.006641',
-            },
-          },
-        },
-      );
-      const { disableRemainingWeightHeuristic } = params;
-      expect(disableRemainingWeightHeuristic).to.equal(true);
     });
   });
 

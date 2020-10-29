@@ -1,9 +1,9 @@
 const translations = {
   en: {
-    traffic: 'Traffic now',
+    traffic: 'Services now',
   },
   sv: {
-    traffic: 'Trafik nu',
+    traffic: 'Trafiken nu',
   },
   fi: {
     traffic: 'Liikenne nyt',

@@ -5,7 +5,6 @@ import { FormattedMessage } from 'react-intl';
 import SelectStopRow from './SelectStopRow';
 import SelectCityBikeRow from './SelectCityBikeRow';
 import SelectParkAndRideRow from './SelectParkAndRideRow';
-import SelectTicketSalesRow from './SelectTicketSalesRow';
 import ComponentUsageExample from '../../ComponentUsageExample';
 import { options } from '../../ExampleData';
 
@@ -50,15 +49,6 @@ function MarkerSelectPopup(props) {
         <SelectParkAndRideRow
           {...option.feature.properties}
           key={option.feature.properties.carParkId}
-          selectRow={() => props.selectRow(option)}
-        />
-      );
-    }
-    if (option.layer === 'ticketSales') {
-      return (
-        <SelectTicketSalesRow
-          {...option.feature.properties}
-          key={option.feature.properties.FID}
           selectRow={() => props.selectRow(option)}
         />
       );

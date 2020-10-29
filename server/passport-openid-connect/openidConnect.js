@@ -35,6 +35,11 @@ export default function setUpOIDC(app, port, indexPath) {
       `http://localhost:${port}${callbackPath}`,
     post_logout_redirect_uris: [`${hostname}/logout/callback`],
     scope: 'openid profile',
+    sessionCallback(userId, sessionId) {
+      // keep track of per-user sessions
+      console.log(`adding session for used ${userId} id ${sessionId}`);
+      RedisClient.sadd(`sessions-${userId}`, sessionId);
+    },
   });
 
   const redirectToLogin = function (req, res, next) {
@@ -92,6 +97,7 @@ export default function setUpOIDC(app, port, indexPath) {
       },
     }),
   );
+
   // Initialize Passport
   app.use(passport.initialize());
   app.use(passport.session());
@@ -111,6 +117,7 @@ export default function setUpOIDC(app, port, indexPath) {
       successReturnToOrRedirect: '/',
     }),
   );
+
   // Callback handler that will redirect back to application after successfull authentication
   app.get(
     callbackPath,
@@ -120,29 +127,47 @@ export default function setUpOIDC(app, port, indexPath) {
       failureRedirect: '/login',
     }),
   );
+
   app.get('/logout', function (req, res) {
     const logoutUrl = `${oic.client.endSessionUrl()}&id_token_hint=${
       req.user.token.id_token
     }`;
+    req.session.userId = req.user.data.sub;
+    console.log(`logout for user ${req.user.data.name} to ${logoutUrl}`);
     res.redirect(logoutUrl);
   });
+
   app.get('/logout/callback', function (req, res) {
+    console.log(`logout callback for userId ${req.session.userId}`);
+    const sessions = `sessions-${req.session.userId}`;
     req.logout();
-    req.session.destroy(function () {
-      res.clearCookie('connect.sid');
-      res.redirect(`/${indexPath}`);
+    RedisClient.smembers(sessions, function (err, sessionIds) {
+      req.session.destroy(function () {
+        res.clearCookie('connect.sid');
+        if (sessionIds && sessionIds.length > 0) {
+          console.log(`Deleting ${sessionIds.length} sessions`);
+          RedisClient.del(...sessionIds);
+          RedisClient.del(sessions);
+        }
+        res.redirect(`/${indexPath}`);
+      });
     });
   });
+
   app.get('/sso/auth', function (req, res, next) {
+    console.log(`GET sso/auth, token=${req.query['sso-token']}`);
     if (req.isAuthenticated()) {
+      console.log('GET sso/auth -> already authenticated');
       next();
     } else {
+      console.log('GET sso/auth -> updating token');
       req.session.ssoToken = req.query['sso-token'];
       req.session.ssoValidTo =
         Number(req.query['sso-validity']) * 60 * 1000 + moment().unix();
       res.send();
     }
   });
+
   app.use('/api', function (req, res, next) {
     res.set('Cache-Control', 'no-store');
     if (req.isAuthenticated()) {
@@ -151,6 +176,7 @@ export default function setUpOIDC(app, port, indexPath) {
       res.sendStatus(401);
     }
   });
+
   /* GET the profile of the current authenticated user */
   app.get('/api/user', function (req, res) {
     request.get(
@@ -169,6 +195,7 @@ export default function setUpOIDC(app, port, indexPath) {
       },
     );
   });
+
   app.use('/api/user/favourites', function (req, res) {
     request(
       {

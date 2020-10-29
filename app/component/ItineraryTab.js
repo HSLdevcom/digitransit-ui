@@ -81,7 +81,7 @@ class ItineraryTab extends React.Component {
     const { itinerary, plan } = this.props;
     const { config } = this.context;
 
-    if(!itinerary) {
+    if(!itinerary || !itinerary.legs[0]) {
       return null;
     }
 
@@ -106,9 +106,9 @@ class ItineraryTab extends React.Component {
                     color={config.colors.primary}
                     iconClassName="arrow-icon"
                   />
+                  <ItinerarySummary itinerary={itinerary} key="summary" />
                 </div>
-                    <div className="itinerary-timeframe" key="timeframe">
-                    <ItinerarySummary itinerary={itinerary} key="summary" />
+                <div className="itinerary-timeframe" key="timeframe"> 
                     <DateWarning date={itinerary.startTime} refTime={plan.date} />
                 </div>
               </div>
@@ -255,11 +255,6 @@ const withRelay = createFragmentContainer(ItineraryTab, {
             code
             platformCode
             zoneId
-            alerts {
-              alertSeverityLevel
-              effectiveEndDate
-              effectiveStartDate
-            }
           }
           bikePark {
             bikeParkId
@@ -280,11 +275,6 @@ const withRelay = createFragmentContainer(ItineraryTab, {
             code
             platformCode
             zoneId
-            alerts {
-              alertSeverityLevel
-              effectiveEndDate
-              effectiveStartDate
-            }
           }
         }
         realTime
@@ -309,16 +299,6 @@ const withRelay = createFragmentContainer(ItineraryTab, {
             fareUrl
             name
             phone
-          }
-          alerts {
-            alertSeverityLevel
-            effectiveEndDate
-            effectiveStartDate
-            trip {
-              pattern {
-                code
-              }
-            }
           }
         }
         trip {

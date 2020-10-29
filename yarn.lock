@@ -1763,10 +1763,10 @@
   resolved "https://registry.yarnpkg.com/@hsl-fi/shimmer/-/shimmer-0.1.0.tgz#111eca690401db43bc5ac0b1d142d00e97bcfaea"
   integrity sha512-8aGzCxClDzZf1ZVm7etEi3UEJIy0uMakMFC+p6eS6XalBuGhXptk8Luwavw1NiNo633yW1sJA2C3QRGwoHr6pg==
 
-"@hsl-fi/site-header@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@hsl-fi/site-header/-/site-header-1.0.0.tgz#34aebb7b6a46d42bcaac07377e02022af3e5efad"
-  integrity sha512-LOyiuoXVUncIOh2xFEl7qfOj0kgNWb50xwigfoEr7y1SEEyJgBKAoEhDQULz0n4RfT6IlEa6zM9MH2F0toMbHg==
+"@hsl-fi/site-header@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@hsl-fi/site-header/-/site-header-1.0.1.tgz#77fbaa3762cc93294158a3fb4367f1e2558f421a"
+  integrity sha512-g0if3LaoeUdV5OdgRx1PRgIbgv3V7v5T9okgzgUb9yVzTQbxSn7IlctArVwuJchvSmGSBufRemqpndOnFLnA4A==
   dependencies:
     "@hsl-fi/animated-spinner" "^0.1.0"
     "@hsl-fi/hooks" "^0.2.0"

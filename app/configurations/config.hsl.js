@@ -19,7 +19,6 @@ export default {
     OTP: process.env.OTP_URL || `${API_URL}/routing/v1/routers/hsl/`,
     STOP_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-stop-map/`,
     PARK_AND_RIDE_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-parkandride-map/`,
-    TICKET_SALES_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-ticket-sales-map/`,
     FONT: 'https://cloud.typography.com/6364294/7432412/css/fonts.css',
     CITYBIKE_MAP: `${MAP_URL}/map/v1/${MAP_PATH_PREFIX}hsl-citybike-map/`,
     ROOTLINK: rootLink,
@@ -37,6 +36,7 @@ export default {
 
   availableLanguages: ['fi', 'sv', 'en'],
   defaultLanguage: 'fi',
+  passLanguageToRootLink: true,
 
   favicon: './app/configurations/images/hsl/favicon.png',
 
@@ -66,11 +66,6 @@ export default {
   parkAndRide: {
     showParkAndRide: true,
     parkAndRideMinZoom: 14,
-  },
-
-  ticketSales: {
-    showTicketSales: true,
-    ticketSalesMinZoom: 16,
   },
 
   showDisclaimer: true,
@@ -443,17 +438,6 @@ export default {
       url: '/assets/geojson/hsl_zone_areas_20190508.geojson',
     },
   },
-  mapLayers: {
-    featureMapping: {
-      ticketSales: {
-        Palvelupiste: 'servicePoint',
-        'HSL Automaatti MNL': 'ticketMachine',
-        'HSL Automaatti KL': 'ticketMachine',
-        Myyntipiste: 'salesPoint',
-        'R-kioski': 'salesPoint',
-      },
-    },
-  },
 
   // mapping fareId from OTP fare identifiers to human readable form
   // in the new HSL zone model, just strip off the prefix 'HSL:'
@@ -502,9 +486,9 @@ export default {
         },
         type: 'citybike',
         url: {
-          fi: rootLink + '/kaupunkipyorat',
-          sv: rootLink + '/sv/stadscyklar',
-          en: rootLink + '/en/citybikes',
+          fi: 'https://kaupunkipyorat.hsl.fi/fi',
+          sv: 'https://kaupunkipyorat.hsl.fi/sv',
+          en: 'https://kaupunkipyorat.hsl.fi/en',
         },
       },
       vantaa: {
@@ -516,9 +500,9 @@ export default {
         },
         type: 'citybike',
         url: {
-          fi: rootLink + '/kaupunkipyorat',
-          sv: rootLink + '/sv/stadscyklar',
-          en: rootLink + '/en/citybikes',
+          fi: 'https://kaupunkipyorat.hsl.fi/fi',
+          sv: 'https://kaupunkipyorat.hsl.fi/sv',
+          en: 'https://kaupunkipyorat.hsl.fi/en',
         },
       },
     },

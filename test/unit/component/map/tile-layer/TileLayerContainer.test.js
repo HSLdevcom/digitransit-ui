@@ -53,7 +53,6 @@ describe('<TileLayerContainer />', () => {
             getMapLayers: () => ({
               stop: {},
               terminal: {},
-              ticketSales: {},
             }),
             on: () => {},
           }),
@@ -98,7 +97,7 @@ describe('<TileLayerContainer />', () => {
     const props = {
       tileSize: 1,
       zoomOffset: 1,
-      mapLayers: { stop: {}, terminal: {}, ticketSales: {} },
+      mapLayers: { stop: {}, terminal: {} },
       leaflet: {
         map: {
           addLayer: () => null,
@@ -121,7 +120,6 @@ describe('<TileLayerContainer />', () => {
             getMapLayers: () => ({
               stop: {},
               terminal: {},
-              ticketSales: {},
             }),
             on: () => {},
           }),

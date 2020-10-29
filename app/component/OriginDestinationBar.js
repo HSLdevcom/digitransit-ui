@@ -34,6 +34,7 @@ class OriginDestinationBar extends React.Component {
     location: PropTypes.object,
     language: PropTypes.string,
     isMobile: PropTypes.bool,
+    showFavourites: PropTypes.bool.isRequired,
   };
 
   static contextTypes = {
@@ -41,6 +42,7 @@ class OriginDestinationBar extends React.Component {
     router: routerShape.isRequired,
     getStore: PropTypes.func.isRequired,
     match: matchShape.isRequired,
+    config: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -85,10 +87,7 @@ class OriginDestinationBar extends React.Component {
   };
 
   renderSelectFromMapModal = () => {
-    const titleId = this.context.intl.formatMessage({
-      id: 'select-from-map-viaPoint',
-      defaultMessage: 'Select viaPoint',
-    });
+    const titleId = 'select-from-map-viaPoint';
     return (
       <DTModal show={this.state.showModal}>
         <SelectFromMapHeader
@@ -188,12 +187,14 @@ class OriginDestinationBar extends React.Component {
           sources={[
             'History',
             'Datasource',
-            this.props.isMobile ? 'Favourite' : '',
+            this.props.isMobile && this.props.showFavourites ? 'Favourite' : '',
           ]}
           targets={[
             'Locations',
             'CurrentPosition',
-            !this.props.isMobile ? 'SelectFromOwnLocations' : '',
+            !this.props.isMobile && this.props.showFavourites
+              ? 'SelectFromOwnLocations'
+              : '',
             this.props.isMobile ? 'MapPosition' : '',
           ]}
           lang={this.props.language}
@@ -243,10 +244,19 @@ OriginDestinationBar.description = (
 
 const connectedComponent = connectToStores(
   OriginDestinationBar,
-  ['PreferencesStore'],
+  ['PreferencesStore', 'UserStore'],
   context => ({
     language: context.getStore('PreferencesStore').getLanguage(),
+    showFavourites:
+      !context.config.allowLogin ||
+      (context.config.allowLogin &&
+        context.getStore('UserStore').getUser().sub !== undefined),
   }),
 );
+
+connectedComponent.contextTypes = {
+  getStore: PropTypes.func.isRequired,
+  config: PropTypes.object.isRequired,
+};
 
 export { connectedComponent as default, OriginDestinationBar as Component };
