@@ -104,7 +104,7 @@ export default {
   cityBike: {
     showCityBikes: true,
     networks: {
-      smoove: {
+      /* smoove: {
         icon: 'citybike',
         name: {
           fi: 'Helsinki ja Espoo',
@@ -131,7 +131,7 @@ export default {
           sv: 'https://kaupunkipyorat.hsl.fi/sv',
           en: 'https://kaupunkipyorat.hsl.fi/en',
         },
-      },
+      }, */
       turku: {
         icon: 'citybike',
         name: {
