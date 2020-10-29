@@ -15,26 +15,44 @@ import VehicleMarkerContainer from './map/VehicleMarkerContainer'; // DT-3473
 let L;
 let prevCenter;
 let useCenter = true;
-let msg = false;
 if (isBrowser) {
   // eslint-disable-next-line
   L = require('leaflet');
 }
-// When user goes straigth to itinerary view with url, map cannot keep up and renders a while after everything else
-// This helper function ensures that lat lon values are sent to the map, thus preventing set center and zoom first error.
-function received() {
-  msg = true;
-}
+
 function ItineraryPageMap(
-  { itinerary, center, breakpoint, forceCenter, fitBounds, bounds, streetMode },
+  {
+    itinerary,
+    center,
+    mapReady,
+    mapLoaded,
+    breakpoint,
+    forceCenter,
+    fitBounds,
+    bounds,
+    streetMode,
+  },
   { match, config },
 ) {
+  let latlon = prevCenter;
   const { from, to } = match.params;
   if (prevCenter) {
     useCenter = false;
   }
-  if (center && (!isEqual(center, prevCenter) || forceCenter)) {
-    prevCenter = center;
+  if (center && !isEqual(center, prevCenter)) {
+    if (!mapLoaded) {
+      if (center !== undefined) {
+        latlon = center;
+        prevCenter = center;
+        useCenter = true;
+      }
+    } else {
+      latlon = center;
+      prevCenter = center;
+      useCenter = true;
+    }
+  }
+  if (forceCenter) {
     useCenter = true;
   }
   const leafletObjs = [
@@ -92,20 +110,20 @@ function ItineraryPageMap(
 
   const showScale = breakpoint === 'large';
   const validCenter =
-    center && (center.lat !== undefined || center[0] !== undefined);
+    latlon && (latlon.lat !== undefined || latlon[0] !== undefined);
   // eslint-disable-next-line no-nested-ternary
-  const lat = validCenter ? (center.lat ? center.lat : center[0]) : undefined;
+  const lat = validCenter ? (latlon.lat ? latlon.lat : latlon[0]) : undefined;
   // eslint-disable-next-line no-nested-ternary
-  const lon = validCenter ? (center.lon ? center.lon : center[1]) : undefined;
+  const lon = validCenter ? (latlon.lon ? latlon.lon : latlon[1]) : undefined;
   return (
     <MapContainer
       className="full itinerary"
       leafletObjs={leafletObjs}
-      lat={useCenter || !msg ? lat : undefined}
-      lon={useCenter || !msg ? lon : undefined}
-      zoom={bounds ? 12 : 16}
+      lat={useCenter || !mapLoaded ? lat : undefined}
+      lon={useCenter || !mapLoaded ? lon : undefined}
+      zoom={bounds ? undefined : 16}
       bounds={bounds}
-      received={received}
+      mapReady={mapReady}
       fitBounds={fitBounds}
       boundsOptions={{ maxZoom: 16 }}
       showScaleBar={showScale}
@@ -128,6 +146,8 @@ ItineraryPageMap.propTypes = {
   streetMode: PropTypes.string,
   forceCenter: PropTypes.bool,
   fitBounds: PropTypes.bool,
+  mapReady: PropTypes.func,
+  mapLoaded: PropTypes.bool,
 };
 
 ItineraryPageMap.contextTypes = {
