@@ -269,6 +269,14 @@ class DTAutosuggest extends React.Component {
     }
   };
 
+  // Make sure change of targets is reflected immediately
+  static getDerivedStateFromProps(props, state) {
+    if (props.targets.join(',') !== state.targets.join(',')) {
+      return { targets: props.targets };
+    }
+    return null;
+  }
+
   onBlur = () => {
     this.setState({
       editing: false,
