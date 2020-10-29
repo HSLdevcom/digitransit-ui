@@ -97,6 +97,7 @@ export default function setUpOIDC(app, port, indexPath) {
       },
     }),
   );
+
   // Initialize Passport
   app.use(passport.initialize());
   app.use(passport.session());
@@ -116,6 +117,7 @@ export default function setUpOIDC(app, port, indexPath) {
       successReturnToOrRedirect: '/',
     }),
   );
+
   // Callback handler that will redirect back to application after successfull authentication
   app.get(
     callbackPath,
@@ -197,6 +199,7 @@ export default function setUpOIDC(app, port, indexPath) {
       },
     );
   });
+
   app.use('/api/user/favourites', function (req, res) {
     request(
       {
