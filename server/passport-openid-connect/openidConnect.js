@@ -130,13 +130,14 @@ export default function setUpOIDC(app, port, indexPath) {
     const logoutUrl = `${oic.client.endSessionUrl()}&id_token_hint=${
       req.user.token.id_token
     }`;
+    req.session.userId = req.user.data.sub;
     console.log(`logout for user ${req.user.data.name} to ${logoutUrl}`);
     res.redirect(logoutUrl);
   });
 
   app.get('/logout/callback', function (req, res) {
-    console.log(`logout callback for ${req.user.data.name}`);
-    const sessions = `sessions-${req.user.data.sub}`;
+    console.log(`logout callback for userId ${req.session.userId}`);
+    const sessions = `sessions-${req.session.userId}`;
     req.logout();
     RedisClient.smembers(sessions, function (err, sessionIds) {
       if (!err && sessionIds && sessionIds.length > 0) {
