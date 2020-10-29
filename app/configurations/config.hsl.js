@@ -475,7 +475,7 @@ export default {
   localStorageTarget: rootLink,
 
   cityBike: {
-    showCityBikes: true,
+    showCityBikes: false,
     networks: {
       smoove: {
         icon: 'citybike',
@@ -514,5 +514,5 @@ export default {
   showBikeAndParkItineraries: true,
 
   showNearYouButtons: true,
-  nearYouModes: ['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike'],
+  nearYouModes: ['bus', 'tram', 'subway', 'rail', 'ferry' /* , 'citybike' */],
 };
