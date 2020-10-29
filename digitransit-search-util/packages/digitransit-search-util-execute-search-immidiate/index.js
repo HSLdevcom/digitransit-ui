@@ -11,6 +11,9 @@ import getGeocodingResults from '@digitransit-search-util/digitransit-search-uti
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 
 function getStopsFromGeocoding(stops, URL_PELIAS_PLACE) {
+  if (!stops || stops.length < 1) {
+    return Promise.resolve([]);
+  }
   let gids = '';
   const stopsWithGids = stops.map(stop => {
     const type = stop.type === 'stop' ? 'stop' : 'station';
