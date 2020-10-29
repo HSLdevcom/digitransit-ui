@@ -142,19 +142,15 @@ export default function setUpOIDC(app, port, indexPath) {
     const sessions = `sessions-${req.session.userId}`;
     req.logout();
     RedisClient.smembers(sessions, function (err, sessionIds) {
-      if (!err && sessionIds && sessionIds.length > 0) {
-        console.log(`Deleting ${sessionIds.length} sessions`);
-        RedisClient.del(...sessionIds);
-        RedisClient.del(sessions);
-      } else {
-        console.log(`No sessions array found, destroy req.session`);
-        req.session.destroy(function () {
-          res.clearCookie('connect.sid');
+      req.session.destroy(function () {
+        res.clearCookie('connect.sid');
+        if (sessionIds && sessionIds.length > 0) {
+          console.log(`Deleting ${sessionIds.length} sessions`);
+          RedisClient.del(...sessionIds);
+          RedisClient.del(sessions);
           res.redirect(`/${indexPath}`);
-        });
-      }
-      res.clearCookie('connect.sid');
-      res.redirect(`/${indexPath}`);
+        }
+      });
     });
   });
 
