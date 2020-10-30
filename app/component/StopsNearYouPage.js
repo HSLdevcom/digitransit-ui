@@ -372,15 +372,14 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   };
 
   renderAutoSuggestField = () => {
-    const targets = this.props.showFavourites
-      ? ['Locations', 'SelectFromOwnLocations']
-      : ['Locations'];
+    // TODO perhaps add SelectFromOwnLocations as target
+    // TODO perhaps render autosuggest in fullscreen on mobile
     return (
       <DTAutoSuggestWithSearchContext
         appElement="#app"
         icon="search"
-        sources={['History', 'Datasource', 'Favourites']}
-        targets={targets}
+        sources={['History', 'Datasource']}
+        targets={['Locations']}
         id="origin-stop-near-you"
         placeholder="origin"
         value=""
