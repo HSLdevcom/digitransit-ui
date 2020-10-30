@@ -1195,28 +1195,33 @@ class SummaryPage extends React.Component {
       this.context.getStore(MessageStore).getMessages(),
     );
 
-    const onlyActive = filteredItineraries[activeIndex];
-    const leafletObjs = filteredItineraries
-      .filter(itinerary => itinerary !== onlyActive)
-      .map((itinerary, i) => (
+    let leafletObjs = [];
+
+    if (filteredItineraries && filteredItineraries.length > 0) {
+      const onlyActive = filteredItineraries[activeIndex];
+      leafletObjs = filteredItineraries
+        .filter(itinerary => itinerary !== onlyActive)
+        .map((itinerary, i) => (
+          <ItineraryLine
+            key={i}
+            hash={i}
+            legs={itinerary.legs}
+            passive
+            showIntermediateStops={false}
+          />
+        ));
+      const nextId = leafletObjs.length + 1;
+      leafletObjs.push(
         <ItineraryLine
-          key={i}
-          hash={i}
-          legs={itinerary.legs}
-          passive
-          showIntermediateStops={false}
-        />
-      ));
-    const nextId = leafletObjs.length + 1;
-    leafletObjs.push(
-      <ItineraryLine
-        key={nextId}
-        hash={nextId}
-        legs={onlyActive.legs}
-        passive={false}
-        showIntermediateStops
-      />,
-    );
+          key={nextId}
+          hash={nextId}
+          legs={onlyActive.legs}
+          passive={false}
+          showIntermediateStops
+        />,
+      );
+    }
+
     if (from.lat && from.lon) {
       leafletObjs.push(
         <LocationMarker
