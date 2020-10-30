@@ -27,6 +27,7 @@
 
 .stops-near-you-page {
     position: relative;
+    overflow: visible;
     .show-more-button {
         margin: 0 6.25em 20px;
         font-weight: 500;
@@ -37,7 +38,6 @@
         border-radius: 16px;
         font-size: 0.9375rem;
     }
-    overflow-y: auto;
     display: flex;
     flex-direction: column;
     padding: 10px 3.75em 0;

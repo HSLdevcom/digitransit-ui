@@ -153,8 +153,11 @@ class IndexPage extends React.Component {
       showFavourites,
     } = this.props;
     const queryString = this.context.match.location.search;
-
-    const searchSources = showFavourites
+    const searchSources =
+      showFavourites && breakpoint !== 'large'
+        ? ['Favourite', 'History', 'Datasource']
+        : ['History', 'Datasource'];
+    const stopAndRouteSearchSources = showFavourites
       ? ['Favourite', 'History', 'Datasource']
       : ['History', 'Datasource'];
     const locationSearchTargets = showFavourites
@@ -255,7 +258,7 @@ class IndexPage extends React.Component {
               className="destination"
               placeholder="stop-near-you"
               value=""
-              sources={searchSources}
+              sources={stopAndRouteSearchSources}
               targets={stopAndRouteSearchTargets}
             />
             <CtrlPanel.SeparatorLine />
@@ -346,7 +349,7 @@ class IndexPage extends React.Component {
               className="destination"
               placeholder="stop-near-you"
               value=""
-              sources={searchSources}
+              sources={stopAndRouteSearchSources}
               targets={stopAndRouteSearchTargets}
               isMobile
             />

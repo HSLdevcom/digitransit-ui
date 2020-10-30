@@ -749,8 +749,8 @@
 		c-2.177,3.048-3.484,6.096-4.79,9.579H175.649z"/>
 </symbol>
 <symbol id="icon-icon_bicycle_walk" viewBox="0 0 17 16">
-    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g transform="translate(-162.000000, -719.000000)" fill="#FFFFFF">
+    <g stroke="none" stroke-width="1" fill-rule="evenodd">
+        <g transform="translate(-162.000000, -719.000000)">
             <g transform="translate(0.000000, 248.000000)">
                 <g transform="translate(0.000000, 397.000000)">
                     <g transform="translate(137.000000, 70.000000)">

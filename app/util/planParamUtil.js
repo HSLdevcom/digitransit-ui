@@ -52,29 +52,10 @@ function nullOrUndefined(val) {
   return val === null || val === undefined;
 }
 
-function getMaxWalkDistance(modes, config) {
-  let maxWalkDistance;
-  if (
-    typeof modes === 'undefined' ||
-    (typeof modes === 'string' && !modes.split(',').includes('BICYCLE'))
-  ) {
-    ({ maxWalkDistance } = config);
-  } else {
-    maxWalkDistance = config.maxBikingDistance;
-  }
-  return maxWalkDistance;
-}
-
-function getDisableRemainingWeightHeuristic(modes, intermediatePlaces) {
+function getDisableRemainingWeightHeuristic(modes) {
   let disableRemainingWeightHeuristic;
   const modesArray = modes ? modes.split(',') : undefined;
-  if (
-    modesArray &&
-    (modesArray.includes('BICYCLE_RENT') ||
-      (modesArray.includes('BICYCLE') &&
-        modesArray.length > 1 &&
-        intermediatePlaces.length > 0))
-  ) {
+  if (modesArray && modesArray.includes('BICYCLE_RENT')) {
     disableRemainingWeightHeuristic = true;
   } else {
     disableRemainingWeightHeuristic = false;
@@ -145,7 +126,7 @@ export const preparePlanParams = config => (
         minTransferTime: config.minTransferTime,
         walkSpeed: settings.walkSpeed,
         arriveBy: arriveBy === 'true',
-        maxWalkDistance: getMaxWalkDistance(modesOrDefault, config),
+        maxWalkDistance: config.maxWalkDistance,
         wheelchair:
           getNumberValueOrDefault(
             settings.accessibilityOption,
@@ -160,7 +141,6 @@ export const preparePlanParams = config => (
         },
         disableRemainingWeightHeuristic: getDisableRemainingWeightHeuristic(
           modesOrDefault,
-          intermediatePlaceLocations,
         ),
         locale: locale || cookie.load('lang') || 'fi',
       },
@@ -204,5 +184,9 @@ export const preparePlanParams = config => (
       (settings.includeBikeSuggestions
         ? settings.includeBikeSuggestions
         : defaultSettings.includeBikeSuggestions),
+    bikeAndPublicMaxWalkDistance: config.suggestBikeMaxDistance,
+    bikeandPublicDisableRemainingWeightHeuristic:
+      Array.isArray(intermediatePlaceLocations) &&
+      intermediatePlaceLocations.length > 0,
   };
 };

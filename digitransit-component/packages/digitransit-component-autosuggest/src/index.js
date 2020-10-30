@@ -675,6 +675,8 @@ class DTAutosuggest extends React.Component {
             appElement={this.props.appElement}
             clearOldSearches={this.clearOldSearches}
             id={this.props.id}
+            clearInput={this.clearInput}
+            value={this.state.value}
             suggestions={[
               ...suggestions,
               {
@@ -709,6 +711,7 @@ class DTAutosuggest extends React.Component {
             dialogHeaderText={i18next.t('delete-old-searches-header')}
             dialogPrimaryButtonText={i18next.t('delete')}
             dialogSecondaryButtonText={i18next.t('cancel')}
+            clearInputButtonText={i18next.t('clear-button-label')}
           />
         )}
         {!renderMobileSearch && (

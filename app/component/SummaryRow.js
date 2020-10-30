@@ -208,16 +208,27 @@ const getViaPointIndex = (leg, intermediatePlaces) => {
   );
 };
 
+const bikeWasParked = legs => {
+  const legsLength = legs.length;
+  for (let i = 0; i < legsLength; i++) {
+    if (legs[i].to && legs[i].to.bikePark) {
+      return i;
+    }
+  }
+  return legs.length;
+};
+
 const SummaryRow = (
   { data, breakpoint, intermediatePlaces, zones, ...props },
   { intl, intl: { formatMessage }, config },
 ) => {
   const isTransitLeg = leg => leg.transitLeg;
   const isLegOnFoot = leg => leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK';
+  const usingOwnBicycle = data.legs.some(
+    leg => getLegMode(leg) === 'BICYCLE' && leg.rentedBike === false,
+  );
   const usingOwnBicycleWholeTrip =
-    data.legs.some(
-      leg => getLegMode(leg) === 'BICYCLE' && leg.rentedBike === false,
-    ) && data.legs.every(leg => !leg.to || !leg.to.bikePark);
+    usingOwnBicycle && data.legs.every(leg => !leg.to || !leg.to.bikePark);
   const refTime = moment(props.refTime);
   const startTime = moment(data.startTime);
   const endTime = moment(data.endTime);
@@ -256,6 +267,9 @@ const SummaryRow = (
   const lastLegLength =
     ((lastLeg.duration * 1000) / durationWithoutSlack) * 100;
   const fitAllRouteNumbers = transitLegCount < 3;
+  const bikeParkedIndex = usingOwnBicycle
+    ? bikeWasParked(compressedLegs)
+    : undefined;
 
   compressedLegs.forEach((leg, i) => {
     let renderNumber = true;
@@ -309,6 +323,10 @@ const SummaryRow = (
     }
     if (isLegOnFoot(leg) && renderBar) {
       const walkingTime = Math.floor(leg.duration / 60);
+      let walkMode = 'walk';
+      if (usingOwnBicycle && i < bikeParkedIndex) {
+        walkMode = 'bicycle_walk';
+      }
       legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
@@ -316,7 +334,7 @@ const SummaryRow = (
           isTransitLeg={false}
           leg={leg}
           duration={walkingTime}
-          mode="WALK"
+          mode={walkMode}
           legLength={legLength}
           large={breakpoint === 'large'}
         />,
