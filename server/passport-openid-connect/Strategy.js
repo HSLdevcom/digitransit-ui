@@ -51,11 +51,12 @@ OICStrategy.prototype.authenticate = function (req, opts) {
     console.log('calling auth callback');
     return this.callback(req, opts);
   }
+  const cookieLang = req.cookies.lang || 'fi';
   const { ssoValidTo, ssoToken } = req.session;
   const authurl =
     ssoValidTo && ssoValidTo > moment().unix()
-      ? this.createAuthUrl(ssoToken)
-      : this.createAuthUrl();
+      ? this.createAuthUrl(cookieLang, ssoToken)
+      : this.createAuthUrl(cookieLang);
   console.log(`ssoToken: ${ssoToken} authUrl: ${authurl}`);
   this.redirect(authurl);
 };
@@ -99,7 +100,7 @@ OICStrategy.prototype.callback = function (req, opts) {
     });
 };
 
-OICStrategy.prototype.createAuthUrl = function (ssoToken) {
+OICStrategy.prototype.createAuthUrl = function (lang, ssoToken) {
   console.log(`createAuthUrl, ssotoken=${JSON.stringify(ssoToken)}`);
   const params = {
     response_type: 'code',
@@ -107,6 +108,7 @@ OICStrategy.prototype.createAuthUrl = function (ssoToken) {
     redirect_uri: this.config.redirect_uri,
     scope: this.config.scope,
     state: process.hrtime()[1],
+    ui_locales: lang,
   };
   if (ssoToken) {
     return this.client.authorizationUrl({
