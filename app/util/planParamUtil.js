@@ -204,5 +204,6 @@ export const preparePlanParams = config => (
       (settings.includeBikeSuggestions
         ? settings.includeBikeSuggestions
         : defaultSettings.includeBikeSuggestions),
+    bikeAndPublicMaxWalkDistance: config.suggestBikeMaxDistance,
   };
 };

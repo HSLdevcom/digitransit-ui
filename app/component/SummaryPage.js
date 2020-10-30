@@ -515,7 +515,7 @@ class SummaryPage extends React.Component {
         $walkBoardCost: Int
         $minTransferTime: Int
         $walkSpeed: Float
-        $maxWalkDistance: Float
+        $bikeAndPublicMaxWalkDistance: Float
         $wheelchair: Boolean
         $ticketTypes: [String]
         $disableRemainingWeightHeuristic: Boolean
@@ -607,7 +607,7 @@ class SummaryPage extends React.Component {
           walkBoardCost: $walkBoardCost
           minTransferTime: $minTransferTime
           walkSpeed: $walkSpeed
-          maxWalkDistance: $maxWalkDistance
+          maxWalkDistance: $bikeAndPublicMaxWalkDistance
           allowedTicketTypes: $ticketTypes
           disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
           arriveBy: $arriveBy
@@ -670,7 +670,7 @@ class SummaryPage extends React.Component {
           walkBoardCost: $walkBoardCost
           minTransferTime: $minTransferTime
           walkSpeed: $walkSpeed
-          maxWalkDistance: $maxWalkDistance
+          maxWalkDistance: $bikeAndPublicMaxWalkDistance
           allowedTicketTypes: $ticketTypes
           disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
           arriveBy: $arriveBy
