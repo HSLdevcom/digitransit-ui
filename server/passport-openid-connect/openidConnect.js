@@ -95,9 +95,13 @@ export default function setUpOIDC(app, port, indexPath) {
     if (
       (req.path === `/${indexPath}` ||
         paths.some(path => req.path.includes(path))) &&
-      !req.isAuthenticated()
+      !req.isAuthenticated() &&
+      !req.path.includes('time-a')
     ) {
-      req.session.returnTo = req.path;
+      const params = Object.keys(req.query)
+        .map(k => `${k}=${req.query[k]}`)
+        .join('&');
+      req.session.returnTo = `${req.path}?${params}`;
     }
     next();
   };
@@ -140,7 +144,7 @@ export default function setUpOIDC(app, port, indexPath) {
     if (action) {
       req.session.returnTo = `${
         req.session.returnTo || `/${indexPath}`
-      }?favouriteModalAction=${action}`;
+      }&favouriteModalAction=${action}`;
     }
     passport.authenticate('passport-openid-connect', {
       scope: 'profile',
