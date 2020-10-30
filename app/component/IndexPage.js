@@ -153,10 +153,10 @@ class IndexPage extends React.Component {
       showFavourites,
     } = this.props;
     const queryString = this.context.match.location.search;
-
-    const searchSources = showFavourites
-      ? ['Favourite', 'History', 'Datasource']
-      : ['History', 'Datasource'];
+    const searchSources =
+      showFavourites && breakpoint !== 'large'
+        ? ['Favourite', 'History', 'Datasource']
+        : ['History', 'Datasource'];
     const stopAndRouteSearchTargets =
       this.context.config.cityBike && this.context.config.cityBike.showCityBikes
         ? ['Stops', 'Routes', 'BikeRentalStations']
