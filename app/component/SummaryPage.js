@@ -65,6 +65,7 @@ import { getTotalBikingDistance } from '../util/legUtils';
 import { userHasChangedModes } from '../util/modeUtils';
 
 /**
+/**
  * Returns the actively selected itinerary's index. Attempts to look for
  * the information in the location's state and pathname, respectively.
  * Otherwise, pre-selects the first non-cancelled itinerary or, failing that,
@@ -249,6 +250,11 @@ class SummaryPage extends React.Component {
     this.isFetchingWalkAndBike = true;
     this.params = this.context.match.params;
     this.originalPlan = this.props.viewer && this.props.viewer.plan;
+    this.justMounted = true;
+    this.useFitBounds = true;
+    this.mapLoaded = false;
+    this.origin = undefined;
+    this.destination = undefined;
     context.executeAction(storeOrigin, otpToLocation(props.match.params.from));
     if (props.error) {
       reportError(props.error);
@@ -315,6 +321,12 @@ class SummaryPage extends React.Component {
     }
   }
 
+  // When user goes straigth to itinerary view with url, map cannot keep up and renders a while after everything else
+  // This helper function ensures that lat lon values are sent to the map, thus preventing set center and zoom first error.
+  mapReady() {
+    this.mapLoaded = true;
+  }
+
   addEarlierItineraries = newItineraries => {
     this.setState(prevState => ({
       earlierItineraries: [...newItineraries, ...prevState.earlierItineraries],
@@ -369,6 +381,9 @@ class SummaryPage extends React.Component {
   };
 
   setStreetModeAndSelect = newStreetMode => {
+    this.justMounted = true;
+    this.useFitBounds = true;
+    this.mapLoaded = false;
     addAnalyticsEvent({
       category: 'Itinerary',
       action: 'OpenItineraryDetailsWithMode',
@@ -876,6 +891,8 @@ class SummaryPage extends React.Component {
     if (this.showVehicles()) {
       this.stopClient();
     }
+    this.justMounted = true;
+    this.useFitBounds = true;
     //  alert screen reader when search results appear
     if (this.resultsUpdatedAlertRef.current) {
       // eslint-disable-next-line no-self-assign
@@ -888,6 +905,7 @@ class SummaryPage extends React.Component {
       !this.props.match.params.hash &&
       !isEqual(this.props.match.params.hash, prevProps.match.params.hash)
     ) {
+      this.justMounted = true;
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         center: undefined,
@@ -1137,7 +1155,8 @@ class SummaryPage extends React.Component {
     if (this.props.breakpoint !== 'large') {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     }
-    this.setState({ bounds: [] });
+    // this.justMounted = true;
+    // this.setState({ bounds: [] });
     const bounds = []
       .concat(
         [
@@ -1147,17 +1166,21 @@ class SummaryPage extends React.Component {
         polyline.decode(leg.legGeometry.points),
       )
       .filter(a => a[0] && a[1]);
-
+    this.useFitBounds = true;
     this.setState({
       bounds,
-      center: null,
+      center: undefined,
     });
   };
 
   renderMap() {
     const { match, breakpoint } = this.props;
+    this.justMounted = true;
+    this.useFitBounds = false;
     // don't render map on mobile
     if (breakpoint !== 'large') {
+      this.justMounted = true;
+      this.useFitBounds = true;
       return undefined;
     }
     const {
@@ -1603,26 +1626,41 @@ class SummaryPage extends React.Component {
     }
     let bounds;
     let center;
-
+    let sameOriginDestination = false;
     if (!this.state.bounds && !this.state.center) {
       const origin = otpToLocation(match.params.from);
       const destination = otpToLocation(match.params.to);
-      bounds = [
-        [origin.lat, origin.lon],
-        [destination.lat, destination.lon],
-      ];
-      if (hash && combinedItineraries[hash]) {
-        const legGeometry = [].concat(
-          ...combinedItineraries[hash].legs.map(leg =>
-            polyline.decode(leg.legGeometry.points),
-          ),
-        );
-        bounds = []
-          .concat(bounds)
-          .concat(legGeometry)
-          .filter(a => a[0] && a[1]);
+      if (
+        isEqual(origin, this.origin) &&
+        isEqual(destination, this.destination)
+      ) {
+        sameOriginDestination = true;
       }
-      center = undefined;
+      if (!sameOriginDestination || this.justMounted) {
+        this.origin = origin;
+        this.destination = destination;
+        bounds = [
+          [origin.lat, origin.lon],
+          [destination.lat, destination.lon],
+        ];
+
+        if (
+          hash !== undefined &&
+          (combinedItineraries[hash] || combinedItineraries[hash])
+        ) {
+          const legGeometry = [].concat(
+            ...combinedItineraries[hash].legs.map(leg =>
+              polyline.decode(leg.legGeometry.points),
+            ),
+          );
+          bounds = []
+            .concat(bounds)
+            .concat(legGeometry)
+            .filter(a => a[0] && a[1]);
+          this.useFitBounds = true;
+        }
+        center = { lat: origin.lat, lon: origin.lon };
+      }
     } else {
       center = this.state.bounds ? undefined : this.state.center;
       bounds = this.state.center ? undefined : this.state.bounds;
@@ -1646,13 +1684,20 @@ class SummaryPage extends React.Component {
               itinerary: combinedItineraries && combinedItineraries[hash],
               center,
               bounds,
+              forceCenter: this.justMounted,
               streetMode: this.state.streetMode,
-              fitBounds: Boolean(bounds),
+              fitBounds: this.useFitBounds,
+              mapReady: this.mapReady.bind(this),
+              mapLoaded: this.mapLoaded,
               ...this.props,
             },
             this.context,
           )
         : this.renderMap();
+      if (this.props.map) {
+        this.justMounted = false;
+        this.useFitBounds = false;
+      }
     }
 
     let earliestStartTime;
