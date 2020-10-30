@@ -16,7 +16,6 @@ describe('<SelectMapLayersDialog />', () => {
       mapLayers: {
         stop: {},
         terminal: {},
-        ticketSales: {},
       },
       updateMapLayers: () => {},
     };
@@ -35,7 +34,6 @@ describe('<SelectMapLayersDialog />', () => {
       showAllBusses: false,
       stop: {},
       terminal: {},
-      ticketSales: {},
     };
     const props = {
       config: {
@@ -65,7 +63,6 @@ describe('<SelectMapLayersDialog />', () => {
         bus: false,
       },
       terminal: {},
-      ticketSales: {},
     };
     const props = {
       config: {
@@ -99,7 +96,6 @@ describe('<SelectMapLayersDialog />', () => {
       terminal: {
         bus: false,
       },
-      ticketSales: {},
     };
     const props = {
       config: {
@@ -133,7 +129,6 @@ describe('<SelectMapLayersDialog />', () => {
         tram: false,
       },
       terminal: {},
-      ticketSales: {},
     };
     const props = {
       config: {
@@ -169,7 +164,6 @@ describe('<SelectMapLayersDialog />', () => {
       terminal: {
         rail: false,
       },
-      ticketSales: {},
     };
     const props = {
       config: {
@@ -206,7 +200,6 @@ describe('<SelectMapLayersDialog />', () => {
       terminal: {
         subway: false,
       },
-      ticketSales: {},
     };
     const props = {
       config: {
@@ -241,7 +234,6 @@ describe('<SelectMapLayersDialog />', () => {
         ferry: false,
       },
       terminal: {},
-      ticketSales: {},
     };
     const props = {
       config: {
@@ -274,7 +266,6 @@ describe('<SelectMapLayersDialog />', () => {
       citybike: false,
       stop: {},
       terminal: {},
-      ticketSales: {},
     };
     const props = {
       config: {
@@ -310,7 +301,6 @@ describe('<SelectMapLayersDialog />', () => {
       parkAndRide: false,
       stop: {},
       terminal: {},
-      ticketSales: {},
     };
     const props = {
       config: {
@@ -336,50 +326,10 @@ describe('<SelectMapLayersDialog />', () => {
     expect(mapLayers.parkAndRide).to.equal(true);
   });
 
-  it('should update the ticket sales layers', () => {
-    let mapLayers = {
-      stop: {},
-      terminal: {},
-      ticketSales: {
-        salesPoint: false,
-        servicePoint: false,
-        ticketMachine: false,
-      },
-    };
-    const props = {
-      config: {
-        ticketSales: {
-          showTicketSales: true,
-        },
-      },
-      mapLayers,
-      updateMapLayers: layers => {
-        mapLayers = { ...layers };
-      },
-    };
-    const wrapper = mountWithIntl(<SelectMapLayersDialog isOpen {...props} />, {
-      context: { ...mockContext },
-      childContextTypes: { ...mockChildContextTypes },
-    });
-
-    wrapper
-      .find('.option-checkbox input')
-      .at(0)
-      .simulate('change', { target: { checked: true } });
-    expect(mapLayers.ticketSales.ticketMachine).to.equal(true);
-
-    wrapper
-      .find('.option-checkbox input')
-      .at(1)
-      .simulate('change', { target: { checked: true } });
-    expect(mapLayers.ticketSales.salesPoint).to.equal(true);
-    expect(mapLayers.ticketSales.servicePoint).to.equal(true);
-  });
-
   it('should include geoJson layers', () => {
     let mapLayers = {
       terminal: {},
-      ticketSales: {},
+      s: {},
       stop: {},
       geoJson: {
         somejson: true,

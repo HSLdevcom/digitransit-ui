@@ -303,7 +303,11 @@ class FavouriteBar extends React.Component {
         <div className={styles['favourite-container']}>
           <FavouriteLocation
             text={
-              (firstFavourite && firstFavourite.name) || i18next.t('add-home')
+              (firstFavourite &&
+                (firstFavourite.name ||
+                  (firstFavourite.address &&
+                    firstFavourite.address.split(',')[0]))) ||
+              i18next.t('add-home')
             }
             label={(firstFavourite && firstFavourite.address) || ''}
             clickItem={() =>
@@ -322,7 +326,11 @@ class FavouriteBar extends React.Component {
           />
           <FavouriteLocation
             text={
-              (secondFavourite && secondFavourite.name) || i18next.t('add-work')
+              (secondFavourite &&
+                (secondFavourite.name ||
+                  (secondFavourite.address &&
+                    secondFavourite.address.split(',')[0]))) ||
+              i18next.t('add-work')
             }
             label={(secondFavourite && secondFavourite.address) || ''}
             clickItem={() =>

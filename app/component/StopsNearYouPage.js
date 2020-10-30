@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
@@ -7,7 +6,9 @@ import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import Modal from '@hsl-fi/modal';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
-import Icon from '@digitransit-component/digitransit-component-icon';
+import DTIcon from '@digitransit-component/digitransit-component-icon';
+import distance from '@digitransit-search-util/digitransit-search-util-distance';
+import Icon from './Icon';
 import DesktopView from './DesktopView';
 import MobileView from './MobileView';
 import withBreakpoint, { DesktopOrMobile } from '../util/withBreakpoint';
@@ -31,12 +32,10 @@ const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 
 class StopsNearYouPage extends React.Component { // eslint-disable-line
   static contextTypes = {
-    config: PropTypes.object,
+    config: PropTypes.object.isRequired,
     executeAction: PropTypes.func.isRequired,
     headers: PropTypes.object.isRequired,
     getStore: PropTypes.func,
-    router: routerShape.isRequired,
-    match: matchShape.isRequired,
     intl: intlShape.isRequired,
   };
 
@@ -50,10 +49,15 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
       lat: PropTypes.number,
       lon: PropTypes.number,
       status: PropTypes.string,
+      hasLocation: PropTypes.bool,
+      address: PropTypes.string,
     }),
     lang: PropTypes.string.isRequired,
     isModalNeeded: PropTypes.bool,
     queryString: PropTypes.string,
+    router: routerShape.isRequired,
+    match: matchShape.isRequired,
+    showFavourites: PropTypes.bool,
   };
 
   constructor(props) {
@@ -61,6 +65,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
 
     this.state = {
       startPosition: null,
+      updatedLocation: null,
       geolocationPermission: {
         loading: true,
         state: undefined,
@@ -106,6 +111,18 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     ) {
       return {
         startPosition: nextProps.position,
+        updatedLocation: nextProps.position,
+      };
+    }
+    if (
+      !prevState.startPosition ||
+      (!prevState.startPosition.address &&
+        nextProps.position &&
+        nextProps.position.address)
+    ) {
+      return {
+        startPosition: nextProps.position,
+        updatedLocation: nextProps.position,
       };
     }
     return null;
@@ -113,7 +130,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
 
   getQueryVariables = () => {
     const { startPosition } = this.state;
-    const { mode } = this.context.match.params;
+    const { mode } = this.props.match.params;
     let placeTypes = 'STOP';
     let modes = [mode];
     if (mode === 'CITYBIKE') {
@@ -140,10 +157,33 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     };
   };
 
+  positionChanged = () => {
+    const { updatedLocation } = this.state;
+
+    if (
+      updatedLocation &&
+      updatedLocation.lat &&
+      this.props.position &&
+      this.props.position.lat
+    ) {
+      if (distance(updatedLocation, this.props.position) > 100) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  updateLocation = () => {
+    this.setState({
+      updatedLocation: this.props.position,
+    });
+  };
+
   renderContent = () => {
-    const { mode } = this.context.match.params;
+    const { mode } = this.props.match.params;
     const renderDisruptionBanner = mode !== 'CITYBIKE';
     const renderSearch = mode !== 'FERRY';
+    const renderRefetchButton = this.positionChanged();
     return (
       <QueryRenderer
         query={graphql`
@@ -170,15 +210,8 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                 omitNonPickups: $omitNonPickups
               )
             }
-            alerts: nearest(
-              lat: $lat
-              lon: $lon
-              filterByPlaceTypes: $filterByPlaceTypes
-              filterByModes: $filterByModes
-              maxResults: $maxResults
-            ) {
+            alerts: alerts(severityLevel: [SEVERE]) {
               ...DisruptionBanner_alerts
-              @arguments(omitNonPickups: $omitNonPickups)
             }
           }
         `}
@@ -195,13 +228,44 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                   <StopsNearYouSearch
                     mode={mode}
                     breakpoint={this.props.breakpoint}
+                    showFavourites={this.props.showFavourites}
                   />
+                )}
+                {renderRefetchButton && (
+                  <div className="nearest-stops-update-container">
+                    <FormattedMessage id="nearest-stops-updated-location" />
+                    <button
+                      aria-label={this.context.intl.formatMessage({
+                        id: 'show-more-stops-near-you',
+                        defaultMessage: 'Load more nearby stops',
+                      })}
+                      className="update-stops-button"
+                      onClick={this.updateLocation}
+                    >
+                      <Icon img="icon-icon_update" />
+                      <FormattedMessage
+                        id="nearest-stops-update-location"
+                        defaultMessage="Update stops"
+                        values={{
+                          mode: (
+                            <FormattedMessage
+                              id={`nearest-stops-${mode.toLowerCase()}`}
+                            />
+                          ),
+                        }}
+                      />
+                    </button>
+                  </div>
                 )}
                 {this.props.content &&
                   React.cloneElement(this.props.content, {
                     stopPatterns: props.stopPatterns,
-                    match: this.context.match,
-                    router: this.context.router,
+                    // eslint-disable-next-line no-nested-ternary
+                    position: this.state.updatedLocation
+                      ? this.state.updatedLocation
+                      : this.state.startPosition
+                      ? this.state.startPosition
+                      : this.context.config.defaultEndpoint,
                   })}
               </div>
             );
@@ -221,20 +285,23 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
             $lon: Float!
             $filterByPlaceTypes: [FilterPlaceType]
             $filterByModes: [Mode]
+            $first: Int!
             $maxResults: Int!
             $maxDistance: Int!
             $omitNonPickups: Boolean
           ) {
-            stops: nearest(
-              lat: $lat
-              lon: $lon
-              filterByPlaceTypes: $filterByPlaceTypes
-              filterByModes: $filterByModes
-              maxResults: $maxResults
-              maxDistance: $maxDistance
-            ) {
+            stops: viewer {
               ...StopsNearYouMap_stops
-              @arguments(omitNonPickups: $omitNonPickups)
+              @arguments(
+                lat: $lat
+                lon: $lon
+                filterByPlaceTypes: $filterByPlaceTypes
+                filterByModes: $filterByModes
+                first: $first
+                maxResults: $maxResults
+                maxDistance: $maxDistance
+                omitNonPickups: $omitNonPickups
+              )
             }
           }
         `}
@@ -245,10 +312,13 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
             return (
               this.props.map &&
               React.cloneElement(this.props.map, {
-                position: this.state.startPosition,
+                // eslint-disable-next-line no-nested-ternary
+                position: this.state.updatedLocation
+                  ? this.state.updatedLocation
+                  : this.state.startPosition
+                  ? this.state.startPosition
+                  : this.context.config.defaultEndpoint,
                 stops: props.stops,
-                match: this.context.match,
-                router: this.context.router,
               })
             );
           }
@@ -260,14 +330,15 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
 
   createBckBtnUrl = () => {
     const { position } = this.props;
-    const { place } = this.context.match.params;
-    const { search } = this.context.match.location || '';
+    const { place } = this.props.match.params;
+    const { search } = this.props.match.location || '';
     if (place === 'POS' && !position) {
       const location = this.context.config.defaultEndpoint;
       return `/${encodeURIComponent(
         `${location.address}::${location.lat},${location.lon}`,
       )}/-${search}`;
-    } else if (place === 'POS' && position && position.hasLocation) {
+    }
+    if (place === 'POS' && position && position.hasLocation) {
       return `/${encodeURIComponent(
         `${position.address}::${position.lat},${position.lon}`,
       )}/-${search}`;
@@ -311,7 +382,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
         placeholder="origin"
         value=""
         lang={this.props.lang}
-        mode={this.context.match.params.mode}
+        mode={this.props.match.params.mode}
       />
     );
   };
@@ -355,7 +426,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                 className="modal-desktop-button save"
                 onClick={() => this.handleGrantGeolocation()}
               >
-                <Icon img="locate" height={1.375} width={1.375} />
+                <DTIcon img="locate" height={1.375} width={1.375} />
                 <FormattedMessage id="use-own-position" />
               </button>
             </div>
@@ -375,8 +446,9 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     let proceed = false;
     let savedChoice;
     const { loadingPosition, position, isModalNeeded } = this.props;
-    const { params } = this.context.match;
+    const { params } = this.props.match;
     const queryString = this.props.queryString || '';
+    const { mode } = this.props.match.params;
 
     if (isModalNeeded !== undefined && !isModalNeeded && position) {
       showModal = false;
@@ -392,7 +464,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
           showModal = false;
           proceed = true;
         } else if (params.origin) {
-          this.context.router.replace(
+          this.props.router.replace(
             `/${PREFIX_NEARYOU}/${params.mode}/${params.origin}${queryString}`,
           );
         }
@@ -447,8 +519,15 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
             <DesktopView
               title={
                 <FormattedMessage
-                  id={`nearest-stops-${params.mode.toLowerCase()}`}
+                  id="nearest"
                   defaultMessage="Stops near you"
+                  values={{
+                    mode: (
+                      <FormattedMessage
+                        id={`nearest-stops-${mode.toLowerCase()}`}
+                      />
+                    ),
+                  }}
                 />
               }
               scrollable
@@ -456,7 +535,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
               map={this.renderMap()}
               bckBtnColor={this.context.config.colors.primary}
               bckBtnUrl={
-                this.context.config.URL.REDIRECT_BACK
+                this.context.config.URL.ROOTLINK
                   ? undefined
                   : this.createBckBtnUrl()
               }
@@ -468,7 +547,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
               map={this.renderMap()}
               bckBtnColor={this.context.config.colors.primary}
               bckBtnUrl={
-                this.context.config.URL.REDIRECT_BACK
+                this.context.config.URL.ROOTLINK
                   ? undefined
                   : this.createBckBtnUrl()
               }
@@ -476,9 +555,8 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
           )}
         />
       );
-    } else {
-      return <div>{this.renderDialogModal(savedChoice)}</div>;
     }
+    return <div>{this.renderDialogModal(savedChoice)}</div>;
   }
 }
 
@@ -492,9 +570,13 @@ const StopsNearYouPageWithBreakpoint = withBreakpoint(props => (
 
 const PositioningWrapper = connectToStores(
   StopsNearYouPageWithBreakpoint,
-  ['PositionStore', 'PreferencesStore'],
+  ['PositionStore', 'PreferencesStore', 'UserStore'],
   (context, props) => {
     const lang = context.getStore('PreferencesStore').getLanguage();
+    const showFavourites =
+      !context.config.allowLogin ||
+      (context.config.allowLogin &&
+        context.getStore('UserStore').getUser().sub !== undefined);
     const { params, location } = props.match;
     const { place } = params;
     if (place !== 'POS') {
@@ -506,6 +588,7 @@ const PositioningWrapper = connectToStores(
         lang,
         params,
         queryString: location.search,
+        showFavourites,
       };
     }
     const locationState = context.getStore('PositionStore').getLocationState();
@@ -518,6 +601,7 @@ const PositioningWrapper = connectToStores(
         lang,
         params,
         queryString: location.search,
+        showFavourites,
       };
     }
 
@@ -532,6 +616,7 @@ const PositioningWrapper = connectToStores(
         lang,
         params,
         queryString: location.search,
+        showFavourites,
       };
     }
 
@@ -542,6 +627,7 @@ const PositioningWrapper = connectToStores(
         loadingPosition: false,
         lang,
         queryString: location.search,
+        showFavourites,
       };
     }
     return {
@@ -551,13 +637,13 @@ const PositioningWrapper = connectToStores(
       lang,
       params,
       queryString: location.search,
+      showFavourites,
     };
   },
 );
 
 PositioningWrapper.contextTypes = {
-  ...PositioningWrapper.contextTypes,
-  executeAction: PropTypes.func.isRequired,
+  getStore: PropTypes.func.isRequired,
   config: PropTypes.object.isRequired,
 };
 

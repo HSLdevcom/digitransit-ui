@@ -15,7 +15,6 @@ import MarkerSelectPopup from './MarkerSelectPopup';
 import CityBikePopup from '../popups/CityBikePopupContainer';
 import ParkAndRideHubPopup from '../popups/ParkAndRideHubPopupContainer';
 import ParkAndRideFacilityPopup from '../popups/ParkAndRideFacilityPopupContainer';
-import TicketSalesPopup from '../popups/TicketSalesPopup';
 import LocationPopup from '../popups/LocationPopup';
 import TileContainer from './TileContainer';
 import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
@@ -37,7 +36,6 @@ class TileLayerContainer extends GridLayer {
   static propTypes = {
     tileSize: PropTypes.number.isRequired,
     zoomOffset: PropTypes.number.isRequired,
-    disableMapTracking: PropTypes.func,
     disableLocationPopup: PropTypes.bool,
     stopsNearYouMode: PropTypes.string,
     mapLayers: mapLayerShape.isRequired,
@@ -166,7 +164,6 @@ class TileLayerContainer extends GridLayer {
       forceOpen = false,
     ) => {
       const {
-        disableMapTracking,
         leaflet: { map },
         mapLayers,
       } = this.props;
@@ -194,10 +191,6 @@ class TileLayerContainer extends GridLayer {
       ) {
         map.closePopup();
         return;
-      }
-
-      if (selectableTargets && disableMapTracking) {
-        disableMapTracking(); // disable now that popup opens
       }
 
       this.setState({
@@ -233,9 +226,6 @@ class TileLayerContainer extends GridLayer {
       const { properties } = target.feature;
       name = target.layer;
       switch (name) {
-        case 'ticketSales':
-          type = properties.TYYPPI;
-          break;
         case 'stop':
           ({ type } = properties);
           if (properties.stops) {
@@ -249,7 +239,10 @@ class TileLayerContainer extends GridLayer {
       name = 'multiple';
     }
     const pathPrefixMatch = window.location.pathname.match(/^\/([a-z]{2,})\//);
-    const context = pathPrefixMatch ? pathPrefixMatch[1] : 'index';
+    const context =
+      pathPrefixMatch && pathPrefixMatch[1] !== this.context.config.indexPath
+        ? pathPrefixMatch[1]
+        : 'index';
     addAnalyticsEvent({
       action: 'SelectMapPoint',
       category: 'Map',
@@ -301,13 +294,6 @@ class TileLayerContainer extends GridLayer {
               }
               coords={this.state.coords}
               context={this.context}
-            />
-          );
-        } else if (this.state.selectableTargets[0].layer === 'ticketSales') {
-          id = this.state.selectableTargets[0].feature.properties.FID;
-          contents = (
-            <TicketSalesPopup
-              {...this.state.selectableTargets[0].feature.properties}
             />
           );
         }

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable import/no-extraneous-dependencies */
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -12,6 +11,7 @@ import CtrlPanel from '@digitransit-component/digitransit-component-control-pane
 import TrafficNowLink from '@digitransit-component/digitransit-component-traffic-now-link';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
+import { getModesWithAlerts } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import {
   initGeolocation,
   checkPositioningPermission,
@@ -61,9 +61,11 @@ class IndexPage extends React.Component {
     destination: dtLocationShape.isRequired,
     showSpinner: PropTypes.bool.isRequired,
     lang: PropTypes.string,
+    currentTime: PropTypes.number.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     query: PropTypes.object.isRequired,
     favouriteModalAction: PropTypes.string,
+    showFavourites: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -105,7 +107,7 @@ class IndexPage extends React.Component {
       navigateTo({
         origin: nextProps.origin,
         destination: nextProps.destination,
-        rootPath: '/',
+        rootPath: `${this.context.config.indexPath}`,
         router: this.props.router,
         base: this.context.match.location,
       });
@@ -129,14 +131,14 @@ class IndexPage extends React.Component {
     navigateTo({
       origin: this.props.origin,
       destination: location,
-      rootPath: '/',
+      rootPath: `${this.context.config.indexPath}`,
       router: this.props.router,
       base: this.context.match.location,
     });
   };
 
   // DT-3551: handle logic for Traffic now link
-  trafficNowHandler = e => {
+  trafficNowHandler = () => {
     window.location = this.context.config.trafficNowLink;
   };
 
@@ -144,14 +146,34 @@ class IndexPage extends React.Component {
   render() {
     const { intl, config } = this.context;
     const { trafficNowLink } = config;
-    const { breakpoint, destination, origin, lang } = this.props;
+    const {
+      breakpoint,
+      destination,
+      origin,
+      lang,
+      showFavourites,
+    } = this.props;
     const queryString = this.context.match.location.search;
+
+    const searchSources = showFavourites
+      ? ['Favourite', 'History', 'Datasource']
+      : ['History', 'Datasource'];
+    const stopAndRouteSearchTargets =
+      this.context.config.cityBike && this.context.config.cityBike.showCityBikes
+        ? ['Stops', 'Routes', 'BikeRentalStations']
+        : ['Stops', 'Routes'];
 
     const originToStopNearYou = {
       ...origin,
       queryString,
     };
     // const { mapExpanded } = this.state; // TODO verify
+
+    const alertsContext = {
+      currentTime: this.props.currentTime,
+      getModesWithAlerts,
+    };
+
     return breakpoint === 'large' ? (
       <div
         className={`front-page flex-vertical ${
@@ -162,7 +184,10 @@ class IndexPage extends React.Component {
           `blurred`
         } fullscreen bp-${breakpoint}`}
       >
-        <div style={{ display: isBrowser ? 'block' : 'none' }}>
+        <div
+          style={{ display: isBrowser ? 'block' : 'none' }}
+          className="scrollable-content-wrapper momentum-scroll"
+        >
           <CtrlPanel
             instance="hsl"
             language={lang}
@@ -180,7 +205,7 @@ class IndexPage extends React.Component {
               originPlaceHolder="search-origin-index"
               destinationPlaceHolder="search-destination-index"
               lang={lang}
-              sources={['History', 'Datasource']}
+              sources={searchSources}
               targets={[
                 'Locations',
                 'CurrentPosition',
@@ -205,6 +230,7 @@ class IndexPage extends React.Component {
                   urlPrefix={`/${PREFIX_NEARYOU}`}
                   language={lang}
                   showTitle
+                  alertsContext={alertsContext}
                   LinkComponent={Link}
                   origin={originToStopNearYou}
                 />
@@ -228,8 +254,8 @@ class IndexPage extends React.Component {
               className="destination"
               placeholder="stop-near-you"
               value=""
-              sources={['Favourite', 'History', 'Datasource']}
-              targets={['Stops', 'Routes']}
+              sources={searchSources}
+              targets={stopAndRouteSearchTargets}
             />
             <CtrlPanel.SeparatorLine />
             {trafficNowLink !== '' && (
@@ -268,7 +294,7 @@ class IndexPage extends React.Component {
               originPlaceHolder="search-origin-index"
               destinationPlaceHolder="search-destination-index"
               lang={lang}
-              sources={['Favourite', 'History', 'Datasource']}
+              sources={searchSources}
               targets={[
                 'Locations',
                 'CurrentPosition',
@@ -295,6 +321,7 @@ class IndexPage extends React.Component {
                   urlPrefix={`/${PREFIX_NEARYOU}`}
                   language={lang}
                   showTitle
+                  alertsContext={alertsContext}
                   LinkComponent={Link}
                   origin={originToStopNearYou}
                 />
@@ -318,8 +345,8 @@ class IndexPage extends React.Component {
               className="destination"
               placeholder="stop-near-you"
               value=""
-              sources={['Favourite', 'History', 'Datasource']}
-              targets={['Stops', 'Routes']}
+              sources={searchSources}
+              targets={stopAndRouteSearchTargets}
               isMobile
             />
             <CtrlPanel.SeparatorLine />
@@ -402,9 +429,16 @@ const processLocation = (locationString, locationState, intl) => {
 
 const IndexPageWithPosition = connectToStores(
   IndexPageWithBreakpoint,
-  ['PositionStore', 'ViaPointsStore', 'FavouriteStore'],
+  [
+    'PositionStore',
+    'ViaPointsStore',
+    'FavouriteStore',
+    'TimeStore',
+    'UserStore',
+  ],
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
+    const currentTime = context.getStore('TimeStore').getCurrentTime().unix();
     const { from, to } = props.match.params;
     const { location } = props.match;
     const { query } = location;
@@ -414,8 +448,14 @@ const IndexPageWithPosition = connectToStores(
     if (favouriteModalAction) {
       newProps.favouriteModalAction = favouriteModalAction;
     }
+    newProps.lang = context.getStore('PreferencesStore').getLanguage();
+    newProps.showFavourites =
+      !context.config.allowLogin ||
+      (context.config.allowLogin &&
+        context.getStore('UserStore').getUser().sub !== undefined);
 
     newProps.locationState = locationState;
+    newProps.currentTime = currentTime;
     newProps.origin = processLocation(from, locationState, context.intl);
     newProps.destination = processLocation(to, locationState, context.intl);
     newProps.query = query; // defines itinerary search time & arriveBy
@@ -455,14 +495,13 @@ const IndexPageWithPosition = connectToStores(
           navigateTo({
             origin: newProps.origin,
             destination: newProps.destination,
-            rootPath: '/',
+            rootPath: `${context.config.indexPath}`,
             router: props.router,
             base: location,
           });
         }
       });
     }
-    newProps.lang = context.getStore('PreferencesStore').getLanguage();
     return newProps;
   },
 );
@@ -470,6 +509,7 @@ const IndexPageWithPosition = connectToStores(
 IndexPageWithPosition.contextTypes = {
   ...IndexPageWithPosition.contextTypes,
   executeAction: PropTypes.func.isRequired,
+  config: PropTypes.object.isRequired,
 };
 export {
   IndexPageWithPosition as default,

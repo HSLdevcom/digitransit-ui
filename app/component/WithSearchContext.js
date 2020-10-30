@@ -8,7 +8,11 @@ import suggestionToLocation from '@digitransit-search-util/digitransit-search-ut
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { createUrl } from '@digitransit-store/digitransit-store-future-route';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { navigateTo, PREFIX_NEARYOU } from '../util/path';
+import {
+  navigateTo,
+  PREFIX_NEARYOU,
+  PREFIX_ITINERARY_SUMMARY,
+} from '../util/path';
 import searchContext from '../util/searchContext';
 import intializeSearchContext from '../util/DTSearchContextInitializer';
 import SelectFromMapHeader from './SelectFromMapHeader';
@@ -107,8 +111,11 @@ export default function withSearchContext(WrappedComponent) {
       this.setState(prevState => ({ refs: [...prevState.refs, ref] }));
     };
 
-    finishSelect = (item, type) => {
-      if (item.type.indexOf('Favourite') === -1) {
+    finishSelect = (item, type, id) => {
+      if (
+        item.type.indexOf('Favourite') === -1 &&
+        id.indexOf('favourite') === -1
+      ) {
         this.context.executeAction(searchContext.saveSearch, {
           item,
           type,
@@ -175,6 +182,7 @@ export default function withSearchContext(WrappedComponent) {
           id = id.replace('GTFS:', '').replace(':', '%3A');
           break;
         case 'bikeRentalStation':
+        case 'favouriteBikeRentalStation':
           path = '/pyoraasemat/';
           id = item.properties.labelId;
           break;
@@ -301,7 +309,10 @@ export default function withSearchContext(WrappedComponent) {
       if (location.type !== 'SelectFromMap') {
         const pathname = this.context.match.location.pathname || '';
         const pathArr = pathname.split('/');
-        const rootPath = pathArr.length > 1 ? pathArr[1] : '';
+        const rootPath =
+          pathArr.length > 1 && pathArr[1] === PREFIX_ITINERARY_SUMMARY
+            ? pathArr[1]
+            : this.context.config.indexPath;
 
         navigateTo({
           origin,
@@ -329,7 +340,7 @@ export default function withSearchContext(WrappedComponent) {
       if (this.context.match.location.search) {
         path += this.context.match.location.search;
       }
-      this.context.router.push(path);
+      this.context.router.replace(path);
     };
 
     onSelect = (item, id) => {
@@ -355,11 +366,11 @@ export default function withSearchContext(WrappedComponent) {
             const geom = res.features[0].geometry;
             newItem.geometry.coordinates = geom.coordinates;
           }
-          this.finishSelect(newItem, type);
+          this.finishSelect(newItem, type, id);
           this.onSuggestionSelected(item, id);
         });
       } else {
-        this.finishSelect(item, type);
+        this.finishSelect(item, type, id);
         this.onSuggestionSelected(item, id);
       }
     };

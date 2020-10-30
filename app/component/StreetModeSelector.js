@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { StreetModeSelectorButton } from './StreetModeSelectorButton';
 import { StreetModeSelectorWeatherLabel } from './StreetModeSelectorWeatherLabel';
+import Loading from './Loading';
 
 export const StreetModeSelector = ({
-  weatherLoaded,
   showWalkOptionButton,
   showBikeOptionButton,
   showBikeAndPublicOptionButton,
@@ -15,10 +15,30 @@ export const StreetModeSelector = ({
   walkPlan,
   bikePlan,
   bikeAndPublicPlan,
+  bikeParkPlan,
+  loading,
 }) => {
+  const bikeAndVehicle = !loading
+    ? {
+        itineraries: [
+          ...bikeParkPlan.itineraries,
+          ...bikeAndPublicPlan.itineraries,
+        ],
+      }
+    : {};
   return (
-    <div className="street-mode-selector-container">
-      {weatherLoaded && (
+    <div className={`street-mode-selector-container ${loading && 'loading'}`}>
+      {loading ? (
+        <div
+          style={{
+            position: 'relative',
+            height: '76px',
+            width: '100%',
+          }}
+        >
+          <Loading />
+        </div>
+      ) : (
         <div className="street-mode-button-row">
           <StreetModeSelectorWeatherLabel
             active={
@@ -47,8 +67,8 @@ export const StreetModeSelector = ({
           {showBikeAndPublicOptionButton && (
             <StreetModeSelectorButton
               icon="icon-icon_cyclist"
-              name="bikeAndPublic"
-              plan={bikeAndPublicPlan}
+              name="bikeAndVehicle"
+              plan={bikeAndVehicle}
               onClick={toggleStreetMode}
             />
           )}
@@ -59,7 +79,6 @@ export const StreetModeSelector = ({
 };
 
 StreetModeSelector.propTypes = {
-  weatherLoaded: PropTypes.bool.isRequired,
   showWalkOptionButton: PropTypes.bool.isRequired,
   showBikeOptionButton: PropTypes.bool.isRequired,
   showBikeAndPublicOptionButton: PropTypes.bool.isRequired,
@@ -68,18 +87,22 @@ StreetModeSelector.propTypes = {
   walkPlan: PropTypes.object,
   bikePlan: PropTypes.object,
   bikeAndPublicPlan: PropTypes.object,
+  bikeParkPlan: PropTypes.object,
   // eslint-disable-next-line react/require-default-props
   weatherData: PropTypes.shape({
     temperature: PropTypes.number,
     windSpeed: PropTypes.number,
     iconId: PropTypes.number,
   }),
+  loading: PropTypes.bool,
 };
 
 StreetModeSelector.defaultProps = {
   walkPlan: undefined,
   bikePlan: undefined,
   bikeAndPublicPlan: undefined,
+  bikeParkPlan: undefined,
+  loading: undefined,
 };
 
 export default StreetModeSelector;

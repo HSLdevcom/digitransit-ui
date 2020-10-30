@@ -6,10 +6,27 @@ import pure from 'recompose/pure';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
 
+function isFavourite(item) {
+  return item && item.type && item.type.includes('Favourite');
+}
+
+function getAriaDescription(ariaContentArray) {
+  const description = ariaContentArray
+    .filter(part => part !== undefined && part !== null && part !== '')
+    .join(' - ');
+  return description;
+}
+
 function getIconProperties(item) {
   let iconId;
   let iconColor = '#888888';
-  if (item && item.selectedIconId) {
+  // because of legacy favourites there might be selectedIconId for some stops or stations
+  // but we do not want to show those icons
+  if (item.type === 'FavouriteStop') {
+    iconId = 'favouriteStop';
+  } else if (item.type === 'FavouriteStation') {
+    iconId = 'favouriteStation';
+  } else if (item && item.selectedIconId) {
     iconId = item.selectedIconId;
   } else if (item && item.properties) {
     iconId = item.properties.selectedIconId || item.properties.layer;
@@ -17,11 +34,7 @@ function getIconProperties(item) {
   if (item && item.iconColor) {
     // eslint-disable-next-line prefer-destructuring
     iconColor = item.iconColor;
-  } else if (
-    item &&
-    item.properties &&
-    item.properties.layer.includes('favourite')
-  ) {
+  } else if (isFavourite(item)) {
     iconColor = '#007ac9';
   }
   const layerIcon = new Map([
@@ -31,6 +44,7 @@ function getIconProperties(item) {
     ['favouriteRoute', 'star'],
     ['favouriteStop', 'star'],
     ['favouriteStation', 'star'],
+    ['favouriteBikeRentalStation', 'star'],
     ['favourite', 'star'],
     ['address', 'place'],
     ['stop', 'busstop'],
@@ -64,32 +78,37 @@ function getIconProperties(item) {
  * @example
  * <SuggestionItem
  *    item={suggestionObject}
- *    ariaContent={'Station - Pasila - Helsinki'}
+ *    content={['Pysäkki', 'Kuusitie', 'Helsinki', 'H1923']}
  *    loading={false}
  * />
  */
 const SuggestionItem = pure(
-  ({ item, ariaContent, loading, className, isMobile }) => {
+  ({ item, content, loading, className, isMobile, ariaFavouriteString }) => {
     const [iconId, iconColor] = getIconProperties(item);
     const icon = (
       <span className={styles[iconId]}>
         <Icon color={iconColor} img={iconId} />
       </span>
     );
-    const [iconstr, name, label, stopCode] = ariaContent || [
+    const [suggestionType, name, label, stopCode] = content || [
       iconId,
       item.name,
       item.address,
     ];
+    const ariaParts = isFavourite(item)
+      ? [ariaFavouriteString, suggestionType, name, stopCode, label]
+      : [suggestionType, name, stopCode, label];
+    const ariaDescription = getAriaDescription(ariaParts);
     const acri = (
       <div className={styles['sr-only']}>
-        <p>
-          {' '}
-          {iconstr} - {name} - {label}
-        </p>
+        <p>{ariaDescription}</p>
       </div>
     );
     const isFutureRoute = iconId === 'future-route';
+    const isBikeRentalStation =
+      item.properties &&
+      (item.properties.layer === 'bikeRentalStation' ||
+        item.properties.layer === 'favouriteBikeRentalStation');
     const ri = (
       <div
         aria-hidden="true"
@@ -103,7 +122,7 @@ const SuggestionItem = pure(
           },
         )}
       >
-        <span aria-label={iconstr} className={styles['suggestion-icon']}>
+        <span aria-label={suggestionType} className={styles['suggestion-icon']}>
           {icon}
         </span>
         <div
@@ -117,7 +136,7 @@ const SuggestionItem = pure(
                 {name}
               </p>
               <p className={styles['suggestion-label']}>
-                {label}
+                {isBikeRentalStation ? suggestionType : label}
                 {stopCode && (
                   <span className={styles['stop-code']}>{stopCode}</span>
                 )}
@@ -207,7 +226,7 @@ const SuggestionItem = pure(
 
 SuggestionItem.propTypes = {
   item: PropTypes.object,
-  ariaContent: PropTypes.arrayOf(PropTypes.string),
+  content: PropTypes.arrayOf(PropTypes.string),
   className: PropTypes.string,
   isMobile: PropTypes.bool,
 };

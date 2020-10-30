@@ -7,6 +7,7 @@ import ZoneIcon from './ZoneIcon';
 import PlatformNumber from './PlatformNumber';
 import { PREFIX_STOPS, PREFIX_TERMINALS } from '../util/path';
 import { isKeyboardSelectionEvent } from '../util/browser';
+import FavouriteStopContainer from './FavouriteStopContainer';
 
 const StopNearYouHeader = ({ stop, color, desc, isStation }) => {
   const linkAddress = isStation
@@ -46,7 +47,11 @@ const StopNearYouHeader = ({ stop, color, desc, isStation }) => {
           <ZoneIcon zoneId={stop.zoneId} zoneLabelColor={color} />
         </div>
       </div>
-      <div className="stop-favourite-container" />
+      <FavouriteStopContainer
+        className="stop-favourite-container"
+        stop={stop}
+        isTerminal={isStation}
+      />
     </div>
   );
 };

@@ -1,11 +1,54 @@
 import debounce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
 import take from 'lodash/take';
-import { sortSearchResults } from '@digitransit-search-util/digitransit-search-util-helpers';
+import {
+  sortSearchResults,
+  isStop,
+} from '@digitransit-search-util/digitransit-search-util-helpers';
 import uniqByLabel from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import filterMatchingToInput from '@digitransit-search-util/digitransit-search-util-filter-matching-to-input';
-import getGeocodingResult from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
+import getGeocodingResults from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
+import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 
+function getStopsFromGeocoding(stops, URL_PELIAS_PLACE) {
+  if (!stops || stops.length < 1) {
+    return Promise.resolve([]);
+  }
+  let gids = '';
+  const stopsWithGids = stops.map(stop => {
+    const type = stop.type === 'stop' ? 'stop' : 'station';
+    let gid = `gtfs${stop.gtfsId.split(':')[0].toLowerCase()}:${type}:GTFS:${
+      stop.gtfsId
+    }`;
+    if (stop.code) {
+      gid += `#${stop.code}`;
+    }
+    gids += `${gid},`;
+    return { ...stop, gid };
+  });
+  const stopStationMap = stopsWithGids.reduce(function (map, stopOrStation) {
+    // eslint-disable-next-line no-param-reassign
+    map[stopOrStation.gid] = stopOrStation;
+    return map;
+  }, {});
+  return getJson(URL_PELIAS_PLACE, {
+    ids: gids.slice(0, -1),
+    // lang: context.getStore('PreferencesStore').getLanguage(), TODO enable this when OTP supports translations
+  }).then(res => {
+    return res.features.map(stop => {
+      const favourite = {
+        type: 'FavouriteStop',
+        properties: {
+          ...stopStationMap[stop.properties.gid],
+          address: stop.properties.label,
+          layer: isStop(stop.properties) ? 'favouriteStop' : 'favouriteStation',
+        },
+        ...stop.geometry,
+      };
+      return favourite;
+    });
+  });
+}
 function getFavouriteLocations(favourites, input) {
   return Promise.resolve(
     filterMatchingToInput(favourites, input, ['address', 'name']).map(item => ({
@@ -136,14 +179,13 @@ function getBikeStations(bikeStations, input) {
       10,
     ).map(stop => {
       const newItem = {
-        type: 'Stop',
+        type: 'BikeRentalStation',
         address: stop.name,
         lat: stop.lat,
         lon: stop.lon,
         properties: {
           labelId: stop.stationId,
           layer: 'bikeRentalStation',
-          address: stop.name,
           name: stop.name,
           lat: stop.lat,
           lon: stop.lon,
@@ -185,13 +227,9 @@ function getOldSearches(oldSearches, input, dropLayers) {
   );
 }
 
-function hasFavourites(context, locations, stops) {
+function hasFavourites(context, locations) {
   const favouriteLocations = locations(context);
-  const favouriteStops = stops(context);
-  return (
-    (favouriteLocations && favouriteLocations.length > 0) ||
-    (favouriteStops && favouriteStops.length > 0)
-  );
+  return favouriteLocations && favouriteLocations.length > 0;
 }
 
 const routeLayers = [
@@ -224,6 +262,8 @@ export function getSearchResults(
     getLanguage,
     getStopAndStationsQuery,
     getAllBikeRentalStations,
+    getFavouriteBikeRentalStationsQuery,
+    getFavouriteBikeRentalStations,
     getFavouriteRoutesQuery,
     getFavouriteRoutes,
     getRoutesQuery,
@@ -232,6 +272,7 @@ export function getSearchResults(
     minimalRegexp,
     lineRegexp,
     URL_PELIAS,
+    URL_PELIAS_PLACE,
     feedIDs,
     geocodingSearchParams,
     geocodingSources,
@@ -268,19 +309,16 @@ export function getSearchResults(
   }
   if (
     targets.includes('SelectFromOwnLocations') &&
-    hasFavourites(context, locations, stops)
+    hasFavourites(context, locations)
   ) {
     searchComponents.push(selectFromOwnLocations(input));
   }
   if (allTargets || targets.includes('Locations')) {
     // eslint-disable-next-line prefer-destructuring
     const searchParams = geocodingSearchParams;
-    if (allSources || sources.includes('Favourite')) {
+    if (sources.includes('Favourite')) {
       const favouriteLocations = locations(context);
       searchComponents.push(getFavouriteLocations(favouriteLocations, input));
-      const favouriteStops = stops(context);
-      const stopsAndStations = getStopAndStationsQuery(favouriteStops);
-      searchComponents.push(getFavouriteStops(stopsAndStations, input));
       if (sources.includes('Back')) {
         searchComponents.push(getBackSuggestion());
       }
@@ -288,9 +326,10 @@ export function getSearchResults(
     if (allSources || sources.includes('Datasource')) {
       const regex = minimalRegexp || undefined;
       const geocodingLayers = ['station', 'venue', 'address', 'street'];
-      const geosources = geocodingSources.join(',');
+      const feedis = feedIDs.map(v => `gtfs${v}`);
+      const geosources = geocodingSources.concat(feedis).join(',');
       searchComponents.push(
-        getGeocodingResult(
+        getGeocodingResults(
           input,
           searchParams,
           language,
@@ -319,9 +358,21 @@ export function getSearchResults(
   }
 
   if (allTargets || targets.includes('Stops')) {
-    if (allSources || sources.includes('Favourite')) {
+    if (sources.includes('Favourite')) {
       const favouriteStops = stops(context);
-      const stopsAndStations = getStopAndStationsQuery(favouriteStops);
+      let stopsAndStations;
+      if (favouriteStops.every(stop => stop.type === 'station')) {
+        stopsAndStations = getStopsFromGeocoding(
+          favouriteStops,
+          URL_PELIAS_PLACE,
+        );
+      } else {
+        stopsAndStations = getStopAndStationsQuery(
+          favouriteStops,
+        ).then(favourites =>
+          getStopsFromGeocoding(favourites, URL_PELIAS_PLACE),
+        );
+      }
       searchComponents.push(getFavouriteStops(stopsAndStations, input));
     }
     if (allSources || sources.includes('Datasource')) {
@@ -332,7 +383,7 @@ export function getSearchResults(
       };
       const feedis = feedIDs.map(v => `gtfs${v}`).join(',');
       searchComponents.push(
-        getGeocodingResult(
+        getGeocodingResults(
           input,
           searchParams,
           language,
@@ -348,14 +399,6 @@ export function getSearchResults(
           return results;
         }),
       );
-      if (
-        (!transportMode || transportMode === 'route-CITYBIKE') &&
-        regex &&
-        regex.test(input)
-      ) {
-        const bikeStations = getAllBikeRentalStations();
-        searchComponents.push(getBikeStations(bikeStations, input));
-      }
     }
     if (allSources || sources.includes('History')) {
       const stopHistory = prevSearches(context).filter(item => {
@@ -390,7 +433,7 @@ export function getSearchResults(
   }
 
   if (allTargets || targets.includes('Routes')) {
-    if (allSources || sources.includes('Favourite')) {
+    if (sources.includes('Favourite')) {
       const favouriteRoutes = getFavouriteRoutes(context);
       searchComponents.push(getFavouriteRoutesQuery(favouriteRoutes, input));
     }
@@ -423,6 +466,26 @@ export function getSearchResults(
           filterResults ? filterResults(results, 'Routes') : results,
         ),
       );
+    }
+  }
+
+  if (allTargets || targets.includes('BikeRentalStations')) {
+    if (sources.includes('Favourite')) {
+      const favouriteRoutes = getFavouriteBikeRentalStations(context);
+      searchComponents.push(
+        getFavouriteBikeRentalStationsQuery(favouriteRoutes, input),
+      );
+    }
+    if (allSources || sources.includes('Datasource')) {
+      const regex = minimalRegexp || undefined;
+      if (
+        (!transportMode || transportMode === 'route-CITYBIKE') &&
+        regex &&
+        regex.test(input)
+      ) {
+        const bikeStations = getAllBikeRentalStations();
+        searchComponents.push(getBikeStations(bikeStations, input));
+      }
     }
   }
 

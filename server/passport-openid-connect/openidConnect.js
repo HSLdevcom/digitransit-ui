@@ -7,7 +7,10 @@ const moment = require('moment');
 const RedisStore = require('connect-redis')(session);
 const LoginStrategy = require('./Strategy').Strategy;
 
-export default function setUpOIDC(app, port) {
+const clearAllUserSessions = false; // set true if logout should erase all user's sessions
+
+export default function setUpOIDC(app, port, indexPath) {
+  const hostname = process.env.HOSTNAME || `http://localhost:${port}`;
   /* ********* Setup OpenID Connect ********* */
   const callbackPath = '/oid_callback'; // connect callback path
   // Use Passport with OpenId Connect strategy to authenticate users
@@ -32,23 +35,46 @@ export default function setUpOIDC(app, port) {
     redirect_uri:
       process.env.OIDC_CLIENT_CALLBACK ||
       `http://localhost:${port}${callbackPath}`,
+    post_logout_redirect_uris: [`${hostname}/logout/callback`],
     scope: 'openid profile',
+    sessionCallback(userId, sessionId) {
+      // keep track of per-user sessions
+      console.log(`adding session for used ${userId} id ${sessionId}`);
+      if (clearAllUserSessions) {
+        RedisClient.sadd(`sessions-${userId}`, sessionId);
+      }
+    },
   });
-  passport.use(oic);
-  passport.serializeUser(LoginStrategy.serializeUser);
-  passport.deserializeUser(LoginStrategy.deserializeUser);
 
   const redirectToLogin = function (req, res, next) {
     const { ssoValidTo, ssoToken } = req.session;
+    const paths = [
+      '/fi/',
+      '/en/',
+      '/sv/',
+      '/reitti/',
+      '/pysakit/',
+      '/linjat/',
+      '/terminaalit/',
+      '/pyoraasemat/',
+      '/lahellasi/',
+    ];
+    // Only allow sso login when user navigates to certain paths
+    // Query parameter is string type
     if (
-      req.path !== '/login' &&
-      req.path !== callbackPath &&
+      req.query.sso !== 'false' &&
+      (req.path === `/${indexPath}` ||
+        paths.some(path => req.path.includes(path))) &&
       !req.isAuthenticated() &&
       ssoToken &&
       ssoValidTo &&
       ssoValidTo > moment().unix()
     ) {
-      req.session.redirectTo = req.path;
+      console.log(
+        'redirecting to login with sso token ',
+        JSON.stringify(ssoToken),
+      );
+      req.session.returnTo = req.path;
       res.redirect('/login');
     } else {
       next();
@@ -66,7 +92,7 @@ export default function setUpOIDC(app, port) {
         ttl: 1000 * 60 * 60 * 24 * 365 * 10,
       }),
       resave: false,
-      saveUninitialized: false,
+      saveUninitialized: true,
       cookie: {
         secure: process.env.NODE_ENV === 'production',
         httpOnly: process.env.NODE_ENV === 'production',
@@ -75,65 +101,77 @@ export default function setUpOIDC(app, port) {
       },
     }),
   );
+
   // Initialize Passport
   app.use(passport.initialize());
   app.use(passport.session());
+  passport.use('passport-openid-connect', oic);
+  passport.serializeUser(LoginStrategy.serializeUser);
+  passport.deserializeUser(LoginStrategy.deserializeUser);
+
   app.use(redirectToLogin);
 
   // Initiates an authentication request
   // users will be redirected to hsl.id and once authenticated
   // they will be returned to the callback handler below
-  app.get('/login', function (req, res) {
+  app.get(
+    '/login',
     passport.authenticate('passport-openid-connect', {
-      successReturnToOrRedirect: `/?${req.query}/`,
       scope: 'profile',
-    })(req, res);
-  });
+      successReturnToOrRedirect: '/',
+    }),
+  );
+
   // Callback handler that will redirect back to application after successfull authentication
-  app.get(callbackPath, function (req, res, next) {
-    passport.authenticate(
-      'passport-openid-connect',
-      {
-        callback: true,
-      },
-      function (err, user) {
-        if (err) {
-          console.log('OID callback error', err);
-          res.clearCookie('connect.sid');
-          next(err);
-        } else if (!user) {
-          console.log('User is undefined');
-          res.redirect(req.session.redirectTo || '/');
-        } else {
-          req.logIn(user, function (loginErr) {
-            if (loginErr) {
-              console.log('Login error', loginErr);
-              next(loginErr);
-            } else {
-              res.redirect(req.session.redirectTo || '/');
-            }
-          });
-        }
-      },
-    )(req, res, next);
-  });
+  app.get(
+    callbackPath,
+    passport.authenticate('passport-openid-connect', {
+      callback: true,
+      successReturnToOrRedirect: `/${indexPath}`,
+      failureRedirect: '/login',
+    }),
+  );
+
   app.get('/logout', function (req, res) {
+    const logoutUrl = `${oic.client.endSessionUrl()}&id_token_hint=${
+      req.user.token.id_token
+    }`;
+    req.session.userId = req.user.data.sub;
+    console.log(`logout for user ${req.user.data.name} to ${logoutUrl}`);
+    res.redirect(logoutUrl);
+  });
+
+  app.get('/logout/callback', function (req, res) {
+    console.log(`logout callback for userId ${req.session.userId}`);
+    const sessions = `sessions-${req.session.userId}`;
     req.logout();
-    req.session.destroy(function () {
-      res.clearCookie('connect.sid');
-      res.redirect('/');
+    RedisClient.smembers(sessions, function (err, sessionIds) {
+      req.session.destroy(function () {
+        res.clearCookie('connect.sid');
+        if (sessionIds && sessionIds.length > 0) {
+          console.log(`Deleting ${sessionIds.length} sessions`);
+          RedisClient.del(...sessionIds);
+          RedisClient.del(sessions);
+        }
+        res.redirect(`/${indexPath}`);
+      });
     });
   });
+
   app.get('/sso/auth', function (req, res, next) {
+    console.log(`GET sso/auth, token=${req.query['sso-token']}`);
     if (req.isAuthenticated()) {
+      console.log('GET sso/auth -> already authenticated');
       next();
     } else {
+      console.log('GET sso/auth -> updating token');
       req.session.ssoToken = req.query['sso-token'];
       req.session.ssoValidTo =
         Number(req.query['sso-validity']) * 60 * 1000 + moment().unix();
       res.send();
     }
   });
+
   app.use('/api', function (req, res, next) {
     res.set('Cache-Control', 'no-store');
     if (req.isAuthenticated()) {
@@ -142,6 +180,7 @@ export default function setUpOIDC(app, port) {
       res.sendStatus(401);
     }
   });
+
   /* GET the profile of the current authenticated user */
   app.get('/api/user', function (req, res) {
     request.get(
@@ -160,6 +199,7 @@ export default function setUpOIDC(app, port) {
       },
     );
   });
+
   app.use('/api/user/favourites', function (req, res) {
     request(
       {

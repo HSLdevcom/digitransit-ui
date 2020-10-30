@@ -57,14 +57,6 @@ class SelectMapLayersDialog extends React.Component {
     this.updateSetting({ terminal });
   };
 
-  updateTicketSalesSetting = newSetting => {
-    const ticketSales = {
-      ...this.props.mapLayers.ticketSales,
-      ...newSetting,
-    };
-    this.updateSetting({ ticketSales });
-  };
-
   updateGeoJsonSetting = newSetting => {
     const geoJson = {
       ...this.props.mapLayers.geoJson,
@@ -74,15 +66,7 @@ class SelectMapLayersDialog extends React.Component {
   };
 
   renderContents = (
-    {
-      citybike,
-      parkAndRide,
-      stop,
-      terminal,
-      ticketSales,
-      geoJson,
-      showAllBusses,
-    },
+    { citybike, parkAndRide, stop, terminal, geoJson, showAllBusses },
     config,
     lang,
   ) => {
@@ -197,39 +181,6 @@ class SelectMapLayersDialog extends React.Component {
             />
           )}
         </div>
-        {config.ticketSales && config.ticketSales.showTicketSales && (
-          <div className="checkbox-grouping">
-            <Checkbox
-              checked={ticketSales.ticketMachine}
-              defaultMessage="Ticket machine"
-              labelId="map-layer-ticket-sales-machine"
-              onChange={e => {
-                this.updateTicketSalesSetting({
-                  ticketMachine: e.target.checked,
-                });
-                this.sendLayerChangeAnalytic(
-                  'TicketSalesMachine',
-                  e.target.checked,
-                );
-              }}
-            />
-            <Checkbox
-              checked={ticketSales.salesPoint}
-              defaultMessage="Travel Card top up"
-              labelId="map-layer-ticket-sales-point"
-              onChange={e => {
-                this.updateTicketSalesSetting({
-                  salesPoint: e.target.checked,
-                  servicePoint: e.target.checked,
-                });
-                this.sendLayerChangeAnalytic(
-                  'TicketSalesPoint',
-                  e.target.checked,
-                );
-              }}
-            />
-          </div>
-        )}
         {config.geoJson && Array.isArray(config.geoJson.layers) && (
           <div className="checkbox-grouping">
             {config.geoJson.layers.map(gj => (
@@ -300,9 +251,6 @@ const mapLayersConfigShape = PropTypes.shape({
   parkAndRide: PropTypes.shape({
     showParkAndRide: PropTypes.bool,
   }),
-  ticketSales: PropTypes.shape({
-    showTicketSales: PropTypes.bool,
-  }),
   transportModes: PropTypes.shape({
     bus: transportModeConfigShape,
     citybike: transportModeConfigShape,
@@ -343,9 +291,6 @@ SelectMapLayersDialog.description = (
           parkAndRide: {
             showParkAndRide: true,
           },
-          ticketSales: {
-            showTicketSales: true,
-          },
           transportModes: {
             bus: {
               availableForSelection: true,
@@ -368,7 +313,6 @@ SelectMapLayersDialog.description = (
         mapLayers={{
           stop: { bus: true },
           terminal: { subway: true },
-          ticketSales: { ticketMachine: true },
         }}
         updateMapLayers={() => {}}
       />

@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import take from 'lodash/take';
 import flatten from 'lodash/flatten';
+import uniq from 'lodash/uniq';
 import compact from 'lodash/compact';
 import moment from 'moment';
 import { fetchQuery, graphql } from 'react-relay';
@@ -13,11 +14,32 @@ import filterMatchingToInput from '@digitransit-search-util/digitransit-search-u
 
 let relayEnvironment = null;
 
+const alertsQuery = graphql`
+  query digitransitSearchUtilQueryUtilsAlertsQuery {
+    alerts(severityLevel: [SEVERE]) {
+      stop {
+        vehicleMode
+        patterns {
+          route {
+            mode
+          }
+        }
+      }
+      route {
+        mode
+        shortName
+      }
+      alertHeaderText
+      effectiveStartDate
+      effectiveEndDate
+    }
+  }
+`;
+
 const searchBikeRentalStationsQuery = graphql`
   query digitransitSearchUtilQueryUtilsSearchBikeRentalStationsQuery {
     bikeRentalStations {
       name
-      networks
       stationId
       lon
       lat
@@ -90,6 +112,17 @@ const favouriteRoutesQuery = graphql`
   }
 `;
 
+const favouriteBikeRentalQuery = graphql`
+  query digitransitSearchUtilQueryUtilsFavouriteBikeRentalStationsQuery(
+    $ids: [String!]!
+  ) {
+    bikeRentalStations(ids: $ids) {
+      name
+      stationId
+    }
+  }
+`;
+
 const stopsQuery = graphql`
   query digitransitSearchUtilQueryUtilsStopsQuery($ids: [String!]!) {
     stops(ids: $ids) {
@@ -124,7 +157,9 @@ const verify = (stopStationMap, favourites) => {
       if (fromQuery) {
         favourite.lat = fromQuery.lat;
         favourite.lon = fromQuery.lon;
-
+        if (fromQuery.code) {
+          favourite.code = fromQuery.code;
+        }
         return favourite;
       }
       return null;
@@ -140,26 +175,62 @@ const verify = (stopStationMap, favourites) => {
 export function setRelayEnvironment(environment) {
   relayEnvironment = environment;
 }
+
+export const getModesWithAlerts = currentTime => {
+  if (!relayEnvironment) {
+    return Promise.resolve([]);
+  }
+  return fetchQuery(relayEnvironment, alertsQuery)
+    .then(res => {
+      const modes = res.alerts.map(i => {
+        if (
+          i.route &&
+          i.route.mode &&
+          i.effectiveStartDate <= currentTime &&
+          i.effectiveEndDate >= currentTime
+        ) {
+          return i.route.mode;
+        }
+        return undefined;
+      });
+      return modes;
+    })
+    .then(compact)
+    .then(uniq);
+};
 /**
  * Returns Stop and station objects .
  * @param {*} favourites
  */
 export const getStopAndStationsQuery = favourites => {
-  if (!relayEnvironment) {
+  // TODO perhaps validate stops/stations through geocoding api instead of routing?
+  if (!relayEnvironment || !Array.isArray(favourites)) {
     return Promise.resolve([]);
   }
   const queries = [];
-  const ids = favourites.map(item => item.gtfsId);
-  queries.push(
-    fetchQuery(relayEnvironment, favouriteStopsQuery, {
-      ids,
-    }),
-  );
-  queries.push(
-    fetchQuery(relayEnvironment, favouriteStationsQuery, {
-      ids,
-    }),
-  );
+  const stopIds = favourites
+    .filter(item => item.type === 'stop')
+    .map(item => item.gtfsId);
+  if (stopIds.length > 0) {
+    queries.push(
+      fetchQuery(relayEnvironment, favouriteStopsQuery, {
+        ids: stopIds,
+      }),
+    );
+  }
+  const stationIds = favourites
+    .filter(item => item.type === 'station')
+    .map(item => item.gtfsId);
+  if (stationIds.length > 0) {
+    queries.push(
+      fetchQuery(relayEnvironment, favouriteStationsQuery, {
+        ids: stationIds,
+      }),
+    );
+  }
+  if (queries.length === 0) {
+    return Promise.resolve([]);
+  }
   return Promise.all(queries)
     .then(qres =>
       qres.map(stopOrStation => {
@@ -184,8 +255,8 @@ export const getStopAndStationsQuery = favourites => {
       return verify(stopStationMap, favourites).map(stop => {
         const favourite = {
           type: 'FavouriteStop',
+          ...stop,
           properties: {
-            ...stop,
             label: stop.name,
             layer: isStop(stop) ? 'favouriteStop' : 'favouriteStation',
           },
@@ -254,7 +325,11 @@ export const filterStopsAndStationsByMode = (stopsToFilter, mode) => {
  * @param {*} favourites
  */
 export function getFavouriteRoutesQuery(favourites, input) {
-  if (!relayEnvironment) {
+  if (
+    !relayEnvironment ||
+    !Array.isArray(favourites) ||
+    favourites.length === 0
+  ) {
     return Promise.resolve([]);
   }
   return fetchQuery(relayEnvironment, favouriteRoutesQuery, { ids: favourites })
@@ -276,6 +351,40 @@ export function getFavouriteRoutesQuery(favourites, input) {
     .then(routes =>
       routes.sort((x, y) => routeNameCompare(x.properties, y.properties)),
     );
+}
+/**
+ * Returns Favourite BikeRentalStation objects depending on input
+ * @param {String} input Search text, if empty no objects are returned
+ * @param {*} favourites
+ */
+export function getFavouriteBikeRentalStationsQuery(favourites, input) {
+  if (
+    !relayEnvironment ||
+    !Array.isArray(favourites) ||
+    favourites.length === 0
+  ) {
+    return Promise.resolve([]);
+  }
+  const favouriteIds = favourites.map(station => station.stationId);
+  return fetchQuery(relayEnvironment, favouriteBikeRentalQuery, {
+    ids: favouriteIds,
+  })
+    .then(data => data.bikeRentalStations)
+    .then(stations => stations.filter(station => !!station))
+    .then(stations =>
+      stations.map(favourite => ({
+        properties: {
+          name: favourite.name,
+          labelId: favourite.stationId,
+          layer: 'favouriteBikeRentalStation',
+        },
+        type: 'FavouriteBikeRentalStation',
+      })),
+    )
+    .then(stations =>
+      filterMatchingToInput(stations, input, ['properties.name']),
+    )
+    .then(stations => stations.sort());
 }
 /**
  * Returns Route objects depending on input

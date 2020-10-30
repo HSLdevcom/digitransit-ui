@@ -114,7 +114,7 @@ const StopPageMap = (
         color={config.colors.primary}
         iconClassName="arrow-icon"
         key="stop-page-back-button"
-        urlToBack={config.URL.REDIRECT_BACK}
+        urlToBack={config.URL.ROOTLINK}
       />,
     );
   }
@@ -161,13 +161,12 @@ const StopPageMap = (
     <MapWithTracking
       className="flex-grow"
       defaultMapCenter={stop}
-      // zoom={!match.params.stopId || stop.platformCode ? 18 : 16}
+      initialZoom={!match.params.stopId || stop.platformCode ? 18 : 16}
       showStops
       hilightedStops={[id]}
       leafletObjs={leafletObjs}
       showScaleBar
       focusPoint={focusPoint}
-      initialZoom={12}
       origin={locationState}
       destination={stop}
       bounds={bounds}

@@ -117,7 +117,7 @@ class ItineraryLegs extends React.Component {
       const isNextLegInterlining = nextLeg
         ? nextLeg.interlineWithPreviousLeg
         : false;
-      if (isCallAgencyPickupType(leg)) {
+      if (leg.mode !== 'WALK' && isCallAgencyPickupType(leg)) {
         legs.push(
           <CallAgencyLeg
             index={j}

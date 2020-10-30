@@ -14,6 +14,7 @@ const searchContext = {
   lineRegexp: null,
   feedIDs: [],
   URL_PELIAS: '',
+  URL_PELIAS_PLACE: '',
   geocodingSearchParams: null,
   geocodingSources: '',
   getRoutesQuery() {
@@ -23,6 +24,12 @@ const searchContext = {
     return Promise.resolve([]);
   },
   getFavouriteRoutesQuery() {
+    return Promise.resolve([]);
+  },
+  getFavouriteBikeRentalStations() {
+    return Promise.resolve([]);
+  },
+  getFavouriteBikeRentalStationsQuery() {
     return Promise.resolve([]);
   },
   getPositions: () => {

@@ -2,53 +2,37 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { uniqBy } from 'lodash-es';
-
-import { AlertSeverityLevelType } from '../constants';
-import { isAlertValid, getServiceAlertDescription } from '../util/alertUtils';
+import {
+  isAlertValid,
+  getServiceAlertDescription,
+  getServiceAlertMetadata,
+} from '../util/alertUtils';
 import Icon from './Icon';
 
 class DisruptionBanner extends React.Component {
   static propTypes = {
-    alerts: PropTypes.shape({
-      edges: PropTypes.array.isRequired,
-    }).isRequired,
+    alerts: PropTypes.arrayOf(PropTypes.object),
     currentTime: PropTypes.number.isRequired,
-    language: PropTypes.string,
+    language: PropTypes.string.isRequired,
     trafficNowLink: PropTypes.string,
+    mode: PropTypes.string.isRequired,
   };
 
   getAlerts() {
     const { alerts } = this.props;
-    if (!alerts.edges) {
-      return [];
-    }
-    let activeAlerts = [];
-    alerts.edges.forEach(alert => {
-      const { place } = alert.node;
-      if (place.alerts.length > 0) {
-        activeAlerts.push(...place.alerts);
-      }
-      place.stoptimesWithoutPatterns.forEach(stoptime => {
-        if (stoptime.trip.route.alerts.length > 0) {
-          activeAlerts.push(...stoptime.trip.route.alerts);
-        }
-      });
-    });
-    const getId = alert => `${alert.alertDescriptionText}`;
-    activeAlerts = uniqBy(activeAlerts, getId).filter(alert => {
-      const alertToCheck = {
+    const activeAlerts = [];
+    alerts.forEach(alert => {
+      const currAlert = {
         ...alert,
-        validityPeriod: {
-          startTime: alert.effectiveStartDate,
-          endTime: alert.effectiveEndDate,
-        },
+        ...getServiceAlertMetadata(alert),
       };
-      return (
-        (alert.alertSeverityLevel === AlertSeverityLevelType.Severe ||
-          alert.alertSeverityLevel === AlertSeverityLevelType.Warning) &&
-        isAlertValid(alertToCheck, this.props.currentTime)
-      );
+      if (
+        alert.route &&
+        alert.route.mode === this.props.mode &&
+        isAlertValid(currAlert, this.props.currentTime)
+      ) {
+        activeAlerts.push(currAlert);
+      }
     });
     return activeAlerts;
   }
@@ -95,56 +79,22 @@ const containerComponent = createFragmentContainer(
   ),
   {
     alerts: graphql`
-      fragment DisruptionBanner_alerts on placeAtDistanceConnection
-      @argumentDefinitions(
-        startTime: { type: "Long!", defaultValue: 0 }
-        omitNonPickups: { type: "Boolean!", defaultValue: false }
-      ) {
-        edges {
-          node {
-            place {
-              __typename
-              ... on Stop {
-                alerts {
-                  id
-                  alertSeverityLevel
-                  alertHeaderText
-                  alertEffect
-                  alertCause
-                  alertDescriptionText
-                  alertDescriptionTextTranslations {
-                    text
-                    language
-                  }
-                  effectiveStartDate
-                  effectiveEndDate
-                }
-                stoptimesWithoutPatterns(omitNonPickups: $omitNonPickups) {
-                  trip {
-                    route {
-                      alerts {
-                        id
-                        alertSeverityLevel
-                        alertHeaderText
-                        alertEffect
-                        alertCause
-                        alertDescriptionText
-                        alertDescriptionTextTranslations {
-                          text
-                          language
-                        }
-                        effectiveStartDate
-                        effectiveEndDate
-                        route {
-                          shortName
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
+      fragment DisruptionBanner_alerts on Alert @relay(plural: true) {
+        id
+        alertSeverityLevel
+        alertHeaderText
+        alertEffect
+        alertCause
+        alertDescriptionText
+        alertDescriptionTextTranslations {
+          text
+          language
+        }
+        effectiveStartDate
+        effectiveEndDate
+        route {
+          mode
+          shortName
         }
       }
     `,

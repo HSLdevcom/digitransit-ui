@@ -12,6 +12,7 @@ const StopNearYouDepartureRowContainer = ({ stopTimes, ...props }) => {
         departure={row}
         departureTime={departureTime}
         currentTime={props.currentTime}
+        showPlatformCode={props.isStation}
       />
     );
   });
@@ -23,15 +24,13 @@ const StopNearYouDepartureRowContainer = ({ stopTimes, ...props }) => {
   );
 };
 
-DepartureRow.propTypes = {
-  departure: PropTypes.object.isRequired,
-};
 StopNearYouDepartureRowContainer.propTypes = {
   stopTimes: PropTypes.arrayOf(
     PropTypes.shape({
       distance: PropTypes.number,
     }),
   ),
+  isStation: PropTypes.bool.isRequired,
   currentTime: PropTypes.number.isRequired,
 };
 export default StopNearYouDepartureRowContainer;

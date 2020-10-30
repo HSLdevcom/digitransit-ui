@@ -153,6 +153,8 @@
       justify-content: center;
       &.fit-route-number {
         min-width: fit-content;
+        /* stylelint-disable-next-line */
+        min-width: -moz-fit-content;
         .vcenter-children {
           min-width: max-content !important; // forces the leg to fit the route number in it
         }
@@ -248,13 +250,13 @@
               margin-left: 1px;
             }
           }
-          &.walk, &.citybike, &.bicycle, &.wait {
+          &.walk, &.citybike, &.bicycle, &.wait, &.bicycle_walk {
             display: block;
             overflow: hidden;
             min-width: unset;
             .icon {
               width: 18px;
-              &.walk, &.citybike, &.bicycle, &.wait {
+              &.walk, &.citybike, &.bicycle, &.wait, &.bicycle_walk{
                 float: left;
                 display: flex;
                 justify-content: center;
@@ -351,7 +353,7 @@
         background-color: white;
         border: 1px solid $light-gray;
       }
-      &.walk {
+      &.walk, &.bicycle_walk {
         background-color: $light-gray;
       }
       &.bicycle {
@@ -387,7 +389,7 @@
           width: 0.67em;
         }
       }
-      &.bicycle {
+      &.bicycle, &.bicycle_walk {
         margin-bottom: 1px;
         .icon {
           height: 0.67em;
@@ -554,7 +556,6 @@
 .mobile {
   .subicon-caution {
     left: -0.3em;
-    top: 0.5em;
   }
   .summary-clickable-area {
     border-bottom: 1px solid #ddd !important;

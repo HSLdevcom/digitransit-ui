@@ -3,6 +3,7 @@ import {
   getRoutesQuery,
   getStopAndStationsQuery,
   getFavouriteRoutesQuery,
+  getFavouriteBikeRentalStationsQuery,
   getAllBikeRentalStations,
 } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import {
@@ -15,6 +16,7 @@ import {
   clearOldSearches,
   getFutureRoutes,
   clearFutureRoutes,
+  getFavouriteBikeRentalStations,
 } from './storeUtils';
 import { startLocationWatch } from '../action/PositionActions';
 import { saveSearch } from '../action/SearchActions';
@@ -32,6 +34,7 @@ export default function intializeSearchContext(context, searchContext) {
     ? config.search.lineRegexp
     : undefined;
   searchContext.URL_PELIAS = config.URL.PELIAS;
+  searchContext.URL_PELIAS_PLACE = config.URL.PELIAS_PLACE;
   // FeedId's like  [HSL, HSLLautta]
   searchContext.feedIDs = config.feedIds;
   // searchSources e.g. [oa,osm,nlsfi.]
@@ -47,6 +50,8 @@ export default function intializeSearchContext(context, searchContext) {
   searchContext.getAllBikeRentalStations = getAllBikeRentalStations;
   searchContext.getStopAndStationsQuery = getStopAndStationsQuery;
   searchContext.getFavouriteRoutesQuery = getFavouriteRoutesQuery;
+  searchContext.getFavouriteBikeRentalStations = getFavouriteBikeRentalStations;
+  searchContext.getFavouriteBikeRentalStationsQuery = getFavouriteBikeRentalStationsQuery;
   searchContext.startLocationWatch = startLocationWatch;
   searchContext.saveSearch = saveSearch;
   searchContext.clearOldSearches = clearOldSearches;

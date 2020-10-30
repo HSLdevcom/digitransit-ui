@@ -1,7 +1,3 @@
-export function toggleFavouriteCityBikeStation(actionContext, stationId) {
-  actionContext.dispatch('ToggleFavouriteCityBikeStation', stationId);
-}
-
 export function saveFavourite(actionContext, data) {
   actionContext.dispatch('SaveFavourite', data);
 }

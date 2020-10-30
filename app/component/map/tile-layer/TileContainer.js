@@ -69,12 +69,6 @@ class TileContainer {
         ) {
           return isEnabled;
         }
-        if (
-          layerName === 'ticketSales' &&
-          this.coords.z >= config.ticketSales.ticketSalesMinZoom
-        ) {
-          return isEnabled;
-        }
         return false;
       })
       .map(

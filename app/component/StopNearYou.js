@@ -19,6 +19,7 @@ const StopNearYou = ({ stop, color, ...props }) => {
         <StopNearYouDepartureRowContainer
           stopTimes={stopOrStation.stoptimesWithoutPatterns}
           currentTime={props.currentTime}
+          isStation={isStation && stop.vehicleMode !== 'SUBWAY'}
         />
       </div>
     </span>

@@ -55,6 +55,7 @@ export default {
   },
 
   APP_PATH: `${APP_PATH}`,
+  indexPath: '',
   title: 'Reittihaku',
 
   textLogo: false,
@@ -76,6 +77,8 @@ export default {
 
   realTime: realtime,
   realTimePatch: REALTIME_PATCH,
+
+  showNewMqtt: !process.env.DISABLE_NEW_MQTT_FEATURES,
 
   // Google Tag Manager id
   GTMid: process.env.GTM_ID || null,
@@ -108,17 +111,12 @@ export default {
   maxNearbyStopDistance: 2000,
 
   defaultSettings: {
-    usingWheelchair: 0,
+    accessibilityOption: 0,
     bikeSpeed: 5.55,
-    minTransferTime: 120,
-    optimize: 'GREENWAYS',
-    preferredRoutes: [],
     ticketTypes: 'none',
-    transferPenalty: 0,
-    unpreferredRoutes: [],
     walkBoardCost: 600,
     walkReluctance: 2,
-    walkSpeed: 1.38,
+    walkSpeed: 1.22,
     includeBikeSuggestions: true,
   },
 
@@ -140,7 +138,7 @@ export default {
       more: 1,
       most: 0.2,
     },
-    walkSpeed: [1.05, 1.22, 1.38, 1.52, 1.77],
+    walkSpeed: [0.67, 1.05, 1.22, 1.39, 1.77],
     bikeSpeed: [2.77, 4.15, 5.55, 6.94, 8.33],
   },
 
@@ -153,6 +151,9 @@ export default {
   suggestBikeMaxDistance: 15000,
   itineraryFiltering: 1.5, // drops 66% worse routes
   useUnpreferredRoutesPenalty: 1200, // adds 10 minute (weight) penalty to routes that are unpreferred
+  minTransferTime: 120,
+  optimize: 'GREENWAYS',
+  transferPenalty: 0,
   availableLanguages: ['fi', 'sv', 'en', 'fr', 'nb', 'de', 'da', 'es', 'ro'],
   defaultLanguage: 'en',
   // This timezone data will expire in 2037
@@ -394,7 +395,7 @@ export default {
     },
 
     citybike: {
-      availableForSelection: true,
+      availableForSelection: false,
       defaultValue: false, // always false
     },
   },
@@ -435,8 +436,6 @@ export default {
       icon: 'car_park-withoutBox',
     },
   },
-
-  usingWheelchair: 0,
 
   moment: {
     relativeTimeThreshold: {
@@ -757,11 +756,6 @@ export default {
   showVehiclesOnStopPage: false,
   // DT-3551: Link to traffic information page.
   trafficNowLink: '',
-  mapLayers: {
-    featureMapping: {
-      ticketSales: {},
-    },
-  },
 
   timetables: {},
   showLogin: !!process.env.OIDC_CLIENT_ID,

@@ -29,7 +29,7 @@ export default function DesktopView(
                 icon="icon-icon_arrow-collapse--left"
                 color={bckBtnColor}
                 iconClassName="arrow-icon"
-                urlToBack={bckBtnUrl || config.URL.REDIRECT_BACK}
+                urlToBack={bckBtnUrl || config.URL.ROOTLINK}
               />
             </div>
           </div>

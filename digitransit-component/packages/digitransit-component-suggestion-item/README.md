@@ -11,7 +11,7 @@ SuggestionItem renders suggestions for digitransit-autosuggest component.
 ```javascript
 <SuggestionItem
    item={suggestionObject}
-   ariaContent={'Station - Pasila - Helsinki'}
+   content={['Pysäkki', 'Kuusitie', 'Helsinki', 'H1923']}
    loading={false}
 />
 ```

@@ -30,7 +30,7 @@ export default function MobileView({
         },
       });
     }
-  }, [header, map]);
+  }, [header]);
 
   const onScroll = e => {
     if (map) {
@@ -53,8 +53,10 @@ export default function MobileView({
             <div className="drawer-padding" />
             <div className="drawer-content">
               <div className="drag-line" />
-              {header}
-              {content}
+              <div className="content-container">
+                {header}
+                {content}
+              </div>
             </div>
           </div>
         </>

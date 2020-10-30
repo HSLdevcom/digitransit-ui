@@ -3,10 +3,11 @@ import React from 'react';
 import { createRefetchContainer, graphql } from 'react-relay';
 import { intlShape, FormattedMessage } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { matchShape, routerShape } from 'found';
+import { matchShape } from 'found';
 import { indexOf } from 'lodash-es';
 import StopNearYou from './StopNearYou';
 import withBreakpoint from '../util/withBreakpoint';
+import { sortNearbyRentalStations, sortNearbyStops } from '../util/sortUtils';
 import CityBikeStopNearYou from './CityBikeStopNearYou';
 
 class StopsNearYouContainer extends React.Component {
@@ -16,6 +17,13 @@ class StopsNearYouContainer extends React.Component {
     relay: PropTypes.shape({
       refetch: PropTypes.func.isRequired,
     }).isRequired,
+    favouriteIds: PropTypes.object.isRequired,
+    match: matchShape.isRequired,
+    position: PropTypes.shape({
+      address: PropTypes.string,
+      lat: PropTypes.number,
+      lon: PropTypes.number,
+    }).isRequired,
   };
 
   static contextTypes = {
@@ -24,36 +32,71 @@ class StopsNearYouContainer extends React.Component {
     executeAction: PropTypes.func.isRequired,
     headers: PropTypes.object.isRequired,
     getStore: PropTypes.func,
-    router: routerShape.isRequired,
-    match: matchShape.isRequired,
   };
 
   constructor(props, context) {
     super(props, context);
     this.state = {
       stopCount: 5,
+      currentPosition: props.position,
     };
   }
 
-  componentDidUpdate({ relay, currentTime }) {
+  static getDerivedStateFromProps = (nextProps, prevState) => {
+    if (
+      !prevState.currentPosition ||
+      (!prevState.currentPosition.address &&
+        nextProps.position &&
+        nextProps.position.address)
+    ) {
+      return {
+        currentPosition: nextProps.position,
+      };
+    }
+    return null;
+  };
+
+  componentDidUpdate({ relay, currentTime, position }) {
     const currUnix = this.props.currentTime;
     if (currUnix !== currentTime) {
       relay.refetch(oldVariables => {
         return {
           ...oldVariables,
+          lat: this.props.position.lat,
+          lon: this.props.position.lon,
           startTime: currentTime,
           first: this.state.stopCount,
           maxResults: this.state.stopCount,
         };
       });
     }
+    if (position && this.state.currentPosition) {
+      if (position.address !== this.props.position.address) {
+        this.updatePosition();
+      }
+    }
   }
+
+  updatePosition = () => {
+    this.props.relay.refetch(oldVariables => {
+      return {
+        ...oldVariables,
+        lat: this.props.position.lat,
+        lon: this.props.position.lon,
+        startTime: this.props.currentTime,
+        first: this.state.stopCount,
+        maxResults: this.state.stopCount,
+      };
+    });
+  };
 
   showMore = () => {
     this.state.stopCount += 5;
     this.props.relay.refetch(oldVariables => {
       return {
         ...oldVariables,
+        lat: this.props.position.lat,
+        lon: this.props.position.lon,
         startTime: this.props.currentTime,
         first: this.state.stopCount,
         maxResults: this.state.stopCount,
@@ -64,7 +107,13 @@ class StopsNearYouContainer extends React.Component {
   createNearbyStops = () => {
     const stopPatterns = this.props.stopPatterns.nearest.edges;
     const terminalNames = [];
-    const stops = stopPatterns.map(({ node }) => {
+    const isCityBikeView = this.props.match.params.mode === 'CITYBIKE';
+    const sortedPatterns = isCityBikeView
+      ? stopPatterns
+          .slice()
+          .sort(sortNearbyRentalStations(this.props.favouriteIds))
+      : stopPatterns.slice().sort(sortNearbyStops(this.props.favouriteIds));
+    const stops = sortedPatterns.map(({ node }) => {
       const stop = node.place;
       /* eslint-disable-next-line no-underscore-dangle */
       switch (stop.__typename) {
@@ -140,9 +189,21 @@ const StopsNearYouContainerWithBreakpoint = withBreakpoint(
 const connectedContainer = createRefetchContainer(
   connectToStores(
     StopsNearYouContainerWithBreakpoint,
-    ['TimeStore'],
-    ({ getStore }) => ({
+    ['TimeStore', 'FavouriteStore'],
+    ({ getStore }, { match }) => ({
       currentTime: getStore('TimeStore').getCurrentTime().unix(),
+      favouriteIds:
+        match.params.mode === 'CITYBIKE'
+          ? new Set(
+              getStore('FavouriteStore')
+                .getBikeRentalStations()
+                .map(station => station.stationId),
+            )
+          : new Set(
+              getStore('FavouriteStore')
+                .getStopsAndStations()
+                .map(stop => stop.gtfsId),
+            ),
     }),
   ),
   {
@@ -250,6 +311,9 @@ const connectedContainer = createRefetchContainer(
                             headsign
                           }
                         }
+                      }
+                      stop {
+                        platformCode
                       }
                     }
                   }
