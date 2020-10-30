@@ -72,8 +72,12 @@ class FavouritesContainer extends React.Component {
     };
   }
 
-  componentDidMount() {
-    if (this.context.config.allowLogin && this.props.isLoggedIn) {
+  componentDidUpdate(prevProps) {
+    if (
+      this.context.config.allowLogin &&
+      this.props.isLoggedIn &&
+      !prevProps.isLoggedIn
+    ) {
       if (this.props.favouriteModalAction) {
         switch (this.props.favouriteModalAction) {
           case 'AddHome':
@@ -86,7 +90,7 @@ class FavouritesContainer extends React.Component {
             this.addPlace();
             break;
           case 'Edit':
-            this.setState({ editModalOpen: true });
+            this.editPlace();
             break;
           default:
             break;
