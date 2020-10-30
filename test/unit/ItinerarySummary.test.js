@@ -26,7 +26,7 @@ describe('<ItinerarySummary />', () => {
       '.itinerary-summary',
     );
     expect(wrapper.childAt(1).prop('className')).to.equal(
-      'biking-distance--itinerary-summary',
+      'distance--itinerary-summary',
     );
     expect(wrapper.childAt(2).is(WalkDistance)).to.equal(true);
   });
@@ -40,6 +40,6 @@ describe('<ItinerarySummary />', () => {
       WalkDistance,
     );
     expect(wrapper.length).to.equal(1);
-    expect(wrapper.is('.biking-distance--itinerary-summary')).to.equal(true);
+    expect(wrapper.is('.distance--itinerary-summary')).to.equal(true);
   });
 });
