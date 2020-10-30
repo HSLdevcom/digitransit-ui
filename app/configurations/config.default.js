@@ -116,7 +116,7 @@ export default {
     ticketTypes: 'none',
     walkBoardCost: 600,
     walkReluctance: 2,
-    walkSpeed: 1.22,
+    walkSpeed: 1.2,
     includeBikeSuggestions: true,
   },
 
@@ -138,7 +138,7 @@ export default {
       more: 1,
       most: 0.2,
     },
-    walkSpeed: [0.67, 1.05, 1.22, 1.39, 1.77],
+    walkSpeed: [0.67, 1.05, 1.2, 1.39, 1.77],
     bikeSpeed: [2.77, 4.15, 5.55, 6.94, 8.33],
   },
 
