@@ -1659,7 +1659,7 @@ class SummaryPage extends React.Component {
             .filter(a => a[0] && a[1]);
           this.useFitBounds = true;
         }
-        center = [origin.lat, origin.lon];
+        center = { lat: origin.lat, lon: origin.lon };
       }
     } else {
       center = this.state.bounds ? undefined : this.state.center;

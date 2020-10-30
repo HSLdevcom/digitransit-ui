@@ -109,12 +109,11 @@ function ItineraryPageMap(
   }
 
   const showScale = breakpoint === 'large';
-  const validCenter =
-    latlon && (latlon.lat !== undefined || latlon[0] !== undefined);
+  const validCenter = latlon && latlon.lat !== undefined;
   // eslint-disable-next-line no-nested-ternary
-  const lat = validCenter ? (latlon.lat ? latlon.lat : latlon[0]) : undefined;
+  const lat = validCenter ? latlon.lat : undefined;
   // eslint-disable-next-line no-nested-ternary
-  const lon = validCenter ? (latlon.lon ? latlon.lon : latlon[1]) : undefined;
+  const lon = validCenter ? latlon.lon : undefined;
   return (
     <MapContainer
       className="full itinerary"
