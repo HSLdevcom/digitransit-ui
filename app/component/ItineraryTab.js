@@ -176,6 +176,7 @@ ItineraryTab.description = (
         focus={() => {}}
         itinerary={{ ...exampleData.itinerary }}
         plan={{date: 1553845502000}}
+        setMapZoomToLeg={() => {}}
       />
     </div>
   </ComponentUsageExample>
