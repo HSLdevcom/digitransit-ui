@@ -157,6 +157,9 @@ class IndexPage extends React.Component {
       showFavourites && breakpoint !== 'large'
         ? ['Favourite', 'History', 'Datasource']
         : ['History', 'Datasource'];
+    const stopAndRouteSearchSources = showFavourites
+      ? ['Favourite', 'History', 'Datasource']
+      : ['History', 'Datasource'];
     const stopAndRouteSearchTargets =
       this.context.config.cityBike && this.context.config.cityBike.showCityBikes
         ? ['Stops', 'Routes', 'BikeRentalStations']
@@ -252,7 +255,7 @@ class IndexPage extends React.Component {
               className="destination"
               placeholder="stop-near-you"
               value=""
-              sources={searchSources}
+              sources={stopAndRouteSearchSources}
               targets={stopAndRouteSearchTargets}
             />
             <CtrlPanel.SeparatorLine />
@@ -343,7 +346,7 @@ class IndexPage extends React.Component {
               className="destination"
               placeholder="stop-near-you"
               value=""
-              sources={searchSources}
+              sources={stopAndRouteSearchSources}
               targets={stopAndRouteSearchTargets}
               isMobile
             />
