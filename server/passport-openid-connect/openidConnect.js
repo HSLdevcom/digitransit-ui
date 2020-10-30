@@ -143,7 +143,7 @@ export default function setUpOIDC(app, port, indexPath) {
     const action = req.query.favouriteModalAction;
     if (action) {
       req.session.returnTo = `${
-        req.session.returnTo || `/${indexPath}`
+        req.session.returnTo || `/${indexPath}?`
       }&favouriteModalAction=${action}`;
     }
     passport.authenticate('passport-openid-connect', {
