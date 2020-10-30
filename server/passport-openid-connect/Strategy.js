@@ -51,6 +51,9 @@ OICStrategy.prototype.authenticate = function (req, opts) {
     console.log('calling auth callback');
     return this.callback(req, opts);
   }
+  if (opts.refresh) {
+    return this.refresh(req);
+  }
   const cookieLang = req.cookies.lang || 'fi';
   const { ssoValidTo, ssoToken } = req.session;
   const authurl =
@@ -100,6 +103,29 @@ OICStrategy.prototype.callback = function (req, opts) {
     });
 };
 
+OICStrategy.prototype.refresh = function (req) {
+  console.log('Refreshing tokens');
+  return this.client
+    .refresh(req.user.token.refresh_token)
+    .then(tokenSet => {
+      this.tokenSet = tokenSet;
+      console.log(`got tokenSet: ${JSON.stringify(tokenSet)}`);
+      return this.getUserInfo();
+    })
+    .then(() => {
+      const user = new User(this.userinfo);
+      user.token = this.tokenSet;
+      user.idtoken = this.tokenSet.claims;
+      console.log(`set user: ${JSON.stringify(user)}`);
+      this.success(user);
+    })
+    .catch(err => {
+      console.error('Error refreshing tokens', err);
+      req.logout();
+      req.session.destroy();
+      this.fail(err);
+    });
+};
 OICStrategy.prototype.createAuthUrl = function (lang, ssoToken) {
   console.log(`createAuthUrl, ssotoken=${JSON.stringify(ssoToken)}`);
   const params = {
