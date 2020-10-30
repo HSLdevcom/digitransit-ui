@@ -518,7 +518,7 @@ class SummaryPage extends React.Component {
         $bikeAndPublicMaxWalkDistance: Float
         $wheelchair: Boolean
         $ticketTypes: [String]
-        $disableRemainingWeightHeuristic: Boolean
+        $bikeandPublicDisableRemainingWeightHeuristic: Boolean
         $arriveBy: Boolean
         $transferPenalty: Int
         $bikeSpeed: Float
@@ -609,7 +609,7 @@ class SummaryPage extends React.Component {
           walkSpeed: $walkSpeed
           maxWalkDistance: $bikeAndPublicMaxWalkDistance
           allowedTicketTypes: $ticketTypes
-          disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
+          disableRemainingWeightHeuristic: $bikeandPublicDisableRemainingWeightHeuristic
           arriveBy: $arriveBy
           transferPenalty: $transferPenalty
           bikeSpeed: $bikeSpeed
@@ -672,7 +672,7 @@ class SummaryPage extends React.Component {
           walkSpeed: $walkSpeed
           maxWalkDistance: $bikeAndPublicMaxWalkDistance
           allowedTicketTypes: $ticketTypes
-          disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
+          disableRemainingWeightHeuristic: $bikeandPublicDisableRemainingWeightHeuristic
           arriveBy: $arriveBy
           transferPenalty: $transferPenalty
           bikeSpeed: $bikeSpeed
