@@ -153,6 +153,11 @@ export default class Map extends React.Component {
         />,
       );
     }
+
+    const attribution =
+      config.map.attribution.default ||
+      '<a tabindex="-1" href="http://osm.org/copyright">&copy; OpenStreetMap</a>';
+
     return (
       <div aria-hidden="true">
         <span
@@ -204,15 +209,17 @@ export default class Map extends React.Component {
             }
             minZoom={config.map.minZoom}
             maxZoom={config.map.maxZoom}
+            attribution={attribution}
           />
           <BreakpointConsumer>
             {breakpoint =>
-              config.map.showOSMCopyright && (
+              config.map.attribution &&
+              config.map.attribution.default && (
                 <AttributionControl
                   position={
                     breakpoint === 'large' ? 'bottomright' : 'bottomleft'
                   }
-                  prefix='<a tabindex="-1" href="http://osm.org/copyright">&copy; OpenStreetMap</a>'
+                  prefix=""
                 />
               )
             }
