@@ -64,6 +64,7 @@ class IndexPage extends React.Component {
     currentTime: PropTypes.number.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     query: PropTypes.object.isRequired,
+    favouriteModalAction: PropTypes.string,
     showFavourites: PropTypes.bool.isRequired,
   };
 
@@ -223,6 +224,7 @@ class IndexPage extends React.Component {
               <DatetimepickerContainer realtime />
             </div>
             <FavouritesContainer
+              favouriteModalAction={this.props.favouriteModalAction}
               onClickFavourite={this.clickFavourite}
               lang={lang}
             />
@@ -446,8 +448,12 @@ const IndexPageWithPosition = connectToStores(
     const { from, to } = props.match.params;
     const { location } = props.match;
     const { query } = location;
+    const { favouriteModalAction } = query;
 
     const newProps = {};
+    if (favouriteModalAction) {
+      newProps.favouriteModalAction = favouriteModalAction;
+    }
     newProps.lang = context.getStore('PreferencesStore').getLanguage();
     newProps.showFavourites =
       !context.config.allowLogin ||

@@ -48,6 +48,7 @@ class FavouritesContainer extends React.Component {
     lang: PropTypes.string,
     isMobile: PropTypes.bool,
     favouriteStatus: PropTypes.string,
+    favouriteModalAction: PropTypes.string,
     allowLogin: PropTypes.bool,
     isLoggedIn: PropTypes.bool,
   };
@@ -64,10 +65,38 @@ class FavouritesContainer extends React.Component {
     super(props);
     this.state = {
       loginModalOpen: false,
+      modalAction: null,
       addModalOpen: false,
       editModalOpen: false,
       favourite: null,
     };
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      this.context.config.allowLogin &&
+      this.props.isLoggedIn &&
+      !prevProps.isLoggedIn
+    ) {
+      if (this.props.favouriteModalAction) {
+        switch (this.props.favouriteModalAction) {
+          case 'AddHome':
+            this.addHome();
+            break;
+          case 'AddWork':
+            this.addWork();
+            break;
+          case 'AddPlace':
+            this.addPlace();
+            break;
+          case 'Edit':
+            this.editPlace();
+            break;
+          default:
+            break;
+        }
+      }
+    }
   }
 
   setLocationProperties = item => {
@@ -176,7 +205,9 @@ class FavouritesContainer extends React.Component {
       id: 'login-content',
       defautlMessage: 'Log in first',
     });
-
+    const loginUrl = this.state.modalAction
+      ? `/login?favouriteModalAction=${this.state.modalAction}`
+      : '/login';
     return (
       <DialogModal
         appElement="#app"
@@ -186,7 +217,7 @@ class FavouritesContainer extends React.Component {
         lang={this.props.lang}
         isModalOpen={this.state.loginModalOpen}
         primaryButtonText={login}
-        href="/login"
+        href={loginUrl}
         primaryButtonOnClick={() => {
           addAnalyticsEvent({
             category: 'Favourite',
@@ -292,22 +323,22 @@ class FavouritesContainer extends React.Component {
           onAddPlace={() =>
             !allowLogin || isLoggedIn
               ? this.setState({ addModalOpen: true })
-              : this.setState({ loginModalOpen: true })
+              : this.setState({ loginModalOpen: true, modalAction: 'AddPlace' })
           }
           onEdit={() =>
             !allowLogin || isLoggedIn
               ? this.setState({ editModalOpen: true })
-              : this.setState({ loginModalOpen: true })
+              : this.setState({ loginModalOpen: true, modalAction: 'Edit' })
           }
           onAddHome={() =>
             !allowLogin || isLoggedIn
               ? this.addHome()
-              : this.setState({ loginModalOpen: true })
+              : this.setState({ loginModalOpen: true, modalAction: 'AddHome' })
           }
           onAddWork={() =>
             !allowLogin || isLoggedIn
               ? this.addWork()
-              : this.setState({ loginModalOpen: true })
+              : this.setState({ loginModalOpen: true, modalAction: 'AddWork' })
           }
           lang={this.props.lang}
           isLoading={isLoading}
