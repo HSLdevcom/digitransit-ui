@@ -29,7 +29,7 @@ const FavouriteRouteContainer = connectToStores(
         name: !context.getStore('FavouriteStore').isFavourite(gtfsId, 'route'),
       });
     },
-    allowLogin: context.config.allowLogin || false,
+    allowLogin: context.config.allowLogin,
     isLoggedIn:
       context.config.allowLogin &&
       context.getStore('UserStore').getUser().sub !== undefined,

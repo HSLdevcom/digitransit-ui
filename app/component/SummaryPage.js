@@ -11,7 +11,6 @@ import {
 } from 'react-relay';
 import findIndex from 'lodash/findIndex';
 import get from 'lodash/get';
-import sortBy from 'lodash/sortBy';
 import polyline from 'polyline-encoded';
 import { FormattedMessage } from 'react-intl';
 import { matchShape, routerShape } from 'found';
@@ -1219,19 +1218,32 @@ class SummaryPage extends React.Component {
       this.context.getStore(MessageStore).getMessages(),
     );
 
-    const leafletObjs = sortBy(
-      filteredItineraries.map((itinerary, i) => (
+    let leafletObjs = [];
+
+    if (filteredItineraries && filteredItineraries.length > 0) {
+      const onlyActive = filteredItineraries[activeIndex];
+      leafletObjs = filteredItineraries
+        .filter(itinerary => itinerary !== onlyActive)
+        .map((itinerary, i) => (
+          <ItineraryLine
+            key={i}
+            hash={i}
+            legs={itinerary.legs}
+            passive
+            showIntermediateStops={false}
+          />
+        ));
+      const nextId = leafletObjs.length + 1;
+      leafletObjs.push(
         <ItineraryLine
-          key={i}
-          hash={i}
-          legs={itinerary.legs}
-          passive={i !== activeIndex}
-          showIntermediateStops={i === activeIndex}
-        />
-      )),
-      // Make sure active line isn't rendered over
-      i => i.props.passive === false,
-    );
+          key={nextId}
+          hash={nextId}
+          legs={onlyActive.legs}
+          passive={false}
+          showIntermediateStops
+        />,
+      );
+    }
 
     if (from.lat && from.lon) {
       leafletObjs.push(

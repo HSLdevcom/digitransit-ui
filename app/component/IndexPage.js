@@ -64,6 +64,7 @@ class IndexPage extends React.Component {
     currentTime: PropTypes.number.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     query: PropTypes.object.isRequired,
+    favouriteModalAction: PropTypes.string,
     showFavourites: PropTypes.bool.isRequired,
   };
 
@@ -153,10 +154,21 @@ class IndexPage extends React.Component {
       showFavourites,
     } = this.props;
     const queryString = this.context.match.location.search;
-
-    const searchSources = showFavourites
+    const searchSources =
+      showFavourites && breakpoint !== 'large'
+        ? ['Favourite', 'History', 'Datasource']
+        : ['History', 'Datasource'];
+    const stopAndRouteSearchSources = showFavourites
       ? ['Favourite', 'History', 'Datasource']
       : ['History', 'Datasource'];
+    const locationSearchTargets = showFavourites
+      ? [
+          'Locations',
+          'CurrentPosition',
+          'FutureRoutes',
+          'SelectFromOwnLocations',
+        ]
+      : ['Locations', 'CurrentPosition', 'FutureRoutes'];
     const stopAndRouteSearchTargets =
       this.context.config.cityBike && this.context.config.cityBike.showCityBikes
         ? ['Stops', 'Routes', 'BikeRentalStations']
@@ -205,18 +217,14 @@ class IndexPage extends React.Component {
               destinationPlaceHolder="search-destination-index"
               lang={lang}
               sources={searchSources}
-              targets={[
-                'Locations',
-                'CurrentPosition',
-                'FutureRoutes',
-                'SelectFromOwnLocations',
-              ]}
+              targets={locationSearchTargets}
               breakpoint="large"
             />
             <div className="datetimepicker-container">
               <DatetimepickerContainer realtime />
             </div>
             <FavouritesContainer
+              favouriteModalAction={this.props.favouriteModalAction}
               onClickFavourite={this.clickFavourite}
               lang={lang}
             />
@@ -252,7 +260,7 @@ class IndexPage extends React.Component {
               className="destination"
               placeholder="stop-near-you"
               value=""
-              sources={searchSources}
+              sources={stopAndRouteSearchSources}
               targets={stopAndRouteSearchTargets}
             />
             <CtrlPanel.SeparatorLine />
@@ -343,7 +351,7 @@ class IndexPage extends React.Component {
               className="destination"
               placeholder="stop-near-you"
               value=""
-              sources={searchSources}
+              sources={stopAndRouteSearchSources}
               targets={stopAndRouteSearchTargets}
               isMobile
             />
@@ -440,8 +448,12 @@ const IndexPageWithPosition = connectToStores(
     const { from, to } = props.match.params;
     const { location } = props.match;
     const { query } = location;
+    const { favouriteModalAction } = query;
 
     const newProps = {};
+    if (favouriteModalAction) {
+      newProps.favouriteModalAction = favouriteModalAction;
+    }
     newProps.lang = context.getStore('PreferencesStore').getLanguage();
     newProps.showFavourites =
       !context.config.allowLogin ||

@@ -455,7 +455,7 @@ const StopsNearYouMapWithStores = connectToStores(
     PositionStore,
     FavouriteStore,
   ],
-  ({ getStore }, { match, position }) => {
+  ({ getStore, config }, { match, position }) => {
     const currentTime = getStore(TimeStore).getCurrentTime().unix();
     const origin = getStore(OriginStore).getOrigin();
     const destination = getStore(DestinationStore).getDestination();
@@ -466,18 +466,26 @@ const StopsNearYouMapWithStores = connectToStores(
     } else {
       locationState = getStore(PositionStore).getLocationState();
     }
-    const favouriteIds =
-      match.params.mode === 'CITYBIKE'
-        ? new Set(
-            getStore('FavouriteStore')
-              .getBikeRentalStations()
-              .map(station => station.stationId),
-          )
-        : new Set(
-            getStore('FavouriteStore')
-              .getStopsAndStations()
-              .map(stop => stop.gtfsId),
-          );
+    const showFavourites =
+      !config.allowLogin ||
+      (config.allowLogin && getStore('UserStore').getUser().sub !== undefined);
+    let favouriteIds;
+    if (!showFavourites) {
+      favouriteIds = new Set();
+    } else {
+      favouriteIds =
+        match.params.mode === 'CITYBIKE'
+          ? new Set(
+              getStore('FavouriteStore')
+                .getBikeRentalStations()
+                .map(station => station.stationId),
+            )
+          : new Set(
+              getStore('FavouriteStore')
+                .getStopsAndStations()
+                .map(stop => stop.gtfsId),
+            );
+    }
     return {
       origin,
       destination,
@@ -488,6 +496,11 @@ const StopsNearYouMapWithStores = connectToStores(
     };
   },
 );
+
+StopsNearYouMapWithStores.contextTypes = {
+  ...StopsNearYouMapWithStores.contextTypes,
+  config: PropTypes.object.isRequired,
+};
 
 const containerComponent = createRefetchContainer(
   StopsNearYouMapWithStores,

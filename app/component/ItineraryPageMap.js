@@ -15,6 +15,8 @@ import VehicleMarkerContainer from './map/VehicleMarkerContainer'; // DT-3473
 let L;
 let prevCenter;
 let useCenter = true;
+let breakpointChanged = false;
+let prevBreakpoint;
 if (isBrowser) {
   // eslint-disable-next-line
   L = require('leaflet');
@@ -34,6 +36,9 @@ function ItineraryPageMap(
   },
   { match, config },
 ) {
+  // DT-4011: When user changes orientation, i.e. with tablet, map would crash. This check prevents it.
+  breakpointChanged = !isEqual(breakpoint, prevBreakpoint);
+  prevBreakpoint = breakpoint;
   let latlon = prevCenter;
   const { from, to } = match.params;
   if (prevCenter) {
@@ -52,7 +57,7 @@ function ItineraryPageMap(
       useCenter = true;
     }
   }
-  if (forceCenter) {
+  if (forceCenter || breakpointChanged) {
     useCenter = true;
   }
   const leafletObjs = [

@@ -74,11 +74,51 @@ export default function setUpOIDC(app, port, indexPath) {
         'redirecting to login with sso token ',
         JSON.stringify(ssoToken),
       );
-      req.session.returnTo = req.path;
       res.redirect('/login');
     } else {
       next();
     }
+  };
+
+  const setReturnTo = function (req, res, next) {
+    const paths = [
+      '/fi/',
+      '/en/',
+      '/sv/',
+      '/reitti/',
+      '/pysakit/',
+      '/linjat/',
+      '/terminaalit/',
+      '/pyoraasemat/',
+      '/lahellasi/',
+    ];
+    if (
+      (req.path === `/${indexPath}` ||
+        paths.some(path => req.path.includes(path))) &&
+      !req.isAuthenticated() &&
+      !req.path.includes('time-a')
+    ) {
+      const params = Object.keys(req.query)
+        .map(k => `${k}=${req.query[k]}`)
+        .join('&');
+      req.session.returnTo = `${req.path}?${params}`;
+    }
+    next();
+  };
+
+  const refreshTokens = function (req, res, next) {
+    if (
+      req.isAuthenticated() &&
+      req.user.token.refresh_token &&
+      moment().unix() >= req.user.token.expires_at
+    ) {
+      return passport.authenticate('passport-openid-connect', {
+        refresh: true,
+        successReturnToOrRedirect: `/${indexPath}`,
+        failureRedirect: `/${indexPath}`,
+      })(req, res, next);
+    }
+    return next();
   };
 
   // Passport requires session to persist the authentication
@@ -92,7 +132,7 @@ export default function setUpOIDC(app, port, indexPath) {
         ttl: 1000 * 60 * 60 * 24 * 365 * 10,
       }),
       resave: false,
-      saveUninitialized: true,
+      saveUninitialized: false,
       cookie: {
         secure: process.env.NODE_ENV === 'production',
         httpOnly: process.env.NODE_ENV === 'production',
@@ -108,19 +148,24 @@ export default function setUpOIDC(app, port, indexPath) {
   passport.use('passport-openid-connect', oic);
   passport.serializeUser(LoginStrategy.serializeUser);
   passport.deserializeUser(LoginStrategy.deserializeUser);
-
+  app.use(setReturnTo);
   app.use(redirectToLogin);
-
+  app.use(refreshTokens);
   // Initiates an authentication request
   // users will be redirected to hsl.id and once authenticated
   // they will be returned to the callback handler below
-  app.get(
-    '/login',
+  app.get('/login', function (req, res) {
+    const action = req.query.favouriteModalAction;
+    if (action) {
+      req.session.returnTo = `${
+        req.session.returnTo || `/${indexPath}?`
+      }&favouriteModalAction=${action}`;
+    }
     passport.authenticate('passport-openid-connect', {
       scope: 'profile',
       successReturnToOrRedirect: '/',
-    }),
-  );
+    })(req, res);
+  });
 
   // Callback handler that will redirect back to application after successfull authentication
   app.get(
@@ -204,7 +249,7 @@ export default function setUpOIDC(app, port, indexPath) {
     request(
       {
         auth: {
-          bearer: req.user.token.id_token,
+          bearer: req.user.token.access_token,
         },
         method: req.method,
         url: `${FavouriteHost}/${req.user.data.sub}`,
@@ -214,7 +259,7 @@ export default function setUpOIDC(app, port, indexPath) {
         if (!err) {
           res.status(response.statusCode).send(body);
         } else {
-          res.status(404).send(body);
+          res.status(response.statusCode).send(body);
         }
       },
     );

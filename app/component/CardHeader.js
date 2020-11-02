@@ -93,6 +93,7 @@ const exampleIcons = [
     favourite={false}
     addFavourite={emptyFunction}
     deleteFavourite={emptyFunction}
+    allowLogin={false}
   />,
 ];
 
