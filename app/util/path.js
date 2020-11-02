@@ -9,14 +9,14 @@ import {
 import { addAnalyticsEvent } from './analyticsUtils';
 
 const debug = d('path.js');
-export const PREFIX_ROUTES = 'linjat';
-export const PREFIX_NEARYOU = 'lahellasi';
-export const PREFIX_STOPS = 'pysakit';
-export const PREFIX_BIKESTATIONS = 'pyoraasemat';
-export const PREFIX_TERMINALS = 'terminaalit';
-export const PREFIX_ITINERARY_SUMMARY = 'reitti';
-export const PREFIX_DISRUPTION = 'hairiot';
-export const PREFIX_TIMETABLE = 'aikataulu';
+export const PREFIX_ROUTES = 'routen';
+export const PREFIX_NEARYOU = 'indernaehe';
+export const PREFIX_STOPS = 'haltestellen';
+export const PREFIX_BIKESTATIONS = 'fahrradstationen';
+export const PREFIX_TERMINALS = 'busbahnhoefe';
+export const PREFIX_ITINERARY_SUMMARY = 'reiseplan';
+export const PREFIX_DISRUPTION = 'stoerungen';
+export const PREFIX_TIMETABLE = 'fahrplan';
 export const stopUrl = id => id;
 export const LOCAL_STORAGE_EMITTER_PATH = '/local-storage-emitter';
 
