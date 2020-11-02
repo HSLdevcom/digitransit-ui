@@ -771,4 +771,6 @@ export default {
 
   showNearYouButtons: false,
   nearYouModes: [],
+
+  zoneIconsAsSvg: false,
 };

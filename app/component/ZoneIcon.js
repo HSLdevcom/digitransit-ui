@@ -57,7 +57,7 @@ const ZoneIcon = (
           ?
         </div>
       )}
-      {!zoneUnknown && config.appBarStyle === 'hsl' ? (
+      {!zoneUnknown && config.zoneIconsAsSvg ? (
         <Icon
           img={`icon-icon_zone-${zoneId.toLowerCase()}`}
           className="svg"

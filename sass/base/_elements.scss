@@ -33,13 +33,14 @@ $border-radius-rounded: 30px;
     .icon {
       display: block;
       height: 2em;
-      margin-left: 0.5em;
       width: 2em;
     }
 
     .svg {
-      width: 15px;
-      height: 15px;
+      width: 14px;
+      height: 14px;
+      margin-left: 1px;
+      margin-top: 2px;
     }
   }
 
