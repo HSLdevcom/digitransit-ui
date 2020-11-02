@@ -88,7 +88,9 @@ const Favourite = ({
       onClick={onClick}
     >
       <Icon
-        className={cx('favourite', { selected: favourite })}
+        className={cx('favourite', {
+          selected: favourite && (!allowLogin || isLoggedIn),
+        })}
         img={
           favourite && (!allowLogin || isLoggedIn)
             ? 'icon-icon_star-with-circle'
@@ -107,7 +109,7 @@ Favourite.propTypes = {
   className: PropTypes.string,
   allowLogin: PropTypes.bool.isRequired,
   isLoggedIn: PropTypes.bool,
-  getModalTranslations: PropTypes.object,
+  getModalTranslations: PropTypes.func,
 };
 
 Favourite.description = () => (

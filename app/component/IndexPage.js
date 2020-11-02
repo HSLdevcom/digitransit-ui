@@ -154,10 +154,21 @@ class IndexPage extends React.Component {
       showFavourites,
     } = this.props;
     const queryString = this.context.match.location.search;
-
-    const searchSources = showFavourites
+    const searchSources =
+      showFavourites && breakpoint !== 'large'
+        ? ['Favourite', 'History', 'Datasource']
+        : ['History', 'Datasource'];
+    const stopAndRouteSearchSources = showFavourites
       ? ['Favourite', 'History', 'Datasource']
       : ['History', 'Datasource'];
+    const locationSearchTargets = showFavourites
+      ? [
+          'Locations',
+          'CurrentPosition',
+          'FutureRoutes',
+          'SelectFromOwnLocations',
+        ]
+      : ['Locations', 'CurrentPosition', 'FutureRoutes'];
     const stopAndRouteSearchTargets =
       this.context.config.cityBike && this.context.config.cityBike.showCityBikes
         ? ['Stops', 'Routes', 'BikeRentalStations']
@@ -206,12 +217,7 @@ class IndexPage extends React.Component {
               destinationPlaceHolder="search-destination-index"
               lang={lang}
               sources={searchSources}
-              targets={[
-                'Locations',
-                'CurrentPosition',
-                'FutureRoutes',
-                'SelectFromOwnLocations',
-              ]}
+              targets={locationSearchTargets}
               breakpoint="large"
             />
             <div className="datetimepicker-container">
@@ -254,7 +260,7 @@ class IndexPage extends React.Component {
               className="destination"
               placeholder="stop-near-you"
               value=""
-              sources={searchSources}
+              sources={stopAndRouteSearchSources}
               targets={stopAndRouteSearchTargets}
             />
             <CtrlPanel.SeparatorLine />
@@ -345,7 +351,7 @@ class IndexPage extends React.Component {
               className="destination"
               placeholder="stop-near-you"
               value=""
-              sources={searchSources}
+              sources={stopAndRouteSearchSources}
               targets={stopAndRouteSearchTargets}
               isMobile
             />

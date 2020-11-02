@@ -392,12 +392,16 @@ const connectedComponent = connectToStores(
   FavouritesContainer,
   ['FavouriteStore', 'UserStore'],
   context => ({
-    favourites: context
-      .getStore('FavouriteStore')
-      .getFavourites()
-      .filter(item => item.type === 'place'),
+    favourites:
+      !context.config.allowLogin ||
+      context.getStore('UserStore').getUser().sub !== undefined
+        ? context
+            .getStore('FavouriteStore')
+            .getFavourites()
+            .filter(item => item.type === 'place')
+        : [],
     favouriteStatus: context.getStore('FavouriteStore').getStatus(),
-    allowLogin: context.config.allowLogin || false,
+    allowLogin: context.config.allowLogin,
     isLoggedIn:
       context.config.allowLogin &&
       context.getStore('UserStore').getUser().sub !== undefined,

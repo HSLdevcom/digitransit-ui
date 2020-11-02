@@ -105,6 +105,22 @@ export default function setUpOIDC(app, port, indexPath) {
     }
     next();
   };
+
+  const refreshTokens = function (req, res, next) {
+    if (
+      req.isAuthenticated() &&
+      req.user.token.refresh_token &&
+      moment().unix() >= req.user.token.expires_at
+    ) {
+      return passport.authenticate('passport-openid-connect', {
+        refresh: true,
+        successReturnToOrRedirect: `/${indexPath}`,
+        failureRedirect: `/${indexPath}`,
+      })(req, res, next);
+    }
+    return next();
+  };
+
   // Passport requires session to persist the authentication
   app.use(
     session({
@@ -116,7 +132,7 @@ export default function setUpOIDC(app, port, indexPath) {
         ttl: 1000 * 60 * 60 * 24 * 365 * 10,
       }),
       resave: false,
-      saveUninitialized: true,
+      saveUninitialized: false,
       cookie: {
         secure: process.env.NODE_ENV === 'production',
         httpOnly: process.env.NODE_ENV === 'production',
@@ -132,10 +148,9 @@ export default function setUpOIDC(app, port, indexPath) {
   passport.use('passport-openid-connect', oic);
   passport.serializeUser(LoginStrategy.serializeUser);
   passport.deserializeUser(LoginStrategy.deserializeUser);
-
   app.use(setReturnTo);
   app.use(redirectToLogin);
-
+  app.use(refreshTokens);
   // Initiates an authentication request
   // users will be redirected to hsl.id and once authenticated
   // they will be returned to the callback handler below
@@ -234,7 +249,7 @@ export default function setUpOIDC(app, port, indexPath) {
     request(
       {
         auth: {
-          bearer: req.user.token.id_token,
+          bearer: req.user.token.access_token,
         },
         method: req.method,
         url: `${FavouriteHost}/${req.user.data.sub}`,
@@ -244,7 +259,7 @@ export default function setUpOIDC(app, port, indexPath) {
         if (!err) {
           res.status(response.statusCode).send(body);
         } else {
-          res.status(404).send(body);
+          res.status(response.statusCode).send(body);
         }
       },
     );

@@ -30,6 +30,8 @@ export default class FavouriteStore extends Store {
 
   static STATUS_HAS_DATA = 'has-data';
 
+  static FETCH_FAILED = 'fetch-failed';
+
   favourites = [];
 
   config = {};
@@ -47,8 +49,7 @@ export default class FavouriteStore extends Store {
           this.fetchComplete();
         })
         .catch(() => {
-          this.favourites = getFavouriteStorage();
-          this.fetchComplete();
+          this.fetchFailed();
         });
     } else {
       this.favourites = getFavouriteStorage();
@@ -66,6 +67,11 @@ export default class FavouriteStore extends Store {
 
   fetchingOrUpdating() {
     this.status = FavouriteStore.STATUS_FETCHING_OR_UPDATING;
+    this.emitChange();
+  }
+
+  fetchFailed() {
+    this.status = FavouriteStore.FETCH_FAILED;
     this.emitChange();
   }
 
