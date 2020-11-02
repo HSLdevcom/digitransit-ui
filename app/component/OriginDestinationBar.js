@@ -220,6 +220,7 @@ OriginDestinationBar.description = (
           ready: true,
           set: true,
         }}
+        showFavourites
       />
     </ComponentUsageExample>
     <ComponentUsageExample description="with-viapoint">
@@ -237,6 +238,7 @@ OriginDestinationBar.description = (
           ready: true,
           set: true,
         }}
+        showFavourites
       />
     </ComponentUsageExample>
   </React.Fragment>

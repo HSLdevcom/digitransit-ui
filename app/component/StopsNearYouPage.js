@@ -372,12 +372,14 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   };
 
   renderAutoSuggestField = () => {
+    // TODO perhaps add SelectFromOwnLocations as target
+    // TODO perhaps render autosuggest in fullscreen on mobile
     return (
       <DTAutoSuggestWithSearchContext
         appElement="#app"
         icon="search"
         sources={['History', 'Datasource']}
-        targets={['Locations', 'Stops']}
+        targets={['Locations']}
         id="origin-stop-near-you"
         placeholder="origin"
         value=""

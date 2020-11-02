@@ -160,6 +160,14 @@ class IndexPage extends React.Component {
     const stopAndRouteSearchSources = showFavourites
       ? ['Favourite', 'History', 'Datasource']
       : ['History', 'Datasource'];
+    const locationSearchTargets = showFavourites
+      ? [
+          'Locations',
+          'CurrentPosition',
+          'FutureRoutes',
+          'SelectFromOwnLocations',
+        ]
+      : ['Locations', 'CurrentPosition', 'FutureRoutes'];
     const stopAndRouteSearchTargets =
       this.context.config.cityBike && this.context.config.cityBike.showCityBikes
         ? ['Stops', 'Routes', 'BikeRentalStations']
@@ -208,12 +216,7 @@ class IndexPage extends React.Component {
               destinationPlaceHolder="search-destination-index"
               lang={lang}
               sources={searchSources}
-              targets={[
-                'Locations',
-                'CurrentPosition',
-                'FutureRoutes',
-                'SelectFromOwnLocations',
-              ]}
+              targets={locationSearchTargets}
               breakpoint="large"
             />
             <div className="datetimepicker-container">

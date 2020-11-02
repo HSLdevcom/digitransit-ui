@@ -186,13 +186,18 @@ const StopsNearYouContainerWithBreakpoint = withBreakpoint(
   StopsNearYouContainer,
 );
 
-const connectedContainer = createRefetchContainer(
-  connectToStores(
-    StopsNearYouContainerWithBreakpoint,
-    ['TimeStore', 'FavouriteStore'],
-    ({ getStore }, { match }) => ({
-      currentTime: getStore('TimeStore').getCurrentTime().unix(),
-      favouriteIds:
+const connectedContainer = connectToStores(
+  StopsNearYouContainerWithBreakpoint,
+  ['TimeStore', 'FavouriteStore', 'UserStore'],
+  ({ getStore, config }, { match }) => {
+    const showFavourites =
+      !config.allowLogin ||
+      (config.allowLogin && getStore('UserStore').getUser().sub !== undefined);
+    let favouriteIds;
+    if (!showFavourites) {
+      favouriteIds = new Set();
+    } else {
+      favouriteIds =
         match.params.mode === 'CITYBIKE'
           ? new Set(
               getStore('FavouriteStore')
@@ -203,9 +208,22 @@ const connectedContainer = createRefetchContainer(
               getStore('FavouriteStore')
                 .getStopsAndStations()
                 .map(stop => stop.gtfsId),
-            ),
-    }),
-  ),
+            );
+    }
+    return {
+      currentTime: getStore('TimeStore').getCurrentTime().unix(),
+      favouriteIds,
+    };
+  },
+);
+
+connectedContainer.contextTypes = {
+  ...connectedContainer.contextTypes,
+  config: PropTypes.object.isRequired,
+};
+
+const refetchContainer = createRefetchContainer(
+  connectedContainer,
   {
     stopPatterns: graphql`
       fragment StopsNearYouContainer_stopPatterns on QueryType
@@ -355,4 +373,4 @@ const connectedContainer = createRefetchContainer(
   `,
 );
 
-export { connectedContainer as default, StopsNearYouContainer as Component };
+export { refetchContainer as default, StopsNearYouContainer as Component };
