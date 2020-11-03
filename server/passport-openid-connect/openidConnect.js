@@ -178,7 +178,8 @@ export default function setUpOIDC(app, port, indexPath) {
   );
 
   app.get('/logout', function (req, res) {
-    const logoutUrl = `${oic.client.endSessionUrl()}&id_token_hint=${
+    const cookieLang = req.cookies.lang || 'fi';
+    const logoutUrl = `${oic.client.endSessionUrl()}&ui_locales=${cookieLang}&id_token_hint=${
       req.user.token.id_token
     }`;
     req.session.userId = req.user.data.sub;
