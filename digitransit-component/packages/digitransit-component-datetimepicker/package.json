@@ -3,6 +3,9 @@
   "version": "0.3.16",
   "description": "digitransit-component datetimepicker module",
   "main": "lib/index.js",
+  "files": [
+    "/lib"
+  ],
   "publishConfig": {
     "access": "public"
   },

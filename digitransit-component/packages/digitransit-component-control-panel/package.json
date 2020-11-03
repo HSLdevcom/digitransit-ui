@@ -3,6 +3,9 @@
   "version": "0.2.2",
   "description": "digitransit-component control-panel module",
   "main": "lib/index.js",
+  "files": [
+    "/lib"
+  ],
   "publishConfig": {
     "access": "public"
   },

@@ -3,6 +3,9 @@
   "version": "1.2.19",
   "description": "digitransit-component autosuggest module",
   "main": "lib/index.js",
+  "files": [
+    "/lib"
+  ],
   "publishConfig": {
     "access": "public"
   },

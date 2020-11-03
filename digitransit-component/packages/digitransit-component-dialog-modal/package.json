@@ -3,6 +3,9 @@
   "version": "0.1.8",
   "description": "digitransit-component dialog-modal module",
   "main": "lib/index.js",
+  "files": [
+    "/lib"
+  ],
   "publishConfig": {
     "access": "public"
   },

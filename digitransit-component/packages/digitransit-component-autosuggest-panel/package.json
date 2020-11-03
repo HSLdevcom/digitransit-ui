@@ -3,6 +3,9 @@
   "version": "1.0.30",
   "description": "digitransit-component autosuggest-panel module",
   "main": "lib/index.js",
+  "files": [
+    "/lib"
+  ],
   "publishConfig": {
     "access": "public"
   },

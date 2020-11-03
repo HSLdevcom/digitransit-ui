@@ -3,6 +3,9 @@
   "version": "0.1.14",
   "description": "digitransit-component favourite-modal module",
   "main": "lib/index.js",
+  "files": [
+    "/lib"
+  ],
   "publishConfig": {
     "access": "public"
   },
