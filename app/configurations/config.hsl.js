@@ -469,7 +469,11 @@ export default {
   },
 
   useTicketIcons: true,
-  trafficNowLink: rootLink + '/matkustaminen/liikenne',
+  trafficNowLink: {
+    fi: 'matkustaminen/liikenne',
+    en: 'travelling/services-now',
+    sv: 'att-resa/Trafiken-just-nu',
+  },
 
   localStorageEmitter: rootLink + '/local-storage-emitter',
   localStorageTarget: rootLink,

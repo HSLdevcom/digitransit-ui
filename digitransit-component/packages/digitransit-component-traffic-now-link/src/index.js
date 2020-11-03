@@ -18,7 +18,7 @@ i18next.addResourceBundle('sv', 'translation', translations.sv);
  * A banner with blue caution Icon and arrow mark, original purpose is to act as a link to a page about current traffic information.
  *
  * @example
- *   handleClick = e => {
+ *   handleClick = (e, lang) => {
     e.preventDefault();
     window.location = 'www.digitransit.fi';
   };
@@ -39,9 +39,9 @@ class TrafficNowLink extends React.Component {
     lang: 'fi',
   };
 
-  handleKeyDown = e => {
+  handleKeyDown = (e, lang) => {
     if (e.keyCode === 32 || e.keyCode === 13) {
-      this.props.handleClick(e);
+      this.props.handleClick(e, lang);
     }
   };
 
@@ -52,8 +52,8 @@ class TrafficNowLink extends React.Component {
         className={styles.banner}
         tabIndex="0"
         role="button"
-        onClick={e => this.props.handleClick(e)}
-        onKeyDown={e => this.handleKeyDown(e)}
+        onClick={e => this.props.handleClick(e, this.props.lang)}
+        onKeyDown={e => this.handleKeyDown(e, this.props.lang)}
       >
         <div className={styles.caution}>
           {' '}
