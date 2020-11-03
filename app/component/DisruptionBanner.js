@@ -49,7 +49,7 @@ class DisruptionBanner extends React.Component {
           <a
             key={alert.id}
             className="disruption-banner-container"
-            href={this.props.trafficNowLink}
+            href={this.props.trafficNowLink[this.props.language]}
             onClick={e => {
               e.stopPropagation();
             }}

@@ -138,8 +138,10 @@ class IndexPage extends React.Component {
   };
 
   // DT-3551: handle logic for Traffic now link
-  trafficNowHandler = () => {
-    window.location = this.context.config.trafficNowLink;
+  trafficNowHandler = (e, lang) => {
+    window.location = `${this.context.config.URL.ROOTLINK}/${
+      lang === 'fi' ? '' : `${lang}/`
+    }${this.context.config.trafficNowLink[lang]}`;
   };
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
@@ -264,9 +266,13 @@ class IndexPage extends React.Component {
               targets={stopAndRouteSearchTargets}
             />
             <CtrlPanel.SeparatorLine />
-            {trafficNowLink !== '' && (
-              <TrafficNowLink handleClick={this.trafficNowHandler} />
-            )}
+            {!trafficNowLink ||
+              (trafficNowLink[lang] !== '' && (
+                <TrafficNowLink
+                  lang={lang}
+                  handleClick={this.trafficNowHandler}
+                />
+              ))}
           </CtrlPanel>
         </div>
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
@@ -356,9 +362,13 @@ class IndexPage extends React.Component {
               isMobile
             />
             <CtrlPanel.SeparatorLine />
-            {trafficNowLink !== '' && (
-              <TrafficNowLink handleClick={this.trafficNowHandler} />
-            )}
+            {!trafficNowLink ||
+              (trafficNowLink[lang] !== '' && (
+                <TrafficNowLink
+                  lang={lang}
+                  handleClick={this.trafficNowHandler}
+                />
+              ))}
           </CtrlPanel>
         </div>
       </div>
