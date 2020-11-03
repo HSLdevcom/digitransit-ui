@@ -14,7 +14,7 @@ class DisruptionBanner extends React.Component {
     alerts: PropTypes.arrayOf(PropTypes.object),
     currentTime: PropTypes.number.isRequired,
     language: PropTypes.string.isRequired,
-    trafficNowLink: PropTypes.string,
+    trafficNowLink: PropTypes.object.isRequired,
     mode: PropTypes.string.isRequired,
   };
 
