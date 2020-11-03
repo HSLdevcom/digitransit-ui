@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 const mode = process.env.ENV;
 const isProduction = mode === 'production';
@@ -64,6 +65,10 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    // load `moment/locale/ja.js` and `moment/locale/it.js`
+    new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /ja|it/),
+  ],
   resolve: {
     extensions: ['.js', '.scss'],
   },
