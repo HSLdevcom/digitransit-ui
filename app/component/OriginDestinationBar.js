@@ -246,13 +246,13 @@ OriginDestinationBar.description = (
 
 const connectedComponent = connectToStores(
   OriginDestinationBar,
-  ['PreferencesStore', 'UserStore'],
+  ['PreferencesStore', 'FavouriteStore'],
   context => ({
     language: context.getStore('PreferencesStore').getLanguage(),
     showFavourites:
       !context.config.allowLogin ||
       (context.config.allowLogin &&
-        context.getStore('UserStore').getUser().sub !== undefined),
+        context.getStore('FavouriteStore').getStatus() === 'has-data'),
   }),
 );
 
