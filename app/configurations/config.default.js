@@ -45,7 +45,7 @@ export default {
     }/place`,
     ROUTE_TIMETABLES: {
       HSL: `${API_URL}/timetables/v1/hsl/routes/`,
-      tampere: 'http://joukkoliikenne.tampere.fi/media/aikataulut/',
+      tampere: 'http://nysse.fi/media/aikataulut/',
     },
     STOP_TIMETABLES: {
       HSL: `${API_URL}/timetables/v1/hsl/stops/`,

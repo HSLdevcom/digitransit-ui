@@ -16,7 +16,7 @@ const maxLon = 24.9;
 export default configMerger(walttiConfig, {
   CONFIG,
 
-  appBarLink: { name: 'Nysse', href: 'https://joukkoliikenne.tampere.fi/' },
+  appBarLink: { name: 'Nysse', href: 'https://www.nysse.fi/' },
 
   colors: {
     primary: '#1c57cf',
@@ -83,7 +83,7 @@ export default configMerger(walttiConfig, {
     primaryAgencyName: 'Tampereen seudun joukkoliikenne',
   },
 
-  ticketLink: 'https://joukkoliikenne.tampere.fi/liput-ja-hinnat.html',
+  ticketLink: 'https://www.nysse.fi/liput-ja-hinnat.html',
 
   // mapping fareId from OTP fare identifiers to human readable form
   fareMapping: function mapFareId(fareId) {
@@ -140,8 +140,7 @@ export default configMerger(walttiConfig, {
       {
         name: 'footer-feedback',
         nameEn: 'Submit feedback',
-        href:
-          'https://joukkoliikenne.tampere.fi/ohjeita-ja-tietoa/asiakaspalvelu/palaute.html',
+        href: 'https://www.nysse.fi/palaute.html',
         icon: 'icon-icon_speech-bubble',
       },
       {
@@ -213,8 +212,7 @@ export default configMerger(walttiConfig, {
         paragraphs: [
           'Tervetuloa reittioppaaseen! Tämän palvelun tarjoaa Tampereen seudun joukkoliikenne (Nysse) reittisuunnittelua varten Tampereen kaupunkiseudun alueella (Kangasala, Lempäälä, Nokia, Orivesi, Pirkkala, Tampere, Vesilahti ja Ylöjärvi). Palvelu perustuu Digitransit-palvelualustaan.',
         ],
-        link:
-          'https://joukkoliikenne.tampere.fi/ohjeita-ja-tietoa/digipalvelut/ohje-repa-reittiopas.html',
+        link: 'https://www.nysse.fi/reittiopas-ohje.html',
       },
       {
         header: 'Digitransit-palvelualusta',
