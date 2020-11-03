@@ -17,7 +17,7 @@ class DisruptionBanner extends React.Component {
     mode: PropTypes.string.isRequired,
   };
 
-  static contextType = {
+  static contextTypes = {
     config: PropTypes.object.isRequired,
   };
 
