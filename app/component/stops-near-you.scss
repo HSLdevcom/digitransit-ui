@@ -108,6 +108,7 @@
                     height: 16px;
                     padding: 0 4px;
                     align-self: center;
+                    margin-top: -6px;
                 }
                 .zone-icon-container {
                     padding-left:3px;
@@ -138,7 +139,7 @@
         }
     }
     .near-departures-container {
-        padding: 15px;
+        padding: 2px 15px 15px 15px;
         .departure-row {
             .platform-code {
                 height: 20px;
