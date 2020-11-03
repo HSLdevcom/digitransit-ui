@@ -188,7 +188,7 @@ const StopsNearYouContainerWithBreakpoint = withBreakpoint(
 
 const connectedContainer = connectToStores(
   StopsNearYouContainerWithBreakpoint,
-  ['TimeStore', 'FavouriteStore', 'UserStore'],
+  ['TimeStore', 'FavouriteStore'],
   ({ getStore }, { match }) => {
     const favouriteIds =
       match.params.mode === 'CITYBIKE'
