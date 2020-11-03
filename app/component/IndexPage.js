@@ -435,13 +435,7 @@ const processLocation = (locationString, locationState, intl) => {
 
 const IndexPageWithPosition = connectToStores(
   IndexPageWithBreakpoint,
-  [
-    'PositionStore',
-    'ViaPointsStore',
-    'FavouriteStore',
-    'TimeStore',
-    'UserStore',
-  ],
+  ['PositionStore', 'ViaPointsStore', 'FavouriteStore', 'TimeStore'],
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
     const currentTime = context.getStore('TimeStore').getCurrentTime().unix();
@@ -456,9 +450,7 @@ const IndexPageWithPosition = connectToStores(
     }
     newProps.lang = context.getStore('PreferencesStore').getLanguage();
     newProps.showFavourites =
-      !context.config.allowLogin ||
-      (context.config.allowLogin &&
-        context.getStore('UserStore').getUser().sub !== undefined);
+      context.getStore('FavouriteStore').getStatus() === 'has-data';
 
     newProps.locationState = locationState;
     newProps.currentTime = currentTime;
