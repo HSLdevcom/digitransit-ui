@@ -1,8 +1,9 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import cx from 'classnames';
+import Modal from 'react-modal';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
 import Autosuggest from 'react-autosuggest';
@@ -33,6 +34,8 @@ const MobileSearch = ({
   const labelId = `${id}-label`;
 
   const [isDialogOpen, setDialogOpen] = useState(false);
+
+  useEffect(() => Modal.setAppElement(appElement), []);
 
   const onSelect = (e, ref) => {
     if (ref.suggestion.type === 'clear-search-history') {
@@ -90,49 +93,55 @@ const MobileSearch = ({
 
   return (
     <div className={styles['fullscreen-root']}>
-      <label className={styles['combobox-container']} htmlFor={inputId}>
-        <div className={styles['combobox-icon']} onClick={closeHandle}>
-          <Icon img="arrow" />
-        </div>
-        <span className={styles['right-column']}>
-          <span className={styles['combobox-label']} id={labelId}>
-            {label}
+      <Modal
+        isOpen
+        className={styles['mobile-modal-content']}
+        overlayClassName={styles['mobile-modal-overlay']}
+      >
+        <label className={styles['combobox-container']} htmlFor={inputId}>
+          <div className={styles['combobox-icon']} onClick={closeHandle}>
+            <Icon img="arrow" />
+          </div>
+          <span className={styles['right-column']}>
+            <span className={styles['combobox-label']} id={labelId}>
+              {label}
+            </span>
+            <Autosuggest
+              alwaysRenderSuggestions
+              id={id}
+              suggestions={suggestions}
+              onSuggestionsFetchRequested={fetchFunction}
+              getSuggestionValue={getValue}
+              renderSuggestion={renderItem}
+              focusInputOnSuggestionClick={false}
+              shouldRenderSuggestions={() => true}
+              highlightFirstSuggestion
+              inputProps={{
+                ...inputProps,
+                className: cx(
+                  `${styles.input} ${styles[id] || ''} ${
+                    inputProps.value ? styles.hasValue : ''
+                  }`,
+                ),
+                autoFocus: true,
+              }}
+              renderInputComponent={p => (
+                <>
+                  <input
+                    aria-label={ariaLabel}
+                    id={id}
+                    onKeyDown={onKeyDown}
+                    {...p}
+                  />
+                  {value && clearButton()}
+                </>
+              )}
+              theme={styles}
+              onSuggestionSelected={onSelect}
+            />
           </span>
-          <Autosuggest
-            alwaysRenderSuggestions
-            id={id}
-            suggestions={suggestions}
-            onSuggestionsFetchRequested={fetchFunction}
-            getSuggestionValue={getValue}
-            renderSuggestion={renderItem}
-            focusInputOnSuggestionClick={false}
-            shouldRenderSuggestions={() => true}
-            highlightFirstSuggestion
-            inputProps={{
-              ...inputProps,
-              className: cx(
-                `${styles.input} ${styles[id] || ''} ${
-                  inputProps.value ? styles.hasValue : ''
-                }`,
-              ),
-              autoFocus: true,
-            }}
-            renderInputComponent={p => (
-              <>
-                <input
-                  aria-label={ariaLabel}
-                  id={id}
-                  onKeyDown={onKeyDown}
-                  {...p}
-                />
-                {value && clearButton()}
-              </>
-            )}
-            theme={styles}
-            onSuggestionSelected={onSelect}
-          />
-        </span>
-      </label>
+        </label>
+      </Modal>
       {renderDialogModal()}
     </div>
   );
