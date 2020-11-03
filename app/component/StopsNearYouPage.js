@@ -572,13 +572,11 @@ const StopsNearYouPageWithBreakpoint = withBreakpoint(props => (
 
 const PositioningWrapper = connectToStores(
   StopsNearYouPageWithBreakpoint,
-  ['PositionStore', 'PreferencesStore', 'UserStore'],
+  ['PositionStore', 'PreferencesStore', 'FavouriteStore'],
   (context, props) => {
     const lang = context.getStore('PreferencesStore').getLanguage();
     const showFavourites =
-      !context.config.allowLogin ||
-      (context.config.allowLogin &&
-        context.getStore('UserStore').getUser().sub !== undefined);
+      context.getStore('FavouriteStore').getStatus() === 'has-data';
     const { params, location } = props.match;
     const { place } = params;
     if (place !== 'POS') {
