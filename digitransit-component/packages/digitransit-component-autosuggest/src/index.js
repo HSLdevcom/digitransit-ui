@@ -223,6 +223,7 @@ class DTAutosuggest extends React.Component {
       typing: false,
       pendingSelection: null,
       suggestionIndex: 0,
+      cleanExecuted: false,
     };
   }
 
@@ -419,64 +420,67 @@ class DTAutosuggest extends React.Component {
     );
   };
 
-  fetchFunction = ({ value }) => {
-    return this.setState({ valid: false }, () => {
-      executeSearch(
-        this.state.targets,
-        this.state.sources,
-        this.props.transportMode,
-        this.props.searchContext,
-        this.props.filterResults,
-        this.props.geocodingSize,
-        {
-          input: value || '',
-        },
-        searchResult => {
-          if (searchResult == null) {
-            return;
-          }
-          // XXX translates current location
-          const suggestions = (searchResult.results || [])
-            .filter(suggestion => {
-              return (
-                suggestion.type !== 'FutureRoute' ||
-                (suggestion.type === 'FutureRoute' &&
-                  suggestion.properties.time > moment().unix())
-              );
-            })
-            .map(suggestion => {
-              if (
-                suggestion.type === 'CurrentLocation' ||
-                suggestion.type === 'SelectFromMap' ||
-                suggestion.type === 'SelectFromOwnLocations' ||
-                suggestion.type === 'back'
-              ) {
-                const translated = { ...suggestion };
-                translated.properties.labelId = i18next.t(
-                  suggestion.properties.labelId,
+  fetchFunction = ({ value, cleanExecuted }) => {
+    return this.setState(
+      { valid: false, cleanExecuted: !cleanExecuted ? false : cleanExecuted },
+      () => {
+        executeSearch(
+          this.state.targets,
+          this.state.sources,
+          this.props.transportMode,
+          this.props.searchContext,
+          this.props.filterResults,
+          this.props.geocodingSize,
+          {
+            input: value || '',
+          },
+          searchResult => {
+            if (searchResult == null) {
+              return;
+            }
+            // XXX translates current location
+            const suggestions = (searchResult.results || [])
+              .filter(suggestion => {
+                return (
+                  suggestion.type !== 'FutureRoute' ||
+                  (suggestion.type === 'FutureRoute' &&
+                    suggestion.properties.time > moment().unix())
                 );
-                return translated;
-              }
-              return suggestion;
-            });
-          if (
-            value === this.state.value ||
-            value === this.state.pendingSelection ||
-            this.state.pendingSelection === 'SelectFromOwnLocations' ||
-            this.state.pendingSelection === 'back' ||
-            this.state.pendingSelection === 'FutureRoute'
-          ) {
-            this.setState(
-              {
-                valid: true,
-                suggestions,
-              },
-              () => this.checkPendingSelection(),
-            );
-          }
-        },
-      );
-    });
+              })
+              .map(suggestion => {
+                if (
+                  suggestion.type === 'CurrentLocation' ||
+                  suggestion.type === 'SelectFromMap' ||
+                  suggestion.type === 'SelectFromOwnLocations' ||
+                  suggestion.type === 'back'
+                ) {
+                  const translated = { ...suggestion };
+                  translated.properties.labelId = i18next.t(
+                    suggestion.properties.labelId,
+                  );
+                  return translated;
+                }
+                return suggestion;
+              });
+            if (
+              value === this.state.value ||
+              value === this.state.pendingSelection ||
+              this.state.pendingSelection === 'SelectFromOwnLocations' ||
+              this.state.pendingSelection === 'back' ||
+              this.state.pendingSelection === 'FutureRoute'
+            ) {
+              this.setState(
+                {
+                  valid: true,
+                  suggestions,
+                },
+                () => this.checkPendingSelection(),
+              );
+            }
+          },
+        );
+      },
+    );
   };
 
   clearInput = () => {
@@ -485,7 +489,9 @@ class DTAutosuggest extends React.Component {
       value: '',
     };
     // must update suggestions
-    this.setState(newState, () => this.fetchFunction({ value: '' }));
+    this.setState(newState, () =>
+      this.fetchFunction({ value: '', cleanExecuted: true }),
+    );
     if (this.props.onClear) {
       this.props.onClear();
     }
@@ -616,7 +622,12 @@ class DTAutosuggest extends React.Component {
     if (this.state.pendingCurrentLocation) {
       return <Loading />;
     }
-    const { value, suggestions, renderMobileSearch } = this.state;
+    const {
+      value,
+      suggestions,
+      renderMobileSearch,
+      cleanExecuted,
+    } = this.state;
     const inputProps = {
       placeholder: i18next.t(this.props.placeholder),
       value,
@@ -712,6 +723,7 @@ class DTAutosuggest extends React.Component {
             dialogPrimaryButtonText={i18next.t('delete')}
             dialogSecondaryButtonText={i18next.t('cancel')}
             clearInputButtonText={i18next.t('clear-button-label')}
+            focusInput={cleanExecuted}
           />
         )}
         {!renderMobileSearch && (

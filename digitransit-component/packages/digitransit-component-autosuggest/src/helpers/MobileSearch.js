@@ -28,11 +28,13 @@ const MobileSearch = ({
   dialogPrimaryButtonText,
   dialogSecondaryButtonText,
   clearInputButtonText,
+  focusInput,
 }) => {
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;
 
   const [isDialogOpen, setDialogOpen] = useState(false);
+  const inputRef = React.useRef();
 
   const onSelect = (e, ref) => {
     if (ref.suggestion.type === 'clear-search-history') {
@@ -75,6 +77,7 @@ const MobileSearch = ({
       />
     );
   };
+
   const clearButton = () => {
     return (
       <button
@@ -87,6 +90,10 @@ const MobileSearch = ({
       </button>
     );
   };
+
+  if (focusInput && inputRef.current?.input) {
+    inputRef.current.input.focus();
+  }
 
   return (
     <div className={styles['fullscreen-root']}>
@@ -130,6 +137,7 @@ const MobileSearch = ({
             )}
             theme={styles}
             onSuggestionSelected={onSelect}
+            ref={inputRef}
           />
         </span>
       </label>
@@ -164,6 +172,7 @@ MobileSearch.propTypes = {
   dialogHeaderText: PropTypes.string,
   dialogPrimaryButtonText: PropTypes.string,
   dialogSecondaryButtonText: PropTypes.string,
+  focusInput: PropTypes.bool,
 };
 
 export default MobileSearch;
