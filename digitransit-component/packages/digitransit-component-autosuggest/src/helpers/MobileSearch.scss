@@ -186,3 +186,21 @@ button.clear-input {
   letter-spacing: -0.42px;
   border-top: 1px solid #ddd;
 }
+
+.mobile-modal-overlay {
+  z-index: 2000;
+  top: 0;
+  left: 0;
+  right: unset;
+  bottom: unset;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  position: absolute;
+}
+.mobile-modal-content {
+  width: 100%;
+  height: 100%;
+}
