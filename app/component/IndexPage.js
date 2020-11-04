@@ -377,7 +377,7 @@ class IndexPage extends React.Component {
 }
 
 const Index = shouldUpdate(
-  // update only when origin/destination/breakpoint or language changes
+  // update only when origin/destination/breakpoint, favourite store status or language changes
   (props, nextProps) => {
     return !(
       isEqual(nextProps.origin, props.origin) &&
@@ -386,7 +386,8 @@ const Index = shouldUpdate(
       isEqual(nextProps.lang, props.lang) &&
       isEqual(nextProps.locationState, props.locationState) &&
       isEqual(nextProps.showSpinner, props.showSpinner) &&
-      isEqual(nextProps.query, props.query)
+      isEqual(nextProps.query, props.query) &&
+      isEqual(nextProps.showFavourites, props.showFavourites)
     );
   },
 )(IndexPage);
