@@ -395,6 +395,14 @@ export default {
       defaultValue: true,
     },
 
+    // this is just here so that the order is preserved when merging these config files
+    // this is important because citybike needs to come last as it activates another toggle to select the
+    // rental network which is rendered directly underneath.
+    carpool: {
+      availableForSelection: false,
+      defaultValue: false,
+    },
+
     citybike: {
       availableForSelection: false,
       defaultValue: false, // always false

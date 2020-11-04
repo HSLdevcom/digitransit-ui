@@ -335,12 +335,6 @@ export default configMerger(walttiConfig, {
             availableForSelection: true,
             defaultValue: true,
         },
-
-        citybike: {
-            availableForSelection: true,
-            defaultValue: false,
-        },
-
         airplane: {
             availableForSelection: false,
             defaultValue: false,
@@ -352,6 +346,11 @@ export default configMerger(walttiConfig, {
         },
 
         carpool: {
+            availableForSelection: true,
+            defaultValue: false,
+        },
+
+        citybike: {
             availableForSelection: true,
             defaultValue: false,
         },
