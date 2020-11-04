@@ -787,6 +787,8 @@ const translations = {
     car: 'Car',
     'car-distance-duration': 'Drive {distance} ({duration})',
     car_park: 'Park & ride',
+    carpool: 'Carpool',
+    'carpool-with-route-number': 'Carpool route {routeNumber} to {headsign}',
     cause: 'cause',
     'char-left': 'characters',
     'choose-stop': 'Select stop',
