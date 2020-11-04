@@ -11,7 +11,7 @@ A banner with blue caution Icon and arrow mark, original purpose is to act as a 
 ### Examples
 
 ```javascript
-handleClick = e => {
+handleClick = (e, lang) => {
 e.preventDefault();
 window.location = 'www.digitransit.fi';
 };
