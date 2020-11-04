@@ -271,6 +271,9 @@ class DTAutosuggest extends React.Component {
   };
 
   onBlur = () => {
+    if (this.state.editing) {
+      this.input.focus();
+    }
     this.setState({
       editing: false,
       value: this.props.value,
@@ -616,7 +619,8 @@ class DTAutosuggest extends React.Component {
   isOriginDestinationOrViapoint = () =>
     this.props.id === 'origin' ||
     this.props.id === 'destination' ||
-    this.props.id === 'via-point';
+    this.props.id === 'via-point' ||
+    this.props.id === 'origin-stop-near-you';
 
   render() {
     if (this.state.pendingCurrentLocation) {
@@ -632,7 +636,7 @@ class DTAutosuggest extends React.Component {
       placeholder: i18next.t(this.props.placeholder),
       value,
       onChange: this.onChange,
-      onBlur: this.onBlur,
+      onBlur: !this.props.isMobile ? this.onBlur : () => null,
       onFocus: () => {
         // DT-3460 empty input field if value is in array below (HSL.fi translations also.)
         const positions = [
@@ -669,6 +673,7 @@ class DTAutosuggest extends React.Component {
     const ariaCurrentSuggestion = i18next.t('search-current-suggestion', {
       selection: this.suggestionAsAriaContent(),
     });
+
     return (
       <React.Fragment>
         <span className={styles['sr-only']} role="alert">
@@ -700,7 +705,6 @@ class DTAutosuggest extends React.Component {
               placeholder: this.isOriginDestinationOrViapoint()
                 ? i18next.t('address-place-or-business')
                 : inputProps.placeholder,
-              onBlur: () => null,
             }}
             fetchFunction={this.fetchFunction}
             onSuggestionsClearRequested={this.onSuggestionsClearRequested}

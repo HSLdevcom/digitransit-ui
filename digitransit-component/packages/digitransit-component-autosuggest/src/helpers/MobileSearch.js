@@ -8,6 +8,17 @@ import DialogModal from '@digitransit-component/digitransit-component-dialog-mod
 import Autosuggest from 'react-autosuggest';
 import styles from './MobileSearch.scss';
 
+class AutosuggestPatch extends Autosuggest {
+  constructor(props) {
+    super(props);
+    const self = this;
+    self.onSuggestionTouchMove = () => {
+      self.justSelectedSuggestion = false;
+      self.pressedSuggestion = null;
+    };
+  }
+}
+
 const MobileSearch = ({
   appElement,
   id,
@@ -105,7 +116,7 @@ const MobileSearch = ({
           <span className={styles['combobox-label']} id={labelId}>
             {label}
           </span>
-          <Autosuggest
+          <AutosuggestPatch
             alwaysRenderSuggestions
             id={id}
             suggestions={suggestions}

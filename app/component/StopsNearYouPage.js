@@ -385,6 +385,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
         value=""
         lang={this.props.lang}
         mode={this.props.match.params.mode}
+        isMobile={this.props.breakpoint !== 'large'}
       />
     );
   };
