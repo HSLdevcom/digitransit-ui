@@ -12,6 +12,8 @@ export default function DesktopView(
     content,
     settingsDrawer,
     scrollable,
+    scrolled,
+    onScroll,
     bckBtnColor,
     bckBtnVisible,
     bckBtnUrl,
@@ -22,7 +24,11 @@ export default function DesktopView(
     <div className="desktop">
       <div className="main-content">
         {bckBtnVisible && (
-          <div className="desktop-title">
+          <div
+            className={cx('desktop-title', {
+              'desktop-title-bordered': scrolled,
+            })}
+          >
             <div className="title-container h2">
               <BackButton
                 title={title}
@@ -38,6 +44,7 @@ export default function DesktopView(
           className={cx('scrollable-content-wrapper', {
             'momentum-scroll': scrollable,
           })}
+          onScroll={onScroll}
         >
           {header}
           <ErrorBoundary>{content}</ErrorBoundary>
@@ -58,6 +65,8 @@ DesktopView.propTypes = {
   content: PropTypes.node,
   settingsDrawer: PropTypes.node,
   scrollable: PropTypes.bool,
+  scrolled: PropTypes.bool,
+  onScroll: PropTypes.func,
   bckBtnColor: PropTypes.string,
   bckBtnVisible: PropTypes.bool, // DT-3471
   bckBtnUrl: PropTypes.string,
@@ -65,6 +74,8 @@ DesktopView.propTypes = {
 
 DesktopView.defaultProps = {
   scrollable: false,
+  scrolled: false,
+  onScroll: undefined,
   bckBtnVisible: true, // DT-3471
   bckBtnUrl: undefined,
 };
