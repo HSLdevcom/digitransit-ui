@@ -101,7 +101,7 @@ export default configMerger(walttiConfig, {
     },
 
     roadworks: {
-        showRoadworks: true,
+        showRoadworks: false,
         roadworksSmallIconZoom: 16,
         roadworksMinZoom: 10
     },
