@@ -490,6 +490,8 @@ class DTAutosuggest extends React.Component {
     const newState = {
       editing: true,
       value: '',
+      sources: this.props.sources,
+      targets: this.props.targets,
     };
     // must update suggestions
     this.setState(newState, () =>

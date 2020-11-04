@@ -179,7 +179,7 @@ function ItinerarySummaryListContainer(
   // If error starts with "Error" it's not a message id, it's an error message
   // from OTP
   if (error && !startsWith(error, 'Error')) {
-    msgId = error;
+    msgId = 'no-route-msg';
   } else if (!inside([from.lon, from.lat], config.areaPolygon)) {
     msgId = 'origin-outside-service';
     outside = true;

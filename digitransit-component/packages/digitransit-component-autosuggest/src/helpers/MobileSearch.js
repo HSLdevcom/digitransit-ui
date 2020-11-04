@@ -1,8 +1,9 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import cx from 'classnames';
+import Modal from 'react-modal';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
 import Autosuggest from 'react-autosuggest';
@@ -46,6 +47,8 @@ const MobileSearch = ({
 
   const [isDialogOpen, setDialogOpen] = useState(false);
   const inputRef = React.useRef();
+
+  useEffect(() => Modal.setAppElement(appElement), []);
 
   const onSelect = (e, ref) => {
     if (ref.suggestion.type === 'clear-search-history') {
@@ -102,12 +105,8 @@ const MobileSearch = ({
     );
   };
 
-  if (focusInput && inputRef.current?.input) {
-    inputRef.current.input.focus();
-  }
-
-  return (
-    <div className={styles['fullscreen-root']}>
+  const renderContent = () => {
+    return (
       <label className={styles['combobox-container']} htmlFor={inputId}>
         <div className={styles['combobox-icon']} onClick={closeHandle}>
           <Icon img="arrow" />
@@ -152,9 +151,34 @@ const MobileSearch = ({
           />
         </span>
       </label>
-      {renderDialogModal()}
-    </div>
-  );
+    );
+  };
+
+  if (focusInput && inputRef.current?.input) {
+    inputRef.current.input.focus();
+  }
+
+  if (id !== 'origin-stop-near-you') {
+    return (
+      <div className={styles['fullscreen-root']}>
+        <Modal
+          isOpen
+          className={styles['mobile-modal-content']}
+          overlayClassName={styles['mobile-modal-overlay']}
+        >
+          {renderContent()}
+        </Modal>
+        {renderDialogModal()}
+      </div>
+    );
+  } else {
+    return (
+      <div className={styles['fullscreen-root']}>
+        {renderContent()}
+        {renderDialogModal()}
+      </div>
+    );
+  }
 };
 
 MobileSearch.propTypes = {
