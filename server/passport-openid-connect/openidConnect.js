@@ -189,7 +189,7 @@ export default function setUpOIDC(app, port, indexPath) {
 
   app.get('/logout/callback', function (req, res) {
     console.log(`logout callback for userId ${req.session.userId}`);
-    console.log(`request: ${JSON.stringify(req)}`);
+    console.log(`request query: ${JSON.stringify(req.query)}`);
     const sessions = `sessions-${req.session.userId}`;
     req.logout();
     RedisClient.smembers(sessions, function (err, sessionIds) {
