@@ -57,7 +57,6 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     queryString: PropTypes.string,
     router: routerShape.isRequired,
     match: matchShape.isRequired,
-    showFavourites: PropTypes.bool,
   };
 
   constructor(props) {
@@ -232,7 +231,6 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
                   <StopsNearYouSearch
                     mode={mode}
                     breakpoint={this.props.breakpoint}
-                    showFavourites={this.props.showFavourites}
                   />
                 )}
                 {renderRefetchButton && (
@@ -576,11 +574,9 @@ const StopsNearYouPageWithBreakpoint = withBreakpoint(props => (
 
 const PositioningWrapper = connectToStores(
   StopsNearYouPageWithBreakpoint,
-  ['PositionStore', 'PreferencesStore', 'FavouriteStore'],
+  ['PositionStore', 'PreferencesStore'],
   (context, props) => {
     const lang = context.getStore('PreferencesStore').getLanguage();
-    const showFavourites =
-      context.getStore('FavouriteStore').getStatus() === 'has-data';
     const { params, location } = props.match;
     const { place } = params;
     if (place !== 'POS') {
@@ -592,7 +588,6 @@ const PositioningWrapper = connectToStores(
         lang,
         params,
         queryString: location.search,
-        showFavourites,
       };
     }
     const locationState = context.getStore('PositionStore').getLocationState();
@@ -605,7 +600,6 @@ const PositioningWrapper = connectToStores(
         lang,
         params,
         queryString: location.search,
-        showFavourites,
       };
     }
 
@@ -620,7 +614,6 @@ const PositioningWrapper = connectToStores(
         lang,
         params,
         queryString: location.search,
-        showFavourites,
       };
     }
 
@@ -631,7 +624,6 @@ const PositioningWrapper = connectToStores(
         loadingPosition: false,
         lang,
         queryString: location.search,
-        showFavourites,
       };
     }
     return {
@@ -641,7 +633,6 @@ const PositioningWrapper = connectToStores(
       lang,
       params,
       queryString: location.search,
-      showFavourites,
     };
   },
 );

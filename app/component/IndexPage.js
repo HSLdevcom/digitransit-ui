@@ -65,7 +65,6 @@ class IndexPage extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     query: PropTypes.object.isRequired,
     favouriteModalAction: PropTypes.string,
-    showFavourites: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -148,29 +147,19 @@ class IndexPage extends React.Component {
   render() {
     const { intl, config } = this.context;
     const { trafficNowLink } = config;
-    const {
-      breakpoint,
-      destination,
-      origin,
-      lang,
-      showFavourites,
-    } = this.props;
+    const { breakpoint, destination, origin, lang } = this.props;
     const queryString = this.context.match.location.search;
     const searchSources =
-      showFavourites && breakpoint !== 'large'
+      breakpoint !== 'large'
         ? ['Favourite', 'History', 'Datasource']
         : ['History', 'Datasource'];
-    const stopAndRouteSearchSources = showFavourites
-      ? ['Favourite', 'History', 'Datasource']
-      : ['History', 'Datasource'];
-    const locationSearchTargets = showFavourites
-      ? [
-          'Locations',
-          'CurrentPosition',
-          'FutureRoutes',
-          'SelectFromOwnLocations',
-        ]
-      : ['Locations', 'CurrentPosition', 'FutureRoutes'];
+    const stopAndRouteSearchSources = ['Favourite', 'History', 'Datasource'];
+    const locationSearchTargets = [
+      'Locations',
+      'CurrentPosition',
+      'FutureRoutes',
+      'SelectFromOwnLocations',
+    ];
     const stopAndRouteSearchTargets =
       this.context.config.cityBike && this.context.config.cityBike.showCityBikes
         ? ['Stops', 'Routes', 'BikeRentalStations']
@@ -386,8 +375,7 @@ const Index = shouldUpdate(
       isEqual(nextProps.lang, props.lang) &&
       isEqual(nextProps.locationState, props.locationState) &&
       isEqual(nextProps.showSpinner, props.showSpinner) &&
-      isEqual(nextProps.query, props.query) &&
-      isEqual(nextProps.showFavourites, props.showFavourites)
+      isEqual(nextProps.query, props.query)
     );
   },
 )(IndexPage);
@@ -446,7 +434,7 @@ const processLocation = (locationString, locationState, intl) => {
 
 const IndexPageWithPosition = connectToStores(
   IndexPageWithBreakpoint,
-  ['PositionStore', 'ViaPointsStore', 'FavouriteStore', 'TimeStore'],
+  ['PositionStore', 'ViaPointsStore', 'TimeStore'],
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
     const currentTime = context.getStore('TimeStore').getCurrentTime().unix();
@@ -460,8 +448,6 @@ const IndexPageWithPosition = connectToStores(
       newProps.favouriteModalAction = favouriteModalAction;
     }
     newProps.lang = context.getStore('PreferencesStore').getLanguage();
-    newProps.showFavourites =
-      context.getStore('FavouriteStore').getStatus() === 'has-data';
 
     newProps.locationState = locationState;
     newProps.currentTime = currentTime;
