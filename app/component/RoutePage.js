@@ -319,10 +319,7 @@ class RoutePage extends React.Component {
       <div className={cx('route-page-container', activeTab)}>
         <div className="header-for-printing">
           <h1>
-            <FormattedMessage
-              id="print-route-app-title"
-              defaultMessage={config.title}
-            />
+            {config.title}
             {` - `}
             <FormattedMessage id="route-guide" defaultMessage="Route guide" />
           </h1>
