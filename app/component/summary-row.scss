@@ -28,6 +28,24 @@
   }
 }
 
+.itinerary-summary-row:before {
+  content : "";
+  position: absolute;
+  left: 0px;
+  top: 15px;
+  height: 80px;
+  border-left: 8px solid $primary-color;
+}
+
+.itinerary-summary-row.passive:before {
+  content : "";
+  position: absolute;
+  left: 0px;
+  top: 15px;
+  height: 80px;
+  border-left: 8px solid transparent;
+}
+
 .itinerary-summary-row {
   min-height: 50px;
   padding-left: 0.9375em;
@@ -494,8 +512,9 @@
     //text color
     color: $black;
   }
+
   .summary-clickable-area {
-    border-bottom: 1px solid #888;
+    border-bottom: 1px solid #ddd;
     padding-bottom: 13px;
     display: flex;
     flex: auto;
@@ -503,9 +522,7 @@
     outline: none;
     transition: border 0.4s ease;
   }
-  .summary-clickable-area:hover {
-    border-bottom: 1px solid #666;
-  }
+
   .itinerary-summary-visible {
     flex: auto;
     flex-direction: column;
