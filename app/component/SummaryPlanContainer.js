@@ -371,6 +371,7 @@ class SummaryPlanContainer extends React.Component {
                 }
               }
               trip {
+                directionId
                 gtfsId
                 tripHeadsign
                 stoptimesForDate {
@@ -646,6 +647,7 @@ class SummaryPlanContainer extends React.Component {
                 }
               }
               trip {
+                directionId
                 gtfsId
                 tripHeadsign
                 stoptimesForDate {

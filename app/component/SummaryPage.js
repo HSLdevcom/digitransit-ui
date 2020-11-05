@@ -310,9 +310,10 @@ class SummaryPage extends React.Component {
     }
 
     if (this.showVehicles()) {
+      const combinedItineraries = this.getCombinedItineraries();
       const itineraryTopics = getTopicOptions(
         this.context,
-        this.selectedPlan?.itineraries,
+        combinedItineraries,
         this.props.match,
       );
       if (itineraryTopics && itineraryTopics.length > 0) {
@@ -1004,9 +1005,10 @@ class SummaryPage extends React.Component {
       reportError(this.props.error);
     }
     if (this.showVehicles()) {
+      const combinedItineraries = this.getCombinedItineraries();
       const itineraryTopics = getTopicOptions(
         this.context,
-        this.selectedPlan?.itineraries,
+        combinedItineraries,
         this.props.match,
       );
       if (itineraryTopics && itineraryTopics.length > 0) {
@@ -1185,11 +1187,7 @@ class SummaryPage extends React.Component {
       config: { defaultEndpoint },
     } = this.context;
 
-    const combinedItineraries = [
-      ...(this.state.earlierItineraries || []),
-      ...(this.selectedPlan.itineraries || []),
-      ...(this.state.laterItineraries || []),
-    ];
+    const combinedItineraries = this.getCombinedItineraries();
     let filteredItineraries;
     if (combinedItineraries && combinedItineraries.length > 0) {
       filteredItineraries = combinedItineraries.filter(
@@ -1427,6 +1425,14 @@ class SummaryPage extends React.Component {
     });
   };
 
+  getCombinedItineraries = () => {
+    return [
+      ...(this.state.earlierItineraries || []),
+      ...(this.selectedPlan.itineraries || []),
+      ...(this.state.laterItineraries || []),
+    ];
+  };
+
   render() {
     const { match, error } = this.props;
     const { walkPlan, bikePlan } = this.state;
@@ -1604,11 +1610,7 @@ class SummaryPage extends React.Component {
         });
       }
     }
-    let combinedItineraries = [
-      ...(this.state.earlierItineraries || []),
-      ...(this.selectedPlan.itineraries || []),
-      ...(this.state.laterItineraries || []),
-    ];
+    let combinedItineraries = this.getCombinedItineraries();
 
     if (
       combinedItineraries &&
