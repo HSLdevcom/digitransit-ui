@@ -10,14 +10,10 @@ import RelativeDuration from './RelativeDuration';
 import RouteNumber from './RouteNumber';
 import RouteNumberContainer from './RouteNumberContainer';
 import { getActiveLegAlertSeverityLevel } from '../util/alertUtils';
-import { displayDistance } from '../util/geo-utils';
 import {
   getLegMode,
-  containsBiking,
   compressLegs,
   getLegBadgeProps,
-  getTotalBikingDistance,
-  getTotalWalkingDistance,
   isCallAgencyPickupType,
 } from '../util/legUtils';
 import { sameDay, dateOrEmpty } from '../util/timeUtils';
@@ -220,7 +216,7 @@ const bikeWasParked = legs => {
 
 const SummaryRow = (
   { data, breakpoint, intermediatePlaces, zones, ...props },
-  { intl, intl: { formatMessage }, config },
+  { intl, intl: { formatMessage } },
 ) => {
   const isTransitLeg = leg => leg.transitLeg;
   const isLegOnFoot = leg => leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK';
@@ -466,9 +462,9 @@ const SummaryRow = (
   const iconLegsInPixels = (24 * onlyIconLegs) / normalLegs;
   // the leftover percentage from only showing icons added to each 'normal' leg
   const iconLegsInPercents = onlyIconLegsLength / normalLegs;
-
+  let firstDeparture;
   if (!noTransitLegs) {
-    const firstDeparture = compressedLegs.find(isTransitLeg);
+    firstDeparture = compressedLegs.find(isTransitLeg);
     if (firstDeparture) {
       let firstDepartureStopType;
       if (firstDeparture.mode === 'RAIL' || firstDeparture.mode === 'SUBWAY') {
@@ -572,7 +568,11 @@ const SummaryRow = (
                   id="itinerary-summary-row.first-departure"
                   values={{
                     vehicle: vehicleNames[0],
-                    departureTime: firstLegStartTime,
+                    departureTime: firstDeparture ? (
+                      <LocalTime time={firstDeparture.startTime} />
+                    ) : (
+                      'ggh'
+                    ),
                     stopName: stopNames[0],
                   }}
                 />
@@ -591,23 +591,6 @@ const SummaryRow = (
             );
           }),
           totalTime: <RelativeDuration duration={duration} />,
-          distance: (
-            <FormattedMessage
-              id={
-                containsBiking(data)
-                  ? 'itinerary-summary-row.biking-distance'
-                  : 'itinerary-summary-row.walking-distance'
-              }
-              values={{
-                totalDistance: displayDistance(
-                  containsBiking(data)
-                    ? getTotalBikingDistance(data)
-                    : getTotalWalkingDistance(data),
-                  config,
-                ),
-              }}
-            />
-          ),
         }}
       />
     </div>

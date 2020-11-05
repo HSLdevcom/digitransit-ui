@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import ContainerSpinner from '@hsl-fi/container-spinner';
 
 const defaultMessage = (
-  <span className="sr-only">
+  <span className="sr-only" aria-busy="true" aria-live="polite">
     <FormattedMessage id="loading" defaultMessage="Loading" />
   </span>
 );
