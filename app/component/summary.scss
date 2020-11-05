@@ -312,13 +312,11 @@
     animation: loadingTopAnimation 0.4s;
   }
 
-  &-loading-bottom-desktop {
+  &-loading-bottom {
     animation: loadingBottomAnimation 0.4s;
-  }
 
-  &-loading-bottom-mobile {
     .mobile & {
-      animation: loadingBottomAnimation 0.4s;
+      animation: none;
     }
   }
 }

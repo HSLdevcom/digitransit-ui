@@ -223,6 +223,7 @@ class DTAutosuggest extends React.Component {
       typing: false,
       pendingSelection: null,
       suggestionIndex: 0,
+      cleanExecuted: false,
     };
   }
 
@@ -270,6 +271,9 @@ class DTAutosuggest extends React.Component {
   };
 
   onBlur = () => {
+    if (this.state.editing) {
+      this.input.focus();
+    }
     this.setState({
       editing: false,
       value: this.props.value,
@@ -419,64 +423,67 @@ class DTAutosuggest extends React.Component {
     );
   };
 
-  fetchFunction = ({ value }) => {
-    return this.setState({ valid: false }, () => {
-      executeSearch(
-        this.state.targets,
-        this.state.sources,
-        this.props.transportMode,
-        this.props.searchContext,
-        this.props.filterResults,
-        this.props.geocodingSize,
-        {
-          input: value || '',
-        },
-        searchResult => {
-          if (searchResult == null) {
-            return;
-          }
-          // XXX translates current location
-          const suggestions = (searchResult.results || [])
-            .filter(suggestion => {
-              return (
-                suggestion.type !== 'FutureRoute' ||
-                (suggestion.type === 'FutureRoute' &&
-                  suggestion.properties.time > moment().unix())
-              );
-            })
-            .map(suggestion => {
-              if (
-                suggestion.type === 'CurrentLocation' ||
-                suggestion.type === 'SelectFromMap' ||
-                suggestion.type === 'SelectFromOwnLocations' ||
-                suggestion.type === 'back'
-              ) {
-                const translated = { ...suggestion };
-                translated.properties.labelId = i18next.t(
-                  suggestion.properties.labelId,
+  fetchFunction = ({ value, cleanExecuted }) => {
+    return this.setState(
+      { valid: false, cleanExecuted: !cleanExecuted ? false : cleanExecuted },
+      () => {
+        executeSearch(
+          this.state.targets,
+          this.state.sources,
+          this.props.transportMode,
+          this.props.searchContext,
+          this.props.filterResults,
+          this.props.geocodingSize,
+          {
+            input: value || '',
+          },
+          searchResult => {
+            if (searchResult == null) {
+              return;
+            }
+            // XXX translates current location
+            const suggestions = (searchResult.results || [])
+              .filter(suggestion => {
+                return (
+                  suggestion.type !== 'FutureRoute' ||
+                  (suggestion.type === 'FutureRoute' &&
+                    suggestion.properties.time > moment().unix())
                 );
-                return translated;
-              }
-              return suggestion;
-            });
-          if (
-            value === this.state.value ||
-            value === this.state.pendingSelection ||
-            this.state.pendingSelection === 'SelectFromOwnLocations' ||
-            this.state.pendingSelection === 'back' ||
-            this.state.pendingSelection === 'FutureRoute'
-          ) {
-            this.setState(
-              {
-                valid: true,
-                suggestions,
-              },
-              () => this.checkPendingSelection(),
-            );
-          }
-        },
-      );
-    });
+              })
+              .map(suggestion => {
+                if (
+                  suggestion.type === 'CurrentLocation' ||
+                  suggestion.type === 'SelectFromMap' ||
+                  suggestion.type === 'SelectFromOwnLocations' ||
+                  suggestion.type === 'back'
+                ) {
+                  const translated = { ...suggestion };
+                  translated.properties.labelId = i18next.t(
+                    suggestion.properties.labelId,
+                  );
+                  return translated;
+                }
+                return suggestion;
+              });
+            if (
+              value === this.state.value ||
+              value === this.state.pendingSelection ||
+              this.state.pendingSelection === 'SelectFromOwnLocations' ||
+              this.state.pendingSelection === 'back' ||
+              this.state.pendingSelection === 'FutureRoute'
+            ) {
+              this.setState(
+                {
+                  valid: true,
+                  suggestions,
+                },
+                () => this.checkPendingSelection(),
+              );
+            }
+          },
+        );
+      },
+    );
   };
 
   clearInput = () => {
@@ -487,7 +494,9 @@ class DTAutosuggest extends React.Component {
       targets: this.props.targets,
     };
     // must update suggestions
-    this.setState(newState, () => this.fetchFunction({ value: '' }));
+    this.setState(newState, () =>
+      this.fetchFunction({ value: '', cleanExecuted: true }),
+    );
     if (this.props.onClear) {
       this.props.onClear();
     }
@@ -612,18 +621,24 @@ class DTAutosuggest extends React.Component {
   isOriginDestinationOrViapoint = () =>
     this.props.id === 'origin' ||
     this.props.id === 'destination' ||
-    this.props.id === 'via-point';
+    this.props.id === 'via-point' ||
+    this.props.id === 'origin-stop-near-you';
 
   render() {
     if (this.state.pendingCurrentLocation) {
       return <Loading />;
     }
-    const { value, suggestions, renderMobileSearch } = this.state;
+    const {
+      value,
+      suggestions,
+      renderMobileSearch,
+      cleanExecuted,
+    } = this.state;
     const inputProps = {
       placeholder: i18next.t(this.props.placeholder),
       value,
       onChange: this.onChange,
-      onBlur: this.onBlur,
+      onBlur: !this.props.isMobile ? this.onBlur : () => null,
       onFocus: () => {
         // DT-3460 empty input field if value is in array below (HSL.fi translations also.)
         const positions = [
@@ -660,6 +675,7 @@ class DTAutosuggest extends React.Component {
     const ariaCurrentSuggestion = i18next.t('search-current-suggestion', {
       selection: this.suggestionAsAriaContent(),
     });
+
     return (
       <React.Fragment>
         <span className={styles['sr-only']} role="alert">
@@ -691,7 +707,6 @@ class DTAutosuggest extends React.Component {
               placeholder: this.isOriginDestinationOrViapoint()
                 ? i18next.t('address-place-or-business')
                 : inputProps.placeholder,
-              onBlur: () => null,
             }}
             fetchFunction={this.fetchFunction}
             onSuggestionsClearRequested={this.onSuggestionsClearRequested}
@@ -714,6 +729,7 @@ class DTAutosuggest extends React.Component {
             dialogPrimaryButtonText={i18next.t('delete')}
             dialogSecondaryButtonText={i18next.t('cancel')}
             clearInputButtonText={i18next.t('clear-button-label')}
+            focusInput={cleanExecuted}
           />
         )}
         {!renderMobileSearch && (
