@@ -46,25 +46,29 @@ class SelectFromMapPageMap extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.zoomLevel = 12;
   }
 
   setMapElementRef = element => {
     map = get(element, 'leafletElement', null);
   };
 
-  centerMapViewToWantedCoordinates = (coordinates, zoomLevel) => {
+  centerMapViewToWantedCoordinates = coordinates => {
     if (!map) {
       return;
     }
 
     if (coordinates) {
-      const zoom = zoomLevel || map.getZoom();
-      map.setView(coordinates, zoom, { animate: true });
+      if (this.zoomLevel !== map.getZoom()) {
+        this.zoomLevel = map.getZoom();
+      }
+      map.setView(coordinates, this.zoomLevel, { animate: true });
     }
   };
 
   getCoordinates = () => {
     const centerOfMap = map.getCenter();
+    this.zoomLevel = map.getZoom();
 
     this.setState({
       locationOfMapCenter: {
@@ -332,7 +336,7 @@ class SelectFromMapPageMap extends React.Component {
         leafletObjs={leafletObjs}
         lat={positionSelectingFromMap.lat} // {center ? center.lat : from.lat}
         lon={positionSelectingFromMap.lon} // {center ? center.lon : from.lon}
-        zoom={12}
+        zoom={this.zoomLevel}
         bounds={bounds}
         fitBounds={Boolean(bounds)}
         boundsOptions={{ maxZoom: 16 }}
