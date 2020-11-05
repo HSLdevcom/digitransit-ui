@@ -845,25 +845,18 @@ div.leaflet-control-scale-line {
   }
 }
 
-.select-from-map-confirm-button-enabled, .select-from-map-confirm-button-enabled:hover {
+.select-from-map-confirm-button, .select-from-map-confirm-button:hover {
   position: absolute;
   z-index: 3000;
   height: 50px;
   width: calc(100% - 40px);
   margin-left: 20px;
   border-radius: 25px;
-  bottom: 90px;
+  bottom: 15%;
   background-color: $primary-color;
-}
-
-.select-from-map-confirm-button-disabled {
-  position: absolute;
-  z-index: 3000;
-  height: 50px;
-  width: calc(100% - 40px);
-  margin-left: 20px;
-  border-radius: 25px;
-  bottom: 90px;
-  background-color: #bbbbbb;
-  pointer-events: none;
+  &.disabled {
+    pointer-events: none;
+    background-color: #bbbbbb;
+    opacity: 1;
+  }
 }
