@@ -421,7 +421,7 @@ const translations = {
       'Gesamte Fahrradstrecke: {totalDistance}.',
     'itinerary-summary-row.clickable-area-description': 'Auf der Karte zeigen',
     'itinerary-summary-row.description':
-      'Route fährt ab {departureDate} {departureTime} mit Ankunft {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Gesamte Dauer {totalTime}. {distance}',
+      'Route fährt ab {departureDate} {departureTime} mit Ankunft {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Gesamte Dauer {totalTime}.',
     'itinerary-summary-row.first-departure':
       '{vehicle} fährt um {departureTime} von {stopName}.',
     'itinerary-summary-row.transfers':
@@ -726,6 +726,9 @@ const translations = {
     'add-via-duration-button-label-open':
       'Open stop duration selector at via point {index}',
     'add-work': 'Add work',
+    'aria-itinerary-summary': 'Total duration {duration} ',
+    'aria-itinerary-summary-bike-distance': 'biking distance {distance} ',
+    'aria-itinerary-summary-walk-distance': 'walking {distance} ',
     'arrive-leave': 'Arrive or leave at selected time',
     'search-autosuggest-label':
       'Venue, place and stopsearch. Navigate list with arrow keys and select with enter key',
@@ -915,7 +918,7 @@ const translations = {
       'Total biking distance {totalDistance}.',
     'itinerary-summary-row.clickable-area-description': 'Show on map',
     'itinerary-summary-row.description':
-      'Itinerary departing at {departureDate} {departureTime} and arriving at {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Total time {totalTime}. {distance}',
+      'Itinerary departing at {departureDate} {departureTime} and arriving at {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Total time {totalTime}.',
     'itinerary-summary-row.first-departure':
       '{vehicle} leaves at {departureTime} from stop {stopName}.',
     'itinerary-summary-row.first-leg-start-time':
@@ -1549,6 +1552,9 @@ const translations = {
       'Lisää sinulle tärkeä paikka Suosikkisi-välilehdelle',
     'add-via-button-label': 'Lisää välipiste',
     'add-work': 'Lisää työ',
+    'aria-itinerary-summary': 'Matkan kokonaiskesto {duration} ',
+    'aria-itinerary-summary-bike-distance': 'pyöräilyä yhteensä {distance} ',
+    'aria-itinerary-summary-walk-distance': 'kävelyä yhteensä {distance} ',
     'arrive-leave': 'Saavu tai lähde valittuna aikana',
     'search-autosuggest-label':
       'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
@@ -1744,7 +1750,7 @@ const translations = {
       'Pyöräilyä yhteensä {totalDistance}.',
     'itinerary-summary-row.clickable-area-description': 'Näytä kartalla',
     'itinerary-summary-row.description':
-      'Lähtö {departureDate} kello {departureTime}. Perillä {arrivalDate} kello {arrivalTime}. {firstDeparture} {transfers} Matka-aika {totalTime}. {distance}',
+      'Lähtö {departureDate} kello {departureTime}. Perillä {arrivalDate} kello {arrivalTime}. {firstDeparture} {transfers} Matka-aika {totalTime}',
     'itinerary-summary-row.first-departure':
       '{vehicle} lähtee asemalta {stopName} kello {departureTime}.',
     'itinerary-summary-row.first-leg-start-time':
@@ -1998,10 +2004,16 @@ const translations = {
     'stop-virtual-monitor': 'Virtuaalimonitori',
     stops: 'Pysäkit',
     'street-mode-bicycle': 'Pyöräily',
+    'street-mode-bike-aria':
+      'Näytä pyöräilyreitti. Kesto {duration}, pituus {length}',
+    'street-mode-bikeandvehicle-aria':
+      'Näytä pyöräilyn ja julkisen liikenteen yhdistelmä. Kesto {duration}, pyöräilyn pituus {length}',
     'street-mode-car': 'Auto',
     'street-mode-car_park': 'Liityntä\u00ADpysäköinti',
     'street-mode-public_transport': 'Julkinen liikenne',
     'street-mode-walk': 'Kävely',
+    'street-mode-walk-aria':
+      'Näytä kävelyreitti. Kesto {duration}, pituus {length}',
     // eslint-disable-next-line sort-keys
     street: 'Katu',
     subway: 'Metro',
@@ -2845,7 +2857,7 @@ const translations = {
       'Distanța totală de pedalat {totalDistance}.',
     'itinerary-summary-row.clickable-area-description': 'Afișați pe hartă',
     'itinerary-summary-row.description':
-      'Itinerarul cu plecare la {departureDate} {departureTime} și sosire la {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Timp total {totalTime}. {distance}',
+      'Itinerarul cu plecare la {departureDate} {departureTime} și sosire la {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Timp total {totalTime}.',
     'itinerary-summary-row.first-departure':
       '{vehicle} pleacă la {departureTime} de la {stopName}.',
     'itinerary-summary-row.transfers': 'Schimbați cu {vehicle} la {stopName}',
@@ -3142,6 +3154,9 @@ const translations = {
     'add-via-duration-button-label-open':
       'Öppna väljaren för varaktighet vid via-punkten',
     'add-work': 'Lägg till arbete',
+    'aria-itinerary-summary': 'Resans varaktighet {duration} ',
+    'aria-itinerary-summary-bike-distance': 'cyckling {distance} ',
+    'aria-itinerary-summary-walk-distance': 'gående {distance} ',
     'arrive-leave': 'Anländer eller lämnar vid vald tid',
     'search-autosuggest-label':
       'Plats, linje och hållplatssökning. Navigera listan med piltangenterna och välj med Enter-tangeten',
@@ -3328,7 +3343,7 @@ const translations = {
       'Cykling sammanlagt {totalDistance}.',
     'itinerary-summary-row.clickable-area-description': 'Visa på kartan',
     'itinerary-summary-row.description':
-      'Avgång {departureDate} klockan {departureTime}. Framme {arrivalDate} klockan {arrivalTime}. {firstDeparture} {transfers} Restid {totalTime}. {distance}',
+      'Avgång {departureDate} klockan {departureTime}. Framme {arrivalDate} klockan {arrivalTime}. {firstDeparture} {transfers} Restid {totalTime}.',
     'itinerary-summary-row.first-departure':
       '{vehicle} avgår från station {stopName} klockan {departureTime}.',
     'itinerary-summary-row.first-leg-start-time':

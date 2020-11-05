@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { intlShape } from 'react-intl';
 import Icon from './Icon';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
@@ -11,7 +12,7 @@ import {
 
 export const StreetModeSelectorButton = (
   { icon, name, plan, onClick },
-  { config },
+  { config, intl },
 ) => {
   let itinerary = plan.itineraries[0];
   if (!itinerary) {
@@ -58,6 +59,16 @@ export const StreetModeSelectorButton = (
       onClick={() => onClick(name)}
       role="button"
       tabIndex={0}
+      aria-label={intl.formatMessage(
+        {
+          id: `street-mode-${name.toLowerCase()}-aria`,
+          defaultMessage: 'Walk plan',
+        },
+        {
+          length: distance,
+          duration,
+        },
+      )}
     >
       <div className="street-mode-selector-button-content">
         <div
@@ -95,6 +106,7 @@ StreetModeSelectorButton.defaulProps = {
 };
 
 StreetModeSelectorButton.contextTypes = {
+  intl: intlShape.isRequired,
   config: PropTypes.object.isRequired,
 };
 export default StreetModeSelectorButton;
