@@ -1174,10 +1174,16 @@ const translations = {
     'stop-virtual-monitor': 'Virtual monitor',
     stops: 'Stops',
     'street-mode-bicycle': 'Bicycle',
+    'street-mode-bike-aria':
+      'Show biking route. Duration {duration}, distance {length}',
+    'street-mode-bikeandvehicle-aria':
+      'Show a combination of biking and public transport. Duration {duration}, contains {length} biking',
     'street-mode-car': 'Car',
     'street-mode-car_park': 'Park & ride',
     'street-mode-public_transport': 'Public transport',
     'street-mode-walk': 'Walking',
+    'street-mode-walk-aria':
+      'Show walking route. Duration {duration}, distance {length}',
     // eslint-disable-next-line sort-keys
     street: 'Street',
     subway: 'Metro',
@@ -3603,10 +3609,16 @@ const translations = {
     'stop-virtual-monitor': 'Virtuell monitor',
     stops: 'Hållplatser',
     'street-mode-bicycle': 'Cykel',
+    'street-mode-bike-aria':
+      'Näytä pyöräilyreitti. Kesto {duration}, pituus {length}',
+    'street-mode-bikeandvehicle-aria':
+      'Näytä pyöräilyn ja julkisen liikenteen yhdistelmä. Kesto {duration}, pyöräilyn pituus {length}',
     'street-mode-car': 'Bil',
     'street-mode-car_park': 'Infarts\u00ADparkering',
     'street-mode-public_transport': 'Kollektiv\u00ADtrafik',
     'street-mode-walk': 'Gång',
+    'street-mode-walk-aria':
+      'Näytä kävelyreitti. Kesto {duration}, pituus {length}',
     // eslint-disable-next-line sort-keys
     street: 'Gata',
     subway: 'Metro',
