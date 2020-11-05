@@ -9,6 +9,17 @@ import DialogModal from '@digitransit-component/digitransit-component-dialog-mod
 import Autosuggest from 'react-autosuggest';
 import styles from './MobileSearch.scss';
 
+class AutosuggestPatch extends Autosuggest {
+  constructor(props) {
+    super(props);
+    const self = this;
+    self.onSuggestionTouchMove = () => {
+      self.justSelectedSuggestion = false;
+      self.pressedSuggestion = null;
+    };
+  }
+}
+
 const MobileSearch = ({
   appElement,
   id,
@@ -29,11 +40,13 @@ const MobileSearch = ({
   dialogPrimaryButtonText,
   dialogSecondaryButtonText,
   clearInputButtonText,
+  focusInput,
 }) => {
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;
 
   const [isDialogOpen, setDialogOpen] = useState(false);
+  const inputRef = React.useRef();
 
   useEffect(() => Modal.setAppElement(appElement), []);
 
@@ -78,6 +91,7 @@ const MobileSearch = ({
       />
     );
   };
+
   const clearButton = () => {
     return (
       <button
@@ -91,60 +105,80 @@ const MobileSearch = ({
     );
   };
 
-  return (
-    <div className={styles['fullscreen-root']}>
-      <Modal
-        isOpen
-        className={styles['mobile-modal-content']}
-        overlayClassName={styles['mobile-modal-overlay']}
-      >
-        <label className={styles['combobox-container']} htmlFor={inputId}>
-          <div className={styles['combobox-icon']} onClick={closeHandle}>
-            <Icon img="arrow" />
-          </div>
-          <span className={styles['right-column']}>
-            <span className={styles['combobox-label']} id={labelId}>
-              {label}
-            </span>
-            <Autosuggest
-              alwaysRenderSuggestions
-              id={id}
-              suggestions={suggestions}
-              onSuggestionsFetchRequested={fetchFunction}
-              getSuggestionValue={getValue}
-              renderSuggestion={renderItem}
-              focusInputOnSuggestionClick={false}
-              shouldRenderSuggestions={() => true}
-              highlightFirstSuggestion
-              inputProps={{
-                ...inputProps,
-                className: cx(
-                  `${styles.input} ${styles[id] || ''} ${
-                    inputProps.value ? styles.hasValue : ''
-                  }`,
-                ),
-                autoFocus: true,
-              }}
-              renderInputComponent={p => (
-                <>
-                  <input
-                    aria-label={ariaLabel}
-                    id={id}
-                    onKeyDown={onKeyDown}
-                    {...p}
-                  />
-                  {value && clearButton()}
-                </>
-              )}
-              theme={styles}
-              onSuggestionSelected={onSelect}
-            />
+  const renderContent = () => {
+    return (
+      <label className={styles['combobox-container']} htmlFor={inputId}>
+        <div className={styles['combobox-icon']} onClick={closeHandle}>
+          <Icon img="arrow" />
+        </div>
+        <span className={styles['right-column']}>
+          <span className={styles['combobox-label']} id={labelId}>
+            {label}
           </span>
-        </label>
-      </Modal>
-      {renderDialogModal()}
-    </div>
-  );
+          <AutosuggestPatch
+            alwaysRenderSuggestions
+            id={id}
+            suggestions={suggestions}
+            onSuggestionsFetchRequested={fetchFunction}
+            getSuggestionValue={getValue}
+            renderSuggestion={renderItem}
+            focusInputOnSuggestionClick={false}
+            shouldRenderSuggestions={() => true}
+            highlightFirstSuggestion
+            inputProps={{
+              ...inputProps,
+              className: cx(
+                `${styles.input} ${styles[id] || ''} ${
+                  inputProps.value ? styles.hasValue : ''
+                }`,
+              ),
+              autoFocus: true,
+            }}
+            renderInputComponent={p => (
+              <>
+                <input
+                  aria-label={ariaLabel}
+                  id={id}
+                  onKeyDown={onKeyDown}
+                  {...p}
+                />
+                {value && clearButton()}
+              </>
+            )}
+            theme={styles}
+            onSuggestionSelected={onSelect}
+            ref={inputRef}
+          />
+        </span>
+      </label>
+    );
+  };
+
+  if (focusInput && inputRef.current?.input) {
+    inputRef.current.input.focus();
+  }
+
+  if (id !== 'origin-stop-near-you') {
+    return (
+      <div className={styles['fullscreen-root']}>
+        <Modal
+          isOpen
+          className={styles['mobile-modal-content']}
+          overlayClassName={styles['mobile-modal-overlay']}
+        >
+          {renderContent()}
+        </Modal>
+        {renderDialogModal()}
+      </div>
+    );
+  } else {
+    return (
+      <div className={styles['fullscreen-root']}>
+        {renderContent()}
+        {renderDialogModal()}
+      </div>
+    );
+  }
 };
 
 MobileSearch.propTypes = {
@@ -173,6 +207,7 @@ MobileSearch.propTypes = {
   dialogHeaderText: PropTypes.string,
   dialogPrimaryButtonText: PropTypes.string,
   dialogSecondaryButtonText: PropTypes.string,
+  focusInput: PropTypes.bool,
 };
 
 export default MobileSearch;
