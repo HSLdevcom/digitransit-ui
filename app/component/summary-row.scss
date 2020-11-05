@@ -1,3 +1,5 @@
+@import '~@hsl-fi/sass/animations/fade';
+
 .canceled-legs-banner {
   width: 100%;
   background: $cancelation-red;
@@ -39,6 +41,7 @@
   font-size: $font-size-normal;
   white-space: nowrap;
   position: relative;
+  animation: fadeIn 0.7s;
 
   &.cancelled-itinerary {
     .itinerary-first-leg-start-time {

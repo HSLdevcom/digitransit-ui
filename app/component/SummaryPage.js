@@ -292,6 +292,7 @@ class SummaryPage extends React.Component {
       bikePlan: undefined,
       bikeAndPublicPlan: undefined,
       bikeParkPlan: undefined,
+      scrolled: false,
     };
     if (this.state.streetMode === 'walk') {
       this.selectedPlan = this.state.walkPlan;
@@ -1421,6 +1422,13 @@ class SummaryPage extends React.Component {
     );
   };
 
+  handleScroll = event => {
+    const { scrollTop } = event.target;
+    this.setState({
+      scrolled: scrollTop > 0,
+    });
+  };
+
   render() {
     const { match, error } = this.props;
     const { walkPlan, bikePlan } = this.state;
@@ -1816,6 +1824,7 @@ class SummaryPage extends React.Component {
               separatorPosition={this.state.separatorPosition}
               updateSeparatorPosition={this.updateSeparatorPosition}
               loading={this.isFetchingWalkAndBike && !error}
+              scrolled={this.state.scrolled}
             >
               {this.props.content &&
                 React.cloneElement(this.props.content, {
@@ -1879,6 +1888,8 @@ class SummaryPage extends React.Component {
           }
           map={map}
           scrollable
+          scrolled={this.state.scrolled}
+          onScroll={this.handleScroll}
           bckBtnColor={this.context.config.colors.primary}
         />
       );
