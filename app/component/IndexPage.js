@@ -65,6 +65,7 @@ class IndexPage extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     query: PropTypes.object.isRequired,
     favouriteModalAction: PropTypes.string,
+    fromMap: PropTypes.string,
   };
 
   static defaultProps = {
@@ -305,6 +306,7 @@ class IndexPage extends React.Component {
               disableAutoFocus
               isMobile
               breakpoint="small"
+              fromMap={this.props.fromMap}
             />
             <div className="datetimepicker-container">
               <DatetimepickerContainer realtime />
@@ -441,12 +443,16 @@ const IndexPageWithPosition = connectToStores(
     const { from, to } = props.match.params;
     const { location } = props.match;
     const { query } = location;
-    const { favouriteModalAction } = query;
+    const { favouriteModalAction, fromMap } = query;
 
     const newProps = {};
     if (favouriteModalAction) {
       newProps.favouriteModalAction = favouriteModalAction;
     }
+    if (fromMap === 'origin' || fromMap === 'destination') {
+      newProps.fromMap = fromMap;
+    }
+
     newProps.lang = context.getStore('PreferencesStore').getLanguage();
 
     newProps.locationState = locationState;
