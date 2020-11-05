@@ -338,7 +338,6 @@ class RoutePage extends React.Component {
               icon="icon-icon_arrow-collapse--left"
               color={config.colors.primary}
               iconClassName="arrow-icon"
-              customStyle={{ paddingTop: '25px' }}
               urlToBack={config.URL.ROOTLINK}
             />
           )}
