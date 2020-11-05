@@ -880,78 +880,8 @@ const connectedContainer = createFragmentContainer(
         date
       }
     `,
-    earlierItineraries: graphql`
-      fragment SummaryPlanContainer_earlierItineraries on Itinerary
-      @relay(plural: true) {
-        ...ItinerarySummaryListContainer_itineraries
-        endTime
-        startTime
-        legs {
-          mode
-          to {
-            bikePark {
-              bikeParkId
-              name
-            }
-          }
-          ...ItineraryLine_legs
-          transitLeg
-          legGeometry {
-            points
-          }
-          route {
-            gtfsId
-          }
-          trip {
-            gtfsId
-            directionId
-            stoptimesForDate {
-              scheduledDeparture
-            }
-            pattern {
-              ...RouteLine_pattern
-            }
-          }
-        }
-      }
-    `,
     itineraries: graphql`
       fragment SummaryPlanContainer_itineraries on Itinerary
-      @relay(plural: true) {
-        ...ItinerarySummaryListContainer_itineraries
-        endTime
-        startTime
-        legs {
-          mode
-          to {
-            bikePark {
-              bikeParkId
-              name
-            }
-          }
-          ...ItineraryLine_legs
-          transitLeg
-          legGeometry {
-            points
-          }
-          route {
-            gtfsId
-          }
-          trip {
-            gtfsId
-            directionId
-            stoptimesForDate {
-              scheduledDeparture
-            }
-            pattern {
-              ...RouteLine_pattern
-            }
-          }
-        }
-      }
-    `,
-    laterItineraries: graphql`
-      fragment SummaryPlanContainer_laterItineraries on Itinerary
       @relay(plural: true) {
         ...ItinerarySummaryListContainer_itineraries
         endTime
