@@ -846,24 +846,24 @@ div.leaflet-control-scale-line {
 }
 
 .select-from-map-confirm-button-enabled, .select-from-map-confirm-button-enabled:hover {
+  position: absolute;
   z-index: 3000;
   height: 50px;
   width: calc(100% - 40px);
-  margin: 20px;
-  margin-bottom: 57px;
+  margin-left: 20px;
   border-radius: 25px;
-  top: calc(100vh - 3em - 120px);
+  bottom: 90px;
   background-color: $primary-color;
 }
 
 .select-from-map-confirm-button-disabled {
+  position: absolute;
   z-index: 3000;
   height: 50px;
   width: calc(100% - 40px);
-  margin: 20px;
-  margin-bottom: 57px;
+  margin-left: 20px;
   border-radius: 25px;
-  top: calc(100vh - 3em - 120px);
+  bottom: 90px;
   background-color: #bbbbbb;
   pointer-events: none;
 }
