@@ -126,11 +126,6 @@ function WalkLeg(
                   onClick={e => {
                     e.stopPropagation();
                   }}
-                  onKeyPress={e => {
-                    if (isKeyboardSelectionEvent(e)) {
-                      e.stopPropagation();
-                    }
-                  }}
                   to={`/${PREFIX_STOPS}/${leg.from.stop.gtfsId}`}
                 >
                   {returnNotice || leg.from.name}
