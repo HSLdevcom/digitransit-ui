@@ -147,10 +147,8 @@ function ItinerarySummaryListContainer(
             className={cx('summary-list-items', {
               'summary-list-items-loading-top':
                 loadingMoreItineraries === 'top',
-              'summary-list-items-loading-bottom-desktop':
+              'summary-list-items-loading-bottom':
                 loadingMoreItineraries === 'bottom' && scrolled,
-              'summary-list-items-loading-bottom-mobile':
-                loadingMoreItineraries === 'bottom',
             })}
           >
             {summaries}
