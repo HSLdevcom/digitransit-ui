@@ -75,6 +75,7 @@ class SummaryPlanContainer extends React.Component {
     separatorPosition: PropTypes.number,
     updateSeparatorPosition: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
+    scrolled: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -786,6 +787,7 @@ class SummaryPlanContainer extends React.Component {
       showAlternativePlan,
       separatorPosition,
       loading,
+      scrolled,
     } = this.props;
     const combinedItineraries = [
       ...(earlierItineraries || []),
@@ -837,6 +839,7 @@ class SummaryPlanContainer extends React.Component {
           separatorPosition={separatorPosition}
           loadingMoreItineraries={this.state.loadingMoreItineraries}
           loading={loading}
+          scrolled={scrolled}
         >
           {this.props.children}
         </ItinerarySummaryListContainer>

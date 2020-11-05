@@ -40,6 +40,7 @@ function ItinerarySummaryListContainer(
     separatorPosition,
     loadingMoreItineraries,
     loading,
+    scrolled,
   },
   context,
 ) {
@@ -50,7 +51,7 @@ function ItinerarySummaryListContainer(
     const summaries = itineraries.map((itinerary, i) => (
       <SummaryRow
         refTime={searchTime}
-        key={i} // eslint-disable-line react/no-array-index-key
+        key={`${itinerary.startTime}-${itinerary.endTime}`}
         hash={i}
         data={itinerary}
         passive={i !== activeIndex}
@@ -137,13 +138,26 @@ function ItinerarySummaryListContainer(
           </div>
         )}
         {loadingMoreItineraries === 'top' && (
-          <div style={{ position: 'relative', height: 100 }}>
+          <div className="summary-list-spinner-container">
             <Loading />
           </div>
         )}
-        {isBrowser && summaries}
+        {isBrowser && (
+          <div
+            className={cx('summary-list-items', {
+              'summary-list-items-loading-top':
+                loadingMoreItineraries === 'top',
+              'summary-list-items-loading-bottom-desktop':
+                loadingMoreItineraries === 'bottom' && scrolled,
+              'summary-list-items-loading-bottom-mobile':
+                loadingMoreItineraries === 'bottom',
+            })}
+          >
+            {summaries}
+          </div>
+        )}
         {loadingMoreItineraries === 'bottom' && (
-          <div style={{ position: 'relative', height: 100 }}>
+          <div className="summary-list-spinner-container">
             <Loading />
           </div>
         )}
@@ -293,6 +307,7 @@ ItinerarySummaryListContainer.propTypes = {
   separatorPosition: PropTypes.number,
   loadingMoreItineraries: PropTypes.string,
   loading: PropTypes.bool.isRequired,
+  scrolled: PropTypes.bool.isRequired,
 };
 
 ItinerarySummaryListContainer.defaultProps = {
