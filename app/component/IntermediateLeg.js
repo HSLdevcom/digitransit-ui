@@ -4,7 +4,6 @@ import React from 'react';
 import Link from 'found/Link';
 import ZoneIcon from './ZoneIcon';
 import { PREFIX_STOPS } from '../util/path';
-import { isKeyboardSelectionEvent } from '../util/browser';
 import Icon from './Icon';
 
 function IntermediateLeg({
@@ -109,11 +108,6 @@ function IntermediateLeg({
         <Link
           onClick={e => {
             e.stopPropagation();
-          }}
-          onKeyPress={e => {
-            if (isKeyboardSelectionEvent(e)) {
-              e.stopPropagation();
-            }
           }}
           to={`/${PREFIX_STOPS}/${gtfsId}`}
         >
