@@ -1086,9 +1086,7 @@ class SummaryPage extends React.Component {
         this.state.bikeParkPlan?.itineraries,
       ),
     };
-    const bikeAndPublicPlan = this.filteredbikeAndPublic(
-      this.state.bikeAndPublicPlan,
-    );
+    const { bikeAndPublicPlan } = this.state;
     const itin =
       (walkPlan && walkPlan.itineraries && walkPlan.itineraries[0]) ||
       (bikePlan && bikePlan.itineraries && bikePlan.itineraries[0]) ||
@@ -1440,9 +1438,7 @@ class SummaryPage extends React.Component {
         this.state.bikeParkPlan?.itineraries,
       ),
     };
-    const bikeAndPublicPlan = this.filteredbikeAndPublic(
-      this.state.bikeAndPublicPlan,
-    );
+    const { bikeAndPublicPlan } = this.state;
     const planHasNoItineraries =
       plan &&
       plan.itineraries &&
