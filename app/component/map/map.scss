@@ -854,6 +854,16 @@ div.leaflet-control-scale-line {
   border-radius: 25px;
   bottom: 15%;
   background-color: $primary-color;
+  font-family: $font-family;
+  font-size: 18px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.6px;
+  text-align: center;
+  color: #ffffff;
+
   &.disabled {
     pointer-events: none;
     background-color: #bbbbbb;
