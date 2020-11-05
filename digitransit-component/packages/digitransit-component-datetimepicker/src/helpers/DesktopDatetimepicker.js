@@ -81,7 +81,16 @@ function DesktopDatetimepicker({
     switch (method) {
       case 'type':
         if (!disableTyping) {
-          changeDisplayValue(newValue);
+          let actualValue = newValue;
+          if (
+            actualValue.length === 3 &&
+            !Number.isNaN(Number(actualValue)) &&
+            actualValue[2] !== '.'
+          ) {
+            // add ':' if user types three numbers in a row
+            actualValue = `${actualValue.slice(0, 2)}:${actualValue[2]}`;
+          }
+          changeDisplayValue(actualValue);
         }
         break;
       case 'inputenter':
