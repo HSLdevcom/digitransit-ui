@@ -28,7 +28,7 @@
   }
 }
 
-.itinerary-summary-row:before {
+.desktop .itinerary-summary-row:before {
   content : "";
   position: absolute;
   left: 0px;
@@ -37,7 +37,7 @@
   border-left: 8px solid $primary-color;
 }
 
-.itinerary-summary-row.passive:before {
+.desktop .itinerary-summary-row.passive:before {
   content : "";
   position: absolute;
   left: 0px;
