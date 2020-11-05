@@ -40,7 +40,6 @@ function ItinerarySummaryListContainer(
     separatorPosition,
     loadingMoreItineraries,
     loading,
-    scrolled,
   },
   context,
 ) {
@@ -147,8 +146,6 @@ function ItinerarySummaryListContainer(
             className={cx('summary-list-items', {
               'summary-list-items-loading-top':
                 loadingMoreItineraries === 'top',
-              'summary-list-items-loading-bottom':
-                loadingMoreItineraries === 'bottom' && scrolled,
             })}
           >
             {summaries}
@@ -305,7 +302,6 @@ ItinerarySummaryListContainer.propTypes = {
   separatorPosition: PropTypes.number,
   loadingMoreItineraries: PropTypes.string,
   loading: PropTypes.bool.isRequired,
-  scrolled: PropTypes.bool.isRequired,
 };
 
 ItinerarySummaryListContainer.defaultProps = {

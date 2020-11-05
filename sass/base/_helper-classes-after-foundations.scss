@@ -15,6 +15,7 @@
 @media #{$large-up} {
   .momentum-scroll {
     overflow-y: auto;
+    overflow-anchor: none;
   }
 }
 
