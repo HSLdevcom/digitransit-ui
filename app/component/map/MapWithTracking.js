@@ -8,7 +8,6 @@ import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 import getContext from 'recompose/getContext';
 import isEqual from 'lodash/isEqual';
 import { startLocationWatch } from '../../action/PositionActions';
-import LazilyLoad, { importLazy } from '../LazilyLoad';
 import ComponentUsageExample from '../ComponentUsageExample';
 import MapContainer from './MapContainer';
 import ToggleMapTracking from '../ToggleMapTracking';
@@ -38,10 +37,6 @@ const onlyUpdateCoordChanges = onlyUpdateForKeys([
   'children',
   'leafletObjs',
 ]);
-
-const jsonModules = {
-  GeoJSON: () => importLazy(import(/* webpackChunkName: "map" */ './GeoJSON')),
-};
 
 const Component = onlyUpdateCoordChanges(MapContainer);
 
@@ -123,7 +118,6 @@ class MapWithTrackingStateHandler extends React.Component {
     const defaultZoom = this.focusPoint ? DEFAULT_ZOOM : FOCUS_ZOOM;
     this.state = {
       locationingOn: false,
-      geoJson: {},
       defaultMapCenter: props.defaultMapCenter,
       initialZoom: props.initialZoom ? props.initialZoom : defaultZoom,
       mapTracking: props.setInitialMapTracking,
@@ -134,37 +128,7 @@ class MapWithTrackingStateHandler extends React.Component {
     if (!isBrowser) {
       return;
     }
-    const {
-      config,
-      getGeoJsonData,
-      getGeoJsonConfig,
-      showLocationMessages,
-    } = this.props;
-    if (
-      config.geoJson &&
-      (Array.isArray(config.geoJson.layers) || config.geoJson.layerConfigUrl)
-    ) {
-      const layers = config.geoJson.layerConfigUrl
-        ? await getGeoJsonConfig(config.geoJson.layerConfigUrl)
-        : config.geoJson.layers;
-      if (Array.isArray(layers) && layers.length > 0) {
-        const json = await Promise.all(
-          layers.map(async ({ url, name, isOffByDefault, metadata }) => ({
-            url,
-            isOffByDefault,
-            data: await getGeoJsonData(url, name, metadata),
-          })),
-        );
-        if (this.isCancelled) {
-          return;
-        }
-        const { geoJson } = this.state;
-        json.forEach(({ url, data, isOffByDefault }) => {
-          geoJson[url] = { ...data, isOffByDefault };
-        });
-        this.setState(geoJson);
-      }
-    }
+    const { showLocationMessages } = this.props;
 
     if (this.focusPoint && showLocationMessages) {
       const { lat, lon } = this.focusPoint;
@@ -289,7 +253,6 @@ class MapWithTrackingStateHandler extends React.Component {
     if (mapLoaded) {
       useFitBounds = false;
     }
-    const { geoJson } = this.state;
     let location = {};
     const leafletObjs = [];
     if (this.props.leafletObjs) {
@@ -308,26 +271,6 @@ class MapWithTrackingStateHandler extends React.Component {
           ignoreMode
         />,
       );
-    }
-
-    if (geoJson) {
-      const { bounds } = this.state;
-      Object.keys(geoJson)
-        .filter(
-          key =>
-            mapLayers.geoJson[key] !== false &&
-            (mapLayers.geoJson[key] === true ||
-              geoJson[key].isOffByDefault !== true),
-        )
-        .forEach(key => {
-          leafletObjs.push(
-            <LazilyLoad modules={jsonModules} key={key}>
-              {({ GeoJSON }) => (
-                <GeoJSON bounds={bounds} data={geoJson[key].data} />
-              )}
-            </LazilyLoad>,
-          );
-        });
     }
 
     let btnClassName = 'map-with-tracking-buttons'; // DT-3470
