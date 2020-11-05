@@ -1750,7 +1750,7 @@ class SummaryPage extends React.Component {
       if (
         this.state.loading === false &&
         this.props.loadingPosition === false &&
-        (error || combinedItineraries)
+        (error || (combinedItineraries && this.props.loading === false))
       ) {
         const activeIndex =
           hash || getActiveIndex(match.location, combinedItineraries);
@@ -1836,7 +1836,11 @@ class SummaryPage extends React.Component {
           </>
         );
       } else {
-        content = null;
+        content = (
+          <div style={{ position: 'relative', height: 200 }}>
+            <Loading />
+          </div>
+        );
       }
       return (
         <DesktopView
@@ -1898,11 +1902,15 @@ class SummaryPage extends React.Component {
     let content;
 
     if (
-      (!error && !this.selectedPlan) ||
+      (!error && (!this.selectedPlan || this.props.loading === true)) ||
       this.state.loading !== false ||
       this.props.loadingPosition === true
     ) {
-      content = null;
+      content = (
+        <div style={{ position: 'relative', height: 200 }}>
+          <Loading />
+        </div>
+      );
     } else if (
       routeSelected(
         match.params.hash,
