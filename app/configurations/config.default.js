@@ -119,6 +119,7 @@ export default {
     walkReluctance: 2,
     walkSpeed: 1.2,
     includeBikeSuggestions: true,
+    includeCarSuggestions: true
   },
 
   /**
