@@ -205,6 +205,9 @@ const getTopicOptions = (context, planitineraries, match) => {
 };
 
 const getVehicleInfos = itinerary => {
+  if (!itinerary) {
+    return {};
+  }
   let itineraryVehicles = {};
   const gtfsIdsOfRouteAndDirection = [];
   const gtfsIdsOfTrip = [];
