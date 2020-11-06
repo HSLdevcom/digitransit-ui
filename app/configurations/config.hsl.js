@@ -59,7 +59,6 @@ export default {
   },
 
   defaultSettings: {
-    includeCarSuggestions: false
   },
 
   omitNonPickups: true,
@@ -502,6 +501,8 @@ export default {
   showVehiclesOnSummaryPage: true,
   showBikeAndPublicItineraries: true,
   showBikeAndParkItineraries: true,
+
+  includeCarSuggestions: false,
 
   showNearYouButtons: true,
   nearYouModes: ['bus', 'tram', 'subway', 'rail', 'ferry' /* , 'citybike' */],

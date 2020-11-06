@@ -1968,7 +1968,7 @@ class SummaryPage extends React.Component {
       !currentSettings.accessibilityOption &&
       currentSettings.includeBikeSuggestions;
 
-    const showCarOptionButton = currentSettings.includeCarSuggestions;
+    const showCarOptionButton = this.context.config.includeCarSuggestions;
 
     const showStreetModeSelector =
       (showWalkOptionButton ||
