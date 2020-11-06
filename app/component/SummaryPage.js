@@ -1422,9 +1422,10 @@ class SummaryPage extends React.Component {
 
   handleScroll = event => {
     const { scrollTop } = event.target;
-    this.setState({
-      scrolled: scrollTop > 0,
-    });
+    const scrolled = scrollTop > 0;
+    if (scrolled !== this.state.scrolled) {
+      this.setState({ scrolled });
+    }
   };
 
   render() {
@@ -1820,7 +1821,6 @@ class SummaryPage extends React.Component {
               separatorPosition={this.state.separatorPosition}
               updateSeparatorPosition={this.updateSeparatorPosition}
               loading={this.isFetchingWalkAndBike && !error}
-              scrolled={this.state.scrolled}
             >
               {this.props.content &&
                 React.cloneElement(this.props.content, {

@@ -299,25 +299,8 @@
     }
   }
 
-  @keyframes loadingBottomAnimation {
-    from {
-      transform: translateY(100px);
-    }
-    to {
-      transform: translateY(0);
-    }
-  }
-
   &-loading-top {
     animation: loadingTopAnimation 0.4s;
-  }
-
-  &-loading-bottom {
-    animation: loadingBottomAnimation 0.4s;
-
-    .mobile & {
-      animation: none;
-    }
   }
 }
 
