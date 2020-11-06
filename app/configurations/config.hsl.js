@@ -459,7 +459,8 @@ export default {
     showLayerSelector: false, // DT-3470
     showStopMarkerPopupOnMobile: false, // DT-3470
     showScaleBar: true, // DT-3470, DT-3397
-    showOSMCopyright: true, // DT-3470, DT-3397
+    attribution:
+      '<a tabindex="-1" href="http://osm.org/copyright">© OpenStreetMap</a>', // DT-3470, DT-3397
   },
 
   stopCard: {
