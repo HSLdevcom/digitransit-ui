@@ -248,6 +248,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
         intermediatePlaceLocations,
       ) < config.suggestBikeMaxDistance &&
       includeBikeSuggestions,
+    shouldMakeCarQuery: defaultSettings.includeCarSuggestions,
     showBikeAndPublicItineraries:
       !wheelchair &&
       config.showBikeAndPublicItineraries &&

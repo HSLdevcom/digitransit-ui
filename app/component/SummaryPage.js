@@ -480,6 +480,7 @@ class SummaryPage extends React.Component {
         $locale: String
         $shouldMakeWalkQuery: Boolean!
         $shouldMakeBikeQuery: Boolean!
+        $shouldMakeCarQuery: Boolean!
         $showBikeAndPublicItineraries: Boolean!
         $showBikeAndParkItineraries: Boolean!
         $bikeAndPublicModes: [TransportMode!]
@@ -681,7 +682,6 @@ class SummaryPage extends React.Component {
           walkSpeed: $walkSpeed
           maxWalkDistance: $bikeAndPublicMaxWalkDistance
           allowedTicketTypes: $ticketTypes
-          disableRemainingWeightHeuristic: $bikeandPublicDisableRemainingWeightHeuristic
           arriveBy: $arriveBy
           transferPenalty: $transferPenalty
           bikeSpeed: $bikeSpeed
@@ -689,7 +689,7 @@ class SummaryPage extends React.Component {
           itineraryFiltering: $itineraryFiltering
           unpreferred: $unpreferred
           locale: $locale
-        ) @include(if: $showBikeAndParkItineraries) {
+        ) @include(if: $shouldMakeCarQuery) {
           ...SummaryPlanContainer_plan
           ...ItineraryTab_plan
           itineraries {
@@ -2418,6 +2418,7 @@ class SummaryPage extends React.Component {
                   showWalkOptionButton={showWalkOptionButton}
                   showBikeOptionButton={showBikeOptionButton}
                   showBikeAndPublicOptionButton={showBikeAndPublicOptionButton}
+                  showCarOptionButton={showCarOptionButton}
                   toggleStreetMode={this.toggleStreetMode}
                   setStreetModeAndSelect={this.setStreetModeAndSelect}
                   weatherData={this.state.weatherData}
@@ -2425,7 +2426,7 @@ class SummaryPage extends React.Component {
                   bikePlan={bikePlan}
                   bikeAndPublicPlan={bikeAndPublicPlan}
                   bikeParkPlan={bikeParkPlan}
-                  carPlan={this.state.carPlan}
+                  carPlan={carPlan}
                   loading={
                     this.props.loading ||
                     this.isFetchingWalkAndBike ||
