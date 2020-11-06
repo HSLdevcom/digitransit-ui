@@ -770,6 +770,7 @@ export default {
 
   includeBikeSuggestions: true,
   includeCarSuggestions: true,
+  includeParkAndRideSuggestions: true,
 
   showNearYouButtons: false,
   nearYouModes: [],

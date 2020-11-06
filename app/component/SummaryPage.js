@@ -124,7 +124,7 @@ export const getHashNumber = hash => {
 };
 
 export const routeSelected = (hash, secondHash, itineraries) => {
-  if (hash === 'bikeAndVehicle') {
+  if (hash === 'bikeAndVehicle' || hash === 'parkAndRide') {
     if (secondHash && secondHash < itineraries.length) {
       return true;
     }
@@ -310,7 +310,9 @@ class SummaryPage extends React.Component {
       this.props.match.params.hash &&
       (this.props.match.params.hash === 'walk' ||
         this.props.match.params.hash === 'bike' ||
-        this.props.match.params.hash === 'bikeAndVehicle')
+        this.props.match.params.hash === 'bikeAndVehicle' ||
+        this.props.match.params.hash === 'parkAndRide'
+  )
     ) {
       existingStreetMode = this.props.match.params.hash;
     } else {
@@ -334,6 +336,7 @@ class SummaryPage extends React.Component {
       bikeAndPublicPlan: undefined,
       bikeParkPlan: undefined,
       carPlan: undefined,
+      parkRidePlan: undefined,
       scrolled: false,
     };
     if (this.state.streetMode === 'walk') {
@@ -349,6 +352,8 @@ class SummaryPage extends React.Component {
       };
     } else if (this.state.streetMode === 'car') {
       this.selectedPlan = this.state.carPlan;
+    } else if (this.state.streetMode === 'parkAndRide') {
+      this.selectedPlan = this.state.parkRidePlan;
     } else {
       this.selectedPlan = this.props.viewer && this.props.viewer.plan;
     }
@@ -606,6 +611,7 @@ class SummaryPage extends React.Component {
         $shouldMakeWalkQuery: Boolean!
         $shouldMakeBikeQuery: Boolean!
         $shouldMakeCarQuery: Boolean!
+        $shouldMakeParkRideQuery: Boolean!
         $showBikeAndPublicItineraries: Boolean!
         $showBikeAndParkItineraries: Boolean!
         $bikeAndPublicModes: [TransportMode!]
@@ -853,6 +859,67 @@ class SummaryPage extends React.Component {
             }
           }
         }
+
+        parkRidePlan: plan(
+          fromPlace: $fromPlace
+          toPlace: $toPlace
+          intermediatePlaces: $intermediatePlaces
+          numItineraries: 6
+          transportModes: [{ mode: CAR, qualifier: PARK }, { mode: TRANSIT }]
+          date: $date
+          time: $time
+          walkReluctance: $walkReluctance
+          walkBoardCost: $walkBoardCost
+          minTransferTime: $minTransferTime
+          walkSpeed: $walkSpeed
+          maxWalkDistance: $bikeAndPublicMaxWalkDistance
+          allowedTicketTypes: $ticketTypes
+          arriveBy: $arriveBy
+          transferPenalty: $transferPenalty
+          bikeSpeed: $bikeSpeed
+          optimize: $optimize
+          itineraryFiltering: $itineraryFiltering
+          unpreferred: $unpreferred
+          locale: $locale
+        ) @include(if: $shouldMakeParkRideQuery) {
+          ...SummaryPlanContainer_plan
+          ...ItineraryTab_plan
+          itineraries {
+            duration
+            startTime
+            endTime
+            ...ItineraryTab_itinerary
+            ...SummaryPlanContainer_itineraries
+            legs {
+              mode
+              ...ItineraryLine_legs
+              transitLeg
+              legGeometry {
+                points
+              }
+              route {
+                gtfsId
+              }
+              trip {
+                gtfsId
+                directionId
+                stoptimesForDate {
+                  scheduledDeparture
+                }
+                pattern {
+                  ...RouteLine_pattern
+                }
+              }
+              to {
+                bikePark {
+                  bikeParkId
+                  name
+                }
+              }
+              distance
+            }
+          }
+        }
       }
     `;
 
@@ -870,6 +937,7 @@ class SummaryPage extends React.Component {
           bikeAndPublicPlan: result.bikeAndPublicPlan,
           bikeParkPlan: result.bikeParkPlan,
           carPlan: result.carPlan,
+          parkRidePlan: result.parkRidePlan,
         },
         () => {
           this.makeWeatherQuery();
@@ -1039,7 +1107,8 @@ class SummaryPage extends React.Component {
       (this.props.match.params.hash === 'walk' ||
         this.props.match.params.hash === 'bike' ||
         this.props.match.params.hash === 'bikeAndVehicle' ||
-        this.props.match.params.hash === 'car')
+        this.props.match.params.hash === 'car' ||
+        this.props.match.params.hash === 'parkAndRide')
     ) {
       // Reset url and thus streetmode if intermediate places change
       if (
@@ -1096,6 +1165,7 @@ class SummaryPage extends React.Component {
         bikeAndPublicPlan: undefined,
         bikeParkPlan: undefined,
         carPlan: undefined,
+        parkRidePlan: undefined,
         earlierItineraries: [],
         laterItineraries: [],
         weatherData: {},
@@ -1582,7 +1652,7 @@ class SummaryPage extends React.Component {
 
   render() {
     const { match, error } = this.props;
-    const { walkPlan, bikePlan, carPlan } = this.state;
+    const { walkPlan, bikePlan, carPlan, parkRidePlan } = this.state;
 
     const plan = this.props.viewer && this.props.viewer.plan;
 
@@ -1662,6 +1732,12 @@ class SummaryPage extends React.Component {
         return <Loading />;
       }
       this.selectedPlan = carPlan;
+    } else if (this.state.streetMode === 'parkAndRide') {
+      this.stopClient();
+      if (!parkRidePlan) {
+        return <Loading />;
+      }
+      this.selectedPlan = parkRidePlan;
     } else if (
       planHasNoItineraries &&
       hasAlternativeItineraries &&
@@ -1720,6 +1796,8 @@ class SummaryPage extends React.Component {
       currentSettings.includeBikeSuggestions;
 
     const showCarOptionButton = this.context.config.includeCarSuggestions;
+    const showParkRideOptionButton = this.context.config
+      .includeParkAndRideSuggestions;
 
     const showStreetModeSelector =
       (showWalkOptionButton ||
@@ -2018,6 +2096,7 @@ class SummaryPage extends React.Component {
                   showBikeOptionButton={showBikeOptionButton}
                   showBikeAndPublicOptionButton={showBikeAndPublicOptionButton}
                   showCarOptionButton={showCarOptionButton}
+                  showParkRideOptionButton={showParkRideOptionButton}
                   toggleStreetMode={this.toggleStreetMode}
                   setStreetModeAndSelect={this.setStreetModeAndSelect}
                   weatherData={this.state.weatherData}
@@ -2026,6 +2105,7 @@ class SummaryPage extends React.Component {
                   bikeAndPublicPlan={bikeAndPublicPlan}
                   bikeParkPlan={bikeParkPlan}
                   carPlan={carPlan}
+                  parkRidePlan={parkRidePlan}
                   loading={
                     this.props.loading ||
                     this.isFetchingWalkAndBike ||
@@ -2154,6 +2234,7 @@ class SummaryPage extends React.Component {
                   showBikeOptionButton={showBikeOptionButton}
                   showBikeAndPublicOptionButton={showBikeAndPublicOptionButton}
                   showCarOptionButton={showCarOptionButton}
+                  showParkRideOptionButton={showParkRideOptionButton}
                   toggleStreetMode={this.toggleStreetMode}
                   setStreetModeAndSelect={this.setStreetModeAndSelect}
                   weatherData={this.state.weatherData}
@@ -2162,6 +2243,7 @@ class SummaryPage extends React.Component {
                   bikeAndPublicPlan={bikeAndPublicPlan}
                   bikeParkPlan={bikeParkPlan}
                   carPlan={carPlan}
+                  parkRidePlan={parkRidePlan}
                   loading={
                     this.props.loading ||
                     this.isFetchingWalkAndBike ||

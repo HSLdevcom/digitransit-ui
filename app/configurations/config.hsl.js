@@ -58,9 +58,6 @@ export default {
     bucketSize: 100,
   },
 
-  defaultSettings: {
-  },
-
   omitNonPickups: true,
 
   maxWalkDistance: 2500,
@@ -522,6 +519,7 @@ export default {
   showBikeAndParkItineraries: true,
 
   includeCarSuggestions: false,
+  includeParkAndRideSuggestions: true,
 
   showNearYouButtons: true,
   nearYouModes: ['bus', 'tram', 'subway', 'rail', 'ferry' /* , 'citybike' */],
