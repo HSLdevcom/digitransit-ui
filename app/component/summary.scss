@@ -408,10 +408,10 @@
     transform: rotate(180deg);
   }
 
-  &.earlier {
+  &.top-btn {
     font-size: 13px;
   }
-  &.later {
+  &.bottom-btn {
     border-top: 1px solid #ddd;
     font-size: $font-size-normal;
     height: 50px;

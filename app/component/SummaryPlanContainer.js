@@ -742,7 +742,9 @@ class SummaryPlanContainer extends React.Component {
             id: 'set-time-later-button-label',
             defaultMessage: 'Set travel time to later',
           })}
-          className="time-navigation-btn later"
+          className={`time-navigation-btn ${
+            reversed ? 'top-btn' : 'bottom-btn'
+          }`}
           onClick={() => this.onLater(reversed)}
         >
           <Icon
@@ -768,7 +770,9 @@ class SummaryPlanContainer extends React.Component {
             id: 'set-time-earlier-button-label',
             defaultMessage: 'Set travel time to earlier',
           })}
-          className="time-navigation-btn earlier"
+          className={`time-navigation-btn ${
+            reversed ? 'bottom-btn' : 'top-btn'
+          }`}
           onClick={() => this.onEarlier(reversed)}
         >
           <Icon
