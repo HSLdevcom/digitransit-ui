@@ -1,5 +1,4 @@
 /* eslint-disable no-nested-ternary */
-/* eslint-disable no-console */
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -403,6 +402,13 @@ class SummaryPlanContainer extends React.Component {
           this.setState({
             loadingMoreItineraries: undefined,
           });
+          this.context.router.replace({
+            ...this.context.match.location,
+            state: {
+              ...this.context.match.location.state,
+              summaryPageSelected: undefined,
+            },
+          });
         } else {
           this.props.addLaterItineraries(result.itineraries);
           this.setState({
@@ -700,6 +706,13 @@ class SummaryPlanContainer extends React.Component {
           );
           this.setState({
             loadingMoreItineraries: undefined,
+          });
+          this.context.router.replace({
+            ...this.context.match.location,
+            state: {
+              ...this.context.match.location.state,
+              summaryPageSelected: undefined,
+            },
           });
         }
       },
