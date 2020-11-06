@@ -235,7 +235,7 @@ export const preparePlanParams = config => (
         intermediatePlaceLocations,
       ) < config.suggestBikeMaxDistance &&
       includeBikeSuggestions,
-    shouldMakeCarQuery: defaultSettings.includeCarSuggestions,
+    shouldMakeCarQuery: config.includeCarSuggestions,
     showBikeAndPublicItineraries:
       !wheelchair &&
       config.showBikeAndPublicItineraries &&
