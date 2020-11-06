@@ -58,6 +58,10 @@ export default {
     bucketSize: 100,
   },
 
+  defaultSettings: {
+    includeCarSuggestions: false
+  },
+
   omitNonPickups: true,
 
   maxWalkDistance: 2500,
