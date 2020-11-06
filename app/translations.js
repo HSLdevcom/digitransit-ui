@@ -436,7 +436,7 @@ const translations = {
     'itinerary-summary-page.title': 'Routenvorschläge',
     'itinerary-summary-row.first-leg-start-time': 'Fährt ab um {firstDepartureTime} {firstDepartureStopType} {firstDepartureStop}',
     'itinerary-summary-row.first-leg-start-time-citybike': 'Abfahrt um {firstDepartureTime} von {firstDepartureStop} Leihrad-Station',
-    'itinerary-summary-row.no-transit-legs': 'Brechen Sie auf, wann es Ihnen beliebt',
+    'itinerary-summary-row.no-transit-legs': 'Start jederzeit möglich',
     'itinerary-summary-row.biking-distance':
       'Gesamte Fahrradstrecke: {totalDistance}.',
     'itinerary-summary-row.clickable-area-description': 'Auf der Karte zeigen',
@@ -467,7 +467,7 @@ const translations = {
     'likely-to-use':
       'Wie wahrscheinlich würden Sie weiterhin diesen Service anstatt des bisherigen Services nutzen?',
     loading: 'laden',
-    'localadmin': 'Ört',
+    'localadmin': 'Ort',
     locate: 'Lokalisieren',
     'location-examples': 'z.B. Zuhause, Arbeit, Schule,...',
     'location-from-map': 'Gewählte Position',
@@ -651,7 +651,7 @@ const translations = {
     'select-date': 'Datum auswählen',
     'select-from-map-destination': 'Ziel wählen',
     'select-from-map-no-title': 'Kein Titel',
-    'select-from-map-origin': 'Abfahrsortt wählen',
+    'select-from-map-origin': 'Abfahrsort wählen',
     'select-from-map-viaPoint': 'Zwischenstopp wählen',
     'select-map-layers-header': 'Was soll auf der Karte angezeigt werden?',
     'select-position': 'Standort aus vorherigen Suchen wählen',
