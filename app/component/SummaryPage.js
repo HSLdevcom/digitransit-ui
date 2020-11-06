@@ -292,6 +292,7 @@ class SummaryPage extends React.Component {
       bikePlan: undefined,
       bikeAndPublicPlan: undefined,
       bikeParkPlan: undefined,
+      scrolled: false,
     };
     if (this.state.streetMode === 'walk') {
       this.selectedPlan = this.state.walkPlan;
@@ -1085,9 +1086,7 @@ class SummaryPage extends React.Component {
         this.state.bikeParkPlan?.itineraries,
       ),
     };
-    const bikeAndPublicPlan = this.filteredbikeAndPublic(
-      this.state.bikeAndPublicPlan,
-    );
+    const { bikeAndPublicPlan } = this.state;
     const itin =
       (walkPlan && walkPlan.itineraries && walkPlan.itineraries[0]) ||
       (bikePlan && bikePlan.itineraries && bikePlan.itineraries[0]) ||
@@ -1421,6 +1420,14 @@ class SummaryPage extends React.Component {
     );
   };
 
+  handleScroll = event => {
+    const { scrollTop } = event.target;
+    const scrolled = scrollTop > 0;
+    if (scrolled !== this.state.scrolled) {
+      this.setState({ scrolled });
+    }
+  };
+
   render() {
     const { match, error } = this.props;
     const { walkPlan, bikePlan } = this.state;
@@ -1432,9 +1439,7 @@ class SummaryPage extends React.Component {
         this.state.bikeParkPlan?.itineraries,
       ),
     };
-    const bikeAndPublicPlan = this.filteredbikeAndPublic(
-      this.state.bikeAndPublicPlan,
-    );
+    const { bikeAndPublicPlan } = this.state;
     const planHasNoItineraries =
       plan &&
       plan.itineraries &&
@@ -1742,8 +1747,7 @@ class SummaryPage extends React.Component {
       if (
         this.state.loading === false &&
         this.props.loadingPosition === false &&
-        this.props.loading === false &&
-        (error || combinedItineraries)
+        (error || (combinedItineraries && this.props.loading === false))
       ) {
         const activeIndex =
           hash || getActiveIndex(match.location, combinedItineraries);
@@ -1816,7 +1820,7 @@ class SummaryPage extends React.Component {
               addEarlierItineraries={this.addEarlierItineraries}
               separatorPosition={this.state.separatorPosition}
               updateSeparatorPosition={this.updateSeparatorPosition}
-              loading={this.isFetchingWalkAndBike}
+              loading={this.isFetchingWalkAndBike && !error}
             >
               {this.props.content &&
                 React.cloneElement(this.props.content, {
@@ -1828,7 +1832,11 @@ class SummaryPage extends React.Component {
           </>
         );
       } else {
-        content = null;
+        content = (
+          <div style={{ position: 'relative', height: 200 }}>
+            <Loading />
+          </div>
+        );
       }
       return (
         <DesktopView
@@ -1847,7 +1855,9 @@ class SummaryPage extends React.Component {
                 endTime={latestArrivalTime}
                 toggleSettings={this.toggleCustomizeSearchOffcanvas}
               />
-              {!this.isFetchingWalkAndBike && !showStreetModeSelector ? null : (
+              {error ||
+              (!this.isFetchingWalkAndBike &&
+                !showStreetModeSelector) ? null : (
                 <StreetModeSelector
                   showWalkOptionButton={showWalkOptionButton}
                   showBikeOptionButton={showBikeOptionButton}
@@ -1860,6 +1870,7 @@ class SummaryPage extends React.Component {
                   bikeAndPublicPlan={bikeAndPublicPlan}
                   bikeParkPlan={bikeParkPlan}
                   loading={
+                    this.props.loading ||
                     this.isFetchingWalkAndBike ||
                     (!this.state.weatherData.temperature &&
                       !this.state.weatherData.err)
@@ -1877,6 +1888,8 @@ class SummaryPage extends React.Component {
           }
           map={map}
           scrollable
+          scrolled={this.state.scrolled}
+          onScroll={this.handleScroll}
           bckBtnColor={this.context.config.colors.primary}
         />
       );
@@ -1885,12 +1898,15 @@ class SummaryPage extends React.Component {
     let content;
 
     if (
-      (!error && !this.selectedPlan) ||
+      (!error && (!this.selectedPlan || this.props.loading === true)) ||
       this.state.loading !== false ||
-      this.props.loading !== false ||
       this.props.loadingPosition === true
     ) {
-      content = null;
+      content = (
+        <div style={{ position: 'relative', height: 200 }}>
+          <Loading />
+        </div>
+      );
     } else if (
       routeSelected(
         match.params.hash,
@@ -1950,7 +1966,7 @@ class SummaryPage extends React.Component {
             addEarlierItineraries={this.addEarlierItineraries}
             separatorPosition={this.state.separatorPosition}
             updateSeparatorPosition={this.updateSeparatorPosition}
-            loading={this.isFetchingWalkAndBike}
+            loading={this.isFetchingWalkAndBike && !error}
           />
           {screenReaderUpdateAlert}
         </>
@@ -1973,7 +1989,9 @@ class SummaryPage extends React.Component {
                 endTime={latestArrivalTime}
                 toggleSettings={this.toggleCustomizeSearchOffcanvas}
               />
-              {!this.isFetchingWalkAndBike && !showStreetModeSelector ? null : (
+              {error ||
+              (!this.isFetchingWalkAndBike &&
+                !showStreetModeSelector) ? null : (
                 <StreetModeSelector
                   showWalkOptionButton={showWalkOptionButton}
                   showBikeOptionButton={showBikeOptionButton}
@@ -1986,6 +2004,7 @@ class SummaryPage extends React.Component {
                   bikeAndPublicPlan={bikeAndPublicPlan}
                   bikeParkPlan={bikeParkPlan}
                   loading={
+                    this.props.loading ||
                     this.isFetchingWalkAndBike ||
                     (!this.state.weatherData.temperature &&
                       !this.state.weatherData.err)

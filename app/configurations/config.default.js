@@ -768,7 +768,6 @@ export default {
   trafficNowLink: '',
 
   timetables: {},
-  showLogin: !!process.env.OIDC_CLIENT_ID,
 
   // DT-3611
   showVehiclesOnSummaryPage: false,

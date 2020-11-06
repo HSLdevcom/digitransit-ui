@@ -205,6 +205,9 @@ export const navigateTo = ({
     url.query.time = moment().unix();
   }
 
+  // clean up temporary parameters
+  delete url.query.fromMap;
+
   if (push) {
     router.push(url);
   } else {

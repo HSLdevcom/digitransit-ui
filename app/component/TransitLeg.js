@@ -348,11 +348,6 @@ class TransitLeg extends React.Component {
                     name: mode,
                   });
                 }}
-                onKeyPress={e => {
-                  if (isKeyboardSelectionEvent(e)) {
-                    e.stopPropagation();
-                  }
-                }}
                 to={`/${PREFIX_STOPS}/${leg.from.stop.gtfsId}`}
               >
                 {leg.from.name}

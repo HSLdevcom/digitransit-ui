@@ -38,6 +38,7 @@ export default function withSearchContext(WrappedComponent) {
       onFavouriteSelected: PropTypes.func,
       locationState: PropTypes.object,
       mode: PropTypes.string,
+      fromMap: PropTypes.string,
     };
 
     constructor(props) {
@@ -47,6 +48,7 @@ export default function withSearchContext(WrappedComponent) {
         pendingCurrentLocation: false,
         isInitialized: false,
         positioningSelectedFrom: '',
+        fromMap: this.props.fromMap,
       };
     }
 
@@ -213,19 +215,6 @@ export default function withSearchContext(WrappedComponent) {
       }
     };
 
-    openSelectFromMapModal = id => {
-      this.setState({
-        showModal: true,
-        type: id,
-      });
-    };
-
-    closeSelectFromMapModal = () => {
-      this.setState({
-        showModal: false,
-      });
-    };
-
     selectLocation = (location, id) => {
       if (!location) {
         return;
@@ -323,7 +312,7 @@ export default function withSearchContext(WrappedComponent) {
           resetIndex: true,
         });
       } else {
-        this.openSelectFromMapModal(id);
+        this.setState({ fromMap: id });
       }
     };
 
@@ -376,9 +365,7 @@ export default function withSearchContext(WrappedComponent) {
     };
 
     confirmMapSelection = (type, mapLocation) => {
-      this.setState({
-        showModal: false,
-      });
+      this.setState({ fromMap: undefined });
       this.selectLocation(mapLocation, type);
     };
 
@@ -397,7 +384,7 @@ export default function withSearchContext(WrappedComponent) {
         <DTModal show>
           <SelectFromMapHeader
             titleId={titleId}
-            onBackBtnClick={this.closeSelectFromMapModal}
+            onBackBtnClick={() => this.setState({ fromMap: undefined })}
           />
           <SelectFromMapPageMap
             type={id}
@@ -408,10 +395,10 @@ export default function withSearchContext(WrappedComponent) {
     };
 
     render() {
-      const { showModal, type } = this.state;
+      const { fromMap } = this.state;
 
-      if (showModal) {
-        return this.renderSelectFromMapModal(type);
+      if (fromMap) {
+        return this.renderSelectFromMapModal(fromMap);
       }
       return (
         <WrappedComponent
