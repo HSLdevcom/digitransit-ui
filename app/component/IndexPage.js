@@ -436,7 +436,7 @@ const processLocation = (locationString, locationState, intl) => {
 
 const IndexPageWithPosition = connectToStores(
   IndexPageWithBreakpoint,
-  ['PositionStore', 'ViaPointsStore', 'TimeStore'],
+  ['PositionStore', 'TimeStore'],
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
     const currentTime = context.getStore('TimeStore').getCurrentTime().unix();

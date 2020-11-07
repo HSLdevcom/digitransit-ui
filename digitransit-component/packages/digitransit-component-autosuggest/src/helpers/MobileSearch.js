@@ -171,14 +171,13 @@ const MobileSearch = ({
         {renderDialogModal()}
       </div>
     );
-  } else {
-    return (
-      <div className={styles['fullscreen-root']}>
-        {renderContent()}
-        {renderDialogModal()}
-      </div>
-    );
   }
+  return (
+    <div className={styles['fullscreen-root']}>
+      {renderContent()}
+      {renderDialogModal()}
+    </div>
+  );
 };
 
 MobileSearch.propTypes = {

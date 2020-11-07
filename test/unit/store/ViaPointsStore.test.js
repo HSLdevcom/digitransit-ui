@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 
-import ViaPointsStore from '../../../app/store/ViaPointsStore';
+import ViaPointStore from '../../../app/store/ViaPointStore';
 
 describe('ViaPointsStore', () => {
-  it('Should update the updateViapoints call', () => {
-    const store = new ViaPointsStore();
-    store.updateViaPointsFromMap(true);
-    expect(store.getViaPoints()).to.deep.equal(true);
+  it('Should store via points', () => {
+    const store = new ViaPointStore();
+    store.addViaPoint({ via: 'point' });
+    expect(store.getViaPoints()[0].via).to.deep.equal('point');
   });
 });
