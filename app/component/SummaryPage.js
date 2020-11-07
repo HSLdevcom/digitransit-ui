@@ -165,7 +165,10 @@ const getTopicOptions = (context, planitineraries, match) => {
     planitineraries.every(itinerary => itinerary !== undefined)
       ? planitineraries
       : [];
-  const activeIndex = getActiveIndex(match.location, itineraries);
+  const activeIndex =
+    getHashNumber(
+      match.params.secondHash ? match.params.secondHash : match.params.hash,
+    ) || getActiveIndex(match.location, itineraries);
   const itineraryTopics = [];
 
   if (itineraries.length > 0) {
@@ -200,6 +203,37 @@ const getTopicOptions = (context, planitineraries, match) => {
   }
   return itineraryTopics;
 };
+
+const getVehicleInfos = itinerary => {
+  if (!itinerary) {
+    return {};
+  }
+  let itineraryVehicles = {};
+  const gtfsIdsOfRouteAndDirection = [];
+  const gtfsIdsOfTrip = [];
+  const startTimes = [];
+
+  itinerary.legs.forEach(leg => {
+    if (leg.transitLeg && leg.trip) {
+      gtfsIdsOfTrip.push(leg.trip.gtfsId);
+      startTimes.push(
+        getStartTime(leg.trip.stoptimesForDate[0].scheduledDeparture),
+      );
+      gtfsIdsOfRouteAndDirection.push(
+        `${leg.route.gtfsId}_${leg.trip.directionId}`,
+      );
+    }
+  });
+  if (startTimes.length > 0) {
+    itineraryVehicles = {
+      gtfsIdsOfTrip,
+      gtfsIdsOfRouteAndDirection,
+      startTimes,
+    };
+  }
+  return itineraryVehicles;
+};
+
 class SummaryPage extends React.Component {
   static contextTypes = {
     config: PropTypes.object,
@@ -310,9 +344,10 @@ class SummaryPage extends React.Component {
     }
 
     if (this.showVehicles()) {
+      const combinedItineraries = this.getCombinedItineraries();
       const itineraryTopics = getTopicOptions(
         this.context,
-        this.selectedPlan?.itineraries,
+        combinedItineraries,
         this.props.match,
       );
       if (itineraryTopics && itineraryTopics.length > 0) {
@@ -478,11 +513,19 @@ class SummaryPage extends React.Component {
     }
   };
 
-  updateClient = itineraryTopics => {
+  updateClient = (itineraryTopics, itineraryVehicles) => {
     const { client, topics } = this.context.getStore(
       'RealTimeInformationStore',
     );
 
+    this.context.getStore(
+      'RealTimeInformationStore',
+    ).storedItineraryVehicleInfos = itineraryVehicles;
+
+    if (isEmpty(itineraryTopics) && client) {
+      this.stopClient();
+      return;
+    }
     if (client) {
       const clientConfig = this.configClient(itineraryTopics);
       if (clientConfig) {
@@ -1004,14 +1047,23 @@ class SummaryPage extends React.Component {
       reportError(this.props.error);
     }
     if (this.showVehicles()) {
+      const combinedItineraries = this.getCombinedItineraries();
       const itineraryTopics = getTopicOptions(
         this.context,
-        this.selectedPlan?.itineraries,
+        combinedItineraries,
         this.props.match,
       );
-      if (itineraryTopics && itineraryTopics.length > 0) {
-        this.updateClient(itineraryTopics);
-      }
+      const activeIndex =
+        getHashNumber(
+          this.props.match.params.secondHash
+            ? this.props.match.params.secondHash
+            : this.props.match.params.hash,
+        ) || getActiveIndex(this.props.match.location, combinedItineraries);
+      const itineraryVehicles =
+        combinedItineraries.length > 0
+          ? getVehicleInfos(combinedItineraries[activeIndex])
+          : {};
+      this.updateClient(itineraryTopics, itineraryVehicles);
     }
   }
 
@@ -1185,11 +1237,7 @@ class SummaryPage extends React.Component {
       config: { defaultEndpoint },
     } = this.context;
 
-    const combinedItineraries = [
-      ...(this.state.earlierItineraries || []),
-      ...(this.selectedPlan.itineraries || []),
-      ...(this.state.laterItineraries || []),
-    ];
+    const combinedItineraries = this.getCombinedItineraries();
     let filteredItineraries;
     if (combinedItineraries && combinedItineraries.length > 0) {
       filteredItineraries = combinedItineraries.filter(
@@ -1199,7 +1247,10 @@ class SummaryPage extends React.Component {
       filteredItineraries = [];
     }
 
-    const activeIndex = getActiveIndex(match.location, filteredItineraries);
+    const activeIndex =
+      getHashNumber(
+        match.params.secondHash ? match.params.secondHash : match.params.hash,
+      ) || getActiveIndex(match.location, filteredItineraries);
     const from = otpToLocation(match.params.from);
     const to = otpToLocation(match.params.to);
 
@@ -1303,31 +1354,11 @@ class SummaryPage extends React.Component {
       [centerPoint.lat + delta, centerPoint.lon + delta],
     ];
 
-    let itineraryVehicles = {};
-    const gtfsIdsOfRouteAndDirection = [];
-    const gtfsIdsOfTrip = [];
-    const startTimes = [];
+    const itineraryVehicles =
+      filteredItineraries.length > 0
+        ? getVehicleInfos(filteredItineraries[activeIndex])
+        : {};
 
-    if (filteredItineraries.length > 0) {
-      filteredItineraries[activeIndex].legs.forEach(leg => {
-        if (leg.transitLeg && leg.trip) {
-          gtfsIdsOfTrip.push(leg.trip.gtfsId);
-          startTimes.push(
-            getStartTime(leg.trip.stoptimesForDate[0].scheduledDeparture),
-          );
-          gtfsIdsOfRouteAndDirection.push(
-            `${leg.route.gtfsId}_${leg.trip.directionId}`,
-          );
-        }
-      });
-    }
-    if (startTimes.length > 0) {
-      itineraryVehicles = {
-        gtfsIdsOfTrip,
-        gtfsIdsOfRouteAndDirection,
-        startTimes,
-      };
-    }
     this.context.getStore(
       'RealTimeInformationStore',
     ).storedItineraryVehicleInfos = itineraryVehicles;
@@ -1426,6 +1457,14 @@ class SummaryPage extends React.Component {
     if (scrolled !== this.state.scrolled) {
       this.setState({ scrolled });
     }
+  };
+
+  getCombinedItineraries = () => {
+    return [
+      ...(this.state.earlierItineraries || []),
+      ...(this.selectedPlan.itineraries || []),
+      ...(this.state.laterItineraries || []),
+    ];
   };
 
   render() {
@@ -1605,11 +1644,7 @@ class SummaryPage extends React.Component {
         });
       }
     }
-    let combinedItineraries = [
-      ...(this.state.earlierItineraries || []),
-      ...(this.selectedPlan.itineraries || []),
-      ...(this.state.laterItineraries || []),
-    ];
+    let combinedItineraries = this.getCombinedItineraries();
 
     if (
       combinedItineraries &&
