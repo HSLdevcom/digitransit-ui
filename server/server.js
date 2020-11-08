@@ -18,14 +18,14 @@ const proxy = require('express-http-proxy');
 
 global.self = { fetch: global.fetch };
 
-let Raven;
+let Sentry;
 const devhost = '';
 
 if (process.env.NODE_ENV === 'production' && process.env.SENTRY_SECRET_DSN) {
-  Raven = require('raven');
-  Raven.config(process.env.SENTRY_SECRET_DSN, {
-    captureUnhandledRejections: true,
-  }).install();
+  Sentry = require('@sentry/node');
+  Sentry.init({
+    dsn: process.env.SENTRY_SECRET_DSN,
+  });
 } else {
   process.on('unhandledRejection', (reason, p) => {
     console.log('Unhandled Rejection at:', p, 'reason:', reason);
@@ -126,15 +126,15 @@ function onError(err, req, res) {
   res.end(err.message + err.stack);
 }
 
-function setUpRaven() {
+function setUpSentry() {
   if (process.env.NODE_ENV === 'production' && process.env.SENTRY_SECRET_DSN) {
-    app.use(Raven.requestHandler());
+    app.use(Sentry.Handlers.requestHandler());
   }
 }
 
 function setUpErrorHandling() {
   if (process.env.NODE_ENV === 'production' && process.env.SENTRY_SECRET_DSN) {
-    app.use(Raven.errorHandler());
+    app.use(Sentry.Handlers.errorHandler());
   }
 
   app.use(onError);
@@ -272,7 +272,7 @@ function startServer() {
 if (process.env.OIDC_CLIENT_ID) {
   setUpOpenId();
 }
-setUpRaven();
+setUpSentry();
 setUpStaticFolders();
 setUpMiddleware();
 setUpRoutes();

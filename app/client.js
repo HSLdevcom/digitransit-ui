@@ -29,7 +29,7 @@ import { setRelayEnvironment } from '@digitransit-search-util/digitransit-search
 
 import { historyMiddlewares, render } from './routes';
 
-import Raven from './util/Raven';
+import Sentry from './util/Sentry';
 import configureMoment from './util/configure-moment';
 import StoreListeningIntlProvider from './util/StoreListeningIntlProvider';
 import MUITheme from './MuiTheme';
@@ -57,18 +57,18 @@ window.debug = debug; // Allow _debug.enable('*') in browser console
 // TODO: this is an ugly hack, but required due to cyclical processing in app
 const { config } = window.state.context.plugins['extra-context-plugin'];
 const app = appCreator(config);
-const raven = Raven(config.SENTRY_DSN);
-const addRaven = c => {
-  c.raven = raven; // eslint-disable-line no-param-reassign
+const sentry = Sentry(config.SENTRY_DSN);
+const addSentry = c => {
+  c.sentry = sentry; // eslint-disable-line no-param-reassign
 };
 
-const ravenPlugin = {
-  name: 'RavenPlugin',
-  plugContext: plugContext(addRaven),
+const sentryPlugin = {
+  name: 'SentryPlugin',
+  plugContext: plugContext(addSentry),
 };
 
 // Add plugins
-app.plug(ravenPlugin);
+app.plug(sentryPlugin);
 
 const getParams = query => {
   if (!query) {
@@ -215,7 +215,7 @@ async function init() {
   });
 
   const ContextProvider = provideContext(StoreListeningIntlProvider, {
-    raven: PropTypes.object,
+    sentry: PropTypes.object,
     config: PropTypes.object,
     headers: PropTypes.object,
   });

@@ -8,7 +8,7 @@ export default class ErrorBoundary extends React.Component {
   static propTypes = { children: PropTypes.node.isRequired };
 
   static contextTypes = {
-    raven: PropTypes.shape({
+    sentry: PropTypes.shape({
       captureException: PropTypes.func.isRequired,
     }),
   };
@@ -24,8 +24,11 @@ export default class ErrorBoundary extends React.Component {
       return;
     }
     this.setState({ error });
-    if (this.context.raven) {
-      this.context.raven.captureException(error, { extra: errorInfo });
+    if (this.context.sentry) {
+      this.context.sentry.withScope(scope => {
+        scope.setExtra(errorInfo);
+        this.context.sentry.captureException(error);
+      });
     }
   }
 
@@ -45,7 +48,7 @@ export default class ErrorBoundary extends React.Component {
               <FormattedMessage id="try-again" defaultMessage="Try again ›" />
             </button>
             {/*
-              <button onClick(() => this.context.raven.lastEventId() && this.context.raven.showReportDialog())>
+              <button onClick(() => this.context.sentry.getCurrentHub().lastEventId() && this.context.sentry.showReportDialog())>
                 <FormattedMessage id="tell-us-what-happened" defaultMessage="Tell us what happened" />
               </button>
               */}
