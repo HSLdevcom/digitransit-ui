@@ -235,7 +235,8 @@ export default {
     showLayerSelector: true, // DT-3470
     showStopMarkerPopupOnMobile: true, // DT-3470
     showScaleBar: true, // DT-3470
-    showOSMCopyright: true, // DT-3470, DT-3397
+    attribution:
+      '<a tabIndex="-1" href="http://osm.org/copyright">© OpenStreetMap</a>', // DT-3470, DT-3397
 
     useModeIconsInNonTileLayer: false,
   },

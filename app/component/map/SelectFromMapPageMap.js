@@ -340,7 +340,7 @@ class SelectFromMapPageMap extends React.Component {
         bounds={bounds}
         fitBounds={Boolean(bounds)}
         boundsOptions={{ maxZoom: 16 }}
-        disableLocationPopup
+        locationPopup="none"
         showScaleBar={showScale}
         mapRef={this.setMapElementRef}
       />

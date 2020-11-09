@@ -21,8 +21,8 @@ export const StreetModeSelector = ({
   const bikeAndVehicle = !loading
     ? {
         itineraries: [
-          ...bikeParkPlan.itineraries,
-          ...bikeAndPublicPlan.itineraries,
+          ...bikeParkPlan?.itineraries,
+          ...bikeAndPublicPlan?.itineraries,
         ],
       }
     : {};

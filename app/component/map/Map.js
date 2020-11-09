@@ -9,6 +9,7 @@ import AttributionControl from 'react-leaflet/es/AttributionControl';
 import ScaleControl from 'react-leaflet/es/ScaleControl';
 import ZoomControl from 'react-leaflet/es/ZoomControl';
 import L from 'leaflet';
+import { get, isString, isEmpty } from 'lodash';
 // Webpack handles this by bundling it with the other css files
 import 'leaflet/dist/leaflet.css';
 
@@ -48,7 +49,7 @@ export default class Map extends React.Component {
     mapRef: PropTypes.func,
     originFromMap: PropTypes.bool,
     destinationFromMap: PropTypes.bool,
-    disableLocationPopup: PropTypes.bool,
+    locationPopup: PropTypes.string,
     mapBottomPadding: PropTypes.number,
     buttonBottomPadding: PropTypes.number,
     bottomButtons: PropTypes.node,
@@ -60,7 +61,7 @@ export default class Map extends React.Component {
     loaded: () => {},
     showScaleBar: false,
     mapRef: null,
-    disableLocationPopup: false,
+    locationPopup: 'reversegeocoding',
     boundsOptions: {},
     mapBottomPadding: 0,
     buttonBottomPadding: 0,
@@ -114,7 +115,7 @@ export default class Map extends React.Component {
     const {
       zoom,
       boundsOptions,
-      disableLocationPopup,
+      locationPopup,
       leafletObjs,
       mapReady,
     } = this.props;
@@ -149,14 +150,15 @@ export default class Map extends React.Component {
           stopsNearYouMode={this.props.stopsNearYouMode}
           showStops={this.props.showStops}
           disableMapTracking={this.props.disableMapTracking}
-          disableLocationPopup={disableLocationPopup}
+          locationPopup={locationPopup}
         />,
       );
     }
 
-    const attribution =
-      config.map.attribution.default ||
-      '<a tabindex="-1" href="http://osm.org/copyright">&copy; OpenStreetMap</a>';
+    let attribution = get(config, 'map.attribution.default');
+    if (!isString(attribution) || isEmpty(attribution)) {
+      attribution = false;
+    }
 
     return (
       <div aria-hidden="true">
@@ -213,8 +215,7 @@ export default class Map extends React.Component {
           />
           <BreakpointConsumer>
             {breakpoint =>
-              config.map.attribution &&
-              config.map.attribution.default && (
+              config.map.showOSMCopyright && (
                 <AttributionControl
                   position={
                     breakpoint === 'large' ? 'bottomright' : 'bottomleft'

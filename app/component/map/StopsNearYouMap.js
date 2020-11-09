@@ -384,7 +384,6 @@ function StopsNearYouMap(
         fitBoundsWithSetCenter
         setInitialMapTracking
         hilightedStops={hilightedStops()}
-        disableLocationPopup
         leafletObjs={leafletObjs}
       />
     );
@@ -411,7 +410,6 @@ function StopsNearYouMap(
           fitBoundsWithSetCenter
           setInitialMapTracking
           hilightedStops={hilightedStops()}
-          disableLocationPopup
           leafletObjs={leafletObjs}
         />
       </>
