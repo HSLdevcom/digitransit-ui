@@ -3,7 +3,7 @@ import React from 'react';
 import { matchShape, routerShape } from 'found';
 import { FormattedMessage } from 'react-intl';
 import { withLeaflet } from 'react-leaflet/es/context';
-import updateViaPointsFromMap from '../../action/ViaPointsActions';
+import { addViaPoint } from '../../action/ViaPointActions';
 import {
   PREFIX_ROUTES,
   PREFIX_STOPS,
@@ -149,9 +149,8 @@ class MarkerPopupBottom extends React.Component {
       .concat([this.props.location])
       .map(locationToOtp);
     this.props.leaflet.map.closePopup();
-
     setIntermediatePlaces(this.context.router, this.context.match, viaPoints);
-    this.context.executeAction(updateViaPointsFromMap, true);
+    this.context.executeAction(addViaPoint, this.props.location);
   };
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
