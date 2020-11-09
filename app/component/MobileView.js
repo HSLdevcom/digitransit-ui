@@ -2,12 +2,45 @@ import PropTypes from 'prop-types';
 import React, { useRef, useLayoutEffect, useState } from 'react';
 import MapBottomsheetContext from './map/MapBottomsheetContext';
 
+function slowlyScrollTo(el, to = 0, duration = 1000) {
+  const element = el;
+  const start = element.scrollTop;
+  const change = to - start;
+  const increment = 20;
+  let currentTime = 0;
+
+  const animateScroll = () => {
+    currentTime += increment;
+
+    const val = Math.easeInOutQuad(currentTime, start, change, duration);
+
+    element.scrollTop = val;
+
+    if (currentTime < duration) {
+      setTimeout(animateScroll, increment);
+    }
+  };
+
+  animateScroll();
+}
+
+Math.easeInOutQuad = function (a, b, c, d) {
+  let t = a;
+  t /= d / 2;
+  if (t < 1) {
+    return (c / 2) * t * t + b;
+  }
+  t -= 1;
+  return (-c / 2) * (t * (t - 2) - 1) + b;
+};
+
 export default function MobileView({
   header,
   map,
   content,
   settingsDrawer,
   selectFromMapHeader,
+  mapCenterToggle,
 }) {
   if (settingsDrawer && settingsDrawer.props.open) {
     return <div className="mobile">{settingsDrawer}</div>;
@@ -18,6 +51,7 @@ export default function MobileView({
   const [bottomsheetState, changeBottomsheetState] = useState({
     context: { mapBottomPadding: 0, buttonBottomPadding: 0 },
   });
+
   useLayoutEffect(() => {
     if (map) {
       const paddingHeight = (window.innerHeight - topBarHeight) * 0.9; // height of .drawer-padding, defined as 90% of map height
@@ -31,6 +65,19 @@ export default function MobileView({
       });
     }
   }, [header]);
+
+  useLayoutEffect(() => {
+    if (map && mapCenterToggle !== undefined) {
+      const newSheetPosition = 0;
+      slowlyScrollTo(scrollRef.current);
+      changeBottomsheetState({
+        context: {
+          mapBottomPadding: newSheetPosition,
+          buttonBottomPadding: newSheetPosition,
+        },
+      });
+    }
+  }, [mapCenterToggle]);
 
   const onScroll = e => {
     if (map) {
@@ -76,4 +123,5 @@ MobileView.propTypes = {
   content: PropTypes.node,
   settingsDrawer: PropTypes.node,
   selectFromMapHeader: PropTypes.node,
+  mapCenterToggle: PropTypes.bool,
 };

@@ -288,6 +288,7 @@ class SummaryPage extends React.Component {
     this.mapLoaded = false;
     this.origin = undefined;
     this.destination = undefined;
+    this.mapCenterToggle = undefined;
     context.executeAction(storeOrigin, otpToLocation(props.match.params.from));
     if (props.error) {
       reportError(props.error);
@@ -949,6 +950,7 @@ class SummaryPage extends React.Component {
       !isEqual(this.props.match.params.hash, prevProps.match.params.hash)
     ) {
       this.justMounted = true;
+      this.mapCenterToggle = undefined;
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         center: undefined,
@@ -1079,6 +1081,7 @@ class SummaryPage extends React.Component {
   updateCenter = (lat, lon) => {
     if (this.props.breakpoint !== 'large') {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+      this.setMapCenterToggle();
     }
     this.setState({ center: { lat, lon }, bounds: null });
   };
@@ -1204,6 +1207,7 @@ class SummaryPage extends React.Component {
   setMapZoomToLeg = leg => {
     if (this.props.breakpoint !== 'large') {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+      this.setMapCenterToggle();
     }
     // this.justMounted = true;
     // this.setState({ bounds: [] });
@@ -1466,6 +1470,14 @@ class SummaryPage extends React.Component {
       ...(this.selectedPlan.itineraries || []),
       ...(this.state.laterItineraries || []),
     ];
+  };
+
+  setMapCenterToggle = () => {
+    if (!this.mapCenterToggle) {
+      this.mapCenterToggle = true;
+    } else {
+      this.mapCenterToggle = !this.mapCenterToggle;
+    }
   };
 
   render() {
@@ -2061,6 +2073,7 @@ class SummaryPage extends React.Component {
             mobile
           />
         }
+        mapCenterToggle={this.mapCenterToggle}
       />
     );
   }
