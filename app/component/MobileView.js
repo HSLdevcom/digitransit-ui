@@ -40,7 +40,7 @@ export default function MobileView({
   content,
   settingsDrawer,
   selectFromMapHeader,
-  mapCenterToggleValue,
+  mapCenterToggle,
 }) {
   if (settingsDrawer && settingsDrawer.props.open) {
     return <div className="mobile">{settingsDrawer}</div>;
@@ -67,7 +67,7 @@ export default function MobileView({
   }, [header]);
 
   useLayoutEffect(() => {
-    if (map && mapCenterToggleValue !== undefined) {
+    if (map && mapCenterToggle !== undefined) {
       const newSheetPosition = 0;
       slowlyScrollTo(scrollRef.current);
       changeBottomsheetState({
@@ -77,7 +77,7 @@ export default function MobileView({
         },
       });
     }
-  }, [mapCenterToggleValue]);
+  }, [mapCenterToggle]);
 
   const onScroll = e => {
     if (map) {
@@ -123,5 +123,5 @@ MobileView.propTypes = {
   content: PropTypes.node,
   settingsDrawer: PropTypes.node,
   selectFromMapHeader: PropTypes.node,
-  mapCenterToggleValue: PropTypes.bool,
+  mapCenterToggle: PropTypes.bool,
 };
