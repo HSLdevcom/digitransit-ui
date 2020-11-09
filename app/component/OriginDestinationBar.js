@@ -117,7 +117,7 @@ class OriginDestinationBar extends React.Component {
   };
 
   swapEndpoints = () => {
-    const { location } = this;
+    const { location } = this.context.match;
     const intermediatePlaces = getIntermediatePlaces(location.query);
     if (intermediatePlaces.length > 1) {
       location.query.intermediatePlaces.reverse();
