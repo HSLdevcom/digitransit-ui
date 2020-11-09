@@ -29,7 +29,7 @@ export default function VectorTileLayerContainer(props, { config }) {
       tileSize={config.map.tileSize || 256}
       zoomOffset={config.map.zoomOffset || 0}
       disableMapTracking={props.disableMapTracking}
-      disableLocationPopup={props.disableLocationPopup}
+      locationPopup={props.locationPopup}
     />
   );
 }
@@ -39,7 +39,7 @@ VectorTileLayerContainer.propTypes = {
   disableMapTracking: PropTypes.func,
   showStops: PropTypes.bool,
   stopsNearYouMode: PropTypes.string,
-  disableLocationPopup: PropTypes.bool,
+  locationPopup: PropTypes.string, // 'all', 'none', 'reversegeocoding'
 };
 
 VectorTileLayerContainer.contextTypes = {

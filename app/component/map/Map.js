@@ -49,7 +49,7 @@ export default class Map extends React.Component {
     mapRef: PropTypes.func,
     originFromMap: PropTypes.bool,
     destinationFromMap: PropTypes.bool,
-    disableLocationPopup: PropTypes.bool,
+    locationPopup: PropTypes.string,
     mapBottomPadding: PropTypes.number,
     buttonBottomPadding: PropTypes.number,
     bottomButtons: PropTypes.node,
@@ -61,7 +61,7 @@ export default class Map extends React.Component {
     loaded: () => {},
     showScaleBar: false,
     mapRef: null,
-    disableLocationPopup: false,
+    locationPopup: 'reversegeocoding',
     boundsOptions: {},
     mapBottomPadding: 0,
     buttonBottomPadding: 0,
@@ -115,7 +115,7 @@ export default class Map extends React.Component {
     const {
       zoom,
       boundsOptions,
-      disableLocationPopup,
+      locationPopup,
       leafletObjs,
       mapReady,
     } = this.props;
@@ -150,7 +150,7 @@ export default class Map extends React.Component {
           stopsNearYouMode={this.props.stopsNearYouMode}
           showStops={this.props.showStops}
           disableMapTracking={this.props.disableMapTracking}
-          disableLocationPopup={disableLocationPopup}
+          locationPopup={locationPopup}
         />,
       );
     }
