@@ -85,23 +85,11 @@ function ItinerarySummaryListContainer(
         itineraries.length > bikeAndParkItinerariesToShow &&
         bikeAndPublicItinerariesToShow > 0
       ) {
-        let publicModes;
-        let i = bikeAndParkItinerariesToShow;
-        // TODO this can be simplified once WALK/BICYCLE only bike+public itineraries
-        // are filtered out of itineraries
-        while (i < itineraries.length) {
-          const publicModesFromItinerary = itineraries[i].legs.filter(
-            obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE',
-          );
-          if (publicModesFromItinerary.length > 0) {
-            publicModes = publicModesFromItinerary;
-            break;
-          }
-          i += 1;
-        }
-        const firstMode = publicModes
-          ? publicModes[0].mode.toLowerCase()
-          : 'bus';
+        const publicModes = itineraries[
+          bikeAndParkItinerariesToShow
+        ].legs.filter(obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE');
+        const firstMode =
+          publicModes.length > 0 ? publicModes[0].mode.toLowerCase() : 'bus';
         summaries.splice(
           bikeAndParkItinerariesToShow + 1,
           0,

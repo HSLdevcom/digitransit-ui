@@ -1108,7 +1108,7 @@ class SummaryPage extends React.Component {
   };
 
   filterOnlyBikeAndWalk = itineraries => {
-    if (itineraries) {
+    if (Array.isArray(itineraries)) {
       return itineraries.filter(
         itinerary =>
           !itinerary.legs.every(
@@ -1120,37 +1120,19 @@ class SummaryPage extends React.Component {
   };
 
   filteredbikeAndPublic = plan => {
-    const filteredItineraries = [];
-    if (plan && plan.itineraries) {
-      const itinerariesWithVehicle = this.filterOnlyBikeAndWalk(
-        plan.itineraries,
-      );
-      itinerariesWithVehicle.map(itinerary => {
-        let added = false;
-        itinerary.legs.map(leg => {
-          if (!added && leg.mode === 'BICYCLE' && leg.distance > 500) {
-            filteredItineraries.push(itinerary);
-            added = true;
-          }
-          return null;
-        });
-        return null;
-      });
-    }
-    return filteredItineraries.length
-      ? { itineraries: filteredItineraries }
-      : {};
+    return {
+      itineraries: this.filterOnlyBikeAndWalk(plan?.itineraries),
+    };
   };
 
   makeWeatherQuery() {
     const from = otpToLocation(this.props.match.params.from);
     const { walkPlan, bikePlan } = this.state;
-    const bikeParkPlan = {
-      itineraries: this.filterOnlyBikeAndWalk(
-        this.state.bikeParkPlan?.itineraries,
-      ),
-    };
-    const { bikeAndPublicPlan } = this.state;
+    const bikeParkPlan = this.filteredbikeAndPublic(this.state.bikeParkPlan);
+    const bikeAndPublicPlan = this.filteredbikeAndPublic(
+      this.state.bikeAndPublicPlan,
+    );
+
     const itin =
       (walkPlan && walkPlan.itineraries && walkPlan.itineraries[0]) ||
       (bikePlan && bikePlan.itineraries && bikePlan.itineraries[0]) ||
@@ -1495,12 +1477,10 @@ class SummaryPage extends React.Component {
 
     const plan = this.props.viewer && this.props.viewer.plan;
 
-    const bikeParkPlan = {
-      itineraries: this.filterOnlyBikeAndWalk(
-        this.state.bikeParkPlan?.itineraries,
-      ),
-    };
-    const { bikeAndPublicPlan } = this.state;
+    const bikeParkPlan = this.filteredbikeAndPublic(this.state.bikeParkPlan);
+    const bikeAndPublicPlan = this.filteredbikeAndPublic(
+      this.state.bikeAndPublicPlan,
+    );
     const planHasNoItineraries =
       plan &&
       plan.itineraries &&
