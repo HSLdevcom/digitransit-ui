@@ -300,6 +300,10 @@ const withRelay = createFragmentContainer(ItineraryTab, {
             bikeParkId
             name
           }
+          carPark {
+            carParkId 
+            name
+          }
         }
         legGeometry {
           length

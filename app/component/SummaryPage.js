@@ -784,10 +784,11 @@ class SummaryPage extends React.Component {
                 }
               }
               to {
-                bikePark {
-                  bikeParkId
+                carPark {
+                  carParkId
                   name
                 }
+                name
               }
               distance
             }
