@@ -311,8 +311,7 @@ class SummaryPage extends React.Component {
       (this.props.match.params.hash === 'walk' ||
         this.props.match.params.hash === 'bike' ||
         this.props.match.params.hash === 'bikeAndVehicle' ||
-        this.props.match.params.hash === 'parkAndRide'
-  )
+        this.props.match.params.hash === 'parkAndRide')
     ) {
       existingStreetMode = this.props.match.params.hash;
     } else {
@@ -911,10 +910,11 @@ class SummaryPage extends React.Component {
                 }
               }
               to {
-                bikePark {
-                  bikeParkId
+                carPark {
+                  carParkId
                   name
                 }
+                name
               }
               distance
             }

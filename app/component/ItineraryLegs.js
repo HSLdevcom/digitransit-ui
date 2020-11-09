@@ -249,6 +249,7 @@ class ItineraryLegs extends React.Component {
           waitTime > waitThresholdInMs &&
           (nextLeg != null ? nextLeg.mode : null) !== 'AIRPLANE' &&
           leg.mode !== 'AIRPLANE' &&
+          leg.mode !== 'CAR' &&
           !nextLeg.intermediatePlace
         ) {
           legs.push(
