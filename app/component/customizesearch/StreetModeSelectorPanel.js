@@ -11,17 +11,16 @@ const StreetModeSelectorPanel = (
   { currentSettings, defaultSettings },
   { config, executeAction },
 ) => {
-  const onToggle = () => {
+  const onToggle = (propName, eventName) => {
+    const state = currentSettings[propName] ? 'Disable' : 'Enable';
     addAnalyticsEvent({
       category: 'ItinerarySettings',
-      action: `Settings${
-        currentSettings.includeBikeSuggestions ? 'Disable' : 'Enable'
-      }OwnBike`,
+      action: `Settings${state}${eventName}`,
       name: null,
     });
-    executeAction(saveRoutingSettings, {
-      includeBikeSuggestions: !currentSettings.includeBikeSuggestions,
-    });
+    const action = {};
+    action[propName] = !currentSettings[propName];
+    executeAction(saveRoutingSettings, action);
   };
 
   return (
@@ -50,7 +49,7 @@ const StreetModeSelectorPanel = (
             <div>
               <Toggle
                 toggled={currentSettings.includeBikeSuggestions}
-                onToggle={() => onToggle()}
+                onToggle={() => onToggle('includeBikeSuggestions', 'OwnBike')}
               />
             </div>
           </div>
@@ -62,6 +61,59 @@ const StreetModeSelectorPanel = (
             bikeSpeedOptions={config.defaultOptions.bikeSpeed}
           />
         ) : null}
+        {config.includeParkAndRideSuggestions && (
+          <div key="mode-option-park-and-ride">
+            <div className="mode-option-container">
+              <div className="mode-option-block">
+                <div className="mode-icon">
+                  <Icon
+                    className="park-ride-icon-icon"
+                    img="icon-icon_park-and-ride"
+                  />
+                </div>
+                <div className="mode-name">
+                  <FormattedMessage
+                    className="mode-name"
+                    id="park-and-ride"
+                    defaultMessage="Park & Ride"
+                  />
+                </div>
+              </div>
+              <div>
+                <Toggle
+                  toggled={currentSettings.includeParkAndRideSuggestions}
+                  onToggle={() =>
+                    onToggle('includeParkAndRideSuggestions', 'ParkAndRide')
+                  }
+                />
+              </div>
+            </div>
+          </div>
+        )}
+        {config.includeCarSuggestions && (
+          <div key="mode-option-park-and-ride">
+            <div className="mode-option-container">
+              <div className="mode-option-block">
+                <div className="mode-icon">
+                  <Icon className="car-icon" img="icon-icon_car-withoutBox" />
+                </div>
+                <div className="mode-name">
+                  <FormattedMessage
+                    className="mode-name"
+                    id="car"
+                    defaultMessage="car"
+                  />
+                </div>
+              </div>
+              <div>
+                <Toggle
+                  toggled={currentSettings.includeCarSuggestions}
+                  onToggle={() => onToggle('includeCarSuggestions', 'OwnCar')}
+                />
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </React.Fragment>
   );

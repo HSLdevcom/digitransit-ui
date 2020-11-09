@@ -118,7 +118,9 @@ export default {
     walkBoardCost: 600,
     walkReluctance: 2,
     walkSpeed: 1.2,
-    includeBikeSuggestions: true
+    includeBikeSuggestions: true,
+    includeParkAndRideSuggestions: true,
+    includeCarSuggestions: true
   },
 
   /**

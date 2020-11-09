@@ -2043,9 +2043,19 @@ class SummaryPage extends React.Component {
       !currentSettings.accessibilityOption &&
       currentSettings.includeBikeSuggestions;
 
-    const showCarOptionButton = this.context.config.includeCarSuggestions;
-    const showParkRideOptionButton = this.context.config
-      .includeParkAndRideSuggestions;
+    const hasCarItinerary = !isEmpty(get(carPlan, 'itineraries'));
+    const showCarOptionButton =
+      this.context.config.includeCarSuggestions &&
+      currentSettings.includeCarSuggestions &&
+      hasCarItinerary;
+
+    const hasParkAndRideItineraries = !isEmpty(
+      get(parkRidePlan, 'itineraries'),
+    );
+    const showParkRideOptionButton =
+      this.context.config.includeParkAndRideSuggestions &&
+      currentSettings.includeParkAndRideSuggestions &&
+      hasParkAndRideItineraries;
 
     const showStreetModeSelector =
       (showWalkOptionButton ||
