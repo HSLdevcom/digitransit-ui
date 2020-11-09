@@ -43,22 +43,6 @@ export const StreetModeSelector = ({
             }
             weatherData={weatherData}
           />
-          {showCarOptionButton && (
-            <StreetModeSelectorButton
-              icon="icon-icon_car"
-              name="car"
-              plan={carPlan}
-              onClick={setStreetModeAndSelect}
-            />
-          )}
-          {showParkRideOptionButton && (
-            <StreetModeSelectorButton
-              icon="icon-icon_park-and-ride"
-              name="parkAndRide"
-              plan={parkRidePlan}
-              onClick={toggleStreetMode}
-            />
-          )}
           {showWalkOptionButton && (
             <StreetModeSelectorButton
               icon="icon-icon_walk"
@@ -81,6 +65,23 @@ export const StreetModeSelector = ({
               name="bikeAndVehicle"
               plan={bikeAndVehicle}
               onClick={toggleStreetMode}
+            />
+          )}
+
+          {showParkRideOptionButton && (
+            <StreetModeSelectorButton
+              icon="icon-icon_park-and-ride"
+              name="parkAndRide"
+              plan={parkRidePlan}
+              onClick={toggleStreetMode}
+            />
+          )}
+          {showCarOptionButton && (
+            <StreetModeSelectorButton
+              icon="icon-icon_car"
+              name="car"
+              plan={carPlan}
+              onClick={setStreetModeAndSelect}
             />
           )}
         </div>
