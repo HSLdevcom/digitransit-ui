@@ -10,6 +10,7 @@ import translations from './helpers/translations';
 
 i18next.init({ lng: 'en', resources: {} });
 
+i18next.addResourceBundle('de', 'translation', translations.de);
 i18next.addResourceBundle('en', 'translation', translations.en);
 i18next.addResourceBundle('fi', 'translation', translations.fi);
 i18next.addResourceBundle('sv', 'translation', translations.sv);
