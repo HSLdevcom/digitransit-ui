@@ -374,6 +374,20 @@ const SummaryRow = (
           large={breakpoint === 'large'}
         />,
       );
+      if (leg.to.carPark) {
+        onlyIconLegs += 1;
+        legs.push(
+          <div
+            className="leg bike_park"
+            key={`${leg.mode}_${leg.startTime}_bike_park_indicator`}
+          >
+            <Icon
+              img="icon-bike_parking"
+              className="itinerary-icon bike_park"
+            />
+          </div>,
+        );
+      }
     } else if (leg.mode === 'BICYCLE' && renderBar) {
       const bikingTime = Math.floor((leg.endTime - leg.startTime) / 1000 / 60);
       legs.push(
