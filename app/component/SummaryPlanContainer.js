@@ -1,5 +1,4 @@
 /* eslint-disable no-nested-ternary */
-/* eslint-disable no-console */
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -75,7 +74,6 @@ class SummaryPlanContainer extends React.Component {
     separatorPosition: PropTypes.number,
     updateSeparatorPosition: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
-    scrolled: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -371,6 +369,7 @@ class SummaryPlanContainer extends React.Component {
                 }
               }
               trip {
+                directionId
                 gtfsId
                 tripHeadsign
                 stoptimesForDate {
@@ -401,6 +400,13 @@ class SummaryPlanContainer extends React.Component {
           this.props.addEarlierItineraries(reversedItineraries);
           this.setState({
             loadingMoreItineraries: undefined,
+          });
+          this.context.router.replace({
+            ...this.context.match.location,
+            state: {
+              ...this.context.match.location.state,
+              summaryPageSelected: undefined,
+            },
           });
         } else {
           this.props.addLaterItineraries(result.itineraries);
@@ -646,6 +652,7 @@ class SummaryPlanContainer extends React.Component {
                 }
               }
               trip {
+                directionId
                 gtfsId
                 tripHeadsign
                 stoptimesForDate {
@@ -699,6 +706,13 @@ class SummaryPlanContainer extends React.Component {
           this.setState({
             loadingMoreItineraries: undefined,
           });
+          this.context.router.replace({
+            ...this.context.match.location,
+            state: {
+              ...this.context.match.location.state,
+              summaryPageSelected: undefined,
+            },
+          });
         }
       },
     );
@@ -727,7 +741,9 @@ class SummaryPlanContainer extends React.Component {
             id: 'set-time-later-button-label',
             defaultMessage: 'Set travel time to later',
           })}
-          className="time-navigation-btn later"
+          className={`time-navigation-btn ${
+            reversed ? 'top-btn' : 'bottom-btn'
+          }`}
           onClick={() => this.onLater(reversed)}
         >
           <Icon
@@ -753,7 +769,9 @@ class SummaryPlanContainer extends React.Component {
             id: 'set-time-earlier-button-label',
             defaultMessage: 'Set travel time to earlier',
           })}
-          className="time-navigation-btn earlier"
+          className={`time-navigation-btn ${
+            reversed ? 'bottom-btn' : 'top-btn'
+          }`}
           onClick={() => this.onEarlier(reversed)}
         >
           <Icon
@@ -787,7 +805,6 @@ class SummaryPlanContainer extends React.Component {
       showAlternativePlan,
       separatorPosition,
       loading,
-      scrolled,
     } = this.props;
     const combinedItineraries = [
       ...(earlierItineraries || []),
@@ -839,7 +856,6 @@ class SummaryPlanContainer extends React.Component {
           separatorPosition={separatorPosition}
           loadingMoreItineraries={this.state.loadingMoreItineraries}
           loading={loading}
-          scrolled={scrolled}
         >
           {this.props.children}
         </ItinerarySummaryListContainer>
@@ -878,78 +894,8 @@ const connectedContainer = createFragmentContainer(
         date
       }
     `,
-    earlierItineraries: graphql`
-      fragment SummaryPlanContainer_earlierItineraries on Itinerary
-      @relay(plural: true) {
-        ...ItinerarySummaryListContainer_itineraries
-        endTime
-        startTime
-        legs {
-          mode
-          to {
-            bikePark {
-              bikeParkId
-              name
-            }
-          }
-          ...ItineraryLine_legs
-          transitLeg
-          legGeometry {
-            points
-          }
-          route {
-            gtfsId
-          }
-          trip {
-            gtfsId
-            directionId
-            stoptimesForDate {
-              scheduledDeparture
-            }
-            pattern {
-              ...RouteLine_pattern
-            }
-          }
-        }
-      }
-    `,
     itineraries: graphql`
       fragment SummaryPlanContainer_itineraries on Itinerary
-      @relay(plural: true) {
-        ...ItinerarySummaryListContainer_itineraries
-        endTime
-        startTime
-        legs {
-          mode
-          to {
-            bikePark {
-              bikeParkId
-              name
-            }
-          }
-          ...ItineraryLine_legs
-          transitLeg
-          legGeometry {
-            points
-          }
-          route {
-            gtfsId
-          }
-          trip {
-            gtfsId
-            directionId
-            stoptimesForDate {
-              scheduledDeparture
-            }
-            pattern {
-              ...RouteLine_pattern
-            }
-          }
-        }
-      }
-    `,
-    laterItineraries: graphql`
-      fragment SummaryPlanContainer_laterItineraries on Itinerary
       @relay(plural: true) {
         ...ItinerarySummaryListContainer_itineraries
         endTime

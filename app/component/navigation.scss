@@ -325,7 +325,17 @@ section.content {
     .desktop-title {
       background: #ffffff; // DT-3358: was $desktop-title-color
       &-bordered {
-        border-bottom: solid 1px $light-gray;
+        position: relative;
+        &:after {
+          content: "";
+          display: block;
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 1px;
+          background-color: $light-gray;
+        }
       }
       a {
         color: $desktop-title-arrow-icon-color; // DT-3358: was $primary-font-color

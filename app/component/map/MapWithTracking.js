@@ -119,6 +119,7 @@ class MapWithTrackingStateHandler extends React.Component {
     this.state = {
       locationingOn: false,
       defaultMapCenter: props.defaultMapCenter,
+      keepOnTracking: false,
       initialZoom: props.initialZoom ? props.initialZoom : defaultZoom,
       mapTracking: props.setInitialMapTracking,
     };
@@ -204,6 +205,7 @@ class MapWithTrackingStateHandler extends React.Component {
     }
     this.setState({
       mapTracking: true,
+      keepOnTracking: true,
       locationingOn: true,
       initialZoom: 16,
     });
@@ -214,9 +216,23 @@ class MapWithTrackingStateHandler extends React.Component {
     });
   };
 
+  disableMapTrackingForZoomControl = () => {
+    if (!this.state.keepOnTracking) {
+      this.setState({
+        mapTracking: false,
+        keepOnTracking: false,
+      });
+    } else {
+      this.setState({
+        keepOnTracking: false,
+      });
+    }
+  };
+
   disableMapTracking = () => {
     this.setState({
       mapTracking: false,
+      keepOnTracking: false,
     });
   };
 
@@ -352,8 +368,10 @@ class MapWithTrackingStateHandler extends React.Component {
         disableLocationPopup={this.props.disableLocationPopup}
         leafletEvents={{
           onDragstart: this.disableMapTracking,
+          onMoveend: () => this.setState({ keepOnTracking: false }),
           onDragend: this.updateCurrentBounds,
           onZoomend: this.updateCurrentBounds,
+          onZoomstart: this.disableMapTrackingForZoomControl,
         }}
         disableMapTracking={this.disableMapTracking}
         {...rest}

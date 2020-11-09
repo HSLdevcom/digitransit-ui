@@ -299,25 +299,8 @@
     }
   }
 
-  @keyframes loadingBottomAnimation {
-    from {
-      transform: translateY(100px);
-    }
-    to {
-      transform: translateY(0);
-    }
-  }
-
   &-loading-top {
     animation: loadingTopAnimation 0.4s;
-  }
-
-  &-loading-bottom {
-    animation: loadingBottomAnimation 0.4s;
-
-    .mobile & {
-      animation: none;
-    }
   }
 }
 
@@ -408,10 +391,10 @@
     transform: rotate(180deg);
   }
 
-  &.earlier {
+  &.top-btn {
     font-size: 13px;
   }
-  &.later {
+  &.bottom-btn {
     border-top: 1px solid #ddd;
     font-size: $font-size-normal;
     height: 50px;

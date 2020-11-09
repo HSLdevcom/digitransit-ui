@@ -9,6 +9,7 @@ import AttributionControl from 'react-leaflet/es/AttributionControl';
 import ScaleControl from 'react-leaflet/es/ScaleControl';
 import ZoomControl from 'react-leaflet/es/ZoomControl';
 import L from 'leaflet';
+import { get, isString, isEmpty } from 'lodash';
 // Webpack handles this by bundling it with the other css files
 import 'leaflet/dist/leaflet.css';
 
@@ -153,6 +154,12 @@ export default class Map extends React.Component {
         />,
       );
     }
+
+    let attribution = get(config, 'map.attribution');
+    if (!isString(attribution) || isEmpty(attribution)) {
+      attribution = false;
+    }
+
     return (
       <div aria-hidden="true">
         <span
@@ -204,15 +211,16 @@ export default class Map extends React.Component {
             }
             minZoom={config.map.minZoom}
             maxZoom={config.map.maxZoom}
+            attribution={attribution}
           />
           <BreakpointConsumer>
             {breakpoint =>
-              config.map.showOSMCopyright && (
+              attribution && (
                 <AttributionControl
                   position={
                     breakpoint === 'large' ? 'bottomright' : 'bottomleft'
                   }
-                  prefix='<a tabindex="-1" href="http://osm.org/copyright">&copy; OpenStreetMap</a>'
+                  prefix=""
                 />
               )
             }
