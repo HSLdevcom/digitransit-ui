@@ -1467,7 +1467,7 @@ class SummaryPage extends React.Component {
   getCombinedItineraries = () => {
     return [
       ...(this.state.earlierItineraries || []),
-      ...(this.selectedPlan.itineraries || []),
+      ...(this.selectedPlan?.itineraries || []),
       ...(this.state.laterItineraries || []),
     ];
   };
