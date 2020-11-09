@@ -809,9 +809,10 @@ const translations = {
     'add-via-duration-button-label-open':
       'Open stop duration selector at via point {index}',
     'add-work': 'Add work',
-    'aria-itinerary-summary': 'Total duration {duration} ',
-    'aria-itinerary-summary-bike-distance': 'biking distance {distance} ',
-    'aria-itinerary-summary-walk-distance': 'walking {distance} ',
+    'aria-itinerary-summary': 'Total journey time {duration} ',
+    'aria-itinerary-summary-bike-distance':
+      'Total cycling distance {distance} ',
+    'aria-itinerary-summary-walk-distance': 'Total walking {distance} ',
     'arrive-leave': 'Arrive or leave at selected time',
     'search-autosuggest-label':
       'Venue, place and stopsearch. Navigate list with arrow keys and select with enter key',
@@ -1259,9 +1260,9 @@ const translations = {
     stops: 'Stops',
     'street-mode-bicycle': 'Bicycle',
     'street-mode-bike-aria':
-      'Show biking route. Duration {duration}, distance {length}',
+      'Show cycle route. Duration {duration}, distance {length}',
     'street-mode-bikeandvehicle-aria':
-      'Show a combination of biking and public transport. Duration {duration}, contains {length} biking',
+      'Show a combination of cycling and public transport. Duration {duration}, distance {length}',
     'street-mode-car': 'Car',
     'street-mode-car_park': 'Park & ride',
     'street-mode-public_transport': 'Public transport',
