@@ -460,15 +460,24 @@ class SummaryPage extends React.Component {
     this.context.router.push(newState);
   };
 
-  planContainsOnlyBiking = plan => {
-    if (plan && plan.itineraries && plan.itineraries.length < 2) {
-      const legsWithPublic = plan.itineraries[0].legs.filter(
-        obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE',
-      );
-      if (legsWithPublic.length === 0) {
-        return true;
+  hasItinerariesContainingPublicTransit = plan => {
+    if (
+      plan &&
+      Array.isArray(plan.itineraries) &&
+      plan.itineraries.length > 0
+    ) {
+      if (plan.itineraries.length === 1) {
+        // check that only itinerary contains public transit
+        return (
+          plan.itineraries[0].legs.filter(
+            obj =>
+              obj.mode !== 'WALK' &&
+              obj.mode !== 'BICYCLE' &&
+              obj.mode !== 'CAR',
+          ).length > 0
+        );
       }
-      return false;
+      return true;
     }
     return false;
   };
@@ -1532,13 +1541,8 @@ class SummaryPage extends React.Component {
         return <Loading />;
       }
       if (
-        bikeAndPublicPlan &&
-        bikeAndPublicPlan.itineraries &&
-        bikeAndPublicPlan.itineraries.length > 0 &&
-        !this.planContainsOnlyBiking(bikeAndPublicPlan) &&
-        bikeParkPlan &&
-        bikeParkPlan.itineraries &&
-        bikeParkPlan.itineraries.length > 0
+        this.hasItinerariesContainingPublicTransit(bikeAndPublicPlan) &&
+        this.hasItinerariesContainingPublicTransit(bikeParkPlan)
       ) {
         this.bikeAndPublicItinerariesToShow = Math.min(
           bikeAndPublicPlan.itineraries.length,
@@ -1556,10 +1560,7 @@ class SummaryPage extends React.Component {
           ],
         };
       } else if (
-        bikeAndPublicPlan &&
-        bikeAndPublicPlan.itineraries &&
-        bikeAndPublicPlan.itineraries.length > 0 &&
-        !this.planContainsOnlyBiking(bikeAndPublicPlan)
+        this.hasItinerariesContainingPublicTransit(bikeAndPublicPlan)
       ) {
         this.selectedPlan = bikeAndPublicPlan;
       } else {
@@ -1612,15 +1613,12 @@ class SummaryPage extends React.Component {
         itineraryBikeDistance < this.context.config.suggestBikeMaxDistance,
     );
 
-    const bikeAndPublicPlanHasItineraries =
-      bikeAndPublicPlan &&
-      bikeAndPublicPlan.itineraries &&
-      bikeAndPublicPlan.itineraries.length > 0 &&
-      !this.planContainsOnlyBiking(bikeAndPublicPlan);
-    const bikeParkPlanHasItineraries =
-      bikeParkPlan &&
-      bikeParkPlan.itineraries &&
-      bikeParkPlan.itineraries.length > 0;
+    const bikeAndPublicPlanHasItineraries = this.hasItinerariesContainingPublicTransit(
+      bikeAndPublicPlan,
+    );
+    const bikeParkPlanHasItineraries = this.hasItinerariesContainingPublicTransit(
+      bikeParkPlan,
+    );
     const showBikeAndPublicOptionButton =
       (bikeAndPublicPlanHasItineraries || bikeParkPlanHasItineraries) &&
       !currentSettings.accessibilityOption &&
