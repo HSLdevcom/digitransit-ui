@@ -1615,7 +1615,8 @@ class SummaryPage extends React.Component {
     const bikeAndPublicPlanHasItineraries =
       bikeAndPublicPlan &&
       bikeAndPublicPlan.itineraries &&
-      bikeAndPublicPlan.itineraries.length > 0;
+      bikeAndPublicPlan.itineraries.length > 0 &&
+      !this.planContainsOnlyBiking(bikeAndPublicPlan);
     const bikeParkPlanHasItineraries =
       bikeParkPlan &&
       bikeParkPlan.itineraries &&
