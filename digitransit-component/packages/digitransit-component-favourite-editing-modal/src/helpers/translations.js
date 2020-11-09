@@ -1,4 +1,18 @@
 const translations = {
+  de: {
+    cancel: 'Abbrechen',
+    delete: 'Löschen',
+    'delete-place-header': 'Wollen Sie den Favoriten löschen?',
+    'delete-place-name': 'Lösche Favorit: {{favourite.name}}',
+    'edit-places': 'Bearbeite Favoriten',
+    'edit-place-name': 'Bearbeite Favorit: {{favourite.name}}',
+    'edit-modal-on-open': 'Favoriten bearbeiten.',
+    'choose-icon': "Wähle das Symbol für diesen Ort",
+    'close-modal': 'Schließe den Dialog',
+    'input-placeholder': 'Wählen Sie einen Name für diesen Ort (optional)',
+    save: 'Speichern',
+    'save-place': 'Favorit speichern',
+  },
   en: {
     cancel: 'Cancel',
     delete: 'Delete',

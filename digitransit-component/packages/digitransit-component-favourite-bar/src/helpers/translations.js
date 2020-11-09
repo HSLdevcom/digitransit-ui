@@ -1,4 +1,14 @@
 const translations = {
+  de: {
+    'add-favourite': 'Füge Favorit hinzu',
+    'add-home': 'Setze Zuhause',
+    'add-place': 'Setze Ort',
+    'add-work': 'Setze Arbeitsort',
+    edit: 'Bearbeiten',
+    'open-favourites': 'Öffne Favoriten',
+    home: 'Zuhause',
+    work: 'Arbeit',
+  },
   en: {
     'add-favourite': 'Add favourite',
     'add-home': 'Add home',

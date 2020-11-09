@@ -1,4 +1,7 @@
 const translations = {
+  de: {
+    'close-modal': 'Schließe den Dialog',
+  },
   en: {
     'close-modal': 'Close the modal',
   },
