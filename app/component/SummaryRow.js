@@ -366,12 +366,12 @@ const SummaryRow = (
         onlyIconLegs += 1;
         legs.push(
           <div
-            className="leg bike_park"
-            key={`${leg.mode}_${leg.startTime}_bike_park_indicator`}
+            className="leg car_park"
+            key={`${leg.mode}_${leg.startTime}_car_park_indicator`}
           >
             <Icon
-              img="icon-bike_parking"
-              className="itinerary-icon bike_park"
+              img="icon-icon_car_park-withoutBox"
+              className="itinerary-icon car_park"
             />
           </div>,
         );
