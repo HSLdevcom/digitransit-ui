@@ -36,7 +36,7 @@ class TileLayerContainer extends GridLayer {
   static propTypes = {
     tileSize: PropTypes.number.isRequired,
     zoomOffset: PropTypes.number.isRequired,
-    disableLocationPopup: PropTypes.bool,
+    locationPopup: PropTypes.string, // 'all', 'none', 'reversegeocoding'
     stopsNearYouMode: PropTypes.string,
     mapLayers: mapLayerShape.isRequired,
     leaflet: PropTypes.shape({
@@ -337,7 +337,7 @@ class TileLayerContainer extends GridLayer {
           // DT-3470
           showPopup = false;
         }
-        popup = !this.props.disableLocationPopup && (
+        popup = this.props.locationPopup !== 'none' && (
           <Popup
             key={this.state.coords.toString()}
             {...this.PopupOptions}
@@ -348,6 +348,7 @@ class TileLayerContainer extends GridLayer {
             <LocationPopup
               lat={this.state.coords.lat}
               lon={this.state.coords.lng}
+              itinerarySearchButtons={this.props.locationPopup === 'all'}
             />
           </Popup>
         );

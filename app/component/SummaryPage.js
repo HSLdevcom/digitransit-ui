@@ -1374,6 +1374,7 @@ class SummaryPage extends React.Component {
         fitBounds
         bounds={bounds.length > 1 ? bounds : defaultBounds}
         showScaleBar
+        locationPopup="all"
       />
     );
   }

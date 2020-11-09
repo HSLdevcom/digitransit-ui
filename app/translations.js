@@ -288,7 +288,7 @@ const translations = {
     'back-to-front-page': 'Zurück zur Startseite ›',
     bicycle: 'Fahrrad',
     'bicycle-distance-duration': 'Fahrrad {distance} ({duration})',
-    'bicycle_walk': 'Fahrrad schieben',
+    bicycle_walk: 'Fahrrad schieben',
     'bike-availability': 'Fahrräder verfügbar',
     'bike-not-allowed-bus': 'Keine Fahrradmitnahme im Bus',
     'bike-not-allowed-tram': 'Keine Fahrradmitnahme in der Straßenbahn',
@@ -316,11 +316,11 @@ const translations = {
     'choose-stop': 'Haltestelle auswählen',
     citybike: 'Leihrad',
     'citybike-buy-season': 'Ticket für Tag, Monat oder Jahr kaufen',
-    'citybike-purchase-link': 'Kaufen',
     'citybike-distance-duration': 'Leihrad {distance} ({duration})',
     'citybike-network-headers': 'Leihräder und Scooter',
     'citybike-off-season':
       'Leihrad-Stationen sind ab Frühling wieder verfügbar',
+    'citybike-purchase-link': 'Kaufen',
     'citybike-register-required': 'Anmeldung für Leihräder benötigt',
     'citybike-start-using': 'Beginne Leihrad-Nutzung',
     'citybike-station': 'Leihrad-Station {stationId}',
@@ -328,8 +328,8 @@ const translations = {
     citybike_off: 'Geschlossen',
     'clear-button-label': 'Leeren',
     close: 'Schließen',
-    'contact-information': '{contactName} Kontaktinformationen',
     'close-favourite-module': 'Favoriten-Modul schließen',
+    'contact-information': '{contactName} Kontaktinformationen',
     continue: 'Fortsetzen',
     'create-account': '{contactName}-Konto anlegen',
     currentposition: 'Aktuelle Position',
@@ -379,9 +379,9 @@ const translations = {
     'footer-faq': 'FAQ',
     'footer-feedback': 'Feedback senden',
     'footer-link-to-privacy-policy': 'Datenschutz',
-    frontpage: 'Startseite',
     'from-station': 'von Bahnhof',
     'from-stop': 'von Halt',
+    frontpage: 'Startseite',
     'generic-error': 'Ein Fehler ist aufgetreten',
     'geolocate-yourself': 'Lokalisieren',
     'geolocation-denied-heading': 'Bitte Zugriff auf den Standort erlauben',
@@ -428,15 +428,13 @@ const translations = {
     'itinerary-hide-stops': 'Zwischenstopps ausblenden',
     'itinerary-page.description': 'Reisebeschreibung',
     'itinerary-page.hide-details': 'Details ausblenden',
-    'itinerary-page.update-alert': 'Suchergebnisse aktualisiert',
     'itinerary-page.show-details': 'Details zeigen',
-    'itinerary-page.show-details-label': 'Zeige Details zu Routenvorschlag {number}',
+    'itinerary-page.show-details-label':
+      'Zeige Details zu Routenvorschlag {number}',
     'itinerary-page.title': 'Reisebeschreibung',
+    'itinerary-page.update-alert': 'Suchergebnisse aktualisiert',
     'itinerary-summary-page.description': 'Reisevorschläge',
     'itinerary-summary-page.title': 'Routenvorschläge',
-    'itinerary-summary-row.first-leg-start-time': 'Fährt ab um {firstDepartureTime} {firstDepartureStopType} {firstDepartureStop}',
-    'itinerary-summary-row.first-leg-start-time-citybike': 'Abfahrt um {firstDepartureTime} von {firstDepartureStop} Leihrad-Station',
-    'itinerary-summary-row.no-transit-legs': 'Start jederzeit möglich',
     'itinerary-summary-row.biking-distance':
       'Gesamte Fahrradstrecke: {totalDistance}.',
     'itinerary-summary-row.clickable-area-description': 'Auf der Karte zeigen',
@@ -444,15 +442,24 @@ const translations = {
       'Route fährt ab {departureDate} {departureTime} mit Ankunft {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Gesamte Dauer {totalTime}.',
     'itinerary-summary-row.first-departure':
       '{vehicle} fährt um {departureTime} von {stopName}.',
+    'itinerary-summary-row.first-leg-start-time':
+      'Fährt ab um {firstDepartureTime} {firstDepartureStopType} {firstDepartureStop}',
+    'itinerary-summary-row.first-leg-start-time-citybike':
+      'Abfahrt um {firstDepartureTime} von {firstDepartureStop} Leihrad-Station',
+    'itinerary-summary-row.no-transit-legs': 'Start jederzeit möglich',
     'itinerary-summary-row.transfers':
       'Umstieg auf {vehicle} an Halt {stopName}',
     'itinerary-summary-row.walking-distance':
       'Gesamte Laufstrecke: {totalDistance}.',
-    'itinerary-summary.bikeAndPublic-fallback-title': 'Nehmen Sie Ihr Rad mit ins Fahrzeug',
-    'itinerary-summary.bikeAndPublic-rail-title': 'Nehmen Sie Ihr Rad mit in den Zug',
-    'itinerary-summary.bikeAndPublic-subway-title': 'Nehmen Sie Ihr Rad mit in die Bahn',
+    'itinerary-summary.bikeAndPublic-fallback-title':
+      'Nehmen Sie Ihr Rad mit ins Fahrzeug',
+    'itinerary-summary.bikeAndPublic-rail-title':
+      'Nehmen Sie Ihr Rad mit in den Zug',
+    'itinerary-summary.bikeAndPublic-subway-title':
+      'Nehmen Sie Ihr Rad mit in die Bahn',
     'itinerary-summary.bikePark-title': 'Parken und Reisen',
-    'itinerary-summary.interline-wait': 'Warte auf den Umstieg in Fahrzeug ({time})',
+    'itinerary-summary.interline-wait':
+      'Warte auf den Umstieg in Fahrzeug ({time})',
     'itinerary-summary.show-on-map': 'Auf Karte zeigen {target}',
     'itinerary-ticket.title': 'Benötigte Fahrkarte',
     'itinerary-tickets.title': 'Benötigte Fahrkarten',
@@ -467,7 +474,7 @@ const translations = {
     'likely-to-use':
       'Wie wahrscheinlich würden Sie weiterhin diesen Service anstatt des bisherigen Services nutzen?',
     loading: 'laden',
-    'localadmin': 'Ort',
+    localadmin: 'Ort',
     locate: 'Lokalisieren',
     'location-examples': 'z.B. Zuhause, Arbeit, Schule,...',
     'location-from-map': 'Gewählte Position',
@@ -477,8 +484,9 @@ const translations = {
     'location-shopping': 'Einkaufen',
     'location-sport': 'Sport',
     'location-work': 'Arbeit',
-    login: 'Anmelden',  
-    'login-content': 'Um Favoriten, Linien und Haltestellen zu speichern, müssen Sie sich einloggen.',
+    login: 'Anmelden',
+    'login-content':
+      'Um Favoriten, Linien und Haltestellen zu speichern, müssen Sie sich einloggen.',
     'login-header': 'Loggen Sie sich ein',
     logout: 'Abmelden',
     'long-transfers-margin': 'Lange',
@@ -511,7 +519,8 @@ const translations = {
     'nearest-stops-subway': 'Nächstgelegene U-/Stadtbahn-Haltestelle',
     'nearest-stops-tram': 'Nächstgelegene Straßenbbahn-Haltestelle',
     'nearest-stops-update-location': 'Aktualisiere {mode}',
-    'nearest-stops-updated-location': 'Position auf der Karte hat sich geändert',
+    'nearest-stops-updated-location':
+      'Position auf der Karte hat sich geändert',
     neighbourhood: 'Viertel ',
     'network-error': 'Ein Netzwerkfehler ist aufgetreten.',
     next: 'Nächste',
@@ -533,8 +542,10 @@ const translations = {
 
     'no-route-origin-near-destination':
       'Die Entfernung zwischen Start und Ziel ist sehr gering. Bitte ändern Sie einen dieser Orte.',
-    'no-route-origin-same-as-destination': 'Keine Reisevorschläge gefunden, da Abfahrts- und Zielort übereinstimmen.',
-    'no-route-showing-alternative-options': 'Keine Routenvorschläge mit Ihren Einstelllungen gefunden. Stattdessen haben wird die folgenden Reiseoptionen gefunden:',
+    'no-route-origin-same-as-destination':
+      'Keine Reisevorschläge gefunden, da Abfahrts- und Zielort übereinstimmen.',
+    'no-route-showing-alternative-options':
+      'Keine Routenvorschläge mit Ihren Einstelllungen gefunden. Stattdessen haben wird die folgenden Reiseoptionen gefunden:',
     'no-route-start-date-too-early':
       'Der aktuelle Fahrplan enthält keine früheren Abfahrten.',
     'no-route-start-end': 'Bitte Start und Ziel auswählen.',
@@ -583,7 +594,7 @@ const translations = {
     'pick-mode-tram-enabled': 'Tram ausgewählt',
     'pick-street-mode': 'Meine Reiseoptionen',
     'place-route-or-keyword': 'Adresse oder Haltestelle',
-    'platform': 'Gleis',
+    platform: 'Gleis',
     'platform-num': 'Gleis {platformCode}',
     'platform-short': 'Gl. {platformCode}',
     'prefer-walking': 'Gehen bevorzugen',
@@ -637,8 +648,8 @@ const translations = {
     'search-autosuggest-len': 'Es sind {len} Vorschläge verfügbar',
     'search-button-label': 'Suchen',
     'search-current-suggestion': 'Aktuelle Auswahl: {selection}',
-    'search-destination-index': 'Geben Sie das Ziel ein',
     'search-destination': 'Suche Ziel, Linie oder Haltestelle',
+    'search-destination-index': 'Geben Sie das Ziel ein',
     'search-destination-results-but-no-search':
       'Siehe Ergebnisse im "Zielort"-Tab',
     'search-no-results': 'Keine Ergebnisse',
@@ -672,6 +683,7 @@ const translations = {
     show: 'zeigen',
     'show-departures': 'Abfahrten zeigen',
     'show-more': 'Mehr zeigen',
+    'show-more-stops-near-you': 'Zeige mehr Haltestellen in der Nähe',
     'show-routes': 'Verbindungen auswählen',
     'skip-positioning': 'Überspringen',
     'skip-to-content': 'Zum Inhalt springen',
@@ -684,12 +696,14 @@ const translations = {
     'splash-you-can-also': 'Sie können auch',
     station: 'Station',
     stop: 'Haltestelle',
-    'show-more-stops-near-you': 'Zeige mehr Haltestellen in der Nähe',
     'stop-near-you': 'Suche Haltestellen und Linien in der Nähe',
     'stop-near-you-modal-grant-permission': 'oder aktiviere die Ortsbestimmung',
-    'stop-near-you-modal-grant-permission-info': 'Sie können die Standortabfrage Ihres Smartphonse oder Browsers freigeben, so dass dieser Dienst Ihren aktuellen Standort verwenden kann.',
-    'stop-near-you-modal-header': 'Sie haben die Standortabfrage nicht freigegeben.',
-    'stop-near-you-modal-info': 'Zur Nutzung der Suche nach Haltestellen in der Nähe wird Zugriff auf die Standortabfrage benötigt.',
+    'stop-near-you-modal-grant-permission-info':
+      'Sie können die Standortabfrage Ihres Smartphonse oder Browsers freigeben, so dass dieser Dienst Ihren aktuellen Standort verwenden kann.',
+    'stop-near-you-modal-header':
+      'Sie haben die Standortabfrage nicht freigegeben.',
+    'stop-near-you-modal-info':
+      'Zur Nutzung der Suche nach Haltestellen in der Nähe wird Zugriff auf die Standortabfrage benötigt.',
     'stop-near-you-title': 'Suche nach Haltestellen oder Linien',
     'stop-number': 'Haltestellennummer',
     'stop-page.description': 'Haltestelle - {name} {code}, {desc}',
@@ -699,8 +713,10 @@ const translations = {
     stops: 'Haltestellen',
     street: 'Straße',
     'street-mode-bicycle': 'Fahrrad',
-    'street-mode-bike-aria': 'Zeige Fahrradroute. Dauer {duration}, Strecke {length}',
-    'street-mode-bikeandvehicle-aria': 'Zeige Kombination von Fahrrad und ÖPNV. Dauer {duration}, davon {length} per Rad',
+    'street-mode-bike-aria':
+      'Zeige Fahrradroute. Dauer {duration}, Strecke {length}',
+    'street-mode-bikeandvehicle-aria':
+      'Zeige Kombination von Fahrrad und ÖPNV. Dauer {duration}, davon {length} per Rad',
     'street-mode-car': 'Auto',
     'street-mode-car_park': 'Park & Ride',
     'street-mode-public_transport': 'ÖPNV',
@@ -728,7 +744,7 @@ const translations = {
     timetable: 'Fahrplan',
     today: 'Heute',
     tomorrow: 'Morgen',
-    'track': 'Gleis',
+    track: 'Gleis',
     'track-num': 'Gleis {platformCode}',
     'track-short': 'Gl. {platformCode}',
     tram: 'Tram',
@@ -746,7 +762,8 @@ const translations = {
     'try-again': 'Nochmal versuchen',
     'use-citybike': 'Leihrad benutzen',
     'use-national-service-postfix': '.',
-    'use-national-service-prefix': 'Wir empfehlen, dass Sie den überregionalen Routenplaner nutzen, ',
+    'use-national-service-prefix':
+      'Wir empfehlen, dass Sie den überregionalen Routenplaner nutzen, ',
     'use-own-position': 'Aktuellen Standort benutzen',
     'using-modes': 'Verkehrsmittel',
     venue: 'Ort',
@@ -771,7 +788,7 @@ const translations = {
     'warning-call-agency-no-route':
       'Nur auf Nachfrage. Diese Fahrt muss vorher angefragt werden.',
     'weather-at-destination': 'Wetter am Reiseziel',
-    'where': 'Wohin?',
+    where: 'Wohin?',
     yesterday: 'Gestern',
     zone: 'Tarifzone',
     zones: 'Tarifzonen',

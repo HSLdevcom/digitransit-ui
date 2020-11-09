@@ -96,7 +96,7 @@ class MapWithTrackingStateHandler extends React.Component {
     messages: PropTypes.array,
     setInitialMapTracking: PropTypes.bool,
     initialZoom: PropTypes.number,
-    disableLocationPopup: PropTypes.bool,
+    locationPopup: PropTypes.string,
     showLocationMessages: PropTypes.bool,
     defaultMapCenter: PropTypes.object.isRequired,
     fitBoundsWithSetCenter: PropTypes.bool,
@@ -107,7 +107,7 @@ class MapWithTrackingStateHandler extends React.Component {
     renderCustomButtons: undefined,
     setInitialMapTracking: false,
     initialZoom: undefined,
-    disableLocationPopup: false,
+    locationPopup: 'reversegeocoding',
     fitBounds: false,
     showLocationMessages: false,
     fitBoundsWithSetCenter: false,
@@ -365,7 +365,7 @@ class MapWithTrackingStateHandler extends React.Component {
         mapTracking={this.state.mapTracking}
         fitBounds={useFitBounds}
         className="flex-grow"
-        disableLocationPopup={this.props.disableLocationPopup}
+        locationPopup={this.props.locationPopup}
         leafletEvents={{
           onDragstart: this.disableMapTracking,
           onMoveend: () => this.setState({ keepOnTracking: false }),

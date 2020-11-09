@@ -24,6 +24,11 @@ class LocationPopup extends React.Component {
     language: PropTypes.string.isRequired,
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired,
+    itinerarySearchButtons: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    itinerarySearchButtons: false,
   };
 
   constructor(props) {
@@ -148,7 +153,9 @@ class LocationPopup extends React.Component {
             />
           </CardHeader>
         </div>
-        <MarkerPopupBottom location={this.state.location} />
+        {this.props.itinerarySearchButtons && (
+          <MarkerPopupBottom location={this.state.location} />
+        )}
       </Card>
     );
   }
