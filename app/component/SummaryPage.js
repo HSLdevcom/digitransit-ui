@@ -893,6 +893,7 @@ class SummaryPage extends React.Component {
     }
     this.justMounted = true;
     this.useFitBounds = true;
+    this.mapLoaded = false;
     //  alert screen reader when search results appear
     if (this.resultsUpdatedAlertRef.current) {
       // eslint-disable-next-line no-self-assign
