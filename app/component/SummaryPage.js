@@ -1726,6 +1726,16 @@ class SummaryPage extends React.Component {
           this.useFitBounds = true;
         }
         center = { lat: origin.lat, lon: origin.lon };
+      } else if (
+        (hash !== undefined && this.props.match.params.hash === 'walk') ||
+        this.props.match.params.hash === 'bike'
+      ) {
+        bounds = [].concat(
+          ...combinedItineraries[hash].legs.map(leg =>
+            polyline.decode(leg.legGeometry.points),
+          ),
+        );
+        this.useFitBounds = true;
       }
     } else {
       center = this.state.bounds ? undefined : this.state.center;

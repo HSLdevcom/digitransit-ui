@@ -46,7 +46,7 @@ function ItineraryPageMap(
   breakpointChanged = !isEqual(breakpoint, prevBreakpoint);
   prevBreakpoint = breakpoint;
   let latlon = prevCenter;
-  const { from, to } = match.params;
+  const { from, to, hash } = match.params;
   if (prevCenter) {
     useCenter = false;
   }
@@ -79,8 +79,10 @@ function ItineraryPageMap(
       type="to"
       streetMode={streetMode}
     />,
-    <VehicleMarkerContainer key="vehicles" useLargeIcon />,
   ];
+  if (hash !== undefined && hash !== 'walk' && hash !== 'bike') {
+    leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
+  }
   if (match.location.query && match.location.query.intermediatePlaces) {
     if (Array.isArray(match.location.query.intermediatePlaces)) {
       match.location.query.intermediatePlaces
