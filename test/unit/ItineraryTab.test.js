@@ -16,6 +16,7 @@ describe('<ItineraryTab />', () => {
       plan: {
         date: 19700101,
       },
+      setMapZoomToLeg: () => {},
     };
     const wrapper = shallowWithIntl(<ItineraryTab {...props} />, {
       context: { ...mockContext },

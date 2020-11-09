@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import MapBottomsheetContext from './MapBottomsheetContext';
+import withGeojsonObjects from './withGeojsonObjects';
 
 import LazilyLoad, { importLazy } from '../LazilyLoad';
 
@@ -46,6 +47,10 @@ MapContainer.defaultProps = {
   boundsOptions: {},
 };
 
-export default connectToStores(MapContainer, ['PreferencesStore'], context => ({
-  lang: context.getStore('PreferencesStore').getLanguage(),
-}));
+export default connectToStores(
+  withGeojsonObjects(MapContainer),
+  ['PreferencesStore'],
+  context => ({
+    lang: context.getStore('PreferencesStore').getLanguage(),
+  }),
+);

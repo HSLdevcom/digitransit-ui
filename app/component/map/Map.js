@@ -9,6 +9,7 @@ import AttributionControl from 'react-leaflet/es/AttributionControl';
 import ScaleControl from 'react-leaflet/es/ScaleControl';
 import ZoomControl from 'react-leaflet/es/ZoomControl';
 import L from 'leaflet';
+import { get, isString, isEmpty } from 'lodash';
 // Webpack handles this by bundling it with the other css files
 import 'leaflet/dist/leaflet.css';
 
@@ -52,6 +53,7 @@ export default class Map extends React.Component {
     mapBottomPadding: PropTypes.number,
     buttonBottomPadding: PropTypes.number,
     bottomButtons: PropTypes.node,
+    mapReady: PropTypes.func,
   };
 
   static defaultProps = {
@@ -115,14 +117,17 @@ export default class Map extends React.Component {
       boundsOptions,
       disableLocationPopup,
       leafletObjs,
+      mapReady,
     } = this.props;
     const { config } = this.context;
+    if (mapReady) {
+      mapReady();
+    }
     const center =
       (!this.props.fitBounds &&
         this.props.lat &&
         this.props.lon && [this.props.lat, this.props.lon]) ||
       null;
-
     if (this.props.padding) {
       boundsOptions.paddingTopLeft = this.props.padding;
     }
@@ -149,6 +154,12 @@ export default class Map extends React.Component {
         />,
       );
     }
+
+    let attribution = get(config, 'map.attribution');
+    if (!isString(attribution) || isEmpty(attribution)) {
+      attribution = false;
+    }
+
     return (
       <div aria-hidden="true">
         <span
@@ -200,15 +211,16 @@ export default class Map extends React.Component {
             }
             minZoom={config.map.minZoom}
             maxZoom={config.map.maxZoom}
+            attribution={attribution}
           />
           <BreakpointConsumer>
             {breakpoint =>
-              config.map.showOSMCopyright && (
+              attribution && (
                 <AttributionControl
                   position={
                     breakpoint === 'large' ? 'bottomright' : 'bottomleft'
                   }
-                  prefix='<a tabindex="-1" href="http://osm.org/copyright">&copy; OpenStreetMap</a>'
+                  prefix=""
                 />
               )
             }

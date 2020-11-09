@@ -11,7 +11,6 @@ import {
 } from 'react-relay';
 import findIndex from 'lodash/findIndex';
 import get from 'lodash/get';
-import sortBy from 'lodash/sortBy';
 import polyline from 'polyline-encoded';
 import { FormattedMessage } from 'react-intl';
 import { matchShape, routerShape } from 'found';
@@ -64,6 +63,7 @@ import { getCurrentSettings, preparePlanParams } from '../util/planParamUtil';
 import { getTotalBikingDistance } from '../util/legUtils';
 import { userHasChangedModes } from '../util/modeUtils';
 
+/**
 /**
  * Returns the actively selected itinerary's index. Attempts to look for
  * the information in the location's state and pathname, respectively.
@@ -165,7 +165,10 @@ const getTopicOptions = (context, planitineraries, match) => {
     planitineraries.every(itinerary => itinerary !== undefined)
       ? planitineraries
       : [];
-  const activeIndex = getActiveIndex(match.location, itineraries);
+  const activeIndex =
+    getHashNumber(
+      match.params.secondHash ? match.params.secondHash : match.params.hash,
+    ) || getActiveIndex(match.location, itineraries);
   const itineraryTopics = [];
 
   if (itineraries.length > 0) {
@@ -200,6 +203,37 @@ const getTopicOptions = (context, planitineraries, match) => {
   }
   return itineraryTopics;
 };
+
+const getVehicleInfos = itinerary => {
+  if (!itinerary) {
+    return {};
+  }
+  let itineraryVehicles = {};
+  const gtfsIdsOfRouteAndDirection = [];
+  const gtfsIdsOfTrip = [];
+  const startTimes = [];
+
+  itinerary.legs.forEach(leg => {
+    if (leg.transitLeg && leg.trip) {
+      gtfsIdsOfTrip.push(leg.trip.gtfsId);
+      startTimes.push(
+        getStartTime(leg.trip.stoptimesForDate[0].scheduledDeparture),
+      );
+      gtfsIdsOfRouteAndDirection.push(
+        `${leg.route.gtfsId}_${leg.trip.directionId}`,
+      );
+    }
+  });
+  if (startTimes.length > 0) {
+    itineraryVehicles = {
+      gtfsIdsOfTrip,
+      gtfsIdsOfRouteAndDirection,
+      startTimes,
+    };
+  }
+  return itineraryVehicles;
+};
+
 class SummaryPage extends React.Component {
   static contextTypes = {
     config: PropTypes.object,
@@ -249,6 +283,11 @@ class SummaryPage extends React.Component {
     this.isFetchingWalkAndBike = true;
     this.params = this.context.match.params;
     this.originalPlan = this.props.viewer && this.props.viewer.plan;
+    this.justMounted = true;
+    this.useFitBounds = true;
+    this.mapLoaded = false;
+    this.origin = undefined;
+    this.destination = undefined;
     context.executeAction(storeOrigin, otpToLocation(props.match.params.from));
     if (props.error) {
       reportError(props.error);
@@ -287,6 +326,7 @@ class SummaryPage extends React.Component {
       bikePlan: undefined,
       bikeAndPublicPlan: undefined,
       bikeParkPlan: undefined,
+      scrolled: false,
     };
     if (this.state.streetMode === 'walk') {
       this.selectedPlan = this.state.walkPlan;
@@ -304,15 +344,22 @@ class SummaryPage extends React.Component {
     }
 
     if (this.showVehicles()) {
+      const combinedItineraries = this.getCombinedItineraries();
       const itineraryTopics = getTopicOptions(
         this.context,
-        this.selectedPlan?.itineraries,
+        combinedItineraries,
         this.props.match,
       );
       if (itineraryTopics && itineraryTopics.length > 0) {
         this.startClient(itineraryTopics);
       }
     }
+  }
+
+  // When user goes straigth to itinerary view with url, map cannot keep up and renders a while after everything else
+  // This helper function ensures that lat lon values are sent to the map, thus preventing set center and zoom first error.
+  mapReady() {
+    this.mapLoaded = true;
   }
 
   addEarlierItineraries = newItineraries => {
@@ -369,6 +416,9 @@ class SummaryPage extends React.Component {
   };
 
   setStreetModeAndSelect = newStreetMode => {
+    this.justMounted = true;
+    this.useFitBounds = true;
+    this.mapLoaded = false;
     addAnalyticsEvent({
       category: 'Itinerary',
       action: 'OpenItineraryDetailsWithMode',
@@ -463,11 +513,19 @@ class SummaryPage extends React.Component {
     }
   };
 
-  updateClient = itineraryTopics => {
+  updateClient = (itineraryTopics, itineraryVehicles) => {
     const { client, topics } = this.context.getStore(
       'RealTimeInformationStore',
     );
 
+    this.context.getStore(
+      'RealTimeInformationStore',
+    ).storedItineraryVehicleInfos = itineraryVehicles;
+
+    if (isEmpty(itineraryTopics) && client) {
+      this.stopClient();
+      return;
+    }
     if (client) {
       const clientConfig = this.configClient(itineraryTopics);
       if (clientConfig) {
@@ -515,10 +573,10 @@ class SummaryPage extends React.Component {
         $walkBoardCost: Int
         $minTransferTime: Int
         $walkSpeed: Float
-        $maxWalkDistance: Float
+        $bikeAndPublicMaxWalkDistance: Float
         $wheelchair: Boolean
         $ticketTypes: [String]
-        $disableRemainingWeightHeuristic: Boolean
+        $bikeandPublicDisableRemainingWeightHeuristic: Boolean
         $arriveBy: Boolean
         $transferPenalty: Int
         $bikeSpeed: Float
@@ -607,9 +665,9 @@ class SummaryPage extends React.Component {
           walkBoardCost: $walkBoardCost
           minTransferTime: $minTransferTime
           walkSpeed: $walkSpeed
-          maxWalkDistance: $maxWalkDistance
+          maxWalkDistance: $bikeAndPublicMaxWalkDistance
           allowedTicketTypes: $ticketTypes
-          disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
+          disableRemainingWeightHeuristic: $bikeandPublicDisableRemainingWeightHeuristic
           arriveBy: $arriveBy
           transferPenalty: $transferPenalty
           bikeSpeed: $bikeSpeed
@@ -670,9 +728,9 @@ class SummaryPage extends React.Component {
           walkBoardCost: $walkBoardCost
           minTransferTime: $minTransferTime
           walkSpeed: $walkSpeed
-          maxWalkDistance: $maxWalkDistance
+          maxWalkDistance: $bikeAndPublicMaxWalkDistance
           allowedTicketTypes: $ticketTypes
-          disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
+          disableRemainingWeightHeuristic: $bikeandPublicDisableRemainingWeightHeuristic
           arriveBy: $arriveBy
           transferPenalty: $transferPenalty
           bikeSpeed: $bikeSpeed
@@ -876,6 +934,8 @@ class SummaryPage extends React.Component {
     if (this.showVehicles()) {
       this.stopClient();
     }
+    this.justMounted = true;
+    this.useFitBounds = true;
     //  alert screen reader when search results appear
     if (this.resultsUpdatedAlertRef.current) {
       // eslint-disable-next-line no-self-assign
@@ -888,6 +948,7 @@ class SummaryPage extends React.Component {
       !this.props.match.params.hash &&
       !isEqual(this.props.match.params.hash, prevProps.match.params.hash)
     ) {
+      this.justMounted = true;
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         center: undefined,
@@ -986,14 +1047,23 @@ class SummaryPage extends React.Component {
       reportError(this.props.error);
     }
     if (this.showVehicles()) {
+      const combinedItineraries = this.getCombinedItineraries();
       const itineraryTopics = getTopicOptions(
         this.context,
-        this.selectedPlan?.itineraries,
+        combinedItineraries,
         this.props.match,
       );
-      if (itineraryTopics && itineraryTopics.length > 0) {
-        this.updateClient(itineraryTopics);
-      }
+      const activeIndex =
+        getHashNumber(
+          this.props.match.params.secondHash
+            ? this.props.match.params.secondHash
+            : this.props.match.params.hash,
+        ) || getActiveIndex(this.props.match.location, combinedItineraries);
+      const itineraryVehicles =
+        combinedItineraries.length > 0
+          ? getVehicleInfos(combinedItineraries[activeIndex])
+          : {};
+      this.updateClient(itineraryTopics, itineraryVehicles);
     }
   }
 
@@ -1068,9 +1138,7 @@ class SummaryPage extends React.Component {
         this.state.bikeParkPlan?.itineraries,
       ),
     };
-    const bikeAndPublicPlan = this.filteredbikeAndPublic(
-      this.state.bikeAndPublicPlan,
-    );
+    const { bikeAndPublicPlan } = this.state;
     const itin =
       (walkPlan && walkPlan.itineraries && walkPlan.itineraries[0]) ||
       (bikePlan && bikePlan.itineraries && bikePlan.itineraries[0]) ||
@@ -1137,7 +1205,8 @@ class SummaryPage extends React.Component {
     if (this.props.breakpoint !== 'large') {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     }
-    this.setState({ bounds: [] });
+    // this.justMounted = true;
+    // this.setState({ bounds: [] });
     const bounds = []
       .concat(
         [
@@ -1147,28 +1216,28 @@ class SummaryPage extends React.Component {
         polyline.decode(leg.legGeometry.points),
       )
       .filter(a => a[0] && a[1]);
-
+    this.useFitBounds = true;
     this.setState({
       bounds,
-      center: null,
+      center: undefined,
     });
   };
 
   renderMap() {
     const { match, breakpoint } = this.props;
+    this.justMounted = true;
+    this.useFitBounds = false;
     // don't render map on mobile
     if (breakpoint !== 'large') {
+      this.justMounted = true;
+      this.useFitBounds = true;
       return undefined;
     }
     const {
       config: { defaultEndpoint },
     } = this.context;
 
-    const combinedItineraries = [
-      ...(this.state.earlierItineraries || []),
-      ...(this.selectedPlan.itineraries || []),
-      ...(this.state.laterItineraries || []),
-    ];
+    const combinedItineraries = this.getCombinedItineraries();
     let filteredItineraries;
     if (combinedItineraries && combinedItineraries.length > 0) {
       filteredItineraries = combinedItineraries.filter(
@@ -1178,7 +1247,10 @@ class SummaryPage extends React.Component {
       filteredItineraries = [];
     }
 
-    const activeIndex = getActiveIndex(match.location, filteredItineraries);
+    const activeIndex =
+      getHashNumber(
+        match.params.secondHash ? match.params.secondHash : match.params.hash,
+      ) || getActiveIndex(match.location, filteredItineraries);
     const from = otpToLocation(match.params.from);
     const to = otpToLocation(match.params.to);
 
@@ -1196,19 +1268,32 @@ class SummaryPage extends React.Component {
       this.context.getStore(MessageStore).getMessages(),
     );
 
-    const leafletObjs = sortBy(
-      filteredItineraries.map((itinerary, i) => (
+    let leafletObjs = [];
+
+    if (filteredItineraries && filteredItineraries.length > 0) {
+      const onlyActive = filteredItineraries[activeIndex];
+      leafletObjs = filteredItineraries
+        .filter(itinerary => itinerary !== onlyActive)
+        .map((itinerary, i) => (
+          <ItineraryLine
+            key={i}
+            hash={i}
+            legs={itinerary.legs}
+            passive
+            showIntermediateStops={false}
+          />
+        ));
+      const nextId = leafletObjs.length + 1;
+      leafletObjs.push(
         <ItineraryLine
-          key={i}
-          hash={i}
-          legs={itinerary.legs}
-          passive={i !== activeIndex}
-          showIntermediateStops={i === activeIndex}
-        />
-      )),
-      // Make sure active line isn't rendered over
-      i => i.props.passive === false,
-    );
+          key={nextId}
+          hash={nextId}
+          legs={onlyActive.legs}
+          passive={false}
+          showIntermediateStops
+        />,
+      );
+    }
 
     if (from.lat && from.lon) {
       leafletObjs.push(
@@ -1269,31 +1354,11 @@ class SummaryPage extends React.Component {
       [centerPoint.lat + delta, centerPoint.lon + delta],
     ];
 
-    let itineraryVehicles = {};
-    const gtfsIdsOfRouteAndDirection = [];
-    const gtfsIdsOfTrip = [];
-    const startTimes = [];
+    const itineraryVehicles =
+      filteredItineraries.length > 0
+        ? getVehicleInfos(filteredItineraries[activeIndex])
+        : {};
 
-    if (filteredItineraries.length > 0) {
-      filteredItineraries[activeIndex].legs.forEach(leg => {
-        if (leg.transitLeg && leg.trip) {
-          gtfsIdsOfTrip.push(leg.trip.gtfsId);
-          startTimes.push(
-            getStartTime(leg.trip.stoptimesForDate[0].scheduledDeparture),
-          );
-          gtfsIdsOfRouteAndDirection.push(
-            `${leg.route.gtfsId}_${leg.trip.directionId}`,
-          );
-        }
-      });
-    }
-    if (startTimes.length > 0) {
-      itineraryVehicles = {
-        gtfsIdsOfTrip,
-        gtfsIdsOfRouteAndDirection,
-        startTimes,
-      };
-    }
     this.context.getStore(
       'RealTimeInformationStore',
     ).storedItineraryVehicleInfos = itineraryVehicles;
@@ -1386,6 +1451,22 @@ class SummaryPage extends React.Component {
     );
   };
 
+  handleScroll = event => {
+    const { scrollTop } = event.target;
+    const scrolled = scrollTop > 0;
+    if (scrolled !== this.state.scrolled) {
+      this.setState({ scrolled });
+    }
+  };
+
+  getCombinedItineraries = () => {
+    return [
+      ...(this.state.earlierItineraries || []),
+      ...(this.selectedPlan.itineraries || []),
+      ...(this.state.laterItineraries || []),
+    ];
+  };
+
   render() {
     const { match, error } = this.props;
     const { walkPlan, bikePlan } = this.state;
@@ -1397,9 +1478,7 @@ class SummaryPage extends React.Component {
         this.state.bikeParkPlan?.itineraries,
       ),
     };
-    const bikeAndPublicPlan = this.filteredbikeAndPublic(
-      this.state.bikeAndPublicPlan,
-    );
+    const { bikeAndPublicPlan } = this.state;
     const planHasNoItineraries =
       plan &&
       plan.itineraries &&
@@ -1565,11 +1644,7 @@ class SummaryPage extends React.Component {
         });
       }
     }
-    let combinedItineraries = [
-      ...(this.state.earlierItineraries || []),
-      ...(this.selectedPlan.itineraries || []),
-      ...(this.state.laterItineraries || []),
-    ];
+    let combinedItineraries = this.getCombinedItineraries();
 
     if (
       combinedItineraries &&
@@ -1603,26 +1678,41 @@ class SummaryPage extends React.Component {
     }
     let bounds;
     let center;
-
+    let sameOriginDestination = false;
     if (!this.state.bounds && !this.state.center) {
       const origin = otpToLocation(match.params.from);
       const destination = otpToLocation(match.params.to);
-      bounds = [
-        [origin.lat, origin.lon],
-        [destination.lat, destination.lon],
-      ];
-      if (hash && combinedItineraries[hash]) {
-        const legGeometry = [].concat(
-          ...combinedItineraries[hash].legs.map(leg =>
-            polyline.decode(leg.legGeometry.points),
-          ),
-        );
-        bounds = []
-          .concat(bounds)
-          .concat(legGeometry)
-          .filter(a => a[0] && a[1]);
+      if (
+        isEqual(origin, this.origin) &&
+        isEqual(destination, this.destination)
+      ) {
+        sameOriginDestination = true;
       }
-      center = undefined;
+      if (!sameOriginDestination || this.justMounted) {
+        this.origin = origin;
+        this.destination = destination;
+        bounds = [
+          [origin.lat, origin.lon],
+          [destination.lat, destination.lon],
+        ];
+
+        if (
+          hash !== undefined &&
+          (combinedItineraries[hash] || combinedItineraries[hash])
+        ) {
+          const legGeometry = [].concat(
+            ...combinedItineraries[hash].legs.map(leg =>
+              polyline.decode(leg.legGeometry.points),
+            ),
+          );
+          bounds = []
+            .concat(bounds)
+            .concat(legGeometry)
+            .filter(a => a[0] && a[1]);
+          this.useFitBounds = true;
+        }
+        center = { lat: origin.lat, lon: origin.lon };
+      }
     } else {
       center = this.state.bounds ? undefined : this.state.center;
       bounds = this.state.center ? undefined : this.state.bounds;
@@ -1646,13 +1736,20 @@ class SummaryPage extends React.Component {
               itinerary: combinedItineraries && combinedItineraries[hash],
               center,
               bounds,
+              forceCenter: this.justMounted,
               streetMode: this.state.streetMode,
-              fitBounds: Boolean(bounds),
+              fitBounds: this.useFitBounds,
+              mapReady: this.mapReady.bind(this),
+              mapLoaded: this.mapLoaded,
               ...this.props,
             },
             this.context,
           )
         : this.renderMap();
+      if (this.props.map) {
+        this.justMounted = false;
+        this.useFitBounds = false;
+      }
     }
 
     let earliestStartTime;
@@ -1685,8 +1782,7 @@ class SummaryPage extends React.Component {
       if (
         this.state.loading === false &&
         this.props.loadingPosition === false &&
-        this.props.loading === false &&
-        (error || combinedItineraries)
+        (error || (combinedItineraries && this.props.loading === false))
       ) {
         const activeIndex =
           hash || getActiveIndex(match.location, combinedItineraries);
@@ -1759,7 +1855,7 @@ class SummaryPage extends React.Component {
               addEarlierItineraries={this.addEarlierItineraries}
               separatorPosition={this.state.separatorPosition}
               updateSeparatorPosition={this.updateSeparatorPosition}
-              loading={this.isFetchingWalkAndBike}
+              loading={this.isFetchingWalkAndBike && !error}
             >
               {this.props.content &&
                 React.cloneElement(this.props.content, {
@@ -1771,7 +1867,11 @@ class SummaryPage extends React.Component {
           </>
         );
       } else {
-        content = null;
+        content = (
+          <div style={{ position: 'relative', height: 200 }}>
+            <Loading />
+          </div>
+        );
       }
       return (
         <DesktopView
@@ -1790,7 +1890,9 @@ class SummaryPage extends React.Component {
                 endTime={latestArrivalTime}
                 toggleSettings={this.toggleCustomizeSearchOffcanvas}
               />
-              {!this.isFetchingWalkAndBike && !showStreetModeSelector ? null : (
+              {error ||
+              (!this.isFetchingWalkAndBike &&
+                !showStreetModeSelector) ? null : (
                 <StreetModeSelector
                   showWalkOptionButton={showWalkOptionButton}
                   showBikeOptionButton={showBikeOptionButton}
@@ -1803,6 +1905,7 @@ class SummaryPage extends React.Component {
                   bikeAndPublicPlan={bikeAndPublicPlan}
                   bikeParkPlan={bikeParkPlan}
                   loading={
+                    this.props.loading ||
                     this.isFetchingWalkAndBike ||
                     (!this.state.weatherData.temperature &&
                       !this.state.weatherData.err)
@@ -1820,6 +1923,8 @@ class SummaryPage extends React.Component {
           }
           map={map}
           scrollable
+          scrolled={this.state.scrolled}
+          onScroll={this.handleScroll}
           bckBtnColor={this.context.config.colors.primary}
         />
       );
@@ -1828,12 +1933,15 @@ class SummaryPage extends React.Component {
     let content;
 
     if (
-      (!error && !this.selectedPlan) ||
+      (!error && (!this.selectedPlan || this.props.loading === true)) ||
       this.state.loading !== false ||
-      this.props.loading !== false ||
       this.props.loadingPosition === true
     ) {
-      content = null;
+      content = (
+        <div style={{ position: 'relative', height: 200 }}>
+          <Loading />
+        </div>
+      );
     } else if (
       routeSelected(
         match.params.hash,
@@ -1893,7 +2001,7 @@ class SummaryPage extends React.Component {
             addEarlierItineraries={this.addEarlierItineraries}
             separatorPosition={this.state.separatorPosition}
             updateSeparatorPosition={this.updateSeparatorPosition}
-            loading={this.isFetchingWalkAndBike}
+            loading={this.isFetchingWalkAndBike && !error}
           />
           {screenReaderUpdateAlert}
         </>
@@ -1916,7 +2024,9 @@ class SummaryPage extends React.Component {
                 endTime={latestArrivalTime}
                 toggleSettings={this.toggleCustomizeSearchOffcanvas}
               />
-              {!this.isFetchingWalkAndBike && !showStreetModeSelector ? null : (
+              {error ||
+              (!this.isFetchingWalkAndBike &&
+                !showStreetModeSelector) ? null : (
                 <StreetModeSelector
                   showWalkOptionButton={showWalkOptionButton}
                   showBikeOptionButton={showBikeOptionButton}
@@ -1929,6 +2039,7 @@ class SummaryPage extends React.Component {
                   bikeAndPublicPlan={bikeAndPublicPlan}
                   bikeParkPlan={bikeParkPlan}
                   loading={
+                    this.props.loading ||
                     this.isFetchingWalkAndBike ||
                     (!this.state.weatherData.temperature &&
                       !this.state.weatherData.err)

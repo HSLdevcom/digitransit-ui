@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape, routerShape } from 'found';
+import isEqual from 'lodash/isEqual';
 import LocationMarker from './map/LocationMarker';
 import ItineraryLine from './map/ItineraryLine';
 import MapContainer from './map/MapContainer';
@@ -12,18 +13,53 @@ import BackButton from './BackButton';
 import VehicleMarkerContainer from './map/VehicleMarkerContainer'; // DT-3473
 
 let L;
-
+let prevCenter;
+let useCenter = true;
+let breakpointChanged = false;
+let prevBreakpoint;
 if (isBrowser) {
   // eslint-disable-next-line
   L = require('leaflet');
 }
 
 function ItineraryPageMap(
-  { itinerary, center, breakpoint, bounds, streetMode },
+  {
+    itinerary,
+    center,
+    mapReady,
+    mapLoaded,
+    breakpoint,
+    forceCenter,
+    fitBounds,
+    bounds,
+    streetMode,
+  },
   { match, config },
 ) {
+  // DT-4011: When user changes orientation, i.e. with tablet, map would crash. This check prevents it.
+  breakpointChanged = !isEqual(breakpoint, prevBreakpoint);
+  prevBreakpoint = breakpoint;
+  let latlon = prevCenter;
   const { from, to } = match.params;
-
+  if (prevCenter) {
+    useCenter = false;
+  }
+  if (center && !isEqual(center, prevCenter)) {
+    if (!mapLoaded) {
+      if (center !== undefined) {
+        latlon = center;
+        prevCenter = center;
+        useCenter = true;
+      }
+    } else {
+      latlon = center;
+      prevCenter = center;
+      useCenter = true;
+    }
+  }
+  if (forceCenter || breakpointChanged) {
+    useCenter = true;
+  }
   const leafletObjs = [
     <LocationMarker
       key="fromMarker"
@@ -78,16 +114,21 @@ function ItineraryPageMap(
   }
 
   const showScale = breakpoint === 'large';
-
+  const validCenter = latlon && latlon.lat !== undefined;
+  // eslint-disable-next-line no-nested-ternary
+  const lat = validCenter ? latlon.lat : undefined;
+  // eslint-disable-next-line no-nested-ternary
+  const lon = validCenter ? latlon.lon : undefined;
   return (
     <MapContainer
       className="full itinerary"
       leafletObjs={leafletObjs}
-      lat={center ? center.lat : from.lat}
-      lon={center ? center.lon : from.lon}
+      lat={useCenter || !mapLoaded ? lat : undefined}
+      lon={useCenter || !mapLoaded ? lon : undefined}
       zoom={bounds ? undefined : 16}
       bounds={bounds}
-      fitBounds={Boolean(bounds)}
+      mapReady={mapReady}
+      fitBounds={fitBounds}
       boundsOptions={{ maxZoom: 16 }}
       showScaleBar={showScale}
       hideOrigin
@@ -107,6 +148,10 @@ ItineraryPageMap.propTypes = {
   breakpoint: PropTypes.string.isRequired,
   bounds: PropTypes.array,
   streetMode: PropTypes.string,
+  forceCenter: PropTypes.bool,
+  fitBounds: PropTypes.bool,
+  mapReady: PropTypes.func,
+  mapLoaded: PropTypes.bool,
 };
 
 ItineraryPageMap.contextTypes = {

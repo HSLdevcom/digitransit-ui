@@ -50,7 +50,7 @@ function ItinerarySummaryListContainer(
     const summaries = itineraries.map((itinerary, i) => (
       <SummaryRow
         refTime={searchTime}
-        key={i} // eslint-disable-line react/no-array-index-key
+        key={`${itinerary.startTime}-${itinerary.endTime}`}
         hash={i}
         data={itinerary}
         passive={i !== activeIndex}
@@ -137,13 +137,22 @@ function ItinerarySummaryListContainer(
           </div>
         )}
         {loadingMoreItineraries === 'top' && (
-          <div style={{ position: 'relative', height: 100 }}>
+          <div className="summary-list-spinner-container">
             <Loading />
           </div>
         )}
-        {isBrowser && summaries}
+        {isBrowser && (
+          <div
+            className={cx('summary-list-items', {
+              'summary-list-items-loading-top':
+                loadingMoreItineraries === 'top',
+            })}
+          >
+            {summaries}
+          </div>
+        )}
         {loadingMoreItineraries === 'bottom' && (
-          <div style={{ position: 'relative', height: 100 }}>
+          <div className="summary-list-spinner-container">
             <Loading />
           </div>
         )}
@@ -179,7 +188,7 @@ function ItinerarySummaryListContainer(
   // If error starts with "Error" it's not a message id, it's an error message
   // from OTP
   if (error && !startsWith(error, 'Error')) {
-    msgId = error;
+    msgId = 'no-route-msg';
   } else if (!inside([from.lon, from.lat], config.areaPolygon)) {
     msgId = 'origin-outside-service';
     outside = true;

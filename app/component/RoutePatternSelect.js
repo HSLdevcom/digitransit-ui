@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import { createRefetchContainer, graphql } from 'react-relay';
 import cx from 'classnames';
 import sortBy from 'lodash/sortBy';
-import { routerShape } from 'found';
+import { routerShape, RedirectException } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import {
   enrichPatterns,
@@ -18,6 +18,7 @@ import {
   routePatterns as exampleRoutePatterns,
   twoRoutePatterns as exampleTwoRoutePatterns,
 } from './ExampleData';
+import { isBrowser } from '../util/browser';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 // DT-3317
@@ -109,9 +110,15 @@ class RoutePatternSelect extends Component {
       });
 
     if (options.every(o => o.key !== params.patternId)) {
-      router.replace(
-        `/${PREFIX_ROUTES}/${gtfsId}/${PREFIX_STOPS}/${options[0].key}`,
-      );
+      if (isBrowser) {
+        router.replace(
+          `/${PREFIX_ROUTES}/${gtfsId}/${PREFIX_STOPS}/${options[0].key}`,
+        );
+      } else {
+        throw new RedirectException(
+          `/${PREFIX_ROUTES}/${gtfsId}/${PREFIX_STOPS}/${options[0].key}`,
+        );
+      }
     }
     return options;
   };

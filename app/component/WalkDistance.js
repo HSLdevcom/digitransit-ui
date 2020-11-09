@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
+import { FormattedMessage } from 'react-intl';
 
 import Icon from './Icon';
 
@@ -14,11 +15,20 @@ function WalkDistance(props) {
       : `${roundedWalkDistanceInKm}km`;
 
   const icon = `icon-${props.icon || 'icon_walk'}`;
+  const mode = props.icon === 'icon_biking' ? 'bike' : 'walk';
 
   return (
     <span className={cx(props.className)} style={{ whiteSpace: 'nowrap' }}>
+      <span className="sr-only">
+        <FormattedMessage
+          id={`aria-itinerary-summary-${mode}-distance`}
+          values={{ distance: walkDistance }}
+        />
+      </span>
       <Icon img={icon} />
-      <span className="walk-distance">&nbsp;{walkDistance}</span>
+      <span aria-hidden className="walk-distance">
+        &nbsp;{walkDistance}
+      </span>
     </span>
   );
 }

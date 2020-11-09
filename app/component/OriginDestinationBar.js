@@ -220,6 +220,7 @@ OriginDestinationBar.description = (
           ready: true,
           set: true,
         }}
+        showFavourites
       />
     </ComponentUsageExample>
     <ComponentUsageExample description="with-viapoint">
@@ -237,6 +238,7 @@ OriginDestinationBar.description = (
           ready: true,
           set: true,
         }}
+        showFavourites
       />
     </ComponentUsageExample>
   </React.Fragment>
@@ -244,19 +246,11 @@ OriginDestinationBar.description = (
 
 const connectedComponent = connectToStores(
   OriginDestinationBar,
-  ['PreferencesStore', 'UserStore'],
-  context => ({
-    language: context.getStore('PreferencesStore').getLanguage(),
-    showFavourites:
-      !context.config.allowLogin ||
-      (context.config.allowLogin &&
-        context.getStore('UserStore').getUser().sub !== undefined),
+  ['PreferencesStore', 'FavouriteStore'],
+  ({ getStore }) => ({
+    language: getStore('PreferencesStore').getLanguage(),
+    showFavourites: getStore('FavouriteStore').getStatus() === 'has-data',
   }),
 );
-
-connectedComponent.contextTypes = {
-  getStore: PropTypes.func.isRequired,
-  config: PropTypes.object.isRequired,
-};
 
 export { connectedComponent as default, OriginDestinationBar as Component };

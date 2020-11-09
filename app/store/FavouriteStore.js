@@ -30,6 +30,8 @@ export default class FavouriteStore extends Store {
 
   static STATUS_HAS_DATA = 'has-data';
 
+  static FETCH_FAILED = 'fetch-failed';
+
   favourites = [];
 
   config = {};
@@ -40,15 +42,14 @@ export default class FavouriteStore extends Store {
     super(dispatcher);
     this.config = dispatcher.getContext().config;
     this.fetchingOrUpdating();
-    if (this.config.showLogin) {
+    if (this.config.allowLogin) {
       getFavourites()
         .then(res => {
           this.favourites = res;
           this.fetchComplete();
         })
         .catch(() => {
-          this.favourites = getFavouriteStorage();
-          this.fetchComplete();
+          this.fetchFailed();
         });
     } else {
       this.favourites = getFavouriteStorage();
@@ -66,6 +67,11 @@ export default class FavouriteStore extends Store {
 
   fetchingOrUpdating() {
     this.status = FavouriteStore.STATUS_FETCHING_OR_UPDATING;
+    this.emitChange();
+  }
+
+  fetchFailed() {
+    this.status = FavouriteStore.FETCH_FAILED;
     this.emitChange();
   }
 
@@ -177,7 +183,7 @@ export default class FavouriteStore extends Store {
         favouriteId: uuid(),
       });
     }
-    if (this.config.showLogin) {
+    if (this.config.allowLogin) {
       // Update favourites to backend service
       updateFavourites(newFavourites)
         .then(() => {
@@ -203,7 +209,7 @@ export default class FavouriteStore extends Store {
       );
     }
     this.fetchingOrUpdating();
-    if (this.config.showLogin) {
+    if (this.config.allowLogin) {
       // Update favourites to backend service
       updateFavourites(newFavourites)
         .then(() => {
@@ -230,7 +236,7 @@ export default class FavouriteStore extends Store {
     const newFavourites = this.favourites.filter(
       favourite => favourite.favouriteId !== data.favouriteId,
     );
-    if (this.config.showLogin) {
+    if (this.config.allowLogin) {
       // Delete favourite from backend service
       deleteFavourites([data.favouriteId])
         .then(() => {
