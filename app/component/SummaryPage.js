@@ -254,6 +254,7 @@ class SummaryPage extends React.Component {
     this.mapLoaded = false;
     this.origin = undefined;
     this.destination = undefined;
+    this.mapCenterToggleValue = undefined;
     context.executeAction(storeOrigin, otpToLocation(props.match.params.from));
     if (props.error) {
       reportError(props.error);
@@ -906,6 +907,7 @@ class SummaryPage extends React.Component {
       !isEqual(this.props.match.params.hash, prevProps.match.params.hash)
     ) {
       this.justMounted = true;
+      this.mapCenterToggleValue = undefined;
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         center: undefined,
@@ -1027,6 +1029,7 @@ class SummaryPage extends React.Component {
   updateCenter = (lat, lon) => {
     if (this.props.breakpoint !== 'large') {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+      this.toggleMapCenterToggleValue();
     }
     this.setState({ center: { lat, lon }, bounds: null });
   };
@@ -1152,6 +1155,7 @@ class SummaryPage extends React.Component {
   setMapZoomToLeg = leg => {
     if (this.props.breakpoint !== 'large') {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+      this.toggleMapCenterToggleValue();
     }
     // this.justMounted = true;
     // this.setState({ bounds: [] });
@@ -1425,6 +1429,14 @@ class SummaryPage extends React.Component {
     this.setState({
       scrolled: scrollTop > 0,
     });
+  };
+
+  toggleMapCenterToggleValue = () => {
+    if (!this.mapCenterToggleValue) {
+      this.mapCenterToggleValue = true;
+    } else {
+      this.mapCenterToggleValue = !this.mapCenterToggleValue;
+    }
   };
 
   render() {
@@ -2025,6 +2037,7 @@ class SummaryPage extends React.Component {
             mobile
           />
         }
+        mapCenterToggleValue={this.mapCenterToggleValue}
       />
     );
   }
