@@ -172,7 +172,11 @@ const getTopicOptions = (context, planitineraries, match) => {
   const itineraryTopics = [];
 
   if (itineraries.length > 0) {
-    itineraries[activeIndex].legs.forEach(leg => {
+    const activeItinerary =
+      activeIndex < itineraries.length
+        ? itineraries[activeIndex]
+        : itineraries[0];
+    activeItinerary.legs.forEach(leg => {
       if (leg.transitLeg && leg.trip) {
         const feedId = leg.trip.gtfsId.split(':')[0];
         let topic;
@@ -1072,7 +1076,11 @@ class SummaryPage extends React.Component {
         ) || getActiveIndex(this.props.match.location, combinedItineraries);
       const itineraryVehicles =
         combinedItineraries.length > 0
-          ? getVehicleInfos(combinedItineraries[activeIndex])
+          ? getVehicleInfos(
+              combinedItineraries[
+                activeIndex < combinedItineraries.length ? activeIndex : 0
+              ],
+            )
           : {};
       this.updateClient(itineraryTopics, itineraryVehicles);
     }
@@ -1266,7 +1274,10 @@ class SummaryPage extends React.Component {
     let leafletObjs = [];
 
     if (filteredItineraries && filteredItineraries.length > 0) {
-      const onlyActive = filteredItineraries[activeIndex];
+      const onlyActive =
+        activeIndex < filteredItineraries.length
+          ? filteredItineraries[activeIndex]
+          : filteredItineraries[0];
       leafletObjs = filteredItineraries
         .filter(itinerary => itinerary !== onlyActive)
         .map((itinerary, i) => (
@@ -1351,7 +1362,11 @@ class SummaryPage extends React.Component {
 
     const itineraryVehicles =
       filteredItineraries.length > 0
-        ? getVehicleInfos(filteredItineraries[activeIndex])
+        ? getVehicleInfos(
+            activeIndex < filteredItineraries.length
+              ? filteredItineraries[activeIndex]
+              : filteredItineraries[0],
+          )
         : {};
 
     this.context.getStore(
@@ -1662,7 +1677,8 @@ class SummaryPage extends React.Component {
     const from = otpToLocation(match.params.from);
     if (match.routes.some(route => route.printPage) && hasItineraries) {
       return React.cloneElement(this.props.content, {
-        itinerary: combinedItineraries[hash],
+        itinerary:
+          combinedItineraries[hash < combinedItineraries.length ? hash : 0],
         focus: this.updateCenter,
         from,
         to: otpToLocation(match.params.to),
