@@ -84,11 +84,14 @@ function DesktopDatetimepicker({
           let actualValue = newValue;
           if (
             actualValue.length === 3 &&
-            !Number.isNaN(Number(actualValue)) &&
-            actualValue[2] !== '.'
+            actualValue.split('').every(n => Number.isInteger(Number(n)))
           ) {
             // add ':' if user types three numbers in a row
-            actualValue = `${actualValue.slice(0, 2)}:${actualValue[2]}`;
+            if (Number(actualValue.slice(0, 2)) <= 23) {
+              actualValue = `${actualValue.slice(0, 2)}:${actualValue[2]}`;
+            } else {
+              actualValue = `${actualValue[0]}:${actualValue.slice(1)}`;
+            }
           }
           changeDisplayValue(actualValue);
         }
