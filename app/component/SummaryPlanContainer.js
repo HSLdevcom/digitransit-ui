@@ -76,10 +76,7 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onSelectActive = index => {
-    let isbikeAndVehicle;
-    if (this.props.params.hash === 'bikeAndVehicle') {
-      isbikeAndVehicle = true;
-    }
+    const subpath = this.getSubPath('');
     if (this.props.activeIndex === index) {
       this.onSelectImmediately(index);
     } else {
@@ -89,7 +86,7 @@ class SummaryPlanContainer extends React.Component {
         pathname: `${getRoutePath(
           this.props.params.from,
           this.props.params.to,
-        )}${isbikeAndVehicle ? '/bikeAndVehicle/' : ''}`,
+        )}${subpath}`,
       });
 
       addAnalyticsEvent({
@@ -100,11 +97,17 @@ class SummaryPlanContainer extends React.Component {
     }
   };
 
-  onSelectImmediately = index => {
-    let isBikeAndPublic;
-    if (this.props.params.hash === 'bikeAndVehicle') {
-      isBikeAndPublic = true;
+  getSubPath(fallback) {
+    const modesWithSubpath = ['bikeAndVehicle', 'parkAndRide'];
+    const { hash } = this.props.params;
+    if (modesWithSubpath.includes(hash)) {
+      return `/${hash}/`;
     }
+    return fallback;
+  }
+
+  onSelectImmediately = index => {
+    const subpath = this.getSubPath('/');
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'Itinerary',
@@ -118,11 +121,11 @@ class SummaryPlanContainer extends React.Component {
     const basePath = `${getRoutePath(
       this.props.params.from,
       this.props.params.to,
-    )}${isBikeAndPublic ? '/bikeAndVehicle/' : '/'}`;
+    )}${subpath}`;
     const indexPath = `${getRoutePath(
       this.props.params.from,
       this.props.params.to,
-    )}${isBikeAndPublic ? '/bikeAndVehicle/' : '/'}${index}`;
+    )}${subpath}${index}`;
 
     newState.pathname = basePath;
     this.context.router.replace(newState);
