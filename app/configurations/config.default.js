@@ -138,7 +138,7 @@ export default {
       more: 1,
       most: 0.2,
     },
-    walkSpeed: [0.67, 1.05, 1.2, 1.39, 1.77],
+    walkSpeed: [0.69, 0.97, 1.2, 1.67, 2.22],
     bikeSpeed: [2.77, 4.15, 5.55, 6.94, 8.33],
   },
 
@@ -781,4 +781,6 @@ export default {
 
   showNearYouButtons: false,
   nearYouModes: [],
+
+  zoneIconsAsSvg: false,
 };

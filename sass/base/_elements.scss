@@ -33,8 +33,13 @@ $border-radius-rounded: 30px;
     .icon {
       display: block;
       height: 2em;
-      margin-left: 0.5em;
       width: 2em;
+    }
+
+    .svg {
+      width: 14px;
+      height: 14px;
+      margin-left: -2px;
     }
   }
 
@@ -45,16 +50,24 @@ $border-radius-rounded: 30px;
     display: flex;
     p {
       display: inline;
-      margin-right: 3px;
+      margin-right: 2px;
+      height: 18px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.38;
+      letter-spacing: -0.43px;
     }
     .card-code {
       border: 1px solid $light-gray;
       border-radius: $border-radius;
-      font-size: $font-size-xxsmall;
+      font-size: 11px;
       color: #666666;
       margin-right: 3px;
-      margin-left: 3px;
-      padding: 2px 2px 0px 2px;
+      margin-left: 4px;
+      padding: 0px 5px 0px 5px;
+      letter-spacing: -0.37px;
+      height: 16px;
     }
   }
 }

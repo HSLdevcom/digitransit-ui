@@ -15,13 +15,19 @@ import VehicleMarkerContainer from './map/VehicleMarkerContainer'; // DT-3473
 let L;
 let prevCenter;
 let useCenter = true;
+let itineraryMapReady = false;
 let breakpointChanged = false;
 let prevBreakpoint;
 if (isBrowser) {
   // eslint-disable-next-line
   L = require('leaflet');
 }
-
+function isItineraryMapReady(mapReady) {
+  if (mapReady) {
+    mapReady();
+  }
+  itineraryMapReady = true;
+}
 function ItineraryPageMap(
   {
     itinerary,
@@ -40,7 +46,7 @@ function ItineraryPageMap(
   breakpointChanged = !isEqual(breakpoint, prevBreakpoint);
   prevBreakpoint = breakpoint;
   let latlon = prevCenter;
-  const { from, to } = match.params;
+  const { from, to, hash } = match.params;
   if (prevCenter) {
     useCenter = false;
   }
@@ -57,7 +63,7 @@ function ItineraryPageMap(
       useCenter = true;
     }
   }
-  if (forceCenter || breakpointChanged) {
+  if (forceCenter || breakpointChanged || !mapLoaded || !itineraryMapReady) {
     useCenter = true;
   }
   const leafletObjs = [
@@ -73,8 +79,10 @@ function ItineraryPageMap(
       type="to"
       streetMode={streetMode}
     />,
-    <VehicleMarkerContainer key="vehicles" useLargeIcon />,
   ];
+  if (hash !== undefined && hash !== 'walk' && hash !== 'bike') {
+    leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon />);
+  }
   if (match.location.query && match.location.query.intermediatePlaces) {
     if (Array.isArray(match.location.query.intermediatePlaces)) {
       match.location.query.intermediatePlaces
@@ -119,15 +127,19 @@ function ItineraryPageMap(
   const lat = validCenter ? latlon.lat : undefined;
   // eslint-disable-next-line no-nested-ternary
   const lon = validCenter ? latlon.lon : undefined;
+  const send = useCenter; // || !mapLoaded || !itineraryMapReady;
+
+  itineraryMapReady = false;
   return (
     <MapContainer
       className="full itinerary"
       leafletObjs={leafletObjs}
-      lat={useCenter || !mapLoaded ? lat : undefined}
-      lon={useCenter || !mapLoaded ? lon : undefined}
+      lat={send ? lat : undefined}
+      lon={send ? lon : undefined}
       zoom={bounds ? undefined : 16}
       bounds={bounds}
       mapReady={mapReady}
+      itineraryMapReady={isItineraryMapReady}
       fitBounds={fitBounds}
       boundsOptions={{ maxZoom: 16 }}
       showScaleBar={showScale}

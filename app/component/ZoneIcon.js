@@ -2,6 +2,7 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
+import Icon from './Icon';
 
 /**
  * The default identifier for an unknown zone.
@@ -20,7 +21,7 @@ const ZoneIcon = (
     zoneLabelMarginLeft,
     zoneLabelLineHeight,
   },
-  { intl },
+  { intl, config },
 ) => {
   if (!zoneId) {
     return null;
@@ -51,10 +52,17 @@ const ZoneIcon = (
             defaultMessage: 'Zone',
           })
         : null}
-      {zoneUnknown ? (
+      {zoneUnknown && (
         <div className="icon" style={{ textAlign: 'center' }}>
           ?
         </div>
+      )}
+      {!zoneUnknown && config.zoneIconsAsSvg ? (
+        <Icon
+          img={`icon-icon_zone-${zoneId.toLowerCase()}`}
+          className="svg"
+          viewBox="0 0 22 22"
+        />
       ) : (
         <div className="circle" style={zoneIconStyle}>
           {zoneId}
@@ -84,6 +92,7 @@ ZoneIcon.defaultProps = {
 
 ZoneIcon.contextTypes = {
   intl: intlShape.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 export default ZoneIcon;

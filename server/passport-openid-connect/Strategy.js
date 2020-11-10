@@ -8,6 +8,8 @@ const util = require('util');
 const process = require('process');
 const User = require('./User').User;
 
+const debugLogging = process.env.DEBUGLOGGING;
+
 const OICStrategy = function (config) {
   this.name = 'passport-openid-connect';
   this.config = config || {};
@@ -35,7 +37,6 @@ OICStrategy.prototype.init = function () {
   console.log('OIDC: discover');
   return Issuer.discover(this.config.issuerHost)
     .then(issuer => {
-      console.log('OIDC: create client');
       this.client = new issuer.Client(this.config);
       this.client[custom.clock_tolerance] = 30;
     })
@@ -48,7 +49,9 @@ OICStrategy.prototype.init = function () {
 
 OICStrategy.prototype.authenticate = function (req, opts) {
   if (opts.callback) {
-    console.log('calling auth callback');
+    if (debugLogging) {
+      console.log('calling auth callback');
+    }
     return this.callback(req, opts);
   }
   if (opts.refresh) {
@@ -60,20 +63,28 @@ OICStrategy.prototype.authenticate = function (req, opts) {
     ssoValidTo && ssoValidTo > moment().unix()
       ? this.createAuthUrl(cookieLang, ssoToken)
       : this.createAuthUrl(cookieLang);
-  console.log(`ssoToken: ${ssoToken} authUrl: ${authurl}`);
+  if (debugLogging) {
+    console.log(`ssoToken: ${ssoToken} authUrl: ${authurl}`);
+  }
   this.redirect(authurl);
 };
 
 OICStrategy.prototype.getUserInfo = function () {
-  console.log('passport getUserInfo');
+  if (debugLogging) {
+    console.log('passport getUserInfo');
+  }
   return this.client.userinfo(this.tokenSet.access_token).then(userinfo => {
     this.userinfo = userinfo;
-    console.log(`got userInfo: ${JSON.stringify(userinfo)}`);
+    if (debugLogging) {
+      console.log(`got userInfo: ${JSON.stringify(userinfo)}`);
+    }
   });
 };
 
 OICStrategy.prototype.callback = function (req, opts) {
-  console.log(`path=${req.path} query=${req.query}`);
+  if (debugLogging) {
+    console.log(`path=${req.path} query=${req.query}`);
+  }
   return this.client
     .callback(this.config.redirect_uri, req.query, {
       state: req.query.state,
@@ -82,14 +93,18 @@ OICStrategy.prototype.callback = function (req, opts) {
       req.session.ssoToken = null;
       req.session.ssoValidTo = null;
       this.tokenSet = tokenSet;
-      console.log(`got tokenSet: ${JSON.stringify(tokenSet)}`);
+      if (debugLogging) {
+        console.log(`got tokenSet: ${JSON.stringify(tokenSet)}`);
+      }
       return this.getUserInfo();
     })
     .then(() => {
       const user = new User(this.userinfo);
       user.token = this.tokenSet;
       user.idtoken = this.tokenSet.claims;
-      console.log(`set user: ${JSON.stringify(user)}`);
+      if (debugLogging) {
+        console.log(`set user: ${JSON.stringify(user)}`);
+      }
       if (this.config.sessionCallback) {
         this.config.sessionCallback(user.data.sub, req.session.id);
       }
@@ -104,19 +119,25 @@ OICStrategy.prototype.callback = function (req, opts) {
 };
 
 OICStrategy.prototype.refresh = function (req) {
-  console.log('Refreshing tokens');
+  if (debugLogging) {
+    console.log('Refreshing tokens');
+  }
   return this.client
     .refresh(req.user.token.refresh_token)
     .then(tokenSet => {
       this.tokenSet = tokenSet;
-      console.log(`got tokenSet: ${JSON.stringify(tokenSet)}`);
+      if (debugLogging) {
+        console.log(`got tokenSet: ${JSON.stringify(tokenSet)}`);
+      }
       return this.getUserInfo();
     })
     .then(() => {
       const user = new User(this.userinfo);
       user.token = this.tokenSet;
       user.idtoken = this.tokenSet.claims;
-      console.log(`set user: ${JSON.stringify(user)}`);
+      if (debugLogging) {
+        console.log(`set user: ${JSON.stringify(user)}`);
+      }
       this.success(user);
     })
     .catch(err => {
@@ -127,7 +148,9 @@ OICStrategy.prototype.refresh = function (req) {
     });
 };
 OICStrategy.prototype.createAuthUrl = function (lang, ssoToken) {
-  console.log(`createAuthUrl, ssotoken=${JSON.stringify(ssoToken)}`);
+  if (debugLogging) {
+    console.log(`createAuthUrl, ssotoken=${JSON.stringify(ssoToken)}`);
+  }
   const params = {
     response_type: 'code',
     client_id: this.config.client_id,

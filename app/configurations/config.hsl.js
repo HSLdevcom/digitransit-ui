@@ -520,4 +520,6 @@ export default {
 
   showNearYouButtons: true,
   nearYouModes: ['bus', 'tram', 'subway', 'rail', 'ferry' /* , 'citybike' */],
+
+  zoneIconsAsSvg: true,
 };

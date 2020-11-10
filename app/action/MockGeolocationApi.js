@@ -99,6 +99,6 @@ export const api = {
       } else {
         debug('window.mock is undefined');
       }
-    }, 500);
+    }, 2000);
   },
 };

@@ -54,6 +54,7 @@ export default class Map extends React.Component {
     buttonBottomPadding: PropTypes.number,
     bottomButtons: PropTypes.node,
     mapReady: PropTypes.func,
+    itineraryMapReady: PropTypes.func,
   };
 
   static defaultProps = {
@@ -118,10 +119,11 @@ export default class Map extends React.Component {
       locationPopup,
       leafletObjs,
       mapReady,
+      itineraryMapReady,
     } = this.props;
     const { config } = this.context;
-    if (mapReady) {
-      mapReady();
+    if (itineraryMapReady) {
+      itineraryMapReady(mapReady);
     }
     const center =
       (!this.props.fitBounds &&

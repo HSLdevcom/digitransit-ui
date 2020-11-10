@@ -3,9 +3,11 @@ import React from 'react';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
+import Link from 'found/Link';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
-
+import { PREFIX_STOPS } from '../util/path';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
@@ -78,7 +80,6 @@ function BicycleLeg({ focusAction, index, leg, setMapZoomToLeg }, { config }) {
       mode = 'CITYBIKE_WALK';
     }
   }
-
   return (
     <div key={index} className="row itinerary-row">
       <span className="sr-only">
@@ -155,7 +156,24 @@ function BicycleLeg({ focusAction, index, leg, setMapZoomToLeg }, { config }) {
             className={cx('itinerary-leg-first-row', { first: index === 0 })}
             aria-hidden="true"
           >
-            {legDescription}
+            <Link
+              onClick={e => {
+                e.stopPropagation();
+                addAnalyticsEvent({
+                  category: 'Itinerary',
+                  action: 'OpenRouteFromItinerary',
+                  name: mode,
+                });
+              }}
+              to={`/${PREFIX_STOPS}/${leg.from.stop.gtfsId}`}
+            >
+              {legDescription}
+              <Icon
+                img="icon-icon_arrow-collapse--right"
+                className="itinerary-arrow-icon"
+                color="#333"
+              />
+            </Link>
             <div
               className="itinerary-map-action"
               onClick={focusAction}
