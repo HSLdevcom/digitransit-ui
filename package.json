@@ -199,6 +199,7 @@
     "relay-test-utils": "10.0.1",
     "request": "2.88.2",
     "serialize-javascript": "4.0.0",
+    "suncalc": "1.8.0",
     "uuid": "8.3.0",
     "zurb-foundation-5": "5.4.7"
   },
