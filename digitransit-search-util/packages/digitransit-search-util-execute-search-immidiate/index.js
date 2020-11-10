@@ -445,12 +445,9 @@ export function getSearchResults(
   if (allTargets || targets.includes('Routes')) {
     if (sources.includes('Favourite')) {
       const favouriteRoutes = getFavouriteRoutes(context);
+      const mode = transportMode ? transportMode.split('-')[1] : undefined;
       searchComponents.push(
-        getFavouriteRoutesQuery(
-          favouriteRoutes,
-          input,
-          transportMode,
-        ).then(result =>
+        getFavouriteRoutesQuery(favouriteRoutes, input, mode).then(result =>
           filterResults ? filterResults(result, 'Routes') : result,
         ),
       );
