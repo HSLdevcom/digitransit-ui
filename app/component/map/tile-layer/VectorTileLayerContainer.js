@@ -14,7 +14,11 @@ export default function VectorTileLayerContainer(props, { config }) {
       layers.push(CityBikes);
     }
 
-    if (config.parkAndRide && config.parkAndRide.showParkAndRide) {
+    if (
+      config.parkAndRide &&
+      config.parkAndRide.showParkAndRide &&
+      !props.disableParkAndRide
+    ) {
       layers.push(ParkAndRide);
     }
   }
@@ -40,6 +44,7 @@ VectorTileLayerContainer.propTypes = {
   showStops: PropTypes.bool,
   stopsNearYouMode: PropTypes.string,
   locationPopup: PropTypes.string, // 'all', 'none', 'reversegeocoding'
+  disableParkAndRide: PropTypes.bool,
 };
 
 VectorTileLayerContainer.contextTypes = {

@@ -377,6 +377,7 @@ function StopsNearYouMap(
         showScaleBar
         fitBounds={useFitBounds}
         defaultMapCenter={context.config.defaultEndpoint}
+        disableParkAndRide
         initialZoom={16}
         bounds={bounds}
         origin={origin}
