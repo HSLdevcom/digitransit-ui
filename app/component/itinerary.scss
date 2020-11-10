@@ -817,6 +817,10 @@ $itinerary-tab-switch-height: 48px;
       padding: 0.625em 0;
       border-top: 1px solid #ddd;
       font-size: 0.9375rem;
+       a{
+        text-decoration: none;
+        color: #333;
+       }
       &.interlining {
         height: 76px;
       }
