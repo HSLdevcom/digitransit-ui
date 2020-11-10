@@ -63,15 +63,23 @@
 
 .desktop .stop-page.header {
   .h3 {
+    height: 24px;
+    margin: 1px 19px 1px 0;
+    font-family: $font-family;
     font-size: 24px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: -0.8px;
   }
 
   .card-code {
     font-size: 11px;
     font-weight: 500;
-    margin-left: 0px;
+    margin-left: 4px;
     margin-top: 14px;
-    margin-right: 6px;
+    margin-right: 7px;
     padding: 0px 2px 0px 2px;
   }
 }

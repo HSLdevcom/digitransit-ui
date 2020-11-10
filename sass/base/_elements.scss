@@ -39,8 +39,7 @@ $border-radius-rounded: 30px;
     .svg {
       width: 14px;
       height: 14px;
-      margin-left: 1px;
-      margin-top: 2px;
+      margin-left: -2px;
     }
   }
 
@@ -51,7 +50,13 @@ $border-radius-rounded: 30px;
     display: flex;
     p {
       display: inline;
-      margin-right: 3px;
+      margin-right: 2px;
+      height: 18px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.38;
+      letter-spacing: -0.43px;
     }
     .card-code {
       border: 1px solid $light-gray;
