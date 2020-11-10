@@ -9,6 +9,8 @@ const LoginStrategy = require('./Strategy').Strategy;
 
 const clearAllUserSessions = false; // set true if logout should erase all user's sessions
 
+const debugLogging = process.env.DEBUGLOGGING;
+
 export default function setUpOIDC(app, port, indexPath) {
   const hostname = process.env.HOSTNAME || `http://localhost:${port}`;
   /* ********* Setup OpenID Connect ********* */
@@ -33,13 +35,14 @@ export default function setUpOIDC(app, port, indexPath) {
     client_id: process.env.OIDC_CLIENT_ID,
     client_secret: process.env.OIDC_CLIENT_SECRET,
     redirect_uri:
-      process.env.OIDC_CLIENT_CALLBACK ||
-      `http://localhost:${port}${callbackPath}`,
+      process.env.OIDC_CLIENT_CALLBACK || `${hostname}/${callbackPath}`,
     post_logout_redirect_uris: [`${hostname}/logout/callback`],
     scope: 'openid profile',
     sessionCallback(userId, sessionId) {
       // keep track of per-user sessions
-      console.log(`adding session for used ${userId} id ${sessionId}`);
+      if (debugLogging) {
+        console.log(`adding session for used ${userId} id ${sessionId}`);
+      }
       if (clearAllUserSessions) {
         RedisClient.sadd(`sessions-${userId}`, sessionId);
       }
@@ -70,10 +73,12 @@ export default function setUpOIDC(app, port, indexPath) {
       ssoValidTo &&
       ssoValidTo > moment().unix()
     ) {
-      console.log(
-        'redirecting to login with sso token ',
-        JSON.stringify(ssoToken),
-      );
+      if (debugLogging) {
+        console.log(
+          'redirecting to login with sso token ',
+          JSON.stringify(ssoToken),
+        );
+      }
       res.redirect('/login');
     } else {
       next();
@@ -183,20 +188,25 @@ export default function setUpOIDC(app, port, indexPath) {
       req.user.token.id_token
     }`;
     req.session.userId = req.user.data.sub;
-    console.log(`logout for user ${req.user.data.name} to ${logoutUrl}`);
+    if (debugLogging) {
+      console.log(`logout for user ${req.user.data.name} to ${logoutUrl}`);
+    }
     res.redirect(logoutUrl);
   });
 
   app.get('/logout/callback', function (req, res) {
-    console.log(`logout callback for userId ${req.session.userId}`);
-    console.log(`request query: ${JSON.stringify(req.query)}`);
+    if (debugLogging) {
+      console.log(`logout callback for userId ${req.session.userId}`);
+    }
     const sessions = `sessions-${req.session.userId}`;
     req.logout();
     RedisClient.smembers(sessions, function (err, sessionIds) {
       req.session.destroy(function () {
         res.clearCookie('connect.sid');
         if (sessionIds && sessionIds.length > 0) {
-          console.log(`Deleting ${sessionIds.length} sessions`);
+          if (debugLogging) {
+            console.log(`Deleting ${sessionIds.length} sessions`);
+          }
           RedisClient.del(...sessionIds);
           RedisClient.del(sessions);
         }
@@ -206,12 +216,18 @@ export default function setUpOIDC(app, port, indexPath) {
   });
 
   app.get('/sso/auth', function (req, res, next) {
-    console.log(`GET sso/auth, token=${req.query['sso-token']}`);
+    if (debugLogging) {
+      console.log(`GET sso/auth, token=${req.query['sso-token']}`);
+    }
     if (req.isAuthenticated()) {
-      console.log('GET sso/auth -> already authenticated');
+      if (debugLogging) {
+        console.log('GET sso/auth -> already authenticated');
+      }
       next();
     } else {
-      console.log('GET sso/auth -> updating token');
+      if (debugLogging) {
+        console.log('GET sso/auth -> updating token');
+      }
       req.session.ssoToken = req.query['sso-token'];
       req.session.ssoValidTo =
         Number(req.query['sso-validity']) * 60 * 1000 + moment().unix();
