@@ -518,7 +518,7 @@ export default {
   showBikeAndPublicItineraries: true,
   showBikeAndParkItineraries: true,
 
-  includeCarSuggestions: false,
+  includeCarSuggestions: true,
   includeParkAndRideSuggestions: true,
 
   showNearYouButtons: true,
