@@ -78,7 +78,7 @@ export const StreetModeSelector = ({
           )}
           {showCarOptionButton && (
             <StreetModeSelectorButton
-              icon="icon-icon_car"
+              icon="icon-icon_car-withoutBox"
               name="car"
               plan={carPlan}
               onClick={setStreetModeAndSelect}
