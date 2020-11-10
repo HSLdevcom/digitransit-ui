@@ -191,13 +191,9 @@ export const preparePlanParams = config => (
       intermediatePlaceLocations.length > 0,
     bikeAndPublicModes: [
       { mode: 'BICYCLE' },
-      ...(modesOrDefault.includes('SUBWAY') ? { mode: 'SUBWAY' } : []),
-      ...(modesOrDefault.includes('RAIL') ? { mode: 'RAIL' } : []),
+      ...(modesOrDefault.indexOf('SUBWAY') !== -1 ? [{ mode: 'SUBWAY' }] : []),
+      ...(modesOrDefault.indexOf('RAIL') !== -1 ? [{ mode: 'RAIL' }] : []),
     ],
-
-    bikeParkModes: [
-      ...{ mode: 'BICYCLE', qualifier: 'PARK' },
-      ...formattedModes,
-    ],
+    bikeParkModes: [{ mode: 'BICYCLE', qualifier: 'PARK' }, ...formattedModes],
   };
 };
