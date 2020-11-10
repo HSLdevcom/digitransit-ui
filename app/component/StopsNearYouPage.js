@@ -57,6 +57,7 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     queryString: PropTypes.string,
     router: routerShape.isRequired,
     match: matchShape.isRequired,
+    showFavourites: PropTypes.bool.isRequired,
   };
 
   constructor(props) {
@@ -374,20 +375,27 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   };
 
   renderAutoSuggestField = () => {
-    // TODO perhaps add SelectFromOwnLocations as target
-    // TODO perhaps render autosuggest in fullscreen on mobile
+    const isMobile = this.props.breakpoint !== 'large';
+    const { showFavourites } = this.props;
     return (
       <DTAutoSuggestWithSearchContext
         appElement="#app"
         icon="search"
-        sources={['History', 'Datasource']}
-        targets={['Locations']}
+        sources={[
+          'History',
+          'Datasource',
+          isMobile && showFavourites ? 'Favourite' : '',
+        ]}
+        targets={[
+          'Locations',
+          !isMobile && showFavourites ? 'SelectFromOwnLocations' : '',
+        ]}
         id="origin-stop-near-you"
         placeholder="origin"
         value=""
         lang={this.props.lang}
         mode={this.props.match.params.mode}
-        isMobile={this.props.breakpoint !== 'large'}
+        isMobile={isMobile}
       />
     );
   };
@@ -575,9 +583,11 @@ const StopsNearYouPageWithBreakpoint = withBreakpoint(props => (
 
 const PositioningWrapper = connectToStores(
   StopsNearYouPageWithBreakpoint,
-  ['PositionStore', 'PreferencesStore'],
+  ['PositionStore', 'PreferencesStore', 'FavouriteStore'],
   (context, props) => {
     const lang = context.getStore('PreferencesStore').getLanguage();
+    const showFavourites =
+      context.getStore('FavouriteStore').getStatus() === 'has-data';
     const { params, location } = props.match;
     const { place } = params;
     if (place !== 'POS') {
@@ -589,6 +599,7 @@ const PositioningWrapper = connectToStores(
         lang,
         params,
         queryString: location.search,
+        showFavourites,
       };
     }
     const locationState = context.getStore('PositionStore').getLocationState();
@@ -601,6 +612,7 @@ const PositioningWrapper = connectToStores(
         lang,
         params,
         queryString: location.search,
+        showFavourites,
       };
     }
 
@@ -615,6 +627,7 @@ const PositioningWrapper = connectToStores(
         lang,
         params,
         queryString: location.search,
+        showFavourites,
       };
     }
 
@@ -625,6 +638,7 @@ const PositioningWrapper = connectToStores(
         loadingPosition: false,
         lang,
         queryString: location.search,
+        showFavourites,
       };
     }
     return {
@@ -634,6 +648,7 @@ const PositioningWrapper = connectToStores(
       lang,
       params,
       queryString: location.search,
+      showFavourites,
     };
   },
 );
