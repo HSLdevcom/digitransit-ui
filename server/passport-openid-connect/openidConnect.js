@@ -12,7 +12,7 @@ const clearAllUserSessions = false; // set true if logout should erase all user'
 const debugLogging = process.env.DEBUGLOGGING;
 
 export default function setUpOIDC(app, port, indexPath) {
-  const hostname = process.env.HOSTNAME || `http://localhost:${port}`;
+  const hostname = process.env.HOSTNAME || `https://localhost:${port}`;
   /* ********* Setup OpenID Connect ********* */
   const callbackPath = '/oid_callback'; // connect callback path
   // Use Passport with OpenId Connect strategy to authenticate users
@@ -35,7 +35,7 @@ export default function setUpOIDC(app, port, indexPath) {
     client_id: process.env.OIDC_CLIENT_ID,
     client_secret: process.env.OIDC_CLIENT_SECRET,
     redirect_uri:
-      process.env.OIDC_CLIENT_CALLBACK || `${hostname}/${callbackPath}`,
+      process.env.OIDC_CLIENT_CALLBACK || `${hostname}${callbackPath}`,
     post_logout_redirect_uris: [`${hostname}/logout/callback`],
     scope: 'openid profile',
     sessionCallback(userId, sessionId) {
@@ -263,7 +263,25 @@ export default function setUpOIDC(app, port, indexPath) {
     );
   });
 
-  app.use('/api/user/favourites', function (req, res) {
+  // Temporary solution for checking if user is authenticated
+  const userAuthenticated = function (req, res, next) {
+    request.get(
+      `${OIDCHost}/openid/userinfo`,
+      {
+        auth: {
+          bearer: req.user.token.access_token,
+        },
+      },
+      function (err, response) {
+        if (!err && response.statusCode === 200) {
+          next();
+        } else {
+          res.status(401).send('Unauthorized');
+        }
+      },
+    );
+  };
+  app.use('/api/user/favourites', userAuthenticated, function (req, res) {
     request(
       {
         auth: {
