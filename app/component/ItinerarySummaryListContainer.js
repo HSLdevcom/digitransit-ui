@@ -88,7 +88,8 @@ function ItinerarySummaryListContainer(
         const publicModes = itineraries[
           bikeAndParkItinerariesToShow
         ].legs.filter(obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE');
-        const firstMode = publicModes[0].mode.toLowerCase();
+        const firstMode =
+          publicModes.length > 0 ? publicModes[0].mode.toLowerCase() : 'bus';
         summaries.splice(
           bikeAndParkItinerariesToShow + 1,
           0,
