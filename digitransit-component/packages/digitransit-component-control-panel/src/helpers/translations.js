@@ -1,5 +1,5 @@
 const translations = {
-  en: {
+  de: {
     'pick-mode': 'Wählen Sie ein Verkehrsmittel',
     'pick-mode-airplane': 'Flug',
     'pick-mode-bus': 'Bus',
