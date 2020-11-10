@@ -181,6 +181,7 @@ $itinerary-tab-switch-height: 48px;
       position: relative;
       top: -2px;
       .circle {
+        display: inline-block;
         padding: 0;
         margin-left: 5px;
       }
@@ -191,6 +192,10 @@ $itinerary-tab-switch-height: 48px;
       }
       & + .zone-icon-container {
         margin-top: 0.85em;
+      }
+      .svg {
+        width: 20px;
+        height: 20px;
       }
     }
   }
@@ -658,6 +663,10 @@ $itinerary-tab-switch-height: 48px;
           font-size: 16px;
           margin-left: 5px;
           line-height: 20px;
+        }
+        .svg {
+          width: 20px;
+          height: 20px;
         }
       }
     }
