@@ -28,12 +28,12 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "dependencies": {
-    "@digitransit-component/digitransit-component-icon": "0.0.14",
-    "@hsl-fi/modal": "^0.1.8",
-    "@hsl-fi/sass": "^0.1.1",
-    "@hsl-fi/site-header": "^0.2.1"
+    "@digitransit-component/digitransit-component-icon": "0.0.14"
   },
   "peerDependencies": {
+    "@hsl-fi/modal": "^0.1.8",
+    "@hsl-fi/sass": "^0.1.1",
+    "@hsl-fi/site-header": "^0.2.1",
     "classnames": "2.2.6",
     "i18next": "^19.3.3",
     "lodash": "4.17.14",

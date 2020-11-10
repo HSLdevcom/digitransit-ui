@@ -29,12 +29,12 @@
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "dependencies": {
     "@digitransit-component/digitransit-component-dialog-modal": "0.1.6",
-    "@digitransit-component/digitransit-component-icon": "0.0.14",
-    "@hsl-fi/sass": "^0.1.1",
-    "@hsl-fi/modal": "^0.1.8",
-    "@hsl-fi/container-spinner":"0.2.0"
+    "@digitransit-component/digitransit-component-icon": "0.0.14"
   },
   "peerDependencies": {
+    "@hsl-fi/sass": "^0.1.1",
+    "@hsl-fi/modal": "^0.1.8",
+    "@hsl-fi/container-spinner":"0.2.0",
     "i18next": "^19.3.3",
     "prop-types": "^15.7.2",
     "react": "^16.13.0",

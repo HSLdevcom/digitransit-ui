@@ -1,5 +1,4 @@
 const path = require('path');
-const webpack = require('webpack');
 
 const mode = process.env.ENV;
 const isProduction = mode === 'production';
@@ -65,10 +64,18 @@ module.exports = {
       },
     ],
   },
-  plugins: [
-    // load `moment/locale/ja.js` and `moment/locale/it.js`
-    new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /ja|it/),
-  ],
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        digitransitComponents: {
+          test: /[\\/]node_modules[\\/](@digitransit-component|@digitransit-search-util|@digitransit-util|@hsl-fi)[\\/]/,
+          name: 'digitransit-components',
+          reuseExistingChunk: false,
+        },
+      },
+    },
+  },
   resolve: {
     extensions: ['.js', '.scss'],
   },

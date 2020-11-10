@@ -64,6 +64,18 @@ module.exports = {
       },
     ],
   },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        digitransitComponents: {
+          test: /[\\/]node_modules[\\/](@digitransit-component|@digitransit-search-util|@digitransit-util|@hsl-fi)[\\/]/,
+          name: 'digitransit-components',
+          chunks: 'all',
+          reuseExistingChunk: false,
+        },
+      },
+    },
+  },
   resolve: {
     extensions: ['.js', '.scss'],
   },

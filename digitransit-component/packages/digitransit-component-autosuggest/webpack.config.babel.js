@@ -66,8 +66,8 @@ module.exports = {
     ],
   },
   plugins: [
-    // load `moment/locale/ja.js` and `moment/locale/it.js`
-    new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /ja|it/),
+    // load `moment/locale/fi.js`, `moment/locale/sv.js` and `moment/locale/en.js`
+    new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /fi|sv|en/),
   ],
   resolve: {
     extensions: ['.js', '.scss'],
