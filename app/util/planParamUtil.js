@@ -109,6 +109,14 @@ export const preparePlanParams = config => (
   const allowedBikeRentalNetworksMapped =
     settings.allowedBikeRentalNetworks ||
     defaultSettings.allowedBikeRentalNetworks;
+  const formattedModes = modesOrDefault
+    .split(',')
+    .map(mode => mode.split('_'))
+    .map(modeAndQualifier =>
+      modeAndQualifier.length > 1
+        ? { mode: modeAndQualifier[0], qualifier: modeAndQualifier[1] }
+        : { mode: modeAndQualifier[0] },
+    );
   return {
     ...defaultSettings,
     ...omitBy(
@@ -146,14 +154,7 @@ export const preparePlanParams = config => (
       },
       nullOrUndefined,
     ),
-    modes: modesOrDefault
-      .split(',')
-      .map(mode => mode.split('_'))
-      .map(modeAndQualifier =>
-        modeAndQualifier.length > 1
-          ? { mode: modeAndQualifier[0], qualifier: modeAndQualifier[1] }
-          : { mode: modeAndQualifier[0] },
-      ),
+    modes: formattedModes,
     ticketTypes: getTicketTypes(
       settings.ticketTypes,
       defaultSettings.ticketTypes,
@@ -188,5 +189,15 @@ export const preparePlanParams = config => (
     bikeandPublicDisableRemainingWeightHeuristic:
       Array.isArray(intermediatePlaceLocations) &&
       intermediatePlaceLocations.length > 0,
+    bikeAndPublicModes: [
+      { mode: 'BICYCLE' },
+      ...(modesOrDefault.includes('SUBWAY') ? { mode: 'SUBWAY' } : []),
+      ...(modesOrDefault.includes('RAIL') ? { mode: 'RAIL' } : []),
+    ],
+
+    bikeParkModes: [
+      ...{ mode: 'BICYCLE', qualifier: 'PARK' },
+      ...formattedModes,
+    ],
   };
 };
