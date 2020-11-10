@@ -17,6 +17,7 @@ import { matchShape, routerShape } from 'found';
 import isEqual from 'lodash/isEqual';
 import { connectToStores } from 'fluxible-addons-react';
 import isEmpty from 'lodash/isEmpty';
+import SunCalc from 'suncalc';
 import storeOrigin from '../action/originActions';
 import DesktopView from './DesktopView';
 import MobileView from './MobileView';
@@ -1108,9 +1109,16 @@ class SummaryPage extends React.Component {
   // These are icons that contains sun
   dayNightIconIds = [1, 2, 21, 22, 23, 41, 42, 43, 61, 62, 71, 72, 73];
 
-  checkDayNight = (iconId, hour) => {
-    // Show night icons between 00.00 and 06.59
-    if (hour >= 0 && hour < 7 && this.dayNightIconIds.includes(iconId)) {
+  checkDayNight = (iconId, timem, lat, lon) => {
+    const date = timem.toDate();
+    const dateMillis = date.getTime();
+    const sunCalcTimes = SunCalc.getTimes(date, lat, lon);
+    const sunrise = sunCalcTimes.sunrise.getTime();
+    const sunset = sunCalcTimes.sunset.getTime();
+    if (
+      (sunrise > dateMillis || sunset < dateMillis) &&
+      this.dayNightIconIds.includes(iconId)
+    ) {
       // Night icon = iconId + 100
       return iconId + 100;
     }
@@ -1179,7 +1187,9 @@ class SummaryPage extends React.Component {
                   // Icon id's and descriptions: https://www.ilmatieteenlaitos.fi/latauspalvelun-pikaohje ->  Sääsymbolien selitykset ennusteissa.
                   iconId: this.checkDayNight(
                     res[2].ParameterValue,
-                    timem.hour(),
+                    timem,
+                    from.lat,
+                    from.lon,
                   ),
                 };
               }
