@@ -603,6 +603,8 @@ class SummaryPage extends React.Component {
         $shouldMakeBikeQuery: Boolean!
         $showBikeAndPublicItineraries: Boolean!
         $showBikeAndParkItineraries: Boolean!
+        $bikeAndPublicModes: [TransportMode!]
+        $bikeParkModes: [TransportMode!]
       ) {
         walkPlan: plan(
           fromPlace: $fromPlace
@@ -673,7 +675,7 @@ class SummaryPage extends React.Component {
           toPlace: $toPlace
           intermediatePlaces: $intermediatePlaces
           numItineraries: 6
-          transportModes: [{ mode: BICYCLE }, { mode: SUBWAY }, { mode: RAIL }]
+          transportModes: $bikeAndPublicModes
           date: $date
           time: $time
           walkReluctance: $walkReluctance
@@ -729,14 +731,7 @@ class SummaryPage extends React.Component {
           toPlace: $toPlace
           intermediatePlaces: $intermediatePlaces
           numItineraries: 6
-          transportModes: [
-            { mode: BICYCLE, qualifier: PARK }
-            { mode: WALK }
-            { mode: BUS }
-            { mode: TRAM }
-            { mode: SUBWAY }
-            { mode: RAIL }
-          ]
+          transportModes: $bikeParkModes
           date: $date
           time: $time
           walkReluctance: $walkReluctance
