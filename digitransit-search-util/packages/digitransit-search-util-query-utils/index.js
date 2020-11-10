@@ -323,8 +323,9 @@ export const filterStopsAndStationsByMode = (stopsToFilter, mode) => {
  * Returns Favourite Route objects depending on input
  * @param {String} input Search text, if empty no objects are returned
  * @param {*} favourites
+ * @param {String} transportMode If provided, all returned route objects are of this mode.
  */
-export function getFavouriteRoutesQuery(favourites, input) {
+export function getFavouriteRoutesQuery(favourites, input, transportMode) {
   if (
     !relayEnvironment ||
     !Array.isArray(favourites) ||
@@ -332,6 +333,7 @@ export function getFavouriteRoutesQuery(favourites, input) {
   ) {
     return Promise.resolve([]);
   }
+  const mode = transportMode ? transportMode.split('-')[1] : undefined;
   return fetchQuery(relayEnvironment, favouriteRoutesQuery, { ids: favourites })
     .then(data => data.routes.map(mapRoute))
     .then(routes => routes.filter(route => !!route))
@@ -342,6 +344,14 @@ export function getFavouriteRoutesQuery(favourites, input) {
         type: 'FavouriteRoute',
       })),
     )
+    .then(routes => {
+      if (transportMode) {
+        return routes.filter(favourite => {
+          return favourite.properties.mode === mode;
+        });
+      }
+      return routes;
+    })
     .then(routes =>
       filterMatchingToInput(routes, input, [
         'properties.shortName',

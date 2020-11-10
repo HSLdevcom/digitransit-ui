@@ -44,6 +44,7 @@ Returns Favourite Route objects depending on input
 
 -   `favourites` **any** 
 -   `input` **[String][1]** Search text, if empty no objects are returned
+-   `transportMode` **[String][1]** If provided, all returned route objects are of this mode.
 
 ## getFavouriteBikeRentalStationsQuery
 

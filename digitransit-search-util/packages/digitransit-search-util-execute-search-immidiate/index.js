@@ -365,13 +365,23 @@ export function getSearchResults(
         stopsAndStations = getStopsFromGeocoding(
           favouriteStops,
           URL_PELIAS_PLACE,
-        );
+        ).then(results => {
+          if (filterResults) {
+            return filterResults(results, 'Stops');
+          }
+          return results;
+        });
       } else {
-        stopsAndStations = getStopAndStationsQuery(
-          favouriteStops,
-        ).then(favourites =>
-          getStopsFromGeocoding(favourites, URL_PELIAS_PLACE),
-        );
+        stopsAndStations = getStopAndStationsQuery(favouriteStops)
+          .then(favourites =>
+            getStopsFromGeocoding(favourites, URL_PELIAS_PLACE),
+          )
+          .then(results => {
+            if (filterResults) {
+              return filterResults(results, 'Stops');
+            }
+            return results;
+          });
       }
       searchComponents.push(getFavouriteStops(stopsAndStations, input));
     }
@@ -435,7 +445,9 @@ export function getSearchResults(
   if (allTargets || targets.includes('Routes')) {
     if (sources.includes('Favourite')) {
       const favouriteRoutes = getFavouriteRoutes(context);
-      searchComponents.push(getFavouriteRoutesQuery(favouriteRoutes, input));
+      searchComponents.push(
+        getFavouriteRoutesQuery(favouriteRoutes, input, transportMode),
+      );
     }
     searchComponents.push(
       getRoutesQuery(input, feedIDs, transportMode).then(result =>
