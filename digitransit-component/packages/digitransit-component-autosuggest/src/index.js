@@ -504,6 +504,7 @@ class DTAutosuggest extends React.Component {
   };
 
   inputClicked = inputValue => {
+    this.input.focus();
     if (!this.state.editing) {
       const newState = {
         editing: true,
