@@ -453,6 +453,8 @@ const translations = {
       'Gesamte Laufstrecke: {totalDistance}.',
     'itinerary-summary.bikeAndPublic-fallback-title':
       'Nehmen Sie Ihr Rad mit ins Fahrzeug',
+    'itinerary-summary.bikeAndPublic-rail-subway-title':
+      'Nehmen Sie Ihr Rad mit in den Zug oder die Bahn',
     'itinerary-summary.bikeAndPublic-rail-title':
       'Nehmen Sie Ihr Rad mit in den Zug',
     'itinerary-summary.bikeAndPublic-subway-title':
@@ -1019,6 +1021,8 @@ const translations = {
       'Total walking distance {totalDistance}.',
     'itinerary-summary.bikeAndPublic-fallback-title':
       'Take your bike with you onboard',
+    'itinerary-summary.bikeAndPublic-rail-subway-title':
+      'Take your bike with you on the train or to metro',
     'itinerary-summary.bikeAndPublic-rail-title':
       'Take your bike with you on the train',
     'itinerary-summary.bikeAndPublic-subway-title': 'Take your bike to metro',
@@ -1857,6 +1861,8 @@ const translations = {
       'Kävelyä yhteensä {totalDistance}.',
     'itinerary-summary.bikeAndPublic-fallback-title':
       'Ota pyöräsi mukaan kulkuneuvoon',
+    'itinerary-summary.bikeAndPublic-rail-subway-title':
+      'Ota pyöräsi mukaan junaan tai metroon',
     'itinerary-summary.bikeAndPublic-rail-title': 'Ota pyöräsi mukaan junaan',
     'itinerary-summary.bikeAndPublic-subway-title':
       'Ota pyöräsi mukaan metroon',
@@ -3452,6 +3458,8 @@ const translations = {
       'Promenad sammanlagt {totalDistance}.',
     'itinerary-summary.bikeAndPublic-fallback-title':
       'Ta cykeln med dig i fordonet',
+    'itinerary-summary.bikeAndPublic-rail-subway-title':
+      'Ta cykeln med på tåget eller metron',
     'itinerary-summary.bikeAndPublic-rail-title': 'Ta cykeln med på tåget',
     'itinerary-summary.bikeAndPublic-subway-title': 'Ta cykeln med på metron',
     'itinerary-summary.bikePark-title':

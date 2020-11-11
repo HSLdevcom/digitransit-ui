@@ -130,6 +130,11 @@ function ItineraryPageMap(
   const send = useCenter; // || !mapLoaded || !itineraryMapReady;
 
   itineraryMapReady = false;
+
+  let useFitBound = fitBounds;
+  if (bounds?.length === undefined) {
+    useFitBound = false;
+  }
   return (
     <MapContainer
       className="full itinerary"
@@ -140,7 +145,7 @@ function ItineraryPageMap(
       bounds={bounds}
       mapReady={mapReady}
       itineraryMapReady={isItineraryMapReady}
-      fitBounds={fitBounds}
+      fitBounds={useFitBound}
       boundsOptions={{ maxZoom: 16 }}
       showScaleBar={showScale}
       hideOrigin

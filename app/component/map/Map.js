@@ -55,6 +55,7 @@ export default class Map extends React.Component {
     bottomButtons: PropTypes.node,
     mapReady: PropTypes.func,
     itineraryMapReady: PropTypes.func,
+    disableParkAndRide: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -120,6 +121,7 @@ export default class Map extends React.Component {
       leafletObjs,
       mapReady,
       itineraryMapReady,
+      disableParkAndRide,
     } = this.props;
     const { config } = this.context;
     if (itineraryMapReady) {
@@ -153,6 +155,7 @@ export default class Map extends React.Component {
           showStops={this.props.showStops}
           disableMapTracking={this.props.disableMapTracking}
           locationPopup={locationPopup}
+          disableParkAndRide={disableParkAndRide}
         />,
       );
     }
