@@ -93,7 +93,7 @@ describe('<TileLayerContainer />', () => {
       undefined,
     );
   });
-  it.skip('should call addAnalyticsEvent on open', () => {
+  it('should call addAnalyticsEvent on open', () => {
     const props = {
       tileSize: 1,
       zoomOffset: 1,
