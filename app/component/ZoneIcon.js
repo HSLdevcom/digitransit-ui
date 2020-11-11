@@ -57,13 +57,14 @@ const ZoneIcon = (
           ?
         </div>
       )}
-      {!zoneUnknown && config.zoneIconsAsSvg ? (
+      {!zoneUnknown && config.zoneIconsAsSvg && (
         <Icon
           img={`icon-icon_zone-${zoneId.toLowerCase()}`}
           className="svg"
           viewBox="0 0 22 22"
         />
-      ) : (
+      )}
+      {!zoneUnknown && !config.zoneIconsAsSvg && (
         <div className="circle" style={zoneIconStyle}>
           {zoneId}
         </div>
