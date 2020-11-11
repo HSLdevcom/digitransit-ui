@@ -120,6 +120,10 @@ export const preparePlanParams = config => (
   const wheelchair =
     getNumberValueOrDefault(settings.accessibilityOption, defaultSettings) ===
     1;
+  const includeBikeSuggestions =
+    settings.includeBikeSuggestions !== undefined
+      ? settings.includeBikeSuggestions
+      : defaultSettings.includeBikeSuggestions;
   return {
     ...defaultSettings,
     ...omitBy(
@@ -173,21 +177,15 @@ export const preparePlanParams = config => (
         toLocation,
         intermediatePlaceLocations,
       ) < config.suggestBikeMaxDistance &&
-      (settings.includeBikeSuggestions !== undefined
-        ? settings.includeBikeSuggestions
-        : defaultSettings.includeBikeSuggestions),
+      includeBikeSuggestions,
     showBikeAndPublicItineraries:
       !wheelchair &&
       config.showBikeAndPublicItineraries &&
-      (settings.includeBikeSuggestions !== undefined
-        ? settings.includeBikeSuggestions
-        : defaultSettings.includeBikeSuggestions),
+      includeBikeSuggestions,
     showBikeAndParkItineraries:
       !wheelchair &&
       config.showBikeAndParkItineraries &&
-      (settings.includeBikeSuggestions !== undefined
-        ? settings.includeBikeSuggestions
-        : defaultSettings.includeBikeSuggestions),
+      includeBikeSuggestions,
     bikeAndPublicMaxWalkDistance: config.suggestBikeMaxDistance,
     bikeandPublicDisableRemainingWeightHeuristic:
       Array.isArray(intermediatePlaceLocations) &&
