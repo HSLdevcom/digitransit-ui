@@ -231,6 +231,7 @@ const withRelay = createFragmentContainer(ItineraryTab, {
             gtfsId
             code
             platformCode
+            vehicleMode
             zoneId
             alerts {
               alertSeverityLevel
