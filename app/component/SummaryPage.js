@@ -1046,7 +1046,8 @@ class SummaryPage extends React.Component {
         !isEqual(
           otpToLocation(this.context.match.params.from),
           otpToLocation(this.context.match.params.to),
-        )
+        ) ||
+        getIntermediatePlaces(this.context.match.location.query).length > 0
       ) {
         this.makeWalkAndBikeQueries();
       } else {
@@ -1451,7 +1452,8 @@ class SummaryPage extends React.Component {
           !isEqual(
             otpToLocation(this.context.match.params.from),
             otpToLocation(this.context.match.params.to),
-          )
+          ) ||
+          getIntermediatePlaces(this.context.match.location.query).length > 0
         ) {
           this.isFetchingWalkAndBike = true;
           this.setState(
