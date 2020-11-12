@@ -38,6 +38,32 @@ export default configMerger(walttiConfig, {
     },
   },
 
+  cityBike: {
+    showCityBikes: true,
+    networks: {
+      lappeenranta: {
+        icon: 'citybike',
+        name: {
+          fi: 'Lappeenranta',
+          sv: 'Vilmanstrand',
+          en: 'Lappeenranta',
+        },
+        type: 'citybike',
+        url: {
+          fi: 'https://kaakau.fi/lappeenranta/',
+          sv: 'https://kaakau.fi/lappeenranta/?lang=en',
+          en: 'https://kaakau.fi/lappeenranta/?lang=sv',
+        },
+      },
+    },
+  },
+
+  transportModes: {
+    citybike: {
+      availableForSelection: true,
+    },
+  },
+
   feedIds: ['Lappeenranta'],
 
   searchParams: {
