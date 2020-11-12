@@ -45,11 +45,6 @@ export default configMerger(walttiConfig, {
 
   cityBike: {
     showCityBikes: false,
-    useUrl: {
-      fi: 'https://kaupunkipyorat.ouka.fi/',
-      sv: 'https://kaupunkipyorat.ouka.fi/home',
-      en: 'https://kaupunkipyorat.ouka.fi/home',
-    },
     networks: {
       oulu: {
         icon: 'citybike',

@@ -107,11 +107,6 @@ export default configMerger(walttiConfig, {
   cityBike: {
     showCityBikes: true,
     useSpacesAvailable: false,
-    useUrl: {
-      fi: 'https://kaupunkipyorat.kuopio.fi/',
-      sv: 'https://kaupunkipyorat.kuopio.fi/?lang=2',
-      en: 'https://kaupunkipyorat.kuopio.fi/?lang=2',
-    },
     networks: {
       vilkku: {
         icon: 'citybike',

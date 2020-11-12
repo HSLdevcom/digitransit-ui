@@ -168,13 +168,6 @@ export const getCityBikeUrl = (networks, lang, config) => {
   ) {
     return config.cityBike.networks[id].url[lang];
   }
-  if (
-    config.cityBike &&
-    config.cityBike.useUrl &&
-    config.cityBike.useUrl[lang]
-  ) {
-    return config.cityBike.useUrl[lang];
-  }
   return undefined;
 };
 
