@@ -40,7 +40,6 @@ function ItinerarySummaryListContainer(
     separatorPosition,
     loadingMoreItineraries,
     loading,
-    scrolled,
   },
   context,
 ) {
@@ -86,19 +85,27 @@ function ItinerarySummaryListContainer(
         itineraries.length > bikeAndParkItinerariesToShow &&
         bikeAndPublicItinerariesToShow > 0
       ) {
-        const publicModes = itineraries[
-          bikeAndParkItinerariesToShow
-        ].legs.filter(obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE');
-        const firstMode = publicModes[0].mode.toLowerCase();
+        const bikeAndParkItineraries = itineraries.slice(
+          bikeAndParkItinerariesToShow,
+        );
+        const filteredBikeAndParkItineraries = bikeAndParkItineraries.map(i =>
+          i.legs.filter(obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE'),
+        );
+        const allModes = Array.from(
+          new Set(
+            filteredBikeAndParkItineraries.length > 0
+              ? filteredBikeAndParkItineraries.map(p => p[0].mode.toLowerCase())
+              : [],
+          ),
+        );
+
         summaries.splice(
           bikeAndParkItinerariesToShow + 1,
           0,
           <ItinerarySummarySubtitle
-            translationId={
-              firstMode === 'rail' || firstMode === 'subway'
-                ? `itinerary-summary.bikeAndPublic-${firstMode}-title`
-                : 'itinerary-summary.bikeAndPublic-fallback-title'
-            }
+            translationId={`itinerary-summary.bikeAndPublic-${allModes
+              .sort()
+              .join('-')}-title`}
             defaultMessage="Biking \u0026 public transport"
             key="itinerary-summary.bikeAndPublic-title"
           />,
@@ -147,8 +154,6 @@ function ItinerarySummaryListContainer(
             className={cx('summary-list-items', {
               'summary-list-items-loading-top':
                 loadingMoreItineraries === 'top',
-              'summary-list-items-loading-bottom':
-                loadingMoreItineraries === 'bottom' && scrolled,
             })}
           >
             {summaries}
@@ -305,7 +310,6 @@ ItinerarySummaryListContainer.propTypes = {
   separatorPosition: PropTypes.number,
   loadingMoreItineraries: PropTypes.string,
   loading: PropTypes.bool.isRequired,
-  scrolled: PropTypes.bool.isRequired,
 };
 
 ItinerarySummaryListContainer.defaultProps = {

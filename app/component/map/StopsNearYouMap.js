@@ -377,6 +377,7 @@ function StopsNearYouMap(
         showScaleBar
         fitBounds={useFitBounds}
         defaultMapCenter={context.config.defaultEndpoint}
+        disableParkAndRide
         initialZoom={16}
         bounds={bounds}
         origin={origin}
@@ -384,7 +385,6 @@ function StopsNearYouMap(
         fitBoundsWithSetCenter
         setInitialMapTracking
         hilightedStops={hilightedStops()}
-        disableLocationPopup
         leafletObjs={leafletObjs}
       />
     );
@@ -411,7 +411,6 @@ function StopsNearYouMap(
           fitBoundsWithSetCenter
           setInitialMapTracking
           hilightedStops={hilightedStops()}
-          disableLocationPopup
           leafletObjs={leafletObjs}
         />
       </>

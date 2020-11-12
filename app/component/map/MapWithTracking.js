@@ -96,7 +96,7 @@ class MapWithTrackingStateHandler extends React.Component {
     messages: PropTypes.array,
     setInitialMapTracking: PropTypes.bool,
     initialZoom: PropTypes.number,
-    disableLocationPopup: PropTypes.bool,
+    locationPopup: PropTypes.string,
     showLocationMessages: PropTypes.bool,
     defaultMapCenter: PropTypes.object.isRequired,
     fitBoundsWithSetCenter: PropTypes.bool,
@@ -107,7 +107,7 @@ class MapWithTrackingStateHandler extends React.Component {
     renderCustomButtons: undefined,
     setInitialMapTracking: false,
     initialZoom: undefined,
-    disableLocationPopup: false,
+    locationPopup: 'reversegeocoding',
     fitBounds: false,
     showLocationMessages: false,
     fitBoundsWithSetCenter: false,
@@ -119,6 +119,7 @@ class MapWithTrackingStateHandler extends React.Component {
     this.state = {
       locationingOn: false,
       defaultMapCenter: props.defaultMapCenter,
+      keepOnTracking: false,
       initialZoom: props.initialZoom ? props.initialZoom : defaultZoom,
       mapTracking: props.setInitialMapTracking,
     };
@@ -204,6 +205,7 @@ class MapWithTrackingStateHandler extends React.Component {
     }
     this.setState({
       mapTracking: true,
+      keepOnTracking: true,
       locationingOn: true,
       initialZoom: 16,
     });
@@ -214,9 +216,23 @@ class MapWithTrackingStateHandler extends React.Component {
     });
   };
 
+  disableMapTrackingForZoomControl = () => {
+    if (!this.state.keepOnTracking) {
+      this.setState({
+        mapTracking: false,
+        keepOnTracking: false,
+      });
+    } else {
+      this.setState({
+        keepOnTracking: false,
+      });
+    }
+  };
+
   disableMapTracking = () => {
     this.setState({
       mapTracking: false,
+      keepOnTracking: false,
     });
   };
 
@@ -349,11 +365,13 @@ class MapWithTrackingStateHandler extends React.Component {
         mapTracking={this.state.mapTracking}
         fitBounds={useFitBounds}
         className="flex-grow"
-        disableLocationPopup={this.props.disableLocationPopup}
+        locationPopup={this.props.locationPopup}
         leafletEvents={{
           onDragstart: this.disableMapTracking,
+          onMoveend: () => this.setState({ keepOnTracking: false }),
           onDragend: this.updateCurrentBounds,
           onZoomend: this.updateCurrentBounds,
+          onZoomstart: this.disableMapTrackingForZoomControl,
         }}
         disableMapTracking={this.disableMapTracking}
         {...rest}

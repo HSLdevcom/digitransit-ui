@@ -173,9 +173,7 @@
       margin: 0 2px 0 0;
       justify-content: center;
       &.fit-route-number {
-        min-width: fit-content;
-        /* stylelint-disable-next-line */
-        min-width: -moz-fit-content;
+        min-width: max-content;
         .vcenter-children {
           min-width: max-content !important; // forces the leg to fit the route number in it
         }
@@ -239,9 +237,6 @@
         display: flex;
         min-width: 0;
         height: 24px;
-        max-width: fit-content;
-        /* stylelint-disable-next-line */
-        max-width: -moz-fit-content;
         .vcenter-children {
           .empty {
             float: left;

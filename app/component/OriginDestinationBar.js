@@ -16,6 +16,7 @@ import DTModal from './DTModal';
 import { setIntermediatePlaces } from '../util/queryUtils';
 import { getIntermediatePlaces } from '../util/otpStrings';
 import { dtLocationShape } from '../util/shapes';
+import { setViaPoints } from '../action/ViaPointActions';
 
 const DTAutosuggestPanelWithSearchContext = withSearchContext(
   DTAutosuggestPanel,
@@ -31,68 +32,55 @@ class OriginDestinationBar extends React.Component {
     className: PropTypes.string,
     destination: dtLocationShape,
     origin: dtLocationShape,
-    location: PropTypes.object,
     language: PropTypes.string,
     isMobile: PropTypes.bool,
     showFavourites: PropTypes.bool.isRequired,
+    viaPoints: PropTypes.array,
   };
 
   static contextTypes = {
     intl: intlShape.isRequired,
     router: routerShape.isRequired,
     getStore: PropTypes.func.isRequired,
+    executeAction: PropTypes.func.isRequired,
     match: matchShape.isRequired,
     config: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
     className: undefined,
-    location: undefined,
     language: 'fi',
     isMobile: false,
+    viaPoints: [],
   };
 
   constructor(props) {
     super(props);
-    this.state = {
-      showModal: false,
-      viaPoints: [],
-    };
+    this.state = {};
   }
 
-  get location() {
-    return this.props.location || this.context.match.location;
+  componentDidMount() {
+    const viaPoints = getIntermediatePlaces(this.context.match.location.query);
+    this.context.executeAction(setViaPoints, viaPoints);
   }
 
   updateViaPoints = newViaPoints => {
-    this.setState({ viaPoints: newViaPoints }, () => {
-      return setIntermediatePlaces(
-        this.context.router,
-        this.context.match,
-        newViaPoints.map(locationToOtp),
-      );
-    });
-  };
-
-  openSelectFromMapModal = () => {
-    this.setState({
-      showModal: true,
-    });
-  };
-
-  closeSelectFromMapModal = () => {
-    this.setState({
-      showModal: false,
-    });
+    this.context.executeAction(setViaPoints, newViaPoints);
+    const p = newViaPoints.filter(vp => !isEmpty(vp));
+    setIntermediatePlaces(
+      this.context.router,
+      this.context.match,
+      p.map(locationToOtp),
+    );
   };
 
   renderSelectFromMapModal = () => {
     const titleId = 'select-from-map-viaPoint';
     return (
-      <DTModal show={this.state.showModal}>
+      <DTModal show={this.state.mapSelectionIndex !== undefined}>
         <SelectFromMapHeader
           titleId={titleId}
-          onBackBtnClick={this.closeSelectFromMapModal}
+          onBackBtnClick={() => this.setState({ mapSelectionIndex: undefined })}
         />
         <SelectFromMapPageMap
           type="viaPoint"
@@ -103,18 +91,10 @@ class OriginDestinationBar extends React.Component {
   };
 
   confirmMapSelection = (type, mapLocation) => {
-    const { viaPoints } = this.state;
-    const points = viaPoints.filter(vp => !isEmpty(vp));
-    points.push(mapLocation);
-    this.setState(
-      {
-        showModal: false,
-        viaPoints: points,
-      },
-      () => {
-        this.updateViaPoints(this.state.viaPoints);
-      },
-    );
+    const viaPoints = [...this.props.viaPoints];
+    viaPoints[this.state.mapSelectionIndex] = mapLocation;
+    this.updateViaPoints(viaPoints);
+    this.setState({ mapSelectionIndex: undefined });
   };
 
   handleViaPointLocationSelected = (viaPointLocation, i) => {
@@ -126,25 +106,22 @@ class OriginDestinationBar extends React.Component {
       });
     }
     if (viaPointLocation.type !== 'SelectFromMap') {
-      const { viaPoints } = this.state;
-      let points = viaPoints;
+      const points = [...this.props.viaPoints];
       points[i] = {
         ...viaPointLocation,
       };
-      points = points.filter(vp => !isEmpty(vp));
-      this.setState({ viaPoints: points }, () => this.updateViaPoints(points));
+      this.updateViaPoints(points);
     } else {
-      this.setState({ showModal: true });
+      this.setState({ mapSelectionIndex: i });
     }
   };
 
   swapEndpoints = () => {
-    const { location } = this;
+    const { location } = this.context.match;
     const intermediatePlaces = getIntermediatePlaces(location.query);
     if (intermediatePlaces.length > 1) {
       location.query.intermediatePlaces.reverse();
     }
-
     navigateTo({
       base: location,
       origin: this.props.destination,
@@ -171,15 +148,7 @@ class OriginDestinationBar extends React.Component {
           originPlaceHolder="search-origin-index"
           destinationPlaceHolder="search-destination-index"
           showMultiPointControls
-          viaPoints={
-            this.state.viaPoints.length > 0
-              ? this.state.viaPoints
-              : getIntermediatePlaces(
-                  this.props.location
-                    ? this.props.location.query
-                    : this.context.match.location.query,
-                )
-          }
+          viaPoints={this.props.viaPoints}
           handleViaPointLocationSelected={this.handleViaPointLocationSelected}
           addAnalyticsEvent={addAnalyticsEvent}
           updateViaPoints={this.updateViaPoints}
@@ -246,10 +215,11 @@ OriginDestinationBar.description = (
 
 const connectedComponent = connectToStores(
   OriginDestinationBar,
-  ['PreferencesStore', 'FavouriteStore'],
+  ['PreferencesStore', 'FavouriteStore', 'ViaPointStore'],
   ({ getStore }) => ({
     language: getStore('PreferencesStore').getLanguage(),
     showFavourites: getStore('FavouriteStore').getStatus() === 'has-data',
+    viaPoints: getStore('ViaPointStore').getViaPoints(),
   }),
 );
 

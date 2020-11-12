@@ -6,7 +6,6 @@ div.map {
   max-height: 100%;
   position: relative;
   .leaflet-container .leaflet-control-attribution {
-    width: 107px;
     height: 22px;
     opacity: 0.7;
     border-radius: 11px;
@@ -24,7 +23,6 @@ div.map {
     padding: 0;
   }
   .leaflet-container .leaflet-control-attribution a {
-    width: 94px;
     height: 11px;
     font-family: $font-family;
     font-size: 11px;
@@ -152,6 +150,11 @@ div.map {
   .location-popup-wrapper {
     .zone-icon-container {
       margin-top: 10px;
+
+      .svg {
+        width: 15px;
+        height: 15px;
+      }
     }
   }
 }
@@ -403,6 +406,11 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
   display: flex;
   .zone-icon-container {
     margin-top: 25px;
+
+    .svg {
+      width: 15px;
+      height: 15px;
+    }
   }
 }
 

@@ -12,7 +12,7 @@ import TimeStore from './store/TimeStore';
 import MapLayerStore from './store/MapLayerStore';
 import GeoJsonStore from './store/GeoJsonStore';
 import CanceledLegsBarStore from './store/CanceledLegsBarStore';
-import ViaPointsStore from './store/ViaPointsStore';
+import ViaPointStore from './store/ViaPointStore';
 import UserStore from './store/UserStore';
 import FavouriteStore from './store/FavouriteStore';
 import RoutingSettingsStore from './store/RoutingSettingsStore';
@@ -34,7 +34,7 @@ export default config => {
   app.registerStore(MapLayerStore);
   app.registerStore(GeoJsonStore);
   app.registerStore(CanceledLegsBarStore);
-  app.registerStore(ViaPointsStore);
+  app.registerStore(ViaPointStore);
   app.registerStore(UserStore);
   app.registerStore(FavouriteStore);
   app.registerStore(RoutingSettingsStore);

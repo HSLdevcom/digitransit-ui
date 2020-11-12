@@ -1775,10 +1775,10 @@
   resolved "https://registry.yarnpkg.com/@hsl-fi/shimmer/-/shimmer-0.1.0.tgz#111eca690401db43bc5ac0b1d142d00e97bcfaea"
   integrity sha512-8aGzCxClDzZf1ZVm7etEi3UEJIy0uMakMFC+p6eS6XalBuGhXptk8Luwavw1NiNo633yW1sJA2C3QRGwoHr6pg==
 
-"@hsl-fi/site-header@1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@hsl-fi/site-header/-/site-header-1.0.1.tgz#77fbaa3762cc93294158a3fb4367f1e2558f421a"
-  integrity sha512-g0if3LaoeUdV5OdgRx1PRgIbgv3V7v5T9okgzgUb9yVzTQbxSn7IlctArVwuJchvSmGSBufRemqpndOnFLnA4A==
+"@hsl-fi/site-header@1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@hsl-fi/site-header/-/site-header-1.0.2.tgz#2ab88c9f63dd47126e8cdf4b6baf081fd5cf6640"
+  integrity sha512-7b4wqjzbD+j2xFC2qgUoaiF355nm++lr2iFEKRv3fML8/hG7XV3h3olyTJyGLVYFLo4SfmcSHDIu39DKre7ohg==
   dependencies:
     "@hsl-fi/animated-spinner" "^0.1.0"
     "@hsl-fi/hooks" "^0.2.0"
@@ -17435,6 +17435,11 @@ sugarss@^2.0.0:
   integrity sha512-WfxjozUk0UVA4jm+U1d736AUpzSrNsQcIbyOkoE364GrtWmIrFdk5lksEupgWMD4VaT/0kVx1dobpiDumSgmJQ==
   dependencies:
     postcss "^7.0.2"
+
+suncalc@1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/suncalc/-/suncalc-1.8.0.tgz#1d9898109563078750f4994a959e654d876acbf5"
+  integrity sha1-HZiYEJVjB4dQ9JlKlZ5lTYdqy/U=
 
 supports-color@3.1.2:
   version "3.1.2"

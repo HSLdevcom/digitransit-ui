@@ -157,8 +157,7 @@ const MobileSearch = ({
   if (focusInput && inputRef.current?.input) {
     inputRef.current.input.focus();
   }
-
-  if (id !== 'origin-stop-near-you') {
+  if (id !== 'origin-stop-near-you' && id !== 'favourite') {
     return (
       <div className={styles['fullscreen-root']}>
         <Modal
@@ -171,14 +170,13 @@ const MobileSearch = ({
         {renderDialogModal()}
       </div>
     );
-  } else {
-    return (
-      <div className={styles['fullscreen-root']}>
-        {renderContent()}
-        {renderDialogModal()}
-      </div>
-    );
   }
+  return (
+    <div className={styles['fullscreen-root']}>
+      {renderContent()}
+      {renderDialogModal()}
+    </div>
+  );
 };
 
 MobileSearch.propTypes = {
