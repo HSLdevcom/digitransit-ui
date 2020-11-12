@@ -6,8 +6,8 @@ const APP_TITLE = 'stadtnavi Herrenberg';
 const APP_DESCRIPTION = 'Gemeinsam Mobilität neu denken - die intermodale Verbindungssuche mit offenen, lokalen Daten';
 const API_URL = process.env.API_URL || 'https://api.stadtnavi.de';
 const MAP_URL = 'https://tiles.stadtnavi.eu/streets/';
-const SEMI_TRANSPARENT_MAP_URL = 'https://tiles.stadtnavi.eu/satellite/{z}/{x}/{y}{r}.png';
-const GEOCODING_BASE_URL = `${API_URL}/geocoding/v1`;
+const SEMI_TRANSPARENT_MAP_URL = "https://tiles.stadtnavi.eu/satellite/{z}/{x}/{y}{r}.png";
+const GEOCODING_BASE_URL = "https://photon.stadtnavi.eu/pelias/v1";
 const YEAR = 1900 + new Date().getYear();
 const STATIC_MESSAGE_URL =
     process.env.STATIC_MESSAGE_URL ||
