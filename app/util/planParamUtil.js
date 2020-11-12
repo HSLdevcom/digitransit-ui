@@ -117,6 +117,13 @@ export const preparePlanParams = config => (
         ? { mode: modeAndQualifier[0], qualifier: modeAndQualifier[1] }
         : { mode: modeAndQualifier[0] },
     );
+  const wheelchair =
+    getNumberValueOrDefault(settings.accessibilityOption, defaultSettings) ===
+    1;
+  const includeBikeSuggestions =
+    settings.includeBikeSuggestions !== undefined
+      ? settings.includeBikeSuggestions
+      : defaultSettings.includeBikeSuggestions;
   return {
     ...defaultSettings,
     ...omitBy(
@@ -135,11 +142,7 @@ export const preparePlanParams = config => (
         walkSpeed: settings.walkSpeed,
         arriveBy: arriveBy === 'true',
         maxWalkDistance: config.maxWalkDistance,
-        wheelchair:
-          getNumberValueOrDefault(
-            settings.accessibilityOption,
-            defaultSettings,
-          ) === 1,
+        wheelchair,
         transferPenalty: config.transferPenalty,
         bikeSpeed: settings.bikeSpeed,
         optimize: config.optimize,
@@ -161,30 +164,28 @@ export const preparePlanParams = config => (
     ),
     allowedBikeRentalNetworks: allowedBikeRentalNetworksMapped,
     shouldMakeWalkQuery:
+      !wheelchair &&
       estimateItineraryDistance(
         fromLocation,
         toLocation,
         intermediatePlaceLocations,
       ) < config.suggestWalkMaxDistance,
     shouldMakeBikeQuery:
+      !wheelchair &&
       estimateItineraryDistance(
         fromLocation,
         toLocation,
         intermediatePlaceLocations,
       ) < config.suggestBikeMaxDistance &&
-      (settings.includeBikeSuggestions
-        ? settings.includeBikeSuggestions
-        : defaultSettings.includeBikeSuggestions),
+      includeBikeSuggestions,
     showBikeAndPublicItineraries:
+      !wheelchair &&
       config.showBikeAndPublicItineraries &&
-      (settings.includeBikeSuggestions
-        ? settings.includeBikeSuggestions
-        : defaultSettings.includeBikeSuggestions),
+      includeBikeSuggestions,
     showBikeAndParkItineraries:
+      !wheelchair &&
       config.showBikeAndParkItineraries &&
-      (settings.includeBikeSuggestions
-        ? settings.includeBikeSuggestions
-        : defaultSettings.includeBikeSuggestions),
+      includeBikeSuggestions,
     bikeAndPublicMaxWalkDistance: config.suggestBikeMaxDistance,
     bikeandPublicDisableRemainingWeightHeuristic:
       Array.isArray(intermediatePlaceLocations) &&
