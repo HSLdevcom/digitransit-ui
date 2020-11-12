@@ -1,10 +1,13 @@
 /* eslint-disable react/forbid-prop-types */
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
+import WeatherDetailsPopup from './WeatherDetailsPopup';
 
 export const StreetModeSelectorWeatherLabel = ({ active, weatherData }) => {
+  const [popupOpen, changeOpen] = useState(false);
   if (active && weatherData && weatherData.temperature) {
     if (weatherData.temperature === 'NaN') {
       return null;
@@ -12,15 +15,32 @@ export const StreetModeSelectorWeatherLabel = ({ active, weatherData }) => {
     const { temperature, iconId } = weatherData;
     const tempLabel = `${Math.round(temperature)}\u00B0C`; // Temperature with Celsius
     return (
-      // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-      <div className={cx('street-mode-selector-weather-container')}>
-        <div>
+      <>
+        <button
+          type="button"
+          className={cx('street-mode-selector-weather-container')}
+          onClick={() => changeOpen(true)}
+        >
+          <span className="sr-only">
+            <FormattedMessage id="weather" />
+            <FormattedMessage id={`weather-icon-${weatherData.iconId}`} />
+            {tempLabel}
+          </span>
           <Icon img={`icon-icon_weather_${iconId}`} />
-          <div className="street-mode-selector-panel-weather-text">
+          <div
+            className="street-mode-selector-panel-weather-text"
+            aria-hidden="true"
+          >
             {tempLabel}
           </div>
-        </div>
-      </div>
+        </button>
+        {popupOpen && (
+          <WeatherDetailsPopup
+            weatherData={weatherData}
+            onClose={() => changeOpen(false)}
+          />
+        )}
+      </>
     );
   }
   return null;
