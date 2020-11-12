@@ -2,7 +2,6 @@
 /* eslint-disable no-unused-vars */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { isEmpty } from 'lodash';
 import { matchShape, routerShape } from 'found';
 import moment from 'moment';
 import LazilyLoad, { importLazy } from './LazilyLoad';
@@ -73,7 +72,7 @@ const AppBarHsl = ({ lang, user }, context) => {
           userMenu: {
             isLoading: false, // When fetching for login-information, `isLoading`-property can be set to true. Spinner will be shown.
             isAuthenticated: !!user.sub, // If user is authenticated, set `isAuthenticated`-property to true.
-            loginUrl: '/login', // Url that user will be redirect to when Person-icon is pressed and user is not logged in.
+            loginUrl: `/login?url=${location.pathname}${location.search}`, // Url that user will be redirect to when Person-icon is pressed and user is not logged in.
             initials,
             menuItems: [
               {

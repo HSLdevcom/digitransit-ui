@@ -160,11 +160,15 @@ export default function setUpOIDC(app, port, indexPath) {
   // users will be redirected to hsl.id and once authenticated
   // they will be returned to the callback handler below
   app.get('/login', function (req, res) {
-    const action = req.query.favouriteModalAction;
-    if (action) {
+    const favAction = req.query.favouriteModalAction;
+    const { url } = req.query;
+    if (favAction) {
       req.session.returnTo = `${
         req.session.returnTo || `/${indexPath}?`
-      }&favouriteModalAction=${action}`;
+      }&favouriteModalAction=${favAction}`;
+    }
+    if (url) {
+      req.session.returnTo = `${url}`;
     }
     passport.authenticate('passport-openid-connect', {
       scope: 'profile',
