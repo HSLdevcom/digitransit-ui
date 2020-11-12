@@ -8,6 +8,7 @@ import SearchSettingsDropdown, {
   getFiveStepOptions,
 } from '../SearchSettingsDropdown';
 import Toggle from '../Toggle';
+import { findNearestOption } from '../../util/planParamUtil';
 
 const WalkingOptionsSection = (
   { currentSettings, defaultSettings, walkSpeedOptions, walkReluctanceOptions },
@@ -15,10 +16,12 @@ const WalkingOptionsSection = (
   options = getFiveStepOptions(walkSpeedOptions),
   currentSelection = options.find(
     option => option.value === currentSettings.walkSpeed,
-  ) || {
-    value: currentSettings.walkSpeed,
-    title: `${Math.round(currentSettings.walkSpeed * 3.6)} km/h`,
-  },
+  ) ||
+    options.find(
+      option =>
+        option.value ===
+        findNearestOption(currentSettings.walkSpeed, walkSpeedOptions),
+    ),
 ) => (
   <div className="walk-options-container">
     <SearchSettingsDropdown
