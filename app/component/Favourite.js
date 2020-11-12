@@ -33,7 +33,8 @@ const Favourite = (
   const renderLoginModal = () => {
     const { match, intl } = context;
     const { location } = match;
-    const url = `${location.pathname}${location.search}`;
+    const url = encodeURI(`${location.pathname}${location.search}`);
+
     return (
       <DialogModal
         appElement="#app"
