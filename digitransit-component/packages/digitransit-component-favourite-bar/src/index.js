@@ -143,6 +143,7 @@ class FavouriteBar extends React.Component {
 
   constructor(props) {
     super(props);
+    i18next.changeLanguage(props.lang);
     this.state = {
       listOpen: false,
       highlightedIndex: 0,
