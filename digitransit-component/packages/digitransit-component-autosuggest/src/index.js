@@ -15,6 +15,7 @@ import { getStopName } from '@digitransit-search-util/digitransit-search-util-he
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import moment from 'moment-timezone';
+import isEqual from 'lodash/isEqual';
 import translations from './helpers/translations';
 import styles from './helpers/styles.scss';
 import MobileSearch from './helpers/MobileSearch';
@@ -225,6 +226,19 @@ class DTAutosuggest extends React.Component {
       suggestionIndex: 0,
       cleanExecuted: false,
     };
+  }
+
+  // DT-4074: When a user's location is updated DTAutosuggest would re-render causing suggestion list to reset.
+  // This will prevent it.
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      !isEqual(nextState.suggestions, this.state.suggestions) ||
+      nextState.editing !== this.state.editing ||
+      !isEqual(nextState.value, this.state.value) ||
+      nextState.valid !== this.state.valid ||
+      nextState.renderMobileSearch !== this.state.renderMobileSearch ||
+      nextState.typing !== this.state.typing
+    );
   }
 
   componentDidUpdate = prevProps => {
