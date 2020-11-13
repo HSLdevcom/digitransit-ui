@@ -118,6 +118,7 @@ export default function withSearchContext(WrappedComponent) {
         item.type.indexOf('Favourite') === -1 &&
         id.indexOf('favourite') === -1 &&
         item.properties &&
+        item.properties.layer &&
         item.properties.layer.indexOf('favourite') === -1
       ) {
         this.context.executeAction(searchContext.saveSearch, {
