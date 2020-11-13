@@ -1042,7 +1042,17 @@ class SummaryPage extends React.Component {
     ) {
       this.originalPlan = this.props.viewer.plan;
       this.secondQuerySent = true;
-      this.makeWalkAndBikeQueries();
+      if (
+        !isEqual(
+          otpToLocation(this.context.match.params.from),
+          otpToLocation(this.context.match.params.to),
+        ) ||
+        getIntermediatePlaces(this.context.match.location.query).length > 0
+      ) {
+        this.makeWalkAndBikeQueries();
+      } else {
+        this.isFetchingWalkAndBike = false;
+      }
     }
 
     if (
@@ -1438,25 +1448,33 @@ class SummaryPage extends React.Component {
           getCurrentSettings(this.context.config, ''),
         )
       ) {
-        this.isFetchingWalkAndBike = true;
-        this.setState(
-          {
-            loading: true,
-          },
-          // eslint-disable-next-line func-names
-          function () {
-            const planParams = preparePlanParams(this.context.config)(
-              this.context.match.params,
-              this.context.match,
-            );
-            this.makeWalkAndBikeQueries();
-            this.props.relay.refetch(planParams, null, () => {
-              this.setState({
-                loading: false,
+        if (
+          !isEqual(
+            otpToLocation(this.context.match.params.from),
+            otpToLocation(this.context.match.params.to),
+          ) ||
+          getIntermediatePlaces(this.context.match.location.query).length > 0
+        ) {
+          this.isFetchingWalkAndBike = true;
+          this.setState(
+            {
+              loading: true,
+            },
+            // eslint-disable-next-line func-names
+            function () {
+              const planParams = preparePlanParams(this.context.config)(
+                this.context.match.params,
+                this.context.match,
+              );
+              this.makeWalkAndBikeQueries();
+              this.props.relay.refetch(planParams, null, () => {
+                this.setState({
+                  loading: false,
+                });
               });
-            });
-          },
-        );
+            },
+          );
+        }
       }
     }
   };

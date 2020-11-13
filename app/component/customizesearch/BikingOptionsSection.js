@@ -9,6 +9,7 @@ import SearchSettingsDropdown, {
   valueShape,
 } from '../SearchSettingsDropdown';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
+import { findNearestOption } from '../../util/planParamUtil';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class BikingOptionsSection extends React.Component {
@@ -16,12 +17,13 @@ class BikingOptionsSection extends React.Component {
     const { defaultSettings, bikeSpeed } = this.props;
     const { intl } = this.context;
     const options = getFiveStepOptionsNumerical(this.props.bikeSpeedOptions);
-    const currentSelection = options.find(
-      option => option.value === bikeSpeed,
-    ) || {
-      value: bikeSpeed,
-      title: `${Math.round(bikeSpeed * 3.6)} km/h`,
-    };
+    const currentSelection =
+      options.find(option => option.value === bikeSpeed) ||
+      options.find(
+        option =>
+          option.value ===
+          findNearestOption(bikeSpeed, this.props.bikeSpeedOptions),
+      );
     return (
       <React.Fragment>
         <SearchSettingsDropdown

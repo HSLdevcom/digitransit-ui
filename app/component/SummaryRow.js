@@ -249,6 +249,7 @@ const SummaryRow = (
   });
   const durationWithoutSlack = duration - intermediateSlack; // don't include time spent at intermediate places in calculations for bar lengths
   let renderBarThreshold = 6;
+  const renderRouteNumberThreshold = 12; // route numbers will be rendered on legs that are longer than this
   if (breakpoint === 'small') {
     renderBarThreshold = 8.5;
   }
@@ -262,7 +263,7 @@ const SummaryRow = (
   const lastLeg = compressedLegs[compressedLegs.length - 1];
   const lastLegLength =
     ((lastLeg.duration * 1000) / durationWithoutSlack) * 100;
-  const fitAllRouteNumbers = transitLegCount < 3;
+  const fitAllRouteNumbers = transitLegCount < 4; // if there are three or fewer transit legs, we will show all the route numbers.
   const bikeParkedIndex = usingOwnBicycle
     ? bikeWasParked(compressedLegs)
     : undefined;
@@ -417,11 +418,17 @@ const SummaryRow = (
       ) {
         legs.push(<ViaLeg key={`via_${leg.mode}_${leg.startTime}`} />);
       }
+      const renderRouteNumberForALongLeg =
+        legLength > renderRouteNumberThreshold &&
+        !longName &&
+        transitLegCount < 7;
       legs.push(
         <RouteLeg
           key={`${leg.mode}_${leg.startTime}`}
           leg={leg}
-          fitRouteNumber={fitAllRouteNumbers && !longName}
+          fitRouteNumber={
+            (fitAllRouteNumbers && !longName) || renderRouteNumberForALongLeg
+          }
           intl={intl}
           legLength={legLength}
           large={breakpoint === 'large'}

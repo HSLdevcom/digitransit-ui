@@ -64,6 +64,11 @@ class OriginDestinationBar extends React.Component {
     this.context.executeAction(setViaPoints, viaPoints);
   }
 
+  componentWillUnmount() {
+    // fixes the bug that DTPanel starts excecuting updateViaPoints before this component is even mounted
+    this.context.executeAction(setViaPoints, []);
+  }
+
   updateViaPoints = newViaPoints => {
     this.context.executeAction(setViaPoints, newViaPoints);
     const p = newViaPoints.filter(vp => !isEmpty(vp));
@@ -98,13 +103,11 @@ class OriginDestinationBar extends React.Component {
   };
 
   handleViaPointLocationSelected = (viaPointLocation, i) => {
-    if (addAnalyticsEvent) {
-      addAnalyticsEvent({
-        action: 'EditJourneyViaPoint',
-        category: 'ItinerarySettings',
-        name: viaPointLocation.type,
-      });
-    }
+    addAnalyticsEvent({
+      action: 'EditJourneyViaPoint',
+      category: 'ItinerarySettings',
+      name: viaPointLocation.type,
+    });
     if (viaPointLocation.type !== 'SelectFromMap') {
       const points = [...this.props.viaPoints];
       points[i] = {
