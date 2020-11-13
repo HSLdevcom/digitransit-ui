@@ -231,14 +231,7 @@ class DTAutosuggest extends React.Component {
   // DT-4074: When a user's location is updated DTAutosuggest would re-render causing suggestion list to reset.
   // This will prevent it.
   shouldComponentUpdate(nextProps, nextState) {
-    return (
-      !isEqual(nextState.suggestions, this.state.suggestions) ||
-      nextState.editing !== this.state.editing ||
-      !isEqual(nextState.value, this.state.value) ||
-      nextState.valid !== this.state.valid ||
-      nextState.renderMobileSearch !== this.state.renderMobileSearch ||
-      nextState.typing !== this.state.typing
-    );
+    return !isEqual(nextState, this.state) || !isEqual(nextProps, this.props);
   }
 
   componentDidUpdate = prevProps => {
