@@ -3,6 +3,7 @@ import React from 'react';
 import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import moment from 'moment';
+import { save } from 'react-cookie';
 import ComponentUsageExample from './ComponentUsageExample';
 import { setLanguage } from '../action/userPreferencesActions';
 import { isBrowser } from '../util/browser';
@@ -16,12 +17,15 @@ const selectLanguage = (executeAction, lang, router, match) => () => {
     name: lang,
   });
   executeAction(setLanguage, lang);
+  // save cookie
+  save('lang', lang);
   if (lang !== 'en') {
     // eslint-disable-next-line global-require, import/no-dynamic-require
     require(`moment/locale/${lang}`);
   }
   moment.locale(lang);
   replaceQueryParams(router, match, { locale: lang });
+  window.location.reload();
 };
 
 const language = (lang, highlight, executeAction, router, match) => (
