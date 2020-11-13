@@ -267,9 +267,10 @@ export const preparePlanParams = (config, useDefaultModes) => (
       defaultSettings.ticketTypes,
     ),
     allowedBikeRentalNetworks: allowedBikeRentalNetworksMapped,
-    shouldMakeWalkQuery: !wheelchair && linearDistance < config.suggestWalkMaxDistance,
+    shouldMakeWalkQuery:
+      !wheelchair && linearDistance < config.suggestWalkMaxDistance,
     shouldMakeBikeQuery:
-     !wheelchair &&
+      !wheelchair &&
       linearDistance < config.suggestBikeMaxDistance &&
       (settings.includeBikeSuggestions
         ? settings.includeBikeSuggestions
