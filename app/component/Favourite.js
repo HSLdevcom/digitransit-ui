@@ -2,20 +2,25 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import cx from 'classnames';
 import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
+import { matchShape } from 'found';
+import { intlShape } from 'react-intl';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-const Favourite = ({
-  addFavourite,
-  deleteFavourite,
-  favourite,
-  className,
-  allowLogin,
-  isLoggedIn,
-  getModalTranslations,
-}) => {
+const Favourite = (
+  {
+    addFavourite,
+    deleteFavourite,
+    favourite,
+    className,
+    allowLogin,
+    isLoggedIn,
+    language,
+  },
+  context,
+) => {
   const [disable, handleDisable] = useState(false);
   const [showLoginModal, setLoginModalVisibility] = useState(false);
 
@@ -26,12 +31,21 @@ const Favourite = ({
   let isModalClosed = false;
 
   const renderLoginModal = () => {
-    const modalData = getModalTranslations();
+    const { match, intl } = context;
+    const { location } = match;
+    const url = encodeURI(`${location.pathname}${location.search}`);
+
     return (
       <DialogModal
         appElement="#app"
-        headerText={modalData.text.headerText}
-        dialogContent={modalData.text.dialogContent}
+        headerText={intl.formatMessage({
+          id: 'login-header',
+          defautlMessage: 'Log in first',
+        })}
+        dialogContent={intl.formatMessage({
+          id: 'login-content',
+          defautlMessage: 'Log in first',
+        })}
         handleClose={() => {
           isModalClosed = true;
           setLoginModalVisibility(false);
@@ -41,10 +55,13 @@ const Favourite = ({
             name: null,
           });
         }}
-        lang="fi"
+        lang={language}
         isModalOpen={showLoginModal}
-        primaryButtonText={modalData.text.login}
-        href="/login"
+        primaryButtonText={intl.formatMessage({
+          id: 'login',
+          defaultMessage: 'Log in',
+        })}
+        href={`/login?url=${url}`}
         primaryButtonOnClick={() => {
           setLoginModalVisibility(false);
           addAnalyticsEvent({
@@ -53,7 +70,10 @@ const Favourite = ({
             name: null,
           });
         }}
-        secondaryButtonText={modalData.text.cancel}
+        secondaryButtonText={intl.formatMessage({
+          id: 'cancel',
+          defaultMessage: 'cancel',
+        })}
         secondaryButtonOnClick={() => {
           isModalClosed = true;
           setLoginModalVisibility(false);
@@ -102,6 +122,11 @@ const Favourite = ({
   );
 };
 
+Favourite.contextTypes = {
+  match: matchShape.isRequired,
+  intl: intlShape.isRequired,
+};
+
 Favourite.propTypes = {
   addFavourite: PropTypes.func.isRequired,
   deleteFavourite: PropTypes.func.isRequired,
@@ -109,7 +134,7 @@ Favourite.propTypes = {
   className: PropTypes.string,
   allowLogin: PropTypes.bool.isRequired,
   isLoggedIn: PropTypes.bool,
-  getModalTranslations: PropTypes.func,
+  language: PropTypes.string,
 };
 
 Favourite.description = () => (
