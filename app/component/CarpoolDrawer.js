@@ -2,14 +2,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
-import CustomizeSearch from './CustomizeSearchNew';
-import CarpoolOffer from "./CarpoolOffer";
+import CarpoolOffer from './CarpoolOffer';
 
-export const CarpoolDrawer = ({ open, onToggleClick, mobile }) => {
+export const CarpoolDrawer = ({ open, onToggleClick, mobile, from, to }) => {
   if (open) {
     return (
       <div className={`offcanvas${mobile ? '-mobile' : ''}`}>
-          <CarpoolOffer onToggleClick={onToggleClick} />
+        <CarpoolOffer onToggleClick={onToggleClick} from={from} to={to} />
       </div>
     );
   }
@@ -20,6 +19,8 @@ CarpoolDrawer.propTypes = {
   open: PropTypes.bool.isRequired,
   onToggleClick: PropTypes.func.isRequired,
   mobile: PropTypes.bool,
+  from: PropTypes.object.isRequired,
+  to: PropTypes.object.isRequired,
 };
 
 CarpoolDrawer.defaultProps = {
