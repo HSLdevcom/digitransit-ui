@@ -518,6 +518,9 @@ export default {
   showBikeAndPublicItineraries: true,
   showBikeAndParkItineraries: true,
 
+  includeCarSuggestions: true,
+  includeParkAndRideSuggestions: true,
+
   showNearYouButtons: true,
   nearYouModes: ['bus', 'tram', 'subway', 'rail', 'ferry' /* , 'citybike' */],
 

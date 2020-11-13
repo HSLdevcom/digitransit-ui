@@ -118,6 +118,8 @@ export default {
     walkReluctance: 2,
     walkSpeed: 1.2,
     includeBikeSuggestions: true,
+    includeParkAndRideSuggestions: true,
+    includeCarSuggestions: true,
   },
 
   /**
@@ -147,6 +149,9 @@ export default {
 
   maxWalkDistance: 10000,
   suggestWalkMaxDistance: 5000,
+  // if you enable car suggestions but the linear distance between all points is less than this, then a car route will
+  // not be computed
+  suggestCarMinDistance: 2000,
   maxBikingDistance: 100000,
   suggestBikeMaxDistance: 15000,
   itineraryFiltering: 1.5, // drops 66% worse routes
@@ -778,6 +783,8 @@ export default {
   showBikeAndParkItineraries: false,
 
   includeBikeSuggestions: true,
+  includeCarSuggestions: true,
+  includeParkAndRideSuggestions: true,
 
   showNearYouButtons: false,
   nearYouModes: [],
