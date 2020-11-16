@@ -37,7 +37,6 @@ class SelectFromMapPageMap extends React.Component {
   };
 
   static propTypes = {
-    bounds: PropTypes.array,
     language: PropTypes.string,
     type: PropTypes.string.isRequired,
     onConfirm: PropTypes.func.isRequired,
@@ -47,10 +46,16 @@ class SelectFromMapPageMap extends React.Component {
     super(props);
     this.state = {};
     this.zoomLevel = 12;
+    this.minZoom = 12;
+    this.maxZoom = 16;
   }
 
   setMapElementRef = element => {
     map = get(element, 'leafletElement', null);
+    if (map) {
+      map.setMinZoom(this.minZoom);
+      map.setMaxZoom(this.maxZoom);
+    }
   };
 
   centerMapViewToWantedCoordinates = coordinates => {
@@ -59,17 +64,16 @@ class SelectFromMapPageMap extends React.Component {
     }
 
     if (coordinates) {
-      if (this.zoomLevel !== map.getZoom()) {
-        this.zoomLevel = map.getZoom();
-      }
-      map.setView(coordinates, this.zoomLevel, { animate: true });
+      map.setView(coordinates, this.zoomLevel, {
+        animate: true,
+        maxZoom: this.maxZoom,
+      });
     }
   };
 
   getCoordinates = () => {
     const centerOfMap = map.getCenter();
-    this.zoomLevel = map.getZoom();
-
+    const newBounds = map.getBounds();
     this.setState({
       locationOfMapCenter: {
         address: '',
@@ -78,12 +82,14 @@ class SelectFromMapPageMap extends React.Component {
           lon: centerOfMap.lng,
         },
       },
+      bounds: newBounds,
     });
   };
 
   getMapLocation = () => {
     const { intl } = this.context;
     const centerOfMap = map.getCenter();
+    const newBounds = map.getBounds();
 
     if (
       this.state.locationOfMapCenter &&
@@ -115,6 +121,7 @@ class SelectFromMapPageMap extends React.Component {
               },
               onlyCoordinates: false,
             },
+            bounds: newBounds,
           }));
         } else {
           this.setState(prevState => ({
@@ -130,6 +137,7 @@ class SelectFromMapPageMap extends React.Component {
               },
               onlyCoordinates: true,
             },
+            bounds: newBounds,
           }));
         }
       },
@@ -146,20 +154,10 @@ class SelectFromMapPageMap extends React.Component {
             },
             onlyCoordinates: true,
           },
+          bounds: newBounds,
         });
       },
     );
-  };
-
-  updateCurrentBounds = () => {
-    const newBounds = map.getBounds();
-    const { bounds } = this.state;
-    if (bounds && bounds.equals(newBounds)) {
-      return;
-    }
-    this.setState({
-      bounds: newBounds,
-    });
   };
 
   endDragging = () => {
@@ -169,11 +167,18 @@ class SelectFromMapPageMap extends React.Component {
     this.getMapLocation();
   };
 
-  endZoom = position => {
+  endZoom = () => {
     if (!map) {
       return;
     }
-    this.centerMapViewToWantedCoordinates(position);
+    if (this.zoomLevel !== map.getZoom()) {
+      this.zoomLevel = Math.min(
+        Math.max(map.getZoom(), this.minZoom),
+        this.maxZoom,
+      );
+    }
+    this.getMapLocation();
+    // this.centerMapViewToWantedCoordinates(position);
   };
 
   createAddress = (address, position) => {
@@ -249,9 +254,9 @@ class SelectFromMapPageMap extends React.Component {
 
   render() {
     const { config, match } = this.context;
-    const { bounds, type } = this.props;
+    const { type } = this.props;
 
-    const { locationOfMapCenter } = this.state;
+    const { locationOfMapCenter, bounds } = this.state;
 
     const defaultLocation = config.defaultMapCenter || config.defaultEndpoint;
 
@@ -331,15 +336,15 @@ class SelectFromMapPageMap extends React.Component {
         leafletEvents={{
           onDrag: this.getCoordinates,
           onDragend: this.endDragging,
-          onZoomend: () => this.endZoom(positionSelectingFromMap),
+          onZoomend: () => this.endZoom,
         }}
         leafletObjs={leafletObjs}
         lat={positionSelectingFromMap.lat} // {center ? center.lat : from.lat}
         lon={positionSelectingFromMap.lon} // {center ? center.lon : from.lon}
-        zoom={this.zoomLevel}
+        zoom={Math.min(Math.max(this.zoomLevel, this.minZoom), this.maxZoom)}
         bounds={bounds}
         fitBounds={Boolean(bounds)}
-        boundsOptions={{ maxZoom: 16 }}
+        boundsOptions={{ minZoom: this.minZoom, maxZoom: this.maxZoom }}
         locationPopup="none"
         showScaleBar={showScale}
         mapRef={this.setMapElementRef}
