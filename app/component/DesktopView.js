@@ -11,6 +11,7 @@ export default function DesktopView(
     map,
     content,
     settingsDrawer,
+    carpoolDrawer,
     scrollable,
     scrolled,
     onScroll,
@@ -52,6 +53,7 @@ export default function DesktopView(
       </div>
       <div className="map-content">
         {settingsDrawer}
+        {carpoolDrawer}
         <ErrorBoundary>{map}</ErrorBoundary>
       </div>
     </div>
@@ -64,6 +66,7 @@ DesktopView.propTypes = {
   map: PropTypes.node,
   content: PropTypes.node,
   settingsDrawer: PropTypes.node,
+  carpoolDrawer: PropTypes.node,
   scrollable: PropTypes.bool,
   scrolled: PropTypes.bool,
   onScroll: PropTypes.func,

@@ -9,7 +9,6 @@ import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import { isKeyboardSelectionEvent } from '../util/browser';
-import CarpoolDrawer from './CarpoolDrawer';
 
 function CarLeg(props, context) {
   const distance = displayDistance(
@@ -23,12 +22,6 @@ function CarLeg(props, context) {
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div key={props.index} className="row itinerary-row">
-      <CarpoolDrawer
-        onToggleClick={() => alert('ks')}
-        open
-        from={props.leg.from}
-        to={props.leg.to}
-      />
       <span className="sr-only">
         <FormattedMessage
           id="itinerary-details.car-leg"

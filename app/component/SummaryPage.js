@@ -63,6 +63,7 @@ import { StreetModeSelector } from './StreetModeSelector';
 import { getCurrentSettings, preparePlanParams } from '../util/planParamUtil';
 import { getTotalBikingDistance } from '../util/legUtils';
 import { userHasChangedModes } from '../util/modeUtils';
+import CarpoolDrawer from './CarpoolDrawer';
 
 /**
 /**
@@ -848,11 +849,15 @@ class SummaryPage extends React.Component {
                   ...RouteLine_pattern
                 }
               }
+              from {
+                name
+                lat
+                lon
+              }
               to {
-                bikePark {
-                  bikeParkId
-                  name
-                }
+                name
+                lat
+                lon
               }
               distance
             }
@@ -1654,6 +1659,7 @@ class SummaryPage extends React.Component {
     const { match, error } = this.props;
     const { walkPlan, bikePlan, carPlan, parkRidePlan } = this.state;
 
+    let carLeg = null;
     const plan = this.props.viewer && this.props.viewer.plan;
 
     const bikeParkPlan = this.filteredbikeAndPublic(this.state.bikeParkPlan);
@@ -1732,6 +1738,7 @@ class SummaryPage extends React.Component {
         return <Loading />;
       }
       this.selectedPlan = carPlan;
+      [carLeg] = carPlan.itineraries[0].legs;
     } else if (this.state.streetMode === 'parkAndRide') {
       this.stopClient();
       if (!parkRidePlan) {
@@ -2029,6 +2036,13 @@ class SummaryPage extends React.Component {
                   defaultMessage="Itinerary suggestions"
                 />
               }
+              carpoolDrawer={
+                <CarpoolDrawer
+                  onToggleClick={() => alert('ks')}
+                  open
+                  carLeg={carLeg}
+                />
+              }
               content={content}
               map={map}
               scrollable
@@ -2131,6 +2145,13 @@ class SummaryPage extends React.Component {
             <SettingsDrawer
               open={this.getOffcanvasState()}
               onToggleClick={this.toggleCustomizeSearchOffcanvas}
+            />
+          }
+          carpoolDrawer={
+            <CarpoolDrawer
+              onToggleClick={() => alert('ks')}
+              open
+              carLeg={carLeg}
             />
           }
           map={map}
