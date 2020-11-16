@@ -324,6 +324,7 @@ class SummaryPage extends React.Component {
       center: null,
       loading: false,
       settingsOpen: false,
+      carpoolOpen: false,
       bounds: null,
       streetMode: existingStreetMode,
       alternativePlan: undefined,
@@ -1387,6 +1388,10 @@ class SummaryPage extends React.Component {
     });
   };
 
+  toggleCarpoolDrawer = () => {
+    this.setState({ carpoolOpen: !this.state.carpoolOpen });
+  };
+
   renderMap() {
     const { match, breakpoint } = this.props;
     this.justMounted = true;
@@ -2025,6 +2030,7 @@ class SummaryPage extends React.Component {
                 itinerary={selectedItinerary}
                 focus={this.updateCenter}
                 setMapZoomToLeg={this.setMapZoomToLeg}
+                toggleCarpoolDrawer={this.toggleCarpoolDrawer}
               />
             </>
           );
@@ -2038,8 +2044,8 @@ class SummaryPage extends React.Component {
               }
               carpoolDrawer={
                 <CarpoolDrawer
-                  onToggleClick={() => alert('ks')}
-                  open
+                  onToggleClick={() => this.toggleCarpoolDrawer()}
+                  open={this.state.carpoolOpen}
                   carLeg={carLeg}
                 />
               }
@@ -2145,13 +2151,6 @@ class SummaryPage extends React.Component {
             <SettingsDrawer
               open={this.getOffcanvasState()}
               onToggleClick={this.toggleCustomizeSearchOffcanvas}
-            />
-          }
-          carpoolDrawer={
-            <CarpoolDrawer
-              onToggleClick={() => alert('ks')}
-              open
-              carLeg={carLeg}
             />
           }
           map={map}

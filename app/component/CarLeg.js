@@ -3,6 +3,7 @@ import React from 'react';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 
+import { FlatButton } from 'material-ui';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import { displayDistance } from '../util/geo-utils';
@@ -76,6 +77,9 @@ function CarLeg(props, context) {
             defaultMessage="Drive {distance} ({duration})}"
           />
         </div>
+        <div className="itinerary-leg-action" aria-hidden="true">
+          <FlatButton label="Add carpool" primary onClick={props.toggleCarpoolDrawer}/>
+        </div>
       </div>
     </div>
   );
@@ -120,6 +124,7 @@ CarLeg.propTypes = {
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
   children: PropTypes.node,
+    toggleCarpoolDrawer: PropTypes.func
 };
 
 CarLeg.contextTypes = { config: PropTypes.object.isRequired };

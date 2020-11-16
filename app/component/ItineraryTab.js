@@ -29,6 +29,7 @@ class ItineraryTab extends React.Component {
     itinerary: PropTypes.object.isRequired,
     focus: PropTypes.func.isRequired,
     setMapZoomToLeg: PropTypes.func.isRequired,
+    toggleCarpoolDrawer: PropTypes.func.isRequired,
   };
 
   static contextTypes = {
@@ -143,6 +144,7 @@ class ItineraryTab extends React.Component {
                   itinerary={itinerary}
                   focusMap={this.handleFocus}
                   setMapZoomToLeg={this.props.setMapZoomToLeg}
+                  toggleCarpoolDrawer={this.props.toggleCarpoolDrawer}
                 />
                 {shouldShowFareInfo(config) && (
                   <TicketInformation

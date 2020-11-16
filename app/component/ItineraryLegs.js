@@ -40,6 +40,7 @@ class ItineraryLegs extends React.Component {
     toggleCanceledLegsBanner: PropTypes.func.isRequired,
     waitThreshold: PropTypes.number.isRequired,
     setMapZoomToLeg: PropTypes.func,
+    toggleCarpoolDrawer: PropTypes.func,
   };
 
   static defaultProps = {
@@ -84,7 +85,7 @@ class ItineraryLegs extends React.Component {
   stopCode = stop => stop && stop.code && <StopCode code={stop.code} />;
 
   render() {
-    const { itinerary, fares, waitThreshold } = this.props;
+    const { itinerary, fares, waitThreshold, toggleCarpoolDrawer } = this.props;
     const compressedLegs = compressLegs(itinerary.legs).map(leg => ({
       ...leg,
       fare:
@@ -235,7 +236,12 @@ class ItineraryLegs extends React.Component {
         );
       } else if (leg.mode === 'CAR') {
         legs.push(
-          <CarLeg index={j} leg={leg} focusAction={this.focus(leg.from)}>
+          <CarLeg
+            index={j}
+            leg={leg}
+            focusAction={this.focus(leg.from)}
+            toggleCarpoolDrawer={toggleCarpoolDrawer}
+          >
             {this.stopCode(leg.from.stop)}
           </CarLeg>,
         );
