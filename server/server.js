@@ -12,6 +12,13 @@ require('@babel/register')({
     /node_modules\/(?!react-leaflet|@babel\/runtime\/helpers\/esm|@digitransit-util)/,
   ],
 });
+const {
+  Validator,
+  ValidationError,
+} = require('express-json-validator-middleware');
+
+const validator = new Validator({ allErrors: true });
+
 
 global.fetch = require('node-fetch');
 const proxy = require('express-http-proxy');
@@ -39,6 +46,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const request = require('request');
 const logger = require('morgan');
+const { postCarpoolOffer, bodySchema } = require('./carpool');
 const { retryFetch } = require('../app/util/fetchUtils');
 const config = require('../app/config').getConfiguration();
 
@@ -138,6 +146,25 @@ function setUpErrorHandling() {
   }
 
   app.use(onError);
+}
+
+function setUpCarpoolOffer() {
+  app.use(bodyParser.json());
+
+  app.post(
+    `${config.APP_PATH}/carpool-offers`,
+    validator.validate({ body: bodySchema }),
+    function (req, res) {
+      postCarpoolOffer(req.body).then(json => {
+        const jsonResponse = {
+          id: json.tripID,
+          url: `https://live.ride2go.com/#/trip/${json.tripID}/{lang}`,
+        };
+        res.set('Content-Type', 'application/json');
+        res.send(JSON.stringify(jsonResponse));
+      });
+    },
+  );
 }
 
 function setUpRoutes() {
@@ -274,6 +301,7 @@ if (process.env.OIDC_CLIENT_ID) {
 }
 setUpRaven();
 setUpStaticFolders();
+setUpCarpoolOffer();
 setUpMiddleware();
 setUpRoutes();
 setUpErrorHandling();

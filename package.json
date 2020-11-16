@@ -145,6 +145,7 @@
     "express-http-proxy": "1.6.2",
     "express-session": "1.17.1",
     "express-static-gzip": "2.0.8",
+    "express-json-validator-middleware": "2.1.1",
     "farce": "0.4.5",
     "fast-xml-parser": "3.17.4",
     "fluxible": "1.4.0",
