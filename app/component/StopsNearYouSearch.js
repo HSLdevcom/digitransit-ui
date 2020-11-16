@@ -14,7 +14,9 @@ function StopsNearYouSearch({ mode, breakpoint }) {
         return results;
       case 'Stops': {
         const gtfsIds = results.map(x => {
-          const gtfsId = getGTFSId({ id: x.properties.id });
+          const gtfsId = x.properties.gtfsId
+            ? x.properties.gtfsId
+            : getGTFSId({ id: x.properties.id });
           if (gtfsId) {
             return {
               gtfsId,
