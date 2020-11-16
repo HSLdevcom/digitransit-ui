@@ -14,6 +14,11 @@
         flex-direction: column;
         align-items: center;
         min-width: 40px;
+
+        &:hover {
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
     }
 
     .icon-container {
@@ -49,46 +54,48 @@
     margin-right: 8px;
 
     .street-mode-selector-button-content {
-	margin: auto;
+        margin: auto;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
 
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	.street-mode-selector-button-icon {
+        .street-mode-selector-button-icon {
             padding-right: 8px;
             padding-top: 8px;
             .icon-container {
-		.icon {
+		        .icon {
                     width: 30px;
                     height: 30px;
-		}
+                }
             }
-	}
-
-	.street-mode-selector-button-icon.secondary-icon {
-            margin-bottom: 20px;
-            margin-left: -18px;
-            padding-top: 0px;
-            .icon-container {
-		.icon {
-                    width: 12px;
-                    height: 12px;
-		}
+            &.secondary-icon {
+                margin-bottom: 20px;
+                margin-left: -18px;
+                padding-top: 0px;
+                .icon-container {
+                    .icon {
+                        width: 12px;
+                        height: 12px;
+                    }
+                }
             }
-	}
+        }
 
-	.street-mode-button-info {
-	    margin-top: 4px;
-	    .street-mode-button-time {
-		font-size: 15px;
-		font-weight: 500;
-		height: 15px;
-		line-height: 15px;
-	    }
-	    .street-mode-button-length {
-		font-size: 13px;
-		font-weight: normal;
-	    }
-	}
+        .street-mode-button-info {
+            margin-top: 4px;
+            .street-mode-button-time {
+                font-size: 15px;
+                font-weight: 500;
+                height: 15px;
+                line-height: 15px;
+            }
+            .street-mode-button-length {
+                font-size: 13px;
+                font-weight: normal;
+            }
+        }
+    }
+    &:hover {
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     }
 }

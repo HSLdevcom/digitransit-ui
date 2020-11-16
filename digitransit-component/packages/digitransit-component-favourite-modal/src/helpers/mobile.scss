@@ -1,5 +1,3 @@
-$primary-color: #007ac9;
-
 .favourite-modal-mobile-container {
   display: flex;
   flex-direction: column;
@@ -50,8 +48,8 @@ $primary-color: #007ac9;
       &:focus {
         background: #fff;
         outline: none;
-        border: 1px solid #007AC9;
-        box-shadow: 0px 0px 2px 1px #0074BF;
+        border: 1px solid var(--normal-color);
+        box-shadow: 0px 0px 2px 1px var(--hover-color);
         -webkit-appearance: none;
       }
       &::placeholder {
@@ -88,7 +86,7 @@ $primary-color: #007ac9;
       font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
       font-weight: 500;
       letter-spacing: -0.5px;
-      background: #007ac9;
+      background: var(--normal-color);
       line-height: 0;
       text-align: center;
       padding: 0;
@@ -98,8 +96,10 @@ $primary-color: #007ac9;
       transition: background-color 300ms ease-out;
       border-radius: 25px;
       cursor: pointer;
-      &:active, &:focus {
-        background: darken($primary-color, 5%);
+      &:active, &:focus, &:hover {
+        border-color: var(--hover-color);
+        background: var(--hover-color);
+        color: #fff;
       }
       &.disabled {
         background: #bbb;

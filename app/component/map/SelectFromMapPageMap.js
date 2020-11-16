@@ -202,7 +202,6 @@ class SelectFromMapPageMap extends React.Component {
       <LazilyLoad modules={confirmLocationFromMapButtonModules} key="confirm">
         {({ ConfirmLocationFromMapButton }) => (
           <ConfirmLocationFromMapButton
-            color={isEnabled ? config.colors.primary : undefined}
             isEnabled={!!isEnabled}
             address={
               isEnabled
@@ -218,6 +217,8 @@ class SelectFromMapPageMap extends React.Component {
             })}
             type={this.props.type}
             onConfirm={isEnabled ? this.props.onConfirm : undefined}
+            normalColor={config.colors.modal.button.normal || undefined}
+            hoverColor={config.colors.modal.button.hover || undefined}
           />
         )}
       </LazilyLoad>

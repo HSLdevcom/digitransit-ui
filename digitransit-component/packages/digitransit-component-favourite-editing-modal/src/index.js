@@ -36,6 +36,10 @@ const isKeyboardSelectionEvent = event => {
 };
 
 class FavouriteEditingModal extends React.Component {
+  static contextTypes = {
+    config: PropTypes.object,
+  };
+
   static propTypes = {
     /** Required. Close modal.
      * @type {function} */
@@ -205,8 +209,18 @@ class FavouriteEditingModal extends React.Component {
   };
 
   renderFavouriteList = (favourites, isLoading) => {
+    const normalColor =
+      this.context.config.colors.modal.button.normal || '#007ac9';
+    const hoverColor =
+      this.context.config.colors.modal.button.hover || '#0062a1';
     return (
-      <div className={styles['favourite-edit-list-container']}>
+      <div
+        className={styles['favourite-edit-list-container']}
+        style={{
+          '--normal-color': `${normalColor}`,
+          '--hover-color': `${hoverColor}`,
+        }}
+      >
         <ContainerSpinner visible={isLoading}>
           <ReactSortable
             className={styles['favourite-edit-list']}
@@ -255,6 +269,10 @@ class FavouriteEditingModal extends React.Component {
             showDeletePlaceModal: false,
           })
         }
+        normalColor={
+          this.context.config.colors.modal.button.normal || undefined
+        }
+        hoverColor={this.context.config.colors.modal.button.normal || undefined}
       />
     );
   };

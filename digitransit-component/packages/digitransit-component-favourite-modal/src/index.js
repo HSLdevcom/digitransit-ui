@@ -26,13 +26,19 @@ const FavouriteIconIdToNameMap = {
   'icon-icon_school': 'school',
   'icon-icon_shopping': 'shopping',
 };
-const FavouriteIconTableButton = ({ value, selectedIconId, handleClick }) => {
+
+const FavouriteIconTableButton = ({
+  value,
+  selectedIconId,
+  handleClick,
+  normalColor,
+}) => {
   const [isHovered, setHover] = useState(false);
   const [isFocused, setFocus] = useState(false);
   const iconColor =
     value === FavouriteIconIdToNameMap[selectedIconId] || isHovered || isFocused
       ? '#ffffff'
-      : '#007ac9';
+      : normalColor;
   return (
     <button
       type="button"
@@ -55,19 +61,21 @@ FavouriteIconTableButton.propTypes = {
   handleClick: PropTypes.func.isRequired,
   value: PropTypes.string,
   selectedIconId: PropTypes.string,
+  normalColor: PropTypes.string,
 };
 
-const FavouriteIconTable = ({
-  favouriteIconIds,
-  selectedIconId,
-  handleClick,
-}) => {
+const FavouriteIconTable = (
+  { favouriteIconIds, selectedIconId, handleClick },
+  context,
+) => {
+  const normalColor = context.config.colors.modal.button.normal || '#007ac9';
   const columns = favouriteIconIds.map(value => (
     <FavouriteIconTableButton
       key={`favourite-icon-table-${value}`}
       value={value}
       selectedIconId={selectedIconId}
       handleClick={handleClick}
+      normalColor={normalColor}
     />
   ));
 
@@ -82,6 +90,10 @@ FavouriteIconTable.propTypes = {
   handleClick: PropTypes.func.isRequired,
   favouriteIconIds: PropTypes.array,
   selectedIconId: PropTypes.string,
+};
+
+FavouriteIconTable.contextTypes = {
+  config: PropTypes.object,
 };
 
 /**
@@ -108,6 +120,10 @@ FavouriteIconTable.propTypes = {
  * />
  */
 class FavouriteModal extends React.Component {
+  static contextTypes = {
+    config: PropTypes.object,
+  };
+
   static propTypes = {
     isModalOpen: PropTypes.bool.isRequired,
     /** Required.
@@ -331,6 +347,8 @@ class FavouriteModal extends React.Component {
       isEdit: this.isEdit(),
       cancelText: i18next.t('cancel'),
       cancelSelected: () => this.cancelSelected(),
+      normalColor: this.context.config.colors.modal.button.normal || undefined,
+      hoverColor: this.context.config.colors.modal.button.hover || undefined,
     };
     return (
       <Modal

@@ -17,6 +17,10 @@ const ConfirmLocationFromMapButton = props => {
       className={cx('select-from-map-confirm-button', {
         disabled: !props.isEnabled,
       })}
+      style={{
+        '--normal-color': `${props.normalColor}`,
+        '--hover-color': `${props.hoverColor}`,
+      }}
       key="confirmLocation"
     >
       {props.title}
@@ -30,6 +34,13 @@ ConfirmLocationFromMapButton.propTypes = {
   title: PropTypes.string,
   type: PropTypes.string,
   onConfirm: PropTypes.func,
+  normalColor: PropTypes.string,
+  hoverColor: PropTypes.string,
+};
+
+ConfirmLocationFromMapButton.defaultProps = {
+  normalColor: '#007ac9',
+  hoverColor: '#0062a1',
 };
 
 export default ConfirmLocationFromMapButton;

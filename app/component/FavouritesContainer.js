@@ -51,6 +51,8 @@ class FavouritesContainer extends React.Component {
     favouriteModalAction: PropTypes.string,
     allowLogin: PropTypes.bool,
     isLoggedIn: PropTypes.bool,
+    normalColor: PropTypes.string,
+    hoverColor: PropTypes.string,
   };
 
   static defaultProps = {
@@ -240,6 +242,8 @@ class FavouritesContainer extends React.Component {
             loginModalOpen: false,
           });
         }}
+        normalColor={this.props.normalColor}
+        hoverColor={this.props.hoverColor}
       />
     );
   };
@@ -405,6 +409,8 @@ const connectedComponent = connectToStores(
     isLoggedIn:
       context.config.allowLogin &&
       context.getStore('UserStore').getUser().sub !== undefined,
+    normalColor: context.config.colors.modal.button.normal || undefined,
+    hoverColor: context.config.colors.modal.button.hover || undefined,
   }),
 );
 
