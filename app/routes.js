@@ -156,7 +156,7 @@ export default config => {
         path={`/${PREFIX_ITINERARY_SUMMARY}/POS/:to`}
         getComponent={() =>
           import(
-            /* webpackChunkName: "itinerary" */ './component/SummaryGeolocator'
+            /* webpackChunkName: "itinerary" */ './component/Geolocator'
           ).then(getDefault)
         }
       />
@@ -164,7 +164,7 @@ export default config => {
         path={`/${PREFIX_ITINERARY_SUMMARY}/:from/POS`}
         getComponent={() =>
           import(
-            /* webpackChunkName: "itinerary" */ './component/SummaryGeolocator'
+            /* webpackChunkName: "itinerary" */ './component/Geolocator'
           ).then(getDefault)
         }
       />
@@ -293,6 +293,42 @@ export default config => {
       <Route path="/js/*" Component={Error404} />
       <Route path="/css/*" Component={Error404} />
       <Route path="/assets/*" Component={Error404} />
+      <Route
+        path={`${
+          config.indexPath === '' ? '' : `/${config.indexPath}`
+        }/POS/:to?`}
+        topBarOptions={{ disableBackButton: true }}
+      >
+        {{
+          content: (
+            <Route
+              getComponent={() =>
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/Geolocator'
+                ).then(getDefault)
+              }
+            />
+          ),
+        }}
+      </Route>
+      <Route
+        path={`${
+          config.indexPath === '' ? '' : `/${config.indexPath}`
+        }/:from/POS`}
+        topBarOptions={{ disableBackButton: true }}
+      >
+        {{
+          content: (
+            <Route
+              getComponent={() =>
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/Geolocator'
+                ).then(getDefault)
+              }
+            />
+          ),
+        }}
+      </Route>
       <Route
         path={`${
           config.indexPath === '' ? '' : `/${config.indexPath}`

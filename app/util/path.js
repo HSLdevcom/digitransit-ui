@@ -27,6 +27,15 @@ export const getNearYouPath = (place, mode) =>
     encodeURIComponent(decodeURIComponent(place)),
   ].join('/');
 
+export const getFrontPath = (origin, destination, indexPath) => {
+  const front = indexPath === '' ? '' : `/${indexPath}`;
+  return [
+    front,
+    encodeURIComponent(decodeURIComponent(origin)),
+    encodeURIComponent(decodeURIComponent(destination)),
+  ].join('/');
+};
+
 export const getRoutePath = (origin, destination) =>
   [
     `/${PREFIX_ITINERARY_SUMMARY}`,
