@@ -10,6 +10,7 @@ export const CarpoolDrawer = ({ open, onToggleClick, mobile, carLeg }) => {
       <div className={`offcanvas${mobile ? '-mobile' : ''}`}>
         <CarpoolOffer
           onToggleClick={onToggleClick}
+          start={carLeg.startTime}
           from={carLeg.from}
           to={carLeg.to}
         />

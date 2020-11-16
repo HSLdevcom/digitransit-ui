@@ -831,6 +831,7 @@ class SummaryPage extends React.Component {
             ...ItineraryTab_itinerary
             ...SummaryPlanContainer_itineraries
             legs {
+              startTime
               mode
               ...ItineraryLine_legs
               transitLeg
