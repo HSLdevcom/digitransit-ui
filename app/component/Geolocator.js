@@ -63,5 +63,9 @@ GeolocatorWithPosition.contextTypes = {
   ...GeolocatorWithPosition.contextTypes,
   executeAction: PropTypes.func.isRequired,
 };
+GeolocatorWithPosition.propTypes = {
+  path: PropTypes.string.isRequired,
+  createReturnPath: PropTypes.func.isRequired,
+};
 
 export default GeolocatorWithPosition;

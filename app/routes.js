@@ -160,19 +160,14 @@ export default config => {
             /* webpackChunkName: "itinerary" */ './component/Geolocator'
           ).then(getDefault)
         }
-        render={({ Component, props, error, match }) => {
+        render={({ Component, props }) => {
           if (Component) {
-            return props ? (
+            return (
               <Component
                 {...props}
                 createReturnPath={createReturnPath}
                 path={PREFIX_ITINERARY_SUMMARY}
-                match={match}
-                error={error}
-                loadingPosition={false}
               />
-            ) : (
-              <Component match={match} loadingPosition error={error} />
             );
           }
           return undefined;
@@ -185,19 +180,14 @@ export default config => {
             /* webpackChunkName: "itinerary" */ './component/Geolocator'
           ).then(getDefault)
         }
-        render={({ Component, props, error, match }) => {
+        render={({ Component, props }) => {
           if (Component) {
-            return props ? (
+            return (
               <Component
                 {...props}
                 createReturnPath={createReturnPath}
                 path={PREFIX_ITINERARY_SUMMARY}
-                match={match}
-                error={error}
-                loadingPosition={false}
               />
-            ) : (
-              <Component match={match} loadingPosition error={error} />
             );
           }
           return undefined;
@@ -342,19 +332,14 @@ export default config => {
                   /* webpackChunkName: "itinerary" */ './component/Geolocator'
                 ).then(getDefault)
               }
-              render={({ Component, props, error, match }) => {
+              render={({ Component, props }) => {
                 if (Component) {
-                  return props ? (
+                  return (
                     <Component
                       {...props}
                       createReturnPath={createReturnPath}
                       path={config.indexPath}
-                      match={match}
-                      error={error}
-                      loadingPosition={false}
                     />
-                  ) : (
-                    <Component match={match} loadingPosition error={error} />
                   );
                 }
                 return undefined;
@@ -377,19 +362,14 @@ export default config => {
                   /* webpackChunkName: "itinerary" */ './component/Geolocator'
                 ).then(getDefault)
               }
-              render={({ Component, props, error, match }) => {
+              render={({ Component, props }) => {
                 if (Component) {
-                  return props ? (
+                  return (
                     <Component
                       {...props}
                       createReturnPath={createReturnPath}
                       path={config.indexPath}
-                      match={match}
-                      error={error}
-                      loadingPosition={false}
                     />
-                  ) : (
-                    <Component match={match} loadingPosition error={error} />
                   );
                 }
                 return undefined;
