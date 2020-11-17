@@ -62,7 +62,6 @@ const GeolocatorWithPosition = connectToStores(
 GeolocatorWithPosition.contextTypes = {
   ...GeolocatorWithPosition.contextTypes,
   executeAction: PropTypes.func.isRequired,
-  config: PropTypes.object.isRequired,
 };
 
 export default GeolocatorWithPosition;
