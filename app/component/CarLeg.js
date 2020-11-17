@@ -3,14 +3,12 @@ import React from 'react';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 
-import { FlatButton } from 'material-ui';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import { isKeyboardSelectionEvent } from '../util/browser';
-import ToggleButton from './ToggleButton';
 
 function CarLeg(props, context) {
   const distance = displayDistance(
