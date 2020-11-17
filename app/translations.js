@@ -251,9 +251,9 @@ const translations = {
   de: {
     'monday': 'Montag',
     'tuesday': 'Dienstag',
-    'wednesday': 'Wednesday',
-    'thursday': 'Thursday',
-    'friday': 'Friday',
+    'wednesday': 'Mittwoch',
+    'thursday': 'Donnerstag',
+    'friday': 'Freitag',
     'saturday': 'Samstag',
     'sunday': 'Sonntag',
     'about-this-service': 'Über diesen Service',
