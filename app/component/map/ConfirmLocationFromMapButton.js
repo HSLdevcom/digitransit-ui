@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 import { otpToLocation } from '../../util/otpStrings';
 
 const ConfirmLocationFromMapButton = props => {
@@ -13,11 +14,9 @@ const ConfirmLocationFromMapButton = props => {
     <button
       type="button"
       onClick={props.isEnabled ? redirect : undefined}
-      className={
-        props.isEnabled
-          ? 'select-from-map-confirm-button-enabled'
-          : 'select-from-map-confirm-button-disabled'
-      }
+      className={cx('select-from-map-confirm-button', {
+        disabled: !props.isEnabled,
+      })}
       key="confirmLocation"
     >
       {props.title}

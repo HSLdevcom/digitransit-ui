@@ -14,9 +14,11 @@ export const StreetModeSelectorWeatherLabel = ({ active, weatherData }) => {
     return (
       // eslint-disable-next-line jsx-a11y/click-events-have-key-events
       <div className={cx('street-mode-selector-weather-container')}>
-        <Icon img={`icon-icon_weather_${iconId}`} />
-        <div className="street-mode-selector-panel-weather-text">
-          {tempLabel}
+        <div>
+          <Icon img={`icon-icon_weather_${iconId}`} />
+          <div className="street-mode-selector-panel-weather-text">
+            {tempLabel}
+          </div>
         </div>
       </div>
     );

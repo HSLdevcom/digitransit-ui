@@ -181,6 +181,7 @@ $itinerary-tab-switch-height: 48px;
       position: relative;
       top: -2px;
       .circle {
+        display: inline-block;
         padding: 0;
         margin-left: 5px;
       }
@@ -191,6 +192,10 @@ $itinerary-tab-switch-height: 48px;
       }
       & + .zone-icon-container {
         margin-top: 0.85em;
+      }
+      .svg {
+        width: 20px;
+        height: 20px;
       }
     }
   }
@@ -659,6 +664,10 @@ $itinerary-tab-switch-height: 48px;
           margin-left: 5px;
           line-height: 20px;
         }
+        .svg {
+          width: 20px;
+          height: 20px;
+        }
       }
     }
 
@@ -817,6 +826,10 @@ $itinerary-tab-switch-height: 48px;
       padding: 0.625em 0;
       border-top: 1px solid #ddd;
       font-size: 0.9375rem;
+       a{
+        text-decoration: none;
+        color: #333;
+       }
       &.interlining {
         height: 76px;
       }
@@ -990,7 +1003,6 @@ $itinerary-tab-switch-height: 48px;
     .intermediate-stops-clickable {
       height: 60px;
       border-top: 1px solid #ddd;
-      outline: none;
       > * {
         display: flex;
         align-items: center;
@@ -1015,7 +1027,6 @@ $itinerary-tab-switch-height: 48px;
 }
 
 .itinerary-map-action {
-  outline: none;
   cursor: pointer;
   display: flex;
   height: 100%;

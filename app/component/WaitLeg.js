@@ -46,11 +46,6 @@ function WaitLeg({ children, leg, startTime, waitTime, focusAction, index }) {
               onClick={e => {
                 e.stopPropagation();
               }}
-              onKeyPress={e => {
-                if (isKeyboardSelectionEvent(e)) {
-                  e.stopPropagation();
-                }
-              }}
               to={`/${PREFIX_STOPS}/${leg.to.stop.gtfsId}`}
             >
               {leg.to.name}

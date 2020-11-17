@@ -61,7 +61,7 @@ class TopLevel extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    if (this.context.config.showLogin && !this.props.user.name) {
+    if (this.context.config.allowLogin && !this.props.user.name) {
       getUser()
         .then(user => {
           this.context.executeAction(setUser, {

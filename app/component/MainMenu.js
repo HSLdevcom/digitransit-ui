@@ -56,7 +56,7 @@ function MainMenu(props, { config, intl }) {
           []
         ).filter(item => item.href || item.route)}
       />
-      {config.showLogin &&
+      {config.allowLogin &&
         (!props.user.name ? (
           <LoginButton isMobile />
         ) : (

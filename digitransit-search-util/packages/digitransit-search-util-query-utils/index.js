@@ -131,7 +131,13 @@ const stopsQuery = graphql`
       lon
       name
       code
-      vehicleMode
+      stoptimesWithoutPatterns(numberOfDepartures: 1) {
+        trip {
+          route {
+            mode
+          }
+        }
+      }
     }
   }
 `;
@@ -144,7 +150,13 @@ const stationsQuery = graphql`
       lon
       name
       code
-      vehicleMode
+      stoptimesWithoutPatterns(numberOfDepartures: 1) {
+        trip {
+          route {
+            mode
+          }
+        }
+      }
     }
   }
 `;
@@ -281,19 +293,42 @@ export const getAllBikeRentalStations = () => {
  * @param {String} mode
  */
 export const filterStopsAndStationsByMode = (stopsToFilter, mode) => {
-  const ids = compact(stopsToFilter.map(s => s.gtfsId));
-  const queries = [];
-  queries.push(
-    fetchQuery(relayEnvironment, stopsQuery, {
-      ids,
-    }),
-  );
-  queries.push(
-    fetchQuery(relayEnvironment, stationsQuery, {
-      ids,
-    }),
-  );
+  if (!relayEnvironment || stopsToFilter.length < 1) {
+    return Promise.resolve([]);
+  }
+  const stationIds = stopsToFilter
+    .filter(
+      item =>
+        item.properties.layer === 'station' ||
+        item.properties.type === 'station',
+    )
+    .map(item => item.gtfsId);
 
+  const stopIds = stopsToFilter
+    .filter(
+      item =>
+        item.properties.layer === 'stop' || item.properties.type === 'stop',
+    )
+    .map(item => item.gtfsId);
+
+  const queries = [];
+  if (stopIds.length > 0) {
+    queries.push(
+      fetchQuery(relayEnvironment, stopsQuery, {
+        ids: stopIds,
+      }),
+    );
+  }
+  if (stationIds.length > 0) {
+    queries.push(
+      fetchQuery(relayEnvironment, stationsQuery, {
+        ids: stationIds,
+      }),
+    );
+  }
+  if (queries.length === 0) {
+    return Promise.resolve([]);
+  }
   return Promise.all(queries)
     .then(qres =>
       qres.map(stopOrStation => {
@@ -306,10 +341,13 @@ export const filterStopsAndStationsByMode = (stopsToFilter, mode) => {
     .then(result => result.filter(res => res !== null))
     .then(data =>
       data.map(stop => {
+        const stopMode = stop.stoptimesWithoutPatterns[0]
+          ? stop.stoptimesWithoutPatterns[0].trip.route.mode
+          : undefined;
         const oldStop = stopsToFilter.find(s => s.gtfsId === stop.gtfsId);
         const newStop = {
           ...oldStop,
-          mode: stop.vehicleMode,
+          mode: stopMode,
         };
         if (newStop.mode === mode) {
           return newStop;
@@ -323,8 +361,9 @@ export const filterStopsAndStationsByMode = (stopsToFilter, mode) => {
  * Returns Favourite Route objects depending on input
  * @param {String} input Search text, if empty no objects are returned
  * @param {*} favourites
+ * @param {String} transportMode If provided, all returned route objects are of this mode, e.g. 'BUS'
  */
-export function getFavouriteRoutesQuery(favourites, input) {
+export function getFavouriteRoutesQuery(favourites, input, transportMode) {
   if (
     !relayEnvironment ||
     !Array.isArray(favourites) ||
@@ -342,6 +381,14 @@ export function getFavouriteRoutesQuery(favourites, input) {
         type: 'FavouriteRoute',
       })),
     )
+    .then(routes => {
+      if (transportMode) {
+        return routes.filter(favourite => {
+          return favourite.properties.mode === transportMode;
+        });
+      }
+      return routes;
+    })
     .then(routes =>
       filterMatchingToInput(routes, input, [
         'properties.shortName',

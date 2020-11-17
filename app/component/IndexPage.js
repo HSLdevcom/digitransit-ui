@@ -65,7 +65,7 @@ class IndexPage extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     query: PropTypes.object.isRequired,
     favouriteModalAction: PropTypes.string,
-    showFavourites: PropTypes.bool.isRequired,
+    fromMap: PropTypes.string,
   };
 
   static defaultProps = {
@@ -138,37 +138,29 @@ class IndexPage extends React.Component {
   };
 
   // DT-3551: handle logic for Traffic now link
-  trafficNowHandler = () => {
-    window.location = this.context.config.trafficNowLink;
+  trafficNowHandler = (e, lang) => {
+    window.location = `${this.context.config.URL.ROOTLINK}/${
+      lang === 'fi' ? '' : `${lang}/`
+    }${this.context.config.trafficNowLink[lang]}`;
   };
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     const { intl, config } = this.context;
     const { trafficNowLink } = config;
-    const {
-      breakpoint,
-      destination,
-      origin,
-      lang,
-      showFavourites,
-    } = this.props;
+    const { breakpoint, destination, origin, lang } = this.props;
     const queryString = this.context.match.location.search;
     const searchSources =
-      showFavourites && breakpoint !== 'large'
+      breakpoint !== 'large'
         ? ['Favourite', 'History', 'Datasource']
         : ['History', 'Datasource'];
-    const stopAndRouteSearchSources = showFavourites
-      ? ['Favourite', 'History', 'Datasource']
-      : ['History', 'Datasource'];
-    const locationSearchTargets = showFavourites
-      ? [
-          'Locations',
-          'CurrentPosition',
-          'FutureRoutes',
-          'SelectFromOwnLocations',
-        ]
-      : ['Locations', 'CurrentPosition', 'FutureRoutes'];
+    const stopAndRouteSearchSources = ['Favourite', 'History', 'Datasource'];
+    const locationSearchTargets = [
+      'Locations',
+      'CurrentPosition',
+      'FutureRoutes',
+      'SelectFromOwnLocations',
+    ];
     const stopAndRouteSearchTargets =
       this.context.config.cityBike && this.context.config.cityBike.showCityBikes
         ? ['Stops', 'Routes', 'BikeRentalStations']
@@ -264,9 +256,13 @@ class IndexPage extends React.Component {
               targets={stopAndRouteSearchTargets}
             />
             <CtrlPanel.SeparatorLine />
-            {trafficNowLink !== '' && (
-              <TrafficNowLink handleClick={this.trafficNowHandler} />
-            )}
+            {!trafficNowLink ||
+              (trafficNowLink[lang] !== '' && (
+                <TrafficNowLink
+                  lang={lang}
+                  handleClick={this.trafficNowHandler}
+                />
+              ))}
           </CtrlPanel>
         </div>
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
@@ -310,6 +306,7 @@ class IndexPage extends React.Component {
               disableAutoFocus
               isMobile
               breakpoint="small"
+              fromMap={this.props.fromMap}
             />
             <div className="datetimepicker-container">
               <DatetimepickerContainer realtime />
@@ -356,9 +353,13 @@ class IndexPage extends React.Component {
               isMobile
             />
             <CtrlPanel.SeparatorLine />
-            {trafficNowLink !== '' && (
-              <TrafficNowLink handleClick={this.trafficNowHandler} />
-            )}
+            {!trafficNowLink ||
+              (trafficNowLink[lang] !== '' && (
+                <TrafficNowLink
+                  lang={lang}
+                  handleClick={this.trafficNowHandler}
+                />
+              ))}
           </CtrlPanel>
         </div>
       </div>
@@ -367,7 +368,7 @@ class IndexPage extends React.Component {
 }
 
 const Index = shouldUpdate(
-  // update only when origin/destination/breakpoint or language changes
+  // update only when origin/destination/breakpoint, favourite store status or language changes
   (props, nextProps) => {
     return !(
       isEqual(nextProps.origin, props.origin) &&
@@ -435,30 +436,24 @@ const processLocation = (locationString, locationState, intl) => {
 
 const IndexPageWithPosition = connectToStores(
   IndexPageWithBreakpoint,
-  [
-    'PositionStore',
-    'ViaPointsStore',
-    'FavouriteStore',
-    'TimeStore',
-    'UserStore',
-  ],
+  ['PositionStore', 'TimeStore'],
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
     const currentTime = context.getStore('TimeStore').getCurrentTime().unix();
     const { from, to } = props.match.params;
     const { location } = props.match;
     const { query } = location;
-    const { favouriteModalAction } = query;
+    const { favouriteModalAction, fromMap } = query;
 
     const newProps = {};
     if (favouriteModalAction) {
       newProps.favouriteModalAction = favouriteModalAction;
     }
+    if (fromMap === 'origin' || fromMap === 'destination') {
+      newProps.fromMap = fromMap;
+    }
+
     newProps.lang = context.getStore('PreferencesStore').getLanguage();
-    newProps.showFavourites =
-      !context.config.allowLogin ||
-      (context.config.allowLogin &&
-        context.getStore('UserStore').getUser().sub !== undefined);
 
     newProps.locationState = locationState;
     newProps.currentTime = currentTime;

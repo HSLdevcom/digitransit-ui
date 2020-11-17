@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { FormattedMessage } from 'react-intl';
 import Link from 'found/Link';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const Error404 = () => (
+const Error404 = (props, { config }) => (
   <div className="page-not-found">
     <Icon img="icon-icon_error_page_not_found" />
     <p>
@@ -15,15 +16,28 @@ const Error404 = () => (
       />
     </p>
     <p>
-      <Link to="/">
-        <FormattedMessage
-          id="back-to-front-page"
-          defaultMessage="Back to front page ›"
-        />
-      </Link>
+      {config.URL.ROOTLINK ? (
+        <a href={config.URL.ROOTLINK}>
+          <FormattedMessage
+            id="back-to-front-page"
+            defaultMessage="Back to front page ›"
+          />
+        </a>
+      ) : (
+        <Link to={`/${config.indexPath}`}>
+          <FormattedMessage
+            id="back-to-front-page"
+            defaultMessage="Back to front page ›"
+          />
+        </Link>
+      )}
     </p>
   </div>
 );
+
+Error404.contextTypes = {
+  config: PropTypes.object.isRequired,
+};
 
 Error404.displayName = 'Error404';
 

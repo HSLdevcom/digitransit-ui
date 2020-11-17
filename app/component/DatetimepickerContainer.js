@@ -40,8 +40,13 @@ function DatetimepickerContainer({ realtime, embedWhenClosed, lang }, context) {
     });
   };
 
-  const onNowClick = () => {
-    setParams(undefined, undefined);
+  const onNowClick = time => {
+    if (realtime) {
+      setParams(undefined, undefined);
+    } else {
+      // Lock the current time in url when clicked on itinerary page
+      setParams(time, undefined);
+    }
   };
 
   const onDepartureClick = time => {

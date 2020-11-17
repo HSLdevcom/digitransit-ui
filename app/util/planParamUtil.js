@@ -47,6 +47,25 @@ function getTicketTypes(settingsTicketType, defaultTicketType) {
     ? remap(defaultTicketType)
     : null;
 }
+/**
+ * Find an option nearest to the value
+ *
+ * @param value a number
+ * @param options array of numbers
+ * @returns on option from options that is closest to the provided value
+ */
+export const findNearestOption = (value, options) => {
+  let currNearest = options[0];
+  let diff = Math.abs(value - currNearest);
+  for (let i = 0; i < options.length; i++) {
+    const newdiff = Math.abs(value - options[i]);
+    if (newdiff < diff) {
+      diff = newdiff;
+      currNearest = options[i];
+    }
+  }
+  return currNearest;
+};
 
 function nullOrUndefined(val) {
   return val === null || val === undefined;
@@ -66,11 +85,30 @@ function getDisableRemainingWeightHeuristic(modes) {
 const getNumberValueOrDefault = (value, defaultValue = undefined) =>
   value !== undefined ? Number(value) : defaultValue;
 
-export const getSettings = () => {
+export const getSettings = config => {
   const custSettings = getCustomizedSettings();
 
   return {
-    walkSpeed: getNumberValueOrDefault(custSettings.walkSpeed),
+    walkSpeed:
+      config.defaultOptions.walkSpeed.find(
+        option =>
+          option ===
+          getNumberValueOrDefault(
+            custSettings.walkSpeed,
+            config.defaultSettings.walkSpeed,
+          ),
+      ) ||
+      config.defaultOptions.walkSpeed.find(
+        option =>
+          option ===
+          findNearestOption(
+            getNumberValueOrDefault(
+              custSettings.walkSpeed,
+              config.defaultSettings.walkSpeed,
+            ),
+            config.defaultOptions.walkSpeed,
+          ),
+      ),
     walkReluctance: getNumberValueOrDefault(custSettings.walkReluctance),
     walkBoardCost: getNumberValueOrDefault(custSettings.walkBoardCost),
     modes: undefined,
@@ -78,7 +116,26 @@ export const getSettings = () => {
       custSettings.accessibilityOption,
     ),
     ticketTypes: custSettings.ticketTypes,
-    bikeSpeed: getNumberValueOrDefault(custSettings.bikeSpeed),
+    bikeSpeed:
+      config.defaultOptions.bikeSpeed.find(
+        option =>
+          option ===
+          getNumberValueOrDefault(
+            custSettings.bikeSpeed,
+            config.defaultSettings.bikeSpeed,
+          ),
+      ) ||
+      config.defaultOptions.bikeSpeed.find(
+        option =>
+          option ===
+          findNearestOption(
+            getNumberValueOrDefault(
+              custSettings.bikeSpeed,
+              config.defaultSettings.bikeSpeed,
+            ),
+            config.defaultOptions.bikeSpeed,
+          ),
+      ),
     allowedBikeRentalNetworks: custSettings.allowedBikeRentalNetworks,
     includeBikeSuggestions: custSettings.includeBikeSuggestions,
   };
@@ -92,7 +149,7 @@ export const preparePlanParams = config => (
     },
   },
 ) => {
-  const settings = getSettings();
+  const settings = getSettings(config);
   const fromLocation = otpToLocation(from);
   const toLocation = otpToLocation(to);
   const intermediatePlaceLocations = getIntermediatePlaces({
@@ -109,6 +166,21 @@ export const preparePlanParams = config => (
   const allowedBikeRentalNetworksMapped =
     settings.allowedBikeRentalNetworks ||
     defaultSettings.allowedBikeRentalNetworks;
+  const formattedModes = modesOrDefault
+    .split(',')
+    .map(mode => mode.split('_'))
+    .map(modeAndQualifier =>
+      modeAndQualifier.length > 1
+        ? { mode: modeAndQualifier[0], qualifier: modeAndQualifier[1] }
+        : { mode: modeAndQualifier[0] },
+    );
+  const wheelchair =
+    getNumberValueOrDefault(settings.accessibilityOption, defaultSettings) ===
+    1;
+  const includeBikeSuggestions =
+    settings.includeBikeSuggestions !== undefined
+      ? settings.includeBikeSuggestions
+      : defaultSettings.includeBikeSuggestions;
   return {
     ...defaultSettings,
     ...omitBy(
@@ -127,11 +199,7 @@ export const preparePlanParams = config => (
         walkSpeed: settings.walkSpeed,
         arriveBy: arriveBy === 'true',
         maxWalkDistance: config.maxWalkDistance,
-        wheelchair:
-          getNumberValueOrDefault(
-            settings.accessibilityOption,
-            defaultSettings,
-          ) === 1,
+        wheelchair,
         transferPenalty: config.transferPenalty,
         bikeSpeed: settings.bikeSpeed,
         optimize: config.optimize,
@@ -146,47 +214,44 @@ export const preparePlanParams = config => (
       },
       nullOrUndefined,
     ),
-    modes: modesOrDefault
-      .split(',')
-      .map(mode => mode.split('_'))
-      .map(modeAndQualifier =>
-        modeAndQualifier.length > 1
-          ? { mode: modeAndQualifier[0], qualifier: modeAndQualifier[1] }
-          : { mode: modeAndQualifier[0] },
-      ),
+    modes: formattedModes,
     ticketTypes: getTicketTypes(
       settings.ticketTypes,
       defaultSettings.ticketTypes,
     ),
     allowedBikeRentalNetworks: allowedBikeRentalNetworksMapped,
     shouldMakeWalkQuery:
+      !wheelchair &&
       estimateItineraryDistance(
         fromLocation,
         toLocation,
         intermediatePlaceLocations,
       ) < config.suggestWalkMaxDistance,
     shouldMakeBikeQuery:
+      !wheelchair &&
       estimateItineraryDistance(
         fromLocation,
         toLocation,
         intermediatePlaceLocations,
       ) < config.suggestBikeMaxDistance &&
-      (settings.includeBikeSuggestions
-        ? settings.includeBikeSuggestions
-        : defaultSettings.includeBikeSuggestions),
+      includeBikeSuggestions,
     showBikeAndPublicItineraries:
+      !wheelchair &&
       config.showBikeAndPublicItineraries &&
-      (settings.includeBikeSuggestions
-        ? settings.includeBikeSuggestions
-        : defaultSettings.includeBikeSuggestions),
+      includeBikeSuggestions,
     showBikeAndParkItineraries:
+      !wheelchair &&
       config.showBikeAndParkItineraries &&
-      (settings.includeBikeSuggestions
-        ? settings.includeBikeSuggestions
-        : defaultSettings.includeBikeSuggestions),
+      includeBikeSuggestions,
     bikeAndPublicMaxWalkDistance: config.suggestBikeMaxDistance,
     bikeandPublicDisableRemainingWeightHeuristic:
       Array.isArray(intermediatePlaceLocations) &&
       intermediatePlaceLocations.length > 0,
+    bikeAndPublicModes: [
+      { mode: 'BICYCLE' },
+      ...(modesOrDefault.indexOf('SUBWAY') !== -1 ? [{ mode: 'SUBWAY' }] : []),
+      ...(modesOrDefault.indexOf('RAIL') !== -1 ? [{ mode: 'RAIL' }] : []),
+    ],
+    bikeParkModes: [{ mode: 'BICYCLE', qualifier: 'PARK' }, ...formattedModes],
   };
 };

@@ -120,6 +120,7 @@ function IndexPageMap(
         showLocationMessages
         initialZoom={initialZoom}
         leafletObjs={leafletObjs}
+        locationPopup="all"
         renderCustomButtons={() => (
           <>
             {config.map.showStreetModeSelector &&

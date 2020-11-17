@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { StreetModeSelectorButton } from './StreetModeSelectorButton';
 import { StreetModeSelectorWeatherLabel } from './StreetModeSelectorWeatherLabel';
-import Loading from './Loading';
+import { StreetModeSelectorShimmer } from './StreetModeSelectorShimmer';
 
 export const StreetModeSelector = ({
   showWalkOptionButton,
@@ -21,24 +21,15 @@ export const StreetModeSelector = ({
   const bikeAndVehicle = !loading
     ? {
         itineraries: [
-          ...bikeParkPlan.itineraries,
-          ...bikeAndPublicPlan.itineraries,
+          ...bikeParkPlan?.itineraries,
+          ...bikeAndPublicPlan?.itineraries,
         ],
       }
     : {};
   return (
-    <div className={`street-mode-selector-container ${loading && 'loading'}`}>
-      {loading ? (
-        <div
-          style={{
-            position: 'relative',
-            height: '76px',
-            width: '100%',
-          }}
-        >
-          <Loading />
-        </div>
-      ) : (
+    <div className="street-mode-selector-container">
+      <StreetModeSelectorShimmer loading={loading} />
+      {!loading && (
         <div className="street-mode-button-row">
           <StreetModeSelectorWeatherLabel
             active={

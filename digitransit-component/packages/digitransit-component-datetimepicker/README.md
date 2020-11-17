@@ -16,7 +16,7 @@ This component renders an input to choose a date and time. Renders separate inpu
     -   `props.onArrivalClick` **[function][4]** Called with (time) when "arrival" button is clicked. time is current input value in seconds
     -   `props.onTimeChange` **[function][4]** Called with (time, arriveBy) when time input changes. time is number timestamp in seconds, arriveBy is boolean
     -   `props.onDateChange` **[function][4]** Called with (time, arriveBy) when date input changes. time is number timestamp in seconds, arriveBy is boolean
-    -   `props.onNowClick` **[function][4]** Called when "depart now" button is clicked
+    -   `props.onNowClick` **[function][4]** Called when "depart now" button is clicked. time is current input value in seconds
     -   `props.embedWhenClosed` **[node][5]** JSX element to render in the corner when input is closed
     -   `props.lang` **[string][6]** Language selection. Default 'en'
 
@@ -29,7 +29,7 @@ This component renders an input to choose a date and time. Renders separate inpu
   initialArriveBy={false}
   onTimeChange={(time, arriveBy) => changeUrl(time, arriveBy)}
   onDateChange={(time, arriveBy) => changeUrl(time, arriveBy)}
-  onNowClick={() => changeUrl(undefined, undefined)}
+  onNowClick={(time) => changeUrl(undefined, undefined)}
   onDepartureClick={(time) => changeUrl(time, 'true')}
   onArrivalClick={(time) => changeUrl(time, undefined)}
   embedWhenClosed={<button />}

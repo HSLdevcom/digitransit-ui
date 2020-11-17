@@ -18,7 +18,7 @@ moment.tz.setDefault('Europe/Helsinki');
  * @param {boolean} props.initialArriveBy           Initial value for arriveBy. Determines if picker is in arrival mode (true) or departure mode (false). Correct value is kept in component state even if this is not updated. Changing this will also trigger change in the component.
  * @param {function} props.onTimeChange             Called with (time, arriveBy) when time input changes. time is number timestamp in seconds, arriveBy is boolean
  * @param {function} props.onDateChange             Called with (time, arriveBy) when date input changes. time is number timestamp in seconds, arriveBy is boolean
- * @param {function} props.onNowClick               Called when "depart now" button is clicked
+ * @param {function} props.onNowClick               Called when "depart now" button is clicked. time is current input value in seconds
  * @param {function} props.onDepartureClick         Called with (time) when "departure" button is clicked. time is current input value in seconds
  * @param {function} props.onArrivalClick           Called with (time) when "arrival" button is clicked. time is current input value in seconds
  * @param {node} props.embedWhenClosed              JSX element to render in the corner when input is closed
@@ -31,7 +31,7 @@ moment.tz.setDefault('Europe/Helsinki');
  *   initialArriveBy={false}
  *   onTimeChange={(time, arriveBy) => changeUrl(time, arriveBy)}
  *   onDateChange={(time, arriveBy) => changeUrl(time, arriveBy)}
- *   onNowClick={() => changeUrl(undefined, undefined)}
+ *   onNowClick={(time) => changeUrl(undefined, undefined)}
  *   onDepartureClick={(time) => changeUrl(time, 'true')}
  *   onArrivalClick={(time) => changeUrl(time, undefined)}
  *   embedWhenClosed={<button />}
@@ -108,7 +108,7 @@ function DatetimepickerStateContainer({
     changeDepartureOrArrival('departure');
     const newTimestamp = realtime ? null : moment().valueOf();
     changeTimestampState(newTimestamp);
-    onNowClick();
+    onNowClick(Math.round(newTimestamp / 1000));
   };
 
   const departureClicked = () => {

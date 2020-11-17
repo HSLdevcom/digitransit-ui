@@ -254,36 +254,45 @@ export default async function (req, res, next) {
     const polyfills = await getPolyfills(agent, config);
     const breakpoint = getServerBreakpoint(agent);
 
-    const content = ReactDOM.renderToString(
-      <BreakpointProvider value={breakpoint}>
-        <ContextProvider
-          locale={locale}
-          messages={translations[locale]}
-          context={context.getComponentContext()}
-        >
-          <ReactRelayContext.Provider value={{ environment }}>
-            <MuiThemeProvider
-              muiTheme={getMuiTheme(
-                MUITheme(context.getComponentContext().config),
-                { userAgent: agent },
-              )}
-            >
-              <React.Fragment>
-                {element}
-                <Helmet
-                  {...meta(
-                    context.getStore('PreferencesStore').getLanguage(),
-                    req.hostname,
-                    `https://${req.hostname}${req.originalUrl}`,
-                    config,
-                  )}
-                />
-              </React.Fragment>
-            </MuiThemeProvider>
-          </ReactRelayContext.Provider>
-        </ContextProvider>
-      </BreakpointProvider>,
-    );
+    let content;
+    try {
+      content = ReactDOM.renderToString(
+        <BreakpointProvider value={breakpoint}>
+          <ContextProvider
+            locale={locale}
+            messages={translations[locale]}
+            context={context.getComponentContext()}
+          >
+            <ReactRelayContext.Provider value={{ environment }}>
+              <MuiThemeProvider
+                muiTheme={getMuiTheme(
+                  MUITheme(context.getComponentContext().config),
+                  { userAgent: agent },
+                )}
+              >
+                <React.Fragment>
+                  {element}
+                  <Helmet
+                    {...meta(
+                      context.getStore('PreferencesStore').getLanguage(),
+                      req.hostname,
+                      `https://${req.hostname}${req.originalUrl}`,
+                      config,
+                    )}
+                  />
+                </React.Fragment>
+              </MuiThemeProvider>
+            </ReactRelayContext.Provider>
+          </ContextProvider>
+        </BreakpointProvider>,
+      );
+    } catch (e) {
+      if (e.isFoundRedirectException) {
+        res.redirect(e.status, e.location);
+        return;
+      }
+      throw e;
+    }
 
     const contentWithBreakpoint = `<div id="app" data-initial-breakpoint="${breakpoint}">${content}</div>\n`;
 

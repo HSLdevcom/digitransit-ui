@@ -14,7 +14,11 @@ export default function VectorTileLayerContainer(props, { config }) {
       layers.push(CityBikes);
     }
 
-    if (config.parkAndRide && config.parkAndRide.showParkAndRide) {
+    if (
+      config.parkAndRide &&
+      config.parkAndRide.showParkAndRide &&
+      !props.disableParkAndRide
+    ) {
       layers.push(ParkAndRide);
     }
   }
@@ -29,7 +33,7 @@ export default function VectorTileLayerContainer(props, { config }) {
       tileSize={config.map.tileSize || 256}
       zoomOffset={config.map.zoomOffset || 0}
       disableMapTracking={props.disableMapTracking}
-      disableLocationPopup={props.disableLocationPopup}
+      locationPopup={props.locationPopup}
     />
   );
 }
@@ -39,7 +43,8 @@ VectorTileLayerContainer.propTypes = {
   disableMapTracking: PropTypes.func,
   showStops: PropTypes.bool,
   stopsNearYouMode: PropTypes.string,
-  disableLocationPopup: PropTypes.bool,
+  locationPopup: PropTypes.string, // 'all', 'none', 'reversegeocoding'
+  disableParkAndRide: PropTypes.bool,
 };
 
 VectorTileLayerContainer.contextTypes = {

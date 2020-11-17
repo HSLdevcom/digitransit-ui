@@ -1,3 +1,5 @@
+@import '~@hsl-fi/sass/animations/fade';
+
 .desktop .summary {
   display: flex;
   flex: 1 0 auto;
@@ -265,6 +267,7 @@
 .summary-list-container {
   border-top: 1px solid #ddd;
   width: 100%;
+  margin-bottom: -1px;
   background-color: $white;
 
   .show-alternatives {
@@ -281,6 +284,31 @@
       }
     }
   }
+}
+
+.summary-list-items {
+  position: relative;
+  z-index: 10;
+
+  @keyframes loadingTopAnimation {
+    from {
+      transform: translateY(-100px);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  &-loading-top {
+    animation: loadingTopAnimation 0.4s;
+  }
+}
+
+.summary-list-spinner-container {
+  position: relative;
+  z-index: 1;
+  height: 100px;
+  animation: fadeIn 0.4s;
 }
 
 .desktop .summary-list-container {
@@ -347,22 +375,26 @@
   height: 40px;
   width: 100%;
   color: $primary-color;
+  background-color: $white;
   text-align: left;
-  padding-left: 60px;
-  font-weight: 400;
+  padding-left: 81px;
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: -0.36px;
 
   .icon-container {
+    position: relative;
+    top: 2px;
     margin-right: 1em;
   }
   .arrow-up {
     transform: rotate(180deg);
   }
 
-  &.earlier {
-    border-bottom: 1px solid #ddd;
-    font-size: $font-size-small;
+  &.top-btn {
+    font-size: 13px;
   }
-  &.later{
+  &.bottom-btn {
     border-top: 1px solid #ddd;
     font-size: $font-size-normal;
     height: 50px;
@@ -370,11 +402,13 @@
 }
 
 .mobile .time-navigation-btn {
-  padding-left: 1em;
+  padding-left: 28px;
 }
 
 .summary-list-separator {
   height: 4px;
   background-color: $gray;
   width: 100%;
+  position: relative;
+  top: -1px;
 }

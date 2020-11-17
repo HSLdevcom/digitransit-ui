@@ -8,11 +8,8 @@
   padding-left: 3.7em;
   overflow-x: hidden;
   overflow-y: hidden;
+  position: relative;
 
-  &.loading {
-    background-color: white;
-    padding-left: 0;
-  }
   .street-mode-button-row {
       display: flex;
       flex-direction: row;
@@ -24,6 +21,6 @@
 .mobile {
   .street-mode-selector-container {
     overflow-x: auto;
-    padding-left: 1.2em;
+    padding-left: 7px;
   }
 }

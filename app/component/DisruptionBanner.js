@@ -14,8 +14,11 @@ class DisruptionBanner extends React.Component {
     alerts: PropTypes.arrayOf(PropTypes.object),
     currentTime: PropTypes.number.isRequired,
     language: PropTypes.string.isRequired,
-    trafficNowLink: PropTypes.string,
     mode: PropTypes.string.isRequired,
+  };
+
+  static contextTypes = {
+    config: PropTypes.object.isRequired,
   };
 
   getAlerts() {
@@ -49,7 +52,9 @@ class DisruptionBanner extends React.Component {
           <a
             key={alert.id}
             className="disruption-banner-container"
-            href={this.props.trafficNowLink}
+            href={`${this.context.config.URL.ROOTLINK}/${
+              this.props.language === 'fi' ? '' : `${this.props.language}/`
+            }${this.context.config.trafficNowLink[this.props.language]}`}
             onClick={e => {
               e.stopPropagation();
             }}

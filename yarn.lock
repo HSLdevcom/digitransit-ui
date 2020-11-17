@@ -1388,18 +1388,6 @@
     "@digitransit-search-util/digitransit-search-util-uniq-by-label" "0.0.4"
     lodash "4.17.14"
 
-"@digitransit-search-util/digitransit-search-util-execute-search-immidiate@0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-execute-search-immidiate/-/digitransit-search-util-execute-search-immidiate-0.2.1.tgz#5a88c92b4a1b5db18503f57cd3d048f4159083c8"
-  integrity sha512-USAD+N5QDP2aYTxpA2kaEuwT4QN0s2nIVFA1kZWO0qE1O9ADy3M0w/Zj8jBP1WkZJlVh9IpfEl6WVffBE4eysA==
-  dependencies:
-    "@digitransit-search-util/digitransit-search-util-filter-matching-to-input" "0.0.1"
-    "@digitransit-search-util/digitransit-search-util-get-geocoding-results" "0.0.3"
-    "@digitransit-search-util/digitransit-search-util-get-json" "0.0.2"
-    "@digitransit-search-util/digitransit-search-util-helpers" "0.0.10"
-    "@digitransit-search-util/digitransit-search-util-uniq-by-label" "0.0.5"
-    lodash "4.17.14"
-
 "@digitransit-search-util/digitransit-search-util-get-label@0.0.3":
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/@digitransit-search-util/digitransit-search-util-get-label/-/digitransit-search-util-get-label-0.0.3.tgz#e769e9b401b78e1183b3cd0ff1faa8b0266f6693"
@@ -1782,10 +1770,10 @@
   resolved "https://registry.yarnpkg.com/@hsl-fi/shimmer/-/shimmer-0.1.0.tgz#111eca690401db43bc5ac0b1d142d00e97bcfaea"
   integrity sha512-8aGzCxClDzZf1ZVm7etEi3UEJIy0uMakMFC+p6eS6XalBuGhXptk8Luwavw1NiNo633yW1sJA2C3QRGwoHr6pg==
 
-"@hsl-fi/site-header@1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@hsl-fi/site-header/-/site-header-1.0.1.tgz#77fbaa3762cc93294158a3fb4367f1e2558f421a"
-  integrity sha512-g0if3LaoeUdV5OdgRx1PRgIbgv3V7v5T9okgzgUb9yVzTQbxSn7IlctArVwuJchvSmGSBufRemqpndOnFLnA4A==
+"@hsl-fi/site-header@1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@hsl-fi/site-header/-/site-header-1.0.2.tgz#2ab88c9f63dd47126e8cdf4b6baf081fd5cf6640"
+  integrity sha512-7b4wqjzbD+j2xFC2qgUoaiF355nm++lr2iFEKRv3fML8/hG7XV3h3olyTJyGLVYFLo4SfmcSHDIu39DKre7ohg==
   dependencies:
     "@hsl-fi/animated-spinner" "^0.1.0"
     "@hsl-fi/hooks" "^0.2.0"
@@ -15024,17 +15012,18 @@ rc@^1.0.1, rc@^1.1.6:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-autosuggest@10.0.0:
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/react-autosuggest/-/react-autosuggest-10.0.0.tgz#49c69a5053d7b98b14f28716875883d11c95e945"
-  integrity sha512-WFCeRuYv6YCY9Ch4BodXPASWJXDh32ehQQHA2eLNhOBhu3Xcank+5W4wcEN+oqdAX1fvKROZRQRF2fpNZaZaxA==
+react-autosuggest@10.0.3:
+  version "10.0.3"
+  resolved "https://registry.yarnpkg.com/react-autosuggest/-/react-autosuggest-10.0.3.tgz#d18b74a083d27c295331884d1d6a9de4cc1a212a"
+  integrity sha512-h+Cv1emcw7AQsDuN5MYPkmpDvg14jScmKyiQv5LqYRn/gqI6VHzmBdL2I2CHVFARHOvK2R+D35sNd5AEvGc3mQ==
   dependencies:
     es6-promise "^4.2.8"
     prop-types "^15.7.2"
-    react-autowhatever "^10.2.1"
+    react-themeable "^1.1.0"
+    section-iterator "^2.0.0"
     shallow-equal "^1.2.1"
 
-react-autowhatever@10.2.1, react-autowhatever@^10.2.1:
+react-autowhatever@10.2.1:
   version "10.2.1"
   resolved "https://registry.yarnpkg.com/react-autowhatever/-/react-autowhatever-10.2.1.tgz#a6d421dc6135173efedc249ab7216e4f5b691bcc"
   integrity sha512-5gQyoETyBH6GmuW1N1J81CuoAV+Djeg66DEo03xiZOl3WOwJHBP5LisKUvCGOakjrXU4M3hcIvCIqMBYGUmqOA==
@@ -17450,6 +17439,11 @@ sugarss@^2.0.0:
   integrity sha512-WfxjozUk0UVA4jm+U1d736AUpzSrNsQcIbyOkoE364GrtWmIrFdk5lksEupgWMD4VaT/0kVx1dobpiDumSgmJQ==
   dependencies:
     postcss "^7.0.2"
+
+suncalc@1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/suncalc/-/suncalc-1.8.0.tgz#1d9898109563078750f4994a959e654d876acbf5"
+  integrity sha1-HZiYEJVjB4dQ9JlKlZ5lTYdqy/U=
 
 supports-color@3.1.2:
   version "3.1.2"

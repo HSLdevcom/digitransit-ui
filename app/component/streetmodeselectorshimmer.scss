@@ -1,0 +1,96 @@
+@keyframes shimmerAnimation {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+.street-mode-selector-shimmer {
+  display: flex;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  transition: opacity 0.4s;
+  z-index: 10;
+  padding-left: 59px;
+  animation: shimmerAnimation 2s infinite linear;
+  background-color: $background-color-lighter;
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(
+    90deg,
+    $background-color-lighter 0%,
+    $white 50%,
+    $background-color-lighter 100%
+  );
+
+  .mobile & {
+    padding-left: 7px;
+  }
+
+  &-active {
+    opacity: 1;
+  }
+}
+
+.street-mode-selector-weather-placeholder {
+  display: flex;
+  align-items: flex-start;
+  align-self: center;
+  width: 70px;
+  padding-left: 7px;
+
+  .mobile & {
+    width: 57px;
+  }
+
+  div {
+    width: 40px;
+    height: 49px;
+    position: relative;
+  }
+
+  span {
+    display: block;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: $white;
+  }
+
+  span:first-child {
+    top: 2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 16px;
+  }
+
+  span:nth-child(2) {
+    top: 10px;
+    width: 32px;
+    height: 16px;
+    border-radius: 16px;
+  }
+
+  span:last-child {
+    bottom: 0;
+    width: 28px;
+    height: 12px;
+    border-radius: 2px;
+  }
+}
+
+.street-mode-selector-button-placeholder {
+  box-shadow: none;
+  border: none;
+  height: 50px;
+  width: 119px;
+  min-width: 119px;
+  margin-left: 1px;
+}

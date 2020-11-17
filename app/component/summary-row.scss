@@ -1,3 +1,5 @@
+@import '~@hsl-fi/sass/animations/fade';
+
 .canceled-legs-banner {
   width: 100%;
   background: $cancelation-red;
@@ -28,6 +30,24 @@
   }
 }
 
+.desktop .itinerary-summary-row:before {
+  content : "";
+  position: absolute;
+  left: 0px;
+  top: 15px;
+  height: 80px;
+  border-left: 8px solid $primary-color;
+}
+
+.desktop .itinerary-summary-row.passive:before {
+  content : "";
+  position: absolute;
+  left: 0px;
+  top: 15px;
+  height: 80px;
+  border-left: 8px solid transparent;
+}
+
 .itinerary-summary-row {
   min-height: 50px;
   padding-left: 0.9375em;
@@ -39,6 +59,7 @@
   font-size: $font-size-normal;
   white-space: nowrap;
   position: relative;
+  animation: fadeIn 0.7s;
 
   &.cancelled-itinerary {
     .itinerary-first-leg-start-time {
@@ -152,9 +173,7 @@
       margin: 0 2px 0 0;
       justify-content: center;
       &.fit-route-number {
-        min-width: fit-content;
-        /* stylelint-disable-next-line */
-        min-width: -moz-fit-content;
+        min-width: max-content;
         .vcenter-children {
           min-width: max-content !important; // forces the leg to fit the route number in it
         }
@@ -218,9 +237,6 @@
         display: flex;
         min-width: 0;
         height: 24px;
-        max-width: fit-content;
-        /* stylelint-disable-next-line */
-        max-width: -moz-fit-content;
         .vcenter-children {
           .empty {
             float: left;
@@ -494,18 +510,16 @@
     //text color
     color: $black;
   }
+
   .summary-clickable-area {
-    border-bottom: 1px solid #888;
+    border-bottom: 1px solid #ddd;
     padding-bottom: 13px;
     display: flex;
     flex: auto;
     flex-wrap: wrap;
-    outline: none;
     transition: border 0.4s ease;
   }
-  .summary-clickable-area:hover {
-    border-bottom: 1px solid #666;
-  }
+
   .itinerary-summary-visible {
     flex: auto;
     flex-direction: column;

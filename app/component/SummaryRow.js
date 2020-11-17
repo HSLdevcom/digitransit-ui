@@ -10,14 +10,10 @@ import RelativeDuration from './RelativeDuration';
 import RouteNumber from './RouteNumber';
 import RouteNumberContainer from './RouteNumberContainer';
 import { getActiveLegAlertSeverityLevel } from '../util/alertUtils';
-import { displayDistance } from '../util/geo-utils';
 import {
   getLegMode,
-  containsBiking,
   compressLegs,
   getLegBadgeProps,
-  getTotalBikingDistance,
-  getTotalWalkingDistance,
   isCallAgencyPickupType,
 } from '../util/legUtils';
 import { sameDay, dateOrEmpty } from '../util/timeUtils';
@@ -220,7 +216,7 @@ const bikeWasParked = legs => {
 
 const SummaryRow = (
   { data, breakpoint, intermediatePlaces, zones, ...props },
-  { intl, intl: { formatMessage }, config },
+  { intl, intl: { formatMessage } },
 ) => {
   const isTransitLeg = leg => leg.transitLeg;
   const isLegOnFoot = leg => leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK';
@@ -253,6 +249,7 @@ const SummaryRow = (
   });
   const durationWithoutSlack = duration - intermediateSlack; // don't include time spent at intermediate places in calculations for bar lengths
   let renderBarThreshold = 6;
+  const renderRouteNumberThreshold = 12; // route numbers will be rendered on legs that are longer than this
   if (breakpoint === 'small') {
     renderBarThreshold = 8.5;
   }
@@ -266,7 +263,7 @@ const SummaryRow = (
   const lastLeg = compressedLegs[compressedLegs.length - 1];
   const lastLegLength =
     ((lastLeg.duration * 1000) / durationWithoutSlack) * 100;
-  const fitAllRouteNumbers = transitLegCount < 3;
+  const fitAllRouteNumbers = transitLegCount < 4; // if there are three or fewer transit legs, we will show all the route numbers.
   const bikeParkedIndex = usingOwnBicycle
     ? bikeWasParked(compressedLegs)
     : undefined;
@@ -421,11 +418,17 @@ const SummaryRow = (
       ) {
         legs.push(<ViaLeg key={`via_${leg.mode}_${leg.startTime}`} />);
       }
+      const renderRouteNumberForALongLeg =
+        legLength > renderRouteNumberThreshold &&
+        !longName &&
+        transitLegCount < 7;
       legs.push(
         <RouteLeg
           key={`${leg.mode}_${leg.startTime}`}
           leg={leg}
-          fitRouteNumber={fitAllRouteNumbers && !longName}
+          fitRouteNumber={
+            (fitAllRouteNumbers && !longName) || renderRouteNumberForALongLeg
+          }
           intl={intl}
           legLength={legLength}
           large={breakpoint === 'large'}
@@ -466,9 +469,9 @@ const SummaryRow = (
   const iconLegsInPixels = (24 * onlyIconLegs) / normalLegs;
   // the leftover percentage from only showing icons added to each 'normal' leg
   const iconLegsInPercents = onlyIconLegsLength / normalLegs;
-
+  let firstDeparture;
   if (!noTransitLegs) {
-    const firstDeparture = compressedLegs.find(isTransitLeg);
+    firstDeparture = compressedLegs.find(isTransitLeg);
     if (firstDeparture) {
       let firstDepartureStopType;
       if (firstDeparture.mode === 'RAIL' || firstDeparture.mode === 'SUBWAY') {
@@ -572,7 +575,11 @@ const SummaryRow = (
                   id="itinerary-summary-row.first-departure"
                   values={{
                     vehicle: vehicleNames[0],
-                    departureTime: firstLegStartTime,
+                    departureTime: firstDeparture ? (
+                      <LocalTime time={firstDeparture.startTime} />
+                    ) : (
+                      'ggh'
+                    ),
                     stopName: stopNames[0],
                   }}
                 />
@@ -591,28 +598,17 @@ const SummaryRow = (
             );
           }),
           totalTime: <RelativeDuration duration={duration} />,
-          distance: (
-            <FormattedMessage
-              id={
-                containsBiking(data)
-                  ? 'itinerary-summary-row.biking-distance'
-                  : 'itinerary-summary-row.walking-distance'
-              }
-              values={{
-                totalDistance: displayDistance(
-                  containsBiking(data)
-                    ? getTotalBikingDistance(data)
-                    : getTotalWalkingDistance(data),
-                  config,
-                ),
-              }}
-            />
-          ),
         }}
       />
     </div>
   );
 
+  const ariaLabelMessage = intl.formatMessage(
+    {
+      id: 'itinerary-page.show-details-label',
+    },
+    { number: props.hash + 1 },
+  );
   return (
     <span role="listitem" className={classes} aria-atomic="true">
       <h3 className="sr-only">
@@ -650,6 +646,7 @@ const SummaryRow = (
               }
               tabIndex="0"
               role="button"
+              aria-label={ariaLabelMessage}
             >
               <span key="ShowOnMapScreenReader" className="sr-only">
                 <FormattedMessage id="itinerary-summary-row.clickable-area-description" />
@@ -711,6 +708,7 @@ const SummaryRow = (
                   isKeyboardSelectionEvent(e) &&
                   props.onSelectImmediately(props.hash)
                 }
+                aria-label={ariaLabelMessage}
               >
                 <div className="action-arrow flex-grow">
                   <Icon img="icon-icon_arrow-collapse--right" />

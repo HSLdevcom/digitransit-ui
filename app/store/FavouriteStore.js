@@ -42,7 +42,7 @@ export default class FavouriteStore extends Store {
     super(dispatcher);
     this.config = dispatcher.getContext().config;
     this.fetchingOrUpdating();
-    if (this.config.showLogin) {
+    if (this.config.allowLogin) {
       getFavourites()
         .then(res => {
           this.favourites = res;
@@ -183,7 +183,7 @@ export default class FavouriteStore extends Store {
         favouriteId: uuid(),
       });
     }
-    if (this.config.showLogin) {
+    if (this.config.allowLogin) {
       // Update favourites to backend service
       updateFavourites(newFavourites)
         .then(() => {
@@ -209,7 +209,7 @@ export default class FavouriteStore extends Store {
       );
     }
     this.fetchingOrUpdating();
-    if (this.config.showLogin) {
+    if (this.config.allowLogin) {
       // Update favourites to backend service
       updateFavourites(newFavourites)
         .then(() => {
@@ -236,7 +236,7 @@ export default class FavouriteStore extends Store {
     const newFavourites = this.favourites.filter(
       favourite => favourite.favouriteId !== data.favouriteId,
     );
-    if (this.config.showLogin) {
+    if (this.config.allowLogin) {
       // Delete favourite from backend service
       deleteFavourites([data.favouriteId])
         .then(() => {

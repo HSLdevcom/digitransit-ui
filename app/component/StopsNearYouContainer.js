@@ -188,39 +188,26 @@ const StopsNearYouContainerWithBreakpoint = withBreakpoint(
 
 const connectedContainer = connectToStores(
   StopsNearYouContainerWithBreakpoint,
-  ['TimeStore', 'FavouriteStore', 'UserStore'],
-  ({ getStore, config }, { match }) => {
-    const showFavourites =
-      !config.allowLogin ||
-      (config.allowLogin && getStore('UserStore').getUser().sub !== undefined);
-    let favouriteIds;
-    if (!showFavourites) {
-      favouriteIds = new Set();
-    } else {
-      favouriteIds =
-        match.params.mode === 'CITYBIKE'
-          ? new Set(
-              getStore('FavouriteStore')
-                .getBikeRentalStations()
-                .map(station => station.stationId),
-            )
-          : new Set(
-              getStore('FavouriteStore')
-                .getStopsAndStations()
-                .map(stop => stop.gtfsId),
-            );
-    }
+  ['TimeStore', 'FavouriteStore'],
+  ({ getStore }, { match }) => {
+    const favouriteIds =
+      match.params.mode === 'CITYBIKE'
+        ? new Set(
+            getStore('FavouriteStore')
+              .getBikeRentalStations()
+              .map(station => station.stationId),
+          )
+        : new Set(
+            getStore('FavouriteStore')
+              .getStopsAndStations()
+              .map(stop => stop.gtfsId),
+          );
     return {
       currentTime: getStore('TimeStore').getCurrentTime().unix(),
       favouriteIds,
     };
   },
 );
-
-connectedContainer.contextTypes = {
-  ...connectedContainer.contextTypes,
-  config: PropTypes.object.isRequired,
-};
 
 const refetchContainer = createRefetchContainer(
   connectedContainer,

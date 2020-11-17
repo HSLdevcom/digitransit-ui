@@ -37,11 +37,6 @@ const CardHeader = (
           icon="icon-icon_arrow-collapse--left"
           color={backButtonColor}
           iconClassName="arrow-icon"
-          customStyle={{
-            marginTop: '0.4em',
-            position: 'absolute',
-            left: '1.5em',
-          }}
           urlToBack={config.URL.ROOTLINK}
         />
       )}

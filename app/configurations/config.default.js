@@ -138,7 +138,7 @@ export default {
       more: 1,
       most: 0.2,
     },
-    walkSpeed: [0.67, 1.05, 1.2, 1.39, 1.77],
+    walkSpeed: [0.69, 0.97, 1.2, 1.67, 2.22],
     bikeSpeed: [2.77, 4.15, 5.55, 6.94, 8.33],
   },
 
@@ -235,7 +235,8 @@ export default {
     showLayerSelector: true, // DT-3470
     showStopMarkerPopupOnMobile: true, // DT-3470
     showScaleBar: true, // DT-3470
-    showOSMCopyright: true, // DT-3470, DT-3397
+    attribution:
+      '<a tabIndex="-1" href="http://osm.org/copyright">© OpenStreetMap</a>', // DT-3470, DT-3397
 
     useModeIconsInNonTileLayer: false,
   },
@@ -759,7 +760,6 @@ export default {
   trafficNowLink: '',
 
   timetables: {},
-  showLogin: !!process.env.OIDC_CLIENT_ID,
 
   // DT-3611
   showVehiclesOnSummaryPage: false,
@@ -772,4 +772,6 @@ export default {
 
   showNearYouButtons: false,
   nearYouModes: [],
+
+  zoneIconsAsSvg: false,
 };

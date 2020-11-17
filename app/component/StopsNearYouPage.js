@@ -57,7 +57,6 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
     queryString: PropTypes.string,
     router: routerShape.isRequired,
     match: matchShape.isRequired,
-    showFavourites: PropTypes.bool,
   };
 
   constructor(props) {
@@ -222,13 +221,16 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
             return (
               <div className="stops-near-you-page">
                 {renderDisruptionBanner && (
-                  <DisruptionBanner alerts={props.alerts || []} mode={mode} />
+                  <DisruptionBanner
+                    alerts={props.alerts || []}
+                    mode={mode}
+                    trafficNowLink={this.context.config.trafficNowLink}
+                  />
                 )}
                 {renderSearch && (
                   <StopsNearYouSearch
                     mode={mode}
                     breakpoint={this.props.breakpoint}
-                    showFavourites={this.props.showFavourites}
                   />
                 )}
                 {renderRefetchButton && (
@@ -372,19 +374,19 @@ class StopsNearYouPage extends React.Component { // eslint-disable-line
   };
 
   renderAutoSuggestField = () => {
-    // TODO perhaps add SelectFromOwnLocations as target
-    // TODO perhaps render autosuggest in fullscreen on mobile
+    const isMobile = this.props.breakpoint !== 'large';
     return (
       <DTAutoSuggestWithSearchContext
         appElement="#app"
         icon="search"
-        sources={['History', 'Datasource']}
-        targets={['Locations']}
+        sources={['History', 'Datasource', isMobile ? 'Favourite' : '']}
+        targets={['Locations', !isMobile ? 'SelectFromOwnLocations' : '']}
         id="origin-stop-near-you"
         placeholder="origin"
         value=""
         lang={this.props.lang}
         mode={this.props.match.params.mode}
+        isMobile={isMobile}
       />
     );
   };
@@ -572,13 +574,9 @@ const StopsNearYouPageWithBreakpoint = withBreakpoint(props => (
 
 const PositioningWrapper = connectToStores(
   StopsNearYouPageWithBreakpoint,
-  ['PositionStore', 'PreferencesStore', 'UserStore'],
+  ['PositionStore', 'PreferencesStore'],
   (context, props) => {
     const lang = context.getStore('PreferencesStore').getLanguage();
-    const showFavourites =
-      !context.config.allowLogin ||
-      (context.config.allowLogin &&
-        context.getStore('UserStore').getUser().sub !== undefined);
     const { params, location } = props.match;
     const { place } = params;
     if (place !== 'POS') {
@@ -590,7 +588,6 @@ const PositioningWrapper = connectToStores(
         lang,
         params,
         queryString: location.search,
-        showFavourites,
       };
     }
     const locationState = context.getStore('PositionStore').getLocationState();
@@ -603,7 +600,6 @@ const PositioningWrapper = connectToStores(
         lang,
         params,
         queryString: location.search,
-        showFavourites,
       };
     }
 
@@ -618,7 +614,6 @@ const PositioningWrapper = connectToStores(
         lang,
         params,
         queryString: location.search,
-        showFavourites,
       };
     }
 
@@ -629,7 +624,6 @@ const PositioningWrapper = connectToStores(
         loadingPosition: false,
         lang,
         queryString: location.search,
-        showFavourites,
       };
     }
     return {
@@ -639,7 +633,6 @@ const PositioningWrapper = connectToStores(
       lang,
       params,
       queryString: location.search,
-      showFavourites,
     };
   },
 );

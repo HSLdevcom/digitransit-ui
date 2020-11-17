@@ -18,7 +18,6 @@ export default class BackButton extends React.Component {
     iconClassName: PropTypes.string,
     title: PropTypes.node,
     titleClassName: PropTypes.string, // DT-3472
-    customStyle: PropTypes.object, // DT-3472
     titleCustomStyle: PropTypes.object,
     urlToBack: PropTypes.string,
     className: PropTypes.string, // DT-3614
@@ -31,7 +30,6 @@ export default class BackButton extends React.Component {
     iconClassName: '',
     title: undefined,
     titleClassName: undefined, // DT-3472
-    customStyle: undefined, // DT-3472
     titleCustomStyle: undefined,
     urlToBack: undefined,
     className: 'back-button', // DT-3614
@@ -64,14 +62,10 @@ export default class BackButton extends React.Component {
   };
 
   render() {
-    const customStyle = this.props.customStyle
-      ? `style=${this.props.customStyle}`
-      : '';
     return (
       <div className={this.props.className} style={{ display: 'flex' }}>
         <button
           className="icon-holder noborder cursor-pointer"
-          {...customStyle}
           onClick={
             this.props.onBackBtnClick
               ? this.onClick

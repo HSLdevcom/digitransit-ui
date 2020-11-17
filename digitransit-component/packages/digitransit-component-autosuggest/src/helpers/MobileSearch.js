@@ -1,12 +1,24 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import cx from 'classnames';
+import Modal from 'react-modal';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
 import Autosuggest from 'react-autosuggest';
 import styles from './MobileSearch.scss';
+
+class AutosuggestPatch extends Autosuggest {
+  constructor(props) {
+    super(props);
+    const self = this;
+    self.onSuggestionTouchMove = () => {
+      self.justSelectedSuggestion = false;
+      self.pressedSuggestion = null;
+    };
+  }
+}
 
 const MobileSearch = ({
   appElement,
@@ -28,11 +40,15 @@ const MobileSearch = ({
   dialogPrimaryButtonText,
   dialogSecondaryButtonText,
   clearInputButtonText,
+  focusInput,
 }) => {
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;
 
   const [isDialogOpen, setDialogOpen] = useState(false);
+  const inputRef = React.useRef();
+
+  useEffect(() => Modal.setAppElement(appElement), []);
 
   const onSelect = (e, ref) => {
     if (ref.suggestion.type === 'clear-search-history') {
@@ -75,6 +91,7 @@ const MobileSearch = ({
       />
     );
   };
+
   const clearButton = () => {
     return (
       <button
@@ -88,8 +105,8 @@ const MobileSearch = ({
     );
   };
 
-  return (
-    <div className={styles['fullscreen-root']}>
+  const renderContent = () => {
+    return (
       <label className={styles['combobox-container']} htmlFor={inputId}>
         <div className={styles['combobox-icon']} onClick={closeHandle}>
           <Icon img="arrow" />
@@ -98,7 +115,7 @@ const MobileSearch = ({
           <span className={styles['combobox-label']} id={labelId}>
             {label}
           </span>
-          <Autosuggest
+          <AutosuggestPatch
             alwaysRenderSuggestions
             id={id}
             suggestions={suggestions}
@@ -130,9 +147,33 @@ const MobileSearch = ({
             )}
             theme={styles}
             onSuggestionSelected={onSelect}
+            ref={inputRef}
           />
         </span>
       </label>
+    );
+  };
+
+  if (focusInput && inputRef.current?.input) {
+    inputRef.current.input.focus();
+  }
+  if (id !== 'origin-stop-near-you' && id !== 'favourite') {
+    return (
+      <div className={styles['fullscreen-root']}>
+        <Modal
+          isOpen
+          className={styles['mobile-modal-content']}
+          overlayClassName={styles['mobile-modal-overlay']}
+        >
+          {renderContent()}
+        </Modal>
+        {renderDialogModal()}
+      </div>
+    );
+  }
+  return (
+    <div className={styles['fullscreen-root']}>
+      {renderContent()}
       {renderDialogModal()}
     </div>
   );
@@ -164,6 +205,7 @@ MobileSearch.propTypes = {
   dialogHeaderText: PropTypes.string,
   dialogPrimaryButtonText: PropTypes.string,
   dialogSecondaryButtonText: PropTypes.string,
+  focusInput: PropTypes.bool,
 };
 
 export default MobileSearch;

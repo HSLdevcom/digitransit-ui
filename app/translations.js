@@ -253,6 +253,7 @@ const translations = {
     accessibility: 'Barrierefreiheit',
     'accessibility-limited': 'Rollstuhlgerecht',
     'accessibility-nolimit': 'Keine Einschränkungen',
+    'add-home': 'Zuhause setzen',
     'add-itinerary-via-point': 'Zwischenstopp hinzufügen',
     'add-location-to-favourites': 'Ort zu Favoriten hinzufügen',
     'add-via-button-label': 'Zwischenstopp hinzufügen',
@@ -261,6 +262,7 @@ const translations = {
       'Schließe Aufenthaltszeit-Auswahl am Zwischenstopp {index}',
     'add-via-duration-button-label-open':
       'Öffne Aufenthaltszeit-Auswahl am Zwischenstopp {index}',
+    'add-work': 'Arbeit setzen',
     address: 'Adresse',
     'address-or-stop': 'Adresse oder Haltestelle',
     agency: 'Betreiber',
@@ -273,6 +275,9 @@ const translations = {
     'all-routes': 'Alle Linien',
     'all-routes-disabled': 'Keine Linien',
     'approx-meters': '{approxDistance} Meter',
+    'aria-itinerary-summary': 'Gesamtdauer {duration} ',
+    'aria-itinerary-summary-bike-distance': 'Strecke per Rad {distance} ',
+    'aria-itinerary-summary-walk-distance': 'Strecke zu Fuß {distance} ',
     'arrive-leave': 'Ankunft oder Abfahrt an der ausgewählten Zeit',
     'arriving-at': 'Ankunft',
     'arriving-soon': 'Jetzt',
@@ -283,9 +288,11 @@ const translations = {
     'back-to-front-page': 'Zurück zur Startseite ›',
     bicycle: 'Fahrrad',
     'bicycle-distance-duration': 'Fahrrad {distance} ({duration})',
+    bicycle_walk: 'Fahrrad schieben',
     'bike-availability': 'Fahrräder verfügbar',
     'bike-not-allowed-bus': 'Keine Fahrradmitnahme im Bus',
     'bike-not-allowed-tram': 'Keine Fahrradmitnahme in der Straßenbahn',
+    'bikes-available': 'Fahrräder verfügbar',
     'biketransport-citybike': 'Ich benutze ein Leihrad',
     'biketransport-only-bike': 'Ich fahre nur mit dem Fahrrad',
     'biking-amount': 'Anteil der Radstrecke',
@@ -308,14 +315,20 @@ const translations = {
     'char-left': 'Zeichen',
     'choose-stop': 'Haltestelle auswählen',
     citybike: 'Leihrad',
+    'citybike-buy-season': 'Ticket für Tag, Monat oder Jahr kaufen',
     'citybike-distance-duration': 'Leihrad {distance} ({duration})',
     'citybike-network-headers': 'Leihräder und Scooter',
     'citybike-off-season':
       'Leihrad-Stationen sind ab Frühling wieder verfügbar',
+    'citybike-purchase-link': 'Kaufen',
     'citybike-register-required': 'Anmeldung für Leihräder benötigt',
+    'citybike-start-using': 'Beginne Leihrad-Nutzung',
+    'citybike-station': 'Leihrad-Station {stationId}',
+    'citybike-station-no-id': 'Leihrad-Station',
     citybike_off: 'Geschlossen',
     'clear-button-label': 'Leeren',
     close: 'Schließen',
+    'close-favourite-module': 'Favoriten-Modul schließen',
     'contact-information': '{contactName} Kontaktinformationen',
     continue: 'Fortsetzen',
     'create-account': '{contactName}-Konto anlegen',
@@ -366,6 +379,8 @@ const translations = {
     'footer-faq': 'FAQ',
     'footer-feedback': 'Feedback senden',
     'footer-link-to-privacy-policy': 'Datenschutz',
+    'from-station': 'von Bahnhof',
+    'from-stop': 'von Halt',
     frontpage: 'Startseite',
     'generic-error': 'Ein Fehler ist aufgetreten',
     'geolocate-yourself': 'Lokalisieren',
@@ -414,20 +429,39 @@ const translations = {
     'itinerary-page.description': 'Reisebeschreibung',
     'itinerary-page.hide-details': 'Details ausblenden',
     'itinerary-page.show-details': 'Details zeigen',
+    'itinerary-page.show-details-label':
+      'Zeige Details zu Routenvorschlag {number}',
     'itinerary-page.title': 'Reisebeschreibung',
+    'itinerary-page.update-alert': 'Suchergebnisse aktualisiert',
     'itinerary-summary-page.description': 'Reisevorschläge',
-    'itinerary-summary-page.title': 'Reisevorschläge',
+    'itinerary-summary-page.title': 'Routenvorschläge',
     'itinerary-summary-row.biking-distance':
       'Gesamte Fahrradstrecke: {totalDistance}.',
     'itinerary-summary-row.clickable-area-description': 'Auf der Karte zeigen',
     'itinerary-summary-row.description':
-      'Route fährt ab {departureDate} {departureTime} mit Ankunft {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Gesamte Dauer {totalTime}. {distance}',
+      'Route fährt ab {departureDate} {departureTime} mit Ankunft {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Gesamte Dauer {totalTime}.',
     'itinerary-summary-row.first-departure':
       '{vehicle} fährt um {departureTime} von {stopName}.',
+    'itinerary-summary-row.first-leg-start-time':
+      'Fährt ab um {firstDepartureTime} {firstDepartureStopType} {firstDepartureStop}',
+    'itinerary-summary-row.first-leg-start-time-citybike':
+      'Abfahrt um {firstDepartureTime} von {firstDepartureStop} Leihrad-Station',
+    'itinerary-summary-row.no-transit-legs': 'Start jederzeit möglich',
     'itinerary-summary-row.transfers':
       'Umstieg auf {vehicle} an Halt {stopName}',
     'itinerary-summary-row.walking-distance':
       'Gesamte Laufstrecke: {totalDistance}.',
+    'itinerary-summary.bikeAndPublic-fallback-title':
+      'Nehmen Sie Ihr Rad mit ins Fahrzeug',
+    'itinerary-summary.bikeAndPublic-rail-subway-title':
+      'Nehmen Sie Ihr Rad mit in den Zug oder die Bahn',
+    'itinerary-summary.bikeAndPublic-rail-title':
+      'Nehmen Sie Ihr Rad mit in den Zug',
+    'itinerary-summary.bikeAndPublic-subway-title':
+      'Nehmen Sie Ihr Rad mit in die Bahn',
+    'itinerary-summary.bikePark-title': 'Parken und Reisen',
+    'itinerary-summary.interline-wait':
+      'Warte auf den Umstieg in Fahrzeug ({time})',
     'itinerary-summary.show-on-map': 'Auf Karte zeigen {target}',
     'itinerary-ticket.title': 'Benötigte Fahrkarte',
     'itinerary-tickets.title': 'Benötigte Fahrkarten',
@@ -442,15 +476,20 @@ const translations = {
     'likely-to-use':
       'Wie wahrscheinlich würden Sie weiterhin diesen Service anstatt des bisherigen Services nutzen?',
     loading: 'laden',
+    localadmin: 'Ort',
     locate: 'Lokalisieren',
     'location-examples': 'z.B. Zuhause, Arbeit, Schule,...',
     'location-from-map': 'Gewählte Position',
+    'location-from-map-confirm': 'Auswahl bestätigen',
     'location-home': 'Zu Hause',
     'location-school': 'Schule',
     'location-shopping': 'Einkaufen',
     'location-sport': 'Sport',
     'location-work': 'Arbeit',
     login: 'Anmelden',
+    'login-content':
+      'Um Favoriten, Linien und Haltestellen zu speichern, müssen Sie sich einloggen.',
+    'login-header': 'Loggen Sie sich ein',
     logout: 'Abmelden',
     'long-transfers-margin': 'Lange',
     'main-menu-label-close': 'Hauptmenü schließen',
@@ -474,6 +513,16 @@ const translations = {
     'more-settings': 'Erweiterte Einstellungen',
     navigate: 'Navigieren',
     nearest: 'Nächste',
+    'nearest-stops': 'Nächstgelegene Haltestellen',
+    'nearest-stops-bus': 'Nächstgelegene Bushaltestellen',
+    'nearest-stops-citybike': 'Nächstgelegene Fahrrad-Leihstationen',
+    'nearest-stops-ferry': 'Nächstgelegene Fähranleger',
+    'nearest-stops-rail': 'Nächstgelegene Bahnstationen',
+    'nearest-stops-subway': 'Nächstgelegene U-/Stadtbahn-Haltestelle',
+    'nearest-stops-tram': 'Nächstgelegene Straßenbbahn-Haltestelle',
+    'nearest-stops-update-location': 'Aktualisiere {mode}',
+    'nearest-stops-updated-location':
+      'Position auf der Karte hat sich geändert',
     neighbourhood: 'Viertel ',
     'network-error': 'Ein Netzwerkfehler ist aufgetreten.',
     next: 'Nächste',
@@ -491,11 +540,14 @@ const translations = {
     'no-route-msg':
       'Wir konnten leider keine Reisevorschläge für diese Strecke finden. Bitte versuchen Sie den Abfahrts- oder Zielort zu ändern.',
     'no-route-msg-with-changes':
-      'Unfortunately no routes were found for your journey. Try changing your settings, origin or destination.',
+      'Leider wurden keine Reiseoptionen zu Ihrer Anfrage gefunden. Passen Sie Ihre Einstellungen, Abfahrt- oder Zielort an.',
+
     'no-route-origin-near-destination':
       'Die Entfernung zwischen Start und Ziel ist sehr gering. Bitte ändern Sie einen dieser Orte.',
-    'no-route-start-date-not-in-range':
-      'Der aktuelle Fahrplan enthält keine früheren Abfahrten.',
+    'no-route-origin-same-as-destination':
+      'Keine Reisevorschläge gefunden, da Abfahrts- und Zielort übereinstimmen.',
+    'no-route-showing-alternative-options':
+      'Keine Routenvorschläge mit Ihren Einstelllungen gefunden. Stattdessen haben wird die folgenden Reiseoptionen gefunden:',
     'no-route-start-date-too-early':
       'Der aktuelle Fahrplan enthält keine früheren Abfahrten.',
     'no-route-start-end': 'Bitte Start und Ziel auswählen.',
@@ -542,7 +594,9 @@ const translations = {
     'pick-mode-subway-enabled': 'U-Bahn ausgewählt',
     'pick-mode-tram-disabled': 'Tram nicht ausgewählt',
     'pick-mode-tram-enabled': 'Tram ausgewählt',
+    'pick-street-mode': 'Meine Reiseoptionen',
     'place-route-or-keyword': 'Adresse oder Haltestelle',
+    platform: 'Gleis',
     'platform-num': 'Gleis {platformCode}',
     'platform-short': 'Gl. {platformCode}',
     'prefer-walking': 'Gehen bevorzugen',
@@ -595,16 +649,23 @@ const translations = {
       'Ort und Haltestellensuche. Liste mit Pfeiltasten navigieren, mit Enter-Taste auswählen',
     'search-autosuggest-len': 'Es sind {len} Vorschläge verfügbar',
     'search-button-label': 'Suchen',
+    'search-current-suggestion': 'Aktuelle Auswahl: {selection}',
     'search-destination': 'Suche Ziel, Linie oder Haltestelle',
+    'search-destination-index': 'Geben Sie das Ziel ein',
     'search-destination-results-but-no-search':
       'Siehe Ergebnisse im "Zielort"-Tab',
     'search-no-results': 'Keine Ergebnisse',
     'search-origin': 'Geben Sie Ihren Abfahrtsort ein',
+    'search-origin-index': 'Geben Sie Ihren Abfahrtsort ein',
     'search-position': 'Standort suchen',
     'search-search-results-but-no-destination':
       'Siehe Ergebnisse im "Linie oder Haltestelle"-Tab',
     'searching-position': 'Suche aktuellen Standort...',
     'select-date': 'Datum auswählen',
+    'select-from-map-destination': 'Ziel wählen',
+    'select-from-map-no-title': 'Kein Titel',
+    'select-from-map-origin': 'Abfahrsort wählen',
+    'select-from-map-viaPoint': 'Zwischenstopp wählen',
     'select-map-layers-header': 'Was soll auf der Karte angezeigt werden?',
     'select-position': 'Standort aus vorherigen Suchen wählen',
     send: 'Senden',
@@ -612,15 +673,19 @@ const translations = {
       'Für einen Teil der Route ist ein seperates Ticket erforderlich.',
     'separate-ticket-required-disclaimer':
       'Die Route umfasst einen oder mehrere Abschnitte, für die {agencyName} keine Tickets verkauft.',
+    'set-specific-settings': 'Setze spezifischere Einstellungen',
     'set-time-earlier-button-label': 'Frühere Reisezeit wählen',
     'set-time-later-button-label': 'Spätere Reisezeit wählen',
     'set-time-now-button-label': 'Reisezeit ab jetzt',
     settings: 'Einstellungen',
+    'settings-dropdown-close-label': 'Schließe Einstellungen',
+    'settings-dropdown-open-label': 'Öffne Einstellungen',
     'settings-label-change': 'Einstellungen ändern',
     share: 'Reise teilen',
     show: 'zeigen',
     'show-departures': 'Abfahrten zeigen',
     'show-more': 'Mehr zeigen',
+    'show-more-stops-near-you': 'Zeige mehr Haltestellen in der Nähe',
     'show-routes': 'Verbindungen auswählen',
     'skip-positioning': 'Überspringen',
     'skip-to-content': 'Zum Inhalt springen',
@@ -628,12 +693,20 @@ const translations = {
     'specify-location': 'Ort eingeben',
     'splash-locating': 'Suche aktuellen Standort...',
     'splash-or-choose': 'oder einen dieser Abfahrtsorte wählen',
-    'splash-please-allow-positioning': 'Bitte erlauben Sie die Standortabfrage',
     'splash-use-positioning': 'Aktuellen Standort benutzen',
     'splash-welcome': 'Wie möchten Sie starten?',
     'splash-you-can-also': 'Sie können auch',
     station: 'Station',
     stop: 'Haltestelle',
+    'stop-near-you': 'Suche Haltestellen und Linien in der Nähe',
+    'stop-near-you-modal-grant-permission': 'oder aktiviere die Ortsbestimmung',
+    'stop-near-you-modal-grant-permission-info':
+      'Sie können die Standortabfrage Ihres Smartphonse oder Browsers freigeben, so dass dieser Dienst Ihren aktuellen Standort verwenden kann.',
+    'stop-near-you-modal-header':
+      'Sie haben die Standortabfrage nicht freigegeben.',
+    'stop-near-you-modal-info':
+      'Zur Nutzung der Suche nach Haltestellen in der Nähe wird Zugriff auf die Standortabfrage benötigt.',
+    'stop-near-you-title': 'Suche nach Haltestellen oder Linien',
     'stop-number': 'Haltestellennummer',
     'stop-page.description': 'Haltestelle - {name} {code}, {desc}',
     'stop-page.title': 'Haltestelle - {name} {code}',
@@ -642,10 +715,15 @@ const translations = {
     stops: 'Haltestellen',
     street: 'Straße',
     'street-mode-bicycle': 'Fahrrad',
+    'street-mode-bike-aria':
+      'Zeige Fahrradroute. Dauer {duration}, Strecke {length}',
+    'street-mode-bikeandvehicle-aria':
+      'Zeige Kombination von Fahrrad und ÖPNV. Dauer {duration}, davon {length} per Rad',
     'street-mode-car': 'Auto',
     'street-mode-car_park': 'Park & Ride',
     'street-mode-public_transport': 'ÖPNV',
     'street-mode-walk': 'Zu Fuß',
+    'street-mode-walk-aria': 'Zeige Fußweg. Dauer {duration}, Strecke {length}',
     subway: 'U-Bahn',
     'subway-with-route-number': 'U-Bahn {routeNumber} {headSign}',
     'summary-page.description': '{from} - {to}',
@@ -668,6 +746,7 @@ const translations = {
     timetable: 'Fahrplan',
     today: 'Heute',
     tomorrow: 'Morgen',
+    track: 'Gleis',
     'track-num': 'Gleis {platformCode}',
     'track-short': 'Gl. {platformCode}',
     tram: 'Tram',
@@ -684,7 +763,9 @@ const translations = {
     'trip-page.title': 'Linie {shortName}',
     'try-again': 'Nochmal versuchen',
     'use-citybike': 'Leihrad benutzen',
-    'use-national-service': 'Sie können auch den Nationalen Service benutzen: ',
+    'use-national-service-postfix': '.',
+    'use-national-service-prefix':
+      'Wir empfehlen, dass Sie den überregionalen Routenplaner nutzen, ',
     'use-own-position': 'Aktuellen Standort benutzen',
     'using-modes': 'Verkehrsmittel',
     venue: 'Ort',
@@ -698,6 +779,9 @@ const translations = {
     wait: 'Wartezeit',
     'wait-amount-of-time': 'Wartezeit {duration}',
     walk: 'gehen',
+    'walk-bike-itinerary-1': 'Ihre Suche ergab nur Fußweg-Routen.',
+    'walk-bike-itinerary-2': 'Ihre Suche ergab nur Fahrrad-Routen.',
+    'walk-bike-itinerary-3': 'Ihre Suche ergab nur Fußweg- und Fahrrad-Routen.',
     'walk-distance-duration': 'Gehen {distance} ({duration})',
     walking: 'Gehen',
     'walking-speed': 'Laufgeschwindigkeit',
@@ -706,6 +790,7 @@ const translations = {
     'warning-call-agency-no-route':
       'Nur auf Nachfrage. Diese Fahrt muss vorher angefragt werden.',
     'weather-at-destination': 'Wetter am Reiseziel',
+    where: 'Wohin?',
     yesterday: 'Gestern',
     zone: 'Tarifzone',
     zones: 'Tarifzonen',
@@ -726,6 +811,10 @@ const translations = {
     'add-via-duration-button-label-open':
       'Open stop duration selector at via point {index}',
     'add-work': 'Add work',
+    'aria-itinerary-summary': 'Total journey time {duration} ',
+    'aria-itinerary-summary-bike-distance':
+      'Total cycling distance {distance} ',
+    'aria-itinerary-summary-walk-distance': 'Total walking {distance} ',
     'arrive-leave': 'Arrive or leave at selected time',
     'search-autosuggest-label':
       'Venue, place and stopsearch. Navigate list with arrow keys and select with enter key',
@@ -907,6 +996,7 @@ const translations = {
     'itinerary-page.description': 'Itinerary',
     'itinerary-page.hide-details': 'Hide itinerary details',
     'itinerary-page.show-details': 'Show itinerary details',
+    'itinerary-page.show-details-label': 'Show itinerary {number} details',
     'itinerary-page.title': 'Itinerary',
     'itinerary-page.update-alert': 'Search results updated',
     'itinerary-summary-page.description': 'Route suggestions',
@@ -915,7 +1005,7 @@ const translations = {
       'Total biking distance {totalDistance}.',
     'itinerary-summary-row.clickable-area-description': 'Show on map',
     'itinerary-summary-row.description':
-      'Itinerary departing at {departureDate} {departureTime} and arriving at {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Total time {totalTime}. {distance}',
+      'Itinerary departing at {departureDate} {departureTime} and arriving at {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Total time {totalTime}.',
     'itinerary-summary-row.first-departure':
       '{vehicle} leaves at {departureTime} from stop {stopName}.',
     'itinerary-summary-row.first-leg-start-time':
@@ -929,6 +1019,8 @@ const translations = {
       'Total walking distance {totalDistance}.',
     'itinerary-summary.bikeAndPublic-fallback-title':
       'Take your bike with you onboard',
+    'itinerary-summary.bikeAndPublic-rail-subway-title':
+      'Take your bike with you on the train or to metro',
     'itinerary-summary.bikeAndPublic-rail-title':
       'Take your bike with you on the train',
     'itinerary-summary.bikeAndPublic-subway-title': 'Take your bike to metro',
@@ -1171,10 +1263,16 @@ const translations = {
     'stop-virtual-monitor': 'Virtual monitor',
     stops: 'Stops',
     'street-mode-bicycle': 'Bicycle',
+    'street-mode-bike-aria':
+      'Show cycle route. Duration {duration}, distance {length}',
+    'street-mode-bikeandvehicle-aria':
+      'Show a combination of cycling and public transport. Duration {duration}, distance {length}',
     'street-mode-car': 'Car',
     'street-mode-car_park': 'Park & ride',
     'street-mode-public_transport': 'Public transport',
     'street-mode-walk': 'Walking',
+    'street-mode-walk-aria':
+      'Show walking route. Duration {duration}, distance {length}',
     // eslint-disable-next-line sort-keys
     street: 'Street',
     subway: 'Metro',
@@ -1549,6 +1647,9 @@ const translations = {
       'Lisää sinulle tärkeä paikka Suosikkisi-välilehdelle',
     'add-via-button-label': 'Lisää välipiste',
     'add-work': 'Lisää työ',
+    'aria-itinerary-summary': 'Matkan kokonaiskesto {duration} ',
+    'aria-itinerary-summary-bike-distance': 'pyöräilyä yhteensä {distance} ',
+    'aria-itinerary-summary-walk-distance': 'kävelyä yhteensä {distance} ',
     'arrive-leave': 'Saavu tai lähde valittuna aikana',
     'search-autosuggest-label':
       'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
@@ -1737,6 +1838,7 @@ const translations = {
     'itinerary-page.description': 'Reittiohje',
     'itinerary-page.hide-details': 'Piilota reittiohje',
     'itinerary-page.show-details': 'Näytä reittiohje',
+    'itinerary-page.show-details-label': 'Näytä reittiohje {number}',
     'itinerary-page.title': 'Reittiohje',
     'itinerary-page.update-alert': 'Hakutulokset päivitetty',
     'itinerary-summary-page.description': 'Reittiehdotukset',
@@ -1744,7 +1846,7 @@ const translations = {
       'Pyöräilyä yhteensä {totalDistance}.',
     'itinerary-summary-row.clickable-area-description': 'Näytä kartalla',
     'itinerary-summary-row.description':
-      'Lähtö {departureDate} kello {departureTime}. Perillä {arrivalDate} kello {arrivalTime}. {firstDeparture} {transfers} Matka-aika {totalTime}. {distance}',
+      'Lähtö {departureDate} kello {departureTime}. Perillä {arrivalDate} kello {arrivalTime}. {firstDeparture} {transfers} Matka-aika {totalTime}',
     'itinerary-summary-row.first-departure':
       '{vehicle} lähtee asemalta {stopName} kello {departureTime}.',
     'itinerary-summary-row.first-leg-start-time':
@@ -1757,6 +1859,8 @@ const translations = {
       'Kävelyä yhteensä {totalDistance}.',
     'itinerary-summary.bikeAndPublic-fallback-title':
       'Ota pyöräsi mukaan kulkuneuvoon',
+    'itinerary-summary.bikeAndPublic-rail-subway-title':
+      'Ota pyöräsi mukaan junaan tai metroon',
     'itinerary-summary.bikeAndPublic-rail-title': 'Ota pyöräsi mukaan junaan',
     'itinerary-summary.bikeAndPublic-subway-title':
       'Ota pyöräsi mukaan metroon',
@@ -1998,10 +2102,16 @@ const translations = {
     'stop-virtual-monitor': 'Virtuaalimonitori',
     stops: 'Pysäkit',
     'street-mode-bicycle': 'Pyöräily',
+    'street-mode-bike-aria':
+      'Näytä pyöräilyreitti. Kesto {duration}, pituus {length}',
+    'street-mode-bikeandvehicle-aria':
+      'Näytä pyöräilyn ja julkisen liikenteen yhdistelmä. Kesto {duration}, pyöräilyn pituus {length}',
     'street-mode-car': 'Auto',
     'street-mode-car_park': 'Liityntä\u00ADpysäköinti',
     'street-mode-public_transport': 'Julkinen liikenne',
     'street-mode-walk': 'Kävely',
+    'street-mode-walk-aria':
+      'Näytä kävelyreitti. Kesto {duration}, pituus {length}',
     // eslint-disable-next-line sort-keys
     street: 'Katu',
     subway: 'Metro',
@@ -2845,7 +2955,7 @@ const translations = {
       'Distanța totală de pedalat {totalDistance}.',
     'itinerary-summary-row.clickable-area-description': 'Afișați pe hartă',
     'itinerary-summary-row.description':
-      'Itinerarul cu plecare la {departureDate} {departureTime} și sosire la {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Timp total {totalTime}. {distance}',
+      'Itinerarul cu plecare la {departureDate} {departureTime} și sosire la {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Timp total {totalTime}.',
     'itinerary-summary-row.first-departure':
       '{vehicle} pleacă la {departureTime} de la {stopName}.',
     'itinerary-summary-row.transfers': 'Schimbați cu {vehicle} la {stopName}',
@@ -3142,6 +3252,9 @@ const translations = {
     'add-via-duration-button-label-open':
       'Öppna väljaren för varaktighet vid via-punkten',
     'add-work': 'Lägg till arbete',
+    'aria-itinerary-summary': 'Resans varaktighet {duration} ',
+    'aria-itinerary-summary-bike-distance': 'cyckling {distance} ',
+    'aria-itinerary-summary-walk-distance': 'gående {distance} ',
     'arrive-leave': 'Anländer eller lämnar vid vald tid',
     'search-autosuggest-label':
       'Plats, linje och hållplatssökning. Navigera listan med piltangenterna och välj med Enter-tangeten',
@@ -3320,6 +3433,7 @@ const translations = {
     'itinerary-page.description': 'Ruttinformation',
     'itinerary-page.hide-details': 'Göm ruttbeskrivningen',
     'itinerary-page.show-details': 'Visa ruttbeskrivningen',
+    'itinerary-page.show-details-label': 'Visa ruttbeskrivningen {number}',
     'itinerary-page.title': 'Ruttinformation',
     'itinerary-page.update-alert': 'Sökresultaten uppdaterade',
     'itinerary-summary-page.description': 'Ruttförslag',
@@ -3328,7 +3442,7 @@ const translations = {
       'Cykling sammanlagt {totalDistance}.',
     'itinerary-summary-row.clickable-area-description': 'Visa på kartan',
     'itinerary-summary-row.description':
-      'Avgång {departureDate} klockan {departureTime}. Framme {arrivalDate} klockan {arrivalTime}. {firstDeparture} {transfers} Restid {totalTime}. {distance}',
+      'Avgång {departureDate} klockan {departureTime}. Framme {arrivalDate} klockan {arrivalTime}. {firstDeparture} {transfers} Restid {totalTime}.',
     'itinerary-summary-row.first-departure':
       '{vehicle} avgår från station {stopName} klockan {departureTime}.',
     'itinerary-summary-row.first-leg-start-time':
@@ -3342,6 +3456,8 @@ const translations = {
       'Promenad sammanlagt {totalDistance}.',
     'itinerary-summary.bikeAndPublic-fallback-title':
       'Ta cykeln med dig i fordonet',
+    'itinerary-summary.bikeAndPublic-rail-subway-title':
+      'Ta cykeln med på tåget eller metron',
     'itinerary-summary.bikeAndPublic-rail-title': 'Ta cykeln med på tåget',
     'itinerary-summary.bikeAndPublic-subway-title': 'Ta cykeln med på metron',
     'itinerary-summary.bikePark-title':
@@ -3588,10 +3704,16 @@ const translations = {
     'stop-virtual-monitor': 'Virtuell monitor',
     stops: 'Hållplatser',
     'street-mode-bicycle': 'Cykel',
+    'street-mode-bike-aria':
+      'Näytä pyöräilyreitti. Kesto {duration}, pituus {length}',
+    'street-mode-bikeandvehicle-aria':
+      'Näytä pyöräilyn ja julkisen liikenteen yhdistelmä. Kesto {duration}, pyöräilyn pituus {length}',
     'street-mode-car': 'Bil',
     'street-mode-car_park': 'Infarts\u00ADparkering',
     'street-mode-public_transport': 'Kollektiv\u00ADtrafik',
     'street-mode-walk': 'Gång',
+    'street-mode-walk-aria':
+      'Näytä kävelyreitti. Kesto {duration}, pituus {length}',
     // eslint-disable-next-line sort-keys
     street: 'Gata',
     subway: 'Metro',

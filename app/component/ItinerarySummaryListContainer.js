@@ -50,7 +50,7 @@ function ItinerarySummaryListContainer(
     const summaries = itineraries.map((itinerary, i) => (
       <SummaryRow
         refTime={searchTime}
-        key={i} // eslint-disable-line react/no-array-index-key
+        key={`${itinerary.startTime}-${itinerary.endTime}`}
         hash={i}
         data={itinerary}
         passive={i !== activeIndex}
@@ -85,19 +85,27 @@ function ItinerarySummaryListContainer(
         itineraries.length > bikeAndParkItinerariesToShow &&
         bikeAndPublicItinerariesToShow > 0
       ) {
-        const publicModes = itineraries[
-          bikeAndParkItinerariesToShow
-        ].legs.filter(obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE');
-        const firstMode = publicModes[0].mode.toLowerCase();
+        const bikeAndParkItineraries = itineraries.slice(
+          bikeAndParkItinerariesToShow,
+        );
+        const filteredBikeAndParkItineraries = bikeAndParkItineraries.map(i =>
+          i.legs.filter(obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE'),
+        );
+        const allModes = Array.from(
+          new Set(
+            filteredBikeAndParkItineraries.length > 0
+              ? filteredBikeAndParkItineraries.map(p => p[0].mode.toLowerCase())
+              : [],
+          ),
+        );
+
         summaries.splice(
           bikeAndParkItinerariesToShow + 1,
           0,
           <ItinerarySummarySubtitle
-            translationId={
-              firstMode === 'rail' || firstMode === 'subway'
-                ? `itinerary-summary.bikeAndPublic-${firstMode}-title`
-                : 'itinerary-summary.bikeAndPublic-fallback-title'
-            }
+            translationId={`itinerary-summary.bikeAndPublic-${allModes
+              .sort()
+              .join('-')}-title`}
             defaultMessage="Biking \u0026 public transport"
             key="itinerary-summary.bikeAndPublic-title"
           />,
@@ -137,13 +145,22 @@ function ItinerarySummaryListContainer(
           </div>
         )}
         {loadingMoreItineraries === 'top' && (
-          <div style={{ position: 'relative', height: 100 }}>
+          <div className="summary-list-spinner-container">
             <Loading />
           </div>
         )}
-        {isBrowser && summaries}
+        {isBrowser && (
+          <div
+            className={cx('summary-list-items', {
+              'summary-list-items-loading-top':
+                loadingMoreItineraries === 'top',
+            })}
+          >
+            {summaries}
+          </div>
+        )}
         {loadingMoreItineraries === 'bottom' && (
-          <div style={{ position: 'relative', height: 100 }}>
+          <div className="summary-list-spinner-container">
             <Loading />
           </div>
         )}

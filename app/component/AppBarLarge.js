@@ -62,7 +62,7 @@ const AppBarLarge = (
           {logoElement}
         </button>
         <div className="empty-space flex-grow" />
-        {config.showLogin &&
+        {config.allowLogin &&
           (!user.name ? (
             <LoginButton />
           ) : (
