@@ -50,9 +50,6 @@ export default configMerger(walttiConfig, {
         isOffByDefault: true,
       },
     ],
-    zones: {
-      url: '/assets/geojson/tre_zone_areas_20191028.geojson',
-    },
   },
 
   mapLayers: {
