@@ -80,12 +80,6 @@
     line-height: 1.5;
   }
 
-  .itinerary-duration-and-distance {
-    width: 100%;
-    margin-top: $padding-small;
-    margin-left: $padding-medium;
-  }
-
   .itinerary-duration-container {
     width: 100%;
     overflow: hidden;
@@ -166,7 +160,9 @@
   .itinerary-legs {
     display: flex;
     white-space: nowrap;
-    width: calc(100% + 2px);
+    .leg:last-child {
+      margin: 0;
+    }
     .leg {
       min-width: 24px;
       width: calc(var(--width) - (var(--minus)) - 2px + var(--plus));
@@ -210,6 +206,9 @@
       }
       &.walk, &.wait {
         min-width: 1px;
+        &.render-icon {
+          min-width: 22px;
+        }
       }
       &.via {
         min-width: 24px;
@@ -261,17 +260,12 @@
               align-self: center;
             }
           }
-          &.wait {
-            .icon {
-              margin-left: 1px;
-            }
-          }
           &.walk, &.citybike, &.bicycle, &.wait, &.bicycle_walk {
             display: block;
             overflow: hidden;
             min-width: unset;
             .icon {
-              width: 18px;
+              width: 16px;
               &.walk, &.citybike, &.bicycle, &.wait, &.bicycle_walk{
                 float: left;
                 display: flex;
@@ -291,6 +285,19 @@
               .leg-duration {
                 align-self: center;
               }
+            }
+          }
+          &.wait {
+            .icon {
+              margin-left: 1px;
+              width: 18px;
+              height: 18px;
+            }
+          }
+          &.bicycle  {
+            .icon {
+              width: 18px;
+              margin-left: 1px;
             }
           }
         }
@@ -384,21 +391,7 @@
         font-size: 24px;
       }
     }
-
     .special-icon, .icon{
-      &.wait {
-        color: #666;
-        .icon {
-          height: 0.75em;
-          width: 0.75em;
-        }
-      }
-      &.walk {
-        .icon {
-          height: 0.7em;
-          width: 0.7em;
-        }
-      }
       &.car {
         .icon {
           height: 0.67em;
@@ -451,14 +444,6 @@
     padding: 0 0 0 3.75em;
     .summary-clickable-area {
       max-width: calc(100% - 70px);
-    }
-
-    .itinerary-duration-and-distance {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      margin-left: 1em;
-      width: 75px;
     }
 
     h3, h4 {

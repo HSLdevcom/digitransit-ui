@@ -20,6 +20,15 @@ export const PREFIX_TIMETABLE = 'fahrplan';
 export const stopUrl = id => id;
 export const LOCAL_STORAGE_EMITTER_PATH = '/local-storage-emitter';
 
+export const createReturnPath = (path, origin, destination) => {
+  const returnUrl = path === '' ? '' : `/${path}`;
+  return [
+    returnUrl,
+    encodeURIComponent(decodeURIComponent(origin)),
+    encodeURIComponent(decodeURIComponent(destination)),
+  ].join('/');
+};
+
 export const getNearYouPath = (place, mode) =>
   [
     `/${PREFIX_NEARYOU}`,
