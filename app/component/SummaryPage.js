@@ -64,6 +64,7 @@ import { getCurrentSettings, preparePlanParams } from '../util/planParamUtil';
 import { getTotalBikingDistance } from '../util/legUtils';
 import { userHasChangedModes } from '../util/modeUtils';
 import CarpoolDrawer from './CarpoolDrawer';
+import SelectMapLayersDialog from './SelectMapLayersDialog';
 
 /**
 /**
@@ -1552,6 +1553,11 @@ class SummaryPage extends React.Component {
         bounds={bounds.length > 1 ? bounds : defaultBounds}
         showScaleBar
         locationPopup="all"
+        /*bottomButtons={
+          <div className="map-with-tracking-buttons roomForZoomControl">
+            <SelectMapLayersDialog />
+          </div>
+        }*/
       />
     );
   }
