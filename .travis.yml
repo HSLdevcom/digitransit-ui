@@ -24,13 +24,13 @@ services:
 
 jobs:
   include:
-    # - stage: test
-    #   env: LINT=1
-    #   node_js: '10'
-    #   script:
-    #     - rm -rf node_modules
-    #     - yarn setup
-    #     - yarn lint
+    - stage: test
+      env: LINT=1
+      node_js: '10'
+      script:
+        - rm -rf node_modules
+        - yarn setup
+        - yarn lint
     # Temporarely disabled for development in next branch
     # - stage: test
     #   env: FLOW=1
