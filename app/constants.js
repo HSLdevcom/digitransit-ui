@@ -92,3 +92,9 @@ export const AlertEffectType = {
   StopMoved: 'STOP_MOVED',
   Unknown: 'UNKNOWN_EFFECT',
 };
+
+export const MapMode = {
+  Default: 'default',
+  Satellite: 'satellite',
+  Bicycle: 'bicycle',
+};

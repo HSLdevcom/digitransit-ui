@@ -78,6 +78,18 @@ input[type='radio'] {
   height: 1.15em;
 }
 
+.radio-label {
+  span {
+    position: relative;
+    top: -3px;
+  }
+}
+
+.checkbox-grouping h4 {
+  margin-top: 0;
+  margin-bottom: 2px;
+}
+
 .radio-label,
 .phone-label {
   font-family: $font-family;

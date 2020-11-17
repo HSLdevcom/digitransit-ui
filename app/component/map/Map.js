@@ -13,18 +13,21 @@ import { get, isString, isEmpty } from 'lodash';
 // Webpack handles this by bundling it with the other css files
 import 'leaflet/dist/leaflet.css';
 
+import { withRouter, routerShape, matchShape } from 'found';
 import PositionMarker from './PositionMarker';
 import VectorTileLayerContainer from './tile-layer/VectorTileLayerContainer';
 import { boundWithMinimumArea } from '../../util/geo-utils';
 import { isDebugTiles } from '../../util/browser';
 import { BreakpointConsumer } from '../../util/withBreakpoint';
 import events from '../../util/events';
+import { MapMode } from '../../constants';
+import { getMapMode } from '../../util/queryUtils';
 
 const zoomOutText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_minus"/></svg>`;
 
 const zoomInText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_plus"/></svg>`;
 
-export default class Map extends React.Component {
+class Map extends React.Component {
   static propTypes = {
     animate: PropTypes.bool,
     bounds: PropTypes.array,
@@ -73,6 +76,8 @@ export default class Map extends React.Component {
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
     config: PropTypes.object.isRequired,
+    router: routerShape,
+    match: matchShape,
   };
 
   componentDidMount() {
@@ -113,6 +118,31 @@ export default class Map extends React.Component {
     }
   };
 
+  loadMapLayer(mapUrl, attribution, index) {
+    const zIndex = -10 + index;
+    return (
+      <TileLayer
+        key={mapUrl}
+        onLoad={this.setLoaded}
+        url={mapUrl}
+        tileSize={this.context.config.map.tileSize || 256}
+        zoomOffset={this.context.config.map.zoomOffset || 0}
+        updateWhenIdle={false}
+        zIndex={zIndex}
+        size={
+          this.context.config.map.useRetinaTiles &&
+          L.Browser.retina &&
+          !isDebugTiles
+            ? '@2x'
+            : ''
+        }
+        minZoom={this.context.config.map.minZoom}
+        maxZoom={this.context.config.map.maxZoom}
+        attribution={attribution}
+      />
+    );
+  }
+
   render() {
     const {
       zoom,
@@ -141,12 +171,9 @@ export default class Map extends React.Component {
     if (this.props.mapBottomPadding) {
       boundsOptions.paddingBottomRight = [0, this.props.mapBottomPadding];
     }
-    let mapUrl =
-      (isDebugTiles && `${config.URL.OTP}inspector/tile/traversal/`) ||
-      config.URL.MAP;
-    if (mapUrl !== null && typeof mapUrl === 'object') {
-      mapUrl = mapUrl[this.props.lang] || config.URL.MAP.default;
-    }
+
+    const mapUrls = this.getMapUrls(config, this.context.match);
+
     if (!this.props.originFromMap && !this.props.destinationFromMap) {
       leafletObjs.push(
         <VectorTileLayerContainer
@@ -203,24 +230,12 @@ export default class Map extends React.Component {
           }
           closePopupOnClick={false}
         >
-          <TileLayer
-            onLoad={this.setLoaded}
-            url={`${mapUrl}{z}/{x}/{y}{size}.png`}
-            tileSize={config.map.tileSize || 256}
-            zoomOffset={config.map.zoomOffset || 0}
-            updateWhenIdle={false}
-            size={
-              config.map.useRetinaTiles && L.Browser.retina && !isDebugTiles
-                ? '@2x'
-                : ''
-            }
-            minZoom={config.map.minZoom}
-            maxZoom={config.map.maxZoom}
-            attribution={attribution}
-          />
+          {mapUrls.map((url, index) =>
+            this.loadMapLayer(url, attribution, index),
+          )}
           <BreakpointConsumer>
             {breakpoint =>
-              config.map.showOSMCopyright && (
+              attribution && (
                 <AttributionControl
                   position={
                     breakpoint === 'large' ? 'bottomright' : 'bottomleft'
@@ -258,4 +273,23 @@ export default class Map extends React.Component {
       </div>
     );
   }
+
+  getMapUrls = (config, match) => {
+    const currentMapMode = getMapMode(match);
+
+    const mapUrls = [];
+    if (isDebugTiles) {
+      mapUrls.push(`${config.URL.OTP}inspector/tile/traversal/{z}/{x}/{y}.png`);
+    } else if (currentMapMode === MapMode.Satellite) {
+      mapUrls.push(config.URL.MAP.satellite);
+      mapUrls.push(config.URL.MAP.semiTransparent);
+    } else if (currentMapMode === MapMode.Bicycle) {
+      mapUrls.push(config.URL.MAP.bicycle);
+    } else {
+      mapUrls.push(config.URL.MAP.default);
+    }
+    return mapUrls;
+  };
 }
+
+export default withRouter(Map);
