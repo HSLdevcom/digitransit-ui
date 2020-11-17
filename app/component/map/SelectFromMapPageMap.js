@@ -46,29 +46,10 @@ class SelectFromMapPageMap extends React.Component {
     super(props);
     this.state = {};
     this.zoomLevel = 12;
-    this.minZoom = 12;
-    this.maxZoom = 16;
   }
 
   setMapElementRef = element => {
     map = get(element, 'leafletElement', null);
-    if (map) {
-      map.setMinZoom(this.minZoom);
-      map.setMaxZoom(this.maxZoom);
-    }
-  };
-
-  centerMapViewToWantedCoordinates = coordinates => {
-    if (!map) {
-      return;
-    }
-
-    if (coordinates) {
-      map.setView(coordinates, this.zoomLevel, {
-        animate: true,
-        maxZoom: this.maxZoom,
-      });
-    }
   };
 
   getCoordinates = () => {
@@ -172,13 +153,9 @@ class SelectFromMapPageMap extends React.Component {
       return;
     }
     if (this.zoomLevel !== map.getZoom()) {
-      this.zoomLevel = Math.min(
-        Math.max(map.getZoom(), this.minZoom),
-        this.maxZoom,
-      );
+      this.zoomLevel = map.getZoom();
     }
     this.getMapLocation();
-    // this.centerMapViewToWantedCoordinates(position);
   };
 
   createAddress = (address, position) => {
@@ -336,15 +313,14 @@ class SelectFromMapPageMap extends React.Component {
         leafletEvents={{
           onDrag: this.getCoordinates,
           onDragend: this.endDragging,
-          onZoomend: () => this.endZoom,
+          onZoomend: this.endZoom,
         }}
         leafletObjs={leafletObjs}
         lat={positionSelectingFromMap.lat} // {center ? center.lat : from.lat}
         lon={positionSelectingFromMap.lon} // {center ? center.lon : from.lon}
-        zoom={Math.min(Math.max(this.zoomLevel, this.minZoom), this.maxZoom)}
+        zoom={this.zoomLevel}
         bounds={bounds}
         fitBounds={Boolean(bounds)}
-        boundsOptions={{ minZoom: this.minZoom, maxZoom: this.maxZoom }}
         locationPopup="none"
         showScaleBar={showScale}
         mapRef={this.setMapElementRef}
