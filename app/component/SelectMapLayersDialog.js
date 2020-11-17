@@ -2,6 +2,8 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { routerShape, matchShape, withRouter } from 'found';
+import { FormattedMessage } from 'react-intl';
 import BubbleDialog from './BubbleDialog';
 import Checkbox from './Checkbox';
 import { updateMapLayers } from '../action/MapLayerActions';
@@ -10,6 +12,8 @@ import MapLayerStore, { mapLayerShape } from '../store/MapLayerStore';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { MapMode } from '../constants';
+import { getMapMode, replaceQueryParams } from '../util/queryUtils';
 
 class SelectMapLayersDialog extends React.Component {
   updateSetting = newSetting => {
@@ -65,10 +69,22 @@ class SelectMapLayersDialog extends React.Component {
     this.updateSetting({ geoJson });
   };
 
+  switchMapLayers = mode => {
+    const mapMode = mode;
+    replaceQueryParams(this.context.router, this.context.match, { mapMode });
+    /* if (mapMode === MapMode.Default) {
+      clearQueryParams(
+        this.context.router,
+        Object.keys(this.context.router.location.query),
+      );
+    } */
+  };
+
   renderContents = (
     { citybike, parkAndRide, stop, terminal, geoJson, showAllBusses },
     config,
     lang,
+    currentMapMode,
   ) => {
     const isTransportModeEnabled = transportMode =>
       transportMode && transportMode.availableForSelection;
@@ -201,6 +217,53 @@ class SelectMapLayersDialog extends React.Component {
             ))}
           </div>
         )}
+        <div className="checkbox-grouping">
+          <h4>
+            <FormattedMessage
+              id="map-background"
+              defaultMessage="Map background"
+            />
+          </h4>
+          <label className="radio-label" htmlFor="street">
+            <input
+              type="radio"
+              id="street"
+              value="street"
+              name="mapMode"
+              onChange={() => {
+                this.switchMapLayers(MapMode.Default);
+              }}
+              checked={currentMapMode === MapMode.Default}
+            />
+            <FormattedMessage id="streets" defaultMessage="Streets" />
+          </label>
+          <label className="radio-label" htmlFor="satellite">
+            <input
+              type="radio"
+              id="satellite"
+              value="satellite"
+              name="mapMode"
+              onChange={() => {
+                this.switchMapLayers(MapMode.Satellite);
+              }}
+              checked={currentMapMode === MapMode.Satellite}
+            />
+            <FormattedMessage id="satellite" defaultMessage="Satellite" />
+          </label>
+          <label className="radio-label" htmlFor="bicycle">
+            <input
+              type="radio"
+              id="bicycle"
+              value="bicycle"
+              name="mapMode"
+              onChange={() => {
+                this.switchMapLayers(MapMode.Bicycle);
+              }}
+              checked={currentMapMode === MapMode.Bicycle}
+            />
+            <FormattedMessage id="bicycle" defaultMessage="Bicycle" />
+          </label>
+        </div>
       </React.Fragment>
     );
   };
@@ -212,6 +275,7 @@ class SelectMapLayersDialog extends React.Component {
       config.mapLayers.tooltip &&
       config.mapLayers.tooltip[lang];
 
+    const currentMapMode = getMapMode(this.context.match);
     return (
       <BubbleDialog
         contentClassName="select-map-layers-dialog-content"
@@ -222,7 +286,7 @@ class SelectMapLayersDialog extends React.Component {
         isOpen={isOpen}
         tooltip={tooltip}
       >
-        {this.renderContents(mapLayers, config, lang)}
+        {this.renderContents(mapLayers, config, lang, currentMapMode)}
       </BubbleDialog>
     );
   }
@@ -283,6 +347,11 @@ SelectMapLayersDialog.defaultProps = {
   lang: 'fi',
 };
 
+SelectMapLayersDialog.contextTypes = {
+  router: routerShape,
+  match: matchShape,
+};
+
 SelectMapLayersDialog.description = (
   <ComponentUsageExample isFullscreen>
     <div style={{ bottom: 0, left: 0, position: 'absolute' }}>
@@ -341,25 +410,27 @@ export const getGeoJsonLayersOrDefault = (
   (store && Array.isArray(store.layers) && store.layers) ||
   defaultValue;
 
-const connectedComponent = connectToStores(
-  SelectMapLayersDialog,
-  [GeoJsonStore, MapLayerStore, 'PreferencesStore'],
-  ({ config, executeAction, getStore }) => ({
-    config: {
-      ...config,
-      geoJson: {
-        layers: getGeoJsonLayersOrDefault(config, getStore(GeoJsonStore)),
+const connectedComponent = withRouter(
+  connectToStores(
+    SelectMapLayersDialog,
+    [GeoJsonStore, MapLayerStore, 'PreferencesStore'],
+    ({ config, executeAction, getStore }) => ({
+      config: {
+        ...config,
+        geoJson: {
+          layers: getGeoJsonLayersOrDefault(config, getStore(GeoJsonStore)),
+        },
       },
+      mapLayers: getStore(MapLayerStore).getMapLayers(),
+      updateMapLayers: mapLayers =>
+        executeAction(updateMapLayers, { ...mapLayers }),
+      lang: getStore('PreferencesStore').getLanguage(),
+    }),
+    {
+      config: mapLayersConfigShape,
+      executeAction: PropTypes.func,
     },
-    mapLayers: getStore(MapLayerStore).getMapLayers(),
-    updateMapLayers: mapLayers =>
-      executeAction(updateMapLayers, { ...mapLayers }),
-    lang: getStore('PreferencesStore').getLanguage(),
-  }),
-  {
-    config: mapLayersConfigShape,
-    executeAction: PropTypes.func,
-  },
+  ),
 );
 
 export { connectedComponent as default, SelectMapLayersDialog as Component };

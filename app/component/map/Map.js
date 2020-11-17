@@ -21,6 +21,7 @@ import { isDebugTiles } from '../../util/browser';
 import { BreakpointConsumer } from '../../util/withBreakpoint';
 import events from '../../util/events';
 import { MapMode } from '../../constants';
+import { getMapMode } from '../../util/queryUtils';
 
 const zoomOutText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_minus"/></svg>`;
 
@@ -273,13 +274,8 @@ class Map extends React.Component {
     );
   }
 
-  getMapUrls = (config, router) => {
-    let currentMapMode;
-    if (router && router.location.query && router.location.query.mapMode) {
-      currentMapMode = router.location.query.mapMode;
-    } else {
-      currentMapMode = MapMode.Default;
-    }
+  getMapUrls = (config, match) => {
+    const currentMapMode = getMapMode(match);
 
     const mapUrls = [];
     if (isDebugTiles) {

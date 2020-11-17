@@ -5,6 +5,7 @@ import { graphql } from 'react-relay';
 import { parseLatLon } from './otpStrings';
 import { PREFIX_ITINERARY_SUMMARY } from './path';
 import { saveFutureRoute } from '../action/FutureRoutesActions';
+import { MapMode } from '../constants';
 
 /**
  * Removes selected itinerary index from url (pathname) and
@@ -95,6 +96,16 @@ export const replaceQueryParams = (router, match, newParams, executeAction) => {
     ...location,
     query,
   });
+};
+
+export const getMapMode = match => {
+  let currentMapMode;
+  if (match && match.location.query && match.location.query.mapMode) {
+    currentMapMode = match.location.query.mapMode;
+  } else {
+    currentMapMode = MapMode.Default;
+  }
+  return currentMapMode;
 };
 
 /**
