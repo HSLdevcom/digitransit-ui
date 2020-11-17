@@ -10,6 +10,7 @@ import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import { isKeyboardSelectionEvent } from '../util/browser';
+import ToggleButton from './ToggleButton';
 
 function CarLeg(props, context) {
   const distance = displayDistance(
@@ -78,7 +79,12 @@ function CarLeg(props, context) {
           />
         </div>
         <div className="itinerary-leg-action" aria-hidden="true">
-          <FlatButton label="Add carpool" primary onClick={props.toggleCarpoolDrawer}/>
+          <button
+            className="standalone-btn"
+            onClick={props.toggleCarpoolDrawer}
+          >
+            <FormattedMessage id="offer-ride" defaultMessage="Offer carpool" />
+          </button>
         </div>
       </div>
     </div>
@@ -124,7 +130,7 @@ CarLeg.propTypes = {
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
   children: PropTypes.node,
-    toggleCarpoolDrawer: PropTypes.func
+  toggleCarpoolDrawer: PropTypes.func,
 };
 
 CarLeg.contextTypes = { config: PropTypes.object.isRequired };
