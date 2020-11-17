@@ -20,21 +20,21 @@ export const PREFIX_TIMETABLE = 'aikataulu';
 export const stopUrl = id => id;
 export const LOCAL_STORAGE_EMITTER_PATH = '/local-storage-emitter';
 
+export const createReturnPath = (path, origin, destination) => {
+  const returnUrl = path === '' ? '' : `/${path}`;
+  return [
+    returnUrl,
+    encodeURIComponent(decodeURIComponent(origin)),
+    encodeURIComponent(decodeURIComponent(destination)),
+  ].join('/');
+};
+
 export const getNearYouPath = (place, mode) =>
   [
     `/${PREFIX_NEARYOU}`,
     encodeURIComponent(decodeURIComponent(mode)),
     encodeURIComponent(decodeURIComponent(place)),
   ].join('/');
-
-export const getFrontPath = (origin, destination, indexPath) => {
-  const front = indexPath === '' ? '' : `/${indexPath}`;
-  return [
-    front,
-    encodeURIComponent(decodeURIComponent(origin)),
-    encodeURIComponent(decodeURIComponent(destination)),
-  ].join('/');
-};
 
 export const getRoutePath = (origin, destination) =>
   [

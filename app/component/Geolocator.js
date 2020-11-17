@@ -7,7 +7,6 @@ import isEqual from 'lodash/isEqual';
 import { startLocationWatch } from '../action/PositionActions';
 import Loading from './Loading';
 import { isBrowser } from '../util/browser';
-import { getFrontPath, getRoutePath } from '../util/path';
 import { addressToItinerarySearch } from '../util/otpStrings';
 
 const Geolocator = () => <Loading />;
@@ -17,8 +16,7 @@ const GeolocatorWithPosition = connectToStores(
   ['PositionStore'],
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
-    const { pathname } = props.match.location;
-    const frontPage = pathname.includes('etusivu');
+    const { createReturnPath, path } = props;
     const { from, to } = props.match.params;
 
     const redirect = () => {
@@ -30,12 +28,11 @@ const GeolocatorWithPosition = connectToStores(
       } else {
         newTo = to === undefined || to === 'POS' ? locationForUrl : to;
       }
+      const returnPath = createReturnPath(path, newFrom, newTo);
 
       const newLocation = {
         ...props.match.location,
-        pathname: frontPage
-          ? getFrontPath(newFrom, newTo, context.config.indexPath)
-          : getRoutePath(newFrom, newTo),
+        pathname: returnPath,
       };
       props.router.replace(newLocation);
     };

@@ -15,6 +15,7 @@ import {
   PREFIX_NEARYOU,
   PREFIX_BIKESTATIONS,
   LOCAL_STORAGE_EMITTER_PATH,
+  createReturnPath,
 } from './util/path';
 import { preparePlanParams } from './util/planParamUtil';
 import {
@@ -159,6 +160,23 @@ export default config => {
             /* webpackChunkName: "itinerary" */ './component/Geolocator'
           ).then(getDefault)
         }
+        render={({ Component, props, error, match }) => {
+          if (Component) {
+            return props ? (
+              <Component
+                {...props}
+                createReturnPath={createReturnPath}
+                path={PREFIX_ITINERARY_SUMMARY}
+                match={match}
+                error={error}
+                loadingPosition={false}
+              />
+            ) : (
+              <Component match={match} loadingPosition error={error} />
+            );
+          }
+          return undefined;
+        }}
       />
       <Route
         path={`/${PREFIX_ITINERARY_SUMMARY}/:from/POS`}
@@ -167,6 +185,23 @@ export default config => {
             /* webpackChunkName: "itinerary" */ './component/Geolocator'
           ).then(getDefault)
         }
+        render={({ Component, props, error, match }) => {
+          if (Component) {
+            return props ? (
+              <Component
+                {...props}
+                createReturnPath={createReturnPath}
+                path={PREFIX_ITINERARY_SUMMARY}
+                match={match}
+                error={error}
+                loadingPosition={false}
+              />
+            ) : (
+              <Component match={match} loadingPosition error={error} />
+            );
+          }
+          return undefined;
+        }}
       />
       <Route path={`/${PREFIX_ITINERARY_SUMMARY}/:from/:to`}>
         {{
@@ -307,6 +342,23 @@ export default config => {
                   /* webpackChunkName: "itinerary" */ './component/Geolocator'
                 ).then(getDefault)
               }
+              render={({ Component, props, error, match }) => {
+                if (Component) {
+                  return props ? (
+                    <Component
+                      {...props}
+                      createReturnPath={createReturnPath}
+                      path={config.indexPath}
+                      match={match}
+                      error={error}
+                      loadingPosition={false}
+                    />
+                  ) : (
+                    <Component match={match} loadingPosition error={error} />
+                  );
+                }
+                return undefined;
+              }}
             />
           ),
         }}
@@ -325,6 +377,23 @@ export default config => {
                   /* webpackChunkName: "itinerary" */ './component/Geolocator'
                 ).then(getDefault)
               }
+              render={({ Component, props, error, match }) => {
+                if (Component) {
+                  return props ? (
+                    <Component
+                      {...props}
+                      createReturnPath={createReturnPath}
+                      path={config.indexPath}
+                      match={match}
+                      error={error}
+                      loadingPosition={false}
+                    />
+                  ) : (
+                    <Component match={match} loadingPosition error={error} />
+                  );
+                }
+                return undefined;
+              }}
             />
           ),
         }}
