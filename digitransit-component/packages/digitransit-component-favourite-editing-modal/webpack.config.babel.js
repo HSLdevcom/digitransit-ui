@@ -6,6 +6,9 @@ const isProduction = mode === 'production';
 module.exports = {
   mode,
   devtool: isProduction ? 'source-map' : 'eval',
+  entry: {
+    main: './src/index.js',
+  },
   output: {
     globalObject: "typeof self !== 'undefined' ? self : this",
     filename: 'index.js',
@@ -24,9 +27,7 @@ module.exports = {
             [
               '@babel/preset-env',
               {
-                // loose is needed by older Androids < 4.3 and IE10
-                loose: true,
-                modules: false,
+                modules: 'auto',
               },
             ],
             ['@babel/preset-react', { useBuiltIns: true }],
@@ -65,12 +66,21 @@ module.exports = {
     ],
   },
   optimization: {
+    minimize: true,
+    namedModules: true,
+    namedChunks: true,
+    removeAvailableModules: true,
+    flagIncludedChunks: true,
+    occurrenceOrder: false,
+    usedExports: true,
+    concatenateModules: true,
+    sideEffects: false,
     splitChunks: {
       cacheGroups: {
-        digitransitComponents: {
-          test: /[\\/]node_modules[\\/](@digitransit-component|@digitransit-search-util|@digitransit-util|@hsl-fi)[\\/]/,
-          name: 'digitransit-components',
-          chunks: 'all',
+        hslFi: {
+          test: /[\\/]node_modules[\\/]@hsl-fi[\\/]/,
+          name: 'hsl-fi',
+          chunks: isProduction ? 'all' : 'async',
           reuseExistingChunk: false,
         },
       },

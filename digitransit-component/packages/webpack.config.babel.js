@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 const mode = process.env.ENV;
 const name = process.env.NAME;
@@ -20,6 +21,7 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         options: {
+          sourceType: 'unambiguous',
           configFile: false,
           presets: [
             [
@@ -63,10 +65,12 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    // load `moment/locale/fi.js`, `moment/locale/sv.js` and `moment/locale/en.js`
+    new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /fi|sv|en/),
+  ],
   optimization: {
     minimize: true,
-    namedModules: true,
-    namedChunks: true,
     removeAvailableModules: true,
     flagIncludedChunks: true,
     occurrenceOrder: false,
@@ -74,6 +78,7 @@ module.exports = {
     concatenateModules: true,
     sideEffects: false,
     splitChunks: {
+      minSize: 20000,
       cacheGroups: {
         hslFi: {
           test: /[\\/]node_modules[\\/]@hsl-fi[\\/]/,

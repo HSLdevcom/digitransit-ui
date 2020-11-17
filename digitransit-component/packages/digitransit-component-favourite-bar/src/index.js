@@ -6,11 +6,13 @@ import differenceWith from 'lodash/differenceWith';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import escapeRegExp from 'lodash/escapeRegExp';
-import Shimmer from '@hsl-fi/shimmer';
+import loadable from '@loadable/component';
 import SuggestionItem from '@digitransit-component/digitransit-component-suggestion-item';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import translations from './helpers/translations';
 import styles from './helpers/styles.scss';
+
+const Shimmer = loadable(() => import('@hsl-fi/shimmer'));
 
 i18next.init({ lng: 'fi', resources: {} });
 
