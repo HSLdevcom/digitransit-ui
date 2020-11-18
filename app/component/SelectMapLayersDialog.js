@@ -1,8 +1,7 @@
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import PropTypes from 'prop-types';
 import React from 'react';
-
-import { routerShape, matchShape, withRouter } from 'found';
+import { matchShape, routerShape, withRouter } from 'found';
 import { FormattedMessage } from 'react-intl';
 import BubbleDialog from './BubbleDialog';
 import Checkbox from './Checkbox';
@@ -12,8 +11,9 @@ import MapLayerStore, { mapLayerShape } from '../store/MapLayerStore';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { replaceQueryParams, clearQueryParams } from '../util/queryUtils';
 import { MapMode } from '../constants';
-import { getMapMode, replaceQueryParams } from '../util/queryUtils';
+import { setMapMode } from '../action/MapModeActions';
 
 class SelectMapLayersDialog extends React.Component {
   updateSetting = newSetting => {
@@ -61,6 +61,14 @@ class SelectMapLayersDialog extends React.Component {
     this.updateSetting({ terminal });
   };
 
+  updateTicketSalesSetting = newSetting => {
+    const ticketSales = {
+      ...this.props.mapLayers.ticketSales,
+      ...newSetting,
+    };
+    this.updateSetting({ ticketSales });
+  };
+
   updateGeoJsonSetting = newSetting => {
     const geoJson = {
       ...this.props.mapLayers.geoJson,
@@ -71,17 +79,26 @@ class SelectMapLayersDialog extends React.Component {
 
   switchMapLayers = mode => {
     const mapMode = mode;
-    replaceQueryParams(this.context.router, this.context.match, { mapMode });
-    /* if (mapMode === MapMode.Default) {
-      clearQueryParams(
-        this.context.router,
-        Object.keys(this.context.router.location.query),
-      );
-    } */
+    const { router, match } = this.context;
+    replaceQueryParams(router, match, { mapMode });
+    if (mapMode === MapMode.Default) {
+      clearQueryParams(router, match, Object.keys(match.location.query));
+    }
+    this.props.setMapMode(mapMode);
   };
 
   renderContents = (
-    { citybike, parkAndRide, stop, terminal, geoJson, showAllBusses },
+    {
+      citybike,
+      parkAndRide,
+      covid19,
+      dynamicParkingLots,
+      roadworks,
+      stop,
+      terminal,
+      geoJson,
+      showAllBusses,
+    },
     config,
     lang,
     currentMapMode,
@@ -177,12 +194,43 @@ class SelectMapLayersDialog extends React.Component {
           {config.cityBike && config.cityBike.showCityBikes && (
             <Checkbox
               checked={citybike}
-              defaultMessage="Citybike station"
-              labelId="map-layer-citybike"
+              defaultMessage="Sharing"
+              labelId="map-layer-sharing"
               onChange={e => {
                 this.updateSetting({ citybike: e.target.checked });
                 this.sendLayerChangeAnalytic('Citybike', e.target.checked);
               }}
+            />
+          )}
+          {config.roadworks && config.roadworks.showRoadworks && (
+            <Checkbox
+              checked={roadworks}
+              defaultMessage="Roadworks"
+              labelId="map-layer-roadworks"
+              onChange={e =>
+                this.updateSetting({ roadworks: e.target.checked })
+              }
+            />
+          )}
+          {config.dynamicParkingLots &&
+            config.dynamicParkingLots.showDynamicParkingLots && (
+              <Checkbox
+                checked={dynamicParkingLots}
+                defaultMessage="Parking"
+                labelId="map-layer-dynamic-parking-lots"
+                onChange={e =>
+                  this.updateSetting({ dynamicParkingLots: e.target.checked })
+                }
+              />
+            )}
+          {isTransportModeEnabled(transportModes.carpool) && (
+            <Checkbox
+              checked={terminal.carpool}
+              defaultMessage="Carpool stops"
+              labelId="map-layer-carpool"
+              onChange={e =>
+                this.updateStopAndTerminalSetting({ carpool: e.target.checked })
+              }
             />
           )}
           {config.parkAndRide && config.parkAndRide.showParkAndRide && (
@@ -193,6 +241,17 @@ class SelectMapLayersDialog extends React.Component {
               onChange={e => {
                 this.updateSetting({ parkAndRide: e.target.checked });
                 this.sendLayerChangeAnalytic('ParkAndRide', e.target.checked);
+              }}
+            />
+          )}
+          {config.covid19 && config.covid19.show && (
+            <Checkbox
+              checked={covid19}
+              defaultMessage="Covid-19 opening hours"
+              labelId="map-layer-covid-19"
+              onChange={e => {
+                this.updateSetting({ covid19: e.target.checked });
+                this.sendLayerChangeAnalytic('Covid19', e.target.checked);
               }}
             />
           )}
@@ -269,13 +328,12 @@ class SelectMapLayersDialog extends React.Component {
   };
 
   render() {
-    const { config, lang, isOpen, mapLayers } = this.props;
+    const { config, lang, isOpen, mapLayers, currentMapMode } = this.props;
     const tooltip =
       config.mapLayers &&
       config.mapLayers.tooltip &&
       config.mapLayers.tooltip[lang];
 
-    const currentMapMode = getMapMode(this.context.match);
     return (
       <BubbleDialog
         contentClassName="select-map-layers-dialog-content"
@@ -300,6 +358,13 @@ const mapLayersConfigShape = PropTypes.shape({
   cityBike: PropTypes.shape({
     showCityBikes: PropTypes.bool,
   }),
+  dynamicParkingLots: PropTypes.shape({
+    showDynamicParkingLots: PropTypes.bool,
+    dynamicParkingLots: PropTypes.bool,
+  }),
+  roadworks: PropTypes.shape({
+    roadworks: PropTypes.bool,
+  }),
   geoJson: PropTypes.shape({
     layers: PropTypes.arrayOf(
       PropTypes.shape({
@@ -314,6 +379,9 @@ const mapLayersConfigShape = PropTypes.shape({
   }),
   parkAndRide: PropTypes.shape({
     showParkAndRide: PropTypes.bool,
+  }),
+  ticketSales: PropTypes.shape({
+    showTicketSales: PropTypes.bool,
   }),
   transportModes: PropTypes.shape({
     bus: transportModeConfigShape,
@@ -339,6 +407,8 @@ SelectMapLayersDialog.propTypes = {
   mapLayers: mapLayerShape.isRequired,
   updateMapLayers: PropTypes.func.isRequired,
   lang: PropTypes.string,
+  currentMapMode: PropTypes.string.isRequired,
+  setMapMode: PropTypes.func.isRequired,
 };
 
 SelectMapLayersDialog.defaultProps = {
@@ -359,6 +429,9 @@ SelectMapLayersDialog.description = (
         config={{
           parkAndRide: {
             showParkAndRide: true,
+          },
+          ticketSales: {
+            showTicketSales: true,
           },
           transportModes: {
             bus: {
@@ -382,8 +455,11 @@ SelectMapLayersDialog.description = (
         mapLayers={{
           stop: { bus: true },
           terminal: { subway: true },
+          ticketSales: { ticketMachine: true },
         }}
         updateMapLayers={() => {}}
+        currentMapMode="default"
+        setMapMode={() => {}}
       />
     </div>
   </ComponentUsageExample>
@@ -410,27 +486,28 @@ export const getGeoJsonLayersOrDefault = (
   (store && Array.isArray(store.layers) && store.layers) ||
   defaultValue;
 
-const connectedComponent = withRouter(
-  connectToStores(
-    SelectMapLayersDialog,
-    [GeoJsonStore, MapLayerStore, 'PreferencesStore'],
-    ({ config, executeAction, getStore }) => ({
-      config: {
-        ...config,
-        geoJson: {
-          layers: getGeoJsonLayersOrDefault(config, getStore(GeoJsonStore)),
-        },
+const connectedComponent = connectToStores(
+  SelectMapLayersDialog,
+  [GeoJsonStore, MapLayerStore, 'PreferencesStore', 'MapModeStore'],
+  ({ config, executeAction, getStore }) => ({
+    config: {
+      ...config,
+      geoJson: {
+        layers: getGeoJsonLayersOrDefault(config, getStore(GeoJsonStore)),
       },
-      mapLayers: getStore(MapLayerStore).getMapLayers(),
-      updateMapLayers: mapLayers =>
-        executeAction(updateMapLayers, { ...mapLayers }),
-      lang: getStore('PreferencesStore').getLanguage(),
-    }),
-    {
-      config: mapLayersConfigShape,
-      executeAction: PropTypes.func,
     },
-  ),
+    mapLayers: getStore(MapLayerStore).getMapLayers(),
+    updateMapLayers: mapLayers =>
+      executeAction(updateMapLayers, { ...mapLayers }),
+    lang: getStore('PreferencesStore').getLanguage(),
+    currentMapMode: getStore('MapModeStore').getMapMode(),
+    setMapMode: mapMode => executeAction(setMapMode, mapMode),
+  }),
+  {
+    config: mapLayersConfigShape,
+    executeAction: PropTypes.func,
+  },
 );
 
-export { connectedComponent as default, SelectMapLayersDialog as Component };
+export default withRouter(connectedComponent);
+export { SelectMapLayersDialog as Component };
