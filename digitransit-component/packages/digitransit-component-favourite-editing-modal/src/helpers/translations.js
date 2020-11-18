@@ -7,7 +7,7 @@ const translations = {
     'edit-places': 'Bearbeite Favoriten',
     'edit-place-name': 'Bearbeite Favorit: {{favourite.name}}',
     'edit-modal-on-open': 'Favoriten bearbeiten.',
-    'choose-icon': "Wähle das Symbol für diesen Ort",
+    'choose-icon': 'Wähle das Symbol für diesen Ort',
     'close-modal': 'Schließe den Dialog',
     'input-placeholder': 'Wählen Sie einen Name für diesen Ort (optional)',
     save: 'Speichern',

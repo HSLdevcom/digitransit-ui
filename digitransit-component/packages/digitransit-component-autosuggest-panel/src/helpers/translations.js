@@ -1,7 +1,8 @@
 const translations = {
   de: {
     'add-via-button-label': 'Füge Zwischenziel hinzu',
-    'add-via-duration-button-label': 'Setze Umsteigezeit für Zwischenziel {{index}}',
+    'add-via-duration-button-label':
+      'Setze Umsteigezeit für Zwischenziel {{index}}',
     'add-via-duration-button-label-close':
       'Schließe Umsteigezeit-Auswahl für Zwischenziel {{index}}',
     'add-via-duration-button-label-open':

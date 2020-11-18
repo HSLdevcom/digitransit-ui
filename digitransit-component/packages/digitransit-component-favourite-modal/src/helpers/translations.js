@@ -1,7 +1,7 @@
 const translations = {
   de: {
     cancel: 'Abbrechen',
-    'choose-icon': "Wählen Sie ein Symbol für diesen Ort",
+    'choose-icon': 'Wählen Sie ein Symbol für diesen Ort',
     'close-favourite-modal': 'Favoriten-Dialog schließen',
     'edit-place': 'Ort bearbeiten',
     'favourite-modal-on-add-new': 'Neuen Favoriten hinzufügen',
