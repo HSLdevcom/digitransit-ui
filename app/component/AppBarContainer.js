@@ -10,6 +10,15 @@ import { DesktopOrMobile } from '../util/withBreakpoint';
 import AppBarHsl from './AppBarHsl'; // DT-3376
 import MessageBar from './MessageBar';
 
+const titleClicked = (router, homeUrl, match) => {
+  const mode = match.location.query.mapMode;
+  if (mode) {
+    router.push(`${homeUrl}?mapMode=${match.location.query.mapMode}`);
+  } else {
+    router.push(homeUrl);
+  }
+};
+
 // DT-3375: added style
 const AppBarContainer = ({
   router,
@@ -60,7 +69,7 @@ const AppBarContainer = ({
           <AppBarLarge
             {...args}
             logo={logo}
-            titleClicked={() => router.push(homeUrl)}
+            titleClicked={() => titleClicked(router, homeUrl, match)}
             user={user}
           />
         );
