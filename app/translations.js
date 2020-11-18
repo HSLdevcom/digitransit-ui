@@ -481,7 +481,7 @@ const translations = {
     'location-examples': 'z.B. Zuhause, Arbeit, Schule,...',
     'location-from-map': 'Gewählte Position',
     'location-from-map-confirm': 'Auswahl bestätigen',
-    'location-home': 'Zu Hause',
+    'location-home': 'Zuhause',
     'location-school': 'Schule',
     'location-shopping': 'Einkaufen',
     'location-sport': 'Sport',
