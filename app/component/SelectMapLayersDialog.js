@@ -11,7 +11,7 @@ import MapLayerStore, { mapLayerShape } from '../store/MapLayerStore';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { replaceQueryParams, clearQueryParams } from '../util/queryUtils';
+import {replaceQueryParams, clearQueryParams, getMapMode} from '../util/queryUtils';
 import { MapMode } from '../constants';
 import { setMapMode } from '../action/MapModeActions';
 
@@ -84,7 +84,6 @@ class SelectMapLayersDialog extends React.Component {
     if (mapMode === MapMode.Default) {
       clearQueryParams(router, match, Object.keys(match.location.query));
     }
-    this.props.setMapMode(mapMode);
   };
 
   renderContents = (
@@ -328,7 +327,8 @@ class SelectMapLayersDialog extends React.Component {
   };
 
   render() {
-    const { config, lang, isOpen, mapLayers, currentMapMode } = this.props;
+    const { config, lang, isOpen, mapLayers } = this.props;
+    const currentMapMode = getMapMode(this.context.match);
     const tooltip =
       config.mapLayers &&
       config.mapLayers.tooltip &&
@@ -407,8 +407,6 @@ SelectMapLayersDialog.propTypes = {
   mapLayers: mapLayerShape.isRequired,
   updateMapLayers: PropTypes.func.isRequired,
   lang: PropTypes.string,
-  currentMapMode: PropTypes.string.isRequired,
-  setMapMode: PropTypes.func.isRequired,
 };
 
 SelectMapLayersDialog.defaultProps = {
@@ -500,8 +498,6 @@ const connectedComponent = connectToStores(
     updateMapLayers: mapLayers =>
       executeAction(updateMapLayers, { ...mapLayers }),
     lang: getStore('PreferencesStore').getLanguage(),
-    currentMapMode: getStore('MapModeStore').getMapMode(),
-    setMapMode: mapMode => executeAction(setMapMode, mapMode),
   }),
   {
     config: mapLayersConfigShape,
