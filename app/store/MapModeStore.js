@@ -17,12 +17,13 @@ export default class MapModeStore extends Store {
   getMapMode = () => this.mapMode;
 
   setMapMode = mapMode => {
-    if (MapModeStore.existingMapModes.includes(mapMode)) {
+    if (
+      MapModeStore.existingMapModes.includes(mapMode) &&
+      mapMode !== this.mapMode
+    ) {
       this.mapMode = mapMode;
-    } else {
-      this.mapMode = MapMode.Default;
+      this.emitChange();
     }
-    this.emitChange();
   };
 
   getPrevMapMode = () => this.prevMapMode;
