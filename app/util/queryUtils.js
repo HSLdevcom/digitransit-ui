@@ -2,6 +2,7 @@ import isString from 'lodash/isString';
 import cloneDeep from 'lodash/cloneDeep';
 import { graphql } from 'react-relay';
 
+import omit from 'lodash/omit';
 import { parseLatLon } from './otpStrings';
 import { PREFIX_ITINERARY_SUMMARY } from './path';
 import { saveFutureRoute } from '../action/FutureRoutesActions';
@@ -92,6 +93,27 @@ export const replaceQueryParams = (router, match, newParams, executeAction) => {
     executeAction(saveFutureRoute, newRoute);
   }
 
+  router.replace({
+    ...location,
+    query,
+  });
+};
+
+/**
+ * Clears the given parameters from the browser's url.
+ *
+ * @param {*} router The router
+ * @param {string[]} paramsToClear The parameters to clear from the url
+ */
+export const clearQueryParams = (router, match, paramsToClear = []) => {
+  if (paramsToClear.length === 0) {
+    return;
+  }
+  let { location } = match;
+
+  location = resetSelectedItineraryIndex(location);
+
+  const query = omit(location.query, paramsToClear);
   router.replace({
     ...location,
     query,

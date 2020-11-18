@@ -278,6 +278,7 @@ const translations = {
     'streets': 'Straßen',
     'satellite': 'Satellit',
     'add-home': 'Zuhause setzen',
+    'map-layer-carpool': 'Mitfahrpunkte',
     'add-itinerary-via-point': 'Zwischenstopp hinzufügen',
     'add-location-to-favourites': 'Ort zu Favoriten hinzufügen',
     'add-via-button-label': 'Zwischenstopp hinzufügen',

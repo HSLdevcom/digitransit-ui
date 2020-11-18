@@ -35,7 +35,7 @@ import {
   getStartTime,
   getStartTimeWithColon,
 } from '../util/timeUtils';
-import { planQuery } from '../util/queryUtils';
+import { planQuery, replaceQueryParams } from '../util/queryUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
 import exampleData from './data/SummaryPage.ExampleData';
@@ -64,6 +64,8 @@ import { getCurrentSettings, preparePlanParams } from '../util/planParamUtil';
 import { getTotalBikingDistance } from '../util/legUtils';
 import { userHasChangedModes } from '../util/modeUtils';
 import CarpoolDrawer from './CarpoolDrawer';
+import SelectMapLayersDialog from './SelectMapLayersDialog';
+import { MapMode } from '../constants';
 
 /**
 /**
@@ -431,6 +433,9 @@ class SummaryPage extends React.Component {
         newState.pathname = basePath;
         this.context.router.replace(newState);
         newState.pathname = indexPath;
+        if (newStreetMode.includes('bike')) {
+          newState.query.mapMode = MapMode.Bicycle;
+        }
         this.context.router.push(newState);
       });
     }
@@ -477,6 +482,9 @@ class SummaryPage extends React.Component {
     newState.pathname = basePath;
     this.context.router.replace(newState);
     newState.pathname = indexPath;
+    if (newStreetMode.includes('bike')) {
+      newState.query.mapMode = MapMode.Bicycle;
+    }
     this.context.router.push(newState);
   };
 
@@ -1558,6 +1566,11 @@ class SummaryPage extends React.Component {
         bounds={bounds.length > 1 ? bounds : defaultBounds}
         showScaleBar
         locationPopup="all"
+        /* bottomButtons={
+          <div className="map-with-tracking-buttons roomForZoomControl">
+            <SelectMapLayersDialog />
+          </div>
+        } */
       />
     );
   }
