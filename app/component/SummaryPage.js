@@ -288,12 +288,17 @@ class SummaryPage extends React.Component {
     this.isFetchingWalkAndBike = true;
     this.params = this.context.match.params;
     this.originalPlan = this.props.viewer && this.props.viewer.plan;
+    /// *** TODO: Hotfix variables for temporary use only
     this.justMounted = true;
     this.useFitBounds = true;
     this.mapLoaded = false;
     this.origin = undefined;
     this.destination = undefined;
     this.mapCenterToggle = undefined;
+    // Terrible hack to get walking and cycling walks to respond correctly with bounds
+    this.fooAgain = undefined;
+    this.fooCount = 0;
+    // ****     ****
     context.executeAction(storeOrigin, otpToLocation(props.match.params.from));
     if (props.error) {
       reportError(props.error);
@@ -961,6 +966,7 @@ class SummaryPage extends React.Component {
     ) {
       this.justMounted = true;
       this.mapCenterToggle = undefined;
+      this.fooCount = 0;
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         center: undefined,
@@ -1754,7 +1760,14 @@ class SummaryPage extends React.Component {
             polyline.decode(leg.legGeometry.points),
           ),
         );
-        this.useFitBounds = true;
+        if (isEqual(this.fooAgain, bounds) && this.fooCount > 3) {
+          this.useFitBounds = false;
+        } else {
+          this.useFitBounds = true;
+          this.fooAgain = bounds;
+          // eslint-disable-next-line no-plusplus
+          this.fooCount++;
+        }
       }
     } else {
       center = this.state.bounds ? undefined : this.state.center;
