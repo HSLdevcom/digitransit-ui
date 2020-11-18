@@ -1,5 +1,6 @@
 /* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
+import { BIKEAVL_UNKNOWN } from '../util/citybikes';
 
 const CONFIG = 'lappeenranta';
 const APP_TITLE = 'reittiopas.lappeenranta.fi';
@@ -40,6 +41,7 @@ export default configMerger(walttiConfig, {
 
   cityBike: {
     showCityBikes: true,
+    capacity: BIKEAVL_UNKNOWN,
     networks: {
       lappeenranta: {
         icon: 'citybike',
@@ -167,5 +169,9 @@ export default configMerger(walttiConfig, {
     header: {
       showZone: true,
     },
+  },
+  geoJson: {
+    layerConfigUrl:
+      'http://geoserver.joensuu.fi/www/digitransit/pyorailyreitit_lpr.geojson',
   },
 });

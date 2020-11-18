@@ -5,6 +5,8 @@ import CityBikeAvailability from './CityBikeAvailability';
 import CityBikeUse from './CityBikeUse';
 import {
   BIKESTATION_ON,
+  BIKEAVL_UNKNOWN,
+  BIKEAVL_WITHMAX,
   getCityBikeUrl,
   getCityBikeType,
 } from '../util/citybikes';
@@ -13,22 +15,24 @@ import { station as exampleStation, lang as exampleLang } from './ExampleData';
 
 const CityBikeContent = ({ station, lang }, { config }) => (
   <div className="city-bike-container">
-    {station.state !== BIKESTATION_ON ? (
+    {station.state !== BIKESTATION_ON && (
       <p className="sub-header-h4 availability-header">
         <FormattedMessage
           id="citybike_off"
           defaultMessage="Bike station closed"
         />
       </p>
-    ) : (
-      <CityBikeAvailability
-        bikesAvailable={station.bikesAvailable}
-        totalSpaces={station.bikesAvailable + station.spacesAvailable}
-        fewAvailableCount={config.cityBike.fewAvailableCount}
-        type={getCityBikeType(station.networks, config)}
-        useSpacesAvailable={config.cityBike.useSpacesAvailable}
-      />
     )}
+    {station.state === BIKESTATION_ON &&
+      config.cityBike.capacity !== BIKEAVL_UNKNOWN && (
+        <CityBikeAvailability
+          bikesAvailable={station.bikesAvailable}
+          totalSpaces={station.bikesAvailable + station.spacesAvailable}
+          fewAvailableCount={config.cityBike.fewAvailableCount}
+          type={getCityBikeType(station.networks, config)}
+          useSpacesAvailable={config.cityBike.capacity === BIKEAVL_WITHMAX}
+        />
+      )}
     {config.transportModes.citybike.availableForSelection &&
       getCityBikeUrl(station.networks, lang, config) && (
         <CityBikeUse

@@ -9,6 +9,10 @@ export const BIKESTATION_ON = 'Station on';
 export const BIKESTATION_OFF = 'Station off';
 export const BIKESTATION_CLOSED = 'Station closed';
 
+export const BIKEAVL_UNKNOWN = 'No availability';
+export const BIKEAVL_BIKES = 'Bikes on station';
+export const BIKEAVL_WITHMAX = 'Bikes and capacity';
+
 /**
  * CityBikeNetworkType depicts different types of citybike networks.
  */
