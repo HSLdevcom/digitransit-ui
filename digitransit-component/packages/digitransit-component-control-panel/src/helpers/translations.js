@@ -14,7 +14,8 @@ const translations = {
     'title-route-stop-station': 'Haltestellen und Linien in der Nähe',
     'title-origin-to-destination': 'Wohin?',
     'use-own-position': 'Verwende aktuelle Position',
-  },en: {
+  },
+  en: {
     'pick-mode': 'Select a transport mode',
     'pick-mode-airplane': 'Flight',
     'pick-mode-bus': 'Bus',

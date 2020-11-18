@@ -16,7 +16,9 @@ import dateTimeInputIsSupported from './dateTimeInputIsSupported';
 moment.tz.setDefault('Europe/Helsinki');
 moment.locale('en');
 i18next.init({ lng: 'en', resources: {} });
-Object.keys(translations).forEach(lang => i18next.addResourceBundle(lang, 'translation', translations[lang]));
+Object.keys(translations).forEach(lang =>
+  i18next.addResourceBundle(lang, 'translation', translations[lang]),
+);
 
 /**
  * This component renders combobox style inputs for selecting date and time. This is a controlled component, timestamp is the current value of both inputs.
