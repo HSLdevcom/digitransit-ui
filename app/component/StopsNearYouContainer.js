@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { createRefetchContainer, graphql } from 'react-relay';
+import { createPaginationContainer, graphql } from 'react-relay';
 import { intlShape, FormattedMessage } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { matchShape } from 'found';
@@ -15,7 +15,10 @@ class StopsNearYouContainer extends React.Component {
     stopPatterns: PropTypes.any,
     currentTime: PropTypes.number.isRequired,
     relay: PropTypes.shape({
-      refetch: PropTypes.func.isRequired,
+      refetchConnection: PropTypes.func.isRequired,
+      hasMore: PropTypes.func.isRequired,
+      isLoading: PropTypes.func.isRequired,
+      loadMore: PropTypes.func.isRequired,
     }).isRequired,
     favouriteIds: PropTypes.object.isRequired,
     match: matchShape.isRequired,
@@ -39,69 +42,73 @@ class StopsNearYouContainer extends React.Component {
     this.state = {
       stopCount: 5,
       currentPosition: props.position,
+      fetchMoreStops: false,
     };
   }
 
   static getDerivedStateFromProps = (nextProps, prevState) => {
+    let newState = null;
     if (
       !prevState.currentPosition ||
       (!prevState.currentPosition.address &&
         nextProps.position &&
         nextProps.position.address)
     ) {
-      return {
+      newState = {
+        ...newState,
         currentPosition: nextProps.position,
       };
     }
-    return null;
+    if (
+      nextProps.stopPatterns.nearest.edges.every(stop => {
+        return stop.node.place.stoptimesWithoutPatterns.length === 0;
+      })
+    ) {
+      newState = {
+        ...newState,
+        fetchMoreStops: true,
+      };
+    }
+    return newState;
   };
 
   componentDidUpdate({ relay, currentTime, position }) {
     const currUnix = this.props.currentTime;
     if (currUnix !== currentTime) {
-      relay.refetch(oldVariables => {
-        return {
-          ...oldVariables,
-          lat: this.props.position.lat,
-          lon: this.props.position.lon,
-          startTime: currentTime,
-          first: this.state.stopCount,
-          maxResults: this.state.stopCount,
-        };
-      });
+      const variables = {
+        startTime: currentTime,
+      };
+      relay.refetchConnection(this.state.stopCount, () => {}, variables);
     }
     if (position && this.state.currentPosition) {
       if (position.address !== this.props.position.address) {
         this.updatePosition();
       }
     }
+    if (this.state.fetchMoreStops) {
+      this.showMore();
+    }
   }
 
   updatePosition = () => {
-    this.props.relay.refetch(oldVariables => {
-      return {
-        ...oldVariables,
-        lat: this.props.position.lat,
-        lon: this.props.position.lon,
-        startTime: this.props.currentTime,
-        first: this.state.stopCount,
-        maxResults: this.state.stopCount,
-      };
-    });
+    const variables = {
+      lat: this.props.position.lat,
+      lon: this.props.position.lon,
+      startTime: this.props.currentTime,
+    };
+    this.props.relay.refetchConnection(
+      this.state.stopCount,
+      () => {},
+      variables,
+    );
   };
 
   showMore = () => {
+    if (!this.props.relay.hasMore() || this.props.relay.isLoading()) {
+      return;
+    }
     this.state.stopCount += 5;
-    this.props.relay.refetch(oldVariables => {
-      return {
-        ...oldVariables,
-        lat: this.props.position.lat,
-        lon: this.props.position.lon,
-        startTime: this.props.currentTime,
-        first: this.state.stopCount,
-        maxResults: this.state.stopCount,
-      };
-    });
+    this.props.relay.loadMore(5, () => {});
   };
 
   createNearbyStops = () => {
@@ -209,7 +216,7 @@ const connectedContainer = connectToStores(
   },
 );
 
-const refetchContainer = createRefetchContainer(
+const refetchContainer = createPaginationContainer(
   connectedContainer,
   {
     stopPatterns: graphql`
@@ -222,6 +229,7 @@ const refetchContainer = createRefetchContainer(
         filterByPlaceTypes: { type: "[FilterPlaceType]", defaultValue: null }
         filterByModes: { type: "[Mode]", defaultValue: null }
         first: { type: "Int!", defaultValue: 5 }
+        after: { type: "String" }
         maxResults: { type: "Int" }
         maxDistance: { type: "Int" }
       ) {
@@ -231,9 +239,10 @@ const refetchContainer = createRefetchContainer(
           filterByPlaceTypes: $filterByPlaceTypes
           filterByModes: $filterByModes
           first: $first
+          after: $after
           maxResults: $maxResults
           maxDistance: $maxDistance
-        ) {
+        ) @connection(key: "StopsNearYouContainer_nearest") {
           edges {
             node {
               distance
@@ -330,34 +339,55 @@ const refetchContainer = createRefetchContainer(
       }
     `,
   },
-  graphql`
-    query StopsNearYouContainerRefetchQuery(
-      $lat: Float!
-      $lon: Float!
-      $filterByPlaceTypes: [FilterPlaceType]
-      $filterByModes: [Mode]
-      $first: Int!
-      $maxResults: Int!
-      $maxDistance: Int!
-      $startTime: Long!
-      $omitNonPickups: Boolean!
-    ) {
-      viewer {
-        ...StopsNearYouContainer_stopPatterns
-        @arguments(
-          startTime: $startTime
-          omitNonPickups: $omitNonPickups
-          lat: $lat
-          lon: $lon
-          filterByPlaceTypes: $filterByPlaceTypes
-          filterByModes: $filterByModes
-          first: $first
-          maxResults: $maxResults
-          maxDistance: $maxDistance
-        )
+  {
+    direction: 'forward',
+    getConnectionFromProps(props) {
+      return props.stopPatterns && props.stopPatterns.nearest;
+    },
+    getFragmentVariables(prevVars, totalCount) {
+      return {
+        ...prevVars,
+        first: totalCount,
+      };
+    },
+    getVariables(props, pagevars, fragmentVariables) {
+      return {
+        ...fragmentVariables,
+        first: pagevars.count,
+        after: pagevars.cursor,
+      };
+    },
+    query: graphql`
+      query StopsNearYouContainerRefetchQuery(
+        $lat: Float!
+        $lon: Float!
+        $filterByPlaceTypes: [FilterPlaceType]
+        $filterByModes: [Mode]
+        $first: Int!
+        $after: String
+        $maxResults: Int!
+        $maxDistance: Int!
+        $startTime: Long!
+        $omitNonPickups: Boolean!
+      ) {
+        viewer {
+          ...StopsNearYouContainer_stopPatterns
+          @arguments(
+            startTime: $startTime
+            omitNonPickups: $omitNonPickups
+            lat: $lat
+            lon: $lon
+            filterByPlaceTypes: $filterByPlaceTypes
+            filterByModes: $filterByModes
+            first: $first
+            after: $after
+            maxResults: $maxResults
+            maxDistance: $maxDistance
+          )
+        }
       }
-    }
-  `,
+    `,
+  },
 );
 
 export { refetchContainer as default, StopsNearYouContainer as Component };
