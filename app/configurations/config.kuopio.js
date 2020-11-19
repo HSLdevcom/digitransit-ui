@@ -195,6 +195,18 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
+  geoJson: {
+    layers: [
+      {
+        name: {
+          fi: 'Vyöhykkeet',
+          sv: 'Zoner',
+          en: 'Zones',
+        },
+        url: '/assets/geojson/kuopio_zone_lines_20201119.geojson',
+      },
+    ],
+  },
   zoneIdMapping: {
     1: 'A',
     2: 'B',
