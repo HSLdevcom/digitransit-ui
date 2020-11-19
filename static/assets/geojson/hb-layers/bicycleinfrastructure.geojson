@@ -1,0 +1,799 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Bicycle repair station",
+        "name_de": "Fahrradreparaturstation",
+        "name": "Fahrradreparaturstation",
+        "popupContent": "\u00d6ffnungszeiten: 24/7",
+        "popupContent_de": "\u00d6ffnungszeiten: 24/7",
+        "popupContent_en": "Opening hours: 24/7",
+        "id": "Fahrradreparaturstation_0",
+        "icon": {
+          "id": "bikeRepIcon",
+          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"Ebene_1\" data-name=\"Ebene 1\" viewBox=\"0 0 32.53 32.54\">  <defs>    <style>      .cls-2{fill:#fff}    </style>  </defs>  <path fill=\"#000001\" d=\"M313.29 384.05A16.27 16.27 0 11297 367.78a16.27 16.27 0 0116.26 16.27\" transform=\"translate(-280.76 -367.78)\"/>  <path d=\"M299.66 384.6a1.43 1.43 0 01-1.05-.44 1.35 1.35 0 01-.46-1 1.56 1.56 0 011.51-1.51 1.42 1.42 0 011 .45 1.51 1.51 0 01.44 1.06 1.5 1.5 0 01-1.48 1.47zm-7.87 4.89a3.55 3.55 0 012.65 1.09 3.62 3.62 0 011.07 2.67 3.66 3.66 0 01-3.72 3.72 3.65 3.65 0 01-2.67-1.07 3.55 3.55 0 01-1.09-2.65 3.72 3.72 0 013.76-3.76zm0 6.36a2.59 2.59 0 002.6-2.6 2.53 2.53 0 00-.76-1.86 2.45 2.45 0 00-1.84-.78 2.66 2.66 0 00-2.64 2.64 2.46 2.46 0 00.78 1.84 2.53 2.53 0 001.86.76zm4.32-7.49l1.65 1.73v4.63h-1.47V391l-2.43-2.11a1.18 1.18 0 01-.42-1.05 1.45 1.45 0 01.42-1.06l2.11-2.11a1.19 1.19 0 011.06-.42 1.86 1.86 0 011.19.42l1.44 1.45a3.68 3.68 0 002.67 1.12v1.51a5.18 5.18 0 01-3.79-1.58l-.6-.6zm6.15 1.13a3.72 3.72 0 013.76 3.76 3.55 3.55 0 01-1.09 2.65 3.62 3.62 0 01-2.67 1.07 3.66 3.66 0 01-3.72-3.72 3.62 3.62 0 011.07-2.67 3.55 3.55 0 012.65-1.09zm0 6.36a2.53 2.53 0 001.86-.76 2.46 2.46 0 00.78-1.84 2.66 2.66 0 00-2.64-2.64 2.46 2.46 0 00-1.84.78 2.53 2.53 0 00-.76 1.86 2.59 2.59 0 002.6 2.6zM304 374.92a.38.38 0 01.38.14.65.65 0 01.15.48v1.86a.51.51 0 01-.57.58h-7.4a3.46 3.46 0 01-1.34 1.58 3.67 3.67 0 01-2.07.61 3.79 3.79 0 01-2.22-.69 3.33 3.33 0 01-1.33-1.79h3.55v-2.44h-3.55a3.8 3.8 0 013.54-2.48 3.76 3.76 0 012.08.61 3.46 3.46 0 011.34 1.58z\" class=\"cls-2\" transform=\"translate(-280.76 -367.78)\"/></svg>"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.9075555,
+          48.5805547
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Bicycle repair station",
+        "name_de": "Fahrradreparaturstation",
+        "name": "Fahrradreparaturstation",
+        "popupContent": "\u00d6ffnungszeiten: 24/7",
+        "popupContent_de": "\u00d6ffnungszeiten: 24/7",
+        "popupContent_en": "Opening hours: 24/7",
+        "id": "Fahrradreparaturstation_1",
+        "icon": {
+          "id": "bikeRepIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8813194,
+          48.5708326
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Bicycle repair station",
+        "name_de": "Fahrradreparaturstation",
+        "name": "Fahrradreparaturstation",
+        "popupContent": "\u00d6ffnungszeiten: 24/7",
+        "popupContent_de": "\u00d6ffnungszeiten: 24/7",
+        "popupContent_en": "Opening hours: 24/7",
+        "id": "Fahrradreparaturstation_2",
+        "icon": {
+          "id": "bikeRepIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.9037692,
+          48.6016755
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Bicycle repair station",
+        "name_de": "Fahrradreparaturstation",
+        "name": "Fahrradreparaturstation",
+        "popupContent": "\u00d6ffnungszeiten: 24/7",
+        "popupContent_de": "\u00d6ffnungszeiten: 24/7",
+        "popupContent_en": "Opening hours: 24/7",
+        "id": "Fahrradreparaturstation_3",
+        "icon": {
+          "id": "bikeRepIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8776164,
+          48.5876387
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Bicycle repair station",
+        "name_de": "Fahrradreparaturstation",
+        "name": "Fahrradreparaturstation",
+        "popupContent": "\u00d6ffnungszeiten: 24/7",
+        "popupContent_de": "\u00d6ffnungszeiten: 24/7",
+        "popupContent_en": "Opening hours: 24/7",
+        "id": "Fahrradreparaturstation_4",
+        "icon": {
+          "id": "bikeRepIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.9225379,
+          48.5766107
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Bicycle repair station",
+        "name_de": "Fahrradreparaturstation",
+        "name": "Fahrradreparaturstation",
+        "popupContent": "\u00d6ffnungszeiten: 24/7",
+        "popupContent_de": "\u00d6ffnungszeiten: 24/7",
+        "popupContent_en": "Opening hours: 24/7",
+        "id": "Fahrradreparaturstation_5",
+        "icon": {
+          "id": "bikeRepIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8350367,
+          48.6242214
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Bicycle repair station",
+        "name_de": "Fahrradreparaturstation",
+        "name": "Fahrradreparaturstation",
+        "popupContent": "\u00d6ffnungszeiten: 24/7",
+        "popupContent_de": "\u00d6ffnungszeiten: 24/7",
+        "popupContent_en": "Opening hours: 24/7",
+        "id": "Fahrradreparaturstation_6",
+        "icon": {
+          "id": "bikeRepIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8429434,
+          48.610609
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Bicycle repair station",
+        "name_de": "Fahrradreparaturstation",
+        "name": "Fahrradreparaturstation",
+        "popupContent": "\u00d6ffnungszeiten: 24/7",
+        "popupContent_de": "\u00d6ffnungszeiten: 24/7",
+        "popupContent_en": "Opening hours: 24/7",
+        "id": "Fahrradreparaturstation_7",
+        "icon": {
+          "id": "bikeRepIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8592143,
+          48.6073791
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Bicycle repair station",
+        "name_de": "Fahrradreparaturstation",
+        "name": "Fahrradreparaturstation",
+        "popupContent": "Geb\u00fchrenpflichtig: nein, \u00d6ffnungszeiten: 24/7",
+        "popupContent_de": "Geb\u00fchrenpflichtig: nein, \u00d6ffnungszeiten: 24/7",
+        "popupContent_en": "Fee: no, Opening hours: 24/7",
+        "id": "Fahrradreparaturstation_8",
+        "icon": {
+          "id": "bikeRepIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8394136,
+          48.5830068
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Fahrrad Kaiser",
+        "name_en": "Fahrrad Kaiser",
+        "name_de": "Fahrrad Kaiser",
+        "popupContent": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; Sa 09:00-16:00;Telefon: +49 7031 43589 0, Barrierefrei: begrenzt",
+        "popupContent_de": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; Sa 09:00-16:00;Telefon: +49 7031 43589 0, Barrierefrei: begrenzt",
+        "popupContent_en": "Opening hours: Mo-Fr 10:00-19:00; Sa 09:00-16:00;Phone: +49 7031 43589 0, Wheelchair: limited",
+        "id": "Fahrradgesch\u00e4ft_0",
+        "icon": {
+          "id": "bikeShopIcon",
+          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" data-name=\"Ebene 1\" viewBox=\"0 0 32.53 32.53\">  <path fill=\"#000001\" d=\"M32.53 16.27A16.27 16.27 0 1116.24 0 16.26 16.26 0 0132.5 16.27\"/>  <text fill=\"#fff\" font-family=\"Interstate-Bold\" font-size=\"7.1\" font-weight=\"700\" transform=\"translate(6.63 11.52)\">    SHOP  </text>  <path fill=\"#fff\" d=\"M18.9 16.66a1.47 1.47 0 01-1.05-.44 1.38 1.38 0 01-.46-1 1.57 1.57 0 011.51-1.51 1.39 1.39 0 011 .46 1.47 1.47 0 01.44 1 1.43 1.43 0 01-.44 1 1.45 1.45 0 01-1 .49zm-7.87 4.88a3.59 3.59 0 012.65 1.09 3.65 3.65 0 011.07 2.67 3.66 3.66 0 01-3.72 3.73 3.69 3.69 0 01-2.67-1.07 3.57 3.57 0 01-1.09-2.66 3.63 3.63 0 011.09-2.67 3.67 3.67 0 012.67-1.09zm0 6.36a2.58 2.58 0 002.6-2.6 2.56 2.56 0 00-.76-1.86 2.44 2.44 0 00-1.84-.77 2.5 2.5 0 00-1.86.77 2.54 2.54 0 00-.78 1.86 2.49 2.49 0 00.78 1.85 2.56 2.56 0 001.86.75zm4.32-7.48L17 22.14v4.64h-1.47v-3.73l-2.43-2.1a1.19 1.19 0 01-.42-1.06 1.42 1.42 0 01.42-1.05l2.11-2.11a1.19 1.19 0 011.06-.42 1.86 1.86 0 011.19.42l1.44 1.44a3.64 3.64 0 002.67 1.12v1.51a5.14 5.14 0 01-3.79-1.58l-.6-.59zm6.15 1.12a3.72 3.72 0 013.76 3.76 3.57 3.57 0 01-1.09 2.66 3.66 3.66 0 01-2.67 1.07 3.66 3.66 0 01-3.72-3.73 3.65 3.65 0 011.07-2.67 3.59 3.59 0 012.65-1.09zm0 6.36a2.56 2.56 0 001.86-.75 2.49 2.49 0 00.78-1.85 2.54 2.54 0 00-.78-1.86 2.5 2.5 0 00-1.86-.77 2.45 2.45 0 00-1.84.77 2.56 2.56 0 00-.76 1.86 2.58 2.58 0 002.6 2.6z\"/></svg>"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.9753788,
+          48.6790423
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Radzentrum Nagold",
+        "name_en": "Radzentrum Nagold",
+        "name_de": "Radzentrum Nagold",
+        "popupContent": "\u00d6ffnungszeiten: Mo 13:00-18:30;Di-Fr 09:30-18:30;Sa 09:00-16:00, Barrierefrei: ja",
+        "popupContent_de": "\u00d6ffnungszeiten: Mo 13:00-18:30;Di-Fr 09:30-18:30;Sa 09:00-16:00, Barrierefrei: ja",
+        "popupContent_en": "Opening hours: Mo 13:00-18:30;Tu-Fr 09:30-18:30;Sa 09:00-16:00, Wheelchair: yes",
+        "id": "Fahrradgesch\u00e4ft_1",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.7273707,
+          48.5481846
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Radsport Kimmerle",
+        "name_en": "Radsport Kimmerle",
+        "name_de": "Radsport Kimmerle",
+        "popupContent": "\u00d6ffnungszeiten: Mo-Fr 09:00-12:30;Mo-Di,Do-Fr 15:00-17:30;Sa 09:00-13:00, Barrierefrei: nein",
+        "popupContent_de": "\u00d6ffnungszeiten: Mo-Fr 09:00-12:30;Mo-Di,Do-Fr 15:00-17:30;Sa 09:00-13:00, Barrierefrei: nein",
+        "popupContent_en": "Opening hours: Mo-Fr 09:00-12:30;Mo-Tu,Th-Fr 15:00-17:30;Sa 09:00-13:00, Wheelchair: no",
+        "id": "Fahrradgesch\u00e4ft_2",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.9063887,
+          48.6415201
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Doctor Cycle",
+        "name_en": "Doctor Cycle",
+        "name_de": "Doctor Cycle",
+        "popupContent": "",
+        "popupContent_de": "",
+        "popupContent_en": "",
+        "id": "Fahrradgesch\u00e4ft_3",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.5407599,
+          48.7219921
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Holczer Radsport Specialized concept store",
+        "name_en": "Holczer Radsport Specialized concept store",
+        "name_de": "Holczer Radsport Specialized concept store",
+        "popupContent": "Barrierefrei: ja",
+        "popupContent_de": "Barrierefrei: ja",
+        "popupContent_en": "Wheelchair: yes",
+        "id": "Fahrradgesch\u00e4ft_4",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8806763,
+          48.5761582
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "bikeshop2000",
+        "name_en": "bikeshop2000",
+        "name_de": "bikeshop2000",
+        "popupContent": "\u00d6ffnungszeiten: Di-Fr 14:00-18:00; Sa 10:00-14:00;",
+        "popupContent_de": "\u00d6ffnungszeiten: Di-Fr 14:00-18:00; Sa 10:00-14:00;",
+        "popupContent_en": "Opening hours: Tu-Fr 14:00-18:00; Sa 10:00-14:00;",
+        "id": "Fahrradgesch\u00e4ft_5",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.9187053,
+          48.7138691
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Radhof Schill",
+        "name_en": "Radhof Schill",
+        "name_de": "Radhof Schill",
+        "popupContent": "\u00d6ffnungszeiten: Mo-Di,Do-Fr 09:00-12:30,14:00-18:30; Mi 09:00-12:30; Sa 09:00-13:00, Telefon: +49 7032 82728, Barrierefrei: begrenzt",
+        "popupContent_de": "\u00d6ffnungszeiten: Mo-Di,Do-Fr 09:00-12:30,14:00-18:30; Mi 09:00-12:30; Sa 09:00-13:00, Telefon: +49 7032 82728, Barrierefrei: begrenzt",
+        "popupContent_en": "Opening hours: Mo-Tu,Th-Fr 09:00-12:30,14:00-18:30; We 09:00-12:30; Sa 09:00-13:00, Phone: +49 7032 82728, Wheelchair: limited",
+        "id": "Fahrradgesch\u00e4ft_6",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8949821,
+          48.6320993
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Radhaus",
+        "name_en": "Radhaus",
+        "name_de": "Radhaus",
+        "popupContent": "Barrierefrei: nein",
+        "popupContent_de": "Barrierefrei: nein",
+        "popupContent_en": "Wheelchair: no",
+        "id": "Fahrradgesch\u00e4ft_7",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8694057,
+          48.6011103
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Dirty Stuff - Downhill, Freeride, Enduro, Dirt/Street",
+        "name_en": "Dirty Stuff - Downhill, Freeride, Enduro, Dirt/Street",
+        "name_de": "Dirty Stuff - Downhill, Freeride, Enduro, Dirt/Street",
+        "popupContent": "Telefon: +49 1515 6944213",
+        "popupContent_de": "Telefon: +49 1515 6944213",
+        "popupContent_en": "Phone: +49 1515 6944213",
+        "id": "Fahrradgesch\u00e4ft_8",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8202057,
+          48.6967208
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Radsport Holczer",
+        "name_en": "Radsport Holczer",
+        "name_de": "Radsport Holczer",
+        "popupContent": "\u00d6ffnungszeiten: Mo-Di,Fr 09:00-18:30; Do 09:00-20:00; Sa 09:00-14:00, Barrierefrei: ja",
+        "popupContent_de": "\u00d6ffnungszeiten: Mo-Di,Fr 09:00-18:30; Do 09:00-20:00; Sa 09:00-14:00, Barrierefrei: ja",
+        "popupContent_en": "Opening hours: Mo-Tu,Fr 09:00-18:30; Th 09:00-20:00; Sa 09:00-14:00, Wheelchair: yes",
+        "id": "Fahrradgesch\u00e4ft_9",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8648539,
+          48.5893128
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Sportivo",
+        "name_en": "Sportivo",
+        "name_de": "Sportivo",
+        "popupContent": "\u00d6ffnungszeiten: Mo-Fr 12:00-19:00; Sa 10:00-18:00, Barrierefrei: ja",
+        "popupContent_de": "\u00d6ffnungszeiten: Mo-Fr 12:00-19:00; Sa 10:00-18:00, Barrierefrei: ja",
+        "popupContent_en": "Opening hours: Mo-Fr 12:00-19:00; Sa 10:00-18:00, Wheelchair: yes",
+        "id": "Fahrradgesch\u00e4ft_10",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.0342345,
+          48.7061365
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Bicycle shop",
+        "name_de": "Fahrradgesch\u00e4ft",
+        "name": "Fahrradgesch\u00e4ft",
+        "popupContent": "Barrierefrei: begrenzt",
+        "popupContent_de": "Barrierefrei: begrenzt",
+        "popupContent_en": "Wheelchair: limited",
+        "id": "Fahrradgesch\u00e4ft_11",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8228715,
+          48.5528668
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "D\u00fcll",
+        "name_en": "D\u00fcll",
+        "name_de": "D\u00fcll",
+        "popupContent": "Barrierefrei: ja",
+        "popupContent_de": "Barrierefrei: ja",
+        "popupContent_en": "Wheelchair: yes",
+        "id": "Fahrradgesch\u00e4ft_12",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.0123814,
+          48.6364793
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Zweirad Ohngemach",
+        "name_en": "Zweirad Ohngemach",
+        "name_de": "Zweirad Ohngemach",
+        "popupContent": "",
+        "popupContent_de": "",
+        "popupContent_en": "",
+        "id": "Fahrradgesch\u00e4ft_13",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.721794,
+          48.7133973
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "HAICO",
+        "name_en": "HAICO",
+        "name_de": "HAICO",
+        "popupContent": "Telefon: +49 7073 852520, \u00d6ffnungszeiten: Mo-Di 17:00-20:00, Do-Fr 17:00-20:00, Sa 10:00-14:00;Barrierefrei: nein",
+        "popupContent_de": "Telefon: +49 7073 852520, \u00d6ffnungszeiten: Mo-Di 17:00-20:00, Do-Fr 17:00-20:00, Sa 10:00-14:00;Barrierefrei: nein",
+        "popupContent_en": "Phone: +49 7073 852520, Opening hours: Mo-Tu 17:00-20:00, Th-Fr 17:00-20:00, Sa 10:00-14:00;Wheelchair: no",
+        "id": "Fahrradgesch\u00e4ft_14",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.9664704,
+          48.551309
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bruderhausdiakonie T\u00fcbingen Werkst\u00e4tten Radstall",
+        "name_en": "Bruderhausdiakonie T\u00fcbingen Werkst\u00e4tten Radstall",
+        "name_de": "Bruderhausdiakonie T\u00fcbingen Werkst\u00e4tten Radstall",
+        "popupContent": "Barrierefrei: ja",
+        "popupContent_de": "Barrierefrei: ja",
+        "popupContent_en": "Wheelchair: yes",
+        "id": "Fahrradgesch\u00e4ft_15",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.0332409,
+          48.5214005
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bikemaster - Richies Radsportgesch\u00e4ft",
+        "name_en": "Bikemaster - Richies Radsportgesch\u00e4ft",
+        "name_de": "Bikemaster - Richies Radsportgesch\u00e4ft",
+        "popupContent": "Barrierefrei: nein",
+        "popupContent_de": "Barrierefrei: nein",
+        "popupContent_en": "Wheelchair: no",
+        "id": "Fahrradgesch\u00e4ft_16",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.7237611,
+          48.5500334
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Weigl GmbH Zweiradzentrale",
+        "name_en": "Weigl GmbH Zweiradzentrale",
+        "name_de": "Weigl GmbH Zweiradzentrale",
+        "popupContent": "\u00d6ffnungszeiten: Mo-Sa 08:30-13:00; Mo 14:00-18:30, Di 14:00-18:30, Do 14:00-18:30, Fr 14:00-18:30, Telefon: +49 7031 700922",
+        "popupContent_de": "\u00d6ffnungszeiten: Mo-Sa 08:30-13:00; Mo 14:00-18:30, Di 14:00-18:30, Do 14:00-18:30, Fr 14:00-18:30, Telefon: +49 7031 700922",
+        "popupContent_en": "Opening hours: Mo-Sa 08:30-13:00; Mo 14:00-18:30, Tu 14:00-18:30, Th 14:00-18:30, Fr 14:00-18:30, Phone: +49 7031 700922",
+        "id": "Fahrradgesch\u00e4ft_17",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.9970392,
+          48.7136436
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "ZEG Pfrommer",
+        "name_en": "ZEG Pfrommer",
+        "name_de": "ZEG Pfrommer",
+        "popupContent": "Barrierefrei: ja",
+        "popupContent_de": "Barrierefrei: ja",
+        "popupContent_en": "Wheelchair: yes",
+        "id": "Fahrradgesch\u00e4ft_18",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.7147957,
+          48.7167796
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Die RADgeber",
+        "name_en": "Die RADgeber",
+        "name_de": "Die RADgeber",
+        "popupContent": "Telefon: +49 7034 652345, \u00d6ffnungszeiten: Mo-Fr 09:00-12:30,14:30-18:30; Mi 09:00-12:30; Sa 09:00-13:00;Barrierefrei: ja",
+        "popupContent_de": "Telefon: +49 7034 652345, \u00d6ffnungszeiten: Mo-Fr 09:00-12:30,14:30-18:30; Mi 09:00-12:30; Sa 09:00-13:00;Barrierefrei: ja",
+        "popupContent_en": "Phone: +49 7034 652345, Opening hours: Mo-Fr 09:00-12:30,14:30-18:30; We 09:00-12:30; Sa 09:00-13:00;Wheelchair: yes",
+        "id": "Fahrradgesch\u00e4ft_19",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.9422257,
+          48.6601434
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Bicycle shop",
+        "name_de": "Fahrradgesch\u00e4ft",
+        "name": "Fahrradgesch\u00e4ft",
+        "popupContent": "Barrierefrei: nein",
+        "popupContent_de": "Barrierefrei: nein",
+        "popupContent_en": "Wheelchair: no",
+        "id": "Fahrradgesch\u00e4ft_20",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.7957385,
+          48.7235997
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Landhandel Thomas",
+        "name_en": "Landhandel Thomas",
+        "name_de": "Landhandel Thomas",
+        "popupContent": "",
+        "popupContent_de": "",
+        "popupContent_en": "",
+        "id": "Fahrradgesch\u00e4ft_21",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.702761,
+          48.6657751
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Sportshop Haiterbach",
+        "name_en": "Sportshop Haiterbach",
+        "name_de": "Sportshop Haiterbach",
+        "popupContent": "Telefon: +49 7456 915312, Barrierefrei: nein",
+        "popupContent_de": "Telefon: +49 7456 915312, Barrierefrei: nein",
+        "popupContent_en": "Phone: +49 7456 915312, Wheelchair: no",
+        "id": "Fahrradgesch\u00e4ft_22",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.650701,
+          48.5248381
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Radwelt Ehningen",
+        "name_en": "Radwelt Ehningen",
+        "name_de": "Radwelt Ehningen",
+        "popupContent": "\u00d6ffnungszeiten: Mo-Fr 16:00-18:00; Sa 10:00-12:00;Barrierefrei: ja",
+        "popupContent_de": "\u00d6ffnungszeiten: Mo-Fr 16:00-18:00; Sa 10:00-12:00;Barrierefrei: ja",
+        "popupContent_en": "Opening hours: Mo-Fr 16:00-18:00; Sa 10:00-12:00;Wheelchair: yes",
+        "id": "Fahrradgesch\u00e4ft_23",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.9398114,
+          48.6593066
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bikemax",
+        "name_en": "Bikemax",
+        "name_de": "Bikemax",
+        "popupContent": "\u00d6ffnungszeiten: Mo-Sa 10:00-18:00, Barrierefrei: nein",
+        "popupContent_de": "\u00d6ffnungszeiten: Mo-Sa 10:00-18:00, Barrierefrei: nein",
+        "popupContent_en": "Opening hours: Mo-Sa 10:00-18:00, Wheelchair: no",
+        "id": "Fahrradgesch\u00e4ft_24",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.0040911,
+          48.7023148
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Radlager",
+        "name_en": "Radlager",
+        "name_de": "Radlager",
+        "popupContent": "Telefon: +49 7032 795792, \u00d6ffnungszeiten: Mo-Di 09:15-12:30, 14:30-18:30; Do-Fr 09:15-12:30, 14:30-18:30; Sa 09:15-13:00, Barrierefrei: begrenzt",
+        "popupContent_de": "Telefon: +49 7032 795792, \u00d6ffnungszeiten: Mo-Di 09:15-12:30, 14:30-18:30; Do-Fr 09:15-12:30, 14:30-18:30; Sa 09:15-13:00, Barrierefrei: begrenzt",
+        "popupContent_en": "Phone: +49 7032 795792, Opening hours: Mo-Tu 09:15-12:30, 14:30-18:30; Th-Fr 09:15-12:30, 14:30-18:30; Sa 09:15-13:00, Wheelchair: limited",
+        "id": "Fahrradgesch\u00e4ft_25",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8717233,
+          48.5949675
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Ohngemach",
+        "name_en": "Ohngemach",
+        "name_de": "Ohngemach",
+        "popupContent": "",
+        "popupContent_de": "",
+        "popupContent_en": "",
+        "id": "Fahrradgesch\u00e4ft_26",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.7212214,
+          48.7139107
+        ]
+      }
+    }
+  ]
+}
