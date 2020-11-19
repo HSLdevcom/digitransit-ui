@@ -107,8 +107,13 @@ class StopsNearYouContainer extends React.Component {
     if (!this.props.relay.hasMore() || this.props.relay.isLoading()) {
       return;
     }
-    this.state.stopCount += 5;
-    this.props.relay.loadMore(5, () => {});
+
+    this.props.relay.loadMore(5, () => {
+      this.setState(previousState => ({
+        stopCount: previousState.stopCount + 5,
+        fetchMoreStops: false,
+      }));
+    });
   };
 
   createNearbyStops = () => {
