@@ -788,6 +788,7 @@ export default {
 
   showNearYouButtons: false,
   nearYouModes: [],
+  showStopAndRouteSearch: true,
 
   zoneIconsAsSvg: false,
 };

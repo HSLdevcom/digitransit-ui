@@ -234,28 +234,34 @@ class IndexPage extends React.Component {
                 />
               </div>
             ) : (
-              <div className="stops-near-you-text">
-                <h2>
-                  {' '}
-                  {intl.formatMessage({
-                    id: 'stop-near-you-title',
-                    defaultMessage: 'Stops and lines near you',
-                  })}
-                </h2>
-              </div>
+              config.showStopAndRouteSearch && (
+                <div className="stops-near-you-text">
+                  <h2>
+                    {' '}
+                    {intl.formatMessage({
+                      id: 'stop-near-you-title',
+                      defaultMessage: 'Stops and lines near you',
+                    })}
+                  </h2>
+                </div>
+              )
             )}
-            <DTAutoSuggestWithSearchContext
-              appElement="#app"
-              icon="search"
-              id="stop-route-station"
-              refPoint={origin}
-              className="destination"
-              placeholder="stop-near-you"
-              value=""
-              sources={stopAndRouteSearchSources}
-              targets={stopAndRouteSearchTargets}
-            />
-            <CtrlPanel.SeparatorLine />
+            {config.showStopAndRouteSearch && (
+              <>
+                <DTAutoSuggestWithSearchContext
+                  appElement="#app"
+                  icon="search"
+                  id="stop-route-station"
+                  refPoint={origin}
+                  className="destination"
+                  placeholder="stop-near-you"
+                  value=""
+                  sources={stopAndRouteSearchSources}
+                  targets={stopAndRouteSearchTargets}
+                />
+                <CtrlPanel.SeparatorLine />
+              </>
+            )}
             {!trafficNowLink ||
               (trafficNowLink[lang] !== '' && (
                 <TrafficNowLink
@@ -330,29 +336,35 @@ class IndexPage extends React.Component {
                 />
               </div>
             ) : (
-              <div className="stops-near-you-text">
-                <h2>
-                  {' '}
-                  {intl.formatMessage({
-                    id: 'stop-near-you-title',
-                    defaultMessage: 'Stops and lines near you',
-                  })}
-                </h2>
-              </div>
+              config.showStopAndRouteSearch && (
+                <div className="stops-near-you-text">
+                  <h2>
+                    {' '}
+                    {intl.formatMessage({
+                      id: 'stop-near-you-title',
+                      defaultMessage: 'Stops and lines near you',
+                    })}
+                  </h2>
+                </div>
+              )
             )}
-            <DTAutoSuggestWithSearchContext
-              appElement="#app"
-              icon="search"
-              id="stop-route-station"
-              refPoint={origin}
-              className="destination"
-              placeholder="stop-near-you"
-              value=""
-              sources={stopAndRouteSearchSources}
-              targets={stopAndRouteSearchTargets}
-              isMobile
-            />
-            <CtrlPanel.SeparatorLine />
+            {config.showStopAndRouteSearch && (
+              <>
+                <DTAutoSuggestWithSearchContext
+                  appElement="#app"
+                  icon="search"
+                  id="stop-route-station"
+                  refPoint={origin}
+                  className="destination"
+                  placeholder="stop-near-you"
+                  value=""
+                  sources={stopAndRouteSearchSources}
+                  targets={stopAndRouteSearchTargets}
+                  isMobile
+                />
+                <CtrlPanel.SeparatorLine />
+              </>
+            )}
             {!trafficNowLink ||
               (trafficNowLink[lang] !== '' && (
                 <TrafficNowLink
