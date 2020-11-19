@@ -49,12 +49,13 @@ export default configMerger(walttiConfig, {
 
     MATOMO_URL: process.env.MATOMO_URL,
 
-    /* disable the "next" column of the Route panel as it can be confusing ssudo dnf install watchmanometimes: https://github.com/mfdz/digitransit-ui/issues/167 */
+    /* disable the "next" column of the Route panel as it can be confusing sometimes: https://github.com/stadtnavi/digitransit-ui/issues/167 */
     displayNextDeparture: false,
     maxWalkDistance: 15000,
 
+    optimize: "QUICK",
+
     defaultSettings: {
-        optimize: "QUICK",
     },
 
     itinerary: {
