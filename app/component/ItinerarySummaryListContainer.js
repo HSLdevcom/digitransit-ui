@@ -46,7 +46,12 @@ function ItinerarySummaryListContainer(
   const [showCancelled, setShowCancelled] = useState(false);
   const { config } = context;
 
-  if (!error && itineraries && itineraries.length > 0) {
+  if (
+    !error &&
+    itineraries &&
+    itineraries.length > 0 &&
+    !itineraries.includes(undefined)
+  ) {
     const summaries = itineraries.map((itinerary, i) => (
       <SummaryRow
         refTime={searchTime}
