@@ -4,7 +4,7 @@ import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import CarpoolOffer from './CarpoolOffer';
 
-export const CarpoolDrawer = ({ open, onToggleClick, mobile, carLeg }) => {
+const CarpoolDrawer = ({ open, onToggleClick, mobile, carLeg }) => {
   if (open && carLeg) {
     return (
       <div className={`offcanvas${mobile ? '-mobile' : ''}`}>

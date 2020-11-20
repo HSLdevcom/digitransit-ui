@@ -35,7 +35,7 @@ import {
   getStartTime,
   getStartTimeWithColon,
 } from '../util/timeUtils';
-import { planQuery, replaceQueryParams } from '../util/queryUtils';
+import { planQuery } from '../util/queryUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
 import exampleData from './data/SummaryPage.ExampleData';
@@ -64,7 +64,6 @@ import { getCurrentSettings, preparePlanParams } from '../util/planParamUtil';
 import { getTotalBikingDistance } from '../util/legUtils';
 import { userHasChangedModes } from '../util/modeUtils';
 import CarpoolDrawer from './CarpoolDrawer';
-import SelectMapLayersDialog from './SelectMapLayersDialog';
 import { MapMode } from '../constants';
 
 /**
@@ -399,9 +398,9 @@ class SummaryPage extends React.Component {
     newState.pathname = basePath;
     this.context.router.replace(newState);
     newState.pathname = indexPath;
-        if (newStreetMode.includes('bike')) {
-          newState.query.mapMode = MapMode.Bicycle;
-        }
+    if (newStreetMode.includes('bike')) {
+      newState.query.mapMode = MapMode.Bicycle;
+    }
     this.context.router.push(newState);
   };
 
@@ -1343,7 +1342,8 @@ class SummaryPage extends React.Component {
   };
 
   toggleCarpoolDrawer = () => {
-    this.setState({ carpoolOpen: !this.state.carpoolOpen });
+    const { carpoolOpen } = this.state;
+    this.setState({ carpoolOpen: !carpoolOpen });
   };
 
   renderMap() {
@@ -1785,7 +1785,9 @@ class SummaryPage extends React.Component {
     const showStreetModeSelector =
       (showWalkOptionButton ||
         showBikeOptionButton ||
-        showBikeAndPublicOptionButton) &&
+        showBikeAndPublicOptionButton ||
+        showCarOptionButton ||
+        showParkRideOptionButton) &&
       this.props.match.params.hash !== 'bikeAndVehicle';
 
     const hasItineraries =
