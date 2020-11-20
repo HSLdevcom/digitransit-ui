@@ -15,6 +15,7 @@ import { AlertSeverityLevelType, RealtimeStateType } from '../constants';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 import { PREFIX_STOPS } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import IconWithTail from './IconWithTail';
 
 const exampleStop = {
   stopTimesForPattern: [
@@ -51,6 +52,14 @@ class RouteStop extends React.PureComponent {
     distance: PropTypes.number,
     currentTime: PropTypes.number.isRequired,
     last: PropTypes.bool,
+    prevVehicleDeparture: PropTypes.number,
+    patternId: PropTypes.string.isRequired,
+  };
+
+  static defaultProps = {
+    className: '',
+    last: false,
+    prevVehicleDeparture: null,
   };
 
   static description = () => (
@@ -129,9 +138,26 @@ class RouteStop extends React.PureComponent {
       mode,
       stop,
       vehicle,
+      prevVehicleDeparture,
+      patternId,
     } = this.props;
     const patternExists =
       stop.stopTimesForPattern && stop.stopTimesForPattern.length > 0;
+
+    /* If vehicle is null, draw a simple image to indicate the different vehicle. */
+    const vehicleIcon = !vehicle &&
+      prevVehicleDeparture &&
+      patternExists &&
+      prevVehicleDeparture > stop.stopTimesForPattern[0].scheduledDeparture && (
+        <span className="route-now-content">
+          <IconWithTail
+            className={cx(mode, 'tail-icon')}
+            img={`icon-icon_${mode}-live`}
+            rotate={180}
+            vehicleNumber={patternId}
+          />
+        </span>
+      );
 
     let vehicleTripLink;
 
@@ -150,7 +176,10 @@ class RouteStop extends React.PureComponent {
           this.element = el;
         }}
       >
-        <div className="route-stop-now">{vehicleTripLink}</div>
+        <div className="route-stop-now">
+          {vehicleTripLink}
+          {vehicleIcon}
+        </div>
         <div className={cx('route-stop-now_circleline', mode)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
