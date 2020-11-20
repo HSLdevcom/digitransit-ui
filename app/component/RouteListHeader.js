@@ -3,7 +3,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 
-const RouteListHeader = ({ className }) => (
+const RouteListHeader = ({ displayNextDeparture, className }) => (
   <div
     className={cx(
       'route-list-header route-stop row padding-vertical-small',
@@ -19,14 +19,21 @@ const RouteListHeader = ({ className }) => (
     <div className="route-stop-time">
       <FormattedMessage id="leaves" defaultMessage="Leaves" />
     </div>
-    <div className="route-stop-time">
-      <FormattedMessage id="next" defaultMessage="Next" />
-    </div>
+    {displayNextDeparture && (
+      <div className="route-stop-time">
+        <FormattedMessage id="next" defaultMessage="Next" />
+      </div>
+    )}
   </div>
 );
 
 RouteListHeader.propTypes = {
   className: PropTypes.string,
+  displayNextDeparture: PropTypes.bool,
+};
+
+RouteListHeader.defaultProps = {
+  displayNextDeparture: true,
 };
 
 export default RouteListHeader;
