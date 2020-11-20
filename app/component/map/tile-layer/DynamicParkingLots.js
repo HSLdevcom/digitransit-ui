@@ -128,7 +128,7 @@ class DynamicParkingLots {
     }
   };
 
-  static getName = () => 'DynamicParkingLots';
+  static getName = () => 'dynamicParkingLots';
 }
 
 export default DynamicParkingLots;
