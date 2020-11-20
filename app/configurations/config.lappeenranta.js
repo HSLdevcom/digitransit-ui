@@ -172,6 +172,6 @@ export default configMerger(walttiConfig, {
   },
   geoJson: {
     layerConfigUrl:
-      'http://geoserver.joensuu.fi/www/digitransit/pyorailyreitit_lpr.geojson',
+      'https://geoserver.joensuu.fi/www/digitransit/pyorailyreitit_lpr.geojson',
   },
 });

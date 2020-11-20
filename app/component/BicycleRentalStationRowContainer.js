@@ -78,17 +78,17 @@ const BicycleRentalStationRow = ({ distance, station }, { config, intl }) => {
             </span>
           </span>
         )}
-        <span className="city-bike-station-availability">
-          <span className="bikes-available">{station.bikesAvailable}</span>
-          {capacity === BIKEAVL_WITHMAX && (
+        {capacity === BIKEAVL_WITHMAX && (
+          <span className="city-bike-station-availability">
+            <span className="bikes-available">{station.bikesAvailable}</span>
             <React.Fragment>
               /
               <span className="bikes-total">
                 {station.bikesAvailable + station.spacesAvailable}
               </span>
             </React.Fragment>
-          )}
-        </span>
+          </span>
+        )}
         {availabilityIcon}
       </td>
     </tr>

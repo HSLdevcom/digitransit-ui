@@ -508,7 +508,7 @@ export default {
   useTicketIcons: true,
 
   cityBike: {
-    showCityBikes: true,
+    showCityBikes: false,
     capacity: BIKEAVL_BIKES,
     networks: {
       smoove: {
