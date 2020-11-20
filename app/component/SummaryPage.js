@@ -1785,7 +1785,9 @@ class SummaryPage extends React.Component {
     const showStreetModeSelector =
       (showWalkOptionButton ||
         showBikeOptionButton ||
-        showBikeAndPublicOptionButton) &&
+        showBikeAndPublicOptionButton ||
+        showCarOptionButton ||
+        showParkRideOptionButton) &&
       this.props.match.params.hash !== 'bikeAndVehicle';
 
     const hasItineraries =
