@@ -4,6 +4,7 @@ import { setMapLayerSettings, getMapLayerSettings } from './localStorage';
 
 class MapLayerStore extends Store {
   static defaultLayers = {
+    dynamicParkingLots: true,
     parkAndRide: true,
     stop: {
       bus: true,
@@ -61,6 +62,7 @@ class MapLayerStore extends Store {
 export const mapLayerShape = PropTypes.shape({
   citybike: PropTypes.bool,
   parkAndRide: PropTypes.bool,
+  dynamicParkingLots: PropTypes.bool,
   stop: PropTypes.shape({
     bus: PropTypes.bool,
     ferry: PropTypes.bool,

@@ -3,6 +3,7 @@ import React from 'react';
 
 import TileLayerContainer from './TileLayerContainer';
 import CityBikes from './CityBikes';
+import DynamicParkingLots from './DynamicParkingLots';
 import Stops from './Stops';
 import ParkAndRide from './ParkAndRide';
 
@@ -20,6 +21,13 @@ export default function VectorTileLayerContainer(props, { config }) {
       !props.disableParkAndRide
     ) {
       layers.push(ParkAndRide);
+    }
+
+    if (
+      config.dynamicParkingLots &&
+      config.dynamicParkingLots.showDynamicParkingLots
+    ) {
+      layers.push(DynamicParkingLots);
     }
   }
 
