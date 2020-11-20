@@ -203,7 +203,8 @@
     "suncalc": "1.8.0",
     "trim-right": "1.0.1",
     "uuid": "8.3.0",
-    "zurb-foundation-5": "5.4.7"
+    "zurb-foundation-5": "5.4.7",
+    "simple-opening-hours": "mfdz/simple-opening-hours#56577ac7"
   },
   "devDependencies": {
     "@babel/cli": "7.11.5",
