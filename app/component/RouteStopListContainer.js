@@ -14,6 +14,7 @@ import withBreakpoint from '../util/withBreakpoint';
 class RouteStopListContainer extends React.PureComponent {
   static propTypes = {
     pattern: PropTypes.object.isRequired,
+    patternId: PropTypes.string.isRequired,
     className: PropTypes.string,
     vehicles: PropTypes.object,
     position: PropTypes.object.isRequired,
@@ -65,6 +66,8 @@ class RouteStopListContainer extends React.PureComponent {
           nearest.distance <
             this.context.config.nearestStopDistance.maxShownDistance &&
           nearest.stop.gtfsId) === stop.gtfsId;
+      const prevStopPattern =
+        i > 0 ? stops[i - 1].stopTimesForPattern[0] : null;
 
       return (
         <RouteStop
@@ -83,6 +86,10 @@ class RouteStopListContainer extends React.PureComponent {
           last={i === stops.length - 1}
           first={i === 0}
           className={rowClassName}
+          prevVehicleDeparture={
+            prevStopPattern ? prevStopPattern.scheduledDeparture : null
+          }
+          patternId={this.props.patternId.split('-')[1]}
         />
       );
     });
