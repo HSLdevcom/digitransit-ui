@@ -143,6 +143,5 @@ describe('<BicycleRentalStationRow />', () => {
       },
     });
     expect(wrapper.find('.bikes-available').text()).to.equal('2');
-    expect(wrapper.find('.bikes-total')).to.have.lengthOf(0);
   });
 });

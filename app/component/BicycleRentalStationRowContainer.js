@@ -55,7 +55,7 @@ const BicycleRentalStationRow = ({ distance, station }, { config, intl }) => {
         <RouteNumber
           icon={isOff ? `${networkIcon}_off` : networkIcon}
           mode={isOff ? 'citybike_off' : 'citybike'}
-          text={station.stationId}
+          text={station.stationId !== station.name ? station.stationId : ''}
         />
       </td>
       <td className="td-bikestation" colSpan="1">
@@ -78,15 +78,17 @@ const BicycleRentalStationRow = ({ distance, station }, { config, intl }) => {
             </span>
           </span>
         )}
-        {capacity === BIKEAVL_WITHMAX && (
+        {capacity !== BIKEAVL_UNKNOWN && (
           <span className="city-bike-station-availability">
             <span className="bikes-available">{station.bikesAvailable}</span>
-            <React.Fragment>
-              /
-              <span className="bikes-total">
-                {station.bikesAvailable + station.spacesAvailable}
-              </span>
-            </React.Fragment>
+            {capacity === BIKEAVL_WITHMAX && (
+              <React.Fragment>
+                /
+                <span className="bikes-total">
+                  {station.bikesAvailable + station.spacesAvailable}
+                </span>
+              </React.Fragment>
+            )}
           </span>
         )}
         {availabilityIcon}
