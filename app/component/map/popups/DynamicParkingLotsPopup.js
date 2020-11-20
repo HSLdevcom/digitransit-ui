@@ -96,21 +96,15 @@ class DynamicParkingLotsPopup extends React.Component {
 
   render() {
     return (
-      <Card>
-        <div className="padding-normal">
-          <CardHeader
-            name={this.props.feature.properties.name}
-            description={this.getCapacity()}
-            descClass="padding-vertical-small"
-            unlinked
-            className="padding-medium"
-            headingStyle="h2"
-          />
+      <div className="card dynamic-parking-lot-popup">
+        <Card className="card-padding">
+          <h2 className="">{this.props.feature.properties.name}</h2>
+          {this.getCapacity()}
           <div>
             {this.renderOpeningHours()}
             {this.getUrl()}
           </div>
-        </div>
+        </Card>
         <MarkerPopupBottom
           location={{
             address: this.props.feature.properties.name,
@@ -118,7 +112,7 @@ class DynamicParkingLotsPopup extends React.Component {
             lon: this.props.lon,
           }}
         />
-      </Card>
+      </div>
     );
   }
 }
@@ -127,4 +121,4 @@ DynamicParkingLotsPopup.contextTypes = {
   intl: intlShape.isRequired,
 };
 
-export default DynamicParkingLotsPopup
+export default DynamicParkingLotsPopup;

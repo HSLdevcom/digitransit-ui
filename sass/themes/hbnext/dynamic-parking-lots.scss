@@ -1,0 +1,33 @@
+.dynamic-parking-lot-popup {
+
+  h2 {
+    margin: 0 0 8px 0;
+    font-weight: 700;
+  }
+
+  span, div {
+    font-size: 13px;
+  }
+
+  .opening-hours {
+    .currently-open {
+      margin-bottom: 19px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: $padding-medium;
+      font-size: 15px;
+      tr {
+        td:last-child {
+          text-align: right;
+        }
+        span {
+          font-size: 15px;
+          display: block;
+        }
+      }
+    }
+  }
+}

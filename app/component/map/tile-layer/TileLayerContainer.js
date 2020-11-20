@@ -297,28 +297,17 @@ class TileLayerContainer extends GridLayer {
               context={this.context}
             />
           );
+        } else if (
+          this.state.selectableTargets[0].layer === 'dynamicParkingLots'
+        ) {
+          contents = (
+            <DynamicParkingLotsPopup
+              feature={this.state.selectableTargets[0].feature}
+              lat={this.state.coords.lat}
+              lon={this.state.coords.lng}
+            />
+          );
         }
-        popup = (
-          <Popup
-            {...this.PopupOptions}
-            key={id}
-            position={this.state.coords}
-            className={`${this.PopupOptions.className} single-popup`}
-          >
-            {contents}
-          </Popup>
-        );
-      } else if (
-        this.state.selectableTargets[0].layer === 'dynamicParkingLots'
-      ) {
-        const { id } = this.state.selectableTargets[0].feature;
-        contents = (
-          <DynamicParkingLotsPopup
-            feature={this.state.selectableTargets[0].feature}
-            lat={this.state.coords.lat}
-            lon={this.state.coords.lng}
-          />
-        );
         popup = (
           <Popup
             {...this.PopupOptions}
