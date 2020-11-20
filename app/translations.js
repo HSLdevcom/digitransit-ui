@@ -249,6 +249,8 @@ const translations = {
   },
 
   de: {
+    'alert:bikerental:free-floating-drop-off':
+      'Ziel ist keine Rückgabestation. Ausleihe kann hier nicht abgeschlossen werden. Anbieterabhängig fallen weiter Gebühren bis zur Rückgabe an einer Station an.',
     monday: 'Montag',
     tuesday: 'Dienstag',
     wednesday: 'Mittwoch',
@@ -871,6 +873,8 @@ const translations = {
     'add-via-duration-button-label-open':
       'Open stop duration selector at via point {index}',
     'add-work': 'Add work',
+    'alert:bikerental:free-floating-drop-off':
+      'Destination is not a designated drop-off area. Rental cannot be completed here. Please check terms & conditions for additional fees.',
     'aria-itinerary-summary': 'Total journey time {duration} ',
     'aria-itinerary-summary-bike-distance':
       'Total cycling distance {distance} ',
