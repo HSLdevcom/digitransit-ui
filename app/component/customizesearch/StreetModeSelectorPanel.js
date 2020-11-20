@@ -53,14 +53,14 @@ const StreetModeSelectorPanel = (
               />
             </div>
           </div>
+          {currentSettings.includeBikeSuggestions ? (
+            <BikingOptionsSection
+              bikeSpeed={currentSettings.bikeSpeed}
+              defaultSettings={defaultSettings}
+              bikeSpeedOptions={config.defaultOptions.bikeSpeed}
+            />
+          ) : null}
         </div>
-        {currentSettings.includeBikeSuggestions ? (
-          <BikingOptionsSection
-            bikeSpeed={currentSettings.bikeSpeed}
-            defaultSettings={defaultSettings}
-            bikeSpeedOptions={config.defaultOptions.bikeSpeed}
-          />
-        ) : null}
         {config.includeParkAndRideSuggestions && (
           <div key="mode-option-park-and-ride">
             <div className="mode-option-container">
