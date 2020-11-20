@@ -36,6 +36,12 @@ for icon in hsl_icons:
         output_defs.appendChild(icon)
         print(f"{icon_id} exists in {hsl_source_file} but not in {default_source_file}. Adding.")
 
+    if not has_icon(hb_icons, icon_id):
+        output_defs.appendChild(icon)
+        print(f"{icon_id} exists in {hsl_source_file} but not in {hb_source_file}. Adding.")
+
+
+
 for icon in hb_icons:
     output_defs.appendChild(icon)
 
