@@ -28,18 +28,40 @@ default_icons = default_doc.getElementsByTagName("symbol")
 print(f"Found {len(hb_icons)} icons {hb_source_file}")
 print(f"Found {len(hsl_icons)} icons {hsl_source_file}")
 
-output_defs = default_doc.getElementsByTagName("defs")[0]
+output_defs = hb_source.getElementsByTagName("defs")[0]
+print("")
+print(f"Icons that exist in {hb_source_file}")
+print("")
+
+for icon in hb_icons:
+    icon_id = icon.getAttribute("id")
+    print(icon_id)
+
+print("")
+print(f"Icons added from {default_source_file}")
+print("")
+
+for icon in default_icons:
+    icon_id = icon.getAttribute("id")
+
+    if not has_icon(hb_icons, icon_id):
+        output_defs.appendChild(icon)
+        print(icon_id)
+
+print("")
+print(f"Icons added from {hsl_source_file}")
+print("")
 
 for icon in hsl_icons:
     icon_id = icon.getAttribute("id")
-    if not has_icon(default_icons, icon_id):
-        output_defs.appendChild(icon)
-        print(f"{icon_id} exists in {hsl_source_file} but not in {default_source_file}. Adding.")
 
-for icon in hb_icons:
-    output_defs.appendChild(icon)
+    if not has_icon(default_icons, icon_id) and not has_icon(hb_icons, icon_id):
+        output_defs.appendChild(icon)
+        print(icon_id)
+
 
 output_file = open(output_file_name, 'w')
-output_file.write(default_doc.toprettyxml(indent=" ", newl=""))
+output_file.write(hb_source.toprettyxml(indent=" ", newl=""))
 
+print("")
 print(f"Wrote output to {output_file_name}")

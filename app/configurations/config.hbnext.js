@@ -133,16 +133,16 @@ export default configMerger(walttiConfig, {
             taxi: {
                 icon: 'taxi',
                 name: {
-                    de: 'Taxistand',
-                    en: 'taxi stand',
+                    de: 'Taxi',
+                    en: 'Taxi',
                 },
                 type: 'taxi',
             },
             "car-sharing": {
                 icon: 'car-sharing',
                 name: {
-                    de: 'Car-Sharing',
-                    en: 'car sharing',
+                    de: 'Carsharing',
+                    en: 'Car sharing',
                 },
                 type: 'car-sharing',
             },
