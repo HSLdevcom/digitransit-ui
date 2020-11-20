@@ -171,7 +171,17 @@ export default configMerger(walttiConfig, {
     },
   },
   geoJson: {
-    layerConfigUrl:
-      'https://geoserver.joensuu.fi/www/digitransit/pyorailyreitit_lpr.geojson',
+    layers: [
+      {
+        name: {
+          fi: 'Pyöräilyreitit',
+          sv: 'Cykelrutter',
+          en: 'Bike routes',
+        },
+        url:
+          'https://geoserver.joensuu.fi/www/digitransit/pyorailyreitit_lpr.geojson',
+        isOffByDefault: true,
+      },
+    ],
   },
 });
