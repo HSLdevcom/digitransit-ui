@@ -54,12 +54,14 @@ class RouteStop extends React.PureComponent {
     last: PropTypes.bool,
     prevVehicleDeparture: PropTypes.number,
     patternId: PropTypes.string.isRequired,
+    displayNextDeparture: PropTypes.bool,
   };
 
   static defaultProps = {
     className: '',
     last: false,
     prevVehicleDeparture: null,
+    displayNextDeparture: true,
   };
 
   static description = () => (
@@ -138,6 +140,7 @@ class RouteStop extends React.PureComponent {
       mode,
       stop,
       vehicle,
+      displayNextDeparture,
       prevVehicleDeparture,
       patternId,
     } = this.props;
@@ -235,14 +238,23 @@ class RouteStop extends React.PureComponent {
               </div>
               {patternExists && (
                 <div className="departure-times-container">
-                  {stop.stopTimesForPattern.map(stopTime => (
+                  {displayNextDeparture ? (
+                    stop.stopTimesForPattern.map(stopTime => (
+                      <div
+                        key={stopTime.scheduledDeparture}
+                        className="route-stop-time"
+                      >
+                        {fromStopTime(stopTime, currentTime)}
+                      </div>
+                    ))
+                  ) : (
                     <div
-                      key={stopTime.scheduledDeparture}
+                      key={stop.stopTimesForPattern[0].scheduledDeparture}
                       className="route-stop-time"
                     >
-                      {fromStopTime(stopTime, currentTime)}
+                      {fromStopTime(stop.stopTimesForPattern[0], currentTime)}
                     </div>
-                  ))}
+                  )}
                 </div>
               )}
             </div>

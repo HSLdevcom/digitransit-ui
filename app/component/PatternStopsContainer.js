@@ -17,6 +17,10 @@ class PatternStopsContainer extends React.PureComponent {
     router: routerShape.isRequired,
   };
 
+  static contextTypes = {
+    config: PropTypes.object.isRequired,
+  };
+
   toggleFullscreenMap = () => {
     if (
       this.props.match.location.state &&
@@ -51,6 +55,7 @@ class PatternStopsContainer extends React.PureComponent {
       >
         <RouteListHeader
           key="header"
+          displayNextDeparture={this.context.config.displayNextDeparture}
           className={`bp-${this.props.breakpoint}`}
         />
         <RouteStopListContainer

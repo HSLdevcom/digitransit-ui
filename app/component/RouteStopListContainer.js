@@ -86,6 +86,7 @@ class RouteStopListContainer extends React.PureComponent {
           last={i === stops.length - 1}
           first={i === 0}
           className={rowClassName}
+          displayNextDeparture={this.context.config.displayNextDeparture}
           prevVehicleDeparture={
             prevStopPattern ? prevStopPattern.scheduledDeparture : null
           }
