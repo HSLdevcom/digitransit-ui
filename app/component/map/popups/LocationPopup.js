@@ -11,7 +11,10 @@ import ZoneIcon from '../../ZoneIcon';
 import PreferencesStore from '../../../store/PreferencesStore';
 import { getLabel } from '../../../util/suggestionUtils';
 import { reverseGeocode } from '../../../util/searchUtils';
-import { getZoneLabelColor } from '../../../util/mapIconUtils';
+import {
+  getZoneLabelColor,
+  getZoneLabelSize,
+} from '../../../util/mapIconUtils';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 
 class LocationPopup extends React.Component {
@@ -44,7 +47,10 @@ class LocationPopup extends React.Component {
 
     function parseZoneName(fullZoneName) {
       if (fullZoneName) {
-        return fullZoneName.split(':')[1];
+        const [feedId, zoneId] = fullZoneName.split(':');
+        if (config.feedIds.includes(feedId)) {
+          return zoneId;
+        }
       }
       return undefined;
     }
@@ -142,6 +148,7 @@ class LocationPopup extends React.Component {
             <ZoneIcon
               showTitle
               zoneId={zoneId}
+              zoneIdFontSize={getZoneLabelSize(zoneId, this.context.config)}
               zoneLabelColor={getZoneLabelColor(this.context.config)}
             />
           </CardHeader>

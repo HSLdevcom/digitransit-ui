@@ -365,3 +365,13 @@ export const getZoneLabel = (zoneId, config) => {
   }
   return zoneId;
 };
+
+export const getZoneLabelSize = (zoneId, config) => {
+  if (
+    config.zoneIdFontSize &&
+    typeof config.zoneIdFontSize[zoneId] !== 'undefined'
+  ) {
+    return config.zoneIdFontSize[zoneId];
+  }
+  return '26px';
+};
