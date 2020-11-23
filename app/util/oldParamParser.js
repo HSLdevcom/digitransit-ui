@@ -158,5 +158,5 @@ export default function oldParamParser(query, config) {
         encoded.from
       }/${encoded.to}/`;
     })
-    .catch(() => '/');
+    .catch(() => (config.indexPath === '' ? '/' : `/${config.indexPath}/`));
 }
