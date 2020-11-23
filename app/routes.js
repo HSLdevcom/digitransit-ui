@@ -464,9 +464,7 @@ export default config => {
         }}
       </Route>
       {config.indexPath !== '' && (
-        <Route path="/">
-          <Redirect to={`/${config.indexPath}`} />
-        </Route>
+        <Redirect from="/" to={`/${config.indexPath}`} />
       )}
       {/* For all the rest render 404 */}
       <Route path="*" Component={Error404} />
