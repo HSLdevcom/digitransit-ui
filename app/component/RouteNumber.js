@@ -98,7 +98,9 @@ function RouteNumber(props, context) {
                 })}
                 role="img"
               >
-                {!props.isTransitLeg && <div className="empty" />}
+                {!props.isTransitLeg && !props.renderModeIcons && (
+                  <div className="empty" />
+                )}
                 {props.isTransitLeg === true ? (
                   <div className={`special-icon ${mode}`}>
                     {getIcon(
@@ -118,7 +120,7 @@ function RouteNumber(props, context) {
                     )}
                   </div>
                 )}
-                {props.text && props.renderNumber === true && (
+                {props.text && (
                   <div
                     className={cx('vehicle-number-container-v', {
                       long: hasNoShortName,
@@ -133,7 +135,7 @@ function RouteNumber(props, context) {
                     </span>
                   </div>
                 )}
-                {props.renderNumber === true && props.isTransitLeg === false && (
+                {props.isTransitLeg === false && (
                   <div className={`leg-duration-container ${mode} `}>
                     <span className="leg-duration">{props.duration}</span>
                   </div>
@@ -172,7 +174,7 @@ function RouteNumber(props, context) {
               </div>
             )}
           </span>
-          {props.text && props.renderNumber === true && (
+          {props.text && (
             <div
               className={cx('vehicle-number-container-v', {
                 long: hasNoShortName,
@@ -183,7 +185,7 @@ function RouteNumber(props, context) {
               </span>
             </div>
           )}
-          {props.renderNumber === true && props.isTransitLeg === false && (
+          {props.isTransitLeg === false && (
             <div className={`leg-duration-container ${mode} `}>
               <span className="leg-duration">{props.duration}</span>
             </div>
@@ -264,7 +266,7 @@ RouteNumber.propTypes = {
   badgeFill: PropTypes.string,
   badgeText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   icon: PropTypes.string,
-  renderNumber: PropTypes.bool,
+  renderModeIcons: PropTypes.bool,
   duration: PropTypes.number,
   isTransitLeg: PropTypes.bool,
   withBicycle: PropTypes.bool,
@@ -282,7 +284,7 @@ RouteNumber.defaultProps = {
   isCallAgency: false,
   icon: undefined,
   isTransitLeg: false,
-  renderNumber: true,
+  renderModeIcons: false,
   withBicycle: false,
 };
 

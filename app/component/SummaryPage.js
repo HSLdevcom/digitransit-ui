@@ -288,33 +288,22 @@ class SummaryPage extends React.Component {
     this.isFetchingWalkAndBike = true;
     this.params = this.context.match.params;
     this.originalPlan = this.props.viewer && this.props.viewer.plan;
+    /// *** TODO: Hotfix variables for temporary use only
     this.justMounted = true;
     this.useFitBounds = true;
     this.mapLoaded = false;
     this.origin = undefined;
     this.destination = undefined;
     this.mapCenterToggle = undefined;
+    // Terrible hack to get walking and cycling walks to respond correctly with bounds
+    this.fooAgain = undefined;
+    this.fooCount = 0;
+    // ****     ****
     context.executeAction(storeOrigin, otpToLocation(props.match.params.from));
     if (props.error) {
       reportError(props.error);
     }
     this.resultsUpdatedAlertRef = React.createRef();
-
-    // set state correctly if user enters the page from a link
-    let existingStreetMode;
-    if (this.props.match.location && this.props.match.location.state) {
-      existingStreetMode = this.props.match.location.state.streetMode;
-    } else if (
-      this.props.match.params &&
-      this.props.match.params.hash &&
-      (this.props.match.params.hash === 'walk' ||
-        this.props.match.params.hash === 'bike' ||
-        this.props.match.params.hash === 'bikeAndVehicle')
-    ) {
-      existingStreetMode = this.props.match.params.hash;
-    } else {
-      existingStreetMode = '';
-    }
 
     this.state = {
       weatherData: {},
@@ -322,7 +311,6 @@ class SummaryPage extends React.Component {
       loading: false,
       settingsOpen: false,
       bounds: null,
-      streetMode: existingStreetMode,
       alternativePlan: undefined,
       earlierItineraries: [],
       laterItineraries: [],
@@ -334,11 +322,11 @@ class SummaryPage extends React.Component {
       bikeParkPlan: undefined,
       scrolled: false,
     };
-    if (this.state.streetMode === 'walk') {
+    if (this.props.match.params.hash === 'walk') {
       this.selectedPlan = this.state.walkPlan;
-    } else if (this.state.streetMode === 'bike') {
+    } else if (this.props.match.params.hash === 'bike') {
       this.selectedPlan = this.state.bikePlan;
-    } else if (this.state.streetMode === 'bikeAndVehicle') {
+    } else if (this.props.match.params.hash === 'bikeAndVehicle') {
       this.selectedPlan = {
         itineraries: [
           ...this.state.bikeParkPlan?.itineraries,
@@ -385,40 +373,22 @@ class SummaryPage extends React.Component {
   };
 
   toggleStreetMode = newStreetMode => {
-    if (this.state.streetMode === newStreetMode) {
-      this.setState({ streetMode: '' }, () => {
-        const newState = {
-          ...this.context.match.location,
-          state: { streetMode: '' },
-        };
-        const indexPath = `${getRoutePath(
-          this.context.match.params.from,
-          this.context.match.params.to,
-        )}`;
-        newState.pathname = indexPath;
-        this.context.router.push(newState);
-      });
-    } else {
-      this.setState({ streetMode: newStreetMode }, () => {
-        const newState = {
-          ...this.context.match.location,
-          state: { streetMode: newStreetMode },
-        };
-        const basePath = getRoutePath(
-          this.context.match.params.from,
-          this.context.match.params.to,
-        );
-        const indexPath = `${getRoutePath(
-          this.context.match.params.from,
-          this.context.match.params.to,
-        )}/${newStreetMode}/`;
+    const newState = {
+      ...this.context.match.location,
+    };
+    const basePath = getRoutePath(
+      this.context.match.params.from,
+      this.context.match.params.to,
+    );
+    const indexPath = `${getRoutePath(
+      this.context.match.params.from,
+      this.context.match.params.to,
+    )}/${newStreetMode}/`;
 
-        newState.pathname = basePath;
-        this.context.router.replace(newState);
-        newState.pathname = indexPath;
-        this.context.router.push(newState);
-      });
-    }
+    newState.pathname = basePath;
+    this.context.router.replace(newState);
+    newState.pathname = indexPath;
+    this.context.router.push(newState);
   };
 
   setStreetModeAndSelect = newStreetMode => {
@@ -430,24 +400,13 @@ class SummaryPage extends React.Component {
       action: 'OpenItineraryDetailsWithMode',
       name: newStreetMode,
     });
-    this.setState(
-      { streetMode: newStreetMode },
-      this.selectFirstItinerary(newStreetMode),
-    );
-  };
-
-  setStreetMode = newStreetMode => {
-    this.setState({ streetMode: newStreetMode });
-  };
-
-  resetStreetMode = () => {
-    this.setState({ streetMode: '' });
+    this.selectFirstItinerary(newStreetMode);
   };
 
   selectFirstItinerary = newStreetMode => {
     const newState = {
       ...this.context.match.location,
-      state: { summaryPageSelected: 0, streetMode: newStreetMode },
+      state: { summaryPageSelected: 0 },
     };
 
     const basePath = `${getRoutePath(
@@ -961,6 +920,7 @@ class SummaryPage extends React.Component {
     ) {
       this.justMounted = true;
       this.mapCenterToggle = undefined;
+      this.fooCount = 0;
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         center: undefined,
@@ -973,7 +933,7 @@ class SummaryPage extends React.Component {
         this.props.match.params.hash === 'bike' ||
         this.props.match.params.hash === 'bikeAndVehicle')
     ) {
-      // Reset url and thus streetmode if intermediate places change
+      // Reset streetmode selection if intermediate places change
       if (
         !isEqual(
           getIntermediatePlaces(prevProps.match.location.query),
@@ -982,7 +942,6 @@ class SummaryPage extends React.Component {
       ) {
         const newState = {
           ...this.context.match.location,
-          state: { streetMode: '' },
         };
         const indexPath = `${getRoutePath(
           this.context.match.params.from,
@@ -990,19 +949,6 @@ class SummaryPage extends React.Component {
         )}`;
         newState.pathname = indexPath;
         this.context.router.push(newState);
-      }
-      if (this.state.streetMode !== this.props.match.params.hash) {
-        this.setStreetMode(this.props.match.params.hash);
-      }
-    } else if (
-      !this.props.match.params ||
-      !this.props.match.params.hash ||
-      (this.props.match.params.hash === '' &&
-        (!this.props.match.params.secondHash ||
-          this.props.match.params.secondHash === ''))
-    ) {
-      if (this.state.streetMode !== '' && !this.state.summaryPageSelected) {
-        this.resetStreetMode();
       }
     }
 
@@ -1324,7 +1270,7 @@ class SummaryPage extends React.Component {
           key="fromMarker"
           position={from}
           type="from"
-          streetMode={this.state.streetMode}
+          streetMode={this.props.match.params.hash}
         />,
       );
     }
@@ -1335,7 +1281,7 @@ class SummaryPage extends React.Component {
           key="toMarker"
           position={to}
           type="to"
-          streetMode={this.state.streetMode}
+          streetMode={this.props.match.params.hash}
         />,
       );
     }
@@ -1541,38 +1487,33 @@ class SummaryPage extends React.Component {
       this.state.alternativePlan.itineraries &&
       this.state.alternativePlan.itineraries.length > 0;
 
-    this.onlyBikeParkItineraries = false;
     this.bikeAndPublicItinerariesToShow = 0;
     this.bikeAndParkItinerariesToShow = 0;
-    if (this.state.streetMode === 'walk') {
+    if (this.props.match.params.hash === 'walk') {
       this.stopClient();
       if (!walkPlan) {
         return <Loading />;
       }
       this.selectedPlan = walkPlan;
-    } else if (this.state.streetMode === 'bike') {
+    } else if (this.props.match.params.hash === 'bike') {
       this.stopClient();
       if (!bikePlan) {
         return <Loading />;
       }
       this.selectedPlan = bikePlan;
-    } else if (this.state.streetMode === 'bikeAndVehicle') {
-      if (!bikeAndPublicPlan || !bikeParkPlan) {
+    } else if (this.props.match.params.hash === 'bikeAndVehicle') {
+      if (
+        !bikeAndPublicPlan ||
+        !Array.isArray(bikeAndPublicPlan.itineraries) ||
+        !bikeParkPlan ||
+        !Array.isArray(bikeParkPlan.itineraries)
+      ) {
         return <Loading />;
       }
       if (
         this.hasItinerariesContainingPublicTransit(bikeAndPublicPlan) &&
         this.hasItinerariesContainingPublicTransit(bikeParkPlan)
       ) {
-        this.bikeAndPublicItinerariesToShow = Math.min(
-          bikeAndPublicPlan.itineraries.length,
-          3,
-        );
-        this.bikeAndParkItinerariesToShow = Math.min(
-          bikeParkPlan.itineraries.length,
-          3,
-        );
-
         this.selectedPlan = {
           itineraries: [
             ...bikeParkPlan.itineraries.slice(0, 3),
@@ -1583,10 +1524,17 @@ class SummaryPage extends React.Component {
         this.hasItinerariesContainingPublicTransit(bikeAndPublicPlan)
       ) {
         this.selectedPlan = bikeAndPublicPlan;
-      } else {
+      } else if (this.hasItinerariesContainingPublicTransit(bikeParkPlan)) {
         this.selectedPlan = bikeParkPlan;
-        this.onlyBikeParkItineraries = true;
       }
+      this.bikeAndPublicItinerariesToShow = Math.min(
+        bikeAndPublicPlan.itineraries.length,
+        3,
+      );
+      this.bikeAndParkItinerariesToShow = Math.min(
+        bikeParkPlan.itineraries.length,
+        3,
+      );
     } else if (
       planHasNoItineraries &&
       hasAlternativeItineraries &&
@@ -1648,7 +1596,7 @@ class SummaryPage extends React.Component {
       (showWalkOptionButton ||
         showBikeOptionButton ||
         showBikeAndPublicOptionButton) &&
-      this.state.streetMode !== 'bikeAndVehicle';
+      this.props.match.params.hash !== 'bikeAndVehicle';
 
     const hasItineraries =
       this.selectedPlan && Array.isArray(this.selectedPlan.itineraries);
@@ -1658,8 +1606,8 @@ class SummaryPage extends React.Component {
       !isEqual(this.selectedPlan, this.state.previouslySelectedPlan)
     ) {
       if (
-        this.state.streetMode !== 'walk' &&
-        this.state.streetMode !== 'bike'
+        this.props.match.params.hash !== 'walk' &&
+        this.props.match.params.hash !== 'bike'
       ) {
         this.setState({
           previouslySelectedPlan: this.selectedPlan,
@@ -1681,7 +1629,7 @@ class SummaryPage extends React.Component {
     if (
       combinedItineraries &&
       combinedItineraries.length > 0 &&
-      this.state.streetMode !== 'walk'
+      this.props.match.params.hash !== 'walk'
     ) {
       combinedItineraries = combinedItineraries.filter(
         itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
@@ -1754,7 +1702,14 @@ class SummaryPage extends React.Component {
             polyline.decode(leg.legGeometry.points),
           ),
         );
-        this.useFitBounds = true;
+        if (isEqual(this.fooAgain, bounds) && this.fooCount > 3) {
+          this.useFitBounds = false;
+        } else {
+          this.useFitBounds = true;
+          this.fooAgain = bounds;
+          // eslint-disable-next-line no-plusplus
+          this.fooCount++;
+        }
       }
     } else {
       center = this.state.bounds ? undefined : this.state.center;
@@ -1764,7 +1719,7 @@ class SummaryPage extends React.Component {
     // Call props.map directly in order to render to same map instance
     let map;
     if (
-      this.state.streetMode === 'bikeAndVehicle' &&
+      this.props.match.params.hash === 'bikeAndVehicle' &&
       !routeSelected(
         match.params.hash,
         match.params.secondHash,

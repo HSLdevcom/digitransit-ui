@@ -1,4 +1,15 @@
 const translations = {
+  de: {
+    cancel: 'Abbrechen',
+    'choose-icon': 'Wählen Sie ein Symbol für diesen Ort',
+    'close-favourite-modal': 'Favoriten-Dialog schließen',
+    'edit-place': 'Ort bearbeiten',
+    'favourite-modal-on-add-new': 'Neuen Favoriten hinzufügen',
+    'favourite-modal-on-edit': 'Favorit bearbeiten: {{favourite.name}}',
+    'input-placeholder': 'Einen Namen für Ort setzen (optional)',
+    save: 'Speichern',
+    'save-place': 'Favorit speichern',
+  },
   en: {
     cancel: 'Cancel',
     'choose-icon': "Select the place's icon",

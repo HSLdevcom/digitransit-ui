@@ -14,9 +14,9 @@ import MobileModal from './helpers/MobileModal';
 
 i18next.init({ lng: 'fi', resources: {} });
 
-i18next.addResourceBundle('en', 'translation', translations.en);
-i18next.addResourceBundle('fi', 'translation', translations.fi);
-i18next.addResourceBundle('sv', 'translation', translations.sv);
+Object.keys(translations).forEach(lang => {
+  i18next.addResourceBundle(lang, 'translation', translations[lang]);
+});
 
 const FavouriteIconIdToNameMap = {
   'icon-icon_place': 'place',

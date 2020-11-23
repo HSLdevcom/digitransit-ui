@@ -37,6 +37,15 @@ export default configMerger(walttiConfig, {
 
   feedIds: ['Lahti'],
 
+  mapLayers: {
+    tooltip: {
+      fi: 'Uutta! Saat nyt lähellä olevat bussit kartalle asetuksista.',
+      en: 'New! You can now get nearby busses on the map from the settings.',
+      sv:
+        'Nytt! I inställningarna kan du nu välja att se närliggande bussar på kartan.',
+    },
+  },
+
   searchParams: {
     'boundary.rect.min_lat': minLat,
     'boundary.rect.max_lat': maxLat,
@@ -211,4 +220,7 @@ export default configMerger(walttiConfig, {
       showZone: true,
     },
   },
+
+  showAllBusses: true,
+  showVehiclesOnStopPage: true,
 });

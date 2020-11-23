@@ -1,4 +1,16 @@
 const translations = {
+  de: {
+    today: 'Heute',
+    tomorrow: 'Morgen',
+    'accessible-close': 'Schließe die Auswahl',
+    'accessible-open': 'Öffne die Auswahl',
+    'accessible-title': 'Datum und Uhrzeitauswahl',
+    arrival: 'Ankunft',
+    date: 'Datum',
+    departure: 'Abfahrt',
+    'departure-now': 'Abfahrt jetzt',
+    time: 'Zeit',
+  },
   en: {
     today: 'Today',
     tomorrow: 'Tomorrow',

@@ -10,9 +10,9 @@ import translations from './helpers/translations';
 
 i18next.init({ lng: 'en', resources: {} });
 
-i18next.addResourceBundle('en', 'translation', translations.en);
-i18next.addResourceBundle('fi', 'translation', translations.fi);
-i18next.addResourceBundle('sv', 'translation', translations.sv);
+Object.keys(translations).forEach(lang => {
+  i18next.addResourceBundle(lang, 'translation', translations[lang]);
+});
 
 function SeparatorLine({ usePaddingBottom20 }) {
   const className = usePaddingBottom20

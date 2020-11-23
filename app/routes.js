@@ -15,6 +15,7 @@ import {
   PREFIX_NEARYOU,
   PREFIX_BIKESTATIONS,
   LOCAL_STORAGE_EMITTER_PATH,
+  createReturnPath,
 } from './util/path';
 import { preparePlanParams } from './util/planParamUtil';
 import {
@@ -156,17 +157,41 @@ export default config => {
         path={`/${PREFIX_ITINERARY_SUMMARY}/POS/:to`}
         getComponent={() =>
           import(
-            /* webpackChunkName: "itinerary" */ './component/SummaryGeolocator'
+            /* webpackChunkName: "itinerary" */ './component/Geolocator'
           ).then(getDefault)
         }
+        render={({ Component, props }) => {
+          if (Component) {
+            return (
+              <Component
+                {...props}
+                createReturnPath={createReturnPath}
+                path={PREFIX_ITINERARY_SUMMARY}
+              />
+            );
+          }
+          return undefined;
+        }}
       />
       <Route
         path={`/${PREFIX_ITINERARY_SUMMARY}/:from/POS`}
         getComponent={() =>
           import(
-            /* webpackChunkName: "itinerary" */ './component/SummaryGeolocator'
+            /* webpackChunkName: "itinerary" */ './component/Geolocator'
           ).then(getDefault)
         }
+        render={({ Component, props }) => {
+          if (Component) {
+            return (
+              <Component
+                {...props}
+                createReturnPath={createReturnPath}
+                path={PREFIX_ITINERARY_SUMMARY}
+              />
+            );
+          }
+          return undefined;
+        }}
       />
       <Route path={`/${PREFIX_ITINERARY_SUMMARY}/:from/:to`}>
         {{
@@ -293,6 +318,66 @@ export default config => {
       <Route path="/js/*" Component={Error404} />
       <Route path="/css/*" Component={Error404} />
       <Route path="/assets/*" Component={Error404} />
+      <Route
+        path={`${
+          config.indexPath === '' ? '' : `/${config.indexPath}`
+        }/POS/:to?`}
+        topBarOptions={{ disableBackButton: true }}
+      >
+        {{
+          content: (
+            <Route
+              getComponent={() =>
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/Geolocator'
+                ).then(getDefault)
+              }
+              render={({ Component, props }) => {
+                if (Component) {
+                  return (
+                    <Component
+                      {...props}
+                      createReturnPath={createReturnPath}
+                      path={config.indexPath}
+                    />
+                  );
+                }
+                return undefined;
+              }}
+            />
+          ),
+        }}
+      </Route>
+      <Route
+        path={`${
+          config.indexPath === '' ? '' : `/${config.indexPath}`
+        }/:from/POS`}
+        topBarOptions={{ disableBackButton: true }}
+      >
+        {{
+          content: (
+            <Route
+              getComponent={() =>
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/Geolocator'
+                ).then(getDefault)
+              }
+              render={({ Component, props }) => {
+                if (Component) {
+                  return (
+                    <Component
+                      {...props}
+                      createReturnPath={createReturnPath}
+                      path={config.indexPath}
+                    />
+                  );
+                }
+                return undefined;
+              }}
+            />
+          ),
+        }}
+      </Route>
       <Route
         path={`${
           config.indexPath === '' ? '' : `/${config.indexPath}`
