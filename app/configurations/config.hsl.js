@@ -75,12 +75,7 @@ export default {
 
   colors: {
     primary: '#007ac9',
-    modal: {
-      button: {
-        normal: '#007ac9',
-        hover: '#0062a1',
-      },
-    },
+    hover: '#0062a1',
   },
 
   sprites: 'assets/svg-sprite.hsl.svg',

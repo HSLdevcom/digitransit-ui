@@ -74,13 +74,8 @@ MobileModal.propTypes = {
   saveFavourite: PropTypes.func.isRequired,
   saveText: PropTypes.string.isRequired,
   canSave: PropTypes.func.isRequired,
-  normalColor: PropTypes.string,
-  hoverColor: PropTypes.string,
-};
-
-MobileModal.defaultProps = {
-  normalColor: '#007ac9',
-  hoverColor: '#0062a1',
+  normalColor: PropTypes.string.isRequired,
+  hoverColor: PropTypes.string.isRequired,
 };
 
 export default MobileModal;

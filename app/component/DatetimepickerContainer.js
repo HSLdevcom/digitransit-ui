@@ -7,7 +7,10 @@ import Datetimepicker from '@digitransit-component/digitransit-component-datetim
 import { replaceQueryParams } from '../util/queryUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
-function DatetimepickerContainer({ realtime, embedWhenClosed, lang }, context) {
+function DatetimepickerContainer(
+  { realtime, embedWhenClosed, lang, normalColor },
+  context,
+) {
   const { router, match, executeAction } = context;
 
   const setParams = debounce((time, arriveBy) => {
@@ -81,6 +84,7 @@ function DatetimepickerContainer({ realtime, embedWhenClosed, lang }, context) {
       onArrivalClick={onArrivalClick}
       embedWhenClosed={embedWhenClosed}
       lang={lang}
+      normalColor={normalColor}
     />
   );
 }
@@ -89,11 +93,13 @@ DatetimepickerContainer.propTypes = {
   realtime: PropTypes.bool.isRequired,
   embedWhenClosed: PropTypes.node,
   lang: PropTypes.string,
+  normalColor: PropTypes.string,
 };
 
 DatetimepickerContainer.defaultProps = {
   embedWhenClosed: null,
   lang: 'en',
+  // normalColor: '#007ac9',
 };
 
 DatetimepickerContainer.contextTypes = {

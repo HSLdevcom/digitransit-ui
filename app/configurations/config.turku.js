@@ -12,6 +12,7 @@ export default configMerger(walttiConfig, {
   CONFIG,
 
   feedIds: ['FOLI'],
+  allowLogin: true,
 
   searchParams: {
     'boundary.rect.min_lat': 59.963388,
@@ -22,6 +23,7 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#e8aa27',
+    hover: '#a07415',
   },
 
   appBarLink: { name: 'Föli', href: 'http://www.foli.fi/fi' },

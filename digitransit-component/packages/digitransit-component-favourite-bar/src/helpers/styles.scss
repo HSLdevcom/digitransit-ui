@@ -8,7 +8,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   viapoint-input-1, origin-input, search-input-focus, search-input-icon, rectangle, autosuggest-suggestion-container, front;
 
 $favourite-highlight-background-color: #F4F4F5;
-$primary-color: #007ac9;
+$primary-color: #ff0000;
 
 .button-shared {
   display: flex;
@@ -155,14 +155,12 @@ $primary-color: #007ac9;
 
     &.plus {
       svg {
-        fill: $primary-color;
         width: 16px;
         height: 16px;
       }
     }
     &.arrow {
       svg {
-        fill: $primary-color;
         width: 19px;
         height: 19px;
         transform: rotate(90deg);

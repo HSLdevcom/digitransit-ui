@@ -36,6 +36,7 @@ const FavouriteLocation = ({
   text,
   label,
   isLoading,
+  normalColor,
 }) => {
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-tabindex */
   return (
@@ -48,7 +49,7 @@ const FavouriteLocation = ({
     >
       <Shimmer active={isLoading} className={styles.shimmer}>
         <span className={cx(styles.icon, styles[iconId])}>
-          <Icon img={iconId} />
+          <Icon img={iconId} color={normalColor} />
         </span>
         <div className={styles['favourite-location']}>
           <div className={styles.name}>{text}</div>
@@ -66,6 +67,7 @@ FavouriteLocation.propTypes = {
   text: PropTypes.string,
   label: PropTypes.string,
   isLoading: PropTypes.bool,
+  normalColor: PropTypes.string.isRequired,
 };
 
 /**
@@ -120,6 +122,8 @@ class FavouriteBar extends React.Component {
     lang: PropTypes.string,
     /** Optional. Whether to show loading animation, true or false. */
     isLoading: PropTypes.bool,
+    /** Optional. Default value is '#007ac9'. */
+    normalColor: PropTypes.string,
   };
 
   static defaultProps = {
@@ -130,6 +134,7 @@ class FavouriteBar extends React.Component {
     onAddWork: () => ({}),
     lang: 'fi',
     isLoading: false,
+    normalColor: '#007ac9',
   };
 
   static FavouriteIconIdToNameMap = {
@@ -262,7 +267,11 @@ class FavouriteBar extends React.Component {
         aria-selected={selected}
         role="option"
       >
-        <SuggestionItem item={item} iconColor="#007ac9" className={className} />
+        <SuggestionItem
+          item={item}
+          iconColor={this.props.normalColor}
+          className={className}
+        />
       </li>
     );
   };
@@ -272,6 +281,7 @@ class FavouriteBar extends React.Component {
       {
         name: i18next.t('add-place'),
         selectedIconId: 'favourite',
+        normalColor: this.props.normalColor,
       },
     ];
     if (this.props.favourites.length === 0) {
@@ -282,7 +292,8 @@ class FavouriteBar extends React.Component {
       {
         name: i18next.t('edit'),
         selectedIconId: 'edit',
-        iconColor: '#007ac9',
+        iconColor: this.props.normalColor,
+        normalColor: this.props.normalColor,
       },
     ];
   };
@@ -323,6 +334,7 @@ class FavouriteBar extends React.Component {
                 : 'home'
             }
             isLoading={isLoading}
+            normalColor={this.props.normalColor}
           />
           <FavouriteLocation
             text={
@@ -346,6 +358,7 @@ class FavouriteBar extends React.Component {
                 : 'work'
             }
             isLoading={isLoading}
+            normalColor={this.props.normalColor}
           />
           <div
             className={cx(styles.expandButton, styles[expandIcon], {
@@ -362,7 +375,7 @@ class FavouriteBar extends React.Component {
             aria-activedescendant={`favourite-suggestion-list--item-${highlightedIndex}`}
           >
             <Shimmer active={isLoading}>
-              <Icon img={expandIcon} />
+              <Icon img={expandIcon} color={this.props.normalColor} />
             </Shimmer>
           </div>
         </div>
@@ -384,7 +397,7 @@ class FavouriteBar extends React.Component {
                           '',
                         )
                       : '',
-                    iconColor: '#007ac9',
+                    iconColor: this.props.normalColor,
                   },
                   index,
                 ),
@@ -392,7 +405,10 @@ class FavouriteBar extends React.Component {
               {favourites.length > 0 && <div className={styles.divider} />}
               {this.getCustomSuggestions().map((item, index) =>
                 this.renderSuggestion(
-                  item,
+                  {
+                    ...item,
+                    iconColor: this.props.normalColor,
+                  },
                   favourites.length + index,
                   'favouriteCustom',
                 ),

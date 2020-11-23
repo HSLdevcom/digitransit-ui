@@ -66,11 +66,17 @@ class IndexPage extends React.Component {
     query: PropTypes.object.isRequired,
     favouriteModalAction: PropTypes.string,
     fromMap: PropTypes.string,
+    // eslint-disable-next-line react/no-unused-prop-types
+    normalColor: PropTypes.string,
+    // eslint-disable-next-line react/no-unused-prop-types
+    hoverColor: PropTypes.string,
   };
 
   static defaultProps = {
     autoSetOrigin: true,
     lang: 'fi',
+    normalColor: '#007ac9',
+    hoverColor: '#0062a1',
   };
 
   constructor(props, context) {
@@ -147,7 +153,9 @@ class IndexPage extends React.Component {
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     const { intl, config } = this.context;
-    const { trafficNowLink } = config;
+    const { trafficNowLink, colors } = config;
+    const primaryColor = colors.primary;
+    const hoverColor = colors.hover;
     const { breakpoint, destination, origin, lang } = this.props;
     const queryString = this.context.match.location.search;
     const searchSources =
@@ -211,9 +219,11 @@ class IndexPage extends React.Component {
               sources={searchSources}
               targets={locationSearchTargets}
               breakpoint="large"
+              normalColor={primaryColor}
+              hoverColor={hoverColor}
             />
             <div className="datetimepicker-container">
-              <DatetimepickerContainer realtime />
+              <DatetimepickerContainer realtime normalColor={primaryColor} />
             </div>
             <FavouritesContainer
               favouriteModalAction={this.props.favouriteModalAction}
@@ -254,6 +264,8 @@ class IndexPage extends React.Component {
               value=""
               sources={stopAndRouteSearchSources}
               targets={stopAndRouteSearchTargets}
+              normalColor={primaryColor}
+              hoverColor={hoverColor}
             />
             <CtrlPanel.SeparatorLine />
             {!trafficNowLink ||
@@ -307,9 +319,11 @@ class IndexPage extends React.Component {
               isMobile
               breakpoint="small"
               fromMap={this.props.fromMap}
+              normalColor={primaryColor}
+              hoverColor={hoverColor}
             />
             <div className="datetimepicker-container">
-              <DatetimepickerContainer realtime />
+              <DatetimepickerContainer realtime normalColor={primaryColor} />
             </div>
             <FavouritesContainer
               onClickFavourite={this.clickFavourite}
@@ -351,6 +365,8 @@ class IndexPage extends React.Component {
               sources={stopAndRouteSearchSources}
               targets={stopAndRouteSearchTargets}
               isMobile
+              normalColor={primaryColor}
+              hoverColor={hoverColor}
             />
             <CtrlPanel.SeparatorLine />
             {!trafficNowLink ||
@@ -454,7 +470,6 @@ const IndexPageWithPosition = connectToStores(
     }
 
     newProps.lang = context.getStore('PreferencesStore').getLanguage();
-
     newProps.locationState = locationState;
     newProps.currentTime = currentTime;
     newProps.origin = processLocation(from, locationState, context.intl);

@@ -61,14 +61,15 @@ FavouriteIconTableButton.propTypes = {
   handleClick: PropTypes.func.isRequired,
   value: PropTypes.string,
   selectedIconId: PropTypes.string,
-  normalColor: PropTypes.string,
+  normalColor: PropTypes.string.isRequired,
 };
 
-const FavouriteIconTable = (
-  { favouriteIconIds, selectedIconId, handleClick },
-  context,
-) => {
-  const normalColor = context.config.colors.modal.button.normal || '#007ac9';
+const FavouriteIconTable = ({
+  favouriteIconIds,
+  selectedIconId,
+  handleClick,
+  normalColor,
+}) => {
   const columns = favouriteIconIds.map(value => (
     <FavouriteIconTableButton
       key={`favourite-icon-table-${value}`}
@@ -90,10 +91,7 @@ FavouriteIconTable.propTypes = {
   handleClick: PropTypes.func.isRequired,
   favouriteIconIds: PropTypes.array,
   selectedIconId: PropTypes.string,
-};
-
-FavouriteIconTable.contextTypes = {
-  config: PropTypes.object,
+  normalColor: PropTypes.string.isRequired,
 };
 
 /**
@@ -120,10 +118,6 @@ FavouriteIconTable.contextTypes = {
  * />
  */
 class FavouriteModal extends React.Component {
-  static contextTypes = {
-    config: PropTypes.object,
-  };
-
   static propTypes = {
     isModalOpen: PropTypes.bool.isRequired,
     /** Required.
@@ -177,6 +171,8 @@ class FavouriteModal extends React.Component {
     /** Optional. */
     isMobile: PropTypes.bool,
     appElement: PropTypes.string.isRequired,
+    normalColor: PropTypes.string,
+    hoverColor: PropTypes.string,
   };
 
   static defaultProps = {
@@ -184,6 +180,8 @@ class FavouriteModal extends React.Component {
     lang: 'fi',
     isMobile: false,
     favourite: null,
+    normalColor: '#007ac9',
+    hoverColor: '#0062a1',
   };
 
   static favouriteIconIds = [
@@ -319,12 +317,17 @@ class FavouriteModal extends React.Component {
 
   render = () => {
     const { favourite } = this.state;
+    const { normalColor, hoverColor } = this.props;
     const headerText = this.isEdit()
       ? i18next.t('edit-place')
       : i18next.t('save-place');
     const modalProps = {
       headerText,
-      autosuggestComponent: this.props.autosuggestComponent,
+      autosuggestComponent: {
+        ...this.props.autosuggestComponent,
+        normalColor,
+        hoverColor,
+      },
       inputPlaceholder: i18next.t('input-placeholder'),
       specifyName: this.specifyName,
       name: (favourite && favourite.name) || '',
@@ -339,6 +342,7 @@ class FavouriteModal extends React.Component {
           })()}
           favouriteIconIds={FavouriteModal.favouriteIconIds}
           handleClick={this.selectIcon}
+          normalColor={this.props.normalColor}
         />
       ),
       saveFavourite: this.save,
@@ -347,8 +351,8 @@ class FavouriteModal extends React.Component {
       isEdit: this.isEdit(),
       cancelText: i18next.t('cancel'),
       cancelSelected: () => this.cancelSelected(),
-      normalColor: this.context.config.colors.modal.button.normal || undefined,
-      hoverColor: this.context.config.colors.modal.button.hover || undefined,
+      normalColor,
+      hoverColor,
     };
     return (
       <Modal

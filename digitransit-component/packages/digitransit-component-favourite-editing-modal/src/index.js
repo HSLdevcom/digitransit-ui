@@ -36,10 +36,6 @@ const isKeyboardSelectionEvent = event => {
 };
 
 class FavouriteEditingModal extends React.Component {
-  static contextTypes = {
-    config: PropTypes.object,
-  };
-
   static propTypes = {
     /** Required. Close modal.
      * @type {function} */
@@ -85,11 +81,15 @@ class FavouriteEditingModal extends React.Component {
     isModalOpen: PropTypes.bool.isRequired,
     isMobile: PropTypes.bool,
     isLoading: PropTypes.bool.isRequired,
+    normalColor: PropTypes.string,
+    hoverColor: PropTypes.string,
   };
 
   static defaulProps = {
     lang: 'fi',
     isMobile: false,
+    normalColor: '#007ac9',
+    hoverColor: '#0062a1',
   };
 
   constructor(props) {
@@ -209,16 +209,12 @@ class FavouriteEditingModal extends React.Component {
   };
 
   renderFavouriteList = (favourites, isLoading) => {
-    const normalColor =
-      this.context.config.colors.modal.button.normal || '#007ac9';
-    const hoverColor =
-      this.context.config.colors.modal.button.hover || '#0062a1';
     return (
       <div
         className={styles['favourite-edit-list-container']}
         style={{
-          '--normal-color': `${normalColor}`,
-          '--hover-color': `${hoverColor}`,
+          '--normal-color': `${this.props.normalColor}`,
+          '--hover-color': `${this.props.hoverColor}`,
         }}
       >
         <ContainerSpinner visible={isLoading}>
@@ -269,10 +265,8 @@ class FavouriteEditingModal extends React.Component {
             showDeletePlaceModal: false,
           })
         }
-        normalColor={
-          this.context.config.colors.modal.button.normal || undefined
-        }
-        hoverColor={this.context.config.colors.modal.button.normal || undefined}
+        normalColor={this.props.normalColor}
+        hoverColor={this.props.hoverColor}
       />
     );
   };

@@ -157,6 +157,8 @@ class DTAutosuggestPanel extends React.Component {
     sources: PropTypes.arrayOf(PropTypes.string),
     targets: PropTypes.arrayOf(PropTypes.string),
     isMobile: PropTypes.bool,
+    normalColor: PropTypes.string,
+    hoverColor: PropTypes.string,
   };
 
   static defaultProps = {
@@ -403,6 +405,8 @@ class DTAutosuggestPanel extends React.Component {
             sources={this.props.sources}
             targets={this.props.targets}
             isMobile={this.props.isMobile}
+            normalColor={this.props.normalColor}
+            hoverColor={this.props.hoverColor}
           />
           <ItinerarySearchControl
             className={styles.opposite}
@@ -413,7 +417,7 @@ class DTAutosuggestPanel extends React.Component {
             }
             aria-label={i18next.t('swap-order-button-label')}
           >
-            <Icon img="opposite" />
+            <Icon img="opposite" color={this.props.normalColor} />
           </ItinerarySearchControl>
         </div>
         {viaPoints.length === 0 && (
@@ -444,7 +448,11 @@ class DTAutosuggestPanel extends React.Component {
                     className={styles['viapoint-before']}
                     style={{ cursor: 'move' }}
                   >
-                    <Icon img="ellipsis" rotate={90} />
+                    <Icon
+                      img="ellipsis"
+                      rotate={90}
+                      color={this.props.normalColor}
+                    />
                   </div>
                   <div
                     className={cx(
@@ -475,6 +483,8 @@ class DTAutosuggestPanel extends React.Component {
                       sources={this.props.sources}
                       targets={this.props.targets}
                       isMobile={this.props.isMobile}
+                      normalColor={this.props.normalColor}
+                      hoverColor={this.props.hoverColor}
                     />
                   </div>
                   <ItinerarySearchControl
@@ -492,7 +502,7 @@ class DTAutosuggestPanel extends React.Component {
                       { index: i + 1 },
                     )}
                   >
-                    <Icon img="time" />
+                    <Icon img="time" color={this.props.normalColor} />
                   </ItinerarySearchControl>
                 </div>
                 {!isViaPointSlackTimeInputActive(i) &&
@@ -522,8 +532,11 @@ class DTAutosuggestPanel extends React.Component {
                       icon={
                         <span
                           className={`${styles['combobox-icon']} ${styles['time-input-icon']}`}
+                          style={{
+                            '--normal-color': `${this.props.normalColor}`,
+                          }}
                         >
-                          <Icon img="time" />
+                          <Icon img="time" color={this.props.normalColor} />
                         </span>
                       }
                       onSlackTimeSelected={this.handleViaPointSlackTimeSelected}
@@ -543,7 +556,7 @@ class DTAutosuggestPanel extends React.Component {
                   index: i + 1,
                 })}
               >
-                <Icon img="close" />
+                <Icon img="close" color={this.props.normalColor} />
               </ItinerarySearchControl>
             </div>
           ))}
@@ -568,6 +581,8 @@ class DTAutosuggestPanel extends React.Component {
             sources={this.props.sources}
             targets={this.props.targets}
             isMobile={this.props.isMobile}
+            normalColor={this.props.normalColor}
+            hoverColor={this.props.hoverColor}
           />
           <ItinerarySearchControl
             className={cx(styles['add-via-point'], styles.more, {
@@ -580,7 +595,12 @@ class DTAutosuggestPanel extends React.Component {
             }
             aria-label={i18next.t('add-via-button-label')}
           >
-            <Icon img="viapoint" width={1.25} height={1.375} />
+            <Icon
+              img="viapoint"
+              width={1.25}
+              height={1.375}
+              color={this.props.normalColor}
+            />
           </ItinerarySearchControl>
         </div>
       </div>

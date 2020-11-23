@@ -38,6 +38,10 @@ const DesktopModal = ({
             value={name}
             placeholder={inputPlaceholder}
             onChange={specifyName}
+            style={{
+              '--normal-color': `${normalColor}`,
+              '--hover-color': `${hoverColor}`,
+            }}
           />
         </div>
       </div>
@@ -99,15 +103,13 @@ DesktopModal.propTypes = {
   isEdit: PropTypes.bool,
   cancelText: PropTypes.string.isRequired,
   cancelSelected: PropTypes.func,
-  normalColor: PropTypes.string,
-  hoverColor: PropTypes.string,
+  normalColor: PropTypes.string.isRequired,
+  hoverColor: PropTypes.string.isRequired,
 };
 
 DesktopModal.defaultProps = {
   isEdit: false,
   cancelSelected: () => ({}),
-  normalColor: '#007ac9',
-  hoverColor: '#0062a1',
 };
 
 export default DesktopModal;

@@ -346,6 +346,7 @@ class FavouritesContainer extends React.Component {
           }
           lang={this.props.lang}
           isLoading={isLoading}
+          normalColor={this.props.normalColor}
         />
         <FavouriteModal
           appElement="#app"
@@ -370,8 +371,12 @@ class FavouritesContainer extends React.Component {
               onFavouriteSelected={this.setLocationProperties}
               lang={this.props.lang}
               isMobile={this.props.isMobile}
+              normalColor={this.props.normalColor}
+              hoverColor={this.props.hoverColor}
             />
           }
+          normalColor={this.props.normalColor}
+          hoverColor={this.props.hoverColor}
         />
         <FavouriteEditModal
           appElement="#app"
@@ -385,6 +390,8 @@ class FavouritesContainer extends React.Component {
           lang={this.props.lang}
           isMobile={this.props.isMobile}
           isLoading={isLoading}
+          normalColor={this.props.normalColor}
+          hoverColor={this.props.hoverColor}
         />
         {this.renderLoginModal()}
       </React.Fragment>
@@ -409,8 +416,8 @@ const connectedComponent = connectToStores(
     isLoggedIn:
       context.config.allowLogin &&
       context.getStore('UserStore').getUser().sub !== undefined,
-    normalColor: context.config.colors.modal.button.normal || undefined,
-    hoverColor: context.config.colors.modal.button.hover || undefined,
+    normalColor: context.config.colors.primary,
+    hoverColor: context.config.colors.hover || context.config.colors.primary,
   }),
 );
 

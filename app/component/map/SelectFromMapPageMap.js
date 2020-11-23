@@ -196,7 +196,7 @@ class SelectFromMapPageMap extends React.Component {
     locationOfMapCenter,
     positionSelectingFromMap,
   ) => {
-    const { config, intl } = this.context;
+    const { intl } = this.context;
 
     return (
       <LazilyLoad modules={confirmLocationFromMapButtonModules} key="confirm">
@@ -217,8 +217,11 @@ class SelectFromMapPageMap extends React.Component {
             })}
             type={this.props.type}
             onConfirm={isEnabled ? this.props.onConfirm : undefined}
-            normalColor={config.colors.modal.button.normal || undefined}
-            hoverColor={config.colors.modal.button.hover || undefined}
+            normalColor={this.context.config.colors.primary}
+            hoverColor={
+              this.context.config.colors.hover ||
+              this.context.config.colors.primary
+            }
           />
         )}
       </LazilyLoad>

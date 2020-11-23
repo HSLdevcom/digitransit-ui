@@ -173,6 +173,11 @@ class OriginDestinationBar extends React.Component {
           disableAutoFocus={this.props.isMobile}
           isMobile={this.props.isMobile}
           itineraryParams={this.context.match.location.query}
+          normalColor={this.context.config.colors.primary}
+          hoverColor={
+            this.context.config.colors.hover ||
+            this.context.config.colors.primary
+          }
         />{' '}
         {this.renderSelectFromMapModal()}
       </div>

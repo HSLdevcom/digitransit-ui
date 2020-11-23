@@ -34,13 +34,8 @@ ConfirmLocationFromMapButton.propTypes = {
   title: PropTypes.string,
   type: PropTypes.string,
   onConfirm: PropTypes.func,
-  normalColor: PropTypes.string,
-  hoverColor: PropTypes.string,
-};
-
-ConfirmLocationFromMapButton.defaultProps = {
-  normalColor: '#007ac9',
-  hoverColor: '#0062a1',
+  normalColor: PropTypes.string.isRequired,
+  hoverColor: PropTypes.string.isRequired,
 };
 
 export default ConfirmLocationFromMapButton;

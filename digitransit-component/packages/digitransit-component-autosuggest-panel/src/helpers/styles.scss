@@ -3,8 +3,6 @@
 @import '~@hsl-fi/sass/mixins/screen';
 @import '~@hsl-fi/sass/mixins/text';
 
-$primary-color: #007ac9;
-
 $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   map-buttons, context-panel, search-panel, search-overlay, stop-route-station-input, destination-input,
   viapoint-input-5, viapoint-input-4, viapoint-input-3, viapoint-input-2,
@@ -164,7 +162,6 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     height: 100%;
     min-width: 40px;
     svg {
-      fill: $primary-color;
       width: 19px;
       height: 17px;
     }
@@ -176,7 +173,6 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     height: 100%;
     min-width: 40px;
     svg {
-      fill: $primary-color;
       width: 20px;
       height: 22px;
     }
@@ -188,7 +184,6 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     height: 100%;
     min-width: 47px;
     svg {
-      fill: $primary-color;
       width: 18px;
       height: 19px;
     }
@@ -201,7 +196,6 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     max-height: 42px;
     min-width: 40px;
     svg {
-      fill: $primary-color;
       width: 14px;
       height: 14px;
     }
@@ -209,15 +203,15 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
 }
 
 .combobox-icon {
-  color: $primary-color;
+  color: var(--normal-color);
   border-left: solid #888888 1px;
   height: 35px;
 
   &.time-input-icon {
     padding: 9px 13px 0 13px;
       svg {
-      width: 18px;
-      height: 19px;
+        width: 18px;
+        height: 19px;
     }
   }
 }

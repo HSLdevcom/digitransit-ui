@@ -2,7 +2,6 @@
 @import '~@hsl-fi/sass/mixins/screen';
 @import '~@hsl-fi/sass/mixins/text';
 
-$primary-color: #007ac9;
 $font-weight-medium: 500;
 @mixin default-focus-outline {
   /* First apply outline that is used in Edge and Firefox */
@@ -63,20 +62,17 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
       position: relative;
       top: 1px;
       svg {
-        fill: $primary-color;
         width: 14px;
         height: 10px;
       }
     }
     .close-icon {
       svg {
-        fill: $primary-color;
         width: 11px;
         height: 11px;
         transform: rotate(45deg);
         border-radius: 1px;
         path {
-          stroke: #007ac9;
           stroke-width: 30;
         }
       }
@@ -106,7 +102,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     }
 
     &.active {
-      color: $primary-color;
+      color: var(--normal-color);
     }
     &:focus {
       @include default-focus-outline;
@@ -136,7 +132,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     cursor: pointer;
     height: min-content;
     &.active {
-      color: $primary-color;
+      color: var(--normal-color);
     }
     &:focus-within {
       @include default-focus-outline;
@@ -175,7 +171,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     font-weight: normal;
     margin: -2px 0 0 0;
     background: none;
-    color: $primary-color;
+    color: var(--normal-color);
     padding: 0;
     line-height: normal;
     &:focus {
@@ -203,7 +199,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     height: 50px;
     flex-grow: 1;
     &:focus-within {
-      border-color: $primary-color;
+      border-color: var(--normal-color);
     }
     .left-column {
       display: flex;
@@ -226,7 +222,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   }
 
   .combobox-icon {
-    color: $primary-color;
+    color: var(--normal-color);
     border-left: solid #888888 1px;
     height: 35px;
 
