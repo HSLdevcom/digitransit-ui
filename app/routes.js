@@ -16,6 +16,8 @@ import {
   PREFIX_BIKESTATIONS,
   LOCAL_STORAGE_EMITTER_PATH,
   createReturnPath,
+  TAB_NEARBY,
+  TAB_FAVOURITES,
 } from './util/path';
 import { preparePlanParams } from './util/planParamUtil';
 import {
@@ -318,6 +320,18 @@ export default config => {
       <Route path="/js/*" Component={Error404} />
       <Route path="/css/*" Component={Error404} />
       <Route path="/assets/*" Component={Error404} />
+      <Redirect
+        from={`/:from/:to/${TAB_NEARBY}`}
+        to={`${
+          config.indexPath === '' ? '' : `/${config.indexPath}`
+        }/:from/:to`}
+      />
+      <Redirect
+        from={`/:from/:to/${TAB_FAVOURITES}`}
+        to={`${
+          config.indexPath === '' ? '' : `/${config.indexPath}`
+        }/:from/:to`}
+      />
       <Route
         path={`${
           config.indexPath === '' ? '' : `/${config.indexPath}`

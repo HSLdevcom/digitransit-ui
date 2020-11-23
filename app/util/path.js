@@ -9,8 +9,10 @@ import {
 import { addAnalyticsEvent } from './analyticsUtils';
 
 const debug = d('path.js');
+export const TAB_NEARBY = 'lahellasi';
+export const TAB_FAVOURITES = 'suosikit';
 export const PREFIX_ROUTES = 'linjat';
-export const PREFIX_NEARYOU = 'lahellasi';
+export const PREFIX_NEARYOU = TAB_NEARBY;
 export const PREFIX_STOPS = 'pysakit';
 export const PREFIX_BIKESTATIONS = 'pyoraasemat';
 export const PREFIX_TERMINALS = 'terminaalit';
