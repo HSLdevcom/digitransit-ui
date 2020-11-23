@@ -14,17 +14,6 @@ cache: yarn
 
 language: node_js
 
-deploy:
-  provider: npm
-  # After your tests ran and before the release, Travis CI will clean up any additional files and changes you made.
-  # This will skip the cleanup
-  skip_cleanup: true
-  email: "digitransit@hsl.fi"
-  api_key:
-    secure: Dh5oyrUOIR/KB4CuYtNFu4xKywkSKAqMkd+HkD8LQM5dutknpqJJ4NRftU+dCzPX/iFaTO4w3gpFzv67S6q5eUxcQt8NDuCNbU0p9yYK9JC9sj73hZRHuGcK3ChCc3Kv1W9ORnHs4/ZQtSownYfrcwd7z2+L6WTWBcy7bCrmMiQ=
-  on:
-    branch: next
-
 before_install:
   - export TZ=Europe/Helsinki
 
