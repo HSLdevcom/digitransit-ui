@@ -44,7 +44,10 @@ class LocationPopup extends React.Component {
 
     function parseZoneName(fullZoneName) {
       if (fullZoneName) {
-        return fullZoneName.split(':')[1];
+        const [feedId, zoneId] = fullZoneName.split(':');
+        if (config.feedIds.includes(feedId)) {
+          return zoneId;
+        }
       }
       return undefined;
     }
