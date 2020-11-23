@@ -159,6 +159,18 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
+  geoJson: {
+    layers: [
+      {
+        name: {
+          fi: 'Vyöhykkeet',
+          sv: 'Zoner',
+          en: 'Zones',
+        },
+        url: '/assets/geojson/lahti_zone_lines_20201118.geojson',
+      },
+    ],
+  },
   zoneIdMapping: {
     1: 'A',
     2: 'B',
