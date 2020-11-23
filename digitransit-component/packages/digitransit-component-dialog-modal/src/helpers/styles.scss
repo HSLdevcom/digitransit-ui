@@ -2,8 +2,6 @@
 @import '~@hsl-fi/sass/mixins/screen';
 @import '~@hsl-fi/sass/mixins/text';
 
-$primary-color: #007ac9;
-
 .digitransit-dialog-modal-top {
   display: flex;
   flex-direction: column;
@@ -14,7 +12,7 @@ $primary-color: #007ac9;
     font-weight: 500;
     line-height: 1.33;
     letter-spacing: -0.6px;
-    text-align: center;
+    text-align: left;
     color: #333333;
   }
   .digitransit-dialog-modal-content {
@@ -23,7 +21,7 @@ $primary-color: #007ac9;
     font-weight: normal;
     line-height: 1.33;
     letter-spacing: -0.6px;
-    text-align: center;
+    text-align: left;
     color: #333333;
   }
 }
@@ -42,7 +40,7 @@ $primary-color: #007ac9;
     font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
     font-weight: 500;
     letter-spacing: -0.5px;
-    background: $primary-color;
+    background: var(--color);
     color: #fff;
     line-height: 0;
     text-align: center;
@@ -53,8 +51,10 @@ $primary-color: #007ac9;
     border-radius: 25px;
     &.primary {
       text-decoration: none;
-      &:active, &:focus {
-        background: darken($primary-color, 5%);
+      &:active, &:focus, &:hover {
+        border-color: var(--hover-color);
+        background-color: var(--hover-color);
+        color: #fff;
       }
       &.disabled {
         background: #bbb;
@@ -66,10 +66,12 @@ $primary-color: #007ac9;
     &.secondary {
       margin-top: 9px;
       background: #fff;
-      border: solid 1px #888888;
-      color: $primary-color;
-      &:active {
-        background: #fff;
+      border: solid 1px var(--color);
+      color: var(--color);
+      &:active, &:hover {
+        border-color: var(--hover-color);
+        background-color: #fff;
+        color: var(--hover-color);
       }
     }
   }

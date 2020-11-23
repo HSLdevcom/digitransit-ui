@@ -6,7 +6,6 @@ $favourite-icon-column-border-color: #d9d9d9;
 $favourite-icon-border-radius: 5px;
 
 $selected-icon-font-color: #fff;
-$not-selected-icon-font-color: #007ac9;
 
 $selected-icon-background-color: #333;
 $not-selected-icon-background-color: #fff;
@@ -41,7 +40,6 @@ $not-selected-icon-background-color: #fff;
   border-bottom: solid 1px $favourite-icon-column-border-color;
   border-right: solid 1px $favourite-icon-column-border-color;
   border-left: none;
-  color: $not-selected-icon-font-color;
 
   &.place {
     svg {
@@ -61,21 +59,11 @@ $not-selected-icon-background-color: #fff;
       height: 18px;
     }
   }
-}
 
-.favourite-icon-table-column:active {
-  background: $selected-icon-background-color;
-  color: $selected-icon-font-color;
-}
-
-.favourite-icon-table-column:hover {
-  background: $selected-icon-background-color;
-  color: $selected-icon-font-color;
-}
-
-.favourite-icon-table-column:focus {
-  background: $selected-icon-background-color;
-  color: $selected-icon-font-color;
+  &:active, &:hover, &:focus, .selected-icon {
+    background: $selected-icon-background-color;
+    color: $selected-icon-font-color;
+  }
 }
 
 .favourite-icon-table-column:first-child {
@@ -89,7 +77,7 @@ $not-selected-icon-background-color: #fff;
   border-bottom-right-radius: $favourite-icon-border-radius;
 }
 
-.selected-icon {
+.favourite-icon-table-column.selected-icon {
   background: $selected-icon-background-color;
   color: $selected-icon-font-color;
 }

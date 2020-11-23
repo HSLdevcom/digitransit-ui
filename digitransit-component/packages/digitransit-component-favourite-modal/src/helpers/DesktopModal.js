@@ -18,6 +18,8 @@ const DesktopModal = ({
   isEdit,
   cancelText,
   cancelSelected,
+  color,
+  hoverColor,
 }) => {
   return (
     <div className={styles['favourite-modal-desktop-container']}>
@@ -36,6 +38,10 @@ const DesktopModal = ({
             value={name}
             placeholder={inputPlaceholder}
             onChange={specifyName}
+            style={{
+              '--color': `${color}`,
+              '--hover-color': `${hoverColor}`,
+            }}
           />
         </div>
       </div>
@@ -53,6 +59,10 @@ const DesktopModal = ({
               canSave() ? '' : styles.disabled
             }`,
           )}
+          style={{
+            '--color': `${color}`,
+            '--hover-color': `${hoverColor}`,
+          }}
           onClick={saveFavourite}
         >
           {saveText}
@@ -65,6 +75,10 @@ const DesktopModal = ({
                 canSave() ? '' : styles.disabled
               }`,
             )}
+            style={{
+              '--color': `${color}`,
+              '--hover-color': `${hoverColor}`,
+            }}
             onClick={cancelSelected}
           >
             {cancelText}
@@ -89,6 +103,8 @@ DesktopModal.propTypes = {
   isEdit: PropTypes.bool,
   cancelText: PropTypes.string.isRequired,
   cancelSelected: PropTypes.func,
+  color: PropTypes.string.isRequired,
+  hoverColor: PropTypes.string.isRequired,
 };
 
 DesktopModal.defaultProps = {

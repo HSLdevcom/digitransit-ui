@@ -15,6 +15,8 @@ const MobileModal = ({
   saveFavourite,
   saveText,
   canSave,
+  color,
+  hoverColor,
 }) => {
   return (
     <div className={styles['favourite-modal-mobile-container']}>
@@ -48,6 +50,10 @@ const MobileModal = ({
               canSave() ? '' : styles.disabled
             }`,
           )}
+          style={{
+            '--color': `${color}`,
+            '--hover-color': `${hoverColor}`,
+          }}
           onClick={saveFavourite}
         >
           {saveText}
@@ -68,6 +74,8 @@ MobileModal.propTypes = {
   saveFavourite: PropTypes.func.isRequired,
   saveText: PropTypes.string.isRequired,
   canSave: PropTypes.func.isRequired,
+  color: PropTypes.string.isRequired,
+  hoverColor: PropTypes.string.isRequired,
 };
 
 export default MobileModal;

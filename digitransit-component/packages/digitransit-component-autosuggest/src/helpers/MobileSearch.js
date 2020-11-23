@@ -41,6 +41,8 @@ const MobileSearch = ({
   dialogSecondaryButtonText,
   clearInputButtonText,
   focusInput,
+  color,
+  hoverColor,
 }) => {
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;
@@ -86,6 +88,8 @@ const MobileSearch = ({
           setDialogOpen(false);
         }}
         secondaryButtonOnClick={() => setDialogOpen(false)}
+        color={color}
+        hoverColor={hoverColor}
       />
     );
   };
@@ -98,7 +102,7 @@ const MobileSearch = ({
         onClick={clearInput}
         aria-label={clearInputButtonText}
       >
-        <Icon img="close" />
+        <Icon img="close" color={color} />
       </button>
     );
   };
@@ -139,6 +143,10 @@ const MobileSearch = ({
                   id={id}
                   onKeyDown={onKeyDown}
                   {...p}
+                  style={{
+                    '--color': `${color}`,
+                    '--hover-color': `${hoverColor}`,
+                  }}
                 />
                 {value && clearButton()}
               </>
@@ -204,6 +212,8 @@ MobileSearch.propTypes = {
   dialogPrimaryButtonText: PropTypes.string,
   dialogSecondaryButtonText: PropTypes.string,
   focusInput: PropTypes.bool,
+  color: PropTypes.string,
+  hoverColor: PropTypes.string,
 };
 
 export default MobileSearch;

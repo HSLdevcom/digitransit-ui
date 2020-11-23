@@ -318,6 +318,10 @@ $itinerary-tab-switch-height: 48px;
         font-size: $font-size-small;
         padding-top: 3px;
       }
+      &:hover {
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+      }
     }
   }
 

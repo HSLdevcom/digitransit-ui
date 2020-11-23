@@ -11,7 +11,7 @@ function ToggleMapTracking(props) {
       role="button"
       tabIndex={0}
     >
-      <Icon img={props.img} className={props.className} />
+      <Icon img={props.img} className={props.className} color="#ff0000" />
     </div>
   );
 }
