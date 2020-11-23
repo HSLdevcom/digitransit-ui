@@ -78,9 +78,7 @@ export const isItinerarySearch = (origin, destination) => {
 };
 
 export const isItinerarySearchObjects = (origin, destination) => {
-  const isSearch =
-    get(origin, 'ready') === true && get(destination, 'ready') === true;
-  return isSearch;
+  return get(origin, 'address') && get(destination, 'address');
 };
 
 /**

@@ -6,24 +6,19 @@ import { matchShape, routerShape, Link } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
 import isEqual from 'lodash/isEqual';
-import d from 'debug';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
 import TrafficNowLink from '@digitransit-component/digitransit-component-traffic-now-link';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import { getModesWithAlerts } from '@digitransit-search-util/digitransit-search-util-query-utils';
-import {
-  initGeolocation,
-  checkPositioningPermission,
-} from '../action/PositionActions';
 import storeOrigin from '../action/originActions';
 import storeDestination from '../action/destinationActions';
 import withSearchContext from './WithSearchContext';
 import { isBrowser } from '../util/browser';
 import {
+  getRoutePath,
   parseLocation,
   isItinerarySearchObjects,
-  navigateTo,
   PREFIX_NEARYOU,
 } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -31,12 +26,11 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 import OverlayWithSpinner from './visual/OverlayWithSpinner';
 import { dtLocationShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
+import Geomover from './Geomover';
 import ComponentUsageExample from './ComponentUsageExample';
 import scrollTop from '../util/scroll';
 import FavouritesContainer from './FavouritesContainer';
 import DatetimepickerContainer from './DatetimepickerContainer';
-
-const debug = d('IndexPage.js');
 
 const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 const DTAutosuggestPanelWithSearchContext = withSearchContext(
@@ -54,12 +48,9 @@ class IndexPage extends React.Component {
   };
 
   static propTypes = {
-    router: routerShape.isRequired,
-    autoSetOrigin: PropTypes.bool,
     breakpoint: PropTypes.string.isRequired,
     origin: dtLocationShape.isRequired,
     destination: dtLocationShape.isRequired,
-    showSpinner: PropTypes.bool.isRequired,
     lang: PropTypes.string,
     currentTime: PropTypes.number.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
@@ -68,73 +59,46 @@ class IndexPage extends React.Component {
     fromMap: PropTypes.string,
   };
 
-  static defaultProps = {
-    autoSetOrigin: true,
-    lang: 'fi',
+  static defaultProps = { lang: 'fi' };
+
+  /* eslint-disable no-param-reassign */
+  processLocation = (locationString, intl) => {
+    let location;
+    if (locationString) {
+      location = parseLocation(locationString);
+
+      if (location.type === 'CurrentLocation') {
+        location.address = intl.formatMessage({
+          id: 'own-position',
+          defaultMessage: 'Own Location',
+        });
+      }
+    }
+    return location;
   };
 
-  constructor(props, context) {
-    super(props);
-    if (this.props.autoSetOrigin) {
-      context.executeAction(storeOrigin, props.origin);
-    }
-    this.state = {
-      // eslint-disable-next-line react/no-unused-state
-      pendingCurrentLocation: false,
-    };
-  }
-
   componentDidMount() {
+    const { from, to } = this.context.match.params;
+    /* initialize stores from URL params */
+    const origin = this.processLocation(from, this.context.intl);
+    const destination = this.processLocation(to, this.context.intl);
+
+    if (origin) {
+      this.context.executeAction(storeOrigin, origin);
+    }
+    if (destination) {
+      this.context.executeAction(storeDestination, destination);
+    }
     scrollTop();
   }
 
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps = nextProps => {
-    this.handleLocationProps(nextProps);
-  };
-
-  /* eslint-disable no-param-reassign */
-  handleLocationProps = nextProps => {
-    if (!isEqual(nextProps.origin, this.props.origin)) {
-      this.context.executeAction(storeOrigin, nextProps.origin);
-    }
-    if (!isEqual(nextProps.destination, this.props.destination)) {
-      this.context.executeAction(storeDestination, nextProps.destination);
-    }
-
-    if (isItinerarySearchObjects(nextProps.origin, nextProps.destination)) {
-      debug('Redirecting to itinerary summary page');
-      navigateTo({
-        origin: nextProps.origin,
-        destination: nextProps.destination,
-        rootPath: `${this.context.config.indexPath}`,
-        router: this.props.router,
-        base: this.context.match.location,
-      });
-    }
-  };
-
   clickFavourite = favourite => {
-    const location = {
-      lat: favourite.lat,
-      lon: favourite.lon,
-      address: favourite.name,
-      ready: true,
-    };
-
     addAnalyticsEvent({
       category: 'Favourite',
       action: 'ClickFavourite',
       name: null,
     });
-
-    navigateTo({
-      origin: this.props.origin,
-      destination: location,
-      rootPath: `${this.context.config.indexPath}`,
-      router: this.props.router,
-      base: this.context.match.location,
-    });
+    this.context.executeAction(storeDestination, favourite);
   };
 
   // DT-3551: handle logic for Traffic now link
@@ -170,21 +134,18 @@ class IndexPage extends React.Component {
       ...origin,
       queryString,
     };
-    // const { mapExpanded } = this.state; // TODO verify
 
     const alertsContext = {
       currentTime: this.props.currentTime,
       getModesWithAlerts,
     };
 
+    const showSpinner = false;
+
     return breakpoint === 'large' ? (
       <div
         className={`front-page flex-vertical ${
-          origin &&
-          origin.gps === true &&
-          origin.ready === false &&
-          origin.gpsError === false &&
-          `blurred`
+          showSpinner && `blurred`
         } fullscreen bp-${breakpoint}`}
       >
         <div
@@ -265,19 +226,15 @@ class IndexPage extends React.Component {
               ))}
           </CtrlPanel>
         </div>
-        {(this.props.showSpinner && <OverlayWithSpinner />) || null}
+        {(showSpinner && <OverlayWithSpinner />) || null}
       </div>
     ) : (
       <div
         className={`front-page flex-vertical ${
-          origin &&
-          origin.gps === true &&
-          origin.ready === false &&
-          origin.gpsError === false &&
-          `blurred`
+          showSpinner && `blurred`
         } bp-${breakpoint}`}
       >
-        {(this.props.showSpinner && <OverlayWithSpinner />) || null}
+        {(showSpinner && <OverlayWithSpinner />) || null}
         <div
           style={{
             display: isBrowser ? 'block' : 'none',
@@ -375,8 +332,6 @@ const Index = shouldUpdate(
       isEqual(nextProps.destination, props.destination) &&
       isEqual(nextProps.breakpoint, props.breakpoint) &&
       isEqual(nextProps.lang, props.lang) &&
-      isEqual(nextProps.locationState, props.locationState) &&
-      isEqual(nextProps.showSpinner, props.showSpinner) &&
       isEqual(nextProps.query, props.query)
     );
   },
@@ -386,133 +341,54 @@ const IndexPageWithBreakpoint = withBreakpoint(Index);
 
 IndexPageWithBreakpoint.description = (
   <ComponentUsageExample isFullscreen>
-    <IndexPageWithBreakpoint
-      autoSetOrigin={false}
-      destination={{
-        ready: false,
-        set: false,
-      }}
-      origin={{
-        ready: false,
-        set: false,
-      }}
-      routes={[]}
-      showSpinner={false}
-    />
+    <IndexPageWithBreakpoint destination={{}} origin={{}} routes={[]} />
   </ComponentUsageExample>
 );
 
-/* eslint-disable no-param-reassign */
-const processLocation = (locationString, locationState, intl) => {
-  let location;
-  if (locationString) {
-    location = parseLocation(locationString);
-
-    if (location.gps === true) {
-      if (
-        locationState.lat &&
-        locationState.lon &&
-        locationState.address !== undefined // address = "" when reverse geocoding cannot return address
-      ) {
-        location.ready = true;
-        location.lat = locationState.lat;
-        location.lon = locationState.lon;
-        location.address =
-          locationState.address ||
-          intl.formatMessage({
-            id: 'own-position',
-            defaultMessage: 'Own Location',
-          });
-      }
-      const gpsError = locationState.locationingFailed === true;
-
-      location.gpsError = gpsError;
-    }
-  } else {
-    location = { set: false };
-  }
-  return location;
-};
-
-const IndexPageWithPosition = connectToStores(
+const IndexPageWithStores = connectToStores(
   IndexPageWithBreakpoint,
-  ['PositionStore', 'TimeStore'],
+  ['OriginStore', 'DestinationStore', 'TimeStore', 'PreferencesStore'],
   (context, props) => {
-    const locationState = context.getStore('PositionStore').getLocationState();
-    const currentTime = context.getStore('TimeStore').getCurrentTime().unix();
-    const { from, to } = props.match.params;
+    const origin = context.getStore('OriginStore').getOrigin();
+    const destination = context.getStore('DestinationStore').getDestination();
+
     const { location } = props.match;
-    const { query } = location;
-    const { favouriteModalAction, fromMap } = query;
+    if (isItinerarySearchObjects(origin, destination)) {
+      const newLocation = {
+        ...location,
+        pathname: getRoutePath(origin, destination),
+      };
+      props.router.push(newLocation);
+    }
 
     const newProps = {};
+    const { query } = location;
+    const { favouriteModalAction, fromMap } = query;
     if (favouriteModalAction) {
       newProps.favouriteModalAction = favouriteModalAction;
     }
     if (fromMap === 'origin' || fromMap === 'destination') {
       newProps.fromMap = fromMap;
     }
-
+    newProps.origin = origin;
+    newProps.destination = destination;
     newProps.lang = context.getStore('PreferencesStore').getLanguage();
-
-    newProps.locationState = locationState;
-    newProps.currentTime = currentTime;
-    newProps.origin = processLocation(from, locationState, context.intl);
-    newProps.destination = processLocation(to, locationState, context.intl);
+    newProps.currentTime = context
+      .getStore('TimeStore')
+      .getCurrentTime()
+      .unix();
     newProps.query = query; // defines itinerary search time & arriveBy
-    newProps.showSpinner = locationState.isLocationingInProgress === true;
 
-    if (
-      isBrowser &&
-      locationState.isLocationingInProgress !== true &&
-      locationState.hasLocation === false &&
-      (newProps.origin.gps === true || newProps.destination.gps === true)
-    ) {
-      checkPositioningPermission().then(status => {
-        if (
-          // check logic for starting geolocation
-          status.state === 'granted' &&
-          locationState.status === 'no-location'
-        ) {
-          debug('Auto Initialising geolocation');
-          context.executeAction(initGeolocation);
-        } else if (status.state === 'prompt') {
-          debug('Still prompting');
-          // eslint-disable-next-line no-useless-return
-          return;
-        } else {
-          // clear gps & redirect
-          if (newProps.origin.gps === true) {
-            newProps.origin.gps = false;
-            newProps.origin.set = false;
-          }
-
-          if (newProps.destination.gps === true) {
-            newProps.destination.gps = false;
-            newProps.destination.set = false;
-          }
-
-          debug('Redirecting away from POS');
-          navigateTo({
-            origin: newProps.origin,
-            destination: newProps.destination,
-            rootPath: `${context.config.indexPath}`,
-            router: props.router,
-            base: location,
-          });
-        }
-      });
-    }
     return newProps;
   },
 );
 
-IndexPageWithPosition.contextTypes = {
-  ...IndexPageWithPosition.contextTypes,
+IndexPageWithStores.contextTypes = {
+  ...IndexPageWithStores.contextTypes,
   executeAction: PropTypes.func.isRequired,
   config: PropTypes.object.isRequired,
 };
-export {
-  IndexPageWithPosition as default,
-  IndexPageWithBreakpoint as Component,
-};
+
+const GeoIndexPage = Geomover(IndexPageWithStores);
+
+export { GeoIndexPage as default, IndexPageWithBreakpoint as Component };
