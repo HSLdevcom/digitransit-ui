@@ -10,8 +10,6 @@ const walttiConfig = require('./config.waltti').default;
 export default configMerger(walttiConfig, {
   CONFIG,
 
-  allowLogin: true,
-
   appBarLink: {
     name: 'Hämeenlinna',
     href: 'http://www.hameenlinna.fi/joukkoliikenne/',
