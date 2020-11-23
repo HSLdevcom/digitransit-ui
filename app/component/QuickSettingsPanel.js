@@ -40,7 +40,7 @@ class QuickSettingsPanel extends React.Component {
                 <RightOffcanvasToggle onToggleClick={toggleSettings} />
               </div>
             }
-            normalColor={this.context.config.colors.primary}
+            color={this.context.config.colors.primary}
           />
         </div>
       </div>

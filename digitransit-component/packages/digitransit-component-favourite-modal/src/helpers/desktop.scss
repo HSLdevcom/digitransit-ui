@@ -46,7 +46,7 @@
         &:focus {
           background: #fff;
           outline: none;
-          border: 1px solid var(--normal-color);
+          border: 1px solid var(--color);
           box-shadow: 0px 0px 2px 1px var(--hover-color);
           -webkit-appearance: none;
         }
@@ -78,7 +78,7 @@
       font-family: 'Gotham Rounded A', 'Gotham Rounded B', Arial, Georgia, Serif;
       font-weight: 500;
       letter-spacing: -0.5px;
-      background: var(--normal-color);
+      background: var(--color);
       color: #fff;
       line-height: 0;
       text-align: center;
@@ -104,8 +104,8 @@
       &.edit {
         margin-top: 9px;
         background: #fff;
-        border: solid 1px var(--normal-color);
-        color: var(--normal-color);
+        border: solid 1px var(--color);
+        color: var(--color);
         &:active, &:hover {
           border-color: var(--hover-color);
           background-color: #fff;

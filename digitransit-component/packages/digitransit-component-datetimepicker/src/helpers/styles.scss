@@ -102,7 +102,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     }
 
     &.active {
-      color: var(--normal-color);
+      color: var(--color);
     }
     &:focus {
       @include default-focus-outline;
@@ -132,7 +132,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     cursor: pointer;
     height: min-content;
     &.active {
-      color: var(--normal-color);
+      color: var(--color);
     }
     &:focus-within {
       @include default-focus-outline;
@@ -171,7 +171,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     font-weight: normal;
     margin: -2px 0 0 0;
     background: none;
-    color: var(--normal-color);
+    color: var(--color);
     padding: 0;
     line-height: normal;
     &:focus {
@@ -199,7 +199,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
     height: 50px;
     flex-grow: 1;
     &:focus-within {
-      border-color: var(--normal-color);
+      border-color: var(--color);
     }
     .left-column {
       display: flex;
@@ -222,7 +222,7 @@ $zindex: base, map-container, footer, map-gradient, map-fullscreen-toggle,
   }
 
   .combobox-icon {
-    color: var(--normal-color);
+    color: var(--color);
     border-left: solid #888888 1px;
     height: 35px;
 

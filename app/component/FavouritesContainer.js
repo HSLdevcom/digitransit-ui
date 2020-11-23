@@ -18,6 +18,7 @@ import {
 } from '../action/FavouriteActions';
 import FavouriteStore from '../store/FavouriteStore';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { LightenDarkenColor } from '../util/colorUtils';
 
 const AutoSuggestWithSearchContext = withSearchContext(AutoSuggest);
 
@@ -51,7 +52,7 @@ class FavouritesContainer extends React.Component {
     favouriteModalAction: PropTypes.string,
     allowLogin: PropTypes.bool,
     isLoggedIn: PropTypes.bool,
-    normalColor: PropTypes.string,
+    color: PropTypes.string,
     hoverColor: PropTypes.string,
   };
 
@@ -242,7 +243,7 @@ class FavouritesContainer extends React.Component {
             loginModalOpen: false,
           });
         }}
-        normalColor={this.props.normalColor}
+        color={this.props.color}
         hoverColor={this.props.hoverColor}
       />
     );
@@ -346,7 +347,7 @@ class FavouritesContainer extends React.Component {
           }
           lang={this.props.lang}
           isLoading={isLoading}
-          normalColor={this.props.normalColor}
+          color={this.props.color}
         />
         <FavouriteModal
           appElement="#app"
@@ -371,11 +372,11 @@ class FavouritesContainer extends React.Component {
               onFavouriteSelected={this.setLocationProperties}
               lang={this.props.lang}
               isMobile={this.props.isMobile}
-              normalColor={this.props.normalColor}
+              color={this.props.color}
               hoverColor={this.props.hoverColor}
             />
           }
-          normalColor={this.props.normalColor}
+          color={this.props.color}
           hoverColor={this.props.hoverColor}
         />
         <FavouriteEditModal
@@ -390,7 +391,7 @@ class FavouritesContainer extends React.Component {
           lang={this.props.lang}
           isMobile={this.props.isMobile}
           isLoading={isLoading}
-          normalColor={this.props.normalColor}
+          color={this.props.color}
           hoverColor={this.props.hoverColor}
         />
         {this.renderLoginModal()}
@@ -416,8 +417,10 @@ const connectedComponent = connectToStores(
     isLoggedIn:
       context.config.allowLogin &&
       context.getStore('UserStore').getUser().sub !== undefined,
-    normalColor: context.config.colors.primary,
-    hoverColor: context.config.colors.hover || context.config.colors.primary,
+    color: context.config.colors.primary,
+    hoverColor:
+      context.config.colors.hover ||
+      LightenDarkenColor(context.config.colors.primary, -20),
   }),
 );
 

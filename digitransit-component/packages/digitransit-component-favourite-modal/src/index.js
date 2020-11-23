@@ -31,14 +31,14 @@ const FavouriteIconTableButton = ({
   value,
   selectedIconId,
   handleClick,
-  normalColor,
+  color,
 }) => {
   const [isHovered, setHover] = useState(false);
   const [isFocused, setFocus] = useState(false);
   const iconColor =
     value === FavouriteIconIdToNameMap[selectedIconId] || isHovered || isFocused
       ? '#ffffff'
-      : normalColor;
+      : color;
   return (
     <button
       type="button"
@@ -61,14 +61,14 @@ FavouriteIconTableButton.propTypes = {
   handleClick: PropTypes.func.isRequired,
   value: PropTypes.string,
   selectedIconId: PropTypes.string,
-  normalColor: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
 };
 
 const FavouriteIconTable = ({
   favouriteIconIds,
   selectedIconId,
   handleClick,
-  normalColor,
+  color,
 }) => {
   const columns = favouriteIconIds.map(value => (
     <FavouriteIconTableButton
@@ -76,7 +76,7 @@ const FavouriteIconTable = ({
       value={value}
       selectedIconId={selectedIconId}
       handleClick={handleClick}
-      normalColor={normalColor}
+      color={color}
     />
   ));
 
@@ -91,7 +91,7 @@ FavouriteIconTable.propTypes = {
   handleClick: PropTypes.func.isRequired,
   favouriteIconIds: PropTypes.array,
   selectedIconId: PropTypes.string,
-  normalColor: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
 };
 
 /**
@@ -171,7 +171,7 @@ class FavouriteModal extends React.Component {
     /** Optional. */
     isMobile: PropTypes.bool,
     appElement: PropTypes.string.isRequired,
-    normalColor: PropTypes.string,
+    color: PropTypes.string,
     hoverColor: PropTypes.string,
   };
 
@@ -180,7 +180,7 @@ class FavouriteModal extends React.Component {
     lang: 'fi',
     isMobile: false,
     favourite: null,
-    normalColor: '#007ac9',
+    color: '#007ac9',
     hoverColor: '#0062a1',
   };
 
@@ -317,7 +317,7 @@ class FavouriteModal extends React.Component {
 
   render = () => {
     const { favourite } = this.state;
-    const { normalColor, hoverColor } = this.props;
+    const { color, hoverColor } = this.props;
     const headerText = this.isEdit()
       ? i18next.t('edit-place')
       : i18next.t('save-place');
@@ -325,7 +325,7 @@ class FavouriteModal extends React.Component {
       headerText,
       autosuggestComponent: {
         ...this.props.autosuggestComponent,
-        normalColor,
+        color,
         hoverColor,
       },
       inputPlaceholder: i18next.t('input-placeholder'),
@@ -342,7 +342,7 @@ class FavouriteModal extends React.Component {
           })()}
           favouriteIconIds={FavouriteModal.favouriteIconIds}
           handleClick={this.selectIcon}
-          normalColor={this.props.normalColor}
+          color={this.props.color}
         />
       ),
       saveFavourite: this.save,
@@ -351,7 +351,7 @@ class FavouriteModal extends React.Component {
       isEdit: this.isEdit(),
       cancelText: i18next.t('cancel'),
       cancelSelected: () => this.cancelSelected(),
-      normalColor,
+      color,
       hoverColor,
     };
     return (

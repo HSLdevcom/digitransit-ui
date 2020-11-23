@@ -157,7 +157,7 @@ class DTAutosuggestPanel extends React.Component {
     sources: PropTypes.arrayOf(PropTypes.string),
     targets: PropTypes.arrayOf(PropTypes.string),
     isMobile: PropTypes.bool,
-    normalColor: PropTypes.string,
+    color: PropTypes.string,
     hoverColor: PropTypes.string,
   };
 
@@ -174,6 +174,8 @@ class DTAutosuggestPanel extends React.Component {
     disableAutoFocus: false,
     isMobile: false,
     handleViaPointLocationSelected: undefined,
+    color: '#007ac9',
+    hoverColor: '#0062a1',
   };
 
   constructor(props) {
@@ -405,7 +407,7 @@ class DTAutosuggestPanel extends React.Component {
             sources={this.props.sources}
             targets={this.props.targets}
             isMobile={this.props.isMobile}
-            normalColor={this.props.normalColor}
+            color={this.props.color}
             hoverColor={this.props.hoverColor}
           />
           <ItinerarySearchControl
@@ -417,7 +419,7 @@ class DTAutosuggestPanel extends React.Component {
             }
             aria-label={i18next.t('swap-order-button-label')}
           >
-            <Icon img="opposite" color={this.props.normalColor} />
+            <Icon img="opposite" color={this.props.color} />
           </ItinerarySearchControl>
         </div>
         {viaPoints.length === 0 && (
@@ -448,11 +450,7 @@ class DTAutosuggestPanel extends React.Component {
                     className={styles['viapoint-before']}
                     style={{ cursor: 'move' }}
                   >
-                    <Icon
-                      img="ellipsis"
-                      rotate={90}
-                      color={this.props.normalColor}
-                    />
+                    <Icon img="ellipsis" rotate={90} color={this.props.color} />
                   </div>
                   <div
                     className={cx(
@@ -483,7 +481,7 @@ class DTAutosuggestPanel extends React.Component {
                       sources={this.props.sources}
                       targets={this.props.targets}
                       isMobile={this.props.isMobile}
-                      normalColor={this.props.normalColor}
+                      color={this.props.color}
                       hoverColor={this.props.hoverColor}
                     />
                   </div>
@@ -502,7 +500,7 @@ class DTAutosuggestPanel extends React.Component {
                       { index: i + 1 },
                     )}
                   >
-                    <Icon img="time" color={this.props.normalColor} />
+                    <Icon img="time" color={this.props.color} />
                   </ItinerarySearchControl>
                 </div>
                 {!isViaPointSlackTimeInputActive(i) &&
@@ -533,10 +531,10 @@ class DTAutosuggestPanel extends React.Component {
                         <span
                           className={`${styles['combobox-icon']} ${styles['time-input-icon']}`}
                           style={{
-                            '--normal-color': `${this.props.normalColor}`,
+                            '--color': `${this.props.color}`,
                           }}
                         >
-                          <Icon img="time" color={this.props.normalColor} />
+                          <Icon img="time" color={this.props.color} />
                         </span>
                       }
                       onSlackTimeSelected={this.handleViaPointSlackTimeSelected}
@@ -556,7 +554,7 @@ class DTAutosuggestPanel extends React.Component {
                   index: i + 1,
                 })}
               >
-                <Icon img="close" color={this.props.normalColor} />
+                <Icon img="close" color={this.props.color} />
               </ItinerarySearchControl>
             </div>
           ))}
@@ -581,7 +579,7 @@ class DTAutosuggestPanel extends React.Component {
             sources={this.props.sources}
             targets={this.props.targets}
             isMobile={this.props.isMobile}
-            normalColor={this.props.normalColor}
+            color={this.props.color}
             hoverColor={this.props.hoverColor}
           />
           <ItinerarySearchControl
@@ -599,7 +597,7 @@ class DTAutosuggestPanel extends React.Component {
               img="viapoint"
               width={1.25}
               height={1.375}
-              color={this.props.normalColor}
+              color={this.props.color}
             />
           </ItinerarySearchControl>
         </div>

@@ -65,27 +65,27 @@
             position: relative;
             left: -3px;
             top: -1px;
-            fill: var(--normal-color);
+            fill: var(--color);
             width: 22px;
             height: 22px;
           }
           &.place {
             svg {
-              fill: var(--normal-color);
+              fill: var(--color);
               width: 24px;
               height: 24px;
             }
           }
           &.home, &.school, &.sport, &.shopping {
             svg {
-              fill: var(--normal-color);
+              fill: var(--color);
               width: 18px;
               height: 18px;
             }
           }
           &.work {
             svg {
-              fill: var(--normal-color);
+              fill: var(--color);
               width: 20px;
               height: 20px;
             }

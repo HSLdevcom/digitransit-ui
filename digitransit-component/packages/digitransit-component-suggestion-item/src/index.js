@@ -17,7 +17,7 @@ function getAriaDescription(ariaContentArray) {
   return description;
 }
 
-function getIconProperties(item, normalColor) {
+function getIconProperties(item, color) {
   let iconId;
   let iconColor = '#888888';
   // because of legacy favourites there might be selectedIconId for some stops or stations
@@ -35,7 +35,7 @@ function getIconProperties(item, normalColor) {
     // eslint-disable-next-line prefer-destructuring
     iconColor = item.iconColor;
   } else if (isFavourite(item)) {
-    iconColor = normalColor;
+    iconColor = color;
   }
   const layerIcon = new Map([
     ['bikeRentalStation', 'citybike'],
@@ -71,7 +71,7 @@ function getIconProperties(item, normalColor) {
   ]);
   const defaultIcon = 'place';
   if (layerIcon.get(iconId) === 'locate') {
-    iconColor = normalColor;
+    iconColor = color;
   }
   return [layerIcon.get(iconId) || defaultIcon, iconColor];
 }
@@ -93,9 +93,9 @@ const SuggestionItem = pure(
     className,
     isMobile,
     ariaFavouriteString,
-    normalColor,
+    color,
   }) => {
-    const [iconId, iconColor] = getIconProperties(item, normalColor);
+    const [iconId, iconColor] = getIconProperties(item, color);
     const icon = (
       <span className={styles[iconId]}>
         <Icon color={iconColor} img={iconId} />
@@ -160,7 +160,7 @@ const SuggestionItem = pure(
             <span>
               <p
                 className={cx(styles['suggestion-name'], styles[className])}
-                style={{ color: `${item.normalColor}` }}
+                style={{ color: `${item.color}` }}
               >
                 {name}
               </p>
@@ -252,13 +252,13 @@ SuggestionItem.propTypes = {
   content: PropTypes.arrayOf(PropTypes.string),
   className: PropTypes.string,
   isMobile: PropTypes.bool,
-  normalColor: PropTypes.string,
+  color: PropTypes.string,
 };
 
 SuggestionItem.defaultProps = {
   className: undefined,
   isMobile: false,
-  normalColor: '#007ac9',
+  color: '#007ac9',
 };
 
 export default SuggestionItem;

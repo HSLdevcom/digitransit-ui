@@ -81,14 +81,14 @@ class FavouriteEditingModal extends React.Component {
     isModalOpen: PropTypes.bool.isRequired,
     isMobile: PropTypes.bool,
     isLoading: PropTypes.bool.isRequired,
-    normalColor: PropTypes.string,
+    color: PropTypes.string,
     hoverColor: PropTypes.string,
   };
 
   static defaulProps = {
     lang: 'fi',
     isMobile: false,
-    normalColor: '#007ac9',
+    color: '#007ac9',
     hoverColor: '#0062a1',
   };
 
@@ -213,7 +213,7 @@ class FavouriteEditingModal extends React.Component {
       <div
         className={styles['favourite-edit-list-container']}
         style={{
-          '--normal-color': `${this.props.normalColor}`,
+          '--color': `${this.props.color}`,
           '--hover-color': `${this.props.hoverColor}`,
         }}
       >
@@ -265,7 +265,7 @@ class FavouriteEditingModal extends React.Component {
             showDeletePlaceModal: false,
           })
         }
-        normalColor={this.props.normalColor}
+        color={this.props.color}
         hoverColor={this.props.hoverColor}
       />
     );

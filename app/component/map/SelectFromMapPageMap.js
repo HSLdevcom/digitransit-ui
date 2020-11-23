@@ -10,6 +10,7 @@ import { otpToLocation } from '../../util/otpStrings';
 import withBreakpoint from '../../util/withBreakpoint';
 import { getJson } from '../../util/xhrPromise';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
+import { LightenDarkenColor } from '../../util/colorUtils';
 
 let map;
 
@@ -199,10 +200,10 @@ class SelectFromMapPageMap extends React.Component {
             })}
             type={this.props.type}
             onConfirm={isEnabled ? this.props.onConfirm : undefined}
-            normalColor={this.context.config.colors.primary}
+            color={this.context.config.colors.primary}
             hoverColor={
               this.context.config.colors.hover ||
-              this.context.config.colors.primary
+              LightenDarkenColor(this.context.config.colors.primary, -20)
             }
           />
         )}

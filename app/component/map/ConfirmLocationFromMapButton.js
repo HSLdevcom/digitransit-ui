@@ -18,7 +18,7 @@ const ConfirmLocationFromMapButton = props => {
         disabled: !props.isEnabled,
       })}
       style={{
-        '--normal-color': `${props.normalColor}`,
+        '--color': `${props.color}`,
         '--hover-color': `${props.hoverColor}`,
       }}
       key="confirmLocation"
@@ -34,7 +34,7 @@ ConfirmLocationFromMapButton.propTypes = {
   title: PropTypes.string,
   type: PropTypes.string,
   onConfirm: PropTypes.func,
-  normalColor: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
   hoverColor: PropTypes.string.isRequired,
 };
 

@@ -33,7 +33,7 @@ const DialogModal = ({
   appElement,
   isModalOpen,
   modalAriaLabel,
-  normalColor,
+  color,
   hoverColor,
 }) => {
   i18next.changeLanguage(lang);
@@ -67,7 +67,7 @@ const DialogModal = ({
               styles.primary,
             )}
             style={{
-              '--normal-color': `${normalColor}`,
+              '--color': `${color}`,
               '--hover-color': `${hoverColor}`,
             }}
             href={href}
@@ -88,7 +88,7 @@ const DialogModal = ({
               styles.secondary,
             )}
             style={{
-              '--normal-color': `${normalColor}`,
+              '--color': `${color}`,
               '--hover-color': `${hoverColor}`,
             }}
             onClick={() => secondaryButtonOnClick()}
@@ -114,7 +114,7 @@ DialogModal.propTypes = {
   lang: PropTypes.string,
   modalAriaLabel: PropTypes.string,
   href: PropTypes.string,
-  normalColor: PropTypes.string,
+  color: PropTypes.string,
   hoverColor: PropTypes.string,
 };
 
@@ -124,7 +124,7 @@ DialogModal.defaultProps = {
   secondaryButtonText: undefined,
   secondaryButtonOnClick: undefined,
   href: undefined,
-  normalColor: '#007ac9',
+  color: '#007ac9',
   hoverColor: '#0062a1',
 };
 

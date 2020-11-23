@@ -194,7 +194,7 @@ class DTAutosuggest extends React.Component {
     sources: PropTypes.arrayOf(PropTypes.string),
     targets: PropTypes.arrayOf(PropTypes.string),
     isMobile: PropTypes.bool,
-    normalColor: PropTypes.string,
+    color: PropTypes.string,
     hoverColor: PropTypes.string,
   };
 
@@ -208,7 +208,7 @@ class DTAutosuggest extends React.Component {
     sources: [],
     targets: [],
     isMobile: false,
-    normalColor: '#007ac9',
+    color: '#007ac9',
     hoverColor: '#0062a1',
   };
 
@@ -429,7 +429,7 @@ class DTAutosuggest extends React.Component {
         onClick={this.clearInput}
         aria-label={i18next.t('clear-button-label')}
       >
-        <Icon img="close" color={this.props.normalColor} />
+        <Icon img="close" color={this.props.color} />
       </button>
     );
   };
@@ -572,7 +572,7 @@ class DTAutosuggest extends React.Component {
         loading={!this.state.valid}
         isMobile={this.props.isMobile}
         ariaFavouriteString={i18next.t('favourite')}
-        normalColor={this.props.normalColor}
+        color={this.props.color}
       />
     );
   };
@@ -743,7 +743,7 @@ class DTAutosuggest extends React.Component {
             dialogSecondaryButtonText={i18next.t('cancel')}
             clearInputButtonText={i18next.t('clear-button-label')}
             focusInput={cleanExecuted}
-            normalColor={this.props.normalColor}
+            color={this.props.color}
             hoverColor={this.props.hoverColor}
           />
         )}
@@ -786,7 +786,7 @@ class DTAutosuggest extends React.Component {
                     onKeyDown={this.keyDown}
                     {...p}
                     style={{
-                      '--normal-color': `${this.props.normalColor}`,
+                      '--color': `${this.props.color}`,
                       '--hover-color': `${this.props.hoverColor}`,
                     }}
                   />

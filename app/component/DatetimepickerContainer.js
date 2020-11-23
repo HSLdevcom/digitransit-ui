@@ -8,7 +8,7 @@ import { replaceQueryParams } from '../util/queryUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 function DatetimepickerContainer(
-  { realtime, embedWhenClosed, lang, normalColor },
+  { realtime, embedWhenClosed, lang, color },
   context,
 ) {
   const { router, match, executeAction } = context;
@@ -84,7 +84,7 @@ function DatetimepickerContainer(
       onArrivalClick={onArrivalClick}
       embedWhenClosed={embedWhenClosed}
       lang={lang}
-      normalColor={normalColor}
+      color={color}
     />
   );
 }
@@ -93,13 +93,13 @@ DatetimepickerContainer.propTypes = {
   realtime: PropTypes.bool.isRequired,
   embedWhenClosed: PropTypes.node,
   lang: PropTypes.string,
-  normalColor: PropTypes.string,
+  color: PropTypes.string,
 };
 
 DatetimepickerContainer.defaultProps = {
   embedWhenClosed: null,
   lang: 'en',
-  // normalColor: '#007ac9',
+  color: '#007ac9',
 };
 
 DatetimepickerContainer.contextTypes = {

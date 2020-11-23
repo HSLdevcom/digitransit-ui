@@ -15,7 +15,7 @@ const MobileModal = ({
   saveFavourite,
   saveText,
   canSave,
-  normalColor,
+  color,
   hoverColor,
 }) => {
   return (
@@ -51,7 +51,7 @@ const MobileModal = ({
             }`,
           )}
           style={{
-            '--normal-color': `${normalColor}`,
+            '--color': `${color}`,
             '--hover-color': `${hoverColor}`,
           }}
           onClick={saveFavourite}
@@ -74,7 +74,7 @@ MobileModal.propTypes = {
   saveFavourite: PropTypes.func.isRequired,
   saveText: PropTypes.string.isRequired,
   canSave: PropTypes.func.isRequired,
-  normalColor: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
   hoverColor: PropTypes.string.isRequired,
 };
 

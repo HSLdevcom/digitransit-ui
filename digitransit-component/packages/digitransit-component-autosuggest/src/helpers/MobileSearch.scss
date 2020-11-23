@@ -92,7 +92,7 @@ button.clear-input {
   padding-top: 4px;
   padding-right: 15px;
   height: 100%;
-  color: var(--normal-color);
+  color: var(--color);
   outline: none;
   border: 0px;
   margin: 0px;
@@ -106,7 +106,7 @@ button.clear-input {
   background-color: transparent;
   transition: none;
   svg {
-    fill: var(--normal-color);
+    fill: var(--color);
     width: 16px;
     height: 16px;
   }
@@ -179,7 +179,7 @@ button.clear-input {
   width: 100%;
   height: 62px;
   background: #f4f4f5;
-  color: var(--normal-color);
+  color: var(--color);
   font-size: 15px;
   font-weight: 500;
   letter-spacing: -0.42px;
