@@ -17,6 +17,7 @@ import { setIntermediatePlaces } from '../util/queryUtils';
 import { getIntermediatePlaces } from '../util/otpStrings';
 import { dtLocationShape } from '../util/shapes';
 import { setViaPoints } from '../action/ViaPointActions';
+import { LightenDarkenColor } from '../util/colorUtils';
 
 const DTAutosuggestPanelWithSearchContext = withSearchContext(
   DTAutosuggestPanel,
@@ -173,6 +174,11 @@ class OriginDestinationBar extends React.Component {
           disableAutoFocus={this.props.isMobile}
           isMobile={this.props.isMobile}
           itineraryParams={this.context.match.location.query}
+          color={this.context.config.colors.primary}
+          hoverColor={
+            this.context.config.colors.hover ||
+            LightenDarkenColor(this.context.config.colors.primary, -20)
+          }
         />{' '}
         {this.renderSelectFromMapModal()}
       </div>

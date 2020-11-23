@@ -35,6 +35,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import scrollTop from '../util/scroll';
 import FavouritesContainer from './FavouritesContainer';
 import DatetimepickerContainer from './DatetimepickerContainer';
+import { LightenDarkenColor } from '../util/colorUtils';
 
 const debug = d('IndexPage.js');
 
@@ -147,7 +148,9 @@ class IndexPage extends React.Component {
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     const { intl, config } = this.context;
-    const { trafficNowLink } = config;
+    const { trafficNowLink, colors } = config;
+    const color = colors.primary;
+    const hoverColor = colors.hover || LightenDarkenColor(colors.primary, -20);
     const { breakpoint, destination, origin, lang } = this.props;
     const queryString = this.context.match.location.search;
     const searchSources =
@@ -211,9 +214,11 @@ class IndexPage extends React.Component {
               sources={searchSources}
               targets={locationSearchTargets}
               breakpoint="large"
+              color={color}
+              hoverColor={hoverColor}
             />
             <div className="datetimepicker-container">
-              <DatetimepickerContainer realtime />
+              <DatetimepickerContainer realtime color={color} />
             </div>
             <FavouritesContainer
               favouriteModalAction={this.props.favouriteModalAction}
@@ -258,6 +263,8 @@ class IndexPage extends React.Component {
                   value=""
                   sources={stopAndRouteSearchSources}
                   targets={stopAndRouteSearchTargets}
+              color={color}
+              hoverColor={hoverColor}
                 />
                 <CtrlPanel.SeparatorLine />
               </>
@@ -313,9 +320,11 @@ class IndexPage extends React.Component {
               isMobile
               breakpoint="small"
               fromMap={this.props.fromMap}
+              color={color}
+              hoverColor={hoverColor}
             />
             <div className="datetimepicker-container">
-              <DatetimepickerContainer realtime />
+              <DatetimepickerContainer realtime color={color} />
             </div>
             <FavouritesContainer
               onClickFavourite={this.clickFavourite}
@@ -361,6 +370,8 @@ class IndexPage extends React.Component {
                   sources={stopAndRouteSearchSources}
                   targets={stopAndRouteSearchTargets}
                   isMobile
+              color={color}
+              hoverColor={hoverColor}
                 />
                 <CtrlPanel.SeparatorLine />
               </>
@@ -466,7 +477,6 @@ const IndexPageWithPosition = connectToStores(
     }
 
     newProps.lang = context.getStore('PreferencesStore').getLanguage();
-
     newProps.locationState = locationState;
     newProps.currentTime = currentTime;
     newProps.origin = processLocation(from, locationState, context.intl);

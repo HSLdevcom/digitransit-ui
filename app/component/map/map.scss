@@ -847,7 +847,7 @@ div.leaflet-control-scale-line {
   }
 }
 
-.select-from-map-confirm-button, .select-from-map-confirm-button:hover {
+.select-from-map-confirm-button {
   position: absolute;
   z-index: 3000;
   height: 50px;
@@ -855,7 +855,7 @@ div.leaflet-control-scale-line {
   margin-left: 20px;
   border-radius: 25px;
   bottom: 15%;
-  background-color: $primary-color;
+  background-color: var(--color);
   font-family: $font-family;
   font-size: 18px;
   font-weight: 500;
@@ -865,6 +865,12 @@ div.leaflet-control-scale-line {
   letter-spacing: -0.6px;
   text-align: center;
   color: #ffffff;
+
+  &:hover {
+    border-color: var(--hover-color);
+    background-color: var(--hover-color);
+    color: #fff;
+  }
 
   &.disabled {
     pointer-events: none;

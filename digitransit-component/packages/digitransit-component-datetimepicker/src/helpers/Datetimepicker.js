@@ -58,6 +58,7 @@ function Datetimepicker({
   onArrivalClick,
   embedWhenClosed,
   lang,
+  color,
 }) {
   const [isOpen, changeOpen] = useState(false);
   const [displayTimestamp, changeDisplayTimestamp] = useState(
@@ -185,7 +186,11 @@ function Datetimepicker({
     .map((_, i) => dateSelectStartTime + i * dateSelectItemDiff);
 
   return (
-    <fieldset className={styles['dt-datetimepicker']} id={`${htmlId}-root`}>
+    <fieldset
+      className={styles['dt-datetimepicker']}
+      id={`${htmlId}-root`}
+      style={{ '--color': `${color}` }}
+    >
       <legend className={styles['sr-only']}>
         {i18next.t('accessible-title', translationSettings)}
       </legend>
@@ -196,7 +201,7 @@ function Datetimepicker({
           >
             <label className={styles['label-open']} htmlFor={`${htmlId}-open`}>
               <span className={styles['time-icon']}>
-                <Icon img="time" />
+                <Icon img="time" color={color} />
               </span>
               <span className={styles['sr-only']}>
                 {i18next.t('accessible-open', translationSettings)}
@@ -229,7 +234,7 @@ function Datetimepicker({
                   )}
                 </span>
                 <span className={styles['dropdown-icon']}>
-                  <Icon img="arrow-dropdown" />
+                  <Icon img="arrow-dropdown" color={color} />
                 </span>
               </button>
             </label>
@@ -257,7 +262,7 @@ function Datetimepicker({
               }`}
             >
               <span className={styles['time-icon']}>
-                <Icon img="time" />
+                <Icon img="time" color={color} />
               </span>
               <span className={styles['now-text']}>
                 {i18next.t('departure-now', translationSettings)}
@@ -327,7 +332,7 @@ function Datetimepicker({
                 onClick={() => changeOpen(false)}
               >
                 <span className={styles['close-icon']}>
-                  <Icon img="plus" />
+                  <Icon img="plus" color={color} />
                 </span>
                 <span className={styles['sr-only']}>
                   {i18next.t('accessible-close', translationSettings)}
@@ -355,7 +360,7 @@ function Datetimepicker({
                       <span
                         className={`${styles['combobox-icon']} ${styles['date-input-icon']}`}
                       >
-                        <Icon img="calendar" />
+                        <Icon img="calendar" color={color} />
                       </span>
                     }
                     dateTimeCombined={useDateTimeCombined}
@@ -374,7 +379,7 @@ function Datetimepicker({
                       <span
                         className={`${styles['combobox-icon']} ${styles['time-input-icon']}`}
                       >
-                        <Icon img="time" />
+                        <Icon img="time" color={color} />
                       </span>
                     }
                     dateTimeCombined={useDateTimeCombined}
@@ -396,7 +401,7 @@ function Datetimepicker({
                       <span
                         className={`${styles['combobox-icon']} ${styles['date-input-icon']}`}
                       >
-                        <Icon img="calendar" />
+                        <Icon img="calendar" color={color} />
                       </span>
                     }
                     id={`${htmlId}-date`}
@@ -417,7 +422,7 @@ function Datetimepicker({
                       <span
                         className={`${styles['combobox-icon']} ${styles['time-input-icon']}`}
                       >
-                        <Icon img="time" />
+                        <Icon img="time" color={color} />
                       </span>
                     }
                     id={`${htmlId}-time`}
@@ -443,8 +448,13 @@ Datetimepicker.propTypes = {
   onArrivalClick: PropTypes.func.isRequired,
   embedWhenClosed: PropTypes.node,
   lang: PropTypes.string.isRequired,
+  color: PropTypes.string,
 };
 
-Datetimepicker.defaultProps = { timestamp: null, embedWhenClosed: null };
+Datetimepicker.defaultProps = {
+  timestamp: null,
+  embedWhenClosed: null,
+  color: '#007ac9',
+};
 
 export default Datetimepicker;

@@ -8,6 +8,7 @@ import {
   PREFIX_STOPS,
   PREFIX_ROUTES,
   PREFIX_TERMINALS,
+  LOCAL_STORAGE_EMITTER_PATH,
 } from '../util/path';
 import { dtLocationShape } from '../util/shapes';
 import AppBarContainer from './AppBarContainer';
@@ -61,7 +62,11 @@ class TopLevel extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    if (this.context.config.allowLogin && !this.props.user.name) {
+    if (
+      this.context.config.allowLogin &&
+      !this.props.user.name &&
+      this.props.match.location.pathname !== LOCAL_STORAGE_EMITTER_PATH
+    ) {
       getUser()
         .then(user => {
           this.context.executeAction(setUser, {

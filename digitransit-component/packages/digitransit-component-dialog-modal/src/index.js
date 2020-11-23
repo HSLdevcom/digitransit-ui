@@ -33,6 +33,8 @@ const DialogModal = ({
   appElement,
   isModalOpen,
   modalAriaLabel,
+  color,
+  hoverColor,
 }) => {
   i18next.changeLanguage(lang);
   return (
@@ -64,6 +66,10 @@ const DialogModal = ({
               styles['digitransit-dialog-modal-button'],
               styles.primary,
             )}
+            style={{
+              '--color': `${color}`,
+              '--hover-color': `${hoverColor}`,
+            }}
             href={href}
             onClick={e => {
               e.stopPropagation();
@@ -81,6 +87,10 @@ const DialogModal = ({
               styles['digitransit-dialog-modal-button'],
               styles.secondary,
             )}
+            style={{
+              '--color': `${color}`,
+              '--hover-color': `${hoverColor}`,
+            }}
             onClick={() => secondaryButtonOnClick()}
           >
             {secondaryButtonText}
@@ -104,6 +114,8 @@ DialogModal.propTypes = {
   lang: PropTypes.string,
   modalAriaLabel: PropTypes.string,
   href: PropTypes.string,
+  color: PropTypes.string,
+  hoverColor: PropTypes.string,
 };
 
 DialogModal.defaultProps = {
@@ -112,6 +124,12 @@ DialogModal.defaultProps = {
   secondaryButtonText: undefined,
   secondaryButtonOnClick: undefined,
   href: undefined,
+  color: '#007ac9',
+  hoverColor: '#0062a1',
+};
+
+DialogModal.contextTypes = {
+  config: PropTypes.object,
 };
 
 export default DialogModal;
