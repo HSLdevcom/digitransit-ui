@@ -175,7 +175,7 @@ export default configMerger(walttiConfig, {
     showZoneLimits: true,
   },
   zoneIdFontSize: {
-    1: '10px',
+    'A-city': '10px',
   },
   stopCard: {
     header: {
