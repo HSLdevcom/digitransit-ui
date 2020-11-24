@@ -662,7 +662,7 @@ const SummaryRow = (
                 aria-hidden="true"
               >
                 {startDate && (
-                  <div className={cx('itinerary-start-date')}>{startDate}</div>
+                  <div className="itinerary-start-date">{startDate}</div>
                 )}
                 <div className="itinerary-start-time-and-end-time">
                   {itineraryStartAndEndTime}

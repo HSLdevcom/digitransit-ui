@@ -12,7 +12,7 @@ export function getStartTime(time) {
 }
 
 /**
- * Returns true if startTime is the next day compared to refTime and refTime is today
+ * Returns true if startTime is the next day compared to refTime and refTime is some time in current day
  */
 export function isTomorrow(startTime, refTime) {
   const now = refTime ? moment(refTime) : moment();

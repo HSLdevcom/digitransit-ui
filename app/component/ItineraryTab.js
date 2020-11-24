@@ -108,13 +108,12 @@ class ItineraryTab extends React.Component {
                   />
                   <ItinerarySummary itinerary={itinerary} key="summary" />
                 </div>
-                
               </div>
             ),
             <div className="momentum-scroll itinerary-tabs__scroll" key="legs">
               <div className="itinerary-timeframe" key="timeframe"> 
-                    <DateWarning date={itinerary.startTime} refTime={plan.date} />
-                </div>
+                <DateWarning date={itinerary.startTime} refTime={plan.date} />
+              </div>
               <div
                 className={cx('itinerary-main', {
                   'bp-large': breakpoint === 'large',
