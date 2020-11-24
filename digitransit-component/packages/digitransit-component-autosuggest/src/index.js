@@ -20,8 +20,6 @@ import translations from './helpers/translations';
 import styles from './helpers/styles.scss';
 import MobileSearch from './helpers/MobileSearch';
 
-moment.tz.setDefault('Europe/Helsinki');
-
 i18next.init({ lng: 'fi', resources: {} });
 
 Object.keys(translations).forEach(lang => {
@@ -196,6 +194,7 @@ class DTAutosuggest extends React.Component {
     isMobile: PropTypes.bool,
     color: PropTypes.string,
     hoverColor: PropTypes.string,
+    timeZone: PropTypes.string,
   };
 
   static defaultProps = {
@@ -210,11 +209,13 @@ class DTAutosuggest extends React.Component {
     isMobile: false,
     color: '#007ac9',
     hoverColor: '#0062a1',
+    timeZone: 'Europe/Helsinki',
   };
 
   constructor(props) {
     super(props);
     i18next.changeLanguage(props.lang);
+    moment.tz.setDefault(props.timeZone);
     this.state = {
       value: props.value,
       suggestions: [],
