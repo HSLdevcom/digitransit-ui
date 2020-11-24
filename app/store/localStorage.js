@@ -120,6 +120,10 @@ export function setCustomizedSettings(data) {
       data.includeBikeSuggestions,
       oldSettings.includeBikeSuggestions,
     ),
+    useCarParkAvailabilityInformation: getValueOrDefault(
+      data.useCarParkAvailabilityInformation,
+      oldSettings.useCarParkAvailabilityInformation,
+    ),
   };
 
   setItem('customizedSettings', newSettings);

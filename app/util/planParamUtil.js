@@ -21,6 +21,7 @@ export const getDefaultSettings = config => {
     ...config.defaultSettings,
     modes: getDefaultModes(config),
     allowedBikeRentalNetworks: getDefaultNetworks(config),
+    useCarParkAvailabilityInformation: null,
   };
 };
 
@@ -138,6 +139,8 @@ export const getSettings = config => {
       ),
     allowedBikeRentalNetworks: custSettings.allowedBikeRentalNetworks,
     includeBikeSuggestions: custSettings.includeBikeSuggestions,
+    useCarParkAvailabilityInformation:
+      custSettings.useCarParkAvailabilityInformation,
   };
 };
 
@@ -173,7 +176,13 @@ export const preparePlanParams = config => (
   { from, to },
   {
     location: {
-      query: { arriveBy, intermediatePlaces, time, locale },
+      query: {
+        arriveBy,
+        intermediatePlaces,
+        time,
+        locale,
+        useCarParkAvailabilityInformation,
+      },
     },
   },
 ) => {
@@ -245,6 +254,7 @@ export const preparePlanParams = config => (
           modesOrDefault,
         ),
         locale: locale || cookie.load('lang') || 'fi',
+        useCarParkAvailabilityInformation,
       },
       nullOrUndefined,
     ),
