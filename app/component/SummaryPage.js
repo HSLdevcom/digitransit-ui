@@ -357,30 +357,6 @@ class SummaryPage extends React.Component {
     this.mapLoaded = true;
   }
 
-  addEarlierItineraries = newItineraries => {
-    const newFilteredItineraries = newItineraries.filter(
-      itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
-    );
-    this.setState(prevState => ({
-      earlierItineraries: [
-        ...newFilteredItineraries,
-        ...prevState.earlierItineraries,
-      ],
-    }));
-  };
-
-  addLaterItineraries = newItineraries => {
-    const newFilteredItineraries = newItineraries.filter(
-      itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
-    );
-    this.setState(prevState => ({
-      laterItineraries: [
-        ...prevState.laterItineraries,
-        ...newFilteredItineraries,
-      ],
-    }));
-  };
-
   toggleStreetMode = newStreetMode => {
     const newState = {
       ...this.context.match.location,
