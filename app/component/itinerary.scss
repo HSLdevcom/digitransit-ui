@@ -978,6 +978,9 @@ $itinerary-tab-switch-height: 48px;
       &.citybike {
         border-color: $citybike-color;
       }
+      &.carpool {
+        border-color: $carpool-color;
+      }
       .icon-container {
         margin-right: 5px;
         margin-left: -22px;
