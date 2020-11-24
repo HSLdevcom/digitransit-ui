@@ -216,6 +216,13 @@ const withRelay = createFragmentContainer(ItineraryTab, {
       }
       legs {
         mode
+        alerts {
+          alertId
+          alertDescriptionTextTranslations {
+            language
+            text
+          }
+        }
         ...LegAgencyInfo_leg
         from {
           lat

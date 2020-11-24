@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 import Link from 'found/Link';
 import Icon from './Icon';
@@ -15,11 +15,15 @@ import {
   getCityBikeNetworkConfig,
   getCityBikeNetworkId,
   CityBikeNetworkType,
+  getCityBikeUrl,
 } from '../util/citybikes';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import StopCode from './StopCode';
 import PlatformNumber from './PlatformNumber';
+import { getServiceAlertDescription } from '../util/alertUtils';
+import { AlertSeverityLevelType } from '../constants';
+import ServiceAlertIcon from './ServiceAlertIcon';
 
 function showStopCode(stopCode) {
   return stopCode && <StopCode code={stopCode} />;
@@ -63,7 +67,10 @@ function renderLink(leg, legDescription) {
   }
   return legDescription;
 }
-function BicycleLeg({ focusAction, index, leg, setMapZoomToLeg }, { config }) {
+function BicycleLeg(
+  { focusAction, index, leg, setMapZoomToLeg },
+  { config, intl },
+) {
   let stopsDescription;
   const distance = displayDistance(parseInt(leg.distance, 10), config);
   const duration = durationToString(leg.endTime - leg.startTime);
@@ -82,6 +89,8 @@ function BicycleLeg({ focusAction, index, leg, setMapZoomToLeg }, { config }) {
   const isFirstLeg = i => i === 0;
   const isScooter =
     networkConfig && networkConfig.type === CityBikeNetworkType.Scooter;
+  let freeFloatAlert = null;
+  let rentalUri;
 
   if (leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK') {
     modeClassName = leg.mode.toLowerCase();
@@ -107,6 +116,10 @@ function BicycleLeg({ focusAction, index, leg, setMapZoomToLeg }, { config }) {
   }
 
   if (leg.rentedBike === true) {
+    const alerts = leg.alerts || [];
+    [freeFloatAlert] = alerts.filter(
+      a => a.alertId === 'bike_rental_free_floating_drop_off',
+    );
     modeClassName = 'citybike';
     legDescription = (
       <FormattedMessage
@@ -115,6 +128,9 @@ function BicycleLeg({ focusAction, index, leg, setMapZoomToLeg }, { config }) {
         defaultMessage="Rent a bike at {station} station"
       />
     );
+    rentalUri =
+      leg.from.bikeRentalStation.rentalUriWeb ||
+      getCityBikeUrl(leg.from.bikeRentalStation.networks, intl.locale, config);
 
     if (leg.mode === 'BICYCLE') {
       mode = 'CITYBIKE';
@@ -163,6 +179,9 @@ function BicycleLeg({ focusAction, index, leg, setMapZoomToLeg }, { config }) {
             id="itinerary-summary.show-on-map"
             values={{ target: leg.from.name || '' }}
           />
+          {!!freeFloatAlert && (
+            <FormattedMessage id="itinerary-details.route-has-info-alert" />
+          )}
         </span>
         {isFirstLeg(index) ? (
           <div
@@ -214,6 +233,27 @@ function BicycleLeg({ focusAction, index, leg, setMapZoomToLeg }, { config }) {
               />
             </div>
           </div>
+        )}
+        {freeFloatAlert && (
+          <div className={`itinerary-alert-info ${mode.toLowerCase()}`}>
+            <ServiceAlertIcon
+              className="inline-icon"
+              severityLevel={AlertSeverityLevelType.Info}
+            />
+            {getServiceAlertDescription(freeFloatAlert, intl.locale)}
+          </div>
+        )}
+        {rentalUri && (
+          <a
+            href={rentalUri}
+            rel="noopener noreferrer"
+            className="citybike-website-btn"
+            target="_blank"
+          >
+            <button className="standalone-btn cursor-pointer">
+              <FormattedMessage id="use-citybike" />
+            </button>
+          </a>
         )}
         <div className="itinerary-leg-action" aria-hidden="true">
           <div className="itinerary-leg-action-content">
@@ -369,6 +409,7 @@ BicycleLeg.propTypes = {
       bikeRentalStation: PropTypes.shape({
         bikesAvailable: PropTypes.number.isRequired,
         networks: PropTypes.array.isRequired,
+        rentalUriWeb: PropTypes.string,
       }),
       stop: PropTypes.object,
     }).isRequired,
@@ -377,12 +418,16 @@ BicycleLeg.propTypes = {
     }).isRequired,
     mode: PropTypes.string.isRequired,
     rentedBike: PropTypes.bool.isRequired,
+    alerts: PropTypes.array,
   }).isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
   setMapZoomToLeg: PropTypes.func.isRequired,
 };
 
-BicycleLeg.contextTypes = { config: PropTypes.object.isRequired };
+BicycleLeg.contextTypes = {
+  config: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
+};
 
 export default BicycleLeg;

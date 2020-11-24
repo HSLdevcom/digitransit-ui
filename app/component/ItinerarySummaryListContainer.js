@@ -346,6 +346,9 @@ const containerComponent = createFragmentContainer(
         startTime
         endTime
         legs {
+          alerts {
+            alertId
+          }
           realTime
           realtimeState
           transitLeg
