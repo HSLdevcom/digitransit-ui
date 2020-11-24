@@ -11,6 +11,18 @@ export function getStartTime(time) {
   return hours + mins;
 }
 
+/**
+ * Returns true if startTime is the next day compared to refTime and refTime is today
+ */
+export function isTomorrow(startTime, refTime) {
+  const now = refTime ? moment(refTime) : moment();
+  const start = moment(startTime);
+  return (
+    now.clone().add(1, 'day').days() === start.days() &&
+    moment().days() === now.days()
+  );
+}
+
 // renders trip duration to string
 // input: time duration - milliseconds
 export function durationToString(inDuration) {
