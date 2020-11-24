@@ -150,9 +150,13 @@ export default function oldParamParser(query, config) {
         return `/${PREFIX_ITINERARY_SUMMARY}/${encoded.from}/${encoded.to}/`;
       }
       if (utm.length > 1) {
-        return `/${encoded.from}/${encoded.to}/?${utm.substr(1)}`;
+        return `${config.indexPath === '' ? '' : `/${config.indexPath}`}/${
+          encoded.from
+        }/${encoded.to}/?${utm.substr(1)}`;
       }
-      return `/${encoded.from}/${encoded.to}/`;
+      return `${config.indexPath === '' ? '' : `/${config.indexPath}`}/${
+        encoded.from
+      }/${encoded.to}/`;
     })
-    .catch(() => '/');
+    .catch(() => (config.indexPath === '' ? '/' : `/${config.indexPath}/`));
 }

@@ -49,6 +49,7 @@ function DatetimepickerStateContainer({
   onNowClick,
   embedWhenClosed,
   lang,
+  color,
 }) {
   const initialNow = realtime ? null : moment().valueOf();
   const [timestamp, changeTimestampState] = useState(
@@ -158,6 +159,7 @@ function DatetimepickerStateContainer({
       onArrivalClick={arrivalClicked}
       embedWhenClosed={embedWhenClosed}
       lang={lang}
+      color={color}
     />
   );
 }
@@ -173,6 +175,7 @@ DatetimepickerStateContainer.propTypes = {
   onNowClick: PropTypes.func.isRequired,
   embedWhenClosed: PropTypes.node,
   lang: PropTypes.string,
+  color: PropTypes.string,
 };
 
 DatetimepickerStateContainer.defaultProps = {
@@ -181,6 +184,7 @@ DatetimepickerStateContainer.defaultProps = {
   initialTimestamp: undefined,
   embedWhenClosed: null,
   lang: 'en',
+  color: '#007ac9',
 };
 
 export default DatetimepickerStateContainer;

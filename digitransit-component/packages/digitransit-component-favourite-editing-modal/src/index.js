@@ -19,9 +19,9 @@ import translations from './helpers/translations';
 
 i18next.init({ lng: 'fi', resources: {} });
 
-i18next.addResourceBundle('en', 'translation', translations.en);
-i18next.addResourceBundle('fi', 'translation', translations.fi);
-i18next.addResourceBundle('sv', 'translation', translations.sv);
+Object.keys(translations).forEach(lang => {
+  i18next.addResourceBundle(lang, 'translation', translations[lang]);
+});
 
 const isKeyboardSelectionEvent = event => {
   const space = [13, ' ', 'Spacebar'];
@@ -81,11 +81,15 @@ class FavouriteEditingModal extends React.Component {
     isModalOpen: PropTypes.bool.isRequired,
     isMobile: PropTypes.bool,
     isLoading: PropTypes.bool.isRequired,
+    color: PropTypes.string,
+    hoverColor: PropTypes.string,
   };
 
   static defaulProps = {
     lang: 'fi',
     isMobile: false,
+    color: '#007ac9',
+    hoverColor: '#0062a1',
   };
 
   constructor(props) {
@@ -206,7 +210,13 @@ class FavouriteEditingModal extends React.Component {
 
   renderFavouriteList = (favourites, isLoading) => {
     return (
-      <div className={styles['favourite-edit-list-container']}>
+      <div
+        className={styles['favourite-edit-list-container']}
+        style={{
+          '--color': `${this.props.color}`,
+          '--hover-color': `${this.props.hoverColor}`,
+        }}
+      >
         <ContainerSpinner visible={isLoading}>
           <ReactSortable
             className={styles['favourite-edit-list']}
@@ -255,6 +265,8 @@ class FavouriteEditingModal extends React.Component {
             showDeletePlaceModal: false,
           })
         }
+        color={this.props.color}
+        hoverColor={this.props.hoverColor}
       />
     );
   };

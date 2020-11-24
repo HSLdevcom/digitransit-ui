@@ -24,9 +24,9 @@ moment.tz.setDefault('Europe/Helsinki');
 
 i18next.init({ lng: 'fi', resources: {} });
 
-i18next.addResourceBundle('en', 'translation', translations.en);
-i18next.addResourceBundle('fi', 'translation', translations.fi);
-i18next.addResourceBundle('sv', 'translation', translations.sv);
+Object.keys(translations).forEach(lang => {
+  i18next.addResourceBundle(lang, 'translation', translations[lang]);
+});
 
 const Loading = props => (
   <div className={styles['spinner-loader']}>
@@ -194,6 +194,8 @@ class DTAutosuggest extends React.Component {
     sources: PropTypes.arrayOf(PropTypes.string),
     targets: PropTypes.arrayOf(PropTypes.string),
     isMobile: PropTypes.bool,
+    color: PropTypes.string,
+    hoverColor: PropTypes.string,
   };
 
   static defaultProps = {
@@ -206,6 +208,8 @@ class DTAutosuggest extends React.Component {
     sources: [],
     targets: [],
     isMobile: false,
+    color: '#007ac9',
+    hoverColor: '#0062a1',
   };
 
   constructor(props) {
@@ -425,7 +429,7 @@ class DTAutosuggest extends React.Component {
         onClick={this.clearInput}
         aria-label={i18next.t('clear-button-label')}
       >
-        <Icon img="close" />
+        <Icon img="close" color={this.props.color} />
       </button>
     );
   };
@@ -568,6 +572,7 @@ class DTAutosuggest extends React.Component {
         loading={!this.state.valid}
         isMobile={this.props.isMobile}
         ariaFavouriteString={i18next.t('favourite')}
+        color={this.props.color}
       />
     );
   };
@@ -738,6 +743,8 @@ class DTAutosuggest extends React.Component {
             dialogSecondaryButtonText={i18next.t('cancel')}
             clearInputButtonText={i18next.t('clear-button-label')}
             focusInput={cleanExecuted}
+            color={this.props.color}
+            hoverColor={this.props.hoverColor}
           />
         )}
         {!renderMobileSearch && (
@@ -778,6 +785,10 @@ class DTAutosuggest extends React.Component {
                     onClick={this.inputClicked}
                     onKeyDown={this.keyDown}
                     {...p}
+                    style={{
+                      '--color': `${this.props.color}`,
+                      '--hover-color': `${this.props.hoverColor}`,
+                    }}
                   />
                   {this.state.value && this.clearButton()}
                 </>

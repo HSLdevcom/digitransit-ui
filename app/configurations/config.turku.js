@@ -22,6 +22,7 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#e8aa27',
+    hover: '#a07415',
   },
 
   appBarLink: { name: 'Föli', href: 'http://www.foli.fi/fi' },

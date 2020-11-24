@@ -1,4 +1,19 @@
 const translations = {
+  de: {
+    'add-via-button-label': 'Füge Zwischenziel hinzu',
+    'add-via-duration-button-label':
+      'Setze Umsteigezeit für Zwischenziel {{index}}',
+    'add-via-duration-button-label-close':
+      'Schließe Umsteigezeit-Auswahl für Zwischenziel {{index}}',
+    'add-via-duration-button-label-open':
+      'Öffne Umsteigezeit-Auswahl für Zwischenziel {{index}}',
+    'minute-short': 'min',
+    'remove-via-button-label': 'Entferne Zwischenziel {{index}}',
+    'swap-order-button-label': 'Tausche Start mit Ziel',
+    'via-point': 'Zwischenziel',
+    'via-point-index': 'Zwischenziel {{index}}',
+    'viapoint-slack-amount': 'Umsteigezeit',
+  },
   en: {
     'add-via-button-label': 'Add via point',
     'add-via-duration-button-label': 'Set stop duration at via point {{index}}',

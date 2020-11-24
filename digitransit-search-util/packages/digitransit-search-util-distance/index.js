@@ -2,8 +2,8 @@
  * Calculates distance betweeh two points.
  *
  * @name distance
- * @param {Object} latlon1
- * @param {Object} latlon2
+ * @param {Object} latlon1 object containing lat, lon values
+ * @param {Object} latlon2 object containing lat, lon values
  * @returns {Number} distance between two points
  * @example
  *  const latlon1 = {
