@@ -9,6 +9,7 @@ import StopNearYou from './StopNearYou';
 import withBreakpoint from '../util/withBreakpoint';
 import { sortNearbyRentalStations, sortNearbyStops } from '../util/sortUtils';
 import CityBikeStopNearYou from './CityBikeStopNearYou';
+import Loading from './Loading';
 
 class StopsNearYouContainer extends React.Component {
   static propTypes = {
@@ -43,11 +44,15 @@ class StopsNearYouContainer extends React.Component {
       stopCount: 5,
       currentPosition: props.position,
       fetchMoreStops: false,
+      isLoadingmoreStops: false,
+      isUpdatingPosition: false,
+      terminals: [],
     };
   }
 
   static getDerivedStateFromProps = (nextProps, prevState) => {
     let newState = null;
+    const { terminals } = prevState;
     if (
       !prevState.currentPosition ||
       (!prevState.currentPosition.address &&
@@ -61,12 +66,50 @@ class StopsNearYouContainer extends React.Component {
     }
     if (
       nextProps.stopPatterns.nearest.edges.every(stop => {
-        return stop.node.place.stoptimesWithoutPatterns.length === 0;
+        return (
+          stop.node.place.stoptimesWithoutPatterns &&
+          stop.node.place.stoptimesWithoutPatterns.length === 0
+        );
       })
     ) {
       newState = {
         ...newState,
         fetchMoreStops: true,
+      };
+    }
+    const checkStops = (t, n) => {
+      return n.every(stop => {
+        return (
+          stop.node.place.parentStation &&
+          indexOf(t, stop.node.place.parentStation.name) !== 1
+        );
+      });
+    };
+    nextProps.stopPatterns.nearest.edges.forEach(stop => {
+      const node = stop.node.place;
+      if (
+        node.parentStation &&
+        indexOf(prevState.terminals, node.parentStation.name) === -1
+      ) {
+        terminals.push(node.parentStation.name);
+      }
+    });
+    const newestStops = nextProps.stopPatterns.nearest.edges.slice(
+      Math.max(nextProps.stopPatterns.nearest.edges.length - 5, 0),
+    );
+    if (
+      newestStops.every(stop => {
+        return (
+          stop.node.place.stoptimesWithoutPatterns &&
+          stop.node.place.stoptimesWithoutPatterns.length === 0
+        );
+      }) ||
+      checkStops(terminals, newestStops)
+    ) {
+      newState = {
+        ...newState,
+        fetchMoreStops: true,
+        terminals,
       };
     }
     return newState;
@@ -77,11 +120,16 @@ class StopsNearYouContainer extends React.Component {
     if (currUnix !== currentTime) {
       const variables = {
         startTime: currentTime,
+        lat: this.props.position.lat,
+        lon: this.props.position.lon,
       };
       relay.refetchConnection(this.state.stopCount, () => {}, variables);
     }
     if (position && this.state.currentPosition) {
-      if (position.address !== this.props.position.address) {
+      if (
+        position.lat !== this.props.position.lat ||
+        position.lon !== this.props.position.lon
+      ) {
         this.updatePosition();
       }
     }
@@ -96,9 +144,17 @@ class StopsNearYouContainer extends React.Component {
       lon: this.props.position.lon,
       startTime: this.props.currentTime,
     };
+    this.setState({
+      isUpdatingPosition: true,
+      currentPosition: this.props.position,
+    });
     this.props.relay.refetchConnection(
       this.state.stopCount,
-      () => {},
+      () => {
+        this.setState({
+          isUpdatingPosition: false,
+        });
+      },
       variables,
     );
   };
@@ -107,11 +163,12 @@ class StopsNearYouContainer extends React.Component {
     if (!this.props.relay.hasMore() || this.props.relay.isLoading()) {
       return;
     }
-
+    this.setState({ isLoadingmoreStops: true });
     this.props.relay.loadMore(5, () => {
       this.setState(previousState => ({
         stopCount: previousState.stopCount + 5,
         fetchMoreStops: false,
+        isLoadingmoreStops: false,
       }));
     });
   };
@@ -177,9 +234,19 @@ class StopsNearYouContainer extends React.Component {
   render() {
     return (
       <>
+        {this.state.isUpdatingPosition && (
+          <div className="stops-near-you-spinner-container">
+            <Loading />
+          </div>
+        )}
         <div role="list" className="stops-near-you-container">
           {this.createNearbyStops()}
         </div>
+        {this.state.isLoadingmoreStops && (
+          <div className="stops-near-you-spinner-container">
+            <Loading />
+          </div>
+        )}
         <button
           aria-label={this.context.intl.formatMessage({
             id: 'show-more-stops-near-you',
