@@ -15,6 +15,7 @@ import {
   getCityBikeNetworkConfig,
   getCityBikeNetworkId,
   CityBikeNetworkType,
+  getCityBikeUrl,
 } from '../util/citybikes';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
@@ -89,6 +90,7 @@ function BicycleLeg(
   const isScooter =
     networkConfig && networkConfig.type === CityBikeNetworkType.Scooter;
   let freeFloatAlert = null;
+  let rentalUri;
 
   if (leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK') {
     modeClassName = leg.mode.toLowerCase();
@@ -126,6 +128,9 @@ function BicycleLeg(
         defaultMessage="Rent a bike at {station} station"
       />
     );
+    rentalUri =
+      leg.from.bikeRentalStation.rentalUriWeb ||
+      getCityBikeUrl(leg.from.bikeRentalStation.networks, intl.locale, config);
 
     if (leg.mode === 'BICYCLE') {
       mode = 'CITYBIKE';
@@ -237,6 +242,18 @@ function BicycleLeg(
             />
             {getServiceAlertDescription(freeFloatAlert, intl.locale)}
           </div>
+        )}
+        {rentalUri && (
+          <a
+            href={rentalUri}
+            rel="noopener noreferrer"
+            className="citybike-website-btn"
+            target="_blank"
+          >
+            <button className="standalone-btn cursor-pointer">
+              <FormattedMessage id="use-citybike" />
+            </button>
+          </a>
         )}
         <div className="itinerary-leg-action" aria-hidden="true">
           <div className="itinerary-leg-action-content">
@@ -392,6 +409,7 @@ BicycleLeg.propTypes = {
       bikeRentalStation: PropTypes.shape({
         bikesAvailable: PropTypes.number.isRequired,
         networks: PropTypes.array.isRequired,
+        rentalUriWeb: PropTypes.string,
       }),
       stop: PropTypes.object,
     }).isRequired,

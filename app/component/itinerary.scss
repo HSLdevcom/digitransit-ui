@@ -983,6 +983,18 @@ $itinerary-tab-switch-height: 48px;
       }
     }
 
+    .citybike-website-btn {
+      text-decoration: none;
+      button {
+        background-color: $citybike-color;
+        margin-top: 10px;
+        align-content: center;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+      }
+    }
+
     .itinerary-leg-action {
       border-top: 1px solid #ddd;
       padding: 1.2em 0;
