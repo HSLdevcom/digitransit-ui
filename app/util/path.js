@@ -9,8 +9,10 @@ import {
 import { addAnalyticsEvent } from './analyticsUtils';
 
 const debug = d('path.js');
+export const TAB_NEARBY = 'inderhaehe';
+export const TAB_FAVOURITES = 'favouriten';
 export const PREFIX_ROUTES = 'routen';
-export const PREFIX_NEARYOU = 'indernaehe';
+export const PREFIX_NEARYOU = TAB_NEARBY;
 export const PREFIX_STOPS = 'haltestellen';
 export const PREFIX_BIKESTATIONS = 'fahrradstationen';
 export const PREFIX_TERMINALS = 'busbahnhoefe';
