@@ -66,6 +66,13 @@ class Stops {
     return feature.properties.type === this.stopsNearYouMode;
   }
 
+  isExcludedCarpoolStop = stop => {
+    return (
+      stop.properties.type === 'CARPOOL' &&
+      !stop.properties.name.includes('P+M')
+    );
+  };
+
   getPromise() {
     return fetch(
       `${this.config.URL.STOP_MAP}${
@@ -145,8 +152,12 @@ class Stops {
                 /* Note: don't expand separate stops sharing the same code,
                  unless type is different and location actually overlaps. */
                 const hybridId = hybridGtfsIdByCode[f.properties.code];
-                const draw = !hybridId || hybridId === f.properties.gtfsId;
-                if (draw) {
+                const isNotAHybridStop =
+                  !hybridId || hybridId === f.properties.gtfsId;
+                const isNotAnExcludedCarpoolStop = !this.isExcludedCarpoolStop(
+                  f,
+                );
+                if (isNotAHybridStop && isNotAnExcludedCarpoolStop) {
                   this.drawStop(f, !!hybridId);
                 }
               });
