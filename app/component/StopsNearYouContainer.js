@@ -46,13 +46,12 @@ class StopsNearYouContainer extends React.Component {
       fetchMoreStops: false,
       isLoadingmoreStops: false,
       isUpdatingPosition: false,
-      terminals: [],
     };
   }
 
   static getDerivedStateFromProps = (nextProps, prevState) => {
     let newState = null;
-    const { terminals } = prevState;
+    const terminals = [];
     if (
       !prevState.currentPosition ||
       (!prevState.currentPosition.address &&
@@ -64,39 +63,25 @@ class StopsNearYouContainer extends React.Component {
         currentPosition: nextProps.position,
       };
     }
-    if (
-      nextProps.stopPatterns.nearest.edges.every(stop => {
-        return (
-          stop.node.place.stoptimesWithoutPatterns &&
-          stop.node.place.stoptimesWithoutPatterns.length === 0
-        );
-      })
-    ) {
-      newState = {
-        ...newState,
-        fetchMoreStops: true,
-      };
-    }
     const checkStops = (t, n) => {
       return n.every(stop => {
         return (
           stop.node.place.parentStation &&
-          indexOf(t, stop.node.place.parentStation.name) !== 1
+          indexOf(t, stop.node.place.parentStation.name) !== -1
         );
       });
     };
-    nextProps.stopPatterns.nearest.edges.forEach(stop => {
+    const stopsForFiltering = [...nextProps.stopPatterns.nearest.edges];
+    const newestStops = stopsForFiltering.splice(stopsForFiltering.length - 5);
+    stopsForFiltering.forEach(stop => {
       const node = stop.node.place;
       if (
         node.parentStation &&
-        indexOf(prevState.terminals, node.parentStation.name) === -1
+        indexOf(terminals, node.parentStation.name) === -1
       ) {
         terminals.push(node.parentStation.name);
       }
     });
-    const newestStops = nextProps.stopPatterns.nearest.edges.slice(
-      Math.max(nextProps.stopPatterns.nearest.edges.length - 5, 0),
-    );
     if (
       newestStops.every(stop => {
         return (
@@ -109,7 +94,6 @@ class StopsNearYouContainer extends React.Component {
       newState = {
         ...newState,
         fetchMoreStops: true,
-        terminals,
       };
     }
     return newState;
@@ -138,6 +122,12 @@ class StopsNearYouContainer extends React.Component {
     }
   }
 
+  componentDidMount() {
+    if (this.state.fetchMoreStops) {
+      this.showMore();
+    }
+  }
+
   updatePosition = () => {
     const variables = {
       lat: this.props.position.lat,
@@ -160,10 +150,10 @@ class StopsNearYouContainer extends React.Component {
   };
 
   showMore = () => {
-    if (!this.props.relay.hasMore() || this.props.relay.isLoading()) {
+    if (!this.props.relay.hasMore() || this.state.isLoadingmoreStops) {
       return;
     }
-    this.setState({ isLoadingmoreStops: true });
+    this.setState({ isLoadingmoreStops: true, fetchMoreStops: false });
     this.props.relay.loadMore(5, () => {
       this.setState(previousState => ({
         stopCount: previousState.stopCount + 5,
@@ -187,7 +177,10 @@ class StopsNearYouContainer extends React.Component {
       /* eslint-disable-next-line no-underscore-dangle */
       switch (stop.__typename) {
         case 'Stop':
-          if (stop.stoptimesWithoutPatterns.length > 0) {
+          if (
+            stop.stoptimesWithoutPatterns &&
+            stop.stoptimesWithoutPatterns.length > 0
+          ) {
             if (stop.parentStation) {
               if (indexOf(terminalNames, stop.parentStation.name) === -1) {
                 terminalNames.push(stop.parentStation.name);
