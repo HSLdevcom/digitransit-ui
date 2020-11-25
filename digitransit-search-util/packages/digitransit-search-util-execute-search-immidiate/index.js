@@ -253,6 +253,7 @@ export function getSearchResults(
   geocodingSize,
   { input },
   callback,
+  pathOpts,
 ) {
   const {
     getPositions,
@@ -447,13 +448,18 @@ export function getSearchResults(
       const favouriteRoutes = getFavouriteRoutes(context);
       const mode = transportMode ? transportMode.split('-')[1] : undefined;
       searchComponents.push(
-        getFavouriteRoutesQuery(favouriteRoutes, input, mode).then(result =>
+        getFavouriteRoutesQuery(
+          favouriteRoutes,
+          input,
+          mode,
+          pathOpts,
+        ).then(result =>
           filterResults ? filterResults(result, 'Routes') : result,
         ),
       );
     }
     searchComponents.push(
-      getRoutesQuery(input, feedIDs, transportMode).then(result =>
+      getRoutesQuery(input, feedIDs, transportMode, pathOpts).then(result =>
         filterResults ? filterResults(result, 'Routes') : result,
       ),
     );
@@ -534,6 +540,7 @@ export const executeSearch = (
   geocodingSize,
   data,
   callback,
+  pathOpts,
 ) => {
   callback(null); // This means 'we are searching'
   debouncedSearch(
@@ -545,5 +552,6 @@ export const executeSearch = (
     geocodingSize,
     data,
     callback,
+    pathOpts,
   );
 };

@@ -196,6 +196,10 @@ class DTAutosuggest extends React.Component {
     isMobile: PropTypes.bool,
     color: PropTypes.string,
     hoverColor: PropTypes.string,
+    pathOpts: PropTypes.shape({
+      routesPrefix: PropTypes.string,
+      stopsPrefix: PropTypes.string,
+    }),
   };
 
   static defaultProps = {
@@ -210,6 +214,10 @@ class DTAutosuggest extends React.Component {
     isMobile: false,
     color: '#007ac9',
     hoverColor: '#0062a1',
+    pathOpts: {
+      routesPrefix: 'linjat',
+      stopsPrefix: 'pysakit',
+    },
   };
 
   constructor(props) {
@@ -492,6 +500,7 @@ class DTAutosuggest extends React.Component {
               );
             }
           },
+          this.props.pathOpts,
         );
       },
     );
