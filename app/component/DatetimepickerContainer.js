@@ -85,6 +85,7 @@ function DatetimepickerContainer(
       embedWhenClosed={embedWhenClosed}
       lang={lang}
       color={color}
+      timeZone={context.config.timezoneData.split('|')[0]}
     />
   );
 }
